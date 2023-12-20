@@ -1,92 +1,311 @@
-Return-Path: <linux-media+bounces-2795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2796-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D18819E46
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 12:41:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11AD4819E98
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 13:03:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3E851F239E6
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 11:41:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35C3E1C227B8
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 12:03:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEB5321A02;
-	Wed, 20 Dec 2023 11:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F22C22078;
+	Wed, 20 Dec 2023 12:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OCnXRXY4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632E2219EA
-	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 11:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-35d65c9dea3so56079385ab.3
-        for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 03:41:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A7D224C8;
+	Wed, 20 Dec 2023 12:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a2370535060so125235666b.1;
+        Wed, 20 Dec 2023 04:03:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703073795; x=1703678595; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dgbdkWLMiPIzD26meL59+TkjWSddN1QUdzXBZ0iT0ZI=;
+        b=OCnXRXY4vDaLnih0OJTCF7pGpWW0LRwmjErfC7qEiqweawGbg2CsWaQUZQ8dli7hsN
+         daIInZPRfM/umlcYisCx281WQLgkZUbfF6NSvhK4xHc7H4KPCZ7DxKmBwyOcb/JZwdjZ
+         vtMcvYgfenhgHFtJpeRjeRSRZO7ls9dsJzeP946hsHsySRu712CY6RJhP/AiHQsgXnwJ
+         58e8JvZZxgo3ccalVbD3EYAAkLTmWb4KM1Ii+yZAorq+fpyzfowpRRsUBUfuaJ9Pjzwr
+         jQrLDckTqZQ+T0WaKv4utceGa0SPzgtokGBk3XuyH3Dk6WbdUJ2k47EOXLzF+nGg6+yF
+         8kXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703072471; x=1703677271;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DZWvcvFWT3P94ESec92OyEYUrt6Ss1wkXtTKq4rDYxM=;
-        b=xTPfPKD9kjrjjYf9N2YIswTLeThFZmcpN7U9+/cJL30SeONKz8Il5jEzQWq5coliB7
-         YZiZmsSYabv/fZwTNV7+yy/ZaBdr4zFejNMC410u+iDYUZUda/hvNHhK0/AvK/RXqNuG
-         PfY4h6oQ1eS50aWXY+iqeVvWfIx0je7mevdNjYBMYDiQoUtYWZFCwoTfwxMYanANttL9
-         YLs2OGbLiPhH950jX5U2Bzj5KtjF6rv8Ehv51zGeJspcNJqAaAzMwWGAtZOHbWUYo4Ix
-         jPbNHsrwFnfYxuCGPS9x6HeuiwgCNh1vlEVsc6KYSwDr4HNNGqpmf/LUOhiTTNimsnhb
-         DfJQ==
-X-Gm-Message-State: AOJu0YygGq1JQRySBqt/fXi3CeMGfRLCqFqjKl4FtrYy4QUBCSpXGdrf
-	+bYSKRUPUgdWpeM4r4Z1nITBo15D9dIf3KQDHuuBdrC7qzoi
-X-Google-Smtp-Source: AGHT+IE19RIDA8rceZNYE3OLPKGLd85fED/iwIB9sfne/rp8fCvDjEJpyKLGSD0MG8Ds1QeX4ZBjL/dllhWrP8WcEKStgSvPvqXO
+        d=1e100.net; s=20230601; t=1703073795; x=1703678595;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dgbdkWLMiPIzD26meL59+TkjWSddN1QUdzXBZ0iT0ZI=;
+        b=RnnNgC1SNyhgoygd/h3Btnxhphd3SM+5t7NFoRxlCo9NMxmLq7mtjJMU4zBIqxIrOl
+         oGBjT6F0wHEGmwu4d2HgVC4KD2dXWZBSExUB2PIvxsbnj9q1KhnQ3nGmBjwSm9xBvTFS
+         2wXdtCDoTV+hdPjd6Iob8xlg2B1FChRRrehZVzIZGrbVDYG5SlAKNvk3hJHhhKAVYdt7
+         nygi2b7+9chn8+nYOEn+rZivgioRXQHYLl39W4FyK8Rv8bYHp9cxUdT5MLXFK5+S5Eb1
+         y3xctHpBLC3jqKymuNEt/MvGwpUMSfqmQruQ3oRNpMFAsyPowNlXJeeSCHl9MHt4GpwZ
+         PEgA==
+X-Gm-Message-State: AOJu0Yxg3q2PgjLdhXdTgbahfvWzCQxdNJYKPD+iCDDbsJ4lIPYRS2CS
+	qpE6TXCyVR+Owx//aEDVK58=
+X-Google-Smtp-Source: AGHT+IGhey7MZbkhg+uNa0F2dgOgAd3dSpB/Ah8taVuCWGK3QEvxZmKkIbjIQzWC7E1KGuO1kxv2nw==
+X-Received: by 2002:a17:906:d0cd:b0:a23:690e:48bf with SMTP id bq13-20020a170906d0cd00b00a23690e48bfmr2507776ejb.12.1703073795216;
+        Wed, 20 Dec 2023 04:03:15 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
+        by smtp.gmail.com with ESMTPSA id tp25-20020a170907c49900b00a1f7c502736sm15298795ejc.164.2023.12.20.04.03.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 04:03:14 -0800 (PST)
+Date: Wed, 20 Dec 2023 13:03:12 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linuxfancy@googlegroups.com, martin.hecht@avnet.eu,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] media: i2c: alvium: removal of fr field
+Message-ID: <ZYLYAMrEtCoQ940z@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231220085609.2595732-1-tomm.merciai@gmail.com>
+ <20231220085609.2595732-3-tomm.merciai@gmail.com>
+ <20231220091309.GG29638@pendragon.ideasonboard.com>
+ <ZYK7y/jaEZ2JHsnH@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20231220100643.GJ29638@pendragon.ideasonboard.com>
+ <ZYLNuw1/IJg7jrEa@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20231220112902.GE25366@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1bab:b0:35f:ce83:9590 with SMTP id
- n11-20020a056e021bab00b0035fce839590mr27397ili.1.1703072471625; Wed, 20 Dec
- 2023 03:41:11 -0800 (PST)
-Date: Wed, 20 Dec 2023 03:41:11 -0800
-In-Reply-To: <0000000000003ee3610599d20096@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b2bbd0060cef75c4@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in __media_entity_remove_links
-From: syzbot <syzbot+0b0095300dfeb8a83dc8@syzkaller.appspotmail.com>
-To: andreyknvl@google.com, laurent.pinchart@ideasonboard.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, nogikh@google.com, 
-	sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231220112902.GE25366@pendragon.ideasonboard.com>
 
-This bug is marked as fixed by commit:
-media: uvcvideo: Avoid cyclic entity chains due to malformed USB descriptors
+On Wed, Dec 20, 2023 at 01:29:02PM +0200, Laurent Pinchart wrote:
+> On Wed, Dec 20, 2023 at 12:19:23PM +0100, Tommaso Merciai wrote:
+> > On Wed, Dec 20, 2023 at 12:06:43PM +0200, Laurent Pinchart wrote:
+> > > On Wed, Dec 20, 2023 at 11:02:51AM +0100, Tommaso Merciai wrote:
+> > > > On Wed, Dec 20, 2023 at 11:13:09AM +0200, Laurent Pinchart wrote:
+> > > > > Hi Tommaso,
+> > > > > 
+> > > > > Thank you for the patch.
+> > > > > 
+> > > > > Use the imperative in the subject line:
+> > > > > 
+> > > > > media: i2c: alvium: Remove the fr field of the alvium_dev structure
+> > > > > 
+> > > > > On Wed, Dec 20, 2023 at 09:56:07AM +0100, Tommaso Merciai wrote:
+> > > > > > The fr (frame rate) field of the alvium_dev structure is
+> > > > > > only used to pass result from alvium_set_frame_interval() to
+> > > > > > alvium_set_frame_rate() that writes this info into the hw reg.
+> > > > > > Replace them with function parameter.
+> > > > > 
+> > > > > Replace it with a function parameter.
+> > > > 
+> > > > Thanks I'll fix this in v3.
+> > > > 
+> > > > > > 
+> > > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > > > > ---
+> > > > > >  drivers/media/i2c/alvium-csi2.c | 24 ++++++++++++------------
+> > > > > >  drivers/media/i2c/alvium-csi2.h |  1 -
+> > > > > >  2 files changed, 12 insertions(+), 13 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > > > > > index 0dcd69bf9f92..a9ff6cc97cff 100644
+> > > > > > --- a/drivers/media/i2c/alvium-csi2.c
+> > > > > > +++ b/drivers/media/i2c/alvium-csi2.c
+> > > > > > @@ -1185,19 +1185,19 @@ static int alvium_get_frame_interval(struct alvium_dev *alvium,
+> > > > > >  	return ret;
+> > > > > >  }
+> > > > > >  
+> > > > > > -static int alvium_set_frame_rate(struct alvium_dev *alvium)
+> > > > > > +static int alvium_set_frame_rate(struct alvium_dev *alvium, u64 fr)
+> > > > > >  {
+> > > > > >  	struct device *dev = &alvium->i2c_client->dev;
+> > > > > >  	int ret;
+> > > > > >  
+> > > > > >  	ret = alvium_write_hshake(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
+> > > > > > -				  alvium->fr);
+> > > > > > +				  fr);
+> > > > > >  	if (ret) {
+> > > > > >  		dev_err(dev, "Fail to set frame rate lanes reg\n");
+> > > > > >  		return ret;
+> > > > > >  	}
+> > > > > >  
+> > > > > > -	dev_dbg(dev, "set frame rate: %llu us\n", alvium->fr);
+> > > > > > +	dev_dbg(dev, "set frame rate: %llu us\n", fr);
+> > > > > >  
+> > > > > >  	return 0;
+> > > > > >  }
+> > > > > > @@ -1661,10 +1661,11 @@ static int alvium_g_frame_interval(struct v4l2_subdev *sd,
+> > > > > >  }
+> > > > > >  
+> > > > > >  static int alvium_set_frame_interval(struct alvium_dev *alvium,
+> > > > > > -				     struct v4l2_subdev_frame_interval *fi)
+> > > > > > +				     struct v4l2_subdev_frame_interval *fi,
+> > > > > > +				     u64 *req_fr)
+> > > > > >  {
+> > > > > >  	struct device *dev = &alvium->i2c_client->dev;
+> > > > > > -	u64 req_fr, dft_fr, min_fr, max_fr;
+> > > > > > +	u64 dft_fr, min_fr, max_fr;
+> > > > > >  	int ret;
+> > > > > >  
+> > > > > >  	if (fi->interval.denominator == 0)
+> > > > > > @@ -1681,13 +1682,12 @@ static int alvium_set_frame_interval(struct alvium_dev *alvium,
+> > > > > >  	dev_dbg(dev, "fi->interval.denominator = %d\n",
+> > > > > >  		fi->interval.denominator);
+> > > > > >  
+> > > > > > -	req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+> > > > > > +	*req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+> > > > > >  		       fi->interval.numerator);
+> > > > > >  
+> > > > > > -	if (req_fr >= max_fr && req_fr <= min_fr)
+> > > > > > -		req_fr = dft_fr;
+> > > > > > +	if (*req_fr >= max_fr && *req_fr <= min_fr)
+> > > > > > +		*req_fr = dft_fr;
+> > > > > 
+> > > > > Shouldn't we clamp the value to [min, max] instead of using the default
+> > > > > if it's out of range ? Something like
+> > > > > 
+> > > > > 	*req_fr = clamp(*req_fr, min_fr, max_fr)
+> > > > > 
+> > > > > This makes me realize that the current code is wrong, req_fr can't be >=
+> > > > > max and <= min at the same time. You probably meant || instead of &&.
+> > > > > 
+> > > > > This should be fixed in a separate patch.
+> > > > 
+> > > > If this is ok for you, after this series I can put a patch with || fix
+> > > > instead of clamping, because if we clamp dft_fr is not used any more.
+> > > > After if you agree I will work on clamping.
+> > > > Thanks for the catch! :)
+> > > 
+> > > It's fine to fix this on top of the series, but I don't see why you
+> > > would need to first use ||. You can call clamp() and remove dft_fr.
+> > 
+> > I'm just thinking out loud eh :)
+> > 
+> > Maybe in the future we need to expose fr infos to the user to play with
+> > that. But we are writing for now, then we can replan to readd dft_fr
+> > read later.
+> > 
+> > I think this is what your are suggesting:
+> > 
+> > +++ b/drivers/media/i2c/alvium-csi2.c
+> > @@ -1171,12 +1171,10 @@ static int alvium_set_bayer_pattern(struct alvium_dev *alvium,
+> >  }
+> > 
+> >  static int alvium_get_frame_interval(struct alvium_dev *alvium,
+> > -                                    u64 *dft_fr, u64 *min_fr, u64 *max_fr)
+> > +                                    u64 *min_fr, u64 *max_fr)
+> >  {
+> >         int ret = 0;
+> > 
+> > -       alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
+> > -                   dft_fr, &ret);
+> >         alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MIN_R,
+> >                     min_fr, &ret);
+> >         alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MAX_R,
+> > @@ -1647,7 +1645,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> >  {
+> >         struct alvium_dev *alvium = sd_to_alvium(sd);
+> >         struct device *dev = &alvium->i2c_client->dev;
+> > -       u64 req_fr, dft_fr, min_fr, max_fr;
+> > +       u64 req_fr, min_fr, max_fr;
+> >         struct v4l2_fract *interval;
+> >         int ret;
+> > 
+> > @@ -1657,7 +1655,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> >         if (fi->interval.denominator == 0)
+> >                 return -EINVAL;
+> > 
+> > -       ret = alvium_get_frame_interval(alvium, &dft_fr, &min_fr, &max_fr);
+> > +       ret = alvium_get_frame_interval(alvium, &min_fr, &max_fr);
+> >         if (ret) {
+> >                 dev_err(dev, "Fail to get frame interval\n");
+> >                 return ret;
+> > @@ -1670,9 +1668,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> > 
+> >         req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+> >                        fi->interval.numerator);
+> > -
+> > -       if (req_fr >= max_fr && req_fr <= min_fr)
+> > -               req_fr = dft_fr;
+> > +       req_fr = clamp(req_fr, min_fr, max_fr);
+> > 
+> >         interval = v4l2_subdev_state_get_interval(sd_state, 0);
+> > 
+> > right?
+> 
+> Yes this looks good to me.
 
-But I can't find it in the tested trees[1] for more than 90 days.
-Is it a correct commit? Please update it by replying:
+Just an info.
+Can I proceed to send v3 of this series and then the fix or better to
+wait?
 
-#syz fix: exact-commit-title
+Thanks,
+Tommaso
 
-Until then the bug is still considered open and new crashes with
-the same signature are ignored.
 
-Kernel: Linux
-Dashboard link: https://syzkaller.appspot.com/bug?extid=0b0095300dfeb8a83dc8
-
----
-[1] I expect the commit to be present in:
-
-1. for-kernelci branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
-
-2. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
-
-3. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
-
-4. main branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-
-The full list of 9 trees can be found at
-https://syzkaller.appspot.com/upstream/repos
+> 
+> > > > > >  
+> > > > > > -	alvium->fr = req_fr;
+> > > > > >  	alvium->frame_interval.numerator = fi->interval.numerator;
+> > > > > >  	alvium->frame_interval.denominator = fi->interval.denominator;
+> > > > > >  
+> > > > > > @@ -1699,6 +1699,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> > > > > >  				   struct v4l2_subdev_frame_interval *fi)
+> > > > > >  {
+> > > > > >  	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > > > > > +	u64 req_fr = ALVIUM_DEFAULT_FR_HZ;
+> > > > > 
+> > > > > Do you need to initialize the variable ? It doesn't seem to be required.
+> > > > 
+> > > > Really not, it's just to maintain the logic of alvium->fr. I will drop
+> > > > this in v3, thanks!
+> > > > 
+> > > > > With these small issues fixed,
+> > > > > 
+> > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > 
+> > > > > >  	int ret;
+> > > > > >  
+> > > > > >  	/*
+> > > > > > @@ -1711,9 +1712,9 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> > > > > >  	if (alvium->streaming)
+> > > > > >  		return -EBUSY;
+> > > > > >  
+> > > > > > -	ret = alvium_set_frame_interval(alvium, fi);
+> > > > > > +	ret = alvium_set_frame_interval(alvium, fi, &req_fr);
+> > > > > >  	if (!ret)
+> > > > > > -		ret = alvium_set_frame_rate(alvium);
+> > > > > > +		ret = alvium_set_frame_rate(alvium, req_fr);
+> > > > > >  
+> > > > > >  	return ret;
+> > > > > >  }
+> > > > > > @@ -2273,7 +2274,6 @@ static int alvium_subdev_init(struct alvium_dev *alvium)
+> > > > > >  	/* Setup initial frame interval*/
+> > > > > >  	alvium->frame_interval.numerator = 1;
+> > > > > >  	alvium->frame_interval.denominator = ALVIUM_DEFAULT_FR_HZ;
+> > > > > > -	alvium->fr = ALVIUM_DEFAULT_FR_HZ;
+> > > > > >  
+> > > > > >  	/* Setup the initial mode */
+> > > > > >  	alvium->mode.fmt = alvium_csi2_default_fmt;
+> > > > > > diff --git a/drivers/media/i2c/alvium-csi2.h b/drivers/media/i2c/alvium-csi2.h
+> > > > > > index 17f0bbbd1839..80066ac25047 100644
+> > > > > > --- a/drivers/media/i2c/alvium-csi2.h
+> > > > > > +++ b/drivers/media/i2c/alvium-csi2.h
+> > > > > > @@ -443,7 +443,6 @@ struct alvium_dev {
+> > > > > >  
+> > > > > >  	struct alvium_mode mode;
+> > > > > >  	struct v4l2_fract frame_interval;
+> > > > > > -	u64 fr;
+> > > > > >  
+> > > > > >  	u8 h_sup_csi_lanes;
+> > > > > >  	u64 link_freq;
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
