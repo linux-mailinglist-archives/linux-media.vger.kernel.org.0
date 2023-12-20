@@ -1,222 +1,201 @@
-Return-Path: <linux-media+bounces-2725-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2726-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329A0819B71
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:33:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D37C1819BC1
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:53:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE9522837C0
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 09:33:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03EB21C22382
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 09:53:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57AD01EB46;
-	Wed, 20 Dec 2023 09:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDCF9200AA;
+	Wed, 20 Dec 2023 09:52:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPEaZddf"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IPvbDhcs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9391DDD2
-	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 09:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703064827; x=1734600827;
-  h=date:from:to:cc:subject:message-id;
-  bh=AfaDgltp7fFocly9OeOsXh//Bwh8fC2HcqpNGTHmCwY=;
-  b=NPEaZddfgK4I63I9ojqy0yhbV9K1Xl7bz2y0DW/gdLAsQFkyX2n/o/9h
-   iiuwK+zHJzO53xr71YxfgBICaO3Aq/wFti7CMC04LU0uFAVJfy5Tg18N0
-   +KUEegrjYW+DCzjDGgvUO/mTnIkgIeljmlh0tY5wQt+GrwVZwMf84+YXf
-   Q6bwmPn3qvc4eeBEifT//Gwec4+qAjaOFtteizKWgo0hPWY6qub+wqaZL
-   jE3XspzyJvPchRmP5YL1c+nti9UGgnkQUNb/8ZFuuynrXuGD+tCVxouQ7
-   g25G2/l/MeQJnsUzqMb1O5binQ8cu3j+wuDapysjowznvPNdQZ84JihqC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2623193"
-X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
-   d="scan'208";a="2623193"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 01:33:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="776273111"
-X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
-   d="scan'208";a="776273111"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 20 Dec 2023 01:33:45 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rFsxT-0006hO-0L;
-	Wed, 20 Dec 2023 09:33:43 +0000
-Date: Wed, 20 Dec 2023 17:32:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- a9728a59039f4d3b5a2934f1e81da44b986381d8
-Message-ID: <202312201744.LJVCDu8Q-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1B6200C9
+	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 09:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5cece20f006so47116497b3.3
+        for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 01:52:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1703065970; x=1703670770; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hogvja0xVIkkpg3N+6iU77v6ti9BPz5LqsXbI7QDFuQ=;
+        b=IPvbDhcsHFGMrR+miBhc5XqYqZ/YQUo19qKUfbV1EAYvC/Nn1qMv8KI4myGjLt80Aq
+         JB0Rj1MXaWv0KF9B0Yqs8jO+lwtavzPnOTR6wWhfFZR5KjvYlx11DTH/sh4OcQMTMyoF
+         6BIBdlmoKGH4oiLwQZYdC29w2Vg6yTAyFqfDY3x8TeZIuc3XCKnAN6eYIRQVnGhviy4G
+         muWexjKgFVMA5LOtDVbqdITWDcj0C2vJhFiHj1oXZDWForPM9fX3eTnVqfVcKrDxwvqW
+         7ZRUBHpWF4pE8t0r8P1OF81BhR6/W24miMieZrvdOpZbeTmHqe/QfQPTBKETziANxoVz
+         CNTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703065970; x=1703670770;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hogvja0xVIkkpg3N+6iU77v6ti9BPz5LqsXbI7QDFuQ=;
+        b=EL1rSFo4+XOo2iqvIhqTAgJc9VVYzfwStNWaqO2hK6fKG+YMeoKSiHBxQJSs4duetd
+         02cbqZf7f5t+x/F75XKFgUFY4/3X0sUB476D6VO2M7OmpAqdRl7s1C6O5kMFM/Wfyg+l
+         QuqiNQUTvj67i3lpVlaBOse1LaXomqWIRNRtwjueuC1VZ5QqQ0jk7fQGY0dK1R8sr1q4
+         ZGKrKzZMw1xN/RX3vTq+H0XYmYQnAzQN6qKQ2YLppCx9/T8tWCaQ/d9DWNdDq1NCRA7c
+         njVO9AXhP51+2CnLBRVobwj8pZTU1bdP3lga0U0+z8MaKGh727wAj9LMjxKiSw3KPK0+
+         XN2Q==
+X-Gm-Message-State: AOJu0YwIwcf8YtJVCrgLd+VHP89cjAHb9mpawwxrZMAdGAv9gT04jdBO
+	h4lFfq5HSWQBd8J7o771HKY0CcebPYS0ZeXL+S+pvg==
+X-Google-Smtp-Source: AGHT+IHa9abAxBqfvgu2VEATjTXP7RsILfCHv1QAK1a136nQqIhAC3OMNah3ueuDGBDBTH9DAWreJ+FsKm4O3eoCxVA=
+X-Received: by 2002:a81:6e42:0:b0:5e7:6f2d:aa90 with SMTP id
+ j63-20020a816e42000000b005e76f2daa90mr2340336ywc.3.1703065969854; Wed, 20 Dec
+ 2023 01:52:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+ <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org> <d0ea23ae-8fba-d229-b0f6-dc522f285233@quicinc.com>
+ <CAA8EJpouBOLJ_1Pz_YauuOX+97ud9RkLYRaui4GM6ZFJUKYJMw@mail.gmail.com>
+ <9d94317c-5da9-5494-26a2-12007761a1e5@quicinc.com> <CAA8EJpoCGRT=eETab8mF2MZZ04RmCkNnFKaRBFoUYk5qqDAPhg@mail.gmail.com>
+ <eb288a33-a8c3-9dea-ffc1-e97a69be9a4c@quicinc.com>
+In-Reply-To: <eb288a33-a8c3-9dea-ffc1-e97a69be9a4c@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 20 Dec 2023 11:52:38 +0200
+Message-ID: <CAA8EJprZ1TK7UwfhSh2PtwuNJLUMace7MWnzQkrUMqV5R+WgOA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stanimir.k.varbanov@gmail.com, 
+	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	mchehab@kernel.org, bryan.odonoghue@linaro.org, linux-arm-msm@vger.kernel.org, 
+	quic_abhinavk@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: a9728a59039f4d3b5a2934f1e81da44b986381d8  staging: media: ipu3: Remove some excess struct member documentation
+On Wed, 20 Dec 2023 at 10:53, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
+>
+> On 12/20/2023 2:09 PM, Dmitry Baryshkov wrote:
+> > On Wed, 20 Dec 2023 at 10:14, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
+> >>
+> >> Hi,
+> >>
+> >> On 12/20/2023 1:07 PM, Dmitry Baryshkov wrote:
+> >>> On Wed, 20 Dec 2023 at 08:32, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
+> >>>>
+> >>>> Hi Dmitry,
+> >>>>
+> >>>> On 12/19/2023 12:08 AM, Dmitry Baryshkov wrote:
+> >>>>> On 18/12/2023 13:31, Dikshita Agarwal wrote:
+> >>>>>> This patch series introduces support for Qualcomm new video acceleration
+> >>>>>> hardware architecture, used for video stream decoding/encoding. This driver
+> >>>>>> is based on new communication protocol between video hardware and application
+> >>>>>> processor.
+> >>>>>
+> >>>>> This doesn't answer one important point, you have been asked for v1. What is the
+> >>>>> actual change point between Venus and Iris? What has been changed so much that
+> >>>>> it demands a separate driver. This is the main question for the cover letter,
+> >>>>> which has not been answered so far.
+> >>>>>
+> >>>>> From what I see from you bindings, the hardware is pretty close to what we see
+> >>>>> in the latest venus generations. I asssme that there was a change in the vcodec
+> >>>>> inteface to the firmware and other similar changes. Could you please point out,
+> >>>>> which parts of Venus driver do no longer work or are not applicable for sm8550
+> >>>>
+> >>>> The motivation behind having a separate IRIS driver was discussed earlier in [1]
+> >>>> In the same discussion, it was ellaborated on how the impact would be with
+> >>>> change in the new firmware interface and other video layers in the driver. I can
+> >>>> add this in cover letter in the next revision.
+> >>>
+> >>> Ok. So the changes cover the HFI interface. Is that correct?
+> >> Change wise, yes.
+> >>
+> >>>> We see some duplication of code and to handle the same, the series brings in a
+> >>>> common code reusability between iris and venus. Aligning the common peices of
+> >>>> venus and iris will be a work in progress, once we land the base driver for iris.
+> >>>
+> >>> This is not how it usually works. Especially not with the patches you
+> >>> have posted.
+> >>>
+> >>> I have the following suggestion how this story can continue:
+> >>> You can _start_ by reworking venus driver, separating the HFI /
+> >>> firmware / etc interface to an internal interface in the driver. Then
+> >>> implement Iris as a plug in for that interface. I might be mistaken
+> >>> here, but I think this is the way how this can be beneficial for both
+> >>> the video en/decoding on both old and new platforms.
+> >>
+> >> HFI/firmware interface is already confined to HFI layer in the existing venus
+> >> driver. We explained in the previous discussion [1], on how the HFI change
+> >> impacts the other layers by taking example of a DRC usecase. Please have a look
+> >> considering the usecase and the impact it brings to other layers in the driver.
+> >
+> > I have looked at it. And I still see huge change in the interface
+> > side, but it doesn't tell me about the hardware changes.
+>
+> I hope you noticed how the common layers like decoder, response, state layers
+> are impacted in handling one of usecase. Now add that to all the different
+> scenarios like seek, drain, DRC during seek, DRC during drain, etc.
 
-elapsed time: 1520m
+Yes, for sure.
 
-configs tested: 140
-configs skipped: 3
+>
+> > Have you evaluated the other opportunity?
+> >
+> > To have a common platform interface and firmware-specific backend?
+> >
+> > You have already done a part of it, but from a different perspective.
+> > You have tried to move common code out of the driver. Instead we are
+> > asking you to do a different thing. Move non-common code within the
+> > driver. Then add your code on top of that.
+>
+> For common platform - yes, we are bringing in common stuff like PIL.
+> Other than that, abstraction to firmware interface is not that confined to one
+> layer. It spreads over decoder/encoder/common layers. Now when majority of the
+> layers/code is different, we planned to make it in parallel to venus and have a
+> common layer having common things to both iris and venus.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+My suggestion still holds. Start with this common platform code.
+Rather than arguing back and forth, could you please perform an
+experiment on the current venus driver and move firmware interface to
+subdirs, leaving just the platform / PIL / formats / etc in place?
+This will at least allow us to determine whether it is a feasible
+concept or not.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                               defconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231220   gcc  
-arc                   randconfig-002-20231220   gcc  
-arm                               allnoconfig   gcc  
-arm                                 defconfig   clang
-arm                          pxa910_defconfig   gcc  
-arm                   randconfig-001-20231220   gcc  
-arm                   randconfig-002-20231220   gcc  
-arm                   randconfig-003-20231220   gcc  
-arm                   randconfig-004-20231220   gcc  
-arm                          sp7021_defconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231220   gcc  
-arm64                 randconfig-002-20231220   gcc  
-arm64                 randconfig-003-20231220   gcc  
-arm64                 randconfig-004-20231220   gcc  
-csky                              allnoconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231220   gcc  
-csky                  randconfig-002-20231220   gcc  
-hexagon                           allnoconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231219   clang
-i386         buildonly-randconfig-002-20231219   clang
-i386         buildonly-randconfig-003-20231219   clang
-i386         buildonly-randconfig-004-20231219   clang
-i386         buildonly-randconfig-005-20231219   clang
-i386         buildonly-randconfig-006-20231219   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231219   clang
-i386                  randconfig-002-20231219   clang
-i386                  randconfig-003-20231219   clang
-i386                  randconfig-004-20231219   clang
-i386                  randconfig-005-20231219   clang
-i386                  randconfig-006-20231219   clang
-i386                  randconfig-011-20231219   gcc  
-i386                  randconfig-012-20231219   gcc  
-i386                  randconfig-013-20231219   gcc  
-i386                  randconfig-014-20231219   gcc  
-i386                  randconfig-015-20231219   gcc  
-i386                  randconfig-016-20231219   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch                 loongson3_defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                         amcore_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        stmark2_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                           ip28_defconfig   gcc  
-mips                      malta_kvm_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                     akebono_defconfig   clang
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                       holly_defconfig   gcc  
-powerpc                     stx_gp3_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                           se7751_defconfig   gcc  
-sh                        sh7757lcr_defconfig   gcc  
-sh                        sh7763rdp_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231220   gcc  
-x86_64       buildonly-randconfig-002-20231220   gcc  
-x86_64       buildonly-randconfig-003-20231220   gcc  
-x86_64       buildonly-randconfig-004-20231220   gcc  
-x86_64       buildonly-randconfig-005-20231220   gcc  
-x86_64       buildonly-randconfig-006-20231220   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231220   clang
-x86_64                randconfig-002-20231220   clang
-x86_64                randconfig-003-20231220   clang
-x86_64                randconfig-004-20231220   clang
-x86_64                randconfig-005-20231220   clang
-x86_64                randconfig-006-20231220   clang
-x86_64                randconfig-011-20231220   gcc  
-x86_64                randconfig-012-20231220   gcc  
-x86_64                randconfig-013-20231220   gcc  
-x86_64                randconfig-014-20231220   gcc  
-x86_64                randconfig-015-20231220   gcc  
-x86_64                randconfig-016-20231220   gcc  
-x86_64                randconfig-071-20231220   gcc  
-x86_64                randconfig-072-20231220   gcc  
-x86_64                randconfig-073-20231220   gcc  
-x86_64                randconfig-074-20231220   gcc  
-x86_64                randconfig-075-20231220   gcc  
-x86_64                randconfig-076-20231220   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                       common_defconfig   gcc  
+>
+> >>
+> >> [1] https://lore.kernel.org/lkml/8c97d866-1cab-0106-4ab3-3ca070945ef7@quicinc.com/
+> >>> Short rationale:
+> >>> The venus driver has a history of supported platforms. There is
+> >>> already some kind of buffer management in place. Both developers and
+> >>> testers have spent their effort on finding issues there. Sending new
+> >>> driver means that we have to spend the same amount of efforts on this.
+> >>> Moreover, even from the porter point of view. You are creating new
+> >>> bindings for the new hardware. Which do not follow the
+> >>> venus-common.yaml. And they do not follow the defined bindings for the
+> >>> recent venus platforms. Which means that as a developer I have to care
+> >>> about two different ways to describe nearly the same hardware.>> Again qualcomm video team does not have a plan to support sm8550/x1e80100 on
+> >>>> venus as the changes are too interleaved to absorb in venus driver. And there is
+> >>>> significant interest in community to start validating video driver on sm8550 or
+> >>>> x1e80100.
+> >>>>
+> >>>> [1] https://lore.kernel.org/lkml/8c97d866-1cab-0106-4ab3-3ca070945ef7@quicinc.com/
+> >>>>
+> >>>> Regards,
+> >>>> Vikash
+> >>>
+> >>>
+> >>>
+> >
+> >
+> >
+
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
 
