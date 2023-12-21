@@ -1,87 +1,87 @@
-Return-Path: <linux-media+bounces-2855-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2856-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F2081B517
-	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 12:40:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A074981B51F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 12:43:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D44A51F25F43
-	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 11:40:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D330E1C2523E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 11:43:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90DB6E2B0;
-	Thu, 21 Dec 2023 11:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3B986E2A0;
+	Thu, 21 Dec 2023 11:43:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJjKfMIv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TFM05tf5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4426D1A4;
-	Thu, 21 Dec 2023 11:40:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7491AC433C7;
-	Thu, 21 Dec 2023 11:40:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703158835;
-	bh=0XVAbyt5Q2EdtCdnVgot+orUzg22qdyuWONYOCaOdvc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EJjKfMIv+lEiqo5m5vpW/rQ70EOUNXbX2Lyc3QilwQXwY+cjKMEek8oJD0ypJ9pzZ
-	 0+YC8yJmimS0t+HDpBcAx65cpJ6QC2Y0GPWs+wRAYoPfWHPunk1hf+iQ+CvS1J5ey6
-	 hiIz/ea1PaZcIIXaXsIxFMuamU2vuqUISJ8dVXqvlGkjnByx/ajgecqSeOUokKCt2E
-	 TP2BmAsJIaIoW0Ld47zRAGl/pZ135pFhycy7N7bAS8AcruycCyRevpTOLA/1bTF0EF
-	 y97Yz2wffZPtPoqvXe2MLE89FsxWzie35kqvUH/9SeNTYQnwt/giyfHkAz5vG23+mO
-	 mzKPhMMX8Skig==
-Date: Thu, 21 Dec 2023 11:40:20 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Nuno =?UTF-8?B?U8Oh?=
- <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
-Subject: Re: [PATCH v5 3/8] dmaengine: Add API function
- dmaengine_prep_slave_dma_vec()
-Message-ID: <20231221114020.2d1e6364@jic23-huawei>
-In-Reply-To: <20231219175009.65482-4-paul@crapouillou.net>
-References: <20231219175009.65482-1-paul@crapouillou.net>
-	<20231219175009.65482-4-paul@crapouillou.net>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37F31DA3B;
+	Thu, 21 Dec 2023 11:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1703158988;
+	bh=Ooyo7cFIzcwmmqODzrdGSMJ0PnUsddzGotcXVunWRCw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TFM05tf5xJkbcJ5fK+qrJ+/xhaHuaVmjqxZtkCf6cdSJQAqC4cLGxctKfwlPGPKNN
+	 SD5/G6nie/n/3szGdDCTnMaTlop4alnGMC0YqrOpVil47QEw605kL7fknTx+mkFUZH
+	 a5jAfz/3KKcym43ySHes4MqKmwz4l9i1831yMbDIIcLgKr+o4q587s1H9+vmhOYK82
+	 bUVhYYObnb2fYERFLOwreaFSJyTyroAtCGB+33HFuuoWu/VSHzBrlvtFCGmwbEOItd
+	 lX5I/KoatFr56yhZz3M9WZJ5T2j7OM4To9gsMW8v3201z3pUjhcF8/Unkd/BhOucNO
+	 0RKX9tB/YS4rw==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2866D3781FC9;
+	Thu, 21 Dec 2023 11:43:07 +0000 (UTC)
+Message-ID: <e822fa39-ba03-4816-a58e-a8328c39e051@collabora.com>
+Date: Thu, 21 Dec 2023 12:43:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] media: mediatek: vcodec: Update
+ mtk_vcodec_mem_free() error messages
+Content-Language: en-US
+To: Fei Shao <fshao@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20231221092226.1395427-1-fshao@chromium.org>
+ <20231221092226.1395427-3-fshao@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231221092226.1395427-3-fshao@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 19 Dec 2023 18:50:04 +0100
-Paul Cercueil <paul@crapouillou.net> wrote:
-
-> This function can be used to initiate a scatter-gather DMA transfer,
-> where the address and size of each segment is located in one entry of
-> the dma_vec array.
+Il 21/12/23 10:17, Fei Shao ha scritto:
+> In mtk_vcodec_mem_free(), there are two cases where a NULL VA is passed:
+> - mem->size == 0: we are called to free no memory. This may happen when
+>    we call mtk_vcodec_mem_free() twice or the memory has never been
+>    allocated.
+> - mem->size > 0: we are called to free memory but without VA. This means
+>    that we failed to free the memory for real.
 > 
-> The major difference with dmaengine_prep_slave_sg() is that it supports
-> specifying the lengths of each DMA transfer; as trying to override the
-> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
-> process. The introduction of a new API function is also justified by the
-> fact that scatterlists are on their way out.
+> Both cases are not expected to happen, and we want to have clearer error
+> messages to describe which one we just encountered.
+> Update the error messages to include more information for that purpose.
 > 
-> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
-> case, as it assumes that the address of each segment will be higher than
-> the one of the previous segment, which we just cannot guarantee in case
-> of a scatter-gather transfer.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Fei Shao <fshao@chromium.org>
 
-This and the next patch look fine to me as clearly simplify things for
-our usecases, but they are really something for the dmaengine maintainers
-to comment on.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Jonathan
+
 
