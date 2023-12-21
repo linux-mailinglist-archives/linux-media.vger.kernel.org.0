@@ -1,145 +1,118 @@
-Return-Path: <linux-media+bounces-2849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2850-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1358481B3BA
-	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 11:37:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEA181B44A
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 11:49:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBBCA1F217BD
-	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 10:37:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCAEC288FFA
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 10:49:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DF416978E;
-	Thu, 21 Dec 2023 10:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1056D1A5;
+	Thu, 21 Dec 2023 10:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ecG/RIxA"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZRA0brZT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216EF6A00A;
-	Thu, 21 Dec 2023 10:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1d3e05abcaeso4347415ad.1;
-        Thu, 21 Dec 2023 02:37:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703155036; x=1703759836; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IO8ymlIh0gwHq3H5R4Z60V2oV0umNMIZNVLXryGviuo=;
-        b=ecG/RIxA/2o3CmvCfRjiQz4EdwhgY6JzxAa9+gs/Ro1jgMa+ivK6HQDee2tRjnNR2/
-         zWyzhH1VfsXz1EVI4tPFHC6XC/VoChjUGz67QOHuVoi7MtSfBHKcO0xhXOa2K14fMo4a
-         akmozCAl78OLvlQiQBBh8rW4L0sjvUK1V6M9zqAK8uwA1DUTgp05jOJK0ZyQTKdJ+Nk0
-         AMj8RnUyHi2dO/bLtb3H0LMAmC3/P6lZQTov7Qegpe4ncOdyE85JpWpXJnOeS7z4VIds
-         07cGq4qEouTpY50VmL4DT1sP9+h+pTmLOpddiNUa++cnIootjflV/wNF/U15l0oPKDJJ
-         qScw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703155036; x=1703759836;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IO8ymlIh0gwHq3H5R4Z60V2oV0umNMIZNVLXryGviuo=;
-        b=irfFEDJ0PhR5aJnTE9jZVIgtJAR1WdGyKJy55rdm2eCvBwq0HjqYML/+VbW3nJWuJF
-         sJcXtdYDBpce0aRXkHYUDR/dEjsgzyfQ2d1SLHQZXYhYRY6IS85IDlfPBb5wYwqVc8FL
-         t3wA4xtf3mRyYJ0CX0or/QHFmSHb9uAJz8wS7SChN7KIdVA5OgdnNoKf4+8djUQDWiDp
-         nc+0nr9/Y7F10cLoeXLJYxjE8tghbjqZmlCcsE8jU7ENVz/9C0cj87olDrN1Kr+HPj6U
-         J1ineJNNwkCoy5JRadvcqvCu1d7DY9jYy8RV9+iYefE2wrSUpITfIjKnPXRIDu9XsI0T
-         Z77Q==
-X-Gm-Message-State: AOJu0YyhIsD2XZVMg/WgxxQLs+f/jDiqed5obA6+2dUNpxULEkvsiUpM
-	GolZbLAI+ufA9lR7/+T4yxk=
-X-Google-Smtp-Source: AGHT+IGGapBB/ZVyZ5dQirjzaEf8Bd8ICbenKipZ4RF+MCrODOjbzrEx3sy7ioh372Oew4KHI3OMJw==
-X-Received: by 2002:a17:902:c406:b0:1d0:44f6:ccb9 with SMTP id k6-20020a170902c40600b001d044f6ccb9mr12403732plk.65.1703155036374;
-        Thu, 21 Dec 2023 02:37:16 -0800 (PST)
-Received: from g2039B650.. ([2001:da8:203:a502:3f:1d17:2d9c:d20])
-        by smtp.gmail.com with ESMTPSA id w19-20020a170902d3d300b001d3eb987bb6sm1301005plb.149.2023.12.21.02.37.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 02:37:15 -0800 (PST)
-From: Gui-Dong Han <2045gemini@gmail.com>
-To: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	gregkh@linuxfoundation.org,
-	mcgrof@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@outlook.com,
-	Gui-Dong Han <2045gemini@gmail.com>,
-	BassCheck <bass@buaa.edu.cn>
-Subject: [PATCH] [media] xc4000: Fix atomicity violation in xc4000_get_frequency
-Date: Thu, 21 Dec 2023 18:37:07 +0800
-Message-Id: <20231221103707.4129-1-2045gemini@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AF16BB42;
+	Thu, 21 Dec 2023 10:48:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BDFC433CA;
+	Thu, 21 Dec 2023 10:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1703155723;
+	bh=xBJcV4OMhJoXl7qkczHc+1YvxJ1wQh6siGSG4yUXEO8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZRA0brZT7oL4W5exoi8DBZmdiZOjy00+FqDTtvp3UMcVo7QfReUkeMCGGIRdSKSIN
+	 X2bGUyCKEk5o9vG0N+NcmUSqDl8dvy2tiFQG83FSXgDCeEPc7klY4qqEcrhMOgJiE6
+	 AxBcx5Er7LFjhJUhQ0gBWZbR0wbNBV9rbJ/OqdXw=
+Date: Thu, 21 Dec 2023 11:48:40 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Gui-Dong Han <2045gemini@gmail.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, mcgrof@kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	baijiaju1990@outlook.com, BassCheck <bass@buaa.edu.cn>
+Subject: Re: [PATCH] [media] xc4000: Fix atomicity violation in
+ xc4000_get_frequency
+Message-ID: <2023122130-unmindful-raider-637b@gregkh>
+References: <20231221103707.4129-1-2045gemini@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231221103707.4129-1-2045gemini@gmail.com>
 
-In xc4000_get_frequency():
-	*freq = priv->freq_hz + priv->freq_offset;
-The code accesses priv->freq_hz and priv->freq_offset without holding any
-lock.
+On Thu, Dec 21, 2023 at 06:37:07PM +0800, Gui-Dong Han wrote:
+> In xc4000_get_frequency():
+> 	*freq = priv->freq_hz + priv->freq_offset;
+> The code accesses priv->freq_hz and priv->freq_offset without holding any
+> lock.
+> 
+> In xc4000_set_params():
+> 	// Code that updates priv->freq_hz and priv->freq_offset
+> 	...
+> 
+> xc4000_get_frequency() and xc4000_set_params() may execute concurrently,
+> risking inconsistent reads of priv->freq_hz and priv->freq_offset. Since
+> these related data may update during reading, it can result in incorrect
+> frequency calculation, leading to atomicity violations.
+> 
+> This possible bug is found by an experimental static analysis tool
+> developed by our team. This tool analyzes the locking APIs to extract
+> function pairs that can be concurrently executed, and then analyzes the
+> instructions in the paired functions to identify possible concurrency bugs
+> including data races and atomicity violations. The above possible bug is
+> reported when our tool analyzes the source code of Linux 6.2.
+> 
+> To address this issue, it is proposed to add a mutex lock pair in
+> xc4000_get_frequency() to ensure atomicity. With this patch applied, our
+> tool no longer reports the possible bug, with the kernel configuration
+> allyesconfig for x86_64. Due to the lack of associated hardware, we cannot
+> test the patch in runtime testing, and just verify it according to the
+> code logic.
+> 
+> Fixes: 4c07e32884ab6 ("[media] xc4000: Fix get_frequency()")
+> Reported-by: BassCheck <bass@buaa.edu.cn>
+> Signed-off-by: Gui-Dong Han <2045gemini@gmail.com>
+> ---
+>  drivers/media/tuners/xc4000.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-In xc4000_set_params():
-	// Code that updates priv->freq_hz and priv->freq_offset
-	...
+Hi,
 
-xc4000_get_frequency() and xc4000_set_params() may execute concurrently,
-risking inconsistent reads of priv->freq_hz and priv->freq_offset. Since
-these related data may update during reading, it can result in incorrect
-frequency calculation, leading to atomicity violations.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-This possible bug is found by an experimental static analysis tool
-developed by our team. This tool analyzes the locking APIs to extract
-function pairs that can be concurrently executed, and then analyzes the
-instructions in the paired functions to identify possible concurrency bugs
-including data races and atomicity violations. The above possible bug is
-reported when our tool analyzes the source code of Linux 6.2.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-To address this issue, it is proposed to add a mutex lock pair in
-xc4000_get_frequency() to ensure atomicity. With this patch applied, our
-tool no longer reports the possible bug, with the kernel configuration
-allyesconfig for x86_64. Due to the lack of associated hardware, we cannot
-test the patch in runtime testing, and just verify it according to the
-code logic.
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
 
-Fixes: 4c07e32884ab6 ("[media] xc4000: Fix get_frequency()")
-Reported-by: BassCheck <bass@buaa.edu.cn>
-Signed-off-by: Gui-Dong Han <2045gemini@gmail.com>
----
- drivers/media/tuners/xc4000.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-diff --git a/drivers/media/tuners/xc4000.c b/drivers/media/tuners/xc4000.c
-index 57ded9ff3f04..29bc63021c5a 100644
---- a/drivers/media/tuners/xc4000.c
-+++ b/drivers/media/tuners/xc4000.c
-@@ -1515,10 +1515,10 @@ static int xc4000_get_frequency(struct dvb_frontend *fe, u32 *freq)
- {
- 	struct xc4000_priv *priv = fe->tuner_priv;
- 
-+	mutex_lock(&priv->lock);
- 	*freq = priv->freq_hz + priv->freq_offset;
- 
- 	if (debug) {
--		mutex_lock(&priv->lock);
- 		if ((priv->cur_fw.type
- 		     & (BASE | FM | DTV6 | DTV7 | DTV78 | DTV8)) == BASE) {
- 			u16	snr = 0;
-@@ -1529,8 +1529,8 @@ static int xc4000_get_frequency(struct dvb_frontend *fe, u32 *freq)
- 				return 0;
- 			}
- 		}
--		mutex_unlock(&priv->lock);
- 	}
-+	mutex_unlock(&priv->lock);
- 
- 	dprintk(1, "%s()\n", __func__);
- 
--- 
-2.34.1
+thanks,
 
+greg k-h's patch email bot
 
