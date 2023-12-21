@@ -1,118 +1,286 @@
-Return-Path: <linux-media+bounces-2850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2851-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DEA181B44A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 11:49:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C7581B4C2
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 12:18:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCAEC288FFA
-	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 10:49:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F4631F24FC5
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 11:18:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1056D1A5;
-	Thu, 21 Dec 2023 10:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D13D06BB3D;
+	Thu, 21 Dec 2023 11:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZRA0brZT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="W/twjhG6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AF16BB42;
-	Thu, 21 Dec 2023 10:48:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BDFC433CA;
-	Thu, 21 Dec 2023 10:48:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1703155723;
-	bh=xBJcV4OMhJoXl7qkczHc+1YvxJ1wQh6siGSG4yUXEO8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA826ABB7;
+	Thu, 21 Dec 2023 11:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1703157512;
+	bh=VbjptPM4GNcY1DYymE21BbuCBDKKRsn1bAZk8aP0EFU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZRA0brZT7oL4W5exoi8DBZmdiZOjy00+FqDTtvp3UMcVo7QfReUkeMCGGIRdSKSIN
-	 X2bGUyCKEk5o9vG0N+NcmUSqDl8dvy2tiFQG83FSXgDCeEPc7klY4qqEcrhMOgJiE6
-	 AxBcx5Er7LFjhJUhQ0gBWZbR0wbNBV9rbJ/OqdXw=
-Date: Thu, 21 Dec 2023 11:48:40 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Gui-Dong Han <2045gemini@gmail.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, mcgrof@kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	baijiaju1990@outlook.com, BassCheck <bass@buaa.edu.cn>
-Subject: Re: [PATCH] [media] xc4000: Fix atomicity violation in
- xc4000_get_frequency
-Message-ID: <2023122130-unmindful-raider-637b@gregkh>
-References: <20231221103707.4129-1-2045gemini@gmail.com>
+	b=W/twjhG6hdcXLT17GsMAlQxf+w/IsTnzbef+pKYtZoHB+hDusovHT9D5J59Vvs6o2
+	 YY+iErQzgHIS4MCIDao25dRyF5yavoh5Mo2CWSCJljNg0OjsDW0eXvQ3mAxKkNYKtQ
+	 8QmOKWWDsJLwEl5ZDikfTtCUwfUviRpLHwyvFWXosPaIDlIgH65I1w967CyjwE/a2d
+	 MOo+RHAiVAnGRrqGgzx96vL2YY8xrVzXsOLTIhN8FipK+ZfighpnLkINSb9ijEtRKX
+	 BzivqxO8akS9PR64jvVF47kyDogxlNHlS2vqYo1URzhia9YRTFdU1Xf+FmYHY4WvJJ
+	 umq90AEAwUiXA==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2FBCC3781FC9;
+	Thu, 21 Dec 2023 11:18:32 +0000 (UTC)
+Date: Thu, 21 Dec 2023 12:18:30 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Adam Ford <aford173@gmail.com>
+Subject: Re: [PATCH v5 2/5] media: hantro: add support for STM32MP25 VDEC
+Message-ID: <20231221111830.gx23e6t354jadujk@basti-XPS-13-9310>
+References: <20231221084723.2152034-1-hugues.fruchet@foss.st.com>
+ <20231221084723.2152034-3-hugues.fruchet@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20231221103707.4129-1-2045gemini@gmail.com>
+In-Reply-To: <20231221084723.2152034-3-hugues.fruchet@foss.st.com>
 
-On Thu, Dec 21, 2023 at 06:37:07PM +0800, Gui-Dong Han wrote:
-> In xc4000_get_frequency():
-> 	*freq = priv->freq_hz + priv->freq_offset;
-> The code accesses priv->freq_hz and priv->freq_offset without holding any
-> lock.
-> 
-> In xc4000_set_params():
-> 	// Code that updates priv->freq_hz and priv->freq_offset
-> 	...
-> 
-> xc4000_get_frequency() and xc4000_set_params() may execute concurrently,
-> risking inconsistent reads of priv->freq_hz and priv->freq_offset. Since
-> these related data may update during reading, it can result in incorrect
-> frequency calculation, leading to atomicity violations.
-> 
-> This possible bug is found by an experimental static analysis tool
-> developed by our team. This tool analyzes the locking APIs to extract
-> function pairs that can be concurrently executed, and then analyzes the
-> instructions in the paired functions to identify possible concurrency bugs
-> including data races and atomicity violations. The above possible bug is
-> reported when our tool analyzes the source code of Linux 6.2.
-> 
-> To address this issue, it is proposed to add a mutex lock pair in
-> xc4000_get_frequency() to ensure atomicity. With this patch applied, our
-> tool no longer reports the possible bug, with the kernel configuration
-> allyesconfig for x86_64. Due to the lack of associated hardware, we cannot
-> test the patch in runtime testing, and just verify it according to the
-> code logic.
-> 
-> Fixes: 4c07e32884ab6 ("[media] xc4000: Fix get_frequency()")
-> Reported-by: BassCheck <bass@buaa.edu.cn>
-> Signed-off-by: Gui-Dong Han <2045gemini@gmail.com>
-> ---
->  drivers/media/tuners/xc4000.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+Hey Hugues,
 
-Hi,
+On 21.12.2023 09:47, Hugues Fruchet wrote:
+>Add support for STM32MP25 VDEC video hardware decoder.
+>Support of H264/VP8 decoding.
+>No post-processor support.
+>VDEC has its own reset/clock/irq.
+>
+>Sucessfully tested up to full HD.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+s/Sucessfully/Successfully/
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+if this turns out to be the only problem, then I can fix it up for the
+PR.
 
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
+Greetings,
+Sebastian
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+>
+>Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+>Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>---
+> drivers/media/platform/verisilicon/Kconfig    | 14 ++-
+> drivers/media/platform/verisilicon/Makefile   |  3 +
+> .../media/platform/verisilicon/hantro_drv.c   |  3 +
+> .../media/platform/verisilicon/hantro_hw.h    |  1 +
+> .../platform/verisilicon/stm32mp25_vdec_hw.c  | 92 +++++++++++++++++++
+> 5 files changed, 110 insertions(+), 3 deletions(-)
+> create mode 100644 drivers/media/platform/verisilicon/stm32mp25_vdec_hw.c
+>
+>diff --git a/drivers/media/platform/verisilicon/Kconfig b/drivers/media/platform/verisilicon/Kconfig
+>index e65b836b9d78..7642ff9cf96c 100644
+>--- a/drivers/media/platform/verisilicon/Kconfig
+>+++ b/drivers/media/platform/verisilicon/Kconfig
+>@@ -4,7 +4,7 @@ comment "Verisilicon media platform drivers"
+>
+> config VIDEO_HANTRO
+> 	tristate "Hantro VPU driver"
+>-	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || ARCH_SUNXI || COMPILE_TEST
+>+	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || ARCH_SUNXI || ARCH_STM32 || COMPILE_TEST
+> 	depends on V4L_MEM2MEM_DRIVERS
+> 	depends on VIDEO_DEV
+> 	select MEDIA_CONTROLLER
+>@@ -16,8 +16,8 @@ config VIDEO_HANTRO
+> 	select V4L2_VP9
+> 	help
+> 	  Support for the Hantro IP based Video Processing Units present on
+>-	  Rockchip and NXP i.MX8M SoCs, which accelerate video and image
+>-	  encoding and decoding.
+>+	  Rockchip, NXP i.MX8M and STM32MP25 SoCs, which accelerate video
+>+	  and image encoding and decoding.
+> 	  To compile this driver as a module, choose M here: the module
+> 	  will be called hantro-vpu.
+>
+>@@ -52,3 +52,11 @@ config VIDEO_HANTRO_SUNXI
+> 	default y
+> 	help
+> 	  Enable support for H6 SoC.
+>+
+>+config VIDEO_HANTRO_STM32MP25
+>+	bool "Hantro STM32MP25 support"
+>+	depends on VIDEO_HANTRO
+>+	depends on ARCH_STM32 || COMPILE_TEST
+>+	default y
+>+	help
+>+	  Enable support for STM32MP25 SoCs.
+>diff --git a/drivers/media/platform/verisilicon/Makefile b/drivers/media/platform/verisilicon/Makefile
+>index 6ad2ef885920..5854e0f0dd32 100644
+>--- a/drivers/media/platform/verisilicon/Makefile
+>+++ b/drivers/media/platform/verisilicon/Makefile
+>@@ -39,3 +39,6 @@ hantro-vpu-$(CONFIG_VIDEO_HANTRO_ROCKCHIP) += \
+>
+> hantro-vpu-$(CONFIG_VIDEO_HANTRO_SUNXI) += \
+> 		sunxi_vpu_hw.o
+>+
+>+hantro-vpu-$(CONFIG_VIDEO_HANTRO_STM32MP25) += \
+>+		stm32mp25_vdec_hw.o
+>diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+>index a9fa05ac56a9..2db27c333924 100644
+>--- a/drivers/media/platform/verisilicon/hantro_drv.c
+>+++ b/drivers/media/platform/verisilicon/hantro_drv.c
+>@@ -733,6 +733,9 @@ static const struct of_device_id of_hantro_match[] = {
+> #endif
+> #ifdef CONFIG_VIDEO_HANTRO_SUNXI
+> 	{ .compatible = "allwinner,sun50i-h6-vpu-g2", .data = &sunxi_vpu_variant, },
+>+#endif
+>+#ifdef CONFIG_VIDEO_HANTRO_STM32MP25
+>+	{ .compatible = "st,stm32mp25-vdec", .data = &stm32mp25_vdec_variant, },
+> #endif
+> 	{ /* sentinel */ }
+> };
+>diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
+>index 7f33f7b07ce4..b7eccc1a96fc 100644
+>--- a/drivers/media/platform/verisilicon/hantro_hw.h
+>+++ b/drivers/media/platform/verisilicon/hantro_hw.h
+>@@ -406,6 +406,7 @@ extern const struct hantro_variant rk3568_vpu_variant;
+> extern const struct hantro_variant rk3588_vpu981_variant;
+> extern const struct hantro_variant sama5d4_vdec_variant;
+> extern const struct hantro_variant sunxi_vpu_variant;
+>+extern const struct hantro_variant stm32mp25_vdec_variant;
+>
+> extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
+> extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
+>diff --git a/drivers/media/platform/verisilicon/stm32mp25_vdec_hw.c b/drivers/media/platform/verisilicon/stm32mp25_vdec_hw.c
+>new file mode 100644
+>index 000000000000..aa8b0f751390
+>--- /dev/null
+>+++ b/drivers/media/platform/verisilicon/stm32mp25_vdec_hw.c
+>@@ -0,0 +1,92 @@
+>+// SPDX-License-Identifier: GPL-2.0
+>+/*
+>+ * STM32MP25 VDEC video decoder driver
+>+ *
+>+ * Copyright (C) STMicroelectronics SA 2022
+>+ * Authors: Hugues Fruchet <hugues.fruchet@foss.st.com>
+>+ *          for STMicroelectronics.
+>+ *
+>+ */
+>+
+>+#include "hantro.h"
+>+
+>+/*
+>+ * Supported formats.
+>+ */
+>+
+>+static const struct hantro_fmt stm32mp25_vdec_fmts[] = {
+>+	{
+>+		.fourcc = V4L2_PIX_FMT_NV12,
+>+		.codec_mode = HANTRO_MODE_NONE,
+>+		.frmsize = {
+>+			.min_width = FMT_MIN_WIDTH,
+>+			.max_width = FMT_FHD_WIDTH,
+>+			.step_width = MB_DIM,
+>+			.min_height = FMT_MIN_HEIGHT,
+>+			.max_height = FMT_FHD_HEIGHT,
+>+			.step_height = MB_DIM,
+>+		},
+>+	},
+>+	{
+>+		.fourcc = V4L2_PIX_FMT_VP8_FRAME,
+>+		.codec_mode = HANTRO_MODE_VP8_DEC,
+>+		.max_depth = 2,
+>+		.frmsize = {
+>+			.min_width = FMT_MIN_WIDTH,
+>+			.max_width = FMT_FHD_WIDTH,
+>+			.step_width = MB_DIM,
+>+			.min_height = FMT_MIN_HEIGHT,
+>+			.max_height = FMT_FHD_HEIGHT,
+>+			.step_height = MB_DIM,
+>+		},
+>+	},
+>+	{
+>+		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+>+		.codec_mode = HANTRO_MODE_H264_DEC,
+>+		.max_depth = 2,
+>+		.frmsize = {
+>+			.min_width = FMT_MIN_WIDTH,
+>+			.max_width = FMT_FHD_WIDTH,
+>+			.step_width = MB_DIM,
+>+			.min_height = FMT_MIN_HEIGHT,
+>+			.max_height = FMT_FHD_HEIGHT,
+>+			.step_height = MB_DIM,
+>+		},
+>+	},
+>+};
+>+
+>+/*
+>+ * Supported codec ops.
+>+ */
+>+
+>+static const struct hantro_codec_ops stm32mp25_vdec_codec_ops[] = {
+>+	[HANTRO_MODE_VP8_DEC] = {
+>+		.run = hantro_g1_vp8_dec_run,
+>+		.reset = hantro_g1_reset,
+>+		.init = hantro_vp8_dec_init,
+>+		.exit = hantro_vp8_dec_exit,
+>+	},
+>+	[HANTRO_MODE_H264_DEC] = {
+>+		.run = hantro_g1_h264_dec_run,
+>+		.reset = hantro_g1_reset,
+>+		.init = hantro_h264_dec_init,
+>+		.exit = hantro_h264_dec_exit,
+>+	},
+>+};
+>+
+>+static const struct hantro_irq stm32mp25_irqs[] = {
+>+	{ "vdec", hantro_g1_irq },
+>+};
+>+
+>+static const char * const stm32mp25_clk_names[] = { "vdec-clk" };
+>+
+>+const struct hantro_variant stm32mp25_vdec_variant = {
+>+	.dec_fmts = stm32mp25_vdec_fmts,
+>+	.num_dec_fmts = ARRAY_SIZE(stm32mp25_vdec_fmts),
+>+	.codec = HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+>+	.codec_ops = stm32mp25_vdec_codec_ops,
+>+	.irqs = stm32mp25_irqs,
+>+	.num_irqs = ARRAY_SIZE(stm32mp25_irqs),
+>+	.clk_names = stm32mp25_clk_names,
+>+	.num_clocks = ARRAY_SIZE(stm32mp25_clk_names),
+>+};
+>-- 
+>2.25.1
+>
+>
 
