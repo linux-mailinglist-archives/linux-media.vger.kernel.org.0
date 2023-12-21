@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-2844-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2845-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECAEB81B246
-	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 10:28:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DB181B249
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 10:29:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A820128871A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 09:28:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9AE11C23946
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 09:29:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EB623AC16;
-	Thu, 21 Dec 2023 09:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5ACD4177F;
+	Thu, 21 Dec 2023 09:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="axiHFoLp"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iE8aT0QJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0C030335
-	for <linux-media@vger.kernel.org>; Thu, 21 Dec 2023 09:23:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060883D972
+	for <linux-media@vger.kernel.org>; Thu, 21 Dec 2023 09:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-28659348677so420110a91.0
-        for <linux-media@vger.kernel.org>; Thu, 21 Dec 2023 01:23:20 -0800 (PST)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5cd8e2988ddso224499a12.3
+        for <linux-media@vger.kernel.org>; Thu, 21 Dec 2023 01:23:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1703150600; x=1703755400; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1703150603; x=1703755403; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1lCEYEMR3ZdMjHY32Gwj2vmlAOglAWDLVN2PPmHFWNo=;
-        b=axiHFoLpP1uLHeHBt18NeiX+NxeOrqpvOQjypTCJ3vbwl5A4kZh1wEnlSS6jCQfLw3
-         WEhy8ewogCyZPXuzrrTfcjCNJ2e4MdTqD0cy5b32YIV/6gZpzj3eSfkyQn4xJ61LRa/v
-         uA52QVlADhODyDe9VMH3a2nc27W4HQsh8QDh0=
+        bh=VZlHGzvCeyHzNr9SWDCy3oc9Vlh9aPeReD6PrS2OHo0=;
+        b=iE8aT0QJf95Xjm5HcQeUS1QubIoa57gaRnyRRJYcIaf6kYioB9EuR0DTMJEnxMrJSJ
+         XR2+EC1iNmKOFglQGdcWfdCBB/i5lOoo4UDBJSPe1bJeDTs/ztvh2M+hCWWLFJtxlfjM
+         RDxoHkiyLwwFqfKuwdkxuvJJg4xfFsPOH4JI4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703150600; x=1703755400;
+        d=1e100.net; s=20230601; t=1703150603; x=1703755403;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1lCEYEMR3ZdMjHY32Gwj2vmlAOglAWDLVN2PPmHFWNo=;
-        b=GQpxlULJSXAgHmtpKsdGxtbp719jMPwDfJDsF8FiHhahFun7Qt2qOYGjGkxU16Nx8i
-         vopEUbJ7188ucCUY/G3io++QI/oqbiTraqaCCORQlbl4VjD1ULiBnAXyF34OInRSuW6F
-         PW+7NFrQRh2ykYbPrIUqEK3UqbrTRJUcubOxgBh1hgdE1YugCnMfbQhDU5mUJi4K0oLp
-         YsD7umQ1e/55RaI0Ky6hI3pshU3kNw2ylw+tVWi4kjUyq3B1IIKvJUpjdYYogxzATp/Z
-         yJ3TsgCqZI8j7Tv+3ayk/S3I2DtWIKzS6EgHHSmCbEal0MxHZ1f6kP4lS2TAdaDhp6YC
-         3TIw==
-X-Gm-Message-State: AOJu0Yx7XpMFPO1VidKe0fV/BECXlrJTog2ef2dFzGRzYLk/RC0xf6N6
-	lz4K40abao7m4x69kg/FY4CsCQ==
-X-Google-Smtp-Source: AGHT+IGJaFa3W8ttJ0cxva573B0FW+Tv1L0wT9eD1Gl2S44RAoKQalXdgX9vfptXkKSVuDVY4wht4g==
-X-Received: by 2002:a17:90a:fa96:b0:28b:e0cd:64a3 with SMTP id cu22-20020a17090afa9600b0028be0cd64a3mr481792pjb.26.1703150600225;
-        Thu, 21 Dec 2023 01:23:20 -0800 (PST)
+        bh=VZlHGzvCeyHzNr9SWDCy3oc9Vlh9aPeReD6PrS2OHo0=;
+        b=QgUUJ6Ue87ASlvUFqRfP8y++pUCJhzR9f5OHI7BSyfaHGlc9/5Wq561BvWvOKHysxn
+         z1AcwW6HjNn2lC7Es3oBlbEIVE4dbk9KuXlOjEqJAbWfFiGB0QiXqdGBX4OW0FZf0ptT
+         N4/nK/lBO1pFXKc38ypPrC8hXET58TOcfh+LsBZh1643xqTAJK+862shp+rO80IfWMko
+         Cf2jZMBVjB7g5RbS+AB9OyI/LPJQ8Nfh+/IpNB/MApHbcs4FOPvX97hrX3/KuaotN3rI
+         bnQulH+yT6DXuqTXoTPubZdTyU4BKz8kOQGiuk3xxYnVfdGktUzQT/YRRIsy8G9Am0T4
+         LAJw==
+X-Gm-Message-State: AOJu0YzFrmnyupiJ21YvDjOi/KKO7arAZ3uB5JApxY6tAqESt0MZF3mh
+	iY+lkxMxOTmVcm848hnB9YPoVA==
+X-Google-Smtp-Source: AGHT+IEZGq7W1pkg/Rs+wEssdN9+RLN+vhyRsmtLnYaT0dUaoqH0eBHPkdGBNx3aVos33wTulXxRXQ==
+X-Received: by 2002:a05:6a20:8c84:b0:18f:97c:5ba2 with SMTP id k4-20020a056a208c8400b0018f097c5ba2mr518290pzh.112.1703150603432;
+        Thu, 21 Dec 2023 01:23:23 -0800 (PST)
 Received: from fshao-p620.tpe.corp.google.com ([2401:fa00:1:10:5d8a:fab1:933a:9ae9])
-        by smtp.gmail.com with ESMTPSA id l6-20020a17090add8600b00274b035246esm1001915pjv.1.2023.12.21.01.23.17
+        by smtp.gmail.com with ESMTPSA id l6-20020a17090add8600b00274b035246esm1001915pjv.1.2023.12.21.01.23.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 01:23:19 -0800 (PST)
+        Thu, 21 Dec 2023 01:23:22 -0800 (PST)
 From: Fei Shao <fshao@chromium.org>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
@@ -68,9 +68,9 @@ Cc: Fei Shao <fshao@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH v2 1/4] media: mediatek: vcodec: Replace dev_name in error string
-Date: Thu, 21 Dec 2023 17:17:43 +0800
-Message-ID: <20231221171727.v2.1.I69223f1e438b93fe02f12ab9ef0a26f8c21f6ae7@changeid>
+Subject: [PATCH v2 2/4] media: mediatek: vcodec: Drop unnecessary variable
+Date: Thu, 21 Dec 2023 17:17:44 +0800
+Message-ID: <20231221092226.1395427-2-fshao@chromium.org>
 X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
 In-Reply-To: <20231221092226.1395427-1-fshao@chromium.org>
 References: <20231221092226.1395427-1-fshao@chromium.org>
@@ -82,41 +82,88 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-mtk_v4l2_err() already uses dev_err(), so don't print the device name
-again. Print function name instead.
+In mtk_vcodec_mem_alloc() and mtk_vcodec_mem_free(), the value of
+mem->size is not expected to change before and when using the DMA APIs
+and debug print, so there's no point in keeping local copies of it.
+
+Drop the local variable "size" in the mentioned functions, and update
+printk format identifiers accordingly.
+
+This makes the code slightly more visually consistent, and retrieve a
+small amount of memory that is used for no real purpose.
 
 Signed-off-by: Fei Shao <fshao@chromium.org>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
 
 Changes in v2:
-- rebased on top of next-20231219
+- revise commit message for clearer intention and rationale
 
- .../media/platform/mediatek/vcodec/common/mtk_vcodec_util.c   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../mediatek/vcodec/common/mtk_vcodec_util.c  | 22 +++++++++----------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.c
-index 9ce34a3b5ee6..ea8c35c0e667 100644
+index ea8c35c0e667..23bea2702c9a 100644
 --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.c
 +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.c
-@@ -67,7 +67,7 @@ int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcodec_mem *mem)
- 	mem->va = dma_alloc_coherent(&plat_dev->dev, size, &mem->dma_addr, GFP_KERNEL);
+@@ -49,7 +49,6 @@ int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcodec_mem *mem)
+ {
+ 	enum mtk_instance_type inst_type = *((unsigned int *)priv);
+ 	struct platform_device *plat_dev;
+-	unsigned long size = mem->size;
+ 	int id;
+ 
+ 	if (inst_type == MTK_INST_ENCODER) {
+@@ -64,15 +63,15 @@ int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcodec_mem *mem)
+ 		id = dec_ctx->id;
+ 	}
+ 
+-	mem->va = dma_alloc_coherent(&plat_dev->dev, size, &mem->dma_addr, GFP_KERNEL);
++	mem->va = dma_alloc_coherent(&plat_dev->dev, mem->size, &mem->dma_addr, GFP_KERNEL);
  	if (!mem->va) {
- 		mtk_v4l2_err(plat_dev, "%s dma_alloc size=%ld failed!",
--			     dev_name(&plat_dev->dev), size);
-+			     __func__, size);
+-		mtk_v4l2_err(plat_dev, "%s dma_alloc size=%ld failed!",
+-			     __func__, size);
++		mtk_v4l2_err(plat_dev, "%s dma_alloc size=0x%zx failed!",
++			     __func__, mem->size);
  		return -ENOMEM;
  	}
  
-@@ -99,7 +99,7 @@ void mtk_vcodec_mem_free(void *priv, struct mtk_vcodec_mem *mem)
+-	mtk_v4l2_debug(plat_dev, 3, "[%d] - va = %p dma = 0x%lx size = 0x%lx", id, mem->va,
+-		       (unsigned long)mem->dma_addr, size);
++	mtk_v4l2_debug(plat_dev, 3, "[%d] - va = %p dma = 0x%lx size = 0x%zx", id, mem->va,
++		       (unsigned long)mem->dma_addr, mem->size);
+ 
+ 	return 0;
+ }
+@@ -82,7 +81,6 @@ void mtk_vcodec_mem_free(void *priv, struct mtk_vcodec_mem *mem)
+ {
+ 	enum mtk_instance_type inst_type = *((unsigned int *)priv);
+ 	struct platform_device *plat_dev;
+-	unsigned long size = mem->size;
+ 	int id;
+ 
+ 	if (inst_type == MTK_INST_ENCODER) {
+@@ -98,15 +96,15 @@ void mtk_vcodec_mem_free(void *priv, struct mtk_vcodec_mem *mem)
+ 	}
  
  	if (!mem->va) {
- 		mtk_v4l2_err(plat_dev, "%s dma_free size=%ld failed!",
--			     dev_name(&plat_dev->dev), size);
-+			     __func__, size);
+-		mtk_v4l2_err(plat_dev, "%s dma_free size=%ld failed!",
+-			     __func__, size);
++		mtk_v4l2_err(plat_dev, "%s dma_free size=0x%zx failed!",
++			     __func__, mem->size);
  		return;
  	}
  
+-	mtk_v4l2_debug(plat_dev, 3, "[%d] - va = %p dma = 0x%lx size = 0x%lx", id, mem->va,
+-		       (unsigned long)mem->dma_addr, size);
++	mtk_v4l2_debug(plat_dev, 3, "[%d] - va = %p dma = 0x%lx size = 0x%zx", id, mem->va,
++		       (unsigned long)mem->dma_addr, mem->size);
+ 
+-	dma_free_coherent(&plat_dev->dev, size, mem->va, mem->dma_addr);
++	dma_free_coherent(&plat_dev->dev, mem->size, mem->va, mem->dma_addr);
+ 	mem->va = NULL;
+ 	mem->dma_addr = 0;
+ 	mem->size = 0;
 -- 
 2.43.0.472.g3155946c3a-goog
 
