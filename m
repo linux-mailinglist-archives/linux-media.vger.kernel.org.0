@@ -1,264 +1,98 @@
-Return-Path: <linux-media+bounces-2829-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2830-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC77E81A80C
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 22:25:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CD781AC96
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 03:22:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5941B1F23FC9
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 21:25:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F8D41C22B9B
+	for <lists+linux-media@lfdr.de>; Thu, 21 Dec 2023 02:22:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E88648CEC;
-	Wed, 20 Dec 2023 21:25:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A68D185D;
+	Thu, 21 Dec 2023 02:22:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wyRJ2EnQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QYh3DS8G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38A7495C0
-	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 21:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso110767276.2
-        for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 13:25:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03305660
+	for <linux-media@vger.kernel.org>; Thu, 21 Dec 2023 02:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-28be52a85b9so197177a91.1
+        for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 18:22:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703107500; x=1703712300; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SthL2gAMsR+mHPBG1JCkY0mqpm5FBToJ0tzjEFRNHcc=;
-        b=wyRJ2EnQ9EILyke63DVwLzUHKo0u/iLIfiV5P2SeSbjf0HPELqe+zAB5xn/pR42JsU
-         3VYjXVIgU/QZ5u9DHPyfNyW2qRrb3RCaaZdxXvUnNe3hYuORFbOMhgl5aCCs6IIutIOZ
-         E87liu3bD6V/+aCuNpY2xBnySs1QF9WSTOZYijkAo/czWMfX5BNX8kC8XNZNZP8v7vU/
-         Vo05a5/faIRWYmA8ay9vhLKTIEy6UWH2hFaUTyEePLK6qCdvlWmU/N8eJ/GjY4f2torP
-         1TBYgCY5TJoic22xEmwlUot/jtdy5VogzAv/sFgjO1y3UU6AAdO+32wNz8MEJzpYqd/3
-         E0wg==
+        d=gmail.com; s=20230601; t=1703125361; x=1703730161; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WXiH2nYEIlfz6QCIXUwPqX1hfsgqQWFCU3y2KJwTN/U=;
+        b=QYh3DS8GuuizHYHnZs58iKLOqnKUwFCqXQ65Swep4OAtWxDgpQ77iIM7svoy0cVIgK
+         1lTWSoaNLAUCddfJ8YlrYMaFyZNhMHYcHrL7ZKDI6wlMTFeLcX1uwa05JUHHG4/THkSU
+         A0tv564u/4nUBHlD80D97NYRkB8wiGy20i0VsvEMhrM5e3kInXO/Q+7iu0BL627Hf1Nc
+         pqze5IhMBSho3L3bcArtuwBSH7JL+NwXTDuiSdaov7GPNSqgRBLHFFKuO62/t+Igbfft
+         MVIRnkN4dic8QBlmdfSbZ7j4bgg/zub45uYOvBXUNn/KuHwhKU73Bjx3EfmUzgKmVEqu
+         OJCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703107500; x=1703712300;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1703125361; x=1703730161;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SthL2gAMsR+mHPBG1JCkY0mqpm5FBToJ0tzjEFRNHcc=;
-        b=XJ8sX/x+q2/9uCP3hH+4zaMw0fejzWPSC/LZMsf2jy+1/PX8ncnNIjZND7MWOPPU35
-         vNHn1wNYbhkLjnLcO/s2jHFWYRCv1W9kZN51mpBrUIJhNwDVCL/kk+T/YXVcWMsfklPw
-         +FYu6CAYDBFQ6dNlYTD4ALrByrcFxwPtEi1CTuPF3TC1Wi4MclY67EPwYPz7Ht4mahC9
-         UPlF1qGIPnxDr7JvJL+l1bJx73KuyH8rc2n0w8CL4wdeOMZ2yBbroRAbUkcB+z490t2S
-         eav31Jnt3bYQvRgrgeBqujD7XlHLtqR8tL57ybG5JdIwpJL6VwL3Qw//ArsGsc9lRanb
-         68Sw==
-X-Gm-Message-State: AOJu0YxZ2SI/p0bB/0snaFbWcAPlapQmNfF4VwCtPgqLNOsy3l400HlH
-	zJ8QmLlqeiMa4EbHhhz1g/wVcsRQEvPX5LFGfDUnJw==
-X-Google-Smtp-Source: AGHT+IE6LxPyhK7rvwt29snj4Fy9r1G3RAjYWLNpqAdsYml2G2psdqOTq5HPBmaiXCvCS1lPHFkhzmrUiePLk1rasPA=
-X-Received: by 2002:a25:690e:0:b0:dbd:7177:6531 with SMTP id
- e14-20020a25690e000000b00dbd71776531mr348556ybc.37.1703107499779; Wed, 20 Dec
- 2023 13:24:59 -0800 (PST)
+        bh=WXiH2nYEIlfz6QCIXUwPqX1hfsgqQWFCU3y2KJwTN/U=;
+        b=ehIbFKzkC5tAkIM0k+Q1XZP7tH1t3/tbIWxu2ehm0b0nhYn9Ae12GeBj4hnGQKztvm
+         5Bo0nbv8fV7eht2aZszDp2ew3Yq1ojxN08DlrGYx8EbfBb0lht5DkaoHoEORlqfeaZ6W
+         SUq6wzfT7nJPN9aiXGrODxrBLGTu/bC+kktvjf/LOkxe6kFwRRnL1tf3mh7wwuGU+pKe
+         zU3Z3MVPOUKmH3ZEejYfvLMpl6xL3A6baZP1NEeZZd+0QNtcERj6YAMKs1i4uegtFN/F
+         AwUy34sgTDwm0LCnLxLPMCSMFBfO/QENsPKUFqBnphXOYC5agz9uc21+A7sFRj5gukup
+         uFUg==
+X-Gm-Message-State: AOJu0YwqFhT8uW3mX53BB01tKCP1mp+p9uv6YekiGNplbKIbtC/DKAmE
+	7Z8uJ0AjJERCs+1ohAc7Oxk=
+X-Google-Smtp-Source: AGHT+IEdzjEQYESg9hUzKGLd2EnxzgVKRSRLXZb/GpzQX4PCudfPZSkfoEn2jYFjiqzbdIpC/G8GAg==
+X-Received: by 2002:a05:6a20:42a2:b0:18c:55b4:df2a with SMTP id o34-20020a056a2042a200b0018c55b4df2amr518406pzj.2.1703125360920;
+        Wed, 20 Dec 2023 18:22:40 -0800 (PST)
+Received: from pek-lpggp6.wrs.com (unknown-105-121.windriver.com. [147.11.105.121])
+        by smtp.gmail.com with ESMTPSA id e3-20020a170902b78300b001d051725d09sm389875pls.241.2023.12.20.18.22.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 18:22:40 -0800 (PST)
+From: Kevin Hao <haokexin@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Mike Isely <isely@pobox.com>,
+	linux-media@vger.kernel.org
+Subject: [PATCH 0/3] media: Use wait_event_freezable() variants for freezable kthread
+Date: Thu, 21 Dec 2023 10:22:25 +0800
+Message-Id: <20231221022228.548473-1-haokexin@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org> <d0ea23ae-8fba-d229-b0f6-dc522f285233@quicinc.com>
- <CAA8EJpouBOLJ_1Pz_YauuOX+97ud9RkLYRaui4GM6ZFJUKYJMw@mail.gmail.com>
- <9d94317c-5da9-5494-26a2-12007761a1e5@quicinc.com> <CAA8EJpoCGRT=eETab8mF2MZZ04RmCkNnFKaRBFoUYk5qqDAPhg@mail.gmail.com>
- <eb288a33-a8c3-9dea-ffc1-e97a69be9a4c@quicinc.com> <CAA8EJprZ1TK7UwfhSh2PtwuNJLUMace7MWnzQkrUMqV5R+WgOA@mail.gmail.com>
- <cf2c1c84-2d9d-1be4-997f-d3dde362b27a@quicinc.com>
-In-Reply-To: <cf2c1c84-2d9d-1be4-997f-d3dde362b27a@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 20 Dec 2023 23:24:48 +0200
-Message-ID: <CAA8EJprMr2vjZki7+p1zepCvmeocnGtZ0w5Ew8rW38=RKyQ7UQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, Dikshita Agarwal <quic_dikshita@quicinc.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stanimir.k.varbanov@gmail.com, agross@kernel.org, andersson@kernel.org, 
-	konrad.dybcio@linaro.org, mchehab@kernel.org, bryan.odonoghue@linaro.org, 
-	linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Abhinav,
+Hi,
 
-On Wed, 20 Dec 2023 at 20:55, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> Hi Dmitry and Krzysztof
->
-> On 12/20/2023 1:52 AM, Dmitry Baryshkov wrote:
-> > On Wed, 20 Dec 2023 at 10:53, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
-> >>
-> >> On 12/20/2023 2:09 PM, Dmitry Baryshkov wrote:
-> >>> On Wed, 20 Dec 2023 at 10:14, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
-> >>>>
-> >>>> Hi,
-> >>>>
-> >>>> On 12/20/2023 1:07 PM, Dmitry Baryshkov wrote:
-> >>>>> On Wed, 20 Dec 2023 at 08:32, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
-> >>>>>>
-> >>>>>> Hi Dmitry,
-> >>>>>>
-> >>>>>> On 12/19/2023 12:08 AM, Dmitry Baryshkov wrote:
-> >>>>>>> On 18/12/2023 13:31, Dikshita Agarwal wrote:
-> >>>>>>>> This patch series introduces support for Qualcomm new video acceleration
-> >>>>>>>> hardware architecture, used for video stream decoding/encoding. This driver
-> >>>>>>>> is based on new communication protocol between video hardware and application
-> >>>>>>>> processor.
-> >>>>>>>
-> >>>>>>> This doesn't answer one important point, you have been asked for v1. What is the
-> >>>>>>> actual change point between Venus and Iris? What has been changed so much that
-> >>>>>>> it demands a separate driver. This is the main question for the cover letter,
-> >>>>>>> which has not been answered so far.
-> >>>>>>>
-> >>>>>>>  From what I see from you bindings, the hardware is pretty close to what we see
-> >>>>>>> in the latest venus generations. I asssme that there was a change in the vcodec
-> >>>>>>> inteface to the firmware and other similar changes. Could you please point out,
-> >>>>>>> which parts of Venus driver do no longer work or are not applicable for sm8550
-> >>>>>>
-> >>>>>> The motivation behind having a separate IRIS driver was discussed earlier in [1]
-> >>>>>> In the same discussion, it was ellaborated on how the impact would be with
-> >>>>>> change in the new firmware interface and other video layers in the driver. I can
-> >>>>>> add this in cover letter in the next revision.
-> >>>>>
-> >>>>> Ok. So the changes cover the HFI interface. Is that correct?
-> >>>> Change wise, yes.
-> >>>>
-> >>>>>> We see some duplication of code and to handle the same, the series brings in a
-> >>>>>> common code reusability between iris and venus. Aligning the common peices of
-> >>>>>> venus and iris will be a work in progress, once we land the base driver for iris.
-> >>>>>
-> >>>>> This is not how it usually works. Especially not with the patches you
-> >>>>> have posted.
-> >>>>>
-> >>>>> I have the following suggestion how this story can continue:
-> >>>>> You can _start_ by reworking venus driver, separating the HFI /
-> >>>>> firmware / etc interface to an internal interface in the driver. Then
-> >>>>> implement Iris as a plug in for that interface. I might be mistaken
-> >>>>> here, but I think this is the way how this can be beneficial for both
-> >>>>> the video en/decoding on both old and new platforms.
-> >>>>
-> >>>> HFI/firmware interface is already confined to HFI layer in the existing venus
-> >>>> driver. We explained in the previous discussion [1], on how the HFI change
-> >>>> impacts the other layers by taking example of a DRC usecase. Please have a look
-> >>>> considering the usecase and the impact it brings to other layers in the driver.
-> >>>
-> >>> I have looked at it. And I still see huge change in the interface
-> >>> side, but it doesn't tell me about the hardware changes.
-> >>
-> >> I hope you noticed how the common layers like decoder, response, state layers
-> >> are impacted in handling one of usecase. Now add that to all the different
-> >> scenarios like seek, drain, DRC during seek, DRC during drain, etc.
-> >
-> > Yes, for sure.
-> >
-> >>
-> >>> Have you evaluated the other opportunity?
-> >>>
-> >>> To have a common platform interface and firmware-specific backend?
-> >>>
-> >>> You have already done a part of it, but from a different perspective.
-> >>> You have tried to move common code out of the driver. Instead we are
-> >>> asking you to do a different thing. Move non-common code within the
-> >>> driver. Then add your code on top of that.
-> >>
-> >> For common platform - yes, we are bringing in common stuff like PIL.
-> >> Other than that, abstraction to firmware interface is not that confined to one
-> >> layer. It spreads over decoder/encoder/common layers. Now when majority of the
-> >> layers/code is different, we planned to make it in parallel to venus and have a
-> >> common layer having common things to both iris and venus.
-> >
-> > My suggestion still holds. Start with this common platform code.
-> > Rather than arguing back and forth, could you please perform an
-> > experiment on the current venus driver and move firmware interface to
-> > subdirs, leaving just the platform / PIL / formats / etc in place?
-> > This will at least allow us to determine whether it is a feasible
-> > concept or not.
-> >
->
-> Your comments are valid. The platform driver piece and some other pieces
-> still are common between venus and iris despite this initial effort of
-> moving common pieces out. I have also seen this from whatever I have
-> reviewed.
->
-> Video team also acknowledges this part and internally I think they did
-> evaluate this option and their feedback was, the more and more they
-> changed, they were touching pretty much every file of venus.
+This patch series replace the wait_event_interruptible() variants with
+wait_event_freezable() variants for the freezable kthread, so we can
+eliminate a call to try_to_freeze().
 
-This is fine from my POV. Splitting the the common functionality also
-touched a significant part of the venus driver in a pretty bad way.
+Kevin Hao (3):
+  media: dvb_frontend: Use wait_event_freezable_timeout() for freezable
+    kthread
+  media: msp3400: Use wait_event_freezable_timeout() in msp_sleep()
+  media: pvrusb2: Use wait_event_freezable() for freezable kthread
 
-> The missing piece i think in all this discussion is that in addition to
-> the forward channel, the reverse channel of HFI, based on which the rest
-> of the video state machine changes should also be considered.
->
-> So even with respect to the code layout, its not just the forward
-> communication but the backwards communication of fw--->hfi--->codec is
-> becoming a challenge as the venus layers seem to only work with the hfi
-> of venus.
-
-Again, this is a question of the platform backend part. Nobody
-questions that newer platforms have their own driver interface.
-We are not asking your team to add if(new) { foo; } else { bar; }
-conditions all over the code. Instead we have been asking to split all
-platform specifics to the 'backend'. Compare this with mdp4, mdp5 and
-dpu backends of the single drm/msm frontend. Or with a similar
-approach found in other DRM drivers. Adding new driver is frequently
-unjustified, instead the existing driver gets extended to support
-different generations.
-
-> For adding support for the new HFI events/communication, it was getting
-> harder to extend venus.
->
-> What I certainly acknowledge is now with iris whether this can be dealt
-> with better for future chipsets to avoid another re-write for another
-> HFI as that will be too much of maintenance cost.
-
-Another approach, which might also be fine, if that looks better from
-your point of view. The current venus driver might have issues with
-the internal interfaces. Or it might be not suitable for the backends.
-In this case, can we please get older platforms also supported by the
-iris driver? This will be a very simple case then: the old deprecated
-driver, being phased out and removed, and a new one, which is being
-phased in.
-
-The problem is very simple from my side. I do not want to end up in a
-situation where we have to change platform code for both drivers if
-there is any common issue. Neither would I like for venus and iris
-bindings to diverge more than necessary. And as you have seen from my
-comments, the iris bindings already do not follow the venus example.
-
-> I will let the video team comment on this part.
->
-> Thanks
->
-> Abhinav
->
->
->
->
->
-> >>
-> >>>>
-> >>>> [1] https://lore.kernel.org/lkml/8c97d866-1cab-0106-4ab3-3ca070945ef7@quicinc.com/
-> >>>>> Short rationale:
-> >>>>> The venus driver has a history of supported platforms. There is
-> >>>>> already some kind of buffer management in place. Both developers and
-> >>>>> testers have spent their effort on finding issues there. Sending new
-> >>>>> driver means that we have to spend the same amount of efforts on this.
-> >>>>> Moreover, even from the porter point of view. You are creating new
-> >>>>> bindings for the new hardware. Which do not follow the
-> >>>>> venus-common.yaml. And they do not follow the defined bindings for the
-> >>>>> recent venus platforms. Which means that as a developer I have to care
-> >>>>> about two different ways to describe nearly the same hardware.>> Again qualcomm video team does not have a plan to support sm8550/x1e80100 on
-> >>>>>> venus as the changes are too interleaved to absorb in venus driver. And there is
-> >>>>>> significant interest in community to start validating video driver on sm8550 or
-> >>>>>> x1e80100.
-> >>>>>>
-> >>>>>> [1] https://lore.kernel.org/lkml/8c97d866-1cab-0106-4ab3-3ca070945ef7@quicinc.com/
-> >>>>>>
-> >>>>>> Regards,
-> >>>>>> Vikash
+ drivers/media/dvb-core/dvb_frontend.c   | 13 ++++---------
+ drivers/media/i2c/msp3400-driver.c      | 20 ++++++--------------
+ drivers/media/i2c/msp3400-driver.h      |  2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-dvb.c |  6 +-----
+ 4 files changed, 12 insertions(+), 29 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.2
+
 
