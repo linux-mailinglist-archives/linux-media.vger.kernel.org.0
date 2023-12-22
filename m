@@ -1,254 +1,132 @@
-Return-Path: <linux-media+bounces-2921-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2922-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D3481CF3C
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 21:25:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA4881CF3D
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 21:26:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4ACCD286DF1
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 20:25:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6BE81C22C35
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 20:26:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E1C2E83C;
-	Fri, 22 Dec 2023 20:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 536782E84C;
+	Fri, 22 Dec 2023 20:26:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/twPxBy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KzB10BXj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3295028DB1
-	for <linux-media@vger.kernel.org>; Fri, 22 Dec 2023 20:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703276743; x=1734812743;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h+knBHtFkz1Owc4ScM4riZfJft7wonhkNRVqIZyW/D8=;
-  b=U/twPxByv9M0rSCm0ret9rV29iLXsZTqCqr4XdYVgheYCsYvWcRgiMeT
-   6z0X6oA2BBSAOyFfi9aVNl3aEryyAUd6bd+WJ+2xwzh6oVrlW6rJMi+fb
-   y2S/tBVZTZatt5vxxQ5RxpZ1CSaDfH/V3S8KSLJt7hdymS4IVQq2pw34a
-   vK3QkPAWiHzj84NUMikjsCB/KKzYUhfpSXbQ2biaJYHaBcldVurlCwh+p
-   HC7ICR2mm24EsAdEL6jrOtkYy4wUmjCfV0JQImu77XzVPTCibFLxL/ECn
-   IRfAQAMASrlIDvtYsoiCFo4UArBo6yybEOlhf5p1Ux1nc98xsGg67vopo
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="2989685"
-X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="2989685"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 12:25:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="1108551012"
-X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="1108551012"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Dec 2023 12:25:41 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rGm3l-0009qd-2v;
-	Fri, 22 Dec 2023 20:24:29 +0000
-Date: Sat, 23 Dec 2023 04:20:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 36/36]
- drivers/media/i2c/ov2740.c:1074:45: error: 'format' is a pointer; did you
- mean to use '->'?
-Message-ID: <202312230444.LOoNKr3Q-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4102E83B
+	for <linux-media@vger.kernel.org>; Fri, 22 Dec 2023 20:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-58962bf3f89so379652a12.0
+        for <linux-media@vger.kernel.org>; Fri, 22 Dec 2023 12:26:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703276785; x=1703881585; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j80lvJyXA/kiYI3infzo9VUhwlud8Yj01NPyEzQk6RE=;
+        b=KzB10BXjfZMySAcuFZ9QUc+y7cPB/IxXbHJNBMdAS4hMokoZC+wWriumNw/RnDZ+Oz
+         GpQ7FREPS69i9yKm0Qn8sD+5LtORXyi5XkbLxLoIgJwbJRV0TOKM6T/LDsVzcRIC1YnS
+         BbjRoFoMl6BCutEqn/xjebECr8zBLNMHCiLMvtAk87Q7izTjaqPAOoOoSjKK2yzJVHLi
+         312ydIRTE03cyqosxAdNiP90s9IZhflWtp34GOhugCg+PyD3pwYS1RI+dPWhqix3rVpO
+         Qcz1M+ph/jWgbgzvnU2zZczn0YUdx7Zs/qzzImXHIfj7wVhs/tDUhpx1B83HYjJ1KMnw
+         AipA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703276785; x=1703881585;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j80lvJyXA/kiYI3infzo9VUhwlud8Yj01NPyEzQk6RE=;
+        b=iWcB4I2VUCb8wb8+xZH9ax1A4DbgwXMKJpAtuLelDeWLiofuuXYqWWWa4C3rPikwih
+         FpP46IS/5YJAUxq3UFQbSiYeczmYYzkXKDwgAjg4XhD4an+gEYvCjlYmNaE5Ax3aVcKX
+         fsYTgYRkc6SaCn3NykZ988Y9van0HMGYNWR9m67BYAzTp7+eBg4HZyJxEXOtDvnvcAZK
+         aBuqda12TBBBfjcC52BuoE7SpQA6JAvp0+o4Pny6wHmxeKhRu/scCopm8qOys0QEoc66
+         zBXlwI9PyEEq9P/pJtWcC3jPdX4JquqFPv7qVpEM15zTYHJU4ElRXgUy9EPDZKtpselr
+         kmTQ==
+X-Gm-Message-State: AOJu0Yw7mn345MVVuqFKOjgFOrMmKyFmfGxgW07ejyW8OgnVS8tVeZYV
+	ZH9ujIo4fq4hFGoFvMxq6tzYKK7YpYfbO1EOE7E=
+X-Google-Smtp-Source: AGHT+IFb1FDilCfI/0VXJBLdGNW+mVc/K+tNdUJBJ+8XtYF+vCl8rVdkzwdr4ylskWrHraIiys/SJZAf/JLUud3Apb8=
+X-Received: by 2002:a05:6a00:2390:b0:6d9:471d:fada with SMTP id
+ f16-20020a056a00239000b006d9471dfadamr3763280pfc.2.1703276784762; Fri, 22 Dec
+ 2023 12:26:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CAJ+vNU2Kj=a-_xDBsNO5zkyP_mgLsVtA2bXqkAkpmCQmVEA_=w@mail.gmail.com>
+In-Reply-To: <CAJ+vNU2Kj=a-_xDBsNO5zkyP_mgLsVtA2bXqkAkpmCQmVEA_=w@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 22 Dec 2023 17:26:11 -0300
+Message-ID: <CAOMZO5CX4xuMvZDMVEND0vpMyuU7ozDm2pk+yVQZAKLenipY_g@mail.gmail.com>
+Subject: Re: imx7_media_csi probe deferred
+To: Tim Harvey <tharvey@gateworks.com>
+Cc: linux-media <linux-media@vger.kernel.org>, 
+	Schrempf Frieder <frieder.schrempf@kontron.de>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>, 
+	Sascha Hauer <kernel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   bef5b741be2fd2b49dc6b8ac2dfadb5b58e97c1d
-commit: bef5b741be2fd2b49dc6b8ac2dfadb5b58e97c1d [36/36] media: ov2740: Add support for embedded data
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231223/202312230444.LOoNKr3Q-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230444.LOoNKr3Q-lkp@intel.com/reproduce)
+Hi Tim,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312230444.LOoNKr3Q-lkp@intel.com/
+On Thu, Dec 21, 2023 at 10:12=E2=80=AFPM Tim Harvey <tharvey@gateworks.com>=
+ wrote:
+>
+> Greetings,
+>
+> I'm running into an issue with Linux 6.6 (6.6.8) when compiling with
+> modules where the imx7_media_csi driver probe is deferred and I'm not
+> clear how to troubleshoot the cause.
+>
+> The board is imx8mm-venice-gw73xx-0x [1] with
+> imx8mm-venice-gw73xx-0x-imx219.dtso [2] and I'm using
+> arch/arm64/configs/defconfig.
+>
+> The kernel reports the following:
+> # dmesg | egrep csi\|mipi\|imx219
+> [    1.293264] i2c 2-0010: Fixed dependency cycle(s) with
+> /soc@0/bus@32c00000/mipi-csi@32e30000/ports/port@0/endpoint
+> [   12.001419] imx219 2-0010: supply VANA not found, using dummy regulato=
+r
+> [   12.044885] imx219 2-0010: supply VDDL not found, using dummy regulato=
+r
+> [   12.164308] imx7-csi 32e20000.csi: Registered csi capture as /dev/vide=
+o0
+> [   12.178460] imx7-csi 32e20000.csi: error -ENOTCONN: Failed to get
+> remote endpoint
+> [   12.200047] imx7-csi: probe of 32e20000.csi failed with error -107
+> # cat /sys/kernel/debug/devices_deferred
+> cpufreq-dt
+> 32e30000.mipi-csi       platform: wait for supplier
 
-All errors (new ones prefixed by >>):
+I am not able to reproduce this problem.
 
-   In file included from include/media/v4l2-subdev.h:15,
-                    from include/media/v4l2-device.h:13,
-                    from drivers/media/i2c/ov2740.c:16:
-   drivers/media/i2c/ov2740.c: In function '__ov2740_set_format':
->> drivers/media/i2c/ov2740.c:1074:45: error: 'format' is a pointer; did you mean to use '->'?
-    1074 |                                       format.width, format.height);
-         |                                             ^
-   include/media/v4l2-common.h:419:25: note: in definition of macro 'v4l2_find_nearest_size'
-     419 |                         width, height);                                 \
-         |                         ^~~~~
-   drivers/media/i2c/ov2740.c:1074:59: error: 'format' is a pointer; did you mean to use '->'?
-    1074 |                                       format.width, format.height);
-         |                                                           ^
-   include/media/v4l2-common.h:419:32: note: in definition of macro 'v4l2_find_nearest_size'
-     419 |                         width, height);                                 \
-         |                                ^~~~~~
-   drivers/media/i2c/ov2740.c: In function 'ov2740_init_state':
->> drivers/media/i2c/ov2740.c:1175:35: error: 'ov2740' undeclared (first use in this function)
-    1175 |         ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
-         |                                   ^~~~~~
-   drivers/media/i2c/ov2740.c:1175:35: note: each undeclared identifier is reported only once for each function it appears in
+I have just booted 6.6.8 on an imx8mm-evk and the camera is working well:
 
+root@imx8mmevk:~# dmesg | egrep csi\|mipi\|ov56
+[    0.042431] platform 32e30000.mipi-csi: Fixed dependency cycle(s)
+with /soc@0/bus@32c00000/csi@32e20000/port/endpoint
+[    1.575489] i2c 2-003c: Fixed dependency cycle(s) with
+/soc@0/bus@32c00000/mipi-csi@32e30000/ports/port@0/endpoint
+[    5.514082] ov5640 2-003c: supply DOVDD not found, using dummy regulator
+[    5.522453] ov5640 2-003c: supply AVDD not found, using dummy regulator
+[    5.538136] ov5640 2-003c: supply DVDD not found, using dummy regulator
+[    5.552376] imx-mipi-csis 32e30000.mipi-csi: lanes: 2, freq: 333000000
+[    5.583661] imx7-csi 32e20000.csi: Registered csi capture as /dev/video0
 
-vim +1074 drivers/media/i2c/ov2740.c
-
-  1041	
-  1042	static int __ov2740_set_format(struct v4l2_subdev *sd,
-  1043				       struct v4l2_subdev_state *sd_state,
-  1044				       struct v4l2_mbus_framefmt *format,
-  1045				       enum v4l2_subdev_format_whence which,
-  1046				       unsigned int pad, unsigned int stream)
-  1047	{
-  1048		struct v4l2_mbus_framefmt *src_pix_fmt, *src_meta_fmt, *pix_fmt,
-  1049			*meta_fmt;
-  1050		struct ov2740 *ov2740 = to_ov2740(sd);
-  1051		const struct ov2740_mode *mode;
-  1052		s32 vblank_def, h_blank;
-  1053	
-  1054		/*
-  1055		 * Allow setting format on internal pixel pad as well as the source
-  1056		 * pad's pixel stream (for compatibility).
-  1057		 */
-  1058		if (pad == OV2740_PAD_SOURCE || pad == OV2740_PAD_META ||
-  1059		    stream == OV2740_STREAM_META) {
-  1060			*format = *v4l2_subdev_state_get_format(sd_state, pad, stream);
-  1061			return 0;
-  1062		}
-  1063	
-  1064		pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_PIXEL, 0);
-  1065		meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_META, 0);
-  1066		src_pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-  1067							   OV2740_STREAM_PIXEL);
-  1068		src_meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-  1069							    OV2740_STREAM_META);
-  1070	
-  1071		mode = v4l2_find_nearest_size(ov2740->supported_modes,
-  1072					      ov2740->supported_modes_count,
-  1073					      width, height,
-> 1074					      format.width, format.height);
-  1075		ov2740_update_pad_format(mode, pix_fmt);
-  1076		*format = *src_pix_fmt = *pix_fmt;
-  1077	
-  1078		meta_fmt->code = MEDIA_BUS_FMT_OV2740_EMBEDDED;
-  1079		meta_fmt->width = OV2740_META_WIDTH;
-  1080		meta_fmt->height = OV2740_META_HEIGHT;
-  1081		*src_meta_fmt = *meta_fmt;
-  1082		src_meta_fmt->code = MEDIA_BUS_FMT_META_8;
-  1083	
-  1084		if (which == V4L2_SUBDEV_FORMAT_TRY)
-  1085			return 0;
-  1086	
-  1087		ov2740->cur_mode = mode;
-  1088		__v4l2_ctrl_s_ctrl(ov2740->link_freq, mode->link_freq_index);
-  1089		__v4l2_ctrl_s_ctrl_int64(ov2740->pixel_rate,
-  1090					 to_pixel_rate(mode->link_freq_index));
-  1091	
-  1092		/* Update limits and set FPS to default */
-  1093		vblank_def = mode->vts_def - mode->height;
-  1094		__v4l2_ctrl_modify_range(ov2740->vblank,
-  1095					 mode->vts_min - mode->height,
-  1096					 mode->vts_max - mode->height, 1, vblank_def);
-  1097		__v4l2_ctrl_s_ctrl(ov2740->vblank, vblank_def);
-  1098		h_blank = mode->hts - mode->width;
-  1099		__v4l2_ctrl_modify_range(ov2740->hblank, h_blank, h_blank, 1, h_blank);
-  1100	
-  1101		return 0;
-  1102	}
-  1103	
-  1104	static int ov2740_set_format(struct v4l2_subdev *sd,
-  1105				     struct v4l2_subdev_state *sd_state,
-  1106				     struct v4l2_subdev_format *fmt)
-  1107	{
-  1108		return __ov2740_set_format(sd, sd_state, &fmt->format, fmt->which,
-  1109					   fmt->pad, fmt->stream);
-  1110	}
-  1111	
-  1112	static int ov2740_enum_mbus_code(struct v4l2_subdev *sd,
-  1113					 struct v4l2_subdev_state *sd_state,
-  1114					 struct v4l2_subdev_mbus_code_enum *code)
-  1115	{
-  1116		if (code->index > 0)
-  1117			return -EINVAL;
-  1118	
-  1119		code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-  1120	
-  1121		return 0;
-  1122	}
-  1123	
-  1124	static int ov2740_enum_frame_size(struct v4l2_subdev *sd,
-  1125					  struct v4l2_subdev_state *sd_state,
-  1126					  struct v4l2_subdev_frame_size_enum *fse)
-  1127	{
-  1128		struct ov2740 *ov2740 = to_ov2740(sd);
-  1129		const struct ov2740_mode *supported_modes = ov2740->supported_modes;
-  1130	
-  1131		if (fse->index >= ov2740->supported_modes_count)
-  1132			return -EINVAL;
-  1133	
-  1134		if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
-  1135			return -EINVAL;
-  1136	
-  1137		fse->min_width = supported_modes[fse->index].width;
-  1138		fse->max_width = fse->min_width;
-  1139		fse->min_height = supported_modes[fse->index].height;
-  1140		fse->max_height = fse->min_height;
-  1141	
-  1142		return 0;
-  1143	}
-  1144	
-  1145	static int ov2740_init_state(struct v4l2_subdev *sd,
-  1146				     struct v4l2_subdev_state *sd_state)
-  1147	{
-  1148		struct v4l2_subdev_route routes[] = {
-  1149			{
-  1150				.sink_pad = OV2740_PAD_PIXEL,
-  1151				.source_pad = OV2740_PAD_SOURCE,
-  1152				.source_stream = OV2740_STREAM_PIXEL,
-  1153				.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-  1154			}, {
-  1155				.sink_pad = OV2740_PAD_META,
-  1156				.source_pad = OV2740_PAD_SOURCE,
-  1157				.source_stream = OV2740_STREAM_META,
-  1158				.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-  1159			},
-  1160		};
-  1161		struct v4l2_subdev_krouting routing = {
-  1162			.routes = routes,
-  1163			.num_routes = ARRAY_SIZE(routes),
-  1164		};
-  1165		struct v4l2_subdev_state *active_state;
-  1166		struct v4l2_mbus_framefmt format = { 0 };
-  1167		int ret;
-  1168	
-  1169		ret = v4l2_subdev_set_routing(sd, sd_state, &routing);
-  1170		if (ret)
-  1171			return ret;
-  1172	
-  1173		active_state = v4l2_subdev_get_locked_active_state(sd);
-  1174	
-> 1175		ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
-  1176	
-  1177		return __ov2740_set_format(sd, sd_state, &format,
-  1178					   active_state == sd_state ?
-  1179					   V4L2_SUBDEV_FORMAT_ACTIVE :
-  1180					   V4L2_SUBDEV_FORMAT_TRY, OV2740_PAD_PIXEL, 0);
-  1181	}
-  1182	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+root@imx8mmevk:~# cat /sys/kernel/debug/devices_deferred
+root@imx8mmevk:~# zcat /proc/config.gz | egrep
+VIDEO_OV5640\|VIDEO_IMX_MIPI\|VIDEO_IMX7
+CONFIG_VIDEO_IMX7_CSI=3Dm
+CONFIG_VIDEO_IMX_MIPI_CSIS=3Dm
+CONFIG_VIDEO_OV5640=3Dm
 
