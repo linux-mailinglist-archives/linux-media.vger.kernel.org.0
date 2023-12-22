@@ -1,89 +1,159 @@
-Return-Path: <linux-media+bounces-2911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCA681C76E
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 10:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1357A81C809
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 11:18:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC6151C22068
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 09:40:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 45B471C25124
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 10:18:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C984FBEC;
-	Fri, 22 Dec 2023 09:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C185411719;
+	Fri, 22 Dec 2023 10:18:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=emersion.fr header.i=@emersion.fr header.b="KUeJEFF8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mflHOE7Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B2FF9EF;
-	Fri, 22 Dec 2023 09:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=emersion.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emersion.fr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-	s=protonmail2; t=1703238029; x=1703497229;
-	bh=RvFPmQYSXCW++H17F3FBSpFjPOkodCCqULNpYKx/X4M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=KUeJEFF8cS8NbUYEe1YI7C9RCUnb22uQFIsHpP6jjSohQf0y1mWvISCZss2RSG0cE
-	 FpFbc+rRNMpRZSb13C1ahONUfnCzGKxUsUUXSsR5C+1R9ci2C5g3By5Mb251Zs9fVi
-	 YFv/UAC1f8dJ2Vd22XeC0cShQ3exgbgm9qAvG5p0ggzE7Kr1Y++nvPWpA9zuiSt7oR
-	 JeJvwrdg3px1mpjFK/Pb0+sldHag3128mqywcYp+5f8irYQA4y3n4J7ElJxPnbAZiR
-	 03F5CEcznFJEOCNtxpJk+MYxgpv1yuAr1WVgq6nUByVZdezLQspZZ6YpOL8YNsVtZb
-	 E9NXLgPNEemwQ==
-Date: Fri, 22 Dec 2023 09:40:18 +0000
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: Joakim Bech <joakim.bech@linaro.org>, Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com, Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Vijayanand Jitta <quic_vjitta@quicinc.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org, tjmercier@google.com, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
-Message-ID: <9m8eC1j8YSwxu9Mr8vCXyzF0nfyCSHpFbfc__FtUjjKppew65jElBbUqa-nkzFTN-N_ME893w0YQRcb3r3UbIajQUP-Y5LxnHKKFoiBepSI=@emersion.fr>
-In-Reply-To: <20231213161614.43e5bca8@eldfell>
-References: <20231212024607.3681-1-yong.wu@mediatek.com> <DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr> <20231213110517.6ce36aca@eldfell> <20231213101549.lioqfzjxcvmqxqu3@pop-os.localdomain> <20231213133825.0a329864@eldfell> <20231213132229.q3uxdhtdsxuzw3w6@pop-os.localdomain> <20231213161614.43e5bca8@eldfell>
-Feedback-ID: 1358184:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB9A111A5
+	for <linux-media@vger.kernel.org>; Fri, 22 Dec 2023 10:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703240315; x=1734776315;
+  h=date:from:to:cc:subject:message-id;
+  bh=7LWtuG+lOyrq3q4mtnTWb1kbOyQRuDbrnhW7BTgK21k=;
+  b=mflHOE7YyStVEQFhB+aern8NlHjUfUJDxQgfwKL3pY8mofWikli47yXP
+   CMO1plE//UpvzSpTtYTzF+vZBXaHNhEb7J5bs6wL674EFTsF5XzdQJqXO
+   10qnR10MDdFLXF5MfUmf94L7KkkMMd/kGQ6pxauiTzmnB/XFpi8vt9y5/
+   kJmEAq4hgTK3eA74TCLO1FWhuXQb2Otqcb5W102DgWafUUMyRHTckalsm
+   Yv6zgaEEtyYzd/vSToaQtxtFd7kNEDmb3siY5YdCWVRJ94lYP91QViuUS
+   97BmKg8UAo6Q1Vd51q9rCnEzoVzrSeeJjLerwy+ruWq4kpywxeyD9eYD+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="17671651"
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
+   d="scan'208";a="17671651"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 02:18:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
+   d="scan'208";a="18661022"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2023 02:18:30 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rGcbo-0009Ib-1y;
+	Fri, 22 Dec 2023 10:18:25 +0000
+Date: Fri, 22 Dec 2023 18:17:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ bef5b741be2fd2b49dc6b8ac2dfadb5b58e97c1d
+Message-ID: <202312221843.rqkJVIvk-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, December 13th, 2023 at 15:16, Pekka Paalanen <ppaalanen@gmail=
-.com> wrote:
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: bef5b741be2fd2b49dc6b8ac2dfadb5b58e97c1d  media: ov2740: Add support for embedded data
 
-> > > It is protected/shielded/fortified from all the kernel and userspace,
-> > > but a more familiar word to describe that is inaccessible.
-> > > "Inaccessible buffer" per se OTOH sounds like a useless concept.
-> > >=20
-> > > It is not secure, because it does not involve security in any way. In
-> > > fact, given it's so fragile, I'd classify it as mildly opposite of
-> > > secure, as e.g. clients of a Wayland compositor can potentially DoS t=
-he
-> > > compositor with it by simply sending such a dmabuf. Or DoS the whole
-> > > system.
-> >=20
-> > I hear what you are saying and DoS is a known problem and attack vector=
-,
-> > but regardless, we have use cases where we don't want to expose
-> > information in the clear and where we also would like to have some
-> > guarantees about correctness. That is where various secure elements and
-> > more generally security is needed.
-> >=20
-> > So, it sounds like we have two things here, the first is the naming and
-> > the meaning behind it. I'm pretty sure the people following and
-> > contributing to this thread can agree on a name that makes sense. Would
-> > you personally be OK with "restricted" as the name? It sounds like that=
-.
->=20
-> I would. I'm also just a by-stander, not a maintainer of kernel
-> anything. I have no power to accept nor reject anything here.
+elapsed time: 2244m
 
-I'd also personally be OK with "restricted", I think it's a lot better
-than "secure".
+configs tested: 78
+configs skipped: 2
 
-In general I agree with everything Pekka said.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                                 defconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                                 defconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                           allnoconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231222   gcc  
+i386         buildonly-randconfig-002-20231222   gcc  
+i386         buildonly-randconfig-003-20231222   gcc  
+i386         buildonly-randconfig-004-20231222   gcc  
+i386         buildonly-randconfig-005-20231222   gcc  
+i386         buildonly-randconfig-006-20231222   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231222   gcc  
+i386                  randconfig-002-20231222   gcc  
+i386                  randconfig-003-20231222   gcc  
+i386                  randconfig-004-20231222   gcc  
+i386                  randconfig-005-20231222   gcc  
+i386                  randconfig-006-20231222   gcc  
+i386                  randconfig-011-20231222   clang
+i386                  randconfig-012-20231222   clang
+i386                  randconfig-013-20231222   clang
+i386                  randconfig-014-20231222   clang
+i386                  randconfig-015-20231222   clang
+i386                  randconfig-016-20231222   clang
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+nios2                             allnoconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                               defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
