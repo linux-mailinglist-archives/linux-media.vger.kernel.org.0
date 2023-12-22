@@ -1,182 +1,172 @@
-Return-Path: <linux-media+bounces-2913-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2914-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF5381C910
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 12:26:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2F981CB31
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 15:15:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5CDBF286648
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 11:26:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78F301F231CE
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 14:15:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 843F2168DC;
-	Fri, 22 Dec 2023 11:26:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C2291CF92;
+	Fri, 22 Dec 2023 14:15:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Ax7QBb5M"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hmEV0ezI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB8C168A2
-	for <linux-media@vger.kernel.org>; Fri, 22 Dec 2023 11:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1703244382; x=1703849182; i=wahrenst@gmx.net;
-	bh=TqdG12bFAOI+j1S6/BbfaE90X3abTcB6iCaGVSIMnBQ=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Ax7QBb5MWQNIjOGLBtzlatMYoQtIUJgXWTF5zUkvucEAgQjPjVpbXQtV4AD5hv0L
-	 tI6tQfn/3ZFDdNsxpyEY1T32fLB2HZJYC1nyPL+9cZ8S6Bmp1oXoo/al4PUBRzD+Z
-	 OIEKgdtrA1bukx3EVPFQeNOOVByrcERGnot2O0Mrl1hP0S5U9vPdgT+7LyeWB1QAQ
-	 QhF2kregbIr+86DD1lnmjT5skyPigZYLRpE9vdnE83UTpmZrfShhnb2s8BXzyRVXQ
-	 OKQz0T4gaGVkP6cHJQkN1/8XeCOyEeahOohf3XHlmVg6x6EKS+igC0dKhvMtqyhvn
-	 KfY/+AIYx8DOlnkwzQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mqs4f-1quS8l0PLt-00mry4; Fri, 22
- Dec 2023 12:26:22 +0100
-Message-ID: <6cc73cc9-cc57-44ef-baf0-809e634c38c5@gmx.net>
-Date: Fri, 22 Dec 2023 12:26:20 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BC11C6B6;
+	Fri, 22 Dec 2023 14:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1703254545;
+	bh=FrU3ISAPB5G4x/zyDmO5HSQ9A88VViR/RKJd01B4NXY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=hmEV0ezIb+aJsCxvAEH1O7CkypH3NzUHt/w8AMsQlBS/qfRa1GGYvqzX8we4Jw4/a
+	 ES7lmj1W6I62olCklvZ+2YNCBkElyAnmWPwtyIL0rSATV5vriV09kJlM0UDcwAz7FF
+	 HTRg2J4H3At2mTEIMF1UUMkOZSumsol85X99wJav6WhhMSpqnsLPQGIybMgnBck2PG
+	 J0fkLzXdPOWWr3bfq/zmIKGkIolwmjLnjJ+QFaC0x0arl2jgBmnTifsGR+s0Gu+HuW
+	 Vvh/784GDJYF3P9AzUBlYEC6tvssfZb8dBY92p8rTBNxJtKnS/MNxCQckA0zRUWuUp
+	 Qso3o+x/QHckQ==
+Received: from [100.77.12.232] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: obbardc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 848BE37804B2;
+	Fri, 22 Dec 2023 14:15:44 +0000 (UTC)
+Message-ID: <b33811925a6e3ff116fe2c019bc6b6066cf5bf7a.camel@collabora.com>
+Subject: Re: [PATCH v3 00/10] media: rkvdec: Add H.264 High 10 and 4:2:2
+ profile support
+From: Christopher Obbard <chris.obbard@collabora.com>
+To: Jonas Karlman <jonas@kwiboo.se>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
+	 <nicolas.dufresne@collabora.com>, Benjamin Gaignard
+	 <benjamin.gaignard@collabora.com>, Sebastian Fricke
+	 <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Fri, 22 Dec 2023 14:15:28 +0000
+In-Reply-To: <20231029183427.1781554-1-jonas@kwiboo.se>
+References: <20231029183427.1781554-1-jonas@kwiboo.se>
+Autocrypt: addr=chris.obbard@collabora.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2-1 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: imx7_media_csi probe deferred
-To: Tim Harvey <tharvey@gateworks.com>,
- linux-media <linux-media@vger.kernel.org>
-Cc: Schrempf Frieder <frieder.schrempf@kontron.de>,
- Fabio Estevam <festevam@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
- NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Marek Vasut <marex@denx.de>
-References: <CAJ+vNU2Kj=a-_xDBsNO5zkyP_mgLsVtA2bXqkAkpmCQmVEA_=w@mail.gmail.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <CAJ+vNU2Kj=a-_xDBsNO5zkyP_mgLsVtA2bXqkAkpmCQmVEA_=w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6UN8JbXQfzRZpvniPgcCGdw1GYr7Dw4UL760qMmp1YxAprstKM2
- Bg/o8iSuWTA5pWyIathT5kPr7745nuPSEdWbxrvkQ8zHRp39Eg+qqHuV4S2EWeizqJ4MIUO
- h9qdas/dUxyCqUPfxisXVDe7peyYah52mVSlz1MhQkNRMfcX72VcbiKfYzyYzY3wJs0wtYW
- pchVGwUzKP8xyku1g4gxg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:IUKuVTKCukQ=;xvXfsr83lbdMfbNVk5wYeZUug1c
- TeN/wcphyciYOXAF98zWOeHvlVLyept2vegZgNqrq9O0JiTih05ErV5U1FRz1U9dByDucdI1p
- 2I4VzA+xcH6pWHvciMzCGa3IO4BAmKx1d/5sQ9EitcFX5lbhSyvQMt3M23jLn65xCcQaSJQlt
- 709zU7Riiw6/hPQpwbuxONlElk3o0dPptLs4uun3z7VnQ5XJNS3ME+oFKz5hlGm0EE/v0lDd6
- 1K5lwGMIg5Gt8tmkgrPKshri1ii822F+d8JBRR7JqpQtCmq8jJ8bNhDJLJpByQsF0ACB5g5z9
- /ZmEpDl0Po9asIGutyBvqR/K3Wlfm/McdpMT14z2dRLQW/xLnTFgil2VFkJAX59qM9S5aeKkQ
- gfahy+qwyjJh7/kDZppKPfq7IRd9SAPdzJIVl1IZjxwmyrmgmZ2+S8OqbwYTGgn2h4buHja2b
- nU805mTQb/AjWtXDhIaUwHn2kgm9BuH02NBd4rkONKkupVNTTCdAxlgh5ZDqsQUyeDGZbtZII
- sJoLTuIzdpt+LoUao5EZ11rH3oX6Iltj3y4WnTOEQFQ5HXWNBWAFlnNaxlkZ9snMicLu29dPr
- t/Hye8vQt9cmkBpKLK38bshIyC6Ygo7V4WaFH78/rP85KNGDAkT5sYNwJGs7QiQCzcDAUwsIz
- lcYKJCoSsWocubbbtl85AfNLjYOQLAbVSjjt/DID0dbHfz+lKtrgFufpRR4VVy8YXa4EcKzDK
- xAa/OMQUNP0L7XnZEdri7t7hNUyGoLZ735/FgDTobVyXgr4DXMqy5fUCDoe1zjrXfC9Ps7dBS
- 7gPWHDFCK27QAQDSrOb/UTV5w7Kuuo9fCIcPuppgyt/GUW6h1pz2G7NsW9aSy/0X3zfnoiUs5
- 8xIvH15mbaBcisBsq1MZ5W5gOk3TVHWfHTRm7J29gHvG70lJ0OabKXMJMozM+yqvzaOay64YL
- N59uqA==
 
-Hi Tim,
+Hi Jonas,
 
-Am 22.12.23 um 02:12 schrieb Tim Harvey:
-> Greetings,
->
-> I'm running into an issue with Linux 6.6 (6.6.8) when compiling with
-> modules where the imx7_media_csi driver probe is deferred and I'm not
-> clear how to troubleshoot the cause.
-one important question would be "did it ever worked before?"
->
-> The board is imx8mm-venice-gw73xx-0x [1] with
-> imx8mm-venice-gw73xx-0x-imx219.dtso [2] and I'm using
-> arch/arm64/configs/defconfig.
->
-> The kernel reports the following:
-> # dmesg | egrep csi\|mipi\|imx219
-> [    1.293264] i2c 2-0010: Fixed dependency cycle(s) with
-> /soc@0/bus@32c00000/mipi-csi@32e30000/ports/port@0/endpoint
-> [   12.001419] imx219 2-0010: supply VANA not found, using dummy regulat=
-or
-> [   12.044885] imx219 2-0010: supply VDDL not found, using dummy regulat=
-or
-> [   12.164308] imx7-csi 32e20000.csi: Registered csi capture as /dev/vid=
-eo0
-> [   12.178460] imx7-csi 32e20000.csi: error -ENOTCONN: Failed to get
-> remote endpoint
-> [   12.200047] imx7-csi: probe of 32e20000.csi failed with error -107
-> # cat /sys/kernel/debug/devices_deferred
-> cpufreq-dt
-> 32e30000.mipi-csi       platform: wait for supplier
-> /soc@0/bus@32c00000/csi@32e20000/port/endpoint
-> # zcat /proc/config.gz | egrep VIDEO_IMX219\|VIDEO_IMX_MIPI\|VIDEO_IMX7
-> CONFIG_VIDEO_IMX7_CSI=3Dm
-> CONFIG_VIDEO_IMX_MIPI_CSIS=3Dm
-> CONFIG_VIDEO_IMX219=3Dm
-> # lsmod | grep imx
-> fsl_imx8_ddr_perf      16384  0
-> imx8m_ddrc             12288  0
-> imx7_media_csi         28672  0
-> videobuf2_dma_contig    16384  2 hantro_vpu,imx7_media_csi
-> videobuf2_v4l2         32768  3 hantro_vpu,imx7_media_csi,v4l2_mem2mem
-> videobuf2_common       57344  6
-> videobuf2_dma_contig,videobuf2_v4l2,hantro_vpu,imx7_media_csi,v4l2_mem2m=
-em,videobuf2_memops
-> imx_mipi_csis          24576  0
-> imx219                 20480  0
-> v4l2_cci               12288  1 imx219
-> v4l2_fwnode            20480  2 imx219,imx_mipi_csis
-> v4l2_async             20480  4 v4l2_fwnode,imx219,imx_mipi_csis,imx7_me=
-dia_csi
-> videodev              258048  8
-> v4l2_async,v4l2_fwnode,imx219,videobuf2_v4l2,hantro_vpu,imx_mipi_csis,im=
-x7_media_csi,v4l2_mem2mem
-> mc                     61440  9
-> v4l2_async,videodev,imx219,videobuf2_v4l2,hantro_vpu,videobuf2_common,im=
-x_mipi_csis,imx7_media_csi,v4l
-> 2_mem2mem
-> spi_imx                24576  0
-> imx_pcm_dma            12288  1 snd_soc_fsl_sai
-> imx8mm_thermal         12288  0
-> imx_sdma               24576  6
-> imx_cpufreq_dt         12288  0
->
-> The relevant dt looks like this:
->
-> csi: csi@32e20000 {
->       compatible =3D "fsl,imx8mm-csi", "fsl,imx7-csi";
->       reg =3D <0x32e20000 0x1000>;
->       interrupts =3D <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
->       clocks =3D <&clk IMX8MM_CLK_CSI1_ROOT>;
->       clock-names =3D "mclk";
->       power-domains =3D <&disp_blk_ctrl IMX8MM_DISPBLK_PD_CSI_BRIDGE>;
-Just a wild guess, has the power domains driver probed properly?
-> Strangely I have a kernel config without modules where I do not run
-> into this issue so it has something to do with modules but I haven't
-> been able to determine which configs make a difference.
->
-> Any ideas what is wrong here or tips on troubleshooting the cause for
-> the probe defer?
-In case the complete dmesg doesn't provide further errors, you could try
-to add "initcall_debug" to the kernel cmdline.
->
-> Best Regards,
->
-> Tim
-> [1] https://elixir.bootlin.com/linux/latest/source/arch/arm64/boot/dts/f=
-reescale/imx8mm-venice-gw72xx-0x.dts
-> [2] https://elixir.bootlin.com/linux/latest/source/arch/arm64/boot/dts/f=
-reescale/imx8mm-venice-gw73xx-0x-imx219.dtso
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+On Sun, 2023-10-29 at 18:34 +0000, Jonas Karlman wrote:
+> This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 supp=
+ort
+> for display driver have landed in drm-misc tree.
+>=20
+> This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
+> Video Decoder driver.
+>=20
+> Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
+> Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
+>=20
+> Patch 3 change to use bytesperline and buffer height to configure strides=
+.
+> Patch 4 change to use values from SPS/PPS control to configure the HW.
+> Patch 5 remove an unnecessary call to validate sps at streaming start.
+>=20
+> Patch 6-9 refactor code to support validation and filtering of CAPUTRE
+> formats based on codec ops.
+>=20
+> Patch 10 adds final bits to support H.264 High 10 and 4:2:2 profiles.
+>=20
+> Changes in v3:
+> - Drop merged patches
+> - Use bpp and bpp_div instead of prior misuse of block_w/block_h
+> - New patch to use values from SPS/PPS control to configure the HW
+> - New patch to remove an unnecessary call to validate sps at streaming st=
+art
+> - Reworked pixel format validation
+>=20
+> Changes in v2:
+> - Collect r-b tags
+> - SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+> - New patch to not override output buffer sizeimage
+> - Reworked pixel format validation
+> - Only align decoded buffer instead of changing frmsize step_width
+>=20
+> Following drm-misc commits adds support for NV15/NV20/NV30 to VOP driver:
+> 728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
+> d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
+>=20
+> To fully runtime test this series you may need above drm commits and ffmp=
+eg
+> patches from [2], this series and drm patches is also available at [3].
+>=20
+> [1]
+> https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.s=
+e/
+> [2] https://github.com/jernejsk/FFmpeg/commits/v4l2-request-n6.0/
+> [3]
+> https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v=
+3/
 
+
+For this whole series:
+
+Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+
+>=20
+> Regards,
+> Jonas
+>=20
+> Alex Bee (1):
+> =C2=A0 media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+>=20
+> Jonas Karlman (9):
+> =C2=A0 media: v4l2-common: Add helpers to calculate bytesperline and
+> =C2=A0=C2=A0=C2=A0 sizeimage
+> =C2=A0 media: v4l2: Add NV15 and NV20 pixel formats
+> =C2=A0 media: rkvdec: h264: Use bytesperline and buffer height as virstri=
+de
+> =C2=A0 media: rkvdec: h264: Remove SPS validation at streaming start
+> =C2=A0 media: rkvdec: Extract rkvdec_fill_decoded_pixfmt helper method
+> =C2=A0 media: rkvdec: Move rkvdec_reset_decoded_fmt() function
+> =C2=A0 media: rkvdec: Prepare for adding format validation ops
+> =C2=A0 media: rkvdec: Add get_fmt_opaque and valid_fmt ops
+> =C2=A0 media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+>=20
+> =C2=A0.../media/v4l/pixfmt-yuv-planar.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 128 ++++++++++++
+> =C2=A0drivers/media/v4l2-core/v4l2-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 80 ++++----
+> =C2=A0drivers/media/v4l2-core/v4l2-ioctl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A0drivers/staging/media/rkvdec/rkvdec-h264.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 91 ++++----
+> =C2=A0drivers/staging/media/rkvdec/rkvdec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 194 +++++++++++++-----
+> =C2=A0drivers/staging/media/rkvdec/rkvdec.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0include/uapi/linux/videodev2.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A07 files changed, 367 insertions(+), 133 deletions(-)
+>=20
+> --
+> 2.42.0
+>=20
 
