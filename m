@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-2902-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2904-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4C081C465
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 05:53:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A5881C468
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 05:54:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF9661F25CE7
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 04:53:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AA066B234AF
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 04:54:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBFD0D2F4;
-	Fri, 22 Dec 2023 04:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98617FC00;
+	Fri, 22 Dec 2023 04:52:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="RJ0e3mop"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="YGHObL/P"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF00D5686;
-	Fri, 22 Dec 2023 04:52:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC8363A7;
+	Fri, 22 Dec 2023 04:52:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: eb29d1e4a08511eeba30773df0976c77-20231222
+X-UUID: eaf4f550a08511eeba30773df0976c77-20231222
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=XefOp4ZJvMjNDUufB+lwYo0EoScCX1JmmrJqNPVCwco=;
-	b=RJ0e3mopkEqK63hLaWJT/Gnx1EMxNhMhRrVl8CFs2glnNCqj3Ch7Ya/bAkPgYJGCY+rQxHfC0byRLHCMWhiBGHW3QdqMu2wKi6Yv/K7DmKV1YaaYX1HEDF6hwBAlQEKnIVydQMbeinSP5aRN5UNGCGRN35oiOVoCHqJxswHhYWs=;
+	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=psOz/D6w4cz5Ki4AhGxRPNaz/YjLmA8Yz1FbmApe4v4=;
+	b=YGHObL/PFf49d4JEZ/9H51A91DHpk3IHwGF3Uq+rKu4VCRO84WCK3NXUObM3dcA7SP8Jio9tekPUOwGyoD9oUd8RtOCVR7HZF+6D850aN67pPrVufGzj6dgdWMMa6w83sJXoozMmeDJcsRM0ZjxEDDy1ggfTczPztfnw7AUcMSE=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:3d833785-f4a7-428b-a562-bcfc1827b90e,IP:0,U
-	RL:0,TC:0,Content:44,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:44
-X-CID-META: VersionHash:5d391d7,CLOUDID:0f1a5e2e-1ab8-4133-9780-81938111c800,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:3,EDM:-3,IP:nil,U
+X-CID-O-INFO: VERSION:1.1.35,REQID:976dfcfc-67b4-4003-9530-4f9f495b9986,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:5d391d7,CLOUDID:a4d20c82-8d4f-477b-89d2-1e3bdbef96d1,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
 	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
 	DKR:0,DKP:0,BRR:0,BRE:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: eb29d1e4a08511eeba30773df0976c77-20231222
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+X-UUID: eaf4f550a08511eeba30773df0976c77-20231222
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
 	(envelope-from <jason-jh.lin@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1425945041; Fri, 22 Dec 2023 12:52:33 +0800
+	with ESMTP id 1062368413; Fri, 22 Dec 2023 12:52:32 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Fri, 22 Dec 2023 12:52:31 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -64,9 +64,9 @@ CC: Conor Dooley <conor+dt@kernel.org>, Mauro Carvalho Chehab
 	Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
 	Shawn Sung <shawn.sung@mediatek.com>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v3 5/9] mailbox: mtk-cmdq: Support GCE loop packets in interrupt handler
-Date: Fri, 22 Dec 2023 12:52:24 +0800
-Message-ID: <20231222045228.27826-6-jason-jh.lin@mediatek.com>
+Subject: [PATCH v3 6/9] soc: mediatek: cmdq: Add cmdq_pkt_finalize_loop for looping cmd with irq
+Date: Fri, 22 Dec 2023 12:52:25 +0800
+Message-ID: <20231222045228.27826-7-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20231222045228.27826-1-jason-jh.lin@mediatek.com>
 References: <20231222045228.27826-1-jason-jh.lin@mediatek.com>
@@ -78,69 +78,84 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--6.634800-8.000000
-X-TMASE-MatchedRID: yvDAzrttxFXlOkrqlJanurMjW/sniEQKLoYOuiLW+uUnArDy4nBG1Hv9
-	jBhUgWuo8rh5UHP2/XFYo3G+rvxrNW94Ipa1otxo4pdq9sdj8LXljSRvSGpq3Ddnd59Af7CPaza
-	5eRS5azTftLFtxOSbQ4Ay6p60ZV62fJ5/bZ6npdg7AFczfjr/7EBFd4FGrBKQyOewPmnLzhtVIo
-	CVHgZEDqFC7/IJnZXOFNQUJ0xmGqI=
+X-TM-AS-Result: No-10--0.492500-8.000000
+X-TMASE-MatchedRID: wDTc/wNgEcO6S8yZYvyqCb2xWbKjBfWPuLwbhNl9B5VOCtCDJNptxhFx
+	R5JQAS6O09NQNrxIpFYQ5m8HWfjjn8xcivU0QoqPaK+MsTwM+1mlAfiiC1VA/eLsQIDmr3S5cBd
+	H+AtoPBrL7a7vhpw6CIAy6p60ZV62Mhe627A+8aHdB/CxWTRRu+rAZ8KTspSzWT4KJpMmg3S77I
+	sKEkexbNJvOnGME/lLUUuOsHK3otwxOgedmAunpWBME6/SK5iEAY/ZF9gZTzXp92WPce4cNxkUg
+	0Ll9q5JF0aD5ljt43pMcHZD6gqu7wxMjfifIXfowkvVoA11Twp+3BndfXUhXQ==
 X-TM-AS-User-Approved-Sender: No
 X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--6.634800-8.000000
+X-TMASE-Result: 10--0.492500-8.000000
 X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	F6326F6ACD43B13C78C9E85D2560378FEB293B7531CAB4A1C8754E0662C85E852000:8
+X-TM-SNTS-SMTP: 9F3AB5016B390CB062D039916EE8A520BB800B7261D22405B9ABB79809388DDB2000:8
 X-MTK: N
 
-1. Add a loop flag for CMDQ packet struct.
-CMDQ helper will use a loop flag to mark CMDQ packet as lopping command
-and make current command buffer jumps to the beginning when GCE executes
-to the end of command buffer.
+Add cmdq_pkt_finalize_loop to CMDQ driver.
 
-2. Add a looping task handle flow in irq handler.
-GCE irq occurs when GCE executes to the end of command(EOC) instruction.
-If the CMDQ packet is a loopping command, GCE irq handler can not
-delete the CMDQ task and disable the GCE thread.
+cmdq_pkt_finalize_loop appends end of command(EOC) instruction and
+jump to start of command buffer instruction to make the command
+buffer loopable.
 
 Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/mailbox/mtk-cmdq-mailbox.c       | 11 +++++++++++
- include/linux/mailbox/mtk-cmdq-mailbox.h |  1 +
- 2 files changed, 12 insertions(+)
+ drivers/soc/mediatek/mtk-cmdq-helper.c | 23 +++++++++++++++++++++++
+ include/linux/soc/mediatek/mtk-cmdq.h  |  8 ++++++++
+ 2 files changed, 31 insertions(+)
 
-diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index 27ff3a3ccf2f..5390b6488ebc 100644
---- a/drivers/mailbox/mtk-cmdq-mailbox.c
-+++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -267,6 +267,17 @@ static void cmdq_thread_irq_handler(struct cmdq *cmdq,
+diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+index dfef436d9b8a..b6ba8b5d0db7 100644
+--- a/drivers/soc/mediatek/mtk-cmdq-helper.c
++++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+@@ -475,6 +475,29 @@ int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+ }
+ EXPORT_SYMBOL(cmdq_pkt_finalize);
  
- 	curr_pa = readl(thread->base + CMDQ_THR_CURR_ADDR) << cmdq->pdata->shift;
- 
-+	task = list_first_entry_or_null(&thread->task_busy_list,
-+					struct cmdq_task, list_entry);
-+	if (task && task->pkt->loop) {
-+		struct cmdq_cb_data data;
++int cmdq_pkt_finalize_loop(struct cmdq_pkt *pkt)
++{
++	struct cmdq_instruction inst = { {0} };
++	int err;
 +
-+		data.sta = err;
-+		data.pkt = task->pkt;
-+		mbox_chan_received_data(task->thread->chan, &data);
-+		return;
-+	}
++	/* insert EOC and generate IRQ for each command iteration */
++	inst.op = CMDQ_CODE_EOC;
++	inst.value = CMDQ_EOC_IRQ_EN;
++	err = cmdq_pkt_append_command(pkt, inst);
++	if (err < 0)
++		return err;
 +
- 	list_for_each_entry_safe(task, tmp, &thread->task_busy_list,
- 				 list_entry) {
- 		task_end_pa = task->pa_base + task->pkt->cmd_buf_size;
-diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-index a8f0070c7aa9..f78a08e7c6ed 100644
---- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-+++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-@@ -76,6 +76,7 @@ struct cmdq_pkt {
- 	size_t			cmd_buf_size; /* command occupied size */
- 	size_t			buf_size; /* real buffer size */
- 	void			*cl;
-+	bool			loop;
- };
++	/* JUMP to start of pkt */
++	err = cmdq_pkt_jump(pkt, pkt->pa_base);
++	if (err < 0)
++		return err;
++
++	pkt->loop = true;
++
++	return err;
++}
++EXPORT_SYMBOL(cmdq_pkt_finalize_loop);
++
+ int cmdq_pkt_flush_async(struct cmdq_pkt *pkt)
+ {
+ 	int err;
+diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
+index d1cd8108cad0..39994fc8a4f5 100644
+--- a/include/linux/soc/mediatek/mtk-cmdq.h
++++ b/include/linux/soc/mediatek/mtk-cmdq.h
+@@ -329,6 +329,14 @@ int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr);
+  */
+ int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
  
- u8 cmdq_get_shift_pa(struct mbox_chan *chan);
++/**
++ * cmdq_pkt_finalize_loop() - Append EOC and jump to start command.
++ * @pkt:	the CMDQ packet
++ *
++ * Return: 0 for success; else the error code is returned
++ */
++int cmdq_pkt_finalize_loop(struct cmdq_pkt *pkt);
++
+ /**
+  * cmdq_pkt_flush_async() - trigger CMDQ to asynchronously execute the CMDQ
+  *                          packet and call back at the end of done packet
 -- 
 2.18.0
 
