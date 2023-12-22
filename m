@@ -1,127 +1,252 @@
-Return-Path: <linux-media+bounces-2915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2916-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB50881CBB7
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 16:07:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B80681CC54
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 16:39:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C0B81F28172
-	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 15:07:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12408283ED7
+	for <lists+linux-media@lfdr.de>; Fri, 22 Dec 2023 15:39:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7861B23752;
-	Fri, 22 Dec 2023 15:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 562B323776;
+	Fri, 22 Dec 2023 15:39:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pj1auZeM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKNejfdB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D633C1CAAD;
-	Fri, 22 Dec 2023 15:07:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A24D4C433C8;
-	Fri, 22 Dec 2023 15:07:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703257640;
-	bh=lz9jX9ZQQWUL3HJ4uKy+xNfuOW6S4uTXYnJqWi7HVSs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pj1auZeMLIYM9vAfcdZWY598ztp4RYNvw2gVvnfZEUqC2f0V9DwMDu1JcGNXtZEm8
-	 hsh+iRj3mrJBwcsO1dd7tlT6ot97BI0mX7a8vplphRtjiIl6dajoZat4fdHziamV0S
-	 g2mF3M7avj6MYEDrO8SMBKir2RNttPymcl8KMAQKaCkHCsCKZ2oap6l4e+tz+gtfXc
-	 bdXiTBJGz/6Suxl4oeJx43BTzHUhXliL3KdLo2NMisZVecGuUxMJvhvKtEwPDUdDNk
-	 GolJj07/sQ1UxmE6PTS25TYKhcc/plpi68fEFB0lP5H5oK1z7LqLxLykVNzEZfTet1
-	 rZChU9wO9lZPA==
-Date: Fri, 22 Dec 2023 15:07:14 +0000
-From: Conor Dooley <conor@kernel.org>
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Cc: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Jason-ch Chen <jason-ch.chen@mediatek.com>,
-	Johnson Wang <johnson.wang@mediatek.com>,
-	Singo Chang <singo.chang@mediatek.com>,
-	Nancy Lin <nancy.lin@mediatek.com>,
-	Shawn Sung <shawn.sung@mediatek.com>,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v3 2/9] dt-bindings: mailbox: Add mboxes property for
- CMDQ secure driver
-Message-ID: <20231222-unpicked-jaundice-837baa3092ed@spud>
-References: <20231222045228.27826-1-jason-jh.lin@mediatek.com>
- <20231222045228.27826-3-jason-jh.lin@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22AE23763
+	for <linux-media@vger.kernel.org>; Fri, 22 Dec 2023 15:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703259588; x=1734795588;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VDLNYzAYvM2DIBK39pq90vyWFGOh1dP4R0LL0E9Ol9I=;
+  b=mKNejfdBo/MmgZU05mfR23AyFkKeRG3RhBUo3f+taZq6Ap6CzW9zLKIk
+   5MHj9p6D4tB6wKtMtWsKTZlBSjhUdSDiOcTCKQIJsykxycv9aSB/kgNBR
+   W8fAN6gNLA+oGpHdMas5wetuVURYRLz9H0sVcJ0Rwp1ZlttlN9u6xHZDc
+   5K5FqJ9+szmQbdNwVsia+3PcTUUVB/ZnPGbBTmmZXw1fiffBVfPnRnv2f
+   L5+hGUbPtF6OaKpW6KsLCI+8/yMuJTbNM8MXhbHVFJAJPYBIeMPUYm3b6
+   14vNwP7Y9B+7ahZTxrtYAp8HOQAjh2cauay1B1yNLlfBHT+8DXIGCXeO/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="3383441"
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
+   d="scan'208";a="3383441"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 07:39:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="805971647"
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
+   d="scan'208";a="805971647"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 22 Dec 2023 07:39:46 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rGhck-0009b3-2n;
+	Fri, 22 Dec 2023 15:39:43 +0000
+Date: Fri, 22 Dec 2023 23:38:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 36/36]
+ drivers/media/i2c/ov2740.c:1074:17: error: member reference type 'struct
+ v4l2_mbus_framefmt *' is a pointer; did you mean to use '->'?
+Message-ID: <202312222333.UhK70B00-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5C0G5NxMMW7lzTZE"
-Content-Disposition: inline
-In-Reply-To: <20231222045228.27826-3-jason-jh.lin@mediatek.com>
-
-
---5C0G5NxMMW7lzTZE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 22, 2023 at 12:52:21PM +0800, Jason-JH.Lin wrote:
-> Add mboxes to define a GCE loopping thread as a secure irq handler.
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   bef5b741be2fd2b49dc6b8ac2dfadb5b58e97c1d
+commit: bef5b741be2fd2b49dc6b8ac2dfadb5b58e97c1d [36/36] media: ov2740: Add support for embedded data
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231222/202312222333.UhK70B00-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231222/202312222333.UhK70B00-lkp@intel.com/reproduce)
 
-> This property is only required if CMDQ secure driver is supported.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312222333.UhK70B00-lkp@intel.com/
 
-What do drivers have to do with this? Either the mailbox channel exists
-or it does not. That said, I am not sure why this should be in DT in the
-first place, can't the driver for the mailbox controller reserve a
-channel for its own use?
+All errors (new ones prefixed by >>):
 
-Thanks,
-Conor.
+>> drivers/media/i2c/ov2740.c:1074:17: error: member reference type 'struct v4l2_mbus_framefmt *' is a pointer; did you mean to use '->'?
+                                         format.width, format.height);
+                                         ~~~~~~^
+                                               ->
+   include/media/v4l2-common.h:419:4: note: expanded from macro 'v4l2_find_nearest_size'
+                           width, height);                                 \
+                           ^~~~~
+   drivers/media/i2c/ov2740.c:1074:31: error: member reference type 'struct v4l2_mbus_framefmt *' is a pointer; did you mean to use '->'?
+                                         format.width, format.height);
+                                                       ~~~~~~^
+                                                             ->
+   include/media/v4l2-common.h:419:11: note: expanded from macro 'v4l2_find_nearest_size'
+                           width, height);                                 \
+                                  ^~~~~~
+>> drivers/media/i2c/ov2740.c:1175:28: error: use of undeclared identifier 'ov2740'
+           ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
+                                     ^
+   3 errors generated.
 
->=20
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
->  .../devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml      | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailb=
-ox.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.ya=
-ml
-> index e4da0a58c943..0c17e1be99c2 100644
-> --- a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
-> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
-> @@ -56,6 +56,9 @@ properties:
->        include/dt-bindings/gce/<chip>-gce.h of each chips.
->      $ref: /schemas/types.yaml#/definitions/uint32-array
-> =20
-> +  mboxes:
-> +    maxItems: 1
-> +
->  required:
->    - compatible
->    - "#mbox-cells"
-> --=20
-> 2.18.0
->=20
 
---5C0G5NxMMW7lzTZE
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +1074 drivers/media/i2c/ov2740.c
 
------BEGIN PGP SIGNATURE-----
+  1041	
+  1042	static int __ov2740_set_format(struct v4l2_subdev *sd,
+  1043				       struct v4l2_subdev_state *sd_state,
+  1044				       struct v4l2_mbus_framefmt *format,
+  1045				       enum v4l2_subdev_format_whence which,
+  1046				       unsigned int pad, unsigned int stream)
+  1047	{
+  1048		struct v4l2_mbus_framefmt *src_pix_fmt, *src_meta_fmt, *pix_fmt,
+  1049			*meta_fmt;
+  1050		struct ov2740 *ov2740 = to_ov2740(sd);
+  1051		const struct ov2740_mode *mode;
+  1052		s32 vblank_def, h_blank;
+  1053	
+  1054		/*
+  1055		 * Allow setting format on internal pixel pad as well as the source
+  1056		 * pad's pixel stream (for compatibility).
+  1057		 */
+  1058		if (pad == OV2740_PAD_SOURCE || pad == OV2740_PAD_META ||
+  1059		    stream == OV2740_STREAM_META) {
+  1060			*format = *v4l2_subdev_state_get_format(sd_state, pad, stream);
+  1061			return 0;
+  1062		}
+  1063	
+  1064		pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_PIXEL, 0);
+  1065		meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_META, 0);
+  1066		src_pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
+  1067							   OV2740_STREAM_PIXEL);
+  1068		src_meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
+  1069							    OV2740_STREAM_META);
+  1070	
+  1071		mode = v4l2_find_nearest_size(ov2740->supported_modes,
+  1072					      ov2740->supported_modes_count,
+  1073					      width, height,
+> 1074					      format.width, format.height);
+  1075		ov2740_update_pad_format(mode, pix_fmt);
+  1076		*format = *src_pix_fmt = *pix_fmt;
+  1077	
+  1078		meta_fmt->code = MEDIA_BUS_FMT_OV2740_EMBEDDED;
+  1079		meta_fmt->width = OV2740_META_WIDTH;
+  1080		meta_fmt->height = OV2740_META_HEIGHT;
+  1081		*src_meta_fmt = *meta_fmt;
+  1082		src_meta_fmt->code = MEDIA_BUS_FMT_META_8;
+  1083	
+  1084		if (which == V4L2_SUBDEV_FORMAT_TRY)
+  1085			return 0;
+  1086	
+  1087		ov2740->cur_mode = mode;
+  1088		__v4l2_ctrl_s_ctrl(ov2740->link_freq, mode->link_freq_index);
+  1089		__v4l2_ctrl_s_ctrl_int64(ov2740->pixel_rate,
+  1090					 to_pixel_rate(mode->link_freq_index));
+  1091	
+  1092		/* Update limits and set FPS to default */
+  1093		vblank_def = mode->vts_def - mode->height;
+  1094		__v4l2_ctrl_modify_range(ov2740->vblank,
+  1095					 mode->vts_min - mode->height,
+  1096					 mode->vts_max - mode->height, 1, vblank_def);
+  1097		__v4l2_ctrl_s_ctrl(ov2740->vblank, vblank_def);
+  1098		h_blank = mode->hts - mode->width;
+  1099		__v4l2_ctrl_modify_range(ov2740->hblank, h_blank, h_blank, 1, h_blank);
+  1100	
+  1101		return 0;
+  1102	}
+  1103	
+  1104	static int ov2740_set_format(struct v4l2_subdev *sd,
+  1105				     struct v4l2_subdev_state *sd_state,
+  1106				     struct v4l2_subdev_format *fmt)
+  1107	{
+  1108		return __ov2740_set_format(sd, sd_state, &fmt->format, fmt->which,
+  1109					   fmt->pad, fmt->stream);
+  1110	}
+  1111	
+  1112	static int ov2740_enum_mbus_code(struct v4l2_subdev *sd,
+  1113					 struct v4l2_subdev_state *sd_state,
+  1114					 struct v4l2_subdev_mbus_code_enum *code)
+  1115	{
+  1116		if (code->index > 0)
+  1117			return -EINVAL;
+  1118	
+  1119		code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+  1120	
+  1121		return 0;
+  1122	}
+  1123	
+  1124	static int ov2740_enum_frame_size(struct v4l2_subdev *sd,
+  1125					  struct v4l2_subdev_state *sd_state,
+  1126					  struct v4l2_subdev_frame_size_enum *fse)
+  1127	{
+  1128		struct ov2740 *ov2740 = to_ov2740(sd);
+  1129		const struct ov2740_mode *supported_modes = ov2740->supported_modes;
+  1130	
+  1131		if (fse->index >= ov2740->supported_modes_count)
+  1132			return -EINVAL;
+  1133	
+  1134		if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
+  1135			return -EINVAL;
+  1136	
+  1137		fse->min_width = supported_modes[fse->index].width;
+  1138		fse->max_width = fse->min_width;
+  1139		fse->min_height = supported_modes[fse->index].height;
+  1140		fse->max_height = fse->min_height;
+  1141	
+  1142		return 0;
+  1143	}
+  1144	
+  1145	static int ov2740_init_state(struct v4l2_subdev *sd,
+  1146				     struct v4l2_subdev_state *sd_state)
+  1147	{
+  1148		struct v4l2_subdev_route routes[] = {
+  1149			{
+  1150				.sink_pad = OV2740_PAD_PIXEL,
+  1151				.source_pad = OV2740_PAD_SOURCE,
+  1152				.source_stream = OV2740_STREAM_PIXEL,
+  1153				.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+  1154			}, {
+  1155				.sink_pad = OV2740_PAD_META,
+  1156				.source_pad = OV2740_PAD_SOURCE,
+  1157				.source_stream = OV2740_STREAM_META,
+  1158				.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+  1159			},
+  1160		};
+  1161		struct v4l2_subdev_krouting routing = {
+  1162			.routes = routes,
+  1163			.num_routes = ARRAY_SIZE(routes),
+  1164		};
+  1165		struct v4l2_subdev_state *active_state;
+  1166		struct v4l2_mbus_framefmt format = { 0 };
+  1167		int ret;
+  1168	
+  1169		ret = v4l2_subdev_set_routing(sd, sd_state, &routing);
+  1170		if (ret)
+  1171			return ret;
+  1172	
+  1173		active_state = v4l2_subdev_get_locked_active_state(sd);
+  1174	
+> 1175		ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
+  1176	
+  1177		return __ov2740_set_format(sd, sd_state, &format,
+  1178					   active_state == sd_state ?
+  1179					   V4L2_SUBDEV_FORMAT_ACTIVE :
+  1180					   V4L2_SUBDEV_FORMAT_TRY, OV2740_PAD_PIXEL, 0);
+  1181	}
+  1182	
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZYWmIgAKCRB4tDGHoIJi
-0v7KAP9rXDTXnNEgdhcvQJISjTma+ULoi7AVf044gvTAiu+I4wEAhI0/WGXRcWI2
-sMsJ6dV7i7ItV4+IYNJ+EBRIZruR5Qw=
-=gZJH
------END PGP SIGNATURE-----
-
---5C0G5NxMMW7lzTZE--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
