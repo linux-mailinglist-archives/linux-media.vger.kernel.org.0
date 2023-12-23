@@ -1,101 +1,122 @@
-Return-Path: <linux-media+bounces-2937-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2938-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785BC81D2A3
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 07:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9BF81D2BD
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 07:42:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 269771F2331A
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 06:20:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C2C791F241A7
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 06:42:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7531263A0;
-	Sat, 23 Dec 2023 06:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 768DC63C1;
+	Sat, 23 Dec 2023 06:42:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0iI1BbPS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DcDZEPw+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DFB8F5B;
-	Sat, 23 Dec 2023 06:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=i8jwMc+ol/8Y5K8Q4W43NKClO/u5WrxtZHkZQ1SIJkc=; b=0iI1BbPSbeRLSQT9nac/GXN5HJ
-	39vxTA07yu7HNoTKT4oe8DxnVvsB1S25m521iCFYF/agB3WXfJKQrFtrmH32+N572chS2Hs3FUaSc
-	vs8d0VciwZVdqtw20t7F8FIdm37kV/1rlK6jAcPj2odJ+GpbHebVjJ8E3d/QYGD+Qyn1lYpmkC64C
-	yg/XzUi1+nhRp/Nc6w6/HTv+hPlRf8FVDvxba3LyGbr2WY43X3DjNzG+ptdf4GGst9fKALhck8pCA
-	nFfoEW2DXZGkhUZA773kCCoJuQlBbszassfQ29+9x3C2mSQVJ7XZs1z4mHeYGbwoVvGtvz1mIyMSH
-	VwtOchcA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGvMo-007S9v-1H;
-	Sat, 23 Dec 2023 06:20:10 +0000
-Message-ID: <f482cc08-f695-461a-9366-627e65f4e544@infradead.org>
-Date: Fri, 22 Dec 2023 22:20:10 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58F68F56;
+	Sat, 23 Dec 2023 06:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6dbcc5d78eeso610105a34.3;
+        Fri, 22 Dec 2023 22:42:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703313720; x=1703918520; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Opo0R05OB5wID6sQJu4dx2K7wLhXLYuO4epgLQz9yZE=;
+        b=DcDZEPw+UdSVjSCR3kvMThhyXvrqUg4ZXC1nNA9zbHwpTWYSl+ZTR4au90UK91cMTQ
+         94oOJn+bCDJ5fw35YWwuacljX0y0jl8FYwRuABD1aCfna0E1CzvD0inqFQ2GnuQJW1g8
+         0AWS/TT79DwK2HFnqkoVMd7fPaWsidgBn5+S/et7VBflcyUgsrwkQUxlkaKkRnDujmw3
+         Q+MvoQpbkuCut6m/5lvAJuZKSG2WulWxTsBl+E//+/majAssSLpTOlTPKnoNHf3LQhmz
+         XIJcr53F83NWGInNduppofSqNAy6plflroCzWTgo9/l8ZRsZqHYmBe5C9o9zP9v1UfIl
+         VLcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703313720; x=1703918520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Opo0R05OB5wID6sQJu4dx2K7wLhXLYuO4epgLQz9yZE=;
+        b=qYAN0Gn+LA5kAJzKzkH4aqQix/qgHZhCJUujh4/MoJokb2QGC9+ISTP9iJReRJX6kL
+         nk5RFDDjlIScKIbB/3F3qMeVHq0czB8842t4YpPulwMcmqkizWtJYscNIT3mxaX5rKmD
+         rPt619h67n3GwQITwvGtn3LJ8SVMGUJ25L+ecu1Rje52UDjXHZzp2z1xKlJ/W0qdFIki
+         pAcHHW6gmtF1BA9HOy85F5LW7c3AaBml6LW1V1glJ0zEDpJHuVmp5gcDvt8cmEzjSZNS
+         1ZYFLuMUgLu+dSjsLU7DL/jIN1spxd/qR5bnYZt4du7pUy/XqcEMqOkxwUvAoDCSLUxW
+         eqJg==
+X-Gm-Message-State: AOJu0YxIpcfYPj0eJGVgwmaHQLMg6T2HxO6zPOdW4a0/sTFDfCMRI8kJ
+	iD5h0mReunDS76rIoGAqjBM=
+X-Google-Smtp-Source: AGHT+IGbvtCMw5QMbF5aP6/UdVWZWEKE1p3xJRB03uLf1/uxV2A9/CYxiwT4/8kX/82sgTUfK53q/Q==
+X-Received: by 2002:a05:6358:7e05:b0:172:fdd5:805 with SMTP id o5-20020a0563587e0500b00172fdd50805mr2924464rwm.27.1703313720528;
+        Fri, 22 Dec 2023 22:42:00 -0800 (PST)
+Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
+        by smtp.gmail.com with ESMTPSA id a15-20020a17090ad80f00b0028c35076de0sm423230pjv.35.2023.12.22.22.41.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Dec 2023 22:42:00 -0800 (PST)
+From: Dipendra Khadka <kdipendra88@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	hpa@redhat.com
+Cc: Dipendra Khadka <kdipendra88@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] staging: media/atomisp/pci: Fix spelling mistakes in sh_css_mipi.c
+Date: Sat, 23 Dec 2023 12:26:52 +0545
+Message-Id: <20231223064152.79712-1-kdipendra88@gmail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media/atomisp/pci/base/circbuf/interface: Fix
- spelling mistake in ia_css_circbuf.h
-Content-Language: en-US
-To: Dipendra Khadka <kdipendra88@gmail.com>, hdegoede@redhat.com,
- mchehab@kernel.org, sakari.ailus@linux.intel.com,
- gregkh@linuxfoundation.org, hpa@redhat.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223061647.78669-1-kdipendra88@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231223061647.78669-1-kdipendra88@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+codespell reported following spelling mistake
+in sh_css_mipi.c as below:
 
+'''
+./sh_css_mipi.c:177: separatelly ==> separately
+./sh_css_mipi.c:540: ofset ==> offset, of set
+'''
+This patch fixes these spelling mistakes by changing
+"separatelly" to "separately" and "ofset" to "offset".
 
-On 12/22/23 22:16, Dipendra Khadka wrote:
-> codespell reported following spelling mistake
-> in ia_css_circbuf.h as below:
-> 
-> '''
-> ./base/circbuf/interface/ia_css_circbuf.h:76: poistion ==> position
-> '''
-> This patch fixes this spelling mistake.
-> 
-> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_mipi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  .../media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h   | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> index 0579deac5535..e9846951f4ed 100644
-> --- a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> +++ b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> @@ -73,7 +73,7 @@ uint32_t ia_css_circbuf_pop(
->  
->  /**
->   * @brief Extract a value out of the circular buffer.
-> - * Get a value at an arbitrary poistion in the circular
-> + * Get a value at an arbitrary position in the circular
->   * buffer. The user should call "ia_css_circbuf_is_empty()"
->   * to avoid accessing to an empty buffer.
->   *
-
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+index b7c1e164ee24..6e11fd771938 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+@@ -174,7 +174,7 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
+ 	mem_words = ((embedded_data_size_words + 7) >> 3) +
+ 	mem_words_for_first_line +
+ 	(((height + 1) >> 1) - 1) * mem_words_per_odd_line +
+-	/* ceil (height/2) - 1 (first line is calculated separatelly) */
++	/* ceil (height/2) - 1 (first line is calculated separately) */
+ 	(height      >> 1) * mem_words_per_even_line + /* floor(height/2) */
+ 	mem_words_for_EOF;
+ 
+@@ -537,7 +537,7 @@ send_mipi_frames(struct ia_css_pipe *pipe)
+ 
+ 	/* Hand-over the SP-internal mipi buffers */
+ 	for (i = 0; i < my_css.num_mipi_frames[port]; i++) {
+-		/* Need to include the ofset for port. */
++		/* Need to include the offset for port. */
+ 		sh_css_update_host2sp_mipi_frame(port * NUM_MIPI_FRAMES_PER_STREAM + i,
+ 						 my_css.mipi_frames[port][i]);
+ 		sh_css_update_host2sp_mipi_metadata(port * NUM_MIPI_FRAMES_PER_STREAM + i,
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+2.39.2 (Apple Git-143)
+
 
