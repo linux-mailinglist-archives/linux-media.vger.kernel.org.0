@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-2934-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2935-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B3881D298
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 07:04:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C3E81D29D
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 07:17:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A57D2848DF
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 06:04:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 293A3284FA7
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 06:17:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C04486122;
-	Sat, 23 Dec 2023 06:04:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 860B86108;
+	Sat, 23 Dec 2023 06:16:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SzyEBLBS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0vN1LtS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FBA63C7;
-	Sat, 23 Dec 2023 06:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2D75664;
+	Sat, 23 Dec 2023 06:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6d089e8b1b2so1689821b3a.3;
-        Fri, 22 Dec 2023 22:04:32 -0800 (PST)
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7ba834684abso103659339f.2;
+        Fri, 22 Dec 2023 22:16:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703311472; x=1703916272; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1703312217; x=1703917017; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXkJe47tIZ6CS0rCi+p/41rd9M+SnrlGZxxaIAMxpHI=;
-        b=SzyEBLBSUbKmCDuF5ykwdpXdY31RQrRHcGzJDG45+PDTEAvPBDoMzgQ4rYbEjhi3YP
-         9Orj6L3WciUBMeutoWuHw36rlaN8rw5yjIebgS+jeCLbqkMUakQluSgxgMeIwPC49iS2
-         FYzB89sa+sN2sFd5LXjYxCLflEvDJ692A9ZwtnnJmsUwtxIv8gdqTOnBSKRHxzpsBCTz
-         YcHBT5LpD7BxjqQQFYbDCccki2RqPLbJ+4uZZqtKOBQL8KiyJPgQI7Zb97EqR+7Yh/Uu
-         24nPPiAjmUmVwphViUgKOEQBg3hfW2gi0V6DU/pJKpnq7VGNYZWDZlZSDlju3mFPpVp6
-         iDDQ==
+        bh=v7njaXclry8FJLwii07+vYUOoiK5EVEJQBJVFl/kxqE=;
+        b=e0vN1LtS2itSAh7LXF60xnsKzuXL2jXcQROdmxTOR8nlR3a0IP6R7BbJMSAFXCxxQo
+         khJL+RCDQThN+HqTYi9pRv5ZUtPVf9EbhI24a3Y4yCeJ+LjCZm6zPzkVU+CtwaVFhr7v
+         7tqTBqu5LJ0IbU5YCzHYznXHDmpgQZ4PgA1ztTZWXwGMiGz4v99dqrU8GIE/QAnKycPI
+         tQ7JwpjTwvX+Gkr2A/oMXbD2zLlTJfSIgRORuw+Xn75Q2NPJmiU0KK3w0EtoJlqi98lT
+         k1GrK+rpAPLpF6Fa8+mUx5Z7E4xcXiQkIv6/yqTpW3pYKrcig4ygQLsqI5Djp7TXRWaE
+         0nTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703311472; x=1703916272;
+        d=1e100.net; s=20230601; t=1703312217; x=1703917017;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FXkJe47tIZ6CS0rCi+p/41rd9M+SnrlGZxxaIAMxpHI=;
-        b=Ig3Ej3X5YUTRmT4gXzN+7BPmnrwsMHqePDNF4t6CcTQc1ZyDNhXzqy/Fz3jHejFlxT
-         X7FVlCuPoEwWDltCBeJSp3se6S+Lg3q88gun4E8/NVZjyd5B/5ouWBMEyq+0kdkEziNZ
-         uXI37RmCurnypHzd85CD9567W0pk4K9a8sztGT+m5hod7g6g4/aXRKIyMiS7YtptBgHg
-         6/wuyE1YAZP4G+fsEeCv2URDi3yYJPdwpSlc3lUek6PqFcAQqaWWNfK2yi+NHIo8bcl9
-         7NFqJGkCYygjoV2tsbXN8OAvMURqOKGvVQQiKeMnnlL2/3uu6qWMFCHhEinBJ2+gV7jq
-         SHbA==
-X-Gm-Message-State: AOJu0YyS9acE/K5omV0LpBV1NEudsdIn2j/9VQlatrJOfJm+0XcRRdM7
-	z9XCUdN5k3DmyLNeUhHh4dvWAJ5crgaNyA==
-X-Google-Smtp-Source: AGHT+IHOyCwfs7Vf2ci1UdE0M1SAzA3hPLcfvCDSsqlTXNEfg/W3ZBqqM/SLwNDrMh5AOSpPF80Png==
-X-Received: by 2002:a05:6a20:4e11:b0:195:79a:a29c with SMTP id gk17-20020a056a204e1100b00195079aa29cmr1354700pzb.96.1703311471697;
-        Fri, 22 Dec 2023 22:04:31 -0800 (PST)
+        bh=v7njaXclry8FJLwii07+vYUOoiK5EVEJQBJVFl/kxqE=;
+        b=glnJiF7G8DJnWA9sDVB5LksaU9jTI/mxm6+RPhvLZTE6xEnDO6BwV6xy7khGQwEVe4
+         hwrgL26FSuPys4Zu3eCAYoydWWwxWRlqM0Ne/kFppki76nj1UCFkzNvGKI9ZBEpX5vHX
+         HkG9BuxNA0A0XPxuVFnpPqS8q6MVUo91vTUx8jyssrxX0RTRVsTxm+307dPf1xaG1wxo
+         RcLXMt6oVnn5h6ssDhbFG13Tps1aXnThGd0cZUXuKGyrl3iCUNDzqhTVDAsfBVfPgp2v
+         PNupiOHlc7aKu8ytaUtlHeDcg+MbgLfGv5xqjPA/BHUmqqW7CO3z7gPUV1nmkC8RFxn0
+         q94w==
+X-Gm-Message-State: AOJu0YyAToffjB34ALdFMN1Ru8fhJgA0fT25umJ44rDgVoTxqG5WkEjV
+	vN2OOtZrRXW+NPCaOU0HvcvHbPgMa0nPqw==
+X-Google-Smtp-Source: AGHT+IF8YJ43SrzDQe7J5DlABGxtPTsbfEZgJo+fSABzEFKyifcAkhaVcjxBU16GO8jG8S++691oBg==
+X-Received: by 2002:a5e:c80e:0:b0:7ba:813c:39bd with SMTP id y14-20020a5ec80e000000b007ba813c39bdmr3096868iol.42.1703312216698;
+        Fri, 22 Dec 2023 22:16:56 -0800 (PST)
 Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
-        by smtp.gmail.com with ESMTPSA id g22-20020a170902869600b001cca8a01e68sm4335750plo.278.2023.12.22.22.04.27
+        by smtp.gmail.com with ESMTPSA id f26-20020aa78b1a000000b006d97f80c4absm3024061pfd.41.2023.12.22.22.16.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 22:04:31 -0800 (PST)
+        Fri, 22 Dec 2023 22:16:56 -0800 (PST)
 From: Dipendra Khadka <kdipendra88@gmail.com>
 To: hdegoede@redhat.com,
 	mchehab@kernel.org,
@@ -67,9 +67,9 @@ Cc: Dipendra Khadka <kdipendra88@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media/atomisp/pci/base/circbuf/src: Fix spelling mistakes in circbuf.c
-Date: Sat, 23 Dec 2023 11:49:22 +0545
-Message-Id: <20231223060422.77789-1-kdipendra88@gmail.com>
+Subject: [PATCH] staging: media/atomisp/pci/base/circbuf/interface: Fix spelling mistake in ia_css_circbuf.h
+Date: Sat, 23 Dec 2023 12:01:47 +0545
+Message-Id: <20231223061647.78669-1-kdipendra88@gmail.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -79,42 +79,32 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-codespell reported following spelling mistakes
-in circbuf.c as below:
+codespell reported following spelling mistake
+in ia_css_circbuf.h as below:
 
 '''
-./circbuf.c:27: whehter ==> whether
-./circbuf.c:132: offest ==> offset
+./base/circbuf/interface/ia_css_circbuf.h:76: poistion ==> position
 '''
-This patch fixes these spelling mistakes.
+This patch fixes this spelling mistake.
 
 Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-index d9f7c143794d..2f484ef9d4b5 100644
---- a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-+++ b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-@@ -24,7 +24,7 @@
-  **********************************************************************/
- /*
-  * @brief Read the oldest element from the circular buffer.
-- * Read the oldest element WITHOUT checking whehter the
-+ * Read the oldest element WITHOUT checking whether the
-  * circular buffer is empty or not. The oldest element is
-  * also removed out from the circular buffer.
+diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
+index 0579deac5535..e9846951f4ed 100644
+--- a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
++++ b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
+@@ -73,7 +73,7 @@ uint32_t ia_css_circbuf_pop(
+ 
+ /**
+  * @brief Extract a value out of the circular buffer.
+- * Get a value at an arbitrary poistion in the circular
++ * Get a value at an arbitrary position in the circular
+  * buffer. The user should call "ia_css_circbuf_is_empty()"
+  * to avoid accessing to an empty buffer.
   *
-@@ -129,7 +129,7 @@ uint32_t ia_css_circbuf_extract(ia_css_circbuf_t *cb, int offset)
- 	u32 src_pos;
- 	u32 dest_pos;
- 
--	/* get the maximum offest */
-+	/* get the maximum offset */
- 	max_offset = ia_css_circbuf_get_offset(cb, cb->desc->start, cb->desc->end);
- 	max_offset--;
- 
 -- 
 2.39.2 (Apple Git-143)
 
