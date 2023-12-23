@@ -1,121 +1,193 @@
-Return-Path: <linux-media+bounces-2949-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2959-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D1081D53E
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 18:25:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6306781D5F6
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 19:32:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 269DBB21F0C
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 17:25:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE6FF1F23E7E
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 18:32:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37BA811CB8;
-	Sat, 23 Dec 2023 17:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 204342511A;
+	Sat, 23 Dec 2023 18:29:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Aj0VebDr"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="DIh3bXCt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1312E47;
-	Sat, 23 Dec 2023 17:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=CQQESp8gFfmcpFTEZcuFObTGZOcaKuZ6kDi9nty6UKk=; b=Aj0VebDrk8KINg0Lb3DQB1oWPe
-	79C7rbLO1NpGez1/qG0MeL9s4UR60ffiZZeAUSKJzKLcXeFv1uoDx/ruLsnnXEfTHjPLohg0yoOjU
-	9jvbrJGPjhPaYh2vkOKGXf7n/IFC3MvT1zvyzXXlFEzKS4+EBrL1lQkzuhEDzk1YfDJ/vwdRPwOn9
-	+IWXBOtGqIySSJ6uAiZxNjhPsPkioxJsyoZJ7JxsurBpUHvNqqDo9E99bt7KRg9cDiF0n1nbJZ/O7
-	lTBiEFeJ7sr0VFipDYnPkmFb+g0P365YyBb+r9NzVPjMf3Fs9F88yXQFmMRaTSIdsUVan/S0RuBUx
-	GYSCLxYQ==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rH5ke-008DSF-2M;
-	Sat, 23 Dec 2023 17:25:28 +0000
-Message-ID: <ddadc844-4f30-453d-87cc-1ecd67fd2f37@infradead.org>
-Date: Sat, 23 Dec 2023 09:25:28 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732DA2208A;
+	Sat, 23 Dec 2023 18:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 38ff171ca1c111eea5db2bebc7c28f94-20231224
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=3gOWOBV0rgKU+/PmGI3xj46A8m8R3ijvR09XFgFjDzI=;
+	b=DIh3bXCtN/fYiNVanoR0oH/u095iil8OqB/bV4Ft11zdeqJ12vybbNzJidSozVn3CCkudYBJgiujZct5pog0dsIYcYxeUk9MW/azE3v4dg9N9yzYKPcmSofJJUpYyb5VE7BroAW9Mfmq2QGMqUayH05wxOaRld/LAncd4v8lU8U=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35,REQID:9436a27a-c04f-4c20-8cee-848bfa2f11fc,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:5d391d7,CLOUDID:a65d7f8d-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+	DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 38ff171ca1c111eea5db2bebc7c28f94-20231224
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1914793848; Sun, 24 Dec 2023 02:29:35 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sun, 24 Dec 2023 02:29:33 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sun, 24 Dec 2023 02:29:33 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu
+	<chunkuang.hu@kernel.org>
+CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>, Jason-ch Chen <jason-ch.chen@mediatek.com>,
+	Johnson Wang <johnson.wang@mediatek.com>, "Jason-JH . Lin"
+	<jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
+ Lin <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jeffrey Kardatzke
+	<jkardatzke@google.com>, Jason-jh Lin
+	<jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH v3 00/11] Add mediate-drm secure flow for SVP
+Date: Sun, 24 Dec 2023 02:29:21 +0800
+Message-ID: <20231223182932.27683-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: media: atomisp: pci: Fix spelling mistake in
- ia_css_acc_types.h
-Content-Language: en-US
-To: Dipendra Khadka <kdipendra88@gmail.com>, hdegoede@redhat.com,
- mchehab@kernel.org, sakari.ailus@linux.intel.com,
- gregkh@linuxfoundation.org, hpa@redhat.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223141157.95501-1-kdipendra88@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231223141157.95501-1-kdipendra88@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
 
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
+Memory Definitions:
+secure memory - Memory allocated in the TEE (Trusted Execution
+Environment) which is inaccessible in the REE (Rich Execution
+Environment, i.e. linux kernel/userspace).
+secure handle - Integer value which acts as reference to 'secure
+memory'. Used in communication between TEE and REE to reference
+'secure memory'.
+secure buffer - 'secure memory' that is used to store decrypted,
+compressed video or for other general purposes in the TEE.
+secure surface - 'secure memory' that is used to store graphic buffers.
 
-On 12/23/23 06:11, Dipendra Khadka wrote:
-> codespell reported spelling mistakes in
-> ia_css_acc_types.h as below:
-> 
-> '''
-> ia_css_acc_types.h:87: cummulative ==> cumulative
-> ia_css_acc_types.h:411: descibes ==> describes
-> '''
-> 
-> This patch fixes these spelling mistakes.
-> Word "cummulative" is changed to "accumulation"
-> and "descibes" to "describes".
-> 
-> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+Memory Usage in SVP:
+The overall flow of SVP starts with encrypted video coming in from an
+outside source into the REE. The REE will then allocate a 'secure
+buffer' and send the corresponding 'secure handle' along with the
+encrypted, compressed video data to the TEE. The TEE will then decrypt
+the video and store the result in the 'secure buffer'. The REE will
+then allocate a 'secure surface'. The REE will pass the 'secure
+handles' for both the 'secure buffer' and 'secure surface' into the
+TEE for video decoding. The video decoder HW will then decode the
+contents of the 'secure buffer' and place the result in the 'secure
+surface'. The REE will then attach the 'secure surface' to the overlay
+plane for rendering of the video.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Everything relating to ensuring security of the actual contents of the
+'secure buffer' and 'secure surface' is out of scope for the REE and
+is the responsibility of the TEE.
 
-Thanks.
+DRM driver handles allocation of gem objects that are backed by a 'secure
+surface' and for displaying a 'secure surface' on the overlay plane.
+This introduces a new flag for object creation called
+DRM_MTK_GEM_CREATE_ENCRYPTED which indicates it should be a 'secure
+surface'. All changes here are in MediaTek specific code.
+---
+TODO:
+1) Remove get sec larb port interface in ddp_comp, ovl and ovl_adaptor.
+2) Verify instruction for enabling/disabling dapc and larb port in TEE
+   drop the sec_engine flags in normal world and.
+3) Move DISP_REG_OVL_SECURE setting to secure world for mtk_disp_ovl.c.
+4) Change the parameter register address in mtk_ddp_sec_write()
+   from "u32 addr" to "struct cmdq_client_reg *cmdq_reg".
+5) Implement setting mmsys routing table in the secure world series.
+---
+Based on 5 series and 1 patch:
+[1] v3 dma-buf: heaps: Add MediaTek secure heap
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=809023
+[2] v3 add driver to support secure video decoder
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=807308
+[3] v4 soc: mediatek: Add register definitions for GCE
+- https://patchwork.kernel.org/project/linux-mediatek/patch/20231212121957.19231-2-shawn.sung@mediatek.com/
+[4] v2 Add CMDQ driver support for mt8188
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=810302
+[5] Add mediatek,gce-events definition to mediatek,gce-mailbox bindings
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=810938
+[6] v3 Add CMDQ secure driver for SVP
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=812379
+---
+Change in v3:
+1. fix kerneldoc problems
+2. fix typo in title and commit message
+3. adjust naming for secure variable
+4. add the missing part for is_suecure plane implementation
+5. use BIT_ULL macro to replace bit shifting
+6. move modification of ovl_adaptor part to the correct patch
+7. add TODO list in commit message
+8. add commit message for using share memory to store execute count
 
-> ---
-> v3:
->  - Changed "cummulative" to "accumulation" as suggested by Randy.
-> v2: https://lore.kernel.org/lkml/20231223051108.74711-1-kdipendra88@gmail.com/
->  - Previously only corrected spelling  mistake reported by checkpatch.pl.
->  - All spelling mistakes reported by codespell are fixed.
-> v1: https://lore.kernel.org/lkml/20231222200350.2024-1-kdipendra88@gmail.com/
-> 
->  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> index d6e52b4971d6..f6838a8fc9d5 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> @@ -84,7 +84,7 @@ struct ia_css_blob_info {
->  		memory_offsets;  /** offset wrt hdr in bytes */
->  	u32 prog_name_offset;  /** offset wrt hdr in bytes */
->  	u32 size;			/** Size of blob */
-> -	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
-> +	u32 padding_size;	/** total accumulation of bytes added due to section alignment */
->  	u32 icache_source;	/** Position of icache in blob */
->  	u32 icache_size;	/** Size of icache section */
->  	u32 icache_padding;/** bytes added due to icache section alignment */
-> @@ -408,7 +408,7 @@ struct ia_css_acc_sp {
->  };
->  
->  /* Acceleration firmware descriptor.
-> -  * This descriptor descibes either SP code (stand-alone), or
-> +  * This descriptor describes either SP code (stand-alone), or
->    * ISP code (a separate pipeline stage).
->    */
->  struct ia_css_acc_fw_hdr {
+Change in v2:
+
+1. remove the DRIVER_RDNDER flag for mtk_drm_ioctl
+2. move cmdq_insert_backup_cookie into client driver
+3. move secure gce node define from mt8195-cherry.dtsi to mt8195.dtsi
+---
+CK Hu (1):
+  drm/mediatek: Add interface to allocate MediaTek GEM buffer.
+
+Jason-JH.Lin (10):
+  drm/mediatek/uapi: Add DRM_MTK_GEM_CREATE_ENCRYPTED flag
+  drm/mediatek: Add secure buffer control flow to mtk_drm_gem
+  drm/mediatek: Add secure identify flag and funcution to mtk_drm_plane
+  drm/mediatek: Add mtk_ddp_sec_write to config secure buffer info
+  drm/mediatek: Add get_sec_port interface to mtk_ddp_comp
+  drm/mediatek: Add secure layer config support for ovl
+  drm/mediatek: Add secure layer config support for ovl_adaptor
+  drm/mediatek: Add secure flow support to mediatek-drm
+  drm/mediatek: Add cmdq_insert_backup_cookie before secure pkt finalize
+  arm64: dts: mt8195: Add secure mbox settings for vdosys
+
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      |   6 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   3 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  31 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  15 +
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 274 +++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  30 ++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  14 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  13 +
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c        | 122 ++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_gem.h        |  16 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |  26 ++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   2 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       |  11 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |   2 +
+ include/uapi/drm/mediatek_drm.h               |  59 ++++
+ 16 files changed, 607 insertions(+), 18 deletions(-)
+ create mode 100644 include/uapi/drm/mediatek_drm.h
 
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+2.18.0
+
 
