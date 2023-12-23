@@ -1,151 +1,121 @@
-Return-Path: <linux-media+bounces-2948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2949-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D731F81D525
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 17:44:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D1081D53E
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 18:25:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C0FD1C21023
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 16:44:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 269DBB21F0C
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 17:25:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D4710A2F;
-	Sat, 23 Dec 2023 16:44:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37BA811CB8;
+	Sat, 23 Dec 2023 17:25:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VU9iFXsu"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Aj0VebDr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABFA10961;
-	Sat, 23 Dec 2023 16:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6dbd00f084eso785611a34.0;
-        Sat, 23 Dec 2023 08:44:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703349860; x=1703954660; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A8RrFYaQY1C1Ro1apdYiZkYhpyoj4xSq5iwP4LNvPrA=;
-        b=VU9iFXsuWB257NQGGVFHgS62WOetbLBXZX3TUgDE3//B9EmVI2h2ZShRHKtUhq6oq9
-         +vAOaVHGQKktn3snMPPEIwUNUELONOuP57YrcpQcgI4kMtegMBqz5xSOwZbz2zu5w7/y
-         wJZxhlzL31IktnkEi2y0iclZhesuFHRjR3WOO4Gx+NzSxAXyBjdek76NHH4YKnW5/HYa
-         2eC6QgZh8KlPOuzvq2q+pOqfoswrywD6NDJrYmbusbEXPbX9tvTQA4FN6Q3SwdhFmQMA
-         46CFMvVn7MRvIbE3n/jpxtKIKI5vUZL+Ys13sOLtQ8o5P1+iNy6p5FEZ9Pmv7VM00wIW
-         r1jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703349860; x=1703954660;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A8RrFYaQY1C1Ro1apdYiZkYhpyoj4xSq5iwP4LNvPrA=;
-        b=oIp/s/Qp7rBbXcgIT0Wpq4rD/PnK0OEkEl2ogL/XIRjXoZ5eQ+blvsIzTIOXzhwkGr
-         1UX7umJJjCP3BMgLfaEB0lRtwpx65Onq5H0L/zhiGA/83ydLZmoLmXKGFnzj5sL30S+1
-         B3At+UsxSC9v1zQ3L6nBHPbZN/tHkAiSFWDqdHjbakWaG31Qdz6yUcSHTFt6WYjBiMTB
-         /2Dz7M3WzVh8478lES5F9erEFiIp9KR47p0zzJue1jqA9GTD6SDJ539/LL90v29yH7Z3
-         ixSN90o3NM3yLK7H4zQQO4fxeTGho68SockIaHYLXjtx+M7+R16RDazjF0xKyUuzl5jX
-         xUJg==
-X-Gm-Message-State: AOJu0YyRKrCol8ztOufIsht28+7oZx/6gw7qvz2imceE19Bt5rUYQ3Q2
-	NBNWIBpEaKwDE3WbYzV6Z4w=
-X-Google-Smtp-Source: AGHT+IFDvbGyOc3tMXRLa19QJHjPpfxfXv+Ma5HusaiiXVa6Dh1lSTSfLVRGla//+nCd7O5t5dyMhg==
-X-Received: by 2002:a05:6358:880b:b0:174:b7f2:51db with SMTP id hv11-20020a056358880b00b00174b7f251dbmr3599193rwb.19.1703349859773;
-        Sat, 23 Dec 2023 08:44:19 -0800 (PST)
-Received: from oslab-pc.. ([2402:f000:4:1006:809:ffff:ffff:ec29])
-        by smtp.gmail.com with ESMTPSA id l12-20020a17090a598c00b0028b8499dc80sm5475858pji.39.2023.12.23.08.44.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Dec 2023 08:44:19 -0800 (PST)
-From: Tuo Li <islituo@gmail.com>
-To: s.nawrocki@samsung.com,
-	mchehab@kernel.org,
-	krzysztof.kozlowski@linaro.org,
-	alim.akhtar@samsung.com
-Cc: linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	Tuo Li <islituo@gmail.com>,
-	stable@vger.kernel.org,
-	BassCheck <bass@buaa.edu.cn>
-Subject: [PATCH] media:fimc-capture: Fix a possible data inconsistency due to a data race in fimc_subdev_set_fmt()
-Date: Sun, 24 Dec 2023 00:43:51 +0800
-Message-Id: <20231223164351.3521588-1-islituo@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1312E47;
+	Sat, 23 Dec 2023 17:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=CQQESp8gFfmcpFTEZcuFObTGZOcaKuZ6kDi9nty6UKk=; b=Aj0VebDrk8KINg0Lb3DQB1oWPe
+	79C7rbLO1NpGez1/qG0MeL9s4UR60ffiZZeAUSKJzKLcXeFv1uoDx/ruLsnnXEfTHjPLohg0yoOjU
+	9jvbrJGPjhPaYh2vkOKGXf7n/IFC3MvT1zvyzXXlFEzKS4+EBrL1lQkzuhEDzk1YfDJ/vwdRPwOn9
+	+IWXBOtGqIySSJ6uAiZxNjhPsPkioxJsyoZJ7JxsurBpUHvNqqDo9E99bt7KRg9cDiF0n1nbJZ/O7
+	lTBiEFeJ7sr0VFipDYnPkmFb+g0P365YyBb+r9NzVPjMf3Fs9F88yXQFmMRaTSIdsUVan/S0RuBUx
+	GYSCLxYQ==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rH5ke-008DSF-2M;
+	Sat, 23 Dec 2023 17:25:28 +0000
+Message-ID: <ddadc844-4f30-453d-87cc-1ecd67fd2f37@infradead.org>
+Date: Sat, 23 Dec 2023 09:25:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] staging: media: atomisp: pci: Fix spelling mistake in
+ ia_css_acc_types.h
+Content-Language: en-US
+To: Dipendra Khadka <kdipendra88@gmail.com>, hdegoede@redhat.com,
+ mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, hpa@redhat.com
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20231223141157.95501-1-kdipendra88@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231223141157.95501-1-kdipendra88@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Accesses to ctx->s_frame.width and ctx->s_frame.height should be protected
-by the lock fimc->lock to guarantee that width and height are consistent.
-Here is an example in fimc_subdev_get_fmt():
 
-  struct fimc_frame *ff = &ctx->s_frame; // Alias
-  mutex_lock(&fimc->lock);
-  mf->width = ff->width;
-  mf->height = ff->height;
 
-However, ctx->s_frame.width and ctx->s_frame.height are accessed without 
-holding the lock fimc->lock in fimc_subdev_set_fmt():
+On 12/23/23 06:11, Dipendra Khadka wrote:
+> codespell reported spelling mistakes in
+> ia_css_acc_types.h as below:
+> 
+> '''
+> ia_css_acc_types.h:87: cummulative ==> cumulative
+> ia_css_acc_types.h:411: descibes ==> describes
+> '''
+> 
+> This patch fixes these spelling mistakes.
+> Word "cummulative" is changed to "accumulation"
+> and "descibes" to "describes".
+> 
+> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 
-  mf->width = ctx->s_frame.width;
-  mf->height = ctx->s_frame.height;
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-And thus a harmful data race can occur, which can make ctx->s_frame.width
-inconsistent with ctx->s_frame.height, if ctx->s_frame.height is updated 
-right after ctx->s_frame.width is accessed by another thread.
+Thanks.
 
-This possible bug is found by an experimental static analysis tool
-developed by our team, BassCheck[1]. This tool analyzes the locking APIs
-to extract function pairs that can be concurrently executed, and then
-analyzes the instructions in the paired functions to identify possible
-concurrency bugs including data races and atomicity violations. The above
-possible bug is reported when our tool analyzes the source code of
-Linux 6.2.
+> ---
+> v3:
+>  - Changed "cummulative" to "accumulation" as suggested by Randy.
+> v2: https://lore.kernel.org/lkml/20231223051108.74711-1-kdipendra88@gmail.com/
+>  - Previously only corrected spelling  mistake reported by checkpatch.pl.
+>  - All spelling mistakes reported by codespell are fixed.
+> v1: https://lore.kernel.org/lkml/20231222200350.2024-1-kdipendra88@gmail.com/
+> 
+>  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> index d6e52b4971d6..f6838a8fc9d5 100644
+> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> @@ -84,7 +84,7 @@ struct ia_css_blob_info {
+>  		memory_offsets;  /** offset wrt hdr in bytes */
+>  	u32 prog_name_offset;  /** offset wrt hdr in bytes */
+>  	u32 size;			/** Size of blob */
+> -	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
+> +	u32 padding_size;	/** total accumulation of bytes added due to section alignment */
+>  	u32 icache_source;	/** Position of icache in blob */
+>  	u32 icache_size;	/** Size of icache section */
+>  	u32 icache_padding;/** bytes added due to icache section alignment */
+> @@ -408,7 +408,7 @@ struct ia_css_acc_sp {
+>  };
+>  
+>  /* Acceleration firmware descriptor.
+> -  * This descriptor descibes either SP code (stand-alone), or
+> +  * This descriptor describes either SP code (stand-alone), or
+>    * ISP code (a separate pipeline stage).
+>    */
+>  struct ia_css_acc_fw_hdr {
 
-To fix this possible data race, the lock operation mutex_lock(&fimc->lock)
-is moved to the front of the accesses to these two variables. With this 
-patch applied, our tool no longer reports the bug, with the kernel 
-configuration allyesconfig for x86_64. Due to the lack of associated 
-hardware, we cannot test the patch in runtime testing, and just verify it 
-according to the code logic.
-
-[1] https://sites.google.com/view/basscheck/
-
-Fixes: 88fa8311ee36 ("[media] s5p-fimc: Add support for ISP Writeback ...")
-Signed-off-by: Tuo Li <islituo@gmail.com>
-Cc: stable@vger.kernel.org
-Reported-by: BassCheck <bass@buaa.edu.cn>
----
- drivers/media/platform/samsung/exynos4-is/fimc-capture.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-capture.c b/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
-index a0d43bf892e6..5c8b67f92c65 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
-@@ -1546,6 +1546,7 @@ static int fimc_subdev_set_fmt(struct v4l2_subdev *sd,
- 	fimc_alpha_ctrl_update(ctx);
- 
- 	fimc_capture_mark_jpeg_xfer(ctx, ffmt->color);
-+	mutex_lock(&fimc->lock);
- 	if (fmt->pad == FIMC_SD_PAD_SOURCE) {
- 		ff = &ctx->d_frame;
- 		/* Sink pads crop rectangle size */
-@@ -1555,7 +1556,6 @@ static int fimc_subdev_set_fmt(struct v4l2_subdev *sd,
- 		ff = &ctx->s_frame;
- 	}
- 
--	mutex_lock(&fimc->lock);
- 	set_frame_bounds(ff, mf->width, mf->height);
- 
- 	if (fmt->pad == FIMC_SD_PAD_SINK_FIFO)
 -- 
-2.34.1
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
 
