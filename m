@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-2942-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2943-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB21A81D31E
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 09:32:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 163CD81D34C
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 10:15:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D84E284507
-	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 08:32:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8BF9284AD8
+	for <lists+linux-media@lfdr.de>; Sat, 23 Dec 2023 09:15:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07D2E8BF8;
-	Sat, 23 Dec 2023 08:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 106318F7E;
+	Sat, 23 Dec 2023 09:15:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CAUXUNN8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y0bj6ZPo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BDC8BE5;
-	Sat, 23 Dec 2023 08:32:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FA28F4E;
+	Sat, 23 Dec 2023 09:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso1844961a12.3;
-        Sat, 23 Dec 2023 00:32:06 -0800 (PST)
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-35d725ac060so10989715ab.2;
+        Sat, 23 Dec 2023 01:15:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703320325; x=1703925125; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1703322930; x=1703927730; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ltOi6r7fK9bfySPLwaQJXbTwu4MoVyIkyF1mw73/wow=;
-        b=CAUXUNN8NmuJnW+wf6KU7U9pLSg+3YIZ8JelM1djcILXGRyYopvYJsH2Wexwu3RVWR
-         s5e2/DFlCP2NY4Qfrk6OMuixzKbnnEHhTtRUd1hiu3QN3O8sI9kXg3TQh6MyzPVZbayv
-         PNWyJUn4JADpGuGzFdiOTYe9thigxz1PxK6zSdM1aaIHj5sfhl2d8TLzgZHXJKsA6duq
-         vLpu/hWgHBVPb+H0APtQlAhwlf0yYEprRsnpSGmNNYWi54hah8+bfgj1Um803Klc9Vk+
-         dPhNkQ1+YwUOE8B5oEyB1WAeE9RDmXc087jyCeStx1oAzt+ZXjUMMDU7PLYrocYaKL+9
-         RxbQ==
+        bh=EqU4At89cLX9pipG5dJk4yhFSAyDFeGlPgFtPpbBGJM=;
+        b=Y0bj6ZPobw6Sv+o314yHtin9qHCNfNSac2Ertv0kjwwQGuFBJeV7e6rVq8FGF687O3
+         CakBfwd6gIpz4HmZzuPkmPh1XqM5m3LQvtkc0Nb9a2WEbPzbEOjqwqDFUSVb4d6mf7FP
+         wwTqyLPCBlqatXnrrQtd+HIPXIyhu/6dlJ6ol32BLUOqO8S2OzZj45fppPeEXQikxsLI
+         vYmVCS2tb6fYc3UGLfXDk8Dt1mctdD0xNFnf2NhfW2Spiv6B2r77QA+KAOXM+gANqEQ3
+         ASd5H0IUJrh0dSli78iQJu6B/leIOuRihBl2kKhckkbX1RRwL+63F6rc+m+Dfw7+ZNQl
+         Uy1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703320325; x=1703925125;
+        d=1e100.net; s=20230601; t=1703322930; x=1703927730;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ltOi6r7fK9bfySPLwaQJXbTwu4MoVyIkyF1mw73/wow=;
-        b=d2Ni7frsOxMJfkntoa6ZYk3MwyDyM6HCyLIjlN1q8rReERqPdHT1ubXgTxAHSC6U7H
-         RHZyR49NLeicZbxNUJL+/0fWitGSW8kSZ9i8gRvPlCHVPGntQivPHyixT34y8+RoFTYU
-         qjk8k2jkkxNNymfO8blzSf2NaLQHCh3KDgo+5Rgh2YwH/QmbPrGO7n/b3mmw44R2MnoU
-         LW8dp+FK2uRfYx/pxoQWGvhDlT3QrP9zRkwQFABTpxmJ5dWpcdC3XNFe5bdJAJh7xJIR
-         Jgd/jJsDsHIQC5EZanPDlrepog4iz/f6cToSyG+mzaOtuH1FLV7PY+rmsv0fP+rzO1Nr
-         cZPw==
-X-Gm-Message-State: AOJu0YwY2Te6YU5+b4rmROdWCCJnxLWGSDjpbwgx4EFw9OB300jwS5PO
-	1heqKMGYXcGFHFs2m2BvEn4=
-X-Google-Smtp-Source: AGHT+IF9s6B9AwwFBmikLvuFCZBc0WaXkD1epFSbGhnrvs9lMnWisGnxqwIEE/DC5z5Sax9vGjvWhg==
-X-Received: by 2002:a17:903:41c9:b0:1d0:6ffd:9e06 with SMTP id u9-20020a17090341c900b001d06ffd9e06mr2270306ple.88.1703320325330;
-        Sat, 23 Dec 2023 00:32:05 -0800 (PST)
+        bh=EqU4At89cLX9pipG5dJk4yhFSAyDFeGlPgFtPpbBGJM=;
+        b=MnKX2UcHXdY3Ns3qg1d01Z67MDkgsY5ECrVLnLvRvdRT4CM2KJQRgcyBkuAdabFS7R
+         HzfZlHXOa9aoDucviLoucf/+FC9nIQStCJEzH13ejvYJulAO9sOtjgR3qCWqWivfzODb
+         N387UaukRgjvr2bGh7z/hpGmEytksuaoNOIiPL2ZNxAlT00GZ56y/CHzbcy0Im76nlvw
+         ++/8a5pEsDfXeUcj2vdcQJQrTnqRBiT288+JKuKjMqexQq49DaTQpXFfcYNzpNY4WOaJ
+         cyELk1MjheXb2OGx7afzF47mrW2A5JPM1W4vf7Skw944o91S6ErsQlMHKO51agt13I2S
+         kUIg==
+X-Gm-Message-State: AOJu0Yy9dqSrTYdB3kMSxk1QDs2k1g8aDq2OsAYTWgCZAHk/aPf9g6yQ
+	xfWBr80fsOp3W9rfghaBl04=
+X-Google-Smtp-Source: AGHT+IGYqnq6An6iJM9CoXnlhddaGq6k5UXUB0u+ZIzGyEqqwpf89ybQ9Sp/R+KHDStSKxfSMQIumQ==
+X-Received: by 2002:a05:6e02:1be5:b0:35d:59a2:1281 with SMTP id y5-20020a056e021be500b0035d59a21281mr3730843ilv.45.1703322930322;
+        Sat, 23 Dec 2023 01:15:30 -0800 (PST)
 Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
-        by smtp.gmail.com with ESMTPSA id g15-20020a1709029f8f00b001d3e33a73d5sm4558658plq.279.2023.12.23.00.32.01
+        by smtp.gmail.com with ESMTPSA id p6-20020a170902eac600b001d365153d09sm4711179pld.184.2023.12.23.01.15.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Dec 2023 00:32:05 -0800 (PST)
+        Sat, 23 Dec 2023 01:15:29 -0800 (PST)
 From: Dipendra Khadka <kdipendra88@gmail.com>
 To: hdegoede@redhat.com,
 	mchehab@kernel.org,
@@ -67,9 +67,9 @@ Cc: Dipendra Khadka <kdipendra88@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media/atomisp/pci/isp/kernels/hdr: Fix spelling mistakes in ia_css_hdr_types.h
-Date: Sat, 23 Dec 2023 14:16:57 +0545
-Message-Id: <20231223083157.84090-1-kdipendra88@gmail.com>
+Subject: [PATCH] staging: media/atomisp/pci/runtime/binary/src: Fix spelling mistake in binary.c
+Date: Sat, 23 Dec 2023 15:00:21 +0545
+Message-Id: <20231223091521.85467-1-kdipendra88@gmail.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -80,35 +80,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 codespell reported following spelling mistake
-in ia_css_hdr_types.h below:
+in runtime/binary/src as below:
 
 '''
-./isp/kernels/hdr/ia_css_hdr_types.h:60: paramterers ==> parameters
-./isp/kernels/hdr/ia_css_hdr_types.h:62: Currenly ==> Currently
+./runtime/binary/src/binary.c:537: spcification ==> specification
 '''
-This patch fixes these spelling mistakes.
+This patch fixes thisspelling mistake.
 
 Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- .../media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
-index 175c301ee96a..ecc98686f5cf 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
-@@ -57,9 +57,9 @@ struct ia_css_hdr_exclusion_params {
- };
- 
- /**
-- * \brief HDR public paramterers.
-+ * \brief HDR public parameters.
-  * \details Struct with all parameters for HDR that can be seet from
-- * the CSS API. Currenly, only test parameters are defined.
-+ * the CSS API. Currently, only test parameters are defined.
-  */
- struct ia_css_hdr_config {
- 	struct ia_css_hdr_irradiance_params irradiance; /** HDR irradiance parameters */
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index 0f3729e55e14..130662f8e768 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -534,7 +534,7 @@ ia_css_binary_uninit(void) {
+ static int
+ binary_grid_deci_factor_log2(int width, int height)
+ {
+-	/* 3A/Shading decimation factor spcification (at August 2008)
++	/* 3A/Shading decimation factor specification (at August 2008)
+ 	 * ------------------------------------------------------------------
+ 	 * [Image Width (BQ)] [Decimation Factor (BQ)] [Resulting grid cells]
+ 	 * 1280 ?c             32                       40 ?c
 -- 
 2.39.2 (Apple Git-143)
 
