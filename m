@@ -1,193 +1,103 @@
-Return-Path: <linux-media+bounces-2963-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2964-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE53681D8A9
-	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 11:11:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 555F181D8DE
+	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 12:49:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 769F3282238
-	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 10:11:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8C5C1F217B4
+	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 11:49:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9A3423CD;
-	Sun, 24 Dec 2023 10:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 540AF3C26;
+	Sun, 24 Dec 2023 11:49:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q/xDevEt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aYixHiYJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7531F20F9
-	for <linux-media@vger.kernel.org>; Sun, 24 Dec 2023 10:11:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B20023C3
+	for <linux-media@vger.kernel.org>; Sun, 24 Dec 2023 11:49:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40d4ebcc207so13928785e9.3
-        for <linux-media@vger.kernel.org>; Sun, 24 Dec 2023 02:11:05 -0800 (PST)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a2340c803c6so364098166b.0
+        for <linux-media@vger.kernel.org>; Sun, 24 Dec 2023 03:49:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703412664; x=1704017464; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=wUc+VGzz0e0QDKg0efGo4jVLEcAKF7vo/7r2DSKdGbE=;
-        b=Q/xDevEtoDV30QWpJE0SMfHxFPbWgMNne7RaCLhhVep69xODpTeaivZk+4RPBrpHJU
-         bDEaJcuoyfx3Epr3lTkkgnn0jcGV3VLaxuxRwPfW4vYdNZe+BN16lGj6KylGAWw2CHCK
-         qew10FmSxEqn6mvrqeZtUMMIORTVK/AjPrMq/I7pU2GLYG0mH3OBdiOTnYTcqt2lVQpx
-         q87gy35yyYT+JElB3191YiJUp230fi/sStVP333WL4ArDJjl2UNoJBj2GFd1TT/bw0V6
-         KBmoeTtsdPlkNQabbe5LvFs5NPITECZb0kB3CnEpkoiY3C3ufZKQkvMlyuNPgnUPp+FH
-         V4nQ==
+        d=linaro.org; s=google; t=1703418560; x=1704023360; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mzCr6s+sUXGJX1TCqlhYC9rStKOi8VqlAp3Rk3HIOR0=;
+        b=aYixHiYJQ4MJKLPry86OaWhN8UifopydlOUmHLtWUrO7gEt0qfhNaOZaGhTqRxtyd4
+         jhEg9fdcEx57VGMg6YGMpO0tJEseNgjA9jCKXc5B8V9zPIfEthIdN3yY5oAeeww/8sTJ
+         011JU3WB2V00wWCevTQeqIt11D5/SntmO4dqB5u8ZIhZhEUnNH1g//LAohD3nhWRuCF8
+         AfcKM7p/Z+/+p/p3oQaAin6XB26xf7YPuSpc/Sj8Lz7Ef13n10naOZXyT5g8JL3RCSac
+         ne0DhpFYEtQlUR9NDPg6u44NG+Qi2Ui6beg7jfOQ/oOG4COURdO6kquTF/74TxQTnGOt
+         5JIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703412664; x=1704017464;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wUc+VGzz0e0QDKg0efGo4jVLEcAKF7vo/7r2DSKdGbE=;
-        b=M2YjHN+a9yB6TcKpZVgDsfxyZzeRlUIkWPClocJJ5G/LZbaIXyNQeuSPnzXrCC4TrO
-         CNtAjLJpIdxX+XYETZ8rlVjfS4yR2Ij0pPiT+O987LuqJfV11rWXQt5EECZYheXZNiTF
-         LxckLkupCplbLRF7WGzjrMP/S+jvCVMgzY2eipSUgAPScL9eq7LinBiD6Y2koYTlW7zj
-         rCsBqWHa9ZH7ApXjLKFbcqdvdwIdz8zO4vZon+AYd4fKzFGpV8br4Ae2CqacaiwqpSOv
-         WiDzT8gcYB9v1cY7JENxZtb+/Er+jmwmArAxOAbCOdouKCGTqWoSEJL3wTDWmL+vyZlA
-         vgXQ==
-X-Gm-Message-State: AOJu0YxfHCXqSOotV0G57VJit2dFtbl+xmQ/czMFJBnfTWJXvToIBvk2
-	u7V0KTuFnCK7u+GoYC+TLmdT3V8RLzhYaA==
-X-Google-Smtp-Source: AGHT+IEn2GjtswEPW9gGypF7uYSa2XrydRyJvpI8CBOa06+jSFJK9r/jtx4YCtWCho2ru1s9ifkKfw==
-X-Received: by 2002:a05:600c:2218:b0:40d:3bed:d868 with SMTP id z24-20020a05600c221800b0040d3bedd868mr2444837wml.14.1703412663596;
-        Sun, 24 Dec 2023 02:11:03 -0800 (PST)
-Received: from [192.168.0.22] ([78.10.206.178])
-        by smtp.gmail.com with ESMTPSA id w25-20020a170906481900b00a26ac253486sm3191092ejq.134.2023.12.24.02.11.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Dec 2023 02:11:03 -0800 (PST)
-Message-ID: <93da765f-44c8-4023-b416-eae617d5ed74@linaro.org>
-Date: Sun, 24 Dec 2023 11:11:00 +0100
+        d=1e100.net; s=20230601; t=1703418560; x=1704023360;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mzCr6s+sUXGJX1TCqlhYC9rStKOi8VqlAp3Rk3HIOR0=;
+        b=fqAosnQ9RED6fmb5uYVn9f3q4ufRFy92dG350ScprJCK2xWX+40ZjHCxoO62o/x2MM
+         SViZmAdmISshQAqyJTWCwYixQTXj74jjBRSJ8I3h0uP1Gql4Rhw5tDgqt6+SgDdwgQex
+         VQ1AeoL6/ejKuYx2NLy/oXl/8Fd5ymYJrSAxlXKcmL98M/GGt2vp4Q2I8fAx1DrVU45G
+         B1sRigdfYD88nzZF5Y0vCBVYtzuYTC7Mlo9otBWY9oSYLjTQs6AKuUnoATf5yVx/ag3z
+         f1NLKhEhrt03XaE7baCOE+92n7HWRqNErEpeuPSk87cJypR/Xkorur++XlAG1XqaU8hI
+         e1Xg==
+X-Gm-Message-State: AOJu0YxC0M67d8uGT8GBkKaVXrmsFnRK+pdzMmM6hUI2LuZPfv9gWb+9
+	5VKGRdWQMKTPqZqs7PB+FWNyyHv2kFaTsg==
+X-Google-Smtp-Source: AGHT+IGM0Y5645Zu1dPEnmVTVdZQEYcTnX/kb5UWJ1OjgBXkx1ByEUy4wQqaFm7kp+mEJGJUiKU+5Q==
+X-Received: by 2002:a50:d49b:0:b0:552:85f4:ed39 with SMTP id s27-20020a50d49b000000b0055285f4ed39mr2643458edi.38.1703418559839;
+        Sun, 24 Dec 2023 03:49:19 -0800 (PST)
+Received: from krzk-bin.. ([78.10.206.178])
+        by smtp.gmail.com with ESMTPSA id z23-20020aa7c657000000b0054ccac03945sm4999771edr.12.2023.12.24.03.49.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Dec 2023 03:49:19 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 01/12] media: fimc-lite: drop unused flite_hw_set_camera_polarity()
+Date: Sun, 24 Dec 2023 12:49:05 +0100
+Message-Id: <20231224114916.111433-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media:fimc-capture: Fix a possible data inconsistency due
- to a data race in fimc_subdev_set_fmt()
-To: Tuo Li <islituo@gmail.com>, s.nawrocki@samsung.com, mchehab@kernel.org,
- alim.akhtar@samsung.com
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- baijiaju1990@gmail.com, stable@vger.kernel.org, BassCheck <bass@buaa.edu.cn>
-References: <20231223164351.3521588-1-islituo@gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231223164351.3521588-1-islituo@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23/12/2023 17:43, Tuo Li wrote:
-> Accesses to ctx->s_frame.width and ctx->s_frame.height should be protected
-> by the lock fimc->lock to guarantee that width and height are consistent.
-> Here is an example in fimc_subdev_get_fmt():
-> 
->   struct fimc_frame *ff = &ctx->s_frame; // Alias
->   mutex_lock(&fimc->lock);
->   mf->width = ff->width;
->   mf->height = ff->height;
-> 
-> However, ctx->s_frame.width and ctx->s_frame.height are accessed without 
-> holding the lock fimc->lock in fimc_subdev_set_fmt():
-> 
->   mf->width = ctx->s_frame.width;
->   mf->height = ctx->s_frame.height;
+Function flite_hw_set_camera_polarity() is not defined, so drop its
+declaration from the header.
 
-Other places setting parts of s_frame, like fimc_capture_try_format() or
-fimc_capture_try_selection(), do not have mutex.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-
-> 
-> And thus a harmful data race can occur, which can make ctx->s_frame.width
-
-Harmful how?
-
-> inconsistent with ctx->s_frame.height, if ctx->s_frame.height is updated 
-> right after ctx->s_frame.width is accessed by another thread.
-> 
-> This possible bug is found by an experimental static analysis tool
-> developed by our team, BassCheck[1]. This tool analyzes the locking APIs
-> to extract function pairs that can be concurrently executed, and then
-> analyzes the instructions in the paired functions to identify possible
-> concurrency bugs including data races and atomicity violations. The above
-> possible bug is reported when our tool analyzes the source code of
-> Linux 6.2.
-> 
-> To fix this possible data race, the lock operation mutex_lock(&fimc->lock)
-> is moved to the front of the accesses to these two variables. With this 
-> patch applied, our tool no longer reports the bug, with the kernel 
-> configuration allyesconfig for x86_64. Due to the lack of associated 
-> hardware, we cannot test the patch in runtime testing, and just verify it 
-> according to the code logic.
-
-You wrote long four paragraphs which have basically almost zero relevant
-information, whether this locking is needed or not. Your bass
-description is not relevant... or actually making things worse because I
-am certain you are fixing it just to fix your report, not to fix real issue.
-
-> 
-> [1] https://sites.google.com/view/basscheck/
-
-Instead provide the report.
-
-> 
-> Fixes: 88fa8311ee36 ("[media] s5p-fimc: Add support for ISP Writeback ...")
-> Signed-off-by: Tuo Li <islituo@gmail.com>
-> Cc: stable@vger.kernel.org
-> Reported-by: BassCheck <bass@buaa.edu.cn>
-
-Run checkpatch, you will see the warning.
-
-
-Best regards,
-Krzysztof
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.h b/drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.h
+index c5656e902750..3b8af3ce1838 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.h
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.h
+@@ -134,8 +134,6 @@ void flite_hw_capture_start(struct fimc_lite *dev);
+ void flite_hw_capture_stop(struct fimc_lite *dev);
+ void flite_hw_set_camera_bus(struct fimc_lite *dev,
+ 			     struct fimc_source_info *s_info);
+-void flite_hw_set_camera_polarity(struct fimc_lite *dev,
+-				  struct fimc_source_info *cam);
+ void flite_hw_set_window_offset(struct fimc_lite *dev, struct flite_frame *f);
+ void flite_hw_set_source_format(struct fimc_lite *dev, struct flite_frame *f);
+ 
+-- 
+2.34.1
 
 
