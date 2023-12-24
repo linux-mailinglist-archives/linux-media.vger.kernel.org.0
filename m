@@ -1,324 +1,104 @@
-Return-Path: <linux-media+bounces-2975-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2976-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E639481D8FF
-	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 12:52:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7698181DB1B
+	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 16:41:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E1BEA1C214E4
-	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 11:52:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6F1C1C20B62
+	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 15:41:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9508A16418;
-	Sun, 24 Dec 2023 11:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D0036ADB;
+	Sun, 24 Dec 2023 15:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wxpc7lWp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hiFc9mCy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C19312E54
-	for <linux-media@vger.kernel.org>; Sun, 24 Dec 2023 11:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-554d06bfd83so183336a12.1
-        for <linux-media@vger.kernel.org>; Sun, 24 Dec 2023 03:49:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2002F7470;
+	Sun, 24 Dec 2023 15:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40d5473882aso6079165e9.1;
+        Sun, 24 Dec 2023 07:41:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703418574; x=1704023374; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Hz+LJHTWuf+0lRGoDC5k9tAjKQBt8mGUWlE7LUoWo8w=;
-        b=Wxpc7lWpB8cZDkaWloeEyIqtJbRByWtKiwgWNsaMgmhPZZHLcbOOq1qpgNMrNblkjl
-         mjDbjhs4C7SkbxHT///d3nZBqWFPyJ6ALH0PXCfkh3ln4vDZRhpCNp8hA+MXb/YfsfG8
-         B2xNJ1bhz8eibR9IVgHgAkgWxqk80bR5k++TJh24j1vcgj6UTS2x5mxVMzsOwQ/S3Vxs
-         x99p7YHvmwngx53lvGsFy3FDEY9UxioFaJZwrE6g8HKqzHJnTa0pYOaYFy+r+igWQvpR
-         wxY/qg1kSrLMAtJo3F7hBxaw6nnQeH0vbzXBlAkKaW1ukV7mKg22Qk5Vp5YGTSJEP6tC
-         0nog==
+        d=gmail.com; s=20230601; t=1703432492; x=1704037292; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Hsscid1EgQq4Pv9D8Tyu9t5D/wA4c25NkZV8ylTpgOw=;
+        b=hiFc9mCy1deG7Uf8uXeIaaP6xclu95QqGESBUvVMBPKSj+zAIN4tix6dHnYeJ9xK50
+         MUZr/X2S3MIIwHafwblris+K6U1Ff9z9qyJn7chczZqgDTk8rBLKkLfp8JI8m8EJ+Mg1
+         JT4SmypU74NahgpMM4bFKdFzoH5SaZ/mrQzyAfpaQFS7+ElzpBnuowvxKrAs8BHoUlv1
+         NZjcY970h2iUDC+evtPclV2itmRI3UZo28A/9GcgDIcuSlWCE1IxDytoE87B4kMIoVEJ
+         d7ggJGXfdNlvfMpvijEAi7xtsjaGdsjIJASmLe8I9xu+yrPIhAwnW8qx6tNoH308nbtL
+         0tkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703418574; x=1704023374;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Hz+LJHTWuf+0lRGoDC5k9tAjKQBt8mGUWlE7LUoWo8w=;
-        b=Guzk9/Pv9mttkv1bjU+FGdvujSpdZpbQU6Ag9x5GYitNh9CcdP8HtWIjawKxZMOA/6
-         QW7Caq1CsCj2/jgCKja0ifQzsvBPnHiiM9RXqqDG5Ym7JZXRufrrW+/H6Y7FlOLTYp5g
-         xm4VYelaYdtQoLF6mGVS86vnvO6nX2M09SVY50D3iHVgeDJpr85K+sd314ULmJ+8GTY5
-         hXf7eZJuKAMyk0H14w/R6ykrYO3fKkgm+VuKUuxmoyWCrSuQfLFxGJjt+xa/mppc6CdE
-         EQYjvU5AExv7LlNzggn0AzU/hI04abKGCAjgRpQk9L61H16nPBtVIO+oK0D2uUMR2VSu
-         tLmg==
-X-Gm-Message-State: AOJu0Yx6CqAQ+a/zR1fpbUbJX7qLI4bEefmBD4AEuJXfdHlJXaMrRwn4
-	/PI4Go2eP6LRFXeD7aigy+xL0S8mt6ZaWQ==
-X-Google-Smtp-Source: AGHT+IFYmpROfj/r53Veux3loUiL5y8yPrPsFuQmtNI/+LLEYo0s3ORWN77ziyS9hAj0zByGZj8ipw==
-X-Received: by 2002:a50:9b03:0:b0:554:526d:894e with SMTP id o3-20020a509b03000000b00554526d894emr2750369edi.1.1703418573789;
-        Sun, 24 Dec 2023 03:49:33 -0800 (PST)
-Received: from krzk-bin.. ([78.10.206.178])
-        by smtp.gmail.com with ESMTPSA id z23-20020aa7c657000000b0054ccac03945sm4999771edr.12.2023.12.24.03.49.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Dec 2023 03:49:33 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 12/12] media: fimc-is: constify local pointers to fimc_frame
-Date: Sun, 24 Dec 2023 12:49:16 +0100
-Message-Id: <20231224114916.111433-12-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231224114916.111433-1-krzysztof.kozlowski@linaro.org>
-References: <20231224114916.111433-1-krzysztof.kozlowski@linaro.org>
+        d=1e100.net; s=20230601; t=1703432492; x=1704037292;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Hsscid1EgQq4Pv9D8Tyu9t5D/wA4c25NkZV8ylTpgOw=;
+        b=dDvHoRil9LGQsq3Ay33B4w8CI3B3F8VXQxnyEaMM0nXSAsNgqCBuirNE4cSXwOnjN5
+         r3QLMIk9BkzkGq2e3ad9wzcwxCFBuaiXoIk3+EkBR88UBCqdLVB2WGWUBJCJEZKi0Rob
+         7ImiLFUgVNeFCtyefu8rzIpq1fQEjQEPT2C0NbS1oyJ1PJodLGk4meqvhSTqBZYfcNt+
+         8J2xx5kPK5xheCIxv9M+vyY2n3TKMcgQXQjj6e5STz213SF9isptOMHliAUV7hAbRu7Z
+         Gb86iXohXB6EBhScxOayKIsebHbpL8K/GGuzWVAI3+yHgVjA6as4DDtgfjPbQHe3LOVj
+         Xmxg==
+X-Gm-Message-State: AOJu0Yz1PbDbhGkigjAankMtBrB1Hs/ipb+d+PRzTsrBeyi8tU7JLLMu
+	8q81IWeRcXebT5wBm4sQCHkhxDp+4lsHkFn/MJCUVt8gmrbYf/EY
+X-Google-Smtp-Source: AGHT+IFKDO7deVyJSR33qayFwyYReUf9hq+e9IyZjKGrd4K0+xPzCuVi83eieGs2ty6Arow9+moR9N/0qRksB9FUKiY=
+X-Received: by 2002:a05:600c:3b11:b0:40d:3f1c:c701 with SMTP id
+ m17-20020a05600c3b1100b0040d3f1cc701mr3054046wms.22.1703432491669; Sun, 24
+ Dec 2023 07:41:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Mario Marietto <marietto2008@gmail.com>
+Date: Sun, 24 Dec 2023 16:40:55 +0100
+Message-ID: <CA+1FSig3FqyymCY6prFnX9Bx24WSiec-CxgriKgG5iJvuEPB=A@mail.gmail.com>
+Subject: vidioc_try_fmt:379: Unsupported format for destination.
+To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-Constify the local variables pointing to "struct fimc_frame" to annotate
-the function is not modifying pointed data.
+Hello.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../platform/samsung/exynos4-is/fimc-capture.c | 18 +++++++++---------
- .../platform/samsung/exynos4-is/fimc-core.c    |  4 ++--
- .../platform/samsung/exynos4-is/fimc-m2m.c     | 10 +++++-----
- .../platform/samsung/exynos4-is/fimc-reg.c     | 18 +++++++++---------
- 4 files changed, 25 insertions(+), 25 deletions(-)
+Have you ever seen the errors below inside the log of the ARM
+Chromebook model XE303C12 ?
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-capture.c b/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
-index 7c2bcd5be933..ffa4ea21387d 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
-@@ -180,7 +180,7 @@ void fimc_capture_irq_handler(struct fimc_dev *fimc, int deq_buf)
- 	struct fimc_vid_cap *cap = &fimc->vid_cap;
- 	struct fimc_pipeline *p = to_fimc_pipeline(cap->ve.pipe);
- 	struct v4l2_subdev *csis = p->subdevs[IDX_CSIS];
--	struct fimc_frame *f = &cap->ctx->d_frame;
-+	const struct fimc_frame *f = &cap->ctx->d_frame;
- 	struct fimc_vid_buffer *v_buf;
- 
- 	if (test_and_clear_bit(ST_CAPT_SHUT, &fimc->state)) {
-@@ -342,7 +342,7 @@ static int queue_setup(struct vb2_queue *vq,
- 		       unsigned int sizes[], struct device *alloc_devs[])
- {
- 	struct fimc_ctx *ctx = vq->drv_priv;
--	struct fimc_frame *frame = &ctx->d_frame;
-+	const struct fimc_frame *frame = &ctx->d_frame;
- 	const struct fimc_fmt *fmt = frame->fmt;
- 	unsigned long wh = frame->f_width * frame->f_height;
- 	int i;
-@@ -567,7 +567,7 @@ static const struct fimc_fmt *fimc_capture_try_format(struct fimc_ctx *ctx,
- 	struct fimc_dev *fimc = ctx->fimc_dev;
- 	const struct fimc_variant *var = fimc->variant;
- 	const struct fimc_pix_limit *pl = var->pix_limit;
--	struct fimc_frame *dst = &ctx->d_frame;
-+	const struct fimc_frame *dst = &ctx->d_frame;
- 	u32 depth, min_w, max_w, min_h, align_h = 3;
- 	const struct fimc_fmt *ffmt;
- 	u32 mask = FMT_FLAGS_CAM;
-@@ -644,7 +644,7 @@ static void fimc_capture_try_selection(struct fimc_ctx *ctx,
- 	struct fimc_dev *fimc = ctx->fimc_dev;
- 	const struct fimc_variant *var = fimc->variant;
- 	const struct fimc_pix_limit *pl = var->pix_limit;
--	struct fimc_frame *sink = &ctx->s_frame;
-+	const struct fimc_frame *sink = &ctx->s_frame;
- 	u32 max_w, max_h, min_w = 0, min_h = 0, min_sz;
- 	u32 align_sz = 0, align_h = 4;
- 	u32 max_sc_h, max_sc_v;
-@@ -1132,7 +1132,7 @@ static int fimc_pipeline_validate(struct fimc_dev *fimc)
- 
- 		/* Don't call FIMC subdev operation to avoid nested locking */
- 		if (sd == &vc->subdev) {
--			struct fimc_frame *ff = &vc->ctx->s_frame;
-+			const struct fimc_frame *ff = &vc->ctx->s_frame;
- 			sink_fmt.format.width = ff->f_width;
- 			sink_fmt.format.height = ff->f_height;
- 			sink_fmt.format.code = ff->fmt ? ff->fmt->mbus_code : 0;
-@@ -1158,7 +1158,7 @@ static int fimc_pipeline_validate(struct fimc_dev *fimc)
- 		if (sd == p->subdevs[IDX_SENSOR] &&
- 		    fimc_user_defined_mbus_fmt(src_fmt.format.code)) {
- 			struct v4l2_plane_pix_format plane_fmt[FIMC_MAX_PLANES];
--			struct fimc_frame *frame = &vc->ctx->d_frame;
-+			const struct fimc_frame *frame = &vc->ctx->d_frame;
- 			unsigned int i;
- 
- 			ret = fimc_get_sensor_frame_desc(sd, plane_fmt,
-@@ -1263,7 +1263,7 @@ static int fimc_cap_g_selection(struct file *file, void *fh,
- {
- 	struct fimc_dev *fimc = video_drvdata(file);
- 	struct fimc_ctx *ctx = fimc->vid_cap.ctx;
--	struct fimc_frame *f = &ctx->s_frame;
-+	const struct fimc_frame *f = &ctx->s_frame;
- 
- 	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
- 		return -EINVAL;
-@@ -1475,7 +1475,7 @@ static int fimc_subdev_get_fmt(struct v4l2_subdev *sd,
- {
- 	struct fimc_dev *fimc = v4l2_get_subdevdata(sd);
- 	struct fimc_ctx *ctx = fimc->vid_cap.ctx;
--	struct fimc_frame *ff = &ctx->s_frame;
-+	const struct fimc_frame *ff = &ctx->s_frame;
- 	struct v4l2_mbus_framefmt *mf;
- 
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-@@ -1582,7 +1582,7 @@ static int fimc_subdev_get_selection(struct v4l2_subdev *sd,
- {
- 	struct fimc_dev *fimc = v4l2_get_subdevdata(sd);
- 	struct fimc_ctx *ctx = fimc->vid_cap.ctx;
--	struct fimc_frame *f = &ctx->s_frame;
-+	const struct fimc_frame *f = &ctx->s_frame;
- 	struct v4l2_rect *r = &sel->r;
- 	struct v4l2_rect *try_sel;
- 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-core.c b/drivers/media/platform/samsung/exynos4-is/fimc-core.c
-index 37f4952c7a9b..1f627f257359 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-core.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-core.c
-@@ -228,8 +228,8 @@ int fimc_set_scaler_info(struct fimc_ctx *ctx)
- 	const struct fimc_variant *variant = ctx->fimc_dev->variant;
- 	struct device *dev = &ctx->fimc_dev->pdev->dev;
- 	struct fimc_scaler *sc = &ctx->scaler;
--	struct fimc_frame *s_frame = &ctx->s_frame;
--	struct fimc_frame *d_frame = &ctx->d_frame;
-+	const struct fimc_frame *s_frame = &ctx->s_frame;
-+	const struct fimc_frame *d_frame = &ctx->d_frame;
- 	int tx, ty, sx, sy;
- 	int ret;
- 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c b/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
-index e5829a457f3d..199997eec1cc 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
-@@ -170,7 +170,7 @@ static int fimc_queue_setup(struct vb2_queue *vq,
- 			    unsigned int sizes[], struct device *alloc_devs[])
- {
- 	struct fimc_ctx *ctx = vb2_get_drv_priv(vq);
--	struct fimc_frame *f;
-+	const struct fimc_frame *f;
- 	int i;
- 
- 	f = ctx_get_frame(ctx, vq->type);
-@@ -192,7 +192,7 @@ static int fimc_queue_setup(struct vb2_queue *vq,
- static int fimc_buf_prepare(struct vb2_buffer *vb)
- {
- 	struct fimc_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
--	struct fimc_frame *frame;
-+	const struct fimc_frame *frame;
- 	int i;
- 
- 	frame = ctx_get_frame(ctx, vb->vb2_queue->type);
-@@ -252,7 +252,7 @@ static int fimc_m2m_g_fmt_mplane(struct file *file, void *fh,
- 				 struct v4l2_format *f)
- {
- 	struct fimc_ctx *ctx = fh_to_ctx(fh);
--	struct fimc_frame *frame = ctx_get_frame(ctx, f->type);
-+	const struct fimc_frame *frame = ctx_get_frame(ctx, f->type);
- 
- 	if (IS_ERR(frame))
- 		return PTR_ERR(frame);
-@@ -379,7 +379,7 @@ static int fimc_m2m_g_selection(struct file *file, void *fh,
- 				struct v4l2_selection *s)
- {
- 	struct fimc_ctx *ctx = fh_to_ctx(fh);
--	struct fimc_frame *frame;
-+	const struct fimc_frame *frame;
- 
- 	frame = ctx_get_frame(ctx, s->type);
- 	if (IS_ERR(frame))
-@@ -429,7 +429,7 @@ static int fimc_m2m_try_selection(struct fimc_ctx *ctx,
- 				  struct v4l2_selection *s)
- {
- 	struct fimc_dev *fimc = ctx->fimc_dev;
--	struct fimc_frame *f;
-+	const struct fimc_frame *f;
- 	u32 min_size, halign, depth = 0;
- 	int i;
- 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-reg.c b/drivers/media/platform/samsung/exynos4-is/fimc-reg.c
-index edff6e5179cf..b4ee39e471e7 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-reg.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-reg.c
-@@ -105,7 +105,7 @@ void fimc_hw_set_target_format(struct fimc_ctx *ctx)
- {
- 	u32 cfg;
- 	struct fimc_dev *dev = ctx->fimc_dev;
--	struct fimc_frame *frame = &ctx->d_frame;
-+	const struct fimc_frame *frame = &ctx->d_frame;
- 
- 	dbg("w= %d, h= %d color: %d", frame->width,
- 	    frame->height, frame->fmt->color);
-@@ -147,7 +147,7 @@ void fimc_hw_set_target_format(struct fimc_ctx *ctx)
- static void fimc_hw_set_out_dma_size(struct fimc_ctx *ctx)
- {
- 	struct fimc_dev *dev = ctx->fimc_dev;
--	struct fimc_frame *frame = &ctx->d_frame;
-+	const struct fimc_frame *frame = &ctx->d_frame;
- 	u32 cfg;
- 
- 	cfg = (frame->f_height << 16) | frame->f_width;
-@@ -166,7 +166,7 @@ static void fimc_hw_set_out_dma_size(struct fimc_ctx *ctx)
- void fimc_hw_set_out_dma(struct fimc_ctx *ctx)
- {
- 	struct fimc_dev *dev = ctx->fimc_dev;
--	struct fimc_frame *frame = &ctx->d_frame;
-+	const struct fimc_frame *frame = &ctx->d_frame;
- 	const struct fimc_dma_offset *offset = &frame->dma_offset;
- 	const struct fimc_fmt *fmt = frame->fmt;
- 	u32 cfg;
-@@ -248,8 +248,8 @@ static void fimc_hw_set_scaler(struct fimc_ctx *ctx)
- {
- 	struct fimc_dev *dev = ctx->fimc_dev;
- 	struct fimc_scaler *sc = &ctx->scaler;
--	struct fimc_frame *src_frame = &ctx->s_frame;
--	struct fimc_frame *dst_frame = &ctx->d_frame;
-+	const struct fimc_frame *src_frame = &ctx->s_frame;
-+	const struct fimc_frame *dst_frame = &ctx->d_frame;
- 
- 	u32 cfg = readl(dev->regs + FIMC_REG_CISCCTRL);
- 
-@@ -388,7 +388,7 @@ void fimc_hw_set_effect(struct fimc_ctx *ctx)
- void fimc_hw_set_rgb_alpha(struct fimc_ctx *ctx)
- {
- 	struct fimc_dev *dev = ctx->fimc_dev;
--	struct fimc_frame *frame = &ctx->d_frame;
-+	const struct fimc_frame *frame = &ctx->d_frame;
- 	u32 cfg;
- 
- 	if (!(frame->fmt->flags & FMT_HAS_ALPHA))
-@@ -403,7 +403,7 @@ void fimc_hw_set_rgb_alpha(struct fimc_ctx *ctx)
- static void fimc_hw_set_in_dma_size(struct fimc_ctx *ctx)
- {
- 	struct fimc_dev *dev = ctx->fimc_dev;
--	struct fimc_frame *frame = &ctx->s_frame;
-+	const struct fimc_frame *frame = &ctx->s_frame;
- 	u32 cfg_o = 0;
- 	u32 cfg_r = 0;
- 
-@@ -420,7 +420,7 @@ static void fimc_hw_set_in_dma_size(struct fimc_ctx *ctx)
- void fimc_hw_set_in_dma(struct fimc_ctx *ctx)
- {
- 	struct fimc_dev *dev = ctx->fimc_dev;
--	struct fimc_frame *frame = &ctx->s_frame;
-+	const struct fimc_frame *frame = &ctx->s_frame;
- 	const struct fimc_dma_offset *offset = &frame->dma_offset;
- 	u32 cfg;
- 
-@@ -599,7 +599,7 @@ int fimc_hw_set_camera_source(struct fimc_dev *fimc,
- 			      struct fimc_source_info *source)
- {
- 	const struct fimc_vid_cap *vc = &fimc->vid_cap;
--	struct fimc_frame *f = &vc->ctx->s_frame;
-+	const struct fimc_frame *f = &vc->ctx->s_frame;
- 	u32 bus_width, cfg = 0;
- 	int i;
- 
+
+[ 2416.631903] vidioc_try_fmt:379: Unsupported format for destination.
+[ 2416.631937] vidioc_try_fmt:379: Unsupported format for destination.
+[ 2437.287065] vidioc_g_selection:764: Can not get compose information
+[ 2437.294194] vidioc_g_fmt:347: Format could not be read
+[ 2437.300364] vidioc_g_selection:764: Can not get compose information
+[ 2437.301979] vidioc_g_fmt:347: Format could not be read
+[ 2441.711496] vidioc_g_selection:764: Can not get compose information
+[ 2441.713115] vidioc_g_fmt:347: Format could not be read
+[ 2455.174443] vidioc_g_selection:764: Can not get compose information
+[ 2455.175663] vidioc_g_fmt:347: Format could not be read
+
+
+I'm not sure but they could be correlated with the warnings I get when
+I try to watch an mp4 file using SMPlayer :
+
+
+libEGL warning : egl failed to create dri2 screen
+libEGL warning : failed to get driver name for fd -1
+libEGL warning : MESA-LOADER : failed to retrieve device informations
+
+
+I'm looking for the technical reason why,when I play an mp4 video with
+VLC or SMplayer (and for sure other multimedia players),the video
+proceeds in spurts.
+
+Thanks.
+
 -- 
-2.34.1
-
+Mario.
 
