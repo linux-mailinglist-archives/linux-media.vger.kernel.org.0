@@ -1,611 +1,329 @@
-Return-Path: <linux-media+bounces-2992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2993-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FA481DB4D
-	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 16:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133A281DF5C
+	for <lists+linux-media@lfdr.de>; Mon, 25 Dec 2023 10:06:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3A30281175
-	for <lists+linux-media@lfdr.de>; Sun, 24 Dec 2023 15:49:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF6F4281D00
+	for <lists+linux-media@lfdr.de>; Mon, 25 Dec 2023 09:06:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 552391A725;
-	Sun, 24 Dec 2023 15:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 168734C7D;
+	Mon, 25 Dec 2023 09:05:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iPrQvliA"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="tFV50jgd";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="atyXWAcS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE7619445
-	for <linux-media@vger.kernel.org>; Sun, 24 Dec 2023 15:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a2330a92ae6so381501266b.0
-        for <linux-media@vger.kernel.org>; Sun, 24 Dec 2023 07:44:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510361C32;
+	Mon, 25 Dec 2023 09:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: c6810318a30411eeba30773df0976c77-20231225
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=o4M4UfU4U+GUMFCQP/JcgkxVOS2rnjIid7voUQzLf4Y=;
+	b=tFV50jgd8TfN1E4OHtopyAlmTerIyf8htynFTcDxa80iYs3jMRZB0/0EMKvNuLNOWI5klvyWAYYZmGPeNVloHfXR31TUaPXsjL712E+NqKnYDWa1ZSCveY3jgzZwfcH55A5PShLEpCUxx3N6bpwWE+x4Kimn0ZtJSu5XUWVivxA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35,REQID:e7c257b1-8bc8-4d81-9266-1319006d2644,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:5d391d7,CLOUDID:26362482-8d4f-477b-89d2-1e3bdbef96d1,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+	NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
+X-UUID: c6810318a30411eeba30773df0976c77-20231225
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+	(envelope-from <ck.hu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1761752003; Mon, 25 Dec 2023 17:05:40 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 25 Dec 2023 17:05:38 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 25 Dec 2023 17:05:38 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k9ZRpxQEbB2eoahCo5xMHn2Y/Bj0RdZNqhwrGoXC7PZQ3P1NyhO7iimVS+tlhMO0VV7a3K5iKPcbIuu9Ksj6RPUM8czfwupU8O+TNg2M4fdTNYDp4r1gORLmlw4Muw2CowK2qGn7EdVmG55ocv5vQdzE2Bvf5OwZNNhLgs80b1kcoPZyRTqQrltim+FXDZTije8txsN3K80YXnAeOWKMSmf26TOJsBtsbKE4xtofk1UWgU2XdgyuNORTFPImtErB3XMa6QoazIXNQg2zYo8COryiZjYLlxML/q5BmDRYQSNeTiAMlM/4BJ43Mg7V76XA3JgpIrI86ZiGWK6cbDshig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o4M4UfU4U+GUMFCQP/JcgkxVOS2rnjIid7voUQzLf4Y=;
+ b=JAG1AFJ5o47Pvz1sPUSseCYyYLpDo8cfCtmrz4J0Z6FAoWF8mYyZZJZ5vAnT/ARx4l+6cwqLk9Yzl28tAsHSYKdhANQ8ALUpbJHpFVYcatUBZMHxwo8e/oZ287wnqnu2scHVouYjMQfa7iiRgc+yYuAr3RfXsyMC3SKUHs/GZOHQyG4C6yDequZmXSVHFfO0VPbk0vq/TYaehDI21X0oJ1eGfmy+NGTzS8NRCEPAwmNaKUtrXDGWaHhHZZU47cHmm/2WeQekP1ZtI+JQZ+iaPlWk7BljPjhzvVoexQLbNfCgqxA/JEOKIM47GXMz0DiAM3bfteeMpy56nl6qv+cZ3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703432689; x=1704037489; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9fVNG4Y8BtKOiiWYZzA5tpbOxA0mNOHdL3iVKTq8o3c=;
-        b=iPrQvliAaOxW7nbmBOVOeBfxHCUv+I2dNqyDkA3VZfHv7XQMhwxJBU0I3c81+l15G2
-         TEa3dRt89vlO4okt/lpbUPzo+ijRE/dTpCB53Ccga+ndw1QmwkbreiOFxe1Tn9gisgfE
-         ww0TqMOIx8uMg/BSHDWdc6a2HbaP/ioXTiJtvoUMA5aHe+ANxHB1I15nm540u9pgMqp6
-         FbRx7QTfY+SVvLeXxtK/x6/mAcX67/VZ5MB5BGCbCHloaxGzBMhQSnqTrLejkLF06Vsz
-         1R7l4Y184NjgJeNZrOsiKoCnGluSg98zqOBTyYBDCh2wavu08PkdNP71bDsCZYdaWSGJ
-         PbdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703432689; x=1704037489;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9fVNG4Y8BtKOiiWYZzA5tpbOxA0mNOHdL3iVKTq8o3c=;
-        b=TzAc/cV4NPu+lTZusH5vXAksmNPVjs4BiZQiAy75t6sTErUaVlvZvYhzxktoRDAzNa
-         nxWTNkU+rYEXDDTvtSc51yG/ZZe0jfwQ6ppS4RYCRUL5U+ircsyHqE8Oa9vIaGJkDCuv
-         lddwucD3QZuNh9uL+/W2+0/eTWT3cf29GRijO8P8yUxKlxzEnHbBeBpjTtO92o1dSN26
-         ldP4hioYi4dv7wI269UyHXQQEPkROBOdYRP9lSMOAkXLhCkCwfNu4X020oWKFa84kNiI
-         PoKeVYmvNB5eeAgxyCQlF/KrP7stRh1nSHuc2nd1cSFqyEvEwZYojt9cVgadAZnNktIT
-         gMHQ==
-X-Gm-Message-State: AOJu0YyNjYaNxdo6mpodzGYLAxy3DLrQSpjTNShmVVi2va0auAYCehV7
-	sXmhk3WdUseHLnT6ADBft+dcmchA5/QE8g==
-X-Google-Smtp-Source: AGHT+IHUFyGWrmseIr3JUDZ9dc9UtbQmz0vxAekPKcFcKPleItOlE7UVPDO3yuSk4SS0FfXFvzrlRQ==
-X-Received: by 2002:a17:906:549:b0:a23:6258:bcc9 with SMTP id k9-20020a170906054900b00a236258bcc9mr2005321eja.64.1703432689199;
-        Sun, 24 Dec 2023 07:44:49 -0800 (PST)
-Received: from [127.0.1.1] ([78.10.206.178])
-        by smtp.gmail.com with ESMTPSA id ge12-20020a170907908c00b00a26ac403032sm3325901ejb.65.2023.12.24.07.44.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Dec 2023 07:44:48 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sun, 24 Dec 2023 16:44:14 +0100
-Subject: [PATCH 15/15] media: s5p-mfc: drop static device variable in
- s5p_mfc_pm.c
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o4M4UfU4U+GUMFCQP/JcgkxVOS2rnjIid7voUQzLf4Y=;
+ b=atyXWAcSc+XUKcQI3JbDHwO0lEn26JliXgPDkV8QoFjVLTRHoenGnm54/ooMXjgpEoLKP86Q53Ls7PdZXcVJ60Ds2lWtRe/i62kMKU2T8z5FpkAIiZ6gt1i600REC6wRPM9sfTiCmZGYGrD5i0QFeGsa8Wn+eX3uZv0S/oXuXjM=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by KL1PR03MB5475.apcprd03.prod.outlook.com (2603:1096:820:53::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.26; Mon, 25 Dec
+ 2023 09:05:33 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::eb43:57cb:edfd:3762]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::eb43:57cb:edfd:3762%7]) with mapi id 15.20.7113.023; Mon, 25 Dec 2023
+ 09:05:33 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	=?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+	"chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	=?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+	=?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	=?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?=
+	<Jason-ch.Chen@mediatek.com>, "drinkcat@chromium.org"
+	<drinkcat@chromium.org>, =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?=
+	<Shawn.Sung@mediatek.com>, =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
+	<Nancy.Lin@mediatek.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+	"jkardatzke@google.com" <jkardatzke@google.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v3 01/11] drm/mediatek: Add interface to allocate MediaTek
+ GEM buffer.
+Thread-Topic: [PATCH v3 01/11] drm/mediatek: Add interface to allocate
+ MediaTek GEM buffer.
+Thread-Index: AQHaNc3/z4g1rSJ0xkaYIVC2Y+hRprC5t2oA
+Date: Mon, 25 Dec 2023 09:05:33 +0000
+Message-ID: <4169f943f6e82da50243d91614ab73d6b5f57c8a.camel@mediatek.com>
+References: <20231223182932.27683-1-jason-jh.lin@mediatek.com>
+	 <20231223182932.27683-2-jason-jh.lin@mediatek.com>
+In-Reply-To: <20231223182932.27683-2-jason-jh.lin@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|KL1PR03MB5475:EE_
+x-ms-office365-filtering-correlation-id: cf46818e-2e17-4d3f-fab7-08dc0528a6f5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tOgW/fq4ScVsA5ral3MOmnTv9Zmk6RIaCofLoR3HTt5NfVBqSh1LAodH4/0vq0cA4KOpa3VLBL81ywac1Z2RwzXPbYhRgNk+QO9xof2zJvMR5yqtWlVY42eP5LUjPaa4eJovqJwHdkrtsiKh9V+54zhY/hOlzmtCyQO2qclVGtEMZKHcXfhL8fuOxc3ThYAtLUvCqzE9Id2zbM0mLQdVV6vywjL1FnOWzRbQPT95/n3k8JcoylEjhU95RIrqkaxfN+jV+Bv6XH5I1eun5+ptVOIDdIj2CAweaK9afUibfHPoApT5Hr/aASUEtHLlAPj9zL9B8mXZWaad0wpxbY0VtDV+0jhBq1dHTHd8OcBpcBNrKABBN17L9jZpCNTGarJgAGRbMuko78apCXG2EZji+zm2WTor+7tvy9Rk+cvX4noSnc1kXt+zbggQtboVxoiNZiZq0VgVPbW/33UgcTC5xB9uV5nHivZ/lJPd4GV3RmBYuJt/K9IvT22XklLEye56kiwfoLXsBzPTjjerZv8ygFSRi2loE/7mijXPHuQMtrDnHa2UlZyLAWdD6K+YniHLG2TJiMOiErCdyl0++7C0kfOhAXQFMEnzq+dGcSHaoo4DJA9UoLoUQAVuSiGrWV6u/0JZWjFfWbgwNDAH2Yvm02rcrBH9i2uQsyXJgAR9ovIO7uta1UxCFT0UJeUkQWac
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB6624.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(376002)(366004)(346002)(396003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(83380400001)(6512007)(478600001)(71200400001)(6506007)(38100700002)(26005)(2616005)(122000001)(41300700001)(8676002)(8936002)(316002)(54906003)(110136005)(4326008)(6486002)(64756008)(66476007)(66946007)(66446008)(66556008)(76116006)(5660300002)(7416002)(4001150100001)(2906002)(85182001)(36756003)(38070700009)(86362001)(2004002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?c1RrZm95N1U0NHRiNmoxcHdLTlR0WHVEdXdibDFlM2tKZXRGQ25Tam16OUtt?=
+ =?utf-8?B?Y1VqYzhQU1JNMG5hVzZYTFFTNjhyTXlXSHB4My9JcXFTcDZVS1FFbm90SmRp?=
+ =?utf-8?B?bFoweG9LVy82WTkxMmRQYVY4NENIaXZ5aXduQ3MrOTBVNDYyU1Q4NWFjejNP?=
+ =?utf-8?B?WURvZ2Z2ZkhXVDBMMHpWcjhybTdORFpWU2dKTmQ3WGNJUDlOUlRxREU2Z01N?=
+ =?utf-8?B?V3VBdU95cW0relNhbjVWdDVianVMYk1kc0ZRalltL0ZKQVlvbkg4R1RYYVFH?=
+ =?utf-8?B?ajVOVXBFS1J3d2V6cVVwbG9KVnpFRjVHMzFCbDdPSDZHSDFlSVJIR3Y4bTNS?=
+ =?utf-8?B?VEhjTStmb2g2bHNBVjNXR1N0dDhVQUR1NHR6OEgwaFQ4Lzl0RWJEKzVJYW42?=
+ =?utf-8?B?V2VFYzZNR0Uza3RqV2lrc1UyN3dMcHJQQzNRUEFCdTRjR1FsaXMyeDRYdjRN?=
+ =?utf-8?B?aHpTaGpEWnlPd2VxaUk0bUJMbGdxZTAralQ5NTZZUHRReDFpTU1xWkRwZGtZ?=
+ =?utf-8?B?a094NlY5eFcyQXhXYXZaYmkzY2I0V1BqVGJVT2V0NktBRGxFNUNuZHcvTjJI?=
+ =?utf-8?B?NjFqZ2NOZk9rOXhpVUFUUUlpUmxIUE1oRStzS01hZi9ZdHJBTTBlS2dOaWZt?=
+ =?utf-8?B?MjRFNHY4Sk1oVjNpTkFYaklGNWRzRnliYWtNSWluaWdJbjU1d1Q1a1M4Z0lP?=
+ =?utf-8?B?UHAyRkR4eEZqZ2pGRW1PRHNLanVZaS9hb282VUluL0xsdmR6NlBnS2FaaGFJ?=
+ =?utf-8?B?cGtXc2hibU0xekFvektNWCt4MnFhWVZEKzFYdGloeG5ldUZJRDJrdHI2R1hR?=
+ =?utf-8?B?ZEFBZHJNN0JFSW1vUXRNY2pQSTNmU1g0dWlzY2REQzdhVmRlQysrSWZMRXhS?=
+ =?utf-8?B?dERKZngzSHRrQ1Q2bzRSUGRUMTFuZGo0cTNvN2h6WjZHYWpvL1hRV0wrY2xo?=
+ =?utf-8?B?ZTViM1dRcjlKY1JkUGdscTlVZWJMUDh2YUM3NEdBU296c0xnZXRlNEE0Zmhm?=
+ =?utf-8?B?WWJLb0NSRE4vZWEvSUx5R1haYWt3Q3VyU2Ivb3htQkp3YTdyREJRMDBaT2Fk?=
+ =?utf-8?B?ZG9PUnVWWTJMM2xJMW5HSDB5d0hJS2J4ZEZKOVRpalRmSXZ3MWR1MEptK29l?=
+ =?utf-8?B?Rmp5ZkRLQzZQbEx0T3YrVHU4bUpkZ2pwMlk4dktGaDVkVTQzbDNBYS9wNDho?=
+ =?utf-8?B?UlVvcnljS0xzVzNheitMZ09WVGpvZW9STVhUeE1nUTV0MnJPNVUyOVhYYTI3?=
+ =?utf-8?B?VWJBdkRQaGNIUjE5YnpDMGkwdDVLSk1OR2J6M04zWVA1WU9Va25RSURPcjJI?=
+ =?utf-8?B?WTZockVFUzZsQy9VUUtIVERiMVFPU21JRkwyeGQyN2VhMFg5QjcvRHNhZis5?=
+ =?utf-8?B?Ukt0Ly8vRW9yRGVUcnRMeUJGQjI3aUpCTUZjYTloMmRWcjBZSzN6K1l1cGJu?=
+ =?utf-8?B?bklaZUQyUDhveDlTd0FPTnlqTTIrQ1hCZUFBVG83dlFtK2xFRkVGamJ5OTFt?=
+ =?utf-8?B?Z042U1JReWV0SnlzSEJlZDBMV0taSHk3VUtMejIyUVQ2Y3VlbHZkMmxLd3Jv?=
+ =?utf-8?B?d3R1UnQvMFZSY1NqdThPUkxBZUs3YnhEWnNKWWErV3M2a1VJbXV5R0ZHbEJx?=
+ =?utf-8?B?RTcyLzhqeTRDcE1GdXdzbFE0MXoyK3Y1SytRZUQ2cEpwU3hiK1ZaYlNhK3hz?=
+ =?utf-8?B?cXN1dEdmL3lJZkd1UEdxMGp6Ym5RMkdiQTJ0RTRHVTQ3R3phMzN4UGF5WVJC?=
+ =?utf-8?B?MWR6citVUnV3STBnSE1qTnY5RnM3THpaMDRpSURqcW9EZkIxekJydUhHL1px?=
+ =?utf-8?B?dFk5bS8zbU9IUlBhWFRPTG5aQ0kraUVuL3YvYU9jUzYrWlJuOEhCQVRCNHc5?=
+ =?utf-8?B?TlNhMm5tdTAwdkRJRmlCejJIRUZ3TmQ1b1FPdjBkcmlUU3hqeHFIa0d5U3Rk?=
+ =?utf-8?B?SkY3QWlWQW5UeGovdU9MV2FTeGJCMTdER1krcXJmdXJXYkhDS2JmeWF5Q0dS?=
+ =?utf-8?B?eGhpb2Zkb2hkYWhSMlFYSXVCdGQycFdaQTdlNnN4ZjFKdWloc0xnWjBnbXRu?=
+ =?utf-8?B?dGttVnF2eGViSlA4T0w4MzRCRVVMdGk5VThDU3kyK0JTbkxKWEMrYm95ZjNa?=
+ =?utf-8?Q?nfrPdp848Gmz3zWYrY6cm9UUU?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B0337139496182409E0DEE897865D23F@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231224-n-s5p-mfc-const-v1-15-a3b246470fe4@linaro.org>
-References: <20231224-n-s5p-mfc-const-v1-0-a3b246470fe4@linaro.org>
-In-Reply-To: <20231224-n-s5p-mfc-const-v1-0-a3b246470fe4@linaro.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Aakarsh Jain <aakarsh.jain@samsung.com>, linux-fsd@tesla.coma, 
- linux-samsung-soc@vger.kernel.org, 
- Smitha T Murthy <smithatmurthy@gmail.com>, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=16454;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=hxNRpET1TD7wWdvfDUE12WprGqdoNFx+n/H4LB7+u3U=;
- b=owEBfgKB/ZANAwAKAcE3ZuaGi4PXAcsmYgBliFHbN0m9OIqeTiRrH6SZ36lxQUr5mM+jMmy/w
- vmnzQcPf2aJAkQEAAEKAC4WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZYhR2xAca3J6a0BrZXJu
- ZWwub3JnAAoJEME3ZuaGi4PXm4wP/2kAVl3TGxBeMbzCR4c5E3CpbdGAG+iAprZBp+xXhv2ndG4
- xW9+dg/vrnASrfFQJEXd/QtmgVe9+joCGv9ULMcVc9e5NroL9XsFago9t89gzBc348N+EgiwK33
- xbuQcnpAjnyLXgJlTVYphb9Tvu6dpsa93SUhFdEWMhEFbbIud5Y5upjVJxq+KsPkZCHIjVAom0q
- 8H9ly5MNARySKhAlsHLXMy/Ib7muzp6uEW8r6llcpYw9spLBPsLdbDegcJpmN++KdfkbfCBb1L3
- PP2tW4C4NoQBJr1NkN+cYnqUTKji+FGzEhQrL7+RBH+QJDgoJPjMEHUMx8Ft3e359FYKAvIfPAZ
- LISmEPE5cXRvTFt6NAWBZ92aeyqrxXcA8a+hjt64aq/2pfD6XJV5iyD0Fcb/Dy1Obr116yJ4ob0
- oBRYQaxT2dn1ehmh6Aht4Hr3BT3M0PdmbBtbp1lr15T+z12ogkR3GUepLz8iJJpMp0OyxKRpRdg
- Jj+kbaS2ajLSJiYOjoxqNMi8z1LUuFPNdIJ1IQXUSGjKvboWYrK7ck/ejmSPo8ftePaSrDXKbcX
- PLiHf1g/p+4MssPi5ti/1opbASfr7sZnIJTUEsKJm/iVbz5y+mkplIWrfyoxhnn6bxbiNk+gYw3
- T7GPS3AN9HHzSupqh2HTnzYk5B28PGZGPvIZc
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf46818e-2e17-4d3f-fab7-08dc0528a6f5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Dec 2023 09:05:33.7542
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: C6gDGy7ljgQEWohXyVpl7k3V9qvDY7wVgn88CXZq8ZvBvZNWd9L3KItiGenRzS3G7XQRIONUoy+P8ao99xJwIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB5475
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--18.751200-8.000000
+X-TMASE-MatchedRID: PL66URbwWA8OwH4pD14DsPHkpkyUphL9MZm0+sEE9mtpRtFovOTjTWeD
+	iOVpb8s7N5zqN/saWGffDheQtmGHqTwij/SkStHmL/daYw3EVHyeEP0DdJruljUsHjosUACSmQJ
+	6sUxppuJOFu8ssjxG8/FjRYaB9JwD2WeQjW7v2UECNMj/7qB/gxyDrkIwjihb8EzvgHT9P5qIMV
+	4nweffzUKW569qkbFJhxfamrf2qxWbGHSBj+j5WYSvKOGqLLPK5Y0kb0hqatyM2ehTV+imiyb3O
+	x4lhYcthjXRysqny34PHbXmBXByiNMsGRKm0bkEypeMiaCPnxvb4SkGdkTN9XOMCXNrYTWi1rfl
+	znbz4mDsJbnEUDpZMnybR4oj90UAlh+IkeJQ88bYd2+/8wYTda19jpg9rDdhPPNQscfVdONnLsx
+	vwfNLnUexP8F1neHmhwqZUMR8IWoryFHbNnBLG8nUTf2MoOKYKJfSpcAUv12XaPx34rRVKDQprF
+	KxNRd04vM1YF6AJbY9l7H+TFQgdbew1twePJJB3QfwsVk0UbtuRXh7bFKB7gaftQpRRj0hCwQj/
+	SIpghKeORtFjCZevs/6To2Vbmc0lExlQIQeRG0=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--18.751200-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	B0CF683261263BB87C12E62A5EBDC1191EE71A0EF703962809E89A96C37561352000:8
 
-Change the interface of power management functions in s5p_mfc_pm.c to
-accept the pointer to S5P MFC device structure. instead of relying on
-file-scope static variable.  This makes code easier to read and modify
-in case more devices are added.
-
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c   | 42 +++++++++++-----------
- .../media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c  | 26 +++++++-------
- .../media/platform/samsung/s5p-mfc/s5p_mfc_dec.c   |  8 ++---
- .../platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c      |  4 +--
- .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c      |  8 ++---
- .../media/platform/samsung/s5p-mfc/s5p_mfc_pm.c    | 40 ++++++++++-----------
- .../media/platform/samsung/s5p-mfc/s5p_mfc_pm.h    |  8 ++---
- 7 files changed, 67 insertions(+), 69 deletions(-)
-
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-index 5d10c1cb8b92..f0bda2f7f1c2 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-@@ -183,7 +183,7 @@ static void s5p_mfc_watchdog_worker(struct work_struct *work)
- 		mfc_err("Error: some instance may be closing/opening\n");
- 	spin_lock_irqsave(&dev->irqlock, flags);
- 
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 
- 	for (i = 0; i < MFC_NUM_CONTEXTS; i++) {
- 		ctx = dev->ctx[i];
-@@ -211,9 +211,9 @@ static void s5p_mfc_watchdog_worker(struct work_struct *work)
- 			mfc_err("Failed to reload FW\n");
- 			goto unlock;
- 		}
--		s5p_mfc_clock_on();
-+		s5p_mfc_clock_on(dev);
- 		ret = s5p_mfc_init_hw(dev);
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 		if (ret)
- 			mfc_err("Failed to reinit FW\n");
- 	}
-@@ -393,7 +393,7 @@ static void s5p_mfc_handle_frame(struct s5p_mfc_ctx *ctx,
- 		s5p_mfc_hw_call(dev->mfc_ops, clear_int_flags, dev);
- 		wake_up_ctx(ctx, reason, err);
- 		WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 		s5p_mfc_hw_call(dev->mfc_ops, try_run, dev);
- 		return;
- 	}
-@@ -465,7 +465,7 @@ static void s5p_mfc_handle_frame(struct s5p_mfc_ctx *ctx,
- 	s5p_mfc_hw_call(dev->mfc_ops, clear_int_flags, dev);
- 	wake_up_ctx(ctx, reason, err);
- 	WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	/* if suspending, wake up device and do not try_run again*/
- 	if (test_bit(0, &dev->enter_suspend))
- 		wake_up_dev(dev, reason, err);
-@@ -509,7 +509,7 @@ static void s5p_mfc_handle_error(struct s5p_mfc_dev *dev,
- 	}
- 	WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
- 	s5p_mfc_hw_call(dev->mfc_ops, clear_int_flags, dev);
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	wake_up_dev(dev, reason, err);
- }
- 
-@@ -565,7 +565,7 @@ static void s5p_mfc_handle_seq_done(struct s5p_mfc_ctx *ctx,
- 	s5p_mfc_hw_call(dev->mfc_ops, clear_int_flags, dev);
- 	clear_work_bit(ctx);
- 	WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	s5p_mfc_hw_call(dev->mfc_ops, try_run, dev);
- 	wake_up_ctx(ctx, reason, err);
- }
-@@ -601,14 +601,14 @@ static void s5p_mfc_handle_init_buffers(struct s5p_mfc_ctx *ctx,
- 		}
- 		WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
- 
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 
- 		wake_up(&ctx->queue);
- 		s5p_mfc_hw_call(dev->mfc_ops, try_run, dev);
- 	} else {
- 		WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
- 
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 
- 		wake_up(&ctx->queue);
- 	}
-@@ -636,7 +636,7 @@ static void s5p_mfc_handle_stream_complete(struct s5p_mfc_ctx *ctx)
- 
- 	WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
- 
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	wake_up(&ctx->queue);
- 	s5p_mfc_hw_call(dev->mfc_ops, try_run, dev);
- }
-@@ -688,7 +688,7 @@ static irqreturn_t s5p_mfc_irq(int irq, void *priv)
- 			}
- 			s5p_mfc_hw_call(dev->mfc_ops, clear_int_flags, dev);
- 			WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
--			s5p_mfc_clock_off();
-+			s5p_mfc_clock_off(dev);
- 			wake_up_ctx(ctx, reason, err);
- 			s5p_mfc_hw_call(dev->mfc_ops, try_run, dev);
- 		} else {
-@@ -752,7 +752,7 @@ static irqreturn_t s5p_mfc_irq(int irq, void *priv)
- 	if (test_and_clear_bit(0, &dev->hw_lock) == 0)
- 		mfc_err("Failed to unlock hw\n");
- 
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	clear_work_bit(ctx);
- 	wake_up(&ctx->queue);
- 
-@@ -837,20 +837,20 @@ static int s5p_mfc_open(struct file *file)
- 		dev->watchdog_timer.expires = jiffies +
- 					msecs_to_jiffies(MFC_WATCHDOG_INTERVAL);
- 		add_timer(&dev->watchdog_timer);
--		ret = s5p_mfc_power_on();
-+		ret = s5p_mfc_power_on(dev);
- 		if (ret < 0) {
- 			mfc_err("power on failed\n");
- 			goto err_pwr_enable;
- 		}
--		s5p_mfc_clock_on();
-+		s5p_mfc_clock_on(dev);
- 		ret = s5p_mfc_load_firmware(dev);
- 		if (ret) {
--			s5p_mfc_clock_off();
-+			s5p_mfc_clock_off(dev);
- 			goto err_load_fw;
- 		}
- 		/* Init the FW */
- 		ret = s5p_mfc_init_hw(dev);
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 		if (ret)
- 			goto err_init_hw;
- 	}
-@@ -927,7 +927,7 @@ static int s5p_mfc_open(struct file *file)
- err_load_fw:
- err_pwr_enable:
- 	if (dev->num_inst == 1) {
--		if (s5p_mfc_power_off() < 0)
-+		if (s5p_mfc_power_off(dev) < 0)
- 			mfc_err("power off failed\n");
- 		del_timer_sync(&dev->watchdog_timer);
- 	}
-@@ -959,7 +959,7 @@ static int s5p_mfc_release(struct file *file)
- 	vb2_queue_release(&ctx->vq_src);
- 	vb2_queue_release(&ctx->vq_dst);
- 	if (dev) {
--		s5p_mfc_clock_on();
-+		s5p_mfc_clock_on(dev);
- 
- 		/* Mark context as idle */
- 		clear_work_bit_irqsave(ctx);
-@@ -979,12 +979,12 @@ static int s5p_mfc_release(struct file *file)
- 			mfc_debug(2, "Last instance\n");
- 			s5p_mfc_deinit_hw(dev);
- 			del_timer_sync(&dev->watchdog_timer);
--			s5p_mfc_clock_off();
--			if (s5p_mfc_power_off() < 0)
-+			s5p_mfc_clock_off(dev);
-+			if (s5p_mfc_power_off(dev) < 0)
- 				mfc_err("Power off failed\n");
- 		} else {
- 			mfc_debug(2, "Shutting down clock\n");
--			s5p_mfc_clock_off();
-+			s5p_mfc_clock_off(dev);
- 		}
- 	}
- 	if (dev)
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-index 6d3c92045c05..8eedf6524c39 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-@@ -215,7 +215,7 @@ int s5p_mfc_init_hw(struct s5p_mfc_dev *dev)
- 
- 	/* 0. MFC reset */
- 	mfc_debug(2, "MFC reset..\n");
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(dev);
- 	dev->risc_on = 0;
- 	ret = s5p_mfc_reset(dev);
- 	if (ret) {
-@@ -243,7 +243,7 @@ int s5p_mfc_init_hw(struct s5p_mfc_dev *dev)
- 	if (s5p_mfc_wait_for_done_dev(dev, S5P_MFC_R2H_CMD_FW_STATUS_RET)) {
- 		mfc_err("Failed to load firmware\n");
- 		s5p_mfc_reset(dev);
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 		return -EIO;
- 	}
- 	s5p_mfc_clean_dev_int_flags(dev);
-@@ -252,14 +252,14 @@ int s5p_mfc_init_hw(struct s5p_mfc_dev *dev)
- 	if (ret) {
- 		mfc_err("Failed to send command to MFC - timeout\n");
- 		s5p_mfc_reset(dev);
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 		return ret;
- 	}
- 	mfc_debug(2, "Ok, now will wait for completion of hardware init\n");
- 	if (s5p_mfc_wait_for_done_dev(dev, S5P_MFC_R2H_CMD_SYS_INIT_RET)) {
- 		mfc_err("Failed to init hardware\n");
- 		s5p_mfc_reset(dev);
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 		return -EIO;
- 	}
- 	dev->int_cond = 0;
-@@ -269,7 +269,7 @@ int s5p_mfc_init_hw(struct s5p_mfc_dev *dev)
- 		mfc_err("Failed to init firmware - error: %d int: %d\n",
- 						dev->int_err, dev->int_type);
- 		s5p_mfc_reset(dev);
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 		return -EIO;
- 	}
- 	if (IS_MFCV6_PLUS(dev))
-@@ -279,7 +279,7 @@ int s5p_mfc_init_hw(struct s5p_mfc_dev *dev)
- 
- 	mfc_debug(2, "MFC F/W version : %02xyy, %02xmm, %02xdd\n",
- 		(ver >> 16) & 0xFF, (ver >> 8) & 0xFF, ver & 0xFF);
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	mfc_debug_leave();
- 	return 0;
- }
-@@ -288,12 +288,12 @@ int s5p_mfc_init_hw(struct s5p_mfc_dev *dev)
- /* Deinitialize hardware */
- void s5p_mfc_deinit_hw(struct s5p_mfc_dev *dev)
- {
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(dev);
- 
- 	s5p_mfc_reset(dev);
- 	s5p_mfc_hw_call(dev->mfc_ops, release_dev_context_buffer, dev);
- 
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- }
- 
- int s5p_mfc_sleep(struct s5p_mfc_dev *dev)
-@@ -301,7 +301,7 @@ int s5p_mfc_sleep(struct s5p_mfc_dev *dev)
- 	int ret;
- 
- 	mfc_debug_enter();
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(dev);
- 	s5p_mfc_clean_dev_int_flags(dev);
- 	ret = s5p_mfc_hw_call(dev->mfc_cmds, sleep_cmd, dev);
- 	if (ret) {
-@@ -312,7 +312,7 @@ int s5p_mfc_sleep(struct s5p_mfc_dev *dev)
- 		mfc_err("Failed to sleep\n");
- 		return -EIO;
- 	}
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	dev->int_cond = 0;
- 	if (dev->int_err != 0 || dev->int_type !=
- 						S5P_MFC_R2H_CMD_SLEEP_RET) {
-@@ -384,12 +384,12 @@ int s5p_mfc_wakeup(struct s5p_mfc_dev *dev)
- 	mfc_debug_enter();
- 	/* 0. MFC reset */
- 	mfc_debug(2, "MFC reset..\n");
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(dev);
- 	dev->risc_on = 0;
- 	ret = s5p_mfc_reset(dev);
- 	if (ret) {
- 		mfc_err("Failed to reset MFC - timeout\n");
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 		return ret;
- 	}
- 	mfc_debug(2, "Done MFC reset..\n");
-@@ -404,7 +404,7 @@ int s5p_mfc_wakeup(struct s5p_mfc_dev *dev)
- 	else
- 		ret = s5p_mfc_wait_wakeup(dev);
- 
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
-index eef26d4e02cf..b620db8896e1 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
-@@ -477,7 +477,7 @@ static int reqbufs_output(struct s5p_mfc_dev *dev, struct s5p_mfc_ctx *ctx,
- {
- 	int ret = 0;
- 
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(dev);
- 
- 	if (reqbufs->count == 0) {
- 		mfc_debug(2, "Freeing buffers\n");
-@@ -514,7 +514,7 @@ static int reqbufs_output(struct s5p_mfc_dev *dev, struct s5p_mfc_ctx *ctx,
- 		ret = -EINVAL;
- 	}
- out:
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	if (ret)
- 		mfc_err("Failed allocating buffers for OUTPUT queue\n");
- 	return ret;
-@@ -525,7 +525,7 @@ static int reqbufs_capture(struct s5p_mfc_dev *dev, struct s5p_mfc_ctx *ctx,
- {
- 	int ret = 0;
- 
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(dev);
- 
- 	if (reqbufs->count == 0) {
- 		mfc_debug(2, "Freeing buffers\n");
-@@ -568,7 +568,7 @@ static int reqbufs_capture(struct s5p_mfc_dev *dev, struct s5p_mfc_ctx *ctx,
- 		ret = -EINVAL;
- 	}
- out:
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(dev);
- 	if (ret)
- 		mfc_err("Failed allocating buffers for CAPTURE queue\n");
- 	return ret;
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c
-index ba22c6a3219a..87492db83536 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c
-@@ -1346,7 +1346,7 @@ static void s5p_mfc_try_run_v5(struct s5p_mfc_dev *dev)
- 	 * Last frame has already been sent to MFC.
- 	 * Now obtaining frames from MFC buffer
- 	 */
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(dev);
- 	s5p_mfc_clean_ctx_int_flags(ctx);
- 
- 	if (ctx->type == MFCINST_DECODER) {
-@@ -1422,7 +1422,7 @@ static void s5p_mfc_try_run_v5(struct s5p_mfc_dev *dev)
- 		 * scheduled, reduce the clock count as no one will
- 		 * ever do this, because no interrupt related to this try_run
- 		 * will ever come from hardware. */
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 	}
- }
- 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-index 08545213caa9..8908c159a91e 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-@@ -1992,7 +1992,7 @@ static void s5p_mfc_try_run_v6(struct s5p_mfc_dev *dev)
- 	/* Last frame has already been sent to MFC
- 	 * Now obtaining frames from MFC buffer */
- 
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(dev);
- 	s5p_mfc_clean_ctx_int_flags(ctx);
- 
- 	if (ctx->type == MFCINST_DECODER) {
-@@ -2072,7 +2072,7 @@ static void s5p_mfc_try_run_v6(struct s5p_mfc_dev *dev)
- 		 * scheduled, reduce the clock count as no one will
- 		 * ever do this, because no interrupt related to this try_run
- 		 * will ever come from hardware. */
--		s5p_mfc_clock_off();
-+		s5p_mfc_clock_off(dev);
- 	}
- }
- 
-@@ -2088,9 +2088,9 @@ s5p_mfc_read_info_v6(struct s5p_mfc_ctx *ctx, unsigned long ofs)
- {
- 	int ret;
- 
--	s5p_mfc_clock_on();
-+	s5p_mfc_clock_on(ctx->dev);
- 	ret = readl((void __iomem *)ofs);
--	s5p_mfc_clock_off();
-+	s5p_mfc_clock_off(ctx->dev);
- 
- 	return ret;
- }
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c
-index ecb3065c33c9..ae4241408383 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c
-@@ -14,13 +14,11 @@
- #include "s5p_mfc_debug.h"
- #include "s5p_mfc_pm.h"
- 
--static struct s5p_mfc_pm *pm;
--
- int s5p_mfc_init_pm(struct s5p_mfc_dev *dev)
- {
-+	struct s5p_mfc_pm *pm = &dev->pm;
- 	int i;
- 
--	pm = &dev->pm;
- 	pm->num_clocks = dev->variant->num_clocks;
- 	pm->clk_names = dev->variant->clk_names;
- 	pm->device = &dev->plat_dev->dev;
-@@ -50,58 +48,58 @@ int s5p_mfc_init_pm(struct s5p_mfc_dev *dev)
- 
- void s5p_mfc_final_pm(struct s5p_mfc_dev *dev)
- {
--	pm_runtime_disable(pm->device);
-+	pm_runtime_disable(dev->pm.device);
- }
- 
--int s5p_mfc_clock_on(void)
-+int s5p_mfc_clock_on(struct s5p_mfc_dev *dev)
- {
--	return clk_enable(pm->clock_gate);
-+	return clk_enable(dev->pm.clock_gate);
- }
- 
--void s5p_mfc_clock_off(void)
-+void s5p_mfc_clock_off(struct s5p_mfc_dev *dev)
- {
--	clk_disable(pm->clock_gate);
-+	clk_disable(dev->pm.clock_gate);
- }
- 
--int s5p_mfc_power_on(void)
-+int s5p_mfc_power_on(struct s5p_mfc_dev *dev)
- {
- 	int i, ret = 0;
- 
--	ret = pm_runtime_resume_and_get(pm->device);
-+	ret = pm_runtime_resume_and_get(dev->pm.device);
- 	if (ret < 0)
- 		return ret;
- 
- 	/* clock control */
--	for (i = 0; i < pm->num_clocks; i++) {
--		ret = clk_prepare_enable(pm->clocks[i]);
-+	for (i = 0; i < dev->pm.num_clocks; i++) {
-+		ret = clk_prepare_enable(dev->pm.clocks[i]);
- 		if (ret < 0) {
- 			mfc_err("clock prepare failed for clock: %s\n",
--				pm->clk_names[i]);
-+				dev->pm.clk_names[i]);
- 			goto err;
- 		}
- 	}
- 
- 	/* prepare for software clock gating */
--	clk_disable(pm->clock_gate);
-+	clk_disable(dev->pm.clock_gate);
- 
- 	return 0;
- err:
- 	while (--i >= 0)
--		clk_disable_unprepare(pm->clocks[i]);
--	pm_runtime_put(pm->device);
-+		clk_disable_unprepare(dev->pm.clocks[i]);
-+	pm_runtime_put(dev->pm.device);
- 	return ret;
- }
- 
--int s5p_mfc_power_off(void)
-+int s5p_mfc_power_off(struct s5p_mfc_dev *dev)
- {
- 	int i;
- 
- 	/* finish software clock gating */
--	clk_enable(pm->clock_gate);
-+	clk_enable(dev->pm.clock_gate);
- 
--	for (i = 0; i < pm->num_clocks; i++)
--		clk_disable_unprepare(pm->clocks[i]);
-+	for (i = 0; i < dev->pm.num_clocks; i++)
-+		clk_disable_unprepare(dev->pm.clocks[i]);
- 
--	return pm_runtime_put_sync(pm->device);
-+	return pm_runtime_put_sync(dev->pm.device);
- }
- 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.h b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.h
-index 4159d2364e87..9c71036f0385 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.h
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.h
-@@ -12,9 +12,9 @@
- int s5p_mfc_init_pm(struct s5p_mfc_dev *dev);
- void s5p_mfc_final_pm(struct s5p_mfc_dev *dev);
- 
--int s5p_mfc_clock_on(void);
--void s5p_mfc_clock_off(void);
--int s5p_mfc_power_on(void);
--int s5p_mfc_power_off(void);
-+int s5p_mfc_clock_on(struct s5p_mfc_dev *dev);
-+void s5p_mfc_clock_off(struct s5p_mfc_dev *dev);
-+int s5p_mfc_power_on(struct s5p_mfc_dev *dev);
-+int s5p_mfc_power_off(struct s5p_mfc_dev *dev);
- 
- #endif /* S5P_MFC_PM_H_ */
-
--- 
-2.34.1
-
+SGksIEphc29uOg0KDQoNCk9uIFN1biwgMjAyMy0xMi0yNCBhdCAwMjoyOSArMDgwMCwgSmFzb24t
+SkguTGluIHdyb3RlOg0KPiBGcm9tOiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPg0KPiANCj4g
+QWRkIGFuIGludGVyZmFjZSB0byBhbGxvY2F0ZSBNZWRpYVRlayBHRU0gYnVmZmVycywgYWxsb3cg
+dGhlIElPQ1RMcw0KPiB0byBiZSB1c2VkIGJ5IHJlbmRlciBub2Rlcy4NCj4gVGhpcyBwYXRjaCBh
+bHNvIHNldHMgdGhlIFJFTkRFUiBkcml2ZXIgZmVhdHVyZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
+IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IE5pY29sYXMgQm9p
+Y2hhdCA8ZHJpbmtjYXRAY2hyb21pdW0ub3JnPg0KPiBTaWduZWQtb2ZmLWJ5OiBQaGlsaXBwIFph
+YmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPg0KPiBTaWduZWQtb2ZmLWJ5OiBKYXNvbi1KSC5M
+aW4gPGphc29uLWpoLmxpbkBtZWRpYXRlay5jb20+DQo+IFJldmlld2VkLWJ5OiBEYW5pZWwgS3Vy
+dHogPGRqa3VydHpAY2hyb21pdW0ub3JnPg0KPiBSZXZpZXdlZC1ieTogTmljb2xhcyBCb2ljaGF0
+IDxkcmlua2NhdEBjaHJvbWl1bS5vcmc+DQo+IFRlc3RlZC1ieTogRGFuaWVsIEt1cnR6IDxkamt1
+cnR6QGNocm9taXVtLm9yZz4NCj4gVGVzdGVkLWJ5OiBQaS1Ic3VuIFNoaWggPHBpaHN1bkBjaHJv
+bWl1bS5vcmc+DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2
+LmMgfCAxMyArKysrKysNCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5j
+IHwgMzkgKysrKysrKysrKysrKysrKysNCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
+ZHJtX2dlbS5oIHwgMTIgKysrKysrDQo+ICBpbmNsdWRlL3VhcGkvZHJtL21lZGlhdGVrX2RybS5o
+ICAgICAgICB8IDU4DQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICA0IGZpbGVzIGNo
+YW5nZWQsIDEyMiBpbnNlcnRpb25zKCspDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS91
+YXBpL2RybS9tZWRpYXRla19kcm0uaA0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcm1fZHJ2LmMNCj4gaW5kZXggMmIwYzM1Y2FjYmM2Li41ZDJhMzllNDkxYWEgMTAwNjQ0DQo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jDQo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jDQo+IEBAIC0yNCw2ICsyNCw3IEBA
+DQo+ICAjaW5jbHVkZSA8ZHJtL2RybV9vZi5oPg0KPiAgI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVf
+aGVscGVyLmg+DQo+ICAjaW5jbHVkZSA8ZHJtL2RybV92YmxhbmsuaD4NCj4gKyNpbmNsdWRlIDxk
+cm0vbWVkaWF0ZWtfZHJtLmg+DQo+ICANCj4gICNpbmNsdWRlICJtdGtfZHJtX2NydGMuaCINCj4g
+ICNpbmNsdWRlICJtdGtfZHJtX2RkcF9jb21wLmgiDQo+IEBAIC01NjksNiArNTcwLDE0IEBAIHN0
+YXRpYyB2b2lkIG10a19kcm1fa21zX2RlaW5pdChzdHJ1Y3QgZHJtX2RldmljZQ0KPiAqZHJtKQ0K
+PiAgCWNvbXBvbmVudF91bmJpbmRfYWxsKGRybS0+ZGV2LCBkcm0pOw0KPiAgfQ0KPiAgDQo+ICtz
+dGF0aWMgY29uc3Qgc3RydWN0IGRybV9pb2N0bF9kZXNjIG10a19pb2N0bHNbXSA9IHsNCj4gKwlE
+Uk1fSU9DVExfREVGX0RSVihNVEtfR0VNX0NSRUFURSwgbXRrX2dlbV9jcmVhdGVfaW9jdGwsDQo+
+ICsJCQkgIERSTV9VTkxPQ0tFRCB8IERSTV9BVVRIIHwgRFJNX1JFTkRFUl9BTExPVyksDQo+ICsJ
+RFJNX0lPQ1RMX0RFRl9EUlYoTVRLX0dFTV9NQVBfT0ZGU0VULA0KPiArCQkJICBtdGtfZ2VtX21h
+cF9vZmZzZXRfaW9jdGwsDQo+ICsJCQkgIERSTV9VTkxPQ0tFRCB8IERSTV9BVVRIIHwgRFJNX1JF
+TkRFUl9BTExPVyksDQoNCkZvciBzZWN1cmUgYnVmZmVyLCB3ZSBkb24ndCBuZWVkIG1hcCBvZmZz
+ZXQgZnVuY3Rpb24uIElmIHlvdSByZWFsbHkNCm5lZWQgdGhpcyBmdW5jdGlvbiwgc2VwYXJhdGUg
+dGhpcyB0byBhbm90aGVyIHBhdGNoIGFuZCBkZXNjcmliZSB3aHkNCm5lZWQgdGhpcy4NCg0KUmVn
+YXJkcywNCkNLDQoNCj4gK307DQo+ICsNCj4gIERFRklORV9EUk1fR0VNX0ZPUFMobXRrX2RybV9m
+b3BzKTsNCj4gIA0KPiAgLyoNCj4gQEAgLTU5MCw2ICs1OTksMTAgQEAgc3RhdGljIGNvbnN0IHN0
+cnVjdCBkcm1fZHJpdmVyIG10a19kcm1fZHJpdmVyID0NCj4gew0KPiAgDQo+ICAJLmdlbV9wcmlt
+ZV9pbXBvcnQgPSBtdGtfZHJtX2dlbV9wcmltZV9pbXBvcnQsDQo+ICAJLmdlbV9wcmltZV9pbXBv
+cnRfc2dfdGFibGUgPSBtdGtfZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZSwNCj4gKw0KPiArCS5p
+b2N0bHMgPSBtdGtfaW9jdGxzLA0KPiArCS5udW1faW9jdGxzID0gQVJSQVlfU0laRShtdGtfaW9j
+dGxzKSwNCj4gKw0KPiAgCS5mb3BzID0gJm10a19kcm1fZm9wcywNCj4gIA0KPiAgCS5uYW1lID0g
+RFJJVkVSX05BTUUsDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X2RybV9nZW0uYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jDQo+
+IGluZGV4IDRmMmUzZmVhYmMwZi4uMzBlMzQ3YWRjYmU5IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RybV9nZW0uYw0KPiBAQCAtNCw2ICs0LDcgQEANCj4gICAqLw0KPiAgDQo+
+ICAjaW5jbHVkZSA8bGludXgvZG1hLWJ1Zi5oPg0KPiArI2luY2x1ZGUgPGRybS9tZWRpYXRla19k
+cm0uaD4NCj4gIA0KPiAgI2luY2x1ZGUgPGRybS9kcm0uaD4NCj4gICNpbmNsdWRlIDxkcm0vZHJt
+X2RldmljZS5oPg0KPiBAQCAtMjgzLDMgKzI4NCw0MSBAQCB2b2lkIG10a19kcm1fZ2VtX3ByaW1l
+X3Z1bm1hcChzdHJ1Y3QNCj4gZHJtX2dlbV9vYmplY3QgKm9iaiwNCj4gIAltdGtfZ2VtLT5rdmFk
+ZHIgPSBOVUxMOw0KPiAgCWtmcmVlKG10a19nZW0tPnBhZ2VzKTsNCj4gIH0NCj4gKw0KPiAraW50
+IG10a19nZW1fbWFwX29mZnNldF9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLCB2b2lkICpk
+YXRhLA0KPiArCQkJICAgICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdikNCj4gK3sNCj4gKwlz
+dHJ1Y3QgZHJtX210a19nZW1fbWFwX29mZiAqYXJncyA9IGRhdGE7DQo+ICsNCj4gKwlyZXR1cm4g
+ZHJtX2dlbV9kdW1iX21hcF9vZmZzZXQoZmlsZV9wcml2LCBkcm0sIGFyZ3MtPmhhbmRsZSwNCj4g
+KwkJCQkgICAgICAgJmFyZ3MtPm9mZnNldCk7DQo+ICt9DQo+ICsNCj4gK2ludCBtdGtfZ2VtX2Ny
+ZWF0ZV9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLA0KPiArCQkJIHN0
+cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2KQ0KPiArew0KPiArCXN0cnVjdCBtdGtfZHJtX2dlbV9v
+YmogKm10a19nZW07DQo+ICsJc3RydWN0IGRybV9tdGtfZ2VtX2NyZWF0ZSAqYXJncyA9IGRhdGE7
+DQo+ICsJaW50IHJldDsNCj4gKw0KPiArCW10a19nZW0gPSBtdGtfZHJtX2dlbV9jcmVhdGUoZGV2
+LCBhcmdzLT5zaXplLCBmYWxzZSk7DQo+ICsJaWYgKElTX0VSUihtdGtfZ2VtKSkNCj4gKwkJcmV0
+dXJuIFBUUl9FUlIobXRrX2dlbSk7DQo+ICsNCj4gKwkvKg0KPiArCSAqIGFsbG9jYXRlIGEgaWQg
+b2YgaWRyIHRhYmxlIHdoZXJlIHRoZSBvYmogaXMgcmVnaXN0ZXJlZA0KPiArCSAqIGFuZCBoYW5k
+bGUgaGFzIHRoZSBpZCB3aGF0IHVzZXIgY2FuIHNlZS4NCj4gKwkgKi8NCj4gKwlyZXQgPSBkcm1f
+Z2VtX2hhbmRsZV9jcmVhdGUoZmlsZV9wcml2LCAmbXRrX2dlbS0+YmFzZSwgJmFyZ3MtDQo+ID5o
+YW5kbGUpOw0KPiArCWlmIChyZXQpDQo+ICsJCWdvdG8gZXJyX2hhbmRsZV9jcmVhdGU7DQo+ICsN
+Cj4gKwkvKiBkcm9wIHJlZmVyZW5jZSBmcm9tIGFsbG9jYXRlIC0gaGFuZGxlIGhvbGRzIGl0IG5v
+dy4gKi8NCj4gKwlkcm1fZ2VtX29iamVjdF9wdXQoJm10a19nZW0tPmJhc2UpOw0KPiArDQo+ICsJ
+cmV0dXJuIDA7DQo+ICsNCj4gK2Vycl9oYW5kbGVfY3JlYXRlOg0KPiArCW10a19kcm1fZ2VtX2Zy
+ZWVfb2JqZWN0KCZtdGtfZ2VtLT5iYXNlKTsNCj4gKwlyZXR1cm4gcmV0Ow0KPiArfQ0KPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmgNCj4gYi9kcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uaA0KPiBpbmRleCA3OGYyM2IwN2EwMmUu
+LjkwZjNkMjkxNmVjNSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcm1fZ2VtLmgNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2Vt
+LmgNCj4gQEAgLTQ2LDQgKzQ2LDE2IEBAIGludCBtdGtfZHJtX2dlbV9wcmltZV92bWFwKHN0cnVj
+dCBkcm1fZ2VtX29iamVjdA0KPiAqb2JqLCBzdHJ1Y3QgaW9zeXNfbWFwICptYXApOw0KPiAgdm9p
+ZCBtdGtfZHJtX2dlbV9wcmltZV92dW5tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosDQo+
+ICAJCQkgICAgICBzdHJ1Y3QgaW9zeXNfbWFwICptYXApOw0KPiAgDQo+ICsvKg0KPiArICogcmVx
+dWVzdCBnZW0gb2JqZWN0IGNyZWF0aW9uIGFuZCBidWZmZXIgYWxsb2NhdGlvbiBhcyB0aGUgc2l6
+ZQ0KPiArICogdGhhdCBpdCBpcyBjYWxjdWxhdGVkIHdpdGggZnJhbWVidWZmZXIgaW5mb3JtYXRp
+b24gc3VjaCBhcyB3aWR0aCwNCj4gKyAqIGhlaWdodCBhbmQgYnBwLg0KPiArICovDQo+ICtpbnQg
+bXRrX2dlbV9jcmVhdGVfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwN
+Cj4gKwkJCSBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdik7DQo+ICsNCj4gKy8qIGdldCBidWZm
+ZXIgb2Zmc2V0IHRvIG1hcCB0byB1c2VyIHNwYWNlLiAqLw0KPiAraW50IG10a19nZW1fbWFwX29m
+ZnNldF9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLA0KPiArCQkJICAg
+ICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdik7DQo+ICsNCj4gICNlbmRpZg0KPiBkaWZmIC0t
+Z2l0IGEvaW5jbHVkZS91YXBpL2RybS9tZWRpYXRla19kcm0uaA0KPiBiL2luY2x1ZGUvdWFwaS9k
+cm0vbWVkaWF0ZWtfZHJtLmgNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAw
+MDAwMDAwLi5mNGQ0NzU3N2M5NGUNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9pbmNsdWRlL3Vh
+cGkvZHJtL21lZGlhdGVrX2RybS5oDQo+IEBAIC0wLDAgKzEsNTggQEANCj4gKy8qIFNQRFgtTGlj
+ZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wKyBXSVRIIExpbnV4LXN5c2NhbGwtbm90ZSAqLw0KPiAr
+LyoNCj4gKyAqIENvcHlyaWdodCAoYykgMjAxNSBNZWRpYVRlayBJbmMuDQo+ICsgKg0KPiArICog
+VGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFu
+ZC9vcg0KPiBtb2RpZnkNCj4gKyAqIGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVy
+YWwgUHVibGljIExpY2Vuc2UgdmVyc2lvbiAyIGFzDQo+ICsgKiBwdWJsaXNoZWQgYnkgdGhlIEZy
+ZWUgU29mdHdhcmUgRm91bmRhdGlvbi4NCj4gKyAqDQo+ICsgKiBUaGlzIHByb2dyYW0gaXMgZGlz
+dHJpYnV0ZWQgaW4gdGhlIGhvcGUgdGhhdCBpdCB3aWxsIGJlIHVzZWZ1bCwNCj4gKyAqIGJ1dCBX
+SVRIT1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBldmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9m
+DQo+ICsgKiBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBP
+U0UuICBTZWUgdGhlDQo+ICsgKiBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBmb3IgbW9yZSBk
+ZXRhaWxzLg0KPiArICovDQo+ICsNCj4gKyNpZm5kZWYgX1VBUElfTUVESUFURUtfRFJNX0gNCj4g
+KyNkZWZpbmUgX1VBUElfTUVESUFURUtfRFJNX0gNCj4gKw0KPiArI2luY2x1ZGUgPGRybS9kcm0u
+aD4NCj4gKw0KPiArLyoqDQo+ICsgKiBzdHJ1Y3QgZHJtX210a19nZW1fY3JlYXRlIC0gVXNlci1k
+ZXNpcmVkIGJ1ZmZlciBjcmVhdGlvbg0KPiBpbmZvcm1hdGlvbiBzdHJ1Y3R1cmUuDQo+ICsgKg0K
+PiArICogQHNpemU6IHVzZXItZGVzaXJlZCBtZW1vcnkgYWxsb2NhdGlvbiBzaXplLg0KPiArICoJ
+LSB0aGlzIHNpemUgdmFsdWUgd291bGQgYmUgcGFnZS1hbGlnbmVkIGludGVybmFsbHkuDQo+ICsg
+KiBAZmxhZ3M6IHVzZXIgcmVxdWVzdCBmb3Igc2V0dGluZyBtZW1vcnkgdHlwZSBvciBjYWNoZSBh
+dHRyaWJ1dGVzLg0KPiArICogQGhhbmRsZTogcmV0dXJuZWQgYSBoYW5kbGUgdG8gY3JlYXRlZCBn
+ZW0gb2JqZWN0Lg0KPiArICoJLSB0aGlzIGhhbmRsZSB3aWxsIGJlIHNldCBieSBnZW0gbW9kdWxl
+IG9mIGtlcm5lbCBzaWRlLg0KPiArICovDQo+ICtzdHJ1Y3QgZHJtX210a19nZW1fY3JlYXRlIHsN
+Cj4gKwl1aW50NjRfdCBzaXplOw0KPiArCXVpbnQzMl90IGZsYWdzOw0KPiArCXVpbnQzMl90IGhh
+bmRsZTsNCj4gK307DQo+ICsNCj4gKy8qKg0KPiArICogc3RydWN0IGRybV9tdGtfZ2VtX21hcF9v
+ZmYgLSBBIHN0cnVjdHVyZSBmb3IgZ2V0dGluZyBidWZmZXINCj4gb2Zmc2V0Lg0KPiArICoNCj4g
+KyAqIEBoYW5kbGU6IGEgcG9pbnRlciB0byBnZW0gb2JqZWN0IGNyZWF0ZWQuDQo+ICsgKiBAcGFk
+OiBqdXN0IHBhZGRpbmcgdG8gYmUgNjQtYml0IGFsaWduZWQuDQo+ICsgKiBAb2Zmc2V0OiByZWxh
+dGl2ZWQgb2Zmc2V0IHZhbHVlIG9mIHRoZSBtZW1vcnkgcmVnaW9uIGFsbG9jYXRlZC4NCj4gKyAq
+ICAgICAtIHRoaXMgdmFsdWUgc2hvdWxkIGJlIHNldCBieSB1c2VyLg0KPiArICovDQo+ICtzdHJ1
+Y3QgZHJtX210a19nZW1fbWFwX29mZiB7DQo+ICsJdWludDMyX3QgaGFuZGxlOw0KPiArCXVpbnQz
+Ml90IHBhZDsNCj4gKwl1aW50NjRfdCBvZmZzZXQ7DQo+ICt9Ow0KPiArDQo+ICsjZGVmaW5lIERS
+TV9NVEtfR0VNX0NSRUFURQkJMHgwMA0KPiArI2RlZmluZSBEUk1fTVRLX0dFTV9NQVBfT0ZGU0VU
+CQkweDAxDQo+ICsNCj4gKyNkZWZpbmUgRFJNX0lPQ1RMX01US19HRU1fQ1JFQVRFCURSTV9JT1dS
+KERSTV9DT01NQU5EX0JBU0UgKyBcDQo+ICsJCURSTV9NVEtfR0VNX0NSRUFURSwgc3RydWN0IGRy
+bV9tdGtfZ2VtX2NyZWF0ZSkNCj4gKw0KPiArI2RlZmluZSBEUk1fSU9DVExfTVRLX0dFTV9NQVBf
+T0ZGU0VUCURSTV9JT1dSKERSTV9DT01NQU5EX0JBU0UgKyBcDQo+ICsJCURSTV9NVEtfR0VNX01B
+UF9PRkZTRVQsIHN0cnVjdCBkcm1fbXRrX2dlbV9tYXBfb2ZmKQ0KPiArDQo+ICsjZW5kaWYgLyog
+X1VBUElfTUVESUFURUtfRFJNX0ggKi8NCg==
 
