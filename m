@@ -1,69 +1,72 @@
-Return-Path: <linux-media+bounces-3033-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3034-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860AC81F101
-	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 18:40:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B83B581F103
+	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 18:40:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B54F281B14
-	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 17:40:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61A111F22315
+	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 17:40:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E90BB4653C;
-	Wed, 27 Dec 2023 17:40:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D21834644F;
+	Wed, 27 Dec 2023 17:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aePgUTaU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mkEuuYR2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA9946522
-	for <linux-media@vger.kernel.org>; Wed, 27 Dec 2023 17:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034B44654D
+	for <linux-media@vger.kernel.org>; Wed, 27 Dec 2023 17:40:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5bdb0be3591so4174211a12.2
-        for <linux-media@vger.kernel.org>; Wed, 27 Dec 2023 09:40:21 -0800 (PST)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-28c7e30c83fso742189a91.1
+        for <linux-media@vger.kernel.org>; Wed, 27 Dec 2023 09:40:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703698821; x=1704303621; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aICOkkCHGNPQkQGVFyZfBHeeGOMAQbdF3pXGNaUoSUU=;
-        b=aePgUTaUerRaiLQ8mDeYwDgn5627xyef/6E0y2RLYzblVS3Ap5fMkAwOachK7W/rLw
-         16FFwE2Uo5vGtiwJTVvxLTFFPKhgKqW/aoZwoaJz2vdjlqgEWs/snpWtL+DLE2I+xgou
-         gn2sibY/uEt8TLi9eqqM3NQoBjCaT026nmXJ19c4+R4OyVaEzIhyw9zM9nN2frz5L20Z
-         GjpFLuLPzBB+K+OS29MhxsZPaonMvnS+Y/mS1qPr+SSd1320mlV8IFuf8ahuoS4DjkgP
-         6Tej0rx4IkS7lbeMD4wXB9MOKvAqJtF0ZDICjCVVmIcJulw6gOwfyCqoXYY5M3oDJ75X
-         0m/A==
+        d=gmail.com; s=20230601; t=1703698824; x=1704303624; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gwaYM1PH1SgDuz8j6xYAmjET/NuMiIbLCMJmRCvooPc=;
+        b=mkEuuYR2Oe8QDlepIEJqbobfTL0KVDAbB497Sc7BXqfRG8aQV0rOI269zJdvO6lc5S
+         K5q1w58SG+GPuPb2uRO1KBL49xwoK6Xds6iJbWoAATX0DlLNWGvbP4WstvsX0lQOPeUQ
+         krVUj3aNx7vVKSJBdks6nb16jMdyt1QX9m7lMPrtkG+bJnrLkUDYAQRBxJMLqoFmu3AT
+         WkJ5CaM3Iv5Q84Ab/UsoFUV6nC42pxi2Timr4pUDFIP0Q//qWLmGtVOBMqHgbRM5aZwZ
+         UT3udZpqBj7ru3epPfa3YYA6jk4kFk1LleXZVwEbprN54fFx0PrVhToMR+p9iXFDPqG7
+         FB7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703698821; x=1704303621;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aICOkkCHGNPQkQGVFyZfBHeeGOMAQbdF3pXGNaUoSUU=;
-        b=fltrjQM4q9Te3G2KshgGdn4Vq47osbPoJgaNOevxyfM02CncpFj7U7ibxCPVieW+zi
-         8KMvY3t0hC89pJv69iBC/Rv0o0shGirScETfgjMH/uEWraNitvq0rEkoz2Y8mxVAskMv
-         4amFYJa3qHAVV+m536ChDxe6YZdPBm//PHatrsmFQcgQBJX+vzQkVIHxb93/S9dZPclI
-         YahQcFvpAYzgQ55V76Ilombdg7kmrkG3cKIXExzPDzj5jYJLJWPbVa0mgoLNTT5hv8NV
-         iNJhG1fuh11cYe2Goz0urGT5UMKvQ4yOpGYW2Jjd1kd9AzumLZyLbKoeAT0p/qVNlQSs
-         jhUg==
-X-Gm-Message-State: AOJu0Yx+gD8Pz/pseVkutrEnHoFMn8nP5/+UbAekgSK0i0l6qAj6XPQH
-	dIErkclUG83L+HOSJ+MNkxdqjpCpHsfbZCZLN5L2JA==
-X-Google-Smtp-Source: AGHT+IE6iIJQBzPABV2cyYEQs/jOBGsJ39Ar/sHlptyKt2nwnr2ZHJkRH9I7kuSy3D3KFB7d9LpuUw==
-X-Received: by 2002:a17:90a:8911:b0:28c:8dc0:7eda with SMTP id u17-20020a17090a891100b0028c8dc07edamr1072224pjn.91.1703698821022;
-        Wed, 27 Dec 2023 09:40:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703698824; x=1704303624;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gwaYM1PH1SgDuz8j6xYAmjET/NuMiIbLCMJmRCvooPc=;
+        b=Wp530bdYBPR7j2yTeQVEVyKigU1RvybeZNFbp6hAlbU9z1udQVRbl2bB3/jcImWceg
+         YCVH5FqFjbRiBVu/VRszXicpn+7S1lwcvhbG7Mq3IJ3/5YgoZhbY+/n8A85n4RBucW6c
+         kXYnmKJ8biU2nbkal2FwOI2aSFwMEwa4zOyPbulbmRs7ruUBZE1jv/AObWHOAzCG5oh1
+         sdInIkL7hBKbEZAJrcIkNk3iIicGyZZdp4hZ1WQh5RlztkHASi9YTe7qfn+bIPicQxv4
+         coc/Yd5Brno9uYWw2zM5nqNhl/kZ5nk2QOwoMh9JqhAGwg3CPP7z23UvKMO6pQQSmCRr
+         wiHw==
+X-Gm-Message-State: AOJu0YwfBZWlHwzzsGaL3gE6pwF/QolKPOPc5AtkmiEgHDLsrMZYCX57
+	3qdy/5lmU6tulQRsTQxig6hu7yhfMXrFiSlydKN0CA==
+X-Google-Smtp-Source: AGHT+IEkoXdtxaXTBOKfUNSDG1JYl5u4z0jBjeXdXyn/IMVZsgY34HskJAzpRrLSwTtL0qu7M/msSw==
+X-Received: by 2002:a17:90b:2287:b0:28b:f2e2:6158 with SMTP id kx7-20020a17090b228700b0028bf2e26158mr2485270pjb.56.1703698823837;
+        Wed, 27 Dec 2023 09:40:23 -0800 (PST)
 Received: from localhost.localdomain ([2408:8207:2540:8c00:3708:559:ea20:9883])
-        by smtp.gmail.com with ESMTPSA id qb4-20020a17090b280400b0028aecd6b29fsm17240262pjb.3.2023.12.27.09.40.18
+        by smtp.gmail.com with ESMTPSA id qb4-20020a17090b280400b0028aecd6b29fsm17240262pjb.3.2023.12.27.09.40.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Dec 2023 09:40:20 -0800 (PST)
+        Wed, 27 Dec 2023 09:40:23 -0800 (PST)
 From: Jianfeng Liu <liujianfeng1994@gmail.com>
 To: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org
 Cc: liujianfeng1994@gmail.com
-Subject: [PATCH 0/3] Add hantro g1 video decoder support for RK3588
-Date: Thu, 28 Dec 2023 01:39:08 +0800
-Message-Id: <20231227173911.3295410-1-liujianfeng1994@gmail.com>
+Subject: [PATCH 1/3] media: verisilicon: Add support for Hantro G1 on RK3588
+Date: Thu, 28 Dec 2023 01:39:09 +0800
+Message-Id: <20231227173911.3295410-2-liujianfeng1994@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231227173911.3295410-1-liujianfeng1994@gmail.com>
+References: <20231227173911.3295410-1-liujianfeng1994@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,26 +75,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RK3588 has Hantro G1 video decoder capable to decode MPEG2/H.264/VP8
-video formats just like rockchip's former socs like rk3399 and rk356x.
+This patch adds support for RK3588 in existing Hantro
+video decoder kernel driver.
 
 Tested with FFmpeg v4l2_request code taken from [1]
 with MPEG2, H.264 and VP8 samples.
 
 [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
 
-Jianfeng Liu (3):
-  media: verisilicon: Add support for Hantro G1 on RK3588
-  arm64: dts: rockchip: Add Hantro G1 VPU support for RK3588
-  dt-bindings: media: rockchip-vpu: Add RK3588 compatible
+Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+---
+ drivers/media/platform/verisilicon/hantro_drv.c    |  1 +
+ drivers/media/platform/verisilicon/hantro_hw.h     |  1 +
+ .../media/platform/verisilicon/rockchip_vpu_hw.c   | 14 ++++++++++++++
+ 3 files changed, 16 insertions(+)
 
- .../bindings/media/rockchip-vpu.yaml          |  1 +
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 20 +++++++++++++++++++
- .../media/platform/verisilicon/hantro_drv.c   |  1 +
- .../media/platform/verisilicon/hantro_hw.h    |  1 +
- .../platform/verisilicon/rockchip_vpu_hw.c    | 14 +++++++++++++
- 5 files changed, 37 insertions(+)
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index db3df6cc4..4c988f272 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -722,6 +722,7 @@ static const struct of_device_id of_hantro_match[] = {
+ 	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+ 	{ .compatible = "rockchip,rk3568-vepu", .data = &rk3568_vepu_variant, },
+ 	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
++	{ .compatible = "rockchip,rk3588-vpu", .data = &rk3588_vpu_variant, },
+ 	{ .compatible = "rockchip,rk3588-av1-vpu", .data = &rk3588_vpu981_variant, },
+ #endif
+ #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
+index 9aec8a79a..276f09a7a 100644
+--- a/drivers/media/platform/verisilicon/hantro_hw.h
++++ b/drivers/media/platform/verisilicon/hantro_hw.h
+@@ -405,6 +405,7 @@ extern const struct hantro_variant rk3328_vpu_variant;
+ extern const struct hantro_variant rk3399_vpu_variant;
+ extern const struct hantro_variant rk3568_vepu_variant;
+ extern const struct hantro_variant rk3568_vpu_variant;
++extern const struct hantro_variant rk3588_vpu_variant;
+ extern const struct hantro_variant rk3588_vpu981_variant;
+ extern const struct hantro_variant sama5d4_vdec_variant;
+ extern const struct hantro_variant sunxi_vpu_variant;
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+index f97527670..4ee8d64eb 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+@@ -797,6 +797,20 @@ const struct hantro_variant px30_vpu_variant = {
+ 	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
+ };
 
++const struct hantro_variant rk3588_vpu_variant = {
++	.dec_offset = 0x400,
++	.dec_fmts = rockchip_vdpu2_dec_fmts,
++	.num_dec_fmts = ARRAY_SIZE(rockchip_vdpu2_dec_fmts),
++	.codec = HANTRO_MPEG2_DECODER |
++		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
++	.codec_ops = rk3399_vpu_codec_ops,
++	.irqs = rockchip_vdpu2_irqs,
++	.num_irqs = ARRAY_SIZE(rockchip_vdpu2_irqs),
++	.init = rockchip_vpu_hw_init,
++	.clk_names = rockchip_vpu_clk_names,
++	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
++};
++
+ const struct hantro_variant rk3588_vpu981_variant = {
+ 	.dec_offset = 0x0,
+ 	.dec_fmts = rockchip_vpu981_dec_fmts,
 --
 2.34.1
 
