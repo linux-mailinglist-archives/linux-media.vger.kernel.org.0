@@ -1,112 +1,155 @@
-Return-Path: <linux-media+bounces-3031-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C6F81EF15
-	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 14:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC4981EF36
+	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 14:36:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5CDD1C22491
-	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 13:08:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A25FC1C225AE
+	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 13:36:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C25445026;
-	Wed, 27 Dec 2023 13:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="F3gYODER"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 375BF44C97;
+	Wed, 27 Dec 2023 13:36:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01on2082.outbound.protection.outlook.com [40.107.222.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB1344C75;
-	Wed, 27 Dec 2023 13:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1703682502;
-	bh=HmyjXOD56zgdLDRREs3MjGe7P0nir2jbpaxQCaL5xWM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F3gYODER8pnUeQQ4RhLeIl6uvFvnY5Kj4qdCHil+dk8eUti5rjTBXHPwGODNyeUXB
-	 b3Q7x61UzMh1jmHWbY57TCn82zA9F9jO5qq2+ulGLMBvp+nkmebVfqR0/Eo03zsXdv
-	 /rVoVxh36fVTjOj9AFzL3uDEDC6FQ7qNA76WyDHQXIKKqcbF6Sz6B7SeKkd3SJcwbB
-	 Z7/eqpws2ldOOcJYhXTdpjZ+6OLl+V7/Hj7gqqkPRzqIqu0FXmH6EefEoK/TmrynHd
-	 AI+91XTt2WlGifOOQBrXietyLWSQ5hOG+qWbeD4630xepTpxi8M3Z4ObrcTF4yLBL3
-	 ygfT9/x4Ga2uA==
-Received: from eugen-station.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ehristev)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B7CC137802F2;
-	Wed, 27 Dec 2023 13:08:21 +0000 (UTC)
-From: Eugen Hristev <eugen.hristev@collabora.com>
-To: bin.liu@mediatek.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48035446B3;
+	Wed, 27 Dec 2023 13:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CGUNGRmPOcTw5Vq4MXA/8J0GLYlBf+70DWljl8pg2pQnukHVoeoZz6mjEr+Kbt/qKI4/H/KYSUIrf/VWwmIB7jUoBemQHcy3q6B+g7klSvB2BNL20lZU0nCrqBhEa3LVjpDCjh1u5zS3iLL/qGwnOXD5l/Li6clEfSM/3f857BiICmHKYOAqDegG2w1R2JPRbdZWomk6U30mCH4VsCx7S2SBBs64jLW5rIxp6VzXISU10xEpyUPbEJaqxnERrO/Y0vLGspEytyigNVydn62SvRw87P2a8nCpDi3K0nnE71hY0TY2EaU/5a4C76fII6G2p8+Bvpk/U0p60fMlNGrLbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r3cgDzAw48TGeTPr5ou9ig6S3k5bZk1qzBNtZOrIB4c=;
+ b=IfvcWgx7C16yJeB6xNb/ndFWIS4wJQ9aAgo4rZIRdvocg+Czzo+fSxPctH32u1WSHn5QavTknN9i7bIflG6sps3CdCBvSLYM1oMNFL/778mIWUbRROqfl8NRnJ4Qj6cZLWBRWEPxYy8PcA3h47fU7aQlbp/MnVHmPY/S6CcdohtzZtCiCv0czyeCqN3PosTe1C4FHP+Z4l4yTdqDo2o1epypqwpQHaE5JY/YeUrYel0UtJHD0C009Ntk/cWBaK1fzvzLFbHdut1qQGXG4RQ60/y9q0FRzqdTfYg7swrTK/hl5GEYHhBMgpvnv5iDt1E+n6OMB6Ma5HH7naMShcq6/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:42::6)
+ by PN3PR01MB9565.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:105::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.27; Wed, 27 Dec
+ 2023 13:35:54 +0000
+Received: from MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::c1b:b2aa:7fc0:6532]) by MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::c1b:b2aa:7fc0:6532%7]) with mapi id 15.20.7113.027; Wed, 27 Dec 2023
+ 13:35:54 +0000
+From: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
+To: lars@metafoo.de,
+	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Max Staudt <mstaudt@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Eugen Hristev <eugen.hristev@collabora.com>
-Subject: [PATCH 2/2] arm64: dts: mediatek: mt8186: Add jpgenc node
-Date: Wed, 27 Dec 2023 15:08:12 +0200
-Message-Id: <20231227130812.148914-2-eugen.hristev@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231227130812.148914-1-eugen.hristev@collabora.com>
-References: <20231227130812.148914-1-eugen.hristev@collabora.com>
+	linux-kernel@vger.kernel.org
+Cc: bhavin.sharma@siliconsignals.io
+Subject: [PATCH] media: adv7180: Fix cppcheck warnings and errors
+Date: Wed, 27 Dec 2023 19:05:16 +0530
+Message-Id: <20231227133516.1356553-1-bhavin.sharma@siliconsignals.io>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PN3PR01CA0144.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:bf::11) To MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:42::6)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MAZPR01MB6957:EE_|PN3PR01MB9565:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee1605d0-4143-4a71-353c-08dc06e0bf96
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	wVDkY2eF1E2dHpoxKlNyzdKYkdO7dUWnfwYYL69q213SVOqrch6yNxgBndPrwA29bTriVz2+KmEq1Dn4j3bEf4WgLJg2BaWI07zRdOiWpILlm252sVt8rE6246SRLT32OKukXoX+tltNdgWUsCrwRK6xzppCl6f9Ou1bhnfrvB1JVN2A4mWPSFTwwwu79fB1kIAndyy3gmjptWBk0VIpmHxzLLq9aQJ0MpB1OJ61embHQGg5eDsdFuJ2tc0uIh1GYPiI1EwwfvgdAb2f68UUhy8550G4QdAbGjtIsAOwQYTYVG4wj16ZA6yUQGOKl7njsidxzgBB5MQ4rwdmdresNr7jMBqKH8WxSo0jx//O0MH+yM1HuQuq5MylRjKNRNnzkbzZu/FpbL2mc5Rgg4S9urE/6gHeXAGZuXhb0ZwfCokWUm8vajtsEIncc4l8jMNKMNlNwTsSEYlxelxprdBjGLZCOYnCDwbnPJ7vFAMC1+9QKgndodmOcMhcLBifmdiS22EXhSpuYFeKiv5XAQxYJReapU4V+wrbVVhcGRk4GlIaf+iVh53SHRGRG387xt2To8fqccvOc9siULE6+9+l8m/xKARsal2gH7VnZc15PDfnX8sZgN/PpQeLjHeDJ2OJDcjL8Kyvy+O3UE0+RiGrku1Yl4dz1yYLtII9NQj5Pr0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(396003)(376002)(346002)(39830400003)(230173577357003)(230922051799003)(230273577357003)(186009)(451199024)(64100799003)(1800799012)(38350700005)(83380400001)(66556008)(316002)(66476007)(66946007)(6666004)(44832011)(8676002)(8936002)(4326008)(6506007)(6512007)(52116002)(107886003)(1076003)(478600001)(2616005)(38100700002)(26005)(6486002)(41300700001)(5660300002)(2906002)(4744005)(86362001)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3/lrf5MmLXqeDpIDiOFE/+bmJ7XT3NBTG94StFjH4oUb25JFRvHIPvP9GafG?=
+ =?us-ascii?Q?88rHCmcjT7tmjxXhRMywPBGxoQxQTxWTxcv7PtS5Qm3qB+4Bw2tKchu8UODj?=
+ =?us-ascii?Q?INSZx3dJFYGL44AQtyNRTJofRzf9K0YaV2sU0QPZc5UxdyqfTBl4DLq0TRq8?=
+ =?us-ascii?Q?Ays+UPy8hOGmSrYy5YznEBNG8sKwVa4n61GTEb/wE2rxsCkMNy9cHizFeYMT?=
+ =?us-ascii?Q?R1s1gpIHhh8qoGzUSnfSTgwbHMYhYeeUBrK0LWa6OzbpZ8N54zeWeNNJ9sn3?=
+ =?us-ascii?Q?96tDvGvkgCixNYaN57mjgmLyLUBY/YXko7J9zIv+AqisDV+D+jboz+JPpjjd?=
+ =?us-ascii?Q?kjKMIpPufH5nKLrop4BfahauhbIxJuZ9PtWlR3xlZftLGMmJU+p2yhmX37T2?=
+ =?us-ascii?Q?/ARCa149m2ovd8XFh2Fu6ao5BXwpm6LNH8vZ2sHqq7KLkgse7srawaYv+TPR?=
+ =?us-ascii?Q?RrB2heq4hp4ePCU7oMT0wxwhW9AXpkFAaK9pgFGxZr1VWhL8f54geQUV5v8I?=
+ =?us-ascii?Q?F3gwgS9QYe6XkMmjGd00PAN1N5wVbAdZIbbQrE1tSxyiPZGsslCXf+g+SdXD?=
+ =?us-ascii?Q?gG7/Yt21yNISPweiv9CeLPgxq/ymP9eH9LtrVNW0YvlK9CpjUZd3LEMl8BpR?=
+ =?us-ascii?Q?YsRyvLPAdpWvkpfZL7m1Lm3E621g3NGWETvnwm9Y+2jBWCAwAu2xqwNbFlmw?=
+ =?us-ascii?Q?xgmPSsnS+3WF8tQoP4VYExZFm0T2MigNz/jOuMywFqfFCjw0vAHt7+NFmrPw?=
+ =?us-ascii?Q?WmPYHs3Xfpjqs+v3q60VOheuPzVpVugkTR4H8n9iom0eT2Le9DwIiHHvCXzm?=
+ =?us-ascii?Q?tBfBbDMKiL6oTPa6gZnsSEaHed9Vzm3oz3jbDMlbeeuuqaOHF7/OwSJOkzQk?=
+ =?us-ascii?Q?QfELnfdRaFQJXDIOjtAzS7e+WgxwD7VUF6zuQgh0RawFrURAZgCQ9Vq70gg0?=
+ =?us-ascii?Q?uT/n8tSs+196GsqODH/NyOAMeC+viWSltWKI0rJfN8DVMSF8JlvxQzkuOoSV?=
+ =?us-ascii?Q?DVrv8OhYWMy/3fgHurLpV2i5MFHvgCQDrBgDP3Hwq4p99gcS/34GGm0cvCQS?=
+ =?us-ascii?Q?1J8rq8MWu6ndIO6+LEEu8WMpOCDzVu5ss7D/YyhTQWQrW4ZgYZG3YVMvOXDE?=
+ =?us-ascii?Q?kfIF8ESnS9ZLGy28aJtpA+dTBKzcXNSDAZTCREkoDmXZ7/0YBSmPQbFpbLrR?=
+ =?us-ascii?Q?7gmvU1PtMYfkUHnKUCyMSQlTGerjGL7gzMIY0YWc6JaWpCgpnJbCo1bvlzGi?=
+ =?us-ascii?Q?wOUVn3H27EEqSLQ4rH9dbtQ06JpaQ4qkoyRzDu+uXPZ4hAR9dvW3rlNADNhu?=
+ =?us-ascii?Q?mqhjZI7VPFLIvfOqU5SPAApJPAGU2a5KeSyAu1XLRDtjxjopV4YDFONzRvgd?=
+ =?us-ascii?Q?xoiJyd+1yNn2QVzsAudXXBSaVCCLji+rnEjna+1a4PHgOV2K2fFJKWQIEDoJ?=
+ =?us-ascii?Q?gohQdd+tNPsnRHnQKH1W+H8fzchIC7lnLJBUCZJvgyL8QEvocmgMnM40jwvz?=
+ =?us-ascii?Q?Xq54/9nSGXGfo7WHR5RQcdJ3/ndTJC5LGYWFLuyk/B7HoxYBR72JkcjY1DPT?=
+ =?us-ascii?Q?/O8vBuLn+uEJgFLmns/9NCy3mYgfr/e+hUXPBm0BS2/5y0+UJeyWoLyT89Mt?=
+ =?us-ascii?Q?TBac/cJo7i5Qv5s2iRPsw1s=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee1605d0-4143-4a71-353c-08dc06e0bf96
+X-MS-Exchange-CrossTenant-AuthSource: MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 13:35:54.1412
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6cS3DR0b91/zQiHqDj7WG4xx4TdxOK5BxzheKkKo6A55nG8SrFXyDkWRdV5TDpl63NRdRmLfK4Og/42fT8DQ3HDDBzj2Z8dHGNbYyfKVgHs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB9565
 
-From: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+WARNING: Missing a blank line after declarations
+ERROR: else should follow close brace '}'
 
-Add JPEG encoder node.
+Signed-off-by: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
 
-Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: Max Staudt <mstaudt@chromium.org>
-Tested-by: Max Staudt <mstaudt@chromium.org>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-[eugen.hristev@collabora.com: minor cleanup]
-Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8186.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-index e451b6c8cd9e..ef1b269f9184 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-@@ -2054,6 +2054,19 @@ venc: video-encoder@17020000 {
- 			mediatek,scp = <&scp>;
- 		};
- 
-+		jpgenc: jpgenc@17030000 {
-+			compatible = "mediatek,mt8186-jpgenc", "mediatek,mtk-jpgenc";
-+			reg = <0 0x17030000 0 0x10000>;
-+			interrupts = <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vencsys CLK_VENC_CKE2_JPGENC>;
-+			clock-names = "jpgenc";
-+			power-domains = <&spm MT8186_POWER_DOMAIN_VENC>;
-+			iommus = <&iommu_mm IOMMU_PORT_L7_JPGENC_Y_RDMA>,
-+				 <&iommu_mm IOMMU_PORT_L7_JPGENC_C_RDMA>,
-+				 <&iommu_mm IOMMU_PORT_L7_JPGENC_Q_TABLE>,
-+				 <&iommu_mm IOMMU_PORT_L7_JPGENC_BSDMA>;
-+		};
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index 54134473186b..91756116eff7 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -357,6 +357,7 @@ static int adv7180_querystd(struct v4l2_subdev *sd, v4l2_std_id *std)
+ {
+ 	struct adv7180_state *state = to_state(sd);
+ 	int err = mutex_lock_interruptible(&state->mutex);
 +
- 		camsys: clock-controller@1a000000 {
- 			compatible = "mediatek,mt8186-camsys";
- 			reg = <0 0x1a000000 0 0x1000>;
+ 	if (err)
+ 		return err;
+ 
+@@ -411,6 +412,7 @@ static int adv7180_g_input_status(struct v4l2_subdev *sd, u32 *status)
+ {
+ 	struct adv7180_state *state = to_state(sd);
+ 	int ret = mutex_lock_interruptible(&state->mutex);
++
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1046,8 +1048,7 @@ static int adv7182_init(struct adv7180_state *state)
+ 					      ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
+ 					      0x17);
+ 			}
+-		}
+-		else
++		} else
+ 			adv7180_write(state,
+ 				      ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
+ 				      0x07);
 -- 
-2.34.1
+2.25.1
 
 
