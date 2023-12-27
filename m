@@ -1,170 +1,168 @@
-Return-Path: <linux-media+bounces-3037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5615581F1FD
-	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 21:51:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8118D81F2EF
+	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 00:09:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C52A6B22770
-	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 20:51:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF4742823F0
+	for <lists+linux-media@lfdr.de>; Wed, 27 Dec 2023 23:09:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E97F47F79;
-	Wed, 27 Dec 2023 20:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08A8D4989D;
+	Wed, 27 Dec 2023 23:09:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4F6481A5
-	for <linux-media@vger.kernel.org>; Wed, 27 Dec 2023 20:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-36019cd691fso12182525ab.0
-        for <linux-media@vger.kernel.org>; Wed, 27 Dec 2023 12:51:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703710278; x=1704315078;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6RH1fku3ryMWl5b9TQPsta4gwjT0JdL0o1tj9ksa+sc=;
-        b=FZeOw+ypBCK3Q4R6GmwhBbeP6PdkNmtCmGTCEC3evtu5ykZtmj7mht3jj0qIpHdlbN
-         6iia+xg05z9vHDn9aPDDSXisOZc6OLAB+h+MIvmCijsJacwqqaTS53wftFg6aHU7ii3w
-         J072JxaklmDxzOP6HGfoomWe6lp2udEp9oHExjQ3y/4yBqjGZxIZ3dQKS8U6l+bzgZ2k
-         mvldos2hqoueRTgNRTmM8SzRLHaIa/ka9qE9kz+or0JPPiI2/zrk2ETnlpsdvHJZ+n3w
-         UYw31ujuJMICbY5j3uvGRzskRWWr2B5DukLNVM3pEnme2bz9vs+dzkucTd1O37sECvjR
-         26/A==
-X-Gm-Message-State: AOJu0YyMonTzVAezyUboo2Jak6tLpm1YBo6akFlUUeAFt8WqIOav21tn
-	0RkwXjeBR9hmtspWRn6wZ7V0AxK2RRzbN+4p9uPNBclfu7zT
-X-Google-Smtp-Source: AGHT+IGEybVICjOUX9vJrIn3vsaTDFrBGnGLBuGyYO3KpsmGmcX5pyhDob4xgjJ+ckmag9X3Q7pKJU3Y6cDN0rvpfuWwemWyUZn5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFD51DFF3
+	for <linux-media@vger.kernel.org>; Wed, 27 Dec 2023 23:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875a56.versanet.de ([83.135.90.86] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1rId1A-0000uL-L2; Thu, 28 Dec 2023 00:08:52 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
+Cc: liujianfeng1994@gmail.com, Jianfeng Liu <liujianfeng1994@gmail.com>
+Subject:
+ Re: [PATCH 1/3] media: verisilicon: Add support for Hantro G1 on RK3588
+Date: Thu, 28 Dec 2023 00:08:51 +0100
+Message-ID: <2608913.C4sosBPzcN@diego>
+In-Reply-To: <20231227173911.3295410-2-liujianfeng1994@gmail.com>
+References:
+ <20231227173911.3295410-1-liujianfeng1994@gmail.com>
+ <20231227173911.3295410-2-liujianfeng1994@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c548:0:b0:35f:f01e:bb18 with SMTP id
- a8-20020a92c548000000b0035ff01ebb18mr1252426ilj.6.1703710278611; Wed, 27 Dec
- 2023 12:51:18 -0800 (PST)
-Date: Wed, 27 Dec 2023 12:51:18 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f4faa2060d83f582@google.com>
-Subject: [syzbot] [dri?] WARNING in drm_prime_destroy_file_private (2)
-From: syzbot <syzbot+59dcc2e7283a6f5f5ba1@syzkaller.appspotmail.com>
-To: airlied@gmail.com, akinobu.mita@gmail.com, akpm@linux-foundation.org, 
-	christian.koenig@amd.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
-	jgg@nvidia.com, linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, 
-	tzimmermann@suse.de, zhengqi.arch@bytedance.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hello,
+Hi,
 
-syzbot found the following issue on:
+Am Mittwoch, 27. Dezember 2023, 18:39:09 CET schrieb Jianfeng Liu:
+> This patch adds support for RK3588 in existing Hantro
+> video decoder kernel driver.
+> 
+> Tested with FFmpeg v4l2_request code taken from [1]
+> with MPEG2, H.264 and VP8 samples.
+> 
+> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+> 
 
-HEAD commit:    5254c0cbc92d Merge tag 'block-6.7-2023-12-22' of git://git..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=10cc6995e80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=314e9ad033a7d3a7
-dashboard link: https://syzkaller.appspot.com/bug?extid=59dcc2e7283a6f5f5ba1
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13e35809e80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=155d5fd6e80000
+thanks so much for looking into this :-) .
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ebe09a5995ee/disk-5254c0cb.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/02178d7f5f98/vmlinux-5254c0cb.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/12307f47d87c/bzImage-5254c0cb.xz
+But please use scripts/get_maintainers.pl when submitting patches, because
+not everyone reads mailing lists all the time.
 
-The issue was bisected to:
+Most of the time people enjoy being able to read the whole series, so also
+please don't do per-patch recipients.
 
-commit ea4452de2ae987342fadbdd2c044034e6480daad
-Author: Qi Zheng <zhengqi.arch@bytedance.com>
-Date:   Fri Nov 18 10:00:11 2022 +0000
+Especially when adding devicetree bindings you need to add the devicetree
+maintainers and lists.
 
-    mm: fix unexpected changes to {failslab|fail_page_alloc}.attr
+So running for example
+# scripts/get_maintainer.pl -f Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+will get you this pretty correct list of recipients for your series:
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13027f76e80000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=10827f76e80000
-console output: https://syzkaller.appspot.com/x/log.txt?x=17027f76e80000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+59dcc2e7283a6f5f5ba1@syzkaller.appspotmail.com
-Fixes: ea4452de2ae9 ("mm: fix unexpected changes to {failslab|fail_page_alloc}.attr")
-
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007efe98069194
-R13: 00007efe97fd2210 R14: 0000000000000002 R15: 6972642f7665642f
- </TASK>
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5107 at drivers/gpu/drm/drm_prime.c:227 drm_prime_destroy_file_private+0x43/0x60 drivers/gpu/drm/drm_prime.c:227
-Modules linked in:
-CPU: 0 PID: 5107 Comm: syz-executor227 Not tainted 6.7.0-rc6-syzkaller-00248-g5254c0cbc92d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
-RIP: 0010:drm_prime_destroy_file_private+0x43/0x60 drivers/gpu/drm/drm_prime.c:227
-Code: 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 21 48 8b 83 90 00 00 00 48 85 c0 75 06 5b e9 13 f1 93 fc e8 0e f1 93 fc 90 <0f> 0b 90 5b e9 04 f1 93 fc e8 3f 9b ea fc eb d8 66 66 2e 0f 1f 84
-RSP: 0018:ffffc90003bdf9e0 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff888019f28378 RCX: ffffc90003bdf9b0
-RDX: ffff888018ff9dc0 RSI: ffffffff84f380c2 RDI: ffff888019f28408
-RBP: ffff888019f28000 R08: 0000000000000001 R09: 0000000000000001
-R10: ffffffff8f193a57 R11: 0000000000000000 R12: ffff88814829a000
-R13: ffff888019f282a8 R14: ffff88814829a068 R15: ffff88814829a0a0
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007efe98050410 CR3: 000000006d1ff000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- drm_file_free.part.0+0x738/0xb90 drivers/gpu/drm/drm_file.c:290
- drm_file_free drivers/gpu/drm/drm_file.c:247 [inline]
- drm_close_helper.isra.0+0x180/0x1f0 drivers/gpu/drm/drm_file.c:307
- drm_release+0x22a/0x4f0 drivers/gpu/drm/drm_file.c:494
- __fput+0x270/0xb70 fs/file_table.c:394
- task_work_run+0x14d/0x240 kernel/task_work.c:180
- exit_task_work include/linux/task_work.h:38 [inline]
- do_exit+0xa8a/0x2ad0 kernel/exit.c:869
- do_group_exit+0xd4/0x2a0 kernel/exit.c:1018
- get_signal+0x23b5/0x2790 kernel/signal.c:2904
- arch_do_signal_or_restart+0x90/0x7f0 arch/x86/kernel/signal.c:309
- exit_to_user_mode_loop kernel/entry/common.c:168 [inline]
- exit_to_user_mode_prepare+0x121/0x240 kernel/entry/common.c:204
- __syscall_exit_to_user_mode_work kernel/entry/common.c:285 [inline]
- syscall_exit_to_user_mode+0x1e/0x60 kernel/entry/common.c:296
- do_syscall_64+0x4d/0x110 arch/x86/entry/common.c:89
- entry_SYSCALL_64_after_hwframe+0x63/0x6b
-RIP: 0033:0x7efe98014769
-Code: Unable to access opcode bytes at 0x7efe9801473f.
-RSP: 002b:00007efe97fd2208 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
-RAX: fffffffffffffe00 RBX: 00007efe9809c408 RCX: 00007efe98014769
-RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007efe9809c408
-RBP: 00007efe9809c400 R08: 0000000000003131 R09: 0000000000003131
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007efe98069194
-R13: 00007efe97fd2210 R14: 0000000000000002 R15: 6972642f7665642f
- </TASK>
+Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Philipp Zabel <p.zabel@pengutronix.de>
+Mauro Carvalho Chehab <mchehab@kernel.org>
+Rob Herring <robh+dt@kernel.org>
+Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Conor Dooley <conor+dt@kernel.org>
+Heiko Stuebner <heiko@sntech.de>
+linux-media@vger.kernel.org
+linux-rockchip@lists.infradead.org
+devicetree@vger.kernel.org
+linux-arm-kernel@lists.infradead.org
+linux-kernel@vger.kernel.org
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+> ---
+>  drivers/media/platform/verisilicon/hantro_drv.c    |  1 +
+>  drivers/media/platform/verisilicon/hantro_hw.h     |  1 +
+>  .../media/platform/verisilicon/rockchip_vpu_hw.c   | 14 ++++++++++++++
+>  3 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+> index db3df6cc4..4c988f272 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -722,6 +722,7 @@ static const struct of_device_id of_hantro_match[] = {
+>  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+>  	{ .compatible = "rockchip,rk3568-vepu", .data = &rk3568_vepu_variant, },
+>  	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
+> +	{ .compatible = "rockchip,rk3588-vpu", .data = &rk3588_vpu_variant, },
+>  	{ .compatible = "rockchip,rk3588-av1-vpu", .data = &rk3588_vpu981_variant, },
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+I do think this list is sorted alphabetically, so rk3588-vpu would be _after_ rk3588-a...
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
 
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks
+Heiko
+
+>  #endif
+>  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
+> index 9aec8a79a..276f09a7a 100644
+> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> @@ -405,6 +405,7 @@ extern const struct hantro_variant rk3328_vpu_variant;
+>  extern const struct hantro_variant rk3399_vpu_variant;
+>  extern const struct hantro_variant rk3568_vepu_variant;
+>  extern const struct hantro_variant rk3568_vpu_variant;
+> +extern const struct hantro_variant rk3588_vpu_variant;
+>  extern const struct hantro_variant rk3588_vpu981_variant;
+>  extern const struct hantro_variant sama5d4_vdec_variant;
+>  extern const struct hantro_variant sunxi_vpu_variant;
+> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+> index f97527670..4ee8d64eb 100644
+> --- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+> +++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+> @@ -797,6 +797,20 @@ const struct hantro_variant px30_vpu_variant = {
+>  	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
+>  };
+> 
+> +const struct hantro_variant rk3588_vpu_variant = {
+> +	.dec_offset = 0x400,
+> +	.dec_fmts = rockchip_vdpu2_dec_fmts,
+> +	.num_dec_fmts = ARRAY_SIZE(rockchip_vdpu2_dec_fmts),
+> +	.codec = HANTRO_MPEG2_DECODER |
+> +		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+> +	.codec_ops = rk3399_vpu_codec_ops,
+> +	.irqs = rockchip_vdpu2_irqs,
+> +	.num_irqs = ARRAY_SIZE(rockchip_vdpu2_irqs),
+> +	.init = rockchip_vpu_hw_init,
+> +	.clk_names = rockchip_vpu_clk_names,
+> +	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
+> +};
+> +
+>  const struct hantro_variant rk3588_vpu981_variant = {
+>  	.dec_offset = 0x0,
+>  	.dec_fmts = rockchip_vpu981_dec_fmts,
+> --
+> 2.34.1
+> 
+> 
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+> 
+
+
+
+
 
