@@ -1,108 +1,105 @@
-Return-Path: <linux-media+bounces-3066-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3067-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E71B81F7E5
-	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 12:44:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF72881F8AF
+	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 14:13:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0DD51C2359C
-	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 11:44:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9603D1F2425D
+	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 13:13:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99214748F;
-	Thu, 28 Dec 2023 11:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 656A48466;
+	Thu, 28 Dec 2023 13:13:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Bngoph/6"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EySvRj/V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E5D6FD6;
-	Thu, 28 Dec 2023 11:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03D61836;
-	Thu, 28 Dec 2023 12:42:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1703763756;
-	bh=Fee/9t0eXgS6MDUz/D+jsD/PXIla4i5fBeCId8d0IYA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=Bngoph/6tV0FvJwOF5jSGqoej4B5Gk6cpCkdiJHTmu78Bqz98EJX12pogYjjwAq8I
-	 GMP8eFKuSiVf0Sx5EPesdgXL1b+oHn1WNWNNH9KEb5uE7N9mut2CXbf/PD0RwFyCQJ
-	 mESBz/r0KabHj1yXsH+19eZVM7gmh78Sgbo6dZlM=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E6D79EE;
+	Thu, 28 Dec 2023 13:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d3eae5c1d7so25943905ad.2;
+        Thu, 28 Dec 2023 05:12:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703769179; x=1704373979; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZdxMA0IFnQNSF87xNJWS4MQoHn8cWo2ZJ5T/rZOTLd4=;
+        b=EySvRj/VXYxKmQMjRiC2M+mt7VBXjidQwwrmLXBO93zJYvin1X1te0px4/j7zEIHC6
+         LDUHf55DCBUlRJwvCmiL6G/shpwsy5TU/GuuQQdzIEpo1jK1TzwbdSd4+bP2WmLBQsHk
+         6gVCuaAocQwBEyj7Iv0nROtymplYZVIbMMF068vVOo+ftL/ZJyupKULhiJhYSo1uwmw3
+         qcjHS02uQ6oLl7fl7D4AwfpEOCOPT/klboFPhL8n0EDii5227xgVIqHjKKiY9uYBShhB
+         HI872csUjimGFCEkoVu5a+YPEHtEvmbgdCFQAPFArBHAwcIJaPai7MPhr44wSeT+br9u
+         wC/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703769179; x=1704373979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZdxMA0IFnQNSF87xNJWS4MQoHn8cWo2ZJ5T/rZOTLd4=;
+        b=B3jJJ33w3SJfXfZKxSHUhmWTxQSIKWHgt8o9ABjxMBniNIKwyzEk4awJnOWZWAZiUd
+         bhg4JkQY3TzzYrmy+t+5XtjeK/i3+sTw4xLRHsFlCXIIVwHXxVk9EjBnmMSNcge+ylz8
+         F3g7xr90UA2IDSuhJqKLYlycEFX76ivyxBlOPICKQmWh8Wq7wY3falxMnJB6FTIdp62i
+         Dmu/m8NYgVpE+thx+pjBtQdSHdw/ksHHwX+/Gp08CChBNvqIiq7sTIxJDrdVR7kOknDN
+         LLGKvFZXG8fgcxr9xCAlvLc6KStRJ1snZ9oQK94an145+7H20ewSDhSs6wk51g4FlT7B
+         OVJg==
+X-Gm-Message-State: AOJu0YyKoG60D11Yd3qaz+7nqWAiEjJd8T+8QaecN0Ny2obIvGqrVVkZ
+	+RUHN0EgjQ9SZKLi1FSkfQ1xcnnJWAiIuWPY
+X-Google-Smtp-Source: AGHT+IHPd8c8SYk5UR/CgxiKBryChaDijaKA4sczlTbTwdwoxSlTcheRkC4yqkDpKfz6fnF3obdy4g==
+X-Received: by 2002:a17:903:11c3:b0:1d4:75c6:9560 with SMTP id q3-20020a17090311c300b001d475c69560mr2578044plh.59.1703769178818;
+        Thu, 28 Dec 2023 05:12:58 -0800 (PST)
+Received: from localhost.localdomain ([2408:8207:2540:8c00:3708:559:ea20:9883])
+        by smtp.gmail.com with ESMTPSA id x8-20020a170902a38800b001d3e5271459sm14300404pla.55.2023.12.28.05.12.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Dec 2023 05:12:58 -0800 (PST)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	heiko@sntech.de,
+	sfr@canb.auug.org.au
+Cc: liujianfeng1994@gmail.com, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	"devicetree@vger.kernel.orglinux-arm-kernel"@lists.infradead.org
+Subject: [PATCH v2 0/3] Add hantro g1 video decoder support for RK3588
+Date: Thu, 28 Dec 2023 21:12:41 +0800
+Message-Id: <20231228131244.3411442-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20231227133516.1356553-1-bhavin.sharma@siliconsignals.io>
-References: <20231227133516.1356553-1-bhavin.sharma@siliconsignals.io>
-Subject: Re: [PATCH] media: adv7180: Fix cppcheck warnings and errors
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: bhavin.sharma@siliconsignals.io
-To: Bhavin Sharma <bhavin.sharma@siliconsignals.io>, lars@metafoo.de, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, mchehab@kernel.org
-Date: Thu, 28 Dec 2023 11:43:28 +0000
-Message-ID: <170376380893.2881109.11558061738942135116@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
 
-Quoting Bhavin Sharma (2023-12-27 13:35:16)
-> WARNING: Missing a blank line after declarations
-> ERROR: else should follow close brace '}'
->=20
-> Signed-off-by: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
->=20
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index 54134473186b..91756116eff7 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -357,6 +357,7 @@ static int adv7180_querystd(struct v4l2_subdev *sd, v=
-4l2_std_id *std)
->  {
->         struct adv7180_state *state =3D to_state(sd);
+This is the v2 version of this series adding hantro g1 video decoder
+support for rk3588.
 
-Personally, I would keep the if (err) hugging the line it's associated
-with.
+Changes in v2:
+- Fix alphabetical order in patch1 and patch3
+- Sort device tree node by bus-address
+- Drop rk3588_vpu_variant fron v1 because that is exactly the same as rk3568_vpu_variant
+- Link to v1: https://lore.kernel.org/all/20231227173911.3295410-1-liujianfeng1994@gmail.com
 
+Jianfeng Liu (3):
+  media: verisilicon: Add support for Hantro G1 on RK3588
+  arm64: dts: rockchip: Add Hantro G1 VPU support for RK3588
+  dt-bindings: media: rockchip-vpu: Add RK3588 compatible
 
->         int err =3D mutex_lock_interruptible(&state->mutex);
-> +
->         if (err)
->                 return err;
-> =20
-> @@ -411,6 +412,7 @@ static int adv7180_g_input_status(struct v4l2_subdev =
-*sd, u32 *status)
->  {
->         struct adv7180_state *state =3D to_state(sd);
->         int ret =3D mutex_lock_interruptible(&state->mutex);
-> +
->         if (ret)
->                 return ret;
-> =20
-> @@ -1046,8 +1048,7 @@ static int adv7182_init(struct adv7180_state *state)
->                                               ADV7180_REG_EXTENDED_OUTPUT=
-_CONTROL,
->                                               0x17);
->                         }
-> -               }
-> -               else
-> +               } else
+ .../bindings/media/rockchip-vpu.yaml          |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 20 +++++++++++++++++++
+ .../media/platform/verisilicon/hantro_drv.c   |  1 +
+ 3 files changed, 22 insertions(+)
 
-I think kernel code style requires an else clause following a multiline
-scope to also have its scope enclosed in braces even if it's a single
-statement.
+-- 
+2.34.1
 
---
-Kieran
-
->                         adv7180_write(state,
->                                       ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
->                                       0x07);
-> --=20
-> 2.25.1
->
 
