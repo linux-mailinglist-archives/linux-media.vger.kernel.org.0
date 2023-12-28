@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-3061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3063-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555F681F7D5
-	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 12:42:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE7781F7D9
+	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 12:43:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6ED41F23328
-	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 11:42:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4051F1C234FE
+	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 11:43:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CDBD8466;
-	Thu, 28 Dec 2023 11:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F0FC8E1;
+	Thu, 28 Dec 2023 11:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s0QJOvgV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vDtxXkeM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB667477
-	for <linux-media@vger.kernel.org>; Thu, 28 Dec 2023 11:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A73E79C1
+	for <linux-media@vger.kernel.org>; Thu, 28 Dec 2023 11:42:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ccc5fca3f6so29126301fa.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Dec 2023 03:42:13 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2cce6bb9b99so3914091fa.0
+        for <linux-media@vger.kernel.org>; Thu, 28 Dec 2023 03:42:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703763732; x=1704368532; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1703763734; x=1704368534; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yjZa9tE0ceD0rAWIgU+aMG5K2H2nDz2H19Wt+dz7aVw=;
-        b=s0QJOvgVQV1b9mJFcmbwLgjpVQpoMiqaa8JfWyG7jVegXsS89TXVseGhXuzLhGuHVc
-         J/SO6InQLRoKk0dlXzxygqks0l/RW6W/Qtjl5aMGHRmpvAVUX+6M93TustGHa4LvqnDO
-         RLTMDmkJ5Kl41jawIWjlP7ZhZ3OC9zfFfwX9JAH2xej12D+/LBZ6oYdNKE/nctzs5AgN
-         +2RwfNQnKcORsQt+HrdcRseezHHeXp9iqZ/43QsfanCiUL9TQ39mfQyGAjUoTvAZme5B
-         1Fr0WTzt0CI/pz//Jf2TmpcWJUk4cWB2Gpz9STHxgVzcJweIFFXAgL7tp6+8cVBzuxU5
-         Ye6w==
+        bh=hHvHY3P8pUAm5EVfyC69y/g7bbhD/gOrqJUHaYKsX0I=;
+        b=vDtxXkeM6G5INBnIN53aewNY2fXi7XQXwZawqxTkxiiNr4Sj+AYPdqLJzHbSNE67Za
+         rrfOLSkXLcG+RpPVSMhdbQ/z0tNMI44cy15G7XyL9JPEtHtWdFQTY5eokgq+n91Mv0dI
+         OYQhg4vBnSgsbrTEPrOYKOGorC+revEhQtxZ4wV62ZX6Y1H6vZQiJwjFwMabRoofdhqD
+         A1XgqOK2UZliyiX2Qg/mi+arFRLQoqh5vrHBsUvjz84RdNUyuSTT8BTGc7irATK0eIKP
+         M6nvZDfwlJJ5GkRmBjX03extN1coVqYSJWuMxu7qShqwqbpwskrbHPoDkmKYpGayS9JX
+         RROA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703763732; x=1704368532;
+        d=1e100.net; s=20230601; t=1703763734; x=1704368534;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yjZa9tE0ceD0rAWIgU+aMG5K2H2nDz2H19Wt+dz7aVw=;
-        b=JNAAOiDWWClNGgzp9LAgSByIrJI99vnrFm7ROMsICM8qnZ5b8iFEGthpde7fFb3BZN
-         vP4Phv1B9+cARaq+OHQ7N7S7OgW3FmusHtk9Hx3DhW9EFORfqn6dRacixx1hEwZ+0vKa
-         hbAVU4fRs9L/lrN6GPoT5vvxIG4EmD3y8lUs3ssfQfm37LiNIPqKO5JOa0oux2pgPPE1
-         KoP1Tov+4Ht9l8KLeTs8f+ceXYShAR2gFl4rcTca4QBcQW/yIovykbb9hDa2S8uj2Cpt
-         bKY1Ke6MCc0z4JRI+g0zhb1Z4PekrJozBg/++ByUd/jsJqFRWcn8+l/H9Rc76N6EsF83
-         b7/w==
-X-Gm-Message-State: AOJu0YxWEhMGxcnzX6nBzXVNq69zf/bu0fcNKDI0hVPYQrMuOY5MhUMM
-	SaCiKTAdx6OTJ8JuIL6mtM9/k5kKMFR5BA==
-X-Google-Smtp-Source: AGHT+IEkg0SLbVn0GCOq/nH3aV+xIYolPgrqG8oo5borpKvHGKfCGBOh+OxPwwJXipPwx+k01DvLeA==
-X-Received: by 2002:a2e:bba3:0:b0:2cc:d030:1557 with SMTP id y35-20020a2ebba3000000b002ccd0301557mr1596210lje.107.1703763731986;
-        Thu, 28 Dec 2023 03:42:11 -0800 (PST)
+        bh=hHvHY3P8pUAm5EVfyC69y/g7bbhD/gOrqJUHaYKsX0I=;
+        b=TZYAAVPn/qxVJQeZn+4827obX7rBIU9Ce6yrVEq/Q6xs7VhpOyod4L3hT0uhbSOrn0
+         Sj/52/4vGK4CKwGTXjaBgpUZEkQqYYqPkeUcow1gxrywuesTibQEBERYsGSmCBY6c+Nw
+         /vyBat7JnasidK7gGDFZE6OzPKARARTHQ9ONnWJtHqC4Hnd2nWkAXlt8Kn49byt1v33O
+         ypFyySt9jR6jF5nkZBqlN5vcUmzXEt+T98C/CXYIQBVs/mnjHdjKbtYQ29rvWkEmsh6+
+         1ReDQx3MDHxkNBnwVnvDVTMeNLlzH6LS6fSv7yhUlY37p8fnKaXnIKXdeyg7YrUtengq
+         GLrQ==
+X-Gm-Message-State: AOJu0Yxi/IE0TUUvGxyVJ5U79IhbKGI+8mB+qlSjM71pGnLp5kjFhBKA
+	8Mt75DCRnQ4iqBUR155+pHGULsD+QplYsA==
+X-Google-Smtp-Source: AGHT+IGXEp1aTyhSpKGlmAS6ChNv5gUm/vZM9ehIRPavf1qH5PEPD14s2BsLvnJGjyIyvOSQ+DBl7g==
+X-Received: by 2002:a05:651c:486:b0:2cc:3fb2:82c with SMTP id s6-20020a05651c048600b002cc3fb2082cmr3350929ljc.75.1703763733742;
+        Thu, 28 Dec 2023 03:42:13 -0800 (PST)
 Received: from uffe-tuxpro14.. (h-178-174-189-39.A498.priv.bahnhof.se. [178.174.189.39])
-        by smtp.gmail.com with ESMTPSA id a4-20020a05651c210400b002cc32fbe2e5sm2792867ljq.51.2023.12.28.03.42.10
+        by smtp.gmail.com with ESMTPSA id a4-20020a05651c210400b002cc32fbe2e5sm2792867ljq.51.2023.12.28.03.42.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Dec 2023 03:42:11 -0800 (PST)
+        Thu, 28 Dec 2023 03:42:12 -0800 (PST)
 From: Ulf Hansson <ulf.hansson@linaro.org>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -78,9 +78,9 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>,
 	Mathieu Poirier <mathieu.poirier@linaro.org>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH 2/5] remoteproc: imx_dsp_rproc: Convert to dev_pm_domain_attach|detach_list()
-Date: Thu, 28 Dec 2023 12:41:54 +0100
-Message-Id: <20231228114157.104822-3-ulf.hansson@linaro.org>
+Subject: [PATCH 3/5] remoteproc: imx_rproc: Convert to dev_pm_domain_attach|detach_list()
+Date: Thu, 28 Dec 2023 12:41:55 +0100
+Message-Id: <20231228114157.104822-4-ulf.hansson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231228114157.104822-1-ulf.hansson@linaro.org>
 References: <20231228114157.104822-1-ulf.hansson@linaro.org>
@@ -102,92 +102,86 @@ Cc: Sascha Hauer <s.hauer@pengutronix.de>
 Cc: <linux-remoteproc@vger.kernel.org>
 Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- drivers/remoteproc/imx_dsp_rproc.c | 82 ++++--------------------------
- 1 file changed, 9 insertions(+), 73 deletions(-)
+ drivers/remoteproc/imx_rproc.c | 73 +++++-----------------------------
+ 1 file changed, 9 insertions(+), 64 deletions(-)
 
-diff --git a/drivers/remoteproc/imx_dsp_rproc.c b/drivers/remoteproc/imx_dsp_rproc.c
-index 8fcda9b74545..0409b7c47d5c 100644
---- a/drivers/remoteproc/imx_dsp_rproc.c
-+++ b/drivers/remoteproc/imx_dsp_rproc.c
-@@ -103,12 +103,10 @@ enum imx_dsp_rp_mbox_messages {
-  * @tx_ch: mailbox tx channel handle
-  * @rx_ch: mailbox rx channel handle
-  * @rxdb_ch: mailbox rx doorbell channel handle
-- * @pd_dev: power domain device
-- * @pd_dev_link: power domain device link
-+ * @pd_list: power domain list
-  * @ipc_handle: System Control Unit ipc handle
-  * @rproc_work: work for processing virtio interrupts
-  * @pm_comp: completion primitive to sync for suspend response
-- * @num_domains: power domain number
-  * @flags: control flags
-  */
- struct imx_dsp_rproc {
-@@ -121,12 +119,10 @@ struct imx_dsp_rproc {
- 	struct mbox_chan			*tx_ch;
- 	struct mbox_chan			*rx_ch;
- 	struct mbox_chan			*rxdb_ch;
--	struct device				**pd_dev;
--	struct device_link			**pd_dev_link;
-+	struct dev_pm_domain_list		*pd_list;
- 	struct imx_sc_ipc			*ipc_handle;
- 	struct work_struct			rproc_work;
- 	struct completion			pm_comp;
--	int					num_domains;
- 	u32					flags;
+diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
+index 8bb293b9f327..3161f14442bc 100644
+--- a/drivers/remoteproc/imx_rproc.c
++++ b/drivers/remoteproc/imx_rproc.c
+@@ -92,7 +92,6 @@ struct imx_rproc_mem {
+ 
+ static int imx_rproc_xtr_mbox_init(struct rproc *rproc);
+ static void imx_rproc_free_mbox(struct rproc *rproc);
+-static int imx_rproc_detach_pd(struct rproc *rproc);
+ 
+ struct imx_rproc {
+ 	struct device			*dev;
+@@ -113,10 +112,8 @@ struct imx_rproc {
+ 	u32				rproc_pt;	/* partition id */
+ 	u32				rsrc_id;	/* resource id */
+ 	u32				entry;		/* cpu start address */
+-	int                             num_pd;
+ 	u32				core_index;
+-	struct device                   **pd_dev;
+-	struct device_link              **pd_dev_link;
++	struct dev_pm_domain_list	*pd_list;
  };
  
-@@ -954,74 +950,14 @@ static const struct rproc_ops imx_dsp_rproc_ops = {
- static int imx_dsp_attach_pm_domains(struct imx_dsp_rproc *priv)
+ static const struct imx_rproc_att imx_rproc_att_imx93[] = {
+@@ -853,7 +850,7 @@ static void imx_rproc_put_scu(struct rproc *rproc)
+ 		return;
+ 
+ 	if (imx_sc_rm_is_resource_owned(priv->ipc_handle, priv->rsrc_id)) {
+-		imx_rproc_detach_pd(rproc);
++		dev_pm_domain_detach_list(priv->pd_list);
+ 		return;
+ 	}
+ 
+@@ -880,72 +877,20 @@ static int imx_rproc_partition_notify(struct notifier_block *nb,
+ static int imx_rproc_attach_pd(struct imx_rproc *priv)
  {
- 	struct device *dev = priv->rproc->dev.parent;
+ 	struct device *dev = priv->dev;
 -	int ret, i;
 -
--	priv->num_domains = of_count_phandle_with_args(dev->of_node,
--						       "power-domains",
--						       "#power-domain-cells");
--
--	/* If only one domain, then no need to link the device */
--	if (priv->num_domains <= 1)
+-	/*
+-	 * If there is only one power-domain entry, the platform driver framework
+-	 * will handle it, no need handle it in this driver.
+-	 */
+-	priv->num_pd = of_count_phandle_with_args(dev->of_node, "power-domains",
+-						  "#power-domain-cells");
+-	if (priv->num_pd <= 1)
 -		return 0;
 -
--	priv->pd_dev = devm_kmalloc_array(dev, priv->num_domains,
--					  sizeof(*priv->pd_dev),
--					  GFP_KERNEL);
+-	priv->pd_dev = devm_kmalloc_array(dev, priv->num_pd, sizeof(*priv->pd_dev), GFP_KERNEL);
 -	if (!priv->pd_dev)
 -		return -ENOMEM;
 -
--	priv->pd_dev_link = devm_kmalloc_array(dev, priv->num_domains,
--					       sizeof(*priv->pd_dev_link),
+-	priv->pd_dev_link = devm_kmalloc_array(dev, priv->num_pd, sizeof(*priv->pd_dev_link),
 -					       GFP_KERNEL);
+-
 -	if (!priv->pd_dev_link)
 -		return -ENOMEM;
 -
--	for (i = 0; i < priv->num_domains; i++) {
+-	for (i = 0; i < priv->num_pd; i++) {
 -		priv->pd_dev[i] = dev_pm_domain_attach_by_id(dev, i);
 -		if (IS_ERR(priv->pd_dev[i])) {
 -			ret = PTR_ERR(priv->pd_dev[i]);
--			goto detach_pm;
+-			goto detach_pd;
 -		}
 -
--		/*
--		 * device_link_add will check priv->pd_dev[i], if it is
--		 * NULL, then will break.
--		 */
--		priv->pd_dev_link[i] = device_link_add(dev,
--						       priv->pd_dev[i],
--						       DL_FLAG_STATELESS |
--						       DL_FLAG_PM_RUNTIME);
+-		priv->pd_dev_link[i] = device_link_add(dev, priv->pd_dev[i], DL_FLAG_STATELESS |
+-						       DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
 -		if (!priv->pd_dev_link[i]) {
 -			dev_pm_domain_detach(priv->pd_dev[i], false);
 -			ret = -EINVAL;
--			goto detach_pm;
+-			goto detach_pd;
 -		}
 -	}
 -
 -	return 0;
 -
--detach_pm:
+-detach_pd:
 -	while (--i >= 0) {
 -		device_link_del(priv->pd_dev_link[i]);
 -		dev_pm_domain_detach(priv->pd_dev[i], false);
@@ -196,45 +190,34 @@ index 8fcda9b74545..0409b7c47d5c 100644
 -	return ret;
 -}
 -
--static int imx_dsp_detach_pm_domains(struct imx_dsp_rproc *priv)
+-static int imx_rproc_detach_pd(struct rproc *rproc)
 -{
+-	struct imx_rproc *priv = rproc->priv;
 -	int i;
 +	int ret;
++	struct dev_pm_domain_attach_data pd_data = {
++		.pd_flags = PD_FLAG_DEV_LINK_ON,
++	};
  
--	if (priv->num_domains <= 1)
-+	/* A single PM domain is already attached. */
+ 	/*
+ 	 * If there is only one power-domain entry, the platform driver framework
+ 	 * will handle it, no need handle it in this driver.
+ 	 */
+-	if (priv->num_pd <= 1)
 +	if (dev->pm_domain)
  		return 0;
  
--	for (i = 0; i < priv->num_domains; i++) {
+-	for (i = 0; i < priv->num_pd; i++) {
 -		device_link_del(priv->pd_dev_link[i]);
 -		dev_pm_domain_detach(priv->pd_dev[i], false);
 -	}
 -
 -	return 0;
-+	ret = dev_pm_domain_attach_list(dev, NULL, &priv->pd_list);
++	ret = dev_pm_domain_attach_list(dev, &pd_data, &priv->pd_list);
 +	return ret < 0 ? ret : 0;
  }
  
- /**
-@@ -1153,7 +1089,7 @@ static int imx_dsp_rproc_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_detach_domains:
--	imx_dsp_detach_pm_domains(priv);
-+	dev_pm_domain_detach_list(priv->pd_list);
- err_put_rproc:
- 	rproc_free(rproc);
- 
-@@ -1167,7 +1103,7 @@ static void imx_dsp_rproc_remove(struct platform_device *pdev)
- 
- 	pm_runtime_disable(&pdev->dev);
- 	rproc_del(rproc);
--	imx_dsp_detach_pm_domains(priv);
-+	dev_pm_domain_detach_list(priv->pd_list);
- 	rproc_free(rproc);
- }
- 
+ static int imx_rproc_detect_mode(struct imx_rproc *priv)
 -- 
 2.34.1
 
