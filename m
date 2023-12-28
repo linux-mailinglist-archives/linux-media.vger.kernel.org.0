@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-3067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3068-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF72881F8AF
-	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 14:13:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F06C981F8B7
+	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 14:17:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9603D1F2425D
-	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 13:13:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD81828501C
+	for <lists+linux-media@lfdr.de>; Thu, 28 Dec 2023 13:16:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 656A48466;
-	Thu, 28 Dec 2023 13:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A6098473;
+	Thu, 28 Dec 2023 13:16:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EySvRj/V"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LICwZNZ+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E6D79EE;
-	Thu, 28 Dec 2023 13:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985E079CF;
+	Thu, 28 Dec 2023 13:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d3eae5c1d7so25943905ad.2;
-        Thu, 28 Dec 2023 05:12:59 -0800 (PST)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d3cfb1568eso49343665ad.1;
+        Thu, 28 Dec 2023 05:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703769179; x=1704373979; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1703769409; x=1704374209; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=ZdxMA0IFnQNSF87xNJWS4MQoHn8cWo2ZJ5T/rZOTLd4=;
-        b=EySvRj/VXYxKmQMjRiC2M+mt7VBXjidQwwrmLXBO93zJYvin1X1te0px4/j7zEIHC6
-         LDUHf55DCBUlRJwvCmiL6G/shpwsy5TU/GuuQQdzIEpo1jK1TzwbdSd4+bP2WmLBQsHk
-         6gVCuaAocQwBEyj7Iv0nROtymplYZVIbMMF068vVOo+ftL/ZJyupKULhiJhYSo1uwmw3
-         qcjHS02uQ6oLl7fl7D4AwfpEOCOPT/klboFPhL8n0EDii5227xgVIqHjKKiY9uYBShhB
-         HI872csUjimGFCEkoVu5a+YPEHtEvmbgdCFQAPFArBHAwcIJaPai7MPhr44wSeT+br9u
-         wC/Q==
+        b=LICwZNZ+nOf3lXg54F3hV5fE2iRbdB5vVNY5xDIRg+CwB1NwSlxIozDXrT8BMAcTMo
+         0EnT9Zxd6chwRviwffDdA0kXFKqdQJTRCM4SdmqSEDhm3hqIp4zTXx+4hqJe+XvlFySg
+         rTd4+/EotHmceEhbg/T4FFFKKfHm6vQovStBoHHB1ZsJW8+iRP0ttQOTy8u3EsMDE8pz
+         D7dgJ5kYXvK4y3vOQOHozQkYFDS4WfOaGxkzeNxIywEu4oZ3l+huxFWEgYpP0NmUVMQn
+         +gusuD/21XQyolkOU7/9h5ySxiFrc+oUWEzyvce88U2hqcyDxdALq9oSp5kstFQuogyJ
+         tj6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703769179; x=1704373979;
+        d=1e100.net; s=20230601; t=1703769409; x=1704374209;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=ZdxMA0IFnQNSF87xNJWS4MQoHn8cWo2ZJ5T/rZOTLd4=;
-        b=B3jJJ33w3SJfXfZKxSHUhmWTxQSIKWHgt8o9ABjxMBniNIKwyzEk4awJnOWZWAZiUd
-         bhg4JkQY3TzzYrmy+t+5XtjeK/i3+sTw4xLRHsFlCXIIVwHXxVk9EjBnmMSNcge+ylz8
-         F3g7xr90UA2IDSuhJqKLYlycEFX76ivyxBlOPICKQmWh8Wq7wY3falxMnJB6FTIdp62i
-         Dmu/m8NYgVpE+thx+pjBtQdSHdw/ksHHwX+/Gp08CChBNvqIiq7sTIxJDrdVR7kOknDN
-         LLGKvFZXG8fgcxr9xCAlvLc6KStRJ1snZ9oQK94an145+7H20ewSDhSs6wk51g4FlT7B
-         OVJg==
-X-Gm-Message-State: AOJu0YyKoG60D11Yd3qaz+7nqWAiEjJd8T+8QaecN0Ny2obIvGqrVVkZ
-	+RUHN0EgjQ9SZKLi1FSkfQ1xcnnJWAiIuWPY
-X-Google-Smtp-Source: AGHT+IHPd8c8SYk5UR/CgxiKBryChaDijaKA4sczlTbTwdwoxSlTcheRkC4yqkDpKfz6fnF3obdy4g==
-X-Received: by 2002:a17:903:11c3:b0:1d4:75c6:9560 with SMTP id q3-20020a17090311c300b001d475c69560mr2578044plh.59.1703769178818;
-        Thu, 28 Dec 2023 05:12:58 -0800 (PST)
+        b=f3K5K7RjOCn+NZOUxbqGmEQSzBUdZEt1foEOQ0N9Oem05p79cvdzij22Aj8sDJRWM3
+         pidvyzRDrIp/FNmBJcD6tnz5q81KX8hQHVe/jYrpf9ywmYDgUelUrlmrrMVl6MjZRR/B
+         1qlQIz4jlOMndxu4223P80+5ZqaWEYYwPShy4PdwpNITgclwu/fQyQFbW9aoejMVz2bG
+         8vNm1Esa68mYcjF4AG6WaYUPRBj5bPz0MiF+MgiaAdzhPqBRmfuXT8SzhR6AP+bO7+zb
+         Atkf/TqCcbMqzOEyqRwI++odQk+hAnhwhaakCBCardPCcJP8TaNYJ0V3nW/pBSDoPmGW
+         qpcw==
+X-Gm-Message-State: AOJu0YwS5kfP8IoLtHhqKhPVW7TkT/NIfKl3YkkvsYRRgg2o/0WV8iCN
+	z6BaXhQtNn8GBGpoCEgBLdc=
+X-Google-Smtp-Source: AGHT+IH8H9gke14Hfds3PK61sbjEENzKw+rV/8YgR/y3014PaI2W0cSmtiFb5LSDfFmIPkfRF8gw9w==
+X-Received: by 2002:a17:903:44d:b0:1d0:8554:5dd5 with SMTP id iw13-20020a170903044d00b001d085545dd5mr10136244plb.37.1703769408774;
+        Thu, 28 Dec 2023 05:16:48 -0800 (PST)
 Received: from localhost.localdomain ([2408:8207:2540:8c00:3708:559:ea20:9883])
-        by smtp.gmail.com with ESMTPSA id x8-20020a170902a38800b001d3e5271459sm14300404pla.55.2023.12.28.05.12.52
+        by smtp.gmail.com with ESMTPSA id m10-20020a170902db0a00b001d0b4693539sm13864221plx.189.2023.12.28.05.16.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Dec 2023 05:12:58 -0800 (PST)
+        Thu, 28 Dec 2023 05:16:48 -0800 (PST)
 From: Jianfeng Liu <liujianfeng1994@gmail.com>
 To: ezequiel@vanguardiasur.com.ar,
 	p.zabel@pengutronix.de,
@@ -65,12 +65,15 @@ To: ezequiel@vanguardiasur.com.ar,
 	conor+dt@kernel.org,
 	heiko@sntech.de,
 	sfr@canb.auug.org.au
-Cc: liujianfeng1994@gmail.com, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	"devicetree@vger.kernel.orglinux-arm-kernel"@lists.infradead.org
+Cc: liujianfeng1994@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
 Subject: [PATCH v2 0/3] Add hantro g1 video decoder support for RK3588
-Date: Thu, 28 Dec 2023 21:12:41 +0800
-Message-Id: <20231228131244.3411442-1-liujianfeng1994@gmail.com>
+Date: Thu, 28 Dec 2023 21:16:14 +0800
+Message-Id: <20231228131617.3411561-1-liujianfeng1994@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
