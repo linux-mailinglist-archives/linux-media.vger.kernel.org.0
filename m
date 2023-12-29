@@ -1,142 +1,115 @@
-Return-Path: <linux-media+bounces-3076-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3077-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F1181FE3A
-	for <lists+linux-media@lfdr.de>; Fri, 29 Dec 2023 09:44:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A964581FEF3
+	for <lists+linux-media@lfdr.de>; Fri, 29 Dec 2023 11:51:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 175831C22907
-	for <lists+linux-media@lfdr.de>; Fri, 29 Dec 2023 08:44:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F54B1C223CE
+	for <lists+linux-media@lfdr.de>; Fri, 29 Dec 2023 10:51:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4886A749C;
-	Fri, 29 Dec 2023 08:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECAD311195;
+	Fri, 29 Dec 2023 10:50:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arewethere.net header.i=@arewethere.net header.b="GPR1a26L";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zsmOzRE8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iOeV39u5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303F38F44
-	for <linux-media@vger.kernel.org>; Fri, 29 Dec 2023 08:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arewethere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arewethere.net
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 0156032009B5
-	for <linux-media@vger.kernel.org>; Fri, 29 Dec 2023 03:44:42 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 29 Dec 2023 03:44:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arewethere.net;
-	 h=cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm3;
-	 t=1703839482; x=1703925882; bh=zYzHZvT2eHNaLfjh/e9BE6+ECL50GHe/
-	+I32bb9rX98=; b=GPR1a26LedbUjr4ptu1kcEyNjwxrxZ5VrtsyE9XvlCOmc781
-	EEFocm4GjabpQM2gJnQB/P5lcyIRgqe6qRhsDuE4nD5bEqDO6HJQZqm9iLX0/03Q
-	o3zu1LJkjaANcQjnSv7ulGBYg3ArZsUJFafkIzUskDHYmj2vnSE6ffklxWHXqfrU
-	TWpegRE/CxSz73iF/0R45AKs4YGcL7vpzSAL57yrUUQRE4av/oKA/jrocw3Bvbfo
-	/2wv7w3W6E3uKq3Btn8ilaa4stmEqJvRs1abluesPAgyGUOhTbvdZ9Mo8ia6MAfD
-	YqS0EgKTJvz2J8HTNppte+Cwi0cRI5tnmh2QJw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1703839482; x=1703925882; bh=zYzHZvT2eHNaLfjh/e9BE6+ECL50GHe/+I3
-	2bb9rX98=; b=zsmOzRE8OxygSMzhKUOIHzhLBQerDpkW3Apth2Bn9Evi4Ylo7qR
-	tWe+oiNLLPToQdCsAqt/NV1ArvO/uW+6JFLgMNWN8DMES1jvFQUtb0yuijZ5kSQu
-	t6VVDCVfMpNi/mrs6Azx+p6GelRomBVdmr+Yn3v9bUszmBOiDI6cc8lIUhfGuSo+
-	3SiUp4XQxW3P44JS5ne8YkxD48lsPnQVSe6GwqgLZfD89NMX/YTBFKfWEH+IAWzU
-	ZrsRUTqHZjvMaL5z+ai64fwnA767KuJs2u/Gg4hR4VPEoi/pDtrukgj74NijhJ/O
-	KAiK5s9hWSJe4Q0ztsN+JB1KdDwkXWwQjnA==
-X-ME-Sender: <xms:-oaOZc9eplsFwe9H-RRSwI5jPhlh-fDY51TQVCRMq3FMw68d3ZpFLA>
-    <xme:-oaOZUt0zq8idhFhJiNsWTh5MUT6pVTajMbqepJG35-M-daxGUZwa8_U1T3JOL9A9
-    Uy5pQ3ppD-I1sus>
-X-ME-Received: <xmr:-oaOZSA-542L4zYkAzNFooRpszD__5ADecTiODSGrOH8Fj8rcr9-YCJgEoZn2znwLqAP9-NcoKA0_uGbAXayPQ6oPXe5VIZQ8iqBHdLs_g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdefvddguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfggtggusehttdertd
-    dttddvnecuhfhrohhmpehmvgguihgrsegrrhgvfigvthhhvghrvgdrnhgvthenucggtffr
-    rghtthgvrhhnpeeujeegteduveeuffevleelkeekieetgedtfeefjeefkeffhfegleffke
-    ffffegleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehmvgguihgrsegrrhgvfigvthhhvghrvgdrnhgvth
-X-ME-Proxy: <xmx:-oaOZcefqXdXYPdSgydDYr1mwY1DlmmrwkgK6rEmq8qsfku5GMFqlQ>
-    <xmx:-oaOZROWfXITNkQltoGBEuUsfUEVcCEMqNjSQvUFuJOhfqKOfSyGCg>
-    <xmx:-oaOZWmUuOi7zjHjQyXxlpkfb40hbSVkbgsoyryIr1pvgJoib_YZTw>
-    <xmx:-oaOZYbFcrf0O7JXNDGUi-tbkr_cwmrtAGqmyoPM3_DfGxt6lZDhAQ>
-Feedback-ID: i1d8147be:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA for
- <linux-media@vger.kernel.org>; Fri, 29 Dec 2023 03:44:41 -0500 (EST)
-Date: Fri, 29 Dec 2023 19:44:06 +1100
-From: media@arewethere.net
-To: linux-media@vger.kernel.org
-Subject: regression(?) - hauppage quad card tuning
-Message-ID: <20231229084406.GA302679@ubuntu.windy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9065610A1A
+	for <linux-media@vger.kernel.org>; Fri, 29 Dec 2023 10:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3367a304091so6482019f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 29 Dec 2023 02:50:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1703847050; x=1704451850; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2xqjN3Qj9j09eMYaDIGiYmAZIOx1BVzIvkIYHk7g9T0=;
+        b=iOeV39u5yubyithhqPnDpTOL/9jTJSR0WPyKcAG2qVuEGJZN3Mrcziapa5c+/cxAMM
+         OwMzNdwFls3JKlQf+3bL4fI/vMOC3gvRqyYRKLJzC1nJo285lQmU+ISwXDYhD0dfcZ7N
+         Mq86AQDY9mQIP8UJ1wiX3WwSAzBLmRUOJ0MHd7fIjLZ9wm26owCEHVrRnAW2AoY2+u28
+         PP0gNrqWc12kU1FySfH7T6rCglyWAtIs8sufBUnohCmWiNscLEvO1rOm0IOIKYe0Mx8a
+         QUEL55MxXkbIWVzfa2TZ1BKu8pMjvsckTN2Jz5XSi6UlAHgyqTP2aT/59BcnAzUV69R2
+         hsfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703847050; x=1704451850;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2xqjN3Qj9j09eMYaDIGiYmAZIOx1BVzIvkIYHk7g9T0=;
+        b=ngK1BpAsTeVlfaWWGemVnDKh20ri5lRoftp26kFOT+E9sZg2Hx3UGfgyVE0e5nNCuk
+         Bdqh7mHOGD07tiR/r08quFzITKq8wxW1EbVaL9/mPDRl+DfJktlIhqg3FNZb2uhBY9MO
+         Row5ceDw2crhrCNjQi26jLRE6TXpJCcZ6ILyoz/RZLRhDW+ijUpP8zjjyyW+PGMvEDti
+         HQFac6tEkuYlZcOk5Uwi3wkt4gq+o/CkGy1HfJJTuGGAW+nBU6wzlNMuvklAEGJoShYs
+         YPBlb3INtqdMLpYnexugox4/kgEtEVZKxgUYFuD2PJv635Qg8elQ3lIxJ14UjKQBHJAS
+         RPww==
+X-Gm-Message-State: AOJu0Yzm+HfNwzJ8ICTa+m+lS4hFnMNnAFFI0xWjKmqLlPHvTyW8tQOy
+	tfkxmlpkS73aG7UPokF659+9MlnAN2catg==
+X-Google-Smtp-Source: AGHT+IHcx225fckoMtJ4LeKav6+dRtZ3vv8CWubYpxumm76xMw0A4/K8rmjP9GYLC417nQxFFm2kBw==
+X-Received: by 2002:adf:ff8b:0:b0:336:66ff:2031 with SMTP id j11-20020adfff8b000000b0033666ff2031mr4051141wrr.170.1703847049857;
+        Fri, 29 Dec 2023 02:50:49 -0800 (PST)
+Received: from [192.168.100.86] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id p7-20020adfe607000000b00336843ae919sm18728375wrm.49.2023.12.29.02.50.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Dec 2023 02:50:49 -0800 (PST)
+Message-ID: <fc16eb72-fbef-4059-a871-ef229e1f121a@linaro.org>
+Date: Fri, 29 Dec 2023 10:50:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] media: venus: Convert to
+ dev_pm_domain_attach|detach_list() for vcodec
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org
+Cc: Sudeep Holla <sudeep.holla@arm.com>, Kevin Hilman <khilman@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>, Nikunj Kela <nkela@quicinc.com>,
+ Prasad Sodagudi <psodagud@quicinc.com>, Stephan Gerhold
+ <stephan@gerhold.net>, Ben Horgan <Ben.Horgan@arm.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+References: <20231228114157.104822-1-ulf.hansson@linaro.org>
+ <20231228114157.104822-6-ulf.hansson@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20231228114157.104822-6-ulf.hansson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi
+On 28/12/2023 11:41, Ulf Hansson wrote:
+> Let's avoid some of the boilerplate code to manage the vcodec PM domains,
+> by converting into using dev_pm_domain_attach|detach_list().
+> 
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+> Cc: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+> Cc: Bjorn Andersson <andersson@kernel.org>
+> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Cc: <linux-media@vger.kernel.org>
+> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-I need some help determining if there's been a regression for
-one of my DVB TV cards. Details below.
+On top of 39676dfe52331 - (tag: next-20231222, linux-next/master) Add 
+linux-next specific files for 20231222 (7 days ago)
 
-I have a Hauppage QuadHD DVB card
-which has two multimedia controllers:
+Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
- Conexant Systems, Inc. CX23887/8 PCIe Broadcast Audio and Video
-   Decoder with 3D Comb (rev 04)
-
-i.e. PCI ID 14f1:8880 (rev 04)
-
-With subvendor:subdevice 0700:0x6a28.
-
-The cards have SiLabs Si2157 tuners.
-
-I had a working system running Debian Bullseye (linux 5.10.197-1).
-
-After I upgraded to Debian Bookworm (running 6.1.52-1)
-the tuners in this card no longer get a lock.
-
-I also tried a 'backports' kernel, 6.5.10-1~bpo12+1.
-This is based on the upstream version 6.1.66-1.
-This kernel also fails to tune and get a lock.
-
-The other symptom, which may or may not be relevant,
-is 'i2cdetect -l' returns nothing, though there are
-various i2c device detections on dmesg.
-
-There is a second card in the system that tunes and locks on
-just fine, with both the 6.1 and 6.5 kernels.
-It is a  Philips Semiconductors SAA7164 (rev 81)
-marketed as a (Hauppauge WinTV HVR-2200,
-i.e. PCI ID 1131:7164, subbvendor:subdevice 0070:8953.
-
-So I can rule out lack of signal; the signal is routed into
-the quad card first and then to the working dual-tuner card.
-
-Things I have tried
-
- - checking the firmware blobs are all present and loading
- - setting debug=6 on the cx23885 module
- - setting tuner_lock_debug=1 on the si2157 module
- - enabling some dynamic debug, e.g.
-   echo 'file  si2157.c +p' >/sys/kernel/debug/dynamic_debug/control
- - running w_scan under strace
- - review the kernel commit logs for the cx23885 and si2157 modules
-
-So far I am not seeing any helpful error messages or commits that
-could be causing the problem.
-Are there some test programs I could run to debug this further?
-
-Any help would be welcome
-
-
-
+---
+bod
 
