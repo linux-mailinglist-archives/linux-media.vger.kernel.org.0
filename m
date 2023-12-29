@@ -1,128 +1,155 @@
-Return-Path: <linux-media+bounces-3079-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3080-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D117581FF02
-	for <lists+linux-media@lfdr.de>; Fri, 29 Dec 2023 12:02:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4C281FF58
+	for <lists+linux-media@lfdr.de>; Fri, 29 Dec 2023 13:16:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86E342848B1
-	for <lists+linux-media@lfdr.de>; Fri, 29 Dec 2023 11:02:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1B3A1F22B00
+	for <lists+linux-media@lfdr.de>; Fri, 29 Dec 2023 12:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 862C811183;
-	Fri, 29 Dec 2023 11:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nAMLSXQy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEDE9111A3;
+	Fri, 29 Dec 2023 12:16:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01on2060.outbound.protection.outlook.com [40.107.222.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B79D10A26;
-	Fri, 29 Dec 2023 11:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50e49a0b5caso7591003e87.0;
-        Fri, 29 Dec 2023 03:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703847739; x=1704452539; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NsD+IB2GT6Qzi6UFqd7zR6s13SfDz8WzYWnYArIREis=;
-        b=nAMLSXQyfAOAF30s4eIBTK4KLNyHBeqwrAt5x8PG3P++ouDlOKAbekcTJWJ/6myYEl
-         Q4tjN/kTUD72XXVKNvOJnb/51XrFPOuZX/t4J8Mv0WzlscoMU4FLLiSBLXps1evByo0n
-         Jpv8fGXMCZFAnsYStdBB7re9JsY/XeLf8x7LwTMLjSoAy0gYKjehMIM90pBCq824g0hp
-         y9aZNN1IEgWG4FVx35IAV0qt0UrR9FOrKO5Af/uimHHzBRRV96QtDPOkXv2xw7ZXb2yV
-         YA4+ODoCp62qvYoMsfd5NEWTtHip7OKCw1INftcSgiVsyfUunUHkJK7YzB2TYanUKRHr
-         Z3Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703847739; x=1704452539;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NsD+IB2GT6Qzi6UFqd7zR6s13SfDz8WzYWnYArIREis=;
-        b=FHIBqnqRr9jdoI+2yDHWxGqLyTwpcgtqVbAbM1rEiJ/4P6NaotHjOioQat2kYIzeWt
-         KqxaxTVZKJJxxQ3ibACQwonpO0sB1SDrmF1NNJpEZlzISAdE9528u1SlJZ2+U/dpF5dV
-         I8SvLcjEb7ffAWXUcZ/qQVfLHPFyZY35zI18g0lz9cSMAwXDGPRsYk80pOXh8yzm8TSw
-         N/VuAASIRiHp+fbjK484X/DCs6Pza8xExkjQ9dVeiMcvwuvEXSJAvnMf+YWW2prqhiZj
-         mwrpescNLugmitL880J/ROw65xlZjRbju+poZqsg5dovgMd8ppCFfLbAHuiigIRe4M9P
-         eBSQ==
-X-Gm-Message-State: AOJu0Ywf0xPjgGlHil99iC9SmdJrjfETq8ZetkprHUHfYL9antg49NJf
-	wmluFbXojr6nlLykb/iVUgdANS1WHNsOeJnzCsI=
-X-Google-Smtp-Source: AGHT+IERL8Fz7j8WMbUOpMCFPbrDbSTtPYypwgal/QfaUZS54vWya0WCGbTSxe/zIN2kyKTgHAh7Lm/csOMuUbNpOMM=
-X-Received: by 2002:ac2:4259:0:b0:50e:40bf:e0a4 with SMTP id
- m25-20020ac24259000000b0050e40bfe0a4mr4242506lfl.132.1703847739347; Fri, 29
- Dec 2023 03:02:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACDF11193;
+	Fri, 29 Dec 2023 12:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aqdHWnFBsxfOmykj9yvKMigv8uGfxeUfS1VZNhs3mwVpDvbqxdVZJV+PNqLhFeAap0+r+NnN4muyWvXtgSeQAFRem6hj8KtHqz/zpLhImfHIZnGGStECF3PWuMQDsZA5Xgh1zfWjQCGi+WYdImsnGeViac1YDkPCyIjzr+2l7Bw1qYl4B39H7Z/jPrjk1Ucd7fvj6OuR+XhgNDjNE0kg8KF9N9OnBhUufHsvh5BZk5oqhIVuV4Ml54PvEMkfjD/EdNbGW8UnW6IEqIvkl4PHgCFcsI7fqqSz5jVwaJFKibSBGwHqz3W1A/wWElR7Rb6U8PGULTQTmN/vGdSj3aaEmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U6Q4MoHWzfJ+/LnfE+sBWsslpOJXWVQZW2adOZSBdew=;
+ b=iWlvK3A7uJLlJO4Gkr0ey5XQWXHtDTk7uoFLk3zM9E3h7K5WH/VruLL20Si9n7m8VR5rUSeXLJNbo+XAaollOlXaD1rk2EEbRXnJnGi0ZKV5YYW7kPvKENlL56MOpVcmA+H4gJsk/bIo436aDT73TvMIxPC4S6tCRbwSiI9xjRvywE8yh0JmtEb0pAjbd0IXZxZ74IxqCx1uDJwg15c1JA5nJbFVxwNjenlEyZUfsjtDsRvpXUuW0IW4Ib21pJtFo0E5lCNdWS95zjVPiaqoNFeSQ/SwZTRMrgLM+hQUm1asRBlNjUB/X/O52qYmH+poyVZxGCFAEGuG2wogehxMow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from BM1PR01MB4899.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b01:b::15)
+ by PN3PR01MB10228.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1df::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.21; Fri, 29 Dec
+ 2023 12:16:13 +0000
+Received: from BM1PR01MB4899.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::54b6:4ebc:13fb:818c]) by BM1PR01MB4899.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::54b6:4ebc:13fb:818c%6]) with mapi id 15.20.7113.028; Fri, 29 Dec 2023
+ 12:16:13 +0000
+From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+To: stanimir.k.varbanov@gmail.com,
+	quic_vgarodia@quicinc.com,
+	agross@kernel.org,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	mchehab@kernel.org
+Cc: himanshu.bhavani@siliconsignals.io,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: venus: use div64_u64() instead of do_div()
+Date: Fri, 29 Dec 2023 17:45:04 +0530
+Message-Id: <20231229121504.3479594-1-himanshu.bhavani@siliconsignals.io>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PN2PR01CA0227.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:eb::14) To BM1PR01MB4899.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b01:b::15)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231228131617.3411561-1-liujianfeng1994@gmail.com> <20231228131617.3411561-3-liujianfeng1994@gmail.com>
-In-Reply-To: <20231228131617.3411561-3-liujianfeng1994@gmail.com>
-From: Hugh Cole-Baker <sigmaris@gmail.com>
-Date: Fri, 29 Dec 2023 11:02:08 +0000
-Message-ID: <CAAXNxMRkpM+dSV3azDFgm07ygJrXyS=Htz_h8Z_WMmeG0YZ+ig@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] arm64: dts: rockchip: Add Hantro G1 VPU support
- for RK3588
-To: Jianfeng Liu <liujianfeng1994@gmail.com>
-Cc: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, mchehab@kernel.org, 
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	heiko@sntech.de, sfr@canb.auug.org.au, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BM1PR01MB4899:EE_|PN3PR01MB10228:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dfa8341-305b-4d75-64b3-08dc0867f2f1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	uSuboL+RWE81VpzvinLomqv6+kRs7R5a2vh3RcvLjJutCtrWV4hCtDF8fhV8Du15Jl4iFXqSV/nsNk8W2hjSR5Ko9Igh/+Xx7jXQ8FcebMN+u5FASsb0V8xTHDWcywRa5di37GNOwkpDVTZ8O5rub4rVfiqXbn2jUAKWeXz69Fb8CrCakR2u2i62wqAUKNDuZkZtxLAga21/WYZGgd1aCxP6Yxhyzky/Zwb8qljipixT6b/6Vk37lMqFvc9byrTexyQvgziG4e336XEdy8Yyhl9v8SDi7cPr0Vy04G/ide12OTxyJaX876+0jj6R9m1SjhkLIsuNZ9RdmnssTntmXbkSkIRCn3uSXhNRUSj47sFls1XxYX8hHda9kxWEpniKDsJkQ53skdbz5Tr6xtY7oDh2CoIpfp/d81S9jMUczUfNTgqVd5XN/uiPqKpZXtY2yh6t/kJ8inoWnxIkGeXbhWrOOaZe+XvsZ8brchPffg65E2Lw6/Mh3cCd84rSgHHMG1Ro6Dkk//1J53f3Cz4X/fPZStVhhZ8eb6HKUYURxmNUH1TZet4irYpWMLuJliEuQ26QbvVmIoHIp0svMS+BFLPq2yk8bckbvfYJiU+rKzj5sHO0DPuZbsys42mULls45NgkLR2iW/3n1OnveSznTIezrI3b06yub0Hzd226TLQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BM1PR01MB4899.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(346002)(366004)(136003)(376002)(396003)(230173577357003)(230922051799003)(230273577357003)(451199024)(1800799012)(64100799003)(186009)(26005)(41300700001)(83380400001)(2616005)(1076003)(38100700002)(8936002)(316002)(8676002)(5660300002)(4326008)(2906002)(7416002)(44832011)(478600001)(6506007)(6512007)(66476007)(66556008)(52116002)(6486002)(6666004)(66946007)(86362001)(38350700005)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?jZYRekuezD1HakyZEMEQFUBT7rf+0X7n5E9FPekgm0HwuhXpKxsKqYbmEVWM?=
+ =?us-ascii?Q?si/AA0/Jz1SKCBtGQ3Y8uz/2g995FkHk/AVK2H078wFLS5e8yhDFvvXefwqJ?=
+ =?us-ascii?Q?xbCOJXJ+744VqMBiqe3Batrh5yQZmk7WsZU/HW7/wfiKK//aD6V5fd92N+Am?=
+ =?us-ascii?Q?UpIJxZhrcmEhEhESEMXjxbAdHZm9gtp18afUbnTdCYmCezuXNg0MuPWJzh4I?=
+ =?us-ascii?Q?grs7F7lIUGvrebFsXtOmWs4qTCXYzLkZnMPRlUCO5LYu95YFi3/kFSys8Pid?=
+ =?us-ascii?Q?F1hmiTrERwvyo2cF8KMKK5o//t4c9mgO2NlN5rJjpQVImzFuxE22zFjFYXKu?=
+ =?us-ascii?Q?642niYbCU4Mk0s/z9apLbPgdtE7cO6l4nVusGyUubbh04ZcaEi4+PVW0OZ5B?=
+ =?us-ascii?Q?QUfqLJ/ZKaDOx5YLoagFrx2RrsC8ebQ5NVeSWQgi23A+NlOOFNTzY8Gw/6Eg?=
+ =?us-ascii?Q?VEM2gtKYDSmecbqEgPt9q6tdtJtOC+z3gjyZH+erOfFvv6r/kaORTeCiIneu?=
+ =?us-ascii?Q?VCm0WZP8VdqIjSYvBDrWwHDs2VvsTAr7FwIBRdySMGlsF2UuPcoo5KYNiYhe?=
+ =?us-ascii?Q?kIa8+MjyIzw7u5D52MBAbFazQf/pMjFe3HlLmpfK79kq/Wi5IdwKmfpzQua8?=
+ =?us-ascii?Q?OywTsGpoaYXAH8znBiIOxdirB36wa+EcyFWhHe8u7ceD/wZ4F+9xj7Ti92nJ?=
+ =?us-ascii?Q?csVfsvy73+K71+b6DG2Rit7KQTyN9N9LzpX9nz/RZv7rcQ6Zab4eUGB1Zedb?=
+ =?us-ascii?Q?avqydvgRMqJwnGglz4jrf3YbMLr1+fazn7/3if+UJWf1Ivoqbu0JZ6LUz2dR?=
+ =?us-ascii?Q?QfFQInhH2jhlk7ENXjxbAq4PARKTqaUvG4OPfH5Jl8ytrw2a8ot8u4ZKTKVZ?=
+ =?us-ascii?Q?i4h1BdM0DB0gyAWw3I4Q3VTMo0K4N99hV5LXDqIdsACzvq05Zzr0E1MBUDTl?=
+ =?us-ascii?Q?KY9oUZwlg5AhHC3pt9RDeVgydTBN0PxbwFRL3kttFaRam/jRRXpUJPuRsTNv?=
+ =?us-ascii?Q?IV5rRFgQ97dvrX3Q6Tm3TIC9WKHWP1UxyV3KCzq/9N6sXRvMbUbZDXpAeJOh?=
+ =?us-ascii?Q?I3yvXVMvF72RkGsLWP430Ske0iDwcX4t+fipoL1czrJ44Y7p2Y3e9KPeU36u?=
+ =?us-ascii?Q?cA2dktQwE1vJO9sNc76xTrdvKir3oTaezI+vazaC7JwhvcxjDvMwD+gjQdp+?=
+ =?us-ascii?Q?mHf8MPIVcvoqHvQP1Sqt984/WRO40JTidIOqvBJWpftxob3oafzvVKexTZod?=
+ =?us-ascii?Q?hdoh//MQfAYU+ySQCNMIozPqG26CP0HwFc1DLpplzoAeXyJJvqxTRUtf89kA?=
+ =?us-ascii?Q?BsT3eIrpzPopnG8eq+2LqsaRy6+jaNoBbo8WqXqhuwq9w4k/ZV1lEb2eNp0S?=
+ =?us-ascii?Q?KPV/SRZLJHMAazq+YD75FLLEbiPfK036T1UKTW9oAtrR1K8I55s9qX3j9XxS?=
+ =?us-ascii?Q?W2VgZRBoTyZQsVsml9Yiq9slhQ3t3WnCwd4t7RGtNZ5VvUjwbCPzOiTcXx3r?=
+ =?us-ascii?Q?7suBaESFbM1bbS0J/BfuNqTJ54djR7SVvBV/fB5VsxQS0kk2tgmbVSoFoWKQ?=
+ =?us-ascii?Q?2K/b/+TbenAuS/QzWjpMQFX3C3i2ghzfifhzOQW/ND5RjD2Yd8ORm54RwKyi?=
+ =?us-ascii?Q?8VRdk6hfSpyab+1ShZvv/fE=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dfa8341-305b-4d75-64b3-08dc0867f2f1
+X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB4899.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2023 12:16:13.1801
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l0oioEHDNwtb/rrr0+nlwQUX209fcOUmGiNi1sqIjnQEHhI1xRxUjRxJAeR77afHk8nm/J09z0ptjqt2ETw0IMwwSMZbwnKLMSFQTP/VtKu1pYZ9+e2WDdynVdkSlrzY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB10228
 
-On Thu, 28 Dec 2023 at 13:17, Jianfeng Liu <liujianfeng1994@gmail.com> wrote:
->
-> This patch enables Hantro G1 video decoder in RK3588's
-> devicetree.
->
-> Tested with FFmpeg v4l2_request code taken from [1]
-> with MPEG2, H.264 and VP8 samples.
->
-> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
->
-> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-> ---
->  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> index 5fb0baf8a..5da668184 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -640,6 +640,26 @@ i2c0: i2c@fd880000 {
->                 status = "disabled";
->         };
->
-> +       vpu: video-codec@fdb50400 {
+do_div() does a 64-by-32 division.
+When the divisor is u64, do_div() truncates it to 32 bits, this means it
+can test non-zero and be truncated to zero for division.
 
-The node name should be video-codec@fdb50000 to match the reg address.
+fix do_div.cocci warning:
+do_div() does a 64-by-32 division, please consider using div64_u64 instead.
 
-> +               compatible = "rockchip,rk3588-vpu";
-> +               reg = <0x0 0xfdb50000 0x0 0x800>;
-> +               interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
-> +               clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +               clock-names = "aclk", "hclk";
-> +               iommus = <&vdpu_mmu>;
-> +               power-domains = <&power RK3588_PD_VDPU>;
-> +       };
-> +
-> +       vdpu_mmu: iommu@fdb50800 {
-> +               compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-> +               reg = <0x0 0xfdb50800 0x0 0x40>;
-> +               interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
-> +               clock-names = "aclk", "iface";
-> +               clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +               power-domains = <&power RK3588_PD_VDPU>;
-> +               #iommu-cells = <0>;
-> +       };
-> +
->         vop: vop@fdd90000 {
->                 compatible = "rockchip,rk3588-vop";
->                 reg = <0x0 0xfdd90000 0x0 0x4200>, <0x0 0xfdd95000 0x0 0x1000>;
-> --
-> 2.34.1
+Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 44b13696cf82..81853eb2993a 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -409,13 +409,13 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+ 	out->capability = V4L2_CAP_TIMEPERFRAME;
+ 
+ 	us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
+-	do_div(us_per_frame, timeperframe->denominator);
++	div64_u64(us_per_frame, timeperframe->denominator);
+ 
+ 	if (!us_per_frame)
+ 		return -EINVAL;
+ 
+ 	fps = (u64)USEC_PER_SEC;
+-	do_div(fps, us_per_frame);
++	div64_u64(fps, us_per_frame);
+ 
+ 	inst->timeperframe = *timeperframe;
+ 	inst->fps = fps;
+-- 
+2.25.1
+
 
