@@ -1,157 +1,105 @@
-Return-Path: <linux-media+bounces-3091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9C5820714
-	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 17:07:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1633820797
+	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 18:17:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0ABF1F2196A
-	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 16:07:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 45123B2136D
+	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 17:17:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4E7B661;
-	Sat, 30 Dec 2023 16:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D420CBA34;
+	Sat, 30 Dec 2023 17:17:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yEaqBOKT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HiufmAv6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079478F59
-	for <linux-media@vger.kernel.org>; Sat, 30 Dec 2023 16:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3333b46f26aso7229087f8f.1
-        for <linux-media@vger.kernel.org>; Sat, 30 Dec 2023 08:06:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E5BC2D0;
+	Sat, 30 Dec 2023 17:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d3f8af8297so29084565ad.2;
+        Sat, 30 Dec 2023 09:17:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703952411; x=1704557211; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=LTftqumhaIAV1t6cyC+UDDkT3xpqS8YQPrHcdoHHP5A=;
-        b=yEaqBOKTEmjwBw/W+HWgYaMebDgVk97hLv/DAR6uMYO7IZmTwIvcEdHfbk3fPppTgd
-         Pu/pqH3Z6ZB66JZY0SLmi4NZCw9RRjFWRDLBP/6xeRQUr945O6PS3vVgdVg4ltpslZHr
-         5VuRcKnY09E2cIvngKfx05+ol96Gjx6e37qkQy04l5IwfhVx169mq/+B9UmzLfEygwf4
-         FoxlNFxAzHP5VpMR7VQwwcsdX1M9Cxb3leYFaJo/A/BYleE2lNGHkoC88/uJMTtCGd2U
-         tchNv42QAt6x+hznIuIOHIrfuGsjcBV6T5jJBukDDR1wgDnsW36oHO6uua5Kd6Ls33kS
-         JLxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703952411; x=1704557211;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1703956642; x=1704561442; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LTftqumhaIAV1t6cyC+UDDkT3xpqS8YQPrHcdoHHP5A=;
-        b=HPuuoAianzl0krGDBNIm4TOB3De7x5eM1/WFHE8XPLKp1q/oetbi2EXQ+KJV6ToEng
-         5zz1VESjaCCNuoTuzx41P8x3allaWTXTh7cMoRGUc07r+3bkQyUTbNOc70dIzqc+7wWB
-         qrsZ4YS9govyD+oHSHGc5maXuxtsSjFbTfWdkAo2VZq8wvKJzj0UD4sg/vvb4OMO5c/T
-         S9HwxfVmDSxRZFV70lS3PLj4BiPCEjs9X7nPlw70Qo4pvt62RoPHqXbXEpgUe42uA3Yh
-         5dJzCsdn7YvYo1DLFZw/8IsE8c9ePyzekrzI+PtMxQXSEP3Hyue/sqFli2fGMSVUUsR4
-         w+Tw==
-X-Gm-Message-State: AOJu0YysIPZ+JUN41i1rijeJICZpxxuYm94EQyhLPFeOQH8cU/uEU9uN
-	TPFEKoQ3Pq6GTeAYl8mvyZLMcsSSKoeDZg==
-X-Google-Smtp-Source: AGHT+IGi3MR+sRaDN0eBGmh0R8UC4uJ2TZM9KfsMx0I4l1HB8CvaLQ5cqvxpadz8CUQJttwaEsKmDA==
-X-Received: by 2002:a05:600c:a44:b0:40d:6c48:a1dc with SMTP id c4-20020a05600c0a4400b0040d6c48a1dcmr2029990wmq.176.1703952411145;
-        Sat, 30 Dec 2023 08:06:51 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id r12-20020a05600c35cc00b0040d3dc78003sm33698325wmq.17.2023.12.30.08.06.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Dec 2023 08:06:50 -0800 (PST)
-Message-ID: <02e64f0f-6add-4583-9ee4-d5ace6497776@linaro.org>
-Date: Sat, 30 Dec 2023 17:06:48 +0100
+        bh=uKuUOBW2WKM7L/OUaH8vZcmfejQ/Wt+Dd1qvXbLrpms=;
+        b=HiufmAv6+BpULbI5tTCqwIG5LBHFdpCejhUDjQ7pT7Ad5LjpmTmtx9MLuACLXVIiIm
+         b9O4LLtYnBDxcecC+jrhJR4y4/pddr3pJoJ9omEW8WeqGuEWgMMVFt46GGsEumMI1Pm+
+         RhqdihRDIeCabXkkTc3MlKOesoX3mmAn1WVcH2GaRx+SNPrmuZLKPfqNAiiwulC5nmQT
+         V2m9ImjipECiSGeZbFP/ChM+TWAUd25z8822xT/TQDnnYcQHi5ibfsxczgftGgV7GYNF
+         in8hBF5h+FUFSA7jE2R7SaWZpXxYxmYJDP/GHN8+iNHOvm+ioVmAZ2bOmYXX7Z0G5jLa
+         DhbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703956642; x=1704561442;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uKuUOBW2WKM7L/OUaH8vZcmfejQ/Wt+Dd1qvXbLrpms=;
+        b=HyNQ7znW8v3RjjhZovS9XGLXtJwh6N2/rhLNq4fAmxxBqpp+8mEdaYAsb6EYkf6+HD
+         5tHPjkSz+/gApC4ius/S9Ux4/e0ZXtJEnxik5lk1toij8u3CundtmneXQ16SlYzUGgp/
+         UtNHBxM5zFnfTAPPi98zReycdFVcouK9ZkyPmXQXfi5WjDckGx7aTglLeCdVERmePWSY
+         x5CB0D8WFtWF5nCGtBpCYEc/C1wYEA8fmiVk8SZ4s4o8YZh3YbWQILCah5r0FeNPngB2
+         FxVTj+v6FfKY4fPha4IS/KvgxqaotesnDG42L/fzGWmHqoyWNV16X7KL5yj2W2Y44uXA
+         mEdA==
+X-Gm-Message-State: AOJu0Yy8Flij0Lm+/RlYgLmBwiH9po1qhqvVJdNtyEI+KbOQHVVYrhY5
+	OrZNft5/dsomSH5I17DIuZPUb4DT3J7Fi8Fz
+X-Google-Smtp-Source: AGHT+IFTYxLGmFHYKwM+FFOypakP5F+gsWJtJQduPKVjqb5KvG/4MKZ96ZeM/sekpP7W6B62MPuzSg==
+X-Received: by 2002:a17:903:110d:b0:1d4:8512:5871 with SMTP id n13-20020a170903110d00b001d485125871mr3675265plh.27.1703956642353;
+        Sat, 30 Dec 2023 09:17:22 -0800 (PST)
+Received: from localhost.localdomain ([2408:8207:2540:8c00:9802:680d:e03a:17cd])
+        by smtp.gmail.com with ESMTPSA id e12-20020a170902b78c00b001cfca7b8ee7sm17487385pls.99.2023.12.30.09.17.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Dec 2023 09:17:22 -0800 (PST)
+From: amazingfate <liujianfeng1994@gmail.com>
+To: krzysztof.kozlowski@linaro.org
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	ezequiel@vanguardiasur.com.ar,
+	heiko@sntech.de,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	liujianfeng1994@gmail.com,
+	mchehab@kernel.org,
+	p.zabel@pengutronix.de,
+	robh+dt@kernel.org,
+	sfr@canb.auug.org.au
+Subject: Re: [PATCH v2 3/3] dt-bindings: media: rockchip-vpu: Add RK3588 compatible
+Date: Sun, 31 Dec 2023 01:17:11 +0800
+Message-Id: <20231230171711.3912776-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <02e64f0f-6add-4583-9ee4-d5ace6497776@linaro.org>
+References: <02e64f0f-6add-4583-9ee4-d5ace6497776@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] dt-bindings: media: rockchip-vpu: Add RK3588
- compatible
-To: Jianfeng Liu <liujianfeng1994@gmail.com>, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, heiko@sntech.de,
- sfr@canb.auug.org.au
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20231228131617.3411561-1-liujianfeng1994@gmail.com>
- <20231228131617.3411561-4-liujianfeng1994@gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231228131617.3411561-4-liujianfeng1994@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 28/12/2023 14:16, Jianfeng Liu wrote:
-> Add compatible for rk3588 Hantro G1 vpu decoder.
-> 
-> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-> ---
->  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> index c57e1f488..ba41446f6 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> @@ -25,6 +25,7 @@ properties:
->            - rockchip,px30-vpu
->            - rockchip,rk3568-vpu
->            - rockchip,rk3588-av1-vpu
-> +          - rockchip,rk3588-vpu
+Hi Krzysztof,
 
-Your driver suggests it is compatible with 3568-vpu.
+Sat, 30 Dec 2023 17:06:48 +0100, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+>Your driver suggests it is compatible with 3568-vpu.
+>
+>Also, nothing in commit msg explains me differences against existing
+>av1-vpu.
 
-Also, nothing in commit msg explains me differences against existing
-av1-vpu.
+Yes, this vpu is exactly the same as the one on rk3568, so we can
+make rockchip,rk3588-vpu compatible with rockchip,rk3568-vpu, just
+like what we have done on rk3188/rk3066 and rk3228/rk3399.
+I will update it in v3 patch.
 
 Best regards,
-Krzysztof
-
+Jianfeng
 
