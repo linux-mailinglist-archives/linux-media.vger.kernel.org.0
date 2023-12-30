@@ -1,115 +1,157 @@
-Return-Path: <linux-media+bounces-3090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3091-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ACA8206E0
-	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 16:32:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9C5820714
+	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 17:07:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C05281F216A6
-	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 15:32:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0ABF1F2196A
+	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 16:07:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BDB9946C;
-	Sat, 30 Dec 2023 15:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4E7B661;
+	Sat, 30 Dec 2023 16:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTfMKHZa"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yEaqBOKT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA028F6D;
-	Sat, 30 Dec 2023 15:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1d422c9f894so49000605ad.3;
-        Sat, 30 Dec 2023 07:32:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079478F59
+	for <linux-media@vger.kernel.org>; Sat, 30 Dec 2023 16:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3333b46f26aso7229087f8f.1
+        for <linux-media@vger.kernel.org>; Sat, 30 Dec 2023 08:06:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703950331; x=1704555131; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0aQnswRfvf4BwrZOcbpjhGTjzzT98U1IdJ18XjrAJzU=;
-        b=MTfMKHZan78qBzQSC3v6n4B+LpaZB7mmmzXgiwo7K99qJyvinQ45bzOSqxgeiwZB7v
-         nDNW3CGYCz9EGZw7PXIT59xR+9cqOPRV2IoSE/37YVZgpj5XVgOBr1eK/LioYjqMy6Gt
-         8hcw5+p0qSKLETucYs/eXgEB7WS78DFq4CGKvsOyhSMLixNgK9fQ0bHVQHuqSp5EBhiE
-         xphXGHS4IYE61BAWZPDnd3ZTzgw77CZKB5dk5zBCOYMJ4qAA+IQ7hHAWcNxemWzBseiN
-         KYXPf89b2vWKN0+J+l+oj8QA0CZKwsaasuVntxLOtJRfMu/62YRuiXoHEP+7/Mn5KvOS
-         fxqQ==
+        d=linaro.org; s=google; t=1703952411; x=1704557211; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=LTftqumhaIAV1t6cyC+UDDkT3xpqS8YQPrHcdoHHP5A=;
+        b=yEaqBOKTEmjwBw/W+HWgYaMebDgVk97hLv/DAR6uMYO7IZmTwIvcEdHfbk3fPppTgd
+         Pu/pqH3Z6ZB66JZY0SLmi4NZCw9RRjFWRDLBP/6xeRQUr945O6PS3vVgdVg4ltpslZHr
+         5VuRcKnY09E2cIvngKfx05+ol96Gjx6e37qkQy04l5IwfhVx169mq/+B9UmzLfEygwf4
+         FoxlNFxAzHP5VpMR7VQwwcsdX1M9Cxb3leYFaJo/A/BYleE2lNGHkoC88/uJMTtCGd2U
+         tchNv42QAt6x+hznIuIOHIrfuGsjcBV6T5jJBukDDR1wgDnsW36oHO6uua5Kd6Ls33kS
+         JLxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703950331; x=1704555131;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0aQnswRfvf4BwrZOcbpjhGTjzzT98U1IdJ18XjrAJzU=;
-        b=p7ii6fBj3ni0oVJI+512iPGxJR/eQzqXXRXqPcuMLtHehXinRVa1XH7WsMGQvPW6k0
-         cQZGb8A3jKg3AJhGDJfjqXZxRpUbHDEjsDLCorlaEnfi+UC3bNxpCuAsbrIPV1xK9pud
-         zrbP0mZRj5jWzfZEtDc3rgdN0ij55h9KHzs4NIcfwpa0VkIcqp/k7myzHIYJj/QFUJi2
-         xDEQVd2RxfZuZtfeGSp46IOAmGFm1dv/rU78prdnQN31Vifmcr8h1KZ66nC/5Y8pOdN8
-         QCE1ye2JRLBT+uAIpbjVMDLgEDlWvXlwsrCUwrXNVvpI21q62Z4ZH0n2gIEPV7TzYTvv
-         NypA==
-X-Gm-Message-State: AOJu0YwQMBxRzKfDpUxaprFO3hIxqtuXgECe9O40uZ7Tjeqt8Q4KDIw2
-	7LNUSBFcsB4YY3JilcxgbC0=
-X-Google-Smtp-Source: AGHT+IHhWDBSzfIZA4m7vsfoPPCYdAoRPfC1FFKRZhMnHzCX2ZKiEcTFknXXcIQJBqto4e5O5sW/Hg==
-X-Received: by 2002:a17:902:7590:b0:1d4:1bcd:6bae with SMTP id j16-20020a170902759000b001d41bcd6baemr13040572pll.31.1703950331583;
-        Sat, 30 Dec 2023 07:32:11 -0800 (PST)
-Received: from localhost.localdomain ([2408:8207:2540:8c00:9802:680d:e03a:17cd])
-        by smtp.gmail.com with ESMTPSA id 5-20020a170902ee4500b001d3c27e00f2sm17471750plo.284.2023.12.30.07.32.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Dec 2023 07:32:11 -0800 (PST)
-From: amazingfate <liujianfeng1994@gmail.com>
-To: jonas@kwiboo.se
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	ezequiel@vanguardiasur.com.ar,
-	heiko@sntech.de,
-	krzysztof.kozlowski+dt@linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	liujianfeng1994@gmail.com,
-	mchehab@kernel.org,
-	p.zabel@pengutronix.de,
-	robh+dt@kernel.org,
-	sfr@canb.auug.org.au,
-	sigmaris@gmail.com
-Subject: Re: [PATCH v2 0/3] Add hantro g1 video decoder support for RK3588
-Date: Sat, 30 Dec 2023 23:31:59 +0800
-Message-Id: <20231230153159.3748580-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <97faf49b-0109-439a-accf-251b502ad40b@kwiboo.se>
-References: <97faf49b-0109-439a-accf-251b502ad40b@kwiboo.se>
+        d=1e100.net; s=20230601; t=1703952411; x=1704557211;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LTftqumhaIAV1t6cyC+UDDkT3xpqS8YQPrHcdoHHP5A=;
+        b=HPuuoAianzl0krGDBNIm4TOB3De7x5eM1/WFHE8XPLKp1q/oetbi2EXQ+KJV6ToEng
+         5zz1VESjaCCNuoTuzx41P8x3allaWTXTh7cMoRGUc07r+3bkQyUTbNOc70dIzqc+7wWB
+         qrsZ4YS9govyD+oHSHGc5maXuxtsSjFbTfWdkAo2VZq8wvKJzj0UD4sg/vvb4OMO5c/T
+         S9HwxfVmDSxRZFV70lS3PLj4BiPCEjs9X7nPlw70Qo4pvt62RoPHqXbXEpgUe42uA3Yh
+         5dJzCsdn7YvYo1DLFZw/8IsE8c9ePyzekrzI+PtMxQXSEP3Hyue/sqFli2fGMSVUUsR4
+         w+Tw==
+X-Gm-Message-State: AOJu0YysIPZ+JUN41i1rijeJICZpxxuYm94EQyhLPFeOQH8cU/uEU9uN
+	TPFEKoQ3Pq6GTeAYl8mvyZLMcsSSKoeDZg==
+X-Google-Smtp-Source: AGHT+IGi3MR+sRaDN0eBGmh0R8UC4uJ2TZM9KfsMx0I4l1HB8CvaLQ5cqvxpadz8CUQJttwaEsKmDA==
+X-Received: by 2002:a05:600c:a44:b0:40d:6c48:a1dc with SMTP id c4-20020a05600c0a4400b0040d6c48a1dcmr2029990wmq.176.1703952411145;
+        Sat, 30 Dec 2023 08:06:51 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id r12-20020a05600c35cc00b0040d3dc78003sm33698325wmq.17.2023.12.30.08.06.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Dec 2023 08:06:50 -0800 (PST)
+Message-ID: <02e64f0f-6add-4583-9ee4-d5ace6497776@linaro.org>
+Date: Sat, 30 Dec 2023 17:06:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] dt-bindings: media: rockchip-vpu: Add RK3588
+ compatible
+To: Jianfeng Liu <liujianfeng1994@gmail.com>, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, heiko@sntech.de,
+ sfr@canb.auug.org.au
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20231228131617.3411561-1-liujianfeng1994@gmail.com>
+ <20231228131617.3411561-4-liujianfeng1994@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231228131617.3411561-4-liujianfeng1994@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jonas,
+On 28/12/2023 14:16, Jianfeng Liu wrote:
+> Add compatible for rk3588 Hantro G1 vpu decoder.
+> 
+> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> index c57e1f488..ba41446f6 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> @@ -25,6 +25,7 @@ properties:
+>            - rockchip,px30-vpu
+>            - rockchip,rk3568-vpu
+>            - rockchip,rk3588-av1-vpu
+> +          - rockchip,rk3588-vpu
 
-On Sat, 30 Dec 2023 12:49:38 +0100, Jonas Karlman <jonas@kwiboo.se> wrote:
->I have only tested this fork of fluster with ffmpeg 6.x, what version of
->ffmpeg did you test with? I was expecting it to also work on ffmpeg 5.x.
+Your driver suggests it is compatible with 3568-vpu.
 
-I am using ffmpeg 6.0 with v4l2-request patches from libreelec[1].
-Ffmpeg v4l2 decoder in fluster fork is using ffmpeg args:
-"-hwaccel_device /dev/dri/renderD128"
-which make the test fall with hantro g1 on rk3588. After removing it I
-can run tests by ffmpeg v4l2-request decoder. 
+Also, nothing in commit msg explains me differences against existing
+av1-vpu.
 
-Rk3566 and rk3588 are sharing the same results:
-JVT-AVC_V1 test suite with decoder FFmpeg-H.264-V4L2-request:
- Ran 127/135 tests successfully.
-JVT-FR_EXT test suite with decoder FFmpeg-H.264-V4L2-request:
- Ran 44/69 tests successfully.
-VP8-TEST-VECTORS test suite with decoder FFmpeg-VP8-V4L2-request:
- Ran 59/61 tests successfully.
+Best regards,
+Krzysztof
 
-[1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
-
-Regards,
-Jianfeng
 
