@@ -1,110 +1,115 @@
-Return-Path: <linux-media+bounces-3089-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3090-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354AF8204AE
-	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 12:50:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16ACA8206E0
+	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 16:32:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E476A281D50
-	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 11:50:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C05281F216A6
+	for <lists+linux-media@lfdr.de>; Sat, 30 Dec 2023 15:32:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7058079EF;
-	Sat, 30 Dec 2023 11:49:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BDB9946C;
+	Sat, 30 Dec 2023 15:32:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="rKacEDg6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTfMKHZa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9651B79D8
-	for <linux-media@vger.kernel.org>; Sat, 30 Dec 2023 11:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1703936984;
- bh=mxaMu8U3QMAFU/y35CQF9vSyxsVfW4Q2ekWUVTmfutI=;
- b=rKacEDg6gxzfbiW3OXa2U6qYs+s8uJAUyDyNJsMRBpJOc6OVocug9j4mzTWadABLEh+JCEQow
- gEWJ5yG+sYQ+aXjBBCPcfYtQHAYQX9ka0n/jAIb7KcmO5VtBj9O6Eggju9ONyGe2+KFIFoGWPKD
- KAK0IqRBrqssiHo22FqgOQpAKaWN9LrKXvG5taIryO8w0TAA7OpK5x8WhZ65KAIImF3aeOhnAiZ
- dnBMaFtoQ9udtJDHuHbPye4tSU2fwZFJxwFvAgCLV6IQSVKDVGIIJFgVs9ml3ZD0JblJ3mhQ5Ts
- 95jKBhbp9RZXRzFjQCi+MvQdixFe2sdmAX7SQ0IpREhg==
-Message-ID: <97faf49b-0109-439a-accf-251b502ad40b@kwiboo.se>
-Date: Sat, 30 Dec 2023 12:49:38 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA028F6D;
+	Sat, 30 Dec 2023 15:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1d422c9f894so49000605ad.3;
+        Sat, 30 Dec 2023 07:32:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703950331; x=1704555131; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0aQnswRfvf4BwrZOcbpjhGTjzzT98U1IdJ18XjrAJzU=;
+        b=MTfMKHZan78qBzQSC3v6n4B+LpaZB7mmmzXgiwo7K99qJyvinQ45bzOSqxgeiwZB7v
+         nDNW3CGYCz9EGZw7PXIT59xR+9cqOPRV2IoSE/37YVZgpj5XVgOBr1eK/LioYjqMy6Gt
+         8hcw5+p0qSKLETucYs/eXgEB7WS78DFq4CGKvsOyhSMLixNgK9fQ0bHVQHuqSp5EBhiE
+         xphXGHS4IYE61BAWZPDnd3ZTzgw77CZKB5dk5zBCOYMJ4qAA+IQ7hHAWcNxemWzBseiN
+         KYXPf89b2vWKN0+J+l+oj8QA0CZKwsaasuVntxLOtJRfMu/62YRuiXoHEP+7/Mn5KvOS
+         fxqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703950331; x=1704555131;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0aQnswRfvf4BwrZOcbpjhGTjzzT98U1IdJ18XjrAJzU=;
+        b=p7ii6fBj3ni0oVJI+512iPGxJR/eQzqXXRXqPcuMLtHehXinRVa1XH7WsMGQvPW6k0
+         cQZGb8A3jKg3AJhGDJfjqXZxRpUbHDEjsDLCorlaEnfi+UC3bNxpCuAsbrIPV1xK9pud
+         zrbP0mZRj5jWzfZEtDc3rgdN0ij55h9KHzs4NIcfwpa0VkIcqp/k7myzHIYJj/QFUJi2
+         xDEQVd2RxfZuZtfeGSp46IOAmGFm1dv/rU78prdnQN31Vifmcr8h1KZ66nC/5Y8pOdN8
+         QCE1ye2JRLBT+uAIpbjVMDLgEDlWvXlwsrCUwrXNVvpI21q62Z4ZH0n2gIEPV7TzYTvv
+         NypA==
+X-Gm-Message-State: AOJu0YwQMBxRzKfDpUxaprFO3hIxqtuXgECe9O40uZ7Tjeqt8Q4KDIw2
+	7LNUSBFcsB4YY3JilcxgbC0=
+X-Google-Smtp-Source: AGHT+IHhWDBSzfIZA4m7vsfoPPCYdAoRPfC1FFKRZhMnHzCX2ZKiEcTFknXXcIQJBqto4e5O5sW/Hg==
+X-Received: by 2002:a17:902:7590:b0:1d4:1bcd:6bae with SMTP id j16-20020a170902759000b001d41bcd6baemr13040572pll.31.1703950331583;
+        Sat, 30 Dec 2023 07:32:11 -0800 (PST)
+Received: from localhost.localdomain ([2408:8207:2540:8c00:9802:680d:e03a:17cd])
+        by smtp.gmail.com with ESMTPSA id 5-20020a170902ee4500b001d3c27e00f2sm17471750plo.284.2023.12.30.07.32.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Dec 2023 07:32:11 -0800 (PST)
+From: amazingfate <liujianfeng1994@gmail.com>
+To: jonas@kwiboo.se
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	ezequiel@vanguardiasur.com.ar,
+	heiko@sntech.de,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	liujianfeng1994@gmail.com,
+	mchehab@kernel.org,
+	p.zabel@pengutronix.de,
+	robh+dt@kernel.org,
+	sfr@canb.auug.org.au,
+	sigmaris@gmail.com
+Subject: Re: [PATCH v2 0/3] Add hantro g1 video decoder support for RK3588
+Date: Sat, 30 Dec 2023 23:31:59 +0800
+Message-Id: <20231230153159.3748580-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <97faf49b-0109-439a-accf-251b502ad40b@kwiboo.se>
+References: <97faf49b-0109-439a-accf-251b502ad40b@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Add hantro g1 video decoder support for RK3588
-To: amazingfate <liujianfeng1994@gmail.com>, sigmaris@gmail.com
-Cc: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- mchehab@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, heiko@sntech.de, sfr@canb.auug.org.au,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <CAAXNxMT3f68-ptM7Crhrfmn7iwTyJc9pwz4Beob+5beVODaSHQ@mail.gmail.com>
- <20231230095228.3739806-1-liujianfeng1994@gmail.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <20231230095228.3739806-1-liujianfeng1994@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 659003d74d40790198022670
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Jonas,
 
-On 2023-12-30 10:52, amazingfate wrote:
-> Thanks for your test with fluster. I also tested on my rock-5b(rk3588)
-> and orangepi-3b(rk3566) which are sharing the same hantro g1 ip. I am
-> running on ubuntu jammy so I'm using gstreamer 1.20.1
-> 
-> rk3566 and rk3588 are sharing the same results:
-> JVT-AVC_V1 test suite with decoder GStreamer-H.264-V4L2SL-Gst1.0:
->   Ran 112/135 tests successfully.
-> JVT-FR_EXT test suite with decoder GStreamer-H.264-V4L2SL-Gst1.0:
->   Ran 27/69 tests successfully.
-> VP8-TEST-VECTORS test suite with decoder GStreamer-VP8-V4L2SL-Gst1.0:
->   Ran 59/61 tests successfully.
-> 
-> H264 decoder test has less test case passing. I think that's because
-> of my low gstreamer version. If you have a rk356x board I guess you
-> will get the same result as rk3588. That should be the mainline support
-> status of hantro g1 decoder.
-> 
-> For ffmpeg at the moment fluster doesn't support v4l2-request decoder.
-> I tried Kwiboo's fork[1] but failed to pass tests with decoder
-> FFmpeg-H.264-V4L2-request. I can decode video with ffmpeg command like:
-> "ffmpeg -benchmark -hwaccel drm -hwaccel_output_format drm_prime -i Big_Buck_Bunny_1080_10s_30MB.mp4 -f null -"
+On Sat, 30 Dec 2023 12:49:38 +0100, Jonas Karlman <jonas@kwiboo.se> wrote:
+>I have only tested this fork of fluster with ffmpeg 6.x, what version of
+>ffmpeg did you test with? I was expecting it to also work on ffmpeg 5.x.
 
-I have only tested this fork of fluster with ffmpeg 6.x, what version of
-ffmpeg did you test with? I was expecting it to also work on ffmpeg 5.x.
+I am using ffmpeg 6.0 with v4l2-request patches from libreelec[1].
+Ffmpeg v4l2 decoder in fluster fork is using ffmpeg args:
+"-hwaccel_device /dev/dri/renderD128"
+which make the test fall with hantro g1 on rk3588. After removing it I
+can run tests by ffmpeg v4l2-request decoder. 
 
-Please also note that ffmpeg v4l2-request patches at [2] contain some
-NV15/NV20 ffmpeg pix_fmt patches that fail ffmpeg tests. They are not
-needed for decoding of 10-bit frames using rkvdec but they are required
-to be able to run fluster test suite JVT-FR_EXT on rkvdec. (hantro g1 do
-not support 10-bit frames on rk)
+Rk3566 and rk3588 are sharing the same results:
+JVT-AVC_V1 test suite with decoder FFmpeg-H.264-V4L2-request:
+ Ran 127/135 tests successfully.
+JVT-FR_EXT test suite with decoder FFmpeg-H.264-V4L2-request:
+ Ran 44/69 tests successfully.
+VP8-TEST-VECTORS test suite with decoder FFmpeg-VP8-V4L2-request:
+ Ran 59/61 tests successfully.
 
-[2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1
+[1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
 
 Regards,
-Jonas
-
-> 
-> [1] https://github.com/Kwiboo/fluster/tree/v4l2-request
-> 
-
+Jianfeng
 
