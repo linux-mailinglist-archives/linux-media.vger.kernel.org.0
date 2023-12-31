@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-3107-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3108-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0043E820AE7
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 10:50:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40048820AE9
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 10:50:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 004921C20C3C
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 09:50:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF49FB21A40
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 09:50:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40E0320E7;
-	Sun, 31 Dec 2023 09:50:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF6023B1;
+	Sun, 31 Dec 2023 09:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dTcCv8v4"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JXRjFq8T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEFE5395
-	for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 09:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71236106
+	for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 09:50:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704016203;
+	s=mimecast20190719; t=1704016214;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tK113Awfl6OWkpPlOKRE5e32nRk0EPC7dusyF+tpu2M=;
-	b=dTcCv8v4/u6cjj5VFGIALJmtAJb2+mwyDyPH+3VSibD1pjOhLK/yiu3Fol1xq0SK7RlBtg
-	eLc2MMrjdo/Yb4Sum4nNWIWS6u1hGs3h05hEuZlW3mnxkoBtTAzmiE8oZcnRRnfwLGVI6L
-	CPerwJjkJQJVnlWXgfAGrFOKtz/fgRM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=QQwLyxRVqkJ+kYuszxuoBP5x10ugdyX648DqZogP1FM=;
+	b=JXRjFq8T0xaGCLeQTd2t3CXDy7BtNy/Zw7gGTajAWpnZwFPcMdCIOdK6Ngowe7hWY3ymTt
+	455x0ITjr41s6+SjRmfUNeU4bZqAX52XBB0NTOcuWq6SFuUerxSpV//982n/0ZYkQiuIL3
+	6qYWzSNvtpPeYIxVgYLJ/lekKMxugd8=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-532-9w9858k6NSaXetGDvkOU7A-1; Sun, 31 Dec 2023 04:50:01 -0500
-X-MC-Unique: 9w9858k6NSaXetGDvkOU7A-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5555a856794so1398329a12.0
-        for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 01:50:00 -0800 (PST)
+ us-mta-59-XVt3Tgt3PTmKEgwyNb23-g-1; Sun, 31 Dec 2023 04:50:12 -0500
+X-MC-Unique: XVt3Tgt3PTmKEgwyNb23-g-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-50e74e15831so4571839e87.0
+        for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 01:50:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704016200; x=1704621000;
+        d=1e100.net; s=20230601; t=1704016211; x=1704621011;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tK113Awfl6OWkpPlOKRE5e32nRk0EPC7dusyF+tpu2M=;
-        b=qEHTFbRaJqIyGZNPdmaLLPimNBe43VeGnVE5pyJEU4eiZ7fUK1ZyrXqFzWQhsUastA
-         sh04InjBRh1YeSZSB4Sr3vbwwJDdYNPPj7WzgowT30h9L/V6zmTRH0NCJ8bGnaxFK11Z
-         heMVY7p7aPUaF7nb7eY4+JBYM/igL24OkcKUneee9/9JlhyPgnlhLXd8uoGKqUX9cylZ
-         KK3isftgtuBmzOGwvAbJMmaolt0jHkNEQ7G4h9AzrGYVy6nTFNVL1OIxoqhLX63SJPis
-         +qFrbqIAba0DnZrSAh7JyfaHq3LmE7ccMB16dIRAr/8JgsT8MEnHwuxAYboijxjfBuTD
-         M92A==
-X-Gm-Message-State: AOJu0YwBFCGXoidxPd7c3hzX2vrW5tt7hhlaRbCGYO9VnjBpb44A8PGz
-	ORodiiBDuq4ZwndcR7WYxzc1gKuFbhzaY4WyMAkbvqcTlbq04QsXy3NXnKh/MntSHYtOW/gOooK
-	rgwHmvgvY8+6Ca+YsRpXBfpDHYXPKNls=
-X-Received: by 2002:aa7:dac5:0:b0:555:65c0:e72b with SMTP id x5-20020aa7dac5000000b0055565c0e72bmr3651938eds.62.1704016199975;
-        Sun, 31 Dec 2023 01:49:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH/Hd8+uyhttvW+IY+lq2OUulSHmV7vOvPZBgbXZNJOHhyGzh3vYz6wI+KQXJ17t0X6E4g63Q==
-X-Received: by 2002:aa7:dac5:0:b0:555:65c0:e72b with SMTP id x5-20020aa7dac5000000b0055565c0e72bmr3651933eds.62.1704016199772;
-        Sun, 31 Dec 2023 01:49:59 -0800 (PST)
+        bh=QQwLyxRVqkJ+kYuszxuoBP5x10ugdyX648DqZogP1FM=;
+        b=AOKzcPIowgXmjZbXfxobVJMRIpYQ2Q7D45aV7AVuMRCVyS7uapza3C1hHUwZOvUNbi
+         doBcGz3jpLc+75w1Zy4/Zw5kZkvEHLR+c84o/qiZ8fZL/ZcrSOafiGouQ1mLZmXmRo/k
+         OuB184ZpAURUyzJl/IhWTYF56MwqCGCKizfsLgat9uCmRdAHCGKx99w/x1+NnlhPub5t
+         p5DJLYYJ2z2IsEFdkUJZggywLA7BHJDxZUWdjIfEdK0oTEERxlwUcbYTDW1nddHxMlH/
+         Hgx3AyF9uq8XHtYRm04Dg7u/GvZ8tAeiPtSfqsimP3xQF7quFemAoDn/J9Ovaoya/Vgl
+         WoEg==
+X-Gm-Message-State: AOJu0Yy+Sg/FdyYcLHyz0TOPEfhMGGcXBQzGf/PLCtqIWf64l6z5Z2Gd
+	tuZmHVO3CyLADTsBP2dG5DwShGg3hPnljpT4l0zmjlPu/e9vWvbw0ME4NO18uF9u3Lczjx8T7WX
+	tsV4ndkiWuo9RUFGLal4QdKZv/MNA+Io=
+X-Received: by 2002:a05:6512:60c:b0:50b:f7bb:4545 with SMTP id b12-20020a056512060c00b0050bf7bb4545mr5402830lfe.68.1704016210846;
+        Sun, 31 Dec 2023 01:50:10 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHGTXOS5OP/7s7cUFSpzRSVVhXB+zVNEwUzKcKkS6C7M/kHt9/vMcvTNZsWjUlh3SL2wFNvaw==
+X-Received: by 2002:a05:6512:60c:b0:50b:f7bb:4545 with SMTP id b12-20020a056512060c00b0050bf7bb4545mr5402823lfe.68.1704016210671;
+        Sun, 31 Dec 2023 01:50:10 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p12-20020a05640243cc00b0055493aa8905sm9894390edc.63.2023.12.31.01.49.58
+        by smtp.gmail.com with ESMTPSA id p12-20020a05640243cc00b0055493aa8905sm9894390edc.63.2023.12.31.01.50.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Dec 2023 01:49:59 -0800 (PST)
-Message-ID: <8cfc7753-37f6-48be-b7ae-dc28022989ae@redhat.com>
-Date: Sun, 31 Dec 2023 10:49:58 +0100
+        Sun, 31 Dec 2023 01:50:10 -0800 (PST)
+Message-ID: <c66ced4c-3f42-4eb5-b247-f6abe75e5eb0@redhat.com>
+Date: Sun, 31 Dec 2023 10:50:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,33 +72,30 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media/atomisp/pci/runtime/rmgr/src: Fix spelling
- mistakes in rmgr_vbuf.c
+Subject: Re: [PATCH] staging: media/atomisp/pci/isp/kernels/macc/macc_1.0: Fix
+ spelling mistakes in ia_css_macc_table.host.c
 Content-Language: en-US, nl
 To: Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, hpa@redhat.com
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223072245.81630-1-kdipendra88@gmail.com>
+References: <20231223081354.83318-1-kdipendra88@gmail.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231223072245.81630-1-kdipendra88@gmail.com>
+In-Reply-To: <20231223081354.83318-1-kdipendra88@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 12/23/23 08:22, Dipendra Khadka wrote:
+On 12/23/23 09:13, Dipendra Khadka wrote:
 > codespell reported following spelling mistake
-> in rmgr_vbuf.cas below:
+> in ia_css_macc_table.host.c below:
 > 
 > '''
-> ./runtime/rmgr/src/rmgr_vbuf.c:201: succes ==> success
-> ./runtime/rmgr/src/rmgr_vbuf.c:211: succes ==> success
-> ./runtime/rmgr/src/rmgr_vbuf.c:215: succes ==> success
+> ./isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c:22: matix ==> matrix
+> ./isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c:39: matix ==> matrix
 > '''
 > This patch fixes these spelling mistakes.
-> It is good to use variable name that gives
-> proper meaning and spelling error free.
 > 
 > Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 
@@ -117,35 +114,30 @@ Hans
 
 
 > ---
->  .../staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c  | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  .../pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c    | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c b/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
-> index 2e07dab8bf51..1f24db77fe38 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
-> +++ b/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
-> @@ -198,7 +198,7 @@ void rmgr_push_handle(struct ia_css_rmgr_vbuf_pool *pool,
->  		      struct ia_css_rmgr_vbuf_handle **handle)
->  {
->  	u32 i;
-> -	bool succes = false;
-> +	bool success = false;
+> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
+> index 946b074e8288..d25bf59273ba 100644
+> --- a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
+> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
+> @@ -19,7 +19,7 @@
 >  
->  	assert(pool);
->  	assert(pool->recycle);
-> @@ -208,11 +208,11 @@ void rmgr_push_handle(struct ia_css_rmgr_vbuf_pool *pool,
->  		if (!pool->handles[i]) {
->  			ia_css_rmgr_refcount_retain_vbuf(handle);
->  			pool->handles[i] = *handle;
-> -			succes = true;
-> +			success = true;
->  			break;
->  		}
->  	}
-> -	assert(succes);
-> +	assert(success);
->  }
+>  /* Multi-Axes Color Correction table for ISP1.
+>   *	64values = 2x2matrix for 16area, [s2.13]
+> - *	ineffective: 16 of "identity 2x2 matix" {8192,0,0,8192}
+> + *	ineffective: 16 of "identity 2x2 matrix" {8192,0,0,8192}
+>   */
+>  const struct ia_css_macc_table default_macc_table = {
+>  	{
+> @@ -36,7 +36,7 @@ const struct ia_css_macc_table default_macc_table = {
 >  
->  /*
+>  /* Multi-Axes Color Correction table for ISP2.
+>   *	64values = 2x2matrix for 16area, [s1.12]
+> - *	ineffective: 16 of "identity 2x2 matix" {4096,0,0,4096}
+> + *	ineffective: 16 of "identity 2x2 matrix" {4096,0,0,4096}
+>   */
+>  const struct ia_css_macc_table default_macc2_table = {
+>  	{
 
 
