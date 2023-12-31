@@ -1,117 +1,166 @@
-Return-Path: <linux-media+bounces-3135-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3136-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AA1820BBB
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 16:13:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7295D821145
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jan 2024 00:38:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF5A51F21595
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 15:13:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F92128294C
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 23:38:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D82B28F57;
-	Sun, 31 Dec 2023 15:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjE8+0aY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 389C1C8CA;
+	Sun, 31 Dec 2023 23:38:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E418AD48;
-	Sun, 31 Dec 2023 15:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d2e6e14865so37444625ad.0;
-        Sun, 31 Dec 2023 07:12:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704035556; x=1704640356; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1LxeA0IIZhqjEAhSl3nYPkL3LXbf+ObZ5X4oac0U0NA=;
-        b=LjE8+0aYx7dpMcgP/cBEZJ7mhExAgYeKUoNj8EBUs8MWZbjfontFTi7bIJRQE9coro
-         AmdYliRaRlUiDFKqBZe2vmNzqHRu82yNxk3Cg2aN6HfqpQSvl6jPlwqn/cqUZzE4mgwf
-         j5IKvlg1SgzQr1Ry6XWxox5XXfk6XBl4gUjO5NTSyPxqbmTj3VwUU1pVp3HGaCtw8Kho
-         /k/eJL0o9Dim7zSrmopi8t6sPVhueVJQ7T6b5G+UIu/xT9FIEWxw95+rrLVrDcOEdJdw
-         lGCHaMVseLVDzJoginrzy49DUoXXSmyZ8on9mHOC5OdKWZT+sV6Pm+uRTezjCcuKavOY
-         zgJQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C337C15E
+	for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 23:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-7bb7fe3800cso61016839f.0
+        for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 15:38:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704035556; x=1704640356;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1LxeA0IIZhqjEAhSl3nYPkL3LXbf+ObZ5X4oac0U0NA=;
-        b=luKJ22jTIN0HuprW3PIGn+CkRF+qVP3x2FCXRUW5XzGUa/EbJcoK1CI1gGvtlHVdnu
-         HN2RkF94b4shfU2tcUa6gzbZZXQ+MGNI6Zr0c5+pXR/IafR6J/e3mvzF2+R4oci9Aj1g
-         yjUQayG8FaDL4tHUEHCQUeMsv1xqKko1q7KC3DFYlLmCTkVNkS20nn1laVM0KGbFRVkq
-         N0M2BRhalATht2+4lJEIhSdHfmZHL/izieH83hKHePP2krm+CFOdgpRaSBy/8QZ2BMWi
-         H2sy+Z5+EqOzjjX9cuUwdzgUEO5EaEYvJd+luxeVSeSI9UqfKDaaMEFYHkKWHWTjB3UP
-         UT0Q==
-X-Gm-Message-State: AOJu0YwmqPu3+NkdFgTsP3Sqze5QzFZsKCL3PU0MTOvQmHO9DRQ3VUP8
-	x1EW36aQWAXg6fpzWpwC8kk=
-X-Google-Smtp-Source: AGHT+IEeC/oNDmebvGAlCDPpcUUA71dA7m7XJNDO6ov3pNSjePgSV63EBlmsTgDSigIUfGJ9GW9DjQ==
-X-Received: by 2002:a17:902:c601:b0:1d0:c888:d129 with SMTP id r1-20020a170902c60100b001d0c888d129mr5937727plr.103.1704035556512;
-        Sun, 31 Dec 2023 07:12:36 -0800 (PST)
-Received: from localhost.localdomain ([2408:8207:2540:8c00:2643:6273:f90:f77e])
-        by smtp.gmail.com with ESMTPSA id a4-20020a170902ecc400b001d058ad8770sm18775011plh.306.2023.12.31.07.12.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Dec 2023 07:12:36 -0800 (PST)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	heiko@sntech.de,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org
-Cc: sfr@canb.auug.org.au,
-	liujianfeng1994@gmail.com,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	sigmaris@gmail.com,
-	knaerzche@gmail.com
-Subject: [PATCH v3 2/2] dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible string
-Date: Sun, 31 Dec 2023 23:11:12 +0800
-Message-Id: <20231231151112.3994194-3-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231231151112.3994194-1-liujianfeng1994@gmail.com>
-References: <20231231151112.3994194-1-liujianfeng1994@gmail.com>
+        d=1e100.net; s=20230601; t=1704065899; x=1704670699;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yBPG0jD4joUl5mOrKlSvFtp8B+BSg6tUyqdhSm2Q0kQ=;
+        b=gfJVs6dKVpBKrnP5LM3YWuRKB/ggGL5pXWjAXc8hpxrbu5ODOdOfks31BgsdlW4tCO
+         hT9lp1imYI/XAEtiaoUdbTwB9FogKjg+0wItaiyf2C4VuoYjjsZbIbsZphH/mlYMcOAZ
+         qfbsMiwI9sE7l/0DGr7RKylP8SNt39CSVpeLiIS0FJEdjd6t2H8eeQao6sV3p6PMgxot
+         jaDnQTA3x6LB4TZ41GBdd26JGyKCQDwHaRiUGuFNoLmyBVnLFbHQUib8SuggrsuSAbj3
+         J1sd41dSjqjaOliR1f8sQKBVrawQT2/oVeuq7gHrrlHym864Rqzn2ZJoDg+7G1YTajWG
+         0X3A==
+X-Gm-Message-State: AOJu0Yw7mxPTbNn15Ds/dQsyqfmcTZbmGEBZYnPhKCp0fseddirT/XwQ
+	GQ/5OqVFfv7CoEp485Tih9E6Uo8xDVRdMpjLMK5u2LG3J57G
+X-Google-Smtp-Source: AGHT+IHwz08QnIlLH5aNgXdvdbRNIKqMY+Lw393O4cvAu/HZtiBwRJxOWncqg6U9KkQG6IypcozWLB/NOnma1Y07Ct0V8ZfsqJgJ
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:b4c:b0:360:290:902d with SMTP id
+ f12-20020a056e020b4c00b003600290902dmr1940705ilu.3.1704065899585; Sun, 31 Dec
+ 2023 15:38:19 -0800 (PST)
+Date: Sun, 31 Dec 2023 15:38:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000009e6825060dd6c287@google.com>
+Subject: [syzbot] [dri?] [media?] memory leak in get_sg_table
+From: syzbot <syzbot+9b4adfed366b14496e7e@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+	kraxel@redhat.com, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add Hantro G1 VPU compatible string for RK3588.
-RK3588 has the same Hantro G1 ip as RK3568, which are both
-known as VDPU121 in TRM of RK3568 and RK3588.
+Hello,
 
-Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+syzbot found the following issue on:
+
+HEAD commit:    fbafc3e621c3 Merge tag 'for_linus' of git://git.kernel.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10ae11cee80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e81921f96ae24ec0
+dashboard link: https://syzkaller.appspot.com/bug?extid=9b4adfed366b14496e7e
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1635d436e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15e8171ae80000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/76e4a40f41aa/disk-fbafc3e6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a2f88511ce98/vmlinux-fbafc3e6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2b21933ed8f1/bzImage-fbafc3e6.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9b4adfed366b14496e7e@syzkaller.appspotmail.com
+
+Warning: Permanently added '10.128.0.162' (ED25519) to the list of known hosts.
+executing program
+executing program
+BUG: memory leak
+unreferenced object 0xffff88810af03840 (size 16):
+  comm "syz-executor111", pid 5038, jiffies 4294942820 (age 13.250s)
+  hex dump (first 16 bytes):
+    80 8b 89 0b 81 88 ff ff 04 00 00 00 04 00 00 00  ................
+  backtrace:
+    [<ffffffff816346ed>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816346ed>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816346ed>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816346ed>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157f315>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+    [<ffffffff82cfd7fa>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff82cfd7fa>] kzalloc include/linux/slab.h:721 [inline]
+    [<ffffffff82cfd7fa>] get_sg_table.isra.0+0x2a/0xe0 drivers/dma-buf/udmabuf.c:93
+    [<ffffffff82cfd943>] begin_cpu_udmabuf+0x63/0xa0 drivers/dma-buf/udmabuf.c:156
+    [<ffffffff82cf114b>] dma_buf_begin_cpu_access+0x3b/0xc0 drivers/dma-buf/dma-buf.c:1402
+    [<ffffffff82cf1d90>] dma_buf_ioctl+0x550/0x660 drivers/dma-buf/dma-buf.c:475
+    [<ffffffff816bf4a2>] vfs_ioctl fs/ioctl.c:51 [inline]
+    [<ffffffff816bf4a2>] __do_sys_ioctl fs/ioctl.c:871 [inline]
+    [<ffffffff816bf4a2>] __se_sys_ioctl fs/ioctl.c:857 [inline]
+    [<ffffffff816bf4a2>] __x64_sys_ioctl+0xf2/0x140 fs/ioctl.c:857
+    [<ffffffff84b71e2f>] do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+    [<ffffffff84b71e2f>] do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:83
+    [<ffffffff84c0008b>] entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+BUG: memory leak
+unreferenced object 0xffff88810b898b80 (size 128):
+  comm "syz-executor111", pid 5038, jiffies 4294942820 (age 13.250s)
+  hex dump (first 32 bytes):
+    c0 09 2a 04 00 ea ff ff 00 00 00 00 00 10 00 00  ..*.............
+    00 70 82 0a 01 00 00 00 00 10 00 00 00 00 00 00  .p..............
+  backtrace:
+    [<ffffffff816346ed>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816346ed>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816346ed>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816346ed>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157f9bb>] __do_kmalloc_node mm/slab_common.c:1006 [inline]
+    [<ffffffff8157f9bb>] __kmalloc+0x4b/0x150 mm/slab_common.c:1020
+    [<ffffffff8251661f>] kmalloc_array include/linux/slab.h:637 [inline]
+    [<ffffffff8251661f>] sg_kmalloc lib/scatterlist.c:167 [inline]
+    [<ffffffff8251661f>] get_next_sg lib/scatterlist.c:402 [inline]
+    [<ffffffff8251661f>] sg_alloc_append_table_from_pages+0x35f/0x770 lib/scatterlist.c:526
+    [<ffffffff82516abc>] sg_alloc_table_from_pages_segment+0x8c/0x120 lib/scatterlist.c:586
+    [<ffffffff82cfd82e>] sg_alloc_table_from_pages include/linux/scatterlist.h:477 [inline]
+    [<ffffffff82cfd82e>] get_sg_table.isra.0+0x5e/0xe0 drivers/dma-buf/udmabuf.c:96
+    [<ffffffff82cfd943>] begin_cpu_udmabuf+0x63/0xa0 drivers/dma-buf/udmabuf.c:156
+    [<ffffffff82cf114b>] dma_buf_begin_cpu_access+0x3b/0xc0 drivers/dma-buf/dma-buf.c:1402
+    [<ffffffff82cf1d90>] dma_buf_ioctl+0x550/0x660 drivers/dma-buf/dma-buf.c:475
+    [<ffffffff816bf4a2>] vfs_ioctl fs/ioctl.c:51 [inline]
+    [<ffffffff816bf4a2>] __do_sys_ioctl fs/ioctl.c:871 [inline]
+    [<ffffffff816bf4a2>] __se_sys_ioctl fs/ioctl.c:857 [inline]
+    [<ffffffff816bf4a2>] __x64_sys_ioctl+0xf2/0x140 fs/ioctl.c:857
+    [<ffffffff84b71e2f>] do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+    [<ffffffff84b71e2f>] do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:83
+    [<ffffffff84c0008b>] entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+
+
 ---
- Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-index c57e1f488..16886bccf 100644
---- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-@@ -31,6 +31,9 @@ properties:
-       - items:
-           - const: rockchip,rk3228-vpu
-           - const: rockchip,rk3399-vpu
-+      - items:
-+          - const: rockchip,rk3588-vpu
-+          - const: rockchip,rk3568-vpu
- 
-   reg:
-     maxItems: 1
--- 
-2.34.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
