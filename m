@@ -1,116 +1,137 @@
-Return-Path: <linux-media+bounces-3096-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3097-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51906820A56
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 08:34:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A60A0820AC5
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 10:38:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08C662833F8
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 07:34:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A9711F217CA
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 09:38:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D668220F0;
-	Sun, 31 Dec 2023 07:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF6E033E5;
+	Sun, 31 Dec 2023 09:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T7hBKGci"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h+LBMkdD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1145E1844;
-	Sun, 31 Dec 2023 07:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7b7d65d4eecso407871639f.0;
-        Sat, 30 Dec 2023 23:33:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704008036; x=1704612836; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FT4YKhx1arQKM4uZFE6CXUn3u3YsdPfEE6W1XkpDDy0=;
-        b=T7hBKGcifCaTIG8Qvw70/ot4lg9RObFfMz6/BzqCbQvvhkAy9t4csl5ThhXOBwvwDD
-         wlsrw33T+ybIC8f1Cwwh350PHJKwGI+NVXiyNhfTF8mQqeb+K2EBdA3p9Pa9kNK2n7wt
-         riCUlL0TIlGbiq+h/Womko5rQulcsW69Ba4XOTuNbxblw/GWyTpcr3R5dTGKTCMNR1S2
-         0yfz6u8PiRgfapiNW886e9WusXHhEe17sd1/Hy01zxtNwyUT4PYDM10ubOsBW42rfpFI
-         nwgZ+CwLrWQam+XuIPmfxLF5Oz1D6OhRtE7dOuBEo51wydqkCtL5ms9TD7n4WcOzIhKs
-         GkVQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27872F58
+	for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 09:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1704015504;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6GH49fe9P1LFfC/zNntRaTyPi/DVVoaN4qHiWXM/OtM=;
+	b=h+LBMkdDMMPaQDE5gQvscJoIHfNWYTUt8G3guc38ugOKWw85dDOvF9P8UD7hQAXxd724BA
+	HIHn38evAfPTc7+bOoVUVzNyvHvanDhlnZ9G0mXCICOA8YJrrRTuoprmjZpKmphsfalWZd
+	lsoWm0xQ1T21myxfRFpb5iyBsXXqzmw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-454-T8dNZRokM2iCBDKgGxm3Ww-1; Sun, 31 Dec 2023 04:38:17 -0500
+X-MC-Unique: T8dNZRokM2iCBDKgGxm3Ww-1
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5545ab4864aso3425462a12.0
+        for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 01:38:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704008036; x=1704612836;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FT4YKhx1arQKM4uZFE6CXUn3u3YsdPfEE6W1XkpDDy0=;
-        b=iBf3YE2qp/p4HA0QgoN+vlniYGmAP6D8OLq6CnXKziyc8QNgcmCV+gDkZmAzyDSYG7
-         wSyV6KhqdZVFtN+JPahVGTHfkeJdy/RYG8hSecOQ0HIcEeC4+ZlWFFSvg8KZESMS6k1D
-         AmwWtgL7JnEr/KMfBQAp69JOL85cwIPMX6+m1ABOlfssDCK4d0ih4+hdF2UKxT41Tcfj
-         TlnZ4JHEui3faT8FgCuZg5P0/wfDS8DgdfBNuSoxeOi0pAJCuxOP3DFiVOS7e7YCxKfm
-         zGXU62ELdkuN6wYar4p/hwW6LCSqepiKlhDOhxMk6ubfcYpg4DpuFDmWfInKFhUlyh4G
-         x0xQ==
-X-Gm-Message-State: AOJu0YyiuPUdjEds6BTbRl3ti7FB/tTToiZ9KBrCdUaWSi08FjbNcaH8
-	8JOk5rECfRWlZxhhb3Cbdp2mRO6mvRdzAg==
-X-Google-Smtp-Source: AGHT+IE1pM6K605ozyzhYXLrB3XJM1l6npyq5tKa9uP+Fm/Krjwxk9xQ/SBD8NRX49F4oBgvK3F87g==
-X-Received: by 2002:a05:6e02:198b:b0:35f:dea6:55c with SMTP id g11-20020a056e02198b00b0035fdea6055cmr23465268ilf.3.1704008036010;
-        Sat, 30 Dec 2023 23:33:56 -0800 (PST)
-Received: from goorm.ap-northeast-2.compute.internal (ec2-52-78-220-127.ap-northeast-2.compute.amazonaws.com. [52.78.220.127])
-        by smtp.gmail.com with ESMTPSA id q20-20020a170902789400b001d47868c31fsm8496519pll.194.2023.12.30.23.33.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Dec 2023 23:33:55 -0800 (PST)
-From: yongsuyoo0215@gmail.com
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	yongsu.yoo@lge.com,
-	v4bel@theori.io,
-	0215yys@hanmail.net
-Cc: Yongsu yoo <yongsuyoo0215@gmail.com>
-Subject: [PATCH] [PATCH] media: dvb_ca_en50221: Fix a bug for detecting CI MODULE
-Date: Sun, 31 Dec 2023 07:33:52 +0000
-Message-Id: <20231231073352.1929-1-yongsuyoo0215@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        d=1e100.net; s=20230601; t=1704015495; x=1704620295;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6GH49fe9P1LFfC/zNntRaTyPi/DVVoaN4qHiWXM/OtM=;
+        b=T3jKfK2TlSuII/2ZWNTiXYHRaRhcodggIPqmCN0HWwckYyFouJxA8UMh3uuZyvt966
+         R5DCCkjDAVhaFIeRmpS9JYucV0+EZs52126k/Gs+h35jKij8mov2BpRGGSEU53X/qg5Z
+         zK1tH9E8Emvpysiu78oPY/JuCWXm8adQ7YGkU7vjka/uP64MXTeqlX0870w0iJeOU840
+         BUhvdtS9mpRSp78jLi13LOGPHH/tdXQViKLU2+/dbsXALA8uYyQU49uPsn2GQnDRV+Z6
+         bSeW9Npl7T+2EmEsDwHezbgHXYH2qqAhKhRpPPRJ7UQakWyXHHXUVKgcz532h36YbIsY
+         6VAQ==
+X-Gm-Message-State: AOJu0YzSXtoenUzdKuB4EhUnHOlnpxWUGllUa91c5cc2XoZ/c9FiR0Lz
+	qph3e2EAbi/pBsHX2rduyCVUv/zkT5p34VhYC669dCbqUUV9bUJIZbOXSMVzyuSuvFNFjIGoZ3+
+	FY56hw4zMRI0Mzfl/3UbrgJv0zKaUQfRgDBW8EDI=
+X-Received: by 2002:a50:d659:0:b0:554:4dde:6646 with SMTP id c25-20020a50d659000000b005544dde6646mr9319616edj.9.1704015495638;
+        Sun, 31 Dec 2023 01:38:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHsdLgr/QXBiJ4I44Y8+TgG/zaD+DgQPBwKYBPXU1QroyHu/Mjj3koypyIhrQjThHzW7bCHEg==
+X-Received: by 2002:a50:d659:0:b0:554:4dde:6646 with SMTP id c25-20020a50d659000000b005544dde6646mr9319610edj.9.1704015495186;
+        Sun, 31 Dec 2023 01:38:15 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id ew10-20020a056402538a00b005546ba152f4sm10900308edb.71.2023.12.31.01.38.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Dec 2023 01:38:14 -0800 (PST)
+Message-ID: <e48ff1b3-73fc-4668-840e-129417ce2c08@redhat.com>
+Date: Sun, 31 Dec 2023 10:38:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: media: atomisp: Removed duplicate comment and
+ fixed comment format
+Content-Language: en-US, nl
+To: Jonathan Bergh <bergh.jonathan@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231014083545.173238-1-bergh.jonathan@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20231014083545.173238-1-bergh.jonathan@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Yongsu yoo <yongsuyoo0215@gmail.com>
+Hi,
 
-Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
+On 10/14/23 10:35, Jonathan Bergh wrote:
+> Fixed the following issues:
+>  * Removed a duplicate comment
+>  * Fixed up minor comment format issue
+> 
+> Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
 
-In source/drivers/media/dvb-core/dvb_ca_en50221.c, if the CA_RESET
-ioctl is called, the dvb_ca_en50221_slot_shutdown will also be called.
-Inside of the dvb_ca_en50221_slot_shutdown,
-the ca->slot_info[slot].slot_state will become DVB_CA_SLOTSTATE_NONE.
-In the most of cases, the ca->slot_info[slot].slot_state will quickly
-becomes restored to other states by the subsequent operations of the
-thread dvb_ca_en50221_thread_state_machine.
-But in some rare cases, when the CA_GET_SLOT_INFO ioctl is immediately
-called after the CA_RESET ioctl is called, the
-the ca->slot_info[slot].slot_state can still remains at
-DVB_CA_SLOTSTATE_NONE, and this causes CA_GET_SLOT_INFO ioctl not to
-return CA_CI_MODULE_PRESENT as info->flags even if CA_CI_MODULE is
-really connected on TV. This means that the CA_GET_SLOT_INFO ioctl
-does not return right informtion. This is a Bug. We fix this bug.
----
- drivers/media/dvb-core/dvb_ca_en50221.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Thank you for your patch.
 
-diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
-index baf64540dc00..8d37c3c13227 100644
---- a/drivers/media/dvb-core/dvb_ca_en50221.c
-+++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-@@ -1403,6 +1403,10 @@ static int dvb_ca_en50221_io_do_ioctl(struct file *file,
- 		    (sl->slot_state != DVB_CA_SLOTSTATE_INVALID)) {
- 			info->flags = CA_CI_MODULE_PRESENT;
- 		}
-+		if ((sl->slot_state == DVB_CA_SLOTSTATE_NONE) &&
-+		    (sl->camchange_type == DVB_CA_EN50221_CAMCHANGE_INSERTED)) {
-+			info->flags = CA_CI_MODULE_PRESENT;
-+	     	}
- 		if (sl->slot_state == DVB_CA_SLOTSTATE_RUNNING)
- 			info->flags |= CA_CI_MODULE_READY;
- 		break;
--- 
-2.17.1
+I have merged this in my media-atomisp branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+And this patch will be included in my next
+pull-request to Mauro (to media subsystem maintainer)
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  drivers/staging/media/atomisp/i2c/gc2235.h | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/gc2235.h b/drivers/staging/media/atomisp/i2c/gc2235.h
+> index 55ea422291ba..ade28950db73 100644
+> --- a/drivers/staging/media/atomisp/i2c/gc2235.h
+> +++ b/drivers/staging/media/atomisp/i2c/gc2235.h
+> @@ -74,9 +74,6 @@
+>  #define GC2235_COARSE_INTG_TIME_MIN 1
+>  #define GC2235_COARSE_INTG_TIME_MAX_MARGIN 6
+>  
+> -/*
+> - * GC2235 System control registers
+> - */
+>  /*
+>   * GC2235 System control registers
+>   */
+> @@ -167,7 +164,7 @@ enum gc2235_tok_type {
+>  	GC2235_TOK_MASK = 0xfff0
+>  };
+>  
+> -/**
+> +/*
+>   * struct gc2235_reg - MI sensor  register format
+>   * @type: type of the register
+>   * @reg: 8-bit offset to register
 
 
