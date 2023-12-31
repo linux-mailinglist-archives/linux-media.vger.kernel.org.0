@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-3131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3132-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13168820B6A
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 14:06:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AEB820B71
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 14:17:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C12C1F21731
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 13:06:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 052EBB21298
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 13:17:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A6925390;
-	Sun, 31 Dec 2023 13:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C24646A8;
+	Sun, 31 Dec 2023 13:17:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KCF92qqm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCPqqcbl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4291A4422;
-	Sun, 31 Dec 2023 13:06:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E4B4418;
+	Sun, 31 Dec 2023 13:17:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d427518d52so41462145ad.0;
-        Sun, 31 Dec 2023 05:06:00 -0800 (PST)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-28c7e30c83fso2138727a91.1;
+        Sun, 31 Dec 2023 05:17:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704027959; x=1704632759; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1704028629; x=1704633429; darn=vger.kernel.org;
         h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8ODXawsHJR4eKKT5RiYXWxhMa6vsUAfbFsXJZGtRm/w=;
-        b=KCF92qqmrZ4d96IW4hOdh6PBvEVF5keOcSsR7tPe88SqRELM/tkH272m27yUfTtoID
-         vogyqGKDnIKwNHhoNBRVozb+sW8U5gwOHw5zUqDYWajoThTILi8FzQTGyY1uuag8G0h1
-         eFPMWBbgHEI0YItFqjIZQapna41icoo7A4YSTqry0cUMAmQ5VW7f74ZYPjyvWPXEgVsx
-         9RcZKnINWKj8naXUsk7y2drsm/LEDa3SfLXmiYulyjP3xdDSPEPAtycNAQDNLC8JhFz8
-         sk5UO+gw2PP5EQLES6Qdp0Y7UvBBE0liJMg4YWTNP7aJPvmbsNoPFW3wnA8I8NqNQJr2
-         EZww==
+        bh=fHu3cl6dyYT2DX3fZ/mA0MeLZ4iLVn+iFMGJOWHCrvs=;
+        b=mCPqqcbl1TEaj9SVaRHfEd8TfoAk6wqWJRJ+xNtBPkU9+3/92A+m9E173HaSY3Gz1G
+         mCt3S5pgWNVKeHIdpJ/R7Cj/MHMpmw+ZaCOIxaCk9Z2N2Vbt6lOBmtQSx7HpmqLVA9Dw
+         8X1b6iZrX3kR/8syfwIsQuEo3SuXZ1BWRl7OlpMaNTnklGg4u4feCKPi9u5rZ6sn41ft
+         qJxXSFgYDizQWpR/3ZLVIEaH5s0i0v6aqebg12UbMYQX5Bl5QOjbOLo2v6ucFT/DuuG5
+         Yd7UMvaEfDEUlzL/v8mVyOTzwLHHUb5gvT7a02+LIf5y3dlx7hTm8w2teVxU7CWBKpLf
+         gZQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704027959; x=1704632759;
+        d=1e100.net; s=20230601; t=1704028629; x=1704633429;
         h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8ODXawsHJR4eKKT5RiYXWxhMa6vsUAfbFsXJZGtRm/w=;
-        b=ctrJEgJ78OTJGK14LtQx0KuBrE7Df2TU/etEVxTPlGYl0pky0f0F+3GvvN+XBjo5yM
-         HuMLf4NdPwNp+OeSBwzF2The3OJrvZaX/mluTEJttm9LE/vFyKneBjwxWAEHx+yu3285
-         0TTfghZEMW/+G8zMiu99acxuUMUMKZxLyhh4tFvf+nPdFQU8X9LnkWdNVaUO+kGCyiK9
-         Y7X5hMoq81kjh7D9ryVpg8sNpUJJejnS7RFfD7cHZgsS+FL1iyT2Dub/BEZ2T9H7C6C3
-         oUA7INSg7HWSiSERtu5aBOAv1UP96GBdMHi7baG7eGnU1c479sOTUGEDbcDHtkLUcE7d
-         Baiw==
-X-Gm-Message-State: AOJu0YygoWmalnVND+0sYjontswJUYY0zxnKyaoWyY+jeP3++Tx+XC5e
-	djG9n2TeLF7FjzF6G1ZphF8=
-X-Google-Smtp-Source: AGHT+IHtcVSsqpn2OhDdtONPYrd3CID5q3FzehUaHcETIpeA1Eu0aToGbx41tsGa1BUMaoa7kxCnVw==
-X-Received: by 2002:a17:902:e293:b0:1d4:381c:a3e5 with SMTP id o19-20020a170902e29300b001d4381ca3e5mr12389414plc.66.1704027959481;
-        Sun, 31 Dec 2023 05:05:59 -0800 (PST)
+        bh=fHu3cl6dyYT2DX3fZ/mA0MeLZ4iLVn+iFMGJOWHCrvs=;
+        b=BFJMr/f5SExegQ0+SDGR9vNVmYDexzU8T1kzO2wg4CZ1gWKv9eDkU0xyJWeHGYY1wl
+         SmLRVSZGvK1hrUjgVZQXINct/aB2DdWIUYOULaJoZCRnfZr6fsQpYBPUnqVh7kgE0Lc0
+         qcgDGo223V9l03ww9Z9Zyod9T5XheLW4Mq9gKnw5Rds1yD/6WPXBZDhboyTalGoIVJFF
+         pmFDkWVX4hAr35YchmR/p+/G4TWUxHLF27RKrpYC7KSQuw7ifArDjQUUk0EgDG8jIFfQ
+         KnqiX9A4ize7+7/j97fbWuGSzBnZUzc34sJFhx7bAABMA0aKobiURcP3E1VuodbO8aOa
+         LDPg==
+X-Gm-Message-State: AOJu0YzJxfpoS2lT8cNFBtRdwpSKQgRFGT/g4xDhx/eCty+M5J+0WE3H
+	QGylCJKLxe8LuzcfP656YAQ=
+X-Google-Smtp-Source: AGHT+IEOT0qWslOYTBT9RP4U96z3C3rbdX4/Wgvhdre5kbSDpFrA+gnekWdhdA4tAbQieESpdKavnw==
+X-Received: by 2002:a05:6a21:a5a4:b0:196:50c0:e21 with SMTP id gd36-20020a056a21a5a400b0019650c00e21mr1930287pzc.45.1704028629004;
+        Sun, 31 Dec 2023 05:17:09 -0800 (PST)
 Received: from goorm.ap-northeast-2.compute.internal (ec2-43-201-67-36.ap-northeast-2.compute.amazonaws.com. [43.201.67.36])
-        by smtp.gmail.com with ESMTPSA id b12-20020a655ccc000000b005cdf7923113sm13137144pgt.68.2023.12.31.05.05.57
+        by smtp.gmail.com with ESMTPSA id it21-20020a056a00459500b006ce71af841bsm14459164pfb.4.2023.12.31.05.17.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Dec 2023 05:05:59 -0800 (PST)
+        Sun, 31 Dec 2023 05:17:08 -0800 (PST)
 From: yongsuyoo0215@gmail.com
 To: mchehab@kernel.org,
 	linux-media@vger.kernel.org,
@@ -64,8 +64,8 @@ To: mchehab@kernel.org,
 	0215yys@hanmail.net
 Cc: Yongsu yoo <yongsuyoo0215@gmail.com>
 Subject: [PATCH] [PATCH] media: dvb_ca_en50221: Add a returing EBUSY logic into CA_RESET
-Date: Sun, 31 Dec 2023 13:05:55 +0000
-Message-Id: <20231231130555.1415-1-yongsuyoo0215@gmail.com>
+Date: Sun, 31 Dec 2023 13:17:05 +0000
+Message-Id: <20231231131705.2010-1-yongsuyoo0215@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -103,14 +103,14 @@ For preventing this problem from happening, we make CA_RESET ioctl do
 nothing and only return EBUSY if the ioctl is called during the
 "transiting" states.
 ---
- drivers/media/dvb-core/dvb_ca_en50221.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/dvb-core/dvb_ca_en50221.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
-index baf64540dc00..506a46844ad8 100644
+index baf64540dc00..2e8aec354b7c 100644
 --- a/drivers/media/dvb-core/dvb_ca_en50221.c
 +++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-@@ -1362,7 +1362,8 @@ static int dvb_ca_en50221_io_do_ioctl(struct file *file,
+@@ -1362,13 +1362,19 @@ static int dvb_ca_en50221_io_do_ioctl(struct file *file,
  			struct dvb_ca_slot *sl = &ca->slot_info[slot];
  
  			mutex_lock(&sl->slot_lock);
@@ -120,6 +120,17 @@ index baf64540dc00..506a46844ad8 100644
  				dvb_ca_en50221_slot_shutdown(ca, slot);
  				if (ca->flags & DVB_CA_EN50221_FLAG_IRQ_CAMCHANGE)
  					dvb_ca_en50221_camchange_irq(ca->pub,
+ 								     slot,
+ 								     DVB_CA_EN50221_CAMCHANGE_INSERTED);
+ 			}
++			else {
++				if (sl->slot_state != DVB_CA_SLOTSTATE_NONE) {
++					err = -EBUSY;
++				}
++			}
+ 			mutex_unlock(&sl->slot_lock);
+ 		}
+ 		ca->next_read_slot = 0;
 -- 
 2.17.1
 
