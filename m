@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-3120-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3122-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE04820B04
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 11:31:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D11820B06
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 11:31:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD7F21C20DDC
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 10:31:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E327A1C21305
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 10:31:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CF154436;
-	Sun, 31 Dec 2023 10:31:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C9B33EE;
+	Sun, 31 Dec 2023 10:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gk2L7dMN"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YB43SHhI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F909322A
-	for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 10:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64447539F
+	for <linux-media@vger.kernel.org>; Sun, 31 Dec 2023 10:31:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704018685;
+	s=mimecast20190719; t=1704018689;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bVNw4HygPHIpPoa8ZE/baFU/gyqzrIuRJMtfWwnNS+Y=;
-	b=gk2L7dMN7NFQ5vb5em6JpK0MvFfNdd/S34ddMHVOHCYngLWwN0pXdPNBwYJXzLrd0EVuJw
-	ewnPa5ERMmt59pVQyzZAbdDecbxDDzBf73wpcC1fu5dLE8GDy9kjxDsHVU2uE95eFeY51x
-	7AciiRuXOk9YpU8EDpFWM1ACIAKCKhU=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-34-xtljsz9-NBClt2aFPLLIdA-1; Sun,
- 31 Dec 2023 05:31:22 -0500
-X-MC-Unique: xtljsz9-NBClt2aFPLLIdA-1
+	bh=4edGzpRnZq7kVgd+JBN48IeCWGiNpHq7TZgEGSopufs=;
+	b=YB43SHhIFrujeDHah/4zmLfzvddvb65U39gzB0xnZJNqOdb2amVKFj32jT3NcH5eBL1lnp
+	Dt0CPWcfxd7WWpbiH+ZCfCK86YayuQZ+XMWIXbeOp7MuoCaPonBy7bo+Kw6ORHv/wudzfJ
+	dMrV+5j2oJNSqbavc0xhL07wlUa0cVM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-284-7kQ5xAdrPKerHCYNRsQM7g-1; Sun, 31 Dec 2023 05:31:23 -0500
+X-MC-Unique: 7kQ5xAdrPKerHCYNRsQM7g-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 84E223C0C48C;
-	Sun, 31 Dec 2023 10:31:21 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39696831014;
+	Sun, 31 Dec 2023 10:31:23 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0EEA1492BC6;
-	Sun, 31 Dec 2023 10:31:19 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B5D4A492BC6;
+	Sun, 31 Dec 2023 10:31:21 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -59,9 +59,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 08/15] media: atomisp: Fix atomisp_pci_remove()
-Date: Sun, 31 Dec 2023 11:30:50 +0100
-Message-ID: <20231231103057.35837-9-hdegoede@redhat.com>
+Subject: [PATCH 09/15] media: atomisp: Group cpu_latency_qos_add_request() call together with other PM calls
+Date: Sun, 31 Dec 2023 11:30:51 +0100
+Message-ID: <20231231103057.35837-10-hdegoede@redhat.com>
 In-Reply-To: <20231231103057.35837-1-hdegoede@redhat.com>
 References: <20231231103057.35837-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -73,47 +73,50 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-Fix atomisp_pci_remove():
--Remove uninformative "Removing atomisp driver" log message
--Add missing devm_free_irq(), atomisp_uninitialize_modules() and
- pci_free_irq_vectors() calls
--Move atomisp_msi_irq_uninit() down so that the remove() order is
- an exact mirror of the probe() order
+Group the cpu_latency_qos_add_request() call in probe() together with
+the other PM calls in probe().
+
+This is a preparation patch for futher PM fixes / work.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 336c5a895ecc..f3bd2c03dea5 100644
+index f3bd2c03dea5..7d99b53107b0 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1524,11 +1524,10 @@ static void atomisp_pci_remove(struct pci_dev *pdev)
- {
- 	struct atomisp_device *isp = pci_get_drvdata(pdev);
+@@ -1370,8 +1370,6 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
  
--	dev_info(&pdev->dev, "Removing atomisp driver\n");
+ 	atomisp_msi_irq_init(isp);
+ 
+-	cpu_latency_qos_add_request(&isp->pm_qos, PM_QOS_DEFAULT_VALUE);
 -
- 	atomisp_drvfs_exit();
+ 	/*
+ 	 * for MRFLD, Software/firmware needs to write a 1 to bit 0 of
+ 	 * the register at CSI_RECEIVER_SELECTION_REG to enable SH CSI
+@@ -1440,6 +1438,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	isp->pm_domain.ops.suspend = atomisp_suspend;
+ 	isp->pm_domain.ops.resume = atomisp_resume;
  
- 	ia_css_unload_firmware();
-+	devm_free_irq(&pdev->dev, pdev->irq, isp);
- 	hmm_cleanup();
++	cpu_latency_qos_add_request(&isp->pm_qos, PM_QOS_DEFAULT_VALUE);
+ 	dev_pm_domain_set(&pdev->dev, &isp->pm_domain);
  
+ 	pm_runtime_put_noidle(&pdev->dev);
+@@ -1486,11 +1485,11 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
  	pm_runtime_forbid(&pdev->dev);
-@@ -1536,8 +1535,10 @@ static void atomisp_pci_remove(struct pci_dev *pdev)
+ 	pm_runtime_get_noresume(&pdev->dev);
  	dev_pm_domain_set(&pdev->dev, NULL);
- 	cpu_latency_qos_remove_request(&isp->pm_qos);
- 
--	atomisp_msi_irq_uninit(isp);
++	cpu_latency_qos_remove_request(&isp->pm_qos);
  	atomisp_unregister_entities(isp);
-+	atomisp_uninitialize_modules(isp);
-+	atomisp_msi_irq_uninit(isp);
-+	pci_free_irq_vectors(pdev);
- }
- 
- static const struct pci_device_id atomisp_pci_tbl[] = {
+ error_uninitialize_modules:
+ 	atomisp_uninitialize_modules(isp);
+ error_irq_uninit:
+-	cpu_latency_qos_remove_request(&isp->pm_qos);
+ 	atomisp_msi_irq_uninit(isp);
+ 	pci_free_irq_vectors(pdev);
+ error_release_firmware:
 -- 
 2.43.0
 
