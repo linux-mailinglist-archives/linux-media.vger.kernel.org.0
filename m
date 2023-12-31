@@ -1,137 +1,120 @@
-Return-Path: <linux-media+bounces-3132-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3133-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AEB820B71
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 14:17:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 762C0820BB5
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 16:12:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 052EBB21298
-	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 13:17:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32CA4281AE5
+	for <lists+linux-media@lfdr.de>; Sun, 31 Dec 2023 15:12:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C24646A8;
-	Sun, 31 Dec 2023 13:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C556FD2;
+	Sun, 31 Dec 2023 15:12:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCPqqcbl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QjuUB8JT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E4B4418;
-	Sun, 31 Dec 2023 13:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B16610A;
+	Sun, 31 Dec 2023 15:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-28c7e30c83fso2138727a91.1;
-        Sun, 31 Dec 2023 05:17:09 -0800 (PST)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d408d0bb87so58471715ad.0;
+        Sun, 31 Dec 2023 07:12:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704028629; x=1704633429; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fHu3cl6dyYT2DX3fZ/mA0MeLZ4iLVn+iFMGJOWHCrvs=;
-        b=mCPqqcbl1TEaj9SVaRHfEd8TfoAk6wqWJRJ+xNtBPkU9+3/92A+m9E173HaSY3Gz1G
-         mCt3S5pgWNVKeHIdpJ/R7Cj/MHMpmw+ZaCOIxaCk9Z2N2Vbt6lOBmtQSx7HpmqLVA9Dw
-         8X1b6iZrX3kR/8syfwIsQuEo3SuXZ1BWRl7OlpMaNTnklGg4u4feCKPi9u5rZ6sn41ft
-         qJxXSFgYDizQWpR/3ZLVIEaH5s0i0v6aqebg12UbMYQX5Bl5QOjbOLo2v6ucFT/DuuG5
-         Yd7UMvaEfDEUlzL/v8mVyOTzwLHHUb5gvT7a02+LIf5y3dlx7hTm8w2teVxU7CWBKpLf
-         gZQA==
+        d=gmail.com; s=20230601; t=1704035542; x=1704640342; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jeYeBXSxdMTougCaSNrlMRCUw3h8MjaQqsA3L1UWeJM=;
+        b=QjuUB8JTqqseCZf1N/u7lIAnm8XbnAD8fmkv5Up9/lN7D2C5PRmxEvRM3eHrISEbpt
+         UYWEg0zCA7zgZWzam5IHFnkvU9Lx3UU13KHE60HFmf9aSfSHG1sI43Ajq8TLYx9YkP94
+         Rl0OvYZ4Tgc2vYIem144oitV6j5Q7PA/Ml7BPts0AzypmCI4Q1MPAiPPH0+RLJqs1isu
+         gDlRlf2HH537P8SOVhAOv3rxL2vADZV6fNSntOX0VtTUOKuMecxFD0QYcBVaMLDn3eKx
+         F0vZfZWaN2rcixs5vpYFl+Q7sgo5ll2uZFtvms3V46uCcjZbk6fxlVsZWcL2NA0EusYT
+         mauQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704028629; x=1704633429;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fHu3cl6dyYT2DX3fZ/mA0MeLZ4iLVn+iFMGJOWHCrvs=;
-        b=BFJMr/f5SExegQ0+SDGR9vNVmYDexzU8T1kzO2wg4CZ1gWKv9eDkU0xyJWeHGYY1wl
-         SmLRVSZGvK1hrUjgVZQXINct/aB2DdWIUYOULaJoZCRnfZr6fsQpYBPUnqVh7kgE0Lc0
-         qcgDGo223V9l03ww9Z9Zyod9T5XheLW4Mq9gKnw5Rds1yD/6WPXBZDhboyTalGoIVJFF
-         pmFDkWVX4hAr35YchmR/p+/G4TWUxHLF27RKrpYC7KSQuw7ifArDjQUUk0EgDG8jIFfQ
-         KnqiX9A4ize7+7/j97fbWuGSzBnZUzc34sJFhx7bAABMA0aKobiURcP3E1VuodbO8aOa
-         LDPg==
-X-Gm-Message-State: AOJu0YzJxfpoS2lT8cNFBtRdwpSKQgRFGT/g4xDhx/eCty+M5J+0WE3H
-	QGylCJKLxe8LuzcfP656YAQ=
-X-Google-Smtp-Source: AGHT+IEOT0qWslOYTBT9RP4U96z3C3rbdX4/Wgvhdre5kbSDpFrA+gnekWdhdA4tAbQieESpdKavnw==
-X-Received: by 2002:a05:6a21:a5a4:b0:196:50c0:e21 with SMTP id gd36-20020a056a21a5a400b0019650c00e21mr1930287pzc.45.1704028629004;
-        Sun, 31 Dec 2023 05:17:09 -0800 (PST)
-Received: from goorm.ap-northeast-2.compute.internal (ec2-43-201-67-36.ap-northeast-2.compute.amazonaws.com. [43.201.67.36])
-        by smtp.gmail.com with ESMTPSA id it21-20020a056a00459500b006ce71af841bsm14459164pfb.4.2023.12.31.05.17.07
+        d=1e100.net; s=20230601; t=1704035542; x=1704640342;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jeYeBXSxdMTougCaSNrlMRCUw3h8MjaQqsA3L1UWeJM=;
+        b=vU+GC4aSA0Al5t5EibRTSOLfEI3sYh7VcXuXRLx1bFgghBZ1WOCh19siAa6NiR5pJ4
+         50gTEcO/tpNW67yGtwNIdmJEwEDa5MsH3rPuF10Az2tOiunDqiQvYY1RTfthD4mLlxWo
+         S4hSd1g29W9ahD99rv4d4ojh3kLI7FnlFFLymCPRmB1ucuB4I5YmG1uqC2WcP+KQBarX
+         hXzT9j3YlzrDvWy2e4RmFtZBtgmUqgnnAIC62U9yGHpV9zv4b6UFnHx3Rm7aA5rPPb2N
+         6hjD85RDiT4rwlTDozkaNJQ+0yIa/HqZbrNXSV4YBLIvMH0CU4NI2Tk75gvVcTw/8r+a
+         QO/w==
+X-Gm-Message-State: AOJu0YyyJNju0JOLu6OzT9RJmsgBRGSSyB5vSA+UmopQTIEZXPqaLqJT
+	5Nx0bEM0r/1tDUhZnN+1Ix+SPI9JImwd6CzL
+X-Google-Smtp-Source: AGHT+IFYiCNMbl3dZt18tBdXWUUj2YyulwcA8ZtzasbEmO897ubaYYezbzhFB6TThhQZw069VWyoEQ==
+X-Received: by 2002:a17:902:e5c7:b0:1d4:35d6:f999 with SMTP id u7-20020a170902e5c700b001d435d6f999mr16284099plf.139.1704035541802;
+        Sun, 31 Dec 2023 07:12:21 -0800 (PST)
+Received: from localhost.localdomain ([2408:8207:2540:8c00:2643:6273:f90:f77e])
+        by smtp.gmail.com with ESMTPSA id a4-20020a170902ecc400b001d058ad8770sm18775011plh.306.2023.12.31.07.12.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Dec 2023 05:17:08 -0800 (PST)
-From: yongsuyoo0215@gmail.com
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org,
+        Sun, 31 Dec 2023 07:12:21 -0800 (PST)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	heiko@sntech.de,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org
+Cc: sfr@canb.auug.org.au,
+	liujianfeng1994@gmail.com,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	yongsu.yoo@lge.com,
-	v4bel@theori.io,
-	0215yys@hanmail.net
-Cc: Yongsu yoo <yongsuyoo0215@gmail.com>
-Subject: [PATCH] [PATCH] media: dvb_ca_en50221: Add a returing EBUSY logic into CA_RESET
-Date: Sun, 31 Dec 2023 13:17:05 +0000
-Message-Id: <20231231131705.2010-1-yongsuyoo0215@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	linux-media@vger.kernel.org,
+	sigmaris@gmail.com,
+	knaerzche@gmail.com
+Subject: [PATCH v3 0/2] [v3]Add hantro g1 video decoder support for RK3588
+Date: Sun, 31 Dec 2023 23:11:10 +0800
+Message-Id: <20231231151112.3994194-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Yongsu yoo <yongsuyoo0215@gmail.com>
+This is the v3 version of this series adding hantro g1 video decoder
+support for rk3588.
 
-Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
+RK3588 has Hantro G1 video decoder known as VDPU121 in TRM of RK3588 which
+is capable to decode MPEG2/H.264/VP8 up to 1920x1088. This vpu ip is also
+found in RK3568.
 
-In source/drivers/media/dvb-core/dvb_ca_en50221.c, if the CA_RESET ioctl
-is called, in a normal case, the state of the thread of the
-dvb_ca_en50221_thread_state_machine will transit like below order.
-DVB_CA_SLOTSTATE_NONE -> DVB_CA_SLOTSTATE_UNINITIALISED ->
-DVB_CA_SLOTSTATE_WAITREADY -> DVB_CA_SLOTSTATE_VALIDATE ->
-DVB_CA_SLOTSTATE_WAITFR -> DVB_CA_SLOTSTATE_LINKINIT ->
-DVB_CA_SLOTSTATE_RUNNING
-But in some problem cases, the state will become DVB_CA_SLOTSTATE_INVALID.
-Among the above mentioned states, the DVB_CA_SLOTSTATE_NONE and
-the DVB_CA_SLOTSTATE_INVALID are "already stablized" states,
-whereas other states are "transiting" states.
-The "already stablized" states mean no matter how long time we wait,
-the state will not be changed.
-The "transiting" states mean the states whose final state is not yet
-determined. The state keeps to be changed. Only after some time passes,
-we get to know whether the final state will be DVB_CA_SLOTSTATE_RUNNING
-or DVB_CA_SLOTSTATE_INVALID.
-During the "transiting" states, we do not yet know whether the
-CA_RESET operation, which triggered the "transiting" states, will
-succeed or fail. For this reason, during the "transiting" states, if
-another CA_RESET ioctl is called and if this new CA_RESET ioctl
-operation begins again, it will be meaningless and waste time.
-For preventing this problem from happening, we make CA_RESET ioctl do
-nothing and only return EBUSY if the ioctl is called during the
-"transiting" states.
----
- drivers/media/dvb-core/dvb_ca_en50221.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Test results from fluster can be found from thread of v2[1][2].
 
-diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
-index baf64540dc00..2e8aec354b7c 100644
---- a/drivers/media/dvb-core/dvb_ca_en50221.c
-+++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-@@ -1362,13 +1362,19 @@ static int dvb_ca_en50221_io_do_ioctl(struct file *file,
- 			struct dvb_ca_slot *sl = &ca->slot_info[slot];
- 
- 			mutex_lock(&sl->slot_lock);
--			if (sl->slot_state != DVB_CA_SLOTSTATE_NONE) {
-+			if ((sl->slot_state == DVB_CA_SLOTSTATE_RUNNING) ||      
-+			    (sl->slot_state == DVB_CA_SLOTSTATE_INVALID)) { 
- 				dvb_ca_en50221_slot_shutdown(ca, slot);
- 				if (ca->flags & DVB_CA_EN50221_FLAG_IRQ_CAMCHANGE)
- 					dvb_ca_en50221_camchange_irq(ca->pub,
- 								     slot,
- 								     DVB_CA_EN50221_CAMCHANGE_INSERTED);
- 			}
-+			else {
-+				if (sl->slot_state != DVB_CA_SLOTSTATE_NONE) {
-+					err = -EBUSY;
-+				}
-+			}
- 			mutex_unlock(&sl->slot_lock);
- 		}
- 		ca->next_read_slot = 0;
+[1] https://lore.kernel.org/all/CAAXNxMT3f68-ptM7Crhrfmn7iwTyJc9pwz4Beob+5beVODaSHQ@mail.gmail.com
+[2] https://lore.kernel.org/all/20231230153159.3748580-1-liujianfeng1994@gmail.com
+
+
+Changes in v3:
+ - Drop code in hantro_drv.c because hantro g1 vpu in rk3588 is compatible
+with the one in rk3568, only adding devicetree node should work.
+ - Change devicetree node name to video-codec@fdb50000 to match the reg
+address.
+ - Add dt-bindings rockchip,rk3588-vpu compatible with rockchip,rk3568-vpu
+ - Link to v2: https://lore.kernel.org/all/20231228131617.3411561-1-liujianfeng1994@gmail.com
+
+Jianfeng Liu (2):
+  arm64: dts: rockchip: Add Hantro G1 VPU support for RK3588
+  dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible string
+
+ .../bindings/media/rockchip-vpu.yaml          |  3 +++
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 20 +++++++++++++++++++
+ 2 files changed, 23 insertions(+)
+
 -- 
-2.17.1
+2.34.1
 
 
