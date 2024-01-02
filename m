@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-3144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FCA821604
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 01:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A9F821608
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 01:30:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4F30DB21187
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 00:26:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0607AB211F9
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 00:30:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ACC7377;
-	Tue,  2 Jan 2024 00:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2011B381;
+	Tue,  2 Jan 2024 00:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d2REO+HV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAJYnrS9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D8B36F
-	for <linux-media@vger.kernel.org>; Tue,  2 Jan 2024 00:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595F7379
+	for <linux-media@vger.kernel.org>; Tue,  2 Jan 2024 00:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-78154f49182so346867285a.2
-        for <linux-media@vger.kernel.org>; Mon, 01 Jan 2024 16:26:39 -0800 (PST)
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3bb9b28acb4so6015007b6e.2
+        for <linux-media@vger.kernel.org>; Mon, 01 Jan 2024 16:29:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704155198; x=1704759998; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1704155397; x=1704760197; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BHK+weecdtd0rznwJpxGMuBeQUXVbXrx5Dnm7/ILwvY=;
-        b=d2REO+HVCxubuK+C2zqA+Ne7+Ljo8B5dG2Gru8LNq2MBya6E7b/68oI/o8C7d8xuy+
-         x3LW+/H9ojcKF7qro3Pwezmt2mRWd+bEv2qsz29FN39ViCpetbiAEI5sz85G2yIWrkF0
-         YtffHvdTdz9NJ1UwaNsBQQEdQciHSnHqBo2eEdAkBVQ/mRooUeem2b/cQbjshZxbnfUs
-         ci7qSdkb6TcAckuNJd+GPtHm5A0TBn/G/jVrv/dLmNrKvQw9f0iRroOCPe/3/pcMu3wR
-         ZcQQ4R5cQNoAsfkJOdtQMgrmYXtYPOczlq7Jgz44tJpYjMHmdxvVqpAeRuiM2n1iDBUe
-         3GCw==
+        bh=Ph6TDL3JYb6QU+ylfDz9PufoDKnGEKXnDpwEDgPhJMc=;
+        b=fAJYnrS9+kh4H4OfHEgcWJbnHJi45nv403kxXL9DVwyytcCAtdQZ+Eep69W72U/oDd
+         nTysTcFu9wghWVvmki//4Z1ZOQZYgHMIUow07jXpq+NoMRX3SdRPHA1nLTI5UQ7o3W2I
+         HYXfDsquiRnUztW2EmRYeG4Z9KIuj17BpdMpf1y3z1AaVRBqfXyAy52aQhhhLCGJuM/0
+         0uH8CR0y0n5qFkGTvjdHwnFPLwTGr+g1sdEiDIlGoa55kayihPVfWNOnlY+PP7cNGy60
+         9T5E/XaxnSWU2+4riRQBTM+LlOEd4wGAIyRgIYzSzQj2wsWYkhs51Xz1QC28lR8sve4G
+         E8CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704155198; x=1704759998;
+        d=1e100.net; s=20230601; t=1704155397; x=1704760197;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BHK+weecdtd0rznwJpxGMuBeQUXVbXrx5Dnm7/ILwvY=;
-        b=KKb9w0WrVIknfolLFyGbioJwxnBZFLdgNI3EXEeFirdHL9elYAVxaP2XwljWpo1hQF
-         RZxFMkjwoRWrqco7SxeszQGFGomeTsjT5FpFTMUS0a7x3Jy8nDtyPprASLacflHDRTkI
-         Lm7elySFGrUGfGL2kcdo2hL54WMeszos/uvpaHcKjuWeqc91OZFssv/Prn9d3a4WRuR8
-         +EEVgVbSr+PvefaxtNtolBvhzDjSL6pFBoIvBf1yt7DmIgFWRaQJ1eB0uCVyO9FB2v7A
-         rS8yqkm9tKS9kRaUrissuRvpn0MVwmS0h7IXOnfV1F1b6SB4DlSVtJs4acB49gA90Z0y
-         vlmQ==
-X-Gm-Message-State: AOJu0Yxrq2W8TAUtx3d+rHofVxd/hq2uvy2qmh/jrnVOUb/JPBliuH+z
-	6OCasy0rBoijA3Cl7R5TuB0Je4Wni52U9xMXmw/q4HsmSgI=
-X-Google-Smtp-Source: AGHT+IHtxOC21wcsahP167SQoL/Xm4w3nq8uc6lhMBVOPkLn2Sfv3ar5XOLbBJ2wBG8A2Rz2gG7tS26IGjZ6t3SRpuk=
-X-Received: by 2002:a05:6214:1bc8:b0:67f:33dd:633 with SMTP id
- m8-20020a0562141bc800b0067f33dd0633mr20524292qvc.9.1704155198698; Mon, 01 Jan
- 2024 16:26:38 -0800 (PST)
+        bh=Ph6TDL3JYb6QU+ylfDz9PufoDKnGEKXnDpwEDgPhJMc=;
+        b=jG2Hz4J4d3QdN3Yk7x7mY1rdDRX6A69xT3OOlLbaobEq7jkPYOXf+rDBdTJoAoa88/
+         Q4Dy8i/cpHu9oUEnRABppKHa90C+DlpIB59KSLIxDKQxJvwbfQK7vC2R341wpjDgSrsT
+         XhlhEe0kR59hFWz8MtbeyeVDO1CGrkP+0URRCjJIhD2KBgY3IIMePbc9MdMTUeELFldL
+         Ux4tDBzLL/SactmfcHI1WnoMVWnpCUfe/ggS35AOTehuYpTIt3QNVMNDlPMsx6lO9mg6
+         H9I9bnykmrTAahWjQXfJ6hQXlZ5XIic/xT2VlQL9rQH7gGw7Us5qEtWxL0cXxzy7Jd8q
+         MUSg==
+X-Gm-Message-State: AOJu0YxknFvGV5LteV7oKNhBv2KlQ/wymESHNZubxMrgA777O1o3wQYg
+	EexzkcyuYNVSkTbua9YJOJOi3j2CJPMlZG+NP7Q=
+X-Google-Smtp-Source: AGHT+IHrwOvyHtB9syDbyARAjWpBYE0MoRi5r7DQed0Kdx28vHGvdLRwDvKzM9ZVp5buUu32iaJdpzESJuATkKqmCak=
+X-Received: by 2002:a05:6808:384d:b0:3bb:be52:49fc with SMTP id
+ ej13-20020a056808384d00b003bbbe5249fcmr14602556oib.84.1704155397327; Mon, 01
+ Jan 2024 16:29:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231231103057.35837-1-hdegoede@redhat.com> <20231231103057.35837-9-hdegoede@redhat.com>
-In-Reply-To: <20231231103057.35837-9-hdegoede@redhat.com>
+References: <20231231103057.35837-1-hdegoede@redhat.com> <20231231103057.35837-11-hdegoede@redhat.com>
+In-Reply-To: <20231231103057.35837-11-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 2 Jan 2024 02:26:02 +0200
-Message-ID: <CAHp75VebvROx+oQJ+R+OZvcwVk2UzcNdo2Tf1-N8uxNjT_WgYQ@mail.gmail.com>
-Subject: Re: [PATCH 08/15] media: atomisp: Fix atomisp_pci_remove()
+Date: Tue, 2 Jan 2024 02:29:21 +0200
+Message-ID: <CAHp75VdtJ2WhZKNH-HhsTfSUQykxVcqDqsW5aX-dbwuQeLG+PQ@mail.gmail.com>
+Subject: Re: [PATCH 10/15] media: atomisp: Fix probe()/remove() power-management
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -80,13 +80,11 @@ On Sun, Dec 31, 2023 at 12:31=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
 
 ...
 
-> -Add missing devm_free_irq(), atomisp_uninitialize_modules() and
->  pci_free_irq_vectors() calls
+> -Note this also swaps the order of put()/allow() and forbid()/get()
+>  so that the sync versions actually work by calling allow() before put()
+>  and forbid() after get()
 
-The devm_*_free() is usually a signal about something either tricky or wron=
-g.
-Please, split this part and/or explain better why devm_free_irq() has
-to be called explicitly.
+Missing period at the end.
 
 --=20
 With Best Regards,
