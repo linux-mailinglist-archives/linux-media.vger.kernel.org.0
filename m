@@ -1,170 +1,111 @@
-Return-Path: <linux-media+bounces-3138-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3139-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0E4821431
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jan 2024 16:23:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7938215FB
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 01:15:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AFD23281F11
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jan 2024 15:23:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9100E1C20CDD
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 00:15:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 988FD6123;
-	Mon,  1 Jan 2024 15:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 227F6363;
+	Tue,  2 Jan 2024 00:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="um9n6pCm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Id3FOi7g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AB0610B;
-	Mon,  1 Jan 2024 15:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 389412B3;
-	Mon,  1 Jan 2024 16:21:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704122518;
-	bh=3H0pGVXkmvQq4iSjto9/8c7JIW0F+uQywqKCqLYStOw=;
-	h=In-Reply-To:References:Subject:From:To:Date:From;
-	b=um9n6pCmOvk/UMif8+aDf7Uuna+aDZ0+wPeo5oOcpu9+mo1r+J8BATXwsRdB1fqs/
-	 RFw4dTAyibv09tjoWYoj37oWat0zT0SBh0sG6cqaAkUPhVYzZ4/8XaeG7UVQIHMsCL
-	 lGideJzYOaDAGdnZWXj41HrDXCUsiZ8kUCLGKWCU=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E55EBF
+	for <linux-media@vger.kernel.org>; Tue,  2 Jan 2024 00:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-67f7aa55bfeso77914366d6.2
+        for <linux-media@vger.kernel.org>; Mon, 01 Jan 2024 16:15:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704154503; x=1704759303; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nIwM6KRZK3tz4EwN0J1avePE2ZDdYEFfaEyBcpZ/vcU=;
+        b=Id3FOi7g1UuTMGsXjRzRj06GUk3VL3ayvv80WuD3Wu1L/rLhKzoouuJdAGS43tUwGG
+         0fpHCgK8LYA0Mu7X2pVxsGocctHvzP8CoQ+V5a2YfrNoNbn3wIze5z/rPU0pQ0TfNQiz
+         pQ1G7q3kTBMSk+PKINUwK3Z1fnfuUsAuyBFd9cnGrKpZFSGUfmrrbTRcYGmzQMlnbKpg
+         sartA+2rLQvjKU4Py8NC/rDr+yqtc4PuCUBvQXBVtu1N9HtDhmsfgGgPLEiE/rPOh5Ij
+         HPLrp7vX3vQIG6rcb7ejJLOmBMX8i3SNuO3vEo/Tqf5Pp5ocwnrUiDhLXiA0jriEagIC
+         3UgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704154503; x=1704759303;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nIwM6KRZK3tz4EwN0J1avePE2ZDdYEFfaEyBcpZ/vcU=;
+        b=PVEpkZ26H122afcJ+pDFGoh6j46pJalHymyQcMo6dFS/bfL1xEBj1UNbV7HjY9Qk60
+         6MvuZMGWTHeKCuHMPQ/o6t9TvbSjhWZOWWbeHL5HeVsuKpk+QjxnWaFiqO15X/Q6y7ic
+         UgyVPkJCbxNZDFJQKBOdrH8/pOnLx0y2IMqhN96LqpNIupUod6tjU1AUR/XNOamqbHJc
+         gGScft52+bGutYkjNsOraAxcV0smUbesvTFcBpT2gGPM0AQ7sIYv8O/PCeC+MPVMFKrW
+         SVxIxyBpBrxN/OKLiWBlkbIFJxER2nPjhmMeMTtNeXyjJCskZ3Crytb/wbVMZyED5eam
+         Ar2Q==
+X-Gm-Message-State: AOJu0Yw1x/csZwqaZQpBQdYAcc2MBjTVXR+AZ58UCpo49bNnPwBaX/7b
+	w9za+E6VegIgy+00k287JMYBAbTjw4CgSozVH/A=
+X-Google-Smtp-Source: AGHT+IGgWzk5CRUI1H8y+iXsp6s9wfUFhaHnBYT3P/nZpwwAeZhSFkWSy0uBAAg10PFrOj0suCjhBDoHA+r/pjoLHpU=
+X-Received: by 2002:a0c:ee8e:0:b0:67f:cceb:465a with SMTP id
+ u14-20020a0cee8e000000b0067fcceb465amr16174040qvr.88.1704154503028; Mon, 01
+ Jan 2024 16:15:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20231231103057.35837-1-hdegoede@redhat.com> <20231231103057.35837-2-hdegoede@redhat.com>
+In-Reply-To: <20231231103057.35837-2-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 2 Jan 2024 02:14:27 +0200
+Message-ID: <CAHp75Vf9pa9MsKc1YJex3sBAPMuRtYYOck8_9Ryz=RNuP5JTmA@mail.gmail.com>
+Subject: Re: [PATCH 01/15] media: atomisp: Adjust for v4l2_subdev_state
+ handling changes in 6.8
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <MAZPR01MB695797DF964AA599AF2D7D05F29DA@MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM>
-References: <20231227133516.1356553-1-bhavin.sharma@siliconsignals.io> <170376380893.2881109.11558061738942135116@ping.linuxembedded.co.uk> <MAZPR01MB695797DF964AA599AF2D7D05F29DA@MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH] media: adv7180: Fix cppcheck warnings and errors
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Bhavin Sharma <bhavin.sharma@siliconsignals.io>, lars@metafoo.de, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, mchehab@kernel.org
-Date: Mon, 01 Jan 2024 15:22:53 +0000
-Message-ID: <170412257392.923098.3453218353962810283@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
 
-Quoting Bhavin Sharma (2023-12-29 13:37:14)
-> Thanks for the reply,=EF=BF=BDKieran
->=20
-> >> WARNING: Missing a blank line after declarations
-> >> ERROR: else should follow close brace '}'
-> >>=20
-> >> Signed-off-by: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
-> >>=20
-> >> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> >> index 54134473186b..91756116eff7 100644
-> >> --- a/drivers/media/i2c/adv7180.c
-> >> +++ b/drivers/media/i2c/adv7180.c
-> >> @@ -357,6 +357,7 @@ static int adv7180_querystd(struct v4l2_subdev *sd=
-, v4l2_std_id *std)
-> >>=EF=BF=BD {
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD struct adv7180_state *state =3D to_state(sd);
->=20
-> >>Personally, I would keep the if (err) hugging the line it's associated
-> with.
->=20
-> If we follow the code base pattern for this diver, we are getting same on=
-line space in conditional if statements.
-> So, we need to make changes there also.
+On Sun, Dec 31, 2023 at 12:31=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
+> wrote:
+>
+> The atomisp driver emulates a standard v4l2 device, which also works
+> for non media-controller aware applications.
+>
+> Part of this requires making try_fmt calls on the sensor when
+> a normal v4l2 app is making try_fmt calls on the /dev/video# mode.
+>
+> With the recent v4l2_subdev_state handling changes in 6.8 this no longer
+> works, fixing this requires 2 changes:
+>
+> 1. The atomisp code was using its own internal v4l2_subdev_pad_config
+>    for this. Replace the internal v4l2_subdev_pad_config with allocating
+>    a full v4l2_subdev_state for storing the full try_fmt state.
+>
+> 2. The paths actually setting the fmt or crop selection now need to be
+>    passed the v4l2_subdev's active state, so that sensor drivers which
+>    are using the v4l2_subdev's active state to store their state keep
+>    working.
 
-If there are multiple places in a file for the same fixup, then indeed -
-make them all in a single patch as a single cleanup.
+Two comments:
+- why not 'if (!ret)' in a few cases?
+- can actually v4l2 generic code define a class for
+v4l2_subdev_lock_state() (and friends) via cleanup.h and hence make
+those labels and unlocking calls unneeded with use of guard() /
+scoped_guard()?
 
 
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD int err =3D mutex_lock_interruptible(&state->mutex);
-> >> +
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD if (err)
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
- return err;
-> >>=EF=BF=BD=20
-> >> @@ -411,6 +412,7 @@ static int adv7180_g_input_status(struct v4l2_subd=
-ev *sd, u32 *status)
-> >>=EF=BF=BD {
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD struct adv7180_state *state =3D to_state(sd);
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD int ret =3D mutex_lock_interruptible(&state->mutex);
-> >> +
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD if (ret)
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
- return ret;
-> >>=EF=BF=BD=20
-> >> @@ -1046,8 +1048,7 @@ static int adv7182_init(struct adv7180_state *st=
-ate)
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
-=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
-=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
-=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD ADV7180_REG_EXTENDED_OUTPUT_C=
-ONTROL,
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
-=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
-=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
-=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD 0x17);
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
-=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD }
-> >> -=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD }
-> >> -=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD else
-> >> +=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD } else
->=20
-> >>I think kernel code style requires an else clause following a multiline
-> scope to also have its scope enclosed in braces even if it's a single
-> statement.
->=20
-> On many places in driver there is single statement after else without clo=
-sing=EF=BF=BD
-> So, we have to make changes in those places also.
->=20
-> So, better I should make changes in all places and make version V2 patch.
-
-Yes, but you should probably tackle both cleanups as two patches
-covering the whole file for each cleanup.
-
---
-Kieran
-
-
->=20
-> Please give your suggestions.
->=20
-> --
-> Bhavin Sharma
->=20
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
-=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD ad=
-v7180_write(state,
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
-=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
-=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD ADV7180_REG_EXTENDED_OUTPU=
-T_CONTROL,
-> >>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
-=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
-=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
-=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD 0x07);
-> >> --=20
-> >> 2.25.1
-> >>
+--=20
+With Best Regards,
+Andy Shevchenko
 
