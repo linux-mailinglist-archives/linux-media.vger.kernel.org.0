@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-3155-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3156-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C538218C9
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 10:15:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4702D8218E7
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 10:28:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 104F128334F
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 09:15:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A0CB1C21780
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 09:28:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C836E6AA6;
-	Tue,  2 Jan 2024 09:15:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B883746B;
+	Tue,  2 Jan 2024 09:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m6E0Itzo"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nPgXO884"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34FD5663;
-	Tue,  2 Jan 2024 09:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5386AA7;
+	Tue,  2 Jan 2024 09:28:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1704186897;
-	bh=h1vYuqHfw4Si6zEFGSCOCtG/Sf6p6ZMOenHPLIBQu1g=;
+	s=mail; t=1704187707;
+	bh=gn5FpuH9CD4cUJLZXPICGs3i6tDEmWT7HtO3PfLeCgc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m6E0ItzoMYPOvZwdJ9vXEdYJcHQj2X7R7GUh7rEnF6uqjrJAqHNJX3fZ3YU90QkKU
-	 F9M5a57t4N/SSBoXdtO4wexHOIXr6JezHTjwTfk/bn5eB6ESJ5brgIpgpJg+0uFUgx
-	 eAA3GEsNK8JwORvp5Z92CAXqqHRFDY9eXDPNzy2yH1YEXxjy4xrZYTJ24Eo7ih8RWQ
-	 JpVi3bA6HlY9j0bpLSFgcJBnlVEFGRMbToEGWiMU1T5Mt1ssk35v2Rrc2myfLVzreC
-	 f3QT+tq67VkSLRWIXHTZoLqX52FD2udi4EGOUle0jz6Oxm8TGKETdtr0iLM3rhXtnq
-	 kROLcNG31KPDg==
+	b=nPgXO884a+Eq0z4hmL++VX1/Z7gHK4mqbGOWWtBUKM14g7nEmlHwqdEit8GZIZ2Rv
+	 pNv6IFOdRH3iCg8Q4lzHUlpfv3V4DBbtr3+BMJe+3voFUhXIq2+yDMXGPDu4YjSqPN
+	 aj9ExNclKXsReyrqbE0W7FZ8K1JpLFHySrbLrS/MRWrtQ5hZxParUbjbokUjIUUlEp
+	 TnAJ1M3gSGiodthnO2d1QWOo3HyIN3RygaD8fPeCedPokPUCX/dJIOcxHr3AmP/Z1Y
+	 Lr3OLY22zZmPhDT2w2dgocdYqvNnv+nEOswkadZJJrjnTxQUzuyPo3tvY23D1GwsUb
+	 otaPuoKMDxvfQ==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 224FC37804B2;
-	Tue,  2 Jan 2024 09:14:56 +0000 (UTC)
-Message-ID: <d44ccb77-1bd9-43fe-be2d-cc2c342eae89@collabora.com>
-Date: Tue, 2 Jan 2024 10:14:56 +0100
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D7B8037813DB;
+	Tue,  2 Jan 2024 09:28:26 +0000 (UTC)
+Message-ID: <39d7a40b-3618-4746-9229-c9dbe1e19d2e@collabora.com>
+Date: Tue, 2 Jan 2024 10:28:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,35 +48,63 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] arm64: dts: mediatek: mt8186: Add venc node
+Subject: Re: [PATCH 2/2] arm64: dts: mediatek: mt8186: Add jpgenc node
 Content-Language: en-US
-To: Eugen Hristev <eugen.hristev@collabora.com>, tiffany.lin@mediatek.com,
- andrew-ct.chen@mediatek.com, matthias.bgg@gmail.com,
- linux-mediatek@lists.infradead.org
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- robh+dt@kernel.org, kernel@collabora.com, Kyrie Wu <kyrie.wu@mediatek.com>,
+To: Eugen Hristev <eugen.hristev@collabora.com>, bin.liu@mediatek.com,
+ matthias.bgg@gmail.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
  Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>
-References: <20231228113245.174706-1-eugen.hristev@collabora.com>
- <20231228113245.174706-7-eugen.hristev@collabora.com>
+ Hsin-Yi Wang <hsinyi@chromium.org>, Max Staudt <mstaudt@chromium.org>,
+ Ricardo Ribalda <ribalda@chromium.org>
+References: <20231227130812.148914-1-eugen.hristev@collabora.com>
+ <20231227130812.148914-2-eugen.hristev@collabora.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231228113245.174706-7-eugen.hristev@collabora.com>
+In-Reply-To: <20231227130812.148914-2-eugen.hristev@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Il 28/12/23 12:32, Eugen Hristev ha scritto:
-> From: Kyrie Wu <kyrie.wu@mediatek.com>
+Il 27/12/23 14:08, Eugen Hristev ha scritto:
+> From: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
 > 
-> Add video encoder node.
+> Add JPEG encoder node.
 > 
-> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
 > Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
 > Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Max Staudt <mstaudt@chromium.org>
+> Tested-by: Max Staudt <mstaudt@chromium.org>
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > [eugen.hristev@collabora.com: minor cleanup]
 > Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
+> ---
+>   arch/arm64/boot/dts/mediatek/mt8186.dtsi | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+> index e451b6c8cd9e..ef1b269f9184 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+> @@ -2054,6 +2054,19 @@ venc: video-encoder@17020000 {
+>   			mediatek,scp = <&scp>;
+>   		};
+>   
+> +		jpgenc: jpgenc@17030000 {
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Can we please call this jpeg-encoder@17030000 instead?
+
+> +			compatible = "mediatek,mt8186-jpgenc", "mediatek,mtk-jpgenc";
+> +			reg = <0 0x17030000 0 0x10000>;
+> +			interrupts = <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH 0>;
+> +			clocks = <&vencsys CLK_VENC_CKE2_JPGENC>;
+> +			clock-names = "jpgenc";
+
+clock-names ...
+iommus ....
+power-domains ...
+
+Cheers,
+Angelo
 
 
 
