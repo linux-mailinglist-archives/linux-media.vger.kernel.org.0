@@ -1,172 +1,161 @@
-Return-Path: <linux-media+bounces-3161-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3162-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF435821AF4
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 12:30:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97832821C6B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 14:15:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 267AD28315E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 11:30:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2CCE828397C
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 13:15:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B712E544;
-	Tue,  2 Jan 2024 11:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="antb9SW0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0F25F9FC;
+	Tue,  2 Jan 2024 13:15:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01on2079.outbound.protection.outlook.com [40.107.239.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A89E554
-	for <linux-media@vger.kernel.org>; Tue,  2 Jan 2024 11:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704195024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YA2sEJqc+eoyhMOBnoo4ckR0PWGURW4RmLd8t+uinbw=;
-	b=antb9SW0pES5saDqGPGHATcGPDk9b0mZJJIvAOqySPfbWnsx9tZny2iUPRU+8Dh55HIJqn
-	lMGM1aUk7uJDibeaj5lN0oFIZI1DXbCNqQYku72/MaNl/f5wBy1KoYz1N35jkzVzDTbv1G
-	i5+gkVJxdl4G1BB1upCHn1mTEIezzhI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-626-lJi6QAQ2OFe_6hjmJ81Hkw-1; Tue, 02 Jan 2024 06:30:23 -0500
-X-MC-Unique: lJi6QAQ2OFe_6hjmJ81Hkw-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5560cd16f03so1092672a12.2
-        for <linux-media@vger.kernel.org>; Tue, 02 Jan 2024 03:30:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704195021; x=1704799821;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YA2sEJqc+eoyhMOBnoo4ckR0PWGURW4RmLd8t+uinbw=;
-        b=HAIqmbUUSNhwN6SkFj/+ompwze7oFqDJnigQl56m6S+8CRtb64hlxT7YZPwsYMRKZQ
-         XTMp5ROq2uWDuPltvUlcF0Kgl5CAtQAGlWwEuJSCILCZhkiHkEGgoKlaPUS3FOXA1euh
-         uUZVUSLktFlyhNK2UDuJpFFHwl5dbgtmalWMJB5KNcb7+OgKPb6o8QEd5UV5bSdXNaFZ
-         eSG1K8pVkO4VimdRmYn68E6lHjZaaMd9k2e/stZaDMZNRm6w+6pEAsdLWx3s7N7dcTVb
-         Gby5M+HnkGwcHmR8FbXRBYqGnSdgF3HEzbAhzZq+sjXxe2jcSspHt8zAs0GE6myatNem
-         2Cyg==
-X-Gm-Message-State: AOJu0YwS5PEriuP3r5oGmsMQmcasH9pJzlhWIvVH00DNowON6mTKOmEo
-	ZbFtWv89zOlRzKOVWuaDPfpm3kgLh20nZIoBjKF3/gBO08AH2bh7F+bCYFyc5eHSENoH1O5cHal
-	yJFY0enZk/Lf5LprS7zsFPOqmiuZtWK/njHZrBBY=
-X-Received: by 2002:a17:906:108d:b0:a26:e013:947f with SMTP id u13-20020a170906108d00b00a26e013947fmr7159380eju.76.1704195021578;
-        Tue, 02 Jan 2024 03:30:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFGoP3XZvu8pZ0HNlZf3eVhDWP6+U4nXBF/z+n8jYdA9QLgK5YDAZovWly7vUNZsun4qUgJiw==
-X-Received: by 2002:a17:906:108d:b0:a26:e013:947f with SMTP id u13-20020a170906108d00b00a26e013947fmr7159367eju.76.1704195021219;
-        Tue, 02 Jan 2024 03:30:21 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id zr16-20020a170907711000b00a26af905229sm10757454ejb.29.2024.01.02.03.30.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jan 2024 03:30:20 -0800 (PST)
-Message-ID: <960cc0a6-6ef8-4a66-8f83-89e854b7b578@redhat.com>
-Date: Tue, 2 Jan 2024 12:30:19 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D030FBE2;
+	Tue,  2 Jan 2024 13:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EmCtO0ViOiSNOZIE5F6WrHopMvAef+sfkSJmFvFPJPf/tvocy6x99oInli+iq/WW/yYTcLZ9AA5rQynHilvrA5f3gRMusDqagjYS+RI+TN21d12LnfsKKWSeN+LM7AsaYn115TOG2mUqJZi1F2SRLW23QDSs7y25f0vMEvKMlsnq07UBxc3bPYh5Vhef1WdDcX37ZXx6JoIf+0mwlbHpOB2QRGNh7n/oGFebr1LbLbvKOnkfGiAEag6v0pNaMCCLDNBqh5jRK4hoCZFw9FHtHu8cGSOyNyUxViGMJbavLqA4bsTgI82niVl2pLkxGqSk0XC/mduC0bQgtIEqLAUbFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pk2k7HCUO2fW3r8o+R4rlpx/u5bswYcg4/m43ayJwdQ=;
+ b=l3TzO/NOCT8cIH3ACK9Es7XT5ufHFBlJH5a69l6eUiZvZm/pdHT6lIvC11WEerQFRcIkVjLm4NJ1S2eS2tyCOIjaTrZHNM9sVIjyjqHOV5JB5HInECO8jTpHR4gZwVbokVV8QYfcunHommkNhxuA2UmCmNkp34TulvX3ID2UUEEBsntNETvqSDDCtQsMlEhjmk4lv+d3+OSrMltQ/146AbzQRE3UTJ5aCM7vGPjZkVEsUpWWOMQ/4nwesOauiSsrPE7sNPFjXI3ZV5cpI0WpXl2on9NFBEYlLaxMphs/UtBWNJTZN0Zp27v2Z0WxA993UImQ9hrBRwi1cok9vycU6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from PN3PR01MB10135.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1df::8)
+ by MAZPR01MB7376.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:59::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Tue, 2 Jan
+ 2024 13:15:41 +0000
+Received: from PN3PR01MB10135.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::e2fc:c41e:7375:e933]) by PN3PR01MB10135.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::e2fc:c41e:7375:e933%3]) with mapi id 15.20.7135.023; Tue, 2 Jan 2024
+ 13:15:41 +0000
+From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+To: stanimir.k.varbanov@gmail.com,
+	quic_vgarodia@quicinc.com,
+	agross@kernel.org,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	mchehab@kernel.org,
+	quic_dikshita@quicinc.com
+Cc: himanshu.bhavani@siliconsignals.io,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: venus: use div64_u64() instead of do_div()
+Date: Tue,  2 Jan 2024 18:45:09 +0530
+Message-Id: <20240102131509.1733215-1-himanshu.bhavani@siliconsignals.io>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BM1P287CA0010.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::20) To PN3PR01MB10135.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:1df::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/15] media: atomisp: Replace atomisp_drvfs attr with
- using driver.dev_groups attr
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
- Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
- Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
- Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20231231103057.35837-1-hdegoede@redhat.com>
- <20231231103057.35837-12-hdegoede@redhat.com>
- <CAHp75VfHN1gbWRX20PpWVevmA+P9E4GCdkG0vRYQQ_QZvWKUsQ@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VfHN1gbWRX20PpWVevmA+P9E4GCdkG0vRYQQ_QZvWKUsQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3PR01MB10135:EE_|MAZPR01MB7376:EE_
+X-MS-Office365-Filtering-Correlation-Id: efdd9e03-e5cc-477d-c5ac-08dc0b94eb68
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	zjgWzbURvx6kv8VYV7+Sh5+aa1gG08b1qc06cKnNcWiY2mhdH+cwrejKTFkDUrat9usF5SKLlknCugxULEtzcFdAldkAiLYOPcJlxsC9P1MMrZbPuOlkq4h4GZ10jcHFlIypd91gnUeX6e6q+3b34g9yYl/vmZGpXdWzeKrcMYMQJ9vTqraUohhpdXwdhThfnsVH3KoHOmBMPQPcgAG9L6PodSgeqdeCNrQDAURmpO8qJLXTMHCYZs/0durwmHraGvrOEvdeY9milnT8muSsHNMN5wFJAwzJUSfjRDe6zM02QvtVYlHGJkJOzOz3b9nDp65EB7acFaBOIrOsy2X82ykuM4dq3bcOd0KFeeLH0hUcEqlGqHjSC+SobuS5NrBygWJexMh09Cg91PFPT+Ec+qjqqsOx/dS21pfbxPGlEn1v5d3SMP4F8bhSUiIvENcIYxFtdgPpEBzipA300OQ5WM4FBQqQTleO6QbbnKGWkvbPnSG1o6eP2esjzTf20WtHY63kI6L0jmOoHghxt4kxzqYuhYTdtOIEFAvvtDtbSQLqezp27bfAqFIvhxP5sMG7f/MmTv/5Pk/2MtACw62fp5NppbtavyQt1PAEaYP+Bf9hlFGN13ilA3zDWkH/Xz84SuInhEdX8k6on2XqcESap25XoyP4fO+ns1CHTYPlwLc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3PR01MB10135.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(396003)(376002)(136003)(346002)(366004)(230922051799003)(230273577357003)(230173577357003)(64100799003)(1800799012)(451199024)(186009)(6512007)(52116002)(6666004)(478600001)(6506007)(6486002)(83380400001)(26005)(1076003)(2616005)(7416002)(2906002)(41300700001)(66476007)(5660300002)(4326008)(8676002)(8936002)(66556008)(44832011)(66946007)(316002)(38100700002)(38350700005)(86362001)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?bNxJMJFbXGuGI3khobvxl59izhEzDQ/Y55l00+2CoQnpW7NirtRefA3ioRHA?=
+ =?us-ascii?Q?VnaM8QdCDKBCooVPK0pPXmwK7gGPcQ9jooO/4MfwDNx+8ebd8v6bx384GM5W?=
+ =?us-ascii?Q?ArCg7mcb318nRGcDveSROJpyanBaf/hm49UO3fLYEj6OuL9QkOQKEID3LB9t?=
+ =?us-ascii?Q?lSHc5VGJh69rbS5jPR2eTUgqPRkdQTohqcgMxggd/OTuj0FUdldO3lTXEIYN?=
+ =?us-ascii?Q?YqXlnapI+6djd6thCQQ7NZxezT/JNi0PxYWyO5PDH4XHlAsTmHHeeALz0xbU?=
+ =?us-ascii?Q?Abphjbg/zJwYABeBXZrc4eWa+aWeSfRAZKWQ1NznwoGvMGGAXYYTfzYrIL6C?=
+ =?us-ascii?Q?WyVCatsw7/7jo8/ozkK9ULhSTYLF3VQ/lb6DikAH9dHcivusRYKUQYOQu9Z4?=
+ =?us-ascii?Q?EIQKhEkTFh1u8W+Qw4Z114awps9OeMGlcy+QnMOr8Q0MT+U5PLjUUqdrSkRg?=
+ =?us-ascii?Q?jVQOnXYIvjvsLyJw/0lbcTbd3gTVOStCn7t+fRZc/KZQjk4JkJWQmUuvh4ME?=
+ =?us-ascii?Q?4nMoL6/pzgaiXLKICSzXttPYWhEgW+E1Lz+dP50kD7quX3JnqpoOrbQgDpzB?=
+ =?us-ascii?Q?GbqFb5XZ5+n4I/TTBPlnK8c6RpnG8unTJWkw9OuWPAnn+qPIPDdRtQp9Sk6y?=
+ =?us-ascii?Q?0YmfYV2AqmqlMtgQDxnXUPapxIXkSW+fL7reRFqurK7QULPJY01TYszLat1q?=
+ =?us-ascii?Q?UZ3STLNB/EcIkm8X0nQ/mcFdnGWZK3kc3Alh+2dcexNNID4xgT7Dus/ugRDH?=
+ =?us-ascii?Q?bMaJK5x1PbJ0vPYFvhRf7H+2hIRPO0vXmOaxcxQF+zPvfmkETKVRG7LWn8ua?=
+ =?us-ascii?Q?KSl7YyIkr7qtTytVdVGsoygpVHHR5n9wTjJ7xY3cyswNm/CFABCYm197iPjq?=
+ =?us-ascii?Q?SXlcRJyBJu5XrlabddRWw+B5UJ3zbaqv6lm9PwExw1kH/TSBMCtC5F6MLgyM?=
+ =?us-ascii?Q?Tp50A/U0UUn3Snb8bq4ZXo8PJGGcIO9Jc5kyw1Eq1lpglzs8XP5ZuzPkJjdI?=
+ =?us-ascii?Q?swgYaaztzUbSInZOEPLAkg5X1WS9aSZVsfe6sUR9vTTGRwLep9htwYxmtu/S?=
+ =?us-ascii?Q?HfID3V2APm4t90V8HM4bFs2LVyA3NiVTQIKlGcygIVjcn2BCJE5r6lhsxusV?=
+ =?us-ascii?Q?sfgSKE35RG61YUhQebrmSSCOhMrPAS0Yp5xzLBR1MWyRs1FG2cHB7OcTZKNk?=
+ =?us-ascii?Q?DdV4DeSCH2HVjwiRbVDwhjmjYKVbWSYm98XsLCqA5D6lDwkAow70rPRqq61U?=
+ =?us-ascii?Q?X2aihtQHbre0bQE+17UTlNNV1ms36/h9QrC5zqAj9jc8LgZP6p5UVc8CD99g?=
+ =?us-ascii?Q?SjRkHhylaaYpKkcAlkCfXt/Pbpqq15BCwOo4hLyxjNISu4pC+bN2aUtA87KI?=
+ =?us-ascii?Q?x0R4uCCmH+5FFLYBxo+WHp5bZWLm8Mu8W3gWg42GcjQJHS9i8l6J/OfciE82?=
+ =?us-ascii?Q?XLD5o7EvBbVPC775Q8YtSBZVYfmPTBBiNRh78p0RdCHU1dcgv4YEZ/4QTXgf?=
+ =?us-ascii?Q?aHizuNJ0AEXRdpObMntNaWF40h2oQoPi6ev6/kLeBr0nKNChzQ0Oapwq3S+X?=
+ =?us-ascii?Q?XSWZaaFDRXq+tuOnyXH+AQ4HCNMGY5DUq2VHq4C32PMSsqLwNNPaPRSdUgWl?=
+ =?us-ascii?Q?3mGqJbJ53/HxchX4HlzMdfU=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: efdd9e03-e5cc-477d-c5ac-08dc0b94eb68
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB10135.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2024 13:15:41.3505
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6nM3eJd84V2rLH225x1/rI60yyBqy7qR92w41PSonjQR4PHY48Lx2lKzlr5hUqeX8HHHzkKaHjqX2iW2wTU5i+ybPdf083StOS6hdsC6ZBDVCREc3RdlFjV8LGxIYD8w
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB7376
 
-Hi Andy,
+do_div() does a 64-by-32 division.
+When the divisor is u64, do_div() truncates it to 32 bits,
+this means it can test non-zero and be truncated to zero for
+division.
 
-Thank you for all the reviews.
+fix do_div.cocci warning:
+do_div() does a 64-by-32 division, please consider using div64_u64
+instead.
 
-I don't see anything really problematic in your review,
-so I hope that Mauro will honor my pull-request and
-then I'll fix the small remarks in some follow-up patches.
+Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+---
+ drivers/media/platform/qcom/venus/venc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-One remark regarding your review of this patch below:
-
-On 1/2/24 01:33, Andy Shevchenko wrote:
-> On Sun, Dec 31, 2023 at 12:31 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> sysfs attributes preferably should not be manually be registered but
->> instead the driver.groups / driver.dev_groups driver struct members
->> should be used to have the driver core handle this in a race free
->> manner.
->>
->> Using driver.groups would be the most direct replacement for
->> driver_[add|remove]_file, but some of the attributes actually need access
-> 
-> ..._file()
-> 
->> to the struct atomisp_device (*), so as part of modernizing this part of
->> the atomisp driver this change also makes the sysfs attribute device
->> attributes instead of driver attributes.
->>
->> *) Before this change accessing these attributes without the driver having
->> bound would result in a NULL pointer deref, this commit fixes this.
-> 
-> ...
-> 
->> +       if (dbglvl < 1 || dbglvl > 9)
-> 
-> in_range() ?
-
-ack.
-
-> 
->>                 return -ERANGE;
-> 
-> ...
-> 
->> +static const struct attribute_group dbg_attr_group = {
->> +       .attrs = dbg_attrs,
->> +};
->>
->> +const struct attribute_group *dbg_attr_groups[] = {
->> +       &dbg_attr_group,
->> +       NULL
->> +};
-> 
-> ATTRIBUTE_GROUPS()
-
-I deliberately wrote this out (had to write this out)
-instead of using ATTRIBUTE_GROUPS() because ATTRIBUTE_GROUPS()
-makes the groups variable static and here it gets used
-in another file then where it is declared.
-
-> 
-> ...
-> 
->> +#include <linux/sysfs.h>
-> 
-> But why? You can use forward declaration, no?
-
-True, I'll fix this up in a follow-up patch.
-
-> 
->> +extern const struct attribute_group *dbg_attr_groups[];
-> 
-
-
-Regards,
-
-Hans
-
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 44b13696cf82..ad6c31c272ac 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -409,13 +409,13 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+ 	out->capability = V4L2_CAP_TIMEPERFRAME;
+ 
+ 	us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
+-	do_div(us_per_frame, timeperframe->denominator);
++	us_per_frame = div64_u64(us_per_frame, timeperframe->denominator);
+ 
+ 	if (!us_per_frame)
+ 		return -EINVAL;
+ 
+ 	fps = (u64)USEC_PER_SEC;
+-	do_div(fps, us_per_frame);
++	fps = div64_u64(fps, us_per_frame);
+ 
+ 	inst->timeperframe = *timeperframe;
+ 	inst->fps = fps;
+-- 
+2.25.1
 
 
