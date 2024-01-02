@@ -1,228 +1,179 @@
-Return-Path: <linux-media+bounces-3165-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3166-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCEEF821D9E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 15:28:20 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1B1821DF0
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 15:42:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CE18B20DD1
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 14:28:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2A546B21FC0
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 14:42:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7D2611704;
-	Tue,  2 Jan 2024 14:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D2A15AD0;
+	Tue,  2 Jan 2024 14:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lI4MKSKK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01on2040.outbound.protection.outlook.com [40.107.239.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0C612E4C;
-	Tue,  2 Jan 2024 14:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h2qUcSAptY3b0zBM+Nv64H9XsY6Dk7kZnCFWmMiO3Y+Nu32NBS6WNvt7QUjYiTuAiiWuhZF+ypeIcW70QnYzPIvQTBEvg4wQd1+CR5Xc0vKPN9273jbAeSrBZS7UV3LdsZJRd73fAYF+nMRv5wdVeHYfNODzev0ar7e8UAHIgfxlZyU2k9LBG9JO9bytoiy0eqK7IDt283MByxN7JjRmQoPp6gGgvk7OeafMGNoThqstvZ9N0dmQ/E+nkBlqQ2EjkefgtT26r6MS/AAuaaEkswCMoSCcB44HqLg7OQVEjKEp0f6OljC/oM8z+9ASVw3OHLmvsvqGRkGNe8XiEhiGKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hw+ZMfeXpfA9wyHP9iUGLuEgZaEXTvU038rMq1+iCig=;
- b=O9Xg4QFFTw2j9X0+VF/h8psGOJ+iZToaAokfh5RvHganuGIxo6/KfrYtvAdKWBebJ8zoPWd+iqMf9Z5/C/5kI2N//XyoeEm9H43svncbNEHP82Ts7Np0MsaAI7MkGzt18JmyWjY1mjwWOck5dwEySTLuqTFfBbN/jDflW71tETfeO9SQhdk4FBYpKtfkVxbthhoSVBVq5BkoGD9+dmNo65V8rKbqsVv7mpdP2BYpvCdwGyjrirKklWBkwP1LTpujJd8zrjk5fmldfUV+yaP5u9OxNkvpGNUYJQ66LXaOxjoBz25IL6f/DHuhuwcmnSbPCuXMOycGHd3uDYp6bOzYDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-Received: from MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:42::6)
- by PN0PR01MB9723.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:149::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Tue, 2 Jan
- 2024 14:28:02 +0000
-Received: from MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::c1b:b2aa:7fc0:6532]) by MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::c1b:b2aa:7fc0:6532%7]) with mapi id 15.20.7135.023; Tue, 2 Jan 2024
- 14:28:02 +0000
-From: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
-To: mchehab@kernel.org,
-	kieran.bingham@ideasonboard.com
-Cc: bhavin.sharma@siliconsignals.io,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: adv7180: Fix cppcheck warnings
-Date: Tue,  2 Jan 2024 19:57:29 +0530
-Message-Id: <20240102142729.1743421-1-bhavin.sharma@siliconsignals.io>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BMXPR01CA0087.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:54::27) To MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:42::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2240C15ACF
+	for <linux-media@vger.kernel.org>; Tue,  2 Jan 2024 14:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-da7ea62e76cso7645723276.3
+        for <linux-media@vger.kernel.org>; Tue, 02 Jan 2024 06:38:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704206327; x=1704811127; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jy0uRx2JMKC7IT4IrT6DQeOOAvtEVqpfbBhM8k6y5YU=;
+        b=lI4MKSKK0DT9T/8CHJPTLjXGtC2VQyQIeo0slFWaSUBLQN4POb17ew1naXivDDu/dH
+         1PGocvTFj7iEoIepWOWsnw8K6DvpBxTfYnnpVNPrFssj2uTKAdqRTr4sKpgzrtPxcQ9N
+         sQGG8BVCoe7bHpGNdA2rNyWCsM8zaAy7wPX4w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704206327; x=1704811127;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jy0uRx2JMKC7IT4IrT6DQeOOAvtEVqpfbBhM8k6y5YU=;
+        b=dG0aLxrZVAD8BS8H1MYEdiwUB60IUiBg8yFPmk1elU4RaaEGeaP2DL4Rd/1DKm32Ia
+         X8ZR5eMA+MZcKCaLIPCuoXOGw1uWAFW/+1r3hVTjyi4jMqJ+hud1aNJTh2IZi8p+3cWd
+         HwEymUXpM3IKflPjzw2aaD+rEO57IkL7OlmfgnD1EMDPIW9DhaAKTUTnGCxlP2rGOXUs
+         fyyTAg4BvqE/vJ20TgVhmDFlXUa3y2SY77bWALXarUkHj/tWaVypprUeejqUVFIFHNa6
+         r7RY6d3rgQ6Qj9vew6NJAHJ3W7BdSLljpbdTU+tYCRqNvV3QPL3+5l82P0aS4W5imCqU
+         JzVQ==
+X-Gm-Message-State: AOJu0YwnAsMhyRKqXOGOZDyIkSKj2kIAia0hqhnEfWtoWBYFU5ZRkpqG
+	+mCuDqALxbs+wW1OkacSHMLmgsCFxDtr
+X-Google-Smtp-Source: AGHT+IF2VmlnzA7AgDC3KwlEUuCIE5PgevZGdecadVjf9tfvv09O27NfPI3ZsHc2De/o71n4pxcOUQ==
+X-Received: by 2002:a25:aa2d:0:b0:dbd:5cd5:4d53 with SMTP id s42-20020a25aa2d000000b00dbd5cd54d53mr7126352ybi.96.1704206327096;
+        Tue, 02 Jan 2024 06:38:47 -0800 (PST)
+Received: from denia.c.googlers.com (204.246.236.35.bc.googleusercontent.com. [35.236.246.204])
+        by smtp.gmail.com with ESMTPSA id p13-20020ad451cd000000b00680b34d52f8sm1463586qvq.13.2024.01.02.06.38.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jan 2024 06:38:46 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 02 Jan 2024 14:38:45 +0000
+Subject: [PATCH v3] media: ucvideo: Add quirk for Logitech Rally Bar
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MAZPR01MB6957:EE_|PN0PR01MB9723:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1159943e-68b9-4f90-7b34-08dc0b9f0713
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	PJkxEviak0j2xGqieyzmNyn5i0MZ4wuO8dHzZQPpJ4+CcPUiIvmz/hKAwvgQXyb90mZlM6VX1b+j5swpV9ENxZkghRoigMjyUjY4ct2bsWpZWQoSvr2DmM21le8GOoAf/79UJ+El7k0ih+QLsB1EBE/CtodfC390fthBd6gXtc3TUX8i5wzYm3d8WfVkmn6N2DUVXIfG4n+dkLjMom4J0M0APaJ47xtdpPfE52cucXRvC3fG0B3GbXsbjsKqNDJByDjNZJfKUow9O7WJwdNCALAnDARA/d9oFSGG6ma9RA6JVXLmN3icBtN5SUmGsQFUXZsFurXZ8DvcodVA12473lAjBBq46eefU2VCu9Y6Qu5YXSJlh3WJsUhqGr+ytbPK76hI2g5sjf3BN5NIwAkUnA6w7Yy3h3CH0LT9f/IKGzW2fmaa4/wusDSnNpp5BU+LNZD4AxljglnfEUVNxwH/qmuRIFjf+3f8QDhpwC2nX37rbU4SCTWcHDXIrKth1/IXdmXbARTXd4mWWNn7YI6Ce7DocZ2fl57PlgMriPIGLIFJHAhoioOOryQKPAHnLztHXYtbFH6RPmFn6AgyRmT8ab/Zx4n3viyL4tL1GywXegzpwA+UgZte3Cpq4FXABQ968bqniJJ+Y4/lpQPKAe4sCy6MOdN3ppF9c9DrJWunpJk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(39830400003)(396003)(346002)(376002)(366004)(230173577357003)(230922051799003)(230273577357003)(1800799012)(451199024)(64100799003)(186009)(83380400001)(2616005)(26005)(1076003)(38100700002)(41300700001)(8936002)(8676002)(316002)(4326008)(5660300002)(2906002)(6666004)(44832011)(478600001)(6506007)(6512007)(52116002)(66556008)(66946007)(6486002)(66476007)(38350700005)(86362001)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pzzECu0HdDpx48bMLq5+ScYKcmYQzdvnfzh96haP/DRqZSMIkiloyfyZ56oh?=
- =?us-ascii?Q?RWqBeiCuV/ANaGpW/3InrzmkFE8oiXjsgvtXhoa5BYHsag/utJe343jJ92j6?=
- =?us-ascii?Q?Fa2shhIWwKxiy7dUed/fMIjqNrhEdtveGr2SBJJtgMMR8Y3Ul6beVbXHwp9Q?=
- =?us-ascii?Q?0IFu8z0Dprhe+6IwZ6gyYKmOSVSt+qcXK/Zc7t8/51P1JaQlAMtFGRSy3ucs?=
- =?us-ascii?Q?3xpDSPpFw1x41yes6sjxur8ut1CT+wFOLnGVRtss9Nd0gMAgRkP5YZzRYt6C?=
- =?us-ascii?Q?inMiLBWyOQGcdyN4BOV6NpiNDm7eD6RJZzDDldFfJMMCI0MztWPrKfRhHDs7?=
- =?us-ascii?Q?poy/w2RVSFnD4WdXXJVY6vI0utMKI9JaYAMPQWELsPkA+EPgDfv5OfbJysrE?=
- =?us-ascii?Q?xxHjVR0UQrAa840H1X+1H9w4mbOdxVTsioQcVG4aUrftZDqBLjuJqrVtEqwb?=
- =?us-ascii?Q?VPbaitOI29p97wQTPglekipZKJqemtq6jX4HYqRdOLFVIuSIqPwS5yz3z+vQ?=
- =?us-ascii?Q?nmpv4HQEpTrcJ7uejb7uz+SCjQJR7q1qIpHFBl5FE5v7Ok/GQ7BoPXH4/LR5?=
- =?us-ascii?Q?TD+5eT7D3ORf46kdKqP9nmP7ycLuIDhGZ8S6GFoYrMYMDTbEXK01Vli9hyhZ?=
- =?us-ascii?Q?kSg9LWteGbidWJgnPr5T7Bt6csrzH0EDe7TucNv2YdTPNZs9i8U2mXI0PywD?=
- =?us-ascii?Q?cxXU1H4IbVO7gkA2kln/bMTDqt4LJGP0ivHA1N9o80ZJgJX4OqobyKRK85TW?=
- =?us-ascii?Q?WlMDpg9pMlsm6USxgpm/32gVOEV7E/4WKejTY+NMukXGYTJaD3GqdgnAgr9O?=
- =?us-ascii?Q?utaHwt+P5qkGMPOb+AyJYzZR3A6mSf0nrQupV3l2HIgFPZzIWx2E7XG24Tpy?=
- =?us-ascii?Q?x55OaHr2iI1mTI2zM1qFWSDVl3yPjwLsAx2ZvEeYFFdFEWv52fwOvvurJtNm?=
- =?us-ascii?Q?cnel5qw6vuBXj7sOoQl62DUp/hI7cVxy5S1YynokIVAE5oMn+BS5nHE4+bJs?=
- =?us-ascii?Q?PXRHdMrERwiA2JpxVqxs26yQkowgYYHSLONHs2KVGkxWqqBYj/3u60SQd8Ul?=
- =?us-ascii?Q?7Krq72vZSnY1/5cNY3LsLTUIXTHrwytQa4VJhsQXPE7qyD4rA1wyqjEbjOrg?=
- =?us-ascii?Q?z8N23L1+WrT5Gu3yh1TQAXZl4oH8M0Mm3vr6HmrEj6t86Zc+piDDs0ELZ6Wi?=
- =?us-ascii?Q?Oy3GnTLiynifp8SJpTjPfAQdWC+V2jPBrs60Mb8NAbkbG04ABFVMcIhNAnYO?=
- =?us-ascii?Q?tQ8qRUU7ICbLqtxHi6AebkFmAL+1DjtkpFqBtxHbog4QDsq0760JIw9P9rom?=
- =?us-ascii?Q?BRrgr2g854vY5Ob8lKzO4AWWGR9/o679HTt3ghfIr3i/IxFOpNejPTd2Q9nG?=
- =?us-ascii?Q?OhZRv8h+GXWrwsurR1A2/ucDRyF6PHPq7UWFnkiVmjbp7gITVLPUsrvh2URx?=
- =?us-ascii?Q?sLFgL1SShQG6HP5Dau7AWGCCTut/O8Ra9y1aDd307M1Mo2ZEanwfSu5R9A25?=
- =?us-ascii?Q?LoWga+lvOyoCqn77gDiyDXy8pgOdAvJvDE7rlZwBdOxvxb6g6f0IF+xiNCce?=
- =?us-ascii?Q?q8cx3xjq+j+2/eH8W1f225zMw4EKQgkrd0naSQcwUe1jkT4UUaw/oI+OwVge?=
- =?us-ascii?Q?QJ6KVGOOGYbhWIgt0kjgAiY=3D?=
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1159943e-68b9-4f90-7b34-08dc0b9f0713
-X-MS-Exchange-CrossTenant-AuthSource: MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2024 14:28:02.7227
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3WyOjNtAdzEVhK1G/2huPuaDxapL5ledk3quuXFsrGUM2lOWxzAK97EmylaOS0yEh/We4TlbwTyGfo4WYxAKMIrAaUGbUrB+TtPTbZtjdDo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB9723
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240102-rallybar-v3-1-0ab197ce4aa2@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAPUflGUC/3WMwQ6CMBAFf4X0bA27LQ148j+Mh9IWaALUbLWRE
+ P7dwtHocV7ezMqiI+8iuxQrI5d89GHOIE4FM4Oee8e9zcywRAGIyEmP49Jq4tAYVxolbeUUy/c
+ Huc6/j9Ttnnnw8RloOcoJ9vVHJAEHXmOLWloBpequZqAw+dd0DtSzvZPwn4vZrWrZWIW6qUB+u
+ du2fQDDhAwd3wAAAA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, stable@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.3
 
-WARNING: Missing a blank line after declarations
+Logitech Rally Bar devices, despite behaving as UVC cameras, have a
+different power management system that the other cameras from Logitech.
 
-Signed-off-by: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
+USB_QUIRK_RESET_RESUME is applied to all the UVC cameras from Logitech
+at the usb core. Unfortunately, USB_QUIRK_RESET_RESUME causes undesired
+USB disconnects, that make them completely unusable.
+
+Instead of creating a list for this family of devices in the core, let's
+create a quirk in the UVC driver.
+
+Fixes: e387ef5c47dd ("usb: Add USB_QUIRK_RESET_RESUME for all Logitech UVC webcams")
+Cc: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/adv7180.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+Tested with a Rallybar Mini with an Acer Chromebook Spin 513
+---
+Changes in v3:
+- Move quirk to uvc driver
+- Link to v2: https://lore.kernel.org/r/20231222-rallybar-v2-1-5849d62a9514@chromium.org
 
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 54134473186b..0023a546b3c9 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -335,8 +335,9 @@ static u32 adv7180_status_to_v4l2(u8 status1)
- static int __adv7180_status(struct adv7180_state *state, u32 *status,
- 			    v4l2_std_id *std)
- {
--	int status1 = adv7180_read(state, ADV7180_REG_STATUS1);
-+	int status1;
- 
-+	status1 = adv7180_read(state, ADV7180_REG_STATUS1);
- 	if (status1 < 0)
- 		return status1;
- 
-@@ -356,7 +357,9 @@ static inline struct adv7180_state *to_state(struct v4l2_subdev *sd)
- static int adv7180_querystd(struct v4l2_subdev *sd, v4l2_std_id *std)
- {
- 	struct adv7180_state *state = to_state(sd);
--	int err = mutex_lock_interruptible(&state->mutex);
-+	int err;
-+
-+	err = mutex_lock_interruptible(&state->mutex);
- 	if (err)
- 		return err;
- 
-@@ -388,8 +391,9 @@ static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
- 			     u32 output, u32 config)
- {
- 	struct adv7180_state *state = to_state(sd);
--	int ret = mutex_lock_interruptible(&state->mutex);
-+	int ret;
- 
-+	ret = mutex_lock_interruptible(&state->mutex);
- 	if (ret)
- 		return ret;
- 
-@@ -399,7 +403,6 @@ static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
+Changes in v2:
+- Add Fixes tag
+- Add UVC maintainer as Cc
+- Link to v1: https://lore.kernel.org/r/20231222-rallybar-v1-1-82b2a4d3106f@chromium.org
+---
+ drivers/media/usb/uvc/uvc_driver.c | 21 +++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 2 files changed, 22 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 08fcd2ffa727..77c1932c29ca 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -14,6 +14,7 @@
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/usb.h>
++#include <linux/usb/quirks.h>
+ #include <linux/usb/uvc.h>
+ #include <linux/videodev2.h>
+ #include <linux/vmalloc.h>
+@@ -2233,6 +2234,8 @@ static int uvc_probe(struct usb_interface *intf,
  	}
  
- 	ret = state->chip_info->select_input(state, input);
--
- 	if (ret == 0)
- 		state->input = input;
- out:
-@@ -410,7 +413,9 @@ static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
- static int adv7180_g_input_status(struct v4l2_subdev *sd, u32 *status)
- {
- 	struct adv7180_state *state = to_state(sd);
--	int ret = mutex_lock_interruptible(&state->mutex);
-+	int ret;
-+
-+	ret = mutex_lock_interruptible(&state->mutex);
- 	if (ret)
- 		return ret;
+ 	uvc_dbg(dev, PROBE, "UVC device initialized\n");
++	if (dev->quirks & UVC_QUIRK_FORCE_RESUME)
++		udev->quirks &= ~USB_QUIRK_RESET_RESUME;
+ 	usb_enable_autosuspend(udev);
+ 	return 0;
  
-@@ -436,8 +441,9 @@ static int adv7180_program_std(struct adv7180_state *state)
- static int adv7180_s_std(struct v4l2_subdev *sd, v4l2_std_id std)
- {
- 	struct adv7180_state *state = to_state(sd);
--	int ret = mutex_lock_interruptible(&state->mutex);
-+	int ret;
+@@ -2574,6 +2577,24 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
++	/* Logitech Rally Bar */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x046d,
++	  .idProduct		= 0x089b,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_RESUME) },
++	/* Logitech Rally Bar */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x046d,
++	  .idProduct		= 0x08d3,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_RESUME) },
+ 	/* Chicony CNF7129 (Asus EEE 100HE) */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 6fb0a78b1b00..fa59a21d2a28 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -73,6 +73,7 @@
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
+ #define UVC_QUIRK_WAKE_AUTOSUSPEND	0x00002000
++#define UVC_QUIRK_FORCE_RESUME		0x00004000
  
-+	ret = mutex_lock_interruptible(&state->mutex);
- 	if (ret)
- 		return ret;
- 
-@@ -466,8 +472,9 @@ static int adv7180_g_std(struct v4l2_subdev *sd, v4l2_std_id *norm)
- static int adv7180_g_frame_interval(struct v4l2_subdev *sd,
- 				    struct v4l2_subdev_frame_interval *fi)
- {
--	struct adv7180_state *state = to_state(sd);
-+	struct adv7180_state *state;
- 
-+	state = to_state(sd);
- 	if (state->curr_norm & V4L2_STD_525_60) {
- 		fi->interval.numerator = 1001;
- 		fi->interval.denominator = 30000;
-@@ -828,8 +835,9 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
- 				   unsigned int pad,
- 				   struct v4l2_mbus_config *cfg)
- {
--	struct adv7180_state *state = to_state(sd);
-+	struct adv7180_state *state;
- 
-+	state = to_state(sd);
- 	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
- 		cfg->type = V4L2_MBUS_CSI2_DPHY;
- 		cfg->bus.mipi_csi2.num_data_lanes = 1;
-@@ -857,8 +865,9 @@ static int adv7180_get_skip_frames(struct v4l2_subdev *sd, u32 *frames)
- 
- static int adv7180_g_pixelaspect(struct v4l2_subdev *sd, struct v4l2_fract *aspect)
- {
--	struct adv7180_state *state = to_state(sd);
-+	struct adv7180_state *state;
- 
-+	state = to_state(sd);
- 	if (state->curr_norm & V4L2_STD_525_60) {
- 		aspect->numerator = 11;
- 		aspect->denominator = 10;
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+
+---
+base-commit: c0f65a7c112b3cfa691cead54bcf24d6cc2182b5
+change-id: 20231222-rallybar-19ce0c64d5e6
+
+Best regards,
 -- 
-2.25.1
+Ricardo Ribalda <ribalda@chromium.org>
 
 
