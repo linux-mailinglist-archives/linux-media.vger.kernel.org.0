@@ -1,117 +1,124 @@
-Return-Path: <linux-media+bounces-3159-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3160-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3745821A08
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 11:38:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68851821ACF
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 12:20:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 55B731F226C4
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 10:38:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09BB3B21AA0
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jan 2024 11:20:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 330D7DF6A;
-	Tue,  2 Jan 2024 10:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D7AEEAD3;
+	Tue,  2 Jan 2024 11:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZTKcvSZS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tz32HQYQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D3BD298;
-	Tue,  2 Jan 2024 10:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1704191887;
-	bh=cm7tGZegvFx11DaYuyNUHAKQJUZbqThwfuueF4e2NcA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZTKcvSZSPhwE9At3kqI+V7j+jbxAhit57MypSrzuU18aebz35/DRLJSDNsZihDq8o
-	 xMwPz52VEjaPjvZP+8wyoQK0TAKilLm0LRRuz/heeCRpyburW0hWXtsqVeFpJczkeq
-	 QuPPi5wj8Bqyva+XW675cXItJ5/N/UpUC/if8gjgD4L86bFaoGjEaFWtM94iLVZ0oI
-	 GIqCTQqJO5F4p1f1nNyKoNBd0eeyb8J77tKtrE1V3nLFpTa4XA0lCB8lHgpndhaGhW
-	 RfWe7Exr0Zqae57XiMOiWFjGXzkBQ26nOlplwlDuVlQd6fzDAUxPMzkNEPDBC7al42
-	 hII9I30piTpSw==
-Received: from eugen-station.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ehristev)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B25BE3780FC7;
-	Tue,  2 Jan 2024 10:38:06 +0000 (UTC)
-From: Eugen Hristev <eugen.hristev@collabora.com>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	bin.liu@mediatek.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	angelogioacchino.delregno@collabora.com,
-	kernel@collabora.com,
-	eugen.hristev@collabora.com,
-	matthias.bgg@gmail.com,
-	Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Max Staudt <mstaudt@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v2 2/2] arm64: dts: mediatek: mt8186: Add jpgenc node
-Date: Tue,  2 Jan 2024 12:38:01 +0200
-Message-Id: <20240102103801.268647-2-eugen.hristev@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240102103801.268647-1-eugen.hristev@collabora.com>
-References: <20240102103801.268647-1-eugen.hristev@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0F1DF46
+	for <linux-media@vger.kernel.org>; Tue,  2 Jan 2024 11:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5ef7c6f4cfcso24040627b3.1
+        for <linux-media@vger.kernel.org>; Tue, 02 Jan 2024 03:19:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704194393; x=1704799193; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RoCKJmLNypuO4iV/d5JKlLOsOW1MONyGLn7Yes5k0vo=;
+        b=tz32HQYQVbZ2HN3UzqvYXbOK0zZi2Z3DXTWybMhheUxmbYx1KStvWRQwLwFxROwxHQ
+         vGhTcbpbckGF8UonS12mCk4GZ3RvUVcZ7ejavo906iJLrLyz5Ey6LqzCgh+j26M2oArT
+         C7xdS0Y0B0KT/p/Rrdzn0nqJM84KOCC81qYX0jKAYqenKKgf6oUPXevzOzlKLf40R0Kb
+         zp1RbnbRD5yjquSc3pIwtU6PnqXKBvWk8lQSA6ct3PDoIPKZp56T/p21j7cVXRukxWru
+         NL+g/v/jNTY6zBw1QSgPG+2UiK2whREekej1W7+qvnkwZviag41NwT/ajOuZOWf9sXHR
+         B/YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704194393; x=1704799193;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RoCKJmLNypuO4iV/d5JKlLOsOW1MONyGLn7Yes5k0vo=;
+        b=SRpVULoTi5yFurq+wQofOYt7OsiE0EXc8SO0139M1YpyAgARzyFMGcuMbdQIwPZRLD
+         Y/MEaQbrch71OPyxJHd1cCWpjCrPMkyrD5UWBj1OkuiOzq9eRjdTasq2WI6fR2YD0OC1
+         uQonPR9atg6XeWUi7tz+ygEGPhkCAWM68bs8r1TZSYCYJr8yJM6jEVpf6h2uP1aeRPst
+         r1KYvdbCZcTzbpAK/XmGx5X/J9hvtpciG53D+wNiFgf6U6cHBA71QboYryugcMRwGo7k
+         rIyZ4iEboIwnkpPkYkInRbUrwxiscRx9RB3avhkfRxrB5CORbHGyLLvTwDEECjdRueNO
+         EgqQ==
+X-Gm-Message-State: AOJu0Yy7B0JgygUfWi8QM+HX+e5omLLi/PXQ0851vIb788Cv0wR03TD8
+	acLNEECmu4z4vTknCI+UWin3sbc/wgcBBLNh5/o2Av6AhbVh3w==
+X-Google-Smtp-Source: AGHT+IFrAuQNhlzlRQsyHyk5pUdcHgqhtVaR49+5kjXKeJirtWfRLQHeIOnR8NY/b/Nj/rCyLUP0Qobi4YuaFwRqXoI=
+X-Received: by 2002:a81:5fc1:0:b0:5d3:66ad:f8f6 with SMTP id
+ t184-20020a815fc1000000b005d366adf8f6mr11600270ywb.24.1704194393450; Tue, 02
+ Jan 2024 03:19:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231229121504.3479594-1-himanshu.bhavani@siliconsignals.io>
+In-Reply-To: <20231229121504.3479594-1-himanshu.bhavani@siliconsignals.io>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 2 Jan 2024 13:19:42 +0200
+Message-ID: <CAA8EJpp7XOxk3xuUzzuF+omMaQXUeeL_gm7ipFEwv+bfHdONMA@mail.gmail.com>
+Subject: Re: [PATCH] media: venus: use div64_u64() instead of do_div()
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Cc: stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, 
+	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	mchehab@kernel.org, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+On Fri, 29 Dec 2023 at 14:16, Himanshu Bhavani
+<himanshu.bhavani@siliconsignals.io> wrote:
+>
+> do_div() does a 64-by-32 division.
+> When the divisor is u64, do_div() truncates it to 32 bits, this means it
+> can test non-zero and be truncated to zero for division.
+>
+> fix do_div.cocci warning:
+> do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+>
+> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+>
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 44b13696cf82..81853eb2993a 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -409,13 +409,13 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+>         out->capability = V4L2_CAP_TIMEPERFRAME;
+>
+>         us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
+> -       do_div(us_per_frame, timeperframe->denominator);
+> +       div64_u64(us_per_frame, timeperframe->denominator);
 
-Add JPEG encoder node.
+NAK! This is completely incorrect. do_div() is a macro and it changes
+the first argument. div64_u64 is a function, which returns the result
+instead of changing the first argument.
 
-Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: Max Staudt <mstaudt@chromium.org>
-Tested-by: Max Staudt <mstaudt@chromium.org>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-[eugen.hristev@collabora.com: minor cleanup]
-Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
----
-Changes in v2:
-- renamed node
-- reordered props
+Please consider checking the code before sending a patch.
 
- arch/arm64/boot/dts/mediatek/mt8186.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+>
+>         if (!us_per_frame)
+>                 return -EINVAL;
+>
+>         fps = (u64)USEC_PER_SEC;
+> -       do_div(fps, us_per_frame);
+> +       div64_u64(fps, us_per_frame);
+>
+>         inst->timeperframe = *timeperframe;
+>         inst->fps = fps;
+> --
+> 2.25.1
+>
+>
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-index e451b6c8cd9e..8e57a7be67ad 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-@@ -2054,6 +2054,19 @@ venc: video-encoder@17020000 {
- 			mediatek,scp = <&scp>;
- 		};
- 
-+		jpgenc: jpeg-encoder@17030000 {
-+			compatible = "mediatek,mt8186-jpgenc", "mediatek,mtk-jpgenc";
-+			reg = <0 0x17030000 0 0x10000>;
-+			interrupts = <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vencsys CLK_VENC_CKE2_JPGENC>;
-+			clock-names = "jpgenc";
-+			iommus = <&iommu_mm IOMMU_PORT_L7_JPGENC_Y_RDMA>,
-+				 <&iommu_mm IOMMU_PORT_L7_JPGENC_C_RDMA>,
-+				 <&iommu_mm IOMMU_PORT_L7_JPGENC_Q_TABLE>,
-+				 <&iommu_mm IOMMU_PORT_L7_JPGENC_BSDMA>;
-+			power-domains = <&spm MT8186_POWER_DOMAIN_VENC>;
-+		};
-+
- 		camsys: clock-controller@1a000000 {
- 			compatible = "mediatek,mt8186-camsys";
- 			reg = <0 0x1a000000 0 0x1000>;
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
 
