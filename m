@@ -1,219 +1,185 @@
-Return-Path: <linux-media+bounces-3189-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3190-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B057822B9F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 11:49:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E73CD822D86
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 13:50:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AFA3C1C21B2B
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 10:49:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D756283E2D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 12:50:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234D318C24;
-	Wed,  3 Jan 2024 10:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3833519469;
+	Wed,  3 Jan 2024 12:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UwPmEpvc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZVj0QktV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8871118E18
-	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 10:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C9DB13AC;
-	Wed,  3 Jan 2024 11:48:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704278906;
-	bh=3GgQUVOM/I/ypcpErmxMuJfFGfR4iPdSwysNqoL4VR8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UwPmEpvcdusjRuPBrAIo2yyuBC2KF9eXQ+LkUGANE5i2WcCBE3tcSYQsIJxPp/dDl
-	 zt9gBF6nTjlVFNQAM2X4HOzxcUasamL6/LlTR12Cqz75OAsRj68ux9bwjTGtsGUh6K
-	 LeaLKp53SqnOlG1Xriq0vlLre+PYO7SKsbLnv7f4=
-Date: Wed, 3 Jan 2024 12:49:35 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andreas Helbech Kleist <andreaskleist@gmail.com>
-Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
-	claus.stovgaard@gmail.com, tfiga@chromium.org,
-	senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-	hongju.wang@intel.com
-Subject: Re: [PATCH v2 03/15] media: intel/ipu6: add IPU6 buttress interface
- driver
-Message-ID: <20240103104935.GA13622@pendragon.ideasonboard.com>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-4-bingbu.cao@intel.com>
- <25b34fe6327dbb59ee485a8b5d411b73ffd29392.camel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE60519442
+	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 12:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dbe39a45e8eso3390638276.1
+        for <linux-media@vger.kernel.org>; Wed, 03 Jan 2024 04:50:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704286230; x=1704891030; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uMQJge1OFocSBVvJxeeoeFzhMb6jVyBHP21ntl+sV/E=;
+        b=ZVj0QktVZfoenLqVk7AA3TlGU3MUq4uZYDZ12GObE9QSpQ0vYncX+HXpYWgYzgDiQj
+         eb7iUM2VEWVrjvsWAFONkTNjdqmePh9wCIS+q6949O0muCxyKlRhKIVQp04Z6Fv/qkQX
+         DU6w4GKyPMkHFkBPwUe5AeEpK+sHMd8OQTirUnJ/1h7Fgwp/9hvP6LQzKbpxABZVydom
+         rf2TivldeVBM9HFmOcDOvp72DR6ZxnPXg6z6UjrbtTMpdTygnPAb1VThqe59lzXdlwZu
+         w7r7NZEyUZ/zndSYwMUVMkrKMe3N6dwMsbZ9v2nkhiD8uAp63fQ1ZgoY24dcO7I5JYFB
+         9moA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704286230; x=1704891030;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uMQJge1OFocSBVvJxeeoeFzhMb6jVyBHP21ntl+sV/E=;
+        b=JiGJkdtswzYBXOwPvzZHtJTQD9n2yP89klbjtGfJ6OZxt/wnqB9qFlACvN0DNwjW38
+         0oHPJS93nbuSTknJDB4kQGgwRFk/7deLabDbaCHS+AtjCSlcd/ytSkczD5WMVld9smNr
+         XMETrlN4TbJcE0cz5LHzLTh5LBRm4v5y4TFzi2VCYZO18JqSCJd3qeznlNQONtwDqQ8F
+         +Yn+++RvPowL2fpFFVXV1DQ6B8/1ZZ9umGhjlgCv3NlEid3R0u2GFAmevvXWHGJNpLy0
+         k3JRoEitnpT1lTg65kLeyaOp2793xZ7QW3uRwZTu51mnTNmSr1/0clxiuOg4bukwhpV2
+         m1UQ==
+X-Gm-Message-State: AOJu0YwZYt8YJ8/Wrb8ZgGgNGySRsBn8zbq1u6nzt7eQZ1bVbLX+4R8j
+	BiuzyRRxIZJzlb5PAshjfCoGCnEKm4PTVs5fOPbgo+n5jAMhqA==
+X-Google-Smtp-Source: AGHT+IEli+i1LhMaNCig5qS+FtDFjWedP/VNkzC6jzMcC0RM0qSY5aMRs5tMe1+MaZQwo/pUvmcXTIs/GQCNBQrScXc=
+X-Received: by 2002:a25:840c:0:b0:db7:dacf:3fb2 with SMTP id
+ u12-20020a25840c000000b00db7dacf3fb2mr8131789ybk.95.1704286229718; Wed, 03
+ Jan 2024 04:50:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <25b34fe6327dbb59ee485a8b5d411b73ffd29392.camel@gmail.com>
+References: <20231228114157.104822-1-ulf.hansson@linaro.org>
+ <20231228114157.104822-2-ulf.hansson@linaro.org> <22330d85-1d5c-48de-b006-9176f275328e@quicinc.com>
+In-Reply-To: <22330d85-1d5c-48de-b006-9176f275328e@quicinc.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 3 Jan 2024 13:49:53 +0100
+Message-ID: <CAPDyKFqcB_ANOBsJBitjdgdUs2G8B3qWWvD54Bmw56ZoUKNWAg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] PM: domains: Add helper functions to attach/detach
+ multiple PM domains
+To: Nikunj Kela <quic_nkela@quicinc.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org, 
+	Sudeep Holla <sudeep.holla@arm.com>, Kevin Hilman <khilman@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Nikunj Kela <nkela@quicinc.com>, Prasad Sodagudi <psodagud@quicinc.com>, 
+	Stephan Gerhold <stephan@gerhold.net>, Ben Horgan <Ben.Horgan@arm.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-remoteproc@vger.kernel.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 03, 2024 at 10:22:20AM +0100, Andreas Helbech Kleist wrote:
-> Hi Bingbu,
-> 
-> On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
-> > From: Bingbu Cao <bingbu.cao@intel.com>
-> > 
-> > The IPU6 buttress is the interface between IPU device (input system
-> > and processing system) with rest of the SoC. It contains overall IPU
-> > hardware control registers, these control registers are used as the
-> > interfaces with the Intel Converged Security Engine and Punit to do
-> > firmware authentication and power management.
-> > 
-> > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+On Fri, 29 Dec 2023 at 21:21, Nikunj Kela <quic_nkela@quicinc.com> wrote:
+>
+>
+> On 12/28/2023 3:41 AM, Ulf Hansson wrote:
+> > Attaching/detaching of a device to multiple PM domains has started to
+> > become a common operation for many drivers, typically during ->probe() and
+> > ->remove(). In most cases, this has lead to lots of boilerplate code in the
+> > drivers.
+> >
+> > To fixup up the situation, let's introduce a pair of helper functions,
+> > dev_pm_domain_attach|detach_list(), that driver can use instead of the
+> > open-coding. Note that, it seems reasonable to limit the support for these
+> > helpers to DT based platforms, at it's the only valid use case for now.
+> >
+> > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 > > ---
-> 
-> ...
-> 
-> > +static irqreturn_t ipu6_buttress_call_isr(struct ipu6_bus_device *adev)
+> >   drivers/base/power/common.c | 133 ++++++++++++++++++++++++++++++++++++
+> >   include/linux/pm_domain.h   |  38 +++++++++++
+> >   2 files changed, 171 insertions(+)
+> >
+> > diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
+> > index 44ec20918a4d..1ef51889fc6f 100644
+> > --- a/drivers/base/power/common.c
+> > +++ b/drivers/base/power/common.c
+> > @@ -167,6 +167,114 @@ struct device *dev_pm_domain_attach_by_name(struct device *dev,
+> >   }
+> >   EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_name);
+> >
+> > +/**
+> > + * dev_pm_domain_attach_list - Associate a device with its PM domains.
+> > + * @dev: The device used to lookup the PM domains for.
+> > + * @data: The data used for attaching to the PM domains.
+> > + * @list: An out-parameter with an allocated list of attached PM domains.
+> > + *
+> > + * This function helps to attach a device to its multiple PM domains. The
+> > + * caller, which is typically a driver's probe function, may provide a list of
+> > + * names for the PM domains that we should try to attach the device to, but it
+> > + * may also provide an empty list, in case the attach should be done for all of
+> > + * the available PM domains.
+> > + *
+> > + * Callers must ensure proper synchronization of this function with power
+> > + * management callbacks.
+> > + *
+> > + * Returns the number of attached PM domains or a negative error code in case of
+> > + * a failure. Note that, to detach the list of PM domains, the driver shall call
+> > + * dev_pm_domain_detach_list(), typically during the remove phase.
+> > + */
+> > +int dev_pm_domain_attach_list(struct device *dev,
+> > +                           const struct dev_pm_domain_attach_data *data,
+> > +                           struct dev_pm_domain_list **list)
 > > +{
-> > +	irqreturn_t ret = IRQ_WAKE_THREAD;
+> > +     struct device_node *np = dev->of_node;
+> > +     struct dev_pm_domain_list *pds;
+> > +     struct device *pd_dev = NULL;
+> > +     int ret, i, num_pds = 0;
+> > +     bool by_id = true;
+> > +     u32 link_flags = data && data->pd_flags & PD_FLAG_NO_DEV_LINK ? 0 :
+> > +                     DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME;
 > > +
-> > +	if (!adev || !adev->auxdrv || !adev->auxdrv_data)
-> > +		return IRQ_NONE;
+> > +     if (dev->pm_domain)
+> > +             return -EEXIST;
 > > +
-> > +	if (adev->auxdrv_data->isr)
-> > +		ret = adev->auxdrv_data->isr(adev);
+> > +     /* For now this is limited to OF based platforms. */
+> > +     if (!np)
+> > +             return 0;
 > > +
-> > +	if (ret == IRQ_WAKE_THREAD && !adev->auxdrv_data->isr_threaded)
-> > +		ret = IRQ_NONE;
+> > +     if (data && data->pd_names) {
+> > +             num_pds = data->num_pd_names;
+> > +             by_id = false;
+> > +     } else {
+> > +             num_pds = of_count_phandle_with_args(np, "power-domains",
+> > +                                                  "#power-domain-cells");
+> > +     }
 > > +
-> > +	return ret;
-> > +}
+> > +     if (num_pds <= 0)
+> > +             return 0;
 > > +
-> > +irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
-> > +{
-> > +	struct ipu6_device *isp = isp_ptr;
-> > +	struct ipu6_bus_device *adev[] = { isp->isys, isp->psys };
-> > +	struct ipu6_buttress *b = &isp->buttress;
-> > +	u32 reg_irq_sts = BUTTRESS_REG_ISR_STATUS;
-> > +	irqreturn_t ret = IRQ_NONE;
-> > +	u32 disable_irqs = 0;
-> > +	u32 irq_status;
-> > +	u32 i, count = 0;
+> > +     pds = devm_kzalloc(dev, sizeof(*pds), GFP_KERNEL);
+> > +     if (!pds)
+> > +             return -ENOMEM;
 > > +
-> > +	pm_runtime_get_noresume(&isp->pdev->dev);
+> > +     pds->pd_devs = devm_kcalloc(dev, num_pds, sizeof(*pds->pd_devs),
+> > +                                 GFP_KERNEL);
+> > +     if (!pds->pd_devs)
+> > +             return -ENOMEM;
 > > +
-> > +	irq_status = readl(isp->base + reg_irq_sts);
+> > +     pds->pd_links = devm_kcalloc(dev, num_pds, sizeof(*pds->pd_links),
+> > +                                  GFP_KERNEL);
+> > +     if (!pds->pd_links)
+> > +             return -ENOMEM;
+> > +
+> > +     if (link_flags && data->pd_flags & PD_FLAG_DEV_LINK_ON)
+>
+> Since data is optional, this check results in crash if data is NULL. Thanks
 
-A drive-by comment: this seems dodgy. If someone calls pm_runtime_put*()
-just before the pm_runtime_get_noresume() above, the device won't be
-resumed when reading the register, which will likely not lead to the
-desired result.
+Thanks for spotting this! I certainly tested that option too, but must
+have been on some earlier internal version. :-)
 
-> > +	if (!irq_status) {
-> > +		pm_runtime_put_noidle(&isp->pdev->dev);
-> > +		return IRQ_NONE;
-> > +	}
-> > +
-> > +	do {
-> > +		writel(irq_status, isp->base + BUTTRESS_REG_ISR_CLEAR);
-> > +
-> > +		for (i = 0; i < ARRAY_SIZE(ipu6_adev_irq_mask); i++) {
-> > +			irqreturn_t r = ipu6_buttress_call_isr(adev[i]);
-> > +
-> > +			if (!(irq_status & ipu6_adev_irq_mask[i]))
-> > +				continue;
-> > +
-> > +			if (r == IRQ_WAKE_THREAD) {
-> > +				ret = IRQ_WAKE_THREAD;
-> > +				disable_irqs |= ipu6_adev_irq_mask[i];
-> > +			} else if (ret == IRQ_NONE && r == IRQ_HANDLED) {
-> > +				ret = IRQ_HANDLED;
-> > +			}
-> > +		}
-> 
-> It seems wrong to call the ISR for a adev[i] before checking the
-> corresponding IRQ mask. If the mask is not set, the ISR is still
-> called, but the result is thrown away.
-> 
-> I started investigating this because I'm seeing "general protection
-> fault, probably for non-canonical address 0x6b6b6b6b6b6b6b6b" in this
-> function when unbinding the IPU4 driver.
-> 
-> How do you ensure that the ISR is not called on a ipu6-bus device that
-> has been deleted? Specifically in ipu6_pci_remove, ipu6_bus_del_devices
-> is called before ipu6_buttress_exit (which disables buttress IRQs).
-> Perhaps the above for loop should really be a "for each ipu6-bus
-> device" loop?
-> 
-> > +
-> > +		if ((irq_status & BUTTRESS_EVENT) && ret == IRQ_NONE)
-> > +			ret = IRQ_HANDLED;
-> > +
-> > +		if (irq_status & BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING) {
-> > +			dev_dbg(&isp->pdev->dev,
-> > +				"BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING\n");
-> > +			ipu6_buttress_ipc_recv(isp, &b->cse, &b->cse.recv_data);
-> > +			complete(&b->cse.recv_complete);
-> > +		}
-> > +
-> > +		if (irq_status & BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING) {
-> > +			dev_dbg(&isp->pdev->dev,
-> > +				"BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING\n");
-> > +			ipu6_buttress_ipc_recv(isp, &b->ish, &b->ish.recv_data);
-> > +			complete(&b->ish.recv_complete);
-> > +		}
-> > +
-> > +		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE) {
-> > +			dev_dbg(&isp->pdev->dev,
-> > +				"BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
-> > +			complete(&b->cse.send_complete);
-> > +		}
-> > +
-> > +		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH) {
-> > +			dev_dbg(&isp->pdev->dev,
-> > +				"BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
-> > +			complete(&b->ish.send_complete);
-> > +		}
-> > +
-> > +		if (irq_status & BUTTRESS_ISR_SAI_VIOLATION &&
-> > +		    ipu6_buttress_get_secure_mode(isp))
-> > +			dev_err(&isp->pdev->dev,
-> > +				"BUTTRESS_ISR_SAI_VIOLATION\n");
-> > +
-> > +		if (irq_status & (BUTTRESS_ISR_IS_FATAL_MEM_ERR |
-> > +				  BUTTRESS_ISR_PS_FATAL_MEM_ERR))
-> > +			dev_err(&isp->pdev->dev,
-> > +				"BUTTRESS_ISR_FATAL_MEM_ERR\n");
-> > +
-> > +		if (irq_status & BUTTRESS_ISR_UFI_ERROR)
-> > +			dev_err(&isp->pdev->dev, "BUTTRESS_ISR_UFI_ERROR\n");
-> > +
-> > +		if (++count == BUTTRESS_MAX_CONSECUTIVE_IRQS) {
-> > +			dev_err(&isp->pdev->dev, "too many consecutive IRQs\n");
-> > +			ret = IRQ_NONE;
-> > +			break;
-> > +		}
-> > +
-> > +		irq_status = readl(isp->base + reg_irq_sts);
-> > +	} while (irq_status);
-> > +
-> > +	if (disable_irqs)
-> > +		writel(BUTTRESS_IRQS & ~disable_irqs,
-> > +		       isp->base + BUTTRESS_REG_ISR_ENABLE);
-> > +
-> > +	pm_runtime_put(&isp->pdev->dev);
-> > +
-> > +	return ret;
-> > +}
-> 
-> ...
-> 
-> /Andreas
+I will iterate the series tomorrow to fix this up.
 
--- 
-Regards,
+[...]
 
-Laurent Pinchart
+Kind regards
+Uffe
 
