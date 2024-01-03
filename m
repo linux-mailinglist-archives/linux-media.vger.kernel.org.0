@@ -1,229 +1,291 @@
-Return-Path: <linux-media+bounces-3195-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3196-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95F7822F13
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 15:01:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362B182303E
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 16:13:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38A161F239B1
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 14:01:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A556228592C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 15:13:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23BAB19BCC;
-	Wed,  3 Jan 2024 14:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10B61A730;
+	Wed,  3 Jan 2024 15:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HM7pTIn8"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="b2QSf0xG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2052.outbound.protection.outlook.com [40.107.96.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C601A702
-	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 14:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2286975;
-	Wed,  3 Jan 2024 14:59:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704290393;
-	bh=Bif2Fc6yv86AFyApirAzyiG9V5V7th6CowMYhOif0Pg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HM7pTIn8c5xy8c+AoUTvHraqXlJS8pNTwdDh/Dfrv+C9O+OvVU3/pE4w28A4iAvdh
-	 fNSvA6SL5DRoiwFRiCCFivJZT6JKSCNMZoYyJRXjPPWCZdG07ZlqPIuoxWky19J1Mf
-	 OTvZFPYrlZRjtWNk3ZrZEDPsidEka8tIOJsul7iY=
-Date: Wed, 3 Jan 2024 16:01:02 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc: Andreas Helbech Kleist <andreaskleist@gmail.com>, bingbu.cao@intel.com,
-	linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-	andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
-	tfiga@chromium.org, senozhatsky@chromium.org,
-	tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com,
-	hongju.wang@intel.com
-Subject: Re: [PATCH v2 03/15] media: intel/ipu6: add IPU6 buttress interface
- driver
-Message-ID: <20240103140102.GA5971@pendragon.ideasonboard.com>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-4-bingbu.cao@intel.com>
- <25b34fe6327dbb59ee485a8b5d411b73ffd29392.camel@gmail.com>
- <20240103104935.GA13622@pendragon.ideasonboard.com>
- <42447c5f-88bf-3d3d-b805-dfb90d4da1ac@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04071A71F;
+	Wed,  3 Jan 2024 15:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IuBauQaLMtxG8irtBQhqQh/n6ksIkVx5ULyG1KIWuHB8DT2juWmbMJ4iabXUdVejOy8K50T/Ixv6MqHbtoodeokTxkl8RnmwlC5px0L/fdUlPLqx/T7QUWL/sIDYGOtNdKda84CYYoxbUrqxYLAhtHpzjU5HKhlzEkDlzqy/OEMWzZwXCjPoO+qCE8uYfHPgfWkZTFHLTdu9rYykgylXE4Y//8EZarPcGev10FCKitJ+Ri8Wb5vDaiijyKgVWDRwW1DQYa5IOxWPT7oMQ0xDI3qvXf4gAnc/ndeLStiVKxYb47hEcRqZEahTmF+2oShEMYMQIVMZGKVpJZWQZT0PLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g7Sfb49omOY5kUIBfz2P32nZaE+EGqoIOWCvC6skFrg=;
+ b=ajqSQ+EQSQ/T/Rp7EOEDzKZksaFQlQA6pVQQwqRc858r/Q5Vz5XjIrds5erF1iDcyYeMgxW/qhF2Rd1oVn3fBqi+rbJewXeTtf0/ygPnfa5S4uCrTdsro+aZEkgPtcOcLctkEnct5wnpIhf05LckvITyDQaLqypeMIkzZaY6nwRuEEBkHSeoOLQYFpvPVCvcG9hYifn4DC7a9tB2pcF0ScOozEOGOR0OE9TMyyl2xAQwhfbkJbYy39HtAR7UKZINjzBy1InKYgrf5Dv0I/g4iteWFqiu330WQTenSfmBfcEQCaimh8MC8qKreCchbvCyyo82hymq5AgdnNR9SrFjDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g7Sfb49omOY5kUIBfz2P32nZaE+EGqoIOWCvC6skFrg=;
+ b=b2QSf0xGIJTkROCfgIH5xWN5zk3U9FmBzQAPJdZ6WFis/5zFh/NMlo/by+QB82lPlBDkGlD0wo9JZu8DLNMaCxzlSk0VUXqRNFh1VtZGwxsrD4W2bYsbMUWW5NyTXfNhWMPaVzBtm347f+SaFomF045ppduwWuGl/TZg8H+csNQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB8065.namprd12.prod.outlook.com (2603:10b6:930:73::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.13; Wed, 3 Jan
+ 2024 15:12:49 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7159.013; Wed, 3 Jan 2024
+ 15:12:49 +0000
+Message-ID: <743cde4d-7907-4dcf-a0d1-d06c486e2af6@amd.com>
+Date: Wed, 3 Jan 2024 16:12:41 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [dri?] WARNING in drm_prime_destroy_file_private (2)
+Content-Language: en-US
+To: Qi Zheng <zhengqi.arch@bytedance.com>,
+ syzbot <syzbot+59dcc2e7283a6f5f5ba1@syzkaller.appspotmail.com>
+Cc: airlied@gmail.com, akinobu.mita@gmail.com, akpm@linux-foundation.org,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, jgg@nvidia.com,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sumit.semwal@linaro.org,
+ syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+References: <000000000000f4faa2060d83f582@google.com>
+ <0b0963c2-3c77-4037-a66c-f535c4422755@bytedance.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <0b0963c2-3c77-4037-a66c-f535c4422755@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0245.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f5::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <42447c5f-88bf-3d3d-b805-dfb90d4da1ac@linux.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8065:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8b58534-27a1-40f9-ed13-08dc0c6e729a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	vMfA7EGJc2vvykA4UHd35LQPUunh5D3DrZJrGzcouziCxihorN2N8HMaKEf9sVktSQzSSqlPFKFxbjN7cVR/paKkD4P5gnKL8xvYQ1IFutPzceNoj+II5bUPnEfnphceHR6/O3jIjPQKRKuqxSamnrdCsP/1tUHfiYFnvNarRYiVHeYtaRK5PmakBYXPlj5hB00ci6lcq+ByTjjUKnB7sXe9M0IDzJLLRIasMAtAQYIZOWYkVPnoWh35midLLJtJvfJS7kUETcPOSz0gmk3liVL2VOmTvgQahwX20ErQ6s9Stk6ZFK/buL8LTFrqPZX7sdPYZqjqT7HIVt6zIzJuzgdjcSxLQ1C1LeSBMedw1FadnHCkawkwpENE5XxgIWDX9uQrILMmzfMxi7XDW809L2JoonQBNWnKzrSowlncYZWwPMmf+0tbupAks6uC+dIh8Q0J4BeiCzp18eWnhomyf+veWNna9w+NPsTOtMdPmktO2S+9foVX/53O9Pm3C+YRf5+Zl3rMIg/L3vyG0olznAH3Dpj4ch0M8y12DTTDTKt/bJynDctQq6bPH1Cnpo0bzkoeHxLlnTsK5ZP9pBkSH46KJErgeqOPeaOE/1sYVbba3dVeKWUOiMhb4dwVAO6yL9UXKyVZ5Fokkz7qt6Zi5+I+5eD8XTFheSW63k2+Ih7JmczTVUTMu15F4XPY4Sq09oCfne4l6s0C5r14PaRaCUwvLiDK/CdVpfgifZplxk3Lers1L50y0r9xKcc/n2H5
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(366004)(396003)(136003)(39860400002)(230922051799003)(230173577357003)(230273577357003)(64100799003)(1800799012)(186009)(451199024)(36756003)(31686004)(53546011)(66476007)(6512007)(6506007)(66556008)(66946007)(6486002)(86362001)(31696002)(966005)(38100700002)(2616005)(83380400001)(26005)(41300700001)(2906002)(7416002)(4001150100001)(5660300002)(6666004)(45080400002)(478600001)(4326008)(110136005)(8676002)(316002)(8936002)(99710200001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MXBpM0NYMUthMnI1Tm03TUlaaVd5T3R3Vm9oNThLYVR3bkxwSEpkTkRQbStz?=
+ =?utf-8?B?b0ptc2ZFTVMvelh5Z2N3ZVNJYVFmVnd2M1E0QzQyZXZFRXk5OXh5and2Vngx?=
+ =?utf-8?B?b3R0dDIxbUltRHdqejBDUHkrVWhtK2toamJ6bGgvMmZ6UytEbDE4bmdrU24v?=
+ =?utf-8?B?TWZUTEdXbDNIWTZmd2p2ZzdGVWFHUFJROEtSYmpKZVBNcmRYeSs3aHpyMUQ2?=
+ =?utf-8?B?RXAySll0RWRQSXdDbUdmSjYzd0xwSTl2TUdpUVhnS01vZ0xhYkoxRGtiRFcy?=
+ =?utf-8?B?SW15TVJuS3BndXpUNWRlVk42NmEraGREdkZraFFvZlZ4c0QzUG5RbHN0Wm00?=
+ =?utf-8?B?UkExRkhpMWY0dUp6TS9OV0hhVVk5Tlo5U04xYmZWdWVPL3ZJSWt6WUNJYnhr?=
+ =?utf-8?B?OVhaWkMxMmNZaXB4Z0x4RWdiakkySE5zWk9vR1FxSk9WR3dybzdINlBDRFpk?=
+ =?utf-8?B?ZDVSWFh4Q21NemFqR1BVdDUxTG1OQW91Q2cvM21NOGdoQmFGMW16T1NhM1E1?=
+ =?utf-8?B?Y0RXZy9aWGJqWWIvRW1nanRWVXBUM2tHclBJb3ljQTZEbTJ6cEppc2dUbGQw?=
+ =?utf-8?B?NkZmVitmNDc1K0cycGVBUTNHT0lDamRpdDllc0h2VjdTVWl0d04xY0pFYXow?=
+ =?utf-8?B?UkdxbGtkbVdxdmVvUVB4aUJrZnhkbHE3YmdMblRXWmtQYWxPaHBVd1RDNGcw?=
+ =?utf-8?B?YlllT2c4S291TW9UbVlPd2VCMmpwUXg4VnZFb3BHRUwxaDNyZG1ZRFdIWXVH?=
+ =?utf-8?B?N2didTdmUlBoVENINVRQRVcvSy9sckZrTFRad1pnU3VuWEF0dUVrQmMwU2dP?=
+ =?utf-8?B?V1JNd043cW9SQ3JVZmxtRldzNmQ1Vk9wUnFTQVFsZ09aZlhnWUhlWVhrcmlE?=
+ =?utf-8?B?R0NLRmZpODZCMkVZT204NFNqQ0dVbmt4bFhqV28xMitkVWFCY3BxZURLaVh4?=
+ =?utf-8?B?OGVzaVlIRjNCUG4xTVlyV3I0VVlyNFJybS9lcnE1SU1NQW9rMDBYYmowY29K?=
+ =?utf-8?B?aFI2NTJrV0NjbW16TGh2eG8renV6YkE5VVRCOXNzOThlZnFtcjVUTkplSERH?=
+ =?utf-8?B?MjNlNkhqTHpqQU5jYzhkRWZJYzkvMFYrTHFocE05RUVnQXdjdWZhSDd4cWo3?=
+ =?utf-8?B?Z055SUZYTGhYc0xvaHJjOWVNUjNjRFgwNmJIVTY1WldTaHdaWmR2M1d4Qndr?=
+ =?utf-8?B?eUt5cloxK1U4NStrMnRGbVVXKzVvZFRlem1rdUUwcmkzQ3FOOUxIdjdzRDBU?=
+ =?utf-8?B?MGlJT1hsdFRkYXRTYXJrVVVLTGxqMHBiZ3BudkhQbmgwSTg4aUkweCtEclpR?=
+ =?utf-8?B?T1FnSDJ6azhuZ3VBdDNmSVoxWVRzOFVoWEVpTTJQaXdEaWd0TUVGQ01tVlJi?=
+ =?utf-8?B?NkF5SmlnR3Q4NFg0TG9WMWJIZzBTVVFYSDc4MVhseWgxa3d5Zm5TU3JoTi9I?=
+ =?utf-8?B?K1I3V215cnBQb1dNSjBlaTJYMjRZcFBCM0IyU0xSY29YUWNSNjVnUXBIQnhD?=
+ =?utf-8?B?bjJBUFZPbDZBYVM2Q1FIcTgwS3Z2UVRBN1RiSUlBY2FvaGJ4ZjIvK3gyMHJK?=
+ =?utf-8?B?aFJkRGlDNzQrendlZzVERXJiNkdPV1RXVGRrbVNsSXU0SVdBN2l0UVVzaWJl?=
+ =?utf-8?B?R3N0L1JOeUY2SVowWnNMblpaZzhRcG1RQ25GVnN2RmluZFhNdm0xSmZ1TTVZ?=
+ =?utf-8?B?SGNiT0FoQTI1M1YxQUNPWXdFY25sVUhGWjdtZCsrTnB0TnZRQnZWWS9qOTZv?=
+ =?utf-8?B?NGZZNDBGRGdXdU9JM29xa0I0Z1VUdSsrTXV0aUs2VEZmOGVsQkgraXVSR1pL?=
+ =?utf-8?B?VmcwcHhPK3NEd3h0cFZJdFFNSXN2QnIrN1Z3NHVRQ3lLcjZQQ0dIQTlHQVd2?=
+ =?utf-8?B?bnMxM3FlNWFLSnpLN3g5S09RZVVUeHJ5L0pWMGpxNG9HeHFVZnh1cHQ3Tk4w?=
+ =?utf-8?B?NXFSNDJaUHhPT05Jbml5VFptd0hvOFlHb1RYdWJ5aFJTUHNhR1hnK093cDU4?=
+ =?utf-8?B?aENFSndZQ09JbDVZNFh6enR3SGkvdTBRVEtTTjhLay9TNUs0RmF6WGVnbE9Y?=
+ =?utf-8?B?Tk03cWpza1VLQUJ1NVF3dVMyemRPYmJXOGhQSlhPTDgrUzBXS1hZeldpeUR2?=
+ =?utf-8?Q?RTwGmz7Ws+DYGBG58jeHePWx3?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8b58534-27a1-40f9-ed13-08dc0c6e729a
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2024 15:12:49.1004
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TWnUWzMBEvML0d0WFgJjhAG7W0q0BmBvsouempoAiaJDGJyd/REszCm1TAoqy7aS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8065
 
-Hi Bingbu,
+Am 28.12.23 um 03:57 schrieb Qi Zheng:
+>
+>
+> On 2023/12/28 04:51, syzbot wrote:
+>> Hello,
+>>
+>> syzbot found the following issue on:
+>>
+>> HEAD commit:    5254c0cbc92d Merge tag 'block-6.7-2023-12-22' of 
+>> git://git..
+>> git tree:       upstream
+>> console+strace: https://syzkaller.appspot.com/x/log.txt?x=10cc6995e80000
+>> kernel config: 
+>> https://syzkaller.appspot.com/x/.config?x=314e9ad033a7d3a7
+>> dashboard link: 
+>> https://syzkaller.appspot.com/bug?extid=59dcc2e7283a6f5f5ba1
+>> compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils 
+>> for Debian) 2.40
+>> syz repro: https://syzkaller.appspot.com/x/repro.syz?x=13e35809e80000
+>> C reproducer: https://syzkaller.appspot.com/x/repro.c?x=155d5fd6e80000
+>>
+>> Downloadable assets:
+>> disk image: 
+>> https://storage.googleapis.com/syzbot-assets/ebe09a5995ee/disk-5254c0cb.raw.xz
+>> vmlinux: 
+>> https://storage.googleapis.com/syzbot-assets/02178d7f5f98/vmlinux-5254c0cb.xz
+>> kernel image: 
+>> https://storage.googleapis.com/syzbot-assets/12307f47d87c/bzImage-5254c0cb.xz
+>>
+>> The issue was bisected to:
+>>
+>> commit ea4452de2ae987342fadbdd2c044034e6480daad
+>> Author: Qi Zheng <zhengqi.arch@bytedance.com>
+>> Date:   Fri Nov 18 10:00:11 2022 +0000
+>>
+>>      mm: fix unexpected changes to {failslab|fail_page_alloc}.attr
+>>
+>> bisection log: 
+>> https://syzkaller.appspot.com/x/bisect.txt?x=13027f76e80000
+>> final oops: https://syzkaller.appspot.com/x/report.txt?x=10827f76e80000
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=17027f76e80000
+>>
+>> IMPORTANT: if you fix the issue, please add the following tag to the 
+>> commit:
+>> Reported-by: syzbot+59dcc2e7283a6f5f5ba1@syzkaller.appspotmail.com
+>> Fixes: ea4452de2ae9 ("mm: fix unexpected changes to 
+>> {failslab|fail_page_alloc}.attr")
+>>
+>> R10: 0000000000000000 R11: 0000000000000246 R12: 00007efe98069194
+>> R13: 00007efe97fd2210 R14: 0000000000000002 R15: 6972642f7665642f
+>>   </TASK>
+>> ------------[ cut here ]------------
+>> WARNING: CPU: 0 PID: 5107 at drivers/gpu/drm/drm_prime.c:227 
+>> drm_prime_destroy_file_private+0x43/0x60 drivers/gpu/drm/drm_prime.c:227
+>
+> The warning is caused by !RB_EMPTY_ROOT(&prime_fpriv->dmabufs):
+>
+> drm_prime_destroy_file_private
+> --> WARN_ON(!RB_EMPTY_ROOT(&prime_fpriv->dmabufs));
+>
+> It seems irrelevant to the logic of fault injection. So I don't see
+> why the commit ea4452de2ae9 can cause this warning. :(
 
-On Wed, Jan 03, 2024 at 09:33:26PM +0800, Bingbu Cao wrote:
-> On 1/3/24 6:49 PM, Laurent Pinchart wrote:
-> > On Wed, Jan 03, 2024 at 10:22:20AM +0100, Andreas Helbech Kleist wrote:
-> >> On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
-> >>> From: Bingbu Cao <bingbu.cao@intel.com>
-> >>>
-> >>> The IPU6 buttress is the interface between IPU device (input system
-> >>> and processing system) with rest of the SoC. It contains overall IPU
-> >>> hardware control registers, these control registers are used as the
-> >>> interfaces with the Intel Converged Security Engine and Punit to do
-> >>> firmware authentication and power management.
-> >>>
-> >>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> >>> ---
-> >>
-> >> ...
-> >>
-> >>> +static irqreturn_t ipu6_buttress_call_isr(struct ipu6_bus_device *adev)
-> >>> +{
-> >>> +	irqreturn_t ret = IRQ_WAKE_THREAD;
-> >>> +
-> >>> +	if (!adev || !adev->auxdrv || !adev->auxdrv_data)
-> >>> +		return IRQ_NONE;
-> >>> +
-> >>> +	if (adev->auxdrv_data->isr)
-> >>> +		ret = adev->auxdrv_data->isr(adev);
-> >>> +
-> >>> +	if (ret == IRQ_WAKE_THREAD && !adev->auxdrv_data->isr_threaded)
-> >>> +		ret = IRQ_NONE;
-> >>> +
-> >>> +	return ret;
-> >>> +}
-> >>> +
-> >>> +irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
-> >>> +{
-> >>> +	struct ipu6_device *isp = isp_ptr;
-> >>> +	struct ipu6_bus_device *adev[] = { isp->isys, isp->psys };
-> >>> +	struct ipu6_buttress *b = &isp->buttress;
-> >>> +	u32 reg_irq_sts = BUTTRESS_REG_ISR_STATUS;
-> >>> +	irqreturn_t ret = IRQ_NONE;
-> >>> +	u32 disable_irqs = 0;
-> >>> +	u32 irq_status;
-> >>> +	u32 i, count = 0;
-> >>> +
-> >>> +	pm_runtime_get_noresume(&isp->pdev->dev);
-> >>> +
-> >>> +	irq_status = readl(isp->base + reg_irq_sts);
-> > 
-> > A drive-by comment: this seems dodgy. If someone calls pm_runtime_put*()
-> > just before the pm_runtime_get_noresume() above, the device won't be
-> > resumed when reading the register, which will likely not lead to the
-> > desired result.
-> 
-> Thanks for your review. 
-> What do you think using pm_runtime_get_if_in_use() here?
+Making an educated guess I strongly think syzbot incorrectly bisected this.
 
-This is the second discussion in a few weeks about this topic. See
-https://lore.kernel.org/linux-media/60b3aec2-294f-4ab0-8a4b-0c32a52c84a0@ideasonboard.com
+What basically happens is that a DRM test case crashes because a file 
+private data structure is destroyed before all DMA-bufs referring to it 
+are destroyed.
 
-Sakari, should we try to handle this issue with shared helpers ?
+Looks like a random race condition in a test case to me. Question is 
+really what test is syzbot running and who is maintaining this test case?
 
-> >>> +	if (!irq_status) {
-> >>> +		pm_runtime_put_noidle(&isp->pdev->dev);
-> >>> +		return IRQ_NONE;
-> >>> +	}
-> >>> +
-> >>> +	do {
-> >>> +		writel(irq_status, isp->base + BUTTRESS_REG_ISR_CLEAR);
-> >>> +
-> >>> +		for (i = 0; i < ARRAY_SIZE(ipu6_adev_irq_mask); i++) {
-> >>> +			irqreturn_t r = ipu6_buttress_call_isr(adev[i]);
-> >>> +
-> >>> +			if (!(irq_status & ipu6_adev_irq_mask[i]))
-> >>> +				continue;
-> >>> +
-> >>> +			if (r == IRQ_WAKE_THREAD) {
-> >>> +				ret = IRQ_WAKE_THREAD;
-> >>> +				disable_irqs |= ipu6_adev_irq_mask[i];
-> >>> +			} else if (ret == IRQ_NONE && r == IRQ_HANDLED) {
-> >>> +				ret = IRQ_HANDLED;
-> >>> +			}
-> >>> +		}
-> >>
-> >> It seems wrong to call the ISR for a adev[i] before checking the
-> >> corresponding IRQ mask. If the mask is not set, the ISR is still
-> >> called, but the result is thrown away.
-> >>
-> >> I started investigating this because I'm seeing "general protection
-> >> fault, probably for non-canonical address 0x6b6b6b6b6b6b6b6b" in this
-> >> function when unbinding the IPU4 driver.
-> >>
-> >> How do you ensure that the ISR is not called on a ipu6-bus device that
-> >> has been deleted? Specifically in ipu6_pci_remove, ipu6_bus_del_devices
-> >> is called before ipu6_buttress_exit (which disables buttress IRQs).
-> >> Perhaps the above for loop should really be a "for each ipu6-bus
-> >> device" loop?
-> >>
-> >>> +
-> >>> +		if ((irq_status & BUTTRESS_EVENT) && ret == IRQ_NONE)
-> >>> +			ret = IRQ_HANDLED;
-> >>> +
-> >>> +		if (irq_status & BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING) {
-> >>> +			dev_dbg(&isp->pdev->dev,
-> >>> +				"BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING\n");
-> >>> +			ipu6_buttress_ipc_recv(isp, &b->cse, &b->cse.recv_data);
-> >>> +			complete(&b->cse.recv_complete);
-> >>> +		}
-> >>> +
-> >>> +		if (irq_status & BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING) {
-> >>> +			dev_dbg(&isp->pdev->dev,
-> >>> +				"BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING\n");
-> >>> +			ipu6_buttress_ipc_recv(isp, &b->ish, &b->ish.recv_data);
-> >>> +			complete(&b->ish.recv_complete);
-> >>> +		}
-> >>> +
-> >>> +		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE) {
-> >>> +			dev_dbg(&isp->pdev->dev,
-> >>> +				"BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
-> >>> +			complete(&b->cse.send_complete);
-> >>> +		}
-> >>> +
-> >>> +		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH) {
-> >>> +			dev_dbg(&isp->pdev->dev,
-> >>> +				"BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
-> >>> +			complete(&b->ish.send_complete);
-> >>> +		}
-> >>> +
-> >>> +		if (irq_status & BUTTRESS_ISR_SAI_VIOLATION &&
-> >>> +		    ipu6_buttress_get_secure_mode(isp))
-> >>> +			dev_err(&isp->pdev->dev,
-> >>> +				"BUTTRESS_ISR_SAI_VIOLATION\n");
-> >>> +
-> >>> +		if (irq_status & (BUTTRESS_ISR_IS_FATAL_MEM_ERR |
-> >>> +				  BUTTRESS_ISR_PS_FATAL_MEM_ERR))
-> >>> +			dev_err(&isp->pdev->dev,
-> >>> +				"BUTTRESS_ISR_FATAL_MEM_ERR\n");
-> >>> +
-> >>> +		if (irq_status & BUTTRESS_ISR_UFI_ERROR)
-> >>> +			dev_err(&isp->pdev->dev, "BUTTRESS_ISR_UFI_ERROR\n");
-> >>> +
-> >>> +		if (++count == BUTTRESS_MAX_CONSECUTIVE_IRQS) {
-> >>> +			dev_err(&isp->pdev->dev, "too many consecutive IRQs\n");
-> >>> +			ret = IRQ_NONE;
-> >>> +			break;
-> >>> +		}
-> >>> +
-> >>> +		irq_status = readl(isp->base + reg_irq_sts);
-> >>> +	} while (irq_status);
-> >>> +
-> >>> +	if (disable_irqs)
-> >>> +		writel(BUTTRESS_IRQS & ~disable_irqs,
-> >>> +		       isp->base + BUTTRESS_REG_ISR_ENABLE);
-> >>> +
-> >>> +	pm_runtime_put(&isp->pdev->dev);
-> >>> +
-> >>> +	return ret;
-> >>> +}
-> >>
-> >> ...
-
--- 
 Regards,
+Christian.
 
-Laurent Pinchart
+>
+>> Modules linked in:
+>> CPU: 0 PID: 5107 Comm: syz-executor227 Not tainted 
+>> 6.7.0-rc6-syzkaller-00248-g5254c0cbc92d #0
+>> Hardware name: Google Google Compute Engine/Google Compute Engine, 
+>> BIOS Google 11/17/2023
+>> RIP: 0010:drm_prime_destroy_file_private+0x43/0x60 
+>> drivers/gpu/drm/drm_prime.c:227
+>> Code: 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 21 48 8b 83 
+>> 90 00 00 00 48 85 c0 75 06 5b e9 13 f1 93 fc e8 0e f1 93 fc 90 <0f> 
+>> 0b 90 5b e9 04 f1 93 fc e8 3f 9b ea fc eb d8 66 66 2e 0f 1f 84
+>> RSP: 0018:ffffc90003bdf9e0 EFLAGS: 00010293
+>> RAX: 0000000000000000 RBX: ffff888019f28378 RCX: ffffc90003bdf9b0
+>> RDX: ffff888018ff9dc0 RSI: ffffffff84f380c2 RDI: ffff888019f28408
+>> RBP: ffff888019f28000 R08: 0000000000000001 R09: 0000000000000001
+>> R10: ffffffff8f193a57 R11: 0000000000000000 R12: ffff88814829a000
+>> R13: ffff888019f282a8 R14: ffff88814829a068 R15: ffff88814829a0a0
+>> FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) 
+>> knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 00007efe98050410 CR3: 000000006d1ff000 CR4: 0000000000350ef0
+>> Call Trace:
+>>   <TASK>
+>>   drm_file_free.part.0+0x738/0xb90 drivers/gpu/drm/drm_file.c:290
+>>   drm_file_free drivers/gpu/drm/drm_file.c:247 [inline]
+>>   drm_close_helper.isra.0+0x180/0x1f0 drivers/gpu/drm/drm_file.c:307
+>>   drm_release+0x22a/0x4f0 drivers/gpu/drm/drm_file.c:494
+>>   __fput+0x270/0xb70 fs/file_table.c:394
+>>   task_work_run+0x14d/0x240 kernel/task_work.c:180
+>>   exit_task_work include/linux/task_work.h:38 [inline]
+>>   do_exit+0xa8a/0x2ad0 kernel/exit.c:869
+>>   do_group_exit+0xd4/0x2a0 kernel/exit.c:1018
+>>   get_signal+0x23b5/0x2790 kernel/signal.c:2904
+>>   arch_do_signal_or_restart+0x90/0x7f0 arch/x86/kernel/signal.c:309
+>>   exit_to_user_mode_loop kernel/entry/common.c:168 [inline]
+>>   exit_to_user_mode_prepare+0x121/0x240 kernel/entry/common.c:204
+>>   __syscall_exit_to_user_mode_work kernel/entry/common.c:285 [inline]
+>>   syscall_exit_to_user_mode+0x1e/0x60 kernel/entry/common.c:296
+>>   do_syscall_64+0x4d/0x110 arch/x86/entry/common.c:89
+>>   entry_SYSCALL_64_after_hwframe+0x63/0x6b
+>> RIP: 0033:0x7efe98014769
+>> Code: Unable to access opcode bytes at 0x7efe9801473f.
+>> RSP: 002b:00007efe97fd2208 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
+>> RAX: fffffffffffffe00 RBX: 00007efe9809c408 RCX: 00007efe98014769
+>> RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007efe9809c408
+>> RBP: 00007efe9809c400 R08: 0000000000003131 R09: 0000000000003131
+>> R10: 0000000000000000 R11: 0000000000000246 R12: 00007efe98069194
+>> R13: 00007efe97fd2210 R14: 0000000000000002 R15: 6972642f7665642f
+>>   </TASK>
+>>
+>>
+>> ---
+>> This report is generated by a bot. It may contain errors.
+>> See https://goo.gl/tpsmEJ for more information about syzbot.
+>> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>>
+>> syzbot will keep track of this issue. See:
+>> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>> For information about bisection process see: 
+>> https://goo.gl/tpsmEJ#bisection
+>>
+>> If the report is already addressed, let syzbot know by replying with:
+>> #syz fix: exact-commit-title
+>>
+>> If you want syzbot to run the reproducer, reply with:
+>> #syz test: git://repo/address.git branch-or-commit-hash
+>> If you attach or paste a git patch, syzbot will apply it before testing.
+>>
+>> If you want to overwrite report's subsystems, reply with:
+>> #syz set subsystems: new-subsystem
+>> (See the list of subsystem names on the web dashboard)
+>>
+>> If the report is a duplicate of another one, reply with:
+>> #syz dup: exact-subject-of-another-report
+>>
+>> If you want to undo deduplication, reply with:
+>> #syz undup
+
 
