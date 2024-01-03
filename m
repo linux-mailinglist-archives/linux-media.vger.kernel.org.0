@@ -1,95 +1,182 @@
-Return-Path: <linux-media+bounces-3197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3198-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54388230E3
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 16:58:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A02A823126
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 17:19:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B345285F51
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 15:58:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68ABBB22398
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 16:19:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D526F1B286;
-	Wed,  3 Jan 2024 15:58:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CB081BDD7;
+	Wed,  3 Jan 2024 16:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hC9XfGE4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R/kL4X0T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4657B1B278;
-	Wed,  3 Jan 2024 15:58:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C07CC433C8;
-	Wed,  3 Jan 2024 15:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704297496;
-	bh=J2qaYb0QE6L9hh7qWv/hsZPbsaA0YA/s6WmiwcLhg+I=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hC9XfGE4Jdh6LZPKOYde0goTfU05v7ml4qMHhPK1JsZlgVX9lFgWnQoBb54cmCcvO
-	 fWAxCFFoyPCut7bYJQENSoOD8xeMc853F/osl62eFQbMbZivRSmvIc6nzG3RfUD3jn
-	 DnRTp6T4xkFhk6t9kZzAkq8jWJxJWOVpqzvdVbO9cTPByRegaMiTFkbh4lKEW0rjDA
-	 wEk5R3QANRO/rMRysBdINuOFtNpol1wjYW/Mn9Y/IEQ3cGLHlDFKDe6IVH5PLDk6w+
-	 Iw0nWMBkApUXjyc1Z55IPa4iQVzC4jcRNBWJAC2c7g2Kmkgwjmml/9JF5D5Q/lK9wz
-	 KOrYhvlEATRIQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Mehdi Djait <mehdi.djait@bootlin.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: i2c: thp7312: select CONFIG_FW_LOADER
-Date: Wed,  3 Jan 2024 16:58:05 +0100
-Message-Id: <20240103155811.4092035-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B011B298
+	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 16:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33686649b72so10815156f8f.3
+        for <linux-media@vger.kernel.org>; Wed, 03 Jan 2024 08:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704298759; x=1704903559; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=selIPiTBkoS5l1OMM3i9w0HzBJej2N34COzM6/N+NXw=;
+        b=R/kL4X0TuZViqbCth7s4OVAa3mr2h0jHTHDMHYgWkquq6pbl3f1nU5D3JQ450UxFLf
+         xhfNez88fb2TgyA0Yr6PKPQF+t81IuNuHYT107+2pD3PLNAFHqJeS0SnMgY0ed79yExL
+         lNVBT++TDjCYA3WOUlqfFcc2s7GP94jzpEV0xOJNvjGbP0a8eqYSUJQtet57oVgeNdJC
+         KJ0OXHfPkFVGzn06aoPzutMMt66xGNuEY2zrehR+RgQ0xMRK9fzMSaRuYE+J1rS/QLff
+         7927CNvu11Ses4Pa1/G9XVQBPBqNRT0A8yIchldWXGPxEC2cMMAUKJstUuKdtdoZXcWO
+         8wAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704298759; x=1704903559;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=selIPiTBkoS5l1OMM3i9w0HzBJej2N34COzM6/N+NXw=;
+        b=AqO7bV5Z15vxllhQQAfJPIUxDpX3X4SWpuoFU5Cw+3/87KDQDwQBRPyBxWADcYZeiC
+         FsW1g/5qqbYFnHs/6c7NIyhO5PyUrwZhW75YoTdS1GiEYev8enDYygJoCg6gS4d939Gh
+         igWvzOgA8VsRmPLw9Mby8zQEnrFkmqZFOw+O9q1P+M3GJ7GP8sstC3ShGKq5WdUFWxMo
+         e1eQ66IEDK+ak2DVKYVwLGAmcAsdaBRFpGcQgQhHdkUc0/72iZ3Zlx9Lb5LUvBhB7qiJ
+         slnJzoSEjYVCAaYdqhPweqCNQreLAsWg6RFsx9NL9QquP0EJ2Z0YBmYETCqDvf1HuaR9
+         Ac9A==
+X-Gm-Message-State: AOJu0YwdbeY69SeEkpzkoiGf2kbCZl8iw7YoxXJHy8z1+iqRvxVh+ghL
+	lLOKyOrdSHFXMu70qjVtlHHUUVHnqjkAxNhtY6w92nQLv1+j0Q==
+X-Google-Smtp-Source: AGHT+IHxc6RmbUDk8qZRRP/wXwKJQLoJEMFsPKWaRD1qnAIxQ7oGRHhKlBd9L738dgpFKgfPEWiB2CKPi4ihoQcZq9g=
+X-Received: by 2002:a5d:4cc8:0:b0:336:95d2:c64a with SMTP id
+ c8-20020a5d4cc8000000b0033695d2c64amr9871256wrt.130.1704298759433; Wed, 03
+ Jan 2024 08:19:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231228114157.104822-1-ulf.hansson@linaro.org>
+ <20231228114157.104822-4-ulf.hansson@linaro.org> <ZZRY4rMjjkIsG3Ef@p14s> <CAPDyKFqgw_my76dicP9wuQAmF=kF=v5wGwxEF05wTQHdSvfuCA@mail.gmail.com>
+In-Reply-To: <CAPDyKFqgw_my76dicP9wuQAmF=kF=v5wGwxEF05wTQHdSvfuCA@mail.gmail.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Wed, 3 Jan 2024 09:19:08 -0700
+Message-ID: <CANLsYkzAG4EdYgQ9hNgMB3icGY_yrNwXesBnYxnBtzakrGv7zg@mail.gmail.com>
+Subject: Re: [PATCH 3/5] remoteproc: imx_rproc: Convert to dev_pm_domain_attach|detach_list()
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org, 
+	Sudeep Holla <sudeep.holla@arm.com>, Kevin Hilman <khilman@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Nikunj Kela <nkela@quicinc.com>, Prasad Sodagudi <psodagud@quicinc.com>, 
+	Stephan Gerhold <stephan@gerhold.net>, Ben Horgan <Ben.Horgan@arm.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-remoteproc@vger.kernel.org, 
+	linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, 3 Jan 2024 at 03:11, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+>
+> On Tue, 2 Jan 2024 at 19:41, Mathieu Poirier <mathieu.poirier@linaro.org> wrote:
+> >
+> > Hi Ulf,
+> >
+> > I'm in agreement with the modifications done to imx_rproc.c and imx_dsp_rproc.c.
+> > There is one thing I am ambivalent on, please see below.
+> >
+> > On Thu, Dec 28, 2023 at 12:41:55PM +0100, Ulf Hansson wrote:
+> > > Let's avoid the boilerplate code to manage the multiple PM domain case, by
+> > > converting into using dev_pm_domain_attach|detach_list().
+> > >
+> > > Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > > Cc: Bjorn Andersson <andersson@kernel.org>
+> > > Cc: Shawn Guo <shawnguo@kernel.org>
+> > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > Cc: <linux-remoteproc@vger.kernel.org>
+> > > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > > ---
+> > >  drivers/remoteproc/imx_rproc.c | 73 +++++-----------------------------
+> > >  1 file changed, 9 insertions(+), 64 deletions(-)
+> > >
+> > > diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
+> > > index 8bb293b9f327..3161f14442bc 100644
+> > > --- a/drivers/remoteproc/imx_rproc.c
+> > > +++ b/drivers/remoteproc/imx_rproc.c
+> > > @@ -92,7 +92,6 @@ struct imx_rproc_mem {
+> > >
+> > >  static int imx_rproc_xtr_mbox_init(struct rproc *rproc);
+> > >  static void imx_rproc_free_mbox(struct rproc *rproc);
+> > > -static int imx_rproc_detach_pd(struct rproc *rproc);
+> > >
+> > >  struct imx_rproc {
+> > >       struct device                   *dev;
+> > > @@ -113,10 +112,8 @@ struct imx_rproc {
+> > >       u32                             rproc_pt;       /* partition id */
+> > >       u32                             rsrc_id;        /* resource id */
+> > >       u32                             entry;          /* cpu start address */
+> > > -     int                             num_pd;
+> > >       u32                             core_index;
+> > > -     struct device                   **pd_dev;
+> > > -     struct device_link              **pd_dev_link;
+> > > +     struct dev_pm_domain_list       *pd_list;
+> > >  };
+> > >
+> > >  static const struct imx_rproc_att imx_rproc_att_imx93[] = {
+> > > @@ -853,7 +850,7 @@ static void imx_rproc_put_scu(struct rproc *rproc)
+> > >               return;
+> > >
+> > >       if (imx_sc_rm_is_resource_owned(priv->ipc_handle, priv->rsrc_id)) {
+> > > -             imx_rproc_detach_pd(rproc);
+> > > +             dev_pm_domain_detach_list(priv->pd_list);
+> > >               return;
+> > >       }
+> > >
+> > > @@ -880,72 +877,20 @@ static int imx_rproc_partition_notify(struct notifier_block *nb,
+> > >  static int imx_rproc_attach_pd(struct imx_rproc *priv)
+> > >  {
+> > >       struct device *dev = priv->dev;
+> > > -     int ret, i;
+> > > -
+> > > -     /*
+> > > -      * If there is only one power-domain entry, the platform driver framework
+> > > -      * will handle it, no need handle it in this driver.
+> > > -      */
+> > > -     priv->num_pd = of_count_phandle_with_args(dev->of_node, "power-domains",
+> > > -                                               "#power-domain-cells");
+> > > -     if (priv->num_pd <= 1)
+> > > -             return 0;
+> >
+> > In function dev_pm_domain_attach_list(), this condition is "<= 0" rather than
+> > "<= 1".  As such the association between the device and power domain will be
+> > done twice when there is a single power domain, i.e once by the core and once in
+> > dev_pm_domain_attach_list().
+> >
+> > I am assuming the runtime PM subsystem is smart enough to deal with this kind of
+> > situation but would like a confirmation.
+>
+> Thanks for reviewing!
+>
+> To cover the the single PM domain case, imx_rproc_attach_pd() is
+> returning 0 when dev->pm_domain has been assigned. Moreover,
+> dev_pm_domain_attach_list() doesn't allow attaching in the single PM
+> domain case, as it returns -EEXIST if "dev->pm_domain" is already
+> assigned.
+>
+> Did that make sense to you?
+>
 
-The recently added driver uses the firmware loader mechanism but causes
-a link failure when that is in a loadable module while thp7312 itself
-is built-in:
+Ah yes!  The correlation between dev->pm_domain and the magic done by
+the core framework was lost on me.
 
-arm-linux-gnueabi-ld: drivers/media/i2c/thp7312.o: in function `thp7312_probe':
-thp7312.c:(.text+0x4164): undefined reference to `firmware_upload_register'
+Once you respin to address Nikunj's comment I will ask the NXP team in
+Romania to test this set.  With the holiday season still floating in
+the air it may take a little while for them to get to it.
 
-Select the required Kconfig symbol. Note that the driver specifically
-needs the firmware upload interface that is controlled by CONFIG_FW_UPLOAD,
-but there is no link failure when that is disabled because the interfaces
-are stubbed out here.
-
-Fixes: 7a52ab415b43 ("media: i2c: Add driver for THine THP7312")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/i2c/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 78a87331686e..4c3435921f19 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -674,6 +674,7 @@ menu "Camera ISPs"
- config VIDEO_THP7312
- 	tristate "THine THP7312 support"
- 	depends on I2C
-+	select FW_LOADER
- 	select MEDIA_CONTROLLER
- 	select V4L2_CCI_I2C
- 	select V4L2_FWNODE
--- 
-2.39.2
-
+> [...]
+>
+> Kind regards
+> Uffe
 
