@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-3192-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3193-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49993822E23
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 14:22:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6A0822EB7
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 14:41:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B6C31C233D0
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 13:22:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B7973B2062F
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 13:41:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07DD8199A7;
-	Wed,  3 Jan 2024 13:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7C7F19BB8;
+	Wed,  3 Jan 2024 13:37:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OUD8pOA/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTyajCnU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32AE1947F
-	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 13:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA441D536
+	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 13:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704288130; x=1735824130;
-  h=subject:from:to:cc:references:message-id:date:
+  t=1704289043; x=1735825043;
+  h=subject:to:cc:references:from:message-id:date:
    mime-version:in-reply-to:content-transfer-encoding;
-  bh=JkfHKIyXbcWqRIGr4jLlDl8geVhrG3h14Lj2vGndEis=;
-  b=OUD8pOA/b/Lckhs8vJOpVWkCLceO4BKIhsfa6JtVu7kk7gSaJD/ak010
-   llmj6xED0jckwj9Oalj9kj/oAFnxnr/q5CEj9jeyBwKkwgxAz8Ahg0vSz
-   e8/qFxWcyh2KNGE940bzU34UmILgnjOJnvvZnXexewEl3YzmM2kgidE3m
-   nN41ywnc9ZLCew8xPcRpyFlGIKygliOXRvi5Xf0H/47ThYHPea3cyhIQF
-   028sDpRDcMdUMz/nB39ON4gBrBr3FsLOVWqubOOIvIn+tYbd5O9PCHitK
-   JmAoXB6sjTw+8Nt1gboO+9oCwuDtnq6UM7hOlf6pOfPlaIfOVs2aWh6sH
+  bh=xofjBZgZwtO4sJ1BTSu6ADuPnorZtiA9rM+UUZ6pVLU=;
+  b=HTyajCnUXyk0EYyj+3mWe7cHOsTqERbdobQfwMcRzW+uMkDP8CnFypgN
+   xboth7ZogSHrfmopdn5Wi29Y6pjmvvSFmsJABIVm+dhK4Nd0M/2Gez7xz
+   YC6HdqyezcaOCx3GmCqScOaLB/6pxA2r3JQH+Neg11Lts+a0OAh1GryCq
+   IxZWwABjAjaJy79muGs8J3fZCoP0j0zU0l0JGvYRNEKNschv46COFyiqi
+   49ZJdKyS4tW8fJLIHGAhA697Ip7pSPnKL1ai8xpcjVCyqAgEyM6cE72gM
+   GIX/do7lblnxkHbaGp4HE3mzd0/BqpxfKvsICUpQLLytKUcQMl9wNqDfV
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="4360884"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="395882883"
 X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="4360884"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 05:22:10 -0800
+   d="scan'208";a="395882883"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 05:37:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="814265800"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="729785655"
 X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="814265800"
+   d="scan'208";a="729785655"
 Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by orsmga001.jf.intel.com with ESMTP; 03 Jan 2024 05:22:05 -0800
+  by orsmga003.jf.intel.com with ESMTP; 03 Jan 2024 05:37:18 -0800
 Subject: Re: [PATCH v2 03/15] media: intel/ipu6: add IPU6 buttress interface
  driver
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-To: Andreas Helbech Kleist <andreaskleist@gmail.com>, bingbu.cao@intel.com,
- linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
- laurent.pinchart@ideasonboard.com
-Cc: andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
- tfiga@chromium.org, senozhatsky@chromium.org,
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andreas Helbech Kleist <andreaskleist@gmail.com>
+Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+ sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
+ claus.stovgaard@gmail.com, tfiga@chromium.org, senozhatsky@chromium.org,
  tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com,
  hongju.wang@intel.com
 References: <20231024112924.3934228-1-bingbu.cao@intel.com>
  <20231024112924.3934228-4-bingbu.cao@intel.com>
  <25b34fe6327dbb59ee485a8b5d411b73ffd29392.camel@gmail.com>
- <a6d1ed67-1d2c-3700-fe74-5697d4217bea@linux.intel.com>
-Message-ID: <c74838b5-14a3-d96d-f50e-c897b15d05c8@linux.intel.com>
-Date: Wed, 3 Jan 2024 21:18:14 +0800
+ <20240103104935.GA13622@pendragon.ideasonboard.com>
+From: Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <42447c5f-88bf-3d3d-b805-dfb90d4da1ac@linux.intel.com>
+Date: Wed, 3 Jan 2024 21:33:26 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -71,17 +71,15 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <a6d1ed67-1d2c-3700-fe74-5697d4217bea@linux.intel.com>
+In-Reply-To: <20240103104935.GA13622@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Andreas,
+Laurent,
 
-On 1/3/24 9:11 PM, Bingbu Cao wrote:
-> Andreas,
-> 
-> On 1/3/24 5:22 PM, Andreas Helbech Kleist wrote:
+On 1/3/24 6:49 PM, Laurent Pinchart wrote:
+> On Wed, Jan 03, 2024 at 10:22:20AM +0100, Andreas Helbech Kleist wrote:
 >> Hi Bingbu,
 >>
 >> On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
@@ -128,6 +126,16 @@ On 1/3/24 9:11 PM, Bingbu Cao wrote:
 >>> +	pm_runtime_get_noresume(&isp->pdev->dev);
 >>> +
 >>> +	irq_status = readl(isp->base + reg_irq_sts);
+> 
+> A drive-by comment: this seems dodgy. If someone calls pm_runtime_put*()
+> just before the pm_runtime_get_noresume() above, the device won't be
+> resumed when reading the register, which will likely not lead to the
+> desired result.
+
+Thanks for your review. 
+What do you think using pm_runtime_get_if_in_use() here?
+ 
+> 
 >>> +	if (!irq_status) {
 >>> +		pm_runtime_put_noidle(&isp->pdev->dev);
 >>> +		return IRQ_NONE;
@@ -163,19 +171,6 @@ On 1/3/24 9:11 PM, Bingbu Cao wrote:
 >> is called before ipu6_buttress_exit (which disables buttress IRQs).
 >> Perhaps the above for loop should really be a "for each ipu6-bus
 >> device" loop?
-> 
-> You are right, the buttress_exit() should be called before
-> ipu6_bus_del_devices().
-> 
-> Even with this, driver cannot guarantee that hardware irq was actually
-> disabled on IPU4. In some error cases, HW could report unmasked errors on
-> IPU4 (no such case on IPU6), if I remember correctly.
-> 
-> Have you check whether devm_free_irq() in ipu6_pci_remove() can help you?
-
-BTW, could you share the irq_status in your case?
-
-> 
 >>
 >>> +
 >>> +		if ((irq_status & BUTTRESS_EVENT) && ret == IRQ_NONE)
@@ -241,7 +236,6 @@ BTW, could you share the irq_status in your case?
 >> ...
 >>
 >> /Andreas
->>
 > 
 
 -- 
