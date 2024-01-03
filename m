@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-3186-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3187-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F9B822A5A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 10:40:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F8A822A71
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 10:48:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F64E285535
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 09:40:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC220284802
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 09:48:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FC5E18632;
-	Wed,  3 Jan 2024 09:40:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28EEA18AEA;
+	Wed,  3 Jan 2024 09:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="lqpyHhX/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C8WMt4xA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC3E182BE
-	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 09:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3373a30af67so2646789f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 03 Jan 2024 01:40:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E35718AE8
+	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 09:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50e5a9bcec9so12264043e87.3
+        for <linux-media@vger.kernel.org>; Wed, 03 Jan 2024 01:47:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1704274804; x=1704879604; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1704275270; x=1704880070; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=v8kV6bmv9AGmb8cbNFglMHaYDajh0jeItl9QUctLrzk=;
-        b=lqpyHhX/g/THJKmc/fspcmIf/KkDCrbr+z9EDfMcbwbeKFdDJkjKHNowT5t5TYBikI
-         vVGz0NLb5lsjHaPzgT8FSSKAVHVomR2Hs/OjkREhwN+WwbHsMjQvldvn3KzotYNCKyNp
-         IBzig/TTzK3JAAuF2L6/YoxaIp5OK5eypsN/8YRRKVawYghbfJzta6Sgr8ijD/W0V4m4
-         ExSHM7GJFj3bKS3ToFlBJ9zuJcjeCSshzqzJE81R13KeweALDE9e2f6o6qgAJao8ja3H
-         ITbVYJh1MazjVc2pak/QPgQdLcVXFaoN8tHBR1su4mRJ3/CW4lEZ280KNZfA5vERnPCR
-         sxjQ==
+        bh=WcKFRTyJ6uhyfUighyIoDtu8qJHzqwvV5rC+59LKaj8=;
+        b=C8WMt4xAjdott9YUNGzSbbv0hfrva1AUz9n3/MbPVqqPXbWZPBlppCi+ov2K3XmSfG
+         JJohCuextH1GTTbMS7SpKkcpaFF32jVqcw7MP6l2d7UfAqwA9/lAKMADJJDXlY9C4+tD
+         dUcccqMlHQz1HJ0oiHMc0ZN/KsTBXN/tGEPRwMQd/uhtR9eRaB+vmZQNhPrNngzw8hSS
+         KQPYdbhnlGKWD9XWmsUl5bxfuhXcKKPfmBJi+Z0V+bvLJI2oB72IEn7wZBYtDkCYbqp/
+         4clLDyoYk1g42xw0w+af6V7VzWeXMKHGTDLZnWj6FEaXrEXjUOD3Jf+8z+f1TOKOd2Uu
+         o4Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704274804; x=1704879604;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1704275270; x=1704880070;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v8kV6bmv9AGmb8cbNFglMHaYDajh0jeItl9QUctLrzk=;
-        b=HvhJ0z9GzEp3om3ByKV7/eE/dnDCUAMpM/S2DDIgcRXFlHY/nB+bmcm9TocGyG6BMg
-         QhtoTRRMIBbWplmGaM1FfYX57LM50ndM0dRW1WBioDI0LZudpNf2L6MigPOep3SwJAjL
-         gAgpufLCWO+hz1YeX1EC1cpmoLpchtgNYwJM972WFOU0FcOf8cvwPXQzl9Qcn46ft7tj
-         jk0TNpZJ5ZQJcplDJjBmIFHdbltjPDU0IFqpWW5k4ltx9oGLmnV8tlMVN0v1e2tnLAqu
-         t69s6zwHWRIgcfCH8MiDyWwUqgXsidalX47sf34ZmqhJtvMtgusJspAZuLhNdOXe9BKk
-         EwIQ==
-X-Gm-Message-State: AOJu0Yxs4wetne9hWVwLQ2VkiyV/roF8HwbchZHzu/bJ3ooEqQtnzGVE
-	zRk5MpODWWo4PUlCs6Rv65CsTEmFRgeCnA==
-X-Google-Smtp-Source: AGHT+IFHNK2lB2OFIK/xyIhVP8vFFvnAEjuMr5JigM5mzJOMR0g/F1kIMG2j2fzjAepYxSuahtNonQ==
-X-Received: by 2002:a05:600c:4f54:b0:40d:8580:4f1a with SMTP id m20-20020a05600c4f5400b0040d85804f1amr1878780wmq.171.1704274804374;
-        Wed, 03 Jan 2024 01:40:04 -0800 (PST)
-Received: from [192.168.100.86] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id g15-20020a5d488f000000b00336e43e8e57sm18973025wrq.58.2024.01.03.01.40.03
+        bh=WcKFRTyJ6uhyfUighyIoDtu8qJHzqwvV5rC+59LKaj8=;
+        b=OgiUWPpAvGs0kQd7bB2okMj6+ezWFw3ubUOU+G68sh87OIcvvWYkNY6mnZIK+Ix3r2
+         jSiBDQ2sppekn3Gk0nUBX6/roqW8FqqOtB/slGbuCLG8yBL909Q8aRXf0v7UFSkFMms1
+         WTupGrz15HXnZ8cNoMQJDZnmCRcHTLJpQYc46aintP8G9pP+8d+keM8gsX+Jts3iMIGW
+         ZxdmwlESHc5pEPWQczWCPbQYk6qu2TyyixZpKuuvgXsgM1/xCli3H0/IqKFpPUsqvPYH
+         f+eohSKPXIodMted7sq1tYAIQmUas+PSkaiXdQeM9BuyGfPrMREB34TyKCi+VCF6e1Km
+         gr2g==
+X-Gm-Message-State: AOJu0Yzez/j0QplnWlFyoyFsZzx5YenRvSWTzz7kvdZa6hdnT1pqvKDI
+	o/md8T0SfIFqA2kqiMrKMzQ8nB3NkQ1Z4A==
+X-Google-Smtp-Source: AGHT+IFi1FnTfHCdSl9J27oAr0x7YyLT35aOEJvcA6lyiThombT3L7ieDIviZGQUus3WAfgMFcecqQ==
+X-Received: by 2002:a05:6512:3e7:b0:50e:84c4:cec7 with SMTP id n7-20020a05651203e700b0050e84c4cec7mr4460725lfq.138.1704275269966;
+        Wed, 03 Jan 2024 01:47:49 -0800 (PST)
+Received: from [192.168.199.125] (178235179036.dynamic-4-waw-k-1-3-0.vectranet.pl. [178.235.179.36])
+        by smtp.gmail.com with ESMTPSA id gi16-20020a1709070c9000b00a19b7362dcfsm12592779ejc.139.2024.01.03.01.47.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jan 2024 01:40:03 -0800 (PST)
-Message-ID: <62995a12-e835-40ff-966f-8522f2ab53dc@nexus-software.ie>
-Date: Wed, 3 Jan 2024 09:40:02 +0000
+        Wed, 03 Jan 2024 01:47:49 -0800 (PST)
+Message-ID: <d8b2867f-7fc6-4147-ae48-11bbf580b5bf@linaro.org>
+Date: Wed, 3 Jan 2024 10:47:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,50 +66,131 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: dt-bindings: media: camss: Add
- qcom,sc8280xp-camss binding
+Subject: Re: [PATCH 2/3] arm64: dts: qcom: sc8280xp: camss: Add CCI
+ definitions
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Robert Foss
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org>
- <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-1-abacaa63a961@linaro.org>
- <87bcff40-b5ff-41c9-a33f-95f5e80a2f22@linaro.org>
-From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
-In-Reply-To: <87bcff40-b5ff-41c9-a33f-95f5e80a2f22@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-2-abacaa63a961@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-2-abacaa63a961@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/01/2024 07:40, Krzysztof Kozlowski wrote:
-> On 03/01/2024 03:18, Bryan O'Donoghue wrote:
->> Add bindings for qcom,sc8280xp-camss in order to support the camera
->> subsystem for sc8280xp as found in the Lenovo x13s Laptop.
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>   .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++++
->>   1 file changed, 512 insertions(+)
->>
+On 3.01.2024 03:18, Bryan O'Donoghue wrote:
+> sc8280xp has four Camera Control Interface (CCI) blocks which pinout to
+> two I2C master controllers for each CCI.
 > 
-> This patch fails, as pointed out by Robot.
+> The CCI I2C pins are not muxed so we define them in the dtsi.
 > 
-> Best regards,
-> Krzysztof
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 324 +++++++++++++++++++++++++++++++++
+>  1 file changed, 324 insertions(+)
 > 
-> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> index febf28356ff8..4f6acd4a3f00 100644
+> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> @@ -3451,6 +3451,170 @@ usb_1_role_switch: endpoint {
+>  			};
+>  		};
+>  
+> +		cci0: cci@ac4a000 {
+> +			compatible = "qcom,sm8250-cci", "qcom,msm8996-cci";
 
-Ah its in Bjorn's 6.8 clock pull tree.
+8280, 8250 instead
 
-I will repost when it hits -next
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			reg = <0 0x0ac4a000 0 0x1000>;
+> +			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+> +			power-domains = <&camcc TITAN_TOP_GDSC>;
+> +
+> +			clocks = <&camcc CAMCC_CAMNOC_AXI_CLK>,
+> +				 <&camcc CAMCC_SLOW_AHB_CLK_SRC>,
+> +				 <&camcc CAMCC_CPAS_AHB_CLK>,
+> +				 <&camcc CAMCC_CCI_0_CLK>,
+> +				 <&camcc CAMCC_CCI_0_CLK_SRC>;
 
----
-bod
+Is this _src really necessary? (the one above seems to be)
+
+> +			clock-names = "camnoc_axi",
+> +				      "slow_ahb_src",
+> +				      "cpas_ahb",
+> +				      "cci",
+> +				      "cci_src";
+
+> +
+> +			pinctrl-0 = <&cci0_default>;
+> +			pinctrl-1 = <&cci0_sleep>;
+> +			pinctrl-names = "default", "sleep";
+
+please refer to Documentation/devicetree/bindings/dts-coding-style.rst
+
+[...]
+
+> +			cci0_default: cci0-default-state {
+> +				cci0_i2c0_default: cci0-i2c0-default-pins {
+> +					/* cci_i2c_sda0, cci_i2c_scl0 */
+> +					pins = "gpio113", "gpio114";
+> +					function = "cci_i2c";
+> +
+> +					bias-pull-up;
+> +					drive-strength = <2>; /* 2 mA */
+
+The mA comments seem unnecessary
+
+Also, please follow the style of existing pin nodes:
+
+pins
+function
+drive-strength
+bias-
+output-
+
+Konrad
 
