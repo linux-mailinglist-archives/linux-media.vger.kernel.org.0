@@ -1,87 +1,122 @@
-Return-Path: <linux-media+bounces-3200-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3201-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41388233EB
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 18:54:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BAF823617
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 21:06:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1A201C23CDE
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 17:54:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EA8A287543
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 20:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE7C1C6B3;
-	Wed,  3 Jan 2024 17:54:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09C661CFBC;
+	Wed,  3 Jan 2024 20:06:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ROahT/8a"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xYks43pB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E521C6AE;
-	Wed,  3 Jan 2024 17:54:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 718D2C433C7;
-	Wed,  3 Jan 2024 17:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704304467;
-	bh=bjY+TelhsJhVcAkpYhMDsUdz6i9JvN3gBf3gtTujZ1c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ROahT/8aY0QDu/FZ89Eg8rXfrfU5CK/zMWmuIs4IO9BtDTHJYEVvJ2TZylO3ELRx+
-	 nf3rGE1oyjfqSwMC+DwtjCtZMfxH6aktMcSY4QCuzCPNOd8jV/MHtHLHtx+9VavmfN
-	 UPUkYbZq49tykJj4ZUXgfo73yWqrAibYvUy0Dro9/aP5cy17x0zTPVPaAmlTQ+nYKg
-	 JndllnIxg9gw7KvLDWY66qYcd+WBXJuWXNIAXyoFpnS/bkmeTuc/lY2jGr10+PN0gQ
-	 4tqVaZhdFo9/jd1MQADboEpJ0kNYDQExoyFXPdGZxl/wN4kjAzqlkqVIfvZpHuqzLc
-	 c70ZtlQgFDw+A==
-Received: (nullmailer pid 1445325 invoked by uid 1000);
-	Wed, 03 Jan 2024 17:54:24 -0000
-Date: Wed, 3 Jan 2024 10:54:24 -0700
-From: Rob Herring <robh@kernel.org>
-To: Bryan O'Donoghue <pure.logic@nexus-software.ie>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: dt-bindings: media: camss: Add
- qcom,sc8280xp-camss binding
-Message-ID: <20240103175424.GA1440392-robh@kernel.org>
-References: <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org>
- <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-1-abacaa63a961@linaro.org>
- <87bcff40-b5ff-41c9-a33f-95f5e80a2f22@linaro.org>
- <62995a12-e835-40ff-966f-8522f2ab53dc@nexus-software.ie>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538331D521;
+	Wed,  3 Jan 2024 20:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=5dyrGtJzFd/nI+6RCdTpAzac1uifkIlq6gjdAP+yoZw=; b=xYks43pBdg0PRPfV3sN8AogwYq
+	QBdSQshZw0qh4pNmSImWYahazDV6+yjxE0/7uGpf4wTxJRjzrOSHFK5L3M4esyXowrtX3at5XsEGa
+	JCyti2kkoEqczDhNF9uiEs+2Jx9u4w0P4rjzQBQrJSUryiNeOC5osbVdG7LFqx+dx388C7q46SLUC
+	v3YMSvT7u2FKJUSHs/IZBwVp66/ZDqtRTptFYgIRmfN58f+hwakY1xSWkJUweCGdRi+ec6gGKal1G
+	XKQtfuY+uxe4wMrcHVQ5wDCSll0rClLFcD/aiKJdCW3cLNAAAAcIFrb2CrlUp9YZ4IjOZtivzx1qt
+	y/fuJFFw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rL7Va-00BzMz-1A;
+	Wed, 03 Jan 2024 20:06:34 +0000
+Message-ID: <775efa9b-0917-4e89-abc5-470c9f4506db@infradead.org>
+Date: Wed, 3 Jan 2024 12:06:33 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62995a12-e835-40ff-966f-8522f2ab53dc@nexus-software.ie>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: i2c: thp7312: select CONFIG_FW_LOADER
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Paul Elder <paul.elder@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Mehdi Djait <mehdi.djait@bootlin.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240103155811.4092035-1-arnd@kernel.org>
+ <20240103174820.GA17142@pendragon.ideasonboard.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240103174820.GA17142@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 03, 2024 at 09:40:02AM +0000, Bryan O'Donoghue wrote:
-> On 03/01/2024 07:40, Krzysztof Kozlowski wrote:
-> > On 03/01/2024 03:18, Bryan O'Donoghue wrote:
-> > > Add bindings for qcom,sc8280xp-camss in order to support the camera
-> > > subsystem for sc8280xp as found in the Lenovo x13s Laptop.
-> > > 
-> > > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > ---
-> > >   .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++++
-> > >   1 file changed, 512 insertions(+)
-> > > 
-> > 
-> > This patch fails, as pointed out by Robot.
-> > 
-> > Best regards,
-> > Krzysztof
-> > 
-> > 
+
+
+On 1/3/24 09:48, Laurent Pinchart wrote:
+> Hi Arnd,
 > 
-> Ah its in Bjorn's 6.8 clock pull tree.
+> Thank you for the patch.
 > 
-> I will repost when it hits -next
+> On Wed, Jan 03, 2024 at 04:58:05PM +0100, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> The recently added driver uses the firmware loader mechanism but causes
+>> a link failure when that is in a loadable module while thp7312 itself
+>> is built-in:
+>>
+>> arm-linux-gnueabi-ld: drivers/media/i2c/thp7312.o: in function `thp7312_probe':
+>> thp7312.c:(.text+0x4164): undefined reference to `firmware_upload_register'
+>>
+>> Select the required Kconfig symbol. Note that the driver specifically
+>> needs the firmware upload interface that is controlled by CONFIG_FW_UPLOAD,
+>> but there is no link failure when that is disabled because the interfaces
+>> are stubbed out here.
+>>
+>> Fixes: 7a52ab415b43 ("media: i2c: Add driver for THine THP7312")
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> 
+> I've posted a similar fix yesterday, see
+> https://lore.kernel.org/linux-media/20240102074518.24968-1-laurent.pinchart@ideasonboard.com
+> 
+> What approach do you think is best ?
 
-How is that helpful? It will still fail, and the media maintainers still 
-can't apply this. If you work on linux-next, you'd better be 
-aware of and explain the dependencies.
+By far the dominant use of FW_LOADER is to select it instead of depend on it,
+so I prefer Arnd's patch.
 
-Rob
+> 
+>> ---
+>>  drivers/media/i2c/Kconfig | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+>> index 78a87331686e..4c3435921f19 100644
+>> --- a/drivers/media/i2c/Kconfig
+>> +++ b/drivers/media/i2c/Kconfig
+>> @@ -674,6 +674,7 @@ menu "Camera ISPs"
+>>  config VIDEO_THP7312
+>>  	tristate "THine THP7312 support"
+>>  	depends on I2C
+>> +	select FW_LOADER
+>>  	select MEDIA_CONTROLLER
+>>  	select V4L2_CCI_I2C
+>>  	select V4L2_FWNODE
+> 
+
+-- 
+#Randy
 
