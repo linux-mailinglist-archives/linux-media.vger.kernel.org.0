@@ -1,203 +1,115 @@
-Return-Path: <linux-media+bounces-3185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3186-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4CA822A3F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 10:25:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F9B822A5A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 10:40:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2B0F1F21E79
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 09:25:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F64E285535
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jan 2024 09:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9389A182C3;
-	Wed,  3 Jan 2024 09:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FC5E18632;
+	Wed,  3 Jan 2024 09:40:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KAOAgjSU"
+	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="lqpyHhX/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D458182B5
-	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 09:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-555144cd330so7827035a12.2
-        for <linux-media@vger.kernel.org>; Wed, 03 Jan 2024 01:25:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC3E182BE
+	for <linux-media@vger.kernel.org>; Wed,  3 Jan 2024 09:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3373a30af67so2646789f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 03 Jan 2024 01:40:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704273946; x=1704878746; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nr/UKlp+7oCxK+O8JFfrwz35XIwBexKtqtpiSblbYDc=;
-        b=KAOAgjSUxYu9IGekauZV1RrW0JNRqt/Bm7QknumyuXaRELDlJlkNJoZL87EBJIy7Kg
-         zcxW1oHmEnnOvewZKD55CcTuq1EIGjZvGf/IuDAc19KsbUO10VJUIpe2wUOoTsnLUPVN
-         XN81BKMkx0AnG2g4MzL/SCH/9FPLZq4hKvZMv/GNbcuImjtonqYeYmFQd/Qd7VzB8RCo
-         DG3geGZe8tQ0SHNmqIdQ7JS4u8ZSfanEg2B5CqKuD0UirynjIzNpCZt9bfwbIc93S2np
-         2Ia7SyNXYoCVMhw/ZHNHD0E8+62NIQBytwkjLesIdGH2J8nVNDKXsuz2MQQ496ys9fjZ
-         4gjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704273946; x=1704878746;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1704274804; x=1704879604; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nr/UKlp+7oCxK+O8JFfrwz35XIwBexKtqtpiSblbYDc=;
-        b=QGFCTuuw2Mcj+fRfrucm2U5jNLTIgwuEEwliLl5SjpLzyRbFxoB/ib1Tq5FvnQYkMT
-         FZTIX7HipFRsrkVGsLzFp0C5IbHK/eKqmON+8FaS3yw2jZAXgLgXb9cQ9S/w4fe1tj04
-         qbnTUkcyyPKAdRXMXTgDiZSpKH25QMh4JNVXLGBOEvjBOFmQavQ8G5KYOQK3R1iOUG+x
-         2xsUQXki1spEU7Wi3vl/7W6J83QakIIjZhV3BhnD04K65P4cfZQeARYmKFZx74ASs7Fs
-         93JXnx5OeMr5IQ6sQzE/1KQMt4ucXJFOiDR8KlvvK7I9m9e+ZV9M0h5OdKnCJszBnAq0
-         dRLQ==
-X-Gm-Message-State: AOJu0YwFG9ocJPR7pgGT2IvOY5FzTP/tWsX2QILtMS45YaU6NkkMNyIp
-	qdy4XakBmxg/ofAV81Awzg8=
-X-Google-Smtp-Source: AGHT+IGn9BbbJkwZgo2P4Jh05eVuXZDlFLi1VfaU3kNxb5qACh9j6GRbUL946mFYaQ3GolKtgiuA3Q==
-X-Received: by 2002:a17:906:4e4a:b0:a28:a8cb:3185 with SMTP id g10-20020a1709064e4a00b00a28a8cb3185mr127585ejw.69.1704273946308;
-        Wed, 03 Jan 2024 01:25:46 -0800 (PST)
-Received: from [192.168.50.250] (c-x59968899.customers.hiper-net.dk. [89.150.136.153])
-        by smtp.gmail.com with ESMTPSA id qc28-20020a170906d8bc00b00a279b182e42sm4742185ejb.171.2024.01.03.01.25.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 01:25:45 -0800 (PST)
-Message-ID: <d0c7365f1fbb13d7c79e05d7280d4405fc317414.camel@gmail.com>
-Subject: Re: [PATCH v2 06/15] media: intel/ipu6: add syscom interfaces
- between firmware and driver
-From: Andreas Helbech Kleist <andreaskleist@gmail.com>
-To: Bingbu Cao <bingbu.cao@linux.intel.com>, bingbu.cao@intel.com, 
-	linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, 
-	laurent.pinchart@ideasonboard.com
-Cc: andriy.shevchenko@linux.intel.com, hdegoede@redhat.com, 
- ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
- tfiga@chromium.org,  senozhatsky@chromium.org,
- tomi.valkeinen@ideasonboard.com,  tian.shu.qiu@intel.com,
- hongju.wang@intel.com
-Date: Wed, 03 Jan 2024 10:25:44 +0100
-In-Reply-To: <36bb9aee-409c-88d0-30e3-a34de23c8577@linux.intel.com>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
-	 <20231024112924.3934228-7-bingbu.cao@intel.com>
-	 <c8ad7da6ea24b31aab2eead0d822f8dc897a105e.camel@gmail.com>
-	 <36bb9aee-409c-88d0-30e3-a34de23c8577@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+        bh=v8kV6bmv9AGmb8cbNFglMHaYDajh0jeItl9QUctLrzk=;
+        b=lqpyHhX/g/THJKmc/fspcmIf/KkDCrbr+z9EDfMcbwbeKFdDJkjKHNowT5t5TYBikI
+         vVGz0NLb5lsjHaPzgT8FSSKAVHVomR2Hs/OjkREhwN+WwbHsMjQvldvn3KzotYNCKyNp
+         IBzig/TTzK3JAAuF2L6/YoxaIp5OK5eypsN/8YRRKVawYghbfJzta6Sgr8ijD/W0V4m4
+         ExSHM7GJFj3bKS3ToFlBJ9zuJcjeCSshzqzJE81R13KeweALDE9e2f6o6qgAJao8ja3H
+         ITbVYJh1MazjVc2pak/QPgQdLcVXFaoN8tHBR1su4mRJ3/CW4lEZ280KNZfA5vERnPCR
+         sxjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704274804; x=1704879604;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v8kV6bmv9AGmb8cbNFglMHaYDajh0jeItl9QUctLrzk=;
+        b=HvhJ0z9GzEp3om3ByKV7/eE/dnDCUAMpM/S2DDIgcRXFlHY/nB+bmcm9TocGyG6BMg
+         QhtoTRRMIBbWplmGaM1FfYX57LM50ndM0dRW1WBioDI0LZudpNf2L6MigPOep3SwJAjL
+         gAgpufLCWO+hz1YeX1EC1cpmoLpchtgNYwJM972WFOU0FcOf8cvwPXQzl9Qcn46ft7tj
+         jk0TNpZJ5ZQJcplDJjBmIFHdbltjPDU0IFqpWW5k4ltx9oGLmnV8tlMVN0v1e2tnLAqu
+         t69s6zwHWRIgcfCH8MiDyWwUqgXsidalX47sf34ZmqhJtvMtgusJspAZuLhNdOXe9BKk
+         EwIQ==
+X-Gm-Message-State: AOJu0Yxs4wetne9hWVwLQ2VkiyV/roF8HwbchZHzu/bJ3ooEqQtnzGVE
+	zRk5MpODWWo4PUlCs6Rv65CsTEmFRgeCnA==
+X-Google-Smtp-Source: AGHT+IFHNK2lB2OFIK/xyIhVP8vFFvnAEjuMr5JigM5mzJOMR0g/F1kIMG2j2fzjAepYxSuahtNonQ==
+X-Received: by 2002:a05:600c:4f54:b0:40d:8580:4f1a with SMTP id m20-20020a05600c4f5400b0040d85804f1amr1878780wmq.171.1704274804374;
+        Wed, 03 Jan 2024 01:40:04 -0800 (PST)
+Received: from [192.168.100.86] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id g15-20020a5d488f000000b00336e43e8e57sm18973025wrq.58.2024.01.03.01.40.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jan 2024 01:40:03 -0800 (PST)
+Message-ID: <62995a12-e835-40ff-966f-8522f2ab53dc@nexus-software.ie>
+Date: Wed, 3 Jan 2024 09:40:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: dt-bindings: media: camss: Add
+ qcom,sc8280xp-camss binding
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org>
+ <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-1-abacaa63a961@linaro.org>
+ <87bcff40-b5ff-41c9-a33f-95f5e80a2f22@linaro.org>
+From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <87bcff40-b5ff-41c9-a33f-95f5e80a2f22@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,=C2=A0
+On 03/01/2024 07:40, Krzysztof Kozlowski wrote:
+> On 03/01/2024 03:18, Bryan O'Donoghue wrote:
+>> Add bindings for qcom,sc8280xp-camss in order to support the camera
+>> subsystem for sc8280xp as found in the Lenovo x13s Laptop.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>>   .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++++
+>>   1 file changed, 512 insertions(+)
+>>
+> 
+> This patch fails, as pointed out by Robot.
+> 
+> Best regards,
+> Krzysztof
+> 
+> 
 
-On Thu, 2023-12-28 at 14:39 +0800, Bingbu Cao wrote:
-> Andreas,
->=20
-> On 11/23/23 5:33 PM, Andreas Helbech Kleist wrote:
-> > Hi,
-> >=20
-> > On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
-> > > From: Bingbu Cao <bingbu.cao@intel.com>
-> > >=20
-> > > Syscom is an inter-process(or) communication mechanism between an IPU
-> > > and host. Syscom uses message queues for message exchange between IPU
-> > > and host. Each message queue has its consumer and producer, host
-> > > queue
-> > > messages to firmware as the producer and then firmware to dequeue the
-> > > messages as consumer and vice versa. IPU and host use shared
-> > > registers
-> > > or memory to reside the read and write indices which are updated by
-> > > consumer and producer.
-> > >=20
-> > > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> > > ---
-> > >  drivers/media/pci/intel/ipu6/ipu6-fw-com.c | 411
-> > > +++++++++++++++++++++
-> > >  drivers/media/pci/intel/ipu6/ipu6-fw-com.h |  47 +++
-> > >  2 files changed, 458 insertions(+)
-> > >  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.c
-> > >  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.h
-> > ...
-> > > +struct ipu6_fw_com_context {
-> > > +       struct ipu6_bus_device *adev;
-> > > +       void __iomem *dmem_addr;
-> > > +       int (*cell_ready)(struct ipu6_bus_device *adev);
-> > > +       void (*cell_start)(struct ipu6_bus_device *adev);
-> >=20
-> > Why are cell_ready and cell_start function pointers? They seem to
-> > always be set to query_sp and start_sp.
-> >=20
-> > > +
-> > > +       void *dma_buffer;
-> > > +       dma_addr_t dma_addr;
-> > > +       unsigned int dma_size;
-> > > +       unsigned long attrs;
-> > > +
-> > > +       struct ipu6_fw_sys_queue *input_queue;  /* array of host to
-> > > SP queues */
-> > > +       struct ipu6_fw_sys_queue *output_queue; /* array of SP to
-> > > host */
-> > > +
-> > > +       u32 config_vied_addr;
-> > > +
-> > > +       unsigned int buttress_boot_offset;
-> > > +       void __iomem *base_addr;
-> > > +};
-> > > +
-> > > +#define FW_COM_WR_REG 0
-> > > +#define FW_COM_RD_REG 4
-> > > +
-> > > +#define REGMEM_OFFSET 0
-> > > +#define TUNIT_MAGIC_PATTERN 0x5a5a5a5a
-> > > +
-> > > +enum regmem_id {
-> > > +       /* pass pkg_dir address to SPC in non-secure mode */
-> > > +       PKG_DIR_ADDR_REG =3D 0,
-> > > +       /* Tunit CFG blob for secure - provided by host.*/
-> > > +       TUNIT_CFG_DWR_REG =3D 1,
-> > > +       /* syscom commands - modified by the host */
-> > > +       SYSCOM_COMMAND_REG =3D 2,
-> > > +       /* Store interrupt status - updated by SP */
-> > > +       SYSCOM_IRQ_REG =3D 3,
-> > > +       /* first syscom queue pointer register */
-> > > +       SYSCOM_QPR_BASE_REG =3D 4
-> > > +};
-> > > +
-> > > +enum message_direction {
-> > > +       DIR_RECV =3D 0,
-> > > +       DIR_SEND
-> > > +};
-> >=20
-> > Not used?
->=20
-> Ack, will remove.
->=20
-> >=20
-> >=20
-> > ...
-> > > +struct ipu6_fw_com_cfg {
-> > > +       unsigned int num_input_queues;
-> > > +       unsigned int num_output_queues;
-> > > +       struct ipu6_fw_syscom_queue_config *input;
-> > > +       struct ipu6_fw_syscom_queue_config *output;
-> > > +
-> > > +       unsigned int dmem_addr;
-> > > +
-> > > +       /* firmware-specific configuration data */
-> > > +       void *specific_addr;
-> > > +       unsigned int specific_size;
-> > > +       int (*cell_ready)(struct ipu6_bus_device *adev);
-> > > +       void (*cell_start)(struct ipu6_bus_device *adev);
-> > > +
-> > > +       unsigned int buttress_boot_offset;
-> >=20
-> > This seems to always be 0 (set by ipu6-fw-isys.c), seems to be trivial
-> > to remove.
->=20
-> All these fields are all used to extend for psys driver.
+Ah its in Bjorn's 6.8 clock pull tree.
 
-Then I suppose they can be added if a psys driver is submitted upstream
-at some point.
+I will repost when it hits -next
 
-Is is it the intention to submit a psys driver as well?
-
-/Andreas
-
+---
+bod
 
