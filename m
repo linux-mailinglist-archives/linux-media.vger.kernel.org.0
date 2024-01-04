@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-3209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE1D8241FA
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jan 2024 13:42:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F57824352
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jan 2024 15:10:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A80C1F21D91
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jan 2024 12:42:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A86E81C215AA
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jan 2024 14:10:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C61BA22094;
-	Thu,  4 Jan 2024 12:42:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C05D224DB;
+	Thu,  4 Jan 2024 14:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VjiVvOVq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FrMIc0/b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C128A2137C
-	for <linux-media@vger.kernel.org>; Thu,  4 Jan 2024 12:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E3D224D6
+	for <linux-media@vger.kernel.org>; Thu,  4 Jan 2024 14:10:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a22f59c6ae6so56581166b.1
-        for <linux-media@vger.kernel.org>; Thu, 04 Jan 2024 04:42:32 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cd17a979bcso6376971fa.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Jan 2024 06:10:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704372151; x=1704976951; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1704377403; x=1704982203; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=dRP9+rhhV3SIxJalK5NtKfm30Il3OxEE9yx20SZCWP0=;
-        b=VjiVvOVq8qyk/UhFRK8Rkmxe0qDwZ1/SB1+MNQSHMEUafJ0r+6Y7bwfLoty32DNqSq
-         IzYqoZ+baHpzJkBMckSIebZF+6/vl271DDi/ZUd5a6BG+V05/JFdtw8JUXctrmyEadEw
-         A63Bjr4Zw2n4BZ/I2nO9BFiVcYaGuRXTYFF19ZQfHn62CrgaxcAcd5ObQCdROOAaH8hV
-         SOdYIuP32RX3kbQPpWARFJKVuyEG3eBYb8jMBttC01ylKkga0qaYGhc0Fem1T80IJueM
-         nbuuDeFRQKtLPfzCbweKtC7R/yTUj+aW9dnvve7vLS9jbqgg7dQAVvw6tu8G4la9JGkZ
-         7xJw==
+        bh=QvyBwEaiMbUvG2bcyPLm6XlY6v4Hxt5APwIYm1XSkrE=;
+        b=FrMIc0/bg63yGw8pviWosTx9WqTOaB3Yhmamf1wOrXyiwywX8XOqTDNTA1HncN8WtV
+         HHe7Efb2devZ/OnYaX4iwXMaDH2pESREbJxKwzofwJvCdbHvoBWrJrGiQz482zRvk8ZW
+         nu+wrG7cSBTgUVhYFt04aU7BWFansoknyi+BjJ1rvip0KtzbTNXPDui2cJxgGs5x4BpY
+         DnBeoCtgkr128NIq/l9BeUdrtE5OSg3ofKXe6Xj0l4S9CMqBVjy/2ekk3wNiO5GN2NvC
+         aSIGRjsg2+lTWNxfGPqzieQk3io79NATZfVRNdrAcSb9bhljlSrZUqplMee7IUZItkZH
+         ppfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704372151; x=1704976951;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1704377403; x=1704982203;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dRP9+rhhV3SIxJalK5NtKfm30Il3OxEE9yx20SZCWP0=;
-        b=sRB2GUc7K/zRQE2S9qxAas0eXd3h2TDw6kxZRHGOV4qT9fEDKEZ2K7u7u5upOfhpSn
-         FT76vCgEgkUzzMdIT2IJ39JA61rWvnpDiiF+KWcwXi3JnLwcbcT5Vl6W7gWs6UzaDvaO
-         G8mP77fwe+/2VgAhaitbCTkG4WPw21+6SJ/Uo8g1JZbfOIQ02Z4ye05XjPdOXyNKGcjA
-         rzE+8o7YznAkf5+56xqyxwlSHdxBOD8oyHhZhft3C0s+3ScvkIKpNj95ngqDLdhmwRQ7
-         80vqJz+NTb14/ygagHEA5RA21Tzw8DmGcWZkTSgnZ3pIKKPRBSbIec2SvxNINX938X5z
-         Vfmw==
-X-Gm-Message-State: AOJu0YyiVLoCtrMuCVPPB7Y9XtLSXEJFRDQ362jldwANsnV5lzKutczQ
-	SnOuQfspeyswespR3USZL0U8FNK2fentfw==
-X-Google-Smtp-Source: AGHT+IEJnb+2HZXo6LMiQISI4O3s4pjM6mQFjUrnr7gv6i2gtrVN6ZXf1PV8jkl7prbuwj41sOljAg==
-X-Received: by 2002:a17:906:8402:b0:a27:c786:6cd1 with SMTP id n2-20020a170906840200b00a27c7866cd1mr169668ejx.275.1704372151126;
-        Thu, 04 Jan 2024 04:42:31 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id w19-20020a17090633d300b00a28fb943961sm52359eja.204.2024.01.04.04.42.29
+        bh=QvyBwEaiMbUvG2bcyPLm6XlY6v4Hxt5APwIYm1XSkrE=;
+        b=QChE34BHtH7jYwiDvFr8KoXMCzs5bg6ZsAFY4KtLD4Q2N7l2gxySd4LHarZlw7wB+5
+         HvABDzU+l2dAba0fLImXenuR61rXcF4x7B4cbQZyWwt1v9k3r9NGbpyKmjWcSUM9i48f
+         hdKZDmDzv9ooLhqAUcA2m1YpDuuwr346TS9Ya/N0sOm3sdYt7H0mdbqJLnJJH+05HQo3
+         d4cVF2jq4GcHPAsFXRfclNO1h0fgYg0o/36ppjleVDVy8Bb8btfEJgGq48qSE7l4tj/6
+         LLBKNPSqwgoF7KmSEvtH/GIRDcUBpmjq2ilim3COm2oTWRKzexUbNxLsL8XdnLpYfdaU
+         7cPg==
+X-Gm-Message-State: AOJu0YxdyrrxEzu05P45YHo+Piy3saqQnYs5BLW6NyD/GR9qu1611+vD
+	FMoT+DHE2LACH0M30vd3S61XYjbjq5VeEw==
+X-Google-Smtp-Source: AGHT+IG0lzZDESK7ygOFl5Ea/ju6snk5+bN5kdUcnPQ8W0V8q1L5nCMWaYuaUq4yiByYpdIAEKbzWw==
+X-Received: by 2002:a05:651c:607:b0:2cc:7578:3ce6 with SMTP id k7-20020a05651c060700b002cc75783ce6mr152556lje.10.1704377403284;
+        Thu, 04 Jan 2024 06:10:03 -0800 (PST)
+Received: from [192.168.100.86] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id dr15-20020a5d5f8f000000b003373ece28efsm10611785wrb.29.2024.01.04.06.10.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jan 2024 04:42:30 -0800 (PST)
-Message-ID: <360ff767-e48f-4a02-a2cf-f6c99048fd93@linaro.org>
-Date: Thu, 4 Jan 2024 13:42:29 +0100
+        Thu, 04 Jan 2024 06:10:02 -0800 (PST)
+Message-ID: <db83302e-0f2a-4611-b8c9-345668d0bbef@linaro.org>
+Date: Thu, 4 Jan 2024 14:10:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,98 +66,47 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] arm64: dts: qcom: sc8280xp: Add CAMSS core dtsi
- support
+Subject: Re: [PATCH 1/3] media: dt-bindings: media: camss: Add
+ qcom,sc8280xp-camss binding
 Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh@kernel.org>,
+ Bryan O'Donoghue <pure.logic@nexus-software.ie>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-1-abacaa63a961@linaro.org>
+ <87bcff40-b5ff-41c9-a33f-95f5e80a2f22@linaro.org>
+ <62995a12-e835-40ff-966f-8522f2ab53dc@nexus-software.ie>
+ <20240103175424.GA1440392-robh@kernel.org>
+ <3627b156-a4e4-458e-9cf0-ca6c62366e7e@linaro.org>
+ <36dfbb05-d538-4f83-9e0d-898e3d35f3dc@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <36dfbb05-d538-4f83-9e0d-898e3d35f3dc@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/01/2024 03:18, Bryan O'Donoghue wrote:
-> This series adds the yaml, CAMSS and CCI dts definitions for the sc8280xp.
+On 04/01/2024 12:40, Krzysztof Kozlowski wrote:
+>> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-1-abacaa63a961@linaro.org/
+>>
+>> If not - what is the base of the build ?
+> master
 > 
-> 4 x CCI master busses
-> 4 x VFE
-> 4 x VFE Lite
-> 4 x CSID
-> 4 x CSIPHY
-> 
-> Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
-> Bryan O'Donoghue (3):
->       media: dt-bindings: media: camss: Add qcom,sc8280xp-camss binding
->       arm64: dts: qcom: sc8280xp: camss: Add CCI definitions
->       arm64: dts: qcom: sc8280xp: camss: Add CAMSS block definition
-> 
->  .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++
->  arch/arm64/boot/dts/qcom/sc8280xp.dtsi             | 563 +++++++++++++++++++++
->  2 files changed, 1075 insertions(+)
-> ---
-> base-commit: ab0b3e6ef50d305278b1971891cf1d82ab050b35
+> Anyway, the base of the build matters less. The main problem is that you
+> have dependency which is nowhere explained. This cannot go via media
+> tree, because of that dependency.
 
-BTW, this also does not help, when used on random commit or random tree:
+Obvs my mistake I'd have assumed the dts stuff built against -next, 
+clearly not how this works.
 
-$ git show ab0b3e6ef50d305278b1971891cf1d82ab050b35
-fatal: bad object ab0b3e6ef50d305278b1971891cf1d82ab050b35
+I'll ensure I spell out the base dep in v2.
 
-Best regards,
-Krzysztof
-
+---
+bod
 
