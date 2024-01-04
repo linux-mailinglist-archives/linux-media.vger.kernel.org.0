@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-3208-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3209-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056C98241F7
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jan 2024 13:40:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE1D8241FA
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jan 2024 13:42:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0921B1C21DF2
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jan 2024 12:40:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A80C1F21D91
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jan 2024 12:42:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6E721A05;
-	Thu,  4 Jan 2024 12:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C61BA22094;
+	Thu,  4 Jan 2024 12:42:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fAz4Z6e+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VjiVvOVq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54225219EE
-	for <linux-media@vger.kernel.org>; Thu,  4 Jan 2024 12:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C128A2137C
+	for <linux-media@vger.kernel.org>; Thu,  4 Jan 2024 12:42:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55642663ac4so572295a12.1
-        for <linux-media@vger.kernel.org>; Thu, 04 Jan 2024 04:40:40 -0800 (PST)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a22f59c6ae6so56581166b.1
+        for <linux-media@vger.kernel.org>; Thu, 04 Jan 2024 04:42:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704372038; x=1704976838; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1704372151; x=1704976951; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6jNtxELLgfpOWYn4MICeyzZOft0fofykQYkjMnNx1JA=;
-        b=fAz4Z6e+sE46S/Vek+yOdcmdqhpQLoUkSEuqRaoemBDay7IJkYmcs4zl0vJVfbzqNU
-         A6RL+dc7bU4O8ROJxGcdZShdlulDLsMnNYBkc7eLQysI+Je2sdrcGHnahzchffNwMFbt
-         XHSaaNYz5sVal8iT5mJR1z7hCGusztRdtDSbOCNqpppUpXMaczbyuzbNJyOo3vNGHrUA
-         4T2gC6jgjz6fFxpX2lj337UAHo4+6cbwCZzzbanVrixSa3md4u56dW/ALQLVrBjptqD2
-         8B3NJQ8n45d3pp1bqiZ+GHdcXqutBtdOJC2YlEIoW7jTwA8WzQI/KB0yZ8MwXeiuJ+/U
-         iwYA==
+        bh=dRP9+rhhV3SIxJalK5NtKfm30Il3OxEE9yx20SZCWP0=;
+        b=VjiVvOVq8qyk/UhFRK8Rkmxe0qDwZ1/SB1+MNQSHMEUafJ0r+6Y7bwfLoty32DNqSq
+         IzYqoZ+baHpzJkBMckSIebZF+6/vl271DDi/ZUd5a6BG+V05/JFdtw8JUXctrmyEadEw
+         A63Bjr4Zw2n4BZ/I2nO9BFiVcYaGuRXTYFF19ZQfHn62CrgaxcAcd5ObQCdROOAaH8hV
+         SOdYIuP32RX3kbQPpWARFJKVuyEG3eBYb8jMBttC01ylKkga0qaYGhc0Fem1T80IJueM
+         nbuuDeFRQKtLPfzCbweKtC7R/yTUj+aW9dnvve7vLS9jbqgg7dQAVvw6tu8G4la9JGkZ
+         7xJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704372038; x=1704976838;
+        d=1e100.net; s=20230601; t=1704372151; x=1704976951;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jNtxELLgfpOWYn4MICeyzZOft0fofykQYkjMnNx1JA=;
-        b=UcRl4uZ4sIGSURra3DiCmtBLSHHum5y4I83KNWdDNRX9GpuN4dGvEFtMz0Xfyo+vrb
-         GL0j5fQTY3snCZkzkfERZ82cEFXqQ88fm6nvxnQXjss1tO/UTRGcXz41uj29OkEEmuya
-         CFm6ai3ZOzPfTSi1miHY+2ZB72qssbMctF09ccg4Ji8oAnf4oenXr2kyIe3PKyRzWSQq
-         RtDAYNeVUBrBbnnMgfwR5DkWie0KQiZaeECtHhhKi/J2PMEHg4px6hONarrlcAvkpsbD
-         Q/YwUKz5gRFaNiqCuPOj+VQck9xUvmRiyTFbPmXvp2r19iaZ8rmioGZ9y0/RkrFKQzbp
-         utyA==
-X-Gm-Message-State: AOJu0Yx3tUxFyskCZhrRPsb/xRo3izR+f0NjV7ZeWeNbqf+mus0eZHGB
-	Jp0K8w9Uzu23zuddsZxL5wyMGSW9smC8bw==
-X-Google-Smtp-Source: AGHT+IHPtNw72DKPtOGHEUpFS4ATo+uF/hn/sbTEeie8QfvlK3Bb+oal+limIA9d0Obdlr9Hv65x/A==
-X-Received: by 2002:a17:906:33c7:b0:a27:4217:b22b with SMTP id w7-20020a17090633c700b00a274217b22bmr319652eja.18.1704372038526;
-        Thu, 04 Jan 2024 04:40:38 -0800 (PST)
+        bh=dRP9+rhhV3SIxJalK5NtKfm30Il3OxEE9yx20SZCWP0=;
+        b=sRB2GUc7K/zRQE2S9qxAas0eXd3h2TDw6kxZRHGOV4qT9fEDKEZ2K7u7u5upOfhpSn
+         FT76vCgEgkUzzMdIT2IJ39JA61rWvnpDiiF+KWcwXi3JnLwcbcT5Vl6W7gWs6UzaDvaO
+         G8mP77fwe+/2VgAhaitbCTkG4WPw21+6SJ/Uo8g1JZbfOIQ02Z4ye05XjPdOXyNKGcjA
+         rzE+8o7YznAkf5+56xqyxwlSHdxBOD8oyHhZhft3C0s+3ScvkIKpNj95ngqDLdhmwRQ7
+         80vqJz+NTb14/ygagHEA5RA21Tzw8DmGcWZkTSgnZ3pIKKPRBSbIec2SvxNINX938X5z
+         Vfmw==
+X-Gm-Message-State: AOJu0YyiVLoCtrMuCVPPB7Y9XtLSXEJFRDQ362jldwANsnV5lzKutczQ
+	SnOuQfspeyswespR3USZL0U8FNK2fentfw==
+X-Google-Smtp-Source: AGHT+IEJnb+2HZXo6LMiQISI4O3s4pjM6mQFjUrnr7gv6i2gtrVN6ZXf1PV8jkl7prbuwj41sOljAg==
+X-Received: by 2002:a17:906:8402:b0:a27:c786:6cd1 with SMTP id n2-20020a170906840200b00a27c7866cd1mr169668ejx.275.1704372151126;
+        Thu, 04 Jan 2024 04:42:31 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id e2-20020a170906374200b00a1d2b0d4500sm13791500ejc.168.2024.01.04.04.40.37
+        by smtp.gmail.com with ESMTPSA id w19-20020a17090633d300b00a28fb943961sm52359eja.204.2024.01.04.04.42.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jan 2024 04:40:38 -0800 (PST)
-Message-ID: <36dfbb05-d538-4f83-9e0d-898e3d35f3dc@linaro.org>
-Date: Thu, 4 Jan 2024 13:40:36 +0100
+        Thu, 04 Jan 2024 04:42:30 -0800 (PST)
+Message-ID: <360ff767-e48f-4a02-a2cf-f6c99048fd93@linaro.org>
+Date: Thu, 4 Jan 2024 13:42:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,26 +66,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: dt-bindings: media: camss: Add
- qcom,sc8280xp-camss binding
+Subject: Re: [PATCH 0/3] arm64: dts: qcom: sc8280xp: Add CAMSS core dtsi
+ support
 Content-Language: en-US
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Rob Herring <robh@kernel.org>,
- Bryan O'Donoghue <pure.logic@nexus-software.ie>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org>
- <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-1-abacaa63a961@linaro.org>
- <87bcff40-b5ff-41c9-a33f-95f5e80a2f22@linaro.org>
- <62995a12-e835-40ff-966f-8522f2ab53dc@nexus-software.ie>
- <20240103175424.GA1440392-robh@kernel.org>
- <3627b156-a4e4-458e-9cf0-ca6c62366e7e@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -131,82 +124,38 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <3627b156-a4e4-458e-9cf0-ca6c62366e7e@linaro.org>
+In-Reply-To: <20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/01/2024 12:33, Bryan O'Donoghue wrote:
-> On 03/01/2024 17:54, Rob Herring wrote:
->> On Wed, Jan 03, 2024 at 09:40:02AM +0000, Bryan O'Donoghue wrote:
->>> On 03/01/2024 07:40, Krzysztof Kozlowski wrote:
->>>> On 03/01/2024 03:18, Bryan O'Donoghue wrote:
->>>>> Add bindings for qcom,sc8280xp-camss in order to support the camera
->>>>> subsystem for sc8280xp as found in the Lenovo x13s Laptop.
->>>>>
->>>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>>> ---
->>>>>    .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++++
->>>>>    1 file changed, 512 insertions(+)
->>>>>
->>>>
->>>> This patch fails, as pointed out by Robot.
->>>>
->>>> Best regards,
->>>> Krzysztof
->>>>
->>>>
->>>
->>> Ah its in Bjorn's 6.8 clock pull tree.
->>>
->>> I will repost when it hits -next
->>
->> How is that helpful? It will still fail, and the media maintainers still
->> can't apply this. If you work on linux-next, you'd better be
->> aware of and explain the dependencies.
->>
->> Rob
+On 03/01/2024 03:18, Bryan O'Donoghue wrote:
+> This series adds the yaml, CAMSS and CCI dts definitions for the sc8280xp.
 > 
-> Well, it actually is in -next as at the time I posted this patch
+> 4 x CCI master busses
+> 4 x VFE
+> 4 x VFE Lite
+> 4 x CSID
+> 4 x CSIPHY
+> 
+> Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+> Bryan O'Donoghue (3):
+>       media: dt-bindings: media: camss: Add qcom,sc8280xp-camss binding
+>       arm64: dts: qcom: sc8280xp: camss: Add CCI definitions
+>       arm64: dts: qcom: sc8280xp: camss: Add CAMSS block definition
+> 
+>  .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++
+>  arch/arm64/boot/dts/qcom/sc8280xp.dtsi             | 563 +++++++++++++++++++++
+>  2 files changed, 1075 insertions(+)
+> ---
+> base-commit: ab0b3e6ef50d305278b1971891cf1d82ab050b35
 
-linux-next is not a tree of one maintainer. Maintainer's cannot base
-their trees on linux-next.
+BTW, this also does not help, when used on random commit or random tree:
 
-> 
-> https://git.codelinaro.org/bryan.odonoghue/kernel/-/blob/linux-next-24-01-02-sc8280xp-camss-core-dtsi/include/dt-bindings/clock/qcom,sc8280xp-camcc.h
-> 
-> per the branch referenced in the cover letter
-
-Cover letter does not say anything about this depending on the patch in
-linux-next or in any other tree.
-
-
-> 
-> https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi
-> 
-> Looking at the name of the branch for your bot
-> 
-> 20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-1-abacaa63a961@linaro.org
-
-That's your message ID.
-
-> 
-> Does this branch name in the bot output 
-> "linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1" imply it built from 
-> the branch I referenced in the cover letter 
-> "linux-next-24-01-02-sc8280xp-camss-core-dtsi" ?
-> 
-> Am I getting the base of the build right ?
-> 
-> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-1-abacaa63a961@linaro.org/
-> 
-> If not - what is the base of the build ?
-
-master
-
-Anyway, the base of the build matters less. The main problem is that you
-have dependency which is nowhere explained. This cannot go via media
-tree, because of that dependency.
+$ git show ab0b3e6ef50d305278b1971891cf1d82ab050b35
+fatal: bad object ab0b3e6ef50d305278b1971891cf1d82ab050b35
 
 Best regards,
 Krzysztof
