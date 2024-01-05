@@ -1,77 +1,69 @@
-Return-Path: <linux-media+bounces-3219-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3220-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8C3824F37
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jan 2024 08:34:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE9D825008
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jan 2024 09:32:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1B4AB225F7
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jan 2024 07:34:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1F4F1F23310
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jan 2024 08:32:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96F5E1EB3D;
-	Fri,  5 Jan 2024 07:34:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7850622EE5;
+	Fri,  5 Jan 2024 08:30:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UaunnmzZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIJ6bPzA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8191020B18
-	for <linux-media@vger.kernel.org>; Fri,  5 Jan 2024 07:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50e67f70f34so1332665e87.0
-        for <linux-media@vger.kernel.org>; Thu, 04 Jan 2024 23:34:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704440064; x=1705044864; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=00sRjN2CupqB8Q7ctHplMwOy5YYcg3KEnI/LfxuJ5+A=;
-        b=UaunnmzZYwsYEGier6OoSK9iTyNmgQmtsB+gFIfpN8JDJ9shXt/4YgR9xVZcXYGRmE
-         MXLTYUZc3a6pW1C3qajM4cIb5L0FGhs6Q47FTU6heSGQ2lQvL3KaBvCT0prJNAC8kBaK
-         oFnJ1rSWEUdNUa7yL86FjroMnJywOIgEf/3MSBShc7JT4aHu9ElXQEpBFD1RriZ7eHJa
-         hGyvLKcg3u90Tz6uDw22SyyonAk7jpjFCnSvt3jTJRX+AFE4a/5bkvDluCocYfFzgYsh
-         H/QcfI7kWy6kO5+6WQdYHkZiRDLferAujeaaHACRCQBUQZdiMxquWdo3t+/0y41mBnAr
-         ATng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704440064; x=1705044864;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=00sRjN2CupqB8Q7ctHplMwOy5YYcg3KEnI/LfxuJ5+A=;
-        b=YwXFnJJc/fWgtGplZloL9U8W7phxX8zWI8k0Q3YhQprHZo9p1KgSWJKXJpP2Kg6bb/
-         6rWkzJgYRsoPX8h5gHJlrImqApVnPXBolKt5AlHoakSu1Lhof++kckq6eDH3MRSEEa+G
-         jLpl0xVBHgFjpZkVPPGT23pKnCSMIFnWId5+97FWK1//OiGqcdLCxC/d1T09yeULG9Cp
-         QBxogqcKHhfMN6SpIPtelWYhPelmylPQh409eYXvLZz0ekzDY1jeW+S5Osk2IBhQ0lvq
-         OWjgy4K5c75us4bpBI2TQGB+tVHKf1EMF/ksdmOQrblQdRsuGW4j48cdBVgkH14rvmXg
-         ei2A==
-X-Gm-Message-State: AOJu0YwYwzQp9O/Do//ytC5wq2BCJMFCYFJP6suEafeT6tZM+tw8HYwq
-	KbHl6sNI1wBlpeyvvH4u+63Pw2SGBH7Tzg==
-X-Google-Smtp-Source: AGHT+IFJPeJdKogeOQU8rBCXaTMRowRS002OJPjTz7DXhsqvVsPyf2CuFAyVwGskikaF3cKz713Frw==
-X-Received: by 2002:ac2:5e29:0:b0:50e:7ded:5a2b with SMTP id o9-20020ac25e29000000b0050e7ded5a2bmr672265lfg.43.1704440064409;
-        Thu, 04 Jan 2024 23:34:24 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id oq3-20020a170906cc8300b00a293c6cc184sm399089ejb.24.2024.01.04.23.34.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jan 2024 23:34:24 -0800 (PST)
-Date: Fri, 5 Jan 2024 10:34:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Hidenori Kobayashi <hidenorik@chromium.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: ipu3-imgu: Set fields before
- media_entity_pads_init()
-Message-ID: <a6f9ff72-421a-42c6-b24a-3dbf5a55e631@moroto.mountain>
-References: <20231228093926.748001-1-hidenorik@chromium.org>
- <27f1c487-78cc-4e56-ba79-1434aba131fd@moroto.mountain>
- <20240105021856.wpzmwtyzxzqfznrp@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A872820DC8;
+	Fri,  5 Jan 2024 08:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704443410; x=1735979410;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yqHCtlTmTJcO38lbC2SPW6R6TtGpO8FQxb04uVEzvW4=;
+  b=LIJ6bPzA/s5YItbBGXJg1Rozw1aQfDMbeAMmwJj6DpX+2Y2cuAjAaBX2
+   wrRKb2YsTJ7r1FwZHQ7uy5MPo7x9puXE5nMe2kONhhdukJ71RcygVpMR/
+   tDdZTLFBVSrU/I30UOJoOzIAlI/1ZXca5DMLp7zhPNSmnvGKYO9+wfav2
+   uMD5a1vbdxQ0TglKDkDEp4A1QwsG6xsSAaXZTrtJ/HERo0NAfru0GeW5S
+   94HQtve4OXbRscTd8K1qNBcbxvFSgex4niNuHpaPrJ92GGuxruko3OEOB
+   O9vZqBBStQbrk29jx/3HgBojFsPa7vYKBFIgd2TZRVhUIVrZ41L8hdhTL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4567218"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="4567218"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 00:30:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="773790066"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="773790066"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 00:30:08 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8619311F7E4;
+	Fri,  5 Jan 2024 10:30:05 +0200 (EET)
+Date: Fri, 5 Jan 2024 08:30:05 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] media: v4l: async: Fix double pointer free on
+ v4l2_async_unregister_subdev()
+Message-ID: <ZZe-DeImcJLVm7Vd@kekkonen.localdomain>
+References: <20231130173232.130731-1-biju.das.jz@bp.renesas.com>
+ <TYCPR01MB11269FCC5199547299AFDAAF3868FA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB112699751EF10B9BEF3B7511B86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,48 +72,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240105021856.wpzmwtyzxzqfznrp@google.com>
+In-Reply-To: <TYCPR01MB112699751EF10B9BEF3B7511B86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 
-On Fri, Jan 05, 2024 at 11:19:23AM +0900, Hidenori Kobayashi wrote:
-> On Thu, Jan 04, 2024 at 01:04:27PM +0300, Dan Carpenter wrote:
-> > On Thu, Dec 28, 2023 at 06:39:25PM +0900, Hidenori Kobayashi wrote:
-> > > The pad's flags is checked in media_entity_pads_init(), so it has to be
-> > > initialized beforehand. The ops initialization is also moved together
-> > > for readability.
-> > > 
-> > 
-> > How does this bug look like to a user?  What is the Fixes tag?  Does
-> > this need to be backported to stable?
-> 
-> I suppose I should have included those in the commit message.
-> 
-> 1) To a user, the imgu driver fails to probe with the following message:
-> 
-> [   14.596315] ipu3-imgu 0000:00:05.0: failed initialize subdev media entity (-22)
-> [   14.596322] ipu3-imgu 0000:00:05.0: failed to register subdev0 ret (-22)
-> [   14.596327] ipu3-imgu 0000:00:05.0: failed to register pipes (-22)
-> [   14.596331] ipu3-imgu 0000:00:05.0: failed to create V4L2 devices (-22)
-> 
+Hi Biju,
 
-Yeah.  This is super useful information.
-
-> 2) Re Fixes tag, I see that the first commit of imgu driver already
-> initializes the flags after media_entity_pads_init(). The documentation
-> of this API ( "Drivers must set the direction of every pad ... before
-> calling media_entity_pads_init") predates the first commit. So, I guess
+On Thu, Jan 04, 2024 at 11:05:46AM +0000, Biju Das wrote:
+> Hi All, 
 > 
-> Fixes: a0ca1627b450 ("media: staging/intel-ipu3: Add v4l2 driver based on media framework")
-> 
-> 3) Re stable, I was not sure. The probe failure only appears after a
-> check was added by Commit deb866f9e3a45ae058b21765feeffae6aea6a193. That
-> check is not in linux-6.6.y branch. So I was not sure if this counts as
-> "a real bug that bothers people" mentioned in the document.
+> Gentle ping. Are we happy with this fix? Please let me know.
 
-Hm...  I don't know either.  Wait for a day and see if anyone else has
-an opinion then listen to your gut and resend with whatever your gut
-says?
+Thanks for the patch.
 
-regards,
-dan carpenter
+The issue has been fixed by Sebastian's patch (commit
+3de6ee94aae701fa949cd3b5df6b6a440ddfb8f2 in media tree master).
 
+-- 
+Regards,
+
+Sakari Ailus
 
