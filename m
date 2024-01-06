@@ -1,100 +1,107 @@
-Return-Path: <linux-media+bounces-3264-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3265-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195FD825C8E
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jan 2024 23:34:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EBE825DFA
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jan 2024 03:50:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3395285B98
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jan 2024 22:34:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9F2D1C22813
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jan 2024 02:50:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B840360A0;
-	Fri,  5 Jan 2024 22:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcCrH73U"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B819B1396;
+	Sat,  6 Jan 2024 02:50:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84796364A4;
-	Fri,  5 Jan 2024 22:34:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2192C433C7;
-	Fri,  5 Jan 2024 22:34:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704494074;
-	bh=Tb5SDEEHLKEtB8wZ888SeU2Y0OfU6QWV1hNfY+neoOs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=lcCrH73UbLEDNJpb+7e2xoixnomvaaImM99i7LcKsAlO3Fvh4zHpmsXtWNloWy/l1
-	 Wk7F/nvxLeFEmO2P/lt70QNyJdTKRXiCuJ+Lz9FW4+g551mVMxBWf2ZBq5msxG/uQT
-	 MsHiYEITrSwcyfuPwM71ZCDwJZVQJN3K0BpK0+52kpHKccbpBMhlWHdIFDF6o5vuIJ
-	 ATnUpYnbxJknMTOtJsWpowmcDVI/KpE9VVi1s5Eoi3h41cJUQmjKM1FqW9TOsoh0cP
-	 fr6ES5GbC6gCkFhmPGWIcP/L2XUFNmDLIcRFmIv2VVlz0oGPe9kllVHTHeobEq8vIa
-	 5+kykZnfIcwig==
-Received: (nullmailer pid 3814480 invoked by uid 1000);
-	Fri, 05 Jan 2024 22:34:32 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3C315B3
+	for <linux-media@vger.kernel.org>; Sat,  6 Jan 2024 02:50:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69255C433C8
+	for <linux-media@vger.kernel.org>; Sat,  6 Jan 2024 02:50:44 +0000 (UTC)
+Date: Sat, 06 Jan 2024 03:50:42 +0100
+Message-ID: <dc331d06819860f3baa83df64ffdbcf1.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, Todor Tomov <todor.too@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Robert Foss <rfoss@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-In-Reply-To: <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-2-7a57b8b07398@linaro.org>
-References: <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-0-7a57b8b07398@linaro.org>
- <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-2-7a57b8b07398@linaro.org>
-Message-Id: <170449407201.3814449.2801243069272854971.robh@kernel.org>
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: media: camss: Add
- qcom,sc8280xp-camss binding
-Date: Fri, 05 Jan 2024 15:34:32 -0700
 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-On Fri, 05 Jan 2024 20:39:06 +0000, Bryan O'Donoghue wrote:
-> Add bindings for qcom,sc8280xp-camss in order to support the camera
-> subsystem for sc8280xp as found in the Lenovo x13s Laptop.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++++
->  1 file changed, 512 insertions(+)
-> 
+Results of the daily build of media_tree:
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+date:			Sat Jan  6 03:00:08 CET 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	02d4e62ae2452c83e4a3e279b8e4cb4dcbad4b31
+v4l-utils git hash:	f105c1eff03489f9e317009c4d9f56a61171ee5f
+edid-decode git hash:	1e99fe84c08d2cea5d86668ac6948e382ef545e3
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8545-gea546dae
+sparse version:		v0.5.0-8545-gea546dae
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-yamllint warnings/errors:
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm-sleep.config: OK
+no-pm.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.example.dts:26:18: fatal error: dt-bindings/clock/qcom,sc8280xp-camcc.h: No such file or directory
-   26 |         #include <dt-bindings/clock/qcom,sc8280xp-camcc.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1424: dt_binding_check] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
-doc reference errors (make refcheckdocs):
+smatch: WARNINGS:
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-2-7a57b8b07398@linaro.org
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+date:			Sat Jan  6 03:20:26 CET 2024
+virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 4
 
-pip3 install dtschema --upgrade
+date:			Sat Jan  6 03:49:04 CET 2024
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Detailed results are available here:
 
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
