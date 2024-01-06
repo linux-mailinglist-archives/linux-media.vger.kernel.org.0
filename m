@@ -1,107 +1,251 @@
-Return-Path: <linux-media+bounces-3265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3266-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EBE825DFA
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jan 2024 03:50:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8C4825F58
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jan 2024 12:17:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9F2D1C22813
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jan 2024 02:50:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1DB621F225CE
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jan 2024 11:17:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B819B1396;
-	Sat,  6 Jan 2024 02:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD116ABA;
+	Sat,  6 Jan 2024 11:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0kkkqs0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3C315B3
-	for <linux-media@vger.kernel.org>; Sat,  6 Jan 2024 02:50:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69255C433C8
-	for <linux-media@vger.kernel.org>; Sat,  6 Jan 2024 02:50:44 +0000 (UTC)
-Date: Sat, 06 Jan 2024 03:50:42 +0100
-Message-ID: <dc331d06819860f3baa83df64ffdbcf1.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009936FA4
+	for <linux-media@vger.kernel.org>; Sat,  6 Jan 2024 11:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704539848; x=1736075848;
+  h=date:from:to:cc:subject:message-id;
+  bh=4PCRzR8VwSfmfC2XzBJ7hf/gMACZEtvu10Xc573KYnk=;
+  b=O0kkkqs0J/2/y05XKTQZIihZsTVtenrmBr7Gww+joZOayYa8Kxr/otD/
+   gMS7nXIJXRzuAJNYktBS0qJN5oZE1noXmh+4JBqYVCs5jZSUS88zNlfAg
+   8sR/9kJ5QUB52BXDdXdEO1wqBISrtXfUzS8GuTKjdvKEx7RJkWxqLkC7f
+   axSgwM71gYIvm/JMsIkuc11OkancfVAhpqWgmV17NSjkZIeWs8l6IApbH
+   6+06lW5+jafVHK+uJ2UDABsWwUKTMEZ9RhxGhUm5wEib0AX0PBkdKATN/
+   ZTteA1ns57qPz/hIdfQB7CWB4hfnhMx8L43ZwGFWFODbD5KT1GImTYOW7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="377799522"
+X-IronPort-AV: E=Sophos;i="6.04,336,1695711600"; 
+   d="scan'208";a="377799522"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 03:17:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="846792322"
+X-IronPort-AV: E=Sophos;i="6.04,336,1695711600"; 
+   d="scan'208";a="846792322"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 06 Jan 2024 03:17:25 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rM4g7-0002Om-2k;
+	Sat, 06 Jan 2024 11:17:23 +0000
+Date: Sat, 06 Jan 2024 19:16:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ 77a04fb9d17b29287728b8fe1da7a196b3364e44
+Message-ID: <202401061931.bJJLT4k7-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: 77a04fb9d17b29287728b8fe1da7a196b3364e44  media: ov2740: Add support for embedded data
 
-Results of the daily build of media_tree:
+elapsed time: 1454m
 
-date:			Sat Jan  6 03:00:08 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	02d4e62ae2452c83e4a3e279b8e4cb4dcbad4b31
-v4l-utils git hash:	f105c1eff03489f9e317009c4d9f56a61171ee5f
-edid-decode git hash:	1e99fe84c08d2cea5d86668ac6948e382ef545e3
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8545-gea546dae
-sparse version:		v0.5.0-8545-gea546dae
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+configs tested: 169
+configs skipped: 2
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm-sleep.config: OK
-no-pm.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240106   gcc  
+arc                   randconfig-002-20240106   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                          gemini_defconfig   gcc  
+arm                        keystone_defconfig   gcc  
+arm                        mvebu_v7_defconfig   gcc  
+arm                   randconfig-001-20240106   gcc  
+arm                   randconfig-002-20240106   gcc  
+arm                   randconfig-003-20240106   gcc  
+arm                   randconfig-004-20240106   gcc  
+arm                         s3c6400_defconfig   gcc  
+arm                           tegra_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240106   gcc  
+arm64                 randconfig-002-20240106   gcc  
+arm64                 randconfig-003-20240106   gcc  
+arm64                 randconfig-004-20240106   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240106   gcc  
+csky                  randconfig-002-20240106   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386                                defconfig   gcc  
+i386                  randconfig-011-20240106   clang
+i386                  randconfig-012-20240106   clang
+i386                  randconfig-013-20240106   clang
+i386                  randconfig-014-20240106   clang
+i386                  randconfig-015-20240106   clang
+i386                  randconfig-016-20240106   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240106   gcc  
+loongarch             randconfig-002-20240106   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5272c3_defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                         db1xxx_defconfig   gcc  
+mips                  decstation_64_defconfig   gcc  
+mips                     loongson1b_defconfig   gcc  
+mips                    maltaup_xpa_defconfig   gcc  
+nios2                            alldefconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240106   gcc  
+nios2                 randconfig-002-20240106   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-64bit_defconfig   gcc  
+parisc                randconfig-001-20240106   gcc  
+parisc                randconfig-002-20240106   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                    amigaone_defconfig   gcc  
+powerpc                 linkstation_defconfig   gcc  
+powerpc               randconfig-001-20240106   gcc  
+powerpc               randconfig-002-20240106   gcc  
+powerpc               randconfig-003-20240106   gcc  
+powerpc                  storcenter_defconfig   gcc  
+powerpc                     taishan_defconfig   gcc  
+powerpc64             randconfig-001-20240106   gcc  
+powerpc64             randconfig-002-20240106   gcc  
+powerpc64             randconfig-003-20240106   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20240106   gcc  
+riscv                 randconfig-002-20240106   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                         ecovec24_defconfig   gcc  
+sh                          lboxre2_defconfig   gcc  
+sh                    randconfig-001-20240106   gcc  
+sh                    randconfig-002-20240106   gcc  
+sh                      rts7751r2d1_defconfig   gcc  
+sh                     sh7710voipgw_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                       sparc64_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240106   gcc  
+sparc64               randconfig-002-20240106   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240106   gcc  
+um                    randconfig-002-20240106   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240106   gcc  
+x86_64       buildonly-randconfig-002-20240106   gcc  
+x86_64       buildonly-randconfig-003-20240106   gcc  
+x86_64       buildonly-randconfig-004-20240106   gcc  
+x86_64       buildonly-randconfig-005-20240106   gcc  
+x86_64       buildonly-randconfig-006-20240106   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                randconfig-011-20240106   gcc  
+x86_64                randconfig-012-20240106   gcc  
+x86_64                randconfig-013-20240106   gcc  
+x86_64                randconfig-014-20240106   gcc  
+x86_64                randconfig-015-20240106   gcc  
+x86_64                randconfig-016-20240106   gcc  
+x86_64                randconfig-071-20240106   gcc  
+x86_64                randconfig-072-20240106   gcc  
+x86_64                randconfig-073-20240106   gcc  
+x86_64                randconfig-074-20240106   gcc  
+x86_64                randconfig-075-20240106   gcc  
+x86_64                randconfig-076-20240106   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                          iss_defconfig   gcc  
+xtensa                randconfig-001-20240106   gcc  
+xtensa                randconfig-002-20240106   gcc  
 
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Sat Jan  6 03:20:26 CET 2024
-virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 4
-
-date:			Sat Jan  6 03:49:04 CET 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
