@@ -1,199 +1,441 @@
-Return-Path: <linux-media+bounces-3296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339B3826A6D
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 10:14:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA9E826A84
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 10:20:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 587351C21C6E
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 09:14:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF064B20CEB
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 09:19:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2191911711;
-	Mon,  8 Jan 2024 09:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B5FD11711;
+	Mon,  8 Jan 2024 09:19:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hMU70w5U"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T7mF5F/w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF7113AE3
-	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 09:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704705268; x=1736241268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xiBOJ2mBiivVb+xQjNU91YO9V5SOjyUOy1gYXPeHWnQ=;
-  b=hMU70w5UUaNkTq82FgAaLTGQFWqMOILJtpuMpTqH9KJjFEOyIwkXREjA
-   zjsU0+Vz1FsL69G6TcCz+M86w97GVY0FmJOGslkRpLmZFL+BvVLafhT/T
-   L0qdcJGGOH/nsEcERpZd74QyTMdfPHDPN5qNITYt0XxLgMZWK82psmPFH
-   ENIFFS2u72k3+g78BaTb2iQ2NLy5ZUbAyNETzek5peXYhsRohYYO4cFWN
-   yi+GndRv8aRh4FcSfqdAexEH968TlSwg87Ma6pzbR2TZPSnP++fnhuzPH
-   2I10GDE5QJsd3/Gbq7K2A4MjS07yWh2/JOzsy+aFqCd0KXcyOAFIcJqzW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="11177289"
-X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="11177289"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 01:14:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="810146836"
-X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="810146836"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 01:14:23 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 4635311F8DE;
-	Mon,  8 Jan 2024 11:14:20 +0200 (EET)
-Date: Mon, 8 Jan 2024 09:14:20 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
-	claus.stovgaard@gmail.com, tfiga@chromium.org,
-	senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
-	tian.shu.qiu@intel.com, hongju.wang@intel.com
-Subject: Re: [PATCH v2 14/15] Documentation: add Intel IPU6 ISYS driver
- admin-guide doc
-Message-ID: <ZZu87Mdv18OLoTPW@kekkonen.localdomain>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-15-bingbu.cao@intel.com>
- <ZTkG40snprJhk8UW@kekkonen.localdomain>
- <5637c237-f939-3edc-4f45-b89f3dc241dc@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E3F1170B;
+	Mon,  8 Jan 2024 09:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FDB9552;
+	Mon,  8 Jan 2024 10:18:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1704705515;
+	bh=zUD5PLhJbcZWl3zLwbDJ8KqLFUNntLO7Yn6Fb2k7xek=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T7mF5F/wiyYMv45XZqD7ohCokDD5l+a4nYhZZJ/0jEmUYagtZNiFTPNmw9mwVi5zU
+	 TPLgixRvXrm9qq9IfXm1QHmg+ITf05yCy8x+zvRxADrcSwHTQ6UaS/yVrWMzxG/ufT
+	 dTSkwtoz1uL0Ind6dgs4s2G0UdXlmdbUiADSAe6M=
+Date: Mon, 8 Jan 2024 10:19:35 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Vinay Varma <varmavinaym@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	"open list:SONY IMX219 SENSOR DRIVER" <linux-media@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: i2c: imx219: implement the v4l2 selection api
+Message-ID: <3q6andka2su7i43xz2ok44ejvtb3hdjdn6xretyde7sdcvtd7l@lz2syngckivi>
+References: <kv6yfyahbud474e75y4jaczg64pcowvlz7i52kikknuh6wje5o@4k2hikwcueoy>
+ <ZZu2C_lu6TAh-LOf@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5637c237-f939-3edc-4f45-b89f3dc241dc@linux.intel.com>
+In-Reply-To: <ZZu2C_lu6TAh-LOf@kekkonen.localdomain>
 
-Hi Bingbu,
+Hi Sakari, Vinay,
 
-On Mon, Jan 08, 2024 at 11:51:50AM +0800, Bingbu Cao wrote:
-> Sakari,
-> 
-> On 10/25/23 8:15 PM, Sakari Ailus wrote:
-> > Hi Bingbu,
-> > 
-> > On Tue, Oct 24, 2023 at 07:29:23PM +0800, bingbu.cao@intel.com wrote:
-> >> From: Bingbu Cao <bingbu.cao@intel.com>
-> >>
-> >> This document mainly describe the functionality of IPU6 and
-> >> IPU6 isys driver, and gives an example that how user can do
-> >> imaging capture with tools.
-> >>
-> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> >> ---
-> >>  Documentation/admin-guide/media/ipu6-isys.rst |  159 +++
-> >>  .../admin-guide/media/ipu6_isys_graph.svg     |  338 +++++
-> >>  .../admin-guide/media/ipu6_isys_multi.svg     | 1124 +++++++++++++++++
-> >>  .../admin-guide/media/v4l-drivers.rst         |    1 +
-> >>  4 files changed, 1622 insertions(+)
-> >>  create mode 100644 Documentation/admin-guide/media/ipu6-isys.rst
-> >>  create mode 100644 Documentation/admin-guide/media/ipu6_isys_graph.svg
-> >>  create mode 100644 Documentation/admin-guide/media/ipu6_isys_multi.svg
-> >>
-> >> diff --git a/Documentation/admin-guide/media/ipu6-isys.rst b/Documentation/admin-guide/media/ipu6-isys.rst
-> >> new file mode 100644
-> >> index 000000000000..fb4d355e1522
-> >> --- /dev/null
-> >> +++ b/Documentation/admin-guide/media/ipu6-isys.rst
-> >> @@ -0,0 +1,159 @@
-> >> +.. SPDX-License-Identifier: GPL-2.0
-> >> +
-> >> +.. include:: <isonum.txt>
-> >> +
-> >> +===============================================================
-> >> +Intel Image Processing Unit 6 (IPU6) Input System driver
-> >> +===============================================================
-> > 
-> > Too many '='s.
-> > 
-> >> +
-> >> +Copyright |copy| 2023 Intel Corporation
-> >> +
-> >> +Introduction
-> >> +============
-> >> +
-> >> +This file documents the Intel IPU6 (6th generation Image Processing Unit)
-> >> +Input System (MIPI CSI2 receiver) drivers located under
-> >> +drivers/media/pci/intel/ipu6.
-> >> +
-> >> +The Intel IPU6 can be found in certain Intel Chipsets but not in all SKUs:
-> >> +
-> >> +* TigerLake
-> >> +* JasperLake
-> >> +* AlderLake
-> >> +* RaptorLake
-> >> +* MeteorLake
-> >> +
-> >> +Intel IPU6 is made up of two components - Input System (ISYS) and Processing
-> >> +System (PSYS).
-> >> +
-> >> +The Input System mainly works as MIPI CSI2 receiver which receives and
-> >> +processes the imaging data from the sensors and outputs the frames to memory.
-> >> +
-> >> +There are 2 driver modules - intel_ipu6 and intel_ipu6_isys. intel_ipu6 is an
-> >> +IPU6 common driver which does PCI configuration, firmware loading and parsing,
-> >> +firmware authentication, DMA mapping and IPU-MMU (internal Memory mapping Unit)
-> >> +configuration. intel_ipu6_isys implements V4L2, Media Controller and V4L2
-> >> +sub-device interfaces. The IPU6 ISYS driver supports camera sensors connected
-> >> +to the IPU6 ISYS through V4L2 sub-device sensor drivers.
-> >> +
-> >> +.. Note:: See Documentation/driver-api/media/drivers/ipu6.rst for more
-> >> +	  information about the IPU6 hardware.
-> > 
-> > A direct reference would be nice.
-> > 
-> >> +
-> >> +
-> >> +Input system driver
-> >> +===================
-> >> +
-> >> +The input System driver mainly configures CSI2 DPHY, constructs the firmware
-> >> +stream configuration, sends commands to firmware, gets response from hardware
-> >> +and firmware and then returns buffers to user.
-> >> +The ISYS is represented as several V4L2 sub-devices - 'Intel IPU6 CSI2 $port',
-> >> +which provide V4L2 subdev interfaces to the user space, there are also several
-> >> +video nodes for each CSI-2 stream capture - 'Intel IPU6 ISYS capture $num' which
-> >> +provide interface to user to set formats, queue buffers and streaming.
-> >> +
-> >> +.. kernel-figure::  ipu6_isys_graph.svg
-> >> +   :alt: ipu6 isys media graph without multiple streams support
-> >> +
-> >> +   ipu6 isys media graph without multiple streams support
-> >> +
-> >> +.. kernel-figure::  ipu6_isys_multi.svg
-> >> +   :alt: ipu6 isys media graph with multiple streams support
-> >> +
-> >> +   ipu6 isys media graph with multiple streams support
-> > 
-> > Is there a reason for having links from the CSI-2 receivers' source pads to
-> > multiple video nodes? Isn't a single one enough?
+   a more foundamental question is how this usage of the crop/compose
+API plays with the fact we enumerate only a limited set of frame
+sizes, and now you can get an arbitrary output size. We could get away
+by modifying enum_frame_sizes to return a size range (or ranges) but I
+wonder if it wouldn't be better to introduce an internal pad to
+represent the pixel array where to apply TGT_CROP in combination with
+a source pad where we could apply TGT_COMPOSE and an output format.
+
+To be completely honest, binning should be handled with a different
+mechanism than the selection API, but that would require a completly
+new design.
+
+Laurent: are there plans to introduce internal pad for embedded data
+support for this sensor ?
+
+Also, the patch doesn't apply on the most recent media master, please
+rebase before resending.
+
+On Mon, Jan 08, 2024 at 08:44:59AM +0000, Sakari Ailus wrote:
+> Hi Vinay,
+>
+> Thanks for the patch.
+>
+> On Sun, Jan 07, 2024 at 03:42:59PM +0800, Vinay Varma wrote:
+> > This patch exposes IMX219's crop and compose capabilities
+> > by implementing the selection API. Horizontal and vertical
+> > binning being separate registers, `imx219_binning_goodness`
+> > computes the best possible height and width of the compose
+> > specification using the selection flags. Compose operation
+> > updates the subdev's format object to keep them in sync.
+>
+> The line length limit here is 75, not ~ 60. Please rewrap.
+>
 > >
-> 
-> Sorry, I forgot to reply before. Firmware sees each MIPI VC as a single
-> stream, for multiple VCs case, SW need create multiple firmware streams.
-
-Yes, I understand that, but this does not explain why you have multiple
-links between the source pads and video nodes. You can only capture one
-stream at a time from a video node. The user needs to select the correct
-video node related to a source pad, not to pick a random video node and
-then figure out which link to enable.
-
-The media graph does look impressive though. :-)
-
--- 
-Regards,
-
-Sakari Ailus
+> > Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
+> > ---
+> >  drivers/media/i2c/imx219.c | 222 +++++++++++++++++++++++++++++++------
+> >  1 file changed, 190 insertions(+), 32 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index 39943d72c22d..27d85fb7ad51 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -29,6 +29,7 @@
+> >  #include <media/v4l2-event.h>
+> >  #include <media/v4l2-fwnode.h>
+> >  #include <media/v4l2-mediabus.h>
+> > +#include <media/v4l2-rect.h>
+> >
+> >  /* Chip ID */
+> >  #define IMX219_REG_CHIP_ID		CCI_REG16(0x0000)
+> > @@ -73,6 +74,7 @@
+> >  /* V_TIMING internal */
+> >  #define IMX219_REG_VTS			CCI_REG16(0x0160)
+> >  #define IMX219_VTS_MAX			0xffff
+> > +#define IMX219_VTS_DEF 1763
+> >
+> >  #define IMX219_VBLANK_MIN		32
+> >
+> > @@ -146,6 +148,7 @@
+> >  #define IMX219_PIXEL_ARRAY_TOP		8U
+> >  #define IMX219_PIXEL_ARRAY_WIDTH	3280U
+> >  #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
+> > +#define IMX219_MIN_COMPOSE_SIZE 8U
+>
+> Please align 8U with the rest of the macros. Same above.
+>
+> >
+> >  /* Mode : resolution and related config&values */
+> >  struct imx219_mode {
+> > @@ -284,6 +287,8 @@ static const u32 imx219_mbus_formats[] = {
+> >  #define IMX219_XCLR_MIN_DELAY_US	6200
+> >  #define IMX219_XCLR_DELAY_RANGE_US	1000
+> >
+> > +static const u32 binning_ratios[] = { 1, 2 };
+> > +
+> >  /* Mode configs */
+> >  static const struct imx219_mode supported_modes[] = {
+> >  	{
+> > @@ -296,19 +301,19 @@ static const struct imx219_mode supported_modes[] = {
+> >  		/* 1080P 30fps cropped */
+> >  		.width = 1920,
+> >  		.height = 1080,
+> > -		.vts_def = 1763,
+> > +		.vts_def = IMX219_VTS_DEF,
+> >  	},
+> >  	{
+> >  		/* 2x2 binned 30fps mode */
+> >  		.width = 1640,
+> >  		.height = 1232,
+> > -		.vts_def = 1763,
+> > +		.vts_def = IMX219_VTS_DEF,
+> >  	},
+> >  	{
+> >  		/* 640x480 30fps mode */
+> >  		.width = 640,
+> >  		.height = 480,
+> > -		.vts_def = 1763,
+> > +		.vts_def = IMX219_VTS_DEF,
+> >  	},
+> >  };
+> >
+> > @@ -809,6 +814,39 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> >  	return 0;
+> >  }
+> >
+> > +static void imx219_refresh_ctrls(struct v4l2_subdev *sd,
+> > +				 struct v4l2_subdev_state *state,
+> > +				 unsigned int vts_def)
+> > +{
+> > +	int exposure_max;
+> > +	int exposure_def;
+> > +	int hblank;
+> > +	struct imx219 *imx219 = to_imx219(sd);
+> > +	struct v4l2_mbus_framefmt *fmt =
+> > +		v4l2_subdev_get_pad_format(sd, state, 0);
+> > +
+> > +	/* Update limits and set FPS to default */
+> > +	__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> > +				 IMX219_VTS_MAX - fmt->height, 1,
+> > +				 vts_def - fmt->height);
+> > +	__v4l2_ctrl_s_ctrl(imx219->vblank, vts_def - fmt->height);
+> > +	/* Update max exposure while meeting expected vblanking */
+> > +	exposure_max = vts_def - 4;
+> > +	exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+> > +			       exposure_max :
+> > +			       IMX219_EXPOSURE_DEFAULT;
+> > +	__v4l2_ctrl_modify_range(imx219->exposure, imx219->exposure->minimum,
+> > +				 exposure_max, imx219->exposure->step,
+> > +				 exposure_def);
+> > +	/*
+> > +	 * Currently PPL is fixed to IMX219_PPL_DEFAULT, so hblank
+> > +	 * depends on mode->width only, and is not changeble in any
+> > +	 * way other than changing the mode.
+> > +	 */
+> > +	hblank = IMX219_PPL_DEFAULT - fmt->width;
+> > +	__v4l2_ctrl_modify_range(imx219->hblank, hblank, hblank, 1, hblank);
+> > +}
+> > +
+> >  static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >  				 struct v4l2_subdev_state *state,
+> >  				 struct v4l2_subdev_format *fmt)
+> > @@ -816,7 +854,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >  	struct imx219 *imx219 = to_imx219(sd);
+> >  	const struct imx219_mode *mode;
+> >  	struct v4l2_mbus_framefmt *format;
+> > -	struct v4l2_rect *crop;
+> > +	struct v4l2_rect *crop, *compose;
+> >  	unsigned int bin_h, bin_v;
+> >
+> >  	mode = v4l2_find_nearest_size(supported_modes,
+> > @@ -842,34 +880,14 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >  	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
+> >  	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
+> >
+> > -	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > -		int exposure_max;
+> > -		int exposure_def;
+> > -		int hblank;
+> > -
+> > -		/* Update limits and set FPS to default */
+> > -		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> > -					 IMX219_VTS_MAX - mode->height, 1,
+> > -					 mode->vts_def - mode->height);
+> > -		__v4l2_ctrl_s_ctrl(imx219->vblank,
+> > -				   mode->vts_def - mode->height);
+> > -		/* Update max exposure while meeting expected vblanking */
+> > -		exposure_max = mode->vts_def - 4;
+> > -		exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+> > -			exposure_max : IMX219_EXPOSURE_DEFAULT;
+> > -		__v4l2_ctrl_modify_range(imx219->exposure,
+> > -					 imx219->exposure->minimum,
+> > -					 exposure_max, imx219->exposure->step,
+> > -					 exposure_def);
+> > -		/*
+> > -		 * Currently PPL is fixed to IMX219_PPL_DEFAULT, so hblank
+> > -		 * depends on mode->width only, and is not changeble in any
+> > -		 * way other than changing the mode.
+> > -		 */
+> > -		hblank = IMX219_PPL_DEFAULT - mode->width;
+> > -		__v4l2_ctrl_modify_range(imx219->hblank, hblank, hblank, 1,
+> > -					 hblank);
+> > -	}
+> > +	compose = v4l2_subdev_get_pad_compose(sd, state, 0);
+> > +	compose->width = format->width;
+> > +	compose->height = format->height;
+> > +	compose->left = 0;
+> > +	compose->top = 0;
+> > +
+> > +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> > +		imx219_refresh_ctrls(sd, state, mode->vts_def);
+> >
+> >  	return 0;
+> >  }
+> > @@ -884,6 +902,11 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> >  		return 0;
+> >  	}
+> >
+> > +	case V4L2_SEL_TGT_COMPOSE: {
+> > +		sel->r = *v4l2_subdev_get_pad_compose(sd, state, 0);
+> > +		return 0;
+> > +	}
+>
+> The braces are unnecessary here.
+>
+> > +
+> >  	case V4L2_SEL_TGT_NATIVE_SIZE:
+> >  		sel->r.top = 0;
+> >  		sel->r.left = 0;
+> > @@ -900,11 +923,145 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> >  		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
+> >
+> >  		return 0;
+> > +
+> > +	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
+> > +	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+> > +	case V4L2_SEL_TGT_COMPOSE_PADDED:
+> > +		sel->r.top = 0;
+> > +		sel->r.left = 0;
+> > +		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
+> > +		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
+> > +		return 0;
+> >  	}
+> >
+> >  	return -EINVAL;
+> >  }
+> >
+> > +#define IMX219_ROUND(dim, step, flags)                \
+> > +	((flags) & V4L2_SEL_FLAG_GE ?                 \
+> > +		 round_up((dim), (step)) :            \
+> > +		 ((flags) & V4L2_SEL_FLAG_LE ?        \
+> > +			  round_down((dim), (step)) : \
+> > +			  round_down((dim) + (step) / 2, (step))))
+> > +
+> > +static int imx219_set_selection_crop(struct v4l2_subdev *sd,
+> > +				     struct v4l2_subdev_state *sd_state,
+> > +				     struct v4l2_subdev_selection *sel)
+> > +{
+> > +	u32 max_binning;
+> > +	struct v4l2_rect *compose, *crop;
+> > +	struct v4l2_mbus_framefmt *fmt;
+> > +
+> > +	crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
+> > +	if (v4l2_rect_equal(&sel->r, crop))
+> > +		return false;
+> > +	max_binning = binning_ratios[ARRAY_SIZE(binning_ratios) - 1];
+> > +	sel->r.width =
+> > +		clamp(IMX219_ROUND(sel->r.width, max_binning, sel->flags),
+> > +		      max_binning * IMX219_MIN_COMPOSE_SIZE,
+> > +		      IMX219_PIXEL_ARRAY_WIDTH);
+> > +	sel->r.height =
+> > +		clamp(IMX219_ROUND(sel->r.width, max_binning, sel->flags),
+> > +		      max_binning * IMX219_MIN_COMPOSE_SIZE,
+> > +		      IMX219_PIXEL_ARRAY_WIDTH);
+> > +	sel->r.left =
+> > +		min_t(u32, sel->r.left, IMX219_PIXEL_ARRAY_LEFT - sel->r.width);
+> > +	sel->r.top =
+> > +		min_t(u32, sel->r.top, IMX219_PIXEL_ARRAY_TOP - sel->r.top);
+> > +
+> > +	compose = v4l2_subdev_get_pad_compose(sd, sd_state, 0);
+> > +	fmt = v4l2_subdev_get_pad_format(sd, sd_state, 0);
+> > +	*crop = sel->r;
+> > +	compose->height = crop->height;
+> > +	compose->width = crop->width;
+> > +	return true;
+> > +}
+> > +
+> > +static int imx219_binning_goodness(u32 act, u32 ask, u32 flags)
+> > +{
+> > +	const int goodness = 100000;
+> > +	int val = 0;
+> > +
+> > +	if (flags & V4L2_SEL_FLAG_GE)
+> > +		if (act < ask)
+> > +			val -= goodness;
+> > +
+> > +	if (flags & V4L2_SEL_FLAG_LE)
+> > +		if (act > ask)
+> > +			val -= goodness;
+> > +
+> > +	val -= abs(act - ask);
+> > +
+> > +	return val;
+> > +}
+> > +
+> > +static bool imx219_set_selection_compose(struct v4l2_subdev *sd,
+> > +					 struct v4l2_subdev_state *state,
+> > +					 struct v4l2_subdev_selection *sel)
+> > +{
+> > +	int best_goodness;
+>
+> This would be nicer if declared after the line below. Think of reverse
+> Christmas trees.
+>
+> Similarly for max_binning a few functions up actually as well as variables
+> in imx219_refresh_ctrls().
+>
+> > +	struct v4l2_rect *compose, *crop;
+> > +
+> > +	compose = v4l2_subdev_get_pad_compose(sd, state, 0);
+> > +	if (v4l2_rect_equal(compose, &sel->r))
+> > +		return false;
+> > +
+> > +	crop = v4l2_subdev_get_pad_crop(sd, state, 0);
+> > +
+> > +	best_goodness = INT_MIN;
+> > +	for (int i = 0; i < ARRAY_SIZE(binning_ratios); ++i) {
+> > +		u32 width = crop->width / binning_ratios[i];
+> > +		int goodness = imx219_binning_goodness(width, sel->r.width,
+> > +						       sel->flags);
+> > +		if (goodness > best_goodness) {
+> > +			best_goodness = goodness;
+> > +			compose->width = width;
+> > +		}
+> > +	}
+> > +	best_goodness = INT_MIN;
+> > +	for (int i = 0; i < ARRAY_SIZE(binning_ratios); ++i) {
+> > +		u32 height = crop->height / binning_ratios[i];
+> > +		int goodness = imx219_binning_goodness(height, sel->r.height,
+> > +						       sel->flags);
+> > +		if (goodness > best_goodness) {
+> > +			best_goodness = goodness;
+> > +			compose->height = height;
+> > +		}
+> > +	}
+> > +	return true;
+> > +}
+> > +
+> > +static int imx219_set_selection(struct v4l2_subdev *sd,
+> > +				struct v4l2_subdev_state *sd_state,
+> > +				struct v4l2_subdev_selection *sel)
+> > +{
+> > +	bool compose_updated = false;
+> > +
+> > +	switch (sel->target) {
+> > +	case V4L2_SEL_TGT_CROP:
+> > +		compose_updated = imx219_set_selection_crop(sd, sd_state, sel);
+> > +		break;
+> > +	case V4L2_SEL_TGT_COMPOSE:
+> > +		compose_updated =
+> > +			imx219_set_selection_compose(sd, sd_state, sel);
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +	if (compose_updated) {
+> > +		struct v4l2_rect *compose =
+> > +			v4l2_subdev_get_pad_compose(sd, sd_state, 0);
+> > +		struct v4l2_mbus_framefmt *fmt =
+> > +			v4l2_subdev_get_pad_format(sd, sd_state, 0);
+>
+> A newline here?
+>
+> > +		fmt->height = compose->height;
+> > +		fmt->width = compose->width;
+> > +	}
+> > +	if (compose_updated && sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> > +		imx219_refresh_ctrls(sd, sd_state, IMX219_VTS_DEF);
+>
+> Please move this inside the previous condition (where you check just
+> sel->which).
+>
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int imx219_init_cfg(struct v4l2_subdev *sd,
+> >  			   struct v4l2_subdev_state *state)
+> >  {
+> > @@ -938,6 +1095,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
+> >  	.get_fmt = v4l2_subdev_get_fmt,
+> >  	.set_fmt = imx219_set_pad_format,
+> >  	.get_selection = imx219_get_selection,
+> > +	.set_selection = imx219_set_selection,
+> >  	.enum_frame_size = imx219_enum_frame_size,
+> >  };
+> >
+>
+> --
+> Regards,
+>
+> Sakari Ailus
+>
 
