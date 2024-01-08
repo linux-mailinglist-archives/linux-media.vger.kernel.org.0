@@ -1,161 +1,744 @@
-Return-Path: <linux-media+bounces-3323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3324-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD7B826E94
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 13:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4EC826EB0
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 13:46:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AAFC2833F5
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 12:43:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68047283468
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 12:46:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A79594121A;
-	Mon,  8 Jan 2024 12:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B136546B99;
+	Mon,  8 Jan 2024 12:39:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eak4Nuzh"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="CEYYDrC6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1CB4120F;
-	Mon,  8 Jan 2024 12:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi [91.154.35.128])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F05C836;
-	Mon,  8 Jan 2024 13:32:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704717164;
-	bh=bQA6jeXzd4liWhXX07Kofu2JmD2uQXFESIaqm8BdOJM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eak4NuzhxqH1oR1ZmEm+Kinxy6gW/tm684UsJoCJp9Lw/txBpG8dBmUNqPVDB1XsT
-	 i2F175H1KDpZz4mvJO60we6wWb0kmRv8nLAZZWv5rZTEpzgbIlje0myGuCrb8bdGzl
-	 Ay3jo/9HCJLVwg0TZX6VBRpckgGS0VRtAGcJDzZY=
-Message-ID: <847bb5e4-472e-4dd0-84e4-ca8c5d8a865d@ideasonboard.com>
-Date: Mon, 8 Jan 2024 14:33:44 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA844655D
+	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 12:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3367f8757d0so112074f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 08 Jan 2024 04:39:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1704717588; x=1705322388; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+KbKWdY6tX7JYXqTO40SnLsFWTNoCK2o+Xfus7NtTz0=;
+        b=CEYYDrC6pS7wXDQbblBaC2nF2tZDmb04YZVS7Bjh7+q34ikzUSdDPNbMw3xDG38xHB
+         JOm4zsqDh//KQXjxJMDD2akmzTNDSBwSNThOGfoy2tY0ZISl8ORCat49EW0SARBK5nD0
+         N9+XHvrLacnk4rn1irIBcj8YIDqF0Q/idBVBg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704717588; x=1705322388;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+KbKWdY6tX7JYXqTO40SnLsFWTNoCK2o+Xfus7NtTz0=;
+        b=fudU0DIgsUJC8mQxcgFiF8S9xqq3ovoVe4ZE4Lvx5YC7T5CPBu5oao2v8Z7G58Afyr
+         vAAncXThEo87XEsaKPQeRgYFRnyZ880E2KjF85RajcqD44t23tLClede+cYfEhva4sOo
+         SPZFeqD5uHQP53HyE987ZLBcM8gZ0Rd28Y07+UKqvTGF1jXuDkEAlRT6J4DL0s9T2w36
+         tbCWMaiQk90JlerfNb0Lrc5yGNin1aW6fZC6WfEa5Y8D3wv2BAEGmMK8Vv6dSXcdHfRT
+         zEcI6hJL488t24CfyY75h+tFxX6gGWOQmGwOhOeV/sc1vw7K3lAAfz2hQ6owfzrJBJog
+         ptIg==
+X-Gm-Message-State: AOJu0YzQyGnWLxX1Cv+rKVbqzOxCUPn9yMz6Vt0wIcChvqgSR+SAYYiQ
+	EHl0n4Q5mztbduPeLP1gZ/qIAbHvnE+y8Q==
+X-Google-Smtp-Source: AGHT+IEtdsujLQAfMWY6f9gvYBA/7jBgVOleN/XweQQFmj3GT8Jwm8Z1cde2qqWLdjwrV6/eZRCzcw==
+X-Received: by 2002:a5d:618c:0:b0:336:fad1:ffd3 with SMTP id j12-20020a5d618c000000b00336fad1ffd3mr4348628wru.4.1704717588308;
+        Mon, 08 Jan 2024 04:39:48 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id y5-20020a5d4ac5000000b00336670abdcasm7730581wrs.40.2024.01.08.04.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 04:39:47 -0800 (PST)
+Date: Mon, 8 Jan 2024 13:39:45 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+References: <20240108120056.22165-1-paul@crapouillou.net>
+ <20240108120056.22165-4-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/10] media: rkisp1: Add support for i.MX8MP
-Content-Language: en-US
-To: Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
-Cc: kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
- aford173@gmail.com
-References: <20240106160221.4183409-1-paul.elder@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240106160221.4183409-1-paul.elder@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240108120056.22165-4-paul@crapouillou.net>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 
-Hi Paul,
+On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil wrote:
+> This patch introduces three new ioctls. They all should be called on a
+> data endpoint (ie. not ep0). They are:
+> 
+> - FUNCTIONFS_DMABUF_ATTACH, which takes the file descriptor of a DMABUF
+>   object to attach to the endpoint.
+> 
+> - FUNCTIONFS_DMABUF_DETACH, which takes the file descriptor of the
+>   DMABUF to detach from the endpoint. Note that closing the endpoint's
+>   file descriptor will automatically detach all attached DMABUFs.
+> 
+> - FUNCTIONFS_DMABUF_TRANSFER, which requests a data transfer from / to
+>   the given DMABUF. Its argument is a structure that packs the DMABUF's
+>   file descriptor, the size in bytes to transfer (which should generally
+>   be set to the size of the DMABUF), and a 'flags' field which is unused
+>   for now.
+>   Before this ioctl can be used, the related DMABUF must be attached
+>   with FUNCTIONFS_DMABUF_ATTACH.
+> 
+> These three ioctls enable the FunctionFS code to transfer data between
+> the USB stack and a DMABUF object, which can be provided by a driver
+> from a completely different subsystem, in a zero-copy fashion.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> 
+> ---
+> v2:
+> - Make ffs_dma_resv_lock() static
+> - Add MODULE_IMPORT_NS(DMA_BUF);
+> - The attach/detach functions are now performed without locking the
+>   eps_lock spinlock. The transfer function starts with the spinlock
+>   unlocked, then locks it before allocating and queueing the USB
+>   transfer.
+> 
+> v3:
+> - Inline to_ffs_dma_fence() which was called only once.
+> - Simplify ffs_dma_resv_lock()
+> - Add comment explaining why we unref twice in ffs_dmabuf_detach()
+> - Document uapi struct usb_ffs_dmabuf_transfer_req and IOCTLs
+> ---
+>  drivers/usb/gadget/function/f_fs.c  | 417 ++++++++++++++++++++++++++++
+>  include/uapi/linux/usb/functionfs.h |  41 +++
+>  2 files changed, 458 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> index ed2a6d5fcef7..9df1f5abb0d4 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -15,6 +15,9 @@
+>  /* #define VERBOSE_DEBUG */
+>  
+>  #include <linux/blkdev.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-fence.h>
+> +#include <linux/dma-resv.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/export.h>
+>  #include <linux/fs_parser.h>
+> @@ -43,6 +46,8 @@
+>  
+>  #define FUNCTIONFS_MAGIC	0xa647361 /* Chosen by a honest dice roll ;) */
+>  
+> +MODULE_IMPORT_NS(DMA_BUF);
+> +
+>  /* Reference counter handling */
+>  static void ffs_data_get(struct ffs_data *ffs);
+>  static void ffs_data_put(struct ffs_data *ffs);
+> @@ -124,6 +129,21 @@ struct ffs_ep {
+>  	u8				num;
+>  };
+>  
+> +struct ffs_dmabuf_priv {
+> +	struct list_head entry;
+> +	struct kref ref;
+> +	struct dma_buf_attachment *attach;
+> +	spinlock_t lock;
+> +	u64 context;
+> +};
+> +
+> +struct ffs_dma_fence {
+> +	struct dma_fence base;
+> +	struct ffs_dmabuf_priv *priv;
+> +	struct sg_table *sgt;
+> +	enum dma_data_direction dir;
+> +};
+> +
+>  struct ffs_epfile {
+>  	/* Protects ep->ep and ep->req. */
+>  	struct mutex			mutex;
+> @@ -197,6 +217,8 @@ struct ffs_epfile {
+>  	unsigned char			isoc;	/* P: ffs->eps_lock */
+>  
+>  	unsigned char			_pad;
+> +
+> +	struct list_head		dmabufs;
+>  };
+>  
+>  struct ffs_buffer {
+> @@ -1271,10 +1293,44 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+>  	return res;
+>  }
+>  
+> +static void ffs_dmabuf_release(struct kref *ref)
+> +{
+> +	struct ffs_dmabuf_priv *priv = container_of(ref, struct ffs_dmabuf_priv, ref);
+> +	struct dma_buf_attachment *attach = priv->attach;
+> +	struct dma_buf *dmabuf = attach->dmabuf;
+> +
+> +	pr_debug("FFS DMABUF release\n");
+> +	dma_buf_detach(attach->dmabuf, attach);
+> +	dma_buf_put(dmabuf);
+> +
+> +	list_del(&priv->entry);
 
-On 06/01/2024 18:02, Paul Elder wrote:
-> This patch series depends on the series "media: rkisp1: Fix shared
-> interrupt handling" [1]
-> 
-> This series extends the rkisp1 driver to support the ISP found in the
-> NXP i.MX8MP SoC.
-> 
-> The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
-> and in the NXP i.MX8MP have the same origin, and have slightly diverged
-> over time as they are now independently developed (afaik) by Rockchip
-> and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
-> and is close enough to the RK3399 ISP that it can easily be supported by
-> the same driver.
-> 
-> The last two patches add support for UYVY output format, which can be
-> implemented on the ISP version in the i.MX8MP but not in the one in the
-> RK3399.
-> 
-> This version of the series specifically has been tested on a Polyhex
-> Debix model A with an imx219 (Raspberry Pi cam v2).
-> 
-> In v5 the patch "media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP" has been
-> dropped.
-> 
-> [1] https://lore.kernel.org/all/20231218-rkisp-shirq-fix-v1-0-173007628248@ideasonboard.com/
+I didn't find any locking for this list here.
 
-I have tested this with Debix SOM A board, and works fine for me, so:
+> +	kfree(priv);
+> +}
+> +
+> +static void ffs_dmabuf_get(struct dma_buf_attachment *attach)
+> +{
+> +	struct ffs_dmabuf_priv *priv = attach->importer_priv;
+> +
+> +	kref_get(&priv->ref);
+> +}
+> +
+> +static void ffs_dmabuf_put(struct dma_buf_attachment *attach)
+> +{
+> +	struct ffs_dmabuf_priv *priv = attach->importer_priv;
+> +
+> +	kref_put(&priv->ref, ffs_dmabuf_release);
+> +}
+> +
+>  static int
+>  ffs_epfile_release(struct inode *inode, struct file *file)
+>  {
+>  	struct ffs_epfile *epfile = inode->i_private;
+> +	struct ffs_dmabuf_priv *priv, *tmp;
+> +
+> +	/* Close all attached DMABUFs */
+> +	list_for_each_entry_safe(priv, tmp, &epfile->dmabufs, entry) {
+> +		ffs_dmabuf_put(priv->attach);
+> +	}
+>  
+>  	__ffs_epfile_read_buffer_free(epfile);
+>  	ffs_data_closed(epfile->ffs);
+> @@ -1282,6 +1338,328 @@ ffs_epfile_release(struct inode *inode, struct file *file)
+>  	return 0;
+>  }
+>  
+> +static void ffs_dmabuf_signal_done(struct ffs_dma_fence *dma_fence, int ret)
+> +{
+> +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
+> +	struct dma_fence *fence = &dma_fence->base;
+> +
+> +	dma_fence_get(fence);
+> +	fence->error = ret;
+> +	dma_fence_signal(fence);
+> +
+> +	dma_buf_unmap_attachment(priv->attach, dma_fence->sgt, dma_fence->dir);
+> +	dma_fence_put(fence);
+> +	ffs_dmabuf_put(priv->attach);
 
-Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+So this can in theory take the dma_resv lock, and if the usb completion
+isn't an unlimited worker this could hold up completion of future
+dma_fence, resulting in a deadlock.
 
-However, I do see v4l2-compliance complaints. I can't say if those 
-already exist before this series, or did this series cause some of them.
+Needs to be checked how usb works, and if stalling indefinitely in the
+io_complete callback can hold up the usb stack you need to:
 
-  Tomi
+- drop a dma_fence_begin/end_signalling annotations in here
+- pull out the unref stuff into a separate preallocated worker (or at
+  least the final unrefs for ffs_dma_buf).
 
-> Laurent Pinchart (2):
->    media: rkisp1: Add and use rkisp1_has_feature() macro
->    media: rkisp1: Configure gasket on i.MX8MP
-> 
-> Paul Elder (8):
->    media: rkisp1: Support setting memory stride for main path
->    media: rkisp1: Support devices lacking self path
->    media: rkisp1: Support devices lacking dual crop
->    dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
->    media: rkisp1: Add match data for i.MX8MP ISP
->    media: rkisp1: Shift DMA buffer addresses on i.MX8MP
->    media: rkisp1: Add YC swap capability
->    media: rkisp1: Add UYVY as an output format
-> 
->   .../bindings/media/rockchip-isp1.yaml         |  37 ++++-
->   .../platform/rockchip/rkisp1/rkisp1-capture.c | 130 ++++++++++++-----
->   .../platform/rockchip/rkisp1/rkisp1-common.h  |  37 ++++-
->   .../platform/rockchip/rkisp1/rkisp1-dev.c     |  74 ++++++++--
->   .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 +++++++++++++++++-
->   .../platform/rockchip/rkisp1/rkisp1-regs.h    |  27 ++++
->   .../platform/rockchip/rkisp1/rkisp1-resizer.c |  12 +-
->   include/uapi/linux/rkisp1-config.h            |   2 +
->   8 files changed, 392 insertions(+), 58 deletions(-)
-> 
+> +}
+> +
+> +static void ffs_epfile_dmabuf_io_complete(struct usb_ep *ep,
+> +					  struct usb_request *req)
+> +{
+> +	pr_debug("FFS: DMABUF transfer complete, status=%d\n", req->status);
+> +	ffs_dmabuf_signal_done(req->context, req->status);
+> +	usb_ep_free_request(ep, req);
+> +}
+> +
+> +static const char *ffs_dmabuf_get_driver_name(struct dma_fence *fence)
+> +{
+> +	return "functionfs";
+> +}
+> +
+> +static const char *ffs_dmabuf_get_timeline_name(struct dma_fence *fence)
+> +{
+> +	return "";
+> +}
+> +
+> +static void ffs_dmabuf_fence_release(struct dma_fence *fence)
+> +{
+> +	struct ffs_dma_fence *dma_fence =
+> +		container_of(fence, struct ffs_dma_fence, base);
+> +
+> +	kfree(dma_fence);
+> +}
+> +
+> +static const struct dma_fence_ops ffs_dmabuf_fence_ops = {
+> +	.get_driver_name	= ffs_dmabuf_get_driver_name,
+> +	.get_timeline_name	= ffs_dmabuf_get_timeline_name,
+> +	.release		= ffs_dmabuf_fence_release,
+> +};
+> +
+> +static int ffs_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
+> +{
+> +	int ret;
+> +
+> +	ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
+> +	if (ret) {
+> +		if (ret != -EDEADLK)
+> +			return ret;
+> +		if (nonblock)
+> +			return -EBUSY;
+> +
+> +		ret = dma_resv_lock_slow_interruptible(dmabuf->resv, NULL);
 
+This is overkill, without a reservation context you will never get
+-EDEADLK and so never have to do slowpath locking. So just dead code.
+
+If you want to check, build with CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
+
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static struct dma_buf_attachment *
+> +ffs_dmabuf_find_attachment(struct device *dev, struct dma_buf *dmabuf,
+> +			   bool nonblock)
+> +{
+> +	struct dma_buf_attachment *elm, *attach = NULL;
+> +	int ret;
+> +
+> +	ret = ffs_dma_resv_lock(dmabuf, nonblock);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	list_for_each_entry(elm, &dmabuf->attachments, node) {
+> +		if (elm->dev == dev) {
+> +			attach = elm;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (attach)
+> +		ffs_dmabuf_get(elm);
+
+This needs a kref_get_unless_zero or you can race with the final free.
+
+I'm not super keen that usb-gadget is noodling around in the attachment
+list like this, your own lookup structure (you have the dma-buf list
+already anyway to keep track of all attachments) would be much nicer. But
+the get_unless_zero I think is mandatory here for this weak reference.
+
+> +
+> +	dma_resv_unlock(dmabuf->resv);
+> +
+> +	return attach ?: ERR_PTR(-EPERM);
+> +}
+> +
+> +static int ffs_dmabuf_attach(struct file *file, int fd)
+> +{
+> +	struct ffs_epfile *epfile = file->private_data;
+> +	struct usb_gadget *gadget = epfile->ffs->gadget;
+> +	struct dma_buf_attachment *attach;
+> +	struct ffs_dmabuf_priv *priv;
+> +	struct dma_buf *dmabuf;
+> +	int err;
+> +
+> +	if (!gadget || !gadget->sg_supported)
+> +		return -EPERM;
+> +
+> +	dmabuf = dma_buf_get(fd);
+> +	if (IS_ERR(dmabuf))
+> +		return PTR_ERR(dmabuf);
+> +
+> +	attach = dma_buf_attach(dmabuf, gadget->dev.parent);
+> +	if (IS_ERR(attach)) {
+> +		err = PTR_ERR(attach);
+> +		goto err_dmabuf_put;
+> +	}
+> +
+> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> +	if (!priv) {
+> +		err = -ENOMEM;
+> +		goto err_dmabuf_detach;
+> +	}
+> +
+> +	attach->importer_priv = priv;
+> +
+> +	priv->attach = attach;
+> +	spin_lock_init(&priv->lock);
+> +	kref_init(&priv->ref);
+> +	priv->context = dma_fence_context_alloc(1);
+
+Just to check: usb gagdet gurantees that all requests on an ep are
+ordered?
+
+> +
+> +	list_add(&priv->entry, &epfile->dmabufs);
+> +
+> +	return 0;
+> +
+> +err_dmabuf_detach:
+> +	dma_buf_detach(dmabuf, attach);
+> +err_dmabuf_put:
+> +	dma_buf_put(dmabuf);
+> +
+> +	return err;
+> +}
+> +
+> +static int ffs_dmabuf_detach(struct file *file, int fd)
+> +{
+> +	struct ffs_epfile *epfile = file->private_data;
+> +	struct usb_gadget *gadget = epfile->ffs->gadget;
+> +	bool nonblock = file->f_flags & O_NONBLOCK;
+> +	struct dma_buf_attachment *attach;
+> +	struct dma_buf *dmabuf;
+> +	int ret = 0;
+> +
+> +	dmabuf = dma_buf_get(fd);
+> +	if (IS_ERR(dmabuf))
+> +		return PTR_ERR(dmabuf);
+> +
+> +	attach = ffs_dmabuf_find_attachment(gadget->dev.parent,
+> +					    dmabuf, nonblock);
+> +	if (IS_ERR(attach)) {
+> +		ret = PTR_ERR(attach);
+> +		goto out_dmabuf_put;
+> +	}
+> +
+> +	/*
+> +	 * Unref twice to release the reference obtained with
+> +	 * ffs_dmabuf_find_attachment() above, and the one obtained in
+> +	 * ffs_dmabuf_attach().
+> +	 */
+> +	ffs_dmabuf_put(attach);
+
+This looks strange, what's stopping userspace from calling detach multiple
+times while a transfer is pending (so that the destruction is delayed)?
+That smells like a refcount underflow.
+
+You probably need to tie the refcounts you acquire in ffs_dmabuf_attach to
+epfile->dmabufs 1:1 to make sure there's no way userspace can pull you
+over the table. This is also the reason why I looked for the locking of
+that list, and didn't find it.
+
+> +	ffs_dmabuf_put(attach);
+> +
+> +out_dmabuf_put:
+> +	dma_buf_put(dmabuf);
+> +	return ret;
+> +}
+> +
+> +static int ffs_dmabuf_transfer(struct file *file,
+> +			       const struct usb_ffs_dmabuf_transfer_req *req)
+> +{
+> +	bool dma_to_ram, nonblock = file->f_flags & O_NONBLOCK;
+> +	struct ffs_epfile *epfile = file->private_data;
+> +	struct usb_gadget *gadget = epfile->ffs->gadget;
+> +	struct dma_buf_attachment *attach;
+> +	struct ffs_dmabuf_priv *priv;
+> +	enum dma_data_direction dir;
+> +	struct ffs_dma_fence *fence;
+> +	struct usb_request *usb_req;
+> +	struct sg_table *sg_table;
+> +	struct dma_buf *dmabuf;
+> +	struct ffs_ep *ep;
+> +	int ret;
+> +
+> +	if (req->flags & ~USB_FFS_DMABUF_TRANSFER_MASK)
+> +		return -EINVAL;
+> +
+> +	dmabuf = dma_buf_get(req->fd);
+> +	if (IS_ERR(dmabuf))
+> +		return PTR_ERR(dmabuf);
+> +
+> +	if (req->length > dmabuf->size || req->length == 0) {
+> +		ret = -EINVAL;
+> +		goto err_dmabuf_put;
+> +	}
+> +
+> +	attach = ffs_dmabuf_find_attachment(gadget->dev.parent,
+> +					    dmabuf, nonblock);
+> +	if (IS_ERR(attach)) {
+> +		ret = PTR_ERR(attach);
+> +		goto err_dmabuf_put;
+> +	}
+> +
+> +	priv = attach->importer_priv;
+> +
+> +	if (epfile->in)
+> +		dir = DMA_FROM_DEVICE;
+> +	else
+> +		dir = DMA_TO_DEVICE;
+> +
+> +	sg_table = dma_buf_map_attachment(attach, dir);
+> +	if (IS_ERR(sg_table)) {
+> +		ret = PTR_ERR(sg_table);
+> +		goto err_attachment_put;
+> +	}
+> +
+> +	ep = ffs_epfile_wait_ep(file);
+> +	if (IS_ERR(ep)) {
+> +		ret = PTR_ERR(ep);
+> +		goto err_unmap_attachment;
+> +	}
+> +
+> +	ret = ffs_dma_resv_lock(dmabuf, nonblock);
+> +	if (ret)
+> +		goto err_unmap_attachment;
+> +
+> +	/* Make sure we don't have writers */
+> +	if (!dma_resv_test_signaled(dmabuf->resv, DMA_RESV_USAGE_WRITE)) {
+> +		pr_debug("FFS WRITE fence is not signaled\n");
+> +		ret = -EBUSY;
+> +		goto err_resv_unlock;
+> +	}
+> +
+> +	dma_to_ram = dir == DMA_FROM_DEVICE;
+> +
+> +	/* If we're writing to the DMABUF, make sure we don't have readers */
+> +	if (dma_to_ram &&
+> +	    !dma_resv_test_signaled(dmabuf->resv, DMA_RESV_USAGE_READ)) {
+> +		pr_debug("FFS READ fence is not signaled\n");
+> +		ret = -EBUSY;
+> +		goto err_resv_unlock;
+> +	}
+> +
+> +	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
+> +	if (ret)
+> +		goto err_resv_unlock;
+> +
+> +	fence = kmalloc(sizeof(*fence), GFP_KERNEL);
+> +	if (!fence) {
+> +		ret = -ENOMEM;
+> +		goto err_resv_unlock;
+> +	}
+> +
+> +	fence->sgt = sg_table;
+> +	fence->dir = dir;
+> +	fence->priv = priv;
+> +
+> +	dma_fence_init(&fence->base, &ffs_dmabuf_fence_ops,
+> +		       &priv->lock, priv->context, 0);
+
+You need a real seqno here or things break with fence merging. Or
+alternatively unordered dma_fence (which are implemented by allocating a
+new context for each fence, maybe we should change that eventually ...).
+> +
+> +	spin_lock_irq(&epfile->ffs->eps_lock);
+> +
+> +	/* In the meantime, endpoint got disabled or changed. */
+> +	if (epfile->ep != ep) {
+> +		ret = -ESHUTDOWN;
+> +		goto err_fence_put;
+> +	}
+> +
+> +	usb_req = usb_ep_alloc_request(ep->ep, GFP_ATOMIC);
+> +	if (!usb_req) {
+> +		ret = -ENOMEM;
+> +		goto err_fence_put;
+> +	}
+> +
+> +	dma_resv_add_fence(dmabuf->resv, &fence->base,
+> +			   dma_resv_usage_rw(dma_to_ram));
+> +	dma_resv_unlock(dmabuf->resv);
+> +
+> +	/* Now that the dma_fence is in place, queue the transfer. */
+> +
+> +	usb_req->length = req->length;
+> +	usb_req->buf = NULL;
+> +	usb_req->sg = sg_table->sgl;
+> +	usb_req->num_sgs = sg_nents_for_len(sg_table->sgl, req->length);
+> +	usb_req->sg_was_mapped = true;
+> +	usb_req->context  = fence;
+> +	usb_req->complete = ffs_epfile_dmabuf_io_complete;
+> +
+> +	ret = usb_ep_queue(ep->ep, usb_req, GFP_ATOMIC);
+> +	if (ret) {
+> +		usb_ep_free_request(ep->ep, usb_req);
+> +
+> +		spin_unlock_irq(&epfile->ffs->eps_lock);
+> +
+> +		pr_warn("FFS: Failed to queue DMABUF: %d\n", ret);
+> +		ffs_dmabuf_signal_done(fence, ret);
+> +		goto out_dma_buf_put;
+> +	}
+> +
+> +	spin_unlock_irq(&epfile->ffs->eps_lock);
+> +
+> +out_dma_buf_put:
+> +	dma_buf_put(dmabuf);
+> +
+> +	return ret;
+> +
+> +err_fence_put:
+> +	spin_unlock_irq(&epfile->ffs->eps_lock);
+> +	dma_fence_put(&fence->base);
+> +err_resv_unlock:
+> +	dma_resv_unlock(dmabuf->resv);
+> +err_unmap_attachment:
+> +	dma_buf_unmap_attachment(attach, sg_table, dir);
+> +err_attachment_put:
+> +	ffs_dmabuf_put(attach);
+> +err_dmabuf_put:
+> +	dma_buf_put(dmabuf);
+> +
+> +	return ret;
+> +}
+> +
+>  static long ffs_epfile_ioctl(struct file *file, unsigned code,
+>  			     unsigned long value)
+>  {
+> @@ -1292,6 +1670,44 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
+>  	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
+>  		return -ENODEV;
+>  
+> +	switch (code) {
+> +	case FUNCTIONFS_DMABUF_ATTACH:
+> +	{
+> +		int fd;
+> +
+> +		if (copy_from_user(&fd, (void __user *)value, sizeof(fd))) {
+> +			ret = -EFAULT;
+> +			break;
+> +		}
+> +
+> +		return ffs_dmabuf_attach(file, fd);
+> +	}
+> +	case FUNCTIONFS_DMABUF_DETACH:
+> +	{
+> +		int fd;
+> +
+> +		if (copy_from_user(&fd, (void __user *)value, sizeof(fd))) {
+> +			ret = -EFAULT;
+> +			break;
+> +		}
+> +
+> +		return ffs_dmabuf_detach(file, fd);
+> +	}
+> +	case FUNCTIONFS_DMABUF_TRANSFER:
+> +	{
+> +		struct usb_ffs_dmabuf_transfer_req req;
+> +
+> +		if (copy_from_user(&req, (void __user *)value, sizeof(req))) {
+> +			ret = -EFAULT;
+> +			break;
+> +		}
+> +
+> +		return ffs_dmabuf_transfer(file, &req);
+> +	}
+> +	default:
+> +		break;
+> +	}
+> +
+>  	/* Wait for endpoint to be enabled */
+>  	ep = ffs_epfile_wait_ep(file);
+>  	if (IS_ERR(ep))
+> @@ -1869,6 +2285,7 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
+>  	for (i = 1; i <= count; ++i, ++epfile) {
+>  		epfile->ffs = ffs;
+>  		mutex_init(&epfile->mutex);
+> +		INIT_LIST_HEAD(&epfile->dmabufs);
+>  		if (ffs->user_flags & FUNCTIONFS_VIRTUAL_ADDR)
+>  			sprintf(epfile->name, "ep%02x", ffs->eps_addrmap[i]);
+>  		else
+> diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
+> index 078098e73fd3..9f88de9c3d66 100644
+> --- a/include/uapi/linux/usb/functionfs.h
+> +++ b/include/uapi/linux/usb/functionfs.h
+> @@ -86,6 +86,22 @@ struct usb_ext_prop_desc {
+>  	__le16	wPropertyNameLength;
+>  } __attribute__((packed));
+>  
+> +/* Flags for usb_ffs_dmabuf_transfer_req->flags (none for now) */
+> +#define USB_FFS_DMABUF_TRANSFER_MASK	0x0
+> +
+> +/**
+> + * struct usb_ffs_dmabuf_transfer_req - Transfer request for a DMABUF object
+> + * @fd:		file descriptor of the DMABUF object
+> + * @flags:	one or more USB_FFS_DMABUF_TRANSFER_* flags
+> + * @length:	number of bytes used in this DMABUF for the data transfer.
+> + *		Should generally be set to the DMABUF's size.
+> + */
+> +struct usb_ffs_dmabuf_transfer_req {
+> +	int fd;
+> +	__u32 flags;
+> +	__u64 length;
+> +} __attribute__((packed));
+> +
+>  #ifndef __KERNEL__
+>  
+>  /*
+> @@ -290,6 +306,31 @@ struct usb_functionfs_event {
+>  #define	FUNCTIONFS_ENDPOINT_DESC	_IOR('g', 130, \
+>  					     struct usb_endpoint_descriptor)
+>  
+> +/*
+> + * Attach the DMABUF object, identified by its file descriptor, to the
+> + * data endpoint. Returns zero on success, and a negative errno value
+> + * on error.
+> + */
+> +#define FUNCTIONFS_DMABUF_ATTACH	_IOW('g', 131, int)
+> +
+>  
+> +/*
+> + * Detach the given DMABUF object, identified by its file descriptor,
+> + * from the data endpoint. Returns zero on success, and a negative
+> + * errno value on error. Note that closing the endpoint's file
+> + * descriptor will automatically detach all attached DMABUFs.
+> + */
+> +#define FUNCTIONFS_DMABUF_DETACH	_IOW('g', 132, int)
+> +
+> +/*
+> + * Enqueue the previously attached DMABUF to the transfer queue.
+> + * The argument is a structure that packs the DMABUF's file descriptor,
+> + * the size in bytes to transfer (which should generally correspond to
+> + * the size of the DMABUF), and a 'flags' field which is unused
+> + * for now. Returns zero on success, and a negative errno value on
+> + * error.
+> + */
+> +#define FUNCTIONFS_DMABUF_TRANSFER	_IOW('g', 133, \
+> +					     struct usb_ffs_dmabuf_transfer_req)
+>  
+>  #endif /* _UAPI__LINUX_FUNCTIONFS_H__ */
+
+Only things I've found are (I think at least) bugs in the usb gadget
+logic, not directly in how dma-buf/fence is used. The only thing I've
+noticed is the lack of actual dma_fence seqno (which I think Christian
+already pointed out in an already review, looking at archives at least).
+With that addressed:
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
