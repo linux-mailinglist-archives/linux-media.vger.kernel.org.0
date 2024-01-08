@@ -1,441 +1,143 @@
-Return-Path: <linux-media+bounces-3297-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3298-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA9E826A84
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 10:20:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A87826B0C
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 10:46:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF064B20CEB
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 09:19:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30A701F20FA9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 09:46:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B5FD11711;
-	Mon,  8 Jan 2024 09:19:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75EF0134BD;
+	Mon,  8 Jan 2024 09:45:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T7mF5F/w"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zjYxn+AS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E3F1170B;
-	Mon,  8 Jan 2024 09:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FDB9552;
-	Mon,  8 Jan 2024 10:18:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704705515;
-	bh=zUD5PLhJbcZWl3zLwbDJ8KqLFUNntLO7Yn6Fb2k7xek=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T7mF5F/wiyYMv45XZqD7ohCokDD5l+a4nYhZZJ/0jEmUYagtZNiFTPNmw9mwVi5zU
-	 TPLgixRvXrm9qq9IfXm1QHmg+ITf05yCy8x+zvRxADrcSwHTQ6UaS/yVrWMzxG/ufT
-	 dTSkwtoz1uL0Ind6dgs4s2G0UdXlmdbUiADSAe6M=
-Date: Mon, 8 Jan 2024 10:19:35 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Vinay Varma <varmavinaym@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	"open list:SONY IMX219 SENSOR DRIVER" <linux-media@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: imx219: implement the v4l2 selection api
-Message-ID: <3q6andka2su7i43xz2ok44ejvtb3hdjdn6xretyde7sdcvtd7l@lz2syngckivi>
-References: <kv6yfyahbud474e75y4jaczg64pcowvlz7i52kikknuh6wje5o@4k2hikwcueoy>
- <ZZu2C_lu6TAh-LOf@kekkonen.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB451400B
+	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 09:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-553ba2f0c8fso1780504a12.1
+        for <linux-media@vger.kernel.org>; Mon, 08 Jan 2024 01:45:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704707154; x=1705311954; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TIwQczn+Y5dalGs5MoFPfMVHR6EjPyab7UopB3QtbtQ=;
+        b=zjYxn+AS9rLSQs7pJ1yIEBE+jJGxXY9NVvvXmdBhdCBiTLK3d3o/lVb9URNjraBKPD
+         vJNYgzG+F+sn5/byavF/+bOUwuL+3I9cloWcsJ4mFvxnraTF/shImrjbAziZoiM5a7Jw
+         wXoHUXV3SbU4JCJTzk3Rrxr7fgIxJ7+ymZ29dbphYe75+m1YqVmENsppDAbCmSGfZJkI
+         kB3LyCJv8iFKIQ/4eb0LPg6jYpJELfJSdusRRSDpi9uzv91zvt91oe8fJZBPYSQTJL18
+         iSr7/R2A3VkFZFYMKHK6IpDpEr195Bk0AGgApUIdwlK8PxHuPwTHAfeyyAyfPlBUVQ6U
+         GyoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704707154; x=1705311954;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TIwQczn+Y5dalGs5MoFPfMVHR6EjPyab7UopB3QtbtQ=;
+        b=iOBXPlraGotLyg3aIBXR0Uk81JVahfToY57U6OaUP8rtufTE6QG4jtkWJwY2/DZkQD
+         DSdMc/kqp4yo+YIECvOzotu71MwYAI8lz27TLEnoaH+3Pn+zembKyKwJ6UqnjuKeRuYt
+         dKWBmV79z9Bx0QwO/8ERuc1uEZnzR9fbS+wdk//arIbpC/h+ZfooDb+tBpSjFeWA55mX
+         AG93+yx25On9Pf1im5O5Zqf9DhqMjjOXpPm3cRVehrst80aNYJYsXPnFjwIf0fGEd8Oy
+         Apz4cGrbAFy1gJjRUaJ6wQb2v2GPjvQ2y99LKoZr6IlwuhRm6a2E4qsMJTBWVe2FKFNv
+         GeCw==
+X-Gm-Message-State: AOJu0YwqdKW8/1OJClgTFQWfj7iyI88m/urj+D+W0WhjxU44uJKszTbv
+	ck4EQ2Qk+P7D8xDRF5PIVsM1LVp2e/re8w==
+X-Google-Smtp-Source: AGHT+IHZIc4sGgKl2kQJZOpf5txIMoq9/p7LOCtnH7VMnyeWEDFHfra+B3LeKmCB/dk0l9IwA+zm+g==
+X-Received: by 2002:a50:d001:0:b0:557:c9bb:1cb with SMTP id j1-20020a50d001000000b00557c9bb01cbmr106804edf.54.1704707154297;
+        Mon, 08 Jan 2024 01:45:54 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.112])
+        by smtp.gmail.com with ESMTPSA id f24-20020a50a6d8000000b00555ec66a440sm4203598edc.59.2024.01.08.01.45.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jan 2024 01:45:53 -0800 (PST)
+Message-ID: <9d6db4af-fe83-4f95-9d63-df5f5cadd4f8@linaro.org>
+Date: Mon, 8 Jan 2024 10:45:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZZu2C_lu6TAh-LOf@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] dt-bindings: i2c: qcom-cci: Document sc8280xp
+ compatible
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-0-7a57b8b07398@linaro.org>
+ <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-1-7a57b8b07398@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-1-7a57b8b07398@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari, Vinay,
+On 05/01/2024 21:39, Bryan O'Donoghue wrote:
+> Add sc8280xp compatible consistent with recent CAMSS CCI interfaces.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
 
-   a more foundamental question is how this usage of the crop/compose
-API plays with the fact we enumerate only a limited set of frame
-sizes, and now you can get an arbitrary output size. We could get away
-by modifying enum_frame_sizes to return a size range (or ranges) but I
-wonder if it wouldn't be better to introduce an internal pad to
-represent the pixel array where to apply TGT_CROP in combination with
-a source pad where we could apply TGT_COMPOSE and an output format.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-To be completely honest, binning should be handled with a different
-mechanism than the selection API, but that would require a completly
-new design.
+Best regards,
+Krzysztof
 
-Laurent: are there plans to introduce internal pad for embedded data
-support for this sensor ?
-
-Also, the patch doesn't apply on the most recent media master, please
-rebase before resending.
-
-On Mon, Jan 08, 2024 at 08:44:59AM +0000, Sakari Ailus wrote:
-> Hi Vinay,
->
-> Thanks for the patch.
->
-> On Sun, Jan 07, 2024 at 03:42:59PM +0800, Vinay Varma wrote:
-> > This patch exposes IMX219's crop and compose capabilities
-> > by implementing the selection API. Horizontal and vertical
-> > binning being separate registers, `imx219_binning_goodness`
-> > computes the best possible height and width of the compose
-> > specification using the selection flags. Compose operation
-> > updates the subdev's format object to keep them in sync.
->
-> The line length limit here is 75, not ~ 60. Please rewrap.
->
-> >
-> > Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
-> > ---
-> >  drivers/media/i2c/imx219.c | 222 +++++++++++++++++++++++++++++++------
-> >  1 file changed, 190 insertions(+), 32 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 39943d72c22d..27d85fb7ad51 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -29,6 +29,7 @@
-> >  #include <media/v4l2-event.h>
-> >  #include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-mediabus.h>
-> > +#include <media/v4l2-rect.h>
-> >
-> >  /* Chip ID */
-> >  #define IMX219_REG_CHIP_ID		CCI_REG16(0x0000)
-> > @@ -73,6 +74,7 @@
-> >  /* V_TIMING internal */
-> >  #define IMX219_REG_VTS			CCI_REG16(0x0160)
-> >  #define IMX219_VTS_MAX			0xffff
-> > +#define IMX219_VTS_DEF 1763
-> >
-> >  #define IMX219_VBLANK_MIN		32
-> >
-> > @@ -146,6 +148,7 @@
-> >  #define IMX219_PIXEL_ARRAY_TOP		8U
-> >  #define IMX219_PIXEL_ARRAY_WIDTH	3280U
-> >  #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
-> > +#define IMX219_MIN_COMPOSE_SIZE 8U
->
-> Please align 8U with the rest of the macros. Same above.
->
-> >
-> >  /* Mode : resolution and related config&values */
-> >  struct imx219_mode {
-> > @@ -284,6 +287,8 @@ static const u32 imx219_mbus_formats[] = {
-> >  #define IMX219_XCLR_MIN_DELAY_US	6200
-> >  #define IMX219_XCLR_DELAY_RANGE_US	1000
-> >
-> > +static const u32 binning_ratios[] = { 1, 2 };
-> > +
-> >  /* Mode configs */
-> >  static const struct imx219_mode supported_modes[] = {
-> >  	{
-> > @@ -296,19 +301,19 @@ static const struct imx219_mode supported_modes[] = {
-> >  		/* 1080P 30fps cropped */
-> >  		.width = 1920,
-> >  		.height = 1080,
-> > -		.vts_def = 1763,
-> > +		.vts_def = IMX219_VTS_DEF,
-> >  	},
-> >  	{
-> >  		/* 2x2 binned 30fps mode */
-> >  		.width = 1640,
-> >  		.height = 1232,
-> > -		.vts_def = 1763,
-> > +		.vts_def = IMX219_VTS_DEF,
-> >  	},
-> >  	{
-> >  		/* 640x480 30fps mode */
-> >  		.width = 640,
-> >  		.height = 480,
-> > -		.vts_def = 1763,
-> > +		.vts_def = IMX219_VTS_DEF,
-> >  	},
-> >  };
-> >
-> > @@ -809,6 +814,39 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
-> >  	return 0;
-> >  }
-> >
-> > +static void imx219_refresh_ctrls(struct v4l2_subdev *sd,
-> > +				 struct v4l2_subdev_state *state,
-> > +				 unsigned int vts_def)
-> > +{
-> > +	int exposure_max;
-> > +	int exposure_def;
-> > +	int hblank;
-> > +	struct imx219 *imx219 = to_imx219(sd);
-> > +	struct v4l2_mbus_framefmt *fmt =
-> > +		v4l2_subdev_get_pad_format(sd, state, 0);
-> > +
-> > +	/* Update limits and set FPS to default */
-> > +	__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-> > +				 IMX219_VTS_MAX - fmt->height, 1,
-> > +				 vts_def - fmt->height);
-> > +	__v4l2_ctrl_s_ctrl(imx219->vblank, vts_def - fmt->height);
-> > +	/* Update max exposure while meeting expected vblanking */
-> > +	exposure_max = vts_def - 4;
-> > +	exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
-> > +			       exposure_max :
-> > +			       IMX219_EXPOSURE_DEFAULT;
-> > +	__v4l2_ctrl_modify_range(imx219->exposure, imx219->exposure->minimum,
-> > +				 exposure_max, imx219->exposure->step,
-> > +				 exposure_def);
-> > +	/*
-> > +	 * Currently PPL is fixed to IMX219_PPL_DEFAULT, so hblank
-> > +	 * depends on mode->width only, and is not changeble in any
-> > +	 * way other than changing the mode.
-> > +	 */
-> > +	hblank = IMX219_PPL_DEFAULT - fmt->width;
-> > +	__v4l2_ctrl_modify_range(imx219->hblank, hblank, hblank, 1, hblank);
-> > +}
-> > +
-> >  static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  				 struct v4l2_subdev_state *state,
-> >  				 struct v4l2_subdev_format *fmt)
-> > @@ -816,7 +854,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	struct imx219 *imx219 = to_imx219(sd);
-> >  	const struct imx219_mode *mode;
-> >  	struct v4l2_mbus_framefmt *format;
-> > -	struct v4l2_rect *crop;
-> > +	struct v4l2_rect *crop, *compose;
-> >  	unsigned int bin_h, bin_v;
-> >
-> >  	mode = v4l2_find_nearest_size(supported_modes,
-> > @@ -842,34 +880,14 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
-> >  	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> >
-> > -	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > -		int exposure_max;
-> > -		int exposure_def;
-> > -		int hblank;
-> > -
-> > -		/* Update limits and set FPS to default */
-> > -		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-> > -					 IMX219_VTS_MAX - mode->height, 1,
-> > -					 mode->vts_def - mode->height);
-> > -		__v4l2_ctrl_s_ctrl(imx219->vblank,
-> > -				   mode->vts_def - mode->height);
-> > -		/* Update max exposure while meeting expected vblanking */
-> > -		exposure_max = mode->vts_def - 4;
-> > -		exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
-> > -			exposure_max : IMX219_EXPOSURE_DEFAULT;
-> > -		__v4l2_ctrl_modify_range(imx219->exposure,
-> > -					 imx219->exposure->minimum,
-> > -					 exposure_max, imx219->exposure->step,
-> > -					 exposure_def);
-> > -		/*
-> > -		 * Currently PPL is fixed to IMX219_PPL_DEFAULT, so hblank
-> > -		 * depends on mode->width only, and is not changeble in any
-> > -		 * way other than changing the mode.
-> > -		 */
-> > -		hblank = IMX219_PPL_DEFAULT - mode->width;
-> > -		__v4l2_ctrl_modify_range(imx219->hblank, hblank, hblank, 1,
-> > -					 hblank);
-> > -	}
-> > +	compose = v4l2_subdev_get_pad_compose(sd, state, 0);
-> > +	compose->width = format->width;
-> > +	compose->height = format->height;
-> > +	compose->left = 0;
-> > +	compose->top = 0;
-> > +
-> > +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > +		imx219_refresh_ctrls(sd, state, mode->vts_def);
-> >
-> >  	return 0;
-> >  }
-> > @@ -884,6 +902,11 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
-> >  		return 0;
-> >  	}
-> >
-> > +	case V4L2_SEL_TGT_COMPOSE: {
-> > +		sel->r = *v4l2_subdev_get_pad_compose(sd, state, 0);
-> > +		return 0;
-> > +	}
->
-> The braces are unnecessary here.
->
-> > +
-> >  	case V4L2_SEL_TGT_NATIVE_SIZE:
-> >  		sel->r.top = 0;
-> >  		sel->r.left = 0;
-> > @@ -900,11 +923,145 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
-> >  		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
-> >
-> >  		return 0;
-> > +
-> > +	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
-> > +	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
-> > +	case V4L2_SEL_TGT_COMPOSE_PADDED:
-> > +		sel->r.top = 0;
-> > +		sel->r.left = 0;
-> > +		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
-> > +		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
-> > +		return 0;
-> >  	}
-> >
-> >  	return -EINVAL;
-> >  }
-> >
-> > +#define IMX219_ROUND(dim, step, flags)                \
-> > +	((flags) & V4L2_SEL_FLAG_GE ?                 \
-> > +		 round_up((dim), (step)) :            \
-> > +		 ((flags) & V4L2_SEL_FLAG_LE ?        \
-> > +			  round_down((dim), (step)) : \
-> > +			  round_down((dim) + (step) / 2, (step))))
-> > +
-> > +static int imx219_set_selection_crop(struct v4l2_subdev *sd,
-> > +				     struct v4l2_subdev_state *sd_state,
-> > +				     struct v4l2_subdev_selection *sel)
-> > +{
-> > +	u32 max_binning;
-> > +	struct v4l2_rect *compose, *crop;
-> > +	struct v4l2_mbus_framefmt *fmt;
-> > +
-> > +	crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-> > +	if (v4l2_rect_equal(&sel->r, crop))
-> > +		return false;
-> > +	max_binning = binning_ratios[ARRAY_SIZE(binning_ratios) - 1];
-> > +	sel->r.width =
-> > +		clamp(IMX219_ROUND(sel->r.width, max_binning, sel->flags),
-> > +		      max_binning * IMX219_MIN_COMPOSE_SIZE,
-> > +		      IMX219_PIXEL_ARRAY_WIDTH);
-> > +	sel->r.height =
-> > +		clamp(IMX219_ROUND(sel->r.width, max_binning, sel->flags),
-> > +		      max_binning * IMX219_MIN_COMPOSE_SIZE,
-> > +		      IMX219_PIXEL_ARRAY_WIDTH);
-> > +	sel->r.left =
-> > +		min_t(u32, sel->r.left, IMX219_PIXEL_ARRAY_LEFT - sel->r.width);
-> > +	sel->r.top =
-> > +		min_t(u32, sel->r.top, IMX219_PIXEL_ARRAY_TOP - sel->r.top);
-> > +
-> > +	compose = v4l2_subdev_get_pad_compose(sd, sd_state, 0);
-> > +	fmt = v4l2_subdev_get_pad_format(sd, sd_state, 0);
-> > +	*crop = sel->r;
-> > +	compose->height = crop->height;
-> > +	compose->width = crop->width;
-> > +	return true;
-> > +}
-> > +
-> > +static int imx219_binning_goodness(u32 act, u32 ask, u32 flags)
-> > +{
-> > +	const int goodness = 100000;
-> > +	int val = 0;
-> > +
-> > +	if (flags & V4L2_SEL_FLAG_GE)
-> > +		if (act < ask)
-> > +			val -= goodness;
-> > +
-> > +	if (flags & V4L2_SEL_FLAG_LE)
-> > +		if (act > ask)
-> > +			val -= goodness;
-> > +
-> > +	val -= abs(act - ask);
-> > +
-> > +	return val;
-> > +}
-> > +
-> > +static bool imx219_set_selection_compose(struct v4l2_subdev *sd,
-> > +					 struct v4l2_subdev_state *state,
-> > +					 struct v4l2_subdev_selection *sel)
-> > +{
-> > +	int best_goodness;
->
-> This would be nicer if declared after the line below. Think of reverse
-> Christmas trees.
->
-> Similarly for max_binning a few functions up actually as well as variables
-> in imx219_refresh_ctrls().
->
-> > +	struct v4l2_rect *compose, *crop;
-> > +
-> > +	compose = v4l2_subdev_get_pad_compose(sd, state, 0);
-> > +	if (v4l2_rect_equal(compose, &sel->r))
-> > +		return false;
-> > +
-> > +	crop = v4l2_subdev_get_pad_crop(sd, state, 0);
-> > +
-> > +	best_goodness = INT_MIN;
-> > +	for (int i = 0; i < ARRAY_SIZE(binning_ratios); ++i) {
-> > +		u32 width = crop->width / binning_ratios[i];
-> > +		int goodness = imx219_binning_goodness(width, sel->r.width,
-> > +						       sel->flags);
-> > +		if (goodness > best_goodness) {
-> > +			best_goodness = goodness;
-> > +			compose->width = width;
-> > +		}
-> > +	}
-> > +	best_goodness = INT_MIN;
-> > +	for (int i = 0; i < ARRAY_SIZE(binning_ratios); ++i) {
-> > +		u32 height = crop->height / binning_ratios[i];
-> > +		int goodness = imx219_binning_goodness(height, sel->r.height,
-> > +						       sel->flags);
-> > +		if (goodness > best_goodness) {
-> > +			best_goodness = goodness;
-> > +			compose->height = height;
-> > +		}
-> > +	}
-> > +	return true;
-> > +}
-> > +
-> > +static int imx219_set_selection(struct v4l2_subdev *sd,
-> > +				struct v4l2_subdev_state *sd_state,
-> > +				struct v4l2_subdev_selection *sel)
-> > +{
-> > +	bool compose_updated = false;
-> > +
-> > +	switch (sel->target) {
-> > +	case V4L2_SEL_TGT_CROP:
-> > +		compose_updated = imx219_set_selection_crop(sd, sd_state, sel);
-> > +		break;
-> > +	case V4L2_SEL_TGT_COMPOSE:
-> > +		compose_updated =
-> > +			imx219_set_selection_compose(sd, sd_state, sel);
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +	if (compose_updated) {
-> > +		struct v4l2_rect *compose =
-> > +			v4l2_subdev_get_pad_compose(sd, sd_state, 0);
-> > +		struct v4l2_mbus_framefmt *fmt =
-> > +			v4l2_subdev_get_pad_format(sd, sd_state, 0);
->
-> A newline here?
->
-> > +		fmt->height = compose->height;
-> > +		fmt->width = compose->width;
-> > +	}
-> > +	if (compose_updated && sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > +		imx219_refresh_ctrls(sd, sd_state, IMX219_VTS_DEF);
->
-> Please move this inside the previous condition (where you check just
-> sel->which).
->
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int imx219_init_cfg(struct v4l2_subdev *sd,
-> >  			   struct v4l2_subdev_state *state)
-> >  {
-> > @@ -938,6 +1095,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
-> >  	.get_fmt = v4l2_subdev_get_fmt,
-> >  	.set_fmt = imx219_set_pad_format,
-> >  	.get_selection = imx219_get_selection,
-> > +	.set_selection = imx219_set_selection,
-> >  	.enum_frame_size = imx219_enum_frame_size,
-> >  };
-> >
->
-> --
-> Regards,
->
-> Sakari Ailus
->
 
