@@ -1,185 +1,234 @@
-Return-Path: <linux-media+bounces-3347-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3348-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847BE82786C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 20:21:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2B7827A0E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 22:13:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 861F61C23197
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 19:21:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDCB21C22801
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 21:13:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B0255C07;
-	Mon,  8 Jan 2024 19:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0A75644E;
+	Mon,  8 Jan 2024 21:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="YFcx1vSV"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="sN59wZaO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D67654FB3
-	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 19:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e6c0c0c6bso371419e87.0
-        for <linux-media@vger.kernel.org>; Mon, 08 Jan 2024 11:19:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1704741568; x=1705346368; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
-        b=YFcx1vSVOGbIvCJfYVZEgJsYKAHOD4M4FFjb+40kd6e81VEW+wFnI/nUS4f1+lkW+6
-         YkTv0jRH92QYuw1e3J41rlB7BGa7Yy3mGodwU/V7Drq9tsOQ4X86W8/HaZJYodKR+cAS
-         3WFPyuxP7IKiT7ofrSP8lyo1/ExVV//GoPjnk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704741568; x=1705346368;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
-        b=lgtqhsas1IIL43KKWeSqO/7QB01Rencm+cQXl6hHpbBN/9TwwTUydRE/vgg2klmvLn
-         4ZA3LDtnlYqX4ogcEu7IbAxHP35e3s4jpY9FHnwSj95WGYT8kgQzThyYI0MYO8L0ueEx
-         LZ7J7pmGP38JGKvMDXhrUJFQwyF0VVd88XlH2WwQiVkptKAMJE05oCQxAPB0wbWgsnp8
-         GhRbj01VVUdUH1TSdhIqv2w2V6b3cmgoE9OkSOjzBIxYKq25+Uwfv3mXtcIy7FPXz605
-         pcDbg7PFXAwJ64fEZ0a9z8X9U7g9JgJAic4RFPVg3svXMC6wqCK4yQRu15ryrh+pYEHq
-         S2OQ==
-X-Gm-Message-State: AOJu0YxyaRYFAd7J34czDauppoKpPFlzy2dFpC+5bBNg4pAGREGF6Oi4
-	y3uZyZBQpoL5XOx14dD+yTUp5UiENFGmuw==
-X-Google-Smtp-Source: AGHT+IE/x3yLDZZ6n/5O2iCOUHnc0Ya5TLPSdiVuLb4m5g8sI5sQyD6iWnZm6A7Hd4Q/GNClgkhmrQ==
-X-Received: by 2002:a05:6512:3ba1:b0:50e:b2ba:15d with SMTP id g33-20020a0565123ba100b0050eb2ba015dmr4109768lfv.1.1704741567605;
-        Mon, 08 Jan 2024 11:19:27 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05600c468700b0040d30af488asm12097912wmo.40.2024.01.08.11.19.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 11:19:27 -0800 (PST)
-Date: Mon, 8 Jan 2024 20:19:25 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-References: <20240108120056.22165-1-paul@crapouillou.net>
- <20240108120056.22165-4-paul@crapouillou.net>
- <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
- <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
- <ZZwU827NMHbx7bsO@phenom.ffwll.local>
- <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A54F56440;
+	Mon,  8 Jan 2024 21:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 408LCinY087860;
+	Mon, 8 Jan 2024 15:12:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1704748364;
+	bh=1V9tORwpzYfVb0olcT8LBwL6ffWshq4GJ85wu4/jFFE=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=sN59wZaOZwrjgzpXwDot+yTJZECOhdBnS1dA2D/6VX/ELFna55GY43AXSjDckM3Nc
+	 /D+3PzuRgP905P69hzjcWm4yubzQkj05YJ2PBpTdaTWxACdTYHf4a3WEzx24A6I1YS
+	 BR8W6FxSFOa/BECNz/qR222C4PTFP1fcMJf0a104=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 408LCiS0020724
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 8 Jan 2024 15:12:44 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 8
+ Jan 2024 15:12:43 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 8 Jan 2024 15:12:43 -0600
+Received: from [10.249.40.136] ([10.249.40.136])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 408LCh6P050663;
+	Mon, 8 Jan 2024 15:12:43 -0600
+Message-ID: <6ec8c7c4-588a-48b5-b0c5-56ca5216a757@ti.com>
+Date: Mon, 8 Jan 2024 15:12:43 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/8] iio: new DMABUF based API, v5
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Vinod Koul
+	<vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+CC: Michael Hennerich <Michael.Hennerich@analog.com>,
+        <linux-doc@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        =?UTF-8?Q?Nuno_S=C3=A1?=
+	<noname.nuno@gmail.com>,
+        <dmaengine@vger.kernel.org>, <linux-media@vger.kernel.org>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20231219175009.65482-1-paul@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
-> Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
-> > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil wrote:
-> > > Hi Daniel (Sima?),
-> > > 
-> > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a écrit :
-> > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil wrote:
-> > > > > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence
-> > > > > *dma_fence, int ret)
-> > > > > +{
-> > > > > +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
-> > > > > +	struct dma_fence *fence = &dma_fence->base;
-> > > > > +
-> > > > > +	dma_fence_get(fence);
-> > > > > +	fence->error = ret;
-> > > > > +	dma_fence_signal(fence);
-> > > > > +
-> > > > > +	dma_buf_unmap_attachment(priv->attach, dma_fence->sgt,
-> > > > > dma_fence->dir);
-> > > > > +	dma_fence_put(fence);
-> > > > > +	ffs_dmabuf_put(priv->attach);
-> > > > 
-> > > > So this can in theory take the dma_resv lock, and if the usb
-> > > > completion
-> > > > isn't an unlimited worker this could hold up completion of future
-> > > > dma_fence, resulting in a deadlock.
-> > > > 
-> > > > Needs to be checked how usb works, and if stalling indefinitely
-> > > > in
-> > > > the
-> > > > io_complete callback can hold up the usb stack you need to:
-> > > > 
-> > > > - drop a dma_fence_begin/end_signalling annotations in here
-> > > > - pull out the unref stuff into a separate preallocated worker
-> > > > (or at
-> > > >   least the final unrefs for ffs_dma_buf).
-> > > 
-> > > Only ffs_dmabuf_put() can attempt to take the dma_resv and would
-> > > have
-> > > to be in a worker, right? Everything else would be inside the
-> > > dma_fence_begin/end_signalling() annotations?
-> > 
-> > Yup. Also I noticed that unlike the iio patches you don't have the
-> > dma_buf_unmap here in the completion path (or I'm blind?), which
-> > helps a
-> > lot with avoiding trouble.
+On 12/19/23 11:50 AM, Paul Cercueil wrote:
+> [V4 was: "iio: Add buffer write() support"][1]
 > 
-> They both call dma_buf_unmap_attachment() in the "signal done"
-> callback, the only difference I see is that it is called after the
-> dma_fence_put() in the iio patches, while it's called before
-> dma_fence_put() here.
+> Hi Jonathan,
+> 
+> This is a respin of the V3 of my patchset that introduced a new
+> interface based on DMABUF objects [2].
+> 
+> The V4 was a split of the patchset, to attempt to upstream buffer
+> write() support first. But since there is no current user upstream, it
+> was not merged. This V5 is about doing the opposite, and contains the
+> new DMABUF interface, without adding the buffer write() support. It can
+> already be used with the upstream adi-axi-adc driver.
+> 
+> In user-space, Libiio uses it to transfer back and forth blocks of
+> samples between the hardware and the applications, without having to
+> copy the data.
+> 
+> On a ZCU102 with a FMComms3 daughter board, running Libiio from the
+> pcercuei/dev-new-dmabuf-api branch [3], compiled with
+> WITH_LOCAL_DMABUF_API=OFF (so that it uses fileio):
+>    sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
+>    Throughput: 116 MiB/s
+> 
+> Same hardware, with the DMABUF API (WITH_LOCAL_DMABUF_API=ON):
+>    sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
+>    Throughput: 475 MiB/s
+> 
+> This benchmark only measures the speed at which the data can be fetched
+> to iio_rwdev's internal buffers, and does not actually try to read the
+> data (e.g. to pipe it to stdout). It shows that fetching the data is
+> more than 4x faster using the new interface.
+> 
+> When actually reading the data, the performance difference isn't that
+> impressive (maybe because in case of DMABUF the data is not in cache):
+> 
+> WITH_LOCAL_DMABUF_API=OFF (so that it uses fileio):
+>    sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=/dev/zero status=progress
+>    2446422528 bytes (2.4 GB, 2.3 GiB) copied, 22 s, 111 MB/s
+> 
+> WITH_LOCAL_DMABUF_API=ON:
+>    sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=/dev/zero status=progress
+>    2334388736 bytes (2.3 GB, 2.2 GiB) copied, 21 s, 114 MB/s
+> 
+> One interesting thing to note is that fileio is (currently) actually
+> faster than the DMABUF interface if you increase a lot the buffer size.
+> My explanation is that the cache invalidation routine takes more and
+> more time the bigger the DMABUF gets. This is because the DMABUF is
+> backed by small-size pages, so a (e.g.) 64 MiB DMABUF is backed by up
+> to 16 thousands pages, that have to be invalidated one by one. This can
+> be addressed by using huge pages, but the udmabuf driver does not (yet)
+> support creating DMABUFs backed by huge pages.
+> 
 
-I was indeed blind ...
+Have you tried DMABUFs created using the DMABUF System heap exporter?
+(drivers/dma-buf/heaps/system_heap.c) It should be able to handle
+larger allocation better here, and if you don't have any active
+mmaps or vmaps then it can skip CPU-side coherency maintenance
+(useful for device to device transfers).
 
-So the trouble is this wont work because:
-- dma_buf_unmap_attachment() requires dma_resv_lock. This is a somewhat
-  recent-ish change from 47e982d5195d ("dma-buf: Move
-  dma_buf_map_attachment() to dynamic locking specification"), so maybe
-  old kernel or you don't have full lockdep enabled to get the right
-  splat.
+Allocating DMABUFs out of user pages has a bunch of other issues you
+might run into also. I'd argue udmabuf is now completely superseded
+by DMABUF system heaps. Try it out :)
 
-- dma_fence critical section forbids dma_resv_lock
+Andrew
 
-Which means you need to move this out, but then there's the potential
-cache management issue. Which current gpu drivers just kinda ignore
-because it doesn't matter for current use-case, they all cache the mapping
-for about as long as the attachment exists. You might want to do the same,
-unless that somehow breaks a use-case you have, I have no idea about that.
-If something breaks with unmap_attachment moved out of the fence handling
-then I guess it's high time to add separate cache-management only to
-dma_buf (and that's probably going to be quite some wiring up, not sure
-even how easy that would be to do nor what exactly the interface should
-look like).
-
-Cheers, Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Anyway, the real benefits happen when the DMABUFs are either shared
+> between IIO devices, or between the IIO subsystem and another
+> filesystem. In that case, the DMABUFs are simply passed around drivers,
+> without the data being copied at any moment.
+> 
+> We use that feature to transfer samples from our transceivers to USB,
+> using a DMABUF interface to FunctionFS [4].
+> 
+> This drastically increases the throughput, to about 274 MiB/s over a
+> USB3 link, vs. 127 MiB/s using IIO's fileio interface + write() to the
+> FunctionFS endpoints, for a lower CPU usage (0.85 vs. 0.65 load avg.).
+> 
+> Based on linux-next/next-20231219.
+> 
+> Cheers,
+> -Paul
+> 
+> [1] https://lore.kernel.org/all/20230807112113.47157-1-paul@crapouillou.net/
+> [2] https://lore.kernel.org/all/20230403154800.215924-1-paul@crapouillou.net/
+> [3] https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf-api
+> [4] https://lore.kernel.org/all/20230322092118.9213-1-paul@crapouillou.net/
+> 
+> ---
+> Changelog:
+> - [3/8]: Replace V3's dmaengine_prep_slave_dma_array() with a new
+>    dmaengine_prep_slave_dma_vec(), which uses a new 'dma_vec' struct.
+>    Note that at some point we will need to support cyclic transfers
+>    using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
+>    parameter to the function?
+> 
+> - [4/8]: Implement .device_prep_slave_dma_vec() instead of V3's
+>    .device_prep_slave_dma_array().
+> 
+>    @Vinod: this patch will cause a small conflict with my other
+>    patchset adding scatter-gather support to the axi-dmac driver.
+>    This patch adds a call to axi_dmac_alloc_desc(num_sgs), but the
+>    prototype of this function changed in my other patchset - it would
+>    have to be passed the "chan" variable. I don't know how you prefer it
+>    to be resolved. Worst case scenario (and if @Jonathan is okay with
+>    that) this one patch can be re-sent later, but it would make this
+>    patchset less "atomic".
+> 
+> - [5/8]:
+>    - Use dev_err() instead of pr_err()
+>    - Inline to_iio_dma_fence()
+>    - Add comment to explain why we unref twice when detaching dmabuf
+>    - Remove TODO comment. It is actually safe to free the file's
+>      private data even when transfers are still pending because it
+>      won't be accessed.
+>    - Fix documentation of new fields in struct iio_buffer_access_funcs
+>    - iio_dma_resv_lock() does not need to be exported, make it static
+> 
+> - [7/8]:
+>    - Use the new dmaengine_prep_slave_dma_vec().
+>    - Restrict to input buffers, since output buffers are not yet
+>      supported by IIO buffers.
+> 
+> - [8/8]:
+>    Use description lists for the documentation of the three new IOCTLs
+>    instead of abusing subsections.
+> 
+> ---
+> Alexandru Ardelean (1):
+>    iio: buffer-dma: split iio_dma_buffer_fileio_free() function
+> 
+> Paul Cercueil (7):
+>    iio: buffer-dma: Get rid of outgoing queue
+>    dmaengine: Add API function dmaengine_prep_slave_dma_vec()
+>    dmaengine: dma-axi-dmac: Implement device_prep_slave_dma_vec
+>    iio: core: Add new DMABUF interface infrastructure
+>    iio: buffer-dma: Enable support for DMABUFs
+>    iio: buffer-dmaengine: Support new DMABUF based userspace API
+>    Documentation: iio: Document high-speed DMABUF based API
+> 
+>   Documentation/iio/dmabuf_api.rst              |  54 +++
+>   Documentation/iio/index.rst                   |   2 +
+>   drivers/dma/dma-axi-dmac.c                    |  40 ++
+>   drivers/iio/buffer/industrialio-buffer-dma.c  | 242 ++++++++---
+>   .../buffer/industrialio-buffer-dmaengine.c    |  52 ++-
+>   drivers/iio/industrialio-buffer.c             | 402 ++++++++++++++++++
+>   include/linux/dmaengine.h                     |  25 ++
+>   include/linux/iio/buffer-dma.h                |  33 +-
+>   include/linux/iio/buffer_impl.h               |  26 ++
+>   include/uapi/linux/iio/buffer.h               |  22 +
+>   10 files changed, 836 insertions(+), 62 deletions(-)
+>   create mode 100644 Documentation/iio/dmabuf_api.rst
+> 
 
