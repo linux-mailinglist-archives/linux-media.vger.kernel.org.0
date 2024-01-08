@@ -1,66 +1,65 @@
-Return-Path: <linux-media+bounces-3279-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3280-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C0082677C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 04:55:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98531826789
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 05:11:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B2101C209D0
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 03:55:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD4AC2819B9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 04:11:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BBCD138E;
-	Mon,  8 Jan 2024 03:55:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 898F010FF;
+	Mon,  8 Jan 2024 04:10:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKG9/LaS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LouQ5cko"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8EF410EB
-	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 03:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FD04A2C
+	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 04:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704686141; x=1736222141;
+  t=1704687057; x=1736223057;
   h=subject:to:cc:references:from:message-id:date:
    mime-version:in-reply-to:content-transfer-encoding;
-  bh=GBU0//KR2OTraJPkKfZU449iaYjYO92iKeN/GyrwWQM=;
-  b=aKG9/LaS09xkPIx8/Fv5c2TM3W/VzseRXr1/ZRYm+1R49rJobKZ/g6vK
-   PagSl5YaXsMxZaryjawpxR+2ZjLpwcULCcyUonVyNNNmJCZxaYwJb4PEN
-   c8bKLG9Za6IuXLIF361KwXhZFnvkbMXQR8uLxl2eGU+K9qoz4Gltfbyh8
-   hK50p2AjxwSlQrO8/x1auJXM7WitqA5pW1ohcBINyk8xDEbxGegyB8cW4
-   MnWUC9GW8gwJLrWCx910yj6NO9iyM8GeNEfP9z2szKPJQgTparoniQyYb
-   pHbMAezRDCh9TnneHSrQBjkq6Piex/yo8Kg+fFS0eHOOCQKTCsJm70Rxb
+  bh=bhkrmGcfD5B9eEarknsfMtGAEVdSpj8UacuXVQbzVM4=;
+  b=LouQ5ckoQsywF1SyBOPbPfrAuGEX3mhZwmDnUGZLzImRcIYFljcDSP6X
+   Me6cd3WD2wCpSy7H7jXT3iO6trfdV0T6iSj8IkICh23zsQmMrlTghgkrb
+   Mnq07NTnr5eY+yBFETbe1uzUT1djZsTtBdsb9Z6sAg8UvHggz4by1RTae
+   aXFqU8haboZSw7QlknIV9LD62PL1DzpV7ydDuY5CwyrGITe4Ua3QiL2O/
+   qPpiFQTfQURTZo/pOdMVLzGPbr0Md3UiEtqc58lOd6Ny9KZp1CAKYyLN3
+   ckJO1NolwmX9/NwuvMuKbwVNBXi3I/xdgTmYXN6wSN/Sc6JkVtXH6qDyf
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="19290157"
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="4874454"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="19290157"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 19:55:40 -0800
+   d="scan'208";a="4874454"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 20:10:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="757497873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="784726501"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="757497873"
+   d="scan'208";a="784726501"
 Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by orsmga006.jf.intel.com with ESMTP; 07 Jan 2024 19:55:37 -0800
-Subject: Re: [PATCH v2 14/15] Documentation: add Intel IPU6 ISYS driver
- admin-guide doc
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, bingbu.cao@intel.com
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
+  by fmsmga007.fm.intel.com with ESMTP; 07 Jan 2024 20:10:49 -0800
+Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
+To: Hans de Goede <hans@hansg.org>, bingbu.cao@intel.com,
+ linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+ laurent.pinchart@ideasonboard.com
+Cc: andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
  ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
  claus.stovgaard@gmail.com, tfiga@chromium.org, senozhatsky@chromium.org,
  tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com,
  hongju.wang@intel.com
 References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-15-bingbu.cao@intel.com>
- <ZTkG40snprJhk8UW@kekkonen.localdomain>
+ <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
 From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <5637c237-f939-3edc-4f45-b89f3dc241dc@linux.intel.com>
-Date: Mon, 8 Jan 2024 11:51:50 +0800
+Message-ID: <2d3a85fe-dfb9-52e1-fe1b-e0b9a5ac14ab@linux.intel.com>
+Date: Mon, 8 Jan 2024 12:07:02 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -69,117 +68,54 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ZTkG40snprJhk8UW@kekkonen.localdomain>
+In-Reply-To: <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Sakari,
+Hans,
 
-On 10/25/23 8:15 PM, Sakari Ailus wrote:
+On 11/8/23 7:59 PM, Hans de Goede wrote:
 > Hi Bingbu,
 > 
-> On Tue, Oct 24, 2023 at 07:29:23PM +0800, bingbu.cao@intel.com wrote:
+> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
 >> From: Bingbu Cao <bingbu.cao@intel.com>
 >>
->> This document mainly describe the functionality of IPU6 and
->> IPU6 isys driver, and gives an example that how user can do
->> imaging capture with tools.
+>> This patch series adds a driver for Intel IPU6 input system.
+>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+>> device which can be found in some Intel Client Platforms. User can use
+>> IPU6 to capture images from MIPI camera sensors.
 >>
->> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
->> ---
->>  Documentation/admin-guide/media/ipu6-isys.rst |  159 +++
->>  .../admin-guide/media/ipu6_isys_graph.svg     |  338 +++++
->>  .../admin-guide/media/ipu6_isys_multi.svg     | 1124 +++++++++++++++++
->>  .../admin-guide/media/v4l-drivers.rst         |    1 +
->>  4 files changed, 1622 insertions(+)
->>  create mode 100644 Documentation/admin-guide/media/ipu6-isys.rst
->>  create mode 100644 Documentation/admin-guide/media/ipu6_isys_graph.svg
->>  create mode 100644 Documentation/admin-guide/media/ipu6_isys_multi.svg
+>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
+>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
+>> the driver sets up a page table to allow IPU6 DMA to access the system
+>> memory.
 >>
->> diff --git a/Documentation/admin-guide/media/ipu6-isys.rst b/Documentation/admin-guide/media/ipu6-isys.rst
->> new file mode 100644
->> index 000000000000..fb4d355e1522
->> --- /dev/null
->> +++ b/Documentation/admin-guide/media/ipu6-isys.rst
->> @@ -0,0 +1,159 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +.. include:: <isonum.txt>
->> +
->> +===============================================================
->> +Intel Image Processing Unit 6 (IPU6) Input System driver
->> +===============================================================
+>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
 > 
-> Too many '='s.
+> I have been testing this on a TigerLake system, a Dell Latitude 9420
+> with ov01a1s and the packed 10 bit bayer pixel fmt: V4L2_PIX_FMT_SGRBG10P,
+> which libcamera together with (WIP) software debayer support picks
+> by default does not work. There are many many CSI errors in dmesg
+> and only the first 10 or so lines of the image show.
 > 
->> +
->> +Copyright |copy| 2023 Intel Corporation
->> +
->> +Introduction
->> +============
->> +
->> +This file documents the Intel IPU6 (6th generation Image Processing Unit)
->> +Input System (MIPI CSI2 receiver) drivers located under
->> +drivers/media/pci/intel/ipu6.
->> +
->> +The Intel IPU6 can be found in certain Intel Chipsets but not in all SKUs:
->> +
->> +* TigerLake
->> +* JasperLake
->> +* AlderLake
->> +* RaptorLake
->> +* MeteorLake
->> +
->> +Intel IPU6 is made up of two components - Input System (ISYS) and Processing
->> +System (PSYS).
->> +
->> +The Input System mainly works as MIPI CSI2 receiver which receives and
->> +processes the imaging data from the sensors and outputs the frames to memory.
->> +
->> +There are 2 driver modules - intel_ipu6 and intel_ipu6_isys. intel_ipu6 is an
->> +IPU6 common driver which does PCI configuration, firmware loading and parsing,
->> +firmware authentication, DMA mapping and IPU-MMU (internal Memory mapping Unit)
->> +configuration. intel_ipu6_isys implements V4L2, Media Controller and V4L2
->> +sub-device interfaces. The IPU6 ISYS driver supports camera sensors connected
->> +to the IPU6 ISYS through V4L2 sub-device sensor drivers.
->> +
->> +.. Note:: See Documentation/driver-api/media/drivers/ipu6.rst for more
->> +	  information about the IPU6 hardware.
+> Disabling the packed format by removing it from ipu6_isys_pfmts[],
+> making libcamera pick the unpacked (every 10 bits per pixel data
+> stored in a 16 bit word in output buffer) fixes this.
 > 
-> A direct reference would be nice.
-> 
->> +
->> +
->> +Input system driver
->> +===================
->> +
->> +The input System driver mainly configures CSI2 DPHY, constructs the firmware
->> +stream configuration, sends commands to firmware, gets response from hardware
->> +and firmware and then returns buffers to user.
->> +The ISYS is represented as several V4L2 sub-devices - 'Intel IPU6 CSI2 $port',
->> +which provide V4L2 subdev interfaces to the user space, there are also several
->> +video nodes for each CSI-2 stream capture - 'Intel IPU6 ISYS capture $num' which
->> +provide interface to user to set formats, queue buffers and streaming.
->> +
->> +.. kernel-figure::  ipu6_isys_graph.svg
->> +   :alt: ipu6 isys media graph without multiple streams support
->> +
->> +   ipu6 isys media graph without multiple streams support
->> +
->> +.. kernel-figure::  ipu6_isys_multi.svg
->> +   :alt: ipu6 isys media graph with multiple streams support
->> +
->> +   ipu6 isys media graph with multiple streams support
-> 
-> Is there a reason for having links from the CSI-2 receivers' source pads to
-> multiple video nodes? Isn't a single one enough?
->
+> Are the packed bayer formats supposed to work on Tiger Lake, or
+> is this a known issue which Intel's own userspace stack avoids
+> by always picking the unpacked format ?
 
-Sorry, I forgot to reply before. Firmware sees each MIPI VC as a single
-stream, for multiple VCs case, SW need create multiple firmware streams.
+I just tested the packed bayer on my device (ov01a10) and did not
+observe the problems like yours, could you share the isys kernel log?
 
-<snip>
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
 
 -- 
 Best regards,
