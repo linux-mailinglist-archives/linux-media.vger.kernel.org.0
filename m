@@ -1,143 +1,214 @@
-Return-Path: <linux-media+bounces-3298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3299-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A87826B0C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 10:46:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6989826B1A
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 10:55:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30A701F20FA9
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 09:46:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F815282665
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 09:55:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75EF0134BD;
-	Mon,  8 Jan 2024 09:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2033C12E73;
+	Mon,  8 Jan 2024 09:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zjYxn+AS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XKJSEg6u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB451400B
-	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 09:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-553ba2f0c8fso1780504a12.1
-        for <linux-media@vger.kernel.org>; Mon, 08 Jan 2024 01:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704707154; x=1705311954; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TIwQczn+Y5dalGs5MoFPfMVHR6EjPyab7UopB3QtbtQ=;
-        b=zjYxn+AS9rLSQs7pJ1yIEBE+jJGxXY9NVvvXmdBhdCBiTLK3d3o/lVb9URNjraBKPD
-         vJNYgzG+F+sn5/byavF/+bOUwuL+3I9cloWcsJ4mFvxnraTF/shImrjbAziZoiM5a7Jw
-         wXoHUXV3SbU4JCJTzk3Rrxr7fgIxJ7+ymZ29dbphYe75+m1YqVmENsppDAbCmSGfZJkI
-         kB3LyCJv8iFKIQ/4eb0LPg6jYpJELfJSdusRRSDpi9uzv91zvt91oe8fJZBPYSQTJL18
-         iSr7/R2A3VkFZFYMKHK6IpDpEr195Bk0AGgApUIdwlK8PxHuPwTHAfeyyAyfPlBUVQ6U
-         GyoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704707154; x=1705311954;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TIwQczn+Y5dalGs5MoFPfMVHR6EjPyab7UopB3QtbtQ=;
-        b=iOBXPlraGotLyg3aIBXR0Uk81JVahfToY57U6OaUP8rtufTE6QG4jtkWJwY2/DZkQD
-         DSdMc/kqp4yo+YIECvOzotu71MwYAI8lz27TLEnoaH+3Pn+zembKyKwJ6UqnjuKeRuYt
-         dKWBmV79z9Bx0QwO/8ERuc1uEZnzR9fbS+wdk//arIbpC/h+ZfooDb+tBpSjFeWA55mX
-         AG93+yx25On9Pf1im5O5Zqf9DhqMjjOXpPm3cRVehrst80aNYJYsXPnFjwIf0fGEd8Oy
-         Apz4cGrbAFy1gJjRUaJ6wQb2v2GPjvQ2y99LKoZr6IlwuhRm6a2E4qsMJTBWVe2FKFNv
-         GeCw==
-X-Gm-Message-State: AOJu0YwqdKW8/1OJClgTFQWfj7iyI88m/urj+D+W0WhjxU44uJKszTbv
-	ck4EQ2Qk+P7D8xDRF5PIVsM1LVp2e/re8w==
-X-Google-Smtp-Source: AGHT+IHZIc4sGgKl2kQJZOpf5txIMoq9/p7LOCtnH7VMnyeWEDFHfra+B3LeKmCB/dk0l9IwA+zm+g==
-X-Received: by 2002:a50:d001:0:b0:557:c9bb:1cb with SMTP id j1-20020a50d001000000b00557c9bb01cbmr106804edf.54.1704707154297;
-        Mon, 08 Jan 2024 01:45:54 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id f24-20020a50a6d8000000b00555ec66a440sm4203598edc.59.2024.01.08.01.45.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jan 2024 01:45:53 -0800 (PST)
-Message-ID: <9d6db4af-fe83-4f95-9d63-df5f5cadd4f8@linaro.org>
-Date: Mon, 8 Jan 2024 10:45:53 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6270134A9;
+	Mon,  8 Jan 2024 09:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1704707714;
+	bh=C+y5NzxPy9aRgqFTTKxiJ+4wkR49QEyPZcj7Qyz0DJI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=XKJSEg6uh97Vz3NODfZxSTiuRVDk78W+bFQFKkKJm4V+kgwfo98KUaHry+1dyh9zW
+	 VmLjcOefAtgrzLyNjNIwTYxS/SFvkJ/K20CobYmekTGASmpdhncojdVrlUQFvgzXcP
+	 sgLEzcZg1hfWe+tU0HB8jykZM0bbcbQx/sglDVUNGfY+0IMFIcXs8WzPSY2a/KuGKn
+	 HVRyHmYdMwNEMWZ+NSHQY+6tfo9e3GlFRaq4KLkpFrEFvTXM6orNKWrGGxHMd4EXaB
+	 Dh6jf5gmxNqSCqufMvYXuidBXUSeqZyyG0Om7FhkjncgPBdJXVnyIYDj6FyGBbIO1z
+	 FhD66+tNno9nA==
+Received: from [100.77.12.232] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: obbardc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5D3143780625;
+	Mon,  8 Jan 2024 09:55:13 +0000 (UTC)
+Message-ID: <6624728df8569feb5b7a03b2459c8bb127f6470e.camel@collabora.com>
+Subject: Re: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
+ profile support
+From: Christopher Obbard <chris.obbard@collabora.com>
+To: Jonas Karlman <jonas@kwiboo.se>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
+	 <nicolas.dufresne@collabora.com>, Benjamin Gaignard
+	 <benjamin.gaignard@collabora.com>, Sebastian Fricke
+	 <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 08 Jan 2024 09:54:57 +0000
+In-Reply-To: <20231105165521.3592037-1-jonas@kwiboo.se>
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+Autocrypt: addr=chris.obbard@collabora.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2-1 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: i2c: qcom-cci: Document sc8280xp
- compatible
-Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-0-7a57b8b07398@linaro.org>
- <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-1-7a57b8b07398@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-1-7a57b8b07398@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 05/01/2024 21:39, Bryan O'Donoghue wrote:
-> Add sc8280xp compatible consistent with recent CAMSS CCI interfaces.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
+Hi Jonas,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Happy new year!
 
-Best regards,
-Krzysztof
+On Sun, 2023-11-05 at 16:54 +0000, Jonas Karlman wrote:
+> This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 supp=
+ort
+> for display driver have landed in mainline tree.
+>=20
+> This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
+> Video Decoder driver.
+>=20
+> Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
+> Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
+>=20
+> Patch 3 change to use bytesperline and buffer height to configure strides=
+.
+> Patch 4 change to use values from SPS/PPS control to configure the HW.
+> Patch 5 remove an unnecessary call to validate sps at streaming start.
+>=20
+> Patch 6-10 refactor code to support filtering of CAPUTRE formats based
+> on the image format returned from a get_image_fmt ops.
+>=20
+> Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
 
+I send my Tested-by to v3 of this series, I also tested with v4 so for futu=
+re
+series please add:
+
+Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+
+>=20
+> Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+>=20
+> =C2=A0 v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+> =C2=A0 ...
+> =C2=A0 Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0,
+> Warnings: 0
+>=20
+> =C2=A0 Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-reque=
+st
+> =C2=A0 ...
+> =C2=A0 Ran 65/69 tests successfully
+>=20
+> =C2=A0 Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-reque=
+st
+> =C2=A0 ...
+> =C2=A0 Ran 127/135 tests successfully
+>=20
+> Before this series:
+>=20
+> =C2=A0 Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-reque=
+st
+> =C2=A0 ...
+> =C2=A0 Ran 44/69 tests successfully
+>=20
+> Changes in v4:
+> - Fix failed v4l2-compliance tests related to CAPTURE queue
+> - Rework CAPTURE format filter anv validate to use an image format
+> - Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+> Link to v3:
+> https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo=
+.se/
+>=20
+> Changes in v3:
+> - Drop merged patches
+> - Use bpp and bpp_div instead of prior misuse of block_w/block_h
+> - New patch to use values from SPS/PPS control to configure the HW
+> - New patch to remove an unnecessary call to validate sps at streaming st=
+art
+> - Reworked pixel format validation
+> Link to v2:
+> https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.s=
+e/
+>=20
+> Changes in v2:
+> - Collect r-b tags
+> - SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+> - New patch to not override output buffer sizeimage
+> - Reworked pixel format validation
+> - Only align decoded buffer instead of changing frmsize step_width
+> Link to v1:
+> https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.s=
+e/
+>=20
+> Following commits adds support for NV15/NV20/NV30 to VOP driver:
+> 728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
+> d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
+>=20
+> To fully runtime test this series you may need above drm commits and ffmp=
+eg
+> patches from [2], this series and drm patches is also available at [3].
+>=20
+> [1]
+> https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.s=
+e/
+> [2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
+> [3]
+> https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v=
+4/
+> [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+> [5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+>=20
+> Regards,
+> Jonas
+>=20
+> Alex Bee (1):
+> =C2=A0 media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+>=20
+> Jonas Karlman (10):
+> =C2=A0 media: v4l2-common: Add helpers to calculate bytesperline and
+> =C2=A0=C2=A0=C2=A0 sizeimage
+> =C2=A0 media: v4l2: Add NV15 and NV20 pixel formats
+> =C2=A0 media: rkvdec: h264: Use bytesperline and buffer height as virstri=
+de
+> =C2=A0 media: rkvdec: h264: Remove SPS validation at streaming start
+> =C2=A0 media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+> =C2=A0 media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+> =C2=A0 media: rkvdec: Extract decoded format enumeration into helper
+> =C2=A0 media: rkvdec: Add image format concept
+> =C2=A0 media: rkvdec: Add get_image_fmt ops
+> =C2=A0 media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+>=20
+> =C2=A0.../media/v4l/pixfmt-yuv-planar.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 128 +++++++++++
+> =C2=A0drivers/media/v4l2-core/v4l2-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 80 +++----
+> =C2=A0drivers/media/v4l2-core/v4l2-ioctl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A0drivers/staging/media/rkvdec/rkvdec-h264.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 83 +++----
+> =C2=A0drivers/staging/media/rkvdec/rkvdec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 217 +++++++++++++-----
+> =C2=A0drivers/staging/media/rkvdec/rkvdec.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 18 +-
+> =C2=A0include/uapi/linux/videodev2.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A07 files changed, 396 insertions(+), 134 deletions(-)
+>=20
 
