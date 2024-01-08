@@ -1,125 +1,185 @@
-Return-Path: <linux-media+bounces-3346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D307F827803
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 19:59:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 847BE82786C
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 20:21:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5CFF5B22546
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 18:59:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 861F61C23197
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 19:21:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63FD554F91;
-	Mon,  8 Jan 2024 18:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B0255C07;
+	Mon,  8 Jan 2024 19:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FpDm2WxZ"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="YFcx1vSV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7CA54F85;
-	Mon,  8 Jan 2024 18:59:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D81C433C8;
-	Mon,  8 Jan 2024 18:59:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704740345;
-	bh=x9aWGG1MEDMqNyAWHQroGsmpHyeYL1E+iMN3hQmfANI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FpDm2WxZ06Bk+B2MrIdUKwDWR9w+DBC8rdJZJlZIzsYG28R+DYLIslUTEmQefo0gR
-	 lFL37N72c+EVznHJ8EFTOHXqrqQ65rwMXN9Oo2P+s+M1EOeM8wIzVByxMityF0xDhp
-	 amDBpntUgUaNbLXY7CxdVrxRcK0FzGy9+OVc145kT4Ierbe8ZK9/Zgty3/E0JMkynq
-	 y47wzfozRcivnycj8iGXZUKup92nTtBz124yOt7+9rKR5zNVJ8xm1jXHTYps6Edy+d
-	 Np9cGiU28Oiaj8GtXt17WPH+aSXQRpTRyVf+vpua/NzafLTtxGuWYiW2SZMc76wPwn
-	 i2smvcL5BZTuQ==
-Message-ID: <2815d883-3f0d-483d-a8ac-da9941245727@kernel.org>
-Date: Mon, 8 Jan 2024 19:58:59 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D67654FB3
+	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 19:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e6c0c0c6bso371419e87.0
+        for <linux-media@vger.kernel.org>; Mon, 08 Jan 2024 11:19:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1704741568; x=1705346368; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
+        b=YFcx1vSVOGbIvCJfYVZEgJsYKAHOD4M4FFjb+40kd6e81VEW+wFnI/nUS4f1+lkW+6
+         YkTv0jRH92QYuw1e3J41rlB7BGa7Yy3mGodwU/V7Drq9tsOQ4X86W8/HaZJYodKR+cAS
+         3WFPyuxP7IKiT7ofrSP8lyo1/ExVV//GoPjnk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704741568; x=1705346368;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
+        b=lgtqhsas1IIL43KKWeSqO/7QB01Rencm+cQXl6hHpbBN/9TwwTUydRE/vgg2klmvLn
+         4ZA3LDtnlYqX4ogcEu7IbAxHP35e3s4jpY9FHnwSj95WGYT8kgQzThyYI0MYO8L0ueEx
+         LZ7J7pmGP38JGKvMDXhrUJFQwyF0VVd88XlH2WwQiVkptKAMJE05oCQxAPB0wbWgsnp8
+         GhRbj01VVUdUH1TSdhIqv2w2V6b3cmgoE9OkSOjzBIxYKq25+Uwfv3mXtcIy7FPXz605
+         pcDbg7PFXAwJ64fEZ0a9z8X9U7g9JgJAic4RFPVg3svXMC6wqCK4yQRu15ryrh+pYEHq
+         S2OQ==
+X-Gm-Message-State: AOJu0YxyaRYFAd7J34czDauppoKpPFlzy2dFpC+5bBNg4pAGREGF6Oi4
+	y3uZyZBQpoL5XOx14dD+yTUp5UiENFGmuw==
+X-Google-Smtp-Source: AGHT+IE/x3yLDZZ6n/5O2iCOUHnc0Ya5TLPSdiVuLb4m5g8sI5sQyD6iWnZm6A7Hd4Q/GNClgkhmrQ==
+X-Received: by 2002:a05:6512:3ba1:b0:50e:b2ba:15d with SMTP id g33-20020a0565123ba100b0050eb2ba015dmr4109768lfv.1.1704741567605;
+        Mon, 08 Jan 2024 11:19:27 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id p7-20020a05600c468700b0040d30af488asm12097912wmo.40.2024.01.08.11.19.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 11:19:27 -0800 (PST)
+Date: Mon, 8 Jan 2024 20:19:25 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+References: <20240108120056.22165-1-paul@crapouillou.net>
+ <20240108120056.22165-4-paul@crapouillou.net>
+ <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+ <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
+ <ZZwU827NMHbx7bsO@phenom.ffwll.local>
+ <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] media: i2c: add MAX96714 driver
-Content-Language: en-US
-To: Julien Massot <julien.massot@collabora.com>, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org
-Cc: kernel@collabora.com
-References: <20231208143359.469049-1-julien.massot@collabora.com>
- <20231208143359.469049-4-julien.massot@collabora.com>
- <d2e4e887-5b82-40de-aef9-f5f6a228fbd3@kernel.org>
- <3da48ce6-52fb-482d-ad23-e59adeb51c32@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <3da48ce6-52fb-482d-ad23-e59adeb51c32@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 
-On 08/01/2024 14:20, Julien Massot wrote:
->>> +static int max96714_get_hw_resources(struct max96714_priv *priv)
->>> +{
->>> +	struct device *dev = &priv->client->dev;
->>> +
->>> +	priv->regmap = devm_regmap_init_i2c(priv->client,
->>> +					    &max96714_regmap_config);
->>> +	if (IS_ERR(priv->regmap))
->>> +		return PTR_ERR(priv->regmap);
->>> +
->>> +	priv->gpiod_pwdn = devm_gpiod_get_optional(&priv->client->dev, "enable",
->>> +						   GPIOD_OUT_HIGH);
->>> +	if (IS_ERR(priv->gpiod_pwdn))
->>> +		return dev_err_probe(dev, PTR_ERR(priv->gpiod_pwdn),
->>
->> A powerdown GPIO is not an enable GPIO. Please use correct name - see
->> gpio-consumers-common.yaml
-> Ok I will rename it 'pwdn' instead.
+On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
+> Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
+> > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil wrote:
+> > > Hi Daniel (Sima?),
+> > > 
+> > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a écrit :
+> > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil wrote:
+> > > > > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence
+> > > > > *dma_fence, int ret)
+> > > > > +{
+> > > > > +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
+> > > > > +	struct dma_fence *fence = &dma_fence->base;
+> > > > > +
+> > > > > +	dma_fence_get(fence);
+> > > > > +	fence->error = ret;
+> > > > > +	dma_fence_signal(fence);
+> > > > > +
+> > > > > +	dma_buf_unmap_attachment(priv->attach, dma_fence->sgt,
+> > > > > dma_fence->dir);
+> > > > > +	dma_fence_put(fence);
+> > > > > +	ffs_dmabuf_put(priv->attach);
+> > > > 
+> > > > So this can in theory take the dma_resv lock, and if the usb
+> > > > completion
+> > > > isn't an unlimited worker this could hold up completion of future
+> > > > dma_fence, resulting in a deadlock.
+> > > > 
+> > > > Needs to be checked how usb works, and if stalling indefinitely
+> > > > in
+> > > > the
+> > > > io_complete callback can hold up the usb stack you need to:
+> > > > 
+> > > > - drop a dma_fence_begin/end_signalling annotations in here
+> > > > - pull out the unref stuff into a separate preallocated worker
+> > > > (or at
+> > > >   least the final unrefs for ffs_dma_buf).
+> > > 
+> > > Only ffs_dmabuf_put() can attempt to take the dma_resv and would
+> > > have
+> > > to be in a worker, right? Everything else would be inside the
+> > > dma_fence_begin/end_signalling() annotations?
+> > 
+> > Yup. Also I noticed that unlike the iio patches you don't have the
+> > dma_buf_unmap here in the completion path (or I'm blind?), which
+> > helps a
+> > lot with avoiding trouble.
+> 
+> They both call dma_buf_unmap_attachment() in the "signal done"
+> callback, the only difference I see is that it is called after the
+> dma_fence_put() in the iio patches, while it's called before
+> dma_fence_put() here.
 
-Did you open that file and read it?
+I was indeed blind ...
 
-Best regards,
-Krzysztof
+So the trouble is this wont work because:
+- dma_buf_unmap_attachment() requires dma_resv_lock. This is a somewhat
+  recent-ish change from 47e982d5195d ("dma-buf: Move
+  dma_buf_map_attachment() to dynamic locking specification"), so maybe
+  old kernel or you don't have full lockdep enabled to get the right
+  splat.
 
+- dma_fence critical section forbids dma_resv_lock
+
+Which means you need to move this out, but then there's the potential
+cache management issue. Which current gpu drivers just kinda ignore
+because it doesn't matter for current use-case, they all cache the mapping
+for about as long as the attachment exists. You might want to do the same,
+unless that somehow breaks a use-case you have, I have no idea about that.
+If something breaks with unmap_attachment moved out of the fence handling
+then I guess it's high time to add separate cache-management only to
+dma_buf (and that's probably going to be quite some wiring up, not sure
+even how easy that would be to do nor what exactly the interface should
+look like).
+
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
