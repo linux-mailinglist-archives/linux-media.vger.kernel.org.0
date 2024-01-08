@@ -1,131 +1,104 @@
-Return-Path: <linux-media+bounces-3284-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3285-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26129826843
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 07:49:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F9C8268E9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 08:52:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20FDB1C2193E
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 06:49:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 955331C21A93
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 07:52:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E808B8C17;
-	Mon,  8 Jan 2024 06:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB368F44;
+	Mon,  8 Jan 2024 07:52:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YRUFwPG9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i58zFMex"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E6579DC;
-	Mon,  8 Jan 2024 06:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4086kel0018212;
-	Mon, 8 Jan 2024 06:49:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=ip/sp5Uiq66KxZvnGzhPTlV3Ok/XCmMqVJ9pJkw7pu8=; b=YR
-	UFwPG9IJchbbD7PVgZD7uAqD7Gt4j/0JIn1YFKF1Hjl5rWGdvvEBVGs5NEZ/Ybx1
-	t8+F2eCbJ1NAHPWvmKvIBNB1thH4MCoiDgyVu4U7NrDH8nnoXG5jaPoYd5Ev2Rpz
-	a2fZfIbx5jV6EmN065pPAiyFXU2QbgmhSMpNgyvvp+yipftWad4Zg1l1GvghdAQk
-	4OXVNt6UpVV79a5V7Ws4AUhOcP8DU0Sn2PbgSlE7TU6GV6/iQymtr/vlvXC8PZPF
-	rqNySmZo116WQu+pigkiq9yLVx73t2vM9vD4KDZEteLWef5ge5g68/J1Fog76zv8
-	XYdCXZG4ADNlZb/KY6Tg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vg97b09hn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Jan 2024 06:49:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4086nMNW022657
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 8 Jan 2024 06:49:22 GMT
-Received: from [10.216.5.133] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 7 Jan
- 2024 22:49:18 -0800
-Message-ID: <02f5e23d-f760-3f3e-23f9-35317b81ec54@quicinc.com>
-Date: Mon, 8 Jan 2024 12:19:15 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FC78BF9
+	for <linux-media@vger.kernel.org>; Mon,  8 Jan 2024 07:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704700348; x=1736236348;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SoKUmG7TcZdV5fJHml1NSYqHnUDUjxEUQETPJTJbtl0=;
+  b=i58zFMexREPkwQiCfylPNxChK0BEEfMPsVWfii/LG0jI+PgYnN+VAHvi
+   nOZNclgR6pm+dffNcNezOSbVBKAoAcsN2p2RAZX4zXjT9CRjeKmnFWXBT
+   u8XFty3b34o0DyZKeiUdDzv0468swMC48sPL73M0clNrBtdW1TEdgUW6L
+   SoGWWHrpGrQRFPG+DqGfTd2iT1JtnZiUAqD5ymGqLex/fHywUDmO0f343
+   k4/MgImr07CnM4gQvD4JJTzEr3290U52xCXxudDbMGNdzU5gm6dwG4Iby
+   8YpkiH61dYMX+yCnpr8rhHhXTijBPt/e+YWwKNWAakyEjtbnvtJNKphlM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="11163898"
+X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
+   d="scan'208";a="11163898"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 23:52:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="1028325403"
+X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
+   d="scan'208";a="1028325403"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 23:52:25 -0800
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E059311FACB;
+	Mon,  8 Jan 2024 09:52:21 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v2 0/4] Add link frequency to bitmap helper
+Date: Mon,  8 Jan 2024 09:52:17 +0200
+Message-Id: <20240108075221.15757-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: venus: flush all buffers in output streamoff
-Content-Language: en-US
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Mauro
- Carvalho Chehab" <mchehab@kernel.org>
-CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1704695615-1036-1-git-send-email-quic_dikshita@quicinc.com>
- <1704695615-1036-2-git-send-email-quic_dikshita@quicinc.com>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <1704695615-1036-2-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ko16LJ3AXbnGtGvS4R0w7jlZkblyxRlK
-X-Proofpoint-ORIG-GUID: ko16LJ3AXbnGtGvS4R0w7jlZkblyxRlK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 phishscore=0 clxscore=1015 mlxscore=0 bulkscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 suspectscore=0
- spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401080055
+Content-Transfer-Encoding: 8bit
 
-Hello All,
+Hi folks,
 
-Please ignore this duplicate email and review the other patch [1].
-Sorry for the spam.
+This set adds a little helper for sensor drivers to match link frequencies
+from system firmware with those supported the driver and generate a bitmap
+suitable for passing to the control framework.
 
-[1]
-https://patchwork.linuxtv.org/project/linux-media/patch/1704695615-1036-1-git-send-email-quic_dikshita@quicinc.com/
+Imx319, imx334 and imx355 drivers are converted to use the helper, too.
 
-Thanks,
-Dikshita
+I've tested imx319 and imx355 drivers.
 
-On 1/8/2024 12:03 PM, Dikshita Agarwal wrote:
-> For scenarios, when source change is followed by VIDIOC_STREAMOFF
-> on output, driver should discards any remaining queued OUTPUT
-> buffers which are not decoded or dequeued.
-> Flush with HFI_FLUSH_INPUT doesn't have any actual implact. So,
-> fix it by invoking HFI_FLUSH_ALL which will flush all queued buffers.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/vdec.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 29130a9..0d2ab95 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -1255,7 +1255,7 @@ static int vdec_stop_output(struct venus_inst *inst)
->  		break;
->  	case VENUS_DEC_STATE_INIT:
->  	case VENUS_DEC_STATE_CAPTURE_SETUP:
-> -		ret = hfi_session_flush(inst, HFI_FLUSH_INPUT, true);
-> +		ret = hfi_session_flush(inst, HFI_FLUSH_ALL, true);
->  		break;
->  	default:
->  		break;
+since v1:
+
+- Call the helper v4l2_link_freq_to_bitmap, it's nicer to use that way and
+  aligns with v4l2_get_link_freq, too.
+
+- Fix kerneldoc issues and compiler warnings.
+
+Sakari Ailus (4):
+  media: v4l: Add a helper for setting up link-frequencies control
+  media: imx334: Use v4l2_link_freq_to_bitmap helper
+  media: imx319: Use v4l2_link_freq_to_bitmap helper
+  media: imx355: Use v4l2_link_freq_to_bitmap helper
+
+ drivers/media/i2c/imx319.c            | 53 +++++++--------------------
+ drivers/media/i2c/imx334.c            | 41 ++++++---------------
+ drivers/media/i2c/imx355.c            | 53 +++++++--------------------
+ drivers/media/v4l2-core/v4l2-common.c | 47 ++++++++++++++++++++++++
+ include/media/v4l2-common.h           | 25 +++++++++++++
+ 5 files changed, 112 insertions(+), 107 deletions(-)
+
+-- 
+2.39.2
+
 
