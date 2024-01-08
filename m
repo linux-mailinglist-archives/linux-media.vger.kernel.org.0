@@ -1,39 +1,39 @@
-Return-Path: <linux-media+bounces-3310-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3311-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B75826CA5
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 12:26:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C045F826CC4
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 12:29:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4592A28310E
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 11:26:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C264D1C21F6E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jan 2024 11:29:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F684208BD;
-	Mon,  8 Jan 2024 11:26:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98D1224B44;
+	Mon,  8 Jan 2024 11:28:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b4yNmQpz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RzTFJS4W"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAC014A91;
-	Mon,  8 Jan 2024 11:26:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B51A21A06;
+	Mon,  8 Jan 2024 11:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi [91.154.35.128])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E19A480;
-	Mon,  8 Jan 2024 12:24:55 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B95D480;
+	Mon,  8 Jan 2024 12:27:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704713096;
-	bh=ytA3K2+Lyo8zng5PWl0oYb/tMXP5SeEgEM76Ubh3ApY=;
+	s=mail; t=1704713229;
+	bh=jBeWk1FO5iWAm3KBZnXwQkiZSSg+luUUMaazlYWWrUk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b4yNmQpzwsPaAhVwyLQDv8uYLESoKV+xJRcvsPyabu2HZW37ISTIRr2fw9UK/KBRH
-	 /e0V4AStYlw1T+CWco6BDgn6KWZ2pZ07KRpo9lZkMSIjUGkThCVMCPoEo4PFUUGIA7
-	 amsqesB3ZMqGT5XU53bJffJn+9WY9ZcJAE4fiaPU=
-Message-ID: <4fd1ad71-056c-4f71-80ba-c24b06be377e@ideasonboard.com>
-Date: Mon, 8 Jan 2024 13:25:55 +0200
+	b=RzTFJS4WmYJMekZWa50IygXZyYKcbXHT686T4msEGXrDapmpqqb3ZYnpRSPhIuAlp
+	 owSSRuA7OonivDvxJO4q0Fg2OcfFHHPI4Pn8M7fwqF1RYlIw7flxyDWpLc56ZZrIwa
+	 +ks89/R44Xkx8HJAu92mcYmc8cfgLcVRLhmLR7rk=
+Message-ID: <0fa6b10e-7d1b-4d33-a33c-8ea4071a10bb@ideasonboard.com>
+Date: Mon, 8 Jan 2024 13:28:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -41,21 +41,22 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/10] media: rkisp1: Support devices lacking dual crop
+Subject: Re: [PATCH v5 06/10] media: rkisp1: Add match data for i.MX8MP ISP
 Content-Language: en-US
 To: Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
 Cc: kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
- aford173@gmail.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ aford173@gmail.com, Rob Herring <robh@kernel.org>,
  Alexander Stein <alexander.stein@ew.tq-group.com>,
  Dafna Hirschfeld <dafna@fastmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
  <heiko@sntech.de>,
  "moderated list:ARM/Rockchip SoC support"
  <linux-arm-kernel@lists.infradead.org>,
  open list <linux-kernel@vger.kernel.org>
 References: <20240106160221.4183409-1-paul.elder@ideasonboard.com>
- <20240106160221.4183409-5-paul.elder@ideasonboard.com>
+ <20240106160221.4183409-7-paul.elder@ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -100,102 +101,85 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240106160221.4183409-5-paul.elder@ideasonboard.com>
+In-Reply-To: <20240106160221.4183409-7-paul.elder@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 06/01/2024 18:02, Paul Elder wrote:
-> Some versions of the ISP supported by the rkisp1 driver, such as the ISP
-> in the i.MX8MP, lack the dual crop registers and don't support cropping
-> at the resizer input. They instead rely on cropping in the Image
-> Stabilization module, at the output of the ISP, to modify the resizer
-> input size and implement digital zoom.
+> Add match data to the rkisp1 driver to match the i.MX8MP ISP.
 > 
-> Support those ISP versions by addind a dual crop feature flag, and
-> mapping the resizer input crop rectangle to either the resizer dual crop
-> module or the image stabilization module.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > Tested-by: Adam Ford <aford173@gmail.com>
 > ---
->   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h  | 2 ++
->   drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c     | 6 ++++--
->   drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c | 6 ++++--
->   3 files changed, 10 insertions(+), 4 deletions(-)
+>   .../platform/rockchip/rkisp1/rkisp1-dev.c     | 23 +++++++++++++++++++
+>   include/uapi/linux/rkisp1-config.h            |  2 ++
+>   2 files changed, 25 insertions(+)
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index f7c251f79aa9..219d4a2547aa 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -112,6 +112,7 @@ enum rkisp1_isp_pad {
->    * @RKISP1_FEATURE_MIPI_CSI2: The ISP has an internal MIPI CSI-2 receiver
->    * @RKISP1_FEATURE_MAIN_STRIDE: The ISP supports configurable stride on the main path
->    * @RKISP1_FEATURE_SELF_PATH: The ISP has a self path
-> + * @RKISP1_FEATURE_DUAL_CROP: The ISP has the dual crop block at the resizer input
->    *
->    * The ISP features are stored in a bitmask in &rkisp1_info.features and allow
->    * the driver to implement support for features present in some ISP versions
-> @@ -121,6 +122,7 @@ enum rkisp1_feature {
->   	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
->   	RKISP1_FEATURE_MAIN_STRIDE = BIT(1),
->   	RKISP1_FEATURE_SELF_PATH = BIT(2),
-> +	RKISP1_FEATURE_DUAL_CROP = BIT(3),
->   };
->   
->   #define rkisp1_has_feature(rkisp1, feature) \
 > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index 106040c4181c..e79fbd4d7e44 100644
+> index e79fbd4d7e44..29a8249852d4 100644
 > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
 > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -507,7 +507,8 @@ static const struct rkisp1_info px30_isp_info = {
->   	.isr_size = ARRAY_SIZE(px30_isp_isrs),
->   	.isp_ver = RKISP1_V12,
->   	.features = RKISP1_FEATURE_MIPI_CSI2
-> -		  | RKISP1_FEATURE_SELF_PATH,
-> +		  | RKISP1_FEATURE_SELF_PATH
-> +		  | RKISP1_FEATURE_DUAL_CROP,
+> @@ -532,6 +532,25 @@ static const struct rkisp1_info rk3399_isp_info = {
+>   		  | RKISP1_FEATURE_DUAL_CROP,
 >   };
 >   
->   static const char * const rk3399_isp_clks[] = {
-> @@ -527,7 +528,8 @@ static const struct rkisp1_info rk3399_isp_info = {
->   	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
->   	.isp_ver = RKISP1_V10,
->   	.features = RKISP1_FEATURE_MIPI_CSI2
-> -		  | RKISP1_FEATURE_SELF_PATH,
-> +		  | RKISP1_FEATURE_SELF_PATH
-> +		  | RKISP1_FEATURE_DUAL_CROP,
->   };
->   
+> +static const char * const imx8mp_isp_clks[] = {
+> +	"isp",
+> +	"hclk",
+> +	"aclk",
+> +};
+> +
+> +static const struct rkisp1_isr_data imx8mp_isp_isrs[] = {
+> +	{ NULL, rkisp1_isr, BIT(RKISP1_IRQ_ISP) | BIT(RKISP1_IRQ_MI) },
+> +};
+> +
+> +static const struct rkisp1_info imx8mp_isp_info = {
+> +	.clks = imx8mp_isp_clks,
+> +	.clk_size = ARRAY_SIZE(imx8mp_isp_clks),
+> +	.isrs = imx8mp_isp_isrs,
+> +	.isr_size = ARRAY_SIZE(imx8mp_isp_isrs),
+> +	.isp_ver = IMX8MP_V10,
+> +	.features = RKISP1_FEATURE_MAIN_STRIDE,
+> +};
+> +
 >   static const struct of_device_id rkisp1_of_match[] = {
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> index dd77a31e6014..de2eb2c97cc4 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> @@ -635,7 +635,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
->   	struct v4l2_subdev_state *sd_state;
+>   	{
+>   		.compatible = "rockchip,px30-cif-isp",
+> @@ -541,6 +560,10 @@ static const struct of_device_id rkisp1_of_match[] = {
+>   		.compatible = "rockchip,rk3399-cif-isp",
+>   		.data = &rk3399_isp_info,
+>   	},
+> +	{
+> +		.compatible = "fsl,imx8mp-isp",
+> +		.data = &imx8mp_isp_info,
+> +	},
+>   	{},
+>   };
+>   MODULE_DEVICE_TABLE(of, rkisp1_of_match);
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 730673ecc63d..f602442c2018 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -179,12 +179,14 @@
+>    * @RKISP1_V11: declared in the original vendor code, but not used
+>    * @RKISP1_V12: used at least in rk3326 and px30
+>    * @RKISP1_V13: used at least in rk1808
+> + * @IMX8MP_V10: used in at least imx8mp
+>    */
+>   enum rkisp1_cif_isp_version {
+>   	RKISP1_V10 = 10,
+>   	RKISP1_V11,
+>   	RKISP1_V12,
+>   	RKISP1_V13,
+> +	IMX8MP_V10,
+>   };
 >   
->   	if (!enable) {
-> -		rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
-> +		if (rkisp1_has_feature(rkisp1, DUAL_CROP))
-> +			rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
->   		rkisp1_rsz_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
->   		return 0;
->   	}
-> @@ -646,7 +647,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
->   	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
->   
->   	rkisp1_rsz_config(rsz, sd_state, when);
-> -	rkisp1_dcrop_config(rsz, sd_state);
-> +	if (rkisp1_has_feature(rkisp1, DUAL_CROP))
-> +		rkisp1_dcrop_config(rsz, sd_state);
->   
->   	v4l2_subdev_unlock_state(sd_state);
->   
+>   enum rkisp1_cif_isp_histogram_mode {
 
 
