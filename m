@@ -1,152 +1,104 @@
-Return-Path: <linux-media+bounces-3391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC2B8284F0
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 12:25:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8611828567
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 12:47:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E622F2835B1
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 11:25:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 098361C23B2C
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 11:47:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99D8E38DF1;
-	Tue,  9 Jan 2024 11:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ntb0L3yN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B12E3716A;
+	Tue,  9 Jan 2024 11:47:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3A937162;
-	Tue,  9 Jan 2024 11:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704799399; x=1736335399;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nri6MxrFIMHTBgggJZSrCHzG3uLau0be+hNOOAXuPX8=;
-  b=Ntb0L3yN9DgJ87TWBJsu/cymRrPNQJtHXbmRMRGtZkwm238ME0uE7ney
-   7rHMdLDzvrjrYckg5JXFbGrS9k2OrBjCn2Oe8e44Hi69yfTOnMfG0KpgL
-   YvWGDHa63BvrgkKxtsi4WwmCvIwqoxwmrTcy0PyyQHHiZhqB0tykjoeU6
-   yt3UlPOTHKllAXtNW+5zrbzvDYZcpqP9l1SsIrRTefbr/mpL+Tqorthgi
-   GNZmqydRyx9xSplilh6M4MR99V0AU8+muUINuid2/xV939V7alveAQwjl
-   tGC9/ET7n/3KVGEUDeK+2En22eTNO3mhlvIsuCm2PfX8EV8YMQC+yrLA7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="11515183"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="11515183"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 03:23:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="954987339"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="954987339"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 03:23:11 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B99CB11F913;
-	Tue,  9 Jan 2024 13:23:08 +0200 (EET)
-Date: Tue, 9 Jan 2024 11:23:08 +0000
-From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-To: Zhi Mao =?utf-8?B?KOavm+aZuik=?= <zhi.mao@mediatek.com>
-Cc: "heiko@sntech.de" <heiko@sntech.de>,
-	"gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"yunkec@chromium.org" <yunkec@chromium.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= <shengnan.wang@mediatek.com>,
-	"hdegoede@redhat.com" <hdegoede@redhat.com>,
-	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
-	Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"bingbu.cao@intel.com" <bingbu.cao@intel.com>,
-	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"10572168@qq.com" <10572168@qq.com>,
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
-	"macromorgan@hotmail.com" <macromorgan@hotmail.com>
-Subject: Re: [PATCH 1/2] media: i2c: Add GC08A3 image sensor driver
-Message-ID: <ZZ0snE1r0BnFHWUh@kekkonen.localdomain>
-References: <20231207052016.25954-1-zhi.mao@mediatek.com>
- <20231207052016.25954-2-zhi.mao@mediatek.com>
- <ZXGtqwjYruBQVaUr@kekkonen.localdomain>
- <d6772a73b61911954b1f0f75325b82da53ad0877.camel@mediatek.com>
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E50137149
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 11:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
+Received: from [192.168.4.14] (unknown [62.77.71.229])
+	by mx.gpxsee.org (Postfix) with ESMTPSA id 9F5D45E249;
+	Tue,  9 Jan 2024 12:46:57 +0100 (CET)
+Message-ID: <cde7a790-b24f-45d0-af33-5a92869ff10c@gpxsee.org>
+Date: Tue, 9 Jan 2024 12:46:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: qv4l2 crashes if output device implements VIDIOC_ENUM_FRAMESIZES
+Content-Language: en-US
+To: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+References: <59383033-924d-45fb-a44f-7c274bb44517@gpxsee.org>
+ <73b9fa71-20e3-4805-9feb-ef2692f4cb0a@xs4all.nl>
+From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
+In-Reply-To: <73b9fa71-20e3-4805-9feb-ef2692f4cb0a@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d6772a73b61911954b1f0f75325b82da53ad0877.camel@mediatek.com>
 
-Hi Zhi,
+Hi Hans,
 
-On Tue, Jan 09, 2024 at 10:41:15AM +0000, Zhi Mao (毛智) wrote:
-> > > +static const char *const gc08a3_supply_name[] = {
-> > > +"avdd",
-> > > +"dvdd",
-> > > +"dovdd",
-> > > +};
-> > > +
-> > > +#define GC08A3_NUM_SUPPLIES ARRAY_SIZE(gc08a3_supply_name)
-> > 
-> > Please use ARRAY_SIZE(...) directly.
-> > 
-> [mtk]: About "ARRAY_SIZE", creating a macro with a descriptive name can
-> improve readability of code, especially when it is used in multiple
-> locations in codes. and it seems a common usage in sensor drivers. Can
-> we keep this usage in gc08a3 driver?
+On 09. 01. 24 11:43, Hans Verkuil wrote:
+> Hi Martin,
+> 
+> On 1/9/24 11:17, Martin Tůma wrote:
+>> Hi,
+>> If a driver implements VIDIOC_ENUM_FRAMESIZES for a output device, qv4l2
+>> crashes in general-tab.cpp:2169 due to m_frameSize being 0. As all other
+>> usages of m_frameSize in the GeneralTab::updateFrameSize() function are
+>> guarded by "NULL checks" an obvious fix would be to guard the "addItem
+>> while cycle" as well. But maybe a better solution would be to add the
+>> frame size combobox to output devices as well. Or are the output devices
+>> not supposed to have frame sizes enumeration?
+> 
+> You do not expect to see it for output devices. Those will typically use
+> VIDIOC_ENUMSTD or VIDIOC_ENUM_DV_TIMINGS. VIDIOC_ENUM_FRAMESIZES is something
+> that only makes sense for output devices if they do not support ENUMSTD or
+> ENUM_DV_TIMINGS, i.e. it has some very odd output hardware. In particular
+> vivid doesn't support this for the emulated video output.
+> 
+> I don't think v4l2-compliance has a check for this. I think it should at
+> least issue a warning if the video output devices supports ENUM_FRAMESIZES
+> and also ENUMSTD or ENUM_DV_TIMINGS.
+> 
+> In any case, qv4l2 shouldn't crash, so an initial fix should be to check
+> for m_frameSize being 0. A patch is welcome.
+> 
 
-It improves readability even more if you use ARRAY_SIZE() directly as then
-it's easy to see you're dealing with a single array. GC08A3_NUM_SUPPLIES is
-thus a useless definition.
+Ok, I will add the check, test it with my current driver (see below) 
+that triggers it and send a patch.
 
-...
+> Which driver is this? I assume it is an out-of-tree driver, since I am
+> not aware of any mainline drivers that do this.
+> 
 
-> > > +static int gc08a3_g_mbus_config(struct v4l2_subdev *sd, unsigned
-> > int pad,
-> > > +struct v4l2_mbus_config *config)
-> > > +{
-> > > +config->type = V4L2_MBUS_CSI2_DPHY;
-> > > +config->bus.mipi_csi2.num_data_lanes = 4;
-> > > +config->bus.mipi_csi2.flags = 0;
-> > > +return 0;
-> > > +}
-> > 
-> > As you return a static configuration, there's no need to implement
-> > g_mbus_config().
-> > 
-> [mtk]: we can not remove this function, because meidatek ISP driver
-> will use this interface to get some information.
+I came across this when fiddling with our mgb4 driver. We have updated 
+the FW to support YUV in addition to RGB and added independent timers 
+for frame dropping (the current driver is "wrong" as it provides 
+VIDIOC_G_PARM/VIDIOC_S_PARM with V4L2_CAP_TIMEPERFRAME but can not in 
+fact set it with the original FW). The inputs in mgb4 have 
+ENUM_FRAMESIZES and a request from a card user to add the callback to 
+the outputs to be "symmetrical" with the inputs.
 
-Please fix the Mediatek ISP driver in that case.
+ From what you wrote above I get the message that the "proper" way how 
+to extend the output callbacks is rather to add ENUM_DV_TIMINGS (which 
+is also missing, the driver implements it only for the inputs at the 
+moment), but the question "what to do with ENUM_FRAMESIZES?" stays. I 
+would like to either have it implemented for both the inputs/outputs or 
+for none of them. And adding the callback to the output looks to me as a 
+better solution than to remove it from the input as some people already 
+use it. But to call this a bug and remove it is also ok for me (the 
+driver will at least work with the current, unpatched, version of qv4l2).
 
-I'm also open to adding a V4L2 framework function to obtain the number of
-lanes (and other configuration) for an upstream sub-device, either using
-the local endpoint or g_mbus_config if the sub-device driver implements
-that.
+M.
 
--- 
-Regards,
+> Regards,
+> 
+> 	Hans
+> 
 
-Sakari Ailus
 
