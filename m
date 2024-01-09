@@ -1,213 +1,211 @@
-Return-Path: <linux-media+bounces-3408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3409-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014C582864E
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 13:52:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 903788286BD
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 14:03:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F00E1C242AB
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 12:52:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A16D1F2664A
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 13:03:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F047381D1;
-	Tue,  9 Jan 2024 12:52:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78C2A3984D;
+	Tue,  9 Jan 2024 13:02:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E/da+//D"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="d8hEYxMp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A08381CF
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 12:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCBFD124F;
-	Tue,  9 Jan 2024 13:51:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704804699;
-	bh=F3hLV6ZdOADASI5Fm2tPa86du+s4AWrcW5E+3+hRSFY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E/da+//DncfVNQgPnThmG11kmDRK1ZFyFF+UMe42fHBxvscDJ8hl2U/SflVy9S3Zh
-	 wGOpMu9CBBXokuLyhhlV92bBtl/x93iNZloRjGwZ1uGxKVeB1qvW2v1mqhiFaE1549
-	 gJwGmxtLrFMsZwOwm8rHTtt/wYRqmZ7cskckLb8E=
-Date: Tue, 9 Jan 2024 13:52:40 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
-	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: Re: [PATCH v2 2/4] media: imx334: Use v4l2_link_freq_to_bitmap
- helper
-Message-ID: <uflo5tji6lw3km56il6hcu6isahfb3ytf5rgwz3k4vt5debpzv@bxjxs3yp3p2z>
-References: <20240108075221.15757-1-sakari.ailus@linux.intel.com>
- <20240108075221.15757-3-sakari.ailus@linux.intel.com>
- <qw6gn2ayctlaeeuetjnr6uhgd6tyzetlc5lgop7cz56cije52d@qeadyecb3evp>
- <ZZ06A5XM8qsRct96@kekkonen.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F4138F91
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 13:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a29b850ec66so97176966b.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 05:02:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1704805323; x=1705410123; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tgjWq+GNDqJ5m/X5ry3BHL3SU/PqMtpMN091r7LGUoA=;
+        b=d8hEYxMpzBR+8QlOEeIGhic/bKWnS+H+eT9e+INslkMW7LjVe+eknOYIUXPBdi4pQZ
+         UZNXmXJVgY50yApwicHHWLjCdeOtHYiALWrvB+iyaqJeNe+TaSOyCElQYD6+cYN3sxvI
+         JpofjVfa8QpTVORQ+qWDUPTt5VX4pchmsiySQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704805323; x=1705410123;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tgjWq+GNDqJ5m/X5ry3BHL3SU/PqMtpMN091r7LGUoA=;
+        b=j+eJillgGe6GfUQxufSwqyu8IeJ1InebO0c3gxzpW2ALDpw2DE1DKVJlhgyjpOETPJ
+         PcNXyA0GQLs2EAfhg4L/wdooVuiyx0UpHcxrTRcI5HYmz3y5efmlzsWjQum3oF8gKkt+
+         oFLvdX0ZYgFrlJjyXbfEhf+iQQjYFn57svd1VI84mJgpR/9ZDWtFn0AqToXMRurSAnqq
+         UlsJpaBvPa59EwtVpyrTF58mQ/hGbrScz80HSZIp2Lh8cLOZk7ojYIP5WB+ldAHl8z/v
+         K1+FDjkiZ5mQRHZMpCEljeiuMI1Rm6w0eSHz76cnyAZZpBeLxw19pUYRIX6He7OeWDji
+         4goQ==
+X-Gm-Message-State: AOJu0YwybmnDZX89i4gXjH7rXnHGeMG6z/ITGqhMyrAfMoUGlZvJcZko
+	Zxtze4HINPoRXhnxv9n9ld2oG4DkNnRcRQ==
+X-Google-Smtp-Source: AGHT+IGjVfkl4K5438EgxZNYkdIb8UWsXUs419kNzc6Ewo2f7z4uJ8gnFTH0tvWgAwZexzBu/d17zw==
+X-Received: by 2002:a17:906:fe47:b0:a28:34e5:b609 with SMTP id wz7-20020a170906fe4700b00a2834e5b609mr5343630ejb.6.1704805322530;
+        Tue, 09 Jan 2024 05:02:02 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id x12-20020a170906710c00b00a29430458efsm1031296ejj.65.2024.01.09.05.02.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 05:02:01 -0800 (PST)
+Date: Tue, 9 Jan 2024 14:01:59 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+References: <20240108120056.22165-1-paul@crapouillou.net>
+ <20240108120056.22165-4-paul@crapouillou.net>
+ <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+ <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
+ <ZZwU827NMHbx7bsO@phenom.ffwll.local>
+ <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+ <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+ <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ZZ06A5XM8qsRct96@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 
-Hi Sakari
+On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
+> Hi Daniel / Sima,
+> 
+> Le lundi 08 janvier 2024 à 20:19 +0100, Daniel Vetter a écrit :
+> > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
+> > > Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
+> > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil wrote:
+> > > > > Hi Daniel (Sima?),
+> > > > > 
+> > > > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a écrit :
+> > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil
+> > > > > > wrote:
+> > > > > > > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence
+> > > > > > > *dma_fence, int ret)
+> > > > > > > +{
+> > > > > > > +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
+> > > > > > > +	struct dma_fence *fence = &dma_fence->base;
+> > > > > > > +
+> > > > > > > +	dma_fence_get(fence);
+> > > > > > > +	fence->error = ret;
+> > > > > > > +	dma_fence_signal(fence);
+> > > > > > > +
+> > > > > > > +	dma_buf_unmap_attachment(priv->attach, dma_fence-
+> > > > > > > >sgt,
+> > > > > > > dma_fence->dir);
+> > > > > > > +	dma_fence_put(fence);
+> > > > > > > +	ffs_dmabuf_put(priv->attach);
+> > > > > > 
+> > > > > > So this can in theory take the dma_resv lock, and if the usb
+> > > > > > completion
+> > > > > > isn't an unlimited worker this could hold up completion of
+> > > > > > future
+> > > > > > dma_fence, resulting in a deadlock.
+> > > > > > 
+> > > > > > Needs to be checked how usb works, and if stalling
+> > > > > > indefinitely
+> > > > > > in
+> > > > > > the
+> > > > > > io_complete callback can hold up the usb stack you need to:
+> > > > > > 
+> > > > > > - drop a dma_fence_begin/end_signalling annotations in here
+> > > > > > - pull out the unref stuff into a separate preallocated
+> > > > > > worker
+> > > > > > (or at
+> > > > > >   least the final unrefs for ffs_dma_buf).
+> > > > > 
+> > > > > Only ffs_dmabuf_put() can attempt to take the dma_resv and
+> > > > > would
+> > > > > have
+> > > > > to be in a worker, right? Everything else would be inside the
+> > > > > dma_fence_begin/end_signalling() annotations?
+> > > > 
+> > > > Yup. Also I noticed that unlike the iio patches you don't have
+> > > > the
+> > > > dma_buf_unmap here in the completion path (or I'm blind?), which
+> > > > helps a
+> > > > lot with avoiding trouble.
+> > > 
+> > > They both call dma_buf_unmap_attachment() in the "signal done"
+> > > callback, the only difference I see is that it is called after the
+> > > dma_fence_put() in the iio patches, while it's called before
+> > > dma_fence_put() here.
+> > 
+> > I was indeed blind ...
+> > 
+> > So the trouble is this wont work because:
+> > - dma_buf_unmap_attachment() requires dma_resv_lock. This is a
+> > somewhat
+> >   recent-ish change from 47e982d5195d ("dma-buf: Move
+> >   dma_buf_map_attachment() to dynamic locking specification"), so
+> > maybe
+> >   old kernel or you don't have full lockdep enabled to get the right
+> >   splat.
+> > 
+> > - dma_fence critical section forbids dma_resv_lock
+> > 
+> > Which means you need to move this out, but then there's the potential
+> > cache management issue. Which current gpu drivers just kinda ignore
+> > because it doesn't matter for current use-case, they all cache the
+> > mapping
+> > for about as long as the attachment exists. You might want to do the
+> > same,
+> > unless that somehow breaks a use-case you have, I have no idea about
+> > that.
+> > If something breaks with unmap_attachment moved out of the fence
+> > handling
+> > then I guess it's high time to add separate cache-management only to
+> > dma_buf (and that's probably going to be quite some wiring up, not
+> > sure
+> > even how easy that would be to do nor what exactly the interface
+> > should
+> > look like).
+> 
+> Ok. Then I'll just cache the mapping for now, I think.
 
-On Tue, Jan 09, 2024 at 12:20:19PM +0000, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Tue, Jan 09, 2024 at 12:56:44PM +0100, Jacopo Mondi wrote:
-> > Hi Sakari
-> >
-> > On Mon, Jan 08, 2024 at 09:52:19AM +0200, Sakari Ailus wrote:
-> > > Use the v4l2_link_freq_to_bitmap() helper to figure out which
-> > > driver-supported link frequencies can be used on a given system.
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  drivers/media/i2c/imx334.c | 41 +++++++++++---------------------------
-> > >  1 file changed, 12 insertions(+), 29 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> > > index 6725b3e2a73e..40863d87d341 100644
-> > > --- a/drivers/media/i2c/imx334.c
-> > > +++ b/drivers/media/i2c/imx334.c
-> > > @@ -136,7 +136,7 @@ struct imx334_mode {
-> > >   * @vblank: Vertical blanking in lines
-> > >   * @cur_mode: Pointer to current selected sensor mode
-> > >   * @mutex: Mutex for serializing sensor controls
-> > > - * @menu_skip_mask: Menu skip mask for link_freq_ctrl
-> > > + * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
-> > >   * @cur_code: current selected format code
-> > >   */
-> > >  struct imx334 {
-> > > @@ -158,7 +158,7 @@ struct imx334 {
-> > >  	u32 vblank;
-> > >  	const struct imx334_mode *cur_mode;
-> > >  	struct mutex mutex;
-> > > -	unsigned long menu_skip_mask;
-> > > +	unsigned long link_freq_bitmap;
-> > >  	u32 cur_code;
-> > >  };
-> > >
-> > > @@ -954,9 +954,9 @@ static int imx334_init_state(struct v4l2_subdev *sd,
-> > >  	imx334_fill_pad_format(imx334, imx334->cur_mode, &fmt);
-> > >
-> > >  	__v4l2_ctrl_modify_range(imx334->link_freq_ctrl, 0,
-> > > -				 __fls(imx334->menu_skip_mask),
-> > > -				 ~(imx334->menu_skip_mask),
-> > > -				 __ffs(imx334->menu_skip_mask));
-> > > +				 __fls(imx334->link_freq_bitmap),
-> > > +				 ~(imx334->link_freq_bitmap),
-> > > +				 __ffs(imx334->link_freq_bitmap));
-> > >
-> > >  	mutex_unlock(&imx334->mutex);
-> > >
-> > > @@ -1112,7 +1112,6 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
-> > >  	};
-> > >  	struct fwnode_handle *ep;
-> > >  	unsigned long rate;
-> > > -	unsigned int i, j;
-> > >  	int ret;
-> > >
-> > >  	if (!fwnode)
-> > > @@ -1157,26 +1156,10 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
-> > >  		goto done_endpoint_free;
-> > >  	}
-> > >
-> > > -	if (!bus_cfg.nr_of_link_frequencies) {
-> > > -		dev_err(imx334->dev, "no link frequencies defined");
-> > > -		ret = -EINVAL;
-> > > -		goto done_endpoint_free;
-> > > -	}
-> > > -
-> > > -	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-> > > -		for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
-> > > -			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
-> > > -				set_bit(j, &imx334->menu_skip_mask);
-> > > -				break;
-> > > -			}
-> > > -		}
-> > > -
-> > > -		if (j == ARRAY_SIZE(link_freq)) {
-> > > -			ret = dev_err_probe(imx334->dev, -EINVAL,
-> > > -					    "no supported link freq found\n");
-> > > -			goto done_endpoint_free;
-> > > -		}
-> > > -	}
-> > > +	ret = v4l2_link_freq_to_bitmap(imx334->dev, bus_cfg.link_frequencies,
-> > > +				       bus_cfg.nr_of_link_frequencies,
-> > > +				       link_freq, ARRAY_SIZE(link_freq),
-> > > +				       &imx334->link_freq_bitmap);
-> > >
-> > >  done_endpoint_free:
-> > >  	v4l2_fwnode_endpoint_free(&bus_cfg);
-> > > @@ -1310,8 +1293,8 @@ static int imx334_init_controls(struct imx334 *imx334)
-> > >  	imx334->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-> > >  							&imx334_ctrl_ops,
-> > >  							V4L2_CID_LINK_FREQ,
-> > > -							__fls(imx334->menu_skip_mask),
-> > > -							__ffs(imx334->menu_skip_mask),
-> > > +							__fls(imx334->link_freq_bitmap),
-> > > +							__ffs(imx334->link_freq_bitmap),
-> >
-> > How does this work if
-> >
-> > driver_freqs = {
-> >         FREQ1,
-> >         FREQ2,
-> >         FREQ3,
-> >         FREQ4
-> > };
-> >
-> > fw_freqs = {
-> >         FREQ2,
-> >         FREQ4
-> > };
-> >
-> > Will FREQ3 be selectable by userspace ?
->
-> That's a good question. Drivers that support more than two frequencies
-> should use v4l2_ctrl_modify_range() to provide a bitmap of supported
-> frequencies, v4l2_ctrl_new_int_menu() doesn't have an argument for that.
->
-> Maybe we could add one? :-)
->
-
-How would you feel about v4l2_link_freq_to_bitmap() returning an s64[]
-instead so that the caller can pass it to v4l2_ctrl_new_int_menu()
-directly ? I know, the driver wuold then need to remember to release
-it, which is not an ideal pattern (allocate in the core, release in
-the driver).
-
-Alternatively, could v4l2_fwnode_endpoint_alloc_parse() be passed the
-list of driver supported frequencies and store in vep->link_frequencies[]
-the intersection between the driver and firmware frequencies ? After
-all, the _alloc_parse() version of v4l2_fwnode_endpoint_parse() it's
-only there to support link_frequencies parsing, hence passing to it the
-driver's supported frequencies might not look that weird...
-
-> >
-> > >  							link_freq);
-> > >
-> > >  	if (imx334->link_freq_ctrl)
-> > > @@ -1386,7 +1369,7 @@ static int imx334_probe(struct i2c_client *client)
-> > >  	}
-> > >
-> > >  	/* Set default mode to max resolution */
-> > > -	imx334->cur_mode = &supported_modes[__ffs(imx334->menu_skip_mask)];
-> > > +	imx334->cur_mode = &supported_modes[__ffs(imx334->link_freq_bitmap)];
-> > >  	imx334->cur_code = imx334_mbus_codes[0];
-> > >  	imx334->vblank = imx334->cur_mode->vblank;
-> > >
->
-> --
-> Regards,
->
-> Sakari Ailus
+Yeah I think that's simplest. I did ponder a bit and I don't think it'd be
+too much pain to add the cache-management functions for device
+attachments/mappings. But it would be quite some typing ...
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
