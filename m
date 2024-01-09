@@ -1,104 +1,180 @@
-Return-Path: <linux-media+bounces-3392-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3393-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8611828567
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 12:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DC5828591
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 12:57:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 098361C23B2C
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 11:47:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED1AA1C23C25
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 11:57:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B12E3716A;
-	Tue,  9 Jan 2024 11:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97A56374EF;
+	Tue,  9 Jan 2024 11:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ppUFC4MV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E50137149
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 11:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id 9F5D45E249;
-	Tue,  9 Jan 2024 12:46:57 +0100 (CET)
-Message-ID: <cde7a790-b24f-45d0-af33-5a92869ff10c@gpxsee.org>
-Date: Tue, 9 Jan 2024 12:46:56 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A31374E7
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 11:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72F7A552;
+	Tue,  9 Jan 2024 12:55:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1704801343;
+	bh=4ivRT7ULWLSexzwLYW4jc44p8hqHs+A/v2bftbhgWr4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ppUFC4MVeQkTe5GAKc2e58WDXiRvgnT4Wz9PRB+F3Bp1e7dB2dDTkzi2tDP9gkEM2
+	 oPbIxr+GklSxr0I67cSCW93plCVsGEqJ/swem6Pdzy63VNENT0+LMi0IJN05KEygvv
+	 B2cDGnbMgZEvcIhXvbbG5UFFaKWDHZw3KpysHS/k=
+Date: Tue, 9 Jan 2024 12:56:44 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
+	jacopo.mondi@ideasonboard.com, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v2 2/4] media: imx334: Use v4l2_link_freq_to_bitmap helper
+Message-ID: <qw6gn2ayctlaeeuetjnr6uhgd6tyzetlc5lgop7cz56cije52d@qeadyecb3evp>
+References: <20240108075221.15757-1-sakari.ailus@linux.intel.com>
+ <20240108075221.15757-3-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: qv4l2 crashes if output device implements VIDIOC_ENUM_FRAMESIZES
-Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-References: <59383033-924d-45fb-a44f-7c274bb44517@gpxsee.org>
- <73b9fa71-20e3-4805-9feb-ef2692f4cb0a@xs4all.nl>
-From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <73b9fa71-20e3-4805-9feb-ef2692f4cb0a@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240108075221.15757-3-sakari.ailus@linux.intel.com>
 
-Hi Hans,
+Hi Sakari
 
-On 09. 01. 24 11:43, Hans Verkuil wrote:
-> Hi Martin,
-> 
-> On 1/9/24 11:17, Martin Tůma wrote:
->> Hi,
->> If a driver implements VIDIOC_ENUM_FRAMESIZES for a output device, qv4l2
->> crashes in general-tab.cpp:2169 due to m_frameSize being 0. As all other
->> usages of m_frameSize in the GeneralTab::updateFrameSize() function are
->> guarded by "NULL checks" an obvious fix would be to guard the "addItem
->> while cycle" as well. But maybe a better solution would be to add the
->> frame size combobox to output devices as well. Or are the output devices
->> not supposed to have frame sizes enumeration?
-> 
-> You do not expect to see it for output devices. Those will typically use
-> VIDIOC_ENUMSTD or VIDIOC_ENUM_DV_TIMINGS. VIDIOC_ENUM_FRAMESIZES is something
-> that only makes sense for output devices if they do not support ENUMSTD or
-> ENUM_DV_TIMINGS, i.e. it has some very odd output hardware. In particular
-> vivid doesn't support this for the emulated video output.
-> 
-> I don't think v4l2-compliance has a check for this. I think it should at
-> least issue a warning if the video output devices supports ENUM_FRAMESIZES
-> and also ENUMSTD or ENUM_DV_TIMINGS.
-> 
-> In any case, qv4l2 shouldn't crash, so an initial fix should be to check
-> for m_frameSize being 0. A patch is welcome.
-> 
+On Mon, Jan 08, 2024 at 09:52:19AM +0200, Sakari Ailus wrote:
+> Use the v4l2_link_freq_to_bitmap() helper to figure out which
+> driver-supported link frequencies can be used on a given system.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/imx334.c | 41 +++++++++++---------------------------
+>  1 file changed, 12 insertions(+), 29 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+> index 6725b3e2a73e..40863d87d341 100644
+> --- a/drivers/media/i2c/imx334.c
+> +++ b/drivers/media/i2c/imx334.c
+> @@ -136,7 +136,7 @@ struct imx334_mode {
+>   * @vblank: Vertical blanking in lines
+>   * @cur_mode: Pointer to current selected sensor mode
+>   * @mutex: Mutex for serializing sensor controls
+> - * @menu_skip_mask: Menu skip mask for link_freq_ctrl
+> + * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
+>   * @cur_code: current selected format code
+>   */
+>  struct imx334 {
+> @@ -158,7 +158,7 @@ struct imx334 {
+>  	u32 vblank;
+>  	const struct imx334_mode *cur_mode;
+>  	struct mutex mutex;
+> -	unsigned long menu_skip_mask;
+> +	unsigned long link_freq_bitmap;
+>  	u32 cur_code;
+>  };
+>
+> @@ -954,9 +954,9 @@ static int imx334_init_state(struct v4l2_subdev *sd,
+>  	imx334_fill_pad_format(imx334, imx334->cur_mode, &fmt);
+>
+>  	__v4l2_ctrl_modify_range(imx334->link_freq_ctrl, 0,
+> -				 __fls(imx334->menu_skip_mask),
+> -				 ~(imx334->menu_skip_mask),
+> -				 __ffs(imx334->menu_skip_mask));
+> +				 __fls(imx334->link_freq_bitmap),
+> +				 ~(imx334->link_freq_bitmap),
+> +				 __ffs(imx334->link_freq_bitmap));
+>
+>  	mutex_unlock(&imx334->mutex);
+>
+> @@ -1112,7 +1112,6 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
+>  	};
+>  	struct fwnode_handle *ep;
+>  	unsigned long rate;
+> -	unsigned int i, j;
+>  	int ret;
+>
+>  	if (!fwnode)
+> @@ -1157,26 +1156,10 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
+>  		goto done_endpoint_free;
+>  	}
+>
+> -	if (!bus_cfg.nr_of_link_frequencies) {
+> -		dev_err(imx334->dev, "no link frequencies defined");
+> -		ret = -EINVAL;
+> -		goto done_endpoint_free;
+> -	}
+> -
+> -	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
+> -		for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
+> -			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
+> -				set_bit(j, &imx334->menu_skip_mask);
+> -				break;
+> -			}
+> -		}
+> -
+> -		if (j == ARRAY_SIZE(link_freq)) {
+> -			ret = dev_err_probe(imx334->dev, -EINVAL,
+> -					    "no supported link freq found\n");
+> -			goto done_endpoint_free;
+> -		}
+> -	}
+> +	ret = v4l2_link_freq_to_bitmap(imx334->dev, bus_cfg.link_frequencies,
+> +				       bus_cfg.nr_of_link_frequencies,
+> +				       link_freq, ARRAY_SIZE(link_freq),
+> +				       &imx334->link_freq_bitmap);
+>
+>  done_endpoint_free:
+>  	v4l2_fwnode_endpoint_free(&bus_cfg);
+> @@ -1310,8 +1293,8 @@ static int imx334_init_controls(struct imx334 *imx334)
+>  	imx334->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
+>  							&imx334_ctrl_ops,
+>  							V4L2_CID_LINK_FREQ,
+> -							__fls(imx334->menu_skip_mask),
+> -							__ffs(imx334->menu_skip_mask),
+> +							__fls(imx334->link_freq_bitmap),
+> +							__ffs(imx334->link_freq_bitmap),
 
-Ok, I will add the check, test it with my current driver (see below) 
-that triggers it and send a patch.
+How does this work if
 
-> Which driver is this? I assume it is an out-of-tree driver, since I am
-> not aware of any mainline drivers that do this.
-> 
+driver_freqs = {
+        FREQ1,
+        FREQ2,
+        FREQ3,
+        FREQ4
+};
 
-I came across this when fiddling with our mgb4 driver. We have updated 
-the FW to support YUV in addition to RGB and added independent timers 
-for frame dropping (the current driver is "wrong" as it provides 
-VIDIOC_G_PARM/VIDIOC_S_PARM with V4L2_CAP_TIMEPERFRAME but can not in 
-fact set it with the original FW). The inputs in mgb4 have 
-ENUM_FRAMESIZES and a request from a card user to add the callback to 
-the outputs to be "symmetrical" with the inputs.
+fw_freqs = {
+        FREQ2,
+        FREQ4
+};
 
- From what you wrote above I get the message that the "proper" way how 
-to extend the output callbacks is rather to add ENUM_DV_TIMINGS (which 
-is also missing, the driver implements it only for the inputs at the 
-moment), but the question "what to do with ENUM_FRAMESIZES?" stays. I 
-would like to either have it implemented for both the inputs/outputs or 
-for none of them. And adding the callback to the output looks to me as a 
-better solution than to remove it from the input as some people already 
-use it. But to call this a bug and remove it is also ok for me (the 
-driver will at least work with the current, unpatched, version of qv4l2).
+Will FREQ3 be selectable by userspace ?
 
-M.
-
-> Regards,
-> 
-> 	Hans
-> 
-
+>  							link_freq);
+>
+>  	if (imx334->link_freq_ctrl)
+> @@ -1386,7 +1369,7 @@ static int imx334_probe(struct i2c_client *client)
+>  	}
+>
+>  	/* Set default mode to max resolution */
+> -	imx334->cur_mode = &supported_modes[__ffs(imx334->menu_skip_mask)];
+> +	imx334->cur_mode = &supported_modes[__ffs(imx334->link_freq_bitmap)];
+>  	imx334->cur_code = imx334_mbus_codes[0];
+>  	imx334->vblank = imx334->cur_mode->vblank;
+>
+> --
+> 2.39.2
+>
 
