@@ -1,241 +1,231 @@
-Return-Path: <linux-media+bounces-3415-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3416-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564A982876C
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 14:52:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA90828770
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 14:52:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78A1F1C23991
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 13:52:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2EACD1F25547
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 13:52:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2696438FB7;
-	Tue,  9 Jan 2024 13:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08D0A38FBB;
+	Tue,  9 Jan 2024 13:52:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wM9iX6Wi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k9lCbaAI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB9F38FAE
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 13:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07768922;
-	Tue,  9 Jan 2024 14:50:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704808257;
-	bh=KZqnB8EnsgRPbizt3uF9MQV5KRp1ZRiVH3iLpu0lGCg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wM9iX6WisHr2b7w2iVJrRlYEFDD2Gdg6KFU5xmF91ZYEhSqT06oZ2QuL/yUa5Qwut
-	 3bzMjvyGvMPROZC96YRfoZhpVMc5Xeb5MGHu5iJn39NnNLhu6I0w+0c24dtsiA5Bbu
-	 5o2KPMsI8RCU+fZ0+or8vYkuX0v2EeTPR0DWU1Mk=
-Date: Tue, 9 Jan 2024 14:51:58 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
-	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: Re: Re: [PATCH v2 2/4] media: imx334: Use
- v4l2_link_freq_to_bitmap helper
-Message-ID: <fux76gf3pdn23kpaht53qj37maqjdk4cdnsc6ytbozoaj32bge@agxspowshzsc>
-References: <20240108075221.15757-1-sakari.ailus@linux.intel.com>
- <20240108075221.15757-3-sakari.ailus@linux.intel.com>
- <qw6gn2ayctlaeeuetjnr6uhgd6tyzetlc5lgop7cz56cije52d@qeadyecb3evp>
- <ZZ06A5XM8qsRct96@kekkonen.localdomain>
- <uflo5tji6lw3km56il6hcu6isahfb3ytf5rgwz3k4vt5debpzv@bxjxs3yp3p2z>
- <ZZ1N2_NlEEyCDd0S@kekkonen.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E5239843
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 13:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-55790581457so2826088a12.3
+        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 05:52:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704808361; x=1705413161; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=BLwdR6GQkprSmg/u6OOBPDfqTXD2S796cp7a6PQJo9c=;
+        b=k9lCbaAI486d/KLjYJwFD74VD10VWDW+PPZZG6SpJ3KdWuaQ8eBYGd4H/wQ8ybXtg2
+         YIDXlo500s8VsGFLwzJeCV8Yi2LzdYg+5XtkALJZOO/5s2Haa47AMsUyYEr1nJfkRJwi
+         GwzaEN7YBmy51FYLjJldm7NCjgIem7Gq0I90BX/5p5J2s0KFqLbxJjS2NNQfQ+GsDg72
+         S9SQYcm8YwNKUezniM+C9Omlk7MTLpETihpVztzwCY5D11QeO4dnw34Z+Gc7O8R4lXAI
+         LZNZRQ5wyPbO1+xxlrUUXi/Pi/bFQO6TVgf2VCDIaN18OGT+ej1x3p9nTcbgUfJrPSNd
+         EmTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704808361; x=1705413161;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BLwdR6GQkprSmg/u6OOBPDfqTXD2S796cp7a6PQJo9c=;
+        b=VroL2l91TNGi1fbb9i8Zwg9y+/PyURPB2orYtMvgVMOBu/bBzHFiKcTAaTWLCxVhoe
+         /xy0+BB0Djh9O0KUzTN+pl1+POj95UuxiCIEBk1KfIS3k9MhXuxLtBw3LlyaqT/rPH8I
+         eb6mvWplwsvuefB/rVHokRh1x92kf8LjkuXJh+SPq3jOXmdluYqbeSMaEO2Hw1KmrJ7R
+         LHVHJ+bwckVgS9qyXtEGfsKkaglXPJJKecgWBg4FjLuhr7t91YcXGMsISD4s6OUMtlpX
+         PjevMBjKYm6Lxnr0A4M93LduzwrwEF20B74OuQpXgyQXTcG/78SKfWychPKa6RDCQS3C
+         iePg==
+X-Gm-Message-State: AOJu0YyM8xvZdAowqflZ4q/Qp89UfXitbP2fIecPCphX/QqsKQv4ukTb
+	oJGQgmI/Nl93N8ftArjrqm0=
+X-Google-Smtp-Source: AGHT+IGFt2VyUpMGr783iHB30lPVBg1FAE9mJuQNgvFg2wuR1b6I4OU3BHwnBtZ0WPa7DHLem8potA==
+X-Received: by 2002:a05:6402:60a:b0:558:2110:5aee with SMTP id n10-20020a056402060a00b0055821105aeemr340950edv.10.1704808360990;
+        Tue, 09 Jan 2024 05:52:40 -0800 (PST)
+Received: from [192.168.50.250] (c-x59968899.customers.hiper-net.dk. [89.150.136.153])
+        by smtp.gmail.com with ESMTPSA id fd18-20020a056402389200b005581573e251sm517281edb.2.2024.01.09.05.52.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 05:52:40 -0800 (PST)
+Message-ID: <f54ebeee47094be2c93c23a29c4998056c653f08.camel@gmail.com>
+Subject: Re: [PATCH v2 10/15] media: intel/ipu6: add input system driver
+From: Andreas Helbech Kleist <andreaskleist@gmail.com>
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org, 
+	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc: andriy.shevchenko@linux.intel.com, hdegoede@redhat.com, 
+ ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
+ tfiga@chromium.org,  senozhatsky@chromium.org,
+ tomi.valkeinen@ideasonboard.com,  bingbu.cao@linux.intel.com,
+ tian.shu.qiu@intel.com, hongju.wang@intel.com
+Date: Tue, 09 Jan 2024 14:52:39 +0100
+In-Reply-To: <20231024112924.3934228-11-bingbu.cao@intel.com>
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+	 <20231024112924.3934228-11-bingbu.cao@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZZ1N2_NlEEyCDd0S@kekkonen.localdomain>
 
-Hi Sakari
+Hi Bingbu,
 
-On Tue, Jan 09, 2024 at 01:44:59PM +0000, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Tue, Jan 09, 2024 at 01:52:40PM +0100, Jacopo Mondi wrote:
-> > Hi Sakari
-> >
-> > On Tue, Jan 09, 2024 at 12:20:19PM +0000, Sakari Ailus wrote:
-> > > Hi Jacopo,
-> > >
-> > > On Tue, Jan 09, 2024 at 12:56:44PM +0100, Jacopo Mondi wrote:
-> > > > Hi Sakari
-> > > >
-> > > > On Mon, Jan 08, 2024 at 09:52:19AM +0200, Sakari Ailus wrote:
-> > > > > Use the v4l2_link_freq_to_bitmap() helper to figure out which
-> > > > > driver-supported link frequencies can be used on a given system.
-> > > > >
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > >  drivers/media/i2c/imx334.c | 41 +++++++++++---------------------------
-> > > > >  1 file changed, 12 insertions(+), 29 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> > > > > index 6725b3e2a73e..40863d87d341 100644
-> > > > > --- a/drivers/media/i2c/imx334.c
-> > > > > +++ b/drivers/media/i2c/imx334.c
-> > > > > @@ -136,7 +136,7 @@ struct imx334_mode {
-> > > > >   * @vblank: Vertical blanking in lines
-> > > > >   * @cur_mode: Pointer to current selected sensor mode
-> > > > >   * @mutex: Mutex for serializing sensor controls
-> > > > > - * @menu_skip_mask: Menu skip mask for link_freq_ctrl
-> > > > > + * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
-> > > > >   * @cur_code: current selected format code
-> > > > >   */
-> > > > >  struct imx334 {
-> > > > > @@ -158,7 +158,7 @@ struct imx334 {
-> > > > >  	u32 vblank;
-> > > > >  	const struct imx334_mode *cur_mode;
-> > > > >  	struct mutex mutex;
-> > > > > -	unsigned long menu_skip_mask;
-> > > > > +	unsigned long link_freq_bitmap;
-> > > > >  	u32 cur_code;
-> > > > >  };
-> > > > >
-> > > > > @@ -954,9 +954,9 @@ static int imx334_init_state(struct v4l2_subdev *sd,
-> > > > >  	imx334_fill_pad_format(imx334, imx334->cur_mode, &fmt);
-> > > > >
-> > > > >  	__v4l2_ctrl_modify_range(imx334->link_freq_ctrl, 0,
-> > > > > -				 __fls(imx334->menu_skip_mask),
-> > > > > -				 ~(imx334->menu_skip_mask),
-> > > > > -				 __ffs(imx334->menu_skip_mask));
-> > > > > +				 __fls(imx334->link_freq_bitmap),
-> > > > > +				 ~(imx334->link_freq_bitmap),
-> > > > > +				 __ffs(imx334->link_freq_bitmap));
-> > > > >
-> > > > >  	mutex_unlock(&imx334->mutex);
-> > > > >
-> > > > > @@ -1112,7 +1112,6 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
-> > > > >  	};
-> > > > >  	struct fwnode_handle *ep;
-> > > > >  	unsigned long rate;
-> > > > > -	unsigned int i, j;
-> > > > >  	int ret;
-> > > > >
-> > > > >  	if (!fwnode)
-> > > > > @@ -1157,26 +1156,10 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
-> > > > >  		goto done_endpoint_free;
-> > > > >  	}
-> > > > >
-> > > > > -	if (!bus_cfg.nr_of_link_frequencies) {
-> > > > > -		dev_err(imx334->dev, "no link frequencies defined");
-> > > > > -		ret = -EINVAL;
-> > > > > -		goto done_endpoint_free;
-> > > > > -	}
-> > > > > -
-> > > > > -	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-> > > > > -		for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
-> > > > > -			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
-> > > > > -				set_bit(j, &imx334->menu_skip_mask);
-> > > > > -				break;
-> > > > > -			}
-> > > > > -		}
-> > > > > -
-> > > > > -		if (j == ARRAY_SIZE(link_freq)) {
-> > > > > -			ret = dev_err_probe(imx334->dev, -EINVAL,
-> > > > > -					    "no supported link freq found\n");
-> > > > > -			goto done_endpoint_free;
-> > > > > -		}
-> > > > > -	}
-> > > > > +	ret = v4l2_link_freq_to_bitmap(imx334->dev, bus_cfg.link_frequencies,
-> > > > > +				       bus_cfg.nr_of_link_frequencies,
-> > > > > +				       link_freq, ARRAY_SIZE(link_freq),
-> > > > > +				       &imx334->link_freq_bitmap);
-> > > > >
-> > > > >  done_endpoint_free:
-> > > > >  	v4l2_fwnode_endpoint_free(&bus_cfg);
-> > > > > @@ -1310,8 +1293,8 @@ static int imx334_init_controls(struct imx334 *imx334)
-> > > > >  	imx334->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-> > > > >  							&imx334_ctrl_ops,
-> > > > >  							V4L2_CID_LINK_FREQ,
-> > > > > -							__fls(imx334->menu_skip_mask),
-> > > > > -							__ffs(imx334->menu_skip_mask),
-> > > > > +							__fls(imx334->link_freq_bitmap),
-> > > > > +							__ffs(imx334->link_freq_bitmap),
-> > > >
-> > > > How does this work if
-> > > >
-> > > > driver_freqs = {
-> > > >         FREQ1,
-> > > >         FREQ2,
-> > > >         FREQ3,
-> > > >         FREQ4
-> > > > };
-> > > >
-> > > > fw_freqs = {
-> > > >         FREQ2,
-> > > >         FREQ4
-> > > > };
-> > > >
-> > > > Will FREQ3 be selectable by userspace ?
-> > >
-> > > That's a good question. Drivers that support more than two frequencies
-> > > should use v4l2_ctrl_modify_range() to provide a bitmap of supported
-> > > frequencies, v4l2_ctrl_new_int_menu() doesn't have an argument for that.
-> > >
-> > > Maybe we could add one? :-)
-> > >
-> >
-> > How would you feel about v4l2_link_freq_to_bitmap() returning an s64[]
-> > instead so that the caller can pass it to v4l2_ctrl_new_int_menu()
-> > directly ? I know, the driver wuold then need to remember to release
-> > it, which is not an ideal pattern (allocate in the core, release in
-> > the driver).
->
-> Given that this is a single 64-bit value, I don't think it's useful to
-> allocate it in v4l2_link_freq_to_bitmap().
->
+On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+>=20
+> Input system driver do basic isys hardware setup and irq handling
+> and work with fwnode and v4l2 to register the ISYS v4l2 devices.
+>=20
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Reported-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+> ---
+>  drivers/media/pci/intel/ipu6/ipu6-isys.c | 1345 ++++++++++++++++++++++
+>  drivers/media/pci/intel/ipu6/ipu6-isys.h |  201 ++++
+>  2 files changed, 1546 insertions(+)
+>  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.c
+>  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.h
+>=20
+> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci=
+/intel/ipu6/ipu6-isys.c
 
-For this driver it's a single s64, yes, but in the general case the
-intersection between the driver and the firmware frequencies is a list
-of 64-bit values..
+...
 
-> >
-> > Alternatively, could v4l2_fwnode_endpoint_alloc_parse() be passed the
-> > list of driver supported frequencies and store in vep->link_frequencies[]
-> > the intersection between the driver and firmware frequencies ? After
-> > all, the _alloc_parse() version of v4l2_fwnode_endpoint_parse() it's
-> > only there to support link_frequencies parsing, hence passing to it the
-> > driver's supported frequencies might not look that weird...
->
-> It's not a good fit for the functional scope of
-> v4l2_fwnode_endpoint_alloc_parse(), but maybe we could add a new function
-> to do both (and possibly more)? If this one isn't eventually be needed in
-> drivers, it can be made static.
->
+> +static void isys_notifier_cleanup(struct ipu6_isys *isys)
+> +{
+> +	v4l2_async_nf_unregister(&isys->notifier);
+> +	v4l2_async_nf_cleanup(&isys->notifier);
+> +}
+> +
+> +static int isys_register_devices(struct ipu6_isys *isys)
+> +{
+> +	struct device *dev =3D &isys->adev->auxdev.dev;
+> +	struct pci_dev *pdev =3D isys->adev->isp->pdev;
+> +	int ret;
+> +
+> +	isys->media_dev.dev =3D dev;
+> +	media_device_pci_init(&isys->media_dev,
+> +			      pdev, IPU6_MEDIA_DEV_MODEL_NAME);
+> +
+> +	strscpy(isys->v4l2_dev.name, isys->media_dev.model,
+> +		sizeof(isys->v4l2_dev.name));
+> +
+> +	ret =3D media_device_register(&isys->media_dev);
+> +	if (ret < 0)
+> +		goto out_media_device_unregister;
+> +
+> +	isys->v4l2_dev.mdev =3D &isys->media_dev;
+> +	isys->v4l2_dev.ctrl_handler =3D NULL;
+> +
+> +	ret =3D v4l2_device_register(dev->parent, &isys->v4l2_dev);
+> +	if (ret < 0)
+> +		goto out_media_device_unregister;
+> +
+> +	ret =3D isys_register_video_devices(isys);
+> +	if (ret)
+> +		goto out_v4l2_device_unregister;
+> +
+> +	ret =3D isys_csi2_register_subdevices(isys);
+> +	if (ret)
+> +		goto out_isys_unregister_video_device;
+> +
+> +	ret =3D isys_csi2_create_media_links(isys);
+> +	if (ret)
+> +		goto out_isys_unregister_subdevices;
+> +
+> +	ret =3D isys_notifier_init(isys);
+> +	if (ret)
+> +		goto out_isys_unregister_subdevices;
+> +
+> +	return 0;
+> +
+> +out_isys_unregister_subdevices:
+> +	isys_csi2_unregister_subdevices(isys);
+> +
+> +out_isys_unregister_video_device:
+> +	isys_unregister_video_devices(isys);
+> +
+> +out_v4l2_device_unregister:
+> +	v4l2_device_unregister(&isys->v4l2_dev);
+> +
+> +out_media_device_unregister:
+> +	media_device_unregister(&isys->media_dev);
+> +	media_device_cleanup(&isys->media_dev);
+> +
+> +	dev_err(dev, "failed to register isys devices\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static void isys_unregister_devices(struct ipu6_isys *isys)
+> +{
+> +	isys_unregister_video_devices(isys);
+> +	isys_csi2_unregister_subdevices(isys);
+> +	v4l2_device_unregister(&isys->v4l2_dev);
+> +	media_device_unregister(&isys->media_dev);
+> +	media_device_cleanup(&isys->media_dev);
+> +}
 
-if it's needed in drivers then we're not adding anything useful to the
-core :)
+...
 
-> >
-> > > >
-> > > > >  							link_freq);
-> > > > >
-> > > > >  	if (imx334->link_freq_ctrl)
-> > > > > @@ -1386,7 +1369,7 @@ static int imx334_probe(struct i2c_client *client)
-> > > > >  	}
-> > > > >
-> > > > >  	/* Set default mode to max resolution */
-> > > > > -	imx334->cur_mode = &supported_modes[__ffs(imx334->menu_skip_mask)];
-> > > > > +	imx334->cur_mode = &supported_modes[__ffs(imx334->link_freq_bitmap)];
-> > > > >  	imx334->cur_code = imx334_mbus_codes[0];
-> > > > >  	imx334->vblank = imx334->cur_mode->vblank;
-> > > > >
-> > >
->
-> --
-> Regards,
->
-> Sakari Ailus
+> +static void isys_remove(struct auxiliary_device *auxdev)
+> +{
+> +	struct ipu6_bus_device *adev =3D auxdev_to_adev(auxdev);
+> +	struct ipu6_isys *isys =3D dev_get_drvdata(&auxdev->dev);
+> +	struct ipu6_device *isp =3D adev->isp;
+> +	struct isys_fw_msgs *fwmsg, *safe;
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < IPU6_ISYS_MAX_STREAMS; i++)
+> +		mutex_destroy(&isys->streams[i].mutex);
+
+In my testing with IPU4, I had to move these mutex_destroy's to the end
+of isys_remove. If we're streaming, they are needed, presumably until
+isys_unregister_devices is called.
+
+> +
+> +	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist, head)
+> +		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
+> +			       fwmsg, fwmsg->dma_addr, 0);
+> +
+> +	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist_fw, head)
+> +		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
+> +			       fwmsg, fwmsg->dma_addr, 0);
+> +
+> +	isys_iwake_watermark_cleanup(isys);
+> +	isys_notifier_cleanup(isys);
+> +	isys_unregister_devices(isys);
+
+Again in IPU4 testing:
+I get crashing in `stop_streaming` when unbinding during streaming. If
+I move isys_unregister_devices before isys_notifier_cleanup, this no
+longer happens.
+
+> +
+> +	cpu_latency_qos_remove_request(&isys->pm_qos);
+> +
+> +	if (!isp->secure_mode) {
+> +		ipu6_cpd_free_pkg_dir(adev);
+> +		ipu6_buttress_unmap_fw_image(adev, &adev->fw_sgt);
+> +		release_firmware(adev->fw);
+> +	}
+> +
+> +	mutex_destroy(&isys->stream_mutex);
+> +	mutex_destroy(&isys->mutex);
+> +}
+
+/Andreas
 
