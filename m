@@ -1,208 +1,110 @@
-Return-Path: <linux-media+bounces-3361-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3362-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAE3827ED5
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 07:38:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A06D827FC8
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 08:51:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6208CB23431
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 06:38:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA945B269CE
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 07:51:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7AC7944D;
-	Tue,  9 Jan 2024 06:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EBCF11CB3;
+	Tue,  9 Jan 2024 07:51:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WuwUqvLd"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uB91eXvQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C3B9442
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 06:38:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704782319; x=1736318319;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=WWQ20EJS/dbawnCV7JGEqBs6A6lNAtOMSSk9VPYtnoE=;
-  b=WuwUqvLdLmw6jEP+IJw2mazJrStNL2Nw1Z4ReKg0ga9pocmMjCrm4B2H
-   nxTUh65360fSsFa4VvcEzVzElcRxHe7Megkl3LtCLxVVwtk2y0UeOucHW
-   wiT/CtlFsH2EQ5FplrGpra2ei/j9Bd02oeDfCpgF/BiAZ4A4rjGpBub8g
-   2Md2oLVhn64Ms6Y5zJwYBS0gK+mC7Y3pkWxQsJRaFreAWoh5n9oPkBhZQ
-   qio+zt3HFlvgQsHqcIsQ+xBZemQUyhXknhGymfUWGt0UrY0Q58eda+8CV
-   HSuxtTagpockxoXSCSMtjNca+57+xfNyQn9D24q6my/6xlUmdcFE+blNO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="388541336"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="388541336"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 22:38:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="774747604"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="774747604"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by orsmga007.jf.intel.com with ESMTP; 08 Jan 2024 22:38:34 -0800
-Subject: Re: [PATCH v2 14/15] Documentation: add Intel IPU6 ISYS driver
- admin-guide doc
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
- laurent.pinchart@ideasonboard.com, andriy.shevchenko@linux.intel.com,
- hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
- claus.stovgaard@gmail.com, tfiga@chromium.org, senozhatsky@chromium.org,
- tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com,
- hongju.wang@intel.com
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-15-bingbu.cao@intel.com>
- <ZTkG40snprJhk8UW@kekkonen.localdomain>
- <5637c237-f939-3edc-4f45-b89f3dc241dc@linux.intel.com>
- <ZZu87Mdv18OLoTPW@kekkonen.localdomain>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <26af01f0-dca0-b9a4-63b2-9d63d815a8be@linux.intel.com>
-Date: Tue, 9 Jan 2024 14:34:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B346C154
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 07:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40e5280a33eso93115e9.0
+        for <linux-media@vger.kernel.org>; Mon, 08 Jan 2024 23:51:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704786681; x=1705391481; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ajIAvbvfoHd2Dm4Y0RFYgsc64SgXUokhIDDglANw3bU=;
+        b=uB91eXvQ9DqbJDGAuLh9wKvpBQiND/qT5YV0Abd3i4snCQTfv9CjrMGGBhpSq0nuaG
+         qDGzqhfOVU37BrVQXWoYOLs1IpmwOpGSn0gbDJUeqPuVSBf1j0BNOvuMh4BdMQZBK4lr
+         ElG1aG5UKoNwAHH7kIeKCreLBi0goJGQYi5IMkJXQBBldo3HxmokXAyXkD73hcQgZXtK
+         Xm6uhHdn+/RbWR1rO4n9U9XPshBB+MRwKZ+yIqrpjpLg0A3tFazUwn/jyhcXCT17Nhww
+         5nBZyRR5oOklFd7gr6N25DO2EJmihmKaTwMwtEAp6JpsG4nUSAoROmQkeOVsbSxys9Nf
+         x5NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704786681; x=1705391481;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ajIAvbvfoHd2Dm4Y0RFYgsc64SgXUokhIDDglANw3bU=;
+        b=YLayhKsaxu2bfFpyvJQJM7P+wqcKFHEjMQ6Tt+AJjp2aRmsA/ScUQlIRddSHvMIDWV
+         4MvPQaKe8Z1jOSVAY1PJE10KP65+ppTuXcL0semEmbN1uqlcFGmsoNbB8740vDyT7ui3
+         bTH5pYzbc0BgmB5VeJbK7I7k5tZ9zGTxigalsjpkpOLBbIuWya9FJeJWet13+ZLnDRs0
+         h5kW2yeDgwz7HHDmqZwlinW7WD0Vavy5mApv7vG88ReSUip6v134N6fV8ox0Dgnfz6p8
+         FWnUKMOQkRftJ0imHkW2Hgn/uydRy9kE+o3cS15oJUFStw7fXJBKF6ouJXE6+ISmT4a/
+         htBQ==
+X-Gm-Message-State: AOJu0YyNjlMqIRfyl1RpY8nAfI+bghgQKjomIm/v6hoNIezWSOol6OR1
+	SowMMVgO7s/9D7FzUlhljtCT2SPnQaopiw==
+X-Google-Smtp-Source: AGHT+IGjfcsvgCctKIWthRavB2j4sQAq5t6BFCH1lgirHrvd5/nWv+jm6ATm5mMLTYU76UWU3eiycA==
+X-Received: by 2002:a05:600c:5491:b0:40e:44ad:7222 with SMTP id iv17-20020a05600c549100b0040e44ad7222mr159229wmb.8.1704786680743;
+        Mon, 08 Jan 2024 23:51:20 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id f13-20020a05600c154d00b0040e3635ca65sm13777111wmg.2.2024.01.08.23.51.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 23:51:20 -0800 (PST)
+Date: Tue, 9 Jan 2024 10:51:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Hidenori Kobayashi <hidenorik@chromium.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Yong Zhi <yong.zhi@intel.com>, stable@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: staging: ipu3-imgu: Set fields before
+ media_entity_pads_init()
+Message-ID: <68ff6c83-b8c7-4bcb-9b94-a33ab83aaf58@moroto.mountain>
+References: <20240109041500.2790754-1-hidenorik@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ZZu87Mdv18OLoTPW@kekkonen.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240109041500.2790754-1-hidenorik@chromium.org>
 
-Sakari,
-
-On 1/8/24 5:14 PM, Sakari Ailus wrote:
-> Hi Bingbu,
-> 
-> On Mon, Jan 08, 2024 at 11:51:50AM +0800, Bingbu Cao wrote:
->> Sakari,
->>
->> On 10/25/23 8:15 PM, Sakari Ailus wrote:
->>> Hi Bingbu,
->>>
->>> On Tue, Oct 24, 2023 at 07:29:23PM +0800, bingbu.cao@intel.com wrote:
->>>> From: Bingbu Cao <bingbu.cao@intel.com>
->>>>
->>>> This document mainly describe the functionality of IPU6 and
->>>> IPU6 isys driver, and gives an example that how user can do
->>>> imaging capture with tools.
->>>>
->>>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
->>>> ---
->>>>  Documentation/admin-guide/media/ipu6-isys.rst |  159 +++
->>>>  .../admin-guide/media/ipu6_isys_graph.svg     |  338 +++++
->>>>  .../admin-guide/media/ipu6_isys_multi.svg     | 1124 +++++++++++++++++
->>>>  .../admin-guide/media/v4l-drivers.rst         |    1 +
->>>>  4 files changed, 1622 insertions(+)
->>>>  create mode 100644 Documentation/admin-guide/media/ipu6-isys.rst
->>>>  create mode 100644 Documentation/admin-guide/media/ipu6_isys_graph.svg
->>>>  create mode 100644 Documentation/admin-guide/media/ipu6_isys_multi.svg
->>>>
->>>> diff --git a/Documentation/admin-guide/media/ipu6-isys.rst b/Documentation/admin-guide/media/ipu6-isys.rst
->>>> new file mode 100644
->>>> index 000000000000..fb4d355e1522
->>>> --- /dev/null
->>>> +++ b/Documentation/admin-guide/media/ipu6-isys.rst
->>>> @@ -0,0 +1,159 @@
->>>> +.. SPDX-License-Identifier: GPL-2.0
->>>> +
->>>> +.. include:: <isonum.txt>
->>>> +
->>>> +===============================================================
->>>> +Intel Image Processing Unit 6 (IPU6) Input System driver
->>>> +===============================================================
->>>
->>> Too many '='s.
->>>
->>>> +
->>>> +Copyright |copy| 2023 Intel Corporation
->>>> +
->>>> +Introduction
->>>> +============
->>>> +
->>>> +This file documents the Intel IPU6 (6th generation Image Processing Unit)
->>>> +Input System (MIPI CSI2 receiver) drivers located under
->>>> +drivers/media/pci/intel/ipu6.
->>>> +
->>>> +The Intel IPU6 can be found in certain Intel Chipsets but not in all SKUs:
->>>> +
->>>> +* TigerLake
->>>> +* JasperLake
->>>> +* AlderLake
->>>> +* RaptorLake
->>>> +* MeteorLake
->>>> +
->>>> +Intel IPU6 is made up of two components - Input System (ISYS) and Processing
->>>> +System (PSYS).
->>>> +
->>>> +The Input System mainly works as MIPI CSI2 receiver which receives and
->>>> +processes the imaging data from the sensors and outputs the frames to memory.
->>>> +
->>>> +There are 2 driver modules - intel_ipu6 and intel_ipu6_isys. intel_ipu6 is an
->>>> +IPU6 common driver which does PCI configuration, firmware loading and parsing,
->>>> +firmware authentication, DMA mapping and IPU-MMU (internal Memory mapping Unit)
->>>> +configuration. intel_ipu6_isys implements V4L2, Media Controller and V4L2
->>>> +sub-device interfaces. The IPU6 ISYS driver supports camera sensors connected
->>>> +to the IPU6 ISYS through V4L2 sub-device sensor drivers.
->>>> +
->>>> +.. Note:: See Documentation/driver-api/media/drivers/ipu6.rst for more
->>>> +	  information about the IPU6 hardware.
->>>
->>> A direct reference would be nice.
->>>
->>>> +
->>>> +
->>>> +Input system driver
->>>> +===================
->>>> +
->>>> +The input System driver mainly configures CSI2 DPHY, constructs the firmware
->>>> +stream configuration, sends commands to firmware, gets response from hardware
->>>> +and firmware and then returns buffers to user.
->>>> +The ISYS is represented as several V4L2 sub-devices - 'Intel IPU6 CSI2 $port',
->>>> +which provide V4L2 subdev interfaces to the user space, there are also several
->>>> +video nodes for each CSI-2 stream capture - 'Intel IPU6 ISYS capture $num' which
->>>> +provide interface to user to set formats, queue buffers and streaming.
->>>> +
->>>> +.. kernel-figure::  ipu6_isys_graph.svg
->>>> +   :alt: ipu6 isys media graph without multiple streams support
->>>> +
->>>> +   ipu6 isys media graph without multiple streams support
->>>> +
->>>> +.. kernel-figure::  ipu6_isys_multi.svg
->>>> +   :alt: ipu6 isys media graph with multiple streams support
->>>> +
->>>> +   ipu6 isys media graph with multiple streams support
->>>
->>> Is there a reason for having links from the CSI-2 receivers' source pads to
->>> multiple video nodes? Isn't a single one enough?
->>>
->>
->> Sorry, I forgot to reply before. Firmware sees each MIPI VC as a single
->> stream, for multiple VCs case, SW need create multiple firmware streams.
-> 
-> Yes, I understand that, but this does not explain why you have multiple
-> links between the source pads and video nodes. You can only capture one
-> stream at a time from a video node. The user needs to select the correct
-> video node related to a source pad, not to pick a random video node and
-> then figure out which link to enable.
-
-The user can select any of the video nodes to one source pad.
-This figure shows that user have the capability to link any source pad
-to any of the video node (in dotted line). In reality, only 1 link is
-active (solid line).
-
-> 
-> The media graph does look impressive though. :-)
+On Tue, Jan 09, 2024 at 01:14:59PM +0900, Hidenori Kobayashi wrote:
+> The imgu driver fails to probe because it does not set the pad's flags
+> before calling media_entity_pads_init(). Fix the initialization order so
+> that the driver probe succeeds. The ops initialization is also moved
+> together for readability.
 > 
 
--- 
-Best regards,
-Bingbu Cao
+Wait, I was really hoping you would include these lines in the commit
+message:
+
+the imgu driver fails to probe with the following message:
+
+[   14.596315] ipu3-imgu 0000:00:05.0: failed initialize subdev media entity (-22)
+[   14.596322] ipu3-imgu 0000:00:05.0: failed to register subdev0 ret (-22)
+[   14.596327] ipu3-imgu 0000:00:05.0: failed to register pipes (-22)
+[   14.596331] ipu3-imgu 0000:00:05.0: failed to create V4L2 devices (-22)
+
+That's what people will search for when they run intio the problem.
+Could you please resend a v3?  Normally, editing a commit message is
+pretty easy, right?
+
+regards,
+dan carpenter
+
+
 
