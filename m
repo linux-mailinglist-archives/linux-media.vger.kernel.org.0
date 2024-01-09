@@ -1,165 +1,150 @@
-Return-Path: <linux-media+bounces-3418-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3419-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB1F82886B
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 15:44:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 381608289A0
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 17:06:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBDFB1C24550
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 14:44:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9341228583C
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 16:06:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7ED239AE2;
-	Tue,  9 Jan 2024 14:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1987E3A1AE;
+	Tue,  9 Jan 2024 16:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GKH8HYD9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E19A39ADB
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 14:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id BC81A60316;
-	Tue,  9 Jan 2024 15:43:57 +0100 (CET)
-Message-ID: <8d62775e-713e-4bdd-a225-61af6037d6df@gpxsee.org>
-Date: Tue, 9 Jan 2024 15:43:56 +0100
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E790C39FF9
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 16:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40e490c2115so11961015e9.0
+        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 08:06:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704816360; x=1705421160; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Qc/vvxUtut28gBqiU/tMv3dTcetgCjY3qqi9afW9Oc=;
+        b=GKH8HYD9mr+ZqCevcOgC7cU69zodoQ2Z3YIIYDdRFrvL82M2fi8RWvLd3DyfMEDvR3
+         VvO1nP61u9hOxqBwRLHiNEx340UZnNTfW8P2IqDguIvlqg+iENrh4F1p5WnWSuYopYDU
+         ZJcM8w9MbpISssqucsKhZslrBeu3gjSFmVwyQrNaRUzZf5KFBU0hS9eTVIWQMH4TyoR/
+         H4K+JaV8Bwpa6HrbPMZgl9fqQOGaLMaJJ2TBv4Zqw0oPqxApB0Qg3PaYR7BDrMpWn1vM
+         B8rDfzigLTG5QbSB1tR7yD7/Wc6aKggId2QFqQYHfjTjf98Lvx+VJKjhI7Kl96ZA/uIM
+         zyxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704816360; x=1705421160;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5Qc/vvxUtut28gBqiU/tMv3dTcetgCjY3qqi9afW9Oc=;
+        b=Rmgj6uz6fMn2Qg6tv4GXBVpZMkA1dc/Vkb8h392vzMl5Wn3e/p+O+i+Gs/yCrBTliO
+         El18vx6WnKA2E6j8SYdiFMVzlsFC98/o+yLgxVGa8siXrD4eaxSJT1q7iYgXy+yKkzZr
+         gXW4BKcKjqsJLqXo3ETZXKxECYkxbPoLZIIy9JNLYp+fKni0lAOwRklZnHsxl4fgZkCX
+         SbRWSrYGiQbDpLZQbcRAOdePFo7obD5+xVS3Usox+26ruGc/sfZjBYD90Sje0o1QlqI1
+         d8OGCTDKx7XwP1esvnljieNEzHbO85zNl3g5BKNxzNbsAH3P/+O8Oq7FIDS8OEa2g5l7
+         t9Rg==
+X-Gm-Message-State: AOJu0YxixoaeLcjKFE0yJ3xs1TIJOyknQiETKeP660VoarGj9YgvxAfO
+	0FC9br/kZz2nTJ4PVzQsin84qbjBJaEqhQ==
+X-Google-Smtp-Source: AGHT+IGQRaFP2/kECYnlZAZufs5Gb9JPYK1yZO1uA69A5fVjjPu8GoWpAOZrUQsutcDurnBk+JStAw==
+X-Received: by 2002:a05:600c:1695:b0:40e:43d3:209d with SMTP id k21-20020a05600c169500b0040e43d3209dmr500493wmn.168.1704816360088;
+        Tue, 09 Jan 2024 08:06:00 -0800 (PST)
+Received: from [127.0.1.1] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id z8-20020adfec88000000b0033762d4ad5asm2726490wrn.81.2024.01.09.08.05.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 08:05:59 -0800 (PST)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v3 0/4] arm64: dts: qcom: sc8280xp: Add CAMSS core dtsi
+ support
+Date: Tue, 09 Jan 2024 16:06:01 +0000
+Message-Id: <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-0-b8e3a74a6e6a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: qv4l2 crashes if output device implements VIDIOC_ENUM_FRAMESIZES
-Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-References: <59383033-924d-45fb-a44f-7c274bb44517@gpxsee.org>
- <73b9fa71-20e3-4805-9feb-ef2692f4cb0a@xs4all.nl>
- <cde7a790-b24f-45d0-af33-5a92869ff10c@gpxsee.org>
- <93eaf63b-eeb3-44e3-8b5e-915b1c5ad1b4@xs4all.nl>
-From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <93eaf63b-eeb3-44e3-8b5e-915b1c5ad1b4@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOlunWUC/5WNQQ6DIBBFr2JYdxoEFeyq92i6GBGVpBUDltAY7
+ 140adIuXb4/mfcW4rUz2pNLthCng/HGjgn4KSNqwLHXYNrEhFFW0JwyeJjxFWHUcQZWAM0hbV5
+ JJmmcQOHTe1DWaWhnb4AJTrHshO5qSZJycrozcc/d7okH42fr3ns95Nv6DfFjoZDOgA0qxIpjX
+ eXX9I7Onq3ryVYK7NdeHrSzZBdYikY2VPBa/tnXdf0AMBFKxkcBAAA=
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13-dev-4e032
 
-On 09. 01. 24 13:21, Hans Verkuil wrote:
-> On 1/9/24 12:46, Martin Tůma wrote:
->> Hi Hans,
->>
->> On 09. 01. 24 11:43, Hans Verkuil wrote:
->>> Hi Martin,
->>>
->>> On 1/9/24 11:17, Martin Tůma wrote:
->>>> Hi,
->>>> If a driver implements VIDIOC_ENUM_FRAMESIZES for a output device, qv4l2
->>>> crashes in general-tab.cpp:2169 due to m_frameSize being 0. As all other
->>>> usages of m_frameSize in the GeneralTab::updateFrameSize() function are
->>>> guarded by "NULL checks" an obvious fix would be to guard the "addItem
->>>> while cycle" as well. But maybe a better solution would be to add the
->>>> frame size combobox to output devices as well. Or are the output devices
->>>> not supposed to have frame sizes enumeration?
->>>
->>> You do not expect to see it for output devices. Those will typically use
->>> VIDIOC_ENUMSTD or VIDIOC_ENUM_DV_TIMINGS. VIDIOC_ENUM_FRAMESIZES is something
->>> that only makes sense for output devices if they do not support ENUMSTD or
->>> ENUM_DV_TIMINGS, i.e. it has some very odd output hardware. In particular
->>> vivid doesn't support this for the emulated video output.
->>>
->>> I don't think v4l2-compliance has a check for this. I think it should at
->>> least issue a warning if the video output devices supports ENUM_FRAMESIZES
->>> and also ENUMSTD or ENUM_DV_TIMINGS.
->>>
->>> In any case, qv4l2 shouldn't crash, so an initial fix should be to check
->>> for m_frameSize being 0. A patch is welcome.
->>>
->>
->> Ok, I will add the check, test it with my current driver (see below)
->> that triggers it and send a patch.
->>
->>> Which driver is this? I assume it is an out-of-tree driver, since I am
->>> not aware of any mainline drivers that do this.
->>>
->>
->> I came across this when fiddling with our mgb4 driver. We have updated
->> the FW to support YUV in addition to RGB and added independent timers
->> for frame dropping (the current driver is "wrong" as it provides
->> VIDIOC_G_PARM/VIDIOC_S_PARM with V4L2_CAP_TIMEPERFRAME but can not in
->> fact set it with the original FW). The inputs in mgb4 have
->> ENUM_FRAMESIZES and a request from a card user to add the callback to
->> the outputs to be "symmetrical" with the inputs.
->>
->>   From what you wrote above I get the message that the "proper" way how
->> to extend the output callbacks is rather to add ENUM_DV_TIMINGS (which
->> is also missing, the driver implements it only for the inputs at the
->> moment), but the question "what to do with ENUM_FRAMESIZES?" stays. I
->> would like to either have it implemented for both the inputs/outputs or
->> for none of them. And adding the callback to the output looks to me as a
->> better solution than to remove it from the input as some people already
->> use it. But to call this a bug and remove it is also ok for me (the
->> driver will at least work with the current, unpatched, version of qv4l2).
-> 
-> Your hardware is rather odd :-) so let me describe how it is supposed
-> to work for 'normal' capture hardware first:
-> 
+This series adds the yaml, CAMSS and CCI dts definitions for the sc8280xp.
 
-It is odd, but I'm trying to make it usable as a standard v4l2 device ;-)
+4 x CCI master busses
+4 x VFE
+4 x VFE Lite
+4 x CSID
+4 x CSIPHY
 
-> ENUM_FRAMESIZES is typically only supported for sensor inputs since sensors
-> usually have a discrete set of sizes that they support. And you also need
-> that since you typically explicitly set the size that you want from the
-> sensor, so you need to know what is supported.
-> 
-> For video capture it is different: the video source typically decides what
-> size to transmit. For analog video through e.g. S-Video that's typically
-> PAL or NTSC, so for that you need ENUMSTD and QUERYSTD ioctls to handle that.
-> For e.g. HDMI or similar interfaces it is the DV Timings API that you need.
-> 
-> In both cases you do not have any control over what video size the source
-> will transmit, you have to detect it with the QUERYSTD or QUERY_DV_TIMINGS
-> ioctls.
-> 
-> So ENUM_FRAMESIZES makes no sense for standard analog or digital video
-> capture devices.
-> 
-> For output video it is similar: for analog video you just set the standard
-> (e.g. PAL or NTSC), and that defines the size automatically. For e.g. HDMI
-> you set it as well based on the capabilities reported by the display through
-> the EDID. Again, ENUM_FRAMESIZES makes no sense, this is driven by the
-> analog or digital video timings.
-> 
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi
 
-My goal is to separate the "unusual" part of our HW to the custom sysfs 
-options and from the v4l2 point of view to work as a standard HDMI 
-device, i.e. the sysfs stuff configurable with UDEV rules shall replace 
-the missing EDID and the rest shall work in a standard way including all 
-the QUERY/ENUM ioctls that shall report resolutions/framerates as 
-previously set in sysfs.
+To: Robert Foss <rfoss@kernel.org>
+To: Todor Tomov <todor.too@gmail.com>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Conor Dooley <conor+dt@kernel.org>
+Cc:  <linux-media@vger.kernel.org>
+Cc:  <linux-arm-msm@vger.kernel.org>
+Cc:  <devicetree@vger.kernel.org>
+Cc:  <linux-kernel@vger.kernel.org>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-> ENUM_FRAMESIZES for something that is not a sensor would only make sense
-> if it is some specialized interface that supports a limited set of sizes
-> and has no concept of PAL/NTSC or Digital Video Timings.
-> 
+Changes in v2:
+- This series depends on "clk: qcom: camcc-sc8280xp: Add sc8280xp CAMCC"
+  in linux-next. - Rob, Krzysztof, dts Robot
+- Drops cci_src clock - Konrad
+- Adds sc8280xp-cci - Konrad
 
-Ok. Then I will drop ENUM_FRAMESIZES for the inputs and implement the 
-*_DV_TIMINGS API for the outputs to make the outputs "symetrical" to the 
-inputs.
+Link: https://lore.kernel.org/r/20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2
 
-M.
+Changes in v3:
+- This series depends on "clk: qcom: camcc-sc8280xp: Add sc8280xp CAMCC"
+  in linux-next. - Rob, Krzysztof, dts Robot
+- Fixes spurious "media: dt-bindings: media" in patch title - bod
+- Reorders pinctrl declarations per dts-coding-style.rts - Konrad
+- Adds Krzysztofs RB where indicated
 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> M.
->>
->>> Regards,
->>>
->>> 	Hans
->>>
->>
->>
-> 
-> 
+Link: https://lore.kernel.org/r/20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-0-7a57b8b07398@linaro.org
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3
+---
+Bryan O'Donoghue (4):
+      dt-bindings: i2c: qcom-cci: Document sc8280xp compatible
+      dt-bindings: media: camss: Add qcom,sc8280xp-camss binding
+      arm64: dts: qcom: sc8280xp: camss: Add CCI definitions
+      arm64: dts: qcom: sc8280xp: camss: Add CAMSS block definition
+
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |  19 +
+ .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sc8280xp.dtsi             | 546 +++++++++++++++++++++
+ 3 files changed, 1077 insertions(+)
+---
+base-commit: ab0b3e6ef50d305278b1971891cf1d82ab050b35
+change-id: 20240102-linux-next-24-01-02-sc8280xp-camss-core-dtsi-2730a5f7ef98
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
 
