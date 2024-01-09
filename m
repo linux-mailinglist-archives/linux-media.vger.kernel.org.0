@@ -1,358 +1,161 @@
-Return-Path: <linux-media+bounces-3423-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3424-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300C58289B0
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 17:07:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D768289BE
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 17:11:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93A6F1F253C2
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 16:07:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4D8B1F2581E
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 16:11:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9853B18C;
-	Tue,  9 Jan 2024 16:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9682A3A1AA;
+	Tue,  9 Jan 2024 16:11:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZEqXDbQJ"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="I18p6kls"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503AF3A8C4
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 16:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e5280a33eso3686065e9.0
-        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 08:06:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0C539ADE
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 16:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7831f567100so184180885a.0
+        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 08:11:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704816364; x=1705421164; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MsW6MKnne1Me7VXJhdish3gRaLmNKsmUZrfRAuyzFtw=;
-        b=ZEqXDbQJWEX2fnUzOWDffjWE5v305PYXci2yyLx4joKzybNbFHh97eyXiKeCSnImnR
-         VlczKalWGzzPZHazAFAy61N8OhQ4dSHzFK5jFPd5LVpOsYl/wEG21KzpbrBKx69AX/04
-         XZG+jeQHurEDVTKlRYquz5Vt7o9BYhNbzHYbsdzMksIKZ4NkuALIC1C8i+OSwhLsfcgu
-         2dg1mAn7jjQnIB54WcRXRKG61ayBCqeX6H7PfHH49VqTJ6fZOGPgT9INg1qhmcc4wifg
-         uZF5i2X4/ejOFwgZNolxdlzGfKuu1FngL0M37Cy3rxLkA3JhErmQHtMuymoREf1pC+9I
-         6ODA==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1704816685; x=1705421485; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vFptk53wn4JFtsVYg8hb5F0+FRXRwx3THgRb2uhxx04=;
+        b=I18p6klslyMgAoqOkDjLD5U/ez6doeRW8ThIzT9Bna+PKlmJJFQUWVdvMIfTJ6hWZj
+         JWPcLiaCRhgxA0hMTy3VwFU8kRxnldtm0bcCqaDHJddNilSr8YAhMCAsyRyka7z/nQNO
+         EYWRrmOajABEc+r2t3g+vHGs8BV22HzCiLJuMwr1sOQr0QxIl6hkQaUw3A41SKGhFMFZ
+         IjS+hZa3K19Hu6MxjNtJAOzF3pNbk/aZgMDmxay+UeIiUeo8BNHoWHU45GEOHKUM9Ef4
+         +7V+zGBbmOlVujAlSi8olrBsD3qk6Ba/PArjLlkLbStB77NAFcASWjh/IgwIe3ibAYVA
+         wYkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704816364; x=1705421164;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MsW6MKnne1Me7VXJhdish3gRaLmNKsmUZrfRAuyzFtw=;
-        b=ISi5cvM8j6Q4KO5e6qPM98/fXeo+WtxhVI1MIay90AHzlqRM6BiNNB4xK6N0VWejkS
-         cJS1DeMzF9mO7hxVLR0+1ksCmMfQZjkAuv62myZHECMG1jYCjKIwycdx4VzOgdo2wLwE
-         FBKvBWnhP3i4sjqyjUp9EoEXa0Wb1fvRwlu+PWjEShoDp8Ve/bND8vQ/j9zCuZqF4MZI
-         cJk5Hg+JJ5hRjMPbESyXLU0IRfVD5vSg5rgLJl2AlzzltB0GgdHWu8d4i/Ld8+cAxtG2
-         iTWqiCa6ybkRVFpv9LSByuAfZsOpPF7LWWcKa0z1XSUdWZx1FHmHHVuzjvVEEXcs7rKK
-         FNFQ==
-X-Gm-Message-State: AOJu0YyEdKhXdvkHV2HVgNzcHplRHoTO3Bqwfb82lLe6/EIlkirPFO55
-	sVo/qhY6qaqulsx3YzW0dWeP9f34PnIB4w==
-X-Google-Smtp-Source: AGHT+IEHVtZAxsWbfd8gbQN7gu7Y92VPYQ5+mwVILG9udM7Md9Np/8eRdbpMAehUxpLAsPo6c/hCVg==
-X-Received: by 2002:a05:600c:600e:b0:40e:52cf:e7af with SMTP id az14-20020a05600c600e00b0040e52cfe7afmr347328wmb.130.1704816364775;
-        Tue, 09 Jan 2024 08:06:04 -0800 (PST)
-Received: from [127.0.1.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id z8-20020adfec88000000b0033762d4ad5asm2726490wrn.81.2024.01.09.08.06.03
+        d=1e100.net; s=20230601; t=1704816685; x=1705421485;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vFptk53wn4JFtsVYg8hb5F0+FRXRwx3THgRb2uhxx04=;
+        b=BCra7/wmO0KbZxv78tUSWyWdnLJd6X8hCflbCotydYddU4M+Dh+avj8NJHZ8Tf3LMl
+         LbBy5deqz5sddmr76o7/LX9oST3MoClqLlGjzMeRghBOi+9k9DIgEAK+x9Q7H6ZFAhBr
+         V6e3HHQG+HFKnvjcq4tEOKGPbXJ5xnR6X+/yYGPGBfAQp1WuU1zoWtDAT8rjqsmszr3u
+         cUxpHsRjtk3V3wBXsLG4/YcTGA8IJLOUNZRjDCye29Xwp51oQvNNrXa5HF2UGuAyFWY5
+         sX/uh5IOFyckIgrX+aEMRU/MpqzVL0M+g6Pg8f5/hA6qx1umsz/aWjGMcuQh5Bvvub4s
+         XAfA==
+X-Gm-Message-State: AOJu0YxrECEiOKJsl9+FlyBSNIMTHEammcw8rKJutb6o03rI0VPxRsLk
+	I/f0ZPwPjbQ0xN9DXTw+6sEE3jG6IZbrVg==
+X-Google-Smtp-Source: AGHT+IFpx2lBoMf5GT/r5JKw+UQMYCxqLYOGQ3zZ6EWwOxxCPN4w+5a+EQzQLE74mvj3J0kj1rwC7A==
+X-Received: by 2002:a05:620a:38b:b0:783:902:bcad with SMTP id q11-20020a05620a038b00b007830902bcadmr5067063qkm.56.1704816685299;
+        Tue, 09 Jan 2024 08:11:25 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:9202::7a9])
+        by smtp.gmail.com with ESMTPSA id m4-20020ae9e704000000b00781de2da438sm903158qka.107.2024.01.09.08.11.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 08:06:04 -0800 (PST)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Tue, 09 Jan 2024 16:06:05 +0000
-Subject: [PATCH v3 4/4] arm64: dts: qcom: sc8280xp: camss: Add CAMSS block
- definition
+        Tue, 09 Jan 2024 08:11:25 -0800 (PST)
+Message-ID: <ba08ba6a8bd26b33b5168caec68377268a6cdc85.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: videobuf2: Add missing doc comment for
+ waiting_in_dqbuf
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>, 
+	linux-media@vger.kernel.org
+Cc: Tomasz Figa <tfiga@chromium.org>, Marek Szyprowski
+	 <m.szyprowski@samsung.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	kernel@collabora.com
+Date: Tue, 09 Jan 2024 11:11:24 -0500
+In-Reply-To: <20240105134020.34312-1-andrzej.p@collabora.com>
+References: <20240105134020.34312-1-andrzej.p@collabora.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 (3.50.2-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-4-b8e3a74a6e6a@linaro.org>
-References: <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-0-b8e3a74a6e6a@linaro.org>
-In-Reply-To: <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-0-b8e3a74a6e6a@linaro.org>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.13-dev-4e032
 
-Add CAMSS block definition for sc8280xp.
+Le vendredi 05 janvier 2024 =C3=A0 14:40 +0100, Andrzej Pietrasiewicz a =C3=
+=A9crit=C2=A0:
+> While at it rearrange other comments to match the order of struct members=
+.
+>=20
+> Fixes: d65842f7126a ("media: vb2: add waiting_in_dqbuf flag")
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-This drop contains definitions for the following components on sc8280xp:
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-VFE * 4
-VFE Lite * 4
-CSID * 4
-CSIPHY * 4
-
-This dtsi definition has been developed and validated on a Lenovo X13s
-laptop.
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 239 +++++++++++++++++++++++++++++++++
- 1 file changed, 239 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-index f48dfa5e5f36..35bc31117b41 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-@@ -3614,6 +3614,245 @@ cci3_i2c1: i2c-bus@1 {
- 			};
- 		};
- 
-+		camss: camss@ac5a000 {
-+			compatible = "qcom,sc8280xp-camss";
-+
-+			reg = <0 0x0ac5a000 0 0x2000>,
-+			      <0 0x0ac5c000 0 0x2000>,
-+			      <0 0x0ac65000 0 0x2000>,
-+			      <0 0x0ac67000 0 0x2000>,
-+			      <0 0x0acaf000 0 0x4000>,
-+			      <0 0x0acb3000 0 0x1000>,
-+			      <0 0x0acb6000 0 0x4000>,
-+			      <0 0x0acba000 0 0x1000>,
-+			      <0 0x0acbd000 0 0x4000>,
-+			      <0 0x0acc1000 0 0x1000>,
-+			      <0 0x0acc4000 0 0x4000>,
-+			      <0 0x0acc8000 0 0x1000>,
-+			      <0 0x0accb000 0 0x4000>,
-+			      <0 0x0accf000 0 0x1000>,
-+			      <0 0x0acd2000 0 0x4000>,
-+			      <0 0x0acd6000 0 0x1000>,
-+			      <0 0x0acd9000 0 0x4000>,
-+			      <0 0x0acdd000 0 0x1000>,
-+			      <0 0x0ace0000 0 0x4000>,
-+			      <0 0x0ace4000 0 0x1000>;
-+
-+			reg-names = "csiphy2",
-+				    "csiphy3",
-+				    "csiphy0",
-+				    "csiphy1",
-+				    "vfe0",
-+				    "csid0",
-+				    "vfe1",
-+				    "csid1",
-+				    "vfe2",
-+				    "csid2",
-+				    "vfe_lite0",
-+				    "csid0_lite",
-+				    "vfe_lite1",
-+				    "csid1_lite",
-+				    "vfe_lite2",
-+				    "csid2_lite",
-+				    "vfe_lite3",
-+				    "csid3_lite",
-+				    "vfe3",
-+				    "csid3";
-+
-+			interrupts = <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 640 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 641 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 758 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 759 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 760 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 761 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 762 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 764 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			interrupt-names = "csid1_lite",
-+					  "vfe_lite1",
-+					  "csiphy3",
-+					  "csid0",
-+					  "vfe0",
-+					  "csid1",
-+					  "vfe1",
-+					  "csid0_lite",
-+					  "vfe_lite0",
-+					  "csiphy0",
-+					  "csiphy1",
-+					  "csiphy2",
-+					  "csid2",
-+					  "vfe2",
-+					  "csid3_lite",
-+					  "csid2_lite",
-+					  "vfe_lite3",
-+					  "vfe_lite2",
-+					  "csid3",
-+					  "vfe3";
-+
-+			power-domains = <&camcc IFE_0_GDSC>,
-+					<&camcc IFE_1_GDSC>,
-+					<&camcc IFE_2_GDSC>,
-+					<&camcc IFE_3_GDSC>,
-+					<&camcc TITAN_TOP_GDSC>;
-+
-+			power-domain-names = "ife0",
-+					     "ife1",
-+					     "ife2",
-+					     "ife3",
-+					     "top";
-+
-+			clocks = <&camcc CAMCC_CAMNOC_AXI_CLK>,
-+				 <&camcc CAMCC_CPAS_AHB_CLK>,
-+				 <&camcc CAMCC_CSIPHY0_CLK>,
-+				 <&camcc CAMCC_CSI0PHYTIMER_CLK>,
-+				 <&camcc CAMCC_CSIPHY1_CLK>,
-+				 <&camcc CAMCC_CSI1PHYTIMER_CLK>,
-+				 <&camcc CAMCC_CSIPHY2_CLK>,
-+				 <&camcc CAMCC_CSI2PHYTIMER_CLK>,
-+				 <&camcc CAMCC_CSIPHY3_CLK>,
-+				 <&camcc CAMCC_CSI3PHYTIMER_CLK>,
-+				 <&camcc CAMCC_IFE_0_AXI_CLK>,
-+				 <&camcc CAMCC_IFE_0_CLK>,
-+				 <&camcc CAMCC_IFE_0_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_0_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_1_AXI_CLK>,
-+				 <&camcc CAMCC_IFE_1_CLK>,
-+				 <&camcc CAMCC_IFE_1_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_1_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_2_AXI_CLK>,
-+				 <&camcc CAMCC_IFE_2_CLK>,
-+				 <&camcc CAMCC_IFE_2_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_2_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_3_AXI_CLK>,
-+				 <&camcc CAMCC_IFE_3_CLK>,
-+				 <&camcc CAMCC_IFE_3_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_3_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_0_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_0_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_0_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_1_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_1_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_1_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_2_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_2_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_2_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_3_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_3_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_3_CSID_CLK>,
-+				 <&gcc GCC_CAMERA_HF_AXI_CLK>,
-+				 <&gcc GCC_CAMERA_SF_AXI_CLK>;
-+
-+			clock-names = "camnoc_axi",
-+				      "cpas_ahb",
-+				      "csiphy0",
-+				      "csiphy0_timer",
-+				      "csiphy1",
-+				      "csiphy1_timer",
-+				      "csiphy2",
-+				      "csiphy2_timer",
-+				      "csiphy3",
-+				      "csiphy3_timer",
-+				      "vfe0_axi",
-+				      "vfe0",
-+				      "vfe0_cphy_rx",
-+				      "vfe0_csid",
-+				      "vfe1_axi",
-+				      "vfe1",
-+				      "vfe1_cphy_rx",
-+				      "vfe1_csid",
-+				      "vfe2_axi",
-+				      "vfe2",
-+				      "vfe2_cphy_rx",
-+				      "vfe2_csid",
-+				      "vfe3_axi",
-+				      "vfe3",
-+				      "vfe3_cphy_rx",
-+				      "vfe3_csid",
-+				      "vfe_lite0",
-+				      "vfe_lite0_cphy_rx",
-+				      "vfe_lite0_csid",
-+				      "vfe_lite1",
-+				      "vfe_lite1_cphy_rx",
-+				      "vfe_lite1_csid",
-+				      "vfe_lite2",
-+				      "vfe_lite2_cphy_rx",
-+				      "vfe_lite2_csid",
-+				      "vfe_lite3",
-+				      "vfe_lite3_cphy_rx",
-+				      "vfe_lite3_csid",
-+				      "gcc_axi_hf",
-+				      "gcc_axi_sf";
-+
-+			iommus = <&apps_smmu 0x2000 0x4e0>,
-+				 <&apps_smmu 0x2020 0x4e0>,
-+				 <&apps_smmu 0x2040 0x4e0>,
-+				 <&apps_smmu 0x2060 0x4e0>,
-+				 <&apps_smmu 0x2080 0x4e0>,
-+				 <&apps_smmu 0x20e0 0x4e0>,
-+				 <&apps_smmu 0x20c0 0x4e0>,
-+				 <&apps_smmu 0x20a0 0x4e0>,
-+				 <&apps_smmu 0x2400 0x4e0>,
-+				 <&apps_smmu 0x2420 0x4e0>,
-+				 <&apps_smmu 0x2440 0x4e0>,
-+				 <&apps_smmu 0x2460 0x4e0>,
-+				 <&apps_smmu 0x2480 0x4e0>,
-+				 <&apps_smmu 0x24e0 0x4e0>,
-+				 <&apps_smmu 0x24c0 0x4e0>,
-+				 <&apps_smmu 0x24a0 0x4e0>;
-+
-+			interconnects = <&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_CAMERA_CFG 0>,
-+					<&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>,
-+					<&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI1 0>,
-+					<&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI1 0>;
-+			interconnect-names = "cam_ahb",
-+					     "cam_hf_mnoc",
-+					     "cam_sf_mnoc",
-+					     "cam_sf_icp_mnoc";
-+
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@3 {
-+					reg = <3>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+			};
-+		};
-+
- 		camcc: clock-controller@ad00000 {
- 			compatible = "qcom,sc8280xp-camcc";
- 			reg = <0 0x0ad00000 0 0x20000>;
-
--- 
-2.42.0
+> ---
+>  include/media/videobuf2-core.h | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-cor=
+e.h
+> index e41204df19f0..5020e052eda0 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -72,6 +72,10 @@ struct vb2_buffer;
+>   *		 argument to other ops in this structure.
+>   * @put_userptr: inform the allocator that a USERPTR buffer will no long=
+er
+>   *		 be used.
+> + * @prepare:	called every time the buffer is passed from userspace to th=
+e
+> + *		driver, useful for cache synchronisation, optional.
+> + * @finish:	called every time the buffer is passed back from the driver
+> + *		to the userspace, also optional.
+>   * @attach_dmabuf: attach a shared &struct dma_buf for a hardware operat=
+ion;
+>   *		   used for DMABUF memory types; dev is the alloc device
+>   *		   dbuf is the shared dma_buf; returns ERR_PTR() on failure;
+> @@ -86,10 +90,6 @@ struct vb2_buffer;
+>   *		dmabuf.
+>   * @unmap_dmabuf: releases access control to the dmabuf - allocator is n=
+otified
+>   *		  that this driver is done using the dmabuf for now.
+> - * @prepare:	called every time the buffer is passed from userspace to th=
+e
+> - *		driver, useful for cache synchronisation, optional.
+> - * @finish:	called every time the buffer is passed back from the driver
+> - *		to the userspace, also optional.
+>   * @vaddr:	return a kernel virtual address to a given memory buffer
+>   *		associated with the passed private structure or NULL if no
+>   *		such mapping exists.
+> @@ -484,7 +484,6 @@ struct vb2_buf_ops {
+>   *		caller. For example, for V4L2, it should match
+>   *		the types defined on &enum v4l2_buf_type.
+>   * @io_modes:	supported io methods (see &enum vb2_io_modes).
+> - * @alloc_devs:	&struct device memory type/allocator-specific per-plane =
+device
+>   * @dev:	device to use for the default allocation context if the driver
+>   *		doesn't fill in the @alloc_devs array.
+>   * @dma_attrs:	DMA attributes to use for the DMA.
+> @@ -550,6 +549,7 @@ struct vb2_buf_ops {
+>   *		@start_streaming can be called. Used when a DMA engine
+>   *		cannot be started unless at least this number of buffers
+>   *		have been queued into the driver.
+> + * @alloc_devs:	&struct device memory type/allocator-specific per-plane =
+device
+>   */
+>  /*
+>   * Private elements (won't appear at the uAPI book):
+> @@ -571,6 +571,8 @@ struct vb2_buf_ops {
+>   * @waiting_for_buffers: used in poll() to check if vb2 is still waiting=
+ for
+>   *		buffers. Only set for capture queues if qbuf has not yet been
+>   *		called since poll() needs to return %EPOLLERR in that situation.
+> + * @waiting_in_dqbuf: set whenever vb2_queue->lock is released while wai=
+ting for
+> + *		a buffer to arrive so that -EBUSY can be returned when appropriate
+>   * @is_multiplanar: set if buffer type is multiplanar
+>   * @is_output:	set if buffer type is output
+>   * @copy_timestamp: set if vb2-core should set timestamps
 
 
