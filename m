@@ -1,141 +1,148 @@
-Return-Path: <linux-media+bounces-3358-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3359-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EB0827D99
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 04:55:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B751A827DCB
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 05:15:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5EAF8B22545
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 03:55:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DEC0D1C234C7
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 04:15:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F11284699;
-	Tue,  9 Jan 2024 03:55:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B5C2611B;
+	Tue,  9 Jan 2024 04:15:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m+lJpblZ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ksbCsVGY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DE94418
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 03:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704772547; x=1736308547;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=x8STvpFIG83BevQ8zQ/CINCFxsnPRiVepaYwW/uI8cQ=;
-  b=m+lJpblZNe3jOZLQkSkOLyPwah2RZb+nnfB4d2fswNcjZRu1Z670/Ll9
-   bh8fvkORrrQ3Jx0+XxzpfUThuOa0VcopBMZ06t4sRUbMMUdf9MoEQReKi
-   MxtGnm+4sC1v6/7+EiC1XyVb3dt9Kou3w3CE7MASsIYnu9ZsFcwJMTki6
-   /VT4vQYJ9cS1aZe41hH00G+9GgkM10A60k0sPgEPB7Y6xz9hHuSSaugHB
-   BXsIY/RSorGgPWmwn0TrCoZhQJkxK8QTgpBFnX7Z43aK4ayJgwBWwtOz4
-   VFimz5NMHGb4DApvG6jZrg70pMm0yMop+Y+LOmJ/s6XfNa4aw7zEqUkT3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="429261625"
-X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="429261625"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 19:55:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="905011226"
-X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="905011226"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by orsmga004.jf.intel.com with ESMTP; 08 Jan 2024 19:55:31 -0800
-Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
-To: Hans de Goede <hdegoede@redhat.com>, Hans de Goede <hans@hansg.org>,
- bingbu.cao@intel.com, linux-media@vger.kernel.org,
- sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc: andriy.shevchenko@linux.intel.com, ilpo.jarvinen@linux.intel.com,
- andreaskleist@gmail.com, claus.stovgaard@gmail.com, tfiga@chromium.org,
- senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
- tian.shu.qiu@intel.com, hongju.wang@intel.com
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
- <2d3a85fe-dfb9-52e1-fe1b-e0b9a5ac14ab@linux.intel.com>
- <445d7cbf-8d68-4b55-a252-7187973d63c4@redhat.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <d554d5e2-d586-1bf8-b11c-bcd32fa01ab4@linux.intel.com>
-Date: Tue, 9 Jan 2024 11:51:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9529013AFB
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 04:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-28bcc273833so2345666a91.1
+        for <linux-media@vger.kernel.org>; Mon, 08 Jan 2024 20:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704773726; x=1705378526; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JnmP9HCW0xFGvAZ+PSrTWWszc0HwZwOSM+5mszcUNAM=;
+        b=ksbCsVGYZ5Djhduu9K5DQ5WbC00hIJo1XMogbR+xXh1mcPIxS6tcrz00O3nNDdvbcq
+         eUeV6SlLxE8pYFv/4iZPc9ddJnSVluZUqplKqowGHwtfdyBpcP81GdtSj4V2xMDpMsIJ
+         S7+hni+qABt8d0hSx5G9M5FKDq40rqM8b4FRg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704773726; x=1705378526;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JnmP9HCW0xFGvAZ+PSrTWWszc0HwZwOSM+5mszcUNAM=;
+        b=Qp5MSOxTFIBSU2xJ0Xv2JXq75Mi6ig4Ak7MigVoooBM8HPU6xUjGDAQDO5ttksn61E
+         +K/DAvC1TXqneqWUvbJ6g4I3IlWxja3DUrnoj2T+hA5kdGgcaT/Jw1im6gQVUG0S+iga
+         8UkQiCpTs/MugA4mixpRD7hV+OS9bQOSqGZleBKEXGzz4xSR3lDKAWYUXQ/BcjtH9PPa
+         1SbFb9UQ4AenTUmAyXkU/WUsapqLuKIGmBjPexNZeenwdj7xd+lJD2QeTYSgoYOJuRQ9
+         YxukKzo3za2xfvYGjEwNchREa6pV7Q61Op1GaVNr+QjGkqnm2DGfXeqlJ+QYL3bqxQwj
+         6UIQ==
+X-Gm-Message-State: AOJu0Yy/XsNLv01FWboc00zsWCRiLBV67i7X7Hn09KdBj756BzZDt/Gu
+	K2RdFQpAbu4+AGfChaF8JEuBUjzp2Nl4
+X-Google-Smtp-Source: AGHT+IF3uJr4ZPBFgHi2TnCaHhnHGSyb45pHnnaiRhbevj48cA0aVAd55nYw45YSBxFM48EXSUaCAQ==
+X-Received: by 2002:a17:902:7d88:b0:1d0:737d:2ae5 with SMTP id a8-20020a1709027d8800b001d0737d2ae5mr4724686plm.87.1704773725815;
+        Mon, 08 Jan 2024 20:15:25 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:7b29:709a:867f:fec5])
+        by smtp.gmail.com with ESMTPSA id w8-20020a170902a70800b001d3dff2575fsm676499plq.52.2024.01.08.20.15.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 20:15:25 -0800 (PST)
+From: Hidenori Kobayashi <hidenorik@chromium.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Yong Zhi <yong.zhi@intel.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Hidenori Kobayashi <hidenorik@chromium.org>,
+	stable@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: staging: ipu3-imgu: Set fields before media_entity_pads_init()
+Date: Tue,  9 Jan 2024 13:14:59 +0900
+Message-ID: <20240109041500.2790754-1-hidenorik@chromium.org>
+X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <445d7cbf-8d68-4b55-a252-7187973d63c4@redhat.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+The imgu driver fails to probe because it does not set the pad's flags
+before calling media_entity_pads_init(). Fix the initialization order so
+that the driver probe succeeds. The ops initialization is also moved
+together for readability.
 
-Hans,
+Fixes: a0ca1627b450 ("media: staging/intel-ipu3: Add v4l2 driver based on media framework")
+Cc: <stable@vger.kernel.org> # 6.7
+Signed-off-by: Hidenori Kobayashi <hidenorik@chromium.org>
+---
+Changes in v2:
+- Add Fixes tag and revise commit message (Thanks Dan!)
+- Link to v1: https://lore.kernel.org/lkml/20231228093926.748001-1-hidenorik@chromium.org
+---
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-On 1/8/24 10:23 PM, Hans de Goede wrote:
-> Hi Bingbu,
-> 
-> On 1/8/24 05:07, Bingbu Cao wrote:
->> Hans,
->>
->> On 11/8/23 7:59 PM, Hans de Goede wrote:
->>> Hi Bingbu,
->>>
->>> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
->>>> From: Bingbu Cao <bingbu.cao@intel.com>
->>>>
->>>> This patch series adds a driver for Intel IPU6 input system.
->>>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
->>>> device which can be found in some Intel Client Platforms. User can use
->>>> IPU6 to capture images from MIPI camera sensors.
->>>>
->>>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
->>>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
->>>> the driver sets up a page table to allow IPU6 DMA to access the system
->>>> memory.
->>>>
->>>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
->>>
->>> I have been testing this on a TigerLake system, a Dell Latitude 9420
->>> with ov01a1s and the packed 10 bit bayer pixel fmt: V4L2_PIX_FMT_SGRBG10P,
->>> which libcamera together with (WIP) software debayer support picks
->>> by default does not work. There are many many CSI errors in dmesg
->>> and only the first 10 or so lines of the image show.
->>>
->>> Disabling the packed format by removing it from ipu6_isys_pfmts[],
->>> making libcamera pick the unpacked (every 10 bits per pixel data
->>> stored in a 16 bit word in output buffer) fixes this.
->>>
->>> Are the packed bayer formats supposed to work on Tiger Lake, or
->>> is this a known issue which Intel's own userspace stack avoids
->>> by always picking the unpacked format ?
->>
->> I just tested the packed bayer on my device (ov01a10) and did not
->> observe the problems like yours, could you share the isys kernel log?
-> 
-> Was this on a device with a Tiger Lake CPU / plain ipu6 (not ipu6ep) ?
-
-Sorry, it's ipu6ep.
-
-I have no TigerLake so far.
-The difference between ipu6 and ipu6ep is the MIPI CSI-2 D-PHY. But it
-should not have no impact on the packed format.
-
-Could you share the debug log on TigerLake?
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index a66f034380c0..3df58eb3e882 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -1069,6 +1069,11 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
+ 
+ 	/* Initialize subdev media entity */
++	imgu_sd->subdev.entity.ops = &imgu_media_ops;
++	for (i = 0; i < IMGU_NODE_NUM; i++) {
++		imgu_sd->subdev_pads[i].flags = imgu_pipe->nodes[i].output ?
++			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
++	}
+ 	r = media_entity_pads_init(&imgu_sd->subdev.entity, IMGU_NODE_NUM,
+ 				   imgu_sd->subdev_pads);
+ 	if (r) {
+@@ -1076,11 +1081,6 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 			"failed initialize subdev media entity (%d)\n", r);
+ 		return r;
+ 	}
+-	imgu_sd->subdev.entity.ops = &imgu_media_ops;
+-	for (i = 0; i < IMGU_NODE_NUM; i++) {
+-		imgu_sd->subdev_pads[i].flags = imgu_pipe->nodes[i].output ?
+-			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+-	}
+ 
+ 	/* Initialize subdev */
+ 	v4l2_subdev_init(&imgu_sd->subdev, &imgu_subdev_ops);
+@@ -1177,15 +1177,15 @@ static int imgu_v4l2_node_setup(struct imgu_device *imgu, unsigned int pipe,
+ 	}
+ 
+ 	/* Initialize media entities */
++	node->vdev_pad.flags = node->output ?
++		MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
++	vdev->entity.ops = NULL;
+ 	r = media_entity_pads_init(&vdev->entity, 1, &node->vdev_pad);
+ 	if (r) {
+ 		dev_err(dev, "failed initialize media entity (%d)\n", r);
+ 		mutex_destroy(&node->lock);
+ 		return r;
+ 	}
+-	node->vdev_pad.flags = node->output ?
+-		MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
+-	vdev->entity.ops = NULL;
+ 
+ 	/* Initialize vbq */
+ 	vbq->type = node->vdev_fmt.type;
 -- 
-Best regards,
-Bingbu Cao
+2.43.0.472.g3155946c3a-goog
+
 
