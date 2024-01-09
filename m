@@ -1,172 +1,159 @@
-Return-Path: <linux-media+bounces-3366-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3367-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A6B82800A
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 09:04:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B871828018
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 09:10:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CFD1E1F21D80
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 08:04:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0AA4AB260DB
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 08:10:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59E7911CAF;
-	Tue,  9 Jan 2024 08:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6661111CAF;
+	Tue,  9 Jan 2024 08:09:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q1k6BMXg"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ARGuJp1y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4323AC127
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 08:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5572a9b3420so6206284a12.1
-        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 00:04:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8669522091
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 08:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6db05618c1fso892887b3a.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 00:09:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704787468; x=1705392268; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2i0SBu6zK60taCvvvUGt/J20VuCQ3I5RN4bCAKsZhKk=;
-        b=q1k6BMXg2K9F9Tp4OdqZSzBI0SA5pMQ/99XSUCTbA9sqqkO5uHX8uXVqtIvQfGt9a9
-         vjXKEJEGkG2Mzhp4K5pOcIt6RyZQlpjDpvPiVelhGjoQLfMf5tNI39zhSfLEOxk1C7n7
-         1lRojHkJLs7MaoaDGH3U3mO4AWvCt/jjXWrMx5x3izMH0i7UcS/NMem/j2KIx/au+NJm
-         G2L/iZU8cjmiCjFn9RLVnNl17LUqrAK7R2CeAVMFENcqjF930zrSTQ+U8FsoHWARtERP
-         KlRr7KS22qZZfHlbPHgKYaQWw8FkyB29opltHl4r8z/AV6JaDIXQRuji02P+qj22auRl
-         xtNA==
+        d=chromium.org; s=google; t=1704787794; x=1705392594; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7BTtnGyw1QeZICEXzNWj/b3uZp4Ky6rxO+ouhWgqdio=;
+        b=ARGuJp1yr2WRY/2avNDJ94eF1kyXOMlHE9o0Kswd2CUq8/+mbhLRjSYKSv30UpjDfO
+         8R6/ySIz+UOYP9/TjKGD0fRx1+K8NN2tGf1h037HW+iY5YwGead4XlyXpiCUN0uqr/C7
+         AgKdwvFf6vZOHcHkZ31I+4nYENGCGb9lZM4w8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704787468; x=1705392268;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2i0SBu6zK60taCvvvUGt/J20VuCQ3I5RN4bCAKsZhKk=;
-        b=TjnAdwos0tS3diDynko+unKyCFiuL9smSJXHsV7m1ZosxsB4s0ArDPcpTNBIjZ8ofX
-         K+NbVwG7kZcTFyM6ZEJBaAAVwZ21ec0nS4Zc2WeqxnYCiLixMejMgvFpbSundBLZXS6s
-         6I1KrDjY1k3KcSiigT2EtC12lUdfSc5AVofGBdKMz0xg0Bqp5npweO+uSfs++yU1c4j5
-         dgNdCHxYJZHtN7xVTGACiesGAWBJeEEtZgPqKmjnIWoYC3Lz9LeRw8tzZjgjg7hgN32q
-         vJqtKicZSTBRbsDwrIyf/dKxvfR6peU3nE7qhlQMPWq/g4aNqcYPi5oDAISP8Z7nCo5h
-         nPfQ==
-X-Gm-Message-State: AOJu0YzrjK/VgdYpN45v9TiKizBxWWz099RdfL1cF8jVOnYEiVGtBRx9
-	yqiAqdlRjqqEXRzN2FZxHqukD4VMjB9kKw==
-X-Google-Smtp-Source: AGHT+IEvgrg00JkVeIBsstHuk5YOGI5ERdKGo02b+eJjoN6pwTNO5Tgbf1ue791ZI88lYeTQ+7Vnqw==
-X-Received: by 2002:a50:d7d6:0:b0:557:8077:efe4 with SMTP id m22-20020a50d7d6000000b005578077efe4mr336009edj.27.1704787468581;
-        Tue, 09 Jan 2024 00:04:28 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id r23-20020a056402035700b0055298b38768sm652462edw.80.2024.01.09.00.04.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 00:04:27 -0800 (PST)
-Message-ID: <32df74f3-33bf-42fe-a295-fc5500906318@linaro.org>
-Date: Tue, 9 Jan 2024 09:04:24 +0100
+        d=1e100.net; s=20230601; t=1704787794; x=1705392594;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7BTtnGyw1QeZICEXzNWj/b3uZp4Ky6rxO+ouhWgqdio=;
+        b=X4hO9yFDp96iAguHgSnV8YFs5ZyamwFM4t3ibCooMYj0sF0veJWIn0VYgXg7xwTSPV
+         PSMW/xd7/d1Na+Vls7V0ZTUsSV8BpI3B5ruB3Tc9iWPMT/C7D7EmBf1JnfY4jC8GNV2I
+         YNwDn65be7vP/P2Y7BUUVJPfHyZcv9TQ9hDgzofrxnymidlNluNxRWwxVMWVAazvJwKj
+         JhkPB6dR/MKjUssPFPRq70hO15xjwqubId1xP/Hz60F+jdyHh2P1iBbamks4UVeER5b3
+         lHSSj6H/YuhpwNvtXXOpKyUHezNPKrVsq7TpexlVUNTAyRy+qHJKtBLErNw97cVJ4CRb
+         F5hg==
+X-Gm-Message-State: AOJu0YxxF6V23ztSI3N4r3RDFsFYYGPx42wlN8YcXjOuWEmj+YsgZ3jF
+	RYVxuBFJW7gHtXqNsGEsAp1dmU3iZe0r
+X-Google-Smtp-Source: AGHT+IFmkVNBkgtp8ul2fu9yxEhoX7/JSX9fBb/VBWL3OB6woWAa7wzZyq3DfGOV+wd/NLYCkT9E0w==
+X-Received: by 2002:a05:6a20:918a:b0:199:f43d:6cde with SMTP id v10-20020a056a20918a00b00199f43d6cdemr513287pzd.67.1704787793820;
+        Tue, 09 Jan 2024 00:09:53 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:7b29:709a:867f:fec5])
+        by smtp.gmail.com with ESMTPSA id q24-20020a62e118000000b006d9a6953f08sm1072963pfh.103.2024.01.09.00.09.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 00:09:53 -0800 (PST)
+From: Hidenori Kobayashi <hidenorik@chromium.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Yong Zhi <yong.zhi@intel.com>
+Cc: Hidenori Kobayashi <hidenorik@chromium.org>,
+	stable@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] media: staging: ipu3-imgu: Set fields before media_entity_pads_init()
+Date: Tue,  9 Jan 2024 17:09:09 +0900
+Message-ID: <20240109080910.2859780-1-hidenorik@chromium.org>
+X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: i2c: Add GC08A3 image sensor driver
-Content-Language: en-US
-To: =?UTF-8?B?WmhpIE1hbyAo5q+b5pm6KQ==?= <zhi.mao@mediatek.com>
-Cc: "heiko@sntech.de" <heiko@sntech.de>,
- "gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "yunkec@chromium.org" <yunkec@chromium.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?=
- <shengnan.wang@mediatek.com>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
- =?UTF-8?B?WWF5YSBDaGFuZyAo5by16ZuF5riFKQ==?= <Yaya.Chang@mediatek.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "bingbu.cao@intel.com" <bingbu.cao@intel.com>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "10572168@qq.com" <10572168@qq.com>,
- "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
- "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "macromorgan@hotmail.com" <macromorgan@hotmail.com>,
- "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-References: <20231207052016.25954-1-zhi.mao@mediatek.com>
- <20231207052016.25954-2-zhi.mao@mediatek.com>
- <ZXGtqwjYruBQVaUr@kekkonen.localdomain>
- <4021c964afebc502860571b1253423fab91b20f1.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <4021c964afebc502860571b1253423fab91b20f1.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 09/01/2024 04:03, Zhi Mao (毛智) wrote:
-> On Thu, 2023-12-07 at 11:34 +0000, Sakari Ailus wrote:
-> External email : Please do not click links or open attachments until you have verified the sender or the content.
-> 
-> Hi Zhi,
-> 
-> 
-> Thanks for the patch and please see my comments below.
+The imgu driver fails to probe with the following message because it
+does not set the pad's flags before calling media_entity_pads_init().
 
-"Hi Zhi"? Are you responding to yourself?
+[   14.596315] ipu3-imgu 0000:00:05.0: failed initialize subdev media entity (-22)
+[   14.596322] ipu3-imgu 0000:00:05.0: failed to register subdev0 ret (-22)
+[   14.596327] ipu3-imgu 0000:00:05.0: failed to register pipes (-22)
+[   14.596331] ipu3-imgu 0000:00:05.0: failed to create V4L2 devices (-22)
 
-Best regards,
-Krzysztof
+Fix the initialization order so that the driver probe succeeds. The ops
+initialization is also moved together for readability.
+
+Fixes: a0ca1627b450 ("media: staging/intel-ipu3: Add v4l2 driver based on media framework")
+Cc: <stable@vger.kernel.org> # 6.7
+Cc: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Hidenori Kobayashi <hidenorik@chromium.org>
+---
+Changes in v3:
+- Add error output to commit message (Thanks again Dan!)
+- Link to v2: https://lore.kernel.org/lkml/20240109041500.2790754-1-hidenorik@chromium.org
+
+Changes in v2:
+- Add Fixes tag and revise commit message (Thanks Dan!)
+- Link to v1: https://lore.kernel.org/lkml/20231228093926.748001-1-hidenorik@chromium.org
+---
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index a66f034380c0..3df58eb3e882 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -1069,6 +1069,11 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
+ 
+ 	/* Initialize subdev media entity */
++	imgu_sd->subdev.entity.ops = &imgu_media_ops;
++	for (i = 0; i < IMGU_NODE_NUM; i++) {
++		imgu_sd->subdev_pads[i].flags = imgu_pipe->nodes[i].output ?
++			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
++	}
+ 	r = media_entity_pads_init(&imgu_sd->subdev.entity, IMGU_NODE_NUM,
+ 				   imgu_sd->subdev_pads);
+ 	if (r) {
+@@ -1076,11 +1081,6 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 			"failed initialize subdev media entity (%d)\n", r);
+ 		return r;
+ 	}
+-	imgu_sd->subdev.entity.ops = &imgu_media_ops;
+-	for (i = 0; i < IMGU_NODE_NUM; i++) {
+-		imgu_sd->subdev_pads[i].flags = imgu_pipe->nodes[i].output ?
+-			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+-	}
+ 
+ 	/* Initialize subdev */
+ 	v4l2_subdev_init(&imgu_sd->subdev, &imgu_subdev_ops);
+@@ -1177,15 +1177,15 @@ static int imgu_v4l2_node_setup(struct imgu_device *imgu, unsigned int pipe,
+ 	}
+ 
+ 	/* Initialize media entities */
++	node->vdev_pad.flags = node->output ?
++		MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
++	vdev->entity.ops = NULL;
+ 	r = media_entity_pads_init(&vdev->entity, 1, &node->vdev_pad);
+ 	if (r) {
+ 		dev_err(dev, "failed initialize media entity (%d)\n", r);
+ 		mutex_destroy(&node->lock);
+ 		return r;
+ 	}
+-	node->vdev_pad.flags = node->output ?
+-		MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
+-	vdev->entity.ops = NULL;
+ 
+ 	/* Initialize vbq */
+ 	vbq->type = node->vdev_fmt.type;
+-- 
+2.43.0.472.g3155946c3a-goog
 
 
