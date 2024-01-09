@@ -1,143 +1,127 @@
-Return-Path: <linux-media+bounces-3398-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3399-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4DB8285F6
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 13:21:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1288285FD
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 13:27:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 767EA286F1E
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 12:21:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B933B2251C
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 12:27:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB9D7381B9;
-	Tue,  9 Jan 2024 12:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E5C3381C8;
+	Tue,  9 Jan 2024 12:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fo1PTc2I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821C9374FE
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 12:21:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8317EC43390;
-	Tue,  9 Jan 2024 12:21:37 +0000 (UTC)
-Message-ID: <93eaf63b-eeb3-44e3-8b5e-915b1c5ad1b4@xs4all.nl>
-Date: Tue, 9 Jan 2024 13:21:35 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B33381B5;
+	Tue,  9 Jan 2024 12:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5e54d40cca2so20951917b3.3;
+        Tue, 09 Jan 2024 04:26:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704803217; x=1705408017; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gHExOBZeQzLMe10P1MtL1lm7ZcxLLhDQdL774OYObu4=;
+        b=Fo1PTc2IDhdsq4esXI++VM0aTCipJBcKGofB7dmxq8v29qBwiyIhQT3cxhLAks8GCa
+         fzRoGu63b3RVM0G0LA905/q8rvjJkC9uwMPuhQvTkXxujE1u6th9CvC+4m6xXxOULq/0
+         kBbFaEomRaRjVhRWqdrOtGdsHaP88jZws2AiwOQVHAT1ZxPSveFEeMOC9akZwZJhweil
+         KezeXAwXko96zNNjiPrKC/aSbYRFl1r+3TE8/VmuHdStxSR2SQGtgqTZHfYNg2lmAUuA
+         9NNfY7IunApyqjufXM4/Ur/P9/SEVzHovRcdJ39C7H2YWy2jE0FLUgl9Ljz6ABlKkwmr
+         SvPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704803217; x=1705408017;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gHExOBZeQzLMe10P1MtL1lm7ZcxLLhDQdL774OYObu4=;
+        b=CXiMK+5SgOm8c6bYdw1Sjny37KUPoyD+fmfy6O53vFtHn8bIcE9abgXzNcV59VB1kZ
+         S2GvJv0C9GlqHowdI50ldpioRjoRX/BYQ3mr1uy7x9LEDDqddO0amp6pnXqnELlTrOCH
+         pifk/ZFR4CTwlZBAlwshcSnv0UsZG8x+nX5za6k9VwqOeP1lsf/MIc3SJmNryFa3UsV5
+         XRuHpz/tT6U65vjZshnx3tLBsXn5P8gzK/yS4kcKtYvJb3EmRwHq2Vua4aAIPANcHbCH
+         8EKj5nATXHeh6o7pwPK3+092lY/aYMWUs4Z/8UAJjvFw6YJSI9V7eaGKJylcamqSZEMz
+         ibWg==
+X-Gm-Message-State: AOJu0Ywv3I25NMwUNOD6vgLtNJLfemAV9zn9Osf6hDAepJUNQeTPgkaO
+	5kxxMmx/mXfLTBNLn+4kEw1uzz0XuU9+zANwWgw=
+X-Google-Smtp-Source: AGHT+IGbWLxD44dwNrHqztkSHd5S1WqM2KPhQ8rhb1YT/zYOkT+qh2Q8HRhGUjUsnBcEzmR1Y4jEEb+ZwU0YXb6+jOw=
+X-Received: by 2002:a81:bc0f:0:b0:5f6:f789:e044 with SMTP id
+ a15-20020a81bc0f000000b005f6f789e044mr1918585ywi.30.1704803217158; Tue, 09
+ Jan 2024 04:26:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: qv4l2 crashes if output device implements VIDIOC_ENUM_FRAMESIZES
-Content-Language: en-US
-To: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>,
- linux-media@vger.kernel.org
-References: <59383033-924d-45fb-a44f-7c274bb44517@gpxsee.org>
- <73b9fa71-20e3-4805-9feb-ef2692f4cb0a@xs4all.nl>
- <cde7a790-b24f-45d0-af33-5a92869ff10c@gpxsee.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <cde7a790-b24f-45d0-af33-5a92869ff10c@gpxsee.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231231073352.1929-1-yongsuyoo0215@gmail.com>
+In-Reply-To: <20231231073352.1929-1-yongsuyoo0215@gmail.com>
+From: YongSu Yoo <yongsuyoo0215@gmail.com>
+Date: Tue, 9 Jan 2024 21:26:45 +0900
+Message-ID: <CANXPkT4yURQ4YYxU+rAnvULNWBOhEe2KVLUBPmbQ-tKdtA=O-Q@mail.gmail.com>
+Subject: Re: [PATCH] [PATCH] media: dvb_ca_en50221: Fix a bug for detecting CI MODULE
+To: mchehab@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, yongsu.yoo@lge.com, v4bel@theori.io, 
+	0215yys@hanmail.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/9/24 12:46, Martin Tůma wrote:
-> Hi Hans,
-> 
-> On 09. 01. 24 11:43, Hans Verkuil wrote:
->> Hi Martin,
->>
->> On 1/9/24 11:17, Martin Tůma wrote:
->>> Hi,
->>> If a driver implements VIDIOC_ENUM_FRAMESIZES for a output device, qv4l2
->>> crashes in general-tab.cpp:2169 due to m_frameSize being 0. As all other
->>> usages of m_frameSize in the GeneralTab::updateFrameSize() function are
->>> guarded by "NULL checks" an obvious fix would be to guard the "addItem
->>> while cycle" as well. But maybe a better solution would be to add the
->>> frame size combobox to output devices as well. Or are the output devices
->>> not supposed to have frame sizes enumeration?
->>
->> You do not expect to see it for output devices. Those will typically use
->> VIDIOC_ENUMSTD or VIDIOC_ENUM_DV_TIMINGS. VIDIOC_ENUM_FRAMESIZES is something
->> that only makes sense for output devices if they do not support ENUMSTD or
->> ENUM_DV_TIMINGS, i.e. it has some very odd output hardware. In particular
->> vivid doesn't support this for the emulated video output.
->>
->> I don't think v4l2-compliance has a check for this. I think it should at
->> least issue a warning if the video output devices supports ENUM_FRAMESIZES
->> and also ENUMSTD or ENUM_DV_TIMINGS.
->>
->> In any case, qv4l2 shouldn't crash, so an initial fix should be to check
->> for m_frameSize being 0. A patch is welcome.
->>
-> 
-> Ok, I will add the check, test it with my current driver (see below) 
-> that triggers it and send a patch.
-> 
->> Which driver is this? I assume it is an out-of-tree driver, since I am
->> not aware of any mainline drivers that do this.
->>
-> 
-> I came across this when fiddling with our mgb4 driver. We have updated 
-> the FW to support YUV in addition to RGB and added independent timers 
-> for frame dropping (the current driver is "wrong" as it provides 
-> VIDIOC_G_PARM/VIDIOC_S_PARM with V4L2_CAP_TIMEPERFRAME but can not in 
-> fact set it with the original FW). The inputs in mgb4 have 
-> ENUM_FRAMESIZES and a request from a card user to add the callback to 
-> the outputs to be "symmetrical" with the inputs.
-> 
->  From what you wrote above I get the message that the "proper" way how 
-> to extend the output callbacks is rather to add ENUM_DV_TIMINGS (which 
-> is also missing, the driver implements it only for the inputs at the 
-> moment), but the question "what to do with ENUM_FRAMESIZES?" stays. I 
-> would like to either have it implemented for both the inputs/outputs or 
-> for none of them. And adding the callback to the output looks to me as a 
-> better solution than to remove it from the input as some people already 
-> use it. But to call this a bug and remove it is also ok for me (the 
-> driver will at least work with the current, unpatched, version of qv4l2).
+Dear All
 
-Your hardware is rather odd :-) so let me describe how it is supposed
-to work for 'normal' capture hardware first:
+Do you know how can I change
+from [PATCH] [PATCH] media: dvb_ca_en50221: Fix a bug for dete...
+to [PATCH] media: dvb_ca_en50221: Fix a bug for dete... ?
 
-ENUM_FRAMESIZES is typically only supported for sensor inputs since sensors
-usually have a discrete set of sizes that they support. And you also need
-that since you typically explicitly set the size that you want from the
-sensor, so you need to know what is supported.
-
-For video capture it is different: the video source typically decides what
-size to transmit. For analog video through e.g. S-Video that's typically
-PAL or NTSC, so for that you need ENUMSTD and QUERYSTD ioctls to handle that.
-For e.g. HDMI or similar interfaces it is the DV Timings API that you need.
-
-In both cases you do not have any control over what video size the source
-will transmit, you have to detect it with the QUERYSTD or QUERY_DV_TIMINGS
-ioctls.
-
-So ENUM_FRAMESIZES makes no sense for standard analog or digital video
-capture devices.
-
-For output video it is similar: for analog video you just set the standard
-(e.g. PAL or NTSC), and that defines the size automatically. For e.g. HDMI
-you set it as well based on the capabilities reported by the display through
-the EDID. Again, ENUM_FRAMESIZES makes no sense, this is driven by the
-analog or digital video timings.
-
-ENUM_FRAMESIZES for something that is not a sensor would only make sense
-if it is some specialized interface that supports a limited set of sizes
-and has no concept of PAL/NTSC or Digital Video Timings.
-
-Regards,
-
-	Hans
-
-> 
-> M.
-> 
->> Regards,
->>
->> 	Hans
->>
-> 
-> 
-
+2023=EB=85=84 12=EC=9B=94 31=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 4:33, =
+<yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> From: Yongsu yoo <yongsuyoo0215@gmail.com>
+>
+> Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
+>
+> In source/drivers/media/dvb-core/dvb_ca_en50221.c, if the CA_RESET
+> ioctl is called, the dvb_ca_en50221_slot_shutdown will also be called.
+> Inside of the dvb_ca_en50221_slot_shutdown,
+> the ca->slot_info[slot].slot_state will become DVB_CA_SLOTSTATE_NONE.
+> In the most of cases, the ca->slot_info[slot].slot_state will quickly
+> becomes restored to other states by the subsequent operations of the
+> thread dvb_ca_en50221_thread_state_machine.
+> But in some rare cases, when the CA_GET_SLOT_INFO ioctl is immediately
+> called after the CA_RESET ioctl is called, the
+> the ca->slot_info[slot].slot_state can still remains at
+> DVB_CA_SLOTSTATE_NONE, and this causes CA_GET_SLOT_INFO ioctl not to
+> return CA_CI_MODULE_PRESENT as info->flags even if CA_CI_MODULE is
+> really connected on TV. This means that the CA_GET_SLOT_INFO ioctl
+> does not return right informtion. This is a Bug. We fix this bug.
+> ---
+>  drivers/media/dvb-core/dvb_ca_en50221.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-=
+core/dvb_ca_en50221.c
+> index baf64540dc00..8d37c3c13227 100644
+> --- a/drivers/media/dvb-core/dvb_ca_en50221.c
+> +++ b/drivers/media/dvb-core/dvb_ca_en50221.c
+> @@ -1403,6 +1403,10 @@ static int dvb_ca_en50221_io_do_ioctl(struct file =
+*file,
+>                     (sl->slot_state !=3D DVB_CA_SLOTSTATE_INVALID)) {
+>                         info->flags =3D CA_CI_MODULE_PRESENT;
+>                 }
+> +               if ((sl->slot_state =3D=3D DVB_CA_SLOTSTATE_NONE) &&
+> +                   (sl->camchange_type =3D=3D DVB_CA_EN50221_CAMCHANGE_I=
+NSERTED)) {
+> +                       info->flags =3D CA_CI_MODULE_PRESENT;
+> +               }
+>                 if (sl->slot_state =3D=3D DVB_CA_SLOTSTATE_RUNNING)
+>                         info->flags |=3D CA_CI_MODULE_READY;
+>                 break;
+> --
+> 2.17.1
+>
 
