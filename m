@@ -1,47 +1,76 @@
-Return-Path: <linux-media+bounces-3355-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3356-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FD0827D54
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 04:27:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D60D827D57
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 04:28:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2553D1F23408
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 03:27:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 281D51F22F3C
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 03:28:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B10D4436;
-	Tue,  9 Jan 2024 03:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2562B4418;
+	Tue,  9 Jan 2024 03:27:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mEQoqncy"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GXR7boh0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD18259D;
-	Tue,  9 Jan 2024 03:27:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 130CFC433C7;
-	Tue,  9 Jan 2024 03:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704770852;
-	bh=oadwz3FDt1BgkOoIeSZJAkWVz6I1yACFQHKwE2eF30s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mEQoqncykXWh5WhLRGHRsF4KdRp0/hgkzb36kwTxhoIsKZQkDBjOwmCcMSnAhYYIw
-	 OpmAkvLPdNpHsZqkOQ1/38boNFVVUzs7iIEGwLvYegjuTZ4NiX2R0kgsR93uQUYHCW
-	 Sw8rxDrS5qGUvFDgGZvw3BBcMKnNMiiWJ25f5QHBFRT/FbF0mhQp4tZ8jKUVl/Wldi
-	 M0E52nYIpRGH9nzQecsLjll+KG4+9/sTW1K2E5CMFJ0K6N+bWgYi8QxFo1TavVEvHD
-	 xKpZOGhR7YCBNkmLJsBqc/VQC7j6kqnPcZctbb7DB/WjMOaB0GgzWLlodAallz48gW
-	 Y7UzFn5Z9hMYg==
-Received: (nullmailer pid 2583107 invoked by uid 1000);
-	Tue, 09 Jan 2024 03:27:31 -0000
-Date: Mon, 8 Jan 2024 20:27:31 -0700
-From: Rob Herring <robh@kernel.org>
-To: Eugen Hristev <eugen.hristev@collabora.com>
-Cc: bin.liu@mediatek.com, matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 1/2] dt-bindings: media: mediatek-jpeg-encoder: change
- max ioomus count
-Message-ID: <20240109032731.GA2578937-robh@kernel.org>
-References: <20231227130812.148914-1-eugen.hristev@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533856124
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 03:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-28be8ebcdc1so1561053a91.0
+        for <linux-media@vger.kernel.org>; Mon, 08 Jan 2024 19:27:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704770869; x=1705375669; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PXL4Ps3qf8k5Z/Ui1IqX2W2Ns+rNuQpEvgdkOPDwzLU=;
+        b=GXR7boh0iZBGxwgnd//NnkSNimTCzv2aMx9n3eRuvMufloVy6ayrFXua80W2rRuhd7
+         0c279U17OBlpz8UONaVojKk+kL+WaJlkJSTuwlGrQ+7vWn6oh5TMUKJlAkKJlD4QoALv
+         TFTMPAc5Tjdu6STHNKnnO9VLrnCGtGZqpNkkc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704770869; x=1705375669;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PXL4Ps3qf8k5Z/Ui1IqX2W2Ns+rNuQpEvgdkOPDwzLU=;
+        b=j5H9ZJnvVakfXjvEYrdDu3U/wCEdpTXlChaOT7Ko2/0zxzdvalfloUlkmd1S1ya8B3
+         v1sMrKH9ujlWcLEouYYQT19DIIU2y+L5Svok73tBcrVdliQdF0d0x68CRKOsbrmeXAoS
+         /0DFYcrfwu909whzJljz4S61I0p5UaAS1U4HvHEn+DV/CNtLapHv1BZHEblFCkdLl8Ls
+         I4G8NiODQKSgRH1FEhF4SBycnm7K5328Wg6iteUUjdvYPZ8jazRG5IxC6hrnhKfeF460
+         F6mhwvYITtyb+JmjIkjlyTpNoX08j+RnmxOs+Sa21r+75tH5YI+MTlPbd6JZHZxoDmKG
+         L6Zw==
+X-Gm-Message-State: AOJu0YykuJjbToGm14HO4JAfcXpg3Tf/W0RjNF5ZsQisIq28BcCYJZZ8
+	KaWTwR8E1AZAHp8Bw0TmJAuCs4O07aPT
+X-Google-Smtp-Source: AGHT+IGq0vxegoITtf8sqwZEvUiMPQ2IoL2L4oArtuldYRvg12mALaxEVlIjwvqFKKtDMEPLanKrjQ==
+X-Received: by 2002:a17:90a:b38c:b0:28c:f509:ed14 with SMTP id e12-20020a17090ab38c00b0028cf509ed14mr1813274pjr.15.1704770869495;
+        Mon, 08 Jan 2024 19:27:49 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:7b29:709a:867f:fec5])
+        by smtp.gmail.com with ESMTPSA id nd12-20020a17090b4ccc00b0028ce9c709e4sm7238276pjb.26.2024.01.08.19.27.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 19:27:49 -0800 (PST)
+Date: Tue, 9 Jan 2024 12:27:47 +0900
+From: Hidenori Kobayashi <hidenorik@chromium.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: staging: ipu3-imgu: Set fields before
+ media_entity_pads_init()
+Message-ID: <20240109032747.64nnee5qo5qyuply@google.com>
+References: <20231228093926.748001-1-hidenorik@chromium.org>
+ <27f1c487-78cc-4e56-ba79-1434aba131fd@moroto.mountain>
+ <20240105021856.wpzmwtyzxzqfznrp@google.com>
+ <a6f9ff72-421a-42c6-b24a-3dbf5a55e631@moroto.mountain>
+ <ZZu5ech4h2SSyZ1D@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,18 +79,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231227130812.148914-1-eugen.hristev@collabora.com>
+In-Reply-To: <ZZu5ech4h2SSyZ1D@kekkonen.localdomain>
 
-On Wed, Dec 27, 2023 at 03:08:11PM +0200, Eugen Hristev wrote:
-> MT8186 has 4 iommus in the list, to cope with this situation, adjust
-> the maxItems to 4 (instead of previous 2).
-> Add also minItems as 1 since iommus are mandatory, to avoid warning
-> on the example.
+Hi Dan, Sakari,
 
-maxItems alone means minItems is the same size. If IOMMU is required, 
-then 'required' is where that is defined. Is there a case where 1 IOMMU 
-is valid? If so, what h/w has this case.
+On Mon, Jan 08, 2024 at 08:59:37AM +0000, Sakari Ailus wrote:
+> Hi Dan, Hidenori,
+> 
+> On Fri, Jan 05, 2024 at 10:34:20AM +0300, Dan Carpenter wrote:
+> > Hm...  I don't know either.  Wait for a day and see if anyone else has
+> > an opinion then listen to your gut and resend with whatever your gut
+> > says?
+> 
+> The suggested commit message seems good to me, the Fixes: line is
+> important. Thanks for digging this up! The patch should go to v6.7, too, so
+> please add Cc: stable (for v6.7).
 
-Rob
+Thanks for the comments! I'll send v2 with the revised commit message,
+with Cc: stable.
 
+Hidenori
 
