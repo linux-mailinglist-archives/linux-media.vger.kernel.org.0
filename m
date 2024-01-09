@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-3365-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3366-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52263828001
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 09:01:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A6B82800A
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 09:04:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B54051F2703B
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 08:01:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CFD1E1F21D80
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jan 2024 08:04:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89012BE66;
-	Tue,  9 Jan 2024 08:01:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59E7911CAF;
+	Tue,  9 Jan 2024 08:04:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BjDYCR5k"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q1k6BMXg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7738D1F601
-	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 08:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4323AC127
+	for <linux-media@vger.kernel.org>; Tue,  9 Jan 2024 08:04:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-555f95cc2e4so2934428a12.3
-        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 00:01:36 -0800 (PST)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5572a9b3420so6206284a12.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Jan 2024 00:04:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704787295; x=1705392095; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1704787468; x=1705392268; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=f3XO5DB3PGTjxuxdHbpQfOFkjCrDikXFoyaY9Xd9GxA=;
-        b=BjDYCR5kx/Rn5M63YGx3mU6pPI1hidpi++WUxQJCPF04MzfSzuVM+3CPBvkKMZsb8T
-         fhjyV8bapoH0wdv7Acb7TLrso65AMP5QkoR5+wupEmGnY1DQgNnxR4tUcaWUjPW+BaKA
-         /DwIkH/XocNzU23IKJ0a4gZVP35nnuxuroH5bQf7yQU9wN1lkccrIH9E//YhKpMXvNfF
-         HfnZc62cZEN946IpCb9H/Pa62jh4NZA8JPuL3SYHXXEonqbXc2FGpNnqPasOeMiPykGJ
-         AsPMB/wGdohaDOGfCm5ZfUeVSfUn2seHV+oeVudA1xJJpRWYbUnUSrBIfjkBtTdDFAyA
-         ER0g==
+        bh=2i0SBu6zK60taCvvvUGt/J20VuCQ3I5RN4bCAKsZhKk=;
+        b=q1k6BMXg2K9F9Tp4OdqZSzBI0SA5pMQ/99XSUCTbA9sqqkO5uHX8uXVqtIvQfGt9a9
+         vjXKEJEGkG2Mzhp4K5pOcIt6RyZQlpjDpvPiVelhGjoQLfMf5tNI39zhSfLEOxk1C7n7
+         1lRojHkJLs7MaoaDGH3U3mO4AWvCt/jjXWrMx5x3izMH0i7UcS/NMem/j2KIx/au+NJm
+         G2L/iZU8cjmiCjFn9RLVnNl17LUqrAK7R2CeAVMFENcqjF930zrSTQ+U8FsoHWARtERP
+         KlRr7KS22qZZfHlbPHgKYaQWw8FkyB29opltHl4r8z/AV6JaDIXQRuji02P+qj22auRl
+         xtNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704787295; x=1705392095;
+        d=1e100.net; s=20230601; t=1704787468; x=1705392268;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f3XO5DB3PGTjxuxdHbpQfOFkjCrDikXFoyaY9Xd9GxA=;
-        b=N/jUgKw3Sp7Rx4mzsfInkd3X1E7LJzcy9GDxQ9k4YhoIla7CCsJvlhch/+qeGmD4Gy
-         rUEhRfmm1ycWdXmdINGbWWQltEwADPbqBhKiwm4iRxM9VcXmfWEAab74kSwWxZlJetkU
-         kdLPqJxH1qZEr8yP6sgxhX+SeHsY9lB3xYzssazJ4nDeQQvNwxQfQRoLNbpeUZOVqx+6
-         uiERSXW4eb7ObUm0c924ZrRImEeII4N56RWRxgkxjMlPjjSqTotrKByZbseP2yJACL98
-         W9xH5wlHn0n/IH2Zr06uHEnFclMVW718TUJcysHsngehG1f9nQeI5jdRrZMSmbsxSgqI
-         JOUQ==
-X-Gm-Message-State: AOJu0Yxdxw59C6myJs2nt1fbSmHyRdTiKZGrdziTp2uuUiItwYNqg39X
-	XDbrYguv6sGZaiMs6BUNbHruqCHU83vgiA==
-X-Google-Smtp-Source: AGHT+IF1GSToyQlrpEPofm9UvrPga/MigSZPc/25BkAiBCLnoWx+TRpXlU1tHbQMS8w47mIgUXx3Pw==
-X-Received: by 2002:a50:bae3:0:b0:557:a3c:9d45 with SMTP id x90-20020a50bae3000000b005570a3c9d45mr3106851ede.79.1704787294740;
-        Tue, 09 Jan 2024 00:01:34 -0800 (PST)
+        bh=2i0SBu6zK60taCvvvUGt/J20VuCQ3I5RN4bCAKsZhKk=;
+        b=TjnAdwos0tS3diDynko+unKyCFiuL9smSJXHsV7m1ZosxsB4s0ArDPcpTNBIjZ8ofX
+         K+NbVwG7kZcTFyM6ZEJBaAAVwZ21ec0nS4Zc2WeqxnYCiLixMejMgvFpbSundBLZXS6s
+         6I1KrDjY1k3KcSiigT2EtC12lUdfSc5AVofGBdKMz0xg0Bqp5npweO+uSfs++yU1c4j5
+         dgNdCHxYJZHtN7xVTGACiesGAWBJeEEtZgPqKmjnIWoYC3Lz9LeRw8tzZjgjg7hgN32q
+         vJqtKicZSTBRbsDwrIyf/dKxvfR6peU3nE7qhlQMPWq/g4aNqcYPi5oDAISP8Z7nCo5h
+         nPfQ==
+X-Gm-Message-State: AOJu0YzrjK/VgdYpN45v9TiKizBxWWz099RdfL1cF8jVOnYEiVGtBRx9
+	yqiAqdlRjqqEXRzN2FZxHqukD4VMjB9kKw==
+X-Google-Smtp-Source: AGHT+IEvgrg00JkVeIBsstHuk5YOGI5ERdKGo02b+eJjoN6pwTNO5Tgbf1ue791ZI88lYeTQ+7Vnqw==
+X-Received: by 2002:a50:d7d6:0:b0:557:8077:efe4 with SMTP id m22-20020a50d7d6000000b005578077efe4mr336009edj.27.1704787468581;
+        Tue, 09 Jan 2024 00:04:28 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id dn1-20020a05640222e100b00557e0e24abbsm657444edb.59.2024.01.09.00.01.31
+        by smtp.gmail.com with ESMTPSA id r23-20020a056402035700b0055298b38768sm652462edw.80.2024.01.09.00.04.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 00:01:34 -0800 (PST)
-Message-ID: <1da935b9-3b59-4b09-8883-decd13af2dc2@linaro.org>
-Date: Tue, 9 Jan 2024 09:01:31 +0100
+        Tue, 09 Jan 2024 00:04:27 -0800 (PST)
+Message-ID: <32df74f3-33bf-42fe-a295-fc5500906318@linaro.org>
+Date: Tue, 9 Jan 2024 09:04:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,16 +66,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: dt-bindings: media: i2c: Document GC08A3
- bindings
+Subject: Re: [PATCH 1/2] media: i2c: Add GC08A3 image sensor driver
 Content-Language: en-US
-To: =?UTF-8?B?WmhpIE1hbyAo5q+b5pm6KQ==?= <zhi.mao@mediatek.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
+To: =?UTF-8?B?WmhpIE1hbyAo5q+b5pm6KQ==?= <zhi.mao@mediatek.com>
 Cc: "heiko@sntech.de" <heiko@sntech.de>,
  "gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
- "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
  "yunkec@chromium.org" <yunkec@chromium.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
@@ -85,28 +81,31 @@ Cc: "heiko@sntech.de" <heiko@sntech.de>,
  "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
  "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
  =?UTF-8?B?WWF5YSBDaGFuZyAo5by16ZuF5riFKQ==?= <Yaya.Chang@mediatek.com>,
- "bingbu.cao@intel.com" <bingbu.cao@intel.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
  "jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
  "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
  "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "bingbu.cao@intel.com" <bingbu.cao@intel.com>,
  Project_Global_Chrome_Upstream_Group
  <Project_Global_Chrome_Upstream_Group@mediatek.com>,
  "conor+dt@kernel.org" <conor+dt@kernel.org>,
  "10572168@qq.com" <10572168@qq.com>,
- "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
  "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+ "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
  "linux-arm-kernel@lists.infradead.org"
  <linux-arm-kernel@lists.infradead.org>,
  "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
  "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "angelogioacchino.delregno@collabora.com"
  <angelogioacchino.delregno@collabora.com>,
- "macromorgan@hotmail.com" <macromorgan@hotmail.com>
+ "macromorgan@hotmail.com" <macromorgan@hotmail.com>,
+ "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
 References: <20231207052016.25954-1-zhi.mao@mediatek.com>
- <20231207052016.25954-3-zhi.mao@mediatek.com>
- <a7a9a204-cfd2-4510-890d-ce3f72d5fcda@linaro.org>
- <6b1b6970e715e4bcdb0d72adb8b895b836e34201.camel@mediatek.com>
+ <20231207052016.25954-2-zhi.mao@mediatek.com>
+ <ZXGtqwjYruBQVaUr@kekkonen.localdomain>
+ <4021c964afebc502860571b1253423fab91b20f1.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -152,27 +151,20 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <6b1b6970e715e4bcdb0d72adb8b895b836e34201.camel@mediatek.com>
+In-Reply-To: <4021c964afebc502860571b1253423fab91b20f1.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 09/01/2024 04:08, Zhi Mao (毛智) wrote:
-> On Thu, 2023-12-07 at 09:21 +0100, Krzysztof Kozlowski wrote:
+On 09/01/2024 04:03, Zhi Mao (毛智) wrote:
+> On Thu, 2023-12-07 at 11:34 +0000, Sakari Ailus wrote:
 > External email : Please do not click links or open attachments until you have verified the sender or the content.
 > 
-> On 07/12/2023 06:20, Zhi Mao wrote:
+> Hi Zhi,
 > 
->> Add YAML device tree binding for GC08A3 CMOS image sensor,
 > 
->> and the relevant MAINTAINERS entries.
-> 
->>
-> 
->> Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
-> 
+> Thanks for the patch and please see my comments below.
 
-What happened to this email? Why so many blank lines and no responses?
-Fix your email program.
+"Hi Zhi"? Are you responding to yourself?
 
 Best regards,
 Krzysztof
