@@ -1,95 +1,155 @@
-Return-Path: <linux-media+bounces-3482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3483-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20CC82A25D
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 21:36:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1DB82A39B
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 22:53:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 792E51F2276D
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 20:36:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB6AEB25FBB
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 21:53:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 462D64F1E0;
-	Wed, 10 Jan 2024 20:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BFA34F888;
+	Wed, 10 Jan 2024 21:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F6oTUxY3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF9C4B5BB
-	for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 20:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3604ae9e876so39665335ab.0
-        for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 12:36:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704918986; x=1705523786;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+p7GeMIt7RgYHRE3hg0nWVt+PaUhCpGiXFxdl2iGNEE=;
-        b=MCsxY7XrZ5/VPM8bPz4UAoRPV8Lfo110QkvmpaDZT0+Zc+bY3aW6Ws523/NOQPOQIs
-         Z93CCQ6aJKNY1urZzb55NjUlVnxBnWqQ/3C1sk1k4aNu0NqXznrZwYa3+AEqlfL8b+nI
-         giQdJY2uogSB7RzSZ73dV5u/DKEc7ZTSGuq/JNLjXqaebfanp12OaGneFtk1o3Q6wsEq
-         0lRmj4H3di3xb04SlgAhuXFKoAXrsohb/21PXO4n+Y+/YXiO41WW/7x6O6Y+aL9GmRWy
-         Knzm+BeX8IgIM0LpYGIppMRulcayBsAFQ424Mw3pcHgO5NOSvsLE298k8EBLGUHk1NNU
-         4g+A==
-X-Gm-Message-State: AOJu0YwY548yqdpfqEJKRTRyXNnM285n+kEZ3Gp0qEOo0AD2DpjGzxRP
-	OW+d0hPgioUVWaQaJpoDLgrJ9RMvJqdDXEE70EbQAVxLLnqW
-X-Google-Smtp-Source: AGHT+IGLlOxLjItJQrVX4A8bxrpwF+SodSX/V+F+ZdQxO96ocPjvHMBFGfDaO9ZafPjnyL0PBqqM7XfFuBrJkEnIa9XPTaZeTM8M
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1932C4F882;
+	Wed, 10 Jan 2024 21:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704923618; x=1736459618;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BvBYdkXHV9ZanHh3bS82LO02IRwGVYyQzTKuksk7rqI=;
+  b=F6oTUxY39JAFWmycFYBmkh2DUgSrGH/8YvvGAzTjJpAMYlu9ivqeVZgg
+   dgGWTig5qpmrwmhgXJc88VX9dTdZJmB0snCptm0SDg4iuDxsXwKHBByiV
+   vrIS55ymUsgAb0uGG4sX2mPrDTpEX9VdT6jlPG3DcpyfFBIoY05a/khpk
+   2lSXXdIF7XeBZCTUzm9IF9Vg2uYoIAj77aKOb3kXmPHRc2zxV/VwhVhHT
+   XRUS01WGRn6OeStJYMRl/zgMOzcmQegYWjUhO6giMyd2bNGCK4pFpUb8z
+   C9mafoSU07XOqHXqBCt4PKJyjqrN6TJXcmcyvQsLF20oJ7Lduw91ciF+2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="5432522"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="5432522"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 13:53:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="925788312"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="925788312"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Jan 2024 13:53:34 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNgVw-0007Wk-2I;
+	Wed, 10 Jan 2024 21:53:32 +0000
+Date: Thu, 11 Jan 2024 05:53:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vinay Varma <varmavinaym@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jacopo.mondi@ideasonboard.com, sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com,
+	Vinay Varma <varmavinaym@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: i2c: imx219: implement v4l2 selection api
+Message-ID: <202401110518.L0kScfAo-lkp@intel.com>
+References: <20240109035045.552097-1-varmavinaym@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c269:0:b0:35f:eceb:fc42 with SMTP id
- h9-20020a92c269000000b0035fecebfc42mr11700ild.3.1704918986854; Wed, 10 Jan
- 2024 12:36:26 -0800 (PST)
-Date: Wed, 10 Jan 2024 12:36:26 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000951e73060e9d627a@google.com>
-Subject: [syzbot] Monthly media report (Jan 2024)
-From: syzbot <syzbot+listf9a52addc2d8713c0b5e@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240109035045.552097-1-varmavinaym@gmail.com>
 
-Hello media maintainers/developers,
+Hi Vinay,
 
-This is a 31-day syzbot report for the media subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/media
+kernel test robot noticed the following build warnings:
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 13 issues are still open and 85 have been fixed so far.
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master next-20240110]
+[cannot apply to sailus-media-tree/streams linus/master v6.7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Some of the still happening issues:
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinay-Varma/media-i2c-imx219-implement-v4l2-selection-api/20240109-115310
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240109035045.552097-1-varmavinaym%40gmail.com
+patch subject: [PATCH v2] media: i2c: imx219: implement v4l2 selection api
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240111/202401110518.L0kScfAo-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401110518.L0kScfAo-lkp@intel.com/reproduce)
 
-Ref Crashes Repro Title
-<1> 855     Yes   general protection fault in ir_raw_event_store_with_filter
-                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
-<2> 108     Yes   inconsistent lock state in sync_timeline_debug_remove
-                  https://syzkaller.appspot.com/bug?extid=7dcd254b8987a29f6450
-<3> 100     Yes   WARNING in media_create_pad_link
-                  https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-<4> 86      Yes   WARNING in smsusb_start_streaming/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
-<5> 55      Yes   KASAN: use-after-free Read in send_packet
-                  https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
-<6> 3       Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
-                  https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401110518.L0kScfAo-lkp@intel.com/
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+All warnings (new ones prefixed by >>):
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+>> drivers/media/i2c/imx219.c:950:29: warning: variable 'fmt' set but not used [-Wunused-but-set-variable]
+     950 |         struct v4l2_mbus_framefmt *fmt;
+         |                                    ^
+   1 warning generated.
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
 
-You may send multiple commands in a single email message.
+vim +/fmt +950 drivers/media/i2c/imx219.c
+
+   937	
+   938	#define IMX219_ROUND(dim, step, flags)                \
+   939		((flags) & V4L2_SEL_FLAG_GE ?                 \
+   940			 round_up((dim), (step)) :            \
+   941			 ((flags) & V4L2_SEL_FLAG_LE ?        \
+   942				  round_down((dim), (step)) : \
+   943				  round_down((dim) + (step) / 2, (step))))
+   944	
+   945	static bool imx219_set_selection_crop(struct v4l2_subdev *sd,
+   946					      struct v4l2_subdev_state *sd_state,
+   947					      struct v4l2_subdev_selection *sel)
+   948	{
+   949		struct v4l2_rect *compose, *crop;
+ > 950		struct v4l2_mbus_framefmt *fmt;
+   951		u32 max_binning;
+   952	
+   953		crop = v4l2_subdev_state_get_crop(sd_state, 0);
+   954		if (v4l2_rect_equal(&sel->r, crop))
+   955			return false;
+   956		max_binning = binning_ratios[ARRAY_SIZE(binning_ratios) - 1];
+   957		sel->r.width =
+   958			clamp(IMX219_ROUND(sel->r.width, max_binning, sel->flags),
+   959			      max_binning * IMX219_MIN_COMPOSE_SIZE,
+   960			      IMX219_PIXEL_ARRAY_WIDTH);
+   961		sel->r.height =
+   962			clamp(IMX219_ROUND(sel->r.width, max_binning, sel->flags),
+   963			      max_binning * IMX219_MIN_COMPOSE_SIZE,
+   964			      IMX219_PIXEL_ARRAY_WIDTH);
+   965		sel->r.left =
+   966			min_t(u32, sel->r.left, IMX219_PIXEL_ARRAY_LEFT - sel->r.width);
+   967		sel->r.top =
+   968			min_t(u32, sel->r.top, IMX219_PIXEL_ARRAY_TOP - sel->r.top);
+   969	
+   970		compose = v4l2_subdev_state_get_compose(sd_state, 0);
+   971		fmt = v4l2_subdev_state_get_format(sd_state, 0);
+   972		*crop = sel->r;
+   973		compose->height = crop->height;
+   974		compose->width = crop->width;
+   975		return true;
+   976	}
+   977	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
