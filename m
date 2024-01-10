@@ -1,700 +1,175 @@
-Return-Path: <linux-media+bounces-3462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E1D829A5B
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 13:23:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FF9829A83
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 13:41:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1E561F2177A
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 12:23:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB8832875B8
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 12:41:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92A40482C4;
-	Wed, 10 Jan 2024 12:23:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F5E47A55;
+	Wed, 10 Jan 2024 12:41:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="js8T4vLV"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mmXrVwgj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29320482C3
-	for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 12:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5AE80896;
-	Wed, 10 Jan 2024 13:22:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704889343;
-	bh=EnvIWC9Le32PEN6GYZjdrFqxvCqiX42Sz0f3w0u6lZo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=js8T4vLV/dW7aN7u341tFts8AQJoEPQABwhxMitTeJ2O8OzBdSkVHEPCM5CFxdbqo
-	 icfmmON9mo19yRyAlUtlwfe35qUKOPBYXn0Kd6dZBXTl3LgPf41UXiXu18YxeLO665
-	 mWr2EFh2IDbjte2/YvOA+vfKHt86NIf6mVgMVAOQ=
-Date: Wed, 10 Jan 2024 14:23:36 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] media: i2c: imx415: Convert to new CCI register
- access helpers
-Message-ID: <20240110122336.GA12438@pendragon.ideasonboard.com>
-References: <20240110114216.504690-1-alexander.stein@ew.tq-group.com>
- <20240110114216.504690-2-alexander.stein@ew.tq-group.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F29E48780
+	for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 12:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a2821884a09so328276166b.2
+        for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 04:41:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704890495; x=1705495295; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7IHux4kEY0E6OoP+H6wK9dpZky0j7ZodV26PwHsv72I=;
+        b=mmXrVwgj4VTEAXKWKV51WxEb+JHijZ3pu9Ok/WgXHIWwVeVwOLIM4GFC5F2kBQLt4n
+         fJjqjvZp7x9l4Toxrv0HJNrRVCQm8/sCqIQM1DHP4arqu3eH5MbQcxWKIVi4aJz+gTgY
+         g9dtlYEoZB2/OT1WZwutulPFg+3+pqXspc2b8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704890495; x=1705495295;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7IHux4kEY0E6OoP+H6wK9dpZky0j7ZodV26PwHsv72I=;
+        b=K4crUzP8RAsarRTIiqsmycw8UjqagYfxezESZMRwS/aiciG7K+l17DDymo6/JwIj7J
+         8XfEkaLpPo4iqc1tGMxFVoMcApEaWEroCPZwGAnrTln0tidmKigzESSzd4ECD2fSr1oQ
+         5lEYglVYRkgg3NH4eQaBZTIJMICsZ8z5QaWowOc0ur7mEuPiCMan4okUDerzsgPBmJ1R
+         B2OhUTWNxLNvgIde/t32YOR/VKTAO6fyxMCba159BlZN4n2aPUUd53zNqCoadwOpO6fD
+         cXY4uHlpDV+yGeJFQRWDssdTCCAUheDiAyyO5aE56c/cjkTiGZI0ECnlNFooIzCQwZWv
+         6eQQ==
+X-Gm-Message-State: AOJu0YyGVryFJ6XA6JT8eEeI8BoQjOFrGzKqqAtg5yfb7By1Y8wbu530
+	EfeLSG8lMILM0C5iZbrYWCRVSB3zNX6CGK4Vkfiof+QWCN1C
+X-Google-Smtp-Source: AGHT+IGTpuZT7iPzAEJBTbVwQM3GtsyR5oW4zwhim6qk/IKGSVzrrb0g2TCmtxLwfCARyuwgrLA3NA==
+X-Received: by 2002:a17:906:4698:b0:a28:a36e:98ac with SMTP id a24-20020a170906469800b00a28a36e98acmr636193ejr.68.1704890495427;
+        Wed, 10 Jan 2024 04:41:35 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id m21-20020a170906235500b00a26ade46618sm2073934eja.99.2024.01.10.04.41.34
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jan 2024 04:41:34 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-336c8ab0b20so3745839f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 04:41:34 -0800 (PST)
+X-Received: by 2002:adf:fe02:0:b0:336:b937:3d0e with SMTP id
+ n2-20020adffe02000000b00336b9373d0emr554897wrr.14.1704890494510; Wed, 10 Jan
+ 2024 04:41:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240110114216.504690-2-alexander.stein@ew.tq-group.com>
+References: <20240105134020.34312-1-andrzej.p@collabora.com>
+In-Reply-To: <20240105134020.34312-1-andrzej.p@collabora.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 10 Jan 2024 21:41:13 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DEfvaGVLdPzjpfRwFMJcrXstp2QyTp-BJqzncXOxTvRQ@mail.gmail.com>
+Message-ID: <CAAFQd5DEfvaGVLdPzjpfRwFMJcrXstp2QyTp-BJqzncXOxTvRQ@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2: Add missing doc comment for waiting_in_dqbuf
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: linux-media@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alexander,
-
-Thank you for the patch.
-
-On Wed, Jan 10, 2024 at 12:42:15PM +0100, Alexander Stein wrote:
-> Use the new common CCI register access helpers to replace the private
-> register access helpers in the imx415 driver.
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+On Fri, Jan 5, 2024 at 10:40=E2=80=AFPM Andrzej Pietrasiewicz
+<andrzej.p@collabora.com> wrote:
+>
+> While at it rearrange other comments to match the order of struct members=
+.
+>
+> Fixes: d65842f7126a ("media: vb2: add waiting_in_dqbuf flag")
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 > ---
->  drivers/media/i2c/Kconfig  |   1 +
->  drivers/media/i2c/imx415.c | 405 +++++++++++++++----------------------
->  2 files changed, 169 insertions(+), 237 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 9aab993bb8f77..7e53980b0ac05 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -224,6 +224,7 @@ config VIDEO_IMX412
->  config VIDEO_IMX415
->  	tristate "Sony IMX415 sensor support"
->  	depends on OF_GPIO
-> +	select V4L2_CCI_I2C
->  	help
->  	  This is a Video4Linux2 sensor driver for the Sony
->  	  IMX415 camera.
-> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-> index 1e5f20c3ed824..c62eba5b72168 100644
-> --- a/drivers/media/i2c/imx415.c
-> +++ b/drivers/media/i2c/imx415.c
-> @@ -16,6 +16,7 @@
->  #include <linux/slab.h>
->  #include <linux/videodev2.h>
->  
-> +#include <media/v4l2-cci.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-subdev.h>
-> @@ -28,76 +29,65 @@
->  
->  #define IMX415_NUM_CLK_PARAM_REGS 11
->  
-> -#define IMX415_REG_8BIT(n)	  ((1 << 16) | (n))
-> -#define IMX415_REG_16BIT(n)	  ((2 << 16) | (n))
-> -#define IMX415_REG_24BIT(n)	  ((3 << 16) | (n))
-> -#define IMX415_REG_SIZE_SHIFT	  16
-> -#define IMX415_REG_ADDR_MASK	  0xffff
-> -
-> -#define IMX415_MODE		  IMX415_REG_8BIT(0x3000)
-> +#define IMX415_MODE		  CCI_REG8(0x3000)
->  #define IMX415_MODE_OPERATING	  (0)
->  #define IMX415_MODE_STANDBY	  BIT(0)
-> -#define IMX415_REGHOLD		  IMX415_REG_8BIT(0x3001)
-> +#define IMX415_REGHOLD		  CCI_REG8(0x3001)
->  #define IMX415_REGHOLD_INVALID	  (0)
->  #define IMX415_REGHOLD_VALID	  BIT(0)
-> -#define IMX415_XMSTA		  IMX415_REG_8BIT(0x3002)
-> +#define IMX415_XMSTA		  CCI_REG8(0x3002)
->  #define IMX415_XMSTA_START	  (0)
->  #define IMX415_XMSTA_STOP	  BIT(0)
-> -#define IMX415_BCWAIT_TIME	  IMX415_REG_16BIT(0x3008)
-> -#define IMX415_CPWAIT_TIME	  IMX415_REG_16BIT(0x300A)
-> -#define IMX415_WINMODE		  IMX415_REG_8BIT(0x301C)
-> -#define IMX415_ADDMODE		  IMX415_REG_8BIT(0x3022)
-> -#define IMX415_REVERSE		  IMX415_REG_8BIT(0x3030)
-> +#define IMX415_BCWAIT_TIME	  CCI_REG16_LE(0x3008)
-> +#define IMX415_CPWAIT_TIME	  CCI_REG16_LE(0x300a)
-> +#define IMX415_WINMODE		  CCI_REG8(0x301c)
-> +#define IMX415_ADDMODE		  CCI_REG8(0x3022)
-> +#define IMX415_REVERSE		  CCI_REG8(0x3030)
->  #define IMX415_HREVERSE_SHIFT	  (0)
->  #define IMX415_VREVERSE_SHIFT	  BIT(0)
-> -#define IMX415_ADBIT		  IMX415_REG_8BIT(0x3031)
-> -#define IMX415_MDBIT		  IMX415_REG_8BIT(0x3032)
-> -#define IMX415_SYS_MODE		  IMX415_REG_8BIT(0x3033)
-> -#define IMX415_OUTSEL		  IMX415_REG_8BIT(0x30C0)
-> -#define IMX415_DRV		  IMX415_REG_8BIT(0x30C1)
-> -#define IMX415_VMAX		  IMX415_REG_24BIT(0x3024)
-> -#define IMX415_HMAX		  IMX415_REG_16BIT(0x3028)
-> -#define IMX415_SHR0		  IMX415_REG_24BIT(0x3050)
-> -#define IMX415_GAIN_PCG_0	  IMX415_REG_16BIT(0x3090)
-> +#define IMX415_ADBIT		  CCI_REG8(0x3031)
-> +#define IMX415_MDBIT		  CCI_REG8(0x3032)
-> +#define IMX415_SYS_MODE		  CCI_REG8(0x3033)
-> +#define IMX415_OUTSEL		  CCI_REG8(0x30c0)
-> +#define IMX415_DRV		  CCI_REG8(0x30c1)
-> +#define IMX415_VMAX		  CCI_REG24_LE(0x3024)
-> +#define IMX415_HMAX		  CCI_REG16_LE(0x3028)
-> +#define IMX415_SHR0		  CCI_REG24_LE(0x3050)
-> +#define IMX415_GAIN_PCG_0	  CCI_REG16_LE(0x3090)
->  #define IMX415_AGAIN_MIN	  0
->  #define IMX415_AGAIN_MAX	  100
->  #define IMX415_AGAIN_STEP	  1
-> -#define IMX415_BLKLEVEL		  IMX415_REG_16BIT(0x30E2)
-> +#define IMX415_BLKLEVEL		  CCI_REG16_LE(0x30e2)
->  #define IMX415_BLKLEVEL_DEFAULT	  50
-> -#define IMX415_TPG_EN_DUOUT	  IMX415_REG_8BIT(0x30E4)
-> -#define IMX415_TPG_PATSEL_DUOUT	  IMX415_REG_8BIT(0x30E6)
-> -#define IMX415_TPG_COLORWIDTH	  IMX415_REG_8BIT(0x30E8)
-> -#define IMX415_TESTCLKEN_MIPI	  IMX415_REG_8BIT(0x3110)
-> -#define IMX415_INCKSEL1		  IMX415_REG_8BIT(0x3115)
-> -#define IMX415_INCKSEL2		  IMX415_REG_8BIT(0x3116)
-> -#define IMX415_INCKSEL3		  IMX415_REG_16BIT(0x3118)
-> -#define IMX415_INCKSEL4		  IMX415_REG_16BIT(0x311A)
-> -#define IMX415_INCKSEL5		  IMX415_REG_8BIT(0x311E)
-> -#define IMX415_DIG_CLP_MODE	  IMX415_REG_8BIT(0x32C8)
-> -#define IMX415_WRJ_OPEN		  IMX415_REG_8BIT(0x3390)
-> -#define IMX415_SENSOR_INFO	  IMX415_REG_16BIT(0x3F12)
-> -#define IMX415_SENSOR_INFO_MASK	  0xFFF
-> +#define IMX415_TPG_EN_DUOUT	  CCI_REG8(0x30e4)
-> +#define IMX415_TPG_PATSEL_DUOUT	  CCI_REG8(0x30e6)
-> +#define IMX415_TPG_COLORWIDTH	  CCI_REG8(0x30e8)
-> +#define IMX415_TESTCLKEN_MIPI	  CCI_REG8(0x3110)
-> +#define IMX415_INCKSEL1		  CCI_REG8(0x3115)
-> +#define IMX415_INCKSEL2		  CCI_REG8(0x3116)
-> +#define IMX415_INCKSEL3		  CCI_REG16_LE(0x3118)
-> +#define IMX415_INCKSEL4		  CCI_REG16_LE(0x311a)
-> +#define IMX415_INCKSEL5		  CCI_REG8(0x311e)
-> +#define IMX415_DIG_CLP_MODE	  CCI_REG8(0x32c8)
-> +#define IMX415_WRJ_OPEN		  CCI_REG8(0x3390)
-> +#define IMX415_SENSOR_INFO	  CCI_REG16_LE(0x3f12)
-> +#define IMX415_SENSOR_INFO_MASK	  0xfff
->  #define IMX415_CHIP_ID		  0x514
-> -#define IMX415_LANEMODE		  IMX415_REG_16BIT(0x4001)
-> +#define IMX415_LANEMODE		  CCI_REG16_LE(0x4001)
->  #define IMX415_LANEMODE_2	  1
->  #define IMX415_LANEMODE_4	  3
-> -#define IMX415_TXCLKESC_FREQ	  IMX415_REG_16BIT(0x4004)
-> -#define IMX415_INCKSEL6		  IMX415_REG_8BIT(0x400C)
-> -#define IMX415_TCLKPOST		  IMX415_REG_16BIT(0x4018)
-> -#define IMX415_TCLKPREPARE	  IMX415_REG_16BIT(0x401A)
-> -#define IMX415_TCLKTRAIL	  IMX415_REG_16BIT(0x401C)
-> -#define IMX415_TCLKZERO		  IMX415_REG_16BIT(0x401E)
-> -#define IMX415_THSPREPARE	  IMX415_REG_16BIT(0x4020)
-> -#define IMX415_THSZERO		  IMX415_REG_16BIT(0x4022)
-> -#define IMX415_THSTRAIL		  IMX415_REG_16BIT(0x4024)
-> -#define IMX415_THSEXIT		  IMX415_REG_16BIT(0x4026)
-> -#define IMX415_TLPX		  IMX415_REG_16BIT(0x4028)
-> -#define IMX415_INCKSEL7		  IMX415_REG_8BIT(0x4074)
-> -
-> -struct imx415_reg {
-> -	u32 address;
-> -	u32 val;
-> -};
-> +#define IMX415_TXCLKESC_FREQ	  CCI_REG16_LE(0x4004)
-> +#define IMX415_INCKSEL6		  CCI_REG8(0x400c)
-> +#define IMX415_TCLKPOST		  CCI_REG16_LE(0x4018)
-> +#define IMX415_TCLKPREPARE	  CCI_REG16_LE(0x401a)
-> +#define IMX415_TCLKTRAIL	  CCI_REG16_LE(0x401c)
-> +#define IMX415_TCLKZERO		  CCI_REG16_LE(0x401e)
-> +#define IMX415_THSPREPARE	  CCI_REG16_LE(0x4020)
-> +#define IMX415_THSZERO		  CCI_REG16_LE(0x4022)
-> +#define IMX415_THSTRAIL		  CCI_REG16_LE(0x4024)
-> +#define IMX415_THSEXIT		  CCI_REG16_LE(0x4026)
-> +#define IMX415_TLPX		  CCI_REG16_LE(0x4028)
-> +#define IMX415_INCKSEL7		  CCI_REG8(0x4074)
->  
->  static const char *const imx415_supply_names[] = {
->  	"dvdd",
-> @@ -118,7 +108,7 @@ static const s64 link_freq_menu_items[] = {
->  struct imx415_clk_params {
->  	u64 lane_rate;
->  	u64 inck;
-> -	struct imx415_reg regs[IMX415_NUM_CLK_PARAM_REGS];
-> +	struct cci_reg_sequence regs[IMX415_NUM_CLK_PARAM_REGS];
->  };
->  
->  /* INCK Settings - includes all lane rate and INCK dependent registers */
-> @@ -201,7 +191,7 @@ static const struct imx415_clk_params imx415_clk_params[] = {
->  };
->  
->  /* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
-> -static const struct imx415_reg imx415_mode_2_720[] = {
-> +static const struct cci_reg_sequence imx415_mode_2_720[] = {
->  	{ IMX415_VMAX, 0x08CA },
->  	{ IMX415_HMAX, 0x07F0 },
->  	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-> @@ -217,7 +207,7 @@ static const struct imx415_reg imx415_mode_2_720[] = {
->  };
->  
->  /* all-pixel 2-lane 1440 Mbps 30.01 Hz mode */
-> -static const struct imx415_reg imx415_mode_2_1440[] = {
-> +static const struct cci_reg_sequence imx415_mode_2_1440[] = {
->  	{ IMX415_VMAX, 0x08CA },
->  	{ IMX415_HMAX, 0x042A },
->  	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-> @@ -233,7 +223,7 @@ static const struct imx415_reg imx415_mode_2_1440[] = {
->  };
->  
->  /* all-pixel 4-lane 891 Mbps 30 Hz mode */
-> -static const struct imx415_reg imx415_mode_4_891[] = {
-> +static const struct cci_reg_sequence imx415_mode_4_891[] = {
->  	{ IMX415_VMAX, 0x08CA },
->  	{ IMX415_HMAX, 0x044C },
->  	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> @@ -250,7 +240,7 @@ static const struct imx415_reg imx415_mode_4_891[] = {
->  
->  struct imx415_mode_reg_list {
->  	u32 num_of_regs;
-> -	const struct imx415_reg *regs;
-> +	const struct cci_reg_sequence *regs;
->  };
->  
->  /*
-> @@ -323,11 +313,6 @@ static const struct imx415_mode supported_modes[] = {
->  	},
->  };
->  
-> -static const struct regmap_config imx415_regmap_config = {
-> -	.reg_bits = 16,
-> -	.val_bits = 8,
-> -};
-> -
->  static const char *const imx415_test_pattern_menu[] = {
->  	"disabled",
->  	"solid black",
-> @@ -369,7 +354,7 @@ struct imx415 {
->   * This table includes fixed register settings and a bunch of undocumented
->   * registers that have to be set to another value than default.
+>  include/media/videobuf2-core.h | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-cor=
+e.h
+> index e41204df19f0..5020e052eda0 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -72,6 +72,10 @@ struct vb2_buffer;
+>   *              argument to other ops in this structure.
+>   * @put_userptr: inform the allocator that a USERPTR buffer will no long=
+er
+>   *              be used.
+> + * @prepare:   called every time the buffer is passed from userspace to =
+the
+> + *             driver, useful for cache synchronisation, optional.
+> + * @finish:    called every time the buffer is passed back from the driv=
+er
+> + *             to the userspace, also optional.
+>   * @attach_dmabuf: attach a shared &struct dma_buf for a hardware operat=
+ion;
+>   *                used for DMABUF memory types; dev is the alloc device
+>   *                dbuf is the shared dma_buf; returns ERR_PTR() on failu=
+re;
+> @@ -86,10 +90,6 @@ struct vb2_buffer;
+>   *             dmabuf.
+>   * @unmap_dmabuf: releases access control to the dmabuf - allocator is n=
+otified
+>   *               that this driver is done using the dmabuf for now.
+> - * @prepare:   called every time the buffer is passed from userspace to =
+the
+> - *             driver, useful for cache synchronisation, optional.
+> - * @finish:    called every time the buffer is passed back from the driv=
+er
+> - *             to the userspace, also optional.
+>   * @vaddr:     return a kernel virtual address to a given memory buffer
+>   *             associated with the passed private structure or NULL if n=
+o
+>   *             such mapping exists.
+> @@ -484,7 +484,6 @@ struct vb2_buf_ops {
+>   *             caller. For example, for V4L2, it should match
+>   *             the types defined on &enum v4l2_buf_type.
+>   * @io_modes:  supported io methods (see &enum vb2_io_modes).
+> - * @alloc_devs:        &struct device memory type/allocator-specific per=
+-plane device
+>   * @dev:       device to use for the default allocation context if the d=
+river
+>   *             doesn't fill in the @alloc_devs array.
+>   * @dma_attrs: DMA attributes to use for the DMA.
+> @@ -550,6 +549,7 @@ struct vb2_buf_ops {
+>   *             @start_streaming can be called. Used when a DMA engine
+>   *             cannot be started unless at least this number of buffers
+>   *             have been queued into the driver.
+> + * @alloc_devs:        &struct device memory type/allocator-specific per=
+-plane device
 >   */
-> -static const struct imx415_reg imx415_init_table[] = {
-> +static const struct cci_reg_sequence imx415_init_table[] = {
->  	/* use all-pixel readout mode, no flip */
->  	{ IMX415_WINMODE, 0x00 },
->  	{ IMX415_ADDMODE, 0x00 },
-> @@ -382,77 +367,77 @@ static const struct imx415_reg imx415_init_table[] = {
->  	{ IMX415_DRV, 0x00 },
->  
->  	/* SONY magic registers */
-> -	{ IMX415_REG_8BIT(0x32D4), 0x21 },
-> -	{ IMX415_REG_8BIT(0x32EC), 0xA1 },
-> -	{ IMX415_REG_8BIT(0x3452), 0x7F },
-> -	{ IMX415_REG_8BIT(0x3453), 0x03 },
-> -	{ IMX415_REG_8BIT(0x358A), 0x04 },
-> -	{ IMX415_REG_8BIT(0x35A1), 0x02 },
-> -	{ IMX415_REG_8BIT(0x36BC), 0x0C },
-> -	{ IMX415_REG_8BIT(0x36CC), 0x53 },
-> -	{ IMX415_REG_8BIT(0x36CD), 0x00 },
-> -	{ IMX415_REG_8BIT(0x36CE), 0x3C },
-> -	{ IMX415_REG_8BIT(0x36D0), 0x8C },
-> -	{ IMX415_REG_8BIT(0x36D1), 0x00 },
-> -	{ IMX415_REG_8BIT(0x36D2), 0x71 },
-> -	{ IMX415_REG_8BIT(0x36D4), 0x3C },
-> -	{ IMX415_REG_8BIT(0x36D6), 0x53 },
-> -	{ IMX415_REG_8BIT(0x36D7), 0x00 },
-> -	{ IMX415_REG_8BIT(0x36D8), 0x71 },
-> -	{ IMX415_REG_8BIT(0x36DA), 0x8C },
-> -	{ IMX415_REG_8BIT(0x36DB), 0x00 },
-> -	{ IMX415_REG_8BIT(0x3724), 0x02 },
-> -	{ IMX415_REG_8BIT(0x3726), 0x02 },
-> -	{ IMX415_REG_8BIT(0x3732), 0x02 },
-> -	{ IMX415_REG_8BIT(0x3734), 0x03 },
-> -	{ IMX415_REG_8BIT(0x3736), 0x03 },
-> -	{ IMX415_REG_8BIT(0x3742), 0x03 },
-> -	{ IMX415_REG_8BIT(0x3862), 0xE0 },
-> -	{ IMX415_REG_8BIT(0x38CC), 0x30 },
-> -	{ IMX415_REG_8BIT(0x38CD), 0x2F },
-> -	{ IMX415_REG_8BIT(0x395C), 0x0C },
-> -	{ IMX415_REG_8BIT(0x3A42), 0xD1 },
-> -	{ IMX415_REG_8BIT(0x3A4C), 0x77 },
-> -	{ IMX415_REG_8BIT(0x3AE0), 0x02 },
-> -	{ IMX415_REG_8BIT(0x3AEC), 0x0C },
-> -	{ IMX415_REG_8BIT(0x3B00), 0x2E },
-> -	{ IMX415_REG_8BIT(0x3B06), 0x29 },
-> -	{ IMX415_REG_8BIT(0x3B98), 0x25 },
-> -	{ IMX415_REG_8BIT(0x3B99), 0x21 },
-> -	{ IMX415_REG_8BIT(0x3B9B), 0x13 },
-> -	{ IMX415_REG_8BIT(0x3B9C), 0x13 },
-> -	{ IMX415_REG_8BIT(0x3B9D), 0x13 },
-> -	{ IMX415_REG_8BIT(0x3B9E), 0x13 },
-> -	{ IMX415_REG_8BIT(0x3BA1), 0x00 },
-> -	{ IMX415_REG_8BIT(0x3BA2), 0x06 },
-> -	{ IMX415_REG_8BIT(0x3BA3), 0x0B },
-> -	{ IMX415_REG_8BIT(0x3BA4), 0x10 },
-> -	{ IMX415_REG_8BIT(0x3BA5), 0x14 },
-> -	{ IMX415_REG_8BIT(0x3BA6), 0x18 },
-> -	{ IMX415_REG_8BIT(0x3BA7), 0x1A },
-> -	{ IMX415_REG_8BIT(0x3BA8), 0x1A },
-> -	{ IMX415_REG_8BIT(0x3BA9), 0x1A },
-> -	{ IMX415_REG_8BIT(0x3BAC), 0xED },
-> -	{ IMX415_REG_8BIT(0x3BAD), 0x01 },
-> -	{ IMX415_REG_8BIT(0x3BAE), 0xF6 },
-> -	{ IMX415_REG_8BIT(0x3BAF), 0x02 },
-> -	{ IMX415_REG_8BIT(0x3BB0), 0xA2 },
-> -	{ IMX415_REG_8BIT(0x3BB1), 0x03 },
-> -	{ IMX415_REG_8BIT(0x3BB2), 0xE0 },
-> -	{ IMX415_REG_8BIT(0x3BB3), 0x03 },
-> -	{ IMX415_REG_8BIT(0x3BB4), 0xE0 },
-> -	{ IMX415_REG_8BIT(0x3BB5), 0x03 },
-> -	{ IMX415_REG_8BIT(0x3BB6), 0xE0 },
-> -	{ IMX415_REG_8BIT(0x3BB7), 0x03 },
-> -	{ IMX415_REG_8BIT(0x3BB8), 0xE0 },
-> -	{ IMX415_REG_8BIT(0x3BBA), 0xE0 },
-> -	{ IMX415_REG_8BIT(0x3BBC), 0xDA },
-> -	{ IMX415_REG_8BIT(0x3BBE), 0x88 },
-> -	{ IMX415_REG_8BIT(0x3BC0), 0x44 },
-> -	{ IMX415_REG_8BIT(0x3BC2), 0x7B },
-> -	{ IMX415_REG_8BIT(0x3BC4), 0xA2 },
-> -	{ IMX415_REG_8BIT(0x3BC8), 0xBD },
-> -	{ IMX415_REG_8BIT(0x3BCA), 0xBD },
-> +	{ CCI_REG8(0x32D4), 0x21 },
-> +	{ CCI_REG8(0x32EC), 0xA1 },
-> +	{ CCI_REG8(0x3452), 0x7F },
-> +	{ CCI_REG8(0x3453), 0x03 },
-> +	{ CCI_REG8(0x358A), 0x04 },
-> +	{ CCI_REG8(0x35A1), 0x02 },
-> +	{ CCI_REG8(0x36BC), 0x0C },
-> +	{ CCI_REG8(0x36CC), 0x53 },
-> +	{ CCI_REG8(0x36CD), 0x00 },
-> +	{ CCI_REG8(0x36CE), 0x3C },
-> +	{ CCI_REG8(0x36D0), 0x8C },
-> +	{ CCI_REG8(0x36D1), 0x00 },
-> +	{ CCI_REG8(0x36D2), 0x71 },
-> +	{ CCI_REG8(0x36D4), 0x3C },
-> +	{ CCI_REG8(0x36D6), 0x53 },
-> +	{ CCI_REG8(0x36D7), 0x00 },
-> +	{ CCI_REG8(0x36D8), 0x71 },
-> +	{ CCI_REG8(0x36DA), 0x8C },
-> +	{ CCI_REG8(0x36DB), 0x00 },
-> +	{ CCI_REG8(0x3724), 0x02 },
-> +	{ CCI_REG8(0x3726), 0x02 },
-> +	{ CCI_REG8(0x3732), 0x02 },
-> +	{ CCI_REG8(0x3734), 0x03 },
-> +	{ CCI_REG8(0x3736), 0x03 },
-> +	{ CCI_REG8(0x3742), 0x03 },
-> +	{ CCI_REG8(0x3862), 0xE0 },
-> +	{ CCI_REG8(0x38CC), 0x30 },
-> +	{ CCI_REG8(0x38CD), 0x2F },
-> +	{ CCI_REG8(0x395C), 0x0C },
-> +	{ CCI_REG8(0x3A42), 0xD1 },
-> +	{ CCI_REG8(0x3A4C), 0x77 },
-> +	{ CCI_REG8(0x3AE0), 0x02 },
-> +	{ CCI_REG8(0x3AEC), 0x0C },
-> +	{ CCI_REG8(0x3B00), 0x2E },
-> +	{ CCI_REG8(0x3B06), 0x29 },
-> +	{ CCI_REG8(0x3B98), 0x25 },
-> +	{ CCI_REG8(0x3B99), 0x21 },
-> +	{ CCI_REG8(0x3B9B), 0x13 },
-> +	{ CCI_REG8(0x3B9C), 0x13 },
-> +	{ CCI_REG8(0x3B9D), 0x13 },
-> +	{ CCI_REG8(0x3B9E), 0x13 },
-> +	{ CCI_REG8(0x3BA1), 0x00 },
-> +	{ CCI_REG8(0x3BA2), 0x06 },
-> +	{ CCI_REG8(0x3BA3), 0x0B },
-> +	{ CCI_REG8(0x3BA4), 0x10 },
-> +	{ CCI_REG8(0x3BA5), 0x14 },
-> +	{ CCI_REG8(0x3BA6), 0x18 },
-> +	{ CCI_REG8(0x3BA7), 0x1A },
-> +	{ CCI_REG8(0x3BA8), 0x1A },
-> +	{ CCI_REG8(0x3BA9), 0x1A },
-> +	{ CCI_REG8(0x3BAC), 0xED },
-> +	{ CCI_REG8(0x3BAD), 0x01 },
-> +	{ CCI_REG8(0x3BAE), 0xF6 },
-> +	{ CCI_REG8(0x3BAF), 0x02 },
-> +	{ CCI_REG8(0x3BB0), 0xA2 },
-> +	{ CCI_REG8(0x3BB1), 0x03 },
-> +	{ CCI_REG8(0x3BB2), 0xE0 },
-> +	{ CCI_REG8(0x3BB3), 0x03 },
-> +	{ CCI_REG8(0x3BB4), 0xE0 },
-> +	{ CCI_REG8(0x3BB5), 0x03 },
-> +	{ CCI_REG8(0x3BB6), 0xE0 },
-> +	{ CCI_REG8(0x3BB7), 0x03 },
-> +	{ CCI_REG8(0x3BB8), 0xE0 },
-> +	{ CCI_REG8(0x3BBA), 0xE0 },
-> +	{ CCI_REG8(0x3BBC), 0xDA },
-> +	{ CCI_REG8(0x3BBE), 0x88 },
-> +	{ CCI_REG8(0x3BC0), 0x44 },
-> +	{ CCI_REG8(0x3BC2), 0x7B },
-> +	{ CCI_REG8(0x3BC4), 0xA2 },
-> +	{ CCI_REG8(0x3BC8), 0xBD },
-> +	{ CCI_REG8(0x3BCA), 0xBD },
+>  /*
+>   * Private elements (won't appear at the uAPI book):
+> @@ -571,6 +571,8 @@ struct vb2_buf_ops {
+>   * @waiting_for_buffers: used in poll() to check if vb2 is still waiting=
+ for
+>   *             buffers. Only set for capture queues if qbuf has not yet =
+been
+>   *             called since poll() needs to return %EPOLLERR in that sit=
+uation.
+> + * @waiting_in_dqbuf: set whenever vb2_queue->lock is released while wai=
+ting for
+> + *             a buffer to arrive so that -EBUSY can be returned when ap=
+propriate
 
-It would have been nice to convert these to lowecase too. No need to
-send a new version of the patch for this, it can be done on top.
+Appreciate documentation improvements. Thanks!
 
->  };
->  
->  static inline struct imx415 *to_imx415(struct v4l2_subdev *sd)
-> @@ -460,74 +445,26 @@ static inline struct imx415 *to_imx415(struct v4l2_subdev *sd)
->  	return container_of(sd, struct imx415, subdev);
->  }
->  
-> -static int imx415_read(struct imx415 *sensor, u32 addr)
-> -{
-> -	u8 data[3] = { 0 };
-> -	int ret;
-> -
-> -	ret = regmap_raw_read(sensor->regmap, addr & IMX415_REG_ADDR_MASK, data,
-> -			      (addr >> IMX415_REG_SIZE_SHIFT) & 3);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return (data[2] << 16) | (data[1] << 8) | data[0];
-> -}
-> -
-> -static int imx415_write(struct imx415 *sensor, u32 addr, u32 value)
-> -{
-> -	u8 data[3] = { value & 0xff, (value >> 8) & 0xff, value >> 16 };
-> -	int ret;
-> -
-> -	ret = regmap_raw_write(sensor->regmap, addr & IMX415_REG_ADDR_MASK,
-> -			       data, (addr >> IMX415_REG_SIZE_SHIFT) & 3);
-> -	if (ret < 0)
-> -		dev_err_ratelimited(sensor->dev,
-> -				    "%u-bit write to 0x%04x failed: %d\n",
-> -				    ((addr >> IMX415_REG_SIZE_SHIFT) & 3) * 8,
-> -				    addr & IMX415_REG_ADDR_MASK, ret);
-> -
-> -	return 0;
-> -}
-> -
->  static int imx415_set_testpattern(struct imx415 *sensor, int val)
->  {
-> -	int ret;
-> +	int ret = 0;
->  
->  	if (val) {
-> -		ret = imx415_write(sensor, IMX415_BLKLEVEL, 0x00);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_TPG_EN_DUOUT, 0x01);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_TPG_PATSEL_DUOUT, val - 1);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_TPG_COLORWIDTH, 0x01);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_TESTCLKEN_MIPI, 0x20);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_DIG_CLP_MODE, 0x00);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_WRJ_OPEN, 0x00);
-> +		cci_write(sensor->regmap, IMX415_BLKLEVEL, 0x00, &ret);
-> +		cci_write(sensor->regmap, IMX415_TPG_EN_DUOUT, 0x01, &ret);
-> +		cci_write(sensor->regmap, IMX415_TPG_PATSEL_DUOUT,
-> +			  val - 1, &ret);
-> +		cci_write(sensor->regmap, IMX415_TPG_COLORWIDTH, 0x01, &ret);
-> +		cci_write(sensor->regmap, IMX415_TESTCLKEN_MIPI, 0x20, &ret);
-> +		cci_write(sensor->regmap, IMX415_DIG_CLP_MODE, 0x00, &ret);
-> +		cci_write(sensor->regmap, IMX415_WRJ_OPEN, 0x00, &ret);
->  	} else {
-> -		ret = imx415_write(sensor, IMX415_BLKLEVEL,
-> -				   IMX415_BLKLEVEL_DEFAULT);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_TPG_EN_DUOUT, 0x00);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_TESTCLKEN_MIPI, 0x00);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_DIG_CLP_MODE, 0x01);
-> -		if (ret)
-> -			return ret;
-> -		ret = imx415_write(sensor, IMX415_WRJ_OPEN, 0x01);
-> +		cci_write(sensor->regmap, IMX415_BLKLEVEL,
-> +			  IMX415_BLKLEVEL_DEFAULT, &ret);
-> +		cci_write(sensor->regmap, IMX415_TPG_EN_DUOUT, 0x00, &ret);
-> +		cci_write(sensor->regmap, IMX415_TESTCLKEN_MIPI, 0x00, &ret);
-> +		cci_write(sensor->regmap, IMX415_DIG_CLP_MODE, 0x01, &ret);
-> +		cci_write(sensor->regmap, IMX415_WRJ_OPEN, 0x01, &ret);
->  	}
->  	return 0;
->  }
-> @@ -553,19 +490,21 @@ static int imx415_s_ctrl(struct v4l2_ctrl *ctrl)
->  		/* clamp the exposure value to VMAX. */
->  		vmax = format->height + sensor->vblank->cur.val;
->  		ctrl->val = min_t(int, ctrl->val, vmax);
-> -		ret = imx415_write(sensor, IMX415_SHR0, vmax - ctrl->val);
-> +		ret = cci_write(sensor->regmap, IMX415_SHR0,
-> +				vmax - ctrl->val, NULL);
->  		break;
->  
->  	case V4L2_CID_ANALOGUE_GAIN:
->  		/* analogue gain in 0.3 dB step size */
-> -		ret = imx415_write(sensor, IMX415_GAIN_PCG_0, ctrl->val);
-> +		ret = cci_write(sensor->regmap, IMX415_GAIN_PCG_0,
-> +				ctrl->val, NULL);
->  		break;
->  
->  	case V4L2_CID_HFLIP:
->  	case V4L2_CID_VFLIP:
->  		flip = (sensor->hflip->val << IMX415_HREVERSE_SHIFT) |
->  		       (sensor->vflip->val << IMX415_VREVERSE_SHIFT);
-> -		ret = imx415_write(sensor, IMX415_REVERSE, flip);
-> +		ret = cci_write(sensor->regmap, IMX415_REVERSE, flip, NULL);
->  		break;
->  
->  	case V4L2_CID_TEST_PATTERN:
-> @@ -679,8 +618,6 @@ static int imx415_ctrls_init(struct imx415 *sensor)
->  
->  static int imx415_set_mode(struct imx415 *sensor, int mode)
->  {
-> -	const struct imx415_reg *reg;
-> -	unsigned int i;
->  	int ret = 0;
->  
->  	if (mode >= ARRAY_SIZE(supported_modes)) {
-> @@ -688,34 +625,29 @@ static int imx415_set_mode(struct imx415 *sensor, int mode)
->  		return -EINVAL;
->  	}
->  
-> -	for (i = 0; i < supported_modes[mode].reg_list.num_of_regs; ++i) {
-> -		reg = &supported_modes[mode].reg_list.regs[i];
-> -		ret = imx415_write(sensor, reg->address, reg->val);
-> -		if (ret)
-> -			return ret;
-> -	}
-> +	cci_multi_reg_write(sensor->regmap,
-> +			    supported_modes[mode].reg_list.regs,
-> +			    supported_modes[mode].reg_list.num_of_regs,
-> +			    &ret);
->  
-> -	for (i = 0; i < IMX415_NUM_CLK_PARAM_REGS; ++i) {
-> -		reg = &sensor->clk_params->regs[i];
-> -		ret = imx415_write(sensor, reg->address, reg->val);
-> -		if (ret)
-> -			return ret;
-> -	}
-> +	cci_multi_reg_write(sensor->regmap,
-> +			    sensor->clk_params->regs,
-> +			    IMX415_NUM_CLK_PARAM_REGS,
-> +			    &ret);
->  
->  	return 0;
->  }
->  
->  static int imx415_setup(struct imx415 *sensor, struct v4l2_subdev_state *state)
->  {
-> -	unsigned int i;
->  	int ret;
->  
-> -	for (i = 0; i < ARRAY_SIZE(imx415_init_table); ++i) {
-> -		ret = imx415_write(sensor, imx415_init_table[i].address,
-> -				   imx415_init_table[i].val);
-> -		if (ret)
-> -			return ret;
-> -	}
-> +	ret = cci_multi_reg_write(sensor->regmap,
-> +				  imx415_init_table,
-> +				  ARRAY_SIZE(imx415_init_table),
-> +				  NULL);
-> +	if (ret)
-> +		return ret;
->  
->  	return imx415_set_mode(sensor, sensor->cur_mode);
->  }
-> @@ -724,7 +656,8 @@ static int imx415_wakeup(struct imx415 *sensor)
->  {
->  	int ret;
->  
-> -	ret = imx415_write(sensor, IMX415_MODE, IMX415_MODE_OPERATING);
-> +	ret = cci_write(sensor->regmap, IMX415_MODE,
-> +			IMX415_MODE_OPERATING, NULL);
->  	if (ret)
->  		return ret;
->  
-> @@ -743,21 +676,18 @@ static int imx415_stream_on(struct imx415 *sensor)
->  	int ret;
->  
->  	ret = imx415_wakeup(sensor);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return imx415_write(sensor, IMX415_XMSTA, IMX415_XMSTA_START);
-> +	return cci_write(sensor->regmap, IMX415_XMSTA,
-> +			 IMX415_XMSTA_START, &ret);
->  }
->  
->  static int imx415_stream_off(struct imx415 *sensor)
->  {
->  	int ret;
->  
-> -	ret = imx415_write(sensor, IMX415_XMSTA, IMX415_XMSTA_STOP);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return imx415_write(sensor, IMX415_MODE, IMX415_MODE_STANDBY);
-> +	ret = cci_write(sensor->regmap, IMX415_XMSTA,
-> +			IMX415_XMSTA_STOP, NULL);
-> +	return cci_write(sensor->regmap, IMX415_MODE,
-> +			 IMX415_MODE_STANDBY, &ret);
->  }
->  
->  static int imx415_s_stream(struct v4l2_subdev *sd, int enable)
-> @@ -992,6 +922,7 @@ static void imx415_power_off(struct imx415 *sensor)
->  static int imx415_identify_model(struct imx415 *sensor)
->  {
->  	int model, ret;
-> +	u64 chip_id;
->  
->  	/*
->  	 * While most registers can be read when the sensor is in standby, this
-> @@ -1002,7 +933,7 @@ static int imx415_identify_model(struct imx415 *sensor)
->  		return dev_err_probe(sensor->dev, ret,
->  				     "failed to get sensor out of standby\n");
->  
-> -	ret = imx415_read(sensor, IMX415_SENSOR_INFO);
-> +	ret = cci_read(sensor->regmap, IMX415_SENSOR_INFO, &chip_id, NULL);
->  	if (ret < 0) {
->  		dev_err_probe(sensor->dev, ret,
->  			      "failed to read sensor information\n");
+Just one comment: Could we make it more clear who sets it? For example:
 
-The code below reads as
+    Set by the core for the duration of a blocking DQBUF, when it has
+to wait for
+    a buffer to become available with vb2_queue->lock released. Used to pre=
+vent
+    destroying the queue by other threads.
 
-	model = ret & IMX415_SENSOR_INFO_MASK;
+WDYT?
 
-It should now be
-
-	model = chip_id & IMX415_SENSOR_INFO_MASK;
-
-With this fixed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> @@ -1024,7 +955,7 @@ static int imx415_identify_model(struct imx415 *sensor)
->  	ret = 0;
->  
->  done:
-> -	imx415_write(sensor, IMX415_MODE, IMX415_MODE_STANDBY);
-> +	cci_write(sensor->regmap, IMX415_MODE, IMX415_MODE_STANDBY, &ret);
->  	return ret;
->  }
->  
-> @@ -1173,7 +1104,7 @@ static int imx415_probe(struct i2c_client *client)
->  	if (ret)
->  		return ret;
->  
-> -	sensor->regmap = devm_regmap_init_i2c(client, &imx415_regmap_config);
-> +	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
->  	if (IS_ERR(sensor->regmap))
->  		return PTR_ERR(sensor->regmap);
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Tomasz
 
