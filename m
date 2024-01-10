@@ -1,201 +1,95 @@
-Return-Path: <linux-media+bounces-3481-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3482-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E1882A11C
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 20:39:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C20CC82A25D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 21:36:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73DFCB22296
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 19:38:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 792E51F2276D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 20:36:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 220354E1BF;
-	Wed, 10 Jan 2024 19:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iwonAFm5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 462D64F1E0;
+	Wed, 10 Jan 2024 20:36:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CDC22063;
-	Wed, 10 Jan 2024 19:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08D433DFA;
-	Wed, 10 Jan 2024 20:37:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704915460;
-	bh=zHQis5xP8OgIGCs3kY8BouPwXp7i9V/rpOTbYi87Dt4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iwonAFm5HQi0o+Au9y/q+DfG+zSyytUBy6pmUaq3Sl78QhwsRPPKKldiddGuntkZe
-	 RMO4DfamtJuMOiH3PcUfp6fQmR+13IAYxHl/isR8NsnV8+Hi9s9bfiHP2BGhTPO/Z/
-	 WjdtwmUpQ+rf1psExbd//T/q5p+aEZbWzULLZjPc=
-Date: Wed, 10 Jan 2024 21:38:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Message-ID: <20240110193852.GF23633@pendragon.ideasonboard.com>
-References: <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
- <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
- <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <g4uqcavglw2md4ojiw7yxequy37ttozjazr3b4ypqzznlrsinv@zm6mvzaempwp>
- <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF9C4B5BB
+	for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 20:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3604ae9e876so39665335ab.0
+        for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 12:36:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704918986; x=1705523786;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+p7GeMIt7RgYHRE3hg0nWVt+PaUhCpGiXFxdl2iGNEE=;
+        b=MCsxY7XrZ5/VPM8bPz4UAoRPV8Lfo110QkvmpaDZT0+Zc+bY3aW6Ws523/NOQPOQIs
+         Z93CCQ6aJKNY1urZzb55NjUlVnxBnWqQ/3C1sk1k4aNu0NqXznrZwYa3+AEqlfL8b+nI
+         giQdJY2uogSB7RzSZ73dV5u/DKEc7ZTSGuq/JNLjXqaebfanp12OaGneFtk1o3Q6wsEq
+         0lRmj4H3di3xb04SlgAhuXFKoAXrsohb/21PXO4n+Y+/YXiO41WW/7x6O6Y+aL9GmRWy
+         Knzm+BeX8IgIM0LpYGIppMRulcayBsAFQ424Mw3pcHgO5NOSvsLE298k8EBLGUHk1NNU
+         4g+A==
+X-Gm-Message-State: AOJu0YwY548yqdpfqEJKRTRyXNnM285n+kEZ3Gp0qEOo0AD2DpjGzxRP
+	OW+d0hPgioUVWaQaJpoDLgrJ9RMvJqdDXEE70EbQAVxLLnqW
+X-Google-Smtp-Source: AGHT+IGLlOxLjItJQrVX4A8bxrpwF+SodSX/V+F+ZdQxO96ocPjvHMBFGfDaO9ZafPjnyL0PBqqM7XfFuBrJkEnIa9XPTaZeTM8M
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+X-Received: by 2002:a92:c269:0:b0:35f:eceb:fc42 with SMTP id
+ h9-20020a92c269000000b0035fecebfc42mr11700ild.3.1704918986854; Wed, 10 Jan
+ 2024 12:36:26 -0800 (PST)
+Date: Wed, 10 Jan 2024 12:36:26 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000951e73060e9d627a@google.com>
+Subject: [syzbot] Monthly media report (Jan 2024)
+From: syzbot <syzbot+listf9a52addc2d8713c0b5e@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Biju,
+Hello media maintainers/developers,
 
-On Thu, Jan 04, 2024 at 02:17:39PM +0000, Biju Das wrote:
-> On Friday, December 15, 2023 2:56 PM, Biju Das wrote:
-> > On Friday, December 15, 2023 2:18 PM, Maxime Ripard wrote:
-> > > On Fri, Dec 15, 2023 at 01:52:28PM +0000, Biju Das wrote:
-> > > > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc) {
-> > > > > > > > > > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > > > > > > > > > +
-> > > > > > > > > > +	rcrtc->vblank_enable = true;
-> > > > > > > > > > +
-> > > > > > > > > > +	return 0;
-> > > > > > > > > > +}
-> > > > > > > > > > +
-> > > > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc)
-> > > > > > > > > > +{
-> > > > > > > > > > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > > > > > > > > > +
-> > > > > > > > > > +	rcrtc->vblank_enable = false; }
-> > > > > > > > >
-> > > > > > > > > You should enable / disable your interrupts here
-> > > > > > > >
-> > > > > > > > We don't have dedicated vblank IRQ for enabling/disabling vblank.
-> > > > > > > >
-> > > > > > > > vblank is handled by vspd.
-> > > > > > > >
-> > > > > > > > vspd is directly rendering images to display,
-> > > > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
-> > > > > > > > called in vspd's pageflip context.
-> > > > > > > >
-> > > > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
-> > > > > > >
-> > > > > > > Sorry, I couldn't really get how the interrupt flow / vblank
-> > > > > > > reporting is going to work. Could you explain it a bit more?
-> > > > > >
-> > > > > > We just need to handle vertical blanking in the VSP frame end handler.
-> > > > > > See the code below.
-> > > > > >
-> > > > > > static void rzg2l_du_vsp_complete(void *private, unsigned int status,
-> > > > > > u32 crc) {
-> > > > > > 	struct rzg2l_du_crtc *crtc = private;
-> > > > > >
-> > > > > > 	if (crtc->vblank_enable)
-> > > > > > 		drm_crtc_handle_vblank(&crtc->crtc);
-> > > > > >
-> > > > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
-> > > > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
-> > > > > >
-> > > > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
-> > > > >
-> > > > > Then we're back to the same question :)
-> > > > >
-> > > > > Why can't you mask the frame end interrupt?
-> > > >
-> > > > We are masking interrupts.
-> > > >
-> > > > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
-> > > > [   70.650243] #########rzg2l_du_vsp_disable ############
-> > > > [   70.652003] ########## vsp1_wpf_stop###
-> > > >
-> > > > Unmask is,
-> > > >
-> > > > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
-> > > > [ 176.354922] #########rzg2l_du_vsp_atomic_flush ############
-> > > > [ 176.355198] ########## wpf_configure_stream###
-> > >
-> > > Sorry, my question was why aren't you unmasking and masking them in
-> > > the enable/disable_vblank hooks of the CRTC.
-> > 
-> > I have n't tried that. Will try and provide feedback.
-> > 
-> > Currently the IRQ source belongs to VSPD in media subsystem.
-> > So I need to export an API though vsp1_drm and test it.
-> 
-> + linux-media
-> 
-> Laurent, are you ok with the below RZ/G2L specific patch[1] for
-> enabling/disabling frame end interrupt in VSP driver?
-> Note:
-> I need to add a quirk for handling this only for RZ/G2L family as
-> other SoCs have Vblank specific interrupt available in DU.
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
-The DU driver on Gen3 handles vblank exactly as in your patch. What's
-the problem with that ?
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 13 issues are still open and 85 have been fixed so far.
 
-> [1]
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index 9b087bd8df7d..39347c16bb27 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> @@ -936,6 +936,14 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
->  }
->  EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
->  
-> +void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask)
-> +{
-> +       struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> +
-> +       vsp1_write(vsp1, VI6_WPF_IRQ_ENB(0), mask ? 0 : VI6_WPF_IRQ_ENB_DFEE);
+Some of the still happening issues:
 
-That will break everything. As soon as you turn of vblank reporting, the
-VSP will stop processing frames and the display will freeze.
+Ref Crashes Repro Title
+<1> 855     Yes   general protection fault in ir_raw_event_store_with_filter
+                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
+<2> 108     Yes   inconsistent lock state in sync_timeline_debug_remove
+                  https://syzkaller.appspot.com/bug?extid=7dcd254b8987a29f6450
+<3> 100     Yes   WARNING in media_create_pad_link
+                  https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
+<4> 86      Yes   WARNING in smsusb_start_streaming/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
+<5> 55      Yes   KASAN: use-after-free Read in send_packet
+                  https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
+<6> 3       Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
+                  https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
 
-> +}
-> +EXPORT_SYMBOL_GPL(vsp1_du_mask_frame_end_interrupt);
-> +
->  /* -----------------------------------------------------------------------------
->   * Initialization
->   */
-> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-> index 48f4a5023d81..ccac48a6bdd2 100644
-> --- a/include/media/vsp1.h
-> +++ b/include/media/vsp1.h
-> @@ -117,4 +117,6 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
->  int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
->  void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
->  
-> +void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask);
-> +
->  #endif /* __MEDIA_VSP1_H__ */
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
--- 
-Regards,
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-Laurent Pinchart
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
 
