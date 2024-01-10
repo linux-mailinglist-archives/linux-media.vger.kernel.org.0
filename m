@@ -1,354 +1,338 @@
-Return-Path: <linux-media+bounces-3465-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3466-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509F0829A90
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 13:47:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6106B829AA3
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 13:50:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54C201C25262
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 12:47:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E425D285CED
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 12:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD05C482E1;
-	Wed, 10 Jan 2024 12:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA674879C;
+	Wed, 10 Jan 2024 12:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XK474F6B"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e078sTl6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E3B482C5
-	for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 12:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a2814fa68eeso331021866b.1
-        for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 04:47:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704890829; x=1705495629; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=RiNCAuE0AmW1Qx4fUCeZdcws3M+8T9Wl5ljkkxuFZAg=;
-        b=XK474F6BCZjfKqJ9/wgiD/w2yh+8XQB/isADTYjRetblO44s3+2olrIXSO83ObTqMD
-         24oXCnVbwbphA0vrtwhxt2E2mnwR8NPm+nmV1TExud9U19L0coHb1FJGh469PPR73N+h
-         jVP7tHU9C84arAh+ljCkfLEXSGp3cT5hrQz1/DQfdhO2JyIrItKmJz3iXA0ZsWUVKRXc
-         YgeFT0IVQSzY1W3KmPN/pRiRBwQP0AJeXA/KlMFAnRN7+gY2WiZr5tATlDgVHS1l6F1M
-         SQtdlyDnUwIWJ4iP5cSrNHTgAIzSwW08ZgPY3hzMOHUNmtiB9MT0y0wgPiRTTpygE1ZF
-         gFVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704890829; x=1705495629;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RiNCAuE0AmW1Qx4fUCeZdcws3M+8T9Wl5ljkkxuFZAg=;
-        b=sgKc8hLb3+3csd3gaKDA6ACaS+4hLcqF+B2D+ZNSbOs3OAOyu/QvcVtrPh9FJr52Ha
-         6G2I3ifxu8M8shKiiQytRK3Icb12r4cSi/3ORP0syeNrVvUcAOjfTB29N18sro38SDXE
-         6a54hBPQHv3lzyu65UfzID4I8RmuFOcsJd8HstPGx+7eIqVfNcRDk4ivasvwKxtPinIc
-         P3LfodOV8MM0q8ME2i/AU654TPb7Q2mv5VmiquFledjRaWizBrYN3sPFs1XqMdWCyFwH
-         mkY1S/9UjOYJRGgtCukHThDFGhzTnB0KpCy+BgxZP8TiDI20Muxr1iM6Li1tP8cStCNT
-         13kQ==
-X-Gm-Message-State: AOJu0YzYo1UreZ+SQZXylbn0XAPfnPTyG6i8CME+K5/wqAJPXOR8uRe8
-	aoq/C8B7y14AcnLgtQkY/3gaWqGZtDN0vg==
-X-Google-Smtp-Source: AGHT+IFxfhY02GtVOnUxDed8n5r4vdlhrehAHQ0JoqBo7wfwNbmbWqCuK5XH1Q1fJVVXlEbe0gXylA==
-X-Received: by 2002:a17:906:6d83:b0:a27:af7:bba5 with SMTP id h3-20020a1709066d8300b00a270af7bba5mr625904ejt.22.1704890829251;
-        Wed, 10 Jan 2024 04:47:09 -0800 (PST)
-Received: from [10.9.136.59] ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id le15-20020a170907170f00b00a2a0212cfe1sm2041117ejc.50.2024.01.10.04.47.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 04:47:08 -0800 (PST)
-Message-ID: <88416959ba28670efc3018446a241b6f45839d31.camel@gmail.com>
-Subject: Re: [PATCH v2 10/15] media: intel/ipu6: add input system driver
-From: Andreas Helbech Kleist <andreaskleist@gmail.com>
-To: bingbu.cao@intel.com, linux-media@vger.kernel.org, 
-	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc: andriy.shevchenko@linux.intel.com, hdegoede@redhat.com, 
- ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
- tfiga@chromium.org,  senozhatsky@chromium.org,
- tomi.valkeinen@ideasonboard.com,  bingbu.cao@linux.intel.com,
- tian.shu.qiu@intel.com, hongju.wang@intel.com
-Date: Wed, 10 Jan 2024 13:47:07 +0100
-In-Reply-To: <20231024112924.3934228-11-bingbu.cao@intel.com>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
-	 <20231024112924.3934228-11-bingbu.cao@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C003482E4;
+	Wed, 10 Jan 2024 12:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi [91.154.35.128])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BEB07FC;
+	Wed, 10 Jan 2024 13:49:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1704890946;
+	bh=089TikI/mHqxiGpYRCRA5lqKhmjSHYwQUEDLqHl2dao=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=e078sTl6TevbDn71HOvC4RJz3J9D7+PHttAHi5Ya8LLg8h4TvdAYyean+EjYlyLrW
+	 5NUePzgcYsuaqloHzb6Lky9S6UB7bmf+zve176aPaO3wPOpPIbIeeqf3kMvF7xXVTo
+	 yiVtrqpEbJHdm3NElOy6RfSXC2G6RCjA5+lTeVF8=
+Message-ID: <0b85defe-c334-4317-9057-5db45a480841@ideasonboard.com>
+Date: Wed, 10 Jan 2024 14:50:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] media: v4l: implement virtual channels
+Content-Language: en-US
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Hans de Goede
+ <hdegoede@redhat.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240110125103.215267-1-demonsingur@gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240110125103.215267-1-demonsingur@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Bingbu,
+Hi!
 
-On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
->=20
-> Input system driver do basic isys hardware setup and irq handling
-> and work with fwnode and v4l2 to register the ISYS v4l2 devices.
->=20
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> Reported-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+On 10/01/2024 14:51, Cosmin Tanislav wrote:
+> With experimental support for multiple streams per pad being added, the
+> pieces are in place to support a virtual channel id per stream.
+> 
+> This is necessary because stream ids cannot be directly mapped to a virtual
+> channel id, since the same virtual channel id can be assigned to multiple
+> streams of data, each with a different data type.
+> 
+> To implement this, the following steps have been taken.
+> 
+> Add subdev ioctls for getting and setting the virtual channel for a
+> specific pad and stream.
+> 
+> Add pad .get_vc() and .set_vc() ops.
+> 
+> Add the virtual channel to the stream config in V4L2 subdev central state.
+> 
+> Add a default .get_vc() implementation that retrieves the virtual channel
+> from the central state, or, if that is not supported, default to virtual
+> channel 0.
+
+Why do you need this?
+
+The design idea with streams was that the streams are not tied to CSI-2 
+streams (or to any specific HW). The CSI-2 virtual channels should be 
+handled by the drivers internally, and they should not be visible to the 
+userspace at all.
+
+  Tomi
+
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 > ---
->  drivers/media/pci/intel/ipu6/ipu6-isys.c | 1345 ++++++++++++++++++++++
->  drivers/media/pci/intel/ipu6/ipu6-isys.h |  201 ++++
->  2 files changed, 1546 insertions(+)
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.h
->=20
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci=
-/intel/ipu6/ipu6-isys.c
-> new file mode 100644
-> index 000000000000..2ea0c9ad6f16
-> --- /dev/null
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-
-...
-
-> +struct isys_fw_msgs *ipu6_get_fw_msg_buf(struct ipu6_isys_stream *stream=
-)
-> +{
-> +	struct ipu6_isys *isys =3D stream->isys;
-> +	struct device *dev =3D &isys->adev->auxdev.dev;
-> +	struct isys_fw_msgs *msg;
-> +	unsigned long flags;
-> +	int ret;
+>   drivers/media/v4l2-core/v4l2-subdev.c | 57 +++++++++++++++++++++++++++
+>   include/media/v4l2-subdev.h           | 39 ++++++++++++++++++
+>   include/uapi/linux/v4l2-subdev.h      | 18 +++++++++
+>   3 files changed, 114 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index be86b906c985..8945bfd0fe12 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -535,6 +535,9 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+>   	case VIDIOC_SUBDEV_S_ROUTING:
+>   		which = ((struct v4l2_subdev_routing *)arg)->which;
+>   		break;
+> +	case VIDIOC_SUBDEV_G_VC:
+> +	case VIDIOC_SUBDEV_S_VC:
+> +		which = ((struct v4l2_subdev_vc *)arg)->which;
+>   	}
+>   
+>   	return which == V4L2_SUBDEV_FORMAT_TRY ?
+> @@ -969,6 +972,26 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>   					routing->which, &krouting);
+>   	}
+>   
+> +	case VIDIOC_SUBDEV_G_VC: {
+> +		struct v4l2_subdev_vc *vc = arg;
 > +
-> +	spin_lock_irqsave(&isys->listlock, flags);
-> +	if (list_empty(&isys->framebuflist)) {
-> +		spin_unlock_irqrestore(&isys->listlock, flags);
-> +		dev_dbg(dev, "Frame list empty\n");
+> +		if (!client_supports_streams)
+> +			vc->stream = 0;
 > +
-> +		ret =3D alloc_fw_msg_bufs(isys, 5);
-> +		if (ret < 0)
-> +			return NULL;
-> +
-> +		spin_lock_irqsave(&isys->listlock, flags);
-> +		if (list_empty(&isys->framebuflist)) {
-> +			spin_unlock_irqrestore(&isys->listlock, flags);
-> +			dev_err(dev, "Frame list empty\n");
-> +			return NULL;
-> +		}
-> +	}
-> +	msg =3D list_last_entry(&isys->framebuflist, struct isys_fw_msgs, head)=
-;
-> +	list_move(&msg->head, &isys->framebuflist_fw);
-> +	spin_unlock_irqrestore(&isys->listlock, flags);
-> +	memset(&msg->fw_msg, 0, sizeof(msg->fw_msg));
-> +
-> +	return msg;
-> +}
-> +
-> +void ipu6_cleanup_fw_msg_bufs(struct ipu6_isys *isys)
-> +{
-> +	struct isys_fw_msgs *fwmsg, *fwmsg0;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&isys->listlock, flags);
-> +	list_for_each_entry_safe(fwmsg, fwmsg0, &isys->framebuflist_fw, head)
-> +		list_move(&fwmsg->head, &isys->framebuflist);
-> +	spin_unlock_irqrestore(&isys->listlock, flags);
-> +}
-> +
-> +void ipu6_put_fw_msg_buf(struct ipu6_isys *isys, u64 data)
-> +{
-> +	struct isys_fw_msgs *msg;
-> +	unsigned long flags;
-> +	u64 *ptr =3D (u64 *)data;
-> +
-> +	if (!ptr)
-> +		return;
-> +
-> +	spin_lock_irqsave(&isys->listlock, flags);
-> +	msg =3D container_of(ptr, struct isys_fw_msgs, fw_msg.dummy);
-
-The dummy field is only there to do this container_of, but ptr and msg
-point to the same address, since the union dummy is in is the first
-field. So the container_of is exactly the same as simply casting the
-pointer.
-
-> +	list_move(&msg->head, &isys->framebuflist);
-> +	spin_unlock_irqrestore(&isys->listlock, flags);
-> +}
-...
-
-> +static int isys_isr_one(struct ipu6_bus_device *adev)
-> +{
-> +	struct ipu6_isys *isys =3D ipu6_bus_get_drvdata(adev);
-> +	struct ipu6_fw_isys_resp_info_abi *resp;
-> +	struct ipu6_isys_stream *stream;
-> +	struct ipu6_isys_csi2 *csi2 =3D NULL;
-> +	u64 ts;
-> +
-> +	if (!isys->fwcom)
-> +		return 1;
-> +
-> +	resp =3D ipu6_fw_isys_get_resp(isys->fwcom, IPU6_BASE_MSG_RECV_QUEUES);
-> +	if (!resp)
-> +		return 1;
-> +
-> +	ts =3D (u64)resp->timestamp[1] << 32 | resp->timestamp[0];
-> +
-> +	if (resp->error_info.error =3D=3D IPU6_FW_ISYS_ERROR_STREAM_IN_SUSPENSI=
-ON)
-> +		/* Suspension is kind of special case: not enough buffers */
-> +		dev_dbg(&adev->auxdev.dev,
-> +			"FW error resp %02d %s, stream %u, error SUSPENSION, details %d, time=
-stamp 0x%16.16llx, pin %d\n",
-> +			resp->type,
-> +			fw_msg[resp_type_to_index(resp->type)].msg,
-> +			resp->stream_handle,
-> +			resp->error_info.error_details,
-> +			fw_msg[resp_type_to_index(resp->type)].valid_ts ?
-> +			ts : 0, resp->pin_id);
-> +	else if (resp->error_info.error)
-> +		dev_dbg(&adev->auxdev.dev,
-> +			"FW error resp %02d %s, stream %u, error %d, details %d, timestamp 0x=
-%16.16llx, pin %d\n",
-> +			resp->type,
-> +			fw_msg[resp_type_to_index(resp->type)].msg,
-> +			resp->stream_handle,
-> +			resp->error_info.error, resp->error_info.error_details,
-> +			fw_msg[resp_type_to_index(resp->type)].valid_ts ?
-> +			ts : 0, resp->pin_id);
-> +	else
-> +		dev_dbg(&adev->auxdev.dev,
-> +			"FW resp %02d %s, stream %u, timestamp 0x%16.16llx, pin %d\n",
-> +			resp->type,
-> +			fw_msg[resp_type_to_index(resp->type)].msg,
-> +			resp->stream_handle,
-> +			fw_msg[resp_type_to_index(resp->type)].valid_ts ?
-> +			ts : 0, resp->pin_id);
-> +
-> +	if (resp->stream_handle >=3D IPU6_ISYS_MAX_STREAMS) {
-> +		dev_err(&adev->auxdev.dev, "bad stream handle %u\n",
-> +			resp->stream_handle);
-> +		goto leave;
+> +		memset(vc->reserved, 0, sizeof(vc->reserved));
+> +		return v4l2_subdev_call(sd, pad, get_vc, state, vc);
 > +	}
 > +
-> +	stream =3D ipu6_isys_query_stream_by_handle(isys, resp->stream_handle);
-> +	if (!stream) {
-> +		dev_err(&adev->auxdev.dev, "stream of stream_handle %u is unused\n",
-> +			resp->stream_handle);
-> +		goto leave;
-> +	}
-> +	stream->error =3D resp->error_info.error;
+> +	case VIDIOC_SUBDEV_S_VC: {
+> +		struct v4l2_subdev_vc *vc = arg;
 > +
-> +	csi2 =3D ipu6_isys_subdev_to_csi2(stream->asd);
+> +		if (!client_supports_streams)
+> +			vc->stream = 0;
 > +
-> +	switch (resp->type) {
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_OPEN_DONE:
-> +		complete(&stream->stream_open_completion);
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CLOSE_ACK:
-> +		complete(&stream->stream_close_completion);
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_ACK:
-> +		complete(&stream->stream_start_completion);
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_AND_CAPTURE_ACK:
-> +		complete(&stream->stream_start_completion);
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_STOP_ACK:
-> +		complete(&stream->stream_stop_completion);
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_FLUSH_ACK:
-> +		complete(&stream->stream_stop_completion);
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_PIN_DATA_READY:
-> +		/*
-> +		 * firmware only release the capture msg until software
-> +		 * get pin_data_ready event
-> +		 */
-> +		ipu6_put_fw_msg_buf(ipu6_bus_get_drvdata(adev), resp->buf_id);
-
-Is there a difference between IPU4 and IPU6 here? `buf_id` is always 0
-on IPU4, so this doesn't release anything.
-
-The PIN_DATA_READY response is sent multiple times per call to
-ipu6_get_fw_msg_buf, so if I'm not mistaken, this can only be correct
-if the firmware only sends the buf_id in one of the PIN_DATA_READY
-responses.
-
-The correct pointer to release seems to be passed in the various _ACK
-responses on IPU4. I think it would make a lot more sense to release
-the buffer there. But of course, if there is a bug in the firmware we
-might have to do something else.
-
-> +		if (resp->pin_id < IPU6_ISYS_OUTPUT_PINS &&
-> +		    stream->output_pins[resp->pin_id].pin_ready)
-> +			stream->output_pins[resp->pin_id].pin_ready(stream,
-> +								    resp);
-> +		else
-> +			dev_warn(&adev->auxdev.dev,
-> +				 "%d:No data pin ready handler for pin id %d\n",
-> +				 resp->stream_handle, resp->pin_id);
-> +		if (csi2)
-> +			ipu6_isys_csi2_error(csi2);
-> +
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_ACK:
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_AND_CAPTURE_DONE:
-> +	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_DONE:
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_FRAME_SOF:
-> +
-> +		ipu6_isys_csi2_sof_event_by_stream(stream);
-> +		stream->seq[stream->seq_index].sequence =3D
-> +			atomic_read(&stream->sequence) - 1;
-> +		stream->seq[stream->seq_index].timestamp =3D ts;
-> +		dev_dbg(&adev->auxdev.dev,
-> +			"sof: handle %d: (index %u), timestamp 0x%16.16llx\n",
-> +			resp->stream_handle,
-> +			stream->seq[stream->seq_index].sequence, ts);
-> +		stream->seq_index =3D (stream->seq_index + 1)
-> +			% IPU6_ISYS_MAX_PARALLEL_SOF;
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_FRAME_EOF:
-> +		ipu6_isys_csi2_eof_event_by_stream(stream);
-> +		dev_dbg(&adev->auxdev.dev,
-> +			"eof: handle %d: (index %u), timestamp 0x%16.16llx\n",
-> +			resp->stream_handle,
-> +			stream->seq[stream->seq_index].sequence, ts);
-> +		break;
-> +	case IPU6_FW_ISYS_RESP_TYPE_STATS_DATA_READY:
-> +		break;
-> +	default:
-> +		dev_err(&adev->auxdev.dev, "%d:unknown response type %u\n",
-> +			resp->stream_handle, resp->type);
-> +		break;
+> +		memset(vc->reserved, 0, sizeof(vc->reserved));
+> +		return v4l2_subdev_call(sd, pad, set_vc, state, vc);
 > +	}
 > +
-> +	ipu6_isys_put_stream(stream);
-> +leave:
-> +	ipu6_fw_isys_put_resp(isys->fwcom, IPU6_BASE_MSG_RECV_QUEUES);
+>   	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
+>   		struct v4l2_subdev_client_capability *client_cap = arg;
+>   
+> @@ -1602,6 +1625,20 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+>   }
+>   EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
+>   
+> +int v4l2_subdev_get_vc(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> +		       struct v4l2_subdev_vc *vc)
+> +{
+> +	u32 vc_id = 0;
+> +
+> +	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
+> +		vc_id = v4l2_subdev_state_get_stream_vc(state, vc->pad, vc->stream);
+> +
+> +	vc->vc = vc_id;
+> +
 > +	return 0;
 > +}
-...
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys.h
-...
-> +struct isys_fw_msgs {
-> +	union {
-> +		u64 dummy;
-> +		struct ipu6_fw_isys_frame_buff_set_abi frame;
-> +		struct ipu6_fw_isys_stream_cfg_data_abi stream;
-> +	} fw_msg;
-> +	struct list_head head;
-> +	dma_addr_t dma_addr;
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_vc);
+> +
+>   int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+>   			    struct v4l2_subdev_state *state,
+>   			    const struct v4l2_subdev_krouting *routing)
+> @@ -1745,6 +1782,26 @@ v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
+>   }
+>   EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_compose);
+>   
+> +u32 v4l2_subdev_state_get_stream_vc(struct v4l2_subdev_state *state,
+> +				    unsigned int pad, u32 stream)
+> +{
+> +	struct v4l2_subdev_stream_configs *stream_configs;
+> +	unsigned int i;
+> +
+> +	lockdep_assert_held(state->lock);
+> +
+> +	stream_configs = &state->stream_configs;
+> +
+> +	for (i = 0; i < stream_configs->num_configs; ++i) {
+> +		if (stream_configs->configs[i].pad == pad &&
+> +		    stream_configs->configs[i].stream == stream)
+> +			return stream_configs->configs[i].vc;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_vc);
+> +
+>   int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
+>   					  u32 pad, u32 stream, u32 *other_pad,
+>   					  u32 *other_stream)
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index c1f90c1223a7..ed1fdd79c2bb 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -722,6 +722,7 @@ struct v4l2_subdev_stream_config {
+>   	u32 stream;
+>   	bool enabled;
+>   
+> +	u32 vc;
+>   	struct v4l2_mbus_framefmt fmt;
+>   	struct v4l2_rect crop;
+>   	struct v4l2_rect compose;
+> @@ -858,6 +859,12 @@ struct v4l2_subdev_pad_ops {
+>   	int (*set_fmt)(struct v4l2_subdev *sd,
+>   		       struct v4l2_subdev_state *state,
+>   		       struct v4l2_subdev_format *format);
+> +	int (*get_vc)(struct v4l2_subdev *sd,
+> +		      struct v4l2_subdev_state *state,
+> +		      struct v4l2_subdev_vc *vc);
+> +	int (*set_vc)(struct v4l2_subdev *sd,
+> +		      struct v4l2_subdev_state *state,
+> +		      struct v4l2_subdev_vc *vc);
+>   	int (*get_selection)(struct v4l2_subdev *sd,
+>   			     struct v4l2_subdev_state *state,
+>   			     struct v4l2_subdev_selection *sel);
+> @@ -1494,6 +1501,23 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
+>   int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+>   			struct v4l2_subdev_format *format);
+>   
+> +/**
+> + * v4l2_subdev_get_vc() - Fill virtual channel based on state
+> + * @sd: subdevice
+> + * @state: subdevice state
+> + * @vc: pointer to &struct v4l2_subdev_vc
+> + *
+> + * Fill @vc->vc field based on the information in the @vc struct.
+> + *
+> + * This function can be used by the subdev drivers which support active state to
+> + * implement v4l2_subdev_pad_ops.get_vc if the subdev driver does not need to
+> + * do anything special in their get_vc op.
+> + *
+> + * Returns 0 on success, error value otherwise.
+> + */
+> +int v4l2_subdev_get_vc(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> +		       struct v4l2_subdev_vc *vc);
+> +
+>   /**
+>    * v4l2_subdev_set_routing() - Set given routing to subdev state
+>    * @sd: The subdevice
+> @@ -1585,6 +1609,21 @@ struct v4l2_rect *
+>   v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
+>   				     unsigned int pad, u32 stream);
+>   
+> +/**
+> + * v4l2_subdev_state_get_stream_vc() - Get the virtual channel of a stream
+> + * @state: subdevice state
+> + * @pad: pad id
+> + * @stream: stream id
+> + *
+> + * This returns the virtual channel for the given pad + stream in the
+> + * subdev state.
+> + *
+> + * If the state does not contain the given pad + stream, 0 is returned.
+> + */
+> +u32
+> +v4l2_subdev_state_get_stream_vc(struct v4l2_subdev_state *state,
+> +				unsigned int pad, u32 stream);
+> +
+>   /**
+>    * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
+>    * @routing: routing used to find the opposite side
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index b383c2fe0cf3..8e90405bb1e6 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -187,6 +187,22 @@ struct v4l2_subdev_capability {
+>   	__u32 reserved[14];
+>   };
+>   
+> +/**
+> + * struct v4l2_subdev_vc - Pad-level virtual channel settings
+> + * @which: format type (from enum v4l2_subdev_format_whence)
+> + * @pad: pad number, as reported by the media API
+> + * @vc: virtual channel
+> + * @stream: stream number, defined in subdev routing
+> + * @reserved: drivers and applications must zero this array
+> + */
+> +struct v4l2_subdev_vc {
+> +	__u32 which;
+> +	__u32 pad;
+> +	__u32 vc;
+> +	__u32 stream;
+> +	__u32 reserved[7];
 > +};
 > +
-> +struct isys_fw_msgs *ipu6_get_fw_msg_buf(struct ipu6_isys_stream *stream=
-);
-> +void ipu6_put_fw_msg_buf(struct ipu6_isys *isys, u64 data);
-
-I it would be easier to understand these functions if the
-ipu6_put_fw_msg_buf function, took the same type that the get function
-returns.=20
-
-/Andreas
+>   /* The v4l2 sub-device video device node is registered in read-only mode. */
+>   #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
+>   
+> @@ -268,6 +284,8 @@ struct v4l2_subdev_client_capability {
+>   #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
+>   #define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
+>   #define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
+> +#define VIDIOC_SUBDEV_G_VC			_IOWR('V', 40, struct v4l2_subdev_vc)
+> +#define VIDIOC_SUBDEV_S_VC			_IOWR('V', 41, struct v4l2_subdev_vc)
+>   #define VIDIOC_SUBDEV_G_CLIENT_CAP		_IOR('V',  101, struct v4l2_subdev_client_capability)
+>   #define VIDIOC_SUBDEV_S_CLIENT_CAP		_IOWR('V',  102, struct v4l2_subdev_client_capability)
+>   
 
 
