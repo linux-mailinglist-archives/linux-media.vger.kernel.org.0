@@ -1,123 +1,111 @@
-Return-Path: <linux-media+bounces-3435-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3439-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8983B82939A
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 07:13:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0058293C3
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 07:37:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B8D751C2559A
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 06:13:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04C06B259B3
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 06:36:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38C6D32C7A;
-	Wed, 10 Jan 2024 06:12:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 042523E47D;
+	Wed, 10 Jan 2024 06:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="c4V0veSQ"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="e2bvmJf6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C5F8C1A;
-	Wed, 10 Jan 2024 06:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40A307fi013283;
-	Wed, 10 Jan 2024 06:12:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=B5ouaHYiX5AW
-	dbZ7NSH7SvAb5JmdaWdv865fJJ5wI9Y=; b=c4V0veSQI3N4KmTf17J1RxsG1cau
-	vH9SUaqDvTs4W2CxxZZcMOWpTXFvpzUVGwr0y6VDmdmH7iASJ99TPw0I0KwLHtUd
-	RNkVC49ZVJNvxJgLXAhwad2niVvn6Ig3F3YdTSfmQijbMJxKRXSr5Q2+mL5/n7+x
-	Olc/T/8U/PCslPmYc7KZ0jLRKsvPJiSzjrwfvIsLMl+1hG7I/iJRLt0k0f22UQKX
-	t2mNQU6idQLUsgXWMuM105ZqL2Zdik/PYzQWYv5LtYMhqQd1uSWKz6NZ/IQqbsxR
-	5GivRhoU+umvA8Wgla3tp6ECLXhH24R42AOH3PwvXZd3YJYg0OXsnmddng==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vh9vfhghg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jan 2024 06:12:41 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 40A6CbAs006500;
-	Wed, 10 Jan 2024 06:12:37 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3veyxku493-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 10 Jan 2024 06:12:37 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40A6Cb5m006494;
-	Wed, 10 Jan 2024 06:12:37 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 40A6Cb6e006493;
-	Wed, 10 Jan 2024 06:12:37 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-	id 32E1B2511; Wed, 10 Jan 2024 11:42:36 +0530 (+0530)
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: [PATCH v2] media: venus: flush all buffers in output plane streamoff
-Date: Wed, 10 Jan 2024 11:42:14 +0530
-Message-Id: <1704867134-5522-1-git-send-email-quic_dikshita@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Xkb_cSNPdyGiOr_mKzcLSTF42cKVBzKm
-X-Proofpoint-ORIG-GUID: Xkb_cSNPdyGiOr_mKzcLSTF42cKVBzKm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- lowpriorityscore=0 suspectscore=0 clxscore=1011 priorityscore=1501
- impostorscore=0 adultscore=0 bulkscore=0 mlxlogscore=862 spamscore=0
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401100049
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D3939FEF;
+	Wed, 10 Jan 2024 06:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 756da1feaf8211eea2298b7352fd921d-20240110
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=vjXmLIHryISHRUtxh9pi1TfFi3d26ZfU2q7c/DnXizk=;
+	b=e2bvmJf6QlTMi0DG0+KpCdyxHsVjVLVxclrIdn3/znMIjcty5AEytCwcqVHOCrPaLFmuRrVelAxB5TC28wD2dzxqDvHpL/sRdb4fN6+fDLQftlhfFvSd4UfQBmRYvdFRoIPpCo9Xxe1G7ze8T6EPhSDNeoFVrdrL4Zi9XCGFzOQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35,REQID:54004e52-5208-48ef-8ad8-fa8e0f6f7c50,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:5d391d7,CLOUDID:5fab168e-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+	DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 756da1feaf8211eea2298b7352fd921d-20240110
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1940673489; Wed, 10 Jan 2024 14:35:34 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 10 Jan 2024 14:35:33 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 10 Jan 2024 14:35:33 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, Jason-ch Chen
+	<jason-ch.chen@mediatek.com>, Johnson Wang <johnson.wang@mediatek.com>,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>, Singo Chang
+	<singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Shawn Sung
+	<shawn.sung@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jason-jh Lin
+	<jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH v2 0/4] Add mediatek,gce-props.yaml for other bindings reference mediatek,gce-events
+Date: Wed, 10 Jan 2024 14:35:28 +0800
+Message-ID: <20240110063532.14124-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK: N
 
-For scenarios, when source change is followed by VIDIOC_STREAMOFF
-on output plane, driver should discard any queued OUTPUT
-buffers, which are not decoded or dequeued.
-Flush with HFI_FLUSH_INPUT does not have any actual impact.
-So, fix it, by invoking HFI_FLUSH_ALL, which will flush all
-queued buffers.
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
-Fixes: 85872f861d4c ("media: venus: Mark last capture buffer")
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
----
-Changes since v1:
-- Added fixes tag (Bryan)
+Since mediatek,gce-events property is a HW event signal to GCE,
+it can be used for both mailbox producers and consumers.
 
- drivers/media/platform/qcom/venus/vdec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Add a new mediatek,gce-props.yaml to define this kind of GCE properties
+and move mediatek,gce-events property existed in other bindings
+to reference mediatek,gce-props.yaml.
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 29130a9..0d2ab95 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -1255,7 +1255,7 @@ static int vdec_stop_output(struct venus_inst *inst)
- 		break;
- 	case VENUS_DEC_STATE_INIT:
- 	case VENUS_DEC_STATE_CAPTURE_SETUP:
--		ret = hfi_session_flush(inst, HFI_FLUSH_INPUT, true);
-+		ret = hfi_session_flush(inst, HFI_FLUSH_ALL, true);
- 		break;
- 	default:
- 		break;
+Jason-JH.Lin (4):
+  dt-bindings: mailbox: Add mediatek,gce-props.yaml
+  dt-bindings: mailbox: mediatek: gce-mailbox: Add reference to
+    gce-props.yaml
+  dt-bindings: media: mediatek: mdp: Change mediatek,gce-events to
+    reference
+  dt-bindings: soc: mediatek: Change mediatek,gce-events to refernece
+
+ .../mailbox/mediatek,gce-mailbox.yaml         |  6 ++-
+ .../bindings/mailbox/mediatek,gce-props.yaml  | 41 +++++++++++++++++++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    | 11 ++---
+ .../bindings/media/mediatek,mdp3-rsz.yaml     | 12 ++----
+ .../bindings/media/mediatek,mdp3-wrot.yaml    | 12 ++----
+ .../bindings/soc/mediatek/mediatek,ccorr.yaml | 12 ++----
+ .../bindings/soc/mediatek/mediatek,mutex.yaml | 11 ++---
+ .../bindings/soc/mediatek/mediatek,wdma.yaml  | 12 ++----
+ 8 files changed, 67 insertions(+), 50 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+
 -- 
-2.7.4
+2.18.0
 
 
