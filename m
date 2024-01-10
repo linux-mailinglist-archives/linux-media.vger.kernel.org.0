@@ -1,151 +1,137 @@
-Return-Path: <linux-media+bounces-3456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181F98297FA
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 11:50:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AB2829840
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 12:03:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 046FA1C21A96
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 10:50:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D09A72884AB
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 11:03:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB7BC41239;
-	Wed, 10 Jan 2024 10:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 706DC45BF9;
+	Wed, 10 Jan 2024 11:03:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="si5w8zvv"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eY4JI/qZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B195F40C1C;
-	Wed, 10 Jan 2024 10:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40A9VLDp006375;
-	Wed, 10 Jan 2024 11:48:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	selector1; bh=XYFUPkHCquAfdm1z7WpruAcO8XbDhwQU7gWaIj3jlwc=; b=si
-	5w8zvvujTnSCB03AnYmiGORVogLCdq91EPMdw6iymjR5O+ICM/jQyrYMFbz5hbFA
-	66zZ6FoIdsaeUsaDsbjYhbMm+wUQh3TpxgCUcWb//79aPs+XiQrU6JdUCpJvYAzA
-	PzIAj/cDC9JRqLZQt7JwTc4vLLIEI3PftTQwYlPsd99f8kkDU2zlejYHNN23nQV8
-	jPgDBQOQqo/B1izhWB2UfZ6TRa7ek9A0eptbsMs0Wd8N+5gEGnJrZ/KfXrq3dobl
-	eGENXqC6p7NfP5AB5AGolb1ItKRW1SqJrsYIEX04HW8o82EoVwFcdQ3l5heXX2K6
-	IOxk4qkB81SEyN2MEdiQ==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vexmffv8v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jan 2024 11:48:05 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1020710002A;
-	Wed, 10 Jan 2024 11:48:05 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F132A26C050;
-	Wed, 10 Jan 2024 11:48:04 +0100 (CET)
-Received: from localhost (10.201.20.120) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 10 Jan
- 2024 11:48:04 +0100
-From: Hugues Fruchet <hugues.fruchet@foss.st.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        Laurent Pinchart
-	<laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Almeida
-	<daniel.almeida@collabora.com>,
-        Benjamin Mugnier
-	<benjamin.mugnier@foss.st.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Mauro
- Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>
-CC: Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Marco Felsch
-	<m.felsch@pengutronix.de>,
-        Adam Ford <aford173@gmail.com>
-Subject: [RESEND PATCH v6 5/5] arm64: dts: st: add video encoder support to stm32mp255
-Date: Wed, 10 Jan 2024 11:46:42 +0100
-Message-ID: <20240110104642.532011-6-hugues.fruchet@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240110104642.532011-1-hugues.fruchet@foss.st.com>
-References: <20240110104642.532011-1-hugues.fruchet@foss.st.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E75D41746
+	for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 11:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2ccbbb5eb77so46512901fa.2
+        for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 03:03:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704884603; x=1705489403; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fZC+BfL7VBFT+MXOIUs1PXUDcw++a29sikma7cyA3NA=;
+        b=eY4JI/qZTahJ4DvULw0zdcJWObw9N92p3webg9fQvPH3MZq3U6XGheFhmr8PHg7PYd
+         kMF56VgVoyoyUvsJECdY+FtNi0Zsx5gNyRqHd/YRTp6RDtTTT4HAlrlEZ5gnnqWNZIYx
+         +R4wb3HZZ4TUK4RQHRzG44T/4U0PzW92k13CIUCrP1tTwuFury23LGo0L4twjABnb0/R
+         D1ccHMQlPBpDtX7KCI0BwhDbZ+XsUtPojaJeR4zSTEy8XNwuwoB44gunIWHs43dooOXd
+         gjX3ZI46f9x3fnc1PMoKhH1//u4IvJRZmU8+5mXzLCHBdRG6La5sZuzqcxOChY1z9q0E
+         rEew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704884603; x=1705489403;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fZC+BfL7VBFT+MXOIUs1PXUDcw++a29sikma7cyA3NA=;
+        b=ZBnoMWM82W9M54Cr8cBgnrtsBG0z4hDQrOuCTiKrmi/WRELwGyx7tdR1qGzLcLASwx
+         LG1MBEPF6Sxa7qRxP0dfFIswqj/Oa3LZPoQHbj/dWHFQMNMy0hr/Q4idbS5jelxl+GmA
+         mQWYOuzWt2PjiKs6iqQWuowJwNnWCBwde3y8BozDHQaTdc+2KSX4RDJtl7G0muWT3Mla
+         sUWzd76TQYlqKY8R9G2nzhzUKWUozTcMrk4SEdaJ/ek+GoeKjtYaZip8q6hgfPCHeGDN
+         evhsC8G7tLd1532wOCPBKPmsEIcuczP+pbEqrQIL2kjdr9IveShu0fhbQr4Ie5O1Vi5k
+         fgPg==
+X-Gm-Message-State: AOJu0YxsBi4xjh9MwLFl16PmJl215MjWs7AwY1hM11DzvO8wHc8dMYzZ
+	759ba/Et9E2HSYUeAt3zWGNYaAJqff2P+w==
+X-Google-Smtp-Source: AGHT+IGd/bK2tTxR9PLQGzJbqy7pmb0WxHSefwbKRyb0ZJAHgelmtphi0KReJX4MC04C8QBPA8TDPQ==
+X-Received: by 2002:a05:651c:623:b0:2cd:23ed:19dc with SMTP id k35-20020a05651c062300b002cd23ed19dcmr409303lje.39.1704884603341;
+        Wed, 10 Jan 2024 03:03:23 -0800 (PST)
+Received: from [172.30.205.119] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id m7-20020a2ea587000000b002ccd2d688d8sm698861ljp.107.2024.01.10.03.03.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jan 2024 03:03:23 -0800 (PST)
+Message-ID: <4f8aafa2-2145-4090-afba-8a26242d5ac3@linaro.org>
+Date: Wed, 10 Jan 2024 12:03:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-05_08,2024-01-05_01,2023-05-22_02
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] arm64: dts: qcom: sc8280xp: camss: Add CCI
+ definitions
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-0-b8e3a74a6e6a@linaro.org>
+ <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-3-b8e3a74a6e6a@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-3-b8e3a74a6e6a@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add VENC hardware video encoder support to STM32MP255.
 
-Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
----
- arch/arm64/boot/dts/st/stm32mp251.dtsi | 6 ++++++
- arch/arm64/boot/dts/st/stm32mp255.dtsi | 7 +++++++
- 2 files changed, 13 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-index cd6c4f627739..1584debca7f5 100644
---- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
-+++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-@@ -58,6 +58,12 @@ ck_icn_p_vdec: ck-icn-p-vdec {
- 			compatible = "fixed-clock";
- 			clock-frequency = <200000000>;
- 		};
-+
-+		ck_icn_p_venc: ck-icn-p-venc {
-+			#clock-cells = <0>;
-+			compatible = "fixed-clock";
-+			clock-frequency = <200000000>;
-+		};
- 	};
- 
- 	firmware {
-diff --git a/arch/arm64/boot/dts/st/stm32mp255.dtsi b/arch/arm64/boot/dts/st/stm32mp255.dtsi
-index aea5096dac3c..17f197c5b22b 100644
---- a/arch/arm64/boot/dts/st/stm32mp255.dtsi
-+++ b/arch/arm64/boot/dts/st/stm32mp255.dtsi
-@@ -14,6 +14,13 @@ vdec: vdec@480d0000 {
- 				interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>;
- 				clocks = <&ck_icn_p_vdec>;
- 			};
-+
-+			venc: venc@480e0000 {
-+				compatible = "st,stm32mp25-venc";
-+				reg = <0x480e0000 0x800>;
-+				interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&ck_icn_ls_mcu>;
-+			};
- 		};
- 	};
- };
--- 
-2.25.1
+On 1/9/24 17:06, Bryan O'Donoghue wrote:
+> sc8280xp has four Camera Control Interface (CCI) blocks which pinout to
+> two I2C master controllers for each CCI.
+> 
+> The CCI I2C pins are not muxed so we define them in the dtsi.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 307 +++++++++++++++++++++++++++++++++
+>   1 file changed, 307 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> index febf28356ff8..f48dfa5e5f36 100644
+> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> @@ -3451,6 +3451,169 @@ usb_1_role_switch: endpoint {
+>   			};
+>   		};
+>   
+> +		cci0: cci@ac4a000 {
+> +			compatible = "qcom,sc8280xp-cci", "qcom,msm8996-cci";
+> +			reg = <0 0x0ac4a000 0 0x1000>;
+> +
+> +			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+> +
+> +			clocks = <&camcc CAMCC_CAMNOC_AXI_CLK>,
+> +				 <&camcc CAMCC_SLOW_AHB_CLK_SRC>,
+> +				 <&camcc CAMCC_CPAS_AHB_CLK>,
+> +				 <&camcc CAMCC_CCI_0_CLK>;
+> +			clock-names = "camnoc_axi",
+> +				      "slow_ahb_src",
+> +				      "cpas_ahb",
+> +				      "cci";
+> +
+> +			power-domains = <&camcc TITAN_TOP_GDSC>;
+> +
+> +			pinctrl-names = "default", "sleep";
+> +			pinctrl-0 = <&cci0_default>;
+> +			pinctrl-1 = <&cci0_sleep>;
+> +
+property-names goes below property-n, just like with clocks 10 lines
+above :/
 
+other than that:
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
 
