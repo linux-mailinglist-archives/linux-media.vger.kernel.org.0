@@ -1,56 +1,39 @@
-Return-Path: <linux-media+bounces-3444-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3445-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6FA82960B
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 10:16:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07450829617
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 10:18:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 45E9A1C217AB
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 09:16:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 22D87B21843
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 09:18:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 428253E49C;
-	Wed, 10 Jan 2024 09:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AE753E48E;
+	Wed, 10 Jan 2024 09:18:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="7+MoRUnP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rrWk+5EV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B15A3C490;
-	Wed, 10 Jan 2024 09:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40A8aGnq018108;
-	Wed, 10 Jan 2024 10:15:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=Oa0IFcQkZD0/owTviDimI7+i56Xf68eQjrWsXc8swwE=; b=7+
-	MoRUnP66xGbpAivfKSxhkbeuHLkaFvGnOXwo91qiWXXUYUkMNdh4MaQuRenc5jW6
-	Nh0r6WirKmHuZKhGBK59bGhD3Pc0lE6Vw3GblB+Wd6eplEGcZFrPFGkMyv+6uaza
-	PeUFWuOdZy7RgjMlZ7OgEdNQCNwxtSyq1B95/3kV6cQjnCVshXC+Xmkb81bMU6gK
-	yAV2QG466tXYNMzD2cS4WN8uu3O2TCtKRUbM8hH7fv3KFMYhh/ICGm80lQkFk4qs
-	117SSsB5OV18pk4WO/vSdGHcs8y090oNztBm5+nInhuUi/Vc32o8py3pp0L4oNKG
-	3449v/kVxfbrJmvt5ilA==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vey30qrvt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jan 2024 10:15:08 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2540610004A;
-	Wed, 10 Jan 2024 10:15:06 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1692B24B892;
-	Wed, 10 Jan 2024 10:15:06 +0100 (CET)
-Received: from [10.201.20.120] (10.201.20.120) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 10 Jan
- 2024 10:15:04 +0100
-Message-ID: <733bee3f-98ae-4f51-a1c5-6c09b38328ce@foss.st.com>
-Date: Wed, 10 Jan 2024 10:15:04 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047563E472;
+	Wed, 10 Jan 2024 09:18:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93ED8C433C7;
+	Wed, 10 Jan 2024 09:17:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704878285;
+	bh=bIJjfJfwgLRTwXnuckVc1nVmrnPvrWOYPCGJ148deRE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rrWk+5EVIq0IzEjuU8SLdSy8Qix7tbFOjWOJ3Us9bT8KlKZqKeLWqoOZ2TfyzVikh
+	 j+6iygmyOA4tjQzk/JhdTnbnSPJ61Pp0BFUVMNOO1vDnVMargB0iv5myYIOIXkUtWB
+	 DZj8nuK3Yo5whQATEcUK9uyM7MgxnkmX0VmIoFRkfrGUkg6zw9rUnVNKXTTjlMT/Vp
+	 v80H4hPwpVXMsc1Efx6swXO2hW5y/PLskRXbrN224e0wvxkXuuO/T4KIlUn04M7okH
+	 iMwA7CLlXK223RYcIVO++3IbmZy2MuugoYoy7v/AgcEFzE0TQStkm0aRb3ZSirScv4
+	 rZQtq/RdQ+q4Q==
+Message-ID: <33073c15-08d8-49c1-9578-9ca0688c405d@kernel.org>
+Date: Wed, 10 Jan 2024 10:17:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,85 +44,106 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 1/5] dt-bindings: media: Document STM32MP25 VDEC & VENC
  video codecs
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-CC: Marco Felsch <m.felsch@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
-        Adam Ford <aford173@gmail.com>,
-        Ezequiel Garcia
-	<ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Benjamin Mugnier
-	<benjamin.mugnier@foss.st.com>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        Laurent Pinchart
-	<laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Almeida
-	<daniel.almeida@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
+To: Hugues FRUCHET <hugues.fruchet@foss.st.com>,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Cc: Marco Felsch <m.felsch@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
+ Adam Ford <aford173@gmail.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>
 References: <20240109085155.252358-1-hugues.fruchet@foss.st.com>
  <20240109085155.252358-2-hugues.fruchet@foss.st.com>
  <9ecc73a1-7457-45a2-ade1-c91b8e7176da@kernel.org>
-From: Hugues FRUCHET <hugues.fruchet@foss.st.com>
-In-Reply-To: <9ecc73a1-7457-45a2-ade1-c91b8e7176da@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <733bee3f-98ae-4f51-a1c5-6c09b38328ce@foss.st.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <733bee3f-98ae-4f51-a1c5-6c09b38328ce@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-05_08,2024-01-05_01,2023-05-22_02
 
-Hi Krzysztof,
-
-On 1/9/24 22:49, Krzysztof Kozlowski wrote:
-> On 09/01/2024 09:51, Hugues Fruchet wrote:
->> Add STM32MP25 VDEC video decoder & VENC video encoder bindings.
+On 10/01/2024 10:15, Hugues FRUCHET wrote:
+>> You missed at least devicetree list (maybe more), so this won't be
+>> tested by automated tooling.
 >>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+>> Please kindly resend and include all necessary To/Cc entries.
 > 
-> Please use scripts/get_maintainers.pl to get a list of necessary people
-> and lists to CC. It might happen, that command when run on an older
-> kernel, gives you outdated entries. Therefore please be sure you base
-> your patches on recent Linux kernel.
+> My fault when sending this exact v6, sorry for that.. It was done the 
+> right way for previous versions and no issues raised by automated tools.
 > 
-> You missed at least devicetree list (maybe more), so this won't be
-> tested by automated tooling.
-> 
-> Please kindly resend and include all necessary To/Cc entries.
+>>
+>> While resending drop redundant blank line after SPDX. See all other
+>> bindings and example-schema.
+> I have double checked and I don't see any problem related to redundant 
+> blank lines in yaml after SPDX:
 
-My fault when sending this exact v6, sorry for that.. It was done the 
-right way for previous versions and no issues raised by automated tools.
-
+I wonder how did you check worked... Open existing other file, open your
+file. Look at yours. Then look at others. Then again look at yours.
 > 
-> While resending drop redundant blank line after SPDX. See all other
-> bindings and example-schema.
-I have double checked and I don't see any problem related to redundant 
-blank lines in yaml after SPDX:
-
-+++ b/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
-@@ -0,0 +1,50 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+
-+%YAML 1.2
-
-Could you point me out what is the exact issue ?
-
+> +++ b/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
+> @@ -0,0 +1,50 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +
+> +%YAML 1.2
 > 
-> Best regards,
-> Krzysztof
-> 
+> Could you point me out what is the exact issue ?
+
+You have a redundant blank line after SPDX.
+
+Best regards,
+Krzysztof
+
 
