@@ -1,354 +1,337 @@
-Return-Path: <linux-media+bounces-3579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA0B82B3D5
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 18:17:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB72282B420
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 18:31:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B877B22BFC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 17:17:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F37551C23FA9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 17:31:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 432ED53E3D;
-	Thu, 11 Jan 2024 17:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F151524D7;
+	Thu, 11 Jan 2024 17:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AEplgu4o"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Tg1xTk0Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF89F5475D
-	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 17:16:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40e6297a00fso3984885e9.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 09:16:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704993362; x=1705598162; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OTCpctKriB7uXRSodgWU7ASU0fozf33p4eRnAXNX9ao=;
-        b=AEplgu4oOF6ozBG0lZva+pRo5cGNqxmSZatnSSq/1VVKvLcjxlN/K+Tr83qKcMHI2b
-         4NOfHk6tZvvNQrAQBVYYYE1AJBdGYxqtU23mTczPNuqpoOh8ctAhbh03WRayRzEK9MIM
-         gsqg+EGEbNmZ4CENBZceHYiYZJx1F+hCbKndoWZWjxPAXFtgGrNhap7FhXBiOQHnyjeO
-         sXwdKweweLt6VwplqPmeJ9zCUH30HtZ7Q80zxqHvPG/RSvDb2xLo6PB8vjdguDGBgxOz
-         KcFGhCgia16vWT33Pok3HDWQhG3u/xT9bNqX6Xqz5O3nt4OIKjMOH6ALuTXVJryGrKAQ
-         1O/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704993362; x=1705598162;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OTCpctKriB7uXRSodgWU7ASU0fozf33p4eRnAXNX9ao=;
-        b=Ct+ErJFaxFxx4LXyUt/lro0C0OJ3SlGZRW7BCVBWMBKwgboxVXAnwdkNVrQBQp0GT0
-         O0ewOHJjdfQxLt5nswT7536E3cV8fP/qY6zkdMzuROZzNs2B8yUwxYjzj8Q8z1TqBcQm
-         judfxHH/kW69TRMRZBQcwUNXeMFlA7AJc08HEuV8cPEd8QtVMoeVWkTHYN3WhNvzjGXn
-         ayQO4ZLpJXNVMpWU5nyOC2sQ9oU/opfW2jkBATia1125pIokKqRcfTCKxPC8ofdviOYW
-         nAENHu8JCUuqifp1wuDZA++SHSwuJuWH01+a+GyQmXRi8ZfiQ1jC3IC+ffZhxs6g8cQ/
-         QYFg==
-X-Gm-Message-State: AOJu0YzP2LrLQUlNizGcoXb9+B+YIrrwonQbuxtZUwdH9wbjBC/MBMEL
-	4IXvLl2IC0lQFuVf7goOLlIbk9WUHLu2KQ==
-X-Google-Smtp-Source: AGHT+IG+6t738GyN4dqGv5Sb2wQ8dIGp8Me3n7bsMDvJOFOz6rJZidY4/EwrRPFM4f+/X49R6RyaWA==
-X-Received: by 2002:a05:600c:4d92:b0:40d:3dbf:9833 with SMTP id v18-20020a05600c4d9200b0040d3dbf9833mr50875wmp.233.1704993362089;
-        Thu, 11 Jan 2024 09:16:02 -0800 (PST)
-Received: from [127.0.1.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id fc19-20020a05600c525300b0040d839e7bb3sm6610653wmb.19.2024.01.11.09.16.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 09:16:01 -0800 (PST)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Thu, 11 Jan 2024 17:15:57 +0000
-Subject: [PATCH v4 4/4] arm64: dts: qcom: sc8280xp: camss: Add CAMSS block
- definition
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C526A10A20;
+	Thu, 11 Jan 2024 17:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40BHUcSQ028698;
+	Thu, 11 Jan 2024 11:30:38 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1704994238;
+	bh=gTnuOd1liaA1cTS1/8MS3fyRnvkMY17fCbVAXhovc88=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=Tg1xTk0QFs8noasBA22wbNZz/4Y/MK7EAA6xds3KXm5uotl5HlN1GT4QuRfyrVHPA
+	 s1zECmx0JJExo6m4pkws+inNXl/venFXd/LGX6bGNTJs7ZjPcIcDSpbK4Z31/q1ekB
+	 YfMIilOrk10tsYFFM2oUYq+xgWyZ9YoMntuVthXE=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40BHUct5008947
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 11 Jan 2024 11:30:38 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 11
+ Jan 2024 11:30:38 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 11 Jan 2024 11:30:38 -0600
+Received: from [10.249.40.136] ([10.249.40.136])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40BHUbYO096156;
+	Thu, 11 Jan 2024 11:30:37 -0600
+Message-ID: <d67aba3f-d95a-4dfc-8fdb-234843047432@ti.com>
+Date: Thu, 11 Jan 2024 11:30:37 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240111-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v4-4-cdd5c57ff1dc@linaro.org>
-References: <20240111-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v4-0-cdd5c57ff1dc@linaro.org>
-In-Reply-To: <20240111-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v4-0-cdd5c57ff1dc@linaro.org>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.13-dev-4e032
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/8] iio: new DMABUF based API, v5
+To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Vinod Koul
+	<vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+CC: Michael Hennerich <Michael.Hennerich@analog.com>,
+        <linux-doc@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        =?UTF-8?Q?Nuno_S=C3=A1?=
+	<noname.nuno@gmail.com>,
+        <dmaengine@vger.kernel.org>, <linux-media@vger.kernel.org>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+ <6ec8c7c4-588a-48b5-b0c5-56ca5216a757@ti.com>
+ <bbd6e9d6f239efee8886e08f3c3493fc968e53ce.camel@crapouillou.net>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <bbd6e9d6f239efee8886e08f3c3493fc968e53ce.camel@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Add CAMSS block definition for sc8280xp.
+On 1/11/24 3:20 AM, Paul Cercueil wrote:
+> Hi Andrew,
+> 
+> Le lundi 08 janvier 2024 à 15:12 -0600, Andrew Davis a écrit :
+>> On 12/19/23 11:50 AM, Paul Cercueil wrote:
+>>> [V4 was: "iio: Add buffer write() support"][1]
+>>>
+>>> Hi Jonathan,
+>>>
+>>> This is a respin of the V3 of my patchset that introduced a new
+>>> interface based on DMABUF objects [2].
+>>>
+>>> The V4 was a split of the patchset, to attempt to upstream buffer
+>>> write() support first. But since there is no current user upstream,
+>>> it
+>>> was not merged. This V5 is about doing the opposite, and contains
+>>> the
+>>> new DMABUF interface, without adding the buffer write() support. It
+>>> can
+>>> already be used with the upstream adi-axi-adc driver.
+>>>
+>>> In user-space, Libiio uses it to transfer back and forth blocks of
+>>> samples between the hardware and the applications, without having
+>>> to
+>>> copy the data.
+>>>
+>>> On a ZCU102 with a FMComms3 daughter board, running Libiio from the
+>>> pcercuei/dev-new-dmabuf-api branch [3], compiled with
+>>> WITH_LOCAL_DMABUF_API=OFF (so that it uses fileio):
+>>>     sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
+>>>     Throughput: 116 MiB/s
+>>>
+>>> Same hardware, with the DMABUF API (WITH_LOCAL_DMABUF_API=ON):
+>>>     sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
+>>>     Throughput: 475 MiB/s
+>>>
+>>> This benchmark only measures the speed at which the data can be
+>>> fetched
+>>> to iio_rwdev's internal buffers, and does not actually try to read
+>>> the
+>>> data (e.g. to pipe it to stdout). It shows that fetching the data
+>>> is
+>>> more than 4x faster using the new interface.
+>>>
+>>> When actually reading the data, the performance difference isn't
+>>> that
+>>> impressive (maybe because in case of DMABUF the data is not in
+>>> cache):
+>>>
+>>> WITH_LOCAL_DMABUF_API=OFF (so that it uses fileio):
+>>>     sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=/dev/zero
+>>> status=progress
+>>>     2446422528 bytes (2.4 GB, 2.3 GiB) copied, 22 s, 111 MB/s
+>>>
+>>> WITH_LOCAL_DMABUF_API=ON:
+>>>     sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=/dev/zero
+>>> status=progress
+>>>     2334388736 bytes (2.3 GB, 2.2 GiB) copied, 21 s, 114 MB/s
+>>>
+>>> One interesting thing to note is that fileio is (currently)
+>>> actually
+>>> faster than the DMABUF interface if you increase a lot the buffer
+>>> size.
+>>> My explanation is that the cache invalidation routine takes more
+>>> and
+>>> more time the bigger the DMABUF gets. This is because the DMABUF is
+>>> backed by small-size pages, so a (e.g.) 64 MiB DMABUF is backed by
+>>> up
+>>> to 16 thousands pages, that have to be invalidated one by one. This
+>>> can
+>>> be addressed by using huge pages, but the udmabuf driver does not
+>>> (yet)
+>>> support creating DMABUFs backed by huge pages.
+>>>
+>>
+>> Have you tried DMABUFs created using the DMABUF System heap exporter?
+>> (drivers/dma-buf/heaps/system_heap.c) It should be able to handle
+>> larger allocation better here, and if you don't have any active
+>> mmaps or vmaps then it can skip CPU-side coherency maintenance
+>> (useful for device to device transfers).
+> 
+> I didn't know about it!
+> 
+> But udmabuf also allows you to skip CPU-side coherency maintenance,
+> since DMABUFs have two ioctls to start/finish CPU access anyway.
+> 
 
-This drop contains definitions for the following components on sc8280xp:
+The only way it lets you skip that is if your application just doesn't
+call those begin/end ioctls, which is wrong. That may work on a system
+where CPU caches can be snooped by all devices that could attach to
+a buffer(x86), but that might not work on others(ARM). So calling
+those begin/end ioctls is required[0]. If maintenance is not actually
+needed then the kernel will turn those calls into NOPs for you, but only
+the kernel can know when that is correct (based on the running system
+and the devices attached to that buffer), not userspace.
 
-VFE * 4
-VFE Lite * 4
-CSID * 4
-CSIPHY * 4
+>> Allocating DMABUFs out of user pages has a bunch of other issues you
+>> might run into also. I'd argue udmabuf is now completely superseded
+>> by DMABUF system heaps. Try it out :)
+> 
+> I'm curious, what other issues?
+> 
 
-This dtsi definition has been developed and validated on a Lenovo X13s
-laptop.
+For starters the {begin,end}_cpu_access() callbacks don't actually
+sync the pages for any of the devices attached to the DMABUF, it
+only makes a fake mapping for the misc device(CPU) then syncs with
+that. That probably works for the QEMU case it was designed for where
+the device is always a VM instance running on the same CPU, but for
+any real devices the sync never happens towards them.
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 235 +++++++++++++++++++++++++++++++++
- 1 file changed, 235 insertions(+)
+I have some patches fixing the above I'll post this cycle, but it
+wont help with folks doing reads/wrties on the original shmem/memfd
+outside of the begin/end ioctls. So there is a fundamental issue
+with the buffer's backing memory's ownership/lifecycle that makes
+udmabuf broken by design.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-index 1949b4fa04e9..363a89e403bd 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-@@ -3614,6 +3614,241 @@ cci3_i2c1: i2c-bus@1 {
- 			};
- 		};
- 
-+		camss: camss@ac5a000 {
-+			compatible = "qcom,sc8280xp-camss";
-+
-+			reg = <0 0x0ac5a000 0 0x2000>,
-+			      <0 0x0ac5c000 0 0x2000>,
-+			      <0 0x0ac65000 0 0x2000>,
-+			      <0 0x0ac67000 0 0x2000>,
-+			      <0 0x0acaf000 0 0x4000>,
-+			      <0 0x0acb3000 0 0x1000>,
-+			      <0 0x0acb6000 0 0x4000>,
-+			      <0 0x0acba000 0 0x1000>,
-+			      <0 0x0acbd000 0 0x4000>,
-+			      <0 0x0acc1000 0 0x1000>,
-+			      <0 0x0acc4000 0 0x4000>,
-+			      <0 0x0acc8000 0 0x1000>,
-+			      <0 0x0accb000 0 0x4000>,
-+			      <0 0x0accf000 0 0x1000>,
-+			      <0 0x0acd2000 0 0x4000>,
-+			      <0 0x0acd6000 0 0x1000>,
-+			      <0 0x0acd9000 0 0x4000>,
-+			      <0 0x0acdd000 0 0x1000>,
-+			      <0 0x0ace0000 0 0x4000>,
-+			      <0 0x0ace4000 0 0x1000>;
-+			reg-names = "csiphy2",
-+				    "csiphy3",
-+				    "csiphy0",
-+				    "csiphy1",
-+				    "vfe0",
-+				    "csid0",
-+				    "vfe1",
-+				    "csid1",
-+				    "vfe2",
-+				    "csid2",
-+				    "vfe_lite0",
-+				    "csid0_lite",
-+				    "vfe_lite1",
-+				    "csid1_lite",
-+				    "vfe_lite2",
-+				    "csid2_lite",
-+				    "vfe_lite3",
-+				    "csid3_lite",
-+				    "vfe3",
-+				    "csid3";
-+
-+			interrupts = <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 640 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 641 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 758 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 759 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 760 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 761 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 762 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 764 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "csid1_lite",
-+					  "vfe_lite1",
-+					  "csiphy3",
-+					  "csid0",
-+					  "vfe0",
-+					  "csid1",
-+					  "vfe1",
-+					  "csid0_lite",
-+					  "vfe_lite0",
-+					  "csiphy0",
-+					  "csiphy1",
-+					  "csiphy2",
-+					  "csid2",
-+					  "vfe2",
-+					  "csid3_lite",
-+					  "csid2_lite",
-+					  "vfe_lite3",
-+					  "vfe_lite2",
-+					  "csid3",
-+					  "vfe3";
-+
-+			power-domains = <&camcc IFE_0_GDSC>,
-+					<&camcc IFE_1_GDSC>,
-+					<&camcc IFE_2_GDSC>,
-+					<&camcc IFE_3_GDSC>,
-+					<&camcc TITAN_TOP_GDSC>;
-+			power-domain-names = "ife0",
-+					     "ife1",
-+					     "ife2",
-+					     "ife3",
-+					     "top";
-+
-+			clocks = <&camcc CAMCC_CAMNOC_AXI_CLK>,
-+				 <&camcc CAMCC_CPAS_AHB_CLK>,
-+				 <&camcc CAMCC_CSIPHY0_CLK>,
-+				 <&camcc CAMCC_CSI0PHYTIMER_CLK>,
-+				 <&camcc CAMCC_CSIPHY1_CLK>,
-+				 <&camcc CAMCC_CSI1PHYTIMER_CLK>,
-+				 <&camcc CAMCC_CSIPHY2_CLK>,
-+				 <&camcc CAMCC_CSI2PHYTIMER_CLK>,
-+				 <&camcc CAMCC_CSIPHY3_CLK>,
-+				 <&camcc CAMCC_CSI3PHYTIMER_CLK>,
-+				 <&camcc CAMCC_IFE_0_AXI_CLK>,
-+				 <&camcc CAMCC_IFE_0_CLK>,
-+				 <&camcc CAMCC_IFE_0_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_0_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_1_AXI_CLK>,
-+				 <&camcc CAMCC_IFE_1_CLK>,
-+				 <&camcc CAMCC_IFE_1_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_1_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_2_AXI_CLK>,
-+				 <&camcc CAMCC_IFE_2_CLK>,
-+				 <&camcc CAMCC_IFE_2_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_2_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_3_AXI_CLK>,
-+				 <&camcc CAMCC_IFE_3_CLK>,
-+				 <&camcc CAMCC_IFE_3_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_3_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_0_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_0_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_0_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_1_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_1_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_1_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_2_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_2_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_2_CSID_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_3_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_3_CPHY_RX_CLK>,
-+				 <&camcc CAMCC_IFE_LITE_3_CSID_CLK>,
-+				 <&gcc GCC_CAMERA_HF_AXI_CLK>,
-+				 <&gcc GCC_CAMERA_SF_AXI_CLK>;
-+			clock-names = "camnoc_axi",
-+				      "cpas_ahb",
-+				      "csiphy0",
-+				      "csiphy0_timer",
-+				      "csiphy1",
-+				      "csiphy1_timer",
-+				      "csiphy2",
-+				      "csiphy2_timer",
-+				      "csiphy3",
-+				      "csiphy3_timer",
-+				      "vfe0_axi",
-+				      "vfe0",
-+				      "vfe0_cphy_rx",
-+				      "vfe0_csid",
-+				      "vfe1_axi",
-+				      "vfe1",
-+				      "vfe1_cphy_rx",
-+				      "vfe1_csid",
-+				      "vfe2_axi",
-+				      "vfe2",
-+				      "vfe2_cphy_rx",
-+				      "vfe2_csid",
-+				      "vfe3_axi",
-+				      "vfe3",
-+				      "vfe3_cphy_rx",
-+				      "vfe3_csid",
-+				      "vfe_lite0",
-+				      "vfe_lite0_cphy_rx",
-+				      "vfe_lite0_csid",
-+				      "vfe_lite1",
-+				      "vfe_lite1_cphy_rx",
-+				      "vfe_lite1_csid",
-+				      "vfe_lite2",
-+				      "vfe_lite2_cphy_rx",
-+				      "vfe_lite2_csid",
-+				      "vfe_lite3",
-+				      "vfe_lite3_cphy_rx",
-+				      "vfe_lite3_csid",
-+				      "gcc_axi_hf",
-+				      "gcc_axi_sf";
-+
-+			iommus = <&apps_smmu 0x2000 0x4e0>,
-+				 <&apps_smmu 0x2020 0x4e0>,
-+				 <&apps_smmu 0x2040 0x4e0>,
-+				 <&apps_smmu 0x2060 0x4e0>,
-+				 <&apps_smmu 0x2080 0x4e0>,
-+				 <&apps_smmu 0x20e0 0x4e0>,
-+				 <&apps_smmu 0x20c0 0x4e0>,
-+				 <&apps_smmu 0x20a0 0x4e0>,
-+				 <&apps_smmu 0x2400 0x4e0>,
-+				 <&apps_smmu 0x2420 0x4e0>,
-+				 <&apps_smmu 0x2440 0x4e0>,
-+				 <&apps_smmu 0x2460 0x4e0>,
-+				 <&apps_smmu 0x2480 0x4e0>,
-+				 <&apps_smmu 0x24e0 0x4e0>,
-+				 <&apps_smmu 0x24c0 0x4e0>,
-+				 <&apps_smmu 0x24a0 0x4e0>;
-+
-+			interconnects = <&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_CAMERA_CFG 0>,
-+					<&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>,
-+					<&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI1 0>,
-+					<&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI1 0>;
-+			interconnect-names = "cam_ahb",
-+					     "cam_hf_mnoc",
-+					     "cam_sf_mnoc",
-+					     "cam_sf_icp_mnoc";
-+
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@3 {
-+					reg = <3>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+			};
-+		};
-+
- 		camcc: clock-controller@ad00000 {
- 			compatible = "qcom,sc8280xp-camcc";
- 			reg = <0 0x0ad00000 0 0x20000>;
+The DMABUF System Heap owns the backing memory and manages that
+memory's lifecycle as all correct DMABUF exporters must.
 
--- 
-2.42.0
+> The good thing about udmabuf is that the memory is backed by pages, so
+> we can use MSG_ZEROCOPY on sockets to transfer the mmapped data over
+> the network (having a DMABUF interface to the network stack would be
+> better, but I'm not opening that can of worms).
+> 
 
+Yes, having a DMABUF importer interface for the network stack would be
+the best long-term solution here, and one will probably end up being
+needed for zero-copy buffer passing directly between HW and network
+which seems to be a growing area of interest. And would help solve
+some cases where MSG_ZEROCOPY fails (such as devices without
+scatter-gather) by making sure the backing buffer meets the needs
+of all attached devices, etc.. But I do agree let's leave those
+worm-cans for someone else to open :)
+
+I wonder what would happen if you tried a MSG_ZEROCOPY on a buffer
+that was an mmap'd address from a DMABUF.. probably nothing good
+but might be worth looking into.
+
+Andrew
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/dma-buf/dma-buf.c#n1323
+
+>> Andrew
+> 
+> Cheers,
+> -Paul
+> 
+>>> Anyway, the real benefits happen when the DMABUFs are either shared
+>>> between IIO devices, or between the IIO subsystem and another
+>>> filesystem. In that case, the DMABUFs are simply passed around
+>>> drivers,
+>>> without the data being copied at any moment.
+>>>
+>>> We use that feature to transfer samples from our transceivers to
+>>> USB,
+>>> using a DMABUF interface to FunctionFS [4].
+>>>
+>>> This drastically increases the throughput, to about 274 MiB/s over
+>>> a
+>>> USB3 link, vs. 127 MiB/s using IIO's fileio interface + write() to
+>>> the
+>>> FunctionFS endpoints, for a lower CPU usage (0.85 vs. 0.65 load
+>>> avg.).
+>>>
+>>> Based on linux-next/next-20231219.
+>>>
+>>> Cheers,
+>>> -Paul
+>>>
+>>> [1]
+>>> https://lore.kernel.org/all/20230807112113.47157-1-paul@crapouillou.net/
+>>> [2]
+>>> https://lore.kernel.org/all/20230403154800.215924-1-paul@crapouillou.net/
+>>> [3]
+>>> https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf-api
+>>> [4]
+>>> https://lore.kernel.org/all/20230322092118.9213-1-paul@crapouillou.net/
+>>>
+>>> ---
+>>> Changelog:
+>>> - [3/8]: Replace V3's dmaengine_prep_slave_dma_array() with a new
+>>>     dmaengine_prep_slave_dma_vec(), which uses a new 'dma_vec'
+>>> struct.
+>>>     Note that at some point we will need to support cyclic transfers
+>>>     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
+>>>     parameter to the function?
+>>>
+>>> - [4/8]: Implement .device_prep_slave_dma_vec() instead of V3's
+>>>     .device_prep_slave_dma_array().
+>>>
+>>>     @Vinod: this patch will cause a small conflict with my other
+>>>     patchset adding scatter-gather support to the axi-dmac driver.
+>>>     This patch adds a call to axi_dmac_alloc_desc(num_sgs), but the
+>>>     prototype of this function changed in my other patchset - it
+>>> would
+>>>     have to be passed the "chan" variable. I don't know how you
+>>> prefer it
+>>>     to be resolved. Worst case scenario (and if @Jonathan is okay
+>>> with
+>>>     that) this one patch can be re-sent later, but it would make
+>>> this
+>>>     patchset less "atomic".
+>>>
+>>> - [5/8]:
+>>>     - Use dev_err() instead of pr_err()
+>>>     - Inline to_iio_dma_fence()
+>>>     - Add comment to explain why we unref twice when detaching
+>>> dmabuf
+>>>     - Remove TODO comment. It is actually safe to free the file's
+>>>       private data even when transfers are still pending because it
+>>>       won't be accessed.
+>>>     - Fix documentation of new fields in struct
+>>> iio_buffer_access_funcs
+>>>     - iio_dma_resv_lock() does not need to be exported, make it
+>>> static
+>>>
+>>> - [7/8]:
+>>>     - Use the new dmaengine_prep_slave_dma_vec().
+>>>     - Restrict to input buffers, since output buffers are not yet
+>>>       supported by IIO buffers.
+>>>
+>>> - [8/8]:
+>>>     Use description lists for the documentation of the three new
+>>> IOCTLs
+>>>     instead of abusing subsections.
+>>>
+>>> ---
+>>> Alexandru Ardelean (1):
+>>>     iio: buffer-dma: split iio_dma_buffer_fileio_free() function
+>>>
+>>> Paul Cercueil (7):
+>>>     iio: buffer-dma: Get rid of outgoing queue
+>>>     dmaengine: Add API function dmaengine_prep_slave_dma_vec()
+>>>     dmaengine: dma-axi-dmac: Implement device_prep_slave_dma_vec
+>>>     iio: core: Add new DMABUF interface infrastructure
+>>>     iio: buffer-dma: Enable support for DMABUFs
+>>>     iio: buffer-dmaengine: Support new DMABUF based userspace API
+>>>     Documentation: iio: Document high-speed DMABUF based API
+>>>
+>>>    Documentation/iio/dmabuf_api.rst              |  54 +++
+>>>    Documentation/iio/index.rst                   |   2 +
+>>>    drivers/dma/dma-axi-dmac.c                    |  40 ++
+>>>    drivers/iio/buffer/industrialio-buffer-dma.c  | 242 ++++++++---
+>>>    .../buffer/industrialio-buffer-dmaengine.c    |  52 ++-
+>>>    drivers/iio/industrialio-buffer.c             | 402
+>>> ++++++++++++++++++
+>>>    include/linux/dmaengine.h                     |  25 ++
+>>>    include/linux/iio/buffer-dma.h                |  33 +-
+>>>    include/linux/iio/buffer_impl.h               |  26 ++
+>>>    include/uapi/linux/iio/buffer.h               |  22 +
+>>>    10 files changed, 836 insertions(+), 62 deletions(-)
+>>>    create mode 100644 Documentation/iio/dmabuf_api.rst
+>>>
+> 
 
