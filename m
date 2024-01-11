@@ -1,117 +1,123 @@
-Return-Path: <linux-media+bounces-3586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3587-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A851382B552
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 20:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E506F82B587
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 20:57:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B8CDA1C226C1
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 19:40:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17F001C24582
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 19:57:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE35056775;
-	Thu, 11 Jan 2024 19:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59CD956B7C;
+	Thu, 11 Jan 2024 19:57:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPPtBjPT"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J/IQDl44"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D985955C18;
-	Thu, 11 Jan 2024 19:40:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE49C433C7;
-	Thu, 11 Jan 2024 19:40:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705002004;
-	bh=DmkLUwPO5pHCJHvVcwPy1P4sgjTzQNNak+Eq1cUdG4A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SPPtBjPT+YAd4ocTNd3PGbSKeEby62sm5DsaPgCv2HqVIW9AA61WpCKjUG1nFowUj
-	 3KfWsd59L33mr3lPW1pODJ4DxPp3c0FvcL65M+M43Xd0dsozkiXoWTzMQXYyp+ok+1
-	 Cb30aWs3Sxk5AodiSlMI4eMG+NABT1HgniB893pjpYDswpLiHA/yPSOP9UoGeJLbKt
-	 bnTkQNlGsDQqy8YOmI7KSXeLlghLdU+zlsbZoTu+RaMYkcWjxf+xdeMOQ8myzu+KXS
-	 4DFQ7cH+eAqKWFGmhszUBwC2NDKu/wiPRUDEP+5/MhjNc4xXnfccYuJTOa5a8NwKDV
-	 Z7nFRX4xsl/qg==
-Date: Thu, 11 Jan 2024 12:40:01 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Yonghong Song <yonghong.song@linux.dev>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, patches@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-efi@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	bridge@lists.linux.dev, netdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, mykolal@fb.com,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH 1/3] selftests/bpf: Update LLVM Phabricator links
-Message-ID: <20240111194001.GA3805856@dev-arch.thelio-3990X>
-References: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
- <20240109-update-llvm-links-v1-1-eb09b59db071@kernel.org>
- <6a655e9f-9878-4292-9d16-f988c4bdfc73@linux.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E8156751
+	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 19:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3368ae75082so3790090f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 11:57:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705003023; x=1705607823; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+i0UK44yHq8YceaKYIY5mCgJVLZEaoVhm3Uocx3mJfQ=;
+        b=J/IQDl448F7PGdWVBsfIz8ng50+zyAMLCgJRzLbqXeaCOZABEarrDxmXFYIpWDdBoT
+         Xryo4kDCLWtPfoviGIeNjLAWmN84OvODZi4oQtevSdn37fj77ehjX0b0aTLEhlxH3j3x
+         YtzEvh9TLpmGyzH3Gk3jw0Fhs6Tf1HPXmulRqVLbZX4F1jIshjGbiK1AvlSUaEFSCdRx
+         G03tp81Kqsd3+RlXWQ4FgS9UNl8rc+obNf4NQguDseVQBD7IhzSFDDuxes2/2LxUKv3m
+         WA8Y5gOA2JZprQw20H0cbZEYGqhAEXBGzIydYeRim0tb1P9OuesU8RlEtjqWB3Icho1i
+         SPHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705003023; x=1705607823;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+i0UK44yHq8YceaKYIY5mCgJVLZEaoVhm3Uocx3mJfQ=;
+        b=le7nGFADVSrL6t48MtzAnf9m0PBB1bd9xcz0JmGjQS+YmzZ9TXaaxDi7tn4wFN8X2k
+         gy9mImn8gSweMjF2JZ+eR0oa6CjTXJt3uzXBDb0McFj/IOKTZzgOzzR/7yDGtdux7Shz
+         DpcAOFiiBcnn46K/DbPPBtrZb9SzlD1b9rFAb+dm6qc9XbdpRyNIEFh8OFshHcmotlAT
+         0BFOgWfRmPNQe2ZvyjIJb8WBWrBflXlQ3WOW+ri2kPSAPhfTbLcl0aMKTSFpWwqgRRa7
+         JLlLNJN9RjutvwG0Zk3Siq32Z4eTrPrrBbW34R5xzPv9AOAv9BXTH8bV1Xky3Nr4sp3L
+         eMmA==
+X-Gm-Message-State: AOJu0YwkIMsvWpRhTdkHdWOWZcscIjmWeaLaY7YQlOr4M70lJf3FhdMq
+	ciUxeZWT+0R/1lACsZug+VD0DAS5qlA1ZQ==
+X-Google-Smtp-Source: AGHT+IFSIopE3QuOoLdzTjt0bkELntb0Mh5UkExonm953hmNSzSLxpZxpYk3qTp+vJmkETZ57p+eQw==
+X-Received: by 2002:a05:600c:448a:b0:40e:478c:e864 with SMTP id e10-20020a05600c448a00b0040e478ce864mr206154wmo.74.1705003023479;
+        Thu, 11 Jan 2024 11:57:03 -0800 (PST)
+Received: from [127.0.1.1] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id b7-20020adfe647000000b0033763a9ea2dsm1955382wrn.63.2024.01.11.11.57.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 11:57:03 -0800 (PST)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 0/5] media: qcom: camss: Add sc8280xp support
+Date: Thu, 11 Jan 2024 19:57:01 +0000
+Message-Id: <20240111-linux-next-24-01-09-sc8280xp-camss-changes-v1-0-b92a650121ba@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a655e9f-9878-4292-9d16-f988c4bdfc73@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA1IoGUC/yWN0QrCMAwAf2Xk2UBShnT+ivgw01QDWkfjpDD27
+ xZ9vIe728C1mjqchg2qfsztVTrwYQC5z+WmaKkzBAojMTM+rKwNi7Y3hhGJkSZ0iSFSW1Dmpzv
+ +RccoOVzzlCWlI/TgUjVb+83Ol33/AkKs3gh8AAAA
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+X-Mailer: b4 0.13-dev-4e032
 
-Hi Yonghong,
+A minimal set of patches to switch on sc8280xp support in CAMSS
+upstream. Most of the SoC dependencies are either merged - CAMCC or very
+close to being merged - CAMSS/CCI dtsi.
 
-On Wed, Jan 10, 2024 at 08:05:36PM -0800, Yonghong Song wrote:
-> 
-> On 1/9/24 2:16 PM, Nathan Chancellor wrote:
-> > reviews.llvm.org was LLVM's Phabricator instances for code review. It
-> > has been abandoned in favor of GitHub pull requests. While the majority
-> > of links in the kernel sources still work because of the work Fangrui
-> > has done turning the dynamic Phabricator instance into a static archive,
-> > there are some issues with that work, so preemptively convert all the
-> > links in the kernel sources to point to the commit on GitHub.
-> > 
-> > Most of the commits have the corresponding differential review link in
-> > the commit message itself so there should not be any loss of fidelity in
-> > the relevant information.
-> > 
-> > Additionally, fix a typo in the xdpwall.c print ("LLMV" -> "LLVM") while
-> > in the area.
-> > 
-> > Link: https://discourse.llvm.org/t/update-on-github-pull-requests/71540/172
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> 
-> Ack with one nit below.
-> 
-> Acked-by: Yonghong Song <yonghong.song@linux.dev>
+Alot of prior work means we have far less interventions to make in this
+driver to support this new SoC.
 
-<snip>
+Most of this series is already reviewed however it is gated on merge of
+the CAMSS compat string here =>
 
-> > @@ -304,6 +304,6 @@ from running test_progs will look like:
-> >   .. code-block:: console
-> > -  test_xdpwall:FAIL:Does LLVM have https://reviews.llvm.org/D109073? unexpected error: -4007
-> > +  test_xdpwall:FAIL:Does LLVM have https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5? unexpected error: -4007
-> > -__ https://reviews.llvm.org/D109073
-> > +__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d
-> 
-> To be consistent with other links, could you add the missing last alnum '5' to the above link?
+Link: https://lore.kernel.org/linux-arm-msm/20240111-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v4-2-cdd5c57ff1dc@linaro.org/
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-09-sc8280xp-camss-changes
 
-Thanks a lot for catching this and providing an ack. Andrew, could you
-squash this update into selftests-bpf-update-llvm-phabricator-links.patch?
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (5):
+      media: qcom: camss: csiphy-3ph: Add Gen2 v1.1 two-phase MIPI CSI-2 DPHY init
+      media: qcom: camss: Add CAMSS_SC8280XP enum
+      media: qcom: camss: Add sc8280xp resources
+      media: qcom: camss: Add sc8280xp support
+      media: qcom: camss: vfe-17x: Rename camss-vfe-170 to camss-vfe-17x
 
-diff --git a/tools/testing/selftests/bpf/README.rst b/tools/testing/selftests/bpf/README.rst
-index b9a493f66557..e56034abb3c2 100644
---- a/tools/testing/selftests/bpf/README.rst
-+++ b/tools/testing/selftests/bpf/README.rst
-@@ -306,4 +306,4 @@ from running test_progs will look like:
- 
-   test_xdpwall:FAIL:Does LLVM have https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5? unexpected error: -4007
- 
--__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d
-+__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5
+ drivers/media/platform/qcom/camss/Makefile         |   2 +-
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 108 +++++++-
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ .../camss/{camss-vfe-170.c => camss-vfe-17x.c}     |   0
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  25 +-
+ drivers/media/platform/qcom/camss/camss-video.c    |   1 +
+ drivers/media/platform/qcom/camss/camss.c          | 307 +++++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 8 files changed, 436 insertions(+), 9 deletions(-)
+---
+base-commit: cae3c85e8e3896c2a7db983290ca25933713cd0e
+change-id: 20240111-linux-next-24-01-09-sc8280xp-camss-changes-8cf2bf9fcdd6
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
 
