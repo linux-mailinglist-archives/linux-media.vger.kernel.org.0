@@ -1,578 +1,105 @@
-Return-Path: <linux-media+bounces-3561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3562-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE18A82AEFC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 13:52:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F86F82AF1F
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 14:04:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E3887B23310
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:52:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1BFA41C23734
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 13:04:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC32415AFF;
-	Thu, 11 Jan 2024 12:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19B5C16432;
+	Thu, 11 Jan 2024 13:04:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfbu2YOj"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="J3Q3q05Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BCC15E85
-	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 12:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704977551; x=1736513551;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oZK34eSacm3sr+DkysuPKGQONj5RM2yY4vTW45pywqk=;
-  b=nfbu2YOjtNafj/CC7TCun3Lml9jVocCP43Kp9H8M2jBhgole97mm5IUo
-   xY91DHJ5/w5/nl/fIDDujR7hHv9M2kSnK/vMiGfaanGNq0/KedJiaEJbe
-   evwRWX1aeFSw8KsITjZj9f+Haqa1eWgkodKd7AdpFeaR0PjdOMgJ80hl1
-   0FD5Bsan3nEILKmSnrhSOr0ZNzTzwtQi3z4/DDJWkxeYx/QurBckbtZGm
-   AUk7FFiW0qIrwm+3GY0Q5mY47OdN++tlv2tl5ej8EJ9yjf4RXC/yCSFya
-   uUSOvrFczgMo7VfXsZyCCxauovUf4mbYSghVi1TlT19hIhW7PUvJnLb0f
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="430017703"
-X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
-   d="scan'208";a="430017703"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 04:52:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="852940036"
-X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
-   d="scan'208";a="852940036"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 04:52:26 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6016711F913;
-	Thu, 11 Jan 2024 14:52:24 +0200 (EET)
-Date: Thu, 11 Jan 2024 12:52:24 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: bingbu.cao@intel.com
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
-	tomi.valkeinen@ideasonboard.com, tfiga@chromium.org,
-	senozhatsky@chromium.org, andreaskleist@gmail.com,
-	bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-	hongju.wang@intel.com
-Subject: Re: [PATCH v3 16/17] media: ipu6/isys: support line-based metadata
- capture support
-Message-ID: <ZZ_kiJnxTs9NjM5h@kekkonen.localdomain>
-References: <20240111065531.2418836-1-bingbu.cao@intel.com>
- <20240111065531.2418836-17-bingbu.cao@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C4916427;
+	Thu, 11 Jan 2024 13:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1704978264;
+	bh=ooZvmBo1ViU5Ji4xyGAIUWPoVDHwEIYn3pOqQSNGq4M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=J3Q3q05YRNunbSoVpob8ozuBPFjZ79aU52V6GY2mi7B1dPGhghLMQEmGiqqysr0xs
+	 MUEq67zQpKvKTR/QfooEzHNaPkDmJlD4/E7McujY20tboFJCs2CtvT4dM8C3IhIWFf
+	 AcOGb/8OpX2qE5Q0cbTaU/VYR4BSx78hKNGtn9TuE10HgczK4AkvJMOR/dxXqOJx0j
+	 Swax238DLsSAWHoPp3UamWXnhx4HSwKE9/rCoqj10Uh0jylK8Q5XlbFXlwrzKD/O7u
+	 HHcQ/gWyM1VIzixbkQyGPvQJu0auqquQ58YG7QJA0ZHV0uEj3Pyss5cpT054RHyoVx
+	 HUDE5kCIsL4nA==
+Received: from stla-brain-8255-1.home (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5AC543781FCD;
+	Thu, 11 Jan 2024 13:04:23 +0000 (UTC)
+From: Julien Massot <julien.massot@collabora.com>
+To: linux-media@vger.kernel.org
+Cc: kernel@collabora.com,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH v3 0/4] Add support for MAX96714F and MAX96717F GMSL2 ser/des
+Date: Thu, 11 Jan 2024 14:03:45 +0100
+Message-ID: <20240111130349.2776699-1-julien.massot@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240111065531.2418836-17-bingbu.cao@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Bingbu,
+Change since v2:
+- Convert drivers to use CCI helpers
+- Use generic node name
+- Use 'powerdown' as gpio name instead of 'enable'
+- Add pattern generator support for MAX96714
 
-Thank you for the update.
+These patches add support for Maxim MAX96714F deserializer and
+MAX96717F serializer.
 
-On Thu, Jan 11, 2024 at 02:55:30PM +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
-> 
-> Some camera sensor can output the embedded data in specific
-> data type.  This patch add the support for embedded data capture
-> in IPU6 IS driver.
-> 
-> It's based on Sakari's line-based metadata capture support change:
-> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>
-> 
-> Signed-off-by: Hongju Wang <hongju.wang@intel.com>
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |   5 +
->  .../media/pci/intel/ipu6/ipu6-isys-queue.c    |  44 ++--
->  .../media/pci/intel/ipu6/ipu6-isys-subdev.c   |   5 +
->  .../media/pci/intel/ipu6/ipu6-isys-video.c    | 201 +++++++++++++++---
->  .../media/pci/intel/ipu6/ipu6-isys-video.h    |   7 +-
->  5 files changed, 216 insertions(+), 46 deletions(-)
-> 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-> index ac9fa3e0d7ab..a6430d531129 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-> @@ -42,6 +42,11 @@ static const u32 csi2_supported_codes[] = {
->  	MEDIA_BUS_FMT_SGBRG8_1X8,
->  	MEDIA_BUS_FMT_SGRBG8_1X8,
->  	MEDIA_BUS_FMT_SRGGB8_1X8,
-> +	MEDIA_BUS_FMT_META_8,
-> +	MEDIA_BUS_FMT_META_10,
-> +	MEDIA_BUS_FMT_META_12,
-> +	MEDIA_BUS_FMT_META_16,
-> +	MEDIA_BUS_FMT_META_24,
->  	0
->  };
->  
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> index 735d2d642d87..15fa7ed22b2f 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> @@ -35,11 +35,14 @@ static int queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
->  	/* num_planes == 0: we're being called through VIDIOC_REQBUFS */
->  	if (!*num_planes) {
->  		use_fmt = true;
-> -		*num_planes = av->mpix.num_planes;
-> +		if (av->vfmt.type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> +			*num_planes = av->vfmt.fmt.pix_mp.num_planes;
-> +		else if (av->vfmt.type == V4L2_BUF_TYPE_META_CAPTURE)
-> +			*num_planes = 1;
->  	}
->  
->  	for (i = 0; i < *num_planes; i++) {
-> -		size = av->mpix.plane_fmt[i].sizeimage;
-> +		size = ipu6_get_data_size(&av->vfmt, i);
->  		if (use_fmt) {
->  			sizes[i] = size;
->  		} else if (sizes[i] < size) {
-> @@ -59,16 +62,17 @@ static int ipu6_isys_buf_prepare(struct vb2_buffer *vb)
->  	struct ipu6_isys_queue *aq = vb2_queue_to_isys_queue(vb->vb2_queue);
->  	struct ipu6_isys_video *av = ipu6_isys_queue_to_video(aq);
->  	struct device *dev = &av->isys->adev->auxdev.dev;
-> +	u32 bytesperline = ipu6_get_bytes_per_line(&av->vfmt);
-> +	u32 height = ipu6_get_frame_height(&av->vfmt);
-> +	u32 size = ipu6_get_data_size(&av->vfmt, 0);
->  
->  	dev_dbg(dev, "buffer: %s: configured size %u, buffer size %lu\n",
-> -		av->vdev.name, av->mpix.plane_fmt[0].sizeimage,
-> -		vb2_plane_size(vb, 0));
-> +		av->vdev.name, size, vb2_plane_size(vb, 0));
->  
-> -	if (av->mpix.plane_fmt[0].sizeimage > vb2_plane_size(vb, 0))
-> +	if (size > vb2_plane_size(vb, 0))
->  		return -EINVAL;
->  
-> -	vb2_set_plane_payload(vb, 0, av->mpix.plane_fmt[0].bytesperline *
-> -			      av->mpix.height);
-> +	vb2_set_plane_payload(vb, 0, bytesperline * height);
->  	vb->planes[0].data_offset = 0;
->  
->  	return 0;
-> @@ -437,18 +441,22 @@ static int ipu6_isys_link_fmt_validate(struct ipu6_isys_queue *aq)
->  		return ret;
->  	}
->  
-> -	if (format.width != av->mpix.width ||
-> -	    format.height != av->mpix.height) {
-> -		dev_dbg(dev, "wrong width or height %ux%u (%ux%u expected)\n",
-> -			av->mpix.width, av->mpix.height,
-> -			format.width, format.height);
-> +	if (format.width != ipu6_get_frame_width(&av->vfmt) ||
-> +	    format.height != ipu6_get_frame_height(&av->vfmt)) {
-> +		dev_err(dev, "wrong width or height %ux%u (%ux%u expected)\n",
-> +			ipu6_get_frame_width(&av->vfmt),
-> +			ipu6_get_frame_height(&av->vfmt), format.width,
-> +			format.height);
->  		return -EINVAL;
->  	}
->  
-> -	if (format.field != av->mpix.field) {
-> -		dev_dbg(dev, "wrong field value 0x%8.8x (0x%8.8x expected)\n",
-> -			av->mpix.field, format.field);
-> -		return -EINVAL;
-> +	if (av->vfmt.type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-> +		if (format.field != av->vfmt.fmt.pix_mp.field) {
+MAX96714F has one GMSL2 input port and one CSI2 4 lanes output port,
+MAX96717F has one CSI2 input port and one GMSL2 output port.
 
-You could merge the if clauses.
+The drivers support the tunnel mode where all the
+CSI2 traffic coming from an imager is replicated through the deserializer
+output port.
 
-Speaking of the field --- is there a need to check this in buf_prepare()?
-Isn't this what the driver sets? So I'd address this in an earlier patch
-that adds the check.
+Both MAX96714F and MAX96717F are limited to a 3Gbps forward link rate
+leaving a maximum of 2.6Gbps for the video payload.
 
-> +			dev_dbg(dev,
-> +				"wrong field value 0x%8.8x (%8.8x expected)\n",
-> +				av->vfmt.fmt.pix_mp.field, format.field);
-> +			return -EINVAL;
-> +		}
->  	}
->  
->  	if (format.code != av->pfmt->code) {
-> @@ -531,8 +539,8 @@ static int start_streaming(struct vb2_queue *q, unsigned int count)
->  	int nr_queues, ret;
->  
->  	dev_dbg(dev, "stream: %s: width %u, height %u, css pixelformat %u\n",
-> -		av->vdev.name, av->mpix.width, av->mpix.height,
-> -		av->pfmt->css_pixelformat);
-> +		av->vdev.name, ipu6_get_frame_width(&av->vfmt),
-> +		ipu6_get_frame_height(&av->vfmt), av->pfmt->css_pixelformat);
->  
->  	ret = ipu6_isys_setup_video(av, &source_entity, &nr_queues);
->  	if (ret < 0) {
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-> index 510c5ca34f9f..3c9263ac02a3 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-> @@ -20,25 +20,30 @@ unsigned int ipu6_isys_mbus_code_to_bpp(u32 code)
->  {
->  	switch (code) {
->  	case MEDIA_BUS_FMT_RGB888_1X24:
-> +	case MEDIA_BUS_FMT_META_24:
->  		return 24;
->  	case MEDIA_BUS_FMT_RGB565_1X16:
->  	case MEDIA_BUS_FMT_UYVY8_1X16:
->  	case MEDIA_BUS_FMT_YUYV8_1X16:
-> +	case MEDIA_BUS_FMT_META_16:
->  		return 16;
->  	case MEDIA_BUS_FMT_SBGGR12_1X12:
->  	case MEDIA_BUS_FMT_SGBRG12_1X12:
->  	case MEDIA_BUS_FMT_SGRBG12_1X12:
->  	case MEDIA_BUS_FMT_SRGGB12_1X12:
-> +	case MEDIA_BUS_FMT_META_12:
->  		return 12;
->  	case MEDIA_BUS_FMT_SBGGR10_1X10:
->  	case MEDIA_BUS_FMT_SGBRG10_1X10:
->  	case MEDIA_BUS_FMT_SGRBG10_1X10:
->  	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +	case MEDIA_BUS_FMT_META_10:
->  		return 10;
->  	case MEDIA_BUS_FMT_SBGGR8_1X8:
->  	case MEDIA_BUS_FMT_SGBRG8_1X8:
->  	case MEDIA_BUS_FMT_SGRBG8_1X8:
->  	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +	case MEDIA_BUS_FMT_META_8:
->  		return 8;
->  	default:
->  		WARN_ON(1);
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> index 847eac26bcd6..1a023bf1e1a6 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> @@ -85,6 +85,11 @@ const struct ipu6_isys_pixelformat ipu6_isys_pfmts[] = {
->  	 IPU6_FW_ISYS_FRAME_FORMAT_RGB565},
->  	{V4L2_PIX_FMT_BGR24, 24, 24, MEDIA_BUS_FMT_RGB888_1X24,
->  	 IPU6_FW_ISYS_FRAME_FORMAT_RGBA888},
-> +	{V4L2_META_FMT_GENERIC_8, 8, 8, MEDIA_BUS_FMT_META_8, 0},
-> +	{V4L2_META_FMT_GENERIC_CSI2_10, 10, 10, MEDIA_BUS_FMT_META_10, 0},
-> +	{V4L2_META_FMT_GENERIC_CSI2_12, 12, 12, MEDIA_BUS_FMT_META_12, 0},
-> +	{V4L2_META_FMT_GENERIC_CSI2_16, 16, 16, MEDIA_BUS_FMT_META_16, 0},
-> +	{V4L2_META_FMT_GENERIC_CSI2_24, 24, 24, MEDIA_BUS_FMT_META_24, 0},
->  };
->  
->  static int video_open(struct file *file)
-> @@ -181,12 +186,12 @@ static int ipu6_isys_vidioc_enum_framesizes(struct file *file, void *fh,
->  	return 0;
->  }
->  
-> -static int vidioc_g_fmt_vid_cap_mplane(struct file *file, void *fh,
-> -				       struct v4l2_format *fmt)
-> +static int vidioc_get_format(struct file *file, void *fh,
-> +			     struct v4l2_format *fmt)
->  {
->  	struct ipu6_isys_video *av = video_drvdata(file);
->  
-> -	fmt->fmt.pix_mp = av->mpix;
-> +	*fmt = av->vfmt;
->  
->  	return 0;
->  }
-> @@ -245,30 +250,114 @@ ipu6_isys_video_try_fmt_vid_mplane(struct ipu6_isys_video *av,
->  	return pfmt;
->  }
->  
-> -static int vidioc_s_fmt_vid_cap_mplane(struct file *file, void *fh,
-> -				       struct v4l2_format *f)
-> +static const struct ipu6_isys_pixelformat *
-> +ipu6_isys_video_try_fmt_meta(struct ipu6_isys_video *av,
-> +			     struct v4l2_meta_format *meta)
-> +{
-> +	const struct ipu6_isys_pixelformat *pfmt =
-> +		ipu6_isys_get_pixelformat(meta->dataformat);
-> +
-> +	memset(&av->vfmt, 0, sizeof(av->vfmt));
-> +	av->vfmt.type = V4L2_BUF_TYPE_META_CAPTURE;
-> +	av->pfmt = pfmt;
-> +
-> +	meta->dataformat = pfmt->pixelformat;
-> +	meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
-> +			    IPU6_ISYS_MAX_WIDTH);
-> +	meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
-> +			     IPU6_ISYS_MAX_HEIGHT);
-> +
-> +	if (pfmt->bpp != pfmt->bpp_packed)
-> +		meta->bytesperline = meta->width *
-> +				     DIV_ROUND_UP(pfmt->bpp, BITS_PER_BYTE);
-> +	else
-> +		meta->bytesperline =
-> +			DIV_ROUND_UP(meta->width * pfmt->bpp, BITS_PER_BYTE);
-> +
-> +	meta->bytesperline = ALIGN(meta->bytesperline, av->isys->line_align);
-> +	meta->buffersize =
-> +		max(max(meta->buffersize, meta->bytesperline * meta->height +
-> +			max(meta->bytesperline,
-> +			    av->isys->pdata->ipdata->isys_dma_overshoot)), 1U);
-> +
-> +	return pfmt;
-> +}
-> +
-> +static const struct ipu6_isys_pixelformat *
-> +ipu6_isys_video_try_fmt(struct ipu6_isys_video *av, struct v4l2_format *f)
-> +{
-> +	if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> +		return ipu6_isys_video_try_fmt_vid_mplane(av, &f->fmt.pix_mp);
-> +	else if (f->type == V4L2_BUF_TYPE_META_CAPTURE)
-> +		return ipu6_isys_video_try_fmt_meta(av, &f->fmt.meta);
-> +	else
-> +		return &ipu6_isys_pfmts[0];
-> +}
-> +
-> +static int vidioc_set_format(struct file *file, void *fh,
-> +			     struct v4l2_format *f)
->  {
->  	struct ipu6_isys_video *av = video_drvdata(file);
->  
->  	if (av->aq.vbq.streaming)
->  		return -EBUSY;
->  
-> -	av->pfmt = ipu6_isys_video_try_fmt_vid_mplane(av, &f->fmt.pix_mp);
-> -	av->mpix = f->fmt.pix_mp;
-> +	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
-> +	    f->type != V4L2_BUF_TYPE_META_CAPTURE)
-> +		return -EINVAL;
-> +
-> +	av->pfmt = ipu6_isys_video_try_fmt(av, f);
-> +	av->vfmt = *f;
->  
->  	return 0;
->  }
->  
-> -static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *fh,
-> -					 struct v4l2_format *f)
-> +static int vidioc_try_format(struct file *file, void *fh,
-> +			     struct v4l2_format *f)
->  {
->  	struct ipu6_isys_video *av = video_drvdata(file);
->  
-> -	ipu6_isys_video_try_fmt_vid_mplane(av, &f->fmt.pix_mp);
-> +	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
-> +	    f->type != V4L2_BUF_TYPE_META_CAPTURE)
-> +		return -EINVAL;
-> +
-> +	ipu6_isys_video_try_fmt(av, f);
->  
->  	return 0;
->  }
->  
-> +static int vidioc_request_qbufs(struct file *file, void *priv,
-> +				struct v4l2_requestbuffers *p)
-> +{
-> +	struct ipu6_isys_video *av = video_drvdata(file);
-> +	int ret;
-> +
-> +	av->aq.vbq.is_multiplanar = V4L2_TYPE_IS_MULTIPLANAR(p->type);
-> +	av->aq.vbq.is_output = V4L2_TYPE_IS_OUTPUT(p->type);
-> +
-> +	ret = vb2_queue_change_type(&av->aq.vbq, p->type);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return vb2_ioctl_reqbufs(file, priv, p);
-> +}
-> +
-> +static int vidioc_create_bufs(struct file *file, void *priv,
-> +			      struct v4l2_create_buffers *p)
-> +{
-> +	struct ipu6_isys_video *av = video_drvdata(file);
-> +	int ret;
-> +
-> +	av->aq.vbq.is_multiplanar = V4L2_TYPE_IS_MULTIPLANAR(p->format.type);
-> +	av->aq.vbq.is_output = V4L2_TYPE_IS_OUTPUT(p->format.type);
-> +
-> +	ret = vb2_queue_change_type(&av->aq.vbq, p->format.type);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return vb2_ioctl_create_bufs(file, priv, p);
-> +}
-> +
->  static int link_validate(struct media_link *link)
->  {
->  	struct ipu6_isys_video *av =
-> @@ -279,6 +368,8 @@ static int link_validate(struct media_link *link)
->  	struct v4l2_mbus_framefmt *s_fmt;
->  	struct media_pad *s_pad;
->  	u32 s_stream;
-> +	u32 height;
-> +	u32 width;
->  	int ret = -EPIPE;
->  
->  	if (!link->source->entity)
-> @@ -305,11 +396,13 @@ static int link_validate(struct media_link *link)
->  		goto unlock;
->  	}
->  
-> -	if (s_fmt->width != av->mpix.width ||
-> -	    s_fmt->height != av->mpix.height || s_fmt->code != av->pfmt->code) {
-> +	height = ipu6_get_frame_height(&av->vfmt);
-> +	width = ipu6_get_frame_width(&av->vfmt);
-> +	if (s_fmt->width != width || s_fmt->height != height ||
-> +	    s_fmt->code != av->pfmt->code) {
->  		dev_err(dev, "format mismatch %dx%d,%x != %dx%d,%x\n",
-> -			s_fmt->width, s_fmt->height, s_fmt->code,
-> -			av->mpix.width, av->mpix.height, av->pfmt->code);
-> +			s_fmt->width, s_fmt->height, s_fmt->code, width, height,
-> +			av->pfmt->code);
->  		goto unlock;
->  	}
->  
-> @@ -393,10 +486,10 @@ static int ipu6_isys_fw_pin_cfg(struct ipu6_isys_video *av,
->  
->  	output_pin = &cfg->output_pins[output_pins];
->  	output_pin->input_pin_id = input_pins;
-> -	output_pin->output_res.width = av->mpix.width;
-> -	output_pin->output_res.height = av->mpix.height;
-> +	output_pin->output_res.width = ipu6_get_frame_width(&av->vfmt);
-> +	output_pin->output_res.height = ipu6_get_frame_height(&av->vfmt);
->  
-> -	output_pin->stride = av->mpix.plane_fmt[0].bytesperline;
-> +	output_pin->stride = ipu6_get_bytes_per_line(&av->vfmt);
->  	if (av->pfmt->bpp != av->pfmt->bpp_packed)
->  		output_pin->pt = IPU6_FW_ISYS_PIN_TYPE_RAW_SOC;
->  	else
-> @@ -663,8 +756,8 @@ void ipu6_isys_configure_stream_watermark(struct ipu6_isys_video *av,
->  
->  	esd = media_entity_to_v4l2_subdev(av->stream->source_entity);
->  
-> -	av->watermark.width = av->mpix.width;
-> -	av->watermark.height = av->mpix.height;
-> +	av->watermark.width = ipu6_get_frame_width(&av->vfmt);
-> +	av->watermark.height = ipu6_get_frame_height(&av->vfmt);
->  	av->watermark.sram_gran_shift = isys->pdata->ipdata->sram_gran_shift;
->  	av->watermark.sram_gran_size = isys->pdata->ipdata->sram_gran_size;
->  
-> @@ -992,11 +1085,15 @@ static const struct v4l2_ioctl_ops ioctl_ops_mplane = {
->  	.vidioc_querycap = ipu6_isys_vidioc_querycap,
->  	.vidioc_enum_fmt_vid_cap = ipu6_isys_vidioc_enum_fmt,
->  	.vidioc_enum_framesizes = ipu6_isys_vidioc_enum_framesizes,
-> -	.vidioc_g_fmt_vid_cap_mplane = vidioc_g_fmt_vid_cap_mplane,
-> -	.vidioc_s_fmt_vid_cap_mplane = vidioc_s_fmt_vid_cap_mplane,
-> -	.vidioc_try_fmt_vid_cap_mplane = vidioc_try_fmt_vid_cap_mplane,
-> -	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-> -	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> +	.vidioc_g_fmt_vid_cap_mplane = vidioc_get_format,
-> +	.vidioc_s_fmt_vid_cap_mplane = vidioc_set_format,
-> +	.vidioc_try_fmt_vid_cap_mplane = vidioc_try_format,
-> +	.vidioc_enum_fmt_meta_cap = ipu6_isys_vidioc_enum_fmt,
-> +	.vidioc_g_fmt_meta_cap = vidioc_get_format,
-> +	.vidioc_s_fmt_meta_cap = vidioc_set_format,
-> +	.vidioc_try_fmt_meta_cap = vidioc_try_format,
-> +	.vidioc_reqbufs = vidioc_request_qbufs,
-> +	.vidioc_create_bufs = vidioc_create_bufs,
->  	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
->  	.vidioc_querybuf = vb2_ioctl_querybuf,
->  	.vidioc_qbuf = vb2_ioctl_qbuf,
-> @@ -1199,7 +1296,8 @@ int ipu6_isys_video_init(struct ipu6_isys_video *av)
->  
->  	mutex_init(&av->mutex);
->  	av->vdev.device_caps = V4L2_CAP_STREAMING | V4L2_CAP_IO_MC |
-> -			       V4L2_CAP_VIDEO_CAPTURE_MPLANE;
-> +			       V4L2_CAP_VIDEO_CAPTURE_MPLANE |
-> +			       V4L2_CAP_META_CAPTURE;
->  	av->vdev.vfl_dir = VFL_DIR_RX;
->  
->  	ret = ipu6_isys_queue_init(&av->aq);
-> @@ -1220,8 +1318,8 @@ int ipu6_isys_video_init(struct ipu6_isys_video *av)
->  	av->vdev.queue = &av->aq.vbq;
->  	av->vdev.lock = &av->mutex;
->  
-> -	ipu6_isys_video_try_fmt_vid_mplane(av, &format.fmt.pix_mp);
-> -	av->mpix = format.fmt.pix_mp;
-> +	ipu6_isys_video_try_fmt(av, &format);
-> +	av->vfmt = format;
->  
->  	set_bit(V4L2_FL_USES_V4L2_FH, &av->vdev.flags);
->  	video_set_drvdata(&av->vdev, av);
-> @@ -1251,3 +1349,52 @@ void ipu6_isys_video_cleanup(struct ipu6_isys_video *av)
->  	media_entity_cleanup(&av->vdev.entity);
->  	mutex_destroy(&av->mutex);
->  }
-> +
-> +u32 ipu6_get_data_size(struct v4l2_format *vfmt, int plane)
-> +{
-> +	if (vfmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> +		return vfmt->fmt.pix_mp.plane_fmt[plane].sizeimage;
-> +	else if (vfmt->type == V4L2_BUF_TYPE_META_CAPTURE)
+Julien Massot (4):
+  dt-bindings: media: add Maxim MAX96717F GMSL2 Serializer
+  dt-bindings: media: add Maxim MAX96714F GMSL2 Deserializer
+  media: i2c: add MAX96717 driver
+  media: i2c: add MAX96714 driver
 
-Useless use of else. Same below.
-
-> +		return vfmt->fmt.meta.buffersize;
-> +
-> +	WARN_ON_ONCE(1);
-> +
-> +	return 0;
-> +}
-> +
-> +u32 ipu6_get_bytes_per_line(struct v4l2_format *vfmt)
-> +{
-> +	if (vfmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> +		return vfmt->fmt.pix_mp.plane_fmt[0].bytesperline;
-> +	else if (vfmt->type == V4L2_BUF_TYPE_META_CAPTURE)
-> +		return vfmt->fmt.meta.bytesperline;
-> +
-> +	WARN_ON_ONCE(1);
-> +
-> +	return 0;
-> +}
-> +
-> +u32 ipu6_get_frame_width(struct v4l2_format *vfmt)
-> +{
-> +	if (vfmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> +		return vfmt->fmt.pix_mp.width;
-> +	else if (vfmt->type == V4L2_BUF_TYPE_META_CAPTURE)
-> +		return vfmt->fmt.meta.width;
-> +
-> +	WARN_ON_ONCE(1);
-> +
-> +	return 0;
-> +}
-> +
-> +u32 ipu6_get_frame_height(struct v4l2_format *vfmt)
-> +{
-> +	if (vfmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> +		return vfmt->fmt.pix_mp.height;
-> +	else if (vfmt->type == V4L2_BUF_TYPE_META_CAPTURE)
-> +		return vfmt->fmt.meta.height;
-> +
-> +	WARN_ON_ONCE(1);
-> +
-> +	return 0;
-> +}
-> +
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.h b/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
-> index 21cd33c7e277..2634ec0fd68b 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
-> @@ -90,7 +90,7 @@ struct ipu6_isys_video {
->  	struct mutex mutex;
->  	struct media_pad pad;
->  	struct video_device vdev;
-> -	struct v4l2_pix_format_mplane mpix;
-> +	struct v4l2_format vfmt;
->  	const struct ipu6_isys_pixelformat *pfmt;
->  	struct ipu6_isys *isys;
->  	struct ipu6_isys_stream *stream;
-> @@ -133,4 +133,9 @@ void ipu6_isys_configure_stream_watermark(struct ipu6_isys_video *av,
->  					  bool state);
->  void ipu6_isys_update_stream_watermark(struct ipu6_isys_video *av, bool state);
->  
-> +u32 ipu6_get_data_size(struct v4l2_format *vfmt, int plane);
-> +u32 ipu6_get_bytes_per_line(struct v4l2_format *vfmt);
-> +u32 ipu6_get_frame_width(struct v4l2_format *vfmt);
-> +u32 ipu6_get_frame_height(struct v4l2_format *vfmt);
-> +
->  #endif /* IPU6_ISYS_VIDEO_H */
+ .../bindings/media/i2c/maxim,max96714f.yaml   |  171 +++
+ .../bindings/media/i2c/maxim,max96717f.yaml   |  147 +++
+ MAINTAINERS                                   |   14 +
+ drivers/media/i2c/Kconfig                     |   26 +
+ drivers/media/i2c/Makefile                    |    2 +
+ drivers/media/i2c/max96714.c                  | 1077 +++++++++++++++++
+ drivers/media/i2c/max96717.c                  |  956 +++++++++++++++
+ 7 files changed, 2393 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml
+ create mode 100644 drivers/media/i2c/max96714.c
+ create mode 100644 drivers/media/i2c/max96717.c
 
 -- 
-Regards,
+2.43.0
 
-Sakari Ailus
 
