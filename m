@@ -1,305 +1,310 @@
-Return-Path: <linux-media+bounces-3532-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3533-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF5782AA9A
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 10:15:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BA082AAB5
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 10:20:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C8271F2482D
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 09:15:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 730F81F28923
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 09:20:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD8D2107A9;
-	Thu, 11 Jan 2024 09:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAA11119D;
+	Thu, 11 Jan 2024 09:20:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="tqsac4JX"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="CEFOLMD0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2284BFC1E;
-	Thu, 11 Jan 2024 09:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1704964522;
-	bh=OpfZs9JhKNbgs7FCX+3nGcpBM/n38qFQBpJ9LpAAXdg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tqsac4JXyxWGUdnVLMzWQzMIE2nMWtK/nfQJVTy2l6Gav+wSvfq8lNiBYM+OJQNHR
-	 j1lva7yQhCAJCRhkFF8SkE/DjDu6YU7ER68wV3el52qB99HE5YFXEiOSW9VdWWBNSQ
-	 EnKMa383n6b7d79ZO03X43/8USqtPJ0sDNt8fuRJHXFi/e48/Idhp/x16giDqTxa5+
-	 OFxzTWjJOzUuT2OGxkHCJZ1mmvhzZjLT+l+NaXquCvWTcAaVZl8KM32wg5sOozfOju
-	 FsW7VxMjs4zrNT4qp7gugYDp2YPv7tWszQKI1MuOf/8iIj73xc6cp2Tm40dVkO3ZUx
-	 +sjaytLUN3v/w==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 537023781F80;
-	Thu, 11 Jan 2024 09:15:21 +0000 (UTC)
-Message-ID: <95daea30-14e6-4c0b-8a0c-60641efc9d92@collabora.com>
-Date: Thu, 11 Jan 2024 10:15:20 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B064610785;
+	Thu, 11 Jan 2024 09:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1704964809;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=i85I9qJAb3wZcaqLgsPWI4OP+dyAoL/KQON9HMLs0z4=;
+	b=CEFOLMD0/goCi5Tjo0eqNPg8Uu7pcSd9SHh04IYigVZlgj0pUBa3ReUKoX8N8VVrsn7E/v
+	6fcStl2ns9HITdn1n+GT8YYcBjbJttwSbp1MPRJMMtcSpU3X3+wWdcjCa/rOAE3WB3jFSN
+	zFwA+ACqCA23Fc9JlMV2qJEaYD79KaA=
+Message-ID: <bbd6e9d6f239efee8886e08f3c3493fc968e53ce.camel@crapouillou.net>
+Subject: Re: [PATCH v5 0/8] iio: new DMABUF based API, v5
+From: Paul Cercueil <paul@crapouillou.net>
+To: Andrew Davis <afd@ti.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen
+	 <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+	=?ISO-8859-1?Q?K=F6nig?=
+	 <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
+	 <corbet@lwn.net>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, 
+ linux-doc@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, Nuno =?ISO-8859-1?Q?S=E1?=
+ <noname.nuno@gmail.com>, dmaengine@vger.kernel.org,
+ linux-media@vger.kernel.org
+Date: Thu, 11 Jan 2024 10:20:06 +0100
+In-Reply-To: <6ec8c7c4-588a-48b5-b0c5-56ca5216a757@ti.com>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+	 <6ec8c7c4-588a-48b5-b0c5-56ca5216a757@ti.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: mediatek: vcodec: setting request complete before
- buffer done
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Nathan Hebert <nhebert@chromium.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240111071713.16331-1-yunfei.dong@mediatek.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20240111071713.16331-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+Hi Andrew,
 
-Le 11/01/2024 à 08:17, Yunfei Dong a écrit :
-> The request status of output queue will be set to MEDIA_REQUEST_STATE_COMPLETE
-> when user space dequeue output buffer. Then calling v4l2_ctrl_request_complete
-> will get below warning, need to call v4l2_ctrl_request_complete before
-> v4l2_m2m_buf_done.
-> Workqueue: core-decoder vdec_msg_queue_core_work [mtk_vcodec_dec]
-> pstate: 80c00089 (Nzcv daIf +PAN +UAO -TCO BTYPE=--)
-> pc : media_request_object_bind+0xa8/0x124
-> lr : media_request_object_bind+0x50/0x124
-> sp : ffffffc011393be0
-> x29: ffffffc011393be0 x28: 0000000000000000
-> x27: ffffff890c280248 x26: ffffffe21a71ab88
-> x25: 0000000000000000 x24: ffffff890c280280
-> x23: ffffff890c280280 x22: 00000000fffffff0
-> x21: 0000000000000000 x20: ffffff890260d280
-> x19: ffffff890260d2e8 x18: 0000000000001000
-> x17: 0000000000000400 x16: ffffffe21a4584a0
-> x15: 000000000053361d x14: 0000000000000018
-> x13: 0000000000000004 x12: ffffffa82427d000
-> x11: ffffffe21ac3fce0 x10: 0000000000000001
-> x9 : 0000000000000000 x8 : 0000000000000003
-> x7 : 0000000000000000 x6 : 000000000000003f
-> x5 : 0000000000000040 x4 : ffffff89052e7b98
-> x3 : 0000000000000000 x2 : 0000000000000001
-> x1 : 0000000000000000 x0 : 0000000000000000
-> Call trace:
->   media_request_object_bind+0xa8/0x124
->   v4l2_ctrl_request_bind+0xc4/0x168
->   v4l2_ctrl_request_complete+0x198/0x1f4
->   mtk_vdec_stateless_cap_to_disp+0x58/0x8c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
->   vdec_vp9_slice_core_decode+0x1c0/0x268 [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
->   vdec_msg_queue_core_work+0x60/0x11c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
->   process_one_work+0x140/0x480
->   worker_thread+0x12c/0x2f8
->   kthread+0x13c/0x1d8
->   ret_from_fork+0x10/0x30
->
-> 'Fixes: 7b182b8d9c852 ("media: mediatek: vcodec: Refactor get and put capture buffer flow")'
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Le lundi 08 janvier 2024 =C3=A0 15:12 -0600, Andrew Davis a =C3=A9crit=C2=
+=A0:
+> On 12/19/23 11:50 AM, Paul Cercueil wrote:
+> > [V4 was: "iio: Add buffer write() support"][1]
+> >=20
+> > Hi Jonathan,
+> >=20
+> > This is a respin of the V3 of my patchset that introduced a new
+> > interface based on DMABUF objects [2].
+> >=20
+> > The V4 was a split of the patchset, to attempt to upstream buffer
+> > write() support first. But since there is no current user upstream,
+> > it
+> > was not merged. This V5 is about doing the opposite, and contains
+> > the
+> > new DMABUF interface, without adding the buffer write() support. It
+> > can
+> > already be used with the upstream adi-axi-adc driver.
+> >=20
+> > In user-space, Libiio uses it to transfer back and forth blocks of
+> > samples between the hardware and the applications, without having
+> > to
+> > copy the data.
+> >=20
+> > On a ZCU102 with a FMComms3 daughter board, running Libiio from the
+> > pcercuei/dev-new-dmabuf-api branch [3], compiled with
+> > WITH_LOCAL_DMABUF_API=3DOFF (so that it uses fileio):
+> > =C2=A0=C2=A0 sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
+> > =C2=A0=C2=A0 Throughput: 116 MiB/s
+> >=20
+> > Same hardware, with the DMABUF API (WITH_LOCAL_DMABUF_API=3DON):
+> > =C2=A0=C2=A0 sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
+> > =C2=A0=C2=A0 Throughput: 475 MiB/s
+> >=20
+> > This benchmark only measures the speed at which the data can be
+> > fetched
+> > to iio_rwdev's internal buffers, and does not actually try to read
+> > the
+> > data (e.g. to pipe it to stdout). It shows that fetching the data
+> > is
+> > more than 4x faster using the new interface.
+> >=20
+> > When actually reading the data, the performance difference isn't
+> > that
+> > impressive (maybe because in case of DMABUF the data is not in
+> > cache):
+> >=20
+> > WITH_LOCAL_DMABUF_API=3DOFF (so that it uses fileio):
+> > =C2=A0=C2=A0 sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=3D/dev/=
+zero
+> > status=3Dprogress
+> > =C2=A0=C2=A0 2446422528 bytes (2.4 GB, 2.3 GiB) copied, 22 s, 111 MB/s
+> >=20
+> > WITH_LOCAL_DMABUF_API=3DON:
+> > =C2=A0=C2=A0 sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=3D/dev/=
+zero
+> > status=3Dprogress
+> > =C2=A0=C2=A0 2334388736 bytes (2.3 GB, 2.2 GiB) copied, 21 s, 114 MB/s
+> >=20
+> > One interesting thing to note is that fileio is (currently)
+> > actually
+> > faster than the DMABUF interface if you increase a lot the buffer
+> > size.
+> > My explanation is that the cache invalidation routine takes more
+> > and
+> > more time the bigger the DMABUF gets. This is because the DMABUF is
+> > backed by small-size pages, so a (e.g.) 64 MiB DMABUF is backed by
+> > up
+> > to 16 thousands pages, that have to be invalidated one by one. This
+> > can
+> > be addressed by using huge pages, but the udmabuf driver does not
+> > (yet)
+> > support creating DMABUFs backed by huge pages.
+> >=20
+>=20
+> Have you tried DMABUFs created using the DMABUF System heap exporter?
+> (drivers/dma-buf/heaps/system_heap.c) It should be able to handle
+> larger allocation better here, and if you don't have any active
+> mmaps or vmaps then it can skip CPU-side coherency maintenance
+> (useful for device to device transfers).
 
-Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+I didn't know about it!
 
-> ---
->   .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  3 ++-
->   .../vcodec/decoder/mtk_vcodec_dec_stateless.c        | 12 +++++++-----
->   .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c        |  7 +++++--
->   .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c     |  3 ++-
->   .../vcodec/decoder/vdec/vdec_hevc_req_multi_if.c     |  3 ++-
->   .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        |  6 ++++--
->   .../mediatek/vcodec/decoder/vdec_msg_queue.h         |  2 ++
->   7 files changed, 24 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> index 849b89dd205c..3f5b625330bc 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> @@ -111,7 +111,8 @@ struct mtk_vcodec_dec_pdata {
->   	int (*flush_decoder)(struct mtk_vcodec_dec_ctx *ctx);
->   	struct vdec_fb *(*get_cap_buffer)(struct mtk_vcodec_dec_ctx *ctx);
->   	void (*cap_to_disp)(struct mtk_vcodec_dec_ctx *ctx, int error,
-> -			    struct media_request *src_buf_req);
-> +			    struct media_request *src_buf_req,
-> +			    struct vb2_v4l2_buffer *vb2_v4l2_src);
->   
->   	const struct vb2_ops *vdec_vb2_ops;
->   
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> index d54b3833790d..2efa34b6750b 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> @@ -245,7 +245,8 @@ static const struct v4l2_frmsize_stepwise stepwise_fhd = {
->   };
->   
->   static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int error,
-> -					   struct media_request *src_buf_req)
-> +					   struct media_request *src_buf_req,
-> +					   struct vb2_v4l2_buffer *vb2_v4l2_src)
->   {
->   	struct vb2_v4l2_buffer *vb2_dst;
->   	enum vb2_buffer_state state;
-> @@ -266,6 +267,9 @@ static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int e
->   
->   	if (src_buf_req)
->   		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-> +
-> +	if (vb2_v4l2_src)
-> +		v4l2_m2m_buf_done(vb2_v4l2_src, state);
->   }
->   
->   static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx *ctx)
-> @@ -374,14 +378,12 @@ static void mtk_vdec_worker(struct work_struct *work)
->   	state = ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE;
->   	if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
->   	    ctx->current_codec == V4L2_PIX_FMT_VP8_FRAME) {
-> -		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
->   		if (src_buf_req)
->   			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-> +		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
->   	} else {
-> -		if (ret != -EAGAIN) {
-> +		if (ret != -EAGAIN)
->   			v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
-> -			v4l2_m2m_buf_done(vb2_v4l2_src, state);
-> -		}
->   		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
->   	}
->   }
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
-> index 2b6a5adbc419..f277b907c345 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
-> @@ -1064,6 +1064,8 @@ static int vdec_av1_slice_setup_lat_from_src_buf(struct vdec_av1_slice_instance
->   		return -EINVAL;
->   
->   	lat_buf->src_buf_req = src->vb2_buf.req_obj.req;
-> +	lat_buf->vb2_v4l2_src = src;
-> +
->   	dst = &lat_buf->ts_info;
->   	v4l2_m2m_buf_copy_metadata(src, dst, true);
->   	vsi->frame.cur_ts = dst->vb2_buf.timestamp;
-> @@ -2187,7 +2189,7 @@ static int vdec_av1_slice_core_decode(struct vdec_lat_buf *lat_buf)
->   		       &instance->core_vsi->trans.dma_addr_end);
->   	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, instance->core_vsi->trans.dma_addr_end);
->   
-> -	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-> +	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
->   
->   	return 0;
->   
-> @@ -2196,7 +2198,8 @@ static int vdec_av1_slice_core_decode(struct vdec_lat_buf *lat_buf)
->   	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
->   
->   	if (fb)
-> -		ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
-> +		ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req,
-> +						  lat_buf->vb2_v4l2_src);
->   
->   	return ret;
->   }
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-> index 0e741e0dc8ba..7033999018ca 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-> @@ -533,7 +533,7 @@ static int vdec_h264_slice_core_decode(struct vdec_lat_buf *lat_buf)
->   
->   vdec_dec_end:
->   	vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->trans_end);
-> -	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
-> +	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
->   	mtk_vdec_debug(ctx, "core decode done err=%d", err);
->   	ctx->decoded_frame_cnt++;
->   	return 0;
-> @@ -606,6 +606,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->   
->   	inst->vsi->dec.nal_info = buf[nal_start_idx];
->   	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
-> +	lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
->   	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
->   
->   	err = vdec_h264_slice_fill_decode_parameters(inst, share_info);
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
-> index 06ed47df693b..67fe3c4bfac3 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
-> @@ -742,6 +742,7 @@ static int vdec_hevc_slice_setup_lat_buffer(struct vdec_hevc_slice_inst *inst,
->   
->   	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
->   	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
-> +	lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
->   	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
->   
->   	*res_chg = inst->resolution_changed;
-> @@ -961,7 +962,7 @@ static int vdec_hevc_slice_core_decode(struct vdec_lat_buf *lat_buf)
->   
->   vdec_dec_end:
->   	vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->trans.dma_addr_end);
-> -	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
-> +	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
->   	mtk_vdec_debug(ctx, "core decode done err=%d", err);
->   	ctx->decoded_frame_cnt++;
->   	return 0;
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> index 69d37b93bd35..a7734d032269 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> @@ -723,6 +723,7 @@ static int vdec_vp9_slice_setup_lat_from_src_buf(struct vdec_vp9_slice_instance
->   		return -EINVAL;
->   
->   	lat_buf->src_buf_req = src->vb2_buf.req_obj.req;
-> +	lat_buf->vb2_v4l2_src = src;
->   
->   	dst = &lat_buf->ts_info;
->   	v4l2_m2m_buf_copy_metadata(src, dst, true);
-> @@ -2188,7 +2189,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
->   	mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
->   		       (unsigned long)pfc->vsi.trans.dma_addr_end);
->   	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
-> -	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-> +	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
->   
->   	return 0;
->   
-> @@ -2198,7 +2199,8 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
->   		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
->   
->   		if (fb)
-> -			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
-> +			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req,
-> +							  lat_buf->vb2_v4l2_src);
->   	}
->   	return ret;
->   }
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-> index 1d9beb9e4a14..b0f2443d186f 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-> @@ -55,6 +55,7 @@ struct vdec_msg_queue_ctx {
->    * @rd_mv_addr:	mv addr for av1 lat hardware output, core hardware input
->    * @tile_addr:	tile buffer for av1 core input
->    * @ts_info: need to set timestamp from output to capture
-> + * @vb2_v4l2_src: the vb2 buffer of output queue
->    * @src_buf_req: output buffer media request object
->    *
->    * @private_data: shared information used to lat and core hardware
-> @@ -71,6 +72,7 @@ struct vdec_lat_buf {
->   	struct mtk_vcodec_mem rd_mv_addr;
->   	struct mtk_vcodec_mem tile_addr;
->   	struct vb2_v4l2_buffer ts_info;
-> +	struct vb2_v4l2_buffer *vb2_v4l2_src;
->   	struct media_request *src_buf_req;
->   
->   	void *private_data;
+But udmabuf also allows you to skip CPU-side coherency maintenance,
+since DMABUFs have two ioctls to start/finish CPU access anyway.
+
+> Allocating DMABUFs out of user pages has a bunch of other issues you
+> might run into also. I'd argue udmabuf is now completely superseded
+> by DMABUF system heaps. Try it out :)
+
+I'm curious, what other issues?
+
+The good thing about udmabuf is that the memory is backed by pages, so
+we can use MSG_ZEROCOPY on sockets to transfer the mmapped data over
+the network (having a DMABUF interface to the network stack would be
+better, but I'm not opening that can of worms).
+
+> Andrew
+
+Cheers,
+-Paul
+
+> > Anyway, the real benefits happen when the DMABUFs are either shared
+> > between IIO devices, or between the IIO subsystem and another
+> > filesystem. In that case, the DMABUFs are simply passed around
+> > drivers,
+> > without the data being copied at any moment.
+> >=20
+> > We use that feature to transfer samples from our transceivers to
+> > USB,
+> > using a DMABUF interface to FunctionFS [4].
+> >=20
+> > This drastically increases the throughput, to about 274 MiB/s over
+> > a
+> > USB3 link, vs. 127 MiB/s using IIO's fileio interface + write() to
+> > the
+> > FunctionFS endpoints, for a lower CPU usage (0.85 vs. 0.65 load
+> > avg.).
+> >=20
+> > Based on linux-next/next-20231219.
+> >=20
+> > Cheers,
+> > -Paul
+> >=20
+> > [1]
+> > https://lore.kernel.org/all/20230807112113.47157-1-paul@crapouillou.net=
+/
+> > [2]
+> > https://lore.kernel.org/all/20230403154800.215924-1-paul@crapouillou.ne=
+t/
+> > [3]
+> > https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf=
+-api
+> > [4]
+> > https://lore.kernel.org/all/20230322092118.9213-1-paul@crapouillou.net/
+> >=20
+> > ---
+> > Changelog:
+> > - [3/8]: Replace V3's dmaengine_prep_slave_dma_array() with a new
+> > =C2=A0=C2=A0 dmaengine_prep_slave_dma_vec(), which uses a new 'dma_vec'
+> > struct.
+> > =C2=A0=C2=A0 Note that at some point we will need to support cyclic tra=
+nsfers
+> > =C2=A0=C2=A0 using dmaengine_prep_slave_dma_vec(). Maybe with a new "fl=
+ags"
+> > =C2=A0=C2=A0 parameter to the function?
+> >=20
+> > - [4/8]: Implement .device_prep_slave_dma_vec() instead of V3's
+> > =C2=A0=C2=A0 .device_prep_slave_dma_array().
+> >=20
+> > =C2=A0=C2=A0 @Vinod: this patch will cause a small conflict with my oth=
+er
+> > =C2=A0=C2=A0 patchset adding scatter-gather support to the axi-dmac dri=
+ver.
+> > =C2=A0=C2=A0 This patch adds a call to axi_dmac_alloc_desc(num_sgs), bu=
+t the
+> > =C2=A0=C2=A0 prototype of this function changed in my other patchset - =
+it
+> > would
+> > =C2=A0=C2=A0 have to be passed the "chan" variable. I don't know how yo=
+u
+> > prefer it
+> > =C2=A0=C2=A0 to be resolved. Worst case scenario (and if @Jonathan is o=
+kay
+> > with
+> > =C2=A0=C2=A0 that) this one patch can be re-sent later, but it would ma=
+ke
+> > this
+> > =C2=A0=C2=A0 patchset less "atomic".
+> >=20
+> > - [5/8]:
+> > =C2=A0=C2=A0 - Use dev_err() instead of pr_err()
+> > =C2=A0=C2=A0 - Inline to_iio_dma_fence()
+> > =C2=A0=C2=A0 - Add comment to explain why we unref twice when detaching
+> > dmabuf
+> > =C2=A0=C2=A0 - Remove TODO comment. It is actually safe to free the fil=
+e's
+> > =C2=A0=C2=A0=C2=A0=C2=A0 private data even when transfers are still pen=
+ding because it
+> > =C2=A0=C2=A0=C2=A0=C2=A0 won't be accessed.
+> > =C2=A0=C2=A0 - Fix documentation of new fields in struct
+> > iio_buffer_access_funcs
+> > =C2=A0=C2=A0 - iio_dma_resv_lock() does not need to be exported, make i=
+t
+> > static
+> >=20
+> > - [7/8]:
+> > =C2=A0=C2=A0 - Use the new dmaengine_prep_slave_dma_vec().
+> > =C2=A0=C2=A0 - Restrict to input buffers, since output buffers are not =
+yet
+> > =C2=A0=C2=A0=C2=A0=C2=A0 supported by IIO buffers.
+> >=20
+> > - [8/8]:
+> > =C2=A0=C2=A0 Use description lists for the documentation of the three n=
+ew
+> > IOCTLs
+> > =C2=A0=C2=A0 instead of abusing subsections.
+> >=20
+> > ---
+> > Alexandru Ardelean (1):
+> > =C2=A0=C2=A0 iio: buffer-dma: split iio_dma_buffer_fileio_free() functi=
+on
+> >=20
+> > Paul Cercueil (7):
+> > =C2=A0=C2=A0 iio: buffer-dma: Get rid of outgoing queue
+> > =C2=A0=C2=A0 dmaengine: Add API function dmaengine_prep_slave_dma_vec()
+> > =C2=A0=C2=A0 dmaengine: dma-axi-dmac: Implement device_prep_slave_dma_v=
+ec
+> > =C2=A0=C2=A0 iio: core: Add new DMABUF interface infrastructure
+> > =C2=A0=C2=A0 iio: buffer-dma: Enable support for DMABUFs
+> > =C2=A0=C2=A0 iio: buffer-dmaengine: Support new DMABUF based userspace =
+API
+> > =C2=A0=C2=A0 Documentation: iio: Document high-speed DMABUF based API
+> >=20
+> > =C2=A0 Documentation/iio/dmabuf_api.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 54 +++
+> > =C2=A0 Documentation/iio/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 2 +
+> > =C2=A0 drivers/dma/dma-axi-dmac.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 40 ++
+> > =C2=A0 drivers/iio/buffer/industrialio-buffer-dma.c=C2=A0 | 242 +++++++=
++---
+> > =C2=A0 .../buffer/industrialio-buffer-dmaengine.c=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 52 ++-
+> > =C2=A0 drivers/iio/industrialio-buffer.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 402
+> > ++++++++++++++++++
+> > =C2=A0 include/linux/dmaengine.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 25 ++
+> > =C2=A0 include/linux/iio/buffer-dma.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 33 +-
+> > =C2=A0 include/linux/iio/buffer_impl.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 26 ++
+> > =C2=A0 include/uapi/linux/iio/buffer.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 22 +
+> > =C2=A0 10 files changed, 836 insertions(+), 62 deletions(-)
+> > =C2=A0 create mode 100644 Documentation/iio/dmabuf_api.rst
+> >=20
+
 
