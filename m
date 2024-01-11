@@ -1,114 +1,88 @@
-Return-Path: <linux-media+bounces-3571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89EC82B174
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 16:10:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 478EF82B270
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 17:07:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 585E128C88B
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 15:10:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E184F1F251B2
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 16:07:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A2DE4C60C;
-	Thu, 11 Jan 2024 15:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 859AA4F882;
+	Thu, 11 Jan 2024 16:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BRv9/7oT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1F822074;
-	Thu, 11 Jan 2024 15:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Thu, 11 Jan
- 2024 18:10:11 +0300
-Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
- (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 11 Jan
- 2024 18:10:10 +0300
-Message-ID: <b7ca60c4-2392-448e-90e4-5078051d7af6@fintech.ru>
-Date: Thu, 11 Jan 2024 07:10:10 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1381F50243;
+	Thu, 11 Jan 2024 16:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1704989247;
+	bh=XCK1CV/VSM6OTw5gCljrP86qEptdNtFM4Wvlklxvlgw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BRv9/7oTfeVU9WWFVnq9RsczL7aWbPG9zpNpsQ1fVr4Mt/j1I4T9AJIOYasxixuqi
+	 GINOWppUl4JrnfHS9N4h1eqIDYQZegj1qG2YmatSsTuTbVsSZ8OZ+We7wdbiLQSVqy
+	 rB26OqhbLVpyOj0FHkUF3i5s1Ln98Y3rLzJGsCxfAAbBPkkxtiBx2aPqeJ0MLYM5vR
+	 P2CGDtii9S7W8pUgALNvftE4v/SNCCe5v4py3UACe6vYoHlMU+YNm3NzzXUxpBsW10
+	 51Zv4NotFOumRBQuml0uBzNr9A9z2dtnhw5D+Vd2RinBPnNhVF4tqaKnMko0iE2d8h
+	 7ilNQysjPUpDw==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D98E73781492;
+	Thu, 11 Jan 2024 16:07:26 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	p.zabel@pengutronix.de,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [RCF 0/2] Enumerate all pixels formats
+Date: Thu, 11 Jan 2024 17:07:19 +0100
+Message-Id: <20240111160721.50020-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: em28xx: return error on media_device_register()
- failure
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240110173958.4544-1-n.zhandarovich@fintech.ru>
- <20240111074905.67d61b00@coco.lan>
-Content-Language: en-US
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-In-Reply-To: <20240111074905.67d61b00@coco.lan>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Transfer-Encoding: 8bit
 
+The goal of this series is to let userland applications enumerate
+all the supported pixels formats of a stateless decoder without
+setting all the possible codec-dependent control.
+That offer a simplest solution for applications to discover
+supported pixels formats and possibly let them doing smarter
+choice between stateless decoders.
 
-On 1/10/24 22:49, Mauro Carvalho Chehab wrote:
-> Em Wed, 10 Jan 2024 09:39:58 -0800
-> Nikita Zhandarovich <n.zhandarovich@fintech.ru> escreveu:
-> 
->> In an unlikely case of failure in media_device_register(), release
->> resources and return the erroneous value. Otherwise, possible issues
->> with registering the device will continue to be ignored.
->>
->> Found by Linux Verification Center (linuxtesting.org) with static
->> analysis tool SVACE.
->>
->> Fixes: 37ecc7b1278f ("[media] em28xx: add media controller support")
->> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
->> ---
->>  drivers/media/usb/em28xx/em28xx-cards.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
->> index 4d037c92af7c..dae731dfc569 100644
->> --- a/drivers/media/usb/em28xx/em28xx-cards.c
->> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
->> @@ -4095,6 +4095,8 @@ static int em28xx_usb_probe(struct usb_interface *intf,
->>  	 */
->>  #ifdef CONFIG_MEDIA_CONTROLLER
->>  	retval = media_device_register(dev->media_dev);
->> +	if (retval)
->> +		goto err_free;
-> 
-> Not freeing resources here is intentional. See, the media controller 
-> API is optional on this driver. It will just provide a way to identify
-> the device's topology, but the device is completely usable without
-> it.
-> 
-> Perhaps we need, instead, a patch documenting it, and preventing
-> static analysis tools to point it as an issue.
-> 
-> Thanks,
-> Mauro
+Benjamin
 
-Thank you for your feedback, however I had a few questions...
+Benjamin Gaignard (2):
+  media: videodev2: Add V4L2_FMT_FLAG_ALL_FORMATS flag
+  media: verisilicon: Use V4L2_FMT_FLAG_ALL_FORMATS flag
 
-While I understand what you mean about optional nature of media
-controller registration in this case, a quick glance into other calls to
-media_device_register() across the source code shows that usually
-failure with registering is handled as a proper error regardless of
-whether the device is still usable. But if you think that we can make an
-exception here, I'll happily oblige.
+ .../media/v4l/dev-stateless-decoder.rst              |  3 +++
+ .../userspace-api/media/v4l/vidioc-enum-fmt.rst      |  4 ++++
+ .../userspace-api/media/videodev2.h.rst.exceptions   |  1 +
+ drivers/media/platform/verisilicon/hantro_v4l2.c     | 12 +++++++++---
+ drivers/media/v4l2-core/v4l2-ioctl.c                 |  2 +-
+ include/uapi/linux/videodev2.h                       |  1 +
+ 6 files changed, 19 insertions(+), 4 deletions(-)
 
-Then if I am to continue on this path, would the following comment above
-the call to media_device_register() suffice?
+-- 
+2.40.1
 
- #ifdef CONFIG_MEDIA_CONTROLLER
-+	/*
-+	 * No need to check the return value, the device will still be 	     +
- * usable without media controller API.
-+	 */
- 	retval = media_device_register(dev->media_dev);
-
-Thanks,
-Nikita
 
