@@ -1,115 +1,159 @@
-Return-Path: <linux-media+bounces-3574-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3575-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9089182B274
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 17:08:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DA882B3C6
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 18:16:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0B30B23F19
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 16:08:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E332C28B91B
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 17:16:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FD265024A;
-	Thu, 11 Jan 2024 16:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78663524DA;
+	Thu, 11 Jan 2024 17:16:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="3nva6pVd"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VCvXiw81"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BD450246;
-	Thu, 11 Jan 2024 16:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1704989248;
-	bh=m+4+w8Nro/6qVnOqVGso2S9Ki0IT4qV76zZG6m3in1I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=3nva6pVd2F+MRO4cjPmb4mDixRdcTcUZkK6TH0Q34FxODVb7dMZX7PnRJ+gtwDpwP
-	 LgiKF1wk8KRCgshFnHM7c/AQ71/c5t52Wl+D6U0xcCoxZ0faFm2PdHEYFW9N/zbzSn
-	 bwFICd6pV0CAj6upCZm+IeNX6pdvZOhGBCMFt6zlaTqVh3b3fjtyIdSWBEVAa425Y4
-	 csmBaVDNBwmdj3E2+7x03zbXwk4F616Se+C8i+MqjXW4Zn7lBGla7lCiXjyiRQeXH+
-	 uVSuaIykM108lTLM+1IWVLSvdcizxjqZzra1VkH6LvvlbheUgiK5Ep5C4rDKDv8cEm
-	 sqAWQiw1Nq55w==
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 457683782013;
-	Thu, 11 Jan 2024 16:07:28 +0000 (UTC)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	p.zabel@pengutronix.de,
-	hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [RCF 2/2] media: verisilicon: Use V4L2_FMT_FLAG_ALL_FORMATS flag
-Date: Thu, 11 Jan 2024 17:07:21 +0100
-Message-Id: <20240111160721.50020-3-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240111160721.50020-1-benjamin.gaignard@collabora.com>
-References: <20240111160721.50020-1-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAF5524CE
+	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 17:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40e629c5a42so4453305e9.0
+        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 09:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704993357; x=1705598157; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=akghNAx5zO8q20jwNqMX/JqWUlUpy5+0Dw/bZ3TCarc=;
+        b=VCvXiw81E5k5Q6zVtxCyOhWjRLd2efVdhNXF0TlWnaWolVLhi2ztXc87FZ322lTTDB
+         wLd1V1jygOocfNQSnIJmM7yqgunQ4P53pNpedN0aCGzNdkW+evy7LiOxedV/UGMQicTV
+         dk9NoBgN86l5zusOkzCE5GA6QK+BxisYMu344fqm9L7KYjghECHiccfaWV/eTO+MIaCl
+         ttzl3Sm8Sb+ZzPuDueaa8h8KKri5YBMZXHwCxQYK/4BOSue1eqeWnzc8soEE2t4eFe0o
+         3asD8ZSorNTiEJ7fmkHj83oPwC02dl59vFAiGHqda/LuJ10Bt55lU9oLfajiCC4wjAVG
+         FyoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704993357; x=1705598157;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=akghNAx5zO8q20jwNqMX/JqWUlUpy5+0Dw/bZ3TCarc=;
+        b=SJPgf1tHtN4cpLhvggukPlyKaLMFO2di0co3TSwkgenRFWNr3po1HRJ/omDsFJpB0w
+         n30FTlT5I7lYuWb6bfaXtUaAEkT7uIBxdrNkc48qm5GstoVcqhoKBQhrpjl/ibAsQ7MO
+         ZM3rwVN5yu8jljG/ODvvXqqRLgGsk/LR3gTWI3fDy38+4fhTACPizsxZqPgaYRn8FjbQ
+         XDkGAGMFzyYzLo2opC4MypDjWAtlRablrFvoa0Tfdoj/z56M2YSeT9KKYsuWHYJCvM1y
+         B7aAQZQxVTluv3PkE2Xkfwkks12fpq4Bs2JMniXMcHECOj6ICdtmYIio2tR6wKtWRcuB
+         1IJA==
+X-Gm-Message-State: AOJu0YydThA5royd+xWMh8AW3OTHGvh9R1mVLYdkOpXjPDQFpW7KbJF6
+	imqhgrz/1u6g0wl9/uUGER8LeJjl+lFqnA==
+X-Google-Smtp-Source: AGHT+IGoND+UJOh23+LKbFszikkhRBg8DYoBHaZaVw5Op56unEB7OV7Z/lToQn5+W3MkYYACti9X9w==
+X-Received: by 2002:a05:600c:4e41:b0:40e:6164:8ca9 with SMTP id e1-20020a05600c4e4100b0040e61648ca9mr81905wmq.44.1704993357454;
+        Thu, 11 Jan 2024 09:15:57 -0800 (PST)
+Received: from [127.0.1.1] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id fc19-20020a05600c525300b0040d839e7bb3sm6610653wmb.19.2024.01.11.09.15.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 09:15:56 -0800 (PST)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v4 0/4] arm64: dts: qcom: sc8280xp: Add CAMSS core dtsi
+ support
+Date: Thu, 11 Jan 2024 17:15:53 +0000
+Message-Id: <20240111-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v4-0-cdd5c57ff1dc@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEkioGUC/5XNQQ6CMBCF4auYrh1TWqDFlfcwLoYyaBOlpEWCM
+ dzdkcRE44rlm6bf/xSJoqck9puniDT65EPHI99uhLtgdybwDW+hpMplJhVcfXefoKNpAJWDzIB
+ vyVll5dSDw1tK4EIkaIbkQRktsWgNtZUVTPaRWj8tueOJ98WnIcTHUh+z9/UT0utCIz8D1ugQS
+ 41VmR34O8awC/Es3qVRfevFSl2xbrAwta2l0ZX90/W3Xq3UNeu1JY0mx5JK/NHneX4B40vF8aU
+ BAAA=
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13-dev-4e032
 
-If V4L2_FMT_FLAG_ALL_FORMATS flag has been set when calling
-VIDIOC_ENUM_FMT ignore depth match and returns all the
-hardware supported pixels formats.
+This series adds the yaml, CAMSS and CCI dts definitions for the sc8280xp.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+4 x CCI master busses
+4 x VFE
+4 x VFE Lite
+4 x CSID
+4 x CSIPHY
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi
+
+To: Robert Foss <rfoss@kernel.org>
+To: Todor Tomov <todor.too@gmail.com>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Conor Dooley <conor+dt@kernel.org>
+Cc:  <linux-media@vger.kernel.org>
+Cc:  <linux-arm-msm@vger.kernel.org>
+Cc:  <devicetree@vger.kernel.org>
+Cc:  <linux-kernel@vger.kernel.org>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+Changes in v2:
+- This series depends on "clk: qcom: camcc-sc8280xp: Add sc8280xp CAMCC"
+  in linux-next. - Rob, Krzysztof, dts Robot
+- Drops cci_src clock - Konrad
+- Adds sc8280xp-cci - Konrad
+
+Link: https://lore.kernel.org/r/20240103-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v1-0-abacaa63a961@linaro.org
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2
+
+Changes in v3:
+- This series depends on "clk: qcom: camcc-sc8280xp: Add sc8280xp CAMCC"
+  in linux-next. - Rob, Krzysztof, dts Robot
+- Fixes spurious "media: dt-bindings: media" in patch title - bod
+- Reorders pinctrl declarations per dts-coding-style.rts - Konrad
+- Adds Krzysztofs RB where indicated
+Link: https://lore.kernel.org/r/20240105-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v2-0-7a57b8b07398@linaro.org
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3
+
+Changes in v4:
+- Drops "|" symbol postfixed to description: in patch #2 - Rob
+- Manually adds dependency below "---" in patch #2 - Rob
+- Reverts pinctrl-names as I misinterpreted Konrad's ask - bod
+- Removes newlines between reg/reg-names etc - Konrad
+
+Link: https://lore.kernel.org/r/20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-0-b8e3a74a6e6a@linaro.org
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-02-sc8280xp-camss-core-dtsi-v4
 ---
- drivers/media/platform/verisilicon/hantro_v4l2.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Bryan O'Donoghue (4):
+      dt-bindings: i2c: qcom-cci: Document sc8280xp compatible
+      dt-bindings: media: camss: Add qcom,sc8280xp-camss binding
+      arm64: dts: qcom: sc8280xp: camss: Add CCI definitions
+      arm64: dts: qcom: sc8280xp: camss: Add CAMSS block definition
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 941fa23c211a..6d840911c764 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -201,7 +201,13 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
- 	struct hantro_ctx *ctx = fh_to_ctx(priv);
- 	const struct hantro_fmt *fmt, *formats;
- 	unsigned int num_fmts, i, j = 0;
--	bool skip_mode_none;
-+	bool skip_mode_none, ignore_depth_match;
-+
-+	/*
-+	 * If V4L2_FMT_FLAG_ALL_FORMATS flag is set, we want to enumerate all
-+	 * hardware supported pixels formats
-+	 */
-+	ignore_depth_match = !!(f->flags & V4L2_FMT_FLAG_ALL_FORMATS);
- 
- 	/*
- 	 * When dealing with an encoder:
-@@ -222,7 +228,7 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
- 
- 		if (skip_mode_none == mode_none)
- 			continue;
--		if (!hantro_check_depth_match(fmt, ctx->bit_depth))
-+		if (!hantro_check_depth_match(fmt, ctx->bit_depth) && !ignore_depth_match)
- 			continue;
- 		if (j == f->index) {
- 			f->pixelformat = fmt->fourcc;
-@@ -242,7 +248,7 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
- 	for (i = 0; i < num_fmts; i++) {
- 		fmt = &formats[i];
- 
--		if (!hantro_check_depth_match(fmt, ctx->bit_depth))
-+		if (!hantro_check_depth_match(fmt, ctx->bit_depth) && !ignore_depth_match)
- 			continue;
- 		if (j == f->index) {
- 			f->pixelformat = fmt->fourcc;
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |  19 +
+ .../bindings/media/qcom,sc8280xp-camss.yaml        | 512 +++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sc8280xp.dtsi             | 542 +++++++++++++++++++++
+ 3 files changed, 1073 insertions(+)
+---
+base-commit: ab0b3e6ef50d305278b1971891cf1d82ab050b35
+change-id: 20240102-linux-next-24-01-02-sc8280xp-camss-core-dtsi-2730a5f7ef98
+
+Best regards,
 -- 
-2.40.1
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
 
