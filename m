@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-3558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8737782AE99
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 13:20:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4DC82AE9E
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 13:21:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E86E61F2934C
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:20:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18F4E1F294C8
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:21:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCBB015AD8;
-	Thu, 11 Jan 2024 12:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 875E415AE4;
+	Thu, 11 Jan 2024 12:20:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iZwpg6ff"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q/xsHfmo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6301315AC1
-	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 12:20:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C294156FD
+	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 12:20:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2cceb5f0918so56129561fa.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 04:20:20 -0800 (PST)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2cd7e429429so18621441fa.1
+        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 04:20:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704975618; x=1705580418; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1704975653; x=1705580453; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=F040GXsz7aRwgMvtBRucVujHPaJzjQl/6qLu2uyGLh8=;
-        b=iZwpg6ffXiRObStYf9SKqBFE/RQd/cbaqWR97Ent+dmafKGZpbNfQU635M5VxXHpuT
-         Eu0w7nM/Uh6IXBGr5bBrmb7V8Irc2iXnQjtKSIkw0+wf2heBzQanSeY1h3enPWxCTEO5
-         s/mxKYrcmINiMIwm5BkWBJ68VJOg8MK3vMb0UvZSvHQ/UCyqB6VEaJW02Q0ymHOnOwWl
-         +UikUKDUzbiOyeiM4ZUl/qhmuhKpNIys2UjpVPuTxONUu1b6rgTYbUY05A4IKLCMaIdd
-         ihNyGCS7MvrLf0+zKvufX6dlXV1DgfaGk47WhEtaPGO1PMCXqsR82ZHZUjLV4D7wKN4y
-         iekA==
+        bh=0Tnl4zNdZiX89VhetJJhBcaJss+KohEVglFcJdoQMpU=;
+        b=Q/xsHfmoCB2zBr7qYU8DxwBQqFIocWrzRNSIrlLptFPVeqmknkapkkfv8ZpHpYNWD3
+         XbogCurc84TDDGez12kt75ZZHV9sngeWDbDHI+X7sbdPy4h/hzksnwEt9gD8zOjYaj5J
+         Fqaa5ZAdE8nyp04m3Ozp7T+BwcVLly4oR/qqfUV4/G8h9hIP2y6IU1kjoBT/F4eIqRcZ
+         EqNOvDfLciDwzUdZcISmj4ajo/PxrBE7up1Idk8//0Is5qk61eERMgRuqh/tYGwF/NwS
+         tgQcokAHsw2DHSzhjWSh4LEplXFXZm9rMFUMBACjMaP8ArZFEfDj0UI/Z8gLGqhaZNRL
+         WmLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704975618; x=1705580418;
+        d=1e100.net; s=20230601; t=1704975653; x=1705580453;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F040GXsz7aRwgMvtBRucVujHPaJzjQl/6qLu2uyGLh8=;
-        b=OqH0FtQerVnYv7EpH1Z1KNvE6+I8dYnUKiPLNoxCnG7nh0hkA1liNXrFI9IVv/GOuR
-         tm5H5tXmV7nAm99VtjA2Q6bHrkg+jBIhhz5hdzGeRTkbnz/NSN5wJpu11bI7ilmyTMnl
-         MwSXgIQx911aS03KhaunrC0iA4Adyk5Wp2M2+4I+3ss/9+u3ZuAKWMb13Rp9O9Er0cy0
-         SbpvJOW2Ng4UfdrgiOHSDGuXZCkmq9++k9xcRLi0605KoVWny9IA8A351j0h8OFjaGIB
-         K1eNGYwIvyusTI5i6XdAwhPTelqt8wC+3MeuVNkjV3ohtvzre4j3k2oCqW3k23Fn4ntx
-         a7wA==
-X-Gm-Message-State: AOJu0Yzh1pvZOFBySK8TCOjwdCn2SBjfKENuTgJdjaWMVA9l/ezDYNGa
-	rEqjenqm7OpGrTY/hP5MPNz9T1DJh7e1kA==
-X-Google-Smtp-Source: AGHT+IHBrXffXq3Iy0z3sPhEatUN4tzY0PObMQGMO6VcrV3VZAerTte6eD3Ee5riS9A4t1J28qefIA==
-X-Received: by 2002:a2e:8896:0:b0:2cb:2c91:e174 with SMTP id k22-20020a2e8896000000b002cb2c91e174mr259502lji.27.1704975618626;
-        Thu, 11 Jan 2024 04:20:18 -0800 (PST)
+        bh=0Tnl4zNdZiX89VhetJJhBcaJss+KohEVglFcJdoQMpU=;
+        b=aVtTX+UdV/N44uEquPKJh2s3DobkJGWW91eBZUs5G5NF/fqvCmWoppSAgeilw6NGDk
+         /OiZkcGwGbkt6pTMRJ1tF5OcdShtDjvBA91LcZQU/HCx4U6FOkqhfcj/DslK1yG6xxAt
+         mj7grxtTPEPbp4YlXHsF4WGHUIN/57BOOfA/BLvYPeoU6Bo/5Ox/CMcHqSdn/bz4j4qk
+         r7mhGWKT+THIyNBDl38CWyljlIlVlAZn6uofwGEFleq1eFo7OAW1YFTx/tZZiIEIa8Pw
+         FHKUn61c54ukWFOWKdWdYAyTOtGtPgoxqbqpRVyuaXoT1YQE3uoubEBjl9cOH+CTB9rQ
+         Vs1w==
+X-Gm-Message-State: AOJu0Yz01/0GN1PjH2WbbVMQiS7JHVyxIpLyFZDO1IHOFA35Hk9kF4LS
+	ixC1aeyou4RYuNdhDMxs5uDwrrPU+DfEHw==
+X-Google-Smtp-Source: AGHT+IHV5C2raZyvfcdmFcRVyyB+ARhMB5CZiq8SXi/WyEZTMQ8NF5vO0FDAEPk5fHEaRgpY/ZZJqQ==
+X-Received: by 2002:a2e:2c13:0:b0:2cc:f6b9:3bde with SMTP id s19-20020a2e2c13000000b002ccf6b93bdemr349799ljs.74.1704975653141;
+        Thu, 11 Jan 2024 04:20:53 -0800 (PST)
 Received: from [172.30.205.123] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id n25-20020a2e7219000000b002cc83210f65sm126181ljc.89.2024.01.11.04.20.17
+        by smtp.gmail.com with ESMTPSA id n25-20020a2e7219000000b002cc83210f65sm126181ljc.89.2024.01.11.04.20.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jan 2024 04:20:18 -0800 (PST)
-Message-ID: <ccd791a2-a070-4433-b86d-5c6135e8962d@linaro.org>
-Date: Thu, 11 Jan 2024 13:20:17 +0100
+        Thu, 11 Jan 2024 04:20:52 -0800 (PST)
+Message-ID: <0a7d3c97-3211-4d5a-983e-3e8cc86f27e3@linaro.org>
+Date: Thu, 11 Jan 2024 13:20:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,8 +66,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] arm64: dts: qcom: sc8280xp: camss: Add CCI
- definitions
+Subject: Re: [PATCH v3 4/4] arm64: dts: qcom: sc8280xp: camss: Add CAMSS block
+ definition
 Content-Language: en-US
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
@@ -78,66 +78,81 @@ To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-0-b8e3a74a6e6a@linaro.org>
- <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-3-b8e3a74a6e6a@linaro.org>
- <4f8aafa2-2145-4090-afba-8a26242d5ac3@linaro.org>
- <c98a234d-3c4a-43bd-b26b-52cd72588cc7@linaro.org>
+ <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-4-b8e3a74a6e6a@linaro.org>
+ <927d1ca0-3915-4039-b855-b31ff5280cf7@linaro.org>
+ <d9d260e4-c395-4ec3-bb41-10d2af6a1d96@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <c98a234d-3c4a-43bd-b26b-52cd72588cc7@linaro.org>
+In-Reply-To: <d9d260e4-c395-4ec3-bb41-10d2af6a1d96@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 
-On 1/11/24 12:46, Bryan O'Donoghue wrote:
+On 1/11/24 12:47, Bryan O'Donoghue wrote:
 > On 10/01/2024 11:03, Konrad Dybcio wrote:
 >>
 >>
 >> On 1/9/24 17:06, Bryan O'Donoghue wrote:
->>> sc8280xp has four Camera Control Interface (CCI) blocks which pinout to
->>> two I2C master controllers for each CCI.
+>>> Add CAMSS block definition for sc8280xp.
 >>>
->>> The CCI I2C pins are not muxed so we define them in the dtsi.
+>>> This drop contains definitions for the following components on sc8280xp:
+>>>
+>>> VFE * 4
+>>> VFE Lite * 4
+>>> CSID * 4
+>>> CSIPHY * 4
+>>>
+>>> This dtsi definition has been developed and validated on a Lenovo X13s
+>>> laptop.
 >>>
 >>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 >>> ---
->>>   arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 307 +++++++++++++++++++++++++++++++++
->>>   1 file changed, 307 insertions(+)
+>>>   arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 239 +++++++++++++++++++++++++++++++++
+>>>   1 file changed, 239 insertions(+)
 >>>
 >>> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
->>> index febf28356ff8..f48dfa5e5f36 100644
+>>> index f48dfa5e5f36..35bc31117b41 100644
 >>> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
 >>> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
->>> @@ -3451,6 +3451,169 @@ usb_1_role_switch: endpoint {
+>>> @@ -3614,6 +3614,245 @@ cci3_i2c1: i2c-bus@1 {
 >>>               };
 >>>           };
->>> +        cci0: cci@ac4a000 {
->>> +            compatible = "qcom,sc8280xp-cci", "qcom,msm8996-cci";
->>> +            reg = <0 0x0ac4a000 0 0x1000>;
+>>> +        camss: camss@ac5a000 {
+>>> +            compatible = "qcom,sc8280xp-camss";
 >>> +
->>> +            interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+>>> +            reg = <0 0x0ac5a000 0 0x2000>,
+>>> +                  <0 0x0ac5c000 0 0x2000>,
+>>> +                  <0 0x0ac65000 0 0x2000>,
+>>> +                  <0 0x0ac67000 0 0x2000>,
+>>> +                  <0 0x0acaf000 0 0x4000>,
+>>> +                  <0 0x0acb3000 0 0x1000>,
+>>> +                  <0 0x0acb6000 0 0x4000>,
+>>> +                  <0 0x0acba000 0 0x1000>,
+>>> +                  <0 0x0acbd000 0 0x4000>,
+>>> +                  <0 0x0acc1000 0 0x1000>,
+>>> +                  <0 0x0acc4000 0 0x4000>,
+>>> +                  <0 0x0acc8000 0 0x1000>,
+>>> +                  <0 0x0accb000 0 0x4000>,
+>>> +                  <0 0x0accf000 0 0x1000>,
+>>> +                  <0 0x0acd2000 0 0x4000>,
+>>> +                  <0 0x0acd6000 0 0x1000>,
+>>> +                  <0 0x0acd9000 0 0x4000>,
+>>> +                  <0 0x0acdd000 0 0x1000>,
+>>> +                  <0 0x0ace0000 0 0x4000>,
+>>> +                  <0 0x0ace4000 0 0x1000>;
 >>> +
->>> +            clocks = <&camcc CAMCC_CAMNOC_AXI_CLK>,
->>> +                 <&camcc CAMCC_SLOW_AHB_CLK_SRC>,
->>> +                 <&camcc CAMCC_CPAS_AHB_CLK>,
->>> +                 <&camcc CAMCC_CCI_0_CLK>;
->>> +            clock-names = "camnoc_axi",
->>> +                      "slow_ahb_src",
->>> +                      "cpas_ahb",
->>> +                      "cci";
->>> +
->>> +            power-domains = <&camcc TITAN_TOP_GDSC>;
->>> +
->>> +            pinctrl-names = "default", "sleep";
->>> +            pinctrl-0 = <&cci0_default>;
->>> +            pinctrl-1 = <&cci0_sleep>;
->>> +
->> property-names goes below property-n, just like with clocks 10 lines
->> above :/
+>>> +            reg-names = "csiphy2",
+>> The random newlines kill consistency with everything else
+>>
+>> Konrad
 > 
-> Didn't you ask for this to be re-ordered ?
+> Not random.
+> 
+> What exactly are you asking for ?
 
-Sorry, I probably had the property ordering in mind.. that definitely
-came out as confusing.
+You have newlines between e.g. reg and reg-names
+
+This is not the case anywhere else
 
 Konrad
 
