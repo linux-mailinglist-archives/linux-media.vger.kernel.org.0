@@ -1,152 +1,112 @@
-Return-Path: <linux-media+bounces-3543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3544-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E08782ADC4
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:47:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E896E82ADC9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:48:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C983284EE6
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 11:47:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07DFD1C233D5
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 11:48:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 418A3154AC;
-	Thu, 11 Jan 2024 11:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 086C4154A7;
+	Thu, 11 Jan 2024 11:48:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SCV6MjnT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="P5wlqEyV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8A515495
-	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 11:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3377d45c178so1064034f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 03:47:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704973643; x=1705578443; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vsiMBO40kJH/thHe9GYKBdch/ltIhJJopmiy+KYSE0U=;
-        b=SCV6MjnTBEwnAx90IWXp+L6rn3rtHzJbjH1050VIUmAgdLRnFjWUw0qn/jf7ZrBv4i
-         gxQ4iLW775Q2J0qDMTN0M7lig473alfCz1JvP2WetJvGS4OzDHiLcy0VnRtOl800J0mg
-         xzlurMKEckHLiQSNtC/WiwU0FHIqgD/j7jDfBn+fskDRJmXa6B7kLCsmaxXgdmXBxypy
-         Sb6bpD2KPQZRxhE/voZRtwhH/+xyAkoLiAcOASdAVlH4Dad4wXMxRyie25VgTvVW7O2A
-         iY70cCHvH3q6NyRPyP+Y7a+l0AoHGoLU3KRqSpXKaYFJqAK7CLOsksa6awzCyezk/3Cd
-         xUlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704973643; x=1705578443;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vsiMBO40kJH/thHe9GYKBdch/ltIhJJopmiy+KYSE0U=;
-        b=OdKx8JootX7tRABoA8EtGL+3nCtBFbc9JCwj3DVOS4yxTOp/OydF2nLGBs1WDa7qFt
-         LAHNliQsCVA840RXKnWQ2xy0TCysBmQQ448pS58I60FZkWCVOWFULAVk7agOWwJjVEdx
-         7i+NXldM+tbbzVeLPvMyxf025CfI7gTXlDMv6gLABQPnubfhVdh8ad1U0nyb6rzleQ9s
-         09qxdux/QeHQxfDDDrVoVQqT/UVUjOPZLm1oAS1golEj5IC9bLFnzku7hmolNVckMEmJ
-         BaCxGx7BH80CJm10tuzF3VBLyudVlbexvtMqb92lcVowOEV1rNi4Eq6uF+QAF3wQDGSO
-         LUlw==
-X-Gm-Message-State: AOJu0Yz1iBPK1UQ9sNH3kUSbgGwRbSmOJrro7184UCHdmhAFmEw5ti/0
-	CRoFZApXhwtQnMQCLDqiTOYZoVo1WjgtJw==
-X-Google-Smtp-Source: AGHT+IE+uP9ZMTE1oSuFFPj96rhKKdrXLb2ZF+0WzdY/iPUZIT3Q98p9oBGkuqLOP2WDpR2+j7QUug==
-X-Received: by 2002:a5d:4449:0:b0:337:4921:6e74 with SMTP id x9-20020a5d4449000000b0033749216e74mr617802wrr.84.1704973643391;
-        Thu, 11 Jan 2024 03:47:23 -0800 (PST)
-Received: from [192.168.100.48] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id h18-20020adf9cd2000000b00336a1f6ce7csm1019372wre.19.2024.01.11.03.47.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jan 2024 03:47:23 -0800 (PST)
-Message-ID: <d9d260e4-c395-4ec3-bb41-10d2af6a1d96@linaro.org>
-Date: Thu, 11 Jan 2024 11:47:33 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE7114F9D;
+	Thu, 11 Jan 2024 11:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pyrite.hamster-moth.ts.net (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC110AF2;
+	Thu, 11 Jan 2024 12:47:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1704973660;
+	bh=IT/dSv/sXBNNPMmmgP7PVDiGi4ZhUZuM0hCfxcY7kLI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=P5wlqEyV5abgevpcmepyaIsa8hSe40UWN7thB04bMmPDefxOE+97iqj4eFmPBAI2O
+	 VVhzMhFDp1ektIGU+6mtXidghlOGdXzEfNE1r5CBJfGmh74bM6KJtJWyyiwgH793Kz
+	 CWfVUKNnSBM5jZi04Y+yMqR1qgIM5o+zn5648j8o=
+From: Paul Elder <paul.elder@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org
+Cc: kieran.bingham@ideasonboard.com,
+	tomi.valkeinen@ideasonboard.com,
+	umang.jain@ideasonboard.com,
+	aford173@gmail.com,
+	Paul Elder <paul.elder@ideasonboard.com>
+Subject: [PATCH v6 00/11] media: rkisp1: Add support for i.MX8MP
+Date: Thu, 11 Jan 2024 20:48:20 +0900
+Message-Id: <20240111114831.656736-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] arm64: dts: qcom: sc8280xp: camss: Add CAMSS block
- definition
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-0-b8e3a74a6e6a@linaro.org>
- <20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-4-b8e3a74a6e6a@linaro.org>
- <927d1ca0-3915-4039-b855-b31ff5280cf7@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <927d1ca0-3915-4039-b855-b31ff5280cf7@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/01/2024 11:03, Konrad Dybcio wrote:
-> 
-> 
-> On 1/9/24 17:06, Bryan O'Donoghue wrote:
->> Add CAMSS block definition for sc8280xp.
->>
->> This drop contains definitions for the following components on sc8280xp:
->>
->> VFE * 4
->> VFE Lite * 4
->> CSID * 4
->> CSIPHY * 4
->>
->> This dtsi definition has been developed and validated on a Lenovo X13s
->> laptop.
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->>   arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 239 
->> +++++++++++++++++++++++++++++++++
->>   1 file changed, 239 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi 
->> b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
->> index f48dfa5e5f36..35bc31117b41 100644
->> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
->> @@ -3614,6 +3614,245 @@ cci3_i2c1: i2c-bus@1 {
->>               };
->>           };
->> +        camss: camss@ac5a000 {
->> +            compatible = "qcom,sc8280xp-camss";
->> +
->> +            reg = <0 0x0ac5a000 0 0x2000>,
->> +                  <0 0x0ac5c000 0 0x2000>,
->> +                  <0 0x0ac65000 0 0x2000>,
->> +                  <0 0x0ac67000 0 0x2000>,
->> +                  <0 0x0acaf000 0 0x4000>,
->> +                  <0 0x0acb3000 0 0x1000>,
->> +                  <0 0x0acb6000 0 0x4000>,
->> +                  <0 0x0acba000 0 0x1000>,
->> +                  <0 0x0acbd000 0 0x4000>,
->> +                  <0 0x0acc1000 0 0x1000>,
->> +                  <0 0x0acc4000 0 0x4000>,
->> +                  <0 0x0acc8000 0 0x1000>,
->> +                  <0 0x0accb000 0 0x4000>,
->> +                  <0 0x0accf000 0 0x1000>,
->> +                  <0 0x0acd2000 0 0x4000>,
->> +                  <0 0x0acd6000 0 0x1000>,
->> +                  <0 0x0acd9000 0 0x4000>,
->> +                  <0 0x0acdd000 0 0x1000>,
->> +                  <0 0x0ace0000 0 0x4000>,
->> +                  <0 0x0ace4000 0 0x1000>;
->> +
->> +            reg-names = "csiphy2",
-> The random newlines kill consistency with everything else
-> 
-> Konrad
+This patch series depends on the series "media: rkisp1: Fix shared
+interrupt handling" [1]
 
-Not random.
+This series extends the rkisp1 driver to support the ISP found in the
+NXP i.MX8MP SoC.
 
-What exactly are you asking for ?
+The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
+and in the NXP i.MX8MP have the same origin, and have slightly diverged
+over time as they are now independently developed (afaik) by Rockchip
+and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
+and is close enough to the RK3399 ISP that it can easily be supported by
+the same driver.
 
----
-bod
+The last two patches add support for UYVY output format, which can be
+implemented on the ISP version in the i.MX8MP but not in the one in the
+RK3399.
+
+This version of the series specifically has been tested on a Polyhex
+Debix model A with an imx219 (Raspberry Pi cam v2).
+
+v6 adds an extra patch at to fix endinanness issues on raw streams on
+the i.MX8MP.
+
+In v5 the patch "media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP" has been
+dropped.
+
+[1] https://lore.kernel.org/all/20231218-rkisp-shirq-fix-v1-0-173007628248@ideasonboard.com/
+
+Laurent Pinchart (2):
+  media: rkisp1: Add and use rkisp1_has_feature() macro
+  media: rkisp1: Configure gasket on i.MX8MP
+
+Paul Elder (9):
+  media: rkisp1: Support setting memory stride for main path
+  media: rkisp1: Support devices lacking self path
+  media: rkisp1: Support devices lacking dual crop
+  dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+  media: rkisp1: Add match data for i.MX8MP ISP
+  media: rkisp1: Support i.MX8MP's 34-bit DMA
+  media: rkisp1: Add YC swap capability
+  media: rkisp1: Add UYVY as an output format
+  media: rkisp1: Fix endianness on raw streams on i.MX8MP
+
+ .../bindings/media/rockchip-isp1.yaml         |  37 ++-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c | 219 +++++++++++++-----
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  39 +++-
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     |  73 +++++-
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 ++++++++++-
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    |  35 +++
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c |  12 +-
+ include/uapi/linux/rkisp1-config.h            |   2 +
+ 8 files changed, 470 insertions(+), 78 deletions(-)
+
+-- 
+2.39.2
+
 
