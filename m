@@ -1,284 +1,146 @@
-Return-Path: <linux-media+bounces-3484-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3485-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516E982A518
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 00:52:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A940782A553
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 01:46:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9DF82B22E0D
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jan 2024 23:52:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B53BB26592
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 00:46:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1326C4F8A9;
-	Wed, 10 Jan 2024 23:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AB37EBC;
+	Thu, 11 Jan 2024 00:46:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sensoray.com header.i=@sensoray.com header.b="nLUcFcfy"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iLYMN66F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from omta037.useast.a.cloudfilter.net (omta037.useast.a.cloudfilter.net [44.202.169.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30F01C30
-	for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 23:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sensoray.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sensoray.com
-Received: from eig-obgw-6001a.ext.cloudfilter.net ([10.0.30.140])
-	by cmsmtp with ESMTPS
-	id NZ7jrgsj59gG6NiKyrVC7M; Wed, 10 Jan 2024 23:50:20 +0000
-Received: from gator3086.hostgator.com ([50.87.144.121])
-	by cmsmtp with ESMTPS
-	id NiKxrwy7tWRcnNiKxrAFIv; Wed, 10 Jan 2024 23:50:19 +0000
-X-Authority-Analysis: v=2.4 cv=OPo0YAWB c=1 sm=1 tr=0 ts=659f2d3b
- a=qMXOcmIMY6YlrKEg1GzxDg==:117 a=QsTHvn2EeHXCImuSLmd++Q==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=kj9zAlcOel0A:10 a=dEuoMetlWLkA:10 a=6kiSLZGAxYIA:10 a=wXneSEFuAAAA:8
- a=VF5UK0NpdBRAw7a8Uz8A:9 a=CjuIK1q_8ugA:10 a=YVKGGmaMxpnpCiYzuRtG:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sensoray.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vjnOUulrNRu7X1JWiJEct10T471Kj5jRPg889KWA/cQ=; b=nLUcFcfyRN68nmMfYaefsXOXdD
-	Z/05Gtb/dfQBvuiuDLc7opZOf7Z0o8I12aAPe2fj9jXCdumcegA3XTvKykVz97qxUi9knK4e5MUHF
-	w893eBvS2rb/x+jl5hNy7ELVOeyVIKWD11l8IT55+cakhR0lRI45KK05Spg2IAMVP/kA=;
-Received: from gator3086.hostgator.com ([50.87.144.121]:33610)
-	by gator3086.hostgator.com with esmtpa (Exim 4.95)
-	(envelope-from <dean@sensoray.com>)
-	id 1rNiKx-0030Wa-4s;
-	Wed, 10 Jan 2024 17:50:19 -0600
-Received: from mail.thomaswright.com ([50.126.89.90])
- by www.sensoray.com
- with HTTP (HTTP/1.1 POST); Wed, 10 Jan 2024 17:50:18 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8F1650
+	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 00:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6db0fdd2b8fso1386043b3a.2
+        for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 16:46:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704933967; x=1705538767; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gueNhZrbsNiJzCN2gb4yLrjECQBWf6cwwXnoTcfXIT4=;
+        b=iLYMN66FKBdyLftqxvShVV6YPPjxaiH0A4bEAzAFXUh07Rtw7cg392gFExYv4aTjPp
+         8ZhTs0xsPpn6Xt3z7ZSCx9+l33aZXrNwfon+LzcPDHf5jEjnvZK8v7t2AiI8yLH+ugI3
+         SAixjT3vhp/BZBahYdq2dQahnHiGSuF9qMJow=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704933967; x=1705538767;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gueNhZrbsNiJzCN2gb4yLrjECQBWf6cwwXnoTcfXIT4=;
+        b=N3dp2XIqdI2BuygSUOU2hv0o5WTePkmn4wRklOvI0em8y288F3+uHUM1SU1rSewhhr
+         SpAfAM/BlQtgsJmh0QsRaoFLBPVuWAJaKbs+ojS2sV1CaiMPyzOXcqjzbTRrySakJx/P
+         ZR+BoiTIPyR6cTWPp5yBdYJ72OS+U2jsmzqC0KaR+JtRzF7/KZh2zYEHLUgIhK8/4/oN
+         Z5Li+SK+EIi+TYgsktSLgB0QNSVX1WLyQkoptXG5Lh82KSX98MCiZ4IgSUD2EsN3Hloq
+         /qVtE1d4rljGypKoSO1xZp8ZaWAcEOtIbvOSIVdPJtaxS00yu/MtdtMBjHpJJBIL7lUG
+         eSQQ==
+X-Gm-Message-State: AOJu0YzkTlNk2rGeIvyIppI8kW0ZzSIoxcuznBnEdAtISgbErqp86ZrV
+	0snBSi8UIUMh2BWQDmjrXoD2YoMOq1ok
+X-Google-Smtp-Source: AGHT+IGkiZ1hknB2+0UC/gxIH8jrVZxWAA/1vUWxP929828CA6Qm4M9e8Oxn46aJ8qOxkFFVf4GTPg==
+X-Received: by 2002:aa7:90d3:0:b0:6d9:a64c:c5d1 with SMTP id k19-20020aa790d3000000b006d9a64cc5d1mr504196pfk.26.1704933967538;
+        Wed, 10 Jan 2024 16:46:07 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id y2-20020a62b502000000b006dac91d6da5sm4071344pfe.68.2024.01.10.16.46.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 16:46:06 -0800 (PST)
+Date: Wed, 10 Jan 2024 16:46:06 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: akpm@linux-foundation.org, llvm@lists.linux.dev,
+	patches@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-efi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, bridge@lists.linux.dev, netdev@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, mykolal@fb.com,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH 0/3] Update LLVM Phabricator and Bugzilla links
+Message-ID: <202401101645.ED161519BA@keescook>
+References: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 10 Jan 2024 17:50:18 -0600
-From: dean@sensoray.com
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- hverkuil@xs4all.nl
-Subject: Re: [PATCHv3] media: usb: s2255: add serial number V4L2_CID
-In-Reply-To: <ZZvwHA2_Y4Jt65B0@valkosipuli.retiisi.eu>
-References: <20231215191421.36686-1-dean@sensoray.com>
- <ZZvwHA2_Y4Jt65B0@valkosipuli.retiisi.eu>
-User-Agent: Roundcube Webmail/1.4.12
-Message-ID: <3c48415987b464427871cc60fda90dd1@sensoray.com>
-X-Sender: dean@sensoray.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator3086.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - sensoray.com
-X-BWhitelist: no
-X-Source-IP: 50.87.144.121
-X-Source-L: Yes
-X-Exim-ID: 1rNiKx-0030Wa-4s
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: gator3086.hostgator.com [50.87.144.121]:33610
-X-Source-Auth: dean@sensoray.com
-X-Email-Count: 3
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: c2Vuc29yYXk7c2Vuc29yYXk7Z2F0b3IzMDg2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfH0OwnXWtFtGeybD6CBLaKWe14Uk3CrAhEjzC7zoG3/Cd9IFLzUMNdC1sH5bhBh7fjDgKjqSem2xba0ZeRlaNuWSMPDAtgvhNULw9vecWTnRsPUYUur+
- s7jA/6VLAyPXhFlwHYGcNVxBJp3kfh6rwr9tt5J4CP/B+R8e387K27wv8R1n/ReIBIhMbqPLE4pZ60vLyfyXRXtETJjgnE3rcmY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
 
-On 2024-01-08 06:52, Sakari Ailus wrote:
-> Hi Dean,
+On Tue, Jan 09, 2024 at 03:16:28PM -0700, Nathan Chancellor wrote:
+> This series updates all instances of LLVM Phabricator and Bugzilla links
+> to point to GitHub commits directly and LLVM's Bugzilla to GitHub issue
+> shortlinks respectively.
 > 
-> Thanks for the patch.
+> I split up the Phabricator patch into BPF selftests and the rest of the
+> kernel in case the BPF folks want to take it separately from the rest of
+> the series, there are obviously no dependency issues in that case. The
+> Bugzilla change was mechanical enough and should have no conflicts.
 > 
-> On Fri, Dec 15, 2023 at 11:14:21AM -0800, Dean Anderson wrote:
->> Adding V4L2 read-only control id for serial number as hardware
->> does not support embedding the serial number in the USB device 
->> descriptors.
->> Comment added noting v4l2_ctrl_handler_setup is not needed for this 
->> driver.
->> 
->> Signed-off-by: Dean Anderson <dean@sensoray.com>
->> 
->> ---
->>  drivers/media/usb/s2255/s2255drv.c | 52 
->> +++++++++++++++++++++++++++++-
->>  1 file changed, 51 insertions(+), 1 deletion(-)
->> 
->> diff --git a/drivers/media/usb/s2255/s2255drv.c 
->> b/drivers/media/usb/s2255/s2255drv.c
->> index 3c2627712fe9..1f3961835711 100644
->> --- a/drivers/media/usb/s2255/s2255drv.c
->> +++ b/drivers/media/usb/s2255/s2255drv.c
->> @@ -60,6 +60,7 @@
->>  #define S2255_MIN_BUFS          2
->>  #define S2255_SETMODE_TIMEOUT   500
->>  #define S2255_VIDSTATUS_TIMEOUT 350
->> +#define S2255_MARKER_FIRMWARE	cpu_to_le32(0xDDCCBBAAL)
+> I am aiming this at Andrew and CC'ing other lists, in case maintainers
+> want to chime in, but I think this is pretty uncontroversial (famous
+> last words...).
 > 
-> It'd be nicer to convert the value obtained from the device to CPU
-> endianness rather than the other way around. But as this seems to be a
-> pattern already used in the driver, I'm fine with it here.
+> ---
+> Nathan Chancellor (3):
+>       selftests/bpf: Update LLVM Phabricator links
+>       arch and include: Update LLVM Phabricator links
+>       treewide: Update LLVM Bugzilla links
 > 
-> Given that the serial number itself is big endian, I wonder if the 
-> driver
-> is just implemented in a funny way and happens to work?
+>  arch/arm64/Kconfig                                 |  4 +--
+>  arch/powerpc/Makefile                              |  4 +--
+>  arch/powerpc/kvm/book3s_hv_nested.c                |  2 +-
+>  arch/riscv/Kconfig                                 |  2 +-
+>  arch/riscv/include/asm/ftrace.h                    |  2 +-
+>  arch/s390/include/asm/ftrace.h                     |  2 +-
+>  arch/x86/power/Makefile                            |  2 +-
+>  crypto/blake2b_generic.c                           |  2 +-
+>  drivers/firmware/efi/libstub/Makefile              |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |  2 +-
+>  drivers/media/test-drivers/vicodec/codec-fwht.c    |  2 +-
+>  drivers/regulator/Kconfig                          |  2 +-
+>  include/asm-generic/vmlinux.lds.h                  |  2 +-
+>  include/linux/compiler-clang.h                     |  2 +-
+>  lib/Kconfig.kasan                                  |  2 +-
+>  lib/raid6/Makefile                                 |  2 +-
+>  lib/stackinit_kunit.c                              |  2 +-
+>  mm/slab_common.c                                   |  2 +-
+>  net/bridge/br_multicast.c                          |  2 +-
+>  security/Kconfig                                   |  2 +-
+>  tools/testing/selftests/bpf/README.rst             | 32 +++++++++++-----------
+>  tools/testing/selftests/bpf/prog_tests/xdpwall.c   |  2 +-
+>  .../selftests/bpf/progs/test_core_reloc_type_id.c  |  2 +-
+>  23 files changed, 40 insertions(+), 40 deletions(-)
+> ---
+> base-commit: 0dd3ee31125508cd67f7e7172247f05b7fd1753a
+> change-id: 20240109-update-llvm-links-d03f9d649e1e
+> 
+> Best regards,
+> -- 
+> Nathan Chancellor <nathan@kernel.org>
+> 
 
-Good catch. The serial number is the exception. I'll add a comment on 
-it. It's stored big endian in an eeprom and sent byte by byte, but the 
-other values are all little endian in the USB transfers.
+Excellent! Thanks for doing this. I spot checked a handful I was
+familiar with and everything looks good to me.
 
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-
->>  #define S2255_MARKER_FRAME	cpu_to_le32(0x2255DA4AL)
->>  #define S2255_MARKER_RESPONSE	cpu_to_le32(0x2255ACACL)
->>  #define S2255_RESPONSE_SETMODE  cpu_to_le32(0x01)
->> @@ -323,6 +324,7 @@ struct s2255_buffer {
->>  #define S2255_V4L2_YC_ON  1
->>  #define S2255_V4L2_YC_OFF 0
->>  #define V4L2_CID_S2255_COLORFILTER (V4L2_CID_USER_S2255_BASE + 0)
->> +#define V4L2_CID_S2255_SERIALNUM (V4L2_CID_USER_S2255_BASE + 1)
-> 
-> I'd document a new standardised control for this purpose. Any other
-> opinions?
-> 
->> 
->>  /* frame prefix size (sent once every frame) */
->>  #define PREFIX_SIZE		512
->> @@ -1232,6 +1234,36 @@ static int s2255_s_ctrl(struct v4l2_ctrl *ctrl)
->>  	return 0;
->>  }
->> 
->> +/*
->> + * serial number is not used in usb device descriptors.
->> + * returns serial number from device, 0 if none found.
->> + */
->> +
->> +static int s2255_g_serialnum(struct s2255_dev *dev)
->> +{
->> +#define S2255_SERIALNUM_NONE 0
-> 
-> No need for such a definition, just assign it to zero.
-> 
->> +#define S2255_I2C_SIZE     16
->> +#define S2255_I2C_SERIALNUM 0xa2
->> +#define S2255_I2C_SERIALNUM_OFFSET 0x1ff0
->> +#define S2255_VENDOR_READREG 0x22
->> +
->> +	u8 *buf;
->> +	int serialnum = S2255_SERIALNUM_NONE;
-> 
-> u32?
-> 
->> +
->> +	buf = kzalloc(S2255_I2C_SIZE, GFP_KERNEL);
-> 
-> Could this reside in the stack instead? It's just 16 bytes.
-> 
->> +	if (!buf)
->> +		return serialnum;
->> +
->> +	s2255_vendor_req(dev, S2255_VENDOR_READREG, 
->> S2255_I2C_SERIALNUM_OFFSET,
->> +			 S2255_I2C_SERIALNUM >> 1, buf, S2255_I2C_SIZE, 0);
-> 
-> It'd be nice to check for errors here.
-> 
->> +
->> +	/* verify marker code */
->> +	if (*(__le32 *)buf == S2255_MARKER_FIRMWARE)
->> +		serialnum = (buf[12] << 24) + (buf[13] << 16) + (buf[14] << 8) + 
->> buf[15];
-> 
-> Maybe:
-> 
-> 	serialnum = be32_to_cpu(*(__be32 *)(buf + 12));
-> 
-> You could add a reference to the serial number as a function argument 
-> and
-> just return the error if one happens. This isn't exactly the same thing 
-> as
-> having serial number 0.
-> 
->> +	kfree(buf);
->> +	return serialnum;
->> +}
->> +
->>  static int vidioc_g_jpegcomp(struct file *file, void *priv,
->>  			 struct v4l2_jpegcompression *jc)
->>  {
->> @@ -1581,6 +1613,17 @@ static const struct v4l2_ctrl_config 
->> color_filter_ctrl = {
->>  	.def = 1,
->>  };
->> 
->> +static const struct v4l2_ctrl_config v4l2_ctrl_serialnum = {
->> +	.ops = &s2255_ctrl_ops,
->> +	.name = "Serial Number",
->> +	.id = V4L2_CID_S2255_SERIALNUM,
->> +	.type = V4L2_CTRL_TYPE_INTEGER,
->> +	.max = 0x7fffffff,
->> +	.min = 0,
->> +	.step = 1,
->> +	.flags = V4L2_CTRL_FLAG_READ_ONLY,
->> +};
->> +
->>  static int s2255_probe_v4l(struct s2255_dev *dev)
->>  {
->>  	int ret;
->> @@ -1588,6 +1631,7 @@ static int s2255_probe_v4l(struct s2255_dev 
->> *dev)
->>  	int cur_nr = video_nr;
->>  	struct s2255_vc *vc;
->>  	struct vb2_queue *q;
->> +	struct v4l2_ctrl_config tmp = v4l2_ctrl_serialnum;
->> 
->>  	ret = v4l2_device_register(&dev->interface->dev, &dev->v4l2_dev);
->>  	if (ret)
->> @@ -1598,7 +1642,7 @@ static int s2255_probe_v4l(struct s2255_dev 
->> *dev)
->>  		vc = &dev->vc[i];
->>  		INIT_LIST_HEAD(&vc->buf_list);
->> 
->> -		v4l2_ctrl_handler_init(&vc->hdl, 6);
->> +		v4l2_ctrl_handler_init(&vc->hdl, 7);
->>  		v4l2_ctrl_new_std(&vc->hdl, &s2255_ctrl_ops,
->>  				V4L2_CID_BRIGHTNESS, -127, 127, 1, DEF_BRIGHT);
->>  		v4l2_ctrl_new_std(&vc->hdl, &s2255_ctrl_ops,
->> @@ -1615,6 +1659,8 @@ static int s2255_probe_v4l(struct s2255_dev 
->> *dev)
->>  		    (dev->pid != 0x2257 || vc->idx <= 1))
->>  			v4l2_ctrl_new_custom(&vc->hdl, &color_filter_ctrl,
->>  					     NULL);
->> +		tmp.def = s2255_g_serialnum(dev);
->> +		v4l2_ctrl_new_custom(&vc->hdl, &tmp, NULL);
->>  		if (vc->hdl.error) {
->>  			ret = vc->hdl.error;
->>  			v4l2_ctrl_handler_free(&vc->hdl);
->> @@ -2306,6 +2352,10 @@ static int s2255_probe(struct usb_interface 
->> *interface,
->>  	retval = s2255_board_init(dev);
->>  	if (retval)
->>  		goto errorBOARDINIT;
->> +	/*
->> +	 * v4l2_ctrl_handler_setup is not required.
->> +	 * V4L2 controls initialized when firmware is loaded.
->> +	 */
-> 
-> I'd drop the comment.
-> 
->>  	s2255_fwload_start(dev);
->>  	/* loads v4l specific */
->>  	retval = s2255_probe_v4l(dev);
-> 
-> --
-> Regards,
-> 
-> Sakari Ailus
+-- 
+Kees Cook
 
