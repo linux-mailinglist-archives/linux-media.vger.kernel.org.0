@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-3508-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3509-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419EE82A7D5
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 07:47:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4302F82A7D6
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 07:47:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ACD48B21072
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 06:47:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC7071F22655
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 06:47:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8EC646BC;
-	Thu, 11 Jan 2024 06:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B7B53B8;
+	Thu, 11 Jan 2024 06:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CB7h3Dbc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KmBsN8FV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294C35672
-	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 06:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A4053A0
+	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 06:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704955626; x=1736491626;
+  t=1704955630; x=1736491630;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=9P1Nu6asS2B7HUvvY5KCXJwm6dJesUD9xHYIGYRExuM=;
-  b=CB7h3DbcA61kvytFv/9NBrr5FKgTk6CBQINPPjpfKf2pJyJCqHFpUZtK
-   J6aQUfzCo4RxrCNwoTSKCSSlanmMeNmLZT0vyjHEfbNhH5q2jMxpON968
-   4604PLGt9HwGrf73I/A79xUdg8vsGzD8JeGZFyz4ll4m6TmZQP4M9n0fm
-   vC0EnK9DJ4kqhB8JcmkPVIOy+1W0PSfoWJhbpMFAPeWqM3KgOStQorjYF
-   PpJKsFwMAl88LlB+JDiQo6RVu4LXLhPpuHdbLFHn1kF4TXAsIjU6MoVtu
-   gxJkm0jax1xD7GPz4vO2NrAa8ycEHS7dra9OraFtFVwYsYFYjgIkh597Z
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="397629216"
+  bh=3L7EwJXalm/aM76dBmSjPkmNOdb4XwV87Yt+LWVKnzY=;
+  b=KmBsN8FVjSGJx8Xctd9+YJ473cQYskXit5ZAHP72e/NBzW9KEkf2QwLG
+   II49Lpb/VHGJY+E3ptFEFvD74OVmSvKnK2g3ocvhZVg5lWepKSU6wKLG2
+   mUG90+ItoJ/DBFZdsULYO+JQUWPAe6A3FzKCZfCi5yRwfibFWIwebNuj+
+   Jn52Yk37IwkIbUT2MZqEZkKFSOpQFTXw4h2yGgk8bWu/MqRovon8YWscR
+   9izbpgpC0CW7xQrHua++/zwZZYWJws8JEPt8jyorWTFmbC6yaoMOT9Rve
+   xL12O/gSE+Zc8X0o6JJGVlb5zWfUIlhmZ0tBCZ22KzdOh8B6jQtjBdzEv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="397629227"
 X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="397629216"
+   d="scan'208";a="397629227"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 22:47:05 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 22:47:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="775515692"
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="775515741"
 X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="775515692"
+   d="scan'208";a="775515741"
 Received: from icg-kernel3.bj.intel.com ([172.16.126.107])
-  by orsmga007.jf.intel.com with ESMTP; 10 Jan 2024 22:47:01 -0800
+  by orsmga007.jf.intel.com with ESMTP; 10 Jan 2024 22:47:05 -0800
 From: bingbu.cao@intel.com
 To: linux-media@vger.kernel.org,
 	sakari.ailus@linux.intel.com,
@@ -62,9 +62,9 @@ Cc: ilpo.jarvinen@linux.intel.com,
 	bingbu.cao@linux.intel.com,
 	tian.shu.qiu@intel.com,
 	hongju.wang@intel.com
-Subject: [PATCH v3 14/17] Documentation: add Intel IPU6 ISYS driver admin-guide doc
-Date: Thu, 11 Jan 2024 14:55:28 +0800
-Message-ID: <20240111065531.2418836-15-bingbu.cao@intel.com>
+Subject: [PATCH v3 15/17] Documentation: add documentation of Intel IPU6 driver and hardware overview
+Date: Thu, 11 Jan 2024 14:55:29 +0800
+Message-ID: <20240111065531.2418836-16-bingbu.cao@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240111065531.2418836-1-bingbu.cao@intel.com>
 References: <20240111065531.2418836-1-bingbu.cao@intel.com>
@@ -78,375 +78,239 @@ Content-Transfer-Encoding: 8bit
 
 From: Bingbu Cao <bingbu.cao@intel.com>
 
-This document mainly describe the functionality of IPU6 and
-IPU6 isys driver, and gives an example that how user can do
-imaging capture with tools.
+Add a documentation for an overview of IPU6 hardware and describe the main
+the components of IPU6 driver.
 
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- Documentation/admin-guide/media/ipu6-isys.rst | 158 ++++++++++++++++
- .../admin-guide/media/ipu6_isys_graph.svg     | 174 ++++++++++++++++++
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- 3 files changed, 333 insertions(+)
- create mode 100644 Documentation/admin-guide/media/ipu6-isys.rst
- create mode 100644 Documentation/admin-guide/media/ipu6_isys_graph.svg
+ .../driver-api/media/drivers/index.rst        |   1 +
+ .../driver-api/media/drivers/ipu6.rst         | 205 ++++++++++++++++++
+ 2 files changed, 206 insertions(+)
+ create mode 100644 Documentation/driver-api/media/drivers/ipu6.rst
 
-diff --git a/Documentation/admin-guide/media/ipu6-isys.rst b/Documentation/admin-guide/media/ipu6-isys.rst
+diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
+index c4123a16b5f9..7f6f3dcd5c90 100644
+--- a/Documentation/driver-api/media/drivers/index.rst
++++ b/Documentation/driver-api/media/drivers/index.rst
+@@ -26,6 +26,7 @@ Video4Linux (V4L) drivers
+ 	vimc-devel
+ 	zoran
+ 	ccs/ccs
++	ipu6
+ 
+ 
+ Digital TV drivers
+diff --git a/Documentation/driver-api/media/drivers/ipu6.rst b/Documentation/driver-api/media/drivers/ipu6.rst
 new file mode 100644
-index 000000000000..5e78ab88c649
+index 000000000000..b6357155c13b
 --- /dev/null
-+++ b/Documentation/admin-guide/media/ipu6-isys.rst
-@@ -0,0 +1,158 @@
++++ b/Documentation/driver-api/media/drivers/ipu6.rst
+@@ -0,0 +1,205 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+.. include:: <isonum.txt>
++==================
++Intel IPU6 Driver
++==================
 +
-+========================================================
-+Intel Image Processing Unit 6 (IPU6) Input System driver
-+========================================================
++Author: Bingbu Cao <bingbu.cao@intel.com>
 +
-+Copyright |copy| 2023 Intel Corporation
++Overview
++=========
 +
-+Introduction
++Intel IPU6 is the sixth generation of Intel Image Processing Unit used in some
++Intel Chipsets such as Tiger Lake, Jasper Lake, Alder Lake, Raptor Lake and
++Meteor Lake. IPU6 consists of two major systems: Input System (IS) and
++Processing System (PS). IPU6 are visible on the PCI bus as a single device,
++it can be found by ``lspci``:
++
++``0000:00:05.0 Multimedia controller: Intel Corporation Device xxxx (rev xx)``
++
++IPU6 has a 16 MB BAR in PCI configuration Space for MMIO registers which is
++visible for driver.
++
++Buttress
++=========
++
++The IPU6 is connecting to the system fabric with ``Buttress`` which is enabling
++host driver to control the IPU6, it also allows IPU6 access the system memory to
++store and load frame pixel streams and any other metadata.
++
++``Buttress`` mainly manages several system functionalities - power management,
++interrupt handling, firmware authentication and global timer sync.
++
++IS and PS Power flow
++---------------------------
++
++IPU6 driver initialize the IS and PS power up or down request by setting the
++Buttress frequency control register for IS and PS -
++``IPU6_BUTTRESS_REG_IS_FREQ_CTL`` and ``IPU6_BUTTRESS_REG_PS_FREQ_CTL`` in
++function:
++
++.. c:function:: int ipu6_buttress_power(..., bool on)
++
++Buttress forwards the request to Punit, after Punit execute the power up flow,
++buttress indicates driver that IS or PS is powered up by updating the power
++status registers.
++
++.. Note:: IS power up needs take place prior to PS power up, IS power down needs
++	  take place after PS power down due to hardware limitation.
++
++
++Interrupt
++------------
++
++IPU6 interrupt can be generated as MSI or INTA, interrupt will be triggered
++when IS, PS, Buttress event or error happen, driver can get the interrupt
++cause by reading the interrupt status register ``BUTTRESS_REG_ISR_STATUS``,
++driver firstly clear the irq status and then call specific IS or PS irq handler.
++
++.. c:function:: irqreturn_t ipu6_buttress_isr(int irq, ...)
++
++Security and firmware authentication
++-------------------------------------
++To address the IPU6 firmware security concerns, the IPU6 firmware needs to
++undergo an authentication process before it is allowed to executed on the IPU6
++internal processors. Driver will work with Converged Security Engine (CSE) to
++complete authentication process. CSE is responsible of authenticating the
++IPU6 firmware, the authenticated firmware binary is copied into an isolated
++memory region. Firmware authentication process is implemented by CSE following
++an IPC handshake with driver. There are some Buttress registers used by CSE and
++driver to communicate with each other as IPC messages.
++
++.. c:function:: int ipu6_buttress_authenticate(...)
++
++Global timer sync
++------------------
++IPU driver initiates a Hammock Harbor synchronization flow each time it starts
++camera operation. IPU will synchronizes an internal counter in the Buttress
++with a copy of SoC time, this counter keeps the updated time until camera
++operation is stopped. Driver can use this time counter to calibrate the
++timestamp based on the timestamp in response event from firmware.
++
++.. c:function:: int ipu6_buttress_start_tsc_sync(...)
++
++
++DMA and MMU
 +============
 +
-+This file documents the Intel IPU6 (6th generation Image Processing Unit)
-+Input System (MIPI CSI2 receiver) drivers located under
-+drivers/media/pci/intel/ipu6.
++IPU6 has its own scalar processor where the firmware run at, it has
++an internal 32-bits virtual address space. IPU6 has MMU address translation
++hardware to allow that scalar process access the internal memory and external
++system memory through IPU6 virtual address. The address translation is
++based on two levels of page lookup tables stored in system memory which are
++maintained by IPU6 driver. IPU6 driver sets the level-1 page table base address
++to MMU register and allow MMU to lookup the page table.
 +
-+The Intel IPU6 can be found in certain Intel Chipsets but not in all SKUs:
-+
-+* TigerLake
-+* JasperLake
-+* AlderLake
-+* RaptorLake
-+* MeteorLake
-+
-+Intel IPU6 is made up of two components - Input System (ISYS) and Processing
-+System (PSYS).
-+
-+The Input System mainly works as MIPI CSI2 receiver which receives and
-+processes the imaging data from the sensors and outputs the frames to memory.
-+
-+There are 2 driver modules - intel_ipu6 and intel_ipu6_isys. intel_ipu6 is an
-+IPU6 common driver which does PCI configuration, firmware loading and parsing,
-+firmware authentication, DMA mapping and IPU-MMU (internal Memory mapping Unit)
-+configuration. intel_ipu6_isys implements V4L2, Media Controller and V4L2
-+sub-device interfaces. The IPU6 ISYS driver supports camera sensors connected
-+to the IPU6 ISYS through V4L2 sub-device sensor drivers.
-+
-+.. Note:: See Documentation/driver-api/media/drivers/ipu6.rst for more
-+	  information about the IPU6 hardware.
-+
-+
-+Input system driver
-+===================
-+
-+The input System driver mainly configures CSI2 DPHY, constructs the firmware
-+stream configuration, sends commands to firmware, gets response from hardware
-+and firmware and then returns buffers to user.
-+The ISYS is represented as several V4L2 sub-devices - 'Intel IPU6 CSI2 $port',
-+which provide V4L2 subdev interfaces to the user space, there are also several
-+video nodes for each CSI-2 stream capture - 'Intel IPU6 ISYS capture $num' which
-+provide interface to user to set formats, queue buffers and streaming.
-+
-+.. kernel-figure::  ipu6_isys_graph.svg
-+   :alt: ipu6 isys media graph with multiple streams support
-+
-+   ipu6 isys media graph with multiple streams support
-+
-+Capturing frames by IPU6 ISYS
-+-----------------------------
-+
-+IPU6 ISYS is used to capture frames from the camera sensors connected to the
-+CSI2 ports. The supported input formats of ISYS are listed in table below:
-+
-+.. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|
-+
-+.. flat-table::
-+    :header-rows: 1
-+
-+    * - IPU6 ISYS supported input formats
-+
-+    * - RGB565, RGB888
-+
-+    * - UYVY8, YUYV8
-+
-+    * - RAW8, RAW10, RAW12
-+
-+.. _ipu6_isys_capture_examples:
-+
-+Examples
-+~~~~~~~~
-+Here is an example of IPU6 ISYS raw capture on Dell XPS 9315 laptop. On this
-+machine, ov01a10 sensor is connected to IPU ISYS CSI2 port 2, which can
-+generate images at sBGGR10 with resolution 1280x800.
-+
-+Using the media controller APIs, we can configure ov01a10 sensor by
-+media-ctl [#f1]_ and yavta [#f2]_ to transmit frames to IPU6 ISYS.
++IPU6 driver exports its own DMA operations. Driver will update the page table
++entries for each DMA operation and invalidate the MMU TLB after each unmap and
++free.
 +
 +.. code-block:: none
 +
-+    # Example 1 capture frame from ov01a10 camera sensor
-+    # This example assumes /dev/media0 as the IPU ISYS media device
-+    export MDEV=/dev/media0
++    const struct dma_map_ops ipu6_dma_ops = {
++	   .alloc = ipu6_dma_alloc,
++	   .free = ipu6_dma_free,
++	   .mmap = ipu6_dma_mmap,
++	   .map_sg = ipu6_dma_map_sg,
++	   .unmap_sg = ipu6_dma_unmap_sg,
++	   ...
++    };
 +
-+    # Establish the link for the media devices using media-ctl
-+    media-ctl -d $MDEV -l "\"ov01a10 3-0036\":0 -> \"Intel IPU6 CSI2 2\":0[1]"
++.. Note:: IPU6 MMU works behind IOMMU, so for each IPU6 DMA ops, driver will
++	  call generic PCI DMA ops to ask IOMMU to do the additional mapping
++	  if VT-d enabled.
 +
-+    # Set the format for the media devices
-+    media-ctl -d $MDEV -V "ov01a10:0 [fmt:SBGGR10/1280x800]"
-+    media-ctl -d $MDEV -V "Intel IPU6 CSI2 2:0 [fmt:SBGGR10/1280x800]"
-+    media-ctl -d $MDEV -V "Intel IPU6 CSI2 2:1 [fmt:SBGGR10/1280x800]"
 +
-+Once the media pipeline is configured, desired sensor specific settings
-+(such as exposure and gain settings) can be set, using the yavta tool.
++Firmware file format
++=====================
 +
-+e.g
++IPU6 release the firmware in Code Partition Directory (CPD) file format. The
++CPD firmware contains a CPD header, several CPD entries and CPD components.
++CPD component includes 3 entries - manifest, metadata and module data. Manifest
++and metadata are defined by CSE and used by CSE for authentication. Module data
++is defined by IPU6 which holds the binary data of firmware called package
++directory. IPU6 driver (``ipu6-cpd.c``) parses and validates the CPD firmware
++file and get the package directory binary data of IPU6 firmware, copy it to
++specific DMA buffer and sets its base address to Buttress ``FW_SOURCE_BASE``
++register, CSE will do authentication for this firmware binary.
 +
-+.. code-block:: none
 +
-+    # and that ov01a10 sensor is connected to i2c bus 3 with address 0x36
-+    export SDEV=$(media-ctl -d $MDEV -e "ov01a10 3-0036")
++Syscom interface
++================
 +
-+    yavta -w 0x009e0903 400 $SDEV
-+    yavta -w 0x009e0913 1000 $SDEV
-+    yavta -w 0x009e0911 2000 $SDEV
++IPU6 driver communicates with firmware via syscom ABI. Syscom is an
++inter-processor communication mechanism between IPU scalar processor and CPU.
++There are a number of resources shared between firmware and software.
++A system memory region where the message queues reside, firmware can access the
++memory region via IPU MMU. Syscom queues are FIFO fixed depth queues with
++configurable elements ``token`` (message). There is also a common IPU MMIO
++registers where the queue read and write indices reside. Software and firmware
++work as producer and consumer of tokens in queue, and update the write and read
++indices separately when sending or receiving each message.
 +
-+Once the desired sensor settings are set, frame captures can be done as below.
++IPU6 driver must prepare and configure the number of input and output queues,
++configure the count of tokens per queue and the size of per token before
++initiate and start the communication with firmware, firmware and software must
++use same configurations. IPU6 Buttress has a number of firmware boot parameter
++registers which can be used to store the address of configuration and initiate
++the Syscom state, then driver can request firmware to start and run via setting
++the scalar processor control status register.
 +
-+e.g
 +
-+.. code-block:: none
++Input System
++==============
 +
-+    yavta --data-prefix -u -c10 -n5 -I -s 1280x800 --file=/tmp/frame-#.bin \
-+          -f SBGGR10 $(media-ctl -d $MDEV -e "Intel IPU6 ISYS Capture 0")
++IPU6 input system consists of MIPI D-PHY and several CSI receiver controllers,
++it can capture image pixel data from camera sensors or other MIPI CSI output
++devices.
 +
-+With the above command, 10 frames are captured at 1280x800 resolution with
-+sBGGR10 format. The captured frames are available as /tmp/frame-#.bin files.
++D-PHYs and CSI-2 ports lane mapping
++-----------------------------------
 +
-+Here is another example of IPU6 ISYS RAW and metadata capture from camera
-+sensor ov2740 on Lenovo X1 Yoga laptop.
++IPU6 integrates different D-PHY IPs on different SoCs, on Tiger Lake and Alder
++Lake, IPU6 integrates MCD10 D-PHY, IPU6SE on Jasper Lake integrates JSL D-PHY
++and IPU6EP on Meteor Lake integrates a Synopsys DWC D-PHY. There is an adaption
++layer between D-PHY and CSI receiver controller which includes port
++configuration, PHY wrapper or private test interfaces for D-PHY. There are 3
++D-PHY drivers ``ipu6-isys-mcd-phy.c``, ``ipu6-isys-jsl-phy.c`` and
++``ipu6-isys-dwc-phy.c`` program the above 3 D-PHYs in IPU6.
 +
-+.. code-block:: none
++Different IPU6 version has different D-PHY lanes mappings, On Tiger Lake, there
++are 12 data lanes and 8 clock lanes, IPU6 support maximum 8 CSI-2 ports, see
++the ppi mmapping in ``ipu6-isys-mcd-phy.c`` for more information. On Jasper Lake
++and Alder Lake, D-PHY has 8 data lanes and 4 clock lanes, IPU6 support maximum 4
++CSI-2 ports. For Meteor Lake, D-PHY has 12 data lanes and 6 clock lanes, IPU6
++support maximum 6 CSI-2 ports.
 +
-+    media-ctl -l "\"ov2740 14-0036\":0 -> \"Intel IPU6 CSI2 1\":0[1]"
-+    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\":0[5]"
-+    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\":0[5]"
++.. Note:: Each adjacent CSI ports work as a pair and share the data lanes.
++	  For example, for CSI port 0 and 1, CSI port 0 support maximum 4
++	  data lanes, CSI port 1 support maximum 2 data lanes, CSI port 0
++	  with 2 data lanes can work together with CSI port 1 with 2 data lanes.
++	  If trying to use CSI port 0 with 4 lanes, CSI port 1 will not be
++	  available as the 4 data lanes are shared by CSI port 0 and 1. Same
++	  scenario is also applied for CSI port 2/3, 4/5 and 7/8.
 +
-+    # set routing
-+    media-ctl -v -R "\"Intel IPU6 CSI2 1\" [0/0->1/0[1],0/1->2/1[1]]"
++IS firmware ABIs
++----------------
 +
-+    media-ctl -v "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
-+    media-ctl -v "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
-+    media-ctl -v "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
-+    media-ctl -v "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
++IPU6 firmware define a series of ABIs to software. In general, software firstly
++prepare the stream configuration ``struct ipu6_fw_isys_stream_cfg_data_abi``
++and send the configuration to firmware via sending ``STREAM_OPEN`` command.
++Stream configuration includes input pins and output pins, input pin
++``struct ipu6_fw_isys_input_pin_info_abi`` defines the resolution and data type
++of input source, output pin ``struct ipu6_fw_isys_output_pin_info_abi``
++defines the output resolution, stride and frame format, etc. Once driver get the
++interrupt from firmware that indicates stream open successfully, driver will
++send the ``STREAM_START`` and ``STREAM_CAPTURE`` command to request firmware to
++start capturing image frames. ``STREAM_CAPTURE`` command queues the buffers to
++firmware with ``struct ipu6_fw_isys_frame_buff_set``, software then wait the
++interrupt and response from firmware, ``PIN_DATA_READY`` means data ready
++on specific output pin and then software return the buffers to user.
 +
-+    CAPTURE_DEV=$(media-ctl -e "Intel IPU6 ISYS Capture 0")
-+    ./yavta --data-prefix -c100 -n5 -I -s1932x1092 --file=/tmp/frame-#.bin \
-+    -f SGRBG10 ${CAPTURE_DEV}
++.. Note:: See :ref:`Examples<ipu6_isys_capture_examples>` about how to do
++	  capture by IPU6 IS driver.
 +
-+    CAPTURE_META=$(media-ctl -e "Intel IPU6 ISYS Capture 1")
-+    ./yavta --data-prefix -c100 -n5 -I -s97x1 -B meta-capture \
-+    --file=/tmp/meta-#.bin -f GENERIC_8 ${CAPTURE_META}
 +
-+References
-+==========
-+
-+.. [#f1] https://git.ideasonboard.org/?p=media-ctl.git;a=summary
-+.. [#f2] https://git.ideasonboard.org/yavta.git
-diff --git a/Documentation/admin-guide/media/ipu6_isys_graph.svg b/Documentation/admin-guide/media/ipu6_isys_graph.svg
-new file mode 100644
-index 000000000000..707747c75280
---- /dev/null
-+++ b/Documentation/admin-guide/media/ipu6_isys_graph.svg
-@@ -0,0 +1,174 @@
-+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
-+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-+<!-- Generated by graphviz version 2.38.0 (20140413.2041)
-+ -->
-+<!-- Title: board Pages: 1 -->
-+<svg width="559pt" height="810pt"
-+ viewBox="0.00 0.00 559.00 809.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 805.5)">
-+<title>board</title>
-+<polygon fill="white" stroke="none" points="-4,4 -4,-805.5 555,-805.5 555,4 -4,4"/>
-+<!-- n00000001 -->
-+<g id="node1" class="node"><title>n00000001</title>
-+<polygon fill="#66cd00" stroke="black" points="551,-192.5 387,-192.5 387,-154.5 551,-154.5 551,-192.5"/>
-+<text text-anchor="middle" x="469" y="-177.3" font-family="Times,serif" font-size="14.00">Intel IPU6 ISYS Capture 0</text>
-+<text text-anchor="middle" x="469" y="-162.3" font-family="Times,serif" font-size="14.00">/dev/video0</text>
-+</g>
-+<!-- n00000002 -->
-+<g id="node2" class="node"><title>n00000002</title>
-+<polygon fill="#66cd00" stroke="black" points="551,-395.5 387,-395.5 387,-357.5 551,-357.5 551,-395.5"/>
-+<text text-anchor="middle" x="469" y="-380.3" font-family="Times,serif" font-size="14.00">Intel IPU6 ISYS Capture 1</text>
-+<text text-anchor="middle" x="469" y="-365.3" font-family="Times,serif" font-size="14.00">/dev/video1</text>
-+</g>
-+<!-- n00000003 -->
-+<g id="node3" class="node"><title>n00000003</title>
-+<polygon fill="#66cd00" stroke="black" points="551,-598.5 387,-598.5 387,-560.5 551,-560.5 551,-598.5"/>
-+<text text-anchor="middle" x="469" y="-583.3" font-family="Times,serif" font-size="14.00">Intel IPU6 ISYS Capture 2</text>
-+<text text-anchor="middle" x="469" y="-568.3" font-family="Times,serif" font-size="14.00">/dev/video2</text>
-+</g>
-+<!-- n00000004 -->
-+<g id="node4" class="node"><title>n00000004</title>
-+<polygon fill="#66cd00" stroke="black" points="551,-801.5 387,-801.5 387,-763.5 551,-763.5 551,-801.5"/>
-+<text text-anchor="middle" x="469" y="-786.3" font-family="Times,serif" font-size="14.00">Intel IPU6 ISYS Capture 3</text>
-+<text text-anchor="middle" x="469" y="-771.3" font-family="Times,serif" font-size="14.00">/dev/video3</text>
-+</g>
-+<!-- n0000007d -->
-+<g id="node5" class="node"><title>n0000007d</title>
-+<path fill="#ffb90f" stroke="black" d="M201,-0.5C201,-0.5 339,-0.5 339,-0.5 345,-0.5 351,-6.5 351,-12.5 351,-12.5 351,-172.5 351,-172.5 351,-178.5 345,-184.5 339,-184.5 339,-184.5 201,-184.5 201,-184.5 195,-184.5 189,-178.5 189,-172.5 189,-172.5 189,-12.5 189,-12.5 189,-6.5 195,-0.5 201,-0.5"/>
-+<text text-anchor="middle" x="200.5" y="-88.8" font-family="Times,serif" font-size="14.00">0</text>
-+<polyline fill="none" stroke="black" points="212,-0.5 212,-184.5 "/>
-+<text text-anchor="middle" x="270" y="-96.3" font-family="Times,serif" font-size="14.00">Intel IPU6 CSI2 0</text>
-+<text text-anchor="middle" x="270" y="-81.3" font-family="Times,serif" font-size="14.00">/dev/v4l&#45;subdev0</text>
-+<polyline fill="none" stroke="black" points="328,-0.5 328,-184.5 "/>
-+<text text-anchor="middle" x="339.5" y="-169.3" font-family="Times,serif" font-size="14.00">1</text>
-+<polyline fill="none" stroke="black" points="328,-161.5 351,-161.5 "/>
-+<text text-anchor="middle" x="339.5" y="-146.3" font-family="Times,serif" font-size="14.00">2</text>
-+<polyline fill="none" stroke="black" points="328,-138.5 351,-138.5 "/>
-+<text text-anchor="middle" x="339.5" y="-123.3" font-family="Times,serif" font-size="14.00">3</text>
-+<polyline fill="none" stroke="black" points="328,-115.5 351,-115.5 "/>
-+<text text-anchor="middle" x="339.5" y="-100.3" font-family="Times,serif" font-size="14.00">4</text>
-+<polyline fill="none" stroke="black" points="328,-92.5 351,-92.5 "/>
-+<text text-anchor="middle" x="339.5" y="-77.3" font-family="Times,serif" font-size="14.00">5</text>
-+<polyline fill="none" stroke="black" points="328,-69.5 351,-69.5 "/>
-+<text text-anchor="middle" x="339.5" y="-54.3" font-family="Times,serif" font-size="14.00">6</text>
-+<polyline fill="none" stroke="black" points="328,-46.5 351,-46.5 "/>
-+<text text-anchor="middle" x="339.5" y="-31.3" font-family="Times,serif" font-size="14.00">7</text>
-+<polyline fill="none" stroke="black" points="328,-23.5 351,-23.5 "/>
-+<text text-anchor="middle" x="339.5" y="-8.3" font-family="Times,serif" font-size="14.00">8</text>
-+</g>
-+<!-- n0000007d&#45;&gt;n00000001 -->
-+<g id="edge1" class="edge"><title>n0000007d:port1&#45;&gt;n00000001</title>
-+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M351,-173.5C359.322,-173.5 367.976,-173.5 376.644,-173.5"/>
-+<polygon fill="black" stroke="black" points="376.807,-177 386.807,-173.5 376.807,-170 376.807,-177"/>
-+</g>
-+<!-- n00000087 -->
-+<g id="node6" class="node"><title>n00000087</title>
-+<path fill="#ffb90f" stroke="black" d="M201,-203.5C201,-203.5 339,-203.5 339,-203.5 345,-203.5 351,-209.5 351,-215.5 351,-215.5 351,-375.5 351,-375.5 351,-381.5 345,-387.5 339,-387.5 339,-387.5 201,-387.5 201,-387.5 195,-387.5 189,-381.5 189,-375.5 189,-375.5 189,-215.5 189,-215.5 189,-209.5 195,-203.5 201,-203.5"/>
-+<text text-anchor="middle" x="200.5" y="-291.8" font-family="Times,serif" font-size="14.00">0</text>
-+<polyline fill="none" stroke="black" points="212,-203.5 212,-387.5 "/>
-+<text text-anchor="middle" x="270" y="-299.3" font-family="Times,serif" font-size="14.00">Intel IPU6 CSI2 1</text>
-+<text text-anchor="middle" x="270" y="-284.3" font-family="Times,serif" font-size="14.00">/dev/v4l&#45;subdev1</text>
-+<polyline fill="none" stroke="black" points="328,-203.5 328,-387.5 "/>
-+<text text-anchor="middle" x="339.5" y="-372.3" font-family="Times,serif" font-size="14.00">1</text>
-+<polyline fill="none" stroke="black" points="328,-364.5 351,-364.5 "/>
-+<text text-anchor="middle" x="339.5" y="-349.3" font-family="Times,serif" font-size="14.00">2</text>
-+<polyline fill="none" stroke="black" points="328,-341.5 351,-341.5 "/>
-+<text text-anchor="middle" x="339.5" y="-326.3" font-family="Times,serif" font-size="14.00">3</text>
-+<polyline fill="none" stroke="black" points="328,-318.5 351,-318.5 "/>
-+<text text-anchor="middle" x="339.5" y="-303.3" font-family="Times,serif" font-size="14.00">4</text>
-+<polyline fill="none" stroke="black" points="328,-295.5 351,-295.5 "/>
-+<text text-anchor="middle" x="339.5" y="-280.3" font-family="Times,serif" font-size="14.00">5</text>
-+<polyline fill="none" stroke="black" points="328,-272.5 351,-272.5 "/>
-+<text text-anchor="middle" x="339.5" y="-257.3" font-family="Times,serif" font-size="14.00">6</text>
-+<polyline fill="none" stroke="black" points="328,-249.5 351,-249.5 "/>
-+<text text-anchor="middle" x="339.5" y="-234.3" font-family="Times,serif" font-size="14.00">7</text>
-+<polyline fill="none" stroke="black" points="328,-226.5 351,-226.5 "/>
-+<text text-anchor="middle" x="339.5" y="-211.3" font-family="Times,serif" font-size="14.00">8</text>
-+</g>
-+<!-- n00000087&#45;&gt;n00000002 -->
-+<g id="edge2" class="edge"><title>n00000087:port1&#45;&gt;n00000002</title>
-+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M351,-376.5C359.322,-376.5 367.976,-376.5 376.644,-376.5"/>
-+<polygon fill="black" stroke="black" points="376.807,-380 386.807,-376.5 376.807,-373 376.807,-380"/>
-+</g>
-+<!-- n00000091 -->
-+<g id="node7" class="node"><title>n00000091</title>
-+<path fill="#ffb90f" stroke="black" d="M201,-406.5C201,-406.5 339,-406.5 339,-406.5 345,-406.5 351,-412.5 351,-418.5 351,-418.5 351,-578.5 351,-578.5 351,-584.5 345,-590.5 339,-590.5 339,-590.5 201,-590.5 201,-590.5 195,-590.5 189,-584.5 189,-578.5 189,-578.5 189,-418.5 189,-418.5 189,-412.5 195,-406.5 201,-406.5"/>
-+<text text-anchor="middle" x="200.5" y="-494.8" font-family="Times,serif" font-size="14.00">0</text>
-+<polyline fill="none" stroke="black" points="212,-406.5 212,-590.5 "/>
-+<text text-anchor="middle" x="270" y="-502.3" font-family="Times,serif" font-size="14.00">Intel IPU6 CSI2 2</text>
-+<text text-anchor="middle" x="270" y="-487.3" font-family="Times,serif" font-size="14.00">/dev/v4l&#45;subdev2</text>
-+<polyline fill="none" stroke="black" points="328,-406.5 328,-590.5 "/>
-+<text text-anchor="middle" x="339.5" y="-575.3" font-family="Times,serif" font-size="14.00">1</text>
-+<polyline fill="none" stroke="black" points="328,-567.5 351,-567.5 "/>
-+<text text-anchor="middle" x="339.5" y="-552.3" font-family="Times,serif" font-size="14.00">2</text>
-+<polyline fill="none" stroke="black" points="328,-544.5 351,-544.5 "/>
-+<text text-anchor="middle" x="339.5" y="-529.3" font-family="Times,serif" font-size="14.00">3</text>
-+<polyline fill="none" stroke="black" points="328,-521.5 351,-521.5 "/>
-+<text text-anchor="middle" x="339.5" y="-506.3" font-family="Times,serif" font-size="14.00">4</text>
-+<polyline fill="none" stroke="black" points="328,-498.5 351,-498.5 "/>
-+<text text-anchor="middle" x="339.5" y="-483.3" font-family="Times,serif" font-size="14.00">5</text>
-+<polyline fill="none" stroke="black" points="328,-475.5 351,-475.5 "/>
-+<text text-anchor="middle" x="339.5" y="-460.3" font-family="Times,serif" font-size="14.00">6</text>
-+<polyline fill="none" stroke="black" points="328,-452.5 351,-452.5 "/>
-+<text text-anchor="middle" x="339.5" y="-437.3" font-family="Times,serif" font-size="14.00">7</text>
-+<polyline fill="none" stroke="black" points="328,-429.5 351,-429.5 "/>
-+<text text-anchor="middle" x="339.5" y="-414.3" font-family="Times,serif" font-size="14.00">8</text>
-+</g>
-+<!-- n00000091&#45;&gt;n00000003 -->
-+<g id="edge3" class="edge"><title>n00000091:port1&#45;&gt;n00000003</title>
-+<path fill="none" stroke="black" d="M351,-579.5C359.322,-579.5 367.976,-579.5 376.644,-579.5"/>
-+<polygon fill="black" stroke="black" points="376.807,-583 386.807,-579.5 376.807,-576 376.807,-583"/>
-+</g>
-+<!-- n0000009b -->
-+<g id="node8" class="node"><title>n0000009b</title>
-+<path fill="#ffb90f" stroke="black" d="M201,-609.5C201,-609.5 339,-609.5 339,-609.5 345,-609.5 351,-615.5 351,-621.5 351,-621.5 351,-781.5 351,-781.5 351,-787.5 345,-793.5 339,-793.5 339,-793.5 201,-793.5 201,-793.5 195,-793.5 189,-787.5 189,-781.5 189,-781.5 189,-621.5 189,-621.5 189,-615.5 195,-609.5 201,-609.5"/>
-+<text text-anchor="middle" x="200.5" y="-697.8" font-family="Times,serif" font-size="14.00">0</text>
-+<polyline fill="none" stroke="black" points="212,-609.5 212,-793.5 "/>
-+<text text-anchor="middle" x="270" y="-705.3" font-family="Times,serif" font-size="14.00">Intel IPU6 CSI2 3</text>
-+<text text-anchor="middle" x="270" y="-690.3" font-family="Times,serif" font-size="14.00">/dev/v4l&#45;subdev3</text>
-+<polyline fill="none" stroke="black" points="328,-609.5 328,-793.5 "/>
-+<text text-anchor="middle" x="339.5" y="-778.3" font-family="Times,serif" font-size="14.00">1</text>
-+<polyline fill="none" stroke="black" points="328,-770.5 351,-770.5 "/>
-+<text text-anchor="middle" x="339.5" y="-755.3" font-family="Times,serif" font-size="14.00">2</text>
-+<polyline fill="none" stroke="black" points="328,-747.5 351,-747.5 "/>
-+<text text-anchor="middle" x="339.5" y="-732.3" font-family="Times,serif" font-size="14.00">3</text>
-+<polyline fill="none" stroke="black" points="328,-724.5 351,-724.5 "/>
-+<text text-anchor="middle" x="339.5" y="-709.3" font-family="Times,serif" font-size="14.00">4</text>
-+<polyline fill="none" stroke="black" points="328,-701.5 351,-701.5 "/>
-+<text text-anchor="middle" x="339.5" y="-686.3" font-family="Times,serif" font-size="14.00">5</text>
-+<polyline fill="none" stroke="black" points="328,-678.5 351,-678.5 "/>
-+<text text-anchor="middle" x="339.5" y="-663.3" font-family="Times,serif" font-size="14.00">6</text>
-+<polyline fill="none" stroke="black" points="328,-655.5 351,-655.5 "/>
-+<text text-anchor="middle" x="339.5" y="-640.3" font-family="Times,serif" font-size="14.00">7</text>
-+<polyline fill="none" stroke="black" points="328,-632.5 351,-632.5 "/>
-+<text text-anchor="middle" x="339.5" y="-617.3" font-family="Times,serif" font-size="14.00">8</text>
-+</g>
-+<!-- n0000009b&#45;&gt;n00000004 -->
-+<g id="edge4" class="edge"><title>n0000009b:port1&#45;&gt;n00000004</title>
-+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M351,-782.5C359.322,-782.5 367.976,-782.5 376.644,-782.5"/>
-+<polygon fill="black" stroke="black" points="376.807,-786 386.807,-782.5 376.807,-779 376.807,-786"/>
-+</g>
-+<!-- n00000865 -->
-+<g id="node9" class="node"><title>n00000865</title>
-+<path fill="cornflowerblue" stroke="black" d="M12,-479.5C12,-479.5 141,-479.5 141,-479.5 147,-479.5 153,-485.5 153,-491.5 153,-491.5 153,-505.5 153,-505.5 153,-511.5 147,-517.5 141,-517.5 141,-517.5 12,-517.5 12,-517.5 6,-517.5 0,-511.5 0,-505.5 0,-505.5 0,-491.5 0,-491.5 0,-485.5 6,-479.5 12,-479.5"/>
-+<text text-anchor="middle" x="10" y="-494.8" font-family="Times,serif" font-size="14.00"> </text>
-+<polyline fill="none" stroke="black" points="20,-479.5 20,-517.5 "/>
-+<text text-anchor="middle" x="75" y="-502.3" font-family="Times,serif" font-size="14.00">ov01a10 3&#45;0036</text>
-+<text text-anchor="middle" x="75" y="-487.3" font-family="Times,serif" font-size="14.00">/dev/v4l&#45;subdev4</text>
-+<polyline fill="none" stroke="black" points="130,-479.5 130,-517.5 "/>
-+<text text-anchor="middle" x="141.5" y="-494.8" font-family="Times,serif" font-size="14.00">0</text>
-+</g>
-+<!-- n00000865&#45;&gt;n00000091 -->
-+<g id="edge5" class="edge"><title>n00000865:port0&#45;&gt;n00000091:port0</title>
-+<path fill="none" stroke="black" d="M153,-498.5C165,-498.5 170.25,-498.5 178.875,-498.5"/>
-+<polygon fill="black" stroke="black" points="179,-502 189,-498.5 179,-495 179,-502"/>
-+</g>
-+<!-- n00000866 -->
-+<!-- n00000866&#45;&gt;n0000007d -->
-+<!-- n00000867 -->
-+<!-- n00000867&#45;&gt;n00000087 -->
-+<!-- n00000868 -->
-+<!-- n00000868&#45;&gt;n0000009b -->
-+</g>
-+</svg>
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 61283d67ceef..50bdef2d1762 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -16,6 +16,7 @@ Video4Linux (V4L) driver-specific documentation
- 	imx
- 	imx7
- 	ipu3
-+	ipu6-isys
- 	ivtv
- 	mgb4
- 	omap3isp
 -- 
 2.42.0
 
