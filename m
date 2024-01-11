@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-3540-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3541-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F058B82ACDC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:07:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F0F82ACEE
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:09:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0AF82830AE
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 11:07:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2EC7B233E4
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 11:09:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC1DE14F8B;
-	Thu, 11 Jan 2024 11:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0127514F8C;
+	Thu, 11 Jan 2024 11:09:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="pgGmg4MF"
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="p/Gyyjzl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.8])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F7B15482;
-	Thu, 11 Jan 2024 11:07:23 +0000 (UTC)
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.9])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD2B15488;
+	Thu, 11 Jan 2024 11:08:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=From:Subject:Date:Message-Id; bh=4FvuXbjORVZUNuiHro
-	y0xyda+f52Z6Gdyv4aILQqr9g=; b=pgGmg4MFb+MlPnHfxoVZxC9xsKbE61o2pW
-	YHi0nRTIqV9OXZ3wFTUFXaPaPqRuL9MgmG2q8xDRXlLs2SDRlJDL74W7f8fkil8Y
-	X2rZv+sPCw9t0D6chCaHM1brzRSNfHAa+yFO1HXhglURQl2+6SFsjc6PYulLGpdf
-	mO0VP6muY=
+	s=s110527; h=From:Subject:Date:Message-Id; bh=rPIj4y9fevX8UcYY75
+	0yZWb32Nkcv9QLiE2/VLvfV8k=; b=p/GyyjzleejASiD4mkhBJ80ClrNHt3HcFY
+	rJgFM6Ia8ZcjzZYVSXNcDjwGRtZ5f1I0qs6tpzgAYDJhJ7vjDlzTYVuFly6rkFSX
+	zfhNTU5c0yXrVAM3TraXq5h11MZf8GZOyfde2kTvoipqpU3nu86hdtmu44qlcydB
+	6nQvgvI+Q=
 Received: from localhost.localdomain (unknown [182.148.14.173])
-	by gzga-smtp-mta-g1-3 (Coremail) with SMTP id _____wD3P8LYy59lYNk4AA--.38428S2;
-	Thu, 11 Jan 2024 19:07:04 +0800 (CST)
+	by gzga-smtp-mta-g0-4 (Coremail) with SMTP id _____wD3v+dAzJ9lXCinAA--.6423S2;
+	Thu, 11 Jan 2024 19:08:48 +0800 (CST)
 From: XueBing Chen <chenxb_99091@126.com>
 To: mchehab@kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	XueBing Chen <chenxb_99091@126.com>
-Subject: [PATCH] [media] media: Clean up errors in bcm3510_priv.h
-Date: Thu, 11 Jan 2024 11:07:03 +0000
-Message-Id: <20240111110703.15010-1-chenxb_99091@126.com>
+Subject: [PATCH] [media] Clean up errors in tda8083.h
+Date: Thu, 11 Jan 2024 11:08:46 +0000
+Message-Id: <20240111110846.15098-1-chenxb_99091@126.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:_____wD3P8LYy59lYNk4AA--.38428S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWrKw18KrWUXr15uF1rZw4xWFg_yoW8Jr1kpr
-	s0yry0ya13Aw47K3Z3Ja4xKFy3Gws8Xa40g3Waga17uF1rGa9rJr1YgwsFvrn8Gr4fAa9r
-	tFnIqw1xua45KaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zR5DGOUUUUU=
-X-CM-SenderInfo: hfkh05lebzmiizr6ij2wof0z/1tbiOhxixWVEuYGXCgAAsF
+X-CM-TRANSID:_____wD3v+dAzJ9lXCinAA--.6423S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7JFWrGw4fZrWrGF4kWr1rZwb_yoWktrb_uw
+	10qFn3G3s0g3s5ur47tFWxXa98Kay8Zw4ktFWUKFy3ArZ2qw4UZw1DKFnrAFWUuay8KFn0
+	ya95Xa1xZF1qkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_qjg3UUUUU==
+X-CM-SenderInfo: hfkh05lebzmiizr6ij2wof0z/1tbiHBlixWV2z0YPYwABsV
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,32 +52,33 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
 Fix the following errors reported by checkpatch:
 
-ERROR: space prohibited before that ',' (ctx:WxW)
+ERROR: "foo* bar" should be "foo *bar"
 
 Signed-off-by: XueBing Chen <chenxb_99091@126.com>
 ---
- drivers/media/dvb-frontends/bcm3510_priv.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/dvb-frontends/tda8083.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/bcm3510_priv.h b/drivers/media/dvb-frontends/bcm3510_priv.h
-index 2c9f3c430a82..89c71bc42a0f 100644
---- a/drivers/media/dvb-frontends/bcm3510_priv.h
-+++ b/drivers/media/dvb-frontends/bcm3510_priv.h
-@@ -12,11 +12,11 @@
- #define PACKED __attribute__((packed))
+diff --git a/drivers/media/dvb-frontends/tda8083.h b/drivers/media/dvb-frontends/tda8083.h
+index 3a671ec3f45e..2eaeea3896c6 100644
+--- a/drivers/media/dvb-frontends/tda8083.h
++++ b/drivers/media/dvb-frontends/tda8083.h
+@@ -24,11 +24,11 @@ struct tda8083_config
+ };
  
- #undef err
--#define err(format, arg...)  printk(KERN_ERR     "bcm3510: " format "\n" , ## arg)
-+#define err(format, arg...)  printk(KERN_ERR     "bcm3510: " format "\n", ## arg)
- #undef info
--#define info(format, arg...) printk(KERN_INFO    "bcm3510: " format "\n" , ## arg)
-+#define info(format, arg...) printk(KERN_INFO    "bcm3510: " format "\n", ## arg)
- #undef warn
--#define warn(format, arg...) printk(KERN_WARNING "bcm3510: " format "\n" , ## arg)
-+#define warn(format, arg...) printk(KERN_WARNING "bcm3510: " format "\n", ## arg)
- 
- 
- #define PANASONIC_FIRST_IF_BASE_IN_KHz  1407500
+ #if IS_REACHABLE(CONFIG_DVB_TDA8083)
+-extern struct dvb_frontend* tda8083_attach(const struct tda8083_config* config,
+-					   struct i2c_adapter* i2c);
++extern struct dvb_frontend *tda8083_attach(const struct tda8083_config *config,
++					   struct i2c_adapter *i2c);
+ #else
+-static inline struct dvb_frontend* tda8083_attach(const struct tda8083_config* config,
+-					   struct i2c_adapter* i2c)
++static inline struct dvb_frontend *tda8083_attach(const struct tda8083_config *config,
++					   struct i2c_adapter *i2c)
+ {
+ 	printk(KERN_WARNING "%s: driver disabled by Kconfig\n", __func__);
+ 	return NULL;
 -- 
 2.17.1
 
