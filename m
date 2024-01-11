@@ -1,146 +1,169 @@
-Return-Path: <linux-media+bounces-3485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3486-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A940782A553
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 01:46:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8588782A598
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 02:38:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B53BB26592
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 00:46:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 090D91F23F2A
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 01:38:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AB37EBC;
-	Thu, 11 Jan 2024 00:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65F79A3C;
+	Thu, 11 Jan 2024 01:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iLYMN66F"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R9O+ne4H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8F1650
-	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 00:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6db0fdd2b8fso1386043b3a.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Jan 2024 16:46:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64418642;
+	Thu, 11 Jan 2024 01:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d3aa0321b5so41441495ad.2;
+        Wed, 10 Jan 2024 17:38:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704933967; x=1705538767; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gueNhZrbsNiJzCN2gb4yLrjECQBWf6cwwXnoTcfXIT4=;
-        b=iLYMN66FKBdyLftqxvShVV6YPPjxaiH0A4bEAzAFXUh07Rtw7cg392gFExYv4aTjPp
-         8ZhTs0xsPpn6Xt3z7ZSCx9+l33aZXrNwfon+LzcPDHf5jEjnvZK8v7t2AiI8yLH+ugI3
-         SAixjT3vhp/BZBahYdq2dQahnHiGSuF9qMJow=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704933967; x=1705538767;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1704937109; x=1705541909; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gueNhZrbsNiJzCN2gb4yLrjECQBWf6cwwXnoTcfXIT4=;
-        b=N3dp2XIqdI2BuygSUOU2hv0o5WTePkmn4wRklOvI0em8y288F3+uHUM1SU1rSewhhr
-         SpAfAM/BlQtgsJmh0QsRaoFLBPVuWAJaKbs+ojS2sV1CaiMPyzOXcqjzbTRrySakJx/P
-         ZR+BoiTIPyR6cTWPp5yBdYJ72OS+U2jsmzqC0KaR+JtRzF7/KZh2zYEHLUgIhK8/4/oN
-         Z5Li+SK+EIi+TYgsktSLgB0QNSVX1WLyQkoptXG5Lh82KSX98MCiZ4IgSUD2EsN3Hloq
-         /qVtE1d4rljGypKoSO1xZp8ZaWAcEOtIbvOSIVdPJtaxS00yu/MtdtMBjHpJJBIL7lUG
-         eSQQ==
-X-Gm-Message-State: AOJu0YzkTlNk2rGeIvyIppI8kW0ZzSIoxcuznBnEdAtISgbErqp86ZrV
-	0snBSi8UIUMh2BWQDmjrXoD2YoMOq1ok
-X-Google-Smtp-Source: AGHT+IGkiZ1hknB2+0UC/gxIH8jrVZxWAA/1vUWxP929828CA6Qm4M9e8Oxn46aJ8qOxkFFVf4GTPg==
-X-Received: by 2002:aa7:90d3:0:b0:6d9:a64c:c5d1 with SMTP id k19-20020aa790d3000000b006d9a64cc5d1mr504196pfk.26.1704933967538;
-        Wed, 10 Jan 2024 16:46:07 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id y2-20020a62b502000000b006dac91d6da5sm4071344pfe.68.2024.01.10.16.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 16:46:06 -0800 (PST)
-Date: Wed, 10 Jan 2024 16:46:06 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: akpm@linux-foundation.org, llvm@lists.linux.dev,
-	patches@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-efi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-mm@kvack.org, bridge@lists.linux.dev, netdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, mykolal@fb.com,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH 0/3] Update LLVM Phabricator and Bugzilla links
-Message-ID: <202401101645.ED161519BA@keescook>
-References: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
+        bh=FE1lTwtemaJJKuDvq3IDwsBehzLTwHAByDMQDxpo694=;
+        b=R9O+ne4Huj6ZO9z96eUnsQTWPcdy8tZwrGy7hZAI9wByEeOSjnIIfJFgXIYjcDQ0Pr
+         NUCTh4dwm9HNXT/medGOH+QOgjC0qge0OKy3eJlVQA3lQS2+Mtgbu1Uscd6EU6uy5KHh
+         1pvZ5SNqUM811zwiRGMaN3roTEHdcEVzJzyNWAWSL4+NuiGM8ox0vLhcTpVcYKpsUjj1
+         uSfFNkWnidKeYqpF6lSrO3aMBJB8zU/BV8z2SWPhoRvzv5GHQV0yY0gklfiTfTxN70mq
+         jTgIiIfV5aEugCoBRanavuzCQ8HXOK0yP3LWQ2rxUSxggiHpyrYJLrwltfIjXclyMWOw
+         7wnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704937109; x=1705541909;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FE1lTwtemaJJKuDvq3IDwsBehzLTwHAByDMQDxpo694=;
+        b=juv0TxNGG98+8JI9xmDklVL5gS+5zwAGkDzD36AfEicdTLrFqc2IFoOnWldJxiKgR6
+         6ba+V3eSs0hGg2xUrniuCJl0wpmb/ZIgpApCF34zJVajp0/hh7o8fkAPifzsHBqZ8b18
+         56U7mXds7Zn9C1tKonsaxTzjyrj3j1nbNrO25vEvQvYT5x5QTbqzmnyBmK7Mm9p5zkHD
+         00aIGYdhb53OwuDSXWUVNUqjEqYyrNdkZ/B8l+E6D0LLAth8VAuKxQv70RHfY4bKhs5+
+         ukgrmBwuKm44cLVYdjZrzzTri0SKGKCx/83V1JnKc7Itj1VgXMHEB8j1fA/JZhnKHN47
+         n+BA==
+X-Gm-Message-State: AOJu0YwlmdrxwYwm/TYwzKaXYkbvJ60f2rp+I8baWqgyWl0rQJJ0tVfr
+	7GNKm0T01jGRbqF4+XE0wIU=
+X-Google-Smtp-Source: AGHT+IHKARNqCqYCTu0+mYQrX4M5yrGtv01ApdtOSYrg296QI8bAcWKPraS9YraPTO7HTbbek7MGtQ==
+X-Received: by 2002:a17:902:a709:b0:1d4:e011:789e with SMTP id w9-20020a170902a70900b001d4e011789emr475676plq.78.1704937108515;
+        Wed, 10 Jan 2024 17:38:28 -0800 (PST)
+Received: from [10.193.226.49] ([106.39.42.235])
+        by smtp.gmail.com with ESMTPSA id ji13-20020a170903324d00b001d3d8c04331sm4290389plb.64.2024.01.10.17.38.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jan 2024 17:38:27 -0800 (PST)
+Message-ID: <5ac868ca-239a-4758-9cd2-14a1ad210f26@gmail.com>
+Date: Thu, 11 Jan 2024 09:38:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] [media] xc4000: Fix atomicity violation in
+ xc4000_get_frequency
+To: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, mcgrof@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ baijiaju1990@outlook.com, stable@vger.kernel.org,
+ BassCheck <bass@buaa.edu.cn>
+References: <20231222055030.5237-1-2045gemini@gmail.com>
+From: Gui-Dong Han <2045gemini@gmail.com>
+In-Reply-To: <20231222055030.5237-1-2045gemini@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 09, 2024 at 03:16:28PM -0700, Nathan Chancellor wrote:
-> This series updates all instances of LLVM Phabricator and Bugzilla links
-> to point to GitHub commits directly and LLVM's Bugzilla to GitHub issue
-> shortlinks respectively.
-> 
-> I split up the Phabricator patch into BPF selftests and the rest of the
-> kernel in case the BPF folks want to take it separately from the rest of
-> the series, there are obviously no dependency issues in that case. The
-> Bugzilla change was mechanical enough and should have no conflicts.
-> 
-> I am aiming this at Andrew and CC'ing other lists, in case maintainers
-> want to chime in, but I think this is pretty uncontroversial (famous
-> last words...).
-> 
+Dear All:
+
+I hope this email finds you well. I hope you haven't missed my previous 
+email, as I understand that everyone has a busy schedule. I just wanted 
+to follow up on my previous message sent.
+I understand that you may be occupied with other tasks or priorities. 
+However, I would greatly appreciate it if you could spare a few moments 
+to check the patch in my previous email. Your prompt response would be 
+highly valuable to me.
+Thank you for your attention to this matter, and I look forward to 
+hearing from you soon.
+
+Thanks,
+Han
+
+On 22/12/2023 下午1:50, Gui-Dong Han wrote:
+> In xc4000_get_frequency():
+> 	*freq = priv->freq_hz + priv->freq_offset;
+> The code accesses priv->freq_hz and priv->freq_offset without holding any
+> lock.
+>
+> In xc4000_set_params():
+> 	// Code that updates priv->freq_hz and priv->freq_offset
+> 	...
+>
+> xc4000_get_frequency() and xc4000_set_params() may execute concurrently,
+> risking inconsistent reads of priv->freq_hz and priv->freq_offset. Since
+> these related data may update during reading, it can result in incorrect
+> frequency calculation, leading to atomicity violations.
+>
+> This possible bug is found by an experimental static analysis tool
+> developed by our team, BassCheck[1]. This tool analyzes the locking APIs
+> to extract function pairs that can be concurrently executed, and then
+> analyzes the instructions in the paired functions to identify possible
+> concurrency bugs including data races and atomicity violations. The above
+> possible bug is reported when our tool analyzes the source code of
+> Linux 6.2.
+>
+> To address this issue, it is proposed to add a mutex lock pair in
+> xc4000_get_frequency() to ensure atomicity. With this patch applied, our
+> tool no longer reports the possible bug, with the kernel configuration
+> allyesconfig for x86_64. Due to the lack of associated hardware, we cannot
+> test the patch in runtime testing, and just verify it according to the
+> code logic.
+>
+> [1] https://sites.google.com/view/basscheck/
+>
+> Fixes: 4c07e32884ab6 ("[media] xc4000: Fix get_frequency()")
+> Cc: stable@vger.kernel.org
+> Reported-by: BassCheck <bass@buaa.edu.cn>
+> Signed-off-by: Gui-Dong Han <2045gemini@gmail.com>
 > ---
-> Nathan Chancellor (3):
->       selftests/bpf: Update LLVM Phabricator links
->       arch and include: Update LLVM Phabricator links
->       treewide: Update LLVM Bugzilla links
-> 
->  arch/arm64/Kconfig                                 |  4 +--
->  arch/powerpc/Makefile                              |  4 +--
->  arch/powerpc/kvm/book3s_hv_nested.c                |  2 +-
->  arch/riscv/Kconfig                                 |  2 +-
->  arch/riscv/include/asm/ftrace.h                    |  2 +-
->  arch/s390/include/asm/ftrace.h                     |  2 +-
->  arch/x86/power/Makefile                            |  2 +-
->  crypto/blake2b_generic.c                           |  2 +-
->  drivers/firmware/efi/libstub/Makefile              |  2 +-
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |  2 +-
->  drivers/media/test-drivers/vicodec/codec-fwht.c    |  2 +-
->  drivers/regulator/Kconfig                          |  2 +-
->  include/asm-generic/vmlinux.lds.h                  |  2 +-
->  include/linux/compiler-clang.h                     |  2 +-
->  lib/Kconfig.kasan                                  |  2 +-
->  lib/raid6/Makefile                                 |  2 +-
->  lib/stackinit_kunit.c                              |  2 +-
->  mm/slab_common.c                                   |  2 +-
->  net/bridge/br_multicast.c                          |  2 +-
->  security/Kconfig                                   |  2 +-
->  tools/testing/selftests/bpf/README.rst             | 32 +++++++++++-----------
->  tools/testing/selftests/bpf/prog_tests/xdpwall.c   |  2 +-
->  .../selftests/bpf/progs/test_core_reloc_type_id.c  |  2 +-
->  23 files changed, 40 insertions(+), 40 deletions(-)
+> v2:
+> * In this patch v2, we've added some information of the static analysis
+> tool used, as per the researcher guidelines. Also, we've added a cc in the
+> signed-off-by area, according to the stable-kernel-rules.
+>    Thank Greg KH for helpful advice.
 > ---
-> base-commit: 0dd3ee31125508cd67f7e7172247f05b7fd1753a
-> change-id: 20240109-update-llvm-links-d03f9d649e1e
-> 
-> Best regards,
-> -- 
-> Nathan Chancellor <nathan@kernel.org>
-> 
-
-Excellent! Thanks for doing this. I spot checked a handful I was
-familiar with and everything looks good to me.
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
+>   drivers/media/tuners/xc4000.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/tuners/xc4000.c b/drivers/media/tuners/xc4000.c
+> index 57ded9ff3f04..29bc63021c5a 100644
+> --- a/drivers/media/tuners/xc4000.c
+> +++ b/drivers/media/tuners/xc4000.c
+> @@ -1515,10 +1515,10 @@ static int xc4000_get_frequency(struct dvb_frontend *fe, u32 *freq)
+>   {
+>   	struct xc4000_priv *priv = fe->tuner_priv;
+>   
+> +	mutex_lock(&priv->lock);
+>   	*freq = priv->freq_hz + priv->freq_offset;
+>   
+>   	if (debug) {
+> -		mutex_lock(&priv->lock);
+>   		if ((priv->cur_fw.type
+>   		     & (BASE | FM | DTV6 | DTV7 | DTV78 | DTV8)) == BASE) {
+>   			u16	snr = 0;
+> @@ -1529,8 +1529,8 @@ static int xc4000_get_frequency(struct dvb_frontend *fe, u32 *freq)
+>   				return 0;
+>   			}
+>   		}
+> -		mutex_unlock(&priv->lock);
+>   	}
+> +	mutex_unlock(&priv->lock);
+>   
+>   	dprintk(1, "%s()\n", __func__);
+>   
 
