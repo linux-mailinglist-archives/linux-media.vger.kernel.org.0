@@ -1,135 +1,115 @@
-Return-Path: <linux-media+bounces-3582-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3583-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3756C82B440
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 18:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B466F82B451
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 18:50:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5EC5A1C23CBD
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 17:40:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9ACF1C23D68
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 17:50:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E48524D4;
-	Thu, 11 Jan 2024 17:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A26852F78;
+	Thu, 11 Jan 2024 17:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H/g+FFK6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KGpPxU1C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE7C3A1BE;
-	Thu, 11 Jan 2024 17:40:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3A20C433C7;
-	Thu, 11 Jan 2024 17:40:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704994839;
-	bh=YpwQWCnVnBBUqaWv4bCZdTrssGsplr32Ot76UMUI56k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=H/g+FFK6nTrDAxLRA+VBZOpXbMiBXYh+19KibTOdCTjWQbuON45UT/bze6yen1iVf
-	 bmBp7ToVw35MTC/kLxOiPIZ2sPXb1eF1kbe3CIHDZUUhpNlEeOKrMI8kexAny/B6ML
-	 jAg7by1QGy6GIDBr0wwu9/P831XSc643oHzfU/KcLSidmUWLt4ulseGO3NqwduuNYQ
-	 kc0iub6ufQd1TgzmSGnQCoOrAWGyvB4yNP7srNINsnJE/mUyMgzNAHPepDY/cInZqJ
-	 L8XEXFDlJpogAzsNPkf8L+wdtCxZu60LnO3yo3GDnwI/HoMzoJQFqgAWs/N+m9CCJ+
-	 Gw3oql/C8a4zw==
-Date: Thu, 11 Jan 2024 18:40:35 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: em28xx: return error on media_device_register()
- failure
-Message-ID: <20240111184035.18a6ad4b@coco.lan>
-In-Reply-To: <b7ca60c4-2392-448e-90e4-5078051d7af6@fintech.ru>
-References: <20240110173958.4544-1-n.zhandarovich@fintech.ru>
-	<20240111074905.67d61b00@coco.lan>
-	<b7ca60c4-2392-448e-90e4-5078051d7af6@fintech.ru>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C496B50276
+	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 17:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB6A7AF2;
+	Thu, 11 Jan 2024 18:48:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1704995319;
+	bh=CPJMLiFl0h1s+NuHs6XzxHLFQOo41N2qclqBgNPo/PI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=KGpPxU1CSDKUqEZ8vOCSnQWH+kh+18dY1uhfpiMiKJUVtASa5aIaweSxyjW0LxeSe
+	 16v9hfYDFCwwCqKONlSyDcJZ/q7ESNvT5DBwyFEQTOtWL4PHuftlunU+eKSOWUUTXf
+	 Ru0H7CKLDjG8tDV2jBWvknV9a9c6pPmWEwIbe4g8=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231203165959.GA22111@pendragon.ideasonboard.com>
+References: <20231201150614.63300-1-marex@denx.de> <20231203165959.GA22111@pendragon.ideasonboard.com>
+Subject: Re: [PATCH] media: nxp: isi: Check whether pad is non-NULL before access
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, NXP Linux Team <linux-imx@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Marek Vasut <marex@denx.de>
+Date: Thu, 11 Jan 2024 17:49:41 +0000
+Message-ID: <170499538140.3227220.17574476088989803181@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Em Thu, 11 Jan 2024 07:10:10 -0800
-Nikita Zhandarovich <n.zhandarovich@fintech.ru> escreveu:
+Quoting Laurent Pinchart (2023-12-03 16:59:59)
+> Hi Marek,
+>=20
+> Thank you for the patch.
+>=20
+> On Fri, Dec 01, 2023 at 04:06:04PM +0100, Marek Vasut wrote:
+> > The pad can be NULL if media controller routing is not set up correctly.
+> > Check whether the pad is NULL before using it, otherwise it is possible
+> > to achieve NULL pointer dereference.
+>=20
+> Could you share more information about how to misconfigure the routing ?
 
-> On 1/10/24 22:49, Mauro Carvalho Chehab wrote:
-> > Em Wed, 10 Jan 2024 09:39:58 -0800
-> > Nikita Zhandarovich <n.zhandarovich@fintech.ru> escreveu:
-> >   
-> >> In an unlikely case of failure in media_device_register(), release
-> >> resources and return the erroneous value. Otherwise, possible issues
-> >> with registering the device will continue to be ignored.
-> >>
-> >> Found by Linux Verification Center (linuxtesting.org) with static
-> >> analysis tool SVACE.
-> >>
-> >> Fixes: 37ecc7b1278f ("[media] em28xx: add media controller support")
-> >> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-> >> ---
-> >>  drivers/media/usb/em28xx/em28xx-cards.c | 2 ++
-> >>  1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-> >> index 4d037c92af7c..dae731dfc569 100644
-> >> --- a/drivers/media/usb/em28xx/em28xx-cards.c
-> >> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
-> >> @@ -4095,6 +4095,8 @@ static int em28xx_usb_probe(struct usb_interface *intf,
-> >>  	 */
-> >>  #ifdef CONFIG_MEDIA_CONTROLLER
-> >>  	retval = media_device_register(dev->media_dev);
-> >> +	if (retval)
-> >> +		goto err_free;  
-> > 
-> > Not freeing resources here is intentional. See, the media controller 
-> > API is optional on this driver. It will just provide a way to identify
-> > the device's topology, but the device is completely usable without
-> > it.
-> > 
-> > Perhaps we need, instead, a patch documenting it, and preventing
-> > static analysis tools to point it as an issue.
-> > 
-> > Thanks,
-> > Mauro  
-> 
-> Thank you for your feedback, however I had a few questions...
-> 
-> While I understand what you mean about optional nature of media
-> controller registration in this case, a quick glance into other calls to
-> media_device_register() across the source code shows that usually
-> failure with registering is handled as a proper error regardless of
-> whether the device is still usable. But if you think that we can make an
-> exception here, I'll happily oblige.
+You simply do 'nothing'.
 
-It depends on how the actual device is controlled. "Normal"
-media devices are fully controlled via v4l2 API. On those, the
-media controller API is there just to let userspace to query
-about the internal settings, but the actual pipelines are
-created via V4L2 API. Almost all normal applications will
-just ignore the media controller API.
+--
+Kieran
 
-Embedded hardware, however, require setting pipelines via media 
-controller for they to actually work. Almost all drivers
-implementing the media controller API fall on this category.
 
-> 
-> Then if I am to continue on this path, would the following comment above
-> the call to media_device_register() suffice?
-> 
->  #ifdef CONFIG_MEDIA_CONTROLLER
-> +	/*
-> +	 * No need to check the return value, the device will still be 	     +
->  * usable without media controller API.
-> +	 */
->  	retval = media_device_register(dev->media_dev);
-
-That works for me. It would still produce alerts at static
-analyzers, as they'll notice that we're storing retval there
-without actually using it.
-
-Thanks,
-Mauro
+>=20
+> > Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+> > ---
+> > Cc: Fabio Estevam <festevam@gmail.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > Cc: Shawn Guo <shawnguo@kernel.org>
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-media@vger.kernel.org
+> > ---
+> >  drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c | 8 +++++++-
+> >  1 file changed, 7 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/=
+drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > index 792f031e032ae..44354931cf8a1 100644
+> > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > @@ -160,8 +160,14 @@ mxc_isi_crossbar_xlate_streams(struct mxc_isi_cros=
+sbar *xbar,
+> >       }
+> > =20
+> >       pad =3D media_pad_remote_pad_first(&xbar->pads[sink_pad]);
+> > -     sd =3D media_entity_to_v4l2_subdev(pad->entity);
+> > +     if (!pad) {
+> > +             dev_dbg(xbar->isi->dev,
+> > +                     "no pad connected to crossbar input %u\n",
+> > +                     sink_pad);
+> > +             return ERR_PTR(-EPIPE);
+> > +     }
+> > =20
+> > +     sd =3D media_entity_to_v4l2_subdev(pad->entity);
+> >       if (!sd) {
+> >               dev_dbg(xbar->isi->dev,
+> >                       "no entity connected to crossbar input %u\n",
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
 
