@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-3516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5478782A8D1
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 09:15:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A1782A92B
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 09:33:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC626285D68
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 08:15:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 548E0B22018
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 08:33:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DDE5DDC3;
-	Thu, 11 Jan 2024 08:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45D24F9EA;
+	Thu, 11 Jan 2024 08:32:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CvRmlcUc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KaF6d0Hg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF521DF5E;
-	Thu, 11 Jan 2024 08:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9DDE558;
+	Thu, 11 Jan 2024 08:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EC6EC85;
-	Thu, 11 Jan 2024 09:14:17 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7509EC85;
+	Thu, 11 Jan 2024 09:31:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704960857;
-	bh=kkDLkfafgifBK/qqR8wZuC6H24XJLUeDEmU02c9PAoI=;
+	s=mail; t=1704961903;
+	bh=ceQsDzx9kmf/zRBGPdmkZuFW/ytCU3PmUX8H/digl28=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CvRmlcUcAL2fz+ZsrBcQVO8RmcXC6wU94oBlgnTtNbUx2QLsZU6CuMjcNkXRlPZiz
-	 wAcnB2yYLfTYNexZ3WwUDVElCb7FIENGFR9fpBIX5L3HXZFNP4gQMpXke1rFkBNNnS
-	 /owabKPwRi670NCL+inSeVDAvBPK9DD4veH6MKlM=
-Date: Thu, 11 Jan 2024 10:15:30 +0200
+	b=KaF6d0HgOgcGH5ytchcHR12iaXtbe9jS/8O7JFfKq56ECJLgqHOMeT+x7+klEOV6w
+	 k2L2sKF6iMPG1hTMKE57TxRwoEjcl4NMzoLaLCdsgTHNsU97S6JhvB0fKVHW5HzMaE
+	 9L05waBXzHRRISrXXwIvUmqavUeChgPbWEMEXJNw=
+Date: Thu, 11 Jan 2024 10:32:55 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Julien Stephan <jstephan@baylibre.com>
-Cc: Louis Kuo <louis.kuo@mediatek.com>,
-	Phi-Bang Nguyen <pnguyen@baylibre.com>,
-	Andy Hsieh <andy.hsieh@mediatek.com>,
+Cc: Andy Hsieh <andy.hsieh@mediatek.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
 	Florian Sylvestre <fsylvestre@baylibre.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	Louis Kuo <louis.kuo@mediatek.com>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Paul Elder <paul.elder@ideasonboard.com>,
+	Phi-bang Nguyen <pnguyen@baylibre.com>,
 	Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v4 1/5] dt-bindings: media: add mediatek ISP3.0 sensor
- interface
-Message-ID: <20240111081530.GB30988@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 5/5] arm64: dts: mediatek: mt8365: Add support for
+ camera
+Message-ID: <20240111083255.GC30988@pendragon.ideasonboard.com>
 References: <20240110141443.364655-1-jstephan@baylibre.com>
- <20240110141443.364655-2-jstephan@baylibre.com>
+ <20240110141443.364655-6-jstephan@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,324 +61,190 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240110141443.364655-2-jstephan@baylibre.com>
+In-Reply-To: <20240110141443.364655-6-jstephan@baylibre.com>
 
 Hi Julien,
 
 Thank you for the patch.
 
-On Wed, Jan 10, 2024 at 03:14:38PM +0100, Julien Stephan wrote:
-> From: Louis Kuo <louis.kuo@mediatek.com>
+On Wed, Jan 10, 2024 at 03:14:42PM +0100, Julien Stephan wrote:
+> Add base support for cameras for mt8365 platforms. This requires nodes
+> for the sensor interface, camsv, and CSI receivers.
 > 
-> This adds the bindings, for the mediatek ISP3.0 SENINF module embedded in
-> some Mediatek SoC, such as the mt8365
-> 
-> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
-> Signed-off-by: Phi-Bang Nguyen <pnguyen@baylibre.com>
 > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> Link: https://lore.kernel.org/r/20230807094940.329165-2-jstephan@baylibre.com
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  .../media/mediatek,mt8365-seninf.yaml         | 259 ++++++++++++++++++
->  MAINTAINERS                                   |   7 +
->  2 files changed, 266 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
+>  arch/arm64/boot/dts/mediatek/mt8365.dtsi | 128 +++++++++++++++++++++++
+>  1 file changed, 128 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
-> new file mode 100644
-> index 000000000000..0a7b7d949df7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
-> @@ -0,0 +1,259 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2023 MediaTek, BayLibre
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mt8365-seninf.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8365.dtsi b/arch/arm64/boot/dts/mediatek/mt8365.dtsi
+> index 24581f7410aa..9059b2f83b83 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8365.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8365.dtsi
+> @@ -10,6 +10,7 @@
+>  #include <dt-bindings/interrupt-controller/irq.h>
+>  #include <dt-bindings/phy/phy.h>
+>  #include <dt-bindings/power/mediatek,mt8365-power.h>
+> +#include <dt-bindings/memory/mediatek,mt8365-larb-port.h>
+>  
+>  / {
+>  	compatible = "mediatek,mt8365";
+> @@ -703,6 +704,133 @@ ethernet: ethernet@112a0000 {
+>  			status = "disabled";
+>  		};
+>  
+> +		camsv1: camsv@15050000 {
+> +			compatible = "mediatek,mt8365-camsv";
+> +			reg = <0 0x15050000 0 0x0040>,
+> +			      <0 0x15050208 0 0x0020>,
+> +			      <0 0x15050400 0 0x0100>;
+> +			interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_LOW>;
+> +			clocks = <&camsys CLK_CAM>,
+> +				 <&camsys CLK_CAMTG>,
+> +				 <&camsys CLK_CAMSV0>;
+> +			clock-names = "cam", "camtg", "camsv";
+> +			iommus = <&iommu M4U_PORT_CAM_IMGO>;
+> +			mediatek,larb = <&larb2>;
+> +			power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
+> +			status = "disabled";
 > +
-> +title: MediaTek Sensor Interface 3.0
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +  - Julien Stephan <jstephan@baylibre.com>
-> +  - Andy Hsieh <andy.hsieh@mediatek.com>
-> +
-> +description:
-> +  The ISP3.0 SENINF is the CSI-2 and parallel camera sensor interface found in
-> +  multiple MediaTek SoCs. It can support up to three physical CSI-2
-> +  input ports, configured in DPHY (2 or 4 data lanes) or CPHY depending on the soc.
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +				port@0 {
+> +					reg = <0>;
+> +					camsv1_endpoint: endpoint {
+> +						remote-endpoint =
+> +							<&seninf_camsv1_endpoint>;
 
-s/soc/SoC/
+I think you can keep this on a single line. Same below.
 
-And while at it, you can reflow the text to 80 columns.
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		camsv2: camsv@15050800 {
+> +			compatible = "mediatek,mt8365-camsv";
+> +			reg = <0 0x15050800 0 0x0040>,
+> +			      <0 0x15050228 0 0x0020>,
+> +			      <0 0x15050C00 0 0x0100>;
 
-> +  On the output side, SENINF can be connected either to CAMSV instance or
-> +  to the internal ISP. CAMSV is used to bypass the internal ISP processing
-> +  in order to connect either an external ISP, or a sensor (RAW, YUV).
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt8365-seninf
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Seninf camsys clock
-> +      - description: Seninf top mux clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: camsys
-> +      - const: top_mux
-> +
-> +  phys:
-> +    minItems: 1
-> +    maxItems: 4
-> +    description:
-> +      phandle to the PHYs connected to CSI0/A, CSI1, CSI2 and CSI0B
-> +
-> +  phy-names:
-> +    minItems: 1
-> +    items:
-> +      - const: csi0
-> +      - const: csi1
-> +      - const: csi2
-> +      - const: csi0b
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: CSI0 or CSI0A port
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              clock-lanes:
-> +                maxItems: 1
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: CSI1 port
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              clock-lanes:
-> +                maxItems: 1
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: CSI2 port
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              clock-lanes:
-> +                maxItems: 1
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +      port@3:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: CSI0B port
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              clock-lanes:
-> +                maxItems: 1
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 2
-> +
-> +      port@4:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: connection point for cam0
-> +
-> +      port@5:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: connection point for cam1
-> +
-> +      port@6:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: connection point for camsv0
-> +
-> +      port@7:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: connection point for camsv1
-> +
-> +      port@8:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: connection point for camsv2
-> +
-> +      port@9:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: connection point for camsv3
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +      - port@2
-> +      - port@3
-> +      - port@4
-> +      - port@5
-> +      - port@6
-> +      - port@7
-> +      - port@8
-> +      - port@9
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/phy/phy.h>
-> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
-> +
-> +    soc {
-> +          #address-cells = <2>;
-> +          #size-cells = <2>;
-> +
-> +          seninf: seninf@15040000 {
-> +                compatible = "mediatek,mt8365-seninf";
-> +                reg = <0 0x15040000 0 0x6000>;
-> +                interrupts = <GIC_SPI 210 IRQ_TYPE_LEVEL_LOW>;
-> +                clocks = <&camsys CLK_CAM_SENIF>,
-> +                         <&topckgen CLK_TOP_SENIF_SEL>;
-> +                clock-names = "camsys", "top_mux";
-> +
-> +                power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
-> +
-> +                phys = <&mipi_csi0 PHY_TYPE_DPHY>;
-> +                phy-names = "csi0";
-> +
-> +                ports {
-> +                      #address-cells = <1>;
-> +                      #size-cells = <0>;
-> +
-> +                      port@0 {
-> +                            reg = <0>;
-> +                            seninf_in1: endpoint {
-> +                              clock-lanes = <2>;
-> +                              data-lanes = <1 3 0 4>;
-> +                              remote-endpoint = <&isp1_out>;
+Lower-case hex constants.
 
-Indentation issue, you need two more spaces here.
+> +			interrupts = <GIC_SPI 187 IRQ_TYPE_LEVEL_LOW>;
+> +			clocks = <&camsys CLK_CAM>,
+> +				 <&camsys CLK_CAMTG>,
+> +				 <&camsys CLK_CAMSV1>;
+> +			clock-names = "cam", "camtg", "camsv";
+> +			iommus = <&iommu M4U_PORT_CAM_IMGO>;
+> +
 
-With these small issues fixed,
+Nitpicking, camsv doesn't have a blank line here. I'm fine either way,
+but please do the same for both nodes.
+
+> +			mediatek,larb = <&larb2>;
+> +			power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
+> +			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +				port@0 {
+> +					reg = <0>;
+> +					camsv2_endpoint: endpoint {
+> +						remote-endpoint =
+> +							<&seninf_camsv2_endpoint>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		seninf: seninf@15040000 {
+
+This should go before the two camsv instances to keep nodes sorted by
+address. The camsv1, camsv2 and seninf nodes need to be moved further
+down for the same reason.
+
+> +			compatible = "mediatek,mt8365-seninf";
+> +			reg = <0 0x15040000 0 0x6000>;
+> +			interrupts = <GIC_SPI 210 IRQ_TYPE_LEVEL_LOW>;
+> +			clocks = <&camsys CLK_CAM_SENIF>,
+> +				 <&topckgen CLK_TOP_SENIF_SEL>;
+> +			clock-names = "camsys", "top_mux";
+> +
+> +			power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
+> +
+> +			phys = <&mipi_csi0 PHY_TYPE_DPHY>, <&mipi_csi1>;
+> +			phy-names = "csi0", "csi1";
+> +
+> +			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +				};
+> +
+> +				port@2 {
+> +					reg = <2>;
+> +				};
+> +
+> +				port@3 {
+> +					reg = <3>;
+> +				};
+> +
+> +				port@4 {
+> +					reg = <4>;
+> +					seninf_camsv1_endpoint: endpoint {
+> +						remote-endpoint =
+> +							<&camsv1_endpoint>;
+> +					};
+> +				};
+> +
+> +				port@5 {
+> +					reg = <5>;
+> +					seninf_camsv2_endpoint: endpoint {
+> +						remote-endpoint =
+> +							<&camsv2_endpoint>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		mipi_csi0: mipi-csi0@11c10000 {
+> +			compatible = "mediatek,mt8365-csi-rx";
+> +			reg = <0 0x11C10000 0 0x2000>;
+
+Lower-case hex constants.
+
+> +			status = "disabled";
+> +			num-lanes = <4>;
+> +			#phy-cells = <1>;
+> +		};
+> +
+> +		mipi_csi1: mipi-csi1@11c12000 {
+> +			compatible = "mediatek,mt8365-csi-rx";
+> +			reg = <0 0x11C12000 0 0x2000>;
+
+Lower-case hex constants.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> +                            };
-> +                      };
+> +			phy-type = <PHY_TYPE_DPHY>;
+> +			status = "disabled";
+> +			num-lanes = <4>;
+> +			#phy-cells = <0>;
+> +		};
 > +
-> +                      port@1 {
-> +                          reg = <1>;
-> +                      };
-> +
-> +                      port@2 {
-> +                            reg = <2>;
-> +                      };
-> +
-> +                      port@3 {
-> +                            reg = <3>;
-> +                      };
-> +
-> +                      port@4 {
-> +                            reg = <4>;
-> +                            seninf_camsv1_endpoint: endpoint {
-> +                                remote-endpoint = <&camsv1_endpoint>;
-> +                            };
-> +                      };
-> +
-> +                      port@5 {
-> +                            reg = <5>;
-> +                      };
-> +
-> +                      port@6 {
-> +                            reg = <6>;
-> +                      };
-> +
-> +                      port@7 {
-> +                            reg = <7>;
-> +                      };
-> +
-> +                      port@8 {
-> +                            reg = <8>;
-> +                      };
-> +
-> +                      port@9 {
-> +                            reg = <9>;
-> +                      };
-> +
-> +                };
-> +          };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 41e0862cfa7d..4444e719cf8e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13611,6 +13611,13 @@ M:	Sean Wang <sean.wang@mediatek.com>
->  S:	Maintained
->  F:	drivers/char/hw_random/mtk-rng.c
->  
-> +MEDIATEK ISP3.0 DRIVER
-> +M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +M:	Julien Stephan <jstephan@baylibre.com>
-> +M:	Andy Hsieh <andy.hsieh@mediatek.com>
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
-> +
->  MEDIATEK SMI DRIVER
->  M:	Yong Wu <yong.wu@mediatek.com>
->  L:	linux-mediatek@lists.infradead.org (moderated for non-subscribers)
+>  		u3phy: t-phy@11cc0000 {
+>  			compatible = "mediatek,mt8365-tphy", "mediatek,generic-tphy-v2";
+>  			#address-cells = <1>;
 
 -- 
 Regards,
