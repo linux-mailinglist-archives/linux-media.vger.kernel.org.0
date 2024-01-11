@@ -1,198 +1,305 @@
-Return-Path: <linux-media+bounces-3521-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FD582A945
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 09:44:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF5782AA9A
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 10:15:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0371286128
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 08:44:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C8271F2482D
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 09:15:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3B76F9EF;
-	Thu, 11 Jan 2024 08:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD8D2107A9;
+	Thu, 11 Jan 2024 09:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="tqsac4JX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2078.outbound.protection.partner.outlook.cn [139.219.17.78])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EA112E4C;
-	Thu, 11 Jan 2024 08:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fIxeOipYEthRXY4VNYER2SdrT8spMDhUbVfT+mwFE2DsJdHCKMv84f5+tU3GBppEY5+n4QoFyzkciyIHT8DNuicELelNdg11hS7bOC/GOHi/S7tBmXXauOD23rV1BS8LPaaK3Devjri5xu15+K2WwqzkvuoOL2geZ0pAF+sZ2Qz++hM7Au2MOEKxa45qSUh0E++EfRtCqkM8DpkB9VNgtn4EhiIKMpvykF1m4ZIIWdxxQpkjVRNr6gx4CYf3/MGarfn7gDnEPXB/MoPRcj7UVNTho518YXX+Lj1JidckuwTEGL70MQ4Gy8m2RlKpAy03HaQ6aJtbJ30sqaDnkaQIPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tpOFUQrZW8GSQTbW3FIMAhf3C7AGEcEZyiE+jejurPc=;
- b=ChtAX8/hG7mft9bC8R0UOLo8tZd3JQhymB9F4Srx5a2MTUcBziMhXylIc1tbwznM4mVSxmm/7lk0tnCQqc3u+Tol+Wu/pU9OeJI4/jNqEmIzHtbcXllCWZhOPY79JaWADApKBrqNZZTHf+KNKVLjNjjS6UEZR+XkwdKrFiv9sepOjEeSAJq6OH+rFOhKqONm/M6JAVMoo4BJlf+IM8LjwnjtB+HRnXfHyMbschPSHSvA3evizO4b0jAYK7s3SJyc8ldEuCOHVqscYcbUZswnIOIFIiU5uYFANa231je7NKwkRPuIo7EndzNl6PW85woHhacuadBBmkYpxECGWXleKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:20::21) by SH0PR01MB0747.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:21::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.33; Thu, 11 Jan
- 2024 08:41:38 +0000
-Received: from SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn
- ([fe80::e255:98f3:ba27:8c7d]) by
- SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn ([fe80::e255:98f3:ba27:8c7d%3])
- with mapi id 15.20.7135.033; Thu, 11 Jan 2024 08:41:38 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Ming Qian <ming.qian@nxp.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mingjia Zhang <mingjia.zhang@mediatek.com>
-Cc: Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 13/13] admin-guide: media: Update documents for StarFive Camera Subsystem
-Date: Thu, 11 Jan 2024 00:41:20 -0800
-Message-Id: <20240111084120.16685-14-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240111084120.16685-1-changhuang.liang@starfivetech.com>
-References: <20240111084120.16685-1-changhuang.liang@starfivetech.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: NT0PR01CA0009.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c510::19) To SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:20::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2284BFC1E;
+	Thu, 11 Jan 2024 09:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1704964522;
+	bh=OpfZs9JhKNbgs7FCX+3nGcpBM/n38qFQBpJ9LpAAXdg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tqsac4JXyxWGUdnVLMzWQzMIE2nMWtK/nfQJVTy2l6Gav+wSvfq8lNiBYM+OJQNHR
+	 j1lva7yQhCAJCRhkFF8SkE/DjDu6YU7ER68wV3el52qB99HE5YFXEiOSW9VdWWBNSQ
+	 EnKMa383n6b7d79ZO03X43/8USqtPJ0sDNt8fuRJHXFi/e48/Idhp/x16giDqTxa5+
+	 OFxzTWjJOzUuT2OGxkHCJZ1mmvhzZjLT+l+NaXquCvWTcAaVZl8KM32wg5sOozfOju
+	 FsW7VxMjs4zrNT4qp7gugYDp2YPv7tWszQKI1MuOf/8iIj73xc6cp2Tm40dVkO3ZUx
+	 +sjaytLUN3v/w==
+Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 537023781F80;
+	Thu, 11 Jan 2024 09:15:21 +0000 (UTC)
+Message-ID: <95daea30-14e6-4c0b-8a0c-60641efc9d92@collabora.com>
+Date: Thu, 11 Jan 2024 10:15:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SH0PR01MB0667:EE_|SH0PR01MB0747:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4adeefe5-fffa-4d7c-884f-08dc1281207a
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	s9vPfPawBswxprqsK+nmVRHIKN9qLyoAoEibmBgh4kcjdqesmdPpytKVoxSqrdKIpuNCb0KjQ8wwTp/cKrQi55is87JZ3T7+Y7AHRyQg2mkqUKsJPuBHH5Fo7f7uQ1l+STAhYiqfbwR4ffjLmhr+UWYoJDVhC23mPm3jUvBj57gP/ZyWuw1pildkvs8Ns2qFV/qSbU+IdlHCxe8kxGb9bv2LiYmtUqQQRH9rp8xvBF0mxc+VNMSNgwDc69f8dsunsdhiuBHFVAHO6KMxEOr/PvQAG1mehU/rQvKPTrYk7GY7wp0UAp6O6FS05BqZnlnb1C6JMsAVVn5jfkQgd1LrcIwa7D+zjBvxwDFujlbtWaADrL9O3cRIYU8tz2sjYMJaVe33my4EY4AD5icDhd06B3Sc5MWNXQk/HOEs1lvZfUDldOct+1QzpzQVOI3/5I1cAE1umWYt6Ng+3HguHYnf5sr2sAYbkAXxTa0FlQWsxZkUvo/JmgGpczl9w8dwQ6Vxhu0C/Eq8xd3p/hfwtAXY7Z9upj0Qix13GJZr6ckwOj7IsERUuycKyWvTsCYlBkBJjiEAPq3zYoXBAz/4Z9Z52Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(136003)(39830400003)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(6666004)(52116002)(41300700001)(2616005)(508600001)(38100700002)(40160700002)(1076003)(26005)(86362001)(36756003)(921011)(38350700005)(83380400001)(110136005)(54906003)(66556008)(66946007)(66476007)(8676002)(8936002)(41320700001)(4326008)(44832011)(2906002)(40180700001)(5660300002)(7416002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?UfbBV4WjX1MUy8Gss0IqLtkjxJbwiBDkrLzJmanWA+UmwmnQp9f6VcO5e4SQ?=
- =?us-ascii?Q?mcM52jelNzUVX1aEA/h+g2qtHLoP1qof0jaf/l4VLYqrlsK3BO9jpJzbHGN1?=
- =?us-ascii?Q?2n3LjO2e7KOZqVmd+1RwmU2jcEtBKUNTKgN79y2LvgqCuqw4DdHeJeym86+N?=
- =?us-ascii?Q?uORR0PZmmW9CkR7UgboovVu7YjW+trzDrL5ueSi4J6zga1UgPGfTqrp4J7nS?=
- =?us-ascii?Q?9SsnnSKZlduXo8q3Nkw5X2Q6aCfk1lZFKODFn98xtUOMzgXXRuZejgwlnyA5?=
- =?us-ascii?Q?QV9iGNe0vgwqSMwtXH9P40YURgOX4y/PROlul9JlD5VRb6/A4tcpKGqlj6Oc?=
- =?us-ascii?Q?UYIUQ85k53Px/SmVWGZS7aAN+N4VxV7DZsY9AAvpTBZxEaWk4wADSZW5mYjF?=
- =?us-ascii?Q?HQ0uYSeV/azRUsqtwl7rG4a3+0Jyid7OdrXbeavHALxTHAshvaTGkPqxMzjD?=
- =?us-ascii?Q?megN8gX5fkIrnVD9sGWgUXOb0ZrleWFFYJlFENIL83i5oM2jlH1tzhRofy9f?=
- =?us-ascii?Q?qZP6ZWGwAdIpD/Rpof0NCD+UMkjh0+RwmvWfcqqOXGRtQaohOLEjnlxPnFHU?=
- =?us-ascii?Q?2DU39Iy6EgQHxd9EwnOhFzo2A56YuKsLu7kVj4YVDpF0K+d0AxldxZhAY00v?=
- =?us-ascii?Q?wlQHrNVJSO0CyHGLN3VcpFpdq21ol7OkXhFk6JrxvT65e6mD3q8BZVEKQqOj?=
- =?us-ascii?Q?f/tX1A05l8hib/79mozdgc8Y09y6lNUrAhiH81HXrfywWBvJwQLkSJwDnSz7?=
- =?us-ascii?Q?wDP16epO4NHXNEF/uLkKyl1zi/9azg5FymYV3RXau+FSotDk1HO/J4azaRn4?=
- =?us-ascii?Q?VdA/KkVIFc0j7WcXNwdxGdc/xNQCWGxX3fCyOlp7OC9j+a5QoMwMdE/AtpHj?=
- =?us-ascii?Q?iQRWOqgmGvOEn3aMggIVZ/tHuuluO+FvzqkwR9kMsVq6uot0zaQSApOC2MyH?=
- =?us-ascii?Q?bScmZmgNv2Rt/JcoGejuAemXyKdMBtauqz/ta2w7bv3e0jdFFSEVkqTj9JE1?=
- =?us-ascii?Q?rZACQwPzz2N39xx77jhthZj+IyVZCfmYAKxcrUMqj+8kgBt9uuxE/Jr2q2IR?=
- =?us-ascii?Q?9k8Vz0H/cpcKUmaMoLyEbGMp87nwqCBOBRG8nq25vhmRCGQoU6n9NEd2hFwv?=
- =?us-ascii?Q?KJw/+zd+tsKb///ynjjaU0wjYPeoybqbVxBAb0G/zrOUikKLTCfxPluEUTwR?=
- =?us-ascii?Q?vj1iDhrsnmSn7hrk0zcL0nPNaBn9pdvw0JXBP+b26S6DPPCBNbdNrWCdi8ux?=
- =?us-ascii?Q?hFIQRgxCTCHBhN50IMx3WPZWOb3O4xV03IcsyXsgbBbaXyZYIyHd2edjoK98?=
- =?us-ascii?Q?ecakCkkvXE8b64FbTGwa+X2EE+s0EL+q7tdS6xJofhssN2FLmac5jPXR1mP+?=
- =?us-ascii?Q?Rr0qlhUCl+suBeNj7cVvVjMXh/Q13p4FOI9t/ZM6PuQ6VjHfCIPhBam3YEl9?=
- =?us-ascii?Q?6RJA1JgR+8I/32szJZsKkSUc8JZSs9F95rzPhMB+hTKl8vg5y3JItjn+4UuX?=
- =?us-ascii?Q?hgPdrIeYZiJC/y7XXufH89hMjr+BTM2kWk+1lY2ZD/8e5cMPDTdIRMD3qwDW?=
- =?us-ascii?Q?gZUw37l/qhkj3HUSL+qGmX1qIkyvCoWT2FrW9GNOMOovQKC8PsAfC4AaIq2P?=
- =?us-ascii?Q?37ZnH5/ZuRDm90hvwqDcxCM=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4adeefe5-fffa-4d7c-884f-08dc1281207a
-X-MS-Exchange-CrossTenant-AuthSource: SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2024 08:41:38.6081
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fDqW2SKFUzz/7OTyOhbeYbu+cyA726nbYdZeRVvIBJ4oiMiLiOsSW1gFM6UCRvKJSh/o1CeIblTJEck3ZR9Svh2aer7r9DsbsoGdaJMawQ6DMg2o3sImdZD19li3tAyx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SH0PR01MB0747
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: mediatek: vcodec: setting request complete before
+ buffer done
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240111071713.16331-1-yunfei.dong@mediatek.com>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20240111071713.16331-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Add ISP output parameters and 3A statistisc collection data video
-device for documents.
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
----
- .../admin-guide/media/starfive_camss.rst      | 11 +++++++---
- .../media/starfive_camss_graph.dot            | 22 +++++++++++--------
- 2 files changed, 21 insertions(+), 12 deletions(-)
+Le 11/01/2024 à 08:17, Yunfei Dong a écrit :
+> The request status of output queue will be set to MEDIA_REQUEST_STATE_COMPLETE
+> when user space dequeue output buffer. Then calling v4l2_ctrl_request_complete
+> will get below warning, need to call v4l2_ctrl_request_complete before
+> v4l2_m2m_buf_done.
+> Workqueue: core-decoder vdec_msg_queue_core_work [mtk_vcodec_dec]
+> pstate: 80c00089 (Nzcv daIf +PAN +UAO -TCO BTYPE=--)
+> pc : media_request_object_bind+0xa8/0x124
+> lr : media_request_object_bind+0x50/0x124
+> sp : ffffffc011393be0
+> x29: ffffffc011393be0 x28: 0000000000000000
+> x27: ffffff890c280248 x26: ffffffe21a71ab88
+> x25: 0000000000000000 x24: ffffff890c280280
+> x23: ffffff890c280280 x22: 00000000fffffff0
+> x21: 0000000000000000 x20: ffffff890260d280
+> x19: ffffff890260d2e8 x18: 0000000000001000
+> x17: 0000000000000400 x16: ffffffe21a4584a0
+> x15: 000000000053361d x14: 0000000000000018
+> x13: 0000000000000004 x12: ffffffa82427d000
+> x11: ffffffe21ac3fce0 x10: 0000000000000001
+> x9 : 0000000000000000 x8 : 0000000000000003
+> x7 : 0000000000000000 x6 : 000000000000003f
+> x5 : 0000000000000040 x4 : ffffff89052e7b98
+> x3 : 0000000000000000 x2 : 0000000000000001
+> x1 : 0000000000000000 x0 : 0000000000000000
+> Call trace:
+>   media_request_object_bind+0xa8/0x124
+>   v4l2_ctrl_request_bind+0xc4/0x168
+>   v4l2_ctrl_request_complete+0x198/0x1f4
+>   mtk_vdec_stateless_cap_to_disp+0x58/0x8c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
+>   vdec_vp9_slice_core_decode+0x1c0/0x268 [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
+>   vdec_msg_queue_core_work+0x60/0x11c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
+>   process_one_work+0x140/0x480
+>   worker_thread+0x12c/0x2f8
+>   kthread+0x13c/0x1d8
+>   ret_from_fork+0x10/0x30
+>
+> 'Fixes: 7b182b8d9c852 ("media: mediatek: vcodec: Refactor get and put capture buffer flow")'
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documentation/admin-guide/media/starfive_camss.rst
-index ca42e9447c47..020f1969e67f 100644
---- a/Documentation/admin-guide/media/starfive_camss.rst
-+++ b/Documentation/admin-guide/media/starfive_camss.rst
-@@ -58,15 +58,20 @@ The media controller pipeline graph is as follows:
-     :alt:   starfive_camss_graph.dot
-     :align: center
- 
--The driver has 2 video devices:
-+The driver has 4 video devices:
- 
-+- output_params: The meta output device, transmitting the parameters to ISP
-+  module.
- - capture_raw: The capture device, capturing image data directly from a sensor.
- - capture_yuv: The capture device, capturing YUV frame data processed by the
--  ISP module
-+  ISP module.
-+- capture_scd: The meta capture device, capturing 3A statistics collection data
-+  processed by the ISP module.
- 
- The driver has 3 subdevices:
- 
--- stf_isp: is responsible for all the isp operations, outputs YUV frames.
-+- stf_isp: is responsible for all the isp operations, outputs YUV frames
-+  and 3A statistics collection data.
- - cdns_csi2rx: a CSI-2 bridge supporting up to 4 CSI lanes in input, and 4
-   different pixel streams in output.
- - imx219: an image sensor, image data is sent through MIPI CSI-2.
-diff --git a/Documentation/admin-guide/media/starfive_camss_graph.dot b/Documentation/admin-guide/media/starfive_camss_graph.dot
-index 8eff1f161ac7..7961255d3ad6 100644
---- a/Documentation/admin-guide/media/starfive_camss_graph.dot
-+++ b/Documentation/admin-guide/media/starfive_camss_graph.dot
-@@ -1,12 +1,16 @@
- digraph board {
- 	rankdir=TB
--	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
--	n00000001:port1 -> n00000008 [style=dashed]
--	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
--	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
--	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
--	n0000000e:port1 -> n00000001:port0 [style=dashed]
--	n0000000e:port1 -> n00000004 [style=dashed]
--	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
--	n00000018:port0 -> n0000000e:port0 [style=bold]
-+	n00000001 [label="{{<port0> 0 | <port1> 1} | stf_isp\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port2 -> n0000000e
-+	n00000001:port3 -> n00000012 [style=dashed]
-+	n00000006 [label="output_params\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n00000006 -> n00000001:port1 [style=dashed]
-+	n0000000a [label="capture_raw\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n0000000e [label="capture_yuv\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000012 [label="capture_scd\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n0000001c [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n/dev/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000001c:port1 -> n00000001:port0 [style=dashed]
-+	n0000001c:port1 -> n0000000a [style=dashed]
-+	n00000026 [label="{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000026:port0 -> n0000001c:port0 [style=bold]
- }
--- 
-2.25.1
+Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
+> ---
+>   .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  3 ++-
+>   .../vcodec/decoder/mtk_vcodec_dec_stateless.c        | 12 +++++++-----
+>   .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c        |  7 +++++--
+>   .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c     |  3 ++-
+>   .../vcodec/decoder/vdec/vdec_hevc_req_multi_if.c     |  3 ++-
+>   .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        |  6 ++++--
+>   .../mediatek/vcodec/decoder/vdec_msg_queue.h         |  2 ++
+>   7 files changed, 24 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> index 849b89dd205c..3f5b625330bc 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> @@ -111,7 +111,8 @@ struct mtk_vcodec_dec_pdata {
+>   	int (*flush_decoder)(struct mtk_vcodec_dec_ctx *ctx);
+>   	struct vdec_fb *(*get_cap_buffer)(struct mtk_vcodec_dec_ctx *ctx);
+>   	void (*cap_to_disp)(struct mtk_vcodec_dec_ctx *ctx, int error,
+> -			    struct media_request *src_buf_req);
+> +			    struct media_request *src_buf_req,
+> +			    struct vb2_v4l2_buffer *vb2_v4l2_src);
+>   
+>   	const struct vb2_ops *vdec_vb2_ops;
+>   
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+> index d54b3833790d..2efa34b6750b 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+> @@ -245,7 +245,8 @@ static const struct v4l2_frmsize_stepwise stepwise_fhd = {
+>   };
+>   
+>   static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int error,
+> -					   struct media_request *src_buf_req)
+> +					   struct media_request *src_buf_req,
+> +					   struct vb2_v4l2_buffer *vb2_v4l2_src)
+>   {
+>   	struct vb2_v4l2_buffer *vb2_dst;
+>   	enum vb2_buffer_state state;
+> @@ -266,6 +267,9 @@ static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int e
+>   
+>   	if (src_buf_req)
+>   		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
+> +
+> +	if (vb2_v4l2_src)
+> +		v4l2_m2m_buf_done(vb2_v4l2_src, state);
+>   }
+>   
+>   static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx *ctx)
+> @@ -374,14 +378,12 @@ static void mtk_vdec_worker(struct work_struct *work)
+>   	state = ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE;
+>   	if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
+>   	    ctx->current_codec == V4L2_PIX_FMT_VP8_FRAME) {
+> -		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
+>   		if (src_buf_req)
+>   			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
+> +		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
+>   	} else {
+> -		if (ret != -EAGAIN) {
+> +		if (ret != -EAGAIN)
+>   			v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+> -			v4l2_m2m_buf_done(vb2_v4l2_src, state);
+> -		}
+>   		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+>   	}
+>   }
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+> index 2b6a5adbc419..f277b907c345 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+> @@ -1064,6 +1064,8 @@ static int vdec_av1_slice_setup_lat_from_src_buf(struct vdec_av1_slice_instance
+>   		return -EINVAL;
+>   
+>   	lat_buf->src_buf_req = src->vb2_buf.req_obj.req;
+> +	lat_buf->vb2_v4l2_src = src;
+> +
+>   	dst = &lat_buf->ts_info;
+>   	v4l2_m2m_buf_copy_metadata(src, dst, true);
+>   	vsi->frame.cur_ts = dst->vb2_buf.timestamp;
+> @@ -2187,7 +2189,7 @@ static int vdec_av1_slice_core_decode(struct vdec_lat_buf *lat_buf)
+>   		       &instance->core_vsi->trans.dma_addr_end);
+>   	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, instance->core_vsi->trans.dma_addr_end);
+>   
+> -	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
+> +	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
+>   
+>   	return 0;
+>   
+> @@ -2196,7 +2198,8 @@ static int vdec_av1_slice_core_decode(struct vdec_lat_buf *lat_buf)
+>   	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
+>   
+>   	if (fb)
+> -		ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
+> +		ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req,
+> +						  lat_buf->vb2_v4l2_src);
+>   
+>   	return ret;
+>   }
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+> index 0e741e0dc8ba..7033999018ca 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+> @@ -533,7 +533,7 @@ static int vdec_h264_slice_core_decode(struct vdec_lat_buf *lat_buf)
+>   
+>   vdec_dec_end:
+>   	vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->trans_end);
+> -	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
+> +	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
+>   	mtk_vdec_debug(ctx, "core decode done err=%d", err);
+>   	ctx->decoded_frame_cnt++;
+>   	return 0;
+> @@ -606,6 +606,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+>   
+>   	inst->vsi->dec.nal_info = buf[nal_start_idx];
+>   	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
+> +	lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
+>   	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
+>   
+>   	err = vdec_h264_slice_fill_decode_parameters(inst, share_info);
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
+> index 06ed47df693b..67fe3c4bfac3 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
+> @@ -742,6 +742,7 @@ static int vdec_hevc_slice_setup_lat_buffer(struct vdec_hevc_slice_inst *inst,
+>   
+>   	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
+>   	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
+> +	lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
+>   	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
+>   
+>   	*res_chg = inst->resolution_changed;
+> @@ -961,7 +962,7 @@ static int vdec_hevc_slice_core_decode(struct vdec_lat_buf *lat_buf)
+>   
+>   vdec_dec_end:
+>   	vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->trans.dma_addr_end);
+> -	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
+> +	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
+>   	mtk_vdec_debug(ctx, "core decode done err=%d", err);
+>   	ctx->decoded_frame_cnt++;
+>   	return 0;
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> index 69d37b93bd35..a7734d032269 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> @@ -723,6 +723,7 @@ static int vdec_vp9_slice_setup_lat_from_src_buf(struct vdec_vp9_slice_instance
+>   		return -EINVAL;
+>   
+>   	lat_buf->src_buf_req = src->vb2_buf.req_obj.req;
+> +	lat_buf->vb2_v4l2_src = src;
+>   
+>   	dst = &lat_buf->ts_info;
+>   	v4l2_m2m_buf_copy_metadata(src, dst, true);
+> @@ -2188,7 +2189,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
+>   	mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
+>   		       (unsigned long)pfc->vsi.trans.dma_addr_end);
+>   	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
+> -	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
+> +	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
+>   
+>   	return 0;
+>   
+> @@ -2198,7 +2199,8 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
+>   		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
+>   
+>   		if (fb)
+> -			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
+> +			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req,
+> +							  lat_buf->vb2_v4l2_src);
+>   	}
+>   	return ret;
+>   }
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
+> index 1d9beb9e4a14..b0f2443d186f 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
+> @@ -55,6 +55,7 @@ struct vdec_msg_queue_ctx {
+>    * @rd_mv_addr:	mv addr for av1 lat hardware output, core hardware input
+>    * @tile_addr:	tile buffer for av1 core input
+>    * @ts_info: need to set timestamp from output to capture
+> + * @vb2_v4l2_src: the vb2 buffer of output queue
+>    * @src_buf_req: output buffer media request object
+>    *
+>    * @private_data: shared information used to lat and core hardware
+> @@ -71,6 +72,7 @@ struct vdec_lat_buf {
+>   	struct mtk_vcodec_mem rd_mv_addr;
+>   	struct mtk_vcodec_mem tile_addr;
+>   	struct vb2_v4l2_buffer ts_info;
+> +	struct vb2_v4l2_buffer *vb2_v4l2_src;
+>   	struct media_request *src_buf_req;
+>   
+>   	void *private_data;
 
