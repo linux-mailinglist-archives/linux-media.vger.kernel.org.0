@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-3536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEA482ACBE
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:02:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB8782ACC9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 12:03:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4979B1F2322C
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 11:02:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D636282F9A
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 11:03:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE8614F78;
-	Thu, 11 Jan 2024 11:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE98314F81;
+	Thu, 11 Jan 2024 11:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="hTBaQGFH"
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="AqDB763c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.7])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF2F15480;
-	Thu, 11 Jan 2024 11:01:53 +0000 (UTC)
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.6])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6635315482;
+	Thu, 11 Jan 2024 11:03:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=From:Subject:Date:Message-Id; bh=N9zQ5wa+iStKjHSOSd
-	HguEeq8Pmm0nn8gVdbjE4lePo=; b=hTBaQGFHYl9mYXekNYgy0u3gK6Oa1FRbyZ
-	d14X9ELJzQZ7ShN1WCjxEVnEmxXSTSasODb/4PZYQHKKOGuRlCVL7VKBYM+Kxkqr
-	w0FxoLu9ns20xS0jHXPMZVicwoPya8y75otrxMaY83MTGuPVzcfBz0/fTDHUruX3
-	b5wgG3JRg=
+	s=s110527; h=From:Subject:Date:Message-Id; bh=E/FuEQ3OYO/IfCE99M
+	BZVD6H72f3xwyvo/YuntoXCFk=; b=AqDB763ceUH1CelSPHMG3MIF5kMccr8EfX
+	5kTnIFqysLtvMdvj+MwLQARHM8346z/rYOcFTOYjF3Jcnez7YC1hX8wFpu51T7pk
+	vzak6idgzbmy36eW5GPYG3H1JZIprQ6xalk/VMkCRuO8jZtDiiiEqtRxqDHdd2eL
+	WQOe1Sbso=
 Received: from localhost.localdomain (unknown [182.148.14.173])
-	by gzga-smtp-mta-g1-1 (Coremail) with SMTP id _____wDnD9uNyp9lMK44AA--.34025S2;
-	Thu, 11 Jan 2024 19:01:33 +0800 (CST)
+	by gzga-smtp-mta-g1-4 (Coremail) with SMTP id _____wD3P770yp9lkaE4AA--.31508S2;
+	Thu, 11 Jan 2024 19:03:16 +0800 (CST)
 From: XueBing Chen <chenxb_99091@126.com>
 To: mchehab@kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	XueBing Chen <chenxb_99091@126.com>
-Subject: [PATCH] [media]  Clean up errors in cx24110.h
-Date: Thu, 11 Jan 2024 11:01:32 +0000
-Message-Id: <20240111110132.14745-1-chenxb_99091@126.com>
+Subject: [PATCH] media: stv6110x: Clean up errors in stv6110x.h
+Date: Thu, 11 Jan 2024 11:03:15 +0000
+Message-Id: <20240111110315.14833-1-chenxb_99091@126.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:_____wDnD9uNyp9lMK44AA--.34025S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7JFWrGw4fZrWrGF4kWr1rZwb_yoW8Jry8pF
-	4DAw1DtFWUX3W5XF4DJ348CFZxKwn3GF98Ka93Wa13ZF1S9rW8XFn8tw42yr13G3yfGa12
-	q3Za9ryxCFs2yaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRo89_UUUUU=
-X-CM-SenderInfo: hfkh05lebzmiizr6ij2wof0z/1tbiOhBixWVEuYGDKwAAs8
+X-CM-TRANSID:_____wD3P770yp9lkaE4AA--.31508S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tFWrXFW7ZF47ur43XF17Awb_yoW8GF1Dpr
+	4akry09rZ8Ja47A3WfAa4IqF45KFn5uF18Kan5G3WxArn5JasxK34qkFZ8Zwn8GFZrJasa
+	qF1avF1xAF1SyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRYYLQUUUUU=
+X-CM-SenderInfo: hfkh05lebzmiizr6ij2wof0z/1tbiOhBixWVEuYGDMwABsl
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,33 +52,35 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
 Fix the following errors reported by checkpatch:
 
-ERROR: "foo* bar" should be "foo *bar"
+ERROR: space prohibited before that ',' (ctx:WxW)
 
 Signed-off-by: XueBing Chen <chenxb_99091@126.com>
 ---
- drivers/media/dvb-frontends/cx24110.h | 8 ++++----
+ drivers/media/dvb-frontends/stv6110x_priv.h | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/cx24110.h b/drivers/media/dvb-frontends/cx24110.h
-index 834b011d3462..839551841893 100644
---- a/drivers/media/dvb-frontends/cx24110.h
-+++ b/drivers/media/dvb-frontends/cx24110.h
-@@ -34,11 +34,11 @@ static inline int cx24110_pll_write(struct dvb_frontend *fe, u32 val)
- }
- 
- #if IS_REACHABLE(CONFIG_DVB_CX24110)
--extern struct dvb_frontend* cx24110_attach(const struct cx24110_config* config,
--					   struct i2c_adapter* i2c);
-+extern struct dvb_frontend *cx24110_attach(const struct cx24110_config *config,
-+					   struct i2c_adapter *i2c);
- #else
--static inline struct dvb_frontend* cx24110_attach(const struct cx24110_config* config,
--						  struct i2c_adapter* i2c)
-+static inline struct dvb_frontend *cx24110_attach(const struct cx24110_config *config,
-+						  struct i2c_adapter *i2c)
- {
- 	printk(KERN_WARNING "%s: driver disabled by Kconfig\n", __func__);
- 	return NULL;
+diff --git a/drivers/media/dvb-frontends/stv6110x_priv.h b/drivers/media/dvb-frontends/stv6110x_priv.h
+index b27769558f78..81410595820a 100644
+--- a/drivers/media/dvb-frontends/stv6110x_priv.h
++++ b/drivers/media/dvb-frontends/stv6110x_priv.h
+@@ -20,13 +20,13 @@
+ #define dprintk(__y, __z, format, arg...) do {						\
+ 	if (__z) {									\
+ 		if	((verbose > FE_ERROR) && (verbose > __y))			\
+-			printk(KERN_ERR "%s: " format "\n", __func__ , ##arg);		\
++			printk(KERN_ERR "%s: " format "\n", __func__, ##arg);		\
+ 		else if	((verbose > FE_NOTICE) && (verbose > __y))			\
+-			printk(KERN_NOTICE "%s: " format "\n", __func__ , ##arg);	\
++			printk(KERN_NOTICE "%s: " format "\n", __func__, ##arg);	\
+ 		else if ((verbose > FE_INFO) && (verbose > __y))			\
+-			printk(KERN_INFO "%s: " format "\n", __func__ , ##arg);		\
++			printk(KERN_INFO "%s: " format "\n", __func__, ##arg);		\
+ 		else if ((verbose > FE_DEBUG) && (verbose > __y))			\
+-			printk(KERN_DEBUG "%s: " format "\n", __func__ , ##arg);	\
++			printk(KERN_DEBUG "%s: " format "\n", __func__, ##arg);	\
+ 	} else {									\
+ 		if (verbose > __y)							\
+ 			printk(format, ##arg);						\
 -- 
 2.17.1
 
