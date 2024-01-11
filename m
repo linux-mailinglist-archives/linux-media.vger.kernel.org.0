@@ -1,85 +1,91 @@
-Return-Path: <linux-media+bounces-3493-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB4082A6FB
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 05:37:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9F482A7DC
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 07:49:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8CEEB2696F
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 04:37:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52060B215D7
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 06:49:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C18B21C31;
-	Thu, 11 Jan 2024 04:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78A7B53AF;
+	Thu, 11 Jan 2024 06:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WcIRLklH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5unuc2p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F38184D;
-	Thu, 11 Jan 2024 04:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=2hyWdpNDdJxMYqGPRg1E7P4g07ZmgOwvZM9Ag3R0b80=; b=WcIRLklHB9+9+pXBkvZiQ8Yang
-	+5OR/mB216wiwE3N5K8rmVcZuRmw3zu/HAwL1xSzGskhct9XRv7bEji3me6qsrq5oy3IImiPFOq7F
-	Vov403V727ijIhgHScrxA343MyrYKJ5yLhfeSPcwn4h8SEpeBRg0jgS0soD/2qYqu181VsuXqT1iT
-	Ae9Two99SWI+8+UGFToQT1IuqWKk99aDzI5XvSCA2VQWqpl0+YmrWJZKOL9F/sXV9AovPOpW2GN19
-	PK9GxpwUoVp8tZkvqGT+3bqVgP8Ki1EwLyxOD/Lp5l2CvgWvdHmWy/euALATvHTbxTztCnjpAy9+E
-	gvKeB+yw==;
-Received: from [50.53.46.231] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNmnz-00Fp0S-3A;
-	Thu, 11 Jan 2024 04:36:36 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH] media: verisilicon: fix hantro.h kernel-doc warning
-Date: Wed, 10 Jan 2024 20:36:35 -0800
-Message-ID: <20240111043635.17065-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38CE46B1;
+	Thu, 11 Jan 2024 06:49:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A7C7C43390;
+	Thu, 11 Jan 2024 06:49:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704955749;
+	bh=r1x+We+0nH/taygFxjUmf5m8A7mmAiVByiI7VPe83PA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=U5unuc2p/3gwIMkXAMpmy5JjoSpUscszCoBNgIdTdVhTazeXw/WldvE3kTtNo5Nku
+	 TZ289TAgbABfTp7yE84kSh3ZGGYW2CNLLbzFeVI+pXaaSaDxCydcZCVydGs2aTd1+R
+	 oBBZRz0wuWTxEzScYTTg4bqVC9OvrRWzyb13EsZHYB8fRI5BofGnYHj4IuSiUnlEsU
+	 a2VwpIPLF0a7CFlB4g3W1jDxalW5uXkgb7i7wTJt76D3zy8bcP6VFDR6htZJSRRVeB
+	 x6zR20wfo4lqcI7pl3egI+HARXxi6s29lqYA3GPj2N6NjGaLXMZqCyB/n+j/EsRA9k
+	 FnR3LppzWzk4Q==
+Date: Thu, 11 Jan 2024 07:49:05 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: em28xx: return error on media_device_register()
+ failure
+Message-ID: <20240111074905.67d61b00@coco.lan>
+In-Reply-To: <20240110173958.4544-1-n.zhandarovich@fintech.ru>
+References: <20240110173958.4544-1-n.zhandarovich@fintech.ru>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Remove an extraneous kernel-doc description in hantro.h to
-eliminate a kernel-doc warning:
+Em Wed, 10 Jan 2024 09:39:58 -0800
+Nikita Zhandarovich <n.zhandarovich@fintech.ru> escreveu:
 
-hantro.h:277: warning: Excess struct member 'jpeg_enc' description in 'hantro_ctx'
+> In an unlikely case of failure in media_device_register(), release
+> resources and return the erroneous value. Otherwise, possible issues
+> with registering the device will continue to be ignored.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+> 
+> Fixes: 37ecc7b1278f ("[media] em28xx: add media controller support")
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+>  drivers/media/usb/em28xx/em28xx-cards.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
+> index 4d037c92af7c..dae731dfc569 100644
+> --- a/drivers/media/usb/em28xx/em28xx-cards.c
+> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
+> @@ -4095,6 +4095,8 @@ static int em28xx_usb_probe(struct usb_interface *intf,
+>  	 */
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  	retval = media_device_register(dev->media_dev);
+> +	if (retval)
+> +		goto err_free;
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-media@vger.kernel.org
-Cc: linux-rockchip@lists.infradead.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
----
- drivers/media/platform/verisilicon/hantro.h |    1 -
- 1 file changed, 1 deletion(-)
+Not freeing resources here is intentional. See, the media controller 
+API is optional on this driver. It will just provide a way to identify
+the device's topology, but the device is completely usable without
+it.
 
-diff -- a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -237,7 +237,6 @@ struct hantro_dev {
-  * @codec_ops:		Set of operations related to codec mode.
-  * @postproc:		Post-processing context.
-  * @h264_dec:		H.264-decoding context.
-- * @jpeg_enc:		JPEG-encoding context.
-  * @mpeg2_dec:		MPEG-2-decoding context.
-  * @vp8_dec:		VP8-decoding context.
-  * @hevc_dec:		HEVC-decoding context.
+Perhaps we need, instead, a patch documenting it, and preventing
+static analysis tools to point it as an issue.
+
+Thanks,
+Mauro
 
