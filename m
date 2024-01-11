@@ -1,323 +1,385 @@
-Return-Path: <linux-media+bounces-3513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3514-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150C082A82E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 08:18:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0073B82A8B6
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 09:04:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B03F2287E88
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 07:17:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E63951C22315
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 08:04:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF315DDBC;
-	Thu, 11 Jan 2024 07:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69BB8D523;
+	Thu, 11 Jan 2024 08:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="WmYYR0Kq"
+	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="e6bo09kf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79177D292;
-	Thu, 11 Jan 2024 07:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 737a9224b05111ee9e680517dc993faa-20240111
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=QAGCSwDqUq3ugQLyXDVrlUyjHPOkl/PCtmOmNpGqBUg=;
-	b=WmYYR0Kqqskm8lQTnGVwhOq4TEDaISs6+VzOWmzJS2mIeOhOcDlAmlV9lkoHrHffuFYzNW7DJNuOHsiO172E90PZj7y7iHcbWdeFVwE2vMLKhPqNsO6Z/RKbbfvVojDq08F1/NOOinGNPiTe4++sTag7Zb3yEgM6iRmyFEHWkao=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:04dd53ed-09f4-47cc-b550-a8328920d832,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:5d391d7,CLOUDID:8515bb82-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
-	DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 737a9224b05111ee9e680517dc993faa-20240111
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
-	(envelope-from <yunfei.dong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 600755960; Thu, 11 Jan 2024 15:17:17 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 11 Jan 2024 15:17:15 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 11 Jan 2024 15:17:14 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
-	<nfraprado@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>
-CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, "Yunfei
- Dong" <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH] media: mediatek: vcodec: setting request complete before buffer done
-Date: Thu, 11 Jan 2024 15:17:13 +0800
-Message-ID: <20240111071713.16331-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B002E544
+	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 08:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5e54d40cca2so40188627b3.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 00:04:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1704960254; x=1705565054; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lQncb391kWdT9kycBYQWZOv9Cd1CkvyWqEu5gVDzVD8=;
+        b=e6bo09kffWbAuJwUdo/eokYpucqGlyHlajQr+0ngUAbJHA/M5zYPNg69btP2PkiS+B
+         q8iYxrw/LL4psGJF46D35zsPc6JKxU7acBZa0FS0NunLSZvkcX4Lcf2GuxHQ8fbMkKOA
+         DcT/Qk567hcgSNIjkmb5YWzmwQlJGsWTcMbAyJM0nZZksFL8gQZfr2zia8ACbbAa6JVG
+         qs4LNTR8shWF8gKsU5Lh7lAvCGFwaI/LFVe3H5WsyJbTdCGwLZF632rM2nZQrpI1sAsX
+         TuNqeRV54ob3K66xVCmrcTgTD5dJ3nNCOyoz3CAjrQ9xG9IzmKUvGiccg6jsrq5nsddx
+         b30A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704960254; x=1705565054;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lQncb391kWdT9kycBYQWZOv9Cd1CkvyWqEu5gVDzVD8=;
+        b=a16vChQOcSLIdfk2LGxnJsNaFyGQgkI+xj2WFM3C3Qo86065WucIqUkkLxq6lYxK3A
+         at7FUMe+atZSZV67gqaufUgEYqGdhFkJAYJ8cNr1biVj6b7VmXJqQ4MI9i6fdxLYGne5
+         tnuW1bwcm0cUwSzzeP3zF3OrhHT1aBsDdf+aGAubg8GF4djzjsUW5FAHyDjWJnlWT3pL
+         32jrrIC1MFdlHpM7Ocz/q6F/eeWrqHIBGzreyutLFfaicrCKO+OUCL9Hrdr4FVKcVuNz
+         FfNbNHbWNi/lWnRXXoddKJqZzcrFE1XUcNh7JOBJQi73yV+UriKj2wIM1ekMEVI+fVWn
+         Dlsw==
+X-Gm-Message-State: AOJu0YxgtaAnctEQZaOHE2fWqPyyYKHfzS56lx0b8R9UQahDYeIqMZls
+	zgQlUpeh6MQO8mKQCXHrkp/YW02QUivBybi/ppp3kLoPQeznZQ==
+X-Google-Smtp-Source: AGHT+IGw8Anvnwhd6esANRM5i2hYc1+o0EUSI84bS2doe8GctqVUDHhegCXm2GV0LA+Gvkm5ZwOpTQ==
+X-Received: by 2002:a05:690c:a16:b0:5e9:9e43:2038 with SMTP id cg22-20020a05690c0a1600b005e99e432038mr179894ywb.44.1704960254355;
+        Thu, 11 Jan 2024 00:04:14 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id ci24-20020a05690c0a9800b005f93cc31ff0sm218336ywb.72.2024.01.11.00.04.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jan 2024 00:04:13 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dbed71baa91so3750044276.0;
+        Thu, 11 Jan 2024 00:04:13 -0800 (PST)
+X-Received: by 2002:a5b:907:0:b0:dbd:72cc:75d8 with SMTP id
+ a7-20020a5b0907000000b00dbd72cc75d8mr619816ybq.71.1704960253641; Thu, 11 Jan
+ 2024 00:04:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--10.959100-8.000000
-X-TMASE-MatchedRID: CCNvt8z5Ak2+FYZWdxc4kUKcYi5Qw/RVkKAa/khZ3iSYoidDrWJoA3AX
-	R/gLaDwaUtP0ANsDUBbMePXE5HvRkAGEq6uX29KSA9lly13c/gEraL2mh8ZVKwqiCYa6w8tv/Ge
-	vfoH427riq2Kf6Q8mHbww5oZM4lf9IaVPgU+koVHE+QHQwgFpcQBqi9O94W3Vd7TzqAWUgsZdaO
-	8DxOlYWPcqU4dInnrpwEBYRaV0KQ1zx/hJctUaaangbqTYC4GHfS0Ip2eEHnyTitjWv6+zCBe9C
-	QaLe2PP9xS3mVzWUuCgZHIBpyeFpg8B6faX5pGQYJT7u7oJRT6SjcckO6I4aU3zt7BqKFYTftwZ
-	3X11IV0=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--10.959100-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	4CB914801B4194367F4502AECA63B55A29930B1A85A11025F78E70B1153504EF2000:8
-X-MTK: N
+References: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CA+VMnFyhp9D8cjtvLVzdKGETouOuH=MKgjOu1pn00WDRB=5oUg@mail.gmail.com>
+ <CAFCwf12sUL5bcXhYKwRkMxLtSDtLfTK003oxkRDVmThx1ARV-A@mail.gmail.com>
+ <SEYPR03MB70462A385A52A317427E93B59AFCA@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAFCwf11hxBpg3T6MoVrL0GaOD_=xB+-dWeEtDH0cCyzyQ-q1tg@mail.gmail.com>
+ <SEYPR03MB70463AEED951A0E2C18481099AC2A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAFCwf13ZiYYoXE+S_wQ_EhjiACPGJGT+70_stwpY_=aD=VYa4A@mail.gmail.com>
+ <SEYPR03MB704690FD9116A31D6FBCF32A9AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAFCwf128vYZ+EGHvZD0_ND2CGBzwMKk6OyhVRW_z=xCOSmi47w@mail.gmail.com>
+ <SEYPR03MB7046F74834B7D789C2DD4E459AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAFCwf10HAi+HEEWy=C4395eaHh_iSmcW1v87A+1J8QN9_P7tUQ@mail.gmail.com> <SEYPR03MB704698F40D90FF6B50D72AC39AC8A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+In-Reply-To: <SEYPR03MB704698F40D90FF6B50D72AC39AC8A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Thu, 11 Jan 2024 09:04:02 +0100
+X-Gmail-Original-Message-ID: <CAAObsKBpD3D76_ugTYDT8p-Fhb6zXOmQQP0yb7qj9jK+=JrqgA@mail.gmail.com>
+Message-ID: <CAAObsKBpD3D76_ugTYDT8p-Fhb6zXOmQQP0yb7qj9jK+=JrqgA@mail.gmail.com>
+Subject: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
+To: Cancan Chang <Cancan.Chang@amlogic.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jagan Teki <jagan@edgeble.ai>, 
+	linux-media <linux-media@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The request status of output queue will be set to MEDIA_REQUEST_STATE_COMPLETE
-when user space dequeue output buffer. Then calling v4l2_ctrl_request_complete
-will get below warning, need to call v4l2_ctrl_request_complete before
-v4l2_m2m_buf_done.
-Workqueue: core-decoder vdec_msg_queue_core_work [mtk_vcodec_dec]
-pstate: 80c00089 (Nzcv daIf +PAN +UAO -TCO BTYPE=--)
-pc : media_request_object_bind+0xa8/0x124
-lr : media_request_object_bind+0x50/0x124
-sp : ffffffc011393be0
-x29: ffffffc011393be0 x28: 0000000000000000
-x27: ffffff890c280248 x26: ffffffe21a71ab88
-x25: 0000000000000000 x24: ffffff890c280280
-x23: ffffff890c280280 x22: 00000000fffffff0
-x21: 0000000000000000 x20: ffffff890260d280
-x19: ffffff890260d2e8 x18: 0000000000001000
-x17: 0000000000000400 x16: ffffffe21a4584a0
-x15: 000000000053361d x14: 0000000000000018
-x13: 0000000000000004 x12: ffffffa82427d000
-x11: ffffffe21ac3fce0 x10: 0000000000000001
-x9 : 0000000000000000 x8 : 0000000000000003
-x7 : 0000000000000000 x6 : 000000000000003f
-x5 : 0000000000000040 x4 : ffffff89052e7b98
-x3 : 0000000000000000 x2 : 0000000000000001
-x1 : 0000000000000000 x0 : 0000000000000000
-Call trace:
- media_request_object_bind+0xa8/0x124
- v4l2_ctrl_request_bind+0xc4/0x168
- v4l2_ctrl_request_complete+0x198/0x1f4
- mtk_vdec_stateless_cap_to_disp+0x58/0x8c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
- vdec_vp9_slice_core_decode+0x1c0/0x268 [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
- vdec_msg_queue_core_work+0x60/0x11c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
- process_one_work+0x140/0x480
- worker_thread+0x12c/0x2f8
- kthread+0x13c/0x1d8
- ret_from_fork+0x10/0x30
+Hi Oded,
 
-'Fixes: 7b182b8d9c852 ("media: mediatek: vcodec: Refactor get and put capture buffer flow")'
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  3 ++-
- .../vcodec/decoder/mtk_vcodec_dec_stateless.c        | 12 +++++++-----
- .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c        |  7 +++++--
- .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c     |  3 ++-
- .../vcodec/decoder/vdec/vdec_hevc_req_multi_if.c     |  3 ++-
- .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        |  6 ++++--
- .../mediatek/vcodec/decoder/vdec_msg_queue.h         |  2 ++
- 7 files changed, 24 insertions(+), 12 deletions(-)
+Out of curiosity, did you end up taking a look at Amlogic's driver?
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-index 849b89dd205c..3f5b625330bc 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-@@ -111,7 +111,8 @@ struct mtk_vcodec_dec_pdata {
- 	int (*flush_decoder)(struct mtk_vcodec_dec_ctx *ctx);
- 	struct vdec_fb *(*get_cap_buffer)(struct mtk_vcodec_dec_ctx *ctx);
- 	void (*cap_to_disp)(struct mtk_vcodec_dec_ctx *ctx, int error,
--			    struct media_request *src_buf_req);
-+			    struct media_request *src_buf_req,
-+			    struct vb2_v4l2_buffer *vb2_v4l2_src);
- 
- 	const struct vb2_ops *vdec_vb2_ops;
- 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-index d54b3833790d..2efa34b6750b 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-@@ -245,7 +245,8 @@ static const struct v4l2_frmsize_stepwise stepwise_fhd = {
- };
- 
- static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int error,
--					   struct media_request *src_buf_req)
-+					   struct media_request *src_buf_req,
-+					   struct vb2_v4l2_buffer *vb2_v4l2_src)
- {
- 	struct vb2_v4l2_buffer *vb2_dst;
- 	enum vb2_buffer_state state;
-@@ -266,6 +267,9 @@ static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int e
- 
- 	if (src_buf_req)
- 		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-+
-+	if (vb2_v4l2_src)
-+		v4l2_m2m_buf_done(vb2_v4l2_src, state);
- }
- 
- static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx *ctx)
-@@ -374,14 +378,12 @@ static void mtk_vdec_worker(struct work_struct *work)
- 	state = ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE;
- 	if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
- 	    ctx->current_codec == V4L2_PIX_FMT_VP8_FRAME) {
--		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
- 		if (src_buf_req)
- 			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-+		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
- 	} else {
--		if (ret != -EAGAIN) {
-+		if (ret != -EAGAIN)
- 			v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
--			v4l2_m2m_buf_done(vb2_v4l2_src, state);
--		}
- 		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
- 	}
- }
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
-index 2b6a5adbc419..f277b907c345 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
-@@ -1064,6 +1064,8 @@ static int vdec_av1_slice_setup_lat_from_src_buf(struct vdec_av1_slice_instance
- 		return -EINVAL;
- 
- 	lat_buf->src_buf_req = src->vb2_buf.req_obj.req;
-+	lat_buf->vb2_v4l2_src = src;
-+
- 	dst = &lat_buf->ts_info;
- 	v4l2_m2m_buf_copy_metadata(src, dst, true);
- 	vsi->frame.cur_ts = dst->vb2_buf.timestamp;
-@@ -2187,7 +2189,7 @@ static int vdec_av1_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 		       &instance->core_vsi->trans.dma_addr_end);
- 	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, instance->core_vsi->trans.dma_addr_end);
- 
--	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-+	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
- 
- 	return 0;
- 
-@@ -2196,7 +2198,8 @@ static int vdec_av1_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
- 
- 	if (fb)
--		ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
-+		ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req,
-+						  lat_buf->vb2_v4l2_src);
- 
- 	return ret;
- }
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-index 0e741e0dc8ba..7033999018ca 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-@@ -533,7 +533,7 @@ static int vdec_h264_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 
- vdec_dec_end:
- 	vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->trans_end);
--	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
-+	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
- 	mtk_vdec_debug(ctx, "core decode done err=%d", err);
- 	ctx->decoded_frame_cnt++;
- 	return 0;
-@@ -606,6 +606,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 
- 	inst->vsi->dec.nal_info = buf[nal_start_idx];
- 	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
-+	lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
- 	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
- 
- 	err = vdec_h264_slice_fill_decode_parameters(inst, share_info);
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
-index 06ed47df693b..67fe3c4bfac3 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
-@@ -742,6 +742,7 @@ static int vdec_hevc_slice_setup_lat_buffer(struct vdec_hevc_slice_inst *inst,
- 
- 	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
- 	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
-+	lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
- 	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
- 
- 	*res_chg = inst->resolution_changed;
-@@ -961,7 +962,7 @@ static int vdec_hevc_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 
- vdec_dec_end:
- 	vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->trans.dma_addr_end);
--	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
-+	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
- 	mtk_vdec_debug(ctx, "core decode done err=%d", err);
- 	ctx->decoded_frame_cnt++;
- 	return 0;
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-index 69d37b93bd35..a7734d032269 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-@@ -723,6 +723,7 @@ static int vdec_vp9_slice_setup_lat_from_src_buf(struct vdec_vp9_slice_instance
- 		return -EINVAL;
- 
- 	lat_buf->src_buf_req = src->vb2_buf.req_obj.req;
-+	lat_buf->vb2_v4l2_src = src;
- 
- 	dst = &lat_buf->ts_info;
- 	v4l2_m2m_buf_copy_metadata(src, dst, true);
-@@ -2188,7 +2189,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 	mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
- 		       (unsigned long)pfc->vsi.trans.dma_addr_end);
- 	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
--	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-+	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req, lat_buf->vb2_v4l2_src);
- 
- 	return 0;
- 
-@@ -2198,7 +2199,8 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
- 
- 		if (fb)
--			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
-+			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req,
-+							  lat_buf->vb2_v4l2_src);
- 	}
- 	return ret;
- }
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-index 1d9beb9e4a14..b0f2443d186f 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-@@ -55,6 +55,7 @@ struct vdec_msg_queue_ctx {
-  * @rd_mv_addr:	mv addr for av1 lat hardware output, core hardware input
-  * @tile_addr:	tile buffer for av1 core input
-  * @ts_info: need to set timestamp from output to capture
-+ * @vb2_v4l2_src: the vb2 buffer of output queue
-  * @src_buf_req: output buffer media request object
-  *
-  * @private_data: shared information used to lat and core hardware
-@@ -71,6 +72,7 @@ struct vdec_lat_buf {
- 	struct mtk_vcodec_mem rd_mv_addr;
- 	struct mtk_vcodec_mem tile_addr;
- 	struct vb2_v4l2_buffer ts_info;
-+	struct vb2_v4l2_buffer *vb2_v4l2_src;
- 	struct media_request *src_buf_req;
- 
- 	void *private_data;
--- 
-2.18.0
+Cheers,
 
+Tomeu
+
+On Sat, Oct 7, 2023 at 8:37=E2=80=AFAM Cancan Chang <Cancan.Chang@amlogic.c=
+om> wrote:
+>
+> Oded,
+>        You can get the driver code from  github link=EF=BC=9A https://git=
+hub.com/OldDaddy9/driver
+>         e.g.  git clone https://github.com/OldDaddy9/driver.git
+>
+> ________________________________________
+> =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
+> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B410=E6=9C=883=E6=97=A5 =
+18:52
+> =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
+> =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airlie; D=
+aniel Vetter
+> =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC=
+)
+>
+> [ EXTERNAL EMAIL ]
+>
+> On Thu, Sep 28, 2023 at 11:16=E2=80=AFAM Cancan Chang <Cancan.Chang@amlog=
+ic.com> wrote:
+> >
+> > =E2=80=9CWhat happens if you call this again without waiting for the pr=
+evious
+> > inference to complete ?=E2=80=9D
+> >    --- There is a work-queue in the driver to manage inference tasks.
+> >          When two consecutive inference tasks occur, the second inferen=
+ce task will be add to
+> >          the "pending list". While the previous inference task ends, th=
+e second inference task will
+> >          switch to the "scheduled list", and be executed.
+> >          Each inference task has an id,  "inferece" and "wait until fin=
+ish" are paired.
+> >
+> >          thanks
+> Thanks for the clarification.
+> I'll wait for your driver's code link. It doesn't have to be a patch
+> series at this point. A link to a git repo is enough.
+> I just want to do a quick pass.
+>
+> Thanks,
+> Oded
+>
+>
+>
+> >
+> > ________________________________________
+> > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
+> > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8828=E6=97=
+=A5 15:40
+> > =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
+> > =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airlie;=
+ Daniel Vetter
+> > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support (R=
+FC)
+> >
+> > [ EXTERNAL EMAIL ]
+> >
+> > On Thu, Sep 28, 2023 at 10:25=E2=80=AFAM Cancan Chang <Cancan.Chang@aml=
+ogic.com> wrote:
+> > >
+> > > =E2=80=9CCould you please post a link to the driver's source code ?
+> > > In addition, could you please elaborate which userspace libraries
+> > > exists that work with your driver ? Are any of them open-source ?=E2=
+=80=9D
+> > > --- We will prepare the adla driver link after the holiday on October=
+ 6th.
+> > >      It's a pity that there is no open-source userspace library.
+> > >      But you can probably understand it through a workflow, which can=
+ be simplified as:
+> > >      1. create model context
+> > >           ret =3D ioctl(context->fd, ADLAK_IOCTL_REGISTER_NETWORK, &d=
+esc);
+> > >      2.  set inputs
+> > >      3.  inference
+> > >            ret =3D ioctl(context->fd, ADLAK_IOCTL_INVOKE, &invoke_dec=
+);
+> > What happens if you call this again without waiting for the previous
+> > inference to complete ?
+> > Oded
+> > >      4.  wait for the inference to complete
+> > >            ret =3D ioctl(context->fd, ADLAK_IOCTL_WAIT_UNTIL_FINISH, =
+&stat_req_desc);
+> > >      5.  destroy model context
+> > >            ret =3D ioctl(context->fd, ADLAK_IOCTL_DESTROY_NETWORK, &s=
+ubmit_del);
+> > >
+> > >
+> > >       thanks
+> > >
+> > >
+> > > ________________________________________
+> > > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
+> > > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8828=E6=97=
+=A5 13:28
+> > > =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
+> > > =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airli=
+e; Daniel Vetter
+> > > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support =
+(RFC)
+> > >
+> > > [ EXTERNAL EMAIL ]
+> > >
+> > > On Wed, Sep 27, 2023 at 10:01=E2=80=AFAM Cancan Chang <Cancan.Chang@a=
+mlogic.com> wrote:
+> > > >
+> > > > =E2=80=9COr do you handle one cmd at a time, where the user sends a=
+ cmd buffer
+> > > > to the driver and the driver then submit it by writing to a couple =
+of
+> > > > registers and polls on some status register until its done, or wait=
+s
+> > > > for an interrupt to mark it as done ?=E2=80=9D
+> > > >   --- yes=EF=BC=8C user sends a cmd buffer to driver, and driver tr=
+iggers hardware by writing to register,
+> > > >         and then, waits for an interrupt to mark it  as done.
+> > > >
+> > > >     My current driver is very different from drm, so I want to know=
+ if I have to switch to drm=EF=BC=9F
+> > > Could you please post a link to the driver's source code ?
+> > > In addition, could you please elaborate which userspace libraries
+> > > exists that work with your driver ? Are any of them open-source ?
+> > >
+> > > >     Maybe I can refer to /driver/accel/habanalabs.
+> > > That's definitely a possibility.
+> > >
+> > > Oded
+> > > >
+> > > > thanks
+> > > >
+> > > > ________________________________________
+> > > > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
+> > > > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8826=E6=
+=97=A5 20:54
+> > > > =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
+> > > > =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Air=
+lie; Daniel Vetter
+> > > > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not suppor=
+t (RFC)
+> > > >
+> > > > [ EXTERNAL EMAIL ]
+> > > >
+> > > > On Mon, Sep 25, 2023 at 12:29=E2=80=AFPM Cancan Chang <Cancan.Chang=
+@amlogic.com> wrote:
+> > > > >
+> > > > > Thank you for your reply from Jagan & Oded.
+> > > > >
+> > > > > It is very appropritate for my driver to be placed in driver/acce=
+l.
+> > > > >
+> > > > > My accelerator is named ADLA(Amlogic Deep Learning Accelerator).
+> > > > > It is an IP in SOC,mainly used for neural network models accelera=
+tion.
+> > > > > It will split and compile the neural network model into a private=
+ format cmd buffer,
+> > > > > and submit this cmd buffer to ADLA hardware. It is not programmab=
+le device.
+> > > > What exactly does it mean to "submit this cmd buffer to ADLA hardwa=
+re" ?
+> > > >
+> > > > Does your h/w provides queues for the user/driver to put their
+> > > > workloads/cmd-bufs on them ? And does it provide some completion qu=
+eue
+> > > > to notify when the work is completed?
+> > > >
+> > > > Or do you handle one cmd at a time, where the user sends a cmd buff=
+er
+> > > > to the driver and the driver then submit it by writing to a couple =
+of
+> > > > registers and polls on some status register until its done, or wait=
+s
+> > > > for an interrupt to mark it as done ?
+> > > >
+> > > > >
+> > > > > ADLA includes four hardware engines:
+> > > > > RS engines             : working for the reshape operators
+> > > > > MAC engines         : working for the convolution operators
+> > > > > DW engines           : working for the planer & Elementwise opera=
+tors
+> > > > > Activation engines : working for activation operators(ReLu,tanh..=
+)
+> > > > >
+> > > > > By the way, my IP is mainly used for SOC, and the current driver =
+registration is through the platform_driver,
+> > > > > is it necessary to switch to drm?
+> > > > This probably depends on the answer to my question above. btw, ther=
+e
+> > > > are drivers in drm that handle IPs that are part of an SOC, so
+> > > > platform_driver is supported.
+> > > >
+> > > > Oded
+> > > >
+> > > > >
+> > > > > thanks.
+> > > > >
+> > > > > ________________________________________
+> > > > > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
+> > > > > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8822=
+=E6=97=A5 23:08
+> > > > > =E6=94=B6=E4=BB=B6=E4=BA=BA: Jagan Teki
+> > > > > =E6=8A=84=E9=80=81: Cancan Chang; linux-media; linux-kernel; Dave=
+ Airlie; Daniel Vetter
+> > > > > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not supp=
+ort (RFC)
+> > > > >
+> > > > > [=E4=BD=A0=E9=80=9A=E5=B8=B8=E4=B8=8D=E4=BC=9A=E6=94=B6=E5=88=B0=
+=E6=9D=A5=E8=87=AA ogabbay@kernel.org =E7=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=
+=E4=BB=B6=E3=80=82=E8=AF=B7=E8=AE=BF=E9=97=AE https://aka.ms/LearnAboutSend=
+erIdentification=EF=BC=8C=E4=BB=A5=E4=BA=86=E8=A7=A3=E8=BF=99=E4=B8=80=E7=
+=82=B9=E4=B8=BA=E4=BB=80=E4=B9=88=E5=BE=88=E9=87=8D=E8=A6=81]
+> > > > >
+> > > > > [ EXTERNAL EMAIL ]
+> > > > >
+> > > > > On Fri, Sep 22, 2023 at 12:38=E2=80=AFPM Jagan Teki <jagan@edgebl=
+e.ai> wrote:
+> > > > > >
+> > > > > > On Fri, 22 Sept 2023 at 15:04, Cancan Chang <Cancan.Chang@amlog=
+ic.com> wrote:
+> > > > > > >
+> > > > > > > Dear Media Maintainers:
+> > > > > > >      Thanks for your attention. Before describing my problem=
+=EF=BC=8Clet me introduce to you what I  mean by NPU.
+> > > > > > >      NPU is Neural Processing Unit, It is designed for deep l=
+earning acceleration, It is also called TPU, APU ..
+> > > > > > >
+> > > > > > >      The real problems:
+> > > > > > >       When I was about to upstream my NPU driver codes to lin=
+ux mainline, i meet two problems:
+> > > > > > >         1.  According to my research, There is no NPU module =
+path in the linux (base on linux 6.5.4) , I have searched all linux project=
+s and found no organization or comany that has submitted NPU code. Is there=
+ a path prepared for NPU driver currently?
+> > > > > > >         2.   If there is no NPU driver path currently, I am g=
+oing to put my NPU driver code in the drivers/media/platform/amlogic/ =EF=
+=BB=BF, because my NPU driver belongs to amlogic. and amlogic NPU is mainly=
+ used for AI vision applications. Is this plan suitabe for you?
+> > > > > >
+> > > > > > If I'm correct about the discussion with Oded Gabby before. I t=
+hink
+> > > > > > the drivers/accel/ is proper for AI Accelerators including NPU.
+> > > > > >
+> > > > > > + Oded in case he can comment.
+> > > > > >
+> > > > > > Thanks,
+> > > > > > Jagan.
+> > > > > Thanks Jagan for adding me to this thread. Adding Dave & Daniel a=
+s well.
+> > > > >
+> > > > > Indeed, the drivers/accel is the place for Accelerators, mainly f=
+or
+> > > > > AI/Deep-Learning accelerators.
+> > > > > We currently have 3 drivers there already.
+> > > > >
+> > > > > The accel subsystem is part of the larger drm subsystem. Basicall=
+y, to
+> > > > > get into accel, you need to integrate your driver with the drm at=
+ the
+> > > > > basic level (registering a device, hooking up with the proper
+> > > > > callbacks). ofc the more you use code from drm, the better.
+> > > > > You can take a look at the drivers under accel for some examples =
+on
+> > > > > how to do that.
+> > > > >
+> > > > > Could you please describe in a couple of sentences what your
+> > > > > accelerator does, which engines it contains, how you program it. =
+i.e.
+> > > > > Is it a fixed-function device where you write to a couple of regi=
+sters
+> > > > > to execute workloads, or is it a fully programmable device where =
+you
+> > > > > load compiled code into it (GPU style) ?
+> > > > >
+> > > > > For better background on the accel subsystem, please read the fol=
+lowing:
+> > > > > https://docs.kernel.org/accel/introduction.html
+> > > > > This introduction also contains links to other important email th=
+reads
+> > > > > and to Dave Airlie's BOF summary in LPC2022.
+> > > > >
+> > > > > Thanks,
+> > > > > Oded
 
