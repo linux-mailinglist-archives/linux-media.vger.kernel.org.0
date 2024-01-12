@@ -1,107 +1,118 @@
-Return-Path: <linux-media+bounces-3605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A850082B9BA
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 03:50:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7F082B9E6
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 04:17:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3ABB0B24D22
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 02:50:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 362D71F24FDC
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 03:17:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C0DA1379;
-	Fri, 12 Jan 2024 02:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C1A15C6;
+	Fri, 12 Jan 2024 03:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xa1lVIGJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1860EBD
-	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 02:50:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63662C433C7
-	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 02:50:40 +0000 (UTC)
-Date: Fri, 12 Jan 2024 03:50:37 +0100
-Message-ID: <342aa9bbeeed083eea3118e5afd24a64.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500DD1108
+	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 03:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-58962bf3f89so842626a12.0
+        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 19:17:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705029444; x=1705634244; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lFINQhVngeuL3Q+9yY5Ts2V/N3kA4KP1+cnBd9hCA/c=;
+        b=Xa1lVIGJ2C/3xo08/2wfmNykOYsUFPQjtlN5FJerCjRV6rFJoeufMlmehXbbn9pkHO
+         j8/KtnMa9VerfMw0hiUYrZV4h8bA0PLv7ewZjj46imRdc+XO+nz/L3GhchRUspy8Qq8F
+         m2GcWN13OwE7MRKJ0hyWCQ6lYGNvSVk3IvEr17lX9VGyw5hTk2IWZDl2PdKn43AFnpcL
+         VbjMr0BlRdvRXdekLjmrCOL7VY9XRKGAELXJqdkNR4aRGUdvYoJ/cs6nEH3SdMBUiZsS
+         604GJRrrWNp3TGT0L8Hu/9qwWe/YMPbaXwVAk2Lx5eVrcwwT55/ys/+brMmEatCBfJJT
+         Cemw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705029444; x=1705634244;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lFINQhVngeuL3Q+9yY5Ts2V/N3kA4KP1+cnBd9hCA/c=;
+        b=UeHcHT6GVFq32VrBm5i4DYF5WjYv1WTbsn33uiP3OJJwnKJLgItXd6E5S+yrpgNYRb
+         MUxfNxuzHqdOg7bmKtl2HWxHqt7aLiBz/wAlaibTOgATa/JJjAO/O/PBqN2tZWNLqnoa
+         G9vj1+6uzK4nZU+GSyImQfWroWenyMaA1YXCMAn89FpGgBDydg7UHWWYJAdn9UGSFYvY
+         LuSEwGn76nMAgwshAyKMSvWSE5NxaCOZmnH6jR22dUFJ9QdwWxtoomiVzAUtF218pSn0
+         8jdCnqZE+2JyiB/KPliouu05I9Et9xblP3n+F/LMoMTcUSMaBF7okck9Z1j9mYcekfQ4
+         NnxA==
+X-Gm-Message-State: AOJu0Yxu70zXFoiYi5i4taZKLkYbROlGIyb/Uv986ijqPY6ecfmZCA/a
+	CzeC035JQjwrKuy+9ZnouKSmhLx8v8w=
+X-Google-Smtp-Source: AGHT+IF8H9OltSr+GuU8A1gKSxvL5GS8gEXHGOHdQ3PsAG76atTp+S39LVuyR2IrlywbnsyVoghzJg==
+X-Received: by 2002:a05:6a20:8e20:b0:199:7f36:d88f with SMTP id y32-20020a056a208e2000b001997f36d88fmr779360pzj.1.1705029444515;
+        Thu, 11 Jan 2024 19:17:24 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:e92d:49e3:5f9:e0a4])
+        by smtp.gmail.com with ESMTPSA id e12-20020a17090301cc00b001d4e0752b5esm1952713plh.157.2024.01.11.19.17.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 19:17:23 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: hverkuil-cisco@xs4all.nl
+Cc: sean@mess.org,
+	raj.khem@gmail.com,
+	linux-media@vger.kernel.org,
+	Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v4l-utils] keytable: meson: Restrict the installation of 50-rc_keymap.conf
+Date: Fri, 12 Jan 2024 00:17:14 -0300
+Message-Id: <20240112031714.242522-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+From: Fabio Estevam <festevam@denx.de>
 
-Results of the daily build of media_tree:
+Currently, meson tries to install 50-rc_keymap.conf even if systemd
+is not used.
 
-date:			Fri Jan 12 03:00:17 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	60a031b64984ad4a219a13b0fe912746b586bb9b
-v4l-utils git hash:	8649f5190970ac7bcfc227bcbc210964e693dd1f
-edid-decode git hash:	1e99fe84c08d2cea5d86668ac6948e382ef545e3
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8549-gd0c870a7
-sparse version:		v0.5.0-8549-gd0c870a7
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+Commit 01f2c6c58e6f ("keytable: restrict installation of 50-rc_keymap.conf"),
+only allowed 50-rc_keymap.conf to be installed when both BPF and systemd
+were used.
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+Apply the same logic in meson to fix the problem.
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ utils/keytable/meson.build | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-smatch: WARNINGS:
+diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
+index 4130a4bea514..76ce329eae8e 100644
+--- a/utils/keytable/meson.build
++++ b/utils/keytable/meson.build
+@@ -69,6 +69,8 @@ ir_keytable_udev_rules = files(
+ install_data(ir_keytable_udev_rules,
+              install_dir : ir_keytable_system_dir / 'rules.d')
+ 
++if ir_bpf_enabled
++if dep_systemd.found()
+ if have_udevdsyscallfilter
+     ir_keytable_systemd_files = files(
+         '50-rc_keymap.conf',
+@@ -76,6 +78,8 @@ if have_udevdsyscallfilter
+     install_data(ir_keytable_systemd_files,
+                  install_dir : systemd_systemdir / 'systemd-udevd.service.d')
+ endif
++endif
++endif
+ 
+ # Install non-existing directory to create empty directory structure
+ # See: https://github.com/mesonbuild/meson/issues/2904
+-- 
+2.34.1
 
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Fri Jan 12 03:20:11 CET 2024
-virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 4
-
-date:			Fri Jan 12 03:48:59 CET 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
