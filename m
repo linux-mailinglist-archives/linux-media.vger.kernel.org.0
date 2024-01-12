@@ -1,151 +1,172 @@
-Return-Path: <linux-media+bounces-3656-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3657-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAC382C69C
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 22:26:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D3382C777
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 23:53:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 939E01F24D9F
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 21:26:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E136D1C2277E
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 22:53:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75899171A2;
-	Fri, 12 Jan 2024 21:26:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18CF518C3F;
+	Fri, 12 Jan 2024 22:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="rx7/vKjG"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c5qcLjF5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E41168CC
-	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 21:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1705094808;
-	bh=damUuOhGJN7l4KRF559lD7FnkIoXJP9qmc7s2sF8Ftw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rx7/vKjGD6JWhyv/ZqbHu8+s23OexcuHjwtJuWCDjfle87TX3Mqs1ZgDISbYGL4jk
-	 ThdBtLXYEtnbaYwd2bin1f95lsx7cpFWzHFLcVGzsGjbjrwr7mTPxZGNt6U7+9yDAB
-	 8BRUFSkamnWGNV8X/uQVpRd6jn6E421oVn1MqKA57LoV7K+hniLPf7lYsxoI/mJD1F
-	 R4iLyNVrwJ/uC2Zq7KouEr3HPZx9pwY7YRUD1cjFpvr/wLe/Vy+zqkIevxkv7ZiDgG
-	 GM1CnDJu+C3KPfpb7tbB1Fhp2qh9Nniivu2jG8kFJvaWpn/ojailpyCau9Kb3we2Sc
-	 qHAqcIko5U1lQ==
-Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 081523782017;
-	Fri, 12 Jan 2024 21:26:47 +0000 (UTC)
-Message-ID: <aff1bae8-b87e-4331-bff7-9c385322b8da@collabora.com>
-Date: Fri, 12 Jan 2024 22:26:47 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2875014F6D
+	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 22:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5534180f0e9so1419a12.1
+        for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 14:52:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1705099969; x=1705704769; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5zEBqjbWZbZ/3Uylirb4GeOi3RLFiwNvDX78phkZWD8=;
+        b=c5qcLjF5G6rsdOJSEN+5jNUHtaJnz6bg7DZd4TSYSqQlU69Btav9OyEpNvGvhq3rab
+         FNQJK0of7qznSdVcvCFVRGru+BYD31/qz7NC6AHp44IrONbUvE6bDEa1Q0YGVlyXtvUU
+         KQPO89/QEm3MTb8C7uGUMGqB51qIP6pO5LVG2SuKQf3RCLFrbBAUGbT90GN6uzcJO+tD
+         xVaMuzulaP5Qxw4Pe7+wtK3mi58rzoEhlnynwPY40AnT9adIRqN/7Bn0BE5sVpgzYr7N
+         cxA2l4/xBs0dSf0qvDZkj4mLoE9R2j3uXyx8vYjWlDJCZIgBtkPxl3LwNDHwOdJyaece
+         683A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705099969; x=1705704769;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5zEBqjbWZbZ/3Uylirb4GeOi3RLFiwNvDX78phkZWD8=;
+        b=BU/m2E9in2fB8AIMah4xDjWbejAB//6rtyaDC6r1mXkF9CiVaah9RctxFzIHI/SBCj
+         nAvxycBc9B/m1kAu6ZaJzNbcdpo5FVLDvMxl+v99EtVHMHdPa5mgEdOJkQygTwuilXOJ
+         phvavWmNGjc0n6C+e8IWh0mqomZl5uDaXb7YjXUo85suzCT6VkqmfzmIwcEC0k1MUXVQ
+         xAjOK5A97XoJVLGkKEERZtzsTPzqCapzwLIRBbOA3ZjXJS7aKNVsXwbd28Fok4GsWTAa
+         qo269fU6aAZy0LCHnU4orbrvReVlRpV/cKx5GrodWn5lXOlKLWc3PNmj6osKI6ySzUBb
+         NuVQ==
+X-Gm-Message-State: AOJu0YxTuNO0iihI0CrFdcYs0fYMaXszn/S1PtB16mUDXc5o6JiqGfZV
+	wvVjCRGL470/zhUEvvcSFnDpvV4QDVD9dSEJO4cn+wgu0Kc=
+X-Google-Smtp-Source: AGHT+IHkgMN1yQJBbcRo0BFB3B8pFJiDvEWeO3tE0O3jDrHXiN3BUhVwpu15ZRDxRy6MkjLufhC9Rmys7MiCAQ75PZg=
+X-Received: by 2002:aa7:c98b:0:b0:554:2501:cc8e with SMTP id
+ c11-20020aa7c98b000000b005542501cc8emr18281edt.6.1705099969244; Fri, 12 Jan
+ 2024 14:52:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: videobuf2: Add missing doc comment for
- waiting_in_dqbuf
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: linux-media@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@collabora.com,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20240105134020.34312-1-andrzej.p@collabora.com>
- <CAAFQd5DEfvaGVLdPzjpfRwFMJcrXstp2QyTp-BJqzncXOxTvRQ@mail.gmail.com>
-Content-Language: en-US
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <CAAFQd5DEfvaGVLdPzjpfRwFMJcrXstp2QyTp-BJqzncXOxTvRQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240112092014.23999-1-yong.wu@mediatek.com> <20240112092014.23999-4-yong.wu@mediatek.com>
+In-Reply-To: <20240112092014.23999-4-yong.wu@mediatek.com>
+From: John Stultz <jstultz@google.com>
+Date: Fri, 12 Jan 2024 14:52:37 -0800
+Message-ID: <CANDhNCrxpeqEhJD0xJzu3vm8a4jMXD2v+_dbDNvaKhLsLB5-4g@mail.gmail.com>
+Subject: Re: [PATCH v4 3/7] dma-buf: heaps: restricted_heap: Add private heap ops
+To: Yong Wu <yong.wu@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	tjmercier@google.com, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Robin Murphy <robin.murphy@arm.com>, Vijayanand Jitta <quic_vjitta@quicinc.com>, 
+	Joakim Bech <joakim.bech@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>, 
+	Pavel Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>, 
+	jianjiao.zeng@mediatek.com, kuohong.wang@mediatek.com, 
+	youlin.pei@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomasz,
-
-W dniu 10.01.2024 o 13:41, Tomasz Figa pisze:
-> On Fri, Jan 5, 2024 at 10:40 PM Andrzej Pietrasiewicz
-> <andrzej.p@collabora.com> wrote:
->>
->> While at it rearrange other comments to match the order of struct members.
->>
->> Fixes: d65842f7126a ("media: vb2: add waiting_in_dqbuf flag")
->> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
->> ---
->>   include/media/videobuf2-core.h | 12 +++++++-----
->>   1 file changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->> index e41204df19f0..5020e052eda0 100644
->> --- a/include/media/videobuf2-core.h
->> +++ b/include/media/videobuf2-core.h
->> @@ -72,6 +72,10 @@ struct vb2_buffer;
->>    *              argument to other ops in this structure.
->>    * @put_userptr: inform the allocator that a USERPTR buffer will no longer
->>    *              be used.
->> + * @prepare:   called every time the buffer is passed from userspace to the
->> + *             driver, useful for cache synchronisation, optional.
->> + * @finish:    called every time the buffer is passed back from the driver
->> + *             to the userspace, also optional.
->>    * @attach_dmabuf: attach a shared &struct dma_buf for a hardware operation;
->>    *                used for DMABUF memory types; dev is the alloc device
->>    *                dbuf is the shared dma_buf; returns ERR_PTR() on failure;
->> @@ -86,10 +90,6 @@ struct vb2_buffer;
->>    *             dmabuf.
->>    * @unmap_dmabuf: releases access control to the dmabuf - allocator is notified
->>    *               that this driver is done using the dmabuf for now.
->> - * @prepare:   called every time the buffer is passed from userspace to the
->> - *             driver, useful for cache synchronisation, optional.
->> - * @finish:    called every time the buffer is passed back from the driver
->> - *             to the userspace, also optional.
->>    * @vaddr:     return a kernel virtual address to a given memory buffer
->>    *             associated with the passed private structure or NULL if no
->>    *             such mapping exists.
->> @@ -484,7 +484,6 @@ struct vb2_buf_ops {
->>    *             caller. For example, for V4L2, it should match
->>    *             the types defined on &enum v4l2_buf_type.
->>    * @io_modes:  supported io methods (see &enum vb2_io_modes).
->> - * @alloc_devs:        &struct device memory type/allocator-specific per-plane device
->>    * @dev:       device to use for the default allocation context if the driver
->>    *             doesn't fill in the @alloc_devs array.
->>    * @dma_attrs: DMA attributes to use for the DMA.
->> @@ -550,6 +549,7 @@ struct vb2_buf_ops {
->>    *             @start_streaming can be called. Used when a DMA engine
->>    *             cannot be started unless at least this number of buffers
->>    *             have been queued into the driver.
->> + * @alloc_devs:        &struct device memory type/allocator-specific per-plane device
->>    */
->>   /*
->>    * Private elements (won't appear at the uAPI book):
->> @@ -571,6 +571,8 @@ struct vb2_buf_ops {
->>    * @waiting_for_buffers: used in poll() to check if vb2 is still waiting for
->>    *             buffers. Only set for capture queues if qbuf has not yet been
->>    *             called since poll() needs to return %EPOLLERR in that situation.
->> + * @waiting_in_dqbuf: set whenever vb2_queue->lock is released while waiting for
->> + *             a buffer to arrive so that -EBUSY can be returned when appropriate
-> 
-> Appreciate documentation improvements. Thanks!
+On Fri, Jan 12, 2024 at 1:21=E2=80=AFAM Yong Wu <yong.wu@mediatek.com> wrot=
+e:
+>
+> Add "struct restricted_heap_ops". For the restricted memory, totally ther=
+e
+> are two steps:
+> a) memory_alloc: Allocate the buffer in kernel;
+> b) memory_restrict: Restrict/Protect/Secure that buffer.
+> The memory_alloc is mandatory while memory_restrict is optinal since it m=
+ay
+> be part of memory_alloc.
+>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>  drivers/dma-buf/heaps/restricted_heap.c | 41 ++++++++++++++++++++++++-
+>  drivers/dma-buf/heaps/restricted_heap.h | 12 ++++++++
+>  2 files changed, 52 insertions(+), 1 deletion(-)
 >
 
-I haven't been hunting for opportunities to improve the documentation,
-the opportunity has found me ;P
+Thanks for sending this out! A thought below.
 
-> Just one comment: Could we make it more clear who sets it? For example >      Set by the core for the duration of a blocking DQBUF, when it has
-> to wait for
->      a buffer to become available with vb2_queue->lock released. Used to prevent
->      destroying the queue by other threads.
+> diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/he=
+aps/restricted_heap.h
+> index 443028f6ba3b..ddeaf9805708 100644
+> --- a/drivers/dma-buf/heaps/restricted_heap.h
+> +++ b/drivers/dma-buf/heaps/restricted_heap.h
+> @@ -15,6 +15,18 @@ struct restricted_buffer {
+>
+>  struct restricted_heap {
+>         const char              *name;
+> +
+> +       const struct restricted_heap_ops *ops;
+> +};
+> +
+> +struct restricted_heap_ops {
+> +       int     (*heap_init)(struct restricted_heap *heap);
+> +
+> +       int     (*memory_alloc)(struct restricted_heap *heap, struct rest=
+ricted_buffer *buf);
+> +       void    (*memory_free)(struct restricted_heap *heap, struct restr=
+icted_buffer *buf);
+> +
+> +       int     (*memory_restrict)(struct restricted_heap *heap, struct r=
+estricted_buffer *buf);
+> +       void    (*memory_unrestrict)(struct restricted_heap *heap, struct=
+ restricted_buffer *buf);
+>  };
+>
+>  int restricted_heap_add(struct restricted_heap *rstrd_heap);
 
-Makes sense for me.
+So, I'm a little worried here, because you're basically turning the
+restricted_heap dma-buf heap driver into a framework itself.
+Where this patch is creating a subdriver framework.
 
-@Nicolas are you ok with changing the text and retaining your R-b?
+Part of my hesitancy, is you're introducing this under the dma-buf
+heaps. For things like CMA, that's more of a core subsystem that has
+multiple users, and exporting cma buffers via dmabuf heaps is just an
+additional interface.  What I like about that is the core kernel has
+to define the semantics for the memory type and then the dmabuf heap
+is just exporting that well understood type of buffer.
 
-Andrzej
-> 
-> WDYT?
-> 
-> Best regards,
-> Tomasz
-> 
+But with these restricted buffers, I'm not sure there's yet a well
+understood set of semantics nor a central abstraction for that which
+other drivers use directly.
 
+I know part of this effort here is to start to centralize all these
+vendor specific restricted buffer implementations, which I think is
+great, but I just worry that in doing it in the dmabuf heap interface,
+it is a bit too user-facing. The likelihood of encoding a particular
+semantic to the singular "restricted_heap" name seems high.
+
+Similarly we might run into systems with multiple types of restricted
+buffers (imagine a discrete gpu having one type along with TEE
+protected buffers also being used on the same system).
+
+So the one question I have: Why not just have a mediatek specific
+restricted_heap dmabuf heap driver?  Since there's already been some
+talk of slight semantic differences in various restricted buffer
+implementations, should we just start with separately named dmabuf
+heaps for each? Maybe consolidating to a common name as more drivers
+arrive and we gain a better understanding of the variations of
+semantics folks are using?
+
+thanks
+-john
 
