@@ -1,105 +1,121 @@
-Return-Path: <linux-media+bounces-3598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA9882B6B0
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 22:34:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E4982B86A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 01:05:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06AAB1F24922
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jan 2024 21:34:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF1FA286D05
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 00:05:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D325558203;
-	Thu, 11 Jan 2024 21:34:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F9B154B8;
+	Fri, 12 Jan 2024 00:05:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="tQPfcVEY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V94TzYNx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr [80.12.242.16])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6245758200
-	for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 21:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from pop-os.home ([92.140.202.140])
-	by smtp.orange.fr with ESMTPA
-	id O2gQrjIMaEoWxO2gQr1lEn; Thu, 11 Jan 2024 22:33:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1705008831;
-	bh=Gio5dE3n1eUfk5KMSgT5ASvtSznc7hTtsqMjtYfQM6o=;
-	h=From:To:Cc:Subject:Date;
-	b=tQPfcVEYnzX/dh5g0qSG9kJOUOksYTfDoj7wmGU0+RxBcySjyF6VkjK4XKWOT0dVS
-	 8BgLn8UcZuq3hsbuSKwGgn3vRIjuKLgez2ZRuyK3Kw4To9pW063iVTG0Yr16yvK2vg
-	 Vw1n2y3rjCIzSffEjuUJqDnIJhMRvOsqmLs0z+bIwEyaQcLC/auU6jNM9jglB8D6yA
-	 IxqZ7LRYQSIM57j0l/DQLutuEOP6LscRi+X0dwdppx2+kPDhXcbg+N1drJNtzR1tKJ
-	 XpF6v9Ou7TCwNoarbpTqe8iEq9gX87l41nPjdnXuJ5aOMRWzUY/b04hUG9hfyDL/Ba
-	 HiU4RKXSicZRw==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 11 Jan 2024 22:33:51 +0100
-X-ME-IP: 92.140.202.140
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-media@vger.kernel.org
-Subject: [PATCH] media: dvb-frontends/dvb-pll: Remove usage of the deprecated ida_simple_xx() API
-Date: Thu, 11 Jan 2024 22:33:44 +0100
-Message-Id: <920639b9e05775eea56ecb9cd5ed38ad292a96a8.1705008803.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDDE14F6C
+	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 00:05:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3374eb61cbcso5196334f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 16:05:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705017911; x=1705622711; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yUeW4cbpZ4DyBVhP3Gp3OihLg4kH7ejzOns3IWU+5Ug=;
+        b=V94TzYNxrIGl4Ql1KDfj2dIQRwVR9b1dQrxA1cZQEojq6YhzPCVfSVjfN/IiscAxOM
+         8bUuW5xHjn7OlmX3CPNDqDlhhYBnv9R1joYXwOQWJNiCcd5+sRFpPAODZfN9imaGzyWL
+         LaMDDlaBorSvEZglhXzI+54J6UQ4VS0IarLYknJiOulo5LskRn/VkNKd512E2KD2iPED
+         aY1NtlIz9hBilBL2tqM8pyDjIjvyaFpkAit99k7l6MjT2FjBohbk+T6xNRQ3VDdtFVYN
+         P50s3DC7BkCr4P9ZNN0f44CYmQPvp+KuMmDUMELhNFjFFVHfJscIVEVOIYqHzYoyLZdZ
+         ys1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705017911; x=1705622711;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yUeW4cbpZ4DyBVhP3Gp3OihLg4kH7ejzOns3IWU+5Ug=;
+        b=GhGuI8EfeOw/Q857DUSk1evmcdTvqSZw99rdczsOdc00aNL0AWlzRw4amK7B3mCut6
+         3+cKQvrW1vg0o+vRb1I9v4BKWjJ9SU+yBSdDO6Lb7QEqmHWsFvITSNhAj4KhH06GOHJ1
+         FH5Ep50gjBjSU3wA/LKcrFUwA9cNNUS4y/XybR7GtSgemlDjESAlykrk2bKj0ZowFWxL
+         DCMeeENNRbriglJKbGglFL/TuWIvrOhpIt/SKAG8bpgMrgRIJaVIlPSh+S9rd6heEDLx
+         b2LuMH97ViGGkcTjepKLxI4RRDIPmLPzq9nPcI4qDqge3feYqcqWKu9omIpwJtcqfLcA
+         D+Mg==
+X-Gm-Message-State: AOJu0Yzf7bmev9I49ZSic1cpNiJSUKjEHE0q/qw9uQjAvX7urKTnpazP
+	smE87qNuJHCEwDn/ZIkal5nUfLJP5GieWA==
+X-Google-Smtp-Source: AGHT+IHCdDVdU5Stel0+XBc70+8iYoGyZHbMKQqAFOmwuvJLM/lTb1tAB1c6+WSy2s9dD19FKm9UCw==
+X-Received: by 2002:a05:6000:10c8:b0:337:7bde:f03e with SMTP id b8-20020a05600010c800b003377bdef03emr294510wrx.16.1705017911388;
+        Thu, 11 Jan 2024 16:05:11 -0800 (PST)
+Received: from [192.168.100.86] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id l5-20020adfe9c5000000b0033673ddd81csm2314450wrn.112.2024.01.11.16.05.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jan 2024 16:05:10 -0800 (PST)
+Message-ID: <39b4a009-1883-4e66-b743-6b69f0846418@linaro.org>
+Date: Fri, 12 Jan 2024 00:05:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] media: qcom: camss: Add sc8280xp support
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240111-linux-next-24-01-09-sc8280xp-camss-changes-v1-0-b92a650121ba@linaro.org>
+ <cd3d3034-ce98-4b96-8cdc-fbd5b66ca7a8@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <cd3d3034-ce98-4b96-8cdc-fbd5b66ca7a8@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-ida_alloc() and ida_free() should be preferred to the deprecated
-ida_simple_get() and ida_simple_remove().
+On 11/01/2024 20:13, Konrad Dybcio wrote:
+> 
+> 
+> On 1/11/24 20:57, Bryan O'Donoghue wrote:
+>> A minimal set of patches to switch on sc8280xp support in CAMSS
+>> upstream. Most of the SoC dependencies are either merged - CAMCC or very
+>> close to being merged - CAMSS/CCI dtsi.
+>>
+>> Alot of prior work means we have far less interventions to make in this
+>> driver to support this new SoC.
+>>
+>> Most of this series is already reviewed however it is gated on merge of
+>> the CAMSS compat string here =>
+>>
+>> Link: 
+>> https://lore.kernel.org/linux-arm-msm/20240111-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v4-2-cdd5c57ff1dc@linaro.org/
+>> Link: 
+>> https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-24-01-09-sc8280xp-camss-changes
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+> What happened to the "vN" in the subject and the changelog?
+> 
+> Konrad
 
-Note that the upper limit of ida_simple_get() is exclusive, but the one of
-ida_alloc_max() is inclusive. So a -1 has been added when needed.
+Hmm it "felt" like a new series
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Checking though - yep this should be v5
+
+https://lwn.net/Articles/950887/
+
+I'll resend
+
 ---
- drivers/media/dvb-frontends/dvb-pll.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/dvb-pll.c b/drivers/media/dvb-frontends/dvb-pll.c
-index ef697ab6bc2e..1775a4aa0a18 100644
---- a/drivers/media/dvb-frontends/dvb-pll.c
-+++ b/drivers/media/dvb-frontends/dvb-pll.c
-@@ -796,7 +796,7 @@ struct dvb_frontend *dvb_pll_attach(struct dvb_frontend *fe, int pll_addr,
- 	b1[0] = 0;
- 	msg.buf = b1;
- 
--	nr = ida_simple_get(&pll_ida, 0, DVB_PLL_MAX, GFP_KERNEL);
-+	nr = ida_alloc_max(&pll_ida, DVB_PLL_MAX - 1, GFP_KERNEL);
- 	if (nr < 0) {
- 		kfree(b1);
- 		return NULL;
-@@ -862,7 +862,7 @@ struct dvb_frontend *dvb_pll_attach(struct dvb_frontend *fe, int pll_addr,
- 	return fe;
- out:
- 	kfree(b1);
--	ida_simple_remove(&pll_ida, nr);
-+	ida_free(&pll_ida, nr);
- 
- 	return NULL;
- }
-@@ -905,7 +905,7 @@ static void dvb_pll_remove(struct i2c_client *client)
- 	struct dvb_frontend *fe = i2c_get_clientdata(client);
- 	struct dvb_pll_priv *priv = fe->tuner_priv;
- 
--	ida_simple_remove(&pll_ida, priv->nr);
-+	ida_free(&pll_ida, priv->nr);
- 	dvb_pll_release(fe);
- }
- 
--- 
-2.34.1
-
+bod
 
