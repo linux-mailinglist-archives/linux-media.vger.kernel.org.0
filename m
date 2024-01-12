@@ -1,106 +1,134 @@
-Return-Path: <linux-media+bounces-3649-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3650-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8A882C13E
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 14:59:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0818782C141
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 15:00:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FBC31F26901
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 13:59:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16AA41C23895
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 14:00:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D6E86D1C7;
-	Fri, 12 Jan 2024 13:59:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96EB06D1C3;
+	Fri, 12 Jan 2024 14:00:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtVdOY5/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCp6TBMJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2DC6BB40;
-	Fri, 12 Jan 2024 13:59:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 128A9C43390;
-	Fri, 12 Jan 2024 13:59:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705067947;
-	bh=oMZ81G+ISx28UspkijwH23mXsSLB67wCS+jmcXwB6yY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GtVdOY5/OXfe3N1BykNwp68hEIs60DIJYDyl+AlX0nCj9eJxFKR5OiAS5jEmtiai7
-	 Lh5w0lq3TuoU/0QWJcTlMBDth5cQc4SoeFJDSX0C2hMy34NA6bN0e+zQOVxHqu2mrU
-	 gkS7MFmC0XPxQ0PWhdoksLauX9kABC5Tujy2/8RWZ/uwbnusqCBH/mlViwVJmNO3X7
-	 /BCC/5yZTFcUJhuCGADzM8KoVYAH3Lt6XgnvyGwV3XGEAj/POqc2S9bd+Y2kmOgl7i
-	 H0F2Zo4xgYbBckgUw41Ctigvb4MImw8NBqvdZBO/qk7zPZaEn3Sg+iuAshdqiTOdkm
-	 eLurRwbq/0TRQ==
-Date: Fri, 12 Jan 2024 14:59:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <337mubsn42zlpuoqqvqmsjtdww4kg3x6lo6brdos5o6xgwjdwo@cxfad2pk2so2>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <CAPY8ntCs9EAYsxwjkscms3kqoC0N8+CcTHoyrG+gFMc0Mh=cwg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B856D1BB
+	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 14:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3366e78d872so6727313f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 06:00:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705068000; x=1705672800; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fEKXI1gBRWUXr2GLVbf0JDQ1eNTIpqdjRr3cQAOU9/s=;
+        b=mCp6TBMJ7B4Faif+YOtI6a6ZTePIVjd0InUWtlERQeLyRpqkN5/l1ISvLlCIbj1T0J
+         j7xGoam5AnCcPldSgTOYEf3FE1iDF/KgUUQOK8Lsfe16AtJEKp5KNfBGmcpXsZfpkG2X
+         YK8wfxlgm08wxR454IHejctGBOlDChTV69w4PINftW+F83COeqkWShy/P0M8b4LERjcd
+         OP2H4TK1y2swaJ080xRRv0fiOaN8z7hYByOdFMjqnEAZkAL4fAd2TlXnb0Aor+TWOIT+
+         GGcvcRrTAGFCjEQq44EtX23CCM2tYvOS/iQIZmf67Nm/xAE/TAv+lMy4X2fRB9QObNua
+         qI/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705068000; x=1705672800;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fEKXI1gBRWUXr2GLVbf0JDQ1eNTIpqdjRr3cQAOU9/s=;
+        b=xN/8ET4PTJWRfGlCI0DBdPoy0y4XqbDY/YjW4OuJlI8FCp2AHXM5f9ZYDu7Fjr/LCx
+         mrXOfHuL6dFGAIdaeWpWOmsDsWtBnlQwNysWDn9/xTTNKn0zotkZwwsdST8F06YyPLmZ
+         AdnxRwbcRDRldU0wKKdXlvMQIy3qYE+j7lovYvnudSMkp+l1VoOFjZAgxBs+xFqzUtSD
+         powxYKx/dBh7nr0V0mLHxevEe1WhOV3i5iI+rs5jgkk8/OPuP6DrHA6T1gNgmBUZUzCO
+         7+PV3XOhIwhOQsfxsLRBjWF6jtB5FLg0P2B/p9PIZDK8mObk8Yz/ApIX1jr7UvzYRMXS
+         Mlww==
+X-Gm-Message-State: AOJu0Ywu8GHj1Pyydv3Miwni0kvsDFdz8qI2RTYSeMwpySGLNM+mpOf+
+	kJqhAV/T7GLRU/rlX+YnmRIjABt4USIMtA==
+X-Google-Smtp-Source: AGHT+IGybUF6+JPMz5GcCG8A9lnCxidQXx9bnNCSXYEWqluXkfNg2MDTHaFOeEunisWA/mH3KQNfUg==
+X-Received: by 2002:adf:f74a:0:b0:333:2eef:d76f with SMTP id z10-20020adff74a000000b003332eefd76fmr350632wrp.45.1705067999344;
+        Fri, 12 Jan 2024 05:59:59 -0800 (PST)
+Received: from smtpclient.apple ([167.99.200.149])
+        by smtp.gmail.com with ESMTPSA id l26-20020adfa39a000000b00336f8b2f60fsm3984859wrb.8.2024.01.12.05.59.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 12 Jan 2024 05:59:58 -0800 (PST)
+From: Christian Hewitt <christianshewitt@gmail.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qktymaok2b34jnq7"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntCs9EAYsxwjkscms3kqoC0N8+CcTHoyrG+gFMc0Mh=cwg@mail.gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: RFC: dtv-scan-tables: plans to upstream changes from Tvheadend.org
+Message-Id: <B9E41908-10FB-4993-8DB7-353AA02C32CD@gmail.com>
+Date: Fri, 12 Jan 2024 17:59:46 +0400
+Cc: linux-media@vger.kernel.org
+To: Mauro Carvalho Chehab <m.chehab@samsung.com>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
+
+Hello Mauro,
+
+The Tvheadend project bundles dtv-scan-tables in our deb/rpm packages. =
+We have
+our own repo for them; an unmaintained fork of someone else=E2=80=99s =
+unmaintained fork
+of the upstream linuxtv repo =
+https://git.linuxtv.org/dtv-scan-tables.git.
+
+To improve things for everyone we are planning to retool around the =
+linuxtv.org
+repo and would like to sync/upstream the differences to you. The current =
+diff
+can be seen here:=20
+
+https://github.com/chewitt/dtv-scan-tables/compare/master...tvheadend
+
+The main challenges are, a) scrappy descriptions, b) contributor =
+real-names and
+email are missing from most of them, c) multiple contributors to the =
+same files
+over time.
+
+I was thinking to send a series with one patch for each country-code to =
+reduce
+the number of patches to review, with links to original pull-requests in =
+patch
+descriptions to provide attribution to original changes, and any other =
+info
+like URLs added to files as comments if the links still work.
+
+Moving forwards we plan to add a PR template to our GitHub repo that =
+encourages
+patches to be sent directly to the linux-media list; or for contributors =
+to
+provide us with real-name/email for attribution so we can upstream =
+patches on
+their behalf, or remain anonymous but give permission for patches to be =
+sent
+under Tvheadend attribution (likely as myself).
+
+Would my per-country-code patch suggestion work for you? or how would =
+you like
+us to handle the changes?
+
+Regards, Christian
+chewitt@tvheadend.org
+
+NB: The pending patch from Simon Liddicott [0] reduces the diff. Could =
+that be
+merged soon?
+
+[0] =
+https://patchwork.linuxtv.org/project/linux-media/patch/20230216010528.592=
+1-1-simon@liddicott.com/
 
 
---qktymaok2b34jnq7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Dave,
-
-On Thu, Dec 14, 2023 at 02:43:37PM +0000, Dave Stevenson wrote:
-> On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > The i915 driver has a property to force the RGB range of an HDMI output.
-> > The vc4 driver then implemented the same property with the same
-> > semantics. KWin has support for it, and a PR for mutter is also there to
-> > support it.
-> >
-> > Both drivers implementing the same property with the same semantics,
-> > plus the userspace having support for it, is proof enough that it's
-> > pretty much a de-facto standard now and we can provide helpers for it.
-> >
-> > Let's plumb it into the newly created HDMI connector.
->=20
-> To have such a significant proportion of the patch being kunit tests
-> when there was no reference to such in the commit text was slightly
-> unexpected.
-
-Thanks for your review. Does that mean that you would prefer the tests
-to be in a separate patch?
-
-Maxime
-
---qktymaok2b34jnq7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaFFqAAKCRDj7w1vZxhR
-xaVsAQCQvfIMIrKA7nqrSHokMD20be4Xcm2T84v3PW9kS4jdiAD/Qli9xSKrx6Q9
-1g/aGgxA2VDLSgq0Ag5FVT+HFhvA9gE=
-=hMit
------END PGP SIGNATURE-----
-
---qktymaok2b34jnq7--
 
