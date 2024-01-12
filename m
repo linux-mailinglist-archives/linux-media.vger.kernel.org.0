@@ -1,227 +1,114 @@
-Return-Path: <linux-media+bounces-3639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A568782BE0D
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 11:04:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5560F82BF02
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 12:11:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59021281A0D
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 10:04:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0ACAC1F2635C
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 11:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95E1D5786F;
-	Fri, 12 Jan 2024 10:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4BF64CED;
+	Fri, 12 Jan 2024 11:10:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TS0iao3U"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l+AI/IvF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5232857310;
-	Fri, 12 Jan 2024 10:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50e80d40a41so8037524e87.1;
-        Fri, 12 Jan 2024 02:04:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C2964CEF
+	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 11:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5e7f0bf46a2so61867817b3.1
+        for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 03:10:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705053842; x=1705658642; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=49mGNK36uTAc2PcGxvuMH6FjMrZ7N2e/dp51dNcG2WI=;
-        b=TS0iao3U15Q4mYmhJW2KtRm0i/xDGi7Tbkl9WyTW71DxaEpm5qQFe9qGmFEAgQ95Me
-         tUi0usc5SFDOo2VIGCCW6gsbxfkTwsjKk54RFOuUA551usnSTeo5XH/w5yJKgJiuUw4r
-         sSZzx+OzTKHu8tpjh4Zub38fFWWfTQDggVZTRUT4n3P/UZDFbk4dDgzk5ALHtb2qqsio
-         5vWCG1nJbnM6Bw1nFqDnaNDf5mFeiYjyAFGR6QSgmrTqWtuWclCcDaHuVFFh1+H8jWRY
-         HNsV+U/wVXI6LHSERyFmraMDXgWkfvCy8L6P+OYQMU2IBSO1wggWiE5qlIBn5BYphsSQ
-         wl3w==
+        d=linaro.org; s=google; t=1705057842; x=1705662642; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vQj2NKX5tt96cVcGJ+2RjHHBa37oPwGgTH9TSWitTO0=;
+        b=l+AI/IvF8rXKs+dfVxIhcJ8wEB/NoIExfdJVj3XRaECwfr0HXy3lutu5wex1CSuCK2
+         kxtK2NpfuCtJvcWhubvKk0JHt4xihXL6kTEUeXW3mV5sasP2jmzPEi9rPAWhyltKc1oV
+         Ur11TZ8U9Z/KCRdFr7JQfW3YEjFG4eCyRIBKMoDicwmGw8GLikuoz2qjca9qwK2OedaW
+         co68cS8hd2O5j0TZOd1ON52qxA/gmtl8H0dBwfMEeX7n6zLZlEGY/0qWLnzmaO7h/QJ1
+         pEv2Lk9dBIa8gPmTjVzXCvePC9QRl1ivY8QxsZwygp9sRHh25Hpd2TC9zeYmxsV7j4w2
+         +Yfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705053842; x=1705658642;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=49mGNK36uTAc2PcGxvuMH6FjMrZ7N2e/dp51dNcG2WI=;
-        b=VRtMt8eaamKvwXo3zsBgStBXMbmqM869AGGSX8QQdJPHVxfVbVV389+qMCcpNfkUTF
-         TDvEhhPic2HC2qBNW8NA7uXCso0c3DbJELU0dvegH4fo3jfirpKeil2MjQxh4EoX0dSb
-         t6Qzmf6VN/D2xgjbZpfRq4hJe4FWPaeyRJkIwnd9CUCfRgqYJCDwGx9fXtbd2+eo7iDF
-         9n/bOL3PHnXHQk27DFoVOcAcRz8DlEOED+pmQImltQLYRLix6+a3iF1P6h97N/F4PgrT
-         urU3z0v6zgtp6/i8bq61N8sN5GM+eYA2SQVa/N5cHqAEocwbrKlMdjuIUOyrglZxFuFz
-         xW5A==
-X-Gm-Message-State: AOJu0YxHuvvoKIRqLh6j1zFoHLe3DgaJ2q8fkuEbcmAa4lWxHaFfpguD
-	09gY2RNarFkH2XEw/YluLVI=
-X-Google-Smtp-Source: AGHT+IEJgqgQRPe4+wGucPThB/wEKQwuXAHrrbJUK/XGlr7TnjYBQAAXKDwmwnzWG8Ho0OJhEyyxYw==
-X-Received: by 2002:a05:6512:3188:b0:50e:6b48:5407 with SMTP id i8-20020a056512318800b0050e6b485407mr667018lfe.82.1705053841920;
-        Fri, 12 Jan 2024 02:04:01 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id y22-20020a056512335600b0050eea9541casm26727lfd.44.2024.01.12.02.04.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jan 2024 02:04:01 -0800 (PST)
-Date: Fri, 12 Jan 2024 12:03:57 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Yong Wu <yong.wu@mediatek.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, <christian.koenig@amd.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
- <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- <tjmercier@google.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, Robin Murphy <robin.murphy@arm.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>, Joakim Bech
- <joakim.bech@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>, Pavel
- Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>,
- <jianjiao.zeng@mediatek.com>, <kuohong.wang@mediatek.com>,
- <youlin.pei@mediatek.com>
-Subject: Re: [PATCH v4 0/7] dma-buf: heaps: Add restricted heap
-Message-ID: <20240112120357.724e9326@eldfell>
-In-Reply-To: <20240112092014.23999-1-yong.wu@mediatek.com>
-References: <20240112092014.23999-1-yong.wu@mediatek.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+        d=1e100.net; s=20230601; t=1705057842; x=1705662642;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vQj2NKX5tt96cVcGJ+2RjHHBa37oPwGgTH9TSWitTO0=;
+        b=jndORXQjbJAHyyfMibleQAE232i/h+Dwcjz5v/KiYYQHfiIpy6JdoSOBFShNTcMJv8
+         s3JIc3gwk6X83dGs2tr2k5+H/UhEN+ZsDcLx7PoYnResPXm9zcvXH2Q9ErNJlfBybg1k
+         aXWFV6Wb1XQL5BKzrrf3mDIMToKEkGJKXfpN8kWqCmYyEszlhRYckGQUgnYzWWIhoo1V
+         fAoTlUATenNUOR4gWxZpuRMkYHRzlTFekzPedzieSaPQnX8NiH81IR3dN7yexAn1okIk
+         SYIkiqcg62F68UX8Rgq6lDZSlMAbd/YHNWduAF9DaY7Wsx0LWjQH4nUKmBVCZqljnZiu
+         jTsA==
+X-Gm-Message-State: AOJu0YwE7d62EAn8Skd73JqIJoyumHUYBehVn8Iv2HwOuUFNYoVigQy3
+	tHdSR2ajHZONWItp9HTYxwG4+YLeSvYOh7vvZ2RpPyaqW5/WrQ==
+X-Google-Smtp-Source: AGHT+IFwL6LWdZ7EreE38I3TD6a4AheGRUwBjLUP+7il2h3PtjezrVbJVoAcxHYRi318dnP4Kk6MCExSsRqwxPTsuPw=
+X-Received: by 2002:a81:9f14:0:b0:5fb:9571:ec91 with SMTP id
+ s20-20020a819f14000000b005fb9571ec91mr1192176ywn.33.1705057842027; Fri, 12
+ Jan 2024 03:10:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/lS=3R00MGWXjD0UrR5LXr4S";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/lS=3R00MGWXjD0UrR5LXr4S
-Content-Type: text/plain; charset=US-ASCII
+References: <20240105160103.183092-1-ulf.hansson@linaro.org> <CAEnQRZB16QDJAqkQaLZ6he8eTQLcWzAFXivYt9Gj3CJns-G-NA@mail.gmail.com>
+In-Reply-To: <CAEnQRZB16QDJAqkQaLZ6he8eTQLcWzAFXivYt9Gj3CJns-G-NA@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 12 Jan 2024 12:10:06 +0100
+Message-ID: <CAPDyKFr+ZV0pO5L-Gn-8gKG=ARpxeXHLN3T9PPcSFxVayEG07Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] PM: domains: Add helpers for multi PM domains to
+ avoid open-coding
+To: Daniel Baluta <daniel.baluta@gmail.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org, 
+	Sudeep Holla <sudeep.holla@arm.com>, Kevin Hilman <khilman@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Nikunj Kela <nkela@quicinc.com>, Prasad Sodagudi <psodagud@quicinc.com>, 
+	Stephan Gerhold <stephan@gerhold.net>, Ben Horgan <Ben.Horgan@arm.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-remoteproc@vger.kernel.org, 
+	linux-media@vger.kernel.org, Iuliana Prodan <iuliana.prodan@nxp.com>, 
+	Daniel Baluta <daniel.baluta@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 12 Jan 2024 17:20:07 +0800
-Yong Wu <yong.wu@mediatek.com> wrote:
+On Mon, 8 Jan 2024 at 09:44, Daniel Baluta <daniel.baluta@gmail.com> wrote:
+>
+> On Fri, Jan 5, 2024 at 6:02=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.or=
+g> wrote:
+> >
+> > Updates in v2:
+> >         - Ccing Daniel Baluta and Iuliana Prodan the NXP remoteproc pat=
+ches to
+> >         requests help with testing.
+> >         - Fixed NULL pointer bug in patch1, pointed out by Nikunj.
+> >         - Added some tested/reviewed-by tags.
+>
+> Thanks for doing this Ulf. I remember that I've tried introducing the
+> helpers some time ago
+> but got side tracked by other tasks.
+>
+> https://lore.kernel.org/linux-pm/20200624103247.7115-1-daniel.baluta@oss.=
+nxp.com/t/
 
-> The purpose of this patchset is for MediaTek secure video playback, and
-> also to enable other potential uses of this in the future. The 'restricted
-> dma-heap' will be used to allocate dma_buf objects that reference memory
-> in the secure world that is inaccessible/unmappable by the non-secure
-> (i.e. kernel/userspace) world.  That memory will be used by the secure/
-> trusted world to store secure information (i.e. decrypted media content).
-> The dma_bufs allocated from the kernel will be passed to V4L2 for video
-> decoding (as input and output). They will also be used by the drm
-> system for rendering of the content.
->=20
-> This patchset adds two MediaTek restricted heaps and they will be used in
-> v4l2[1] and drm[2].
-> 1) restricted_mtk_cm: secure chunk memory for MediaTek SVP (Secure Video
->    Path). The buffer is reserved for the secure world after bootup and it
->    is used for vcodec's ES/working buffer;
-> 2) restricted_mtk_cma: secure CMA memory for MediaTek SVP. This buffer is
->    dynamically reserved for the secure world and will be got when we start
->    playing secure videos. Once the security video playing is complete, the
->    CMA will be released. This heap is used for the vcodec's frame buffer.=
-=20
->=20
-> [1] https://lore.kernel.org/linux-mediatek/20231206081538.17056-1-yunfei.=
-dong@mediatek.com/
-> [2] https://lore.kernel.org/all/20231223182932.27683-1-jason-jh.lin@media=
-tek.com/
->=20
-> Change note:
-> v4: 1) Rename the heap name from "secure" to "restricted". suggested from
->      Simon/Pekka. There are still several "secure" string in MTK file
->      since we use ARM platform in which we call this "secure world"/
->      "secure command".
+Thanks for the pointer, yes I recall that too!
 
-Hi,
+I should have added your suggested-by tag to patch1 in this series,
+let me update that if/when I submit a new version!
 
-I am really happy about this name change, thank you.
+>
+> Will review the series and test the remoteproc part this week.
 
-It is unfortunate that ARM specifications use the word "secure", but so
-be it. When referring to specs, it's good to use the spec wording.
+Thanks a lot, looking forward to your feedback!
 
-In everything that is not a direct reference to some spec though it
-would be nice to use the "restricted" terminology if possible. I
-presume there are other vendors who use words other than what ARM uses
-for similar concepts. A common vocabulary would be nice.
-
-
-Thanks,
-pq
-
-> v3: https://lore.kernel.org/linux-mediatek/20231212024607.3681-1-yong.wu@=
-mediatek.com/
->     1) Separate the secure heap to a common file(secure_heap.c) and mtk
->      special file (secure_heap_mtk.c),  and put all the tee related code
->      into our special file.
->     2) About dt-binding, Add "mediatek," prefix since this is Mediatek TEE
->      firmware definition.
->     3) Remove the normal CMA heap which is a draft for qcom.
->     Rebase on v6.7-rc1.
->=20
-> v2: https://lore.kernel.org/linux-mediatek/20231111111559.8218-1-yong.wu@=
-mediatek.com/
->     1) Move John's patches into the vcodec patchset since they use the new
->        dma heap interface directly.
->        https://lore.kernel.org/linux-mediatek/20231106120423.23364-1-yunf=
-ei.dong@mediatek.com/
->     2) Reword the dt-binding description.
->     3) Rename the heap name from mtk_svp to secure_mtk_cm.
->        This means the current vcodec/DRM upstream code doesn't match this.
->     4) Add a normal CMA heap. currently it should be a draft version.
->     5) Regarding the UUID, I still use hard code, but put it in a private
->     data which allow the others could set their own UUID. What's more, UU=
-ID
->     is necessary for the session with TEE. If we don't have it, we can't
->     communicate with the TEE, including the get_uuid interface, which tri=
-es
->     to make uuid more generic, not working. If there is other way to make
->     UUID more general, please free to tell me.
->    =20
-> v1: https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu=
-@mediatek.com/
->     Base on v6.6-rc1.
->=20
-> Yong Wu (7):
->   dt-bindings: reserved-memory: Add mediatek,dynamic-restricted-region
->   dma-buf: heaps: Initialize a restricted heap
->   dma-buf: heaps: restricted_heap: Add private heap ops
->   dma-buf: heaps: restricted_heap: Add dma_ops
->   dma-buf: heaps: restricted_heap: Add MediaTek restricted heap and
->     heap_init
->   dma-buf: heaps: restricted_heap_mtk: Add TEE memory service call
->   dma_buf: heaps: restricted_heap_mtk: Add a new CMA heap
->=20
->  .../mediatek,dynamic-restricted-region.yaml   |  43 +++
->  drivers/dma-buf/heaps/Kconfig                 |  16 +
->  drivers/dma-buf/heaps/Makefile                |   4 +-
->  drivers/dma-buf/heaps/restricted_heap.c       | 237 +++++++++++++
->  drivers/dma-buf/heaps/restricted_heap.h       |  43 +++
->  drivers/dma-buf/heaps/restricted_heap_mtk.c   | 322 ++++++++++++++++++
->  6 files changed, 664 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/med=
-iatek,dynamic-restricted-region.yaml
->  create mode 100644 drivers/dma-buf/heaps/restricted_heap.c
->  create mode 100644 drivers/dma-buf/heaps/restricted_heap.h
->  create mode 100644 drivers/dma-buf/heaps/restricted_heap_mtk.c
->=20
-
-
---Sig_/lS=3R00MGWXjD0UrR5LXr4S
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmWhDo0ACgkQI1/ltBGq
-qqdgnhAAiXIHptPG8WhqVlmOGF8J+Dj7PxjrLasFg2BG/gbUDAM2FICO1VBkblIw
-bW1+LqpcdVG+FBs/hGrQOvEblaiIKjMXf5jyNnqPun4xGzi4VggC3sU7erHyIaAb
-bLqfGVzrG782jns8Ibj9AeX1fck6aooUm8yD6w5JvGJRKRNIXKIeGPZrRkiotfnn
-0NcTZ4BVoTufB5dzYgJABuiTmk1OyT4QkCVmVVE0mVn4tTc8Yd+s4m3rXqr/r3YE
-A0geZB/426wfXy6oxNmf0ftQzsyEIcVP/WZJZKtbh6rnXQ2RcMkK38wTTG0Bmyuf
-F1FW2L0GEyile6Vm6DyRJf97UQSzWCMraDUJKEd9+AbyjbreEnSUSL5WnPpWTbND
-lmsCrC1rVM+/hTOD7or/0mF6kp2WgfSaaH+BhrkvDb8MGjj/84yEs4v0jAwBM5y4
-knMaP00XF33xsX4OWEWbjniT+ZCdl9lhrGju9A+0+ZDTH+2LKAuzF5Rq9GgzWUzD
-NqoAZ3aLTUS6KdLfjG6Dzz+eLtjrmOcOcP0gdxKbObO5DXo3yL/r3WZyGDoBDDNr
-Ko38kjrDz+kuAsfKRzu1tDbPLnJLnVyt9rBl4NiD5Gl3BrJv0WvFRtuyzYrlNKHU
-M5t91RcbiaPApyXCZT0eXqefR5B27nW2e20Kqcf3kEPh+dsLVzc=
-=Y8bP
------END PGP SIGNATURE-----
-
---Sig_/lS=3R00MGWXjD0UrR5LXr4S--
+Kind regards
+Uffe
 
