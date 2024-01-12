@@ -1,118 +1,336 @@
-Return-Path: <linux-media+bounces-3606-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3607-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7F082B9E6
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 04:17:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7290982B9F7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 04:31:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 362D71F24FDC
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 03:17:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 876E71C23FE7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 03:31:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C1A15C6;
-	Fri, 12 Jan 2024 03:17:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAC371A73C;
+	Fri, 12 Jan 2024 03:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xa1lVIGJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nD8Rj2+t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500DD1108
-	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 03:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-58962bf3f89so842626a12.0
-        for <linux-media@vger.kernel.org>; Thu, 11 Jan 2024 19:17:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705029444; x=1705634244; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lFINQhVngeuL3Q+9yY5Ts2V/N3kA4KP1+cnBd9hCA/c=;
-        b=Xa1lVIGJ2C/3xo08/2wfmNykOYsUFPQjtlN5FJerCjRV6rFJoeufMlmehXbbn9pkHO
-         j8/KtnMa9VerfMw0hiUYrZV4h8bA0PLv7ewZjj46imRdc+XO+nz/L3GhchRUspy8Qq8F
-         m2GcWN13OwE7MRKJ0hyWCQ6lYGNvSVk3IvEr17lX9VGyw5hTk2IWZDl2PdKn43AFnpcL
-         VbjMr0BlRdvRXdekLjmrCOL7VY9XRKGAELXJqdkNR4aRGUdvYoJ/cs6nEH3SdMBUiZsS
-         604GJRrrWNp3TGT0L8Hu/9qwWe/YMPbaXwVAk2Lx5eVrcwwT55/ys/+brMmEatCBfJJT
-         Cemw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705029444; x=1705634244;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lFINQhVngeuL3Q+9yY5Ts2V/N3kA4KP1+cnBd9hCA/c=;
-        b=UeHcHT6GVFq32VrBm5i4DYF5WjYv1WTbsn33uiP3OJJwnKJLgItXd6E5S+yrpgNYRb
-         MUxfNxuzHqdOg7bmKtl2HWxHqt7aLiBz/wAlaibTOgATa/JJjAO/O/PBqN2tZWNLqnoa
-         G9vj1+6uzK4nZU+GSyImQfWroWenyMaA1YXCMAn89FpGgBDydg7UHWWYJAdn9UGSFYvY
-         LuSEwGn76nMAgwshAyKMSvWSE5NxaCOZmnH6jR22dUFJ9QdwWxtoomiVzAUtF218pSn0
-         8jdCnqZE+2JyiB/KPliouu05I9Et9xblP3n+F/LMoMTcUSMaBF7okck9Z1j9mYcekfQ4
-         NnxA==
-X-Gm-Message-State: AOJu0Yxu70zXFoiYi5i4taZKLkYbROlGIyb/Uv986ijqPY6ecfmZCA/a
-	CzeC035JQjwrKuy+9ZnouKSmhLx8v8w=
-X-Google-Smtp-Source: AGHT+IF8H9OltSr+GuU8A1gKSxvL5GS8gEXHGOHdQ3PsAG76atTp+S39LVuyR2IrlywbnsyVoghzJg==
-X-Received: by 2002:a05:6a20:8e20:b0:199:7f36:d88f with SMTP id y32-20020a056a208e2000b001997f36d88fmr779360pzj.1.1705029444515;
-        Thu, 11 Jan 2024 19:17:24 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:e92d:49e3:5f9:e0a4])
-        by smtp.gmail.com with ESMTPSA id e12-20020a17090301cc00b001d4e0752b5esm1952713plh.157.2024.01.11.19.17.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 19:17:23 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: hverkuil-cisco@xs4all.nl
-Cc: sean@mess.org,
-	raj.khem@gmail.com,
-	linux-media@vger.kernel.org,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v4l-utils] keytable: meson: Restrict the installation of 50-rc_keymap.conf
-Date: Fri, 12 Jan 2024 00:17:14 -0300
-Message-Id: <20240112031714.242522-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A001A72F
+	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 03:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705030303; x=1736566303;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B75fP1xY2+JPpu6g9TkXBE+zjgCuEdpb/jDmti73nhA=;
+  b=nD8Rj2+tb2bPDhCNE+lhA68h0RUF/QcHQ2A0dgZ5tGLX/C/iVxUzwALP
+   75tgz/Pu9PYpWnwJyfusC6is4bt9uJHP33qWshDdlFO/wcK6/V8IHrxPS
+   PRy3JE9K0K4wsRgraPcOShAbp/aHYFvUN4KxK22zFS5yaie4jNnmFL2bL
+   y1Zr8zCmrR9ofaxqpWDQnMC8PZcsngSp5cHmcgvpsGHp6BkmnPCd9a/J/
+   zVt2U24R9+XVO4RaQveD/PBV0So8qbCoiJ2WtJp6eWlWC+it3+22MGeP6
+   WDJEfpib8QZmFCU+GqqjSsJq7DzYJwyVdIS7mU5tVD1jOKdCbKVUHvBFG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="485249322"
+X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
+   d="scan'208";a="485249322"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 19:31:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="775875874"
+X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
+   d="scan'208";a="775875874"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 11 Jan 2024 19:31:37 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rO8Gc-00091I-2F;
+	Fri, 12 Jan 2024 03:31:34 +0000
+Date: Fri, 12 Jan 2024 11:31:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+	andriy.shevchenko@linux.intel.com, hdegoede@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
+	tomi.valkeinen@ideasonboard.com, tfiga@chromium.org,
+	senozhatsky@chromium.org, andreaskleist@gmail.com,
+	bingbu.cao@intel.com, bingbu.cao@linux.intel.com,
+	tian.shu.qiu@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH v3 16/17] media: ipu6/isys: support line-based metadata
+ capture support
+Message-ID: <202401121120.4CiWmH5y-lkp@intel.com>
+References: <20240111065531.2418836-17-bingbu.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240111065531.2418836-17-bingbu.cao@intel.com>
 
-From: Fabio Estevam <festevam@denx.de>
+Hi,
 
-Currently, meson tries to install 50-rc_keymap.conf even if systemd
-is not used.
+kernel test robot noticed the following build errors:
 
-Commit 01f2c6c58e6f ("keytable: restrict installation of 50-rc_keymap.conf"),
-only allowed 50-rc_keymap.conf to be installed when both BPF and systemd
-were used.
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master linus/master v6.7 next-20240111]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Apply the same logic in meson to fix the problem.
+url:    https://github.com/intel-lab-lkp/linux/commits/bingbu-cao-intel-com/media-intel-ipu6-add-IPU-auxiliary-devices/20240111-155551
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240111065531.2418836-17-bingbu.cao%40intel.com
+patch subject: [PATCH v3 16/17] media: ipu6/isys: support line-based metadata capture support
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240112/202401121120.4CiWmH5y-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121120.4CiWmH5y-lkp@intel.com/reproduce)
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- utils/keytable/meson.build | 4 ++++
- 1 file changed, 4 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401121120.4CiWmH5y-lkp@intel.com/
 
-diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
-index 4130a4bea514..76ce329eae8e 100644
---- a/utils/keytable/meson.build
-+++ b/utils/keytable/meson.build
-@@ -69,6 +69,8 @@ ir_keytable_udev_rules = files(
- install_data(ir_keytable_udev_rules,
-              install_dir : ir_keytable_system_dir / 'rules.d')
- 
-+if ir_bpf_enabled
-+if dep_systemd.found()
- if have_udevdsyscallfilter
-     ir_keytable_systemd_files = files(
-         '50-rc_keymap.conf',
-@@ -76,6 +78,8 @@ if have_udevdsyscallfilter
-     install_data(ir_keytable_systemd_files,
-                  install_dir : systemd_systemdir / 'systemd-udevd.service.d')
- endif
-+endif
-+endif
- 
- # Install non-existing directory to create empty directory structure
- # See: https://github.com/mesonbuild/meson/issues/2904
+All errors (new ones prefixed by >>):
+
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:45:2: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
+      45 |         MEDIA_BUS_FMT_META_8,
+         |         ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:46:2: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_10'
+      46 |         MEDIA_BUS_FMT_META_10,
+         |         ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:47:2: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_12'
+      47 |         MEDIA_BUS_FMT_META_12,
+         |         ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:48:2: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_16'
+      48 |         MEDIA_BUS_FMT_META_16,
+         |         ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:49:2: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_24'
+      49 |         MEDIA_BUS_FMT_META_24,
+         |         ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:406:13: error: call to undeclared function 'v4l2_subdev_state_get_stream_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     406 |         src_ffmt = v4l2_subdev_state_get_stream_format(state, sel->pad,
+         |                    ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:406:11: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
+     406 |         src_ffmt = v4l2_subdev_state_get_stream_format(state, sel->pad,
+         |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     407 |                                                        sel->stream);
+         |                                                        ~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:411:9: error: call to undeclared function 'v4l2_subdev_state_get_stream_crop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     411 |         crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
+         |                ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:411:7: error: incompatible integer to pointer conversion assigning to 'struct v4l2_rect *' from 'int' [-Wint-conversion]
+     411 |         crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:456:9: error: call to undeclared function 'v4l2_subdev_state_get_stream_crop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     456 |         crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
+         |                ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:456:7: error: incompatible integer to pointer conversion assigning to 'struct v4l2_rect *' from 'int' [-Wint-conversion]
+     456 |         crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:483:3: error: field designator 'init_cfg' does not refer to any field in type 'const struct v4l2_subdev_pad_ops'
+     483 |         .init_cfg = ipu6_isys_subdev_init_cfg,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 errors generated.
+--
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:88:3: error: use of undeclared identifier 'V4L2_META_FMT_GENERIC_8'
+      88 |         {V4L2_META_FMT_GENERIC_8, 8, 8, MEDIA_BUS_FMT_META_8, 0},
+         |          ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:88:34: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
+      88 |         {V4L2_META_FMT_GENERIC_8, 8, 8, MEDIA_BUS_FMT_META_8, 0},
+         |                                         ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:89:3: error: use of undeclared identifier 'V4L2_META_FMT_GENERIC_CSI2_10'
+      89 |         {V4L2_META_FMT_GENERIC_CSI2_10, 10, 10, MEDIA_BUS_FMT_META_10, 0},
+         |          ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:89:42: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_10'
+      89 |         {V4L2_META_FMT_GENERIC_CSI2_10, 10, 10, MEDIA_BUS_FMT_META_10, 0},
+         |                                                 ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:90:3: error: use of undeclared identifier 'V4L2_META_FMT_GENERIC_CSI2_12'
+      90 |         {V4L2_META_FMT_GENERIC_CSI2_12, 12, 12, MEDIA_BUS_FMT_META_12, 0},
+         |          ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:90:42: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_12'
+      90 |         {V4L2_META_FMT_GENERIC_CSI2_12, 12, 12, MEDIA_BUS_FMT_META_12, 0},
+         |                                                 ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:91:3: error: use of undeclared identifier 'V4L2_META_FMT_GENERIC_CSI2_16'
+      91 |         {V4L2_META_FMT_GENERIC_CSI2_16, 16, 16, MEDIA_BUS_FMT_META_16, 0},
+         |          ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:91:42: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_16'
+      91 |         {V4L2_META_FMT_GENERIC_CSI2_16, 16, 16, MEDIA_BUS_FMT_META_16, 0},
+         |                                                 ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:92:3: error: use of undeclared identifier 'V4L2_META_FMT_GENERIC_CSI2_24'
+      92 |         {V4L2_META_FMT_GENERIC_CSI2_24, 24, 24, MEDIA_BUS_FMT_META_24, 0},
+         |          ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:92:42: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_24'
+      92 |         {V4L2_META_FMT_GENERIC_CSI2_24, 24, 24, MEDIA_BUS_FMT_META_24, 0},
+         |                                                 ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:122:18: error: invalid application of 'sizeof' to an incomplete type 'const struct ipu6_isys_pixelformat[]'
+     122 |         for (i = 0; i < ARRAY_SIZE(ipu6_isys_pfmts); i++) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:148:18: error: invalid application of 'sizeof' to an incomplete type 'const struct ipu6_isys_pixelformat[]'
+     148 |         if (f->index >= ARRAY_SIZE(ipu6_isys_pfmts))
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:157:18: error: invalid application of 'sizeof' to an incomplete type 'const struct ipu6_isys_pixelformat[]'
+     157 |         for (i = 0; i < ARRAY_SIZE(ipu6_isys_pfmts); i++) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:8: error: no member named 'width' in 'struct v4l2_meta_format'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |         ~~~~  ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:28: error: no member named 'width' in 'struct v4l2_meta_format'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                             ~~~~  ^
+   include/linux/minmax.h:146:44: note: expanded from macro 'clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                                            ^~~
+   include/linux/minmax.h:75:40: note: expanded from macro '__careful_clamp'
+      75 |         __builtin_choose_expr(__is_constexpr((val) - (lo) + (hi)),      \
+         |                                               ^~~
+   include/linux/compiler.h:236:48: note: expanded from macro '__is_constexpr'
+     236 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+         |                                                       ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:28: error: no member named 'width' in 'struct v4l2_meta_format'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                             ~~~~  ^
+   include/linux/minmax.h:146:44: note: expanded from macro 'clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                                            ^~~
+   include/linux/minmax.h:76:11: note: expanded from macro '__careful_clamp'
+      76 |                 __clamp(val, lo, hi),                                   \
+         |                         ^~~
+   include/linux/minmax.h:61:4: note: expanded from macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |           ^~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:28: error: no member named 'width' in 'struct v4l2_meta_format'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                             ~~~~  ^
+   include/linux/minmax.h:146:44: note: expanded from macro 'clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                                            ^~~
+   include/linux/minmax.h:76:11: note: expanded from macro '__careful_clamp'
+      76 |                 __clamp(val, lo, hi),                                   \
+         |                         ^~~
+   include/linux/minmax.h:61:28: note: expanded from macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |                                   ^~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:28: error: no member named 'width' in 'struct v4l2_meta_format'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                             ~~~~  ^
+   include/linux/minmax.h:146:44: note: expanded from macro 'clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                                            ^~~
+   include/linux/minmax.h:76:11: note: expanded from macro '__careful_clamp'
+      76 |                 __clamp(val, lo, hi),                                   \
+         |                         ^~~
+   include/linux/minmax.h:61:51: note: expanded from macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |                                                          ^~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:28: error: no member named 'width' in 'struct v4l2_meta_format'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                             ~~~~  ^
+   include/linux/minmax.h:146:44: note: expanded from macro 'clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                                            ^~~
+   include/linux/minmax.h:77:16: note: expanded from macro '__careful_clamp'
+      77 |                 __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+         |                              ^~~
+   include/linux/minmax.h:64:9: note: expanded from macro '__clamp_once'
+      64 |         typeof(val) unique_val = (val);                                         \
+         |                ^~~
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:23:7: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_24'
+      23 |         case MEDIA_BUS_FMT_META_24:
+         |              ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:28:7: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_16'
+      28 |         case MEDIA_BUS_FMT_META_16:
+         |              ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:34:7: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_12'
+      34 |         case MEDIA_BUS_FMT_META_12:
+         |              ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:40:7: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_10'
+      40 |         case MEDIA_BUS_FMT_META_10:
+         |              ^
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:46:7: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
+      46 |         case MEDIA_BUS_FMT_META_8:
+         |              ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:159:8: error: call to undeclared function 'v4l2_subdev_state_get_stream_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     159 |         fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+         |               ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:159:6: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
+     159 |         fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     160 |                                                   format->stream);
+         |                                                   ~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:185:9: error: call to undeclared function 'v4l2_subdev_state_get_stream_crop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     185 |         crop = v4l2_subdev_state_get_stream_crop(state, other_pad,
+         |                ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:185:7: error: incompatible integer to pointer conversion assigning to 'struct v4l2_rect *' from 'int' [-Wint-conversion]
+     185 |         crop = v4l2_subdev_state_get_stream_crop(state, other_pad,
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     186 |                                                  other_stream);
+         |                                                  ~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:244:8: error: call to undeclared function 'v4l2_subdev_state_get_stream_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     244 |         fmt = v4l2_subdev_state_get_stream_format(state, pad, stream);
+         |               ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:244:6: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
+     244 |         fmt = v4l2_subdev_state_get_stream_format(state, pad, stream);
+         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:262:9: error: call to undeclared function 'v4l2_subdev_state_get_stream_crop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     262 |         rect = v4l2_subdev_state_get_stream_crop(state, pad, stream);
+         |                ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:262:7: error: incompatible integer to pointer conversion assigning to 'struct v4l2_rect *' from 'int' [-Wint-conversion]
+     262 |         rect = v4l2_subdev_state_get_stream_crop(state, pad, stream);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   13 errors generated.
+
+
+vim +/MEDIA_BUS_FMT_META_8 +45 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+
+    27	
+    28	static const u32 csi2_supported_codes[] = {
+    29		MEDIA_BUS_FMT_RGB565_1X16,
+    30		MEDIA_BUS_FMT_RGB888_1X24,
+    31		MEDIA_BUS_FMT_UYVY8_1X16,
+    32		MEDIA_BUS_FMT_YUYV8_1X16,
+    33		MEDIA_BUS_FMT_SBGGR10_1X10,
+    34		MEDIA_BUS_FMT_SGBRG10_1X10,
+    35		MEDIA_BUS_FMT_SGRBG10_1X10,
+    36		MEDIA_BUS_FMT_SRGGB10_1X10,
+    37		MEDIA_BUS_FMT_SBGGR12_1X12,
+    38		MEDIA_BUS_FMT_SGBRG12_1X12,
+    39		MEDIA_BUS_FMT_SGRBG12_1X12,
+    40		MEDIA_BUS_FMT_SRGGB12_1X12,
+    41		MEDIA_BUS_FMT_SBGGR8_1X8,
+    42		MEDIA_BUS_FMT_SGBRG8_1X8,
+    43		MEDIA_BUS_FMT_SGRBG8_1X8,
+    44		MEDIA_BUS_FMT_SRGGB8_1X8,
+  > 45		MEDIA_BUS_FMT_META_8,
+  > 46		MEDIA_BUS_FMT_META_10,
+  > 47		MEDIA_BUS_FMT_META_12,
+  > 48		MEDIA_BUS_FMT_META_16,
+  > 49		MEDIA_BUS_FMT_META_24,
+    50		0
+    51	};
+    52	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
