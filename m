@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-3622-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3623-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC7482BC36
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 09:10:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC44E82BC42
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 09:13:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 59657B24192
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 08:10:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A97628420F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 08:13:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 474885D8FD;
-	Fri, 12 Jan 2024 08:10:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87CE25D756;
+	Fri, 12 Jan 2024 08:13:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mHoGoakK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oX3hhyj+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4655D747
-	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 08:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BC35B5C1
+	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 08:13:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-337984681bcso50994f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 00:10:04 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40e5f3b390fso13791085e9.2
+        for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 00:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705047003; x=1705651803; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1705047219; x=1705652019; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WM7E5DNv+Yuq6dEP9y0PjVkOei9PpdZw6/SZfuW4srE=;
-        b=mHoGoakKij835lEKMkfS4XQ7V2eTsvT44SvbO33zpoEJq7h0NWUUp3mKQigD6oVYDE
-         CLrrxGfEwR8P2e9dia2gp+GAHy0m8SpdiXC2ScgMmPx9WxeLUFTUcjesAFQgdjwhXxNl
-         zLZX7l6iq6pAvpEqbzHmymU64qoGpnXUx3L0kODrHWcfHEFIj8jqR2I6Z5ZP7lJOA+oj
-         xNX3jMH9Ityqfb9Xhd2FAT/3zaJG6FQvYf92TAyh+6Ca68Nu8L40M3DAWUU8U3hAcLqv
-         vGIk8c2JWwCp/elgYZpOjXN7RLPgLatj48DazJbnxMjJmfiAVFB+tzsc+uMHhg1+iyeR
-         kYRg==
+        bh=xx5UyfTknpHv0TbKyR1koHf0SJI1m1ldAuxo0WLiaoU=;
+        b=oX3hhyj+/MaIakc4kRstECEq7Xb3YOR4DOF5bBY4OhFsm5Xk0AzBDX+A/UtUWdmJCx
+         uIsy/WWg046zpsuejhmmQ3QejG6kEgMuUrDvI+NDInlq0sp91zxeOGFXh9gZQzxlqQnQ
+         d5W9U/QUzGHFNrPoJJip22ftNZt13PkTMAC0JOFHttt2xheDtb3u0m+Lf3+6rmXou/HJ
+         pNLmO0Mz8qcDCyh54mlVSWxsmkAGTnn/C2FHPOE+2ecTWtaJ/CgQefNoMTXziFKDLRNI
+         nzFHeFJFFwh3/59croBOMFHl2lqkxBTYvcDzEUWc+2PnkH1sdrqEUAk+ptVn6Jn/J+AI
+         Re5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705047003; x=1705651803;
+        d=1e100.net; s=20230601; t=1705047219; x=1705652019;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WM7E5DNv+Yuq6dEP9y0PjVkOei9PpdZw6/SZfuW4srE=;
-        b=GTe99YZuIGnysuiJPwRn/aPrZa0Wcm6tw5ixkPTZzUP1hDFx3SxIGdJVJfLQvG/jDE
-         kAjTp9q5xgiP7X3CPsUux8C8BV4ScQdYRm+lxKBFpapZlyB+eG8OzJxIJf/nWSg8E7Cn
-         7qCIj9KD83ADS51Id9rmNppi3+XWxyfo2rlijiuD301Og82qulRwELSW7nmWJx7VThWn
-         +833Tkhll4JxGpRXbS7cDHSXxuksvG+LUNqGxnTQDmRXjcgGj7A49QobhJcyOPc8UQeH
-         aiBIRGzPjCHyQU4zNbKTvI/pqg8KPwxwtJNxiHOzQiW4ZPKeXfUKQMlT9CHMcQNCczs0
-         TFCA==
-X-Gm-Message-State: AOJu0YxRTQQzDDpI/b711bKXA0B64vWM5BttLQdTho7rNszjdlCXuk4Z
-	aZ6JvTqzzq+ajDseBZv1+f5MKMAYFMElpw==
-X-Google-Smtp-Source: AGHT+IG9KZ9YFG07KpTAogSX+bhuFCm4DZ6gwhZBR+gkAiOxU8wN393qo+hIFTKqHMf488zmkf8xXg==
-X-Received: by 2002:a05:600c:5407:b0:40e:6208:21f3 with SMTP id he7-20020a05600c540700b0040e620821f3mr495785wmb.33.1705047003471;
-        Fri, 12 Jan 2024 00:10:03 -0800 (PST)
+        bh=xx5UyfTknpHv0TbKyR1koHf0SJI1m1ldAuxo0WLiaoU=;
+        b=e3fwjcCJC3dphGxiIGUIZ+PoMmUyrvwC1w+3aqP5l6yTZf4RvL4hCu/U9xcx9pnC58
+         YLjzAtzcN2EClDvAoeXaxndw1yhxu95lbbEw4TduATJIPo1KLO/qYMBXPr03EftlLMEI
+         n1uLh3EtJ+FwzEYLB+1Y7VpQXcGy7NeFYB4Dp6L1H7wxS0GK6OMKz5zqYts6BIqNZdpx
+         Vc0h95OO2m+Vj+V4bKcFn7otknI/PpfkDm1N8MQrXh4R0fv3krpCd38hGMlAIqGs/QsA
+         lLFSkDDNMFRM+bIpi82vDCoDr0f3+BFzCrt3BaLmEcVo4MuXegFIdL1IGrRd/Y8aDdU/
+         ApNg==
+X-Gm-Message-State: AOJu0YzxGDSxXNR9fWqAh9iIacAIAJrfXHCxfW8EYkANn62gKMtMqn5N
+	koGQYx8vfUGpsgU38xF1fFnruv3vkiZI4Q==
+X-Google-Smtp-Source: AGHT+IE1U0EqLRiHobzGPTTdjk8TeGjS3Tnfux5kPVQ0oH2df4ugvkJDoN7szVUFPlkjyxCb0ekZqg==
+X-Received: by 2002:a05:600c:511f:b0:40e:672a:b06 with SMTP id o31-20020a05600c511f00b0040e672a0b06mr179786wms.99.1705047218876;
+        Fri, 12 Jan 2024 00:13:38 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id u21-20020a05600c139500b0040e4a7a7ca3sm4776950wmf.43.2024.01.12.00.10.02
+        by smtp.gmail.com with ESMTPSA id u13-20020a05600c19cd00b0040e451fd602sm8665905wmq.33.2024.01.12.00.13.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jan 2024 00:10:03 -0800 (PST)
-Message-ID: <11d6d261-f016-44e2-be46-45e9857c14f6@linaro.org>
-Date: Fri, 12 Jan 2024 09:10:01 +0100
+        Fri, 12 Jan 2024 00:13:38 -0800 (PST)
+Message-ID: <522c3a57-381a-4042-9838-28b0e25792b0@linaro.org>
+Date: Fri, 12 Jan 2024 09:13:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,14 +66,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] Add support for MAX96714F and MAX96717F GMSL2
- ser/des
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: add Maxim MAX96717F GMSL2
+ Serializer
 Content-Language: en-US
 To: Julien Massot <julien.massot@collabora.com>, linux-media@vger.kernel.org
 Cc: kernel@collabora.com, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
 References: <20240111130349.2776699-1-julien.massot@collabora.com>
+ <20240111130349.2776699-2-julien.massot@collabora.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -119,20 +120,23 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240111130349.2776699-1-julien.massot@collabora.com>
+In-Reply-To: <20240111130349.2776699-2-julien.massot@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/01/2024 14:03, Julien Massot wrote:
+> Add DT bindings for Maxim MAX96717F GMSL2 Serializer.
+> 
+> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> ---
 > Change since v2:
-> - Convert drivers to use CCI helpers
-> - Use generic node name
-> - Use 'powerdown' as gpio name instead of 'enable'
-> - Add pattern generator support for MAX96714
+>  - remove reg description
+>  - add data lanes min/maxItems
+>  - Use generic node name 
+> 
 
-It's incomplete changelog or I miss something. b4 diff shows me huge
-amount of changes, including in examples, many properties, copyrights
-and so on. It does not make it easier for review.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
