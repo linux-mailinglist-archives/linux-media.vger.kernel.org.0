@@ -1,310 +1,723 @@
-Return-Path: <linux-media+bounces-3637-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3638-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B0982BDB9
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 10:52:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5186682BDED
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 10:54:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED8841C2588C
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 09:52:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E2101F274B6
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 09:54:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B81D65DF31;
-	Fri, 12 Jan 2024 09:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 670915DF08;
+	Fri, 12 Jan 2024 09:53:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="hFkVC9Mi"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="O1Xu3hAZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1F85DF23
-	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 09:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5573c79aac5so1364679a12.1
-        for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 01:49:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1705052946; x=1705657746; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=us7FlGdER6e8HJOcJ9DbE8FEDZwENOAoyDuutoH2bnc=;
-        b=hFkVC9Mif2HBdcMArgHKUWXyRYjoFTJQhqgwB5D8PgNZOVRYB7ZpE66cbg1U/8vVX3
-         P6d9CnoY14GSShjZ/kf1CpFeq7709DiignVi4kHVpO513KazjEUWHhsS/k91+z0VIFny
-         Mhekf+jCdyQTOYc16B37xdDOXC1Y9wE/tWpZ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705052946; x=1705657746;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=us7FlGdER6e8HJOcJ9DbE8FEDZwENOAoyDuutoH2bnc=;
-        b=YUzO0HfGbHRR6X9mkakI0Z5o/7DlmFegvmkNHDNltMrkTq0uF1J/2HMKlELU8AwgKW
-         4/Qx/X7cGhfO9z/EhYq8tlVH87J2rUhaTPvVvkb91bH2lBRzT+l55tmjH22nHFyt+/JY
-         eX4bwhg9uLCq2au0dUmn589+GGsvbOvXDuKa25gtigliTxMxM/QeAWZyyGjM5j9eaw5r
-         1zqlDBPb8T0ai7LVUqYuT8uzNp2f7ZK8gyUkL6VQ3e9aTp9bbAAn82JPJFvtwGCNuONn
-         vr6XZCg0BtcBuw5d54r7afb9rj9+w6O3EcZvySYxpuN0x0SGyJRTRlVzacfxJae4dFK/
-         zSKQ==
-X-Gm-Message-State: AOJu0YwEmUS9xDThUbgM02kDMPmAPtlBTDBXnubPQi0ds5myv5X9+cBk
-	rHB4/BUF93lRKZCXFtOJ6VEGHlE+g5WIAQ==
-X-Google-Smtp-Source: AGHT+IEOiq3FXhd4T4HCBcGkiMyRtMKljt8lxwRBUf3NerLJ5gdqm06t+lKy82F5LT4WBLgvMEXbXw==
-X-Received: by 2002:a05:6402:148d:b0:557:4249:44 with SMTP id e13-20020a056402148d00b0055742490044mr760113edv.1.1705052946272;
-        Fri, 12 Jan 2024 01:49:06 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id dh19-20020a0564021d3300b00557332d657fsm1610937edb.39.2024.01.12.01.49.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jan 2024 01:49:05 -0800 (PST)
-Date: Fri, 12 Jan 2024 10:49:03 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Jeffrey Kardatzke <jkardatzke@google.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Vijayanand Jitta <quic_vjitta@quicinc.com>,
-	jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	linaro-mm-sig@lists.linaro.org,
-	Pekka Paalanen <ppaalanen@gmail.com>,
-	linux-mediatek@lists.infradead.org,
-	Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
-	linux-arm-kernel@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	youlin.pei@mediatek.com, kuohong.wang@mediatek.com,
-	linux-kernel@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v4 4/7] dma-buf: heaps: restricted_heap: Add dma_ops
-Message-ID: <ZaELD4APVuX4p77P@phenom.ffwll.local>
-Mail-Followup-To: Yong Wu <yong.wu@mediatek.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Jeffrey Kardatzke <jkardatzke@google.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Vijayanand Jitta <quic_vjitta@quicinc.com>,
-	jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	linaro-mm-sig@lists.linaro.org,
-	Pekka Paalanen <ppaalanen@gmail.com>,
-	linux-mediatek@lists.infradead.org,
-	Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
-	linux-arm-kernel@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	youlin.pei@mediatek.com, kuohong.wang@mediatek.com,
-	linux-kernel@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>
-References: <20240112092014.23999-1-yong.wu@mediatek.com>
- <20240112092014.23999-5-yong.wu@mediatek.com>
- <ZaEJOjXP2EJIe9rK@phenom.ffwll.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E9C5DF11
+	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 09:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1705053199;
+	bh=/CpekKJSvkxSKBUtWlOL81WOubM11/+nVhB1zMjAvrM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=O1Xu3hAZixUBxn6O0J0SUDgX+wbtsVDqvb0v+yOtRDActwNMjNaNO3v1uFTsQtsLn
+	 APTRTjx4Pki2/uvsYhLFGYhVfbMBLPHttINl/YANExVnQwzoLmIcmO9vL9KjX3qWRW
+	 4RGazuWWtlKYeGjsWnPq0zHhXOFAyJZKhl1KHXZuNIEvg0xP0UOjSrY1g4WwgV1fhH
+	 skUUvD9Y+c+RzoQweMMnLdT1ECkwelur/ptUIhc7eC1tWnkBSnIA05iC1p7QkGn9HB
+	 fYIF+HP/cVtTliseDDZe9W2y9xvCz5b7icgQMfj9OXnhrVAYTo9lDXWEXMvd4EvJeO
+	 JilwvkS/W7YEQ==
+Received: from stla-brain-8255-1.home (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1574E3781FCF;
+	Fri, 12 Jan 2024 09:53:19 +0000 (UTC)
+From: Julien Massot <julien.massot@collabora.com>
+To: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	benjamin.mugnier@foss.st.com,
+	sylvain.petinot@foss.st.com
+Cc: linux-media@vger.kernel.org,
+	kernel@collabora.com,
+	Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH] media: i2c: st-vgxy61: Convert to CCI register access helpers
+Date: Fri, 12 Jan 2024 10:52:28 +0100
+Message-ID: <20240112095228.2842812-1-julien.massot@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZaEJOjXP2EJIe9rK@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 12, 2024 at 10:41:14AM +0100, Daniel Vetter wrote:
-> On Fri, Jan 12, 2024 at 05:20:11PM +0800, Yong Wu wrote:
-> > Add the dma_ops for this restricted heap. For restricted buffer,
-> > cache_ops/mmap are not allowed, thus return EPERM for them.
-> > 
-> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > ---
-> >  drivers/dma-buf/heaps/restricted_heap.c | 103 ++++++++++++++++++++++++
-> >  1 file changed, 103 insertions(+)
-> > 
-> > diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/heaps/restricted_heap.c
-> > index 8c266a0f6192..ec4c63d2112d 100644
-> > --- a/drivers/dma-buf/heaps/restricted_heap.c
-> > +++ b/drivers/dma-buf/heaps/restricted_heap.c
-> > @@ -12,6 +12,10 @@
-> >  
-> >  #include "restricted_heap.h"
-> >  
-> > +struct restricted_heap_attachment {
-> > +	struct sg_table			*table;
-> > +};
-> > +
-> >  static int
-> >  restricted_heap_memory_allocate(struct restricted_heap *heap, struct restricted_buffer *buf)
-> >  {
-> > @@ -45,6 +49,104 @@ restricted_heap_memory_free(struct restricted_heap *heap, struct restricted_buff
-> >  	ops->memory_free(heap, buf);
-> >  }
-> >  
-> > +static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_buf_attachment *attachment)
-> > +{
-> > +	struct restricted_buffer *restricted_buf = dmabuf->priv;
-> > +	struct restricted_heap_attachment *a;
-> > +	struct sg_table *table;
-> > +	int ret;
-> > +
-> > +	a = kzalloc(sizeof(*a), GFP_KERNEL);
-> > +	if (!a)
-> > +		return -ENOMEM;
-> > +
-> > +	table = kzalloc(sizeof(*table), GFP_KERNEL);
-> > +	if (!table) {
-> > +		ret = -ENOMEM;
-> > +		goto err_free_attach;
-> > +	}
-> > +
-> > +	ret = sg_alloc_table(table, 1, GFP_KERNEL);
-> > +	if (ret)
-> > +		goto err_free_sgt;
-> > +	sg_set_page(table->sgl, NULL, restricted_buf->size, 0);
-> 
-> So this is definitely broken and violating the dma-buf api rules. You
-> cannot let attach succed and supply a dummy/invalid sg table.
-> 
-> Two options:
-> 
-> - Reject ->attach for all this buffers with -EBUSY and provide instead a
->   private api for these secure buffers, similar to how virtio_dma_buf has
->   private virto-specific apis. This interface would need to be
->   standardized across all arm TEE users, so that we don't have a
->   disastrous proliferation of apis.
-> 
-> - Allow ->attach, but _only_ for drivers/devices which can access the
->   secure buffer correctly, and only if you can put the right secure buffer
->   address into the sg table directly. If dma to a secure buffer for a
->   given struct device * will not work correctly (i.e. without data
->   corruption), you _must_ reject the attach attempt with -EBUSY.
-> 
-> The 2nd approach would be my preferred one, if it's technically possible.
-> 
-> Also my understanding is that arm TEE is standardized, so I think we'll at
-> least want some acks from other soc people whether this will work for them
-> too.
-> 
-> Finally the usual drill:
-> - this also needs the driver side support, if there's any changes needed.
->   Just the new heap isn't enough.
+Use the new common CCI register access helpers to replace the private
+register access helpers in the st-vgxy61 driver. This simplifies the
+driver by reducing the amount of code.
 
-Ok I quickly scrolled through your drm patches and that confirms that the
-current dma-buf interface you're implementing is just completely breaking
-the api. And you need to paper over that will all kinds of very icky
-special-casing.
+st-vgxy61 devices use little endianness arrangement, therefore
+the driver uses the CCI_REGx_LE registers definition.
 
-So definitely need to rethink the overall design between dma-buf heaps and
-drivers here.
--Sima
+Signed-off-by: Julien Massot <julien.massot@collabora.com>
+---
+ drivers/media/i2c/Kconfig     |   1 +
+ drivers/media/i2c/st-vgxy61.c | 390 +++++++++++++---------------------
+ 2 files changed, 154 insertions(+), 237 deletions(-)
 
-> - and for drm you need open userspace for this. Doesn't have to be the
->   full content protection decode pipeline, the drivers in drm that landed
->   secure buffer support thus far enabled it using the
->   EGL_EXT_protected_content extension using gl, which side steps all the
->   complications around content decryption keys and support
-> 
-> Cheers, Sima
-> 
-> > +
-> > +	a->table = table;
-> > +	attachment->priv = a;
-> > +
-> > +	return 0;
-> > +
-> > +err_free_sgt:
-> > +	kfree(table);
-> > +err_free_attach:
-> > +	kfree(a);
-> > +	return ret;
-> > +}
-> > +
-> > +static void restricted_heap_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attachment)
-> > +{
-> > +	struct restricted_heap_attachment *a = attachment->priv;
-> > +
-> > +	sg_free_table(a->table);
-> > +	kfree(a->table);
-> > +	kfree(a);
-> > +}
-> > +
-> > +static struct sg_table *
-> > +restricted_heap_map_dma_buf(struct dma_buf_attachment *attachment, enum dma_data_direction direct)
-> > +{
-> > +	struct restricted_heap_attachment *a = attachment->priv;
-> > +	struct sg_table *table = a->table;
-> > +
-> > +	return table;
-> > +}
-> > +
-> > +static void
-> > +restricted_heap_unmap_dma_buf(struct dma_buf_attachment *attachment, struct sg_table *table,
-> > +			      enum dma_data_direction direction)
-> > +{
-> > +	struct restricted_heap_attachment *a = attachment->priv;
-> > +
-> > +	WARN_ON(a->table != table);
-> > +}
-> > +
-> > +static int
-> > +restricted_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf, enum dma_data_direction direction)
-> > +{
-> > +	return -EPERM;
-> > +}
-> > +
-> > +static int
-> > +restricted_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf, enum dma_data_direction direction)
-> > +{
-> > +	return -EPERM;
-> > +}
-> > +
-> > +static int restricted_heap_dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-> > +{
-> > +	return -EPERM;
-> > +}
-> > +
-> > +static void restricted_heap_free(struct dma_buf *dmabuf)
-> > +{
-> > +	struct restricted_buffer *restricted_buf = dmabuf->priv;
-> > +	struct restricted_heap *heap = dma_heap_get_drvdata(restricted_buf->heap);
-> > +
-> > +	restricted_heap_memory_free(heap, restricted_buf);
-> > +	kfree(restricted_buf);
-> > +}
-> > +
-> > +static const struct dma_buf_ops restricted_heap_buf_ops = {
-> > +	.attach		= restricted_heap_attach,
-> > +	.detach		= restricted_heap_detach,
-> > +	.map_dma_buf	= restricted_heap_map_dma_buf,
-> > +	.unmap_dma_buf	= restricted_heap_unmap_dma_buf,
-> > +	.begin_cpu_access = restricted_heap_dma_buf_begin_cpu_access,
-> > +	.end_cpu_access	= restricted_heap_dma_buf_end_cpu_access,
-> > +	.mmap		= restricted_heap_dma_buf_mmap,
-> > +	.release	= restricted_heap_free,
-> > +};
-> > +
-> >  static struct dma_buf *
-> >  restricted_heap_allocate(struct dma_heap *heap, unsigned long size,
-> >  			 unsigned long fd_flags, unsigned long heap_flags)
-> > @@ -66,6 +168,7 @@ restricted_heap_allocate(struct dma_heap *heap, unsigned long size,
-> >  	if (ret)
-> >  		goto err_free_buf;
-> >  	exp_info.exp_name = dma_heap_get_name(heap);
-> > +	exp_info.ops = &restricted_heap_buf_ops;
-> >  	exp_info.size = restricted_buf->size;
-> >  	exp_info.flags = fd_flags;
-> >  	exp_info.priv = restricted_buf;
-> > -- 
-> > 2.25.1
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index d0dfab513154..3961510fcf79 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -658,6 +658,7 @@ config VIDEO_S5K6A3
+ 
+ config VIDEO_ST_VGXY61
+ 	tristate "ST VGXY61 sensor support"
++	select V4L2_CCI_I2C
+ 	depends on OF && GPIOLIB
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the ST VGXY61
+diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
+index e4d37a197724..2d64466d7ecf 100644
+--- a/drivers/media/i2c/st-vgxy61.c
++++ b/drivers/media/i2c/st-vgxy61.c
+@@ -12,6 +12,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/units.h>
+ 
+@@ -19,79 +20,74 @@
+ 
+ #include <media/mipi-csi2.h>
+ #include <media/v4l2-async.h>
++#include <media/v4l2-cci.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-subdev.h>
+ 
+-#define VGXY61_REG_8BIT(n)				((1 << 16) | (n))
+-#define VGXY61_REG_16BIT(n)				((2 << 16) | (n))
+-#define VGXY61_REG_32BIT(n)				((4 << 16) | (n))
+-#define VGXY61_REG_SIZE_SHIFT				16
+-#define VGXY61_REG_ADDR_MASK				0xffff
+-
+-#define VGXY61_REG_MODEL_ID				VGXY61_REG_16BIT(0x0000)
++#define VGXY61_REG_MODEL_ID				CCI_REG16_LE(0x0000)
+ #define VG5661_MODEL_ID					0x5661
+ #define VG5761_MODEL_ID					0x5761
+-#define VGXY61_REG_REVISION				VGXY61_REG_16BIT(0x0002)
+-#define VGXY61_REG_FWPATCH_REVISION			VGXY61_REG_16BIT(0x0014)
+-#define VGXY61_REG_FWPATCH_START_ADDR			VGXY61_REG_8BIT(0x2000)
+-#define VGXY61_REG_SYSTEM_FSM				VGXY61_REG_8BIT(0x0020)
++#define VGXY61_REG_REVISION				CCI_REG16_LE(0x0002)
++#define VGXY61_REG_FWPATCH_REVISION			CCI_REG16_LE(0x0014)
++#define VGXY61_REG_FWPATCH_START_ADDR			CCI_REG8(0x2000)
++#define VGXY61_REG_SYSTEM_FSM				CCI_REG8(0x0020)
+ #define VGXY61_SYSTEM_FSM_SW_STBY			0x03
+ #define VGXY61_SYSTEM_FSM_STREAMING			0x04
+-#define VGXY61_REG_NVM					VGXY61_REG_8BIT(0x0023)
++#define VGXY61_REG_NVM					CCI_REG8(0x0023)
+ #define VGXY61_NVM_OK					0x04
+-#define VGXY61_REG_STBY					VGXY61_REG_8BIT(0x0201)
++#define VGXY61_REG_STBY					CCI_REG8(0x0201)
+ #define VGXY61_STBY_NO_REQ				0
+ #define VGXY61_STBY_REQ_TMP_READ			BIT(2)
+-#define VGXY61_REG_STREAMING				VGXY61_REG_8BIT(0x0202)
++#define VGXY61_REG_STREAMING				CCI_REG8(0x0202)
+ #define VGXY61_STREAMING_NO_REQ				0
+ #define VGXY61_STREAMING_REQ_STOP			BIT(0)
+ #define VGXY61_STREAMING_REQ_START			BIT(1)
+-#define VGXY61_REG_EXT_CLOCK				VGXY61_REG_32BIT(0x0220)
+-#define VGXY61_REG_CLK_PLL_PREDIV			VGXY61_REG_8BIT(0x0224)
+-#define VGXY61_REG_CLK_SYS_PLL_MULT			VGXY61_REG_8BIT(0x0225)
+-#define VGXY61_REG_GPIO_0_CTRL				VGXY61_REG_8BIT(0x0236)
+-#define VGXY61_REG_GPIO_1_CTRL				VGXY61_REG_8BIT(0x0237)
+-#define VGXY61_REG_GPIO_2_CTRL				VGXY61_REG_8BIT(0x0238)
+-#define VGXY61_REG_GPIO_3_CTRL				VGXY61_REG_8BIT(0x0239)
+-#define VGXY61_REG_SIGNALS_POLARITY_CTRL		VGXY61_REG_8BIT(0x023b)
+-#define VGXY61_REG_LINE_LENGTH				VGXY61_REG_16BIT(0x0300)
+-#define VGXY61_REG_ORIENTATION				VGXY61_REG_8BIT(0x0302)
+-#define VGXY61_REG_VT_CTRL				VGXY61_REG_8BIT(0x0304)
+-#define VGXY61_REG_FORMAT_CTRL				VGXY61_REG_8BIT(0x0305)
+-#define VGXY61_REG_OIF_CTRL				VGXY61_REG_16BIT(0x0306)
+-#define VGXY61_REG_OIF_ROI0_CTRL			VGXY61_REG_8BIT(0x030a)
+-#define VGXY61_REG_ROI0_START_H				VGXY61_REG_16BIT(0x0400)
+-#define VGXY61_REG_ROI0_START_V				VGXY61_REG_16BIT(0x0402)
+-#define VGXY61_REG_ROI0_END_H				VGXY61_REG_16BIT(0x0404)
+-#define VGXY61_REG_ROI0_END_V				VGXY61_REG_16BIT(0x0406)
+-#define VGXY61_REG_PATGEN_CTRL				VGXY61_REG_32BIT(0x0440)
++#define VGXY61_REG_EXT_CLOCK				CCI_REG32_LE(0x0220)
++#define VGXY61_REG_CLK_PLL_PREDIV			CCI_REG8(0x0224)
++#define VGXY61_REG_CLK_SYS_PLL_MULT			CCI_REG8(0x0225)
++#define VGXY61_REG_GPIO_0_CTRL				CCI_REG8(0x0236)
++#define VGXY61_REG_GPIO_1_CTRL				CCI_REG8(0x0237)
++#define VGXY61_REG_GPIO_2_CTRL				CCI_REG8(0x0238)
++#define VGXY61_REG_GPIO_3_CTRL				CCI_REG8(0x0239)
++#define VGXY61_REG_SIGNALS_POLARITY_CTRL		CCI_REG8(0x023b)
++#define VGXY61_REG_LINE_LENGTH				CCI_REG16_LE(0x0300)
++#define VGXY61_REG_ORIENTATION				CCI_REG8(0x0302)
++#define VGXY61_REG_VT_CTRL				CCI_REG8(0x0304)
++#define VGXY61_REG_FORMAT_CTRL				CCI_REG8(0x0305)
++#define VGXY61_REG_OIF_CTRL				CCI_REG16_LE(0x0306)
++#define VGXY61_REG_OIF_ROI0_CTRL			CCI_REG8(0x030a)
++#define VGXY61_REG_ROI0_START_H				CCI_REG16_LE(0x0400)
++#define VGXY61_REG_ROI0_START_V				CCI_REG16_LE(0x0402)
++#define VGXY61_REG_ROI0_END_H				CCI_REG16_LE(0x0404)
++#define VGXY61_REG_ROI0_END_V				CCI_REG16_LE(0x0406)
++#define VGXY61_REG_PATGEN_CTRL				CCI_REG32_LE(0x0440)
+ #define VGXY61_PATGEN_LONG_ENABLE			BIT(16)
+ #define VGXY61_PATGEN_SHORT_ENABLE			BIT(0)
+ #define VGXY61_PATGEN_LONG_TYPE_SHIFT			18
+ #define VGXY61_PATGEN_SHORT_TYPE_SHIFT			4
+-#define VGXY61_REG_FRAME_CONTENT_CTRL			VGXY61_REG_8BIT(0x0478)
+-#define VGXY61_REG_COARSE_EXPOSURE_LONG			VGXY61_REG_16BIT(0x0500)
+-#define VGXY61_REG_COARSE_EXPOSURE_SHORT		VGXY61_REG_16BIT(0x0504)
+-#define VGXY61_REG_ANALOG_GAIN				VGXY61_REG_8BIT(0x0508)
+-#define VGXY61_REG_DIGITAL_GAIN_LONG			VGXY61_REG_16BIT(0x050a)
+-#define VGXY61_REG_DIGITAL_GAIN_SHORT			VGXY61_REG_16BIT(0x0512)
+-#define VGXY61_REG_FRAME_LENGTH				VGXY61_REG_16BIT(0x051a)
+-#define VGXY61_REG_SIGNALS_CTRL				VGXY61_REG_16BIT(0x0522)
++#define VGXY61_REG_FRAME_CONTENT_CTRL			CCI_REG8(0x0478)
++#define VGXY61_REG_COARSE_EXPOSURE_LONG			CCI_REG16_LE(0x0500)
++#define VGXY61_REG_COARSE_EXPOSURE_SHORT		CCI_REG16_LE(0x0504)
++#define VGXY61_REG_ANALOG_GAIN				CCI_REG8(0x0508)
++#define VGXY61_REG_DIGITAL_GAIN_LONG			CCI_REG16_LE(0x050a)
++#define VGXY61_REG_DIGITAL_GAIN_SHORT			CCI_REG16_LE(0x0512)
++#define VGXY61_REG_FRAME_LENGTH				CCI_REG16_LE(0x051a)
++#define VGXY61_REG_SIGNALS_CTRL				CCI_REG16_LE(0x0522)
+ #define VGXY61_SIGNALS_GPIO_ID_SHIFT			4
+-#define VGXY61_REG_READOUT_CTRL				VGXY61_REG_8BIT(0x0530)
+-#define VGXY61_REG_HDR_CTRL				VGXY61_REG_8BIT(0x0532)
+-#define VGXY61_REG_PATGEN_LONG_DATA_GR			VGXY61_REG_16BIT(0x092c)
+-#define VGXY61_REG_PATGEN_LONG_DATA_R			VGXY61_REG_16BIT(0x092e)
+-#define VGXY61_REG_PATGEN_LONG_DATA_B			VGXY61_REG_16BIT(0x0930)
+-#define VGXY61_REG_PATGEN_LONG_DATA_GB			VGXY61_REG_16BIT(0x0932)
+-#define VGXY61_REG_PATGEN_SHORT_DATA_GR			VGXY61_REG_16BIT(0x0950)
+-#define VGXY61_REG_PATGEN_SHORT_DATA_R			VGXY61_REG_16BIT(0x0952)
+-#define VGXY61_REG_PATGEN_SHORT_DATA_B			VGXY61_REG_16BIT(0x0954)
+-#define VGXY61_REG_PATGEN_SHORT_DATA_GB			VGXY61_REG_16BIT(0x0956)
+-#define VGXY61_REG_BYPASS_CTRL				VGXY61_REG_8BIT(0x0a60)
++#define VGXY61_REG_READOUT_CTRL				CCI_REG8(0x0530)
++#define VGXY61_REG_HDR_CTRL				CCI_REG8(0x0532)
++#define VGXY61_REG_PATGEN_LONG_DATA_GR			CCI_REG16_LE(0x092c)
++#define VGXY61_REG_PATGEN_LONG_DATA_R			CCI_REG16_LE(0x092e)
++#define VGXY61_REG_PATGEN_LONG_DATA_B			CCI_REG16_LE(0x0930)
++#define VGXY61_REG_PATGEN_LONG_DATA_GB			CCI_REG16_LE(0x0932)
++#define VGXY61_REG_PATGEN_SHORT_DATA_GR			CCI_REG16_LE(0x0950)
++#define VGXY61_REG_PATGEN_SHORT_DATA_R			CCI_REG16_LE(0x0952)
++#define VGXY61_REG_PATGEN_SHORT_DATA_B			CCI_REG16_LE(0x0954)
++#define VGXY61_REG_PATGEN_SHORT_DATA_GB			CCI_REG16_LE(0x0956)
++#define VGXY61_REG_BYPASS_CTRL				CCI_REG8(0x0a60)
+ 
+ #define VGX661_WIDTH					1464
+ #define VGX661_HEIGHT					1104
+@@ -384,6 +380,7 @@ static const struct vgxy61_mode_info vgx761_mode_data[] = {
+ 
+ struct vgxy61_dev {
+ 	struct i2c_client *i2c_client;
++	struct regmap *regmap;
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct regulator_bulk_data supplies[ARRAY_SIZE(vgxy61_supply_name)];
+@@ -510,82 +507,6 @@ static unsigned int get_chunk_size(struct vgxy61_dev *sensor)
+ 	return max(max_write_len, 1);
+ }
+ 
+-static int vgxy61_read_multiple(struct vgxy61_dev *sensor, u32 reg,
+-				unsigned int len)
+-{
+-	struct i2c_client *client = sensor->i2c_client;
+-	struct i2c_msg msg[2];
+-	u8 buf[2];
+-	u8 val[sizeof(u32)] = {0};
+-	int ret;
+-
+-	if (len > sizeof(u32))
+-		return -EINVAL;
+-	buf[0] = reg >> 8;
+-	buf[1] = reg & 0xff;
+-
+-	msg[0].addr = client->addr;
+-	msg[0].flags = client->flags;
+-	msg[0].buf = buf;
+-	msg[0].len = sizeof(buf);
+-
+-	msg[1].addr = client->addr;
+-	msg[1].flags = client->flags | I2C_M_RD;
+-	msg[1].buf = val;
+-	msg[1].len = len;
+-
+-	ret = i2c_transfer(client->adapter, msg, 2);
+-	if (ret < 0) {
+-		dev_dbg(&client->dev, "%s: %x i2c_transfer, reg: %x => %d\n",
+-			__func__, client->addr, reg, ret);
+-		return ret;
+-	}
+-
+-	return get_unaligned_le32(val);
+-}
+-
+-static inline int vgxy61_read_reg(struct vgxy61_dev *sensor, u32 reg)
+-{
+-	return vgxy61_read_multiple(sensor, reg & VGXY61_REG_ADDR_MASK,
+-				     (reg >> VGXY61_REG_SIZE_SHIFT) & 7);
+-}
+-
+-static int vgxy61_write_multiple(struct vgxy61_dev *sensor, u32 reg,
+-				 const u8 *data, unsigned int len, int *err)
+-{
+-	struct i2c_client *client = sensor->i2c_client;
+-	struct i2c_msg msg;
+-	u8 buf[VGXY61_WRITE_MULTIPLE_CHUNK_MAX + 2];
+-	unsigned int i;
+-	int ret;
+-
+-	if (err && *err)
+-		return *err;
+-
+-	if (len > VGXY61_WRITE_MULTIPLE_CHUNK_MAX)
+-		return -EINVAL;
+-	buf[0] = reg >> 8;
+-	buf[1] = reg & 0xff;
+-	for (i = 0; i < len; i++)
+-		buf[i + 2] = data[i];
+-
+-	msg.addr = client->addr;
+-	msg.flags = client->flags;
+-	msg.buf = buf;
+-	msg.len = len + 2;
+-
+-	ret = i2c_transfer(client->adapter, &msg, 1);
+-	if (ret < 0) {
+-		dev_dbg(&client->dev, "%s: i2c_transfer, reg: %x => %d\n",
+-			__func__, reg, ret);
+-		if (err)
+-			*err = ret;
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+ static int vgxy61_write_array(struct vgxy61_dev *sensor, u32 reg,
+ 			      unsigned int nb, const u8 *array)
+ {
+@@ -595,7 +516,8 @@ static int vgxy61_write_array(struct vgxy61_dev *sensor, u32 reg,
+ 
+ 	while (nb) {
+ 		sz = min(nb, chunk_size);
+-		ret = vgxy61_write_multiple(sensor, reg, array, sz, NULL);
++		ret = regmap_bulk_write(sensor->regmap, CCI_REG_ADDR(reg),
++					array, sz);
+ 		if (ret < 0)
+ 			return ret;
+ 		nb -= sz;
+@@ -606,24 +528,17 @@ static int vgxy61_write_array(struct vgxy61_dev *sensor, u32 reg,
+ 	return 0;
+ }
+ 
+-static inline int vgxy61_write_reg(struct vgxy61_dev *sensor, u32 reg, u32 val,
+-				   int *err)
+-{
+-	return vgxy61_write_multiple(sensor, reg & VGXY61_REG_ADDR_MASK,
+-				     (u8 *)&val,
+-				     (reg >> VGXY61_REG_SIZE_SHIFT) & 7, err);
+-}
+-
+ static int vgxy61_poll_reg(struct vgxy61_dev *sensor, u32 reg, u8 poll_val,
+ 			   unsigned int timeout_ms)
+ {
+ 	const unsigned int loop_delay_ms = 10;
++	u64 val;
+ 	int ret;
+ 
+-	return read_poll_timeout(vgxy61_read_reg, ret,
+-				 ((ret < 0) || (ret == poll_val)),
++	return read_poll_timeout(cci_read, ret,
++				 ((ret < 0) || (val == poll_val)),
+ 				 loop_delay_ms * 1000, timeout_ms * 1000,
+-				 false, sensor, reg);
++				 false, sensor->regmap, reg, &val, NULL);
+ }
+ 
+ static int vgxy61_wait_state(struct vgxy61_dev *sensor, int state,
+@@ -662,11 +577,11 @@ static int vgxy61_apply_exposure(struct vgxy61_dev *sensor)
+ 	int ret = 0;
+ 
+ 	 /* We first set expo to zero to avoid forbidden parameters couple */
+-	vgxy61_write_reg(sensor, VGXY61_REG_COARSE_EXPOSURE_SHORT, 0, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_COARSE_EXPOSURE_LONG,
+-			 sensor->expo_long, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_COARSE_EXPOSURE_SHORT,
+-			 sensor->expo_short, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_COARSE_EXPOSURE_SHORT, 0, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_COARSE_EXPOSURE_LONG,
++		  sensor->expo_long, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_COARSE_EXPOSURE_SHORT,
++		  sensor->expo_short, &ret);
+ 
+ 	return ret;
+ }
+@@ -827,8 +742,8 @@ static int vgxy61_update_analog_gain(struct vgxy61_dev *sensor, u32 target)
+ 	sensor->analog_gain = target;
+ 
+ 	if (sensor->streaming)
+-		return vgxy61_write_reg(sensor, VGXY61_REG_ANALOG_GAIN, target,
+-					NULL);
++		return cci_write(sensor->regmap, VGXY61_REG_ANALOG_GAIN, target,
++				 NULL);
+ 	return 0;
+ }
+ 
+@@ -842,10 +757,10 @@ static int vgxy61_apply_digital_gain(struct vgxy61_dev *sensor,
+ 	 * DIGITAL_GAIN_SHORT_CH0 is enough to configure the gain of all
+ 	 * four sub pixels.
+ 	 */
+-	vgxy61_write_reg(sensor, VGXY61_REG_DIGITAL_GAIN_LONG, digital_gain,
+-			 &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_DIGITAL_GAIN_SHORT, digital_gain,
+-			 &ret);
++	cci_write(sensor->regmap, VGXY61_REG_DIGITAL_GAIN_LONG, digital_gain,
++		  &ret);
++	cci_write(sensor->regmap, VGXY61_REG_DIGITAL_GAIN_SHORT, digital_gain,
++		  &ret);
+ 
+ 	return ret;
+ }
+@@ -870,7 +785,7 @@ static int vgxy61_apply_patgen(struct vgxy61_dev *sensor, u32 index)
+ 
+ 	if (pattern)
+ 		reg |= VGXY61_PATGEN_LONG_ENABLE | VGXY61_PATGEN_SHORT_ENABLE;
+-	return vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_CTRL, reg, NULL);
++	return cci_write(sensor->regmap, VGXY61_REG_PATGEN_CTRL, reg, NULL);
+ }
+ 
+ static int vgxy61_update_patgen(struct vgxy61_dev *sensor, u32 pattern)
+@@ -887,15 +802,13 @@ static int vgxy61_apply_gpiox_strobe_mode(struct vgxy61_dev *sensor,
+ 					  unsigned int idx)
+ {
+ 	static const u8 index2val[] = {0x0, 0x1, 0x3};
+-	int reg;
++	u16 mask, val;
+ 
+-	reg = vgxy61_read_reg(sensor, VGXY61_REG_SIGNALS_CTRL);
+-	if (reg < 0)
+-		return reg;
+-	reg &= ~(0xf << (idx * VGXY61_SIGNALS_GPIO_ID_SHIFT));
+-	reg |= index2val[mode] << (idx * VGXY61_SIGNALS_GPIO_ID_SHIFT);
++	mask = 0xf << (idx * VGXY61_SIGNALS_GPIO_ID_SHIFT);
++	val = index2val[mode] << (idx * VGXY61_SIGNALS_GPIO_ID_SHIFT);
+ 
+-	return vgxy61_write_reg(sensor, VGXY61_REG_SIGNALS_CTRL, reg, NULL);
++	return cci_update_bits(sensor->regmap, VGXY61_REG_SIGNALS_CTRL,
++			       mask, val, NULL);
+ }
+ 
+ static int vgxy61_update_gpios_strobe_mode(struct vgxy61_dev *sensor,
+@@ -940,12 +853,12 @@ static int vgxy61_update_gpios_strobe_polarity(struct vgxy61_dev *sensor,
+ 	if (sensor->streaming)
+ 		return -EBUSY;
+ 
+-	vgxy61_write_reg(sensor, VGXY61_REG_GPIO_0_CTRL, polarity << 1, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_GPIO_1_CTRL, polarity << 1, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_GPIO_2_CTRL, polarity << 1, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_GPIO_3_CTRL, polarity << 1, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_SIGNALS_POLARITY_CTRL, polarity,
+-			 &ret);
++	cci_write(sensor->regmap, VGXY61_REG_GPIO_0_CTRL, polarity << 1, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_GPIO_1_CTRL, polarity << 1, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_GPIO_2_CTRL, polarity << 1, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_GPIO_3_CTRL, polarity << 1, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_SIGNALS_POLARITY_CTRL, polarity,
++		  &ret);
+ 
+ 	return ret;
+ }
+@@ -1057,8 +970,8 @@ static int vgxy61_update_exposure(struct vgxy61_dev *sensor, u16 new_expo_long,
+ 
+ static int vgxy61_apply_framelength(struct vgxy61_dev *sensor)
+ {
+-	return vgxy61_write_reg(sensor, VGXY61_REG_FRAME_LENGTH,
+-				sensor->frame_length, NULL);
++	return cci_write(sensor->regmap, VGXY61_REG_FRAME_LENGTH,
++			 sensor->frame_length, NULL);
+ }
+ 
+ static int vgxy61_update_vblank(struct vgxy61_dev *sensor, u16 vblank,
+@@ -1086,8 +999,8 @@ static int vgxy61_apply_hdr(struct vgxy61_dev *sensor,
+ {
+ 	static const u8 index2val[] = {0x1, 0x4, 0xa};
+ 
+-	return vgxy61_write_reg(sensor, VGXY61_REG_HDR_CTRL, index2val[index],
+-				NULL);
++	return cci_write(sensor->regmap, VGXY61_REG_HDR_CTRL, index2val[index],
++			 NULL);
+ }
+ 
+ static int vgxy61_update_hdr(struct vgxy61_dev *sensor,
+@@ -1133,16 +1046,16 @@ static int vgxy61_apply_settings(struct vgxy61_dev *sensor)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = vgxy61_write_reg(sensor, VGXY61_REG_ANALOG_GAIN,
+-			       sensor->analog_gain, NULL);
++	ret = cci_write(sensor->regmap, VGXY61_REG_ANALOG_GAIN,
++			sensor->analog_gain, NULL);
+ 	if (ret)
+ 		return ret;
+ 	ret = vgxy61_apply_digital_gain(sensor, sensor->digital_gain);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = vgxy61_write_reg(sensor, VGXY61_REG_ORIENTATION,
+-			       sensor->hflip | (sensor->vflip << 1), NULL);
++	ret = cci_write(sensor->regmap, VGXY61_REG_ORIENTATION,
++			sensor->hflip | (sensor->vflip << 1), NULL);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1174,19 +1087,19 @@ static int vgxy61_stream_enable(struct vgxy61_dev *sensor)
+ 	if (ret)
+ 		return ret;
+ 
+-	vgxy61_write_reg(sensor, VGXY61_REG_FORMAT_CTRL,
+-			 get_bpp_by_code(sensor->fmt.code), &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_OIF_ROI0_CTRL,
+-			 get_data_type_by_code(sensor->fmt.code), &ret);
+-
+-	vgxy61_write_reg(sensor, VGXY61_REG_READOUT_CTRL,
+-			 sensor->current_mode->bin_mode, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_ROI0_START_H, crop->left, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_ROI0_END_H,
+-			 crop->left + crop->width - 1, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_ROI0_START_V, crop->top, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_ROI0_END_V,
+-			 crop->top + crop->height - 1, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_FORMAT_CTRL,
++		  get_bpp_by_code(sensor->fmt.code), &ret);
++	cci_write(sensor->regmap, VGXY61_REG_OIF_ROI0_CTRL,
++		  get_data_type_by_code(sensor->fmt.code), &ret);
++
++	cci_write(sensor->regmap, VGXY61_REG_READOUT_CTRL,
++		  sensor->current_mode->bin_mode, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_ROI0_START_H, crop->left, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_ROI0_END_H,
++		  crop->left + crop->width - 1, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_ROI0_START_V, crop->top, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_ROI0_END_V,
++		  crop->top + crop->height - 1, &ret);
+ 	if (ret)
+ 		goto err_rpm_put;
+ 
+@@ -1194,8 +1107,8 @@ static int vgxy61_stream_enable(struct vgxy61_dev *sensor)
+ 	if (ret)
+ 		goto err_rpm_put;
+ 
+-	ret = vgxy61_write_reg(sensor, VGXY61_REG_STREAMING,
+-			       VGXY61_STREAMING_REQ_START, NULL);
++	ret = cci_write(sensor->regmap, VGXY61_REG_STREAMING,
++			VGXY61_STREAMING_REQ_START, NULL);
+ 	if (ret)
+ 		goto err_rpm_put;
+ 
+@@ -1225,8 +1138,8 @@ static int vgxy61_stream_disable(struct vgxy61_dev *sensor)
+ 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
+ 	int ret;
+ 
+-	ret = vgxy61_write_reg(sensor, VGXY61_REG_STREAMING,
+-			       VGXY61_STREAMING_REQ_STOP, NULL);
++	ret = cci_write(sensor->regmap, VGXY61_REG_STREAMING,
++			VGXY61_STREAMING_REQ_STOP, NULL);
+ 	if (ret)
+ 		goto err_str_dis;
+ 
+@@ -1582,7 +1495,7 @@ static int vgxy61_configure(struct vgxy61_dev *sensor)
+ {
+ 	u32 sensor_freq;
+ 	u8 prediv, mult;
+-	int line_length;
++	u64 line_length;
+ 	int ret = 0;
+ 
+ 	compute_pll_parameters_by_freq(sensor->clk_freq, &prediv, &mult);
+@@ -1592,28 +1505,28 @@ static int vgxy61_configure(struct vgxy61_dev *sensor)
+ 	/* Video timing ISP path (pixel clock)  requires 804/5 mhz = 160 mhz */
+ 	sensor->pclk = sensor_freq / 5;
+ 
+-	line_length = vgxy61_read_reg(sensor, VGXY61_REG_LINE_LENGTH);
+-	if (line_length < 0)
+-		return line_length;
+-	sensor->line_length = line_length;
+-	vgxy61_write_reg(sensor, VGXY61_REG_EXT_CLOCK, sensor->clk_freq, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_CLK_PLL_PREDIV, prediv, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_CLK_SYS_PLL_MULT, mult, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_OIF_CTRL, sensor->oif_ctrl, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_FRAME_CONTENT_CTRL, 0, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_BYPASS_CTRL, 4, &ret);
++	cci_read(sensor->regmap, VGXY61_REG_LINE_LENGTH, &line_length, &ret);
++	if (ret < 0)
++		return ret;
++	sensor->line_length = (u16)line_length;
++	cci_write(sensor->regmap, VGXY61_REG_EXT_CLOCK, sensor->clk_freq, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_CLK_PLL_PREDIV, prediv, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_CLK_SYS_PLL_MULT, mult, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_OIF_CTRL, sensor->oif_ctrl, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_FRAME_CONTENT_CTRL, 0, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_BYPASS_CTRL, 4, &ret);
+ 	if (ret)
+ 		return ret;
+ 	vgxy61_update_gpios_strobe_polarity(sensor, sensor->gpios_polarity);
+ 	/* Set pattern generator solid to middle value */
+-	vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_LONG_DATA_GR, 0x800, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_LONG_DATA_R, 0x800, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_LONG_DATA_B, 0x800, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_LONG_DATA_GB, 0x800, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_SHORT_DATA_GR, 0x800, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_SHORT_DATA_R, 0x800, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_SHORT_DATA_B, 0x800, &ret);
+-	vgxy61_write_reg(sensor, VGXY61_REG_PATGEN_SHORT_DATA_GB, 0x800, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_PATGEN_LONG_DATA_GR, 0x800, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_PATGEN_LONG_DATA_R, 0x800, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_PATGEN_LONG_DATA_B, 0x800, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_PATGEN_LONG_DATA_GB, 0x800, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_PATGEN_SHORT_DATA_GR, 0x800, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_PATGEN_SHORT_DATA_R, 0x800, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_PATGEN_SHORT_DATA_B, 0x800, &ret);
++	cci_write(sensor->regmap, VGXY61_REG_PATGEN_SHORT_DATA_GB, 0x800, &ret);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1623,37 +1536,33 @@ static int vgxy61_configure(struct vgxy61_dev *sensor)
+ static int vgxy61_patch(struct vgxy61_dev *sensor)
+ {
+ 	struct i2c_client *client = sensor->i2c_client;
+-	int patch, ret;
++	u64 patch;
++	int ret;
+ 
+ 	ret = vgxy61_write_array(sensor, VGXY61_REG_FWPATCH_START_ADDR,
+ 				 sizeof(patch_array), patch_array);
+-	if (ret)
+-		return ret;
+-
+-	ret = vgxy61_write_reg(sensor, VGXY61_REG_STBY, 0x10, NULL);
++	cci_write(sensor->regmap, VGXY61_REG_STBY, 0x10, &ret);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = vgxy61_poll_reg(sensor, VGXY61_REG_STBY, 0, VGXY61_TIMEOUT_MS);
+-	if (ret)
++	cci_read(sensor->regmap, VGXY61_REG_FWPATCH_REVISION, &patch, &ret);
++	if (ret < 0)
+ 		return ret;
+ 
+-	patch = vgxy61_read_reg(sensor, VGXY61_REG_FWPATCH_REVISION);
+-	if (patch < 0)
+-		return patch;
+-
+ 	if (patch != (VGXY61_FWPATCH_REVISION_MAJOR << 12) +
+ 		     (VGXY61_FWPATCH_REVISION_MINOR << 8) +
+ 		     VGXY61_FWPATCH_REVISION_MICRO) {
+-		dev_err(&client->dev, "bad patch version expected %d.%d.%d got %d.%d.%d\n",
++		dev_err(&client->dev,
++			"bad patch version expected %d.%d.%d got %u.%u.%u\n",
+ 			VGXY61_FWPATCH_REVISION_MAJOR,
+ 			VGXY61_FWPATCH_REVISION_MINOR,
+ 			VGXY61_FWPATCH_REVISION_MICRO,
+-			patch >> 12, (patch >> 8) & 0x0f, patch & 0xff);
++			(u16)patch >> 12, ((u16)patch >> 8) & 0x0f, (u16)patch & 0xff);
+ 		return -ENODEV;
+ 	}
+-	dev_dbg(&client->dev, "patch %d.%d.%d applied\n",
+-		patch >> 12, (patch >> 8) & 0x0f, patch & 0xff);
++	dev_dbg(&client->dev, "patch %u.%u.%u applied\n",
++		(u16)patch >> 12, ((u16)patch >> 8) & 0x0f, (u16)patch & 0xff);
+ 
+ 	return 0;
+ }
+@@ -1661,11 +1570,12 @@ static int vgxy61_patch(struct vgxy61_dev *sensor)
+ static int vgxy61_detect_cut_version(struct vgxy61_dev *sensor)
+ {
+ 	struct i2c_client *client = sensor->i2c_client;
+-	int device_rev;
++	u64 device_rev;
++	int ret;
+ 
+-	device_rev = vgxy61_read_reg(sensor, VGXY61_REG_REVISION);
+-	if (device_rev < 0)
+-		return device_rev;
++	ret = cci_read(sensor->regmap, VGXY61_REG_REVISION, &device_rev, NULL);
++	if (ret < 0)
++		return ret;
+ 
+ 	switch (device_rev >> 8) {
+ 	case 0xA:
+@@ -1687,17 +1597,17 @@ static int vgxy61_detect_cut_version(struct vgxy61_dev *sensor)
+ static int vgxy61_detect(struct vgxy61_dev *sensor)
+ {
+ 	struct i2c_client *client = sensor->i2c_client;
+-	int id = 0;
+-	int ret, st;
++	u64 st, id = 0;
++	int ret;
+ 
+-	id = vgxy61_read_reg(sensor, VGXY61_REG_MODEL_ID);
+-	if (id < 0)
+-		return id;
++	ret = cci_read(sensor->regmap, VGXY61_REG_MODEL_ID, &id, NULL);
++	if (ret < 0)
++		return ret;
+ 	if (id != VG5661_MODEL_ID && id != VG5761_MODEL_ID) {
+-		dev_warn(&client->dev, "Unsupported sensor id %x\n", id);
++		dev_warn(&client->dev, "Unsupported sensor id %x\n", (u16)id);
+ 		return -ENODEV;
+ 	}
+-	dev_dbg(&client->dev, "detected sensor id = 0x%04x\n", id);
++	dev_dbg(&client->dev, "detected sensor id = 0x%04x\n", (u16)id);
+ 	sensor->id = id;
+ 
+ 	ret = vgxy61_wait_state(sensor, VGXY61_SYSTEM_FSM_SW_STBY,
+@@ -1705,11 +1615,11 @@ static int vgxy61_detect(struct vgxy61_dev *sensor)
+ 	if (ret)
+ 		return ret;
+ 
+-	st = vgxy61_read_reg(sensor, VGXY61_REG_NVM);
+-	if (st < 0)
++	ret = cci_read(sensor->regmap, VGXY61_REG_NVM, &st, NULL);
++	if (ret < 0)
+ 		return st;
+ 	if (st != VGXY61_NVM_OK)
+-		dev_warn(&client->dev, "Bad nvm state got %d\n", st);
++		dev_warn(&client->dev, "Bad nvm state got %u\n", (u8)st);
+ 
+ 	ret = vgxy61_detect_cut_version(sensor);
+ 	if (ret)
+@@ -1832,6 +1742,12 @@ static int vgxy61_probe(struct i2c_client *client)
+ 	sensor->analog_gain = 0;
+ 	sensor->digital_gain = 256;
+ 
++	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
++	if (IS_ERR(sensor->regmap)) {
++		ret = PTR_ERR(sensor->regmap);
++		return dev_err_probe(dev, ret, "Failed to init regmap\n");
++	}
++
+ 	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
+ 	if (!handle) {
+ 		dev_err(dev, "handle node not found\n");
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.43.0
+
 
