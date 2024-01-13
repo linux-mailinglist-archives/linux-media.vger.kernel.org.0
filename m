@@ -1,252 +1,119 @@
-Return-Path: <linux-media+bounces-3668-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3669-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D72F82CC84
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jan 2024 12:33:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F2782CE2C
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jan 2024 19:41:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08B6F1F22BC5
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jan 2024 11:33:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E02CFB2271F
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jan 2024 18:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76B98210E2;
-	Sat, 13 Jan 2024 11:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B367F63A9;
+	Sat, 13 Jan 2024 18:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="InKI3efF"
+	dkim=pass (2048-bit key) header.d=aurel32.net header.i=@aurel32.net header.b="s6GswYBU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from hall.aurel32.net (hall.aurel32.net [195.154.113.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC3020DE3;
-	Sat, 13 Jan 2024 11:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705145570; x=1736681570;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Du3qdD4Uv77R7v4lmk2V7UBcI5SCGfYhkI4KA6VQIw0=;
-  b=InKI3efFvvcbWfP6i+Agft7QegQWYtaHsUaCeCMpZWpadQXFJDqIV2S8
-   nHrDT4czatxtRvQg8ALB+Kb7K52wisdMVthKTNYgCs/ATt+qorvF/PXiv
-   YlHiIBRy9tFOKaSYNVJSHYIWjU43Ot7mKrs0PfUiWmac/tua+sjy/Imfk
-   +nlaA7YMHwn8MFe/swZb5Pl7ymY38x3c1uc/fm3O7bq/nZXxsS9sznGyr
-   NS9DRoTbop3BcKLNQ0O/JEOce1jCBMzPwXR8fz+Kzm0/n57T8H5KKXi+f
-   UL3o+Eo2QTYBhp5GOarK0hpJLNsD6GpEJ5V1ndT3CiuKj2ae6eeXeuFhZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="12850526"
-X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="12850526"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 03:32:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="783310511"
-X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="783310511"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 13 Jan 2024 03:32:46 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rOcFn-000AQA-2j;
-	Sat, 13 Jan 2024 11:32:43 +0000
-Date: Sat, 13 Jan 2024 19:31:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH v3 4/4] media: i2c: add MAX96714 driver
-Message-ID: <202401131916.MpdR8A2O-lkp@intel.com>
-References: <20240111130349.2776699-5-julien.massot@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A23963A6;
+	Sat, 13 Jan 2024 18:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aurel32.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aurel32.net
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=aurel32.net
+	; s=202004.hall; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Content-Type:From:Reply-To:Subject:Content-ID:
+	Content-Description:In-Reply-To:References:X-Debbugs-Cc;
+	bh=RuJgwh+4GbW/+hxO9wfk+hS1gNlricVg+fWINBANyag=; b=s6GswYBUChRyFi0RUQt7eFa348
+	THJNVCSfF9dsOWDNXQ2FyYVugMB2FDC7WvDNfGy6Ub8SxZ1fbGUolaOirL8G0fDVKIyUmFY3VsvfV
+	iSHyPD0pkTADxfCse4NF8BlBkXEN9Fqa9BpS3FFcKOJwHjdD6iMcl79QZl05Y91WfIX+QU+MrIfn2
+	bQ4uKuxrr63dBE8vqAydFK0b8Opj6Cx3T2RT/3o+xMuz1NPCLfyeR1JZIt6HmibnsU2OQzrbGj3c6
+	N7BkRNkTDIbAleC4mkFNs201XSU3vS48Ov1Ec4/yQEUjAAaiqS2RHtZSW+OrU+sJykf/ZuNWfoA0u
+	UIt+sGkw==;
+Received: from ohm.aurel32.net ([2001:bc8:30d7:111::2] helo=ohm.rr44.fr)
+	by hall.aurel32.net with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <aurelien@aurel32.net>)
+	id 1rOip8-00HYMM-1w;
+	Sat, 13 Jan 2024 19:33:38 +0100
+From: Aurelien Jarno <aurelien@aurel32.net>
+To: linux-kernel@vger.kernel.org,
+	Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+	Anton Sviridenko <anton@corp.bluecherry.net>,
+	Andrey Utkin <andrey_utkin@fastmail.com>,
+	Ismael Luceno <ismael@iodev.co.uk>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org (open list:SOFTLOGIC 6x10 MPEG CODEC)
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+	Andrew Morton' <akpm@linux-foundation.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig' <hch@infradead.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Aurelien Jarno <aurelien@aurel32.net>,
+	Jiri Slaby <jirislaby@gmail.com>,
+	stable@vger.kernel.org,
+	David Laight <David.Laight@ACULAB.COM>
+Subject: [PATCH] media: solo6x10: replace max(a, min(b, c)) by clamp(b, a, c)
+Date: Sat, 13 Jan 2024 19:33:31 +0100
+Message-ID: <20240113183334.1690740-1-aurelien@aurel32.net>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240111130349.2776699-5-julien.massot@collabora.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Julien,
+This patch replaces max(a, min(b, c)) by clamp(b, a, c) in the solo6x10
+driver. This improves the readability and more importantly, for the
+solo6x10-p2m.c file, this reduces on my system (x86-64, gcc 13):
+- the preprocessed size from 121 MiB to 4.5 MiB;
+- the build CPU time from 46.8 s to 1.6 s;
+- the build memory from 2786 MiB to 98MiB.
 
-kernel test robot noticed the following build errors:
+In fine, this allows this relatively simple C file to be built on a
+32-bit system.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master linus/master next-20240112]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reported-by: Jiri Slaby <jirislaby@gmail.com>
+Closes: https://lore.kernel.org/lkml/18c6df0d-45ed-450c-9eda-95160a2bbb8e@gmail.com/
+Cc: stable@vger.kernel.org # v6.7+
+Suggested-by: David Laight <David.Laight@ACULAB.COM>
+Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
+---
+ drivers/media/pci/solo6x10/solo6x10-offsets.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/dt-bindings-media-add-Maxim-MAX96717F-GMSL2-Serializer/20240111-210740
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240111130349.2776699-5-julien.massot%40collabora.com
-patch subject: [PATCH v3 4/4] media: i2c: add MAX96714 driver
-config: i386-randconfig-r071-20240112 (https://download.01.org/0day-ci/archive/20240113/202401131916.MpdR8A2O-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240113/202401131916.MpdR8A2O-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401131916.MpdR8A2O-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/media/i2c/max96714.o: in function `max96714_parse_dt_txport':
->> drivers/media/i2c/max96714.c:827: undefined reference to `__moddi3'
-   ld: drivers/media/i2c/max96714.o: in function `max96714_init_tx_port':
->> drivers/media/i2c/max96714.c:725: undefined reference to `__udivdi3'
-
-
-vim +827 drivers/media/i2c/max96714.c
-
-   714	
-   715	static int max96714_init_tx_port(struct max96714_priv *priv)
-   716	{
-   717		struct v4l2_mbus_config_mipi_csi2 *mipi;
-   718		unsigned long lanes_used = 0;
-   719		u8 val, lane;
-   720		int ret;
-   721	
-   722		ret = max96714_disable_tx_port(priv);
-   723	
-   724		mipi = &priv->vep.bus.mipi_csi2;
- > 725		val = *priv->vep.link_frequencies * 2 / MHZ(100);
-   726	
-   727		cci_update_bits(priv->regmap, MAX96714_BACKTOP25,
-   728				CSI_DPLL_FREQ_MASK, val, &ret);
-   729	
-   730		val = FIELD_PREP(MAX96714_CSI2_LANE_CNT_MASK, mipi->num_data_lanes - 1);
-   731		cci_update_bits(priv->regmap, MAX96714_MIPI_LANE_CNT,
-   732				MAX96714_CSI2_LANE_CNT_MASK, val, &ret);
-   733	
-   734		/* lanes polarity */
-   735		val = 0;
-   736		for (lane = 0; lane < mipi->num_data_lanes + 1; lane++) {
-   737			if (!mipi->lane_polarities[lane])
-   738				continue;
-   739			if (lane == 0)
-   740				/* clock lane */
-   741				val |= BIT(5);
-   742			else if (lane < 3)
-   743				/* Lane D0 and D1 */
-   744				val |= BIT(lane - 1);
-   745			else
-   746				/* D2 and D3 */
-   747				val |= BIT(lane);
-   748		}
-   749	
-   750		cci_update_bits(priv->regmap, MAX96714_MIPI_POLARITY,
-   751				MAX96714_MIPI_POLARITY_MASK, val, &ret);
-   752	
-   753		/* lanes mapping */
-   754		val = 0;
-   755		for (lane = 0; lane < mipi->num_data_lanes; lane++) {
-   756			val |= (mipi->data_lanes[lane] - 1) << (lane * 2);
-   757			lanes_used |= BIT(mipi->data_lanes[lane] - 1);
-   758		}
-   759	
-   760		/* Unused lanes need to be mapped as well to not have
-   761		 * the same lanes mapped twice.
-   762		 */
-   763		for (; lane < 4; lane++) {
-   764			unsigned int idx = find_first_zero_bit(&lanes_used, 4);
-   765	
-   766			val |= idx << (lane * 2);
-   767			lanes_used |= BIT(idx);
-   768		}
-   769	
-   770		return cci_write(priv->regmap, MAX96714_MIPI_LANE_MAP, val, &ret);
-   771	}
-   772	
-   773	static int max96714_rxport_enable_poc(struct max96714_priv *priv)
-   774	{
-   775		struct max96714_rxport *rxport = &priv->rxport;
-   776	
-   777		if (!rxport->poc)
-   778			return 0;
-   779	
-   780		return regulator_enable(rxport->poc);
-   781	}
-   782	
-   783	static int max96714_rxport_disable_poc(struct max96714_priv *priv)
-   784	{
-   785		struct max96714_rxport *rxport = &priv->rxport;
-   786	
-   787		if (!rxport->poc)
-   788			return 0;
-   789	
-   790		return regulator_disable(rxport->poc);
-   791	}
-   792	
-   793	static int max96714_parse_dt_txport(struct max96714_priv *priv)
-   794	{
-   795		struct device *dev = &priv->client->dev;
-   796		struct fwnode_handle *ep_fwnode;
-   797		u32 num_data_lanes;
-   798		s64 dpll_freq;
-   799		int ret;
-   800	
-   801		ep_fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-   802							    MAX96714_PAD_SOURCE, 0, 0);
-   803		if (!ep_fwnode)
-   804			return -EINVAL;
-   805	
-   806		priv->vep.bus_type = V4L2_MBUS_UNKNOWN;
-   807	
-   808		ret = v4l2_fwnode_endpoint_alloc_parse(ep_fwnode, &priv->vep);
-   809		fwnode_handle_put(ep_fwnode);
-   810		if (ret) {
-   811			dev_err(dev, "tx: failed to parse endpoint data\n");
-   812			return -EINVAL;
-   813		}
-   814	
-   815		if (priv->vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-   816			dev_err(&priv->client->dev, "Unsupported bus-type %u\n",
-   817				priv->vep.bus_type);
-   818			return -EINVAL;
-   819		}
-   820	
-   821		if (priv->vep.nr_of_link_frequencies != 1) {
-   822			ret = -EINVAL;
-   823			goto err_free_vep;
-   824		}
-   825	
-   826		/* DPLL freq is twice the link frequency */
- > 827		dpll_freq = priv->vep.link_frequencies[0] * 2;
-   828	
-   829		/* 100Mbps step, Min 100Mbps, Max 2500Mbps */
-   830		if (dpll_freq % MHZ(100) || dpll_freq < MHZ(100) ||
-   831		    dpll_freq > MHZ(2500)) {
-   832			dev_err(dev, "tx: invalid link frequency\n");
-   833			ret = -EINVAL;
-   834			goto err_free_vep;
-   835		}
-   836	
-   837		num_data_lanes = priv->vep.bus.mipi_csi2.num_data_lanes;
-   838		if (num_data_lanes < 1 || num_data_lanes > 4) {
-   839			dev_err(dev,
-   840				"tx: invalid number of data lanes should be 1 to 4\n");
-   841			ret = -EINVAL;
-   842			goto err_free_vep;
-   843		}
-   844	
-   845		return 0;
-   846	
-   847	err_free_vep:
-   848		v4l2_fwnode_endpoint_free(&priv->vep);
-   849	
-   850		return ret;
-   851	};
-   852	
-
+diff --git a/drivers/media/pci/solo6x10/solo6x10-offsets.h b/drivers/media/pci/solo6x10/solo6x10-offsets.h
+index f414ee1316f2..fdbb817e6360 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-offsets.h
++++ b/drivers/media/pci/solo6x10/solo6x10-offsets.h
+@@ -57,16 +57,16 @@
+ #define SOLO_MP4E_EXT_ADDR(__solo) \
+ 	(SOLO_EREF_EXT_ADDR(__solo) + SOLO_EREF_EXT_AREA(__solo))
+ #define SOLO_MP4E_EXT_SIZE(__solo) \
+-	max((__solo->nr_chans * 0x00080000),				\
+-	    min(((__solo->sdram_size - SOLO_MP4E_EXT_ADDR(__solo)) -	\
+-		 __SOLO_JPEG_MIN_SIZE(__solo)), 0x00ff0000))
++	clamp(__solo->sdram_size - SOLO_MP4E_EXT_ADDR(__solo) -	\
++	      __SOLO_JPEG_MIN_SIZE(__solo),			\
++	      __solo->nr_chans * 0x00080000, 0x00ff0000)
+ 
+ #define __SOLO_JPEG_MIN_SIZE(__solo)		(__solo->nr_chans * 0x00080000)
+ #define SOLO_JPEG_EXT_ADDR(__solo) \
+ 		(SOLO_MP4E_EXT_ADDR(__solo) + SOLO_MP4E_EXT_SIZE(__solo))
+ #define SOLO_JPEG_EXT_SIZE(__solo) \
+-	max(__SOLO_JPEG_MIN_SIZE(__solo),				\
+-	    min((__solo->sdram_size - SOLO_JPEG_EXT_ADDR(__solo)), 0x00ff0000))
++	clamp(__solo->sdram_size - SOLO_JPEG_EXT_ADDR(__solo),	\
++	      __SOLO_JPEG_MIN_SIZE(__solo), 0x00ff0000)
+ 
+ #define SOLO_SDRAM_END(__solo) \
+ 	(SOLO_JPEG_EXT_ADDR(__solo) + SOLO_JPEG_EXT_SIZE(__solo))
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
 
