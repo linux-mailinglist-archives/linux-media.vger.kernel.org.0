@@ -1,163 +1,147 @@
-Return-Path: <linux-media+bounces-3660-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3661-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BBE82C81E
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jan 2024 00:51:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A899C82C82F
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jan 2024 01:04:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 437A61F23723
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jan 2024 23:51:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 276ABB234CC
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jan 2024 00:04:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 652AB1A5BB;
-	Fri, 12 Jan 2024 23:51:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C1D1847;
+	Sat, 13 Jan 2024 00:04:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="myfLgcSj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lKdA2gn2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1A21A702
-	for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 23:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40d5097150fso6825e9.1
-        for <linux-media@vger.kernel.org>; Fri, 12 Jan 2024 15:51:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1705103498; x=1705708298; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kp9mV4Ke/a2nl4+Mq/TPZKlXYFvSYBSYldkMY7yov80=;
-        b=myfLgcSjytfRZ6t/8DfAQPm/n1Cu0HBmrg+nJyGtRDDzjIc0W7QZE0UMBPAL9W4JHo
-         YZidLGqeidk+xuvmLM+Rj6JnLh56L9zWvfKEauB4PO+UOXZrYFvhVzYDzLAMH7EC9otz
-         oFSySZFEHTtUJQuAg2SpyD/5WVapblGxUqAzVnDs+Kg80vX8sWnXB/BJhRSB4lNMY4kz
-         mk9zy6ipFE2KZeWwh7e9m2dqdt/bNSa3ZoAGi0/JRCo6e+8Tj9UxfmgbHDiMjFWETkJl
-         xiXdMovx3hnFFssezLTz4Lf7TWEHmCJTddz6wixJ0pvTSc0k2tZ2a/8oRfBf5luFuaEb
-         /nYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705103498; x=1705708298;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kp9mV4Ke/a2nl4+Mq/TPZKlXYFvSYBSYldkMY7yov80=;
-        b=I7WW552ughYjF8pVg7qEBLqCva6W8JFXHhykdTv8Cg7I1Ybc/bGG7io8RTGqyOqjdk
-         QrERSOqjZNdGHR8kozqLy7xANYfzEnMjsMg0Yg+B3IAB9fHQhkNbQfMzkqpliGI5JQ5q
-         rm+lVO5Du44YOKkC8XcJNk1Yl7mgJKwAxplemuDDa5+5lgtT1Hjr27NtLhigs9APep+8
-         s4MeJTEHamUrMOsvhqqjUJB+DlITU48bCj61SutiXaA02CuxxGnxc8I/qs9yDaDG4AMj
-         SNm7DwGvJVBxUc+H38BZtzu4EmKi7VqUL5QYOR3w/ZeYdKo1/yydIwCkyXCQgvRtYv/7
-         oWOg==
-X-Gm-Message-State: AOJu0YxovvLv4eHSyIintFL07bMPND+hc+auxKOV0kcpBcJQtd4BWBm1
-	SmO1lnSI1X+AXh+Om7r3h6yuJBppZAXgKd4yKykLBPOWuaQ=
-X-Google-Smtp-Source: AGHT+IHw6ArP/KmmpI2CYpNyzdh9UGjQJc8eU/h6V5ZAE1R9MItE23iIMtklhlwhBVwyIqzHg22KBjSAxDaPMMiP1UE=
-X-Received: by 2002:a05:600c:3b1d:b0:40d:87df:92ca with SMTP id
- m29-20020a05600c3b1d00b0040d87df92camr30276wms.3.1705103498218; Fri, 12 Jan
- 2024 15:51:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6758115485
+	for <linux-media@vger.kernel.org>; Sat, 13 Jan 2024 00:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16D1BAF2;
+	Sat, 13 Jan 2024 01:02:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1705104167;
+	bh=Dv8slRqJCo8qVRmjafhxT4GSSF984+5D2Jsa1J9+jRE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lKdA2gn2DKke2kFR0wJVTvZGQSvqyibpVIItLIddRRT65dYM0rD55yiFZt554mMEC
+	 j+VOtm1F4QXrOgKpZiL/XDqDc3cpwIOFEty5TZ0B1jEjJPVl0avEawIGt+YZpz2yNg
+	 sTVs+DYnMZMbz3Jy4S570Wax7Jl1Fb0jhJtkfX5k=
+Date: Sat, 13 Jan 2024 02:03:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] media: nxp: isi: Check whether pad is non-NULL before
+ access
+Message-ID: <20240113000359.GA5439@pendragon.ideasonboard.com>
+References: <20231201150614.63300-1-marex@denx.de>
+ <20231203165959.GA22111@pendragon.ideasonboard.com>
+ <170499538140.3227220.17574476088989803181@ping.linuxembedded.co.uk>
+ <20240111175231.GC6806@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240112092014.23999-1-yong.wu@mediatek.com> <20240112092014.23999-4-yong.wu@mediatek.com>
- <CANDhNCrxpeqEhJD0xJzu3vm8a4jMXD2v+_dbDNvaKhLsLB5-4g@mail.gmail.com> <CA+ddPcNdniUTpE_pJb-fL7+MHNSUZTkQojL48iqvW9JPr-Tc-g@mail.gmail.com>
-In-Reply-To: <CA+ddPcNdniUTpE_pJb-fL7+MHNSUZTkQojL48iqvW9JPr-Tc-g@mail.gmail.com>
-From: John Stultz <jstultz@google.com>
-Date: Fri, 12 Jan 2024 15:51:25 -0800
-Message-ID: <CANDhNCqieBaH-Wi=vy3NSKTpwHcWef6qMOFi-7sgdGiDW7JtwA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] dma-buf: heaps: restricted_heap: Add private heap ops
-To: Jeffrey Kardatzke <jkardatzke@google.com>
-Cc: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	tjmercier@google.com, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Robin Murphy <robin.murphy@arm.com>, Vijayanand Jitta <quic_vjitta@quicinc.com>, 
-	Joakim Bech <joakim.bech@linaro.org>, Pavel Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>, 
-	Pekka Paalanen <ppaalanen@gmail.com>, jianjiao.zeng@mediatek.com, kuohong.wang@mediatek.com, 
-	youlin.pei@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240111175231.GC6806@pendragon.ideasonboard.com>
 
-On Fri, Jan 12, 2024 at 3:27=E2=80=AFPM Jeffrey Kardatzke <jkardatzke@googl=
-e.com> wrote:
-> On Fri, Jan 12, 2024 at 2:52=E2=80=AFPM John Stultz <jstultz@google.com> =
-wrote:
-> > On Fri, Jan 12, 2024 at 1:21=E2=80=AFAM Yong Wu <yong.wu@mediatek.com> =
-wrote:
-> > > diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-bu=
-f/heaps/restricted_heap.h
-> > > index 443028f6ba3b..ddeaf9805708 100644
-> > > --- a/drivers/dma-buf/heaps/restricted_heap.h
-> > > +++ b/drivers/dma-buf/heaps/restricted_heap.h
-> > > @@ -15,6 +15,18 @@ struct restricted_buffer {
-> > >
-> > >  struct restricted_heap {
-> > >         const char              *name;
-> > > +
-> > > +       const struct restricted_heap_ops *ops;
-> > > +};
-> > > +
-> > > +struct restricted_heap_ops {
-> > > +       int     (*heap_init)(struct restricted_heap *heap);
-> > > +
-> > > +       int     (*memory_alloc)(struct restricted_heap *heap, struct =
-restricted_buffer *buf);
-> > > +       void    (*memory_free)(struct restricted_heap *heap, struct r=
-estricted_buffer *buf);
-> > > +
-> > > +       int     (*memory_restrict)(struct restricted_heap *heap, stru=
-ct restricted_buffer *buf);
-> > > +       void    (*memory_unrestrict)(struct restricted_heap *heap, st=
-ruct restricted_buffer *buf);
-> > >  };
-> > >
-> > >  int restricted_heap_add(struct restricted_heap *rstrd_heap);
-> >
-> > So, I'm a little worried here, because you're basically turning the
-> > restricted_heap dma-buf heap driver into a framework itself.
-> > Where this patch is creating a subdriver framework.
-> >
-> > Part of my hesitancy, is you're introducing this under the dma-buf
-> > heaps. For things like CMA, that's more of a core subsystem that has
-> > multiple users, and exporting cma buffers via dmabuf heaps is just an
-> > additional interface.  What I like about that is the core kernel has
-> > to define the semantics for the memory type and then the dmabuf heap
-> > is just exporting that well understood type of buffer.
-> >
-> > But with these restricted buffers, I'm not sure there's yet a well
-> > understood set of semantics nor a central abstraction for that which
-> > other drivers use directly.
-> >
-> > I know part of this effort here is to start to centralize all these
-> > vendor specific restricted buffer implementations, which I think is
-> > great, but I just worry that in doing it in the dmabuf heap interface,
-> > it is a bit too user-facing. The likelihood of encoding a particular
-> > semantic to the singular "restricted_heap" name seems high.
->
-> In patch #5 it has the actual driver implementation for the MTK heap
-> that includes the heap name of "restricted_mtk_cm", so there shouldn't
-> be a heap named "restricted_heap" that's actually getting exposed. The
+On Thu, Jan 11, 2024 at 07:52:33PM +0200, Laurent Pinchart wrote:
+> On Thu, Jan 11, 2024 at 05:49:41PM +0000, Kieran Bingham wrote:
+> > Quoting Laurent Pinchart (2023-12-03 16:59:59)
+> > > Hi Marek,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Fri, Dec 01, 2023 at 04:06:04PM +0100, Marek Vasut wrote:
+> > > > The pad can be NULL if media controller routing is not set up correctly.
+> > > > Check whether the pad is NULL before using it, otherwise it is possible
+> > > > to achieve NULL pointer dereference.
+> > > 
+> > > Could you share more information about how to misconfigure the routing ?
+> > 
+> > You simply do 'nothing'.
+> 
+> The default configuration should be working one. I think that should
+> then be fixed too (in a separate patch).
 
-Ah, I appreciate that clarification! Indeed, you're right the name is
-passed through. Apologies for missing that detail.
+I managed to reproduce the issue (I had to heavily hack libcamera, by
+default it would reject incorrect configurations before triggering the
+kernel bug). The default configuration of the crossbar switch is fine,
+this patch is the right fix.
 
-> restricted_heap code is a framework, and not a driver itself.  Unless
-> I'm missing something in this patchset...but that's the way it's
-> *supposed* to be.
+I'd like to expand the commit message with a clearer description of the
+erronous configuration. Marek, are you fine with the following commit
+message ?
 
-So I guess I'm not sure I understand the benefit of the extra
-indirection. What then does the restricted_heap.c logic itself
-provide?
-The dmabuf heaps framework already provides a way to add heap implementatio=
-ns.
+--------
+When translating source to sink streams in the crossbar subdev, the
+driver tries to locate the remote subdev connected to the sink pad. The
+remote pad may be NULL, if userspace tries to enable a stream that ends
+at an unconnected crossbar sink. When that occurs, the driver
+dereferences the NULL pad, leading to a crash.
 
-thanks
--john
+Prevent the crash by checking if the pad is NULL before using it, and
+return an error if it is.
+--------
+
+If so I'll update it locally, no need for a new version.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> > > > Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
+> > > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > > ---
+> > > > Cc: Fabio Estevam <festevam@gmail.com>
+> > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > > > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > Cc: Shawn Guo <shawnguo@kernel.org>
+> > > > Cc: linux-arm-kernel@lists.infradead.org
+> > > > Cc: linux-media@vger.kernel.org
+> > > > ---
+> > > >  drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c | 8 +++++++-
+> > > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > > > index 792f031e032ae..44354931cf8a1 100644
+> > > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > > > @@ -160,8 +160,14 @@ mxc_isi_crossbar_xlate_streams(struct mxc_isi_crossbar *xbar,
+> > > >       }
+> > > >  
+> > > >       pad = media_pad_remote_pad_first(&xbar->pads[sink_pad]);
+> > > > -     sd = media_entity_to_v4l2_subdev(pad->entity);
+> > > > +     if (!pad) {
+> > > > +             dev_dbg(xbar->isi->dev,
+> > > > +                     "no pad connected to crossbar input %u\n",
+> > > > +                     sink_pad);
+> > > > +             return ERR_PTR(-EPIPE);
+> > > > +     }
+> > > >  
+> > > > +     sd = media_entity_to_v4l2_subdev(pad->entity);
+> > > >       if (!sd) {
+> > > >               dev_dbg(xbar->isi->dev,
+> > > >                       "no entity connected to crossbar input %u\n",
+
+-- 
+Regards,
+
+Laurent Pinchart
 
