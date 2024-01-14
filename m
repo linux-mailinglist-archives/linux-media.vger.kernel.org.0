@@ -1,134 +1,100 @@
-Return-Path: <linux-media+bounces-3675-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3676-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A13182D248
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jan 2024 23:59:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A8D82D2A0
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 00:58:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 438671C20921
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jan 2024 22:59:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8C271F211FB
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jan 2024 23:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D5C42C682;
-	Sun, 14 Jan 2024 22:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD87E2C68D;
+	Sun, 14 Jan 2024 23:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iHFuwO69"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCqrP1v9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF091E506
-	for <linux-media@vger.kernel.org>; Sun, 14 Jan 2024 22:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7831b3a48e7so506936285a.3
-        for <linux-media@vger.kernel.org>; Sun, 14 Jan 2024 14:58:54 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E7C12E6C
+	for <linux-media@vger.kernel.org>; Sun, 14 Jan 2024 23:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50e80d40a41so10385375e87.1
+        for <linux-media@vger.kernel.org>; Sun, 14 Jan 2024 15:58:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705273134; x=1705877934; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2iTVIpbKVlC8H0chysMZc6EV/4AqAkJSrCj7qkuPnwg=;
-        b=iHFuwO69jndp2CMZd1CqL+raZQluFiFrw7v2ZNtiC2ewhInvtTgNQm4ooxw7YC9l/y
-         4ZJB2knsVhGP7FGvIYVNQhY+/PuRBPzZ3xBC8JM17M8D/XavHbWSlz75VbLfmI37eTfW
-         lYAS7VUz73+5SywCN4mx5xaXMBOj84pLfutZk=
+        d=gmail.com; s=20230601; t=1705276681; x=1705881481; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A/oEVVR2aMGY6KbcjnYfw8QYCQqM0Umy7qOrTg67CkI=;
+        b=ZCqrP1v93hQtJGQtvnddtSd66hS3MihJsVyG5phxR7e2FkQCQ+dKd1SlatMd4lM3Iu
+         upqa0QvuzfOy7SFj6aZbxsRYQxr6RWdAWzAqh7O+4pY8OIDNk1FZpf+3/WthAi5g6ufX
+         vvdwZHgxJEtNggUJbu+UN8WGXst/iGry6zyr9LeqyIZRx/D/wGz5tPTq6ljnTQr/5rOE
+         vhQitu0S4PXHsCTKIkGk605UUWGlbK4xSAV+QiXMe7CqLKDribaXbYYt5XvejiPrbuKW
+         F7aMBYnVFX9M0jhenLv10LoYnVq4F3PjodCR9Gpp5tu4APOUZOe4Fg5qI729D9MLl3Sw
+         yq8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705273134; x=1705877934;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2iTVIpbKVlC8H0chysMZc6EV/4AqAkJSrCj7qkuPnwg=;
-        b=B9Kbd9GidBXWAKzXHpk16lIQ//zyDLkd1W+M+fvaeb8n728dFdVnSzWPStsaEReYEz
-         Fd2sFW8A5Hb4QEzqeO5Y/5tKdZhyZifBxJgrbu6o1Ks7OFMDW55i0BNXZheNdhjEppEm
-         um5UllsHThnnigbIzSeoGBwoFdW+/OLakZWcvauVyFHhoafFpog6dFSaI1d4BL6wLXLF
-         Om0FdYLbqGjzMWZjw6eiZdjudTVmkFdIrJJ1p8wUvyn6tzVIt+L5BASIP5UKsk9mXX3K
-         HJr1I/pnyeyvqPA7L3rx1KHsRBULvGt8rjVZdO4XLsREMqB7pTGfbPIWwWAPxK7r5hmQ
-         B1vg==
-X-Gm-Message-State: AOJu0YzuhI+SfqEhjRI8D8xcn66XI1XuzYJBKhJmgXwO9wqwmisg5YQ0
-	/ykklPetz5CBSJ5Y3+RKYXAIYnGvV2vRzZsmABXPWhxd+g==
-X-Google-Smtp-Source: AGHT+IHRP1gfxs+I/NEz7rxWWP3cWthhemJGU+UYZtws/v+8XAc/LVnXL//mFd6bysAVqsE+VVid9g==
-X-Received: by 2002:a0c:e10a:0:b0:681:5589:e8ce with SMTP id w10-20020a0ce10a000000b006815589e8cemr2545499qvk.41.1705273133886;
-        Sun, 14 Jan 2024 14:58:53 -0800 (PST)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com. [209.85.219.42])
-        by smtp.gmail.com with ESMTPSA id w36-20020a05622a192400b004299f302a7csm3381529qtc.23.2024.01.14.14.58.53
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jan 2024 14:58:53 -0800 (PST)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-681603c9047so1632566d6.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Jan 2024 14:58:53 -0800 (PST)
-X-Received: by 2002:a05:6214:2261:b0:681:5bb8:e251 with SMTP id
- gs1-20020a056214226100b006815bb8e251mr1343756qvb.97.1705273132688; Sun, 14
- Jan 2024 14:58:52 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705276681; x=1705881481;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A/oEVVR2aMGY6KbcjnYfw8QYCQqM0Umy7qOrTg67CkI=;
+        b=KUsy5LvXcep+LppmRwX1X+rytG7ZV1rilr3paoCLpTOC3jYxMp0dZfUbco20KuIVET
+         B0JTHoPSamYTLbUJkrsUBramH7FlSbDN86xgwga0JbNCqYIZFW6KC6M2ig56iL9XBNQc
+         jOhfste6El6Q6I16fO+iCozcWUqD4UF5XRxEftcYADBKJulwM/cglKPu1ZcVO0r2TVRv
+         3iKS7LLQqLpOa7zB1HZKO794lNy8sjKOUgVL84fCbphIdypE5POmlvVGAAVkH8uPMZe5
+         Pm3x5a95b0xxRzOeknZbClWUlyokgPXStTd7lei6WTR/TDG4wdXyiFasbK79SwK5Rpsd
+         hzLw==
+X-Gm-Message-State: AOJu0YzuF5pbVoHV4U0tD5JjS7IeBvEdTbBfiLDW5HoVyTuK9XKmlUzk
+	Il0O0qNhLrymUNBX7xEbZ5s=
+X-Google-Smtp-Source: AGHT+IHNMEaFI/K2LQHeogTeyvje3GjiplTmob9/n70WL/G65D8iu26m04wqjM0uPtTvwSV2fcprNA==
+X-Received: by 2002:ac2:5dfa:0:b0:50e:7b4a:7819 with SMTP id z26-20020ac25dfa000000b0050e7b4a7819mr1785095lfq.131.1705276680418;
+        Sun, 14 Jan 2024 15:58:00 -0800 (PST)
+Received: from foxbook (bff170.neoplus.adsl.tpnet.pl. [83.28.43.170])
+        by smtp.gmail.com with ESMTPSA id h12-20020a056512054c00b0050e78f183e1sm1288688lfl.82.2024.01.14.15.57.59
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 14 Jan 2024 15:58:00 -0800 (PST)
+Date: Mon, 15 Jan 2024 00:57:56 +0100
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: extend the bandwdith quirk to USB 3.x
+Message-ID: <20240115005756.536dff4c@foxbook>
+In-Reply-To: <CANiDSCsS-Wg-2h-rcHvPjoem4h-pR1xOJST_EmNTdKum8grSSQ@mail.gmail.com>
+References: <20240114213518.03e22698@foxbook>
+	<CANiDSCsS-Wg-2h-rcHvPjoem4h-pR1xOJST_EmNTdKum8grSSQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240114213518.03e22698@foxbook>
-In-Reply-To: <20240114213518.03e22698@foxbook>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sun, 14 Jan 2024 23:58:38 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsS-Wg-2h-rcHvPjoem4h-pR1xOJST_EmNTdKum8grSSQ@mail.gmail.com>
-Message-ID: <CANiDSCsS-Wg-2h-rcHvPjoem4h-pR1xOJST_EmNTdKum8grSSQ@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: extend the bandwdith quirk to USB 3.x
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Michal
+Hi,
 
-Thanks for your patch.
+> Out of curiosity, what camera are you using? Could you also share the
+> patch with the quirk?
 
-Out of curiosity, what camera are you using? Could you also share the
-patch with the quirk?
+I have no idea what camera I am using ;)
 
-Thanks!
+It's some dodgy no-name thing which doesn't even have "made in China"
+written on it and reports IDs belonging to a completely different kind
+of camera.
 
-On Sun, 14 Jan 2024 at 21:35, Michal Pecio <michal.pecio@gmail.com> wrote:
->
-> The bandwidth fixup quirk which is needed to run certain buggy cameras
-> doesn't know that SuperSpeed exists and has the same 8 service intervals
-> per millisecond as High Speed; hence its calculations are badly wrong.
->
-> Assume that all speeds from HS up use 8 intervals per millisecond.
->
-> No further changes are required. Updated code has been confirmed to work
-> properly with a SuperSpeed camera, as well as some High Speed ones.
->
-> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 28dde08ec6c5..4b86bef06a52 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -214,13 +214,13 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
->                  * Compute a bandwidth estimation by multiplying the frame
->                  * size by the number of video frames per second, divide the
->                  * result by the number of USB frames (or micro-frames for
-> -                * high-speed devices) per second and add the UVC header size
-> -                * (assumed to be 12 bytes long).
-> +                * high- and super-speed devices) per second and add the UVC
-> +                * header size (assumed to be 12 bytes long).
->                  */
->                 bandwidth = frame->wWidth * frame->wHeight / 8 * format->bpp;
->                 bandwidth *= 10000000 / interval + 1;
->                 bandwidth /= 1000;
-> -               if (stream->dev->udev->speed == USB_SPEED_HIGH)
-> +               if (stream->dev->udev->speed >= USB_SPEED_HIGH)
->                         bandwidth /= 8;
->                 bandwidth += 12;
->
-> --
-> 2.43.0
->
->
+But it sort of works, so what the heck. And I use the BW quirk with it
+because it otherwise asks for way too much.
 
+Squatting on others' IDs appears to be a fancy new cost reduction trick
+(not the first time I see it happen). I'm not really convinced that it
+would be a good idea to push quirks on such IDs upstream, but I figured
+the BW calculation fix could be useful.
 
--- 
-Ricardo Ribalda
+Regards,
+Michal
 
