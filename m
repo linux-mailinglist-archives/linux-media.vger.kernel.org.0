@@ -1,156 +1,198 @@
-Return-Path: <linux-media+bounces-3681-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3682-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADB082D673
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 10:54:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9F582D753
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 11:27:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D03D41C215F8
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 09:54:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FCB71F21CAF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 10:27:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5210E575;
-	Mon, 15 Jan 2024 09:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QqaJlVMU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF40B125A9;
+	Mon, 15 Jan 2024 10:27:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7720AF51B
-	for <linux-media@vger.kernel.org>; Mon, 15 Jan 2024 09:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TD6tC5YMxz49PyV
-	for <linux-media@vger.kernel.org>; Mon, 15 Jan 2024 11:54:11 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1705312451;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=pRRJPq3mABlp55Urh5sb7N3rmnA2nNS1aBA6m/qlzYY=;
-	b=QqaJlVMUjHA+eVkUzDZsMxiGB1pZFxqpUzMdCvMDf2DWQ4j+3Gqw4NPAiISqj0RMKR4WmM
-	/02AYWAZVeuheACyomBRMIbrBC+osk+i2dyhf7I4lbjCT4HS1SuPrJ5ofComwzMy95dEvF
-	RoGUmrqGZlZwcmKujrh2ZJSGmXOE5BLG9jXYgpBtom/gr4Cob110djamVdVIfwvmjV4FrG
-	2iLLM9cO5V9M2aBxt7mauGBs2q3EvQFFrkb24NHApWJlpnD2RjjmNU5z8HdoKf8JF9sKNn
-	kGYsoBtfQ7euAUfG/UhhF/IMpmk9fGPi+6VKFG/31Y1xYQkUrlEOtqNtMpCOzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1705312451;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=pRRJPq3mABlp55Urh5sb7N3rmnA2nNS1aBA6m/qlzYY=;
-	b=ikeARcpHC8fe3kSZIa/eZg1fEv/uIt/ss3A0PsXIaLdydgW6Qy/dwffp6Rn7z7ovFXtyzy
-	f/X8m9fNentdSWsVo8PqwgWA5CgMu1+NFU1PnS32XwWdELNl/JU/Xvr1bsJXXP8FGYOQ9t
-	ETHJ+nCB3r34DTvxCKKv4jwoR61CVjk6Zg4/h1ApB9gqR+mKjV13IOwMbhLuK1U2DnhgHW
-	7atMxXp0PF+XCf2KaO0H6/z62WZe9iszurMtLuQY0nAmOLsztQOzSBgambCHYM9eTjgqnD
-	iLEKU3mIC7JAXHCOSKLgCOiSQGtUGcJlfyAvoH1xf24ur4dYxHura42HLQGR/Q==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1705312451; a=rsa-sha256;
-	cv=none;
-	b=c9jiI+UxiWEI6pEGACzGf8CQgpoJkIW3JkPwfZpyErHwIESszRlITD3hjTz+hRtGuUzTn0
-	bACn32nl8JK2niKv5kWMpcHcP7XknfYKf1fmIqR7HBj51vIzUTMGJHllN8n0xpdliGVH1k
-	dBg7+HrrLFem5T/D/wrIG/ej7uqy60I3Cva+LrYlXqJ8EttKBtXtmyC3sRPhHn7SQpdlxY
-	v9ifFCupjm7FtnR8xOLMEUTjFT2Cbr/Nxi63ns3NIzbEcWQZFvj22UYleBy+YGTECgKdI3
-	8YvCjKazOT+bbIWcb/Fw11+Yvn+ec8qsCqotNGbVvg0S8No9gtXjFBc98+QDmw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1932F634C93
-	for <linux-media@vger.kernel.org>; Mon, 15 Jan 2024 11:54:11 +0200 (EET)
-Date: Mon, 15 Jan 2024 09:54:10 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.9] V4L2 patches
-Message-ID: <ZaUAwu0j22NDkWZ7@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD8A101C1;
+	Mon, 15 Jan 2024 10:27:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B80C0C433F1;
+	Mon, 15 Jan 2024 10:27:07 +0000 (UTC)
+Message-ID: <8073593c-aaac-43e1-9f90-51d5134df070@xs4all.nl>
+Date: Mon, 15 Jan 2024 11:27:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 1/8] videobuf2: Add min_reqbufs_allocation field to
+ vb2_queue structure
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
+ <20231215090813.15610-2-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231215090813.15610-2-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mauro, Hans,
+On 15/12/2023 10:08, Benjamin Gaignard wrote:
+> Add 'min_reqbufs_allocation' field in vb2_queue structure so drivers
+> can specificy the minimum number of buffers to allocate when calling
+> VIDIOC_REQBUFS.
+> If used this minimum should be higher than the minimum number of
+> queued buffers needed to start streaming.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-core.c | 10 ++++++++--
+>  include/media/videobuf2-core.h                  | 13 +++++++++++++
+>  2 files changed, 21 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 41a832dd1426..a183edf11586 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -865,7 +865,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	/*
+>  	 * Make sure the requested values and current defaults are sane.
+>  	 */
+> -	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers);
+> +	num_buffers = max_t(unsigned int, *count, q->min_reqbufs_allocation);
+>  	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
+>  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>  	/*
+> @@ -917,7 +917,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	 * There is no point in continuing if we can't allocate the minimum
+>  	 * number of buffers needed by this vb2_queue.
+>  	 */
+> -	if (allocated_buffers < q->min_queued_buffers)
+> +	if (allocated_buffers < q->min_reqbufs_allocation)
+>  		ret = -ENOMEM;
+>  
+>  	/*
+> @@ -2521,6 +2521,12 @@ int vb2_core_queue_init(struct vb2_queue *q)
+>  	if (WARN_ON(q->supports_requests && q->min_queued_buffers))
+>  		return -EINVAL;
+>  
+> +	q->min_reqbufs_allocation = max_t(unsigned int,
+> +					  q->min_reqbufs_allocation,
+> +					  q->min_queued_buffers + 1);
 
-Here are a few patches, mostly cleanups and fixes. Debug messages are also
-added to v4l2_fwnode_create_links_for_pad() and the Cadence csi2rx gets
-support for additional formats. Also a fix for the IPU3 ImgU driver is
-included, cc'd to stable, too.
+I have been thinking about this a bit more. The problem is that if
+min_queued_buffers == 0, then min_reqbufs_allocation becomes 1.
 
-Please pull.
+But the minimum requirement should really be 2: one buffer is used to
+capture a new frame, the other is processed by userspace.
 
+So this should be modified as well. I would write this as 'if' statements
+as well:
 
-The following changes since commit 02d4e62ae2452c83e4a3e279b8e4cb4dcbad4b31:
+	if (q->min_reqbufs_allocation < q->min_queued_buffers + 1)
+		q->min_reqbufs_allocation = q->min_queued_buffers + 1;
+	if (q->min_reqbufs_allocation < 2)
+		q->min_reqbufs_allocation = 2;
 
-  media: i2c: mt9m114: use fsleep() in place of udelay() (2023-12-14 12:40:13 +0100)
+You can add comments before each 'if' to clarify why.
 
-are available in the Git repository at:
+I'm also wondering what this change to calculating q->min_reqbufs_allocation
+when the driver leaves it to 0 shouldn't be done in a separate patch, either
+before or after this one. We're changing the default behavior of REQBUFS
+slightly, and mixing that in with this patch feels wrong.
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.9-1-signed
+Note that __vb2_init_fileio() also needs to be updated: it currently uses
+the same calculation of the initial 'count' value for reqbufs, but that
+can now just use q->min_reqbufs_allocation directly.
 
-for you to fetch changes up to 718594b35b7cead6cb022899cd2b8746d74ef12d:
+Regards,
 
-  media: i2c: ar0521: fix spellos (2024-01-11 12:27:13 +0200)
+	Hans
 
-----------------------------------------------------------------
-V4L2 patches for 6.9
+> +	if (WARN_ON(q->min_reqbufs_allocation > q->max_num_buffers))
+> +		return -EINVAL;
+> +
+>  	INIT_LIST_HEAD(&q->queued_list);
+>  	INIT_LIST_HEAD(&q->done_list);
+>  	spin_lock_init(&q->done_lock);
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 56719a26a46c..7b84b4e2e273 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -553,6 +553,18 @@ struct vb2_buf_ops {
+>   *		VIDIOC_REQBUFS will ensure at least @min_queued_buffers
+>   *		buffers will be allocated. Note that VIDIOC_CREATE_BUFS will not
+>   *		modify the requested buffer count.
+> + * @min_reqbufs_allocation: the minimum number of buffers to be allocated when
+> + *		calling VIDIOC_REQBUFS. Drivers can set this if there has to
+> + *		be a certain number of buffers available for the hardware to
+> + *		work effectively. If set, then @min_reqbufs_allocation must be
+> + *		larger than @min_queued_buffers + 1.
+> + *		This field is only used by VIDIOC_REQBUFS. This allows calling
+> + *		that ioctl with a buffer count of 1 and it will be automatically
+> + *		adjusted to a workable buffer count. VIDIOC_CREATE_BUFS will not
+> + *		modify the requested buffer count.
+> + *		If this field is > 3, then it is highly recommended that the
+> + *		driver implements the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+> + *		control.
+>   */
+>  /*
+>   * Private elements (won't appear at the uAPI book):
+> @@ -618,6 +630,7 @@ struct vb2_queue {
+>  	u32				timestamp_flags;
+>  	gfp_t				gfp_flags;
+>  	u32				min_queued_buffers;
+> +	u32				min_reqbufs_allocation;
+>  
+>  	struct device			*alloc_devs[VB2_MAX_PLANES];
+>  
 
-----------------------------------------------------------------
-Changhuang Liang (1):
-      media: cadence: csi2rx: Add enum_mbus_code pad ops
-
-Colin Ian King (1):
-      media: v4l2-subdev: Fix spelling mistake "heigth" -> "height"
-
-Hidenori Kobayashi (1):
-      media: staging: ipu3-imgu: Set fields before media_entity_pads_init()
-
-Jai Luthra (2):
-      media: cadence: csi2rx: add support for RGB formats
-      media: ti: j721e-csi2rx: add support for RGB formats
-
-Jonathan Corbet (1):
-      staging: media: ipu3: Remove some excess struct member documentation
-
-Julien Massot (3):
-      media: cadence: csi2rx: use match fwnode for media link
-      media: cadence: csi2rx: add Y8_1X8 format
-      media: ti: j721e-csi2rx: add GREY format
-
-Michal Simek (1):
-      media: platform: xilinx: Fix Kconfig indentation
-
-Randy Dunlap (2):
-      media: media-entity.h: fix Excess kernel-doc description warnings
-      media: i2c: ar0521: fix spellos
-
-Sakari Ailus (3):
-      media: ipu3-cio2: Further clean up async subdev link creation
-      media: v4l2-mc: Add debug prints for v4l2_fwnode_create_links_for_pad()
-      media: mc: Drop useless debug print on file handle release
-
- drivers/media/i2c/alvium-csi2.c                    |  2 +-
- drivers/media/i2c/ar0521.c                         |  6 +++---
- drivers/media/mc/mc-devnode.c                      |  1 -
- drivers/media/pci/intel/ipu3/ipu3-cio2.c           | 22 +++++---------------
- drivers/media/platform/cadence/cdns-csi2rx.c       | 19 ++++++++++++++++-
- .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 24 ++++++++++++++++++++++
- drivers/media/platform/xilinx/Kconfig              |  4 ++--
- drivers/media/v4l2-core/v4l2-mc.c                  | 23 +++++++++++++++++----
- .../staging/media/ipu3/include/uapi/intel-ipu3.h   |  3 ---
- drivers/staging/media/ipu3/ipu3-v4l2.c             | 16 +++++++--------
- include/media/media-entity.h                       |  4 ----
- 11 files changed, 80 insertions(+), 44 deletions(-)
-
--- 
-Sakari Ailus
 
