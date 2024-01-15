@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-3719-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3720-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13ED882DDE3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 17:50:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BA782DDFC
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 17:54:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B34CE28168D
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 16:50:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C31A8B21988
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 16:54:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B052717C60;
-	Mon, 15 Jan 2024 16:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A2D017C62;
+	Mon, 15 Jan 2024 16:53:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E29417BBB;
-	Mon, 15 Jan 2024 16:50:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD4FCC433C7;
-	Mon, 15 Jan 2024 16:50:10 +0000 (UTC)
-Message-ID: <6b0e4c6b-493c-4916-ab3c-deeeb725fdec@xs4all.nl>
-Date: Mon, 15 Jan 2024 17:50:09 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE2D17BCF;
+	Mon, 15 Jan 2024 16:53:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B9B3C433C7;
+	Mon, 15 Jan 2024 16:53:53 +0000 (UTC)
+Message-ID: <e3b4c627-c495-402d-a40c-5664d19e2523@xs4all.nl>
+Date: Mon, 15 Jan 2024 17:53:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,14 +29,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 7/8] media: v4l2: Add mem2mem helpers for DELETE_BUFS
+Subject: Re: [PATCH v16 8/8] media: test-drivers: Use helper for DELETE_BUFS
  ioctl
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  kernel@collabora.com
 References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
- <20231215090813.15610-8-benjamin.gaignard@collabora.com>
+ <20231215090813.15610-9-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -81,150 +81,127 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231215090813.15610-8-benjamin.gaignard@collabora.com>
+In-Reply-To: <20231215090813.15610-9-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 15/12/2023 10:08, Benjamin Gaignard wrote:
-> Create v4l2-mem2mem helpers for VIDIOC_DELETE_BUFS ioctl.
+> Allow test drivers to use DELETE_BUFS by adding vb2_ioctl_delete_bufs() helper.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  .../media/platform/verisilicon/hantro_drv.c   |  1 +
->  .../media/platform/verisilicon/hantro_v4l2.c  |  1 +
->  drivers/media/test-drivers/vim2m.c            |  2 ++
+>  drivers/media/test-drivers/vicodec/vicodec-core.c |  2 ++
+>  drivers/media/test-drivers/vimc/vimc-capture.c    |  2 ++
+>  drivers/media/test-drivers/visl/visl-video.c      |  2 ++
+>  drivers/media/test-drivers/vivid/vivid-core.c     | 13 ++++++++++---
 
-The driver changes should be done in a separate patch.
+You patched vim2m.c in the previous patch. I'd say that belong in this one
+instead.
 
->  drivers/media/v4l2-core/v4l2-mem2mem.c        | 20 +++++++++++++++++++
->  include/media/v4l2-mem2mem.h                  | 12 +++++++++++
->  5 files changed, 36 insertions(+)
+>  4 files changed, 16 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-> index db3df6cc4513..f6b0a676a740 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -248,6 +248,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> index e13f5452b927..12956d807e05 100644
+> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
+> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> @@ -1345,6 +1345,7 @@ static const struct v4l2_ioctl_ops vicodec_ioctl_ops = {
+>  	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
+>  	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
+>  	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
+> +	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
+>  
+>  	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
+>  	.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
+> @@ -1731,6 +1732,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+>  	dst_vq->mem_ops = &vb2_vmalloc_memops;
 >  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	dst_vq->lock = &ctx->dev->vpu_mutex;
->  	dst_vq->dev = ctx->dev->v4l2_dev.dev;
-> +	src_vq->supports_delete_bufs = true;
+>  	dst_vq->lock = src_vq->lock;
+> +	dst_vq->supports_delete_bufs = true;
 
-Isn't this something that can be supported for both queues?
+Same question as in the previous patch: why just for dst_vq?
+
+It's also why I am skeptical of the cap flag, I think that if you support this
+ioctl in an m2m device, then support this for both queues. In the rare case that
+that can't be done, then you need to make your own ioctl function that does the
+queue check first before calling v4l2_m2m_ioctl_delete_bufs().
 
 >  
 >  	return vb2_queue_init(dst_vq);
 >  }
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> index 941fa23c211a..34eab90e8a42 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
->  	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
->  	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
->  	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
-> +	.vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
->  	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
+> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+> index 97693561f1e4..a2078d9c2721 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+> @@ -221,6 +221,7 @@ static const struct v4l2_ioctl_ops vimc_capture_ioctl_ops = {
+>  	.vidioc_expbuf = vb2_ioctl_expbuf,
+>  	.vidioc_streamon = vb2_ioctl_streamon,
+>  	.vidioc_streamoff = vb2_ioctl_streamoff,
+> +	.vidioc_delete_bufs = vb2_ioctl_delete_bufs,
+>  };
 >  
->  	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-> diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-> index 3e3b424b4860..17213ce42059 100644
-> --- a/drivers/media/test-drivers/vim2m.c
-> +++ b/drivers/media/test-drivers/vim2m.c
-> @@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
->  	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
->  	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
->  	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
-> +	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
->  	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
+>  static void vimc_capture_return_all_buffers(struct vimc_capture_device *vcapture,
+> @@ -435,6 +436,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
+>  	q->min_reqbufs_allocation = 2;
+>  	q->lock = &vcapture->lock;
+>  	q->dev = v4l2_dev->dev;
+> +	q->supports_delete_bufs = true;
 >  
->  	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-> @@ -1133,6 +1134,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+>  	ret = vb2_queue_init(q);
+>  	if (ret) {
+> diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
+> index b9a4b44bd0ed..939c14107700 100644
+> --- a/drivers/media/test-drivers/visl/visl-video.c
+> +++ b/drivers/media/test-drivers/visl/visl-video.c
+> @@ -539,6 +539,7 @@ const struct v4l2_ioctl_ops visl_ioctl_ops = {
+>  	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
+>  	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
+>  	.vidioc_expbuf			= v4l2_m2m_ioctl_expbuf,
+> +	.vidioc_delete_bufs		= v4l2_m2m_ioctl_delete_bufs,
+>  
+>  	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
+>  	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
+> @@ -749,6 +750,7 @@ int visl_queue_init(void *priv, struct vb2_queue *src_vq,
 >  	dst_vq->mem_ops = &vb2_vmalloc_memops;
 >  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
 >  	dst_vq->lock = &ctx->vb_mutex;
 > +	dst_vq->supports_delete_bufs = true;
-
-Same question.
-
 >  
 >  	return vb2_queue_init(dst_vq);
 >  }
-> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> index 9e983176542b..dbc4711fc556 100644
-> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> @@ -834,6 +834,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
+> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+> index 11b8520d9f57..ad37babb54a2 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-core.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
+> @@ -769,6 +769,7 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
+>  	.vidioc_expbuf			= vb2_ioctl_expbuf,
+>  	.vidioc_streamon		= vb2_ioctl_streamon,
+>  	.vidioc_streamoff		= vb2_ioctl_streamoff,
+> +	.vidioc_delete_bufs		= vb2_ioctl_delete_bufs,
 >  
-> +int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-> +			 struct v4l2_delete_buffers *d)
-> +{
-> +	struct vb2_queue *vq;
-> +
-> +	vq = v4l2_m2m_get_vq(m2m_ctx, d->type);
-
-These 3 lines can be combined into one.
-
-> +
-> +	return vb2_delete_bufs(vq, d);
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_m2m_delete_bufs);
-
-I'm not sure we need to export this. Drivers should really just use the
-v4l2_m2m_ioctl_ variant below.
-
-> +
->  int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  			 struct v4l2_create_buffers *create)
->  {
-> @@ -1380,6 +1391,15 @@ int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_create_bufs);
+>  	.vidioc_enum_input		= vivid_enum_input,
+>  	.vidioc_g_input			= vivid_g_input,
+> @@ -883,12 +884,18 @@ static int vivid_create_queue(struct vivid_dev *dev,
+>  	 * PAGE_SHIFT > 12, but then max_num_buffers will be clamped by
+>  	 * videobuf2-core.c to MAX_BUFFER_INDEX.
+>  	 */
+> -	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+>  		q->max_num_buffers = 64;
+> -	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
+> +		q->supports_delete_bufs = true;
+> +	}
+> +	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE) {
+>  		q->max_num_buffers = 1024;
+> -	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
+> +		q->supports_delete_bufs = true;
+> +	}
+> +	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE) {
+>  		q->max_num_buffers = 32768;
+> +		q->supports_delete_bufs = true;
+> +	}
 >  
-> +int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-> +			       struct v4l2_delete_buffers *d)
-> +{
-> +	struct v4l2_fh *fh = file->private_data;
-> +
-> +	return v4l2_m2m_delete_bufs(file, fh->m2m_ctx, d);
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_delete_bufs);
-> +
->  int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
->  				struct v4l2_buffer *buf)
->  {
-> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-> index 7f1af1f7f912..5314952ad3d5 100644
-> --- a/include/media/v4l2-mem2mem.h
-> +++ b/include/media/v4l2-mem2mem.h
-> @@ -388,6 +388,16 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  			 struct v4l2_buffer *buf);
->  
-> +/**
-> + * v4l2_m2m_delete_bufs() - delete buffers from the queue
-> + *
-> + * @file: pointer to struct &file
-> + * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
-> + * @d: pointer to struct &v4l2_delete_buffers
-> + */
-> +int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-> +			 struct v4l2_delete_buffers *d);
-> +
->  /**
->   * v4l2_m2m_create_bufs() - create a source or destination buffer, depending
->   * on the type
-> @@ -867,6 +877,8 @@ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
->  				struct v4l2_requestbuffers *rb);
->  int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
->  				struct v4l2_create_buffers *create);
-> +int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-> +			       struct v4l2_delete_buffers *d);
->  int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
->  				struct v4l2_buffer *buf);
->  int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
+>  	if (allocators[dev->inst] != 1)
+>  		q->io_modes |= VB2_USERPTR;
 
 Regards,
 
