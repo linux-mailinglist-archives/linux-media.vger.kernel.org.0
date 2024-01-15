@@ -1,214 +1,181 @@
-Return-Path: <linux-media+bounces-3679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C04382D5AF
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 10:17:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A56482D649
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 10:47:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 554241C2145F
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 09:17:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0E7D281AD6
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 09:47:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AE4CF4EA;
-	Mon, 15 Jan 2024 09:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96799DDAF;
+	Mon, 15 Jan 2024 09:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lWtTUSP4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05844E55E;
-	Mon, 15 Jan 2024 09:16:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4901AC433C7;
-	Mon, 15 Jan 2024 09:16:45 +0000 (UTC)
-Message-ID: <f8e34951-5152-4158-8e68-c55aa156999a@xs4all.nl>
-Date: Mon, 15 Jan 2024 10:16:43 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A594CF50A
+	for <linux-media@vger.kernel.org>; Mon, 15 Jan 2024 09:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705312027; x=1736848027;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YIZ886Ib94hbMXvCAUKtKsQVHkRc/eCi63yk8BK3l8s=;
+  b=lWtTUSP4CrBlBPJpFq4IghXD1n8czumGp/ad59mmLLZWnlNx8l1nlPzt
+   sHXzhTo8go9pDTKfAXGlEJ0GXVzyx3Ahq0RjgSahmAbxfAJrEhAZoLoCy
+   OVwjOQjTvhozMEJ+NX6b0jckA2n1ZxEJVGpNfNtYvL++usuDpquVwp7/k
+   6a4E493LBSF6fVBJTd4sZUA3Yn8l9083R4QJOvcgYS+3DYMbTPl7JnZ5H
+   +KAvrjBitg6aJqDSkBbQxuUsO7TpSQVXVjzMC7m39ve6OLBXv9l6CbcYH
+   ov4UQ+dGsPLqM6td99A541HbFJh/Z+rC+AcEdswTKxunBDFZnRcBvA7rh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6300743"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="6300743"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 01:47:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="32081095"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 01:47:06 -0800
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1C41711FB8A;
+	Mon, 15 Jan 2024 11:47:02 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com
+Subject: [PATCH 1/1] media: Documentation: Rework CCS driver documentation
+Date: Mon, 15 Jan 2024 11:47:01 +0200
+Message-Id: <20240115094701.249998-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 1/8] videobuf2: Add min_reqbufs_allocation field to
- vb2_queue structure
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
- <20231215090813.15610-2-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
- BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
- 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
- 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
- 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
- +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
- OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
- 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
- wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
- qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
- vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
- 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
- IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
- KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
- UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
- c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
- AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
- Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
- KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
- gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
- sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
- UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231215090813.15610-2-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Benjamin,
+Drop duplicated UAPI specific portions of the CCS (kernel) documentation
+and fix a spelling error in UAPI documentation previously fixed in driver
+documentation.
 
-Some comments below:
+Also add references both ways.
 
-On 15/12/2023 10:08, Benjamin Gaignard wrote:
-> Add 'min_reqbufs_allocation' field in vb2_queue structure so drivers
-> can specificy the minimum number of buffers to allocate when calling
-> VIDIOC_REQBUFS.
-> If used this minimum should be higher than the minimum number of
-> queued buffers needed to start streaming.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ .../driver-api/media/drivers/ccs/ccs.rst      | 53 ++-----------------
+ .../userspace-api/media/drivers/ccs.rst       |  6 ++-
+ 2 files changed, 10 insertions(+), 49 deletions(-)
 
-You should also mention that it defaults to min_queued_buffers + 1
-instead of min_queued_buffers since otherwise you would not have a
-buffer available for userspace (or something along those lines).
+diff --git a/Documentation/driver-api/media/drivers/ccs/ccs.rst b/Documentation/driver-api/media/drivers/ccs/ccs.rst
+index 776eec72bc80..5d4451339b7f 100644
+--- a/Documentation/driver-api/media/drivers/ccs/ccs.rst
++++ b/Documentation/driver-api/media/drivers/ccs/ccs.rst
+@@ -2,59 +2,16 @@
+ 
+ .. include:: <isonum.txt>
+ 
++.. _media-ccs-driver:
++
+ MIPI CCS camera sensor driver
+ =============================
+ 
+ The MIPI CCS camera sensor driver is a generic driver for `MIPI CCS
+ <https://www.mipi.org/specifications/camera-command-set>`_ compliant
+-camera sensors. It exposes three sub-devices representing the pixel array,
+-the binner and the scaler.
+-
+-As the capabilities of individual devices vary, the driver exposes
+-interfaces based on the capabilities that exist in hardware.
+-
+-Pixel Array sub-device
+-----------------------
+-
+-The pixel array sub-device represents the camera sensor's pixel matrix, as well
+-as analogue crop functionality present in many compliant devices. The analogue
+-crop is configured using the ``V4L2_SEL_TGT_CROP`` on the source pad (0) of the
+-entity. The size of the pixel matrix can be obtained by getting the
+-``V4L2_SEL_TGT_NATIVE_SIZE`` target.
+-
+-Binner
+-------
+-
+-The binner sub-device represents the binning functionality on the sensor. For
+-that purpose, selection target ``V4L2_SEL_TGT_COMPOSE`` is supported on the
+-sink pad (0).
+-
+-Additionally, if a device has no scaler or digital crop functionality, the
+-source pad (1) exposes another digital crop selection rectangle that can only
+-crop at the end of the lines and frames.
+-
+-Scaler
+-------
+-
+-The scaler sub-device represents the digital crop and scaling functionality of
+-the sensor. The V4L2 selection target ``V4L2_SEL_TGT_CROP`` is used to
+-configure the digital crop on the sink pad (0) when digital crop is supported.
+-Scaling is configured using selection target ``V4L2_SEL_TGT_COMPOSE`` on the
+-sink pad (0) as well.
+-
+-Additionally, if the scaler sub-device exists, its source pad (1) exposes
+-another digital crop selection rectangle that can only crop at the end of the
+-lines and frames.
+-
+-Digital and analogue crop
+--------------------------
+-
+-Digital crop functionality is referred to as cropping that effectively works by
+-dropping some data on the floor. Analogue crop, on the other hand, means that
+-the cropped information is never retrieved. In case of camera sensors, the
+-analogue data is never read from the pixel matrix that are outside the
+-configured selection rectangle that designates crop. The difference has an
+-effect in device timing and likely also in power consumption.
++camera sensors.
++
++Also see :ref:`the CCS driver UAPI documentation <media-ccs-uapi>`.
+ 
+ CCS static data
+ ---------------
+diff --git a/Documentation/userspace-api/media/drivers/ccs.rst b/Documentation/userspace-api/media/drivers/ccs.rst
+index ad8615233bae..bc2804ec663b 100644
+--- a/Documentation/userspace-api/media/drivers/ccs.rst
++++ b/Documentation/userspace-api/media/drivers/ccs.rst
+@@ -2,6 +2,8 @@
+ 
+ .. include:: <isonum.txt>
+ 
++.. _media-ccs-uapi:
++
+ MIPI CCS camera sensor driver
+ =============================
+ 
+@@ -13,6 +15,8 @@ the binner and the scaler.
+ As the capabilities of individual devices vary, the driver exposes
+ interfaces based on the capabilities that exist in hardware.
+ 
++Also see :ref:`the CCS driver kernel documentation <media-ccs-driver>`.
++
+ Pixel Array sub-device
+ ----------------------
+ 
+@@ -30,7 +34,7 @@ that purpose, selection target ``V4L2_SEL_TGT_COMPOSE`` is supported on the
+ sink pad (0).
+ 
+ Additionally, if a device has no scaler or digital crop functionality, the
+-source pad (1) expses another digital crop selection rectangle that can only
++source pad (1) exposes another digital crop selection rectangle that can only
+ crop at the end of the lines and frames.
+ 
+ Scaler
+-- 
+2.39.2
 
-This is a change that needs to be documented in the commit message.
-
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-core.c | 10 ++++++++--
->  include/media/videobuf2-core.h                  | 13 +++++++++++++
->  2 files changed, 21 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 41a832dd1426..a183edf11586 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -865,7 +865,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	/*
->  	 * Make sure the requested values and current defaults are sane.
->  	 */
-> -	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers);
-> +	num_buffers = max_t(unsigned int, *count, q->min_reqbufs_allocation);
->  	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
->  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->  	/*
-> @@ -917,7 +917,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	 * There is no point in continuing if we can't allocate the minimum
->  	 * number of buffers needed by this vb2_queue.
->  	 */
-> -	if (allocated_buffers < q->min_queued_buffers)
-> +	if (allocated_buffers < q->min_reqbufs_allocation)
->  		ret = -ENOMEM;
->  
->  	/*
-> @@ -2521,6 +2521,12 @@ int vb2_core_queue_init(struct vb2_queue *q)
->  	if (WARN_ON(q->supports_requests && q->min_queued_buffers))
->  		return -EINVAL;
->  
-> +	q->min_reqbufs_allocation = max_t(unsigned int,
-> +					  q->min_reqbufs_allocation,
-> +					  q->min_queued_buffers + 1);
-> +	if (WARN_ON(q->min_reqbufs_allocation > q->max_num_buffers))
-> +		return -EINVAL;
-> +
->  	INIT_LIST_HEAD(&q->queued_list);
->  	INIT_LIST_HEAD(&q->done_list);
->  	spin_lock_init(&q->done_lock);
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 56719a26a46c..7b84b4e2e273 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -553,6 +553,18 @@ struct vb2_buf_ops {
->   *		VIDIOC_REQBUFS will ensure at least @min_queued_buffers
->   *		buffers will be allocated. Note that VIDIOC_CREATE_BUFS will not
-
-In this comment it still mentions @min_queued_buffers instead of
-@min_queued_buffers + 1.
-
->   *		modify the requested buffer count.
-> + * @min_reqbufs_allocation: the minimum number of buffers to be allocated when
-> + *		calling VIDIOC_REQBUFS. Drivers can set this if there has to
-> + *		be a certain number of buffers available for the hardware to
-> + *		work effectively. If set, then @min_reqbufs_allocation must be
-> + *		larger than @min_queued_buffers + 1.
-
-There is not actually any check for that. But I think such a check should
-be added: it makes it much easier to do a 'git grep min_reqbufs_allocation'
-and only get those drivers that really set it to a non-standard value.
-
-> + *		This field is only used by VIDIOC_REQBUFS. This allows calling
-> + *		that ioctl with a buffer count of 1 and it will be automatically
-> + *		adjusted to a workable buffer count. VIDIOC_CREATE_BUFS will not
-
-"workable buffer count": nice phrase, I like it!
-
-> + *		modify the requested buffer count.
-> + *		If this field is > 3, then it is highly recommended that the
-> + *		driver implements the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
-> + *		control.
-
-Also a nice final sentence. This is also something that is a nice check to add
-to v4l2-compliance! A patch would be welcome...
-
-I think the sentences need to be reordered. How about this (alignment needs to
-be fixed):
-
- * @min_reqbufs_allocation: the minimum number of buffers to be allocated when
- *		calling VIDIOC_REQBUFS. Note that VIDIOC_CREATE_BUFS will *not*
- *		modify the requested buffer count and does not use this field.
- *		Drivers can set this if there has to
- *		be a certain number of buffers available for the hardware to
- *		work effectively. This allows calling VIDIOC_REQBUFS with a buffer
- *		count of 1 and it will be automatically adjusted to a workable
- *		buffer count. If set, then @min_reqbufs_allocation must be
- *		larger than @min_queued_buffers + 1.
- *		If this field is > 3, then it is highly recommended that the
- *		driver implements the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
- *		control.
-
->   */
->  /*
->   * Private elements (won't appear at the uAPI book):
-> @@ -618,6 +630,7 @@ struct vb2_queue {
->  	u32				timestamp_flags;
->  	gfp_t				gfp_flags;
->  	u32				min_queued_buffers;
-> +	u32				min_reqbufs_allocation;
->  
->  	struct device			*alloc_devs[VB2_MAX_PLANES];
->  
-
-Regards,
-
-	Hans
 
