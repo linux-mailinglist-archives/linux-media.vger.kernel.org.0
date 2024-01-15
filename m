@@ -1,165 +1,289 @@
-Return-Path: <linux-media+bounces-3691-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3692-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3072682D778
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 11:35:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6107582D7A4
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 11:44:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E924B20FC8
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 10:35:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E79C3282162
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 10:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D95618E00;
-	Mon, 15 Jan 2024 10:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E99051DDC1;
+	Mon, 15 Jan 2024 10:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="O/U0IY9K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3E01E865;
-	Mon, 15 Jan 2024 10:35:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1787AC433F1;
-	Mon, 15 Jan 2024 10:35:25 +0000 (UTC)
-Message-ID: <564b7460-6996-4366-8046-e32466f55964@xs4all.nl>
-Date: Mon, 15 Jan 2024 11:35:24 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0236B63AD
+	for <linux-media@vger.kernel.org>; Mon, 15 Jan 2024 10:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4TD7zg0TGZzySZ;
+	Mon, 15 Jan 2024 12:43:58 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1705315441;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ISnTJOlwOfzqMtCO2/hSr0j1DDJnUKhNd9yf8FyfEgM=;
+	b=O/U0IY9KNFzcCjs4RvAGEzgk2zhgSdzyBrVsSYmBaIV1H3XzdZEOW3J/QkVZ1VuYEyk4XO
+	KV7sG0MkGqowpZb7ttNXyiyAZ2WQ5yoXfBZv1jKS8yv6uzXsZe49xtsrVpOgentt7qfXQo
+	gH6k2TiohiYll35PNWlu0lWIyctXzkw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1705315441;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ISnTJOlwOfzqMtCO2/hSr0j1DDJnUKhNd9yf8FyfEgM=;
+	b=sceOchaDjNPCYw1DMPPLZx5rs3i2q2hcWI39pPlextonUc1fvqPnN/nc3fi53bO9IL+3qN
+	J8ApJwHXIdGwqlL6VmRZehscuKM+XTBpbc4m1qiS9ReS3AGdD9e1TtwObCy2WdIkXTAk7I
+	gwlds7oGRwigjpEWYT4gDJqKUvKfFs8=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1705315441; a=rsa-sha256; cv=none;
+	b=yiqYRbp/XB4JrjKD4CV8yzy41nDtAdPv96u8WAdJ8puUPRKeKOr6JEM73Cz76pmBCeoF8O
+	l+2uR/ngu+SXdr5WU5A/WAGLdS8zVkLmAFZh9qiV75HGSqB5iaxwJWXRDhcxKCoNpcECyA
+	UMbioW42gXxyBb+Q/trXJ9VqnA2uG9Q=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AFA40634C93;
+	Mon, 15 Jan 2024 12:43:56 +0200 (EET)
+Date: Mon, 15 Jan 2024 10:43:56 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Frieder Schrempf <frieder.schrempf@kontron.de>,
+	Marek Vasut <marex@denx.de>,
+	Martin Kepplinger <martin.kepplinger@puri.sm>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Purism Kernel Team <kernel@puri.sm>
+Subject: Re: [PATCH 6/7] media: mc: Expand MUST_CONNECT flag to always
+ require an enabled link
+Message-ID: <ZaUMbP8e_Ng_WxCT@valkosipuli.retiisi.eu>
+References: <20240115103029.28055-1-laurent.pinchart@ideasonboard.com>
+ <20240115103029.28055-7-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 2/8] media: test-drivers: Set REQBUFS minimum number
- of buffers
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
- <20231215090813.15610-3-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231215090813.15610-3-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240115103029.28055-7-laurent.pinchart@ideasonboard.com>
 
-On 15/12/2023 10:08, Benjamin Gaignard wrote:
-> Test drivers require at least 2 buffers to be allocated when
-> calling REQBUFS so set queue min_reqbufs_allocation field instead
-> of min_queued_buffers.
+Hi Laurent,
 
-This is not really correct.
+Many thanks for working on this.
 
-These test drivers set min_queued_buffers (previously min_buffers_needed)
-to emulate what happens to actual HW drivers that need this. However, the
-test driver code just effectively used that as what is now the
-min_reqbufs_allocation value. I.e., it never had 2 buffers queued all the
-time, although it still waited until 2 buffers were queued before calling
-start_streaming.
-
-Basically it was just an incomplete emulation of min_queued_buffers.
-
-I think it makes sense to convert this over to min_reqbufs_allocation,
-and, since that will already default to a minimum of 2 buffers, most
-calls to vivid_create_queue() can just pass 0 instead of 2.
-
-In the future we might want to add a real min_queued_buffers emulation,
-but that has to ensure that there are always that many buffers in the
-driver's queue.
-
-In any case, the commit log has to reflect that we are making a subtle
-change in behavior.
-
-> While at it remane vivid_create_queue() parameter.
-
-remane -> rename
-
+On Mon, Jan 15, 2024 at 12:30:28PM +0200, Laurent Pinchart wrote:
+> The MEDIA_PAD_FL_MUST_CONNECT flag indicates that the pad requires an
+> enabled link to stream, but only if it has any link at all. This makes
+> little sense, as if a pad is part of a pipeline, there are very few use
+> cases for an active link to be mandatory only if links exist at all. A
+> review of in-tree drivers confirms they all need an enabled link for
+> pads marked with the MEDIA_PAD_FL_MUST_CONNECT flag.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Expand the scope of the flag by rejecting pads that have no links at
+> all. This requires modifying the pipeline build code to add those pads
+> to the pipeline.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/test-drivers/vimc/vimc-capture.c | 2 +-
->  drivers/media/test-drivers/vivid/vivid-core.c  | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  .../media/mediactl/media-types.rst            | 11 ++--
+>  drivers/media/mc/mc-entity.c                  | 53 +++++++++++++++----
+>  2 files changed, 48 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-> index 2a2d19d23bab..97693561f1e4 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-> @@ -432,7 +432,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
->  	q->mem_ops = vimc_allocator == VIMC_ALLOCATOR_DMA_CONTIG
->  		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_queued_buffers = 2;
-> +	q->min_reqbufs_allocation = 2;
->  	q->lock = &vcapture->lock;
->  	q->dev = v4l2_dev->dev;
+> diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> index 0ffeece1e0c8..1ce87c0b705f 100644
+> --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> @@ -375,12 +375,11 @@ Types and flags used to represent the media graph elements
+>  	  are origins of links.
 >  
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-> index 159c72cbb5bf..11b8520d9f57 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-> @@ -861,7 +861,7 @@ static const struct media_device_ops vivid_media_ops = {
->  static int vivid_create_queue(struct vivid_dev *dev,
->  			      struct vb2_queue *q,
->  			      u32 buf_type,
-> -			      unsigned int min_queued_buffers,
-> +			      unsigned int min_reqbufs_allocation,
->  			      const struct vb2_ops *ops)
->  {
->  	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE && dev->multiplanar)
-> @@ -898,7 +898,7 @@ static int vivid_create_queue(struct vivid_dev *dev,
->  	q->mem_ops = allocators[dev->inst] == 1 ? &vb2_dma_contig_memops :
->  						  &vb2_vmalloc_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_queued_buffers = supports_requests[dev->inst] ? 0 : min_queued_buffers;
-> +	q->min_reqbufs_allocation = min_reqbufs_allocation;
->  	q->lock = &dev->mutex;
->  	q->dev = dev->v4l2_dev.dev;
->  	q->supports_requests = supports_requests[dev->inst];
+>      *  -  ``MEDIA_PAD_FL_MUST_CONNECT``
+> -       -  If this flag is set and the pad is linked to any other pad, then
+> -	  at least one of those links must be enabled for the entity to be
+> -	  able to stream. There could be temporary reasons (e.g. device
+> -	  configuration dependent) for the pad to need enabled links even
+> -	  when this flag isn't set; the absence of the flag doesn't imply
+> -	  there is none.
+> +       -  If this flag, then at least one link connected to the pad must be
+> +          enabled for the pad to be able to stream. There could be temporary
+> +          reasons (e.g. device configuration dependent) for the pad to need
+> +          enabled links even when this flag isn't set; the absence of the flag
+> +          doesn't imply there is none.
 
+Shoudln't you indent by tabs first here?
+
+Would it be possible to backport this, too? I'm pretty sure there will be
+NULL pointer dereferences due to this, even previous to the graph walk
+rework.
+
+It may require reworking this to apply it to the pre-rework implementation
+and that's outside the scope of this set obviously.
+
+For the set:
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+>  
+>  
+>  One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index 5907925ffd89..0e28b9a7936e 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -535,14 +535,15 @@ static int media_pipeline_walk_push(struct media_pipeline_walk *walk,
+>  
+>  /*
+>   * Move the top entry link cursor to the next link. If all links of the entry
+> - * have been visited, pop the entry itself.
+> + * have been visited, pop the entry itself. Return true if the entry has been
+> + * popped.
+>   */
+> -static void media_pipeline_walk_pop(struct media_pipeline_walk *walk)
+> +static bool media_pipeline_walk_pop(struct media_pipeline_walk *walk)
+>  {
+>  	struct media_pipeline_walk_entry *entry;
+>  
+>  	if (WARN_ON(walk->stack.top < 0))
+> -		return;
+> +		return false;
+>  
+>  	entry = media_pipeline_walk_top(walk);
+>  
+> @@ -552,7 +553,7 @@ static void media_pipeline_walk_pop(struct media_pipeline_walk *walk)
+>  			walk->stack.top);
+>  
+>  		walk->stack.top--;
+> -		return;
+> +		return true;
+>  	}
+>  
+>  	entry->links = entry->links->next;
+> @@ -560,6 +561,8 @@ static void media_pipeline_walk_pop(struct media_pipeline_walk *walk)
+>  	dev_dbg(walk->mdev->dev,
+>  		"media pipeline: moved entry %u to next link\n",
+>  		walk->stack.top);
+> +
+> +	return false;
+>  }
+>  
+>  /* Free all memory allocated while walking the pipeline. */
+> @@ -609,11 +612,12 @@ static int media_pipeline_explore_next_link(struct media_pipeline *pipe,
+>  	struct media_link *link;
+>  	struct media_pad *local;
+>  	struct media_pad *remote;
+> +	bool last_link;
+>  	int ret;
+>  
+>  	origin = entry->pad;
+>  	link = list_entry(entry->links, typeof(*link), list);
+> -	media_pipeline_walk_pop(walk);
+> +	last_link = media_pipeline_walk_pop(walk);
+>  
+>  	dev_dbg(walk->mdev->dev,
+>  		"media pipeline: exploring link '%s':%u -> '%s':%u\n",
+> @@ -638,7 +642,7 @@ static int media_pipeline_explore_next_link(struct media_pipeline *pipe,
+>  					   local->index)) {
+>  		dev_dbg(walk->mdev->dev,
+>  			"media pipeline: skipping link (no route)\n");
+> -		return 0;
+> +		goto done;
+>  	}
+>  
+>  	/*
+> @@ -653,13 +657,44 @@ static int media_pipeline_explore_next_link(struct media_pipeline *pipe,
+>  	if (!(link->flags & MEDIA_LNK_FL_ENABLED)) {
+>  		dev_dbg(walk->mdev->dev,
+>  			"media pipeline: skipping link (disabled)\n");
+> -		return 0;
+> +		goto done;
+>  	}
+>  
+>  	ret = media_pipeline_add_pad(pipe, walk, remote);
+>  	if (ret)
+>  		return ret;
+>  
+> +done:
+> +	/*
+> +	 * If we're done iterating over links, iterate over pads of the entity.
+> +	 * This is necessary to discover pads that are not connected with any
+> +	 * link. Those are dead ends from a pipeline exploration point of view,
+> +	 * but are still part of the pipeline and need to be added to enable
+> +	 * proper validation.
+> +	 */
+> +	if (!last_link)
+> +		return 0;
+> +
+> +	dev_dbg(walk->mdev->dev,
+> +		"media pipeline: adding unconnected pads of '%s'\n",
+> +		local->entity->name);
+> +
+> +	media_entity_for_each_pad(origin->entity, local) {
+> +		/*
+> +		 * Skip the origin pad (already handled), pad that have links
+> +		 * (already discovered through iterating over links) and pads
+> +		 * not internally connected.
+> +		 */
+> +		if (origin == local || !local->num_links ||
+> +		    !media_entity_has_pad_interdep(origin->entity, origin->index,
+> +						   local->index))
+> +			continue;
+> +
+> +		ret = media_pipeline_add_pad(pipe, walk, local);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	return 0;
+>  }
+>  
+> @@ -771,7 +806,6 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+>  		struct media_pad *pad = ppad->pad;
+>  		struct media_entity *entity = pad->entity;
+>  		bool has_enabled_link = false;
+> -		bool has_link = false;
+>  		struct media_link *link;
+>  
+>  		dev_dbg(mdev->dev, "Validating pad '%s':%u\n", pad->entity->name,
+> @@ -801,7 +835,6 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+>  			/* Record if the pad has links and enabled links. */
+>  			if (link->flags & MEDIA_LNK_FL_ENABLED)
+>  				has_enabled_link = true;
+> -			has_link = true;
+>  
+>  			/*
+>  			 * Validate the link if it's enabled and has the
+> @@ -839,7 +872,7 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+>  		 * 3. If the pad has the MEDIA_PAD_FL_MUST_CONNECT flag set,
+>  		 * ensure that it has either no link or an enabled link.
+>  		 */
+> -		if ((pad->flags & MEDIA_PAD_FL_MUST_CONNECT) && has_link &&
+> +		if ((pad->flags & MEDIA_PAD_FL_MUST_CONNECT) &&
+>  		    !has_enabled_link) {
+>  			dev_dbg(mdev->dev,
+>  				"Pad '%s':%u must be connected by an enabled link\n",
+
+-- 
 Regards,
 
-	Hans
+Sakari Ailus
 
