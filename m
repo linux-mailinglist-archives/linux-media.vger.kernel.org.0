@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-3712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5900682DC29
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 16:14:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3825182DC31
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 16:17:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEC241F22B04
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 15:14:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF08F1F22B2B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 15:17:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B4E17744;
-	Mon, 15 Jan 2024 15:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8333E1773D;
+	Mon, 15 Jan 2024 15:17:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA38C17732;
-	Mon, 15 Jan 2024 15:14:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD3C3C43394;
-	Mon, 15 Jan 2024 15:14:36 +0000 (UTC)
-Message-ID: <bba1e67f-3ce4-4b90-b402-543faf239b3c@xs4all.nl>
-Date: Mon, 15 Jan 2024 16:14:34 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330E3171C1;
+	Mon, 15 Jan 2024 15:17:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633B6C433F1;
+	Mon, 15 Jan 2024 15:17:20 +0000 (UTC)
+Message-ID: <f73b5e20-b484-49c8-a050-40e044078bcf@xs4all.nl>
+Date: Mon, 15 Jan 2024 16:17:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,15 +29,16 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 4/8] media: core: Add bitmap manage bufs array entries
+Subject: Re: [PATCH v16 3/8] media: core: Rework how create_buf index returned
+ value is computed
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  kernel@collabora.com
 References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
- <20231215090813.15610-5-benjamin.gaignard@collabora.com>
- <94e9f612-5daf-414a-a8b9-26330e697884@xs4all.nl>
- <8f683397-f0e2-4701-9a4b-5b5c32d25915@collabora.com>
+ <20231215090813.15610-4-benjamin.gaignard@collabora.com>
+ <ea069946-adb2-4ab2-b40a-06d11846d9ee@xs4all.nl>
+ <2d9296a1-1fbc-4d85-b147-90f8f10c8f5f@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -82,257 +83,201 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <8f683397-f0e2-4701-9a4b-5b5c32d25915@collabora.com>
+In-Reply-To: <2d9296a1-1fbc-4d85-b147-90f8f10c8f5f@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 15/01/2024 15:51, Benjamin Gaignard wrote:
+On 15/01/2024 15:52, Benjamin Gaignard wrote:
 > 
-> Le 15/01/2024 à 13:21, Hans Verkuil a écrit :
+> Le 15/01/2024 à 13:11, Hans Verkuil a écrit :
 >> On 15/12/2023 10:08, Benjamin Gaignard wrote:
->>> Add a bitmap field to know which of bufs array entries are
->>> used or not.
->>> Remove no more used num_buffers field from queue structure.
->>> Use bitmap_find_next_zero_area() to find the first possible
->>> range when creating new buffers to fill the gaps.
+>>> When DELETE_BUFS will be introduced holes could created in bufs array.
+>>> To be able to reuse these unused indices reworking how create->index
+>>> is set is mandatory.
+>>> Let __vb2_queue_alloc() decide which first index is correct and
+>>> forward this to the caller.
 >>>
 >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 >>> ---
->>>   .../media/common/videobuf2/videobuf2-core.c   | 37 ++++++++++++++++---
->>>   include/media/videobuf2-core.h                | 17 +++++----
->>>   2 files changed, 41 insertions(+), 13 deletions(-)
+>>>   .../media/common/videobuf2/videobuf2-core.c   | 22 ++++++++++++-------
+>>>   .../media/common/videobuf2/videobuf2-v4l2.c   | 20 +++++++++++------
+>>>   include/media/videobuf2-core.h                |  5 ++++-
+>>>   3 files changed, 31 insertions(+), 16 deletions(-)
 >>>
 >>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>> index cd2b9e51b9b0..9509535a980c 100644
+>>> index a183edf11586..cd2b9e51b9b0 100644
 >>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
 >>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>> @@ -421,11 +421,12 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+>>> @@ -447,11 +447,12 @@ static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
 >>>    */
->>>   static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
+>>>   static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>>                    unsigned int num_buffers, unsigned int num_planes,
+>>> -                 const unsigned plane_sizes[VB2_MAX_PLANES])
+>>> +                 const unsigned int plane_sizes[VB2_MAX_PLANES],
+>>> +                 unsigned int *first_index)
 >>>   {
->>> -    WARN_ON(index >= q->max_num_buffers || q->bufs[index] || vb->vb2_queue);
->>> +    WARN_ON(index >= q->max_num_buffers || test_bit(index, q->bufs_bitmap) || vb->vb2_queue);
->>>         q->bufs[index] = vb;
->>>       vb->index = index;
->>>       vb->vb2_queue = q;
->>> +    set_bit(index, q->bufs_bitmap);
->>>   }
->>>     /**
->>> @@ -434,6 +435,7 @@ static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->>>    */
->>>   static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
->>>   {
->>> +    clear_bit(vb->index, vb->vb2_queue->bufs_bitmap);
->>>       vb->vb2_queue->bufs[vb->index] = NULL;
->>>       vb->vb2_queue = NULL;
->>>   }
->>> @@ -462,7 +464,8 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>> -    unsigned int q_num_buffers = vb2_get_num_buffers(q);
+>>>       unsigned int buffer, plane;
+>>>       struct vb2_buffer *vb;
+>>> +    unsigned long index;
+>>>       int ret;
+>>>         /*
+>>> @@ -459,7 +460,11 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>>        * in the queue is below q->max_num_buffers
+>>>        */
 >>>       num_buffers = min_t(unsigned int, num_buffers,
->>>                   q->max_num_buffers - vb2_get_num_buffers(q));
->>>   -    index = vb2_get_num_buffers(q);
->>> +    index = bitmap_find_next_zero_area(q->bufs_bitmap, q->max_num_buffers,
->>> +                       0, num_buffers, 0);
->> Shouldn't this check if this call fails to find an area of 'num_buffers' 0-bits?
->> Or, alternatively, keep reducing num_buffers until it finds a free range. I'm
->> not sure what is best.
-> 
-> I will add a check on the return value. If it can't allocate the requested number of buffers
-> it will fail. Userspace can decide if it wants to try allocated less buffers or not.
-
-I'm not sure if that's the right solution. Currently create_bufs (and reqbufs for that matter)
-will reduce the number of requested buffers if not all can be allocated. E.g. if you
-want 10 buffers, but there is memory for only 5, then it will still allocate but it
-returns 'count' with value 5.
-
-Shouldn't that happen with this as well? The documentation is quite explicit that
-you might get fewer buffers than requested.
-
-> 
->>>         *first_index = index;
->>>   @@ -664,7 +667,6 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->>>           kfree(vb);
->>>       }
->>>   -    q->num_buffers -= buffers;
->>>       if (!vb2_get_num_buffers(q)) {
->>>           q->memory = VB2_MEMORY_UNKNOWN;
->>>           INIT_LIST_HEAD(&q->queued_list);
->>> @@ -882,6 +884,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>>           q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
->>>       if (!q->bufs)
+>>> -                q->max_num_buffers - q_num_buffers);
+>>> +                q->max_num_buffers - vb2_get_num_buffers(q));
+>>> +
+>>> +    index = vb2_get_num_buffers(q);
+>>> +
+>>> +    *first_index = index;
+>>>         for (buffer = 0; buffer < num_buffers; ++buffer) {
+>>>           /* Allocate vb2 buffer structures */
+>>> @@ -479,7 +484,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>>               vb->planes[plane].min_length = plane_sizes[plane];
+>>>           }
+>>>   -        vb2_queue_add_buffer(q, vb, q_num_buffers + buffer);
+>>> +        vb2_queue_add_buffer(q, vb, index++);
+>>>           call_void_bufop(q, init_buffer, vb);
+>>>             /* Allocate video buffer memory for the MMAP type */
+>>> @@ -820,7 +825,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>       unsigned int q_num_bufs = vb2_get_num_buffers(q);
+>>>       unsigned plane_sizes[VB2_MAX_PLANES] = { };
+>>>       bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
+>>> -    unsigned int i;
+>>> +    unsigned int i, first_index;
+>>>       int ret = 0;
+>>>         if (q->streaming) {
+>>> @@ -906,7 +911,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>         /* Finally, allocate buffers and video memory */
+>>>       allocated_buffers =
+>>> -        __vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes);
+>>> +        __vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes, &first_index);
+>>>       if (allocated_buffers == 0) {
+>>>           dprintk(q, 1, "memory allocation failed\n");
 >>>           ret = -ENOMEM;
->>> +
->>> +    if (!q->bufs_bitmap)
->>> +        q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
->>> +    if (!q->bufs_bitmap) {
->>> +        ret = -ENOMEM;
->>> +        kfree(q->bufs);
->>> +        q->bufs = NULL;
->>> +    }
->>>       q->memory = memory;
->>>       mutex_unlock(&q->mmap_lock);
->>>       if (ret)
->>> @@ -951,7 +961,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>>       }
->>>         mutex_lock(&q->mmap_lock);
->>> -    q->num_buffers = allocated_buffers;
->>>         if (ret < 0) {
->>>           /*
->>> @@ -978,6 +987,10 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>>       mutex_lock(&q->mmap_lock);
->>>       q->memory = VB2_MEMORY_UNKNOWN;
->>>       mutex_unlock(&q->mmap_lock);
->>> +    kfree(q->bufs);
->>> +    q->bufs = NULL;
->>> +    bitmap_free(q->bufs_bitmap);
->>> +    q->bufs_bitmap = NULL;
->>>       return ret;
->>>   }
->>>   EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
->>> @@ -1014,9 +1027,19 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>>           q->memory = memory;
->>>           if (!q->bufs)
->>>               q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
->>> -        if (!q->bufs)
->>> +        if (!q->bufs) {
->>>               ret = -ENOMEM;
->>> +            goto unlock;
->>> +        }
->>> +        if (!q->bufs_bitmap)
->>> +            q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
->>> +        if (!q->bufs_bitmap) {
->>> +            ret = -ENOMEM;
->>> +            kfree(q->bufs);
->>> +            q->bufs = NULL;
->>> +        }
->> The same code is used in reqbufs and create_bufs, so perhaps creating a helper
->> function is better.
-> 
-> I will add vb2_core_allocated_queue_buffers_storage() and vb2_core_free_queue_buffers_storage().
-> 
->>
->>>           mutex_unlock(&q->mmap_lock);
->>> +unlock:
->>>           if (ret)
->>>               return ret;
->>>           q->waiting_for_buffers = !q->is_output;
->>> @@ -1078,7 +1101,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>>       }
->>>         mutex_lock(&q->mmap_lock);
->>> -    q->num_buffers += allocated_buffers;
->>>         if (ret < 0) {
->>>           /*
->>> @@ -2567,6 +2589,9 @@ void vb2_core_queue_release(struct vb2_queue *q)
->>>       __vb2_queue_free(q, vb2_get_num_buffers(q));
->>>       kfree(q->bufs);
->>>       q->bufs = NULL;
->>> +    bitmap_free(q->bufs_bitmap);
->>> +    q->bufs_bitmap = NULL;
->>> +
->> And perhaps also a helper function to free the memory.
->>
->>>       mutex_unlock(&q->mmap_lock);
->>>   }
->>>   EXPORT_SYMBOL_GPL(vb2_core_queue_release);
->>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->>> index 607f2ba7a905..e4c1fc7ae82f 100644
->>> --- a/include/media/videobuf2-core.h
->>> +++ b/include/media/videobuf2-core.h
->>> @@ -346,8 +346,8 @@ struct vb2_buffer {
->>>    *            describes the requested number of planes and sizes\[\]
->>>    *            contains the requested plane sizes. In this case
->>>    *            \*num_buffers are being allocated additionally to
->>> - *            q->num_buffers. If either \*num_planes or the requested
->>> - *            sizes are invalid callback must return %-EINVAL.
->>> + *            the buffers already in the queue. If either \*num_planes
->> already in the queue -> already allocated
->>
->>> + *            or the requested sizes are invalid callback must return %-EINVAL.
->>>    * @wait_prepare:    release any locks taken while calling vb2 functions;
->>>    *            it is called before an ioctl needs to wait for a new
->>>    *            buffer to arrive; required to avoid a deadlock in
->>> @@ -572,7 +572,7 @@ struct vb2_buf_ops {
->>>    * @memory:    current memory type used
->>>    * @dma_dir:    DMA mapping direction.
->>>    * @bufs:    videobuf2 buffer structures
->>> - * @num_buffers: number of allocated/used buffers
->>> + * @bufs_bitmap: bitmap tracking whether each bufs[] entry is used
->>>    * @max_num_buffers: upper limit of number of allocated/used buffers.
->>>    *             If set to 0 v4l2 core will change it VB2_MAX_FRAME
->>>    *             for backward compatibility.
->>> @@ -639,7 +639,7 @@ struct vb2_queue {
->>>       unsigned int            memory;
->>>       enum dma_data_direction        dma_dir;
->>>       struct vb2_buffer        **bufs;
->>> -    unsigned int            num_buffers;
->>> +    unsigned long            *bufs_bitmap;
->>>       unsigned int            max_num_buffers;
->>>         struct list_head        queued_list;
->>> @@ -1168,7 +1168,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
->>>    */
->>>   static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
+>>> @@ -980,7 +985,8 @@ EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+>>>   int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>                unsigned int flags, unsigned int *count,
+>>>                unsigned int requested_planes,
+>>> -             const unsigned int requested_sizes[])
+>>> +             const unsigned int requested_sizes[],
+>>> +             unsigned int *first_index)
 >>>   {
->>> -    return q->num_buffers;
->>> +    if (!q->bufs_bitmap)
->>> +        return 0;
+>>>       unsigned int num_planes = 0, num_buffers, allocated_buffers;
+>>>       unsigned plane_sizes[VB2_MAX_PLANES] = { };
+>>> @@ -1042,7 +1048,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>         /* Finally, allocate buffers and video memory */
+>>>       allocated_buffers = __vb2_queue_alloc(q, memory, num_buffers,
+>>> -                num_planes, plane_sizes);
+>>> +                num_planes, plane_sizes, first_index);
+>>>       if (allocated_buffers == 0) {
+>>>           dprintk(q, 1, "memory allocation failed\n");
+>>>           ret = -ENOMEM;
+>>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> index 54d572c3b515..3c0c423c5674 100644
+>>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> @@ -797,11 +797,16 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>>>       for (i = 0; i < requested_planes; i++)
+>>>           if (requested_sizes[i] == 0)
+>>>               return -EINVAL;
+>>> -    return ret ? ret : vb2_core_create_bufs(q, create->memory,
+>>> -                        create->flags,
+>>> -                        &create->count,
+>>> -                        requested_planes,
+>>> -                        requested_sizes);
+>>> +    if (ret)
+>>> +        return ret;
 >>> +
->>> +    return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
->> I'd invert the test:
->>
->>     if (q->bufs_bitmap)
->>         return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
->>     return 0;
->>
->> It's a little bit easier to read.
->>
+>>> +    ret = vb2_core_create_bufs(q, create->memory,
+>>> +                   create->flags,
+>>> +                   &create->count,
+>>> +                   requested_planes,
+>>> +                   requested_sizes,
+>>> +                   &create->index);
+>>> +    return ret;
 >>>   }
->>>     /**
->>> @@ -1271,13 +1274,13 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
->>>   static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
->>>                           unsigned int index)
->>>   {
->>> -    if (!q->bufs)
->>> +    if (!q->bufs_bitmap)
->> Can you ever have q->bufs set, but not q->bufs_bitmap?
+>>>   EXPORT_SYMBOL_GPL(vb2_create_bufs);
+>>>   @@ -1029,15 +1034,16 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
+>>>       int res = vb2_verify_memory_type(vdev->queue, p->memory,
+>>>               p->format.type);
+>>>   -    p->index = vdev->queue->num_buffers;
+>>>       fill_buf_caps(vdev->queue, &p->capabilities);
+>>>       validate_memory_flags(vdev->queue, p->memory, &p->flags);
+>> While reviewing this, I think I found a bug in the current code:
 >>
->> I think the original check is just fine.
+>> vb2_create_bufs() sets V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS, but
+>> if p->count == 0, then that function isn't called...
 >>
->> It is probably a good idea to perhaps clarify this in the @bufs documentation:
->> if it is non-NULL, then bufs_bitmap is also non-NULL.
+>>>       /*
+>>>        * If count == 0, then just check if memory and type are valid.
+>>>        * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
+>>>        */
+>>> -    if (p->count == 0)
+>>> +    if (p->count == 0) {
+>>> +        p->index = vb2_get_num_buffers(vdev->queue);
+>>>           return res != -EBUSY ? res : 0;
+>> ...instead it just falls in this 'if'.
 >>
->> And ensure that where you allocate and assign these fields that bufs_bitmap
->> is always non-NULL when assigning q->bufs. Then it is enough to just test
->> q->bufs to be certain both bufs and bufs_bitmap are non-NULL.
+>> It would be better to refactor this so that vb2_ioctl_create_bufs()
+>> relies on vb2_create_bufs for most of the work.
+>>
+>> The reason for the messy code is that if p->count == 0, then it
+>> should ignore any EBUSY results, since that should always work.
+>>
+>> Alternatively, just copy the code from vb2_create_bufs here so the
+>> flag is properly set.
+>>
+>> In any case, fixing this is a separate patch that should go to v6.8.
 > 
-> I will add that in the documentation.
+> Do you want this new patch to be in the next version of this series or completely
+> separated ?
+
+Completely separate. It's a fix that needs to go to v6.8.
+
+Please prioritize this, once rc1 is released I'll prepare a PR with
+several that need to go in v6.8.
+
+Regards,
+
+	Hans
+
 > 
->>
->>>           return NULL;
->>>         if (index >= q->max_num_buffers)
->>>           return NULL;
->>>   -    if (index < q->num_buffers)
->>> +    if (test_bit(index, q->bufs_bitmap))
->>>           return q->bufs[index];
->>>       return NULL;
->>>   }
->> Adding support for deleting buffers also causes a odd change in behavior
->> of CREATE_BUFS w.r.t. the index field of struct v4l2_create_buffers:
->> when adding new buffers, the index field is indeed the starting buffer index,
->> as per the documentation. But if count == 0, then the index field returns
->> the total number of allocated buffers, which is really something different.
->>
->> I think the documentation of VIDIOC_CREATE_BUFS should be updated to clearly
->> state that if count == 0, then 'index' is set to the total number of
->> allocated buffers.
->>
->> I really hate VIDIOC_CREATE_BUFS, and I do plan an RFC with a proposal for
->> an alternative API.
+> Regards,
+> Benjamin
+> 
 >>
 >> Regards,
 >>
 >>     Hans
 >>
+>>> +    }
+>>>       if (res)
+>>>           return res;
+>>>       if (vb2_queue_is_busy(vdev->queue, file))
+>>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+>>> index 7b84b4e2e273..607f2ba7a905 100644
+>>> --- a/include/media/videobuf2-core.h
+>>> +++ b/include/media/videobuf2-core.h
+>>> @@ -821,6 +821,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>    * @count: requested buffer count.
+>>>    * @requested_planes: number of planes requested.
+>>>    * @requested_sizes: array with the size of the planes.
+>>> + * @first_index: index of the first created buffer, all allocated buffers have
+>>> + *         indices in the range [first..first+count]
+>>>    *
+>>>    * Videobuf2 core helper to implement VIDIOC_CREATE_BUFS() operation. It is
+>>>    * called internally by VB2 by an API-specific handler, like
+>>> @@ -837,7 +839,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>   int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>                unsigned int flags, unsigned int *count,
+>>>                unsigned int requested_planes,
+>>> -             const unsigned int requested_sizes[]);
+>>> +             const unsigned int requested_sizes[],
+>>> +             unsigned int *first_index);
+>>>     /**
+>>>    * vb2_core_prepare_buf() - Pass ownership of a buffer from userspace
 
-Regards,
-
-	Hans
 
