@@ -1,267 +1,159 @@
-Return-Path: <linux-media+bounces-3697-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3698-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0703382D7ED
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 12:00:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1FAC82D822
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 12:10:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E93761C218AB
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 11:00:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51621282422
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 11:10:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2016D1E873;
-	Mon, 15 Jan 2024 11:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A966282D6;
+	Mon, 15 Jan 2024 11:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BnQT7QGe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C495A1DDC1;
-	Mon, 15 Jan 2024 11:00:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2050AC433C7;
-	Mon, 15 Jan 2024 11:00:09 +0000 (UTC)
-Message-ID: <b371b3f3-44af-4224-a07e-841e318696bb@xs4all.nl>
-Date: Mon, 15 Jan 2024 12:00:07 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB900DF4C
+	for <linux-media@vger.kernel.org>; Mon, 15 Jan 2024 11:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C18AD326;
+	Mon, 15 Jan 2024 12:09:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1705316943;
+	bh=pWwCEpMi0ExBI51OQZV6/NE14I5aMAWMsRauRTqLEo8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BnQT7QGefXM+DYs9DhAZx1eFoKDypLoPhMt5defPNjxwy4dDkt+6D96cxkenVAqno
+	 DaEH//+z+/fm2W/q4e/kdb25Y//nH3/lM9CoJc7VV5AcKswYG7D8We3Gpp6NElV01T
+	 u0DfEmjDlfZkjLq1ygjWceVSdPXfSBycDFspuOE8=
+Date: Mon, 15 Jan 2024 13:10:15 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Frieder Schrempf <frieder.schrempf@kontron.de>,
+	Marek Vasut <marex@denx.de>,
+	Martin Kepplinger <martin.kepplinger@puri.sm>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Purism Kernel Team <kernel@puri.sm>
+Subject: Re: [PATCH 6/7] media: mc: Expand MUST_CONNECT flag to always
+ require an enabled link
+Message-ID: <20240115111015.GE5869@pendragon.ideasonboard.com>
+References: <20240115103029.28055-1-laurent.pinchart@ideasonboard.com>
+ <20240115103029.28055-7-laurent.pinchart@ideasonboard.com>
+ <ZaUMbP8e_Ng_WxCT@valkosipuli.retiisi.eu>
+ <20240115105525.GC5869@pendragon.ideasonboard.com>
+ <ZaUQAo0Y6Ofm249e@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 3/8] media: core: Rework how create_buf index returned
- value is computed
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
- <20231215090813.15610-4-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231215090813.15610-4-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZaUQAo0Y6Ofm249e@valkosipuli.retiisi.eu>
 
-On 15/12/2023 10:08, Benjamin Gaignard wrote:
-> When DELETE_BUFS will be introduced holes could created in bufs array.
-> To be able to reuse these unused indices reworking how create->index
-> is set is mandatory.
-> Let __vb2_queue_alloc() decide which first index is correct and
-> forward this to the caller.
+On Mon, Jan 15, 2024 at 10:59:14AM +0000, Sakari Ailus wrote:
+> On Mon, Jan 15, 2024 at 12:55:25PM +0200, Laurent Pinchart wrote:
+> > On Mon, Jan 15, 2024 at 10:43:56AM +0000, Sakari Ailus wrote:
+> > > Hi Laurent,
+> > > 
+> > > Many thanks for working on this.
+> > 
+> > You're welcome. It was somehow fun.
+> > 
+> > > On Mon, Jan 15, 2024 at 12:30:28PM +0200, Laurent Pinchart wrote:
+> > > > The MEDIA_PAD_FL_MUST_CONNECT flag indicates that the pad requires an
+> > > > enabled link to stream, but only if it has any link at all. This makes
+> > > > little sense, as if a pad is part of a pipeline, there are very few use
+> > > > cases for an active link to be mandatory only if links exist at all. A
+> > > > review of in-tree drivers confirms they all need an enabled link for
+> > > > pads marked with the MEDIA_PAD_FL_MUST_CONNECT flag.
+> > > > 
+> > > > Expand the scope of the flag by rejecting pads that have no links at
+> > > > all. This requires modifying the pipeline build code to add those pads
+> > > > to the pipeline.
+> > > > 
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > ---
+> > > >  .../media/mediactl/media-types.rst            | 11 ++--
+> > > >  drivers/media/mc/mc-entity.c                  | 53 +++++++++++++++----
+> > > >  2 files changed, 48 insertions(+), 16 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > index 0ffeece1e0c8..1ce87c0b705f 100644
+> > > > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > @@ -375,12 +375,11 @@ Types and flags used to represent the media graph elements
+> > > >  	  are origins of links.
+> > > >  
+> > > >      *  -  ``MEDIA_PAD_FL_MUST_CONNECT``
+> > > > -       -  If this flag is set and the pad is linked to any other pad, then
+> > > > -	  at least one of those links must be enabled for the entity to be
+> > > > -	  able to stream. There could be temporary reasons (e.g. device
+> > > > -	  configuration dependent) for the pad to need enabled links even
+> > > > -	  when this flag isn't set; the absence of the flag doesn't imply
+> > > > -	  there is none.
+> > > > +       -  If this flag, then at least one link connected to the pad must be
+> > > > +          enabled for the pad to be able to stream. There could be temporary
+> > > > +          reasons (e.g. device configuration dependent) for the pad to need
+> > > > +          enabled links even when this flag isn't set; the absence of the flag
+> > > > +          doesn't imply there is none.
+> > > 
+> > > Shoudln't you indent by tabs first here?
+> > 
+> > My text editor picked the option it liked best. I'll fix indentation to
+> > avoid switching from tabs to spaces.
+> > 
+> > > Would it be possible to backport this, too? I'm pretty sure there will be
+> > > NULL pointer dereferences due to this, even previous to the graph walk
+> > > rework.
+> > 
+> > Patches 1/7 and 2/7 should be simple to backport (hopefully). Patch 3/7
+> > should as well, which will fix the crash in the imx8-isi driver. Patches
+> > 4/7 to 6/7 may be more difficult to backport as they could generate more
+> > conflicts, it depends how far back you want to go. That would be my
+> > preferred option though.
+> > 
+> > > It may require reworking this to apply it to the pre-rework implementation
+> > > and that's outside the scope of this set obviously.
+> > 
+> > The rework (v6.1) predates the imx8-isi driver (v6.4), so from an
+> > imx8-isi point of view, we don't have to backport this earlier than
+> > v6.4.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 22 ++++++++++++-------
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 20 +++++++++++------
->  include/media/videobuf2-core.h                |  5 ++++-
->  3 files changed, 31 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index a183edf11586..cd2b9e51b9b0 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -447,11 +447,12 @@ static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
->   */
+> How certain are you this only affects the imx8-isi driver? There are many
+> drivers using the MUST_CONNECT flag and I'm not sure all those have the
+> necessary checks in place. There of course could be drivers just missing
+> the flag, too, and that's a different issue.
 
-You should update the comment before this function to explain what is
-returned in first_index.
+The imx8-isi was not using the flag, so it's a different issue. The ISI
+is special in the sense that it has an input crossbar switch that can
+have Asome non-connected inputs in valid configurations.
 
->  static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  			     unsigned int num_buffers, unsigned int num_planes,
-> -			     const unsigned plane_sizes[VB2_MAX_PLANES])
-> +			     const unsigned int plane_sizes[VB2_MAX_PLANES],
-> +			     unsigned int *first_index)
->  {
-> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
->  	unsigned int buffer, plane;
->  	struct vb2_buffer *vb;
-> +	unsigned long index;
->  	int ret;
->  
->  	/*
-> @@ -459,7 +460,11 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  	 * in the queue is below q->max_num_buffers
->  	 */
->  	num_buffers = min_t(unsigned int, num_buffers,
-> -			    q->max_num_buffers - q_num_buffers);
-> +			    q->max_num_buffers - vb2_get_num_buffers(q));
-> +
-> +	index = vb2_get_num_buffers(q);
+For drivers using the flag, in most cases there should be at least one
+link connected to MUST_CONNECT pads. Many drivers are for 1-sink,
+1-source subdevs, and those should not get registered in the first place
+if they have nothing connected to their source.
 
-Perhaps move this line up, then you can use 'index' instead of
-vb2_get_num_buffers() in the min_t line. Starting with the next
-patch vb2_get_num_buffers becomes a more expensive operation.
+One exception may be the ipu3-cio2 driver which has multiple independent
+CSI-2 RXs. Some of them will not have any sensor connected. This could
+be addressed in the ipu3-cio2 driver to not register those CSI-2 RXs
+(and the corresponding video nodes). Alternatively I'm fine if you try
+to backport this series before v6.1, but I won't :-)
 
-General note: it is perhaps a good idea to check all the users of
-vb2_get_num_buffers to make sure it is not called unnecessarily.
-
-> +
-> +	*first_index = index;
->  
->  	for (buffer = 0; buffer < num_buffers; ++buffer) {
->  		/* Allocate vb2 buffer structures */
-> @@ -479,7 +484,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  			vb->planes[plane].min_length = plane_sizes[plane];
->  		}
->  
-> -		vb2_queue_add_buffer(q, vb, q_num_buffers + buffer);
-> +		vb2_queue_add_buffer(q, vb, index++);
->  		call_void_bufop(q, init_buffer, vb);
->  
->  		/* Allocate video buffer memory for the MMAP type */
-> @@ -820,7 +825,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-> -	unsigned int i;
-> +	unsigned int i, first_index;
->  	int ret = 0;
->  
->  	if (q->streaming) {
-> @@ -906,7 +911,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  
->  	/* Finally, allocate buffers and video memory */
->  	allocated_buffers =
-> -		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes);
-> +		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes, &first_index);
->  	if (allocated_buffers == 0) {
->  		dprintk(q, 1, "memory allocation failed\n");
->  		ret = -ENOMEM;
-> @@ -980,7 +985,8 @@ EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
->  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			 unsigned int flags, unsigned int *count,
->  			 unsigned int requested_planes,
-> -			 const unsigned int requested_sizes[])
-> +			 const unsigned int requested_sizes[],
-> +			 unsigned int *first_index)
->  {
->  	unsigned int num_planes = 0, num_buffers, allocated_buffers;
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
-> @@ -1042,7 +1048,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  
->  	/* Finally, allocate buffers and video memory */
->  	allocated_buffers = __vb2_queue_alloc(q, memory, num_buffers,
-> -				num_planes, plane_sizes);
-> +				num_planes, plane_sizes, first_index);
->  	if (allocated_buffers == 0) {
->  		dprintk(q, 1, "memory allocation failed\n");
->  		ret = -ENOMEM;
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 54d572c3b515..3c0c423c5674 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -797,11 +797,16 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	for (i = 0; i < requested_planes; i++)
->  		if (requested_sizes[i] == 0)
->  			return -EINVAL;
-> -	return ret ? ret : vb2_core_create_bufs(q, create->memory,
-> -						create->flags,
-> -						&create->count,
-> -						requested_planes,
-> -						requested_sizes);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = vb2_core_create_bufs(q, create->memory,
-
-This can just be a direct 'return vb2_core_create_bufs(...'
-
-> +				   create->flags,
-> +				   &create->count,
-> +				   requested_planes,
-> +				   requested_sizes,
-> +				   &create->index);
-> +	return ret;
->  }
->  EXPORT_SYMBOL_GPL(vb2_create_bufs);
->  
-> @@ -1029,15 +1034,16 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
->  	int res = vb2_verify_memory_type(vdev->queue, p->memory,
->  			p->format.type);
->  
-> -	p->index = vdev->queue->num_buffers;
->  	fill_buf_caps(vdev->queue, &p->capabilities);
->  	validate_memory_flags(vdev->queue, p->memory, &p->flags);
->  	/*
->  	 * If count == 0, then just check if memory and type are valid.
->  	 * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
->  	 */
-> -	if (p->count == 0)
-> +	if (p->count == 0) {
-> +		p->index = vb2_get_num_buffers(vdev->queue);
->  		return res != -EBUSY ? res : 0;
-> +	}
->  	if (res)
->  		return res;
->  	if (vb2_queue_is_busy(vdev->queue, file))
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 7b84b4e2e273..607f2ba7a905 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -821,6 +821,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->   * @count: requested buffer count.
->   * @requested_planes: number of planes requested.
->   * @requested_sizes: array with the size of the planes.
-> + * @first_index: index of the first created buffer, all allocated buffers have
-> + *		 indices in the range [first..first+count]
->   *
->   * Videobuf2 core helper to implement VIDIOC_CREATE_BUFS() operation. It is
->   * called internally by VB2 by an API-specific handler, like
-> @@ -837,7 +839,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			 unsigned int flags, unsigned int *count,
->  			 unsigned int requested_planes,
-> -			 const unsigned int requested_sizes[]);
-> +			 const unsigned int requested_sizes[],
-> +			 unsigned int *first_index);
->  
->  /**
->   * vb2_core_prepare_buf() - Pass ownership of a buffer from userspace
-
+-- 
 Regards,
 
-	Hans
+Laurent Pinchart
 
