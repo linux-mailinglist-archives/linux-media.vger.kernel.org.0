@@ -1,318 +1,261 @@
-Return-Path: <linux-media+bounces-3715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4A182DC55
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 16:30:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E9482DCDF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 17:04:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F7DC1F223D9
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 15:30:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5ED441C21CBE
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jan 2024 16:04:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F8101774F;
-	Mon, 15 Jan 2024 15:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sUtZFwP0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A402179A1;
+	Mon, 15 Jan 2024 16:04:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD8C1773B;
-	Mon, 15 Jan 2024 15:30:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3DE1C433C7;
-	Mon, 15 Jan 2024 15:30:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705332603;
-	bh=i+sAHaV32j73dmSDaQjMq2fN84j/W7BDfu4abhHoLbk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sUtZFwP01BkBBU0Ca9vIuI9QMS/5i1oK1OOnh7h+jlN2UJ9Ela1VNwJUGvZRFar+0
-	 QmjUGv+4rJ5Ky5xARxZU9KcKe7y4xwngcvnX15RhfCxtMd3glJjPEIJXQq2Q5bNcGF
-	 TM3BFn4GdJ6OJJ48zZgplCln0DD/y8bRiTgVMP1uhBWcBbRrmSzQlG949j+DRRA1Ui
-	 5c6xWkWGJ/fUuRPecxx47WKwqFMbAY/7Ceu60WLh1o+/iyNVj9Q2fOinnlR+o7hQjy
-	 G3OJERz6abgtNEsGX/4JH/yQiV1mfpt/U4yZ63uiM8JY/OywW+jaMSE4K5/jIW51hA
-	 GcH6qVdU7q0CA==
-Date: Mon, 15 Jan 2024 16:30:00 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <igshliibofml3bkkchamqo7xyrnzrf6efkfuok5lprcfg5h3ug@phfvvy6fra35>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD5917BA0;
+	Mon, 15 Jan 2024 16:04:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 858C7C433F1;
+	Mon, 15 Jan 2024 16:04:17 +0000 (UTC)
+Message-ID: <c5695654-d54d-4c26-97c3-671b561c559e@xs4all.nl>
+Date: Mon, 15 Jan 2024 17:04:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lgtwqetat5bqpk6j"
-Content-Disposition: inline
-In-Reply-To: <20240115143720.GA160656@toolbox>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 3/8] media: core: Rework how create_buf index returned
+ value is computed
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
+ <20231215090813.15610-4-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231215090813.15610-4-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 15/12/2023 10:08, Benjamin Gaignard wrote:
+> When DELETE_BUFS will be introduced holes could created in bufs array.
+> To be able to reuse these unused indices reworking how create->index
+> is set is mandatory.
+> Let __vb2_queue_alloc() decide which first index is correct and
+> forward this to the caller.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 22 ++++++++++++-------
+>  .../media/common/videobuf2/videobuf2-v4l2.c   | 20 +++++++++++------
+>  include/media/videobuf2-core.h                |  5 ++++-
+>  3 files changed, 31 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index a183edf11586..cd2b9e51b9b0 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -447,11 +447,12 @@ static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
+>   */
+>  static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  			     unsigned int num_buffers, unsigned int num_planes,
+> -			     const unsigned plane_sizes[VB2_MAX_PLANES])
+> +			     const unsigned int plane_sizes[VB2_MAX_PLANES],
+> +			     unsigned int *first_index)
+>  {
+> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
+>  	unsigned int buffer, plane;
+>  	struct vb2_buffer *vb;
+> +	unsigned long index;
+>  	int ret;
+>  
+>  	/*
+> @@ -459,7 +460,11 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  	 * in the queue is below q->max_num_buffers
+>  	 */
+>  	num_buffers = min_t(unsigned int, num_buffers,
+> -			    q->max_num_buffers - q_num_buffers);
+> +			    q->max_num_buffers - vb2_get_num_buffers(q));
+> +
+> +	index = vb2_get_num_buffers(q);
+> +
+> +	*first_index = index;
+>  
+>  	for (buffer = 0; buffer < num_buffers; ++buffer) {
+>  		/* Allocate vb2 buffer structures */
+> @@ -479,7 +484,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  			vb->planes[plane].min_length = plane_sizes[plane];
+>  		}
+>  
+> -		vb2_queue_add_buffer(q, vb, q_num_buffers + buffer);
+> +		vb2_queue_add_buffer(q, vb, index++);
+>  		call_void_bufop(q, init_buffer, vb);
+>  
+>  		/* Allocate video buffer memory for the MMAP type */
+> @@ -820,7 +825,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
+>  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+>  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
+> -	unsigned int i;
+> +	unsigned int i, first_index;
+>  	int ret = 0;
+>  
+>  	if (q->streaming) {
+> @@ -906,7 +911,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  
+>  	/* Finally, allocate buffers and video memory */
+>  	allocated_buffers =
+> -		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes);
+> +		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes, &first_index);
+>  	if (allocated_buffers == 0) {
+>  		dprintk(q, 1, "memory allocation failed\n");
+>  		ret = -ENOMEM;
 
---lgtwqetat5bqpk6j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm thinking that after this 'if' it might be a good idea to add a:
 
-On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> On Mon, Jan 15, 2024 at 03:33:08PM +0100, Sebastian Wick wrote:
-> > On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
-> > > The i915 driver has a property to force the RGB range of an HDMI outp=
-ut.
-> > > The vc4 driver then implemented the same property with the same
-> > > semantics. KWin has support for it, and a PR for mutter is also there=
- to
-> > > support it.
-> > >=20
-> > > Both drivers implementing the same property with the same semantics,
-> > > plus the userspace having support for it, is proof enough that it's
-> > > pretty much a de-facto standard now and we can provide helpers for it.
-> > >=20
-> > > Let's plumb it into the newly created HDMI connector.
-> > >=20
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  Documentation/gpu/kms-properties.csv               |   1 -
-> > >  drivers/gpu/drm/drm_atomic.c                       |   5 +
-> > >  drivers/gpu/drm/drm_atomic_state_helper.c          |  17 +
-> > >  drivers/gpu/drm/drm_atomic_uapi.c                  |   4 +
-> > >  drivers/gpu/drm/drm_connector.c                    |  76 +++++
-> > >  drivers/gpu/drm/tests/Makefile                     |   1 +
-> > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 376 +++++++++++=
-++++++++++
-> > >  drivers/gpu/drm/tests/drm_connector_test.c         | 117 ++++++-
-> > >  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 ++++++
-> > >  include/drm/drm_connector.h                        |  36 ++
-> > >  10 files changed, 737 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu=
-/kms-properties.csv
-> > > index 0f9590834829..caef14c532d4 100644
-> > > --- a/Documentation/gpu/kms-properties.csv
-> > > +++ b/Documentation/gpu/kms-properties.csv
-> > > @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Prope=
-rty Values,Object attached,De
-> > >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xf=
-fffffff",Connector,property to suggest an X offset for a connector
-> > >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Co=
-nnector,property to suggest an Y offset for a connector
-> > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",=
-Connector,TDB
-> > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""=
-Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 =
-and CTM is set, the hardware will be programmed with the result of the mult=
-iplication of CTM by the limited range matrix to ensure the pixels normally=
- in the range 0..1.0 are remapped to the range 16/255..235/255."
-> > >  ,,=E2=80=9Caudio=E2=80=9D,ENUM,"{ ""force-dvi"", ""off"", ""auto"", =
-""on"" }",Connector,TBD
-> > >  ,SDVO-TV,=E2=80=9Cmode=E2=80=9D,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NT=
-SC_443"", ""PAL_B"" } etc.",Connector,TBD
-> > >  ,,"""left_margin""",RANGE,"Min=3D0, Max=3D SDVO dependent",Connector=
-,TBD
-> > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomi=
-c.c
-> > > index c31fc0b48c31..1465a7f09a0b 100644
-> > > --- a/drivers/gpu/drm/drm_atomic.c
-> > > +++ b/drivers/gpu/drm/drm_atomic.c
-> > > @@ -1142,6 +1142,11 @@ static void drm_atomic_connector_print_state(s=
-truct drm_printer *p,
-> > >  	drm_printf(p, "\tmax_requested_bpc=3D%d\n", state->max_requested_bp=
-c);
-> > >  	drm_printf(p, "\tcolorspace=3D%s\n", drm_get_colorspace_name(state-=
->colorspace));
-> > > =20
-> > > +	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
-> > > +	    connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB)
-> > > +		drm_printf(p, "\tbroadcast_rgb=3D%s\n",
-> > > +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcas=
-t_rgb));
-> > > +
-> > >  	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK)
-> > >  		if (state->writeback_job && state->writeback_job->fb)
-> > >  			drm_printf(p, "\tfb=3D%d\n", state->writeback_job->fb->base.id);
-> > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/=
-drm/drm_atomic_state_helper.c
-> > > index e69c0cc1c6da..10d98620a358 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > @@ -583,6 +583,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_rese=
-t);
-> > >  void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *=
-connector,
-> > >  					      struct drm_connector_state *new_state)
-> > >  {
-> > > +	new_state->hdmi.broadcast_rgb =3D DRM_HDMI_BROADCAST_RGB_AUTO;
-> > >  }
-> > >  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
-> > > =20
-> > > @@ -650,6 +651,22 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_che=
-ck);
-> > >  int drm_atomic_helper_connector_hdmi_check(struct drm_connector *con=
-nector,
-> > >  					   struct drm_atomic_state *state)
-> > >  {
-> > > +	struct drm_connector_state *old_state =3D
-> > > +		drm_atomic_get_old_connector_state(state, connector);
-> > > +	struct drm_connector_state *new_state =3D
-> > > +		drm_atomic_get_new_connector_state(state, connector);
-> > > +
-> > > +	if (old_state->hdmi.broadcast_rgb !=3D new_state->hdmi.broadcast_rg=
-b) {
-> > > +		struct drm_crtc *crtc =3D new_state->crtc;
-> > > +		struct drm_crtc_state *crtc_state;
-> > > +
-> > > +		crtc_state =3D drm_atomic_get_crtc_state(state, crtc);
-> > > +		if (IS_ERR(crtc_state))
-> > > +			return PTR_ERR(crtc_state);
-> > > +
-> > > +		crtc_state->mode_changed =3D true;
-> > > +	}
-> > > +
-> > >  	return 0;
-> > >  }
-> > >  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-> > > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_=
-atomic_uapi.c
-> > > index aee4a65d4959..3eb4f4bc8b71 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> > > @@ -818,6 +818,8 @@ static int drm_atomic_connector_set_property(stru=
-ct drm_connector *connector,
-> > >  		state->max_requested_bpc =3D val;
-> > >  	} else if (property =3D=3D connector->privacy_screen_sw_state_prope=
-rty) {
-> > >  		state->privacy_screen_sw_state =3D val;
-> > > +	} else if (property =3D=3D connector->broadcast_rgb_property) {
-> > > +		state->hdmi.broadcast_rgb =3D val;
-> > >  	} else if (connector->funcs->atomic_set_property) {
-> > >  		return connector->funcs->atomic_set_property(connector,
-> > >  				state, property, val);
-> > > @@ -901,6 +903,8 @@ drm_atomic_connector_get_property(struct drm_conn=
-ector *connector,
-> > >  		*val =3D state->max_requested_bpc;
-> > >  	} else if (property =3D=3D connector->privacy_screen_sw_state_prope=
-rty) {
-> > >  		*val =3D state->privacy_screen_sw_state;
-> > > +	} else if (property =3D=3D connector->broadcast_rgb_property) {
-> > > +		*val =3D state->hdmi.broadcast_rgb;
-> > >  	} else if (connector->funcs->atomic_get_property) {
-> > >  		return connector->funcs->atomic_get_property(connector,
-> > >  				state, property, val);
-> > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_co=
-nnector.c
-> > > index d9961cce8245..929b0a911f62 100644
-> > > --- a/drivers/gpu/drm/drm_connector.c
-> > > +++ b/drivers/gpu/drm/drm_connector.c
-> > > @@ -1183,6 +1183,29 @@ static const u32 dp_colorspaces =3D
-> > >  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
-> > >  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
-> > > =20
-> > > +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
-> > > +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
-> > > +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
-> > > +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
-> > > +};
-> > > +
-> > > +/*
-> > > + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for H=
-DMI connector RGB broadcast selection
-> > > + * @broadcast_rgb: Broadcast RGB selection to compute name of
-> > > + *
-> > > + * Returns: the name of the Broadcast RGB selection, or NULL if the =
-type
-> > > + * is not valid.
-> > > + */
-> > > +const char *
-> > > +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rg=
-b broadcast_rgb)
-> > > +{
-> > > +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
-> > > +		return NULL;
-> > > +
-> > > +	return broadcast_rgb_names[broadcast_rgb].name;
-> > > +}
-> > > +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
-> > > +
-> > >  /**
-> > >   * DOC: standard connector properties
-> > >   *
-> > > @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconne=
-ctor_property);
-> > >  /**
-> > >   * DOC: HDMI connector properties
-> > >   *
-> > > + * Broadcast RGB
-> > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > + *      Infoframes will be generated according to that value.
-> > > + *
-> > > + *      The value of this property can be one of the following:
-> > > + *
-> > > + *      Automatic:
-> > > + *              RGB Range is selected automatically based on the mode
-> > > + *              according to the HDMI specifications.
-> > > + *
-> > > + *      Full:
-> > > + *              Full RGB Range is forced.
-> > > + *
-> > > + *      Limited 16:235:
-> > > + *              Limited RGB Range is forced. Unlike the name suggest=
-s,
-> > > + *              this works for any number of bits-per-component.
-> > > + *
-> > > + *      Drivers can set up this property by calling
-> > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > + *
-> >=20
-> > This is a good time to document this in more detail. There might be two
-> > different things being affected:
-> >=20
-> > 1. The signalling (InfoFrame/SDP/...)
-> > 2. The color pipeline processing
-> >=20
-> > All values of Broadcast RGB always affect the color pipeline processing
-> > such that a full-range input to the CRTC is converted to either full- or
-> > limited-range, depending on what the monitor is supposed to accept.
-> >=20
-> > When automatic is selected, does that mean that there is no signalling,
-> > or that the signalling matches what the monitor is supposed to accept
-> > according to the spec? Also, is this really HDMI specific?
-> >=20
-> > When full or limited is selected and the monitor doesn't support the
-> > signalling, what happens?
->=20
-> Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> the cable, so is this only affecting RGB? If not, how does it affect
-> YCbCr?
-i915 only supports it for RGB indeed:
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/display=
-/intel_hdmi.c#L2150
+	/* There shouldn't be any buffers allocated, so first_index == 0 */
+	WARN_ON(first_index);
 
-Maxime
+Just as a sanity check.
 
---lgtwqetat5bqpk6j
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+	Hans
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaVPeAAKCRDj7w1vZxhR
-xUqfAP42KmlQNAjS8Gd15wm3o/xPVLwxKq3Mj9o3uDndMr8fFQEAwaAUHG90t28G
-n7PjI68jJ9C8mdG1vseKHs+IcWYeWwU=
-=KfLJ
------END PGP SIGNATURE-----
+> @@ -980,7 +985,8 @@ EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+>  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  			 unsigned int flags, unsigned int *count,
+>  			 unsigned int requested_planes,
+> -			 const unsigned int requested_sizes[])
+> +			 const unsigned int requested_sizes[],
+> +			 unsigned int *first_index)
+>  {
+>  	unsigned int num_planes = 0, num_buffers, allocated_buffers;
+>  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+> @@ -1042,7 +1048,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  
+>  	/* Finally, allocate buffers and video memory */
+>  	allocated_buffers = __vb2_queue_alloc(q, memory, num_buffers,
+> -				num_planes, plane_sizes);
+> +				num_planes, plane_sizes, first_index);
+>  	if (allocated_buffers == 0) {
+>  		dprintk(q, 1, "memory allocation failed\n");
+>  		ret = -ENOMEM;
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 54d572c3b515..3c0c423c5674 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -797,11 +797,16 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>  	for (i = 0; i < requested_planes; i++)
+>  		if (requested_sizes[i] == 0)
+>  			return -EINVAL;
+> -	return ret ? ret : vb2_core_create_bufs(q, create->memory,
+> -						create->flags,
+> -						&create->count,
+> -						requested_planes,
+> -						requested_sizes);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = vb2_core_create_bufs(q, create->memory,
+> +				   create->flags,
+> +				   &create->count,
+> +				   requested_planes,
+> +				   requested_sizes,
+> +				   &create->index);
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_create_bufs);
+>  
+> @@ -1029,15 +1034,16 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
+>  	int res = vb2_verify_memory_type(vdev->queue, p->memory,
+>  			p->format.type);
+>  
+> -	p->index = vdev->queue->num_buffers;
+>  	fill_buf_caps(vdev->queue, &p->capabilities);
+>  	validate_memory_flags(vdev->queue, p->memory, &p->flags);
+>  	/*
+>  	 * If count == 0, then just check if memory and type are valid.
+>  	 * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
+>  	 */
+> -	if (p->count == 0)
+> +	if (p->count == 0) {
+> +		p->index = vb2_get_num_buffers(vdev->queue);
+>  		return res != -EBUSY ? res : 0;
+> +	}
+>  	if (res)
+>  		return res;
+>  	if (vb2_queue_is_busy(vdev->queue, file))
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 7b84b4e2e273..607f2ba7a905 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -821,6 +821,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>   * @count: requested buffer count.
+>   * @requested_planes: number of planes requested.
+>   * @requested_sizes: array with the size of the planes.
+> + * @first_index: index of the first created buffer, all allocated buffers have
+> + *		 indices in the range [first..first+count]
+>   *
+>   * Videobuf2 core helper to implement VIDIOC_CREATE_BUFS() operation. It is
+>   * called internally by VB2 by an API-specific handler, like
+> @@ -837,7 +839,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  			 unsigned int flags, unsigned int *count,
+>  			 unsigned int requested_planes,
+> -			 const unsigned int requested_sizes[]);
+> +			 const unsigned int requested_sizes[],
+> +			 unsigned int *first_index);
+>  
+>  /**
+>   * vb2_core_prepare_buf() - Pass ownership of a buffer from userspace
 
---lgtwqetat5bqpk6j--
 
