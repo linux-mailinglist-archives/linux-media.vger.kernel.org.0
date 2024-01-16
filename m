@@ -1,187 +1,164 @@
-Return-Path: <linux-media+bounces-3764-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3765-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA81D82F31C
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 18:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ECCF82F377
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 18:48:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A1B52839C1
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 17:23:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2C1C2858F0
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 17:48:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C66A01CAAF;
-	Tue, 16 Jan 2024 17:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B0421CD07;
+	Tue, 16 Jan 2024 17:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E0SGn7Kr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="m7kURqDZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280A81C6BC;
-	Tue, 16 Jan 2024 17:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35931CABC
+	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 17:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705425784; cv=none; b=Z8nRuCh+0VqGcMo893biM79i7HQeJ2+BnmnTClw872LSP8waBegyaKa27ebWPy/1PgSWb7Lmx/y0Yh5w6MyDArGNi80S5ytjH5JkHGukSTBzxzZwnEjbZqN0Dn10bSBRFhE2hmxbrmlVUA6op6DPq9T38AJ550GFJFG0Qmh514k=
+	t=1705427304; cv=none; b=rb5Bfwa0/kvgPLqjT1JFMhOmNlfBF4b2oXl97hgjzLHXCrrHPooXhlbOXwO7ROVhx4Gd5kit4ED3guziOKD2iaIShwYapZXrZmcSD/GPOXpIs6JET21WhuGIZG6MlGi24CZXRlxtEgYe+Sz2hjP6+magJ+i1Zmq7lIWWVMm0cDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705425784; c=relaxed/simple;
-	bh=aeuQUqx3/XnP3kl4fdTaJHE8QfJAHQ/nRMORFZZv5YM=;
+	s=arc-20240116; t=1705427304; c=relaxed/simple;
+	bh=3l669g4NoRZ9xVYjzhhmOjr3VVg9tnqfJZSFpDnF6fc=;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=UXC8PCEv2pTG957xzFQwIHhUjLyByvnNnZ6DESawAJipCFRIYpFs8uxzV0QsKm5p6muZGDnevnAoMwNZmOcSxT1/QL93aRo2i1k7ZVybvT5rlI7HPn2rgTDdHesM1vTxj85LXYoJDzRgooni82mK5mNz35BJ3AfnN4wXTU2NbSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E0SGn7Kr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 004E1C433C7;
-	Tue, 16 Jan 2024 17:22:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705425783;
-	bh=aeuQUqx3/XnP3kl4fdTaJHE8QfJAHQ/nRMORFZZv5YM=;
+	 In-Reply-To; b=MjkNuvNZBuw7NZZD4V9F13v28f8X4JdCMJKbgUP/0V1Ton8f68BYhVC9LtKIJyfd7MZFwNNASWzRc0OlRm8Vm7RnZNjAgOj0mZno4+DToP5NjdGXwEEva+lq15xOR0Bl8HXjqKjhOmfFEYiIjdx9KrrARA2pASKT/vJQlGlnF9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=m7kURqDZ; arc=none smtp.client-ip=213.167.242.64
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C668674;
+	Tue, 16 Jan 2024 18:47:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1705427230;
+	bh=3l669g4NoRZ9xVYjzhhmOjr3VVg9tnqfJZSFpDnF6fc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E0SGn7KrXcA80C/xwi0Z/mSipWXyXqCfPLSkw8/pmneo+TeIxjJ5ef//g/+gfjqX8
-	 bST+sdWxN9OIeGmD/WDg09AfEKZQPeORVSPwoSLFITnywfu/xQ71X3zrn2ycopwH1T
-	 TZMvhEN9azPOhg8i+XRETu8SU63SVn1DIj+srzW1LOtgOJE8iKF3nfFu5w1nCWt0Bw
-	 ERRZMoqBmAm1cxhQ4rKhlzRJsPSMnW9eBw3ErsdnION2LTyF30AbptlsXbq7Ty1aYK
-	 CISRiIbfNciN83cXBjh/7Y6NG2Uo8vy/lzCk8Dlou5ukI1CMlpFdJnrDR/mm4Jq6hD
-	 ItS9GqpuVQCkA==
-Date: Tue, 16 Jan 2024 17:22:57 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	Johnson Wang =?utf-8?B?KOeOi+iBlumRqyk=?= <Johnson.Wang@mediatek.com>,
-	Singo Chang =?utf-8?B?KOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	Jason-ch Chen =?utf-8?B?KOmZs+W7uuixqik=?= <Jason-ch.Chen@mediatek.com>,
-	Shawn Sung =?utf-8?B?KOWui+WtneismSk=?= <Shawn.Sung@mediatek.com>,
-	Nancy Lin =?utf-8?B?KOael+aso+ieoik=?= <Nancy.Lin@mediatek.com>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
-	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: mailbox: mediatek: gce-mailbox: Add
- reference to gce-props.yaml
-Message-ID: <20240116-cancel-perpetual-08320e21ec33@spud>
-References: <20240110063532.14124-1-jason-jh.lin@mediatek.com>
- <20240110063532.14124-3-jason-jh.lin@mediatek.com>
- <20240110-grumbling-tattling-0202fc5e21f2@spud>
- <8c4004d5b6f68dc096aaf2a537e429c310b60c08.camel@mediatek.com>
- <20240111-anthology-dock-c60d28ac7f1c@spud>
- <5eaccb10853215a6399759a715d2f0356782bac9.camel@mediatek.com>
- <20240115-player-waltz-8efb5885a23f@spud>
- <4f1e6bdb3e266cf0e89f8a664095ea1709f9afe0.camel@mediatek.com>
+	b=m7kURqDZojDp0AHMyvubHXKOb4JnBgH4SG908DU975eAAAV3WMF1XpjCUA15Ryda1
+	 ST3r3o+YBErkOQnLAjGlyJax6ddJ55ljCD42LHVYNPIoKh/USb1dWI2hEnmQtlYhBx
+	 pSFyxXQTUQnfmzv9IcSRi1puqG0ulBB3IEanjPlk=
+Date: Tue, 16 Jan 2024 19:48:23 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, bingbu.cao@intel.com,
+	linux-media@vger.kernel.org, andriy.shevchenko@linux.intel.com,
+	ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
+	tomi.valkeinen@ideasonboard.com, tfiga@chromium.org,
+	senozhatsky@chromium.org, andreaskleist@gmail.com,
+	bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
+	hongju.wang@intel.com
+Subject: Re: [PATCH v3 00/15] Intel IPU6 and IPU6 input system drivers
+Message-ID: <20240116174823.GD16531@pendragon.ideasonboard.com>
+References: <20240111065531.2418836-1-bingbu.cao@intel.com>
+ <7dcbe5a7-408b-477b-b02d-e39b9ad1ab74@redhat.com>
+ <Zaa0vW_TZlee2-_b@kekkonen.localdomain>
+ <008f30be-7d1b-498c-88fa-d8cf061e19fa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6o/PZYXOtaXbB6O9"
-Content-Disposition: inline
-In-Reply-To: <4f1e6bdb3e266cf0e89f8a664095ea1709f9afe0.camel@mediatek.com>
-
-
---6o/PZYXOtaXbB6O9
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <008f30be-7d1b-498c-88fa-d8cf061e19fa@redhat.com>
 
-On Tue, Jan 16, 2024 at 08:21:15AM +0000, Jason-JH Lin (=E6=9E=97=E7=9D=BF=
-=E7=A5=A5) wrote:
-> On Mon, 2024-01-15 at 17:23 +0000, Conor Dooley wrote:
-> > On Fri, Jan 12, 2024 at 07:44:13AM +0000, Jason-JH Lin (=E6=9E=97=E7=9D=
-=BF=E7=A5=A5) wrote:
-> > > On Thu, 2024-01-11 at 17:31 +0000, Conor Dooley wrote:
-> > > > On Wed, Jan 10, 2024 at 04:36:20PM +0000, Jason-JH Lin (=E6=9E=97=
-=E7=9D=BF=E7=A5=A5)
+On Tue, Jan 16, 2024 at 05:57:14PM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 1/16/24 17:54, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Tue, Jan 16, 2024 at 05:12:50PM +0100, Hans de Goede wrote:
+> >> Hi,
+> >>
+> >> On 1/11/24 07:55, bingbu.cao@intel.com wrote:
+> >>> From: Bingbu Cao <bingbu.cao@intel.com>
+> >>>
+> >>> This patch series adds a driver for Intel IPU6 input system.
+> >>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+> >>> device which can be found in some Intel Client Platforms. User can use
+> >>> IPU6 to capture images from MIPI camera sensors.
+> >>>
+> >>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
+> >>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
+> >>> the driver sets up a page table to allow IPU6 DMA to access the system
+> >>> memory.
+> >>>
+> >>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
+> >>> ---
+> >>> v2 -> v3:
+> >>>   - Add line-based metadata capture support
+> >>>   - Fix header files inclusion issues
+> >>>   - Fix the CSI2 timing calculation
+> >>>   - Fix crash when remove module during streaming
+> >>>   - Remove some unused code
+> >>>   - Use cross-referencing links in documentation
+> >>>   - Update Makefile to use ":=" for objects
+> >>>   - Fix several bugs and coding style issues
+> >>
+> >> So I've given this version a try on a Lenovo X1 yoga gen 8 with ov2740
+> >> sensor using the ongoing libcamera SoftISP work + this small patch
+> >> to enable the SoftISP on IPU6 :
+> >>
+> >> https://github.com/jwrdegoede/libcamera/commit/3172f3703cf7076390fbf86c3b43e388c2422b31
+> >>
+> >> things work fine when using patch 1-15 + 17 on top of 6.7, note
+> >> I'm skipping patch 16 ("media: ipu6/isys: support line-based
+> >> metadata capture support")" here!
+> >>
+> >> However when I instead apply the whole series on top of:
+> >> https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata
+> >>
+> >> Then things stop working, with the following errors
+> >> (I added extra error logging to figure out in which syscall
+> >> resetRoutingTable() fails and made libcamera ignore the routing
+> >> errors):
+> >>
+> >> [2:02:04.466310686] [8943] ERROR SimplePipeline simple.cpp:1443 GetRouting() failed -25
+> >> [2:02:04.466315975] [8943] ERROR SimplePipeline simple.cpp:1574 Failed to reset routes for /dev/v4l-subdev1: Inappropriate ioctl for device
+> >> [2:02:04.466366331] [8943] ERROR SimplePipeline simple.cpp:1443 GetRouting() failed -25
+> >> [2:02:04.466370025] [8943] ERROR SimplePipeline simple.cpp:1574 Failed to reset routes for /dev/v4l-subdev4: Inappropriate ioctl for device
+> >>  	[2:03:32.334708887] [8929]  INFO Camera camera.cpp:1183 configuring streams: (0) 1924x1088-BGR888
+> >> [2:03:32.335129023] [8943] ERROR SimplePipeline simple.cpp:1205 Unable to configure capture in 1932x1092-BA10 (got 0x0-@...)
+> >> Failed to configure camera.
+> >>
+> >> I was sorta assuming that the new metadata-stream support would
+> >> be backwards compatible for userspace without support for this,
+> >> so I think this is a bug ?
+> > 
+> > That's the intention when it comes to the kernel APIs indeed.
+> > 
+> > I wonder how the simple pipeline handler works with this, does it try to
+> > configure both streams all the way from the internal source pad to the
+> > video node? This will certainly fail without metadata support in the ISYS
+> > driver. Just guessing the cause though. An extra stream from the source pad
+> > won't fail pipeline validation.
+> > 
+> > I should be able to set up a system to test this, too.
+> 
+> I did include Bingbu's patch to add metadata to the isys driver for my
+> testing (and I also tried reverting just that patch). I think the issue
+> might be that libcamera already has some streams awareness based on
+> an older streams patch-set.
 
-> > > > > 2. We'll have the secure CMDQ mailbox driver in the future
-> > > > > patch
-> > > > > [1].
-> > > > > It will request or reserve a mailbox channel, which is a
-> > > > > dedicate
-> > > > > GCE
-> > > > > thread, as a secure IRQ handler. This GCE thread executes a
-> > > > > looping
-> > > > > instruction set that keeps waiting for the gce-event set from
-> > > > > another
-> > > > > GCE thread in the secure world. So we also need to tell the
-> > > > > CMDQ
-> > > > > driver
-> > > > > what gce-event need to be waited.
-> > > >=20
-> > > > Ditto here, what level does this vary at? Do different SoCs or
-> > > > different
-> > > > boards/platforms dictate the value?
-> > >=20
-> > > It's a SoC level, the SoC supports secure feature will need this
-> > > property.
-> > >=20
-> > > > Could this channel be determined from the soc-specific
-> > > > compatible?
-> > > >=20
-> > > > In other words, please explain in your commit message why this
-> > > > requires
-> > > > a property and is not detectable from any existing mechanism.
-> > > > From
-> > > > reading this I don't know what is preventing the secure mailbox
-> > > > channel
-> > > > from picking a "random" unused channel.
-> > >=20
-> > > The secure channel could be dedicated from the soc-specific
-> > > compatible,
-> > > but the event ID couldn't.
-> > >=20
-> > > The same event signal corresponding event ID may changes in
-> > > different
-> > > SoC.
-> > > E.g.
-> > > The HW event signal for CMDQ_EVENT_VDO0_MUTEX_STREAM_DONE_0 is
-> > > corresponding to GCE event ID: 574 in MT8188, but it's
-> > > corresponding to
-> > > eventID: 597 in MT8195.
-> >=20
-> > Is it always 574 in MT8188 and always 597 in MT8195?
-> >=20
-> Yes, some gce-events are hardware bound and they can not change by
-> software. For example, in MT8195, when VDO0_MUTEX is stream done,
-> VDO_MUTEX will send an event signal to GCE, and the value of event
-> ID:597 will be set to 1. In MT8188, the value of event ID: 574 will be
-> set to 1 when VOD0_MUTEX is stream done.
->=20
-> Some of gce-events are not hardware bound and they can change by
-> software. For example, in MT8188, we can take the event ID: 855 that is
-> not bound to any hardware to set its value to 1 when the driver in
-> secure world completes a task. But in MT8195, the event ID: 855 is
-> already bound to VDEC_LAT1, so we have to take another event ID to
-> achieve the same purpose.
-> This event ID can be change any IDs that is not bound to any hardware
-> and is not use in any software driver yet.
-> We can see if the event ID is bound to the hardware or is used by
-> software driver in the header
-> include/de-bindings/mailbox/mediatek,mt8188-gce.h.
+Correct. It uses the G_ROUTING and S_ROUTING ioctls, and those have
+chenged in the latest kernel patch series.
 
-I see. Bring this particular patch back with your future series that
-adds support for the secure channel then.
+The simple pipeline handler doesn't configure routing as such, it gets
+the default routes with G_ROUTING(TRY) if the device advertises routing
+support, and calls S_ROUTING(ACTIVE) to reset the routes to the default.
+It then uses the routes to walk the pipeline, but doesn't change them.
 
-Thanks,
-Conor.
+> I'll retest when Laurent's branch for this is ready.
 
---6o/PZYXOtaXbB6O9
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Regards,
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaa7cQAKCRB4tDGHoIJi
-0qusAQC4vZ+1x8P8AmGrCXPV8uhPrW4y/28p8NsA0qLh9iIu4wEA7K74gMAGklLL
-9RRduns7EsZP8DogMqz9HEU2u3MHSg4=
-=QOwU
------END PGP SIGNATURE-----
-
---6o/PZYXOtaXbB6O9--
+Laurent Pinchart
 
