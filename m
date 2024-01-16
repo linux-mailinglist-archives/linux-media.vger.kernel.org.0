@@ -1,76 +1,55 @@
-Return-Path: <linux-media+bounces-3767-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3768-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F73182FC26
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 23:14:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B03F182FC8F
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 23:23:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7BEE1F29130
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 22:14:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C97071C2764C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 22:23:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0F0223771;
-	Tue, 16 Jan 2024 20:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3EC02D78C;
+	Tue, 16 Jan 2024 21:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brixit-nl.20230601.gappssmtp.com header.i=@brixit-nl.20230601.gappssmtp.com header.b="HaJi9bkU"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=fiona.klute@gmx.de header.b="agA+JFZ1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722C623762
-	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 20:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58B91BDFF;
+	Tue, 16 Jan 2024 21:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705437225; cv=none; b=Z7irjNR1hnrf1kTpyXYgSN+WKvRxCFxDxsrMtMuGX1TOujg1n8HBnyJheKo5l4Tpcb4+4aLxymcoDezKd7s8luk6R0d475r/nuFs9Ui21VnCKyT1jtJxSLqI8y7nGJbguqlf9//9zaUnMpSIvC0fXpkzeFzW4ztgnLtuTVMbRpw=
+	t=1705439714; cv=none; b=dyqOUuykEJktBsW9CScyARKZvuvSO9I+U6Ni8Y7Fp9FKw4Li9n5zw9l2Q8l2oFkHgAKnHxMSxgmOAuG5mnkniu4T3/Lrrc57vUEvDMN7N9HfsuEBAU4+jI/AElHVJb2dkwmyLmkQ1xfK1PThNuZ2qptzwmZ/4aSzBGIwzUoxdDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705437225; c=relaxed/simple;
-	bh=bLvtU9GmP+z3YD1A3ZSf6pfME0rmcdFX3MOu+3u5WlA=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding; b=f7Zh7Ed9v5R72yCBN2gfufs1vu8i4+lO64Tv7EQt26hACaFov9Hjf3HsCydR9EH+YObh6XCOR37KLc5DIFQw0o2/C/NslTJ/IzNI4F1wc+eMJVFOah9MQezxrS0WAazQnOiUQFxBUBc18C0gTE8Yick7WwOvdYooPWX9qfr/Dcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brixit.nl; spf=none smtp.mailfrom=brixit.nl; dkim=pass (2048-bit key) header.d=brixit-nl.20230601.gappssmtp.com header.i=@brixit-nl.20230601.gappssmtp.com header.b=HaJi9bkU; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brixit.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brixit.nl
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55969c01168so3318243a12.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 12:33:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brixit-nl.20230601.gappssmtp.com; s=20230601; t=1705437222; x=1706042022; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SQYnK8r0WDlOVQgRQTtnzryqB0Bw85aD3A/rnJ3JfSQ=;
-        b=HaJi9bkU89BQWav8nHAuTEv04F3xVmf6sNxp/Gcyhdhx86CeFSciPbMzcp5pz6kU0O
-         M0Qkhy5TAJBznAzSFoOlNdZFlHqyNtrAp93uzeHsGZ/i2NtRXzRS8wfe5RKrTbwN3jj2
-         lbLgwhVp+2ghu9qVLDNV3Zx3XYgIIP5NScYktEo0hdQBwfxgfVkZ0bWF+vzihoipTsvA
-         jc4TPZwWkOw4kB9bFoFlLPKbBGPs4U/600AX3cKibnV9Mwo6bKxq9fFegFXPVxw6aEi1
-         8VwFj/R3hNWOHzTT+jeoee1ap82qL06DhuT+QWGqStvrF9wdFVfnicQ02frQeBETasmH
-         xxWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705437222; x=1706042022;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SQYnK8r0WDlOVQgRQTtnzryqB0Bw85aD3A/rnJ3JfSQ=;
-        b=Ms2PGypRnx4F+54xcunL/bccJxzuaSzyjnkY7D2sMH8FyEvolEgc19tZFDvwNuKQMT
-         yzOSpdRCJppVb+O6P9SQzSmbpn7vXJkg3dBs7jh4dxEH3tmK0qlZXs2b3YmF8AGUgbyF
-         XGyrb7OAJQZ1/L8aBfXb/jGpdi+4pIx7sgGV6sM8UXZPATaN20gVCU84WZbI/9yMiQ/+
-         XYSwS4UZnWhani4ppdRXTTzSzJxy388hO8w9n7pemDJx2+UNd1f3+qyM0DjWiFqtUAmQ
-         gWxC22uWt/pVVeQfD2nafO4qyc7H8T9ut983JYFA/qrYMK4S6iEFbxsYIVf6otHxD2m7
-         2hJg==
-X-Gm-Message-State: AOJu0YwTr8czdm1FzKopKwxTyg4f9uFsxDnWLvIUr705oRC3wemVYa3Y
-	8j6qNUxmEJsXpel88pH9DoqZw0IPTkofhQ==
-X-Google-Smtp-Source: AGHT+IE12HSEaKeyl74HOOYo0/OE9qhE2gVtfoIGnqU6mjdQlJwdOiIyXwH/t6fV/FSI+oC+jzCwbQ==
-X-Received: by 2002:a17:907:a704:b0:a2e:7f37:8301 with SMTP id vw4-20020a170907a70400b00a2e7f378301mr1567285ejc.27.1705437221625;
-        Tue, 16 Jan 2024 12:33:41 -0800 (PST)
-Received: from ?IPV6:2a00:bba0:120c:9f00:7a8e:8795:650f:7c4e? (2a00-bba0-120c-9f00-7a8e-8795-650f-7c4e.static6.cust.trined.nl. [2a00:bba0:120c:9f00:7a8e:8795:650f:7c4e])
-        by smtp.gmail.com with ESMTPSA id gu18-20020a170906f29200b00a28aba1f56fsm6917997ejb.210.2024.01.16.12.33.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jan 2024 12:33:41 -0800 (PST)
-Message-ID: <2c720f2e-3c73-4a77-92e0-5da8fce86b3f@brixit.nl>
-Date: Tue, 16 Jan 2024 21:33:40 +0100
+	s=arc-20240116; t=1705439714; c=relaxed/simple;
+	bh=C2+za83C8Vy97mXGWtsv2kboAABymcwoRKxexre2OqI=;
+	h=DKIM-Signature:X-UI-Sender-Class:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Provags-ID:X-Spam-Flag:UI-OutboundReport; b=s1iB4MqJFQg7Am7dJ9Zi7uY5vuBttSC5P+Lm04BJRTfMKPVwh7rJDSlqCgEtv+SflZf3AB/at5pVZzJZFoyNj0aBH2oZ4ZqJ1Sh2tjgDaAaDd9aOZGdh5uLxoGUWrDlLHvoH2m4/VwBqU4U+xOvqIMqEVcmehESVOxUs57gbb50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=fiona.klute@gmx.de header.b=agA+JFZ1; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1705439695; x=1706044495; i=fiona.klute@gmx.de;
+	bh=C2+za83C8Vy97mXGWtsv2kboAABymcwoRKxexre2OqI=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=agA+JFZ1l4mFGWAbX8XqZt9NXpUM1Wf+M2O6SEqFRWV9rPLNYfZxcZ8Phm+6Qn7D
+	 C1avn3N7rvx0uPQcWqjW7zeqZWhIhFYZVSsH6e+OmaZ5bG8LntZgaDtZCnvlS1OM1
+	 5vIaoeG/sTWLHV8wie5S8+Q+imJsG2VvZzozAKI250m4kBTlzgzfNrNkbadbHtrEB
+	 dOD5uIga07zRl7qWDuXefxOLpQjjKEjQS9Oej9RvZVwQNR9158FdsvIYy5oFI45Jp
+	 skKmbd/qq1v7RGndI30hymXAyRYu3gfP6gLhn+WA5s4GSdWFifS6Vw1RMozsrRsrD
+	 FZ6wehhPlnZycucMNw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.7.2] ([85.22.132.29]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MLR1f-1rh6dg2M8B-00ITEs; Tue, 16
+ Jan 2024 22:14:55 +0100
+Message-ID: <3f60d01d-b047-4e5d-a8d8-1debe3466629@gmx.de>
+Date: Tue, 16 Jan 2024 22:14:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,45 +58,105 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Front camera on pinephone
-To: Pavel Machek <pavel@ucw.cz>, fiona.klute@gmx.de,
- phone-devel@vger.kernel.org, icenowy@aosc.xyz, megous@megous.com,
+To: Pavel Machek <pavel@ucw.cz>, phone-devel@vger.kernel.org,
+ icenowy@aosc.xyz, martijn@brixit.nl, megous@megous.com,
  kernel list <linux-kernel@vger.kernel.org>
 Cc: alain.volmat@foss.st.com, sakari.ailus@linux.intel.com,
  linux-media@vger.kernel.org
 References: <ZaY44AHISMIh8fHM@duo.ucw.cz>
-Content-Language: en-US
-From: Martijn Braam <martijn@brixit.nl>
+Content-Language: de-DE, en-US
+From: Fiona Klute <fiona.klute@gmx.de>
+Autocrypt: addr=fiona.klute@gmx.de; keydata=
+ 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
 In-Reply-To: <ZaY44AHISMIh8fHM@duo.ucw.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8Hln6Gm6THNL1D2MgZysJP3j89HFAms0xQStxEXyqDnEutr4Qsm
+ Pa48/UyI/Ml/DKSxCy4UU1o7j0AuEHYfxWd0Zjz0TCfcCbEXTbnZ0auwSg4VV/0plTRPdhL
+ pyVYTPcm4T5P8Y9Qz7IAezWMvXxguqNy/vu/SykYwo1B9WXbu+EI8rn3j8JntZpjY6JF0gx
+ xswXbVDJy8riCnkW7d21A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:LeUNXm4kJDA=;k5vk5utJUQ+IpGgAIiyPl+UCtvw
+ LKm4S1hlnlDrw1bCt4k8VUpVIuLaBqOhQ9CaG1TF7H6MKIZxvRR5Gt9bSfIeaRO8RGRf+PW5b
+ plcvSL1vS8rWLB/w1jY081moWwM3SJMrdUCT463t9P9LWUWFo6SZxjIZJ/+mEjeiYGGvSYDK0
+ +TJMs+JHMBPfAflb7HMaG9Zf+FFdbrFDUB7gdgOti/KMluT8vcy5f4gSeymEvhS6nCLso/KHo
+ 77xrqq1lthL8TzmDYxc53HMW0Pf3SUdfjVzt1i0hhbFSKwyR+3A3Xgyc8wKLUK8lSA9HC0//o
+ rNJQKfuyt4KedIMEyCajPVgc/XYnaAzIrJBLj8Oi2hMrv6skcNtKQ/v18QxYU0+t0f51UlbGn
+ qUXknfnNWIWgDIjpMzTP6KFTLAPjDbno70vNBsw8dhQbLAb+NkfjQW85HVyRpFFL46YO7oBrs
+ 4kR3mZo0HEQuvVbGnUHIoOFzJS+WgC05yga4Yuo6FWEjjPRNeNG6ActD81Mj5JPW+nVa+PVfq
+ Kjuw9QYQywe2LPQHXX15g0sCrQgmYOcZnWNpJKb5DzS/Bu3ZW1eNNrbikaaM8CCRZBAUquun/
+ xKBm2JdEQPmAhA+hmDD/UtFkI1Vuer9dFFtLRX97g8bid6zQ89c44hFP5xTMCKaiBiLi/S0J5
+ J9pi/GdSnnhjCJvPSRue89cUOoK+0mbiC4OQJndlH4NGEDm7vwO3vBZ/Qo+4GaAMNIo2Y0um8
+ okaQzq/4Fhgl25ASgFKLNyr0oYwN4UKPmKdT/ZzT8YEXj5mdifZje+TjoJ6JcgA6FYNreQONQ
+ 50E6j1jU4olVBJT9HzQ9+XTavcWhQUeXZd/7wftiMY3GzapBmUZuZi8PiFtM6zIlCon+Ilvoc
+ UpRLeIBzDb4bMxDdfD/1xZQDx9MyqaCh/QhEJHQap8AkfoBTnI2vDIiG1CzGg7INEIC3wDYTk
+ ug9gLA==
 
-Hello Pavel,
-
-Isn't this simply the case of picking the gc2145 bits from Megis tree?
-
-https://megous.com/git/linux/tree/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi?h=orange-pi-5.10#n410
-
-[For the pinephone kernel development there's the option of building the 
-kernel using envkernel.sh in postmarketOS with 
-https://wiki.postmarketos.org/wiki/Compiling_kernels_with_envkernel.sh 
-which has some automation for building a kernel and pushing it to a 
-connected device. Ethernet and keyboard are replaced by ssh and 
-usb-networking in this case]
-
-Greetings,
-Martijn
-
-On 1/16/24 09:05, Pavel Machek wrote:
-> Hi!
->
-> In 6.8-rc0, driver for gc2145 (front camera on pinephone) was merged,
-> but we don't have corresponding dts entries. Does anyone have setup
-> where they can fix it easily?
->
+Am 16.01.24 um 09:05 schrieb Pavel Machek:
 > [If you have hints how to set-up pinephone for kernel development,
 > that would be welcome. Currently I have mobian with rather old 6.1
 > kernel on it, and lack of keyboard/ethernet makes things tricky.]
->
-> Best regards,
-> 								Pavel
+
+So far I'm mostly using "pmbootstrap build --src" [1], which essentially
+builds the pmOS kernel package but replaces the source with the tree I
+point at. I keep thinking I should try envkernel.sh [2], which is
+supposed to set up cross-compiling with the usual make flow. Maybe
+that'd work with bindeb-pkg?
+
+I don't know how well an unpatched mainline kernel would run, I'm
+currently using megi's 6.7 tree [3] plus the pmOS patches as the basis
+for my rtw88_8723cs development [4] (if you look at the history, it's
+v6.7 -> orangepi-6.7 -> pmos-6.7 -> rtw88_8723cs). I know megi's kernel
+has some DTS patches but haven't looked too deeply into the changes,
+maybe some could be upstreamed together with the camera part.
+
+Regards,
+Fiona
+
+[1] https://wiki.postmarketos.org/wiki/Pmbootstrap#Building_packages
+[2] https://wiki.postmarketos.org/wiki/Compiling_kernels_with_envkernel.sh
+[3] https://xff.cz/git/linux/log/?h=3Dorange-pi-6.7
+[4] https://github.com/airtower-luna/linux/commits/rtw88_8723cs/
+
 
