@@ -1,107 +1,86 @@
-Return-Path: <linux-media+bounces-3730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3731-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB8382E801
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 03:51:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A4782EAA9
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 09:06:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BA7A1F23719
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 02:51:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D95981F23F6C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 08:06:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E673729AB;
-	Tue, 16 Jan 2024 02:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B65591171A;
+	Tue, 16 Jan 2024 08:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="g14Iud0B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0EF7E
-	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 02:50:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37AEBC433F1
-	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 02:50:51 +0000 (UTC)
-Date: Tue, 16 Jan 2024 03:50:48 +0100
-Message-ID: <02a5f911c3f41b149f3f76189eb1c8ab.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63133125AF;
+	Tue, 16 Jan 2024 08:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 271DE1C0050; Tue, 16 Jan 2024 09:05:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1705392353;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=WBGF4gVOv/ed+hiuKKPnVWXHf5Olduk3NAKcNQHFWI8=;
+	b=g14Iud0BTZHwcMztQksSJ/I1rbO6CZCNN83gTEIUFpOh+fmjYRnLcQ0fD5nqVeOuY7Rwwd
+	zypw45YcVdLnYYqxN6QmNsPps6OL9DQ3t4Kf5eeuiEZLCC8zUXw9BUefS52iTvkalOmM96
+	kSYtoO7ZshCFd8vv3of8aansPysPUXs=
+Date: Tue, 16 Jan 2024 09:05:52 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: fiona.klute@gmx.de, phone-devel@vger.kernel.org, icenowy@aosc.xyz,
+	martijn@brixit.nl, megous@megous.com,
+	kernel list <linux-kernel@vger.kernel.org>
+Cc: alain.volmat@foss.st.com, sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org
+Subject: Front camera on pinephone
+Message-ID: <ZaY44AHISMIh8fHM@duo.ucw.cz>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="PNK15uz8i9vCbNLg"
+Content-Disposition: inline
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
 
-Results of the daily build of media_tree:
+--PNK15uz8i9vCbNLg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-date:			Tue Jan 16 03:00:19 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	60a031b64984ad4a219a13b0fe912746b586bb9b
-v4l-utils git hash:	794987bda0372c9ecc9d61d7f1c780b08b23627b
-edid-decode git hash:	6e4132123fae3d71ac9350d71a60a7a97020df13
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8549-gd0c870a7
-sparse version:		v0.5.0-8549-gd0c870a7
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+Hi!
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+In 6.8-rc0, driver for gc2145 (front camera on pinephone) was merged,
+but we don't have corresponding dts entries. Does anyone have setup
+where they can fix it easily?
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+[If you have hints how to set-up pinephone for kernel development,
+that would be welcome. Currently I have mobian with rather old 6.1
+kernel on it, and lack of keyboard/ethernet makes things tricky.]
 
-smatch: WARNINGS:
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+--PNK15uz8i9vCbNLg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+-----BEGIN PGP SIGNATURE-----
 
-date:			Tue Jan 16 03:20:37 CET 2024
-virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 2
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZaY44AAKCRAw5/Bqldv6
+8ur/AKC40reoiBx4FnM0vZDQviPtq1ZgzACgu0KdCzOKe5l/sx0jz9kLmwuwBO4=
+=uUgw
+-----END PGP SIGNATURE-----
 
-date:			Tue Jan 16 03:49:13 CET 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+--PNK15uz8i9vCbNLg--
 
