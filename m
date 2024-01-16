@@ -1,164 +1,121 @@
-Return-Path: <linux-media+bounces-3765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3766-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECCF82F377
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 18:48:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4805282F509
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 20:10:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2C1C2858F0
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 17:48:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6F2B1F24B9C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 19:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B0421CD07;
-	Tue, 16 Jan 2024 17:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 048271CFBD;
+	Tue, 16 Jan 2024 19:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="m7kURqDZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCyFyKX0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35931CABC
-	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 17:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64241CF9A;
+	Tue, 16 Jan 2024 19:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705427304; cv=none; b=rb5Bfwa0/kvgPLqjT1JFMhOmNlfBF4b2oXl97hgjzLHXCrrHPooXhlbOXwO7ROVhx4Gd5kit4ED3guziOKD2iaIShwYapZXrZmcSD/GPOXpIs6JET21WhuGIZG6MlGi24CZXRlxtEgYe+Sz2hjP6+magJ+i1Zmq7lIWWVMm0cDA=
+	t=1705432206; cv=none; b=oL7ymza18n/3I1uXuQOZ/p9Qkv2M8j4OSVAfkLqIRSS2bnO6xVUZuujZodNyqorRM0l33OP3E2ojG19jj0Fq8jkcquuTOwKgIbQQcEIv8WmZ9CkVV3sQpBlbVSmWvTzvD9/FM3pFk4Mzw2VJc21H1GrrnobIN2bBprz6nFCtVwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705427304; c=relaxed/simple;
-	bh=3l669g4NoRZ9xVYjzhhmOjr3VVg9tnqfJZSFpDnF6fc=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=MjkNuvNZBuw7NZZD4V9F13v28f8X4JdCMJKbgUP/0V1Ton8f68BYhVC9LtKIJyfd7MZFwNNASWzRc0OlRm8Vm7RnZNjAgOj0mZno4+DToP5NjdGXwEEva+lq15xOR0Bl8HXjqKjhOmfFEYiIjdx9KrrARA2pASKT/vJQlGlnF9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=m7kURqDZ; arc=none smtp.client-ip=213.167.242.64
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C668674;
-	Tue, 16 Jan 2024 18:47:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1705427230;
-	bh=3l669g4NoRZ9xVYjzhhmOjr3VVg9tnqfJZSFpDnF6fc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m7kURqDZojDp0AHMyvubHXKOb4JnBgH4SG908DU975eAAAV3WMF1XpjCUA15Ryda1
-	 ST3r3o+YBErkOQnLAjGlyJax6ddJ55ljCD42LHVYNPIoKh/USb1dWI2hEnmQtlYhBx
-	 pSFyxXQTUQnfmzv9IcSRi1puqG0ulBB3IEanjPlk=
-Date: Tue, 16 Jan 2024 19:48:23 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, bingbu.cao@intel.com,
-	linux-media@vger.kernel.org, andriy.shevchenko@linux.intel.com,
-	ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
-	tomi.valkeinen@ideasonboard.com, tfiga@chromium.org,
-	senozhatsky@chromium.org, andreaskleist@gmail.com,
-	bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-	hongju.wang@intel.com
-Subject: Re: [PATCH v3 00/15] Intel IPU6 and IPU6 input system drivers
-Message-ID: <20240116174823.GD16531@pendragon.ideasonboard.com>
-References: <20240111065531.2418836-1-bingbu.cao@intel.com>
- <7dcbe5a7-408b-477b-b02d-e39b9ad1ab74@redhat.com>
- <Zaa0vW_TZlee2-_b@kekkonen.localdomain>
- <008f30be-7d1b-498c-88fa-d8cf061e19fa@redhat.com>
+	s=arc-20240116; t=1705432206; c=relaxed/simple;
+	bh=sZ+MCwU6oGGcQWQZQIrYoyGgx0lzP8uZ1STGNge7O7o=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=TW3s7B6aI+8x/jDv7AZyRWowtvOoUQbNT9ik+YGfIq2MDoM0J1jaJfGuexTIlVumWsq1G7p/PMnvRZ/GDH1TjS86elGG0C2srVgWNTRJribKUQxdvB94I6Oxs4yrRlauBiEXZSgkjtuXSiGakmmB9fZVeoXg916/32udP23L+NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCyFyKX0; arc=none smtp.client-ip=198.175.65.10
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705432205; x=1736968205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sZ+MCwU6oGGcQWQZQIrYoyGgx0lzP8uZ1STGNge7O7o=;
+  b=DCyFyKX0lUmYZfZvrtWnfiIui47LRb/gAmD269Lq8Vfo+daixFwc0cOB
+   oq7qOlw2pJvnD98UGIK9imoEe47zkzDMxVUCCMk8Q0gMAS5p960M9KU13
+   2G/WRmMU6KVJ7/lOF8n73PhCyTrjIKdfXj/SLdvbcsS6vol/ArSuES1Y8
+   Xvp2xGyh/IQhPl0b9eAcfFSPJWw8Krn5UA/15PDSh77gla0vZ1buGH4j7
+   7bX9vQYh4cC9kzB6zWPGK4WegeQRR1FIiO2SJo9kr8iz06fQ8VgtrrI2v
+   L4TcVtJ0721I0A1sOvOwf/KhupV7iQduGExgwOuYljqNbjm0HNObm3wAi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="13313317"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="13313317"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 11:10:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="1115399966"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="1115399966"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 11:10:02 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 13DE611F86A;
+	Tue, 16 Jan 2024 21:09:59 +0200 (EET)
+Date: Tue, 16 Jan 2024 19:09:59 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vinay Varma <varmavinaym@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"open list:SONY IMX219 SENSOR DRIVER" <linux-media@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: i2c: imx219: implement the v4l2 selection api
+Message-ID: <ZabUh0ozhQq-GtEC@kekkonen.localdomain>
+References: <kv6yfyahbud474e75y4jaczg64pcowvlz7i52kikknuh6wje5o@4k2hikwcueoy>
+ <ZZu2C_lu6TAh-LOf@kekkonen.localdomain>
+ <3q6andka2su7i43xz2ok44ejvtb3hdjdn6xretyde7sdcvtd7l@lz2syngckivi>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <008f30be-7d1b-498c-88fa-d8cf061e19fa@redhat.com>
+In-Reply-To: <3q6andka2su7i43xz2ok44ejvtb3hdjdn6xretyde7sdcvtd7l@lz2syngckivi>
 
-On Tue, Jan 16, 2024 at 05:57:14PM +0100, Hans de Goede wrote:
-> Hi,
+Hi Jacopo,
+
+On Mon, Jan 08, 2024 at 10:19:35AM +0100, Jacopo Mondi wrote:
+> Hi Sakari, Vinay,
 > 
-> On 1/16/24 17:54, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Tue, Jan 16, 2024 at 05:12:50PM +0100, Hans de Goede wrote:
-> >> Hi,
-> >>
-> >> On 1/11/24 07:55, bingbu.cao@intel.com wrote:
-> >>> From: Bingbu Cao <bingbu.cao@intel.com>
-> >>>
-> >>> This patch series adds a driver for Intel IPU6 input system.
-> >>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
-> >>> device which can be found in some Intel Client Platforms. User can use
-> >>> IPU6 to capture images from MIPI camera sensors.
-> >>>
-> >>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
-> >>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
-> >>> the driver sets up a page table to allow IPU6 DMA to access the system
-> >>> memory.
-> >>>
-> >>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
-> >>> ---
-> >>> v2 -> v3:
-> >>>   - Add line-based metadata capture support
-> >>>   - Fix header files inclusion issues
-> >>>   - Fix the CSI2 timing calculation
-> >>>   - Fix crash when remove module during streaming
-> >>>   - Remove some unused code
-> >>>   - Use cross-referencing links in documentation
-> >>>   - Update Makefile to use ":=" for objects
-> >>>   - Fix several bugs and coding style issues
-> >>
-> >> So I've given this version a try on a Lenovo X1 yoga gen 8 with ov2740
-> >> sensor using the ongoing libcamera SoftISP work + this small patch
-> >> to enable the SoftISP on IPU6 :
-> >>
-> >> https://github.com/jwrdegoede/libcamera/commit/3172f3703cf7076390fbf86c3b43e388c2422b31
-> >>
-> >> things work fine when using patch 1-15 + 17 on top of 6.7, note
-> >> I'm skipping patch 16 ("media: ipu6/isys: support line-based
-> >> metadata capture support")" here!
-> >>
-> >> However when I instead apply the whole series on top of:
-> >> https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata
-> >>
-> >> Then things stop working, with the following errors
-> >> (I added extra error logging to figure out in which syscall
-> >> resetRoutingTable() fails and made libcamera ignore the routing
-> >> errors):
-> >>
-> >> [2:02:04.466310686] [8943] ERROR SimplePipeline simple.cpp:1443 GetRouting() failed -25
-> >> [2:02:04.466315975] [8943] ERROR SimplePipeline simple.cpp:1574 Failed to reset routes for /dev/v4l-subdev1: Inappropriate ioctl for device
-> >> [2:02:04.466366331] [8943] ERROR SimplePipeline simple.cpp:1443 GetRouting() failed -25
-> >> [2:02:04.466370025] [8943] ERROR SimplePipeline simple.cpp:1574 Failed to reset routes for /dev/v4l-subdev4: Inappropriate ioctl for device
-> >>  	[2:03:32.334708887] [8929]  INFO Camera camera.cpp:1183 configuring streams: (0) 1924x1088-BGR888
-> >> [2:03:32.335129023] [8943] ERROR SimplePipeline simple.cpp:1205 Unable to configure capture in 1932x1092-BA10 (got 0x0-@...)
-> >> Failed to configure camera.
-> >>
-> >> I was sorta assuming that the new metadata-stream support would
-> >> be backwards compatible for userspace without support for this,
-> >> so I think this is a bug ?
-> > 
-> > That's the intention when it comes to the kernel APIs indeed.
-> > 
-> > I wonder how the simple pipeline handler works with this, does it try to
-> > configure both streams all the way from the internal source pad to the
-> > video node? This will certainly fail without metadata support in the ISYS
-> > driver. Just guessing the cause though. An extra stream from the source pad
-> > won't fail pipeline validation.
-> > 
-> > I should be able to set up a system to test this, too.
-> 
-> I did include Bingbu's patch to add metadata to the isys driver for my
-> testing (and I also tried reverting just that patch). I think the issue
-> might be that libcamera already has some streams awareness based on
-> an older streams patch-set.
+>    a more foundamental question is how this usage of the crop/compose
+> API plays with the fact we enumerate only a limited set of frame
+> sizes, and now you can get an arbitrary output size. We could get away
+> by modifying enum_frame_sizes to return a size range (or ranges) but I
+> wonder if it wouldn't be better to introduce an internal pad to
+> represent the pixel array where to apply TGT_CROP in combination with
+> a source pad where we could apply TGT_COMPOSE and an output format.
 
-Correct. It uses the G_ROUTING and S_ROUTING ioctls, and those have
-chenged in the latest kernel patch series.
+My earlier review wasn't focussed on the interface at all...
 
-The simple pipeline handler doesn't configure routing as such, it gets
-the default routes with G_ROUTING(TRY) if the device advertises routing
-support, and calls S_ROUTING(ACTIVE) to reset the routes to the default.
-It then uses the routes to walk the pipeline, but doesn't change them.
+To depart from the current restrictions on single-subdev sensor drivers,
+this is one option.
 
-> I'll retest when Laurent's branch for this is ready.
+Sensors implement various steps in different orders and different drivers
+have different capabilities, too. Mainly there are two classes: freely
+configurable drivers such cas CCS and then register list based drivers
+where virtually any dependencies between configurations are possible.
+
+We probably can't support both classes with the same API semantics and due
+to hardware differencies. The sensor UAPI will be less than uniform it has
+been in the past but I don't think this should be an issue.
+
+I wonder how much common understanding we have at this point on how this
+API would look like. Probably not much?
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
 
