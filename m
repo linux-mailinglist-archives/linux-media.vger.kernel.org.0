@@ -1,157 +1,153 @@
-Return-Path: <linux-media+bounces-3756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3757-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135C582F150
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 16:21:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D58D182F22C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 17:13:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 903B01F246A0
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 15:21:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D409B1C235F1
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 16:13:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 842E81C28F;
-	Tue, 16 Jan 2024 15:21:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD1FF1C69E;
+	Tue, 16 Jan 2024 16:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VgMJvCMZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3A71C287
-	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 15:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rPlD8-0000tu-OV; Tue, 16 Jan 2024 16:18:42 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rPlD0-000Gxt-VX; Tue, 16 Jan 2024 16:18:34 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rPlD0-0011AW-2X;
-	Tue, 16 Jan 2024 16:18:34 +0100
-Date: Tue, 16 Jan 2024 16:18:34 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Heiko Stuebner <heiko@sntech.de>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, 
-	dri-devel@lists.freedesktop.org, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Ronald Wahl <ronald.wahl@raritan.com>, Stefan Schmidt <stefan@datenfreihafen.org>, 
-	libertas-dev@lists.infradead.org, Javier Martinez Canillas <javierm@redhat.com>, 
-	Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org, 
-	kernel@pengutronix.de, linux-media@vger.kernel.org, linux-wpan@vger.kernel.org, 
-	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>, linux-doc@vger.kernel.org, Dmitry Antipov <dmantipov@yandex.ru>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Eric Dumazet <edumazet@google.com>, 
-	James Clark <james.clark@arm.com>, Guenter Roeck <groeck@chromium.org>, 
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>, chrome-platform@lists.linux.dev, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Helge Deller <deller@gmx.de>, Wu Hao <hao.wu@intel.com>, 
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	linux-arm-msm@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	Bjorn Helgaas <bhelgaas@google.com>, Michal Simek <michal.simek@amd.com>, 
-	linux-arm-kernel@lists.infradead.org, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	"David S. Miller" <davem@davemloft.net>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	linux-integrity@vger.kernel.org, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Herve Codina <herve.codina@bootlin.com>, linux-iio@vger.kernel.org, Tom Rix <trix@redhat.com>, 
-	linux-fpga@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-staging@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	linux-input@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Yang Yingliang <yangyingliang@huawei.com>, Moritz Fischer <mdf@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Rayyan Ansari <rayyan@ansari.sh>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	linux-mmc@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Martin Tuma <martin.tuma@digiteqautomotive.com>, Xu Yilun <yilun.xu@intel.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Peter Huewe <peterhuewe@gmx.de>, Sergey Kozlov <serjk@netup.ru>, 
-	Richard Weinberger <richard@nod.at>, Jason Gunthorpe <jgg@ziepe.ca>, Jakub Kicinski <kuba@kernel.org>, 
-	Kalle Valo <kvalo@kernel.org>, Johan Hovold <johan@kernel.org>, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, linux-mediatek@lists.infradead.org, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/33] spi: get rid of some legacy macros
-Message-ID: <l4azekfj7hduzi4wcyphispst46fi3m5ams65nzer2ai6upoxw@3p2uki626ytt>
-References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
- <3404c9af-6c11-45d7-9ba4-a120e21e407e@sirena.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852651C68D
+	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 16:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705421587;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H1fvDozEzKE18GLP3W2r5g1aaFs3dE5gk/v0J4F9UBc=;
+	b=VgMJvCMZaZS5kg9Xi+qBdAJM3EESgwQkIs4p2DBN8X1pIk23hI4LqXdF5ORi7F21x8yA1W
+	dx/n7S0lW39m/gKvHkrqIIAYleyec+MO+WL+NzbfvtS4eLA7k206+NvzY9XHj2EMomludJ
+	dCqIuDTu0I3d801c2GRBxsbRjkBuPxA=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-153-fDqMuoJUOfyTmN8Rf5EB2A-1; Tue, 16 Jan 2024 11:12:56 -0500
+X-MC-Unique: fDqMuoJUOfyTmN8Rf5EB2A-1
+Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-50eb710ee18so8806507e87.2
+        for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 08:12:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705421572; x=1706026372;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=H1fvDozEzKE18GLP3W2r5g1aaFs3dE5gk/v0J4F9UBc=;
+        b=KN9DnTUKJT3q9ZmMsuF3whHRm6TjeP+GOK/pVi0zleztcG8TYUT+TZOWnbPmoZQgee
+         GOBtR0N/wwBEmVRplGZxqgoS/z3v3fDG/++yqW0K0AdkeA11+clVEkd7xR6tl/tgpWZu
+         3MelZ+tYbQ648KQrks3YklLRFKSqc/z0MmI80wIsqO8L1bEr+tBOzMbD5LDR40fnmKoP
+         nIC7jF5zxJXoKpnKdR/9FBg0919WH70xWcQod6I35kpMzo5Mmrti5GG+Xp/QrjUNlSiO
+         cUoCub9TfsreHEhdvkB3GMG8z320iPoEvCcwHQrkz+oX46wNrYGkjQuCiHrK+ZmafGFn
+         UYzw==
+X-Gm-Message-State: AOJu0YwsVASqCfdhzUtSHoxXIPEx3rs7V/iLhZ1+AB/aIi7RdCNHEJPb
+	3v0IuPLTpFOoEsh1FWAm69j3wVSA0V+Bdo7MYJy3ceqboqTlQ8Do19ifGw3ytPEWCsNLKBG7XPC
+	3qMrpl2spEyhuXflMmqhJODbnwFTBdyE=
+X-Received: by 2002:a05:6512:138d:b0:50e:7225:38fd with SMTP id fc13-20020a056512138d00b0050e722538fdmr4462402lfb.35.1705421572218;
+        Tue, 16 Jan 2024 08:12:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGer+NiwAIYcm7t04myYoBCnJ3Iac6nI/KSPS61aOMp0zH9JVX7G2DbB+Ar9e9bxE4lgHYC+A==
+X-Received: by 2002:a05:6512:138d:b0:50e:7225:38fd with SMTP id fc13-20020a056512138d00b0050e722538fdmr4462381lfb.35.1705421571886;
+        Tue, 16 Jan 2024 08:12:51 -0800 (PST)
+Received: from ?IPV6:2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029? (2001-1c00-2a07-3a01-06c4-9fb2-0fbc-7029.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029])
+        by smtp.gmail.com with ESMTPSA id m13-20020a50998d000000b005551387bb85sm7094227edb.94.2024.01.16.08.12.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jan 2024 08:12:51 -0800 (PST)
+Message-ID: <7dcbe5a7-408b-477b-b02d-e39b9ad1ab74@redhat.com>
+Date: Tue, 16 Jan 2024 17:12:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ojpgqs276usvjple"
-Content-Disposition: inline
-In-Reply-To: <3404c9af-6c11-45d7-9ba4-a120e21e407e@sirena.org.uk>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 00/15] Intel IPU6 and IPU6 input system drivers
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+ sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+ andriy.shevchenko@linux.intel.com, hdegoede@redhat.com
+Cc: ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
+ tomi.valkeinen@ideasonboard.com, tfiga@chromium.org,
+ senozhatsky@chromium.org, andreaskleist@gmail.com,
+ bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com, hongju.wang@intel.com
+References: <20240111065531.2418836-1-bingbu.cao@intel.com>
+Content-Language: en-US, nl
+In-Reply-To: <20240111065531.2418836-1-bingbu.cao@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
---ojpgqs276usvjple
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/11/24 07:55, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+> 
+> This patch series adds a driver for Intel IPU6 input system.
+> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+> device which can be found in some Intel Client Platforms. User can use
+> IPU6 to capture images from MIPI camera sensors.
+> 
+> IPU6 has its own firmware which exposes ABIs to driver, and communicates
+> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
+> the driver sets up a page table to allow IPU6 DMA to access the system
+> memory.
+> 
+> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
+> ---
+> v2 -> v3:
+>   - Add line-based metadata capture support
+>   - Fix header files inclusion issues
+>   - Fix the CSI2 timing calculation
+>   - Fix crash when remove module during streaming
+>   - Remove some unused code
+>   - Use cross-referencing links in documentation
+>   - Update Makefile to use ":=" for objects
+>   - Fix several bugs and coding style issues
 
-Hello Mark,
+So I've given this version a try on a Lenovo X1 yoga gen 8 with ov2740
+sensor using the ongoing libcamera SoftISP work + this small patch
+to enable the SoftISP on IPU6 :
 
-On Tue, Jan 16, 2024 at 02:40:39PM +0000, Mark Brown wrote:
-> On Mon, Jan 15, 2024 at 09:12:46PM +0100, Uwe Kleine-K=F6nig wrote:
->=20
-> > In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
-> > some functions were renamed. Further some compat defines were introduced
-> > to map the old names to the new ones.
->=20
-> > Patch #18 and #19 touch the same driver, otherwise the patches #1 - #31
-> > are pairwise independent and could be applied by their respective
-> > maintainers. The alternative is to let all patches go via the spi tree.
-> > Mark, what's your preference here?
->=20
-> I don't have a strong preference here, I'm happy to take all the patches
-> if the maintainers for the other subsystem are OK with that - ideally
-> I'd apply things at -rc1 but the timeline is a bit tight there.  I think
-> my plan here unless anyone objects (or I notice something myself) will
-> be to queue things at -rc3, please shout if that doesn't seem
-> reasonable.
+https://github.com/jwrdegoede/libcamera/commit/3172f3703cf7076390fbf86c3b43e388c2422b31
 
-=46rom my side there is no rush, we lived with these defines since
-4.13-rc1. Applying them during the next merge window is fine for me.
+things work fine when using patch 1-15 + 17 on top of 6.7, note
+I'm skipping patch 16 ("media: ipu6/isys: support line-based
+metadata capture support")" here!
 
-Anyhow, I intend to resend the series for the feedback I received after
--rc1. Up to you when you want to apply it. Watching out for offending
-patches using lore shouldn't be a big thing and I can do that.
+However when I instead apply the whole series on top of:
+https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata
 
-Best regards
-Uwe
+Then things stop working, with the following errors
+(I added extra error logging to figure out in which syscall
+resetRoutingTable() fails and made libcamera ignore the routing
+errors):
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+[2:02:04.466310686] [8943] ERROR SimplePipeline simple.cpp:1443 GetRouting() failed -25
+[2:02:04.466315975] [8943] ERROR SimplePipeline simple.cpp:1574 Failed to reset routes for /dev/v4l-subdev1: Inappropriate ioctl for device
+[2:02:04.466366331] [8943] ERROR SimplePipeline simple.cpp:1443 GetRouting() failed -25
+[2:02:04.466370025] [8943] ERROR SimplePipeline simple.cpp:1574 Failed to reset routes for /dev/v4l-subdev4: Inappropriate ioctl for device
+ 	[2:03:32.334708887] [8929]  INFO Camera camera.cpp:1183 configuring streams: (0) 1924x1088-BGR888
+[2:03:32.335129023] [8943] ERROR SimplePipeline simple.cpp:1205 Unable to configure capture in 1932x1092-BA10 (got 0x0-@...)
+Failed to configure camera.
 
---ojpgqs276usvjple
-Content-Type: application/pgp-signature; name="signature.asc"
+I was sorta assuming that the new metadata-stream support would
+be backwards compatible for userspace without support for this,
+so I think this is a bug ?
 
------BEGIN PGP SIGNATURE-----
+I would be happy to test any patches to fix this.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWmnkkACgkQj4D7WH0S
-/k7Jlgf/bxg8PBfYKKX7PvDPgT3ZVpLLtWReyLQDBjEkSddRCSKzwPE5dQsE6TGF
-pkpgz7Za7CnFfHKtW25alERgnrqA9inDitGvBoBIVgSHPf6GJsGOPVLhziEMU9t1
-tBlCUkInYGMvS/Gn5tOoSjNLmapgV8tiNzeos6MHWZzdKpWIzj6SBNH72Bof8kUq
-R287GggNJ2PLZa24vL2Pct4BZIfpbD+n1o6O62edEmpGe17xuDkSNfjirG7MojjX
-vAtAlEpsLidT0eabHr4XkgyBSQZLwlh1OdReMiXhtK5GM3Oh9R4Y2XVhUq83hKSl
-5zzsBEXwEe1w3pKgGJnCD1jxAAcJ9A==
-=Sz6E
------END PGP SIGNATURE-----
+Regards,
 
---ojpgqs276usvjple--
+Hans
+
 
