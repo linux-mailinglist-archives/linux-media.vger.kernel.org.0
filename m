@@ -1,28 +1,46 @@
-Return-Path: <linux-media+bounces-3744-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3745-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D2082ECA1
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 11:18:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FBB82ECDC
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 11:43:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B3225B226F7
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 10:18:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A30C28519C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 10:43:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E364134D8;
-	Tue, 16 Jan 2024 10:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 709B113AE4;
+	Tue, 16 Jan 2024 10:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="R0koWecI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43F9117594;
-	Tue, 16 Jan 2024 10:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id 3A4D663AC3;
-	Tue, 16 Jan 2024 11:17:51 +0100 (CET)
-Message-ID: <dd1e05f3-dab6-41ac-8813-92a757f4badb@gpxsee.org>
-Date: Tue, 16 Jan 2024 11:17:49 +0100
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DADB134DA;
+	Tue, 16 Jan 2024 10:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1705401777;
+	bh=QheYevpPKWLtwlqs9yJuw0+el/TYi4lzg9WtACT2oa8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=R0koWecIS+76AQMz2BNKVgqJsSFj7UiiAkg4hGSMbxc3bxLcahgGOP/b61Fwim6/H
+	 8+UHCB1pGbqQ6gBO2hNn4LrDiMKyo09Tea1LjI3A8By+SmZgfEs076BEUXGAUVJy4m
+	 vOpEebvFnrkzqVQ0VDjPq1SLR6M5gm0HIp696729ajm7ZdztZOEPSsWj+vJm1uhNHl
+	 ZhxhiglvdpDJJ4ehGfwX+mEyRt1jH4qobhBClIWNKjGV1IOga8NpTIdRReNXqAOJGi
+	 uLi5LNf2tBBD76jvnE9MI7HVbEK9VfE1Y0AxAj3lK2LDR3ChxSVJBSuePHiuAtDOBx
+	 4oAW2naBxPK6A==
+Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4CF9437811F1;
+	Tue, 16 Jan 2024 10:42:57 +0000 (UTC)
+Message-ID: <60c942d8-e0bd-4609-8fc4-1e80102ac051@collabora.com>
+Date: Tue, 16 Jan 2024 11:42:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -30,88 +48,174 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/33] media: mgb4: Follow renaming of SPI "master" to
- "controller"
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-spi@vger.kernel.org, kernel@pengutronix.de,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
- <6c6e38ee916b4268c617d2603cfbe01ae083ecea.1705348269.git.u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v16 7/8] media: v4l2: Add mem2mem helpers for DELETE_BUFS
+ ioctl
 Content-Language: en-US
-From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <6c6e38ee916b4268c617d2603cfbe01ae083ecea.1705348269.git.u.kleine-koenig@pengutronix.de>
+To: Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
+ <20231215090813.15610-8-benjamin.gaignard@collabora.com>
+ <6b0e4c6b-493c-4916-ab3c-deeeb725fdec@xs4all.nl>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <6b0e4c6b-493c-4916-ab3c-deeeb725fdec@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 15. 01. 24 21:12, Uwe Kleine-König wrote:
-> In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
-> some functions and struct members were renamed. To not break all drivers
-> compatibility macros were provided.
-> 
-> To be able to remove these compatibility macros push the renaming into
-> this driver.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   drivers/media/pci/mgb4/mgb4_core.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
-> index 5bfb8a06202e..9bcf10a77fd3 100644
-> --- a/drivers/media/pci/mgb4/mgb4_core.c
-> +++ b/drivers/media/pci/mgb4/mgb4_core.c
-> @@ -144,7 +144,7 @@ static int match_spi_adap(struct device *dev, void *data)
->   	return to_spi_device(dev) ? 1 : 0;
->   }
->   
-> -static struct spi_master *get_spi_adap(struct platform_device *pdev)
-> +static struct spi_controller *get_spi_adap(struct platform_device *pdev)
->   {
->   	struct device *dev;
->   
-> @@ -152,7 +152,7 @@ static struct spi_master *get_spi_adap(struct platform_device *pdev)
->   	dev = device_find_child(&pdev->dev, NULL, match_spi_adap);
->   	mutex_unlock(&pdev->dev.mutex);
->   
-> -	return dev ? container_of(dev, struct spi_master, dev) : NULL;
-> +	return dev ? container_of(dev, struct spi_controller, dev) : NULL;
->   }
->   
->   static int init_spi(struct mgb4_dev *mgbdev, u32 devid)
-> @@ -179,7 +179,7 @@ static int init_spi(struct mgb4_dev *mgbdev, u32 devid)
->   	};
->   	struct pci_dev *pdev = mgbdev->pdev;
->   	struct device *dev = &pdev->dev;
-> -	struct spi_master *master;
-> +	struct spi_controller *ctlr;
->   	struct spi_device *spi_dev;
->   	u32 irq;
->   	int rv, id;
-> @@ -207,8 +207,8 @@ static int init_spi(struct mgb4_dev *mgbdev, u32 devid)
->   		return PTR_ERR(mgbdev->spi_pdev);
->   	}
->   
-> -	master = get_spi_adap(mgbdev->spi_pdev);
-> -	if (!master) {
-> +	ctlr = get_spi_adap(mgbdev->spi_pdev);
-> +	if (!ctlr) {
->   		dev_err(dev, "failed to get SPI adapter\n");
->   		rv = -EINVAL;
->   		goto err_pdev;
-> @@ -242,8 +242,8 @@ static int init_spi(struct mgb4_dev *mgbdev, u32 devid)
->   
->   	spi_info.platform_data = &mgbdev->flash_data;
->   
-> -	spi_dev = spi_new_device(master, &spi_info);
-> -	put_device(&master->dev);
-> +	spi_dev = spi_new_device(ctlr, &spi_info);
-> +	put_device(&ctlr->dev);
->   	if (!spi_dev) {
->   		dev_err(dev, "failed to create MTD device\n");
->   		rv = -EINVAL;
 
-Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Le 15/01/2024 à 17:50, Hans Verkuil a écrit :
+> On 15/12/2023 10:08, Benjamin Gaignard wrote:
+>> Create v4l2-mem2mem helpers for VIDIOC_DELETE_BUFS ioctl.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   .../media/platform/verisilicon/hantro_drv.c   |  1 +
+>>   .../media/platform/verisilicon/hantro_v4l2.c  |  1 +
+>>   drivers/media/test-drivers/vim2m.c            |  2 ++
+> The driver changes should be done in a separate patch.
+>
+>>   drivers/media/v4l2-core/v4l2-mem2mem.c        | 20 +++++++++++++++++++
+>>   include/media/v4l2-mem2mem.h                  | 12 +++++++++++
+>>   5 files changed, 36 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+>> index db3df6cc4513..f6b0a676a740 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+>> @@ -248,6 +248,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+>>   	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>>   	dst_vq->lock = &ctx->dev->vpu_mutex;
+>>   	dst_vq->dev = ctx->dev->v4l2_dev.dev;
+>> +	src_vq->supports_delete_bufs = true;
+> Isn't this something that can be supported for both queues?
 
+For me it isn't useful to support it on the both queues because
+only capture queue will store unused buffers after a dynamic
+resolution change. Output queue buffers are smaller and always
+recycled even after a dynamic resolution change.
+
+>
+>>   
+>>   	return vb2_queue_init(dst_vq);
+>>   }
+>> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> index 941fa23c211a..34eab90e8a42 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> @@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>>   	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
+>>   	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
+>>   	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
+>> +	.vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
+>>   	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
+>>   
+>>   	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>> diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
+>> index 3e3b424b4860..17213ce42059 100644
+>> --- a/drivers/media/test-drivers/vim2m.c
+>> +++ b/drivers/media/test-drivers/vim2m.c
+>> @@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
+>>   	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
+>>   	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
+>>   	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
+>> +	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
+>>   	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
+>>   
+>>   	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
+>> @@ -1133,6 +1134,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+>>   	dst_vq->mem_ops = &vb2_vmalloc_memops;
+>>   	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>>   	dst_vq->lock = &ctx->vb_mutex;
+>> +	dst_vq->supports_delete_bufs = true;
+> Same question.
+
+I want to test something similar to what the real use case does.
+
+>
+>>   
+>>   	return vb2_queue_init(dst_vq);
+>>   }
+>> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+>> index 9e983176542b..dbc4711fc556 100644
+>> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+>> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+>> @@ -834,6 +834,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+>>   }
+>>   EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
+>>   
+>> +int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+>> +			 struct v4l2_delete_buffers *d)
+>> +{
+>> +	struct vb2_queue *vq;
+>> +
+>> +	vq = v4l2_m2m_get_vq(m2m_ctx, d->type);
+> These 3 lines can be combined into one.
+>
+>> +
+>> +	return vb2_delete_bufs(vq, d);
+>> +}
+>> +EXPORT_SYMBOL_GPL(v4l2_m2m_delete_bufs);
+> I'm not sure we need to export this. Drivers should really just use the
+> v4l2_m2m_ioctl_ variant below.
+
+ok
+
+regards,
+Benjamin
+
+>
+>> +
+>>   int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+>>   			 struct v4l2_create_buffers *create)
+>>   {
+>> @@ -1380,6 +1391,15 @@ int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
+>>   }
+>>   EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_create_bufs);
+>>   
+>> +int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
+>> +			       struct v4l2_delete_buffers *d)
+>> +{
+>> +	struct v4l2_fh *fh = file->private_data;
+>> +
+>> +	return v4l2_m2m_delete_bufs(file, fh->m2m_ctx, d);
+>> +}
+>> +EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_delete_bufs);
+>> +
+>>   int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
+>>   				struct v4l2_buffer *buf)
+>>   {
+>> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+>> index 7f1af1f7f912..5314952ad3d5 100644
+>> --- a/include/media/v4l2-mem2mem.h
+>> +++ b/include/media/v4l2-mem2mem.h
+>> @@ -388,6 +388,16 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+>>   int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+>>   			 struct v4l2_buffer *buf);
+>>   
+>> +/**
+>> + * v4l2_m2m_delete_bufs() - delete buffers from the queue
+>> + *
+>> + * @file: pointer to struct &file
+>> + * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
+>> + * @d: pointer to struct &v4l2_delete_buffers
+>> + */
+>> +int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+>> +			 struct v4l2_delete_buffers *d);
+>> +
+>>   /**
+>>    * v4l2_m2m_create_bufs() - create a source or destination buffer, depending
+>>    * on the type
+>> @@ -867,6 +877,8 @@ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
+>>   				struct v4l2_requestbuffers *rb);
+>>   int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
+>>   				struct v4l2_create_buffers *create);
+>> +int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
+>> +			       struct v4l2_delete_buffers *d);
+>>   int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
+>>   				struct v4l2_buffer *buf);
+>>   int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
+> Regards,
+>
+> 	Hans
+>
 
