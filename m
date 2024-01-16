@@ -1,242 +1,124 @@
-Return-Path: <linux-media+bounces-3746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8081D82ED56
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 12:04:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1FB82EDB0
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 12:27:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D5BAFB22CBE
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 11:04:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3EAB01C22DAE
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jan 2024 11:27:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E22011A593;
-	Tue, 16 Jan 2024 11:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03F581B803;
+	Tue, 16 Jan 2024 11:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3DuozxN"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="Tc2nwIAn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780071A581
-	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 11:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705403044; x=1736939044;
-  h=date:from:to:cc:subject:message-id;
-  bh=1WnVMVF8h44xl3i4cgbFkDF1irZbnEn/Xchk9j9IgSA=;
-  b=J3DuozxNiVLsRJJn7fL0L6DkNS6FRKFVFBMJsLICeXudFjuMsErMkL5T
-   6smm3ZM5IsFKZbTXISH4/dm35X4uqi1UGoxzLJTqr0abEqK1VDDgUDe7G
-   a3bMXJx3lWQttD6R+nphL8WQ30h3dOEM9l8hXyj6/6mXAKShPp1urikum
-   wiW1sS73s6ETanJ4563zhBBmtrQNnbGadHHr/qx2vyFTAW7ElSS0wj49z
-   0UdO2ZlyP2Ys8Ogs5mRnCaxm7358RoH3LH1Z6mI42MBfoI9KfT2j8jgUN
-   KJNnYtJPBX/KpCZ6bb17OhUjtZoNl3ulLEf2QgY5VAFf/B5WWqBMGqSHk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="390279823"
-X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="390279823"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 03:04:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="784095628"
-X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="784095628"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 16 Jan 2024 03:04:02 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPhEd-0000ac-25;
-	Tue, 16 Jan 2024 11:03:59 +0000
-Date: Tue, 16 Jan 2024 19:03:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 203a4330052c6dad2241f25262e213a90f0e1599
-Message-ID: <202401161931.FgsKdl4S-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C54F1B7F3
+	for <linux-media@vger.kernel.org>; Tue, 16 Jan 2024 11:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4TDmvQ5MwjzyS4;
+	Tue, 16 Jan 2024 13:27:30 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1705404451;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4I8N1ltAq91SC1+mE1OZ0/Uc32zCT613/VH5/DBnJLc=;
+	b=Tc2nwIAnTum+1S3tWEVam4J43PThUhW+pGcpeDtyG55nIX1uu5pAIX4jdh4gAi/Yhp7Sk7
+	bUO5HC/HNDkPaD+QJZRs03RmCJOHSBKysIViCajuNrpaA8vX/GAMmmLV7mNh24OwZ0/kU0
+	vXzr6iREVmzVHHJlAYgYHSFgJT0dc/8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1705404451;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4I8N1ltAq91SC1+mE1OZ0/Uc32zCT613/VH5/DBnJLc=;
+	b=b4Hy0vXa43E3R2085jbpAVTcPKduAhFApWmIBiaVL6805kl9zqFeDO+elKbYQ9ITKTC7be
+	JdO85Jyp7z5v2seYIes2Z8xt+NAoRlASPSlTZTIZ3ulqjOIbaWuFSuqFqIL869z629jW45
+	S2DUx//bZQL38cJxLOIdzbMP+LwquYg=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1705404451; a=rsa-sha256; cv=none;
+	b=w+jl7eyDJDOw9nI5ecJw6Z70iZTkqnhx+1s5o1VRc2oi+WGEUgZl/2HNOcJ6PS8IjD2GRI
+	s2ghsyqirDBBoyIWu3WBYO57Wswrv/PLifsZJd/OlnwaTMOBOoV6sgqV1PE6ruZTmQZaHU
+	F0upxGfcSFKzdu19EsMzYwn8m3taa5E=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A4F59634C93;
+	Tue, 16 Jan 2024 13:27:29 +0200 (EET)
+Date: Tue, 16 Jan 2024 11:27:29 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Frieder Schrempf <frieder.schrempf@kontron.de>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Marek Vasut <marex@denx.de>,
+	Martin Kepplinger <martin.kepplinger@puri.sm>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Purism Kernel Team <kernel@puri.sm>
+Subject: Re: [PATCH v2 1/7] media: mc: Add local pad to pipeline regardless
+ of the link state
+Message-ID: <ZaZoIXiM0XGDchIo@valkosipuli.retiisi.eu>
+References: <20240116084240.14228-1-laurent.pinchart@ideasonboard.com>
+ <20240116084240.14228-2-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240116084240.14228-2-laurent.pinchart@ideasonboard.com>
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 203a4330052c6dad2241f25262e213a90f0e1599  media: Documentation: Rework CCS driver documentation
+Hi Laurent,
 
-elapsed time: 1458m
+On Tue, Jan 16, 2024 at 10:42:34AM +0200, Laurent Pinchart wrote:
+> When building pipelines by following links, the
+> media_pipeline_explore_next_link() function only traverses enabled
+> links. The remote pad of a disabled link is not added to the pipeline,
+> and neither is the local pad. While the former is correct as disabled
+> links should not be followed, not adding the local pad breaks processing
+> of the MEDIA_PAD_FL_MUST_CONNECT flag.
+> 
+> The MEDIA_PAD_FL_MUST_CONNECT flag is checked in the
+> __media_pipeline_start() function that iterates over all pads after
+> populating the pipeline. If the pad is not present, the check gets
+> skipped, rendering it useless.
+> 
+> Fix this by adding the local pad of all links regardless of their state,
+> only skipping the remote pad for disabled links.
+> 
+> Cc: Alexander Shiyan <eagle.alexander923@gmail.com>
+> Fixes: ae219872834a ("media: mc: entity: Rewrite media_pipeline_start()")
+> Reported-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> Closes: https://lore.kernel.org/linux-media/7658a15a-80c5-219f-2477-2a94ba6c6ba1@kontron.de
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-configs tested: 160
-configs skipped: 1
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                               defconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                      axs103_smp_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240116   gcc  
-arc                   randconfig-002-20240116   gcc  
-arm                               allnoconfig   gcc  
-arm                   randconfig-001-20240116   clang
-arm                   randconfig-002-20240116   clang
-arm                   randconfig-003-20240116   clang
-arm                   randconfig-004-20240116   clang
-arm                             rpc_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240116   clang
-arm64                 randconfig-002-20240116   clang
-arm64                 randconfig-003-20240116   clang
-arm64                 randconfig-004-20240116   clang
-csky                              allnoconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240116   gcc  
-csky                  randconfig-002-20240116   gcc  
-hexagon                          allmodconfig   clang
-hexagon                          allyesconfig   clang
-hexagon               randconfig-001-20240116   clang
-hexagon               randconfig-002-20240116   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386                                defconfig   gcc  
-i386                  randconfig-011-20240116   gcc  
-i386                  randconfig-012-20240116   gcc  
-i386                  randconfig-013-20240116   gcc  
-i386                  randconfig-014-20240116   gcc  
-i386                  randconfig-015-20240116   gcc  
-i386                  randconfig-016-20240116   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240116   gcc  
-loongarch             randconfig-002-20240116   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                         amcore_defconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                     decstation_defconfig   gcc  
-mips                      loongson3_defconfig   gcc  
-mips                          rm200_defconfig   gcc  
-mips                         rt305x_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240116   gcc  
-nios2                 randconfig-002-20240116   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc                  or1klitex_defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240116   gcc  
-parisc                randconfig-002-20240116   gcc  
-parisc64                            defconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                      ep88xc_defconfig   gcc  
-powerpc                     ksi8560_defconfig   gcc  
-powerpc                 linkstation_defconfig   gcc  
-powerpc                      ppc40x_defconfig   gcc  
-powerpc                      ppc6xx_defconfig   gcc  
-powerpc               randconfig-001-20240116   clang
-powerpc               randconfig-002-20240116   clang
-powerpc               randconfig-003-20240116   clang
-powerpc64             randconfig-001-20240116   clang
-powerpc64             randconfig-002-20240116   clang
-powerpc64             randconfig-003-20240116   clang
-riscv                            allmodconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20240116   clang
-riscv                 randconfig-002-20240116   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20240116   gcc  
-s390                  randconfig-002-20240116   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                         apsh4a3a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          r7785rp_defconfig   gcc  
-sh                    randconfig-001-20240116   gcc  
-sh                    randconfig-002-20240116   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                           se7705_defconfig   gcc  
-sh                           se7722_defconfig   gcc  
-sh                   secureedge5410_defconfig   gcc  
-sh                     sh7710voipgw_defconfig   gcc  
-sh                   sh7770_generic_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc64                          alldefconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240116   gcc  
-sparc64               randconfig-002-20240116   gcc  
-um                               allmodconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240116   clang
-um                    randconfig-002-20240116   clang
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240116   clang
-x86_64       buildonly-randconfig-002-20240116   clang
-x86_64       buildonly-randconfig-003-20240116   clang
-x86_64       buildonly-randconfig-004-20240116   clang
-x86_64       buildonly-randconfig-005-20240116   clang
-x86_64       buildonly-randconfig-006-20240116   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-011-20240116   clang
-x86_64                randconfig-012-20240116   clang
-x86_64                randconfig-013-20240116   clang
-x86_64                randconfig-014-20240116   clang
-x86_64                randconfig-015-20240116   clang
-x86_64                randconfig-016-20240116   clang
-x86_64                randconfig-071-20240116   clang
-x86_64                randconfig-072-20240116   clang
-x86_64                randconfig-073-20240116   clang
-x86_64                randconfig-074-20240116   clang
-x86_64                randconfig-075-20240116   clang
-x86_64                randconfig-076-20240116   clang
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-xtensa                randconfig-001-20240116   gcc  
-xtensa                randconfig-002-20240116   gcc  
+Could you add Cc: stable when sending the PR? This should be applied to 6.1
+and later.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Sakari Ailus
 
