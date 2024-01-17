@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-3815-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3816-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F13830905
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 16:03:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C545F830906
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 16:03:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B09081C21A08
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 15:03:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DBF711C219C6
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 15:03:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A3272137C;
-	Wed, 17 Jan 2024 15:02:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5E2921103;
+	Wed, 17 Jan 2024 15:02:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97A120DC9
-	for <linux-media@vger.kernel.org>; Wed, 17 Jan 2024 15:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BCF20DC9
+	for <linux-media@vger.kernel.org>; Wed, 17 Jan 2024 15:02:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705503766; cv=none; b=vA3nuHiCEjEMmZQOrU7uqWAtlWyYpYUdLVplMBxVf7PQ295BZQHRKzNDhKHcDa2uqqEDMGvIxdEcgqq8R+M0413PvRs0OimOTZoi9GYWgIwWj0yIvg6koiPuwZCHXDyuhsxO0dSyBPMCWsQmAP8ytK1hhMfqUA31UAJGWyRH++c=
+	t=1705503768; cv=none; b=fa7xaqqMp2nHCmGcNGlHtlEQTYXWYZjA3uqCuROTaRCOnOEw0Ga7e9+s2BAOD5I+tqUPBGzCMT4Wg1u1b50KP0BeHcWi0fGpP2CbF/HLvnktqnFkkz2r73N00dx7cRh1L2Oi7cryghGGe9QIPJY1Tb7vCT7lKhPe6iRZO615G2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705503766; c=relaxed/simple;
-	bh=o5qhsbxfTsXZq2xooR16Fxk1PjPuTSBMwXST6pC1rB0=;
+	s=arc-20240116; t=1705503768; c=relaxed/simple;
+	bh=hCSRH7GnB+hscoIRa+FXLwC/so9P59FpBRKWjEq6CGY=;
 	h=Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding; b=MwShZ5ymP8vEnthZVJWHxJww8ZtcKMA3Izw4QOoQO7pLYmyvDVvTXx0sn0HcYhet9F8T4ejhv9Mr9KduCX9fOyH1DR4bIqyD+PmGkKyhWDdm/MpMf/tYY2jHRiEx3LqFq1+68okKQit1eGgjVIVBF4JZys5MHfLNyywlFoCaY54=
+	 References:MIME-Version:Content-Transfer-Encoding; b=pC8Ywjooimp/maERVM7cW3bmLzNXLDnbm0TmEFHT9hLdCJ83Zk/CGNSnshBkCYFFJc77NIvCF34yrwXLYB6zZdQDzt8chWZasJt9+z9NXWYP7g7HTTF0O475SasPV5XI6lf7fjkQ75H4BRBHtPCFvBWAljBMfChnZIJahLXFic0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B11CC433F1;
-	Wed, 17 Jan 2024 15:02:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00115C43394;
+	Wed, 17 Jan 2024 15:02:46 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 06/10] v4l2-ctl: support v4l-audio devices
-Date: Wed, 17 Jan 2024 16:02:14 +0100
-Message-ID: <048be2437c1c78389c77433aeb70f2ffc3536353.1705503477.git.hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 07/10] v4l2-compliance: add support for v4l-audioX devices
+Date: Wed, 17 Jan 2024 16:02:15 +0100
+Message-ID: <c417ab9e922db2e2c1fc4a8375820b544d9b1a4b.1705503477.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <79cf7f3c0fdde2ff151ba05d912ba05b35386d4a.1705503477.git.hverkuil-cisco@xs4all.nl>
 References: <79cf7f3c0fdde2ff151ba05d912ba05b35386d4a.1705503477.git.hverkuil-cisco@xs4all.nl>
@@ -47,464 +47,261 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for v4l-audioX devices.
+Support compliance testing of v4l-audioX devices.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- utils/v4l2-ctl/Android.mk             |   3 +-
- utils/v4l2-ctl/meson.build            |   1 +
- utils/v4l2-ctl/v4l2-ctl-audio.cpp     | 131 ++++++++++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl-common.cpp    |   2 +
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp |  14 +--
- utils/v4l2-ctl/v4l2-ctl.1.in          |   4 +
- utils/v4l2-ctl/v4l2-ctl.cpp           |  27 ++++++
- utils/v4l2-ctl/v4l2-ctl.h             |  18 ++++
- 8 files changed, 193 insertions(+), 7 deletions(-)
- create mode 100644 utils/v4l2-ctl/v4l2-ctl-audio.cpp
+ utils/v4l2-compliance/v4l2-compliance.1.in  |  7 ++++++
+ utils/v4l2-compliance/v4l2-compliance.cpp   | 16 +++++++++---
+ utils/v4l2-compliance/v4l2-compliance.h     |  3 ++-
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 10 +++++---
+ utils/v4l2-compliance/v4l2-test-formats.cpp | 28 +++++++++++++++++++++
+ utils/v4l2-compliance/v4l2-test-media.cpp   |  1 +
+ 6 files changed, 57 insertions(+), 8 deletions(-)
 
-diff --git a/utils/v4l2-ctl/Android.mk b/utils/v4l2-ctl/Android.mk
-index 3078c629..ecb8c5e1 100644
---- a/utils/v4l2-ctl/Android.mk
-+++ b/utils/v4l2-ctl/Android.mk
-@@ -22,6 +22,7 @@ LOCAL_SRC_FILES := \
-     v4l2-ctl-io.cpp v4l2-ctl-stds.cpp v4l2-ctl-vidcap.cpp v4l2-ctl-vidout.cpp \
-     v4l2-ctl-overlay.cpp v4l2-ctl-vbi.cpp v4l2-ctl-selection.cpp v4l2-ctl-misc.cpp \
-     v4l2-ctl-streaming.cpp v4l2-ctl-sdr.cpp v4l2-ctl-edid.cpp v4l2-ctl-modes.cpp \
--    v4l2-ctl-meta.cpp v4l2-ctl-subdev.cpp v4l2-info.cpp media-info.cpp \
-+    v4l2-ctl-meta.cpp v4l2-ctl-audio.cpp v4l2-ctl-subdev.cpp \
-+    v4l2-info.cpp media-info.cpp \
-     v4l2-tpg-colors.c v4l2-tpg-core.c v4l-stream.c codec-fwht.c
- include $(BUILD_EXECUTABLE)
-diff --git a/utils/v4l2-ctl/meson.build b/utils/v4l2-ctl/meson.build
-index 3e366c6c..62c3c3ee 100644
---- a/utils/v4l2-ctl/meson.build
-+++ b/utils/v4l2-ctl/meson.build
-@@ -7,6 +7,7 @@ v4l2_ctl_sources = files(
-     'v4l2-ctl-edid.cpp',
-     'v4l2-ctl-io.cpp',
-     'v4l2-ctl-meta.cpp',
-+    'v4l2-ctl-audio.cpp',
-     'v4l2-ctl-misc.cpp',
-     'v4l2-ctl-modes.cpp',
-     'v4l2-ctl-overlay.cpp',
-diff --git a/utils/v4l2-ctl/v4l2-ctl-audio.cpp b/utils/v4l2-ctl/v4l2-ctl-audio.cpp
-new file mode 100644
-index 00000000..23ff17ca
---- /dev/null
-+++ b/utils/v4l2-ctl/v4l2-ctl-audio.cpp
-@@ -0,0 +1,131 @@
-+#include <endian.h>
-+
-+#include "v4l2-ctl.h"
-+
-+static struct v4l2_format vfmt;	/* set_format/get_format */
-+static unsigned mbus_code;
-+static unsigned mbus_code_out;
-+
-+void audio_usage()
-+{
-+	printf("\nAudio Formats options:\n"
-+	       "  --list-formats-audio [<mbus_code>] display supported audio capture formats.\n"
-+	       "		     <mbus_code> is an optional media bus code, if the device has\n"
-+	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
-+	       "		     media bus code are listed [VIDIOC_ENUM_FMT]\n"
-+	       "  --get-fmt-audio    query the audio capture format [VIDIOC_G_FMT]\n"
-+	       "  --set-fmt-audio <f> set the audio capture format [VIDIOC_S_FMT]\n"
-+	       "                     parameter is either the format index as reported by\n"
-+	       "                     --list-formats-audio, or the fourcc value as a string\n"
-+	       "  --try-fmt-audio <f>  try the audio capture format [VIDIOC_TRY_FMT]\n"
-+	       "                     parameter is either the format index as reported by\n"
-+	       "                     --list-formats-audio, or the fourcc value as a string\n"
-+	       "  --list-formats-audio-out [<mbus_code>] display supported audio output formats.\n"
-+	       "		     <mbus_code> is an optional media bus code, if the device has\n"
-+	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
-+	       "		     media bus code are listed [VIDIOC_ENUM_FMT]\n"
-+	       "  --get-fmt-audio-out query the audio output format [VIDIOC_G_FMT]\n"
-+	       "  --set-fmt-audio-out <f>  set the audio output format [VIDIOC_S_FMT]\n"
-+	       "                     parameter is either the format index as reported by\n"
-+	       "                     --list-formats-audio-out, or the fourcc value as a string\n"
-+	       "  --try-fmt-audio-out <f>  try the audio output format [VIDIOC_TRY_FMT]\n"
-+	       "                     parameter is either the format index as reported by\n"
-+	       "                     --list-formats-audio-out, or the fourcc value as a string\n"
-+	       );
-+}
-+
-+void audio_cmd(int ch, char *optarg)
-+{
-+	switch (ch) {
-+	case OptSetAudioFormat:
-+	case OptTryAudioFormat:
-+	case OptSetAudioOutFormat:
-+	case OptTryAudioOutFormat:
-+		if (strlen(optarg) == 0) {
-+			audio_usage();
-+			std::exit(EXIT_FAILURE);
-+		} else if (strlen(optarg) == 4) {
-+			vfmt.fmt.audio.audioformat = v4l2_fourcc(optarg[0],
-+					optarg[1], optarg[2], optarg[3]);
-+		} else {
-+			vfmt.fmt.audio.audioformat = strtol(optarg, nullptr, 0);
-+		}
-+		break;
-+	case OptListAudioFormats:
-+		if (optarg)
-+			mbus_code = strtoul(optarg, nullptr, 0);
-+		break;
-+	case OptListAudioOutFormats:
-+		if (optarg)
-+			mbus_code_out = strtoul(optarg, nullptr, 0);
-+		break;
-+	}
-+}
-+
-+static void __audio_set(cv4l_fd &_fd, bool set, bool _try, __u32 type)
-+{
-+	struct v4l2_format in_vfmt;
-+	int fd = _fd.g_fd();
-+	int ret;
-+
-+	if (!set && !_try)
-+		return;
-+
-+	in_vfmt.type = type;
-+	in_vfmt.fmt.audio.audioformat = vfmt.fmt.audio.audioformat;
-+
-+	if (in_vfmt.fmt.audio.audioformat < 256) {
-+		struct v4l2_fmtdesc fmt = {};
-+
-+		fmt.index = in_vfmt.fmt.audio.audioformat;
-+		fmt.type = in_vfmt.type;
-+
-+		if (doioctl(fd, VIDIOC_ENUM_FMT, &fmt))
-+			fmt.pixelformat = 0;
-+
-+		in_vfmt.fmt.audio.audioformat = fmt.pixelformat;
-+	}
-+
-+	if (set)
-+		ret = doioctl(fd, VIDIOC_S_FMT, &in_vfmt);
-+	else
-+		ret = doioctl(fd, VIDIOC_TRY_FMT, &in_vfmt);
-+	if (ret == 0 && (verbose || _try))
-+		printfmt(fd, in_vfmt);
-+}
-+
-+void audio_set(cv4l_fd &_fd)
-+{
-+	__audio_set(_fd, options[OptSetAudioFormat], options[OptTryAudioFormat],
-+		   V4L2_BUF_TYPE_AUDIO_CAPTURE);
-+	__audio_set(_fd, options[OptSetAudioOutFormat],
-+		   options[OptTryAudioOutFormat], V4L2_BUF_TYPE_AUDIO_OUTPUT);
-+}
-+
-+static void __audio_get(cv4l_fd &fd, __u32 type)
-+{
-+	vfmt.type = type;
-+	if (doioctl(fd.g_fd(), VIDIOC_G_FMT, &vfmt) == 0)
-+		printfmt(fd.g_fd(), vfmt);
-+}
-+
-+void audio_get(cv4l_fd &fd)
-+{
-+	if (options[OptGetAudioFormat])
-+		__audio_get(fd, V4L2_BUF_TYPE_AUDIO_CAPTURE);
-+	if (options[OptGetAudioOutFormat])
-+		__audio_get(fd, V4L2_BUF_TYPE_AUDIO_OUTPUT);
-+}
-+
-+void audio_list(cv4l_fd &fd)
-+{
-+	if (options[OptListAudioFormats]) {
-+		printf("ioctl: VIDIOC_ENUM_FMT\n");
-+		print_video_formats(fd, V4L2_BUF_TYPE_AUDIO_CAPTURE, mbus_code);
-+	}
-+
-+	if (options[OptListAudioOutFormats]) {
-+		printf("ioctl: VIDIOC_ENUM_FMT\n");
-+		print_video_formats(fd, V4L2_BUF_TYPE_AUDIO_OUTPUT, mbus_code_out);
-+	}
-+}
-diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-index 0370708b..c089c332 100644
---- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-@@ -79,6 +79,7 @@ void common_usage()
- 	       "  --help-all         all options\n"
- 	       "  --help-io          input/output options\n"
- 	       "  --help-meta        metadata format options\n"
-+	       "  --help-audio       audio format options\n"
- 	       "  --help-misc        miscellaneous options\n"
- 	       "  --help-overlay     overlay format options\n"
- 	       "  --help-sdr         SDR format options\n"
-@@ -123,6 +124,7 @@ static const char *prefixes[] = {
- 	"swradio",
- 	"v4l-subdev",
- 	"v4l-touch",
-+	"v4l-audio",
- 	"media",
- 	nullptr
- };
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index 13bc057d..c96b41d6 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -1864,7 +1864,8 @@ static void streaming_set_cap(cv4l_fd &fd, cv4l_fd &exp_fd)
- 	if (!(capabilities & (V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_CAPTURE_MPLANE |
- 			      V4L2_CAP_VBI_CAPTURE | V4L2_CAP_SLICED_VBI_CAPTURE |
- 			      V4L2_CAP_META_CAPTURE | V4L2_CAP_SDR_CAPTURE |
--			      V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE))) {
-+			      V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE |
-+			      V4L2_CAP_AUDIO_M2M))) {
- 		fprintf(stderr, "unsupported stream type\n");
- 		return;
- 	}
-@@ -2162,7 +2163,7 @@ static FILE *open_input_file(cv4l_fd &fd, __u32 type)
- 
- static void streaming_set_out(cv4l_fd &fd, cv4l_fd &exp_fd)
- {
--	__u32 type = fd.has_vid_m2m() ? v4l_type_invert(fd.g_type()) : fd.g_type();
-+	__u32 type = fd.has_m2m() ? v4l_type_invert(fd.g_type()) : fd.g_type();
- 	cv4l_queue q(type, out_memory);
- 	cv4l_queue exp_q(exp_fd.g_type(), V4L2_MEMORY_MMAP);
- 	int fd_flags = fcntl(fd.g_fd(), F_GETFL);
-@@ -2178,7 +2179,8 @@ static void streaming_set_out(cv4l_fd &fd, cv4l_fd &exp_fd)
- 	if (!(capabilities & (V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_VIDEO_OUTPUT_MPLANE |
- 			      V4L2_CAP_VBI_OUTPUT | V4L2_CAP_SLICED_VBI_OUTPUT |
- 			      V4L2_CAP_SDR_OUTPUT | V4L2_CAP_META_OUTPUT |
--			      V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE))) {
-+			      V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE |
-+			      V4L2_CAP_AUDIO_M2M))) {
- 		fprintf(stderr, "unsupported stream type\n");
- 		return;
- 	}
-@@ -2718,7 +2720,7 @@ static void streaming_set_m2m(cv4l_fd &fd, cv4l_fd &exp_fd)
- 	fd.g_fmt(fmt[OUT], out.g_type());
- 	fd.g_fmt(fmt[CAP], in.g_type());
- 
--	if (!fd.has_vid_m2m()) {
-+	if (!fd.has_m2m()) {
- 		fprintf(stderr, "unsupported m2m stream type\n");
- 		return;
- 	}
-@@ -2768,7 +2770,7 @@ static void streaming_set_cap2out(cv4l_fd &fd, cv4l_fd &out_fd)
- 	bool use_poll = options[OptStreamPoll];
- 	bool use_dmabuf = options[OptStreamDmaBuf] || options[OptStreamOutDmaBuf];
- 	bool use_userptr = options[OptStreamUser] && options[OptStreamOutUser];
--	__u32 out_type = out_fd.has_vid_m2m() ? v4l_type_invert(out_fd.g_type()) : out_fd.g_type();
-+	__u32 out_type = out_fd.has_m2m() ? v4l_type_invert(out_fd.g_type()) : out_fd.g_type();
- 	cv4l_queue in(fd.g_type(), memory);
- 	cv4l_queue out(out_type, out_memory);
- 	fps_timestamps fps_ts[2];
-@@ -3007,7 +3009,7 @@ void streaming_list(cv4l_fd &fd, cv4l_fd &out_fd)
- 		list_buffers(fd, fd.g_type());
- 
- 	if (options[OptListBuffersOut])
--		list_buffers(*p_out_fd, p_out_fd->has_vid_m2m() ?
-+		list_buffers(*p_out_fd, p_out_fd->has_m2m() ?
- 			     v4l_type_invert(p_out_fd->g_type()) : p_out_fd->g_type());
- 
- 	if (options[OptStreamBufCaps])
-diff --git a/utils/v4l2-ctl/v4l2-ctl.1.in b/utils/v4l2-ctl/v4l2-ctl.1.in
-index b7e41740..977b1628 100644
---- a/utils/v4l2-ctl/v4l2-ctl.1.in
-+++ b/utils/v4l2-ctl/v4l2-ctl.1.in
-@@ -32,6 +32,10 @@ wrapper library.
- \fB\-h\fR, \fB\-\-help\fR
- Prints the help message.
+diff --git a/utils/v4l2-compliance/v4l2-compliance.1.in b/utils/v4l2-compliance/v4l2-compliance.1.in
+index fa12ae2d..5113696f 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.1.in
++++ b/utils/v4l2-compliance/v4l2-compliance.1.in
+@@ -81,6 +81,13 @@ Otherwise if \fB-z\fR was specified earlier, then \fI<dev>\fR is the entity name
+ or interface ID (if prefixed with 0x) as found in the topology of the media device
+ with the bus info string as specified by the \fB-z\fR option.
  .TP
-+\fB\-\-help\-audio\fR
-+Prints the help message for all options that get/set/list memory-to-memory audio
-+formats.
++\fB\-A\fR, \fB\-\-audio\-device\fR \fI<dev>\fR
++Use device \fI<dev>\fR as the audio memory-2-memory device. If \fI<dev>\fR is a number,
++then /dev/v4l-audio\fI<dev>\fR is used.
++Otherwise if \fB-z\fR was specified earlier, then \fI<dev>\fR is the entity name
++or interface ID (if prefixed with 0x) as found in the topology of the media device
++with the bus info string as specified by the \fB-z\fR option.
 +.TP
- \fB\-\-help\-io\fR
- Prints the help message for all options that get/set/list inputs and outputs, both
- video and audio.
-diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-index e195ad8e..fb03675e 100644
---- a/utils/v4l2-ctl/v4l2-ctl.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-@@ -76,6 +76,7 @@ static struct option long_options[] = {
- 	{"help-vbi", no_argument, nullptr, OptHelpVbi},
- 	{"help-sdr", no_argument, nullptr, OptHelpSdr},
- 	{"help-meta", no_argument, nullptr, OptHelpMeta},
-+	{"help-audio", no_argument, nullptr, OptHelpAudio},
- 	{"help-subdev", no_argument, nullptr, OptHelpSubDev},
- 	{"help-selection", no_argument, nullptr, OptHelpSelection},
- 	{"help-misc", no_argument, nullptr, OptHelpMisc},
-@@ -111,6 +112,8 @@ static struct option long_options[] = {
- 	{"list-formats-out-ext", optional_argument, nullptr, OptListOutFormatsExt},
- 	{"list-formats-meta", optional_argument, nullptr, OptListMetaFormats},
- 	{"list-formats-meta-out", optional_argument, nullptr, OptListMetaOutFormats},
-+	{"list-formats-audio", optional_argument, nullptr, OptListAudioFormats},
-+	{"list-formats-audio-out", optional_argument, nullptr, OptListAudioOutFormats},
- 	{"list-subdev-mbus-codes", optional_argument, nullptr, OptListSubDevMBusCodes},
- 	{"list-subdev-framesizes", required_argument, nullptr, OptListSubDevFrameSizes},
- 	{"list-subdev-frameintervals", required_argument, nullptr, OptListSubDevFrameIntervals},
-@@ -166,6 +169,12 @@ static struct option long_options[] = {
- 	{"get-fmt-meta-out", no_argument, nullptr, OptGetMetaOutFormat},
- 	{"set-fmt-meta-out", required_argument, nullptr, OptSetMetaOutFormat},
- 	{"try-fmt-meta-out", required_argument, nullptr, OptTryMetaOutFormat},
-+	{"get-fmt-audio", no_argument, nullptr, OptGetAudioFormat},
-+	{"set-fmt-audio", required_argument, nullptr, OptSetAudioFormat},
-+	{"try-fmt-audio", required_argument, nullptr, OptTryAudioFormat},
-+	{"get-fmt-audio-out", no_argument, nullptr, OptGetAudioOutFormat},
-+	{"set-fmt-audio-out", required_argument, nullptr, OptSetAudioOutFormat},
-+	{"try-fmt-audio-out", required_argument, nullptr, OptTryAudioOutFormat},
- 	{"get-subdev-fmt", optional_argument, nullptr, OptGetSubDevFormat},
- 	{"set-subdev-fmt", required_argument, nullptr, OptSetSubDevFormat},
- 	{"try-subdev-fmt", required_argument, nullptr, OptTrySubDevFormat},
-@@ -233,6 +242,8 @@ static struct option long_options[] = {
- 	{"list-buffers-sdr-out", no_argument, nullptr, OptListBuffersSdrOut},
- 	{"list-buffers-meta", no_argument, nullptr, OptListBuffersMeta},
- 	{"list-buffers-meta-out", no_argument, nullptr, OptListBuffersMetaOut},
-+	{"list-buffers-audio", no_argument, nullptr, OptListBuffersAudio},
-+	{"list-buffers-audio-out", no_argument, nullptr, OptListBuffersAudioOut},
- 	{"stream-count", required_argument, nullptr, OptStreamCount},
- 	{"stream-skip", required_argument, nullptr, OptStreamSkip},
- 	{"stream-loop", no_argument, nullptr, OptStreamLoop},
-@@ -287,6 +298,7 @@ static void usage_all()
-        vbi_usage();
-        sdr_usage();
-        meta_usage();
-+       audio_usage();
-        subdev_usage();
-        selection_usage();
-        misc_usage();
-@@ -523,6 +535,13 @@ void printfmt(int fd, const struct v4l2_format &vfmt)
- 		       printfmtname(fd, vfmt.type, vfmt.fmt.meta.dataformat).c_str());
- 		printf("\tBuffer Size     : %u\n", vfmt.fmt.meta.buffersize);
+ \fB\-u\fR, \fB\-\-subdev\-device\fR \fI<dev>\fR
+ Use device \fI<dev>\fR as the v4l-subdevX device. If \fI<dev>\fR is a number, then /dev/v4l-subdev\fI<dev>\fR is used.
+ Otherwise if \fB-z\fR was specified earlier, then \fI<dev>\fR is the entity name
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index 9e2c6983..bea7eb4f 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -43,6 +43,7 @@
+    case is used to retrieve a setting. */
+ enum Option {
+ 	OptStreamAllIO = 'a',
++	OptSetAudioDevice = 'A',
+ 	OptStreamAllColorTest = 'c',
+ 	OptColor = 'C',
+ 	OptSetDevice = 'd',
+@@ -124,6 +125,7 @@ static struct option long_options[] = {
+ 	{"subdev-device", required_argument, nullptr, OptSetSubDevDevice},
+ 	{"expbuf-device", required_argument, nullptr, OptSetExpBufDevice},
+ 	{"touch-device", required_argument, nullptr, OptSetTouchDevice},
++	{"audio-device", required_argument, nullptr, OptSetAudioDevice},
+ 	{"media-device", required_argument, nullptr, OptSetMediaDevice},
+ 	{"media-device-only", required_argument, nullptr, OptSetMediaDeviceOnly},
+ 	{"media-bus-info", required_argument, nullptr, OptMediaBusInfo},
+@@ -198,6 +200,10 @@ static void usage()
+ 	printf("                     Use device <dev> as the touch device.\n");
+ 	printf("                     If <dev> starts with a digit, then /dev/v4l-touch<dev> is used.\n");
+ 	printf("                     See the -d description of how <dev> is used in combination with -z.\n");
++	printf("  -A, --audio-device <dev>\n");
++	printf("                     Use device <dev> as the audio M2M device.\n");
++	printf("                     If <dev> starts with a digit, then /dev/v4l-audio<dev> is used.\n");
++	printf("                     See the -d description of how <dev> is used in combination with -z.\n");
+ 	printf("  -u, --subdev-device <dev>\n");
+ 	printf("                     Use device <dev> as the v4l-subdev device.\n");
+ 	printf("                     If <dev> starts with a digit, then /dev/v4l-subdev<dev> is used.\n");
+@@ -639,7 +645,7 @@ static int testCap(struct node *node)
+ 			V4L2_CAP_SDR_OUTPUT | V4L2_CAP_SLICED_VBI_OUTPUT |
+ 			V4L2_CAP_MODULATOR | V4L2_CAP_META_OUTPUT;
+ 	const __u32 overlay_caps = V4L2_CAP_VIDEO_OVERLAY | V4L2_CAP_VIDEO_OUTPUT_OVERLAY;
+-	const __u32 m2m_caps = V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE;
++	const __u32 m2m_caps = V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_AUDIO_M2M;
+ 	const __u32 io_caps = V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+ 	const __u32 mplane_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_VIDEO_OUTPUT_MPLANE |
+ 		V4L2_CAP_VIDEO_M2M_MPLANE;
+@@ -983,6 +989,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 	node.is_radio = type == MEDIA_TYPE_RADIO;
+ 	node.is_sdr = type == MEDIA_TYPE_SDR;
+ 	node.is_touch = type == MEDIA_TYPE_TOUCH;
++	node.is_audio = type == MEDIA_TYPE_AUDIO;
+ 
+ 	if (node.is_v4l2()) {
+ 		doioctl(&node, VIDIOC_QUERYCAP, &vcap);
+@@ -1038,13 +1045,13 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 			 V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_VIDEO_M2M_MPLANE |
+ 			 V4L2_CAP_VIDEO_M2M | V4L2_CAP_SLICED_VBI_CAPTURE |
+ 			 V4L2_CAP_RDS_CAPTURE | V4L2_CAP_SDR_CAPTURE |
+-			 V4L2_CAP_META_CAPTURE))
++			 V4L2_CAP_META_CAPTURE | V4L2_CAP_AUDIO_M2M))
+ 		node.can_capture = true;
+ 	if (node.g_caps() & (V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_VBI_OUTPUT |
+ 			 V4L2_CAP_VIDEO_OUTPUT_MPLANE | V4L2_CAP_VIDEO_M2M_MPLANE |
+ 			 V4L2_CAP_VIDEO_M2M | V4L2_CAP_SLICED_VBI_OUTPUT |
+ 			 V4L2_CAP_RDS_OUTPUT | V4L2_CAP_SDR_OUTPUT |
+-			 V4L2_CAP_META_OUTPUT))
++			 V4L2_CAP_META_OUTPUT | V4L2_CAP_AUDIO_M2M))
+ 		node.can_output = true;
+ 	if (node.g_caps() & (V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_VIDEO_OUTPUT_MPLANE |
+ 			 V4L2_CAP_VIDEO_M2M_MPLANE))
+@@ -1706,6 +1713,9 @@ int main(int argc, char **argv)
+ 		case OptSetTouchDevice:
+ 			device = make_devname(optarg, "v4l-touch", media_bus_info);
+ 			break;
++		case OptSetAudioDevice:
++			device = make_devname(optarg, "v4l-audio", media_bus_info);
++			break;
+ 		case OptSetSubDevDevice:
+ 			device = make_devname(optarg, "v4l-subdev", media_bus_info);
+ 			break;
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 0cfc9a37..6fc84cf1 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -102,7 +102,7 @@ using frmsizes_count_map = std::map<__u32, unsigned>;
+ 
+ struct base_node;
+ 
+-#define V4L2_BUF_TYPE_LAST V4L2_BUF_TYPE_META_OUTPUT
++#define V4L2_BUF_TYPE_LAST V4L2_BUF_TYPE_AUDIO_OUTPUT
+ 
+ struct base_node {
+ 	bool is_video;
+@@ -111,6 +111,7 @@ struct base_node {
+ 	bool is_sdr;
+ 	bool is_meta;
+ 	bool is_touch;
++	bool is_audio;
+ 	bool is_m2m;
+ 	bool is_io_mc;
+ 	bool is_planar;
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index 922b99b5..d5dc2625 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -235,12 +235,14 @@ public:
+ 		if (v4l_type_is_output(g_type()))
+ 			fill_output_buf(fill_bytesused);
+ 		err = node->qbuf(*this);
+-		if (err == 0 &&
+-		    v4l_type_is_video(g_type()) && v4l_type_is_output(g_type())) {
+-			fail_on_test(g_field() == V4L2_FIELD_ANY);
++		if (err)
++			return err;
++		if (v4l_type_is_output(g_type())) {
++			if (v4l_type_is_video(g_type()))
++				fail_on_test(g_field() == V4L2_FIELD_ANY);
+ 			buffer_info[g_timestamp()] = buf;
+ 		}
+-		return err;
++		return 0;
+ 	}
+ 	int qbuf(node *node, const cv4l_queue &q)
+ 	{
+diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
+index 8a16613c..adec678a 100644
+--- a/utils/v4l2-compliance/v4l2-test-formats.cpp
++++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
+@@ -43,6 +43,8 @@ static constexpr __u32 buftype2cap[] = {
+ 	V4L2_CAP_SDR_OUTPUT,
+ 	V4L2_CAP_META_CAPTURE,
+ 	V4L2_CAP_META_OUTPUT,
++	V4L2_CAP_AUDIO_M2M,
++	V4L2_CAP_AUDIO_M2M,
+ };
+ 
+ static int testEnumFrameIntervals(struct node *node, __u32 pixfmt,
+@@ -330,6 +332,8 @@ int testEnumFormats(struct node *node)
+ 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		case V4L2_BUF_TYPE_SDR_CAPTURE:
+ 		case V4L2_BUF_TYPE_SDR_OUTPUT:
++		case V4L2_BUF_TYPE_AUDIO_CAPTURE:
++		case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+ 			if (ret && (node->g_caps() & buftype2cap[type]))
+ 				return fail("%s cap set, but no %s formats defined\n",
+ 						buftype2s(type).c_str(), buftype2s(type).c_str());
+@@ -447,6 +451,7 @@ static int testFormatsType(struct node *node, int ret,  unsigned type, struct v4
+ 	struct v4l2_sliced_vbi_format &sliced = fmt.fmt.sliced;
+ 	struct v4l2_sdr_format &sdr = fmt.fmt.sdr;
+ 	struct v4l2_meta_format &meta = fmt.fmt.meta;
++	struct v4l2_audio_format &audio = fmt.fmt.audio;
+ 	unsigned min_data_samples;
+ 	unsigned min_sampling_rate;
+ 	v4l2_std_id std;
+@@ -591,6 +596,13 @@ static int testFormatsType(struct node *node, int ret,  unsigned type, struct v4
+ 					meta.dataformat, fcc2s(meta.dataformat).c_str(), type);
+ 		fail_on_test(meta.buffersize == 0);
  		break;
 +	case V4L2_BUF_TYPE_AUDIO_CAPTURE:
 +	case V4L2_BUF_TYPE_AUDIO_OUTPUT:
-+		printf("\tAudio Format    : '%s'%s\n", fcc2s(vfmt.fmt.audio.audioformat).c_str(),
-+		       printfmtname(fd, vfmt.type, vfmt.fmt.audio.audioformat).c_str());
-+		printf("\tChannels        : %u\n", vfmt.fmt.audio.channels);
-+		printf("\tBuffer Size     : %u\n", vfmt.fmt.audio.buffersize);
++		if (map.find(audio.audioformat) == map.end())
++			return fail("audioformat %08x (%s) for buftype %d not reported by ENUM_FMT\n",
++					audio.audioformat, fcc2s(audio.audioformat).c_str(), type);
++		fail_on_test(audio.buffersize == 0);
 +		break;
- 	}
- }
- 
-@@ -1214,6 +1233,9 @@ int main(int argc, char **argv)
- 		case OptHelpMeta:
- 			meta_usage();
- 			return 0;
-+		case OptHelpAudio:
-+			audio_usage();
-+			return 0;
- 		case OptHelpSubDev:
- 			subdev_usage();
- 			return 0;
-@@ -1285,6 +1307,7 @@ int main(int argc, char **argv)
- 			vbi_cmd(ch, optarg);
- 			sdr_cmd(ch, optarg);
- 			meta_cmd(ch, optarg);
-+			audio_cmd(ch, optarg);
- 			subdev_cmd(ch, optarg);
- 			selection_cmd(ch, optarg);
- 			misc_cmd(ch, optarg);
-@@ -1316,6 +1339,7 @@ int main(int argc, char **argv)
- 	case MEDIA_TYPE_RADIO:
- 	case MEDIA_TYPE_SDR:
- 	case MEDIA_TYPE_TOUCH:
-+	case MEDIA_TYPE_AUDIO:
- 	case MEDIA_TYPE_SUBDEV:
+ 	case V4L2_BUF_TYPE_PRIVATE:
  		break;
- 	default:
-@@ -1485,6 +1509,7 @@ int main(int argc, char **argv)
- 	vbi_set(c_fd);
- 	sdr_set(c_fd);
- 	meta_set(c_fd);
-+	audio_set(c_fd);
- 	subdev_set(c_fd);
- 	selection_set(c_fd);
- 	misc_set(c_fd);
-@@ -1502,6 +1527,7 @@ int main(int argc, char **argv)
- 	vbi_get(c_fd);
- 	sdr_get(c_fd);
- 	meta_get(c_fd);
-+	audio_get(c_fd);
- 	subdev_get(c_fd);
- 	selection_get(c_fd);
- 	misc_get(c_fd);
-@@ -1518,6 +1544,7 @@ int main(int argc, char **argv)
- 	vbi_list(c_fd);
- 	sdr_list(c_fd);
- 	meta_list(c_fd);
-+	audio_list(c_fd);
- 	subdev_list(c_fd);
- 	streaming_list(c_fd, c_out_fd);
+ 	}
+@@ -626,6 +638,8 @@ int testGetFormats(struct node *node)
+ 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		case V4L2_BUF_TYPE_SDR_CAPTURE:
+ 		case V4L2_BUF_TYPE_SDR_OUTPUT:
++		case V4L2_BUF_TYPE_AUDIO_CAPTURE:
++		case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+ 			if (ret && (node->g_caps() & buftype2cap[type]))
+ 				return fail("%s cap set, but no %s formats defined\n",
+ 					buftype2s(type).c_str(), buftype2s(type).c_str());
+@@ -703,6 +717,9 @@ static bool matchFormats(const struct v4l2_format &f1, const struct v4l2_format
+ 	case V4L2_BUF_TYPE_META_CAPTURE:
+ 	case V4L2_BUF_TYPE_META_OUTPUT:
+ 		return !memcmp(&f1.fmt.meta, &f2.fmt.meta, sizeof(f1.fmt.meta));
++	case V4L2_BUF_TYPE_AUDIO_CAPTURE:
++	case V4L2_BUF_TYPE_AUDIO_OUTPUT:
++		return !memcmp(&f1.fmt.audio, &f2.fmt.audio, sizeof(f1.fmt.audio));
  
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index cc7f1184..b9e7c352 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -86,6 +86,8 @@ enum Option {
- 	OptGetSdrOutFormat,
- 	OptGetMetaFormat,
- 	OptGetMetaOutFormat,
-+	OptGetAudioFormat,
-+	OptGetAudioOutFormat,
- 	OptGetSubDevFormat,
- 	OptSetSlicedVbiOutFormat,
- 	OptSetOverlayFormat,
-@@ -95,6 +97,8 @@ enum Option {
- 	OptSetSdrOutFormat,
- 	OptSetMetaFormat,
- 	OptSetMetaOutFormat,
-+	OptSetAudioFormat,
-+	OptSetAudioOutFormat,
- 	OptSetSubDevFormat,
- 	OptTryVideoOutFormat,
- 	OptTrySlicedVbiOutFormat,
-@@ -107,6 +111,8 @@ enum Option {
- 	OptTrySdrOutFormat,
- 	OptTryMetaFormat,
- 	OptTryMetaOutFormat,
-+	OptTryAudioFormat,
-+	OptTryAudioOutFormat,
- 	OptTrySubDevFormat,
- 	OptAll,
- 	OptListStandards,
-@@ -122,6 +128,8 @@ enum Option {
- 	OptListOutFormatsExt,
- 	OptListMetaFormats,
- 	OptListMetaOutFormats,
-+	OptListAudioFormats,
-+	OptListAudioOutFormats,
- 	OptListSubDevMBusCodes,
- 	OptListSubDevFrameSizes,
- 	OptListSubDevFrameIntervals,
-@@ -210,6 +218,8 @@ enum Option {
- 	OptListBuffersSdrOut,
- 	OptListBuffersMeta,
- 	OptListBuffersMetaOut,
-+	OptListBuffersAudio,
-+	OptListBuffersAudioOut,
- 	OptStreamCount,
- 	OptStreamSkip,
- 	OptStreamLoop,
-@@ -255,6 +265,7 @@ enum Option {
- 	OptHelpVbi,
- 	OptHelpSdr,
- 	OptHelpMeta,
-+	OptHelpAudio,
- 	OptHelpSubDev,
- 	OptHelpSelection,
- 	OptHelpMisc,
-@@ -418,6 +429,13 @@ void meta_list(cv4l_fd &fd);
- void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
- void meta_fillbuffer(cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
+ 	}
+ 	return false;
+@@ -782,6 +799,10 @@ int testTryFormats(struct node *node)
+ 			case V4L2_BUF_TYPE_META_OUTPUT:
+ 				pixelformat = fmt.fmt.meta.dataformat;
+ 				break;
++			case V4L2_BUF_TYPE_AUDIO_CAPTURE:
++			case V4L2_BUF_TYPE_AUDIO_OUTPUT:
++				pixelformat = fmt.fmt.audio.audioformat;
++				break;
+ 			case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+ 			case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 				pixelformat = fmt.fmt.pix_mp.pixelformat;
+@@ -860,6 +881,9 @@ static int testM2MFormats(struct node *node)
+ 	fail_on_test(node->g_fmt(fmt_out, out_type));
+ 	fail_on_test(node->g_fmt(fmt_cap, cap_type));
  
-+// v4l2-ctl-audio.cpp
-+void audio_usage(void);
-+void audio_cmd(int ch, char *optarg);
-+void audio_set(cv4l_fd &fd);
-+void audio_get(cv4l_fd &fd);
-+void audio_list(cv4l_fd &fd);
++	if (node->has_audio_m2m())
++		return 0;
 +
- // v4l2-ctl-subdev.cpp
- void subdev_usage(void);
- void subdev_cmd(int ch, char *optarg);
+ 	/*
+ 	 * JPEG codec have fixed colorspace, so these tests
+ 	 * are different compared to other m2m devices.
+@@ -1132,6 +1156,10 @@ int testSetFormats(struct node *node)
+ 			case V4L2_BUF_TYPE_META_OUTPUT:
+ 				pixelformat = fmt_set.fmt.meta.dataformat;
+ 				break;
++			case V4L2_BUF_TYPE_AUDIO_CAPTURE:
++			case V4L2_BUF_TYPE_AUDIO_OUTPUT:
++				pixelformat = fmt_set.fmt.audio.audioformat;
++				break;
+ 			case V4L2_BUF_TYPE_SDR_CAPTURE:
+ 			case V4L2_BUF_TYPE_SDR_OUTPUT:
+ 				pixelformat = fmt_set.fmt.sdr.pixelformat;
+diff --git a/utils/v4l2-compliance/v4l2-test-media.cpp b/utils/v4l2-compliance/v4l2-test-media.cpp
+index 52ab7fb8..ee1d03e0 100644
+--- a/utils/v4l2-compliance/v4l2-test-media.cpp
++++ b/utils/v4l2-compliance/v4l2-test-media.cpp
+@@ -573,6 +573,7 @@ void walkTopology(struct node &node, struct node &expbuf_node,
+ 		case MEDIA_TYPE_RADIO:
+ 		case MEDIA_TYPE_SDR:
+ 		case MEDIA_TYPE_TOUCH:
++		case MEDIA_TYPE_AUDIO:
+ 		case MEDIA_TYPE_SUBDEV:
+ 			break;
+ 		default:
 -- 
 2.42.0
 
