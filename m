@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-3787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3788-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD4883031E
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 11:03:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB63D830363
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 11:18:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 23AB51C24358
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 10:03:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A11E28888F
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 10:18:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1327C1DDC6;
-	Wed, 17 Jan 2024 09:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4C6614A84;
+	Wed, 17 Jan 2024 10:18:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC00C14A83;
-	Wed, 17 Jan 2024 09:59:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A2314294;
+	Wed, 17 Jan 2024 10:18:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705485553; cv=none; b=luNyLgH5/OShy7wnB+LJeiO+ffvDbM9w08m0E2og9SqLH15XVinbysMWtfl2T3+j9y9RQoTSV7RAirNzEl1JEP25FFCmNJFJyHTxIXhvL2xyoDX9IFQ2jz92rKeO7P7S40nASNFXC5jpCiZmjYpo1MlWc9+pKCo8jBM8Na9kGJ8=
+	t=1705486711; cv=none; b=cn+bVKYwGkVHoNjd3+RmQkLpXK7Gy0eJHP1TvqaZLD/MzM4xoc1DuHiv/Rs3qEDlgXRZV2RjPrWUFhR4V0ECK3jKJoN2HMQ+8dTTb1VohfI0igIp3rQ4suCi3pMqFddIRb8W3yuGn6qQRtAU3oats7UpzUSiUkVeDslbfMQVJ14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705485553; c=relaxed/simple;
-	bh=priKG4ZgQsO1yQaFpsL9UZXt3cTcB6RBdKs6attjH58=;
+	s=arc-20240116; t=1705486711; c=relaxed/simple;
+	bh=Ohub29sKX7uj5A7SpyeXufKc7bkC+B2NE7GgGMdiec8=;
 	h=Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
 	 Content-Language:To:References:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding; b=ohKIeMrLQND4ZFq79+G9x3o41L6IX+OrbxcjxaiOcPu0FeNR8gwCJ6YsJ/GOvFfFMbS++Xc7+vWBVHK2fddXqFcbwr+ZM3GimYW1UAPU+D8WNYb9TSQjXAANNG2f7SwacwqOruDee5o4AmidHKsEZoc0Xrq1bDYtQ5CZumLpcrU=
+	 Content-Type:Content-Transfer-Encoding; b=iXG8JoI6mx+Tfj0cFfo1RJal/cvVI076r4MQhnhlR9RChcf2EJamfcZTtg//gQMbqxDpCGjTWXUPaEt9OTwC1ko6PyxXOul21+ylRZydl5RX2L3lftgzxLG2uakVuKZlj7DAbcH9F++CIOYmr9zQO34WRrn9t+mAI+eQcDWyJsQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09C7C433C7;
-	Wed, 17 Jan 2024 09:59:09 +0000 (UTC)
-Message-ID: <e01ed202-0e8c-4adb-bdd7-6ff2b83963db@xs4all.nl>
-Date: Wed, 17 Jan 2024 10:59:08 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6E6C433C7;
+	Wed, 17 Jan 2024 10:18:26 +0000 (UTC)
+Message-ID: <b1c6c721-d87b-419f-9019-e57cc933f53f@xs4all.nl>
+Date: Wed, 17 Jan 2024 11:18:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -39,8 +39,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 12/15] media: uapi: Add an entity type for audio
- resampler
+Subject: Re: [PATCH v11 13/15] media: vivid: add fixed point test controls
 Content-Language: en-US, nl
 To: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
  tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
@@ -50,7 +49,7 @@ To: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
  perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
  linuxppc-dev@lists.ozlabs.org
 References: <1700637838-6743-1-git-send-email-shengjiu.wang@nxp.com>
- <1700637838-6743-13-git-send-email-shengjiu.wang@nxp.com>
+ <1700637838-6743-14-git-send-email-shengjiu.wang@nxp.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -95,64 +94,105 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <1700637838-6743-13-git-send-email-shengjiu.wang@nxp.com>
+In-Reply-To: <1700637838-6743-14-git-send-email-shengjiu.wang@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Some small comments:
-
 On 22/11/2023 08:23, Shengjiu Wang wrote:
-> Add and document a media entity type for audio resampler.
-
-for -> for an
-
-> It is MEDIA_ENT_F_PROC_AUDIO_RESAMPLER.
+> Add fixed point test controls, one is for Q4.16 format
+> another one is for Q63 format.
 > 
 > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 > ---
->  Documentation/userspace-api/media/mediactl/media-types.rst | 6 ++++++
->  include/uapi/linux/media.h                                 | 1 +
->  2 files changed, 7 insertions(+)
+>  drivers/media/test-drivers/vivid/vivid-core.h |  2 ++
+>  .../media/test-drivers/vivid/vivid-ctrls.c    | 26 +++++++++++++++++++
+>  include/media/v4l2-ctrls.h                    |  3 +++
+>  3 files changed, 31 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-> index f0880aea41d6..abbe515dad76 100644
-> --- a/Documentation/userspace-api/media/mediactl/media-types.rst
-> +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-> @@ -40,6 +40,7 @@ Types and flags used to represent the media graph elements
->  .. _MEDIA-ENT-F-PROC-VIDEO-ENCODER:
->  .. _MEDIA-ENT-F-PROC-VIDEO-DECODER:
->  .. _MEDIA-ENT-F-PROC-VIDEO-ISP:
-> +.. _MEDIA-ENT-F-PROC-AUDIO-RESAMPLER:
->  .. _MEDIA-ENT-F-VID-MUX:
->  .. _MEDIA-ENT-F-VID-IF-BRIDGE:
->  .. _MEDIA-ENT-F-DV-DECODER:
-> @@ -208,6 +209,11 @@ Types and flags used to represent the media graph elements
->  	  combination of custom V4L2 controls and IOCTLs, and parameters
->  	  supplied in a metadata buffer.
+> diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
+> index cfb8e66083f6..f65465191bc9 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-core.h
+> +++ b/drivers/media/test-drivers/vivid/vivid-core.h
+> @@ -222,6 +222,8 @@ struct vivid_dev {
+>  	struct v4l2_ctrl		*boolean;
+>  	struct v4l2_ctrl		*int32;
+>  	struct v4l2_ctrl		*int64;
+> +	struct v4l2_ctrl		*int32_q16;
+> +	struct v4l2_ctrl		*int64_q63;
+>  	struct v4l2_ctrl		*menu;
+>  	struct v4l2_ctrl		*string;
+>  	struct v4l2_ctrl		*bitmask;
+> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> index f2b20e25a7a4..2444ea95b285 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> @@ -38,6 +38,8 @@
+>  #define VIVID_CID_U8_PIXEL_ARRAY	(VIVID_CID_CUSTOM_BASE + 14)
+>  #define VIVID_CID_S32_ARRAY		(VIVID_CID_CUSTOM_BASE + 15)
+>  #define VIVID_CID_S64_ARRAY		(VIVID_CID_CUSTOM_BASE + 16)
+> +#define VIVID_CID_INT_Q4_16		(VIVID_CID_CUSTOM_BASE + 17)
+> +#define VIVID_CID_INT64_Q63		(VIVID_CID_CUSTOM_BASE + 18)
 >  
-> +    *  -  ``MEDIA_ENT_F_PROC_AUDIO_RESAMPLER``
-> +       -  An Audio Resampler device. An entity capable of
-> +	  resampling a audio stream from one sample rate to another sample
-
-a audio -> an audio
-
-> +	  rate. Must have one sink pad and at least one source pad.
+>  #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+>  #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+> @@ -182,6 +184,28 @@ static const struct v4l2_ctrl_config vivid_ctrl_int64 = {
+>  	.step = 1,
+>  };
+>  
+> +static const struct v4l2_ctrl_config vivid_ctrl_int32_q16 = {
+> +	.ops = &vivid_user_gen_ctrl_ops,
+> +	.id = VIVID_CID_INT_Q4_16,
+> +	.name = "Integer 32 Bits Q4.16",
+> +	.type = V4L2_CTRL_TYPE_INTEGER,
+> +	.min = v4l2_ctrl_fp_compose(-16, 0, 16),
+> +	.max = v4l2_ctrl_fp_compose(15, 0xffff, 16),
+> +	.step = 1,
+> +	.fraction_bits = 16,
+> +};
 > +
->      *  -  ``MEDIA_ENT_F_VID_MUX``
->         - Video multiplexer. An entity capable of multiplexing must have at
->           least two sink pads and one source pad, and must pass the video
-> diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-> index 9ff6dec7393a..a8266eaa8042 100644
-> --- a/include/uapi/linux/media.h
-> +++ b/include/uapi/linux/media.h
-> @@ -125,6 +125,7 @@ struct media_device_info {
->  #define MEDIA_ENT_F_PROC_VIDEO_ENCODER		(MEDIA_ENT_F_BASE + 0x4007)
->  #define MEDIA_ENT_F_PROC_VIDEO_DECODER		(MEDIA_ENT_F_BASE + 0x4008)
->  #define MEDIA_ENT_F_PROC_VIDEO_ISP		(MEDIA_ENT_F_BASE + 0x4009)
-> +#define MEDIA_ENT_F_PROC_AUDIO_RESAMPLER	(MEDIA_ENT_F_BASE + 0x400a)
+> +static const struct v4l2_ctrl_config vivid_ctrl_int64_q63 = {
+> +	.ops = &vivid_user_gen_ctrl_ops,
+> +	.id = VIVID_CID_INT64_Q63,
+> +	.name = "Integer 64 Bits Q63",
+> +	.type = V4L2_CTRL_TYPE_INTEGER64,
+> +	.min = v4l2_ctrl_fp_compose(-1, 0, 63),
+> +	.max = v4l2_ctrl_fp_compose(0, LLONG_MAX, 63),
+> +	.step = 1,
+> +	.fraction_bits = 63,
+> +};
+> +
+>  static const struct v4l2_ctrl_config vivid_ctrl_u32_array = {
+>  	.ops = &vivid_user_gen_ctrl_ops,
+>  	.id = VIVID_CID_U32_ARRAY,
+> @@ -1670,6 +1694,8 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  	dev->button = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_button, NULL);
+>  	dev->int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int32, NULL);
+>  	dev->int64 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int64, NULL);
+> +	dev->int32_q16 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int32_q16, NULL);
+> +	dev->int64_q63 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int64_q63, NULL);
+>  	dev->boolean = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_boolean, NULL);
+>  	dev->menu = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_menu, NULL);
+>  	dev->string = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_string, NULL);
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index c35514c5bf88..d18fd116238b 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -1593,4 +1593,7 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl);
+>   */
+>  int v4l2_ctrl_type_op_validate(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr ptr);
 >  
->  /*
->   * Switch and bridge entity functions
+> +/* Composite function for integer and fractional bits */
+
+This comment needs to be expanded a bit:
+
+/*
+ * Fixed point compose helper define. This helper maps to the value
+ * i + f / (1 << fraction_bits).
+ */
+
+> +#define v4l2_ctrl_fp_compose(i, f, fraction_bits) (((s64)(i) << fraction_bits) + (f))
+> +
+>  #endif
 
 Regards,
 
