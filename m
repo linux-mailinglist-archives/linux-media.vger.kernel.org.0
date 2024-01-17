@@ -1,115 +1,89 @@
-Return-Path: <linux-media+bounces-3771-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3773-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550DC82FEF3
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 03:51:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E005882FF1D
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 04:09:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED110287240
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 02:50:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F050284CA3
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 03:09:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3E141C0F;
-	Wed, 17 Jan 2024 02:50:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A384416;
+	Wed, 17 Jan 2024 03:08:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from unicom146.biz-email.net (unicom146.biz-email.net [210.51.26.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFDD1C11
-	for <linux-media@vger.kernel.org>; Wed, 17 Jan 2024 02:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A881C6FB9;
+	Wed, 17 Jan 2024 03:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.26.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705459854; cv=none; b=kRW4n0geoqyozKlaOOOooZ1DkZ1uQdGZSw0/Zy03UzPPFHGgFyBLApn+sOrDlWhcIJwOrpBmFgGEXjrbzDAiV243aTay0Baz3FPNXZXfXsvgBSOEfBDuGjuxbbkXhmoUDo34x14jKbOSBtZaf/GRSBLQ+tWVqfkzXGLlFXf/wdw=
+	t=1705460929; cv=none; b=mt0DMfUDRA0rUhd05OQ/xQb4rGu/JruZxpaGzRlpkja9gL/aMaLv2+sJ2nVxivpgf6m9G+If+bVYLT6cdPlIqXj2+09+k/szJwiyvBGBOOH5UfbztD5iJMbFvHhxPFPL4+WsKF2CQ169LcZUX2akmg1S5pYbq8K8Bk3q7nVFdB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705459854; c=relaxed/simple;
-	bh=e6GQKfVGeGHveXx7Szj8y8OHz16ufoeWLHJ1zOAfKlQ=;
-	h=Received:Date:Message-ID:From:To:Subject; b=qSZF8NEJ9/jRHmPP9GbN+JsvcgmoAnpkEDvAgOpIn/Vb5M83AQbCNeCtFhkYzT0lcxvN5IP5ezSs2Bi1WuV3KKUfnIFZb8LrKtDh5Fhe47PdpPTuShLi8n6LKxxhUvS4/qQuY2xwKd67aDb5eD2Cb5JMm09OCjM435fOm7jXJRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4041C433F1
-	for <linux-media@vger.kernel.org>; Wed, 17 Jan 2024 02:50:53 +0000 (UTC)
-Date: Wed, 17 Jan 2024 03:50:51 +0100
-Message-ID: <51129efe9ea9c2e43a0ddb6cf6746f83.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	s=arc-20240116; t=1705460929; c=relaxed/simple;
+	bh=jY+NXMkTqUvIFNdDRoTWqSBvn/6OLwroA91s1Dp/Fls=;
+	h=Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:X-Originating-IP:X-ClientProxiedBy:tUid:
+	 X-Abuse-Reports-To:Abuse-Reports-To:X-Complaints-To:
+	 X-Report-Abuse-To; b=K7K5zgqpo99EL4Ef+Gg2qn7C2sCmK/8I+SHf4URSWQEOkm/y5xP9a/LsKNl3Ei7rcvwkR/v2v+0NVoRe+/r+o7cOzyUGLjtRjWePM+9NxXCCpMhPs4AGNQ7u6QrwjMk4fohQ3yGfl0pLqHkDOKEoSUXhPRiOeQ8OJAZ2WRb7pcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.26.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
+Received: from unicom146.biz-email.net
+        by unicom146.biz-email.net ((D)) with ASMTP (SSL) id NUY00131;
+        Wed, 17 Jan 2024 11:07:31 +0800
+Received: from localhost.localdomain.com (10.73.43.35) by
+ jtjnmail201621.home.langchao.com (10.100.2.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 17 Jan 2024 11:07:32 +0800
+From: Bo Liu <liubo03@inspur.com>
+To: <sakari.ailus@linux.intel.com>, <ribalda@kernel.org>, <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Bo Liu
+	<liubo03@inspur.com>
+Subject: [PATCH] media: i2c: imx214: convert to use maple tree register cache
+Date: Tue, 16 Jan 2024 22:07:30 -0500
+Message-ID: <20240117030730.2667-1-liubo03@inspur.com>
+X-Mailer: git-send-email 2.18.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-ClientProxiedBy: Jtjnmail201615.home.langchao.com (10.100.2.15) To
+ jtjnmail201621.home.langchao.com (10.100.2.21)
+tUid: 2024117110731bce681c772561e92e87569ceeb8b6d93
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+The maple tree register cache is based on a much more modern data structure
+than the rbtree cache and makes optimisation choices which are probably
+more appropriate for modern systems than those made by the rbtree cache.
 
-Results of the daily build of media_tree:
+Signed-off-by: Bo Liu <liubo03@inspur.com>
+---
+ drivers/media/i2c/imx214.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-date:			Wed Jan 17 03:00:18 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	60a031b64984ad4a219a13b0fe912746b586bb9b
-v4l-utils git hash:	daab1df7a7e1b443a0c56e6a8b9f71fda2d037d3
-edid-decode git hash:	6e4132123fae3d71ac9350d71a60a7a97020df13
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8549-gd0c870a7
-sparse version:		v0.5.0-8549-gd0c870a7
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index b148b1bd2bc3..10b6ad66d126 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -968,7 +968,7 @@ static const struct v4l2_subdev_internal_ops imx214_internal_ops = {
+ static const struct regmap_config sensor_regmap_config = {
+ 	.reg_bits = 16,
+ 	.val_bits = 8,
+-	.cache_type = REGCACHE_RBTREE,
++	.cache_type = REGCACHE_MAPLE,
+ };
+ 
+ static int imx214_get_regulators(struct device *dev, struct imx214 *imx214)
+-- 
+2.31.1
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Wed Jan 17 03:20:36 CET 2024
-virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 5
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 4
-
-date:			Wed Jan 17 03:49:15 CET 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
