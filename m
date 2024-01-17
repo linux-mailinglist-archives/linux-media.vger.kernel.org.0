@@ -1,240 +1,132 @@
-Return-Path: <linux-media+bounces-3796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3797-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423E88304FA
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 13:10:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D640F830529
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 13:27:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85EAA28827D
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 12:10:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B10891C23E2D
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 12:27:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B74911DFE9;
-	Wed, 17 Jan 2024 12:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD8C31DFF4;
+	Wed, 17 Jan 2024 12:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="U8AlA84k"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="AnuJeXJr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from aposti.net (aposti.net [89.234.176.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBFC1DFCF;
-	Wed, 17 Jan 2024 12:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F5F1DFE2;
+	Wed, 17 Jan 2024 12:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705493393; cv=none; b=RABArmMrwK/ZJTd3WK5wTPmmjnNGfLPO+OHmu2yLC2ZXPXWUXHFAQ2G1YScATZWqWIWBY21xy0s3OMxuhbLJSNC/zoOT7riGDuuf+v0ju38qBKohDKd7NJATS2u73BV2Yab0YrXGBeOzonGzJJ5ano6IDHsv93bbz86L8hzpOLs=
+	t=1705494416; cv=none; b=cm5TaNsXXZ2NvkQmC5XSZRsjAwinYOEiE2bYCFNcm6oc97+myDqoqUoqonGcvAIjoL+H3TR24zN3afS6zOYAFd1kELpvpXsw90S8p4F/ZFDIc5mrOvIgPYlGoeVMh9oUyK3sGg7HEx/yDQTuUj4a1vNA9CgWfArz5cpO72BlIhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705493393; c=relaxed/simple;
-	bh=eAUPGmwVUxQVs8BO6mc3v/3UdbiY25Zj8A255TdtQdY=;
-	h=DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Autocrypt:Content-Type:Content-Transfer-Encoding:
-	 MIME-Version; b=TB8wtB7GzpmitAwWbVXBzsli0q+CJi80ZmgbVgFo71IIW9kSSWtUTnqXsnYw6FOnlxCRKDhsJW8Adk8zDttBWIB82OANxx7+O0TZR2CSzLkMeNU24OHFJwVXGDunk1KCmi7fLLJkgoabzzEXIcHgqOJ20VUFsPe5tNMXEUY2IUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=U8AlA84k; arc=none smtp.client-ip=89.234.176.197
+	s=arc-20240116; t=1705494416; c=relaxed/simple;
+	bh=jKj25He18n4jFRUrfK3U0YJkmURbZGCWIaQo843xvqA=;
+	h=DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:X-Spam; b=nowmiBAFoQ+8hVm9fEWrMcwLCOgmzYDyimuBKwMLw4NL0QhwSp7iaq/Wp/NI9eKCeWSi6i3N9sdMJZdgvC2d79s4+SSIxCccVr2doaOlpyrp9nSR4d2rnir9BXVg/XqlOMPjH2f6h8pwxkiML42vaCsXT7swGdGRL5MkJO9nmOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=AnuJeXJr; arc=none smtp.client-ip=89.234.176.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1705493382;
+	s=mail; t=1705494412;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=eAUPGmwVUxQVs8BO6mc3v/3UdbiY25Zj8A255TdtQdY=;
-	b=U8AlA84klRlnjcH59h4TKcN/vh5m4kHbbeoDnBPlx4SFfSyO2UfAU8givJIif68KKEnB4e
-	joC7uWn1VXtL5cOXBoBjAjnfw111Gh4nkicSLgOpJKGRjsWEdUF/crtYEr7ENZpZ+0+6Rr
-	Ic0eHnXR6ZrOLPJHWAuVm9krBvdohdo=
-Message-ID: <35a9d8ae152deea8a79392bb4b2a9b2053daae92.camel@crapouillou.net>
-Subject: Re: [PATCH v3 4/4] Documentation: usb: Document FunctionFS DMABUF
- API
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/sDVLzlV6tVM1+jlnCP4YrSpFonZ8VEXETbEWgRMsuA=;
+	b=AnuJeXJrsxDBX4u2PXAQELZ/ATdNATOI3nnJtTFJP8NZyE+fPe7/7Wl72Pf0pufRWaFvP1
+	sNzzWBdCHYltlr90nl6m+MVGb9eTfWZS+78j7Mt7MuOAR0Qk1audmOo2VqSZdf8a89jbTb
+	IWdLbuxuhZnhf1RqMzfVvZA6GZH3DTg=
 From: Paul Cercueil <paul@crapouillou.net>
-To: Vegard Nossum <vegard.nossum@oracle.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Christian =?ISO-8859-1?Q?K=F6nig?=
-	 <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Jonathan Cameron <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?=
- <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>, linux-usb@vger.kernel.org,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org,  dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Date: Wed, 17 Jan 2024 13:09:40 +0100
-In-Reply-To: <9712abdd-cbca-4ad6-b1e9-ff9bf054b278@oracle.com>
-References: <20240108120056.22165-1-paul@crapouillou.net>
-	 <20240108120056.22165-5-paul@crapouillou.net>
-	 <9712abdd-cbca-4ad6-b1e9-ff9bf054b278@oracle.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v4 0/4] usb: gadget: functionfs: DMABUF import interface
+Date: Wed, 17 Jan 2024 13:26:42 +0100
+Message-ID: <20240117122646.41616-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 
-Hi Vegard,
+Hi,
 
-Le mardi 09 janvier 2024 =C3=A0 14:08 +0100, Vegard Nossum a =C3=A9crit=C2=
-=A0:
-> On 08/01/2024 13:00, Paul Cercueil wrote:
-> > Add documentation for the three ioctls used to attach or detach
-> > externally-created DMABUFs, and to request transfers from/to
-> > previously
-> > attached DMABUFs.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> >=20
-> > ---
-> > v3: New patch
-> > ---
-> > =C2=A0 Documentation/usb/functionfs.rst | 36
-> > ++++++++++++++++++++++++++++++++
-> > =C2=A0 1 file changed, 36 insertions(+)
->=20
-> Hi,
->=20
-> I'd like to point out that this file (usb/functionfs.rst) is
-> currently
-> included by Documentation/subsystem-apis.rst, the top-level file for
-> the
-> "Kernel subsystem documentation" set of books, which describe
-> internal
-> APIs: "These books get into the details of how specific kernel
-> subsystems work from the point of view of a kernel developer".
->=20
-> However, functionfs.rst (and especially your new additions) are
-> documenting a userspace API, so it really belongs somewhere in
-> Documentation/userspace-api/ -- that's where /proc, /sys, /dev and
-> ioctl
-> descriptions for userspace programmers belong.
+This is the v4 of my patchset that adds a new DMABUF import interface to
+FunctionFS. It addresses the points that Daniel raised on the v3 - see
+changelog below.
 
-Agreed. Even the original content prior to my additions describe a
-userspace API.
+This interface is being used at Analog Devices, to transfer data from
+high-speed transceivers to USB in a zero-copy fashion, using also the
+DMABUF import interface to the IIO subsystem which is being upstreamed
+in parallel [1]. The two are used by the Libiio software [2].
 
->=20
-> I'm not NAKing the patch -- I just want to draw attention to this
-> discrepancy. Maybe we can separate the kernel-implementation details
-> (stuff about __init sections and stuff) from the new ioctl() info?
->=20
-> Looking at <https://docs.kernel.org/usb/> I see that there are many
-> other adjacent documents that are also not really documenting kernel
-> implementation details, rough categorization as follows:
->=20
-> USB support
-> -----------
->=20
-> - Linux ACM driver v0.16 =3D=3D> admin/user info
-> - Authorizing (or not) your USB devices to connect to the system =3D=3D>=
-=20
-> admin/user info
-> - ChipIdea Highspeed Dual Role Controller Driver =3D> admin/user info
-> - DWC3 driver =3D=3D> driver TODOs (can be moved into source code?)
-> - EHCI driver =3D=3D> technical info + driver details
-> - How FunctionFS works
-> - Linux USB gadget configured through configfs =3D=3D> userspace API +=
-=20
-> implementation
-> - Linux USB HID gadget driver =3D=3D> implementation + userspace API
-> - Multifunction Composite Gadget =3D=3D> technical + user info
-> - Linux USB Printer Gadget Driver =3D=3D> userspace API
-> - Linux Gadget Serial Driver v2.0 =3D=3D> user/admin + userspace API
-> - Linux UVC Gadget Driver =3D=3D> user/admin + userspace API
-> - Gadget Testing =3D=3D> user/admin + userspace API
-> - Infinity Usb Unlimited Readme =3D=3D> user/admin
-> - Mass Storage Gadget (MSG) =3D=3D> user/admin
-> - USB 7-Segment Numeric Display =3D=3D> user/admin
-> - mtouchusb driver =3D=3D> user/admin
-> - OHCI =3D=3D> technical info
-> - USB Raw Gadget =3D=3D> userspace API
-> - USB/IP protocol =3D=3D> technical info
-> - usbmon =3D=3D> user/admin + userspace API
-> - USB serial =3D=3D> user/admin + technical info
-> - USB references
-> - Linux CDC ACM inf
-> - Linux inf
-> - USB devfs drop permissions source
-> - Credits
->=20
-> By "admin/user info", I mean things that a user would have to do or
-> run
-> (e.g. modprobe + flags) to make use of a driver; "technical info" is
-> more like device specifications (transfer speeds, modes of operation,
-> etc.); "userspace API" is stuff like configfs and ioctls; "driver
-> details" is really implementation details and internal
-> considerations.
->=20
-> The last ones I don't even really know how to categorize.
->=20
-> I'm guessing nobody is really enthralled by the idea of splitting
-> Documentation/usb/ up like this?
->=20
-> =C2=A0=C2=A0 Documentation/admin-guide/usb/
-> =C2=A0=C2=A0 Documentation/driver-api/usb/ (this one actually exists alre=
-ady)
-> =C2=A0=C2=A0 Documentation/userspace-api/usb/
->=20
-> For the stuff that is _actually_ internal to a specific driver (so
-> not
-> useful for end users, not useful for admins, not generic USB info,
-> and
-> not useful for userspace programmers), I would honestly propose to
-> just
-> move it directly into the driver's source code, or, if the text is
-> obsolete, just get rid of it completely.
->=20
-> The distinction between user/admin and userspace API is pretty clear
-> (one is for end users, the other is for userspace _programmers_), but
-> it
-> can sometimes be hard to determine whether something falls in one or
-> the
-> other category.
->=20
-> In any case -- it looks like almost all of the usb/ directory does
-> not
-> document "how specific kernel subsystems work from the point of view
-> of
-> a kernel developer" so maybe we should just move the include to
-> userspace-api/ for now as an obvious improvement (if still not 100%
-> correct):
->=20
-> diff --git a/Documentation/subsystem-apis.rst=20
-> b/Documentation/subsystem-apis.rst
-> index 2d353fb8ea26..fe972f57bf4c 100644
-> --- a/Documentation/subsystem-apis.rst
-> +++ b/Documentation/subsystem-apis.rst
-> @@ -81,7 +81,6 @@ Storage interfaces
-> =C2=A0=C2=A0=C2=A0=C2=A0 security/index
-> =C2=A0=C2=A0=C2=A0=C2=A0 crypto/index
-> =C2=A0=C2=A0=C2=A0=C2=A0 bpf/index
-> -=C2=A0=C2=A0 usb/index
-> =C2=A0=C2=A0=C2=A0=C2=A0 PCI/index
-> =C2=A0=C2=A0=C2=A0=C2=A0 misc-devices/index
-> =C2=A0=C2=A0=C2=A0=C2=A0 peci/index
-> diff --git a/Documentation/userspace-api/index.rst=20
-> b/Documentation/userspace-api/index.rst
-> index 82f9dbd228f5..e60cd9174ada 100644
-> --- a/Documentation/userspace-api/index.rst
-> +++ b/Documentation/userspace-api/index.rst
-> @@ -41,6 +41,7 @@ Subsystem-specific documentation:
-> =C2=A0=C2=A0=C2=A0=C2=A0 tee
-> =C2=A0=C2=A0=C2=A0=C2=A0 isapnp
-> =C2=A0=C2=A0=C2=A0=C2=A0 dcdbas
-> +=C2=A0=C2=A0 ../usb/index
->=20
-> =C2=A0 Kernel ABIs: These documents describe the the ABI between the Linu=
-x
-> =C2=A0 kernel and userspace, and the relative stability of these
-> interfaces.
->=20
->=20
-> Thoughts?
+On a ZCU102 board with a FMComms3 daughter board, using the combination
+of these two new interfaces yields a drastic improvement of the
+throughput, from about 127 MiB/s using IIO's buffer read/write interface
++ read/write to the FunctionFS endpoints, to about 274 MiB/s when
+passing around DMABUFs, for a lower CPU usage (0.85 load avg. before,
+vs. 0.65 after).
 
-Makes sense to me. There's definitely some cleanup to be done in the
-USB documentation.
+Right now, *technically* there are no users of this interface, as
+Analog Devices wants to wait until both interfaces are accepted upstream
+to merge the DMABUF code in Libiio into the main branch, and Jonathan
+wants to wait and see if this patchset is accepted to greenlight the
+DMABUF interface in IIO as well. I think this isn't really a problem;
+once everybody is happy with its part of the cake, we can merge them all
+at once.
 
-> Vegard
+This is obviously for 5.9, and based on next-20240117.
+
+Changelog:
+
+- [3/4]:
+  - Protect the dmabufs list with a mutex
+  - Use incremental sequence number for the dma_fences
+  - Unref attachments and DMABUFs in workers
+  - Remove dead code in ffs_dma_resv_lock()
+  - Fix non-block actually blocking
+  - Use dma_fence_begin/end_signalling()
+  - Add comment about cache-management and dma_buf_unmap_attachment()
+  - Make sure dma_buf_map_attachment() is called with the dma-resv locked
 
 Cheers,
 -Paul
+
+[1] https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68e3f.camel@gmail.com/T/
+[2] https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf-api
+
+Paul Cercueil (4):
+  usb: gadget: Support already-mapped DMA SGs
+  usb: gadget: functionfs: Factorize wait-for-endpoint code
+  usb: gadget: functionfs: Add DMABUF import interface
+  Documentation: usb: Document FunctionFS DMABUF API
+
+ Documentation/usb/functionfs.rst    |  36 ++
+ drivers/usb/gadget/function/f_fs.c  | 500 ++++++++++++++++++++++++++--
+ drivers/usb/gadget/udc/core.c       |   7 +-
+ include/linux/usb/gadget.h          |   2 +
+ include/uapi/linux/usb/functionfs.h |  41 +++
+ 5 files changed, 565 insertions(+), 21 deletions(-)
+
+-- 
+2.43.0
+
 
