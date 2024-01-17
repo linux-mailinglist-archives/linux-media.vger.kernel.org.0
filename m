@@ -1,413 +1,167 @@
-Return-Path: <linux-media+bounces-3828-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3829-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87D0830CE1
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 19:44:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21ECE830D2A
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 20:13:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBED51C213E8
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 18:44:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AB43287124
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jan 2024 19:13:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E534E2375D;
-	Wed, 17 Jan 2024 18:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BC4E249E6;
+	Wed, 17 Jan 2024 19:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fy69DOOD"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="uIU3qzWg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2068.outbound.protection.outlook.com [40.107.96.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8FC225A1;
-	Wed, 17 Jan 2024 18:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705517071; cv=fail; b=KshrXhfdbR6Bo244SmIY1lG6fLdw09FUakwUoKihJ868N19tG1VoGWKfk1WqwtaCIQa0ideLjmpkaAT9oxLaFiPF3Bnlj1W6WggIxfPv+XU2RC6md6Xoir+umBOhZ5iPeA5dCYnRPBYdF1KSZ4j4sRIz5hwtc4py/BwRMXiC7AM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705517071; c=relaxed/simple;
-	bh=7OIuYNZv3FLP9r7f0O85B+yOs4XL+OGxrWGZh5vS6uw=;
-	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:
-	 Received-SPF:Received:Received:From:To:CC:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped; b=QzF2Ahgs9UEWMsJth1G0sm7sWldsyfck5bh+1g+DcTuXLoUNH9vrVkOLptps5x00FXJHT3nZUdKpvvrSDyqHeeCQ8SIIcJhzVQVV8Zu0AW1tby/05iI90VQ0ScJeFfDFgelprCfHGcy4ZQplBfI3uPLuDnjhnKHONi2aw+VD88U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fy69DOOD; arc=fail smtp.client-ip=40.107.96.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QrShskKtkFMOA988MD5/L9YS7DO97WuY7O6G7n5unubvqJdz9DL6FaJn9ieCOFiYfGogwjVgiD3r3fJyKv6VfiFPZR73ucI+1aQkprrpZRDoUmCNIqiFJAzXElki2HMOVgp9/mr4JCFIzstU4RYFwAbe1TnKBQ4T+RkpBYxAndpgwv6vUL0bMa9OlQsRgxjI8uY0twimJLXxsMx8m8yahEBzM0b3X1d4zsy6F53sFb2zi1JqAIglqW19VfnYQ0+AMq71atGno5Las/yL0+JhX9n337baCECzWfurNXTy3oatW+V1sLKlC0gD4TjcAuZZLcOWn7FMus6eZXm7qll7Ow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FJeu1+MHgDOUz1vgUQ9hlUpREKJ+teczytM2qNiTZDw=;
- b=lWQe1nl2Mt8iyv19sAL2tDAU1lBHdG2GoxwfPTp+gulDJfgL/i2OT1ksRvsaxLs9rQjH5Ln5osrOXp+G5zioeLH5GA0g1qKgWtYMiKe4Bfyq/mnhblLXbaHJOZ1mhcc5wCEF1wLMQI3lpkGO45+qwnVvzoES/coCgWkOObpLmLvPn+sPFQwbjL/6M44d9vBDupmgavAXBeaQD7x1pJ9GXYmhS/aJyNffNXIHBUbgoX+ytcyRe1WXUN/3TzIHLPLzICVC7UMOvNCpCeKDbpuNq3OsFHAoSjq2NGO3LcGouQQZfKMHO69IMaNByHGaucawQZmvQB8UyY+VmExvp2rC/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FJeu1+MHgDOUz1vgUQ9hlUpREKJ+teczytM2qNiTZDw=;
- b=fy69DOODtXMmgaGiYU7K2U8JSJRwXU6kUDHpvAnKbEOcpZvg8H2CSe+Asrkytf4CCFVrVuUql6Il2ADSZja6YMDByRV++anp2vlOAOqPDOBNWfRW5P4sbUFwZhUBUOiYaPUTcL8V7xuCe9clWjTv6Vx2N9r4nBCkHYWxm7oSkqs=
-Received: from BL0PR01CA0011.prod.exchangelabs.com (2603:10b6:208:71::24) by
- CH3PR12MB9343.namprd12.prod.outlook.com (2603:10b6:610:1c0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Wed, 17 Jan
- 2024 18:44:26 +0000
-Received: from BL6PEPF0001AB77.namprd02.prod.outlook.com
- (2603:10b6:208:71:cafe::15) by BL0PR01CA0011.outlook.office365.com
- (2603:10b6:208:71::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24 via Frontend
- Transport; Wed, 17 Jan 2024 18:44:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB77.mail.protection.outlook.com (10.167.242.170) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7202.16 via Frontend Transport; Wed, 17 Jan 2024 18:44:26 +0000
-Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 17 Jan
- 2024 12:44:23 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
-	<gustavo@padovan.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
-	<mathieu.desnoyers@efficios.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-media@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>, "Alex
- Deucher" <alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: [PATCH 2/2] amdgpu: use trace_dma_fence_sync_to in amdgpu_fence_sync
-Date: Wed, 17 Jan 2024 19:41:41 +0100
-Message-ID: <20240117184329.479554-2-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ADA24205
+	for <linux-media@vger.kernel.org>; Wed, 17 Jan 2024 19:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705518803; cv=none; b=lARhBnmRm/qvT5Xme4ID87vB9rJ65SKpbKExzi+Trp5KoZT9+c5zp3VgDcUUBGA/oYXYph1mWZJprygdj4T7zEMUJ6QI8z3Sd3w+ZMqPSBSBcQuSO2l6v6WsC6ZmlGddAkqwRJ97zNbAD5QTgvEdgPmHgnu2qtlRvrjMDIb9edQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705518803; c=relaxed/simple;
+	bh=1Wc2lCngWybR9QP2B8d+dj4Ww7Dmyi2mHT516O1RWj0=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Autocrypt:Content-Type:Content-Transfer-Encoding:User-Agent:
+	 MIME-Version; b=Mf9mypkj0CJ2Ml1NCg1e9nzkheXNJRHG5MJfn3QonBqoeZ0BbBPL1TL/YFqme9/V3ITSV7quy83NhZa3+yDbnUir2TKaLehBIBWUUTgZ83YK766XIQAwS+b/XbWyA0Ma+L1Az3DewaInyHxViGn45u4diS8FIbbJxEPkGAG9LhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=uIU3qzWg; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7833a51a1aaso652044285a.0
+        for <linux-media@vger.kernel.org>; Wed, 17 Jan 2024 11:13:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1705518801; x=1706123601; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bV2ObK4Gn6zBfHyaALWYuYvkHMTPFOM7kyZ+I5+TgvA=;
+        b=uIU3qzWgWQ3KnTpzejJT/4oNC/x/uVfe3GZKXSgQwjkReeghzO63mK6v+8jMDrp6N5
+         djWi85oZL2zfg6nEKn+xKjQ0yPYF3mao83clUY6/xflgfrLpLoOrIZ12/wLq18hECyA1
+         LPSCBxTTh8iHktk/wj5gARJgDqsKf0zD3l/QVky58SUEwUXX3Tn5/daMSLupkreDbcLv
+         WZAwoo/glnJ7da71w0hAo9+kXywoBT+Vxh4S0GoTFsAa9xmJHh05vIjyqyVAoCiv5YDW
+         H4aWjKL4oUoKeSZhwgDdnN2y2MFF4OAeRbFMmDe78ImKuGwIaOeQySQnNXmgOoe/9xIF
+         OA5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705518801; x=1706123601;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bV2ObK4Gn6zBfHyaALWYuYvkHMTPFOM7kyZ+I5+TgvA=;
+        b=dman3J7eABI14zHUs6y0/t2FPL17H7uAX9JMwYUamBfZwgAjCAhMkPe4dlJqO/TXI+
+         GVzP43aQhHNiV6cqyx90vVKf5coFRMkQ/JdpExtv2kW54KzWrXPo6iP2lE3tXh+iK4ZP
+         Nb2wonX0aOYn/EwnjgzDpEHTLpO+9xdXTfDpwL+l3wm880T9uTdbQjN2U6WovMcbZaTD
+         nYW4nsNP4S2tKdfT+3+MGxASvXSAopmv6y6A1i6/z6siiucGcyKMCx9DEJ951eJgnP1l
+         1iSMHyX5oGWHHjJu1w1ALaN938nQo4mZtnFtClnDtqDYRSFKRyc+qJ+t6aaARX2AuJbe
+         c1Pw==
+X-Gm-Message-State: AOJu0YwZ66Gb31FvO1n2SPsow6gTNfXtiT7veehQu/NUlYuR6t5lXftP
+	3kcyf7rCHpCHLcC3+BSsiCiT1wQvx2I/sg==
+X-Google-Smtp-Source: AGHT+IG73tqD/icOIiDqu1zoHWcRrz4j9u5/SPw8nh8PdpyyAo+kwFkgCZy+NiroIxfP1GwDgXR5Lw==
+X-Received: by 2002:a05:620a:44d1:b0:783:3ea4:e39d with SMTP id y17-20020a05620a44d100b007833ea4e39dmr10686331qkp.146.1705518801111;
+        Wed, 17 Jan 2024 11:13:21 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
+        by smtp.gmail.com with ESMTPSA id i16-20020a05620a249000b007832c2e3b80sm4633406qkn.132.2024.01.17.11.13.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 11:13:20 -0800 (PST)
+Message-ID: <e01c9ab69f3e120cdb9b70fbacebbab32d5abba4.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 1/2] arm64: dts: rockchip: Add Hantro G1 VPU support
+ for RK3588
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, heiko@sntech.de, 
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, mchehab@kernel.org
+Cc: sfr@canb.auug.org.au, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ sigmaris@gmail.com,  knaerzche@gmail.com
+Date: Wed, 17 Jan 2024 14:13:19 -0500
+In-Reply-To: <20231231151112.3994194-2-liujianfeng1994@gmail.com>
+References: <20231231151112.3994194-1-liujianfeng1994@gmail.com>
+	 <20231231151112.3994194-2-liujianfeng1994@gmail.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB77:EE_|CH3PR12MB9343:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe2bb92a-c644-4a99-d6f5-08dc178c54ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	9MeTb38hhNribkeDk/Gn2yb6HDPW7iWPwQZUnVJ4Mya/6LJrIan5T6VZp/cQ2fkg4IVACyRQ1s0KMkNVevQ4IpnnF0/X3h82yvApOtPeZUH+ilf33H+/CUUjD9BMnASNTOUqQF9DEJoTp0fN4aj6HfOQ8HRQiuwNNFYDq1QTH85g1Hh2Zim5qm7zq9/iMKfKHLnMQbyJZXbICB9WZ4I0Jg/byUb46uSQdgc9TGV8lOG0Tzvqmn7JfkRuQCl5URNgI1Wagro1E9thcLdLEBz+SCZsBCTs2dbSgygrHixXTm4PxaSjEV00oFK/ImO2GG+j+JBVV9OguGZk2yjJcFR2PyKpRuKymOjbGzn84aSxXM98jfFOUJWQuUxwDVOUKFMnVkrG+0lrc6+3Acn0BAClbnMIal1wssFjG89EyG0Xm5gTiEkKHwn6ZmQLqwAq25TIFhkwZwR1n8AqksWSJP5Rhbjb/44S2JV0GfKvu1QL+in/sPuZ+O24ONsLqGcavEEFkNl+E4H6lhDRjeKRPAJVVmT+76R0bl6tV5aMgbnmBL4EaEmhPRNtIt9nbdfg0WgIzbO5QbZBx0lgzSvhximlUQt6lU0LCIycy7NukOj0Q5SS25XJ3AgOhnuK/gYAQmn+LzzzfwC4AOFKtZXNNGeYIMMzDeFafsMNA5+TMvu2X5YUtg+zMhDgCyBcPxgj/COY7xjolzeSfBfTdqPl8rKnIZgZNccij9g6Ra5WOPSeul+7OkY2O/KMeDkpiSst4pz5REwhGBe7u2lg9xK5rmGerKS9l00hpa/xVf+4breXHMlEcZHXj1MAJum8BHspwQnQ
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(396003)(39860400002)(136003)(230922051799003)(82310400011)(1800799012)(64100799003)(451199024)(186009)(40470700004)(46966006)(36840700001)(41300700001)(5660300002)(8676002)(8936002)(2906002)(70206006)(70586007)(316002)(110136005)(40480700001)(40460700003)(966005)(478600001)(47076005)(336012)(426003)(26005)(1076003)(2616005)(6666004)(7696005)(16526019)(4326008)(36756003)(356005)(82740400003)(921011)(83380400001)(86362001)(36860700001)(81166007)(2101003)(36900700001)(83996005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2024 18:44:26.7123
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe2bb92a-c644-4a99-d6f5-08dc178c54ec
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB77.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9343
 
-This makes it possible to understand the dependencies between jobs.
-Possible usage of this trace:
-* stuttering issues like Mesa !9189
-* incorrect synchronization: I don't have a link for this one, but having
-  these events was very useful to debug a virtio-gpu / native-context /
-  radeonsi sync issue
+Hi Jianfeng,
 
-I have prototype code using this in UMR, as can be see here:
-   https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+Le dimanche 31 d=C3=A9cembre 2023 =C3=A0 23:11 +0800, Jianfeng Liu a =C3=A9=
+crit=C2=A0:
+> This patch enables Hantro G1 video decoder in RK3588's
+> devicetree.
+>=20
+> Tested with FFmpeg v4l2_request code taken from [1]
+> with MPEG2, H.264 and VP8 samples.
 
-The 'reason' param currently uses __func__ but I didn't add a macro for
-this because it'd be interesting to use more descriptive names for each
-use of amdgpu_fence_sync.
+In general, we ask submitters to share a fluster [0] score (this is just to
+demonstrate that the integration has been well validated). LibreELEC commun=
+ity
+have patch to enable this ffmpeg fork. I don't expect any surprise here, an=
+d you
+can just reply to my email here.
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |  8 ++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c           | 14 +++++++-------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c          |  8 +++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c          |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c         | 11 ++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h         |  3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c     |  4 ++--
- 7 files changed, 28 insertions(+), 24 deletions(-)
+Alternatively, this test tool is shipped in latest Debian, and with the
+appropriate GStreamer packages you'll be able to run the VP8 and H.264 test=
+s.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index d17b2452cb1f..fde98e48c84b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -491,7 +491,7 @@ static int vm_update_pds(struct amdgpu_vm *vm, struct amdgpu_sync *sync)
- 	if (ret)
- 		return ret;
- 
--	return amdgpu_sync_fence(sync, vm->last_update);
-+	return amdgpu_sync_fence(sync, vm->last_update, __func__);
- }
- 
- static uint64_t get_pte_flags(struct amdgpu_device *adev, struct kgd_mem *mem)
-@@ -1251,7 +1251,7 @@ static void unmap_bo_from_gpuvm(struct kgd_mem *mem,
- 
- 	amdgpu_vm_clear_freed(adev, vm, &bo_va->last_pt_update);
- 
--	amdgpu_sync_fence(sync, bo_va->last_pt_update);
-+	amdgpu_sync_fence(sync, bo_va->last_pt_update, __func__);
- }
- 
- static int update_gpuvm_pte(struct kgd_mem *mem,
-@@ -1273,7 +1273,7 @@ static int update_gpuvm_pte(struct kgd_mem *mem,
- 		return ret;
- 	}
- 
--	return amdgpu_sync_fence(sync, bo_va->last_pt_update);
-+	return amdgpu_sync_fence(sync, bo_va->last_pt_update, __func__);
- }
- 
- static int map_bo_to_gpuvm(struct kgd_mem *mem,
-@@ -2910,7 +2910,7 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
- 		}
- 		dma_resv_for_each_fence(&cursor, bo->tbo.base.resv,
- 					DMA_RESV_USAGE_KERNEL, fence) {
--			ret = amdgpu_sync_fence(&sync_obj, fence);
-+			ret = amdgpu_sync_fence(&sync_obj, fence, __func__);
- 			if (ret) {
- 				pr_debug("Memory eviction: Sync BO fence failed. Try again\n");
- 				goto validate_map_fail;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 6adeddfb3d56..6830892383c3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -423,7 +423,7 @@ static int amdgpu_cs_p2_dependencies(struct amdgpu_cs_parser *p,
- 			dma_fence_put(old);
- 		}
- 
--		r = amdgpu_sync_fence(&p->sync, fence);
-+		r = amdgpu_sync_fence(&p->sync, fence, __func__);
- 		dma_fence_put(fence);
- 		if (r)
- 			return r;
-@@ -445,7 +445,7 @@ static int amdgpu_syncobj_lookup_and_add(struct amdgpu_cs_parser *p,
- 		return r;
- 	}
- 
--	r = amdgpu_sync_fence(&p->sync, fence);
-+	r = amdgpu_sync_fence(&p->sync, fence, __func__);
- 	dma_fence_put(fence);
- 	return r;
- }
-@@ -1101,7 +1101,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 	if (r)
- 		return r;
- 
--	r = amdgpu_sync_fence(&p->sync, fpriv->prt_va->last_pt_update);
-+	r = amdgpu_sync_fence(&p->sync, fpriv->prt_va->last_pt_update, __func__);
- 	if (r)
- 		return r;
- 
-@@ -1112,7 +1112,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 		if (r)
- 			return r;
- 
--		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update);
-+		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update, __func__);
- 		if (r)
- 			return r;
- 	}
-@@ -1131,7 +1131,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 		if (r)
- 			return r;
- 
--		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update);
-+		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update, __func__);
- 		if (r)
- 			return r;
- 	}
-@@ -1144,7 +1144,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 	if (r)
- 		return r;
- 
--	r = amdgpu_sync_fence(&p->sync, vm->last_update);
-+	r = amdgpu_sync_fence(&p->sync, vm->last_update, __func__);
- 	if (r)
- 		return r;
- 
-@@ -1225,7 +1225,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_parser *p)
- 			continue;
- 		}
- 
--		r = amdgpu_sync_fence(&p->gang_leader->explicit_sync, fence);
-+		r = amdgpu_sync_fence(&p->gang_leader->explicit_sync, fence, __func__);
- 		dma_fence_put(fence);
- 		if (r)
- 			return r;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-index ddd0891da116..96f68e025d8e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-@@ -309,7 +309,7 @@ static int amdgpu_vmid_grab_reserved(struct amdgpu_vm *vm,
- 	/* Good we can use this VMID. Remember this submission as
- 	* user of the VMID.
- 	*/
--	r = amdgpu_sync_fence(&(*id)->active, &job->base.s_fence->finished);
-+	r = amdgpu_sync_fence(&(*id)->active, &job->base.s_fence->finished, __func__);
- 	if (r)
- 		return r;
- 
-@@ -369,8 +369,7 @@ static int amdgpu_vmid_grab_used(struct amdgpu_vm *vm,
- 		/* Good, we can use this VMID. Remember this submission as
- 		 * user of the VMID.
- 		 */
--		r = amdgpu_sync_fence(&(*id)->active,
--				      &job->base.s_fence->finished);
-+		r = amdgpu_sync_fence(&(*id)->active, &job->base.s_fence->finished, __func__);
- 		if (r)
- 			return r;
- 
-@@ -421,8 +420,7 @@ int amdgpu_vmid_grab(struct amdgpu_vm *vm, struct amdgpu_ring *ring,
- 			id = idle;
- 
- 			/* Remember this submission as user of the VMID */
--			r = amdgpu_sync_fence(&id->active,
--					      &job->base.s_fence->finished);
-+			r = amdgpu_sync_fence(&id->active, &job->base.s_fence->finished, __func__);
- 			if (r)
- 				goto error;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-index da48b6da0107..0f85370f69fa 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-@@ -1219,14 +1219,14 @@ int amdgpu_mes_ctx_map_meta_data(struct amdgpu_device *adev,
- 		DRM_ERROR("failed to do vm_bo_update on meta data\n");
- 		goto error_del_bo_va;
- 	}
--	amdgpu_sync_fence(&sync, bo_va->last_pt_update);
-+	amdgpu_sync_fence(&sync, bo_va->last_pt_update, __func__);
- 
- 	r = amdgpu_vm_update_pdes(adev, vm, false);
- 	if (r) {
- 		DRM_ERROR("failed to update pdes on meta data\n");
- 		goto error_del_bo_va;
- 	}
--	amdgpu_sync_fence(&sync, vm->last_update);
-+	amdgpu_sync_fence(&sync, vm->last_update, __func__);
- 
- 	amdgpu_sync_wait(&sync, false);
- 	drm_exec_fini(&exec);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-index 1b013a44ca99..b6538f73eee9 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-@@ -30,6 +30,7 @@
-  */
- 
- #include <linux/dma-fence-chain.h>
-+#include <trace/events/dma_fence.h>
- 
- #include "amdgpu.h"
- #include "amdgpu_trace.h"
-@@ -149,10 +150,12 @@ static bool amdgpu_sync_add_later(struct amdgpu_sync *sync, struct dma_fence *f)
-  *
-  * @sync: sync object to add fence to
-  * @f: fence to sync to
-+ * @reason: why do we sync to this fence
-  *
-  * Add the fence to the sync object.
-  */
--int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f)
-+int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f,
-+		      const char *reason)
- {
- 	struct amdgpu_sync_entry *e;
- 
-@@ -166,6 +169,8 @@ int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f)
- 	if (!e)
- 		return -ENOMEM;
- 
-+	trace_dma_fence_sync_to(f, reason);
-+
- 	hash_add(sync->fences, &e->node, f->context);
- 	e->fence = dma_fence_get(f);
- 	return 0;
-@@ -249,7 +254,7 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
- 			struct dma_fence *tmp = dma_fence_chain_contained(f);
- 
- 			if (amdgpu_sync_test_fence(adev, mode, owner, tmp)) {
--				r = amdgpu_sync_fence(sync, f);
-+				r = amdgpu_sync_fence(sync, f, __func__);
- 				dma_fence_put(f);
- 				if (r)
- 					return r;
-@@ -358,7 +363,7 @@ int amdgpu_sync_clone(struct amdgpu_sync *source, struct amdgpu_sync *clone)
- 	hash_for_each_safe(source->fences, i, tmp, e, node) {
- 		f = e->fence;
- 		if (!dma_fence_is_signaled(f)) {
--			r = amdgpu_sync_fence(clone, f);
-+			r = amdgpu_sync_fence(clone, f, __func__);
- 			if (r)
- 				return r;
- 		} else {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-index cf1e9e858efd..0c58d6120053 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-@@ -47,7 +47,8 @@ struct amdgpu_sync {
- };
- 
- void amdgpu_sync_create(struct amdgpu_sync *sync);
--int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f);
-+int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f,
-+		      const char *reason);
- int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
- 		     struct dma_resv *resv, enum amdgpu_sync_mode mode,
- 		     void *owner);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c
-index bfbf59326ee1..5e30b371b956 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c
-@@ -117,13 +117,13 @@ static int map_ring_data(struct amdgpu_device *adev, struct amdgpu_vm *vm,
- 	if (r)
- 		goto error_del_bo_va;
- 
--	amdgpu_sync_fence(&sync, (*bo_va)->last_pt_update);
-+	amdgpu_sync_fence(&sync, (*bo_va)->last_pt_update, __func__);
- 
- 	r = amdgpu_vm_update_pdes(adev, vm, false);
- 	if (r)
- 		goto error_del_bo_va;
- 
--	amdgpu_sync_fence(&sync, vm->last_update);
-+	amdgpu_sync_fence(&sync, vm->last_update, __func__);
- 
- 	amdgpu_sync_wait(&sync, false);
- 	drm_exec_fini(&exec);
--- 
-2.40.1
+Nicolas
+
+[0] https://github.com/fluendo/fluster
+
+>=20
+> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multim=
+edia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+>=20
+> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+> ---
+>  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/=
+dts/rockchip/rk3588s.dtsi
+> index 5fb0baf8a..ab2792162 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> @@ -640,6 +640,26 @@ i2c0: i2c@fd880000 {
+>  		status =3D "disabled";
+>  	};
+> =20
+> +	vpu: video-codec@fdb50000 {
+> +		compatible =3D "rockchip,rk3588-vpu", "rockchip,rk3568-vpu";
+> +		reg =3D <0x0 0xfdb50000 0x0 0x800>;
+> +		interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+> +		clock-names =3D "aclk", "hclk";
+> +		iommus =3D <&vdpu_mmu>;
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +	};
+> +
+> +	vdpu_mmu: iommu@fdb50800 {
+> +		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
+> +		reg =3D <0x0 0xfdb50800 0x0 0x40>;
+> +		interrupts =3D <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clock-names =3D "aclk", "iface";
+> +		clocks =3D <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +		#iommu-cells =3D <0>;
+> +	};
+> +
+>  	vop: vop@fdd90000 {
+>  		compatible =3D "rockchip,rk3588-vop";
+>  		reg =3D <0x0 0xfdd90000 0x0 0x4200>, <0x0 0xfdd95000 0x0 0x1000>;
 
 
