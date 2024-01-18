@@ -1,124 +1,157 @@
-Return-Path: <linux-media+bounces-3839-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3840-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190C88312E1
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 07:56:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8546083135C
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 08:52:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7E31B23D55
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 06:56:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9277B22A04
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 07:52:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EAE19447;
-	Thu, 18 Jan 2024 06:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="blnGXbFu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01315C126;
+	Thu, 18 Jan 2024 07:52:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA828F40
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 06:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5B61170A;
+	Thu, 18 Jan 2024 07:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705560970; cv=none; b=mO4FIbB+tT5/XL1I547aGTmlL62uMLG8syj9uLlSFn2LylIoy9kCMH+8avIK24bpRRq15sYY9KeUu2RHuMlpRvyK0z9w+x423FJt5iPTXIutt3qudPYOeFQCovQBzoct6Fnx31BhtS3shDfoRqymepmmIIwLf7Rt6vsBIJdshL4=
+	t=1705564331; cv=none; b=OMrOj7D8NprDEeiQwV00wwXNbeGKOUZ743mDRUoqsbltx+alXEjcCVDtShMsmhRGnQF9mwCcCtHoaHEZ3M4FxFoAI3i8X19BjYGlFGWxewoxzObg1+yhcgN1pI1QEdItOLITEDkr96+VFS5iT4SqFLU4M8qB+KY/bwkvadak9oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705560970; c=relaxed/simple;
-	bh=jTC5Olz7IsyCJRrP76zPKx3b2xOiq865PleDue7ogNM=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=eNQGZ5gZuUOv48vdq28UN+c5PhnoEfMhvTpIFVVwuEBLnZMnJb+StNVw12qF5YDD7NT0wL/qVlI07Y3SzPpO1M5aDjRhanLXeJeeyaxChGPT/h20HPWh7aUiX1GBN51214IgJXOOeUSF/yelqZeRrO2GvAuRpI8ojGEXf7PQhBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=blnGXbFu; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-337cc8e72f5so300254f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 17 Jan 2024 22:56:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705560965; x=1706165765; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U+cBXqSWjHMhNjAkCmW1hMHJdX7+v0UlHm9R2PCzWLo=;
-        b=blnGXbFu1knM8hzXWRuc4FLutway42DdCv6jBi8XdP9jmvOX7tbgp6vV/dbbfz3US1
-         ZyWvQVe1h5y5w2qKzeCI670SCg9BMryNCWBz41jjLnEuBb3shiSaGWWGxYmty56Blnqt
-         jbvwuNTP4KV3s332aRqsngZKgCQJDa3/rTFRleUHvBATQruLgyDRdU3irmua4uWQMc5o
-         iq33gD6seMohhSIaKwuQgJb++XQZcc6eP6L78gOr8+54w9G0UcgLz6uj1cPnx0K8lYpl
-         qnwClsG7OAQdCw/7ZUcNj8U2v4vivnHDHYY8snQFzJO5Yf3bubYFF0s8WsuYPuyl2fM7
-         nSNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705560965; x=1706165765;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U+cBXqSWjHMhNjAkCmW1hMHJdX7+v0UlHm9R2PCzWLo=;
-        b=IXl9tkRlwy24l+f+eNImlC2zMONhDYMDfqtjKnDhtkM8H1WOtqbCG/wRSDseA1zoCK
-         c80PEMUfFPWzuhE2iTKkfhp5V8Ysw6DEiFcDFV9esTa73cgkPKQgKB4E9gSYpet5UD4u
-         0itF2U62wPBrqNZ339ZaBHm/stMBo9hPWCyCKg8vRKoy4IYSkc1jeIsk46r6yr8l5+Yo
-         NUFDEkmrOGWFShoKPKAt4Nt8UemSd8yHFV/ZLZ7whjMkoz9NdJ4AvOVPUO6XngaAIMWN
-         DrFU0vMzeuZXx05Bx0/ptOuZu0LnKUd5nhdNaDZJ0VpG4vrjg9ZxtKW6zzXipQhsrK8K
-         DCVA==
-X-Gm-Message-State: AOJu0Yx9Bn0wUFoIQdT1GnTScRDpzJnSWYbn/660yzF6d32ofXCGhfyR
-	qrfVCKpOvghO7IGU0tZSW1nV2CAV4R/jINX7lpSkZ2t49jTblGQPlrVFutWlVfw=
-X-Google-Smtp-Source: AGHT+IEpP375TYsoLkpOyQb0a+vaP+sfTRpQ/Y56xxd9qZ0ZdCztSDSohhhBP6mjie01+QP19uuOsg==
-X-Received: by 2002:a05:6000:118e:b0:337:c4d4:e32b with SMTP id g14-20020a056000118e00b00337c4d4e32bmr188477wrx.83.1705560965398;
-        Wed, 17 Jan 2024 22:56:05 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id s17-20020adfecd1000000b00336471bc7ffsm3251708wro.109.2024.01.17.22.56.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 22:56:05 -0800 (PST)
-Date: Thu, 18 Jan 2024 09:56:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: tomm.merciai@gmail.com
-Cc: linux-media@vger.kernel.org
-Subject: Re: [bug report] media: i2c: Add support for alvium camera
-Message-ID: <b926fc2b-a29b-472b-b68b-4383eed8b43c@moroto.mountain>
-References: <9709fbf7-2769-4b25-ad6a-d59058e9946d@moroto.mountain>
+	s=arc-20240116; t=1705564331; c=relaxed/simple;
+	bh=2Fh9Tp3AdRnRiIVKXLJf0SM4987XhL95PCJwebTGEO8=;
+	h=Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
+	 Content-Language:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding; b=MVJ31UwfQiaexQXq20iAogV5OMqYwwue31C/3hXOxZQcPmelDtZ0QjJnn7vObEz8vY+6cgApqoz34NXjPudWDGbJXFCWa08o4yM6HsZYuIh1wYRDIKWSTwB/89GkGCsXMz2qHmDA+KB10OTJNZbZErhNqnEVDA2qWxOSLH/7rKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72857C433C7;
+	Thu, 18 Jan 2024 07:52:09 +0000 (UTC)
+Message-ID: <e9f42704-2f99-4f2c-ade5-f952e5fd53e5@xs4all.nl>
+Date: Thu, 18 Jan 2024 08:52:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9709fbf7-2769-4b25-ad6a-d59058e9946d@moroto.mountain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
+ cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
+Content-Language: en-US, nl
+To: "Zhao, Zijie" <zijie4@illinois.edu>,
+ "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
+ "Zhang, Lingming" <lingming@illinois.edu>, "Yang, Chenyuan"
+ <cy54@illinois.edu>
+References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
+ <SN6PR11MB345527101A2C8A1AC99B04B5FA712@SN6PR11MB3455.namprd11.prod.outlook.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <SN6PR11MB345527101A2C8A1AC99B04B5FA712@SN6PR11MB3455.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 18, 2024 at 09:54:06AM +0300, Dan Carpenter wrote:
-> Hello Tommaso Merciai,
+On 18/01/2024 05:25, Zhao, Zijie wrote:
+> Dear Developers,
 > 
-> The patch 0a7af872915e: "media: i2c: Add support for alvium camera"
-> from Dec 4, 2023 (linux-next), leads to the following Smatch static
-> checker warning:
+> We hope this email finds you well. We took a deeper look at the first crash KASAN: slab-use-after-free Read in cec_queue_msg_fh. We believe the cause is that one thread took the lock of a `struct
+> cec_fh` but another thread freed it:
 > 
-> 	drivers/media/i2c/alvium-csi2.c:420 alvium_get_fw_version()
-> 	error: uninitialized symbol 'spec'.
+> One thread takes the lock of the `fh` of type `struct cec_fh`first (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L219);
+> Another thread frees this `fh` without checking if any other thread is holding the lock (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c#L684);
+> Then KASAN is triggered when the first thread tries to access `fh->msgs` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L224).
 > 
-> drivers/media/i2c/alvium-csi2.c
->     403 static int alvium_get_fw_version(struct alvium_dev *alvium)
->     404 {
->     405         struct device *dev = &alvium->i2c_client->dev;
->     406         u64 spec, maj, min, pat;
->     407         int ret = 0;
->     408 
->     409         ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_SPEC_VERSION_R,
->     410                           &spec, &ret);
->     411         ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MAJOR_VERSION_R,
->     412                           &maj, &ret);
->     413         ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MINOR_VERSION_R,
->     414                           &min, &ret);
->     415         ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_PATCH_VERSION_R,
->     416                           &pat, &ret);
->     417         if (ret)
->     418                 return ret;
 > 
-> Only the last read is checked.
+> While this particular reproducer seems harmless, we think the free might cause more problems when paired with threads running other functions that work on `fh`and then KASAN is disabled. We also think
+> the `struct cec_fh` (https://elixir.bootlin.com/linux/v6.7-rc7/source/include/media/cec.h#L90) is worth attention since it stores many function pointers (e.g. `fh->adap->ops` stores
+> https://elixir.bootlin.com/linux/v6.7-rc7/source/include/media/cec.h#L115 and `fh->adap->pin->ops` stores https://elixir.bootlin.com/linux/v6.7-rc7/source/include/media/cec-pin.h#L36).
+> 
+> Could you please kindly take a look at the crashes as you have more expertise in them?
 
-Oops.  Sorry for the noise.  I hadn't seen that it takes &ret as an
-argument and so it preserves the first error code.
+I've been looking at these on and off whenever I have some time. I found two issues and am
+on the trail of a third. Once I have a patch for the third I was planning to post the patches
+and ask you to retest. Some of the issues you found might all relate to the same root cause
+(esp. the locking issue), so it would be great if you could help with that.
 
-regards,
-dan carpenter
+Regards,
 
+	Hans
+
+> 
+> Thank you for your time!
+> --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+> *From:* Yang, Chenyuan <cy54@illinois.edu>
+> *Sent:* Wednesday, December 27, 2023 8:33 PM
+> *To:* linux-media@vger.kernel.org <linux-media@vger.kernel.org>; linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
+> *Cc:* jani.nikula@intel.com <jani.nikula@intel.com>; hverkuil-cisco@xs4all.nl <hverkuil-cisco@xs4all.nl>; syzkaller@googlegroups.com <syzkaller@googlegroups.com>; mchehab@kernel.org
+> <mchehab@kernel.org>; Zhao, Zijie <zijie4@illinois.edu>; Zhang, Lingming <lingming@illinois.edu>
+> *Subject:* [Linux Kernel Bugs] KASAN: slab-use-after-free Read in cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
+>  
+> 
+> Hello,
+> 
+>  
+> 
+> We encountered 5 different crashes in the cec device by using our generated syscall specification for it, here are the descriptions of these 5 crashes and the related files are attached:
+> 
+> 1. KASAN: slab-use-after-free Read in cec_queue_msg_fh (Reproducible)
+> 
+> 2. WARNING: ODEBUG bug in cec_transmit_msg_fh
+> 
+> 3. WARNING in cec_data_cancel
+> 
+> 4. INFO: task hung in cec_claim_log_addrs (Reproducible)
+> 
+> 5. general protection fault in cec_transmit_done_ts
+> 
+>  
+> 
+> For “KASAN: slab-use-after-free Read in cec_queue_msg_fh”, we attached a syzkaller program to reproduce it. This crash is caused by ` list_add_tail(&entry->list, &fh->msgs);`
+> (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L224 <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L224>), which reads a
+> variable freed by `kfree(fh);` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c#L684
+> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c#L684>). The reproducible program is a Syzkaller program, which can be executed following this document:
+> https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md <https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md>.
+> 
+>  
+> 
+> For “WARNING: ODEBUG bug in cec_transmit_msg_fh”, unfortunately we failed to reproduce it but we indeed trigger this crash almost every time when we fuzz the cec device only. We attached the report
+> and log for this bug. It tries freeing an active object by using `kfree(data);` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L930
+> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L930>).
+> 
+>  
+> 
+> For “WARNING in cec_data_cancel”, it is an internal warning used in cec_data_cancel (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L365
+> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L365>), which checks whether the transmit is the current or pending. Unfortunately, we also don't have the
+> reproducible program for this bug, but we attach the report and log.
+> 
+>  
+> 
+> For “INFO: task hung in cec_claim_log_addrs”, the kernel hangs when the cec device ` wait_for_completion(&adap->config_completion);`
+> (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L1579 <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L1579>). We have a
+> reproducible C program for this.
+> 
+>  
+> 
+> For “general protection fault in cec_transmit_done_ts”, the cec device tries derefencing a non-canonical address 0xdffffc00000000e0: 0000 [#1], which is related to the invocation `
+> cec_transmit_attempt_done_ts ` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L697
+> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L697>). It seems that the address of cec_adapter is totally wrong. We do not have a reproducible program for this
+> bug, but the log and report for it are attached.
+> 
+>  
+> 
+> If you have any questions or require more information, please feel free to contact us.
+> 
+>  
+> 
+> Best,
+> 
+> Chenyuan
+> 
 
 
