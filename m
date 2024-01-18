@@ -1,126 +1,97 @@
-Return-Path: <linux-media+bounces-3858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3859-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D3D83187C
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 12:31:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE5E831897
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 12:44:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95E2F1F24DCF
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 11:31:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 158EB1C22DC2
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 11:44:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE85924201;
-	Thu, 18 Jan 2024 11:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68771241F7;
+	Thu, 18 Jan 2024 11:44:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7lRovnW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICmSm9aV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E4D241E6;
-	Thu, 18 Jan 2024 11:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C6B208BB
+	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 11:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705577477; cv=none; b=YcB9jCsdv/axBt8FBQIsnTJFvO8VuE/krHrRcRCK0CgOLV3fdcN116Ncu15/lqXzhgOmC/Nlmbo9iHZgrgm6DDnK7aphILJHiBLqSMQWxsvhc+MV2C4YMRTzATcCHeF9YN9+xC4Vg3MoXw6PXrBhKkaNd7WVIMwbVmAVKsRab8A=
+	t=1705578241; cv=none; b=cdhjXlTW6KyWc/op1atvBJCwXuR3D8XmxAOvIMJbphK7hVSRCRcgmSN0h/Qcm/C07MyzZw12GvEtzrCJ1yu3mopVhj+6uWqWPJtgde1x0uhMwcDCG5y/yUkXuE7rEZohWytK5JTS1U7haLHgyuJi6x2If++0jeF70/p5mwF8b8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705577477; c=relaxed/simple;
-	bh=/2dkV31yHAb+Qfdj4xcle6MF5whChIwDA5UIkWma74Q=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
-	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding; b=MNldedp/zqG3ocQ14XbkvSA70wldmShuNqE4XRvycDHZKWQe9/6n5UZku535rCOjE5T/pt94M2PJzVWxQTkRIAH/HT76Sm8HKMK+1GcvDO6a+9ukIBn+vwq4qMbpJC0G7ViG18VG4MNErUERZjBUhgjNHeo6RX1ettNgyErLxOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R7lRovnW; arc=none smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6dde528dbe8so5745804a34.0;
-        Thu, 18 Jan 2024 03:31:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705577475; x=1706182275; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/2dkV31yHAb+Qfdj4xcle6MF5whChIwDA5UIkWma74Q=;
-        b=R7lRovnWvQGeiG9FmMLsbXMp2xqKSHnQxw5u5oJNJe+yFrTn9KtLAPXLFHXAxpbP55
-         Q2UuPMbMFUp8uKFr3PV4WCSJYuz3MWpPsH7NfejpjgzpD+NynFrB9mVhIWHfZY3xmjA1
-         us6Xs3yif20x23sZkuPGAoAqgnpCK92vGo7Hb/Mf/3Ha05ICa+vkcFxZkS70GUewqJvq
-         jOBeC0N79l8TUcbH2CspZ+Fmz/rbBaZdpyxs895zpgwFg7XuVDeXnSzWwZXjy0/1DEiS
-         d+4lzU6MALmOc7qT7uAJB/VNETSPZVkvmJh4v9FI4kzhPAEAhEIbXsYt54tJLSzeHQtT
-         s6+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705577475; x=1706182275;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/2dkV31yHAb+Qfdj4xcle6MF5whChIwDA5UIkWma74Q=;
-        b=sifHrSW1qdmBnxdoeX9qWuvD8Ykd4V4Ryzazq3K6H+/ldB+Ydi9pbpDpvjDjXs2Rnv
-         nshDut+Mxq7DZ4zo3Ay2wRsj5nBB+T+9r9FcEJfd4e+TcmplioY9PT3rLVHGoUBT7S3S
-         XI4oD81p59czXK7SKlWMe4ORjySE/hQS/Hk8fMp5gmbxfroCm7OouqMSPpCJIfHRuESy
-         n5K1tqvI7tF+TZS1iqY00aNIoqNufeg24cOstNb//scrT4am/oWQch5cpJ5LXDWZv8pg
-         21wbgXWmTN/MxgDqC+QJOoOVR1emwPOUQCidLlua8AMSnhZsdGPpe+jX7XrbkI3Xt9Hm
-         U3Zw==
-X-Gm-Message-State: AOJu0YwOgy0/JXKvHNbHoDR/wsJa2L3Ux5iygG7d4ZXudR7I5GMA91Jt
-	C2DGyu1aAdfKAZb9Fy9kfMyGCK/0BDkdobNj1L0EopaOEinwloY1
-X-Google-Smtp-Source: AGHT+IG7KytPhcCCGt0DJgflFsul/IGg9dbIsuDpZgqGurOYArTCDBoYnurv27JfOgVVV7C9JzB4IA==
-X-Received: by 2002:a05:6359:689:b0:175:abbe:58b9 with SMTP id ei9-20020a056359068900b00175abbe58b9mr592825rwb.64.1705577474866;
-        Thu, 18 Jan 2024 03:31:14 -0800 (PST)
-Received: from toyko-2.5 ([45.32.55.39])
-        by smtp.gmail.com with ESMTPSA id u22-20020aa78496000000b006d974d47a8csm3096710pfn.115.2024.01.18.03.31.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 03:31:14 -0800 (PST)
-From: amazingfate <liujianfeng1994@gmail.com>
-To: nicolas@ndufresne.ca
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	elezegarcia@gmail.com,
-	ezequiel@vanguardiasur.com.ar,
-	heiko@sntech.de,
-	knaerzche@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	liujianfeng1994@gmail.com,
-	mchehab@kernel.org,
-	p.zabel@pengutronix.de,
-	robh+dt@kernel.org,
-	sfr@canb.auug.org.au
-Subject: Re: [PATCH v3 0/2] [v3]Add hantro g1 video decoder support for RK3588
-Date: Thu, 18 Jan 2024 19:30:51 +0800
-Message-Id: <20240118113051.10773-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <5490507acc121113e52a8cdddb155fddf6dbb374.camel@ndufresne.ca>
-References: <5490507acc121113e52a8cdddb155fddf6dbb374.camel@ndufresne.ca>
+	s=arc-20240116; t=1705578241; c=relaxed/simple;
+	bh=H2gYtpvzYDBF/VQiKdQoUq+5/Rze59WL/oRY7zvczAk=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=E1osvq/D/KgFTuhWvihf0hiQ/g4StdVn0hX+jHTlvNj7H0eVpcd+IjiGbVHLVPxyUHn/VWgJxfrzzFQ0+UHT/vlVEZEhcQpNa6HkZF9Ww0T9Ijvt3CNU20zW7wWx+AZghvc/o9GrxqYujegcWkWlB+QYRX4ZFWhO2hvlCGIaJZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ICmSm9aV; arc=none smtp.client-ip=134.134.136.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705578240; x=1737114240;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H2gYtpvzYDBF/VQiKdQoUq+5/Rze59WL/oRY7zvczAk=;
+  b=ICmSm9aV0382BvU3GlkrvRuNlo6bk6MTKIoaKk7nQf83whbEin4Uvlet
+   64pydf0ikPT/dwOyRiQ7Fbs0l//zMcjf6AmZMmtNwWWBBxfex0XmZeOaf
+   OsC/h2jukqHg/q1qlAofdw2pAOfREpjnzbdHuy2SmrkW3fzOUqrKhO9LY
+   68dILK27lC12jOhGRRQKB279bY7iIUByxRvixdoB6799AuRoPwjXksRfZ
+   OAhQ47wb5GAzSgGBykBjmrGgJuVAszoCKaHfVkeoi/2Cnm4og1TQsCce3
+   RvWhQ4YMNiUhp+RZ9+V4D0uctqh8jyitUtGHG9O2n41B01EJILWiu6Cqe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="466802528"
+X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
+   d="scan'208";a="466802528"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 03:43:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="1031640220"
+X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
+   d="scan'208";a="1031640220"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 03:43:40 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id BD527121109;
+	Thu, 18 Jan 2024 13:37:32 +0200 (EET)
+Date: Thu, 18 Jan 2024 11:37:32 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 1/2] v4l2-ctl: Add --try-routing option
+Message-ID: <ZakNfBw2E4b80EO5@kekkonen.localdomain>
+References: <20240117130805.939312-1-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240117130805.939312-1-dan.scally@ideasonboard.com>
 
-Hi Nicolas,
+On Wed, Jan 17, 2024 at 01:08:04PM +0000, Daniel Scally wrote:
+> v4l2-ctl's --list-subdev-mbus-codes option sets the which flag to
+> V4L2_SUBDEV_FORMAT_TRY, which is an entirely reasonable choice, but
+> means it's currently impossible to list mbus codes for pads that are
+> only part of inactive routes as the --set-routing option sets ACTIVE
+> routing rather than TRY.
+> 
+> Add a --try-routing option that has identical functionality to the
+> existing --set-routing but which uses the TRY format instead.
+> 
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-Wed, 17 Jan 2024 14:16:24 -0500, Nicolas Dufresne wrote:
->The only concern I have is that we rejected enabling this VPU on RK3399, since
->having two H.264 decoders was confusing userspace softwares at the time, causing
->the slow one to be picked sometimes. I know the selection is not fully
->implemented in GStreamer either, not sure for LibreELEC ffmpeg fork, Chromium or
->Cros-codec.
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Only H264 decoder is disabled for RK3399 in driver code, and RK3399 does
-have this VPU node in devicetree to support other codecs like MPEG or VP8.
-
->Of course, its not a problem now, but only when someone provides an rkvdec2
->driver that enables the much more capable HW decoder. Shall we hold on H.264
->mainline for now ?
-
-RK356x also has the same situation. That is why this patch shares the same
-compatible string with RK356X. Before rkvdec2 launching mainline, this
-hantro g1 vpu is the only H264 decoder to use on these socs. We can keep
-H.264 enabled, and disable it for RK356x and RK3588 just like what we did
-to RK3399 when rkvdec2 launches.
-
-Jianfeng
+-- 
+Sakari Ailus
 
