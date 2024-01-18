@@ -1,250 +1,147 @@
-Return-Path: <linux-media+bounces-3855-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3856-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5345983184C
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 12:16:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D17831867
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 12:23:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A47561F234E7
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 11:16:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DB03284B6D
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 11:23:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DD9423776;
-	Thu, 18 Jan 2024 11:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA019241F5;
+	Thu, 18 Jan 2024 11:23:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="N3paDk4r"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MAnaKp8m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E464723760
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 11:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CE523776
+	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 11:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705576600; cv=none; b=TANGzjzibBIzit1bcQfWXEH81BqlUma3DF27HoVBPNeBq9NQypby1HsM4WtJ5TkRZjhUmKp1/mAsbRElJ4jbu1pC2X/mdRszHEBiRJOdoMzne0n02PCQuu+TactBmMlMrur0Nx1Oku7d6pdeieSfmPG0R4Dd42UCYAbAU/m45b8=
+	t=1705576996; cv=none; b=gf52oEB4UrOmsRZqr3xLTG3aQoheV/nIitT1/2pX9v07V0AgZDRrzq2DD3txqTyvlStcXEuMIFHN3c8weOQmPCfHgdCJJDqwZNJ8ucmjvHlNVaC2ANTenlAJY687G4k1H4I/i6FWZMqS9/fr8P+XWKvdmQd9s0B5P8tiXMjgrIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705576600; c=relaxed/simple;
-	bh=u4Y/58hWqXpLd3kzPGlsjapYo2DRAmjcYjaB0V8SM64=;
+	s=arc-20240116; t=1705576996; c=relaxed/simple;
+	bh=3sL2EmU8cW4SsL2Qy7d1PwP+T0ksz+D0+24yHjcLJcI=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
 	 Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
 	 X-Gmail-Original-Message-ID:Message-ID:Subject:To:Cc:Content-Type:
-	 Content-Transfer-Encoding; b=rxYIRsb8M4yUKc9eB964lToQeErKuTntU/JZ+anw/ufJB8kY2XOLPJNdcWIkFs4Efg2ss9yx4M9uI8b6KKRJurDf3ZsA6JKCgxxT+Rlp5fKPvo1+J0yhU4f0MhZGOTMu9WGablMimyjbrAL7WC/wgpQSbhijTccQ4g6WFeuW00s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=N3paDk4r; arc=none smtp.client-ip=209.85.218.47
+	 Content-Transfer-Encoding; b=XFNnsJLQPPirZ83nyNjYfRiPwYHdBuOaGV+EAHAQv7OuL/sAEFkkPxyzWHTp5W8y9xEFVOqYk83ypxzHFuwwNA2+Z80Q45YPV1hQWRi1uqHIDh/LhJgZl1CoGMqOs758lG7C8TwkDgWaTx5313z6xq42fHJQNePznrN/pKUZCrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MAnaKp8m; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a2c67be31edso844591966b.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 03:16:38 -0800 (PST)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-55a356f8440so368797a12.2
+        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 03:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705576597; x=1706181397; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1705576992; x=1706181792; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=85a3E0mpfe0m79s+ZJIAUUBBRHdGw9T5vNx2mwEMJpQ=;
-        b=N3paDk4rJUkgfls995SWWqfcu/im3HDmuGmxgoHbYmMgnd1rqXjc0DN9JEbaNG74oi
-         7TDhldr2XuLR7WSdKSHTa6iy+pmE/JMvcNxNg+a5ZPp9tgaKhd/FKRP0vkPyg8nFls4Y
-         ZQ5Cl282VxT3XHV2JZPU6+usjYjfUccJf9U5c=
+        bh=0qiEFj99shkY4wI4G2TO6hDOfA4IjYIaR73Xu8Zkp5w=;
+        b=MAnaKp8mN17a2G1NCy4qTg1/WVYlDRNecPfBWGWQe8P1q2WmEY4yE1relBpHBsniVr
+         /VSwVNtov7mNdN1KPwuIY3Q6FB7YQx8dWLHotg9pyN3Aj6WeaC9HlOaKaLWebLfyl3Aa
+         dnWuluGL2SQPKBYVfcLFRUTbDoJ4inzy0CZUU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705576597; x=1706181397;
+        d=1e100.net; s=20230601; t=1705576992; x=1706181792;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=85a3E0mpfe0m79s+ZJIAUUBBRHdGw9T5vNx2mwEMJpQ=;
-        b=ajDy9zaNZ8k55gms8WdbO223ohbg57rNR9R9LlY1rcHi0ZFPiE/FYL51QiEgObsntO
-         XJlIpmdYJ2zgLPetKpJn1EgX/9p4TpgBhtctVmeMq+A/YlulSL087XyZmr/sTZPnLr3p
-         JBe+iC3YDn9iM0fIHg5ghhBRqTWvwwVlAfy+xDRn0KcUKbm4MSF0hCGCSa4eDHQ28+10
-         CWbRX5A6rOc8el213fFTTWpzwfqf3H/fuhSluuTT1f1bs5LrSbMg6CbGiX+EKsRoOvr0
-         JBfPy4RtN623eZcUXzc1J7wjLKGUIxQYTdXks5HOZoU1Gu+e1hqJvgv2LIbPoUocglvz
-         OaFw==
-X-Gm-Message-State: AOJu0YyvQO1A81EBkSlNTaNTxTG7j3pnEMF4JL28FC7ANNiF4PHtFplo
-	Yyx2Nca8B1n4KrCP05vzB3NXNWZ7PnhWR+0Hbuyd4eze4U66t/WgeCz29t6z2j0kYf6XsnP7bvu
-	EQA==
-X-Google-Smtp-Source: AGHT+IHFi4aPlgOTxlJ+EG7qV94yiNxXIVXAGk+lIowM+1HxzMWAIkBld6/HWKVgaJyPqQCqYSNIvQ==
-X-Received: by 2002:a17:906:6812:b0:a2e:9ef8:3634 with SMTP id k18-20020a170906681200b00a2e9ef83634mr212023ejr.49.1705576596714;
-        Thu, 18 Jan 2024 03:16:36 -0800 (PST)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
-        by smtp.gmail.com with ESMTPSA id ap3-20020a17090735c300b00a2c879e89a8sm8560870ejc.188.2024.01.18.03.16.27
+        bh=0qiEFj99shkY4wI4G2TO6hDOfA4IjYIaR73Xu8Zkp5w=;
+        b=Ujog1HZp7zApv2qTjZ0fO3EgHe71RHZMVlZ5ukTrNBZFHzSL04K8L8Gx8oWCr197cT
+         2ATEJGvlhXxqMCEOv3LKGMaL0hyFgWEuVwsbFHfEHRiJrcnA58pLoSCFOVa/k+o3NW/H
+         PvBq4fsz9jjy6hUwBJeq+jsfLMWYlPLQRok1MvSyZ7UTGPb4shCVjxw/vEFkgkwVuQtk
+         LrzBcMCh+zjmQTm8Ef5Cx/8Zaw3ciHa4DslZ78U0AgD4vtfV/gUTwqtO9dBHojdtp5IU
+         +Ca8ZOJTOYZvnJR4oTGypKCR/euYlkFicZaMYlEBhJ7GBeTaB/R4T0WamSGA0HlVN7CI
+         BB/w==
+X-Gm-Message-State: AOJu0YyTzKbfPDZpAVoRs2VbBQ4QNMW1H7ZrE3T2akc36dO0fAiyx8Ck
+	y/iNBmPOnqT4ofItOC9xab1NjIZwMBvTCpd0GBcXHoxNe5xRvtmofkW58/hCKFH/cy4wPNhXs2U
+	+tg==
+X-Google-Smtp-Source: AGHT+IF6DFeJ49K0hlOud0leDo0wq9UHc1MEeAhHIz766VOTIQ38cMLSbbJSe2yloD31IHHEr+Tc0Q==
+X-Received: by 2002:a17:906:5ac4:b0:a2e:cf45:5a10 with SMTP id x4-20020a1709065ac400b00a2ecf455a10mr427738ejs.141.1705576992373;
+        Thu, 18 Jan 2024 03:23:12 -0800 (PST)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
+        by smtp.gmail.com with ESMTPSA id z22-20020a170906075600b00a2ed534f1b6sm1916143ejb.221.2024.01.18.03.23.10
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 03:16:27 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40e72a567eeso45945535e9.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 03:16:27 -0800 (PST)
-X-Received: by 2002:a05:600c:4e89:b0:40e:491e:e387 with SMTP id
- f9-20020a05600c4e8900b0040e491ee387mr211451wmq.355.1705576586396; Thu, 18 Jan
- 2024 03:16:26 -0800 (PST)
+        Thu, 18 Jan 2024 03:23:11 -0800 (PST)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-337d5aa5ef6so216972f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 03:23:10 -0800 (PST)
+X-Received: by 2002:a5d:658f:0:b0:333:c81:8f9d with SMTP id
+ q15-20020a5d658f000000b003330c818f9dmr445080wru.2.1705576990413; Thu, 18 Jan
+ 2024 03:23:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5df8141c-c0eb-4f55-b380-94cda08bd5ad@xs4all.nl>
-In-Reply-To: <5df8141c-c0eb-4f55-b380-94cda08bd5ad@xs4all.nl>
+References: <20240115170826.214519-1-benjamin.gaignard@collabora.com>
+ <20240115170826.214519-2-benjamin.gaignard@collabora.com> <c832da45-c818-420d-aaf8-05c15c1e5426@xs4all.nl>
+ <521a2a44-9ec1-4898-aca7-721d07e12643@collabora.com>
+In-Reply-To: <521a2a44-9ec1-4898-aca7-721d07e12643@collabora.com>
 From: Tomasz Figa <tfiga@chromium.org>
-Date: Thu, 18 Jan 2024 20:16:09 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CPiw9D9SMTnoBkv9Soe1ki_+=oMNGTcEpHA2YkCoPKMQ@mail.gmail.com>
-Message-ID: <CAAFQd5CPiw9D9SMTnoBkv9Soe1ki_+=oMNGTcEpHA2YkCoPKMQ@mail.gmail.com>
-Subject: Re: [PATCH] media: vb2: refactor setting flags and caps, fix missing cap
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: m.szyprowski@samsung.com, mchehab@kernel.org, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org, 
+Date: Thu, 18 Jan 2024 20:22:53 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DWOZwm2E8BwfONtjrcg289wPHJEe3TMZKsBvDcn3OfNw@mail.gmail.com>
+Message-ID: <CAAFQd5DWOZwm2E8BwfONtjrcg289wPHJEe3TMZKsBvDcn3OfNw@mail.gmail.com>
+Subject: Re: [PATCH] media: media videobuf2: Stop direct calls to queue
+ num_buffers field
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, m.szyprowski@samsung.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	kernel@collabora.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 16, 2024 at 11:05=E2=80=AFPM Hans Verkuil <hverkuil-cisco@xs4al=
-l.nl> wrote:
+On Tue, Jan 16, 2024 at 6:32=E2=80=AFPM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
 >
-> Several functions implementing VIDIOC_REQBUFS and _CREATE_BUFS all use al=
-most
-> the same code to fill in the flags and capability fields. Refactor this i=
-nto a
-> new vb2_set_flags_and_caps() function that replaces the old fill_buf_caps=
-()
-> and validate_memory_flags() functions.
 >
-> This also fixes a bug where vb2_ioctl_create_bufs() would not set the
-> V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS cap and also not fill in the
-> max_num_buffers field.
+> Le 16/01/2024 =C3=A0 10:21, Hans Verkuil a =C3=A9crit :
+> > On 15/01/2024 18:08, Benjamin Gaignard wrote:
+> >> Use vb2_get_num_buffers() to avoid using queue num_buffers field direc=
+tly.
+> >> This allows us to change how the number of buffers is computed in the
+> >> future.
+> >>
+> >> Fixes: c838530d230b ("media: media videobuf2: Be more flexible on the =
+number of queue stored buffers")
+> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >> ---
+> >>   drivers/media/common/videobuf2/videobuf2-core.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers=
+/media/common/videobuf2/videobuf2-core.c
+> >> index 41a832dd1426..b6bf8f232f48 100644
+> >> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> >> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> >> @@ -989,7 +989,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum=
+ vb2_memory memory,
+> >>      bool no_previous_buffers =3D !q_num_bufs;
+> >>      int ret =3D 0;
+> >>
+> >> -    if (q->num_buffers =3D=3D q->max_num_buffers) {
+> >> +    if (q_num_bufs =3D=3D q->max_num_buffers) {
+> >>              dprintk(q, 1, "maximum number of buffers already allocate=
+d\n");
+> >>              return -ENOBUFS;
+> >>      }
+> > There is another case in vb2_ioctl_create_bufs() where num_buffers is a=
+ccessed directly.
+> > Can you fix that one as well?
 >
-> Fixes: d055a76c0065 ("media: core: Report the maximum possible number of =
-buffers for the queue")
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 55 +++++++++----------
->  1 file changed, 26 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/me=
-dia/common/videobuf2/videobuf2-v4l2.c
-> index 54d572c3b515..c575198e8354 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -671,8 +671,20 @@ int vb2_querybuf(struct vb2_queue *q, struct v4l2_bu=
-ffer *b)
->  }
->  EXPORT_SYMBOL(vb2_querybuf);
->
-> -static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
-> +static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
-> +                                  u32 *flags, u32 *caps, u32 *max_num_bu=
-fs)
->  {
-> +       if (!q->allow_cache_hints || memory !=3D V4L2_MEMORY_MMAP) {
-> +               /*
-> +                * This needs to clear V4L2_MEMORY_FLAG_NON_COHERENT only=
-,
-> +                * but in order to avoid bugs we zero out all bits.
-> +                */
-> +               *flags =3D 0;
-> +       } else {
-> +               /* Clear all unknown flags. */
-> +               *flags &=3D V4L2_MEMORY_FLAG_NON_COHERENT;
-> +       }
-> +
->         *caps =3D V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
->         if (q->io_modes & VB2_MMAP)
->                 *caps |=3D V4L2_BUF_CAP_SUPPORTS_MMAP;
-> @@ -686,21 +698,9 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *=
-caps)
->                 *caps |=3D V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
->         if (q->supports_requests)
->                 *caps |=3D V4L2_BUF_CAP_SUPPORTS_REQUESTS;
-> -}
-> -
-> -static void validate_memory_flags(struct vb2_queue *q,
-> -                                 int memory,
-> -                                 u32 *flags)
-> -{
-> -       if (!q->allow_cache_hints || memory !=3D V4L2_MEMORY_MMAP) {
-> -               /*
-> -                * This needs to clear V4L2_MEMORY_FLAG_NON_COHERENT only=
-,
-> -                * but in order to avoid bugs we zero out all bits.
-> -                */
-> -               *flags =3D 0;
-> -       } else {
-> -               /* Clear all unknown flags. */
-> -               *flags &=3D V4L2_MEMORY_FLAG_NON_COHERENT;
-> +       if (max_num_bufs) {
-> +               *max_num_bufs =3D q->max_num_buffers;
-> +               *caps |=3D V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
->         }
->  }
->
-> @@ -709,8 +709,8 @@ int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requ=
-estbuffers *req)
->         int ret =3D vb2_verify_memory_type(q, req->memory, req->type);
->         u32 flags =3D req->flags;
->
-> -       fill_buf_caps(q, &req->capabilities);
-> -       validate_memory_flags(q, req->memory, &flags);
-> +       vb2_set_flags_and_caps(q, req->memory, &flags,
-> +                              &req->capabilities, NULL);
->         req->flags =3D flags;
->         return ret ? ret : vb2_core_reqbufs(q, req->memory,
->                                             req->flags, &req->count);
-> @@ -751,11 +751,9 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2=
-_create_buffers *create)
->         int ret =3D vb2_verify_memory_type(q, create->memory, f->type);
->         unsigned i;
->
-> -       fill_buf_caps(q, &create->capabilities);
-> -       validate_memory_flags(q, create->memory, &create->flags);
->         create->index =3D vb2_get_num_buffers(q);
-> -       create->max_num_buffers =3D q->max_num_buffers;
-> -       create->capabilities |=3D V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
-> +       vb2_set_flags_and_caps(q, create->memory, &create->flags,
-> +                              &create->capabilities, &create->max_num_bu=
-ffers);
->         if (create->count =3D=3D 0)
->                 return ret !=3D -EBUSY ? ret : 0;
->
-> @@ -1006,8 +1004,8 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv=
-,
->         int res =3D vb2_verify_memory_type(vdev->queue, p->memory, p->typ=
-e);
->         u32 flags =3D p->flags;
->
-> -       fill_buf_caps(vdev->queue, &p->capabilities);
-> -       validate_memory_flags(vdev->queue, p->memory, &flags);
-> +       vb2_set_flags_and_caps(vdev->queue, p->memory, &flags,
-> +                              &p->capabilities, NULL);
->         p->flags =3D flags;
->         if (res)
->                 return res;
-> @@ -1026,12 +1024,11 @@ int vb2_ioctl_create_bufs(struct file *file, void=
- *priv,
->                           struct v4l2_create_buffers *p)
->  {
->         struct video_device *vdev =3D video_devdata(file);
-> -       int res =3D vb2_verify_memory_type(vdev->queue, p->memory,
-> -                       p->format.type);
-> +       int res =3D vb2_verify_memory_type(vdev->queue, p->memory, p->for=
-mat.type);
->
-> -       p->index =3D vdev->queue->num_buffers;
-> -       fill_buf_caps(vdev->queue, &p->capabilities);
-> -       validate_memory_flags(vdev->queue, p->memory, &p->flags);
-> +       p->index =3D vb2_get_num_buffers(vdev->queue);
+> It is removed by the patch I have send just after this one:
+> "media: core: Refactor vb2_ioctl_create_bufs() to always set capabilities=
+ flags"
 
-The change to replace vdev->queue->num_buffers with
-vb2_get_num_buffers() is not mentioned in the commit message.
-
-Sorry, missed this one in the first reply.
+I'd prefer that to be also included in this fix, so that it's all
+logically grouped together. Actually Hans also ended up including that
+change in his patch, without the commit message mentioning it.
 
 Best regards,
 Tomasz
-
-> +       vb2_set_flags_and_caps(vdev->queue, p->memory, &p->flags,
-> +                              &p->capabilities, &p->max_num_buffers);
->         /*
->          * If count =3D=3D 0, then just check if memory and type are vali=
-d.
->          * Any -EBUSY result from vb2_verify_memory_type can be mapped to=
- 0.
-> --
-> 2.42.0
->
->
 
