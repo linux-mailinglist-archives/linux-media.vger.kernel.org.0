@@ -1,153 +1,318 @@
-Return-Path: <linux-media+bounces-3892-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3893-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1E8831E9F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 18:45:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C054831FD3
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 20:39:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD27F1C22EEE
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 17:45:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 140F11F27816
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 19:39:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE7A2D04F;
-	Thu, 18 Jan 2024 17:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A8E52E62E;
+	Thu, 18 Jan 2024 19:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kNx2ZLxA"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="oS9HKcFP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from aposti.net (aposti.net [89.234.176.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAB82D603
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 17:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D662E407;
+	Thu, 18 Jan 2024 19:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705599904; cv=none; b=GDqQjj5Ydp1L+bbz5/Mkb4pKyXrOCjXNV3k41SrzmzL+G+1qlcz8IIxK4uk0bvltF0DtDnmc2ZOe/5ACba92C6TgOudddDMFNjbUKN45+1Bg8aubuofZR8rJTphX9EQAUUqyaFRPXeZMrBzoE/JB28tcl4KG3IFXKc6cJwb/iRE=
+	t=1705606780; cv=none; b=oPxr2mm9j+uD+ZxIM3DJ0ozcL2HlzZJOSM58Vd4nHlDMDAtptPfaxB6XR01Ig17Swy2MzvTMoBMdeIGHUpNingpByyLxAIrILOIQlJLpJl2dLu6CIoDp6k1gGYuBIBYFOmiBSI4Y1fQAlAFIaE3q7tRR8zVodxgYOzUjeH527ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705599904; c=relaxed/simple;
-	bh=9FmE4PJJMHUJcOAmiwnAx4z1xIV4aO2a5RhnwfLZmL8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ijmiv1WlYGd8OIRvxvFUw0NZu0tcC7O1bY07OqIin8BZ6Vz9+Qtw6Ruz65klZO8tF7rsqNcHI7mWKN6ORj8kCR8ISqvP0aW4NEFsTWqXN/LyFuAdECKHqIjtXfDZs/fBkIv+yH18qfNA+MRv7pe5ZcwIY3+R/azRCR/BYbWA/ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kNx2ZLxA; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e80d14404so906066e87.1
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 09:45:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705599900; x=1706204700; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NSfW+YUfmRkyvf/SzyhIkwxnaiEK9UQEjvnNWE6tnVg=;
-        b=kNx2ZLxAub2oFRza92YPo+U9X68g16/g9XEDK9mbUgQY+9iiZLP5NL1q+qKFHkKmn6
-         QWeiSNzKagj0dFKV1kOfTVD45uZDcjykB8GVlI29nheM8deoxAt296A9QAVzBixWuA4X
-         ZVxBqXnOSrtNr0A551Mn0IL0E5ukn4nxJVFQiC8eb/fotwXrgc1VIPkMi6W8uyYtzDFt
-         N2XM20v+/mcJ/+3P75DOEQTJTmfNo1Evw/jGthT9yTOKD9y5RsxaVOShj9BM2ui5eCUN
-         U2nKoR2nB2Xw9EFZyyHIK25hTkDbfThOwc5v44RfNj2hbeRReXJ1rjW/9iKplMc4MSg+
-         kNTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705599900; x=1706204700;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NSfW+YUfmRkyvf/SzyhIkwxnaiEK9UQEjvnNWE6tnVg=;
-        b=HJC+LIkNRxGl/Dk6uwLb3TwkJ2Quh/lxI+dLg9zg7eC/ObqNiObUoUkaNPSVl8uSJD
-         H2nD1LpIO9eWSqCxr3aOJop7IZ8aQd3G5uFAUzckunbDGq19A3V1aKm64twMWZqowPSQ
-         wEfBTq3mqxJkMk3x5+u2GKd7JdM756659apJuoVQcF7ONOSABKRnTkZ/tsdU+VA5FXNJ
-         yN7L3IWVPJEAhGVacbcEkBRyWj1wIrRGst0iNLktHn8/GCBQHF62mfD4VW4Ab/ovqkr7
-         OItv64fJ46vL+itJp9heDETJwUUPHqH3vBilUGwJsdyMpdLDZwKeJamz8CkV69APfXXx
-         xnEA==
-X-Gm-Message-State: AOJu0YyVa6os+4Kz+OBDHfCbWOG+rv4S2/1Pb0UI9s52F55s1V6igrQk
-	8tKKtGsKqJGr+pi/eWYch1d9JU7udDC7eAD4MRF77SVXWt6U4N+b3NNcpvKVk+s=
-X-Google-Smtp-Source: AGHT+IFMZMNJ9hclYGahC7K3qfbzmRSnW3OqnqmNUQR6BgamVW7SW02oVYX9Erny3j7GZr3boHA+kQ==
-X-Received: by 2002:a19:644a:0:b0:50e:e1c3:f97b with SMTP id b10-20020a19644a000000b0050ee1c3f97bmr1859018lfj.3.1705599900074;
-        Thu, 18 Jan 2024 09:45:00 -0800 (PST)
-Received: from [172.30.205.26] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id k17-20020a192d11000000b0050e9323408csm716228lfj.57.2024.01.18.09.44.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 09:44:59 -0800 (PST)
-Message-ID: <04a364e8-534c-40a4-a031-b9f9d2304c39@linaro.org>
-Date: Thu, 18 Jan 2024 18:44:56 +0100
+	s=arc-20240116; t=1705606780; c=relaxed/simple;
+	bh=MyOqofT1q+DvV5ZMgd9tziu5zrpq+YLkdKQtGzNP/eU=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TRuk5HzQfwgm/YOhooGbEUnzdTF4BaLQK3wH5CD1qHoK5t+Nri/+OTrMevB35it633yBpnt59ddgqSV15VE3ocT9eCMb4pO8IbguGxdvZIxq76BXSxXDjcwHKUPyv3MI8TwNeYesd34qyrLMCXEUAd7qZVWIHaT5y0J38F4CT8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=oS9HKcFP; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1705606766;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=5hnpgIpMD133U0M5vORJbw8bpFlrwvZKAm5gWQaoJIc=;
+	b=oS9HKcFP8p2Z3w5kZ/35zNLI2sr/BKrl5VDnj93IFX8iBDshl68gM4AUPvLx5cqBdWrzA3
+	PEhQr8qdLsR2RUwWAIPqDNIzsFK8uYU8qYNBo1rDz6hUVg6YXq2lZeHVfFGyHIG0N2gt+w
+	AdkiHSkRg3eLQ7/3S8NeEZjjtR/nXF0=
+Message-ID: <cb64afbb0aae887520f471f09c83b29a08214bfd.camel@crapouillou.net>
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+From: Paul Cercueil <paul@crapouillou.net>
+To: Daniel Vetter <daniel@ffwll.ch>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan
+ Corbet <corbet@lwn.net>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-doc@vger.kernel.org,  linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  dri-devel@lists.freedesktop.org, Andrzej
+ Pietrasiewicz <andrzej.p@collabora.com>,  linaro-mm-sig@lists.linaro.org,
+ Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, Jonathan Cameron
+ <jic23@kernel.org>,  linux-media@vger.kernel.org
+Date: Thu, 18 Jan 2024 20:39:23 +0100
+In-Reply-To: <Zakupp1GCZMk5aDT@phenom.ffwll.local>
+References: <20240108120056.22165-4-paul@crapouillou.net>
+	 <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+	 <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
+	 <ZZwU827NMHbx7bsO@phenom.ffwll.local>
+	 <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+	 <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+	 <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
+	 <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
+	 <c100b5f75b12de4a331dd36de3573483dbde915f.camel@crapouillou.net>
+	 <ZakuD-ns-5UJmrRi@phenom.ffwll.local> <Zakupp1GCZMk5aDT@phenom.ffwll.local>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: venus: add new rate control type MBR for
- encoder
-Content-Language: en-US
-To: Sachin Kumar Garg <quic_sachinku@quicinc.com>, hverkuil-cisco@xs4all.nl,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20240118105934.137919-1-quic_sachinku@quicinc.com>
- <20240118105934.137919-3-quic_sachinku@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20240118105934.137919-3-quic_sachinku@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+Hi Daniel / Sima,
 
+Le jeudi 18 janvier 2024 =C3=A0 14:59 +0100, Daniel Vetter a =C3=A9crit=C2=
+=A0:
+> On Thu, Jan 18, 2024 at 02:56:31PM +0100, Daniel Vetter wrote:
+> > On Mon, Jan 15, 2024 at 01:54:27PM +0100, Paul Cercueil wrote:
+> > > Hi Daniel / Sima,
+> > >=20
+> > > Le mardi 09 janvier 2024 =C3=A0 14:01 +0100, Daniel Vetter a =C3=A9cr=
+it=C2=A0:
+> > > > On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
+> > > > > Hi Daniel / Sima,
+> > > > >=20
+> > > > > Le lundi 08 janvier 2024 =C3=A0 20:19 +0100, Daniel Vetter a
+> > > > > =C3=A9crit=C2=A0:
+> > > > > > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil
+> > > > > > wrote:
+> > > > > > > Le lundi 08 janvier 2024 =C3=A0 16:29 +0100, Daniel Vetter a
+> > > > > > > =C3=A9crit=C2=A0:
+> > > > > > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil
+> > > > > > > > wrote:
+> > > > > > > > > Hi Daniel (Sima?),
+> > > > > > > > >=20
+> > > > > > > > > Le lundi 08 janvier 2024 =C3=A0 13:39 +0100, Daniel Vette=
+r
+> > > > > > > > > a
+> > > > > > > > > =C3=A9crit=C2=A0:
+> > > > > > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul
+> > > > > > > > > > Cercueil
+> > > > > > > > > > wrote:
+> > > > > > > > > > > +static void ffs_dmabuf_signal_done(struct
+> > > > > > > > > > > ffs_dma_fence
+> > > > > > > > > > > *dma_fence, int ret)
+> > > > > > > > > > > +{
+> > > > > > > > > > > +	struct ffs_dmabuf_priv *priv =3D
+> > > > > > > > > > > dma_fence-
+> > > > > > > > > > > > priv;
+> > > > > > > > > > > +	struct dma_fence *fence =3D &dma_fence-
+> > > > > > > > > > > >base;
+> > > > > > > > > > > +
+> > > > > > > > > > > +	dma_fence_get(fence);
+> > > > > > > > > > > +	fence->error =3D ret;
+> > > > > > > > > > > +	dma_fence_signal(fence);
+> > > > > > > > > > > +
+> > > > > > > > > > > +	dma_buf_unmap_attachment(priv->attach,
+> > > > > > > > > > > dma_fence-
+> > > > > > > > > > > > sgt,
+> > > > > > > > > > > dma_fence->dir);
+> > > > > > > > > > > +	dma_fence_put(fence);
+> > > > > > > > > > > +	ffs_dmabuf_put(priv->attach);
+> > > > > > > > > >=20
+> > > > > > > > > > So this can in theory take the dma_resv lock, and
+> > > > > > > > > > if the
+> > > > > > > > > > usb
+> > > > > > > > > > completion
+> > > > > > > > > > isn't an unlimited worker this could hold up
+> > > > > > > > > > completion
+> > > > > > > > > > of
+> > > > > > > > > > future
+> > > > > > > > > > dma_fence, resulting in a deadlock.
+> > > > > > > > > >=20
+> > > > > > > > > > Needs to be checked how usb works, and if stalling
+> > > > > > > > > > indefinitely
+> > > > > > > > > > in
+> > > > > > > > > > the
+> > > > > > > > > > io_complete callback can hold up the usb stack you
+> > > > > > > > > > need
+> > > > > > > > > > to:
+> > > > > > > > > >=20
+> > > > > > > > > > - drop a dma_fence_begin/end_signalling annotations
+> > > > > > > > > > in
+> > > > > > > > > > here
+> > > > > > > > > > - pull out the unref stuff into a separate
+> > > > > > > > > > preallocated
+> > > > > > > > > > worker
+> > > > > > > > > > (or at
+> > > > > > > > > > =C2=A0 least the final unrefs for ffs_dma_buf).
+> > > > > > > > >=20
+> > > > > > > > > Only ffs_dmabuf_put() can attempt to take the
+> > > > > > > > > dma_resv and
+> > > > > > > > > would
+> > > > > > > > > have
+> > > > > > > > > to be in a worker, right? Everything else would be
+> > > > > > > > > inside
+> > > > > > > > > the
+> > > > > > > > > dma_fence_begin/end_signalling() annotations?
+> > > > > > > >=20
+> > > > > > > > Yup. Also I noticed that unlike the iio patches you
+> > > > > > > > don't
+> > > > > > > > have
+> > > > > > > > the
+> > > > > > > > dma_buf_unmap here in the completion path (or I'm
+> > > > > > > > blind?),
+> > > > > > > > which
+> > > > > > > > helps a
+> > > > > > > > lot with avoiding trouble.
+> > > > > > >=20
+> > > > > > > They both call dma_buf_unmap_attachment() in the "signal
+> > > > > > > done"
+> > > > > > > callback, the only difference I see is that it is called
+> > > > > > > after
+> > > > > > > the
+> > > > > > > dma_fence_put() in the iio patches, while it's called
+> > > > > > > before
+> > > > > > > dma_fence_put() here.
+> > > > > >=20
+> > > > > > I was indeed blind ...
+> > > > > >=20
+> > > > > > So the trouble is this wont work because:
+> > > > > > - dma_buf_unmap_attachment() requires dma_resv_lock. This
+> > > > > > is a
+> > > > > > somewhat
+> > > > > > =C2=A0 recent-ish change from 47e982d5195d ("dma-buf: Move
+> > > > > > =C2=A0 dma_buf_map_attachment() to dynamic locking
+> > > > > > specification"), so
+> > > > > > maybe
+> > > > > > =C2=A0 old kernel or you don't have full lockdep enabled to get
+> > > > > > the
+> > > > > > right
+> > > > > > =C2=A0 splat.
+> > > > > >=20
+> > > > > > - dma_fence critical section forbids dma_resv_lock
+> > > > > >=20
+> > > > > > Which means you need to move this out, but then there's the
+> > > > > > potential
+> > > > > > cache management issue. Which current gpu drivers just
+> > > > > > kinda
+> > > > > > ignore
+> > > > > > because it doesn't matter for current use-case, they all
+> > > > > > cache
+> > > > > > the
+> > > > > > mapping
+> > > > > > for about as long as the attachment exists. You might want
+> > > > > > to do
+> > > > > > the
+> > > > > > same,
+> > > > > > unless that somehow breaks a use-case you have, I have no
+> > > > > > idea
+> > > > > > about
+> > > > > > that.
+> > > > > > If something breaks with unmap_attachment moved out of the
+> > > > > > fence
+> > > > > > handling
+> > > > > > then I guess it's high time to add separate cache-
+> > > > > > management only
+> > > > > > to
+> > > > > > dma_buf (and that's probably going to be quite some wiring
+> > > > > > up,
+> > > > > > not
+> > > > > > sure
+> > > > > > even how easy that would be to do nor what exactly the
+> > > > > > interface
+> > > > > > should
+> > > > > > look like).
+> > > > >=20
+> > > > > Ok. Then I'll just cache the mapping for now, I think.
+> > > >=20
+> > > > Yeah I think that's simplest. I did ponder a bit and I don't
+> > > > think
+> > > > it'd be
+> > > > too much pain to add the cache-management functions for device
+> > > > attachments/mappings. But it would be quite some typing ...
+> > > > -Sima
+> > >=20
+> > > It looks like I actually do have some hardware which requires the
+> > > cache
+> > > management. If I cache the mappings in both my IIO and USB code,
+> > > it
+> > > works fine on my ZedBoard, but it doesn't work on my ZCU102.
+> > >=20
+> > > (Or maybe it's something else? What I get from USB in that case
+> > > is a
+> > > stream of zeros, I'd expect it to be more like a stream of
+> > > garbage/stale data).
+> > >=20
+> > > So, change of plans; I will now unmap the attachment in the
+> > > cleanup
+> > > worker after the fence is signalled, and add a warning comment
+> > > before
+> > > the end of the fence critical section about the need to do cache
+> > > management before the signal.
+> > >=20
+> > > Does that work for you?
+> >=20
+> > The trouble is, I'm not sure this works for you. If you rely on the
+> > fences, and you have to do cache management in between dma
+> > operations,
+> > then doing the unmap somewhen later will only mostly paper over the
+> > issue,
+> > but not consistently.
+> >=20
+> > I think that's really bad because the bugs this will cause are very
+> > hard
+> > to track down and with the current infrastructure impossible to
+> > fix.
+> >=20
+> > Imo cache the mappings, and then fix the cache management bug
+> > properly.
+> >=20
+> > If you want an interim solution that isn't blocked on the dma-buf
+> > cache
+> > management api addition, the only thing that works is doing the
+> > operations
+> > synchronously in the ioctl call. Then you don't need fences, and
+> > you can
+> > guarantee that the unmap has finished before userspace proceeds.
+> >=20
+> > With the dma_fences you can't guarantee that, it's just pure luck.
+>=20
+> Maybe a follow up: Double check you really need the cache management
+> between the dma operations from 2 different devices, and not for the
+> cpu
+> access that you then probably do to check the result.
+>=20
+> Because if the issue is just cpu access, then protecting the cpu
+> access
+> needs to use the begin/end_cpu_access dma-functions (or the
+> corresponding
+> ioctl if you use mmap from userspace) anyway, and that should sort
+> out any
+> issues you have for cpu access.
+>=20
+> Just to make sure we're not needlessly trying to fix something that
+> isn't
+> actually the problem.
 
-On 1/18/24 11:59, Sachin Kumar Garg wrote:
-> There is no limit on the maximum level of the bit rate with
-> the existing VBR rate control.
-> V4L2_MPEG_VIDEO_BITRATE_MODE_MBR rate control will limit the
-> frame maximum bit rate range to the +/- 10% of the configured
-> bit-rate value. Encoder will choose appropriate quantization
-> parameter and do the smart bit allocation to set the frame
-> maximum bitrate level.
-> 
-> Signed-off-by: Sachin Kumar Garg <quic_sachinku@quicinc.com>
-> ---
->   drivers/media/platform/qcom/venus/hfi_cmds.c  | 38 +++++++++++++------
->   .../media/platform/qcom/venus/hfi_helper.h    |  1 +
->   drivers/media/platform/qcom/venus/venc.c      |  2 +
->   .../media/platform/qcom/venus/venc_ctrls.c    |  5 ++-
->   4 files changed, 33 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> index 3418d2dd9371..95fc27e0dc7d 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> @@ -645,17 +645,33 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
->   	case HFI_PROPERTY_PARAM_VENC_RATE_CONTROL: {
->   		u32 *in = pdata;
->   
-> -		switch (*in) {
-> -		case HFI_RATE_CONTROL_OFF:
-> -		case HFI_RATE_CONTROL_CBR_CFR:
-> -		case HFI_RATE_CONTROL_CBR_VFR:
-> -		case HFI_RATE_CONTROL_VBR_CFR:
-> -		case HFI_RATE_CONTROL_VBR_VFR:
-> -		case HFI_RATE_CONTROL_CQ:
-> -			break;
-> -		default:
-> -			ret = -EINVAL;
-> -			break;
-> +		if (hfi_ver == HFI_VERSION_4XX) {
+I am not doing any CPU access - I'm just attaching the same DMABUF to
+IIO and USB and use the new IOCTLs to transfer data.
 
-So, only sdm845/sc7180 and friends support it, but the newer
-SoCs (like 8250 don't)?
+Can I just roll my own cache management then, using
+dma_sync_sg_for_cpu/device? I did a quick-and-dirty check with it, and
+it seems to make things work with cached mappings.
 
-[...]
+> -Sima
 
-> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> @@ -387,10 +387,11 @@ int venc_ctrl_init(struct venus_inst *inst)
->   
->   	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
->   		V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
-> -		V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
-> +		V4L2_MPEG_VIDEO_BITRATE_MODE_MBR,
-
-Is this okay, since you're claiming only v4 supports it?
-
-Konrad
+Cheers,
+-Paul
 
