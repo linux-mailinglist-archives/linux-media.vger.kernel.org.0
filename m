@@ -1,138 +1,116 @@
-Return-Path: <linux-media+bounces-3861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3862-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794358318BC
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 12:51:59 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E044C8318F7
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 13:15:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E7591C21EC2
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 11:51:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E1B9B24649
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 12:15:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82A5F24209;
-	Thu, 18 Jan 2024 11:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9957F249E5;
+	Thu, 18 Jan 2024 12:15:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="JE8QnRsP"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YgHT61KR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C49324208
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 11:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C76A24B4B;
+	Thu, 18 Jan 2024 12:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705578715; cv=none; b=YX+Gg5lsexxCKCcC9dVX6r19gJKspqePSrRMox85hmqUTkKUikslVKl80NXy+OJY3+oTNnzopNRuNZK80W++PSg024wGMnlD/H/Uwug0JyTS5TZ/EKgz+bGmDgSaoWhZXwm0JCuGHMR15hgA9iE3H4RqDrdPbHLRvoyJ1WTgy9A=
+	t=1705580101; cv=none; b=Rd0j8IVcBQdYztFwg6ZVC3I7Mi6XBqX00IifmsUpbczAljLf4mVeIgPvoearAmD8FEiH1gXPJe0VATlynUbMNFh4IjzMmzQBUN5W0mJMcV8/f2iN1MJXVtsUHZoDILcgieHDui5la8MaseDz9RRApMJFzcvd5w9tOw4w09KKyRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705578715; c=relaxed/simple;
-	bh=+J4HlKZgPkAnNbe+/5Ny2aDPSavVymgjuzDiJAbIaS8=;
-	h=X-KPN-MessageId:Received:DKIM-Signature:X-KPN-MID:
-	 X-KPN-VerifiedSender:X-CMASSUN:X-Originating-IP:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:
-	 To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding; b=AzYQIOGKG10VL9Xd3Ufu+DA68ymKuy84qmW24jAhLJtkpE3llyyZcNNfcDnglJZFlNPL+LiMg1Cwc6uGZC0iGHCEF97CaH2hmddExgMrJOtjg3VJ5cSGLZju8kxa+7lQbPio0n9+mSibCQa644ssFLJjnCVVZyg+w58IpE8EXsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=JE8QnRsP; arc=none smtp.client-ip=195.121.94.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: d01b7825-b5f7-11ee-b097-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id d01b7825-b5f7-11ee-b097-005056aba152;
-	Thu, 18 Jan 2024 12:50:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:from:to:subject:mime-version:date:message-id;
-	bh=9tytfViqCFLbiU7Wz6e6k4feBX9DmDYV8/hI1tB8vDg=;
-	b=JE8QnRsPGR1vwks6J1+Dy8zd6fvxR+oiZaaoM915UGciixmcWQSR6BdUvuRmzKnpzUeY5Ni8F92kX
-	 2Aj+dcsxdd0u4ceF8KFoz19GZlVw/8TEFvIPVVDKA4BOEx1QwFAeNQ0CAVTgCSNTxIrrhib4/xHf2J
-	 MjDuxRtGV2VZ3HUrOhk7U5X64Pz74A73aQLmmnlwLDhYmXawk0xr9vE48KLpYMsq7uaoYtrqU61sOn
-	 CuQx7WGxzxL1ktgklu+taU1k/K+9/uqdkWt4/aQR+M0sI6pFTKo4bwRZ4Itw2cvlAos4vKYa044faL
-	 /rUnUA+/8clQrlcviW/VQO1mo0uCWEQ==
-X-KPN-MID: 33|tp53BvIYLealaXNB0Z4K1LSygruItIfMLFmkwha891rB2GE/geg/8A2U7Esak0Y
- UYzNA3PBJwI/ZWFa7qzD9fg==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|iq2f6SR/PHyL6mX/Ziu73uaIUmrxzofpuz9uS59ol1C66aRryIrRw9Yif2uJcAj
- 5gr0I7siTiygX4gF+ug1TeA==
-Received: from [10.47.75.249] (unknown [173.38.220.58])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id d011b4f8-b5f7-11ee-824d-005056ab1411;
-	Thu, 18 Jan 2024 12:50:45 +0100 (CET)
-Message-ID: <edaa388e-fc26-4318-b468-64366aa86699@xs4all.nl>
-Date: Thu, 18 Jan 2024 12:50:44 +0100
+	s=arc-20240116; t=1705580101; c=relaxed/simple;
+	bh=5ldk2WPitfpoAhauKKH3PXvB/qdyH5NyX4BxlP+a2cw=;
+	h=DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=llmziOPohRHCh77z1m6sM5FGg4dec0eMyMiXzrMq2NTk6mmrnMgvYM3EfSOZ4aDbXPCNT1uBp0a29OLr42vc8kVcZRkga5zEu5xNjnnhi7rplt7bolTg1NX0dZTwi4zvc14lcVZ7Kr0VujgiTAbOxhu2bivhFTLCy427Bpl6vTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YgHT61KR; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1705580097;
+	bh=5ldk2WPitfpoAhauKKH3PXvB/qdyH5NyX4BxlP+a2cw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YgHT61KRAtfiFw4AJj421fVsyofmpNM5gMP05z+kF+jJqUilJfnk2rSUDSG7jeF1/
+	 SZpMOhuYo6EVEAa4UGTxVw2nXqQ4UN2V4h86Jc8pOyRrNYTg2UXX8kH90xEucAKcmn
+	 WnTJHtzc8tco0k+ZWr/xt/JKSqTCw0oLP2EBlETlhwnPHkKYaVTp4RWdzcLx2uo+0q
+	 kcCvbtDnb/zV1uDK3V3JCHuhc0Rn3MUlrIz/PTu4P6+AIVk22J0mKOaxy7yxB6mOuL
+	 pZaJ7SijaaLG7e/qeJpzG9y99ibpyu3FDsXKPPhESuixc0DnMqkrwK2Xi8937pNh8w
+	 SwiT+7L8DFooQ==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2A13037813B7;
+	Thu, 18 Jan 2024 12:14:57 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2] media: media videobuf2: Stop direct calls to queue num_buffers field
+Date: Thu, 18 Jan 2024 13:14:52 +0100
+Message-Id: <20240118121452.29151-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: media videobuf2: Stop direct calls to queue
- num_buffers field
-Content-Language: en-US
-To: Tomasz Figa <tfiga@chromium.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: m.szyprowski@samsung.com, mchehab@kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-References: <20240115170826.214519-1-benjamin.gaignard@collabora.com>
- <20240115170826.214519-2-benjamin.gaignard@collabora.com>
- <c832da45-c818-420d-aaf8-05c15c1e5426@xs4all.nl>
- <521a2a44-9ec1-4898-aca7-721d07e12643@collabora.com>
- <CAAFQd5DWOZwm2E8BwfONtjrcg289wPHJEe3TMZKsBvDcn3OfNw@mail.gmail.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAAFQd5DWOZwm2E8BwfONtjrcg289wPHJEe3TMZKsBvDcn3OfNw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 1/18/24 12:22, Tomasz Figa wrote:
-> On Tue, Jan 16, 2024 at 6:32 PM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
->>
->>
->> Le 16/01/2024 à 10:21, Hans Verkuil a écrit :
->>> On 15/01/2024 18:08, Benjamin Gaignard wrote:
->>>> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
->>>> This allows us to change how the number of buffers is computed in the
->>>> future.
->>>>
->>>> Fixes: c838530d230b ("media: media videobuf2: Be more flexible on the number of queue stored buffers")
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> ---
->>>>   drivers/media/common/videobuf2/videobuf2-core.c | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>>> index 41a832dd1426..b6bf8f232f48 100644
->>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>>> @@ -989,7 +989,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>>>      bool no_previous_buffers = !q_num_bufs;
->>>>      int ret = 0;
->>>>
->>>> -    if (q->num_buffers == q->max_num_buffers) {
->>>> +    if (q_num_bufs == q->max_num_buffers) {
->>>>              dprintk(q, 1, "maximum number of buffers already allocated\n");
->>>>              return -ENOBUFS;
->>>>      }
->>> There is another case in vb2_ioctl_create_bufs() where num_buffers is accessed directly.
->>> Can you fix that one as well?
->>
->> It is removed by the patch I have send just after this one:
->> "media: core: Refactor vb2_ioctl_create_bufs() to always set capabilities flags"
-> 
-> I'd prefer that to be also included in this fix, so that it's all
-> logically grouped together. Actually Hans also ended up including that
-> change in his patch, without the commit message mentioning it.
+Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+This allows us to change how the number of buffers is computed in the
+future.
 
-Yeah, it's borderline. But I think it is better if this patch updates both
-places, and then I'll make a v2 for my patch on top.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+version 2:
+- Change vdev->queue->num_buffers to vb2_get_num_buffers(vdev->queue)
+  in vb2_ioctl_create_bufs().
+- Remove Fixes tag
 
-Regards,
+ drivers/media/common/videobuf2/videobuf2-core.c | 2 +-
+ drivers/media/common/videobuf2/videobuf2-v4l2.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-	Hans
-
-> 
-> Best regards,
-> Tomasz
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 41a832dd1426..b6bf8f232f48 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -989,7 +989,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	bool no_previous_buffers = !q_num_bufs;
+ 	int ret = 0;
+ 
+-	if (q->num_buffers == q->max_num_buffers) {
++	if (q_num_bufs == q->max_num_buffers) {
+ 		dprintk(q, 1, "maximum number of buffers already allocated\n");
+ 		return -ENOBUFS;
+ 	}
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 54d572c3b515..6380155d8575 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -1029,7 +1029,7 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
+ 	int res = vb2_verify_memory_type(vdev->queue, p->memory,
+ 			p->format.type);
+ 
+-	p->index = vdev->queue->num_buffers;
++	p->index = vb2_get_num_buffers(vdev->queue);
+ 	fill_buf_caps(vdev->queue, &p->capabilities);
+ 	validate_memory_flags(vdev->queue, p->memory, &p->flags);
+ 	/*
+-- 
+2.40.1
 
 
