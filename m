@@ -1,153 +1,153 @@
-Return-Path: <linux-media+bounces-3891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80863831DF3
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 17:57:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1E8831E9F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 18:45:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDE351F21383
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 16:57:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD27F1C22EEE
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 17:45:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B49492C6B0;
-	Thu, 18 Jan 2024 16:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE7A2D04F;
+	Thu, 18 Jan 2024 17:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Qdf5Pmc2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kNx2ZLxA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E4D2C6AA
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 16:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAB82D603
+	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 17:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705597051; cv=none; b=UGVroc31BznRe3K8YHJMqg9L1c6pTutk7PDzt7fLbKNibxEMxgcYarKgfj0DTaZPJ+LjtpB91E7zQMy1u3xmTcvBg7z5du1II8sIu9A4MxtmZVmcRgxW3sxZrrW8IWqmZuiAWmejoZTO444FUHd5d0op4+xnJqzJghOlc4xqRho=
+	t=1705599904; cv=none; b=GDqQjj5Ydp1L+bbz5/Mkb4pKyXrOCjXNV3k41SrzmzL+G+1qlcz8IIxK4uk0bvltF0DtDnmc2ZOe/5ACba92C6TgOudddDMFNjbUKN45+1Bg8aubuofZR8rJTphX9EQAUUqyaFRPXeZMrBzoE/JB28tcl4KG3IFXKc6cJwb/iRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705597051; c=relaxed/simple;
-	bh=cmZn+BROv+sMREBkau20U4T/TQEgObsLAqinfuULAyg=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding; b=rjjtm4w+eLPRfoc2u9qFKAv5nXuRHg1drdeI8qBOdLmex+M3Jf/X+4qROQfloBNc9iDrTXNNsvkwRQOQiDj/N352It+UoMiZh5FYij2ET8k7dIzMW25q0uoOtKhD09ooU9iB4Qr/JSjRTN4NbiuNeMrGbCSu59rz/cZYsZUFRMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Qdf5Pmc2; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc25099b084so1072238276.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 08:57:29 -0800 (PST)
+	s=arc-20240116; t=1705599904; c=relaxed/simple;
+	bh=9FmE4PJJMHUJcOAmiwnAx4z1xIV4aO2a5RhnwfLZmL8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ijmiv1WlYGd8OIRvxvFUw0NZu0tcC7O1bY07OqIin8BZ6Vz9+Qtw6Ruz65klZO8tF7rsqNcHI7mWKN6ORj8kCR8ISqvP0aW4NEFsTWqXN/LyFuAdECKHqIjtXfDZs/fBkIv+yH18qfNA+MRv7pe5ZcwIY3+R/azRCR/BYbWA/ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kNx2ZLxA; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e80d14404so906066e87.1
+        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 09:45:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1705597049; x=1706201849; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cmZn+BROv+sMREBkau20U4T/TQEgObsLAqinfuULAyg=;
-        b=Qdf5Pmc2E9Lqn0tozQlEd+MJF6I8HkxjgbELP5HQzYJyByJIDwRerqRpDZKSjbi1Xm
-         7NRpa7rRO87l/DR9gFXw7S/V+yhmiaCTUzlIzZC7h5rANmLgDIepigio3gUWYvVj/j/g
-         uyr1KO5cMnMINt8PaB0/m/mneKHYI/YkEgKox+b6CeEz8h6KWtHz2QFAeWy6vKIQoyFg
-         dNnyC9KEpUJ2N25XRyRTIifpgIZbD7mhLGdbrE5e88CGz2WABdg3hLi2THDiPSDbfL8q
-         cgLdBqD/1kuMSEWyW60uR15aDeQHswAhqejXaOu4FcKYnhfumKNYs+hy8iXlHhcJd78Z
-         HKRQ==
+        d=linaro.org; s=google; t=1705599900; x=1706204700; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NSfW+YUfmRkyvf/SzyhIkwxnaiEK9UQEjvnNWE6tnVg=;
+        b=kNx2ZLxAub2oFRza92YPo+U9X68g16/g9XEDK9mbUgQY+9iiZLP5NL1q+qKFHkKmn6
+         QWeiSNzKagj0dFKV1kOfTVD45uZDcjykB8GVlI29nheM8deoxAt296A9QAVzBixWuA4X
+         ZVxBqXnOSrtNr0A551Mn0IL0E5ukn4nxJVFQiC8eb/fotwXrgc1VIPkMi6W8uyYtzDFt
+         N2XM20v+/mcJ/+3P75DOEQTJTmfNo1Evw/jGthT9yTOKD9y5RsxaVOShj9BM2ui5eCUN
+         U2nKoR2nB2Xw9EFZyyHIK25hTkDbfThOwc5v44RfNj2hbeRReXJ1rjW/9iKplMc4MSg+
+         kNTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705597049; x=1706201849;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cmZn+BROv+sMREBkau20U4T/TQEgObsLAqinfuULAyg=;
-        b=iU9w1jeh1Cj5dmkINZE+vjBy4n0lMATac195nLX/UpdtNTW764qu4601j+Z3HEc61E
-         BW/gtVkl2PrAFtPKRkZlv2bhWkna2BUE0BehU60BNBXHtu4aZfF8hyqx3MS6nmg0iNtX
-         q04DOLsxcUBBA4CuRcdJ6TpZ2YpKSN4LB18Z5jJhnj9fsoAO9UfQeYU7jP/FD1x3003E
-         /laV9a+foKwp5V5lHjX7AGErnj83dHxrSkFo/rahSRCb7ldv15CUuXidWXRhmDEXMry8
-         6sIu3teHEXavoYPg3Wuv+LUN1Bccn2FMGHJJcS/wfWa8lznXp6k629vLZRDdj6ZwzM+M
-         AL7A==
-X-Gm-Message-State: AOJu0Yx8TVWZPAI3obLkHT02isP6m5eBKkbeIdwy2oeNTxEsdNhObZHL
-	+Q9A/vb7vZ9TlC/cbHCcYNpAsFoUZeK7/grIb0fVwkew1OMb4JMhXKsvwx6w2sKhIH+4Lr8bkUy
-	IHnlg3p7zm7lusJFiJRlCvUU/4bpsK75DNg55
-X-Google-Smtp-Source: AGHT+IGdm+3tzpwneR3Std891dkepC+HcM/F/QU4NLlUSQFVDjEWUf46RxO8DdQGNQYUp4EkO2YYs2e+Vx5E/WIMRrc=
-X-Received: by 2002:a25:748c:0:b0:dbd:7743:77cb with SMTP id
- p134-20020a25748c000000b00dbd774377cbmr856586ybc.128.1705597048380; Thu, 18
- Jan 2024 08:57:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705599900; x=1706204700;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NSfW+YUfmRkyvf/SzyhIkwxnaiEK9UQEjvnNWE6tnVg=;
+        b=HJC+LIkNRxGl/Dk6uwLb3TwkJ2Quh/lxI+dLg9zg7eC/ObqNiObUoUkaNPSVl8uSJD
+         H2nD1LpIO9eWSqCxr3aOJop7IZ8aQd3G5uFAUzckunbDGq19A3V1aKm64twMWZqowPSQ
+         wEfBTq3mqxJkMk3x5+u2GKd7JdM756659apJuoVQcF7ONOSABKRnTkZ/tsdU+VA5FXNJ
+         yN7L3IWVPJEAhGVacbcEkBRyWj1wIrRGst0iNLktHn8/GCBQHF62mfD4VW4Ab/ovqkr7
+         OItv64fJ46vL+itJp9heDETJwUUPHqH3vBilUGwJsdyMpdLDZwKeJamz8CkV69APfXXx
+         xnEA==
+X-Gm-Message-State: AOJu0YyVa6os+4Kz+OBDHfCbWOG+rv4S2/1Pb0UI9s52F55s1V6igrQk
+	8tKKtGsKqJGr+pi/eWYch1d9JU7udDC7eAD4MRF77SVXWt6U4N+b3NNcpvKVk+s=
+X-Google-Smtp-Source: AGHT+IFMZMNJ9hclYGahC7K3qfbzmRSnW3OqnqmNUQR6BgamVW7SW02oVYX9Erny3j7GZr3boHA+kQ==
+X-Received: by 2002:a19:644a:0:b0:50e:e1c3:f97b with SMTP id b10-20020a19644a000000b0050ee1c3f97bmr1859018lfj.3.1705599900074;
+        Thu, 18 Jan 2024 09:45:00 -0800 (PST)
+Received: from [172.30.205.26] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id k17-20020a192d11000000b0050e9323408csm716228lfj.57.2024.01.18.09.44.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jan 2024 09:44:59 -0800 (PST)
+Message-ID: <04a364e8-534c-40a4-a031-b9f9d2304c39@linaro.org>
+Date: Thu, 18 Jan 2024 18:44:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240117181141.286383-1-tjmercier@google.com> <20a68f86-27f0-48f4-a066-7dcf0092858e@amd.com>
- <Zak6iW8lktml7f2H@phenom.ffwll.local>
-In-Reply-To: <Zak6iW8lktml7f2H@phenom.ffwll.local>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 18 Jan 2024 08:57:16 -0800
-Message-ID: <CABdmKX10zz6bk4VVDgsosJbA8_7WOxuCnkyYFiL1FPwtZ-C+WQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: heaps: Don't track CMA dma-buf pages under RssFile
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Sandeep Patil <sspatil@android.com>, 
-	Laura Abbott <labbott@redhat.com>, android-mm@google.com, minchan@google.com, 
-	John Stultz <john.stultz@linaro.org>, Benjamin Gaignard <benjamin.gaignard@linaro.org>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc: daniel@ffwll.ch
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: venus: add new rate control type MBR for
+ encoder
+Content-Language: en-US
+To: Sachin Kumar Garg <quic_sachinku@quicinc.com>, hverkuil-cisco@xs4all.nl,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20240118105934.137919-1-quic_sachinku@quicinc.com>
+ <20240118105934.137919-3-quic_sachinku@quicinc.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240118105934.137919-3-quic_sachinku@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 18, 2024 at 6:49=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wro=
-te:
->
-> On Thu, Jan 18, 2024 at 11:02:22AM +0100, Christian K=C3=B6nig wrote:
-> > Am 17.01.24 um 19:11 schrieb T.J. Mercier:
-> > > DMA buffers allocated from the CMA dma-buf heap get counted under
-> > > RssFile for processes that map them and trigger page faults. In
-> > > addition to the incorrect accounting reported to userspace, reclaim
-> > > behavior was influenced by the MM_FILEPAGES counter until linux 6.8, =
-but
-> > > this memory is not reclaimable. [1] Change the CMA dma-buf heap to se=
-t
-> > > VM_PFNMAP on the VMA so MM does not poke at the memory managed by thi=
-s
-> > > dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
-> > >
-> > > The system dma-buf heap does not suffer from this issue since
-> > > remap_pfn_range is used during the mmap of the buffer, which also set=
-s
-> > > VM_PFNMAP on the VMA.
-> >
-> > Mhm, not an issue with this patch but Daniel wanted to add a check for
-> > VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.
-> >
-> > I don't fully remember the discussion but for some reason that was neve=
-r
-> > committed. We should probably try that again.
->
-> Iirc the issue is that dma_mmap is not guaranteed to give you a VM_SPECIA=
-L
-> mapping, at least on absolutely all architectures. That's why I defacto
-> dropped that idea, but it would indeed be really great if we could
-> resurrect it.
 
-I actually had it in my head that it was a BUG_ON check for VM_PFNMAP
-in dma_buf_mmap and it was merged, so I was surprised to discover that
-it wasn't set for these CMA buffers.
 
-> Maybe for x86 only? Or x86+armv8, I'm honestly not sure anymore which
-> exact cases ended up with a VM_NORMAL mapping ... Would need a pile of
-> digging.
+On 1/18/24 11:59, Sachin Kumar Garg wrote:
+> There is no limit on the maximum level of the bit rate with
+> the existing VBR rate control.
+> V4L2_MPEG_VIDEO_BITRATE_MODE_MBR rate control will limit the
+> frame maximum bit rate range to the +/- 10% of the configured
+> bit-rate value. Encoder will choose appropriate quantization
+> parameter and do the smart bit allocation to set the frame
+> maximum bitrate level.
+> 
+> Signed-off-by: Sachin Kumar Garg <quic_sachinku@quicinc.com>
+> ---
+>   drivers/media/platform/qcom/venus/hfi_cmds.c  | 38 +++++++++++++------
+>   .../media/platform/qcom/venus/hfi_helper.h    |  1 +
+>   drivers/media/platform/qcom/venus/venc.c      |  2 +
+>   .../media/platform/qcom/venus/venc_ctrls.c    |  5 ++-
+>   4 files changed, 33 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> index 3418d2dd9371..95fc27e0dc7d 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> @@ -645,17 +645,33 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
+>   	case HFI_PROPERTY_PARAM_VENC_RATE_CONTROL: {
+>   		u32 *in = pdata;
+>   
+> -		switch (*in) {
+> -		case HFI_RATE_CONTROL_OFF:
+> -		case HFI_RATE_CONTROL_CBR_CFR:
+> -		case HFI_RATE_CONTROL_CBR_VFR:
+> -		case HFI_RATE_CONTROL_VBR_CFR:
+> -		case HFI_RATE_CONTROL_VBR_VFR:
+> -		case HFI_RATE_CONTROL_CQ:
+> -			break;
+> -		default:
+> -			ret = -EINVAL;
+> -			break;
+> +		if (hfi_ver == HFI_VERSION_4XX) {
 
-Looking back at the patch, the CI email at the end of the thread lists
-a bunch of now-broken links to DMESG-WARN test failures I assume
-pointed at a large chunk of them.
+So, only sdm845/sc7180 and friends support it, but the newer
+SoCs (like 8250 don't)?
 
-https://lore.kernel.org/all/166919750173.15575.2864736980735346730@emeril.f=
-reedesktop.org/
+[...]
 
-> >
-> > > [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
-/commit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0f4b9aede
-> > >
-> > > Fixes: b61614ec318a ("dma-buf: heaps: Add CMA heap to dmabuf heaps")
-> > > Signed-off-by: T.J. Mercier<tjmercier@google.com>
-> >
-> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
+> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+> @@ -387,10 +387,11 @@ int venc_ctrl_init(struct venus_inst *inst)
+>   
+>   	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
+>   		V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
+> -		V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
+> +		V4L2_MPEG_VIDEO_BITRATE_MODE_MBR,
 
-Thanks Christian.
+Is this okay, since you're claiming only v4 supports it?
+
+Konrad
 
