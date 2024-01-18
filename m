@@ -1,119 +1,120 @@
-Return-Path: <linux-media+bounces-3889-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3890-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28A1831C20
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 16:14:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDD1831C35
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 16:18:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6266F283D98
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 15:14:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 06BD4B21365
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 15:18:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88FB51E88E;
-	Thu, 18 Jan 2024 15:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 245EB24A10;
+	Thu, 18 Jan 2024 15:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Waryo2ob"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95E86286AF;
-	Thu, 18 Jan 2024 15:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2251E893;
+	Thu, 18 Jan 2024 15:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705590844; cv=none; b=pxLUadBW0Jh2+kY/A3FS6zNwolavrGTWQTJ/pQBvid7gv8UykSzl3Yg1D2UGAPg2O7htYprcqAQYdOx3BjS7frE7iEkDq/vIN/eMKW+cMXtBeZ97w1i+Ax7iggaVOJBO2bPeXFnO/idWunqrW1yOEQ51pwoYy25fXqsqyqrMJS4=
+	t=1705591078; cv=none; b=CosNMFp1oMNPB2PJa/ld5gRDdvPPgB5eT5VvWKHiE8WS7QT2Ts/SFtpkJNEwbd+0pQc7IPSprBZlb95HxOe3KHnFSERXVxeGCMVvBdtfH+LLmVgMnj48ePvvMZjCS35yam/dPIKpJI4WRQHyaI+2x6AE9tQazGP3QMP93+PL+wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705590844; c=relaxed/simple;
-	bh=Kp2BlCBZMsuGi/OMB6tp4CaDWFkRha05w33XL2xn/Ws=;
-	h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo; b=j4XwqmUIRiv8R8veNoW0lLmtUS9W4iw7HbGd0beTt8PfR61oUvpZhNArowMScI/ISmjkoI5OxB5e2VE9PPCaJXAT5jNo+Ua6b8gT6ywvivdv8iARNBmifkLHB8f3O4bjqIwSJpFbCiTm/Hkf/q96kwQPEhj8dKTS+OT7a5vWRdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=129.150.39.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from luzhipeng.223.5.5.5 (unknown [183.159.169.110])
-	by mail-app4 (Coremail) with SMTP id cS_KCgDHwX8gQKllMBo+AA--.10025S2;
-	Thu, 18 Jan 2024 23:13:37 +0800 (CST)
-From: Zhipeng Lu <alexious@zju.edu.cn>
-To: alexious@zju.edu.cn
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Brent Pappas <bpappas@pappasbrent.com>,
-	Alan Cox <alan@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] media: atomisp: ssh_css: Fix a null-pointer dereference in load_video_binaries
-Date: Thu, 18 Jan 2024 23:13:00 +0800
-Message-Id: <20240118151303.3828292-1-alexious@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1705591078; c=relaxed/simple;
+	bh=y2f1I34XlBaXKaJRsT8nYxnUv+jA8opfGpK2r9ub/rM=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding; b=TFZO8ytdUBQEJzic7w/NZ1qWcFSBcULyIgZ0evU1T6em6tc6+BHsWNiluYokyHhfBVyZP022iVTD75gwdkpymlGAVplq0KtEIo/fP3rLA66xNaw0tFEIzQomtoHJ58vx+RzuxEDkXXebn/4XjDlBruklLLS3fNl+xxv+G+AL02s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Waryo2ob; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-556c3f0d6c5so15366586a12.2;
+        Thu, 18 Jan 2024 07:17:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705591074; x=1706195874; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SXNIeN/MszADqIFgoeR3I4RBj7C13Kq6e86qa9HX4xI=;
+        b=Waryo2obONrZ4zHRYZ6W6HcYJluP314WsydWOz6/JgzNwTGcE5j2DQOqE57y2HUEY3
+         w3bYATRGMeIikqfzuvrNGYS41t1gLBikrzbuYtOpGvH/sfxH8PjtwiwF2LJKC2jE1rnC
+         9FhuGSIT+Gn+RENwd6GjlKCH/UTILLgx2qwTnxURRFttVG5mw049IiP/xNxXa5HeeSpn
+         yd/njWvpIOw6CF03lTwXbgufkMy12wosN60hrNcJaloE6oKcp59seyFCld2gyYew9S4H
+         +wOtOmiCFK0KEke8phHMuUeI47SAG67pm8zFQKhPFbsGlJxHeCh6h7wgVvYaB1vA/6p9
+         dxUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705591074; x=1706195874;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SXNIeN/MszADqIFgoeR3I4RBj7C13Kq6e86qa9HX4xI=;
+        b=fZpiwuJ9PlJ5b9U+Ga9HqYWZSW/jPlvW7VFnzIlw9Bf7zZK0aPs1fyWb1tSqW/dPlR
+         OIH1KHzvxn8DbJ8TgbCJmSirArMPg1//c6rQA7bjrtZznLbIu8SI2LQIxzPf+WZ2fAW8
+         c+HKwkXLDz9DkrYXHaSfqhgzuJpRBquYEqA1VYkVgqOC8VKtypOKm/rQwpgZoPzbTbGY
+         j/O0B5UmhM3ZxPj98vLGWRQJOfNaRtJDxYp5I4inKoTAtgRmZwavs49pSHvnCg3Zg/+u
+         p23WvRdjNoDPpKd/8P7yjdUDRjNAIkjuzdR794NtM5Akif9pjB7tDKyPi9Z4rSxcUczc
+         eWYw==
+X-Gm-Message-State: AOJu0YyRUhOIRv9t1qHTu362G8Ryi2aCtPFdQJLZ5CY6APXbei6L0Tcg
+	ztIMowgwDm2uAuRl6D/FwZWk2ncpzLaGftk4uajetbfFlwRVgXZHrpUmMoNP5sSqL2BK4P4atRL
+	FI8AvlOxmoVLyUZYlGuvnu7O1QT8=
+X-Google-Smtp-Source: AGHT+IFxWpCFIFpoZ3849a/o+eU3juZNCrElQE/y1Tth9QxilfiAvh77bZdBf3nXrA5jRv2YTsqpo5ZGCSf7J8a0+y8=
+X-Received: by 2002:a17:906:4ec9:b0:a2d:359b:2435 with SMTP id
+ i9-20020a1709064ec900b00a2d359b2435mr390836ejv.116.1705591074445; Thu, 18 Jan
+ 2024 07:17:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cS_KCgDHwX8gQKllMBo+AA--.10025S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uw15uw1xGrW5KF1xuF1rWFg_yoW8Xr17pF
-	48Aw1DCFWUXFn2kanIkry7GF90v34v9ay5W34vqa4F9a92ya4qqF15Kay5Gr9Yvr4DJ3yq
-	vFyYgrWUXF4FyF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjfUonmRUUUUU
-X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
+References: <20240118151303.3828292-1-alexious@zju.edu.cn>
+In-Reply-To: <20240118151303.3828292-1-alexious@zju.edu.cn>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 18 Jan 2024 17:17:17 +0200
+Message-ID: <CAHp75VdCKg3x3vc7TyjZ1bBwNj8aqk7Th8X8O9+kRQxM_CNdBA@mail.gmail.com>
+Subject: Re: [PATCH] [v2] media: atomisp: ssh_css: Fix a null-pointer
+ dereference in load_video_binaries
+To: Zhipeng Lu <alexious@zju.edu.cn>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kate Hsuan <hpa@redhat.com>, 
+	Dan Carpenter <error27@gmail.com>, Brent Pappas <bpappas@pappasbrent.com>, 
+	Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The allocation failure of mycs->yuv_scaler_binary in load_video_binaries
-is followed with a dereference of mycs->yuv_scaler_binary after the
-following call chain:
+On Thu, Jan 18, 2024 at 5:13=E2=80=AFPM Zhipeng Lu <alexious@zju.edu.cn> wr=
+ote:
+>
+> The allocation failure of mycs->yuv_scaler_binary in load_video_binaries
+> is followed with a dereference of mycs->yuv_scaler_binary after the
+> following call chain:
+>
+> sh_css_pipe_load_binaries
+>   |-> load_video_binaries (mycs->yuv_scaler_binary =3D=3D NULL)
+>   |
+>   |-> sh_css_pipe_unload_binaries
+>         |-> unload_video_binaries
+>
+> In unload_video_binaries, it calls to ia_css_binary_unload with argument
+> &pipe->pipe_settings.video.yuv_scaler_binary[i], which refers to the
+> same memory slot as mycs->yuv_scaler_binary. Thus, a null-pointer
+> dereference is triggered.
 
-sh_css_pipe_load_binaries
-  |-> load_video_binaries (mycs->yuv_scaler_binary == NULL)
-  |
-  |-> sh_css_pipe_unload_binaries
-        |-> unload_video_binaries
+Good for me now, thank you.
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-In unload_video_binaries, it calls to ia_css_binary_unload with argument
-&pipe->pipe_settings.video.yuv_scaler_binary[i], which refers to the
-same memory slot as mycs->yuv_scaler_binary. Thus, a null-pointer
-dereference is triggered.
+P.S. If needed, or Hans can do it, the references to the functions can
+be amended in the commit message as we use the 'func()' format (w/o
+quotes).
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
----
-Changelog:
-
-v2: change fix approach to set mycs->num_yuv_scaler = 0 in
-load_video_binaries. Change the fix tag to correct commit.
----
- drivers/staging/media/atomisp/pci/sh_css.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index f35c90809414..638f08b3f21b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -4719,6 +4719,7 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 						  sizeof(struct ia_css_binary),
- 						  GFP_KERNEL);
- 		if (!mycs->yuv_scaler_binary) {
-+			mycs->num_yuv_scaler = 0;
- 			err = -ENOMEM;
- 			return err;
- 		}
--- 
-2.34.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
