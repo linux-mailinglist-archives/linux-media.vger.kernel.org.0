@@ -1,374 +1,316 @@
-Return-Path: <linux-media+bounces-3895-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3896-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55698320B0
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 22:05:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FA68320D0
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 22:21:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB5F61C231E2
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 21:05:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 90E98B22B0D
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 21:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0396D2EB11;
-	Thu, 18 Jan 2024 21:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA3D52EB06;
+	Thu, 18 Jan 2024 21:21:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="MkfPjpjs"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WFCZ7QyE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EE52E405
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 21:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E66E2E85D
+	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 21:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705611935; cv=none; b=S6depj+JbAp2f5lbc7syvU/BjPKspgpUEn0goGN9kueSwt/PkgoFmjK01E3HYJuU6kznfbczFIXBXUyU/nuQZRlQO+aNdvwTLTjqzhTgga+vgTTpjkJJT7W3knSBAUNyBJNj/SIKKwm5ZQMN0tf2T9JaA1fW+i3CRvQq6ArdyBY=
+	t=1705612874; cv=none; b=Z5QagX9tiSgZLzFKhZ3VH+G745QNA/K6BW3gsRnzjcfZ5EpiGDvyyVibgCZILZNovOp7tCwlXcFGEQJCOg3944NcbOvThl+6M4Cb87wlFhbeeyj0vU3W2GaVtQ/jmzvl8m6hGWXlxaXVJutBqMnLlEUwt3CLHMOqc3klMFEfChE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705611935; c=relaxed/simple;
-	bh=QGEKDvWkLNApzE6nbRV/SX53ITDG+byPlgBYMyStr4c=;
+	s=arc-20240116; t=1705612874; c=relaxed/simple;
+	bh=D2v9kjg29KrNflvmoqwSf7FSU3tVTEXEJL9yrS99Ea8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UlBuvkn41OKs7XxUbg/uoy0Swe/QzxuKpJljgeQGQvqYO64pxec79Pg4cpX3pxAkZ5YC7lYf+VpIehvamEJzEQyqthf3yl7pkSjsS0BRc43h6IPtgZvuK6PKkUP6AFlb1AYJG3ehNcfiKnJi7fgBlqauU9fgd1tIfzK/zcbbvdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=MkfPjpjs; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a29b850ec66so1410066b.1
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 13:05:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1705611932; x=1706216732; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PZPqhSqiOt0JRfQnRN98wlvsswWfN9ZeCPuTDyzxmuA=;
-        b=MkfPjpjsEGgnaq34hMRwRpkeHlPC2lM/3yvXaKKHrjARRF/bxVcLVo+KQ4CiFBHjIj
-         X9rRMCR8UuLfGynLw3jiyYcf625t3QGo5syNLq+bzTToJhV62Q9vcSP820RcxAhl+Xfr
-         PCL/DBtOC/tO/KG7mWNTxhaD6w5KBP2lvtmxE=
+	 Content-Type:Content-Disposition:In-Reply-To; b=dtuVUVL9pmxth1f+DzyW4W5I5eZoNSy0pr6yPzqq2fy/oSxlcqzAQoToQ0mkx0mAdiSE9kL7slQfiJgCTTyYbTxaDPDy+bpEhe3sOyUJeakRSHPtfXQwFejwd/z1qzOXVaqxFcRzpXZzg+Z/OVPOnVv3mGI5RxqQECQlcUkJSmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WFCZ7QyE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705612871;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l/RFuMwXFGgnLzX+gQ+7Eyl0Fns+nyjhizUJ9hMdtGQ=;
+	b=WFCZ7QyEopp8GjFucHta7Cehrv/wunE11RbZtP3oqhdsSVhgmll4cM3VMhZEW+TrtLS4vP
+	FGiIvRagutwpbcdSnB0RJyi3OsRvRnx6pDEKdRQf5U2QOMITgjMfu/oizujuOfOTh/rTyu
+	v2fqkiDi+97PEJuxeoDLa66kgyEN134=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-604-Z6I-Q13BMU2syPXbWwZwmQ-1; Thu, 18 Jan 2024 16:21:09 -0500
+X-MC-Unique: Z6I-Q13BMU2syPXbWwZwmQ-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-40e6668d9e1so609435e9.1
+        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 13:21:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705611932; x=1706216732;
+        d=1e100.net; s=20230601; t=1705612868; x=1706217668;
         h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PZPqhSqiOt0JRfQnRN98wlvsswWfN9ZeCPuTDyzxmuA=;
-        b=P+lqS1AmuCwzMEKsOXPEzsNRh/wh6tp3NbBUwR6/qL+/NIrULLnQ3KAwquDCosGXE4
-         6z6gTm03pLNy2EiEt5Wy3HVhTwPU0/w23cP8Z6soafGSUucrKt50fDV2iDvARhIuwqsK
-         zyQTBDRioq7aTmarDt+KToauSwwwbB51fcX5mF+1JqLD80t1Q8FHXlUv4gstL/+YsnMM
-         eJuPIdML23l9NWEiDTNPvLpXShBnu2aLMLRt/JpPeRyefGhbHlOA9g4n+XGF2v2tHGT7
-         JneXQpKfYCeYLCsimqO+q1pvt8piZikYFKYnEJ/ol7SX0dJner+n4d7AfnLsskOFC3a/
-         8GHQ==
-X-Gm-Message-State: AOJu0Ywe33lQ1wYCWS2j3EGPtKKLDGBeOBeJOvZOeivkWA7+HAJnb2G/
-	PP4Td8nLxheg1C7uPfKif3g/sAKAlm74BjGltTWS38E8I4q+XvD/zurYIuGCHOg=
-X-Google-Smtp-Source: AGHT+IHiHmXpEt+JRTxUTfuV+oFuGQPARbLPHLNi9Hhl0xodHpfg/LtRNouEZV95uQdlCocd1vJ7IA==
-X-Received: by 2002:a17:906:852:b0:a2b:d12c:ee48 with SMTP id f18-20020a170906085200b00a2bd12cee48mr242078ejd.1.1705611931741;
-        Thu, 18 Jan 2024 13:05:31 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id bm19-20020a170906c05300b00a2362c5e3dbsm9504903ejb.151.2024.01.18.13.05.30
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l/RFuMwXFGgnLzX+gQ+7Eyl0Fns+nyjhizUJ9hMdtGQ=;
+        b=Ytux/R0/8NTSakiyY3OYD0wiYV0DK2CXLhHv9LMJ38+IKO+AllSYfbuIwfLLQubSWt
+         v8pKKx5BnOsq6HwPt7HVyaMG4TTwuvOn4XXqz2e6bhLnOwsB02JA9kn9SHsfQB2XVZwK
+         uqAo7G53GwZCAmIiswcteclS/e/OOqiVW8BLvKiX9wmIVsLxD2KV4Uym50C5DnX6vvtp
+         VxuL6V6ZJ7EhgY4s6JQZh2U3QCwpN/d5rth1qm7Zq2mFLAJeEzgpNVryiA52uYfJcbJi
+         7OnglKk3aaMPeC/l3z4bOupLFdfB2zn4Jl3zEY25tFQYsFiWlpV4Kdm0ItPTpXodLhm5
+         pyfg==
+X-Gm-Message-State: AOJu0Yz6I+6PEy6L/a1Xsv7+8CRo6Fnb2844ns+lYa1ejNn/CD9p1c3H
+	KhQYs71Nzd8fCfpfqTJWr9v7tUcRvt9Of7MO1DVYbmGKcziuu5q83IdfONH/zt41SxRplw6Bah5
+	rvLksxmI1Im3IX5ZA5335EdWVeEKfvqvsdgHE6VdzT0HAziOM9l3SEm3iIWni
+X-Received: by 2002:a05:600c:4fd0:b0:40e:7485:daee with SMTP id o16-20020a05600c4fd000b0040e7485daeemr889527wmq.90.1705612868223;
+        Thu, 18 Jan 2024 13:21:08 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEbMdqyiktrO4MfePrGAzXbNxUb85rIEKPcPE1jD7jmO2KFaepfrTeZH0nCka73fDv9zyB9iQ==
+X-Received: by 2002:a05:600c:4fd0:b0:40e:7485:daee with SMTP id o16-20020a05600c4fd000b0040e7485daeemr889513wmq.90.1705612867823;
+        Thu, 18 Jan 2024 13:21:07 -0800 (PST)
+Received: from toolbox ([2001:9e8:89aa:f00:af88:d221:94de:a009])
+        by smtp.gmail.com with ESMTPSA id p9-20020a05600c1d8900b0040e95632357sm2223810wms.26.2024.01.18.13.21.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 13:05:31 -0800 (PST)
-Date: Thu, 18 Jan 2024 22:05:29 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <ZamSmZuOIMMRyWEL@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-References: <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
- <ZZwU827NMHbx7bsO@phenom.ffwll.local>
- <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
- <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
- <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
- <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
- <c100b5f75b12de4a331dd36de3573483dbde915f.camel@crapouillou.net>
- <ZakuD-ns-5UJmrRi@phenom.ffwll.local>
- <Zakupp1GCZMk5aDT@phenom.ffwll.local>
- <cb64afbb0aae887520f471f09c83b29a08214bfd.camel@crapouillou.net>
+        Thu, 18 Jan 2024 13:21:07 -0800 (PST)
+Date: Thu, 18 Jan 2024 22:21:05 +0100
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	David Airlie <airlied@gmail.com>, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <20240118212105.GA30589@toolbox>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
+ <jpcov2bvhpabws36ueywr4xjfnbmwjsd42b4tpcicyi66qkjs2@3xn5mdl4zyus>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cb64afbb0aae887520f471f09c83b29a08214bfd.camel@crapouillou.net>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+In-Reply-To: <jpcov2bvhpabws36ueywr4xjfnbmwjsd42b4tpcicyi66qkjs2@3xn5mdl4zyus>
 
-On Thu, Jan 18, 2024 at 08:39:23PM +0100, Paul Cercueil wrote:
-> Hi Daniel / Sima,
-> 
-> Le jeudi 18 janvier 2024 à 14:59 +0100, Daniel Vetter a écrit :
-> > On Thu, Jan 18, 2024 at 02:56:31PM +0100, Daniel Vetter wrote:
-> > > On Mon, Jan 15, 2024 at 01:54:27PM +0100, Paul Cercueil wrote:
-> > > > Hi Daniel / Sima,
-> > > > 
-> > > > Le mardi 09 janvier 2024 à 14:01 +0100, Daniel Vetter a écrit :
-> > > > > On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
-> > > > > > Hi Daniel / Sima,
-> > > > > > 
-> > > > > > Le lundi 08 janvier 2024 à 20:19 +0100, Daniel Vetter a
-> > > > > > écrit :
-> > > > > > > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil
-> > > > > > > wrote:
-> > > > > > > > Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a
-> > > > > > > > écrit :
-> > > > > > > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil
-> > > > > > > > > wrote:
-> > > > > > > > > > Hi Daniel (Sima?),
-> > > > > > > > > > 
-> > > > > > > > > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter
-> > > > > > > > > > a
-> > > > > > > > > > écrit :
-> > > > > > > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul
-> > > > > > > > > > > Cercueil
-> > > > > > > > > > > wrote:
-> > > > > > > > > > > > +static void ffs_dmabuf_signal_done(struct
-> > > > > > > > > > > > ffs_dma_fence
-> > > > > > > > > > > > *dma_fence, int ret)
-> > > > > > > > > > > > +{
-> > > > > > > > > > > > +	struct ffs_dmabuf_priv *priv =
-> > > > > > > > > > > > dma_fence-
-> > > > > > > > > > > > > priv;
-> > > > > > > > > > > > +	struct dma_fence *fence = &dma_fence-
-> > > > > > > > > > > > >base;
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +	dma_fence_get(fence);
-> > > > > > > > > > > > +	fence->error = ret;
-> > > > > > > > > > > > +	dma_fence_signal(fence);
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +	dma_buf_unmap_attachment(priv->attach,
-> > > > > > > > > > > > dma_fence-
-> > > > > > > > > > > > > sgt,
-> > > > > > > > > > > > dma_fence->dir);
-> > > > > > > > > > > > +	dma_fence_put(fence);
-> > > > > > > > > > > > +	ffs_dmabuf_put(priv->attach);
-> > > > > > > > > > > 
-> > > > > > > > > > > So this can in theory take the dma_resv lock, and
-> > > > > > > > > > > if the
-> > > > > > > > > > > usb
-> > > > > > > > > > > completion
-> > > > > > > > > > > isn't an unlimited worker this could hold up
-> > > > > > > > > > > completion
-> > > > > > > > > > > of
-> > > > > > > > > > > future
-> > > > > > > > > > > dma_fence, resulting in a deadlock.
-> > > > > > > > > > > 
-> > > > > > > > > > > Needs to be checked how usb works, and if stalling
-> > > > > > > > > > > indefinitely
-> > > > > > > > > > > in
-> > > > > > > > > > > the
-> > > > > > > > > > > io_complete callback can hold up the usb stack you
-> > > > > > > > > > > need
-> > > > > > > > > > > to:
-> > > > > > > > > > > 
-> > > > > > > > > > > - drop a dma_fence_begin/end_signalling annotations
-> > > > > > > > > > > in
-> > > > > > > > > > > here
-> > > > > > > > > > > - pull out the unref stuff into a separate
-> > > > > > > > > > > preallocated
-> > > > > > > > > > > worker
-> > > > > > > > > > > (or at
-> > > > > > > > > > >   least the final unrefs for ffs_dma_buf).
-> > > > > > > > > > 
-> > > > > > > > > > Only ffs_dmabuf_put() can attempt to take the
-> > > > > > > > > > dma_resv and
-> > > > > > > > > > would
-> > > > > > > > > > have
-> > > > > > > > > > to be in a worker, right? Everything else would be
-> > > > > > > > > > inside
-> > > > > > > > > > the
-> > > > > > > > > > dma_fence_begin/end_signalling() annotations?
-> > > > > > > > > 
-> > > > > > > > > Yup. Also I noticed that unlike the iio patches you
-> > > > > > > > > don't
-> > > > > > > > > have
-> > > > > > > > > the
-> > > > > > > > > dma_buf_unmap here in the completion path (or I'm
-> > > > > > > > > blind?),
-> > > > > > > > > which
-> > > > > > > > > helps a
-> > > > > > > > > lot with avoiding trouble.
-> > > > > > > > 
-> > > > > > > > They both call dma_buf_unmap_attachment() in the "signal
-> > > > > > > > done"
-> > > > > > > > callback, the only difference I see is that it is called
-> > > > > > > > after
-> > > > > > > > the
-> > > > > > > > dma_fence_put() in the iio patches, while it's called
-> > > > > > > > before
-> > > > > > > > dma_fence_put() here.
-> > > > > > > 
-> > > > > > > I was indeed blind ...
-> > > > > > > 
-> > > > > > > So the trouble is this wont work because:
-> > > > > > > - dma_buf_unmap_attachment() requires dma_resv_lock. This
-> > > > > > > is a
-> > > > > > > somewhat
-> > > > > > >   recent-ish change from 47e982d5195d ("dma-buf: Move
-> > > > > > >   dma_buf_map_attachment() to dynamic locking
-> > > > > > > specification"), so
-> > > > > > > maybe
-> > > > > > >   old kernel or you don't have full lockdep enabled to get
-> > > > > > > the
-> > > > > > > right
-> > > > > > >   splat.
-> > > > > > > 
-> > > > > > > - dma_fence critical section forbids dma_resv_lock
-> > > > > > > 
-> > > > > > > Which means you need to move this out, but then there's the
-> > > > > > > potential
-> > > > > > > cache management issue. Which current gpu drivers just
-> > > > > > > kinda
-> > > > > > > ignore
-> > > > > > > because it doesn't matter for current use-case, they all
-> > > > > > > cache
-> > > > > > > the
-> > > > > > > mapping
-> > > > > > > for about as long as the attachment exists. You might want
-> > > > > > > to do
-> > > > > > > the
-> > > > > > > same,
-> > > > > > > unless that somehow breaks a use-case you have, I have no
-> > > > > > > idea
-> > > > > > > about
-> > > > > > > that.
-> > > > > > > If something breaks with unmap_attachment moved out of the
-> > > > > > > fence
-> > > > > > > handling
-> > > > > > > then I guess it's high time to add separate cache-
-> > > > > > > management only
-> > > > > > > to
-> > > > > > > dma_buf (and that's probably going to be quite some wiring
-> > > > > > > up,
-> > > > > > > not
-> > > > > > > sure
-> > > > > > > even how easy that would be to do nor what exactly the
-> > > > > > > interface
-> > > > > > > should
-> > > > > > > look like).
-> > > > > > 
-> > > > > > Ok. Then I'll just cache the mapping for now, I think.
-> > > > > 
-> > > > > Yeah I think that's simplest. I did ponder a bit and I don't
-> > > > > think
-> > > > > it'd be
-> > > > > too much pain to add the cache-management functions for device
-> > > > > attachments/mappings. But it would be quite some typing ...
-> > > > > -Sima
-> > > > 
-> > > > It looks like I actually do have some hardware which requires the
-> > > > cache
-> > > > management. If I cache the mappings in both my IIO and USB code,
-> > > > it
-> > > > works fine on my ZedBoard, but it doesn't work on my ZCU102.
-> > > > 
-> > > > (Or maybe it's something else? What I get from USB in that case
-> > > > is a
-> > > > stream of zeros, I'd expect it to be more like a stream of
-> > > > garbage/stale data).
-> > > > 
-> > > > So, change of plans; I will now unmap the attachment in the
-> > > > cleanup
-> > > > worker after the fence is signalled, and add a warning comment
-> > > > before
-> > > > the end of the fence critical section about the need to do cache
-> > > > management before the signal.
-> > > > 
-> > > > Does that work for you?
+On Mon, Jan 15, 2024 at 04:25:41PM +0100, Maxime Ripard wrote:
+> On Mon, Jan 15, 2024 at 03:33:08PM +0100, Sebastian Wick wrote:
+> > On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
+> > > The i915 driver has a property to force the RGB range of an HDMI output.
+> > > The vc4 driver then implemented the same property with the same
+> > > semantics. KWin has support for it, and a PR for mutter is also there to
+> > > support it.
 > > > 
-> > > The trouble is, I'm not sure this works for you. If you rely on the
-> > > fences, and you have to do cache management in between dma
-> > > operations,
-> > > then doing the unmap somewhen later will only mostly paper over the
-> > > issue,
-> > > but not consistently.
+> > > Both drivers implementing the same property with the same semantics,
+> > > plus the userspace having support for it, is proof enough that it's
+> > > pretty much a de-facto standard now and we can provide helpers for it.
 > > > 
-> > > I think that's really bad because the bugs this will cause are very
-> > > hard
-> > > to track down and with the current infrastructure impossible to
-> > > fix.
+> > > Let's plumb it into the newly created HDMI connector.
 > > > 
-> > > Imo cache the mappings, and then fix the cache management bug
-> > > properly.
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > ---
+> > >  Documentation/gpu/kms-properties.csv               |   1 -
+> > >  drivers/gpu/drm/drm_atomic.c                       |   5 +
+> > >  drivers/gpu/drm/drm_atomic_state_helper.c          |  17 +
+> > >  drivers/gpu/drm/drm_atomic_uapi.c                  |   4 +
+> > >  drivers/gpu/drm/drm_connector.c                    |  76 +++++
+> > >  drivers/gpu/drm/tests/Makefile                     |   1 +
+> > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 376 +++++++++++++++++++++
+> > >  drivers/gpu/drm/tests/drm_connector_test.c         | 117 ++++++-
+> > >  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 ++++++
+> > >  include/drm/drm_connector.h                        |  36 ++
+> > >  10 files changed, 737 insertions(+), 2 deletions(-)
 > > > 
-> > > If you want an interim solution that isn't blocked on the dma-buf
-> > > cache
-> > > management api addition, the only thing that works is doing the
-> > > operations
-> > > synchronously in the ioctl call. Then you don't need fences, and
-> > > you can
-> > > guarantee that the unmap has finished before userspace proceeds.
-> > > 
-> > > With the dma_fences you can't guarantee that, it's just pure luck.
+> > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
+> > > index 0f9590834829..caef14c532d4 100644
+> > > --- a/Documentation/gpu/kms-properties.csv
+> > > +++ b/Documentation/gpu/kms-properties.csv
+> > > @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
+> > >  ,Virtual GPU,â€œsuggested Xâ€,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
+> > >  ,,â€œsuggested Yâ€,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
+> > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
+> > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
+> > >  ,,â€œaudioâ€,ENUM,"{ ""force-dvi"", ""off"", ""auto"", ""on"" }",Connector,TBD
+> > >  ,SDVO-TV,â€œmodeâ€,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NTSC_443"", ""PAL_B"" } etc.",Connector,TBD
+> > >  ,,"""left_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
+> > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> > > index c31fc0b48c31..1465a7f09a0b 100644
+> > > --- a/drivers/gpu/drm/drm_atomic.c
+> > > +++ b/drivers/gpu/drm/drm_atomic.c
+> > > @@ -1142,6 +1142,11 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
+> > >  	drm_printf(p, "\tmax_requested_bpc=%d\n", state->max_requested_bpc);
+> > >  	drm_printf(p, "\tcolorspace=%s\n", drm_get_colorspace_name(state->colorspace));
+> > >  
+> > > +	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> > > +	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB)
+> > > +		drm_printf(p, "\tbroadcast_rgb=%s\n",
+> > > +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
+> > > +
+> > >  	if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
+> > >  		if (state->writeback_job && state->writeback_job->fb)
+> > >  			drm_printf(p, "\tfb=%d\n", state->writeback_job->fb->base.id);
+> > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > > index e69c0cc1c6da..10d98620a358 100644
+> > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > > @@ -583,6 +583,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
+> > >  void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
+> > >  					      struct drm_connector_state *new_state)
+> > >  {
+> > > +	new_state->hdmi.broadcast_rgb = DRM_HDMI_BROADCAST_RGB_AUTO;
+> > >  }
+> > >  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
+> > >  
+> > > @@ -650,6 +651,22 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_check);
+> > >  int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+> > >  					   struct drm_atomic_state *state)
+> > >  {
+> > > +	struct drm_connector_state *old_state =
+> > > +		drm_atomic_get_old_connector_state(state, connector);
+> > > +	struct drm_connector_state *new_state =
+> > > +		drm_atomic_get_new_connector_state(state, connector);
+> > > +
+> > > +	if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb) {
+> > > +		struct drm_crtc *crtc = new_state->crtc;
+> > > +		struct drm_crtc_state *crtc_state;
+> > > +
+> > > +		crtc_state = drm_atomic_get_crtc_state(state, crtc);
+> > > +		if (IS_ERR(crtc_state))
+> > > +			return PTR_ERR(crtc_state);
+> > > +
+> > > +		crtc_state->mode_changed = true;
+> > > +	}
+> > > +
+> > >  	return 0;
+> > >  }
+> > >  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
+> > > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> > > index aee4a65d4959..3eb4f4bc8b71 100644
+> > > --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> > > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> > > @@ -818,6 +818,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+> > >  		state->max_requested_bpc = val;
+> > >  	} else if (property == connector->privacy_screen_sw_state_property) {
+> > >  		state->privacy_screen_sw_state = val;
+> > > +	} else if (property == connector->broadcast_rgb_property) {
+> > > +		state->hdmi.broadcast_rgb = val;
+> > >  	} else if (connector->funcs->atomic_set_property) {
+> > >  		return connector->funcs->atomic_set_property(connector,
+> > >  				state, property, val);
+> > > @@ -901,6 +903,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+> > >  		*val = state->max_requested_bpc;
+> > >  	} else if (property == connector->privacy_screen_sw_state_property) {
+> > >  		*val = state->privacy_screen_sw_state;
+> > > +	} else if (property == connector->broadcast_rgb_property) {
+> > > +		*val = state->hdmi.broadcast_rgb;
+> > >  	} else if (connector->funcs->atomic_get_property) {
+> > >  		return connector->funcs->atomic_get_property(connector,
+> > >  				state, property, val);
+> > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> > > index d9961cce8245..929b0a911f62 100644
+> > > --- a/drivers/gpu/drm/drm_connector.c
+> > > +++ b/drivers/gpu/drm/drm_connector.c
+> > > @@ -1183,6 +1183,29 @@ static const u32 dp_colorspaces =
+> > >  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
+> > >  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
+> > >  
+> > > +static const struct drm_prop_enum_list broadcast_rgb_names[] = {
+> > > +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
+> > > +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
+> > > +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
+> > > +};
+> > > +
+> > > +/*
+> > > + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDMI connector RGB broadcast selection
+> > > + * @broadcast_rgb: Broadcast RGB selection to compute name of
+> > > + *
+> > > + * Returns: the name of the Broadcast RGB selection, or NULL if the type
+> > > + * is not valid.
+> > > + */
+> > > +const char *
+> > > +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb)
+> > > +{
+> > > +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
+> > > +		return NULL;
+> > > +
+> > > +	return broadcast_rgb_names[broadcast_rgb].name;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
+> > > +
+> > >  /**
+> > >   * DOC: standard connector properties
+> > >   *
+> > > @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
+> > >  /**
+> > >   * DOC: HDMI connector properties
+> > >   *
+> > > + * Broadcast RGB
+> > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > + *      Infoframes will be generated according to that value.
+> > > + *
+> > > + *      The value of this property can be one of the following:
+> > > + *
+> > > + *      Automatic:
+> > > + *              RGB Range is selected automatically based on the mode
+> > > + *              according to the HDMI specifications.
+> > > + *
+> > > + *      Full:
+> > > + *              Full RGB Range is forced.
+> > > + *
+> > > + *      Limited 16:235:
+> > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > + *              this works for any number of bits-per-component.
+> > > + *
+> > > + *      Drivers can set up this property by calling
+> > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > + *
 > > 
-> > Maybe a follow up: Double check you really need the cache management
-> > between the dma operations from 2 different devices, and not for the
-> > cpu
-> > access that you then probably do to check the result.
-> > 
-> > Because if the issue is just cpu access, then protecting the cpu
-> > access
-> > needs to use the begin/end_cpu_access dma-functions (or the
-> > corresponding
-> > ioctl if you use mmap from userspace) anyway, and that should sort
-> > out any
-> > issues you have for cpu access.
-> > 
-> > Just to make sure we're not needlessly trying to fix something that
-> > isn't
-> > actually the problem.
+> > This is a good time to document this in more detail.
 > 
-> I am not doing any CPU access - I'm just attaching the same DMABUF to
-> IIO and USB and use the new IOCTLs to transfer data.
+> I have the feeling that it already is documented in more detail. But
+> anyway, last time we discussed it the answer was basically to not bother
+> and just merge the thing. So I'm getting some mixed signals here.
+
+I'm all for merging and not trying to improve the property but
+documenting it in more detail is definitely something I want to see.
+
+> > There might be two different things being affected:
+> > 
+> > 1. The signalling (InfoFrame/SDP/...)
+> > 2. The color pipeline processing
+> > 
+> > All values of Broadcast RGB always affect the color pipeline processing
+> > such that a full-range input to the CRTC is converted to either full- or
+> > limited-range, depending on what the monitor is supposed to accept.
+> > 
+> > When automatic is selected, does that mean that there is no signalling,
+> > or that the signalling matches what the monitor is supposed to accept
+> > according to the spec?
 > 
-> Can I just roll my own cache management then, using
-> dma_sync_sg_for_cpu/device? I did a quick-and-dirty check with it, and
-> it seems to make things work with cached mappings.
+> The doc states that "Infoframes will be generated according to that
+> value". Is it ambiguous?
+> 
+> > Also, is this really HDMI specific?
+> 
+> Probably not, but it can easily be expanded to other connector types
+> when needs be.
+> 
+> > When full or limited is selected and the monitor doesn't support the
+> > signalling, what happens?
+> 
+> I would expect colors to be off
+> 
+> Maxime
 
-Nope, because you might have an sg list which does not work for these
-apis. Only the exporter knows whether it's dma-api allocated (in which
-case these are the right apis), or whether nothing is needed or something
-driver private.
 
-So I'm afraid, we need to wire these through. It shouldn't be too bad
-though because we really only need to wire these through for the cases you
-need them, not for all dma-buf exporters. The one tricky part would what
-we call the functions, since I guess you need to call _for_cpu() after you
-finished access by the first device, and then _for_device() before
-starting the access on the next one? That's a bit confusing lingo in a
-dma-buf context where you only move data ownership from one device to the
-other, so I think for dma_buf we want maybe dma_buf_attachment_end_access (for
-sync_for_cpu) and dma_buf_attachment_begin_access (for sync_for_device) to
-be consistent with the cpu flush functions.
-
-Well maybe drop the _attachment_ if you want since other functions like
-dma_buf_pin are also not consistent with the naming.
-
-Cheers, Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 
