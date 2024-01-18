@@ -1,120 +1,153 @@
-Return-Path: <linux-media+bounces-3890-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3891-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDD1831C35
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 16:18:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80863831DF3
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 17:57:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 06BD4B21365
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 15:18:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDE351F21383
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 16:57:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 245EB24A10;
-	Thu, 18 Jan 2024 15:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B49492C6B0;
+	Thu, 18 Jan 2024 16:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Waryo2ob"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Qdf5Pmc2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2251E893;
-	Thu, 18 Jan 2024 15:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E4D2C6AA
+	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 16:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705591078; cv=none; b=CosNMFp1oMNPB2PJa/ld5gRDdvPPgB5eT5VvWKHiE8WS7QT2Ts/SFtpkJNEwbd+0pQc7IPSprBZlb95HxOe3KHnFSERXVxeGCMVvBdtfH+LLmVgMnj48ePvvMZjCS35yam/dPIKpJI4WRQHyaI+2x6AE9tQazGP3QMP93+PL+wo=
+	t=1705597051; cv=none; b=UGVroc31BznRe3K8YHJMqg9L1c6pTutk7PDzt7fLbKNibxEMxgcYarKgfj0DTaZPJ+LjtpB91E7zQMy1u3xmTcvBg7z5du1II8sIu9A4MxtmZVmcRgxW3sxZrrW8IWqmZuiAWmejoZTO444FUHd5d0op4+xnJqzJghOlc4xqRho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705591078; c=relaxed/simple;
-	bh=y2f1I34XlBaXKaJRsT8nYxnUv+jA8opfGpK2r9ub/rM=;
+	s=arc-20240116; t=1705597051; c=relaxed/simple;
+	bh=cmZn+BROv+sMREBkau20U4T/TQEgObsLAqinfuULAyg=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
 	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding; b=TFZO8ytdUBQEJzic7w/NZ1qWcFSBcULyIgZ0evU1T6em6tc6+BHsWNiluYokyHhfBVyZP022iVTD75gwdkpymlGAVplq0KtEIo/fP3rLA66xNaw0tFEIzQomtoHJ58vx+RzuxEDkXXebn/4XjDlBruklLLS3fNl+xxv+G+AL02s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Waryo2ob; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-556c3f0d6c5so15366586a12.2;
-        Thu, 18 Jan 2024 07:17:56 -0800 (PST)
+	 Content-Type:Content-Transfer-Encoding; b=rjjtm4w+eLPRfoc2u9qFKAv5nXuRHg1drdeI8qBOdLmex+M3Jf/X+4qROQfloBNc9iDrTXNNsvkwRQOQiDj/N352It+UoMiZh5FYij2ET8k7dIzMW25q0uoOtKhD09ooU9iB4Qr/JSjRTN4NbiuNeMrGbCSu59rz/cZYsZUFRMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Qdf5Pmc2; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc25099b084so1072238276.0
+        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 08:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705591074; x=1706195874; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1705597049; x=1706201849; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SXNIeN/MszADqIFgoeR3I4RBj7C13Kq6e86qa9HX4xI=;
-        b=Waryo2obONrZ4zHRYZ6W6HcYJluP314WsydWOz6/JgzNwTGcE5j2DQOqE57y2HUEY3
-         w3bYATRGMeIikqfzuvrNGYS41t1gLBikrzbuYtOpGvH/sfxH8PjtwiwF2LJKC2jE1rnC
-         9FhuGSIT+Gn+RENwd6GjlKCH/UTILLgx2qwTnxURRFttVG5mw049IiP/xNxXa5HeeSpn
-         yd/njWvpIOw6CF03lTwXbgufkMy12wosN60hrNcJaloE6oKcp59seyFCld2gyYew9S4H
-         +wOtOmiCFK0KEke8phHMuUeI47SAG67pm8zFQKhPFbsGlJxHeCh6h7wgVvYaB1vA/6p9
-         dxUA==
+        bh=cmZn+BROv+sMREBkau20U4T/TQEgObsLAqinfuULAyg=;
+        b=Qdf5Pmc2E9Lqn0tozQlEd+MJF6I8HkxjgbELP5HQzYJyByJIDwRerqRpDZKSjbi1Xm
+         7NRpa7rRO87l/DR9gFXw7S/V+yhmiaCTUzlIzZC7h5rANmLgDIepigio3gUWYvVj/j/g
+         uyr1KO5cMnMINt8PaB0/m/mneKHYI/YkEgKox+b6CeEz8h6KWtHz2QFAeWy6vKIQoyFg
+         dNnyC9KEpUJ2N25XRyRTIifpgIZbD7mhLGdbrE5e88CGz2WABdg3hLi2THDiPSDbfL8q
+         cgLdBqD/1kuMSEWyW60uR15aDeQHswAhqejXaOu4FcKYnhfumKNYs+hy8iXlHhcJd78Z
+         HKRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705591074; x=1706195874;
+        d=1e100.net; s=20230601; t=1705597049; x=1706201849;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SXNIeN/MszADqIFgoeR3I4RBj7C13Kq6e86qa9HX4xI=;
-        b=fZpiwuJ9PlJ5b9U+Ga9HqYWZSW/jPlvW7VFnzIlw9Bf7zZK0aPs1fyWb1tSqW/dPlR
-         OIH1KHzvxn8DbJ8TgbCJmSirArMPg1//c6rQA7bjrtZznLbIu8SI2LQIxzPf+WZ2fAW8
-         c+HKwkXLDz9DkrYXHaSfqhgzuJpRBquYEqA1VYkVgqOC8VKtypOKm/rQwpgZoPzbTbGY
-         j/O0B5UmhM3ZxPj98vLGWRQJOfNaRtJDxYp5I4inKoTAtgRmZwavs49pSHvnCg3Zg/+u
-         p23WvRdjNoDPpKd/8P7yjdUDRjNAIkjuzdR794NtM5Akif9pjB7tDKyPi9Z4rSxcUczc
-         eWYw==
-X-Gm-Message-State: AOJu0YyRUhOIRv9t1qHTu362G8Ryi2aCtPFdQJLZ5CY6APXbei6L0Tcg
-	ztIMowgwDm2uAuRl6D/FwZWk2ncpzLaGftk4uajetbfFlwRVgXZHrpUmMoNP5sSqL2BK4P4atRL
-	FI8AvlOxmoVLyUZYlGuvnu7O1QT8=
-X-Google-Smtp-Source: AGHT+IFxWpCFIFpoZ3849a/o+eU3juZNCrElQE/y1Tth9QxilfiAvh77bZdBf3nXrA5jRv2YTsqpo5ZGCSf7J8a0+y8=
-X-Received: by 2002:a17:906:4ec9:b0:a2d:359b:2435 with SMTP id
- i9-20020a1709064ec900b00a2d359b2435mr390836ejv.116.1705591074445; Thu, 18 Jan
- 2024 07:17:54 -0800 (PST)
+        bh=cmZn+BROv+sMREBkau20U4T/TQEgObsLAqinfuULAyg=;
+        b=iU9w1jeh1Cj5dmkINZE+vjBy4n0lMATac195nLX/UpdtNTW764qu4601j+Z3HEc61E
+         BW/gtVkl2PrAFtPKRkZlv2bhWkna2BUE0BehU60BNBXHtu4aZfF8hyqx3MS6nmg0iNtX
+         q04DOLsxcUBBA4CuRcdJ6TpZ2YpKSN4LB18Z5jJhnj9fsoAO9UfQeYU7jP/FD1x3003E
+         /laV9a+foKwp5V5lHjX7AGErnj83dHxrSkFo/rahSRCb7ldv15CUuXidWXRhmDEXMry8
+         6sIu3teHEXavoYPg3Wuv+LUN1Bccn2FMGHJJcS/wfWa8lznXp6k629vLZRDdj6ZwzM+M
+         AL7A==
+X-Gm-Message-State: AOJu0Yx8TVWZPAI3obLkHT02isP6m5eBKkbeIdwy2oeNTxEsdNhObZHL
+	+Q9A/vb7vZ9TlC/cbHCcYNpAsFoUZeK7/grIb0fVwkew1OMb4JMhXKsvwx6w2sKhIH+4Lr8bkUy
+	IHnlg3p7zm7lusJFiJRlCvUU/4bpsK75DNg55
+X-Google-Smtp-Source: AGHT+IGdm+3tzpwneR3Std891dkepC+HcM/F/QU4NLlUSQFVDjEWUf46RxO8DdQGNQYUp4EkO2YYs2e+Vx5E/WIMRrc=
+X-Received: by 2002:a25:748c:0:b0:dbd:7743:77cb with SMTP id
+ p134-20020a25748c000000b00dbd774377cbmr856586ybc.128.1705597048380; Thu, 18
+ Jan 2024 08:57:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240118151303.3828292-1-alexious@zju.edu.cn>
-In-Reply-To: <20240118151303.3828292-1-alexious@zju.edu.cn>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 18 Jan 2024 17:17:17 +0200
-Message-ID: <CAHp75VdCKg3x3vc7TyjZ1bBwNj8aqk7Th8X8O9+kRQxM_CNdBA@mail.gmail.com>
-Subject: Re: [PATCH] [v2] media: atomisp: ssh_css: Fix a null-pointer
- dereference in load_video_binaries
-To: Zhipeng Lu <alexious@zju.edu.cn>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kate Hsuan <hpa@redhat.com>, 
-	Dan Carpenter <error27@gmail.com>, Brent Pappas <bpappas@pappasbrent.com>, 
-	Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240117181141.286383-1-tjmercier@google.com> <20a68f86-27f0-48f4-a066-7dcf0092858e@amd.com>
+ <Zak6iW8lktml7f2H@phenom.ffwll.local>
+In-Reply-To: <Zak6iW8lktml7f2H@phenom.ffwll.local>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 18 Jan 2024 08:57:16 -0800
+Message-ID: <CABdmKX10zz6bk4VVDgsosJbA8_7WOxuCnkyYFiL1FPwtZ-C+WQ@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: heaps: Don't track CMA dma-buf pages under RssFile
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, Sandeep Patil <sspatil@android.com>, 
+	Laura Abbott <labbott@redhat.com>, android-mm@google.com, minchan@google.com, 
+	John Stultz <john.stultz@linaro.org>, Benjamin Gaignard <benjamin.gaignard@linaro.org>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc: daniel@ffwll.ch
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 18, 2024 at 5:13=E2=80=AFPM Zhipeng Lu <alexious@zju.edu.cn> wr=
-ote:
+On Thu, Jan 18, 2024 at 6:49=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wro=
+te:
 >
-> The allocation failure of mycs->yuv_scaler_binary in load_video_binaries
-> is followed with a dereference of mycs->yuv_scaler_binary after the
-> following call chain:
+> On Thu, Jan 18, 2024 at 11:02:22AM +0100, Christian K=C3=B6nig wrote:
+> > Am 17.01.24 um 19:11 schrieb T.J. Mercier:
+> > > DMA buffers allocated from the CMA dma-buf heap get counted under
+> > > RssFile for processes that map them and trigger page faults. In
+> > > addition to the incorrect accounting reported to userspace, reclaim
+> > > behavior was influenced by the MM_FILEPAGES counter until linux 6.8, =
+but
+> > > this memory is not reclaimable. [1] Change the CMA dma-buf heap to se=
+t
+> > > VM_PFNMAP on the VMA so MM does not poke at the memory managed by thi=
+s
+> > > dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
+> > >
+> > > The system dma-buf heap does not suffer from this issue since
+> > > remap_pfn_range is used during the mmap of the buffer, which also set=
+s
+> > > VM_PFNMAP on the VMA.
+> >
+> > Mhm, not an issue with this patch but Daniel wanted to add a check for
+> > VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.
+> >
+> > I don't fully remember the discussion but for some reason that was neve=
+r
+> > committed. We should probably try that again.
 >
-> sh_css_pipe_load_binaries
->   |-> load_video_binaries (mycs->yuv_scaler_binary =3D=3D NULL)
->   |
->   |-> sh_css_pipe_unload_binaries
->         |-> unload_video_binaries
->
-> In unload_video_binaries, it calls to ia_css_binary_unload with argument
-> &pipe->pipe_settings.video.yuv_scaler_binary[i], which refers to the
-> same memory slot as mycs->yuv_scaler_binary. Thus, a null-pointer
-> dereference is triggered.
+> Iirc the issue is that dma_mmap is not guaranteed to give you a VM_SPECIA=
+L
+> mapping, at least on absolutely all architectures. That's why I defacto
+> dropped that idea, but it would indeed be really great if we could
+> resurrect it.
 
-Good for me now, thank you.
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+I actually had it in my head that it was a BUG_ON check for VM_PFNMAP
+in dma_buf_mmap and it was merged, so I was surprised to discover that
+it wasn't set for these CMA buffers.
 
-P.S. If needed, or Hans can do it, the references to the functions can
-be amended in the commit message as we use the 'func()' format (w/o
-quotes).
+> Maybe for x86 only? Or x86+armv8, I'm honestly not sure anymore which
+> exact cases ended up with a VM_NORMAL mapping ... Would need a pile of
+> digging.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Looking back at the patch, the CI email at the end of the thread lists
+a bunch of now-broken links to DMESG-WARN test failures I assume
+pointed at a large chunk of them.
+
+https://lore.kernel.org/all/166919750173.15575.2864736980735346730@emeril.f=
+reedesktop.org/
+
+> >
+> > > [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
+/commit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0f4b9aede
+> > >
+> > > Fixes: b61614ec318a ("dma-buf: heaps: Add CMA heap to dmabuf heaps")
+> > > Signed-off-by: T.J. Mercier<tjmercier@google.com>
+> >
+> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+
+Thanks Christian.
 
