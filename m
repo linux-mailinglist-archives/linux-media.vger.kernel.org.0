@@ -1,149 +1,131 @@
-Return-Path: <linux-media+bounces-3881-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3882-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1014831AAB
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 14:34:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D23831AE1
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 14:54:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26A3AB21E11
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 13:34:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C19EB1F26B18
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 13:54:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B655625603;
-	Thu, 18 Jan 2024 13:34:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09FD8288D5;
+	Thu, 18 Jan 2024 13:53:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B+Ix+HCw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EAmaggMp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2C52554A
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 13:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B60825750;
+	Thu, 18 Jan 2024 13:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705584862; cv=none; b=AlXtqK4bUhNDo6eB7leXcO8VyX+/MCzsffED9S1EoQuOsfyqsNlCQyx42SLFF8vJDKWlKGMlm0fiSAZbWcQOvWJQln4SCIs136IZO139qq88x+WaCrw8Ee0ZvzDSAe5FuarGsYUsrBwrykvyRoCPxpDLc+D0RY5+u45MH3itf7I=
+	t=1705586032; cv=none; b=WwjMl1MoYVJ0HahPqh/elryhoNWKVioW5LMW8FemZVMElwgC2EJn4c4zXuS5wngvX3oX2GCr4JIukGKGKMWzn3j+p/rbo67lTovLpLDHyYl36c4Dpsc1pzqxc3QHfGzLJzN9sh/xcwAeI1TOlcDiP5cXyVgAw90CtthxqDuzll8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705584862; c=relaxed/simple;
-	bh=cvBbavxq/YxOjTZc3o8gTyrEuL5y+Usgr/yLRKRZpFI=;
+	s=arc-20240116; t=1705586032; c=relaxed/simple;
+	bh=BYMgkED4+IQyIXVefEkLBQ8h0FGA2kOiawJ5Ea0ivOM=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:
-	 To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding; b=kQVtn+iRyMj17rKM8yehDQmPuGehjdKCIJNR0owlHaFuppvjA93ysUH1cBu5akfrwgBKy8XZa5LzF8GmLs+U5zREqR4yT2UNe9shtBu+yLwaK3KmG8Wn5NNcjsTTnsNQ48s6Lgts+Zjf8DL170oS/QuBjwz8nQAcupF2t9aFaW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B+Ix+HCw; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e8ddebc71so10096795e9.2
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 05:34:20 -0800 (PST)
+	 Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Content-Transfer-Encoding:Message-Id:References:To:X-Mailer; b=ZSiyBMT1Tme905d6er+5VaO9BIQd366OPu9LwMXckgcU7t3TKZCLbkdosNLOWiuhN/CPlVuKfmSD1C0P+uUgUhHI32UYFBJVzeU48q9C3RXQSf1jzOCtaxNNzCfT/lrpeG0y5SVp6P2bEI9MGJbXYxtES3dbupy44MOFrufXIHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EAmaggMp; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a2a17f3217aso1341054966b.2;
+        Thu, 18 Jan 2024 05:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705584859; x=1706189659; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4YHeLV0TQs3MeVFgQiX7V8lAzpJlQDaK5HPvbw2WeUM=;
-        b=B+Ix+HCwDjC2JTCpcF/fKiYxYP8ABgwEwt6PPwomv8UGsiJjAGexglVJ5isGo9PAVN
-         uuvqWjDfZ+3B9TcxERoMQttD4DxhiTHu2vGrJR+gR+qCFfgIvEb8hxIie+VJPDfFn/Lq
-         bPXtS0nw2TvpIk2DOTwrExVq7i4Fdt/jCbcbBDAQ2xhVyej53uTode9SRuCyifgCveNq
-         G8uI5CeEXAUueAjyNw2PpO2wXmqTXbQ9Ylr+17KAjD6DU3bi6vNBniDyIB+sGLSZ68ou
-         P7PVN9Thte8BE6rkWL9hgoy5RcaJqAsfloH5++U5DxYgNOEdH/qjfqwAdxI7bnp57JGD
-         +dZQ==
+        d=gmail.com; s=20230601; t=1705586029; x=1706190829; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G9MIswHWLD+GgE2qONMoQxUs8h+Lw0Idmat3zpcBgpc=;
+        b=EAmaggMplRwrm3O+5ztjYViV8rfGX2Cfv5eBOHQeZhq7+mqkSLNbxMogzkmOSm1SAL
+         KUcLUgejzTZqP7gPGti6VqArXfGE20aUQTut02ax6qGSpu8bAVujr5kJexP6CePm9F3I
+         1YO+iZO1cDGL3n5U9b22Jj2swpXGFErKiLkwA3gyb/VSnsvzillA50UzFzfQBCco4Hxh
+         aiodJ2sxN+R2yFNegrvSh7TeJ0JCRAZDpHnJ4Nc6oIgRoKMQRcATtubT+ZO61oLkvO/v
+         NKSTgHEX7SnYWM5/D6KZ+3I6IB3QI0+w3KtWL3iUKj8Ckg4e90uAXHhuL38pgaJP2N2k
+         h8Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705584859; x=1706189659;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4YHeLV0TQs3MeVFgQiX7V8lAzpJlQDaK5HPvbw2WeUM=;
-        b=Eh5RqDFLxUhWtf9ACacyJsiwQamzzHH4P+aVzOsTZeLChQbWh7WBqVKR9WNCva/5k/
-         tUsgxU8+Z5SyGXldsUC4soEXG7tvgTLQkBOBcdkxNthHby9YcxxwQOkf8NQUjKgXVHNK
-         WMH/gsdW0bSSBjj14beJnF8cKVzL3HjmcsGJP7SyJgb0j14oNHovk4b7NBxFOi5KdmAa
-         bIes3IQzFwTqoeOtRdDKrgeMbHIefVz6KuxkVG1qHQmBHFeltCYCl57OVr3d6lMTySnB
-         dRH33R6o4JYIrYSyLeCfgnKBFh0XTLLn3NKY3e7t6qcZ2QtBgkFNxUfjvFEUsis4FEtP
-         ERzA==
-X-Gm-Message-State: AOJu0YyZej20EcL2uvJN3sH82oRxFsQlwb5In956HSq5ykA/4P4DP8OJ
-	NUmBssxXTwYH7lu+LXL3FWXE4u3HnLRT7/HeXazAfjtFxv0Ygt1uZ3ykCErlzDY=
-X-Google-Smtp-Source: AGHT+IFjO+J+fPdCGYBGEmiIzZ273KdF1+pqEd1e1bkQkfXM4BvS/2gJPylNcqOCshGB4EJoZn84vA==
-X-Received: by 2002:a1c:7510:0:b0:40e:89da:7b71 with SMTP id o16-20020a1c7510000000b0040e89da7b71mr538405wmc.100.1705584858904;
-        Thu, 18 Jan 2024 05:34:18 -0800 (PST)
-Received: from [192.168.100.86] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id j7-20020a05600c190700b0040e52cac976sm29348312wmq.29.2024.01.18.05.34.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 05:34:18 -0800 (PST)
-Message-ID: <da27f648-fca4-42a5-8099-e6e19fa76220@linaro.org>
-Date: Thu, 18 Jan 2024 13:34:17 +0000
+        d=1e100.net; s=20230601; t=1705586029; x=1706190829;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G9MIswHWLD+GgE2qONMoQxUs8h+Lw0Idmat3zpcBgpc=;
+        b=bAjecBcgu1rg6I3R3We0pVCnCCK+AEYRQfJoIR6s4lvRL/JwuNQCVsxTcwReiOM9Yc
+         M9sxs6s4ERNkt5GElKZ1TvXOwdanoC+l94iuyn7XPPweT0X7vFqJ8gpOmk41G6DVdzkB
+         nWcywI2MJri4nvmWS0FtNhYOfdGNLOFjWngMQxFGvlWjJzwjgWks+hgBhupAgAZlkGv8
+         4A3k6MUHDAg5sUd97KfOi73AEzdnaJ/8LviSQSzU902pZSliniKiUONexk66/T2V9D+E
+         ZjT+Lm17xD5vI2Zvudu3fYhTamtX+R8YhdspgTk3EO3aiZyxVuEsOpFLQ9aO6B4m4C/O
+         MtDQ==
+X-Gm-Message-State: AOJu0Yx8fD5oz4hS0wzuTEQUzYhhbDxOibVym9y9vFA/WBNUnJf0QCyt
+	nuziQ55j6hyxe3czRSqc70fqQn4mgzKHfBWZ9sqWlGdLVlq/px+5
+X-Google-Smtp-Source: AGHT+IG2xmWsdIRyNzSjpjlSc8OqjB+07Y553XsPhCpFvi46hCvtzIWdtadtbNxngmjCGlOEe3H8MA==
+X-Received: by 2002:a17:907:8744:b0:a2f:24ca:3b93 with SMTP id qo4-20020a170907874400b00a2f24ca3b93mr745883ejc.117.1705586028995;
+        Thu, 18 Jan 2024 05:53:48 -0800 (PST)
+Received: from smtpclient.apple (84-10-101-169.static.chello.pl. [84.10.101.169])
+        by smtp.gmail.com with ESMTPSA id q24-20020a170906541800b00a26f0f49dd2sm9276238ejo.11.2024.01.18.05.53.47
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Jan 2024 05:53:48 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: venus: add new rate control type MBR for
- encoder
-Content-Language: en-US
-To: Sachin Kumar Garg <quic_sachinku@quicinc.com>, hverkuil-cisco@xs4all.nl,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20240118105934.137919-1-quic_sachinku@quicinc.com>
- <20240118105934.137919-3-quic_sachinku@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240118105934.137919-3-quic_sachinku@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.15\))
+Subject: Re: [PATCH v3 0/2] [v3]Add hantro g1 video decoder support for RK3588
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20240118113051.10773-1-liujianfeng1994@gmail.com>
+Date: Thu, 18 Jan 2024 14:53:47 +0100
+Cc: nicolas@ndufresne.ca,
+ conor+dt@kernel.org,
+ devicetree@vger.kernel.org,
+ elezegarcia@gmail.com,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ =?utf-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ knaerzche@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ mchehab@kernel.org,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ sfr@canb.auug.org.au,
+ amazingfate <liujianfeng1994@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2CFF2A39-6416-4599-AD32-E99EF95F5A36@gmail.com>
+References: <5490507acc121113e52a8cdddb155fddf6dbb374.camel@ndufresne.ca>
+ <20240118113051.10773-1-liujianfeng1994@gmail.com>
+To: liujianfeng1994@gmail.com
+X-Mailer: Apple Mail (2.3654.120.0.1.15)
 
-On 18/01/2024 10:59, Sachin Kumar Garg wrote:
->   
-> -		switch (*in) {
-> -		case HFI_RATE_CONTROL_OFF:
-> -		case HFI_RATE_CONTROL_CBR_CFR:
-> -		case HFI_RATE_CONTROL_CBR_VFR:
-> -		case HFI_RATE_CONTROL_VBR_CFR:
-> -		case HFI_RATE_CONTROL_VBR_VFR:
-> -		case HFI_RATE_CONTROL_CQ:
-> -			break;
-> -		default:
-> -			ret = -EINVAL;
-> -			break;
-> +		if (hfi_ver == HFI_VERSION_4XX) {
-> +			switch (*in) {
-> +			case HFI_RATE_CONTROL_OFF:
-> +			case HFI_RATE_CONTROL_CBR_CFR:
-> +			case HFI_RATE_CONTROL_CBR_VFR:
-> +			case HFI_RATE_CONTROL_VBR_CFR:
-> +			case HFI_RATE_CONTROL_VBR_VFR:
-> +			case HFI_RATE_CONTROL_CQ:
-> +			case HFI_RATE_CONTROL_MBR_CFR:
-> +				break;
-> +			default:
-> +				ret = -EINVAL;
-> +				break;
-> +			}
-> +		} else {
-> +			switch (*in) {
-> +			case HFI_RATE_CONTROL_OFF:
-> +			case HFI_RATE_CONTROL_CBR_CFR:
-> +			case HFI_RATE_CONTROL_CBR_VFR:
-> +			case HFI_RATE_CONTROL_VBR_CFR:
-> +			case HFI_RATE_CONTROL_VBR_VFR:
-> +			case HFI_RATE_CONTROL_CQ:
-> +				break;
-> +			default:
-> +				ret = -EINVAL;
-> +				break;
-> +			}
 
-The if/else you have here seems like a needless replication
+> Wiadomo=C5=9B=C4=87 napisana przez amazingfate =
+<liujianfeng1994@gmail.com> w dniu 18.01.2024, o godz. 12:30:
+>=20
+> Before rkvdec2 launching mainline
 
-Just have =>
+Ooooo - is there concrete plan for this?
 
-case HFI_RATE_CONTROL_MBR_CFR:
-    if (hfi_ver == HFI_VERSION_4XX)
+Asking as imho rk35xx can be really nice multimedia soc.
 
----
-bod
+Can be=E2=80=A6. but is not due current lack of hevc/vp9 hw decode in =
+mainline due lack of rkvdec2 support
+This seems to be clear blocker for many multimedia use cases :-(
+
+Having rkvdec2 support via v4l2_request in mainline imho will make =
+rk35xx killer soc for multimedia=E2=80=A6.
+
+ps: rkvdec support seems available since years on mainline and works =
+well.
+So maybe rkvdec code base can be basis to gradually added support for =
+rkvdec2?
+  =20
+
+
 
