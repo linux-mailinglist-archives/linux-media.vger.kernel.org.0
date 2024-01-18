@@ -1,113 +1,126 @@
-Return-Path: <linux-media+bounces-3857-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3858-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB145831878
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 12:30:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D3D83187C
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 12:31:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 710D71F239E4
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 11:30:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95E2F1F24DCF
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 11:31:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52949249E2;
-	Thu, 18 Jan 2024 11:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE85924201;
+	Thu, 18 Jan 2024 11:31:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QemzJbtX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7lRovnW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D00249E5
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 11:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E4D241E6;
+	Thu, 18 Jan 2024 11:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705577434; cv=none; b=X2Z+5/u3fJVauz2KxdrYKjd8CnCP+hoDbnPLVrbNbY1bl6XVVUGOR7+m3iekH5JpD/i4EHTMBgiD1PbrRONv7E/kGYrHtL5TYeLKl8o9/NMuzdTvb7vLroeNBJW+QpqaiSBVkqAdLPU+dLfR7cE4Hmt/ovy/VgdoSJNjv0PDPTQ=
+	t=1705577477; cv=none; b=YcB9jCsdv/axBt8FBQIsnTJFvO8VuE/krHrRcRCK0CgOLV3fdcN116Ncu15/lqXzhgOmC/Nlmbo9iHZgrgm6DDnK7aphILJHiBLqSMQWxsvhc+MV2C4YMRTzATcCHeF9YN9+xC4Vg3MoXw6PXrBhKkaNd7WVIMwbVmAVKsRab8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705577434; c=relaxed/simple;
-	bh=p5sai/SGkK8KH/ljYXKYJJkR0dRTIJG+5V2SGAt7rWI=;
+	s=arc-20240116; t=1705577477; c=relaxed/simple;
+	bh=/2dkV31yHAb+Qfdj4xcle6MF5whChIwDA5UIkWma74Q=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
-	 From:To:Cc:Subject:Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding; b=f/8Otw3GpxOGwmISlzgtQI6bc/MJSVia0ZiwNcGBFx+lZC9/hraj7dTXfaoLmJXgVlPqA3Or3Oso0ZdyVf06Gd08l9GVqVBCrBK/c14e+HU4WoCy0w7yq+Zy+5IOfz2en08wAcVYRoxieO896RnHhtIvKUTzCK0q0T76+Theoqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QemzJbtX; arc=none smtp.client-ip=209.85.208.51
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
+	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding; b=MNldedp/zqG3ocQ14XbkvSA70wldmShuNqE4XRvycDHZKWQe9/6n5UZku535rCOjE5T/pt94M2PJzVWxQTkRIAH/HT76Sm8HKMK+1GcvDO6a+9ukIBn+vwq4qMbpJC0G7ViG18VG4MNErUERZjBUhgjNHeo6RX1ettNgyErLxOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R7lRovnW; arc=none smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-559cef15db5so1197002a12.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 03:30:32 -0800 (PST)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6dde528dbe8so5745804a34.0;
+        Thu, 18 Jan 2024 03:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705577430; x=1706182230; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1705577475; x=1706182275; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xAOaqF/l2yaPnLmKJtR5Hs3xWg2AATihoNQmCdSeEiU=;
-        b=QemzJbtXS0MhyMRHOibZ3Ds8R+sWm7gjWmFxsrRMTCe2vgapB1kIwHvoVxhTBg4nNj
-         wBEmImYZBPoOKvCGXsBojxQI1ZvLoQkFJcHBr6b3x79YapZ9IoOadzv4Rk/iT/UCCDUQ
-         YY59wbFDhQpP58OrHG7r328qWng9XvTIn3cUKHNJoTa6Zqt8LrBHzT2yBTtbtgktXKyN
-         f2QQ5GEAg0AhcPDbZoacVE8PzY39wiRqWqgUQ/Mfu2T/AJf01orvr7XOOv7St0GcWaYN
-         D7zVsv3kxBPL4AwKBm+SGtY0MpIYCoRm4Ij3k5jaG/X2NRbsWPnpl5WVLOK4+qWkmuH6
-         b1Vg==
+        bh=/2dkV31yHAb+Qfdj4xcle6MF5whChIwDA5UIkWma74Q=;
+        b=R7lRovnWvQGeiG9FmMLsbXMp2xqKSHnQxw5u5oJNJe+yFrTn9KtLAPXLFHXAxpbP55
+         Q2UuPMbMFUp8uKFr3PV4WCSJYuz3MWpPsH7NfejpjgzpD+NynFrB9mVhIWHfZY3xmjA1
+         us6Xs3yif20x23sZkuPGAoAqgnpCK92vGo7Hb/Mf/3Ha05ICa+vkcFxZkS70GUewqJvq
+         jOBeC0N79l8TUcbH2CspZ+Fmz/rbBaZdpyxs895zpgwFg7XuVDeXnSzWwZXjy0/1DEiS
+         d+4lzU6MALmOc7qT7uAJB/VNETSPZVkvmJh4v9FI4kzhPAEAhEIbXsYt54tJLSzeHQtT
+         s6+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705577430; x=1706182230;
+        d=1e100.net; s=20230601; t=1705577475; x=1706182275;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xAOaqF/l2yaPnLmKJtR5Hs3xWg2AATihoNQmCdSeEiU=;
-        b=ZtffXPElEIesnMawo+oMJGt8XjLeuRMKnQjrOqEpTKKddN0wdLv0+R5SKLz1+szIdm
-         pbg9h8hyWxLkfHyiAQxHo+SOQGnCizpsJMPJyejX9NeNWRzy76oOBbcrS6VvBLvO+wct
-         xLOwQ7Bn8ztsy+tRNDCz3ccLeOx61mGeN7/QLs+hqXgetWrARREUspjmfbwN2xBgc+Ff
-         PFbT/7WfLUu63la1+2Ec378t5hWhLiQkrNdSh+Bs1b+Im909TepOwjEVTFpaVYJYGHiQ
-         6TfFYRFs4OJhBV/Gi4NY223FXqq5cYUJ8I+aNgdb4N4yhZTmcOqmPAC5vGO1G8AiS7uQ
-         u/Rg==
-X-Gm-Message-State: AOJu0YwPOlk38atuRA+ptPoR36x0r843RZLqMqXxV4sSDfwfXw8o2Oen
-	bg1cLplbWhAvEBYFbALl6HzxHJL+5RizQXUU+pBdjZeNXlMItNY+Oxpavx7vSvI=
-X-Google-Smtp-Source: AGHT+IHzDhjEEl7c8RX83/GqKdARrd+bmwZidM1M8CVwZGKOFzS10DTY+4iCOEZe1L6ZOLy+pZrqdA==
-X-Received: by 2002:a17:906:fc03:b0:a2c:2cef:2542 with SMTP id ov3-20020a170906fc0300b00a2c2cef2542mr844458ejb.16.1705577430351;
-        Thu, 18 Jan 2024 03:30:30 -0800 (PST)
-Received: from foxbook (bfg166.neoplus.adsl.tpnet.pl. [83.28.44.166])
-        by smtp.gmail.com with ESMTPSA id s2-20020a170906354200b00a293c6cc184sm8979654eja.24.2024.01.18.03.30.29
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 18 Jan 2024 03:30:30 -0800 (PST)
-Date: Thu, 18 Jan 2024 12:30:26 +0100
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: extend the bandwdith quirk to USB 3.x
-Message-ID: <20240118123026.55ef894e@foxbook>
-In-Reply-To: <20240115005756.536dff4c@foxbook>
-References: <20240114213518.03e22698@foxbook>
-	<CANiDSCsS-Wg-2h-rcHvPjoem4h-pR1xOJST_EmNTdKum8grSSQ@mail.gmail.com>
-	<20240115005756.536dff4c@foxbook>
+        bh=/2dkV31yHAb+Qfdj4xcle6MF5whChIwDA5UIkWma74Q=;
+        b=sifHrSW1qdmBnxdoeX9qWuvD8Ykd4V4Ryzazq3K6H+/ldB+Ydi9pbpDpvjDjXs2Rnv
+         nshDut+Mxq7DZ4zo3Ay2wRsj5nBB+T+9r9FcEJfd4e+TcmplioY9PT3rLVHGoUBT7S3S
+         XI4oD81p59czXK7SKlWMe4ORjySE/hQS/Hk8fMp5gmbxfroCm7OouqMSPpCJIfHRuESy
+         n5K1tqvI7tF+TZS1iqY00aNIoqNufeg24cOstNb//scrT4am/oWQch5cpJ5LXDWZv8pg
+         21wbgXWmTN/MxgDqC+QJOoOVR1emwPOUQCidLlua8AMSnhZsdGPpe+jX7XrbkI3Xt9Hm
+         U3Zw==
+X-Gm-Message-State: AOJu0YwOgy0/JXKvHNbHoDR/wsJa2L3Ux5iygG7d4ZXudR7I5GMA91Jt
+	C2DGyu1aAdfKAZb9Fy9kfMyGCK/0BDkdobNj1L0EopaOEinwloY1
+X-Google-Smtp-Source: AGHT+IG7KytPhcCCGt0DJgflFsul/IGg9dbIsuDpZgqGurOYArTCDBoYnurv27JfOgVVV7C9JzB4IA==
+X-Received: by 2002:a05:6359:689:b0:175:abbe:58b9 with SMTP id ei9-20020a056359068900b00175abbe58b9mr592825rwb.64.1705577474866;
+        Thu, 18 Jan 2024 03:31:14 -0800 (PST)
+Received: from toyko-2.5 ([45.32.55.39])
+        by smtp.gmail.com with ESMTPSA id u22-20020aa78496000000b006d974d47a8csm3096710pfn.115.2024.01.18.03.31.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 03:31:14 -0800 (PST)
+From: amazingfate <liujianfeng1994@gmail.com>
+To: nicolas@ndufresne.ca
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	elezegarcia@gmail.com,
+	ezequiel@vanguardiasur.com.ar,
+	heiko@sntech.de,
+	knaerzche@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	liujianfeng1994@gmail.com,
+	mchehab@kernel.org,
+	p.zabel@pengutronix.de,
+	robh+dt@kernel.org,
+	sfr@canb.auug.org.au
+Subject: Re: [PATCH v3 0/2] [v3]Add hantro g1 video decoder support for RK3588
+Date: Thu, 18 Jan 2024 19:30:51 +0800
+Message-Id: <20240118113051.10773-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <5490507acc121113e52a8cdddb155fddf6dbb374.camel@ndufresne.ca>
+References: <5490507acc121113e52a8cdddb155fddf6dbb374.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi again,
+Hi Nicolas,
 
-> > Out of curiosity, what camera are you using? Could you also share
-> > the patch with the quirk?  
-> 
-> I have no idea what camera I am using ;)
-> 
-> It's some dodgy no-name thing which doesn't even have "made in China"
-> written on it and reports IDs belonging to a completely different kind
-> of camera.
+Wed, 17 Jan 2024 14:16:24 -0500, Nicolas Dufresne wrote:
+>The only concern I have is that we rejected enabling this VPU on RK3399, since
+>having two H.264 decoders was confusing userspace softwares at the time, causing
+>the slow one to be picked sometimes. I know the selection is not fully
+>implemented in GStreamer either, not sure for LibreELEC ffmpeg fork, Chromium or
+>Cros-codec.
 
-In a plot twist, I discovered that the original camera has already had
-this quirk applied 15 years ago. So my ID squatter gets the quirk too.
-(I think it's a squatter, the old chip was USB 2.0 and this is USB 3.0).
+Only H264 decoder is disabled for RK3399 in driver code, and RK3399 does
+have this VPU node in devicetree to support other codecs like MPEG or VP8.
 
-Not sure why I believed otherwise and used to set it with modprobe.
-Maybe I noticed the excessive bandwdith requests made by buggy quirk,
-then force-enabled the quirk hoping it will solve them, then fixed the
-quirk to actually get it right.
+>Of course, its not a problem now, but only when someone provides an rkvdec2
+>driver that enables the much more capable HW decoder. Shall we hold on H.264
+>mainline for now ?
 
+RK356x also has the same situation. That is why this patch shares the same
+compatible string with RK356X. Before rkvdec2 launching mainline, this
+hantro g1 vpu is the only H264 decoder to use on these socs. We can keep
+H.264 enabled, and disable it for RK356x and RK3588 just like what we did
+to RK3399 when rkvdec2 launches.
 
-Michal
+Jianfeng
 
