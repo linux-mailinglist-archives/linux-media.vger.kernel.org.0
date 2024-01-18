@@ -1,295 +1,336 @@
-Return-Path: <linux-media+bounces-3884-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3885-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F25831AF4
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 14:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197FC831B3D
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 15:22:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69610B20E62
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 13:59:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E43CFB25AAA
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 14:22:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20A7A2576B;
-	Thu, 18 Jan 2024 13:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF3225774;
+	Thu, 18 Jan 2024 14:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="jtLy3EIg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4L6tKHN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01872250EF
-	for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 13:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AEA25570;
+	Thu, 18 Jan 2024 14:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705586348; cv=none; b=fIve7y4nwklpjnXbKN5vJG2PD1iTb3oQNx9GV4ZgJJZZgrm7PAz+hm5EKyEHXZoCw7EaXzY+BUbjcjZeZtJOpOJQXtdP5rCxQc9Qw39A+MKzSDqqyIPjXbmjWcDuPkMHYUQ17NWhOTudDPl+sP1RrbzO6ys6v4v69yjd3SjxyM0=
+	t=1705587754; cv=none; b=JllFn6t2EJC1TNz2TWDCkDHW7znhDwnzYrkoAGoorrz2Ju3SHWkZWZH9TbPfad4sFaGZJDsK5XSSfCg8OYv7xGeIiD6N6PMTxsa1NoagCOrcjDe9nbHHMeH+Hd4mz0CgoovVQDDJhzLWlcXieJB78PGkMGmrJgD4v2NbiL0VSZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705586348; c=relaxed/simple;
-	bh=pj6efnGMFMsTwQBnJjUn/DtgXWlfinL+HAvFA6iW4gk=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
-	 From:To:Subject:Message-ID:Mail-Followup-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Operating-System; b=PLB6UtNKnfDiKieeuxUtBlvAONhlkv6rKAES9ONp1cbq3TyfeE7g26VH67uWNa9E2G7gJEN+cCYQfNO1+pErrkRI9Fh6iRgObRV12LPRRYTCO3krKvh2rIKe+iBhqztvw2AR6QOfrZmVsABDeYvhGQqwWUIUYpt0Clu8xJlJWf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=jtLy3EIg; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a29b850ec66so378919066b.1
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 05:59:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1705586345; x=1706191145; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjibwC0Pm0aKsecVEm1CI9Jop+u2Qm2VSXFGfFyZIo8=;
-        b=jtLy3EIg1uTplsxw+UWYJ1tGhoginBbrolTaL3SF4LSR0BIZVWsm/mtY/eZ5To+pwf
-         UCwk77sfrrjmEEvY9VoZ0S/qt4c+g6W1a/ZlTjEPXAios61QhnrjiHQm+za6wfwCh/12
-         KL37c2YKW9dYwwfS3cIjlZJulzZb9zoLVv4Jk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705586345; x=1706191145;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjibwC0Pm0aKsecVEm1CI9Jop+u2Qm2VSXFGfFyZIo8=;
-        b=dgJ0Ve8Ou9cCHAOYXiA5UJ2iltHfWDiBA/Dtf/DwpQoU1QYLwNYv2ZLBKBsN0l+O6H
-         wMvV4N3bftF/256OQMf/DlxYml+Jy369znhMjdG0oMQt/s3qT4ZKLGYaqNdxy8nrQaxj
-         PwuaQ6mK/6jYxT5MPRBKSF7/ZPQeAzRGDgjtZ+I+dCsyX4IWTXulZqZawTUNtTkeVrgL
-         z0KZVQukaoPzKGK0PuiIyCqtLiGC/LE18MWU89NfpFU/wsVYLdbZtPd+fzkEN4bD9dxt
-         BYze1YO0wUf+652N2bz/ejTDMhmQ0LQdF88FEDhnxu6+l2LYNzHiUxduagnrlM79BT1O
-         d6AQ==
-X-Gm-Message-State: AOJu0YyQAOTUvx8OS+qZ3kAz/6O1XunjC9nrKtp2WmDq0+0SdybAEHK5
-	/ZnYnQz8/t/P+elgocrpTU3KN9Oh8W42B4PxoyAuCmJcEijl0Mo3dFFQSOg/C6U=
-X-Google-Smtp-Source: AGHT+IFY8Kxs594jsuK2rUy7WAVPHDnGECZOoMzsVJ25pNzJ9447ocIjSe/xC5v5/5dl598y8kCJ6A==
-X-Received: by 2002:a17:906:c352:b0:a28:ab63:db33 with SMTP id ci18-20020a170906c35200b00a28ab63db33mr1195735ejb.7.1705586345068;
-        Thu, 18 Jan 2024 05:59:05 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id t3-20020a170906608300b00a2c8dfa5c25sm8554918ejj.123.2024.01.18.05.59.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 05:59:04 -0800 (PST)
-Date: Thu, 18 Jan 2024 14:59:02 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <Zakupp1GCZMk5aDT@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-References: <20240108120056.22165-4-paul@crapouillou.net>
- <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
- <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
- <ZZwU827NMHbx7bsO@phenom.ffwll.local>
- <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
- <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
- <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
- <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
- <c100b5f75b12de4a331dd36de3573483dbde915f.camel@crapouillou.net>
- <ZakuD-ns-5UJmrRi@phenom.ffwll.local>
+	s=arc-20240116; t=1705587754; c=relaxed/simple;
+	bh=MX2OExeQDK9q07J8iMC2SX5j+Nvh2BeUujepIyF1+Eo=;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding; b=uyl5oKsI/Ym2mWO6UrNZdYA2qr3ONlFgQarMjh5OsM029C2KgKM9N88H0cyDYxJI2Kkf37M1J4zZuYfl/sjWnEAomd5Rrk7UMJcXcBEHzsZXjodh7GikJoXLab+rwe8L9x/FZi5c5To/k9yQb6QBnohnop9TyULAwsFalZAAKwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4L6tKHN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D734C433F1;
+	Thu, 18 Jan 2024 14:22:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705587753;
+	bh=MX2OExeQDK9q07J8iMC2SX5j+Nvh2BeUujepIyF1+Eo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=T4L6tKHNe01CBTGWQZhBmYy24MXlg55TO8I7oQdYargIF+cN66xm1aLlADAcNtuVU
+	 MQxzFPA9aFsyc3IKxLW05fo6bKm1GG9Is5eKWClZMT8jyxdqXTbEbOkOh8hu2idJ6B
+	 HqtXwctj5/DiZEYm4suxMMXvmm4nAy1YZlbzXPtTTyoxx0XV4mUUQjYNMWWm2CAB45
+	 iyZg2csZrmegEjXrP98Xbm0m+WapzFPvrBAuEhxdcu2a+8SW9pDT4bms+i2NRFQncu
+	 GHVIIE2ahXr5EiJ6i4yGKE4soyxCEsGlB1hn4U5RKbQrCEgPJIxF4a8C/DpUvpYDwI
+	 hZ8W+lrJHgB4g==
+Message-ID: <3512dea9-a124-40e6-9ad7-12ed8beb45c3@kernel.org>
+Date: Thu, 18 Jan 2024 16:22:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
+Content-Language: en-US
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Cancan Chang <Cancan.Chang@amlogic.com>, Jagan Teki <jagan@edgeble.ai>,
+ linux-media <linux-media@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Dave Airlie
+ <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <SEYPR03MB70462A385A52A317427E93B59AFCA@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAFCwf11hxBpg3T6MoVrL0GaOD_=xB+-dWeEtDH0cCyzyQ-q1tg@mail.gmail.com>
+ <SEYPR03MB70463AEED951A0E2C18481099AC2A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAFCwf13ZiYYoXE+S_wQ_EhjiACPGJGT+70_stwpY_=aD=VYa4A@mail.gmail.com>
+ <SEYPR03MB704690FD9116A31D6FBCF32A9AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAFCwf128vYZ+EGHvZD0_ND2CGBzwMKk6OyhVRW_z=xCOSmi47w@mail.gmail.com>
+ <SEYPR03MB7046F74834B7D789C2DD4E459AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAFCwf10HAi+HEEWy=C4395eaHh_iSmcW1v87A+1J8QN9_P7tUQ@mail.gmail.com>
+ <SEYPR03MB704698F40D90FF6B50D72AC39AC8A@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CAAObsKBpD3D76_ugTYDT8p-Fhb6zXOmQQP0yb7qj9jK+=JrqgA@mail.gmail.com>
+ <96719046-d391-42be-8abc-564c9c909b97@kernel.org>
+ <CAAObsKDegsjsUQAKWqLDU+jqzzuX2gzYv5wgqjP_u6MNLc3GMQ@mail.gmail.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+In-Reply-To: <CAAObsKDegsjsUQAKWqLDU+jqzzuX2gzYv5wgqjP_u6MNLc3GMQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZakuD-ns-5UJmrRi@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
 
-On Thu, Jan 18, 2024 at 02:56:31PM +0100, Daniel Vetter wrote:
-> On Mon, Jan 15, 2024 at 01:54:27PM +0100, Paul Cercueil wrote:
-> > Hi Daniel / Sima,
-> > 
-> > Le mardi 09 janvier 2024 � 14:01 +0100, Daniel Vetter a �crit�:
-> > > On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
-> > > > Hi Daniel / Sima,
-> > > > 
-> > > > Le lundi 08 janvier 2024 � 20:19 +0100, Daniel Vetter a �crit�:
-> > > > > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
-> > > > > > Le lundi 08 janvier 2024 � 16:29 +0100, Daniel Vetter a �crit�:
-> > > > > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil
-> > > > > > > wrote:
-> > > > > > > > Hi Daniel (Sima?),
-> > > > > > > > 
-> > > > > > > > Le lundi 08 janvier 2024 � 13:39 +0100, Daniel Vetter a
-> > > > > > > > �crit�:
-> > > > > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil
-> > > > > > > > > wrote:
-> > > > > > > > > > +static void ffs_dmabuf_signal_done(struct
-> > > > > > > > > > ffs_dma_fence
-> > > > > > > > > > *dma_fence, int ret)
-> > > > > > > > > > +{
-> > > > > > > > > > +	struct ffs_dmabuf_priv *priv = dma_fence-
-> > > > > > > > > > >priv;
-> > > > > > > > > > +	struct dma_fence *fence = &dma_fence->base;
-> > > > > > > > > > +
-> > > > > > > > > > +	dma_fence_get(fence);
-> > > > > > > > > > +	fence->error = ret;
-> > > > > > > > > > +	dma_fence_signal(fence);
-> > > > > > > > > > +
-> > > > > > > > > > +	dma_buf_unmap_attachment(priv->attach,
-> > > > > > > > > > dma_fence-
-> > > > > > > > > > > sgt,
-> > > > > > > > > > dma_fence->dir);
-> > > > > > > > > > +	dma_fence_put(fence);
-> > > > > > > > > > +	ffs_dmabuf_put(priv->attach);
-> > > > > > > > > 
-> > > > > > > > > So this can in theory take the dma_resv lock, and if the
-> > > > > > > > > usb
-> > > > > > > > > completion
-> > > > > > > > > isn't an unlimited worker this could hold up completion
-> > > > > > > > > of
-> > > > > > > > > future
-> > > > > > > > > dma_fence, resulting in a deadlock.
-> > > > > > > > > 
-> > > > > > > > > Needs to be checked how usb works, and if stalling
-> > > > > > > > > indefinitely
-> > > > > > > > > in
-> > > > > > > > > the
-> > > > > > > > > io_complete callback can hold up the usb stack you need
-> > > > > > > > > to:
-> > > > > > > > > 
-> > > > > > > > > - drop a dma_fence_begin/end_signalling annotations in
-> > > > > > > > > here
-> > > > > > > > > - pull out the unref stuff into a separate preallocated
-> > > > > > > > > worker
-> > > > > > > > > (or at
-> > > > > > > > > � least the final unrefs for ffs_dma_buf).
-> > > > > > > > 
-> > > > > > > > Only ffs_dmabuf_put() can attempt to take the dma_resv and
-> > > > > > > > would
-> > > > > > > > have
-> > > > > > > > to be in a worker, right? Everything else would be inside
-> > > > > > > > the
-> > > > > > > > dma_fence_begin/end_signalling() annotations?
-> > > > > > > 
-> > > > > > > Yup. Also I noticed that unlike the iio patches you don't
-> > > > > > > have
-> > > > > > > the
-> > > > > > > dma_buf_unmap here in the completion path (or I'm blind?),
-> > > > > > > which
-> > > > > > > helps a
-> > > > > > > lot with avoiding trouble.
-> > > > > > 
-> > > > > > They both call dma_buf_unmap_attachment() in the "signal done"
-> > > > > > callback, the only difference I see is that it is called after
-> > > > > > the
-> > > > > > dma_fence_put() in the iio patches, while it's called before
-> > > > > > dma_fence_put() here.
-> > > > > 
-> > > > > I was indeed blind ...
-> > > > > 
-> > > > > So the trouble is this wont work because:
-> > > > > - dma_buf_unmap_attachment() requires dma_resv_lock. This is a
-> > > > > somewhat
-> > > > > � recent-ish change from 47e982d5195d ("dma-buf: Move
-> > > > > � dma_buf_map_attachment() to dynamic locking specification"), so
-> > > > > maybe
-> > > > > � old kernel or you don't have full lockdep enabled to get the
-> > > > > right
-> > > > > � splat.
-> > > > > 
-> > > > > - dma_fence critical section forbids dma_resv_lock
-> > > > > 
-> > > > > Which means you need to move this out, but then there's the
-> > > > > potential
-> > > > > cache management issue. Which current gpu drivers just kinda
-> > > > > ignore
-> > > > > because it doesn't matter for current use-case, they all cache
-> > > > > the
-> > > > > mapping
-> > > > > for about as long as the attachment exists. You might want to do
-> > > > > the
-> > > > > same,
-> > > > > unless that somehow breaks a use-case you have, I have no idea
-> > > > > about
-> > > > > that.
-> > > > > If something breaks with unmap_attachment moved out of the fence
-> > > > > handling
-> > > > > then I guess it's high time to add separate cache-management only
-> > > > > to
-> > > > > dma_buf (and that's probably going to be quite some wiring up,
-> > > > > not
-> > > > > sure
-> > > > > even how easy that would be to do nor what exactly the interface
-> > > > > should
-> > > > > look like).
-> > > > 
-> > > > Ok. Then I'll just cache the mapping for now, I think.
-> > > 
-> > > Yeah I think that's simplest. I did ponder a bit and I don't think
-> > > it'd be
-> > > too much pain to add the cache-management functions for device
-> > > attachments/mappings. But it would be quite some typing ...
-> > > -Sima
-> > 
-> > It looks like I actually do have some hardware which requires the cache
-> > management. If I cache the mappings in both my IIO and USB code, it
-> > works fine on my ZedBoard, but it doesn't work on my ZCU102.
-> > 
-> > (Or maybe it's something else? What I get from USB in that case is a
-> > stream of zeros, I'd expect it to be more like a stream of
-> > garbage/stale data).
-> > 
-> > So, change of plans; I will now unmap the attachment in the cleanup
-> > worker after the fence is signalled, and add a warning comment before
-> > the end of the fence critical section about the need to do cache
-> > management before the signal.
-> > 
-> > Does that work for you?
+On 15/01/2024 10:29, Tomeu Vizoso wrote:
+> On Thu, Jan 11, 2024 at 2:14 PM Oded Gabbay <ogabbay@kernel.org> wrote:
+>>
+>> On 11/01/2024 10:04, Tomeu Vizoso wrote:
+>>> Hi Oded,
+>>>
+>>> Out of curiosity, did you end up taking a look at Amlogic's driver?
+>>>
+>>> Cheers,
+>>>
+>>> Tomeu
+>> Hi Tomeu,
+>> Yes, I have looked at the driver's code. It was not an in-depth review,
+>> but I tried to mainly understand the features the driver provide to the
+>> user and how much complex it is.
+>>
+>>   From what I could see, this is a full-fledged accelerator which
+>> requires command submission/completion handling, memory management,
+>> information and debug capabilities and more.
+>>
+>> Therefore, I do think the correct place is in the accel sub-system,
+>> which will require you to convert the driver to use drm (we can discuss
+>> exactly what is the level of integration required).
+>>
+>> As I said, I didn't do a full-fledged review, but please note the driver
+>> has a lot of OS-wrapper code, which is not acceptable in the Linux
+>> kernel, so you will have to clean all the up.
 > 
-> The trouble is, I'm not sure this works for you. If you rely on the
-> fences, and you have to do cache management in between dma operations,
-> then doing the unmap somewhen later will only mostly paper over the issue,
-> but not consistently.
+> Thanks, Oded.
 > 
-> I think that's really bad because the bugs this will cause are very hard
-> to track down and with the current infrastructure impossible to fix.
+> I'm wondering now about the requirement for open userspace. Do we have
+> it for this one?
 > 
-> Imo cache the mappings, and then fix the cache management bug properly.
+> Cheers,
 > 
-> If you want an interim solution that isn't blocked on the dma-buf cache
-> management api addition, the only thing that works is doing the operations
-> synchronously in the ioctl call. Then you don't need fences, and you can
-> guarantee that the unmap has finished before userspace proceeds.
-> 
-> With the dma_fences you can't guarantee that, it's just pure luck.
+> Tomeu
+The requirements are the same as for the other drivers in accel, which 
+is to have at least the Runtime/UMD part open-sourced.
+If this accelerator also runs compiled code (e.g. kernels/shaders), you 
+will also need to open source the compiler.
 
-Maybe a follow up: Double check you really need the cache management
-between the dma operations from 2 different devices, and not for the cpu
-access that you then probably do to check the result.
+Oded
 
-Because if the issue is just cpu access, then protecting the cpu access
-needs to use the begin/end_cpu_access dma-functions (or the corresponding
-ioctl if you use mmap from userspace) anyway, and that should sort out any
-issues you have for cpu access.
+> 
+>> Thanks,
+>> Oded
+>>
+>>>
+>>> On Sat, Oct 7, 2023 at 8:37 AM Cancan Chang <Cancan.Chang@amlogic.com> wrote:
+>>>>
+>>>> Oded,
+>>>>          You can get the driver code from  github link： https://github.com/OldDaddy9/driver
+>>>>           e.g.  git clone https://github.com/OldDaddy9/driver.git
+>>>>
+>>>> ________________________________________
+>>>> 发件人: Oded Gabbay <ogabbay@kernel.org>
+>>>> 发送时间: 2023年10月3日 18:52
+>>>> 收件人: Cancan Chang
+>>>> 抄送: Jagan Teki; linux-media; linux-kernel; Dave Airlie; Daniel Vetter
+>>>> 主题: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
+>>>>
+>>>> [ EXTERNAL EMAIL ]
+>>>>
+>>>> On Thu, Sep 28, 2023 at 11:16 AM Cancan Chang <Cancan.Chang@amlogic.com> wrote:
+>>>>>
+>>>>> “What happens if you call this again without waiting for the previous
+>>>>> inference to complete ?”
+>>>>>      --- There is a work-queue in the driver to manage inference tasks.
+>>>>>            When two consecutive inference tasks occur, the second inference task will be add to
+>>>>>            the "pending list". While the previous inference task ends, the second inference task will
+>>>>>            switch to the "scheduled list", and be executed.
+>>>>>            Each inference task has an id,  "inferece" and "wait until finish" are paired.
+>>>>>
+>>>>>            thanks
+>>>> Thanks for the clarification.
+>>>> I'll wait for your driver's code link. It doesn't have to be a patch
+>>>> series at this point. A link to a git repo is enough.
+>>>> I just want to do a quick pass.
+>>>>
+>>>> Thanks,
+>>>> Oded
+>>>>
+>>>>
+>>>>
+>>>>>
+>>>>> ________________________________________
+>>>>> 发件人: Oded Gabbay <ogabbay@kernel.org>
+>>>>> 发送时间: 2023年9月28日 15:40
+>>>>> 收件人: Cancan Chang
+>>>>> 抄送: Jagan Teki; linux-media; linux-kernel; Dave Airlie; Daniel Vetter
+>>>>> 主题: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
+>>>>>
+>>>>> [ EXTERNAL EMAIL ]
+>>>>>
+>>>>> On Thu, Sep 28, 2023 at 10:25 AM Cancan Chang <Cancan.Chang@amlogic.com> wrote:
+>>>>>>
+>>>>>> “Could you please post a link to the driver's source code ?
+>>>>>> In addition, could you please elaborate which userspace libraries
+>>>>>> exists that work with your driver ? Are any of them open-source ?”
+>>>>>> --- We will prepare the adla driver link after the holiday on October 6th.
+>>>>>>        It's a pity that there is no open-source userspace library.
+>>>>>>        But you can probably understand it through a workflow, which can be simplified as:
+>>>>>>        1. create model context
+>>>>>>             ret = ioctl(context->fd, ADLAK_IOCTL_REGISTER_NETWORK, &desc);
+>>>>>>        2.  set inputs
+>>>>>>        3.  inference
+>>>>>>              ret = ioctl(context->fd, ADLAK_IOCTL_INVOKE, &invoke_dec);
+>>>>> What happens if you call this again without waiting for the previous
+>>>>> inference to complete ?
+>>>>> Oded
+>>>>>>        4.  wait for the inference to complete
+>>>>>>              ret = ioctl(context->fd, ADLAK_IOCTL_WAIT_UNTIL_FINISH, &stat_req_desc);
+>>>>>>        5.  destroy model context
+>>>>>>              ret = ioctl(context->fd, ADLAK_IOCTL_DESTROY_NETWORK, &submit_del);
+>>>>>>
+>>>>>>
+>>>>>>         thanks
+>>>>>>
+>>>>>>
+>>>>>> ________________________________________
+>>>>>> 发件人: Oded Gabbay <ogabbay@kernel.org>
+>>>>>> 发送时间: 2023年9月28日 13:28
+>>>>>> 收件人: Cancan Chang
+>>>>>> 抄送: Jagan Teki; linux-media; linux-kernel; Dave Airlie; Daniel Vetter
+>>>>>> 主题: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
+>>>>>>
+>>>>>> [ EXTERNAL EMAIL ]
+>>>>>>
+>>>>>> On Wed, Sep 27, 2023 at 10:01 AM Cancan Chang <Cancan.Chang@amlogic.com> wrote:
+>>>>>>>
+>>>>>>> “Or do you handle one cmd at a time, where the user sends a cmd buffer
+>>>>>>> to the driver and the driver then submit it by writing to a couple of
+>>>>>>> registers and polls on some status register until its done, or waits
+>>>>>>> for an interrupt to mark it as done ?”
+>>>>>>>     --- yes， user sends a cmd buffer to driver, and driver triggers hardware by writing to register,
+>>>>>>>           and then, waits for an interrupt to mark it  as done.
+>>>>>>>
+>>>>>>>       My current driver is very different from drm, so I want to know if I have to switch to drm？
+>>>>>> Could you please post a link to the driver's source code ?
+>>>>>> In addition, could you please elaborate which userspace libraries
+>>>>>> exists that work with your driver ? Are any of them open-source ?
+>>>>>>
+>>>>>>>       Maybe I can refer to /driver/accel/habanalabs.
+>>>>>> That's definitely a possibility.
+>>>>>>
+>>>>>> Oded
+>>>>>>>
+>>>>>>> thanks
+>>>>>>>
+>>>>>>> ________________________________________
+>>>>>>> 发件人: Oded Gabbay <ogabbay@kernel.org>
+>>>>>>> 发送时间: 2023年9月26日 20:54
+>>>>>>> 收件人: Cancan Chang
+>>>>>>> 抄送: Jagan Teki; linux-media; linux-kernel; Dave Airlie; Daniel Vetter
+>>>>>>> 主题: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
+>>>>>>>
+>>>>>>> [ EXTERNAL EMAIL ]
+>>>>>>>
+>>>>>>> On Mon, Sep 25, 2023 at 12:29 PM Cancan Chang <Cancan.Chang@amlogic.com> wrote:
+>>>>>>>>
+>>>>>>>> Thank you for your reply from Jagan & Oded.
+>>>>>>>>
+>>>>>>>> It is very appropritate for my driver to be placed in driver/accel.
+>>>>>>>>
+>>>>>>>> My accelerator is named ADLA(Amlogic Deep Learning Accelerator).
+>>>>>>>> It is an IP in SOC,mainly used for neural network models acceleration.
+>>>>>>>> It will split and compile the neural network model into a private format cmd buffer,
+>>>>>>>> and submit this cmd buffer to ADLA hardware. It is not programmable device.
+>>>>>>> What exactly does it mean to "submit this cmd buffer to ADLA hardware" ?
+>>>>>>>
+>>>>>>> Does your h/w provides queues for the user/driver to put their
+>>>>>>> workloads/cmd-bufs on them ? And does it provide some completion queue
+>>>>>>> to notify when the work is completed?
+>>>>>>>
+>>>>>>> Or do you handle one cmd at a time, where the user sends a cmd buffer
+>>>>>>> to the driver and the driver then submit it by writing to a couple of
+>>>>>>> registers and polls on some status register until its done, or waits
+>>>>>>> for an interrupt to mark it as done ?
+>>>>>>>
+>>>>>>>>
+>>>>>>>> ADLA includes four hardware engines:
+>>>>>>>> RS engines             : working for the reshape operators
+>>>>>>>> MAC engines         : working for the convolution operators
+>>>>>>>> DW engines           : working for the planer & Elementwise operators
+>>>>>>>> Activation engines : working for activation operators(ReLu,tanh..)
+>>>>>>>>
+>>>>>>>> By the way, my IP is mainly used for SOC, and the current driver registration is through the platform_driver,
+>>>>>>>> is it necessary to switch to drm?
+>>>>>>> This probably depends on the answer to my question above. btw, there
+>>>>>>> are drivers in drm that handle IPs that are part of an SOC, so
+>>>>>>> platform_driver is supported.
+>>>>>>>
+>>>>>>> Oded
+>>>>>>>
+>>>>>>>>
+>>>>>>>> thanks.
+>>>>>>>>
+>>>>>>>> ________________________________________
+>>>>>>>> 发件人: Oded Gabbay <ogabbay@kernel.org>
+>>>>>>>> 发送时间: 2023年9月22日 23:08
+>>>>>>>> 收件人: Jagan Teki
+>>>>>>>> 抄送: Cancan Chang; linux-media; linux-kernel; Dave Airlie; Daniel Vetter
+>>>>>>>> 主题: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
+>>>>>>>>
+>>>>>>>> [你通常不会收到来自 ogabbay@kernel.org 的电子邮件。请访问 https://aka.ms/LearnAboutSenderIdentification，以了解这一点为什么很重要]
+>>>>>>>>
+>>>>>>>> [ EXTERNAL EMAIL ]
+>>>>>>>>
+>>>>>>>> On Fri, Sep 22, 2023 at 12:38 PM Jagan Teki <jagan@edgeble.ai> wrote:
+>>>>>>>>>
+>>>>>>>>> On Fri, 22 Sept 2023 at 15:04, Cancan Chang <Cancan.Chang@amlogic.com> wrote:
+>>>>>>>>>>
+>>>>>>>>>> Dear Media Maintainers:
+>>>>>>>>>>        Thanks for your attention. Before describing my problem，let me introduce to you what I  mean by NPU.
+>>>>>>>>>>        NPU is Neural Processing Unit, It is designed for deep learning acceleration, It is also called TPU, APU ..
+>>>>>>>>>>
+>>>>>>>>>>        The real problems:
+>>>>>>>>>>         When I was about to upstream my NPU driver codes to linux mainline, i meet two problems:
+>>>>>>>>>>           1.  According to my research, There is no NPU module path in the linux (base on linux 6.5.4) , I have searched all linux projects and found no organization or comany that has submitted NPU code. Is there a path prepared for NPU driver currently?
+>>>>>>>>>>           2.   If there is no NPU driver path currently, I am going to put my NPU driver code in the drivers/media/platform/amlogic/ ﻿, because my NPU driver belongs to amlogic. and amlogic NPU is mainly used for AI vision applications. Is this plan suitabe for you?
+>>>>>>>>>
+>>>>>>>>> If I'm correct about the discussion with Oded Gabby before. I think
+>>>>>>>>> the drivers/accel/ is proper for AI Accelerators including NPU.
+>>>>>>>>>
+>>>>>>>>> + Oded in case he can comment.
+>>>>>>>>>
+>>>>>>>>> Thanks,
+>>>>>>>>> Jagan.
+>>>>>>>> Thanks Jagan for adding me to this thread. Adding Dave & Daniel as well.
+>>>>>>>>
+>>>>>>>> Indeed, the drivers/accel is the place for Accelerators, mainly for
+>>>>>>>> AI/Deep-Learning accelerators.
+>>>>>>>> We currently have 3 drivers there already.
+>>>>>>>>
+>>>>>>>> The accel subsystem is part of the larger drm subsystem. Basically, to
+>>>>>>>> get into accel, you need to integrate your driver with the drm at the
+>>>>>>>> basic level (registering a device, hooking up with the proper
+>>>>>>>> callbacks). ofc the more you use code from drm, the better.
+>>>>>>>> You can take a look at the drivers under accel for some examples on
+>>>>>>>> how to do that.
+>>>>>>>>
+>>>>>>>> Could you please describe in a couple of sentences what your
+>>>>>>>> accelerator does, which engines it contains, how you program it. i.e.
+>>>>>>>> Is it a fixed-function device where you write to a couple of registers
+>>>>>>>> to execute workloads, or is it a fully programmable device where you
+>>>>>>>> load compiled code into it (GPU style) ?
+>>>>>>>>
+>>>>>>>> For better background on the accel subsystem, please read the following:
+>>>>>>>> https://docs.kernel.org/accel/introduction.html
+>>>>>>>> This introduction also contains links to other important email threads
+>>>>>>>> and to Dave Airlie's BOF summary in LPC2022.
+>>>>>>>>
+>>>>>>>> Thanks,
+>>>>>>>> Oded
+>>
+>>
 
-Just to make sure we're not needlessly trying to fix something that isn't
-actually the problem.
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 
