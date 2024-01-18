@@ -1,94 +1,119 @@
-Return-Path: <linux-media+bounces-3888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC60831C13
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 16:11:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B28A1831C20
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 16:14:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D44E284A95
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 15:11:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6266F283D98
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jan 2024 15:14:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DFFC2554A;
-	Thu, 18 Jan 2024 15:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88FB51E88E;
+	Thu, 18 Jan 2024 15:14:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.231.56.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDDDC1E51D;
-	Thu, 18 Jan 2024 15:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.231.56.155
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95E86286AF;
+	Thu, 18 Jan 2024 15:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705590690; cv=none; b=rgknCEJg1gtXfInr8Ij79oeROppnW9pMwFx3f4yRSfrduiHGrjp0BCIQnzx7JMCNkOnpEYTXnLnOcB+3Llt1nWXyuNaE7fmf5qVhdGhx8q9JDfckaHkdtiPq4Gh6wLsldmfVpc7hSdERRaSZiaiSpXIU34k+55vYDx/HrTxxOYE=
+	t=1705590844; cv=none; b=pxLUadBW0Jh2+kY/A3FS6zNwolavrGTWQTJ/pQBvid7gv8UykSzl3Yg1D2UGAPg2O7htYprcqAQYdOx3BjS7frE7iEkDq/vIN/eMKW+cMXtBeZ97w1i+Ax7iggaVOJBO2bPeXFnO/idWunqrW1yOEQ51pwoYy25fXqsqyqrMJS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705590690; c=relaxed/simple;
-	bh=65sc4DCCtX31xXELKFiH2rA/add6gA3jTnYbzFDwIKE=;
-	h=Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:To:Cc:
-	 Subject:X-Priority:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	 X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:
-	 X-Coremail-Antispam; b=dQy7tIV0OIcAFCnvDBphTVmTl+kn2lfqNjkEnnCl8duaPoXos6Jy3yVb65HP4RzLChExZ3yOJArLTjPXkTWTPf2syeKBSN9oEhucvWSi+7dwAAqOBmKrgqlhtyvSyI7u7k2xT6ly9hSBXAriOG6qBdtAezQIWFB95fvU6O3Mvd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=20.231.56.155
+	s=arc-20240116; t=1705590844; c=relaxed/simple;
+	bh=Kp2BlCBZMsuGi/OMB6tp4CaDWFkRha05w33XL2xn/Ws=;
+	h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo; b=j4XwqmUIRiv8R8veNoW0lLmtUS9W4iw7HbGd0beTt8PfR61oUvpZhNArowMScI/ISmjkoI5OxB5e2VE9PPCaJXAT5jNo+Ua6b8gT6ywvivdv8iARNBmifkLHB8f3O4bjqIwSJpFbCiTm/Hkf/q96kwQPEhj8dKTS+OT7a5vWRdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=129.150.39.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from alexious$zju.edu.cn ( [10.190.77.201] ) by
- ajax-webmail-mail-app3 (Coremail) ; Thu, 18 Jan 2024 23:10:55 +0800
- (GMT+08:00)
-Date: Thu, 18 Jan 2024 23:10:55 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: alexious@zju.edu.cn
-To: "Andy Shevchenko" <andy.shevchenko@gmail.com>
-Cc: "Hans de Goede" <hdegoede@redhat.com>,
-	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
-	"Sakari Ailus" <sakari.ailus@linux.intel.com>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-	"Kate Hsuan" <hpa@redhat.com>, "Dan Carpenter" <error27@gmail.com>,
-	"Brent Pappas" <bpappas@pappasbrent.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+Received: from luzhipeng.223.5.5.5 (unknown [183.159.169.110])
+	by mail-app4 (Coremail) with SMTP id cS_KCgDHwX8gQKllMBo+AA--.10025S2;
+	Thu, 18 Jan 2024 23:13:37 +0800 (CST)
+From: Zhipeng Lu <alexious@zju.edu.cn>
+To: alexious@zju.edu.cn
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Brent Pappas <bpappas@pappasbrent.com>,
+	Alan Cox <alan@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: ssh_css: Fix a null-pointer dereference
- in load_video_binaries
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
- 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn
- mispb-4df6dc2c-e274-4d1c-b502-72c5c3dfa9ce-zj.edu.cn
-In-Reply-To: <CAHp75Vdz4FRF5=zFiKarOkA6ezOTP=CbwU2-_fpSCpuaZgb+VA@mail.gmail.com>
-References: <20240112083421.3728017-1-alexious@zju.edu.cn>
- <5dd12651-232d-41f2-afa4-2a3e5c127969@redhat.com>
- <CAHp75VfKj7sQ3HkNaqNe0CjVrRb0J=X3gPJf-rSLeU8RQ2hjFg@mail.gmail.com>
- <17d22c9e.4900.18d162090d8.Coremail.alexious@zju.edu.cn>
- <CAHp75Vdz4FRF5=zFiKarOkA6ezOTP=CbwU2-_fpSCpuaZgb+VA@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH] [v2] media: atomisp: ssh_css: Fix a null-pointer dereference in load_video_binaries
+Date: Thu, 18 Jan 2024 23:13:00 +0800
+Message-Id: <20240118151303.3828292-1-alexious@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <2b56b7f3.66be.18d1d200910.Coremail.alexious@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:cC_KCgA3XzuAP6llg30+AA--.8091W
-X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/1tbiAgUEAGWoH+EnWQAAsO
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cS_KCgDHwX8gQKllMBo+AA--.10025S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uw15uw1xGrW5KF1xuF1rWFg_yoW8Xr17pF
+	48Aw1DCFWUXFn2kanIkry7GF90v34v9ay5W34vqa4F9a92ya4qqF15Kay5Gr9Yvr4DJ3yq
+	vFyYgrWUXF4FyF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjfUonmRUUUUU
+X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
 
-PiBPbiBXZWQsIEphbiAxNywgMjAyNCBhdCA4OjM04oCvQU0gPGFsZXhpb3VzQHpqdS5lZHUuY24+
-IHdyb3RlOgo+ID4gPiBPbiBGcmksIEphbiAxMiwgMjAyNCBhdCAxMDo0OeKAr0FNIEhhbnMgZGUg
-R29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+IHdyb3RlOgo+ID4gPiA+IE9uIDEvMTIvMjQgMDk6
-MzQsIFpoaXBlbmcgTHUgd3JvdGU6Cj4gCj4gPiA+ID4gPiBGaXhlczogYWQ4NTA5NGIyOTNlICgi
-UmV2ZXJ0ICJtZWRpYTogc3RhZ2luZzogYXRvbWlzcDogUmVtb3ZlIGRyaXZlciIiKQo+ID4gPiBC
-ZXNpZGVzIHRoYXQsIGFyZSB5b3Ugc3VyZSB0aGUgRml4ZXMgcmVmZXJzIHRvIHRoZSBjb3JyZWN0
-IGNvbW1pdD8KPiA+Cj4gPiBXZWxsLCBJIHRoaW5rIEkgcmVmZXJyZWQgdG8gdGhlIGNvcnJlY3Qg
-Y29tbWl0LCB3aGljaCBpbnRyb2R1Y2UgdGhlIHdob2xlIG1vZHVsZSBhbmQgbGVhdmUgdGhpcyBi
-dWcuCj4gPgo+ID4gSWYgSSBkaWQgbWlzcyBzb21ldGhpbmcgcGxlYXNlIGxldCBtZSBrbm93Lgo+
-IAo+IFllcywgdGhlIGRyaXZlciB3YXMgYmVmb3JlIHRoYXQgY29tbWl0IGluIHRoZSBrZXJuZWwu
-IFdhcyBpdCB3aXRob3V0Cj4gdGhlIGJ1Zz8gTm8sIGJlY2F1c2UgeW91IGFyZSByZWZlcnJpbmcg
-dG8gYSBjbGVhciByZXZlcnQuIFNvLCBmaW5kIHRoZQo+IHJlYWwgY29tbWl0IHRoYXQgaGFkIGJy
-b3VnaHQgdGhhdCBpbnRvIHRoZSBrZXJuZWwuCgpZb3UgYXJlIGNvcnJlY3QsIEkganVzdCBkaWQg
-c29tZSBnaXQgYmxhbWUgb24gdGhlIGxhdGVzdCB2ZXJzaW9uIGJ1dCAKZm9yZ290IGFib3V0IHRo
-ZSBjb21taXQgYmxhbWVkIHdhcyBhIHJldmVydCBjb21taXQuCkEgdjIgdmVyc2lvbiBvZiB0aGlz
-IHBhdGNoIHdpbGwgYmUgc2VudCBsYXRlciB0byBmaXggdGhpcyBpc3N1ZS4KVGhhbmsgeW91IGZv
-ciBwb2ludGluZyBvdXQgbXkgbWlzdGFrZS4KClJlZ2FyZHMsClpoaXBlbmcKCj4gCj4gLS0gCj4g
-V2l0aCBCZXN0IFJlZ2FyZHMsCj4gQW5keSBTaGV2Y2hlbmtvCg==
+The allocation failure of mycs->yuv_scaler_binary in load_video_binaries
+is followed with a dereference of mycs->yuv_scaler_binary after the
+following call chain:
+
+sh_css_pipe_load_binaries
+  |-> load_video_binaries (mycs->yuv_scaler_binary == NULL)
+  |
+  |-> sh_css_pipe_unload_binaries
+        |-> unload_video_binaries
+
+In unload_video_binaries, it calls to ia_css_binary_unload with argument
+&pipe->pipe_settings.video.yuv_scaler_binary[i], which refers to the
+same memory slot as mycs->yuv_scaler_binary. Thus, a null-pointer
+dereference is triggered.
+
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
+---
+Changelog:
+
+v2: change fix approach to set mycs->num_yuv_scaler = 0 in
+load_video_binaries. Change the fix tag to correct commit.
+---
+ drivers/staging/media/atomisp/pci/sh_css.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index f35c90809414..638f08b3f21b 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -4719,6 +4719,7 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 						  sizeof(struct ia_css_binary),
+ 						  GFP_KERNEL);
+ 		if (!mycs->yuv_scaler_binary) {
++			mycs->num_yuv_scaler = 0;
+ 			err = -ENOMEM;
+ 			return err;
+ 		}
+-- 
+2.34.1
+
 
