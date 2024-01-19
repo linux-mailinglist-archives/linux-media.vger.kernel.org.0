@@ -1,210 +1,194 @@
-Return-Path: <linux-media+bounces-3904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3905-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF808324AD
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 07:33:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B4A8324F0
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 08:14:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F176F282BED
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 06:33:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3CDD1F239F7
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 07:14:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D42B322318;
-	Fri, 19 Jan 2024 06:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="jS8ZBYid"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDDA68F6F;
+	Fri, 19 Jan 2024 07:14:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32EE3944F;
-	Fri, 19 Jan 2024 06:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95296FAF;
+	Fri, 19 Jan 2024 07:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705645962; cv=none; b=AQz5QXifslBwDTFq0/kfB4l5XhjEWXKOg328w1rFjaYGDRLW2gGZZmlsKq/OYAqgRuww9gTP3y/l/Em9MvTt4APGGGKT/YwTrpddAH190kag93Zo8aat0FxngVdgMjxZD4N5+9aVjLWzuLbcmubwROBEA1OoAFp5I99lxKlZq0s=
+	t=1705648460; cv=none; b=t1Zd0oW4Yt6xcVmeMTFe/kXv2rM0UWYZRlMqMMVv1W+Y/SimBfmvAdLvNx34ErIEzo2jf+VYZGPLvc9PaHDV7RH9alshZHdh32ntAQeDyI428N31fEbeX5YQxW70EUjAKXp9Q8JOyRMifR6AJfCbPMIitKB2lyivzqm+ozmKsZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705645962; c=relaxed/simple;
-	bh=MWz7OBcsKD5nC7RtyVECxR57jnEL0RMWB6LONNA1oFk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qeHqeaBeAhFHgBWlDlUVqZThgtsnq4Tl3fnfHyPdsqdrEui/1nl+cVRCBn9wey7e3NtQpKBT22/p2z5bh6ltAHREayUPp+FYDnNvfOZ54Nju/t00/8JVNAO0wyQ77+Z6ffAU/iNHVPImsMGcAXgE1S7wgtcm26Ihz0PdCdg8R9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=jS8ZBYid; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 83ae82e2b69411ee9e680517dc993faa-20240119
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=4dSkfhxXn6PJbi+ffnAzIhz6r14jeWtUuUT2IRv8Qyk=;
-	b=jS8ZBYid7FS5es2FbtmG4oJdZPD70EaPox+EqXVcuYM3QWyYMpv1oHEubIjOBw3kTD1hO0aifXg+U0Owq9KW8NIsPWlJorqgP4pZ15ZCxP5PqaGlDrsN8xvT0W3KquuCHwzDf6jeBfNZMvahOiUC/n1YurNnMW/WT66Ux5vThYY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.36,REQID:e9dc4a66-7521-4762-904b-de9e580ced06,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6e16cf4,CLOUDID:78ca0583-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 83ae82e2b69411ee9e680517dc993faa-20240119
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
-	(envelope-from <jason-jh.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1013493475; Fri, 19 Jan 2024 14:32:27 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 19 Jan 2024 14:32:25 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 19 Jan 2024 14:32:25 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu
-	<chunkuang.hu@kernel.org>
-CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>, Jason-ch Chen <jason-ch.chen@mediatek.com>,
-	Johnson Wang <johnson.wang@mediatek.com>, "Jason-JH . Lin"
-	<jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, "Nancy
- Lin" <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v3 3/3] dt-bindings: soc: mediatek: Change mediatek,gce-events to refernece
-Date: Fri, 19 Jan 2024 14:32:24 +0800
-Message-ID: <20240119063224.29671-4-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
-References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
+	s=arc-20240116; t=1705648460; c=relaxed/simple;
+	bh=/gxn/jFgHsQXiBInw7pnc+b9451HlXJVs4xIbsm4tJQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YmdQmPEK51p3rfLmdRAAaoSUDdttVo42WTtcmQJ6Un/zqfAOOM+6ucgFb0BNKazTIKqhTvps6Wqd+kBI3y2g15EBdbqXthCuchHxpFsvLE2ONmz1ZQliTPB9573FkPe3jpkOeep9IjgoIgbX1owWq8eTeD82l7WQMmR/rvM6gTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40e9ed20ffcso1646495e9.2;
+        Thu, 18 Jan 2024 23:14:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705648457; x=1706253257;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e+LizfPHsG6bAopC0j/zp9dPrP6kGMGuwGSFDeP/7og=;
+        b=RV/y/c47mpvnbgewabw1nZHdIIVJc1beF9i06zmdHlVQZXCIOV6i01wwX/610K93Wm
+         ULU7RynznsH1ksWvHrKjJEoWm7FJsBRd/a7AZXVVdyLupXOdJzgDMcEnkAT+lXJrmkUW
+         /xhBSu/53vkPdWRBxGheZBrWnEHDseY1jteQNGlHxZNom+SyI2ANoPsYFGNFhOv4y6B9
+         YSHKRhss8jHCNZ9XH8BSGJguRVMf9wsJEFFu85Lq19iPwOj950iNuAIJ5TS/wgif+WDH
+         DtG9inBj0DXm+FfXeijh4sIt8AK6zL5scdgCryiiKb5DQXtkJ2PmjjB085P4ss3b0DNM
+         23LQ==
+X-Gm-Message-State: AOJu0YyVQlWn2unFYBsjVZv9gGtY0ZshqPjgMSdb5P3Bg1gnvV+W6XaY
+	yvVxl9PtDrvxNwpfQty5RmJ+5Xhv7Gj4Al3GGIp+N8yPjqsii4mY
+X-Google-Smtp-Source: AGHT+IES8Kj3wvqTHYHlen8zHCbUM9Zer9QbNEQo0wjeHqrdaNh08XXHRq1MtMu1cULMya4AMiSDJA==
+X-Received: by 2002:a05:600c:5d5:b0:40e:6b7f:5ca9 with SMTP id p21-20020a05600c05d500b0040e6b7f5ca9mr1439501wmd.80.1705648456979;
+        Thu, 18 Jan 2024 23:14:16 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
+        by smtp.gmail.com with ESMTPSA id n18-20020a05600c3b9200b0040e4ca7fcb4sm28048633wms.37.2024.01.18.23.14.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jan 2024 23:14:15 -0800 (PST)
+Message-ID: <650bdb23-0875-4e19-9e3e-82337da6da00@kernel.org>
+Date: Fri, 19 Jan 2024 08:14:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--5.235100-8.000000
-X-TMASE-MatchedRID: j0B6s1FsmQFveCKWtaLcaB+WEMjoO9WWFuNF4lJG6xtZps+y1VXzqQse
-	d7xgehs09wfh7XcCXjTizDicmrk0K9a/jIZoZyKFjtK7dC6UBnl9LQinZ4QefPcjNeVeWlqY+gt
-	Hj7OwNO2oWEe3+NERqawr18XZMKaoxDZ6sXkJle3x3B6y3foUp5pOIJQ53vqAVlxr1FJij9s=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--5.235100-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	6DF45B8F3966170C66AC1F178550098CEA372F1145029F48DA0A887C80C6B7DB2000:8
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH next v4 0/5] minmax: Relax type checks in min() and max().
+Content-Language: en-US
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: David Laight <David.Laight@aculab.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>, "Jason A. Donenfeld"
+ <Jason@zx2c4.com>, linux-media <linux-media@vger.kernel.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>
+References: <b97faef60ad24922b530241c5d7c933c@AcuMS.aculab.com>
+ <18c6df0d-45ed-450c-9eda-95160a2bbb8e@gmail.com>
+ <CAHk-=wjvM5KiQFpbPMPXH-DcvheNcPGj+ThNEJVm+QL6n05A8A@mail.gmail.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <CAHk-=wjvM5KiQFpbPMPXH-DcvheNcPGj+ThNEJVm+QL6n05A8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Change mediatek,gce-events property to reference mediatek,gce-props.yaml
-instead of defining itself.
+On 08. 01. 24, 19:19, Linus Torvalds wrote:
+> On Mon, 8 Jan 2024 at 03:46, Jiri Slaby <jirislaby@gmail.com> wrote:
+>>
+>>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
+>> real    0m45,002s
+>>
+>> $ git revert 867046cc7027703f60a46339ffde91a1970f2901
+>>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
+>> real    0m11,132s
+>>
+>> $ git revert 4ead534fba42fc4fd41163297528d2aa731cd121
+>>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
+>> real    0m3,711s
+> 
+> Ouch. Yeah, that's unfortunate. There's a lot of nested nasty macro
+> expansion there, but that timing is excessive.
+> 
+> Sparse actually complains about that file:
+> 
+>    drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: error: too long
+> token expansion
+>    drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: error: too long
+> token expansion
+> 
+> and while that is a sparse limitation, it's still interesting. Having
+> that file expand to 122M is not ok.
+> 
+> In this case, I suspect the right thing to do is to simply not use
+> min()/max() in that header at all, but do something like
+> 
+>    --- a/drivers/media/pci/solo6x10/solo6x10-offsets.h
+>    +++ b/drivers/media/pci/solo6x10/solo6x10-offsets.h
+>    @@ -56,2 +56,5 @@
+> 
+>    +#define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
+>    +#define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
+>    +
+>     #define SOLO_MP4E_EXT_ADDR(__solo) \
+>    @@ -59,4 +62,4 @@
+>     #define SOLO_MP4E_EXT_SIZE(__solo) \
+>    -     max((..),                               \
+>    -         min(((..) - \
+>    +     MAX((..),                               \
+>    +         MIN(((..) - \
+>                   ..), 0x00ff0000))
+>    @@ -67,4 +70,4 @@
+>     #define SOLO_JPEG_EXT_SIZE(__solo) \
+>    -     max(..,                         \
+>    -         min(..)
+>    +     MAX(..,                         \
+>    +         MIN(..)
+> 
+> and avoid this issue.
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
----
- .../bindings/soc/mediatek/mediatek,ccorr.yaml        | 12 ++++--------
- .../bindings/soc/mediatek/mediatek,mutex.yaml        | 11 +++--------
- .../bindings/soc/mediatek/mediatek,wdma.yaml         | 12 ++++--------
- 3 files changed, 11 insertions(+), 24 deletions(-)
+So can someone pick up 20240113183334.1690740-1-aurelien@aurel32.net so 
+that we are done with this? I see neither Hans, nor Linus got to take it 
+yet.
 
-diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-index 4380b98b0dfe..305f2cd9f865 100644
---- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-+++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-@@ -34,13 +34,6 @@ properties:
-       4 arguments defined in this property. Each GCE subsys id is mapping to
-       a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
- 
--  mediatek,gce-events:
--    description:
--      The event id which is mapping to the specific hardware event signal
--      to gce. The event id is defined in the gce header
--      include/dt-bindings/gce/<chip>-gce.h of each chips.
--    $ref: /schemas/types.yaml#/definitions/uint32-array
--
-   clocks:
-     minItems: 1
- 
-@@ -51,7 +44,10 @@ required:
-   - mediatek,gce-events
-   - clocks
- 
--additionalProperties: false
-+allOf:
-+  - $ref: /schemas/mailbox/mediatek,gce-props.yaml#
-+
-+unevaluatedProperties: false
- 
- examples:
-   - |
-diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
-index ba2014a8725c..61cf16ce8b0b 100644
---- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
-+++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
-@@ -53,13 +53,6 @@ properties:
-     items:
-       - description: MUTEX Clock
- 
--  mediatek,gce-events:
--    description:
--      The event id which is mapping to the specific hardware event signal
--      to gce. The event id is defined in the gce header
--      include/dt-bindings/gce/<chip>-gce.h of each chips.
--    $ref: /schemas/types.yaml#/definitions/uint32-array
--
-   mediatek,gce-client-reg:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-@@ -73,6 +66,8 @@ properties:
-       a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
- 
- allOf:
-+  - $ref: /schemas/mailbox/mediatek,gce-props.yaml#
-+
-   - if:
-       properties:
-         compatible:
-@@ -97,7 +92,7 @@ required:
-   - interrupts
-   - power-domains
- 
--additionalProperties: false
-+unevaluatedProperties: false
- 
- examples:
-   - |
-diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
-index 69afb329e5f4..d9dd4428c036 100644
---- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
-+++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
-@@ -35,13 +35,6 @@ properties:
-       4 arguments defined in this property. Each GCE subsys id is mapping to
-       a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
- 
--  mediatek,gce-events:
--    description:
--      The event id which is mapping to the specific hardware event signal
--      to gce. The event id is defined in the gce header
--      include/dt-bindings/gce/<chip>-gce.h of each chips.
--    $ref: /schemas/types.yaml#/definitions/uint32-array
--
-   power-domains:
-     maxItems: 1
- 
-@@ -60,7 +53,10 @@ required:
-   - clocks
-   - iommus
- 
--additionalProperties: false
-+allOf:
-+  - $ref: /schemas/mailbox/mediatek,gce-props.yaml#
-+
-+unevaluatedProperties: false
- 
- examples:
-   - |
+> That said, I'm sure this thing exists to a smaller degree elsewhere. I
+> wonder if we could simplify our min/max type tests.
+I assume we don't care with solo fixed? Hans pointed out ath11k too. 
+Even if there is size increase in the preproc file, I don't see much of 
+compile time increase there.
+
+thanks,
 -- 
-2.18.0
+js
+suse labs
 
 
