@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-3907-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3908-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B5983258C
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 09:17:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 674CC8325AE
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 09:24:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6240C281D2B
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 08:17:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2057828A3CE
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 08:24:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6AD24A14;
-	Fri, 19 Jan 2024 08:17:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C550F208D5;
+	Fri, 19 Jan 2024 08:23:59 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C840AD50F;
-	Fri, 19 Jan 2024 08:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C1E28DA1;
+	Fri, 19 Jan 2024 08:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705652241; cv=none; b=olh6BH2QsLQsMpQhZXsDajSt2DsR59T5Wh0BeDGeONwg7I/cGgguh9BBmKV0zzSP2AeMlwLTmj/nxg11WPpW+cj0NFd+pmQIPBBOBHsJPutbwFMmtn01BlZfXt9wUDsFO6G9eSKWBLDVOFYw3n3m7/4RyMI3F7ztlLCsO5X6hkg=
+	t=1705652639; cv=none; b=H4y1IyvTcnr8qESV1ZleZkIcvb4yi1HZ154bpjv6N+3y5cItJCaYXDzWXDRK+JjkCXd/o6THP4XKepUf+XiqSVYFaOKSlYRyzkAL0JIBnKVZnepZ6TtlnyySTV3TO64v9Om0+nfAlVwrTrNJ53inwb9O/EDhP/UuZGQ9T/YvAXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705652241; c=relaxed/simple;
-	bh=fK4VruREjGzv4G2JJRe3w7i5qBgYFCIiHSzEs1R5aUo=;
+	s=arc-20240116; t=1705652639; c=relaxed/simple;
+	bh=oxLHI2Fxb2xW9QYzUQqyOsGxScIpG5doLBa6JQmhwkY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OETkj8136Fm82jnm3amm0U/FDVCYenIePtbrW3wMDb2ZJphDtyxUZP4y8hfsFIRYFfucq/M/Qwdp0l6QryaEmH46G2G6YEHUuwkkLOy+DOiO+iVR5LtArPJpDbSx0cx17mrnSrPp2COfDeMQzpuKhyA59ryw4NuHppDFisNipMk=
+	 In-Reply-To:Content-Type; b=hcJpfAQRSm+BITBs/mPgaVnp7PpRbu5MB6io8feWnTsYaLm0wFB9uLCCJ4Ri1tcZTtyoMzcthTDIxCqjb6ZkBcCjttmQf308ym2U4NrNZFogMKauKy0XECE1Q7MV39qMICL/5APnRcYvJNq/d/CxTSIjt7K0HYPbl0JLi1rDM7w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9940EC433F1;
-	Fri, 19 Jan 2024 08:17:19 +0000 (UTC)
-Message-ID: <f985d664-d907-48ed-9b3d-dc956c178b88@xs4all.nl>
-Date: Fri, 19 Jan 2024 09:17:17 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD18C433F1;
+	Fri, 19 Jan 2024 08:23:56 +0000 (UTC)
+Message-ID: <597292b3-8ef4-4202-a63f-a17ffb4bdd10@xs4all.nl>
+Date: Fri, 19 Jan 2024 09:23:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,132 +38,142 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
- cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
+Subject: Re: [PATCH next v4 0/5] minmax: Relax type checks in min() and max().
 Content-Language: en-US, nl
-To: "Yang, Chenyuan" <cy54@illinois.edu>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
- "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>, "Zhao, Zijie"
- <zijie4@illinois.edu>, "Zhang, Lingming" <lingming@illinois.edu>
-References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
+To: Jiri Slaby <jirislaby@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: David Laight <David.Laight@aculab.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>, "Jason A. Donenfeld"
+ <Jason@zx2c4.com>, linux-media <linux-media@vger.kernel.org>
+References: <b97faef60ad24922b530241c5d7c933c@AcuMS.aculab.com>
+ <18c6df0d-45ed-450c-9eda-95160a2bbb8e@gmail.com>
+ <CAHk-=wjvM5KiQFpbPMPXH-DcvheNcPGj+ThNEJVm+QL6n05A8A@mail.gmail.com>
+ <650bdb23-0875-4e19-9e3e-82337da6da00@kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <650bdb23-0875-4e19-9e3e-82337da6da00@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Chenyuan,
+On 19/01/2024 08:14, Jiri Slaby wrote:
+> On 08. 01. 24, 19:19, Linus Torvalds wrote:
+>> On Mon, 8 Jan 2024 at 03:46, Jiri Slaby <jirislaby@gmail.com> wrote:
+>>>
+>>>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
+>>> real    0m45,002s
+>>>
+>>> $ git revert 867046cc7027703f60a46339ffde91a1970f2901
+>>>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
+>>> real    0m11,132s
+>>>
+>>> $ git revert 4ead534fba42fc4fd41163297528d2aa731cd121
+>>>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
+>>> real    0m3,711s
+>>
+>> Ouch. Yeah, that's unfortunate. There's a lot of nested nasty macro
+>> expansion there, but that timing is excessive.
+>>
+>> Sparse actually complains about that file:
+>>
+>>    drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: error: too long
+>> token expansion
+>>    drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: error: too long
+>> token expansion
+>>
+>> and while that is a sparse limitation, it's still interesting. Having
+>> that file expand to 122M is not ok.
+>>
+>> In this case, I suspect the right thing to do is to simply not use
+>> min()/max() in that header at all, but do something like
+>>
+>>    --- a/drivers/media/pci/solo6x10/solo6x10-offsets.h
+>>    +++ b/drivers/media/pci/solo6x10/solo6x10-offsets.h
+>>    @@ -56,2 +56,5 @@
+>>
+>>    +#define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
+>>    +#define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
+>>    +
+>>     #define SOLO_MP4E_EXT_ADDR(__solo) \
+>>    @@ -59,4 +62,4 @@
+>>     #define SOLO_MP4E_EXT_SIZE(__solo) \
+>>    -     max((..),                               \
+>>    -         min(((..) - \
+>>    +     MAX((..),                               \
+>>    +         MIN(((..) - \
+>>                   ..), 0x00ff0000))
+>>    @@ -67,4 +70,4 @@
+>>     #define SOLO_JPEG_EXT_SIZE(__solo) \
+>>    -     max(..,                         \
+>>    -         min(..)
+>>    +     MAX(..,                         \
+>>    +         MIN(..)
+>>
+>> and avoid this issue.
+> 
+> So can someone pick up 20240113183334.1690740-1-aurelien@aurel32.net so that we are done with this? I see neither Hans, nor Linus got to take it yet.
 
-On 28/12/2023 03:33, Yang, Chenyuan wrote:
-> Hello,
-> 
->  
-> 
-> We encountered 5 different crashes in the cec device by using our generated syscall specification for it, here are the descriptions of these 5 crashes and the related files are attached:
-> 
-> 1. KASAN: slab-use-after-free Read in cec_queue_msg_fh (Reproducible)
-> 
-> 2. WARNING: ODEBUG bug in cec_transmit_msg_fh
-> 
-> 3. WARNING in cec_data_cancel
-> 
-> 4. INFO: task hung in cec_claim_log_addrs (Reproducible)
-> 
-> 5. general protection fault in cec_transmit_done_ts
-> 
->  
-> 
-> For “KASAN: slab-use-after-free Read in cec_queue_msg_fh”, we attached a syzkaller program to reproduce it. This crash is caused by ` list_add_tail(&entry->list, &fh->msgs);`
-> (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L224 <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L224>), which reads a
-> variable freed by `kfree(fh);` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c#L684
-> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c#L684>). The reproducible program is a Syzkaller program, which can be executed following this document:
-> https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md <https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md>.
-> 
->  
-> 
-> For “WARNING: ODEBUG bug in cec_transmit_msg_fh”, unfortunately we failed to reproduce it but we indeed trigger this crash almost every time when we fuzz the cec device only. We attached the report
-> and log for this bug. It tries freeing an active object by using `kfree(data);` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L930
-> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L930>).
-> 
->  
-> 
-> For “WARNING in cec_data_cancel”, it is an internal warning used in cec_data_cancel (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L365
-> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L365>), which checks whether the transmit is the current or pending. Unfortunately, we also don't have the
-> reproducible program for this bug, but we attach the report and log.
-> 
->  
-> 
-> For “INFO: task hung in cec_claim_log_addrs”, the kernel hangs when the cec device ` wait_for_completion(&adap->config_completion);`
-> (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L1579 <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L1579>). We have a
-> reproducible C program for this.
-> 
->  
-> 
-> For “general protection fault in cec_transmit_done_ts”, the cec device tries derefencing a non-canonical address 0xdffffc00000000e0: 0000 [#1], which is related to the invocation `
-> cec_transmit_attempt_done_ts ` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L697
-> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L697>). It seems that the address of cec_adapter is totally wrong. We do not have a reproducible program for this
-> bug, but the log and report for it are attached.
-> 
->  
-> 
-> If you have any questions or require more information, please feel free to contact us.
+I replied here:
 
-Can you retest with the patch below? I'm fairly certain this will fix issues 1 and 2.
-I suspect at least some of the others are related to 1 & 2, but since I could never
-get the reproducers working reliably, I had a hard time determining if there are more
-bugs or if this patch resolves everything.
+https://lore.kernel.org/all/fd143cf8-5e3d-4d80-8b53-b05980558e45@xs4all.nl/
 
-Your help testing this patch will be appreciated!
+Either Linus can pick it up directly during the merge window, or it will
+appear in a media fixes PR once rc1 is released.
 
 Regards,
 
 	Hans
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/cec/core/cec-adap.c | 3 +--
- drivers/media/cec/core/cec-api.c  | 3 +++
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 5741adf09a2e..079c3b142d91 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -936,8 +936,7 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
- 	 */
- 	mutex_unlock(&adap->lock);
- 	wait_for_completion_killable(&data->c);
--	if (!data->completed)
--		cancel_delayed_work_sync(&data->work);
-+	cancel_delayed_work_sync(&data->work);
- 	mutex_lock(&adap->lock);
-
- 	/* Cancel the transmit if it was interrupted */
-diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
-index 67dc79ef1705..d64bb716f9c6 100644
---- a/drivers/media/cec/core/cec-api.c
-+++ b/drivers/media/cec/core/cec-api.c
-@@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
- 		list_del_init(&data->xfer_list);
- 	}
- 	mutex_unlock(&adap->lock);
-+
-+	mutex_lock(&fh->lock);
- 	while (!list_empty(&fh->msgs)) {
- 		struct cec_msg_entry *entry =
- 			list_first_entry(&fh->msgs, struct cec_msg_entry, list);
-@@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
- 			kfree(entry);
- 		}
- 	}
-+	mutex_unlock(&fh->lock);
- 	kfree(fh);
-
- 	cec_put_device(devnode);
--- 
-2.42.0
-
+> 
+>> That said, I'm sure this thing exists to a smaller degree elsewhere. I
+>> wonder if we could simplify our min/max type tests.
+> I assume we don't care with solo fixed? Hans pointed out ath11k too. Even if there is size increase in the preproc file, I don't see much of compile time increase there.
+> 
+> thanks,
 
 
