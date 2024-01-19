@@ -1,146 +1,149 @@
-Return-Path: <linux-media+bounces-3929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875F6832ADB
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 14:59:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6C0832B18
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 15:14:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9AB61C241B6
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 13:59:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 31AABB21439
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 14:14:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 086FF537FB;
-	Fri, 19 Jan 2024 13:59:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 026E853E09;
+	Fri, 19 Jan 2024 14:14:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="keRfYpmP"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="AZOYG5ed"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866AC3C493;
-	Fri, 19 Jan 2024 13:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BC01E48F;
+	Fri, 19 Jan 2024 14:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705672757; cv=none; b=W5b7QO7FnDrv1GzneR2fH3FyFi4hn304FiQA74B+y0qdHUWHVTTzEboIrl1fl+je7Y3shHUF7H7txevYvUFftZ2Q4j22ZFW59COcSrLYhv3Cl//h5ibx+YbYaJNsZsC1i6xvukkEvbc0mFxvax0Qs+NM64DX6CLDwfks1zKjzfg=
+	t=1705673655; cv=none; b=WYAuDDYJrEQYYnJeWKXLDpx2sZcwkE7Ee/IxsKv+3ILyRuAeKtJC4SECpCVhVWuHuzhDK00ESgHKu+NoLiZH6K98rvL6t4hWZzYOnHL0zFYZN4kwUZgrZrWMqnVyHkt2afGX/jWHgTungSgeQIEGEOFh3YGWYHkuUsHCP13LhHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705672757; c=relaxed/simple;
-	bh=p/40/RTB9UjKxi9Od0nRasdxiGZ7GyKTbdCW/49cFRw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nZ0nrGyIeqf7MxkeIYm3rqTqnJm0THYbr5bwmosvjU2/p7RDj7rq9h/lFUQW4VO0g5opNxJPz3TIwP3WpG+tjwk7832A9x/ZRPQ249wKyDvYt4qp+GEL741lKCG75Qa8jYZN+iCnYIWCWXiZ0sJcCnQ4sf34ClJ5jUaQqEurm90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=keRfYpmP; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1705672755; x=1737208755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p/40/RTB9UjKxi9Od0nRasdxiGZ7GyKTbdCW/49cFRw=;
-  b=keRfYpmPCBsUlwvAwV0v6lFCDEl3YrCd92IolPf05EAhKBpsrCwcNwZp
-   xSsNriZSQ/Y6QY5KUvUmyFH1hTP61SruJi5JGb5nWuxdlP3toKltKCEM3
-   uX9xF6SNafZrEpnwmtI73HVn8nYawy3fVXGy2R3zr9pLdmquQAoqd9LbT
-   hQi0U/v/0hanyUis/WyyJB8KnR8FLFcpkypbbiwaW2ubgvJBs8sS0RQIi
-   IJp7wPVBBCupwVC7V2BWePIVInQcNItmEuvmFMqDg2APwppuGl4O0DTuB
-   avsm8laH3aVTiSIfeve+eg2Wz5uwcPz/15alJwH8xHUn9nq+gcs7eoPDW
-   A==;
-X-CSE-ConnectionGUID: s9DSPa5yT/2lOC1K8aydzA==
-X-CSE-MsgGUID: 5xml2/pvTuq3Y5CpQ8hwdw==
-X-IronPort-AV: E=Sophos;i="6.05,204,1701154800"; 
-   d="asc'?scan'208";a="16217918"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Jan 2024 06:59:12 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 19 Jan 2024 06:59:00 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Fri, 19 Jan 2024 06:58:57 -0700
-Date: Fri, 19 Jan 2024 13:58:21 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Emil
- Renner Berthing <kernel@esmil.dk>, Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Jack
- Zhu <jack.zhu@starfivetech.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjEgMS8y?=
- =?utf-8?Q?=5D_dt-bindings?= =?utf-8?Q?=3A?= media: starfive: Match driver
- and yaml property names
-Message-ID: <20240119-preamble-calm-7724e17fcebc@wendy>
-References: <20240119100639.84029-1-changhuang.liang@starfivetech.com>
- <20240119100639.84029-2-changhuang.liang@starfivetech.com>
- <20240119-despair-festival-59ab2d4d896b@wendy>
- <SHXPR01MB0671E2150D9A2707F12E0901F270A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+	s=arc-20240116; t=1705673655; c=relaxed/simple;
+	bh=YxMO7K0SAFW1fxIxiyYDZizLbqPwVgtTZ5V/DA1a3aA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=n70C0PheOY4aZm+w+F+XeUlHH4WSs+IHr1EYWLJl72c2xaPx/9uuAl0mYPtjmcaKQMVxSx9kNoq1Ev79SAD1GRchZsWUJFUIPj+2W2LDrp68iKCYoQ09nTWrcc6CfjdRrGfqUShxzNiteuAqBHxKGifMCNPx8r5TzmUS2uDTktI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=AZOYG5ed; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1705673650;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FX6y2yjuW0nuJFiEqsV4ftraJscIV4V40Vy+XAQTjhI=;
+	b=AZOYG5edVZIWA1BlCrUR1yaolBTzcIodYuTj1R0BojE/dH4mDiXy2R/lk6N0eIGpYjQRnM
+	moRjihZ1MzvjxwroPPnCYYSyUbr+Q/3G8gPUFgTrqIdY8BEH1tinjcH5f3aUwn3o497Y5W
+	cxzgdFEi3srEEHMggkSKv9wlfR3+Gjo=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v5 0/6] usb: gadget: functionfs: DMABUF import interface
+Date: Fri, 19 Jan 2024 15:13:56 +0100
+Message-ID: <20240119141402.44262-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="FEb8PAW5xTtdkNzj"
-Content-Disposition: inline
-In-Reply-To: <SHXPR01MB0671E2150D9A2707F12E0901F270A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---FEb8PAW5xTtdkNzj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Fri, Jan 19, 2024 at 12:57:22PM +0000, Changhuang Liang wrote:
-> EXTERNAL EMAIL: Do not click links or open attachments unless you know th=
-e content is safe
->=20
-> Hi , Conor
->=20
-> > =E4=B8=BB=E9=A2=98: Re: [PATCH v1 1/2] dt-bindings: media: starfive: Ma=
-tch driver and yaml
-> > property names
-> >
-> > On Fri, Jan 19, 2024 at 02:06:38AM -0800, Changhuang Liang wrote:
-> > > Drop some unused properties for clocks, resets and interrupts for
-> > > StarFive JH7110 camera subsystem.
-> >
-> > What do you mean "unused"?
-> >
-> > Do these clocks etc exist but are not used by the driver?
-> >
-> > Or do they not exist at all?
-> >
-> > The two are very different!
+This is the v5 of my patchset that adds a new DMABUF import interface to
+FunctionFS.
 
-> These clocks etc exist but are not used by the driver.
+Daniel / Sima suggested that I should cache the dma_buf_attachment while
+the DMABUF is attached to the interface, instead of mapping/unmapping
+the DMABUF for every transfer (also because unmapping is not possible in
+the dma_fence's critical section). This meant having to add new
+dma_buf_begin_access() / dma_buf_end_access() functions that the driver
+can call to ensure cache coherency. These two functions are provided by
+the new patch [1/6], and an implementation for udmabuf was added in
+[2/6] - see the changelog below.
 
-That's not an acceptable reason for removing them from the binding. If
-they exist, they should be documented, regardless of whether the driver
-makes use of them. NAK.
+This patchset was successfully tested with CONFIG_LOCKDEP, no errors
+were reported in dmesg while using the interface.
 
-Also, your mail didn't end up on LKML, so there's something wrong with
-your setup.
+This interface is being used at Analog Devices, to transfer data from
+high-speed transceivers to USB in a zero-copy fashion, using also the
+DMABUF import interface to the IIO subsystem which is being upstreamed
+in parallel [1]. The two are used by the Libiio software [2].
 
-Thanks,
-Conor.
+On a ZCU102 board with a FMComms3 daughter board, using the combination
+of these two new interfaces yields a drastic improvement of the
+throughput, from about 127 MiB/s using IIO's buffer read/write interface
++ read/write to the FunctionFS endpoints, to about 274 MiB/s when
+passing around DMABUFs, for a lower CPU usage (0.85 load avg. before,
+vs. 0.65 after).
 
---FEb8PAW5xTtdkNzj
-Content-Type: application/pgp-signature; name="signature.asc"
+Right now, *technically* there are no users of this interface, as
+Analog Devices wants to wait until both interfaces are accepted upstream
+to merge the DMABUF code in Libiio into the main branch, and Jonathan
+wants to wait and see if this patchset is accepted to greenlight the
+DMABUF interface in IIO as well. I think this isn't really a problem;
+once everybody is happy with its part of the cake, we can merge them all
+at once.
 
------BEGIN PGP SIGNATURE-----
+This is obviously for 5.9, and based on next-20240119.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZap//AAKCRB4tDGHoIJi
-0jW2AP9Bp7EjUTpBTrdQLP7B4nOmzqnt6gXBTDDnZd6H416uMgEApGygc1Eeq1gd
-yDqYrR/umDrmC2JDspWdkwzShFgVXgQ=
-=HLIX
------END PGP SIGNATURE-----
+Changelog:
 
---FEb8PAW5xTtdkNzj--
+- [1/6]: New patch
+- [2/6]: New patch
+- [5/6]:
+  - Cache the dma_buf_attachment while the DMABUF is attached.
+  - Use dma_buf_begin/end_access() to ensure that the DMABUF data will be
+    coherent to the hardware.
+  - Remove comment about cache-management and dma_buf_unmap_attachment(),
+    since we now use dma_buf_begin/end_access().
+  - Select DMA_SHARED_BUFFER in Kconfig entry
+  - Add Christian's ACK
+
+Cheers,
+-Paul
+
+[1] https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68e3f.camel@gmail.com/T/
+[2] https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf-api
+
+Paul Cercueil (6):
+  dma-buf: Add dma_buf_{begin,end}_access()
+  dma-buf: udmabuf: Implement .{begin,end}_access
+  usb: gadget: Support already-mapped DMA SGs
+  usb: gadget: functionfs: Factorize wait-for-endpoint code
+  usb: gadget: functionfs: Add DMABUF import interface
+  Documentation: usb: Document FunctionFS DMABUF API
+
+ Documentation/usb/functionfs.rst    |  36 ++
+ drivers/dma-buf/dma-buf.c           |  66 ++++
+ drivers/dma-buf/udmabuf.c           |  27 ++
+ drivers/usb/gadget/Kconfig          |   1 +
+ drivers/usb/gadget/function/f_fs.c  | 502 ++++++++++++++++++++++++++--
+ drivers/usb/gadget/udc/core.c       |   7 +-
+ include/linux/dma-buf.h             |  37 ++
+ include/linux/usb/gadget.h          |   2 +
+ include/uapi/linux/usb/functionfs.h |  41 +++
+ 9 files changed, 698 insertions(+), 21 deletions(-)
+
+-- 
+2.43.0
+
 
