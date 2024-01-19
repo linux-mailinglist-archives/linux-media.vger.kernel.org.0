@@ -1,175 +1,169 @@
-Return-Path: <linux-media+bounces-3906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3907-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA57832565
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 09:05:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B5983258C
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 09:17:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 00BBDB22740
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 08:05:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6240C281D2B
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 08:17:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43660DDD4;
-	Fri, 19 Jan 2024 08:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VFRlGgYl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6AD24A14;
+	Fri, 19 Jan 2024 08:17:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AD6D52F;
-	Fri, 19 Jan 2024 08:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C840AD50F;
+	Fri, 19 Jan 2024 08:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705651519; cv=none; b=ss+VKeRz3NbDGxv9AnMVQjUeuZvwAiQtZ+ir/PrVI5MkErm9NdPez3Y+s4LxmFzcAmW4oGV+5W7GExHMBNz0F9XegYB3nVsnwYitR0WqZ5ATG4BK75n7MWceBsA2Y2ZtYVTz40LQdjpPxfwJnoq12sOZ0/T7AOx7WoF1/n83WYA=
+	t=1705652241; cv=none; b=olh6BH2QsLQsMpQhZXsDajSt2DsR59T5Wh0BeDGeONwg7I/cGgguh9BBmKV0zzSP2AeMlwLTmj/nxg11WPpW+cj0NFd+pmQIPBBOBHsJPutbwFMmtn01BlZfXt9wUDsFO6G9eSKWBLDVOFYw3n3m7/4RyMI3F7ztlLCsO5X6hkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705651519; c=relaxed/simple;
-	bh=tsu8ZrA+mhQxtPhDjQhrjJVhT9lSU2UUtueABH1K/fI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=jf6V6HTYl4IHRUKovi8KyQ5F7L/hfUK4fTpOANGmKmQgaevRwQidCEMOpaV9JzQ3L2K+jfUHfFNI9zMjfo7sa7/g7EdBphhLjh1BBJ6GLz7fZ+Os5aeEoafbo07ykGQkbJq+PVpZf7UkTWKpOGS5Qs1ZQBHmLc/BHjrXMeItqMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VFRlGgYl; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J843As010337;
-	Fri, 19 Jan 2024 08:05:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=riE/9mEuwi4RfnjimU2vml+iAvwigG7FNmaZVyLUWHM=; b=VF
-	RlGgYlCNjK/PXNGByQ3B3CMYJyDKf1pnRarBFnz+wKEQPCmnZpBtdEXcH+1YdFRP
-	qSlnodDJg8PsxGOMGtq2ydBoF8W91AqiStT5/kNwGOAdy+nJ+4sBR+/WJ0x7KB4Z
-	YrnO9CW61zUjcLsMUfkLUzPCQ1lNikBUttrE2EuMSu4JNXx2FBGYLoDLqIyM2BSF
-	NljG61+DmrNknzl6QIVLPtELCJT3uTwX9jtP3KS366EIQ0oNcCKF2k+Ki9oByJVu
-	mmS/Uh1aSbp8KH3wEAwwWDOehWSjELuOIK1wzA/oefx03ddyVwFiBAs8/lSxDnnk
-	L4t2z6F1phMnx98VZiFA==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vqn89g03m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 Jan 2024 08:05:13 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40J85CD5027634
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 Jan 2024 08:05:12 GMT
-Received: from [10.216.37.25] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 19 Jan
- 2024 00:05:08 -0800
-Message-ID: <b3b01a1c-4946-531f-3dbe-9ba5cebbd93f@quicinc.com>
-Date: Fri, 19 Jan 2024 13:35:04 +0530
+	s=arc-20240116; t=1705652241; c=relaxed/simple;
+	bh=fK4VruREjGzv4G2JJRe3w7i5qBgYFCIiHSzEs1R5aUo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OETkj8136Fm82jnm3amm0U/FDVCYenIePtbrW3wMDb2ZJphDtyxUZP4y8hfsFIRYFfucq/M/Qwdp0l6QryaEmH46G2G6YEHUuwkkLOy+DOiO+iVR5LtArPJpDbSx0cx17mrnSrPp2COfDeMQzpuKhyA59ryw4NuHppDFisNipMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9940EC433F1;
+	Fri, 19 Jan 2024 08:17:19 +0000 (UTC)
+Message-ID: <f985d664-d907-48ed-9b3d-dc956c178b88@xs4all.nl>
+Date: Fri, 19 Jan 2024 09:17:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 2/2] media: venus: add new rate control type MBR for
- encoder
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Sachin Kumar Garg
-	<quic_sachinku@quicinc.com>,
-        <hverkuil-cisco@xs4all.nl>,
-        "Mauro Carvalho
- Chehab" <mchehab@kernel.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        "Bjorn
- Andersson" <andersson@kernel.org>
-CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20240118105934.137919-1-quic_sachinku@quicinc.com>
- <20240118105934.137919-3-quic_sachinku@quicinc.com>
- <04a364e8-534c-40a4-a031-b9f9d2304c39@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <04a364e8-534c-40a4-a031-b9f9d2304c39@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
+ cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
+Content-Language: en-US, nl
+To: "Yang, Chenyuan" <cy54@illinois.edu>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>, "Zhao, Zijie"
+ <zijie4@illinois.edu>, "Zhang, Lingming" <lingming@illinois.edu>
+References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: K2X_OXuQuBajW5Kw7vThrZo76iE2Uztc
-X-Proofpoint-ORIG-GUID: K2X_OXuQuBajW5Kw7vThrZo76iE2Uztc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-19_04,2024-01-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1011
- suspectscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- mlxscore=0 malwarescore=0 impostorscore=0 adultscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401190028
 
-On 1/18/2024 11:14 PM, Konrad Dybcio wrote:
-> 
-> 
-> On 1/18/24 11:59, Sachin Kumar Garg wrote:
->> There is no limit on the maximum level of the bit rate with
->> the existing VBR rate control.
->> V4L2_MPEG_VIDEO_BITRATE_MODE_MBR rate control will limit the
->> frame maximum bit rate range to the +/- 10% of the configured
->> bit-rate value. Encoder will choose appropriate quantization
->> parameter and do the smart bit allocation to set the frame
->> maximum bitrate level.
->>
->> Signed-off-by: Sachin Kumar Garg <quic_sachinku@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/venus/hfi_cmds.c  | 38 +++++++++++++------
->>   .../media/platform/qcom/venus/hfi_helper.h    |  1 +
->>   drivers/media/platform/qcom/venus/venc.c      |  2 +
->>   .../media/platform/qcom/venus/venc_ctrls.c    |  5 ++-
->>   4 files changed, 33 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c
->> b/drivers/media/platform/qcom/venus/hfi_cmds.c
->> index 3418d2dd9371..95fc27e0dc7d 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
->> @@ -645,17 +645,33 @@ static int pkt_session_set_property_1x(struct
->> hfi_session_set_property_pkt *pkt,
->>       case HFI_PROPERTY_PARAM_VENC_RATE_CONTROL: {
->>           u32 *in = pdata;
->>   -        switch (*in) {
->> -        case HFI_RATE_CONTROL_OFF:
->> -        case HFI_RATE_CONTROL_CBR_CFR:
->> -        case HFI_RATE_CONTROL_CBR_VFR:
->> -        case HFI_RATE_CONTROL_VBR_CFR:
->> -        case HFI_RATE_CONTROL_VBR_VFR:
->> -        case HFI_RATE_CONTROL_CQ:
->> -            break;
->> -        default:
->> -            ret = -EINVAL;
->> -            break;
->> +        if (hfi_ver == HFI_VERSION_4XX) {
-> 
-> So, only sdm845/sc7180 and friends support it, but the newer
-> SoCs (like 8250 don't)?
-Thats correct. Supported only in AR50 generations. Not available in 8250.
+Hi Chenyuan,
 
+On 28/12/2023 03:33, Yang, Chenyuan wrote:
+> Hello,
 > 
-> [...]
+>  
 > 
->> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
->> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
->> @@ -387,10 +387,11 @@ int venc_ctrl_init(struct venus_inst *inst)
->>         v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
->>           V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
->> -        V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
->> +        V4L2_MPEG_VIDEO_BITRATE_MODE_MBR,
+> We encountered 5 different crashes in the cec device by using our generated syscall specification for it, here are the descriptions of these 5 crashes and the related files are attached:
 > 
-> Is this okay, since you're claiming only v4 supports it?
-This looks okay to extend the support for new RC mode. I see an issue in
-handling this new RC for non supported SOCs. This needs to be fixed in
-hfi_cmds.c while preparing the packet. MBR for unsupported SOC should be treated
-as -ENOTSUPP instead of -EINVAL which would terminate the session.
+> 1. KASAN: slab-use-after-free Read in cec_queue_msg_fh (Reproducible)
+> 
+> 2. WARNING: ODEBUG bug in cec_transmit_msg_fh
+> 
+> 3. WARNING in cec_data_cancel
+> 
+> 4. INFO: task hung in cec_claim_log_addrs (Reproducible)
+> 
+> 5. general protection fault in cec_transmit_done_ts
+> 
+>  
+> 
+> For “KASAN: slab-use-after-free Read in cec_queue_msg_fh”, we attached a syzkaller program to reproduce it. This crash is caused by ` list_add_tail(&entry->list, &fh->msgs);`
+> (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L224 <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L224>), which reads a
+> variable freed by `kfree(fh);` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c#L684
+> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c#L684>). The reproducible program is a Syzkaller program, which can be executed following this document:
+> https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md <https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md>.
+> 
+>  
+> 
+> For “WARNING: ODEBUG bug in cec_transmit_msg_fh”, unfortunately we failed to reproduce it but we indeed trigger this crash almost every time when we fuzz the cec device only. We attached the report
+> and log for this bug. It tries freeing an active object by using `kfree(data);` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L930
+> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L930>).
+> 
+>  
+> 
+> For “WARNING in cec_data_cancel”, it is an internal warning used in cec_data_cancel (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L365
+> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L365>), which checks whether the transmit is the current or pending. Unfortunately, we also don't have the
+> reproducible program for this bug, but we attach the report and log.
+> 
+>  
+> 
+> For “INFO: task hung in cec_claim_log_addrs”, the kernel hangs when the cec device ` wait_for_completion(&adap->config_completion);`
+> (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L1579 <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L1579>). We have a
+> reproducible C program for this.
+> 
+>  
+> 
+> For “general protection fault in cec_transmit_done_ts”, the cec device tries derefencing a non-canonical address 0xdffffc00000000e0: 0000 [#1], which is related to the invocation `
+> cec_transmit_attempt_done_ts ` (https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L697
+> <https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c#L697>). It seems that the address of cec_adapter is totally wrong. We do not have a reproducible program for this
+> bug, but the log and report for it are attached.
+> 
+>  
+> 
+> If you have any questions or require more information, please feel free to contact us.
 
-This need to be fixed.
+Can you retest with the patch below? I'm fairly certain this will fix issues 1 and 2.
+I suspect at least some of the others are related to 1 & 2, but since I could never
+get the reproducers working reliably, I had a hard time determining if there are more
+bugs or if this patch resolves everything.
+
+Your help testing this patch will be appreciated!
 
 Regards,
-Vikash
+
+	Hans
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/cec/core/cec-adap.c | 3 +--
+ drivers/media/cec/core/cec-api.c  | 3 +++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index 5741adf09a2e..079c3b142d91 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -936,8 +936,7 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
+ 	 */
+ 	mutex_unlock(&adap->lock);
+ 	wait_for_completion_killable(&data->c);
+-	if (!data->completed)
+-		cancel_delayed_work_sync(&data->work);
++	cancel_delayed_work_sync(&data->work);
+ 	mutex_lock(&adap->lock);
+
+ 	/* Cancel the transmit if it was interrupted */
+diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
+index 67dc79ef1705..d64bb716f9c6 100644
+--- a/drivers/media/cec/core/cec-api.c
++++ b/drivers/media/cec/core/cec-api.c
+@@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
+ 		list_del_init(&data->xfer_list);
+ 	}
+ 	mutex_unlock(&adap->lock);
++
++	mutex_lock(&fh->lock);
+ 	while (!list_empty(&fh->msgs)) {
+ 		struct cec_msg_entry *entry =
+ 			list_first_entry(&fh->msgs, struct cec_msg_entry, list);
+@@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
+ 			kfree(entry);
+ 		}
+ 	}
++	mutex_unlock(&fh->lock);
+ 	kfree(fh);
+
+ 	cec_put_device(devnode);
+-- 
+2.42.0
+
+
 
