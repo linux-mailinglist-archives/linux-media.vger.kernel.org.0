@@ -1,109 +1,151 @@
-Return-Path: <linux-media+bounces-3911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C4F83265B
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 10:14:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D75728326F5
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 10:50:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6ED82285CA8
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 09:14:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6756BB246E8
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 09:50:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E106C24B44;
-	Fri, 19 Jan 2024 09:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935953C473;
+	Fri, 19 Jan 2024 09:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="5RAJ7rmy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE36A1DDC3
-	for <linux-media@vger.kernel.org>; Fri, 19 Jan 2024 09:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7493C3C6BA;
+	Fri, 19 Jan 2024 09:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705655683; cv=none; b=O7NxUtIFKmMmlLkgqjeqJC0TEeeIRfmIRn4XZXM4Zul+W7llw+mPVCfe14Xxag8vSobjOc1a1+yeGnA7C8dsjrCj/wYdtHFdNlhdMUgruRTS4QreOkZKEj++tCv5dILXOFOJ2HKqSiYq0y1eJ2lf3Eodq5LuHC7774o989vGFS8=
+	t=1705657794; cv=none; b=mX/xt4oytZ9FVyBFwk0ZVOpfBZzZti8fJaazonljPzbDluC7GNzKWYAiZTZ2mbc0dKJVdiBqoKPCXyBiQv8IVHgteXDoaXI6CpGWqCyNpeCkP8MuGwe2pbgd6ytFClDikSzVW1XunckCZDE1+VAbKcHGdiw2OM8jZb+pyct0kCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705655683; c=relaxed/simple;
-	bh=J51B7dgcwpPBLX98Aj0mu1Uqkrp2X/ral2zBAKpdgmw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=hKl/3OIFyMYORSoJnF3ACiOrGQrzVPo0tkGfzWfIaZlCjVLi6JBtOBRLr5RJvK7Xb5UPZFq5p/3khmIGorucn2PSyMwWI6cjzfmEUJP3CsLNLkw2M3K/fsJ+Ciz2Tn+Tz3B6TwyueOVWRtUR82BhFnz7VBQy5V3yM6SkKQenORg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-323-jRim0v_hOfeEj-x0fPXa7Q-1; Fri, 19 Jan 2024 09:14:32 +0000
-X-MC-Unique: jRim0v_hOfeEj-x0fPXa7Q-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 19 Jan
- 2024 09:14:15 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 19 Jan 2024 09:14:15 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Jiri Slaby' <jirislaby@kernel.org>, Linus Torvalds
-	<torvalds@linux-foundation.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Andy
- Shevchenko" <andriy.shevchenko@linux.intel.com>, Andrew Morton
-	<akpm@linux-foundation.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>, "Jason A. Donenfeld"
-	<Jason@zx2c4.com>, linux-media <linux-media@vger.kernel.org>, Hans Verkuil
-	<hverkuil@xs4all.nl>
-Subject: RE: [PATCH next v4 0/5] minmax: Relax type checks in min() and max().
-Thread-Topic: [PATCH next v4 0/5] minmax: Relax type checks in min() and
- max().
-Thread-Index: AdnqB/CwAvMQ3gkdSO607JUF4aSKdhgnyQvbAAPuGSA=
-Date: Fri, 19 Jan 2024 09:14:15 +0000
-Message-ID: <27f7643d1e64430ab7e265565e87d88e@AcuMS.aculab.com>
-References: <b97faef60ad24922b530241c5d7c933c@AcuMS.aculab.com>
- <18c6df0d-45ed-450c-9eda-95160a2bbb8e@gmail.com>
- <CAHk-=wjvM5KiQFpbPMPXH-DcvheNcPGj+ThNEJVm+QL6n05A8A@mail.gmail.com>
- <650bdb23-0875-4e19-9e3e-82337da6da00@kernel.org>
-In-Reply-To: <650bdb23-0875-4e19-9e3e-82337da6da00@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1705657794; c=relaxed/simple;
+	bh=d8pc7d+5bVJ+1CKyc9rJxHNauc4Q5Sm7tNJYT45ZHr4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IIiaQid5yZB+lYvwqKyYyqV8IVFdALQmn0qG8IxUjQ7B1G/IeLE3KpE5fY0C+ysdKt3l5nlsqTD+IhuXj4MfJkthyq0Rc0oqACp44Vw9rf5W1t8QJbW9lFPl5hIGnbYzcjW6JtbmXlEP1Eprq8s/vQU/YgT0G78t6ArmlWCuVAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=5RAJ7rmy; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1705657790;
+	bh=d8pc7d+5bVJ+1CKyc9rJxHNauc4Q5Sm7tNJYT45ZHr4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=5RAJ7rmyFAh6syb9LXX8rNegaU8XZ7GEuZ9KkXQuFOuNCWprvWZq3BxY562QyRJ/4
+	 eWoy48xRvLxjqsR69poIvJT42Jg619C0a2Fgywz7/xssBjJexmZ+JSoBTfJPdlkitX
+	 AOnURUcJBizGH51pxPeJY2r3DNq/G/2QjhGBxbQiyIPeokC7OCI7BpOc3lWgrygbS/
+	 CUpe/6Ulg7R2xd81j+10lDlJw/RAenCXOkM3wbfuHRqK2FeGMB2onFwm9hu3lWw6K5
+	 Wum3c4UluAfwBfJfyhx5NpmY78ejEcFlPjxkv4/qB7pNQ9F8zXVod9aPsk+35Ba9o9
+	 ZFhz1iJID6x/Q==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5EFAC37811F4;
+	Fri, 19 Jan 2024 09:49:50 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v17 0/8] Add DELETE_BUF ioctl
+Date: Fri, 19 Jan 2024 10:49:36 +0100
+Message-Id: <20240119094944.26763-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-RnJvbTogSmlyaSBTbGFieQ0KPiBTZW50OiAxOSBKYW51YXJ5IDIwMjQgMDc6MTQNCj4gDQo+IE9u
-IDA4LiAwMS4gMjQsIDE5OjE5LCBMaW51cyBUb3J2YWxkcyB3cm90ZToNCj4gPiBPbiBNb24sIDgg
-SmFuIDIwMjQgYXQgMDM6NDYsIEppcmkgU2xhYnkgPGppcmlzbGFieUBnbWFpbC5jb20+IHdyb3Rl
-Og0KPiA+Pg0KPiA+PiAgICAgQ1BQIFtNXSBkcml2ZXJzL21lZGlhL3BjaS9zb2xvNngxMC9zb2xv
-NngxMC1wMm0uaQ0KPiA+PiByZWFsICAgIDBtNDUsMDAycw0KPiA+Pg0KPiA+PiAkIGdpdCByZXZl
-cnQgODY3MDQ2Y2M3MDI3NzAzZjYwYTQ2MzM5ZmZkZTkxYTE5NzBmMjkwMQ0KPiA+PiAgICAgQ1BQ
-IFtNXSBkcml2ZXJzL21lZGlhL3BjaS9zb2xvNngxMC9zb2xvNngxMC1wMm0uaQ0KPiA+PiByZWFs
-ICAgIDBtMTEsMTMycw0KPiA+Pg0KPiA+PiAkIGdpdCByZXZlcnQgNGVhZDUzNGZiYTQyZmM0ZmQ0
-MTE2MzI5NzUyOGQyYWE3MzFjZDEyMQ0KPiA+PiAgICAgQ1BQIFtNXSBkcml2ZXJzL21lZGlhL3Bj
-aS9zb2xvNngxMC9zb2xvNngxMC1wMm0uaQ0KPiA+PiByZWFsICAgIDBtMyw3MTFzDQo+ID4NCj4g
-PiBPdWNoLiBZZWFoLCB0aGF0J3MgdW5mb3J0dW5hdGUuIFRoZXJlJ3MgYSBsb3Qgb2YgbmVzdGVk
-IG5hc3R5IG1hY3JvDQo+ID4gZXhwYW5zaW9uIHRoZXJlLCBidXQgdGhhdCB0aW1pbmcgaXMgZXhj
-ZXNzaXZlLg0KDQpBcyBhIG1hdHRlciBvZiBpbnRlcmVzdCB3aGF0IGFyZSB5b3UgY29tcGlsaW5n
-IG9uPw0KSSd2ZSBzaW5jZSB0ZXN0IGNvbXBpbGVkIHRoYXQgZmlsZSBhbmQgZG9uJ3QgZXZlbiBz
-ZWUgYSBwYXVzZQ0KaW4gdGhlIG1ha2VmaWxlIG91dHB1dCAtIHNvIHdlbGwgdW5kZXIgYSBzZWNv
-bmQgdG8gY29tcGlsZS4NCg0KLi4uDQo+ID4gVGhhdCBzYWlkLCBJJ20gc3VyZSB0aGlzIHRoaW5n
-IGV4aXN0cyB0byBhIHNtYWxsZXIgZGVncmVlIGVsc2V3aGVyZS4gSQ0KPiA+IHdvbmRlciBpZiB3
-ZSBjb3VsZCBzaW1wbGlmeSBvdXIgbWluL21heCB0eXBlIHRlc3RzLg0KPiBJIGFzc3VtZSB3ZSBk
-b24ndCBjYXJlIHdpdGggc29sbyBmaXhlZD8gSGFucyBwb2ludGVkIG91dCBhdGgxMWsgdG9vLg0K
-PiBFdmVuIGlmIHRoZXJlIGlzIHNpemUgaW5jcmVhc2UgaW4gdGhlIHByZXByb2MgZmlsZSwgSSBk
-b24ndCBzZWUgbXVjaCBvZg0KPiBjb21waWxlIHRpbWUgaW5jcmVhc2UgdGhlcmUuDQoNCkkgaGF2
-ZSBnb3QgYSBmZXcgcGF0Y2hlcyB0aGF0IHJlZHVjZSB0aGUgY3BwIG91dHB1dCBzaXplLg0KSSds
-bCBwb3N0IHRoZW0gYWZ0ZXIgLXJjMSBpcyBvdXQuDQoNCkxpbnVzIG1pZ2h0IG5lZWQgdG8gdGFr
-ZSB0aGVtIGRpcmVjdGx5IHNpbmNlIEkndmUgYWRkZWQgbWluX2NvbnN0KCkNCmFuZCByZW1vdmVk
-IHRoZSBsb2dpYyB0aGF0IGdlbmVyYXRlcyAnY29uc3QgZnJvbSBjb25zdCcuDQpUaGF0IHJlcXVp
-cmVzIGEgdHJpdmlhbCBjaGFuZ2UgdG8gdGhlIDggZmlsZXMgKEkndmUgZm91bmQpIHRoYXQNCnVz
-ZSBtaW4vbWF4IGZvciBzaXppbmcgb24tc3RhY2sgYXJyYXlzIGJldHdlZW4gdHdvIHBhdGNoZXMu
-DQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9h
-ZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBO
-bzogMTM5NzM4NiAoV2FsZXMpDQo=
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce DELETE_BUFS ioctl and remove
+the 32 buffers limit per queue.
+
+VP9 conformance tests using fluster give a score of 210/305.
+The 23 of the 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
+
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v1
+
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+
+changes in version 17:
+- rebased on top of:
+  https://patchwork.linuxtv.org/project/linux-media/patch/20240118121452.29151-1-benjamin.gaignard@collabora.com/
+  https://patchwork.linuxtv.org/project/linux-media/patch/92975c06-d6e1-4ba6-8d03-b2ef0b199c21@xs4all.nl/
+- rewrite min_reqbufs_allocation field documentation.
+- rewrite vb2_core_create_bufs() first_index parameter documentation.
+- rework bitmap allocation usage in __vb2_queue_alloc().
+- remove useless i < q->max_num_buffers checks.
+- rework DELETE_BUFS documentation.
+- change split between patch 7 and patch 8
+- v4l2_m2m_delete_bufs() is now a static function.
+
+changes in version 16:
+- The 50 patches related to add helpers for queue num_bufefrs have already been merged.
+- 'min_queued_buffers' patch has been merged too.
+- Add 'min_reqbufs_allocation' field in vb2_queue structure.
+- Take care of 'min_queued_buffers' when deleting buffers
+- Add more check about buffers range limit when deleting buffers.
+
+changes in version 15:
+- Check that PLANE_INDEX_BITS value match with VIDEO_MAX_PLANES.
+- Add a check on vb->vb2_queue in vb2_queue_add_buffer()
+- Fix the remarks done by Hans, Thomasz and Andrzej. Thanks for the time
+  they spend (again) on the review.
+
+
+Benjamin Gaignard (8):
+  videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+  media: test-drivers: Set REQBUFS minimum number of buffers
+  media: core: Rework how create_buf index returned value is computed
+  media: core: Add bitmap manage bufs array entries
+  media: core: Free range of buffers
+  media: v4l2: Add DELETE_BUFS ioctl
+  media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+  media: verisilicon: Support deleting buffers on capture queue
+
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-delete-bufs.rst          |  80 +++++++
+ .../media/v4l/vidioc-reqbufs.rst              |   1 +
+ .../media/common/videobuf2/videobuf2-core.c   | 222 ++++++++++++------
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  34 ++-
+ .../media/platform/verisilicon/hantro_drv.c   |   1 +
+ .../media/platform/verisilicon/hantro_v4l2.c  |   1 +
+ .../media/test-drivers/vicodec/vicodec-core.c |   2 +
+ drivers/media/test-drivers/vim2m.c            |   2 +
+ .../media/test-drivers/vimc/vimc-capture.c    |   4 +-
+ drivers/media/test-drivers/visl/visl-video.c  |   2 +
+ drivers/media/test-drivers/vivid/vivid-core.c |  17 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  20 ++
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  15 ++
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |   2 +
+ include/media/videobuf2-core.h                |  50 +++-
+ include/media/videobuf2-v4l2.h                |  13 +
+ include/uapi/linux/videodev2.h                |  17 ++
+ 20 files changed, 402 insertions(+), 87 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+
+-- 
+2.40.1
 
 
