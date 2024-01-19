@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-3940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3941-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D354E832D6D
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 17:44:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 586D8832D74
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 17:45:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D16711C24752
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 16:44:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0943B1F24977
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 16:45:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBF205577D;
-	Fri, 19 Jan 2024 16:44:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B05755784;
+	Fri, 19 Jan 2024 16:45:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CwrBjiJI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uDqtfRJA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C475380D;
-	Fri, 19 Jan 2024 16:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0125A54FB9;
+	Fri, 19 Jan 2024 16:45:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705682686; cv=none; b=QTrmnzHxrDrOQLxFltrtaA/M+/nn8HCpmdldgWXoZYdQv2215c8zk0aJCXO13nnL9Zi6n1umgNA2NmSBwfJUkBq+bKbZvo1fu74HlHE+haXDeOfSYHnvdqEWIOBZ9jXAtVkSodqYx6WgOEDNbp2gDiI0YT7CIcjCXALo4joocgc=
+	t=1705682729; cv=none; b=kf6WgA/enbHnoMFfteuQF3OmH8xoN6U/MD2Ih74IYUVHKvGInnsD6X/KBALCFINX/dCdJkzFOIJHOeBQMBSfPHfyKd0Vrla2viNFKivMPZ89KvmbmJfQ7KUpI5vVsYkc6v5rlrbvIcksCMf0ovTrDXf+jcOo3OzUbbThh2rVulY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705682686; c=relaxed/simple;
-	bh=QRRwKq5LqVnkhPlBmuRkLsTSp0aAGvhbAw+sw+G5rKE=;
+	s=arc-20240116; t=1705682729; c=relaxed/simple;
+	bh=4xiZyQ+P1Xz0x+4FTwkxMPkSXfVCdC8v1T9pR7kkqfY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GWJcRUKZRMpxPUXrr/G3+9HlxxwZqej6GUNSFHGiRgIV2qm2+ylnwc2NvsE+hV8NlW7yP1gtuVqk4YPueGGAbl0FrZDmgw1/iT5y+TO5D+YnvJ7I2y8pgp/UdyHHWPyvacKG1uy5fNCTgvXNNIy3qkcxBauppOhSpZvvIlCGiyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CwrBjiJI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2CBBC433F1;
-	Fri, 19 Jan 2024 16:44:41 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=JjVgp81Nn7cLGZ6JGPiUfHlLOO+p8l3KgOKZu43fSmp0QRDLbnnDNRYbdQC7tAXfH5IagCuxbgSPt4hv21dw5rmZvIZfQN7JvDYpOVrvSuLo4ZAajlVCIGFq6G1wAVS4IejMa7IMrUyLQtpYM9MsbMzb02VRL5Xvgz6i11FgMKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uDqtfRJA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 908A6C43390;
+	Fri, 19 Jan 2024 16:45:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705682685;
-	bh=QRRwKq5LqVnkhPlBmuRkLsTSp0aAGvhbAw+sw+G5rKE=;
+	s=k20201202; t=1705682728;
+	bh=4xiZyQ+P1Xz0x+4FTwkxMPkSXfVCdC8v1T9pR7kkqfY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CwrBjiJIY6u280JXIzDtHkBHRzWVPvj21WBA3CEh+/RxwVDkP1q76R9RcGOAEyyRK
-	 as+ANa1c06TpMg4CSg3jgI/b6cHETC2nV29hrJr/oCc2F4jC0QyHxo5j3CW/6xeQS4
-	 2/LhaIaaszvyl5bZLnRvvN3nLgKCAYbpZfcIFEEXQ350rEcRG2RgHKJCnZLeg/8v6w
-	 JtuC7tca0XPKKcYmAMa1YjrUPxYJg22gsmy55XF+vjJIA79MEhx/IPY+PiDnwlW7H9
-	 9O61Ux0CCCSlgDQ027Dydc5dIrvEJeStSAxt9wKgDpDsIe7mqT7guLB6toTJZZ90sQ
-	 XVPPRdo7GkE3w==
-Date: Fri, 19 Jan 2024 16:44:39 +0000
+	b=uDqtfRJANZKxjE6iTqUTIFLbR/GJhoBYF58gPKgdTKvz+AYQ3CcZrUml5a5yERwg8
+	 w59B9f6CKwtP6q6KMv18GT6DYLzOAmUJ/YXLDSEaa7w7g800H4zQjBFXMXbi3j37le
+	 bI73E3mVPdGWQOIkYQLM6aZbrazixI+1rUSIWHtx2+Csz33O8Iyz9uWWe3NuTM0ak4
+	 lG+At1EnPMfj6qtiZY1Ye5JxxS5nsBphTDgul2FNO7rnhersaTkgX4txc1EBu+aeKc
+	 ExyX+rVSAOy6GxGBG7/0x0as+CNRGz6VZamNCtt00HON59y45/XxnZeQ+jLS3S//dC
+	 fzkWPZY2B6baQ==
+Date: Fri, 19 Jan 2024 16:45:22 +0000
 From: Conor Dooley <conor@kernel.org>
 To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
 Cc: Rob Herring <robh+dt@kernel.org>,
@@ -59,11 +59,11 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Nancy Lin <nancy.lin@mediatek.com>,
 	Shawn Sung <shawn.sung@mediatek.com>,
 	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v3 2/3] dt-bindings: media: mediatek: mdp: Change
- mediatek,gce-events to reference
-Message-ID: <20240119-surrender-both-21c64f5149c4@spud>
+Subject: Re: [PATCH v3 3/3] dt-bindings: soc: mediatek: Change
+ mediatek,gce-events to refernece
+Message-ID: <20240119-amaretto-gauging-5f745a1b1335@spud>
 References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
- <20240119063224.29671-3-jason-jh.lin@mediatek.com>
+ <20240119063224.29671-4-jason-jh.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,17 +71,17 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="R17Or0wU+thr7YJr"
+	protocol="application/pgp-signature"; boundary="1LR1bW8RJGTFo223"
 Content-Disposition: inline
-In-Reply-To: <20240119063224.29671-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20240119063224.29671-4-jason-jh.lin@mediatek.com>
 
 
---R17Or0wU+thr7YJr
+--1LR1bW8RJGTFo223
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 19, 2024 at 02:32:23PM +0800, Jason-JH.Lin wrote:
+On Fri, Jan 19, 2024 at 02:32:24PM +0800, Jason-JH.Lin wrote:
 > Change mediatek,gce-events property to reference mediatek,gce-props.yaml
 > instead of defining itself.
 >=20
@@ -92,16 +92,16 @@ Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Cheers,
 Conor.
 
---R17Or0wU+thr7YJr
+--1LR1bW8RJGTFo223
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaqm9wAKCRB4tDGHoIJi
-0oxFAP426FO4m886BrM5F53nZ1cAx5WLgsXMYRGhDk8jJycBJAEA8wHMS3uLk1xV
-EfgQYdDiX0aOUSswVeHTyrGZXsooNgA=
-=xSy/
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaqnIgAKCRB4tDGHoIJi
+0lW2AQCNJ+Q40bd9LrGWCRk8PNKTOTd7knertR3kHCdXzQusnQD+I6A52S2rMCYj
+tJEIlcYZgCfxGjoaD1PG+JlJwlzFbwY=
+=94Oq
 -----END PGP SIGNATURE-----
 
---R17Or0wU+thr7YJr--
+--1LR1bW8RJGTFo223--
 
