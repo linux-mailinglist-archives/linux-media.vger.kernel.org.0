@@ -1,183 +1,137 @@
-Return-Path: <linux-media+bounces-3926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55681832A1A
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 14:11:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEC1832A41
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 14:21:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07619284F11
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 13:11:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86D98285308
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 13:21:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D033524D7;
-	Fri, 19 Jan 2024 13:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 303AC524CD;
+	Fri, 19 Jan 2024 13:21:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H//34y5P"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="nbsVU4+4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994F433CE9;
-	Fri, 19 Jan 2024 13:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D461D4F1F6
+	for <linux-media@vger.kernel.org>; Fri, 19 Jan 2024 13:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705669869; cv=none; b=iPm6IR0Ap5OAKgGPB05UYIV0+EoUGNb/yRqicNhs+Vqhs9XapEz+ZYm0//xa73DMM0fRGBWgxaqscW/47RvUtvKxys4HzikmV5bRDc58KJEIMTutuL/qHMlgLRCzsgTt2CZYuawkCL5oaVwL1d+BRbj1MglP16k7Q6AhpOuE9s0=
+	t=1705670504; cv=none; b=c53TBC61OdqAWhVIvGhqkgMaZtiwrJAC4PU0TvvTlyBmwUnGHEdV8qni/LZT/nnx8WzdjNi9fIvrFdn+gx8w7FLoptpXLkfMRzz2LjIo90pef7h+CU9SQLALTDN0lf0i62qsackQHI5XSlAjj9p/ygEczTKSmEewyEzXpKrAhh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705669869; c=relaxed/simple;
-	bh=J/z83Xg047XGvf3ennA+Sk+uHgqEASMgOJ1cSPBD8MU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FujAyaH/+fqV5aLho+I/esJTjDgADfBqz6HAKacDO84skOGHNuF2+4h5aXtgSEBUMfF8VxSWOO3aviOtM2zQaB1Z5ANwXTQlPW1ZfbL0zQLGybm3BNENleA4ljxpdjIU7MlV1GJp66V4D9crLZ7Uy10a+BuG9cD9JZ8iSdN6SCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H//34y5P; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705669867; x=1737205867;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J/z83Xg047XGvf3ennA+Sk+uHgqEASMgOJ1cSPBD8MU=;
-  b=H//34y5PgWC1Vla0/wUmWRlQtBE7+jNgXIgoda0QbONjMUK8PixK5MbQ
-   juWwMtjL4g+Fn177LQclu66PAyoWDSskd6LWy3ehUJAv3EO9bFgbdK5km
-   FdYmfpuv/RC026xYl7NfOfby/2Upk0VUJGLlTFjZiqtXb57p7xAykvgjF
-   o31XXVJLnuzV8XcNN6zThQT3cvTPYZrxx6KGFid2No4LZ1dkFdIt04eNE
-   DiXx25jMcRVWG1+HbcN0qJwdShSlK4eHTHeUcMpMrMgFq7KQgRyB+m0AI
-   Qn1X5uV7v/5wPZda3hLhmjqzIwTfU1aKajRW52f558mwZN/LBIgAMp0Tv
+	s=arc-20240116; t=1705670504; c=relaxed/simple;
+	bh=K1IPxdVy4fZCng5xG6VcSYUD6J37h5oqvNUACa9ePoQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=igaCd1pyuVUh6nBv9BN6OqoeU5d9oA3p2H+ZRSrzRbo+tfvH67tPKb+ugapYHytYeT/BPPzDdrxIaQmtREo8doLSel4B8hcKuQFhRviwxu5VFVCY+6LLnucMg4CuqhSlqhBTR16wKvWlt7rSr/i2WYIUoliZ2nT1Ac6Pz9Zd0fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=nbsVU4+4; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1705670500; x=1737206500;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=CIxJzAcS+XeBrCCuEb7lQaNC4+Wn5Lkt43iOlbH8Qbo=;
+  b=nbsVU4+4JCgQOL0JaFgiQl93rSf1jpq73LlKXZociMviBbafczytTDr0
+   J4gU97BdzS53jOSeDcX1rGsWIBUTTPNzHxa/KgvGzYTO5wPLM4BiVVoG0
+   qvhFmElo/lB8F9a9UHUTTU/NxwzJgLzGk2ISQR0mhYUQHxy5Rs6W20Bjc
+   9MncENNXnOIsDryzeq8jYGxfAYuEwkj7ifu7o8KTjNuuiYP+tehPodz/U
+   StKpH0DJonQr5Fr11lTzTq7XEzVWTtBMiPFWToo1oyQ+q5QEb0DUZaXN7
+   VTdOSHHOAWteEtJJ33za/6rMOg1R6QJtqSZsVVfVchonZXv9lN7ykJBsO
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7443367"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="7443367"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 05:11:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="785069304"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="785069304"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Jan 2024 05:11:01 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rQoeA-00044W-37;
-	Fri, 19 Jan 2024 13:10:58 +0000
-Date: Fri, 19 Jan 2024 21:10:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Cercueil <paul@crapouillou.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <202401192043.6DTnLlKn-lkp@intel.com>
-References: <20240117122646.41616-4-paul@crapouillou.net>
+X-IronPort-AV: E=Sophos;i="6.05,204,1701126000"; 
+   d="scan'208";a="34982808"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 19 Jan 2024 14:21:32 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C6909280075;
+	Fri, 19 Jan 2024 14:21:32 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>, Gerald Loacker <gerald.loacker@wolfvision.net>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] media: imx415: Add more clock configurations
+Date: Fri, 19 Jan 2024 14:21:32 +0100
+Message-ID: <3602834.R56niFO833@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240108105242.GC20868@pendragon.ideasonboard.com>
+References: <20231212072637.67642-1-alexander.stein@ew.tq-group.com> <20240108105242.GC20868@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240117122646.41616-4-paul@crapouillou.net>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Paul,
+Hi Laurent,
 
-kernel test robot noticed the following build errors:
+Am Montag, 8. Januar 2024, 11:52:42 CET schrieb Laurent Pinchart:
+> On Tue, Dec 12, 2023 at 08:26:35AM +0100, Alexander Stein wrote:
+> > Hi,
+> >=20
+> > this small series converts the driver to using CCI helpers.
+> > On top of that more clock setups are added to the driver.
+> > These are all taken from the datasheet. I suspect they all can be
+> > calculated dynamically later on.
+> > Tested on TQMa8MPxL + MBa8MPxL + ISP + Vision Components IMX415 camera.
+> >=20
+> > While working on the driver I notived that imx415 sets mbus code to
+> > MEDIA_BUS_FMT_SGBRG10_1X10, while imx290 uses MEDIA_BUS_FMT_SRGGB10_1X1=
+0.
+> > But the datasheets show the same color coding pattern. But both settings
+> > seem to be correct, e.g. the resulting image has correct colors.
+>=20
+> The difference may be in the crop settings, of possibly flipping.
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus lwn/docs-next linus/master v6.7 next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I checked the flip ("inverted operation") settings on both sensors. The=20
+readout direction seems to be identical. Cropping areas are a bit different=
+,=20
+and currently unconfigured. But left margin is 12, so I don't see how that=
+=20
+could effect color order.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20240117-203111
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240117122646.41616-4-paul%40crapouillou.net
-patch subject: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import interface
-config: arm-randconfig-r112-20240119 (https://download.01.org/0day-ci/archive/20240119/202401192043.6DTnLlKn-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce: (https://download.01.org/0day-ci/archive/20240119/202401192043.6DTnLlKn-lkp@intel.com/reproduce)
+Best regards,
+Alexander
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401192043.6DTnLlKn-lkp@intel.com/
+> > I had to remove the identity check locally. I suspect that Vision
+> > Components interjects reading some registers.
+> :
+> :-(
+>=20
+> I'm getting increasingly annoyed by vendors who play such tricks.
+>=20
+> > Changes in v2:
+> > * Removed explicit selection of REGMAP_I2C
+> > * Dropped patch 3 for now. Mode selection shall be done by dynamic
+> > VMAX/HMAX>=20
+> >   calculations later on
+> >=20
+> > Best regards,
+> > Alexander
+> >=20
+> > Alexander Stein (2):
+> >   media: i2c: imx415: Convert to new CCI register access helpers
+> >   media: i2c: imx415: Add more clock configurations
+> > =20
+> >  drivers/media/i2c/Kconfig  |   1 +
+> >  drivers/media/i2c/imx415.c | 651 +++++++++++++++++++++++--------------
+> >  2 files changed, 416 insertions(+), 236 deletions(-)
 
-All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: dma_buf_get
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: dma_buf_detach
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced 2 more times
---
->> ld.lld: error: undefined symbol: dma_fence_init
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: dma_resv_add_fence
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: dma_fence_signal
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_dmabuf_io_complete) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_dmabuf_signal_done) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: dma_fence_release
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(dma_fence_put) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_dmabuf_unmap_work) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: dma_buf_put
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced 2 more times
---
->> ld.lld: error: undefined symbol: dma_buf_attach
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: dma_fence_context_alloc
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: dma_resv_test_signaled
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: dma_buf_map_attachment
-   >>> referenced by f_fs.c
-   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
-..
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
 
