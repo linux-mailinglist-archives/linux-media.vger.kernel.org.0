@@ -1,157 +1,201 @@
-Return-Path: <linux-media+bounces-3937-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3939-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BFF832B4B
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 15:26:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7470C832D68
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 17:44:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 769E1B21DC7
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 14:26:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98EC71C246C1
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 16:44:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA77653E1B;
-	Fri, 19 Jan 2024 14:26:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C3DB5577B;
+	Fri, 19 Jan 2024 16:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMmj7QBa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q7kZGfi2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2C94EB30;
-	Fri, 19 Jan 2024 14:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B2154FA8;
+	Fri, 19 Jan 2024 16:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705674377; cv=none; b=eXXYpkwtv+k/Z3QXOKnC85mOjWxRliRu+KHols/CcGO0kWs6R2Wy4ea61XPsoeP4AeFXhGTyfblxsn7ENLadc7IFcdC9jj0PA0MqO8O6WbXSxFYzgfzd+fhO+Im4vUNjG+uSi9Zw/FL7szDsMhtvw0xMrYxmEA5isCQozccJNSQ=
+	t=1705682650; cv=none; b=W00uEan0Jz8YMJ9pvNPnkCIddz8wHmfxolPVxzmiCIiWtm45o/5oEqsbbXgwCYK3whtU36x7rAcaVoAdl2mUpSZ36lgV5QvpZ6KnIvSNYBDsU8YX8E4Pvgg950w0EMdsckPffUIUHdJQ94ZjphhZp7zUOsSBzaEHBjSJwVNRp2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705674377; c=relaxed/simple;
-	bh=6ZyFttJi9Pj6gtg9DPLGs15qvrUf2pvBuDiSTNdqKfw=;
+	s=arc-20240116; t=1705682650; c=relaxed/simple;
+	bh=rRw2O8xwrDlJ45VGXmvgJkqhcUfZQFmZYjMTGiQcFo0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JlstOQpqFPCVG5DqPmZgFE1IQ8GGxbaZ+ZlUOjo1dfXih/BGfjOU6Ev+tuknkjFK/IJg6MyJkdBnwWyHgtTI2OfU/AINJ8v2cd0Yo1MqTFLYg/lhQjdYMSN6U6UyucAIGwNxMO2Rr0fUDJHO9dpHh4aK69CJ8TH69VyCSHUyGzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMmj7QBa; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705674375; x=1737210375;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6ZyFttJi9Pj6gtg9DPLGs15qvrUf2pvBuDiSTNdqKfw=;
-  b=OMmj7QBanQO0Joo5tOziK/xwUtyKVg7GUFOhm71kTo/i6RzIfNnXAthk
-   YPb23w7swWFLK2E/mtburyS/AACm1oaB2Mn/Xbp866r1Bw2YpxAbC6TXG
-   4G2X8bbRJfs39jVEvQSB+LTIriSOhZp4OYKS9ohSoiNpfEJgyw8HZOdZ8
-   AKZ/fnaMSXsA2nTs1VosLJ7BKb9MqY9DZzsxK90aOlfnU7bv8y81D9y6V
-   GLsqJtcBePQfwIf8PKE0w2ArQoNC/SONTqqpXbR0bfDVKt51LNYHxkHyv
-   QT9eu5AAPIufKF/NmWA7GIgghR44VwRFtyxKYt26uLz1TNeBCGAFGxCBr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7513058"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="7513058"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 06:26:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="778000589"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="778000589"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Jan 2024 06:26:04 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rQpon-000492-2J;
-	Fri, 19 Jan 2024 14:26:01 +0000
-Date: Fri, 19 Jan 2024 22:25:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Cercueil <paul@crapouillou.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <202401192234.0uzq25ka-lkp@intel.com>
-References: <20240117122646.41616-4-paul@crapouillou.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkxaITieULiuQzJAOUz5uTnqB310zGJRpNXSR/0HR/xo/4TsGM/MAvd2qBmXsMKE1SOPyHqbAt0kkVqdvazlqtbulDxc7lrekw3G03a7ysHLn8LSjjmSIUdJ0NYQKSIe/eppMOzd/Cl54SzqOsawYKYSQ53thj7oB43L+33DWBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q7kZGfi2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A60C433C7;
+	Fri, 19 Jan 2024 16:44:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705682650;
+	bh=rRw2O8xwrDlJ45VGXmvgJkqhcUfZQFmZYjMTGiQcFo0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q7kZGfi2i22e2F/TmsZJrGGsmi1v+fJ9bhNNWQLcIh56t/cwSl/tPVh0WD9bi/AEj
+	 Y4toGR1r5VwBuR+dCg0x42dZdoR0WTCryYhydFUp7TQvIKMuzemhX/bYaVldx/nyAL
+	 Jq2JrYHng9RIX6ivrVNikYrqbVdI/Q11/7fETP2FWoiD/1AAQ9WTeqDUOzM0yi9h5i
+	 rtsllgRARjyaNb8br7SkPkjaDfdFzf+nyMzqXAVrTJNIBVUGB9Q/PNh0A8pxneHvpD
+	 oNzkUIUn98Ovk/z75q0iJEbuZ/lvN3a4tzxcK2s8S0f8UYpm+U+76e5T7nLoP6if+O
+	 zntyEg7xT6WBg==
+Date: Fri, 19 Jan 2024 16:44:03 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	Jason-ch Chen <jason-ch.chen@mediatek.com>,
+	Johnson Wang <johnson.wang@mediatek.com>,
+	Singo Chang <singo.chang@mediatek.com>,
+	Nancy Lin <nancy.lin@mediatek.com>,
+	Shawn Sung <shawn.sung@mediatek.com>,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v3 1/3] dt-bindings: mailbox: Add mediatek,gce-props.yaml
+Message-ID: <20240119-demote-fragment-624a35367a87@spud>
+References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
+ <20240119063224.29671-2-jason-jh.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5+I8isPEC3Mumo7F"
+Content-Disposition: inline
+In-Reply-To: <20240119063224.29671-2-jason-jh.lin@mediatek.com>
+
+
+--5+I8isPEC3Mumo7F
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240117122646.41616-4-paul@crapouillou.net>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+Rob,
 
-kernel test robot noticed the following build errors:
+On Fri, Jan 19, 2024 at 02:32:22PM +0800, Jason-JH.Lin wrote:
+> Add mediatek,gce-props.yaml for common GCE properties that is used for
+> both mailbox providers and consumers. We place the common property
+> "mediatek,gce-events" in this binding currently.
+>=20
+> The property "mediatek,gce-events" is used for GCE event ID corresponding
+> to a hardware event signal sent by the hardware or a sofware driver.
+> If the mailbox providers or consumers want to manipulate the value of
+> the event ID, they need to know the specific event ID.
+>=20
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>  .../bindings/mailbox/mediatek,gce-props.yaml  | 52 +++++++++++++++++++
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus lwn/docs-next linus/master v6.7 next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Is bindings/mailbox the correct directory to put this in?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20240117-203111
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240117122646.41616-4-paul%40crapouillou.net
-patch subject: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import interface
-config: sh-randconfig-r052-20240119 (https://download.01.org/0day-ci/archive/20240119/202401192234.0uzq25ka-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401192234.0uzq25ka-lkp@intel.com/reproduce)
+>  1 file changed, 52 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mailbox/mediatek,gc=
+e-props.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,gce-props=
+=2Eyaml b/Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+> new file mode 100644
+> index 000000000000..68b519ff089f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+> @@ -0,0 +1,52 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mailbox/mediatek,gce-props.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Global Command Engine Common Propertes
+> +
+> +maintainers:
+> +  - Houlong Wei <houlong.wei@mediatek.com>
+> +
+> +description:
+> +  The Global Command Engine (GCE) is an instruction based, multi-threade=
+d,
+> +  single-core command dispatcher for MediaTek hardware. The Command Queue
+> +  (CMDQ) mailbox driver is a driver for GCE, implemented using the Linux
+> +  mailbox framework. It is used to receive messages from mailbox consume=
+rs
+> +  and configure GCE to execute the specified instruction set in the mess=
+age.
+> +  We use mediatek,gce-mailbox.yaml to define the properties for CMDQ mai=
+lbox
+> +  driver. A device driver that uses the CMDQ driver to configure its har=
+dware
+> +  registers is a mailbox consumer. The mailbox consumer can request a ma=
+ilbox
+> +  channel corresponding to a GCE hardware thread to send a message, spec=
+ifying
+> +  that the GCE thread to configure its hardware. The mailbox provider ca=
+n also
+> +  reserved a mailbox channel to configure GCE hardware register by the s=
+pcific
+> +  GCE thread. This binding defines the common GCE properties for both ma=
+ilbox
+> +  provider and consumers.
+> +
+> +properties:
+> +  mediatek,gce-events:
+> +    description:
+> +      GCE has an event table in SRAM, consisting of 1024 event IDs (0~10=
+23).
+> +      Each event ID has a boolean event value with the default value 0.
+> +      The property mediatek,gce-events is used to obtain the event IDs.
+> +      Some gce-events are hardware-bound and cannot be changed by softwa=
+re.
+> +      For instance, in MT8195, when VDO0_MUTEX is stream done, VDO_MUTEX=
+ will
+> +      send an event signal to GCE, setting the value of event ID 597 to =
+1.
+> +      Similarly, in MT8188, the value of event ID 574 will be set to 1 w=
+hen
+> +      VOD0_MUTEX is stream done.
+> +      On the other hand, some gce-events are not hardware-bound and can =
+be
+> +      changed by software. For example, in MT8188, we can set the value =
+of
+> +      event ID 855, which is not bound to any hardware, to 1 when the dr=
+iver
+> +      in the secure world completes a task. However, in MT8195, event ID=
+ 855
+> +      is already bound to VDEC_LAT1, so we need to select another event =
+ID to
+> +      achieve the same purpose. This event ID can be any ID that is not =
+bound
+> +      to any hardware and is not yet used in any software driver.
+> +      To determine if the event ID is bound to the hardware or used by a
+> +      software driver, refer to the GCE header
+> +      include/dt-bindings/gce/<chip>-gce.h of each chip.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 1024
+> +
+> +additionalProperties: true
+> --=20
+> 2.18.0
+>=20
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401192234.0uzq25ka-lkp@intel.com/
+--5+I8isPEC3Mumo7F
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All errors (new ones prefixed by >>):
+-----BEGIN PGP SIGNATURE-----
 
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_dmabuf_signal_done':
->> f_fs.c:(.text+0x254c): undefined reference to `dma_fence_begin_signalling'
->> sh4-linux-ld: f_fs.c:(.text+0x2560): undefined reference to `dma_fence_signal'
->> sh4-linux-ld: f_fs.c:(.text+0x2564): undefined reference to `dma_fence_end_signalling'
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_epfile_release':
->> f_fs.c:(.text+0x28a0): undefined reference to `dma_buf_detach'
->> sh4-linux-ld: f_fs.c:(.text+0x28a4): undefined reference to `dma_buf_put'
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_dmabuf_unmap_work':
->> f_fs.c:(.text+0x2c6c): undefined reference to `dma_buf_unmap_attachment'
->> sh4-linux-ld: f_fs.c:(.text+0x2c70): undefined reference to `dma_resv_reset_max_fences'
->> sh4-linux-ld: f_fs.c:(.text+0x2c84): undefined reference to `dma_buf_detach'
-   sh4-linux-ld: f_fs.c:(.text+0x2c88): undefined reference to `dma_buf_put'
->> sh4-linux-ld: f_fs.c:(.text+0x2c94): undefined reference to `dma_fence_release'
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_dmabuf_transfer':
->> f_fs.c:(.text+0x2e30): undefined reference to `dma_buf_get'
-   sh4-linux-ld: f_fs.c:(.text+0x2e3c): undefined reference to `dma_buf_put'
->> sh4-linux-ld: f_fs.c:(.text+0x2ef4): undefined reference to `dma_resv_test_signaled'
->> sh4-linux-ld: f_fs.c:(.text+0x2efc): undefined reference to `dma_buf_map_attachment'
->> sh4-linux-ld: f_fs.c:(.text+0x3098): undefined reference to `dma_resv_reserve_fences'
->> sh4-linux-ld: f_fs.c:(.text+0x30bc): undefined reference to `dma_fence_init'
->> sh4-linux-ld: f_fs.c:(.text+0x30c0): undefined reference to `dma_resv_add_fence'
-   sh4-linux-ld: f_fs.c:(.text+0x30c4): undefined reference to `dma_resv_reset_max_fences'
->> sh4-linux-ld: f_fs.c:(.text+0x30d4): undefined reference to `dma_fence_begin_signalling'
-   sh4-linux-ld: f_fs.c:(.text+0x30e0): undefined reference to `dma_fence_end_signalling'
-   sh4-linux-ld: f_fs.c:(.text+0x30f0): undefined reference to `dma_buf_put'
-   sh4-linux-ld: f_fs.c:(.text+0x321c): undefined reference to `dma_fence_release'
->> sh4-linux-ld: f_fs.c:(.text+0x3224): undefined reference to `dma_buf_unmap_attachment'
-   sh4-linux-ld: f_fs.c:(.text+0x3228): undefined reference to `dma_resv_reset_max_fences'
-   sh4-linux-ld: f_fs.c:(.text+0x3230): undefined reference to `dma_buf_detach'
-   sh4-linux-ld: f_fs.c:(.text+0x3234): undefined reference to `dma_buf_put'
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_epfile_ioctl':
-   f_fs.c:(.text+0x41f0): undefined reference to `dma_buf_get'
->> sh4-linux-ld: f_fs.c:(.text+0x41f4): undefined reference to `dma_buf_attach'
-   sh4-linux-ld: f_fs.c:(.text+0x4200): undefined reference to `dma_buf_detach'
->> sh4-linux-ld: f_fs.c:(.text+0x4210): undefined reference to `dma_fence_context_alloc'
-   sh4-linux-ld: f_fs.c:(.text+0x4220): undefined reference to `dma_buf_put'
-   sh4-linux-ld: f_fs.c:(.text+0x43b0): undefined reference to `dma_buf_detach'
-   sh4-linux-ld: f_fs.c:(.text+0x43b4): undefined reference to `dma_buf_put'
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaqm0wAKCRB4tDGHoIJi
+0no0AQC56hKuU1fmtkZ0/SFR3pDacK2I9XoVgG8Zhv6/MlLMfwEAnf7AHDe29oll
+GZ8VqDNg5+hCVNwBevuCStPe9uK+WAw=
+=kej4
+-----END PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--5+I8isPEC3Mumo7F--
 
