@@ -1,139 +1,125 @@
-Return-Path: <linux-media+bounces-3900-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3903-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285FB8323CB
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 04:33:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5388324A9
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 07:33:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64685B22383
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 03:33:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF2141C22E15
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 06:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C37694A0C;
-	Fri, 19 Jan 2024 03:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F5F21E487;
+	Fri, 19 Jan 2024 06:32:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O4cdoNWc"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Lz9Sm4/7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C60B17F5
-	for <linux-media@vger.kernel.org>; Fri, 19 Jan 2024 03:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F287F6FAF;
+	Fri, 19 Jan 2024 06:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705635194; cv=none; b=GAzC2SIg/o6blugYcWKFFCzI5BQhwc+tqhthbKPqj6U/bvPrqZkgjojo4fzOq9WQjsVA+MPw0RH1UJmid9/2TZTC/LuBWon6/+wu8L2TyiCi+1HUec2BbMyqjfLZ3hGBbBT0egXa0lH+VEJZcveUhJQsgRA81SAZa5rV+dNfVSA=
+	t=1705645962; cv=none; b=jhnuKBSSXXuS8H4HyGDDBzbDdTt2SHiLAQnCTVb/jXxAZZ2ME3Cnum78krPeYu/mWHxF+ZlvL1nhh0+AOQq30uQtfzt1hubGJMiWC11anSGzRLJnJCt5MNK9U0w+NQVgh5/UdeqJiozibKVxqEsV7sj/4LFM49xlcLnxoSUa2RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705635194; c=relaxed/simple;
-	bh=C5cJj4Ka7/foS1je4bNK0Ads/1y5LmH0u13xCV7j4Zg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NtKpoSleRmSGDpvye5ijJMbTX0J3Iwpr8PqLEvDyORQHFxVnZnkeQJCLS7To0vUYCoDtMx8xyJuobgAGdXvxh/oMY/RsJ/LdvlCIUwMOkdcoKghvvmqs6eYGHKzt50GD5W4LwKaJItOcB1Fn6L7wRwsVRnStHNEFaBGUS9uvNFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=O4cdoNWc; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-6d9b41a3cb7so94393b3a.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jan 2024 19:33:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705635191; x=1706239991; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wEILTqh/RXJMBB+YR36HUlkVGyOVde6YUHPbxwHA7iM=;
-        b=O4cdoNWcXDYveQQyj/Rf1xEa2qmiMoDICIO/8pyjH2GC9RO9dNVJ0+WObkuztrmoUD
-         TZIFxgpB5KPu/kFZzBVSYY0Wl1MHjRyNjrmPlf91eFljbt3kSmdrQXbQy+MZ0SR+fJAw
-         9kET4fPXJWPS095gL8SoGagnlIGbIdcksCd04=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705635191; x=1706239991;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wEILTqh/RXJMBB+YR36HUlkVGyOVde6YUHPbxwHA7iM=;
-        b=a/vf0BTbjgQ/SjqnzN/BhpZiCVTPNta4pfe6/u1sFgCxtbd+UDOxb67C9plltmPI6K
-         9XMyBPjMExcARhENkMyFfhearRMZBQAihw2WuVSqU6TChvcdud93qunuCvCCksUBElEZ
-         6IzyZ1QYmyXpX0jlKCp5PLveR5hZUiJXP5nlkWsJU4Ko/jPa+v4FKOzor1045aB4VzGY
-         kjHkADhmU63bVCiLrcFu8c64iiGr1mdMkNRfgaDiIo2iA3DznVVIUBrC7wridUvcUkGq
-         GH4lAa1GEM5jJ7bLUnxE0IVp9AtbZ+0MzhfoBGVm6LGwIGxBlDxwyznzoTyqw2hKhzGn
-         CDFA==
-X-Gm-Message-State: AOJu0Yx3obeGIVh4qo8snMLgQRXHb2dwpiXTHzbXtIc0F2CUm7XwQCJ4
-	zYQhsbO3Z8PcHEA8KadJWwP2KXSiuaV/QaXv3dSlk/Ao+s8UYGQMOcUbm+3XUw==
-X-Google-Smtp-Source: AGHT+IEFxeuO/fG6ld/BUBm6Yi4OVDK+ZMfI8nq9gNKpyVBzwG2r6sD51jIADODKtdwQtKWpJQbJlQ==
-X-Received: by 2002:a05:6a00:db:b0:6db:936c:aabe with SMTP id e27-20020a056a0000db00b006db936caabemr1077205pfj.2.1705635190937;
-        Thu, 18 Jan 2024 19:33:10 -0800 (PST)
-Received: from localhost (60.252.199.104.bc.googleusercontent.com. [104.199.252.60])
-        by smtp.gmail.com with UTF8SMTPSA id q16-20020a056a00085000b006d9aa04574csm3990493pfk.52.2024.01.18.19.33.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 19:33:10 -0800 (PST)
-From: Tommy Chiang <ototot@chromium.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	Tommy Chiang <ototot@chromium.org>
-Subject: [PATCH] dma-buf: Add syntax highlighting to code listings in the document
-Date: Fri, 19 Jan 2024 03:31:26 +0000
-Message-ID: <20240119033126.1802711-1-ototot@chromium.org>
-X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
+	s=arc-20240116; t=1705645962; c=relaxed/simple;
+	bh=1h12XZLwGJBOLon+dKFq+CXACXkkRWGsAngO5qnp0vw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hXPyRuN+3mQxnhUBDegDOSP6BUQ4IIIDJiOeTeo9DcAx/fUHpU4+4/YRaedhG0aslto/UHGtdYx/TDT4dvK2HfvKYOGl3tGLHcO6Pf2AhY4/J1MlNTAsFZB/ia+7PNiRBgVw7nx6/XyEs96pBmzRrSaLRWPfHFOZwqzMgBfSQtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=Lz9Sm4/7; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 8305655eb69411ee9e680517dc993faa-20240119
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=z+415aCyhS8IhkpchW7BlN5Xto1S5/mHPUleRxDgbFY=;
+	b=Lz9Sm4/729cjYehzy8BCXyZWLxQ64p5jTxtTxYpSJDkPaCY/FvhgeQ1YsT9AZHSryJdX/ezdvyJyOlwv2d0jyeKfEC1LwODPj2emZPQPDXceMILl1e+bNpUx7PvwAkNjur56QkHitvHUmGmHq6a+y9cD0664cg19u+v7IXQ0W4U=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.36,REQID:e2db8d5c-b6a1-481f-8a7d-5b29a50585a8,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6e16cf4,CLOUDID:bc1c572f-1ab8-4133-9780-81938111c800,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 8305655eb69411ee9e680517dc993faa-20240119
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 102036836; Fri, 19 Jan 2024 14:32:26 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 19 Jan 2024 14:32:25 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 19 Jan 2024 14:32:25 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu
+	<chunkuang.hu@kernel.org>
+CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>, Jason-ch Chen <jason-ch.chen@mediatek.com>,
+	Johnson Wang <johnson.wang@mediatek.com>, "Jason-JH . Lin"
+	<jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
+ Lin <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jason-jh Lin
+	<jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH v3 0/3] Add mediatek,gce-props.yaml for other bindings reference
+Date: Fri, 19 Jan 2024 14:32:21 +0800
+Message-ID: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-This patch tries to improve the display of the code listing
-on The Linux Kernel documentation website for dma-buf [1] .
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
-Originally, it appears that it was attempting to escape
-the '*' character, but looks like it's not necessary (now),
-so we are seeing something like '\*' on the webite.
+The property "mediatek,gce-events" is used for GCE event ID corresponding
+to a hardware event signal sent by the hardware or a sofware driver.
+If the mailbox providers or consumers want to manipulate the value of
+the event ID, they need to know the specific event ID.
 
-This patch removes these unnecessary backslashes and adds syntax
-highlighting to improve the readability of the code listing.
+Since mediatek,gce-events property is used for both mailbox producers
+and consumers, we add a mediatek,gce-props.yaml to place the common GCE
+properties like mediatek,gce-events.
 
-[1] https://docs.kernel.org/driver-api/dma-buf.html
+Change in v3:
+1. Add more description and fix typo and grammar.
+2. Fix $ref as full path.
 
-Signed-off-by: Tommy Chiang <ototot@chromium.org>
----
- drivers/dma-buf/dma-buf.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Change in v2:
+1. Add mediatek,gce-props.yaml for other binding reference.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..e083a0ab06d7 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1282,10 +1282,12 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
-  *   vmap interface is introduced. Note that on very old 32-bit architectures
-  *   vmalloc space might be limited and result in vmap calls failing.
-  *
-- *   Interfaces::
-+ *   Interfaces:
-  *
-- *      void \*dma_buf_vmap(struct dma_buf \*dmabuf, struct iosys_map \*map)
-- *      void dma_buf_vunmap(struct dma_buf \*dmabuf, struct iosys_map \*map)
-+ *   .. code-block:: c
-+ *
-+ *     void *dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+ *     void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-  *
-  *   The vmap call can fail if there is no vmap support in the exporter, or if
-  *   it runs out of vmalloc space. Note that the dma-buf layer keeps a reference
-@@ -1342,10 +1344,11 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
-  *   enough, since adding interfaces to intercept pagefaults and allow pte
-  *   shootdowns would increase the complexity quite a bit.
-  *
-- *   Interface::
-+ *   Interface:
-+ *
-+ *   .. code-block:: c
-  *
-- *      int dma_buf_mmap(struct dma_buf \*, struct vm_area_struct \*,
-- *		       unsigned long);
-+ *     int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *, unsigned long);
-  *
-  *   If the importing subsystem simply provides a special-purpose mmap call to
-  *   set up a mapping in userspace, calling do_mmap with &dma_buf.file will
+Jason-JH.Lin (3):
+  dt-bindings: mailbox: Add mediatek,gce-props.yaml
+  dt-bindings: media: mediatek: mdp: Change mediatek,gce-events to
+    reference
+  dt-bindings: soc: mediatek: Change mediatek,gce-events to refernece
+
+ .../bindings/mailbox/mediatek,gce-props.yaml  | 52 +++++++++++++++++++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    | 11 ++--
+ .../bindings/media/mediatek,mdp3-rsz.yaml     | 12 ++---
+ .../bindings/media/mediatek,mdp3-wrot.yaml    | 12 ++---
+ .../bindings/soc/mediatek/mediatek,ccorr.yaml | 12 ++---
+ .../bindings/soc/mediatek/mediatek,mutex.yaml | 11 ++--
+ .../bindings/soc/mediatek/mediatek,wdma.yaml  | 12 ++---
+ 7 files changed, 74 insertions(+), 48 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+
 -- 
-2.43.0.381.gb435a96ce8-goog
+2.18.0
 
 
