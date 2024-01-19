@@ -1,160 +1,183 @@
-Return-Path: <linux-media+bounces-3938-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3926-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C81832B5D
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 15:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55681832A1A
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 14:11:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 160E228518E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 14:31:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07619284F11
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 13:11:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A04843AC7;
-	Fri, 19 Jan 2024 14:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D033524D7;
+	Fri, 19 Jan 2024 13:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H//34y5P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2085.outbound.protection.partner.outlook.cn [139.219.146.85])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1A136AE0;
-	Fri, 19 Jan 2024 14:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705674709; cv=fail; b=W+4QDmCHZ54f+JQJpJ9KeZ4Sv9nLNG4+lPIxtKWUVPkN+rXW180KamfDKtDiwZ8w2eqEsfPyZVACy+W8XzRaXE5tiRFJXQZ3lyDEg/H4FySyxiHudNi7s1pjReHBU4LjdgdZZICyHrytCTrHrLJCOqgZhDeO0BSFaGa5Nxr1qI4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705674709; c=relaxed/simple;
-	bh=fCYn1jo8fL71UwAZ7WXwWebXkZwsEfOg50aMXcy3BAQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=STczY2GuracFCDMJktEpYZeJlLoc9ds/HgDMs5l3ZoaUCJ0JOI4a/IgALzcnuJRK88pdc5Z0DYkPg9SF+oWOSjkhYwrsjgO2VD9nT0yGyua7YVK2ESAPLURHinsuZdVneEL0oVNVVqpQ0DNndV9zpoaCvvReCshY0PeF60a06lg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e9oGhLoDFhhLlHeL8Gx1eZULAUZcQSmQRgL6H4j0qgEvEML1rOYBU9gDcHw84gnpy1zuAIqKU4RegEeSuyWVCQrv+koT7qhatv++57yd36kj9XGCeEqXO9wC5Ck4I2nRb1qI1sCHyQ22j4tUvF0V4+cZyMByBjYCsyRxO2ghl8gGwybKbj6GtQwef5r5HJWAMo7fLKJ3biAF/Qi9calOuPGBAfVi83Ip6nvElgnrC4tvAdg4ZZlIYdGkcIqRbYREenVLeyYmOszVH++8O0VCldEZ2VoVgQgfR+Xw2TiipHdb8eTPpd8YbsUO2CgV57Zm9r53Ihb8V4KXsxeKEvXYgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fCYn1jo8fL71UwAZ7WXwWebXkZwsEfOg50aMXcy3BAQ=;
- b=H226Jp8AAgW19jQrXzpCywWQKrdR5yXyrHhC7XpVlr902XA1sUcF5wmFKDJL0MyKgofTExhFQkuYcpncekWYRSg7chVaSGRhfeUNpIro73QgfI/PSYb83qFQ0xPthTnlLYKD5YnYZxgHIp33RCLU73wvWtlbGu3mr8kTAsZGeLCbzhGw+wZ5ieTe0N+JRuyzuFX1B7n16HBEHZIxgpoFUjHgpZv+gtCtAHlB9k9PoKx1RFbEgolyrB3OyAuqglIOVGTHGR77QJLhKr+YMW0Hu4MmKoRXTX/ynOB8HVPsR09eZPGtgksKj7bgwxDYg46wl1+DArrfXQTX30g2GYRvKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0592.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:1d::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.32; Fri, 19 Jan
- 2024 12:57:22 +0000
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- ([fe80::148c:e1dd:302a:196b]) by
- SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::148c:e1dd:302a:196b%6])
- with mapi id 15.20.7135.033; Fri, 19 Jan 2024 12:57:22 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Conor Dooley <conor.dooley@microchip.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Emil
- Renner Berthing <kernel@esmil.dk>, Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Jack
- Zhu <jack.zhu@starfivetech.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>
-Subject:
- =?gb2312?B?u9i4tDogW1BBVENIIHYxIDEvMl0gZHQtYmluZGluZ3M6IG1lZGlhOiBzdGFy?=
- =?gb2312?Q?five:_Match_driver_and_yaml_property_names?=
-Thread-Topic: [PATCH v1 1/2] dt-bindings: media: starfive: Match driver and
- yaml property names
-Thread-Index: AQHaSr81E8nk9BtrhUGN5g0sexXYkLDg67gAgAAseFA=
-Date: Fri, 19 Jan 2024 12:57:22 +0000
-Message-ID:
- <SHXPR01MB0671E2150D9A2707F12E0901F270A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
-References: <20240119100639.84029-1-changhuang.liang@starfivetech.com>
- <20240119100639.84029-2-changhuang.liang@starfivetech.com>
- <20240119-despair-festival-59ab2d4d896b@wendy>
-In-Reply-To: <20240119-despair-festival-59ab2d4d896b@wendy>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SHXPR01MB0671:EE_|SHXPR01MB0592:EE_
-x-ms-office365-filtering-correlation-id: d9c0a395-4373-44c3-e2d6-08dc18ee2d50
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- BADrTlC6Y9HiwsgZSnmoXhQqIeguAakJ5yrbuJJsqj8TOy7BPPLVlMHWxWD/NwrHMHlv6QhEsObqNLKSJcbxiORT3dVH7Z0JwTqZUpS0Ujn42dcCSBage84b0km/xeIQRiVYqFO54EwbgUm3dKDuO6egVoLV9dCH7XX39FyPqPVQtNl/m7eSVW+vKJCNRSAFFJSxiEw8uUrAC818tWmgrLGhP9Z1IzahxgUw0R8T93FIH2YIqKII7tjwUHhroOHFc3tXBHhZ+M5o00BImoANUaVeWsvjGYaDRTpyZc8zjhkKtpOweRTuSYuGaT4JzQRWRkqL9AjBFY8ObAwRChwpXwLGRb6cjA0/7KbxN+aJG6XmXvxaRpsHY3Dnv0qYvcolU4/GATSCP7o3KpmujN8ueb7N8OEaGl+cDRshx5gWrYTYNQ+v+nuj5q3vyH74aEtY4SO4w9wSemYagB2BX+BcdbemdmBo+3R0hZcXVb9VrgfJXEzi/cW7EqvIqaJGkIR2fbAAAzLKDGCRq0zXIoXZ22c0DC8QBeBqIobkHydfAYkx046XLtLYtFiuc7zNa+2u
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(39830400003)(366004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(38100700002)(55016003)(66946007)(76116006)(41320700001)(71200400001)(9686003)(508600001)(41300700001)(38070700009)(66556008)(44832011)(5660300002)(86362001)(54906003)(64756008)(66476007)(66446008)(4326008)(26005)(6916009)(8936002)(7696005)(83380400001)(122000001)(7416002)(33656002)(4744005)(2906002)(40180700001)(40160700002)(224303003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?gb2312?B?aTFCZDBnT0paMnl1UTdhU2xoYVpBNUc1eWxnZFZBUEdjYllORGdBd1dBeElK?=
- =?gb2312?B?a1F1dk5qYnhOblFncUxma0w4cUpPWThuc2hoQjZWNGlLVUZ0Ykl6c0ZNYWlp?=
- =?gb2312?B?OTVCQXRCNnlVaWVFTG1uTUlwOW94c0hNVlF3Q2ZZTU1RNEhubTFQSFR1dXRX?=
- =?gb2312?B?RXAvQ093bExPWUNxYnhGeXlUYzZMQTgzakVWTUlaekloYzRVYnlKRTh5dHA3?=
- =?gb2312?B?MHBNSy84RGtxMU5JVlBoZ0NnSU5oSTFHbVVqTXMzV0xJYktQangwTEJESk9T?=
- =?gb2312?B?VFptdGk1dmxFRHFlakdYSUw3TityRkNZYU1QL3pzSnppZitMem5JSzVmTWI0?=
- =?gb2312?B?WG4rV3BjaW45dzRJaHVZNDBQVHpmWlFBZzQ2cWoydTUwNml0UlprM2NjRmh2?=
- =?gb2312?B?bi94Sk5KSUN1QStxOC9QYzUzTDA4L1JHK1J5VytyYlA1QWJxTk16eEVGWmpD?=
- =?gb2312?B?NCs4MG5UdFd4NVRBNEJIMkE1UERUVEZuZEdWL1Y2ZWVnR2JPVW9WY3VLeU8w?=
- =?gb2312?B?OUFpOXNVazJnTURML3dqTjVOMUVhTXFCQjNpUHVUa2taejluZXFucklRUGti?=
- =?gb2312?B?Y3Z3UWNnQU1LaG1PQkR4RzBsbnpLeWFaeGdsbXNzWXFPVkIwUDdlYktLcnNQ?=
- =?gb2312?B?V0hhcFRXSDM0aXFLb1E2Nk8ycGpHR0ZibzFIc01Rd3FHZlBOOXpHZHdGSzlC?=
- =?gb2312?B?N2NGMXhWTElnYUZaUDYxN1o3NzhuWDJ0L2l0alZrWnVHZG4xMWRoSU13eko2?=
- =?gb2312?B?WS80aFFRd21VcmJ1VUpyRnMyUFdPZDZLakFiaXVyUkJMbkRDdGFVR3F2WGNG?=
- =?gb2312?B?RU1YeHNoTUhFMGk2Vy9uMEtGSEdadVpycVl1dE1Da0FvWGo3Z0FremNUL3h5?=
- =?gb2312?B?VEdrcXg5YUxCaDZDK29xR3ZMYml6ODNMeUJxWnNRelNoRkpyQzhRbEthQWdH?=
- =?gb2312?B?enJzUWRMSnB4eklXdCthcWMrR1FWdnF2TGhvOVorTXBXVFpsVHJxeERwVlMy?=
- =?gb2312?B?OFJ1QmYyS0ZWVUdSZGFrWlZwMkVnSzVrdFpLMk8xcXRVQkJqbUxWOEQ5QXNU?=
- =?gb2312?B?TUVvSkRkMmF5S3YwZFhDMUhXNC9BZ2lOaFZEaTQrRlZZdHNtTWkwWFA5RGRM?=
- =?gb2312?B?ZDhVSzFIRDdFTlZQODN2S1RjZTFyZWlHTUdVdXRvemRBa1hmOGJFRHkyWVN2?=
- =?gb2312?B?bWtnakVKbE5HcVJHVUFTd0p2a1dtd2FIODRTZC9KL1N6a3FFUWpvYXFZOGxL?=
- =?gb2312?B?YThQcnUwMS9rYjhyam5yM0tpRlgvQ2swVGs3QW9QUWEwUzNmNWM3SS9ZdVpP?=
- =?gb2312?B?M3VRYXNJQzFnVjJqZkxpdUNHVGFObWxkdDROWDlBZVNKaFVPQWF4aERpajVi?=
- =?gb2312?B?aWFxWWxHbDY2WEt2TVo1MWJBVUoyWndwakZVM2Z4YWFWQXJqWTJ6K0tRVmJZ?=
- =?gb2312?B?USt2YWthWmVBdE1MMmxJS0xzb2p1N3FVcm1rQ3dmSGo4T0J1SU83K0pUa1g4?=
- =?gb2312?B?bmd0OUV4MzJuQzNxMW53Z3hoa0t3dFYvenNhaHhrdXJuV0xub0tFYW9kMG1o?=
- =?gb2312?B?cERnR3B2MWtsT0lxeHIrOTA1VVkweHhtek1JdzNjdHRCbWJDTjcvK0tla0Nt?=
- =?gb2312?B?SGZ6czFsR1ZnTGphOVFoc3o4OEZzTWNCakpzWFVqcGNaRWQzelB3cVBuMU95?=
- =?gb2312?B?QWp1bXUzeXdKT1k1enVhbTFSRm00dE92UWpUNmtsSDlrZ3FhcXhvL21jMFNC?=
- =?gb2312?B?K1ZRR0NQblNvL1JPMVU2eHlia0FiRlNmWFJUOTlXQXNEZzNHRnQzeVVMZVZr?=
- =?gb2312?B?aERFcVZkNXBNWExlQktiMStBOVRlNm50MU1xUE9scVFHZzhhZlV3cFpYaEcw?=
- =?gb2312?B?UlpJb0szbUR2UndnOGtGRytoa2NJc2NHNkV3bERCQ0c5Yi96cWdJK1FaM01M?=
- =?gb2312?B?OG5pSm8zMGRQalRVdENIUDh0T1RFVVRkK3lyL2NTbGRDaVlDNEhyS0Zob1di?=
- =?gb2312?B?Q3R4UVpiZ3d5UkRSdG9MYmxselhPbXJKMjA0RXlURm5XcnAwYlBhQkxKSkdL?=
- =?gb2312?B?Rmt6MTJNR1luTmFHcDcxRFRPejcvZ2ltTjU3NE5iVGRCQnZXdnBwamFMemNQ?=
- =?gb2312?B?cm84TXk2RklDZW1XY0xFaDYxVXVwODZxUFNhK01WT2dWZzhtRGpMS1QyMWNi?=
- =?gb2312?B?NEE9PQ==?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994F433CE9;
+	Fri, 19 Jan 2024 13:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705669869; cv=none; b=iPm6IR0Ap5OAKgGPB05UYIV0+EoUGNb/yRqicNhs+Vqhs9XapEz+ZYm0//xa73DMM0fRGBWgxaqscW/47RvUtvKxys4HzikmV5bRDc58KJEIMTutuL/qHMlgLRCzsgTt2CZYuawkCL5oaVwL1d+BRbj1MglP16k7Q6AhpOuE9s0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705669869; c=relaxed/simple;
+	bh=J/z83Xg047XGvf3ennA+Sk+uHgqEASMgOJ1cSPBD8MU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FujAyaH/+fqV5aLho+I/esJTjDgADfBqz6HAKacDO84skOGHNuF2+4h5aXtgSEBUMfF8VxSWOO3aviOtM2zQaB1Z5ANwXTQlPW1ZfbL0zQLGybm3BNENleA4ljxpdjIU7MlV1GJp66V4D9crLZ7Uy10a+BuG9cD9JZ8iSdN6SCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H//34y5P; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705669867; x=1737205867;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J/z83Xg047XGvf3ennA+Sk+uHgqEASMgOJ1cSPBD8MU=;
+  b=H//34y5PgWC1Vla0/wUmWRlQtBE7+jNgXIgoda0QbONjMUK8PixK5MbQ
+   juWwMtjL4g+Fn177LQclu66PAyoWDSskd6LWy3ehUJAv3EO9bFgbdK5km
+   FdYmfpuv/RC026xYl7NfOfby/2Upk0VUJGLlTFjZiqtXb57p7xAykvgjF
+   o31XXVJLnuzV8XcNN6zThQT3cvTPYZrxx6KGFid2No4LZ1dkFdIt04eNE
+   DiXx25jMcRVWG1+HbcN0qJwdShSlK4eHTHeUcMpMrMgFq7KQgRyB+m0AI
+   Qn1X5uV7v/5wPZda3hLhmjqzIwTfU1aKajRW52f558mwZN/LBIgAMp0Tv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7443367"
+X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
+   d="scan'208";a="7443367"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 05:11:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="785069304"
+X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
+   d="scan'208";a="785069304"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 19 Jan 2024 05:11:01 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rQoeA-00044W-37;
+	Fri, 19 Jan 2024 13:10:58 +0000
+Date: Fri, 19 Jan 2024 21:10:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Cercueil <paul@crapouillou.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <202401192043.6DTnLlKn-lkp@intel.com>
+References: <20240117122646.41616-4-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9c0a395-4373-44c3-e2d6-08dc18ee2d50
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2024 12:57:22.1037
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VFddcfI2auLcxVREpGuhz0Sd3rF20u4xn0SdxdRH9KJaby8PyTevFpMOXjq14d1B7cBd/LO7wDgrzuykWnvnzUlnMyojY5Ey4ocxKE+afQASa2djCZHyWvBB3AMQcRzh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0592
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240117122646.41616-4-paul@crapouillou.net>
 
-SGkgLCBDb25vcg0KDQo+INb3zOI6IFJlOiBbUEFUQ0ggdjEgMS8yXSBkdC1iaW5kaW5nczogbWVk
-aWE6IHN0YXJmaXZlOiBNYXRjaCBkcml2ZXIgYW5kIHlhbWwNCj4gcHJvcGVydHkgbmFtZXMNCj4g
-DQo+IE9uIEZyaSwgSmFuIDE5LCAyMDI0IGF0IDAyOjA2OjM4QU0gLTA4MDAsIENoYW5naHVhbmcg
-TGlhbmcgd3JvdGU6DQo+ID4gRHJvcCBzb21lIHVudXNlZCBwcm9wZXJ0aWVzIGZvciBjbG9ja3Ms
-IHJlc2V0cyBhbmQgaW50ZXJydXB0cyBmb3INCj4gPiBTdGFyRml2ZSBKSDcxMTAgY2FtZXJhIHN1
-YnN5c3RlbS4NCj4gDQo+IFdoYXQgZG8geW91IG1lYW4gInVudXNlZCI/DQo+IA0KPiBEbyB0aGVz
-ZSBjbG9ja3MgZXRjIGV4aXN0IGJ1dCBhcmUgbm90IHVzZWQgYnkgdGhlIGRyaXZlcj8NCj4gDQo+
-IE9yIGRvIHRoZXkgbm90IGV4aXN0IGF0IGFsbD8NCj4gDQo+IFRoZSB0d28gYXJlIHZlcnkgZGlm
-ZmVyZW50IQ0KPiANCj4gVGhhbmtzLA0KPiBDb25vci4NCj4gDQoNClRoZXNlIGNsb2NrcyBldGMg
-ZXhpc3QgYnV0IGFyZSBub3QgdXNlZCBieSB0aGUgZHJpdmVyLg0KDQoNCg==
+Hi Paul,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus lwn/docs-next linus/master v6.7 next-20240119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20240117-203111
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240117122646.41616-4-paul%40crapouillou.net
+patch subject: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import interface
+config: arm-randconfig-r112-20240119 (https://download.01.org/0day-ci/archive/20240119/202401192043.6DTnLlKn-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce: (https://download.01.org/0day-ci/archive/20240119/202401192043.6DTnLlKn-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401192043.6DTnLlKn-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: dma_buf_get
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_buf_detach
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced 2 more times
+--
+>> ld.lld: error: undefined symbol: dma_fence_init
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_resv_add_fence
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_fence_signal
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_dmabuf_io_complete) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_dmabuf_signal_done) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_fence_release
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(dma_fence_put) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_dmabuf_unmap_work) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_buf_put
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced 2 more times
+--
+>> ld.lld: error: undefined symbol: dma_buf_attach
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_fence_context_alloc
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_resv_test_signaled
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_buf_map_attachment
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+..
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
