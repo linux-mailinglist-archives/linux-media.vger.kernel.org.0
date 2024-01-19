@@ -1,107 +1,84 @@
-Return-Path: <linux-media+bounces-3941-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3942-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586D8832D74
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 17:45:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A1B832FBD
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 21:27:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0943B1F24977
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 16:45:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3417F1C23F94
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 20:27:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B05755784;
-	Fri, 19 Jan 2024 16:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uDqtfRJA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0E105674C;
+	Fri, 19 Jan 2024 20:27:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0125A54FB9;
-	Fri, 19 Jan 2024 16:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A433956748
+	for <linux-media@vger.kernel.org>; Fri, 19 Jan 2024 20:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705682729; cv=none; b=kf6WgA/enbHnoMFfteuQF3OmH8xoN6U/MD2Ih74IYUVHKvGInnsD6X/KBALCFINX/dCdJkzFOIJHOeBQMBSfPHfyKd0Vrla2viNFKivMPZ89KvmbmJfQ7KUpI5vVsYkc6v5rlrbvIcksCMf0ovTrDXf+jcOo3OzUbbThh2rVulY=
+	t=1705696037; cv=none; b=nEayRgUUqkgkHjt0jhGDjNR7NSM6WAC3U3KbqWNXIeGxaaEp3+yO3rv8Fbgn8Srvts3KbsYzfOfRkHthxwjPWcjiKua9pufU/k96qQD+bAe7vzUJM3yxKwxrNLiez9h9knMTe3MuXvalJ5+Mlu2v8K3eowrHcWMEHOIqpaqjF7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705682729; c=relaxed/simple;
-	bh=4xiZyQ+P1Xz0x+4FTwkxMPkSXfVCdC8v1T9pR7kkqfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JjVgp81Nn7cLGZ6JGPiUfHlLOO+p8l3KgOKZu43fSmp0QRDLbnnDNRYbdQC7tAXfH5IagCuxbgSPt4hv21dw5rmZvIZfQN7JvDYpOVrvSuLo4ZAajlVCIGFq6G1wAVS4IejMa7IMrUyLQtpYM9MsbMzb02VRL5Xvgz6i11FgMKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uDqtfRJA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 908A6C43390;
-	Fri, 19 Jan 2024 16:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705682728;
-	bh=4xiZyQ+P1Xz0x+4FTwkxMPkSXfVCdC8v1T9pR7kkqfY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uDqtfRJANZKxjE6iTqUTIFLbR/GJhoBYF58gPKgdTKvz+AYQ3CcZrUml5a5yERwg8
-	 w59B9f6CKwtP6q6KMv18GT6DYLzOAmUJ/YXLDSEaa7w7g800H4zQjBFXMXbi3j37le
-	 bI73E3mVPdGWQOIkYQLM6aZbrazixI+1rUSIWHtx2+Csz33O8Iyz9uWWe3NuTM0ak4
-	 lG+At1EnPMfj6qtiZY1Ye5JxxS5nsBphTDgul2FNO7rnhersaTkgX4txc1EBu+aeKc
-	 ExyX+rVSAOy6GxGBG7/0x0as+CNRGz6VZamNCtt00HON59y45/XxnZeQ+jLS3S//dC
-	 fzkWPZY2B6baQ==
-Date: Fri, 19 Jan 2024 16:45:22 +0000
-From: Conor Dooley <conor@kernel.org>
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	Jason-ch Chen <jason-ch.chen@mediatek.com>,
-	Johnson Wang <johnson.wang@mediatek.com>,
-	Singo Chang <singo.chang@mediatek.com>,
-	Nancy Lin <nancy.lin@mediatek.com>,
-	Shawn Sung <shawn.sung@mediatek.com>,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v3 3/3] dt-bindings: soc: mediatek: Change
- mediatek,gce-events to refernece
-Message-ID: <20240119-amaretto-gauging-5f745a1b1335@spud>
-References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
- <20240119063224.29671-4-jason-jh.lin@mediatek.com>
+	s=arc-20240116; t=1705696037; c=relaxed/simple;
+	bh=vw9xVas+10MMlKR4nXzIQGelEWmgGnwDwJt1bAM89b8=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=dirI+lCk+1m8dNSodTnpZd1lyX1mIrnAQQe4v5StaCvl9OIjJgsPKzcF6cIbckAI7+nznrq0ZVid2hOJmA4bmZxBCNQLL3h+UZHdn5f1NkZM3v6Yn9DhVcebOhvbUuxue0iMvmB6TtSecGkFKWClQlTInIckd0GhlCR7qEAPwm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=philippuhlig.de; spf=none smtp.mailfrom=philippuhlig.de; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=philippuhlig.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=philippuhlig.de
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4TGrkf5Dd2z9sGf
+	for <linux-media@vger.kernel.org>; Fri, 19 Jan 2024 21:27:06 +0100 (CET)
+Message-ID: <053e25e436ce45b4dc9119faabacdea00662d207.camel@philippuhlig.de>
+Subject: New known working device
+From: Philipp Uhlig <mail@philippuhlig.de>
+To: linux-media@vger.kernel.org
+Date: Fri, 19 Jan 2024 21:26:58 +0100
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1LR1bW8RJGTFo223"
-Content-Disposition: inline
-In-Reply-To: <20240119063224.29671-4-jason-jh.lin@mediatek.com>
 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
 
---1LR1bW8RJGTFo223
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Dear UVC-driver team,
 
-On Fri, Jan 19, 2024 at 02:32:24PM +0800, Jason-JH.Lin wrote:
-> Change mediatek,gce-events property to reference mediatek,gce-props.yaml
-> instead of defining itself.
->=20
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+I've bought and tested this new digital microscope successfully:
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+aa47:5111 Bresser DST-1028 Digital Microscope
 
-Cheers,
-Conor.
+Everything appears to be working. Highest quality video stream 2592x1944 @ =
+20 fps looks great.
+User and Camera Controls reported by v4l2-ctl can also be applied.
 
---1LR1bW8RJGTFo223
-Content-Type: application/pgp-signature; name="signature.asc"
+Please add it to the list of known working devices.
 
+Thank you and kind regards
+Philipp
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaqnIgAKCRB4tDGHoIJi
-0lW2AQCNJ+Q40bd9LrGWCRk8PNKTOTd7knertR3kHCdXzQusnQD+I6A52S2rMCYj
-tJEIlcYZgCfxGjoaD1PG+JlJwlzFbwY=
-=94Oq
+iQIzBAEBCAAdFiEE1J2BCDQ6gOvIL/RT3FAw/NQu8MEFAmWq2xIACgkQ3FAw/NQu
+8MEEdA/+Mw/bPELEenHwBSXaMjW8fgVNI0VYNj5/SRiB/I2nTerg5VLPADi19S6Z
+/NabCRpa2uBnhATGjE6xa29CqPJlzaL5Csr4exwrYbYtlkAh6oOmHQksaglsRcOe
+SJof3sl8Egb/LFKeso5/9juPhjxPb/pIVHt8IU7/o30YRWGMlpJceIvifRLNGXoF
+JL7Vl5sSHQumFLxkEcMn6vmpeODqDwtbddA41u3Sw4K4+M8Te0EaZV7J5z9YPUmE
+T9epxzq04hBianfjs8PXxPIShMpyEgm3df0ttIKUJ3CVOiBVbeiMuIPir13CUAJs
+SolPNpf6V+n5/HdplylPv+qEDQVNaP21JB/EnTfEcRuYxGUo0KwuHQhMDRl6HgJM
+0sZMIQIG5UKsLdtaYtUXjan4e8gzIOJe3FDfI8K5jgu3gZKEBpQbOTL1Gx6DNwSX
+BXPm8+4iG97SMKYqk5h2MDM3XXp8cMyYDISvz1T0/teykRgaMqAEb4LBJsfTPf8C
+F5Lrl4DOD6HDEKx2PBb0d48haiBD2IfQiks0IuE5TdalRvPe6wBU0EhKftgho9zR
+gMdNB18en2ctjMgloB53oWSyMpdq2j/dXjJ07NK6g269jK4sUhKfKnjKGzReCnGQ
+jkKOM/FG+8YVC/rC4864fz+dt9X7X4TRhcP4h8NHOljp7JGDkcA=3D
+=3DNgNo
 -----END PGP SIGNATURE-----
-
---1LR1bW8RJGTFo223--
 
