@@ -1,194 +1,175 @@
-Return-Path: <linux-media+bounces-3905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B4A8324F0
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 08:14:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA57832565
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 09:05:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3CDD1F239F7
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 07:14:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 00BBDB22740
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 08:05:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDDA68F6F;
-	Fri, 19 Jan 2024 07:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43660DDD4;
+	Fri, 19 Jan 2024 08:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VFRlGgYl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95296FAF;
-	Fri, 19 Jan 2024 07:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AD6D52F;
+	Fri, 19 Jan 2024 08:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705648460; cv=none; b=t1Zd0oW4Yt6xcVmeMTFe/kXv2rM0UWYZRlMqMMVv1W+Y/SimBfmvAdLvNx34ErIEzo2jf+VYZGPLvc9PaHDV7RH9alshZHdh32ntAQeDyI428N31fEbeX5YQxW70EUjAKXp9Q8JOyRMifR6AJfCbPMIitKB2lyivzqm+ozmKsZw=
+	t=1705651519; cv=none; b=ss+VKeRz3NbDGxv9AnMVQjUeuZvwAiQtZ+ir/PrVI5MkErm9NdPez3Y+s4LxmFzcAmW4oGV+5W7GExHMBNz0F9XegYB3nVsnwYitR0WqZ5ATG4BK75n7MWceBsA2Y2ZtYVTz40LQdjpPxfwJnoq12sOZ0/T7AOx7WoF1/n83WYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705648460; c=relaxed/simple;
-	bh=/gxn/jFgHsQXiBInw7pnc+b9451HlXJVs4xIbsm4tJQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YmdQmPEK51p3rfLmdRAAaoSUDdttVo42WTtcmQJ6Un/zqfAOOM+6ucgFb0BNKazTIKqhTvps6Wqd+kBI3y2g15EBdbqXthCuchHxpFsvLE2ONmz1ZQliTPB9573FkPe3jpkOeep9IjgoIgbX1owWq8eTeD82l7WQMmR/rvM6gTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40e9ed20ffcso1646495e9.2;
-        Thu, 18 Jan 2024 23:14:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705648457; x=1706253257;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=e+LizfPHsG6bAopC0j/zp9dPrP6kGMGuwGSFDeP/7og=;
-        b=RV/y/c47mpvnbgewabw1nZHdIIVJc1beF9i06zmdHlVQZXCIOV6i01wwX/610K93Wm
-         ULU7RynznsH1ksWvHrKjJEoWm7FJsBRd/a7AZXVVdyLupXOdJzgDMcEnkAT+lXJrmkUW
-         /xhBSu/53vkPdWRBxGheZBrWnEHDseY1jteQNGlHxZNom+SyI2ANoPsYFGNFhOv4y6B9
-         YSHKRhss8jHCNZ9XH8BSGJguRVMf9wsJEFFu85Lq19iPwOj950iNuAIJ5TS/wgif+WDH
-         DtG9inBj0DXm+FfXeijh4sIt8AK6zL5scdgCryiiKb5DQXtkJ2PmjjB085P4ss3b0DNM
-         23LQ==
-X-Gm-Message-State: AOJu0YyVQlWn2unFYBsjVZv9gGtY0ZshqPjgMSdb5P3Bg1gnvV+W6XaY
-	yvVxl9PtDrvxNwpfQty5RmJ+5Xhv7Gj4Al3GGIp+N8yPjqsii4mY
-X-Google-Smtp-Source: AGHT+IES8Kj3wvqTHYHlen8zHCbUM9Zer9QbNEQo0wjeHqrdaNh08XXHRq1MtMu1cULMya4AMiSDJA==
-X-Received: by 2002:a05:600c:5d5:b0:40e:6b7f:5ca9 with SMTP id p21-20020a05600c05d500b0040e6b7f5ca9mr1439501wmd.80.1705648456979;
-        Thu, 18 Jan 2024 23:14:16 -0800 (PST)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05600c3b9200b0040e4ca7fcb4sm28048633wms.37.2024.01.18.23.14.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 23:14:15 -0800 (PST)
-Message-ID: <650bdb23-0875-4e19-9e3e-82337da6da00@kernel.org>
-Date: Fri, 19 Jan 2024 08:14:14 +0100
+	s=arc-20240116; t=1705651519; c=relaxed/simple;
+	bh=tsu8ZrA+mhQxtPhDjQhrjJVhT9lSU2UUtueABH1K/fI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=jf6V6HTYl4IHRUKovi8KyQ5F7L/hfUK4fTpOANGmKmQgaevRwQidCEMOpaV9JzQ3L2K+jfUHfFNI9zMjfo7sa7/g7EdBphhLjh1BBJ6GLz7fZ+Os5aeEoafbo07ykGQkbJq+PVpZf7UkTWKpOGS5Qs1ZQBHmLc/BHjrXMeItqMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VFRlGgYl; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J843As010337;
+	Fri, 19 Jan 2024 08:05:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=riE/9mEuwi4RfnjimU2vml+iAvwigG7FNmaZVyLUWHM=; b=VF
+	RlGgYlCNjK/PXNGByQ3B3CMYJyDKf1pnRarBFnz+wKEQPCmnZpBtdEXcH+1YdFRP
+	qSlnodDJg8PsxGOMGtq2ydBoF8W91AqiStT5/kNwGOAdy+nJ+4sBR+/WJ0x7KB4Z
+	YrnO9CW61zUjcLsMUfkLUzPCQ1lNikBUttrE2EuMSu4JNXx2FBGYLoDLqIyM2BSF
+	NljG61+DmrNknzl6QIVLPtELCJT3uTwX9jtP3KS366EIQ0oNcCKF2k+Ki9oByJVu
+	mmS/Uh1aSbp8KH3wEAwwWDOehWSjELuOIK1wzA/oefx03ddyVwFiBAs8/lSxDnnk
+	L4t2z6F1phMnx98VZiFA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vqn89g03m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jan 2024 08:05:13 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40J85CD5027634
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jan 2024 08:05:12 GMT
+Received: from [10.216.37.25] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 19 Jan
+ 2024 00:05:08 -0800
+Message-ID: <b3b01a1c-4946-531f-3dbe-9ba5cebbd93f@quicinc.com>
+Date: Fri, 19 Jan 2024 13:35:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH next v4 0/5] minmax: Relax type checks in min() and max().
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/2] media: venus: add new rate control type MBR for
+ encoder
 Content-Language: en-US
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: David Laight <David.Laight@aculab.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>, "Jason A. Donenfeld"
- <Jason@zx2c4.com>, linux-media <linux-media@vger.kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>
-References: <b97faef60ad24922b530241c5d7c933c@AcuMS.aculab.com>
- <18c6df0d-45ed-450c-9eda-95160a2bbb8e@gmail.com>
- <CAHk-=wjvM5KiQFpbPMPXH-DcvheNcPGj+ThNEJVm+QL6n05A8A@mail.gmail.com>
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <CAHk-=wjvM5KiQFpbPMPXH-DcvheNcPGj+ThNEJVm+QL6n05A8A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Sachin Kumar Garg
+	<quic_sachinku@quicinc.com>,
+        <hverkuil-cisco@xs4all.nl>,
+        "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        "Bjorn
+ Andersson" <andersson@kernel.org>
+CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20240118105934.137919-1-quic_sachinku@quicinc.com>
+ <20240118105934.137919-3-quic_sachinku@quicinc.com>
+ <04a364e8-534c-40a4-a031-b9f9d2304c39@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <04a364e8-534c-40a4-a031-b9f9d2304c39@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: K2X_OXuQuBajW5Kw7vThrZo76iE2Uztc
+X-Proofpoint-ORIG-GUID: K2X_OXuQuBajW5Kw7vThrZo76iE2Uztc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-19_04,2024-01-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1011
+ suspectscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
+ mlxscore=0 malwarescore=0 impostorscore=0 adultscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401190028
 
-On 08. 01. 24, 19:19, Linus Torvalds wrote:
-> On Mon, 8 Jan 2024 at 03:46, Jiri Slaby <jirislaby@gmail.com> wrote:
+On 1/18/2024 11:14 PM, Konrad Dybcio wrote:
+> 
+> 
+> On 1/18/24 11:59, Sachin Kumar Garg wrote:
+>> There is no limit on the maximum level of the bit rate with
+>> the existing VBR rate control.
+>> V4L2_MPEG_VIDEO_BITRATE_MODE_MBR rate control will limit the
+>> frame maximum bit rate range to the +/- 10% of the configured
+>> bit-rate value. Encoder will choose appropriate quantization
+>> parameter and do the smart bit allocation to set the frame
+>> maximum bitrate level.
 >>
->>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
->> real    0m45,002s
+>> Signed-off-by: Sachin Kumar Garg <quic_sachinku@quicinc.com>
+>> ---
+>>   drivers/media/platform/qcom/venus/hfi_cmds.c  | 38 +++++++++++++------
+>>   .../media/platform/qcom/venus/hfi_helper.h    |  1 +
+>>   drivers/media/platform/qcom/venus/venc.c      |  2 +
+>>   .../media/platform/qcom/venus/venc_ctrls.c    |  5 ++-
+>>   4 files changed, 33 insertions(+), 13 deletions(-)
 >>
->> $ git revert 867046cc7027703f60a46339ffde91a1970f2901
->>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
->> real    0m11,132s
->>
->> $ git revert 4ead534fba42fc4fd41163297528d2aa731cd121
->>     CPP [M] drivers/media/pci/solo6x10/solo6x10-p2m.i
->> real    0m3,711s
+>> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c
+>> b/drivers/media/platform/qcom/venus/hfi_cmds.c
+>> index 3418d2dd9371..95fc27e0dc7d 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+>> @@ -645,17 +645,33 @@ static int pkt_session_set_property_1x(struct
+>> hfi_session_set_property_pkt *pkt,
+>>       case HFI_PROPERTY_PARAM_VENC_RATE_CONTROL: {
+>>           u32 *in = pdata;
+>>   -        switch (*in) {
+>> -        case HFI_RATE_CONTROL_OFF:
+>> -        case HFI_RATE_CONTROL_CBR_CFR:
+>> -        case HFI_RATE_CONTROL_CBR_VFR:
+>> -        case HFI_RATE_CONTROL_VBR_CFR:
+>> -        case HFI_RATE_CONTROL_VBR_VFR:
+>> -        case HFI_RATE_CONTROL_CQ:
+>> -            break;
+>> -        default:
+>> -            ret = -EINVAL;
+>> -            break;
+>> +        if (hfi_ver == HFI_VERSION_4XX) {
 > 
-> Ouch. Yeah, that's unfortunate. There's a lot of nested nasty macro
-> expansion there, but that timing is excessive.
-> 
-> Sparse actually complains about that file:
-> 
->    drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: error: too long
-> token expansion
->    drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: error: too long
-> token expansion
-> 
-> and while that is a sparse limitation, it's still interesting. Having
-> that file expand to 122M is not ok.
-> 
-> In this case, I suspect the right thing to do is to simply not use
-> min()/max() in that header at all, but do something like
-> 
->    --- a/drivers/media/pci/solo6x10/solo6x10-offsets.h
->    +++ b/drivers/media/pci/solo6x10/solo6x10-offsets.h
->    @@ -56,2 +56,5 @@
-> 
->    +#define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
->    +#define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
->    +
->     #define SOLO_MP4E_EXT_ADDR(__solo) \
->    @@ -59,4 +62,4 @@
->     #define SOLO_MP4E_EXT_SIZE(__solo) \
->    -     max((..),                               \
->    -         min(((..) - \
->    +     MAX((..),                               \
->    +         MIN(((..) - \
->                   ..), 0x00ff0000))
->    @@ -67,4 +70,4 @@
->     #define SOLO_JPEG_EXT_SIZE(__solo) \
->    -     max(..,                         \
->    -         min(..)
->    +     MAX(..,                         \
->    +         MIN(..)
-> 
-> and avoid this issue.
+> So, only sdm845/sc7180 and friends support it, but the newer
+> SoCs (like 8250 don't)?
+Thats correct. Supported only in AR50 generations. Not available in 8250.
 
-So can someone pick up 20240113183334.1690740-1-aurelien@aurel32.net so 
-that we are done with this? I see neither Hans, nor Linus got to take it 
-yet.
+> 
+> [...]
+> 
+>> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
+>> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+>> @@ -387,10 +387,11 @@ int venc_ctrl_init(struct venus_inst *inst)
+>>         v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
+>>           V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
+>> -        V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
+>> +        V4L2_MPEG_VIDEO_BITRATE_MODE_MBR,
+> 
+> Is this okay, since you're claiming only v4 supports it?
+This looks okay to extend the support for new RC mode. I see an issue in
+handling this new RC for non supported SOCs. This needs to be fixed in
+hfi_cmds.c while preparing the packet. MBR for unsupported SOC should be treated
+as -ENOTSUPP instead of -EINVAL which would terminate the session.
 
-> That said, I'm sure this thing exists to a smaller degree elsewhere. I
-> wonder if we could simplify our min/max type tests.
-I assume we don't care with solo fixed? Hans pointed out ath11k too. 
-Even if there is size increase in the preproc file, I don't see much of 
-compile time increase there.
+This need to be fixed.
 
-thanks,
--- 
-js
-suse labs
-
+Regards,
+Vikash
 
