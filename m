@@ -1,161 +1,234 @@
-Return-Path: <linux-media+bounces-3945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3946-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4198331C1
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jan 2024 01:15:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBA2833260
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jan 2024 03:02:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F36E61C21684
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jan 2024 00:15:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F235E1F230AB
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jan 2024 02:02:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4DF77EA;
-	Sat, 20 Jan 2024 00:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A0CED4;
+	Sat, 20 Jan 2024 02:02:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="JA265L43"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="TPoYOfbK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2081.outbound.protection.outlook.com [40.107.104.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B15170;
-	Sat, 20 Jan 2024 00:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705709704; cv=none; b=hvbJLZQhZrZNDpP9jBhcsm/eeSEsP4Y2OuPyWuFaXBx3wUuVkiial0zC5K/NiLeZtVdYXq/6TAuUVSLFK9ZRy4l5fRuCEGHkXoEALfkXPiAkGKvXVKjz8ZhFcHudSsAJL88hUee5gAx96IROx9efyDPsutAeW8SnRKAvGWHPgjQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705709704; c=relaxed/simple;
-	bh=W7OnWjDgrb5ZNuxFpvFGDTPEYhVuCP6OSB6O3x5tm3Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ktus0gD9mvJpeDSd1KfyWUaQSRFqveZLDhWAwaVumMFphV5zjFlIbozVVv7h9TQ7YauGYeDcdt8JuZEDlpcbHWfWeDNl7R1KnCwv2ELCOhv7p6NQlSFKGVBkpW8EIuuV2BGrNor3n76yrEc9Ic4MWSNmVH8jx4Y3clCvT49Cukw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=JA265L43; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1705709694;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uTRM9d6bvlbWT4CTU/U4qeImT68CpFKTYfre+yx+3OQ=;
-	b=JA265L43X+KVrNQQpKTeItKpNrS74hBHSilZLefH+GSdoIa6uDIXf4ZrMKJYw2cM106Vp6
-	BQC7TTWrnq9Vj+5LxaM33VHNWqeReEPckoCVSemlDGNc/QfOnOhmwjrJbAGucqHWZWf0ra
-	vjxOzGBKes+Jac25P3fz9YBWxAGp9Tk=
-Message-ID: <59799a40d8cc425dc5a847a0c8e25730db4fc5c8.camel@crapouillou.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8325EA52;
+	Sat, 20 Jan 2024 02:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705716129; cv=fail; b=YP50OnfXPRQ0dzA9u05tPGOWUiJawA2HfU9bp55VYa3Cab4vHMMjsiiHCSNcPqTf1lg20I5BnyefqgU4ku5dxgX27lz3EdWcfYgtiMhV16KGYm7MKtiQpnpcqsmf81yxOyDqdMS5D6Qh/gmlwi+QF/XhVG/cygJ7z/eQNvWANRM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705716129; c=relaxed/simple;
+	bh=4MtdlQkPGatUSwpQZsRhSPi2upqtrOx8kAukNrLJ3i4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=QDLyU9SJGdekgm8uISNya+foV5i/JSDDUkqQ30D15yq2cqivundK8E+THIB1zwF3iAgnS/lERUj+LpHk9o5GrXzTIoFSJvnV359IxsSMfaTyYveUM0oIRAstAj3EWh9qkKSyS0kKEfnBy8W2LySpRlRFpNTAbG4AZ/Lu1f3mjWI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=fail (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=TPoYOfbK reason="signature verification failed"; arc=fail smtp.client-ip=40.107.104.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KFCx2bahScwm9Yf7DPxoSjvIWiEQ0x/dmw4aKkAb5gMMoqYfYkIZyn1nx0XQ1v9s+4v7T3OX9GOtE/BidlnVE/g1uc9wsAPoIHnPfr9Fx6QWc84pOfxiTU7r+ujAdGMSLjp3ykWfu2ADyCvKUUjUTfP6kOQR12UlziMAImFYqHj/iWDR/SCaFAL0AP9LIiVHMYkI9BLLVHx0wPZZBFRjtsgceyCwbpAgvSdFsWHlhxjmcg2ExbW8TDgmqf/iaStYt/SfhDFq+d2651ptkZnkv/26TVOmuMyxtM0LWjAyuCunjw0BiCdaRxgmymCLCEy/ufYM3sg0lAcWPuGZLXQFQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kj5XQXn5L+EVxBpk7yA3pTebgM8lKWJFP3W1zlZ6wrg=;
+ b=bwsfwk7jrkIQ9Pi9ClEXYDAmf75vowc1IeSLsLz/u3fY9ywyKcwCaKO2PzwWeyj2cIMzzja8Y4/N5WeCQf84ZaB4v0ZCCgyQFvssynjJcKiJfpbfcYOjaYuoUSDs89fgpHlEuVakz5BjgG1pjjbpjs+eYrQ8vzC2Oc4sk6r1zRXhqIPCtIcr4H2VcYdWeGlotz1MXvLrNdrYSfnRdPxI0aFx1wuRj9Ilof+dzGvXck3RJ8mYceEHr0tnICDFD8ZT/LOld5UKRJyx/jvWjWEt4uhhOk0stCVn7N9q+6//1KTD43rkrBpWkO5/NaoP19D1Tv3K3SHiD674KxbUrc9pnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kj5XQXn5L+EVxBpk7yA3pTebgM8lKWJFP3W1zlZ6wrg=;
+ b=TPoYOfbKa1ILDW/fCATsA5M6MB+MOTOgoKlXJITIQ2OAhRqj89DyNbrYfExnP6ANsDTK0EIW8T3YXphf+XMyiXv0AJA9ybW/Ov/0Uhur+Ha7EDO6QtwxKjUl921fyGyRa9j5tpnY8wZ3HAi8/15anVL0Aj6Eg/y7BNaQsnazSPk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DBBPR04MB7785.eurprd04.prod.outlook.com (2603:10a6:10:1e7::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Sat, 20 Jan
+ 2024 02:02:05 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::b8af:bfe5:dffd:59a9]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::b8af:bfe5:dffd:59a9%4]) with mapi id 15.20.7202.027; Sat, 20 Jan 2024
+ 02:02:04 +0000
+Date: Fri, 19 Jan 2024 21:01:57 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 Subject: Re: [PATCH v4 1/4] usb: gadget: Support already-mapped DMA SGs
-From: Paul Cercueil <paul@crapouillou.net>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
- <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan Cameron
- <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Date: Sat, 20 Jan 2024 01:14:52 +0100
-In-Reply-To: <ZaruU5BpQF8SeZZS@lizhi-Precision-Tower-5810>
+Message-ID: <Zaspld3SOwDftYhj@lizhi-Precision-Tower-5810>
 References: <20240117122646.41616-1-paul@crapouillou.net>
-	 <20240117122646.41616-2-paul@crapouillou.net>
-	 <ZaruU5BpQF8SeZZS@lizhi-Precision-Tower-5810>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20240117122646.41616-2-paul@crapouillou.net>
+ <ZaruU5BpQF8SeZZS@lizhi-Precision-Tower-5810>
+ <59799a40d8cc425dc5a847a0c8e25730db4fc5c8.camel@crapouillou.net>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <59799a40d8cc425dc5a847a0c8e25730db4fc5c8.camel@crapouillou.net>
+X-ClientProxiedBy: SJ0PR05CA0137.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::22) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DBBPR04MB7785:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d3ce63a-6d60-4a39-9333-08dc195bccbe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6rBeEKEMyZa5yc+6pKasw98E3TMJA9pt1f9ED+yHZ2m773l4ig9pNwBUQTSxHvAsX4WEqPWf/+EmvxK889sP9KOlJGOCD2sJ9LlnDmpbZCLmo/JDsEIYb9kjSQzZIbi/qy+ONtHWiso1Y09DQziua7ZpgkHHFwsNDkzVc0W3/qV4RLpjUatzRWmjAMjeZD+pVxAZn5p6EjACCbofccCe4bRy3FI2j2e0ML4Y6IJ0Z4jiVR0GFp8/h6HLT172ty6uS76dSJUfNdqK1XZXqbJjRcAnH3S2JIBhLZXLh6e+j14zEfui/vch/e8aYPu4ZBMRk3dWQN8DpgCS1PzWrp9827JLwr/VMszOZkBz0rOqZDg5be+ANjvxCfPGSYP6LoX9gyAt90awq6KHJ0RU8qxBIszgI7giTtxNkboMANlWDBwIi7JNkmVWVZlY2Q16lRnsKNVgKgASBE3gGkS2nJmN/TAis5GsBWTvWeMjDn5+/NYH853MTptObDPiM6LlGwhcV0TqsJIAH0Cqhfsj8TJ/k10pQ4GDNcG6DrCTIRe4HxPXRuc8F03zyBcBtkrf9qO05TfmEepOwmdUDr9RCI26sI7r3stl7aZoQa4uNRFxMI7T3dAsBUD2ezgKSOpu/VpA
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(366004)(136003)(396003)(346002)(39860400002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(38100700002)(6666004)(41300700001)(478600001)(6486002)(66574015)(6506007)(52116002)(83380400001)(26005)(6512007)(9686003)(86362001)(2906002)(316002)(6916009)(7416002)(38350700005)(4326008)(54906003)(8676002)(8936002)(5660300002)(66946007)(66556008)(66476007)(33716001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?7UuQ305yYTWllyjUv2dZq1I9qsFttpWiI1Zsyl4jxbMC+WQCS3h189a6Hk?=
+ =?iso-8859-1?Q?FFWdyM3CF0a5cIiap/f1/i36OeoaLEbJGVcVjpZvFcVLPyzHcD5jnfgd3N?=
+ =?iso-8859-1?Q?WRUK0icCxevnIGEmz3P3aXwGMDnx7sBLQChCNZ/mSxVJPkjxIX0Q9efq5M?=
+ =?iso-8859-1?Q?BX2tMEtBvpKle/ZD9vnUgYac+oShXdiml+1XQMg/TX68WC0nWwOrXKVFVq?=
+ =?iso-8859-1?Q?IJU1TEIiERJBND7vc66M/+NLks3wQkMA4AkA7s+bFyQIv65IaldVXPaWIJ?=
+ =?iso-8859-1?Q?sJqrzvUWyS6ChxAIZW/DiRY23zHA6LClX6aESWwwd69cRvm7kGMlwcwuqG?=
+ =?iso-8859-1?Q?4UMxi2sXB+VB24an02eKwyNgjbND/MkAnlvHup9n9In90gCnKx1IWS+pQd?=
+ =?iso-8859-1?Q?A2CwtHtwSsKWfY1Bs+uCjeCBELL8LomjYsHkCrclFEJ7InhBRkHhoIeSqe?=
+ =?iso-8859-1?Q?6+y4AuAmPVvf5JqqszskzCz3geqiBcOIzfXVNxAvE/p6G08T1fErSEz0HS?=
+ =?iso-8859-1?Q?SKTpmW2J4jpFiulYyQpM/hX3VgHUU6zYS/WKGNyKbQpWHhFvMj86fb884i?=
+ =?iso-8859-1?Q?MqHa6hNLo3Lvbc+EX4bt15fpcyI7AfqFoiwTzIC3hhyWVTTP8JAxnt+bOO?=
+ =?iso-8859-1?Q?GZtzTu9hGeo2PWX6c5KbXWyu3fehDQl6t1eRJPpBZ4R4HP6NHU8anmA2tp?=
+ =?iso-8859-1?Q?C1cWTBIrOUiLOLh6rkxLA6WvRzPuDo2jEQJWx74vdXLFbiuUJDNFfBBAN4?=
+ =?iso-8859-1?Q?tmKLQAn4D8zJfqyGYwXBuFbzb2QRHXvqr2yEcQeXKUE0gqV2q03uspJm26?=
+ =?iso-8859-1?Q?G3xcUBBF7tMeDXWsknR7MEbfmHzn4mIpzRnfXUi1jTzEnqApR/7/IwlqeT?=
+ =?iso-8859-1?Q?Yqeyqe/znOkm53aXs5QKEmcxTyYxP32sahV8InQRquubWgxIg2VnDef5ZE?=
+ =?iso-8859-1?Q?FS37FvRUfx3aTJPPorAupY/GGYSFh547v5f1g2M1Uqf+J1++CD4f6yjcyA?=
+ =?iso-8859-1?Q?egFtEH8ezELc1FDeoFY502cziJxJnTY2jAyq1Fs4WOOH9d8hgp+DdsyVPz?=
+ =?iso-8859-1?Q?5oDcx7GSfwrPvUwQHDcogK1iOumPErSizl2BFXCJKN5QUpEQEigwQ/dZ4Y?=
+ =?iso-8859-1?Q?weQpyLriOIhU5094rPlwco70S67zcCquam4XyhTq0Mw8+MxNcbDK2UjyER?=
+ =?iso-8859-1?Q?iESFwHKKg6oKd0Z8tMxY3Xg8PGjted1TzSA9dGe9U5hrJTnNJZfNPjhQRx?=
+ =?iso-8859-1?Q?Pd19iam/gRTXaeC1TVpz3aRl7jiKTv61jpbuchL2r6nUOVU6fIveEWyghN?=
+ =?iso-8859-1?Q?l1zhjbsAZ2YwPgFyYF5t1q4rslwBhBHdNtliTvYFMHuZlKySynMsWpkPiV?=
+ =?iso-8859-1?Q?D1ur0+buy4lU/08Ao0lC+9fDuQZGUGuoBzAAt3ekPR6WQXTt4Iyg/O3WaZ?=
+ =?iso-8859-1?Q?6ZUysEwYa0z10hvsIMEnAKFNrFLzgcj2415UgZKZ+XFTNTIFIIdlQFekCC?=
+ =?iso-8859-1?Q?VT9ljHEKdoiVkeE7RwaH5Z15pfjpBvKZbanGTZnUAOWD/Vj9OT9UuxHVxR?=
+ =?iso-8859-1?Q?AvWZIah1QrHZWaDBECejnfuFCht7pnZURMkXAXc3V0tu+YKJWJ7t9Jc2Xc?=
+ =?iso-8859-1?Q?mA6MFyv2bkrLLwUcWJGV5+bPKk+7KuGNgi?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d3ce63a-6d60-4a39-9333-08dc195bccbe
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2024 02:02:04.8370
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Yyt1PYDe3KXT1m0RJt1iRsYz9slJo2lt8Ug/74TwzNzZgSDQVTdZvRMvAPJ8u7gmnWUluggCGMpRoFxdiorVBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7785
 
-Hi Frank,
+On Sat, Jan 20, 2024 at 01:14:52AM +0100, Paul Cercueil wrote:
+> Hi Frank,
+> 
+> Le vendredi 19 janvier 2024 à 16:49 -0500, Frank Li a écrit :
+> > On Wed, Jan 17, 2024 at 01:26:43PM +0100, Paul Cercueil wrote:
+> > > Add a new 'sg_was_mapped' field to the struct usb_request. This
+> > > field
+> > > can be used to indicate that the scatterlist associated to the USB
+> > > transfer has already been mapped into the DMA space, and it does
+> > > not
+> > > have to be done internally.
+> > > 
+> > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > > ---
+> > >  drivers/usb/gadget/udc/core.c | 7 ++++++-
+> > >  include/linux/usb/gadget.h    | 2 ++
+> > >  2 files changed, 8 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/usb/gadget/udc/core.c
+> > > b/drivers/usb/gadget/udc/core.c
+> > > index d59f94464b87..9d4150124fdb 100644
+> > > --- a/drivers/usb/gadget/udc/core.c
+> > > +++ b/drivers/usb/gadget/udc/core.c
+> > > @@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct
+> > > device *dev,
+> > >  	if (req->length == 0)
+> > >  		return 0;
+> > >  
+> > > +	if (req->sg_was_mapped) {
+> > > +		req->num_mapped_sgs = req->num_sgs;
+> > > +		return 0;
+> > > +	}
+> > > +
+> > >  	if (req->num_sgs) {
+> > >  		int     mapped;
+> > >  
+> > > @@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
+> > >  void usb_gadget_unmap_request_by_dev(struct device *dev,
+> > >  		struct usb_request *req, int is_in)
+> > >  {
+> > > -	if (req->length == 0)
+> > > +	if (req->length == 0 || req->sg_was_mapped)
+> > >  		return;
+> > >  
+> > >  	if (req->num_mapped_sgs) {
+> > > diff --git a/include/linux/usb/gadget.h
+> > > b/include/linux/usb/gadget.h
+> > > index a771ccc038ac..c529e4e06997 100644
+> > > --- a/include/linux/usb/gadget.h
+> > > +++ b/include/linux/usb/gadget.h
+> > > @@ -52,6 +52,7 @@ struct usb_ep;
+> > >   * @short_not_ok: When reading data, makes short packets be
+> > >   *     treated as errors (queue stops advancing till cleanup).
+> > >   * @dma_mapped: Indicates if request has been mapped to DMA
+> > > (internal)
+> > > + * @sg_was_mapped: Set if the scatterlist has been mapped before
+> > > the request
+> > >   * @complete: Function called when request completes, so this
+> > > request and
+> > >   *	its buffer may be re-used.  The function will always be
+> > > called with
+> > >   *	interrupts disabled, and it must not sleep.
+> > > @@ -111,6 +112,7 @@ struct usb_request {
+> > >  	unsigned		zero:1;
+> > >  	unsigned		short_not_ok:1;
+> > >  	unsigned		dma_mapped:1;
+> > > +	unsigned		sg_was_mapped:1;
+> > 
+> > why not use dma_mapped direclty?
+> 
+> Because of the unmap case. We want to know whether we should unmap or
+> not.
 
-Le vendredi 19 janvier 2024 =C3=A0 16:49 -0500, Frank Li a =C3=A9crit=C2=A0=
-:
-> On Wed, Jan 17, 2024 at 01:26:43PM +0100, Paul Cercueil wrote:
-> > Add a new 'sg_was_mapped' field to the struct usb_request. This
-> > field
-> > can be used to indicate that the scatterlist associated to the USB
-> > transfer has already been mapped into the DMA space, and it does
-> > not
-> > have to be done internally.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > ---
-> > =C2=A0drivers/usb/gadget/udc/core.c | 7 ++++++-
-> > =C2=A0include/linux/usb/gadget.h=C2=A0=C2=A0=C2=A0 | 2 ++
-> > =C2=A02 files changed, 8 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/usb/gadget/udc/core.c
-> > b/drivers/usb/gadget/udc/core.c
-> > index d59f94464b87..9d4150124fdb 100644
-> > --- a/drivers/usb/gadget/udc/core.c
-> > +++ b/drivers/usb/gadget/udc/core.c
-> > @@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct
-> > device *dev,
-> > =C2=A0	if (req->length =3D=3D 0)
-> > =C2=A0		return 0;
-> > =C2=A0
-> > +	if (req->sg_was_mapped) {
-> > +		req->num_mapped_sgs =3D req->num_sgs;
-> > +		return 0;
-> > +	}
-> > +
-> > =C2=A0	if (req->num_sgs) {
-> > =C2=A0		int=C2=A0=C2=A0=C2=A0=C2=A0 mapped;
-> > =C2=A0
-> > @@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
-> > =C2=A0void usb_gadget_unmap_request_by_dev(struct device *dev,
-> > =C2=A0		struct usb_request *req, int is_in)
-> > =C2=A0{
-> > -	if (req->length =3D=3D 0)
-> > +	if (req->length =3D=3D 0 || req->sg_was_mapped)
-> > =C2=A0		return;
-> > =C2=A0
-> > =C2=A0	if (req->num_mapped_sgs) {
-> > diff --git a/include/linux/usb/gadget.h
-> > b/include/linux/usb/gadget.h
-> > index a771ccc038ac..c529e4e06997 100644
-> > --- a/include/linux/usb/gadget.h
-> > +++ b/include/linux/usb/gadget.h
-> > @@ -52,6 +52,7 @@ struct usb_ep;
-> > =C2=A0 * @short_not_ok: When reading data, makes short packets be
-> > =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 treated as errors (queue stops advanci=
-ng till cleanup).
-> > =C2=A0 * @dma_mapped: Indicates if request has been mapped to DMA
-> > (internal)
-> > + * @sg_was_mapped: Set if the scatterlist has been mapped before
-> > the request
-> > =C2=A0 * @complete: Function called when request completes, so this
-> > request and
-> > =C2=A0 *	its buffer may be re-used.=C2=A0 The function will always be
-> > called with
-> > =C2=A0 *	interrupts disabled, and it must not sleep.
-> > @@ -111,6 +112,7 @@ struct usb_request {
-> > =C2=A0	unsigned		zero:1;
-> > =C2=A0	unsigned		short_not_ok:1;
-> > =C2=A0	unsigned		dma_mapped:1;
-> > +	unsigned		sg_was_mapped:1;
->=20
-> why not use dma_mapped direclty?
+I see, Thanks
+Frank
 
-Because of the unmap case. We want to know whether we should unmap or
-not.
-
->=20
-> Frank
-
-Cheers,
--Paul
-
->=20
-> > =C2=A0
-> > =C2=A0	void			(*complete)(struct usb_ep *ep,
-> > =C2=A0					struct usb_request *req);
-> > --=20
-> > 2.43.0
-> >=20
-
+> 
+> > 
+> > Frank
+> 
+> Cheers,
+> -Paul
+> 
+> > 
+> > >  
+> > >  	void			(*complete)(struct usb_ep *ep,
+> > >  					struct usb_request *req);
+> > > -- 
+> > > 2.43.0
+> > > 
+> 
 
