@@ -1,144 +1,161 @@
-Return-Path: <linux-media+bounces-3944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3945-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A484C8330AB
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 23:07:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4198331C1
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jan 2024 01:15:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CD311F2276F
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jan 2024 22:07:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F36E61C21684
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jan 2024 00:15:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6475914B;
-	Fri, 19 Jan 2024 22:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4DF77EA;
+	Sat, 20 Jan 2024 00:15:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H0eg5u8Q"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="JA265L43"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F42B56475;
-	Fri, 19 Jan 2024 22:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B15170;
+	Sat, 20 Jan 2024 00:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705702012; cv=none; b=tzk3U0rANN31aUWhTaaOsX0G1P+gH9goe3Oe80zCB/cAnTdaOMTVeh5fuBYUK400cxdGO0BgvF3ZiE/qAh3B3vTfwyw7AdwOsqeZgw4RuH3We2WhigUBch8ooYmfmVmMdNYdGMf8o31CaEBIjoGtyUESr/A2iyaIH2sitvGpyXA=
+	t=1705709704; cv=none; b=hvbJLZQhZrZNDpP9jBhcsm/eeSEsP4Y2OuPyWuFaXBx3wUuVkiial0zC5K/NiLeZtVdYXq/6TAuUVSLFK9ZRy4l5fRuCEGHkXoEALfkXPiAkGKvXVKjz8ZhFcHudSsAJL88hUee5gAx96IROx9efyDPsutAeW8SnRKAvGWHPgjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705702012; c=relaxed/simple;
-	bh=bAiP8neWkuFOr1UcviXY9sGWpEscgq5SMLZxG3s9Dt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IyzRQGp+4KX2Pj6c32h+wj95+6zaxG1UOJCjiRayKBL9I6TUynaRuY0R1gFkRXr78u5z51p3zW1NXaOOlaNGICQjvTIJJGQr0y19zLuu7E36vWtk3MPLlv0lSSP4pdfGo2wogj6hWe1WAQSUWYF3els0TihSxDjuwQsZsN3YozI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H0eg5u8Q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8E49C433F1;
-	Fri, 19 Jan 2024 22:06:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705702012;
-	bh=bAiP8neWkuFOr1UcviXY9sGWpEscgq5SMLZxG3s9Dt8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H0eg5u8QwEQ6ypQgu+Ro/nkwaVoSk6fZjoWXqYEmXDBBypv3SaURpbSvuGPnkUm9o
-	 0iLO54XqFDrY5SKuQZx1PtWWdbaWIgzQTzV0z70555OEw/cl0wpl9rZN9FKfkiyBAu
-	 SnG9Ko2Xb/Ck170Mviz7ss9Pl+yNAe9Xg7Gdjqf86+CfI4wXVZ78Auk6i3XkpHvEn8
-	 o34tv8O0Sbg6s3KM1vurE0tBmVLz8HbPfZTpKnkQxTLGN+n1rFaTju4cEt2Sd0Ic8a
-	 RkPd0onKWlpH1K9oGo+Gggwbv4VFEK2eJRyldbIWTPpp09a5rhij2/rv2jp9evvYPK
-	 wyA/FwbQHedSA==
-Date: Fri, 19 Jan 2024 16:06:48 -0600
-From: Rob Herring <robh@kernel.org>
-To: Gatien Chevallier <gatien.chevallier@foss.st.com>
-Cc: olivier.moysan@foss.st.com, gregkh@linuxfoundation.org,
-	richardcochran@gmail.com, arnd@kernel.org,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-usb@vger.kernel.org, mchehab@kernel.org, peng.fan@oss.nxp.com,
-	pabeni@redhat.com, rcsekar@samsung.com,
-	alexandre.torgue@foss.st.com, fabrice.gasnier@foss.st.com,
-	linux-serial@vger.kernel.org, Oleksii_Moisieiev@epam.com,
-	linux-spi@vger.kernel.org, will@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, lars@metafoo.de,
-	conor+dt@kernel.org, linux-mmc@vger.kernel.org, kuba@kernel.org,
-	linux-media@vger.kernel.org, arnaud.pouliquen@foss.st.com,
-	andi.shyti@kernel.org, ulf.hansson@linaro.org,
-	Frank Rowand <frowand.list@gmail.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-phy@lists.infradead.org, jic23@kernel.org,
-	linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, robh+dt@kernel.org, lee@kernel.org,
-	catalin.marinas@arm.com, mkl@pengutronix.de,
-	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org,
-	dmaengine@vger.kernel.org, hugues.fruchet@foss.st.com,
-	edumazet@google.com, netdev@vger.kernel.org, vkoul@kernel.org,
-	wg@grandegger.com, linux-i2c@vger.kernel.org, davem@davemloft.net
-Subject: Re: [PATCH v9 02/13] dt-bindings: treewide: add access-controllers
- description
-Message-ID: <170570200425.1132338.1743644162144723458.robh@kernel.org>
-References: <20240105130404.301172-1-gatien.chevallier@foss.st.com>
- <20240105130404.301172-3-gatien.chevallier@foss.st.com>
+	s=arc-20240116; t=1705709704; c=relaxed/simple;
+	bh=W7OnWjDgrb5ZNuxFpvFGDTPEYhVuCP6OSB6O3x5tm3Q=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ktus0gD9mvJpeDSd1KfyWUaQSRFqveZLDhWAwaVumMFphV5zjFlIbozVVv7h9TQ7YauGYeDcdt8JuZEDlpcbHWfWeDNl7R1KnCwv2ELCOhv7p6NQlSFKGVBkpW8EIuuV2BGrNor3n76yrEc9Ic4MWSNmVH8jx4Y3clCvT49Cukw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=JA265L43; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1705709694;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=uTRM9d6bvlbWT4CTU/U4qeImT68CpFKTYfre+yx+3OQ=;
+	b=JA265L43X+KVrNQQpKTeItKpNrS74hBHSilZLefH+GSdoIa6uDIXf4ZrMKJYw2cM106Vp6
+	BQC7TTWrnq9Vj+5LxaM33VHNWqeReEPckoCVSemlDGNc/QfOnOhmwjrJbAGucqHWZWf0ra
+	vjxOzGBKes+Jac25P3fz9YBWxAGp9Tk=
+Message-ID: <59799a40d8cc425dc5a847a0c8e25730db4fc5c8.camel@crapouillou.net>
+Subject: Re: [PATCH v4 1/4] usb: gadget: Support already-mapped DMA SGs
+From: Paul Cercueil <paul@crapouillou.net>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan Cameron
+ <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Date: Sat, 20 Jan 2024 01:14:52 +0100
+In-Reply-To: <ZaruU5BpQF8SeZZS@lizhi-Precision-Tower-5810>
+References: <20240117122646.41616-1-paul@crapouillou.net>
+	 <20240117122646.41616-2-paul@crapouillou.net>
+	 <ZaruU5BpQF8SeZZS@lizhi-Precision-Tower-5810>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240105130404.301172-3-gatien.chevallier@foss.st.com>
 
+Hi Frank,
 
-On Fri, 05 Jan 2024 14:03:53 +0100, Gatien Chevallier wrote:
-> access-controllers is an optional property that allows a peripheral to
-> refer to one or more domain access controller(s).
-> 
-> Description of this property is added to all peripheral binding files of
-> the peripheral under the STM32 firewall controller. It allows an accurate
-> representation of the hardware, where various peripherals are connected
-> to a firewall bus. The firewall can then check the peripheral accesses
-> before allowing its device to probe.
-> 
-> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> ---
-> 
-> Changes in V6:
-> 	- Minor changes in commit message
-> 	- Renamed access-controller to access-controllers
-> 
-> Changes in V5:
-> 	- Discarded review tags as the content has changed
-> 	- Renamed feature-domains to access-controller
-> 
-> Changes in V4:
-> 	- Added Jonathan's tag for IIO
-> 
-> Changes in V2:
-> 	- Add missing "feature-domains" property declaration
-> 	  in bosch,m_can.yaml and st,stm32-cryp.yaml files
-> 
->  Documentation/devicetree/bindings/crypto/st,stm32-cryp.yaml   | 4 ++++
->  Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml   | 4 ++++
->  Documentation/devicetree/bindings/dma/st,stm32-dma.yaml       | 4 ++++
->  Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml    | 4 ++++
->  Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml       | 4 ++++
->  Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml   | 4 ++++
->  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml       | 4 ++++
->  Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml   | 4 ++++
->  Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml | 4 ++++
->  Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml    | 4 ++++
->  .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml        | 4 ++++
->  Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml   | 4 ++++
->  Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml    | 4 ++++
->  Documentation/devicetree/bindings/mmc/arm,pl18x.yaml          | 4 ++++
->  Documentation/devicetree/bindings/net/can/bosch,m_can.yaml    | 4 ++++
->  Documentation/devicetree/bindings/net/stm32-dwmac.yaml        | 4 ++++
->  Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml  | 4 ++++
->  .../devicetree/bindings/regulator/st,stm32-vrefbuf.yaml       | 4 ++++
->  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml       | 4 ++++
->  Documentation/devicetree/bindings/serial/st,stm32-uart.yaml   | 4 ++++
->  Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml     | 4 ++++
->  Documentation/devicetree/bindings/sound/st,stm32-sai.yaml     | 4 ++++
->  Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml | 4 ++++
->  Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml      | 4 ++++
->  Documentation/devicetree/bindings/spi/st,stm32-spi.yaml       | 4 ++++
->  Documentation/devicetree/bindings/usb/dwc2.yaml               | 4 ++++
->  26 files changed, 104 insertions(+)
-> 
+Le vendredi 19 janvier 2024 =C3=A0 16:49 -0500, Frank Li a =C3=A9crit=C2=A0=
+:
+> On Wed, Jan 17, 2024 at 01:26:43PM +0100, Paul Cercueil wrote:
+> > Add a new 'sg_was_mapped' field to the struct usb_request. This
+> > field
+> > can be used to indicate that the scatterlist associated to the USB
+> > transfer has already been mapped into the DMA space, and it does
+> > not
+> > have to be done internally.
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > ---
+> > =C2=A0drivers/usb/gadget/udc/core.c | 7 ++++++-
+> > =C2=A0include/linux/usb/gadget.h=C2=A0=C2=A0=C2=A0 | 2 ++
+> > =C2=A02 files changed, 8 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/usb/gadget/udc/core.c
+> > b/drivers/usb/gadget/udc/core.c
+> > index d59f94464b87..9d4150124fdb 100644
+> > --- a/drivers/usb/gadget/udc/core.c
+> > +++ b/drivers/usb/gadget/udc/core.c
+> > @@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct
+> > device *dev,
+> > =C2=A0	if (req->length =3D=3D 0)
+> > =C2=A0		return 0;
+> > =C2=A0
+> > +	if (req->sg_was_mapped) {
+> > +		req->num_mapped_sgs =3D req->num_sgs;
+> > +		return 0;
+> > +	}
+> > +
+> > =C2=A0	if (req->num_sgs) {
+> > =C2=A0		int=C2=A0=C2=A0=C2=A0=C2=A0 mapped;
+> > =C2=A0
+> > @@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
+> > =C2=A0void usb_gadget_unmap_request_by_dev(struct device *dev,
+> > =C2=A0		struct usb_request *req, int is_in)
+> > =C2=A0{
+> > -	if (req->length =3D=3D 0)
+> > +	if (req->length =3D=3D 0 || req->sg_was_mapped)
+> > =C2=A0		return;
+> > =C2=A0
+> > =C2=A0	if (req->num_mapped_sgs) {
+> > diff --git a/include/linux/usb/gadget.h
+> > b/include/linux/usb/gadget.h
+> > index a771ccc038ac..c529e4e06997 100644
+> > --- a/include/linux/usb/gadget.h
+> > +++ b/include/linux/usb/gadget.h
+> > @@ -52,6 +52,7 @@ struct usb_ep;
+> > =C2=A0 * @short_not_ok: When reading data, makes short packets be
+> > =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 treated as errors (queue stops advanci=
+ng till cleanup).
+> > =C2=A0 * @dma_mapped: Indicates if request has been mapped to DMA
+> > (internal)
+> > + * @sg_was_mapped: Set if the scatterlist has been mapped before
+> > the request
+> > =C2=A0 * @complete: Function called when request completes, so this
+> > request and
+> > =C2=A0 *	its buffer may be re-used.=C2=A0 The function will always be
+> > called with
+> > =C2=A0 *	interrupts disabled, and it must not sleep.
+> > @@ -111,6 +112,7 @@ struct usb_request {
+> > =C2=A0	unsigned		zero:1;
+> > =C2=A0	unsigned		short_not_ok:1;
+> > =C2=A0	unsigned		dma_mapped:1;
+> > +	unsigned		sg_was_mapped:1;
+>=20
+> why not use dma_mapped direclty?
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Because of the unmap case. We want to know whether we should unmap or
+not.
+
+>=20
+> Frank
+
+Cheers,
+-Paul
+
+>=20
+> > =C2=A0
+> > =C2=A0	void			(*complete)(struct usb_ep *ep,
+> > =C2=A0					struct usb_request *req);
+> > --=20
+> > 2.43.0
+> >=20
 
 
