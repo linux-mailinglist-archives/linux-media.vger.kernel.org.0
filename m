@@ -1,62 +1,59 @@
-Return-Path: <linux-media+bounces-4016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C190483698D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 17:04:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D548369E3
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 17:13:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00B431C23D24
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:04:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0149EB28F68
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D667C3EA96;
-	Mon, 22 Jan 2024 15:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A624F128361;
+	Mon, 22 Jan 2024 15:11:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MN+YMWRP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8zk/q2H"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5E285C73;
-	Mon, 22 Jan 2024 15:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCD41272D2;
+	Mon, 22 Jan 2024 15:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936258; cv=none; b=W8d2Oq6TeIwJbNdKUlZdlbw8zrCF1fMlA+gJKNPfCRD+WCJKmDui8msn4Y8lNsLRIPrhNwmwcIwuHIwCrpZVU6fH4/U2tAp94IFg7JWl1zkvKcq11RsMlFBKN2qAG/AJGx03N3LIrG5/Dg1jsDWnWZ1zUbbfFIXuxc1rz6CNMsI=
+	t=1705936271; cv=none; b=fsYWsJeker/g5RaXtpKZniKklQi7A+rOsMH/JqBWylXMbYQiOd3MLLNz3NBytMw1L83c6Ak9FTdRcXpaubVbyUxwDPXx5WSugdIECHkXvFCEffkIRCsm65gJ7aAxFlRZQi+rF8C0zhCITn1QEnL5ey47npWAcS2X42NvlMF4VD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936258; c=relaxed/simple;
-	bh=pf/v0wZ85xAyYjytsMGV2SWF+8mIl7pFFHxFnpB/rVg=;
+	s=arc-20240116; t=1705936271; c=relaxed/simple;
+	bh=HvUnQsY/BJNIHwcmll+7ljZ57/G0CAGySEw+sFn7oaE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b9T1jsbgVcq08220p9ob0KJ+j58JKtPGmFKE8Yb4Nfz5EO4A4smC8SYykvehoQYNDPS9mtykwMwkw9ET9EAAVlgk1kt0aE99lY8EeolZCBSpCDwFKmhhQr/haly2bB4UTd94c9BQnGJLtQZrz2JqlIywSxZuuVhFHIwQks1u6mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MN+YMWRP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AB7C433F1;
-	Mon, 22 Jan 2024 15:10:55 +0000 (UTC)
+	 MIME-Version; b=NsuVdjcQWp5fbckeCGe4H0wvb3DedcwQnbd4W/X3J9uldzs2sZe24GdvXaxYbY975K6DVtbt1yoEcFasYbOvNQkNq0Nltl2KrufnYIMHp4C7gMpX3uYn+d1fC40EZBPQl58k/xH+X+ZKLaLj3tx7o1MtVo8h6w+CD7RJfDJvOk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8zk/q2H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E15C433A6;
+	Mon, 22 Jan 2024 15:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936257;
-	bh=pf/v0wZ85xAyYjytsMGV2SWF+8mIl7pFFHxFnpB/rVg=;
+	s=k20201202; t=1705936270;
+	bh=HvUnQsY/BJNIHwcmll+7ljZ57/G0CAGySEw+sFn7oaE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MN+YMWRPTH7kVygtVMQ4zv5ei4jWzPf9kQmUx+edP24iGRqaxo3hXTRxy1XbjuEsQ
-	 /JjgrfN4p4aacFap1qGUQtDlnosj24z04/Bg7xnrQAwbT3AKoP4NtVtLpSumRVzB7h
-	 Yv1rcNCIH3DPE5mmCCsjIzPrI/hJqKUyl5J+LG6QPiecd6UhM2BIDcOxUnHJhzNumh
-	 sX3VtDGq5mJSsaOwxS89qc+0oQkc5cM3wd2KJqRzaapnvkHoKcMroh4C+j3/iJi0+X
-	 JQ9FbEnNHNZFNmlcHnDgLldXRzH8WyeivxyvQQDszCpbltGGxRm8DDtTB9FQro6fcc
-	 RklGcuO0BP48Q==
+	b=N8zk/q2Hocz7xDdrm28z3zAvCoNDsqjXryHn/X6B87BeKtu4CaQaS6La+LI2ILHlm
+	 s2Gk0GM7gMqCOdkaBzHjBcSIkdDrMncuUz1vYRAC+0RibYMCDbmt3QzGhIOJHVHr75
+	 l3Gctbp1NA5Egh3tl4WaxT8UtO83RbWnmhExwgu2sNob4M73ywcGlPpXPVwArk/gjl
+	 40r1pqjympjHsMgnld98tPFEQ5RdMCoUYvSTFe5WLHEoNTzAsYtdGDgB4rTNSSHoqy
+	 KDHA/ZYniJCjS0UwVmmRdiHEyJMSBYpBp/TvNszZNAwmSqo8DJK+lxRT/2hOru3flQ
+	 vspUJp088ke8Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Adam Ford <aford173@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc: Ming Qian <ming.qian@nxp.com>,
+	Xiaolei Wang <xiaolei.wang@windriver.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	dafna@fastmail.com,
-	heiko@sntech.de,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 26/53] media: rkisp1: Fix IRQ disable race issue
-Date: Mon, 22 Jan 2024 10:08:27 -0500
-Message-ID: <20240122150949.994249-26-sashal@kernel.org>
+	eagle.zhou@nxp.com,
+	mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 32/53] media: amphion: remove mutext lock in condition of wait_event
+Date: Mon, 22 Jan 2024 10:08:33 -0500
+Message-ID: <20240122150949.994249-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150949.994249-1-sashal@kernel.org>
 References: <20240122150949.994249-1-sashal@kernel.org>
@@ -71,97 +68,158 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.74
 Content-Transfer-Encoding: 8bit
 
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+From: Ming Qian <ming.qian@nxp.com>
 
-[ Upstream commit 870565f063a58576e8a4529f122cac4325c6b395 ]
+[ Upstream commit f9c8ddce2fe3b767582f299d03fc8fb85943568c ]
 
-In rkisp1_isp_stop() and rkisp1_csi_disable() the driver masks the
-interrupts and then apparently assumes that the interrupt handler won't
-be running, and proceeds in the stop procedure. This is not the case, as
-the interrupt handler can already be running, which would lead to the
-ISP being disabled while the interrupt handler handling a captured
-frame.
+mutext_lock should not be called in condition of wait_event, otherwise,
+when CONFIG_DEBUG_ATOMIC_SLEEP is enabled, we may meet the following
+warning:
+do not call blocking ops when !TASK_RUNNING; state=2
+WARNING: CPU: 5 PID: 741 at kernel/sched/core.c:9859
+__might_sleep+0x80/0xa4
+Hardware name: Freescale i.MX8QM MEK (DT)
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)  pc :
+__might_sleep+0x80/0xa4  lr : __might_sleep+0x80/0xa4  sp : ffffffc0123738a0
+x29: ffffffc0123738a0 x28: ffffffc009194c48 x27: ffffffc00bbc1050
+x26: ffffff8814b282f0 x25: ffffff8814b280d0 x24: ffffff8814b28080
+x23: 0000000000000001 x22: 0000000000000032 x21: ffffffc00bbc1000
+x20: 000000000000011b x19: ffffffc009324670 x18: 00000000fffffffd
+x17: 30303c5b20746120 x16: 74657320323d6574 x15: 617473203b474e49
+x14: 00058b5b8b9aa1f1 x13: ffffffc00903cda0 x12: 00000000d744fcc9
+x11: 000000000000001c x10: 00000000000009a0 x9 : ffffffc0090201f4
+x8 : ffffff8828245000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : 00000000410fd080 x4 : 0000000000000002 x3 : ffffff8815aab4c8
+x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff8828244600
+Call trace:
+ __might_sleep+0x80/0xa4
+ mutex_lock+0x2c/0x80
+ sync_session_response+0x110/0x310
+ vpu_session_send_cmd+0x18c/0x244
+ vpu_session_start+0x38/0x70
+ vdec_start_session+0x1b4/0x3e0
+ vpu_vb2_start_streaming+0xa0/0x1c4
+ vb2_start_streaming+0x74/0x160
+ vb2_core_qbuf+0x488/0x650
+ vb2_qbuf+0x9c/0x100
+ v4l2_m2m_qbuf+0x7c/0x224
+ v4l2_m2m_ioctl_qbuf+0x20/0x2c
+ v4l_qbuf+0x50/0x6c
+ __video_do_ioctl+0x174/0x3f0
+ video_usercopy+0x210/0x7cc
+ video_ioctl2+0x20/0x30
+ v4l2_ioctl+0x48/0x6c
 
-This brings up two issues: 1) the ISP could be powered off while the
-interrupt handler is still running and accessing registers, leading to
-board lockup, and 2) the interrupt handler code and the code that
-disables the streaming might do things that conflict.
+we need to refine check_is_responsed() to remove the mutext_lock, each
+cmd has a monotonically increasing id, and cmds are executed
+sequentially, so we can check the id of the last reponsed cmd, then
+determine whether a command has been responded or not.
 
-It is not clear to me if 2) causes a real issue, but 1) can be seen with
-a suitable delay (or printk in my case) in the interrupt handler,
-leading to board lockup.
-
-Link: https://lore.kernel.org/r/20231207-rkisp-irq-fix-v3-4-358a2c871a3c@ideasonboard.com
-
-Tested-by: Adam Ford <aford173@gmail.com>  #imx8mp-beacon
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+CC: Xiaolei Wang <xiaolei.wang@windriver.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../platform/rockchip/rkisp1/rkisp1-csi.c     | 14 ++++++++++++-
- .../platform/rockchip/rkisp1/rkisp1-isp.c     | 20 ++++++++++++++++---
- 2 files changed, 30 insertions(+), 4 deletions(-)
+ drivers/media/platform/amphion/vpu.h      |  3 ++-
+ drivers/media/platform/amphion/vpu_cmds.c | 28 ++++++++---------------
+ drivers/media/platform/amphion/vpu_v4l2.c |  1 +
+ 3 files changed, 12 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-index d7acc94e10f8..e862f515cc6d 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-@@ -141,8 +141,20 @@ static void rkisp1_csi_disable(struct rkisp1_csi *csi)
- 	struct rkisp1_device *rkisp1 = csi->rkisp1;
- 	u32 val;
+diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
+index deb2288d4290..4f3d23b55b6d 100644
+--- a/drivers/media/platform/amphion/vpu.h
++++ b/drivers/media/platform/amphion/vpu.h
+@@ -152,7 +152,6 @@ struct vpu_core {
+ 	struct vpu_mbox tx_type;
+ 	struct vpu_mbox tx_data;
+ 	struct vpu_mbox rx;
+-	unsigned long cmd_seq;
  
--	/* Mask and clear interrupts. */
-+	/* Mask MIPI interrupts. */
- 	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC, 0);
-+
-+	/* Flush posted writes */
-+	rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
-+
-+	/*
-+	 * Wait until the IRQ handler has ended. The IRQ handler may get called
-+	 * even after this, but it will return immediately as the MIPI
-+	 * interrupts have been masked.
-+	 */
-+	synchronize_irq(rkisp1->irqs[RKISP1_IRQ_MIPI]);
-+
-+	/* Clear MIPI interrupt status */
- 	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, ~0);
+ 	wait_queue_head_t ack_wq;
+ 	struct completion cmp;
+@@ -251,6 +250,8 @@ struct vpu_inst {
  
- 	val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL);
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 585cf3f53469..00dca284c122 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -281,11 +281,25 @@ static void rkisp1_isp_stop(struct rkisp1_isp *isp)
- 	 * ISP(mi) stop in mi frame end -> Stop ISP(mipi) ->
- 	 * Stop ISP(isp) ->wait for ISP isp off
- 	 */
--	/* stop and clear MI and ISP interrupts */
--	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IMSC, 0);
--	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, ~0);
+ 	struct list_head cmd_q;
+ 	void *pending;
++	unsigned long cmd_seq;
++	atomic_long_t last_response_cmd;
  
-+	/* Mask MI and ISP interrupts */
-+	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IMSC, 0);
- 	rkisp1_write(rkisp1, RKISP1_CIF_MI_IMSC, 0);
-+
-+	/* Flush posted writes */
-+	rkisp1_read(rkisp1, RKISP1_CIF_MI_IMSC);
-+
-+	/*
-+	 * Wait until the IRQ handler has ended. The IRQ handler may get called
-+	 * even after this, but it will return immediately as the MI and ISP
-+	 * interrupts have been masked.
-+	 */
-+	synchronize_irq(rkisp1->irqs[RKISP1_IRQ_ISP]);
-+	if (rkisp1->irqs[RKISP1_IRQ_ISP] != rkisp1->irqs[RKISP1_IRQ_MI])
-+		synchronize_irq(rkisp1->irqs[RKISP1_IRQ_MI]);
-+
-+	/* Clear MI and ISP interrupt status */
-+	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, ~0);
- 	rkisp1_write(rkisp1, RKISP1_CIF_MI_ICR, ~0);
+ 	struct vpu_inst_ops *ops;
+ 	const struct vpu_format *formats;
+diff --git a/drivers/media/platform/amphion/vpu_cmds.c b/drivers/media/platform/amphion/vpu_cmds.c
+index 235b71398d40..c68163af29dc 100644
+--- a/drivers/media/platform/amphion/vpu_cmds.c
++++ b/drivers/media/platform/amphion/vpu_cmds.c
+@@ -34,6 +34,7 @@ struct vpu_cmd_t {
+ 	struct vpu_cmd_request *request;
+ 	struct vpu_rpc_event *pkt;
+ 	unsigned long key;
++	atomic_long_t *last_response_cmd;
+ };
  
- 	/* stop ISP */
+ static struct vpu_cmd_request vpu_cmd_requests[] = {
+@@ -117,6 +118,8 @@ static void vpu_free_cmd(struct vpu_cmd_t *cmd)
+ {
+ 	if (!cmd)
+ 		return;
++	if (cmd->last_response_cmd)
++		atomic_long_set(cmd->last_response_cmd, cmd->key);
+ 	vfree(cmd->pkt);
+ 	vfree(cmd);
+ }
+@@ -174,7 +177,8 @@ static int vpu_request_cmd(struct vpu_inst *inst, u32 id, void *data,
+ 		return -ENOMEM;
+ 
+ 	mutex_lock(&core->cmd_lock);
+-	cmd->key = core->cmd_seq++;
++	cmd->key = ++inst->cmd_seq;
++	cmd->last_response_cmd = &inst->last_response_cmd;
+ 	if (key)
+ 		*key = cmd->key;
+ 	if (sync)
+@@ -248,26 +252,12 @@ void vpu_clear_request(struct vpu_inst *inst)
+ 
+ static bool check_is_responsed(struct vpu_inst *inst, unsigned long key)
+ {
+-	struct vpu_core *core = inst->core;
+-	struct vpu_cmd_t *cmd;
+-	bool flag = true;
++	unsigned long last_response = atomic_long_read(&inst->last_response_cmd);
+ 
+-	mutex_lock(&core->cmd_lock);
+-	cmd = inst->pending;
+-	if (cmd && key == cmd->key) {
+-		flag = false;
+-		goto exit;
+-	}
+-	list_for_each_entry(cmd, &inst->cmd_q, list) {
+-		if (key == cmd->key) {
+-			flag = false;
+-			break;
+-		}
+-	}
+-exit:
+-	mutex_unlock(&core->cmd_lock);
++	if (key <= last_response && (last_response - key) < (ULONG_MAX >> 1))
++		return true;
+ 
+-	return flag;
++	return false;
+ }
+ 
+ static int sync_session_response(struct vpu_inst *inst, unsigned long key, long timeout, int try)
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index e5c8e1a753cc..e7a18948c4ab 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -631,6 +631,7 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
+ 		func = &vpu->decoder;
+ 
+ 	atomic_set(&inst->ref_count, 0);
++	atomic_long_set(&inst->last_response_cmd, 0);
+ 	vpu_inst_get(inst);
+ 	inst->vpu = vpu;
+ 	inst->core = vpu_request_core(vpu, inst->type);
 -- 
 2.43.0
 
