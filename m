@@ -1,62 +1,57 @@
-Return-Path: <linux-media+bounces-3985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3986-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F7583672D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:12:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B7283674B
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:13:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 481CA28AC0D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 15:12:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58D0628D265
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 15:13:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2EAC4F881;
-	Mon, 22 Jan 2024 14:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1432050A8D;
+	Mon, 22 Jan 2024 14:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJ25wzEd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DA8PcUpM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE254F60C;
-	Mon, 22 Jan 2024 14:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F5C50A77;
+	Mon, 22 Jan 2024 14:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705935485; cv=none; b=rzexT8rs1d4Iq5sc5rw9MNOKOioOpypY2pDx8Mf7Qmf2gTI+pIne50keOYZYXRYWvsX6DJTjAf7vn09YM1bK/HyTuqX0bP+WrABknAru+Y9eGY+bnau4pLCvgo2DlzDTTVNRLw0wCVKJxMlwxtV0koaEOFG8CLC4Y5NeUu1v4E0=
+	t=1705935498; cv=none; b=CNCRyQPsu34bkvlLquWS1CeCv7g4eFqWsLypj1Wb3ZVxuzGDHVTQNT6uWvkWtSmerCQzW0Qy7FSnGZ6PusQjCYGI9mj2NaGywYN3rPE8nv9HxrO8qIQB/Tzn/JmgaBIWQerYdozg9Y3ADQcCr3FRsvx3P2WYyUf1r8xud+mGyRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705935485; c=relaxed/simple;
-	bh=4lNMdeEVMvwU2ZC+YYaASXkC7INSwaNBxa6w96wgbts=;
+	s=arc-20240116; t=1705935498; c=relaxed/simple;
+	bh=Q6sIsbe65AUAC9gyFfi7YSXgGHrOKXFTe+igPa6lJiw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MGxCE9C6084toz5CMHgA0euNUtWX76Mg1y5MEW7AYJaJRSaEJ+gN5893GWBdWJYviSWu2gMjpk2FG/4SKWeQymB4DCT9x0+H7yQtwogRJOsjo39cmC09mOMoOWkeB5AZepaYPVbNnC9TqPZ7Uv5yv6dxczlcQsyXmrI7JjHkqkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJ25wzEd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B9B0C43390;
-	Mon, 22 Jan 2024 14:58:03 +0000 (UTC)
+	 MIME-Version; b=K5urL1bGHfZ5m+okOA/LJQ2j7t+v2ceqiYgiN9bLwHby50azVsq6NPjjdw+rUcH4pC1ucGAYWllwAuTDNXgmpE1PR/gbeI8kfTWui9rj4pwJ5b4RaudvjVFMnrX6ZRebylps6k+I6r8Ze7ioF/oWu3RnPyCFXLM4x7kA8BYWv/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DA8PcUpM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 326F8C433C7;
+	Mon, 22 Jan 2024 14:58:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705935484;
-	bh=4lNMdeEVMvwU2ZC+YYaASXkC7INSwaNBxa6w96wgbts=;
+	s=k20201202; t=1705935498;
+	bh=Q6sIsbe65AUAC9gyFfi7YSXgGHrOKXFTe+igPa6lJiw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UJ25wzEd6+pkvzFCmyYkcwlz/veoFYqXMoZp4T9VjA+TrGLZ+R0TFk69jKqPsdZSA
-	 sorBJpaS52jabM/IvWWvokCsYTJg+/TgpJmkOoojrZG0ilrDhan4gi7e0d2sh2L9o0
-	 PnvrSmhjk+afOL0Pjw2bohQquDtyujWDPD2P4RYsMky6F6f8TSb5CcDzUQygWDB5HE
-	 BG3aqOaUe1BNCzfcO249XlphoQMXnsnHoB4U635WbUO52LaApu/TXEfm5CuZqlPwQ9
-	 SYG1i5R+AQV04b37Ka+/EJO8pCiwlivmr3BU7Mt4g5e/S0BkJzFIrL0OSzKNdeF/0O
-	 QwzPoBvexN08A==
+	b=DA8PcUpMzzIrILDYOJi8qunu94bKbb7sKJIH4VGPAu2NkxSF0TT0zrT9nDwvuHyco
+	 4gGNEk6Wn6D7Q9O6eM5yxEb0uAGbEN67M5SAYFV3hbEKORLl0xRLc2qHgfpJPLPV7L
+	 dX9pLVpQCZSjX+LSeurRyfIqiIpt/5itn37GhUyeL/Cz3j/+29F2eIYjrkCkMkTlVa
+	 j09oyHLNQ7zs+a26VRFB00EzNrSwBT3gSKShwootuWD52DQi62uBbm8lphWU9ay2cO
+	 NmilKNHXzHAygOMWIvGsqhXuuz7RADIrkHmpbefMYN5VkXWKMB7nim7XVf40ys/HRj
+	 Eyvv9NySfDExg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Michael Tretter <m.tretter@pengutronix.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	jacob-chen@iotwrt.com,
-	ezequiel@vanguardiasur.com.ar,
-	mchehab@kernel.org,
-	heiko@sntech.de,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.7 28/88] media: rockchip: rga: fix swizzling for RGB formats
-Date: Mon, 22 Jan 2024 09:51:01 -0500
-Message-ID: <20240122145608.990137-28-sashal@kernel.org>
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 33/88] media: uvcvideo: Fix power line control for a Chicony camera
+Date: Mon, 22 Jan 2024 09:51:06 -0500
+Message-ID: <20240122145608.990137-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -71,72 +66,45 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.1
 Content-Transfer-Encoding: 8bit
 
-From: Michael Tretter <m.tretter@pengutronix.de>
+From: Ricardo Ribalda <ribalda@chromium.org>
 
-[ Upstream commit 9e7dc39260edac180c206bb6149595a40eabae3e ]
+[ Upstream commit dba3e701917a4cce92920f8ccb9fa4d4ee5ac07e ]
 
-When using 32 bit RGB formats, the RGA on the rk3568 produces wrong
-colors as the wrong color channels are read or written.  The reason is
-that the format description for the channel swizzeling is wrong and the
-wrong bits are configured. For example, when converting ARGB32 to NV12,
-the alpha channel is used as blue channel.. This doesn't happen if the
-color format is the same on both sides.
+The device does not implement the control properly.
 
-Fix the color_swap settings of the formats to correctly handle 32 bit
-RGB formats.
+Fixes v4l2-compliance error:
 
-For RGA_COLOR_FMT_XBGR8888, the RGA_COLOR_ALPHA_SWAP bit doesn't have an
-effect. Thus, it isn't possible to handle the V4L2_PIX_FMT_XRGB32. Thus,
-it is removed from the list of supported formats.
+info: checking control 'Power Line Frequency' (0x00980918)
+fail: v4l2-test-controls.cpp(552): could not set valid menu item 3
 
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rockchip/rga/rga.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index f1c532a5802a..25f5b5eebf13 100644
---- a/drivers/media/platform/rockchip/rga/rga.c
-+++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -184,25 +184,16 @@ static int rga_setup_ctrls(struct rga_ctx *ctx)
- static struct rga_fmt formats[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_ARGB32,
--		.color_swap = RGA_COLOR_RB_SWAP,
-+		.color_swap = RGA_COLOR_ALPHA_SWAP,
- 		.hw_format = RGA_COLOR_FMT_ABGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
- 		.y_div = 1,
- 		.x_div = 1,
- 	},
--	{
--		.fourcc = V4L2_PIX_FMT_XRGB32,
--		.color_swap = RGA_COLOR_RB_SWAP,
--		.hw_format = RGA_COLOR_FMT_XBGR8888,
--		.depth = 32,
--		.uv_factor = 1,
--		.y_div = 1,
--		.x_div = 1,
--	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_ABGR32,
--		.color_swap = RGA_COLOR_ALPHA_SWAP,
-+		.color_swap = RGA_COLOR_RB_SWAP,
- 		.hw_format = RGA_COLOR_FMT_ABGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
-@@ -211,7 +202,7 @@ static struct rga_fmt formats[] = {
- 	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_XBGR32,
--		.color_swap = RGA_COLOR_ALPHA_SWAP,
-+		.color_swap = RGA_COLOR_RB_SWAP,
- 		.hw_format = RGA_COLOR_FMT_XBGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 08fcd2ffa727..4b5ea3501753 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2592,6 +2592,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
++	/* Chicony Electronics Co., Ltd Integrated Camera */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x04f2,
++	  .idProduct		= 0xb67c,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
++	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
+ 	/* Chicony EasyCamera */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
 -- 
 2.43.0
 
