@@ -1,130 +1,159 @@
-Return-Path: <linux-media+bounces-4045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9538370C5
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 19:50:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF9A8370F9
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 19:53:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CC461F2AE7C
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 18:50:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9EEE41F2E67D
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 18:53:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7D5A4652C;
-	Mon, 22 Jan 2024 18:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 723A7481D0;
+	Mon, 22 Jan 2024 18:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8fifh16"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B80646430;
-	Mon, 22 Jan 2024 18:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935E73DBAB;
+	Mon, 22 Jan 2024 18:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705947428; cv=none; b=UVJ8J22ZR7FfA8lRlkEg+LSMRucxHt7JyWO5gQQEMZB3BkuciZieRHozaVqEvpipVqhwDh44wVLK9WIVtD5zka0mzauMHX7PpukcX+UjGtQgyKK/67NbS45+WtfHYYwAAZigN/gYOltbenCeJn/PQ/4I7u3XYrpa69W/kTsEhpY=
+	t=1705947523; cv=none; b=qEZOgSEFJXjaKNxE87CRy/SkohIrSozxB91koJUj/XpLifCa9QMcALm56DkXKhwv380yANeyGj7lOSRK4sZmKP9xO0/fzJ9TiYdDt2Q+Phr+HN0Pdg4X1ivbQh5/TUvYo4MatvjREfibdBghksCD1Fh7GSsg+kxRrnRNdL5Z38A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705947428; c=relaxed/simple;
-	bh=jsvejlNfKaIARdUpmySnWtohSbLYvftZ4a6cH6XWWIc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cSttMiQlsK175nZBVIQ+u8t8W2MnmWrVQi4Ea+uheci4Zj4Om4xwJPSueC8pi652rIhMbWZtjlNj1AKM7JPEUEKCl5DQi+W/YmLT+FRiQKO/PrC5Rx8rQjGCcdU3T8T6C+VFwlaGAYq1V1aB3JULcGdyc7jRA1uOuMRwCZNVOCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bc21303a35so742252b6e.0;
-        Mon, 22 Jan 2024 10:17:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705947426; x=1706552226;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bq9M9cm+CE6WAD/PzAq+M4FYMF5cDyj5a+NJZ7ioaVI=;
-        b=BskitE3jxieHuPGqQskc4grRohl6wUHaPsaaeujqrL7xasJL0gQfffAUFHUBI+1wfo
-         S5oApeTdYo9uiClOS4ecOZlos8C4qvhw+WAX9nb+6SiRMmGgpPCfJmu3LQG0EOuQCzRv
-         NkwdlFLghuFb8FxrwWHJxG/p97Ed1ImBqhODuvnos74pFLtXvhj5siMtgMnIGCxvFq9a
-         PeDh5/uC79ibWpfW+1VeLsLsb9AuWEQzxtVHuhqYmvGOfZOl/J6nojn31sQMTGI7ol1C
-         Sdy9F9zePYvOPHP64PsYwmyVStQr+nfJq0eU34R+2gypBMRV2itCwb6s+Od+KrYcJ5kv
-         vUaQ==
-X-Gm-Message-State: AOJu0YyeqZW034nTqR+uWQJZ66diqKeYOkRlNsQFfNDkPK70X1djlqXy
-	Ln24s8IUxzxGZfffbWnfATobKR3yROLqE5fPB5K9dyDxf4Pbu1hXetnT5t0JvDTODZfAKGFnGkK
-	YDDEs15oxi68VRHp/7kyAYbChdWQ=
-X-Google-Smtp-Source: AGHT+IG7X57s+1Hb3UmgWa4B2VhnsQsEmm2qhDCXpsDoekvAtRW8AijnCpEwtrAHQizHxz0U/8KF3rieJlIr+BPH7Us=
-X-Received: by 2002:a05:6808:308f:b0:3bd:a741:a048 with SMTP id
- bl15-20020a056808308f00b003bda741a048mr9775473oib.1.1705947426060; Mon, 22
- Jan 2024 10:17:06 -0800 (PST)
+	s=arc-20240116; t=1705947523; c=relaxed/simple;
+	bh=McOauSyMQNxtPZ0g7TEpEiNFuLd+iPYfNexDMsX/FI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lvbDUZPsH/VZPN2Ia6l7KpBEVdMu4clKpDNnOLPhtVK7ErD96AHrvD0zeM0V2YbtEKNYJ+nL4byKWBd2RKU/zjTKs2c7aljVoIHBFGo6hWSGSkRA32YrysgZJ/Vrt5g3lidz61ffXph01lv+ExR3uRTpHf0bm+Q918mGcPRxn88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8fifh16; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84691C433F1;
+	Mon, 22 Jan 2024 18:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705947523;
+	bh=McOauSyMQNxtPZ0g7TEpEiNFuLd+iPYfNexDMsX/FI0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c8fifh16cqrlBPFhmdK0/1YCmVp+FCQJRM3mcc61e8B54POXfNtNHCezXLI06U+BW
+	 2HyC31K2GKN8pqxyPoe5eH43Wr1IvzJ4qYvgVKrZ28cOHRapgl4U0tO7nRd1Hg96Gu
+	 /I85mPr8fKbNlof8bDAKADfRcHtOpPxmy3YbesJ0DqFFZ2OTYAI+xKJ3khkG5PRPqb
+	 IkZ7Lha5tDCBsHZjVT1Pc0QMwPbNJ0JMPGxW7jUMjEknv7bvXLCARAShkNA8Yp5eXw
+	 Jxu0Ft8Uip4jzu6W9VwfTzuvxciZJpio1DrdN7XFmAH69ub0PysqfBMv84es2fWtex
+	 o4y4YVecDwVTQ==
+Date: Mon, 22 Jan 2024 18:18:22 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>,
+	Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+	Rayyan Ansari <rayyan@ansari.sh>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Sergey Kozlov <serjk@netup.ru>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Rob Herring <robh@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+	Michal Simek <michal.simek@amd.com>,
+	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+	linux-mtd@lists.infradead.org,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	Ronald Wahl <ronald.wahl@raritan.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, Max Filippov <jcmvbkbc@gmail.com>,
+	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-arm-msm@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-integrity@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
+	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-ID: <e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240122114121.56752-2-sakari.ailus@linux.intel.com> <20240122181205.GA275751@bhelgaas>
-In-Reply-To: <20240122181205.GA275751@bhelgaas>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 22 Jan 2024 19:16:54 +0100
-Message-ID: <CAJZ5v0gUpo6Shz2kQzie4XE23=fiPvD0=2yhjGptw8QbCq2SAg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active() usage
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-pm@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>, 
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, laurent.pinchart@ideasonboard.com, 
-	David Airlie <airlied@gmail.com>, Paul Elder <paul.elder@ideasonboard.com>, 
-	linux-media@vger.kernel.org, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	Mark Brown <broonie@kernel.org>, Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, intel-xe@lists.freedesktop.org, 
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-sound@vger.kernel.org, 
-	Takashi Iwai <tiwai@suse.com>, Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="T+I3YsJdHvT4lja9"
+Content-Disposition: inline
+In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+X-Cookie: Nice guys don't finish nice.
+
+
+--T+I3YsJdHvT4lja9
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 22, 2024 at 7:12=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
-wrote:
->
-> On Mon, Jan 22, 2024 at 01:41:21PM +0200, Sakari Ailus wrote:
-> > There are two ways to opportunistically increment a device's runtime PM
-> > usage count, calling either pm_runtime_get_if_active() or
-> > pm_runtime_get_if_in_use(). The former has an argument to tell whether =
-to
-> > ignore the usage count or not, and the latter simply calls the former w=
-ith
-> > ign_usage_count set to false. The other users that want to ignore the
-> > usage_count will have to explitly set that argument to true which is a =
-bit
-> > cumbersome.
->
-> s/explitly/explicitly/
->
-> > To make this function more practical to use, remove the ign_usage_count
-> > argument from the function. The main implementation is renamed as
-> > pm_runtime_get_conditional().
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.=
-c
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
-> > Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # dr=
-ivers/accel/ivpu/
-> > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
->
-> > -EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
-> > +EXPORT_SYMBOL_GPL(pm_runtime_get_conditional);
->
-> If pm_runtime_get_conditional() is exported, shouldn't it also be
-> documented in Documentation/power/runtime_pm.rst?
->
-> But I'm dubious about exporting it because
-> __intel_runtime_pm_get_if_active() is the only caller, and you end up
-> with the same pattern there that we have before this series in the PM
-> core.  Why can't intel_runtime_pm.c be updated to use
-> pm_runtime_get_if_active() or pm_runtime_get_if_in_use() directly, and
-> make pm_runtime_get_conditional() static?
+On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=F6nig wrote:
 
-Sounds like a good suggestion to me.
+> Note that Jonathan Cameron has already applied patch 3 to his tree, it
+> didn't appear in a public tree though yet. I still included it here to
+> make the kernel build bots happy.
+
+It's also going to be needed for buildability of the end of the series.
+
+--T+I3YsJdHvT4lja9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWusW0ACgkQJNaLcl1U
+h9AR1Af8DbPI9TFuBXKEh4BM61G07z/XXFesQgMYJFn7hnO/3qPq0DB2udfdH+HR
+WrEFwWfImJcLCzV8lyZSjyQS8FeUMRbP7r99FeoYIb8amMJfpQIN7gD1IJ+OzZGL
+9PhsdsnLY3FgKjHbQCA6B6TnEDwI/0zpTfNjtElcXbWRB+V9uqBR/i8Uk02ngrKd
+MFM4BWy/tlEQvi0AQcylB9znY58FISMxd4ww1jeW0euV6Do4c1U3/9N+ivg6WNfs
+rKxD/BMTdGNcwlR3dWzHBLLYk3YAMLSi8p37kFSHwDGoHFtHCuUNPhA4RsVlbb9P
+SyEM0rudlzp/uFBuKSBT2nWslCLfjA==
+=Dr9Y
+-----END PGP SIGNATURE-----
+
+--T+I3YsJdHvT4lja9--
 
