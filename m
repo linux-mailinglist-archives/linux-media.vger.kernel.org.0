@@ -1,62 +1,57 @@
-Return-Path: <linux-media+bounces-4030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4031-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB38C836BC3
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 17:51:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C54D836AF9
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 17:37:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7EB0B2F147
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:36:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D071F1C24BB1
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA7FF3FB2C;
-	Mon, 22 Jan 2024 15:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C628056B92;
+	Mon, 22 Jan 2024 15:17:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NjIe4248"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p512BaoR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9CE1487CA;
-	Mon, 22 Jan 2024 15:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3113A14A4EA;
+	Mon, 22 Jan 2024 15:17:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936645; cv=none; b=blbNV7h7LemAte6eobhkydc2qaOEr4WcUeAQk8Wei3C/8dhrSlOiLMoxXqpd6XbxBVyQ1X7l7kISr+F7WImPPer0ZxaK7fHl2H4iLa3LJe6iSIsbNLBqLJAFjAOEyBo3TqwhlBrGn/YFyQhBcJUXKfbYnW0xukuJXg98SZ2jW5g=
+	t=1705936660; cv=none; b=HdRqNSftBvgHkcYd3yj6CLo3A3oGx9f/LuWVFYofQgwJFFihie9bqF/ctvj/cdQ/98lyXDG56f9cpfcEl8u6Kji49zbHQZr+choAFoXkbRR8PKEZbD+E6TCk8XyZ3ODAgFj8ihmins7cJ8rxDEgrCYR8gd0P4ie9Udfr7+yJZ1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936645; c=relaxed/simple;
-	bh=RHgkWSYJcXcEx2L/5M8uPuxxgZbjcV9nKsnWU2sX2aY=;
+	s=arc-20240116; t=1705936660; c=relaxed/simple;
+	bh=FWNWh8dLcOM4LpimapOwOnyzLuG2MZo3Uy6g263H8G0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dbEea91fVOSumoOS8/DkypO1oAA5EsDhqy3fG+rUXxbLQH2v/udffa0dvbKkZmKKPLbQqSeXlCGfUE1qsnnX3SQOJRNuGVTVjVPOnBpKj7eKddgMlZF1JgfoDv4d0lbC8Cv31160mdwD2dkLmRIbhROXdS5WRxUHLiEZuV7RGdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NjIe4248; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D9F0C43399;
-	Mon, 22 Jan 2024 15:17:23 +0000 (UTC)
+	 MIME-Version; b=uRgCVHqOJDYnHUvIu9/plldP6HtIITsf0V/aclefqgi3/D+/qeHFZ8ubSrzjj8fsK+vlvOtD5pjkhjCvJ9/ss56XyM1Yb5whYcsgJ4sBjUWbIrWwabkQEObSwzyZ8MPzdeqzD4ihDreX0QQB8y+zrFdplGqS2K2S69d8kAblOKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p512BaoR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 382A0C433F1;
+	Mon, 22 Jan 2024 15:17:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936644;
-	bh=RHgkWSYJcXcEx2L/5M8uPuxxgZbjcV9nKsnWU2sX2aY=;
+	s=k20201202; t=1705936660;
+	bh=FWNWh8dLcOM4LpimapOwOnyzLuG2MZo3Uy6g263H8G0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NjIe42482DgZ3flZb3z7yHa7Nsmap7ipJx7PcrhTlOy5Zpx9j+0ye0QF4eUNQNhS6
-	 Sv4Bn889j6tpYGT0xFI/B0SbZOJ1wB8bnu8ZCIyTn2PcqF4h7bsvXORkYkrt1/Ydxt
-	 HBNh4F8esShRa14SxmIoJ04tSL9EfGR7M/uMBArcNDbeY0QkJBsOETo6ANHFP0RNPZ
-	 KMV5CRXGEVEeMgggwoXS4zsuS0NQE50kUusq1ioP79VD6pjzq7jHlzKLlI6rvTMees
-	 Irs4RmRTwtenN92Gins2A8pewMQXuRgiZC6+07udDqiCUFSB/Awu7i+dXxUCHJlx3U
-	 Z12dF7OHzW8jg==
+	b=p512BaoRlkfOxdvv1JyfOKASjAr5Ns4iJ5CgGZHBVZ/N/7El7284Ti0Ff2eZCvxfv
+	 Ww90mza9b/m2heBwhGbW27a3DhhwVCQtg65pVd2yzPDQlkNsgKjVTnGIziCfMoGKDd
+	 QmDHYp+xMlMzhghFP1AAxpGMtfPvz2G8pU1AGi3XHAz72LBOax3Y0LWGlc8FXu6nCf
+	 oxoM6vNZrxjV3Hte3ZKZFanPEKZkn1+G6XbBFob1qOi3mpmhokLN2hb/O08GpAbUnM
+	 vwKZ0WQC0zVctEnD1YsS1o8DME7k60zYXpOAfbvnZMx2zY5WkA8CxDiDMyfukfHi3F
+	 DOZKHcqDLZ59A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Michael Tretter <m.tretter@pengutronix.de>,
+Cc: Su Hui <suhui@nfschina.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	jacob-chen@iotwrt.com,
-	ezequiel@vanguardiasur.com.ar,
 	mchehab@kernel.org,
-	heiko@sntech.de,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 11/24] media: rockchip: rga: fix swizzling for RGB formats
-Date: Mon, 22 Jan 2024 10:16:25 -0500
-Message-ID: <20240122151659.997085-11-sashal@kernel.org>
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 17/24] media: ddbridge: fix an error code problem in ddb_probe
+Date: Mon, 22 Jan 2024 10:16:31 -0500
+Message-ID: <20240122151659.997085-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151659.997085-1-sashal@kernel.org>
 References: <20240122151659.997085-1-sashal@kernel.org>
@@ -71,72 +66,32 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.4.267
 Content-Transfer-Encoding: 8bit
 
-From: Michael Tretter <m.tretter@pengutronix.de>
+From: Su Hui <suhui@nfschina.com>
 
-[ Upstream commit 9e7dc39260edac180c206bb6149595a40eabae3e ]
+[ Upstream commit 09b4195021be69af1e1936cca995712a6d0f2562 ]
 
-When using 32 bit RGB formats, the RGA on the rk3568 produces wrong
-colors as the wrong color channels are read or written.  The reason is
-that the format description for the channel swizzeling is wrong and the
-wrong bits are configured. For example, when converting ARGB32 to NV12,
-the alpha channel is used as blue channel.. This doesn't happen if the
-color format is the same on both sides.
+Error code is assigned to 'stat', return 'stat' rather than '-1'.
 
-Fix the color_swap settings of the formats to correctly handle 32 bit
-RGB formats.
-
-For RGA_COLOR_FMT_XBGR8888, the RGA_COLOR_ALPHA_SWAP bit doesn't have an
-effect. Thus, it isn't possible to handle the V4L2_PIX_FMT_XRGB32. Thus,
-it is removed from the list of supported formats.
-
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+Signed-off-by: Su Hui <suhui@nfschina.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rockchip/rga/rga.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ drivers/media/pci/ddbridge/ddbridge-main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index e9ff12b6b5bb..302da68075b2 100644
---- a/drivers/media/platform/rockchip/rga/rga.c
-+++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -187,25 +187,16 @@ static int rga_setup_ctrls(struct rga_ctx *ctx)
- static struct rga_fmt formats[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_ARGB32,
--		.color_swap = RGA_COLOR_RB_SWAP,
-+		.color_swap = RGA_COLOR_ALPHA_SWAP,
- 		.hw_format = RGA_COLOR_FMT_ABGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
- 		.y_div = 1,
- 		.x_div = 1,
- 	},
--	{
--		.fourcc = V4L2_PIX_FMT_XRGB32,
--		.color_swap = RGA_COLOR_RB_SWAP,
--		.hw_format = RGA_COLOR_FMT_XBGR8888,
--		.depth = 32,
--		.uv_factor = 1,
--		.y_div = 1,
--		.x_div = 1,
--	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_ABGR32,
--		.color_swap = RGA_COLOR_ALPHA_SWAP,
-+		.color_swap = RGA_COLOR_RB_SWAP,
- 		.hw_format = RGA_COLOR_FMT_ABGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
-@@ -214,7 +205,7 @@ static struct rga_fmt formats[] = {
- 	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_XBGR32,
--		.color_swap = RGA_COLOR_ALPHA_SWAP,
-+		.color_swap = RGA_COLOR_RB_SWAP,
- 		.hw_format = RGA_COLOR_FMT_XBGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
+diff --git a/drivers/media/pci/ddbridge/ddbridge-main.c b/drivers/media/pci/ddbridge/ddbridge-main.c
+index 03dc9924fa2c..bb7fb6402d6e 100644
+--- a/drivers/media/pci/ddbridge/ddbridge-main.c
++++ b/drivers/media/pci/ddbridge/ddbridge-main.c
+@@ -247,7 +247,7 @@ static int ddb_probe(struct pci_dev *pdev,
+ 	ddb_unmap(dev);
+ 	pci_set_drvdata(pdev, NULL);
+ 	pci_disable_device(pdev);
+-	return -1;
++	return stat;
+ }
+ 
+ /****************************************************************************/
 -- 
 2.43.0
 
