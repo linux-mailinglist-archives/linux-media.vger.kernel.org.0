@@ -1,148 +1,358 @@
-Return-Path: <linux-media+bounces-3979-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3980-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1384D8363F6
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 14:06:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85262836491
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 14:41:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9DC61F2410D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 13:06:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0C2B1F25166
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 13:41:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D63D3C697;
-	Mon, 22 Jan 2024 13:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCFBD3D0B3;
+	Mon, 22 Jan 2024 13:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3K8/0T6"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Z6nyTA1C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2055.outbound.protection.outlook.com [40.107.244.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01D93C468
-	for <linux-media@vger.kernel.org>; Mon, 22 Jan 2024 13:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705928787; cv=none; b=qoi6zZxt9j4IiGAK7/E0tDfpsNhwsdiINUKxGDWPcfuBLZrqFcs5RsCXp0NEiAgSinty48Z9GCEvNxM8/EHCXmaml5GMT8oMoScCAjRfukMFFZuPz/iw3lt+HXCeYq3y0+WJ7otyTMFeKeOkNhCLtLDAMXxkw/V22vCasVzG9YE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705928787; c=relaxed/simple;
-	bh=TND/ez+AUsV/ouzsu59YA6NQUOevN5IjoJjrz7n9Ub0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QROX0mNVtFTzYzkh8lo7Y9uwKmSyyfL56kHnWfD/YnDZGyZuVbAn2v1XpuCpRRq6u4FG9AraVADq5Bqee9aatw0DWSJvX3kH57kyD0ZPguVJI7Zg5Cf2iK7W7gEdsywSSf+R9HCCbT6ZiGep6jKVPRWCiQxx59dF4UlTQi1REGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3K8/0T6; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705928786; x=1737464786;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TND/ez+AUsV/ouzsu59YA6NQUOevN5IjoJjrz7n9Ub0=;
-  b=B3K8/0T6jNs48XBq936ZRaVuUQuKadbJZdxEERS/C3J5z5rSjfLTrlUM
-   y1fOYNvooj48CKWZyIxy+YNtJAo4c+oR4gCNs/brboQhDnPlZ/qPpbvTR
-   AAk+lzsrzZdBI9mq6qTd/w2t8qhLMgiLoPItQEkTQnpSrxjv/zn05caA+
-   iR6Jarcf0TunKc6UFSK4lc1khenUjiawLigUz4A7P7NCSbfTPORiH3pPS
-   cHWjKNA3lmbvHnyyc1e413k0QjncW0CNFKS3LprCDmxGtZ6ZPBxBx1fyf
-   HaglkeVG8hDLKwZLog+Z4IdoqQdZK/BUt2CPtdSXGiMIALg2Dne0o3vwy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="7951501"
-X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="7951501"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 05:06:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="928987313"
-X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="928987313"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 05:06:22 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1BD9E11FAD4;
-	Mon, 22 Jan 2024 15:06:20 +0200 (EET)
-Date: Mon, 22 Jan 2024 13:06:20 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Chen, Jason Z" <jason.z.chen@intel.com>
-Cc: linux-media@vger.kernel.org, andy.yeh@intel.com,
-	kieran.bingham@ideasonboard.com, qingwu.zhang@intel.com,
-	bingbu.cao@linux.intel.com, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2] media: ov08x40: Add Signal Integration Adjustments
- for specific project
-Message-ID: <Za5oTILGp-3sYVdq@kekkonen.localdomain>
-References: <20240122030220.3009357-1-jason.z.chen@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0D13D0A0;
+	Mon, 22 Jan 2024 13:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705930889; cv=fail; b=UH4g28Q/pqRVYugkxej8GXRWlbI3c86AwNYLqbIdWEpsIWBNWFiRXlCcW2svB64JAs6+D/i0aTCEKTuO9NoT0c3Vjr4+fuRjAoJwO1GLhSCTXVcYubjvyqNBpc2VTzEbHmggO5j5jEE2DjtbXLuOGa/P3182ZHa92/nHuBkwTBg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705930889; c=relaxed/simple;
+	bh=7UnPKYfA7kae8AZIaSzQlAXYXgZOYZLpqtd2/2bJ5CU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=FMty2JkLWzVm/UB6yYAidWDUYJ1Mg+imJhqRCfElviwHk9L/XCYgVLrXXvddB42AnOnxQM1xOmIilY9ZiiXoIGNNEm0q4b+UAtKj48ZmlAWdLgU3lPPYOdxfltyfo21EcAP0mpX+FfCuQcpBj4CqSZXyaNMkMmsPtGa+ao1Jm38=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Z6nyTA1C; arc=fail smtp.client-ip=40.107.244.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MyJurin/nm60kD6kOf9GBDpmEHH1VFbtltGOB+Hgf/repmX5QFFejdNsJoNky/KjzSAWJx9JBhznvyysgUHkYyT8xGiaCxwjPigiU7Qgkgew/9x2kHtiMhY9Dv6V4gWXopMVHdXlSJfNfEAJlLWCQ9/GhHEy3EhzFWZsWQ2Rgq8fGJSELWkN2NQaDXyhB1dz9fRh9dtgRyIFQgFMCjvBvN0l6Qiqx+R+fUeHzCWoDqlLhFRnmC/HunpS6rrhgzjjjfpXSD+X0uzFKfFgWPs/QWQ2woQpe1NtPvI9FOPjdVv9EzEU/3veeGrGEBTSQbubw01veMpx0Xs861h1Y86Lzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e2/uND+PylRqEr8qzmxLFKHDrUvlITQ5CkViw7tP1Q0=;
+ b=WLuXjFqUymwtYFA2vuXQJ9cF98jZAlsmENPfjeor4JZJNCZHkroGcTsPnl9V9esx0/037UAouiY1OCK6ue0LvAIOSTu6QqozCJzf2Z47yYTSgh3BcVuXHg16yHIOxgTCdYPzFhgEfaqywfzRfwAdR3n3Yn11PMR5huXJX7ydnBUyPC6u1zKn6ogi6kyE8jbZp5o0nWW2MqkxHzYJMSHAjF7LeQlv2XYLnGDNz6pQ4E3OXlW05TwCzHjdEGfmo7akthNHYTTY26wCuCcRkkE/+aJgHyCfUPC12g4lljik6XYejUIxF84yQKr/efwPV5+7N3UDff3YyBemunqWvzTNyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e2/uND+PylRqEr8qzmxLFKHDrUvlITQ5CkViw7tP1Q0=;
+ b=Z6nyTA1CcFTlk8lGvi0oRYWNh273RCO6YsguN43OtCH0zv4abzOGfh3645H9P/nSwE+1pktsO6Cny0noX4CPzxsUn0qfS7Ouug4bAZV9sQ7h+HLDADk6JKKa7OXwyRH7d/SOwRKPuGRYylBZcOuV36KSq9C8+WKe+Rr24AQnyMc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB7213.namprd12.prod.outlook.com (2603:10b6:303:22a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.32; Mon, 22 Jan
+ 2024 13:41:23 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7202.031; Mon, 22 Jan 2024
+ 13:41:23 +0000
+Message-ID: <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+Date: Mon, 22 Jan 2024 14:41:14 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240119141402.44262-1-paul@crapouillou.net>
+ <20240119141402.44262-2-paul@crapouillou.net>
+ <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+ <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR5P281CA0014.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f2::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240122030220.3009357-1-jason.z.chen@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB7213:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1332b9b8-ed1a-47a8-79fe-08dc1b4fd298
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	E/DFazMuZlCZO8kkNh5i26b8cm/YMhDofn1fwhnj3gml8L+xPxNk+oDwnH2DP7DlnfYvdvBRflj0z+2fYaBHfJxupybv5rZ71wAgiXVVfiFBU8ys4Opx89e1UPx178p1XH3rhvmgy8NntLaFRsYOY8OzSaWQxQT0BZXmZp4knmbbdcMJ7BmzMx6v8n8gDCOLisQKHbrXo0hNq4/J2tqyte2NlU1bkHEZ6PgEge+Yr1rGsz2wwlL08z701RpyomhdVy975uQub4fptSut/y4rfO0UUtmBuKq8tQuYMxQKhxK5vtBKTV4KY9v53GxuZoH6xPMVWcFKQuz1AsZgLRUS+brZxxaqR5Y/ch4TTdru25mFD5zIutWw7pZ/+B3wbDRAMP8CPoBrtuboqnVCMW4Bl3HeEY2fvW1Lo7X/PcbRkq5EPW9xOwWw6PBOEasDNvRzYrZKpyX0NlwmOhvb9US6a+xDYpgHT4ZQE2hLTExHbW/OEWPDp06w68vBmfVy05S8TfKQMJSvOl4OOKAlgC4TIjKg5ZMP4FuK4fOO6nSrQx/2/HWCv2vWAZaHqmuJSfie+KQ4m13USzTkASSWCzos2zBWgdgmz4uvJZiayOaSiOiEvV2sx8vdBjDlvqxlEVZR4Xj2N4zXpFgdeUM+HY8JAw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39860400002)(136003)(366004)(376002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(31686004)(2906002)(66946007)(54906003)(66556008)(66476007)(26005)(66574015)(110136005)(6666004)(8676002)(6486002)(6506007)(478600001)(4326008)(316002)(8936002)(6512007)(5660300002)(7416002)(2616005)(38100700002)(83380400001)(86362001)(31696002)(36756003)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L3AwMXcva1BUaThCNC9GTVF1Z3RhQUdOc0pUdm1qMlBNRDZ4cWFmQlFFcTA2?=
+ =?utf-8?B?aEZtY0NYazFNWHJpNSswelI3TDVEcGN2aUl3TWRBL1JIYlAzUHlGbXBFa2FU?=
+ =?utf-8?B?SVFVcngvUHNYNzVXUXV3ejZOSjNSaDBvWWRGREtqRGdrQUVacXowT2lzdUdG?=
+ =?utf-8?B?dzVjZlQvaTd4aFVSVnBZSlpkZGRkTlVtTzNDTmNSTEl6dW5DcjR5cXNBM0Rk?=
+ =?utf-8?B?ZnlwWTNkTjVzZHpjZU9jSUtuclJscXlCN0M0Y0ZwMWxwZW5EMnVQUWF6dTRK?=
+ =?utf-8?B?dnROZ1M2QkxOMzF5emV3TkRBcElMM3d5NzlmQWlYYjFaOWxZMWFrQ2hmUmxj?=
+ =?utf-8?B?YW9Pc1ViZFY3V1pJMWZrWUtJbmJob0FvNWwrVDJXaUhGbHNaUGlmZGhreVpx?=
+ =?utf-8?B?bGk5WERnejNhUTAyenlDcjh2YnRGMW5WaW1OMWN2Qzc0S0s0N3ZOSTVFQzA2?=
+ =?utf-8?B?bUxKUFdqR25vT1NJNEg0VVhFSVliU3lJdHVmbFBBQnJQcndtemN1c3hKb1RQ?=
+ =?utf-8?B?TEdTMnd0WkRWZk9RMlNack1NczdPM3Z5TlYrQzVISCtmOE1wb2RscTFGWEZ2?=
+ =?utf-8?B?TFQvWEd1VHdzVld2d3UrMWxqVHlTaEZxcng3eW9ILzAvWnJGMHY4dEtzd205?=
+ =?utf-8?B?Q2hGcyt6WVhWNDNLSWljbW5VMHlPN2ZnUXFKY3F3Sm5kbStVSnJaZnRNREUz?=
+ =?utf-8?B?ejBYQTRwYWFyYld5RTFkNWVsMDZ3TytqMHRoQmc5cjhiaTJORGM2cmpaazFF?=
+ =?utf-8?B?QkRMbTNBWkZ2ZzBHYVM1dE9sVEduK0xHKzdZUUJMNm1kMlYvODFweWRpQ1BQ?=
+ =?utf-8?B?eVJ2MGJPSCtUTEhnVHlwbXhaeVMvUlF0MnU2YTBNMlJ4bDdwWXFJR0JkbUEx?=
+ =?utf-8?B?VjB1QjlDM1dCUHhXd1lsN0pjdGwzbDlyTlI5dFFuM2V6NU9Wc0NNRmtTNnpO?=
+ =?utf-8?B?NHBDcUVOUVAycXlXZko1OVlPVThXSDRmL3pCM2w4d0lIdGJsdTlOS2NEUHBV?=
+ =?utf-8?B?TTJ3V0lGTFdVODJ5OUxFbUU4aEFXdUJmbUdBdjdXTURtaWtZMnN5TzV2UWpZ?=
+ =?utf-8?B?ek5ZeUxySkxKM255Mk5hdjlwdy9jM1doWnk4UUYyS3kxdzhTbG9yVFE3ZzRI?=
+ =?utf-8?B?ZWVTS0ZndXgwQ3dRbFZSWmdGTTRZNDMxQmQzcFpHVGl4a0xkNXp4RlZKd3M4?=
+ =?utf-8?B?ZG1zWVRBK05NUWtsY09NTVFxaHZwMFE1OEl4V2tuM1FNcGU2ZzhaR2tPbEph?=
+ =?utf-8?B?eHpEa0xQTi9SNmtDVnVVOTVXNlNLelh2SWpxeHRqZWUvamF6Z2RBYjlyTWpu?=
+ =?utf-8?B?aG5KSURhRVY2OFJtQUdNLzdqZXkybWYzUERmSFc5T09aYk1DZUNLTHNMRzJ2?=
+ =?utf-8?B?bDBwQTZ5dDQxeVZRTFhNZWI3RTUzckcza3lhekZ1RjIrTWUwZzgxQ05HZHUx?=
+ =?utf-8?B?akNoVTIvYmNkUGlNZm8vQ1gyQUpuTFgyWXUyY3M3ellDWVZobzhyd0x0TEFV?=
+ =?utf-8?B?ZjdmSnhHOTg2RnNMNGpLeHAzemRCWW42eFdmOUptdE51RTRHWVRBekFpZHlH?=
+ =?utf-8?B?ZFpHSUxOWlIxM096NWtvSXRQNkJLbTdBR3hnZlhVNTdvZGhPNzdBUVA0ZEI4?=
+ =?utf-8?B?dnByTmRwVlJ1dmtOOWR0MjdZRUJMWWtLdVFDUjI3Tk10ME5uMnphSXhvcG9D?=
+ =?utf-8?B?TnZKL09zMmhVZHJacE1VY3ZuNVJFWmxSMjJKSGhUZjN5SDdiUmJqeFhHQTdB?=
+ =?utf-8?B?Y2RORVFQVFl3djZlbGxBaDhJM21CRnBxbnZhYW9jajNFcWNTT0doTVdKcGo2?=
+ =?utf-8?B?QSsvSmRUYmg4Rm0zVVRNL3o5ekNwR1hyZHFGNHNBUXgvNUhKdWt5T1dTaEo2?=
+ =?utf-8?B?TUwycDgwRENqdElIS3lyRFJ4Yi9Wajh2TWJwZ05weU14b0d0bkR4OC8xOE9O?=
+ =?utf-8?B?MFBSYjdvcHdDQi9LQXBiMlFlMkhtVkNLc1pKb0g2Lzd1MVB0bEFFTGluN0l0?=
+ =?utf-8?B?M3VVaXFsZ2h4dGkzczJFZ0hsQ0JybklJU0dlTjh6N0hqVzZFa09xcVhYMi9q?=
+ =?utf-8?B?OURtNnNSN3lVOVpIZEUvbDBDU3p4RUJxWHpJSzJtMEVNMTRHY3hZRFFNZkVz?=
+ =?utf-8?Q?B7WpbRgmWui8exUbubgi4eRoI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1332b9b8-ed1a-47a8-79fe-08dc1b4fd298
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2024 13:41:23.2065
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: alu2sZLKakqmTHNNQh2RKjwubVmZ0W57sxMifsEKGJFkYTt2iux4BUKgvZinutSw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7213
 
-Hi Jason,
+Am 22.01.24 um 12:01 schrieb Paul Cercueil:
+> Hi Christian,
+>
+> Le lundi 22 janvier 2024 à 11:35 +0100, Christian König a écrit :
+>> Am 19.01.24 um 15:13 schrieb Paul Cercueil:
+>>> These functions should be used by device drivers when they start
+>>> and
+>>> stop accessing the data of DMABUF. It allows DMABUF importers to
+>>> cache
+>>> the dma_buf_attachment while ensuring that the data they want to
+>>> access
+>>> is available for their device when the DMA transfers take place.
+>> As Daniel already noted as well this is a complete no-go from the
+>> DMA-buf design point of view.
+> What do you mean "as Daniel already noted"? It was him who suggested
+> this.
 
-On Mon, Jan 22, 2024 at 11:02:20AM +0800, Chen, Jason Z wrote:
-> From: Jason Chen <jason.z.chen@intel.com>
-> 
-> Due to certain MIPI hardware designs using overly long cables, there
-> is a loss of signal strength, resulting in failed signal integration.
-> The patch includes changes to adjust the driving strength in the register
-> settings for a specific project.
-> 
-> Signed-off-by: Jason Chen <jason.z.chen@intel.com>
-> ---
->  drivers/media/i2c/ov08x40.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-> index 520ccd4aecf..ddcb4b6848b 100644
-> --- a/drivers/media/i2c/ov08x40.c
-> +++ b/drivers/media/i2c/ov08x40.c
-> @@ -160,6 +160,18 @@ static const struct ov08x40_reg mipi_data_rate_800mbps[] = {
->  	{0x6002, 0x2e},
->  };
->  
-> +static const struct ov08x40_reg mipi_si_changed_regs[] = {
-> +	{0x481b, 0x2c}, /* HS Exit: Data Tx TEOT - reducing 8ns */
-> +	{0x4826, 0x42}, /* HS Entry: Data Tx TREOT - raising 8ns */
-> +	{0x4829, 0x54}, /* HS Exit: Data Tx TREOT - reducing 8ns */
-> +	{0x4885, 0x1f}, /* driving strength change */
+Sorry, I haven't fully catched up to the discussion then.
 
-We need a better say to control these: if you need to change this to make
-it work on one board, another board may well need different settings.
+In general DMA-buf is build around the idea that the data can be 
+accessed coherently by the involved devices.
 
-Probably the easiest way would be to figure out canonical, hardware
-independent configuration parameters and define them in DT bindings
-(Documentation/devicetree/bindings/media/video-interfaces.yaml), and add
-support for those in this driver.
+Having a begin/end of access for devices was brought up multiple times 
+but so far rejected for good reasons.
 
-DMI as such could be how you figure out which settings you need, but it
-should not be the task of a the sensor driver to do that.
+That an exporter has to call extra functions to access his own buffers 
+is a complete no-go for the design since this forces exporters into 
+doing extra steps for allowing importers to access their data.
 
-Cc Laurent.
+That in turn is pretty much un-testable unless you have every possible 
+importer around while testing the exporter.
 
-> +};
-> +
-> +struct ov08x40_reg_list si_regs = {
-> +	.regs = mipi_si_changed_regs,
-> +	.num_of_regs = ARRAY_SIZE(mipi_si_changed_regs),
-> +};
-> +
->  static const struct ov08x40_reg mode_3856x2416_regs[] = {
->  	{0x5000, 0x5d},
->  	{0x5001, 0x20},
-> @@ -2913,6 +2925,9 @@ static int ov08x40_start_streaming(struct ov08x40 *ov08x)
->  		return ret;
->  	}
->  
-> +	/* Apply SI change to current project */
-> +	ov08x40_write_reg_list(ov08x, &si_regs);
-> +
->  	/* Apply default values of current mode */
->  	reg_list = &ov08x->cur_mode->reg_list;
->  	ret = ov08x40_write_reg_list(ov08x, reg_list);
-
--- 
 Regards,
+Christian.
 
-Sakari Ailus
+>
+>> Regards,
+>> Christian.
+> Cheers,
+> -Paul
+>
+>>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>>
+>>> ---
+>>> v5: New patch
+>>> ---
+>>>    drivers/dma-buf/dma-buf.c | 66
+>>> +++++++++++++++++++++++++++++++++++++++
+>>>    include/linux/dma-buf.h   | 37 ++++++++++++++++++++++
+>>>    2 files changed, 103 insertions(+)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>> index 8fe5aa67b167..a8bab6c18fcd 100644
+>>> --- a/drivers/dma-buf/dma-buf.c
+>>> +++ b/drivers/dma-buf/dma-buf.c
+>>> @@ -830,6 +830,8 @@ static struct sg_table * __map_dma_buf(struct
+>>> dma_buf_attachment *attach,
+>>>     *     - dma_buf_mmap()
+>>>     *     - dma_buf_begin_cpu_access()
+>>>     *     - dma_buf_end_cpu_access()
+>>> + *     - dma_buf_begin_access()
+>>> + *     - dma_buf_end_access()
+>>>     *     - dma_buf_map_attachment_unlocked()
+>>>     *     - dma_buf_unmap_attachment_unlocked()
+>>>     *     - dma_buf_vmap_unlocked()
+>>> @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct dma_buf
+>>> *dmabuf, struct iosys_map *map)
+>>>    }
+>>>    EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
+>>>    
+>>> +/**
+>>> + * @dma_buf_begin_access - Call before any hardware access from/to
+>>> the DMABUF
+>>> + * @attach:	[in]	attachment used for hardware access
+>>> + * @sg_table:	[in]	scatterlist used for the DMA transfer
+>>> + * @direction:  [in]    direction of DMA transfer
+>>> + */
+>>> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+>>> +			 struct sg_table *sgt, enum
+>>> dma_data_direction dir)
+>>> +{
+>>> +	struct dma_buf *dmabuf;
+>>> +	bool cookie;
+>>> +	int ret;
+>>> +
+>>> +	if (WARN_ON(!attach))
+>>> +		return -EINVAL;
+>>> +
+>>> +	dmabuf = attach->dmabuf;
+>>> +
+>>> +	if (!dmabuf->ops->begin_access)
+>>> +		return 0;
+>>> +
+>>> +	cookie = dma_fence_begin_signalling();
+>>> +	ret = dmabuf->ops->begin_access(attach, sgt, dir);
+>>> +	dma_fence_end_signalling(cookie);
+>>> +
+>>> +	if (WARN_ON_ONCE(ret))
+>>> +		return ret;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
+>>> +
+>>> +/**
+>>> + * @dma_buf_end_access - Call after any hardware access from/to
+>>> the DMABUF
+>>> + * @attach:	[in]	attachment used for hardware access
+>>> + * @sg_table:	[in]	scatterlist used for the DMA transfer
+>>> + * @direction:  [in]    direction of DMA transfer
+>>> + */
+>>> +int dma_buf_end_access(struct dma_buf_attachment *attach,
+>>> +		       struct sg_table *sgt, enum
+>>> dma_data_direction dir)
+>>> +{
+>>> +	struct dma_buf *dmabuf;
+>>> +	bool cookie;
+>>> +	int ret;
+>>> +
+>>> +	if (WARN_ON(!attach))
+>>> +		return -EINVAL;
+>>> +
+>>> +	dmabuf = attach->dmabuf;
+>>> +
+>>> +	if (!dmabuf->ops->end_access)
+>>> +		return 0;
+>>> +
+>>> +	cookie = dma_fence_begin_signalling();
+>>> +	ret = dmabuf->ops->end_access(attach, sgt, dir);
+>>> +	dma_fence_end_signalling(cookie);
+>>> +
+>>> +	if (WARN_ON_ONCE(ret))
+>>> +		return ret;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
+>>> +
+>>>    #ifdef CONFIG_DEBUG_FS
+>>>    static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>>>    {
+>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>>> index 8ff4add71f88..8ba612c7cc16 100644
+>>> --- a/include/linux/dma-buf.h
+>>> +++ b/include/linux/dma-buf.h
+>>> @@ -246,6 +246,38 @@ struct dma_buf_ops {
+>>>    	 */
+>>>    	int (*end_cpu_access)(struct dma_buf *, enum
+>>> dma_data_direction);
+>>>    
+>>> +	/**
+>>> +	 * @begin_access:
+>>> +	 *
+>>> +	 * This is called from dma_buf_begin_access() when a
+>>> device driver
+>>> +	 * wants to access the data of the DMABUF. The exporter
+>>> can use this
+>>> +	 * to flush/sync the caches if needed.
+>>> +	 *
+>>> +	 * This callback is optional.
+>>> +	 *
+>>> +	 * Returns:
+>>> +	 *
+>>> +	 * 0 on success or a negative error code on failure.
+>>> +	 */
+>>> +	int (*begin_access)(struct dma_buf_attachment *, struct
+>>> sg_table *,
+>>> +			    enum dma_data_direction);
+>>> +
+>>> +	/**
+>>> +	 * @end_access:
+>>> +	 *
+>>> +	 * This is called from dma_buf_end_access() when a device
+>>> driver is
+>>> +	 * done accessing the data of the DMABUF. The exporter can
+>>> use this
+>>> +	 * to flush/sync the caches if needed.
+>>> +	 *
+>>> +	 * This callback is optional.
+>>> +	 *
+>>> +	 * Returns:
+>>> +	 *
+>>> +	 * 0 on success or a negative error code on failure.
+>>> +	 */
+>>> +	int (*end_access)(struct dma_buf_attachment *, struct
+>>> sg_table *,
+>>> +			  enum dma_data_direction);
+>>> +
+>>>    	/**
+>>>    	 * @mmap:
+>>>    	 *
+>>> @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf *dmabuf,
+>>>    int dma_buf_pin(struct dma_buf_attachment *attach);
+>>>    void dma_buf_unpin(struct dma_buf_attachment *attach);
+>>>    
+>>> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+>>> +			 struct sg_table *sgt, enum
+>>> dma_data_direction dir);
+>>> +int dma_buf_end_access(struct dma_buf_attachment *attach,
+>>> +		       struct sg_table *sgt, enum
+>>> dma_data_direction dir);
+>>> +
+>>>    struct dma_buf *dma_buf_export(const struct dma_buf_export_info
+>>> *exp_info);
+>>>    
+>>>    int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+
 
