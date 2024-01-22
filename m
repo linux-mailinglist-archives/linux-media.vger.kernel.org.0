@@ -1,47 +1,94 @@
-Return-Path: <linux-media+bounces-3973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5242C8361EA
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 12:36:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9E183624F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 12:44:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8562C1C26379
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 11:36:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 634E728FEBE
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 11:44:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0AF3FB1B;
-	Mon, 22 Jan 2024 11:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05FCE3DB90;
+	Mon, 22 Jan 2024 11:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zc0oP46+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from zg8tmty3ljk5ljewns4xndka.icoremail.net (zg8tmty3ljk5ljewns4xndka.icoremail.net [167.99.105.149])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8D13FB0F;
-	Mon, 22 Jan 2024 11:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.99.105.149
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6BF3D3BC;
+	Mon, 22 Jan 2024 11:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705922804; cv=none; b=fNga8OoNwkuTr58zKl3AKbt114wHPjrKxDTvxu27nrdIESTsSa8Hw9OjTXf1mqWhVMr3k9EUW34ZA4DDUan5FPDwKnCNhXo1EQGXcka04dqVy+nEz3W914CagtkqgTTuc9W4ymgM3AeSNnc+lhV9gGw5rEJVd6P7pisEAZ8t1v0=
+	t=1705923695; cv=none; b=CLdveub9mrodnnLokbpOYDO7Jy30VB75F8ZiTW7QdtLlkK9CT+L4Q8TCBuKzMYQLiedQnSkAntCpreevKLWSgFIx620/nq8tAwfd072IHIC/gTHRs5tQnsGnN/OrkZa3zLaRg6uLH6hCo36nvKGRyMMfwrKv6UJ9f/SD/oQfxYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705922804; c=relaxed/simple;
-	bh=4MTzk8hRpsL1+wfg2XAn8qvaYkdX9cgM4ufqwTPlx6U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SpF/ucddlPVrf16O3OSdiI74hFRIY6QsapA6jtAhbUgHdY9YuGZjz9X3JgKvUA9msMPsJoUD2XfboOcqqjpw0IkYKdeAkF+X6+4x6mOIzwQlL8L9ZDM+09BHMFvzSfU79exRssQWHMtcdWPjUQmuksH1/XQelSdwJGryQGNKYU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=167.99.105.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrACXmim7UK5lq3KtAQ--.37301S2;
-	Mon, 22 Jan 2024 19:25:47 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.12.190.56])
-	by gateway (Coremail) with SMTP id _____wCHJbasUK5lBlwmAA--.60615S2;
-	Mon, 22 Jan 2024 19:25:47 +0800 (CST)
-From: Mingxuan Xiang <mx_xiang@hust.edu.cn>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>,
-	Mingxuan Xiang <mx_xiang@hust.edu.cn>,
+	s=arc-20240116; t=1705923695; c=relaxed/simple;
+	bh=TFWI6JTKREohL41oXLi1D5cttfNwbBSLh8m7YgHZDUg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PAm+J11DMDZdhjejr8I8mFu0dI8JjeBj0U13hmDx04PCun4TsUwHYRuAKP4u0oKwJBOtIUINCcGhsHADf6ibuJNFq83yWYC3FQiH66E5kOcBV9by73dEBV04WEZ8qC2JLCJynrfAVxe3HW8KnTnUKtNUDdZn1qFd/ayLRL+Ukiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zc0oP46+; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705923693; x=1737459693;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TFWI6JTKREohL41oXLi1D5cttfNwbBSLh8m7YgHZDUg=;
+  b=Zc0oP46+2c3YTs6ZRrxSzC2w+MyvRR3FozqmHryTVPkMrdLyB+7weC6h
+   oYkTsZOCy2qDATPdtt+IWWCV9S9Z0XsZCPtJi/8jmc95uxSBU8/l7dJah
+   pvyPEcyUv+5DDxyPp+TEUOqdYKFJ8uozmbuJA36uPEoLkJpztIYyMh2xu
+   4jUCrak0xKNwf9zBE/D3ZhBaYi0CWY84mDxAJ1QTQxlTcGY6fgAyCwQsJ
+   ryCp5A54wFcldGpBDsFjZyO0o25ZkEuH6tj4lScMQNlWI7Bwx38gJ+2qG
+   pQcQmZ8wvgqoyCdgQjqqwhOhbCFwZuy2pGNYKEtNykWWyI80F9ec6xPu+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="432347123"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="432347123"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:41:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="904825864"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="904825864"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:41:26 -0800
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E3EFC11FAD4;
+	Mon, 22 Jan 2024 13:41:21 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-pm@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: usb: hackrf: add null ptr check in hackrf_ctrl_msg
-Date: Mon, 22 Jan 2024 19:22:10 +0800
-Message-ID: <20240122112210.424698-1-mx_xiang@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	netdev@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v3 0/2] Small runtime PM API changes
+Date: Mon, 22 Jan 2024 13:41:20 +0200
+Message-Id: <20240122114121.56752-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -49,85 +96,70 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrACXmim7UK5lq3KtAQ--.37301S2
-Authentication-Results: app1; spf=neutral smtp.mail=mx_xiang@hust.edu.
-	cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFyfCFWxXFW5Kr1kKF18uFg_yoW5Xw45pF
-	yFyrZFkryrXry29wn7Jr1UWFyrZan3AFy5Wryfu395urs8Jw4xXF1jqayqgr4qkrZ2yF90
-	yF9YqrW3tF4UZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Yb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4
-	CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8C
-	rVC2j2WlYx0EF7xvrVAajcxG14v26r4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx
-	0Ec7CjxVAajcxG14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
-	r41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFV
-	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
-	x4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
-	1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_
-	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCT
-	nIWIevJa73UjIFyTuYvjxUV1xRUUUUU
-X-CM-SenderInfo: jxsqimaruylmo6kx23oohg3hdfq/1tbiAQkEE2WtIjAvbQAAsH
 
-If the user yanks out the cable before closing the file,
-dev->udev would be set to NULL therefore causing a null-ptr-deref
-in hackrf_ctrl_msg issued by hackrf_stop_streaming.
+Hi folks,
 
-This patch adds a check in hackrf_ctrl_msg before using
-dev->udev.
+Here's a small but a different set of patches for making two relatively
+minor changes to runtime PM API. I restarted version numbering as this is
+meaningfully different from the previous set.
 
-Found by modified syzkaller.
+pm_runtime_get_if_active() loses its second argument as it only made sense
+to have ign_usage_count argument true.
 
-BUG: KASAN: null-ptr-deref in hackrf_ctrl_msg+0x6d/0x180 drivers/media/usb/hackrf/hackrf.c:195
-Read of size 4 at addr 0000000000000000 by task syz-executor/579
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x5e/0x7c lib/dump_stack.c:106
- print_report.cold+0x49a/0x6bb mm/kasan/report.c:436
- kasan_report+0xa8/0x130 mm/kasan/report.c:495
- hackrf_ctrl_msg+0x6d/0x180 drivers/media/usb/hackrf/hackrf.c:195
- hackrf_stop_streaming+0x45/0x140 drivers/media/usb/hackrf/hackrf.c:869
- __vb2_queue_cancel+0x5c/0x550 drivers/media/common/videobuf2/videobuf2-core.c:1992
- vb2_core_streamoff+0x2f/0xb0 drivers/media/common/videobuf2/videobuf2-core.c:2149
- __vb2_cleanup_fileio+0x3e/0xa0 drivers/media/common/videobuf2/videobuf2-core.c:2710
- vb2_core_queue_release+0x1a/0x50 drivers/media/common/videobuf2/videobuf2-core.c:2430
- vb2_queue_release drivers/media/common/videobuf2/videobuf2-v4l2.c:947 [inline]
- _vb2_fop_release+0x110/0x140 drivers/media/common/videobuf2/videobuf2-v4l2.c:1132
- v4l2_release+0x1b9/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:459
- __fput+0x12d/0x4b0 fs/file_table.c:320
- task_work_run+0xa8/0xf0 kernel/task_work.c:177
- resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
- exit_to_user_mode_prepare+0x123/0x130 kernel/entry/common.c:201
- __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
- syscall_exit_to_user_mode+0x22/0x50 kernel/entry/common.c:294
- do_syscall_64+0x48/0x90 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
+The other change is also small but it has an effect on callers:
+pm_runtime_put_autosuspend() will, in the future, be re-purposed to
+include a call to pm_runtime_mark_last_busy() as well. Before this,
+current users of the function are moved to __pm_runtime_put_autosuspend()
+(added by this patchset) which will continue to have the current
+behaviour.
 
-Signed-off-by: Mingxuan Xiang <mx_xiang@hust.edu.cn>
----
- drivers/media/usb/hackrf/hackrf.c | 5 +++++
- 1 file changed, 5 insertions(+)
+I haven't included the conversion patches in this set as I only want to do
+that once this set has been approved and merged. The tree specific patches
+can be found here, on linux-next master (there are some V4L2 patches
+there, too, please ignore them for now):
+<URL:https://git.kernel.org/pub/scm/linux/kernel/git/sailus/linux-next.git/log/?h=pm>
 
-diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
-index 9c0ecd5f056c..9588b8aa6e98 100644
---- a/drivers/media/usb/hackrf/hackrf.c
-+++ b/drivers/media/usb/hackrf/hackrf.c
-@@ -186,6 +186,11 @@ static int hackrf_ctrl_msg(struct hackrf_dev *dev, u8 request, u16 value,
- 	unsigned int pipe;
- 	u8 requesttype;
- 
-+	if (!dev->udev) {
-+		pr_err("udev is null in %s\n", __func__);
-+		ret = -EINVAL;
-+		goto err;
-+	}
- 	switch (request) {
- 	case CMD_SET_TRANSCEIVER_MODE:
- 	case CMD_SET_FREQ:
+Later on, users calling pm_runtime_mark_last_busy() immediately followed
+by __pm_runtime_put_autosuspend() will be switched back to
+pm_runtime_put_autosuspend() once its behaviour change has been done (a
+patch near top of that branch). I'll provide these once the preceding ones
+have been merged.
+
+Comments are welcome.
+
+since v2:
+
+- Rebase on v6.8-rc1 (no changes).
+
+- Add Rodrigo's Reviewed-by: to the 1st patch.
+
+since v1:
+
+- patch 1: Rename __pm_runtime_get_conditional() as
+  pm_runtime_get_conditional().
+
+- patch 1: Reword documentation on driver use of
+  pm_runtime_get_conditional().
+
+Sakari Ailus (2):
+  pm: runtime: Simplify pm_runtime_get_if_active() usage
+  pm: runtime: Add pm_runtime_put_autosuspend() replacement
+
+ Documentation/power/runtime_pm.rst      | 22 ++++++++-----
+ drivers/accel/ivpu/ivpu_pm.c            |  2 +-
+ drivers/base/power/runtime.c            | 10 ++++--
+ drivers/gpu/drm/i915/intel_runtime_pm.c |  2 +-
+ drivers/gpu/drm/xe/xe_pm.c              |  2 +-
+ drivers/media/i2c/ccs/ccs-core.c        |  2 +-
+ drivers/media/i2c/ov64a40.c             |  2 +-
+ drivers/media/i2c/thp7312.c             |  2 +-
+ drivers/net/ipa/ipa_smp2p.c             |  2 +-
+ drivers/pci/pci.c                       |  2 +-
+ include/linux/pm_runtime.h              | 44 ++++++++++++++++++++++---
+ sound/hda/hdac_device.c                 |  2 +-
+ 12 files changed, 68 insertions(+), 26 deletions(-)
+
 -- 
-2.43.0
+2.39.2
 
 
