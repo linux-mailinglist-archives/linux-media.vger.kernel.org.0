@@ -1,31 +1,31 @@
-Return-Path: <linux-media+bounces-4040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4042-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35FB837115
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 19:54:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A57C837051
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 19:42:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 129ADB38497
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 18:38:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47E9C2964BE
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 18:39:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EE5A604CF;
-	Mon, 22 Jan 2024 18:08:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0319560BAA;
+	Mon, 22 Jan 2024 18:08:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA395647B
-	for <linux-media@vger.kernel.org>; Mon, 22 Jan 2024 18:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A072A605AA
+	for <linux-media@vger.kernel.org>; Mon, 22 Jan 2024 18:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705946905; cv=none; b=brinSypCnn9BZfEdF4+tyDOLSUMjhsyn5ho7MtwxMS+2zWMrbXKyjO8S8pok4pTSxQAygz3D3UGxq7SweCycg9KvMTLL9/hyq+ol8szC25UuGY341uDFNFyhOVAsWrSu3UF9681J2I4wK3og29IqInjvsUWr3n05Z5skDmhm3Kc=
+	t=1705946909; cv=none; b=EBM1o2wWCd765OJdxVD0LNcKfBJAMuW2WaE7GHzJg+9Xgzabx1E7KV5T4lWgeigQIp1wbyuQxLQlo4px4q30j853Tcn3z7E+Kuk1g3dPCjhWySeCpF7yzslkcpviKGjSvqXaUHc9x4nKPxcsN+4FJuLvm4xjNnkfL+cgdjmZgSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705946905; c=relaxed/simple;
-	bh=5kp3Ks9t2Ea2aSTspz0TdIMs+rWMHy3IGA7GHyomVFQ=;
+	s=arc-20240116; t=1705946909; c=relaxed/simple;
+	bh=87ZsEgNOTheB5G92Taih+d+a9rMdmsqYOADAZ3z0oDk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kAXxP6ZN9p93odRTs+ZqZLuCoiANd303hy9F2FFEXIQSuFExazu3vwYN4E5R+x5cd/tdxWFhVd4znr4Bt+JQTj787C1kPJd1Ye8hAwJZLVpCdVJ4WEQklwTUYxUQFwUXwpJIScvoIjGhSw+PEztgAs5b61RwZiCOPWMcMDh1Ygo=
+	 MIME-Version:Content-Type; b=qZjPCul3RaeAoqOu+KwrIHf2/dhX1IkQzsUuGBmNee9uAYP5SrQaPwwIN8MYkKPbyP56JAzjmvaPVZY6obFbnl245gmFrKq+7asSaNdmQRu9KYSx6IJh+NLcpxWQEmwjxpKu7A4yDr/QGREkHeCqiApiYWR8R9gOLgDDUWYTokc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -33,27 +33,27 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1rRyiU-0001lr-V1; Mon, 22 Jan 2024 19:08:14 +0100
+	id 1rRyiU-0001nH-QX; Mon, 22 Jan 2024 19:08:14 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1rRyiT-001ePX-Ue; Mon, 22 Jan 2024 19:08:13 +0100
+	id 1rRyiU-001ePb-5c; Mon, 22 Jan 2024 19:08:14 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1rRyiT-005Zx7-2o;
-	Mon, 22 Jan 2024 19:08:13 +0100
+	id 1rRyiU-005ZxB-0I;
+	Mon, 22 Jan 2024 19:08:14 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: kernel@pengutronix.de,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Sergey Kozlov <serjk@netup.ru>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-spi@vger.kernel.org
-Subject: [PATCH v2 06/33] media: mgb4: Follow renaming of SPI "master" to "controller"
-Date: Mon, 22 Jan 2024 19:07:01 +0100
-Message-ID:  <250ee63915ba9989bab180200ad2d552e1a765a9.1705944943.git.u.kleine-koenig@pengutronix.de>
+Subject: [PATCH v2 07/33] media: netup_unidvb: Follow renaming of SPI "master" to "controller"
+Date: Mon, 22 Jan 2024 19:07:02 +0100
+Message-ID:  <e745359645a4af795f229d84e39949fe75bd2ec8.1705944943.git.u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
 References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
@@ -64,7 +64,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2411; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=5kp3Ks9t2Ea2aSTspz0TdIMs+rWMHy3IGA7GHyomVFQ=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlrq7J1k1XKFTBqaic+XhNlH2OrYCv6WMwqGDjG Emt161au92JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZa6uyQAKCRCPgPtYfRL+ TsYoCACT5+MRbues0ycMQqOGK5MIggyAH9tHi/k/T6TzPkQVDfrm/BcZviCRR2CHptqBQcspWda ib0cCWTR+klniVi2LzgMs/bilyahlav/ceotu3T2n+KNCUM/DOQT3dlXWx5R4LNeS3dWyHHqjlj 89rdMwT4vk7L23lmUfEb5DGFuJDCPN8SGZgbas1XJciQ8ulKy8L51GS5zyGUf1ex9/jlp4FqR/Y 2cbaP6kQPhWwueHyHRLctaL/Oy/93S9UiwKhWcjWlkFPRO7xhXmaNhqSYImDaTuUI24BxrgAu+P gvv5tJZAkOZIkJEuE/EuLlKg362SaGXP/lsbX2Fanwlw5GVj
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5286; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=87ZsEgNOTheB5G92Taih+d+a9rMdmsqYOADAZ3z0oDk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlrq7L9Ip83/ZcOrqYHSMggMdPdTtXPRy8xMm6O UG+zdgRtGmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZa6uywAKCRCPgPtYfRL+ TgCsB/sFPa/jSHvZqCzt8VbhESlDH6xb9Mi2pJSgqlYElsNbstyiwn64iMFcPPJyVYmnN/fQFuI lCB4VY0VjFEhksJPpd1ScTS04yRWVVYA1IhUpRNrK1ooM6FtjlWx8j78RRBAd8ywY6PgFBrMMC2 O9pdL/rlliBcco1TBDyspg3wYcx+mOvwPRbhIQbCi6+hI78Qg+0ISeX5QpGheorSzLLp3V8U28V lTklsCgnyyzDVHNgvMAWXfum0ONjdRP7sDxSY2XNu5khfVF5+uWlrXGleeaguB6oPhEOzC6ldns odtmp4ub3SMVDfOFf8kg4R15zowlzFfZPId0BCB1z9LTlcP/
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -79,65 +79,147 @@ compatibility macros were provided.
 To be able to remove these compatibility macros push the renaming into
 this driver.
 
-Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/pci/mgb4/mgb4_core.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../media/pci/netup_unidvb/netup_unidvb_spi.c | 48 +++++++++----------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
-index 5bfb8a06202e..9bcf10a77fd3 100644
---- a/drivers/media/pci/mgb4/mgb4_core.c
-+++ b/drivers/media/pci/mgb4/mgb4_core.c
-@@ -144,7 +144,7 @@ static int match_spi_adap(struct device *dev, void *data)
- 	return to_spi_device(dev) ? 1 : 0;
+diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c b/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
+index 526042d8afae..e90aa1c1584c 100644
+--- a/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
++++ b/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
+@@ -35,7 +35,7 @@ struct netup_spi_regs {
+ 
+ struct netup_spi {
+ 	struct device			*dev;
+-	struct spi_master		*master;
++	struct spi_controller		*ctlr;
+ 	struct netup_spi_regs __iomem	*regs;
+ 	u8 __iomem			*mmio;
+ 	spinlock_t			lock;
+@@ -78,7 +78,7 @@ irqreturn_t netup_spi_interrupt(struct netup_spi *spi)
+ 	reg = readw(&spi->regs->control_stat);
+ 	if (!(reg & NETUP_SPI_CTRL_IRQ)) {
+ 		spin_unlock_irqrestore(&spi->lock, flags);
+-		dev_dbg(&spi->master->dev,
++		dev_dbg(&spi->ctlr->dev,
+ 			"%s(): not mine interrupt\n", __func__);
+ 		return IRQ_NONE;
+ 	}
+@@ -88,15 +88,15 @@ irqreturn_t netup_spi_interrupt(struct netup_spi *spi)
+ 	spi->state = SPI_STATE_DONE;
+ 	wake_up(&spi->waitq);
+ 	spin_unlock_irqrestore(&spi->lock, flags);
+-	dev_dbg(&spi->master->dev,
++	dev_dbg(&spi->ctlr->dev,
+ 		"%s(): SPI interrupt handled\n", __func__);
+ 	return IRQ_HANDLED;
  }
  
--static struct spi_master *get_spi_adap(struct platform_device *pdev)
-+static struct spi_controller *get_spi_adap(struct platform_device *pdev)
+-static int netup_spi_transfer(struct spi_master *master,
++static int netup_spi_transfer(struct spi_controller *ctlr,
+ 			      struct spi_message *msg)
  {
- 	struct device *dev;
- 
-@@ -152,7 +152,7 @@ static struct spi_master *get_spi_adap(struct platform_device *pdev)
- 	dev = device_find_child(&pdev->dev, NULL, match_spi_adap);
- 	mutex_unlock(&pdev->dev.mutex);
- 
--	return dev ? container_of(dev, struct spi_master, dev) : NULL;
-+	return dev ? container_of(dev, struct spi_controller, dev) : NULL;
+-	struct netup_spi *spi = spi_master_get_devdata(master);
++	struct netup_spi *spi = spi_controller_get_devdata(ctlr);
+ 	struct spi_transfer *t;
+ 	int result = 0;
+ 	u32 tr_size;
+@@ -131,7 +131,7 @@ static int netup_spi_transfer(struct spi_master *master,
+ 				NETUP_SPI_CTRL_START |
+ 				(frag_last ? NETUP_SPI_CTRL_LAST_CS : 0),
+ 				&spi->regs->control_stat);
+-			dev_dbg(&spi->master->dev,
++			dev_dbg(&spi->ctlr->dev,
+ 				"%s(): control_stat 0x%04x\n",
+ 				__func__, readw(&spi->regs->control_stat));
+ 			wait_event_timeout(spi->waitq,
+@@ -144,11 +144,11 @@ static int netup_spi_transfer(struct spi_master *master,
+ 				}
+ 			} else {
+ 				if (spi->state == SPI_STATE_START) {
+-					dev_dbg(&spi->master->dev,
++					dev_dbg(&spi->ctlr->dev,
+ 						"%s(): transfer timeout\n",
+ 						__func__);
+ 				} else {
+-					dev_dbg(&spi->master->dev,
++					dev_dbg(&spi->ctlr->dev,
+ 						"%s(): invalid state %d\n",
+ 						__func__, spi->state);
+ 				}
+@@ -161,7 +161,7 @@ static int netup_spi_transfer(struct spi_master *master,
+ 	}
+ done:
+ 	msg->status = result;
+-	spi_finalize_current_message(master);
++	spi_finalize_current_message(ctlr);
+ 	return result;
  }
  
- static int init_spi(struct mgb4_dev *mgbdev, u32 devid)
-@@ -179,7 +179,7 @@ static int init_spi(struct mgb4_dev *mgbdev, u32 devid)
- 	};
- 	struct pci_dev *pdev = mgbdev->pdev;
- 	struct device *dev = &pdev->dev;
+@@ -172,30 +172,30 @@ static int netup_spi_setup(struct spi_device *spi)
+ 
+ int netup_spi_init(struct netup_unidvb_dev *ndev)
+ {
 -	struct spi_master *master;
 +	struct spi_controller *ctlr;
- 	struct spi_device *spi_dev;
- 	u32 irq;
- 	int rv, id;
-@@ -207,8 +207,8 @@ static int init_spi(struct mgb4_dev *mgbdev, u32 devid)
- 		return PTR_ERR(mgbdev->spi_pdev);
- 	}
+ 	struct netup_spi *nspi;
  
--	master = get_spi_adap(mgbdev->spi_pdev);
+-	master = devm_spi_alloc_master(&ndev->pci_dev->dev,
+-		sizeof(struct netup_spi));
 -	if (!master) {
-+	ctlr = get_spi_adap(mgbdev->spi_pdev);
++	ctlr = devm_spi_alloc_master(&ndev->pci_dev->dev,
++					 sizeof(struct netup_spi));
 +	if (!ctlr) {
- 		dev_err(dev, "failed to get SPI adapter\n");
- 		rv = -EINVAL;
- 		goto err_pdev;
-@@ -242,8 +242,8 @@ static int init_spi(struct mgb4_dev *mgbdev, u32 devid)
+ 		dev_err(&ndev->pci_dev->dev,
+ 			"%s(): unable to alloc SPI master\n", __func__);
+ 		return -EINVAL;
+ 	}
+-	nspi = spi_master_get_devdata(master);
+-	master->mode_bits = SPI_CPOL | SPI_CPHA | SPI_LSB_FIRST;
+-	master->bus_num = -1;
+-	master->num_chipselect = 1;
+-	master->transfer_one_message = netup_spi_transfer;
+-	master->setup = netup_spi_setup;
++	nspi = spi_controller_get_devdata(ctlr);
++	ctlr->mode_bits = SPI_CPOL | SPI_CPHA | SPI_LSB_FIRST;
++	ctlr->bus_num = -1;
++	ctlr->num_chipselect = 1;
++	ctlr->transfer_one_message = netup_spi_transfer;
++	ctlr->setup = netup_spi_setup;
+ 	spin_lock_init(&nspi->lock);
+ 	init_waitqueue_head(&nspi->waitq);
+-	nspi->master = master;
++	nspi->ctlr = ctlr;
+ 	nspi->regs = (struct netup_spi_regs __iomem *)(ndev->bmmio0 + 0x4000);
+ 	writew(2, &nspi->regs->clock_divider);
+ 	writew(NETUP_UNIDVB_IRQ_SPI, ndev->bmmio0 + REG_IMASK_SET);
+ 	ndev->spi = nspi;
+-	if (spi_register_master(master)) {
++	if (spi_register_controller(ctlr)) {
+ 		ndev->spi = NULL;
+ 		dev_err(&ndev->pci_dev->dev,
+ 			"%s(): unable to register SPI bus\n", __func__);
+@@ -207,8 +207,8 @@ int netup_spi_init(struct netup_unidvb_dev *ndev)
+ 		ndev->pci_bus,
+ 		ndev->pci_slot,
+ 		ndev->pci_func);
+-	if (!spi_new_device(master, &netup_spi_board)) {
+-		spi_unregister_master(master);
++	if (!spi_new_device(ctlr, &netup_spi_board)) {
++		spi_unregister_controller(ctlr);
+ 		ndev->spi = NULL;
+ 		dev_err(&ndev->pci_dev->dev,
+ 			"%s(): unable to create SPI device\n", __func__);
+@@ -227,7 +227,7 @@ void netup_spi_release(struct netup_unidvb_dev *ndev)
+ 	if (!spi)
+ 		return;
  
- 	spi_info.platform_data = &mgbdev->flash_data;
- 
--	spi_dev = spi_new_device(master, &spi_info);
--	put_device(&master->dev);
-+	spi_dev = spi_new_device(ctlr, &spi_info);
-+	put_device(&ctlr->dev);
- 	if (!spi_dev) {
- 		dev_err(dev, "failed to create MTD device\n");
- 		rv = -EINVAL;
+-	spi_unregister_master(spi->master);
++	spi_unregister_controller(spi->ctlr);
+ 	spin_lock_irqsave(&spi->lock, flags);
+ 	reg = readw(&spi->regs->control_stat);
+ 	writew(reg | NETUP_SPI_CTRL_IRQ, &spi->regs->control_stat);
 -- 
 2.43.0
 
