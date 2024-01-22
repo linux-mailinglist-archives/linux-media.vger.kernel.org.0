@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-4022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4023-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE576836A11
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 17:18:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B42B836A1D
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 17:19:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E2E91C24A91
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:18:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AED211C24B66
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:19:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B3CF132C2F;
-	Mon, 22 Jan 2024 15:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 002711339A7;
+	Mon, 22 Jan 2024 15:13:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1mpvDJa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+o2EqLK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63802132C1F;
-	Mon, 22 Jan 2024 15:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E45E3FB04;
+	Mon, 22 Jan 2024 15:13:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936418; cv=none; b=KWzu4tBNcKpuwQ7ghstBI1PcVqcKheFAYtBKGEw4bND+4YKhNNWpCkT1UsNPl+rcQtCzhGbHNeasgn6xWiAVQpuoAM0BEuq/RFdhZT5tsXPMZm/8VCAiGXaK488bF5wF5A9+RQrvTjMM3GgCQtW882Vm/pvAU9HVHDzcly9bpqA=
+	t=1705936431; cv=none; b=Wxzh3RM6Z+9B15e3rBkmw6ToYuOI9rG6nPjI6hGk6Qqrb+xQXDv+qQ5QEwrtlZE4yOcl9caV0jouE/OheDe8ktTdy7R8dES4hE1fhzJLEMW3J1G/lfUWzdxPVybLZ3fRdklY9qauZ8pOF+lrhI/BCpoNA89q+OsEffwBsnkD8dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936418; c=relaxed/simple;
-	bh=O8bvnbVL0xeEJ+iVqWyI6NYcmx6AHeHjwkzDe2ro754=;
+	s=arc-20240116; t=1705936431; c=relaxed/simple;
+	bh=6Kv7gJZBOWBZLuCsxITniTN+E+NwKG0Os4iFWCyMUsk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YjSqAecgYR4Sia8PLXh83Lp5e9fkmaoZRKJyapqX6ugglrsf32sn6uBULNDWjCY8NnlqGm8p9KhKGeY9Ah3q9IQ4VDrxvSIomQ8I3r7rm5RnAU8xkzwTiEhbSE80+rSC6q1W3cbvHp9rwY3uZVen3HVLiaDjro7PUof8WZ9PU04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e1mpvDJa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5A1DC43390;
-	Mon, 22 Jan 2024 15:13:36 +0000 (UTC)
+	 MIME-Version; b=u4Tqts78ZUYPj8MUGDk3tv+sH3YS+aJfNHrDJYUsQcKK6TaFsm4MFECtOfqAwh2peVMyRRuhNH2SmWLeNh5gaVWTrfUoR+d1PPLBP5ZWInclqheWkPAp0ycPF8tfp8EOrVVVnej7OuO0QHTf1EAvA00LM0kpF3sIuWw7fcEp5vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+o2EqLK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CA3AC43390;
+	Mon, 22 Jan 2024 15:13:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936418;
-	bh=O8bvnbVL0xeEJ+iVqWyI6NYcmx6AHeHjwkzDe2ro754=;
+	s=k20201202; t=1705936431;
+	bh=6Kv7gJZBOWBZLuCsxITniTN+E+NwKG0Os4iFWCyMUsk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e1mpvDJaveIqDr0VAasBQ33A9jqNOiqrhs3Jnfk7Shb5DA/kHafheyIhzMpBrWLnU
-	 NAaggvG8CbyYc4L4RWjG+9T86dHoFvcESNvuNvGm9XQBi5YWwFWdalGMG9ca9aaAS2
-	 BIlupGF6tf299MgPH+ahe3zmFMeRsWVxpTWZ4OyQndiv9JdG93cpTCe3FmBhcmAIjV
-	 AERND53RW+HOYYYq2FzutugvKCY63X3pPuydZi9vp0OduFy9vu7vT0JEWopnDWNDNu
-	 mdLgUCaYPn7fRDPsGTt/lL3u6ILwkC6iEIGrMK1nk/xbfipIg9qYOfoWRpgFx7cjcH
-	 MQvCwDXGqnjJw==
+	b=p+o2EqLKUI2qu9sc9Pp6tqPzbdnRgQnkvyaDkNZZvNHuiylhSjhA7M9vxjtxztSSc
+	 d1mgnZzCUyO/QjEPDuOXfXYqGM1qAckhDLChoEChmkDo437J1hZy0J5ipcdwaUruco
+	 EQfA0ZElbshrQ3fpd63KA71sW0E4sLMbuqf7NI4ckQk1njLjYBnV3h4tv7f4vRI4+n
+	 xzfZA0nd4mNZL+gW8rDKxEs0xPEP/bJj3VLjoyCaBkm0o2WtB+LsfzIgtyAucY43mX
+	 31M3iqaGSMbGE6tcgNJiQcYOQRZi0Q83PaUVlHjix5TnlxSyA+HlkkcZ4ppoxp7c3U
+	 p5Q02FRWGpsrQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Michael Tretter <m.tretter@pengutronix.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Adam Ford <aford173@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	jacob-chen@iotwrt.com,
-	ezequiel@vanguardiasur.com.ar,
-	mchehab@kernel.org,
+	dafna@fastmail.com,
 	heiko@sntech.de,
 	linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.15 14/35] media: rockchip: rga: fix swizzling for RGB formats
-Date: Mon, 22 Jan 2024 10:12:11 -0500
-Message-ID: <20240122151302.995456-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 18/35] media: rkisp1: Drop IRQF_SHARED
+Date: Mon, 22 Jan 2024 10:12:15 -0500
+Message-ID: <20240122151302.995456-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151302.995456-1-sashal@kernel.org>
 References: <20240122151302.995456-1-sashal@kernel.org>
@@ -71,72 +71,42 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.147
 Content-Transfer-Encoding: 8bit
 
-From: Michael Tretter <m.tretter@pengutronix.de>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-[ Upstream commit 9e7dc39260edac180c206bb6149595a40eabae3e ]
+[ Upstream commit 85d2a31fe4d9be1555f621ead7a520d8791e0f74 ]
 
-When using 32 bit RGB formats, the RGA on the rk3568 produces wrong
-colors as the wrong color channels are read or written.  The reason is
-that the format description for the channel swizzeling is wrong and the
-wrong bits are configured. For example, when converting ARGB32 to NV12,
-the alpha channel is used as blue channel.. This doesn't happen if the
-color format is the same on both sides.
+In all known platforms the ISP has dedicated IRQ lines, but for some
+reason the driver uses IRQF_SHARED.
 
-Fix the color_swap settings of the formats to correctly handle 32 bit
-RGB formats.
+Supporting IRQF_SHARED properly requires handling interrupts even when
+our device is disabled, and the driver does not handle this. To avoid
+adding such code, and to be sure the driver won't accidentally be used
+in a platform with shared interrupts, let's drop the IRQF_SHARED flag.
 
-For RGA_COLOR_FMT_XBGR8888, the RGA_COLOR_ALPHA_SWAP bit doesn't have an
-effect. Thus, it isn't possible to handle the V4L2_PIX_FMT_XRGB32. Thus,
-it is removed from the list of supported formats.
+Link: https://lore.kernel.org/r/20231207-rkisp-irq-fix-v3-1-358a2c871a3c@ideasonboard.com
 
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Tested-by: Adam Ford <aford173@gmail.com>  #imx8mp-beacon
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rockchip/rga/rga.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index e3246344fb72..bcbbd1408b36 100644
---- a/drivers/media/platform/rockchip/rga/rga.c
-+++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -187,25 +187,16 @@ static int rga_setup_ctrls(struct rga_ctx *ctx)
- static struct rga_fmt formats[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_ARGB32,
--		.color_swap = RGA_COLOR_RB_SWAP,
-+		.color_swap = RGA_COLOR_ALPHA_SWAP,
- 		.hw_format = RGA_COLOR_FMT_ABGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
- 		.y_div = 1,
- 		.x_div = 1,
- 	},
--	{
--		.fourcc = V4L2_PIX_FMT_XRGB32,
--		.color_swap = RGA_COLOR_RB_SWAP,
--		.hw_format = RGA_COLOR_FMT_XBGR8888,
--		.depth = 32,
--		.uv_factor = 1,
--		.y_div = 1,
--		.x_div = 1,
--	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_ABGR32,
--		.color_swap = RGA_COLOR_ALPHA_SWAP,
-+		.color_swap = RGA_COLOR_RB_SWAP,
- 		.hw_format = RGA_COLOR_FMT_ABGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
-@@ -214,7 +205,7 @@ static struct rga_fmt formats[] = {
- 	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_XBGR32,
--		.color_swap = RGA_COLOR_ALPHA_SWAP,
-+		.color_swap = RGA_COLOR_RB_SWAP,
- 		.hw_format = RGA_COLOR_FMT_XBGR8888,
- 		.depth = 32,
- 		.uv_factor = 1,
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 560f928c3752..036458542627 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -482,7 +482,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 	if (irq < 0)
+ 		return irq;
+ 
+-	ret = devm_request_irq(dev, irq, rkisp1_isr, IRQF_SHARED,
++	ret = devm_request_irq(dev, irq, rkisp1_isr, 0,
+ 			       dev_driver_string(dev), dev);
+ 	if (ret) {
+ 		dev_err(dev, "request irq failed: %d\n", ret);
 -- 
 2.43.0
 
