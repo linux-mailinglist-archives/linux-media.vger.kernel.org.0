@@ -1,60 +1,62 @@
-Return-Path: <linux-media+bounces-4031-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C54D836AF9
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 17:37:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92ADF836BF9
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 17:55:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D071F1C24BB1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:37:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FB69B2AD5F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:42:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C628056B92;
-	Mon, 22 Jan 2024 15:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93B3E150990;
+	Mon, 22 Jan 2024 15:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p512BaoR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dbjq+fvt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3113A14A4EA;
-	Mon, 22 Jan 2024 15:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB36150982;
+	Mon, 22 Jan 2024 15:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936660; cv=none; b=HdRqNSftBvgHkcYd3yj6CLo3A3oGx9f/LuWVFYofQgwJFFihie9bqF/ctvj/cdQ/98lyXDG56f9cpfcEl8u6Kji49zbHQZr+choAFoXkbRR8PKEZbD+E6TCk8XyZ3ODAgFj8ihmins7cJ8rxDEgrCYR8gd0P4ie9Udfr7+yJZ1g=
+	t=1705936723; cv=none; b=GTjY3CllMzaoDVS/4l7eudiLXu2WCPOGaDZIoCFVvSyAp5AbFNROky86AKRwbaNGkCeHOn63AM+xTtuM1A3Jwn85HBo5m54HEQe9YbwjtG6wMqFDRe4AhyWt+SkfsfjO1fi8jQ2CFjNmIyIFOz5njQUV6gTrSDjM6bKcQwsdN2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936660; c=relaxed/simple;
-	bh=FWNWh8dLcOM4LpimapOwOnyzLuG2MZo3Uy6g263H8G0=;
+	s=arc-20240116; t=1705936723; c=relaxed/simple;
+	bh=wlZP73cr1ojqpxCu/0uksqO1NPcd8XKawqbKWnZHO2A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uRgCVHqOJDYnHUvIu9/plldP6HtIITsf0V/aclefqgi3/D+/qeHFZ8ubSrzjj8fsK+vlvOtD5pjkhjCvJ9/ss56XyM1Yb5whYcsgJ4sBjUWbIrWwabkQEObSwzyZ8MPzdeqzD4ihDreX0QQB8y+zrFdplGqS2K2S69d8kAblOKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p512BaoR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 382A0C433F1;
-	Mon, 22 Jan 2024 15:17:39 +0000 (UTC)
+	 MIME-Version; b=guyYo6yq1Nr4FHruPbmiZlJiCyHlU6JUFT+a8E9VltgbNbgEJvvKqdaLNQkhVtTAU443f+7qecEB4X6g0Hqc3fcqNIZWncM2o6xwaCWZdiAosufWA4yyiknEdFO46S4D4i4RiaMxn+NHRq6uKOPDIMt7nx1Cm1dYUxj2AuHU89c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dbjq+fvt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1018C43394;
+	Mon, 22 Jan 2024 15:18:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936660;
-	bh=FWNWh8dLcOM4LpimapOwOnyzLuG2MZo3Uy6g263H8G0=;
+	s=k20201202; t=1705936722;
+	bh=wlZP73cr1ojqpxCu/0uksqO1NPcd8XKawqbKWnZHO2A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p512BaoRlkfOxdvv1JyfOKASjAr5Ns4iJ5CgGZHBVZ/N/7El7284Ti0Ff2eZCvxfv
-	 Ww90mza9b/m2heBwhGbW27a3DhhwVCQtg65pVd2yzPDQlkNsgKjVTnGIziCfMoGKDd
-	 QmDHYp+xMlMzhghFP1AAxpGMtfPvz2G8pU1AGi3XHAz72LBOax3Y0LWGlc8FXu6nCf
-	 oxoM6vNZrxjV3Hte3ZKZFanPEKZkn1+G6XbBFob1qOi3mpmhokLN2hb/O08GpAbUnM
-	 vwKZ0WQC0zVctEnD1YsS1o8DME7k60zYXpOAfbvnZMx2zY5WkA8CxDiDMyfukfHi3F
-	 DOZKHcqDLZ59A==
+	b=dbjq+fvtSksumLg7R3Xa/JrSHX4rh3l+RxUVq9bkQpw46Bcj+zJD5ykGIIO4TheVr
+	 gCbW2jTxsK8uZ1vChjRMMGZ8Gr/FrbXZ7p9N5UETIME4DWHzhSEKE+z01UW0MNBJWs
+	 bdOKA2797ms9zOUTbaiJmRsK+IYfTrIyQYAfh6Hs5D3P/PgOC7R6Q9hrtkGtdUr1jj
+	 U5t+VFYXYx+NJOi7D7HdTP1n5Kwo0RRqprxMlH48UkrZRqgwfhziDwKAkR0IzQ8E6W
+	 hG6g9qF/O3GGrcPokSq4eNw3cKv/ZHwKgjRfBpdAVx778fp/iF5jWxgwKXE0xleRea
+	 X2IOxYbJyPK3Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Su Hui <suhui@nfschina.com>,
+Cc: Ghanshyam Agrawal <ghanshyam1898@gmail.com>,
+	Phillip Potter <phil@philpotter.co.uk>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	ezequiel@vanguardiasur.com.ar,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 17/24] media: ddbridge: fix an error code problem in ddb_probe
-Date: Mon, 22 Jan 2024 10:16:31 -0500
-Message-ID: <20240122151659.997085-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 09/23] media: stk1160: Fixed high volume of stk1160_dbg messages
+Date: Mon, 22 Jan 2024 10:17:49 -0500
+Message-ID: <20240122151823.997644-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122151659.997085-1-sashal@kernel.org>
-References: <20240122151659.997085-1-sashal@kernel.org>
+In-Reply-To: <20240122151823.997644-1-sashal@kernel.org>
+References: <20240122151823.997644-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,35 +65,48 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.267
+X-stable-base: Linux 4.19.305
 Content-Transfer-Encoding: 8bit
 
-From: Su Hui <suhui@nfschina.com>
+From: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
 
-[ Upstream commit 09b4195021be69af1e1936cca995712a6d0f2562 ]
+[ Upstream commit b3695e86d25aafbe175dd51f6aaf6f68d341d590 ]
 
-Error code is assigned to 'stat', return 'stat' rather than '-1'.
+The function stk1160_dbg gets called too many times, which causes
+the output to get flooded with messages. Since stk1160_dbg uses
+printk, it is now replaced with printk_ratelimited.
 
-Signed-off-by: Su Hui <suhui@nfschina.com>
+Suggested-by: Phillip Potter <phil@philpotter.co.uk>
+Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/ddbridge/ddbridge-main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/stk1160/stk1160-video.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/pci/ddbridge/ddbridge-main.c b/drivers/media/pci/ddbridge/ddbridge-main.c
-index 03dc9924fa2c..bb7fb6402d6e 100644
---- a/drivers/media/pci/ddbridge/ddbridge-main.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-main.c
-@@ -247,7 +247,7 @@ static int ddb_probe(struct pci_dev *pdev,
- 	ddb_unmap(dev);
- 	pci_set_drvdata(pdev, NULL);
- 	pci_disable_device(pdev);
--	return -1;
-+	return stat;
- }
+diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
+index 2811f612820f..0e98b450ae01 100644
+--- a/drivers/media/usb/stk1160/stk1160-video.c
++++ b/drivers/media/usb/stk1160/stk1160-video.c
+@@ -117,8 +117,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
  
- /****************************************************************************/
+ 	/*
+ 	 * TODO: These stk1160_dbg are very spammy!
+-	 * We should 1) check why we are getting them
+-	 * and 2) add ratelimit.
++	 * We should check why we are getting them.
+ 	 *
+ 	 * UPDATE: One of the reasons (the only one?) for getting these
+ 	 * is incorrect standard (mismatch between expected and configured).
+@@ -161,7 +160,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
+ 
+ 	/* Let the bug hunt begin! sanity checks! */
+ 	if (lencopy < 0) {
+-		stk1160_dbg("copy skipped: negative lencopy\n");
++		printk_ratelimited(KERN_DEBUG "copy skipped: negative lencopy\n");
+ 		return;
+ 	}
+ 
 -- 
 2.43.0
 
