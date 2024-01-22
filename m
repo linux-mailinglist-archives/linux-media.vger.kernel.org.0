@@ -1,62 +1,59 @@
-Return-Path: <linux-media+bounces-4006-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4007-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2728368B9
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:45:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4358368C9
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 16:47:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 988B2283E75
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 15:45:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C364B1C22B19
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 15:47:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AFA5487A2;
-	Mon, 22 Jan 2024 15:06:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A613767E93;
+	Mon, 22 Jan 2024 15:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhlpmKW3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2NnDphU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6825D66B29;
-	Mon, 22 Jan 2024 15:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0AC67E82;
+	Mon, 22 Jan 2024 15:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705935962; cv=none; b=QPZgi4oIqJF3d24HSp18Y1JvpP8m0n6kpqp06D4zfJ1mnmLg0H2SDimR3SaXi1+2xfumvzHnwFyMPH5OtzYxIbq6zG1osX29kuAXo4dzJiSOvwdRXxfJFNCj0Ph+ulzoDIgfmRu0hnH6epjKxzaHWLfYCS8Dq/WYDzeCzMaD7Kw=
+	t=1705935975; cv=none; b=ViDyHrfFziY+vGTEhWKP/LIpXHOEzvVVuGrFhTy/l4BOLjP06qUa7YRb88oj2rQKniSV3v/dRPr6zcbZVgLpOYnRNQimmohxBTGqO1bBRRXnVqE00UMp2psyTmoIr+yb7ZSGKFYqhhdDq859b9P+Hyw0rAUZusAbg3/J/3hO5fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705935962; c=relaxed/simple;
-	bh=hf/H0+yhOOVplRLK4SCGzNdBfN3H+R6kuy4AeT/hJ2c=;
+	s=arc-20240116; t=1705935975; c=relaxed/simple;
+	bh=LKTSZOGSaxq2ddTyAl0YeKbC+oAsCIrtnkAvoJDLljQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rqN2HHEamaQpmJB87TvqF/yKzX0p7RTDy9Ww1VRalgNSypbE3ic/Rie5MMmpflGk6pjJnwjDZ9cEuF1iMhFVpyLW/Qgqq7n+m3wrPgKe1FcjC4b3buhoUhQvGBDcBDxaUoYr4Nlwbug3hBFlj8A/e07jUAYB2Sb7oKGI1p3W0VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhlpmKW3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C73B2C43390;
-	Mon, 22 Jan 2024 15:06:00 +0000 (UTC)
+	 MIME-Version; b=YoA38ZcFh8g8pU8QPcBNiV0h48OMguoxCDrWTYg8Xc4ffiXz+6JUvsyyPVsKmMiaifq+bODeEZeFbdHKJx+0vCjSmvqTD33D5+yZKAn7/cLpHB19NP8YNafp3UGsxi4Tx1U3dYTg3R4dAJmI4LoMKAcnyBwChwNlUD649eovTwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2NnDphU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBD85C433A6;
+	Mon, 22 Jan 2024 15:06:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705935962;
-	bh=hf/H0+yhOOVplRLK4SCGzNdBfN3H+R6kuy4AeT/hJ2c=;
+	s=k20201202; t=1705935974;
+	bh=LKTSZOGSaxq2ddTyAl0YeKbC+oAsCIrtnkAvoJDLljQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UhlpmKW3Zs1GXAGglGMaB1sXjdZ8AZOY5oEkWZgs6aRlorGmwAgE5Ih9bBhw4p5XP
-	 WY0AuAh9g9NaivzVB+rbpniJL1fsyyx6cmPQ+jxoiRfgl5HlaQIOxp9EenG07rrP8r
-	 2iB7TVA5J9GYBwcZm7pl4oM25iT9fVNbSCGxeBksbXTBes03eIM775Id8Q8k+ACBKd
-	 b0uF+k0MRdeYVZpaxNTOGEMVtTlmrZTY/sxDvTRDUnQUC/P28f3dQapnc4tskXLsbT
-	 tir5kDj0CmxoMt/rH286mugKar2Yi2b8bG1cpgPIZCLlMP2FrZZladGyfr6eOS9Vqv
-	 XJrd7Md81v5ZA==
+	b=U2NnDphUESzzfBySXeStlCLV9nKp1tA3rMIqGZyzA4IZJnKiOz8hlheUXWIYMCz8r
+	 OxhQ5tN6zw9D2D35gtfDcWOxS/e+KexmBjx6aY0IvjRXsEDh0eIivFx6lEyVEoKBNh
+	 Pcj0fKBPk0dT6nxn65JLCXwTsGaQkUoGR6t7Y2oa4BpYkxz69ex4YXIj50IkIP55q1
+	 2c/HAPvXOTMFciS4SaMpesjB9D9YBSLtXWDB321T0YOMaqA2W40Om1XRpJrRILl6YK
+	 FSE5OkeJKC3PumEy/Ge9d6pQVu63/cIW43irVl3eOzmnhxxiSfdeOM0txoOw9bD5CH
+	 ia5t3q3Ak4P5A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc: Ming Qian <ming.qian@nxp.com>,
+	Xiaolei Wang <xiaolei.wang@windriver.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	dafna@fastmail.com,
-	heiko@sntech.de,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 33/73] media: rkisp1: resizer: Stop manual allocation of v4l2_subdev_state
-Date: Mon, 22 Jan 2024 10:01:47 -0500
-Message-ID: <20240122150432.992458-33-sashal@kernel.org>
+	eagle.zhou@nxp.com,
+	mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 40/73] media: amphion: remove mutext lock in condition of wait_event
+Date: Mon, 22 Jan 2024 10:01:54 -0500
+Message-ID: <20240122150432.992458-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
 References: <20240122150432.992458-1-sashal@kernel.org>
@@ -71,97 +68,158 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.13
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Ming Qian <ming.qian@nxp.com>
 
-[ Upstream commit efa28efd9cba015f8c3d88123527c3c3cfcd13d0 ]
+[ Upstream commit f9c8ddce2fe3b767582f299d03fc8fb85943568c ]
 
-Supported media bus codes on the resizer sink pad are identical to the
-ISP source pad. The .enum_mbus_code() handler thus delegates the
-enumeration to the ISP's operation. This is problematic for two
-reasons:
+mutext_lock should not be called in condition of wait_event, otherwise,
+when CONFIG_DEBUG_ATOMIC_SLEEP is enabled, we may meet the following
+warning:
+do not call blocking ops when !TASK_RUNNING; state=2
+WARNING: CPU: 5 PID: 741 at kernel/sched/core.c:9859
+__might_sleep+0x80/0xa4
+Hardware name: Freescale i.MX8QM MEK (DT)
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)  pc :
+__might_sleep+0x80/0xa4  lr : __might_sleep+0x80/0xa4  sp : ffffffc0123738a0
+x29: ffffffc0123738a0 x28: ffffffc009194c48 x27: ffffffc00bbc1050
+x26: ffffff8814b282f0 x25: ffffff8814b280d0 x24: ffffff8814b28080
+x23: 0000000000000001 x22: 0000000000000032 x21: ffffffc00bbc1000
+x20: 000000000000011b x19: ffffffc009324670 x18: 00000000fffffffd
+x17: 30303c5b20746120 x16: 74657320323d6574 x15: 617473203b474e49
+x14: 00058b5b8b9aa1f1 x13: ffffffc00903cda0 x12: 00000000d744fcc9
+x11: 000000000000001c x10: 00000000000009a0 x9 : ffffffc0090201f4
+x8 : ffffff8828245000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : 00000000410fd080 x4 : 0000000000000002 x3 : ffffff8815aab4c8
+x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff8828244600
+Call trace:
+ __might_sleep+0x80/0xa4
+ mutex_lock+0x2c/0x80
+ sync_session_response+0x110/0x310
+ vpu_session_send_cmd+0x18c/0x244
+ vpu_session_start+0x38/0x70
+ vdec_start_session+0x1b4/0x3e0
+ vpu_vb2_start_streaming+0xa0/0x1c4
+ vb2_start_streaming+0x74/0x160
+ vb2_core_qbuf+0x488/0x650
+ vb2_qbuf+0x9c/0x100
+ v4l2_m2m_qbuf+0x7c/0x224
+ v4l2_m2m_ioctl_qbuf+0x20/0x2c
+ v4l_qbuf+0x50/0x6c
+ __video_do_ioctl+0x174/0x3f0
+ video_usercopy+0x210/0x7cc
+ video_ioctl2+0x20/0x30
+ v4l2_ioctl+0x48/0x6c
 
-- Format enumeration on the ISP source pad is dependent on the format
-  configured on the ISP sink pad for the same subdev state (TRY or
-  ACTIVE), while format enumeration on the resizer sink pad should
-  return all formats supported by the resizer subdev, regardless of the
-  ISP configuration.
+we need to refine check_is_responsed() to remove the mutext_lock, each
+cmd has a monotonically increasing id, and cmds are executed
+sequentially, so we can check the id of the last reponsed cmd, then
+determine whether a command has been responded or not.
 
-- Delegating the operation involves creating a fake v4l2_subdev_state on
-  the stack to pass to the ISP .enum_mbus_code() handler. This gets in
-  the way of evolution of both the ISP enumeration handler and, more
-  generally, the V4L2 subdev state infrastructure.
-
-Fix those two issues by implementing format enumeration manually for the
-resizer.
-
-Link: https://lore.kernel.org/r/20231126020948.2700-1-laurent.pinchart@ideasonboard.com
-
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+CC: Xiaolei Wang <xiaolei.wang@windriver.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../platform/rockchip/rkisp1/rkisp1-resizer.c | 38 ++++++++++++-------
- 1 file changed, 24 insertions(+), 14 deletions(-)
+ drivers/media/platform/amphion/vpu.h      |  3 ++-
+ drivers/media/platform/amphion/vpu_cmds.c | 28 ++++++++---------------
+ drivers/media/platform/amphion/vpu_v4l2.c |  1 +
+ 3 files changed, 12 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-index c15ae0218118..eb0aae56d2c7 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-@@ -363,12 +363,8 @@ static int rkisp1_rsz_enum_mbus_code(struct v4l2_subdev *sd,
+diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
+index 5a701f64289e..0246cf0ac3a8 100644
+--- a/drivers/media/platform/amphion/vpu.h
++++ b/drivers/media/platform/amphion/vpu.h
+@@ -154,7 +154,6 @@ struct vpu_core {
+ 	struct vpu_mbox tx_type;
+ 	struct vpu_mbox tx_data;
+ 	struct vpu_mbox rx;
+-	unsigned long cmd_seq;
+ 
+ 	wait_queue_head_t ack_wq;
+ 	struct completion cmp;
+@@ -253,6 +252,8 @@ struct vpu_inst {
+ 
+ 	struct list_head cmd_q;
+ 	void *pending;
++	unsigned long cmd_seq;
++	atomic_long_t last_response_cmd;
+ 
+ 	struct vpu_inst_ops *ops;
+ 	const struct vpu_format *formats;
+diff --git a/drivers/media/platform/amphion/vpu_cmds.c b/drivers/media/platform/amphion/vpu_cmds.c
+index c2337812573e..5695f5c1cb3e 100644
+--- a/drivers/media/platform/amphion/vpu_cmds.c
++++ b/drivers/media/platform/amphion/vpu_cmds.c
+@@ -32,6 +32,7 @@ struct vpu_cmd_t {
+ 	struct vpu_cmd_request *request;
+ 	struct vpu_rpc_event *pkt;
+ 	unsigned long key;
++	atomic_long_t *last_response_cmd;
+ };
+ 
+ static struct vpu_cmd_request vpu_cmd_requests[] = {
+@@ -115,6 +116,8 @@ static void vpu_free_cmd(struct vpu_cmd_t *cmd)
  {
- 	struct rkisp1_resizer *rsz =
- 		container_of(sd, struct rkisp1_resizer, sd);
--	struct v4l2_subdev_pad_config dummy_cfg;
--	struct v4l2_subdev_state pad_state = {
--		.pads = &dummy_cfg
--	};
--	u32 pad = code->pad;
--	int ret;
-+	unsigned int index = code->index;
-+	unsigned int i;
+ 	if (!cmd)
+ 		return;
++	if (cmd->last_response_cmd)
++		atomic_long_set(cmd->last_response_cmd, cmd->key);
+ 	vfree(cmd->pkt);
+ 	vfree(cmd);
+ }
+@@ -172,7 +175,8 @@ static int vpu_request_cmd(struct vpu_inst *inst, u32 id, void *data,
+ 		return -ENOMEM;
  
- 	if (code->pad == RKISP1_RSZ_PAD_SRC) {
- 		/* supported mbus codes on the src are the same as in the capture */
-@@ -388,15 +384,29 @@ static int rkisp1_rsz_enum_mbus_code(struct v4l2_subdev *sd,
- 		return 0;
- 	}
+ 	mutex_lock(&core->cmd_lock);
+-	cmd->key = core->cmd_seq++;
++	cmd->key = ++inst->cmd_seq;
++	cmd->last_response_cmd = &inst->last_response_cmd;
+ 	if (key)
+ 		*key = cmd->key;
+ 	if (sync)
+@@ -246,26 +250,12 @@ void vpu_clear_request(struct vpu_inst *inst)
  
--	/* supported mbus codes on the sink pad are the same as isp src pad */
--	code->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
--	ret = v4l2_subdev_call(&rsz->rkisp1->isp.sd, pad, enum_mbus_code,
--			       &pad_state, code);
-+	/*
-+	 * Supported mbus codes on the sink pad are the same as on the ISP
-+	 * source pad.
-+	 */
-+	for (i = 0; ; i++) {
-+		const struct rkisp1_mbus_info *fmt =
-+			rkisp1_mbus_info_get_by_index(i);
+ static bool check_is_responsed(struct vpu_inst *inst, unsigned long key)
+ {
+-	struct vpu_core *core = inst->core;
+-	struct vpu_cmd_t *cmd;
+-	bool flag = true;
++	unsigned long last_response = atomic_long_read(&inst->last_response_cmd);
  
--	/* restore pad */
--	code->pad = pad;
--	code->flags = 0;
--	return ret;
-+		if (!fmt)
-+			break;
-+
-+		if (!(fmt->direction & RKISP1_ISP_SD_SRC))
-+			continue;
-+
-+		if (!index) {
-+			code->code = fmt->mbus_code;
-+			return 0;
-+		}
-+
-+		index--;
-+	}
-+
-+	return -EINVAL;
+-	mutex_lock(&core->cmd_lock);
+-	cmd = inst->pending;
+-	if (cmd && key == cmd->key) {
+-		flag = false;
+-		goto exit;
+-	}
+-	list_for_each_entry(cmd, &inst->cmd_q, list) {
+-		if (key == cmd->key) {
+-			flag = false;
+-			break;
+-		}
+-	}
+-exit:
+-	mutex_unlock(&core->cmd_lock);
++	if (key <= last_response && (last_response - key) < (ULONG_MAX >> 1))
++		return true;
+ 
+-	return flag;
++	return false;
  }
  
- static int rkisp1_rsz_init_config(struct v4l2_subdev *sd,
+ static int sync_session_response(struct vpu_inst *inst, unsigned long key, long timeout, int try)
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 0f6e4c666440..d7e0de49b3dc 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -716,6 +716,7 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
+ 		func = &vpu->decoder;
+ 
+ 	atomic_set(&inst->ref_count, 0);
++	atomic_long_set(&inst->last_response_cmd, 0);
+ 	vpu_inst_get(inst);
+ 	inst->vpu = vpu;
+ 	inst->core = vpu_request_core(vpu, inst->type);
 -- 
 2.43.0
 
