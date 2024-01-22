@@ -1,73 +1,55 @@
-Return-Path: <linux-media+bounces-3969-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3970-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CAF7835FCE
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 11:35:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F318835FDC
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 11:38:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1B451C25815
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 10:35:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CBCCFB262CA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 10:38:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 480433A1BE;
-	Mon, 22 Jan 2024 10:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 865FF3A1BF;
+	Mon, 22 Jan 2024 10:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eKtOjMbB"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ry2b84fv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120B8374F1;
-	Mon, 22 Jan 2024 10:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633EB39ACC;
+	Mon, 22 Jan 2024 10:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705919707; cv=none; b=Wt5whbQ3cqVrkcBA1N6Ep25N2z0Ue685evK1/AG2Gj2W04J7cMW73dusyRtQYhj+EF4yZ/W9SGk46kHzGEQ1/6u6D7+cPuJgtXfFQ++yd6kJwZEwLQtsjNaesORNaCFqF2mCwP1IP1x55440rfbqY/+h1H0xHAMLbYAyCxKDWs8=
+	t=1705919901; cv=none; b=YtHjTWnReIWAlrPtYeBEqv/JUMIMsdaLzFmNfr4MR5caxu6yeXMNLnUPDHJzJkbKvLAmcDoH+jUakQhBP8OSeSrHvvXGONNy/6Rx5LPgHrIXZdraxK827cyjllF0Uz7EdhoetTGYldMyNTXv6Z5yRmOpXIQAT+d4h+5IMruk6wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705919707; c=relaxed/simple;
-	bh=pPWGPf9n2O0H4oOsB6zd/ZUH2JpfRiHcPMPlucfBH/8=;
+	s=arc-20240116; t=1705919901; c=relaxed/simple;
+	bh=QOgZWgCo219X/V3HqTTipzGqn3wTwHbInkP56JKp9LU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kfyBMVyAx89nhS4O/h6q5Gl42kwpa7YRmWV+wouR8uG0ndjQ/KqVTPKgtxkGu2SVeEOpqTS5bdKLQiPOxxAwg/OFnVzh9OuKp652hsrsowMNHGa67nwrrAIEtdBPJJlsI8pnwk+/eaomWPHDkfGo4dM9pFtk4OTbR5dmDqh58TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eKtOjMbB; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40eac352733so10127555e9.0;
-        Mon, 22 Jan 2024 02:35:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705919704; x=1706524504; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wUaBjTF8ze7TJQKlKI0DO8wsNhCqTacpbxQmnNsDib0=;
-        b=eKtOjMbBMub3fdlJeAOu3dBol94W8SU2eRjVTXYitsy+Gnv0ngwy5BbChBDTLp3PPr
-         JksMoPCC1BapKJ5b9AAA6jH3LlycR70FQSEUCAkJQnCCQl2PdJ/zLTfkPs8Dq9jyrODy
-         kekkJ6JKRAwULkYtIwl5Sjbm22rl9WR9lBlXfnzwBtdkioVCFZHxHFlU/idNeGacqD6I
-         p1lcT7YNQ5+0y2BsMrmIzi2g67j2Gr8/yVmevNfAHRhSb7yJ9HWGbMY+LtQ/PH8ebUJ4
-         EMPqthEHub8TPdxJcK2vxayLygmUhFj55BDBdKRR4ncSOecgsQ8b/RzBqpAVpjTnAeNh
-         WNVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705919704; x=1706524504;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wUaBjTF8ze7TJQKlKI0DO8wsNhCqTacpbxQmnNsDib0=;
-        b=es2PT0+Vmwn6U1QgQjOfT1m9aCJsyH/dyu/lIA4kPBNU5uvaX8caIApBHjfkMAu0R9
-         VFrTUCS/KFZag0G5bsWHay2XND8eV02QNATI6kJEyqjrRjl7Wifd69xfgeN6fcD0WAi1
-         h3Mfm6kAFktBQ30vHGqSzqAwdnH+iiptAARN55K49SmYs5tzV87XrW0xpvuEPnL9oksj
-         o6jg3ezqr2MQCkEmPgea5VMz8pL7ZcLnnXY7yzMaykt3FAq3eDmBndChvYls1qupOHWp
-         MwoZSytCkSYRX5nXWDbECxhcnX2SShnMx1lCnJjxvQonMzOCg2DjQAPLtp18GHhZtJte
-         /OzQ==
-X-Gm-Message-State: AOJu0YwxpUu0z9EZJABV4HECu2I4xf6zaniX+vWqVZjbtZmtRhD0yoVY
-	eNr7rDzyJnb3DS6wG1cF8ZrihYallMr4C2Fm8ejkqLQR1NA3+bIS
-X-Google-Smtp-Source: AGHT+IEBg93W5Ic2cq8LVxb2U2hPd7pLRG/nN6Z0J3Udrdl4B95BIKuujofcMkdi+IpBnJPrzbr9Pg==
-X-Received: by 2002:a05:600c:548e:b0:40e:615f:32cc with SMTP id iv14-20020a05600c548e00b0040e615f32ccmr2257718wmb.185.1705919703859;
-        Mon, 22 Jan 2024 02:35:03 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id ay2-20020a05600c1e0200b0040ead97f70dsm3088330wmb.24.2024.01.22.02.35.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 02:35:03 -0800 (PST)
-Message-ID: <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
-Date: Mon, 22 Jan 2024 11:35:00 +0100
+	 In-Reply-To:Content-Type; b=qcvlpIljEM2OZX0GYt3CG3tovXk8HPy4gZtaNS1bx4+pTGY8ZvDRO1kZQYQJW6JXdHY2XT+tHwvug+kMgRf215yUWPnxQtPWoyyi5NpbLbvHi2bXZFsgOgwxqryhlSbz282CQ9fCReUEOt6buMP49wmKp06YhG5CM3SmGyruLY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ry2b84fv; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1705919897;
+	bh=QOgZWgCo219X/V3HqTTipzGqn3wTwHbInkP56JKp9LU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ry2b84fvNF59C0fPB/rOmCrQfkB9UCYyyxjbbVblAutR13mGF1OtEsYNT4P9veMNH
+	 qNGb0ir5fSdO4/aVWMTwKNLlUU4KN+tMfMu64/tonBwHeD1VIHlseBwPfkXoaAHWoL
+	 gNMt/FELnlRq0ivLUOec/jQpoxO2qCVeXjzlOswL3NAJBM7KRH5I23LTC7FwxSwe0B
+	 4MZeDMMZYFG6QD6iFsGlOpEyACqG6GUsEXAdtXbAt7wl1yVFWDEwcExZjeJN09OoNg
+	 bb2AeCvEGX7DEYDkLgAxYVEnt8NlA8nXRW+J+OfUcYS0PFxRe/mST7BTtk5m9gOW9R
+	 dUgN3exk993+g==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 89FCE378045F;
+	Mon, 22 Jan 2024 10:38:16 +0000 (UTC)
+Message-ID: <9c447297-2738-4b63-9da9-0d004660e65d@collabora.com>
+Date: Mon, 22 Jan 2024 11:38:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,185 +57,122 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
+Subject: Re: [PATCH v3 1/3] dt-bindings: mailbox: Add mediatek,gce-props.yaml
 Content-Language: en-US
-To: Paul Cercueil <paul@crapouillou.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240119141402.44262-1-paul@crapouillou.net>
- <20240119141402.44262-2-paul@crapouillou.net>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20240119141402.44262-2-paul@crapouillou.net>
+To: Conor Dooley <conor@kernel.org>, "Jason-JH.Lin"
+ <jason-jh.lin@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, Jason-ch Chen <jason-ch.chen@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Shawn Sung <shawn.sung@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
+ <20240119063224.29671-2-jason-jh.lin@mediatek.com>
+ <20240119-demote-fragment-624a35367a87@spud>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240119-demote-fragment-624a35367a87@spud>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Am 19.01.24 um 15:13 schrieb Paul Cercueil:
-> These functions should be used by device drivers when they start and
-> stop accessing the data of DMABUF. It allows DMABUF importers to cache
-> the dma_buf_attachment while ensuring that the data they want to access
-> is available for their device when the DMA transfers take place.
+Il 19/01/24 17:44, Conor Dooley ha scritto:
+> Rob,
+> 
+> On Fri, Jan 19, 2024 at 02:32:22PM +0800, Jason-JH.Lin wrote:
+>> Add mediatek,gce-props.yaml for common GCE properties that is used for
+>> both mailbox providers and consumers. We place the common property
+>> "mediatek,gce-events" in this binding currently.
+>>
+>> The property "mediatek,gce-events" is used for GCE event ID corresponding
+>> to a hardware event signal sent by the hardware or a sofware driver.
+>> If the mailbox providers or consumers want to manipulate the value of
+>> the event ID, they need to know the specific event ID.
+>>
+>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>> ---
+>>   .../bindings/mailbox/mediatek,gce-props.yaml  | 52 +++++++++++++++++++
+> 
+> Is bindings/mailbox the correct directory to put this in?
+> 
 
-As Daniel already noted as well this is a complete no-go from the 
-DMA-buf design point of view.
+Well, the GCE is a mailbox :-)
 
-Regards,
-Christian.
+...but I get why you're asking... and I don't think that this should go to
+arm/mediatek/ as it's really just only referring to extra properties for kind of
+"special" mailbox client events...
 
->
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->
-> ---
-> v5: New patch
-> ---
->   drivers/dma-buf/dma-buf.c | 66 +++++++++++++++++++++++++++++++++++++++
->   include/linux/dma-buf.h   | 37 ++++++++++++++++++++++
->   2 files changed, 103 insertions(+)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 8fe5aa67b167..a8bab6c18fcd 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -830,6 +830,8 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
->    *     - dma_buf_mmap()
->    *     - dma_buf_begin_cpu_access()
->    *     - dma_buf_end_cpu_access()
-> + *     - dma_buf_begin_access()
-> + *     - dma_buf_end_access()
->    *     - dma_buf_map_attachment_unlocked()
->    *     - dma_buf_unmap_attachment_unlocked()
->    *     - dma_buf_vmap_unlocked()
-> @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
->   }
->   EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
->   
-> +/**
-> + * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
-> + * @attach:	[in]	attachment used for hardware access
-> + * @sg_table:	[in]	scatterlist used for the DMA transfer
-> + * @direction:  [in]    direction of DMA transfer
-> + */
-> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
-> +			 struct sg_table *sgt, enum dma_data_direction dir)
-> +{
-> +	struct dma_buf *dmabuf;
-> +	bool cookie;
-> +	int ret;
-> +
-> +	if (WARN_ON(!attach))
-> +		return -EINVAL;
-> +
-> +	dmabuf = attach->dmabuf;
-> +
-> +	if (!dmabuf->ops->begin_access)
-> +		return 0;
-> +
-> +	cookie = dma_fence_begin_signalling();
-> +	ret = dmabuf->ops->begin_access(attach, sgt, dir);
-> +	dma_fence_end_signalling(cookie);
-> +
-> +	if (WARN_ON_ONCE(ret))
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
-> +
-> +/**
-> + * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
-> + * @attach:	[in]	attachment used for hardware access
-> + * @sg_table:	[in]	scatterlist used for the DMA transfer
-> + * @direction:  [in]    direction of DMA transfer
-> + */
-> +int dma_buf_end_access(struct dma_buf_attachment *attach,
-> +		       struct sg_table *sgt, enum dma_data_direction dir)
-> +{
-> +	struct dma_buf *dmabuf;
-> +	bool cookie;
-> +	int ret;
-> +
-> +	if (WARN_ON(!attach))
-> +		return -EINVAL;
-> +
-> +	dmabuf = attach->dmabuf;
-> +
-> +	if (!dmabuf->ops->end_access)
-> +		return 0;
-> +
-> +	cookie = dma_fence_begin_signalling();
-> +	ret = dmabuf->ops->end_access(attach, sgt, dir);
-> +	dma_fence_end_signalling(cookie);
-> +
-> +	if (WARN_ON_ONCE(ret))
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
-> +
->   #ifdef CONFIG_DEBUG_FS
->   static int dma_buf_debug_show(struct seq_file *s, void *unused)
->   {
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 8ff4add71f88..8ba612c7cc16 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -246,6 +246,38 @@ struct dma_buf_ops {
->   	 */
->   	int (*end_cpu_access)(struct dma_buf *, enum dma_data_direction);
->   
-> +	/**
-> +	 * @begin_access:
-> +	 *
-> +	 * This is called from dma_buf_begin_access() when a device driver
-> +	 * wants to access the data of the DMABUF. The exporter can use this
-> +	 * to flush/sync the caches if needed.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * Returns:
-> +	 *
-> +	 * 0 on success or a negative error code on failure.
-> +	 */
-> +	int (*begin_access)(struct dma_buf_attachment *, struct sg_table *,
-> +			    enum dma_data_direction);
-> +
-> +	/**
-> +	 * @end_access:
-> +	 *
-> +	 * This is called from dma_buf_end_access() when a device driver is
-> +	 * done accessing the data of the DMABUF. The exporter can use this
-> +	 * to flush/sync the caches if needed.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * Returns:
-> +	 *
-> +	 * 0 on success or a negative error code on failure.
-> +	 */
-> +	int (*end_access)(struct dma_buf_attachment *, struct sg_table *,
-> +			  enum dma_data_direction);
-> +
->   	/**
->   	 * @mmap:
->   	 *
-> @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf *dmabuf,
->   int dma_buf_pin(struct dma_buf_attachment *attach);
->   void dma_buf_unpin(struct dma_buf_attachment *attach);
->   
-> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
-> +			 struct sg_table *sgt, enum dma_data_direction dir);
-> +int dma_buf_end_access(struct dma_buf_attachment *attach,
-> +		       struct sg_table *sgt, enum dma_data_direction dir);
-> +
->   struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
->   
->   int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+Cheers,
+Angelo
+
+>>   1 file changed, 52 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+>> new file mode 100644
+>> index 000000000000..68b519ff089f
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+>> @@ -0,0 +1,52 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/mailbox/mediatek,gce-props.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: MediaTek Global Command Engine Common Propertes
+>> +
+>> +maintainers:
+>> +  - Houlong Wei <houlong.wei@mediatek.com>
+>> +
+>> +description:
+>> +  The Global Command Engine (GCE) is an instruction based, multi-threaded,
+>> +  single-core command dispatcher for MediaTek hardware. The Command Queue
+>> +  (CMDQ) mailbox driver is a driver for GCE, implemented using the Linux
+>> +  mailbox framework. It is used to receive messages from mailbox consumers
+>> +  and configure GCE to execute the specified instruction set in the message.
+>> +  We use mediatek,gce-mailbox.yaml to define the properties for CMDQ mailbox
+>> +  driver. A device driver that uses the CMDQ driver to configure its hardware
+>> +  registers is a mailbox consumer. The mailbox consumer can request a mailbox
+>> +  channel corresponding to a GCE hardware thread to send a message, specifying
+>> +  that the GCE thread to configure its hardware. The mailbox provider can also
+>> +  reserved a mailbox channel to configure GCE hardware register by the spcific
+>> +  GCE thread. This binding defines the common GCE properties for both mailbox
+>> +  provider and consumers.
+>> +
+>> +properties:
+>> +  mediatek,gce-events:
+>> +    description:
+>> +      GCE has an event table in SRAM, consisting of 1024 event IDs (0~1023).
+>> +      Each event ID has a boolean event value with the default value 0.
+>> +      The property mediatek,gce-events is used to obtain the event IDs.
+>> +      Some gce-events are hardware-bound and cannot be changed by software.
+>> +      For instance, in MT8195, when VDO0_MUTEX is stream done, VDO_MUTEX will
+>> +      send an event signal to GCE, setting the value of event ID 597 to 1.
+>> +      Similarly, in MT8188, the value of event ID 574 will be set to 1 when
+>> +      VOD0_MUTEX is stream done.
+>> +      On the other hand, some gce-events are not hardware-bound and can be
+>> +      changed by software. For example, in MT8188, we can set the value of
+>> +      event ID 855, which is not bound to any hardware, to 1 when the driver
+>> +      in the secure world completes a task. However, in MT8195, event ID 855
+>> +      is already bound to VDEC_LAT1, so we need to select another event ID to
+>> +      achieve the same purpose. This event ID can be any ID that is not bound
+>> +      to any hardware and is not yet used in any software driver.
+>> +      To determine if the event ID is bound to the hardware or used by a
+>> +      software driver, refer to the GCE header
+>> +      include/dt-bindings/gce/<chip>-gce.h of each chip.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+>> +    minItems: 1
+>> +    maxItems: 1024
+>> +
+>> +additionalProperties: true
+>> -- 
+>> 2.18.0
+>>
 
 
