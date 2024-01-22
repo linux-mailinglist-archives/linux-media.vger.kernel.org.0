@@ -1,160 +1,133 @@
-Return-Path: <linux-media+bounces-3972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3973-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796F783610F
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 12:20:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5242C8361EA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 12:36:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F2DF1F25E6B
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 11:20:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8562C1C26379
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 11:36:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A40C73BB50;
-	Mon, 22 Jan 2024 11:06:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sT8RYILN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0AF3FB1B;
+	Mon, 22 Jan 2024 11:26:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B483A8CF;
-	Mon, 22 Jan 2024 11:06:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from zg8tmty3ljk5ljewns4xndka.icoremail.net (zg8tmty3ljk5ljewns4xndka.icoremail.net [167.99.105.149])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8D13FB0F;
+	Mon, 22 Jan 2024 11:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.99.105.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705921571; cv=none; b=KbhVNuO+FcKtHczjMqQBaJzYy75mhNWPltY6SKQI9rncK8P4ow+tgE7kCJuUKSQaGA/xhOLrxhTFH0GQg/Ma06seqkz0EWMtrvPYZfBrVHbRv42fa5V0pz6GI4H278zP4XLc1/Ix/9vPUF/imPLkh1Ll1L7m1DMu0iX1A+ZAceM=
+	t=1705922804; cv=none; b=fNga8OoNwkuTr58zKl3AKbt114wHPjrKxDTvxu27nrdIESTsSa8Hw9OjTXf1mqWhVMr3k9EUW34ZA4DDUan5FPDwKnCNhXo1EQGXcka04dqVy+nEz3W914CagtkqgTTuc9W4ymgM3AeSNnc+lhV9gGw5rEJVd6P7pisEAZ8t1v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705921571; c=relaxed/simple;
-	bh=V/MmW1yVoK0TjvFsg0TJRYR3IjhkDr66kgUMy4s5icQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dvcnf1pF4l77Sqj6ZNXFA4DxtlwbXEKdUgirGkxng48oV2DZ7+TJMmKncGJVFb5EukEqa2xLluY/ztj47MH/6VFro1hbhQyAvPPdxAjDDleLOntZNMOH9EQp+2WTYZt7an2HpEqN1qtxhdI4hnZITZsU4FFnHcMlYFskgglijVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sT8RYILN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C865C433C7;
-	Mon, 22 Jan 2024 11:06:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705921570;
-	bh=V/MmW1yVoK0TjvFsg0TJRYR3IjhkDr66kgUMy4s5icQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sT8RYILNkg7DURq+DonPfOgYKWZzT9z1t7mKh5x8C8ZtDBgG2Ac0So6ocPeViznQk
-	 +b371knvzEQWiydLKI1rfHATW4gAcoP59HbiRavhYPxlUmUDhWQYFGir8/FVGINZd4
-	 4pbOy4f0jZXJrLq+pJ3U/hqDcEQirBEh7ORQTHlbVbDWuK1Bz5xSiDRJ61ytOBjCy+
-	 MIKGPKdVLBk54rOk1kK1ZfjKmuXIlY6qfkGds5xNN06kmh+7o/uJaxX7pptL30KyeJ
-	 KtePRH0INjn0SKiK3esQsx8GBl9w/Z8ZG+lbA3GAdrOUfJSnUjJhBs97oG+pTIzNU4
-	 jhoAF4LEG4IIA==
-Date: Mon, 22 Jan 2024 16:36:06 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 3/8] dmaengine: Add API function
- dmaengine_prep_slave_dma_vec()
-Message-ID: <Za5MHkzSjyVUoytI@matsya>
-References: <20231219175009.65482-1-paul@crapouillou.net>
- <20231219175009.65482-4-paul@crapouillou.net>
- <ZYRWbROAuMXftH07@matsya>
- <86a30af0db2232bd473a38cd001342156cd4012e.camel@crapouillou.net>
+	s=arc-20240116; t=1705922804; c=relaxed/simple;
+	bh=4MTzk8hRpsL1+wfg2XAn8qvaYkdX9cgM4ufqwTPlx6U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SpF/ucddlPVrf16O3OSdiI74hFRIY6QsapA6jtAhbUgHdY9YuGZjz9X3JgKvUA9msMPsJoUD2XfboOcqqjpw0IkYKdeAkF+X6+4x6mOIzwQlL8L9ZDM+09BHMFvzSfU79exRssQWHMtcdWPjUQmuksH1/XQelSdwJGryQGNKYU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=167.99.105.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrACXmim7UK5lq3KtAQ--.37301S2;
+	Mon, 22 Jan 2024 19:25:47 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.12.190.56])
+	by gateway (Coremail) with SMTP id _____wCHJbasUK5lBlwmAA--.60615S2;
+	Mon, 22 Jan 2024 19:25:47 +0800 (CST)
+From: Mingxuan Xiang <mx_xiang@hust.edu.cn>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>,
+	Mingxuan Xiang <mx_xiang@hust.edu.cn>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: usb: hackrf: add null ptr check in hackrf_ctrl_msg
+Date: Mon, 22 Jan 2024 19:22:10 +0800
+Message-ID: <20240122112210.424698-1-mx_xiang@hust.edu.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <86a30af0db2232bd473a38cd001342156cd4012e.camel@crapouillou.net>
+X-CM-TRANSID:HgEQrACXmim7UK5lq3KtAQ--.37301S2
+Authentication-Results: app1; spf=neutral smtp.mail=mx_xiang@hust.edu.
+	cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxAFyfCFWxXFW5Kr1kKF18uFg_yoW5Xw45pF
+	yFyrZFkryrXry29wn7Jr1UWFyrZan3AFy5Wryfu395urs8Jw4xXF1jqayqgr4qkrZ2yF90
+	yF9YqrW3tF4UZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Yb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4
+	CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8C
+	rVC2j2WlYx0EF7xvrVAajcxG14v26r4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx
+	0Ec7CjxVAajcxG14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
+	r41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFV
+	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+	x4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
+	1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCT
+	nIWIevJa73UjIFyTuYvjxUV1xRUUUUU
+X-CM-SenderInfo: jxsqimaruylmo6kx23oohg3hdfq/1tbiAQkEE2WtIjAvbQAAsH
 
-Hi Paul,
+If the user yanks out the cable before closing the file,
+dev->udev would be set to NULL therefore causing a null-ptr-deref
+in hackrf_ctrl_msg issued by hackrf_stop_streaming.
 
+This patch adds a check in hackrf_ctrl_msg before using
+dev->udev.
 
-On 08-01-24, 13:20, Paul Cercueil wrote:
-> Hi Vinod,
-> 
-> Le jeudi 21 décembre 2023 à 20:44 +0530, Vinod Koul a écrit :
-> > On 19-12-23, 18:50, Paul Cercueil wrote:
-> > > This function can be used to initiate a scatter-gather DMA
-> > > transfer,
-> > > where the address and size of each segment is located in one entry
-> > > of
-> > > the dma_vec array.
-> > > 
-> > > The major difference with dmaengine_prep_slave_sg() is that it
-> > > supports
-> > > specifying the lengths of each DMA transfer; as trying to override
-> > > the
-> > > length of the transfer with dmaengine_prep_slave_sg() is a very
-> > > tedious
-> > > process. The introduction of a new API function is also justified
-> > > by the
-> > > fact that scatterlists are on their way out.
-> > > 
-> > > Note that dmaengine_prep_interleaved_dma() is not helpful either in
-> > > that
-> > > case, as it assumes that the address of each segment will be higher
-> > > than
-> > > the one of the previous segment, which we just cannot guarantee in
-> > > case
-> > > of a scatter-gather transfer.
-> > > 
-> > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > > 
-> > > ---
-> > > v3: New patch
-> > > 
-> > > v5: Replace with function dmaengine_prep_slave_dma_vec(), and
-> > > struct
-> > >     'dma_vec'.
-> > >     Note that at some point we will need to support cyclic
-> > > transfers
-> > >     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
-> > >     parameter to the function?
-> > > ---
-> > >  include/linux/dmaengine.h | 25 +++++++++++++++++++++++++
-> > >  1 file changed, 25 insertions(+)
-> > > 
-> > > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> > > index 3df70d6131c8..ee5931ddb42f 100644
-> > > --- a/include/linux/dmaengine.h
-> > > +++ b/include/linux/dmaengine.h
-> > > @@ -160,6 +160,16 @@ struct dma_interleaved_template {
-> > >  	struct data_chunk sgl[];
-> > >  };
-> > >  
-> > > +/**
-> > > + * struct dma_vec - DMA vector
-> > > + * @addr: Bus address of the start of the vector
-> > > + * @len: Length in bytes of the DMA vector
-> > > + */
-> > > +struct dma_vec {
-> > > +	dma_addr_t addr;
-> > > +	size_t len;
-> > > +};
-> 
-> I don't want to be pushy, but I'd like to know how to solve this now,
-> otherwise I'll just send the same patches for my v6.
-> 
-> > so you want to transfer multiple buffers, right? why not use
-> > dmaengine_prep_slave_sg(). If there is reason for not using that one?
-> 
-> The reason is that we want to have the possibility to transfer less
-> than the total size of the scatterlist, and that's currently very hard
-> to do - scatterlists were designed to not be tampered with.
-> 
-> Christian König then suggested to introduce a "dma_vec" which had been
-> on his TODO list for a while now.
+Found by modified syzkaller.
 
-Yeah for this interleaved seems overkill. Lets go with this api. I would
-suggest change the name of the API replacing slave with peripheral
-though
+BUG: KASAN: null-ptr-deref in hackrf_ctrl_msg+0x6d/0x180 drivers/media/usb/hackrf/hackrf.c:195
+Read of size 4 at addr 0000000000000000 by task syz-executor/579
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x5e/0x7c lib/dump_stack.c:106
+ print_report.cold+0x49a/0x6bb mm/kasan/report.c:436
+ kasan_report+0xa8/0x130 mm/kasan/report.c:495
+ hackrf_ctrl_msg+0x6d/0x180 drivers/media/usb/hackrf/hackrf.c:195
+ hackrf_stop_streaming+0x45/0x140 drivers/media/usb/hackrf/hackrf.c:869
+ __vb2_queue_cancel+0x5c/0x550 drivers/media/common/videobuf2/videobuf2-core.c:1992
+ vb2_core_streamoff+0x2f/0xb0 drivers/media/common/videobuf2/videobuf2-core.c:2149
+ __vb2_cleanup_fileio+0x3e/0xa0 drivers/media/common/videobuf2/videobuf2-core.c:2710
+ vb2_core_queue_release+0x1a/0x50 drivers/media/common/videobuf2/videobuf2-core.c:2430
+ vb2_queue_release drivers/media/common/videobuf2/videobuf2-v4l2.c:947 [inline]
+ _vb2_fop_release+0x110/0x140 drivers/media/common/videobuf2/videobuf2-v4l2.c:1132
+ v4l2_release+0x1b9/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:459
+ __fput+0x12d/0x4b0 fs/file_table.c:320
+ task_work_run+0xa8/0xf0 kernel/task_work.c:177
+ resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
+ exit_to_user_mode_prepare+0x123/0x130 kernel/entry/common.c:201
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
+ syscall_exit_to_user_mode+0x22/0x50 kernel/entry/common.c:294
+ do_syscall_64+0x48/0x90 arch/x86/entry/common.c:86
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
+Signed-off-by: Mingxuan Xiang <mx_xiang@hust.edu.cn>
+---
+ drivers/media/usb/hackrf/hackrf.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
+index 9c0ecd5f056c..9588b8aa6e98 100644
+--- a/drivers/media/usb/hackrf/hackrf.c
++++ b/drivers/media/usb/hackrf/hackrf.c
+@@ -186,6 +186,11 @@ static int hackrf_ctrl_msg(struct hackrf_dev *dev, u8 request, u16 value,
+ 	unsigned int pipe;
+ 	u8 requesttype;
+ 
++	if (!dev->udev) {
++		pr_err("udev is null in %s\n", __func__);
++		ret = -EINVAL;
++		goto err;
++	}
+ 	switch (request) {
+ 	case CMD_SET_TRANSCEIVER_MODE:
+ 	case CMD_SET_FREQ:
 -- 
-~Vinod
+2.43.0
+
 
