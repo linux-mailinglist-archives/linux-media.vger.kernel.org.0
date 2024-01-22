@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-3966-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-3967-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4A0835D2E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 09:51:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6039835D36
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 09:52:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AB7E1F213B5
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 08:51:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E015B26F56
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jan 2024 08:52:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2660B3CF4F;
-	Mon, 22 Jan 2024 08:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1303D0A0;
+	Mon, 22 Jan 2024 08:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eYbE4gQ8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ndoA3sQ0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E123BB4C
-	for <linux-media@vger.kernel.org>; Mon, 22 Jan 2024 08:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD4B3C697
+	for <linux-media@vger.kernel.org>; Mon, 22 Jan 2024 08:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705913251; cv=none; b=C/QMRNbo1gJYttCVKo6qNIVIsD0ssZlS7FismoSJj/4I70/q0/F95TnBeLSWtXy/ui3sXDaTGoTc2jSN9Uq94+q8daCVAp6v0i4eYHQqknxyMRfkN0qU6EHdjSbYKbhSI4mddwJwQjtPU1cqbzR2kO+Nli4UI/cx0p1bsbELqfU=
+	t=1705913253; cv=none; b=uBMxslrrh9/EiGKAoU8jgsHKr+PHoDRiu7Y/wxwLhZCAZf7MGVRWc3bjlk687bIcmsrStwG9UJzdNe49qp+T5f+Zz8Nlx+Q1rKJmeXHOog2boV7UszxjemNRMq6JdvZ6QYP1IRosRu3Si1J7z45KSoRovjNm/0EKVDDu9KVIfqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705913251; c=relaxed/simple;
-	bh=xVzk6PcGz8JGRaQpKhkaEOsaJx+PBVqpDgR2m0MxeLk=;
+	s=arc-20240116; t=1705913253; c=relaxed/simple;
+	bh=rE3sB0GjrGPFE7JauoLtOc/n7sCA+d8vNW1jXYqT+pU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=f1Mqkk8+Yr2MmScPp8a1WSseGZY12QS4FKhSlzDqPukxhFmC0rXXBNqn/v92LagVNNNvsAXawyR9OwVDnij98+X0aZr0+PgIL9b7UZxoLFWbJ7oOzacQ0EVeoxRMDiNZ3/OfLWjIJX/3FzQPY++tkiaAizskHIHClZ4FoLhtVEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eYbE4gQ8; arc=none smtp.client-ip=209.85.167.51
+	 In-Reply-To:To:Cc; b=jdJc/eowBTXXUjQnLv4wmoK5JrZewyy8z9hCdTJY0h6k8xhTF2u2errvAue/EM41+iL729KkEhxD5UWHIYvLMSjKNRRKhgZmN5fBwQKsVCU6L7jPbJYWU/R7pCWjvzcXv2yK/Y8ZxFi4CkeBZXj0EiAM9bdugQO/LHOnqKhaJVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ndoA3sQ0; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-50eaa8b447bso3010316e87.1
-        for <linux-media@vger.kernel.org>; Mon, 22 Jan 2024 00:47:29 -0800 (PST)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50e7e55c0f6so3006075e87.0
+        for <linux-media@vger.kernel.org>; Mon, 22 Jan 2024 00:47:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705913248; x=1706518048; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1705913249; x=1706518049; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OVJFY1Gxb1ISOb6T1YpgtOq7AUto91S3jCAoBzpivuk=;
-        b=eYbE4gQ8Ca3gplIKySq8aNLbws3D/hpNMbjU5vTlN5+msw1xEfMhfqSgwx26mStjvN
-         tgPcOl/4JLxr3X5jAsPvYuDCwAARJwpqXzQgW3OpkYhwABXeipNSjixflVf7zwO/qI9m
-         /qETkmVvv1DPZj8Ozaxr9ppcznOP/DlZLXSjIZ5mq7kiFR4H1qPJY8My1aJNy5TmMTgh
-         8R4nZa+uW5nqXFMMPELUL/NILoyAqrn60q+XPJglQaN5QCSYgiC+8WWuULDiYvUek0GQ
-         h8w+oxlllbmsb0zoET+BLU+bwYOocheryNnrQkMqcE7JyiulN7WrbWOdmZhky3OX5nYP
-         wfFA==
+        bh=BAKH1Rh64tvqkxawFp0eVPkTup3ob02eY3wJbwsR52U=;
+        b=ndoA3sQ0wDwc9yNN4tG3/fG2QKgor+u9HddiY9sMD8KnIbmCD40QaN299ejtscI5Vh
+         8WUCFUL4Q32RVnkGM2LsGdw9KMPlm6YVhtm/Y+SgNdD5d3Oz13++3EbGZUK5tKhXlS5R
+         UGmmC/SeISfKs8/dkmNNtpqiabciOcFv/LDqlQqRXXU5WnI13RmEAacU6FCJt4EWwQMJ
+         ZgxSV4orcTX4Kt8SOWkQl76Bmo0iZZNoRNWfg/dkbUiCrrYBelysSt6aWnC2BuhP+SrQ
+         folUN/vGKkgkBdAER3uuuGxIAjMbxOZVvtUhyIYoI53tEa0y+HOVMftDNJwfMySlNTlU
+         eiJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705913248; x=1706518048;
+        d=1e100.net; s=20230601; t=1705913249; x=1706518049;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OVJFY1Gxb1ISOb6T1YpgtOq7AUto91S3jCAoBzpivuk=;
-        b=G/1QkpBysxqiutQfSZ9PlyM5DpGGqUbbDgLrXbZX/3FQFiWRI08qNYkkiULFjVOq4E
-         hVZKO7g7cJ3v6EMThd1HfpP0dcpgDNQZItBxsPkdJTA2hNUfe7cwamFs/pKUmqr40MbA
-         cYOmljdmcEBio/PCOZDZS6SYP3mHQMYYmqJvRP1IN35KsTSQ0fIfQ/xDX/OgvVPj9xsT
-         2bIQKj9QB45S+rrSDOsIH5MTN7XKTaQiYTdng94MZBpYjiN9xIpcUxqHqZbyQa/Ev2bA
-         bZr2IAnC73P3Ny6NuiUxZw3sIoOr63MCJoUmcpo+OG7KVBxFFoY2jUAMv6U8oE1sumbK
-         aHYA==
-X-Gm-Message-State: AOJu0YzRh3PURXRexHSMK7iqbXQhoxSErfk0VrjtAZAmI35s1UGOXFtD
-	0X6MR4szi8HH1Ked3mJ/fQReD9q7POsgb8EnLlynNYiYPRPBM3+slatwMgam4Fc=
-X-Google-Smtp-Source: AGHT+IH/KI+Kzl2B3+hffoLruNLFgjK0bHIZu/vI347YVryY+UTXpJWkfMGIUuje6yIVTDrMg4X3Dg==
-X-Received: by 2002:ac2:4c8e:0:b0:50e:e8f0:2298 with SMTP id d14-20020ac24c8e000000b0050ee8f02298mr542781lfl.267.1705913247775;
-        Mon, 22 Jan 2024 00:47:27 -0800 (PST)
+        bh=BAKH1Rh64tvqkxawFp0eVPkTup3ob02eY3wJbwsR52U=;
+        b=CfLqcr+dc/OYQvIoWKeN7K0CByFvQiRIho0FHIu87j2CgMXwqFFggshJo9zNzNeIA9
+         zBR60WrUkoRUq7odc0Fa1lHvr/E+u5/VbLs2/qYyhavQOFYNNF6b86auUxiBsNEotzw2
+         ihJWwwdCX2C23AIddHjox/qBlzA6tQeB43ADVWC4naMK5T4rsAVVAHGDZ5mkiwiuq5yG
+         I/iVNwdwj586lAr0K/zfyaqkOErfnhQgG2/mjh8Wj1fN8Jye2xMwoIJohVV/KF3DTDOV
+         1kt5AXIQrJRGXves2T+66MBinI5tGh0oNeB7xmPUUe7Dj77NqONccl7qsK4RF/X4k/jb
+         RZoA==
+X-Gm-Message-State: AOJu0YyVHd7bVDPf8TgByhtss8ryt/0SYkPR5ul3I0znbBZ4SqkDha49
+	ELU71HO3yR0XC6Y4XApIBh8WDYAWQ4Wqem+WWRNHCXh3HTvUR2WubZcRwASI8MI=
+X-Google-Smtp-Source: AGHT+IHfEaQBIOFgJB+5p4vY8oMqDpTFUi/HC13a3ZpAuo6Q0KCqxUcL2zDYCcInSfC37F7CPxacAw==
+X-Received: by 2002:a05:6512:3c8c:b0:50e:d1f9:ebe0 with SMTP id h12-20020a0565123c8c00b0050ed1f9ebe0mr614114lfv.2.1705913249649;
+        Mon, 22 Jan 2024 00:47:29 -0800 (PST)
 Received: from [127.0.1.1] ([79.115.23.25])
-        by smtp.gmail.com with ESMTPSA id b21-20020a17090630d500b00a2c4c23cd12sm13075462ejb.217.2024.01.22.00.47.26
+        by smtp.gmail.com with ESMTPSA id b21-20020a17090630d500b00a2c4c23cd12sm13075462ejb.217.2024.01.22.00.47.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 00:47:27 -0800 (PST)
+        Mon, 22 Jan 2024 00:47:29 -0800 (PST)
 From: Abel Vesa <abel.vesa@linaro.org>
-Date: Mon, 22 Jan 2024 10:47:04 +0200
-Subject: [PATCH v4 4/5] clk: qcom: Use HW_CTRL_TRIGGER flag to switch video
- GDSC to HW mode
+Date: Mon, 22 Jan 2024 10:47:05 +0200
+Subject: [PATCH v4 5/5] venus: pm_helpers: Use dev_pm_genpd_set_hwmode to
+ switch GDSC mode
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,7 +78,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240122-gdsc-hwctrl-v4-4-9061e8a7aa07@linaro.org>
+Message-Id: <20240122-gdsc-hwctrl-v4-5-9061e8a7aa07@linaro.org>
 References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
 In-Reply-To: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -99,79 +99,96 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
  linux-media@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1921; i=abel.vesa@linaro.org;
- h=from:subject:message-id; bh=6YCTgAGeGVs43KDgKfImSE+xArUbcRShc9pkDKKCCac=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBlriuThQApLjd1pjc0SdaYfQW02n40AeD/XJR+z
- EpLTRfM6lSJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZa4rkwAKCRAbX0TJAJUV
- VuO0D/9bQL9I/1mXOi9y2EWRygpuPvCo8p5viVHdlpIlMLffd033I+1m1se6bQFzuE3XqUHRnG6
- N61rhS/f7QSFl1jIDuLx7vpPG7K8woM/Hv9pLQtwKiXL4eF+kriPmghr4n3rwQcHWL34LE7Rx7E
- VkcFcGMU39MW1hlDQcZJ7/QDLr+hYzci2WOa1hEwBGDSuNH2PlS/KpgHp6PCoENc1mOECqUEfXt
- pwArCw2vNk3isDW2nSjRFzlPWi7PuHsu+tVDlCfdo/BJ8jlhdWYIkZYHKtkDYAgvqbr4wWk9eq7
- BPDmuaheBI1tzurdSqotPdLvp8MT4L0w5tqXkeGtAcEzIK3r5v56lv/e+l71QVdGR8eMJTx43UY
- gi6FQsVEDCiCoCuG3H2FEi9bqHmrUjuAUsUCf5lF6j6LILX4vjxQIrwNUqh8s4N18kJFqtNUUgu
- rskjr98Kj2YI8FbEB4OTAxSVeov9u5uhAgmwLLYNhMRv1/uqI/lr5vnFRaoc+2iAhopnduwESy0
- hSNJfrOu/ClI1dK2aMkP9QpN+/CEvuUxRq385IWt0mgnUuAH8q1YzbeMbTxVBwzFsQF8xvWVNFd
- BGU3F0ZIvXeHHkWqPYAezxuHN797gpX5V1nfW3T9uRmjlRZ85cL4uiMwHmpVU/U52Rzebq93bek
- 5V7vYbPOWxgsl1A==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2921; i=abel.vesa@linaro.org;
+ h=from:subject:message-id; bh=Vk/itDO+Lfx/2A5RsJFS6owpFqpo96HTGoEN2vQw4oo=;
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBlriuVGw/R23nM4ftPZR0CdvkJ4dv64Da6oA9WK
+ 96wepF1DsqJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZa4rlQAKCRAbX0TJAJUV
+ VidJD/4zyhZuJ7ZOsHBa4UU8Jq/BAiGJv1LeEHcRLK8S9ZKuYLOC9/Oin9OJxSzdUK9hob033FN
+ 6+wwyXsCYKCgbsV99dAVITZ2UDpYYWkOaoGT8ajmqcdkgNBLE/sfA+aqDXTZfSOAg7df6NMdYyE
+ oek/aEmXsrHDDJDc/dQpDQ701/Eo9CUiEOauVx0eTcuwYTfHKnZSP6v6XBoMus/m/hUbSIRx57a
+ pcW8lH+USq6Il8oWkcV3H2kj90564ElJKkkTRBjfYttfkYWb5n2i0uni6P9HSYA9QrTRWBtGBOi
+ M1nuAYyD4skwVE6wHcycYEKrNQGqcsEVLgHTGGw9t7xNu9ow2YLTubM/xHl5kAUrMbEvxAadkZH
+ FCXULcoCvKsgYJwaKN79UHY4X8KzhC1m7hC5SVmiG+9tUAEmLnDQ3U7+De+vT+C0vpJn1vMyOwo
+ foXCgzrKi6zr48YnPdcMeSH43ge+pCRQ+xH5qr93sIr13dsA6CakHCRKdBsoLL4dxRx9F904/D4
+ Z2e1UlE5aHb7HSE14qE14q5bfAyLJ+GNEd8aH7IFnzbozhLZKUe9pXdf4GW1iqb8SSQKO27R546
+ 3QC0px+i8lCBfow12dLlcmRWVpYq7V25U2oZLmqu4BzuBkA48sLOatafpnihxYSzI77GFbZ0XN6
+ vxYCs+6rFpyF0TQ==
 X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
  fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 
 From: Jagadeesh Kona <quic_jkona@quicinc.com>
 
-The current HW_CTRL flag switches the video GDSC to HW control mode as
-part of GDSC enable itself, and HW can disable the GDSC right after the
-GDSC is moved to HW mode. This can lead to subsequent video clock enable
-failures that are dependent on the GDSC if GDSC is collapsed by HW. Also,
-while few video hardware registers are being programmed by TZ, GDSC
-should be in non collapsed state which can be achieved by keeping
-it in SW mode.
+Use dev_pm_genpd_set_hwmode API to switch the vcodec gdsc to SW/HW
+modes at runtime based on requirement for venus V6 variants.
 
-Use HW_CTRL_TRIGGER flag instead which allows consumer drivers to switch
-the video GDSC to HW/SW control modes at runtime using
-dev_pm_genpd_set_hwmode API as per the requirement.
+Before the GDSC HWCTL was available to the consumer, the venus driver
+needed to somehow keep the power from collapsing while under the driver
+control. The only way to do that was to clear the CORE_PWR_DISABLE bit
+(in wrapper POWER_CONTROL register) and, respectively, set it back after
+the driver control was completed. Now, that there is a way to switch the
+GDSC HW/SW control back and forth, the CORE_PWR_DISABLE toggling in
+vcodec_control_v4() can be dropped for V6 variants.
+
+With newer implementation, the mode of vcodec gdsc gets switched only in
+set_hwmode API and the GDSC should not be switched to HW control mode
+before turning off the GDSC, else subsequent GDSC enable may fail, hence
+add check to avoid switching the GDSC to HW mode before powering off the
+GDSC on V6 variants.
 
 Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
 Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 ---
- drivers/clk/qcom/videocc-sc7280.c | 2 +-
- drivers/clk/qcom/videocc-sm8250.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/qcom/venus/pm_helpers.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/clk/qcom/videocc-sc7280.c b/drivers/clk/qcom/videocc-sc7280.c
-index 615695d82319..3d07b1e95986 100644
---- a/drivers/clk/qcom/videocc-sc7280.c
-+++ b/drivers/clk/qcom/videocc-sc7280.c
-@@ -236,7 +236,7 @@ static struct gdsc mvs0_gdsc = {
- 		.name = "mvs0_gdsc",
- 	},
- 	.pwrsts = PWRSTS_OFF_ON,
--	.flags = HW_CTRL | RETAIN_FF_ENABLE,
-+	.flags = HW_CTRL_TRIGGER | RETAIN_FF_ENABLE,
- };
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index a1b127caa90a..55e8ec3f4ee9 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -412,10 +412,9 @@ static int vcodec_control_v4(struct venus_core *core, u32 coreid, bool enable)
+ 	u32 val;
+ 	int ret;
  
- static struct gdsc mvsc_gdsc = {
-diff --git a/drivers/clk/qcom/videocc-sm8250.c b/drivers/clk/qcom/videocc-sm8250.c
-index ad46c4014a40..c1b73d852f1c 100644
---- a/drivers/clk/qcom/videocc-sm8250.c
-+++ b/drivers/clk/qcom/videocc-sm8250.c
-@@ -293,7 +293,7 @@ static struct gdsc mvs0_gdsc = {
- 	.pd = {
- 		.name = "mvs0_gdsc",
- 	},
--	.flags = HW_CTRL,
-+	.flags = HW_CTRL_TRIGGER,
- 	.pwrsts = PWRSTS_OFF_ON,
- };
+-	if (IS_V6(core)) {
+-		ctrl = core->wrapper_base + WRAPPER_CORE_POWER_CONTROL_V6;
+-		stat = core->wrapper_base + WRAPPER_CORE_POWER_STATUS_V6;
+-	} else if (coreid == VIDC_CORE_ID_1) {
++	if (IS_V6(core))
++		return dev_pm_genpd_set_hwmode(core->pmdomains[coreid], !enable);
++	else if (coreid == VIDC_CORE_ID_1) {
+ 		ctrl = core->wrapper_base + WRAPPER_VCODEC0_MMCC_POWER_CONTROL;
+ 		stat = core->wrapper_base + WRAPPER_VCODEC0_MMCC_POWER_STATUS;
+ 	} else {
+@@ -451,9 +450,11 @@ static int poweroff_coreid(struct venus_core *core, unsigned int coreid_mask)
  
-@@ -302,7 +302,7 @@ static struct gdsc mvs1_gdsc = {
- 	.pd = {
- 		.name = "mvs1_gdsc",
- 	},
--	.flags = HW_CTRL,
-+	.flags = HW_CTRL_TRIGGER,
- 	.pwrsts = PWRSTS_OFF_ON,
- };
+ 		vcodec_clks_disable(core, core->vcodec0_clks);
  
+-		ret = vcodec_control_v4(core, VIDC_CORE_ID_1, false);
+-		if (ret)
+-			return ret;
++		if (!IS_V6(core)) {
++			ret = vcodec_control_v4(core, VIDC_CORE_ID_1, false);
++			if (ret)
++				return ret;
++		}
+ 
+ 		ret = pm_runtime_put_sync(core->pmdomains[1]);
+ 		if (ret < 0)
+@@ -467,9 +468,11 @@ static int poweroff_coreid(struct venus_core *core, unsigned int coreid_mask)
+ 
+ 		vcodec_clks_disable(core, core->vcodec1_clks);
+ 
+-		ret = vcodec_control_v4(core, VIDC_CORE_ID_2, false);
+-		if (ret)
+-			return ret;
++		if (!IS_V6(core)) {
++			ret = vcodec_control_v4(core, VIDC_CORE_ID_2, false);
++			if (ret)
++				return ret;
++		}
+ 
+ 		ret = pm_runtime_put_sync(core->pmdomains[2]);
+ 		if (ret < 0)
 
 -- 
 2.34.1
