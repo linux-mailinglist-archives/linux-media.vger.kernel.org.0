@@ -1,158 +1,201 @@
-Return-Path: <linux-media+bounces-4067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4068-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE952838837
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 08:45:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD4183886D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 09:02:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3E681C232B4
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 07:45:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7B7F1F2373E
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 08:02:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C2F56466;
-	Tue, 23 Jan 2024 07:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1peFCRO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 522365647E;
+	Tue, 23 Jan 2024 08:02:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE80524DC;
-	Tue, 23 Jan 2024 07:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4AC56452;
+	Tue, 23 Jan 2024 08:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705995916; cv=none; b=pRcsU14aQNLEOh/gd3dqvD+q5euXJfEfo0GhhCqT/l2wjkMxZrWODzzI0gNSkMLg5QMBlb1SWvhacnU62ixKYhRmR6BtGDyz/zWHirtu9pHMym/3SM33jdtwJM/R10nNrUmKpTzqO8Oa4r9yHQ0EZJHTy5raxsDxTZte7pJHKbU=
+	t=1705996928; cv=none; b=KElrEww/SM/g0n982n3NO1PbLMlwDzyq2Kx4HHjQgy3/MZ/jOGZW4/sB/nHUync1f53ph2Lj+m87E2Z4Ru/6cTGldZEFz/nUZMNtVUt4xWBnzHjPSirdQP2Kb5sR3llVisX98MvDvaU3hLRvmlKlkEDMiQI+pc8jXF3PaHTDdIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705995916; c=relaxed/simple;
-	bh=gR1DaQBEiwp7b8LXQ3gqb1TinU2mUqOSau6sGyjnT/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFA8TbyE+uxp/hex/XOvsWPWp1Qeg3y5NEFgExC4UauoA89NoUplrQAIu8iKbFtQbRigIsSXZw6YhT6XZ98h4sMohyC5YVdmBys5P0FJFvg9tLPJ9J2ghxHJuaNgCQHSgvSE2ufDF9SnxRUma0vUIk3IOPbkwkjjMF8nME5dm5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h1peFCRO; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705995915; x=1737531915;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=gR1DaQBEiwp7b8LXQ3gqb1TinU2mUqOSau6sGyjnT/I=;
-  b=h1peFCROm9fade0rEu976ABmV1J9R9L4GGyBGxIBuzOXGqiOsmu2gilY
-   P4omdRlUA6oAv9eUjAlumNfh9LO4+PjvCm9U0+IxQRGsCYCacxEvy/U5O
-   5BsWHfuAlZLu27bQFDuDQhGVoroqxkUQ51z9x5pRR5IsYSH1Wi4lMX664
-   zjzjUea6mCJ7o3ajNb/9jjbxv8hqel12Xf6/oxLNs+DfOA/SxBqKhGki/
-   8pANVaCC3DawY9yeoJXrgKiCPQJEVqdi3xiIl1WT6ZrZ/HGaLXbUdlSDq
-   Zb69fvlTviKiKnHo0FvKlrS+IIA1qOceOH/z1qA86DbiX/9v+zdD9oZqu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="1336526"
-X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
-   d="scan'208";a="1336526"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 23:45:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="909211748"
-X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
-   d="scan'208";a="909211748"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 23:45:06 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 81AD911FB9B;
-	Tue, 23 Jan 2024 09:45:03 +0200 (EET)
-Date: Tue, 23 Jan 2024 07:45:03 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-pm@vger.kernel.org,
-	linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	intel-xe@lists.freedesktop.org,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-	Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
- usage
-Message-ID: <Za9uf3icrVE6Ajbe@kekkonen.localdomain>
-References: <20240122114121.56752-2-sakari.ailus@linux.intel.com>
- <20240122181205.GA275751@bhelgaas>
- <CAJZ5v0gUpo6Shz2kQzie4XE23=fiPvD0=2yhjGptw8QbCq2SAg@mail.gmail.com>
+	s=arc-20240116; t=1705996928; c=relaxed/simple;
+	bh=Xi2X6fEyKmPQ+qFx1ws84yReMbGJGwWzGRLzGdmoUzc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qQltJoNTwGYm1BA2mJiBkAQeYeMrytLibAFpntozb4MYJqWd4epxF7d7U8xisp1mnnulGguJJx/+dx5wOcCPgsAeacfQskbafyae2QhZpCj7gbv7QT6/9GCTFqMg0CqUHt3NTfZBP7jIF8Fm2qh8KPsQwcx4miooBaqnUkm4waw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF2A8C433C7;
+	Tue, 23 Jan 2024 08:02:05 +0000 (UTC)
+Message-ID: <382c37c0-15c1-48ad-a8d0-a6bc4bd7160a@xs4all.nl>
+Date: Tue, 23 Jan 2024 09:02:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
+ cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
+Content-Language: en-US, nl
+To: "Yang, Chenyuan" <cy54@illinois.edu>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>, "Zhao, Zijie"
+ <zijie4@illinois.edu>, "Zhang, Lingming" <lingming@illinois.edu>
+References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
+ <f985d664-d907-48ed-9b3d-dc956c178b88@xs4all.nl>
+ <89FAADA9-D4EC-4C27-9F8F-1D86B7416DE1@illinois.edu>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <89FAADA9-D4EC-4C27-9F8F-1D86B7416DE1@illinois.edu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0gUpo6Shz2kQzie4XE23=fiPvD0=2yhjGptw8QbCq2SAg@mail.gmail.com>
 
-Hi Rafael, Björn,
-
-Thanks for the review.
-
-On Mon, Jan 22, 2024 at 07:16:54PM +0100, Rafael J. Wysocki wrote:
-> On Mon, Jan 22, 2024 at 7:12 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> >
-> > On Mon, Jan 22, 2024 at 01:41:21PM +0200, Sakari Ailus wrote:
-> > > There are two ways to opportunistically increment a device's runtime PM
-> > > usage count, calling either pm_runtime_get_if_active() or
-> > > pm_runtime_get_if_in_use(). The former has an argument to tell whether to
-> > > ignore the usage count or not, and the latter simply calls the former with
-> > > ign_usage_count set to false. The other users that want to ignore the
-> > > usage_count will have to explitly set that argument to true which is a bit
-> > > cumbersome.
-> >
-> > s/explitly/explicitly/
-> >
-> > > To make this function more practical to use, remove the ign_usage_count
-> > > argument from the function. The main implementation is renamed as
-> > > pm_runtime_get_conditional().
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
-> > > Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # drivers/accel/ivpu/
-> > > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
-> > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> >
-> > Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
-> >
-> > > -EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
-> > > +EXPORT_SYMBOL_GPL(pm_runtime_get_conditional);
-> >
-> > If pm_runtime_get_conditional() is exported, shouldn't it also be
-> > documented in Documentation/power/runtime_pm.rst?
-> >
-> > But I'm dubious about exporting it because
-> > __intel_runtime_pm_get_if_active() is the only caller, and you end up
-> > with the same pattern there that we have before this series in the PM
-> > core.  Why can't intel_runtime_pm.c be updated to use
-> > pm_runtime_get_if_active() or pm_runtime_get_if_in_use() directly, and
-> > make pm_runtime_get_conditional() static?
+On 22/01/2024 20:11, Yang, Chenyuan wrote:
+> Hi Hans,
 > 
-> Sounds like a good suggestion to me.
+> Thank you very much for providing the patch!
+> 
+> After running the reproducible programs and 24-hour fuzzing, it seems that this patch could fix the issues 1, 2, 3 and 5.
 
-The i915 driver uses both but I guess it's not too much different to check
-ignore_usecount separately than passing it to the API function?
+Ah, that's good news.
 
-I'll add another patch to do this and moving
-pm_runtime_get_if_{active,in_use} implementations to runtime.c.
+> 
+> The 4th issue, "INFO: task hung in cec_claim_log_addrs", is still triggered after applying the patch.
 
--- 
+I'll dig a bit deeper into this one, see if I can figure out the cause.
+
+Thank you for your help in testing this!
+
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+> If you need more information, feel free to let met know.
+> 
+> Best,
+> Chenyuan
+> 
+> ﻿On 1/19/24, 2:17 AM, "Hans Verkuil" <hverkuil-cisco@xs4all.nl> wrote:
+> 
+>     Hi Chenyuan,
+> 
+>     On 28/12/2023 03:33, Yang, Chenyuan wrote:
+>     > Hello,
+>     > 
+>     >  
+>     > 
+>     > We encountered 5 different crashes in the cec device by using our generated syscall specification for it, here are the descriptions of these 5 crashes and the related files are attached:
+>     > 
+>     > 1. KASAN: slab-use-after-free Read in cec_queue_msg_fh (Reproducible)
+>     > 
+>     > 2. WARNING: ODEBUG bug in cec_transmit_msg_fh
+>     > 
+>     > 3. WARNING in cec_data_cancel
+>     > 
+>     > 4. INFO: task hung in cec_claim_log_addrs (Reproducible)
+>     > 
+>     > 5. general protection fault in cec_transmit_done_ts
+>     > 
+>     >  
+>     > 
+>     > For “KASAN: slab-use-after-free Read in cec_queue_msg_fh”, we attached a syzkaller program to reproduce it. This crash is caused by ` list_add_tail(&entry->list, &fh->msgs);`
+>     > (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L224__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxZMf3fVQ$  <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L224__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxZMf3fVQ$ >), which reads a
+>     > variable freed by `kfree(fh);` (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c*L684__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxT0xaxsY$ 
+>     > <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c*L684__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxT0xaxsY$ >). The reproducible program is a Syzkaller program, which can be executed following this document:
+>     > https://urldefense.com/v3/__https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md__;!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZx32PwCDs$  <https://urldefense.com/v3/__https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md__;!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZx32PwCDs$ >.
+>     > 
+>     >  
+>     > 
+>     > For “WARNING: ODEBUG bug in cec_transmit_msg_fh”, unfortunately we failed to reproduce it but we indeed trigger this crash almost every time when we fuzz the cec device only. We attached the report
+>     > and log for this bug. It tries freeing an active object by using `kfree(data);` (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L930__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxhwnuzFw$ 
+>     > <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L930__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxhwnuzFw$ >).
+>     > 
+>     >  
+>     > 
+>     > For “WARNING in cec_data_cancel”, it is an internal warning used in cec_data_cancel (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L365__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxJ9Jw4fU$ 
+>     > <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L365__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxJ9Jw4fU$ >), which checks whether the transmit is the current or pending. Unfortunately, we also don't have the
+>     > reproducible program for this bug, but we attach the report and log.
+>     > 
+>     >  
+>     > 
+>     > For “INFO: task hung in cec_claim_log_addrs”, the kernel hangs when the cec device ` wait_for_completion(&adap->config_completion);`
+>     > (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L1579__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxKP44OE0$  <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L1579__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxKP44OE0$ >). We have a
+>     > reproducible C program for this.
+>     > 
+>     >  
+>     > 
+>     > For “general protection fault in cec_transmit_done_ts”, the cec device tries derefencing a non-canonical address 0xdffffc00000000e0: 0000 [#1], which is related to the invocation `
+>     > cec_transmit_attempt_done_ts ` (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L697__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxGnBFZv0$ 
+>     > <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L697__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxGnBFZv0$ >). It seems that the address of cec_adapter is totally wrong. We do not have a reproducible program for this
+>     > bug, but the log and report for it are attached.
+>     > 
+>     >  
+>     > 
+>     > If you have any questions or require more information, please feel free to contact us.
+> 
+>     Can you retest with the patch below? I'm fairly certain this will fix issues 1 and 2.
+>     I suspect at least some of the others are related to 1 & 2, but since I could never
+>     get the reproducers working reliably, I had a hard time determining if there are more
+>     bugs or if this patch resolves everything.
+> 
+>     Your help testing this patch will be appreciated!
+> 
+>     Regards,
+> 
+>     	Hans
+> 
+>     Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>     ---
+>      drivers/media/cec/core/cec-adap.c | 3 +--
+>      drivers/media/cec/core/cec-api.c  | 3 +++
+>      2 files changed, 4 insertions(+), 2 deletions(-)
+> 
+>     diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+>     index 5741adf09a2e..079c3b142d91 100644
+>     --- a/drivers/media/cec/core/cec-adap.c
+>     +++ b/drivers/media/cec/core/cec-adap.c
+>     @@ -936,8 +936,7 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
+>      	 */
+>      	mutex_unlock(&adap->lock);
+>      	wait_for_completion_killable(&data->c);
+>     -	if (!data->completed)
+>     -		cancel_delayed_work_sync(&data->work);
+>     +	cancel_delayed_work_sync(&data->work);
+>      	mutex_lock(&adap->lock);
+> 
+>      	/* Cancel the transmit if it was interrupted */
+>     diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
+>     index 67dc79ef1705..d64bb716f9c6 100644
+>     --- a/drivers/media/cec/core/cec-api.c
+>     +++ b/drivers/media/cec/core/cec-api.c
+>     @@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
+>      		list_del_init(&data->xfer_list);
+>      	}
+>      	mutex_unlock(&adap->lock);
+>     +
+>     +	mutex_lock(&fh->lock);
+>      	while (!list_empty(&fh->msgs)) {
+>      		struct cec_msg_entry *entry =
+>      			list_first_entry(&fh->msgs, struct cec_msg_entry, list);
+>     @@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
+>      			kfree(entry);
+>      		}
+>      	}
+>     +	mutex_unlock(&fh->lock);
+>      	kfree(fh);
+> 
+>      	cec_put_device(devnode);
+>     -- 
+>     2.42.0
+> 
+> 
+> 
+
 
