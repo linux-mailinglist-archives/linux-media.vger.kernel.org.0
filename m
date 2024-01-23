@@ -1,201 +1,244 @@
-Return-Path: <linux-media+bounces-4068-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4069-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD4183886D
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 09:02:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3681B838A4D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 10:28:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7B7F1F2373E
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 08:02:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DAEDC28C72E
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 09:28:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 522365647E;
-	Tue, 23 Jan 2024 08:02:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FEC59B5F;
+	Tue, 23 Jan 2024 09:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="jKxfXWpY";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="faVtiGyf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4AC56452;
-	Tue, 23 Jan 2024 08:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705996928; cv=none; b=KElrEww/SM/g0n982n3NO1PbLMlwDzyq2Kx4HHjQgy3/MZ/jOGZW4/sB/nHUync1f53ph2Lj+m87E2Z4Ru/6cTGldZEFz/nUZMNtVUt4xWBnzHjPSirdQP2Kb5sR3llVisX98MvDvaU3hLRvmlKlkEDMiQI+pc8jXF3PaHTDdIk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705996928; c=relaxed/simple;
-	bh=Xi2X6fEyKmPQ+qFx1ws84yReMbGJGwWzGRLzGdmoUzc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qQltJoNTwGYm1BA2mJiBkAQeYeMrytLibAFpntozb4MYJqWd4epxF7d7U8xisp1mnnulGguJJx/+dx5wOcCPgsAeacfQskbafyae2QhZpCj7gbv7QT6/9GCTFqMg0CqUHt3NTfZBP7jIF8Fm2qh8KPsQwcx4miooBaqnUkm4waw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF2A8C433C7;
-	Tue, 23 Jan 2024 08:02:05 +0000 (UTC)
-Message-ID: <382c37c0-15c1-48ad-a8d0-a6bc4bd7160a@xs4all.nl>
-Date: Tue, 23 Jan 2024 09:02:03 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD80758ACD;
+	Tue, 23 Jan 2024 09:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706002084; cv=fail; b=OmOvyLjezIPm0tF5dixle8GW9Lw2lsFXB8exiuyXaoNWhLQ4Isg2x5pkCpouAUaKXWCM22K83Edst3GmgzSYje5h1a/3EMyPFk92/2SemLRmAVhdkbdZopNRsMzoGE4SbgivK0MPuMgJupzNMbTVfdPKdTc4nNEaa3BdnuC/+f8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706002084; c=relaxed/simple;
+	bh=fFvdouQ1D3uITBNPpIPEVe7y2xspVwEu17oeeBLGErU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=GYEe/1ndA5rHfFFyrfp7gaBQ+TvtBYNGGyeV4e749Baz4M/9yF+K+dBg6ckiCXPXWBVeDjuXnbiODj1Y+HiS3G/eYynqlHdHHjpJcz5jjFba/5KPnUgEnsz8OUx7vKSuecZEnjC/3/R5clxlXLBJUM9SWPW9IT7Yl0vQY4ocNuI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=jKxfXWpY; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=faVtiGyf; arc=fail smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: add5ab00b9d111ee9e680517dc993faa-20240123
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=fFvdouQ1D3uITBNPpIPEVe7y2xspVwEu17oeeBLGErU=;
+	b=jKxfXWpY1XaUUGACwSo07AeslS0p80O/JMshK1jJSIsFDh+wvfNJiZ9+O1IWDzgqqc+Atnp5MtWOYZKfOV37wJCBKAaDesVmskl0nPAXI3VAwns/Z2Jz6Iwyho+CcnOUrvDffSXhAZHGT/0c7rLT7md0OY67Nw2IYLkutcgTejQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.36,REQID:59275ac1-e77e-4c0e-b18e-16e0d3d208cc,IP:0,U
+	RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:6e16cf4,CLOUDID:4ab58f8e-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: add5ab00b9d111ee9e680517dc993faa-20240123
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1373508995; Tue, 23 Jan 2024 17:27:51 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 23 Jan 2024 17:27:49 +0800
+Received: from HK3PR03CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 23 Jan 2024 17:27:49 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UZLFHGk5gLhLRsGW3JESVAp6Jp9M0Zfh2hS+QF5tOKvUS8KMmr7jouKzRqF60B9T2q2xgMuDvqe6IxnrNZgiJvf5LCFU7vvh3KSVSsH0uAAdnualUsdfVxJVSVjW2aEf0tq12YutDfSc6udc4oSrETjRcxml3Yejf6uNcfBYo7BFmNGgzuK8/hk4UTAxRMwtXlm+jghhk2Ts0A77lI6qmkCFkE5+qzfG0p6mRe2vxQCsmFrEuthVqPyeL1z04S4Tu7jDG9uRJi4CWNqPXCbxX216N96+AsgD9tE6IcRKQwRRQmTynGZQbYEN1AaXTfm7x0tPYgsn7vC1pwttt1armQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fFvdouQ1D3uITBNPpIPEVe7y2xspVwEu17oeeBLGErU=;
+ b=jXH7HSWS6tbJE1R5JFLcO44211r4w1FpOKOOvfoLoEnkauTbib8GuW2rDH5P+s8A7GLnjvkbC6Oh6glXNG66ve5DdDiMwJxTceAsGmNGaquUZX9Jt8IH0Dmomrt5rA8ibk7n6vmggYY3C+9DyKbtVygNdSQYfzh1O3kFL/yD+DTZuiauavXT6DwB/zryhdpn4X7EXf7bZvKj9Cy2l0mfvD9Hq8YUdfXZtihn9gVMEMnssHAuXfGVR7TcRUjVJeMf1N8rK0tEW7VYL9kWGYjbIyfaaFMX8WSA1IA/+54k9gKJjBuyIBLV2QCUWQZEC8w6m4/GBGhIWIpthZj0xYJZSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fFvdouQ1D3uITBNPpIPEVe7y2xspVwEu17oeeBLGErU=;
+ b=faVtiGyfXbSl0ccR5htrlVhvBxdxQPaao2lSqgoCAQnGk2ffit1ik+1ku1NxLEYk4aPTapMuTk4SXyrye2aocjMXVKBC6ABqJI23EfDQvzXmfmlnWNqXuMUj0cSc6BQb4PJWQYOHGe9SF3BFUKIo5UcKjRNJD+pbLB0muDaGCFg=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by KL1PR03MB5861.apcprd03.prod.outlook.com (2603:1096:820:92::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.36; Tue, 23 Jan
+ 2024 09:21:10 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::d006:ec9c:ff42:ff60]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::d006:ec9c:ff42:ff60%5]) with mapi id 15.20.7202.031; Tue, 23 Jan 2024
+ 09:21:10 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: "fshao@chromium.org" <fshao@chromium.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	=?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+	=?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?=
+	<Jason-ch.Chen@mediatek.com>, =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?=
+	<Shawn.Sung@mediatek.com>, =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
+	<Nancy.Lin@mediatek.com>, =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?=
+	<Johnson.Wang@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "krzysztof.kozlowski+dt@linaro.org"
+	<krzysztof.kozlowski+dt@linaro.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: mailbox: Add mediatek,gce-props.yaml
+Thread-Topic: [PATCH v3 1/3] dt-bindings: mailbox: Add mediatek,gce-props.yaml
+Thread-Index: AQHaSqF1IA9qW0PoQkym//6hgpJgy7DlNW4AgAHwToA=
+Date: Tue, 23 Jan 2024 09:21:10 +0000
+Message-ID: <22c9f71a7b9e72f0324c297e864cf3ff87e7b640.camel@mediatek.com>
+References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
+	 <20240119063224.29671-2-jason-jh.lin@mediatek.com>
+	 <CAC=S1ng5v5-LSq6d-R-89N35qiKd7qa8FEo6qakWxrzibYvgSQ@mail.gmail.com>
+In-Reply-To: <CAC=S1ng5v5-LSq6d-R-89N35qiKd7qa8FEo6qakWxrzibYvgSQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|KL1PR03MB5861:EE_
+x-ms-office365-filtering-correlation-id: 1641a98d-e9af-4b0e-7136-08dc1bf4a34a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4+P8IKVF1ATqFQicII65tbBgccS7SJ+Iz1PddCIGuW0FjYVkh6NpAL/mXKokGtJhQcRtMF0xRvuujV5hYgYrXPvDvRQlI8Y4T4ivhUkrCeRaYUdKZVGZPHtjEjVifAooRvxaFsHfcgZFw+OOUloIWxtl74isVYganLT2WJ5HN5Hcggq812XSp2cMqvvi65NnPn+2Lg0xk7eSCmZumVHop72PqIYQHfy0dU39O+64WORnk/0yj/HZn+qd0QEVQnZR77m+OToU6oSGApnguvIIsAh0QtzvPP6WWnYPrnImetHphbF/IFQu28EGpao0a77n8iWGoUcKetKsVu3E1Ctct5nYar7W1F1GEF+/bDQKqD2JE5/b6MJhd19h/a0cHVKyysDJVPiIqAzu2s5M1PKXt39hTDJVLNB0IHEBa1MTqY2L8dnVg+mVXUBERyljSDsVvdkxSO+FLCQKLkWEn5/tozmuZR1o9Fv+zUC6mxyKzv5v35StmG//BsfQU1oMM6MCjBxNBxICY4A4YpJPPRxuPnceYmSzvziSE9tta3YaasfwtsvI7641Z2lvyzsseRlrf2IK8ecqowY64hjZ+BNCqslAh8W52u1fGUHOt4k7WVJZguKOrqW8OWRt2P/vW6g9KealMNPkGES+hSDDG8HVgy4IS+mG6/O+iMtiXt+wVdFu63FpUFg4YFh9NpfTlyil
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR03MB7682.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(39860400002)(366004)(396003)(230273577357003)(230173577357003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(26005)(6512007)(6506007)(53546011)(71200400001)(83380400001)(86362001)(36756003)(85182001)(2616005)(38070700009)(38100700002)(15650500001)(7416002)(64756008)(4326008)(5660300002)(41300700001)(66476007)(66946007)(66446008)(66556008)(54906003)(8676002)(122000001)(8936002)(91956017)(6916009)(76116006)(478600001)(316002)(6486002)(2906002)(966005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q0VHSEJuYXo3bWxjZnJyUW03Njc0azVxT3haRWRzdi9tYTV0T2Z6M2RBN2cw?=
+ =?utf-8?B?cEVucmp5MU5MejdNeHgzVklYVGxEV1g3WjFZSHpJV2lQVy8yODRxOXgyYWFj?=
+ =?utf-8?B?V1NVa1BZK0lHc2NYR0QvdTFWRkhpL2VjSUJzZDA2YW1pYm5Gem92TjRqZHJH?=
+ =?utf-8?B?RkVSRDlsampndzI0enBUYWxIcXc0dVd4b2hsL3JOWG9BMTErUjdvSFYvM0d1?=
+ =?utf-8?B?Q0xiTm1RcDk4LzhJdzlxOWlSR3QwOUFwYnd1UjAwRHp5dUJOYXdWT0YwSEZu?=
+ =?utf-8?B?QzYxay91TlNlSjVmQnNldXdHUUhEcVNHc1ovVnNueGFLRXlUTUlRR29yMHpN?=
+ =?utf-8?B?ck1NS21NaHYwU2VLdXFlbGc5anVDVGtWRHNUb2lKTnJBa3graGFIVWt0TU1y?=
+ =?utf-8?B?NWwwek52YndUODBicDFTemhZdEFrZ1cxUWZQVVMwazlpbkMwWkQwUDZTZHFP?=
+ =?utf-8?B?RWJCdnk2V2dxakM0cWlBenFVLysrRHVYVk4zUmZrK1VJRGk5OStSYmdPRVZL?=
+ =?utf-8?B?MTl0azZQbkZrUFcwY1VkK0NvTVM1ZWE0N2RmVmJ1aENCV2d3eTRYZWk2Y1ll?=
+ =?utf-8?B?S3BRZ1ZuZWJsUnYrbFpTK0ZkTlBOanRmdDJsVlRxeEpNcEJGQXh6U1I2dm12?=
+ =?utf-8?B?TllBelZBZThlT2d6L0c4eTNoa3ovQTNSTUtUdHplWGpYVnNHR1g2QmZyYVpT?=
+ =?utf-8?B?UC91a2ZhWHFvb0hFbURab1VBRXlDd25DaWNMZFZkNTZwTDBhRzZiWnAydDdu?=
+ =?utf-8?B?c20wRjZ6emVIUXVUUFlhdVQzTzFsazhsVURMaDV2K1E3Nk83dnQ1YXFMNmNK?=
+ =?utf-8?B?aGk3a3hwQ2R2eXhOTUd5MW9neDVnNVBJM2Q2OEVlaW5QeFhkZGtBWSswZHNG?=
+ =?utf-8?B?RHVVMmoxamZZbk5lejdmSU9HMWxiMzkrZWhQaHdWaDZQLzcyRmxtejg1Rkov?=
+ =?utf-8?B?ZHUrZVNKUHRuN0xjZlNrMjVoTFRnZkRHQVQ5Nnkwek1yaDdJV1A1Q2krWFUw?=
+ =?utf-8?B?YU55TTE1TWh3MDRrdDJhRWlGUHlSdk82eFp6aXI1QkRNODlXbVZvZGRibkNK?=
+ =?utf-8?B?NDVLNkVLbGMzTmtuam1JbVAxZjBOcTBYQ0ovc0l6VlluRjU3QUNqWVR2eUJy?=
+ =?utf-8?B?UkVibVp5R21QbHR1WVRsR2pWWjNTSWpGU2NMaFRwSk91OUZVZU9qWjl5blpM?=
+ =?utf-8?B?M1A2eUcramQwa1ZHcytSU0FBQmFkODFrRW1STlZPREdTWGVwOWJ1MktjZXdy?=
+ =?utf-8?B?NkpMbTFhaEdpWEx6UHErOVBOQjZjZVB4cDhwTThvcmt0NWZwK29xTjhYSFlH?=
+ =?utf-8?B?TXkvditDc2Fmb2tpTE1qTTZxQzJIaUcydmp4TmYzcnM3OTdhRFNsSzJ2Z2x1?=
+ =?utf-8?B?Ris1RHAwQWFLMEhxUTRmRGdERGFwLy9tRCtrV0hoZnBtR0lGVVo0REVtQzRj?=
+ =?utf-8?B?Yi9CdlFiNDFXZ3BhYkFLbDFxOE1ZRms1WWIxYzNOWThyZi9IWVNPeFkyK2lN?=
+ =?utf-8?B?WG03a2g2N0tySTJGM2g4K3FIdEFZTGtXY2dZV3R2L1lQQ2swTXZOd0J0MHdO?=
+ =?utf-8?B?V3pieXN0TkJ3L3hBVyt6YnJ1ZTdVRE9lWXlBQUNXeUhFNU5aaGlKaW02SjJo?=
+ =?utf-8?B?S3o2U25vZlU3VEVCaE1SdlNpd1Z0UnFCSURYdzhWRkZpZC9YNWVrUFZvS3g4?=
+ =?utf-8?B?a205Uy9wRDN1eVV6NmJ6WlN0VjI1VHpSdDBlTUx6VWhveUNtczVVMXBqdm5D?=
+ =?utf-8?B?ODhZRy84RWJ4N1ovSnU0TzVYR3VXdVpDRUoxUDRuMVAwUVZTaEZRK0lQd29h?=
+ =?utf-8?B?T2QxZzg5RFNqWTlmUXU0TFp1b1RtbGc1OVdmM0hPaThKUmNTL2wxZmc4eTZl?=
+ =?utf-8?B?L0g1NDc1VWE4NHhacnVtUUpaWTdwd01veEs1NTc4a05uS2x4TjNZTXJaMUxH?=
+ =?utf-8?B?ZmVDL2xxN3hocUErZjhqNlYrMDBlOVlETTFoeEx2S0gzVldUQU1pcmZqSjBI?=
+ =?utf-8?B?MzB3SjA5czJIRWZqc3RxUHdraVhKbmo2OVFaaHdrZlpGMWExeVlWVU9DU0kw?=
+ =?utf-8?B?OEtEOFBBdWcxL2VtMnMyQ2pZV1BXUnpHRXJxVjNsUngrbkcxd0g4WDI5R0dl?=
+ =?utf-8?B?VnhkcmVSY1I5VmppOS9TN1hPRnlyLzQxVlRuVFVMZStXRG5DVW5DaXNVYmlI?=
+ =?utf-8?B?eWc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B43CB65328C37049B3DE1F816CFDA554@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
- cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
-Content-Language: en-US, nl
-To: "Yang, Chenyuan" <cy54@illinois.edu>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
- "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>, "Zhao, Zijie"
- <zijie4@illinois.edu>, "Zhang, Lingming" <lingming@illinois.edu>
-References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
- <f985d664-d907-48ed-9b3d-dc956c178b88@xs4all.nl>
- <89FAADA9-D4EC-4C27-9F8F-1D86B7416DE1@illinois.edu>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <89FAADA9-D4EC-4C27-9F8F-1D86B7416DE1@illinois.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1641a98d-e9af-4b0e-7136-08dc1bf4a34a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2024 09:21:10.5002
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CRwh1rECuxZ9GVm8wt5uXvr5l6fZp7BHucA5WMqrx9wtiCrbJo+k2LtrEtqjEqnweqDWPzB4bLzo44zF0z6ca6dNTwi3HpMY94qPSFLSiWM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB5861
 
-On 22/01/2024 20:11, Yang, Chenyuan wrote:
-> Hi Hans,
-> 
-> Thank you very much for providing the patch!
-> 
-> After running the reproducible programs and 24-hour fuzzing, it seems that this patch could fix the issues 1, 2, 3 and 5.
-
-Ah, that's good news.
-
-> 
-> The 4th issue, "INFO: task hung in cec_claim_log_addrs", is still triggered after applying the patch.
-
-I'll dig a bit deeper into this one, see if I can figure out the cause.
-
-Thank you for your help in testing this!
-
-Regards,
-
-	Hans
-
-> 
-> If you need more information, feel free to let met know.
-> 
-> Best,
-> Chenyuan
-> 
-> ﻿On 1/19/24, 2:17 AM, "Hans Verkuil" <hverkuil-cisco@xs4all.nl> wrote:
-> 
->     Hi Chenyuan,
-> 
->     On 28/12/2023 03:33, Yang, Chenyuan wrote:
->     > Hello,
->     > 
->     >  
->     > 
->     > We encountered 5 different crashes in the cec device by using our generated syscall specification for it, here are the descriptions of these 5 crashes and the related files are attached:
->     > 
->     > 1. KASAN: slab-use-after-free Read in cec_queue_msg_fh (Reproducible)
->     > 
->     > 2. WARNING: ODEBUG bug in cec_transmit_msg_fh
->     > 
->     > 3. WARNING in cec_data_cancel
->     > 
->     > 4. INFO: task hung in cec_claim_log_addrs (Reproducible)
->     > 
->     > 5. general protection fault in cec_transmit_done_ts
->     > 
->     >  
->     > 
->     > For “KASAN: slab-use-after-free Read in cec_queue_msg_fh”, we attached a syzkaller program to reproduce it. This crash is caused by ` list_add_tail(&entry->list, &fh->msgs);`
->     > (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L224__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxZMf3fVQ$  <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L224__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxZMf3fVQ$ >), which reads a
->     > variable freed by `kfree(fh);` (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c*L684__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxT0xaxsY$ 
->     > <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-api.c*L684__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxT0xaxsY$ >). The reproducible program is a Syzkaller program, which can be executed following this document:
->     > https://urldefense.com/v3/__https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md__;!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZx32PwCDs$  <https://urldefense.com/v3/__https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md__;!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZx32PwCDs$ >.
->     > 
->     >  
->     > 
->     > For “WARNING: ODEBUG bug in cec_transmit_msg_fh”, unfortunately we failed to reproduce it but we indeed trigger this crash almost every time when we fuzz the cec device only. We attached the report
->     > and log for this bug. It tries freeing an active object by using `kfree(data);` (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L930__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxhwnuzFw$ 
->     > <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L930__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxhwnuzFw$ >).
->     > 
->     >  
->     > 
->     > For “WARNING in cec_data_cancel”, it is an internal warning used in cec_data_cancel (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L365__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxJ9Jw4fU$ 
->     > <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L365__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxJ9Jw4fU$ >), which checks whether the transmit is the current or pending. Unfortunately, we also don't have the
->     > reproducible program for this bug, but we attach the report and log.
->     > 
->     >  
->     > 
->     > For “INFO: task hung in cec_claim_log_addrs”, the kernel hangs when the cec device ` wait_for_completion(&adap->config_completion);`
->     > (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L1579__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxKP44OE0$  <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L1579__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxKP44OE0$ >). We have a
->     > reproducible C program for this.
->     > 
->     >  
->     > 
->     > For “general protection fault in cec_transmit_done_ts”, the cec device tries derefencing a non-canonical address 0xdffffc00000000e0: 0000 [#1], which is related to the invocation `
->     > cec_transmit_attempt_done_ts ` (https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L697__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxGnBFZv0$ 
->     > <https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-rc7/source/drivers/media/cec/core/cec-adap.c*L697__;Iw!!DZ3fjg!9_O4Tm7W1dKV8lXOcDFUTmIqAd6eUmsffQg3gwvypxBR3WFuQkIlRr2vAsIpwMt7lt86UlzdOTV_jBaVO8pkIiZxGnBFZv0$ >). It seems that the address of cec_adapter is totally wrong. We do not have a reproducible program for this
->     > bug, but the log and report for it are attached.
->     > 
->     >  
->     > 
->     > If you have any questions or require more information, please feel free to contact us.
-> 
->     Can you retest with the patch below? I'm fairly certain this will fix issues 1 and 2.
->     I suspect at least some of the others are related to 1 & 2, but since I could never
->     get the reproducers working reliably, I had a hard time determining if there are more
->     bugs or if this patch resolves everything.
-> 
->     Your help testing this patch will be appreciated!
-> 
->     Regards,
-> 
->     	Hans
-> 
->     Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->     ---
->      drivers/media/cec/core/cec-adap.c | 3 +--
->      drivers/media/cec/core/cec-api.c  | 3 +++
->      2 files changed, 4 insertions(+), 2 deletions(-)
-> 
->     diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
->     index 5741adf09a2e..079c3b142d91 100644
->     --- a/drivers/media/cec/core/cec-adap.c
->     +++ b/drivers/media/cec/core/cec-adap.c
->     @@ -936,8 +936,7 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
->      	 */
->      	mutex_unlock(&adap->lock);
->      	wait_for_completion_killable(&data->c);
->     -	if (!data->completed)
->     -		cancel_delayed_work_sync(&data->work);
->     +	cancel_delayed_work_sync(&data->work);
->      	mutex_lock(&adap->lock);
-> 
->      	/* Cancel the transmit if it was interrupted */
->     diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
->     index 67dc79ef1705..d64bb716f9c6 100644
->     --- a/drivers/media/cec/core/cec-api.c
->     +++ b/drivers/media/cec/core/cec-api.c
->     @@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
->      		list_del_init(&data->xfer_list);
->      	}
->      	mutex_unlock(&adap->lock);
->     +
->     +	mutex_lock(&fh->lock);
->      	while (!list_empty(&fh->msgs)) {
->      		struct cec_msg_entry *entry =
->      			list_first_entry(&fh->msgs, struct cec_msg_entry, list);
->     @@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
->      			kfree(entry);
->      		}
->      	}
->     +	mutex_unlock(&fh->lock);
->      	kfree(fh);
-> 
->      	cec_put_device(devnode);
->     -- 
->     2.42.0
-> 
-> 
-> 
-
+SGkgRmVpLA0KDQpUaGFua3MgZm9yIHRoZSBjb3JyZWN0aW9ucy4NCg0KT24gTW9uLCAyMDI0LTAx
+LTIyIGF0IDExOjQ0ICswODAwLCBGZWkgU2hhbyB3cm90ZToNCj4gIAkgDQo+IEV4dGVybmFsIGVt
+YWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVudGls
+DQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+ICBPbiBG
+cmksIEphbiAxOSwgMjAyNCBhdCAyOjMy4oCvUE0gSmFzb24tSkguTGluIDwNCj4gamFzb24tamgu
+bGluQG1lZGlhdGVrLmNvbT4gd3JvdGU6DQo+IEhpIEphc29uLA0KPiANCj4gSnVzdCBmZXcgbml0
+cGlja3MgYWJvdXQgdHlwbzoNCj4gPg0KPiA+IEFkZCBtZWRpYXRlayxnY2UtcHJvcHMueWFtbCBm
+b3IgY29tbW9uIEdDRSBwcm9wZXJ0aWVzIHRoYXQgaXMgdXNlZA0KPiBmb3INCj4gPiBib3RoIG1h
+aWxib3ggcHJvdmlkZXJzIGFuZCBjb25zdW1lcnMuIFdlIHBsYWNlIHRoZSBjb21tb24gcHJvcGVy
+dHkNCj4gPiAibWVkaWF0ZWssZ2NlLWV2ZW50cyIgaW4gdGhpcyBiaW5kaW5nIGN1cnJlbnRseS4N
+Cj4gPg0KPiA+IFRoZSBwcm9wZXJ0eSAibWVkaWF0ZWssZ2NlLWV2ZW50cyIgaXMgdXNlZCBmb3Ig
+R0NFIGV2ZW50IElEDQo+IGNvcnJlc3BvbmRpbmcNCj4gPiB0byBhIGhhcmR3YXJlIGV2ZW50IHNp
+Z25hbCBzZW50IGJ5IHRoZSBoYXJkd2FyZSBvciBhIHNvZndhcmUNCj4gZHJpdmVyLg0KPiBzb2Z0
+d2FyZQ0KPiANCj4gPiBJZiB0aGUgbWFpbGJveCBwcm92aWRlcnMgb3IgY29uc3VtZXJzIHdhbnQg
+dG8gbWFuaXB1bGF0ZSB0aGUgdmFsdWUNCj4gb2YNCj4gPiB0aGUgZXZlbnQgSUQsIHRoZXkgbmVl
+ZCB0byBrbm93IHRoZSBzcGVjaWZpYyBldmVudCBJRC4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6
+IEphc29uLUpILkxpbiA8amFzb24tamgubGluQG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAg
+Li4uL2JpbmRpbmdzL21haWxib3gvbWVkaWF0ZWssZ2NlLXByb3BzLnlhbWwgIHwgNTINCj4gKysr
+KysrKysrKysrKysrKysrKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNTIgaW5zZXJ0aW9ucygrKQ0K
+PiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL21haWxib3gvbWVkaWF0ZWssZ2NlLXByb3BzLnlhbWwNCj4gPg0KPiA+IGRpZmYgLS1naXQN
+Cj4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWFpbGJveC9tZWRpYXRlayxn
+Y2UtcHJvcHMueWFtbA0KPiBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tYWls
+Ym94L21lZGlhdGVrLGdjZS1wcm9wcy55YW1sDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4g
+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjY4YjUxOWZmMDg5Zg0KPiA+IC0tLSAvZGV2L251bGwNCj4g
+PiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWFpbGJveC9tZWRpYXRl
+ayxnY2UtDQo+IHByb3BzLnlhbWwNCj4gPiBAQCAtMCwwICsxLDUyIEBADQo+ID4gKyMgU1BEWC1M
+aWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNELTItQ2xhdXNlKQ0KPiA+ICsl
+WUFNTCAxLjINCj4gPiArLS0tDQo+ID4gKyRpZDogDQo+IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9z
+Y2hlbWFzL21haWxib3gvbWVkaWF0ZWssZ2NlLXByb3BzLnlhbWwjDQo+ID4gKyRzY2hlbWE6IGh0
+dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIw0KPiA+ICsNCj4gPiAr
+dGl0bGU6IE1lZGlhVGVrIEdsb2JhbCBDb21tYW5kIEVuZ2luZSBDb21tb24gUHJvcGVydGVzDQo+
+IFByb3BlcnRpZXMNCj4gDQo+ID4gKw0KPiA+ICttYWludGFpbmVyczoNCj4gPiArICAtIEhvdWxv
+bmcgV2VpIDxob3Vsb25nLndlaUBtZWRpYXRlay5jb20+DQo+ID4gKw0KPiA+ICtkZXNjcmlwdGlv
+bjoNCj4gPiArICBUaGUgR2xvYmFsIENvbW1hbmQgRW5naW5lIChHQ0UpIGlzIGFuIGluc3RydWN0
+aW9uIGJhc2VkLCBtdWx0aS0NCj4gdGhyZWFkZWQsDQo+ID4gKyAgc2luZ2xlLWNvcmUgY29tbWFu
+ZCBkaXNwYXRjaGVyIGZvciBNZWRpYVRlayBoYXJkd2FyZS4gVGhlDQo+IENvbW1hbmQgUXVldWUN
+Cj4gPiArICAoQ01EUSkgbWFpbGJveCBkcml2ZXIgaXMgYSBkcml2ZXIgZm9yIEdDRSwgaW1wbGVt
+ZW50ZWQgdXNpbmcgdGhlDQo+IExpbnV4DQo+ID4gKyAgbWFpbGJveCBmcmFtZXdvcmsuIEl0IGlz
+IHVzZWQgdG8gcmVjZWl2ZSBtZXNzYWdlcyBmcm9tIG1haWxib3gNCj4gY29uc3VtZXJzDQo+ID4g
+KyAgYW5kIGNvbmZpZ3VyZSBHQ0UgdG8gZXhlY3V0ZSB0aGUgc3BlY2lmaWVkIGluc3RydWN0aW9u
+IHNldCBpbg0KPiB0aGUgbWVzc2FnZS4NCj4gPiArICBXZSB1c2UgbWVkaWF0ZWssZ2NlLW1haWxi
+b3gueWFtbCB0byBkZWZpbmUgdGhlIHByb3BlcnRpZXMgZm9yDQo+IENNRFEgbWFpbGJveA0KPiA+
+ICsgIGRyaXZlci4gQSBkZXZpY2UgZHJpdmVyIHRoYXQgdXNlcyB0aGUgQ01EUSBkcml2ZXIgdG8g
+Y29uZmlndXJlDQo+IGl0cyBoYXJkd2FyZQ0KPiA+ICsgIHJlZ2lzdGVycyBpcyBhIG1haWxib3gg
+Y29uc3VtZXIuIFRoZSBtYWlsYm94IGNvbnN1bWVyIGNhbg0KPiByZXF1ZXN0IGEgbWFpbGJveA0K
+PiA+ICsgIGNoYW5uZWwgY29ycmVzcG9uZGluZyB0byBhIEdDRSBoYXJkd2FyZSB0aHJlYWQgdG8g
+c2VuZCBhDQo+IG1lc3NhZ2UsIHNwZWNpZnlpbmcNCj4gPiArICB0aGF0IHRoZSBHQ0UgdGhyZWFk
+IHRvIGNvbmZpZ3VyZSBpdHMgaGFyZHdhcmUuIFRoZSBtYWlsYm94DQo+IHByb3ZpZGVyIGNhbiBh
+bHNvDQo+ID4gKyAgcmVzZXJ2ZWQgYSBtYWlsYm94IGNoYW5uZWwgdG8gY29uZmlndXJlIEdDRSBo
+YXJkd2FyZSByZWdpc3RlciBieQ0KPiB0aGUgc3BjaWZpYw0KPiBzL3Jlc2VydmVkL3Jlc2VydmUv
+DQo+IHMvc3BjaWZpYy9zcGVjaWZpYy8NCj4gDQo+IFJlZ2FyZHMsDQo+IEZlaQ0KPiANCkknbGwg
+Zml4IHRoZXNlIHR5cG8gaW4gdGhlIG5leHQgdmVyc2lvbi4NCg0KUmVnYXJkcywNCkphc29uLUpI
+Lkxpbg0KDQo=
 
