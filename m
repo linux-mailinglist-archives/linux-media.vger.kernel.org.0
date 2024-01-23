@@ -1,242 +1,414 @@
-Return-Path: <linux-media+bounces-4077-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4078-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB047838D2F
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 12:16:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F16838DF3
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 12:52:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50C81284567
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 11:16:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 223B81F2487D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 11:52:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB9C5D74A;
-	Tue, 23 Jan 2024 11:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED8B95D91E;
+	Tue, 23 Jan 2024 11:52:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YmdvPEEi"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NqyGGpYv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2085.outbound.protection.outlook.com [40.107.223.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F160A5D72E
-	for <linux-media@vger.kernel.org>; Tue, 23 Jan 2024 11:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706008591; cv=none; b=lN2Bj3ifrNOUmeF7UruYEtuAEwU8K1xGEkjUwxzjcmxliGABbdFRulyF74/zHqYr460NgT3daCAR/X6n8G9kvk2YM45R7fzNpExnsQeVxs+gn+X+mHkKIbtYnHXlW2XodgFv6FOG61cxiqWx/N60sjCvBckbVZULehRKZvzzWfw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706008591; c=relaxed/simple;
-	bh=3SZyepCi31Ky6TIMiCV91xHAWmelDqjz6VeWQZ2+DPw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lEuxGEGgTjyY5vj4mKgFX2nSgd5bj2u93cBQSk7zE8QpG75bXr3rmYSr+gqm/A+P/l1E4BsdH04XGybgE6EpVIfzInPyMBuUI0LsMikowb8grwxFqj0aXlYkQG3fdE6re7WN/sCmEZHrmqi+tmXfz1LVTKeGQR1D7SsZM8sYWtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YmdvPEEi; arc=none smtp.client-ip=134.134.136.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706008589; x=1737544589;
-  h=date:from:to:cc:subject:message-id;
-  bh=3SZyepCi31Ky6TIMiCV91xHAWmelDqjz6VeWQZ2+DPw=;
-  b=YmdvPEEiUSz1tPNzD6gH2MAD8EId8aDFHh2iWpj7oJJbST+ONe0VkEFZ
-   6FSO0Q9/mDEog83dODDRL5yeTfEy/HEuMbHiiS28C6sDGKferZ0fsLeCy
-   JZbNxiPQZhqTU8fX6nxo41eGTl4SoZFpXpf55PW1ZM7EGns03d5GfjFOS
-   Ofs1x3e1QMngD1LCzpYk/TrLrjH8DdyU0xTO9eAg0kRqfxokAWC2nJvSz
-   h8d+qPiuYqfKrHmKNJprKicTXVR/2IhABkpRAbVIez3CaM24y+Iw5WBuK
-   Bd+3P8uqIcc352PFcT+looyEQ0yKCDpnHWpey8N19YJ/nMzbonixoyf84
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="465752555"
-X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
-   d="scan'208";a="465752555"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 03:16:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
-   d="scan'208";a="1621668"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jan 2024 03:16:16 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rSElJ-0007NZ-0H;
-	Tue, 23 Jan 2024 11:16:13 +0000
-Date: Tue, 23 Jan 2024 19:15:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:pm] BUILD SUCCESS
- 42ded3b91dbce294eb4f0ed58e6077569d0c4a2f
-Message-ID: <202401231911.9AuoJnQI-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6575A0FF;
+	Tue, 23 Jan 2024 11:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706010760; cv=fail; b=i4IEmOnJpqs9Vl0tovi0Y98NfhrGjrA6/04vaunsRu/FFxC49Njwfvw8mdnnxVtEMJFUoX8X6wfSk6dz7MQQImSMKW/d6qkAChKJG/x9YKkhnlH6SydJJBmgYWJ/QMKHuBHA3KEmjOse6iTz2VoO4kp1Ffj9KAKu9ZUnwGhILyc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706010760; c=relaxed/simple;
+	bh=s5+U9MRVrCfK5/xKQCHsMHz2CeUEWLoItPcfLIAsfFE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=jE4N8IR2OudVPs2CVuGCEzet2CyWwA9TSKRvxx8+ull+1HtM73wUTmwK+JxzexjL5H0QNFn4NYqeSrcUx52Gdai2cmD1Xb8/M7enItzAL3DTLuZpL8BOq/hj+D3RPeER5GYngr/aH4N53QZwzQcXu/JwpfTyt0ZJ/I3prpztMBY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NqyGGpYv; arc=fail smtp.client-ip=40.107.223.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lD7WpB5dgv67toNRqTg2H9vQRVCyvOtbKKrm6XqAcsDz8IzUg8b6e4FBwpeN2LzN48ErCHi30wA4OTN1vpIpn7zMoesFDRm/AbDVl6J6w5vHwReQgmzxLfX+Vc4CAMxoJFtk5PBs2QNfFtKacemYu+pLccHAZIOjwTLqVk3zKnwSDrs3qluszobTdQJNicOutCyYlKUCt/WdZ8LueOWi2Y+K4dmR3H4YqNRhjK2GuC4WDCmMlGr2drJrNEc4G13Ac5xBp+DgsRXqUigLimwyIJXzAy9GazUxz3KJrIwqr/hFzkrDLzOWKVQ/e55Azd9zTSIlKAl7qNtW/6IwLyXmqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oy4fbR9UbO8+KCr7W9tHO9OyrVJdLHBYuWjQT1M0LbU=;
+ b=ndse23KLbt1kNIscm3X1m+SWDMpyON9kyI5KVrvoHoYCn1xGiUxxNCnPPOxCWk4Zv43VAGDoCJwF5aqd2oxmDYFLQBOCbVr9XCEFlF8ctZKumYMq/GrV7p7qz3f+h9B0f/GKE5BsPgotinmpoPaBErOdcPak2LOYvMEl5iw6JR/Nck216P5LPIFrRVbhH8Eax+x6OEtGFmcb8hKD26DerVDife5flf3HdN4abe3EnWct1XrZLgVQjqk5i6ygCpDqQKVleSmmrWjBZyb07bHvNFtPwf7QoOfpyPac8MebyMzA/85zOHpHAwkNZtKDjQ0lozakNvKAFCAt1TSOME24kQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oy4fbR9UbO8+KCr7W9tHO9OyrVJdLHBYuWjQT1M0LbU=;
+ b=NqyGGpYv3Q2krlzds/X5pOQOanTmDcuqDUT5SiqITOd9D+O9iBDAdnEf+KRfl4dhgQGBnHhpt9vTZ5w++PPuMNLqTPARGibqhO/TaxSFUJ5edHZBNL9hReZ+4wRmOxgdGVXNquhZ/37wgW6E4yziGOFhW0/nbg2YN5Cww5JN0QE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BL3PR12MB6572.namprd12.prod.outlook.com (2603:10b6:208:38f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34; Tue, 23 Jan
+ 2024 11:52:35 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7202.031; Tue, 23 Jan 2024
+ 11:52:29 +0000
+Message-ID: <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+Date: Tue, 23 Jan 2024 12:52:21 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20240119141402.44262-1-paul@crapouillou.net>
+ <20240119141402.44262-2-paul@crapouillou.net>
+ <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+ <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+ <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+ <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0321.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:eb::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL3PR12MB6572:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfa89bfc-5d3e-42ab-1399-08dc1c09c69f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	x7WlHNrr4s0Teb1KKRw/K+hyylj0HmMy5BfOMUsUBkyi4bsWIXBy78/NRUWGL3Aa6elHQT8q3NA+yf70kI73Dsjy8IW3VfgTNO33H4YhmUmJylDa/7JmY2BYHpv77Kq7vGvIz+2hq+F88WIeFuVV5JgQCe70BcMAZsvo9I2Y/Eu4SbrL7Hgee3Nf9mvHFB3pTKweIOCapQe4P/JSyqKrKvXeV6DGD5wf2gX0KLPyCRNyaOh34IuqNkOBhqgrEHx2CU8mVZYQBFc9/N14UTSGcvfuGGkTXQ77MCBevSj7EzUeo600yJRKaCWdW148YpLP5MseLjagREYhz7YNt8LOO1qZ6mlMbLEE+MPKkrSDxFw4k0Y5NKXwwVtVH3cUy2Ssx0jjPIsRmzZlmDRyyhqi7KO6D4jjKtD/kNt92aW+le04/CSMCV2BhGAnIn4FSVqnrWPmuCF9D7bSCAFtGpj1bCFtKIwsE+b9TwYHDqYllhUXw9I+oVtk6C5ps2fNHyXwJerj1illhHW3Y1drXh34HGSIsanbOHRQteqsabG7dVlke/3mQQ8moeUoVaJ/JMB9AY5IWubDO3Uyo1bydt1pzQ/Hh5jHBRajeueIRgBwoo3T+vtXzMftgqNJ+BT5vfz1/7XU5X9KOkFBbd0FlL+Qfg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(39860400002)(366004)(136003)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(31696002)(66574015)(83380400001)(2616005)(26005)(66556008)(66476007)(8676002)(38100700002)(41300700001)(66946007)(54906003)(5660300002)(316002)(8936002)(7416002)(110136005)(4326008)(6512007)(6506007)(6666004)(6486002)(478600001)(2906002)(36756003)(86362001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YTg4R3ZaekgrMGxrVXExbU5MSC9Dci9wZlVrdmVtRTc3MndQaHBJSWk2cFpm?=
+ =?utf-8?B?Vkx3WUJlQTMrUzJ0UDlabDJTMXp1M2J1RmRBaDlXdUh6TjRFOEVjaGY5d3hI?=
+ =?utf-8?B?OC9qbjFNZm9IUjdDakkwOFpFSm9NZWkvbG43bTlOSGxENFlpS3NtYkE0UitM?=
+ =?utf-8?B?ampzeUl2Q2h1V05UV0Jrc1d2dXFrVkU3T2MxOFZYRXNRUzRSYWFCNFpocGE5?=
+ =?utf-8?B?YjcxSjRDakN3S0EvaTEvS0R0by85cFNHNzhMMERTN05qdFFSejRsUm1rRVpv?=
+ =?utf-8?B?aVBFaUs4TjlvSmFPdzBiL0RUSVVQVWlNbjhFckRVUGdmRHBGbVJIeHJtOTJt?=
+ =?utf-8?B?TEdMUU5DYWw1RHRoSWIxYlNzVURPR1lYZkRVazRCL3R1M21rZHZkNUdVVnFZ?=
+ =?utf-8?B?ZG5uNUg5RXkrdVpyK2QzN3ZQc2NldzZIZi9WQlhja1NBTmVnSGIwcEczdlp5?=
+ =?utf-8?B?OVc4Z3plZzZjeEJROS9OTXdUc3dwTmlsQlNuK0UwSzZhMUV3dTA5cndHVHFp?=
+ =?utf-8?B?OTRFbjkyYWxaRGdidE95RHBkRzNJbk9jdG5QLzUyV3JpbFlIWkMwaW9GTTRL?=
+ =?utf-8?B?MVR2Um9LWGV3WGVWZXBML0s5Z1NBdXR2NWpPcDVDUjF6azdKR1hqR2JEWFVl?=
+ =?utf-8?B?TkV2RlV5WDU4bTRRcGdyNmYrRFVkZDBEMW1QQTI3Wlk5NnhjeTExVDZrSHhu?=
+ =?utf-8?B?d0NSOWY4MlRobi90bk9hT1gxV2p6L1VMMUtKclRFSGh1TklkcnlRWkZGRVFE?=
+ =?utf-8?B?S1lpQ2ZscTRUS1dkYzVhSjJPWnlpTFMyWDNCam9KMmJ2RXBtMXRUTlhHQ2R0?=
+ =?utf-8?B?aWtjL1FUbUdLZVppWXRBQzl3alRzb0tLd3M3cDVLWlA2ajQ0SS9SMHN0QXNr?=
+ =?utf-8?B?QXZzaGozWWYxNnJLeXVpZkQ4WU9sTGJzZEcvYWUwdE5Ia3VoUE9JMTlPMGV0?=
+ =?utf-8?B?U05XdENYanZHa2MyVEx3b3ROSlB3M3l0bTZ0SGJDL1NCNFFyZ2ZHQ2lyRDBq?=
+ =?utf-8?B?bVk4YWlMTUl2QVhaa3g4YmdQQThZMCtqODVlTUYzb3FlT1NhdjRiT3NDTFZT?=
+ =?utf-8?B?cWd0amdaZWZzMzlsbFY4WTMzNlh0M3AyQkxKZndzeFEvVktwU0pQUnFyR0o0?=
+ =?utf-8?B?cjQxdHovZzB6UGd2SFltODd2TWdMN2FERk5RUmpNWjRoTXBocE55S2lHZTIy?=
+ =?utf-8?B?TzBvT1NYNFRXZkpmVGZrRnFUTTMySGY3TWhsOWtiRUxkTFp4Sk14azJqNis5?=
+ =?utf-8?B?dVJrM2RKVlNEYWhsUGtMRFV6UFNmeGxaTzVRVDlQSkNxR3FGK0k1eit5RDRN?=
+ =?utf-8?B?VVdRb1ZpZjRaekJuUWFUaldBUVRRUUEwU09LREtpendYaGVjUERxSUR0WU9l?=
+ =?utf-8?B?eStqbTc4eDNhSnJ6S2lwaW8xVFBSYzVHc25hVW43VjczWTYvVnRCU2wzbGFU?=
+ =?utf-8?B?TFkwdXVJUWFueDkwQ2Q1UU92ZENBNU5OTElYajM5cjQwd3AzbWdjbnV5UThn?=
+ =?utf-8?B?bXBtaWlNc3l1YThMdTU1ZkNGS0d3YjYycTFoMFlkU1JYNXZVQXlwMHlaV2FJ?=
+ =?utf-8?B?dUxEZXBDWGtXSjcvVDU2NGgwaTEvd0xzVUphaXZ2akdCUFcwRmpvMnFSN1FG?=
+ =?utf-8?B?cmxkSWF6N1liM0pMUlZsUk85eHovWDJtaDEvQjlJVUp6ZUcvVVczSFRZQ2FP?=
+ =?utf-8?B?bkluSncvK2tsUUJnVWVIL3BGY1Q0QlhnRDlnemJ0VnRYNWZWa2FsTUp2QkNu?=
+ =?utf-8?B?QnZ3SUJQM2R6TXYrUzRqbys3QWprcHc5dWVyLytOR29vcFdGRlhFNi9qcnl4?=
+ =?utf-8?B?OGYyaENydmhLRk5JUksyb21oK3grOEJqK1FiVjZONGxFQWxwclNjZWtBanFH?=
+ =?utf-8?B?ZFpSR2NOQWpKN3JXWkxaVkdFOUxMWFI2NTYvWHJkSW84Z3VjWklaaWRsbFhz?=
+ =?utf-8?B?RTYrQnQ0OU01cG1SQmxXYkpFNHozZWVXOFVSdkduSzhZZnFFM29KTXM3MFJa?=
+ =?utf-8?B?andkOUZyQ2ozbXpiRjd5Y0tVa2pQVDdMVTNXU0RkZjloeFVTSXdoM21mcXJ3?=
+ =?utf-8?B?R3M0RzdFUHYxT2pxSnFWSTVxTVpTY1BBK2d4dW94WU8ydmNyWWVJMFRqM1Ri?=
+ =?utf-8?Q?OylojFnsfJVnigKymWgHor4R1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfa89bfc-5d3e-42ab-1399-08dc1c09c69f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 11:52:29.4526
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ttm9Gnp4Er+7JoIVqE1phhuC3/HbZeD0cF/I8REE4nJHEA3gZRZCeUyaGWJXHCOW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6572
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git pm
-branch HEAD: 42ded3b91dbce294eb4f0ed58e6077569d0c4a2f  i3c: master: svc: Switch to __pm_runtime_put_autosuspend()
+Am 23.01.24 um 11:10 schrieb Paul Cercueil:
+> Hi Christian,
+>
+> Le lundi 22 janvier 2024 à 14:41 +0100, Christian König a écrit :
+>> Am 22.01.24 um 12:01 schrieb Paul Cercueil:
+>>> Hi Christian,
+>>>
+>>> Le lundi 22 janvier 2024 à 11:35 +0100, Christian König a écrit :
+>>>> Am 19.01.24 um 15:13 schrieb Paul Cercueil:
+>>>>> These functions should be used by device drivers when they
+>>>>> start
+>>>>> and
+>>>>> stop accessing the data of DMABUF. It allows DMABUF importers
+>>>>> to
+>>>>> cache
+>>>>> the dma_buf_attachment while ensuring that the data they want
+>>>>> to
+>>>>> access
+>>>>> is available for their device when the DMA transfers take
+>>>>> place.
+>>>> As Daniel already noted as well this is a complete no-go from the
+>>>> DMA-buf design point of view.
+>>> What do you mean "as Daniel already noted"? It was him who
+>>> suggested
+>>> this.
+>> Sorry, I haven't fully catched up to the discussion then.
+>>
+>> In general DMA-buf is build around the idea that the data can be
+>> accessed coherently by the involved devices.
+>>
+>> Having a begin/end of access for devices was brought up multiple
+>> times
+>> but so far rejected for good reasons.
+> I would argue that if it was brought up multiple times, then there are
+> also good reasons to support such a mechanism.
+>
+>> That an exporter has to call extra functions to access his own
+>> buffers
+>> is a complete no-go for the design since this forces exporters into
+>> doing extra steps for allowing importers to access their data.
+> Then what about we add these dma_buf_{begin,end}_access(), with only
+> implementations for "dumb" exporters e.g. udmabuf or the dmabuf heaps?
+> And only importers (who cache the mapping and actually care about non-
+> coherency) would have to call these.
 
-elapsed time: 1456m
+No, the problem is still that you would have to change all importers to 
+mandatory use dma_buf_begin/end.
 
-configs tested: 153
-configs skipped: 3
+But going a step back caching the mapping is irrelevant for coherency. 
+Even if you don't cache the mapping you don't get coherency.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+In other words exporters are not require to call sync_to_cpu or 
+sync_to_device when you create a mapping.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs103_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240123   gcc  
-arc                   randconfig-002-20240123   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                         at91_dt_defconfig   gcc  
-arm                                 defconfig   clang
-arm                            mps2_defconfig   gcc  
-arm                   randconfig-001-20240123   gcc  
-arm                   randconfig-002-20240123   gcc  
-arm                   randconfig-003-20240123   gcc  
-arm                   randconfig-004-20240123   gcc  
-arm                       spear13xx_defconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240123   gcc  
-arm64                 randconfig-002-20240123   gcc  
-arm64                 randconfig-003-20240123   gcc  
-arm64                 randconfig-004-20240123   gcc  
-csky                              allnoconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240123   gcc  
-csky                  randconfig-002-20240123   gcc  
-hexagon                           allnoconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240123   clang
-hexagon               randconfig-002-20240123   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386         buildonly-randconfig-001-20240122   clang
-i386         buildonly-randconfig-002-20240122   clang
-i386         buildonly-randconfig-003-20240122   clang
-i386         buildonly-randconfig-004-20240122   clang
-i386         buildonly-randconfig-005-20240122   clang
-i386         buildonly-randconfig-006-20240122   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20240122   clang
-i386                  randconfig-002-20240122   clang
-i386                  randconfig-003-20240122   clang
-i386                  randconfig-004-20240122   clang
-i386                  randconfig-005-20240122   clang
-i386                  randconfig-006-20240122   clang
-i386                  randconfig-011-20240122   gcc  
-i386                  randconfig-012-20240122   gcc  
-i386                  randconfig-013-20240122   gcc  
-i386                  randconfig-014-20240122   gcc  
-i386                  randconfig-015-20240122   gcc  
-i386                  randconfig-016-20240122   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240123   gcc  
-loongarch             randconfig-002-20240123   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                          amiga_defconfig   gcc  
-m68k                          atari_defconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                     cu1830-neo_defconfig   clang
-mips                      maltaaprp_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240123   gcc  
-nios2                 randconfig-002-20240123   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240123   gcc  
-parisc                randconfig-002-20240123   gcc  
-parisc64                            defconfig   gcc  
-powerpc                      acadia_defconfig   clang
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                       eiger_defconfig   gcc  
-powerpc                   lite5200b_defconfig   clang
-powerpc                       ppc64_defconfig   gcc  
-powerpc               randconfig-001-20240123   gcc  
-powerpc               randconfig-002-20240123   gcc  
-powerpc               randconfig-003-20240123   gcc  
-powerpc                     tqm5200_defconfig   clang
-powerpc64                        alldefconfig   gcc  
-powerpc64             randconfig-001-20240123   gcc  
-powerpc64             randconfig-002-20240123   gcc  
-powerpc64             randconfig-003-20240123   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20240123   gcc  
-riscv                 randconfig-002-20240123   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20240123   clang
-s390                  randconfig-002-20240123   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                        edosk7705_defconfig   gcc  
-sh                    randconfig-001-20240123   gcc  
-sh                    randconfig-002-20240123   gcc  
-sh                           se7705_defconfig   gcc  
-sh                            shmin_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240123   gcc  
-sparc64               randconfig-002-20240123   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240123   gcc  
-um                    randconfig-002-20240123   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240123   gcc  
-x86_64       buildonly-randconfig-002-20240123   gcc  
-x86_64       buildonly-randconfig-003-20240123   gcc  
-x86_64       buildonly-randconfig-004-20240123   gcc  
-x86_64       buildonly-randconfig-005-20240123   gcc  
-x86_64       buildonly-randconfig-006-20240123   gcc  
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240123   gcc  
-xtensa                randconfig-002-20240123   gcc  
+What exactly is your use case here? And why does coherency matters?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> At the very least, is there a way to check that "the data can be
+> accessed coherently by the involved devices"? So that my importer can
+> EPERM if there is no coherency vs. a device that's already attached.
+
+Yeah, there is functionality for this in the DMA subsystem. I've once 
+created prototype patches for enforcing the same coherency approach 
+between importer and exporter, but we never got around to upstream them.
+
+
+
+>
+> Cheers,
+> -Paul
+>
+>> That in turn is pretty much un-testable unless you have every
+>> possible
+>> importer around while testing the exporter.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>> Regards,
+>>>> Christian.
+>>> Cheers,
+>>> -Paul
+>>>
+>>>>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>>>>
+>>>>> ---
+>>>>> v5: New patch
+>>>>> ---
+>>>>>     drivers/dma-buf/dma-buf.c | 66
+>>>>> +++++++++++++++++++++++++++++++++++++++
+>>>>>     include/linux/dma-buf.h   | 37 ++++++++++++++++++++++
+>>>>>     2 files changed, 103 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-
+>>>>> buf.c
+>>>>> index 8fe5aa67b167..a8bab6c18fcd 100644
+>>>>> --- a/drivers/dma-buf/dma-buf.c
+>>>>> +++ b/drivers/dma-buf/dma-buf.c
+>>>>> @@ -830,6 +830,8 @@ static struct sg_table *
+>>>>> __map_dma_buf(struct
+>>>>> dma_buf_attachment *attach,
+>>>>>      *     - dma_buf_mmap()
+>>>>>      *     - dma_buf_begin_cpu_access()
+>>>>>      *     - dma_buf_end_cpu_access()
+>>>>> + *     - dma_buf_begin_access()
+>>>>> + *     - dma_buf_end_access()
+>>>>>      *     - dma_buf_map_attachment_unlocked()
+>>>>>      *     - dma_buf_unmap_attachment_unlocked()
+>>>>>      *     - dma_buf_vmap_unlocked()
+>>>>> @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct
+>>>>> dma_buf
+>>>>> *dmabuf, struct iosys_map *map)
+>>>>>     }
+>>>>>     EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
+>>>>>     
+>>>>> +/**
+>>>>> + * @dma_buf_begin_access - Call before any hardware access
+>>>>> from/to
+>>>>> the DMABUF
+>>>>> + * @attach:	[in]	attachment used for hardware access
+>>>>> + * @sg_table:	[in]	scatterlist used for the DMA transfer
+>>>>> + * @direction:  [in]    direction of DMA transfer
+>>>>> + */
+>>>>> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+>>>>> +			 struct sg_table *sgt, enum
+>>>>> dma_data_direction dir)
+>>>>> +{
+>>>>> +	struct dma_buf *dmabuf;
+>>>>> +	bool cookie;
+>>>>> +	int ret;
+>>>>> +
+>>>>> +	if (WARN_ON(!attach))
+>>>>> +		return -EINVAL;
+>>>>> +
+>>>>> +	dmabuf = attach->dmabuf;
+>>>>> +
+>>>>> +	if (!dmabuf->ops->begin_access)
+>>>>> +		return 0;
+>>>>> +
+>>>>> +	cookie = dma_fence_begin_signalling();
+>>>>> +	ret = dmabuf->ops->begin_access(attach, sgt, dir);
+>>>>> +	dma_fence_end_signalling(cookie);
+>>>>> +
+>>>>> +	if (WARN_ON_ONCE(ret))
+>>>>> +		return ret;
+>>>>> +
+>>>>> +	return 0;
+>>>>> +}
+>>>>> +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
+>>>>> +
+>>>>> +/**
+>>>>> + * @dma_buf_end_access - Call after any hardware access
+>>>>> from/to
+>>>>> the DMABUF
+>>>>> + * @attach:	[in]	attachment used for hardware access
+>>>>> + * @sg_table:	[in]	scatterlist used for the DMA transfer
+>>>>> + * @direction:  [in]    direction of DMA transfer
+>>>>> + */
+>>>>> +int dma_buf_end_access(struct dma_buf_attachment *attach,
+>>>>> +		       struct sg_table *sgt, enum
+>>>>> dma_data_direction dir)
+>>>>> +{
+>>>>> +	struct dma_buf *dmabuf;
+>>>>> +	bool cookie;
+>>>>> +	int ret;
+>>>>> +
+>>>>> +	if (WARN_ON(!attach))
+>>>>> +		return -EINVAL;
+>>>>> +
+>>>>> +	dmabuf = attach->dmabuf;
+>>>>> +
+>>>>> +	if (!dmabuf->ops->end_access)
+>>>>> +		return 0;
+>>>>> +
+>>>>> +	cookie = dma_fence_begin_signalling();
+>>>>> +	ret = dmabuf->ops->end_access(attach, sgt, dir);
+>>>>> +	dma_fence_end_signalling(cookie);
+>>>>> +
+>>>>> +	if (WARN_ON_ONCE(ret))
+>>>>> +		return ret;
+>>>>> +
+>>>>> +	return 0;
+>>>>> +}
+>>>>> +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
+>>>>> +
+>>>>>     #ifdef CONFIG_DEBUG_FS
+>>>>>     static int dma_buf_debug_show(struct seq_file *s, void
+>>>>> *unused)
+>>>>>     {
+>>>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>>>>> index 8ff4add71f88..8ba612c7cc16 100644
+>>>>> --- a/include/linux/dma-buf.h
+>>>>> +++ b/include/linux/dma-buf.h
+>>>>> @@ -246,6 +246,38 @@ struct dma_buf_ops {
+>>>>>     	 */
+>>>>>     	int (*end_cpu_access)(struct dma_buf *, enum
+>>>>> dma_data_direction);
+>>>>>     
+>>>>> +	/**
+>>>>> +	 * @begin_access:
+>>>>> +	 *
+>>>>> +	 * This is called from dma_buf_begin_access() when a
+>>>>> device driver
+>>>>> +	 * wants to access the data of the DMABUF. The
+>>>>> exporter
+>>>>> can use this
+>>>>> +	 * to flush/sync the caches if needed.
+>>>>> +	 *
+>>>>> +	 * This callback is optional.
+>>>>> +	 *
+>>>>> +	 * Returns:
+>>>>> +	 *
+>>>>> +	 * 0 on success or a negative error code on failure.
+>>>>> +	 */
+>>>>> +	int (*begin_access)(struct dma_buf_attachment *,
+>>>>> struct
+>>>>> sg_table *,
+>>>>> +			    enum dma_data_direction);
+>>>>> +
+>>>>> +	/**
+>>>>> +	 * @end_access:
+>>>>> +	 *
+>>>>> +	 * This is called from dma_buf_end_access() when a
+>>>>> device
+>>>>> driver is
+>>>>> +	 * done accessing the data of the DMABUF. The exporter
+>>>>> can
+>>>>> use this
+>>>>> +	 * to flush/sync the caches if needed.
+>>>>> +	 *
+>>>>> +	 * This callback is optional.
+>>>>> +	 *
+>>>>> +	 * Returns:
+>>>>> +	 *
+>>>>> +	 * 0 on success or a negative error code on failure.
+>>>>> +	 */
+>>>>> +	int (*end_access)(struct dma_buf_attachment *, struct
+>>>>> sg_table *,
+>>>>> +			  enum dma_data_direction);
+>>>>> +
+>>>>>     	/**
+>>>>>     	 * @mmap:
+>>>>>     	 *
+>>>>> @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf
+>>>>> *dmabuf,
+>>>>>     int dma_buf_pin(struct dma_buf_attachment *attach);
+>>>>>     void dma_buf_unpin(struct dma_buf_attachment *attach);
+>>>>>     
+>>>>> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+>>>>> +			 struct sg_table *sgt, enum
+>>>>> dma_data_direction dir);
+>>>>> +int dma_buf_end_access(struct dma_buf_attachment *attach,
+>>>>> +		       struct sg_table *sgt, enum
+>>>>> dma_data_direction dir);
+>>>>> +
+>>>>>     struct dma_buf *dma_buf_export(const struct
+>>>>> dma_buf_export_info
+>>>>> *exp_info);
+>>>>>     
+>>>>>     int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+
 
