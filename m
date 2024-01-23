@@ -1,267 +1,216 @@
-Return-Path: <linux-media+bounces-4065-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4066-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9623A8381CA
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 03:13:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A08868385BA
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 03:51:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 471F928DBC7
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 02:13:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11CF21F26C74
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 02:51:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F356B21340;
-	Tue, 23 Jan 2024 01:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BhNEWLHh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62E86A2D;
+	Tue, 23 Jan 2024 02:51:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA53376E6
-	for <linux-media@vger.kernel.org>; Tue, 23 Jan 2024 01:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0217F4
+	for <linux-media@vger.kernel.org>; Tue, 23 Jan 2024 02:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705973274; cv=none; b=SOTT93aDovCfGY+iPuhRhGH0O73a7mmEGTVeZripB0u71ufwaFL2pRVClrJTErkk4/MKUYemkneztt8bMq5QRQiiRH1+lvJ8aUdnORP+uMGchqDY4M4bUS5GTMpkXytdto0KYT3C/HQSCfJdeppAXthoU1ZwxRfwvNIrtfjnbEY=
+	t=1705978285; cv=none; b=n207yC1/cdbS6SvzyO9FmXaQh7I9NzQcCg2gco2ejiWuvdt8143zQq1dLUimZbqTo4hQc27sX1gxEQ3sf2yGo/JOsJDUgCTIgs9fTvg2exm5zcFnYWzWNNgW+X7VezErS3LOlM/2P8Ot4J49zTcC4a02KpadXn0XjBC9cWtjfVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705973274; c=relaxed/simple;
-	bh=xd8+ffjWqKHB0l8qHLvIP4GiBxkGfh3x3os0vr4pLPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HGxLrH+uLVsHm+1bpzTpEXg5ROVzXg5SQKJPIqzLRwTGRXtRtDhG5H28hYYAVaxxeTJ9ydhdvqRqYg/H5GP+I/cxNs38NXs9E5tToNzygNn/OV3IfpMdgQd6xHmWxgIo7h4p2tQFcECnwyD2U312XhipRCmqqb7ovFYMEc57MDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BhNEWLHh; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-290b37bb7deso899510a91.0
-        for <linux-media@vger.kernel.org>; Mon, 22 Jan 2024 17:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705973271; x=1706578071; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E3bREx2VvtAxUcOb45LlRTMNit+G8LlhZSP4QTXnOMQ=;
-        b=BhNEWLHhVBvzlrOgpYJ7ALI0+g4QzCf9o9ITTpunQjpZ2gRNtVpvLvT6FLi0szcVCy
-         88huTKHeBweW6nPGEORd77E1zNVpZ4evMuu7F4nqksAFM0ipVBbetkcm6mqOtN5yltSm
-         l8Gr5maBycjo/txcet5rRz1xKDTt8LUYDXc01Imj8DaK5XrWg+qWIipji9uQmGOLanWD
-         FeSe+Ogk2K9NMKIzGomjYdDaOB+2p2AP3VrHmdaA4RmRXaXOdex6nxZB3facrem3+TAk
-         FGT0VfjzTxHq5+H76HmrmBqvoX66xKH4Jpwti+Vyu86oDI2ETCpaQbE+hsU4Se1v7P04
-         FYpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705973271; x=1706578071;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E3bREx2VvtAxUcOb45LlRTMNit+G8LlhZSP4QTXnOMQ=;
-        b=fiHj5Op6HqisdWr9ddlincOUYppPUQEuQ8dXqJPpzuS9WgBAtonTpZztXO3hp0JPq/
-         dnFHKjEWLsLsZx2XS0K7O37rWm9P4mBU70qKiASPG06LeOE9rDD94BmWCiERvS42D+e8
-         iqXNvvO9GvsQK9YeUAOM9lWOsFba6eQOi6RatDiG7iockxuuR3cM4ln98UrLWCRXNh0K
-         +4RHJH5wEq+s9SgbjY4qvJVew/PDXQ7tH0f8M0kSQKjkAeD2BQRZ27PFXMOIln30Z5Ew
-         QWFhYDu91MczSDDw1xeLCdXrhH7nEHpXHL+iL1krl9RQTcy+MWGy90/zikCLaevT2pre
-         E0vg==
-X-Gm-Message-State: AOJu0YzpOH6r6nv4zYOB5v+WBxlF7/afg3qAQdgWBhKLcQxL4gnpe41y
-	7LAjiRZVQ6QXcPr/SLvhQd/pfgC4dEoVtyX4vaMkpg4WDjVkp5dQEWkx9rxUtBA=
-X-Google-Smtp-Source: AGHT+IG6pm9bj22UhiTj6Cxqz71zjTlKKL+I94bUy1n5HHp1Y86JfAGyKqD0drTMp6xAzHjCdvhxGA==
-X-Received: by 2002:a17:90b:606:b0:28e:2784:9827 with SMTP id gb6-20020a17090b060600b0028e27849827mr2581418pjb.17.1705973271519;
-        Mon, 22 Jan 2024 17:27:51 -0800 (PST)
-Received: from p14s ([2604:3d09:148c:c800:b26d:65ee:f38a:4547])
-        by smtp.gmail.com with ESMTPSA id rr12-20020a17090b2b4c00b0028d9b5d41edsm10283532pjb.38.2024.01.22.17.27.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 17:27:51 -0800 (PST)
-Date: Mon, 22 Jan 2024 18:27:48 -0700
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Iuliana Prodan <iuliana.prodan@nxp.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Kevin Hilman <khilman@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Nikunj Kela <nkela@quicinc.com>,
-	Prasad Sodagudi <psodagud@quicinc.com>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Ben Horgan <Ben.Horgan@arm.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Daniel Baluta <daniel.baluta@nxp.com>
-Subject: Re: [PATCH v2 3/5] remoteproc: imx_rproc: Convert to
- dev_pm_domain_attach|detach_list()
-Message-ID: <Za8WFHxVQZ44fJJn@p14s>
-References: <20240105160103.183092-1-ulf.hansson@linaro.org>
- <20240105160103.183092-4-ulf.hansson@linaro.org>
- <87801f3e-b7ce-46ba-9856-1321635a11b5@nxp.com>
- <CANLsYkwtNa_-t0f5rhTh5mtF72urKNyqWk0_qfbBwSCQK_6eOg@mail.gmail.com>
+	s=arc-20240116; t=1705978285; c=relaxed/simple;
+	bh=kQow4DG7Fj12WJsuxwsqfwAVtja8caX13IWyEvAem9s=;
+	h=Date:Message-ID:From:To:Subject; b=en6xjRwd2fafJ1S43jmqLMjPqPgeBBy9R0tn1ZH/T53nSZEqz3h0FJk12uHOnMjNO4F9YqoE+cmbSmWKagIy2tUTTgtgK+PWXa9yJqTGbDvpYH3aveHGTwAh2Tdjed27/Xcsp812UuCCbMMQlhcCZzMFnv/TzXhQW5No7EHE8aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3381AC433C7
+	for <linux-media@vger.kernel.org>; Tue, 23 Jan 2024 02:51:24 +0000 (UTC)
+Date: Tue, 23 Jan 2024 03:51:22 +0100
+Message-ID: <da442249fb9f7dc2dd42d54e7dbd25e4.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANLsYkwtNa_-t0f5rhTh5mtF72urKNyqWk0_qfbBwSCQK_6eOg@mail.gmail.com>
 
-On Mon, Jan 22, 2024 at 01:02:08PM -0700, Mathieu Poirier wrote:
-> On Mon, 22 Jan 2024 at 10:51, Iuliana Prodan <iuliana.prodan@nxp.com> wrote:
-> >
-> > On 1/5/2024 6:01 PM, Ulf Hansson wrote:
-> > > Let's avoid the boilerplate code to manage the multiple PM domain case, by
-> > > converting into using dev_pm_domain_attach|detach_list().
-> > >
-> > > Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > > Cc: Bjorn Andersson <andersson@kernel.org>
-> > > Cc: Shawn Guo <shawnguo@kernel.org>
-> > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> > > Cc: Iuliana Prodan <iuliana.prodan@nxp.com>
-> > > Cc: Daniel Baluta <daniel.baluta@nxp.com>
-> > > Cc: <linux-remoteproc@vger.kernel.org>
-> > > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-> > > ---
-> > >
-> > > Changes in v2:
-> > >       - None.
-> > >
-> > > Iuliana/Daniel I am ccing you to request help with test/review of this change.
-> > > Note that, you will need patch 1/5 in the series too, to be able to test this.
-> > >
-> > > Kind regards
-> > > Ulf Hansson
-> >
-> > Tested-by: Iuliana Prodan <iuliana.prodan@nxp.com>
-> > Reviewed-by: Iuliana Prodan <iuliana.prodan@nxp.com>
-> >
-> 
-> Thanks for the leg-work on this.  I'll pick this up in rc1 later this week.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Looking at the other files in this set, Ulf of perhaps Bjorn should take this
-set.
+Results of the daily build of media_tree:
 
-for:
+date:			Tue Jan 23 03:00:23 CET 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	eba5e4075505b758fb36967e83ba43d4b994a2e0
+v4l-utils git hash:	d700deb143685b8217aa8a6eeeba3b090d4287fc
+edid-decode git hash:	6e4132123fae3d71ac9350d71a60a7a97020df13
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8549-gd0c870a7
+sparse version:		v0.5.0-8549-gd0c870a7
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-drivers/remoteproc/imx_rproc.c
-drivers/remoteproc/imx_dsp_rproc.c
+linux-git-arm: WARNINGS:
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
 
-> 
-> > Iulia
-> >
-> > > ---
-> > >   drivers/remoteproc/imx_rproc.c | 73 +++++-----------------------------
-> > >   1 file changed, 9 insertions(+), 64 deletions(-)
-> > >
-> > > diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
-> > > index 8bb293b9f327..3161f14442bc 100644
-> > > --- a/drivers/remoteproc/imx_rproc.c
-> > > +++ b/drivers/remoteproc/imx_rproc.c
-> > > @@ -92,7 +92,6 @@ struct imx_rproc_mem {
-> > >
-> > >   static int imx_rproc_xtr_mbox_init(struct rproc *rproc);
-> > >   static void imx_rproc_free_mbox(struct rproc *rproc);
-> > > -static int imx_rproc_detach_pd(struct rproc *rproc);
-> > >
-> > >   struct imx_rproc {
-> > >       struct device                   *dev;
-> > > @@ -113,10 +112,8 @@ struct imx_rproc {
-> > >       u32                             rproc_pt;       /* partition id */
-> > >       u32                             rsrc_id;        /* resource id */
-> > >       u32                             entry;          /* cpu start address */
-> > > -     int                             num_pd;
-> > >       u32                             core_index;
-> > > -     struct device                   **pd_dev;
-> > > -     struct device_link              **pd_dev_link;
-> > > +     struct dev_pm_domain_list       *pd_list;
-> > >   };
-> > >
-> > >   static const struct imx_rproc_att imx_rproc_att_imx93[] = {
-> > > @@ -853,7 +850,7 @@ static void imx_rproc_put_scu(struct rproc *rproc)
-> > >               return;
-> > >
-> > >       if (imx_sc_rm_is_resource_owned(priv->ipc_handle, priv->rsrc_id)) {
-> > > -             imx_rproc_detach_pd(rproc);
-> > > +             dev_pm_domain_detach_list(priv->pd_list);
-> > >               return;
-> > >       }
-> > >
-> > > @@ -880,72 +877,20 @@ static int imx_rproc_partition_notify(struct notifier_block *nb,
-> > >   static int imx_rproc_attach_pd(struct imx_rproc *priv)
-> > >   {
-> > >       struct device *dev = priv->dev;
-> > > -     int ret, i;
-> > > -
-> > > -     /*
-> > > -      * If there is only one power-domain entry, the platform driver framework
-> > > -      * will handle it, no need handle it in this driver.
-> > > -      */
-> > > -     priv->num_pd = of_count_phandle_with_args(dev->of_node, "power-domains",
-> > > -                                               "#power-domain-cells");
-> > > -     if (priv->num_pd <= 1)
-> > > -             return 0;
-> > > -
-> > > -     priv->pd_dev = devm_kmalloc_array(dev, priv->num_pd, sizeof(*priv->pd_dev), GFP_KERNEL);
-> > > -     if (!priv->pd_dev)
-> > > -             return -ENOMEM;
-> > > -
-> > > -     priv->pd_dev_link = devm_kmalloc_array(dev, priv->num_pd, sizeof(*priv->pd_dev_link),
-> > > -                                            GFP_KERNEL);
-> > > -
-> > > -     if (!priv->pd_dev_link)
-> > > -             return -ENOMEM;
-> > > -
-> > > -     for (i = 0; i < priv->num_pd; i++) {
-> > > -             priv->pd_dev[i] = dev_pm_domain_attach_by_id(dev, i);
-> > > -             if (IS_ERR(priv->pd_dev[i])) {
-> > > -                     ret = PTR_ERR(priv->pd_dev[i]);
-> > > -                     goto detach_pd;
-> > > -             }
-> > > -
-> > > -             priv->pd_dev_link[i] = device_link_add(dev, priv->pd_dev[i], DL_FLAG_STATELESS |
-> > > -                                                    DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
-> > > -             if (!priv->pd_dev_link[i]) {
-> > > -                     dev_pm_domain_detach(priv->pd_dev[i], false);
-> > > -                     ret = -EINVAL;
-> > > -                     goto detach_pd;
-> > > -             }
-> > > -     }
-> > > -
-> > > -     return 0;
-> > > -
-> > > -detach_pd:
-> > > -     while (--i >= 0) {
-> > > -             device_link_del(priv->pd_dev_link[i]);
-> > > -             dev_pm_domain_detach(priv->pd_dev[i], false);
-> > > -     }
-> > > -
-> > > -     return ret;
-> > > -}
-> > > -
-> > > -static int imx_rproc_detach_pd(struct rproc *rproc)
-> > > -{
-> > > -     struct imx_rproc *priv = rproc->priv;
-> > > -     int i;
-> > > +     int ret;
-> > > +     struct dev_pm_domain_attach_data pd_data = {
-> > > +             .pd_flags = PD_FLAG_DEV_LINK_ON,
-> > > +     };
-> > >
-> > >       /*
-> > >        * If there is only one power-domain entry, the platform driver framework
-> > >        * will handle it, no need handle it in this driver.
-> > >        */
-> > > -     if (priv->num_pd <= 1)
-> > > +     if (dev->pm_domain)
-> > >               return 0;
-> > >
-> > > -     for (i = 0; i < priv->num_pd; i++) {
-> > > -             device_link_del(priv->pd_dev_link[i]);
-> > > -             dev_pm_domain_detach(priv->pd_dev[i], false);
-> > > -     }
-> > > -
-> > > -     return 0;
-> > > +     ret = dev_pm_domain_attach_list(dev, &pd_data, &priv->pd_list);
-> > > +     return ret < 0 ? ret : 0;
-> > >   }
-> > >
-> > >   static int imx_rproc_detect_mode(struct imx_rproc *priv)
+linux-git-arm64: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+linux-git-powerpc64: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+linux-git-i686: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+linux-git-x86_64: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+no-acpi.config: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+no-of.config: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+no-pm.config: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+no-pm-sleep.config: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+no-debug-fs.config: WARNINGS:
+
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: WARNINGS:
+
+include/uapi/linux/videodev2.h:1072: warning: Excess struct member 'mem_offset' description in 'v4l2_plane'
+include/uapi/linux/videodev2.h:1072: warning: Excess struct member 'userptr' description in 'v4l2_plane'
+include/uapi/linux/videodev2.h:1072: warning: Excess struct member 'fd' description in 'v4l2_plane'
+include/uapi/linux/videodev2.h:1137: warning: Excess struct member 'offset' description in 'v4l2_buffer'
+include/uapi/linux/videodev2.h:1137: warning: Excess struct member 'userptr' description in 'v4l2_buffer'
+include/uapi/linux/videodev2.h:1137: warning: Excess struct member 'fd' description in 'v4l2_buffer'
+include/uapi/linux/videodev2.h:1137: warning: Excess struct member 'planes' description in 'v4l2_buffer'
+include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'pix' description in 'v4l2_format'
+include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'pix_mp' description in 'v4l2_format'
+include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'win' description in 'v4l2_format'
+include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'vbi' description in 'v4l2_format'
+include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'sliced' description in 'v4l2_format'
+include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'raw_data' description in 'v4l2_format'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/cec.h:297: warning: Excess struct member 'status_file' description in 'cec_adapter'
+include/media/cec.h:297: warning: Excess struct member 'error_inj_file' description in 'cec_adapter'
+drivers/media/usb/dvb-usb/dvb-usb.h:164: warning: Excess struct member 'num_frontends' description in 'dvb_usb_adapter_fe_properties'
+drivers/media/usb/dvb-usb/dvb-usb.h:164: warning: Excess struct member 'frontend_ctrl' description in 'dvb_usb_adapter_fe_properties'
+drivers/media/pci/dt3155/dt3155.h:185: warning: Excess struct member 'stats' description in 'dt3155_priv'
+drivers/media/platform/qcom/venus/core.h:512: warning: Excess struct member 'priv' description in 'venus_inst'
+drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h:163: warning: Excess struct member 'hw_rdy' description in 'mtk_jpegenc_comp_dev'
+drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h:66: warning: Excess struct member 'list' description in 'mtk_video_dec_buf'
+drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.h:47: warning: Excess struct member 'dev' description in 'vdec_vpu_inst'
+drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h:39: warning: Excess struct member 'list' description in 'mtk_video_enc_buf'
+drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:733: warning: Excess struct member 'frame_type' description in 's5p_mfc_ctx'
+drivers/media/platform/samsung/exynos4-is/fimc-lite.h:180: warning: Excess struct member 'pipeline' description in 'fimc_lite'
+drivers/media/platform/samsung/exynos4-is/fimc-lite.h:180: warning: Excess struct member 'pipeline_ops' description in 'fimc_lite'
+drivers/media/platform/samsung/exynos4-is/fimc-lite.h:180: warning: Excess struct member 'active_buf_count' description in 'fimc_lite'
+drivers/media/platform/verisilicon/hantro.h:277: warning: Excess struct member 'jpeg_enc' description in 'hantro_ctx'
+drivers/media/i2c/adv748x/adv748x.h:199: warning: Excess struct member 'i2c_addresses' description in 'adv748x_state'
+drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'write' description in 'ccs_quirk'
+drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'reg' description in 'ccs_quirk'
+drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'value' description in 'ccs_quirk'
+drivers/staging/media/meson/vdec/vdec.h:111: warning: Excess struct member 'use_offsets' description in 'amvdec_ops'
+
+
+date:			Tue Jan 23 03:19:19 CET 2024
+virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
+virtme-32: OK: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 0
+
+date:			Tue Jan 23 03:49:45 CET 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
