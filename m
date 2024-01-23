@@ -1,73 +1,131 @@
-Return-Path: <linux-media+bounces-4091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB72838F55
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 14:07:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51180838FCC
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 14:27:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43709283B6D
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 13:07:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00DD6283FF6
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 13:27:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 095EF5F86F;
-	Tue, 23 Jan 2024 13:03:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 039675FB83;
+	Tue, 23 Jan 2024 13:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="Xmd8fMiG"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="nFneb86N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2100.outbound.protection.outlook.com [40.107.114.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF1A5F858;
-	Tue, 23 Jan 2024 13:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706014982; cv=none; b=CwlLCIIFxZjwucRLYFxnxIfl+XV4+MQnHqbDUyPlH/8iJBR60zufPn+uBRr8zKWraz5ps5NuZW5nZdvC38xidkfKG0s87w1lOOXjJFloqA1KuW6aIYwSIznjO1+hLSVZjeRzGswpOS5hNfOXRZ7ZGUIhgl8sU1mDEEWCeVD8SG4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706014982; c=relaxed/simple;
-	bh=coXN+tBkTWmK/QT6XZTE8Mu7Rwng1R/n8lzns5nw+gU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qZT7/962Abl0rCN9codtfARoY8h1z/c6W6jvb41MMSg8v3XW8NbzXE8YNtrn3tCYjqNsXo34kaamxG+iSFaZ//pd2nUR5NH/ry5PiXNs74WCzeXZh3jR0M2b6P1re0MYnDT6MxSsXAoZ/Pb0qUuWQV5dGcCFL2qXISwl0QG+Xno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=Xmd8fMiG; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1706014972;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=sEgC3GZbIv2ilHeerXyxqqSY+yr0zL4n+rE4Iy27TC4=;
-	b=Xmd8fMiGLFSmvc0bDjACwh4fKY+J+4MlQDMB7HYqTmKOEP8PkQIm3xN6rM5ZMdiLZ08t5p
-	T+AoKs0cJGJjxwgEZhSVA3p6YBJNgxRa6sN/fhzQay3n+luucTP0TcVl0G9EcpNs53sPd4
-	7IXDEhOVw449U8EFmti9JHjSgG1ecGk=
-Message-ID: <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
-Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-From: Paul Cercueil <paul@crapouillou.net>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
- <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?=
- <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Tue, 23 Jan 2024 14:02:50 +0100
-In-Reply-To: <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
-References: <20240119141402.44262-1-paul@crapouillou.net>
-	 <20240119141402.44262-2-paul@crapouillou.net>
-	 <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
-	 <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
-	 <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
-	 <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
-	 <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EEA5DF00;
+	Tue, 23 Jan 2024 13:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.100
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706016036; cv=fail; b=rtMRaEIrxATA0yc9xJ8BCwbiHndWg72JyBBfpfNtN+dJUhp0Qskrmt1ls27OJq5OnAoITNHRGjL01LpiyHs2yNhdTGsZ1khVCNU+N5oEgz27OL+YGReh1KIDO4xn9Tbj+MwIJ7atjoeX9bksyQpaK9zyI+w+z/zk3mqL9fyhc4Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706016036; c=relaxed/simple;
+	bh=QMse1gM5QOS46YBisYLp21UXa6dvlAvuAk5Ey4TZa80=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=nRixetE/xJagud4mrVgJD6Hm+f/PpbN1hbvPntQYleOJ3FSU/RWZOx6XQStfDlgQeNdOS6WjlBHnIutIypVLKLzJLsRRFgXMNfjHf0sogI2fTuetpOM1vweEPsaYEd8FghMpk178XMrtqoqJ2xBW+Z07kO+cEvGoBaazh8WDBsk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=nFneb86N; arc=fail smtp.client-ip=40.107.114.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UBRupAJok0Pw226Faj+ZVSiO9SQZMiWFo766hch7AB0dbJF6cSFW+bFjeY37t8BMmWHgQqSL1UI8A8O6bJu128CWnJNdKlEkwO+cOdSLC9Sak7z0Das6gQESrFFjb9K7wWztEFF2TMeboyrs+uiu7bTepvAetYkL8wIDuJkjokwH0PV1FC/NbWIMqtxNyU2nI3ufN3nPlBKNanOI0RHPXOjWdABo1onBTeFbEu/wgBmFC1iuJfwN1nsA9WcbX3ha3Hv8PSq2cZ85pMB0W6jwB1yIgxSPHTqhvRZzQL+VWCs3eD/5JVwx7IsRO7jWSjksKua6/YFFGXWwzGxUHGRWNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h7dMCCI+I5ubY8MRx3A5yKmkKF72V0BTS6HRm59xOhE=;
+ b=MRjLK/gFs+d+xUbK0tq1/JJK//fVg9aCGoMLha+7VLeQy8F+UmOqr20eoyFbDGwVqsZwpTk3/NjmIHSKpgSuR3Qg309eo1GQksypPi0uV38Ul1iG/ghODuzdgp2mX5gvlr3jpI+3iuUJb4pkFvuncIUZaXSW7lbthFStPW5Z4bxkOaT6VD7nwkZShhNN5DHq/5zu4eSSh2yjnTBKZj0M0DgmxwGzcrNsmVp0TUJWXC6pWmMV9KnGuEfejvlPDNvvXceIdJsw5TpZSCczzCT9AORDT2oQOFzj9tbHkZDVN7sv07KyBh5arFXIqg3r7+G5m6bRIAldcqF9A5PCgW2Dkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h7dMCCI+I5ubY8MRx3A5yKmkKF72V0BTS6HRm59xOhE=;
+ b=nFneb86NWXS3vIDX6KauYKpdMLEylgMjvuN2Pxs/DjJYHbbh7+igMbNETiEwyVM0fNLrHXztjuf1cIZwBCJKm3Ixod02RcdcyjEjARyWOAmJ4qmnNacxdpyTD7S8NcAGp6uL6iew1ZHufHQPcBvBpFpM8NMdS7Oy+k/pQoaQkeo=
+Received: from TYVPR01MB11279.jpnprd01.prod.outlook.com
+ (2603:1096:400:366::13) by OS3PR01MB9319.jpnprd01.prod.outlook.com
+ (2603:1096:604:1ce::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.21; Tue, 23 Jan
+ 2024 13:20:29 +0000
+Received: from TYVPR01MB11279.jpnprd01.prod.outlook.com
+ ([fe80::933f:16d3:8a2f:2fbb]) by TYVPR01MB11279.jpnprd01.prod.outlook.com
+ ([fe80::933f:16d3:8a2f:2fbb%5]) with mapi id 15.20.7228.020; Tue, 23 Jan 2024
+ 13:20:29 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?=
+	<u.kleine-koenig@pengutronix.de>, Rob Herring <robh@kernel.org>, Prabhakar
+ Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, biju.das.au <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 4/4] media: platform: rzg2l-cru: rzg2l-video: Restructure
+ clk handling
+Thread-Topic: [PATCH 4/4] media: platform: rzg2l-cru: rzg2l-video: Restructure
+ clk handling
+Thread-Index: AQHaTfOGse1EYgJsOEas+jUOFEStH7DnUReAgAAP22A=
+Date: Tue, 23 Jan 2024 13:20:29 +0000
+Message-ID:
+ <TYVPR01MB112790F66C1FF3CCB2C9AB6C586742@TYVPR01MB11279.jpnprd01.prod.outlook.com>
+References: <20240123115821.292787-1-biju.das.jz@bp.renesas.com>
+ <20240123115821.292787-5-biju.das.jz@bp.renesas.com>
+ <Za-u9VO2OuY6vhT8@kekkonen.localdomain>
+In-Reply-To: <Za-u9VO2OuY6vhT8@kekkonen.localdomain>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYVPR01MB11279:EE_|OS3PR01MB9319:EE_
+x-ms-office365-filtering-correlation-id: 40dd0eec-00dc-4edc-d7d1-08dc1c1611dc
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ RQ85QYFvdgEpJQmljRvciq7GrxEIKpM4JHkHnfdHJ7GtDcdL40sFStgn5wptVzijI9vz+qN0GQRjNkT7A9Cyv5NIGDLIbfPvwIzzk2GDwqmjNTw7QpZEPG+aLWOZjXORDBfgWXXPGpQp/WsUC1sYRYXyN+qVRe4EpCK1dWez+QAUFUmfpTU7NtX2rOZjmLpLRFnrmRSQM6CJhd3bOalqzxvENzEE2Gu88MBnPgdmsDmQ/C1/SeFLcO4X/Hf8fhmRV7ea1KSUlU/QpircoW1UNlZ688QdXoHBl851tJpqQQ75LoGpEHHV2P4VDG7AVwW4cEOphGVopXYulTt0GKBKLGrFV+cSTLTQsZFP+gzclpgZyaoVabgV+6cu9gsVUcMVLBz6VrVj2TMHN2MKGoUV5GGSdl2ur6R6eZZAuPGJP5qQUiJv4LGLN+e1ovZkUh0K3HPd3QT88+FBrDTAtrsHncsLr0oB2V2n249dpBJgo+m7KZWiLM4xRMJ5U2L+oLQ5huUQtwVR/Rc3lWdtgGz5jBtePHp4VmX7c/rbJfjzfsFnsRlg5OuLNfJPOEpezLJFoPaAu2z5Dj82xEIqU6zYluG0EgTMjfHcB21ySp/h/zA=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYVPR01MB11279.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(366004)(39860400002)(376002)(346002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(55016003)(83380400001)(86362001)(33656002)(38070700009)(122000001)(71200400001)(38100700002)(26005)(9686003)(41300700001)(52536014)(966005)(7696005)(6506007)(2906002)(66556008)(6916009)(66946007)(76116006)(316002)(478600001)(66476007)(64756008)(54906003)(66446008)(4326008)(8676002)(5660300002)(7416002)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?0qOu+LNHaPrY3J70GMqzLaBmNq4GBlCkrwvtYHqkZq9baY+qYNWJW3w31t?=
+ =?iso-8859-1?Q?lE2lHrC/bNsfpWjEaccouxhiX2mkmFiaWJw960OtFFoDgEGPqB9iOM5pAT?=
+ =?iso-8859-1?Q?/aW1bl+RjLD+LKV9pM3fAsx/KGNSuHKb9Xjevzju0FGYwJ/sjpWqCzWz8a?=
+ =?iso-8859-1?Q?HbFOO+2M+vTiBJz8IUiQmndyNvILL40HyWqfwrl4CCF7jHFv9imSmZvZvD?=
+ =?iso-8859-1?Q?LGBYIhcmf7IoyH8WthnVTuls5ZY9UxigiTjKU28AYlumQWQrEB0rdWDSHD?=
+ =?iso-8859-1?Q?kwN9cpwy8AvqfufF8QhNzhTsgS4PjPGz9OrmPpd/kmnXl1I/vKgS3mrZ9T?=
+ =?iso-8859-1?Q?EsC0F2w0rRNPrQNs3Aa6ZBioliziEAIMzyKdkHDlsl6YY+dDyZAIjxEty9?=
+ =?iso-8859-1?Q?xQiEy1rDAwtRak44U3KrQJz0WxBw69s8rf01K7rj9GySTz8EuGs7RRJPPM?=
+ =?iso-8859-1?Q?vN50CJBKmaNWknqSFWSBfg1SE937lmNnFtbc9S1byuttUqhYC4Wx661UXn?=
+ =?iso-8859-1?Q?q8hq049bQDgAzUFr6HCHodtioIw3noPRcVApdbOIb1NaphnnFvYKicM4WW?=
+ =?iso-8859-1?Q?OeyPtqGUKfFon9c2bM8g3sJLjhiFxR5rmjMoEGvlKEYY8xixPvMqU7iGnV?=
+ =?iso-8859-1?Q?MtIc2VpMbJ1aw1joCFaEQlc7fkBSNZjKWgQ0vg6ICsqUFq+sTr4MBnKveU?=
+ =?iso-8859-1?Q?fvr0UGuNZQDvxKlGlPZIXvQ4hdCCMOaDPHQVJwc5RFaU1IbSFzDtxW4FWm?=
+ =?iso-8859-1?Q?pAtSZmgbpDR3Lt4E+4GIbclydU5FfwJ3rlqPi2G8EwmSYOX6KE5S5R/ZZA?=
+ =?iso-8859-1?Q?l5r2VnWz6wVqWWol+Wkg53YdJHmitW1uZTtflRoQUYrlOqG8+iH7F0LE1b?=
+ =?iso-8859-1?Q?b340iNpijni0aMPvyy8Wh7IIrFQyHGuv7gpxDSbqdmz1+5p+Wxb9i7nV/e?=
+ =?iso-8859-1?Q?fxC4uRzcRS8AFZvMl44DJla9CMT9uEZo5vOo1WG/Wb11C6CJOayDmEhjDC?=
+ =?iso-8859-1?Q?4ry6ZUtwtzqSoNAogP4uR9YTLJ2jQMYtIXj2z8woqYjCXQeZHGGEP922oo?=
+ =?iso-8859-1?Q?jaSYG7PIIALsiWsKp3QfiHOvrC8n+lXrqjcrjWfuvw5c6gPtxET2Oyi1dM?=
+ =?iso-8859-1?Q?scsJHIxMMB+CREuEuU+enxnvZyM+ATWGJneeQfnVAy+LopGH8LKseNDjWC?=
+ =?iso-8859-1?Q?iLEcsjFJwW1/YV1N/SHP7O3YROcfCvwWdzGomkdnkMVJ4vlHxlG4uxuR4t?=
+ =?iso-8859-1?Q?HoNywe+qX7kG8cPqNLGJAlV3NN+TkVmdbu/dM+E3RFvpcnV0/GL32p8iHM?=
+ =?iso-8859-1?Q?HxbB9x1ncMDhza3iVMkjrO6OFZH2Qo0Mx8kBG10zfY/P5r4q8mwWwRBu6R?=
+ =?iso-8859-1?Q?XnFGHp8lScp4dzy0Qv7MGb6gVLn5eJipWIeae1eSTHzaFLyx7SrSmj0b2g?=
+ =?iso-8859-1?Q?voH4us3zf0MbaPfRsvTEMkG9N3/HCA+PodcQbzox8lmV3co3zzzc5wZkf8?=
+ =?iso-8859-1?Q?FXegXJGo+nsQ+5GccfFRlI+eFLpohKFYOCEieXhykBq4Vq3NPKUvs340tB?=
+ =?iso-8859-1?Q?AFwogUTYo6xs8WWVPIySQibirGHteortC/Sq83jMPWmJEwS4N2nL2felKx?=
+ =?iso-8859-1?Q?IhpzTuRUchRA9ki+Uqf1z3BS1NvU+iMT4TTqQtieXOrVWTPJKMZm3sjA?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -75,347 +133,122 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYVPR01MB11279.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40dd0eec-00dc-4edc-d7d1-08dc1c1611dc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2024 13:20:29.4003
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WQ7Gol5xOLmKujiY0PK/0/JaTCME4AEPl/CLlbLiH8LRiVonnSV+J1K0ShvMCG0YxbpgVsQ0wZEv/zl4nUys/ju7w6Vuxs47qRK8Dlx5ixM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9319
 
-Le mardi 23 janvier 2024 =C3=A0 12:52 +0100, Christian K=C3=B6nig a =C3=A9c=
-rit=C2=A0:
-> Am 23.01.24 um 11:10 schrieb Paul Cercueil:
-> > Hi Christian,
-> >=20
-> > Le lundi 22 janvier 2024 =C3=A0 14:41 +0100, Christian K=C3=B6nig a =C3=
-=A9crit=C2=A0:
-> > > Am 22.01.24 um 12:01 schrieb Paul Cercueil:
-> > > > Hi Christian,
-> > > >=20
-> > > > Le lundi 22 janvier 2024 =C3=A0 11:35 +0100, Christian K=C3=B6nig a
-> > > > =C3=A9crit=C2=A0:
-> > > > > Am 19.01.24 um 15:13 schrieb Paul Cercueil:
-> > > > > > These functions should be used by device drivers when they
-> > > > > > start
-> > > > > > and
-> > > > > > stop accessing the data of DMABUF. It allows DMABUF
-> > > > > > importers
-> > > > > > to
-> > > > > > cache
-> > > > > > the dma_buf_attachment while ensuring that the data they
-> > > > > > want
-> > > > > > to
-> > > > > > access
-> > > > > > is available for their device when the DMA transfers take
-> > > > > > place.
-> > > > > As Daniel already noted as well this is a complete no-go from
-> > > > > the
-> > > > > DMA-buf design point of view.
-> > > > What do you mean "as Daniel already noted"? It was him who
-> > > > suggested
-> > > > this.
-> > > Sorry, I haven't fully catched up to the discussion then.
-> > >=20
-> > > In general DMA-buf is build around the idea that the data can be
-> > > accessed coherently by the involved devices.
-> > >=20
-> > > Having a begin/end of access for devices was brought up multiple
-> > > times
-> > > but so far rejected for good reasons.
-> > I would argue that if it was brought up multiple times, then there
-> > are
-> > also good reasons to support such a mechanism.
-> >=20
-> > > That an exporter has to call extra functions to access his own
-> > > buffers
-> > > is a complete no-go for the design since this forces exporters
-> > > into
-> > > doing extra steps for allowing importers to access their data.
-> > Then what about we add these dma_buf_{begin,end}_access(), with
-> > only
-> > implementations for "dumb" exporters e.g. udmabuf or the dmabuf
-> > heaps?
-> > And only importers (who cache the mapping and actually care about
-> > non-
-> > coherency) would have to call these.
+Hi Sakari Ailus,
+
+Thanks for the feedback.
+
+> -----Original Message-----
+> Subject: Re: [PATCH 4/4] media: platform: rzg2l-cru: rzg2l-video:
+> Restructure clk handling
 >=20
-> No, the problem is still that you would have to change all importers
-> to=20
-> mandatory use dma_buf_begin/end.
+> Hi Biju,
 >=20
-> But going a step back caching the mapping is irrelevant for
-> coherency.=20
-> Even if you don't cache the mapping you don't get coherency.
-
-You actually do - at least with udmabuf, as in that case
-dma_buf_map_attachment() / dma_buf_unmap_attachment() will handle cache
-coherency when the SGs are mapped/unmapped.
-
-The problem was then that dma_buf_unmap_attachment cannot be called
-before the dma_fence is signaled, and calling it after is already too
-late (because the fence would be signaled before the data is sync'd).
-
-Daniel / Sima suggested then that I cache the mapping and add new
-functions to ensure cache coherency, which is what these patches are
-about.
-
-> In other words exporters are not require to call sync_to_cpu or=20
-> sync_to_device when you create a mapping.
+> Thanks for the patch.
 >=20
-> What exactly is your use case here? And why does coherency matters?
+> On Tue, Jan 23, 2024 at 11:58:21AM +0000, Biju Das wrote:
+> > As per section 35.3.1 Starting Reception for the MIPI CSI-2 Input on
+> > the latest hardware manual(R01UH0914EJ0140 Rev.1.40) it is mentioned
+> > that we need to supply all CRU clks and =A0we need to disable the vclk
+> > before enabling the LINK reception and enable the vclk after enabling
+> > the link Reception. So restructure clk handling as per the HW manual.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 -
+> >  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 55 ++++++++++++---
+> >  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 15 +---
+> >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 69
+> > ++++++++-----------
+> >  4 files changed, 74 insertions(+), 68 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > index 811603f18af0..a5a99b004322 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > @@ -133,9 +133,6 @@ struct rzg2l_cru_dev {
+> >  	struct v4l2_pix_format format;
+> >  };
+> >
+> > -void rzg2l_cru_vclk_unprepare(struct rzg2l_cru_dev *cru); -int
+> > rzg2l_cru_vclk_prepare(struct rzg2l_cru_dev *cru);
+> > -
+> >  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru);
+> > void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru);
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > index c4609da9bf1a..f4c5cbb30bc9 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > @@ -6,6 +6,7 @@
+> >   */
+> >
+> >  #include <linux/clk.h>
+> > +#include <linux/clk-provider.h>
+> >  #include <linux/delay.h>
+> >  #include <linux/interrupt.h>
+> >  #include <linux/io.h>
+> > @@ -108,6 +109,7 @@ struct rzg2l_csi2 {
+> >  	struct reset_control *presetn;
+> >  	struct reset_control *cmn_rstb;
+> >  	struct clk *sysclk;
+> > +	struct clk *vclk;
+> >  	unsigned long vclk_rate;
+> >
+> >  	struct v4l2_subdev subdev;
+> > @@ -361,10 +363,11 @@ static int rzg2l_csi2_dphy_setting(struct
+> v4l2_subdev *sd, bool on)
+> >  	return rzg2l_csi2_dphy_disable(csi2);  }
+> >
+> > -static void rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
+> > +static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
+> >  {
+> >  	unsigned long vclk_rate =3D csi2->vclk_rate / HZ_PER_MHZ;
+> >  	u32 frrskw, frrclk, frrskw_coeff, frrclk_coeff;
+> > +	int ret, count;
+> >
+> >  	/* Select data lanes */
+> >  	rzg2l_csi2_write(csi2, CSI2nMCT0, CSI2nMCT0_VDLN(csi2->lanes)); @@
+> > -386,11 +389,40 @@ static void rzg2l_csi2_mipi_link_enable(struct
+> rzg2l_csi2 *csi2)
+> >  	rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
+> >  	rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
+> >
+> > +	clk_disable_unprepare(csi2->vclk);
+> > +	for (count =3D 0; count < 5; count++) {
+> > +		if (!(__clk_is_enabled(csi2->vclk)))
+> > +			break;
+> > +		usleep_range(10, 20);
+> > +	}
+> > +
+> > +	if (count =3D=3D 5) {
+> > +		dev_err(csi2->dev, "Timeout, not able to turn OFF vclk\n");
+> > +		return -ETIMEDOUT;
+> > +	}
+>=20
+> It'd be nice to have a CCF function to do this. Either way, you can use
+> read_poll_timeout().
 
-My use-case is, I create DMABUFs with udmabuf, that I attach to
-USB/functionfs with the interface introduced by this patchset. I attach
-them to IIO with a similar interface (being upstreamed in parallel),
-and transfer data from USB to IIO and vice-versa in a zero-copy
-fashion.
+OK, Will update rzg2l_mod_clock_endisable() [1] to handle this.
+Currently it does status check for clk on but missing the same status check=
+ for clock off.
 
-This works perfectly fine as long as the USB and IIO hardware are
-coherent between themselves, which is the case on most of our boards.
-However I do have a board (with a Xilinx Ultrascale SoC) where it is
-not the case, and cache flushes/sync are needed. So I was trying to
-rework these new interfaces to work on that system too.
-
-If this really is a no-no, then I am fine with the assumption that
-devices sharing a DMABUF must be coherent between themselves; but
-that's something that should probably be enforced rather than assumed.
-
-(and I *think* there is a way to force coherency in the Ultrascale's
-interconnect - we're investigating it)
+[1] https://elixir.bootlin.com/linux/latest/source/drivers/clk/renesas/rzg2=
+l-cpg.c#L1201
 
 Cheers,
--Paul
-
-> > At the very least, is there a way to check that "the data can be
-> > accessed coherently by the involved devices"? So that my importer
-> > can
-> > EPERM if there is no coherency vs. a device that's already
-> > attached.
->=20
-> Yeah, there is functionality for this in the DMA subsystem. I've once
-> created prototype patches for enforcing the same coherency approach=20
-> between importer and exporter, but we never got around to upstream
-> them.
->=20
->=20
->=20
-> >=20
-> > Cheers,
-> > -Paul
-> >=20
-> > > That in turn is pretty much un-testable unless you have every
-> > > possible
-> > > importer around while testing the exporter.
-> > >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > > Regards,
-> > > > > Christian.
-> > > > Cheers,
-> > > > -Paul
-> > > >=20
-> > > > > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > > > > >=20
-> > > > > > ---
-> > > > > > v5: New patch
-> > > > > > ---
-> > > > > > =C2=A0=C2=A0=C2=A0 drivers/dma-buf/dma-buf.c | 66
-> > > > > > +++++++++++++++++++++++++++++++++++++++
-> > > > > > =C2=A0=C2=A0=C2=A0 include/linux/dma-buf.h=C2=A0=C2=A0 | 37 +++=
-+++++++++++++++++++
-> > > > > > =C2=A0=C2=A0=C2=A0 2 files changed, 103 insertions(+)
-> > > > > >=20
-> > > > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-
-> > > > > > buf/dma-
-> > > > > > buf.c
-> > > > > > index 8fe5aa67b167..a8bab6c18fcd 100644
-> > > > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > > > @@ -830,6 +830,8 @@ static struct sg_table *
-> > > > > > __map_dma_buf(struct
-> > > > > > dma_buf_attachment *attach,
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_mm=
-ap()
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_be=
-gin_cpu_access()
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_en=
-d_cpu_access()
-> > > > > > + *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_begin_access()
-> > > > > > + *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_end_access()
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_ma=
-p_attachment_unlocked()
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_un=
-map_attachment_unlocked()
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_vm=
-ap_unlocked()
-> > > > > > @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct
-> > > > > > dma_buf
-> > > > > > *dmabuf, struct iosys_map *map)
-> > > > > > =C2=A0=C2=A0=C2=A0 }
-> > > > > > =C2=A0=C2=A0=C2=A0 EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked=
-, DMA_BUF);
-> > > > > > =C2=A0=C2=A0=C2=A0=20
-> > > > > > +/**
-> > > > > > + * @dma_buf_begin_access - Call before any hardware access
-> > > > > > from/to
-> > > > > > the DMABUF
-> > > > > > + * @attach:	[in]	attachment used for hardware
-> > > > > > access
-> > > > > > + * @sg_table:	[in]	scatterlist used for the DMA
-> > > > > > transfer
-> > > > > > + * @direction:=C2=A0 [in]=C2=A0=C2=A0=C2=A0 direction of DMA t=
-ransfer
-> > > > > > + */
-> > > > > > +int dma_buf_begin_access(struct dma_buf_attachment
-> > > > > > *attach,
-> > > > > > +			 struct sg_table *sgt, enum
-> > > > > > dma_data_direction dir)
-> > > > > > +{
-> > > > > > +	struct dma_buf *dmabuf;
-> > > > > > +	bool cookie;
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	if (WARN_ON(!attach))
-> > > > > > +		return -EINVAL;
-> > > > > > +
-> > > > > > +	dmabuf =3D attach->dmabuf;
-> > > > > > +
-> > > > > > +	if (!dmabuf->ops->begin_access)
-> > > > > > +		return 0;
-> > > > > > +
-> > > > > > +	cookie =3D dma_fence_begin_signalling();
-> > > > > > +	ret =3D dmabuf->ops->begin_access(attach, sgt, dir);
-> > > > > > +	dma_fence_end_signalling(cookie);
-> > > > > > +
-> > > > > > +	if (WARN_ON_ONCE(ret))
-> > > > > > +		return ret;
-> > > > > > +
-> > > > > > +	return 0;
-> > > > > > +}
-> > > > > > +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
-> > > > > > +
-> > > > > > +/**
-> > > > > > + * @dma_buf_end_access - Call after any hardware access
-> > > > > > from/to
-> > > > > > the DMABUF
-> > > > > > + * @attach:	[in]	attachment used for hardware
-> > > > > > access
-> > > > > > + * @sg_table:	[in]	scatterlist used for the DMA
-> > > > > > transfer
-> > > > > > + * @direction:=C2=A0 [in]=C2=A0=C2=A0=C2=A0 direction of DMA t=
-ransfer
-> > > > > > + */
-> > > > > > +int dma_buf_end_access(struct dma_buf_attachment *attach,
-> > > > > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sgt, e=
-num
-> > > > > > dma_data_direction dir)
-> > > > > > +{
-> > > > > > +	struct dma_buf *dmabuf;
-> > > > > > +	bool cookie;
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	if (WARN_ON(!attach))
-> > > > > > +		return -EINVAL;
-> > > > > > +
-> > > > > > +	dmabuf =3D attach->dmabuf;
-> > > > > > +
-> > > > > > +	if (!dmabuf->ops->end_access)
-> > > > > > +		return 0;
-> > > > > > +
-> > > > > > +	cookie =3D dma_fence_begin_signalling();
-> > > > > > +	ret =3D dmabuf->ops->end_access(attach, sgt, dir);
-> > > > > > +	dma_fence_end_signalling(cookie);
-> > > > > > +
-> > > > > > +	if (WARN_ON_ONCE(ret))
-> > > > > > +		return ret;
-> > > > > > +
-> > > > > > +	return 0;
-> > > > > > +}
-> > > > > > +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
-> > > > > > +
-> > > > > > =C2=A0=C2=A0=C2=A0 #ifdef CONFIG_DEBUG_FS
-> > > > > > =C2=A0=C2=A0=C2=A0 static int dma_buf_debug_show(struct seq_fil=
-e *s, void
-> > > > > > *unused)
-> > > > > > =C2=A0=C2=A0=C2=A0 {
-> > > > > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-
-> > > > > > buf.h
-> > > > > > index 8ff4add71f88..8ba612c7cc16 100644
-> > > > > > --- a/include/linux/dma-buf.h
-> > > > > > +++ b/include/linux/dma-buf.h
-> > > > > > @@ -246,6 +246,38 @@ struct dma_buf_ops {
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	 */
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	int (*end_cpu_access)(struct dma_buf *=
-, enum
-> > > > > > dma_data_direction);
-> > > > > > =C2=A0=C2=A0=C2=A0=20
-> > > > > > +	/**
-> > > > > > +	 * @begin_access:
-> > > > > > +	 *
-> > > > > > +	 * This is called from dma_buf_begin_access() when
-> > > > > > a
-> > > > > > device driver
-> > > > > > +	 * wants to access the data of the DMABUF. The
-> > > > > > exporter
-> > > > > > can use this
-> > > > > > +	 * to flush/sync the caches if needed.
-> > > > > > +	 *
-> > > > > > +	 * This callback is optional.
-> > > > > > +	 *
-> > > > > > +	 * Returns:
-> > > > > > +	 *
-> > > > > > +	 * 0 on success or a negative error code on
-> > > > > > failure.
-> > > > > > +	 */
-> > > > > > +	int (*begin_access)(struct dma_buf_attachment *,
-> > > > > > struct
-> > > > > > sg_table *,
-> > > > > > +			=C2=A0=C2=A0=C2=A0 enum dma_data_direction);
-> > > > > > +
-> > > > > > +	/**
-> > > > > > +	 * @end_access:
-> > > > > > +	 *
-> > > > > > +	 * This is called from dma_buf_end_access() when a
-> > > > > > device
-> > > > > > driver is
-> > > > > > +	 * done accessing the data of the DMABUF. The
-> > > > > > exporter
-> > > > > > can
-> > > > > > use this
-> > > > > > +	 * to flush/sync the caches if needed.
-> > > > > > +	 *
-> > > > > > +	 * This callback is optional.
-> > > > > > +	 *
-> > > > > > +	 * Returns:
-> > > > > > +	 *
-> > > > > > +	 * 0 on success or a negative error code on
-> > > > > > failure.
-> > > > > > +	 */
-> > > > > > +	int (*end_access)(struct dma_buf_attachment *,
-> > > > > > struct
-> > > > > > sg_table *,
-> > > > > > +			=C2=A0 enum dma_data_direction);
-> > > > > > +
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	/**
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	 * @mmap:
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	 *
-> > > > > > @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf
-> > > > > > *dmabuf,
-> > > > > > =C2=A0=C2=A0=C2=A0 int dma_buf_pin(struct dma_buf_attachment *a=
-ttach);
-> > > > > > =C2=A0=C2=A0=C2=A0 void dma_buf_unpin(struct dma_buf_attachment=
- *attach);
-> > > > > > =C2=A0=C2=A0=C2=A0=20
-> > > > > > +int dma_buf_begin_access(struct dma_buf_attachment
-> > > > > > *attach,
-> > > > > > +			 struct sg_table *sgt, enum
-> > > > > > dma_data_direction dir);
-> > > > > > +int dma_buf_end_access(struct dma_buf_attachment *attach,
-> > > > > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sgt, e=
-num
-> > > > > > dma_data_direction dir);
-> > > > > > +
-> > > > > > =C2=A0=C2=A0=C2=A0 struct dma_buf *dma_buf_export(const struct
-> > > > > > dma_buf_export_info
-> > > > > > *exp_info);
-> > > > > > =C2=A0=C2=A0=C2=A0=20
-> > > > > > =C2=A0=C2=A0=C2=A0 int dma_buf_fd(struct dma_buf *dmabuf, int f=
-lags);
->=20
-
+Biju
 
