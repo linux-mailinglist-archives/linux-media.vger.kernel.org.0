@@ -1,125 +1,157 @@
-Return-Path: <linux-media+bounces-4107-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4106-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB84839831
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 19:47:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 533A1839822
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 19:46:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44660B254ED
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 18:47:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 865DE1C26C50
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 18:46:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37D0482D7A;
-	Tue, 23 Jan 2024 18:46:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06672823AF;
+	Tue, 23 Jan 2024 18:45:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMkqonBJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CQHOLJYs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956DF85C76
-	for <linux-media@vger.kernel.org>; Tue, 23 Jan 2024 18:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2519581217;
+	Tue, 23 Jan 2024 18:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706035597; cv=none; b=c5cNsWbq4RQObwx0vY6bBGrKKWper+mYOPrdMLNbNBF4Th6Lycq8J3BVxlx1lBsTo0LYSwrqrBAo6ZVS0sYPy34sY+JVrj9u8J3umxIZHc3SV6Rfp6P0P6g4ZMQIJnRjbmYMYoLcdR7WR4J6JEZwe9kzLddqkvtFER1MLrEeNfg=
+	t=1706035554; cv=none; b=oSXZ04bNNvR7z7ICBg0yMflH1G57bapzVpRiCrZH1qQwCEM5hT1JV9KDHRgbS7spClGpXkTWlqy/tlC5rKa7na6vHPHc5bt6yCq9YxkPRLVLcpwzcQDGN/+9jJG/wJQk0eDL69dCGDq13Pj1OpZj4k/kD10fqQoBgRtZc6KCpUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706035597; c=relaxed/simple;
-	bh=n28Ln+/x2ea0OMkeW4AV4fhxF0cv6+x4Q8B/idBEcRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZxoDnAHGaB7M5nyIR8UT2dS0Yoyc4miQvvfmfv/528S+40+ELR1HA2/Nc6CGZOEZSUiJAFXsZ0Gbg33HkP8WFED3asPlKF5uimR74CfLtLlzRbAoaukEPjc+jHLchwX+Mneg7nsAm0ul5VEKTUSJTlHcZcS8KuGfdxw9r+ikLoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMkqonBJ; arc=none smtp.client-ip=192.55.52.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706035594; x=1737571594;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n28Ln+/x2ea0OMkeW4AV4fhxF0cv6+x4Q8B/idBEcRY=;
-  b=TMkqonBJWUKG/iO1EeqfxrN2MijGCSOSk0wYmVm7fhWUPexq2w76FyVH
-   JtVD8P/h3T6iPALO2Am6Zlqu50FwHwplVe/sIEXmwU9pU4jSfLFf3qv9L
-   pjoT9bBDlW8HdzwRI2SlH/xV40QbgjV8DW99LaPCejrfu9C9fKrlloobc
-   hfqu1ZzxxVASiDI89J7EVtpRMqVeHKqvjS+VHTPpCbn0z4KWV7PRZ4FJ4
-   WJ0OxENdJf6V4iS9u4Dc4AlTtbwHvHIRyloVO70Nk3FfjrdMROezt96zf
-   hh5tScNdcNAQmKNm7SRTSexeREdJmEIQWGrXoKCspsTRQhLWDne144kjH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="401274170"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="401274170"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 10:46:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="905339034"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="905339034"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2024 10:46:32 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rSLn4-0007bv-1T;
-	Tue, 23 Jan 2024 18:46:30 +0000
-Date: Wed, 24 Jan 2024 02:45:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:media-ref 38/39]
- drivers/media/pci/intel/ipu3/ipu3-cio2.c:1686:13: warning:
- 'cio2_media_release' defined but not used
-Message-ID: <202401240244.gFeVPHsb-lkp@intel.com>
+	s=arc-20240116; t=1706035554; c=relaxed/simple;
+	bh=FifBFda1BULQdJPThIP0UT4ARArkgTXu12mOvZ2GCRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IaO9qU1+cIzFABm5I8tWMj9JphsgGBPDq+GqFYGb9kASrOZgeNjgKrSbqKQVOre3bmDiisN7fvq4vjOayDdR2Z8F5ycWZOFJ088WAPuvS90/1AUgC21oedSmwjgs/xWkrnDbjW/9I3Wv8h8urg4XNhcotAl+f7XX8KCKWTkRDww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CQHOLJYs; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0B60BEB;
+	Tue, 23 Jan 2024 19:44:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1706035476;
+	bh=FifBFda1BULQdJPThIP0UT4ARArkgTXu12mOvZ2GCRo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CQHOLJYsJFYd8VGAeO74ho+MYoESY5vwgSd3TVsPOFBBftMpov9cZ6IMJFlGFjxs6
+	 uEn+BiYgLl20tlI1S6PxTqFXuPwggZnRmeW6u96DMDygUz5OYVJZ6ZawJiYdmmkvoq
+	 dMig3TlsDV8ewzT/NcvObBQg7CoaEYrDVeHg32OY=
+Date: Tue, 23 Jan 2024 20:45:47 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/4] media: platform: rzg2l-cru: rzg2l-ip: Add delay
+ after D-PHY reset
+Message-ID: <20240123184547.GE14927@pendragon.ideasonboard.com>
+References: <20240123115821.292787-1-biju.das.jz@bp.renesas.com>
+ <20240123115821.292787-3-biju.das.jz@bp.renesas.com>
+ <20240123153024.GQ10679@pendragon.ideasonboard.com>
+ <TYCPR01MB11269CDDA833B19000893C90B86742@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <TYCPR01MB11269CDDA833B19000893C90B86742@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git media-ref
-head:   a31f71a73822ffd82d3595f199a57894097bc98e
-commit: e41a37177548289f04defb2d473b62392bae0d42 [38/39] test
-config: i386-buildonly-randconfig-004-20240123 (https://download.01.org/0day-ci/archive/20240124/202401240244.gFeVPHsb-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401240244.gFeVPHsb-lkp@intel.com/reproduce)
+On Tue, Jan 23, 2024 at 06:38:00PM +0000, Biju Das wrote:
+> Hi Laurent Pinchart,
+> 
+> Thanks for the feedback.
+> 
+> > -----Original Message-----
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Sent: Tuesday, January 23, 2024 3:30 PM
+> > Subject: Re: [PATCH 2/4] media: platform: rzg2l-cru: rzg2l-ip: Add delay
+> > after D-PHY reset
+> > 
+> > Hi Biju,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Tue, Jan 23, 2024 at 11:58:19AM +0000, Biju Das wrote:
+> > > As per section 35.3.1 Starting Reception for the MIPI CSI-2 Input on
+> > > the latest hardware manual(R01UH0914EJ0140 Rev.1.40) it is mentioned
+> > > that after DPHY reset, we need to wait for 1 msec or more before start
+> > > receiving data from the sensor. So add a delay after pre_streamon().
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> > > index 9f351a05893e..5468dc179de7 100644
+> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> > > @@ -5,6 +5,7 @@
+> > >   * Copyright (C) 2022 Renesas Electronics Corp.
+> > >   */
+> > >
+> > > +#include <linux/delay.h>
+> > >  #include "rzg2l-cru.h"
+> > >
+> > >  struct rzg2l_cru_ip_format {
+> > > @@ -71,6 +72,8 @@ static int rzg2l_cru_ip_s_stream(struct v4l2_subdev
+> > *sd, int enable)
+> > >  		if (ret)
+> > >  			return ret;
+> > >
+> > > +		usleep_range(1000, 2000);
+> > > +
+> > 
+> > What would you think of using
+> > 
+> > 		fsleep(1000);
+> > 
+> > instead ?
+> 
+> Essentially it is same by looking at the code[1].
+> OK will use fsleep()
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401240244.gFeVPHsb-lkp@intel.com/
+Yes, it will result in the same delay. fsleep() is recommended as the
+default sleep function unless there's a specific need to do something
+different.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/pci/intel/ipu3/ipu3-cio2.c:1686:13: warning: 'cio2_media_release' defined but not used [-Wunused-function]
-    1686 | static void cio2_media_release(struct media_device *mdev)
-         |             ^~~~~~~~~~~~~~~~~~
-
-
-vim +/cio2_media_release +1686 drivers/media/pci/intel/ipu3/ipu3-cio2.c
-
-803abec64ef9d3 drivers/media/pci/intel/ipu3/ipu3-cio2-main.c Daniel Scally 2021-01-07  1685  
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20 @1686  static void cio2_media_release(struct media_device *mdev)
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1687  {
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1688  	struct cio2_device *cio2 =
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1689  		container_of(mdev, struct cio2_device, media_dev);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1690  
-ccf99d37ece499 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2023-10-05  1691  	printk("cio2 media release\n");
-ccf99d37ece499 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2023-10-05  1692  
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1693  	v4l2_async_nf_cleanup(&cio2->notifier);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1694  	cio2_queues_exit(cio2);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1695  	cio2_fbpt_exit_dummy(cio2);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1696  	mutex_destroy(&cio2->lock);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1697  
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1698  	kfree(cio2);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1699  }
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1700  
-
-:::::: The code at line 1686 was first introduced by commit
-:::::: a42031c1c782585594774333337fd9dd73a6014b media: ipu3-cio2: Release the cio2 device context by media device callback
-
-:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+> [1]
+> static inline void fsleep(unsigned long usecs)
+> {
+> 	if (usecs <= 10)
+> 		udelay(usecs);
+> 	else if (usecs <= 20000)
+> 		usleep_range(usecs, 2 * usecs);
+> 	else
+> 		msleep(DIV_ROUND_UP(usecs, 1000));
+> }
+> 
+> > With or without that,
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > 
+> > >  		ret = rzg2l_cru_start_image_processing(cru);
+> > >  		if (ret) {
+> > >  			v4l2_subdev_call(cru->ip.remote, video, post_streamoff);
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
 
