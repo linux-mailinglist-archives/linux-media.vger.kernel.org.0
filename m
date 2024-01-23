@@ -1,135 +1,121 @@
-Return-Path: <linux-media+bounces-4099-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4100-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61068395D2
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 18:06:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 604DB839651
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 18:24:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14B571C234A5
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 17:06:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1E25285DA0
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 17:24:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29E537FBAC;
-	Tue, 23 Jan 2024 17:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C0268002F;
+	Tue, 23 Jan 2024 17:24:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkGZ+/og"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WeSfU2Sm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802835733D;
-	Tue, 23 Jan 2024 17:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4437FBA8;
+	Tue, 23 Jan 2024 17:24:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706029280; cv=none; b=L4E56axpdT15SWmrqPEf6JowHZ/28znO4ql/ITgff1nlpOCIqZmqwLiMUIA4WgFVWrVs23QkoFf/pP6HBCOG4LY1/CGpgluWaLq5Mwfj/ud6gAz0ZIateriunyQ9uHR8XeWR1FdTs5MXZ6hWy53l31SAPb0G7N7rZ8c3aHLi3EM=
+	t=1706030666; cv=none; b=gRZK9yJv0zGbgWFE+YB8ldNr0mVfg3txcBC7coR7kR8nArXej6rBtHkovJB/ap3XSe96P5NIaEXmcUlTRIjAZ7loHaWXcJq8ivt+Q6Ex5/ncXNro3h9welsj2rb6WAZtUm4PVSCtyYbiPb4wH6d2er3CWHymyKCG9BkvVa5R/1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706029280; c=relaxed/simple;
-	bh=V+pi3c5KR+NexGtTEkvtMJ8NNNixuoR/P6ynDkGNHog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TLmBCEdc1AIihlhGG2V1yKB27VAUih26GQwCnRVocBC3KFOOl3jkBQAZmA2Z8cwk3X7667fGPp/+LbeEe4yI7lcKBaW8WPg+N2pNEeFCNLB6KmHGoatpkHnPEFSMXDS3kwuYd1xEAtZ4LN8Esg1RpUKgyXbY8zDrP6/GM4Vid1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkGZ+/og; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B2FBC433F1;
-	Tue, 23 Jan 2024 17:01:15 +0000 (UTC)
+	s=arc-20240116; t=1706030666; c=relaxed/simple;
+	bh=Oyao+3/Ux6TZycEPX8L/CtZdSt0adFVr9KdQJvVkrTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=bdfmiHotMcJwCEalqx6XJULQBJdFTXgwfX9s/hhgPNt6pQQj0C8mRJsZOLpn3wO3oywJ8OcLYE3R9O7hzAtWVdC7smdWQiycEp0iyvSRsOd5fx6JWU2IkTsTnzaKhIIuuLV3jxLbjZmEWgEkuSi7ut9u+Qe+kepmRT5OTuWk5Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WeSfU2Sm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70157C433C7;
+	Tue, 23 Jan 2024 17:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706029279;
-	bh=V+pi3c5KR+NexGtTEkvtMJ8NNNixuoR/P6ynDkGNHog=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EkGZ+/ogS6+hCHS8WHjmlSxTgntXLY5/EvV7KM/I0UJQsFIvfYFISudTysjnMMAtm
-	 XBN8NJ1rWx0kgM3kDM3ITGf+2vNTRV5P70FmMznXtyuaO/VZVvKJy/EIPztnP4fY8b
-	 fMhzPv3e/J8qlgnYBt5k9wMH2ZqDGtqkCuEeOgOZf4E+zdf7KQeLHXyAoLVbHeyuy7
-	 ypaKJbkV6koOWVdtRSWwXeybmQyzWHpyqUVXZQBJLlid3iUCUsGSaQgDjp2VLEpDjc
-	 NTH3uZG2rSC8dWPP2DSbD5Jd3wsbUr2TeN6Lp/ysx/0OjMe71Z7r7VpGpddE9Hn3bJ
-	 MI4xI7Pgdt9lw==
-Date: Tue, 23 Jan 2024 17:01:13 +0000
-From: Conor Dooley <conor@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	Jason-ch Chen <jason-ch.chen@mediatek.com>,
-	Johnson Wang <johnson.wang@mediatek.com>,
-	Singo Chang <singo.chang@mediatek.com>,
-	Nancy Lin <nancy.lin@mediatek.com>,
-	Shawn Sung <shawn.sung@mediatek.com>,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v3 1/3] dt-bindings: mailbox: Add mediatek,gce-props.yaml
-Message-ID: <20240123-powwow-drainable-77dfd6158b05@spud>
-References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
- <20240119063224.29671-2-jason-jh.lin@mediatek.com>
- <20240119-demote-fragment-624a35367a87@spud>
- <9c447297-2738-4b63-9da9-0d004660e65d@collabora.com>
+	s=k20201202; t=1706030665;
+	bh=Oyao+3/Ux6TZycEPX8L/CtZdSt0adFVr9KdQJvVkrTM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=WeSfU2SmF+MThNV+FwS3jNLbx/lbHqp3O8rGmEOzabcSnXEgrwMlsQB9X+zP4Dj5G
+	 wd1fgHH0A7R0Tmo1hzTqTwsERG+4Gn3Cx5lBeFm5nnKu5zpyTImNwviF1z+B9Bs+B5
+	 FDxtofh709s2gjhWj2TwrRefwkgnofaBeH2IOycUb4sAH6b1twJSE7eTOxL5ZpB136
+	 XW94cTSytbK36zuZLvfHBZJyLBwQtXSssVanGsGSNlbp69amctnSVmvxMuZ0ytbIUw
+	 x0q8WUofOp/tNMPpmUcwMX0JnwNQI0b6OZ1iN5n7Qvk/bytqBMVrKlnALAAEsYlcQ0
+	 7dIeV9ibAJhkg==
+Date: Tue, 23 Jan 2024 11:24:23 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-gfx@lists.freedesktop.org,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	intel-xe@lists.freedesktop.org,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+	Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] pm: runtime: Simplify pm_runtime_get_if_active()
+ usage
+Message-ID: <20240123172423.GA317147@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2CTCg0wQKdRlifcE"
-Content-Disposition: inline
-In-Reply-To: <9c447297-2738-4b63-9da9-0d004660e65d@collabora.com>
-
-
---2CTCg0wQKdRlifcE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240123095642.97303-2-sakari.ailus@linux.intel.com>
 
-On Mon, Jan 22, 2024 at 11:38:15AM +0100, AngeloGioacchino Del Regno wrote:
-> Il 19/01/24 17:44, Conor Dooley ha scritto:
-> > Rob,
-> >=20
-> > On Fri, Jan 19, 2024 at 02:32:22PM +0800, Jason-JH.Lin wrote:
-> > > Add mediatek,gce-props.yaml for common GCE properties that is used for
-> > > both mailbox providers and consumers. We place the common property
-> > > "mediatek,gce-events" in this binding currently.
-> > >=20
-> > > The property "mediatek,gce-events" is used for GCE event ID correspon=
-ding
-> > > to a hardware event signal sent by the hardware or a sofware driver.
-> > > If the mailbox providers or consumers want to manipulate the value of
-> > > the event ID, they need to know the specific event ID.
-> > >=20
-> > > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> > > ---
-> > >   .../bindings/mailbox/mediatek,gce-props.yaml  | 52 ++++++++++++++++=
-+++
-> >=20
-> > Is bindings/mailbox the correct directory to put this in?
-> >=20
->=20
-> Well, the GCE is a mailbox :-)
->=20
-> ...but I get why you're asking... and I don't think that this should go to
-> arm/mediatek/ as it's really just only referring to extra properties for =
-kind of
-> "special" mailbox client events...
+On Tue, Jan 23, 2024 at 11:56:42AM +0200, Sakari Ailus wrote:
+> There are two ways to opportunistically increment a device's runtime PM
+> usage count, calling either pm_runtime_get_if_active() or
+> pm_runtime_get_if_in_use(). The former has an argument to tell whether to
+> ignore the usage count or not, and the latter simply calls the former with
+> ign_usage_count set to false. The other users that want to ignore the
+> usage_count will have to explitly set that argument to true which is a bit
+> cumbersome.
+> 
+> To make this function more practical to use, remove the ign_usage_count
+> argument from the function. The main implementation is renamed as
+> pm_runtime_get_conditional().
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
+> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # drivers/accel/ivpu/
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-gce is a mailbox, but this isn't a binding for the mailbox itself, hence
-me wondering. I haven't been able to think of something better though,
-so
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
 
-Cheers,
-Conor.
+- Previous PM history uses "PM: " in the subject lines (not "pm: ").
 
---2CTCg0wQKdRlifcE
-Content-Type: application/pgp-signature; name="signature.asc"
+- I don't know whether it's feasible, but it would be nice if the
+  intel_pm_runtime_pm.c rework could be done in one shot instead of
+  being split between patches 1/3 and 2/3.
 
------BEGIN PGP SIGNATURE-----
+  Maybe it could be a preliminary patch that uses the existing
+  if_active/if_in_use interfaces, followed by the trivial if_active
+  updates in this patch.  I think that would make the history easier
+  to read than having the transitory pm_runtime_get_conditional() in
+  the middle.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZa/w2QAKCRB4tDGHoIJi
-0mVkAQD1E1YROaciJvV15+DoVLqDPd5wy0CwA0/B+tXa1nnLGAEAx7CXc/CtIrWm
-h/V9z3ZETpXmdBl0DoEl6myfpxb9pgc=
-=/QkO
------END PGP SIGNATURE-----
+- Similarly, it would be nice if pm_runtime_get_conditional() never
+  had to be published in pm_runtime.h, instead of being temporarily
+  added there by this patch and then immediately made private by 2/3.
+  Maybe that's not practical, I dunno.
 
---2CTCg0wQKdRlifcE--
+Bjorn
 
