@@ -1,1345 +1,254 @@
-Return-Path: <linux-media+bounces-4093-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4094-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE9283919B
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 15:44:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BCB8391B9
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 15:49:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94B431F20F30
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 14:44:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60860B21C78
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 14:49:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BC7150A65;
-	Tue, 23 Jan 2024 14:44:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 304FF56777;
+	Tue, 23 Jan 2024 14:49:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FkPIWpjC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhK30+7i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812985026F
-	for <linux-media@vger.kernel.org>; Tue, 23 Jan 2024 14:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706021057; cv=none; b=Cese+ApSKC+Qcdk4kp7mk13yc1GunrIuJwmus/UAvygm7P6JAqa1sIl8R9shA2EzOMRltga8pf2p01Ms/72KIqjc5dZIpHyzmCix6UOnNr1vR/VvwyYWNFaOuAzZBuzhk2z/j6/Xub4XiTsg7PVIyw59zaHS8KvUfQ2/0HlMwOU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706021057; c=relaxed/simple;
-	bh=8VbMxCwMjpurXSgsZ6RT56oiCUXrgYGOjCO2fDr/OQ8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RLkBzxQqS8qA2nuI2zpkJeeEVGu3zDn9xl6C9iaiZOT/qOiminmaEjSFLp0KHTrqO3x1AD5UlbOtVsvlHNrRQypxjNgBRFZAzs1WUL6rMxvRbfmoYEwOwHH959tiDMBkX5a6nSQUfXp1HGaCU4NqORReLgOLJdoD0mfQ6ESI+Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FkPIWpjC; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1DF5FEED
+	for <linux-media@vger.kernel.org>; Tue, 23 Jan 2024 14:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.55.52.115
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706021345; cv=fail; b=fDD+e6mFQaa67N9eHIPX3qF1Sf3P0C+IRDRR5ZWFO0lsTRqyT0eYv25lLHw8yVZKMy76DvkpyWDrIoBf72vp0wIS44KZeKa/ZBDevrooVR5yLD2b1ySLk4nlwkNy98t5biGLpHfTdJSFU58wqES+Mdpumoz05m3temyLPRXYvtA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706021345; c=relaxed/simple;
+	bh=bYpJKPdyQ2A4Kmep2lcndnUuY4TDJhx7whzmO6wZCGA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=IICHzcv+v2xSt5RG+Dj7tF6X8/O/NeU5CjmeMZf3i2Emx3UNKWROgPP0wTvnqc2EN+0rPiW6zIurI5Hd64BZBOtbzcYEi8fQYcnvbTgSPsZL7NXDLw/jRYYnNaP3wmQ0fl7BwpgjYYxO/lnY3ZzGvTfHprI/ZhO4PW0R1piuWCQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhK30+7i; arc=fail smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706021054; x=1737557054;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8VbMxCwMjpurXSgsZ6RT56oiCUXrgYGOjCO2fDr/OQ8=;
-  b=FkPIWpjCKh1dJdHT9KNmUHkzfpQO0DfkIyHuPdQJfj3w/EXuaqeC15ZZ
-   3bkpzW45ozQXuJOYdhbmIQVBxUbonCYsVx7dVuzXJkVrSdMwDnL6RVwF2
-   hffmhCk/bdQkntul1edKfhV9h9jhCzltumpI1VHzApYMMDr6yj3iBprIF
-   +PXcwIFZ6vGe9aKK+fDDS/yqgBoV0t15i7fhAlF1jdX2KKaocvQDqfpd1
-   /CNzwcByNQyR4nXkJ26W1ABSM93I8mRstcGD6QixwNSVkTiS11IptXOyw
-   +aYosqO4P7bIzWttBhd4nbObBOvUePtngjjfaaJBvbrbILxWBlUEVjUgG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8191307"
+  t=1706021343; x=1737557343;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=bYpJKPdyQ2A4Kmep2lcndnUuY4TDJhx7whzmO6wZCGA=;
+  b=XhK30+7imMnI9VgEXWBdkoWyGtLTry/w7qV1Drd6UD5gnX00JqqfTmDZ
+   5CNno69Yv2OCOTvGIaD/xpzlEjes1HGCbKd+eZpWATsCVA40gYPEwQge3
+   XoegCDzatdtNEsZdZRqA4B+bBPIkPBbHtbe5fjoGFZGeOLsDuIrsfUr+n
+   ZdPchgOS4cA+433DRPnt9HymmOdyU1qXruNucyinU9bjLcsgfQazbw4HK
+   skiN4Uqjwf/rDxE3nUNhejm2jy3J4Iu6yxaKGoPooUH8jLE3Pf6qZG08u
+   rcs/q6rSO9iAVdj6Vs2i/xtMjtpQYxkVjCYRhMeSjZrbLrs/jx2JAWcpr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="401204579"
 X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
-   d="scan'208";a="8191307"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 06:44:14 -0800
+   d="scan'208";a="401204579"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 06:48:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="905259949"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="929354649"
 X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
-   d="scan'208";a="905259949"
-Received: from jasonz-ms-7d25.itwn.intel.com ([10.227.107.10])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2024 06:44:10 -0800
+   d="scan'208";a="929354649"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Jan 2024 06:48:47 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 23 Jan 2024 06:48:46 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 23 Jan 2024 06:48:46 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 23 Jan 2024 06:48:46 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PKzxyAY8N6FgM0Vm6p5HmZQTFGhvbq0BUXnnFSdqYftJt4AoootWPRyY/E82OXznO3CKFCKN2o2EbWdb73Wxk0gz1KOpN+zrn1x0K74KHkKH1jXS8czb3VQF3U49Igs9a45vJk53JynSrT3fbbbE4NvPFuOTxb4hXRE9nA7rkeu5oT3hMUqahAg7Cp2ydXGsWQKP/rY+RoasbrEJlYHEzOOyuPByg62/MUuMPFxrQBJG0T/KJY/tVIa+vzCSJuKeZE14YFaNkzRylD6hTnLdlCfc0HcVXx2U10OOezPMFabegkmgJ0yux9eSk+OfSV7hV9DQGATGIn8odVsvfgrk+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bYpJKPdyQ2A4Kmep2lcndnUuY4TDJhx7whzmO6wZCGA=;
+ b=UOoaGL40nARXLK3kGlXahTax4n7FMDfGgMNGmkRxsOEIdA64ntQfDZGl0DNUnPZwkvWtxfMdmnUwyjAbrSEIgqGDMxeol2AgIIDq3/hWUMovOP7PjEpRG5L3HqphbNWZrdS8CZX/hi/7EjcwfQQ6Jh9/xY28udyjXNB2Uy3PEEC71/PFDF/PoGhr+5lPK0MUDFqjkxVCBtTiNI6J9nh7HDAFdCOY2T5e0XDc2oTBuH7P4hI6m2dc/C9WbV+RVahvxnu1iVdeO/kcKSa318iUxz4yD5YcegZlBzJjBkqmc7jDz+KqtcET/ofulfC48MWLvYRa/c1nauZvZoOj4HCQ4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DS0PR11MB7459.namprd11.prod.outlook.com (2603:10b6:8:144::22)
+ by DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.37; Tue, 23 Jan
+ 2024 14:48:44 +0000
+Received: from DS0PR11MB7459.namprd11.prod.outlook.com
+ ([fe80::43f3:ea84:dd5f:d8d9]) by DS0PR11MB7459.namprd11.prod.outlook.com
+ ([fe80::43f3:ea84:dd5f:d8d9%4]) with mapi id 15.20.7202.034; Tue, 23 Jan 2024
+ 14:48:44 +0000
 From: "Chen, Jason Z" <jason.z.chen@intel.com>
-To: sakari.ailus@linux.intel.com,
-	tfiga@chromium.org
-Cc: bingbu.cao@linux.intel.com,
-	linux-media@vger.kernel.org,
-	andy.yeh@intel.com,
-	qingwu.zhang@intel.com,
-	senozhatsky@chromium.org,
-	Jason Chen <jason.z.chen@intel.com>
-Subject: [PATCH v4] media: ov08x40: Reduce start streaming time
-Date: Tue, 23 Jan 2024 22:43:23 +0800
-Message-Id: <20240123144323.603593-1-jason.z.chen@intel.com>
-X-Mailer: git-send-email 2.34.1
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Tomasz Figa
+	<tfiga@chromium.org>
+CC: "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "Yeh, Andy"
+	<andy.yeh@intel.com>, "Zhang, Qingwu" <qingwu.zhang@intel.com>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>
+Subject: RE: [PATCH v3] media: ov08x40: Reduce start streaming time
+Thread-Topic: [PATCH v3] media: ov08x40: Reduce start streaming time
+Thread-Index: AQHaTd/RAIqfrvg/YUuvCmfH563l0rDnKyuAgAADf4CAAErkQA==
+Date: Tue, 23 Jan 2024 14:48:43 +0000
+Message-ID: <DS0PR11MB7459FFF4552871CC5EEEFA3ECC742@DS0PR11MB7459.namprd11.prod.outlook.com>
+References: <20240123093648.285711-1-jason.z.chen@intel.com>
+ <CAAFQd5D6y8nKg8axJxZj+yhMD8ZNC=q6w_e2=7qcQo1HFWSFTw@mail.gmail.com>
+ <Za-R8xeuD5cHCA0K@kekkonen.localdomain>
+In-Reply-To: <Za-R8xeuD5cHCA0K@kekkonen.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR11MB7459:EE_|DM4PR11MB5358:EE_
+x-ms-office365-filtering-correlation-id: 70922168-d10c-4a7e-b329-08dc1c2265a9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: D8qfUvRhULgFuxz9Vk4iGXQKqOA6mFoTbAGYkQ1rTnNu0ArwEQuZPZReXOVfocFt00ZUmdjuqjaQVK2BvZpF8y7L3xwgeMQjr+8ltWkn33HRVSdVnct0vrO34oGF4SM9FW0UhsiQOnh8o2xF1lPX+I0GLrTjtqLgGb3dRsH3tmu9MnZIJG8mgx2fuWDLTrN4e/f4izkqFu42c135B6sMP4fcnOtlW6nf4ldjjbZ4qA1jZyVm/H28wSELgmd7XJ86jAGBz+jMNqn4nlQ8Zsh4hCV+3N0CnxfaqlwCv/G3DQ5ElMnRi2hTLYL9fuQGciNVwHysa2dB8/qanm9iJQ/WAUj0ukIVBajqu3WD659SvmJE5PdwyOfLS3QvfPpy13EfCR1layU71l6ECNifSgsU7s/kpqe50Bdathfx0bTZPglkLfaCGyVwmwX16QyyrqgnoOc1G7e1jTbuSFo2wKb1XniWhCU/Nz3kc65sFCIP/DCh62KsspFBARYMo3MCE7p8Bve9dBkiE0nDLaCsGSjZx8iDvjl3uj9tB0HP+4Y4zMNBnJ3++lLZCBw2IqGAh/NONseiYYKZJ3SHOyFMVzE3q5aBjanQFpT93ZGz/c9g82/Z4VppOpwTWm/psNi5V330
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7459.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(346002)(396003)(376002)(366004)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(83380400001)(53546011)(122000001)(71200400001)(26005)(38100700002)(52536014)(9686003)(8676002)(5660300002)(4326008)(8936002)(41300700001)(66556008)(478600001)(7696005)(6506007)(66476007)(54906003)(64756008)(316002)(66946007)(76116006)(66446008)(110136005)(2906002)(33656002)(86362001)(82960400001)(38070700009)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VWJxM1pNYVBBbGRvdmpXZFVyYnNpb0pXSjNMVFhobHp0d21hYktWY2N2OVRW?=
+ =?utf-8?B?SExmZ0EvdnRMa1FWbUJjQmtRNHI0anZxQmFPTk96UnZGbmhjaHJpRXlFaDVh?=
+ =?utf-8?B?a3FPbGV2VWdmTFNCN0I1c3FGK29RV0hXZTZjcEk2R1FBZjhFZGV3Mzdobi9h?=
+ =?utf-8?B?cDAzM3JKa2NuUkUybGxhYUI4aThOaklOeWxkWk54aGZqaFR6TGpDdTF3SUU5?=
+ =?utf-8?B?UUVCZkVQWHlHaXN0S21rOWFzdkdnK0UwVnNYRHk5Q0NEWWZqamVKTUdJbnJo?=
+ =?utf-8?B?MW45dTZiRVk3YXA3R1BlcXNmNlRmTGZidWJkSTJ1aEYrcWVXZm4vOXI4WmZK?=
+ =?utf-8?B?SnR2UHJaek5XVXJtbUJLU3BnSERaY1htZ0ttWVl1RzNjK1NsdFJPeGNCTlAx?=
+ =?utf-8?B?bWpsa3pOWmxlNHA1RlFyaEtBNm1JcDZwL2hsaTFqVk1rUDE0Rm5NVXpyN05V?=
+ =?utf-8?B?ejltanNKV0tsZGIwZVVOVTE0MEphTWhVZlBzcnl3YlorU3RQbXVQVzY3cGlT?=
+ =?utf-8?B?M2wvSUJrc2VQUUhYZ2lRa2hpc0E1c2ZZeHh1VXlmUmNiTmpvK2ZkcXhIRzR0?=
+ =?utf-8?B?d0VPU1F2VXJJaS9hQ0NnRlRpM0Jsc1NVWjVvc2cyMTlYRHFBaUlzZDNoR3B6?=
+ =?utf-8?B?QjFwazNWUGErOXlZSVhWNUdGcWtDcy9xdHJCVjZpdkVYZ2pZQTlTSmFiRzRJ?=
+ =?utf-8?B?RUhiY0JXOE44ZVQ0UlVzYVRqUVhzdlZaYkpSazRQRVY3WlE2bm8xVy8rbk5G?=
+ =?utf-8?B?RnNyUFdpZCs5Z2xHUEh1UXFhNFVUdTR1V1RPZS9DU2U0K3JueGNSdUlYUk01?=
+ =?utf-8?B?N1ZtSkk0OGhkVEJadWdQbkZVM0hteHVHZS83QzZ2UmpOUXNUOE83MU5maWpO?=
+ =?utf-8?B?Skl4WnZGeXlaREtaQ2hHTk9VUTE1VkVibkwra2F3QnF0ZUV3K1ZqMnN6a202?=
+ =?utf-8?B?aElhUnRGSHRBMFlnWk9RdUsxTzRxQWV5U0w0MUVnNlhEd3FHK1VZY25QOEIw?=
+ =?utf-8?B?bkc4ZlB1V1pEbXJibFBsV0R0aC9HYU9EMmJnZWRSRGRlV254S0dYb0V4b0lG?=
+ =?utf-8?B?b24vVG9ZZWlFWFVobUJmTXU3cUYydUFHZWV3YUd2bi9ta1Z0elZwWVBVUDdu?=
+ =?utf-8?B?WUZXN0NPaWZWeFRTQkVMdnRSYWxKVVJNU203ZmRORlpvcURQbDl0SURrOTJm?=
+ =?utf-8?B?OFhONVE2aUY2SWRCSGp1NXF4MFczdGNaMTNMTWl5RDUxVHQ0Q0EzZGVUdlYv?=
+ =?utf-8?B?emdTdW9BeGdRVmJjeEtXdmtFOWJ5TEQ0cG9UTlorcEs2eHZNcHVPdmZmZk1t?=
+ =?utf-8?B?ZjBxa0R2MnZldVpvcy9jbUJSZE1IbTlkYjl2SEdhMW9kbVYvR3hPZzltVHZy?=
+ =?utf-8?B?OFFTVEhTOEFicWdzNWdQa3FZeU43ZWlMR003ajZYUW96L2VYaENxc0VYbWRM?=
+ =?utf-8?B?VlgwbTJFQTZSaWlUdUEvOENCZk1nWG1vekh6SmFIcStIbFp0SHgySHNtRzJC?=
+ =?utf-8?B?eHdoTUp2OU5TK25GcjRycGlaNkl3ZUZmTGlDTDluSkFQaVBvYzh6a1BWMVc3?=
+ =?utf-8?B?aG1CbDFQdm45Q3VQYXBaWGNkNnlJaTZsQS9pK0pSc3RJZ2VseWptRUtiUlFm?=
+ =?utf-8?B?NUdpWC8xblNweFZmWGg4RE9vTkpldmE4NkRud3JvUmVRTnZkeU5renZhRjY0?=
+ =?utf-8?B?OUJTUFZnSUxRbDRTZncvdm5CWldEUDErcHNCRUhjRlVlTzZVcWZvRXdVYklW?=
+ =?utf-8?B?NlVkTHdtTFhXYURsT0ZXaXJha2Znc25yM291U25FR1ZWUEl2NWhVNEhRNk9j?=
+ =?utf-8?B?YnZhOTlkVVZwVndPaVdPUzN1cVFNNmM4dDJOcEVleDNNaTUvS2R3Uk1DcHd0?=
+ =?utf-8?B?OVhScDVKdGNHbitNaHN6ckpYTnFWOUxsaW9ZOXBwZ05EMmMvQ0R1ck10Q2RW?=
+ =?utf-8?B?ZWNQMjAxT2JVb1pIdTlvR3JaZ3hrUFoyc2tzWVZ1THBqdVAvcE80d1NSS2lu?=
+ =?utf-8?B?ZEV6YlZSM0RUalNCbWRuNFE4UEZNVkUvZmxTNkIwN0Izd1puSnUxTFpUZjRp?=
+ =?utf-8?B?YUVuMjNmeUdGNlVGbGY3OVIzNUI0ZVhDZWlxQmpRMGdGVGtCUC8ycXNmeXh0?=
+ =?utf-8?Q?g1qedc71wr0t0ucpeaj3eTJy9?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7459.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70922168-d10c-4a7e-b329-08dc1c2265a9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2024 14:48:43.9418
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sjp2Oh//TrPBABIcm4A4M6S01qNSasbxCwPKqgpdk93/wdGO2MleLNg88yT/xFy2wuLJ2BV2w124V2EY1E6GUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5358
+X-OriginatorOrg: intel.com
 
-From: Jason Chen <jason.z.chen@intel.com>
-
-Because video duration involves calculating the streaming time, and i2c
-communication incurs too many XTALK register settings every 4 bytes with
-i2c START and STOP.
-
-So we have opted switch to the i2c burst method.
-This method involves writing the XTALK registers in the order of
-the register block.
-
-The start streaming time can be reduced from around 400ms to 150ms
-
-Signed-off-by: Jason Chen <jason.z.chen@intel.com>
----
- drivers/media/i2c/ov08x40.c | 1208 ++---------------------------------
- 1 file changed, 56 insertions(+), 1152 deletions(-)
-
-diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index ddcb4b6848b..c31a42f9452 100644
---- a/drivers/media/i2c/ov08x40.c
-+++ b/drivers/media/i2c/ov08x40.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (c) 2022 Intel Corporation.
- 
-+#include <asm-generic/unaligned.h>
- #include <linux/acpi.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
-@@ -95,6 +96,12 @@
- /* Vertical Window Offset */
- #define OV08X40_REG_V_WIN_OFFSET	0x3813
- 
-+/* Burst Register */
-+#define OV08X40_REG_XTALK_FIRST_A	0x5a80
-+#define OV08X40_REG_XTALK_LAST_A	0x5b9f
-+#define OV08X40_REG_XTALK_FIRST_B	0x5bc0
-+#define OV08X40_REG_XTALK_LAST_B	0x5f1f
-+
- enum {
- 	OV08X40_LINK_FREQ_400MHZ_INDEX,
- };
-@@ -682,1158 +689,6 @@ static const struct ov08x40_reg mode_3856x2416_regs[] = {
- 	{0x3502, 0x10},
- 	{0x3508, 0x0f},
- 	{0x3509, 0x80},
--	{0x5a80, 0x75},
--	{0x5a81, 0x75},
--	{0x5a82, 0x75},
--	{0x5a83, 0x75},
--	{0x5a84, 0x75},
--	{0x5a85, 0x75},
--	{0x5a86, 0x75},
--	{0x5a87, 0x75},
--	{0x5a88, 0x75},
--	{0x5a89, 0x75},
--	{0x5a8a, 0x75},
--	{0x5a8b, 0x75},
--	{0x5a8c, 0x75},
--	{0x5a8d, 0x75},
--	{0x5a8e, 0x75},
--	{0x5a8f, 0x75},
--	{0x5a90, 0x75},
--	{0x5a91, 0x75},
--	{0x5a92, 0x75},
--	{0x5a93, 0x75},
--	{0x5a94, 0x75},
--	{0x5a95, 0x75},
--	{0x5a96, 0x75},
--	{0x5a97, 0x75},
--	{0x5a98, 0x75},
--	{0x5a99, 0x75},
--	{0x5a9a, 0x75},
--	{0x5a9b, 0x75},
--	{0x5a9c, 0x75},
--	{0x5a9d, 0x75},
--	{0x5a9e, 0x75},
--	{0x5a9f, 0x75},
--	{0x5aa0, 0x75},
--	{0x5aa1, 0x75},
--	{0x5aa2, 0x75},
--	{0x5aa3, 0x75},
--	{0x5aa4, 0x75},
--	{0x5aa5, 0x75},
--	{0x5aa6, 0x75},
--	{0x5aa7, 0x75},
--	{0x5aa8, 0x75},
--	{0x5aa9, 0x75},
--	{0x5aaa, 0x75},
--	{0x5aab, 0x75},
--	{0x5aac, 0x75},
--	{0x5aad, 0x75},
--	{0x5aae, 0x75},
--	{0x5aaf, 0x75},
--	{0x5ab0, 0x75},
--	{0x5ab1, 0x75},
--	{0x5ab2, 0x75},
--	{0x5ab3, 0x75},
--	{0x5ab4, 0x75},
--	{0x5ab5, 0x75},
--	{0x5ab6, 0x75},
--	{0x5ab7, 0x75},
--	{0x5ab8, 0x75},
--	{0x5ab9, 0x75},
--	{0x5aba, 0x75},
--	{0x5abb, 0x75},
--	{0x5abc, 0x75},
--	{0x5abd, 0x75},
--	{0x5abe, 0x75},
--	{0x5abf, 0x75},
--	{0x5ac0, 0x75},
--	{0x5ac1, 0x75},
--	{0x5ac2, 0x75},
--	{0x5ac3, 0x75},
--	{0x5ac4, 0x75},
--	{0x5ac5, 0x75},
--	{0x5ac6, 0x75},
--	{0x5ac7, 0x75},
--	{0x5ac8, 0x75},
--	{0x5ac9, 0x75},
--	{0x5aca, 0x75},
--	{0x5acb, 0x75},
--	{0x5acc, 0x75},
--	{0x5acd, 0x75},
--	{0x5ace, 0x75},
--	{0x5acf, 0x75},
--	{0x5ad0, 0x75},
--	{0x5ad1, 0x75},
--	{0x5ad2, 0x75},
--	{0x5ad3, 0x75},
--	{0x5ad4, 0x75},
--	{0x5ad5, 0x75},
--	{0x5ad6, 0x75},
--	{0x5ad7, 0x75},
--	{0x5ad8, 0x75},
--	{0x5ad9, 0x75},
--	{0x5ada, 0x75},
--	{0x5adb, 0x75},
--	{0x5adc, 0x75},
--	{0x5add, 0x75},
--	{0x5ade, 0x75},
--	{0x5adf, 0x75},
--	{0x5ae0, 0x75},
--	{0x5ae1, 0x75},
--	{0x5ae2, 0x75},
--	{0x5ae3, 0x75},
--	{0x5ae4, 0x75},
--	{0x5ae5, 0x75},
--	{0x5ae6, 0x75},
--	{0x5ae7, 0x75},
--	{0x5ae8, 0x75},
--	{0x5ae9, 0x75},
--	{0x5aea, 0x75},
--	{0x5aeb, 0x75},
--	{0x5aec, 0x75},
--	{0x5aed, 0x75},
--	{0x5aee, 0x75},
--	{0x5aef, 0x75},
--	{0x5af0, 0x75},
--	{0x5af1, 0x75},
--	{0x5af2, 0x75},
--	{0x5af3, 0x75},
--	{0x5af4, 0x75},
--	{0x5af5, 0x75},
--	{0x5af6, 0x75},
--	{0x5af7, 0x75},
--	{0x5af8, 0x75},
--	{0x5af9, 0x75},
--	{0x5afa, 0x75},
--	{0x5afb, 0x75},
--	{0x5afc, 0x75},
--	{0x5afd, 0x75},
--	{0x5afe, 0x75},
--	{0x5aff, 0x75},
--	{0x5b00, 0x75},
--	{0x5b01, 0x75},
--	{0x5b02, 0x75},
--	{0x5b03, 0x75},
--	{0x5b04, 0x75},
--	{0x5b05, 0x75},
--	{0x5b06, 0x75},
--	{0x5b07, 0x75},
--	{0x5b08, 0x75},
--	{0x5b09, 0x75},
--	{0x5b0a, 0x75},
--	{0x5b0b, 0x75},
--	{0x5b0c, 0x75},
--	{0x5b0d, 0x75},
--	{0x5b0e, 0x75},
--	{0x5b0f, 0x75},
--	{0x5b10, 0x75},
--	{0x5b11, 0x75},
--	{0x5b12, 0x75},
--	{0x5b13, 0x75},
--	{0x5b14, 0x75},
--	{0x5b15, 0x75},
--	{0x5b16, 0x75},
--	{0x5b17, 0x75},
--	{0x5b18, 0x75},
--	{0x5b19, 0x75},
--	{0x5b1a, 0x75},
--	{0x5b1b, 0x75},
--	{0x5b1c, 0x75},
--	{0x5b1d, 0x75},
--	{0x5b1e, 0x75},
--	{0x5b1f, 0x75},
--	{0x5b20, 0x75},
--	{0x5b21, 0x75},
--	{0x5b22, 0x75},
--	{0x5b23, 0x75},
--	{0x5b24, 0x75},
--	{0x5b25, 0x75},
--	{0x5b26, 0x75},
--	{0x5b27, 0x75},
--	{0x5b28, 0x75},
--	{0x5b29, 0x75},
--	{0x5b2a, 0x75},
--	{0x5b2b, 0x75},
--	{0x5b2c, 0x75},
--	{0x5b2d, 0x75},
--	{0x5b2e, 0x75},
--	{0x5b2f, 0x75},
--	{0x5b30, 0x75},
--	{0x5b31, 0x75},
--	{0x5b32, 0x75},
--	{0x5b33, 0x75},
--	{0x5b34, 0x75},
--	{0x5b35, 0x75},
--	{0x5b36, 0x75},
--	{0x5b37, 0x75},
--	{0x5b38, 0x75},
--	{0x5b39, 0x75},
--	{0x5b3a, 0x75},
--	{0x5b3b, 0x75},
--	{0x5b3c, 0x75},
--	{0x5b3d, 0x75},
--	{0x5b3e, 0x75},
--	{0x5b3f, 0x75},
--	{0x5b40, 0x75},
--	{0x5b41, 0x75},
--	{0x5b42, 0x75},
--	{0x5b43, 0x75},
--	{0x5b44, 0x75},
--	{0x5b45, 0x75},
--	{0x5b46, 0x75},
--	{0x5b47, 0x75},
--	{0x5b48, 0x75},
--	{0x5b49, 0x75},
--	{0x5b4a, 0x75},
--	{0x5b4b, 0x75},
--	{0x5b4c, 0x75},
--	{0x5b4d, 0x75},
--	{0x5b4e, 0x75},
--	{0x5b4f, 0x75},
--	{0x5b50, 0x75},
--	{0x5b51, 0x75},
--	{0x5b52, 0x75},
--	{0x5b53, 0x75},
--	{0x5b54, 0x75},
--	{0x5b55, 0x75},
--	{0x5b56, 0x75},
--	{0x5b57, 0x75},
--	{0x5b58, 0x75},
--	{0x5b59, 0x75},
--	{0x5b5a, 0x75},
--	{0x5b5b, 0x75},
--	{0x5b5c, 0x75},
--	{0x5b5d, 0x75},
--	{0x5b5e, 0x75},
--	{0x5b5f, 0x75},
--	{0x5b60, 0x75},
--	{0x5b61, 0x75},
--	{0x5b62, 0x75},
--	{0x5b63, 0x75},
--	{0x5b64, 0x75},
--	{0x5b65, 0x75},
--	{0x5b66, 0x75},
--	{0x5b67, 0x75},
--	{0x5b68, 0x75},
--	{0x5b69, 0x75},
--	{0x5b6a, 0x75},
--	{0x5b6b, 0x75},
--	{0x5b6c, 0x75},
--	{0x5b6d, 0x75},
--	{0x5b6e, 0x75},
--	{0x5b6f, 0x75},
--	{0x5b70, 0x75},
--	{0x5b71, 0x75},
--	{0x5b72, 0x75},
--	{0x5b73, 0x75},
--	{0x5b74, 0x75},
--	{0x5b75, 0x75},
--	{0x5b76, 0x75},
--	{0x5b77, 0x75},
--	{0x5b78, 0x75},
--	{0x5b79, 0x75},
--	{0x5b7a, 0x75},
--	{0x5b7b, 0x75},
--	{0x5b7c, 0x75},
--	{0x5b7d, 0x75},
--	{0x5b7e, 0x75},
--	{0x5b7f, 0x75},
--	{0x5b80, 0x75},
--	{0x5b81, 0x75},
--	{0x5b82, 0x75},
--	{0x5b83, 0x75},
--	{0x5b84, 0x75},
--	{0x5b85, 0x75},
--	{0x5b86, 0x75},
--	{0x5b87, 0x75},
--	{0x5b88, 0x75},
--	{0x5b89, 0x75},
--	{0x5b8a, 0x75},
--	{0x5b8b, 0x75},
--	{0x5b8c, 0x75},
--	{0x5b8d, 0x75},
--	{0x5b8e, 0x75},
--	{0x5b8f, 0x75},
--	{0x5b90, 0x75},
--	{0x5b91, 0x75},
--	{0x5b92, 0x75},
--	{0x5b93, 0x75},
--	{0x5b94, 0x75},
--	{0x5b95, 0x75},
--	{0x5b96, 0x75},
--	{0x5b97, 0x75},
--	{0x5b98, 0x75},
--	{0x5b99, 0x75},
--	{0x5b9a, 0x75},
--	{0x5b9b, 0x75},
--	{0x5b9c, 0x75},
--	{0x5b9d, 0x75},
--	{0x5b9e, 0x75},
--	{0x5b9f, 0x75},
--	{0x5bc0, 0x75},
--	{0x5bc1, 0x75},
--	{0x5bc2, 0x75},
--	{0x5bc3, 0x75},
--	{0x5bc4, 0x75},
--	{0x5bc5, 0x75},
--	{0x5bc6, 0x75},
--	{0x5bc7, 0x75},
--	{0x5bc8, 0x75},
--	{0x5bc9, 0x75},
--	{0x5bca, 0x75},
--	{0x5bcb, 0x75},
--	{0x5bcc, 0x75},
--	{0x5bcd, 0x75},
--	{0x5bce, 0x75},
--	{0x5bcf, 0x75},
--	{0x5bd0, 0x75},
--	{0x5bd1, 0x75},
--	{0x5bd2, 0x75},
--	{0x5bd3, 0x75},
--	{0x5bd4, 0x75},
--	{0x5bd5, 0x75},
--	{0x5bd6, 0x75},
--	{0x5bd7, 0x75},
--	{0x5bd8, 0x75},
--	{0x5bd9, 0x75},
--	{0x5bda, 0x75},
--	{0x5bdb, 0x75},
--	{0x5bdc, 0x75},
--	{0x5bdd, 0x75},
--	{0x5bde, 0x75},
--	{0x5bdf, 0x75},
--	{0x5be0, 0x75},
--	{0x5be1, 0x75},
--	{0x5be2, 0x75},
--	{0x5be3, 0x75},
--	{0x5be4, 0x75},
--	{0x5be5, 0x75},
--	{0x5be6, 0x75},
--	{0x5be7, 0x75},
--	{0x5be8, 0x75},
--	{0x5be9, 0x75},
--	{0x5bea, 0x75},
--	{0x5beb, 0x75},
--	{0x5bec, 0x75},
--	{0x5bed, 0x75},
--	{0x5bee, 0x75},
--	{0x5bef, 0x75},
--	{0x5bf0, 0x75},
--	{0x5bf1, 0x75},
--	{0x5bf2, 0x75},
--	{0x5bf3, 0x75},
--	{0x5bf4, 0x75},
--	{0x5bf5, 0x75},
--	{0x5bf6, 0x75},
--	{0x5bf7, 0x75},
--	{0x5bf8, 0x75},
--	{0x5bf9, 0x75},
--	{0x5bfa, 0x75},
--	{0x5bfb, 0x75},
--	{0x5bfc, 0x75},
--	{0x5bfd, 0x75},
--	{0x5bfe, 0x75},
--	{0x5bff, 0x75},
--	{0x5c00, 0x75},
--	{0x5c01, 0x75},
--	{0x5c02, 0x75},
--	{0x5c03, 0x75},
--	{0x5c04, 0x75},
--	{0x5c05, 0x75},
--	{0x5c06, 0x75},
--	{0x5c07, 0x75},
--	{0x5c08, 0x75},
--	{0x5c09, 0x75},
--	{0x5c0a, 0x75},
--	{0x5c0b, 0x75},
--	{0x5c0c, 0x75},
--	{0x5c0d, 0x75},
--	{0x5c0e, 0x75},
--	{0x5c0f, 0x75},
--	{0x5c10, 0x75},
--	{0x5c11, 0x75},
--	{0x5c12, 0x75},
--	{0x5c13, 0x75},
--	{0x5c14, 0x75},
--	{0x5c15, 0x75},
--	{0x5c16, 0x75},
--	{0x5c17, 0x75},
--	{0x5c18, 0x75},
--	{0x5c19, 0x75},
--	{0x5c1a, 0x75},
--	{0x5c1b, 0x75},
--	{0x5c1c, 0x75},
--	{0x5c1d, 0x75},
--	{0x5c1e, 0x75},
--	{0x5c1f, 0x75},
--	{0x5c20, 0x75},
--	{0x5c21, 0x75},
--	{0x5c22, 0x75},
--	{0x5c23, 0x75},
--	{0x5c24, 0x75},
--	{0x5c25, 0x75},
--	{0x5c26, 0x75},
--	{0x5c27, 0x75},
--	{0x5c28, 0x75},
--	{0x5c29, 0x75},
--	{0x5c2a, 0x75},
--	{0x5c2b, 0x75},
--	{0x5c2c, 0x75},
--	{0x5c2d, 0x75},
--	{0x5c2e, 0x75},
--	{0x5c2f, 0x75},
--	{0x5c30, 0x75},
--	{0x5c31, 0x75},
--	{0x5c32, 0x75},
--	{0x5c33, 0x75},
--	{0x5c34, 0x75},
--	{0x5c35, 0x75},
--	{0x5c36, 0x75},
--	{0x5c37, 0x75},
--	{0x5c38, 0x75},
--	{0x5c39, 0x75},
--	{0x5c3a, 0x75},
--	{0x5c3b, 0x75},
--	{0x5c3c, 0x75},
--	{0x5c3d, 0x75},
--	{0x5c3e, 0x75},
--	{0x5c3f, 0x75},
--	{0x5c40, 0x75},
--	{0x5c41, 0x75},
--	{0x5c42, 0x75},
--	{0x5c43, 0x75},
--	{0x5c44, 0x75},
--	{0x5c45, 0x75},
--	{0x5c46, 0x75},
--	{0x5c47, 0x75},
--	{0x5c48, 0x75},
--	{0x5c49, 0x75},
--	{0x5c4a, 0x75},
--	{0x5c4b, 0x75},
--	{0x5c4c, 0x75},
--	{0x5c4d, 0x75},
--	{0x5c4e, 0x75},
--	{0x5c4f, 0x75},
--	{0x5c50, 0x75},
--	{0x5c51, 0x75},
--	{0x5c52, 0x75},
--	{0x5c53, 0x75},
--	{0x5c54, 0x75},
--	{0x5c55, 0x75},
--	{0x5c56, 0x75},
--	{0x5c57, 0x75},
--	{0x5c58, 0x75},
--	{0x5c59, 0x75},
--	{0x5c5a, 0x75},
--	{0x5c5b, 0x75},
--	{0x5c5c, 0x75},
--	{0x5c5d, 0x75},
--	{0x5c5e, 0x75},
--	{0x5c5f, 0x75},
--	{0x5c60, 0x75},
--	{0x5c61, 0x75},
--	{0x5c62, 0x75},
--	{0x5c63, 0x75},
--	{0x5c64, 0x75},
--	{0x5c65, 0x75},
--	{0x5c66, 0x75},
--	{0x5c67, 0x75},
--	{0x5c68, 0x75},
--	{0x5c69, 0x75},
--	{0x5c6a, 0x75},
--	{0x5c6b, 0x75},
--	{0x5c6c, 0x75},
--	{0x5c6d, 0x75},
--	{0x5c6e, 0x75},
--	{0x5c6f, 0x75},
--	{0x5c70, 0x75},
--	{0x5c71, 0x75},
--	{0x5c72, 0x75},
--	{0x5c73, 0x75},
--	{0x5c74, 0x75},
--	{0x5c75, 0x75},
--	{0x5c76, 0x75},
--	{0x5c77, 0x75},
--	{0x5c78, 0x75},
--	{0x5c79, 0x75},
--	{0x5c7a, 0x75},
--	{0x5c7b, 0x75},
--	{0x5c7c, 0x75},
--	{0x5c7d, 0x75},
--	{0x5c7e, 0x75},
--	{0x5c7f, 0x75},
--	{0x5c80, 0x75},
--	{0x5c81, 0x75},
--	{0x5c82, 0x75},
--	{0x5c83, 0x75},
--	{0x5c84, 0x75},
--	{0x5c85, 0x75},
--	{0x5c86, 0x75},
--	{0x5c87, 0x75},
--	{0x5c88, 0x75},
--	{0x5c89, 0x75},
--	{0x5c8a, 0x75},
--	{0x5c8b, 0x75},
--	{0x5c8c, 0x75},
--	{0x5c8d, 0x75},
--	{0x5c8e, 0x75},
--	{0x5c8f, 0x75},
--	{0x5c90, 0x75},
--	{0x5c91, 0x75},
--	{0x5c92, 0x75},
--	{0x5c93, 0x75},
--	{0x5c94, 0x75},
--	{0x5c95, 0x75},
--	{0x5c96, 0x75},
--	{0x5c97, 0x75},
--	{0x5c98, 0x75},
--	{0x5c99, 0x75},
--	{0x5c9a, 0x75},
--	{0x5c9b, 0x75},
--	{0x5c9c, 0x75},
--	{0x5c9d, 0x75},
--	{0x5c9e, 0x75},
--	{0x5c9f, 0x75},
--	{0x5ca0, 0x75},
--	{0x5ca1, 0x75},
--	{0x5ca2, 0x75},
--	{0x5ca3, 0x75},
--	{0x5ca4, 0x75},
--	{0x5ca5, 0x75},
--	{0x5ca6, 0x75},
--	{0x5ca7, 0x75},
--	{0x5ca8, 0x75},
--	{0x5ca9, 0x75},
--	{0x5caa, 0x75},
--	{0x5cab, 0x75},
--	{0x5cac, 0x75},
--	{0x5cad, 0x75},
--	{0x5cae, 0x75},
--	{0x5caf, 0x75},
--	{0x5cb0, 0x75},
--	{0x5cb1, 0x75},
--	{0x5cb2, 0x75},
--	{0x5cb3, 0x75},
--	{0x5cb4, 0x75},
--	{0x5cb5, 0x75},
--	{0x5cb6, 0x75},
--	{0x5cb7, 0x75},
--	{0x5cb8, 0x75},
--	{0x5cb9, 0x75},
--	{0x5cba, 0x75},
--	{0x5cbb, 0x75},
--	{0x5cbc, 0x75},
--	{0x5cbd, 0x75},
--	{0x5cbe, 0x75},
--	{0x5cbf, 0x75},
--	{0x5cc0, 0x75},
--	{0x5cc1, 0x75},
--	{0x5cc2, 0x75},
--	{0x5cc3, 0x75},
--	{0x5cc4, 0x75},
--	{0x5cc5, 0x75},
--	{0x5cc6, 0x75},
--	{0x5cc7, 0x75},
--	{0x5cc8, 0x75},
--	{0x5cc9, 0x75},
--	{0x5cca, 0x75},
--	{0x5ccb, 0x75},
--	{0x5ccc, 0x75},
--	{0x5ccd, 0x75},
--	{0x5cce, 0x75},
--	{0x5ccf, 0x75},
--	{0x5cd0, 0x75},
--	{0x5cd1, 0x75},
--	{0x5cd2, 0x75},
--	{0x5cd3, 0x75},
--	{0x5cd4, 0x75},
--	{0x5cd5, 0x75},
--	{0x5cd6, 0x75},
--	{0x5cd7, 0x75},
--	{0x5cd8, 0x75},
--	{0x5cd9, 0x75},
--	{0x5cda, 0x75},
--	{0x5cdb, 0x75},
--	{0x5cdc, 0x75},
--	{0x5cdd, 0x75},
--	{0x5cde, 0x75},
--	{0x5cdf, 0x75},
--	{0x5ce0, 0x75},
--	{0x5ce1, 0x75},
--	{0x5ce2, 0x75},
--	{0x5ce3, 0x75},
--	{0x5ce4, 0x75},
--	{0x5ce5, 0x75},
--	{0x5ce6, 0x75},
--	{0x5ce7, 0x75},
--	{0x5ce8, 0x75},
--	{0x5ce9, 0x75},
--	{0x5cea, 0x75},
--	{0x5ceb, 0x75},
--	{0x5cec, 0x75},
--	{0x5ced, 0x75},
--	{0x5cee, 0x75},
--	{0x5cef, 0x75},
--	{0x5cf0, 0x75},
--	{0x5cf1, 0x75},
--	{0x5cf2, 0x75},
--	{0x5cf3, 0x75},
--	{0x5cf4, 0x75},
--	{0x5cf5, 0x75},
--	{0x5cf6, 0x75},
--	{0x5cf7, 0x75},
--	{0x5cf8, 0x75},
--	{0x5cf9, 0x75},
--	{0x5cfa, 0x75},
--	{0x5cfb, 0x75},
--	{0x5cfc, 0x75},
--	{0x5cfd, 0x75},
--	{0x5cfe, 0x75},
--	{0x5cff, 0x75},
--	{0x5d00, 0x75},
--	{0x5d01, 0x75},
--	{0x5d02, 0x75},
--	{0x5d03, 0x75},
--	{0x5d04, 0x75},
--	{0x5d05, 0x75},
--	{0x5d06, 0x75},
--	{0x5d07, 0x75},
--	{0x5d08, 0x75},
--	{0x5d09, 0x75},
--	{0x5d0a, 0x75},
--	{0x5d0b, 0x75},
--	{0x5d0c, 0x75},
--	{0x5d0d, 0x75},
--	{0x5d0e, 0x75},
--	{0x5d0f, 0x75},
--	{0x5d10, 0x75},
--	{0x5d11, 0x75},
--	{0x5d12, 0x75},
--	{0x5d13, 0x75},
--	{0x5d14, 0x75},
--	{0x5d15, 0x75},
--	{0x5d16, 0x75},
--	{0x5d17, 0x75},
--	{0x5d18, 0x75},
--	{0x5d19, 0x75},
--	{0x5d1a, 0x75},
--	{0x5d1b, 0x75},
--	{0x5d1c, 0x75},
--	{0x5d1d, 0x75},
--	{0x5d1e, 0x75},
--	{0x5d1f, 0x75},
--	{0x5d20, 0x75},
--	{0x5d21, 0x75},
--	{0x5d22, 0x75},
--	{0x5d23, 0x75},
--	{0x5d24, 0x75},
--	{0x5d25, 0x75},
--	{0x5d26, 0x75},
--	{0x5d27, 0x75},
--	{0x5d28, 0x75},
--	{0x5d29, 0x75},
--	{0x5d2a, 0x75},
--	{0x5d2b, 0x75},
--	{0x5d2c, 0x75},
--	{0x5d2d, 0x75},
--	{0x5d2e, 0x75},
--	{0x5d2f, 0x75},
--	{0x5d30, 0x75},
--	{0x5d31, 0x75},
--	{0x5d32, 0x75},
--	{0x5d33, 0x75},
--	{0x5d34, 0x75},
--	{0x5d35, 0x75},
--	{0x5d36, 0x75},
--	{0x5d37, 0x75},
--	{0x5d38, 0x75},
--	{0x5d39, 0x75},
--	{0x5d3a, 0x75},
--	{0x5d3b, 0x75},
--	{0x5d3c, 0x75},
--	{0x5d3d, 0x75},
--	{0x5d3e, 0x75},
--	{0x5d3f, 0x75},
--	{0x5d40, 0x75},
--	{0x5d41, 0x75},
--	{0x5d42, 0x75},
--	{0x5d43, 0x75},
--	{0x5d44, 0x75},
--	{0x5d45, 0x75},
--	{0x5d46, 0x75},
--	{0x5d47, 0x75},
--	{0x5d48, 0x75},
--	{0x5d49, 0x75},
--	{0x5d4a, 0x75},
--	{0x5d4b, 0x75},
--	{0x5d4c, 0x75},
--	{0x5d4d, 0x75},
--	{0x5d4e, 0x75},
--	{0x5d4f, 0x75},
--	{0x5d50, 0x75},
--	{0x5d51, 0x75},
--	{0x5d52, 0x75},
--	{0x5d53, 0x75},
--	{0x5d54, 0x75},
--	{0x5d55, 0x75},
--	{0x5d56, 0x75},
--	{0x5d57, 0x75},
--	{0x5d58, 0x75},
--	{0x5d59, 0x75},
--	{0x5d5a, 0x75},
--	{0x5d5b, 0x75},
--	{0x5d5c, 0x75},
--	{0x5d5d, 0x75},
--	{0x5d5e, 0x75},
--	{0x5d5f, 0x75},
--	{0x5d60, 0x75},
--	{0x5d61, 0x75},
--	{0x5d62, 0x75},
--	{0x5d63, 0x75},
--	{0x5d64, 0x75},
--	{0x5d65, 0x75},
--	{0x5d66, 0x75},
--	{0x5d67, 0x75},
--	{0x5d68, 0x75},
--	{0x5d69, 0x75},
--	{0x5d6a, 0x75},
--	{0x5d6b, 0x75},
--	{0x5d6c, 0x75},
--	{0x5d6d, 0x75},
--	{0x5d6e, 0x75},
--	{0x5d6f, 0x75},
--	{0x5d70, 0x75},
--	{0x5d71, 0x75},
--	{0x5d72, 0x75},
--	{0x5d73, 0x75},
--	{0x5d74, 0x75},
--	{0x5d75, 0x75},
--	{0x5d76, 0x75},
--	{0x5d77, 0x75},
--	{0x5d78, 0x75},
--	{0x5d79, 0x75},
--	{0x5d7a, 0x75},
--	{0x5d7b, 0x75},
--	{0x5d7c, 0x75},
--	{0x5d7d, 0x75},
--	{0x5d7e, 0x75},
--	{0x5d7f, 0x75},
--	{0x5d80, 0x75},
--	{0x5d81, 0x75},
--	{0x5d82, 0x75},
--	{0x5d83, 0x75},
--	{0x5d84, 0x75},
--	{0x5d85, 0x75},
--	{0x5d86, 0x75},
--	{0x5d87, 0x75},
--	{0x5d88, 0x75},
--	{0x5d89, 0x75},
--	{0x5d8a, 0x75},
--	{0x5d8b, 0x75},
--	{0x5d8c, 0x75},
--	{0x5d8d, 0x75},
--	{0x5d8e, 0x75},
--	{0x5d8f, 0x75},
--	{0x5d90, 0x75},
--	{0x5d91, 0x75},
--	{0x5d92, 0x75},
--	{0x5d93, 0x75},
--	{0x5d94, 0x75},
--	{0x5d95, 0x75},
--	{0x5d96, 0x75},
--	{0x5d97, 0x75},
--	{0x5d98, 0x75},
--	{0x5d99, 0x75},
--	{0x5d9a, 0x75},
--	{0x5d9b, 0x75},
--	{0x5d9c, 0x75},
--	{0x5d9d, 0x75},
--	{0x5d9e, 0x75},
--	{0x5d9f, 0x75},
--	{0x5da0, 0x75},
--	{0x5da1, 0x75},
--	{0x5da2, 0x75},
--	{0x5da3, 0x75},
--	{0x5da4, 0x75},
--	{0x5da5, 0x75},
--	{0x5da6, 0x75},
--	{0x5da7, 0x75},
--	{0x5da8, 0x75},
--	{0x5da9, 0x75},
--	{0x5daa, 0x75},
--	{0x5dab, 0x75},
--	{0x5dac, 0x75},
--	{0x5dad, 0x75},
--	{0x5dae, 0x75},
--	{0x5daf, 0x75},
--	{0x5db0, 0x75},
--	{0x5db1, 0x75},
--	{0x5db2, 0x75},
--	{0x5db3, 0x75},
--	{0x5db4, 0x75},
--	{0x5db5, 0x75},
--	{0x5db6, 0x75},
--	{0x5db7, 0x75},
--	{0x5db8, 0x75},
--	{0x5db9, 0x75},
--	{0x5dba, 0x75},
--	{0x5dbb, 0x75},
--	{0x5dbc, 0x75},
--	{0x5dbd, 0x75},
--	{0x5dbe, 0x75},
--	{0x5dbf, 0x75},
--	{0x5dc0, 0x75},
--	{0x5dc1, 0x75},
--	{0x5dc2, 0x75},
--	{0x5dc3, 0x75},
--	{0x5dc4, 0x75},
--	{0x5dc5, 0x75},
--	{0x5dc6, 0x75},
--	{0x5dc7, 0x75},
--	{0x5dc8, 0x75},
--	{0x5dc9, 0x75},
--	{0x5dca, 0x75},
--	{0x5dcb, 0x75},
--	{0x5dcc, 0x75},
--	{0x5dcd, 0x75},
--	{0x5dce, 0x75},
--	{0x5dcf, 0x75},
--	{0x5dd0, 0x75},
--	{0x5dd1, 0x75},
--	{0x5dd2, 0x75},
--	{0x5dd3, 0x75},
--	{0x5dd4, 0x75},
--	{0x5dd5, 0x75},
--	{0x5dd6, 0x75},
--	{0x5dd7, 0x75},
--	{0x5dd8, 0x75},
--	{0x5dd9, 0x75},
--	{0x5dda, 0x75},
--	{0x5ddb, 0x75},
--	{0x5ddc, 0x75},
--	{0x5ddd, 0x75},
--	{0x5dde, 0x75},
--	{0x5ddf, 0x75},
--	{0x5de0, 0x75},
--	{0x5de1, 0x75},
--	{0x5de2, 0x75},
--	{0x5de3, 0x75},
--	{0x5de4, 0x75},
--	{0x5de5, 0x75},
--	{0x5de6, 0x75},
--	{0x5de7, 0x75},
--	{0x5de8, 0x75},
--	{0x5de9, 0x75},
--	{0x5dea, 0x75},
--	{0x5deb, 0x75},
--	{0x5dec, 0x75},
--	{0x5ded, 0x75},
--	{0x5dee, 0x75},
--	{0x5def, 0x75},
--	{0x5df0, 0x75},
--	{0x5df1, 0x75},
--	{0x5df2, 0x75},
--	{0x5df3, 0x75},
--	{0x5df4, 0x75},
--	{0x5df5, 0x75},
--	{0x5df6, 0x75},
--	{0x5df7, 0x75},
--	{0x5df8, 0x75},
--	{0x5df9, 0x75},
--	{0x5dfa, 0x75},
--	{0x5dfb, 0x75},
--	{0x5dfc, 0x75},
--	{0x5dfd, 0x75},
--	{0x5dfe, 0x75},
--	{0x5dff, 0x75},
--	{0x5e00, 0x75},
--	{0x5e01, 0x75},
--	{0x5e02, 0x75},
--	{0x5e03, 0x75},
--	{0x5e04, 0x75},
--	{0x5e05, 0x75},
--	{0x5e06, 0x75},
--	{0x5e07, 0x75},
--	{0x5e08, 0x75},
--	{0x5e09, 0x75},
--	{0x5e0a, 0x75},
--	{0x5e0b, 0x75},
--	{0x5e0c, 0x75},
--	{0x5e0d, 0x75},
--	{0x5e0e, 0x75},
--	{0x5e0f, 0x75},
--	{0x5e10, 0x75},
--	{0x5e11, 0x75},
--	{0x5e12, 0x75},
--	{0x5e13, 0x75},
--	{0x5e14, 0x75},
--	{0x5e15, 0x75},
--	{0x5e16, 0x75},
--	{0x5e17, 0x75},
--	{0x5e18, 0x75},
--	{0x5e19, 0x75},
--	{0x5e1a, 0x75},
--	{0x5e1b, 0x75},
--	{0x5e1c, 0x75},
--	{0x5e1d, 0x75},
--	{0x5e1e, 0x75},
--	{0x5e1f, 0x75},
--	{0x5e20, 0x75},
--	{0x5e21, 0x75},
--	{0x5e22, 0x75},
--	{0x5e23, 0x75},
--	{0x5e24, 0x75},
--	{0x5e25, 0x75},
--	{0x5e26, 0x75},
--	{0x5e27, 0x75},
--	{0x5e28, 0x75},
--	{0x5e29, 0x75},
--	{0x5e2a, 0x75},
--	{0x5e2b, 0x75},
--	{0x5e2c, 0x75},
--	{0x5e2d, 0x75},
--	{0x5e2e, 0x75},
--	{0x5e2f, 0x75},
--	{0x5e30, 0x75},
--	{0x5e31, 0x75},
--	{0x5e32, 0x75},
--	{0x5e33, 0x75},
--	{0x5e34, 0x75},
--	{0x5e35, 0x75},
--	{0x5e36, 0x75},
--	{0x5e37, 0x75},
--	{0x5e38, 0x75},
--	{0x5e39, 0x75},
--	{0x5e3a, 0x75},
--	{0x5e3b, 0x75},
--	{0x5e3c, 0x75},
--	{0x5e3d, 0x75},
--	{0x5e3e, 0x75},
--	{0x5e3f, 0x75},
--	{0x5e40, 0x75},
--	{0x5e41, 0x75},
--	{0x5e42, 0x75},
--	{0x5e43, 0x75},
--	{0x5e44, 0x75},
--	{0x5e45, 0x75},
--	{0x5e46, 0x75},
--	{0x5e47, 0x75},
--	{0x5e48, 0x75},
--	{0x5e49, 0x75},
--	{0x5e4a, 0x75},
--	{0x5e4b, 0x75},
--	{0x5e4c, 0x75},
--	{0x5e4d, 0x75},
--	{0x5e4e, 0x75},
--	{0x5e4f, 0x75},
--	{0x5e50, 0x75},
--	{0x5e51, 0x75},
--	{0x5e52, 0x75},
--	{0x5e53, 0x75},
--	{0x5e54, 0x75},
--	{0x5e55, 0x75},
--	{0x5e56, 0x75},
--	{0x5e57, 0x75},
--	{0x5e58, 0x75},
--	{0x5e59, 0x75},
--	{0x5e5a, 0x75},
--	{0x5e5b, 0x75},
--	{0x5e5c, 0x75},
--	{0x5e5d, 0x75},
--	{0x5e5e, 0x75},
--	{0x5e5f, 0x75},
--	{0x5e60, 0x75},
--	{0x5e61, 0x75},
--	{0x5e62, 0x75},
--	{0x5e63, 0x75},
--	{0x5e64, 0x75},
--	{0x5e65, 0x75},
--	{0x5e66, 0x75},
--	{0x5e67, 0x75},
--	{0x5e68, 0x75},
--	{0x5e69, 0x75},
--	{0x5e6a, 0x75},
--	{0x5e6b, 0x75},
--	{0x5e6c, 0x75},
--	{0x5e6d, 0x75},
--	{0x5e6e, 0x75},
--	{0x5e6f, 0x75},
--	{0x5e70, 0x75},
--	{0x5e71, 0x75},
--	{0x5e72, 0x75},
--	{0x5e73, 0x75},
--	{0x5e74, 0x75},
--	{0x5e75, 0x75},
--	{0x5e76, 0x75},
--	{0x5e77, 0x75},
--	{0x5e78, 0x75},
--	{0x5e79, 0x75},
--	{0x5e7a, 0x75},
--	{0x5e7b, 0x75},
--	{0x5e7c, 0x75},
--	{0x5e7d, 0x75},
--	{0x5e7e, 0x75},
--	{0x5e7f, 0x75},
--	{0x5e80, 0x75},
--	{0x5e81, 0x75},
--	{0x5e82, 0x75},
--	{0x5e83, 0x75},
--	{0x5e84, 0x75},
--	{0x5e85, 0x75},
--	{0x5e86, 0x75},
--	{0x5e87, 0x75},
--	{0x5e88, 0x75},
--	{0x5e89, 0x75},
--	{0x5e8a, 0x75},
--	{0x5e8b, 0x75},
--	{0x5e8c, 0x75},
--	{0x5e8d, 0x75},
--	{0x5e8e, 0x75},
--	{0x5e8f, 0x75},
--	{0x5e90, 0x75},
--	{0x5e91, 0x75},
--	{0x5e92, 0x75},
--	{0x5e93, 0x75},
--	{0x5e94, 0x75},
--	{0x5e95, 0x75},
--	{0x5e96, 0x75},
--	{0x5e97, 0x75},
--	{0x5e98, 0x75},
--	{0x5e99, 0x75},
--	{0x5e9a, 0x75},
--	{0x5e9b, 0x75},
--	{0x5e9c, 0x75},
--	{0x5e9d, 0x75},
--	{0x5e9e, 0x75},
--	{0x5e9f, 0x75},
--	{0x5ea0, 0x75},
--	{0x5ea1, 0x75},
--	{0x5ea2, 0x75},
--	{0x5ea3, 0x75},
--	{0x5ea4, 0x75},
--	{0x5ea5, 0x75},
--	{0x5ea6, 0x75},
--	{0x5ea7, 0x75},
--	{0x5ea8, 0x75},
--	{0x5ea9, 0x75},
--	{0x5eaa, 0x75},
--	{0x5eab, 0x75},
--	{0x5eac, 0x75},
--	{0x5ead, 0x75},
--	{0x5eae, 0x75},
--	{0x5eaf, 0x75},
--	{0x5eb0, 0x75},
--	{0x5eb1, 0x75},
--	{0x5eb2, 0x75},
--	{0x5eb3, 0x75},
--	{0x5eb4, 0x75},
--	{0x5eb5, 0x75},
--	{0x5eb6, 0x75},
--	{0x5eb7, 0x75},
--	{0x5eb8, 0x75},
--	{0x5eb9, 0x75},
--	{0x5eba, 0x75},
--	{0x5ebb, 0x75},
--	{0x5ebc, 0x75},
--	{0x5ebd, 0x75},
--	{0x5ebe, 0x75},
--	{0x5ebf, 0x75},
--	{0x5ec0, 0x75},
--	{0x5ec1, 0x75},
--	{0x5ec2, 0x75},
--	{0x5ec3, 0x75},
--	{0x5ec4, 0x75},
--	{0x5ec5, 0x75},
--	{0x5ec6, 0x75},
--	{0x5ec7, 0x75},
--	{0x5ec8, 0x75},
--	{0x5ec9, 0x75},
--	{0x5eca, 0x75},
--	{0x5ecb, 0x75},
--	{0x5ecc, 0x75},
--	{0x5ecd, 0x75},
--	{0x5ece, 0x75},
--	{0x5ecf, 0x75},
--	{0x5ed0, 0x75},
--	{0x5ed1, 0x75},
--	{0x5ed2, 0x75},
--	{0x5ed3, 0x75},
--	{0x5ed4, 0x75},
--	{0x5ed5, 0x75},
--	{0x5ed6, 0x75},
--	{0x5ed7, 0x75},
--	{0x5ed8, 0x75},
--	{0x5ed9, 0x75},
--	{0x5eda, 0x75},
--	{0x5edb, 0x75},
--	{0x5edc, 0x75},
--	{0x5edd, 0x75},
--	{0x5ede, 0x75},
--	{0x5edf, 0x75},
--	{0x5ee0, 0x75},
--	{0x5ee1, 0x75},
--	{0x5ee2, 0x75},
--	{0x5ee3, 0x75},
--	{0x5ee4, 0x75},
--	{0x5ee5, 0x75},
--	{0x5ee6, 0x75},
--	{0x5ee7, 0x75},
--	{0x5ee8, 0x75},
--	{0x5ee9, 0x75},
--	{0x5eea, 0x75},
--	{0x5eeb, 0x75},
--	{0x5eec, 0x75},
--	{0x5eed, 0x75},
--	{0x5eee, 0x75},
--	{0x5eef, 0x75},
--	{0x5ef0, 0x75},
--	{0x5ef1, 0x75},
--	{0x5ef2, 0x75},
--	{0x5ef3, 0x75},
--	{0x5ef4, 0x75},
--	{0x5ef5, 0x75},
--	{0x5ef6, 0x75},
--	{0x5ef7, 0x75},
--	{0x5ef8, 0x75},
--	{0x5ef9, 0x75},
--	{0x5efa, 0x75},
--	{0x5efb, 0x75},
--	{0x5efc, 0x75},
--	{0x5efd, 0x75},
--	{0x5efe, 0x75},
--	{0x5eff, 0x75},
--	{0x5f00, 0x75},
--	{0x5f01, 0x75},
--	{0x5f02, 0x75},
--	{0x5f03, 0x75},
--	{0x5f04, 0x75},
--	{0x5f05, 0x75},
--	{0x5f06, 0x75},
--	{0x5f07, 0x75},
--	{0x5f08, 0x75},
--	{0x5f09, 0x75},
--	{0x5f0a, 0x75},
--	{0x5f0b, 0x75},
--	{0x5f0c, 0x75},
--	{0x5f0d, 0x75},
--	{0x5f0e, 0x75},
--	{0x5f0f, 0x75},
--	{0x5f10, 0x75},
--	{0x5f11, 0x75},
--	{0x5f12, 0x75},
--	{0x5f13, 0x75},
--	{0x5f14, 0x75},
--	{0x5f15, 0x75},
--	{0x5f16, 0x75},
--	{0x5f17, 0x75},
--	{0x5f18, 0x75},
--	{0x5f19, 0x75},
--	{0x5f1a, 0x75},
--	{0x5f1b, 0x75},
--	{0x5f1c, 0x75},
--	{0x5f1d, 0x75},
--	{0x5f1e, 0x75},
--	{0x5f1f, 0x75},
- };
- 
- static const struct ov08x40_reg mode_1928x1208_regs[] = {
-@@ -2493,6 +1348,42 @@ static int ov08x40_read_reg(struct ov08x40 *ov08x,
- 	return 0;
- }
- 
-+static int ov08x40_burst_fill_regs(struct ov08x40 *ov08x, u16 first_reg,
-+				   u16 last_reg,  u8 val)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov08x->sd);
-+	struct i2c_msg msgs;
-+	size_t i, num_regs;
-+	int ret;
-+
-+	num_regs = last_reg - first_reg + 1;
-+	msgs.addr = client->addr;
-+	msgs.flags = 0;
-+	msgs.len = 2 + num_regs;
-+	msgs.buf = kmalloc(msgs.len, GFP_KERNEL);
-+
-+	if (!msgs.buf)
-+		return -ENOMEM;
-+
-+	put_unaligned_be16(first_reg, msgs.buf);
-+
-+	for (i = 0; i < num_regs; ++i)
-+		msgs.buf[2 + i] = val;
-+
-+	ret = i2c_transfer(client->adapter, &msgs, 1);
-+
-+	kfree(msgs.buf);
-+
-+	if (ret != 1) {
-+		dev_err(&client->dev, "Failed %d regs transferred: %d\n", ret);
-+		return -EIO;
-+	}
-+
-+	dev_dbg(&client->dev, "I2C burst transfer succeeded\n");
-+
-+	return 0;
-+}
-+
- /* Write registers up to 4 at a time */
- static int ov08x40_write_reg(struct ov08x40 *ov08x,
- 			     u16 reg, u32 len, u32 __val)
-@@ -2936,6 +1827,19 @@ static int ov08x40_start_streaming(struct ov08x40 *ov08x)
- 		return ret;
- 	}
- 
-+	/* Use i2c burst to write register on full size registers */
-+	if (ov08x->cur_mode->exposure_shift == 1) {
-+		ret = ov08x40_burst_fill_regs(ov08x, OV08X40_REG_XTALK_FIRST_A,
-+					      OV08X40_REG_XTALK_LAST_A, 0x75);
-+		ret = ov08x40_burst_fill_regs(ov08x, OV08X40_REG_XTALK_FIRST_B,
-+					      OV08X40_REG_XTALK_LAST_B, 0x75);
-+	}
-+
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to set regs\n", __func__);
-+		return ret;
-+	}
-+
- 	/* Apply customized values from user */
- 	ret =  __v4l2_ctrl_handler_setup(ov08x->sd.ctrl_handler);
- 	if (ret)
--- 
-2.34.1
-
+VGhhbmtzIGZvciB0aGUgcmV2aWV3LCBTYWthcmkgYW5kIFRvbWFzei4NCg0KLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCkZyb206IFNha2FyaSBBaWx1cyA8c2FrYXJpLmFpbHVzQGxpbnV4Lmlu
+dGVsLmNvbT4gDQpTZW50OiBUdWVzZGF5LCBKYW51YXJ5IDIzLCAyMDI0IDY6MTYgUE0NClRvOiBU
+b21hc3ogRmlnYSA8dGZpZ2FAY2hyb21pdW0ub3JnPg0KQ2M6IENoZW4sIEphc29uIFogPGphc29u
+LnouY2hlbkBpbnRlbC5jb20+OyBiaW5nYnUuY2FvQGxpbnV4LmludGVsLmNvbTsgbGludXgtbWVk
+aWFAdmdlci5rZXJuZWwub3JnOyBZZWgsIEFuZHkgPGFuZHkueWVoQGludGVsLmNvbT47IFpoYW5n
+LCBRaW5nd3UgPHFpbmd3dS56aGFuZ0BpbnRlbC5jb20+OyBzZW5vemhhdHNreUBjaHJvbWl1bS5v
+cmcNClN1YmplY3Q6IFJlOiBbUEFUQ0ggdjNdIG1lZGlhOiBvdjA4eDQwOiBSZWR1Y2Ugc3RhcnQg
+c3RyZWFtaW5nIHRpbWUNCg0KSGkgVG9tYXN6LA0KDQpPbiBUdWUsIEphbiAyMywgMjAyNCBhdCAw
+NzowMzo0OVBNICswOTAwLCBUb21hc3ogRmlnYSB3cm90ZToNCj4gT24gVHVlLCBKYW4gMjMsIDIw
+MjQgYXQgNjozN+KAr1BNIENoZW4sIEphc29uIFogPGphc29uLnouY2hlbkBpbnRlbC5jb20+IHdy
+b3RlOg0KPiA+DQo+ID4gRnJvbTogSmFzb24gQ2hlbiA8amFzb24uei5jaGVuQGludGVsLmNvbT4N
+Cj4gPg0KPiA+IEJlY2F1c2UgdmlkZW8gZHVyYXRpb24gaW52b2x2ZXMgY2FsY3VsYXRpbmcgdGhl
+IHN0cmVhbWluZyB0aW1lLCBhbmQgDQo+ID4gaTJjIGNvbW11bmljYXRpb24gaW5jdXJzIHRvbyBt
+YW55IFhUQUxLIHJlZ2lzdGVyIHNldHRpbmdzIGV2ZXJ5IDQgDQo+ID4gYnl0ZXMgd2l0aCBpMmMg
+U1RBUlQgYW5kIFNUT1AuDQo+ID4NCj4gPiBTbyB3ZSBoYXZlIG9wdGVkIHN3aXRjaCB0byB0aGUg
+aTJjIGJ1cnN0IG1ldGhvZC4NCj4gPiBUaGlzIG1ldGhvZCBpbnZvbHZlcyB3cml0aW5nIHRoZSBY
+VEFMSyByZWdpc3RlcnMgaW4gdGhlIG9yZGVyIG9mIHRoZSANCj4gPiByZWdpc3RlciBibG9jay4N
+Cj4gPg0KPiA+IFRoZSBzdGFydCBzdHJlYW1pbmcgdGltZSBjYW4gYmUgcmVkdWNlZCBmcm9tIGFy
+b3VuZCA0MDBtcyB0byAxNTBtcw0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogSmFzb24gQ2hlbiA8
+amFzb24uei5jaGVuQGludGVsLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9tZWRpYS9pMmMv
+b3YwOHg0MC5jIHwgMTIwNyANCj4gPiArKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNTUgaW5zZXJ0aW9ucygrKSwgMTE1MiBkZWxldGlvbnMo
+LSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL2kyYy9vdjA4eDQwLmMgDQo+
+ID4gYi9kcml2ZXJzL21lZGlhL2kyYy9vdjA4eDQwLmMgaW5kZXggZGRjYjRiNjg0OGIuLjdiMDlm
+NDA1ZmM1IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvaTJjL292MDh4NDAuYw0KPiA+
+ICsrKyBiL2RyaXZlcnMvbWVkaWEvaTJjL292MDh4NDAuYw0KPiBbc25pcF0NCj4gPiArc3RhdGlj
+IGludCBvdjA4eDQwX2J1cnN0X2ZpbGxfcmVncyhzdHJ1Y3Qgb3YwOHg0MCAqb3YwOHgsIHUxNiBm
+aXJzdF9yZWcsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1MTYgbGFz
+dF9yZWcsICB1OCB2YWwpIHsNCj4gPiArICAgICAgIHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQg
+PSB2NGwyX2dldF9zdWJkZXZkYXRhKCZvdjA4eC0+c2QpOw0KPiA+ICsgICAgICAgc3RydWN0IGky
+Y19tc2cgbXNnczsNCj4gPiArICAgICAgIF9fYmUxNiByZWdfYWRkcl9iZSA9IGNwdV90b19iZTE2
+KGZpcnN0X3JlZyk7DQo+ID4gKyAgICAgICBzaXplX3QgaSwgbnVtX3JlZ3M7DQo+ID4gKyAgICAg
+ICBpbnQgcmV0Ow0KPiA+ICsNCj4gPiArICAgICAgIG51bV9yZWdzID0gbGFzdF9yZWcgLSBmaXJz
+dF9yZWcgKyAxOw0KPiA+ICsgICAgICAgbXNncy5hZGRyID0gY2xpZW50LT5hZGRyOw0KPiA+ICsg
+ICAgICAgbXNncy5mbGFncyA9IDA7DQo+ID4gKyAgICAgICBtc2dzLmxlbiA9IDIgKyBudW1fcmVn
+czsNCj4gPiArICAgICAgIG1zZ3MuYnVmID0ga21hbGxvYyhtc2dzLmxlbiwgR0ZQX0tFUk5FTCk7
+DQo+ID4gKyAgICAgICBpZiAoIW1zZ3MuYnVmKQ0KPiA+ICsgICAgICAgICAgICAgICByZXR1cm4g
+LUVOT01FTTsNCj4gPiArDQo+ID4gKyAgICAgICAvKiBTZXQgdGhlIHJlZ2lzdGVyIGFkZHJlc3Mg
+dG8gdGhlIGZpcnN0IHR3byBieXRlcyBvZiB0aGUgYnVmZmVyICovDQo+ID4gKyAgICAgICBtZW1j
+cHkobXNncy5idWYsICZyZWdfYWRkcl9iZSwgMik7DQo+IA0KPiBuaXQ6IFdvdWxkbid0IHRoZSBj
+b2RlIGJlIG11Y2ggc2ltcGxlciB0byBmb2xsb3cgaWYgcmV3cml0dGVuIGFzIGJlbG93Pw0KPiAN
+Cj4gbXNncy5idWZbMF0gPSBmaXJzdF9yZWcgPj4gODsNCj4gbXNncy5idWZbMV0gPSBmaXJzdF9y
+ZWcgJiAweGZmOw0KDQo+T3IuLi4ganVzdCBwdXRfdW5hbGlnbmVkX2JlMTYoKT8NCkRvbmUNCg0K
+PiANCj4gPiArICAgICAgIGZvciAoaSA9IDA7IGkgPCBudW1fcmVnczsgKytpKQ0KPiA+ICsgICAg
+ICAgICAgICAgICBtc2dzLmJ1ZlsyICsgaV0gPSB2YWw7DQo+ID4gKw0KPiA+ICsgICAgICAgcmV0
+ID0gaTJjX3RyYW5zZmVyKGNsaWVudC0+YWRhcHRlciwgJm1zZ3MsIDEpOw0KPiA+ICsNCj4gPiAr
+ICAgICAgIGtmcmVlKG1zZ3MuYnVmKTsNCj4gPiArDQo+ID4gKyAgICAgICBpZiAocmV0ICE9IDEp
+IHsNCj4gPiArICAgICAgICAgICAgICAgZGV2X2VycigmY2xpZW50LT5kZXYsICJGYWlsZWQgJWQg
+cmVncyB0cmFuc2ZlcnJlZDogJWRcbiIsIHJldCk7DQo+ID4gKyAgICAgICAgICAgICAgIHJldHVy
+biAtRUlPOw0KPiA+ICsgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgIGRldl9kYmcoJmNsaWVu
+dC0+ZGV2LCAiSTJDIGJ1cnN0IHRyYW5zZmVyIHN1Y2NlZWRlZFxuIik7DQo+ID4gKw0KPiA+ICsg
+ICAgICAgcmV0dXJuIDA7DQo+ID4gK30NCj4gPiArDQo+ID4gIC8qIFdyaXRlIHJlZ2lzdGVycyB1
+cCB0byA0IGF0IGEgdGltZSAqLyAgc3RhdGljIGludCANCj4gPiBvdjA4eDQwX3dyaXRlX3JlZyhz
+dHJ1Y3Qgb3YwOHg0MCAqb3YwOHgsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1
+MTYgcmVnLCB1MzIgbGVuLCB1MzIgX192YWwpIEBAIC0yOTM2LDYgDQo+ID4gKzE4MjYsMTkgQEAg
+c3RhdGljIGludCBvdjA4eDQwX3N0YXJ0X3N0cmVhbWluZyhzdHJ1Y3Qgb3YwOHg0MCAqb3YwOHgp
+DQo+ID4gICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+ID4gICAgICAgICB9DQo+ID4NCj4g
+PiArICAgICAgIC8qIFVzZSBpMmMgYnVyc3QgdG8gd3JpdGUgcmVnaXN0ZXIgb24gZnVsbCBzaXpl
+IHJlZ2lzdGVycyAqLw0KPiA+ICsgICAgICAgaWYgKG92MDh4LT5jdXJfbW9kZS0+ZXhwb3N1cmVf
+c2hpZnQgPT0gMSkgew0KPiA+ICsgICAgICAgICAgICAgICByZXQgPSBvdjA4eDQwX2J1cnN0X2Zp
+bGxfcmVncyhvdjA4eCwgT1YwOFg0MF9SRUdfWFRBTEtfRklSU1RfQSwNCj4gPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgT1YwOFg0MF9SRUdfWFRBTEtfTEFT
+VF9BLCAweDc1KTsNCj4gPiArICAgICAgICAgICAgICAgcmV0ID0gb3YwOHg0MF9idXJzdF9maWxs
+X3JlZ3Mob3YwOHgsIE9WMDhYNDBfUkVHX1hUQUxLX0ZJUlNUX0IsDQo+ID4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE9WMDhYNDBfUkVHX1hUQUxLX0xBU1Rf
+QiwgMHg3NSk7DQo+ID4gKyAgICAgICB9DQo+IA0KPiBIbW0sIGlmIHdlIG9ubHkgbmVlZCB0byBz
+ZXQgdGhlc2UgaWYgZXhwb3N1cmVfc2hpZnQgaXMgMSwgZG9uJ3Qgd2UgDQo+IG5lZWQgdG8gc29t
+ZWhvdyAidW5zZXQiIHRoZW0gaWYgdGhlIG1vZGUgZXhwb3N1cmVfc2hpZnQgIT0gMT8NCg0KPkkg
+cmVjYWxsIHRoZSBkcml2ZXIgcG93ZXJzIHRoZSBzZW5zb3Igb2ZmIGV2ZXJ5IHRpbWUgc3RyZWFt
+aW5nIGlzIHN0b3BwZWQgKHdpdGhvdXQgcG1fcnVudGltZV9wdXRfc3luYygpLCBzbyBpdCdzIG5v
+dCByZWxpYWJsZSkuLi4gdGhhdCB3b3VsZCBiZSBuaWNlIHRvIGFkZHJlc3MgYXMgd2VsbCwgYnV0
+IG91dHNpZGUgdGhlIHNjb3BlIG9mIHRoaXMgcGF0Y2guDQoNCk5vIG5lZWQsIGJlY2F1c2Ugd2hl
+biBzdGFydGluZyBzdHJlYW1pbmcgd2l0aCB0aGUgYmlubmluZyBtb2RlLCBpdCB3aWxsIGZsdXNo
+IHdpdGggdGhlIGBtb2RlXzE5Mjh4MTIwOF9yZWdzYC4NClRoaXMgaXMganVzdCBmb3IgZnVsbC1z
+aXplIHJlZ2lzdGVyIHNldHRpbmdzLg0KDQpJIGhhdmUgY2hlY2tlZCB0aGUgaTJjIGZ1bmN0aW9u
+YWxpdHkgYXMgd2VsbCwgYW5kIGl0IGRvZXMgd29yayB0byBzZXQgdGhlIHJlZ2lzdGVyIHdlbGwu
+DQoNCg0KLS0NClJlZ2FyZHMsDQoNClNha2FyaSBBaWx1cw0K
 
