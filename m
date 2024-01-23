@@ -1,70 +1,90 @@
-Return-Path: <linux-media+bounces-4109-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4110-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF29A839A0F
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 21:10:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2969F839A57
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 21:36:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9C791C28449
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 20:10:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7EB8CB2AFAE
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jan 2024 20:36:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02AF482D98;
-	Tue, 23 Jan 2024 20:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CF82443E;
+	Tue, 23 Jan 2024 20:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sensoray.com header.i=@sensoray.com header.b="SimLHw3f"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fa8QQeYw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C7481AAE
-	for <linux-media@vger.kernel.org>; Tue, 23 Jan 2024 20:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5F220F1;
+	Tue, 23 Jan 2024 20:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706040619; cv=none; b=X9HA5AShCxIpAJEMjGXFtRtQwS04yJbvoiTDxfBB0L9dzpsCN8doQTnvq7gjblpqZAHgd13hqhw+G4vpByAbvGuaU/BVlt2DyzXNcHQJsFoD91Z9Hr6NIJRbreiN8gP3iuVtFOeRM+PeFC3+Yzt4hpDEY925hc3dNK446/BTqVI=
+	t=1706042171; cv=none; b=OKEFa8Nlfq6VgIYLqGDMcvwKyOHgfPt3HyNUIhkY9grMugOFiDEOE8nzINWkI7bKsTmRA/QfD2/+o0aDHDBpg6cpgt0mijO8E97f3AsTpWCx5LlTUl8hFQL1CnQxHLL80PC0/JvU6r78rfAWfWrTgOIircUZ8qqRlLSLm3mYW3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706040619; c=relaxed/simple;
-	bh=ByKTlt8oecjLt+NLZnsDNSkT6shUPMccBoZhAgk8Mb0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ljcGM4YkPD2eB9yr6mudDb6Kvz6wrIDz10sOfnk2TJEoCrmj1mFjJOwqC+n7zjs8OeOaEbftyubNj3VJ88ArZ2BBEf2qxjCdZUqzLMuOJJwH/iTDGnxP1wF9A4wuA9Q0ry/N9mvCkqi/bQ0QNjOWnD5+wlZPmip4YxRwim3VEio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sensoray.com; spf=pass smtp.mailfrom=sensoray.com; dkim=pass (1024-bit key) header.d=sensoray.com header.i=@sensoray.com header.b=SimLHw3f; arc=none smtp.client-ip=35.89.44.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sensoray.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sensoray.com
-Received: from eig-obgw-5008a.ext.cloudfilter.net ([10.0.29.246])
-	by cmsmtp with ESMTPS
-	id SDZdraIdaCF6GSN63rYEQN; Tue, 23 Jan 2024 20:10:11 +0000
-Received: from gator3086.hostgator.com ([50.87.144.121])
-	by cmsmtp with ESMTPS
-	id SN61rvlUyL3AmSN62rFEHm; Tue, 23 Jan 2024 20:10:10 +0000
-X-Authority-Analysis: v=2.4 cv=Sdrky9du c=1 sm=1 tr=0 ts=65b01d22
- a=qMXOcmIMY6YlrKEg1GzxDg==:117 a=QsTHvn2EeHXCImuSLmd++Q==:17
- a=dEuoMetlWLkA:10 a=6kiSLZGAxYIA:10 a=wXneSEFuAAAA:8 a=gIYMGs8S214ERZT_mbgA:9
- a=0bXxn9q0MV6snEgNplNhOjQmxlI=:19 a=YVKGGmaMxpnpCiYzuRtG:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sensoray.com; s=default; h=Content-Transfer-Encoding:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5CjmxEDyanYCKZZu7J49EekmXXhQ38HgYat3QkREnm0=; b=SimLHw3fjbNT8mrn3xY5CPQQ02
-	+tu3YpwuxhABlpHdf/6G9PB4PrnMpwPOonsXHh+SZ+g/Xs+uDbEhZw6yIOROAOuKv5gjOamPlVkv3
-	YaCPGTKPwgjXD5O70/spcPhxZ+2fBlpFP5KlmyAme1q414WPqbj94OQg43XYaxJykC44=;
-Received: from [50.126.89.90] (port=41476 helo=localhost.localdomain)
-	by gator3086.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <dean@sensoray.com>)
-	id 1rSN61-002x5k-7g;
-	Tue, 23 Jan 2024 14:10:09 -0600
-From: Dean Anderson <dean@sensoray.com>
+	s=arc-20240116; t=1706042171; c=relaxed/simple;
+	bh=O5CIiUnbnq8G9L5gMqM8QaO+j6skLvv0R5QXDcyKMo8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JE7G+ZP4Qor1FVADVk3l6Sq4DNCYHkOOpcS8Xgzy11Nh1liIT43bMDrE2hMKM0806OWCOc/bSEMMnu2oxIrCpFeIRuHyoHoSD8FTSD49V25pbluqgGQj+q+i7GmYft/8yv0/zhiCwCyuBzjFpJhQlzFmj7+lS6lQZ7gPStPLlW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fa8QQeYw; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-55a684acf92so5195116a12.0;
+        Tue, 23 Jan 2024 12:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706042168; x=1706646968; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+TzSvQNMpSTnBKy6zx8XfJfhzL54PAsuJ/g7mPOB4NE=;
+        b=fa8QQeYwUlBeeK2kycPYgt4ixWhpoCSU7q5vlhKbH31WP1PLAvQIDlw2FdVLQsrf0o
+         7Xzayr0J6CeuLgMfKwgDMBrp7T5VLi1NMt0SWyT1Zwp1SzHjt2NgNu9ctl0oWBUvU5fB
+         Pd58ugy+eD44wWzS4Iyerf6ZF59W3doYCcscDZpYWQAAZPkGHwdjmxd6cmEZjx1Y+bZ4
+         5/x/HBWMU7MShQJ0HDjEaNWhrF/ekBtXgGTGNFvwBbuzIw5Pbhrqh/VEEN3v1+/mCO5+
+         cc45fMCR9BxYgjgMFox5dorddUXCvSQlggZKWWqBNeP8Od4WZR55mDh9ZBQdqwsZ/sBq
+         krwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706042168; x=1706646968;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+TzSvQNMpSTnBKy6zx8XfJfhzL54PAsuJ/g7mPOB4NE=;
+        b=FswCUG7uArqtUPui7otdS8DvayLVzEOgxkHHuwfvLXitArUsP27VwXh2mN+1AEoBdL
+         Mv95GkvAUrz1aPQimJqM1eFE6zdevb7f4HNRGiSiYUfb33sBI1Syyl8ihLosGjfB7znq
+         DnJhsPPE+Cf+zJ+UyY4OWJcPbX2gmP6I9tCuUDlGeNbVsZrmXPBXOqRGxQHACCbT+Jxe
+         2FR6O1Vw8Idz+jhqVUbb0iD5XHWM6CgndwLHkIBpJlez2sDCX8pWUcn1TSV5KPXgD7/E
+         UOaz1diNE5Tkmk9eO1FViBCZsnnX5kJwx7/TEVGa7gADushwNofMNBKsOCW5FDQh99eM
+         pWFA==
+X-Gm-Message-State: AOJu0YwLjD81tW/4d3j7tgaWvxTX9Y9GOxe8HoSIggWi0Epdm1mg0Qvg
+	kLy3nrYqaWsoV831rV2TvmCxSYi4Wp14geK3ie3OGw4wpB8NXkjGL5if/d94
+X-Google-Smtp-Source: AGHT+IG3N1vkd41bKi/0F3hRMmaBSzTDu/lcOmO2GzrDyurJK+U1SHcV1kivigxqUIb05H5E7Nhk+A==
+X-Received: by 2002:a50:cd02:0:b0:55c:2492:7294 with SMTP id z2-20020a50cd02000000b0055c24927294mr817576edi.59.1706042168058;
+        Tue, 23 Jan 2024 12:36:08 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8109:aa27:2d00::d069])
+        by smtp.gmail.com with ESMTPSA id h26-20020aa7c95a000000b005590dc6a4f6sm13227886edt.80.2024.01.23.12.36.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jan 2024 12:36:07 -0800 (PST)
+From: Mehdi Djait <mehdi.djait.k@gmail.com>
 To: mchehab@kernel.org,
+	heiko@sntech.de,
 	hverkuil-cisco@xs4all.nl,
-	geert+renesas@glider.be,
-	linux-media@vger.kernel.org
-Cc: dean@sensoray.com
-Subject: [PATCHv4] media: usb: s2255: media_device and serial number added
-Date: Tue, 23 Jan 2024 12:12:12 -0800
-Message-Id: <20240123201212.23896-1-dean@sensoray.com>
-X-Mailer: git-send-email 2.30.2
+	krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com,
+	alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	paul.kocialkowski@bootlin.com,
+	michael.riesch@wolfvision.net,
+	laurent.pinchart@ideasonboard.com,
+	Mehdi Djait <mehdi.djait.k@gmail.com>
+Subject: [PATCH v13 0/3] media: rockchip: Add a driver for Rockchip's camera interface
+Date: Tue, 23 Jan 2024 21:36:01 +0100
+Message-ID: <cover.1706041950.git.mehdi.djait.k@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,147 +92,272 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator3086.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - sensoray.com
-X-BWhitelist: no
-X-Source-IP: 50.126.89.90
-X-Source-L: No
-X-Exim-ID: 1rSN61-002x5k-7g
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (localhost.localdomain) [50.126.89.90]:41476
-X-Source-Auth: dean@sensoray.com
-X-Email-Count: 2
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: c2Vuc29yYXk7c2Vuc29yYXk7Z2F0b3IzMDg2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfCqtu5V0oZYaPpz7Xe/aShR6SnKp6fjej+X1YBlumYEiW0BMxgmwEakj6hGsOHmo5yjK1Zw6Q6OEoZr57TvEfU6/RXioQjbIHhqpIizfY+flj5r4Fuep
- C06u4KrZgVtJGwlIeqe2OzLgtIE2repNyLbwvTOZNsyAxpu2mCHNEb6Va3fZ/w58Zif8HEEPsb5jgzgkjFUaWGUT6IJntXzVPoY=
 
-Adding media_device support including the serial number.
+Hello everyone,
 
-Signed-off-by: Dean Anderson <dean@sensoray.com>
+V13 for basic support of the Camera Interface found on the Rockchip PX30 SoC
 
----
- drivers/media/usb/s2255/s2255drv.c | 45 ++++++++++++++++++++++++++++--
- 1 file changed, 43 insertions(+), 2 deletions(-)
+Most of this driver was written following the BSP driver from rockchip,
+removing the parts that either didn't fit correctly the guidelines, or
+that couldn't be tested.
 
-diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
-index 3c2627712fe9..2319cf93e726 100644
---- a/drivers/media/usb/s2255/s2255drv.c
-+++ b/drivers/media/usb/s2255/s2255drv.c
-@@ -60,6 +60,7 @@
- #define S2255_MIN_BUFS          2
- #define S2255_SETMODE_TIMEOUT   500
- #define S2255_VIDSTATUS_TIMEOUT 350
-+#define S2255_MARKER_SERIALNUM	cpu_to_le32(0xDDCCBBAAL)
- #define S2255_MARKER_FRAME	cpu_to_le32(0x2255DA4AL)
- #define S2255_MARKER_RESPONSE	cpu_to_le32(0x2255ACACL)
- #define S2255_RESPONSE_SETMODE  cpu_to_le32(0x01)
-@@ -245,6 +246,7 @@ struct s2255_vc {
- 
- 
- struct s2255_dev {
-+	struct media_device     mdev;
- 	struct s2255_vc         vc[MAX_CHANNELS];
- 	struct v4l2_device      v4l2_dev;
- 	atomic_t                num_channels;
-@@ -323,6 +325,7 @@ struct s2255_buffer {
- #define S2255_V4L2_YC_ON  1
- #define S2255_V4L2_YC_OFF 0
- #define V4L2_CID_S2255_COLORFILTER (V4L2_CID_USER_S2255_BASE + 0)
-+#define V4L2_CID_S2255_SERIALNUM (V4L2_CID_USER_S2255_BASE + 1)
- 
- /* frame prefix size (sent once every frame) */
- #define PREFIX_SIZE		512
-@@ -1232,6 +1235,29 @@ static int s2255_s_ctrl(struct v4l2_ctrl *ctrl)
- 	return 0;
- }
- 
-+/*
-+ * serial number is not used in usb device descriptors.
-+ * returns serial number from device, 0 if none found.
-+ */
-+
-+static int s2255_g_serialnum(struct s2255_dev *dev, u32 *serial)
-+{
-+#define S2255_I2C_SIZE     16
-+#define S2255_I2C_SERIALNUM 0xa2
-+#define S2255_I2C_SERIALNUM_OFFSET 0x1ff0
-+#define S2255_VENDOR_READREG 0x22
-+	u8 buf[16];
-+	int rc;
-+
-+	rc = s2255_vendor_req(dev, S2255_VENDOR_READREG, S2255_I2C_SERIALNUM_OFFSET,
-+			      S2255_I2C_SERIALNUM >> 1, buf, S2255_I2C_SIZE, 0);
-+	if (rc != S2255_I2C_SIZE || *(__le32 *)buf != S2255_MARKER_SERIALNUM)
-+		return -EINVAL;
-+	/* Unlike the other parameters, the serial number is sent as big endian */
-+	*serial = be32_to_cpu(*((__be32 *)buf + 3));
-+	return 0;
-+}
-+
- static int vidioc_g_jpegcomp(struct file *file, void *priv,
- 			 struct v4l2_jpegcompression *jc)
- {
-@@ -1500,6 +1526,9 @@ static void s2255_destroy(struct s2255_dev *dev)
- 	s2255_reset_dsppower(dev);
- 	mutex_destroy(&dev->lock);
- 	usb_put_dev(dev->udev);
-+	if (media_devnode_is_registered(dev->mdev.devnode))
-+		media_device_unregister(&dev->mdev);
-+	media_device_cleanup(&dev->mdev);
- 	v4l2_device_unregister(&dev->v4l2_dev);
- 	kfree(dev->cmdbuf);
- 	kfree(dev);
-@@ -2206,14 +2235,13 @@ static int s2255_probe(struct usb_interface *interface,
- 	int retval = -ENOMEM;
- 	__le32 *pdata;
- 	int fw_size;
--
-+	u32 serialno;
- 	/* allocate memory for our device state and initialize it to zero */
- 	dev = kzalloc(sizeof(struct s2255_dev), GFP_KERNEL);
- 	if (dev == NULL) {
- 		s2255_dev_err(&interface->dev, "out of memory\n");
- 		return -ENOMEM;
- 	}
--
- 	dev->cmdbuf = kzalloc(S2255_CMDBUF_SIZE, GFP_KERNEL);
- 	if (dev->cmdbuf == NULL) {
- 		s2255_dev_err(&interface->dev, "out of memory\n");
-@@ -2237,6 +2265,15 @@ static int s2255_probe(struct usb_interface *interface,
- 	dev_dbg(&interface->dev, "dev: %p, udev %p interface %p\n",
- 		dev, dev->udev, interface);
- 	dev->interface = interface;
-+
-+	dev->mdev.dev = &interface->dev;
-+	strscpy(dev->mdev.model, "Sensoray Model 2255", sizeof(dev->mdev.model));
-+	usb_make_path(dev->udev, dev->mdev.bus_info, sizeof(dev->mdev.bus_info));
-+	dev->mdev.hw_revision = le16_to_cpu(dev->udev->descriptor.bcdDevice);
-+	if (s2255_g_serialnum(dev, &serialno) == 0)
-+		snprintf(dev->mdev.serial, sizeof(dev->mdev.serial), "%d", serialno);
-+	media_device_init(&dev->mdev);
-+	dev->v4l2_dev.mdev = &dev->mdev;
- 	/* set up the endpoint information  */
- 	iface_desc = interface->cur_altsetting;
- 	dev_dbg(&interface->dev, "num EP: %d\n",
-@@ -2311,6 +2348,10 @@ static int s2255_probe(struct usb_interface *interface,
- 	retval = s2255_probe_v4l(dev);
- 	if (retval)
- 		goto errorBOARDINIT;
-+
-+	if (media_device_register(&dev->mdev) < 0)
-+		goto errorBOARDINIT;
-+
- 	dev_info(&interface->dev, "Sensoray 2255 detected\n");
- 	return 0;
- errorBOARDINIT:
+In the BSP, this driver is known as the "cif" driver, but this
+controller was renamed to "vip" in the datasheet.
+
+This version of the driver supports ONLY the parallel interface BT656
+and was tested/implemented using an SDTV video decoder.
+
+media_stage, base-commit: eba5e4075505b758fb36967e83ba43d4b994a2e0
+
+V12 => V13:
+cif/cif-capture.c
+- changed the vb2_queue member min_buffer_needed to min_queued_buffers
+
+V11 => V12:
+cif/cif-capture.c cif/cif-dev.c cif/cif-common.h cif/cif-capture.h:
+- changed the name of the files to add "cif-"
+- made use of the reset array in the pmruntime suspend and resume
+  functions
+- made the subdev stop before the cif in cif_stop_streaming()
+- removed pinctrl_pm_select_sleep_state()
+- removed cif_soft_reset()
+- changed the dt-binding filename in the MAINTAINERS file
+- removed remote_info->mbus
+rockchip,px30-vip.yaml:
+- removed the undocumented compatible in the example
+
+V10 => V11:
+cif/capture.c cif/dev.c cif/common.h cif/capture.h:
+- removed the csi_fmt_val and all the CSI reg defines
+- removed the setting of buffer numbers in the queue_setup vb2_ops
+  callback
+- changed the v4l2_fwnode_endpoint declaration to V4L2_MBUS_UNKNOWN:
+  letting the device tree decide which bus is being used
+- split dev.h into common.h and capture.h
+
+rockchip,px30-vip.yaml:
+- renamed rockchip,rk3066-cif.yaml back to rockchip,px30-vip.yaml as
+  suggested by Conor
+- added the description of the port's endpoint bus-type property
+- extended the example to include the definition of the corresponding
+  video-decoder
+
+V9 => V10:
+cif/capture.c cif/dev.c cif/dev.h:
+as suggested by Paul:
+- ensured that the lock is still being held when accessing
+  stream->buffs[0,1]
+- adjusted the comment explaining why the spinlock is used
+
+as suggested by Michael:
+- made the IRQ requested SHARED: the cif shares the IRQ with the io_mmu
+
+rockchip,rk3066-cif.yaml:
+- dropped the rk3066-cif compatible but kept the name and added the
+  reason for this in the commit msg: the name of the file rk3066 is the first
+  Rockchip SoC generation that uses cif instead of the px30 which is just one
+  of the many iterations of the unit.
+
+V8 => V9:
+cif/capture.c cif/dev.c cif/dev.h:
+as suggested by Paul:
+- changed the name from "vip" back to "cif"
+- removed the scratch buffer and added frame dropping
+- removed mplane, only single plane formats are supported anyway
+- adjusted the Kconfig
+- added the match_data to the stream struct
+- some cosmetics, and error return codes changes
+
+as suggested by Michael:
+- changed the writel and readl helpers to be inline functions and
+  changed the name
+- fixed typos in the commit message
+- changed the cif_device struct element "sensor" to "remote"
+
+rockchip,rk3066-cif.yaml:
+- changed the compatible rockchip,px30-vip to rockchip,rk3066-cif:
+  rk3066 is the earliest Rockchip SoC that uses cif and it is the
+  first model starting the RK30 lineup.
+- changed the node name to video-capture
+- adjusted the description
+
+V7 => V8:
+vip/capture.c:
+- fixed a warning: unused variable reported by the kernel test robot
+
+V6 => V7:
+vip/capture.c vip/dev.c vip/dev.h
+- renamed all struct rk_vip_dev dev => struct rk_vip_dev vip_dev
+- added some error when rk_vip_get_buffer() returns NULL
+- removed a WARN_ON
+- made the irq NOT shared
+- dropped of_match_ptr
+- added the rk_vip_get_resource() function
+
+rockchip,px30-vip.yaml:
+- changed filename to match the compatible
+- dropped the mention of the other rockchip SoC in the dt-binding
+  description and added a more detailed description of VIP
+- removed unused labels in the example
+
+V5[1] => V6:
+vip/capture.c vip/dev.c vip/dev.h
+- added a video g_input_status subdev call, V4L2_IN_CAP_STD and the
+  supported stds in rk_vip_enum_input callback
+- added rk_vip_g_std, rk_vip_s_std and rk_vip_querystd callbacks
+- added the supported video_device->tvnorms
+- s_std will now update the format as this depends on the standard
+  NTSC/PAL (as suggested by Hans in [1])
+- removed STD_ATSC
+- moved the colorimetry information to come from the subdev
+- removed the core s_power subdev calls
+- dropped cropping in rk_vip_stream struct
+
+rockchip-vip.yaml:
+- fixed a mistake in the name of third clock plckin -> plck
+- changed the reg maxItems 2 -> 1
+
+[1] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxime.chevallier@bootlin.com/
+
+I used v4l-utils with HEAD: commit db9478a91120dccc18d1388fe9b812567e33b6bb
+
+# v4l2-compliance 
+v4l2-compliance 1.27.0, 64 bits, 64-bit time_t
+
+Compliance test for rockchip-cif device /dev/video0:
+
+Driver Info:
+        Driver name      : rockchip-cif
+        Card type        : rockchip-cif
+        Bus info         : platform:ff490000.video-capture
+        Driver version   : 6.7.0
+        Capabilities     : 0x84200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rockchip-cif
+        Model            : cif
+        Serial           : 
+        Bus info         : platform:ff490000.video-capture
+        Media version    : 6.7.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.7.0
+Interface Info:
+        ID               : 0x03000003
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : rockchip_cif
+        Function         : V4L2 I/O
+        Pad 0x01000002   : 0: Sink
+          Link 0x02000009: from remote pad 0x1000006 of entity 'tw9900 2-0044' (Digital Video Decoder): Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for rockchip-cif device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Mehdi Djait (3):
+  media: dt-bindings: media: add bindings for Rockchip CIF
+  media: rockchip: Add a driver for Rockchip's camera interface
+  arm64: dts: rockchip: Add the px30 camera interface
+
+ .../bindings/media/rockchip,px30-vip.yaml     |  123 ++
+ MAINTAINERS                                   |    7 +
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+ drivers/media/platform/rockchip/Kconfig       |    1 +
+ drivers/media/platform/rockchip/Makefile      |    1 +
+ drivers/media/platform/rockchip/cif/Kconfig   |   14 +
+ drivers/media/platform/rockchip/cif/Makefile  |    3 +
+ .../media/platform/rockchip/cif/cif-capture.c | 1111 +++++++++++++++++
+ .../media/platform/rockchip/cif/cif-capture.h |   20 +
+ .../media/platform/rockchip/cif/cif-common.h  |  128 ++
+ drivers/media/platform/rockchip/cif/cif-dev.c |  308 +++++
+ .../media/platform/rockchip/cif/cif-regs.h    |  127 ++
+ 12 files changed, 1855 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+ create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.c
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.h
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-common.h
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-dev.c
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-regs.h
+
 -- 
-2.30.2
+2.43.0
 
 
