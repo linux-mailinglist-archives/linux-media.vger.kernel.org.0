@@ -1,232 +1,270 @@
-Return-Path: <linux-media+bounces-4135-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4136-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520BC83A5F9
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 10:53:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FB083A758
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 11:58:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00841288419
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 09:53:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 552F728CB11
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 10:58:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2010B18AEE;
-	Wed, 24 Jan 2024 09:52:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A7DE1AAD4;
+	Wed, 24 Jan 2024 10:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DrfYhubb"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="1zJQc6zC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from aposti.net (aposti.net [89.234.176.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677E118625;
-	Wed, 24 Jan 2024 09:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A159517C77;
+	Wed, 24 Jan 2024 10:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706089971; cv=none; b=LtxjExMMHTHAUiLvFfsa4bMJzyiLJ8CqCX2fUCJRfvDDWY5NvIQVXKR2oESjsY/MfojdywGbum97A7G4WIN4IEZtOvti9ikfIkN2kv3ryqpfpVklZs0rHxjmviTGZl0ujNTGFQBgbfcPkHjhJXefCz/WlGGTDMGp8AIDESL9SOY=
+	t=1706093901; cv=none; b=mb7kPFdD523lxuxB0In6bFqrEj/pETXEWjfBgLCRIVSWTvk5UW+nvRHN4vwjxebz+aGxQacm+M3w2gclR0v0DrLMgh0NkXgP0G8SYpX+j6nHzUJsc3QP+Pl7FSFwjgyo+6Lj5dTAFz+P2257IQBd85x7gKEZsraBUdxCCSUHgjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706089971; c=relaxed/simple;
-	bh=NiIeZZFwIvY0DyQXr6Ns8lr+2tiWC2O7tm2aI4XiJ6c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=RhevI4TzESlm4mGsZd57lWu0aW5A4IgL/JUDf2t+BNmhfR85q2naqU0ND/r7kv/hXoCnkXFBZZcg+K+9iThNNYv4z1b1eflJRzHbw79HMPJtZm1drqGyTq/9MJhqaNVzdsrNZVTnmVm/sz+YToP8BIzV0kbcpqPCYyZSiKXVzOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DrfYhubb; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-557dcb0f870so6354062a12.2;
-        Wed, 24 Jan 2024 01:52:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706089966; x=1706694766; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3P4SKIph2kaJ1P9uxNmooxsVTdL3TJ4ADsGzchIR86I=;
-        b=DrfYhubbju74F5rME3DbcZnKMY+sqiHjN4cqe7m+gE1rmXuFowJa38c/sGSWJoFFgG
-         PpdbkSVb71xYgK0mnI1vOtY70bTSu9w4QdW9pfABI4SrHL97Xy5qOE8G38s28HqoTBhB
-         Gyu+REowI2tvXiOmWLpdHieQLGsHLxuuoyVN6It8cB10KZop18y0l84/gbNJjKHEHMZY
-         JrzfxXbgHmqDVH360fYWipIXJIKgcI01FyZG4dDl0ZgYjG/31r3abj0SQOoBATBfQSOW
-         BTYHw3QMrBnB1HFw6B1AT8mEXAX6vDKAybIjz1ecly8wo44iUj2N4drp/3UqEX0j2ZRf
-         9MpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706089966; x=1706694766;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3P4SKIph2kaJ1P9uxNmooxsVTdL3TJ4ADsGzchIR86I=;
-        b=sFFdN7EXK7HeVVkEdFiJBR6/cT23rk3OTNfm7mysaoNQl6oQA3n+7U1eYOkm05lUlk
-         Lru/CPLYpY5+QPs6D7MErsOLeRRwRpbjGHSwesDfY/aoCfyiFbHrYTsJwZzUbkxI/kBm
-         tsJOOYa6JpZu8JgpEcBx+ImHTPBVcKpe0tkR5n+uq7XC/EfV4fwvPeCJGHm3uEsTEUgZ
-         h1miVK9eC44/q1ByqsQABA5jDWsNg6LWeocPHKdKQIUF6w3dzd/bvNC0PCWu2qu9dy+6
-         7gzRXE43iBZHunjR7wsZIwhLfvDnMm1esPQDKb0lqZQaEhHMDejfydxWUBeji51IuWbr
-         xYUw==
-X-Gm-Message-State: AOJu0Yx/gJVka5uUogBjNb3rBSEJy7pCZu/HLvgGVAmCLyh+4yaNigo/
-	TOu5IsJURYUET2dig6vBry4mgBppOnIlM09CVECYIPa0cbJxFaNg
-X-Google-Smtp-Source: AGHT+IF6irlAgTX/3kJ/yMSr7XD5tEf74ti0lx8fEEXP6sie7G0d9uw/OA9b8NTVqdOr0j9L59CNkQ==
-X-Received: by 2002:a05:6402:344e:b0:55a:5d43:2ef4 with SMTP id l14-20020a056402344e00b0055a5d432ef4mr1595734edc.72.1706089966311;
-        Wed, 24 Jan 2024 01:52:46 -0800 (PST)
-Received: from localhost.lan (031011218106.poznan.vectranet.pl. [31.11.218.106])
-        by smtp.gmail.com with ESMTPSA id eg34-20020a05640228a200b0055c2404fbe4sm507410edb.69.2024.01.24.01.52.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 01:52:45 -0800 (PST)
-From: =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
-Subject: [PATCH] dt-bindings: media: convert Mediatek consumer IR to the json-schema
-Date: Wed, 24 Jan 2024 10:52:30 +0100
-Message-Id: <20240124095230.25704-1-zajec5@gmail.com>
-X-Mailer: git-send-email 2.35.3
+	s=arc-20240116; t=1706093901; c=relaxed/simple;
+	bh=v3SfhmzQRGxi9EPPdMDfO2ZErSKWrfzBU/KgceYuQrk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aRkoi88+qCR7UYtQNjo7z5k84WOqDO4tNDlSKmrmt3u/akqyyF4oJZc40INj+rylOs6SGJE2YbF7Px7CDEiLEa01BEwNMb4qyMp8uVDN9aRWsYcVAJYJW9qVRuOP8LP+hVkv1oMXaqN1VsZ+1OeyEOUqhmJRyXkIRX1yXilZGeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=1zJQc6zC; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706093897;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=v3SfhmzQRGxi9EPPdMDfO2ZErSKWrfzBU/KgceYuQrk=;
+	b=1zJQc6zCVZPnvdIYH25UW0ON2qZycgGbmxPu5QV3KX+K0PwGdybalJeeLK0KF2I2tR6gKW
+	p4mY2uCzNr0iXdclC6eCO35zp0djUc8gXytykYWS7+S93a8YzdboE7XXPHt/Ga6AVGQ/vn
+	RBPNcSvIsnLQgHswY/WjPE9iDVwETAw=
+Message-ID: <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Daniel
+ Vetter <daniel@ffwll.ch>
+Date: Wed, 24 Jan 2024 11:58:14 +0100
+In-Reply-To: <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+References: <20240119141402.44262-1-paul@crapouillou.net>
+	 <20240119141402.44262-2-paul@crapouillou.net>
+	 <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+	 <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+	 <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+	 <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+	 <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+	 <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+	 <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Rafał Miłecki <rafal@milecki.pl>
+Hi Christian,
 
-This helps validating DTS files. Introduced changes:
-1. Reworded title
-2. Added required #include-s and adjusted "reg" in example
+Le mardi 23 janvier 2024 =C3=A0 14:28 +0100, Christian K=C3=B6nig a =C3=A9c=
+rit=C2=A0:
+> =C2=A0Am 23.01.24 um 14:02 schrieb Paul Cercueil:
+> =C2=A0
+> > [SNIP]
+> > =C2=A0
+> > > =C2=A0
+> > > > =C2=A0=C2=A0
+> > > > > =C2=A0
+> > > > > That an exporter has to call extra functions to access his
+> > > > > own
+> > > > > buffers
+> > > > > is a complete no-go for the design since this forces
+> > > > > exporters
+> > > > > into
+> > > > > doing extra steps for allowing importers to access their
+> > > > > data.
+> > > > > =C2=A0
+> > > > =C2=A0
+> > > > Then what about we add these dma_buf_{begin,end}_access(), with
+> > > > only
+> > > > implementations for "dumb" exporters e.g. udmabuf or the dmabuf
+> > > > heaps?
+> > > > And only importers (who cache the mapping and actually care
+> > > > about
+> > > > non-
+> > > > coherency) would have to call these.
+> > > > =C2=A0
+> > > =C2=A0
+> > > No, the problem is still that you would have to change all
+> > > importers
+> > > to=20
+> > > mandatory use dma_buf_begin/end.
+> > >=20
+> > > But going a step back caching the mapping is irrelevant for
+> > > coherency.=20
+> > > Even if you don't cache the mapping you don't get coherency.
+> > > =C2=A0
+> > =C2=A0
+> > You actually do - at least with udmabuf, as in that case
+> > dma_buf_map_attachment() / dma_buf_unmap_attachment() will handle
+> > cache
+> > coherency when the SGs are mapped/unmapped.
+> > =C2=A0
+> =C2=A0
+> =C2=A0Well I just double checked the source in 6.7.1 and I can't see
+> udmabuf doing anything for cache coherency in map/unmap.
+> =C2=A0
+> =C2=A0All it does is calling dma_map_sgtable() and dma_unmap_sgtable() to
+> create and destroy the SG table and those are not supposed to sync
+> anything to the CPU cache.
+> =C2=A0
+> =C2=A0In other words drivers usually use DMA_ATTR_SKIP_CPU_SYNC here, it'=
+s
+> just that this is missing from udmabuf.=C2=A0
 
-Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
----
- .../bindings/media/mediatek,mt7622-cir.yaml   | 81 +++++++++++++++++++
- .../devicetree/bindings/media/mtk-cir.txt     | 28 -------
- 2 files changed, 81 insertions(+), 28 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/mtk-cir.txt
+Ok.
+=C2=A0
+> > =C2=A0
+> > The problem was then that dma_buf_unmap_attachment cannot be called
+> > before the dma_fence is signaled, and calling it after is already
+> > too
+> > late (because the fence would be signaled before the data is
+> > sync'd).
+> > =C2=A0
+> =C2=A0
+> =C2=A0Well what sync are you talking about? CPU sync? In DMA-buf that is
+> handled differently.
+> =C2=A0
+> =C2=A0For importers it's mandatory that they can be coherent with the
+> exporter. That usually means they can snoop the CPU cache if the
+> exporter can snoop the CPU cache.
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml b/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
-new file mode 100644
-index 000000000000..a2d0eed33292
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
-@@ -0,0 +1,81 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/mediatek,mt7622-cir.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Mediatek consumer IR on-SoC controller
-+
-+maintainers:
-+  - Sean Wang <sean.wang@mediatek.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt7622-cir
-+      - mediatek,mt7623-cir
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 2
-+
-+  clock-names:
-+    minItems: 1
-+    items:
-+      - const: clk
-+      - const: bus
-+
-+required:
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+
-+allOf:
-+  - $ref: rc.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: mediatek,mt7622-cir
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+
-+        clock-names:
-+          minItems: 2
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: mediatek,mt7623-cir
-+    then:
-+      properties:
-+        clocks:
-+          maxItems: 1
-+
-+        clock-names:
-+          maxItems: 1
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/mt2701-clk.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    ir@10013000 {
-+        compatible = "mediatek,mt7623-cir";
-+        reg = <0x10013000 0x1000>;
-+        interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
-+        clocks = <&infracfg CLK_INFRA_IRRX>;
-+        clock-names = "clk";
-+        linux,rc-map-name = "rc-rc6-mce";
-+    };
-diff --git a/Documentation/devicetree/bindings/media/mtk-cir.txt b/Documentation/devicetree/bindings/media/mtk-cir.txt
-deleted file mode 100644
-index 5e18087ce11f..000000000000
---- a/Documentation/devicetree/bindings/media/mtk-cir.txt
-+++ /dev/null
-@@ -1,28 +0,0 @@
--Device-Tree bindings for Mediatek consumer IR controller
--found in Mediatek SoC family
--
--Required properties:
--- compatible	    : Should be
--			"mediatek,mt7623-cir": for MT7623 SoC
--			"mediatek,mt7622-cir": for MT7622 SoC
--- clocks	    : list of clock specifiers, corresponding to
--		      entries in clock-names property;
--- clock-names	    : should contain
--			- "clk" entries: for MT7623 SoC
--			- "clk", "bus" entries: for MT7622 SoC
--- interrupts	    : should contain IR IRQ number;
--- reg		    : should contain IO map address for IR.
--
--Optional properties:
--- linux,rc-map-name : see rc.txt file in the same directory.
--
--Example:
--
--cir: cir@10013000 {
--	compatible = "mediatek,mt7623-cir";
--	reg = <0 0x10013000 0 0x1000>;
--	interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
--	clocks = <&infracfg CLK_INFRA_IRRX>;
--	clock-names = "clk";
--	linux,rc-map-name = "rc-rc6-mce";
--};
--- 
-2.35.3
+I seem to have such a system where one device can snoop the CPU cache
+and the other cannot. Therefore if I want to support it properly, I do
+need cache flush/sync. I don't actually try to access the data using
+the CPU (and when I do, I call the sync start/end ioctls).
 
+
+> =C2=A0For exporters you can implement the begin/end CPU access functions
+> which allows you to implement something even if your exporting device
+> can't snoop the CPU cache.
+
+That only works if the importers call the begin_cpu_access() /
+end_cpu_access(), which they don't.
+
+=C2=A0
+> > Daniel / Sima suggested then that I cache the mapping and add new
+> > functions to ensure cache coherency, which is what these patches
+> > are
+> > about.
+> > =C2=A0
+> =C2=A0
+> =C2=A0Yeah, I've now catched up on the latest mail. Sorry I haven't seen
+> that before.
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> >=20
+> > =C2=A0
+> > > =C2=A0
+> > > In other words exporters are not require to call sync_to_cpu or=20
+> > > sync_to_device when you create a mapping.
+> > >=20
+> > > What exactly is your use case here? And why does coherency
+> > > matters?
+> > > =C2=A0
+> > =C2=A0
+> > My use-case is, I create DMABUFs with udmabuf, that I attach to
+> > USB/functionfs with the interface introduced by this patchset. I
+> > attach
+> > them to IIO with a similar interface (being upstreamed in
+> > parallel),
+> > and transfer data from USB to IIO and vice-versa in a zero-copy
+> > fashion.
+> >=20
+> > This works perfectly fine as long as the USB and IIO hardware are
+> > coherent between themselves, which is the case on most of our
+> > boards.
+> > However I do have a board (with a Xilinx Ultrascale SoC) where it
+> > is
+> > not the case, and cache flushes/sync are needed. So I was trying to
+> > rework these new interfaces to work on that system too.
+> > =C2=A0
+> =C2=A0
+> =C2=A0Yeah, that sounds strongly like one of the use cases we have
+> rejected so far.
+> =C2=A0
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> > If this really is a no-no, then I am fine with the assumption that
+> > devices sharing a DMABUF must be coherent between themselves; but
+> > that's something that should probably be enforced rather than
+> > assumed.
+> >=20
+> > (and I *think* there is a way to force coherency in the
+> > Ultrascale's
+> > interconnect - we're investigating it)
+> > =C2=A0
+> =C2=A0
+> =C2=A0What you can do is that instead of using udmabuf or dma-heaps is
+> that the device which can't provide coherency act as exporters of the
+> buffers.
+> =C2=A0
+> =C2=A0The exporter is allowed to call sync_for_cpu/sync_for_device on it'=
+s
+> own buffers and also gets begin/end CPU access notfications. So you
+> can then handle coherency between the exporter and the CPU.
+
+But again that would only work if the importers would call
+begin_cpu_access() / end_cpu_access(), which they don't, because they
+don't actually access the data using the CPU.
+
+Unless you mean that the exporter can call sync_for_cpu/sync_for_device
+before/after every single DMA transfer so that the data appears
+coherent to the importers, without them having to call
+begin_cpu_access() / end_cpu_access().
+
+In which case - this would still demultiply the complexity; my USB-
+functionfs interface here (and IIO interface in the separate patchset)
+are not device-specific, so I'd rather keep them importers.
+=C2=A0
+> =C2=A0If you really don't have coherency between devices then that would
+> be a really new use case and we would need much more agreement on how
+> to do this.
+
+[snip]
+
+Agreed. Desiging a good generic solution would be better.
+
+With that said...
+
+Let's keep it out of this USB-functionfs interface for now. The
+interface does work perfectly fine on platforms that don't have
+coherency problems. The coherency issue in itself really is a
+tangential issue.
+
+So I will send a v6 where I don't try to force the cache coherency -
+and instead assume that the attached devices are coherent between
+themselves.
+
+But it would be even better to have a way to detect non-coherency and
+return an error on attach.
+
+Cheers,
+-Paul
 
