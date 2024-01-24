@@ -1,359 +1,364 @@
-Return-Path: <linux-media+bounces-4156-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4157-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E4E83ADAE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 16:46:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E0C83ADC8
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 16:52:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 292E11C238C4
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 15:46:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14E611C24867
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 15:52:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 423A87C0A8;
-	Wed, 24 Jan 2024 15:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33B5D7CF30;
+	Wed, 24 Jan 2024 15:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="ISnHLPX2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2797A73A;
-	Wed, 24 Jan 2024 15:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF64D7CF2F;
+	Wed, 24 Jan 2024 15:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706111178; cv=none; b=DwR1+uJw1UIuhzNU34WIcje04mu5b7v0X8ukhzMMyzNQXJlstxwpEhRNEtAg8kGJKtSizTAdThcvLcmJ9vKNM7XxatD8r2VmpjpMAu7x8qsvZkXw/hOdIIqwn6w0Z4WwUkYbp69/mvkjgHN3oKFzDTzrjJKCtBnGCl33mS17So8=
+	t=1706111536; cv=none; b=UQsGn87GZ5yCKY1tFA3na1wf+6lG3Al4ns50ki8OXu1gC9d0UUkFqUc8KRzJDy1igfoKlYVTU8LTAMNyk4Cn+amoXXiSBSK/eM0Aqqmgz7DW1yMjxwnXau1qlC8YGhNlPJhoJHS8bkFayM7fSTNHc2Da4nG1RP6XtBf9i9vIwlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706111178; c=relaxed/simple;
-	bh=vJesdi7ca74BPdLuqPw2Sjr91+X8YILlJiDBJaMnBa4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lCdWVtgjm5b04OHEFrbSpCkzl0zCZTqH6HufDl0fdvvdkwXlAHzy+EJfsBcMAHov+/UAkfd3+joEzWA+sKd+D+lqKKzyZVKjcIrxeKvExlLTr34p0skWP25+nFckFJE6BbhklU4XVmBPWObMZLNxIiSbkz5a3e5U8k2mzDugv2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B5FEC433C7;
-	Wed, 24 Jan 2024 15:46:17 +0000 (UTC)
-Message-ID: <3f2d211c-2f7b-43be-89c3-a5afcb211a06@xs4all.nl>
-Date: Wed, 24 Jan 2024 16:46:17 +0100
+	s=arc-20240116; t=1706111536; c=relaxed/simple;
+	bh=KzDEEPXk1BJzB7T0gf49ptX9Upq6NPCegHjNhUWdYTk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MCB6oKV9MqDtWbK4DBt0EqGuyclNsyeFKSyztdkfDQPAnRzBQnPaYyKh1B0sREMTPhkOP8H67Qog/HjSG8IAZETO9nJ8SOoPZaEejwH9AKLT4rwYuHmoll130jlspFb8MO5dXOpZIYzM1j32DQM62e+KjJ6zFfgB6hC0dX5DVBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=ISnHLPX2; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706111528;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KzDEEPXk1BJzB7T0gf49ptX9Upq6NPCegHjNhUWdYTk=;
+	b=ISnHLPX229T8FzuMol/PUDWkPyo82NdDKorkDpXVrFLMC21chLr2kfn6po5yiBs9OEly4b
+	GFsa5u7pS+RMo+hqHnYxIz/p4BCPX+LDyA8qeTUJHaWJieZ3TS+zT79w7l3QEAdmaNzYqY
+	hXvXwlAnqGhTOJLo3YJr3Vp8RBa/wg4=
+Message-ID: <4819fa1e6b739380abc669a96dcea90ccc07e774.camel@crapouillou.net>
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Andrew Davis <afd@ti.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Sumit
+ Semwal <sumit.semwal@linaro.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
+	 <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nuno
+	=?ISO-8859-1?Q?S=E1?=
+	 <noname.nuno@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
+	linux-media@vger.kernel.org
+Date: Wed, 24 Jan 2024 16:52:05 +0100
+In-Reply-To: <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
+References: <20240119141402.44262-1-paul@crapouillou.net>
+	 <20240119141402.44262-2-paul@crapouillou.net>
+	 <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+	 <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+	 <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+	 <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+	 <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+	 <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+	 <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+	 <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+	 <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 6/8] media: v4l2: Add DELETE_BUFS ioctl
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20240119094944.26763-1-benjamin.gaignard@collabora.com>
- <20240119094944.26763-7-benjamin.gaignard@collabora.com>
- <8a19487d-e903-4961-b56b-42079c9362b3@xs4all.nl>
- <81d8f73a-9a9c-445d-a6f5-e1358bf945a6@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <81d8f73a-9a9c-445d-a6f5-e1358bf945a6@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On 24/01/2024 16:35, Benjamin Gaignard wrote:
-> 
-> Le 24/01/2024 à 13:33, Hans Verkuil a écrit :
->> On 19/01/2024 10:49, Benjamin Gaignard wrote:
->>> VIDIOC_DELETE_BUFS ioctl allows to delete buffers from a queue.
->>> The number of buffers to delete in given by count field of
->>> struct v4l2_delete_buffers and the range start at the index
->>> specified in the same structure.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>> version 17:
->>> - rework DELETE_BUFS documentation
->>>
->>>   .../userspace-api/media/v4l/user-func.rst     |  1 +
->>>   .../media/v4l/vidioc-delete-bufs.rst          | 80 +++++++++++++++++++
->>>   .../media/v4l/vidioc-reqbufs.rst              |  1 +
->>>   .../media/common/videobuf2/videobuf2-core.c   | 42 ++++++++++
->>>   .../media/common/videobuf2/videobuf2-v4l2.c   | 20 +++++
->>>   drivers/media/v4l2-core/v4l2-dev.c            |  1 +
->>>   drivers/media/v4l2-core/v4l2-ioctl.c          | 20 +++++
->>>   include/media/v4l2-ioctl.h                    |  4 +
->>>   include/media/videobuf2-core.h                | 12 +++
->>>   include/media/videobuf2-v4l2.h                | 13 +++
->>>   include/uapi/linux/videodev2.h                | 17 ++++
->>>   11 files changed, 211 insertions(+)
->>>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
->>> index 15ff0bf7bbe6..3fd567695477 100644
->>> --- a/Documentation/userspace-api/media/v4l/user-func.rst
->>> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
->>> @@ -17,6 +17,7 @@ Function Reference
->>>       vidioc-dbg-g-chip-info
->>>       vidioc-dbg-g-register
->>>       vidioc-decoder-cmd
->>> +    vidioc-delete-bufs
->>>       vidioc-dqevent
->>>       vidioc-dv-timings-cap
->>>       vidioc-encoder-cmd
->>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
->>> new file mode 100644
->>> index 000000000000..d409063ceb3f
->>> --- /dev/null
->>> +++ b/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
->>> @@ -0,0 +1,80 @@
->>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
->>> +.. c:namespace:: V4L
->>> +
->>> +.. _VIDIOC_DELETE_BUFS:
->>> +
->>> +************************
->>> +ioctl VIDIOC_DELETE_BUFS
->>> +************************
->>> +
->>> +Name
->>> +====
->>> +
->>> +VIDIOC_DELETE_BUFS - Deletes buffers from a queue
->>> +
->>> +Synopsis
->>> +========
->>> +
->>> +.. c:macro:: VIDIOC_DELETE_BUFs
->>> +
->>> +``int ioctl(int fd, VIDIOC_DELETE_BUFs, struct v4l2_delete_buffers *argp)``
->>> +
->>> +Arguments
->>> +=========
->>> +
->>> +``fd``
->>> +    File descriptor returned by :c:func:`open()`.
->>> +
->>> +``argp``
->>> +    Pointer to struct :c:type:`v4l2_delete_buffers`.
->>> +
->>> +Description
->>> +===========
->>> +
->>> +Applications can optionally call the :ref:`VIDIOC_DELETE_BUFS` ioctl to
->>> +delete buffers from a queue.
->>> +This ioctl is available if the ``V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS`` capability
->>> +is set on the queue when :c:func:`VIDIOC_REQBUFS` or :c:func:`VIDIOC_CREATE_BUFS`
->>> +are invoked.
->>> +
->>> +.. c:type:: v4l2_delete_buffers
->>> +
->>> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.5cm}|
->>> +
->>> +.. flat-table:: struct v4l2_delete_buffers
->>> +    :header-rows:  0
->>> +    :stub-columns: 0
->>> +    :widths:       1 1 2
->>> +
->>> +    * - __u32
->>> +      - ``index``
->>> +      - The starting buffer index to delete.
->>> +    * - __u32
->>> +      - ``count``
->>> +      - The number of buffers to be deleted with indices 'index' until 'index + count - 1'.
->>> +        All buffers in this range must be valid and in DEQUEUED state.
->>> +        If count is set to 0 :ref:`VIDIOC_DELETE_BUFS` will do nothing and return 0.
->>> +    * - __u32
->>> +      - ``type``
->>> +      - Type of the stream or buffers, this is the same as the struct
->>> +    :c:type:`v4l2_format` ``type`` field. See
->>> +    :c:type:`v4l2_buf_type` for valid values.
->>> +    * - __u32
->>> +      - ``reserved``\ [13]
->>> +      - A place holder for future extensions. Drivers and applications
->>> +    must set the array to zero.
->>> +
->>> +Return Value
->>> +============
->>> +
->>> +On success 0 is returned, on error -1 and the ``errno`` variable is set
->>> +appropriately. The generic error codes are described at the
->>> +:ref:`Generic Error Codes <gen-errors>` chapter.
->>> +
->>> +EBUSY
->>> +    File I/O is in progress.
->>> +    Any buffer in range ``index`` to ``index + count - 1`` is not in
->>> +    DEQUEUED state.
->>> +
->>> +EINVAL
->>> +    Any buffer in range ``index`` to ``index + count - 1`` doesn't exist in the queue.
->>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->>> index 0b3a41a45d05..14d4a49c2945 100644
->>> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->>> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->>> @@ -121,6 +121,7 @@ aborting or finishing any DMA in progress, an implicit
->>>   .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
->>>   .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
->>>   .. _V4L2-BUF-CAP-SUPPORTS-MAX-NUM-BUFFERS:
->>> +.. _V4L2-BUF-CAP-SUPPORTS-DELETE-BUFS:
->>>     .. raw:: latex
->>>   diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>> index 010505ed92e8..99e631233a54 100644
->>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>> @@ -1688,6 +1688,48 @@ int vb2_core_prepare_buf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb)
->>>   }
->>>   EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
->>>   +int vb2_core_delete_bufs(struct vb2_queue *q, unsigned int start, unsigned int count)
->>> +{
->>> +    unsigned int i, ret = 0;
->>> +    unsigned int q_num_bufs = vb2_get_num_buffers(q);
->>> +
->>> +    if (count == 0)
->>> +        return 0;
->>> +
->>> +    if (count > q_num_bufs)
->>> +        return -EINVAL;
->>> +
->>> +    if (start + count > q->max_num_buffers)
->> Change this to:
->>
->>     if (start > q->max_num_buffers - count)
->>
->> This avoids the corner case where 'start + count' overflows the unsigned int.
->>
->>> +        return -EINVAL;
->>> +
->>> +    /* If streaming keep at least min_queued_buffers + 1 buffers */
->>> +    if (q->streaming && (q_num_bufs - count < q->min_queued_buffers + 1))
->>> +        return -EINVAL;
->> I would drop this. This will be caught automatically by the next check
->> since if a driver needs q->min_queued_buffers to start the DMA, then
->> once the DMA stated there will always be that amount of buffers in a
->> non-DEQUEUED state.
->>
->>> +
->>> +    mutex_lock(&q->mmap_lock);
->>> +
->>> +    /* Check that all buffers in the range exist */
->>> +    for (i = start; i < start + count; i++) {
->>> +        struct vb2_buffer *vb = vb2_get_buffer(q, i);
->>> +
->>> +        if (!vb) {
->>> +            ret = -EINVAL;
->>> +            goto unlock;
->>> +        }
->>> +        if (vb->state != VB2_BUF_STATE_DEQUEUED) {
->>> +            ret = -EBUSY;
->>> +            goto unlock;
->>> +        }
->>> +    }
->>> +    __vb2_queue_free(q, start, count);
->>> +    dprintk(q, 2, "%u buffers deleted\n", count);
->>> +
->>> +unlock:
->>> +    mutex_unlock(&q->mmap_lock);
->>> +    return ret;
->>> +}
->>> +EXPORT_SYMBOL_GPL(vb2_core_delete_bufs);
->> There is one specific corner case here that needs attention: if ALL buffers
->> are deleted (something that is possible if STREAMON was called, but no
->> buffers are queued), then vb2_is_busy will suddenly return false.
->>
->> This can have all sorts of subtle consequences since it is now possible
->> to, for example, change the format.
->>
->> There are two options here:
->>
->> 1) vb2_is_busy() shouldn't check if there are buffers allocated, instead it
->>     should check if buffers were allocated at least once. So calling REQBUFS
->>     or CREATE_BUFS for the first time will set a flag to 1, until you call
->>     REQBUFS with count 0, or close the filehandle. Deleting all buffers with
->>     DELETE_BUFS will not change that.
-> 
-> I will go for this option and add a patch at the beginning of the series.
-> 
->>
->> 2) We treat deleting all buffers with DELETE_BUFS the same as calling REQBUFS(0),
->>     in which case the code above needs to change.
->>
->> I lean towards option 1. My reasoning is that REQBUFS does an implicit STREAMOFF,
->> and DELETE_BUFS does not and I do not think DELETE_BUFS should allow vb2_is_busy()
->> to become false. It would still be nice if it can delete all buffers, but we
->> would have to check if there are no other places where the number of allocated
->> buffers is checked, when perhaps it really should use vb2_is_busy() instead.
->>
->>> +
->>>   /*
->>>    * vb2_start_streaming() - Attempt to start streaming.
->>>    * @q:        videobuf2 queue
->>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> index 03e8080a68a8..626b5283dfdb 100644
->>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> @@ -698,6 +698,8 @@ static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
->>>           *caps |= V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
->>>       if (q->supports_requests)
->>>           *caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
->>> +    if (q->supports_delete_bufs)
->>> +        *caps |= V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS;
->>>       if (max_num_bufs) {
->>>           *max_num_bufs = q->max_num_buffers;
->>>           *caps |= V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
->>> @@ -743,6 +745,12 @@ int vb2_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
->>>   }
->>>   EXPORT_SYMBOL_GPL(vb2_prepare_buf);
->>>   +int vb2_delete_bufs(struct vb2_queue *q, struct v4l2_delete_buffers *d)
->>> +{
->>> +    return vb2_core_delete_bufs(q, d->index, d->count);
->>> +}
->>> +EXPORT_SYMBOL_GPL(vb2_delete_bufs);
->>> +
->> I would not add this. Drivers that want to support this should implement
->> vb2_ioctl_delete_bufs(). Eventually I want to get away from these non-vb2_ioctl_
->> functions.
-> 
-> I need it for v4l2_m2m_ioctl_delete_bufs() implementation because the targeted
-> queue depends of the context.
+Hi Andrew,
 
-I would prefer that v4l2_m2m_ioctl_delete_bufs() calls vb2_core_delete_bufs()
-directly. vb2_delete_bufs is really just a wrapper around that anyway.
+Le mercredi 24 janvier 2024 =C3=A0 09:38 -0600, Andrew Davis a =C3=A9crit=
+=C2=A0:
+> On 1/24/24 4:58 AM, Paul Cercueil wrote:
+> > Hi Christian,
+> >=20
+> > Le mardi 23 janvier 2024 =C3=A0 14:28 +0100, Christian K=C3=B6nig a =C3=
+=A9crit=C2=A0:
+> > > =C2=A0=C2=A0Am 23.01.24 um 14:02 schrieb Paul Cercueil:
+> > > =C2=A0=20
+> > > > [SNIP]
+> > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > > =C2=A0=C2=A0=20
+> > > > > > > =C2=A0=20
+> > > > > > > That an exporter has to call extra functions to access
+> > > > > > > his
+> > > > > > > own
+> > > > > > > buffers
+> > > > > > > is a complete no-go for the design since this forces
+> > > > > > > exporters
+> > > > > > > into
+> > > > > > > doing extra steps for allowing importers to access their
+> > > > > > > data.
+> > > > > > > =C2=A0=20
+> > > > > > =C2=A0=20
+> > > > > > Then what about we add these dma_buf_{begin,end}_access(),
+> > > > > > with
+> > > > > > only
+> > > > > > implementations for "dumb" exporters e.g. udmabuf or the
+> > > > > > dmabuf
+> > > > > > heaps?
+> > > > > > And only importers (who cache the mapping and actually care
+> > > > > > about
+> > > > > > non-
+> > > > > > coherency) would have to call these.
+> > > > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > No, the problem is still that you would have to change all
+> > > > > importers
+> > > > > to
+> > > > > mandatory use dma_buf_begin/end.
+> > > > >=20
+> > > > > But going a step back caching the mapping is irrelevant for
+> > > > > coherency.
+> > > > > Even if you don't cache the mapping you don't get coherency.
+> > > > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > You actually do - at least with udmabuf, as in that case
+> > > > dma_buf_map_attachment() / dma_buf_unmap_attachment() will
+> > > > handle
+> > > > cache
+> > > > coherency when the SGs are mapped/unmapped.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Well I just double checked the source in 6.7.1 and I can'=
+t see
+> > > udmabuf doing anything for cache coherency in map/unmap.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0All it does is calling dma_map_sgtable() and
+> > > dma_unmap_sgtable() to
+> > > create and destroy the SG table and those are not supposed to
+> > > sync
+> > > anything to the CPU cache.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0In other words drivers usually use DMA_ATTR_SKIP_CPU_SYNC=
+ here,
+> > > it's
+> > > just that this is missing from udmabuf.
+> >=20
+> > Ok.
+> > =C2=A0=20
+> > > > =C2=A0=20
+> > > > The problem was then that dma_buf_unmap_attachment cannot be
+> > > > called
+> > > > before the dma_fence is signaled, and calling it after is
+> > > > already
+> > > > too
+> > > > late (because the fence would be signaled before the data is
+> > > > sync'd).
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Well what sync are you talking about? CPU sync? In DMA-bu=
+f that
+> > > is
+> > > handled differently.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0For importers it's mandatory that they can be coherent wi=
+th the
+> > > exporter. That usually means they can snoop the CPU cache if the
+> > > exporter can snoop the CPU cache.
+> >=20
+> > I seem to have such a system where one device can snoop the CPU
+> > cache
+> > and the other cannot. Therefore if I want to support it properly, I
+> > do
+> > need cache flush/sync. I don't actually try to access the data
+> > using
+> > the CPU (and when I do, I call the sync start/end ioctls).
+> >=20
+>=20
+> If you don't access the data using the CPU, then how did the data
+> end up in the CPU caches? If you have a device that can write-
+> allocate
+> into your CPU cache, but some other device in the system cannot snoop
+> that data back out then that is just broken and those devices cannot
+> reasonably share buffers..
 
-Regards,
+I think that's what happens, yes.
 
-	Hans
+> Now we do have systems where some hardware can snoop CPU(or L3)
+> caches
+> and others cannot, but they will not *allocate* into those caches
+> (unless they also have the ability to sync them without CPU in the
+> loop).
+>=20
+> Your problem may be if you are still using udmabuf driver as your
+> DMA-BUF exporter, which as said before is broken (and I just sent
+> some
+> patches with a few fixes just for you :)). For udmabuf, data starts
+> in the CPU domain (in caches) and is only ever synced for the CPU,
+> not for attached devices. So in this case the writing device might
+> update those cache lines but a non-snooping reader would never see
+> those updates.
+
+I tried today with the system dma-heap, and the behaviour was the same.
+Adding an implementation of .dma_buf_begin/end_access() to it made it
+work there too.
+
+> I'm not saying there isn't a need for these new {begin,end}_access()
+> functions. I can think of a few interesting usecases, but as you
+> say below that would be good to work out in a different series.
+
+Yep, but it's a can of worms I'd rather not open if I can avoid it :)
+
+> Andrew
+
+Cheers,
+-Paul
+
+>=20
+> >=20
+> > > =C2=A0=C2=A0For exporters you can implement the begin/end CPU access
+> > > functions
+> > > which allows you to implement something even if your exporting
+> > > device
+> > > can't snoop the CPU cache.
+> >=20
+> > That only works if the importers call the begin_cpu_access() /
+> > end_cpu_access(), which they don't.
+> >=20
+> > =C2=A0=20
+> > > > Daniel / Sima suggested then that I cache the mapping and add
+> > > > new
+> > > > functions to ensure cache coherency, which is what these
+> > > > patches
+> > > > are
+> > > > about.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Yeah, I've now catched up on the latest mail. Sorry I hav=
+en't
+> > > seen
+> > > that before.
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > > =C2=A0=20
+> > > >=20
+> > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > In other words exporters are not require to call sync_to_cpu
+> > > > > or
+> > > > > sync_to_device when you create a mapping.
+> > > > >=20
+> > > > > What exactly is your use case here? And why does coherency
+> > > > > matters?
+> > > > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > My use-case is, I create DMABUFs with udmabuf, that I attach to
+> > > > USB/functionfs with the interface introduced by this patchset.
+> > > > I
+> > > > attach
+> > > > them to IIO with a similar interface (being upstreamed in
+> > > > parallel),
+> > > > and transfer data from USB to IIO and vice-versa in a zero-copy
+> > > > fashion.
+> > > >=20
+> > > > This works perfectly fine as long as the USB and IIO hardware
+> > > > are
+> > > > coherent between themselves, which is the case on most of our
+> > > > boards.
+> > > > However I do have a board (with a Xilinx Ultrascale SoC) where
+> > > > it
+> > > > is
+> > > > not the case, and cache flushes/sync are needed. So I was
+> > > > trying to
+> > > > rework these new interfaces to work on that system too.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Yeah, that sounds strongly like one of the use cases we h=
+ave
+> > > rejected so far.
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > If this really is a no-no, then I am fine with the assumption
+> > > > that
+> > > > devices sharing a DMABUF must be coherent between themselves;
+> > > > but
+> > > > that's something that should probably be enforced rather than
+> > > > assumed.
+> > > >=20
+> > > > (and I *think* there is a way to force coherency in the
+> > > > Ultrascale's
+> > > > interconnect - we're investigating it)
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0What you can do is that instead of using udmabuf or dma-h=
+eaps
+> > > is
+> > > that the device which can't provide coherency act as exporters of
+> > > the
+> > > buffers.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0The exporter is allowed to call sync_for_cpu/sync_for_dev=
+ice on
+> > > it's
+> > > own buffers and also gets begin/end CPU access notfications. So
+> > > you
+> > > can then handle coherency between the exporter and the CPU.
+> >=20
+> > But again that would only work if the importers would call
+> > begin_cpu_access() / end_cpu_access(), which they don't, because
+> > they
+> > don't actually access the data using the CPU.
+> >=20
+> > Unless you mean that the exporter can call
+> > sync_for_cpu/sync_for_device
+> > before/after every single DMA transfer so that the data appears
+> > coherent to the importers, without them having to call
+> > begin_cpu_access() / end_cpu_access().
+> >=20
+> > In which case - this would still demultiply the complexity; my USB-
+> > functionfs interface here (and IIO interface in the separate
+> > patchset)
+> > are not device-specific, so I'd rather keep them importers.
+> > =C2=A0=20
+> > > =C2=A0=C2=A0If you really don't have coherency between devices then t=
+hat
+> > > would
+> > > be a really new use case and we would need much more agreement on
+> > > how
+> > > to do this.
+> >=20
+> > [snip]
+> >=20
+> > Agreed. Desiging a good generic solution would be better.
+> >=20
+> > With that said...
+> >=20
+> > Let's keep it out of this USB-functionfs interface for now. The
+> > interface does work perfectly fine on platforms that don't have
+> > coherency problems. The coherency issue in itself really is a
+> > tangential issue.
+> >=20
+> > So I will send a v6 where I don't try to force the cache coherency
+> > -
+> > and instead assume that the attached devices are coherent between
+> > themselves.
+> >=20
+> > But it would be even better to have a way to detect non-coherency
+> > and
+> > return an error on attach.
+> >=20
+> > Cheers,
+> > -Paul
+
 
