@@ -1,63 +1,36 @@
-Return-Path: <linux-media+bounces-4154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B2783AD88
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 16:39:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 321A683ADA5
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 16:45:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FB1B1F22042
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 15:39:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56AAB1C261BD
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 15:44:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 578DC7C0AF;
-	Wed, 24 Jan 2024 15:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="hp5K+VmK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 940687C0A6;
+	Wed, 24 Jan 2024 15:44:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6627A73A;
-	Wed, 24 Jan 2024 15:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3997B43154;
+	Wed, 24 Jan 2024 15:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706110759; cv=none; b=YTkrq8/Feb16h8zU5n5nJ1/FD8keTdn1xaiT1ETtrWY2iuVuNDVbmsOwbnWyX2y2+qmWJRDnZ6uOw/F7yfQPAjCX0pY/GyLjCFzLphF7Kxxeruf9/AaQZuzJhvwHoKjIAyc+XnpXvM2g/h7PxAe9Sz+PSbV9qxzhmt4frOWOZOo=
+	t=1706111089; cv=none; b=KiW5zOHO3vUOAIJlHw7oMhUlTrFJZNYZRoCgwTrExfGofCJwJyT38vkCOeWENVgBpcFFJ5NOfnX62PVkxt3st374xyaHbHWfjBLvifrFRr7IVps998JQtbL0tfh8eoN4YQ5vhwyBf9DrLZDwHeYlMwLeOmnheLF0Ikcnd8z+ut0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706110759; c=relaxed/simple;
-	bh=hc4wzRn+HPe6CX5z3svV7CtMNGCVeM7/COQFs/wm/P4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=TMGjUi7rJGdUfnHtDpr5ba+ggd8LpFD0svjh+9JIsUvmAXBj99YPAclJqLuiac/SAwtEdZVou8NpAyDV8128OEBfv5fgaWUhuyAAKnNTpZAB2QxRUuCcGr/ar7JhajTXu0kqPOeLnTIqGC5mulM25Xve0foZpEKyaktnXBBMzG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=hp5K+VmK; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40OFcpxb028401;
-	Wed, 24 Jan 2024 09:38:51 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1706110731;
-	bh=VYB3w4Afxxk7ZxsxdbFHBZxDZtm5HgnyDACANemk/HA=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=hp5K+VmKgMzCKiox/P8x7IRTHKtASxB052sR4Tup5FjEQPF8LXNfrGzXpPpmO1WyA
-	 h/nAmltZNEkjMHmioMJp4Ue8ppOU6DRRH/o0WIR/jCqg+8XSfv0q8k+Gqg1Na9p6KQ
-	 KrXHZl0M85XdaCaUHmS7EqS+raifOrClXnFlZe1M=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40OFcpJv019724
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 24 Jan 2024 09:38:51 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 24
- Jan 2024 09:38:51 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 24 Jan 2024 09:38:51 -0600
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40OFcoKX129004;
-	Wed, 24 Jan 2024 09:38:50 -0600
-Message-ID: <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
-Date: Wed, 24 Jan 2024 09:38:50 -0600
+	s=arc-20240116; t=1706111089; c=relaxed/simple;
+	bh=xXU+SmS5rXnzSe8RPZ7/n8+45OblHnQVcz7krecSA54=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QVz/J7VIf77G96JsiTdUzCTLaqF0BnVClDYUJKEVe2tVLxla4ElOC6m26GUCY7pahQAnK/YeGdwXBVuvK3D2k20b12rolwD98KtbMk4yduSg51tFphUZOd3QLfRMDP/8oou9803wtKQqOV2/X4QYf3Gp5KYfzinKroJB5Kmpblc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94EFFC433C7;
+	Wed, 24 Jan 2024 15:44:47 +0000 (UTC)
+Message-ID: <7f40af24-79a8-466c-8906-7104988124fb@xs4all.nl>
+Date: Wed, 24 Jan 2024 16:44:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,254 +38,138 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-To: Paul Cercueil <paul@crapouillou.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<ckoenig.leichtzumerken@gmail.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>
-CC: Daniel Vetter <daniel@ffwll.ch>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>,
-        =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
-        Jonathan Cameron
-	<jic23@kernel.org>, <linux-media@vger.kernel.org>
-References: <20240119141402.44262-1-paul@crapouillou.net>
- <20240119141402.44262-2-paul@crapouillou.net>
- <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
- <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
- <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
- <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
- <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
- <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
- <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
- <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH v17 8/8] media: verisilicon: Support deleting buffers on
+ capture queue
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20240119094944.26763-1-benjamin.gaignard@collabora.com>
+ <20240119094944.26763-9-benjamin.gaignard@collabora.com>
+ <56c1410e-7a4c-4913-823d-83b8bc0ac002@xs4all.nl>
+ <1cd7c504-c384-4c9c-bedd-79cd8aed8484@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <1cd7c504-c384-4c9c-bedd-79cd8aed8484@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 1/24/24 4:58 AM, Paul Cercueil wrote:
-> Hi Christian,
+On 24/01/2024 16:35, Benjamin Gaignard wrote:
 > 
-> Le mardi 23 janvier 2024 à 14:28 +0100, Christian König a écrit :
->>   Am 23.01.24 um 14:02 schrieb Paul Cercueil:
->>   
->>> [SNIP]
->>>   
->>>>   
->>>>>    
->>>>>>   
->>>>>> That an exporter has to call extra functions to access his
->>>>>> own
->>>>>> buffers
->>>>>> is a complete no-go for the design since this forces
->>>>>> exporters
->>>>>> into
->>>>>> doing extra steps for allowing importers to access their
->>>>>> data.
->>>>>>   
->>>>>   
->>>>> Then what about we add these dma_buf_{begin,end}_access(), with
->>>>> only
->>>>> implementations for "dumb" exporters e.g. udmabuf or the dmabuf
->>>>> heaps?
->>>>> And only importers (who cache the mapping and actually care
->>>>> about
->>>>> non-
->>>>> coherency) would have to call these.
->>>>>   
->>>>   
->>>> No, the problem is still that you would have to change all
->>>> importers
->>>> to
->>>> mandatory use dma_buf_begin/end.
->>>>
->>>> But going a step back caching the mapping is irrelevant for
->>>> coherency.
->>>> Even if you don't cache the mapping you don't get coherency.
->>>>   
->>>   
->>> You actually do - at least with udmabuf, as in that case
->>> dma_buf_map_attachment() / dma_buf_unmap_attachment() will handle
->>> cache
->>> coherency when the SGs are mapped/unmapped.
->>>   
->>   
->>   Well I just double checked the source in 6.7.1 and I can't see
->> udmabuf doing anything for cache coherency in map/unmap.
->>   
->>   All it does is calling dma_map_sgtable() and dma_unmap_sgtable() to
->> create and destroy the SG table and those are not supposed to sync
->> anything to the CPU cache.
->>   
->>   In other words drivers usually use DMA_ATTR_SKIP_CPU_SYNC here, it's
->> just that this is missing from udmabuf.
-> 
-> Ok.
->   
->>>   
->>> The problem was then that dma_buf_unmap_attachment cannot be called
->>> before the dma_fence is signaled, and calling it after is already
->>> too
->>> late (because the fence would be signaled before the data is
->>> sync'd).
->>>   
->>   
->>   Well what sync are you talking about? CPU sync? In DMA-buf that is
->> handled differently.
->>   
->>   For importers it's mandatory that they can be coherent with the
->> exporter. That usually means they can snoop the CPU cache if the
->> exporter can snoop the CPU cache.
-> 
-> I seem to have such a system where one device can snoop the CPU cache
-> and the other cannot. Therefore if I want to support it properly, I do
-> need cache flush/sync. I don't actually try to access the data using
-> the CPU (and when I do, I call the sync start/end ioctls).
-> 
-
-If you don't access the data using the CPU, then how did the data
-end up in the CPU caches? If you have a device that can write-allocate
-into your CPU cache, but some other device in the system cannot snoop
-that data back out then that is just broken and those devices cannot
-reasonably share buffers..
-
-Now we do have systems where some hardware can snoop CPU(or L3) caches
-and others cannot, but they will not *allocate* into those caches
-(unless they also have the ability to sync them without CPU in the loop).
-
-Your problem may be if you are still using udmabuf driver as your
-DMA-BUF exporter, which as said before is broken (and I just sent some
-patches with a few fixes just for you :)). For udmabuf, data starts
-in the CPU domain (in caches) and is only ever synced for the CPU,
-not for attached devices. So in this case the writing device might
-update those cache lines but a non-snooping reader would never see
-those updates.
-
-I'm not saying there isn't a need for these new {begin,end}_access()
-functions. I can think of a few interesting usecases, but as you
-say below that would be good to work out in a different series.
-
-Andrew
-
-> 
->>   For exporters you can implement the begin/end CPU access functions
->> which allows you to implement something even if your exporting device
->> can't snoop the CPU cache.
-> 
-> That only works if the importers call the begin_cpu_access() /
-> end_cpu_access(), which they don't.
-> 
->   
->>> Daniel / Sima suggested then that I cache the mapping and add new
->>> functions to ensure cache coherency, which is what these patches
->>> are
->>> about.
->>>   
->>   
->>   Yeah, I've now catched up on the latest mail. Sorry I haven't seen
->> that before.
->>   
->>   
->>>   
+> Le 24/01/2024 à 13:52, Hans Verkuil a écrit :
+>> On 19/01/2024 10:49, Benjamin Gaignard wrote:
+>>> Allow to delete buffers on capture queue because it the one which
+>>> own the decoded buffers. After a dynamic resolution change lot of
+>>> them could remain allocated but won't be used anymore so deleting
+>>> them save memory.
+>>> Do not add this feature on output queue because the buffers are
+>>> smaller, fewer and always recycled even after a dynamic resolution
+>>> change.
 >>>
->>>   
->>>>   
->>>> In other words exporters are not require to call sync_to_cpu or
->>>> sync_to_device when you create a mapping.
->>>>
->>>> What exactly is your use case here? And why does coherency
->>>> matters?
->>>>   
->>>   
->>> My use-case is, I create DMABUFs with udmabuf, that I attach to
->>> USB/functionfs with the interface introduced by this patchset. I
->>> attach
->>> them to IIO with a similar interface (being upstreamed in
->>> parallel),
->>> and transfer data from USB to IIO and vice-versa in a zero-copy
->>> fashion.
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> ---
+>>>   drivers/media/platform/verisilicon/hantro_drv.c  | 1 +
+>>>   drivers/media/platform/verisilicon/hantro_v4l2.c | 1 +
+>>>   2 files changed, 2 insertions(+)
 >>>
->>> This works perfectly fine as long as the USB and IIO hardware are
->>> coherent between themselves, which is the case on most of our
->>> boards.
->>> However I do have a board (with a Xilinx Ultrascale SoC) where it
->>> is
->>> not the case, and cache flushes/sync are needed. So I was trying to
->>> rework these new interfaces to work on that system too.
->>>   
->>   
->>   Yeah, that sounds strongly like one of the use cases we have
->> rejected so far.
->>   
->>   
->>   
->>>   
->>> If this really is a no-no, then I am fine with the assumption that
->>> devices sharing a DMABUF must be coherent between themselves; but
->>> that's something that should probably be enforced rather than
->>> assumed.
->>>
->>> (and I *think* there is a way to force coherency in the
->>> Ultrascale's
->>> interconnect - we're investigating it)
->>>   
->>   
->>   What you can do is that instead of using udmabuf or dma-heaps is
->> that the device which can't provide coherency act as exporters of the
->> buffers.
->>   
->>   The exporter is allowed to call sync_for_cpu/sync_for_device on it's
->> own buffers and also gets begin/end CPU access notfications. So you
->> can then handle coherency between the exporter and the CPU.
+>>> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+>>> index db3df6cc4513..f6b0a676a740 100644
+>>> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+>>> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+>>> @@ -248,6 +248,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+>>>       dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>>>       dst_vq->lock = &ctx->dev->vpu_mutex;
+>>>       dst_vq->dev = ctx->dev->v4l2_dev.dev;
+>>> +    src_vq->supports_delete_bufs = true;
+>> As I mentioned, I remain unconvinced by this. It is just making the API inconsistent
+>> since if you support delete_bufs, then why support it for one queue only and not both?
 > 
-> But again that would only work if the importers would call
-> begin_cpu_access() / end_cpu_access(), which they don't, because they
-> don't actually access the data using the CPU.
+> Because the both queues don't handle the same type of data.
+> For example for a stateless decoder, for me, it makes sense to allow delete decoded frames
+> if they won't be used anymore but that won't makes sense for bitstream buffers.
+
+But is there any reason why you wouldn't support this feature? We support VIDIOC_CREATE_BUFS
+as well, even though most drivers do not need it, but it is cheap to add.
+
+Deleting buffers is a generic feature, and I don't see why you wouldn't just offer it
+for both queues.
+
+Regards,
+
+	Hans
+
 > 
-> Unless you mean that the exporter can call sync_for_cpu/sync_for_device
-> before/after every single DMA transfer so that the data appears
-> coherent to the importers, without them having to call
-> begin_cpu_access() / end_cpu_access().
+>>
+>>>         return vb2_queue_init(dst_vq);
+>>>   }
+>>> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>>> index 941fa23c211a..34eab90e8a42 100644
+>>> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+>>> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>>> @@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>>>       .vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
+>>>       .vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
+>>>       .vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
+>>> +    .vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
+>>>       .vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
+>>>         .vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>> In my view setting vidioc_delete_bufs should enable this feature, and if
+>> for some strange reason only one queue support it, then make a wrapper
+>> callback that returns an error when used with the wrong queue.
+>>
+>> Also note that patch 6/8 never checks for q->supports_delete_bufs in
+>> vb2_core_delete_bufs(), which is wrong!
 > 
-> In which case - this would still demultiply the complexity; my USB-
-> functionfs interface here (and IIO interface in the separate patchset)
-> are not device-specific, so I'd rather keep them importers.
->   
->>   If you really don't have coherency between devices then that would
->> be a really new use case and we would need much more agreement on how
->> to do this.
+> I will fix that in next version.
+> Regards,
+> Benjamin
 > 
-> [snip]
-> 
-> Agreed. Desiging a good generic solution would be better.
-> 
-> With that said...
-> 
-> Let's keep it out of this USB-functionfs interface for now. The
-> interface does work perfectly fine on platforms that don't have
-> coherency problems. The coherency issue in itself really is a
-> tangential issue.
-> 
-> So I will send a v6 where I don't try to force the cache coherency -
-> and instead assume that the attached devices are coherent between
-> themselves.
-> 
-> But it would be even better to have a way to detect non-coherency and
-> return an error on attach.
-> 
-> Cheers,
-> -Paul
+>>
+>> Regards,
+>>
+>>     Hans
+>>
+
 
