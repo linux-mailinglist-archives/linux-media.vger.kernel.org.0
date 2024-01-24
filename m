@@ -1,145 +1,192 @@
-Return-Path: <linux-media+bounces-4160-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4161-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730CB83AFFF
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 18:32:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2B883B06A
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 18:52:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C0C028614C
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 17:32:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B93D8284710
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 17:52:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51EC61272B0;
-	Wed, 24 Jan 2024 17:30:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB49C129A7C;
+	Wed, 24 Jan 2024 17:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TE8sMbvf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B+/i4+u5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5815D85C4B;
-	Wed, 24 Jan 2024 17:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11614129A81;
+	Wed, 24 Jan 2024 17:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706117458; cv=none; b=g2/Ec2tTrSNkWygH4MD5gwSuXvxi8bYscPTf/MEyb28zsErLI9B1qo0PowMVkwT31ZqfKBmKc3VRKbHn+QacGy17ZPUGbRZnQ6895AGCKhFkt6ii5cf1/9l51ntLlSAa3tqmLHRNutqqEcDHekTAmYK0nwDhodWGx5zciI0cDo4=
+	t=1706118507; cv=none; b=Apira0A5q937rJC8kjpzhy0EUFgnV8J4maPm8iKkskMzT3plYGsv53nsltL9r//D6kYOpulSIYjOxUYIvU0lSW/bHhU+bvY3Wfb13twUFg4cA1/e0DpZb1qtE4j4NCAg+cqTH53yC5nQnrjtOueX6YUl/rd8Ku7XUIbOAd4Nerg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706117458; c=relaxed/simple;
-	bh=NNDXRpvhIGTKBi9slZ/qWQEGn6Uj559Gpw2fxZO2A8A=;
+	s=arc-20240116; t=1706118507; c=relaxed/simple;
+	bh=BbkMScLhqVnvvC3sAZx7c3tpYphfDb02SuRYxkgf36w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hpfhlR1qRxJB6kQ6fi3d6bQPohqrtiyF+cthEde/2U6mwHfmF+UwlDPj5SDfp6wV1EBVPK68UdS82RPYJYgsQP+NVrCfH4ajbPUVcbWEbYY3n/+ggoD5MZ+a2OHAqe4PImU+ytiICGPyuQ9etNR823YUOYVvL0WqQRyyUHdYHr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TE8sMbvf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2D0C433C7;
-	Wed, 24 Jan 2024 17:30:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706117457;
-	bh=NNDXRpvhIGTKBi9slZ/qWQEGn6Uj559Gpw2fxZO2A8A=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=pXduyy9kDD39V41i21CcpWykE2cMvo/r20MXCt4Nrm0UiuFWnSgzF8UQUHR5NOonWnke9jwo2JSJrHHSkVue6MGi2sWWnQC2De3nKIuYtUXkhu33osyHOB2AJjjh4SfWCEN/Q5IFA2cat36rrknZ7a9o6eAhn3gPEj6ej/NZoRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B+/i4+u5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06550C433F1;
+	Wed, 24 Jan 2024 17:48:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706118506;
+	bh=BbkMScLhqVnvvC3sAZx7c3tpYphfDb02SuRYxkgf36w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TE8sMbvfIUEPS7l+FWWrLd9ucrffQrWpUeULzzDGbHOZntLPKHC9u7ekCFztLhU3U
-	 g9c/BN8CkGH0i32zPynRDSS6j46gbVDA6ioIe6yR345V3vEOlOOOrQK63M5gAF7wrU
-	 bDTC1oJaRecQ9F29HgZfYDFNvnxiLNzNXD19CPf8=
-Date: Wed, 24 Jan 2024 09:30:56 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>,
-	Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
-	Rayyan Ansari <rayyan@ansari.sh>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Sergey Kozlov <serjk@netup.ru>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Rob Herring <robh@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-	Michal Simek <michal.simek@amd.com>,
-	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
-	linux-mtd@lists.infradead.org,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	b=B+/i4+u5rL6l1w+R098T6f9tuMlDEJL8v8d8LeEf8QmrcEZZmiRkJd48RPC8brbDX
+	 lDYhYNaTWfohVdyAuA+u17UGsFRzS4WAEozcfRRbKjCwQ3XrQAp3eTyw6IVx0kDq8n
+	 EplOiSYtFQkq57oJ+KeFxDGc3ZEXgZIzD9FB78w0o4mcCVoQB5p4Xlr5AJCud93mo3
+	 vvO2kwwOaBUVEWdE92LvChu5SJoMLDrhif+Ea8rt6M/4v42KFUxXKF4Cz2Dax6NJdp
+	 mzCLB75G0fSHN4PEDur7qy5sHVxoc6BHycIJblH75KYwIQm/Q5jCXLyBsT0urhxt/E
+	 B8npuJFnaflBA==
+Date: Wed, 24 Jan 2024 17:48:21 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Ronald Wahl <ronald.wahl@raritan.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, Max Filippov <jcmvbkbc@gmail.com>,
-	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-integrity@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
-	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-Message-ID: <2024012439-machinist-amazingly-2d2c@gregkh>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
- <2024012417-prissy-sworn-bc55@gregkh>
- <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH 2/5] media: dt-bindings: renesas,rzg2l-cru: Document
+ Renesas RZ/G2UL CRU block
+Message-ID: <20240124-staging-handgrip-a95b44189566@spud>
+References: <20240123121720.294753-1-biju.das.jz@bp.renesas.com>
+ <20240123121720.294753-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="K/AxyHRMzTGCOuyb"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
+In-Reply-To: <20240123121720.294753-3-biju.das.jz@bp.renesas.com>
 
-On Wed, Jan 24, 2024 at 05:22:00PM +0000, Mark Brown wrote:
-> On Wed, Jan 24, 2024 at 09:13:49AM -0800, Greg Kroah-Hartman wrote:
-> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-König wrote:
-> 
-> > > Note that Jonathan Cameron has already applied patch 3 to his tree, it
-> > > didn't appear in a public tree though yet. I still included it here to
-> > > make the kernel build bots happy.
-> 
-> > Are we supposed to take the individual changes in our different
-> > subsystem trees, or do you want them all to go through the spi tree?
-> 
-> Given that the final patch removes the legacy interfaces I'm expecting
-> to take them via SPI.
 
-Great, thanks, I'll go ack the subsystem patches that are relevent for
-me.
+--K/AxyHRMzTGCOuyb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-greg k-h
+On Tue, Jan 23, 2024 at 12:17:17PM +0000, Biju Das wrote:
+> Document the CRU IP found in Renesas RZ/G2UL SoC.
+>=20
+> The CRU block on the RZ/G2UL SoC is identical to one found on the
+> RZ/G2L SoC, but it does not support parallel input.
+>=20
+> No driver changes are required as generic compatible string
+> "renesas,rzg2l-cru" will be used as a fallback on RZ/G2UL SoC.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  .../bindings/media/renesas,rzg2l-cru.yaml     | 43 +++++++++++++++++--
+>  1 file changed, 39 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.ya=
+ml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> index 1e72b8808d24..7015a01fc1bc 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> @@ -19,6 +19,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - renesas,r9a07g043-cru       # RZ/G2UL
+>            - renesas,r9a07g044-cru       # RZ/G2{L,LC}
+>            - renesas,r9a07g054-cru       # RZ/V2L
+>        - const: renesas,rzg2l-cru
+> @@ -87,10 +88,6 @@ properties:
+>            Input port node, describing the Image Processing module connec=
+ted to the
+>            CSI-2 receiver.
+> =20
+> -    required:
+> -      - port@0
+> -      - port@1
+> -
+>  required:
+>    - compatible
+>    - reg
+> @@ -102,6 +99,44 @@ required:
+>    - reset-names
+>    - power-domains
+> =20
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r9a07g044-cru
+> +              - renesas,r9a07g054-cru
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: Parallel input
+> +            port@1:
+> +              description: CSI
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r9a07g043-cru
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0: false
+> +            port@1:
+> +              description: CSI-2
+
+The description in the existing binding says that port @ 1 is CSI-2
+already - but this patch seems to imply that it is only CSI-2 for the 43
+model. I don't know the media stuff all that well, but is the port
+actually CSI-2 on all 3 devices?
+
+If so, I would drop the description stuff from here and just use the
+if/else stuff to restrict the ports, rather than try to re-describe
+them.
+
+Cheers,
+Conor.
+
+> +
+> +          required:
+> +            - port@1
+> +
+>  additionalProperties: false
+> =20
+>  examples:
+> --=20
+> 2.25.1
+>=20
+>=20
+
+--K/AxyHRMzTGCOuyb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbFNZQAKCRB4tDGHoIJi
+0prMAP9lJcXYsfb6XVr4/2nJ5ht7SvllvIZEM5TXWH5/r056lgEAmBKevTvrdJRV
+L6YJwOMgKtnV9q+eobTMB52hBIl6sQM=
+=tavn
+-----END PGP SIGNATURE-----
+
+--K/AxyHRMzTGCOuyb--
 
