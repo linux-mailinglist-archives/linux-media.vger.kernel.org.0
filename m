@@ -1,55 +1,63 @@
-Return-Path: <linux-media+bounces-4153-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4154-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF15A83AD79
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 16:36:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B2783AD88
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 16:39:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F0262825AE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 15:36:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FB1B1F22042
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 15:39:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792947C0A0;
-	Wed, 24 Jan 2024 15:35:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 578DC7C0AF;
+	Wed, 24 Jan 2024 15:39:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="W/sDafYF"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="hp5K+VmK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C697A732;
-	Wed, 24 Jan 2024 15:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6627A73A;
+	Wed, 24 Jan 2024 15:39:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706110537; cv=none; b=sfka+Dh8XkkZZd78a2CIB69KxIoie7OYVdHWuwy5Z//Qn1AGtsxUUusileY5SE8zS+vsys01V1D+2zod8VWNbnzsZHjHXSMsJnnrcYN/T3qy45/WJenD+bK41Q+aJiN2o7KSXEO0aePq3paepLPlkFHFOLWLVo6cms5yhAg0btI=
+	t=1706110759; cv=none; b=YTkrq8/Feb16h8zU5n5nJ1/FD8keTdn1xaiT1ETtrWY2iuVuNDVbmsOwbnWyX2y2+qmWJRDnZ6uOw/F7yfQPAjCX0pY/GyLjCFzLphF7Kxxeruf9/AaQZuzJhvwHoKjIAyc+XnpXvM2g/h7PxAe9Sz+PSbV9qxzhmt4frOWOZOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706110537; c=relaxed/simple;
-	bh=N+TflonQRfqogNKYbGQo0RnN1UH3GVQVBoOQp3oiRBM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RZPWwV/FQwxmC0B/jK4jZHSlacSfEagfeqApYPAjrk9FArtKnpoKHKrzO0aY/OQ7w9nUJJzBAu314Ic/qdWZ03VLO8O1kOIURfCclbY13RKO/jjBE9jR/FS93OEmHqKqY9hDACURq65RcW3Vd3APVVRMvjSSsLzzGTjc6PykcLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=W/sDafYF; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706110534;
-	bh=N+TflonQRfqogNKYbGQo0RnN1UH3GVQVBoOQp3oiRBM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W/sDafYFbpvDzWHfphTmIrido8u42WqCplAYh9JvXvax5+NZSCLaBg3CVmKWV28Rk
-	 3wxV+cNxyPYgoN7jdJrW4RWZNqX9w42CIylG0drcOqLtpU9mScCWzfsTGuq0EFaI2O
-	 twUVzC74CPGNsu19HwCus2WzrCGcxzPclnWoNiWKKHY5AVL5Jr1heE+7ElcS2ImBM8
-	 iewMdveVtIy0N+86GFl1+qYYCPPg0Y37a//qtpoZibfeQmFD3o8ABT+Mdu2ODj2XUV
-	 IYiOMUOlgzG5HIxhGRZmT2z87l2rxSYqb/xmanqeGee/WXXpeRf8a6LxXNd1G+b7dB
-	 zmsH2PN6h8nAg==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id CA35937811D2;
-	Wed, 24 Jan 2024 15:35:33 +0000 (UTC)
-Message-ID: <81d8f73a-9a9c-445d-a6f5-e1358bf945a6@collabora.com>
-Date: Wed, 24 Jan 2024 16:35:33 +0100
+	s=arc-20240116; t=1706110759; c=relaxed/simple;
+	bh=hc4wzRn+HPe6CX5z3svV7CtMNGCVeM7/COQFs/wm/P4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=TMGjUi7rJGdUfnHtDpr5ba+ggd8LpFD0svjh+9JIsUvmAXBj99YPAclJqLuiac/SAwtEdZVou8NpAyDV8128OEBfv5fgaWUhuyAAKnNTpZAB2QxRUuCcGr/ar7JhajTXu0kqPOeLnTIqGC5mulM25Xve0foZpEKyaktnXBBMzG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=hp5K+VmK; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40OFcpxb028401;
+	Wed, 24 Jan 2024 09:38:51 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1706110731;
+	bh=VYB3w4Afxxk7ZxsxdbFHBZxDZtm5HgnyDACANemk/HA=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=hp5K+VmKgMzCKiox/P8x7IRTHKtASxB052sR4Tup5FjEQPF8LXNfrGzXpPpmO1WyA
+	 h/nAmltZNEkjMHmioMJp4Ue8ppOU6DRRH/o0WIR/jCqg+8XSfv0q8k+Gqg1Na9p6KQ
+	 KrXHZl0M85XdaCaUHmS7EqS+raifOrClXnFlZe1M=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40OFcpJv019724
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 24 Jan 2024 09:38:51 -0600
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 24
+ Jan 2024 09:38:51 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 24 Jan 2024 09:38:51 -0600
+Received: from [10.249.42.149] ([10.249.42.149])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40OFcoKX129004;
+	Wed, 24 Jan 2024 09:38:50 -0600
+Message-ID: <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
+Date: Wed, 24 Jan 2024 09:38:50 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,500 +65,254 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 6/8] media: v4l2: Add DELETE_BUFS ioctl
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+To: Paul Cercueil <paul@crapouillou.net>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<ckoenig.leichtzumerken@gmail.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal
+	<sumit.semwal@linaro.org>
+CC: Daniel Vetter <daniel@ffwll.ch>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+        Jonathan Cameron
+	<jic23@kernel.org>, <linux-media@vger.kernel.org>
+References: <20240119141402.44262-1-paul@crapouillou.net>
+ <20240119141402.44262-2-paul@crapouillou.net>
+ <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+ <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+ <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+ <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+ <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+ <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+ <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+ <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
 Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20240119094944.26763-1-benjamin.gaignard@collabora.com>
- <20240119094944.26763-7-benjamin.gaignard@collabora.com>
- <8a19487d-e903-4961-b56b-42079c9362b3@xs4all.nl>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <8a19487d-e903-4961-b56b-42079c9362b3@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
+On 1/24/24 4:58 AM, Paul Cercueil wrote:
+> Hi Christian,
+> 
+> Le mardi 23 janvier 2024 à 14:28 +0100, Christian König a écrit :
+>>   Am 23.01.24 um 14:02 schrieb Paul Cercueil:
+>>   
+>>> [SNIP]
+>>>   
+>>>>   
+>>>>>    
+>>>>>>   
+>>>>>> That an exporter has to call extra functions to access his
+>>>>>> own
+>>>>>> buffers
+>>>>>> is a complete no-go for the design since this forces
+>>>>>> exporters
+>>>>>> into
+>>>>>> doing extra steps for allowing importers to access their
+>>>>>> data.
+>>>>>>   
+>>>>>   
+>>>>> Then what about we add these dma_buf_{begin,end}_access(), with
+>>>>> only
+>>>>> implementations for "dumb" exporters e.g. udmabuf or the dmabuf
+>>>>> heaps?
+>>>>> And only importers (who cache the mapping and actually care
+>>>>> about
+>>>>> non-
+>>>>> coherency) would have to call these.
+>>>>>   
+>>>>   
+>>>> No, the problem is still that you would have to change all
+>>>> importers
+>>>> to
+>>>> mandatory use dma_buf_begin/end.
+>>>>
+>>>> But going a step back caching the mapping is irrelevant for
+>>>> coherency.
+>>>> Even if you don't cache the mapping you don't get coherency.
+>>>>   
+>>>   
+>>> You actually do - at least with udmabuf, as in that case
+>>> dma_buf_map_attachment() / dma_buf_unmap_attachment() will handle
+>>> cache
+>>> coherency when the SGs are mapped/unmapped.
+>>>   
+>>   
+>>   Well I just double checked the source in 6.7.1 and I can't see
+>> udmabuf doing anything for cache coherency in map/unmap.
+>>   
+>>   All it does is calling dma_map_sgtable() and dma_unmap_sgtable() to
+>> create and destroy the SG table and those are not supposed to sync
+>> anything to the CPU cache.
+>>   
+>>   In other words drivers usually use DMA_ATTR_SKIP_CPU_SYNC here, it's
+>> just that this is missing from udmabuf.
+> 
+> Ok.
+>   
+>>>   
+>>> The problem was then that dma_buf_unmap_attachment cannot be called
+>>> before the dma_fence is signaled, and calling it after is already
+>>> too
+>>> late (because the fence would be signaled before the data is
+>>> sync'd).
+>>>   
+>>   
+>>   Well what sync are you talking about? CPU sync? In DMA-buf that is
+>> handled differently.
+>>   
+>>   For importers it's mandatory that they can be coherent with the
+>> exporter. That usually means they can snoop the CPU cache if the
+>> exporter can snoop the CPU cache.
+> 
+> I seem to have such a system where one device can snoop the CPU cache
+> and the other cannot. Therefore if I want to support it properly, I do
+> need cache flush/sync. I don't actually try to access the data using
+> the CPU (and when I do, I call the sync start/end ioctls).
+> 
 
-Le 24/01/2024 à 13:33, Hans Verkuil a écrit :
-> On 19/01/2024 10:49, Benjamin Gaignard wrote:
->> VIDIOC_DELETE_BUFS ioctl allows to delete buffers from a queue.
->> The number of buffers to delete in given by count field of
->> struct v4l2_delete_buffers and the range start at the index
->> specified in the same structure.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> version 17:
->> - rework DELETE_BUFS documentation
->>
->>   .../userspace-api/media/v4l/user-func.rst     |  1 +
->>   .../media/v4l/vidioc-delete-bufs.rst          | 80 +++++++++++++++++++
->>   .../media/v4l/vidioc-reqbufs.rst              |  1 +
->>   .../media/common/videobuf2/videobuf2-core.c   | 42 ++++++++++
->>   .../media/common/videobuf2/videobuf2-v4l2.c   | 20 +++++
->>   drivers/media/v4l2-core/v4l2-dev.c            |  1 +
->>   drivers/media/v4l2-core/v4l2-ioctl.c          | 20 +++++
->>   include/media/v4l2-ioctl.h                    |  4 +
->>   include/media/videobuf2-core.h                | 12 +++
->>   include/media/videobuf2-v4l2.h                | 13 +++
->>   include/uapi/linux/videodev2.h                | 17 ++++
->>   11 files changed, 211 insertions(+)
->>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
->>
->> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
->> index 15ff0bf7bbe6..3fd567695477 100644
->> --- a/Documentation/userspace-api/media/v4l/user-func.rst
->> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
->> @@ -17,6 +17,7 @@ Function Reference
->>       vidioc-dbg-g-chip-info
->>       vidioc-dbg-g-register
->>       vidioc-decoder-cmd
->> +    vidioc-delete-bufs
->>       vidioc-dqevent
->>       vidioc-dv-timings-cap
->>       vidioc-encoder-cmd
->> diff --git a/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
->> new file mode 100644
->> index 000000000000..d409063ceb3f
->> --- /dev/null
->> +++ b/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
->> @@ -0,0 +1,80 @@
->> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
->> +.. c:namespace:: V4L
->> +
->> +.. _VIDIOC_DELETE_BUFS:
->> +
->> +************************
->> +ioctl VIDIOC_DELETE_BUFS
->> +************************
->> +
->> +Name
->> +====
->> +
->> +VIDIOC_DELETE_BUFS - Deletes buffers from a queue
->> +
->> +Synopsis
->> +========
->> +
->> +.. c:macro:: VIDIOC_DELETE_BUFs
->> +
->> +``int ioctl(int fd, VIDIOC_DELETE_BUFs, struct v4l2_delete_buffers *argp)``
->> +
->> +Arguments
->> +=========
->> +
->> +``fd``
->> +    File descriptor returned by :c:func:`open()`.
->> +
->> +``argp``
->> +    Pointer to struct :c:type:`v4l2_delete_buffers`.
->> +
->> +Description
->> +===========
->> +
->> +Applications can optionally call the :ref:`VIDIOC_DELETE_BUFS` ioctl to
->> +delete buffers from a queue.
->> +This ioctl is available if the ``V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS`` capability
->> +is set on the queue when :c:func:`VIDIOC_REQBUFS` or :c:func:`VIDIOC_CREATE_BUFS`
->> +are invoked.
->> +
->> +.. c:type:: v4l2_delete_buffers
->> +
->> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.5cm}|
->> +
->> +.. flat-table:: struct v4l2_delete_buffers
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       1 1 2
->> +
->> +    * - __u32
->> +      - ``index``
->> +      - The starting buffer index to delete.
->> +    * - __u32
->> +      - ``count``
->> +      - The number of buffers to be deleted with indices 'index' until 'index + count - 1'.
->> +        All buffers in this range must be valid and in DEQUEUED state.
->> +        If count is set to 0 :ref:`VIDIOC_DELETE_BUFS` will do nothing and return 0.
->> +    * - __u32
->> +      - ``type``
->> +      - Type of the stream or buffers, this is the same as the struct
->> +	:c:type:`v4l2_format` ``type`` field. See
->> +	:c:type:`v4l2_buf_type` for valid values.
->> +    * - __u32
->> +      - ``reserved``\ [13]
->> +      - A place holder for future extensions. Drivers and applications
->> +	must set the array to zero.
->> +
->> +Return Value
->> +============
->> +
->> +On success 0 is returned, on error -1 and the ``errno`` variable is set
->> +appropriately. The generic error codes are described at the
->> +:ref:`Generic Error Codes <gen-errors>` chapter.
->> +
->> +EBUSY
->> +    File I/O is in progress.
->> +    Any buffer in range ``index`` to ``index + count - 1`` is not in
->> +    DEQUEUED state.
->> +
->> +EINVAL
->> +    Any buffer in range ``index`` to ``index + count - 1`` doesn't exist in the queue.
->> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->> index 0b3a41a45d05..14d4a49c2945 100644
->> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->> @@ -121,6 +121,7 @@ aborting or finishing any DMA in progress, an implicit
->>   .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
->>   .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
->>   .. _V4L2-BUF-CAP-SUPPORTS-MAX-NUM-BUFFERS:
->> +.. _V4L2-BUF-CAP-SUPPORTS-DELETE-BUFS:
->>   
->>   .. raw:: latex
->>   
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->> index 010505ed92e8..99e631233a54 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -1688,6 +1688,48 @@ int vb2_core_prepare_buf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb)
->>   }
->>   EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
->>   
->> +int vb2_core_delete_bufs(struct vb2_queue *q, unsigned int start, unsigned int count)
->> +{
->> +	unsigned int i, ret = 0;
->> +	unsigned int q_num_bufs = vb2_get_num_buffers(q);
->> +
->> +	if (count == 0)
->> +		return 0;
->> +
->> +	if (count > q_num_bufs)
->> +		return -EINVAL;
->> +
->> +	if (start + count > q->max_num_buffers)
-> Change this to:
->
-> 	if (start > q->max_num_buffers - count)
->
-> This avoids the corner case where 'start + count' overflows the unsigned int.
->
->> +		return -EINVAL;
->> +
->> +	/* If streaming keep at least min_queued_buffers + 1 buffers */
->> +	if (q->streaming && (q_num_bufs - count < q->min_queued_buffers + 1))
->> +		return -EINVAL;
-> I would drop this. This will be caught automatically by the next check
-> since if a driver needs q->min_queued_buffers to start the DMA, then
-> once the DMA stated there will always be that amount of buffers in a
-> non-DEQUEUED state.
->
->> +
->> +	mutex_lock(&q->mmap_lock);
->> +
->> +	/* Check that all buffers in the range exist */
->> +	for (i = start; i < start + count; i++) {
->> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
->> +
->> +		if (!vb) {
->> +			ret = -EINVAL;
->> +			goto unlock;
->> +		}
->> +		if (vb->state != VB2_BUF_STATE_DEQUEUED) {
->> +			ret = -EBUSY;
->> +			goto unlock;
->> +		}
->> +	}
->> +	__vb2_queue_free(q, start, count);
->> +	dprintk(q, 2, "%u buffers deleted\n", count);
->> +
->> +unlock:
->> +	mutex_unlock(&q->mmap_lock);
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(vb2_core_delete_bufs);
-> There is one specific corner case here that needs attention: if ALL buffers
-> are deleted (something that is possible if STREAMON was called, but no
-> buffers are queued), then vb2_is_busy will suddenly return false.
->
-> This can have all sorts of subtle consequences since it is now possible
-> to, for example, change the format.
->
-> There are two options here:
->
-> 1) vb2_is_busy() shouldn't check if there are buffers allocated, instead it
->     should check if buffers were allocated at least once. So calling REQBUFS
->     or CREATE_BUFS for the first time will set a flag to 1, until you call
->     REQBUFS with count 0, or close the filehandle. Deleting all buffers with
->     DELETE_BUFS will not change that.
+If you don't access the data using the CPU, then how did the data
+end up in the CPU caches? If you have a device that can write-allocate
+into your CPU cache, but some other device in the system cannot snoop
+that data back out then that is just broken and those devices cannot
+reasonably share buffers..
 
-I will go for this option and add a patch at the beginning of the series.
+Now we do have systems where some hardware can snoop CPU(or L3) caches
+and others cannot, but they will not *allocate* into those caches
+(unless they also have the ability to sync them without CPU in the loop).
 
->
-> 2) We treat deleting all buffers with DELETE_BUFS the same as calling REQBUFS(0),
->     in which case the code above needs to change.
->
-> I lean towards option 1. My reasoning is that REQBUFS does an implicit STREAMOFF,
-> and DELETE_BUFS does not and I do not think DELETE_BUFS should allow vb2_is_busy()
-> to become false. It would still be nice if it can delete all buffers, but we
-> would have to check if there are no other places where the number of allocated
-> buffers is checked, when perhaps it really should use vb2_is_busy() instead.
->
->> +
->>   /*
->>    * vb2_start_streaming() - Attempt to start streaming.
->>    * @q:		videobuf2 queue
->> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> index 03e8080a68a8..626b5283dfdb 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> @@ -698,6 +698,8 @@ static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
->>   		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
->>   	if (q->supports_requests)
->>   		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
->> +	if (q->supports_delete_bufs)
->> +		*caps |= V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS;
->>   	if (max_num_bufs) {
->>   		*max_num_bufs = q->max_num_buffers;
->>   		*caps |= V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
->> @@ -743,6 +745,12 @@ int vb2_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
->>   }
->>   EXPORT_SYMBOL_GPL(vb2_prepare_buf);
->>   
->> +int vb2_delete_bufs(struct vb2_queue *q, struct v4l2_delete_buffers *d)
->> +{
->> +	return vb2_core_delete_bufs(q, d->index, d->count);
->> +}
->> +EXPORT_SYMBOL_GPL(vb2_delete_bufs);
->> +
-> I would not add this. Drivers that want to support this should implement
-> vb2_ioctl_delete_bufs(). Eventually I want to get away from these non-vb2_ioctl_
-> functions.
+Your problem may be if you are still using udmabuf driver as your
+DMA-BUF exporter, which as said before is broken (and I just sent some
+patches with a few fixes just for you :)). For udmabuf, data starts
+in the CPU domain (in caches) and is only ever synced for the CPU,
+not for attached devices. So in this case the writing device might
+update those cache lines but a non-snooping reader would never see
+those updates.
 
-I need it for v4l2_m2m_ioctl_delete_bufs() implementation because the targeted
-queue depends of the context.
-Regards,
-Benjamin
+I'm not saying there isn't a need for these new {begin,end}_access()
+functions. I can think of a few interesting usecases, but as you
+say below that would be good to work out in a different series.
 
->
->>   int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->>   {
->>   	unsigned requested_planes = 1;
->> @@ -1001,6 +1009,18 @@ EXPORT_SYMBOL_GPL(vb2_poll);
+Andrew
+
+> 
+>>   For exporters you can implement the begin/end CPU access functions
+>> which allows you to implement something even if your exporting device
+>> can't snoop the CPU cache.
+> 
+> That only works if the importers call the begin_cpu_access() /
+> end_cpu_access(), which they don't.
+> 
+>   
+>>> Daniel / Sima suggested then that I cache the mapping and add new
+>>> functions to ensure cache coherency, which is what these patches
+>>> are
+>>> about.
+>>>   
 >>   
->>   /* vb2 ioctl helpers */
+>>   Yeah, I've now catched up on the latest mail. Sorry I haven't seen
+>> that before.
 >>   
->> +int vb2_ioctl_delete_bufs(struct file *file, void *priv,
->> +			  struct v4l2_delete_buffers *p)
->> +{
->> +	struct video_device *vdev = video_devdata(file);
->> +
->> +	if (vb2_queue_is_busy(vdev->queue, file))
->> +		return -EBUSY;
->> +
->> +	return vb2_delete_bufs(vdev->queue, p);
->> +}
->> +EXPORT_SYMBOL_GPL(vb2_ioctl_delete_bufs);
->> +
->>   int vb2_ioctl_reqbufs(struct file *file, void *priv,
->>   			  struct v4l2_requestbuffers *p)
->>   {
->> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
->> index d13954bd31fd..e764af2e29ff 100644
->> --- a/drivers/media/v4l2-core/v4l2-dev.c
->> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->> @@ -722,6 +722,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
->>   		SET_VALID_IOCTL(ops, VIDIOC_PREPARE_BUF, vidioc_prepare_buf);
->>   		SET_VALID_IOCTL(ops, VIDIOC_STREAMON, vidioc_streamon);
->>   		SET_VALID_IOCTL(ops, VIDIOC_STREAMOFF, vidioc_streamoff);
->> +		SET_VALID_IOCTL(ops, VIDIOC_DELETE_BUFS, vidioc_delete_bufs);
->>   	}
 >>   
->>   	if (is_vid || is_vbi || is_meta) {
->> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->> index 33076af4dfdb..9676cd758426 100644
->> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->> @@ -489,6 +489,14 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
->>   	v4l_print_format(&p->format, write_only);
->>   }
+>>>   
+>>>
+>>>   
+>>>>   
+>>>> In other words exporters are not require to call sync_to_cpu or
+>>>> sync_to_device when you create a mapping.
+>>>>
+>>>> What exactly is your use case here? And why does coherency
+>>>> matters?
+>>>>   
+>>>   
+>>> My use-case is, I create DMABUFs with udmabuf, that I attach to
+>>> USB/functionfs with the interface introduced by this patchset. I
+>>> attach
+>>> them to IIO with a similar interface (being upstreamed in
+>>> parallel),
+>>> and transfer data from USB to IIO and vice-versa in a zero-copy
+>>> fashion.
+>>>
+>>> This works perfectly fine as long as the USB and IIO hardware are
+>>> coherent between themselves, which is the case on most of our
+>>> boards.
+>>> However I do have a board (with a Xilinx Ultrascale SoC) where it
+>>> is
+>>> not the case, and cache flushes/sync are needed. So I was trying to
+>>> rework these new interfaces to work on that system too.
+>>>   
 >>   
->> +static void v4l_print_delete_buffers(const void *arg, bool write_only)
->> +{
->> +	const struct v4l2_delete_buffers *p = arg;
->> +
->> +	pr_cont("type=%s, index=%u, count=%u\n",
->> +		prt_names(p->type, v4l2_type_names), p->index, p->count);
->> +}
->> +
->>   static void v4l_print_streamparm(const void *arg, bool write_only)
->>   {
->>   	const struct v4l2_streamparm *p = arg;
->> @@ -2161,6 +2169,17 @@ static int v4l_prepare_buf(const struct v4l2_ioctl_ops *ops,
->>   	return ret ? ret : ops->vidioc_prepare_buf(file, fh, b);
->>   }
+>>   Yeah, that sounds strongly like one of the use cases we have
+>> rejected so far.
 >>   
->> +static int v4l_delete_bufs(const struct v4l2_ioctl_ops *ops,
->> +			   struct file *file, void *fh, void *arg)
->> +{
->> +	struct v4l2_delete_buffers *delete = arg;
->> +	int ret = check_fmt(file, delete->type);
->> +
->> +	memset_after(delete, 0, type);
-> I don't think this is needed since you use INFO_FL_CLEAR() below. That does it for you.
->
->> +
->> +	return ret ? ret : ops->vidioc_delete_bufs(file, fh, delete);
->> +}
->> +
->>   static int v4l_g_parm(const struct v4l2_ioctl_ops *ops,
->>   				struct file *file, void *fh, void *arg)
->>   {
->> @@ -2910,6 +2929,7 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
->>   	IOCTL_INFO(VIDIOC_ENUM_FREQ_BANDS, v4l_enum_freq_bands, v4l_print_freq_band, 0),
->>   	IOCTL_INFO(VIDIOC_DBG_G_CHIP_INFO, v4l_dbg_g_chip_info, v4l_print_dbg_chip_info, INFO_FL_CLEAR(v4l2_dbg_chip_info, match)),
->>   	IOCTL_INFO(VIDIOC_QUERY_EXT_CTRL, v4l_query_ext_ctrl, v4l_print_query_ext_ctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_query_ext_ctrl, id)),
->> +	IOCTL_INFO(VIDIOC_DELETE_BUFS, v4l_delete_bufs, v4l_print_delete_buffers, INFO_FL_PRIO | INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_delete_buffers, type)),
->>   };
->>   #define V4L2_IOCTLS ARRAY_SIZE(v4l2_ioctls)
 >>   
->> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
->> index edb733f21604..55afbde54211 100644
->> --- a/include/media/v4l2-ioctl.h
->> +++ b/include/media/v4l2-ioctl.h
->> @@ -163,6 +163,8 @@ struct v4l2_fh;
->>    *	:ref:`VIDIOC_CREATE_BUFS <vidioc_create_bufs>` ioctl
->>    * @vidioc_prepare_buf: pointer to the function that implements
->>    *	:ref:`VIDIOC_PREPARE_BUF <vidioc_prepare_buf>` ioctl
->> + * @vidioc_delete_bufs: pointer to the function that implements
->> + *	:ref:`VIDIOC_DELETE_BUFS <vidioc_delete_bufs>` ioctl
->>    * @vidioc_overlay: pointer to the function that implements
->>    *	:ref:`VIDIOC_OVERLAY <vidioc_overlay>` ioctl
->>    * @vidioc_g_fbuf: pointer to the function that implements
->> @@ -422,6 +424,8 @@ struct v4l2_ioctl_ops {
->>   				  struct v4l2_create_buffers *b);
->>   	int (*vidioc_prepare_buf)(struct file *file, void *fh,
->>   				  struct v4l2_buffer *b);
->> +	int (*vidioc_delete_bufs)(struct file *file, void *fh,
->> +				  struct v4l2_delete_buffers *d);
 >>   
->>   	int (*vidioc_overlay)(struct file *file, void *fh, unsigned int i);
->>   	int (*vidioc_g_fbuf)(struct file *file, void *fh,
->> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->> index 8647eee348bd..4e62b31561d9 100644
->> --- a/include/media/videobuf2-core.h
->> +++ b/include/media/videobuf2-core.h
->> @@ -507,6 +507,7 @@ struct vb2_buf_ops {
->>    * @supports_requests: this queue supports the Request API.
->>    * @requires_requests: this queue requires the Request API. If this is set to 1,
->>    *		then supports_requests must be set to 1 as well.
->> + * @supports_delete_bufs: this queue supports DELETE_BUFS ioctl.
->>    * @uses_qbuf:	qbuf was used directly for this queue. Set to 1 the first
->>    *		time this is called. Set to 0 when the queue is canceled.
->>    *		If this is 1, then you cannot queue buffers from a request.
->> @@ -613,6 +614,7 @@ struct vb2_queue {
->>   	unsigned int		   quirk_poll_must_check_waiting_for_buffers:1;
->>   	unsigned int			supports_requests:1;
->>   	unsigned int			requires_requests:1;
->> +	unsigned int			supports_delete_bufs:1;
-> I am not convinced we want do enable this per-queue. i will have
-> to think some more about this.
->
->>   	unsigned int			uses_qbuf:1;
->>   	unsigned int			uses_requests:1;
->>   	unsigned int			allow_cache_hints:1;
->> @@ -865,6 +867,16 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>    */
->>   int vb2_core_prepare_buf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb);
+>>>   
+>>> If this really is a no-no, then I am fine with the assumption that
+>>> devices sharing a DMABUF must be coherent between themselves; but
+>>> that's something that should probably be enforced rather than
+>>> assumed.
+>>>
+>>> (and I *think* there is a way to force coherency in the
+>>> Ultrascale's
+>>> interconnect - we're investigating it)
+>>>   
 >>   
->> +/**
->> + * vb2_core_delete_bufs() -
->> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
->> + * @start:	first index of the range of buffers to delete.
->> + * @count:	number of buffers to delete.
->> + *
->> + *  Return: returns zero on success; an error code otherwise.
->> + */
->> +int vb2_core_delete_bufs(struct vb2_queue *q, unsigned int start, unsigned int count);
->> +
->>   /**
->>    * vb2_core_qbuf() - Queue a buffer from userspace
->>    *
->> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
->> index 5a845887850b..79cea8459f52 100644
->> --- a/include/media/videobuf2-v4l2.h
->> +++ b/include/media/videobuf2-v4l2.h
->> @@ -118,6 +118,17 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create);
->>    */
->>   int vb2_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
->>   		    struct v4l2_buffer *b);
->> +/**
->> + * vb2_delete_bufs() - Delete buffers from the queue
->> + *
->> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
->> + * @d:		delete parameter, passed from userspace to
->> + *		&v4l2_ioctl_ops->vidioc_delete_bufs handler in driver
->> + *
->> + * The return values from this function are intended to be directly returned
->> + * from &v4l2_ioctl_ops->vidioc_delete_bufs handler in driver.
->> + */
->> +int vb2_delete_bufs(struct vb2_queue *q, struct v4l2_delete_buffers *d);
-> Drop this.
->
+>>   What you can do is that instead of using udmabuf or dma-heaps is
+>> that the device which can't provide coherency act as exporters of the
+>> buffers.
 >>   
->>   /**
->>    * vb2_qbuf() - Queue a buffer from userspace
->> @@ -334,6 +345,8 @@ int vb2_ioctl_streamon(struct file *file, void *priv, enum v4l2_buf_type i);
->>   int vb2_ioctl_streamoff(struct file *file, void *priv, enum v4l2_buf_type i);
->>   int vb2_ioctl_expbuf(struct file *file, void *priv,
->>   	struct v4l2_exportbuffer *p);
->> +int vb2_ioctl_delete_bufs(struct file *file, void *priv,
->> +			  struct v4l2_delete_buffers *p);
->>   
->>   /* struct v4l2_file_operations helpers */
->>   
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 68e7ac178cc2..ce436f924782 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -1036,6 +1036,7 @@ struct v4l2_requestbuffers {
->>   #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
->>   #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
->>   #define V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS		(1 << 7)
->> +#define V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS		(1 << 8)
->>   
->>   /**
->>    * struct v4l2_plane - plane info for multi-planar buffers
->> @@ -2624,6 +2625,20 @@ struct v4l2_create_buffers {
->>   	__u32			reserved[5];
->>   };
->>   
->> +/**
->> + * struct v4l2_delete_buffers - VIDIOC_DELETE_BUFS argument
->> + * @index:	the first buffer to be deleted
->> + * @count:	number of buffers to delete
->> + * @type:	enum v4l2_buf_type
->> + * @reserved:	future extensions
->> + */
->> +struct v4l2_delete_buffers {
->> +	__u32			index;
->> +	__u32			count;
->> +	__u32			type;
->> +	__u32			reserved[13];
->> +};
->> +
->>   /*
->>    *	I O C T L   C O D E S   F O R   V I D E O   D E V I C E S
->>    *
->> @@ -2723,6 +2738,8 @@ struct v4l2_create_buffers {
->>   #define VIDIOC_DBG_G_CHIP_INFO  _IOWR('V', 102, struct v4l2_dbg_chip_info)
->>   
->>   #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
->> +#define VIDIOC_DELETE_BUFS	_IOWR('V', 104, struct v4l2_delete_buffers)
->> +
->>   
->>   /* Reminder: when adding new ioctls please add support for them to
->>      drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
-> Regards,
->
-> 	Hans
->
+>>   The exporter is allowed to call sync_for_cpu/sync_for_device on it's
+>> own buffers and also gets begin/end CPU access notfications. So you
+>> can then handle coherency between the exporter and the CPU.
+> 
+> But again that would only work if the importers would call
+> begin_cpu_access() / end_cpu_access(), which they don't, because they
+> don't actually access the data using the CPU.
+> 
+> Unless you mean that the exporter can call sync_for_cpu/sync_for_device
+> before/after every single DMA transfer so that the data appears
+> coherent to the importers, without them having to call
+> begin_cpu_access() / end_cpu_access().
+> 
+> In which case - this would still demultiply the complexity; my USB-
+> functionfs interface here (and IIO interface in the separate patchset)
+> are not device-specific, so I'd rather keep them importers.
+>   
+>>   If you really don't have coherency between devices then that would
+>> be a really new use case and we would need much more agreement on how
+>> to do this.
+> 
+> [snip]
+> 
+> Agreed. Desiging a good generic solution would be better.
+> 
+> With that said...
+> 
+> Let's keep it out of this USB-functionfs interface for now. The
+> interface does work perfectly fine on platforms that don't have
+> coherency problems. The coherency issue in itself really is a
+> tangential issue.
+> 
+> So I will send a v6 where I don't try to force the cache coherency -
+> and instead assume that the attached devices are coherent between
+> themselves.
+> 
+> But it would be even better to have a way to detect non-coherency and
+> return an error on attach.
+> 
+> Cheers,
+> -Paul
 
