@@ -1,189 +1,378 @@
-Return-Path: <linux-media+bounces-4140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4141-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC8183A84A
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 12:44:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A245D83A88C
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 12:52:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CD601C22ADF
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 11:44:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FA06283529
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 11:52:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A44A51B599;
-	Wed, 24 Jan 2024 11:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="pw0UAUl+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D6360870;
+	Wed, 24 Jan 2024 11:52:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2095.outbound.protection.outlook.com [40.107.113.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2275A7B2;
-	Wed, 24 Jan 2024 11:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706096399; cv=fail; b=B3bGjoZSzhpv3qTL63MOmydHe55/H5RwYjIkWyEK7UT8gtGhZoJ2UNQGvnKOHbshEEO5XPUHoG0ZpoWjJTsCAiPI1tFGCU9wEdb4AkoZAog2bZDHhfy9oIDN8SXpE1jCfAeiaX52gTIjGYRnNuKB816u9K+xMilJTXliLn3AWDE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706096399; c=relaxed/simple;
-	bh=pvEOv7HYnP/btdZ7V0E/sJBVx71GfdIviKBMNYVjJ2o=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sP0/N5TkqEDDzwFVFq30gz5kmmluD232S5vMN26YnFKPb7K9eM4hk5vOTHcCKf68LV9IhN0v2l/DAzxqLTfmlPsuFY95b6plJ3FQP7+ONVgTD+8R0m80DPUqfyOBjIH3mY9ACQHzwyhX5sXz+fQ/nomo4iYtm/gIkS0n4SBH8QU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=pw0UAUl+; arc=fail smtp.client-ip=40.107.113.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e46+G3L+BfJuK2YKCJWa8t5DYLP8Ol49ckQKC1z6MHK7dufjEpo3ukH8p/y4mN/1zTAD0jL4tbutIZLup6WABgj5fLL1QKQ0Lq/A2AKxxCgamPHol+qFjvFGMh24fNXYyKMs8Q+1ZgyrL6MVTXbIxS8h3jFbEQKAguIBm7EmnR7SwoMDRZcSS5ezdk+ZMsckdFrgLBYYmFo8YQKPBsaSxZ9C5mW/T/gLeK8GJ5TElXOhMZzm9m/RdjF/6QYkS2N0/gnjubHrdMYtCVZMiVNxDmjw8AV1vfipTNmwILXOkZHmADEzBXvRiLyL5EAbFLRB+f+fklbwbPAK2xfHt+iHnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pvEOv7HYnP/btdZ7V0E/sJBVx71GfdIviKBMNYVjJ2o=;
- b=T3DFuxE5+hJGk6FJxieUKb2fLG5yqoVIpJyaN8xBjg1gZJzGmjawdP2le51JC4NbqeqmMYb1ETPCBwATgmE/6WlsgLm2VMEyU5SSk6bgE1uj+At+sRrafFqLq91NtWekR9Trg31FR8ptG3b3ZKEWevbaXJmEhqn2ul2EiRb2hlrSHZmMQ5F7dtrt3ixuGFYNMcsMImqetcVVtGzIFuET8GtEh7iwYvW6HfJ/INS7mdIXO62eZ5y3C/SHxZVLHsXUtCnX/WfN767sKhmHgdF/AaLsnKtZIuXiN215y1yGkl5yD97dffN6z/1WbpsNSRT/NZwIDnKzsF1/CuxB4KVnmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pvEOv7HYnP/btdZ7V0E/sJBVx71GfdIviKBMNYVjJ2o=;
- b=pw0UAUl+BBUkrfX3xgHkTTFCsQ2Hee5yXT5haaXRhW3U5fM+cPbLQITjCedhCF7AT7g4zkhvP9UBGmtj2hz5Yyz5y8Gjcb/otPOAQTf5GXUpd2sSOFnEmQCTd4LyAXluVqGZAY3cASXtrCU0PNXFEe+/oYBjsgbOhtkDOMXX2SI=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TY3PR01MB11872.jpnprd01.prod.outlook.com
- (2603:1096:400:407::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Wed, 24 Jan
- 2024 11:39:52 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78%5]) with mapi id 15.20.7228.023; Wed, 24 Jan 2024
- 11:39:52 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	=?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Rob
- Herring <robh@kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	biju.das.au <biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 1/4] media: platform: rzg2l-cru: rzg2l-csi2: Switch to
- RUNTIME_PM_OPS()
-Thread-Topic: [PATCH 1/4] media: platform: rzg2l-cru: rzg2l-csi2: Switch to
- RUNTIME_PM_OPS()
-Thread-Index: AQHaTfN9Uij8sadCTkmiU8hxdWoHD7DnheYAgAAqlgCAAEdsgIAA39iw
-Date: Wed, 24 Jan 2024 11:39:52 +0000
-Message-ID:
- <TYCPR01MB112691EAE9B0D41E800D91441867B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240123115821.292787-1-biju.das.jz@bp.renesas.com>
- <20240123115821.292787-2-biju.das.jz@bp.renesas.com>
- <20240123152906.GP10679@pendragon.ideasonboard.com>
- <TYCPR01MB11269085947ED450E817D54BB86742@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <20240123221709.GB16581@pendragon.ideasonboard.com>
-In-Reply-To: <20240123221709.GB16581@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TY3PR01MB11872:EE_
-x-ms-office365-filtering-correlation-id: 82093756-5100-48c2-6d69-08dc1cd12dfa
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- oIw7RU8FHIWHSQZz1HO3erZ7rQitHuWDR8UQCJ23lXcWkmevmlpjwU1kyXAwPeovXbFYHgwfPgH+Jm5JkNQDIBtw54pGkgpqOIwucEQfgzaN11rKMce5X1X1gDnMgnEpb4XRb2b71IiRZ2airwSXYQKzdJL3P5TmI2Z1xY/QfgZsuTV0QH1aIGJG2SbOvfUfR4uC3FOn6gR2yFYSBXrq2mmk9NbarwHGiQOKRgHXpBrc3SmCzNeDVD+4jIEgh4YwBESUUY5jCFIAbjzi3u0VvMEB1VzH1RlNPiFxUXZo0n/74dwRkFvNNFsFOykQ0soGpJqUbEczcPuRHnOr1BRr/Kv3HHhK9ZT13+V/qMk3mEOTBIz3pYuw7g9f+AfOLmfvp4NS/dFMksdPvA19om8UksPJC9gVy5sDMRZKXHI6kNGHxnB+SwI6elNLBjs8zySSDe6hFL8wHaPQXc0ikil4/a6Ty9zKSJo+DbL8Zf9degGCLAPIluh3ztTvmAHxMA4IJrqweyRcrq1A4uy2VZnYByma988fG6OQ11UvtiBb3JTD4cK8MDxOsyOr+4mYKZQDt2QkHY2jGCYXBMO7meEXclU/+QRuBl6LRlKO5DsvigAygRruGDrG+KvOPPjRr1l3
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(376002)(366004)(396003)(39860400002)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(33656002)(2906002)(86362001)(38070700009)(41300700001)(7696005)(6506007)(53546011)(71200400001)(76116006)(122000001)(66556008)(55016003)(66946007)(6916009)(316002)(9686003)(54906003)(66476007)(64756008)(66446008)(38100700002)(478600001)(26005)(83380400001)(7416002)(4326008)(8936002)(8676002)(52536014)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?DfpMiGPYzDCGLlkeOU4LKIaXL8LwmY3w3c10GGfXV3506hBzO2E1oE3FB6?=
- =?iso-8859-1?Q?DgngJsFGhhUVNHPITf8VKysIoiWP8ffjY+T43Lk7qduit53d81OyayFy0N?=
- =?iso-8859-1?Q?PoHQ1GANs1HBsujV4j8RKGXgUZXDVn1lwRC5p55l2ATcNeeCFROqfE23lZ?=
- =?iso-8859-1?Q?llTCrPSIkPBsiY32MdMYRajmQRfb0QYawydLJugHX1x6zFHdFtiZtmHphX?=
- =?iso-8859-1?Q?Ls1lXsH9M0UWz9G3CetsB0jYWg8QL293eQ2H85KqIYiw6hbynWiV7j/liQ?=
- =?iso-8859-1?Q?vAAmDJzj4ps2Lxy8M0QoXqvVj7TL5c3Qg3xdYLwBDK+QD+jCDCu7PX0bfb?=
- =?iso-8859-1?Q?UheuV7dWJuF5lr0mvf6o0LuyVsDPPYazw5Yb5YKLdTq+1wDv9jAKgUv2po?=
- =?iso-8859-1?Q?xyDw/QjaHyaL3sVejj1mOVuLJxo1H3gd8M9RuWGCbIRPnJMLc4yR4TX5fT?=
- =?iso-8859-1?Q?/mE4x0EVuU7BWGiQoChitQ0ri23ykPUQWVgK3nq9oEeRoD6z9vvTx6cbZK?=
- =?iso-8859-1?Q?aYv9HfbwvaN6WDzbcxEf+kmzckRnfFkiTYR1rb0LI+W3ZgyzBE0EQB0QjH?=
- =?iso-8859-1?Q?7C1a8tZy7TspYPnrG1ih7o7daoNymDGI0RBQeRyOjENe+WSu5nTgLEa+UC?=
- =?iso-8859-1?Q?io0P/pH9KIzW0yGGqAXzevMg/Tu1WsHXogss90Op7Jj78/Q/uh22g7ks/O?=
- =?iso-8859-1?Q?oD5ImgKAXDj9vuafTsw9FMRkyVojByUNzSCE6f0EQXJ+1ZY7jksH/dhfte?=
- =?iso-8859-1?Q?FYdYX3sEaCM70XrRhxfdoHXChoqK3ak5bucYSWjt6RQi9kc1UqxqginyeT?=
- =?iso-8859-1?Q?id9+fiFXt4ZUCrovqDD9t1Gz5QEtKj76ffP2G25ectX6ZVgv33kNnIA2A5?=
- =?iso-8859-1?Q?0PXksXn2q4uzXk8S/4W0MRCkJRIRYegPrWAvCocGxDi/70m504A2+vJdx4?=
- =?iso-8859-1?Q?tEOfjHt8I7eZjOgw4Fjcj15uMEcyMJl4MHqjF4rEGAvIQIYgSMQeKmsoYQ?=
- =?iso-8859-1?Q?X7PbnLAnmtmzIq+q+V1W99zYJI3m6CBbibnol1ngD8dJ6Ze6nI5oaP7Pis?=
- =?iso-8859-1?Q?L9qdCfuFK5sf2reBUC+GxQiiuNsHFxaWEmV/Xm6Bng8jK3n/vC/3u7xa9j?=
- =?iso-8859-1?Q?/ohSxmPnwR/sJ4lSRww429jE8VYcY58K9NLmiDgTOMrlD4Nf+OoKYBj+sL?=
- =?iso-8859-1?Q?rSQtzC8hBhMN8GoBXY1/JTvotUY42A2Ft9nGAnx3DSHZPfCbbSoFKA+u6+?=
- =?iso-8859-1?Q?ag6kJj9Xo9wp1o4rJTNR0GGzdtUNXg6Zjl8GNpLKkdORBMcQoiGt7Awgtk?=
- =?iso-8859-1?Q?WsBwC8RGFouI61iVqRTvsIpwTDq/lhmfeeURfQdofTmBDhhL5plVEZiSvs?=
- =?iso-8859-1?Q?6JukmR5nz8Z9iLOK15z2JHCogoxSuEeGDZ0OcodVXXeiletXlgmYooZ4ra?=
- =?iso-8859-1?Q?wAb8JLF3cjqYEpsOn0qAbZBwKPn+TFqTxbed3hyis7YFzH2w++L/U6akZ/?=
- =?iso-8859-1?Q?GbEy0inLT9U0tSc6wE9YTUddF75AX9GvgGwE5iId/cM/zklLJ/9Arh1j+6?=
- =?iso-8859-1?Q?f32PPaSDzuUVCCzlssHQi9jD271PUv54mVNeeVLvx9gUIpbw6CJQp77hN5?=
- =?iso-8859-1?Q?n1x6ODgs5Et9E3B403diZ+JMDmxHBN5LH17f9wYrGfqKOD9z1SP7zC9w?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE44B60875;
+	Wed, 24 Jan 2024 11:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706097127; cv=none; b=Pi3qrX69ALtOhC4eIb3vhFgCu1vJU79GRGLy9qMQqDpiCZ2eSyntCou0/v+iHAuB4/IwmlJHYoLES8O9ao+atQ5LfKPdprcXlEnNaoVx9Nxed+UpgfhKAF57hh6BBaG6UipsmnBOC9vqkBWu1BPmNzprBce6Ul6jalmtLkdiQYo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706097127; c=relaxed/simple;
+	bh=pvR9oQOQ76EoDEesEru8z4GxRRCBTyZSbUiK68aYisM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q1CoSBlwqzS+vCUM0J9ZpfQwlQwNBI0riw8J89QJ0snmWjgGe34FbcPgHJzP5IxE4VmQlfcUInsp2wrd8ksIZEbpxfWa805m4U83LffX7KNGjFgebMLLOt38TF/EhzN9H8VcoWME8JVfm62v3jBqr8Woj9OVdRogU8N5pgf6Plw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0412FC43390;
+	Wed, 24 Jan 2024 11:52:05 +0000 (UTC)
+Message-ID: <fad5413f-b37f-4ce9-b93b-d8c8a6247e23@xs4all.nl>
+Date: Wed, 24 Jan 2024 12:52:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82093756-5100-48c2-6d69-08dc1cd12dfa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2024 11:39:52.4382
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: B34FRqNvQRxSNRtQPoIkesQc+A0X3pFQqfwfLuTMcidkCA/Ew2xnWBKJS+MYlswyktpCO/Vdk3ix9YlRgt4n6zcus6MKKTIohWjMwGb2RMw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11872
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 4/8] media: core: Add bitmap manage bufs array entries
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20240119094944.26763-1-benjamin.gaignard@collabora.com>
+ <20240119094944.26763-5-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240119094944.26763-5-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent Pinchart,
+On 19/01/2024 10:49, Benjamin Gaignard wrote:
+> Add a bitmap field to know which of bufs array entries are
+> used or not.
+> Remove no more used num_buffers field from queue structure.
+> Use bitmap_find_next_zero_area() to find the first possible
+> range when creating new buffers to fill the gaps.
+> If no suitable range is found try to allocate less buffers
+> than requested.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 17:
+> - allow to allocate less buffers than requested in __vb2_queue_alloc()
+>   when using bitmap.
+> - add vb2_core_allocated_queue_buffers_storage() and
+>   vb2_core_free_queue_buffers_storage() to avoid duplicate code.
+>  .../media/common/videobuf2/videobuf2-core.c   | 71 ++++++++++++++-----
+>  include/media/videobuf2-core.h                | 18 +++--
+>  2 files changed, 64 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index fd5ac2845018..45cbdfaf72b5 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -421,11 +421,12 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+>   */
+>  static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
+>  {
+> -	WARN_ON(index >= q->max_num_buffers || q->bufs[index] || vb->vb2_queue);
+> +	WARN_ON(index >= q->max_num_buffers || test_bit(index, q->bufs_bitmap) || vb->vb2_queue);
+>  
+>  	q->bufs[index] = vb;
+>  	vb->index = index;
+>  	vb->vb2_queue = q;
+> +	set_bit(index, q->bufs_bitmap);
+>  }
+>  
+>  /**
+> @@ -434,6 +435,7 @@ static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
+>   */
+>  static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
+>  {
+> +	clear_bit(vb->index, vb->vb2_queue->bufs_bitmap);
+>  	vb->vb2_queue->bufs[vb->index] = NULL;
+>  	vb->vb2_queue = NULL;
+>  }
+> @@ -452,9 +454,9 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  			     const unsigned int plane_sizes[VB2_MAX_PLANES],
+>  			     unsigned int *first_index)
+>  {
+> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
+>  	unsigned int buffer, plane;
+>  	struct vb2_buffer *vb;
+> +	unsigned long index = 0;
 
-Thanks for the feedback.
+0 -> q->max_num_buffers
 
-> -----Original Message-----
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Sent: Tuesday, January 23, 2024 10:17 PM
-> Subject: Re: [PATCH 1/4] media: platform: rzg2l-cru: rzg2l-csi2: Switch t=
-o
-> RUNTIME_PM_OPS()
->=20
-> On Tue, Jan 23, 2024 at 06:33:57PM +0000, Biju Das wrote:
-> > > On Tue, Jan 23, 2024 at 11:58:18AM +0000, Biju Das wrote:
-> > > > SET_RUNTIME_PM_OPS() are deprecated
-> > >
-> > > Not that I particularly care about SET_RUNTIME_PM_OPS, but I'm not
-> > > aware of it being deprecated. Has that been announced somewhere ?
-> >
-> > I was under the impression from [1], this is new style and old style
-> going to be deprecated.
-> >
-> > If it is not the case, I would like to drop this patch.
-> >
-> > [1]
->=20
-> I'm not against this change, I was just wondering about the status of
-> SET_RUNTIME_PM_OPS. If you think using RUNTIME_PM_OPS is better, I have n=
-o
-> problem with that. The commit message should probably state that the
-> latter is better, instead of saying that SET_RUNTIME_PM_OPS is deprecated=
-.
+This ensure an error occurs in case num_buffers == 0 (which it should never
+be, but you never know) with the 'while' code suggested below.
 
+>  	int ret;
+>  
+>  	/*
+> @@ -462,9 +464,25 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  	 * in the queue is below q->max_num_buffers
+>  	 */
+>  	num_buffers = min_t(unsigned int, num_buffers,
+> -			    q->max_num_buffers - q_num_buffers);
+> +			    q->max_num_buffers - vb2_get_num_buffers(q));
+> +
+> +again:
+> +	index = bitmap_find_next_zero_area(q->bufs_bitmap, q->max_num_buffers,
+> +					   0, num_buffers, 0);
+> +
+> +	/* Try to find free space for less buffers */
+> +	if (index >= q->max_num_buffers && num_buffers) {
+> +		num_buffers--;
+> +		goto again;
+> +	}
 
-Agreed. Will update the commit message along with the changes you suggested=
- in
-Next version.
+Hmm, this is really just a:
 
-Cheers,
-Biju
+	while (num_buffers) {
+		index = bitmap_find_next_zero_area(q->bufs_bitmap, q->max_num_buffers,
+						   0, num_buffers, 0);
+
+		if (index < q->max_num_buffers)
+			break;
+		/* Try to find free space for less buffers */
+		num_buffers--;
+	}
+
+This avoids the ugly goto.
+
+>  
+> -	*first_index = q_num_buffers;
+> +	/* If there is no space left to allocate buffers return 0 to indicate the error */
+> +	if (index >= q->max_num_buffers) {
+> +		*first_index = 0;
+> +		return 0;
+> +	}
+> +
+> +	*first_index = index;
+>  
+>  	for (buffer = 0; buffer < num_buffers; ++buffer) {
+>  		/* Allocate vb2 buffer structures */
+> @@ -484,7 +502,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  			vb->planes[plane].min_length = plane_sizes[plane];
+>  		}
+>  
+> -		vb2_queue_add_buffer(q, vb, q_num_buffers + buffer);
+> +		vb2_queue_add_buffer(q, vb, index++);
+>  		call_void_bufop(q, init_buffer, vb);
+>  
+>  		/* Allocate video buffer memory for the MMAP type */
+> @@ -664,7 +682,6 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>  		kfree(vb);
+>  	}
+>  
+> -	q->num_buffers -= buffers;
+>  	if (!vb2_get_num_buffers(q)) {
+>  		q->memory = VB2_MEMORY_UNKNOWN;
+>  		INIT_LIST_HEAD(&q->queued_list);
+> @@ -818,6 +835,32 @@ static bool verify_coherency_flags(struct vb2_queue *q, bool non_coherent_mem)
+>  	return true;
+>  }
+>  
+> +static int vb2_core_allocated_queue_buffers_storage(struct vb2_queue *q)
+
+I think vb2_core_allocate_buffers_storage is a better name.
+
+> +{
+> +	if (!q->bufs)
+> +		q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
+> +	if (!q->bufs)
+> +		return -ENOMEM;
+> +
+> +	if (!q->bufs_bitmap)
+> +		q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
+> +	if (!q->bufs_bitmap) {
+> +		kfree(q->bufs);
+> +		q->bufs = NULL;
+> +		return -ENOMEM;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void vb2_core_free_queue_buffers_storage(struct vb2_queue *q)
+
+Drop the "_queue" part here as well.
+
+> +{
+> +	kfree(q->bufs);
+> +	q->bufs = NULL;
+> +	bitmap_free(q->bufs_bitmap);
+> +	q->bufs_bitmap = NULL;
+> +}
+> +
+>  int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  		     unsigned int flags, unsigned int *count)
+>  {
+> @@ -878,10 +921,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	 * in the queue_setup op.
+>  	 */
+>  	mutex_lock(&q->mmap_lock);
+> -	if (!q->bufs)
+> -		q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
+> -	if (!q->bufs)
+> -		ret = -ENOMEM;
+> +	ret = vb2_core_allocated_queue_buffers_storage(q);
+>  	q->memory = memory;
+>  	mutex_unlock(&q->mmap_lock);
+>  	if (ret)
+> @@ -953,7 +993,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	}
+>  
+>  	mutex_lock(&q->mmap_lock);
+> -	q->num_buffers = allocated_buffers;
+>  
+>  	if (ret < 0) {
+>  		/*
+> @@ -980,6 +1019,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	mutex_lock(&q->mmap_lock);
+>  	q->memory = VB2_MEMORY_UNKNOWN;
+>  	mutex_unlock(&q->mmap_lock);
+> +	vb2_core_free_queue_buffers_storage(q);
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+> @@ -1013,11 +1053,8 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  		 * value in the queue_setup op.
+>  		 */
+>  		mutex_lock(&q->mmap_lock);
+> +		ret = vb2_core_allocated_queue_buffers_storage(q);
+>  		q->memory = memory;
+> -		if (!q->bufs)
+> -			q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
+> -		if (!q->bufs)
+> -			ret = -ENOMEM;
+>  		mutex_unlock(&q->mmap_lock);
+>  		if (ret)
+>  			return ret;
+> @@ -1080,7 +1117,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	}
+>  
+>  	mutex_lock(&q->mmap_lock);
+> -	q->num_buffers += allocated_buffers;
+>  
+>  	if (ret < 0) {
+>  		/*
+> @@ -2579,8 +2615,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
+>  	__vb2_queue_cancel(q);
+>  	mutex_lock(&q->mmap_lock);
+>  	__vb2_queue_free(q, vb2_get_num_buffers(q));
+> -	kfree(q->bufs);
+> -	q->bufs = NULL;
+> +	vb2_core_free_queue_buffers_storage(q);
+>  	mutex_unlock(&q->mmap_lock);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index e29ff77814d3..8647eee348bd 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -346,8 +346,8 @@ struct vb2_buffer {
+>   *			describes the requested number of planes and sizes\[\]
+>   *			contains the requested plane sizes. In this case
+>   *			\*num_buffers are being allocated additionally to
+> - *			q->num_buffers. If either \*num_planes or the requested
+> - *			sizes are invalid callback must return %-EINVAL.
+> + *			the buffers already allocated. If either \*num_planes
+> + *			or the requested sizes are invalid callback must return %-EINVAL.
+>   * @wait_prepare:	release any locks taken while calling vb2 functions;
+>   *			it is called before an ioctl needs to wait for a new
+>   *			buffer to arrive; required to avoid a deadlock in
+> @@ -571,8 +571,9 @@ struct vb2_buf_ops {
+>   * @mmap_lock:	private mutex used when buffers are allocated/freed/mmapped
+>   * @memory:	current memory type used
+>   * @dma_dir:	DMA mapping direction.
+> - * @bufs:	videobuf2 buffer structures
+> - * @num_buffers: number of allocated/used buffers
+> + * @bufs:	videobuf2 buffer structures. If it is non-NULL then
+> + *		bufs_bitmap is also non-NULL.
+> + * @bufs_bitmap: bitmap tracking whether each bufs[] entry is used
+>   * @max_num_buffers: upper limit of number of allocated/used buffers.
+>   *		     If set to 0 v4l2 core will change it VB2_MAX_FRAME
+>   *		     for backward compatibility.
+> @@ -639,7 +640,7 @@ struct vb2_queue {
+>  	unsigned int			memory;
+>  	enum dma_data_direction		dma_dir;
+>  	struct vb2_buffer		**bufs;
+> -	unsigned int			num_buffers;
+> +	unsigned long			*bufs_bitmap;
+>  	unsigned int			max_num_buffers;
+>  
+>  	struct list_head		queued_list;
+> @@ -1168,7 +1169,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
+>   */
+>  static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
+>  {
+> -	return q->num_buffers;
+> +	if (q->bufs_bitmap)
+> +		return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
+> +
+> +	return 0;
+>  }
+>  
+>  /**
+> @@ -1277,7 +1281,7 @@ static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+>  	if (index >= q->max_num_buffers)
+>  		return NULL;
+>  
+> -	if (index < q->num_buffers)
+> +	if (test_bit(index, q->bufs_bitmap))
+>  		return q->bufs[index];
+>  	return NULL;
+>  }
+
+Regards,
+
+	Hans
 
