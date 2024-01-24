@@ -1,65 +1,36 @@
-Return-Path: <linux-media+bounces-4144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6504E83A9F3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 13:36:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4894B83AA4F
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 13:52:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE5F41F218F3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 12:36:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BF021C22613
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jan 2024 12:52:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1EFC77632;
-	Wed, 24 Jan 2024 12:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="aKJ3dQEW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 749BF7764F;
+	Wed, 24 Jan 2024 12:52:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409C5BE74;
-	Wed, 24 Jan 2024 12:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1995A60DEC;
+	Wed, 24 Jan 2024 12:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706099793; cv=none; b=UeyUBVPhF0uueiB7ViCIj6IzB8ghrJQsvpL8k/xu0lEKeLNBpNyV+pouroPXxnczk775GlWLcIEqdEoXUUM02r6kbx8gGeCM3K+ia4/XsXHG+i+Dsm2ZuuH8diHXKfc41zgoNP75yqjuCQCh+Rm3X4sjaXokweVSHRElYeXA3lI=
+	t=1706100737; cv=none; b=odiS39z2ivLDht7MBbGHPwGPOkgpnNbmyesparK3qUnGTsq+yHRJ7ZEKcOtm3g8j4SLoohGCol1kIlgKkqu70lrHMWE0Nxx0QB8s1+vB4QTA1tfM9ujZjl27euMIPurIQDxXOadW40Wxm5+67oPdiLWJkYq/yra+2pOr1AhJyZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706099793; c=relaxed/simple;
-	bh=+ScSpzpjrULM5D9D5zj2mBVm80jwAW/ibhGyLqlbUP8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=E1x599e+3YfIqDZo7vT5tMhMgGGYQnIOUGcg9ReNY4x5U0C8YUxkqSSv+X8Q7cJmyCvvA1WmyG+bZin4WFAgAjDxo0TGXULguv5gfCsuNLZEvKUVT9JmW974VwbBYNGA65GLPSBrHnFVdjcXGVzS5U6aSqGilBachwX1eWbpKPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=aKJ3dQEW; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40O9u063008801;
-	Wed, 24 Jan 2024 13:36:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=BGBC9tF/Cd6rbj5dyV7/fk/vzSioDaHQikjSTIAEr4o=; b=aK
-	J3dQEWjWMuf109lvExHWEoekq0n8ACVGJy1e/sKLn9fY4mQguLUV8NrHn2iVLoCq
-	qz7P35OqCmw5Rug03tjpFjBoiI0E9jgCRI6/NLq8ZaGO+9O4tWp6M4TcLMRS+ZyF
-	CW9LrscJ7Dbp6nGeMF2S0YxpC2QnR1k+5qicqbbeYebMe1QWb39Uk64zvQ4/c8eN
-	YcIVBW1tVjkd4dRqzDBn3UlfW3o/peCm6y1phJzLIs2eI5pRC99VmS1xIFq/TeC9
-	ZRLYUAGlfwHU7fa2pu3ql/8tsNnEwOSWTtc/lxhMl3rQQGz2DMTYfdN8aRGyfInO
-	zUGH1IDwuML7fyCfBdMw==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vtmf9u4rm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Jan 2024 13:36:06 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A6BCA10005C;
-	Wed, 24 Jan 2024 13:36:04 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9822C2D3CC9;
-	Wed, 24 Jan 2024 13:36:04 +0100 (CET)
-Received: from [10.201.21.122] (10.201.21.122) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 24 Jan
- 2024 13:36:03 +0100
-Message-ID: <f7f8344c-7a72-4450-81c7-8bff4569f044@foss.st.com>
-Date: Wed, 24 Jan 2024 13:36:02 +0100
+	s=arc-20240116; t=1706100737; c=relaxed/simple;
+	bh=/diLYZpUrYx7/jTg2NqzwpGCq1lXjn/wmSEp4g4+VUE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NbEOfYy4852WxkRBUtktB1TA+g0XM9sgD+F43M5lAGmEDGhR2Lvmj+K9OKBaTBCcijv+cJ5l5Xz1vRTTeivrkkp7tQiyKAUC1NNksjoZ7RHXPyyoCluB3txiiCw8UFU4ULWeF2NchZW5F9Z4tvkdjm8PHjlnVrnwngYXbrZGn18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 706C5C433C7;
+	Wed, 24 Jan 2024 12:52:15 +0000 (UTC)
+Message-ID: <56c1410e-7a4c-4913-823d-83b8bc0ac002@xs4all.nl>
+Date: Wed, 24 Jan 2024 13:52:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,119 +38,114 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v6 0/5] Add support for video hardware codec of
- STMicroelectronics STM32 SoC series
-Content-Language: en-US
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Ezequiel Garcia
-	<ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        Laurent Pinchart
-	<laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Almeida
-	<daniel.almeida@collabora.com>,
-        Benjamin Mugnier
-	<benjamin.mugnier@foss.st.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Mauro
- Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>
-CC: Marco Felsch <m.felsch@pengutronix.de>, Adam Ford <aford173@gmail.com>
-References: <20240110104642.532011-1-hugues.fruchet@foss.st.com>
-From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20240110104642.532011-1-hugues.fruchet@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH v17 8/8] media: verisilicon: Support deleting buffers on
+ capture queue
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20240119094944.26763-1-benjamin.gaignard@collabora.com>
+ <20240119094944.26763-9-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240119094944.26763-9-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-24_06,2024-01-24_01,2023-05-22_02
 
-Hi
+On 19/01/2024 10:49, Benjamin Gaignard wrote:
+> Allow to delete buffers on capture queue because it the one which
+> own the decoded buffers. After a dynamic resolution change lot of
+> them could remain allocated but won't be used anymore so deleting
+> them save memory.
+> Do not add this feature on output queue because the buffers are
+> smaller, fewer and always recycled even after a dynamic resolution
+> change.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/platform/verisilicon/hantro_drv.c  | 1 +
+>  drivers/media/platform/verisilicon/hantro_v4l2.c | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+> index db3df6cc4513..f6b0a676a740 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -248,6 +248,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+>  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>  	dst_vq->lock = &ctx->dev->vpu_mutex;
+>  	dst_vq->dev = ctx->dev->v4l2_dev.dev;
+> +	src_vq->supports_delete_bufs = true;
 
-On 1/10/24 11:46, Hugues Fruchet wrote:
-> This patchset introduces support for VDEC video hardware decoder
-> and VENC video hardware encoder of STMicroelectronics STM32MP25
-> SoC series.
-> 
-> This initial support implements H264 decoding, VP8 decoding and
-> JPEG encoding.
-> 
-> This has been tested on STM32MP257F-EV1 evaluation board.
-> 
-> ===========
-> = history =
-> ===========
-> version 6:
->     - Use a single file for VDEC and VENC variants as suggested by Alex Bee
->     - Fix some typos raised by Sebastian Fricke
->     - Add Krzysztof Kozlowski Reviewed-by
-> 
-> version 5:
->     - Precise that video decoding as been successfully tested up to full HD
->     - Add Nicolas Dufresne Reviewed-by
-> 
-> version 4:
->     - Fix comments from Nicolas about dropping encoder raw steps
-> 
-> version 3:
->     - Fix remarks from Krzysztof Kozlowski:
->      - drop "items", we keep simple enum in such case
->      - drop second example - it is the same as the first
->     - Drop unused node labels as suggested by Conor Dooley
->     - Revisit min/max resolutions as suggested by Nicolas Dufresne
-> 
-> version 2:
->     - Fix remarks from Krzysztof Kozlowski on v1:
->      - single video-codec binding for both VDEC/VENC
->      - get rid of "-names"
->      - use of generic node name "video-codec"
-> 
-> version 1:
->    - Initial submission
-> 
-> Hugues Fruchet (5):
->    dt-bindings: media: Document STM32MP25 VDEC & VENC video codecs
->    media: hantro: add support for STM32MP25 VDEC
->    media: hantro: add support for STM32MP25 VENC
->    arm64: dts: st: add video decoder support to stm32mp255
->    arm64: dts: st: add video encoder support to stm32mp255
-> 
+As I mentioned, I remain unconvinced by this. It is just making the API inconsistent
+since if you support delete_bufs, then why support it for one queue only and not both?
 
-Sakari, Mauro, do you plan to take patches 1 to 3 on your next branch ?
-I will take DT pacthes in mine but I would like to be sure that 
-dt-binding will be applied in a next branch (for the next v6.9 cycle);
+>  
+>  	return vb2_queue_init(dst_vq);
+>  }
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index 941fa23c211a..34eab90e8a42 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>  	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
+>  	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
+>  	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
+> +	.vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
+>  	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
+>  
+>  	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
 
-regards
-Alex
+In my view setting vidioc_delete_bufs should enable this feature, and if
+for some strange reason only one queue support it, then make a wrapper
+callback that returns an error when used with the wrong queue.
 
+Also note that patch 6/8 never checks for q->supports_delete_bufs in
+vb2_core_delete_bufs(), which is wrong!
 
->   .../media/st,stm32mp25-video-codec.yaml       |  49 +++++
->   arch/arm64/boot/dts/st/stm32mp251.dtsi        |  12 ++
->   arch/arm64/boot/dts/st/stm32mp255.dtsi        |  17 ++
->   drivers/media/platform/verisilicon/Kconfig    |  14 +-
->   drivers/media/platform/verisilicon/Makefile   |   3 +
->   .../media/platform/verisilicon/hantro_drv.c   |   4 +
->   .../media/platform/verisilicon/hantro_hw.h    |   2 +
->   .../platform/verisilicon/stm32mp25_vpu_hw.c   | 186 ++++++++++++++++++
->   8 files changed, 284 insertions(+), 3 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
->   create mode 100644 drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-> 
+Regards,
+
+	Hans
 
