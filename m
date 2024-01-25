@@ -1,264 +1,202 @@
-Return-Path: <linux-media+bounces-4195-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4193-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C2083C82B
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 17:36:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6A283C7DC
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 17:27:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AEF601F21D57
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 16:36:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9467E29764D
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 16:27:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6D4D12FF90;
-	Thu, 25 Jan 2024 16:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30CE7129A81;
+	Thu, 25 Jan 2024 16:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/qUzuqs"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="h3bIBrka"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A3519472;
-	Thu, 25 Jan 2024 16:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF28574E32
+	for <linux-media@vger.kernel.org>; Thu, 25 Jan 2024 16:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706200557; cv=none; b=R6+3fPR+RgSuBDfS3DCT2pIdvRFFbuoLYzufg5/mgcskcwKYpQXsL6jdx1hxF2oxPXmXDidS0XRCo/KZOrXYzle4wozMSLSIpMnF8cYlwBbQ56qGfHjacB21JPub53rMT80nWSTBC3XW2XyCIvi6VpPqJ9A5+NbxxhMfD/aGQ8E=
+	t=1706200035; cv=none; b=rsV6OFoL62PlZnUyNikm5AMijrkEolw819RsqOT5SIvyM34P7uQEjaO10/xugOdMdzMEQSrX1lErbnSPiKTr0OhdjkkG1U4LrCdgAWhNEBsi+ppTY7+HXXoFzJgcGXuDHYE67+2Zi0RsTQnh90UyXbP7MG+FRDNDz6YnODB4aPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706200557; c=relaxed/simple;
-	bh=9YTKm9bJOh7AgESo5uZMHfPE6MS+bUQJlQ0XWGia/i4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D279R2MXJWgXJ8bZmCKKKSoYD9N9TTjhWN2V9yNctVccTfzF/HcpDYaJptQa2SamY4zS492aIQ84kaXDivbkdf3m+hYyQdAxzr7j6SwbFzO0pKGiIbDiH9Tdc/pNzyca4GgUqTrmMaZUEnSI0oErDhDqI+2ZIdclcjIlytb2Rqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/qUzuqs; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706200555; x=1737736555;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9YTKm9bJOh7AgESo5uZMHfPE6MS+bUQJlQ0XWGia/i4=;
-  b=S/qUzuqsAb8M5mKYotCQtwwwt/9ttFb56MrZ3DXHUGAyiIUXqW+x9Q0t
-   YqbdUpOSHd1dSBQEqy7fvl9RWCcBI4PyQKvX89VAyvvWNF5/a+Io76e9W
-   BVc4inUZDQXS7kQBG3lJCzmKdwvD/f4nT9m2vPhW5a7Zyv6xgeiBu2gcl
-   f0aByUbW56WLHr/HCdh1BrQlP7/j0F+iUytBQNRbpVAMmbYUuDL3YMSUs
-   cpedQPOOyvMq2eQL7omAWf4daZvOyRs1ncBwooH9iC1psCp2ReO1HFgYE
-   T8TwPX7QlkmCgCaGxPw78/ygAIE8Y+SNvI2ehn9B3bvW3O+SLAcFGMlFm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9329623"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9329623"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:35:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="959894545"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="959894545"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:35:52 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id C4E4B11FAD4;
-	Thu, 25 Jan 2024 18:19:17 +0200 (EET)
-Date: Thu, 25 Jan 2024 16:19:17 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Matthias Fend <matthias.fend@emfend.at>
-Subject: Re: [PATCH 4/4] media: i2c: imx335: Add support for test pattern
- generator
-Message-ID: <ZbKKBcf2PX8u3JGV@kekkonen.localdomain>
-References: <20240125154908.465191-1-umang.jain@ideasonboard.com>
- <20240125154908.465191-5-umang.jain@ideasonboard.com>
+	s=arc-20240116; t=1706200035; c=relaxed/simple;
+	bh=+GAO5YWuL7EqUjWOl2U03X6ovBfiXH4yE91ok6yjcAI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=PRei5zVau7Swyh08biQdZwVLGgdsUUoxCysruoEnhUQZShxGbQt9U3VVwwRvT8WH9o67E49F2l8uUi3nbK2XirI8NRhnxQNcu27L1UjofLXPsPK8f834h1O4a68ERKpNCEvAYLhQjG61XpJihmfnbgF2KdEWKzR0gLaHhV5HzCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=h3bIBrka; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7831362c9bcso458965585a.1
+        for <linux-media@vger.kernel.org>; Thu, 25 Jan 2024 08:27:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1706200033; x=1706804833; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=0kuRjuJnX7Sn5l28ZUPlWUHDNHmw5kV8n1Gjblo8C3g=;
+        b=h3bIBrkaG5iAUhBtcu6/WlLzQW+v9gajshc3yWCN191Bgjl2NYPM8HkBRsjd38AYU8
+         AtxTdNI6v+uohLB37hsiGw1yOgCBoHVdUTLaAL2K8RJRVE73sG10xo27Mr0MRtrlELrH
+         iUVeb+NItcm5kbROKFNjDkBUjKQ7WzDxZS2id4GCX8HA/1FxqSuOyabzcXU4Mcg5Jexb
+         moFNuAMk8w9iKDIASPNnOSTYa3y1oTyJ6sajA/50tuKlC0YHvCjbd23S+UHxVGgXCcJo
+         8AFRAXoBZniGU6meZhcfIL42IzoJQDBf1uvl9xXuE5ftmuP/8kLO9Qn0RrDdo797IsrE
+         zAoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706200033; x=1706804833;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0kuRjuJnX7Sn5l28ZUPlWUHDNHmw5kV8n1Gjblo8C3g=;
+        b=enEqoEy1XpB4Pt2QCoVq4oKB2GubPIg8CBxBLncSO5WqUBJexaQEV4pcFpGlXLU2SH
+         xxrjg4LCwexhkjifQNo5jJQcPRYupU9qIZTUH6i1FGkgEDjFwBic65bK9L4ofzRAQhmZ
+         ZEgR555601FpM+8snUPQUbMC2Z9q+n/tWCJQvEtJV5EDMyJD4pregex0fjyhsEsLpe0k
+         y5xa9NyllrJ+rJu0f9Q3mpyHVwMlKgeL3Xe3yUl05/5h9iPyWMDZQEiS8aitFoDOmCqD
+         GjvDDo7VBJae44dqxVgfTG2X7AI+E7gIoVbkOhLKPMuc2Cx/RFh9YEX9oDr1ft634hAa
+         ltgQ==
+X-Gm-Message-State: AOJu0YzI7MxTpzIQf/IvxFsqH81ZUyaOARBc/xeQSGTOFTEtAeNme45o
+	HYJk91jdP9GaNRznZjwaCWjTgXFPbfwaMRsrfBhynZJgLXOpdcsZkezwUu4e7Qg=
+X-Google-Smtp-Source: AGHT+IEfSHEzRRwCKfyojQNEbFEjLJQDcya+Vj7sVhdUOrj/IlMpqvmeK52ZursW0PGkcPCVI0027g==
+X-Received: by 2002:a05:6214:19ea:b0:686:ae8f:3ed3 with SMTP id q10-20020a05621419ea00b00686ae8f3ed3mr1500167qvc.66.1706200032714;
+        Thu, 25 Jan 2024 08:27:12 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::580])
+        by smtp.gmail.com with ESMTPSA id mv9-20020a056214338900b006869e0eed00sm3018044qvb.26.2024.01.25.08.27.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 08:27:12 -0800 (PST)
+Message-ID: <7b7170ced40d8fce4456282a87c5f70b66606d9c.camel@ndufresne.ca>
+Subject: Re: [PATCH v17 8/8] media: verisilicon: Support deleting buffers on
+ capture queue
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil
+	 <hverkuil@xs4all.nl>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	kernel@collabora.com
+Date: Thu, 25 Jan 2024 11:27:10 -0500
+In-Reply-To: <1cd7c504-c384-4c9c-bedd-79cd8aed8484@collabora.com>
+References: <20240119094944.26763-1-benjamin.gaignard@collabora.com>
+	 <20240119094944.26763-9-benjamin.gaignard@collabora.com>
+	 <56c1410e-7a4c-4913-823d-83b8bc0ac002@xs4all.nl>
+	 <1cd7c504-c384-4c9c-bedd-79cd8aed8484@collabora.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240125154908.465191-5-umang.jain@ideasonboard.com>
 
-Hi Umang,
+Hi,
 
-On Thu, Jan 25, 2024 at 09:19:08PM +0530, Umang Jain wrote:
-> From: Matthias Fend <matthias.fend@emfend.at>
-> 
-> Add support for the sensor's test pattern generator.
-> 
-> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx335.c | 99 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 98 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> index e64ee99cbae4..f9a2337a80c0 100644
-> --- a/drivers/media/i2c/imx335.c
-> +++ b/drivers/media/i2c/imx335.c
-> @@ -45,6 +45,21 @@
->  /* Group hold register */
->  #define IMX335_REG_HOLD		0x3001
->  
-> +/* Test pattern generator */
-> +#define IMX335_REG_TPG		0x329e
-> +#define IMX335_TPG_ALL_000	0
-> +#define IMX335_TPG_ALL_FFF	1
-> +#define IMX335_TPG_ALL_555	2
-> +#define IMX335_TPG_ALL_AAA	3
-> +#define IMX335_TPG_TOG_555_AAA	4
-> +#define IMX335_TPG_TOG_AAA_555	5
-> +#define IMX335_TPG_TOG_000_555	6
-> +#define IMX335_TPG_TOG_555_000	7
-> +#define IMX335_TPG_TOG_000_FFF	8
-> +#define IMX335_TPG_TOG_FFF_000	9
-> +#define IMX335_TPG_H_COLOR_BARS 10
-> +#define IMX335_TPG_V_COLOR_BARS 11
-> +
->  /* Input clock rate */
->  #define IMX335_INCLK_RATE	24000000
->  
-> @@ -162,6 +177,38 @@ struct imx335 {
->  };
->  
->  
-> +static const char * const imx335_tpg_menu[] = {
-> +	"Disabled",
-> +	"All 000h",
-> +	"All FFFh",
-> +	"All 555h",
-> +	"All AAAh",
-> +	"Toggle 555/AAAh",
-> +	"Toggle AAA/555h",
-> +	"Toggle 000/555h",
-> +	"Toggle 555/000h",
-> +	"Toggle 000/FFFh",
-> +	"Toggle FFF/000h",
-> +	"Horizontal color bars",
-> +	"Vertical color bars",
-> +};
-> +
-> +static const int imx335_tpg_val[] = {
-> +	IMX335_TPG_ALL_000,
-> +	IMX335_TPG_ALL_000,
-> +	IMX335_TPG_ALL_FFF,
-> +	IMX335_TPG_ALL_555,
-> +	IMX335_TPG_ALL_AAA,
-> +	IMX335_TPG_TOG_555_AAA,
-> +	IMX335_TPG_TOG_AAA_555,
-> +	IMX335_TPG_TOG_000_555,
-> +	IMX335_TPG_TOG_555_000,
-> +	IMX335_TPG_TOG_000_FFF,
-> +	IMX335_TPG_TOG_FFF_000,
-> +	IMX335_TPG_H_COLOR_BARS,
-> +	IMX335_TPG_V_COLOR_BARS,
-> +};
-> +
->  /* Sensor mode registers */
->  static const struct imx335_reg mode_2592x1940_regs[] = {
->  	{0x3000, 0x01},
-> @@ -505,6 +552,46 @@ static int imx335_update_exp_gain(struct imx335 *imx335, u32 exposure, u32 gain)
->  	return ret;
->  }
->  
-> +static int imx335_update_test_pattern(struct imx335 *imx335, u32 pattern_index)
-> +{
-> +	int ret;
-> +
-> +	if (pattern_index >= ARRAY_SIZE(imx335_tpg_val))
-> +		return -EINVAL;
+Le mercredi 24 janvier 2024 =C3=A0 16:35 +0100, Benjamin Gaignard a =C3=A9c=
+rit=C2=A0:
+> Le 24/01/2024 =C3=A0 13:52, Hans Verkuil a =C3=A9crit=C2=A0:
+> > On 19/01/2024 10:49, Benjamin Gaignard wrote:
+> > > Allow to delete buffers on capture queue because it the one which
+> > > own the decoded buffers. After a dynamic resolution change lot of
+> > > them could remain allocated but won't be used anymore so deleting
+> > > them save memory.
+> > > Do not add this feature on output queue because the buffers are
+> > > smaller, fewer and always recycled even after a dynamic resolution
+> > > change.
+> > >=20
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > ---
+> > >   drivers/media/platform/verisilicon/hantro_drv.c  | 1 +
+> > >   drivers/media/platform/verisilicon/hantro_v4l2.c | 1 +
+> > >   2 files changed, 2 insertions(+)
+> > >=20
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/driver=
+s/media/platform/verisilicon/hantro_drv.c
+> > > index db3df6cc4513..f6b0a676a740 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> > > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> > > @@ -248,6 +248,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, =
+struct vb2_queue *dst_vq)
+> > >   	dst_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> > >   	dst_vq->lock =3D &ctx->dev->vpu_mutex;
+> > >   	dst_vq->dev =3D ctx->dev->v4l2_dev.dev;
+> > > +	src_vq->supports_delete_bufs =3D true;
+> > As I mentioned, I remain unconvinced by this. It is just making the API=
+ inconsistent
+> > since if you support delete_bufs, then why support it for one queue onl=
+y and not both?
+>=20
+> Because the both queues don't handle the same type of data.
+> For example for a stateless decoder, for me, it makes sense to allow dele=
+te decoded frames
+> if they won't be used anymore but that won't makes sense for bitstream bu=
+ffers.
 
-This is unnecessary, the control framework ensures this already.
+I personally think that for stateless and stateful decoder bitstream queue =
+this
+can be useful. We currently guess the size we need, and there is no way to
+allocate bigger ones without the driver forgetting about reference frames.
 
-> +
-> +	if (pattern_index) {
-> +		const struct imx335_reg tpg_enable_regs[] = {
-> +			{ 0x3148, 0x10 },
-> +			{ 0x3280, 0x00 },
-> +			{ 0x329c, 0x01 },
-> +			{ 0x32a0, 0x11 },
-> +			{ 0x3302, 0x00 },
-> +			{ 0x3303, 0x00 },
-> +			{ 0x336c, 0x00 },
-> +		};
-> +
-> +		ret = imx335_write_reg(imx335, IMX335_REG_TPG, 1, imx335_tpg_val[pattern_index]);
+In stateful, some drivers allow to split the bitstream (I tested wave5 nota=
+bly),
+but I was told this is not always the case. A bit of a gray zone in that AP=
+I,
+with lack of capabilities to describe it. On stateless, the entire bitstrea=
+m
+slice must be in one buffer.
 
-Can you do:
+Though, for the asymmetry, most stateful decoders won't allow delete bufs o=
+n
+capture, because the buffers are registered in the firmware ahead of time. =
+wave5
+can't even implement create_bufs on capture. We had an argument about havin=
+g
+create_bufs on only one queue for that specific driver, as we wanted someth=
+ing
+upstream, we flex to removing create bufs completely. I think the all or no=
+thing
+rule on per queue create/delete_bufs is not aligned with the reality.
 
-	$ ./scripts/checkpatch.pl --strict --max-line-length=80
+Nicolas
+>=20
+> >=20
+> > >  =20
+> > >   	return vb2_queue_init(dst_vq);
+> > >   }
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drive=
+rs/media/platform/verisilicon/hantro_v4l2.c
+> > > index 941fa23c211a..34eab90e8a42 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > @@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops =3D =
+{
+> > >   	.vidioc_dqbuf =3D v4l2_m2m_ioctl_dqbuf,
+> > >   	.vidioc_prepare_buf =3D v4l2_m2m_ioctl_prepare_buf,
+> > >   	.vidioc_create_bufs =3D v4l2_m2m_ioctl_create_bufs,
+> > > +	.vidioc_delete_bufs =3D v4l2_m2m_ioctl_delete_bufs,
+> > >   	.vidioc_expbuf =3D v4l2_m2m_ioctl_expbuf,
+> > >  =20
+> > >   	.vidioc_subscribe_event =3D v4l2_ctrl_subscribe_event,
+> > In my view setting vidioc_delete_bufs should enable this feature, and i=
+f
+> > for some strange reason only one queue support it, then make a wrapper
+> > callback that returns an error when used with the wrong queue.
+> >=20
+> > Also note that patch 6/8 never checks for q->supports_delete_bufs in
+> > vb2_core_delete_bufs(), which is wrong!
+>=20
+> I will fix that in next version.
+> Regards,
+> Benjamin
+>=20
+> >=20
+> > Regards,
+> >=20
+> > 	Hans
+> >=20
+>=20
 
-on these?
-
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = imx335_write_regs(imx335, tpg_enable_regs, ARRAY_SIZE(tpg_enable_regs));
-
-Return already here.
-
-> +	} else {
-> +		const struct imx335_reg tpg_disable_regs[] = {
-> +			{ 0x3148, 0x00 },
-> +			{ 0x3280, 0x01 },
-> +			{ 0x329c, 0x00 },
-> +			{ 0x32a0, 0x10 },
-> +			{ 0x3302, 0x32 },
-> +			{ 0x3303, 0x00 },
-> +			{ 0x336c, 0x01 },
-> +		};
-> +
-> +		ret = imx335_write_regs(imx335, tpg_disable_regs, ARRAY_SIZE(tpg_disable_regs));
-
-And here.
-
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /**
->   * imx335_set_ctrl() - Set subdevice control
->   * @ctrl: pointer to v4l2_ctrl structure
-> @@ -558,6 +645,10 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
->  
->  		ret = imx335_update_exp_gain(imx335, exposure, analog_gain);
->  
-> +		break;
-> +	case V4L2_CID_TEST_PATTERN:
-> +		ret = imx335_update_test_pattern(imx335, ctrl->val);
-> +
->  		break;
->  	default:
->  		dev_err(imx335->dev, "Invalid control %d\n", ctrl->id);
-> @@ -1122,7 +1213,7 @@ static int imx335_init_controls(struct imx335 *imx335)
->  	u32 lpfr;
->  	int ret;
->  
-> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 6);
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
->  	if (ret)
->  		return ret;
->  
-> @@ -1156,6 +1247,12 @@ static int imx335_init_controls(struct imx335 *imx335)
->  						mode->vblank_max,
->  						1, mode->vblank);
->  
-> +	v4l2_ctrl_new_std_menu_items(ctrl_hdlr,
-> +				     &imx335_ctrl_ops,
-> +				     V4L2_CID_TEST_PATTERN,
-> +				     ARRAY_SIZE(imx335_tpg_menu) - 1,
-> +				     0, 0, imx335_tpg_menu);
-> +
->  	/* Read only controls */
->  	imx335->pclk_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
->  					      &imx335_ctrl_ops,
-
--- 
-Regards,
-
-Sakari Ailus
 
