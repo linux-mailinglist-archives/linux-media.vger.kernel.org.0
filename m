@@ -1,225 +1,171 @@
-Return-Path: <linux-media+bounces-4189-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4192-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C961783C743
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 16:50:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2B183C79A
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 17:11:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BFE21F261E4
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 15:50:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E828B23FBD
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 16:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 171707CF2C;
-	Thu, 25 Jan 2024 15:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17D89129A70;
+	Thu, 25 Jan 2024 16:11:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OZiRQtwq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGsjEBlW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6797A707;
-	Thu, 25 Jan 2024 15:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD30986143;
+	Thu, 25 Jan 2024 16:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706197776; cv=none; b=a658ZMYhoV4UP8AnCs/fKQ+HqmNcKCppKE9irFdizelDIP+s4+lO2jZLaBnm9ih84F+CSrMyxvaMUuONFNpkS4ox/Ihu6ySrl8xTc48h8sTE5NsFzygLv0QTzrkQvZEvXfVMm6KIAEkl9arwv75gACykiuukflz4KxB8dD2QRrA=
+	t=1706199062; cv=none; b=vANzayhpyFTxyuGImUFE6TGnt64N6T6qMra2eHh53jfwW+jgSJ4Vgmh52rElOuR6UPV0h8ijvjzjjWEhhJgsVgNactvjIwrfmAiWX+WBr/V6PJs4Tg95s9Jqi0Hl59B5TNrQ3Ppk9HAK5HXl5gTy13fMWA/tXBnLhQhA0Kj8xIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706197776; c=relaxed/simple;
-	bh=W1Z5z7CyCm6OJIhlRbgJ7qn8gVztgK3gJEzxblTd6J0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i/R976hNReNV8NH/tN61XCIgHIj/63aDxjx8P2GIp92Jy6Tt0pJkymfG+11FiLiR/acS/+AQFkfBaOOPZEPhysg+JWabCuhc02fVRgndCBY44KD6dbjn5mEjsnY9wV30sSsEg9ER1qb+C/7u93oE3aEIgCVQ4kPMrg5rG8/le34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OZiRQtwq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from umang.jain (unknown [103.86.18.175])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B760951A6;
-	Thu, 25 Jan 2024 16:48:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1706197695;
-	bh=W1Z5z7CyCm6OJIhlRbgJ7qn8gVztgK3gJEzxblTd6J0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OZiRQtwqP73QFH7tCmGmTedDWV1o1yIGO/87wKQ3AgVVk2nCEmP8YoZURugOc0zTa
-	 b1+Y+pItMc1UrCvsmQd5mcp1AcyfT/FW6Z12Mf5LKzCjVeI9VNvhOkInPCZ1xJzXeD
-	 PZTdq7DD3jacYG180ySdXqbm9iSs1ZgHB/WqhXjs=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH 4/4] media: i2c: imx335: Add support for test pattern generator
-Date: Thu, 25 Jan 2024 21:19:08 +0530
-Message-ID: <20240125154908.465191-5-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240125154908.465191-1-umang.jain@ideasonboard.com>
-References: <20240125154908.465191-1-umang.jain@ideasonboard.com>
+	s=arc-20240116; t=1706199062; c=relaxed/simple;
+	bh=erA6r6+8c+fMm7TjsfyuG2K4tmIEaj6481Pqbo/gIRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eg61iM8gqKsw+CTvF5lHoLHfXibH18Zr7aoS7WUeo6eDJfnqjdN0hIWfFD7tglBpje6P/sbWKzdWrRZAmhtXgbAbW/CHx8Xip8/2XgHr9d7ZQN9W5xGy2eI3PNj05rLgE2f7dubEROXozwV0mkKFJQ/cvEPgfCImWvmVnSRuXk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGsjEBlW; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706199061; x=1737735061;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=erA6r6+8c+fMm7TjsfyuG2K4tmIEaj6481Pqbo/gIRU=;
+  b=UGsjEBlWD4hml9v1xNgHY6As2IYorXSB3+lIQR3W+kRa11R4pd1DJ5vf
+   MipegmtzJOh3uIqxEF0o5vDms+Mfq9yr6ndFMtpBIuqRMuWfmRB5a4hbo
+   kuarqa/3HqtLOlQqu9UBAsw2CGJwpaiP42IEumBt5ZDvdZBiUnjzj1AgY
+   Hrnkp7l/f8rYABkRBeUJSfbU13kFSTtuCNwRsdQuwc6/BZ5A+9aN4dxKT
+   qzGykkX2Mmp6REN9ErBTWgDtVT51GkLdgdgfhFipHL1bQNBxYo8L5O2z9
+   TV7gLxoyuUoMkNPy7wM+srX0bKPzNd7fk8ptabyMzAB56MEdGV/3cyJq/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="433358619"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="433358619"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:10:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="736372656"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="736372656"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:10:52 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 775ED11FAD4;
+	Thu, 25 Jan 2024 18:01:16 +0200 (EET)
+Date: Thu, 25 Jan 2024 16:01:16 +0000
+From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+To: Zhi Mao =?utf-8?B?KOavm+aZuik=?= <zhi.mao@mediatek.com>
+Cc: "heiko@sntech.de" <heiko@sntech.de>,
+	"gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"yunkec@chromium.org" <yunkec@chromium.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= <shengnan.wang@mediatek.com>,
+	"hdegoede@redhat.com" <hdegoede@redhat.com>,
+	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
+	Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
+	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"bingbu.cao@intel.com" <bingbu.cao@intel.com>,
+	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"10572168@qq.com" <10572168@qq.com>,
+	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
+	"macromorgan@hotmail.com" <macromorgan@hotmail.com>
+Subject: Re: [PATCH v3 2/2] media: i2c: Add GC08A3 image sensor driver
+Message-ID: <ZbKFzGxXhU0TABHZ@kekkonen.localdomain>
+References: <20240109022715.30278-1-zhi.mao@mediatek.com>
+ <20240109022715.30278-3-zhi.mao@mediatek.com>
+ <ZZ0dcTEqxjYCohac@kekkonen.localdomain>
+ <42cf05ea80a2413aae588b762e67c3418b9514d4.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <42cf05ea80a2413aae588b762e67c3418b9514d4.camel@mediatek.com>
 
-From: Matthias Fend <matthias.fend@emfend.at>
+Hi Zhi,
 
-Add support for the sensor's test pattern generator.
+On Thu, Jan 25, 2024 at 02:24:52AM +0000, Zhi Mao (毛智) wrote:
+> Hi Sakari
+> 
+> Thanks for your review code and comments.
+> 
+> On Tue, 2024-01-09 at 10:18 +0000, Sakari Ailus wrote:
+> >  	 
+> > External email : Please do not click links or open attachments until
+> > you have verified the sender or the content.
+> >  Hi Zhi,
+> > 
+> > Thanks for the update.
+> > 
+> > On Tue, Jan 09, 2024 at 10:27:15AM +0800, Zhi Mao wrote:
+> > > Add a V4L2 sub-device driver for Galaxycore GC08A3 image sensor.
+> > > 
+> > > Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
+> > > ---
+> > >  drivers/media/i2c/Kconfig  |   10 +
+> > >  drivers/media/i2c/Makefile |    1 +
+> > >  drivers/media/i2c/gc08a3.c | 1467
+> > ++++++++++++++++++++++++++++++++++++
+> > >  3 files changed, 1478 insertions(+)
+> > >  create mode 100644 drivers/media/i2c/gc08a3.c
+> > > 
+> > > +for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
+> > > +for (j = 0; j < bus_cfg.nr_of_link_frequencies; j++) {
+> > > +if (link_freq_menu_items[i] ==
+> > > +    bus_cfg.link_frequencies[j])
+> > > +break;
+> > > +}
+> > > +
+> > > +if (j == bus_cfg.nr_of_link_frequencies) {
+> > > +dev_err(dev,
+> > > +"no link frequency %lld supported, please check DT",
+> > > +link_freq_menu_items[i]);
+> > > +ret = -EINVAL;
+> > > +goto done;
+> > > +}
+> > > +}
+> > 
+> > Please use v4l2_link_freq_to_bitmap() available here
+> > <URL:
+> > https://lore.kernel.org/linux-media/20240108151805.55584-2-sakari.ailus@linux.intel.com/T/#u>
+> > ;.
+> > We'll then merge both at the same time.
+> > 
+> 
+> After got the latest linux kernel code base(tag: next-20240124), there
+> seems to be not new API:v4l2_link_freq_to_bitmap() still.
+> 
+> Would you please let me know, how about the status about this API?
 
-Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- drivers/media/i2c/imx335.c | 99 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 98 insertions(+), 1 deletion(-)
+The patches are in my linuxtv.org tree's master branch now:
 
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index e64ee99cbae4..f9a2337a80c0 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -45,6 +45,21 @@
- /* Group hold register */
- #define IMX335_REG_HOLD		0x3001
- 
-+/* Test pattern generator */
-+#define IMX335_REG_TPG		0x329e
-+#define IMX335_TPG_ALL_000	0
-+#define IMX335_TPG_ALL_FFF	1
-+#define IMX335_TPG_ALL_555	2
-+#define IMX335_TPG_ALL_AAA	3
-+#define IMX335_TPG_TOG_555_AAA	4
-+#define IMX335_TPG_TOG_AAA_555	5
-+#define IMX335_TPG_TOG_000_555	6
-+#define IMX335_TPG_TOG_555_000	7
-+#define IMX335_TPG_TOG_000_FFF	8
-+#define IMX335_TPG_TOG_FFF_000	9
-+#define IMX335_TPG_H_COLOR_BARS 10
-+#define IMX335_TPG_V_COLOR_BARS 11
-+
- /* Input clock rate */
- #define IMX335_INCLK_RATE	24000000
- 
-@@ -162,6 +177,38 @@ struct imx335 {
- };
- 
- 
-+static const char * const imx335_tpg_menu[] = {
-+	"Disabled",
-+	"All 000h",
-+	"All FFFh",
-+	"All 555h",
-+	"All AAAh",
-+	"Toggle 555/AAAh",
-+	"Toggle AAA/555h",
-+	"Toggle 000/555h",
-+	"Toggle 555/000h",
-+	"Toggle 000/FFFh",
-+	"Toggle FFF/000h",
-+	"Horizontal color bars",
-+	"Vertical color bars",
-+};
-+
-+static const int imx335_tpg_val[] = {
-+	IMX335_TPG_ALL_000,
-+	IMX335_TPG_ALL_000,
-+	IMX335_TPG_ALL_FFF,
-+	IMX335_TPG_ALL_555,
-+	IMX335_TPG_ALL_AAA,
-+	IMX335_TPG_TOG_555_AAA,
-+	IMX335_TPG_TOG_AAA_555,
-+	IMX335_TPG_TOG_000_555,
-+	IMX335_TPG_TOG_555_000,
-+	IMX335_TPG_TOG_000_FFF,
-+	IMX335_TPG_TOG_FFF_000,
-+	IMX335_TPG_H_COLOR_BARS,
-+	IMX335_TPG_V_COLOR_BARS,
-+};
-+
- /* Sensor mode registers */
- static const struct imx335_reg mode_2592x1940_regs[] = {
- 	{0x3000, 0x01},
-@@ -505,6 +552,46 @@ static int imx335_update_exp_gain(struct imx335 *imx335, u32 exposure, u32 gain)
- 	return ret;
- }
- 
-+static int imx335_update_test_pattern(struct imx335 *imx335, u32 pattern_index)
-+{
-+	int ret;
-+
-+	if (pattern_index >= ARRAY_SIZE(imx335_tpg_val))
-+		return -EINVAL;
-+
-+	if (pattern_index) {
-+		const struct imx335_reg tpg_enable_regs[] = {
-+			{ 0x3148, 0x10 },
-+			{ 0x3280, 0x00 },
-+			{ 0x329c, 0x01 },
-+			{ 0x32a0, 0x11 },
-+			{ 0x3302, 0x00 },
-+			{ 0x3303, 0x00 },
-+			{ 0x336c, 0x00 },
-+		};
-+
-+		ret = imx335_write_reg(imx335, IMX335_REG_TPG, 1, imx335_tpg_val[pattern_index]);
-+		if (ret)
-+			return ret;
-+
-+		ret = imx335_write_regs(imx335, tpg_enable_regs, ARRAY_SIZE(tpg_enable_regs));
-+	} else {
-+		const struct imx335_reg tpg_disable_regs[] = {
-+			{ 0x3148, 0x00 },
-+			{ 0x3280, 0x01 },
-+			{ 0x329c, 0x00 },
-+			{ 0x32a0, 0x10 },
-+			{ 0x3302, 0x32 },
-+			{ 0x3303, 0x00 },
-+			{ 0x336c, 0x01 },
-+		};
-+
-+		ret = imx335_write_regs(imx335, tpg_disable_regs, ARRAY_SIZE(tpg_disable_regs));
-+	}
-+
-+	return ret;
-+}
-+
- /**
-  * imx335_set_ctrl() - Set subdevice control
-  * @ctrl: pointer to v4l2_ctrl structure
-@@ -558,6 +645,10 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
- 
- 		ret = imx335_update_exp_gain(imx335, exposure, analog_gain);
- 
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = imx335_update_test_pattern(imx335, ctrl->val);
-+
- 		break;
- 	default:
- 		dev_err(imx335->dev, "Invalid control %d\n", ctrl->id);
-@@ -1122,7 +1213,7 @@ static int imx335_init_controls(struct imx335 *imx335)
- 	u32 lpfr;
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 6);
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
- 	if (ret)
- 		return ret;
- 
-@@ -1156,6 +1247,12 @@ static int imx335_init_controls(struct imx335 *imx335)
- 						mode->vblank_max,
- 						1, mode->vblank);
- 
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr,
-+				     &imx335_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx335_tpg_menu) - 1,
-+				     0, 0, imx335_tpg_menu);
-+
- 	/* Read only controls */
- 	imx335->pclk_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
- 					      &imx335_ctrl_ops,
+	https://git.linuxtv.org/sailus/media_tree.git/
+
 -- 
-2.41.0
-
+Sakari Ailus
 
