@@ -1,307 +1,184 @@
-Return-Path: <linux-media+bounces-4197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4198-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540B083CA99
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 19:10:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E1C83CCB5
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 20:41:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C60951F26AC8
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 18:10:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A8051C22D22
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 19:41:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E09941350E3;
-	Thu, 25 Jan 2024 18:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76046137C30;
+	Thu, 25 Jan 2024 19:40:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="CGkvof0E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsDXEvtl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EA31350C5
-	for <linux-media@vger.kernel.org>; Thu, 25 Jan 2024 18:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DB78472
+	for <linux-media@vger.kernel.org>; Thu, 25 Jan 2024 19:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706206217; cv=none; b=l+Dszy/VmuBOj5+KNvPXZBQNTcl1FMV7/Te2JCh8hTu2yItwyaOPiyq592bJno5eQE7I+a87dAosY6lp7OjcdpAGdc4dAmJCbIF5TdzR86M4e1WoDmHvZVF/4VAPayN2B8cyn6VORuOViehBpo7sy2n4j4VkVvJNsu0/ANHOPbA=
+	t=1706211622; cv=none; b=aX3cMP79Bo7B6EnHl+LP++YQy/7GHuuA8Vlm7FSpKbbLaarwQUKdZQ08ekFxVO8Bpglla0IuMnqJ1MQpn3qlczhPuuJ9XEgx3hBPVa9hdUCHcBjkeWStIvA/fYMr6I0Mme8bVFXZVwZFRaTT7S3Dto9yuTfXcRHawoQPXd57gbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706206217; c=relaxed/simple;
-	bh=IjkBfYyXyZuxLRiem9LViq3PHGioJn1sHgJBkjshdog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KgBzif2hQF/8QkwRhrP6UHPHeWnjdfMH5OQ7r4i6s5Yt1ok+4V9nmAaZxcyZByc1Y6K1YvkmJ2E8/l8UYAgk+ph2PT+juido9O1HWSeQPHnHoGZUsft1NsgRhj1BJelUKKsZbI+zBjxFB2cKzeU6A2TlQDhA68FGAvdc5lvjDvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=CGkvof0E; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-55369c59708so1639253a12.1
-        for <linux-media@vger.kernel.org>; Thu, 25 Jan 2024 10:10:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1706206214; x=1706811014; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5tOrqes/9yVROTQ69tGyE0dsjLuB7wrcHht59zsTqBI=;
-        b=CGkvof0EtzcKmw7WNMprPWIIDhnUd5DMGi6YIWp80nwC41xYArFvglosFhOYI0TLRu
-         a7ObXw4SQpWaG6OJcsZcHqhoHHfKhfsGj3fVQDJ1mG2TIvsYgUF/8x1HR/Dx9efT+8go
-         7GMqiShf5ClOvHKiVH6nA3o3TGI4tfUz4e970=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706206214; x=1706811014;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5tOrqes/9yVROTQ69tGyE0dsjLuB7wrcHht59zsTqBI=;
-        b=pCAR9a4I7h4plaj/1yEu1MpGzR9oykRQ80zydMBmUHkONeUkbVuz+QOgHfKoVqbj4B
-         SBw+JMRcrZ9JZOpIdh27BRcLRYh2lSJpwyLyPSD+JO9xvBS0u7vNNeMs6Y/GnX+qVHKp
-         CNcFyUT3com85yEcX9soN7LRmv4Oh1pRnBQ9R1GSBsFF5OSWuBaqtbUsAILX2S5dUJqb
-         mblLTY2dU7cX8Be0xMQxzfMU2+SFEBNUHEzUEbQjfuuz4Yfczwvn0QNOzvLQ/4odFtA7
-         E5JEifgeY4ikShOEnMnbbRuAUG2s3E4cRKuMvBzTn1Q4oKwldQlW4ktfU3vve3ZXRYB1
-         v1Cw==
-X-Gm-Message-State: AOJu0YyVfkVEYvqPN6HVTabVo9QPRPW76gshIjQGmVElVMbVZhJMpaTk
-	K9EnvWYs/r5MH1Hy9DQvrrTY+TmMLPTiND6DJWQ7Wd8Stabs9qd1z9cd61xh4MM=
-X-Google-Smtp-Source: AGHT+IHiPqW8oQ3VVW2VkOd3YkCZla2B2xfbN2rRDbyJzKzFaaBeBkii2OIRJhk353wOIuVlybUpFg==
-X-Received: by 2002:aa7:c595:0:b0:55c:c283:30c6 with SMTP id g21-20020aa7c595000000b0055cc28330c6mr63184edq.0.1706206213777;
-        Thu, 25 Jan 2024 10:10:13 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id fj9-20020a0564022b8900b00559cb738c1bsm10748896edb.4.2024.01.25.10.10.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 10:10:13 -0800 (PST)
-Date: Thu, 25 Jan 2024 19:10:11 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
-Message-ID: <ZbKkA68PuekJGIrP@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240119141402.44262-1-paul@crapouillou.net>
- <20240119141402.44262-2-paul@crapouillou.net>
+	s=arc-20240116; t=1706211622; c=relaxed/simple;
+	bh=t5PmoYSCgliq8XsPfTfthj+E+HZNZd3VWZHPmmEVnTY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CszF86ndEzq8T9z+WWTIFzqhkk3apcJB+BMuH6VMKdCT3FBHQkZD8CdRSvGx5T27OM/pi/KZJtkK/k5Yyr0XJSPbW/dFwG41aZv78JQjGzvyjgMy3vGNWA4XT1bpKXYh3tzaA9MsVJv/zLnwACbUj/pEwqA0HTDaCrAIsFWe+kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsDXEvtl; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706211620; x=1737747620;
+  h=date:from:to:cc:subject:message-id;
+  bh=t5PmoYSCgliq8XsPfTfthj+E+HZNZd3VWZHPmmEVnTY=;
+  b=GsDXEvtlr4W5PbT5zcJ+Z+vMdJExXak16Vy6EfLQrC5EcDuAoOewc24r
+   rwQIFnEh1moKzQ1b3/NuZAw8RMODRB5Vsxqfar889N4mi96y68oeRZ/Cl
+   n14BYcjI1RGjNufXUSYkrYK9pb1LwJmMFeocJhcsX0tvzD8smFJK4Xzh3
+   MLcVGT0mggPVQFV6IsstHOERPcul+8rq0LuogELD3MhPjCK9s58WvLd58
+   r4i3R0Ys4d0W6+o8l249XTt1IPSnh+7OzFwpcNxRsCsjsTw4cQmq02eKG
+   9jgvUMLqbwmk5Dv1isuTsIfzMuZ8842oIVLt7Z+Jrv8M7sND9aL1qaBP+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9388471"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="9388471"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 11:40:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="2460951"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 25 Jan 2024 11:40:18 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rT5aC-0000Mi-1H;
+	Thu, 25 Jan 2024 19:40:16 +0000
+Date: Fri, 26 Jan 2024 03:40:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:fixes] BUILD SUCCESS
+ b32431b753217d8d45b018443b1a7aac215921fb
+Message-ID: <202401260301.NNZcM1lP-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240119141402.44262-2-paul@crapouillou.net>
-X-Operating-System: Linux phenom 6.6.11-amd64 
 
-On Fri, Jan 19, 2024 at 03:13:57PM +0100, Paul Cercueil wrote:
-> These functions should be used by device drivers when they start and
-> stop accessing the data of DMABUF. It allows DMABUF importers to cache
-> the dma_buf_attachment while ensuring that the data they want to access
-> is available for their device when the DMA transfers take place.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+tree/branch: https://git.linuxtv.org/media_stage.git fixes
+branch HEAD: b32431b753217d8d45b018443b1a7aac215921fb  media: vb2: refactor setting flags and caps, fix missing cap
 
-Putting my detailed review comments here just so I don't have to remember
-them any longer. We need to reach consensus on the big picture direction
-first.
+elapsed time: 1583m
 
-> 
-> ---
-> v5: New patch
-> ---
->  drivers/dma-buf/dma-buf.c | 66 +++++++++++++++++++++++++++++++++++++++
->  include/linux/dma-buf.h   | 37 ++++++++++++++++++++++
->  2 files changed, 103 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 8fe5aa67b167..a8bab6c18fcd 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -830,6 +830,8 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
->   *     - dma_buf_mmap()
->   *     - dma_buf_begin_cpu_access()
->   *     - dma_buf_end_cpu_access()
-> + *     - dma_buf_begin_access()
-> + *     - dma_buf_end_access()
->   *     - dma_buf_map_attachment_unlocked()
->   *     - dma_buf_unmap_attachment_unlocked()
->   *     - dma_buf_vmap_unlocked()
-> @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
->  
-> +/**
-> + * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
-> + * @attach:	[in]	attachment used for hardware access
-> + * @sg_table:	[in]	scatterlist used for the DMA transfer
-> + * @direction:  [in]    direction of DMA transfer
+configs tested: 95
+configs skipped: 2
 
-I think for the kerneldoc would be good to point at the other function
-here, explain why this might be needed and that for most reasonable
-devices it's probably not, and link between the function pairs.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Also we need to document that dma_buf_map does an implied
-dma_buf_begin_access (because dma_sg_map does an implied
-dma_sg_sync_for_device) and vice versa for dma_buf_end_access. Which also
-means that dma_buf_map/unmap should link to these functions in their
-kerneldoc too.
-
-Finally I think we should document here that it's ok to call these from
-dma_fence signalling critical section and link to the relevant discussion
-in the dma_fence docs for that.
-
-> + */
-> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
-> +			 struct sg_table *sgt, enum dma_data_direction dir)
-> +{
-> +	struct dma_buf *dmabuf;
-> +	bool cookie;
-> +	int ret;
-> +
-> +	if (WARN_ON(!attach))
-> +		return -EINVAL;
-> +
-> +	dmabuf = attach->dmabuf;
-> +
-> +	if (!dmabuf->ops->begin_access)
-> +		return 0;
-> +
-> +	cookie = dma_fence_begin_signalling();
-> +	ret = dmabuf->ops->begin_access(attach, sgt, dir);
-> +	dma_fence_end_signalling(cookie);
-> +
-> +	if (WARN_ON_ONCE(ret))
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
-
-So explicit device side coherency management is not going to be very
-compatible with dynamic buffer managament where the exporter can move the
-buffer around. The reason for that is that for a dynamic exporter we cache
-the sg mapping, which means any device-side coherency management which
-dma_buf_map/unmap would do will not happen (since it's cached),
-potentially breaking things for importers that rely on the assumption that
-dma_buf_map/unmap already implies dma_buf_begin/end_device_access.
-
-I think for now it's sufficient to put a WARN_ON(dma_buf_is_dymamic() &&
-ops->begin|end_access) or similar into dma_buf_export and bail out with an
-error to catch that.
-
-Aside from the nits I do think this is roughly what we brievely discussed
-well over a decade ago in the original dma-buf kickoff meeting at a linaro
-connect in Budapest :-)
-
-Cheers, Sima
-
-> +
-> +/**
-> + * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
-> + * @attach:	[in]	attachment used for hardware access
-> + * @sg_table:	[in]	scatterlist used for the DMA transfer
-> + * @direction:  [in]    direction of DMA transfer
-> + */
-> +int dma_buf_end_access(struct dma_buf_attachment *attach,
-> +		       struct sg_table *sgt, enum dma_data_direction dir)
-> +{
-> +	struct dma_buf *dmabuf;
-> +	bool cookie;
-> +	int ret;
-> +
-> +	if (WARN_ON(!attach))
-> +		return -EINVAL;
-> +
-> +	dmabuf = attach->dmabuf;
-> +
-> +	if (!dmabuf->ops->end_access)
-> +		return 0;
-> +
-> +	cookie = dma_fence_begin_signalling();
-> +	ret = dmabuf->ops->end_access(attach, sgt, dir);
-> +	dma_fence_end_signalling(cookie);
-> +
-> +	if (WARN_ON_ONCE(ret))
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
-> +
->  #ifdef CONFIG_DEBUG_FS
->  static int dma_buf_debug_show(struct seq_file *s, void *unused)
->  {
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 8ff4add71f88..8ba612c7cc16 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -246,6 +246,38 @@ struct dma_buf_ops {
->  	 */
->  	int (*end_cpu_access)(struct dma_buf *, enum dma_data_direction);
->  
-> +	/**
-> +	 * @begin_access:
-> +	 *
-> +	 * This is called from dma_buf_begin_access() when a device driver
-> +	 * wants to access the data of the DMABUF. The exporter can use this
-> +	 * to flush/sync the caches if needed.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * Returns:
-> +	 *
-> +	 * 0 on success or a negative error code on failure.
-> +	 */
-> +	int (*begin_access)(struct dma_buf_attachment *, struct sg_table *,
-> +			    enum dma_data_direction);
-> +
-> +	/**
-> +	 * @end_access:
-> +	 *
-> +	 * This is called from dma_buf_end_access() when a device driver is
-> +	 * done accessing the data of the DMABUF. The exporter can use this
-> +	 * to flush/sync the caches if needed.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * Returns:
-> +	 *
-> +	 * 0 on success or a negative error code on failure.
-> +	 */
-> +	int (*end_access)(struct dma_buf_attachment *, struct sg_table *,
-> +			  enum dma_data_direction);
-> +
->  	/**
->  	 * @mmap:
->  	 *
-> @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf *dmabuf,
->  int dma_buf_pin(struct dma_buf_attachment *attach);
->  void dma_buf_unpin(struct dma_buf_attachment *attach);
->  
-> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
-> +			 struct sg_table *sgt, enum dma_data_direction dir);
-> +int dma_buf_end_access(struct dma_buf_attachment *attach,
-> +		       struct sg_table *sgt, enum dma_data_direction dir);
-> +
->  struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
->  
->  int dma_buf_fd(struct dma_buf *dmabuf, int flags);
-> -- 
-> 2.43.0
-> 
-> 
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240126   gcc  
+arc                   randconfig-002-20240126   gcc  
+arm                               allnoconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240126   clang
+arm                   randconfig-002-20240126   clang
+arm                   randconfig-003-20240126   clang
+arm                   randconfig-004-20240126   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240126   clang
+arm64                 randconfig-002-20240126   clang
+arm64                 randconfig-003-20240126   clang
+arm64                 randconfig-004-20240126   clang
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240126   gcc  
+csky                  randconfig-002-20240126   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240126   clang
+hexagon               randconfig-002-20240126   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240125   gcc  
+i386         buildonly-randconfig-002-20240125   gcc  
+i386         buildonly-randconfig-003-20240125   gcc  
+i386         buildonly-randconfig-004-20240125   gcc  
+i386         buildonly-randconfig-005-20240125   gcc  
+i386         buildonly-randconfig-006-20240125   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240125   gcc  
+i386                  randconfig-002-20240125   gcc  
+i386                  randconfig-003-20240125   gcc  
+i386                  randconfig-004-20240125   gcc  
+i386                  randconfig-005-20240125   gcc  
+i386                  randconfig-006-20240125   gcc  
+i386                  randconfig-011-20240125   clang
+i386                  randconfig-012-20240125   clang
+i386                  randconfig-013-20240125   clang
+i386                  randconfig-014-20240125   clang
+i386                  randconfig-015-20240125   clang
+i386                  randconfig-016-20240125   clang
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240126   gcc  
+loongarch             randconfig-002-20240126   gcc  
+m68k                              allnoconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+nios2                             allnoconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240126   gcc  
+nios2                 randconfig-002-20240126   gcc  
+parisc                randconfig-001-20240126   gcc  
+parisc                randconfig-002-20240126   gcc  
+powerpc               randconfig-001-20240126   clang
+powerpc               randconfig-002-20240126   clang
+powerpc               randconfig-003-20240126   clang
+powerpc64             randconfig-001-20240126   clang
+powerpc64             randconfig-002-20240126   clang
+powerpc64             randconfig-003-20240126   clang
+riscv                 randconfig-001-20240126   clang
+riscv                 randconfig-002-20240126   clang
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                  randconfig-001-20240126   gcc  
+s390                  randconfig-002-20240126   gcc  
+sh                               allmodconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                    randconfig-001-20240126   gcc  
+sh                    randconfig-002-20240126   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64               randconfig-001-20240126   gcc  
+sparc64               randconfig-002-20240126   gcc  
+um                               allmodconfig   clang
+um                               allyesconfig   clang
+um                    randconfig-001-20240126   clang
+um                    randconfig-002-20240126   clang
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
