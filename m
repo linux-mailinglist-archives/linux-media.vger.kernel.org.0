@@ -1,202 +1,156 @@
-Return-Path: <linux-media+bounces-4193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4194-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6A283C7DC
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 17:27:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F2D83C7EB
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 17:28:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9467E29764D
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 16:27:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D89571C25339
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 16:28:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30CE7129A81;
-	Thu, 25 Jan 2024 16:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DB66129A8C;
+	Thu, 25 Jan 2024 16:28:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="h3bIBrka"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hck4aF7H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF28574E32
-	for <linux-media@vger.kernel.org>; Thu, 25 Jan 2024 16:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B335573177;
+	Thu, 25 Jan 2024 16:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706200035; cv=none; b=rsV6OFoL62PlZnUyNikm5AMijrkEolw819RsqOT5SIvyM34P7uQEjaO10/xugOdMdzMEQSrX1lErbnSPiKTr0OhdjkkG1U4LrCdgAWhNEBsi+ppTY7+HXXoFzJgcGXuDHYE67+2Zi0RsTQnh90UyXbP7MG+FRDNDz6YnODB4aPI=
+	t=1706200092; cv=none; b=iLn/TdK9YBE/aiHDqBpHTcFfktty1OU4sLicvIxrHH4XHOJI+ycwgJ+A+oOi7/p2dU5Mbk2KRDGnKvnIGRs80ZQZBV6m3pyFj736wldBxRfdgbhE8oQiBxTbTv/6vNeaIFr+BBp3LplHgI8jU8gaRffiMRWC3r+fGmf8rQV2l4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706200035; c=relaxed/simple;
-	bh=+GAO5YWuL7EqUjWOl2U03X6ovBfiXH4yE91ok6yjcAI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PRei5zVau7Swyh08biQdZwVLGgdsUUoxCysruoEnhUQZShxGbQt9U3VVwwRvT8WH9o67E49F2l8uUi3nbK2XirI8NRhnxQNcu27L1UjofLXPsPK8f834h1O4a68ERKpNCEvAYLhQjG61XpJihmfnbgF2KdEWKzR0gLaHhV5HzCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=h3bIBrka; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7831362c9bcso458965585a.1
-        for <linux-media@vger.kernel.org>; Thu, 25 Jan 2024 08:27:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1706200033; x=1706804833; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0kuRjuJnX7Sn5l28ZUPlWUHDNHmw5kV8n1Gjblo8C3g=;
-        b=h3bIBrkaG5iAUhBtcu6/WlLzQW+v9gajshc3yWCN191Bgjl2NYPM8HkBRsjd38AYU8
-         AtxTdNI6v+uohLB37hsiGw1yOgCBoHVdUTLaAL2K8RJRVE73sG10xo27Mr0MRtrlELrH
-         iUVeb+NItcm5kbROKFNjDkBUjKQ7WzDxZS2id4GCX8HA/1FxqSuOyabzcXU4Mcg5Jexb
-         moFNuAMk8w9iKDIASPNnOSTYa3y1oTyJ6sajA/50tuKlC0YHvCjbd23S+UHxVGgXCcJo
-         8AFRAXoBZniGU6meZhcfIL42IzoJQDBf1uvl9xXuE5ftmuP/8kLO9Qn0RrDdo797IsrE
-         zAoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706200033; x=1706804833;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0kuRjuJnX7Sn5l28ZUPlWUHDNHmw5kV8n1Gjblo8C3g=;
-        b=enEqoEy1XpB4Pt2QCoVq4oKB2GubPIg8CBxBLncSO5WqUBJexaQEV4pcFpGlXLU2SH
-         xxrjg4LCwexhkjifQNo5jJQcPRYupU9qIZTUH6i1FGkgEDjFwBic65bK9L4ofzRAQhmZ
-         ZEgR555601FpM+8snUPQUbMC2Z9q+n/tWCJQvEtJV5EDMyJD4pregex0fjyhsEsLpe0k
-         y5xa9NyllrJ+rJu0f9Q3mpyHVwMlKgeL3Xe3yUl05/5h9iPyWMDZQEiS8aitFoDOmCqD
-         GjvDDo7VBJae44dqxVgfTG2X7AI+E7gIoVbkOhLKPMuc2Cx/RFh9YEX9oDr1ft634hAa
-         ltgQ==
-X-Gm-Message-State: AOJu0YzI7MxTpzIQf/IvxFsqH81ZUyaOARBc/xeQSGTOFTEtAeNme45o
-	HYJk91jdP9GaNRznZjwaCWjTgXFPbfwaMRsrfBhynZJgLXOpdcsZkezwUu4e7Qg=
-X-Google-Smtp-Source: AGHT+IEfSHEzRRwCKfyojQNEbFEjLJQDcya+Vj7sVhdUOrj/IlMpqvmeK52ZursW0PGkcPCVI0027g==
-X-Received: by 2002:a05:6214:19ea:b0:686:ae8f:3ed3 with SMTP id q10-20020a05621419ea00b00686ae8f3ed3mr1500167qvc.66.1706200032714;
-        Thu, 25 Jan 2024 08:27:12 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::580])
-        by smtp.gmail.com with ESMTPSA id mv9-20020a056214338900b006869e0eed00sm3018044qvb.26.2024.01.25.08.27.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 08:27:12 -0800 (PST)
-Message-ID: <7b7170ced40d8fce4456282a87c5f70b66606d9c.camel@ndufresne.ca>
-Subject: Re: [PATCH v17 8/8] media: verisilicon: Support deleting buffers on
- capture queue
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil
-	 <hverkuil@xs4all.nl>, mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	kernel@collabora.com
-Date: Thu, 25 Jan 2024 11:27:10 -0500
-In-Reply-To: <1cd7c504-c384-4c9c-bedd-79cd8aed8484@collabora.com>
-References: <20240119094944.26763-1-benjamin.gaignard@collabora.com>
-	 <20240119094944.26763-9-benjamin.gaignard@collabora.com>
-	 <56c1410e-7a4c-4913-823d-83b8bc0ac002@xs4all.nl>
-	 <1cd7c504-c384-4c9c-bedd-79cd8aed8484@collabora.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	s=arc-20240116; t=1706200092; c=relaxed/simple;
+	bh=CKkmBUyrGKT7WEXHgCcuZ9+Ns5iuzV63djC+5Ja6ZoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=leOczJezXoEqwpRd5ecJt6S4naWJRq9BjjAqHK88Bal/THJYw+YjNukXym4/2XKQkRnMTRUxS8AbyEYEBfV2sD1s9Vsg9ZAPx77vAEh1vVqR+G8aImHWnFPmxrv/pgxTrKl+L4UNCWLQ2iF4V+emhjgXoGQ1hueM1Ov7cv6NsWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hck4aF7H; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706200090; x=1737736090;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CKkmBUyrGKT7WEXHgCcuZ9+Ns5iuzV63djC+5Ja6ZoU=;
+  b=Hck4aF7HffONCk7xZzKOVMv8A2Et6FAAypStGW1B9gmKodAbZo5lwXqc
+   9f/2b7rsKyYK9c6fosfuFrKT1VSawein1nwOCdqZDy01iQ8bm5fLUljCH
+   bZQAuvy6/M56OPkwRAocPriWurTVFsZaixNrreUOb3Q5holezVd76VbVs
+   BgfkZkEPYa9SkLoq9et32MKdjmj3SkqvByJqGdO7V2bEegi4Hskg0kbD+
+   O5ewLrwG4J751FgVbhOFAz+0BeOK2GcPT93YzIX3z7tc8EmZaPj55utRX
+   Svb+VHS4Sl5F1ruKPlOISwi9fR4BBXipYM687tROhtInSB3IjzxwGK7YD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="15575268"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="15575268"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:28:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="2309411"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 25 Jan 2024 08:28:04 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rT2a9-0000C0-0i;
+	Thu, 25 Jan 2024 16:28:01 +0000
+Date: Fri, 26 Jan 2024 00:27:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
+	Rob Herring <robh+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 03/13] of: property: add of_graph_get_next_endpoint_raw()
+Message-ID: <202401260024.txulvo50-lkp@intel.com>
+References: <87fryoud8t.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87fryoud8t.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi,
+Hi Kuninori,
 
-Le mercredi 24 janvier 2024 =C3=A0 16:35 +0100, Benjamin Gaignard a =C3=A9c=
-rit=C2=A0:
-> Le 24/01/2024 =C3=A0 13:52, Hans Verkuil a =C3=A9crit=C2=A0:
-> > On 19/01/2024 10:49, Benjamin Gaignard wrote:
-> > > Allow to delete buffers on capture queue because it the one which
-> > > own the decoded buffers. After a dynamic resolution change lot of
-> > > them could remain allocated but won't be used anymore so deleting
-> > > them save memory.
-> > > Do not add this feature on output queue because the buffers are
-> > > smaller, fewer and always recycled even after a dynamic resolution
-> > > change.
-> > >=20
-> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > ---
-> > >   drivers/media/platform/verisilicon/hantro_drv.c  | 1 +
-> > >   drivers/media/platform/verisilicon/hantro_v4l2.c | 1 +
-> > >   2 files changed, 2 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/driver=
-s/media/platform/verisilicon/hantro_drv.c
-> > > index db3df6cc4513..f6b0a676a740 100644
-> > > --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> > > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> > > @@ -248,6 +248,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, =
-struct vb2_queue *dst_vq)
-> > >   	dst_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> > >   	dst_vq->lock =3D &ctx->dev->vpu_mutex;
-> > >   	dst_vq->dev =3D ctx->dev->v4l2_dev.dev;
-> > > +	src_vq->supports_delete_bufs =3D true;
-> > As I mentioned, I remain unconvinced by this. It is just making the API=
- inconsistent
-> > since if you support delete_bufs, then why support it for one queue onl=
-y and not both?
->=20
-> Because the both queues don't handle the same type of data.
-> For example for a stateless decoder, for me, it makes sense to allow dele=
-te decoded frames
-> if they won't be used anymore but that won't makes sense for bitstream bu=
-ffers.
+kernel test robot noticed the following build warnings:
 
-I personally think that for stateless and stateful decoder bitstream queue =
-this
-can be useful. We currently guess the size we need, and there is no way to
-allocate bigger ones without the driver forgetting about reference frames.
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on drm-misc/drm-misc-next linus/master v6.8-rc1 next-20240125]
+[cannot apply to robh/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-In stateful, some drivers allow to split the bitstream (I tested wave5 nota=
-bly),
-but I was told this is not always the case. A bit of a gray zone in that AP=
-I,
-with lack of capabilities to describe it. On stateless, the entire bitstrea=
-m
-slice must be in one buffer.
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240123-081427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/87fryoud8t.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH 03/13] of: property: add of_graph_get_next_endpoint_raw()
+config: i386-buildonly-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240126/202401260024.txulvo50-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401260024.txulvo50-lkp@intel.com/reproduce)
 
-Though, for the asymmetry, most stateful decoders won't allow delete bufs o=
-n
-capture, because the buffers are registered in the firmware ahead of time. =
-wave5
-can't even implement create_bufs on capture. We had an argument about havin=
-g
-create_bufs on only one queue for that specific driver, as we wanted someth=
-ing
-upstream, we flex to removing create bufs completely. I think the all or no=
-thing
-rule on per queue create/delete_bufs is not aligned with the reality.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401260024.txulvo50-lkp@intel.com/
 
-Nicolas
->=20
-> >=20
-> > >  =20
-> > >   	return vb2_queue_init(dst_vq);
-> > >   }
-> > > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drive=
-rs/media/platform/verisilicon/hantro_v4l2.c
-> > > index 941fa23c211a..34eab90e8a42 100644
-> > > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > > @@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops =3D =
-{
-> > >   	.vidioc_dqbuf =3D v4l2_m2m_ioctl_dqbuf,
-> > >   	.vidioc_prepare_buf =3D v4l2_m2m_ioctl_prepare_buf,
-> > >   	.vidioc_create_bufs =3D v4l2_m2m_ioctl_create_bufs,
-> > > +	.vidioc_delete_bufs =3D v4l2_m2m_ioctl_delete_bufs,
-> > >   	.vidioc_expbuf =3D v4l2_m2m_ioctl_expbuf,
-> > >  =20
-> > >   	.vidioc_subscribe_event =3D v4l2_ctrl_subscribe_event,
-> > In my view setting vidioc_delete_bufs should enable this feature, and i=
-f
-> > for some strange reason only one queue support it, then make a wrapper
-> > callback that returns an error when used with the wrong queue.
-> >=20
-> > Also note that patch 6/8 never checks for q->supports_delete_bufs in
-> > vb2_core_delete_bufs(), which is wrong!
->=20
-> I will fix that in next version.
-> Regards,
-> Benjamin
->=20
-> >=20
-> > Regards,
-> >=20
-> > 	Hans
-> >=20
->=20
+All warnings (new ones prefixed by >>):
 
+>> drivers/of/property.c:681: warning: Function parameter or struct member 'port' not described in 'of_graph_get_next_endpoint_raw'
+>> drivers/of/property.c:681: warning: Excess function parameter 'parent' description in 'of_graph_get_next_endpoint_raw'
+
+
+vim +681 drivers/of/property.c
+
+   670	
+   671	/**
+   672	 * of_graph_get_next_endpoint_raw() - get next endpoint node
+   673	 * @parent: pointer to the target port node
+   674	 * @endpoint: current endpoint node, or NULL to get first
+   675	 *
+   676	 * Return: An 'endpoint' node pointer with refcount incremented. Refcount
+   677	 * of the passed @prev node is decremented.
+   678	 */
+   679	struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
+   680							   struct device_node *endpoint)
+ > 681	{
+   682		if (!port)
+   683			return NULL;
+   684	
+   685		do {
+   686			endpoint = of_get_next_child(port, endpoint);
+   687			if (!endpoint)
+   688				break;
+   689		} while (!of_node_name_eq(endpoint, "endpoint"));
+   690	
+   691		return endpoint;
+   692	}
+   693	EXPORT_SYMBOL(of_graph_get_next_endpoint_raw);
+   694	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
