@@ -1,229 +1,404 @@
-Return-Path: <linux-media+bounces-4177-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4178-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD8D83C16C
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 12:57:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FAD83C34F
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 14:09:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CEAF928AAE6
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 11:57:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2C641F25C6B
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jan 2024 13:09:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76E383A1B6;
-	Thu, 25 Jan 2024 11:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4058B50A95;
+	Thu, 25 Jan 2024 13:08:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLGKrY8P"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="jitcXo2N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AB14439F
-	for <linux-media@vger.kernel.org>; Thu, 25 Jan 2024 11:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA0D5100C;
+	Thu, 25 Jan 2024 13:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706183858; cv=none; b=nJeZjLxobcowIw0kFRBo1QV2uY7Snze2g25HFgYRG0u/fAhJSTbt4wuad9quI2flfO1nYFWzeYR+yMfhn4zjIgz6iuVylScx+qQmGICB0kgry1NOIjHAGHJU+nmiNLlG1UGFtWkbaORWGj8kS6uhCIRi2f4k63l62EZEg8vLz9M=
+	t=1706188137; cv=none; b=tIdUcBp9QSOIPpqAiBfPR1iAEBWXxT6vzPugOWw1dsoD8KL39+kZwQXCk4z6LSasjbD29xVQnqQcNIpSJKnojEoZCJLv3nyBlMskfD3g1ZbjhXzkTNDufjG7VZ7FYdHuQgcT1baLvYfrAc7qkQLGIJFbwxWrqCa7zxXLmBrfaiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706183858; c=relaxed/simple;
-	bh=MM6efC/rzjv62eE2xTYs7PsC6qC0SbPFJKyvXTEMASE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=j1d6hieMW2m41GJHVA55gZmyuVI0ENKmSLLuMhFhxaHyDoUfaCuXmimOU7AsOjzJGsv0uN6QzOSX5CsPJmgG1cSrdWOkDr4TNbLiuL9K8lDsD6P7NlLnnvlICO8WMias1CkcibDWohpoLoC5h7ZoPaUgVHx2v3wKzolZdBqDIxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLGKrY8P; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706183857; x=1737719857;
-  h=date:from:to:cc:subject:message-id;
-  bh=MM6efC/rzjv62eE2xTYs7PsC6qC0SbPFJKyvXTEMASE=;
-  b=iLGKrY8PcDUmVL8ys9l9yc2S3FRGuiV3im8wpaTJQyaWhfIppwPs1np/
-   AW9MLfOqMAUUGtyklaZuxLh6/0cwYc4YcJnn6b9UX2xyByanaV0Dtn01O
-   5sV5FsILSraB2Bhi/67uSRbgvi+0qW8cj7hlo8bVgjqjfykkDWegZADaD
-   0mT6SSpIX7K45D9pHVxyU4vbSgrGBtzSzJhjCDh/3RZiSvUFqcnbUtasB
-   VVIn/vDPD/+t3MdhZjCn/BYsupG+8WDFzPqIaYKpD5S+wCyui4107VeHO
-   C5TFMzn4lU7Qav6VhKzGmRXKVpwDQcVtWTv3S101yDG0O2oW7quy8vMxx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="9518036"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9518036"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 03:57:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1117926114"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="1117926114"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Jan 2024 03:57:34 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rSyMN-0008x7-2g;
-	Thu, 25 Jan 2024 11:57:31 +0000
-Date: Thu, 25 Jan 2024 19:56:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- 04447d48afd365a837e23cde631517f166045b9d
-Message-ID: <202401251945.5FM2t0cG-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1706188137; c=relaxed/simple;
+	bh=9qRS888uxFK3V4wrFKJS6sGqRbjZOvbpaZgrwwEKW90=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YDAdZhd0I6iCOSD811iA0D1RI07KjCs+7GdQ6zQ6JP4Vgsuim0BwMP5RPBqFdNBsmRDc43nKRjzy8/+wwrhIC4N9cMdSFgnUlEGVlmAV5nUdMg2SxZamiiUq8iGQ53s+gKbJqvUey1jp2d9sJsTeMFxWmivQOj6yhF38Io28XEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=jitcXo2N; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40PD8ZqN124469;
+	Thu, 25 Jan 2024 07:08:35 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1706188115;
+	bh=o6y4O/TctWzHPHDw+dZ++x6Lnwxe5cRrOa1AJDjnvVc=;
+	h=From:To:CC:Subject:Date;
+	b=jitcXo2N2pG3qC8N7gNquLtnlDN731B7JutE2z1nCMgmGutllkL9OT6ulSw27fj5Q
+	 4FYomk+e7tXW2yt7Vq4xKW/LSQbHr9UbKFhGLCa6kocv2Wg+S/itFmt7E4lQ58YYPK
+	 rkw5fpqojm5/trOWM79QM4Gbuc6231z6qP/goxgg=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40PD8ZDi093893
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 25 Jan 2024 07:08:35 -0600
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 25
+ Jan 2024 07:08:34 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 25 Jan 2024 07:08:35 -0600
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40PD8YTm095770;
+	Thu, 25 Jan 2024 07:08:34 -0600
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <nas.chung@chipsnmedia.com>, <jackson.lee@chipsnmedia.com>,
+        <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <nm@ti.com>
+CC: <praneeth@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
+        <p-mantena@ti.com>, <vijayp@ti.com>, <devarsht@ti.com>
+Subject: [PATCH] media: chips-media: wave5: Add hrtimer based polling support
+Date: Thu, 25 Jan 2024 18:38:33 +0530
+Message-ID: <20240125130833.1953617-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: 04447d48afd365a837e23cde631517f166045b9d  media: mediatek: vcodec: drop excess struct members descriptions
+Add support for starting a polling timer in case interrupt is not
+available. This helps keep the VPU functional in SoC's such as AM62A, where
+the hardware interrupt hookup may not be present due to an SoC errata [1].
 
-elapsed time: 1481m
+The timer is shared across all instances of encoder and decoder and is
+started when first instance of encoder or decoder is opened and stopped
+when last instance is closed, thus avoiding per instance polling and saving
+CPU bandwidth.
 
-configs tested: 139
-configs skipped: 1
+hrtimer callback is called with 5ms polling interval while any of the
+encoder/decoder instances are running to check the interrupt status as
+being done in irq handler.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Based on above interrupt status, use a worker thread to iterate over the
+interrupt status for each instance and send completion event as being done
+in irq thread function.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240125   gcc  
-arc                   randconfig-002-20240125   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                          ixp4xx_defconfig   clang
-arm                            mps2_defconfig   gcc  
-arm                   randconfig-001-20240125   gcc  
-arm                   randconfig-002-20240125   gcc  
-arm                   randconfig-003-20240125   gcc  
-arm                   randconfig-004-20240125   gcc  
-arm                           sunxi_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240125   gcc  
-arm64                 randconfig-002-20240125   gcc  
-arm64                 randconfig-003-20240125   gcc  
-arm64                 randconfig-004-20240125   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240125   gcc  
-csky                  randconfig-002-20240125   gcc  
-hexagon                           allnoconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240125   clang
-hexagon               randconfig-002-20240125   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20240124   clang
-i386         buildonly-randconfig-002-20240124   clang
-i386         buildonly-randconfig-003-20240124   clang
-i386         buildonly-randconfig-004-20240124   clang
-i386         buildonly-randconfig-005-20240124   clang
-i386         buildonly-randconfig-006-20240124   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20240124   clang
-i386                  randconfig-002-20240124   clang
-i386                  randconfig-003-20240124   clang
-i386                  randconfig-004-20240124   clang
-i386                  randconfig-005-20240124   clang
-i386                  randconfig-006-20240124   clang
-i386                  randconfig-011-20240124   gcc  
-i386                  randconfig-012-20240124   gcc  
-i386                  randconfig-013-20240124   gcc  
-i386                  randconfig-014-20240124   gcc  
-i386                  randconfig-015-20240124   gcc  
-i386                  randconfig-016-20240124   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240125   gcc  
-loongarch             randconfig-002-20240125   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240125   gcc  
-nios2                 randconfig-002-20240125   gcc  
-openrisc                         allyesconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                randconfig-001-20240125   gcc  
-parisc                randconfig-002-20240125   gcc  
-powerpc                          allmodconfig   clang
-powerpc               randconfig-001-20240125   gcc  
-powerpc               randconfig-002-20240125   gcc  
-powerpc               randconfig-003-20240125   gcc  
-powerpc64             randconfig-001-20240125   gcc  
-powerpc64             randconfig-002-20240125   gcc  
-powerpc64             randconfig-003-20240125   gcc  
-riscv                 randconfig-001-20240125   gcc  
-riscv                 randconfig-002-20240125   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                  randconfig-001-20240125   clang
-s390                  randconfig-002-20240125   clang
-sh                               allmodconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                    randconfig-001-20240125   gcc  
-sh                    randconfig-002-20240125   gcc  
-sparc                            allmodconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64               randconfig-001-20240125   gcc  
-sparc64               randconfig-002-20240125   gcc  
-um                    randconfig-001-20240125   gcc  
-um                    randconfig-002-20240125   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240125   gcc  
-x86_64       buildonly-randconfig-002-20240125   gcc  
-x86_64       buildonly-randconfig-003-20240125   gcc  
-x86_64       buildonly-randconfig-004-20240125   gcc  
-x86_64       buildonly-randconfig-005-20240125   gcc  
-x86_64       buildonly-randconfig-006-20240125   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240125   clang
-x86_64                randconfig-002-20240125   clang
-x86_64                randconfig-003-20240125   clang
-x86_64                randconfig-004-20240125   clang
-x86_64                randconfig-005-20240125   clang
-x86_64                randconfig-006-20240125   clang
-x86_64                randconfig-011-20240125   gcc  
-x86_64                randconfig-012-20240125   gcc  
-x86_64                randconfig-013-20240125   gcc  
-x86_64                randconfig-014-20240125   gcc  
-x86_64                randconfig-015-20240125   gcc  
-x86_64                randconfig-016-20240125   gcc  
-x86_64                randconfig-071-20240125   gcc  
-x86_64                randconfig-072-20240125   gcc  
-x86_64                randconfig-073-20240125   gcc  
-x86_64                randconfig-074-20240125   gcc  
-x86_64                randconfig-075-20240125   gcc  
-x86_64                randconfig-076-20240125   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                randconfig-001-20240125   gcc  
-xtensa                randconfig-002-20240125   gcc  
+Parse for irq number before v4l2 device registration and if not available
+only then, initialize hrtimer and worker thread.
 
+Move the core functionality of irq thread function to a separate function
+wave5_vpu_handle_irq so that it can be used by both the worker thread when
+using polling mode and irq thread when using interrupt mode.
+
+Protect hrtimer access and instance list with device specific mutex locks
+to avoid race conditions while different instances of encoder and decoder
+are started together.
+
+Add module param to change polling interval for debug purpose.
+
+[1] https://www.ti.com/lit/pdf/spruj16
+(Ref: Section 4.2.3.3 Resets, Interrupts, and Clocks)
+
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+---
+Test logs:
+https://gist.github.com/devarsht/613bc8aa66e65814c8374ffb6a4f50fb
+---
+ .../platform/chips-media/wave5/wave5-helper.c |  16 ++-
+ .../chips-media/wave5/wave5-vpu-dec.c         |  13 +-
+ .../chips-media/wave5/wave5-vpu-enc.c         |  13 +-
+ .../platform/chips-media/wave5/wave5-vpu.c    | 117 ++++++++++++------
+ .../platform/chips-media/wave5/wave5-vpuapi.h |   4 +
+ 5 files changed, 122 insertions(+), 41 deletions(-)
+
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+index 8433ecab230c..475b7628964f 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+@@ -52,6 +52,8 @@ int wave5_vpu_release_device(struct file *filp,
+ 			     char *name)
+ {
+ 	struct vpu_instance *inst = wave5_to_vpu_inst(filp->private_data);
++	struct vpu_device *dev = inst->dev;
++	int ret = 0;
+ 
+ 	v4l2_m2m_ctx_release(inst->v4l2_fh.m2m_ctx);
+ 	if (inst->state != VPU_INST_STATE_NONE) {
+@@ -71,8 +73,20 @@ int wave5_vpu_release_device(struct file *filp,
+ 	}
+ 
+ 	wave5_cleanup_instance(inst);
++	if (dev->irq < 0) {
++		ret = mutex_lock_interruptible(&dev->dev_lock);
++		if (ret)
++			return ret;
+ 
+-	return 0;
++		if (list_empty(&dev->instances)) {
++			dev_dbg(dev->dev, "Disabling the hrtimer\n");
++			hrtimer_cancel(&dev->hrtimer);
++		}
++
++		mutex_unlock(&dev->dev_lock);
++	}
++
++	return ret;
+ }
+ 
+ int wave5_vpu_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq,
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+index ef227af72348..c8624c681fa6 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+@@ -1810,7 +1810,6 @@ static int wave5_vpu_open_dec(struct file *filp)
+ 	v4l2_fh_add(&inst->v4l2_fh);
+ 
+ 	INIT_LIST_HEAD(&inst->list);
+-	list_add_tail(&inst->list, &dev->instances);
+ 
+ 	inst->v4l2_m2m_dev = inst->dev->v4l2_m2m_dec_dev;
+ 	inst->v4l2_fh.m2m_ctx =
+@@ -1867,6 +1866,18 @@ static int wave5_vpu_open_dec(struct file *filp)
+ 
+ 	wave5_vdi_allocate_sram(inst->dev);
+ 
++	ret = mutex_lock_interruptible(&dev->dev_lock);
++	if (ret)
++		goto cleanup_inst;
++
++	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) && list_empty(&dev->instances))
++		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev->vpu_poll_interval * NSEC_PER_MSEC),
++			      HRTIMER_MODE_REL_PINNED);
++
++	list_add_tail(&inst->list, &dev->instances);
++
++	mutex_unlock(&dev->dev_lock);
++
+ 	return 0;
+ 
+ cleanup_inst:
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+index f29cfa3af94a..9e88424761b6 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+@@ -1554,7 +1554,6 @@ static int wave5_vpu_open_enc(struct file *filp)
+ 	v4l2_fh_add(&inst->v4l2_fh);
+ 
+ 	INIT_LIST_HEAD(&inst->list);
+-	list_add_tail(&inst->list, &dev->instances);
+ 
+ 	inst->v4l2_m2m_dev = inst->dev->v4l2_m2m_enc_dev;
+ 	inst->v4l2_fh.m2m_ctx =
+@@ -1729,6 +1728,18 @@ static int wave5_vpu_open_enc(struct file *filp)
+ 
+ 	wave5_vdi_allocate_sram(inst->dev);
+ 
++	ret = mutex_lock_interruptible(&dev->dev_lock);
++	if (ret)
++		goto cleanup_inst;
++
++	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) && list_empty(&dev->instances))
++		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev->vpu_poll_interval * NSEC_PER_MSEC),
++			      HRTIMER_MODE_REL_PINNED);
++
++	list_add_tail(&inst->list, &dev->instances);
++
++	mutex_unlock(&dev->dev_lock);
++
+ 	return 0;
+ 
+ cleanup_inst:
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+index bfe4caa79cc9..968ec9baf1ef 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+@@ -26,6 +26,9 @@ struct wave5_match_data {
+ 	const char *fw_name;
+ };
+ 
++static int vpu_poll_interval = 5;
++module_param(vpu_poll_interval, int, 0644);
++
+ int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int timeout)
+ {
+ 	int ret;
+@@ -40,7 +43,7 @@ int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int timeout)
+ 	return 0;
+ }
+ 
+-static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
++static void wave5_vpu_handle_irq(void *dev_id)
+ {
+ 	u32 seq_done;
+ 	u32 cmd_done;
+@@ -48,42 +51,67 @@ static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
+ 	struct vpu_instance *inst;
+ 	struct vpu_device *dev = dev_id;
+ 
+-	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS)) {
+-		irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
+-		wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
+-		wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
+-
+-		list_for_each_entry(inst, &dev->instances, list) {
+-			seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
+-			cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
+-
+-			if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
+-			    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
+-				if (seq_done & BIT(inst->id)) {
+-					seq_done &= ~BIT(inst->id);
+-					wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO,
+-								 seq_done);
+-					complete(&inst->irq_done);
+-				}
++	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
++	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
++	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
++
++	list_for_each_entry(inst, &dev->instances, list) {
++		seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
++		cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
++
++		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
++		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
++			if (seq_done & BIT(inst->id)) {
++				seq_done &= ~BIT(inst->id);
++				wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO,
++							 seq_done);
++				complete(&inst->irq_done);
+ 			}
++		}
+ 
+-			if (irq_reason & BIT(INT_WAVE5_DEC_PIC) ||
+-			    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
+-				if (cmd_done & BIT(inst->id)) {
+-					cmd_done &= ~BIT(inst->id);
+-					wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
+-								 cmd_done);
+-					inst->ops->finish_process(inst);
+-				}
++		if (irq_reason & BIT(INT_WAVE5_DEC_PIC) ||
++		    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
++			if (cmd_done & BIT(inst->id)) {
++				cmd_done &= ~BIT(inst->id);
++				wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
++							 cmd_done);
++				inst->ops->finish_process(inst);
+ 			}
+-
+-			wave5_vpu_clear_interrupt(inst, irq_reason);
+ 		}
++
++		wave5_vpu_clear_interrupt(inst, irq_reason);
+ 	}
++}
++
++static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
++{
++	struct vpu_device *dev = dev_id;
++
++	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS))
++		wave5_vpu_handle_irq(dev);
+ 
+ 	return IRQ_HANDLED;
+ }
+ 
++static void wave5_vpu_irq_work_fn(struct kthread_work *work)
++{
++	struct vpu_device *dev = container_of(work, struct vpu_device, work);
++
++	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS))
++		wave5_vpu_handle_irq(dev);
++}
++
++static enum hrtimer_restart wave5_vpu_timer_callback(struct hrtimer *timer)
++{
++	struct vpu_device *dev =
++			container_of(timer, struct vpu_device, hrtimer);
++
++	kthread_queue_work(dev->worker, &dev->work);
++	hrtimer_forward_now(timer, ns_to_ktime(vpu_poll_interval * NSEC_PER_MSEC));
++
++	return HRTIMER_RESTART;
++}
++
+ static int wave5_vpu_load_firmware(struct device *dev, const char *fw_name,
+ 				   u32 *revision)
+ {
+@@ -209,16 +237,24 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 
+ 	dev->irq = platform_get_irq(pdev, 0);
+ 	if (dev->irq < 0) {
+-		dev_err(&pdev->dev, "failed to get irq resource\n");
+-		ret = -ENXIO;
+-		goto err_enc_unreg;
+-	}
+-
+-	ret = devm_request_threaded_irq(&pdev->dev, dev->irq, NULL,
+-					wave5_vpu_irq_thread, IRQF_ONESHOT, "vpu_irq", dev);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
+-		goto err_enc_unreg;
++		dev_err(&pdev->dev, "failed to get irq resource, falling back to polling\n");
++		hrtimer_init(&dev->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
++		dev->hrtimer.function = &wave5_vpu_timer_callback;
++		dev->worker = kthread_create_worker(0, "vpu_irq_thread");
++		if (IS_ERR(dev->worker)) {
++			dev_err(&pdev->dev, "failed to create vpu irq worker\n");
++			ret = PTR_ERR(dev->worker);
++			goto err_vdi_release;
++		}
++		dev->vpu_poll_interval = vpu_poll_interval;
++		kthread_init_work(&dev->work, wave5_vpu_irq_work_fn);
++	} else {
++		ret = devm_request_threaded_irq(&pdev->dev, dev->irq, NULL,
++						wave5_vpu_irq_thread, IRQF_ONESHOT, "vpu_irq", dev);
++		if (ret) {
++			dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
++			goto err_enc_unreg;
++		}
+ 	}
+ 
+ 	ret = wave5_vpu_load_firmware(&pdev->dev, match_data->fw_name, &fw_revision);
+@@ -254,6 +290,11 @@ static int wave5_vpu_remove(struct platform_device *pdev)
+ {
+ 	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
+ 
++	if (dev->irq < 0) {
++		kthread_destroy_worker(dev->worker);
++		hrtimer_cancel(&dev->hrtimer);
++	}
++
+ 	mutex_destroy(&dev->dev_lock);
+ 	mutex_destroy(&dev->hw_lock);
+ 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+index 352f6e904e50..edc50450ddb8 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+@@ -756,6 +756,10 @@ struct vpu_device {
+ 	u32 product_code;
+ 	struct ida inst_ida;
+ 	struct clk_bulk_data *clks;
++	struct hrtimer hrtimer;
++	struct kthread_work work;
++	struct kthread_worker *worker;
++	int vpu_poll_interval;
+ 	int num_clks;
+ };
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
 
