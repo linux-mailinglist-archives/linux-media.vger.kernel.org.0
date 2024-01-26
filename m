@@ -1,267 +1,113 @@
-Return-Path: <linux-media+bounces-4231-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4232-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D9283E097
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 18:40:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6912083E22F
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 20:08:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C1A72878A4
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 17:40:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9ACA31C21D79
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 19:08:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECB5820323;
-	Fri, 26 Jan 2024 17:40:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB090224CC;
+	Fri, 26 Jan 2024 19:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="wSW0X7YM"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IwzLJvBc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795491DDF8;
-	Fri, 26 Jan 2024 17:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC1F1CAA1;
+	Fri, 26 Jan 2024 19:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706290845; cv=none; b=tc49txtklEOJPobBsNRYeMCBxzcI/G8ztnTHWu/683jJtI9KIr1X3xqYViCBU11z8Tf2NHVnj5tXDfTNv3qfUv93ogIS1ZRbbAmZXQaGUG7BOrzs+cnmuBc9JRjUa56sOfKo8ah8FcfTCWj27Xs7H2zVPS8dgcwiTmOoi/mxS+E=
+	t=1706296078; cv=none; b=TVUNCIAOYVYm1WGHuzr2BA/2GHPTIC2SV/i+3DSU/8xm+8De8WoDRYf+Zm3jqrausxI6uoZ61/J0jNHaJcD7G0s6BT/x6BLZzUR2JTg/O9dI7GxJxJmNMkFIz1bPeULbYu0nhyawMBXFKL441ijXSSWRUpTWC4VHSv0qPqC85H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706290845; c=relaxed/simple;
-	bh=Z1rfJoqpDWxesIszLgcJ0qmA7O0sQwnt8//QkIMRPsQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Shc8dUH8wwN+Bxvp39qHEIas3oDLkLZ1eZ5p7GDRJRYergQVGJRZsa7tfCw0dOLoRTzDTnBdvw29QYX2xjper3A2E7syZj6U+OzvvPcQYA8fJelxI48cGEHEnMTky3vvTiV0rSo7PDjfjYkMEmlYU943dqgYLvZwWWcPifVFl54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=wSW0X7YM; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40QHeXWl021653;
-	Fri, 26 Jan 2024 11:40:33 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1706290833;
-	bh=tWS35G6oFLiiMUQqjg0s6kl4zM+dd3KKTVNV/pAk5Y8=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=wSW0X7YMB25+s9Adtm+MqZ7ac14ct+DkrUMn9JhSHS+1xDbU+enE72YXiIDfo4Lhk
-	 t7noOQnkWwvVuVcLmyN3OSHS+HX9RBI0L+LVpnhhxXuD8uqHiaLY38FRiUno2POFpE
-	 ZGpSz+ZGMDD8IHe1V3jWkQzvM+3iBd/4MJ7DMnjg=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40QHeXfV057999
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 26 Jan 2024 11:40:33 -0600
-Received: from flwvowa02.ent.ti.com (10.64.41.53) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 26
- Jan 2024 11:40:33 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by flwvowa02.ent.ti.com
- (10.64.41.53) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2507.34; Fri, 26 Jan
- 2024 11:40:32 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 26 Jan 2024 11:40:32 -0600
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40QHeWG0086250;
-	Fri, 26 Jan 2024 11:40:32 -0600
-Message-ID: <1fb28a2f-8f42-42b4-9019-d0fc670c291c@ti.com>
-Date: Fri, 26 Jan 2024 11:40:32 -0600
+	s=arc-20240116; t=1706296078; c=relaxed/simple;
+	bh=w76WQZwHmCAgG8Z0pclPra2iK4UcbBg/K6jGmHZCnEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HUW4DyalskK+o6GpYMUWO5Veau7JdiEhkml0F6OZ1AsLb9TokP1EDzn/xqLFUdR+HiB6AFd55wMKgWPE4Ys9XWy+5HunR1p726enq28BPm5bXMGE6DhpL51DgZZrxhF0zyAXreuVwVHFfIs7Nr7brCI3m7U/u4qtDHfM3/KrwMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IwzLJvBc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF60C433F1;
+	Fri, 26 Jan 2024 19:07:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706296078;
+	bh=w76WQZwHmCAgG8Z0pclPra2iK4UcbBg/K6jGmHZCnEM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IwzLJvBczl3h23mDdcH/l2aRInlWzX22xOABe5YWbrm+TbCAV+t2dRCqhjNBo5pEO
+	 mPmcBmFJwcZV6IjpyiIREajMgdq2+x2UETlGXIB2+ADvhNvIaURJLo+uNdrWhOFlaH
+	 X/wE6UHGGZW0vCohl3uSnipjL/ikRQrzmYExy9hY=
+Date: Fri, 26 Jan 2024 11:07:57 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Kevin Hilman <khilman@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-pm@vger.kernel.org,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Nikunj Kela <nkela@quicinc.com>,
+	Prasad Sodagudi <psodagud@quicinc.com>,
+	Stephan Gerhold <stephan@gerhold.net>,
+	Ben Horgan <Ben.Horgan@arm.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] PM: domains: Add helpers for multi PM domains to
+ avoid open-coding
+Message-ID: <2024012649-unblended-earthen-6e17@gregkh>
+References: <20240105160103.183092-1-ulf.hansson@linaro.org>
+ <CAPDyKFoGozKrNrAc0vpnNVuKvnorAuN_fg37DU4j0rq=egJ6Hg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] udmabuf: Sync buffer mappings for attached devices
-Content-Language: en-US
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
-        Gerd Hoffmann
-	<kraxel@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Paul Cercueil
-	<paul@crapouillou.net>
-CC: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-References: <20240123221227.868341-1-afd@ti.com>
- <20240123221227.868341-2-afd@ti.com>
- <IA0PR11MB7185DDD7A972ED546B4CEA10F87B2@IA0PR11MB7185.namprd11.prod.outlook.com>
- <7872f641-8a72-424f-b345-99c27403d7c6@ti.com>
- <IA0PR11MB7185C799B08748C87F215434F8792@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <IA0PR11MB7185C799B08748C87F215434F8792@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFoGozKrNrAc0vpnNVuKvnorAuN_fg37DU4j0rq=egJ6Hg@mail.gmail.com>
 
-On 1/26/24 1:25 AM, Kasireddy, Vivek wrote:
->>>> Currently this driver creates a SGT table using the CPU as the
->>>> target device, then performs the dma_sync operations against
->>>> that SGT. This is backwards to how DMA-BUFs are supposed to behave.
->>>> This may have worked for the case where these buffers were given
->>>> only back to the same CPU that produced them as in the QEMU case.
->>>> And only then because the original author had the dma_sync
->>>> operations also backwards, syncing for the "device" on begin_cpu.
->>>> This was noticed and "fixed" in this patch[0].
->>>>
->>>> That then meant we were sync'ing from the CPU to the CPU using
->>>> a pseudo-device "miscdevice". Which then caused another issue
->>>> due to the miscdevice not having a proper DMA mask (and why should
->>>> it, the CPU is not a DMA device). The fix for that was an even
->>>> more egregious hack[1] that declares the CPU is coherent with
->>>> itself and can access its own memory space..
->>>>
->>>> Unwind all this and perform the correct action by doing the dma_sync
->>>> operations for each device currently attached to the backing buffer.
->>> Makes sense.
->>>
->>>>
->>>> [0] commit 1ffe09590121 ("udmabuf: fix dma-buf cpu access")
->>>> [1] commit 9e9fa6a9198b ("udmabuf: Set the DMA mask for the udmabuf
->>>> device (v2)")
->>>>
->>>> Signed-off-by: Andrew Davis <afd@ti.com>
->>>> ---
->>>>    drivers/dma-buf/udmabuf.c | 41 +++++++++++++++------------------------
->>>>    1 file changed, 16 insertions(+), 25 deletions(-)
->>>>
->>>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->>>> index 3a23f0a7d112a..ab6764322523c 100644
->>>> --- a/drivers/dma-buf/udmabuf.c
->>>> +++ b/drivers/dma-buf/udmabuf.c
->>>> @@ -26,8 +26,6 @@ MODULE_PARM_DESC(size_limit_mb, "Max size of a
->>>> dmabuf, in megabytes. Default is
->>>>    struct udmabuf {
->>>>    	pgoff_t pagecount;
->>>>    	struct page **pages;
->>>> -	struct sg_table *sg;
->>>> -	struct miscdevice *device;
->>>>    	struct list_head attachments;
->>>>    	struct mutex lock;
->>>>    };
->>>> @@ -169,12 +167,8 @@ static void unmap_udmabuf(struct
->>>> dma_buf_attachment *at,
->>>>    static void release_udmabuf(struct dma_buf *buf)
->>>>    {
->>>>    	struct udmabuf *ubuf = buf->priv;
->>>> -	struct device *dev = ubuf->device->this_device;
->>>>    	pgoff_t pg;
->>>>
->>>> -	if (ubuf->sg)
->>>> -		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
->>> What happens if the last importer maps the dmabuf but erroneously
->>> closes it immediately? Would unmap somehow get called in this case?
->>>
->>
->> Good question, had to scan the framework code a bit here. I thought
->> closing a DMABUF handle would automatically unwind any current
->> attachments/mappings, but it seems nothing in the framework does that.
->>
->> Looks like that is up to the importing drivers[0]:
->>
->>> Once a driver is done with a shared buffer it needs to call
->>> dma_buf_detach() (after cleaning up any mappings) and then
->>> release the reference acquired with dma_buf_get() by
->>> calling dma_buf_put().
->>
->> So closing a DMABUF after mapping without first unmapping it would
->> be a bug in the importer, it is not the exporters problem to check
-> It may be a bug in the importer but wouldn't the memory associated
-> with the sg table and attachment get leaked if unmap doesn't get called
-> in this scenario?
+On Fri, Jan 26, 2024 at 05:12:12PM +0100, Ulf Hansson wrote:
+> On Fri, 5 Jan 2024 at 17:01, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> >
+> > Updates in v2:
+> >         - Ccing Daniel Baluta and Iuliana Prodan the NXP remoteproc patches to
+> >         requests help with testing.
+> >         - Fixed NULL pointer bug in patch1, pointed out by Nikunj.
+> >         - Added some tested/reviewed-by tags.
+> >
+> >
+> > Attaching/detaching of a device to multiple PM domains has started to become a
+> > common operation for many drivers, typically during ->probe() and ->remove().
+> > In most cases, this has lead to lots of boilerplate code in the drivers.
+> >
+> > This series adds a pair of helper functions to manage the attach/detach of a
+> > device to its multiple PM domains. Moreover, a couple of drivers have been
+> > converted to use the new helpers as a proof of concept.
+> >
+> > Note 1)
+> > The changes in the drivers have only been compile tested, while the helpers
+> > have been tested along with a couple of local dummy drivers that I have hacked
+> > up to model both genpd providers and genpd consumers.
+> >
+> > Note 2)
+> > I was struggling to make up mind if we should have a separate helper to attach
+> > all available power-domains described in DT, rather than providing "NULL" to the
+> > dev_pm_domain_attach_list(). I decided not to, but please let me know if you
+> > prefer the other option.
+> >
+> > Note 3)
+> > For OPP integration, as a follow up I am striving to make the
+> > dev_pm_opp_attach_genpd() redundant. Instead I think we should move towards
+> > using dev_pm_opp_set_config()->_opp_set_required_devs(), which would allow us to
+> > use the helpers that $subject series is adding.
+> >
+> > Kind regards
+> > Ulf Hansson
 > 
+> Rafael, Greg, do have any objections to this series or would you be
+> okay that I queue this up via my pmdomain tree?
 
-Yes the attachment data would be leaked if unattach was not called,
-but that is true for all DMABUF exporters. The .release() callback
-is meant to be the mirror of the export function and it only cleans
-up that. Same for attach/unattach, map/unmap, etc.. If these calls
-are not balanced then yes they can leak memory.
-
-Since balance is guaranteed by the API, checking the balance should
-be done at that level, not in each and every exporter. If your
-comment is that we should add those checks into the DMABUF framework
-layer then I would agree.
-
-Andrew
-
-> Thanks,
-> Vivek
-> 
->> for (although some more warnings in the framework checking for that
->> might not be a bad idea..).
->>
->> Andrew
->>
->> [0] https://www.kernel.org/doc/html/v6.7/driver-api/dma-buf.html
->>
->>> Thanks,
->>> Vivek
->>>
->>>> -
->>>>    	for (pg = 0; pg < ubuf->pagecount; pg++)
->>>>    		put_page(ubuf->pages[pg]);
->>>>    	kfree(ubuf->pages);
->>>> @@ -185,33 +179,31 @@ static int begin_cpu_udmabuf(struct dma_buf
->>>> *buf,
->>>>    			     enum dma_data_direction direction)
->>>>    {
->>>>    	struct udmabuf *ubuf = buf->priv;
->>>> -	struct device *dev = ubuf->device->this_device;
->>>> -	int ret = 0;
->>>> -
->>>> -	if (!ubuf->sg) {
->>>> -		ubuf->sg = get_sg_table(dev, buf, direction);
->>>> -		if (IS_ERR(ubuf->sg)) {
->>>> -			ret = PTR_ERR(ubuf->sg);
->>>> -			ubuf->sg = NULL;
->>>> -		}
->>>> -	} else {
->>>> -		dma_sync_sg_for_cpu(dev, ubuf->sg->sgl, ubuf->sg->nents,
->>>> -				    direction);
->>>> -	}
->>>> +	struct udmabuf_attachment *a;
->>>>
->>>> -	return ret;
->>>> +	mutex_lock(&ubuf->lock);
->>>> +
->>>> +	list_for_each_entry(a, &ubuf->attachments, list)
->>>> +		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
->>>> +
->>>> +	mutex_unlock(&ubuf->lock);
->>>> +
->>>> +	return 0;
->>>>    }
->>>>
->>>>    static int end_cpu_udmabuf(struct dma_buf *buf,
->>>>    			   enum dma_data_direction direction)
->>>>    {
->>>>    	struct udmabuf *ubuf = buf->priv;
->>>> -	struct device *dev = ubuf->device->this_device;
->>>> +	struct udmabuf_attachment *a;
->>>>
->>>> -	if (!ubuf->sg)
->>>> -		return -EINVAL;
->>>> +	mutex_lock(&ubuf->lock);
->>>> +
->>>> +	list_for_each_entry(a, &ubuf->attachments, list)
->>>> +		dma_sync_sgtable_for_device(a->dev, a->table, direction);
->>>> +
->>>> +	mutex_unlock(&ubuf->lock);
->>>>
->>>> -	dma_sync_sg_for_device(dev, ubuf->sg->sgl, ubuf->sg->nents,
->>>> direction);
->>>>    	return 0;
->>>>    }
->>>>
->>>> @@ -307,7 +299,6 @@ static long udmabuf_create(struct miscdevice
->>>> *device,
->>>>    	exp_info.priv = ubuf;
->>>>    	exp_info.flags = O_RDWR;
->>>>
->>>> -	ubuf->device = device;
->>>>    	buf = dma_buf_export(&exp_info);
->>>>    	if (IS_ERR(buf)) {
->>>>    		ret = PTR_ERR(buf);
->>>> --
->>>> 2.39.2
->>>
+I'll defer to Rafael here.
 
