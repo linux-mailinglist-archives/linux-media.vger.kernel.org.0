@@ -1,160 +1,166 @@
-Return-Path: <linux-media+bounces-4234-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4235-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6815D83E5BB
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 23:42:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2535F83E673
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 00:17:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EB44287847
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 22:42:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF0FD28B247
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 23:17:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30C9A33CC5;
-	Fri, 26 Jan 2024 22:40:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C9C759B7D;
+	Fri, 26 Jan 2024 23:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OlRra90O"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fzCCt5ng"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D73D1CD34;
-	Fri, 26 Jan 2024 22:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CC35787E
+	for <linux-media@vger.kernel.org>; Fri, 26 Jan 2024 23:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706308803; cv=none; b=T81yldOlgWRRCq4z8wIodNihf7R7xUD9q84dMBCCU4pHebKHWhBaEGIGAlP3HDUuCuIqfSNJoqc3Bxtmv/j+qq/SPRLGPJrWT/8kmQcXWP1iHg5UcfA6BprBlG4xUo9P+rncmChojekdDcHvtMoBeKhx4wEBDHy4JCs9e7HSny4=
+	t=1706310967; cv=none; b=MS/+rj3j9ZYRRn9WwNzz4WGgQ1geUrcTHy1wFCWp8gG78IY9AlVnTC1bIDN7wvOcUX9LMRf+57ViE9zFQD4KOIPLmSypj7+TmU9GvFWmv+CdYTU9J+JfXzuZyPIjKaHNT9ZYBI3vsoqRlvrHgICZqPcsHBV5ehCD5qgtOSD45iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706308803; c=relaxed/simple;
-	bh=M9DG2bRCzaRiQXOPCDukEnxTtO8tFrrQaLfyRuQcO0o=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Gbm64wwYmghCvmjoFxysPJvEwYhTXNOIa6Gd8qVz6ds1J0jNI5AlXWQKMVL5y06ZsuUC8xeLs6zyGLy94c1+gBGzUIkbOG6VYbC52JDD6KKk1SfBYGzTifRKBjHRQhpypKQ3rSvTkOX2QvFNp8cSU5KlZtHlB15sSkRftLS2Gx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OlRra90O; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6e0af93fdaaso570315a34.3;
-        Fri, 26 Jan 2024 14:40:01 -0800 (PST)
+	s=arc-20240116; t=1706310967; c=relaxed/simple;
+	bh=WYMBG1J7l0m1ybFNIC2Y+ETBtIDVFmRqVIC1HYf1GvY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BMpwd3PW8wELQEOavZ8cYUMUJktx37VTy3gl9TRcv8v8dE8RQQ0281obHgW4WIZg/Mef6cUmavn5yawGJsXyv6zplIzN5W2Cwik76xYG9XsRQBfNibhnPti329gZlSoDH6IgVtcPuWgTdoMJke7sbsrAZeuRRYqkG36UoaPcY9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fzCCt5ng; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-783d8dff637so59412985a.3
+        for <linux-media@vger.kernel.org>; Fri, 26 Jan 2024 15:16:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706308801; x=1706913601; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z8QG5AfrdWA7t9o5OrkA87ptQ9i3FCLbGpi7NMLqb+o=;
-        b=OlRra90OV467gevbjjGvL20fG075OqpxLeiBXp8lhdyYyd/WeZWSzQ7okEZO4qR4XV
-         XFYLA9aspni247epv96jmsD9KcsQzNUjHQ6kztBdGurTdgJNMsbUZPcqw8AMihnyL4Z0
-         M7TqtgOIOQWEmIAAiYPsI00WxCXRxQMGjlcLcmU2ufPoyg2waoL4nCzqkniYdFTn+cm0
-         nqZs5inZhIePSHOI/bhZvfXtSyHGw99yhrRPtYL885v0HiHs/Iynb5zn6bbpB+L7Plrr
-         /v/wfVJHnhk4Kb+D1fsRzmP1scglzRNdEB4x1BuypMZueFPAsvwE3EpWyVLRGRK2uPk3
-         skqg==
+        d=chromium.org; s=google; t=1706310964; x=1706915764; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m1FUbK+X4G1K2LR1tS4ThCJb/HchC8GmhhxPZxsSnw8=;
+        b=fzCCt5ng5XTN+SiVVLbI1IEe/7rjIqS1McXzXaiYvS3nySCsFLyGXMgA7FqF6mGysI
+         CuI0EH4rForETGJ5qQxIOr5g6STaOijt/ypwmmADWgf/pxO0iMXYQgG3bs3v4/olEFJS
+         i4hKpSZZRz+afP3R40tE+a4rt7+Uv8+uxOnaM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706308801; x=1706913601;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z8QG5AfrdWA7t9o5OrkA87ptQ9i3FCLbGpi7NMLqb+o=;
-        b=JqXLoosK461XbSzsw/zb9c3klywe06RbJv5YIPZgg5Yg9MvwpLjJ1dke1e37kWQO8O
-         ZfC55SAb4GQv1UT0mLXZ0ndSES36bgJZsZhKcC2SW6THT6rNWX5RU5TQw3QpyilTIExO
-         noQ7qI8AxzanLINxa+ChtFqeIUe0+CMM8xG83P5c6jhfh0GZfESRy99CdnJUlJtCUBfr
-         QaO+VzF0O+CDzLPx9NiwDw6/R9c05xvdLNhINic9yAZihjPalZ14Kx/TRhul0SFOIbO6
-         fIjmVPsAUz9q7qe38BsElZ6iOucIX0hBnqbHTzNgzJfw5mgAxh9VI5ZVPS7r2BH6Vf3j
-         JpsQ==
-X-Gm-Message-State: AOJu0Yzq69W8TzzrMwmNC+4f6VvQBvntQ/d8NuHnBU7RIlDglMudygUN
-	w8MpLc3siuaEdbsvAqRhjO2AFZ1luS4rAL9J4/83oYFHcsx1staZ
-X-Google-Smtp-Source: AGHT+IGIx68tF4EznZB6ueC2apxIyiN8YJffgTDMb97phxTkbCltXMSsLph4b0VcNSLfT7Sw09h6AA==
-X-Received: by 2002:a05:6830:10d3:b0:6e1:1570:d4a2 with SMTP id z19-20020a05683010d300b006e11570d4a2mr693010oto.33.1706308801080;
-        Fri, 26 Jan 2024 14:40:01 -0800 (PST)
-Received: from ?IPV6:2a01:c23:b936:a00:2153:65f5:37dd:e726? (dynamic-2a01-0c23-b936-0a00-2153-65f5-37dd-e726.c23.pool.telefonica.de. [2a01:c23:b936:a00:2153:65f5:37dd:e726])
-        by smtp.googlemail.com with ESMTPSA id nh10-20020a056214390a00b00686a22aeafasm893283qvb.18.2024.01.26.14.40.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 14:40:00 -0800 (PST)
-Message-ID: <8b40e95a-6c4f-4109-afb3-615c6d1e0477@gmail.com>
-Date: Fri, 26 Jan 2024 23:39:58 +0100
+        d=1e100.net; s=20230601; t=1706310964; x=1706915764;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m1FUbK+X4G1K2LR1tS4ThCJb/HchC8GmhhxPZxsSnw8=;
+        b=MYUZnAsHqacsZDMAZBTMtntpn8NKP0BgUTI/dwOtbSwn9yVlYVpCub5x1yj7BtPhY7
+         IgrmD7++D+Sfiza3Y5b9mqmJ2Pt3/vaR1ZUHEEUNyH3Nusdt8gquySdm7q6BftH8BJWx
+         gHRDusOrfIDW0yc1AVZKBLDzyTKG6W2le8teG49LqKb/K3O6ImqV4YLDb309/yvYfP7F
+         12zvXPp+/IgqvhcNWsJmtwOJQkVijt+qup4mC/673RlUehPcddZA0FrjonSX32fqkjDH
+         0G4KHTDijjeiYuMD/DvqCxiv6dkBpHmLQBqZ7ubv97Rm3s56HdeI0UHoG+sJjRQ6n5sW
+         IHPw==
+X-Gm-Message-State: AOJu0YzjpcUS5xxnPgG9oTL1lgR/bAm5qwkGdWLREDr5rFepZCNI/77s
+	2XvKl7lJMJatGAe/Pp3cUk4jsyr8eIU4KqJFY//aqD+O3ty1LgZiHWU0m8UZ3A==
+X-Google-Smtp-Source: AGHT+IEQ/tz8turm1P2FDbceVdQsCYW4IY1reD0BjYRsTNFIDrY6wN0U97EZCcKxKn339wiLqTkGcQ==
+X-Received: by 2002:ae9:e647:0:b0:783:df7a:a7c4 with SMTP id x7-20020ae9e647000000b00783df7aa7c4mr586658qkl.51.1706310964150;
+        Fri, 26 Jan 2024 15:16:04 -0800 (PST)
+Received: from denia.c.googlers.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
+        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jan 2024 15:16:03 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 00/17] media: kerneldoc warnings
+Date: Fri, 26 Jan 2024 23:15:59 +0000
+Message-Id: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] media: ddbridge: Remove unused class-based I2C autoprobing
- code
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC89tGUC/x3MQQqAIBBA0avErBtQK4WuEi2sRhsiC40KorsnL
+ d/i/wcSRaYEbfFApJMTbyFDlgWMsw2ekKdsUELVQiqNnm9cjwUvGwMHn9CMRjjdVEaaAXK2R3J
+ 8/8uuf98PwmNAwWIAAAA=
+To: Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Yunfei Dong <yunfei.dong@mediatek.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Bin Liu <bin.liu@mediatek.com>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+ Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+ Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-amlogic@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.3
 
-The I2C_CLASS_TV_xxx constants don't exist in kernel code, seems like
-this was copied from out-of-tree code. The supported I2C_CLASS_xxx
-constants reside in include/linux/i2c.h.
+While automating the CI, I found the following kernel-doc errors.
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/ddbridge/ddbridge-i2c.c | 7 -------
- 1 file changed, 7 deletions(-)
+Ricardo Ribalda (17):
+      media: mediatek: vcodec: Fix kerneldoc warnings
+      media: videodev2.h: Fix kerneldoc
+      media: media-entity.h: Fix kerneldoc
+      media: cec.h: Fix kerneldoc
+      media: pci: dt315.h: Fix kerneldoc
+      media: i2c: css-quirk.h: Fix kerneldoc
+      media: i2c: adv748: Fix kerneldoc
+      media: mediatek: jpeg: Fix kerneldoc
+      media: mediatek: vcodec: Fix kerneldoc
+      media: verisilicon: Fix kerneldoc
+      media: qcom: venus: Fix kerneldoc
+      media: samsung: exynos4-is: Fix kerneldoc
+      media: samsung: s5p-mfc: Fix kerneldoc
+      media: dvb-usb: Fix kerneldoc
+      media: ipu3: Fix kerneldoc
+      media: staging: meson: Fix kerneldoc
+      linux: v4l2-vp9.h: Fix kerneldoc
 
-diff --git a/drivers/media/pci/ddbridge/ddbridge-i2c.c b/drivers/media/pci/ddbridge/ddbridge-i2c.c
-index c894be180..2db65eab2 100644
---- a/drivers/media/pci/ddbridge/ddbridge-i2c.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-i2c.c
-@@ -170,13 +170,6 @@ static int ddb_i2c_add(struct ddb *dev, struct ddb_i2c *i2c,
- 
- 	adap = &i2c->adap;
- 	i2c_set_adapdata(adap, i2c);
--#ifdef I2C_ADAP_CLASS_TV_DIGITAL
--	adap->class = I2C_ADAP_CLASS_TV_DIGITAL | I2C_CLASS_TV_ANALOG;
--#else
--#ifdef I2C_CLASS_TV_ANALOG
--	adap->class = I2C_CLASS_TV_ANALOG;
--#endif
--#endif
- 	snprintf(adap->name, I2C_NAME_SIZE, "ddbridge_%02x.%x.%x",
- 		 dev->nr, i2c->link, i);
- 	adap->algo = &ddb_i2c_algo;
+ drivers/media/i2c/adv748x/adv748x.h                |  1 -
+ drivers/media/i2c/ccs/ccs-quirk.h                  |  8 +++---
+ drivers/media/pci/dt3155/dt3155.h                  |  1 -
+ .../media/platform/mediatek/jpeg/mtk_jpeg_core.h   |  1 -
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.h       |  1 -
+ .../mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c |  1 -
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c      |  1 -
+ .../platform/mediatek/vcodec/decoder/vdec_vpu_if.h |  1 -
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc.h       |  1 -
+ drivers/media/platform/qcom/venus/core.h           |  1 -
+ .../media/platform/samsung/exynos4-is/fimc-lite.h  |  3 --
+ .../platform/samsung/s5p-mfc/s5p_mfc_common.h      |  1 -
+ drivers/media/platform/verisilicon/hantro.h        |  1 -
+ drivers/media/usb/dvb-usb/dvb-usb.h                |  2 --
+ .../staging/media/ipu3/include/uapi/intel-ipu3.h   |  3 --
+ drivers/staging/media/meson/vdec/vdec.h            |  1 -
+ include/media/cec.h                                |  2 --
+ include/media/media-entity.h                       |  4 ---
+ include/media/v4l2-vp9.h                           |  6 +++-
+ include/uapi/linux/videodev2.h                     | 32 +++++++++++-----------
+ 20 files changed, 25 insertions(+), 47 deletions(-)
+---
+base-commit: 615d300648869c774bd1fe54b4627bb0c20faed4
+change-id: 20240126-gix-mtk-warnings-7c70f653717b
+
+Best regards,
 -- 
-2.43.0
+Ricardo Ribalda <ribalda@chromium.org>
 
 
