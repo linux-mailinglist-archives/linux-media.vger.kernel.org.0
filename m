@@ -1,109 +1,159 @@
-Return-Path: <linux-media+bounces-4205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4207-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDF983D809
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 11:27:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1764483D8D3
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 12:02:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E1391F322E8
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 10:27:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 486991C29543
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 11:02:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 866D017572;
-	Fri, 26 Jan 2024 10:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10CA14016;
+	Fri, 26 Jan 2024 11:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XiwJDXGu"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dtTi3LEN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F441427F;
-	Fri, 26 Jan 2024 10:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DEE134A3;
+	Fri, 26 Jan 2024 11:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706263424; cv=none; b=Xo9WN1oI/1AaqhlW0RHvclQO69jyNx1Hp7jLr9MqiyYjEGKeCdlu/XSrXFu1+3Eu5kQ5wawVdh5gHBqGnynios3026TDX9dr1DIhJTFJNuegwk3mU2p2EqqdICVoiAiBwQ7gQNo81dAAtjm5NiWpOHVgw0bZjCg11PfBfZ0wXTs=
+	t=1706266910; cv=none; b=E1M4GkXCbSuVbRLRgc0OOz+pdKtfNmldP/Jy5Mq6+OYNZdDkf5jSzEdfJ/wf+RkVaXXZ/1GqdUi78gSbBEv7qusxf/kDoJr0TCW+K/hZGIR2V6Nc2rLKWuDM72okicRLFFooXjKG0qB+C4nGWfCm6JSFUQnFIy9aJbCgJL7SW2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706263424; c=relaxed/simple;
-	bh=6nM2zIopIoKUNJDEU+EOLVsurv60/XzN/SwLNO2V8WA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=WqpUY40yPfwpW1sfuXU41LwjI7VOdLWusBOQ7qRxQ85m7qDN+WLwn9CM6v5lwoVZddfMgsU2pggoLbfzl9pz0bo61ZFNt4sKqvDjuQvACPkUNQMtC8U0ICl5yx2VySKvG0bOSIFVkdfUVcWGAs8LI/fN9jSPUG8T0JwDCB0ChOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XiwJDXGu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40958C433F1;
-	Fri, 26 Jan 2024 10:03:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706263423;
-	bh=6nM2zIopIoKUNJDEU+EOLVsurv60/XzN/SwLNO2V8WA=;
-	h=Date:From:To:Cc:Subject:From;
-	b=XiwJDXGui8uSslzAC48a4X/5Va/0hntMeTYXhLnJekT3z2uhG6HYH/0TkB6FvXNB/
-	 v5iy7HvGdKeYzl0FE2G6k3hLRhxK6OOQmIkH5aFopSp7Q6H0CUsXLgm/mFovthR8DO
-	 uMMLNV8vZqdBpE8ssIkVmd4EuZ7f+h61TP6RfNzBRYzWSCKyIW2fpmtP3cuzoMX8RT
-	 a/R0G2a5tz79B2GL9yWDZhwk+MKudVHVjdyjHsZsYMz7Bmr8y5jEl5a16gNTKSagsN
-	 v7W1DILGZ9tZIiHnn4quwWi4zkBlI2p0MHIPM5adR8Am10P+vv3hGLcd+eIseFkLNq
-	 RaAhB3zCeexSw==
-Date: Fri, 26 Jan 2024 11:03:38 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v6.8-rc2] media fixes
-Message-ID: <20240126110338.2d1063f4@coco.lan>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1706266910; c=relaxed/simple;
+	bh=6x9btn33raq90zH8k4DUM/aQvJRHiFqFxpsrW9aKu6A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YWGdmG3aBVPP2w8DDcZroi5o9xS7+VmjY9b4oIXBlWH+v3QRV8sZmTdcp5+KfLm8ydZ7dQ5Dpxlic5+bwGAg1qQBTDp9VFZyzBTq6q+2GxF/vY++TGeNgC12CN4lhsAQOIMWeXBrFd+/1KQT6VEFcYL4lU/x7uI2Qj2EG95ogj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dtTi3LEN; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706266906;
+	bh=6x9btn33raq90zH8k4DUM/aQvJRHiFqFxpsrW9aKu6A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dtTi3LENmgcD1gn/PFvTtJ8kDCFWPudRUlyz756jXRuA/4EOrUVul1TBIh/t+WtgO
+	 mpjMN+RLIo35SXMOQ7YH0KunA2wDssJaxfbWF3ny4bBhcv6I97fhnAnC5MbBteZ1OI
+	 RldZNIDzzOOZ6dmQht10XEyDCGOP/kDJ7+26YDRDI1Kj8A448h9pJFGbQweN6hodF1
+	 oz8d5SEIscgBRCFNUrPi3+YcJ0chlzOkBIJ5Lx0yFWo+q55EHzYKWaJsPUMCEKCqdN
+	 4DVfc3wLc7Vrg77oxucEp2g1bvKp0eCvs2vGmjn4zx+Di3KWOCuaKDiu0WZ8j6TLyw
+	 cMsqTPMN8BXYA==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 81BA53782072;
+	Fri, 26 Jan 2024 11:01:46 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v18 0/9] Add DELETE_BUF ioctl
+Date: Fri, 26 Jan 2024 12:01:32 +0100
+Message-Id: <20240126110141.135896-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce DELETE_BUFS ioctl and remove
+the 32 buffers limit per queue.
 
-Please pull from:
+VP9 conformance tests using fluster give a score of 210/305.
+The 23 of the 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-3
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v18
 
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
 
-For:
-- removal of K3 DT prefix from wave5;
-- vb2 core: fix missing caps on VIDIO_CREATE_BUFS under certain circumstances;
-- videobuf2: Stop direct calls to queue num_buffers field
+changes in version 18:
+- rebased on top of:
+  https://patchwork.linuxtv.org/project/linux-media/patch/20240118121452.29151-1-benjamin.gaignard@collabora.com/
+  https://patchwork.linuxtv.org/project/linux-media/patch/92975c06-d6e1-4ba6-8d03-b2ef0b199c21@xs4all.nl/
+- Add a patch to update vb2_is_busy() logic.
+- fix __vb2_queue_alloc() parameters descriptions.
+- rework bitmap free range finding loop
+- remove per queue capability flag.
+- rework v4l_delete_bufs() to check if VIDIOC_CREATE_BUFS is enabled
+  and if vidioc_delete_bufs pointer is valid.
+- update documentation.
+- Direclty use vb2_core_delete_bufs() in v4l2_m2m_ioctl_delete_bufs().
+  Remove useless static functions.
 
-Regards,
-Mauro
+changes in version 17:
+- rebased on top of:
+  https://patchwork.linuxtv.org/project/linux-media/patch/20240118121452.29151-1-benjamin.gaignard@collabora.com/
+  https://patchwork.linuxtv.org/project/linux-media/patch/92975c06-d6e1-4ba6-8d03-b2ef0b199c21@xs4all.nl/
+- rewrite min_reqbufs_allocation field documentation.
+- rewrite vb2_core_create_bufs() first_index parameter documentation.
+- rework bitmap allocation usage in __vb2_queue_alloc().
+- remove useless i < q->max_num_buffers checks.
+- rework DELETE_BUFS documentation.
+- change split between patch 7 and patch 8
+- v4l2_m2m_delete_bufs() is now a static function.
 
-The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
+changes in version 16:
+- The 50 patches related to add helpers for queue num_bufefrs have already been merged.
+- 'min_queued_buffers' patch has been merged too.
+- Add 'min_reqbufs_allocation' field in vb2_queue structure.
+- Take care of 'min_queued_buffers' when deleting buffers
+- Add more check about buffers range limit when deleting buffers.
 
-  Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
+Benjamin
 
-are available in the Git repository at:
+Benjamin Gaignard (9):
+  media: videobuf2: Update vb2_is_busy() logic
+  videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+  media: test-drivers: Set REQBUFS minimum number of buffers
+  media: core: Rework how create_buf index returned value is computed
+  media: core: Add bitmap manage bufs array entries
+  media: core: Free range of buffers
+  media: v4l2: Add DELETE_BUFS ioctl
+  media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+  media: verisilicon: Support deleting buffers on capture queue
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-3
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-delete-bufs.rst          |  78 ++++++
+ .../media/common/videobuf2/videobuf2-core.c   | 225 ++++++++++++------
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  26 +-
+ .../media/platform/verisilicon/hantro_v4l2.c  |   1 +
+ .../media/test-drivers/vicodec/vicodec-core.c |   1 +
+ drivers/media/test-drivers/vim2m.c            |   1 +
+ .../media/test-drivers/vimc/vimc-capture.c    |   3 +-
+ drivers/media/test-drivers/visl/visl-video.c  |   1 +
+ drivers/media/test-drivers/vivid/vivid-core.c |   5 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  28 +++
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  10 +
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |   2 +
+ include/media/videobuf2-core.h                |  52 +++-
+ include/media/videobuf2-v4l2.h                |   2 +
+ include/uapi/linux/videodev2.h                |  16 ++
+ 18 files changed, 371 insertions(+), 86 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
 
-for you to fetch changes up to b32431b753217d8d45b018443b1a7aac215921fb:
-
-  media: vb2: refactor setting flags and caps, fix missing cap (2024-01-24 17:27:51 +0100)
-
-----------------------------------------------------------------
-media fixes for v6.8-rc2
-
-----------------------------------------------------------------
-Benjamin Gaignard (1):
-      media: media videobuf2: Stop direct calls to queue num_buffers field
-
-Brandon Brnich (2):
-      dt-bindings: media: Remove K3 Family Prefix from Compatible
-      media: chips-media: wave5: Remove K3 References
-
-Hans Verkuil (1):
-      media: vb2: refactor setting flags and caps, fix missing cap
-
- .../devicetree/bindings/media/cnm,wave521c.yaml    |  4 +-
- drivers/media/common/videobuf2/videobuf2-core.c    |  2 +-
- drivers/media/common/videobuf2/videobuf2-v4l2.c    | 55 ++++++++++------------
- .../media/platform/chips-media/wave5/wave5-vpu.c   |  2 +-
- 4 files changed, 30 insertions(+), 33 deletions(-)
+-- 
+2.40.1
 
 
