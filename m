@@ -1,79 +1,160 @@
-Return-Path: <linux-media+bounces-4233-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4234-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF2883E494
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 23:06:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6815D83E5BB
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 23:42:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B2131C229E0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 22:06:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EB44287847
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jan 2024 22:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13C375380A;
-	Fri, 26 Jan 2024 22:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30C9A33CC5;
+	Fri, 26 Jan 2024 22:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpyUviXQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OlRra90O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD8E51C20;
-	Fri, 26 Jan 2024 22:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D73D1CD34;
+	Fri, 26 Jan 2024 22:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706306730; cv=none; b=Q4volL60O0azD7IwEWQ9pKrJHT3tVJpX/7RGrXGQt+zW7nIAeCrc9cI1rD8AsDdWfUDBjAaatJ2Fnd6ergwikVsWSUf0UmK+H5rl+ABW71EKIRa3nkgdbOn+3rSmosW0frXpy4y/daXWhIznO3KErrYMtfArhAfTNrZ63wJBLiA=
+	t=1706308803; cv=none; b=T81yldOlgWRRCq4z8wIodNihf7R7xUD9q84dMBCCU4pHebKHWhBaEGIGAlP3HDUuCuIqfSNJoqc3Bxtmv/j+qq/SPRLGPJrWT/8kmQcXWP1iHg5UcfA6BprBlG4xUo9P+rncmChojekdDcHvtMoBeKhx4wEBDHy4JCs9e7HSny4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706306730; c=relaxed/simple;
-	bh=Y2JuC5v1p08QFS1tJxVNDG8xj4h+nqssv7Nc+OZZCeU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=FoMuEmvPoX2AhUnNPkQNKDeIja69X9H9Tr3Q9Zk9JqRuuan2iB+hlTdfE6nwUqAzqeCq2yUajWtGYOPJmMpr4frQUbhvKz8Zf6rLWzBS74YM4dyWr55oD7gsdbW4ngTQDFASAWffq76gT7DSzQVmjVSaaVZNNuCcgbiqXWeubk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpyUviXQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 430B7C43399;
-	Fri, 26 Jan 2024 22:05:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706306730;
-	bh=Y2JuC5v1p08QFS1tJxVNDG8xj4h+nqssv7Nc+OZZCeU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=jpyUviXQhh+sylIwZj1rcUeQzcOh7eULdXaNFpZnCJMgwmf4lfFsA2wYI4vQ3ZMNr
-	 RvkW9XUWVL3anTrlkYQ/N42MQo9llwjHT2NsAAAQHCA8wczzWdR+oANlgXdPhOwSSD
-	 x/4PS9OhtqHlmP2IeZNnH2tygxdxqkAlc3DGmBlQpJo2jqooE2LRJRBrZC17KhQn3V
-	 aeMwDRAKy9QmhNFp+5BVgvBPT7l6yZf2Zwn91+tR2xr7YOwhTRBab/sNjp68yyKeLa
-	 8xVEY8lKsK/QK6YX5dwP0G56nnVcuq8NA6aywMJTYe63eRWMotZLFxce0TIKftrs1H
-	 iT1+JgWJSiEFw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2601DDFF765;
-	Fri, 26 Jan 2024 22:05:30 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.8-rc2] media fixes
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20240126110338.2d1063f4@coco.lan>
-References: <20240126110338.2d1063f4@coco.lan>
-X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20240126110338.2d1063f4@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-3
-X-PR-Tracked-Commit-Id: b32431b753217d8d45b018443b1a7aac215921fb
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4aeb083707d6a2535bfea5d16140b72a81efb62b
-Message-Id: <170630673015.20742.8308794657971173367.pr-tracker-bot@kernel.org>
-Date: Fri, 26 Jan 2024 22:05:30 +0000
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1706308803; c=relaxed/simple;
+	bh=M9DG2bRCzaRiQXOPCDukEnxTtO8tFrrQaLfyRuQcO0o=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Gbm64wwYmghCvmjoFxysPJvEwYhTXNOIa6Gd8qVz6ds1J0jNI5AlXWQKMVL5y06ZsuUC8xeLs6zyGLy94c1+gBGzUIkbOG6VYbC52JDD6KKk1SfBYGzTifRKBjHRQhpypKQ3rSvTkOX2QvFNp8cSU5KlZtHlB15sSkRftLS2Gx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OlRra90O; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6e0af93fdaaso570315a34.3;
+        Fri, 26 Jan 2024 14:40:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706308801; x=1706913601; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z8QG5AfrdWA7t9o5OrkA87ptQ9i3FCLbGpi7NMLqb+o=;
+        b=OlRra90OV467gevbjjGvL20fG075OqpxLeiBXp8lhdyYyd/WeZWSzQ7okEZO4qR4XV
+         XFYLA9aspni247epv96jmsD9KcsQzNUjHQ6kztBdGurTdgJNMsbUZPcqw8AMihnyL4Z0
+         M7TqtgOIOQWEmIAAiYPsI00WxCXRxQMGjlcLcmU2ufPoyg2waoL4nCzqkniYdFTn+cm0
+         nqZs5inZhIePSHOI/bhZvfXtSyHGw99yhrRPtYL885v0HiHs/Iynb5zn6bbpB+L7Plrr
+         /v/wfVJHnhk4Kb+D1fsRzmP1scglzRNdEB4x1BuypMZueFPAsvwE3EpWyVLRGRK2uPk3
+         skqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706308801; x=1706913601;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z8QG5AfrdWA7t9o5OrkA87ptQ9i3FCLbGpi7NMLqb+o=;
+        b=JqXLoosK461XbSzsw/zb9c3klywe06RbJv5YIPZgg5Yg9MvwpLjJ1dke1e37kWQO8O
+         ZfC55SAb4GQv1UT0mLXZ0ndSES36bgJZsZhKcC2SW6THT6rNWX5RU5TQw3QpyilTIExO
+         noQ7qI8AxzanLINxa+ChtFqeIUe0+CMM8xG83P5c6jhfh0GZfESRy99CdnJUlJtCUBfr
+         QaO+VzF0O+CDzLPx9NiwDw6/R9c05xvdLNhINic9yAZihjPalZ14Kx/TRhul0SFOIbO6
+         fIjmVPsAUz9q7qe38BsElZ6iOucIX0hBnqbHTzNgzJfw5mgAxh9VI5ZVPS7r2BH6Vf3j
+         JpsQ==
+X-Gm-Message-State: AOJu0Yzq69W8TzzrMwmNC+4f6VvQBvntQ/d8NuHnBU7RIlDglMudygUN
+	w8MpLc3siuaEdbsvAqRhjO2AFZ1luS4rAL9J4/83oYFHcsx1staZ
+X-Google-Smtp-Source: AGHT+IGIx68tF4EznZB6ueC2apxIyiN8YJffgTDMb97phxTkbCltXMSsLph4b0VcNSLfT7Sw09h6AA==
+X-Received: by 2002:a05:6830:10d3:b0:6e1:1570:d4a2 with SMTP id z19-20020a05683010d300b006e11570d4a2mr693010oto.33.1706308801080;
+        Fri, 26 Jan 2024 14:40:01 -0800 (PST)
+Received: from ?IPV6:2a01:c23:b936:a00:2153:65f5:37dd:e726? (dynamic-2a01-0c23-b936-0a00-2153-65f5-37dd-e726.c23.pool.telefonica.de. [2a01:c23:b936:a00:2153:65f5:37dd:e726])
+        by smtp.googlemail.com with ESMTPSA id nh10-20020a056214390a00b00686a22aeafasm893283qvb.18.2024.01.26.14.40.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 14:40:00 -0800 (PST)
+Message-ID: <8b40e95a-6c4f-4109-afb3-615c6d1e0477@gmail.com>
+Date: Fri, 26 Jan 2024 23:39:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] media: ddbridge: Remove unused class-based I2C autoprobing
+ code
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Fri, 26 Jan 2024 11:03:38 +0100:
+The I2C_CLASS_TV_xxx constants don't exist in kernel code, seems like
+this was copied from out-of-tree code. The supported I2C_CLASS_xxx
+constants reside in include/linux/i2c.h.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-3
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/media/pci/ddbridge/ddbridge-i2c.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4aeb083707d6a2535bfea5d16140b72a81efb62b
-
-Thank you!
-
+diff --git a/drivers/media/pci/ddbridge/ddbridge-i2c.c b/drivers/media/pci/ddbridge/ddbridge-i2c.c
+index c894be180..2db65eab2 100644
+--- a/drivers/media/pci/ddbridge/ddbridge-i2c.c
++++ b/drivers/media/pci/ddbridge/ddbridge-i2c.c
+@@ -170,13 +170,6 @@ static int ddb_i2c_add(struct ddb *dev, struct ddb_i2c *i2c,
+ 
+ 	adap = &i2c->adap;
+ 	i2c_set_adapdata(adap, i2c);
+-#ifdef I2C_ADAP_CLASS_TV_DIGITAL
+-	adap->class = I2C_ADAP_CLASS_TV_DIGITAL | I2C_CLASS_TV_ANALOG;
+-#else
+-#ifdef I2C_CLASS_TV_ANALOG
+-	adap->class = I2C_CLASS_TV_ANALOG;
+-#endif
+-#endif
+ 	snprintf(adap->name, I2C_NAME_SIZE, "ddbridge_%02x.%x.%x",
+ 		 dev->nr, i2c->link, i);
+ 	adap->algo = &ddb_i2c_algo;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+
 
