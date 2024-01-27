@@ -1,180 +1,106 @@
-Return-Path: <linux-media+bounces-4255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB6983E922
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 02:51:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456C283EB9B
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 08:12:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B1E71F26D36
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 01:51:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB6261F233E4
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 07:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AC35B666;
-	Sat, 27 Jan 2024 01:51:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056621DA26;
+	Sat, 27 Jan 2024 07:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1bMYiW8P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DH8voKjv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFDC8C14;
-	Sat, 27 Jan 2024 01:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEA91D698;
+	Sat, 27 Jan 2024 07:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706320277; cv=none; b=J/2RrfqIRhXs5ybmCthzze6ZDqJ/cKAjennNnK0hrv2CWBX0X4a6v4uWA6R/14D7SoZBT/5mnbtqMgdwKARRhNhDRt0NE9+5pdqnZfTgRGu3+mD5Xxr5zzB6Lf4naCWzfnA8ZSoLjIkta6LuSp9SBXBRIK+AbrZegv6FQXwtOnU=
+	t=1706339533; cv=none; b=Zq63fkYkb8wuXrWgleTdtemDprxCbmji/zTjPBik+pEw7wHA434LDOwQmngfh6usHfXLyr1havnFh8jpevvh7GVjRMy/s1W3R+EY45Z70k5g4s9FI2EVxNj0w3qv7MjtXt0pZjVFF2Vg1YgJzUZAeUNPGiHH5wLZcvn0V1p+q3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706320277; c=relaxed/simple;
-	bh=KZpDU/PEAGyFwGtY9AhJRKxcH3CF40SmBvZ9Xq2HTvQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kmPxyjYstJb9ncLIY444V4NRq6yUeby3OZH2P1wjqxzRsAxoSxWmBMobEp3YHsI0gGF7QEQZyW1rmzgELMpf890QHdZIeOuUUJ9vz/R8Qh3E6xTzzaSv2wsiAuFBZVpE2Ode3Owh++eeK6oLv+WWpcvUgBVZ6z6hqaBI5IbJXz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1bMYiW8P; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=lxYFxs/8WK1pTjOIC0n7A2x231owOnOSLs3pwAFP9f4=; b=1bMYiW8PDwIA/3MpD5Mm8+w+B0
-	4HPN+fwJNQjcSaprS2W8q9+6vfk42Gb3sTsDNQ+pIabWuHzsqkf+98E96uvPutlmyddM+L/2qoMbC
-	NRpDaTwop0LKEeGTwntNwgBk2rSDpH2wGpjGjYhAlFzIEgmQ21ZJa+5nkOMlGFvsiJq+zMPrV7tBY
-	04hs3cdz9Xv5yNANmbKaCgEp4k5ZFkhxSN9PADo9l2iMGgP69sPl5nOYSRfLn2zNzmqgD0vY9LY0k
-	wxpO4av5GvnO5h4PVFD7WUt6tHeMBewPRm8f1NBGaTXuxJl4jvsXNNRyI01rOxD8P0/SttTdwfp9j
-	bxAUHJfg==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTXqe-00000006Alx-2cQm;
-	Sat, 27 Jan 2024 01:51:08 +0000
-Message-ID: <e6b72dff-911e-4923-9996-b3b7db36fb8e@infradead.org>
-Date: Fri, 26 Jan 2024 17:51:06 -0800
+	s=arc-20240116; t=1706339533; c=relaxed/simple;
+	bh=Djha/6IzXzehmCN/Og8Y7c26kt1+x5+vBBHOZGV8Wvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jBw7tGhGwvsYv3GPQ1uCHrf9fEKtGtJUpL2ykgisgazQq/bIdK7T444CLtC6SM1+4L5h4Z6Y9S6J6PGKrJuMCf7QeKfdeJw1Wv5NDwBQvTZDzgzXNpsGna0WTf2dU0uVvDM/xyNOmjFnoClN9mm1AYxexVkKvzcVK0QVu0ydTJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DH8voKjv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59105C433C7;
+	Sat, 27 Jan 2024 07:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706339532;
+	bh=Djha/6IzXzehmCN/Og8Y7c26kt1+x5+vBBHOZGV8Wvk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DH8voKjvM7YRF7c8XNv7VCsf4TfvKt07B2diNs4loufAw3+X2nbiWJeHvglajnyNw
+	 Bk6ydgrz8X79EBzFMMWbYSqDja31HdsMwfZ54FLOEZCSvW3ZkQHMF2VNH/N1sqzHQP
+	 FpaEJ7logpFaj1L9Vyr952m6MbPUaNV0iCTv6QMquvNu1wwkVAUN6WJ25N2nDr7AfO
+	 Ptd0t5R38jMpL6rMG2WLKidl+vQ/bfyq3eO0jfRKwHzbndSC/CgzZdGtO+BTgGE1zp
+	 xik4NtyoED6nCs00HE5c9WIrUatnssnd+9bHa4yO+Ty/A9aLwiHg2db2VeDZgWH8qS
+	 O1asR6/PkJfqQ==
+Date: Sat, 27 Jan 2024 08:12:09 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Subject: Re: [PATCH] media: ddbridge: Remove unused class-based I2C
+ autoprobing code
+Message-ID: <ZbSsydul5RKCzBTV@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <8b40e95a-6c4f-4109-afb3-615c6d1e0477@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/17] media: media-entity.h: Fix kerneldoc
-Content-Language: en-US
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Bin Liu <bin.liu@mediatek.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-amlogic@lists.infradead.org
-References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
- <20240126-gix-mtk-warnings-v1-3-eed7865fce18@chromium.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240126-gix-mtk-warnings-v1-3-eed7865fce18@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PutWuLwQzMccHtEj"
+Content-Disposition: inline
+In-Reply-To: <8b40e95a-6c4f-4109-afb3-615c6d1e0477@gmail.com>
 
 
+--PutWuLwQzMccHtEj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 1/26/24 15:16, Ricardo Ribalda wrote:
-> The fields seems to be documented twice.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  include/media/media-entity.h | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index 2b6cd343ee9e..c79176ed6299 100644
-> --- a/include/media/media-entity.h
-> +++ b/include/media/media-entity.h
-> @@ -337,10 +337,6 @@ enum media_entity_type {
->   * @info.dev:	Contains device major and minor info.
->   * @info.dev.major: device node major, if the device is a devnode.
->   * @info.dev.minor: device node minor, if the device is a devnode.
-> - * @major:	Devnode major number (zero if not applicable). Kept just
-> - *		for backward compatibility.
-> - * @minor:	Devnode minor number (zero if not applicable). Kept just
-> - *		for backward compatibility.
->   *
->   * .. note::
->   *
-> 
+On Fri, Jan 26, 2024 at 11:39:58PM +0100, Heiner Kallweit wrote:
+> The I2C_CLASS_TV_xxx constants don't exist in kernel code, seems like
+> this was copied from out-of-tree code. The supported I2C_CLASS_xxx
+> constants reside in include/linux/i2c.h.
+>=20
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-I'd say that this is correct based on
-https://patchwork.kernel.org/project/linux-media/patch/20231223050707.14091-1-rdunlap@infradead.org/
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
-Hans, can you please explain this message from you, on 2024-Jan-22, that I cannot find in the media patchwork:
+--PutWuLwQzMccHtEj
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-Subject: [git:media_stage/master] media: media-entity.h: fix Excess kernel-doc description warnings
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW0rMIACgkQFA3kzBSg
+KbanmxAAgd/Od/JSchv22jOmIy4wpwGDw0DDZI1LM3Zpv89+ROrVRslnWFWBQQQN
+VMme5WQdl3Gz5SeDZBdspPjfa6vTjtUQiUxFWJLzgrHweDfx1jSPR+n1JitWWwRq
+rKuFe4fJD5eqnBofqh6Nc1p3Rp5EdQ3hekFgqzfraRCBqxNTW45vj3zpV5GQ2fT5
+vLJ0VP3DL9HNffznibHdrxhES+fHRJBQQl0zc9nDUJzOo2DEZ0oA5ummEEeE0TLS
++L+ajwC4J8MRf8qyg6mpkum/vQkuK9KPf5pTTlf+wzWJdY2BC1F1fC+jf4f8XOqs
+F7zumRDVuRHCi9WbEhJz1VRfHYextZwZOLqnzFon6pwLgkwxaTsNo5vOT6KAHIUg
+e2ks1TZZmzoN5/lLJ3G4NLto9D+qMXDMVxumqtQF3XD8mbLQ/R1BhciFqgRzM900
+N3t7avqrwfebiqVoFUOqRnbNJILdylqrF9lRC9dljUnC6CbLhOGDsVWSlKtX63Tz
+BiADwleQ6GZbcDzCKqiDfDmSlfUlrI68zzdXdAcSk4jodIK8o/UPBFgaWULkicg4
+U4G2VJuel0tc9i3Zo4H5ywcuP54tbihGTrkIJq3aJqLUqTBXZBCIGKNSvTJb/Seo
+C3TNkAjTn53UR0e0Ge/WEJCZHAX2gCOUBL9V6dKQ6WyLLF4tNYA=
+=PsBC
+-----END PGP SIGNATURE-----
 
-
-
-This is an automatic generated email to let you know that the following patch were queued:
-
-Subject: media: media-entity.h: fix Excess kernel-doc description warnings
-Author:  Randy Dunlap <rdunlap@infradead.org>
-Date:    Fri Dec 22 21:07:07 2023 -0800
-
-Remove the @major: and @minor: lines to prevent the kernel-doc warnings:
-
-include/media/media-entity.h:376: warning: Excess struct member 'major' description in 'media_entity'
-include/media/media-entity.h:376: warning: Excess struct member 'minor' description in 'media_entity'
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
- include/media/media-entity.h | 4 ----
- 1 file changed, 4 deletions(-)
-
----
-
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 2b6cd343ee9e..c79176ed6299 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -337,10 +337,6 @@ enum media_entity_type {
-  * @info.dev:	Contains device major and minor info.
-  * @info.dev.major: device node major, if the device is a devnode.
-  * @info.dev.minor: device node minor, if the device is a devnode.
-- * @major:	Devnode major number (zero if not applicable). Kept just
-- *		for backward compatibility.
-- * @minor:	Devnode minor number (zero if not applicable). Kept just
-- *		for backward compatibility.
-  *
-  * .. note::
-  *
-
-
-
-Thanks.
--- 
-#Randy
+--PutWuLwQzMccHtEj--
 
