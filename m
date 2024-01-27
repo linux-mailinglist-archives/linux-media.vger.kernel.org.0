@@ -1,98 +1,209 @@
-Return-Path: <linux-media+bounces-4264-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4265-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914F583EED0
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 17:51:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDDA83EF8C
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 19:46:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D741284BAE
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 16:51:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 614D8285E85
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 18:46:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5762C856;
-	Sat, 27 Jan 2024 16:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0D22D634;
+	Sat, 27 Jan 2024 18:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kHE4GT14"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5ToPuYY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2819286AE;
-	Sat, 27 Jan 2024 16:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627D61E539;
+	Sat, 27 Jan 2024 18:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706374261; cv=none; b=aQC5L4BTrwcHxBAg7TiGp2u/wC1JIiV1CSC/+G5tbhW7BBDdMIHFG+rO1CHvAkfPnoOWzzerCF76B9k0rfGKv5tgNYAEG1cq1hxqjUMoTtECh/S5+m2gty3i3AxgDaygJ/hQuzErqV3E4CW8NhHp368z4plh6Sc0iPHPIWN5YZk=
+	t=1706381189; cv=none; b=fYeoEyoCT24F3CNzdKL1OhdD4I5pe6bWovytrb6T6DspwA2iRuta6bq3QadvZAOi4VfOWEeMEcbao2vae07SxlLyOZ1kOjrmR827vVjzg+88NpFcgNJI1z1vc/fBiLmILPSt3+aIxOupvpn15yLO69BgsB40XGQJrXXaCM+VSQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706374261; c=relaxed/simple;
-	bh=QP+swmkCdNQGO0Nmh/aIJ91HocN7GAu5e8lfaOWVe1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lZ22m3UiLlvUh+rfVEJmU2axVZpkyj+zOcHUMPFQZb0NDLK6F1Cxfp5GG1RLv1ssxQaG2IJzN1PuI1C220B1YrWfRH7C5jfCRAUjCBu1q/le7XYbQTxYJ7dKbyLNfZxGtqjx3bnRJ0eKeKf87T5moWK9I0hidJpW0N1h5CcYB6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kHE4GT14; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7BFC433F1;
-	Sat, 27 Jan 2024 16:50:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706374260;
-	bh=QP+swmkCdNQGO0Nmh/aIJ91HocN7GAu5e8lfaOWVe1c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kHE4GT14qyZ9I0dPf3JZXSf2KWCeckxoGqODmilUYb+pouIkOG0PYuxUTRvH5IKL/
-	 8027UCs0RkMLDqypr8Xez1mHrPzUpaYqXdIBwlJIVmSLOEYJwOHHl2kNuK6G1K4Cse
-	 gqN+/rdjyKsk/3+BPoMGzF/E9cmtxQkF1zcMmaz10JrLPFLtHbbc1ksahSgc+PY4Va
-	 fVlv5Kbkq5xj9XOnO1ErYaT0nLxkh/na/nVHByuhTxQp/bWM8P/cf7Usxpyzhuxrar
-	 11GV3LsFzScBDF4TtjuAK1EHyNaYfrGvDpvsLd692/hySSUirAFWN3Nn7aD1CMlPH8
-	 Rgo7n1lSqppsw==
-Date: Sat, 27 Jan 2024 16:50:44 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Nuno =?UTF-8?B?U8Oh?=
- <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
-Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface
- infrastructure
-Message-ID: <20240127165044.22f1b329@jic23-huawei>
-In-Reply-To: <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
-References: <20231219175009.65482-1-paul@crapouillou.net>
-	<20231219175009.65482-6-paul@crapouillou.net>
-	<20231221120624.7bcdc302@jic23-huawei>
-	<ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1706381189; c=relaxed/simple;
+	bh=EYPyaz87RkOJljahQF8funE2XdsGXXg6gukJ+v+90GA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K6w2M1LxCpbjeYr4jWEAtQ/edM4MsQWR5++57xh8TOPIIXsahHkYx+Gw5ylgoCQRrwWE6/xIDVtI0N5CyO/0NFF8/fGDv3I/aOL9oDF1S7AUuPqjwDTtKHjRPLVfkVuLQk+MAp7w7fpV3db32xzl8L/5OjX9szsPNrmmL8sMhS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5ToPuYY; arc=none smtp.client-ip=134.134.136.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706381187; x=1737917187;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EYPyaz87RkOJljahQF8funE2XdsGXXg6gukJ+v+90GA=;
+  b=G5ToPuYYxcVxXz6dt/DHtNh8u+OppP0v6ZkV3L3wSubDGUyozIWTbadN
+   4tW8MXFsBGS+hY7vjk5BFSuVleIiy88nlOi0QuTCemdsU4y2Jrw3q2Kpd
+   4txMhKh+gP44vIu4ciUCoF/lGjFpIXfpwyfFUpbcrq0uj0+qXYwIfNzdE
+   QuTr7aRMQ2dIB6soWSuAzgUF/ohTyGPqQFalsXlxlj5z6M9+AFQLGYagk
+   4wwmLBisVqomIoaEqDjQFS9a4LgMuYy1aaYfpD2hLWpvn1FJ1zHq5LAei
+   L38h+eiyXbd0Zt724yKGyXtpbWTcmtX0reCy1orQ45sDJkM04WH3trMAf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="466977459"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="466977459"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 10:46:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="910649621"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="910649621"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 10:46:16 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4755F11FB1F;
+	Sat, 27 Jan 2024 20:40:25 +0200 (EET)
+Date: Sat, 27 Jan 2024 18:40:25 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH 03/17] media: media-entity.h: Fix kerneldoc
+Message-ID: <ZbVOGaw-8qU2QNle@kekkonen.localdomain>
+References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
+ <20240126-gix-mtk-warnings-v1-3-eed7865fce18@chromium.org>
+ <e6b72dff-911e-4923-9996-b3b7db36fb8e@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e6b72dff-911e-4923-9996-b3b7db36fb8e@infradead.org>
 
+Hi Randy,
 
-> > > +	iio_buffer_dmabuf_put(attach);
-> > > +
-> > > +out_dmabuf_put:
-> > > +	dma_buf_put(dmabuf);  
-> > As below. Feels like a __free(dma_buf_put) bit of magic would be a
-> > nice to have.  
+On Fri, Jan 26, 2024 at 05:51:06PM -0800, Randy Dunlap wrote:
 > 
-> I'm working on the patches right now, just one quick question.
 > 
-> Having a __free(dma_buf_put) requires that dma_buf_put is first
-> "registered" as a freeing function using DEFINE_FREE() in <linux/dma-
-> buf.h>, which has not been done yet.  
+> On 1/26/24 15:16, Ricardo Ribalda wrote:
+> > The fields seems to be documented twice.
+> > 
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  include/media/media-entity.h | 4 ----
+> >  1 file changed, 4 deletions(-)
+> > 
+> > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> > index 2b6cd343ee9e..c79176ed6299 100644
+> > --- a/include/media/media-entity.h
+> > +++ b/include/media/media-entity.h
+> > @@ -337,10 +337,6 @@ enum media_entity_type {
+> >   * @info.dev:	Contains device major and minor info.
+> >   * @info.dev.major: device node major, if the device is a devnode.
+> >   * @info.dev.minor: device node minor, if the device is a devnode.
+> > - * @major:	Devnode major number (zero if not applicable). Kept just
+> > - *		for backward compatibility.
+> > - * @minor:	Devnode minor number (zero if not applicable). Kept just
+> > - *		for backward compatibility.
+> >   *
+> >   * .. note::
+> >   *
+> > 
 > 
-> That would mean carrying a dma-buf specific patch in your tree, are you
-> OK with that?
-Needs an ACK from appropriate maintainer, but otherwise I'm fine doing
-so.  Alternative is to circle back to this later after this code is upstream.
+> I'd say that this is correct based on
+> https://patchwork.kernel.org/project/linux-media/patch/20231223050707.14091-1-rdunlap@infradead.org/
+> 
+> 
+> Hans, can you please explain this message from you, on 2024-Jan-22, that
+> I cannot find in the media patchwork:
+
+It's in linuxtv.org Patchwork here
+<URL:https://patchwork.linuxtv.org/project/linux-media/patch/20231223050707.14091-1-rdunlap@infradead.org/>
+and also in the media stage tree (as indicated by the state) but not yet in
+master AFAIU.
 
 > 
-> Cheers,
-> -Paul
-
 > 
+> Subject: [git:media_stage/master] media: media-entity.h: fix Excess kernel-doc description warnings
+> 
+> 
+> 
+> This is an automatic generated email to let you know that the following patch were queued:
+> 
+> Subject: media: media-entity.h: fix Excess kernel-doc description warnings
+> Author:  Randy Dunlap <rdunlap@infradead.org>
+> Date:    Fri Dec 22 21:07:07 2023 -0800
+> 
+> Remove the @major: and @minor: lines to prevent the kernel-doc warnings:
+> 
+> include/media/media-entity.h:376: warning: Excess struct member 'major' description in 'media_entity'
+> include/media/media-entity.h:376: warning: Excess struct member 'minor' description in 'media_entity'
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+>  include/media/media-entity.h | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> ---
+> 
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index 2b6cd343ee9e..c79176ed6299 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -337,10 +337,6 @@ enum media_entity_type {
+>   * @info.dev:	Contains device major and minor info.
+>   * @info.dev.major: device node major, if the device is a devnode.
+>   * @info.dev.minor: device node minor, if the device is a devnode.
+> - * @major:	Devnode major number (zero if not applicable). Kept just
+> - *		for backward compatibility.
+> - * @minor:	Devnode minor number (zero if not applicable). Kept just
+> - *		for backward compatibility.
+>   *
+>   * .. note::
+>   *
+> 
+> 
+> 
+> Thanks.
 
+-- 
+Regards,
+
+Sakari Ailus
 
