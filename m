@@ -1,198 +1,98 @@
-Return-Path: <linux-media+bounces-4263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68F883EE21
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 16:58:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 914F583EED0
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 17:51:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 772C6284150
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 15:58:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D741284BAE
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 16:51:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B79D2C183;
-	Sat, 27 Jan 2024 15:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5762C856;
+	Sat, 27 Jan 2024 16:51:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fa5J9WQd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kHE4GT14"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CF128DCA;
-	Sat, 27 Jan 2024 15:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2819286AE;
+	Sat, 27 Jan 2024 16:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706371119; cv=none; b=ed3XUUE1usKS2KlgRWOUoJY7kXI8PD7UAVrquM79xLCRiVdAuPYQCNBWm4/ReyrRFSij7WEQYEazh9ot+rwqDRInVlzcCKI4sJ7hTUjLxFFtcSFSrhdYvB/4NpHzR0jfZDCykaSOBRLVVvRiMNEmvb5RkoztLI6CAR58GrL1gnc=
+	t=1706374261; cv=none; b=aQC5L4BTrwcHxBAg7TiGp2u/wC1JIiV1CSC/+G5tbhW7BBDdMIHFG+rO1CHvAkfPnoOWzzerCF76B9k0rfGKv5tgNYAEG1cq1hxqjUMoTtECh/S5+m2gty3i3AxgDaygJ/hQuzErqV3E4CW8NhHp368z4plh6Sc0iPHPIWN5YZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706371119; c=relaxed/simple;
-	bh=hBtf6FLBv/lirHB/qFxQDOfC3/JrgO9F5zuWntBY3Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b3ZASke+vhXwK4tNZAOXWg0RlyYnwRNPDPs7n2RXcx9rabuWQ4/50Rmu1ovaVpULSveB3ZYKnzyollYrrAZ0/tyi7aV+vsCidzNe056YC1/tgf5ABKliyt4T+yivyB9TTAPFwtfwm1tjbuTPSjgieWIJUteXn3Y2s3QYX6yNNRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fa5J9WQd; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706371116; x=1737907116;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hBtf6FLBv/lirHB/qFxQDOfC3/JrgO9F5zuWntBY3Bo=;
-  b=fa5J9WQddtmcDXUGFz4Q66JK4ZipyxZBWTiROxl6qXEzrPzMIRTKdQqK
-   DP6y99H5WsPBYlzMsPVe3kK8PA7is+hxytcLLW8i/zb3hj4JVsM2RcB8A
-   Z8pWho1bBi8XGmpw3QD+j4O2jiJdFHc3xGQsOhCyDeJ84D54oAKufNNeQ
-   Zb7Z/9hoGiLLBtb5SYx6swh/Xl8G1hq7TSn8jtBNg7XgMw83dhknjX0yU
-   VxmvtpeP/Tp0+HwJVZMaRLaxP16EnNrvHBV+yuGV+dNVe8I1Er8cNp6Id
-   2hQ7HfBJ8dRMC3r/5XrRV/YsdR4fqrMx3n5BzP2+/1Uv7ewAUAqFJWQ0I
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="10074283"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="10074283"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 07:58:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787406022"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="787406022"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2024 07:58:29 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rTl4c-0002UU-1g;
-	Sat, 27 Jan 2024 15:58:26 +0000
-Date: Sat, 27 Jan 2024 23:57:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 11/13] fbdev: omapfb: use of_graph_get_next_port()
-Message-ID: <202401272336.CCkvpjde-lkp@intel.com>
-References: <874jf4ud77.wl-kuninori.morimoto.gx@renesas.com>
+	s=arc-20240116; t=1706374261; c=relaxed/simple;
+	bh=QP+swmkCdNQGO0Nmh/aIJ91HocN7GAu5e8lfaOWVe1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lZ22m3UiLlvUh+rfVEJmU2axVZpkyj+zOcHUMPFQZb0NDLK6F1Cxfp5GG1RLv1ssxQaG2IJzN1PuI1C220B1YrWfRH7C5jfCRAUjCBu1q/le7XYbQTxYJ7dKbyLNfZxGtqjx3bnRJ0eKeKf87T5moWK9I0hidJpW0N1h5CcYB6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kHE4GT14; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7BFC433F1;
+	Sat, 27 Jan 2024 16:50:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706374260;
+	bh=QP+swmkCdNQGO0Nmh/aIJ91HocN7GAu5e8lfaOWVe1c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kHE4GT14qyZ9I0dPf3JZXSf2KWCeckxoGqODmilUYb+pouIkOG0PYuxUTRvH5IKL/
+	 8027UCs0RkMLDqypr8Xez1mHrPzUpaYqXdIBwlJIVmSLOEYJwOHHl2kNuK6G1K4Cse
+	 gqN+/rdjyKsk/3+BPoMGzF/E9cmtxQkF1zcMmaz10JrLPFLtHbbc1ksahSgc+PY4Va
+	 fVlv5Kbkq5xj9XOnO1ErYaT0nLxkh/na/nVHByuhTxQp/bWM8P/cf7Usxpyzhuxrar
+	 11GV3LsFzScBDF4TtjuAK1EHyNaYfrGvDpvsLd692/hySSUirAFWN3Nn7aD1CMlPH8
+	 Rgo7n1lSqppsw==
+Date: Sat, 27 Jan 2024 16:50:44 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Nuno =?UTF-8?B?U8Oh?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
+Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface
+ infrastructure
+Message-ID: <20240127165044.22f1b329@jic23-huawei>
+In-Reply-To: <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+	<20231219175009.65482-6-paul@crapouillou.net>
+	<20231221120624.7bcdc302@jic23-huawei>
+	<ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874jf4ud77.wl-kuninori.morimoto.gx@renesas.com>
-
-Hi Kuninori,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.8-rc1 next-20240125]
-[cannot apply to robh/for-next drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240123-081427
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/874jf4ud77.wl-kuninori.morimoto.gx%40renesas.com
-patch subject: [PATCH 11/13] fbdev: omapfb: use of_graph_get_next_port()
-config: i386-buildonly-randconfig-003-20240127 (https://download.01.org/0day-ci/archive/20240127/202401272336.CCkvpjde-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401272336.CCkvpjde-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401272336.CCkvpjde-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c: In function 'dss_init_ports':
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c:925:9: error: implicit declaration of function 'of_graph_get_next_port'; did you mean 'of_get_next_parent'? [-Werror=implicit-function-declaration]
-     port = of_graph_get_next_port(parent, NULL);
-            ^~~~~~~~~~~~~~~~~~~~~~
-            of_get_next_parent
->> drivers/video/fbdev/omap2/omapfb/dss/dss.c:925:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     port = of_graph_get_next_port(parent, NULL);
-          ^
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c:956:10: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-       (port = of_graph_get_next_port(parent, port)) != NULL);
-             ^
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c: In function 'dss_uninit_ports':
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c:972:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     port = of_graph_get_next_port(parent, NULL);
-          ^
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c:1003:17: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     } while ((port = of_graph_get_next_port(parent, port)) != NULL);
-                    ^
-   cc1: some warnings being treated as errors
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
 
-vim +925 drivers/video/fbdev/omap2/omapfb/dss/dss.c
+> > > +	iio_buffer_dmabuf_put(attach);
+> > > +
+> > > +out_dmabuf_put:
+> > > +	dma_buf_put(dmabuf);  
+> > As below. Feels like a __free(dma_buf_put) bit of magic would be a
+> > nice to have.  
+> 
+> I'm working on the patches right now, just one quick question.
+> 
+> Having a __free(dma_buf_put) requires that dma_buf_put is first
+> "registered" as a freeing function using DEFINE_FREE() in <linux/dma-
+> buf.h>, which has not been done yet.  
+> 
+> That would mean carrying a dma-buf specific patch in your tree, are you
+> OK with that?
+Needs an ACK from appropriate maintainer, but otherwise I'm fine doing
+so.  Alternative is to circle back to this later after this code is upstream.
 
-   915	
-   916	static int dss_init_ports(struct platform_device *pdev)
-   917	{
-   918		struct device_node *parent = pdev->dev.of_node;
-   919		struct device_node *port;
-   920		int r, ret = 0;
-   921	
-   922		if (parent == NULL)
-   923			return 0;
-   924	
- > 925		port = of_graph_get_next_port(parent, NULL);
-   926		if (!port)
-   927			return 0;
-   928	
-   929		if (dss.feat->num_ports == 0)
-   930			return 0;
-   931	
-   932		do {
-   933			enum omap_display_type port_type;
-   934			u32 reg;
-   935	
-   936			r = of_property_read_u32(port, "reg", &reg);
-   937			if (r)
-   938				reg = 0;
-   939	
-   940			if (reg >= dss.feat->num_ports)
-   941				continue;
-   942	
-   943			port_type = dss.feat->ports[reg];
-   944	
-   945			switch (port_type) {
-   946			case OMAP_DISPLAY_TYPE_DPI:
-   947				ret = dpi_init_port(pdev, port);
-   948				break;
-   949			case OMAP_DISPLAY_TYPE_SDI:
-   950				ret = sdi_init_port(pdev, port);
-   951				break;
-   952			default:
-   953				break;
-   954			}
-   955		} while (!ret &&
-   956			 (port = of_graph_get_next_port(parent, port)) != NULL);
-   957	
-   958		if (ret)
-   959			dss_uninit_ports(pdev);
-   960	
-   961		return ret;
-   962	}
-   963	
+> 
+> Cheers,
+> -Paul
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+
 
