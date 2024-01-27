@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-4268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4269-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB6A83F021
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 22:04:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A71E83F064
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 23:01:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A30911C235FC
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 21:04:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6798B22E0E
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 22:01:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 247AB1A723;
-	Sat, 27 Jan 2024 21:04:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 129C51BDFE;
+	Sat, 27 Jan 2024 22:00:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DUIO8APS"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SQaArEZ1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D701774B;
-	Sat, 27 Jan 2024 21:04:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3251B7FC;
+	Sat, 27 Jan 2024 22:00:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706389443; cv=none; b=vFN82k9mAxDN2rWaRHjUuQV/8F4IXm/G7rRN5ExMxehQ9225FxMcdrfaSQGPMAYEXONAjSceMLRAwFEAJXPlE3ACKIQy6jGXYkFp5PRq/dMVYihOpa4mNLS6fnfq2dIXRg4yC34xWAQWnkXQyn+YtJ5+MnbfMLEZmzYXKG+8uRk=
+	t=1706392847; cv=none; b=lWvJTR2KYSf62nwmZtWFZ5g7f8rZCEhlwuTPW/Uhidnq+yBqyAfTBs/JU23OLgVGBCPvGKFnLq3NRCuZIwX1qG1bpcTnfGQNLvCaNzHEA7iwgYUEtvDZweEVPNjQH1PhGSKSxVsnqkXLqpnlu0x/D4GzjCm9Wn2mPWtW7WgWXMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706389443; c=relaxed/simple;
-	bh=1LFn8fP92vZ+FiNhj2fAma0+oND2LVGTGYNWYwU8wrw=;
+	s=arc-20240116; t=1706392847; c=relaxed/simple;
+	bh=BH807ZEe4kzGh8q6q/wKTV9roDmT0MIWgqFOcAqr9rk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HeBTDcSTLR/ZgHLOS12hyzhTxO6N4Zphg3VF0l0RzmQfOxPYq07N6sEdE+Gizd7pSJubQFXfR4CulcY51cfMMKoPEWJ2ywtYZZ5Ge5Q42Pm+mFEHGd+zPPVtJ3DmdVJn3Hd2tGnTUB+27EXCCBf+1PvWGHdti6pJ0zwJ9AakGsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DUIO8APS; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=cMkKhWBpUI0nnBECxjXb4nbO2ZWfVe7peogBbSLZaabLSv1j6h49WhLF6f23byWUwdVkcZKbtCRZt4VRJjarG60lNiC8333T3SfFxcGYkSM0OO//HuQjkLB5RRGXmiV40hHUUWLQKQgThaiIp3xxwi9WyuCDMxUXx+WUjV/nFMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SQaArEZ1; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=o2qMCLVTADfJ6fB50r+bipM7dIFRLMPccc6A3oE+288=; b=DUIO8APSbGUZYWrHDbpK9Ffxab
-	YWzfGaNY64URWCOlsSVr7HrAhsORN4gHnBvj/uIj2/8llJLiQWiYYyHXp3eFsCRRRPqxYY/k6utpi
-	CSAPP99E7QXq4WCtB6msnzggHRsroZuZ4DeB84G8XneVCDP0rfGv3SamhW3LTqgDeUdaU1nq7Ce4o
-	977IdPyPQk0Nnm1lr2vXJ6H42Ou93R3TENHNIsdMr5U1CreE3T2/f8f2e8MdiY4XTd7nFKbn1zocd
-	RaaJQh/hOrEM5xBO2h7APENpS1z3lhZyY3z2fWlxmBgOsEbkAvRd/0ptsWW088rLszi9QoSMSRwK8
-	XEe248Mg==;
+	bh=UgXaJTakI/jnOXOUGRxa2gNJYjH8EmRpQFzJ2NpWJBw=; b=SQaArEZ1SrmSba/8hhmR59xxF4
+	9+u+uZcTcgyKfNGWwgKkmb+s211o6z2GnjhdSlzLw5vUCsrUh/HOb+99FF0zIJ5ho2hLlF1aECAwO
+	wA6wiCfGcex810HMIvfLsA8ViG6pXc4IcNFBx1pDb9XoYztJji0PbYPRL//zTTPqfwKShYKMYRJF6
+	LjVni5mjGr7wdnKb+vuMnbLbHS2cALSuD/tkkK/jwCaNRfFa0S1OX+IviOY3vWV+34rx8P97HqOFW
+	pu8mSt/hk1DfzMl35N85/wCnQ/fXtliiUesiPHg8Ivrjlil9YVArGxGxMx03YuJuF74OZyofMbVj1
+	Eg7+extw==;
 Received: from [50.53.50.0] (helo=[192.168.254.15])
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTpqG-00000008CEz-2lDd;
-	Sat, 27 Jan 2024 21:03:56 +0000
-Message-ID: <4a3150da-b71f-4d86-a69b-d72a8baef252@infradead.org>
-Date: Sat, 27 Jan 2024 13:03:55 -0800
+	id 1rTqj6-00000008FnG-0a1X;
+	Sat, 27 Jan 2024 22:00:36 +0000
+Message-ID: <d757c5a7-bb3c-4dd9-bac4-e43ee7685a18@infradead.org>
+Date: Sat, 27 Jan 2024 14:00:34 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,7 +54,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/17] media: pci: dt315.h: Fix kerneldoc
+Subject: Re: [PATCH 06/17] media: i2c: css-quirk.h: Fix kerneldoc
 Content-Language: en-US
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Tiffany Lin <tiffany.lin@mediatek.com>,
@@ -91,16 +91,24 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-amlogic@lists.infradead.org
 References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
- <20240126-gix-mtk-warnings-v1-5-eed7865fce18@chromium.org>
+ <20240126-gix-mtk-warnings-v1-6-eed7865fce18@chromium.org>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240126-gix-mtk-warnings-v1-5-eed7865fce18@chromium.org>
+In-Reply-To: <20240126-gix-mtk-warnings-v1-6-eed7865fce18@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 1/26/24 15:16, Ricardo Ribalda wrote:
-> The field is gone, remove it.
+> Kerneldoc does not seem to understand that embed doc:
+> drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'write' description in 'ccs_quirk'
+> drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'reg' description in 'ccs_quirk'
+> drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'val' description in 'ccs_quirk'
+> 
+
+Correct. It's never tried to understand that AFAIK.
+
+> Convert into a standard doc.
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
@@ -109,21 +117,29 @@ Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Thanks.
 
 > ---
->  drivers/media/pci/dt3155/dt3155.h | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/media/i2c/ccs/ccs-quirk.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/pci/dt3155/dt3155.h b/drivers/media/pci/dt3155/dt3155.h
-> index c9ce79cb5566..ce1835d9691e 100644
-> --- a/drivers/media/pci/dt3155/dt3155.h
-> +++ b/drivers/media/pci/dt3155/dt3155.h
-> @@ -162,7 +162,6 @@
->   * @height:		frame height
->   * @input:		current input
->   * @sequence:		frame counter
-> - * @stats:		statistics structure
->   * @regs:		local copy of mmio base register
->   * @csr2:		local copy of csr2 register
->   * @config:		local copy of config register
+> diff --git a/drivers/media/i2c/ccs/ccs-quirk.h b/drivers/media/i2c/ccs/ccs-quirk.h
+> index 0b1a64958d71..392c97109617 100644
+> --- a/drivers/media/i2c/ccs/ccs-quirk.h
+> +++ b/drivers/media/i2c/ccs/ccs-quirk.h
+> @@ -28,11 +28,11 @@ struct ccs_sensor;
+>   * @reg_access: Register access quirk. The quirk may divert the access
+>   *		to another register, or no register at all.
+>   *
+> - *		@write: Is this read (false) or write (true) access?
+> - *		@reg: Pointer to the register to access
+> - *		@value: Register value, set by the caller on write, or
+> + *		-write: Is this read (false) or write (true) access?
+> + *		-reg:   Pointer to the register to access
+> + *		-val:   Register value, set by the caller on write, or
+>   *			by the quirk on read
+> - *		@return: 0 on success, -ENOIOCTLCMD if no register
+> + *		-return: 0 on success, -ENOIOCTLCMD if no register
+>   *			 access may be done by the caller (default read
+>   *			 value is zero), else negative error code on error
+>   * @flags: Quirk flags
 > 
 
 -- 
