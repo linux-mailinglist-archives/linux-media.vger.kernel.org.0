@@ -1,151 +1,96 @@
-Return-Path: <linux-media+bounces-4281-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8E183F0AC
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 23:30:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C93AC83F0C6
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 23:35:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8AD721F2585D
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 22:30:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6C61AB24DB4
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jan 2024 22:35:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 838841EA77;
-	Sat, 27 Jan 2024 22:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3219E2033C;
+	Sat, 27 Jan 2024 22:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f/q8Np7f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i8QUYXkU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28871E86B;
-	Sat, 27 Jan 2024 22:29:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B9B1F94D;
+	Sat, 27 Jan 2024 22:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706394592; cv=none; b=NaboI4jESvHhSIRGX96R34KE7Ako2jYQdc8NK3jZQbQlCgnKiWjdolfydG9Sjjjb1wBFLFrCI1PdZnNOh9HUhVOb6DgJpuvV+FUD/bbvMpzNj6sgVej1GR8W3uZMiPll4uO9MVzJ2PJ1H1UlyTI5r0fA1J+G205j8HnSX7TUr9A=
+	t=1706394870; cv=none; b=qqer17MMD2IM9BN24vGOPT5ImnLj2qTwv4ufEQcBZbbQZVNdP1JaoHmQPk+4yLUeGQK87MS3p3OBCByZw1R8cUvouGXKS21Iw8hK9f/4Kk+Q3e+lmlgxhZoMdob/qAiYE/C8ZhwVOEttPgym1g2db61R7Kmv/6sTCwQc80HKAL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706394592; c=relaxed/simple;
-	bh=iDQONVVSXY8ByWGgcnbg8EXM8f5kTgTJCLvawcFZRb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uECBEcoVeiPIY1bJAg30L+8+PlMO+orcFwcplqDGXn9rQIN+CuBV9Fw6slfKoHWZXR0vW2JCz1BvTMHQ1rc/QL2tuxewOAoyAHW2OOOWotupHbymuoim1xgW4B6k/wjSdLaZrD3bSbtf0JY2b/WlQlacq7CSBbF3CkM2DbK/4fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f/q8Np7f; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E2EC433F1;
-	Sat, 27 Jan 2024 22:29:50 +0000 (UTC)
+	s=arc-20240116; t=1706394870; c=relaxed/simple;
+	bh=rOHsI3/hTHy0/lhB+ocr3FkC9si7oqS0XAQhDG8dA10=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=svgUcAN4MRWpS9wNvcaX39m3NH2AosnX7mvfnyz5TZI/d3WOcYFfaL13D8ABQMZW7tM9Fp/kcegLlIKKEvHR61pwZECoKpih/5q+fNl8sEGgp9rYILoAHbJg49EcxLrKSSZKSwQ5oXOO0oZ80VFL0z8q8lkckVA5MduYdD7ETC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i8QUYXkU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B4AC43390;
+	Sat, 27 Jan 2024 22:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706394591;
-	bh=iDQONVVSXY8ByWGgcnbg8EXM8f5kTgTJCLvawcFZRb8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f/q8Np7ft1P3qO701VRObNR8yiMxVnlqiRdWhxvLOe3vmLkdqxCoefwtKW4bm4S07
-	 6Xz4wdajP7Dpb1A9ZFY3/iaWOi5rBrIxjuZSLOdy6kJTG8/EyE/p1Ue65NemRIvJoS
-	 Y7VPyy2FMFQsiv1fee3uJxdVGSGvNV2BcYn5eJYEvyMNHm80TOy5h9j4deHnLWku6E
-	 a97nhwDgXCq2uk6/fqk6IyPElK0LGJ3uKLiwOsIK+kgBjNut7YVSyWjz3H7f9GS3Nm
-	 z7YEaiP+q10CiRwtUozEoisu04hmc7vCjvVXiK4Nxf37seUbtQyz00kwTwpzqovjYd
-	 2RhbiDz4Gp/aw==
-Date: Sat, 27 Jan 2024 16:29:48 -0600
+	s=k20201202; t=1706394870;
+	bh=rOHsI3/hTHy0/lhB+ocr3FkC9si7oqS0XAQhDG8dA10=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=i8QUYXkUMnGRJIS59k5CpPaBdHgQKe0oLbLkO+rtrv+hwDZGxPN9dyDz+3T9eyjxA
+	 +D/mKk7670vXtYXcgp3uhqEdWi3o8Jq3Qv9XxRGjRSfmlcpUEhFqWl/Iqwjmr8tGaE
+	 LPtH05VkJncIwXUsCilQwTgOF5vlS+CtYa+zU0HNcKhYkRrQav71w9K4+XoA8LaOCO
+	 vnLuj4KgjIDxF4mGk0EPhkH1IxHLX6OWaykUC1/Bb2ZcjGCEtgHLYOckpMqdoTuUKt
+	 3imFBzjlBGQfgG+ptReQ/d7V16fkLm4Dc9V7IK3o6dRtChxlA8sUKkBLOSPdpL1aOv
+	 K5BE6sZkXVQFA==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Andy Gross <agross@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, cros-qcom-dts-watchers@chromium.org, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
-	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] arm64: dts: qcom: sc7280: Move video-firmware to
- chrome-common
-Message-ID: <en2tmgles5xhtffxul7oiqxsut5xkn5w7w7u4h34ygkqrqnksy@sjfkp4tbi55e>
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	cros-qcom-dts-watchers@chromium.org,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Luca Weiss <luca.weiss@fairphone.com>
+Cc: ~postmarketos/upstreaming@lists.sr.ht,
+	phone-devel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH v3 0/3] Enable venus on Fairphone 5 / non-ChromeOS sc7280 venus support
+Date: Sat, 27 Jan 2024 16:34:22 -0600
+Message-ID: <170639483108.20773.17416894843010809891.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
 References: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
- <20231201-sc7280-venus-pas-v3-2-bc132dc5fc30@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231201-sc7280-venus-pas-v3-2-bc132dc5fc30@fairphone.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 01, 2023 at 10:33:19AM +0100, Luca Weiss wrote:
-> If the video-firmware node is present, the venus driver assumes we're on
-> a system that doesn't use TZ for starting venus, like on ChromeOS
-> devices.
-> 
-> Move the video-firmware node to chrome-common.dtsi so we can use venus
-> on a non-ChromeOS devices. We also need to move the secure SID 0x2184
-> for iommu since (on some boards) we cannot touch that.
-> 
-> At the same time also disable the venus node by default in the dtsi,
-> like it's done on other SoCs.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> ---
->  arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 11 +++++++++++
->  arch/arm64/boot/dts/qcom/sc7280.dtsi               |  9 +++------
->  2 files changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
-> index 5d462ae14ba1..459ff877df54 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
-> @@ -104,6 +104,17 @@ &scm {
->  	dma-coherent;
->  };
->  
-> +&venus {
-> +	iommus = <&apps_smmu 0x2180 0x20>,
-> +		 <&apps_smmu 0x2184 0x20>;
-> +
-> +	status = "okay";
-> +
-> +	video-firmware {
-> +		iommus = <&apps_smmu 0x21a2 0x0>;
-> +	};
-> +};
-> +
->  &watchdog {
->  	status = "okay";
->  };
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index 326897af117a..0ff9a2484096 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -3836,10 +3836,11 @@ venus: video-codec@aa00000 {
->  					<&mmss_noc MASTER_VIDEO_P0 0 &mc_virt SLAVE_EBI1 0>;
->  			interconnect-names = "cpu-cfg", "video-mem";
->  
-> -			iommus = <&apps_smmu 0x2180 0x20>,
-> -				 <&apps_smmu 0x2184 0x20>;
-> +			iommus = <&apps_smmu 0x2180 0x20>;
 
-qcom,sc7280-venus expects 2 items here. Please follow up with a patch to
-the binding, if you haven't send one already.
-
-Thanks,
-Bjorn
-
->  			memory-region = <&video_mem>;
->  
-> +			status = "disabled";
-> +
->  			video-decoder {
->  				compatible = "venus-decoder";
->  			};
-> @@ -3848,10 +3849,6 @@ video-encoder {
->  				compatible = "venus-encoder";
->  			};
->  
-> -			video-firmware {
-> -				iommus = <&apps_smmu 0x21a2 0x0>;
-> -			};
-> -
->  			venus_opp_table: opp-table {
->  				compatible = "operating-points-v2";
->  
+On Fri, 01 Dec 2023 10:33:17 +0100, Luca Weiss wrote:
+> Devices with Qualcomm firmware (compared to ChromeOS firmware) need some
+> changes in the venus driver and dts layout so that venus can initialize.
 > 
-> -- 
-> 2.43.0
+> Do these changes, similar to sc7180.
 > 
+> 
+
+Applied, thanks!
+
+[2/3] arm64: dts: qcom: sc7280: Move video-firmware to chrome-common
+      commit: 82066cdb17608abc95192632fd5c702be8e57ab5
+[3/3] arm64: dts: qcom: qcm6490-fairphone-fp5: Enable venus node
+      commit: 2aa72de2fc9230c54048e3555d04e945ec4f8891
+
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
