@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-4301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4300-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D820F83FB01
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 00:34:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CCE83FB00
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 00:34:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A2421F2418E
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 23:34:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76BB81F2423A
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 23:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C1834C600;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0814E4596E;
 	Sun, 28 Jan 2024 23:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="UwanXjlD"
+	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="E4to4+i8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DC844375
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF24A335BC
 	for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 23:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706484833; cv=none; b=brhLps6oVIshFQEWGtM+YcBf4wIffTKF5vLOFytCkZ8SBF2k55CTQbZUG5hz9QV8ognH00Tl+j3Z9VZjeTH/tvhugtMDZqSV6UADbPI7zIyAvmQDJZa/E5xsZSxbKhpINb4DjyRourD5mIM0fkrQeNhKD4lnGuW9e+kgIfQuLog=
+	t=1706484833; cv=none; b=GErd/PyRNUTUCkhdEslEdbmiDnYqX2g+p38gK/rULiwf7y4bV7c+2c+Vv9m/5uy92pI12P0NrLx2fmVF72liP/UkqpfAlP59U/9eBWuw2KVQN2udUIvXHXOztCxBwTFSzq1cd3EcKRFljQTwfrCV1UhpZcfbvI4nd1KWlzekdQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706484833; c=relaxed/simple;
-	bh=XpDoTMx9m7S5jcOVS8IvGTOUCH4QWYbpsdhIa+uoees=;
+	bh=RTSjYeCNSqWYtAfxfQJyFMQRH2o76daM99KR5iSO0H0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dl2Q9/vBdow/bfRVkIJ7Ni/ZoZ8qICNTnq/b9OqbjIURPDnvuLMc0/BZazHRwsU2ceQbb5M93YkRSTTNv4hvURZZfzyqKggPUq7Ce/A+Al11l9E4pOEP0pB0l5uyyqYPKKXRI8e1ZvZhBqBrPDHhorwoJcT6SYd19KiI3Fb2dHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=UwanXjlD; arc=none smtp.client-ip=212.227.15.18
+	 MIME-Version:Content-Type; b=XyAyMMfvPep8w9hVl/BNpKp/veYKZSByFpB5FJ4SLXybZUbm9c9hl2ALne/OCo/VcwIcG4i/9BgIWRAXy5kxUBEkVowdrdII79En88e+DauALCD1ZHPYymLNg2C7dBFXP0U6AobaPq7QMUrNCbhNxA9jZgxVDfYOptf+IXz3Nzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=E4to4+i8; arc=none smtp.client-ip=212.227.15.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nurfuerspam.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
 	s=s31663417; t=1706484820; x=1707089620; i=herdler@nurfuerspam.de;
-	bh=XpDoTMx9m7S5jcOVS8IvGTOUCH4QWYbpsdhIa+uoees=;
+	bh=RTSjYeCNSqWYtAfxfQJyFMQRH2o76daM99KR5iSO0H0=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
 	 References;
-	b=UwanXjlD7x7RLSQYE2Vhqn/opOGjfVfpRDGNV83sYdcXcfwunLQUDKhe7BcZhdTh
-	 fDnyf9tkHMqdSPnPpN5Ss+Aorq4YFthu+lZA0W4GeQZZKtiwqT1dNiCUw0cNxNjkt
-	 FQFtgOINEfgk3BgtK4vUWk66YyCZvRyMZRP6AdWx1WB/mOVhNXmvs7ICR/wqKI2Jy
-	 0aa5XVjSBs+t2uEfm3FEwTRFImTFKUfmGzRvtzwSFxojJ5H7W2wxD/GVl1WUN6RJu
-	 uUsNRFXuA+N4uoP00f3m7KcP1P+QuYA5gPWNh1rDfqYAcacPhnxMAVWQGsPp8cV7H
-	 A59HSepCta9A8pgWIg==
+	b=E4to4+i8HQUdILHGu+TyfU0sj3AbPZstROfkqVPPuPXtmJn2JEkRGd/MYxHluKuQ
+	 EEw8BlJYGyUQUNUvXICb1KYPVXetIln+aRHQwIaugXv1mqMExvTb+R5Ty9eCtZa3Z
+	 Z305B6ik56ed1c+MzG64waSE6rZw3HspvCseuBL2NznudbvJD6v/OmXTALBGCaVgK
+	 0jc/v8Gt/vpTRqgQewlw/PBi03fqiak7NZHUMxYvOiXyKs08JrLW/dmvPRW/83Hqk
+	 ZpggHdTv/7nHYXFgwzQBmqFYLtOmMUBgRRvVOh1+cG7sp5U1Iydz25B7BulzSUJ0Z
+	 ApP9Pu+GAuNkXz8Qqg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from astro.haus ([185.101.173.202]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8ob6-1qxYv40uXO-015mZJ; Mon, 29
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUowV-1rdCw12I4n-00QhJi; Mon, 29
  Jan 2024 00:33:40 +0100
 From: Stefan Herdler <herdler@nurfuerspam.de>
 To: mchehab@kernel.org,
@@ -53,9 +53,9 @@ Cc: linux-media@vger.kernel.org,
 	smoch@web.de,
 	tmn505@gmail.com,
 	vinschen@redhat.com
-Subject: [PATCH v4 4/6] media: docs: uAPI: dvb/audio: completing the documentation (function calls)
-Date: Mon, 29 Jan 2024 00:32:47 +0100
-Message-Id: <20240128233249.32794-5-herdler@nurfuerspam.de>
+Subject: [PATCH v4 5/6] media: docs: uAPI: dvb/video: completing the documentation (data types)
+Date: Mon, 29 Jan 2024 00:32:48 +0100
+Message-Id: <20240128233249.32794-6-herdler@nurfuerspam.de>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20240128233249.32794-1-herdler@nurfuerspam.de>
 References: <20240128233249.32794-1-herdler@nurfuerspam.de>
@@ -67,34 +67,34 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Utk7P/18bqBmKlTJGy164RysUOxrIXWV0Rqcf7b43O6Ar1InaR4
- ETk/RLih4xK0C8Y6PWa6eneo1Xu+7HcZ1A5mJ5q89DSMPhYRdmaqyXwdF8nL8bxtzkcxyd9
- EPSh7gTcWOhgv3U6EuqhupQrdE+JPEJLBMrcNIPtQvi9vsAdkDSJilH7qKa4jp677jamTk8
- 7opIJQAXpBRNokgUSU14w==
+X-Provags-ID: V03:K1:NqfoNDL9OqY4xoqUnq4gk5ePC7w/1EMdWm5IsIqLwO0glRUJCdD
+ qqu6CtRRYO9dKX2PpWHXggF00ID8mqIEEC5c3wgFoNCmSKGPPjNrrcWtY0t0pAI7S6ZQbsQ
+ U3ecPBbV1OK1YhC9h1PDIlwE1XExbIjO8Y3C+9QbLxwq9dcsSjn1Rak3p5josKSzOB2x3nh
+ vbt8fc4xt6UGP9100K9Rg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:UQkO0Z0HASI=;UT8kXCnsahozs++hFd9vwvDuph1
- tqdmnfFx5Md02EEDO9Z8ZC62nzlG1CL9cwASKHvxoy7i+maqKdEbV6GD4a++t2xAvLwSUar74
- V8WG7p+nuxFOUcqfzE1YbjyIDdf3XmE6LgxRnO2DXOqYGaOEkjwNtw0vgMxFuw53bPlc7lHsa
- cI7h35YNGRz67eBPPAYOodpE7qoeIeW9ZMbMmzH7g2qhjl0LQmVbsw/Wvh9u0LNWKXO9u/l7U
- ZsWNasCrSyAf0MD8HFcSy3BwhPuhvn5N5N2j8KP9K82647cRUSJdUq71KhaFzm9Ylwgu5Vu0A
- nJloY54kOMELG8QhR1bztptQTS64/Y9Eihle9j8JRxx8W92RluK82ZoB3X/8pQW/Eu/Y+Oko4
- ScOiOsI10kJWiy1M+UsuYQQNYwzIS91S+jdOVtYKetRzbxBFsAQMoUOsfYrP2dBBCpglbX7OC
- VnHsRfBrhgpLKs1yOHlQeBqx8jbzYTp3rhgocIrXeCMEFTAj+GbMiGYu7WmRw5Dfas+B9T4ou
- l+LavFoWjTzk69nzejgRcPvTKuHyef9x+ZTv+hqqCug+Zvj/aa/Bmg3Tvzx/dYodf0TgXaBj/
- dEZcnfKzcDr8eS9pd8nZ28/qZ2Yz2PafEtsckSCitVKA93G6iV5b3evT5HcukHq1XVhTf6keN
- PPVdUm4rxgTD5vbtg/Zs7x+hQYYmBkdgeVaEcixH5qLYYaqo24nYa3cFhO+F3ynf9D9+uNNbQ
- rCdCTi58hd2L+ZL+8mYmSGNkTOiA9eEgEEqeXUqFTkRDofgHIznkqMpg1yP1X38BLrm14FOLm
- N35fnpLFJE5vVlflRNoiSECQuIjuLMKklrzYsFIIKjqhYJgkk+IqN3vDBNYhjeV6yGA0wnFo8
- 4Sg6irGKjZcBX/QA7IaPYGV5q77ujTOOQy3OeeE/18VaIq1R/Sy/VaY+XV0GbOhE8RRPIWuhq
- yfu2OPQrtiAyzTKZcZAF6xmLNLg=
+UI-OutboundReport: notjunk:1;M01:P0:gxt48r0+T1E=;fCP9/uN8wN2IB25mC/SqKXkGMX8
+ 7zzFBojpPRLLkmcVUoEB+ssPCUHk1Dq1GeeHKImhlqTG9nxKSPAUUIh04BIqKiqgYmC/mgO1J
+ RUALYkG/Pg6CsprkScYq2F6iWH+99Wu8RrbyhuSpVrK4eILLwxClCCrCBsEWp5fJvGr5o0+Cp
+ EqpVMyirbjPvfC5trpGLVimCqcULSee22HbttoYOeQuSw4QM9tzny0G2AGBZOmIEYC+TQvpRA
+ Xz2ulPdxjb2/CNz02IhOjAmCjTA7+qr/p9bq2uYr1GSb+srgPtBy4eRjGR/eCt2E0HSrK/fBL
+ lpnJAZGBu+E86sLflLQ/HuoUG+2+7b5o11GkKBZ8o6WssvP6UeFE+525EpJpIfmeVzwsm8jx+
+ 3o0Sps+JLDQEZqYs3ZwBOAEzpuxltAlnVIlsYoUIUZc5zFMCeQoApY2+8Z7e1eys1C6dTlR53
+ sFaPI2Aen5kWjtOvJYLpl4efVYXlmKnpjy2IbH+jv8NLY8Ea48ugJYyRBgeRFLFssWlDYcOzq
+ gwnRFfJpP0TLnYkRhLugl/6o354jZ271Rc/m3xbWIWk3FhK7mKFGMCEF7vtmmMHkDjhxrQ+zP
+ OOiAkE5WZshi6qYmfDPoGqNd2wDwdsFOIUQCVQRZTa2SBmb4tRCmcXAvG3+Uycl8E9HC+HdFo
+ QQl6auxkvreyKwUrEaXTb/vDVY/8zlrYigIvqvizY84tqQMApL/4WeejyLuCY7WtJAyvsMHxL
+ /kuIm55iSEGYzjMQKQvPrBsh4Y2bDFWJN5tkPzR4FOrUmoHotgi8B+x9bb+OVPUinPoXYl7v5
+ vI52ppIleLPtHCcS83Vr3aanwd4fIoTig7gcvXHI7LsU5sRZqVRXuE3YBOk444CRgUSK9dEWJ
+ nnhFyRof2Iyb1H1Ey692rie8dQg8rJb/vZn/z8M8N6bXNZ+eD817X8Z/ifrmXicv6eyPtqzcR
+ iwdyM1vXxNaDW3d22pgxRLB5b64=
 
 The existing documentation of the legacy DVB Decoder API was incomplete.
 
 Revising the documentation, adding missing parts and arranging the
 documentation files new.
 
-This patch contains the documentation of the function calls defined in
-audio.h.
+This patch contains the documentation of the data types defined in
+video.h.
 
 Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
 =2D--
@@ -105,237 +105,126 @@ Changes since v3:
 
 [PATCH v3] ------------------------------------------------------------
 
-Possibly unused:
-AUDIO_SET_ID
-AUDIO_SET_STREAMTYPE
-AUDIO_BILINGUAL_CHANNEL_SELECT
-
-
-
-> +
-> +AUDIO_SET_ID
-> +------------
-> +
-> +AUDIO_SET_STREAMTYPE
-> +--------------------
-This ioctls are dealing with stream types and IDs defined in
-ITU-T H.222.0. The intention is pretty clear when reading the introduction
-of Annex Q there.
-However this ioctls doesn't seem to be used anywhere.
-
-
+Possibly left overs from DVD-API ? :
+ video_attributes_t
+ VIDEO_CAP_SPU
+ VIDEO_CAP_NAVI
+ VIDEO_CAP_CSS
+The only thing which is not in the documentation yet!
+Can probably removed from header file too.
 
 >> +
->> +AUDIO_BILINGUAL_CHANNEL_SELECT
->> +------------------------------
+>> +video_stream_source_t
+>> +---------------------
 >> +
+>> +The video stream source is set through the `VIDEO_SELECT_SOURCE`_ call
+>> +and can take the following values, depending on whether we are replayi=
+ng
+>> +from an internal (demuxer) or external (user write) source.
+>> +
+>> +
+>> +.. code-block:: c
+>> +
+>> +    typedef enum {
+>> +	VIDEO_SOURCE_DEMUX, /* Select the demux as the main source */
+>> +	VIDEO_SOURCE_MEMORY /* If this source is selected, the stream
+>> +		       comes from the user through the write
+>> +		       system call */
+>> +    } video_stream_source_t;
 >
-[...]
->
-> IMO, this is also another problematic API. Its name seems to be related
-> to language selection. However, multi-language usually uses different
-> PIDs. Maybe in the past they used to place two languages at the same
-> PID, one at the left channel and the other at the right one?
+> FYI, this carries the same problem as the audio one: this API is problem=
+atic
+> for modern hardware that has multiple tuners and demuxers. Setting up
+> pipelines for audio and video decoding on modern hardware require a lot
+> more than just demux/memory.
 
-It seems to be intended this way.
-This kind multi-language was popular in the beginning of DVB, but it has
-been mostly replaced by multiple PIDs.
-
-The AV7110 uses AUDIO_CHANNEL_SELECT for the same purpose.
-This 2 ioctls look redundant to me and AUDIO_BILINGUAL_CHANNEL_SELECT
-doesn't seem to be used at all.
+This kind of limitations are pretty well known for a while now, even to
+normal users.
+A good solution would be widely appreciated, I think.
+Well, but back to topic ...
 
 
+In case of the decoder we are are maybe lucky. One decoder with multiple
+demuxers should theoretically already be possible without any changes.
+The data fed to the decoder can be controlled by the PID filter output
+selection DMX_OUT_DECODER.
 
- .../media/dvb/legacy_dvb_audio.rst            | 1195 +++++++++++++++++
- 1 file changed, 1195 insertions(+)
+There are existing multi tuner systems with one decoder controlled by this
+API, but I don't know whether they do it this way or not.
+A quick search wasn't very successful and at least the AV7110 should have
+a hardware PID filter. More detailed research has to be done there to
+answer the question.
+However this topic is not directly part of the decoder API and I'm running
+out of time, so I had to stop at this point.
 
-diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/=
-Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-index 4c994f8c97e5..45d330c33caf 100644
-=2D-- a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-+++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-@@ -445,3 +445,1198 @@ Description
 
- A call to `AUDIO_GET_CAPABILITIES`_ returns an unsigned integer with the
- following bits set according to the hardwares capabilities.
+
+ .../media/dvb/legacy_dvb_video.rst            | 798 ++++++++++++++++++
+ 1 file changed, 798 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_video=
+.rst
+
+diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_video.rst b/=
+Documentation/userspace-api/media/dvb/legacy_dvb_video.rst
+new file mode 100644
+index 000000000000..165fd6005a07
+=2D-- /dev/null
++++ b/Documentation/userspace-api/media/dvb/legacy_dvb_video.rst
+@@ -0,0 +1,798 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later OR GPL-2.0
 +
++.. c:namespace:: dtv.legacy.video
 +
-+-----
++.. _dvb_video:
 +
-+
-+Audio Function Calls
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+
-+AUDIO_STOP
-+----------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_STOP
-+
-+.. code-block:: c
-+
-+	 int ioctl(int fd, int request =3D AUDIO_STOP)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  File descriptor returned by a previous call to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  :cspan:`1` Equals ``AUDIO_STOP`` for this command.
-+
-+Description
-+~~~~~~~~~~~
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++DVB Video Device
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
 +.. attention:: Do **not** use in new drivers!
 +             See: :ref:`legacy_dvb_decoder_notes`
 +
-+This ioctl call asks the Audio Device to stop playing the current
-+stream.
++The DVB video device controls the MPEG2 video decoder of the DVB
++hardware. It can be accessed through ``/dev/dvb/adapter0/video0``. Data
++types and ioctl definitions can be accessed by including
++``linux/dvb/video.h`` in your application.
 +
-+Return Value
-+~~~~~~~~~~~~
++Note that the DVB video device only controls decoding of the MPEG video
++stream, not its presentation on the TV or computer screen. On PCs this
++is typically handled by an associated video4linux device, e.g.
++``/dev/video``, which allows scaling and defining output windows.
 +
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
++Most DVB cards don=E2=80=99t have their own MPEG decoder, which results i=
+n the
++omission of the audio and video device as well as the video4linux
++device.
 +
-+
-+-----
-+
-+
-+AUDIO_PLAY
-+----------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_PLAY
-+
-+.. code-block:: c
-+
-+	 int  ioctl(int fd, int request =3D AUDIO_PLAY)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  File descriptor returned by a previous call to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  :cspan:`1` Equals ``AUDIO_PLAY`` for this command.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl call asks the Audio Device to start playing an audio stream
-+from the selected source.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
++These ioctls were also used by V4L2 to control MPEG decoders implemented
++in V4L2. The use of these ioctls for that purpose has been made obsolete
++and proper V4L2 ioctls or controls have been created to replace that
++functionality. Use :ref:`V4L2 ioctls<video>` for new drivers!
 +
 +
-+-----
++Video Data Types
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
 +
-+AUDIO_PAUSE
-+-----------
 +
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_PAUSE
-+
-+.. code-block:: c
-+
-+	 int  ioctl(int fd, int request =3D AUDIO_PAUSE)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_PAUSE`` for this command.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl call suspends the audio stream being played. Decoding and
-+playing are paused. It is then possible to restart again decoding and
-+playing process of the audio stream using `AUDIO_CONTINUE`_ command.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+
-+-----
-+
-+
-+AUDIO_CONTINUE
++video_format_t
 +--------------
 +
 +Synopsis
 +~~~~~~~~
 +
-+.. c:macro:: AUDIO_CONTINUE
-+
 +.. code-block:: c
 +
-+	 int  ioctl(int fd, int request =3D AUDIO_CONTINUE)
++    typedef enum {
++	VIDEO_FORMAT_4_3,
++	VIDEO_FORMAT_16_9,
++	VIDEO_FORMAT_221_1
++    } video_format_t;
 +
-+Arguments
++Constants
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -344,260 +233,51 @@ index 4c994f8c97e5..45d330c33caf 100644
 +
 +    -  ..
 +
-+       -  ``int fd``
++       -  ``VIDEO_FORMAT_4_3``
 +
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
++       -  Select 4:3 format.
 +
 +    -  ..
 +
-+       -  ``int request``
++       -  ``VIDEO_FORMAT_16_9``
 +
-+       -  Equals ``AUDIO_CONTINUE`` for this command.
++       -  Select 16:9 format.
++
++    -  ..
++
++       -  ``VIDEO_FORMAT_221_1``
++
++       -  Select 2.21:1 format.
 +
 +Description
 +~~~~~~~~~~~
 +
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl restarts the decoding and playing process previously paused
-+with `AUDIO_PAUSE`_ command.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
++The ``video_format_t`` data type
++is used in the `VIDEO_SET_FORMAT`_ function to tell the driver which
++aspect ratio the output hardware (e.g. TV) has. It is also used in the
++data structures `video_status`_ returned by `VIDEO_GET_STATUS`_
++and `video_event`_ returned by `VIDEO_GET_EVENT`_ which report
++about the display format of the current video stream.
 +
 +
 +-----
 +
 +
-+AUDIO_SELECT_SOURCE
-+-------------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_SELECT_SOURCE
-+
-+.. code-block:: c
-+
-+	 int ioctl(int fd, int request =3D AUDIO_SELECT_SOURCE,
-+	 audio_stream_source_t source)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_SELECT_SOURCE`` for this command.
-+
-+    -  ..
-+
-+       -  `audio_stream_source_t`_ ``source``
-+
-+       -  Indicates the source that shall be used for the Audio stream.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl call informs the audio device which source shall be used for
-+the input data. The possible sources are demux or memory. If
-+``AUDIO_SOURCE_MEMORY`` is selected, the data is fed to the Audio Device
-+through the write command. If ``AUDIO_SOURCE_DEMUX`` is selected, the dat=
-a
-+is directly transferred from the onboard demux-device to the decoder.
-+Note: This only supports DVB-devices with one demux and one decoder so fa=
-r.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+
-+-----
-+
-+
-+AUDIO_SET_MUTE
-+--------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_SET_MUTE
-+
-+.. code-block:: c
-+
-+	 int  ioctl(int fd, int request =3D AUDIO_SET_MUTE, int state)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  :cspan:`1` Equals ``AUDIO_SET_MUTE`` for this command.
-+
-+    -  ..
-+
-+       -  :rspan:`2` ``int state``
-+
-+       -  :cspan:`1` Indicates if audio device shall mute or not.
-+
-+    -  ..
-+
-+       -  TRUE  ( !=3D 0 )
-+
-+       -  mute audio
-+
-+    -  ..
-+
-+       -  FALSE ( =3D=3D 0 )
-+
-+       -  unmute audio
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl is for DVB devices only. To control a V4L2 decoder use the
-+V4L2 :ref:`VIDIOC_DECODER_CMD` with the
-+``V4L2_DEC_CMD_START_MUTE_AUDIO`` flag instead.
-+
-+This ioctl call asks the audio device to mute the stream that is
-+currently being played.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+
-+-----
-+
-+
-+AUDIO_SET_AV_SYNC
-+-----------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_SET_AV_SYNC
-+
-+.. code-block:: c
-+
-+	 int  ioctl(int fd, int request =3D AUDIO_SET_AV_SYNC, int state)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  :cspan:`1` Equals ``AUDIO_AV_SYNC`` for this command.
-+
-+    -  ..
-+
-+       -  :rspan:`2` ``int state``
-+
-+       -  :cspan:`1` Tells the DVB subsystem if A/V synchronization
-+          shall be ON or OFF.
-+
-+    -  ..
-+
-+       -  TRUE  ( !=3D 0 )
-+
-+       -  AV-sync ON.
-+
-+    -  ..
-+
-+       -  FALSE ( =3D=3D 0 )
-+
-+       -  AV-sync OFF.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl call asks the Audio Device to turn ON or OFF A/V
-+synchronization.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+
-+-----
-+
-+
-+AUDIO_SET_BYPASS_MODE
++video_displayformat_t
 +---------------------
 +
 +Synopsis
 +~~~~~~~~
 +
-+.. c:macro:: AUDIO_SET_BYPASS_MODE
-+
 +.. code-block:: c
 +
-+	 int ioctl(int fd, int request =3D AUDIO_SET_BYPASS_MODE, int mode)
++    typedef enum {
++	VIDEO_PAN_SCAN,
++	VIDEO_LETTER_BOX,
++	VIDEO_CENTER_CUT_OUT
++    } video_displayformat_t;
 +
-+Arguments
++Constants
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -606,305 +286,49 @@ r.
 +
 +    -  ..
 +
-+       -  ``int fd``
++       -  ``VIDEO_PAN_SCAN``
 +
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  :cspan:`1` Equals ``AUDIO_SET_BYPASS_MODE`` for this command.
++       -  Use pan and scan format.
 +
 +    -  ..
 +
-+       -  :rspan:`2` ``int mode``
++       -  ``VIDEO_LETTER_BOX``
 +
-+       -  :cspan:`1` Enables or disables the decoding of the current
-+          Audio stream in the DVB subsystem.
-+    -  ..
-+
-+       -  TRUE  ( !=3D 0 )
-+
-+       -  Disable bypass
++       -  Use letterbox format.
 +
 +    -  ..
 +
-+       -  FALSE ( =3D=3D 0 )
++       -  ``VIDEO_CENTER_CUT_OUT``
 +
-+       -  Enable bypass
++       -  Use center cut out format.
 +
 +Description
 +~~~~~~~~~~~
 +
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl call asks the Audio Device to bypass the Audio decoder and
-+forward the stream without decoding. This mode shall be used if streams
-+that can=E2=80=99t be handled by the DVB system shall be decoded. Dolby
-+DigitalTM streams are automatically forwarded by the DVB subsystem if
-+the hardware can handle it.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
++In case the display format of the video stream and of the display
++hardware differ the application has to specify how to handle the
++cropping of the picture. This can be done using the
++`VIDEO_SET_DISPLAY_FORMAT`_ call which accepts this enum as argument.
 +
 +
 +-----
 +
 +
-+AUDIO_CHANNEL_SELECT
-+--------------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_CHANNEL_SELECT
-+
-+.. code-block:: c
-+
-+	 int ioctl(int fd, int request =3D AUDIO_CHANNEL_SELECT,
-+	 audio_channel_select_t)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_CHANNEL_SELECT`` for this command.
-+
-+    -  ..
-+
-+       -  `audio_channel_select_t`_ ``ch``
-+
-+       -  Select the output format of the audio (mono left/right, stereo)=
-.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl is for DVB devices only. To control a V4L2 decoder use the
-+V4L2 ``V4L2_CID_MPEG_AUDIO_DEC_PLAYBACK`` control instead.
-+
-+This ioctl call asks the Audio Device to select the requested channel if
-+possible.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+
-+-----
-+
-+
-+AUDIO_GET_STATUS
-+----------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_GET_STATUS
-+
-+.. code-block:: c
-+
-+	 int ioctl(int fd, int request =3D AUDIO_GET_STATUS,
-+	 struct audio_status *status)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals AUDIO_GET_STATUS for this command.
-+
-+    -  ..
-+
-+       -  ``struct`` `audio_status`_ ``*status``
-+
-+       -  Returns the current state of Audio Device.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl call asks the Audio Device to return the current state of the
-+Audio Device.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+
-+-----
-+
-+
-+AUDIO_GET_CAPABILITIES
-+----------------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_GET_CAPABILITIES
-+
-+.. code-block:: c
-+
-+	 int ioctl(int fd, int request =3D AUDIO_GET_CAPABILITIES,
-+	 unsigned int *cap)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_GET_CAPABILITIES`` for this command.
-+
-+    -  ..
-+
-+       -  ``unsigned int *cap``
-+
-+       -  Returns a bit array of supported sound formats.
-+          Bits are defined in `audio encodings`_.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl call asks the Audio Device to tell us about the decoding
-+capabilities of the audio hardware.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+
-+-----
-+
-+
-+AUDIO_CLEAR_BUFFER
-+------------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_CLEAR_BUFFER
-+
-+.. code-block:: c
-+
-+	 int  ioctl(int fd, int request =3D AUDIO_CLEAR_BUFFER)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_CLEAR_BUFFER`` for this command.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl call asks the Audio Device to clear all software and hardware
-+buffers of the audio decoder device.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+
-+-----
-+
-+
-+AUDIO_SET_ID
++video_size_t
 +------------
 +
 +Synopsis
 +~~~~~~~~
 +
-+.. c:macro:: AUDIO_SET_ID
-+
 +.. code-block:: c
 +
-+	 int  ioctl(int fd, int request =3D AUDIO_SET_ID, int id)
++    typedef struct {
++	int w;
++	int h;
++	video_format_t aspect_ratio;
++    } video_size_t;
 +
-+Arguments
++Variables
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -913,64 +337,46 @@ r.
 +
 +    -  ..
 +
-+       -  ``int fd``
++       -  ``int w``
 +
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_SET_ID`` for this command.
++       -  Video width in pixels.
 +
 +    -  ..
 +
-+       -  ``int id``
++       -  ``int h``
 +
-+       -  Audio sub-stream id.
++       -  Video height in pixels.
++
++    -  ..
++
++       -  `video_format_t`_ ``aspect_ratio``
++
++       -  Aspect ratio.
 +
 +Description
 +~~~~~~~~~~~
 +
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl selects which sub-stream is to be decoded if a program or
-+system stream is sent to the video device.
-+
-+If no audio stream type is set the id has to be in range [0xC0,0xDF]
-+for MPEG sound, in [0x80,0x87] for AC3 and in [0xA0,0xA7] for LPCM.
-+See ITU-T H.222.0 | ISO/IEC 13818-1 for further description.
-+
-+If the stream type is set with `AUDIO_SET_STREAMTYPE`_, specifies the
-+id just the sub-stream id of the audio stream and only the first 5 bits
-+(& 0x1F) are recognized.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
++Used in the struct `video_event`_. It stores the resolution and
++aspect ratio of the video.
 +
 +
 +-----
 +
 +
-+AUDIO_SET_MIXER
-+---------------
++video_stream_source_t
++---------------------
 +
 +Synopsis
 +~~~~~~~~
 +
-+.. c:macro:: AUDIO_SET_MIXER
-+
 +.. code-block:: c
 +
-+	 int ioctl(int fd, int request =3D AUDIO_SET_MIXER, audio_mixer_t *mix)
++    typedef enum {
++	VIDEO_SOURCE_DEMUX,
++	VIDEO_SOURCE_MEMORY
++    } video_stream_source_t;
 +
-+Arguments
++Constants
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -979,55 +385,111 @@ r.
 +
 +    -  ..
 +
-+       -  ``int fd``
++       -  ``VIDEO_SOURCE_DEMUX``
 +
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_SET_MIXER`` for this command.
++       -  :cspan:`1` Select the demux as the main source.
 +
 +    -  ..
 +
-+       -  ``audio_mixer_t *mix``
++       -  ``VIDEO_SOURCE_MEMORY``
 +
-+       -  Mixer settings.
++       -  If this source is selected, the stream
++          comes from the user through the write
++          system call.
 +
 +Description
 +~~~~~~~~~~~
 +
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl lets you adjust the mixer settings of the audio decoder.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
++The video stream source is set through the `VIDEO_SELECT_SOURCE`_ call
++and can take the following values, depending on whether we are replaying
++from an internal (demuxer) or external (user write) source.
++VIDEO_SOURCE_DEMUX selects the demultiplexer (fed either by the
++frontend or the DVR device) as the source of the video stream. If
++VIDEO_SOURCE_MEMORY is selected the stream comes from the application
++through the `write()`_ system call.
 +
 +
 +-----
 +
 +
-+AUDIO_SET_STREAMTYPE
++video_play_state_t
++------------------
++
++Synopsis
++~~~~~~~~
++
++.. code-block:: c
++
++    typedef enum {
++	VIDEO_STOPPED,
++	VIDEO_PLAYING,
++	VIDEO_FREEZED
++    } video_play_state_t;
++
++Constants
++~~~~~~~~~
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    -  ..
++
++       -  ``VIDEO_STOPPED``
++
++       -  Video is stopped.
++
++    -  ..
++
++       -  ``VIDEO_PLAYING``
++
++       -  Video is currently playing.
++
++    -  ..
++
++       -  ``VIDEO_FREEZED``
++
++       -  Video is frozen.
++
++Description
++~~~~~~~~~~~
++
++This values can be returned by the `VIDEO_GET_STATUS`_ call
++representing the state of video playback.
++
++
++-----
++
++
++struct video_command
 +--------------------
 +
 +Synopsis
 +~~~~~~~~
 +
-+.. c:macro:: AUDIO_SET_STREAMTYPE
-+
 +.. code-block:: c
 +
-+	 int  ioctl(fd, int request =3D AUDIO_SET_STREAMTYPE, int type)
++    struct video_command {
++	__u32 cmd;
++	__u32 flags;
++	union {
++	    struct {
++		__u64 pts;
++	    } stop;
 +
-+Arguments
++	    struct {
++		__s32 speed;
++		__u32 format;
++	    } play;
++
++	    struct {
++		__u32 data[16];
++	    } raw;
++	};
++    };
++
++
++Variables
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -1036,134 +498,98 @@ r.
 +
 +    -  ..
 +
-+       -  ``int fd``
++       -  ``__u32 cmd``
 +
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_SET_STREAMTYPE`` for this command.
++       -  `Decoder command`_
 +
 +    -  ..
 +
-+       -  ``int type``
++       -  ``__u32 flags``
 +
-+       -  Stream type.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl tells the driver which kind of audio stream to expect. This
-+is useful if the stream offers several audio sub-streams like LPCM and
-+AC3.
-+
-+Stream types defined in ITU-T H.222.0 | ISO/IEC 13818-1 are used.
-+
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
++       -  Flags for the `Decoder command`_.
 +
 +    -  ..
 +
-+       -  ``EINVAL``
++       -  ``struct stop``
 +
-+       -  Type is not a valid or supported stream type.
++       -  ``__u64 pts``
 +
-+
-+-----
-+
-+
-+AUDIO_BILINGUAL_CHANNEL_SELECT
-+------------------------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: AUDIO_BILINGUAL_CHANNEL_SELECT
-+
-+.. code-block:: c
-+
-+	 int ioctl(int fd, int request =3D AUDIO_BILINGUAL_CHANNEL_SELECT,
-+	 audio_channel_select_t)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
++       -  MPEG PTS
 +
 +    -  ..
 +
-+       -  ``int fd``
++       -  :rspan:`5` ``stuct play``
 +
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
++       -  :rspan:`4` ``__s32 speed``
 +
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``AUDIO_BILINGUAL_CHANNEL_SELECT`` for this command.
++       -   0 or 1000 specifies normal speed,
 +
 +    -  ..
 +
-+       -  ``audio_channel_select_t ch``
++       -   1:  specifies forward single stepping,
 +
-+       -  Select the output format of the audio (mono left/right, stereo)=
++    -  ..
++
++       -   -1: specifies backward single stepping,
++
++    -  ..
++
++       -   >1: playback at speed / 1000 of the normal speed
++
++    -  ..
++
++       -   <-1: reverse playback at ( -speed / 1000 ) of the normal speed=
 .
 +
++    -  ..
++
++       -  ``__u32 format``
++
++       -  `Play input formats`_
++
++    -  ..
++
++       -  ``__u32 data[16]``
++
++       -  Reserved
++
 +Description
 +~~~~~~~~~~~
 +
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl has been replaced by the V4L2
-+``V4L2_CID_MPEG_AUDIO_DEC_MULTILINGUAL_PLAYBACK`` control
-+for MPEG decoders controlled through V4L2.
-+
-+This ioctl call asks the Audio Device to select the requested channel
-+for bilingual streams if possible.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
++The structure must be zeroed before use by the application. This ensures
++it can be extended safely in the future.
 +
 +
 +-----
 +
 +
-+open()
-+------
++Predefined decoder commands and flags
++-------------------------------------
 +
 +Synopsis
 +~~~~~~~~
 +
 +.. code-block:: c
 +
-+    #include <fcntl.h>
++    #define VIDEO_CMD_PLAY                      (0)
++    #define VIDEO_CMD_STOP                      (1)
++    #define VIDEO_CMD_FREEZE                    (2)
++    #define VIDEO_CMD_CONTINUE                  (3)
 +
-+.. c:function:: int  open(const char *deviceName, int flags)
++    #define VIDEO_CMD_FREEZE_TO_BLACK      (1 << 0)
 +
-+Arguments
++    #define VIDEO_CMD_STOP_TO_BLACK        (1 << 0)
++    #define VIDEO_CMD_STOP_IMMEDIATELY     (1 << 1)
++
++    #define VIDEO_PLAY_FMT_NONE                 (0)
++    #define VIDEO_PLAY_FMT_GOP                  (1)
++
++    #define VIDEO_VSYNC_FIELD_UNKNOWN           (0)
++    #define VIDEO_VSYNC_FIELD_ODD               (1)
++    #define VIDEO_VSYNC_FIELD_EVEN              (2)
++    #define VIDEO_VSYNC_FIELD_PROGRESSIVE       (3)
++
++Constants
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -1172,134 +598,121 @@ r.
 +
 +    -  ..
 +
-+       -  ``const char *deviceName``
++       -  :rspan:`3` _`Decoder command`
 +
-+       -  Name of specific audio device.
++       -  ``VIDEO_CMD_PLAY``
 +
-+    -  ..
-+
-+       -  :rspan:`3` ``int flags``
-+
-+       -  :cspan:`1` A bit-wise OR of the following flags:
++       -  Start playback.
 +
 +    -  ..
 +
-+       -  ``O_RDONLY``
++       -  ``VIDEO_CMD_STOP``
 +
-+       -  read-only access
-+
-+    -  ..
-+
-+       -  ``O_RDWR``
-+
-+       -  read/write access
++       -  Stop playback.
 +
 +    -  ..
 +
-+       -  ``O_NONBLOCK``
-+       -  | Open in non-blocking mode
-+          | (blocking mode is the default)
++       -  ``VIDEO_CMD_FREEZE``
 +
-+Description
-+~~~~~~~~~~~
-+
-+This system call opens a named audio device (e.g.
-+``/dev/dvb/adapter0/audio0``) for subsequent use. When an open() call has
-+succeeded, the device will be ready for use. The significance of
-+blocking or non-blocking mode is described in the documentation for
-+functions where there is a difference. It does not affect the semantics
-+of the open() call itself. A device opened in blocking mode can later be
-+put into non-blocking mode (and vice versa) using the F_SETFL command
-+of the fcntl system call. This is a standard system call, documented in
-+the Linux manual page for fcntl. Only one user can open the Audio Device
-+in O_RDWR mode. All other attempts to open the device in this mode will
-+fail, and an error code will be returned. If the Audio Device is opened
-+in O_RDONLY mode, the only ioctl call that can be used is
-+`AUDIO_GET_STATUS`_. All other call will return with an error code.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
++       -  Freeze playback.
 +
 +    -  ..
 +
-+       -  ``ENODEV``
++       -  ``VIDEO_CMD_CONTINUE``
 +
-+       -  Device driver not loaded/available.
-+
-+    -  ..
-+
-+       -  ``EBUSY``
-+
-+       -  Device or resource busy.
++       -  Continue playback after freeze.
 +
 +    -  ..
 +
-+       -  ``EINVAL``
++       -  Flags for ``VIDEO_CMD_FREEZE``
 +
-+       -  Invalid argument.
++       -  ``VIDEO_CMD_FREEZE_TO_BLACK``
++
++       -  Show black picture on freeze.
++
++    -  ..
++
++       -  :rspan:`1` Flags for ``VIDEO_CMD_STOP``
++
++       -  ``VIDEO_CMD_STOP_TO_BLACK``
++
++       -  Show black picture on stop.
++
++    -  ..
++
++       -  ``VIDEO_CMD_STOP_IMMEDIATELY``
++
++       -  Stop immediately, without emptying buffers.
++
++    -  ..
++
++       -  :rspan:`1` _`Play input formats`
++
++       -  ``VIDEO_PLAY_FMT_NONE``
++
++       -  The decoder has no special format requirements
++
++    -  ..
++
++       -  ``VIDEO_PLAY_FMT_GOP``
++
++       -  The decoder requires full GOPs
++
++    -  ..
++
++       -  :rspan:`3` Field order
++
++       -  ``VIDEO_VSYNC_FIELD_UNKNOWN``
++
++       -  FIELD_UNKNOWN can be used if the hardware does not know
++          whether the Vsync is for an odd, even or progressive
++          (i.e. non-interlaced) field.
++
++    -  ..
++
++       -  ``VIDEO_VSYNC_FIELD_ODD``
++
++       -  Vsync is for an odd field.
++
++    -  ..
++
++       -  ``VIDEO_VSYNC_FIELD_EVEN``
++
++       -  Vsync is for an even field.
++
++    -  ..
++
++       -  ``VIDEO_VSYNC_FIELD_PROGRESSIVE``
++
++       -  progressive (i.e. non-interlaced)
 +
 +
 +-----
 +
 +
-+close()
-+-------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:function:: 	int close(int fd)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+Description
-+~~~~~~~~~~~
-+
-+This system call closes a previously opened audio device.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``EBADF``
-+
-+       -  Fd is not a valid open file descriptor.
-+
-+-----
-+
-+
-+write()
-+-------
++video_event
++-----------
 +
 +Synopsis
 +~~~~~~~~
 +
 +.. code-block:: c
 +
-+	 size_t write(int fd, const void *buf, size_t count)
++    struct video_event {
++	__s32 type;
++    #define VIDEO_EVENT_SIZE_CHANGED        1
++    #define VIDEO_EVENT_FRAME_RATE_CHANGED  2
++    #define VIDEO_EVENT_DECODER_STOPPED     3
++    #define VIDEO_EVENT_VSYNC               4
++	long timestamp;
++	union {
++	    video_size_t size;
++	    unsigned int frame_rate;
++	    unsigned char vsync_field;
++	} u;
++    };
 +
-+Arguments
++Variables
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -1308,34 +721,92 @@ r.
 +
 +    -  ..
 +
-+       -  ``int fd``
++       -  :rspan:`4` ``__s32 type``
 +
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``void *buf``
-+
-+       -  Pointer to the buffer containing the PES data.
++       -  :cspan:`1` Event type.
 +
 +    -  ..
 +
-+       -  ``size_t count``
++       -  ``VIDEO_EVENT_SIZE_CHANGED``
 +
-+       -  Size of buf.
++       -  Size changed.
++
++    -  ..
++
++       -  ``VIDEO_EVENT_FRAME_RATE_CHANGED``
++
++       -  Framerate changed.
++
++    -  ..
++
++       -  ``VIDEO_EVENT_DECODER_STOPPED``
++
++       -  Decoder stopped.
++
++    -  ..
++
++       -  ``VIDEO_EVENT_VSYNC``
++
++       -  Vsync occurred.
++
++    -  ..
++
++       -  ``long timestamp``
++
++       -  :cspan:`1` MPEG PTS at occurrence.
++
++    -  ..
++
++       -  :rspan:`2` ``union u``
++
++       -  `video_size_t`_ size
++
++       -  Resolution and aspect ratio of the video.
++
++    -  ..
++
++       -  ``unsigned int frame_rate``
++
++       -  in frames per 1000sec
++
++    -  ..
++
++       -  ``unsigned char vsync_field``
++
++       -  | unknown / odd / even / progressive
++          | See: `Predefined decoder commands and flags`_
 +
 +Description
 +~~~~~~~~~~~
 +
-+This system call can only be used if ``AUDIO_SOURCE_MEMORY`` is selected
-+in the ioctl call `AUDIO_SELECT_SOURCE`_. The data provided shall be in
-+PES format. If ``O_NONBLOCK`` is not specified the function will block
-+until buffer space is available. The amount of data to be transferred is
-+implied by count.
++This is the structure of a video event as it is returned by the
++`VIDEO_GET_EVENT`_ call. See there for more details.
 +
-+Return Value
-+~~~~~~~~~~~~
++
++-----
++
++
++video_status
++------------
++
++Synopsis
++~~~~~~~~
++
++The `VIDEO_GET_STATUS`_ call returns the following structure informing
++about various states of the playback operation.
++
++.. code-block:: c
++
++    struct video_status {
++	int                    video_blank;
++	video_play_state_t     play_state;
++	video_stream_source_t  stream_source;
++	video_format_t         video_format;
++	video_displayformat_t  display_format;
++    };
++
++Variables
++~~~~~~~~~
 +
 +.. flat-table::
 +    :header-rows:  0
@@ -1343,21 +814,163 @@ r.
 +
 +    -  ..
 +
-+       -  ``EPERM``
++       -  :rspan:`2` ``int video_blank``
 +
-+       -  :cspan:`1` Mode ``AUDIO_SOURCE_MEMORY`` not selected.
-+
-+    -  ..
-+
-+       -  ``ENOMEM``
-+
-+       -  Attempted to write more data than the internal buffer can hold.
++       -  :cspan:`1` Show blank video on freeze?
 +
 +    -  ..
 +
-+       -  ``EBADF``
++       -  TRUE  ( !=3D 0 )
 +
-+       -  Fd is not a valid open file descriptor.
++       -  Blank screen when freeze.
++
++    -  ..
++
++       -  FALSE ( =3D=3D 0 )
++
++       -  Show last decoded frame.
++
++    -  ..
++
++       -  `video_play_state_t`_ ``play_state``
++
++       -  Current state of playback.
++
++    -  ..
++
++       -  `video_stream_source_t`_ ``stream_source``
++
++       -  Current source (demux/memory).
++
++    -  ..
++
++       -  `video_format_t`_ ``video_format``
++
++       -  Current aspect ratio of stream.
++
++    -  ..
++
++       -  `video_displayformat_t`_ ``display_format``
++
++       -  Applied cropping mode.
++
++Description
++~~~~~~~~~~~
++
++If ``video_blank`` is set ``TRUE`` video will be blanked out if the
++channel is changed or if playback is stopped. Otherwise, the last picture
++will be displayed. ``play_state`` indicates if the video is currently
++frozen, stopped, or being played back. The ``stream_source`` corresponds
++to the selected source for the video stream. It can come either from the
++demultiplexer or from memory. The ``video_format`` indicates the aspect
++ratio (one of 4:3 or 16:9) of the currently played video stream.
++Finally, ``display_format`` corresponds to the applied cropping mode in
++case the source video format is not the same as the format of the output
++device.
++
++
++-----
++
++
++video_still_picture
++-------------------
++
++Synopsis
++~~~~~~~~
++
++.. code-block:: c
++
++    struct video_still_picture {
++    char *iFrame;
++    int32_t size;
++    };
++
++Variables
++~~~~~~~~~
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    -  ..
++
++       -  ``char *iFrame``
++
++       -  Pointer to a single iframe in memory.
++
++    -  ..
++
++       -  ``int32_t size``
++
++       -  Size of the iframe.
++
++
++Description
++~~~~~~~~~~~
++
++An I-frame displayed via the `VIDEO_STILLPICTURE`_ call is passed on
++within this structure.
++
++
++-----
++
++
++video capabilities
++------------------
++
++Synopsis
++~~~~~~~~
++
++.. code-block:: c
++
++    #define VIDEO_CAP_MPEG1   1
++    #define VIDEO_CAP_MPEG2   2
++    #define VIDEO_CAP_SYS     4
++    #define VIDEO_CAP_PROG    8
++
++Constants
++~~~~~~~~~
++Bit definitions for capabilities:
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    -  ..
++
++       -  ``VIDEO_CAP_MPEG1``
++
++       -  :cspan:`1` The hardware can decode MPEG1.
++
++    -  ..
++
++       -  ``VIDEO_CAP_MPEG2``
++
++       -  The hardware can decode MPEG2.
++
++    -  ..
++
++       -  ``VIDEO_CAP_SYS``
++
++       -  The video device accepts system stream.
++
++          You still have to open the video and the audio device
++          but only send the stream to the video device.
++
++    -  ..
++
++       -  ``VIDEO_CAP_PROG``
++
++       -  The video device accepts program stream.
++
++          You still have to open the video and the audio device
++          but only send the stream to the video device.
++
++Description
++~~~~~~~~~~~
++
++A call to `VIDEO_GET_CAPABILITIES`_ returns an unsigned integer with the
++following bits set according to the hardware's capabilities.
 =2D-
 2.34.0
 
