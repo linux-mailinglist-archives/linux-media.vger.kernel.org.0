@@ -1,123 +1,111 @@
-Return-Path: <linux-media+bounces-4294-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4295-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3E183FA92
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 23:56:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 847F683FAE9
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 00:21:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70A7E1F2155F
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 22:56:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0B6F1C2107F
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 23:21:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63A9C52F9E;
-	Sun, 28 Jan 2024 22:53:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B56AE446D0;
+	Sun, 28 Jan 2024 23:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8L+KE9R"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4a4FcSrr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5837452F91;
-	Sun, 28 Jan 2024 22:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63862446C5;
+	Sun, 28 Jan 2024 23:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706482387; cv=none; b=kBXzHFxTeNv9EdchmN2END//1RRLwMiYpsumNpzKKixOSoIFQcA+dbGxYQ1mZJ85zvUevRcXTvMX29Bl0jJFW/5jDgl2MqeBWTzvaIvgMqbJDsU03wW8oin6nRDb1zJT4eT7lfqV09I3uTnnBe4elAcgfD/Pj0M0nA9lXjxAwXw=
+	t=1706484073; cv=none; b=PPDMvw3HPp40i/riqEMq1qpBP/nid5rhV/bM2F1lqLsu/ZkaPyWoor3nRCtzFacY7KnGy38iGuh1XD9X4lHw3o26Claj4tIcxxdMwvIwa8Bwe3MgfS+QqUICGWh0JfpxHqt1N7bONlo2flOB9V/Y+h6ATHzTPu8fIroZuW38P7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706482387; c=relaxed/simple;
-	bh=w3X5ynGmtXaOeXoU0AhqBVrv6QF8ibOUb17yYFx8ZB4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eiIqNkNK+8EHSQcAa4IPbPo4KqUCYQoc7PiY28tIhLAdq14tQxwR/B2TdY9qGYw9KrC7tqHTsRnaVEq4bRi98dM+FiXeWTwDac4BaPHDWf/dkxyHscVTEbAOej/SunwmuhNVTsFBlr2Lwiubynq8+SLxOnrUsTFLRlXrVKALSuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8L+KE9R; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-783d84ecb13so241796785a.0;
-        Sun, 28 Jan 2024 14:53:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706482385; x=1707087185; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SHEJz7lhB+IAerhrVnhDVBAqG+Jxmcd4Fdf1GvCvEOA=;
-        b=d8L+KE9RxpqJb0fL8dxhLVhzrhNyJGMHBhmPu4ccnHFaEIuKoJ0ke3XN74ZQ+j2OYZ
-         uPMgfT50aGqo0iYQiuRKnNWGw8Clw+ehaYraUrHXe7Baajq/qKV2Xsu+Fc4Df9ROe4Sf
-         3YSXfX6/xnXYVKopQK7L5tTfJEryiBD0FyfeCvOE9GEfS2CIltQLiy7AkHqfDufX1dqV
-         OtlKIV54m4/Mmria88gJvSKlzIlw7RMggZmq5F82y/0Y2pJxYC7m9lIei3izyInW1SHS
-         /fHJIlRhJa+GPkXNNfsL098xIRryfXLJh+RLy38toSsb0QzkEgWKt9p5isjfVeLAbpe+
-         1t0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706482385; x=1707087185;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SHEJz7lhB+IAerhrVnhDVBAqG+Jxmcd4Fdf1GvCvEOA=;
-        b=BG3U//VQb/vY8snwOwHK6s8fMp9orev8BOSTGes979jTf33ijfxKiIIC5c6k3fmZYt
-         VivpkgGarXzz3RRFX5OUrrQCQ1lRB0buPc6NZSqSDiO4Eh3WBPfawcOUvMnqJ5wMg+7j
-         0q+HlYki+QN21/ZWNmUld5JfFC5nAn+ci8IIwi3O4/3jx54YenqFgeeUIyeFisuuei/1
-         WJ52Dp+OvDEB4TNmW/WrvYdGi3zYmOzC8mhYycmwEuj+1oEkFw/RQhms0/4LE5JNz0uu
-         usiCkhxJ7cLlfQs1qCfJ7gI7KnqUp3De/nWARLBr0beGvMyfuwqEW7xbKkan5Jm/Zjgi
-         LAcA==
-X-Gm-Message-State: AOJu0YxhGHtEzAtqIsZeGK0qAr3Lss2wJKJBj+s6n0bUKQFHjKbXD/hL
-	XqP4HPx4NvgGYTR6G2l38MusHvG8779GejujxMhcw2p+gdmWGgdB
-X-Google-Smtp-Source: AGHT+IEdTY/eWJZvlD4EQYw6AswvY87543msgJIyxR6XRvQcfJ+yyYdFG/GfF+lCqFI7CXkglqnhMQ==
-X-Received: by 2002:a05:620a:4013:b0:783:fe00:950e with SMTP id h19-20020a05620a401300b00783fe00950emr1254567qko.148.1706482385079;
-        Sun, 28 Jan 2024 14:53:05 -0800 (PST)
-Received: from kohshi54-ThinkCentre-M715q.. ([2404:7a80:c880:6500:7f79:d78c:e8ac:f086])
-        by smtp.gmail.com with ESMTPSA id y2-20020a1709027c8200b001d7726c4a40sm4069560pll.277.2024.01.28.14.53.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jan 2024 14:53:04 -0800 (PST)
-From: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-To: sakari.ailus@linux.intel.com,
-	bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com
-Cc: Kohshi Yamaguchi <kohshi54.yam@gmail.com>,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH] doc: ipu3: Fix UAPI header doc warnings
-Date: Mon, 29 Jan 2024 07:52:58 +0900
-Message-Id: <20240128225258.50375-1-kohshi54.yam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1706484073; c=relaxed/simple;
+	bh=FhSTrVH5zrmp01WnNuro1Rqyjl2zO1fLnyrlz07saWM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZbhUOw2e5ko5rOvRyC63DnNEMWBzzKWs9NiV/UdcVOCuibNYUszuxFNrlYHTjYI8//tkl0dZNmj3m5CdQZTACCKX23Sd+4ErgKP6jGshs/XNkZYRliEI1KKeewt8dn+oHyEovWBAF/8EnDy/7TkJ/jmaJApQ9Dl/1thKwLA491s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4a4FcSrr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=3pgIaJ7MkTtY//7CcCezghloHGWFY713Or2R1yaWIm4=; b=4a4FcSrrklo1A7he8JHnJGqUki
+	9mKoWKFz4miOUi7DEygXN/OmgNQviNVJ5b0P64D9n+DH3Ui4EWb4/0SYuT8SPXk5EfFb01VDnLmVk
+	sJIZeM6rehxUUJ+LkCSR6E6MxCHX7PTF7gfhZ+ECEDHW3V8L/drpE/AZvCbuUKt1tUarRUIxBeOkh
+	cfHfG870F8WLjJSDB8RpOW6/s6rA4Hp79AjnVFt9pv8Xd9Fg7CGl/A5fLCvBYwQMdJrML/ZnVHW8r
+	r3Upz4YvDQwtTxszFqUGEkyyRsInvJraBb73kRbCfTPCjNjqV4v9NGnr4uEKokMI3O8abnPXItDxA
+	a4z84hxQ==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rUESU-0000000AjkV-3qtf;
+	Sun, 28 Jan 2024 23:21:03 +0000
+Message-ID: <621fe651-8538-43d5-a797-c1e66436b2dc@infradead.org>
+Date: Sun, 28 Jan 2024 15:21:01 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] doc: ipu3: Fix UAPI header doc warnings
+Content-Language: en-US
+To: Kohshi Yamaguchi <kohshi54.yam@gmail.com>, sakari.ailus@linux.intel.com,
+ bingbu.cao@intel.com, tian.shu.qiu@intel.com
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+References: <20240128225258.50375-1-kohshi54.yam@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240128225258.50375-1-kohshi54.yam@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The ipu3_uapi_acc_param struct in the IPU3 UAPI header mentioned
-reserved1 and reserved2 fields, which are absent in the actual
-structure definition. This mismatch led to Sphinx build warnings
-due to inconsistencies between the documentation and the code.
 
-This patch removes these non-existent reserved field references
-from the documentation, resolving the Sphinx build warnings and
-ensuring the UAPI header is accurately documented.
+On 1/28/24 14:52, Kohshi Yamaguchi wrote:
+> The ipu3_uapi_acc_param struct in the IPU3 UAPI header mentioned
+> reserved1 and reserved2 fields, which are absent in the actual
+> structure definition. This mismatch led to Sphinx build warnings
+> due to inconsistencies between the documentation and the code.
+> 
+> This patch removes these non-existent reserved field references
+> from the documentation, resolving the Sphinx build warnings and
+> ensuring the UAPI header is accurately documented.
+> 
+> Signed-off-by: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
+> ---
+>  drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> index caa358e0bae4..926fcf84e33c 100644
+> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> @@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
+>   *		&ipu3_uapi_yuvp1_y_ee_nr_config
+>   * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
+>   * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
+> - * @reserved1: reserved
+>   * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
+>   * @tcc:	total color correction config as defined in struct
+>   *		&ipu3_uapi_yuvp2_tcc_static_config
+> - * @reserved2: reserved
+>   * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
+>   * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
+>   * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
 
-Signed-off-by: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
----
- drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 2 --
- 1 file changed, 2 deletions(-)
+posted 2 days ago:
 
-diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-index caa358e0bae4..926fcf84e33c 100644
---- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-+++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-@@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
-  *		&ipu3_uapi_yuvp1_y_ee_nr_config
-  * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
-  * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
-- * @reserved1: reserved
-  * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
-  * @tcc:	total color correction config as defined in struct
-  *		&ipu3_uapi_yuvp2_tcc_static_config
-- * @reserved2: reserved
-  * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
-  * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
-  * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
+https://lore.kernel.org/linux-media/eed7560f-cd7d-4e07-9b38-038ca65445bf@infradead.org/T/#mda377078e30cb5d784f23de95d8d7cca13265562
+
+Thanks.
+
 -- 
-2.34.1
-
+#Randy
 
