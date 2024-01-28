@@ -1,70 +1,72 @@
-Return-Path: <linux-media+bounces-4284-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4283-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AE883F2D2
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 03:12:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0874083F2D3
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 03:12:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B41871F22744
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 02:12:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01F412859AE
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 02:12:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23E4B539A;
-	Sun, 28 Jan 2024 02:12:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B343C440C;
+	Sun, 28 Jan 2024 02:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Nk84Iplo"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gBOPEVmy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DC51391
-	for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 02:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961BB15D1
+	for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 02:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706407945; cv=none; b=JV3ovYtJDs/EDqd0SB0kz6ZUv9xrSBqvatfsK7doxXi0YhhCVjP469bD2VD67ZzJWaUmDo0vJWqOfiLV7M83AtSy+2frUyayjtW5BEIAQhbu2jMkXrjBhgmQxXs3SeqBoQeScmREkExEt2cxemEQVW4JgSBuUmX6HoZGF83dnao=
+	t=1706407945; cv=none; b=VD8eWjiTjfDkfCPGBbk316SnsmjHnXNQYhOwO+69EzXEYq1h06oAfGcCgnnLqef+m7BzcqKqWz56NNdZ6I0Jw/c1q4/yRWslzRRPRb8isoEVPP7SRSOVgb5PfSQ9rXLpLlK89XRh0BRwgnG5vLHTwNzQ59JHeSJoTn0RRpUbCCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706407945; c=relaxed/simple;
-	bh=vYXWXYwsJVuOt1QS9UcPPIEtBivA4uOaogtA5hEmjCI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A7lA/0CSYxCa34UdHXLySq87NY+LG/Obak3CW3JP6Nw+hmVjLoChFZr4us+pVQdhwlmy3OHGuLxnJK/CkJDLlfd7wFuUwJSqgRPYL4DV0FSTl/rLOl7wiSyTwmrYgQpmv7NkNqfUU63ckKuplAmBtT9Nyg7xof5/pkbZ4S52KHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Nk84Iplo; arc=none smtp.client-ip=209.85.160.178
+	bh=Nh29uFhKJi602G3prs8tELRuSaiBp8xa7lI2rXd2Wvk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=iTb2PIF7hCxnUOIUTXQAr72spFW7b/pBp5MpVlx/VL3yosNk9e1Dow6+ZNqxC6HElZz0dGTWrPiNvEWn/RsOOfLdYWHBnVtPMcxSyVP+7ZL2AcQ1N+mtGyXF80/H40RV2I2AJl7yH3a6WpmEM6p5xgr34b97y9yRefWmO9EWyaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gBOPEVmy; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-42a9199cfd2so4786801cf.0
-        for <linux-media@vger.kernel.org>; Sat, 27 Jan 2024 18:12:22 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-42a99f34cc8so2795261cf.2
+        for <linux-media@vger.kernel.org>; Sat, 27 Jan 2024 18:12:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706407941; x=1707012741; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Os4wPtYXMOk5j6YcX2wbCDq2BXooZiO0dAGB9kYAD7I=;
-        b=Nk84IploiUS1g3vTp8Zj67z4vXSyo/gP1kIxNlaj6Kk+4fj0H/7IlSDq1bpxg0V1zN
-         TJO0S4B1eyrBfHjxLfm15+sjmYwis8W9/Yuzz2kAc5yfrLsx0cBa15RBw60yu3SOjgYj
-         9H3f9iIdDxhIxFaX7dQJXWmjfmzXJhb9SUgRw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706407941; x=1707012741;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1706407942; x=1707012742; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Os4wPtYXMOk5j6YcX2wbCDq2BXooZiO0dAGB9kYAD7I=;
-        b=Jp1ILfCckbWvuRtTl0YW0X54JC0DmYSly9/8AGPBwm0Aqm9zVPezgNvBOKQpZWsK3L
-         xhMXbO8uUjoANJsyy3EdHVV7KVwhqSN1/46XHezR721pxWT/tQgvdIMOZDyBPpWddx1E
-         qt+xYlVjaTRx+xXDu6UisetvkzVs7OyN7dxv0CNslQbisRG1vzNZqTSK0qzizXdr8VBo
-         2zre06EgcRlYxF1L+9Tm4JBAu524dJfagvpRW2/a4VVv5pCLytRQ8EBnbkHTg2LQeHTC
-         TnI+62l92a56IiZCuNfaJ2ufpZvn5RSSssfinsLJZM2WTs15+KAd/XPZNnHIHsQIz3F4
-         3Gfg==
-X-Gm-Message-State: AOJu0YwMXcOIfvHJ+8aT8dE4m+TyQIS+ykO/eW8gzklagWtTgCjicYlc
-	CPHslsnHUONNF8DGqry5Y+EoXkMa9+kP/a30wS+gxk1reAMv8P/6su6qb5yG/Q==
-X-Google-Smtp-Source: AGHT+IH6NXk/WvjaiaDj9r8/fahbRrGy45ANWovc96JmRb+SX77746RDy8yuddFdapSADOOCEgbhNQ==
-X-Received: by 2002:ac8:5e0c:0:b0:42a:2ec3:e8d2 with SMTP id h12-20020ac85e0c000000b0042a2ec3e8d2mr3154130qtx.50.1706407941471;
-        Sat, 27 Jan 2024 18:12:21 -0800 (PST)
+        bh=JJ/tXyO7amkyPth0LbHgT/YZ0y8KfOoM1IDJtLvky2Q=;
+        b=gBOPEVmyjaXkTxEgfMbxFFUjQaKuhD4isds40+acoBqC7SPRB1DO0aJ2GZ7bhpnEyH
+         EooYm6VU8gcx7Tic8G60asyR0LCtbk4S3zpCJpH82rikHnCdfnRD2L3+BSIL8CBKrCj+
+         XDgOgIgkTGG9KtO7k9uQs3RCtZwRidsEA95EE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706407942; x=1707012742;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JJ/tXyO7amkyPth0LbHgT/YZ0y8KfOoM1IDJtLvky2Q=;
+        b=Yr96QTdmNjNZhdYdy9WTKYZbboYrTqKmQNhpK89iwOgFUoB+OfFQsufaqzbGYBt6cE
+         pSRaeGijcA4buAalCIMldSrdAF8ShIgX1yQeTWkNvx7LTnIvBt9Hoaa8BU5LslOj/+Ge
+         ZL2ZRppKt6frJlirzoNIqgGD/ajsAlH7UaAqUtVPp98zNUHAHlaj8blBbRLxg2fHx6gU
+         mVOcbjYU2Z1KGBKrcCXMBiEQizMm3p8XjapttlAiHrcuV1Hy1mVjr6JQDHdk8ozdeZMp
+         EgtaFsSi7JKTQL6/VxRNbCmB3GrsnCeIErWzRqFQkPxxIJwndq7HrysMr80GXOvaYbue
+         toDw==
+X-Gm-Message-State: AOJu0YzfMwbMPRhJruPEIbivMrPCBK7Dn4/nKpE3ndDXjaykfCTX17Pw
+	QsCfrKCfkOGublqgIkRwZKQd8RNVav8FTvyMf5MI59Z9fZaUd9By5OlC3XKXtA==
+X-Google-Smtp-Source: AGHT+IEEZr/G/RgBFCi06b4c43fIXB0Odt7evUICu34JTHlyZ3GvGTVQDDbpNKHMg99SUGIH+6qSbA==
+X-Received: by 2002:a05:622a:49:b0:42a:8630:3dfd with SMTP id y9-20020a05622a004900b0042a86303dfdmr2871708qtw.87.1706407942502;
+        Sat, 27 Jan 2024 18:12:22 -0800 (PST)
 Received: from denia.c.googlers.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id ka23-20020a05622a441700b0042a98bf0117sm568061qtb.78.2024.01.27.18.12.20
+        by smtp.gmail.com with ESMTPSA id ka23-20020a05622a441700b0042a98bf0117sm568061qtb.78.2024.01.27.18.12.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 27 Jan 2024 18:12:21 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 0/3] media: Fix warnings building with LLVM=1
-Date: Sun, 28 Jan 2024 02:12:19 +0000
-Message-Id: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
+Date: Sun, 28 Jan 2024 02:12:20 +0000
+Subject: [PATCH 1/3] media: pci: sta2x11: Fix Wcast-function-type-strict
+ warnings
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,9 +75,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAO4tWUC/x2MSwqAMAwFryJZG2iD+LuKuNAaa0CqtKBC8e4Gl
- 8ObNxkSR+EEfZEh8iVJjqBgywLcNgXPKIsykKHKWGpxlQfdrgveUwwSfMLaWerIVHXjZtDjGVm
- tPzqM7/sBzrWH3GQAAAA=
+Message-Id: <20240128-fix-clang-warnings-v1-1-1d946013a421@chromium.org>
+References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
+In-Reply-To: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Nathan Chancellor <nathan@kernel.org>, 
  Nick Desaulniers <ndesaulniers@google.com>, 
@@ -90,28 +92,41 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-mediatek@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.3
 
-LLVM does check -Wcast-function-type-sctrict, which is triggered in a
-couple of places in the media subsystem.
+Building with LLVM=1 throws the following warning:
+drivers/media/pci/sta2x11/sta2x11_vip.c:1057:6: warning: cast from 'irqreturn_t (*)(int, struct sta2x11_vip *)' (aka 'enum irqreturn (*)(int, struct sta2x11_vip *)') to 'irq_handler_t' (aka 'enum irqreturn (*)(int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
-Ricardo Ribalda (3):
-      media: pci: sta2x11: Fix Wcast-function-type-strict warnings
-      media: usb: pvrusb2: Fix Wcast-function-type-strict warnings
-      media: mediatek: vcodedc: Fix Wcast-function-type-strict warnings
+ drivers/media/pci/sta2x11/sta2x11_vip.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- drivers/media/pci/sta2x11/sta2x11_vip.c                           | 5 +++--
- drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c | 6 ++++--
- drivers/media/usb/pvrusb2/pvrusb2-context.c                       | 5 +++--
- drivers/media/usb/pvrusb2/pvrusb2-dvb.c                           | 7 ++++---
- drivers/media/usb/pvrusb2/pvrusb2-v4l2.c                          | 7 ++++---
- 5 files changed, 18 insertions(+), 12 deletions(-)
----
-base-commit: 615d300648869c774bd1fe54b4627bb0c20faed4
-change-id: 20240128-fix-clang-warnings-6c12920467cb
+diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
+index e4cf9d63e926..0a3827575753 100644
+--- a/drivers/media/pci/sta2x11/sta2x11_vip.c
++++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
+@@ -757,7 +757,7 @@ static const struct video_device video_dev_template = {
+ /**
+  * vip_irq - interrupt routine
+  * @irq: Number of interrupt ( not used, correct number is assumed )
+- * @vip: local data structure containing all information
++ * @data: local data structure containing all information
+  *
+  * check for both frame interrupts set ( top and bottom ).
+  * check FIFO overflow, but limit number of log messages after open.
+@@ -767,9 +767,10 @@ static const struct video_device video_dev_template = {
+  *
+  * IRQ_HANDLED, interrupt done.
+  */
+-static irqreturn_t vip_irq(int irq, struct sta2x11_vip *vip)
++static irqreturn_t vip_irq(int irq, void *data)
+ {
+ 	unsigned int status;
++	struct sta2x11_vip *vip = data;
+ 
+ 	status = reg_read(vip, DVP_ITS);
+ 
 
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.43.0.429.g432eaa2c6b-goog
 
 
