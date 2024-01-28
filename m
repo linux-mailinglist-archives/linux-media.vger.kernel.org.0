@@ -1,111 +1,186 @@
-Return-Path: <linux-media+bounces-4295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847F683FAE9
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 00:21:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC94B83FAFC
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 00:34:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0B6F1C2107F
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 23:21:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73552285A31
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 23:34:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B56AE446D0;
-	Sun, 28 Jan 2024 23:21:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F4AC446C7;
+	Sun, 28 Jan 2024 23:33:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4a4FcSrr"
+	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="O+q/zKKp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63862446C5;
-	Sun, 28 Jan 2024 23:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6534C604
+	for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 23:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706484073; cv=none; b=PPDMvw3HPp40i/riqEMq1qpBP/nid5rhV/bM2F1lqLsu/ZkaPyWoor3nRCtzFacY7KnGy38iGuh1XD9X4lHw3o26Claj4tIcxxdMwvIwa8Bwe3MgfS+QqUICGWh0JfpxHqt1N7bONlo2flOB9V/Y+h6ATHzTPu8fIroZuW38P7U=
+	t=1706484830; cv=none; b=TUlMC2GPVZhjSKXDV9P2SvW2D6+a+7TijVDOEWxsaxI9LOwnv5bM8M7YwtstdvV9TxahYRVUbmi0tAKEGhWQ/nIdF0LwytUriaC5vYzuDWNyVV+6qVHXLwlSFG/RmZSi6vOZKO5Cdi7YXrxyH3haWzf3MaTHWVQVQUYsfUx6NN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706484073; c=relaxed/simple;
-	bh=FhSTrVH5zrmp01WnNuro1Rqyjl2zO1fLnyrlz07saWM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZbhUOw2e5ko5rOvRyC63DnNEMWBzzKWs9NiV/UdcVOCuibNYUszuxFNrlYHTjYI8//tkl0dZNmj3m5CdQZTACCKX23Sd+4ErgKP6jGshs/XNkZYRliEI1KKeewt8dn+oHyEovWBAF/8EnDy/7TkJ/jmaJApQ9Dl/1thKwLA491s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4a4FcSrr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=3pgIaJ7MkTtY//7CcCezghloHGWFY713Or2R1yaWIm4=; b=4a4FcSrrklo1A7he8JHnJGqUki
-	9mKoWKFz4miOUi7DEygXN/OmgNQviNVJ5b0P64D9n+DH3Ui4EWb4/0SYuT8SPXk5EfFb01VDnLmVk
-	sJIZeM6rehxUUJ+LkCSR6E6MxCHX7PTF7gfhZ+ECEDHW3V8L/drpE/AZvCbuUKt1tUarRUIxBeOkh
-	cfHfG870F8WLjJSDB8RpOW6/s6rA4Hp79AjnVFt9pv8Xd9Fg7CGl/A5fLCvBYwQMdJrML/ZnVHW8r
-	r3Upz4YvDQwtTxszFqUGEkyyRsInvJraBb73kRbCfTPCjNjqV4v9NGnr4uEKokMI3O8abnPXItDxA
-	a4z84hxQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUESU-0000000AjkV-3qtf;
-	Sun, 28 Jan 2024 23:21:03 +0000
-Message-ID: <621fe651-8538-43d5-a797-c1e66436b2dc@infradead.org>
-Date: Sun, 28 Jan 2024 15:21:01 -0800
+	s=arc-20240116; t=1706484830; c=relaxed/simple;
+	bh=uoJ31O5b7CZkW+6dI1cGxiKARLFJIW1ycYSAGKB5faQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=KiAPc+alTlv7J2aHEptS0J4WC8hAG4ZpDokWoOK5YSk7mUsCJAe8E4XO1kxD+QweR3KudI6K4Z3kNo+jUaX+Besnz53xB9H8lMk8i0AoUu4LyVy/EPBQyTGXAw4Hrv2dAu/UX+RFONUrk9FZIW750p5f8pxRggQdVEGpC4OjuZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=O+q/zKKp; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nurfuerspam.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
+	s=s31663417; t=1706484819; x=1707089619; i=herdler@nurfuerspam.de;
+	bh=uoJ31O5b7CZkW+6dI1cGxiKARLFJIW1ycYSAGKB5faQ=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
+	 References;
+	b=O+q/zKKpQIjrGHEMSkMPIz09ZljgyRRRL70VJQat+UKpjeyYefWH0GkT3UI71N8O
+	 g6yMmJ69rKSJXlwNgk3SA1rZyG4C0Vx95Djm03Fqs5SoBf4rhD0bVHICpEqmxAg4/
+	 gbtS30F+GSbtQ8l9z3Is+Rc+MO4ipCzraLonpaAMhXKZqxTBEYX92vS/q0ULx2wOZ
+	 PsOKEn5OHeXKSVHUp3+EiEu8dnVzORy5DTAgpSPlaz1gFiz89g5+jLfLnLsTvFDHv
+	 FbTP37FBMc0sPgBQ5Z+lSgQLR91MZ2kOu7A1Rpc0BEaKb8ua0e1dirgABaoTY6NFC
+	 vBxwuiRT4r1hWoeAOw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from astro.haus ([185.101.173.202]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MOA3P-1rjrpK1B0r-00OWWQ; Mon, 29
+ Jan 2024 00:33:39 +0100
+From: Stefan Herdler <herdler@nurfuerspam.de>
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl
+Cc: linux-media@vger.kernel.org,
+	smoch@web.de,
+	tmn505@gmail.com,
+	vinschen@redhat.com
+Subject: [PATCH v4 0/6] media: docs: uAPI: dvb/decoder: completing the documentation
+Date: Mon, 29 Jan 2024 00:32:43 +0100
+Message-Id: <20240128233249.32794-1-herdler@nurfuerspam.de>
+X-Mailer: git-send-email 2.34.0
+In-Reply-To: <20230327192826.65ae299d@sal.lan>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] doc: ipu3: Fix UAPI header doc warnings
-Content-Language: en-US
-To: Kohshi Yamaguchi <kohshi54.yam@gmail.com>, sakari.ailus@linux.intel.com,
- bingbu.cao@intel.com, tian.shu.qiu@intel.com
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-References: <20240128225258.50375-1-kohshi54.yam@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240128225258.50375-1-kohshi54.yam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:a1NSKR/0WUUcyYKddAJsU8NyUR8iXTuDyfVlS6uOh7E5u37ukTO
+ 990zSunEUjV9dS9tfdxSsG3+pckbrtOj0wxOafGCd7AVtYOJq7c0QVAaDrKZATYDH31QMcU
+ sOLL/Zq0jrR8xQNm+1gMRPkis1JL2QQavhCVCpFI5pW3Zgwz2XplM9RFjdxyRyu1aroY7n6
+ efXicR0it3GY5RDRNKeZg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:x3nOUZHbZc0=;D9lhKsQ9wfoGj3QqD84L856uZDR
+ IKPHQPLw5Juocq8I1myJUL/R6A2fVbq9avaiWUIHZ94mhvYK/VOPMJFQHf6w1btP3FfvZgoAu
+ iGUAloFNk6077378YU/D5rTG4/CpXuq+tjzZIVb+DDi2rBDZ8rLfTGvuOaSWCw/+X9bNrsd9n
+ MXOwai2Y75RQpp0irz8HVAK4EufJzMQF6K3EtLEo3UQN4WVqFgtD9Em1AiOni6+LM2H9PE6X2
+ YlDfjQ8tAig8wrC4KqEdibOsPq2HCypBC2owHjHRr0IasHw0LubYzSrztWfhYXFgr+CNekEzQ
+ SxqBvsPYuJo0Unf9wdUZbRB14Sz+fAQbbwFILD//kf9kv/3wGbWO01YzzNqkiE2duiR/fe+u8
+ dwF4TqYRR92VbRI1kSZ8kd8A1uOMEoUuUEVg6QukXBNYD8hGE9HEbmExh/tFu40u8V+l9fex4
+ zz2qLYvRGpSz3lH+Nl9+w0oyJQHXJ3ACQaFjquRFTB5qstqoaUFdEA2AtPMM+x0su75i0p3Y/
+ xXugKo7xV8SoMaeEGNGlKDXSS4/WANxDY8bvgBH7LVH05rqbwdl3JjQFHrvMcZcy7VaOTqftF
+ TDMBZ30VQn6/YRPq5F/A0ubH0cho7UwW4ChgvaTWjkuNEUViOVsv7Xt0IcgxFcigqOE4cl2UP
+ JJwelXv6B57JpuAG8r/+qn9jGdyPH5cT4pXAG4oyoGw7pvTJImoulaqAcz7m7ELoZ9qN/v5sa
+ StutZxLliaUKX4SycZ1OC4up3WMOgac1aXEnNm17emPlCv5ZIYBD1KtNebWe5hyh25CoTsbAF
+ PKHW2CC7cSv6K8aIhS83vpa4RNEdTl6F19gb0qpYYVw05ongnDTlcJ/qx1HIH7Aq26rw9bOPD
+ E3r5BV3cICBWCwuC90RWEhzYPhS+txQ2d7Ux0ifvz72/SU1HJr68FRMgOE6cDTiVBzYqgnVTq
+ wGZz4ZxT8U8jT+98YV8YCCsmFW0=
+
+This is basically a resend of v3 after 6 month, with some minor updates.
+Changes since v3:
+* Adjust title and description to better match existing documentation.
+* Fix warnings from kernel test robot.
+  (At least I hope it is fixed now, I couldn't reproduce this warning.)
+
+No changes to the text it self.
+The layout is still identical since v1, just split into multiple patches.
+My comments of v3 attached below, they refer to Mauros comments[3] to
+v2 and still fully apply.
+
+[3: https://patchwork.kernel.org/project/linux-media/patch/decd5d71-f06e-5=
+873-5ebf-7028107f65ee@nurfuerspam.de/]
 
 
-On 1/28/24 14:52, Kohshi Yamaguchi wrote:
-> The ipu3_uapi_acc_param struct in the IPU3 UAPI header mentioned
-> reserved1 and reserved2 fields, which are absent in the actual
-> structure definition. This mismatch led to Sphinx build warnings
-> due to inconsistencies between the documentation and the code.
-> 
-> This patch removes these non-existent reserved field references
-> from the documentation, resolving the Sphinx build warnings and
-> ensuring the UAPI header is accurately documented.
-> 
-> Signed-off-by: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-> ---
->  drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> index caa358e0bae4..926fcf84e33c 100644
-> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> @@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
->   *		&ipu3_uapi_yuvp1_y_ee_nr_config
->   * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
->   * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
-> - * @reserved1: reserved
->   * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
->   * @tcc:	total color correction config as defined in struct
->   *		&ipu3_uapi_yuvp2_tcc_static_config
-> - * @reserved2: reserved
->   * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
->   * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
->   * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
+[PATCH v3] (July '23) ---------------------------------------------------
 
-posted 2 days ago:
+Changes since v2:
+* Split the patch into a patch series.
+* Incorporate the changes requested.
+* Style updates to better match the existing documentation.
+* And a lot of small fixes.
 
-https://lore.kernel.org/linux-media/eed7560f-cd7d-4e07-9b38-038ca65445bf@infradead.org/T/#mda377078e30cb5d784f23de95d8d7cca13265562
 
-Thanks.
+Hi Mauro,
 
--- 
-#Randy
+it took a little longer then expected, but I didn't had much time in spare
+for this. I'm pretty much occupied by other things at the moment.
+The winter season would be better for things like this, but I try to
+finish it as quick as possible.
+
+I went through your mail point by point and I'm confident, that I was able
+to sort out your questions now. At least I don't see anything that need to
+be improved anymore.
+The work has been done in a lot of small blocks over a pretty long period
+after my daily work, mostly late at night. Despite double checking
+everything, I maybe still have missed something. I hope it is not too
+much.
+
+For usage it has been checked against the known projects using the DVB
+decoder APIs:
+* The AV7110 kernel driver.
+* The out of tree driver for the HD full featured cards.[1]
+* The "Enigma2" sources from openatv team.[2]
+  (The drivers of the boxes are binary only.)
+
+Possibly unused items have been listed in the comment of the patches.
+Please take this lists with a pinch of salt. With the number of items
+checked, it is pretty easy to miss an occurrence or have a false positive.
+Although I've done my best, there is still the chance that I've missed an
+use case.
+
+I tried to complete the documentation of this unused definition too.
+Most information had been collect anyway and writing it down wasn't that
+much of effort.
+
+Removing the definition and documentation later at once is always an
+option.
+I would prefer to do it this way, if something has to be removed.
+It is easier to revert the change in case of a regression.
+If necessary I can provide the patches too.
+
+Regards
+Stefan
+
+[1: https://github.com/s-moch/linux-saa716x]
+[2: https://github.com/openatv/enigma2/tree/master]
+
+
+
+Stefan Herdler (6):
+  Add documentation for legacy DVB decoder API
+  Add documentation for osd.h
+  Add documentation for audio.h (data types)
+  Add documentation for audio.h (function calls)
+  Add documentation for video.h (data types)
+  Add documentation for video.h (function calls)
+
+ .../media/dvb/legacy_dvb_apis.rst             |    1 +
+ .../media/dvb/legacy_dvb_audio.rst            | 1642 +++++++++++
+ .../media/dvb/legacy_dvb_decoder_api.rst      |   61 +
+ .../media/dvb/legacy_dvb_osd.rst              |  883 ++++++
+ .../media/dvb/legacy_dvb_video.rst            | 2430 +++++++++++++++++
+ 5 files changed, 5017 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_audio=
+.rst
+ create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_decod=
+er_api.rst
+ create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_osd.r=
+st
+ create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_video=
+.rst
+
+=2D-
+2.34.0
+
 
