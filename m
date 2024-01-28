@@ -1,126 +1,123 @@
-Return-Path: <linux-media+bounces-4293-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4294-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE94B83F9F5
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 21:58:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3E183FA92
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 23:56:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FAAB1C21BA9
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 20:58:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70A7E1F2155F
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 22:56:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B407138DFE;
-	Sun, 28 Jan 2024 20:58:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63A9C52F9E;
+	Sun, 28 Jan 2024 22:53:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dn682Px8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8L+KE9R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA0731A73
-	for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 20:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5837452F91;
+	Sun, 28 Jan 2024 22:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706475531; cv=none; b=Y2KHxZEYxUNCW4+lTY+EIb3n6qljUQz8+4qV0YojoPejj5hqL61AIu+9ySlZoStId4tz7kKLLAh1siIkjArVkUgIiGXtXq2ptr65D2UrL/G7ktnrpCELYp0JfPMqiu/lF/UYr4IDHAKoUZBkcFdxczZrUMOkWfbuIpFiFTnTPEA=
+	t=1706482387; cv=none; b=kBXzHFxTeNv9EdchmN2END//1RRLwMiYpsumNpzKKixOSoIFQcA+dbGxYQ1mZJ85zvUevRcXTvMX29Bl0jJFW/5jDgl2MqeBWTzvaIvgMqbJDsU03wW8oin6nRDb1zJT4eT7lfqV09I3uTnnBe4elAcgfD/Pj0M0nA9lXjxAwXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706475531; c=relaxed/simple;
-	bh=62Q7hwfACeQdUw8IaPs+IUlcv1LZyRLv0ed0go2doNQ=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=P4MKmB1n2rTKiw7QgAK8iAAUGdZMpsi3i6ByT1RitDkPECw6b1I77cXSEBHdZbxb44vTgPir33BQRCa2lYWIBKzoSd+ghfUr4D/S6Rk+gXT+2L4zuvsTBx9O2H7AKLq/ZAMQlcAWG8RyUMpWTtgshKqx44DZMXLkAFne5oGp3L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dn682Px8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706475527;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=62Q7hwfACeQdUw8IaPs+IUlcv1LZyRLv0ed0go2doNQ=;
-	b=dn682Px8edgFF6OHnWz7fGTo7w3cpTtg2XkHRauZbM5kfe+Q6G7SaywNW7tbVva5Qh7PGo
-	lfq/OhxmG6F7fufCR4BLFpvpdAZeyLbUwszTgYped6gXgV5mPBeNrzVxtQdykx/0oMIkJO
-	BpUhklW7gTiRMV7GUg4PoiMZeBwHQhE=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-6-cf6qbU98NKmDItX1SkTuOw-1; Sun, 28 Jan 2024 15:58:45 -0500
-X-MC-Unique: cf6qbU98NKmDItX1SkTuOw-1
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-51014938fb8so1261884e87.2
-        for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 12:58:45 -0800 (PST)
+	s=arc-20240116; t=1706482387; c=relaxed/simple;
+	bh=w3X5ynGmtXaOeXoU0AhqBVrv6QF8ibOUb17yYFx8ZB4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eiIqNkNK+8EHSQcAa4IPbPo4KqUCYQoc7PiY28tIhLAdq14tQxwR/B2TdY9qGYw9KrC7tqHTsRnaVEq4bRi98dM+FiXeWTwDac4BaPHDWf/dkxyHscVTEbAOej/SunwmuhNVTsFBlr2Lwiubynq8+SLxOnrUsTFLRlXrVKALSuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8L+KE9R; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-783d84ecb13so241796785a.0;
+        Sun, 28 Jan 2024 14:53:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706482385; x=1707087185; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SHEJz7lhB+IAerhrVnhDVBAqG+Jxmcd4Fdf1GvCvEOA=;
+        b=d8L+KE9RxpqJb0fL8dxhLVhzrhNyJGMHBhmPu4ccnHFaEIuKoJ0ke3XN74ZQ+j2OYZ
+         uPMgfT50aGqo0iYQiuRKnNWGw8Clw+ehaYraUrHXe7Baajq/qKV2Xsu+Fc4Df9ROe4Sf
+         3YSXfX6/xnXYVKopQK7L5tTfJEryiBD0FyfeCvOE9GEfS2CIltQLiy7AkHqfDufX1dqV
+         OtlKIV54m4/Mmria88gJvSKlzIlw7RMggZmq5F82y/0Y2pJxYC7m9lIei3izyInW1SHS
+         /fHJIlRhJa+GPkXNNfsL098xIRryfXLJh+RLy38toSsb0QzkEgWKt9p5isjfVeLAbpe+
+         1t0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706475524; x=1707080324;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=62Q7hwfACeQdUw8IaPs+IUlcv1LZyRLv0ed0go2doNQ=;
-        b=GHivp5is4ENlSJRBLKG97irnU0Of6TR5FO6Ur8UG/AvoBFWiXGnG7YbnUCE18Uwfcq
-         yCW2qozqRGktFPdsAor/yC8xX9u/wObMvGrc/SDwebH4q2WWHoA62gbELzLa1i8tu4Ry
-         MU43H4NqCTOHo2Kx9AI7rIwumvjziZ6X2oZzb1SCA89d/kPxdsbSYDYLGBD0SuQItJVD
-         Wadc1dx+Vqgc5+lo9cuKA664cwfnAG0R8lIfekAoSCBPX1vEkIzk8ywel/05yq/zoLr5
-         eTattSA70xXDrGKHXIrSCOY5adho/4d5riyQgRPvT6oVSWU226ZMskf4f1qCBK2s+Z7Q
-         7gNQ==
-X-Gm-Message-State: AOJu0YzmWc9/c/NjPheMK9pZJ7ccpJTy/E7dhqXkb7idb2WUSImU/kq6
-	yqcp2rIDFuuh4/7M3hlCromBFNN4U4YHePDPW87XkD75HhqT9FHYfB4cDwN29L7cfX+FDXMddu5
-	EXJBdrBSvL65Rukcd3EaYCYtMYe83xD/SE3XWWXYIAYzl5UTXIH0bZgtRk++DF7h7BaE+zTr2mw
-	27SXgjZy9pkcOwL1y7Z76znB54jhAoW686THWayVk2eoNo
-X-Received: by 2002:a05:6512:1599:b0:510:286b:8882 with SMTP id bp25-20020a056512159900b00510286b8882mr2822363lfb.3.1706475523919;
-        Sun, 28 Jan 2024 12:58:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEYMz3M2uqDUqiUhnbiTqezTT+rr7Ge8xzQpGZsJDY6aUIDnDWqLdE6w43LlqXr5pL/NK+36Q==
-X-Received: by 2002:a05:6512:1599:b0:510:286b:8882 with SMTP id bp25-20020a056512159900b00510286b8882mr2822358lfb.3.1706475523470;
-        Sun, 28 Jan 2024 12:58:43 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id l26-20020a170906415a00b00a3590fb191csm965248ejk.150.2024.01.28.12.58.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jan 2024 12:58:42 -0800 (PST)
-Message-ID: <0fa07550-80cb-40f2-87c8-23864af33642@redhat.com>
-Date: Sun, 28 Jan 2024 21:58:41 +0100
+        d=1e100.net; s=20230601; t=1706482385; x=1707087185;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SHEJz7lhB+IAerhrVnhDVBAqG+Jxmcd4Fdf1GvCvEOA=;
+        b=BG3U//VQb/vY8snwOwHK6s8fMp9orev8BOSTGes979jTf33ijfxKiIIC5c6k3fmZYt
+         VivpkgGarXzz3RRFX5OUrrQCQ1lRB0buPc6NZSqSDiO4Eh3WBPfawcOUvMnqJ5wMg+7j
+         0q+HlYki+QN21/ZWNmUld5JfFC5nAn+ci8IIwi3O4/3jx54YenqFgeeUIyeFisuuei/1
+         WJ52Dp+OvDEB4TNmW/WrvYdGi3zYmOzC8mhYycmwEuj+1oEkFw/RQhms0/4LE5JNz0uu
+         usiCkhxJ7cLlfQs1qCfJ7gI7KnqUp3De/nWARLBr0beGvMyfuwqEW7xbKkan5Jm/Zjgi
+         LAcA==
+X-Gm-Message-State: AOJu0YxhGHtEzAtqIsZeGK0qAr3Lss2wJKJBj+s6n0bUKQFHjKbXD/hL
+	XqP4HPx4NvgGYTR6G2l38MusHvG8779GejujxMhcw2p+gdmWGgdB
+X-Google-Smtp-Source: AGHT+IEdTY/eWJZvlD4EQYw6AswvY87543msgJIyxR6XRvQcfJ+yyYdFG/GfF+lCqFI7CXkglqnhMQ==
+X-Received: by 2002:a05:620a:4013:b0:783:fe00:950e with SMTP id h19-20020a05620a401300b00783fe00950emr1254567qko.148.1706482385079;
+        Sun, 28 Jan 2024 14:53:05 -0800 (PST)
+Received: from kohshi54-ThinkCentre-M715q.. ([2404:7a80:c880:6500:7f79:d78c:e8ac:f086])
+        by smtp.gmail.com with ESMTPSA id y2-20020a1709027c8200b001d7726c4a40sm4069560pll.277.2024.01.28.14.53.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jan 2024 14:53:04 -0800 (PST)
+From: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
+To: sakari.ailus@linux.intel.com,
+	bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com
+Cc: Kohshi Yamaguchi <kohshi54.yam@gmail.com>,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: [PATCH] doc: ipu3: Fix UAPI header doc warnings
+Date: Mon, 29 Jan 2024 07:52:58 +0900
+Message-Id: <20240128225258.50375-1-kohshi54.yam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans de Goede <hdegoede@redhat.com>
-Subject: Weird default vblank value in ov5693
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi All,
+The ipu3_uapi_acc_param struct in the IPU3 UAPI header mentioned
+reserved1 and reserved2 fields, which are absent in the actual
+structure definition. This mismatch led to Sphinx build warnings
+due to inconsistencies between the documentation and the code.
 
-While adding vblank ctrl support to the ov2680 driver I was looking
-at the vblank ctrl code in the ov5693 and I noticed something
-which I believe is weird / undesirable.
+This patch removes these non-existent reserved field references
+from the documentation, resolving the Sphinx build warnings and
+ensuring the UAPI header is accurately documented.
 
-When setting a new mode the ov5693 driver does not keep the current
-vts value (adjusting vblank to keep vts and thus the framerare and
-exposure unchanged).
+Signed-off-by: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
+---
+ drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-Instead it calculates a new vts value, resetting the framerate
-to 30 fps; or 60 fps for smaller resolutions and then sets
-vblank to the new (vts - new_mode->height) and adjusts
-the exposure control-range to fit within the new vts, potentially
-also changing the exposure value.
-
-This behavior of the ov5693 code means that switching resolution
-also changes the framerate and the exposure value which seems
-undesirable.
-
-The vblank and hblank control values changes on setting a mode
-is unavoidable but the framerate and exposure value changing
-at the same time seems undesirable.
-
-Note that this also halves the max supported exposure value
-when going to a lower-res mode even when userspace never
-touches the vblank control.
-
-Regards,
-
-Hans
-
-
-
+diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+index caa358e0bae4..926fcf84e33c 100644
+--- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
++++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+@@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
+  *		&ipu3_uapi_yuvp1_y_ee_nr_config
+  * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
+- * @reserved1: reserved
+  * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @tcc:	total color correction config as defined in struct
+  *		&ipu3_uapi_yuvp2_tcc_static_config
+- * @reserved2: reserved
+  * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
+  * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
+  * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
+-- 
+2.34.1
 
 
