@@ -1,125 +1,96 @@
-Return-Path: <linux-media+bounces-4286-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4287-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7CA83F2D7
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 03:13:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B2B83F512
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 12:01:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD0F7283143
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 02:13:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D92DB282E83
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jan 2024 11:01:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A8F6C13B;
-	Sun, 28 Jan 2024 02:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D62751F5F0;
+	Sun, 28 Jan 2024 11:01:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cv1kF7YQ"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RkhbdvRH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046D7523A
-	for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 02:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17441EB29;
+	Sun, 28 Jan 2024 11:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706407947; cv=none; b=Y7NsMoFqv5KrxL6i20XZsoYMhU5A8yc8Wnf+7tsLlQ6QOKl9Ili/pWDAKRGalq+DyXzoSxQUuPbFt2TNkoIyCAReDjNXAQxhA/h0MvVTZeGu+UJOt0fcGeH6j9v904qshS7O42p8PFF9k/a/9RbgCpmJj87sn/7mj2kJmE2tWXw=
+	t=1706439687; cv=none; b=beHcnUJgHuwHMojO0k+EvudNgzDLIEikNHgVUzpsvvmUg14SKUx8rONg1AVOdoMQTFEno1sZ+SABs9yZ5cWBlXOzSROSeqXsIr1xg938p1bVHbPu2WcketHu1hWjS0IfxSlvapNo4RQVWMLHQ5u95JoEzHLkGzOTnAjuJcWWbgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706407947; c=relaxed/simple;
-	bh=9FkkM0hWSfNgvycjkBk9G6d+gbIZbwtTlwMJBT/mtG4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j1fgJsXNIaDH3TWIvIg7LlPHwUhfpl6fWKJge/pj8BvNjOcwA/mhw99J+VnZHX6mUYxrtWuRgv7Xv1xKmi55PrrpiX8kIxK5SbcDPseXg90g1Aqp/UUubyNkrPj64PH7JhqzPNLNekBqucNF9hmq3iaqe22ZMWnJv1CunITXSs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cv1kF7YQ; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-42a8af3c724so4893251cf.2
-        for <linux-media@vger.kernel.org>; Sat, 27 Jan 2024 18:12:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706407945; x=1707012745; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j3C7WQBZgNLZ3JFZZb+3FA3visUd8j+r0zGWZyg3Ybg=;
-        b=cv1kF7YQM5NyC7/Jeh3KhL1qC/id6nz8hCXK0zJzhm7e1QGAwpIJCYF0dg6PoR0CyK
-         sfVoLuXKp+C7E2VFBWxbrVZsg70FX+8gJT9hQP1KicVB9ejLwEZBueXnlyIC1TZNKdn+
-         FgkdKDKqXmHzMsWOMz6AvdkjUvT8wugbh+RL0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706407945; x=1707012745;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j3C7WQBZgNLZ3JFZZb+3FA3visUd8j+r0zGWZyg3Ybg=;
-        b=EEZStR0ZHmGSnVzTg7oL0VgIF90ZeIGStHUBnQ6S2dzeZIcK8mD1lr3i9QlPymXkBL
-         m1mDSWbsonUj1uJnDd2BWFYFBQkNz6POAG7iwjm5CQonwyfnTgOcMHx1Rn3QqT7zITxo
-         n/412T+NDB6/DSZsfRiQ7iSF4vyIp/nDMmJkestC1mNkt9OmhXdflyedRblLD8fkkKRQ
-         834ofy/6wAcMAACrB+mIfRjIhXw8+V7LQMGMtPNrt6Wq6ielqFtpwjxH/S4AEW2BE9Ee
-         onITq07JHi0r5OaBi8/I9fNOwssTl+hy/na92sf32rGmN9e46eD0iX7c4rzqkEWsgCd6
-         Pkiw==
-X-Gm-Message-State: AOJu0YwBCtvxWvf0UG0s5QXlBu7LBH0ppJ8xArYG97VWLj6iejO7QKgX
-	IGX+gdhsJJpGLGzkrVgoIl+7BZf2tvlBYct8UxFnTeOqy8VR4+l0LWefD7BdpA==
-X-Google-Smtp-Source: AGHT+IFQh4FaJ+1XI2IdQ76ww3xRTWTulNHZ3WBhfnSPiasZomtas55CswgU5xylWxHtrHsOrzM/jg==
-X-Received: by 2002:ac8:4e96:0:b0:42a:87ff:4b0a with SMTP id 22-20020ac84e96000000b0042a87ff4b0amr4978445qtp.99.1706407944870;
-        Sat, 27 Jan 2024 18:12:24 -0800 (PST)
-Received: from denia.c.googlers.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id ka23-20020a05622a441700b0042a98bf0117sm568061qtb.78.2024.01.27.18.12.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jan 2024 18:12:24 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sun, 28 Jan 2024 02:12:22 +0000
-Subject: [PATCH 3/3] media: mediatek: vcodedc: Fix
- Wcast-function-type-strict warnings
+	s=arc-20240116; t=1706439687; c=relaxed/simple;
+	bh=5srCU8mALld93XXZWkuO9wczxnN7Mp+AiQKKleufIJY=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=rwOfOLc3St7J5m69Q2K50nggWfiydnOqYr5Rb0IvRDFrPwyW7RWsvUR1M5JO4qg7elUgiPKlj64SamdozKZFuRqF6OhJOBsJzPrvLg4nvmomQO/ZuZaqdVsOhU+nmLvCgCym5z+dfixZf+vguxx36pjYJqvzu8HdwpzownEOu90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RkhbdvRH reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0639A3D9;
+	Sun, 28 Jan 2024 11:59:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1706439599;
+	bh=5srCU8mALld93XXZWkuO9wczxnN7Mp+AiQKKleufIJY=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=RkhbdvRHlz1v8jg4VujoVEvuFFQwER/Of6VU8hgYvGxSJ6sauMOpigUM9jwIZggbM
+	 ovsTDbzG216rVaHmdrHBTfja6Y/1kngp8TZl25L/sIL9hjrprl+/lEEC7ofAXjaoqi
+	 ogP2fskaRCqFSgwLOtdxTIoWzpGtryil4ewfj2mk=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org>
-References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
-In-Reply-To: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Mike Isely <isely@pobox.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Yunfei Dong <yunfei.dong@mediatek.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.3
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240126-gix-mtk-warnings-v1-7-eed7865fce18@chromium.org>
+References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org> <20240126-gix-mtk-warnings-v1-7-eed7865fce18@chromium.org>
+Subject: Re: [PATCH 07/17] media: i2c: adv748: Fix kerneldoc
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev, linux-amlogic@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
+To: Alim Akhtar <alim.akhtar@samsung.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Andrzej Hajda <andrzej.hajda@intel.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Bin Liu <bin.liu@mediatek.com>, Bingbu Cao <bingbu.cao@intel.com>, Bjorn Andersson <andersson@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>, Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, Philipp Zab
+ el <p.zabel@pengutronix.de>, Ricardo Ribalda <ribalda@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin <tiffany.lin@mediatek.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, Yunfei Dong <yunfei.dong@mediatek.com>
+Date: Sun, 28 Jan 2024 11:01:13 +0000
+Message-ID: <170643967334.1879520.13311953581412781310@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Building with LLVM=1 throws the following warning:
-drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+Quoting Ricardo Ribalda (2024-01-26 23:16:06)
+> The field is gone, remove the documentation.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Looking at 3e89586a64df ("media: i2c: adv748x: add adv748x driver")
+confims it was never added. Must have been an old leftover when I
+upstreamed.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-index 9f6e4b59455d..781a0359afdc 100644
---- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-+++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-@@ -33,9 +33,11 @@ static int mtk_vcodec_vpu_set_ipi_register(struct mtk_vcodec_fw *fw, int id,
- 	 * The handler we receive takes a void * as its first argument. We
- 	 * cannot change this because it needs to be passed down to the rproc
- 	 * subsystem when SCP is used. VPU takes a const argument, which is
--	 * more constrained, so the conversion below is safe.
-+	 * more constrained, so the conversion below is safe. We use the void
-+	 * casting, to convince clang with -Wcast-function-type-sctrict that
-+	 * this is safe.
- 	 */
--	ipi_handler_t handler_const = (ipi_handler_t)handler;
-+	ipi_handler_t handler_const = (ipi_handler_t)((void *)handler);
- 
- 	return vpu_ipi_register(fw->pdev, id, handler_const, name, priv);
- }
+Thanks for the fix.
 
--- 
-2.43.0.429.g432eaa2c6b-goog
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/i2c/adv748x/adv748x.h | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv7=
+48x/adv748x.h
+> index 6f90f78f58cf..d2b5e722e997 100644
+> --- a/drivers/media/i2c/adv748x/adv748x.h
+> +++ b/drivers/media/i2c/adv748x/adv748x.h
+> @@ -173,7 +173,6 @@ struct adv748x_afe {
+>   *
+>   * @endpoints:         parsed device node endpoints for each port
+>   *
+> - * @i2c_addresses:     I2C Page addresses
+>   * @i2c_clients:       I2C clients for the page accesses
+>   * @regmap:            regmap configuration pages.
+>   *
+>=20
+> --=20
+> 2.43.0.429.g432eaa2c6b-goog
+>
 
