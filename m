@@ -1,48 +1,79 @@
-Return-Path: <linux-media+bounces-4343-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4344-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B208404D2
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A37F88404ED
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:24:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79B361F21682
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 12:18:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E1D41F228A4
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 12:24:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB67F604C9;
-	Mon, 29 Jan 2024 12:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C1B604CD;
+	Mon, 29 Jan 2024 12:24:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="j73kZ1gD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EDWjnlQu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FEE60265;
-	Mon, 29 Jan 2024 12:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F065604AA
+	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 12:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706530695; cv=none; b=X1FxSrvI2W2BzPYG1H/U6jtImYke2LrLszGhU0lPd1/nVd/yftBvzcv0C21WSaCHA+XGxgYpiC0XCGFBseVZyefDmo1v7b9uMO8GdBs1PeFNsYa206SVvxF3Kd8vkIVp7Q0hBKkWcWQn/AVUo/IZkThhJpD5ciJleIwuxiFpLq4=
+	t=1706531080; cv=none; b=Bi4JSc0LN/YPmIchYVIN0JTGowodK7QEnElvBvzo+rbUHkB6GJGCX4hz47ptPMX8AhLnzL+Jttm0U7rZ6bWivkt5ZV5i74Yad0bdnjiLCJky1CBv6ZHhao2Kpp26u7VsfwwZSkrHze3X8uFrt1e4Ft9LJ4IbHWhzH8zAqOvAtzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706530695; c=relaxed/simple;
-	bh=I4WK+5da5MlzGnLCtoabMKAZVKEcKY7bPVbFQuu52pE=;
+	s=arc-20240116; t=1706531080; c=relaxed/simple;
+	bh=mYVaOIh5WD9ED0yHOkZEOzEsVREEekh6TELfXwveZK0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fe7MwIusdyZe5vHcQWvx3V6jbl7MZnI7JxZw6pw3SqIbBOqvbPBeIDcxK8LfNMuFw1bJux1UJJ4SMPEi6+f1xiCZFaxN+sCQBtNcgWygd9FY9g/PBhh14qbEexLdA9G3qA6xCJxzIh73YfPSeGTIRC026U2E+KpJtd0IY1wOoRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=j73kZ1gD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi [91.154.35.128])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B6A51803;
-	Mon, 29 Jan 2024 13:16:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1706530614;
-	bh=I4WK+5da5MlzGnLCtoabMKAZVKEcKY7bPVbFQuu52pE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j73kZ1gDY5fHCzcCX3TG6cjLNPUssUGu1XevBm+HRC0pG9uUx2m9STQebe0luNf6v
-	 3pLf34bKl5WxzAc+KwzptPvId/3DOT2mhiJcwqbxvdeRkiWdSHN5ECUGm3fCeJ389l
-	 W3rwH7kkH09Rt6O/UtIH8NulJKArktQIqq7ETN80=
-Message-ID: <7b76f975-b22d-4e45-b0a2-b7246c0c027a@ideasonboard.com>
-Date: Mon, 29 Jan 2024 14:18:10 +0200
+	 In-Reply-To:Content-Type; b=oNGIDgmA4RNjvYd5cOj68bWmdR9VMsP/hsuxIcmaTApGrh+kJGNjHrqBNIsOTgc+G0FZEQ1MfEjROcXzvqh73nozqGOmIyzFm9+qgJXZMqMl42zl6dm0HYwKmdTaCIepiwvxRHRX8bAcgNplW1IZdKWJIHm+VzvlnlXLsp4SnSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EDWjnlQu; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706531076;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X1ksDuyI6F7OY9uNe4BDl7jjPkqWULO0xbvI5CWWw+k=;
+	b=EDWjnlQuakimiv5Fy6FabHYsZmvtKbUP8RvZL1NtGu2Do+E3wohp7dzDrWVzJ5LWU3WlN3
+	MAqT3jCzHOatK3a/fl1nxXEhXg/i6cueKRQHRUzdhUydSjTYEgSS4B8YiPqgeqg04GGSIr
+	I4MTj9Kv7QsC9kPvmxY6tCzVhD2/8pQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-569-BAFwPFhNPEGxyYYrYS1K_g-1; Mon, 29 Jan 2024 07:24:35 -0500
+X-MC-Unique: BAFwPFhNPEGxyYYrYS1K_g-1
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-55a6e18fdb6so1412966a12.1
+        for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 04:24:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706531073; x=1707135873;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X1ksDuyI6F7OY9uNe4BDl7jjPkqWULO0xbvI5CWWw+k=;
+        b=THe8Hkx7f2HLxuPAJ1GAGkrdy5JZOzEGdEeMdgu+atGsAysRiF6YV+JmWO5nP2ns/3
+         mETEBng9sJfQLixKdCGiG3RYhY/Q7NyBV7mjShVqeU7JSVS0IQPWqd46mBu66PjHpttr
+         a7drmsgJMZFp5d8sG3mWR5fBkl71dXOp1Qs1waZFkKGk6ESzEMR0DIoNoFln1EZ5SueN
+         L8yQrEmMxLjwOR5z+I7KL6e949txyUsWhsfhAw80gTrchUlK7xszcr/A0bJr/D2IRkFJ
+         MtHt16f85VewN44qdaqcG71JtL3EDoJK9AHl0hApYUODYrK1zo2+VlH7c8M3xBrcbEbq
+         Gfqw==
+X-Gm-Message-State: AOJu0Yx7/v2/k0KBS63q+X1mBshyQxvLcN7k4KQ9y6DNn665AOaIW5Q0
+	fB1WtYmNCDn6QCnenGlrVHI2v9VYnpQy8yuN/6h+jJ311vh3mn8Ln2CJw7I0ucw/OzSVu9UOIxj
+	gDklUbnbOE2rm01pTYhFoh13MX6PpuKXaz5BlfTr4SLb7XQF1i4YHIWs2AXGBQQj8KqIs
+X-Received: by 2002:a05:6402:b05:b0:55f:4bc:a74b with SMTP id bm5-20020a0564020b0500b0055f04bca74bmr1472798edb.2.1706531073044;
+        Mon, 29 Jan 2024 04:24:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFtWeEztXJiOSmIgPSxYJiuAJvuCy1Orm2Ild/y9vf3RaqkSSR2GsdzVi1Ceo/vVa/AtH2vHQ==
+X-Received: by 2002:a05:6402:b05:b0:55f:4bc:a74b with SMTP id bm5-20020a0564020b0500b0055f04bca74bmr1472788edb.2.1706531072674;
+        Mon, 29 Jan 2024 04:24:32 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id d15-20020a056402400f00b0055eebd3db08sm1463524eda.66.2024.01.29.04.24.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 04:24:31 -0800 (PST)
+Message-ID: <c2a0c7ae-ac72-4e26-aa83-cdd0d7f02f90@redhat.com>
+Date: Mon, 29 Jan 2024 13:24:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,121 +81,173 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/13] of: property: use of_graph_get_next_port() on
- of_graph_get_next_endpoint()
-Content-Language: en-US
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
- linux-sound@vger.kernel.org,
- =?UTF-8?Q?Uwe_Kleine-K=C3=83=C2=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
- Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Rob Herring <robh+dt@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <87cytlklgl.wl-kuninori.morimoto.gx@renesas.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <87cytlklgl.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: Weird default vblank value in ov5693
+Content-Language: en-US, nl
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Dan Scally <dan.scally@ideasonboard.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <0fa07550-80cb-40f2-87c8-23864af33642@redhat.com>
+ <18f20014-44b8-4f83-915d-81f265369821@ideasonboard.com>
+ <1ccf4d19-4db4-48fb-a6bf-17e29cbc5f3e@redhat.com>
+ <vv37qd3rqy5x6343pkiltoyqw2eyozwakmf5dcisybqynme3or@rqy2ww6hr2oq>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <vv37qd3rqy5x6343pkiltoyqw2eyozwakmf5dcisybqynme3or@rqy2ww6hr2oq>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 29/01/2024 02:54, Kuninori Morimoto wrote:
-> We have of_graph_get_next_port(), use it on of_graph_get_next_endpoint().
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   drivers/of/property.c | 18 ++++--------------
->   1 file changed, 4 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 9e670e99dbbb..14ffd199c9b1 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -690,15 +690,7 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->   	 * parent port node.
->   	 */
->   	if (!prev) {
-> -		struct device_node *node;
-> -
-> -		node = of_get_child_by_name(parent, "ports");
-> -		if (node)
-> -			parent = node;
-> -
-> -		port = of_get_child_by_name(parent, "port");
-> -		of_node_put(node);
-> -
-> +		port = of_graph_get_next_port(parent, NULL);
->   		if (!port) {
->   			pr_err("graph: no port node found in %pOF\n", parent);
->   			return NULL;
-> @@ -725,11 +717,9 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->   		/* No more endpoints under this port, try the next one. */
->   		prev = NULL;
->   
-> -		do {
-> -			port = of_get_next_child(parent, port);
-> -			if (!port)
-> -				return NULL;
-> -		} while (!of_node_name_eq(port, "port"));
-> +		port = of_graph_get_next_port(parent, port);
-> +		if (!port)
-> +			return NULL;
->   	}
->   }
->   EXPORT_SYMBOL(of_graph_get_next_endpoint);
+Hi Jacopo,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On 1/29/24 13:05, Jacopo Mondi wrote:
+> Hi Hans
+> 
+> On Mon, Jan 29, 2024 at 11:30:33AM +0100, Hans de Goede wrote:
+>> Hi Dan,
+>>
+>> On 1/29/24 10:53, Dan Scally wrote:
+>>> Morning Hans
+>>>
+>>>
+>>> On 28/01/2024 20:58, Hans de Goede wrote:
+>>>> Hi All,
+>>>>
+>>>> While adding vblank ctrl support to the ov2680 driver I was looking
+>>>> at the vblank ctrl code in the ov5693 and I noticed something
+>>>> which I believe is weird / undesirable.
+>>>>
+>>>> When setting a new mode the ov5693 driver does not keep the current
+>>>> vts value (adjusting vblank to keep vts and thus the framerare and
+>>>> exposure unchanged).
+>>>>
+>>>> Instead it calculates a new vts value, resetting the framerate
+>>>> to 30 fps; or 60 fps for smaller resolutions and then sets
+>>>> vblank to the new (vts - new_mode->height) and adjusts
+>>>> the exposure control-range to fit within the new vts, potentially
+>>>> also changing the exposure value.
+>>>>
+>>>> This behavior of the ov5693 code means that switching resolution
+>>>> also changes the framerate and the exposure value which seems
+>>>> undesirable.
+>>>
+>>>
+>>> I think I did it that way because I was hitting problems when changing the framesize exceeded the current VTS and it seemed cleaner to just reset it to a known situation. Really though the only thing it would affect would be the framerate; that would have to reduce if the VTS increased but exposure could stay the same (though the maximum would change). So probably it ought to work like:
+>>>
+>>>
+>>> * if we change from a larger to a smaller framesize then we can just increase blanking to keep the same VTS and that should be fine
+>>>
+>>> * if we're going from a smaller to a larger framesize that fits within the currently configured VTS with minimum blanking, we can just reduce the blanking to keep the same VTS and that should be fine
+>>>
+>>> * if we're going from a smaller to a larger framesize that exceeds the currently configured VTS we drop blanking to a minimum so that the new framerate is as close to the old one as it can be
+>>>
+>>>
+>>> Does that sound like more reasonable behaviour? If so, shall I patch it?
+>>
+>> This sounds more or like what I had in mind (keep VTS unchanged if possible),
+>> so I have been looking more into this yesterday evening and
+>> implementing this is a bit tricky (*).
+>>
+>> Combining this with your last point of "that the new framerate is as
+>> close to the old one as it can be" I think I prefer a more KISS
+>> approach.
+>>
+>> IMHO the best thing (principle of least surprise) would be to
+>> on a set_fmt pad-op reset things to a default fps of say 30,
+>> as Jacopo's doc patches suggest. My reasons for suggesting
+>> this approach is:
+>>
+>> a) This is easier to implement and thus less likely to have bugs
+>> b) It leads to consistent behavior where as your suggested try to
+>> keep current vts approach leads to sometimes vts being kept, but
+>> other times when going from smaller to higher resolutions vts
+>> changing which will lead to hard to debug problems if userspace
+>> relies on vts being kept.
+>>
+>> For the ov5693 driver this would mean dropping __ov5693_calc_vts()
+>> replacing it with a DEFAULT_VTS define of:
+>>
+>> ALIGN_DOWN(OV5693_PIXEL_RATE / OV5693_FIXED_PPL / 30, 2)
+>>
+>> (does vts need to be a multiple of 2? We don't enforce that
+>>  in the vblank control)
+> 
+> Alternatively, we can reset blankings to their minimum. This is
+> 'predictable' but the end result (in example, possible higher fps)
+> might surprise applications. Please note the same reasoning applies
+> when using a vblank value that gives a known FPS as an application
+> running at 5fps might get 30fps after a set_fmt.
+> 
+> The difference between the two approaches (min-blank vs.
+> known-fps-blank) is that sensors provide different FPS at different
+> resolutions, with full resolution modes sometime being limited to 5
+> fps or less, making difficult to define what the "standard fps" is for
+> all configurations.
 
-  Tomi
+Good point about not all sensors being able to do 30 fps
+at their highest resolution.
+
+I'm not a fan of min-vblank as vblank default value since
+with low-height resolutions this will significantly limit
+the maximum exposure time.
+
+OTOH I do believe that we want a simple default for vblank which gets
+set on every set_mode call to keep things KISS.
+
+How about something like this: (based on your doc patch):
+
+"""
+The vblank control default value is reset so that the sensor runs
+at 30 fps. Except when 30 fps cannot be achieved, in that case
+the vblank control default value is reset to the control's minimum.
+
+After adjusting the range, the vblank control's value must be set to its
+new default value for consistent behavior after applying a new frame size.
+"""
+
+>> What about enum/get/set frame_interval vs set_mode vs
+>> vblank ctrl ?  Options:
+>>
+>> a) Sensor drivers MUST not implement enum/get/set frame_interval?
+> 
+> Ideally they shouldn't, for RAW sensors at least.
+> 
+> For YUV/RGB sensors instead the high-level parameters used by
+> frame_interval might be ok as some of those sensors might not even
+> allow you to control blankings explicitly.
+> 
+> Whenever the hardware allows that, blankings should always be
+> preferred over frame_interval imho.
+> 
+>> b) enum/get/set frame_interval only enum/get/set the default
+>>    frame_interval set by set_mode (e.g. fixed 30 fps).
+>>    Any vblank changes made after the set_mode are not reflected
+>>    by get_frame_interval and set_frame_interval only influences
+>>    the next set_mode call, not the current mode ? Or maybe
+>>    only allow set_frame_interval when not streaming and then
+>>    have it set vblank to match the interval like it would
+>>    have done when called before the last set_mode call ?
+>> c) enum/get/set frame_interval are a second way to control
+>>    hts (lets not go there just here for completeness sake)
+>>
+>> My own preference here would be to go with a) .
+> 
+> Mine as well, but as said for YUV/RGB sensors it might not even be
+> possible to control blankings explicitly. In this case
+> set_frame_interval can be used but if the driver registers the vblank
+> control the newly computed blanking value (in response to a
+> set_frame_interval) should be reflected there ?
+
+IMHO if the driver registers the vblank control then it *must not*
+implement enum/get/set frame_interval . Trying to support both at
+the same time is just going to cause pain.
+
+Assuming a driver implementing vblank also implements hblank
+and pixelrate controls (we can make that mandatory I guess?)
+then there is no need for enum/get/set frame_interval, since
+userspace can then fully query / control the framerate
+through those controls + the frame size.
+
+Regards,
+
+Hans
+
 
 
