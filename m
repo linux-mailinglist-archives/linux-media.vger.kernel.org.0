@@ -1,272 +1,202 @@
-Return-Path: <linux-media+bounces-4352-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4353-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A781840652
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 14:10:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3788B840684
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 14:17:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEC181C21986
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:10:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B91CE287AB7
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:17:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C38EC627F6;
-	Mon, 29 Jan 2024 13:07:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 519B26312C;
+	Mon, 29 Jan 2024 13:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="taMynstO"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MnhAVwCi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2046.outbound.protection.outlook.com [40.107.93.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFB763112
-	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 13:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706533678; cv=none; b=DPzFowY7i/3C1FNObH5zQaRstjQGt+FKHh7336DEdmbYL5D228RmcDkU8kAh47avB7QmeXPqE8dkPIZOskF/Re1fp+izW434eKIZ1Hk5vY7g3G0vncQ1E0uz5L/PiNKZTetLQySGZ9jETIYJZi3xYwI3+ZxE8p82+7/ewi5Y6OA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706533678; c=relaxed/simple;
-	bh=Oev+3F1IgdKHA4LrUBc7Pnry7I0PgYTem8OvVdOjjEw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xgsf0MP6sdvjdgKSmDNu9lyXuktEI46QsJQpw/iy0h/hsFzCFa35cbr54wPU48wUSoXoxoggaURQvCTR+EONPIFDoLgV/gREVQ8OIMa7s+KOE4yOfjY4kue79dIx4RSEh0BsOgFI8D5dWx+S6XeKED3k2Tx1a7tI4zKVSBopZFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=taMynstO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 139C915B5;
-	Mon, 29 Jan 2024 14:06:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1706533596;
-	bh=Oev+3F1IgdKHA4LrUBc7Pnry7I0PgYTem8OvVdOjjEw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=taMynstOI2SKX2HwUy8R6kDQ/5ViCzOGI+0DzSwTRQ44WjRhZ3zbJbiUwHSE97bPw
-	 LTX05bkBF6+67+itR+TmNplkp71S3np9jBPx9y+Lw4vSeFfExPTYGXqWFwMlqRzani
-	 sJzqs9jjxi5rzYfAov7qDGHLtNQUssNjWTNy7U+o=
-Message-ID: <0ae87ee6-98db-43e7-b6dc-a23d7d77eb0d@ideasonboard.com>
-Date: Mon, 29 Jan 2024 13:07:50 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2130F5BAD2;
+	Mon, 29 Jan 2024 13:17:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706534255; cv=fail; b=lRjZRmgoKNK868vcVfhmiKu6GSUtFujMzvcvd94pexuyPpRS1LmcXE04RsGsXr9S8VBU1P6UwNMHsWtjMn9cjHEIEl2fo3Nux7Xsp88H8Fx9TX7yq9Xt3crLmkqURuRvTPftWs4O/WKl668Ffa3fmyInpGiPMIShnrJnY5Uz81o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706534255; c=relaxed/simple;
+	bh=0gtN9VALRvJvx/I9xj4xdl6kKVCfOD87CA4doYg7Nm0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=R2BV5Ir2+h6a8oBTmpZs7z41Qc/ixuC48e3g6fUUJHV98MSqWxbI68bDOom9d/EnmF43PFmHj4CeVJ+NSoESTICNsIxQeQKOkGc/1gnsDFs45GlOcVjSfg8ISjSzNErYCw4T1L/OrPeM5q9+oVI6Ez+vPgCs3adah7ZMjV1SVEY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MnhAVwCi; arc=fail smtp.client-ip=40.107.93.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PZ0zFnLD9jxYRW3nnRlAOj5mYFiHPOTW3MvPyV3FVJvzyXcSPGbzualEw74HcIztYUmkTESekwAvm6qlEIgd/5vWQXwnZYChATnaGWgUJaAIwrGfnZlTy6EFSWyJQgjhLNYNmy7VIKaQ/4ADpzMXvbbfGHgkUTOqkNG0q+4uoOLtDy7Wuy5RhFkwg4rHqbudkIK0V9IoP0fE8JZ+QO1kUbYGXv7n4s1MgqDspRUkg5o25EsE77QX+YW7K2xw1pqgg8RYgbKrKbDF8rzHQdB5vowNy1B6SZST8TzwgK/VqMyEDbRy1S0Tr3BLGg1YE0JaJ2nmBobhJj1LMlUE6sS50g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TziM/MC4a+7rQVfajuIG3rpuBRK6MBZi4HF8k3308O8=;
+ b=Dpt6U1mGGy2sfgw2r9JrdWo9c2APj+XNct7Xizq8bX9TWulVyrxZ86XiF0JVY2uU/f2UALctmZAGT9oCk2evUzKdTxdak5Ns6QZsG16Q4NdwVJw/nJayD5apnKVHhgBNXPM1WdELgiljnbXH8wCM+bV5ond+piqYQSZVtBzQpDZu4BDJlg1k5K6RItvzj+RwgX1Ftv1EZSJC1tcQeBgoq5QaSsYjP46pUoS+fWprTpZ0hFNUqmPfWtqYJOCUAGG9beFzZ+r3eQ2viRyf9TayxJqg0RGmypxVR3SVAm0zNAvnMw/5yytBpCstNgABrBOwRWArnqsJd3dO8+xRwjJXOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TziM/MC4a+7rQVfajuIG3rpuBRK6MBZi4HF8k3308O8=;
+ b=MnhAVwCiZpTZ9qD28NLHTwxl5Wd9RXx2HonTwAZWkrtRG6Yze7hvGKwANUUWJhBfoYKhO0UCtG0tYlGStSEoDcxInpI8y4cMBVoLIOm2mbcb5jenmZwYB/wrGif2w8/OtxyrsxvD64RyVcBBQaVlOogTcftwxCy4jlcKK4LyR1g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BL0PR12MB4929.namprd12.prod.outlook.com (2603:10b6:208:1c4::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Mon, 29 Jan
+ 2024 13:17:30 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7228.029; Mon, 29 Jan 2024
+ 13:17:30 +0000
+Message-ID: <8fc55451-dfd7-4d09-8051-8b39048f85e2@amd.com>
+Date: Mon, 29 Jan 2024 14:17:22 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface infrastructure
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+ <20231219175009.65482-6-paul@crapouillou.net>
+ <20231221120624.7bcdc302@jic23-huawei>
+ <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+ <20240127165044.22f1b329@jic23-huawei>
+ <d6bef39c-f940-4097-8ca3-0cf4ef89a743@amd.com>
+ <aac82ce15a49c5e4b939a69229b9a8a51ca00f5d.camel@crapouillou.net>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aac82ce15a49c5e4b939a69229b9a8a51ca00f5d.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0181.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ab::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Weird default vblank value in ov5693
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <0fa07550-80cb-40f2-87c8-23864af33642@redhat.com>
- <18f20014-44b8-4f83-915d-81f265369821@ideasonboard.com>
- <1ccf4d19-4db4-48fb-a6bf-17e29cbc5f3e@redhat.com>
- <vv37qd3rqy5x6343pkiltoyqw2eyozwakmf5dcisybqynme3or@rqy2ww6hr2oq>
- <c2a0c7ae-ac72-4e26-aa83-cdd0d7f02f90@redhat.com>
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <c2a0c7ae-ac72-4e26-aa83-cdd0d7f02f90@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL0PR12MB4929:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65f51ebd-7e7e-44bf-b98a-08dc20cca552
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	jthF+GGY5TWMfceu2Yvm06OP/1R7d0ggj8QmOeQta+12IqHw0inAHicHIn5Mbh2BMk9Ug8gaxc392uQJ7Si7oFyGM79R0cur4sWf1/i1/1QQEFUbR12NwfkL/f8OS50Mvlf68yJkFslgM/YVRcVWknH8EYTzjjqJdTRYyRJivYVtMydFQdAu2FXfY3IbyuI7QmMA2iS2D/OGUiIA3hE2DSdsuA9igHdnmeu+O4qtxb9z1wyjRI73MEt5sOm1FHC29+oHf3GwNPOIKE/oqS4YMRqHzIb0Cgj8QTvnB9odNjQt3gO1OqJ4HHUgyCpexI5UsQ2T0Zo4e2JFOdSj2loCzJHHZcz2p/CtJBJprHVywEmmKtYCSGIuTXnBji3npizxoc0qJc0dM3CXZ9Vh1Xr+G5mYCSGr9VdibeMMkaUBswPT8Otabj20AOpQqLu31oMUtu3VK6OzeLMjwWOnU4Ee4zbfwm2/0SDBJmdHlFac5tHe1IlVmDHzy90Bhq4qXnhnrPp6//el7KhroYyrLcddyeCJUsayVt9YAgFIjHWhPLJyT2FycsDOFp+/zffDJqEl8+HueD5V3N+zCVV5SIA7m4gnGm2Sv0rguX/+dRUMM+WCpHCf4JkDQ3fxvVrc/LUW/D08p1qZ+Y3l4zfnJSTu2g==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(376002)(366004)(39850400004)(346002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(86362001)(31696002)(36756003)(38100700002)(6486002)(478600001)(41300700001)(8676002)(8936002)(4326008)(66946007)(26005)(66556008)(316002)(66476007)(54906003)(110136005)(2616005)(2906002)(7416002)(66574015)(6666004)(6512007)(5660300002)(6506007)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UUZUVFdOcjk1QzJlYmZFV2NlNkplbURLNHliTVFKa25teEROTi9BSUhpSG9Q?=
+ =?utf-8?B?WkZRRU1tWDJ3NVYra1ZBaC8vcjk5azZFV3h4UFVXQVFCTGhROFdGQlYyc0Nt?=
+ =?utf-8?B?MlJtMGVXTHozaVlweGZmN2gvcTlyejRqUGtuWHI1NTkrYURxenk1Z29HOUtI?=
+ =?utf-8?B?ZzcvTmtXWnNQTWdxc1ZycWNlcFJvK2pxc3V4cjlZQWsxUXFvZ0wrSXNEazRX?=
+ =?utf-8?B?QjQ0cGRWRmg3ZGdSNzBPU2ZKWkloSUk1cG1iaXdXZlNJSUtkekpZUzgxM1BS?=
+ =?utf-8?B?UEJ3MlcwQlpDYXltWWoxK3BtWEE2eXNrNnU2ZzBkTXBXNDZwbGExNU1oMUdi?=
+ =?utf-8?B?anJYVFFkaU9VWWpIVFNiUVZXK25ydEdrSjlmOVN0ZWluL0E3NFdxZXI3eHNq?=
+ =?utf-8?B?U2E0VDJVbDRBRnF3akxhS3p0WjFJVWdwU0N2bFh3WjIxNWFEbEJnenliUGFX?=
+ =?utf-8?B?d1c3T3dXN1BWengyNnpwbXdYaUtDdWhCTDFTNkZSNkVBSEsyRmJtR3d1RUsw?=
+ =?utf-8?B?cmF6eGJvTmZHL1pGZ1FwL1FVd1hpRkhQVE1MeVdlM3pnMkI2bmorNlgwelZK?=
+ =?utf-8?B?cmJXRW5KS3lEMlladEVnZHkreDNzNzkxTjEraW96cHg0RUtrRG1yVDI4Qlda?=
+ =?utf-8?B?QWw0bExwdm5xZENJTnhjRlRQUDU3NXVhOUhYT3kyNnk0UlRnNWpHWTJFbDF1?=
+ =?utf-8?B?RlozalpZVzlITU5pblFUQXRCNlI2dTZMU2E5QmczWlBRSS9XUFEzYnFIVW1L?=
+ =?utf-8?B?OHRaek5OMitKTjV5RCs0SkxTS2N5aVNSSXQydXljZFJnM2hnamQ5U2RnMW14?=
+ =?utf-8?B?QjVrWnc3ekZXUVJJVFlkdnp3U1QrdERodm1DOGdEbk9RTFFZeWpRenlCU2Zo?=
+ =?utf-8?B?UENlL2JWbWhnOEwvanpLQmd6YUxLbWZqcmNJRXRYMzE2U0pEeCtFMzh3WnBw?=
+ =?utf-8?B?Vkd5dmxsbGtzM2VQWWNCekIzdnVsczgyMzRacWpsMkxPNDhRazdDc0g3ZCtC?=
+ =?utf-8?B?NTVGY0RuR2MyNGdhWjQvSFhFSGFBZ05DeGpBUEljYXlScE5SM0ROeHNZbHZS?=
+ =?utf-8?B?NFUzVnoxS0NzSmFweEw1NGtzd0d5MGUwQmxjTVZVSk82azMyekd3eXZXTDRP?=
+ =?utf-8?B?OHBaNkRoZWhMOW5VQzBzQkszcEt6a1JDRGYvTlBMR2YwN21FVGcvd0RjNmh6?=
+ =?utf-8?B?b0J5dXpYbU9CMkdua2paUWhUSzhsNzYwVGg2UlZVSDdud0t6eWkvSUhzNjVq?=
+ =?utf-8?B?S3MyaVBWNTVHSVQrQzU4YXRPczhBOEZLOW0zNmF6RmpIczFpNUpONWdCR1RI?=
+ =?utf-8?B?RkFZOXVOUmIySWFWT2hYcFJJSWFlVng2bFVmVWJTZXY3WklUcnJ0eVM0RUtp?=
+ =?utf-8?B?UTJUZEdkVjFiQW1EeUlSMElsTW84NTk0Zk1yNml0SXZaZHU0UE5sSE9qRkR2?=
+ =?utf-8?B?N05MWk12MDhMMFhwS0JmWWcvMkRUOGdVeW1kU3ZNc1F0WU44Sk16ZzlDaS95?=
+ =?utf-8?B?b0FmanNvUTBZdHE4ZHRkWjVsUVBXUXgwdGd5NE1yWkI2dmEzelc1eVVnS3NM?=
+ =?utf-8?B?RVBYeVF5MDAvU2hTd0RFVWRsK1p3OFJRczdISEZRQ3NXWjRuVWR3Q1ZIeXd5?=
+ =?utf-8?B?cnBMMEF5VHdGcnVRNWpjUTF5eVVEdHVVVnJXWmphZHMrckowOEd6N0JSdDUv?=
+ =?utf-8?B?VFZoOGo5KzNpeFVkaDVRWlh5TmMyRytrNzA2WTB1Z1Bna2JzNGNQK0Z1c283?=
+ =?utf-8?B?SEZ5eU5YaWM2bzhzTnZySkQrYmhTUXRHTk0wUkxMWHYveCtrUEVON0RlUHhy?=
+ =?utf-8?B?ZVRzNFFTRnFYWjVOYThrTEdNZHlCMjYrcC8wMWNiNW5nVkVMeVFRc3ROYnVN?=
+ =?utf-8?B?VzQwQkp2b1pJTXQ5S1pKT3hlZkZjWEpOZWFaVG5GVkU3d2lIS0k2TzhoTndO?=
+ =?utf-8?B?UDduQUE1amszYzlUVXdqMDNsdmcrcW01d3NEZStsZnA5ZTlvL0hxelpEdkll?=
+ =?utf-8?B?U0Zqb2VXZ2p3eEhYbjJ3OHdZengrL3huQlhTM1NZa3lxdXFGRkhjcDdFUGJO?=
+ =?utf-8?B?NFlxR2F2WWY2Y3B6SFJISjI1S3hpRDJxWFhmNU80WmJidjhmcVRpSUcza0VT?=
+ =?utf-8?Q?UrDJfYroSoIvRCEnnHNp7jHOS?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65f51ebd-7e7e-44bf-b98a-08dc20cca552
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 13:17:29.9931
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s9ERICCRppoDrgUG8pZry0OgcfxpOQjLkvHmWUtTQQcUdVLBZ2mgT8S6HvR1TdLF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4929
 
-Hello
+Am 29.01.24 um 14:06 schrieb Paul Cercueil:
+> Hi Christian,
+>
+> Le lundi 29 janvier 2024 à 13:52 +0100, Christian König a écrit :
+>> Am 27.01.24 um 17:50 schrieb Jonathan Cameron:
+>>>>>> +	iio_buffer_dmabuf_put(attach);
+>>>>>> +
+>>>>>> +out_dmabuf_put:
+>>>>>> +	dma_buf_put(dmabuf);
+>>>>> As below. Feels like a __free(dma_buf_put) bit of magic would
+>>>>> be a
+>>>>> nice to have.
+>>>> I'm working on the patches right now, just one quick question.
+>>>>
+>>>> Having a __free(dma_buf_put) requires that dma_buf_put is first
+>>>> "registered" as a freeing function using DEFINE_FREE() in
+>>>> <linux/dma-
+>>>> buf.h>, which has not been done yet.
+>>>>
+>>>> That would mean carrying a dma-buf specific patch in your tree,
+>>>> are you
+>>>> OK with that?
+>>> Needs an ACK from appropriate maintainer, but otherwise I'm fine
+>>> doing
+>>> so.  Alternative is to circle back to this later after this code is
+>>> upstream.
+>> Separate patches for that please, the autocleanup feature is so new
+>> that
+>> I'm not 100% convinced that everything works out smoothly from the
+>> start.
+> Separate patches is a given, did you mean outside this patchset?
+> Because I can send a separate patchset that introduces scope-based
+> management for dma_fence and dma_buf, but then it won't have users.
 
-On 29/01/2024 12:24, Hans de Goede wrote:
-> Hi Jacopo,
->
-> On 1/29/24 13:05, Jacopo Mondi wrote:
->> Hi Hans
->>
->> On Mon, Jan 29, 2024 at 11:30:33AM +0100, Hans de Goede wrote:
->>> Hi Dan,
->>>
->>> On 1/29/24 10:53, Dan Scally wrote:
->>>> Morning Hans
->>>>
->>>>
->>>> On 28/01/2024 20:58, Hans de Goede wrote:
->>>>> Hi All,
->>>>>
->>>>> While adding vblank ctrl support to the ov2680 driver I was looking
->>>>> at the vblank ctrl code in the ov5693 and I noticed something
->>>>> which I believe is weird / undesirable.
->>>>>
->>>>> When setting a new mode the ov5693 driver does not keep the current
->>>>> vts value (adjusting vblank to keep vts and thus the framerare and
->>>>> exposure unchanged).
->>>>>
->>>>> Instead it calculates a new vts value, resetting the framerate
->>>>> to 30 fps; or 60 fps for smaller resolutions and then sets
->>>>> vblank to the new (vts - new_mode->height) and adjusts
->>>>> the exposure control-range to fit within the new vts, potentially
->>>>> also changing the exposure value.
->>>>>
->>>>> This behavior of the ov5693 code means that switching resolution
->>>>> also changes the framerate and the exposure value which seems
->>>>> undesirable.
->>>>
->>>> I think I did it that way because I was hitting problems when changing the framesize exceeded the current VTS and it seemed cleaner to just reset it to a known situation. Really though the only thing it would affect would be the framerate; that would have to reduce if the VTS increased but exposure could stay the same (though the maximum would change). So probably it ought to work like:
->>>>
->>>>
->>>> * if we change from a larger to a smaller framesize then we can just increase blanking to keep the same VTS and that should be fine
->>>>
->>>> * if we're going from a smaller to a larger framesize that fits within the currently configured VTS with minimum blanking, we can just reduce the blanking to keep the same VTS and that should be fine
->>>>
->>>> * if we're going from a smaller to a larger framesize that exceeds the currently configured VTS we drop blanking to a minimum so that the new framerate is as close to the old one as it can be
->>>>
->>>>
->>>> Does that sound like more reasonable behaviour? If so, shall I patch it?
->>> This sounds more or like what I had in mind (keep VTS unchanged if possible),
->>> so I have been looking more into this yesterday evening and
->>> implementing this is a bit tricky (*).
->>>
->>> Combining this with your last point of "that the new framerate is as
->>> close to the old one as it can be" I think I prefer a more KISS
->>> approach.
->>>
->>> IMHO the best thing (principle of least surprise) would be to
->>> on a set_fmt pad-op reset things to a default fps of say 30,
->>> as Jacopo's doc patches suggest. My reasons for suggesting
->>> this approach is:
->>>
->>> a) This is easier to implement and thus less likely to have bugs
->>> b) It leads to consistent behavior where as your suggested try to
->>> keep current vts approach leads to sometimes vts being kept, but
->>> other times when going from smaller to higher resolutions vts
->>> changing which will lead to hard to debug problems if userspace
->>> relies on vts being kept.
->>>
->>> For the ov5693 driver this would mean dropping __ov5693_calc_vts()
->>> replacing it with a DEFAULT_VTS define of:
->>>
->>> ALIGN_DOWN(OV5693_PIXEL_RATE / OV5693_FIXED_PPL / 30, 2)
->>>
->>> (does vts need to be a multiple of 2? We don't enforce that
->>>   in the vblank control)
->> Alternatively, we can reset blankings to their minimum. This is
->> 'predictable' but the end result (in example, possible higher fps)
->> might surprise applications. Please note the same reasoning applies
->> when using a vblank value that gives a known FPS as an application
->> running at 5fps might get 30fps after a set_fmt.
->>
->> The difference between the two approaches (min-blank vs.
->> known-fps-blank) is that sensors provide different FPS at different
->> resolutions, with full resolution modes sometime being limited to 5
->> fps or less, making difficult to define what the "standard fps" is for
->> all configurations.
-> Good point about not all sensors being able to do 30 fps
-> at their highest resolution.
->
-> I'm not a fan of min-vblank as vblank default value since
-> with low-height resolutions this will significantly limit
-> the maximum exposure time.
->
-> OTOH I do believe that we want a simple default for vblank which gets
-> set on every set_mode call to keep things KISS.
->
-> How about something like this: (based on your doc patch):
->
-> """
-> The vblank control default value is reset so that the sensor runs
-> at 30 fps. Except when 30 fps cannot be achieved, in that case
-> the vblank control default value is reset to the control's minimum.
->
-> After adjusting the range, the vblank control's value must be set to its
-> new default value for consistent behavior after applying a new frame size.
-> """
+Outside of the patchset, this is essentially brand new stuff.
 
+IIRC we have quite a number of dma_fence selftests and sw_sync which is 
+basically code inside the drivers/dma-buf directory only there for 
+testing DMA-buf functionality.
 
-In later code meant to achieve the same thing I've fallen back on the minimum vblank if it can't 
-reach some pre-defined value (though I chose 15fps IIRC) - so that seems fine to me.
+Convert those over as well and I'm more than happy to upstream this change.
 
+Thanks,
+Christian.
 
 >
->>> What about enum/get/set frame_interval vs set_mode vs
->>> vblank ctrl ?  Options:
->>>
->>> a) Sensor drivers MUST not implement enum/get/set frame_interval?
->> Ideally they shouldn't, for RAW sensors at least.
->>
->> For YUV/RGB sensors instead the high-level parameters used by
->> frame_interval might be ok as some of those sensors might not even
->> allow you to control blankings explicitly.
->>
->> Whenever the hardware allows that, blankings should always be
->> preferred over frame_interval imho.
->>
->>> b) enum/get/set frame_interval only enum/get/set the default
->>>     frame_interval set by set_mode (e.g. fixed 30 fps).
->>>     Any vblank changes made after the set_mode are not reflected
->>>     by get_frame_interval and set_frame_interval only influences
->>>     the next set_mode call, not the current mode ? Or maybe
->>>     only allow set_frame_interval when not streaming and then
->>>     have it set vblank to match the interval like it would
->>>     have done when called before the last set_mode call ?
->>> c) enum/get/set frame_interval are a second way to control
->>>     hts (lets not go there just here for completeness sake)
->>>
->>> My own preference here would be to go with a) .
->> Mine as well, but as said for YUV/RGB sensors it might not even be
->> possible to control blankings explicitly. In this case
->> set_frame_interval can be used but if the driver registers the vblank
->> control the newly computed blanking value (in response to a
->> set_frame_interval) should be reflected there ?
-> IMHO if the driver registers the vblank control then it *must not*
-> implement enum/get/set frame_interval . Trying to support both at
-> the same time is just going to cause pain.
+> Cheers,
+> -Paul
 
-
-Agreed
-
->
-> Assuming a driver implementing vblank also implements hblank
-> and pixelrate controls (we can make that mandatory I guess?)
-> then there is no need for enum/get/set frame_interval, since
-> userspace can then fully query / control the framerate
-> through those controls + the frame size.
->
-> Regards,
->
-> Hans
->
->
 
