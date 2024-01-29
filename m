@@ -1,109 +1,148 @@
-Return-Path: <linux-media+bounces-4340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4338-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E7C8403B4
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 12:21:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C922A8403AD
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 12:19:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 612541F2381A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 11:21:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DD95282000
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 11:19:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1641C5BACE;
-	Mon, 29 Jan 2024 11:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417975BAC4;
+	Mon, 29 Jan 2024 11:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hoR6o29u"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bDrBdVPh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C82059B73
-	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 11:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069B6537ED;
+	Mon, 29 Jan 2024 11:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706527301; cv=none; b=mrTjwwO5XTtDpFZHByBGCwT3jci+ppQsrYuw/1A7UhKrPnnxEcJ57vOdKFll/puel6bRh1zUpW5ZcxxM7VmIbn++UJXg9xXunYBgLWFmqD2SC3cTgUj2H3uYcHlNvyS8xwQxNoaVqt5WxnXdJnZ6n++vK22UKm4Y0TNEdo7WI9M=
+	t=1706527146; cv=none; b=OGJY/CimG8QsCjP+SXOa3p0bLqwtKwmzEfRGuO7SH9DOMD0Edggbm1zcl9Y9ROSKjmyVhvL3G7jISBrc5730JeQZ95+hILseQ6R+nK/fk4yBd29kil6q/jjPzbG19Wjmz3VioNooNEPtbDF9MEPcz4buAFjV030lmeHhZEdYFyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706527301; c=relaxed/simple;
-	bh=NY7th3TWuLT6A+UxArkHPzAUMkwf/121EP9Z8/2reBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LKXxeg5S8TEUhhM7gRit2lYkPCEn4uyJACDzV9elTxv1PxrbPmUP936SB61wlhL7bbrTVyTe3EzVZm+FGFjZXLLarVgpLTc1h+XkckqjWqt6xtepzZH7qut1aGjr3938LnQlSbUzTFj9mkx7e52nPwlMvpAT1GdxFV8bhyZ51t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hoR6o29u; arc=none smtp.client-ip=192.55.52.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706527298; x=1738063298;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NY7th3TWuLT6A+UxArkHPzAUMkwf/121EP9Z8/2reBU=;
-  b=hoR6o29uO1G820dZunopth6cax8dyjykixylxh5T0LOseFU8g+kFJY5H
-   /VZYk6SFA22lu+mC7nOlFNG3AMWee8G3mtloqVDKbOx6DjEV4K8CmQub8
-   0SnH7YgFoJ2/yBwo3UbHvMBzSYlAxfUbzUriLTpYn4xGu4TyhLY7oQG/y
-   cJw/uuIpS/4WBoaXqqBMHhopJ8ASP6AoWo5MT0YeGduRKJcGsKiF2D5t3
-   l6q1MmFYDqcQqfi0MCj+/7UTbY7E6B/IUvtndMoLPnB1v2tNDviwT/gmh
-   +N1RKncGMV2S6YOqppQYr8neaWoJvwBRCr5LAyaYf9LQ0eUClttcStN8B
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="401788328"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="401788328"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 03:21:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="22073405"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 03:21:36 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id D610611FC11;
-	Mon, 29 Jan 2024 13:12:52 +0200 (EET)
-Date: Mon, 29 Jan 2024 11:12:52 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: kernel test robot <lkp@intel.com>, Jason Chen <jason.z.chen@intel.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: Re: [sailus-media-tree:master 18/18]
- drivers/media/i2c/ov08x40.c:1783:23: error: no member named 'exposure_shift'
- in 'struct ov08x40_mode'
-Message-ID: <ZbeINIg_09lyMXym@kekkonen.localdomain>
-References: <202401261628.dWEtdXLE-lkp@intel.com>
- <20240126154714.GB194356@google.com>
+	s=arc-20240116; t=1706527146; c=relaxed/simple;
+	bh=yLOGBTgHsY29I1hO78KiXpoZtEairn+K3yOolLTw06E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hkzBYCLsvnIAkxD+v0+6Dus9zkkdk3oHGR2lNlSE1JrEIiB59ssQ2rNqoMVGT9hO8JZdXYRjwaOMxq45dJYWwVNK8MLoGWQFC/jgJFZCKC9xNPI+Qmhz3744ufuL98BUnMosOOooqr4Z8QGswkemyWsTfJYq9s1o7cOWmBn+F9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bDrBdVPh; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706527142;
+	bh=yLOGBTgHsY29I1hO78KiXpoZtEairn+K3yOolLTw06E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bDrBdVPhUdMv4lJG+ODzhQOnksbKEIC5ouN8rljgr3j0PmIVVyd0+IcNAfyFSid8n
+	 46gBMRGRqLu1XVBNZxTIRHc6Ftfk1Ra39qT08N6t3DigfYrIN4olucSqaM+vuKk9le
+	 xGEOn4Gej719qENCagRbATh+89tLyrdNQqLqvCMRQIkEV8n85V15zZRc8Ckv09Ghdh
+	 Yu4KDwnpx7WDtNuUVXV/K0KldJ1T2XBK275CU6lDfU8IXnJuG8CM2isQ982MXE3/oy
+	 ZtYbdYWqAlFKNWYlfYke9fyUN+3v3t5L+ytT/GID6pcQPEaOzGZsKRVfggDD1RivHG
+	 c/IcbTJ6aliEA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 08AB03780029;
+	Mon, 29 Jan 2024 11:19:00 +0000 (UTC)
+Message-ID: <df6c8b2b-df56-46c5-933d-e56bf704525f@collabora.com>
+Date: Mon, 29 Jan 2024 12:19:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240126154714.GB194356@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2,1/2] media: mediatek: vcodec: adding lock to protect
+ decoder context list
+Content-Language: en-US
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>, Irui Wang <irui.wang@mediatek.com>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240129023153.28521-1-yunfei.dong@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240129023153.28521-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jan 27, 2024 at 12:47:14AM +0900, Sergey Senozhatsky wrote:
-> On (24/01/26 16:47), kernel test robot wrote:
-> > tree:   git://linuxtv.org/sailus/media_tree.git master
-> > head:   f76be7216c3df5f563353bd7a6aaf5076b118943
-> > commit: f76be7216c3df5f563353bd7a6aaf5076b118943 [18/18] media: ov08x40: Reduce start streaming time
-> > config: i386-randconfig-003-20240126 (https://download.01.org/0day-ci/archive/20240126/202401261628.dWEtdXLE-lkp@intel.com/config)
-> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261628.dWEtdXLE-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202401261628.dWEtdXLE-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> > >> drivers/media/i2c/ov08x40.c:1783:23: error: no member named 'exposure_shift' in 'struct ov08x40_mode'
-> >     1783 |         if (ov08x->cur_mode->exposure_shift == 1) {
-> >          |             ~~~~~~~~~~~~~~~  ^
-> >    1 error generated.
+Il 29/01/24 03:31, Yunfei Dong ha scritto:
+> The ctx_list will be deleted when scp getting unexpected behavior, then the
+> ctx_list->next will be NULL, the kernel driver maybe access NULL pointer in
+> function vpu_dec_ipi_handler when going through each context, then reboot.
 > 
-> This CL depends on https://patchwork.kernel.org/patch/13426393
+> Need to add lock to protect the ctx_list to make sure the ctx_list->next isn't
+> NULL pointer.
+> 
+> Hardware name: Google juniper sku16 board (DT)
+> pstate: 20400005 (nzCv daif +PAN -UAO -TCO BTYPE=--)
+> pc : vpu_dec_ipi_handler+0x58/0x1f8 [mtk_vcodec_dec]
+> lr : scp_ipi_handler+0xd0/0x194 [mtk_scp]
+> sp : ffffffc0131dbbd0
+> x29: ffffffc0131dbbd0 x28: 0000000000000000
+> x27: ffffff9bb277f348 x26: ffffff9bb242ad00
+> x25: ffffffd2d440d3b8 x24: ffffffd2a13ff1d4
+> x23: ffffff9bb7fe85a0 x22: ffffffc0133fbdb0
+> x21: 0000000000000010 x20: ffffff9b050ea328
+> x19: ffffffc0131dbc08 x18: 0000000000001000
+> x17: 0000000000000000 x16: ffffffd2d461c6e0
+> x15: 0000000000000242 x14: 000000000000018f
+> x13: 000000000000004d x12: 0000000000000000
+> x11: 0000000000000001 x10: fffffffffffffff0
+> x9 : ffffff9bb6e793a8 x8 : 0000000000000000
+> x7 : 0000000000000000 x6 : 000000000000003f
+> x5 : 0000000000000040 x4 : fffffffffffffff0
+> x3 : 0000000000000020 x2 : ffffff9bb6e79080
+> x1 : 0000000000000010 x0 : ffffffc0131dbc08
+> Call trace:
+> vpu_dec_ipi_handler+0x58/0x1f8 [mtk_vcodec_dec (HASH:6c3f 2)]
+> scp_ipi_handler+0xd0/0x194 [mtk_scp (HASH:7046 3)]
+> mt8183_scp_irq_handler+0x44/0x88 [mtk_scp (HASH:7046 3)]
+> scp_irq_handler+0x48/0x90 [mtk_scp (HASH:7046 3)]
+> irq_thread_fn+0x38/0x94
+> irq_thread+0x100/0x1c0
+> kthread+0x140/0x1fc
+> ret_from_fork+0x10/0x30
+> Code: 54000088 f94ca50a eb14015f 54000060 (f9400108)
+> ---[ end trace ace43ce36cbd5c93 ]---
+> Kernel panic - not syncing: Oops: Fatal exception
+> SMP: stopping secondary CPUs
+> Kernel Offset: 0x12c4000000 from 0xffffffc010000000
+> PHYS_OFFSET: 0xffffffe580000000
+> CPU features: 0x08240002,2188200c
+> Memory Limit: none
+> 
+> 'Fixes: 655b86e52eac ("media: mediatek: vcodec: Fix possible invalid memory access for decoder")'
 
-Thanks, Sergey, I've taken it in my tree now.
+Hello Yunfei,
 
--- 
-Sakari Ailus
+You've sent two patches as a v2, but:
+  - The two patches are identical (!) apart from the commit message?!
+  - It's Fixes: xxxx , not 'Fixes: xxxx' (please remove the quotes!)
+  - There's no changelog from v1, so, what changed in v2?!
+
+Cheers,
+Angelo
+
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   .../platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c      | 4 ++--
+>   .../platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c    | 5 +++++
+>   .../platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h    | 2 ++
+>   drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c | 2 ++
+>   4 files changed, 11 insertions(+), 2 deletions(-)
+> 
+
 
