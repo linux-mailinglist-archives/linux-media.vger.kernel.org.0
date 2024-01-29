@@ -1,102 +1,145 @@
-Return-Path: <linux-media+bounces-4322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4323-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8DA83FEFD
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 08:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016B983FF00
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 08:30:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B0EB11C23327
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 07:29:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 32B8B1C21198
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 07:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A3564EB2D;
-	Mon, 29 Jan 2024 07:29:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7338C4E1DA;
+	Mon, 29 Jan 2024 07:30:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6C7bYy4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ImQLcFtO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E544E1C5;
-	Mon, 29 Jan 2024 07:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D1951031
+	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 07:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706513383; cv=none; b=EXR2G4m3B/KJHiWmYp8lO4WXKR9vM0+ovoAn3hmOT3Rjh3sR7CODPp1Cyd1nzhktva5Rriy/zvXG1W4lbTUgvG8jO1hfJFuRUHPbJtHJ6BUVpqNCv4BiVU9Bu00KrKMnro98716c9n4UDcocGdN5GsPa6NZ8P1aQynMPE/Bx7do=
+	t=1706513443; cv=none; b=tG2OFFXPGDRNHDOGWv3lKlveta+ukL1qlMy4GspFZMBx2Oq9EvAPZm9zsT4DvMa84sW/Ohx0vkSsFX4UzILbWUGggsCKHK/4l9Vn0CE6tLjbLCTWT3LCj0XXBGCp9BfyQcpI1+++vNWPux/1ncGhQiuSZTTr0hC/r/4RYDnJ4II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706513383; c=relaxed/simple;
-	bh=Jc9jn5Kx2NmcVs/vW6S/Hjf8twBJz4qR4JDcZ6C83/c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fwKVDhb20Lwm6avACeVz5Zng4JqFtth8eGjVzd37brpJyvSRPejZoKveGGkx3ejs5uk3TD/3izJvuU4jP+waJtX1Wjo2Vd2rFAxjU09+n14+UfL9Sl91xBOnWjaIO4Vmngmw+P3GRRAFqFJ6SuIC9x8vpd+N9KpKLyDU42s9OhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6C7bYy4; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1706513443; c=relaxed/simple;
+	bh=myKGyF5dySNELtpYchjq4ejFrXrxUD6q1pjjG/Yfpcs=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=hDuyTwQ9Hsqugn7iLJptKx2Xaa8C3OS211c3hjS8kef9Q03GYHWX0oPfKs7312HXYMOUcIkBbXh9R+JG47j5Xu5lww9a2kZvc2AqQ4a9TgiBkV0Bn+qniYLv4Qzm/K86TgwYrWvC6BXhTOBfJpAncr9pPYchjdmCuh5zzT6OgTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ImQLcFtO; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5ce74ea4bf2so1416447a12.0;
-        Sun, 28 Jan 2024 23:29:42 -0800 (PST)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5101f2dfdadso4196388e87.2
+        for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 23:30:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706513382; x=1707118182; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jc9jn5Kx2NmcVs/vW6S/Hjf8twBJz4qR4JDcZ6C83/c=;
-        b=O6C7bYy4/j6vwHVuQhwux+PfuAnH8Lok5uqAktj37niW1R7prWiw7HL5gigVJqIUon
-         Qx18ASGfqaz79gN/W1UxWsYJ4KUrZTJT5vV2z5lYKQzBhd2iRAo7pa2xnUXcN2YOVYvD
-         rSFQggkdmKDp7a53JXwbPmv2rg+gEy4axbk4teSchAJ6brFDU7N4Vglu6WBqDJAi9GoB
-         S7n0zMaHHQMqNue2PcMWSSQpVbQL7vF8AY8kR9fLAvIdiROvmY11g4Z/BrNGUqboD+wp
-         xTf2oOwcYxv6Uyt/s+2jitLHUP8GmY9AkICYMHX3fdXp/Yb9pDcxBgTmApDLwZp+A1mn
-         Y+Lw==
+        d=gmail.com; s=20230601; t=1706513440; x=1707118240; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=myKGyF5dySNELtpYchjq4ejFrXrxUD6q1pjjG/Yfpcs=;
+        b=ImQLcFtODAIt3GYPSaGoy5cz9IaG1/5nG8HGy/vXzkSQgpjrlSws1jHCNs64LpLMMa
+         gA/yD9Jf8vepGsNxoG4ZA6T880pZYmZ/y2MXjK2EegOdNKZahh7TvFo/vdUdh3uB57L9
+         T1JZXxKna+WKBOEexCnY6QQeZG3ZC2Uy7fyOH1poo5BACrm8jCWpS2ni4WBF4jd2MCsQ
+         zeAyCsJDuP3WS5PtAO3LVcfrAHweOzwfXa2/i98tm5J+MeQhidqj4/D2igISaE5vcW0O
+         Wa9y5RuhsDyDLy29mmMInsPXlDK8nUKjkTO07Fg8yeLIa9+gaqhSPAQzERMMrQrhHzGc
+         ngpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706513382; x=1707118182;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1706513440; x=1707118240;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Jc9jn5Kx2NmcVs/vW6S/Hjf8twBJz4qR4JDcZ6C83/c=;
-        b=An50vc1InKuA3IYcYJ+ccF8MQ152Qs438m0YLNB2wTtiTDKOHoYU/8ZOeVR4leohs1
-         rRQuWp7bi1tSOxrEz4OJUmUwFNRbmX+FNAHFH0U3dL/3eq57deBA9Lqlet1eLk1Ob4xz
-         EsvODKKceF3HmK6otLhvBaMT9yJe4TkI3ZLDs8JGzHLRnevGMgxI9vPh67KAnvwFeKYa
-         veHolOUS4CvxuqTx2A3dOJcCCOZSGwbEfEW1en/FOq4tOqcyNaPahOTliHHp9VWhkfrC
-         geKJHDaAwj4PmXj3zb2siZphxfmLt7GddkB0/houIkowxnRQAYmL6IYD/rrmfvib0Skg
-         lmGw==
-X-Gm-Message-State: AOJu0YwTy4wceRX1c60LisSqmpPJJ9543gcTATGD1hu9uZLDcLXczCMn
-	7sT6UtKVfIb5WEkQFwstR34+98csbFPMo78BjRAduJQwm3OZCVTsGBRvJ7C6lsOQgg==
-X-Google-Smtp-Source: AGHT+IGGTBO+r3eRZTFlF3sN1pAYGUMy9Jx9OlnDSVJHQnlJLn/6GIgPdJD+ktAzomESSLxfbBW1/w==
-X-Received: by 2002:a05:6a20:9e4b:b0:19c:9c76:e9b2 with SMTP id mt11-20020a056a209e4b00b0019c9c76e9b2mr4376473pzb.13.1706513381660;
-        Sun, 28 Jan 2024 23:29:41 -0800 (PST)
-Received: from kohshi54-ThinkCentre-M715q.. ([2404:7a80:c880:6500:a374:2c9:8d38:9a2d])
-        by smtp.gmail.com with ESMTPSA id h8-20020aa79f48000000b006ddcadb1e2csm5166597pfr.29.2024.01.28.23.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jan 2024 23:29:41 -0800 (PST)
-From: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-To: rdunlap@infradead.org
-Cc: sakari.ailus@linux.intel.com,
-	bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] doc: ipu3: Fix UAPI header doc warnings
-Date: Mon, 29 Jan 2024 16:29:37 +0900
-Message-Id: <20240129072937.51850-1-kohshi54.yam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <621fe651-8538-43d5-a797-c1e66436b2dc@infradead.org>
-References: <621fe651-8538-43d5-a797-c1e66436b2dc@infradead.org>
+        bh=myKGyF5dySNELtpYchjq4ejFrXrxUD6q1pjjG/Yfpcs=;
+        b=Y9NMF1v2CYpFRKeX+LoISMTWxnTHkOi6+NeKBzgjSarD2591iQ0H3FRVrzaafKMu2b
+         Q8hwg0XcLiIPJxS5xaWxKQcaJm8Bby0hZsi2hiYKExWVK0Q//McmTsyhohsyMEyt1r9h
+         SwdMr82tPRytWqAyv9c4qzHz01iBmbv7/DvxkMQtVn8J1SGmh7++9rvZZsQROc9VRvDP
+         wHPzz3DUsRopZZFVDSKk4GtstP9jV2Q34BCrzTzNld8sXrrC4QX6z5RaVtkBbtCkguwU
+         /z89owR/ScaoTxDhsSGzUu4/Hz8vKSizLA81YDjzo8uO45wLZSllyCkeyIICQHUq2ASl
+         w9Qg==
+X-Gm-Message-State: AOJu0YwkEDPRhihw18NyKyiw5ZlA53w6qMIYyf8e/xS07TMMBGtHQB0D
+	Y1BIY6rgTDRx78uhTePLe4cM9tPbLTXYv52sWiplnRkIreW3olofTQvBp4CZzZg=
+X-Google-Smtp-Source: AGHT+IGPFPUpkcfh9gS9OWiiHrvyWZjRug8zXx2PI3aj0Lsar9nnr7Gu860QSCAktHmEYZ4hL82+Sw==
+X-Received: by 2002:a05:6512:3046:b0:50e:e668:767b with SMTP id b6-20020a056512304600b0050ee668767bmr3336363lfb.5.1706513440048;
+        Sun, 28 Jan 2024 23:30:40 -0800 (PST)
+Received: from smtpclient.apple ([167.99.200.149])
+        by smtp.gmail.com with ESMTPSA id ay17-20020a05600c1e1100b0040ec7a6d39esm13074697wmb.16.2024.01.28.23.30.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 28 Jan 2024 23:30:39 -0800 (PST)
+From: Christian Hewitt <christianshewitt@gmail.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: RESEND: RFC: dtv-scan-tables: plans to upstream changes from
+ Tvheadend.org
+Message-Id: <3880598D-563D-4A40-A7E4-0AE9C655443F@gmail.com>
+Date: Mon, 29 Jan 2024 11:30:26 +0400
+Cc: linux-media@vger.kernel.org
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
 
-Hi,
+Resending due to no response since 12th Jan:
 
-Thank you for reviewing my patch and pointing out the overlap.
-I appreciate your feedback.
+Hello Mauro,
 
-Best regards,
---
-Kohshi Yamaguchi
+The Tvheadend project bundles dtv-scan-tables in our deb/rpm packages. =
+We have
+our own repo for them; an unmaintained fork of someone else=E2=80=99s =
+unmaintained fork
+of the upstream linuxtv repo =
+https://git.linuxtv.org/dtv-scan-tables.git.
+
+To improve things for everyone we are planning to retool around the =
+linuxtv.org
+repo and would like to sync/upstream the differences to you. The current =
+diff
+can be seen here:=20
+
+https://github.com/chewitt/dtv-scan-tables/compare/master...tvheadend
+
+The main challenges are, a) scrappy descriptions, b) contributor =
+real-names and
+email are missing from most of them, c) multiple contributors to the =
+same files
+over time.
+
+I was thinking to send a series with one patch for each country-code to =
+reduce
+the number of patches to review, with links to original pull-requests in =
+patch
+descriptions to provide attribution to original changes, and any other =
+info
+like URLs added to files as comments if the links still work.
+
+Moving forwards we plan to add a PR template to our GitHub repo that =
+encourages
+patches to be sent directly to the linux-media list; or for contributors =
+to
+provide us with real-name/email for attribution so we can upstream =
+patches on
+their behalf, or remain anonymous but give permission for patches to be =
+sent
+under Tvheadend attribution (likely as myself).
+
+Would my per-country-code patch suggestion work for you? or how would =
+you like
+us to handle the changes?
+
+Regards, Christian
+chewitt@tvheadend.org
+
+NB: The pending patch from Simon Liddicott [0] reduces the diff. Could =
+that be
+merged soon?
+
+[0] =
+https://patchwork.linuxtv.org/project/linux-media/patch/20230216010528.592=
+1-1-simon@liddicott.com/
+
+
 
