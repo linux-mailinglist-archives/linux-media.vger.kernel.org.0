@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-4336-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4337-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86F1840322
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 11:48:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D71D1840325
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 11:48:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA98E1C22204
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 10:48:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FC0F1F23512
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 10:48:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB415674F;
-	Mon, 29 Jan 2024 10:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C128157876;
+	Mon, 29 Jan 2024 10:48:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="0C0rvqis"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PWiNFEaj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29561537F6;
-	Mon, 29 Jan 2024 10:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BB357867;
+	Mon, 29 Jan 2024 10:48:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706525276; cv=none; b=Uc5JnM2EIbutnLEAZ4U0AFLXokRSBZKZK+vla4j53Pqqt57RJDLfPSru8XpVmOt69OBqISIxqwUJjr4jfLmqUdYHuqB+wQYqCDAchtawhGe6azRFddwgNgxmEd3ki7wpYcFxXN9cshjwtfb6vyjuG+RjnuCXSKQerSXEijmlESg=
+	t=1706525283; cv=none; b=efsw6u4sIiaPv3DW2/7XsxRjtueDXg2xW/cwWD5QuOg8oxdXujr7CWYWYqPXc7PRqt7Huc02m3p9yTSW7wrb5jN6leNDiwkMgZc9zKqiLU2GoElp6FQrIL2akjwH4B9AAehYDkc+R2tk/DM3ckJGXFGYyZ0j4nVqkrBesWV8Rx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706525276; c=relaxed/simple;
-	bh=8Au+/H7E9o8ti3xE3u2gCsCzYHjbfhoH5OhsSjspxj8=;
+	s=arc-20240116; t=1706525283; c=relaxed/simple;
+	bh=xEqQM1fzy9szP+fpqrJ11n+/1aP8eVpnc7QXFhpkMec=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f7LvCjaPO4eT1jw8O2a4p+sVA5UZGVV2crBXayrIqqYVcmX9p1BO2mi+fCGBn46axZ0D2MSq7QVy5DykLOwYnKop9yanKxxdVBDaoVpuXJwUu4Z4D7X/1vBAvGspR5BlqBVwHerwaYF1IKzOnMFMnDAeBtQ7vX8lLCQqYVJ0Fnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=0C0rvqis; arc=none smtp.client-ip=46.235.227.194
+	 In-Reply-To:Content-Type; b=k6FHBorJMbjQplNqYtG375CigufAl0RD/s8DaG6wX1Pu8gin1v167Bkac5x4Xo1cYVFvHAXi0dAOuOPIUiPsUxkEF/PRK7Tngj3goVvOuYGuNAZZOfV1f0tbgNXN5r0W6avVIAqAxbvXcimffz8v9ULjWw1aZK9c/i2vbAYDTnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PWiNFEaj; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706525273;
-	bh=8Au+/H7E9o8ti3xE3u2gCsCzYHjbfhoH5OhsSjspxj8=;
+	s=mail; t=1706525280;
+	bh=xEqQM1fzy9szP+fpqrJ11n+/1aP8eVpnc7QXFhpkMec=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=0C0rvqiskSDGqyZG1knyWqrtpk+bGHC4dANO/XqqQ8pIbZK+5jHir+Fom/2ihzX2r
-	 P2rr2NfMiZc/IO+YTd4qz7y4CmURH5LjUsD36HAHK1+WHqmwuSbWbjmh419yRsXmgk
-	 xFKST7L1JsjYr+ypMyVV3h9I8jAE4EuAUvEeJ9u+3pmCLClBy/9VrNvfl1oqk1izAa
-	 X+HF3L3lJLRVn609OYsayVO3DJrp9OdGVtLkFc6qIrnjW0+XZ8xnpz5YxPnm7NQSu8
-	 3lWR+AQ0a3JDmJ8II7TEYDJzG56Q2dsSh591nfnGHBDDVFdxclKVAFKrigrZ2rpuuj
-	 RROhr6N5EAeXQ==
+	b=PWiNFEaj6ZhhaWudOxKUE7+4KkASnAySS/YDm22TwFah+JKIH57MNUdRqrygzZ/l2
+	 ckivlCZ3tgV5vCHKVsH5R77QdNxSXe2oyVN1o/QRgoejKWLhQOdfre6r/iOm0rIlkL
+	 FRxe8kTulECeWbfVgT0INS2b2AjVAMXbdjv37H0Lu8BPTzN74DdbeXJxiWEtsIK9NC
+	 8NUwmWg2ZAkMQI53FRmnFDwtUyqmGmjQ7H6p2rQ2vjm480F8B7bdHqUIWkjXCuaktg
+	 ja0DYn+xufl6U6IsybIe9YdMVaxs84Y14f2v3kPU7v9rF/L8hjSEfo0MS2iSqdpz8i
+	 gDo1A7ri6M0lg==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8A0793780C1F;
-	Mon, 29 Jan 2024 10:47:52 +0000 (UTC)
-Message-ID: <6f362f4c-7a84-4979-b507-2384363d63ef@collabora.com>
-Date: Mon, 29 Jan 2024 11:47:51 +0100
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 907F13780C1F;
+	Mon, 29 Jan 2024 10:47:59 +0000 (UTC)
+Message-ID: <282822ba-0e96-4078-a807-4b0b08e42014@collabora.com>
+Date: Mon, 29 Jan 2024 11:47:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,53 +57,41 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH v3 0/6] video encoder on mt8186
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: mediatek-jpeg-encoder: change
+ max iommus count
 Content-Language: en-US
 To: tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
  matthias.bgg@gmail.com, linux-mediatek@lists.infradead.org,
- Eugen Hristev <eugen.hristev@collabora.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Eugen Hristev <eugen.hristev@collabora.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, bin.liu@mediatek.com
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  robh+dt@kernel.org, kernel@collabora.com
-References: <20231228113245.174706-1-eugen.hristev@collabora.com>
- <170652472371.127352.1415914611175058375.b4-ty@collabora.com>
+References: <20240127084258.68302-1-eugen.hristev@collabora.com>
+ <170652472373.127352.5854831299483160743.b4-ty@collabora.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <170652472371.127352.1415914611175058375.b4-ty@collabora.com>
+In-Reply-To: <170652472373.127352.5854831299483160743.b4-ty@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Il 29/01/24 11:41, AngeloGioacchino Del Regno ha scritto:
 > 
-> On Thu, 28 Dec 2023 13:32:39 +0200, Eugen Hristev wrote:
->> This series adds support for the video encoder on mt8186.
+> On Sat, 27 Jan 2024 10:42:57 +0200, Eugen Hristev wrote:
+>> MT8186 has 4 iommus in the list, to cope with this situation, adjust
+>> the maxItems to 4 (instead of previous 2).
+>> Add also minItems as 2 to keep compatibility with current devices.
 >>
->> Few patches fix the binding, there is a patch for the DT node,
->> and one patch for the driver that fixes an imbalance.
 >>
->> Changes in v3:
->> - removed the patch to add dma-ranges, because this was intentionally
->> removed (e.g. https://patchwork.kernel.org/project/linux-media/patch/20230303013842.23259-3-allen-kh.cheng@mediatek.com/ )
->> also removed dma-ranges and cells from the DT node
->>
->> [...]
 > 
 > Applied to v6.4-next/dts64, thanks!
 > 
 
 Sorry, typo: v6.8-next/dts64
 
-> [2/6] dt-bindings: media: mtk-vcodec-encoder: fix non-vp8 clock name
->        commit: b8248c4831787f0854e2e856fa83da68ad5afcde
-> [3/6] arm64: dts: mediatek: mt8192: fix vencoder clock name
->        commit: 0157de54920b556d575ffc82ae5d16f2b4cb9494
-> [4/6] dt-bindings: media: mtk-vcodec-encoder: add compatible for mt8186
->        commit: 178eaba322868a75c2e0ad078fcf91c3a6f5abba
-> [5/6] arm64: dts: mediatek: mt8186: fix VENC power domain clocks
->        commit: 2a08dba6bf6637295175f48ad870a24833955cd4
-> [6/6] arm64: dts: mediatek: mt8186: Add venc node
->        commit: f971c7ee301bbd423e06f82bcae768223a4dd602
+> [1/2] dt-bindings: media: mediatek-jpeg-encoder: change max iommus count
+>        commit: b824b32dd5e98221cbe2e8bcccc6fb4134e35fc1
+> [2/2] arm64: dts: mediatek: mt8186: Add jpgenc node
+>        commit: 4c5b46fbf52d52b0f392f0fc3913560bad438e49
 > 
 > Best regards,
-
 
 
