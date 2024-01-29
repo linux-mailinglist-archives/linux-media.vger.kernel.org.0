@@ -1,145 +1,131 @@
-Return-Path: <linux-media+bounces-4323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4324-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016B983FF00
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 08:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA3B83FF37
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 08:49:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 32B8B1C21198
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 07:30:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8DCE1C22BDF
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 07:49:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7338C4E1DA;
-	Mon, 29 Jan 2024 07:30:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC8424EB22;
+	Mon, 29 Jan 2024 07:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ImQLcFtO"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="zD0JfOPJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D1951031
-	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 07:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9F54EB35
+	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 07:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706513443; cv=none; b=tG2OFFXPGDRNHDOGWv3lKlveta+ukL1qlMy4GspFZMBx2Oq9EvAPZm9zsT4DvMa84sW/Ohx0vkSsFX4UzILbWUGggsCKHK/4l9Vn0CE6tLjbLCTWT3LCj0XXBGCp9BfyQcpI1+++vNWPux/1ncGhQiuSZTTr0hC/r/4RYDnJ4II=
+	t=1706514543; cv=none; b=WphIHJyv25NFgwIztNqW4AUJXB3l0hzo3BnZrzI9rDCCfUoUUtGJmp9iUxD0eOH7ex8jwLK+O5TYBps6f1VBNp1Hrt+xh2fw4pA4kuus7b4mI6y5H8IdVdiQUEEK7k0trZjRsdaKkfVttu9AKVpRHnBnpmfdm7LZ6krYpv8+DWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706513443; c=relaxed/simple;
-	bh=myKGyF5dySNELtpYchjq4ejFrXrxUD6q1pjjG/Yfpcs=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=hDuyTwQ9Hsqugn7iLJptKx2Xaa8C3OS211c3hjS8kef9Q03GYHWX0oPfKs7312HXYMOUcIkBbXh9R+JG47j5Xu5lww9a2kZvc2AqQ4a9TgiBkV0Bn+qniYLv4Qzm/K86TgwYrWvC6BXhTOBfJpAncr9pPYchjdmCuh5zzT6OgTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ImQLcFtO; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5101f2dfdadso4196388e87.2
-        for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 23:30:42 -0800 (PST)
+	s=arc-20240116; t=1706514543; c=relaxed/simple;
+	bh=BKP83D9yJgO7dHlibnyMa09vHevxppr0G+06k+2XFWc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jF7eEBpU6ZpHQkEgUg2NhMbDQi5DBvytOarDXZOFc/xo4yDOO5urRM9NILn5aySm+UTBvKfI8B0VTFNrrjZV00yZ5XBaPHOcmUHC2VHiGZv+dc/tnBu0dkgIeivR/SpylD4jq+FC03fs5ljvTZST89TviqMyzLuhYm8dgY1FPx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=zD0JfOPJ; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a357cba4a32so117271866b.2
+        for <linux-media@vger.kernel.org>; Sun, 28 Jan 2024 23:49:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706513440; x=1707118240; darn=vger.kernel.org;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=myKGyF5dySNELtpYchjq4ejFrXrxUD6q1pjjG/Yfpcs=;
-        b=ImQLcFtODAIt3GYPSaGoy5cz9IaG1/5nG8HGy/vXzkSQgpjrlSws1jHCNs64LpLMMa
-         gA/yD9Jf8vepGsNxoG4ZA6T880pZYmZ/y2MXjK2EegOdNKZahh7TvFo/vdUdh3uB57L9
-         T1JZXxKna+WKBOEexCnY6QQeZG3ZC2Uy7fyOH1poo5BACrm8jCWpS2ni4WBF4jd2MCsQ
-         zeAyCsJDuP3WS5PtAO3LVcfrAHweOzwfXa2/i98tm5J+MeQhidqj4/D2igISaE5vcW0O
-         Wa9y5RuhsDyDLy29mmMInsPXlDK8nUKjkTO07Fg8yeLIa9+gaqhSPAQzERMMrQrhHzGc
-         ngpg==
+        d=fairphone.com; s=fair; t=1706514539; x=1707119339; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hi3wdBPHy9dOJfUItOIZktdrEsNa9te/nL1WfaDI3y0=;
+        b=zD0JfOPJHHPGaXfIawDeUuiT7Jl4xsIl3OqLLbJjuY0pY0GjUKidfiElXlN8PB/2tj
+         eSvjXBE/bHQEHKrpvrjTC4OkUif2mFkmV2t/t6xwwedWejM0f8Cfu+TuUHzuPRKr9/9n
+         uOC3185PWvH0pPa8z4NyTF/x1SRhc9e8Ayad204t8CfbvKl/9aSz9rynbDiBsOn6gl+X
+         9UP3kMwoTrXzFZcPUAu5GH1cxN7ZrbfQHy0N+2j5rx27q5VtrXQokpXf3uCWA0O3I3Xg
+         I3Bi5K1Bm7gF/K5muQ2K5tne61BftSTAqGyJQ+VTCBz9WGduSNkH7XqGXb1w73rsXUb7
+         x/ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706513440; x=1707118240;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=myKGyF5dySNELtpYchjq4ejFrXrxUD6q1pjjG/Yfpcs=;
-        b=Y9NMF1v2CYpFRKeX+LoISMTWxnTHkOi6+NeKBzgjSarD2591iQ0H3FRVrzaafKMu2b
-         Q8hwg0XcLiIPJxS5xaWxKQcaJm8Bby0hZsi2hiYKExWVK0Q//McmTsyhohsyMEyt1r9h
-         SwdMr82tPRytWqAyv9c4qzHz01iBmbv7/DvxkMQtVn8J1SGmh7++9rvZZsQROc9VRvDP
-         wHPzz3DUsRopZZFVDSKk4GtstP9jV2Q34BCrzTzNld8sXrrC4QX6z5RaVtkBbtCkguwU
-         /z89owR/ScaoTxDhsSGzUu4/Hz8vKSizLA81YDjzo8uO45wLZSllyCkeyIICQHUq2ASl
-         w9Qg==
-X-Gm-Message-State: AOJu0YwkEDPRhihw18NyKyiw5ZlA53w6qMIYyf8e/xS07TMMBGtHQB0D
-	Y1BIY6rgTDRx78uhTePLe4cM9tPbLTXYv52sWiplnRkIreW3olofTQvBp4CZzZg=
-X-Google-Smtp-Source: AGHT+IGPFPUpkcfh9gS9OWiiHrvyWZjRug8zXx2PI3aj0Lsar9nnr7Gu860QSCAktHmEYZ4hL82+Sw==
-X-Received: by 2002:a05:6512:3046:b0:50e:e668:767b with SMTP id b6-20020a056512304600b0050ee668767bmr3336363lfb.5.1706513440048;
-        Sun, 28 Jan 2024 23:30:40 -0800 (PST)
-Received: from smtpclient.apple ([167.99.200.149])
-        by smtp.gmail.com with ESMTPSA id ay17-20020a05600c1e1100b0040ec7a6d39esm13074697wmb.16.2024.01.28.23.30.38
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 28 Jan 2024 23:30:39 -0800 (PST)
-From: Christian Hewitt <christianshewitt@gmail.com>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20230601; t=1706514539; x=1707119339;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hi3wdBPHy9dOJfUItOIZktdrEsNa9te/nL1WfaDI3y0=;
+        b=n340gyCz83ImDtMAV2OEezc9sMFmAJgci1/GoDILPUo9AhiezsD0ncsmkd6/m8PMz1
+         x6lzOyXxe+3WLb0j4DNfe3ZL9/eZ3VRpjkBzP7yW37dWRZbJfBmXMlbJopc1eCPB0gnC
+         99P+prksqKIMsJs0CwZ/MRA1LPsyJy7/HpbttQ0NAo1YrViG8kxjK2j0/XqszhFHJCst
+         THSswTl2/PigajF6lQ+hoxgE38p9aoaCsWZQq4S0hGznNEjCAQsfihn+vx4yNmu2PmS5
+         WvxhdR8VxyVLp5BYaNHL4b2nKPcSuc4EaZtBV1hCnzSIw3lALHokLI3sGgtFMD1l8ret
+         Kf/g==
+X-Gm-Message-State: AOJu0YyNfdMC5PT71UDubUY9rt24t1Kt8okyaH+Sd8rrlbt+VzevBx8H
+	XRSS3AEYmsBklGYgi2oGjHoicTE0GZ91p2JrlHiaKLqhXZCcDye0Uznh2nwPBqI=
+X-Google-Smtp-Source: AGHT+IHk+mC/fG7pO9q79H3dEN8aAlJyGvqAHmPJhChitf/sDZtgl4y8tPnRH+IhsiPE5Sa2TKqS2g==
+X-Received: by 2002:a17:906:a14c:b0:a35:d2f8:4927 with SMTP id bu12-20020a170906a14c00b00a35d2f84927mr590202ejb.70.1706514539677;
+        Sun, 28 Jan 2024 23:48:59 -0800 (PST)
+Received: from otso.luca.vpn.lucaweiss.eu (dhcp-089-099-055-216.chello.nl. [89.99.55.216])
+        by smtp.gmail.com with ESMTPSA id l13-20020a1709066b8d00b00a32429e455asm3679881ejr.175.2024.01.28.23.48.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jan 2024 23:48:59 -0800 (PST)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Date: Mon, 29 Jan 2024 08:48:54 +0100
+Subject: [PATCH] media: dt-bindings: qcom,sc7280-venus: Allow one IOMMU
+ entry
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: RESEND: RFC: dtv-scan-tables: plans to upstream changes from
- Tvheadend.org
-Message-Id: <3880598D-563D-4A40-A7E4-0AE9C655443F@gmail.com>
-Date: Mon, 29 Jan 2024 11:30:26 +0400
-Cc: linux-media@vger.kernel.org
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-X-Mailer: Apple Mail (2.3774.200.91.1.1)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240129-sc7280-venus-bindings-v1-1-20a9ba194c60@fairphone.com>
+X-B4-Tracking: v=1; b=H4sIAGVYt2UC/x3MMQqAMAxA0atIZgM1SLVeRRzURs0SpUERxLtbH
+ N/w/wPGSdigKx5IfInJrhlVWcC8jboySswGclS7igLa3FDr8GI9DSfRKLoaevY0huDJRYbcHok
+ Xuf9vP7zvBwnbDmZnAAAA
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+ Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>, 
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>
+X-Mailer: b4 0.12.4
 
-Resending due to no response since 12th Jan:
+Some SC7280-based boards crash when providing the "secure_non_pixel"
+context bank, so allow only one iommu in the bindings also.
 
-Hello Mauro,
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+Reference:
+https://lore.kernel.org/linux-arm-msm/20231201-sc7280-venus-pas-v3-2-bc132dc5fc30@fairphone.com/
+---
+ Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-The Tvheadend project bundles dtv-scan-tables in our deb/rpm packages. =
-We have
-our own repo for them; an unmaintained fork of someone else=E2=80=99s =
-unmaintained fork
-of the upstream linuxtv repo =
-https://git.linuxtv.org/dtv-scan-tables.git.
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+index 8f9b6433aeb8..10c334e6b3dc 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+@@ -43,6 +43,7 @@ properties:
+       - const: vcodec_bus
+ 
+   iommus:
++    minItems: 1
+     maxItems: 2
+ 
+   interconnects:
 
-To improve things for everyone we are planning to retool around the =
-linuxtv.org
-repo and would like to sync/upstream the differences to you. The current =
-diff
-can be seen here:=20
+---
+base-commit: 596764183be8ebb13352b281a442a1f1151c9b06
+change-id: 20240129-sc7280-venus-bindings-6e62a99620de
 
-https://github.com/chewitt/dtv-scan-tables/compare/master...tvheadend
-
-The main challenges are, a) scrappy descriptions, b) contributor =
-real-names and
-email are missing from most of them, c) multiple contributors to the =
-same files
-over time.
-
-I was thinking to send a series with one patch for each country-code to =
-reduce
-the number of patches to review, with links to original pull-requests in =
-patch
-descriptions to provide attribution to original changes, and any other =
-info
-like URLs added to files as comments if the links still work.
-
-Moving forwards we plan to add a PR template to our GitHub repo that =
-encourages
-patches to be sent directly to the linux-media list; or for contributors =
-to
-provide us with real-name/email for attribution so we can upstream =
-patches on
-their behalf, or remain anonymous but give permission for patches to be =
-sent
-under Tvheadend attribution (likely as myself).
-
-Would my per-country-code patch suggestion work for you? or how would =
-you like
-us to handle the changes?
-
-Regards, Christian
-chewitt@tvheadend.org
-
-NB: The pending patch from Simon Liddicott [0] reduces the diff. Could =
-that be
-merged soon?
-
-[0] =
-https://patchwork.linuxtv.org/project/linux-media/patch/20230216010528.592=
-1-1-simon@liddicott.com/
-
+Best regards,
+-- 
+Luca Weiss <luca.weiss@fairphone.com>
 
 
