@@ -1,242 +1,153 @@
-Return-Path: <linux-media+bounces-4356-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4357-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E63D84072B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 14:38:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2C98407F6
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 15:15:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7BAA1F28A5C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:38:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 531E11C21B32
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 14:15:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABBB3657B9;
-	Mon, 29 Jan 2024 13:37:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFAD365BC3;
+	Mon, 29 Jan 2024 14:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="L9iZfGuS"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="d1tm4uHv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E880A651AC;
-	Mon, 29 Jan 2024 13:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706535466; cv=pass; b=JbGrB3gOG4CGRXMLSJubmyzeYJaki0s/6dVEL5ZzFSHizj33ii+/p1H6vM7vQk8qLRG22BF9gO77TYjUhrqyU12UvjqocOYDGP0cC3DWDfWJXZ9fAZzKC0cbh14ybttxmnVEXkihk7YurG9dgDeNuS47UCsVdMKBrfIU1thFe10=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706535466; c=relaxed/simple;
-	bh=1Q2ncB17EOSNxTDez7UD4M4c7Sx/P3AtArVJ1O+fXSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pH0lyP/IYeTpIQvGBjwdD5F7wSWcnlzYYcE0ickwg5vj9XeIhk9we/d8vl5Oi/h40tnyqyDdCGgvbdF+b30oJD+MefAZFhEnjg61YzUoig8rhhCRiLYRJ0d8uDc+8gH6WgbwFii7NrnJnReDLo9Qo4UmTLgC4oBcXOZc35tLBKE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=L9iZfGuS; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4TNq9S6zH6zyPp;
-	Mon, 29 Jan 2024 15:37:31 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1706535454;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7146311F;
+	Mon, 29 Jan 2024 14:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706537715; cv=none; b=ofMexdIUqJEOB4Z1UivvQ+0TfeBduGUJl6YB+PeSLZ18E36z1IXGLEpzBraSi7Al5TxdpKj9sbypUdSCHqS5hrok/i9FM7FZ4BvMoVoG82idtQ843qlNQpVbDCbfN/s0UT4DaFfY8PbWvAJWpx4976NDszHGvHwF6A6KhA2B0eU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706537715; c=relaxed/simple;
+	bh=joKOcQVzaGp+Eqm7uU448Qn7y9ce+cvNOf58xf3Uhm0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=k2St8h65daslB803RKO/ayq9KTslJORirwNofk/OngkeasLdFZvHQZyTOopL6CDKHaM0DqDsqwL+n4Fo1FNSR656Lh6hopFtcKpCF2SDB2h6Um4XdTaBUgxQD+96PuixFXSt/aqaNXz6oe9q+XSUzPPWTAQ2eZwvhz5Y7O9BMuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=d1tm4uHv; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706537710;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j01SVC6SiusGZa0TumiabawLGRRmQcP48TE8VEU49Xc=;
-	b=L9iZfGuSfD83n9B3LK8HTFxMOBQQbuaA5j7AEy89zlHiObFEoq0DumP2/ceRG4wRbTNcri
-	jQheHk1RhPt3nAaDfTj1oaiShOyeAb4PEmxL5BQaBzcBEnCwa/tMzEBcCJKnZ3L5/ZlLs+
-	EAHcb8xB10Bb949XRrbwSJ46+zVPXMA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1706535454;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j01SVC6SiusGZa0TumiabawLGRRmQcP48TE8VEU49Xc=;
-	b=CHWrNpP1vI20eioGflr1i1/sTNwlo+7UMqSxrp5Fa1ljTaeEhApV4kGEY2HOU3BGiF0KuE
-	vpFhnOlcLRNRExKR+XZQx/3n5v1bqOD9MTQ4tJL21+mp9Cw2vNCVaena8gYwoQwzJxbGWm
-	FR/E2LRXpOCpOStEerututhefS1KamU=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1706535454; a=rsa-sha256; cv=none;
-	b=ZB05vLhHMe4jcm6BJfmZSOQT5XiXsY2DINFJDbDSOy1Al2XbWvrSD0mYIQe334KcV6F36+
-	D0iTA5fMPLZz8axEa8SJ6ZsPgQS3BmX0rxtmopfbk0bBSiZxm0Vlm5Kplk08vbA7ju1f0F
-	OdtQOEcYRLxI++AwJYvJADhA+VmXPUs=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AD9B5634C93;
-	Mon, 29 Jan 2024 15:37:30 +0200 (EET)
-Date: Mon, 29 Jan 2024 13:37:30 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 03/13] of: property: add
- of_graph_get_next_endpoint_raw()
-Message-ID: <ZbeqGhfBiXarlhtu@valkosipuli.retiisi.eu>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <87bk95klgc.wl-kuninori.morimoto.gx@renesas.com>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=pgidmgFeP0tk17gjD21+VDw69unAjkitiIzLDu66t2o=;
+	b=d1tm4uHvLjI5geAdOzhvTRgdZIr1L3eaCvN8jfDMVBENQ99GYSV5EcCEqcQrqH6LHIAL++
+	nfkRyyMWSUxnJPc+ogGTV6ArelezJ5g0QkZNbSG65vKXOClj6W+zGQdglXaZKVovqwiA1A
+	GslGn9EBvHWlk2dR9BvhuZ0iweu8854=
+Message-ID: <f676839ba47eefe7c33d3f46f4517fbdb1d01c7a.camel@crapouillou.net>
+Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface
+ infrastructure
+From: Paul Cercueil <paul@crapouillou.net>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+	Jonathan Cameron
+	 <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>,  Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org,  linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org,  dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Nuno =?ISO-8859-1?Q?S=E1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
+Date: Mon, 29 Jan 2024 15:15:08 +0100
+In-Reply-To: <fb4bcbefcfd0ab1982172c780ce5c5f1e96ae798.camel@crapouillou.net>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+	 <20231219175009.65482-6-paul@crapouillou.net>
+	 <20231221120624.7bcdc302@jic23-huawei>
+	 <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+	 <20240127165044.22f1b329@jic23-huawei>
+	 <d6bef39c-f940-4097-8ca3-0cf4ef89a743@amd.com>
+	 <aac82ce15a49c5e4b939a69229b9a8a51ca00f5d.camel@crapouillou.net>
+	 <8fc55451-dfd7-4d09-8051-8b39048f85e2@amd.com>
+	 <fb4bcbefcfd0ab1982172c780ce5c5f1e96ae798.camel@crapouillou.net>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bk95klgc.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Morimoto-san,
+Le lundi 29 janvier 2024 =C3=A0 14:32 +0100, Paul Cercueil a =C3=A9crit=C2=
+=A0:
+> Le lundi 29 janvier 2024 =C3=A0 14:17 +0100, Christian K=C3=B6nig a =C3=
+=A9crit=C2=A0:
+> > Am 29.01.24 um 14:06 schrieb Paul Cercueil:
+> > > Hi Christian,
+> > >=20
+> > > Le lundi 29 janvier 2024 =C3=A0 13:52 +0100, Christian K=C3=B6nig a =
+=C3=A9crit=C2=A0:
+> > > > Am 27.01.24 um 17:50 schrieb Jonathan Cameron:
+> > > > > > > > +	iio_buffer_dmabuf_put(attach);
+> > > > > > > > +
+> > > > > > > > +out_dmabuf_put:
+> > > > > > > > +	dma_buf_put(dmabuf);
+> > > > > > > As below. Feels like a __free(dma_buf_put) bit of magic
+> > > > > > > would
+> > > > > > > be a
+> > > > > > > nice to have.
+> > > > > > I'm working on the patches right now, just one quick
+> > > > > > question.
+> > > > > >=20
+> > > > > > Having a __free(dma_buf_put) requires that dma_buf_put is
+> > > > > > first
+> > > > > > "registered" as a freeing function using DEFINE_FREE() in
+> > > > > > <linux/dma-
+> > > > > > buf.h>, which has not been done yet.
+> > > > > >=20
+> > > > > > That would mean carrying a dma-buf specific patch in your
+> > > > > > tree,
+> > > > > > are you
+> > > > > > OK with that?
+> > > > > Needs an ACK from appropriate maintainer, but otherwise I'm
+> > > > > fine
+> > > > > doing
+> > > > > so.=C2=A0 Alternative is to circle back to this later after this
+> > > > > code is
+> > > > > upstream.
+> > > > Separate patches for that please, the autocleanup feature is so
+> > > > new
+> > > > that
+> > > > I'm not 100% convinced that everything works out smoothly from
+> > > > the
+> > > > start.
+> > > Separate patches is a given, did you mean outside this patchset?
+> > > Because I can send a separate patchset that introduces scope-
+> > > based
+> > > management for dma_fence and dma_buf, but then it won't have
+> > > users.
+> >=20
+> > Outside of the patchset, this is essentially brand new stuff.
+> >=20
+> > IIRC we have quite a number of dma_fence selftests and sw_sync
+> > which
+> > is=20
+> > basically code inside the drivers/dma-buf directory only there for=20
+> > testing DMA-buf functionality.
+> >=20
+> > Convert those over as well and I'm more than happy to upstream this
+> > change.
+>=20
+> Well there is very little to convert there; you can use scope-based
+> management when the unref is done in all exit points of the
+> functional
+> block, and the only place I could find that does that in drivers/dma-
+> buf/ was in dma_fence_chain_enable_signaling() in dma-fence-chain.c.
 
-On Mon, Jan 29, 2024 at 12:54:59AM +0000, Kuninori Morimoto wrote:
-> We already have of_graph_get_next_endpoint(), but it is not intuitive
-> to use.
-> 
-> (X)	node {
-> (Y)		ports {
-> 			port@0 { endpoint { remote-endpoint = ...; };};
-> (A1)			port@1 { endpoint { remote-endpoint = ...; };
-> (A2)				 endpoint { remote-endpoint = ...; };};
-> (B)			port@2 { endpoint { remote-endpoint = ...; };};
-> 		};
-> 	};
-> 
-> For example, if I want to handle port@1's 2 endpoints (= A1, A2),
-> I want to use like below
-> 
-> 	A1 = of_graph_get_next_endpoint(port1, NULL);
-> 	A2 = of_graph_get_next_endpoint(port1, A1);
-> 
-> But 1st one will be error, because of_graph_get_next_endpoint() requested
-> "parent" means "node" (X) or "ports" (Y), not "port".
-> Below are OK
-> 
-> 	of_graph_get_next_endpoint(node,  NULL); // node/ports/port@0/endpoint
-> 	of_graph_get_next_endpoint(ports, NULL); // node/ports/port@0/endpoint
-> 
-> In other words, we can't handle A1/A2 directly via
-> of_graph_get_next_endpoint() so far.
-> 
-> There is another non intuitive behavior on of_graph_get_next_endpoint().
-> In case of if I could get A1 pointer for some way, and if I want to
-> handle port@1 things, I would like use it like below
-> 
-> 	/*
-> 	 * "endpoint" is now A1, and handle port1 things here,
-> 	 * but we don't know how many endpoints port1 has.
-> 	 *
-> 	 * Because "endpoint" is non NULL, we can use port1
-> 	 * as of_graph_get_next_endpoint(port1, xxx)
-> 	 */
-> 	do {
-> 		/* do something for port1 specific things here */
-> 	} while (endpoint = of_graph_get_next_endpoint(port1, endpoint))
-> 
-> But it also not worked as I expected.
-> I expect it will be A1 -> A2 -> NULL,
-> but      it will be A1 -> A2 -> B,    because of_graph_get_next_endpoint()
-> will fetch endpoint beyond the port.
-> 
-> It is not useful on generic driver like Generic Sound Card.
-> It uses of_get_next_child() instead for now, but it is not intuitive,
-> and not check node name (= "endpoint").
-> 
-> To handle endpoint more intuitive, create of_graph_get_next_endpoint_raw()
-> 
-> 	of_graph_get_next_endpoint_raw(port1, NULL); // A1
-> 	of_graph_get_next_endpoint_raw(port1, A1);   // A2
-> 	of_graph_get_next_endpoint_raw(port1, A2);   // NULL
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/of/property.c    | 26 +++++++++++++++++++++++++-
->  include/linux/of_graph.h |  2 ++
->  2 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 14ffd199c9b1..37dbb1b0e742 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -667,6 +667,30 @@ struct device_node *of_graph_get_next_port(const struct device_node *parent,
->  }
->  EXPORT_SYMBOL(of_graph_get_next_port);
->  
-> +/**
-> + * of_graph_get_next_endpoint_raw() - get next endpoint node
-> + * @port: pointer to the target port node
-> + * @endpoint: current endpoint node, or NULL to get first
-> + *
-> + * Return: An 'endpoint' node pointer with refcount incremented. Refcount
-> + * of the passed @prev node is decremented.
-> + */
-> +struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
-> +						   struct device_node *endpoint)
-> +{
-> +	if (!port)
-> +		return NULL;
+Actually - not even that, since it doesn't call dma_fence_get() and
+dma_fence_put() on the same fence.
 
-of_get_next_child() returns NULL if node is NULL, hence there's no need to
-check this.
+So I cannot use it anywhere in drivers/dma-buf/.
 
-> +
-> +	do {
-> +		endpoint = of_get_next_child(port, endpoint);
-> +		if (!endpoint)
-> +			break;
-> +	} while (!of_node_name_eq(endpoint, "endpoint"));
-> +
-> +	return endpoint;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_next_endpoint_raw);
-> +
->  /**
->   * of_graph_get_next_endpoint() - get next endpoint node
->   * @parent: pointer to the parent device node
-> @@ -708,7 +732,7 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->  		 * getting the next child. If the previous endpoint is NULL this
->  		 * will return the first child.
->  		 */
-> -		endpoint = of_get_next_child(port, prev);
-> +		endpoint = of_graph_get_next_endpoint_raw(port, prev);
->  		if (endpoint) {
->  			of_node_put(port);
->  			return endpoint;
-> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-> index fff598640e93..427905a6e8c3 100644
-> --- a/include/linux/of_graph.h
-> +++ b/include/linux/of_graph.h
-> @@ -57,6 +57,8 @@ int of_graph_get_port_count(const struct device_node *np);
->  struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
->  struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->  					struct device_node *previous);
-> +struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
-> +						   struct device_node *prev);
->  struct device_node *of_graph_get_next_port(const struct device_node *parent,
->  					   struct device_node *previous);
->  struct device_node *of_graph_get_endpoint_by_regs(
-
--- 
-Kind regards,
-
-Sakari Ailus
+-Paul
 
