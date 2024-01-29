@@ -1,244 +1,318 @@
-Return-Path: <linux-media+bounces-4341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF01840495
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:06:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D978404CD
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:17:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6188E1C21F26
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 12:06:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CD3C1C21C0F
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 12:17:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 174015FB97;
-	Mon, 29 Jan 2024 12:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC8F604AA;
+	Mon, 29 Jan 2024 12:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ubH16eDY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hO54iMKY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169525C8FD
-	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 12:06:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18054604A9;
+	Mon, 29 Jan 2024 12:16:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706529968; cv=none; b=ba7icHkWe6Mvt4SG/loJvEVZKlBGTI9qP3AmseSD4uDmba/oIV6pTA866+9glIsgoBAOhjDyj/fkppps80/XQ8Wib+09RgnE+sUhKZFovSNLRVQyBg9vfGK6mDe8Zogc7jZZqoQ2JK2yVe3RoXifI2Mmq3ai1BlaR+24DU6Pazg=
+	t=1706530612; cv=none; b=TxTFVz4nOl76i0tnulespr0HsPTzv/gpPM8l62T84fG13zGQyLehg2/DJPERPsSEzgtupCW+WrTbEZ8GPLZp6a59JVtjdO0WqpVyIirR+lIgZ1cAmBtcyXrVpAF5pXzAXmVgmRVSHpCW5kdG/Te/ZXLTdOpNJpYM7DEFketPrJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706529968; c=relaxed/simple;
-	bh=XgO29gWp1POTKaG6i6JhoQJaNWpT1hbaQTPibKqdtGM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RSupAS/rNqeOJ6+n/yV0n36WTwvHpB4NfPC6irES+DSYxj1CGbBKQWjFz0G/dnkrxwwz7RlC0qMPFcULlSu3aR20Cq8dIbG9xgOtw0zI2qJ745Z64ovkOw7zNU+mNwWWs0JUeBpkq1O5SoMYuOHw8LpDiG83odI4sOHlHK7Ebl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ubH16eDY; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1706530612; c=relaxed/simple;
+	bh=Buc3e84FLS5NpyQMahEhPLiLvZM23E4P2g+cf46sAHU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gFYRl6UqX661fvoxm4z6UZN9zC4h1T4OPSxYOXH4XvByeCeIQPlFvZi3yVdU3TxcHa0RAkoHHnNyMPOD39lcu0RXjH0qvEipT26ehohjJKmu0oRBFbSOOfk4s23E3ZfWRoZvRcWX9C59vn4SRNa5AKG72bTUVB90Vr/ZYWmVtzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hO54iMKY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A981A13AC;
-	Mon, 29 Jan 2024 13:04:45 +0100 (CET)
+Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi [91.154.35.128])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC3ED1803;
+	Mon, 29 Jan 2024 13:15:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1706529885;
-	bh=XgO29gWp1POTKaG6i6JhoQJaNWpT1hbaQTPibKqdtGM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ubH16eDY8i5W0BKZ+bDIKdOOCMdlttvFn83pJDHIEUEKYlyKATJQ0J2UBb36vqq4R
-	 pNMs5vxfSKr9FgXGiUPreZDgFq9mkRLbqJok4PJCbIs6EURKL/WEjPdb0MBtLtTFlB
-	 kS4Xki+8CNRIMJ8C8MRTSX+Pc6mKaQljkGvn/Xvg=
-Date: Mon, 29 Jan 2024 13:05:59 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Dan Scally <dan.scally@ideasonboard.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: Re: Weird default vblank value in ov5693
-Message-ID: <vv37qd3rqy5x6343pkiltoyqw2eyozwakmf5dcisybqynme3or@rqy2ww6hr2oq>
-References: <0fa07550-80cb-40f2-87c8-23864af33642@redhat.com>
- <18f20014-44b8-4f83-915d-81f265369821@ideasonboard.com>
- <1ccf4d19-4db4-48fb-a6bf-17e29cbc5f3e@redhat.com>
+	s=mail; t=1706530531;
+	bh=Buc3e84FLS5NpyQMahEhPLiLvZM23E4P2g+cf46sAHU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hO54iMKY8MJbd4QUg9Zp0bmsVngmRoQ0srE45401YojEITJiSlXioNJU7MAItghoO
+	 A3EBpvsbEgwxoiN6//5PrnP7WmfijHHKbLd/3peaH93KORKitsZGonTcm0opmZFtuj
+	 4cds9ukJDGOM4fiEew287vPg+3pA8Ex/8HCpL30A=
+Message-ID: <a45ee568-4ba6-4e5d-a02e-30db7d3ab27c@ideasonboard.com>
+Date: Mon, 29 Jan 2024 14:16:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1ccf4d19-4db4-48fb-a6bf-17e29cbc5f3e@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/13] of: property: add port base loop
+Content-Language: en-US
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=83=C2=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Rob Herring <robh+dt@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
+ <87ede1klgr.wl-kuninori.morimoto.gx@renesas.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <87ede1klgr.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Hans
+Hi,
 
-On Mon, Jan 29, 2024 at 11:30:33AM +0100, Hans de Goede wrote:
-> Hi Dan,
->
-> On 1/29/24 10:53, Dan Scally wrote:
-> > Morning Hans
-> >
-> >
-> > On 28/01/2024 20:58, Hans de Goede wrote:
-> >> Hi All,
-> >>
-> >> While adding vblank ctrl support to the ov2680 driver I was looking
-> >> at the vblank ctrl code in the ov5693 and I noticed something
-> >> which I believe is weird / undesirable.
-> >>
-> >> When setting a new mode the ov5693 driver does not keep the current
-> >> vts value (adjusting vblank to keep vts and thus the framerare and
-> >> exposure unchanged).
-> >>
-> >> Instead it calculates a new vts value, resetting the framerate
-> >> to 30 fps; or 60 fps for smaller resolutions and then sets
-> >> vblank to the new (vts - new_mode->height) and adjusts
-> >> the exposure control-range to fit within the new vts, potentially
-> >> also changing the exposure value.
-> >>
-> >> This behavior of the ov5693 code means that switching resolution
-> >> also changes the framerate and the exposure value which seems
-> >> undesirable.
-> >
-> >
-> > I think I did it that way because I was hitting problems when changing the framesize exceeded the current VTS and it seemed cleaner to just reset it to a known situation. Really though the only thing it would affect would be the framerate; that would have to reduce if the VTS increased but exposure could stay the same (though the maximum would change). So probably it ought to work like:
-> >
-> >
-> > * if we change from a larger to a smaller framesize then we can just increase blanking to keep the same VTS and that should be fine
-> >
-> > * if we're going from a smaller to a larger framesize that fits within the currently configured VTS with minimum blanking, we can just reduce the blanking to keep the same VTS and that should be fine
-> >
-> > * if we're going from a smaller to a larger framesize that exceeds the currently configured VTS we drop blanking to a minimum so that the new framerate is as close to the old one as it can be
-> >
-> >
-> > Does that sound like more reasonable behaviour? If so, shall I patch it?
->
-> This sounds more or like what I had in mind (keep VTS unchanged if possible),
-> so I have been looking more into this yesterday evening and
-> implementing this is a bit tricky (*).
->
-> Combining this with your last point of "that the new framerate is as
-> close to the old one as it can be" I think I prefer a more KISS
-> approach.
->
-> IMHO the best thing (principle of least surprise) would be to
-> on a set_fmt pad-op reset things to a default fps of say 30,
-> as Jacopo's doc patches suggest. My reasons for suggesting
-> this approach is:
->
-> a) This is easier to implement and thus less likely to have bugs
-> b) It leads to consistent behavior where as your suggested try to
-> keep current vts approach leads to sometimes vts being kept, but
-> other times when going from smaller to higher resolutions vts
-> changing which will lead to hard to debug problems if userspace
-> relies on vts being kept.
->
-> For the ov5693 driver this would mean dropping __ov5693_calc_vts()
-> replacing it with a DEFAULT_VTS define of:
->
-> ALIGN_DOWN(OV5693_PIXEL_RATE / OV5693_FIXED_PPL / 30, 2)
->
-> (does vts need to be a multiple of 2? We don't enforce that
->  in the vblank control)
+On 29/01/2024 02:54, Kuninori Morimoto wrote:
+> We have endpoint base functions
+> 	- of_graph_get_next_endpoint()
+> 	- of_graph_get_endpoint_count()
+> 	- for_each_endpoint_of_node()
+> 
+> Here, for_each_endpoint_of_node() loop finds each endpoints
+> 
+> 	ports {
+> 		port@0 {
+> (1)			endpoint {...};
+> 		};
+> 		port@1 {
+> (2)			endpoint {...};
+> 		};
+> 		...
+> 	};
+> 
+> In above case, for_each_endpoint_of_node() loop finds endpoint as
+> (1) -> (2) -> ...
+> 
+> Basically, user/driver knows which port is used for what, but not in
+> all cases. For example on flexible/generic driver case, how many ports
+> are used is not fixed.
+> 
+> For example Sound Generic Card driver which is used from many venders
+> can't know how many ports are used. Because the driver is very
+> flexible/generic, it is impossible to know how many ports are used,
+> it depends on each vender SoC and/or its used board.
+> 
+> And more, the port can have multi endpoints. For example Generic Sound
+> Card case, it supports many type of connection between CPU / Codec, and
+> some of them uses multi endpoint in one port.
+> Then, Generic Sound Card want to handle each connection via "port"
+> instead of "endpoint".
+> But, it is very difficult to handle each "port" by
+> for_each_endpoint_of_node(). Getting "port" by using of_get_parent()
+> from "endpoint" doesn't work. see below.
+> 
+> 	ports {
+> 		port@0 {
+> (1)			endpoint@0 {...};
+> (2)			endpoint@1 {...};
+> 		};
+> 		port@1 {
+> (3)			endpoint {...};
+> 		};
+> 		...
+> 	};
+> 
+> Add "port" base functions.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>   drivers/of/property.c    | 48 ++++++++++++++++++++++++++++++++++++++++
+>   include/linux/of_graph.h | 21 ++++++++++++++++++
+>   2 files changed, 69 insertions(+)
+> 
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index afdaefbd03f6..9e670e99dbbb 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -631,6 +631,42 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
+>   }
+>   EXPORT_SYMBOL(of_graph_get_port_by_id);
+>   
+> +/**
+> + * of_graph_get_next_port() - get next port node
+> + * @parent: pointer to the parent device node
+> + * @port: current port node, or NULL to get first
+> + *
+> + * Return: An 'port' node pointer with refcount incremented. Refcount
 
-Alternatively, we can reset blankings to their minimum. This is
-'predictable' but the end result (in example, possible higher fps)
-might surprise applications. Please note the same reasoning applies
-when using a vblank value that gives a known FPS as an application
-running at 5fps might get 30fps after a set_fmt.
+"A 'port'".
 
-The difference between the two approaches (min-blank vs.
-known-fps-blank) is that sensors provide different FPS at different
-resolutions, with full resolution modes sometime being limited to 5
-fps or less, making difficult to define what the "standard fps" is for
-all configurations.
+> + * of the passed @prev node is decremented.
+> + */
+> +struct device_node *of_graph_get_next_port(const struct device_node *parent,
+> +					   struct device_node *port)
+> +{
+> +	if (!parent)
+> +		return NULL;
+> +
+> +	if (!port) {
+> +		struct device_node *node;
+> +
+> +		node = of_get_child_by_name(parent, "ports");
+> +		if (node) {
+> +			parent = node;
+> +			of_node_put(node);
 
->
-> Regards,
->
-> Hans
->
->
-> p.s.
->
-> What about enum/get/set frame_interval vs set_mode vs
-> vblank ctrl ?  Options:
->
-> a) Sensor drivers MUST not implement enum/get/set frame_interval?
+Here you of_node_put() the node, but use it below.
 
-Ideally they shouldn't, for RAW sensors at least.
+> +		}
+> +
+> +		return of_get_child_by_name(parent, "port");
+> +	}
 
-For YUV/RGB sensors instead the high-level parameters used by
-frame_interval might be ok as some of those sensors might not even
-allow you to control blankings explicitly.
+Maybe you can do:
 
-Whenever the hardware allows that, blankings should always be
-preferred over frame_interval imho.
+	node = of_get_child_by_name(parent, "ports");
+	if (node)
+		parent = node;
+	port = of_get_child_by_name(parent, "port");
+	of_node_put(node);
+	return port;
 
-> b) enum/get/set frame_interval only enum/get/set the default
->    frame_interval set by set_mode (e.g. fixed 30 fps).
->    Any vblank changes made after the set_mode are not reflected
->    by get_frame_interval and set_frame_interval only influences
->    the next set_mode call, not the current mode ? Or maybe
->    only allow set_frame_interval when not streaming and then
->    have it set vblank to match the interval like it would
->    have done when called before the last set_mode call ?
-> c) enum/get/set frame_interval are a second way to control
->    hts (lets not go there just here for completeness sake)
->
-> My own preference here would be to go with a) .
+> +
+> +	do {
+> +		port = of_get_next_child(parent, port);
+> +		if (!port)
+> +			break;
+> +	} while (!of_node_name_eq(port, "port"));
+> +
+> +	return port;
+> +}
+> +EXPORT_SYMBOL(of_graph_get_next_port);
+> +
+>   /**
+>    * of_graph_get_next_endpoint() - get next endpoint node
+>    * @parent: pointer to the parent device node
+> @@ -823,6 +859,18 @@ int of_graph_get_endpoint_count(const struct device_node *np)
+>   }
+>   EXPORT_SYMBOL(of_graph_get_endpoint_count);
+>   
+> +int of_graph_get_port_count(const struct device_node *np)
 
-Mine as well, but as said for YUV/RGB sensors it might not even be
-possible to control blankings explicitly. In this case
-set_frame_interval can be used but if the driver registers the vblank
-control the newly computed blanking value (in response to a
-set_frame_interval) should be reflected there ?
+The kerneldoc is missing for this func.
 
->
->
-> *) As Jacopo's doc patches mention the vblank range needs to be
-> updated when changing the mode. Which means calling
-> __v4l2_ctrl_modify_range() now this will clamp vblank to the new
-> range, potentially changing it leading to a __v4l2_ctrl_s_ctrl()
-> call under the hood.
->
-> We need to do this __v4l2_ctrl_modify_range() before actually
-> calling __v4l2_ctrl_s_ctrl() to set the new vblank value
-> (the new value calculated to keep vts the same). Otherwise
-> the new value may be out of range and we must not directly
-> poke the v4l2-ctrl internals to set a new in range value before
-> calling __v4l2_ctrl_modify_range(). So this lead to multiple
-> control-change events being emitted to userspace. But this
-> is unavoidable even with more KISS approaches.
->
-> Also when vts changes we also need to ensure that the exposure
-> range is corrected. Theoretically it is possible for vblank
-> to stay unchanged (e.g. changed from minimum vblank to minimum
-> vblank) so we cannot rely on s_ctrl to update the exposure range.
->
-> Note updating the exposure range twice is not a big deal since
-> __v4l2_ctrl_modify_range() checks if things actually change
-> and otherwise it is a no-op.
->
->
->
->
->
->
-> >
-> >
-> > Thanks
-> >
-> > Dan
-> >
-> >>
-> >> The vblank and hblank control values changes on setting a mode
-> >> is unavoidable but the framerate and exposure value changing
-> >> at the same time seems undesirable.
-> >>
-> >> Note that this also halves the max supported exposure value
-> >> when going to a lower-res mode even when userspace never
-> >> touches the vblank control.
-> >>
-> >> Regards,
-> >>
-> >> Hans
-> >>
-> >>
-> >>
-> >>
-> >>
-> >
->
+The return type and the variable below should be unsigned.
+
+I can see these are wrong with of_graph_get_endpoint_count() too, so 
+maybe that should be fixed also.
+
+> +{
+> +	struct device_node *port;
+> +	int num = 0;
+> +
+> +	for_each_port_of_node(np, port)
+> +		num++;
+> +
+> +	return num;
+> +}
+> +EXPORT_SYMBOL(of_graph_get_port_count);
+> +
+>   /**
+>    * of_graph_get_remote_node() - get remote parent device_node for given port/endpoint
+>    * @node: pointer to parent device_node containing graph port/endpoint
+> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+> index 4d7756087b6b..fff598640e93 100644
+> --- a/include/linux/of_graph.h
+> +++ b/include/linux/of_graph.h
+> @@ -37,14 +37,28 @@ struct of_endpoint {
+>   	for (child = of_graph_get_next_endpoint(parent, NULL); child != NULL; \
+>   	     child = of_graph_get_next_endpoint(parent, child))
+>   
+> +/**
+> + * for_each_port_of_node - iterate over every port in a device node
+> + * @parent: parent device node containing ports/port
+> + * @child: loop variable pointing to the current port node
+> + *
+> + * When breaking out of the loop, of_node_put(child) has to be called manually.
+> + */
+> +#define for_each_port_of_node(parent, child)			\
+> +	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
+> +	     child = of_graph_get_next_port(parent, child))
+> +
+>   #ifdef CONFIG_OF
+>   bool of_graph_is_present(const struct device_node *node);
+>   int of_graph_parse_endpoint(const struct device_node *node,
+>   				struct of_endpoint *endpoint);
+>   int of_graph_get_endpoint_count(const struct device_node *np);
+> +int of_graph_get_port_count(const struct device_node *np);
+>   struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
+>   struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
+>   					struct device_node *previous);
+> +struct device_node *of_graph_get_next_port(const struct device_node *parent,
+> +					   struct device_node *previous);
+>   struct device_node *of_graph_get_endpoint_by_regs(
+>   		const struct device_node *parent, int port_reg, int reg);
+>   struct device_node *of_graph_get_remote_endpoint(
+> @@ -86,6 +100,13 @@ static inline struct device_node *of_graph_get_next_endpoint(
+>   	return NULL;
+>   }
+>   
+> +static inline struct device_node *of_graph_get_next_port(
+> +					const struct device_node *parent,
+> +					struct device_node *previous)
+> +{
+> +	return NULL;
+> +}
+> +
+>   static inline struct device_node *of_graph_get_endpoint_by_regs(
+>   		const struct device_node *parent, int port_reg, int reg)
+>   {
+
 
