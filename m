@@ -1,224 +1,117 @@
-Return-Path: <linux-media+bounces-4350-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4351-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AE08405E4
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 14:02:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8544884064E
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 14:10:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6CB26283743
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:02:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA1701C22117
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 13:10:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61938627EB;
-	Mon, 29 Jan 2024 13:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E21C64CDE;
+	Mon, 29 Jan 2024 13:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="djMzyfRg"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="lkJJhIQY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA8C627F6;
-	Mon, 29 Jan 2024 13:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A9F62805;
+	Mon, 29 Jan 2024 13:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706533344; cv=none; b=uzU/uIErzNDSb9VVFshPKX7IHhg2sCe03jwZ3eltiht/TTViML4Wm8vHT37FDV9i+AHhetnmYL13kIqTvFYOfYk7OgXL8dkExqV3/WkbWU6svL4BndkrLgHD/aNdIVqyzmmXaSqOVYK+6AhrooLVqzXladGM58N6pbLN1NO8zUk=
+	t=1706533630; cv=none; b=tRqrbhgulL9qOau4pBj/A9u069C6ycS0dBp5yQjr/ADgKDyqgPrnhd8rR1M6L+/eYr7zld9P7crIJZwy/sh4Qhu0Mf4zAFBDyj/BXF4eqIWGRpQDzFMcfa/g0SQj81Bf61DdbJjo424NkqXtHCy75iXORrHHedvLfFYgRKO3FuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706533344; c=relaxed/simple;
-	bh=oYJ9n0kmGBMU2bNIDl3amQ7PKIOiEuPvpUteUrfq+VI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cNf0P1ejzZXVgY+Czle3gPL8aBi4wgus4rLRo/i0cNrnYF1r8EVa0SFjxkx3u/nOSpb8ZjO/EeQB8/+PfnlLt1kePFTn6FXYcPG8X1mHHhKxEAVpKeLVo7HnNwyVOBRk6ooPWaBYOmUhZofoddCJ5c5CLaW148wGv45j0ex0qEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=djMzyfRg; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D80915B5;
-	Mon, 29 Jan 2024 14:01:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1706533261;
-	bh=oYJ9n0kmGBMU2bNIDl3amQ7PKIOiEuPvpUteUrfq+VI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=djMzyfRgXF1NPy65MR+61w/tngalKk2yKnI+GwLaXMGffyykJfxg+BE9W8Ny+SzKp
-	 3edG11TvKTFuKerv6OEweKNRHe4leVvnw1jLWk7XEqB5zloijNMsHBUZ/GvRbEzqKG
-	 ZOkF9RPQ1nYYuooHeJRC/2msKN4yH4MV7pyzzASQ=
-Date: Mon, 29 Jan 2024 15:02:19 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Uwe =?utf-8?B?S2xlaW5lLUvDg8K2bmln?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 03/13] of: property: add
- of_graph_get_next_endpoint_raw()
-Message-ID: <20240129130219.GA20460@pendragon.ideasonboard.com>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <87bk95klgc.wl-kuninori.morimoto.gx@renesas.com>
- <afea123c-12b0-4bcb-8f9e-6a15b4e8c915@ideasonboard.com>
+	s=arc-20240116; t=1706533630; c=relaxed/simple;
+	bh=ohwrdZDM8vaPRClPA73d/eC9TaOp9u2xSfByKk4W4Wc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BVanrIfzaTZ9vgGaRuPfMy9BkfNK1UtvTf/kpORf43yh40m5ikDa1czUhJVrF/kcSMPu7G1IU8WjUldaAjWDZtdnlTg9No7KXETtkmy9SOn5gxb8j1h/59oGfovKt08bCSYiqBF2IF8fGFyQVb82XCvKsiiqHAER+qX7TnFLmho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=lkJJhIQY; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706533620;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WZ6n1UUyKZ6/GqoAl9C1IKiMh8xfnXYw9yivuJaenjc=;
+	b=lkJJhIQY7TfMtm88L38sEkEJxselNAE/Twb2fKnBQqdR6TXUlZ2g4KFkZoV01JpOgc4RAR
+	rYr2XoaTW10D8p2tIFa0TUtnH8Nx8VUwnoNONT3e/nD7GZ+aKpfpdjZxhhLhw4eziLUrZs
+	1uCNQrzVPFDxkK4VvOHIVRP3VMh3YSE=
+Message-ID: <aac82ce15a49c5e4b939a69229b9a8a51ca00f5d.camel@crapouillou.net>
+Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface
+ infrastructure
+From: Paul Cercueil <paul@crapouillou.net>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+	Jonathan Cameron
+	 <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>,  Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org,  linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org,  dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Nuno =?ISO-8859-1?Q?S=E1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
+Date: Mon, 29 Jan 2024 14:06:58 +0100
+In-Reply-To: <d6bef39c-f940-4097-8ca3-0cf4ef89a743@amd.com>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+	 <20231219175009.65482-6-paul@crapouillou.net>
+	 <20231221120624.7bcdc302@jic23-huawei>
+	 <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+	 <20240127165044.22f1b329@jic23-huawei>
+	 <d6bef39c-f940-4097-8ca3-0cf4ef89a743@amd.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <afea123c-12b0-4bcb-8f9e-6a15b4e8c915@ideasonboard.com>
 
-On Mon, Jan 29, 2024 at 02:29:22PM +0200, Tomi Valkeinen wrote:
-> On 29/01/2024 02:54, Kuninori Morimoto wrote:
-> > We already have of_graph_get_next_endpoint(), but it is not intuitive
-> > to use.
-> > 
-> > (X)	node {
-> > (Y)		ports {
-> > 			port@0 { endpoint { remote-endpoint = ...; };};
-> > (A1)			port@1 { endpoint { remote-endpoint = ...; };
-> > (A2)				 endpoint { remote-endpoint = ...; };};
-> > (B)			port@2 { endpoint { remote-endpoint = ...; };};
-> > 		};
-> > 	};
-> > 
-> > For example, if I want to handle port@1's 2 endpoints (= A1, A2),
-> > I want to use like below
-> > 
-> > 	A1 = of_graph_get_next_endpoint(port1, NULL);
-> > 	A2 = of_graph_get_next_endpoint(port1, A1);
-> > 
-> > But 1st one will be error, because of_graph_get_next_endpoint() requested
-> > "parent" means "node" (X) or "ports" (Y), not "port".
-> > Below are OK
-> > 
-> > 	of_graph_get_next_endpoint(node,  NULL); // node/ports/port@0/endpoint
-> > 	of_graph_get_next_endpoint(ports, NULL); // node/ports/port@0/endpoint
-> > 
-> > In other words, we can't handle A1/A2 directly via
-> > of_graph_get_next_endpoint() so far.
-> > 
-> > There is another non intuitive behavior on of_graph_get_next_endpoint().
-> > In case of if I could get A1 pointer for some way, and if I want to
-> > handle port@1 things, I would like use it like below
-> > 
-> > 	/*
-> > 	 * "endpoint" is now A1, and handle port1 things here,
-> > 	 * but we don't know how many endpoints port1 has.
-> > 	 *
-> > 	 * Because "endpoint" is non NULL, we can use port1
-> > 	 * as of_graph_get_next_endpoint(port1, xxx)
-> > 	 */
-> > 	do {
-> > 		/* do something for port1 specific things here */
-> > 	} while (endpoint = of_graph_get_next_endpoint(port1, endpoint))
-> > 
-> > But it also not worked as I expected.
-> > I expect it will be A1 -> A2 -> NULL,
-> > but      it will be A1 -> A2 -> B,    because of_graph_get_next_endpoint()
-> > will fetch endpoint beyond the port.
-> > 
-> > It is not useful on generic driver like Generic Sound Card.
-> > It uses of_get_next_child() instead for now, but it is not intuitive,
-> > and not check node name (= "endpoint").
-> > 
-> > To handle endpoint more intuitive, create of_graph_get_next_endpoint_raw()
-> > 
-> > 	of_graph_get_next_endpoint_raw(port1, NULL); // A1
-> > 	of_graph_get_next_endpoint_raw(port1, A1);   // A2
-> > 	of_graph_get_next_endpoint_raw(port1, A2);   // NULL
-> > 
-> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > ---
-> >   drivers/of/property.c    | 26 +++++++++++++++++++++++++-
-> >   include/linux/of_graph.h |  2 ++
-> >   2 files changed, 27 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/of/property.c b/drivers/of/property.c
-> > index 14ffd199c9b1..37dbb1b0e742 100644
-> > --- a/drivers/of/property.c
-> > +++ b/drivers/of/property.c
-> > @@ -667,6 +667,30 @@ struct device_node *of_graph_get_next_port(const struct device_node *parent,
-> >   }
-> >   EXPORT_SYMBOL(of_graph_get_next_port);
-> >   
-> > +/**
-> > + * of_graph_get_next_endpoint_raw() - get next endpoint node
-> 
-> How about "of_graph_get_next_port_endpoint()"?
+Hi Christian,
 
-We may want to also rename the existing of_graph_get_next_endpoint()
-function to of_graph_next_dev_endpoint() then. It would be a tree-wide
-patch, which is always annoying to get reviewed and merged, so if Rob
-would prefer avoiding the rename, I'm fine with that.
+Le lundi 29 janvier 2024 =C3=A0 13:52 +0100, Christian K=C3=B6nig a =C3=A9c=
+rit=C2=A0:
+> Am 27.01.24 um 17:50 schrieb Jonathan Cameron:
+> > > > > +	iio_buffer_dmabuf_put(attach);
+> > > > > +
+> > > > > +out_dmabuf_put:
+> > > > > +	dma_buf_put(dmabuf);
+> > > > As below. Feels like a __free(dma_buf_put) bit of magic would
+> > > > be a
+> > > > nice to have.
+> > > I'm working on the patches right now, just one quick question.
+> > >=20
+> > > Having a __free(dma_buf_put) requires that dma_buf_put is first
+> > > "registered" as a freeing function using DEFINE_FREE() in
+> > > <linux/dma-
+> > > buf.h>, which has not been done yet.
+> > >=20
+> > > That would mean carrying a dma-buf specific patch in your tree,
+> > > are you
+> > > OK with that?
+> > Needs an ACK from appropriate maintainer, but otherwise I'm fine
+> > doing
+> > so.=C2=A0 Alternative is to circle back to this later after this code i=
+s
+> > upstream.
+>=20
+> Separate patches for that please, the autocleanup feature is so new
+> that=20
+> I'm not 100% convinced that everything works out smoothly from the
+> start.
 
-> > + * @port: pointer to the target port node
-> > + * @endpoint: current endpoint node, or NULL to get first
-> > + *
-> > + * Return: An 'endpoint' node pointer with refcount incremented. Refcount
-> > + * of the passed @prev node is decremented.
-> > + */
-> 
-> It might be good to highlight here the difference to the 
-> of_graph_get_next_endpoint().
+Separate patches is a given, did you mean outside this patchset?
+Because I can send a separate patchset that introduces scope-based
+management for dma_fence and dma_buf, but then it won't have users.
 
-Yes, and the documentation of of_graph_get_next_endpoint() shoul also be
-improved.
-
-> > +struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
-> > +						   struct device_node *endpoint)
-> > +{
-> > +	if (!port)
-> > +		return NULL;
-> > +
-> > +	do {
-> > +		endpoint = of_get_next_child(port, endpoint);
-> > +		if (!endpoint)
-> > +			break;
-> > +	} while (!of_node_name_eq(endpoint, "endpoint"));
-> > +
-> > +	return endpoint;
-> > +}
-> > +EXPORT_SYMBOL(of_graph_get_next_endpoint_raw);
-> > +
-> >   /**
-> >    * of_graph_get_next_endpoint() - get next endpoint node
-> >    * @parent: pointer to the parent device node
-> > @@ -708,7 +732,7 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
-> >   		 * getting the next child. If the previous endpoint is NULL this
-> >   		 * will return the first child.
-> >   		 */
-> > -		endpoint = of_get_next_child(port, prev);
-> > +		endpoint = of_graph_get_next_endpoint_raw(port, prev);
-> >   		if (endpoint) {
-> >   			of_node_put(port);
-> >   			return endpoint;
-> > diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-> > index fff598640e93..427905a6e8c3 100644
-> > --- a/include/linux/of_graph.h
-> > +++ b/include/linux/of_graph.h
-> > @@ -57,6 +57,8 @@ int of_graph_get_port_count(const struct device_node *np);
-> >   struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
-> >   struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
-> >   					struct device_node *previous);
-> > +struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
-> > +						   struct device_node *prev);
-> >   struct device_node *of_graph_get_next_port(const struct device_node *parent,
-> >   					   struct device_node *previous);
-> >   struct device_node *of_graph_get_endpoint_by_regs(
-
--- 
-Regards,
-
-Laurent Pinchart
+Cheers,
+-Paul
 
