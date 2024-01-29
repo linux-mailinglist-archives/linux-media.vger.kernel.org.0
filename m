@@ -1,227 +1,241 @@
-Return-Path: <linux-media+bounces-4369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4370-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E70884129B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 19:48:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE23D8413F9
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 21:01:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9EAF283F93
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 18:48:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 357641F216EA
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jan 2024 20:01:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE02D76059;
-	Mon, 29 Jan 2024 18:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7606176021;
+	Mon, 29 Jan 2024 20:01:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzYMNt7o"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="iRu4lOil"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8001576058
-	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 18:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B07A60EFF
+	for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 20:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706553641; cv=none; b=TuEXljRzjiXF5E+m0B5pIFXoFTRSUQtbv5UpLcSwhMn4kPyH/8NOgzniFlNz7N/s3SuFztqECxHj3lyZRBeG8TOS1fVtJ+JflYNTPJD7Gf7B6qnz48+s23h2wC9MJZKQCLqfE3SyCq1iXfuZxRdrgHx2Zrzm1RlzyvS5aZyBcJM=
+	t=1706558490; cv=none; b=D/dwEvTnnTCQVkTIbhYHnchXgZEi1dmeMvbYCTXHr9ypHoT1DTT4OynbhctsYCSoP+EbwrrgoTLL2ihQoY4sfoilWAccyL9b2BxXhmvMjBcsyZMyn8MsvXAiLEF6i+kBjEcQ4IVHpXgqGyHbnRsWqDzo3SjjlxnPSNl7qtTynTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706553641; c=relaxed/simple;
-	bh=JNMl2OESTJp5bDewYoXMrzRKigZqser8zTS15uBvEYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ANg1WAwOAOac7edudvKajb6K/HLMqUMrAARbNE9zP2OOFXF3BvIWsNhhabNtCbG6KpVhvVINABr2x7nWvO/L4rczjIXakSNTlVPTq0VPxFcToyFcoiNZnXQpQNcXgbFY7Cg+tHcY3mNIaq/yaexWnx2rKRfb+3bNHn1a8+LYzYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzYMNt7o; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706553639; x=1738089639;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JNMl2OESTJp5bDewYoXMrzRKigZqser8zTS15uBvEYM=;
-  b=SzYMNt7oOhRVBBFiabzicwW5pLtmxAPaKJnWmcE9d9DTx3ttKtYG2p9X
-   5K+wV9kzjmfK5t/AKItqKjdwM8v/SMoTleQ3ti8/cmikAwgQW/yKY2HTz
-   3YvGNAV1/8ZXcTmXd7F7rpYRs+rSXy7QBIdgkqP4kDsUPqLP5/NxzurQ3
-   GAxl8Z7O/DKNl4balJK9x9wvNsCOIgHHuKExMrlZlYgtHH2K+YlZbM2+E
-   ZDx9BWOroszsKFB21ZmqPYK6V8c3r5k0YOUlvriBqUbbJObhMbOq8ry0z
-   XO/UYiGr3vxK5oP8vcncPPwIMQCJ270UxHWbO72FtxLwED6KNtjFl+pCB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="9792843"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="9792843"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 10:40:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="1119008349"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="1119008349"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 10:40:36 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A11E211FAD4;
-	Mon, 29 Jan 2024 20:40:33 +0200 (EET)
-Date: Mon, 29 Jan 2024 18:40:33 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: Weird default vblank value in ov5693
-Message-ID: <ZbfxId264Ect_wpb@kekkonen.localdomain>
-References: <0fa07550-80cb-40f2-87c8-23864af33642@redhat.com>
- <18f20014-44b8-4f83-915d-81f265369821@ideasonboard.com>
- <1ccf4d19-4db4-48fb-a6bf-17e29cbc5f3e@redhat.com>
- <vv37qd3rqy5x6343pkiltoyqw2eyozwakmf5dcisybqynme3or@rqy2ww6hr2oq>
- <c2a0c7ae-ac72-4e26-aa83-cdd0d7f02f90@redhat.com>
- <y6j4rglwcuum4wfq2cjk56zxdnrk7stwoldsshq5d4knubq5ve@jb6vaj5jfwz3>
- <cd065a7e-08ca-42a8-bd9f-96aa2d4d9288@redhat.com>
+	s=arc-20240116; t=1706558490; c=relaxed/simple;
+	bh=l74wCMgNHIGILBM62GQEer3+RAnaoh90tTNWu1/Em6M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z0QTYK3Z6S6Q7Yy1+lZBu6vtMOwJJgWHCrv1J83N2wRTNsCXjxY8xdVNkBNsgZAEvW+80Vdq9uBugYZm/trctBALdc2qD/0ypGsZtlq7i98rda+r23Ma+E4eQl1Wp3Wmwiakf1umsoznWQF83etxzSFEGFIL+WGKsHvGtguBRsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=iRu4lOil; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d040a62a76so18697521fa.0
+        for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 12:01:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1706558485; x=1707163285; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZtKoU0dMc2/VwANL5DHhc0IZfKZvqlfdxMaMmK8zypg=;
+        b=iRu4lOil1eWVnmr2chWiBkIF2vB37UDpaWBmdiua49u+IE2+QebO0W1b2NS6QKvQmc
+         YHy2+JMcMnmJZwpIH1Z1CSaEefH3nZhb3niK13QGJcYNu5ybtIV8jvhM2khSxHPiN7lh
+         Mjs81EGyTpNNSQR7m91hB9Aymax54qvAY6a7fBahsyv8yiSeipKOo0Km1G9NdJaI5DHs
+         GGcuULmkqBuJRVDv8maYuDgx7P6SMMQHh3BJQuuGnlT6PspFuKlQaTa6Xu6zUYly3ajf
+         9FY13TmMBgj5uye+2MBquija0jqwjMoTULAU0JdSZRBJgkPK9vfBhoTRqoLsup+608uh
+         c0Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706558485; x=1707163285;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZtKoU0dMc2/VwANL5DHhc0IZfKZvqlfdxMaMmK8zypg=;
+        b=gSlb4oYcrERSqsasGSxh5NGX15BM/2hpO+fRjs2Db9YKvYiLtGWOOM8r92LlzOm+XF
+         3rGfzHwfsvaA1dxYkIwncL6QYJkC6igfTEnG8llWy+V23SxdE2/o1SaSduJiPU7vSm2n
+         AkkbYkGy269auF6U3hBswMB10xhKaNMhbg7zRdsA66yalSAtK8wV35GudGKSZh7TQgbZ
+         ukU7WaR4vNZymqGbl2/5vFLOi8J82RR5xaBB/Yiiv2l+6pP5J9G9G75Yy82sVul2QgIH
+         M6Pql8j91ozinmDJ46lwG0pYCBoiFSkgZ2TGSvNw21z7yxNcFL2Wqw75JJQFl1cDYk7o
+         r80Q==
+X-Gm-Message-State: AOJu0YxT3DRvVedj48JqXjhmlnle3DZlK/SGXAB+/YJSVE1ImbdeozAA
+	Cwjw6EGvc582tLYLjhABFeXusFHbDeZAz7o1Zm+tPFzlf48SYdk3x6Om8/7qwEog0jL0VqQ/5xB
+	u
+X-Google-Smtp-Source: AGHT+IHwrrMwCYqB0UqECcVQOKDgs/9bTVL/0vnOmGCoVmeioWJ9/5gFmGemvoY77zEIlK8EEak7gA==
+X-Received: by 2002:a2e:2a82:0:b0:2cf:15b0:d14d with SMTP id q124-20020a2e2a82000000b002cf15b0d14dmr4582923ljq.41.1706558485028;
+        Mon, 29 Jan 2024 12:01:25 -0800 (PST)
+Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
+        by smtp.googlemail.com with ESMTPSA id t23-20020a056402241700b00558b0c513e0sm4085223eda.61.2024.01.29.12.01.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jan 2024 12:01:24 -0800 (PST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: v4l: async: Fix completion of chained subnotifiers
+Date: Mon, 29 Jan 2024 20:59:54 +0100
+Message-ID: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd065a7e-08ca-42a8-bd9f-96aa2d4d9288@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+Allowing multiple connections between entities are very useful but the
+addition of this feature did not considerate nested subnotifiers.
 
-On Mon, Jan 29, 2024 at 06:18:08PM +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 1/29/24 15:45, Jacopo Mondi wrote:
-> > Hi Hans
-> > 
-> > +dave, laurent and sakari
-> > 
-> > On Mon, Jan 29, 2024 at 01:24:31PM +0100, Hans de Goede wrote:
-> >> Hi Jacopo,
-> >>
-> >> On 1/29/24 13:05, Jacopo Mondi wrote:
-> >>> Hi Hans
-> >>>
-> 
-> <snip (getting too long)>
-> 
-> >> OTOH I do believe that we want a simple default for vblank which gets
-> >> set on every set_mode call to keep things KISS.
-> >>
-> >> How about something like this: (based on your doc patch):
-> >>
-> >> """
-> >> The vblank control default value is reset so that the sensor runs
-> >> at 30 fps. Except when 30 fps cannot be achieved, in that case
-> >> the vblank control default value is reset to the control's minimum.
-> >>
-> >> After adjusting the range, the vblank control's value must be set to its
-> >> new default value for consistent behavior after applying a new frame size.
-> >> """
-> >>
-> > 
-> > Sorry but I'm not super excited about blessing 30fps as the
-> > preferred or suggested setting in the documentation. For some use
-> > cases 30fps might be extremely slow or extremely fast, if a sensor or
-> > a mode cannot achieve this we then suggest the minimum... not sure
-> > what's best. What's others opinion here ?
-> 
-> I'm fine with loosing the 30 fps language. I was actually
-> already thinking about dropping specifying 30 fps myself.
-> 
-> In the pending documentation patch you write:
-> 
-> "The value used to initialize the vertical and horizontal blanking controls
-> should be selected in order to realize, in association with the driver default
-> format and default pixel rate, a reasonable frame rate output, usually one of
-> the standard 15, 30 or 60 frame per second."
-> 
-> How about:
-> 
-> "When a new frame size is applied on the subdevice, sensor drivers are required
-> to update the limits of their blankings controls.
-> 
-> ... part about calling __v4l2_ctrl_modify_range()...
-> 
-> The control's default value is adjusted to achieve a reasonable framerate
-> again and the control's value is set to the new default for consistent
-> behavior after applying a new frame size."
-> 
-> ?
-> 
-> This basically blesses the existing ov5693 driver's behavior :)
+Consider the scenario,
 
-What would be the purpose of this? Presumably the user space will set the
-vblank value based on its needs in any case, before starting streaming.
+rcar-vin.ko     rcar-isp.ko     rcar-csi2.ko    max96712.ko
 
-It would require changing many that currently don't have this. Changing
-this could also adversely affect some user space software but presumably is
-unlikely to break it.
+video0 ---->    v4l-subdev0 ->  v4l-subdev1 ->  v4l-subdev2
+video1 -´
 
-> 
-> > Maybe we're getting too concerned on this, as if an application sets a
-> > new mode, it's likely setting new blankings and exposure as well..
-> 
-> ATM libcamera sets vblank to whatever default the sensor driver
-> advertises and not all pipelines change it after that, so IMHO we
-> need to have a somewhat sane default (and we probably want
-> libcamera pipelines to do a bit better, esp. with increasing
-> vblank to allow higher exposure in low light conditions).
+Where each videoX or v4l-subdevX is controlled and register by a
+separate instance of the driver listed above it. And each driver
+instance registers a notifier (videoX) or a subnotifier (v4l-subdevX)
+trying to bind to the device pointed to.
 
-It should be easy to calculate the right value, given the necessary
-information. This is related to the needs of improving the sensor APIs for
-register list based drivers.
+If the devices probe in any other except where the vidoeX ones are
+probed last only one of them will have their complete callback called,
+the one who last registered its notifier. Both of them will however have
+their bind() callback called as expected.
 
-> 
-> 
-> > 
-> >>>> What about enum/get/set frame_interval vs set_mode vs
-> >>>> vblank ctrl ?  Options:
-> >>>>
-> >>>> a) Sensor drivers MUST not implement enum/get/set frame_interval?
-> >>>
-> >>> Ideally they shouldn't, for RAW sensors at least.
-> >>>
-> >>> For YUV/RGB sensors instead the high-level parameters used by
-> >>> frame_interval might be ok as some of those sensors might not even
-> >>> allow you to control blankings explicitly.
-> >>>
-> >>> Whenever the hardware allows that, blankings should always be
-> >>> preferred over frame_interval imho.
-> >>>
-> >>>> b) enum/get/set frame_interval only enum/get/set the default
-> >>>>    frame_interval set by set_mode (e.g. fixed 30 fps).
-> >>>>    Any vblank changes made after the set_mode are not reflected
-> >>>>    by get_frame_interval and set_frame_interval only influences
-> >>>>    the next set_mode call, not the current mode ? Or maybe
-> >>>>    only allow set_frame_interval when not streaming and then
-> >>>>    have it set vblank to match the interval like it would
-> >>>>    have done when called before the last set_mode call ?
-> >>>> c) enum/get/set frame_interval are a second way to control
-> >>>>    hts (lets not go there just here for completeness sake)
-> >>>>
-> >>>> My own preference here would be to go with a) .
-> >>>
-> >>> Mine as well, but as said for YUV/RGB sensors it might not even be
-> >>> possible to control blankings explicitly. In this case
-> >>> set_frame_interval can be used but if the driver registers the vblank
-> >>> control the newly computed blanking value (in response to a
-> >>> set_frame_interval) should be reflected there ?
-> >>
-> >> IMHO if the driver registers the vblank control then it *must not*
-> >> implement enum/get/set frame_interval . Trying to support both at
-> >> the same time is just going to cause pain.
-> > 
-> > Well, a RO vblank wouldn't hurt :)
-> 
-> Yes and I guess that for sensors where we cannot explicitly
-> control vblank we would need a RO vblank to satisfy libcamera's
-> sensor requirements.
+This is due to v4l2_async_nf_try_complete() only walking the chain from
+the subnotifier to one root notifier and completing it while ignoring
+all other notifiers the subdevice might be part of. This works if there
+are only one subnotifier in the mix. For example if either v4l-subdev0
+or v4l-subdev1 was not part of the pipeline above.
 
-Vertical blanking is virtually always controllable, horizontal blanking not
-nearly as often.
+This patch addresses the issue of nested subnotifiers by instead looking
+at all notifiers and try to complete all the ones that contain the
+subdevice which subnotifier was completed.
 
+Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/v4l2-core/v4l2-async.c | 68 ++++++++++++++++++++--------
+ 1 file changed, 49 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index 3ec323bd528b..8b603527923c 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -176,15 +176,16 @@ static LIST_HEAD(notifier_list);
+ static DEFINE_MUTEX(list_lock);
+ 
+ static struct v4l2_async_connection *
+-v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+-		      struct v4l2_subdev *sd)
++__v4l2_async_find_in_list(struct v4l2_async_notifier *notifier,
++			  struct v4l2_subdev *sd,
++			  struct list_head *list)
+ {
+ 	bool (*match)(struct v4l2_async_notifier *notifier,
+ 		      struct v4l2_subdev *sd,
+ 		      struct v4l2_async_match_desc *match);
+ 	struct v4l2_async_connection *asc;
+ 
+-	list_for_each_entry(asc, &notifier->waiting_list, asc_entry) {
++	list_for_each_entry(asc, list, asc_entry) {
+ 		/* bus_type has been verified valid before */
+ 		switch (asc->match.type) {
+ 		case V4L2_ASYNC_MATCH_TYPE_I2C:
+@@ -207,6 +208,20 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+ 	return NULL;
+ }
+ 
++static struct v4l2_async_connection *
++v4l2_async_find_match(struct v4l2_async_notifier *notifier,
++		      struct v4l2_subdev *sd)
++{
++	return __v4l2_async_find_in_list(notifier, sd, &notifier->waiting_list);
++}
++
++static struct v4l2_async_connection *
++v4l2_async_find_done(struct v4l2_async_notifier *notifier,
++		     struct v4l2_subdev *sd)
++{
++	return __v4l2_async_find_in_list(notifier, sd, &notifier->done_list);
++}
++
+ /* Compare two async match descriptors for equivalence */
+ static bool v4l2_async_match_equal(struct v4l2_async_match_desc *match1,
+ 				   struct v4l2_async_match_desc *match2)
+@@ -274,13 +289,14 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
+ }
+ 
+ /*
+- * Complete the master notifier if possible. This is done when all async
++ * Complete the master notifiers if possible. This is done when all async
+  * sub-devices have been bound; v4l2_device is also available then.
+  */
+ static int
+ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
+ {
+-	struct v4l2_async_notifier *__notifier = notifier;
++	struct v4l2_async_notifier *n;
++	int ret;
+ 
+ 	/* Quick check whether there are still more sub-devices here. */
+ 	if (!list_empty(&notifier->waiting_list))
+@@ -290,24 +306,38 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
+ 		dev_dbg(notifier_dev(notifier),
+ 			"v4l2-async: trying to complete\n");
+ 
+-	/* Check the entire notifier tree; find the root notifier first. */
+-	while (notifier->parent)
+-		notifier = notifier->parent;
++	/*
++	 * Notifiers without a parent are either a subnotifier that have not
++	 * yet been associated with it is a root notifier or a root notifier
++	 * itself. If it is a root notifier try to complete it.
++	 */
++	if (!notifier->parent) {
++		/* This is root if it has v4l2_dev. */
++		if (!notifier->v4l2_dev) {
++			dev_dbg(notifier_dev(notifier),
++				"v4l2-async: V4L2 device not available\n");
++			return 0;
++		}
+ 
+-	/* This is root if it has v4l2_dev. */
+-	if (!notifier->v4l2_dev) {
+-		dev_dbg(notifier_dev(__notifier),
+-			"v4l2-async: V4L2 device not available\n");
+-		return 0;
+-	}
++		/* Is everything ready? */
++		if (!v4l2_async_nf_can_complete(notifier))
++			return 0;
++
++		dev_dbg(notifier_dev(notifier), "v4l2-async: complete\n");
+ 
+-	/* Is everything ready? */
+-	if (!v4l2_async_nf_can_complete(notifier))
+-		return 0;
++		return v4l2_async_nf_call_complete(notifier);
++	}
+ 
+-	dev_dbg(notifier_dev(__notifier), "v4l2-async: complete\n");
++	/* Try to complete all notifiers containing the subdevices. */
++	list_for_each_entry(n, &notifier_list, notifier_entry) {
++		if (v4l2_async_find_done(n, notifier->sd)) {
++			ret = v4l2_async_nf_try_complete(n);
++			if (ret)
++				return ret;
++		}
++	}
+ 
+-	return v4l2_async_nf_call_complete(notifier);
++	return 0;
+ }
+ 
+ static int
 -- 
-Regards,
+2.43.0
 
-Sakari Ailus
 
