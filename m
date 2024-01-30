@@ -1,253 +1,118 @@
-Return-Path: <linux-media+bounces-4409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4410-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02EC842469
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 13:06:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E128424C4
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 13:24:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A63A1F27516
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 12:06:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 476681C23D4D
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 12:24:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A8F67E93;
-	Tue, 30 Jan 2024 12:05:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AF1F6A01F;
+	Tue, 30 Jan 2024 12:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i02tCRje"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="Lv6jdOaQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF74E67751;
-	Tue, 30 Jan 2024 12:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9FE67E78;
+	Tue, 30 Jan 2024 12:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706616339; cv=none; b=fFH1nV26dL/N/rY/V1+KE/eIhfHtkOFlZth+T14c/6TCS/e46WJZu2nFNfOhESEkTCUxkDox7KedwmnGd9kAEy54CYfhoV5HI3IMFQ9EHN0OEo1w92gaVILfX61v4hsttoD7lIiZNJmAdzF00LItZ4IvPKwUAa8aeA1TB+Bb27s=
+	t=1706617431; cv=none; b=h6regi1/XPvrPhPPJpCOvturimTqch0OgD64dZykkyufOvGrDtKKLcnzd50ddUkoLparghLcxPt9AGlrlKpW/MHld67h4+fk01QsvjWIhWJFALVIp6YaaVJuNfYMMWLuwWJ+wQPAeA5iB7tpD3dPgHm9nWfMkv4GfU6nm2X7Qdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706616339; c=relaxed/simple;
-	bh=ex9KY77rxDKcjHheUhS4HUjdRk4aNjjhVrtSB6+j3Zw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTVtIvqpirp+rrqrRj7Stg8e6gQiqG25eR3hDVRO0YxsULEOXwgN6lfSokxqAAsP6eoN+8O6BImFUDafK6NBRkHCsUmR6/HVMR5aCDJOcd5D8tx1rKGnI2NwH3D82Tv5R55+pJvDCCqHRNcUSvfoJrdAzVqn5tFh8NwnZfFW70U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i02tCRje; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706616338; x=1738152338;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ex9KY77rxDKcjHheUhS4HUjdRk4aNjjhVrtSB6+j3Zw=;
-  b=i02tCRje4aBfyvDT+VfI9meHzZIziCdszUJeigvTTJHAUl61eQuG/bvC
-   hcArhcsBfH3KmPA3IensD9uLslj112u4bxigPmYtVUPaTD2sqXppEb57E
-   l8Ndce2pQRpqZ61rpsmoTMGT31TImCb5Vii4oVKNqRrDR5lAcTcCnzCG0
-   vOjjUzehcNt0hO/4piIOHRfXyCAcpVCFdbEy5EGxC6fXoa+UWT89Q7FTO
-   zFLOSOL7a5tnKmAS+8GEqNG1/gXl2WRIWVyQG31V7gWzdCmHAmIImoVXI
-   wRbYq+gDZ45Bta4/n0LCgvr5K9FGvJVZ25qH4JJK4g/IEJvPXJIJvnDQM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="3112736"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3112736"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 04:05:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="911423449"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="911423449"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 04:05:36 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5646411F8D2;
-	Tue, 30 Jan 2024 14:05:33 +0200 (EET)
-Date: Tue, 30 Jan 2024 12:05:33 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: v4l: async: Fix completion of chained subnotifiers
-Message-ID: <ZbjmDTvI0PiUWvL_@kekkonen.localdomain>
-References: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1706617431; c=relaxed/simple;
+	bh=ZDNJjmcuzyAag0Kxso0ulWjGOYHJ6K6MtOrAMvsl3KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X8vSA6nCya1w4nZ83U/Hbm1pkgIhacHrWuytUvtt5K/9XGkTuuX0LudEzaR3wm1r7IUZdLRVx8ObQv2cXI56m3S3+NT6jibBQWIMX4jWnNePgsLp24dT3V6K5KHYetdAkniI17IbkQAKD/RWUV3aRbOSfU+C8o/Igi6Qsexx5P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=Lv6jdOaQ; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706617427;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+n8ItVGKEntF1q4atKJJA2NJbdTS+Zf0wFw3L1mGo3s=;
+	b=Lv6jdOaQdchyQWN4DHxAvoCnvj0/mzDrE8k+Dr5pJcsLTiEG+reSL3O6QPCwhLeaDszKCu
+	cRzpOCW4TQFqmEXaAJ1pHsu1AjJNjx6+Ip6LyAVCeCT9jhrt/vkvzf4TFcfPZVANebtntU
+	EjtFP7R0OwxikAVSeQNnRvnGl431PHg=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v6 0/4] usb: gadget: functionfs: DMABUF import interface
+Date: Tue, 30 Jan 2024 13:23:36 +0100
+Message-ID: <20240130122340.54813-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Niklas,
+Hi,
 
-Thanks for the patch.
+This is the v6 of my patchset that adds a new DMABUF import interface to
+FunctionFS.
 
-On Mon, Jan 29, 2024 at 08:59:54PM +0100, Niklas Söderlund wrote:
-> Allowing multiple connections between entities are very useful but the
-> addition of this feature did not considerate nested subnotifiers.
-> 
-> Consider the scenario,
-> 
-> rcar-vin.ko     rcar-isp.ko     rcar-csi2.ko    max96712.ko
-> 
-> video0 ---->    v4l-subdev0 ->  v4l-subdev1 ->  v4l-subdev2
-> video1 -´
-> 
-> Where each videoX or v4l-subdevX is controlled and register by a
-> separate instance of the driver listed above it. And each driver
-> instance registers a notifier (videoX) or a subnotifier (v4l-subdevX)
-> trying to bind to the device pointed to.
-> 
-> If the devices probe in any other except where the vidoeX ones are
-> probed last only one of them will have their complete callback called,
-> the one who last registered its notifier. Both of them will however have
-> their bind() callback called as expected.
-> 
-> This is due to v4l2_async_nf_try_complete() only walking the chain from
-> the subnotifier to one root notifier and completing it while ignoring
-> all other notifiers the subdevice might be part of. This works if there
-> are only one subnotifier in the mix. For example if either v4l-subdev0
-> or v4l-subdev1 was not part of the pipeline above.
-> 
-> This patch addresses the issue of nested subnotifiers by instead looking
-> at all notifiers and try to complete all the ones that contain the
-> subdevice which subnotifier was completed.
+Given that the cache coherency issue that has been discussed after my
+v5 is a tangential problem and not directly related to this new
+interface, I decided to drop the dma_buf_begin/end_access() functions
+for now - but I'm open to the idea of re-introducing them in a
+subsequent patchset.
 
-Why do you need this?
+The patchset was rebased on next-20240129.
 
-This is also not a bug, the documentation for the complete callback says:
+Cheers,
+-Paul
 
- * @complete:	All connections have been bound successfully. The complete
- *		callback is only executed for the root notifier.
+---
+Changelog:
+* Drop v5's patches [1/6] and [2/6].
+* [3/4]: 
+  - Drop use of dma_buf_begin/end_access(). We now make the assumption
+    that the devices attached to the DMABUFs must be coherent between
+    themselves. The cache coherency issue is a tangential problem, and
+    those functions can be re-introduced in a subsequent patchset.
+  - Unqueue pending requests on detach. Otherwise, when closing the data
+    endpoint the DMABUF will never be signaled.
+  - Use list_for_each_entry_safe() in ffs_dmabuf_detach(), because there
+    is a list_del() in there.
+  - use pr_vdebug() instead of pr_debug()
+  - Rename ffs_dmabuf_unmap_work() -> ffs_dmabuf_cleanup()
 
-Rather it would be better to get rid of this callback entirely, one reason
-being the impossibility of error handling. We won't be there for quite some
-time but extending its scope does go to the other direction.
+---
+Paul Cercueil (4):
+  usb: gadget: Support already-mapped DMA SGs
+  usb: gadget: functionfs: Factorize wait-for-endpoint code
+  usb: gadget: functionfs: Add DMABUF import interface
+  Documentation: usb: Document FunctionFS DMABUF API
 
-> 
-> Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 68 ++++++++++++++++++++--------
->  1 file changed, 49 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 3ec323bd528b..8b603527923c 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -176,15 +176,16 @@ static LIST_HEAD(notifier_list);
->  static DEFINE_MUTEX(list_lock);
->  
->  static struct v4l2_async_connection *
-> -v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-> -		      struct v4l2_subdev *sd)
-> +__v4l2_async_find_in_list(struct v4l2_async_notifier *notifier,
-> +			  struct v4l2_subdev *sd,
-> +			  struct list_head *list)
->  {
->  	bool (*match)(struct v4l2_async_notifier *notifier,
->  		      struct v4l2_subdev *sd,
->  		      struct v4l2_async_match_desc *match);
->  	struct v4l2_async_connection *asc;
->  
-> -	list_for_each_entry(asc, &notifier->waiting_list, asc_entry) {
-> +	list_for_each_entry(asc, list, asc_entry) {
->  		/* bus_type has been verified valid before */
->  		switch (asc->match.type) {
->  		case V4L2_ASYNC_MATCH_TYPE_I2C:
-> @@ -207,6 +208,20 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
->  	return NULL;
->  }
->  
-> +static struct v4l2_async_connection *
-> +v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-> +		      struct v4l2_subdev *sd)
-> +{
-> +	return __v4l2_async_find_in_list(notifier, sd, &notifier->waiting_list);
-> +}
-> +
-> +static struct v4l2_async_connection *
-> +v4l2_async_find_done(struct v4l2_async_notifier *notifier,
-> +		     struct v4l2_subdev *sd)
-> +{
-> +	return __v4l2_async_find_in_list(notifier, sd, &notifier->done_list);
-> +}
-> +
->  /* Compare two async match descriptors for equivalence */
->  static bool v4l2_async_match_equal(struct v4l2_async_match_desc *match1,
->  				   struct v4l2_async_match_desc *match2)
-> @@ -274,13 +289,14 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
->  }
->  
->  /*
-> - * Complete the master notifier if possible. This is done when all async
-> + * Complete the master notifiers if possible. This is done when all async
->   * sub-devices have been bound; v4l2_device is also available then.
->   */
->  static int
->  v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
->  {
-> -	struct v4l2_async_notifier *__notifier = notifier;
-> +	struct v4l2_async_notifier *n;
-> +	int ret;
->  
->  	/* Quick check whether there are still more sub-devices here. */
->  	if (!list_empty(&notifier->waiting_list))
-> @@ -290,24 +306,38 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
->  		dev_dbg(notifier_dev(notifier),
->  			"v4l2-async: trying to complete\n");
->  
-> -	/* Check the entire notifier tree; find the root notifier first. */
-> -	while (notifier->parent)
-> -		notifier = notifier->parent;
-> +	/*
-> +	 * Notifiers without a parent are either a subnotifier that have not
-> +	 * yet been associated with it is a root notifier or a root notifier
-> +	 * itself. If it is a root notifier try to complete it.
-> +	 */
-> +	if (!notifier->parent) {
-> +		/* This is root if it has v4l2_dev. */
-> +		if (!notifier->v4l2_dev) {
-> +			dev_dbg(notifier_dev(notifier),
-> +				"v4l2-async: V4L2 device not available\n");
-> +			return 0;
-> +		}
->  
-> -	/* This is root if it has v4l2_dev. */
-> -	if (!notifier->v4l2_dev) {
-> -		dev_dbg(notifier_dev(__notifier),
-> -			"v4l2-async: V4L2 device not available\n");
-> -		return 0;
-> -	}
-> +		/* Is everything ready? */
-> +		if (!v4l2_async_nf_can_complete(notifier))
-> +			return 0;
-> +
-> +		dev_dbg(notifier_dev(notifier), "v4l2-async: complete\n");
->  
-> -	/* Is everything ready? */
-> -	if (!v4l2_async_nf_can_complete(notifier))
-> -		return 0;
-> +		return v4l2_async_nf_call_complete(notifier);
-> +	}
->  
-> -	dev_dbg(notifier_dev(__notifier), "v4l2-async: complete\n");
-> +	/* Try to complete all notifiers containing the subdevices. */
-> +	list_for_each_entry(n, &notifier_list, notifier_entry) {
-> +		if (v4l2_async_find_done(n, notifier->sd)) {
-> +			ret = v4l2_async_nf_try_complete(n);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +	}
->  
-> -	return v4l2_async_nf_call_complete(notifier);
-> +	return 0;
->  }
->  
->  static int
+ Documentation/usb/functionfs.rst    |  36 ++
+ drivers/usb/gadget/Kconfig          |   1 +
+ drivers/usb/gadget/function/f_fs.c  | 513 ++++++++++++++++++++++++++--
+ drivers/usb/gadget/udc/core.c       |   7 +-
+ include/linux/usb/gadget.h          |   2 +
+ include/uapi/linux/usb/functionfs.h |  41 +++
+ 6 files changed, 579 insertions(+), 21 deletions(-)
 
 -- 
-Regards,
+2.43.0
 
-Sakari Ailus
 
