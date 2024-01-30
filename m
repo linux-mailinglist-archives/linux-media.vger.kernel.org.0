@@ -1,205 +1,298 @@
-Return-Path: <linux-media+bounces-4424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE9784263F
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 14:36:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8FC9842659
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 14:43:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 835832828CB
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 13:36:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDA851C2404E
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 13:43:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA0E56D1B5;
-	Tue, 30 Jan 2024 13:36:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7667F55E54;
+	Tue, 30 Jan 2024 13:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6KwfjwQ"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="IsDHX68a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFD560ED3;
-	Tue, 30 Jan 2024 13:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213486BB3D
+	for <linux-media@vger.kernel.org>; Tue, 30 Jan 2024 13:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706621772; cv=none; b=ZcJlLi62SZUnCfW7+x2KVgW3i+BW97OsVwMvl8fig3kuEKiTiLorT9e+Wtc3CwhaEQ/463/Y8xAjWlz31Oa+rdPKnkkteOgKAtnKg2Il8yj0WtpDZC8WKPb8OTip9yAY5kZ+Hkzhcd8tlsQXS+fBVLPbG5HAubiAPHR0w/coOOY=
+	t=1706622228; cv=none; b=B5taiFobFiBKqyK1s8+v/nnGggAs+k75b4mCwPPYuRAez0GmibqkawMpVKHCgIf3LcKID/LoRyMpZqRzMMxXJKUeY9FoEYZnNlX1K2MHPJ8+QDM/PckW9kil9eggxnEGocd5UeBd9Uw0j00xFD+RJMbT5tEd4Fo1umyBCZBP9P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706621772; c=relaxed/simple;
-	bh=8oAMdxYBFetttydjmWPCSo5s+7Jc7Mw7JFAbAL32jwk=;
+	s=arc-20240116; t=1706622228; c=relaxed/simple;
+	bh=MoSpG4re3ktOhQao+n5tr5WsUl7GCnccs3OdmfQIERk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dbE8cBlezD4rLphAroVcxaxcmWvSEig1aswBv3fvq5HYUYFP+M2U35Xns3pIKnChVOmQ6R+YGjBN0K/UlbpFiE9epZU64ZstmfRQ7gxnMH52sgNeObcAm89H+tEPffmBPi5uOysCILvTKv+8Nc7nTwEynt927ioCT4ooymETwO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6KwfjwQ; arc=none smtp.client-ip=192.55.52.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706621770; x=1738157770;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8oAMdxYBFetttydjmWPCSo5s+7Jc7Mw7JFAbAL32jwk=;
-  b=A6KwfjwQlUre8Ed23KKNKSGAZJ0ZQLEJSpIeHNrZb53CyVBqllKolHYu
-   0aXnQXIHowjbHiDeuZYNrFoEetKJjPhSTXEKl094Sxh41fsOHa7jcnkRj
-   Hr4aR8t2HlHNvuNsnihXJ/lSzF3Wrltrbkkr/Dbhx+g9l+zoBkGKnlYJZ
-   h23A6s6gcxKK99e2TcCAH0KgnP+xj8/7RKWn/q6fwfv2M2mCcQAowlzB1
-   J+hiQEZrXm2L301/9jBuQLXnStlUxTyuI24ApVf5pk0Jm9zNju3vZvnMO
-   rAgmBiLPVLlHxzJ45oEaPJ+HVRYvLOMx+Dx+lZ1gn47Ve+UJNdX2tdzC8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="402907061"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="402907061"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 05:36:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3705399"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2024 05:36:03 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rUoHN-0000L2-2t;
-	Tue, 30 Jan 2024 13:35:58 +0000
-Date: Tue, 30 Jan 2024 21:35:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 05/13] media: xilinx-tpg: use
- of_graph_get_next_endpoint_raw()
-Message-ID: <202401302148.K0ZR110q-lkp@intel.com>
-References: <878r49klg1.wl-kuninori.morimoto.gx@renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FITVP97X/adq3F6Rfp5aykPUERgRnGL8oaV7s6Lf4TgvLs83DiEmayn34NwTs3obexDJcGnh+ZSCsB1SL4JREN75+rSq0XF6geMSIViaLiIT2UEGDp/70DYiCAaqmAXsiZfOVAZX8E4yzXylj7C7zcEgEMaW16+30HMg6IQZY4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=IsDHX68a; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5101cd91017so4344355e87.2
+        for <linux-media@vger.kernel.org>; Tue, 30 Jan 2024 05:43:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1706622223; x=1707227023; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=USv8I8ahQr/JXL+jbn8ZZ1+UEAaM/N340lwscH/0EGY=;
+        b=IsDHX68a2uJj1Pk7mk8lT8A43pvE1qSh6j30SOlbmH4e8eLS5r0gCRyFGc9Xqieno+
+         rKH5hylkgPQG5tCqlJC88eofGxGvtkylTEKsD+4d+S2iFPcLBoxzHNCGXtaiEB/Zo6eY
+         fUdA3634EZeS1oXOyPw3f8f+2X9y+2DU/p2VnmMm+JB5LkP2u5Td0blmnnwMVNnzJGT+
+         Rk9huT5Hnj52OUguyIMuMRlRRwYyiLwSx0sLBUfoAkzcslEXjXLBS0mmjAUiBBcnrzim
+         X/tn+K1mDkxAQX2mX1hmGNxEW92Hfx7kvA/1d4CRWmNhy8dHRvKKTKGqvdcFclBak1cb
+         zYEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706622223; x=1707227023;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=USv8I8ahQr/JXL+jbn8ZZ1+UEAaM/N340lwscH/0EGY=;
+        b=sGd4r62n9+1rktzuMu7n0Ztf8QG4A0na3mZU5wqaK/bFosukNhdsF4Eo0U/kDOXtAE
+         J8iN1+XRdBWFESGgXsEnko7/UMYTTL/9dLaceXB3e1s7B8Z2BrPaFALO7vyp+FJKKxni
+         5XSwyjFhWyexaU5IxMK24Jt91rwnwMLix391aLeAavxd/uhhtGIH2GA57iF9MnmCeZ0y
+         PwBnbi3YK6UXLpikIx32sID58Xkd+o6uwWHxMqtLUe0a6kXH5MDwvq+yEWxXUYssRyv2
+         DC4SthEoYMlXG/1XE5QpTeXPW9hJR7/fKXcGBdg0GCvg2SZSAVQGamoIzSC4N2M+UuKr
+         0cDg==
+X-Gm-Message-State: AOJu0Yy3v6SwSBccarQ/kts5P01UgR/unLsHjr5lZjbqDZSgHO09hZhP
+	6/Yob76dF+71rYsfOcVhM3DNG0ojkJOT/x2YiktX9LFwHqM68dp2bdQT1sV1lkE=
+X-Google-Smtp-Source: AGHT+IHIdbKwTyJfhMZF7vcUfDChukrD+mtUvQ7q5qkVPi4tUqbzw3Vtb4qQC7DD3AcQOLizN40Yfg==
+X-Received: by 2002:a05:6512:74c:b0:511:18e4:df90 with SMTP id c12-20020a056512074c00b0051118e4df90mr1442747lfs.1.1706622222733;
+        Tue, 30 Jan 2024 05:43:42 -0800 (PST)
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id s15-20020a19770f000000b005102473541asm1484517lfc.301.2024.01.30.05.43.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jan 2024 05:43:41 -0800 (PST)
+Date: Tue, 30 Jan 2024 14:43:41 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: v4l: async: Fix completion of chained subnotifiers
+Message-ID: <20240130134341.GA2544372@ragnatech.se>
+References: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
+ <ZbjmDTvI0PiUWvL_@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <878r49klg1.wl-kuninori.morimoto.gx@renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZbjmDTvI0PiUWvL_@kekkonen.localdomain>
 
-Hi Kuninori,
+Hi Sakari,
 
-kernel test robot noticed the following build errors:
+Thanks for your feedback.
 
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on drm-misc/drm-misc-next linus/master v6.8-rc2 next-20240130]
-[cannot apply to robh/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 2024-01-30 12:05:33 +0000, Sakari Ailus wrote:
+> Hi Niklas,
+> 
+> Thanks for the patch.
+> 
+> On Mon, Jan 29, 2024 at 08:59:54PM +0100, Niklas Söderlund wrote:
+> > Allowing multiple connections between entities are very useful but the
+> > addition of this feature did not considerate nested subnotifiers.
+> > 
+> > Consider the scenario,
+> > 
+> > rcar-vin.ko     rcar-isp.ko     rcar-csi2.ko    max96712.ko
+> > 
+> > video0 ---->    v4l-subdev0 ->  v4l-subdev1 ->  v4l-subdev2
+> > video1 -´
+> > 
+> > Where each videoX or v4l-subdevX is controlled and register by a
+> > separate instance of the driver listed above it. And each driver
+> > instance registers a notifier (videoX) or a subnotifier (v4l-subdevX)
+> > trying to bind to the device pointed to.
+> > 
+> > If the devices probe in any other except where the vidoeX ones are
+> > probed last only one of them will have their complete callback called,
+> > the one who last registered its notifier. Both of them will however have
+> > their bind() callback called as expected.
+> > 
+> > This is due to v4l2_async_nf_try_complete() only walking the chain from
+> > the subnotifier to one root notifier and completing it while ignoring
+> > all other notifiers the subdevice might be part of. This works if there
+> > are only one subnotifier in the mix. For example if either v4l-subdev0
+> > or v4l-subdev1 was not part of the pipeline above.
+> > 
+> > This patch addresses the issue of nested subnotifiers by instead looking
+> > at all notifiers and try to complete all the ones that contain the
+> > subdevice which subnotifier was completed.
+> 
+> Why do you need this?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240129-085726
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/878r49klg1.wl-kuninori.morimoto.gx%40renesas.com
-patch subject: [PATCH v2 05/13] media: xilinx-tpg: use of_graph_get_next_endpoint_raw()
-config: mips-randconfig-r113-20240130 (https://download.01.org/0day-ci/archive/20240130/202401302148.K0ZR110q-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20240130/202401302148.K0ZR110q-lkp@intel.com/reproduce)
+I need this for the use-case described as an example above. In a 
+separate series [1] I remove the rcar-vin workaround for the earlier 
+lack of multiple connections between entities in v4l-async and without a 
+solution this patch tries to address this breaks on some boards that 
+already use nested subnotifiers but for which the rcar-vin workaround 
+addresses.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401302148.K0ZR110q-lkp@intel.com/
+> This is also not a bug, the documentation for the complete callback says:
+> 
+>  * @complete:	All connections have been bound successfully. The complete
+>  *		callback is only executed for the root notifier.
 
-All error/warnings (new ones prefixed by >>):
+Yes, and here there are two root notifiers. One in the driver 
+registering video0 and the one registering video1. Both notifiers wish 
+to bind to v4l-subdev0. And both notifers have their bind callback 
+called when v4l-subdev0 is registered, but only one have its complete 
+callback called.
 
->> drivers/media/platform/xilinx/xilinx-tpg.c:747:15: error: implicit declaration of function 'of_graph_get_next_endpoint_raw' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           endpoint = of_graph_get_next_endpoint_raw(port, NULL);
-                                      ^
-   drivers/media/platform/xilinx/xilinx-tpg.c:747:15: note: did you mean 'acpi_graph_get_next_endpoint'?
-   include/linux/acpi.h:1409:1: note: 'acpi_graph_get_next_endpoint' declared here
-   acpi_graph_get_next_endpoint(const struct fwnode_handle *fwnode,
-   ^
->> drivers/media/platform/xilinx/xilinx-tpg.c:747:13: warning: incompatible integer to pointer conversion assigning to 'struct device_node *' from 'int' [-Wint-conversion]
-                           endpoint = of_graph_get_next_endpoint_raw(port, NULL);
-                                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+> 
+> Rather it would be better to get rid of this callback entirely, one reason
+> being the impossibility of error handling. We won't be there for quite some
+> time but extending its scope does go to the other direction.
 
+I agree this is the way to go. And I could do without it in my use-cases 
+if I was allowed to register the video device at probe time instead of 
+in the complete callback. I have brought this up over the years but 
+always been told that the video device should be registered in the 
+callback handler. If this is no longer true I can rework [1] and a fix 
+like this wont be needed for my use-cases.
 
-vim +/of_graph_get_next_endpoint_raw +747 drivers/media/platform/xilinx/xilinx-tpg.c
+Looking beyond my use-case do you agree that as long as we do have the 
+complete callback it needs to be supported for nested subnotifiers?
 
-   705	
-   706	/* -----------------------------------------------------------------------------
-   707	 * Platform Device Driver
-   708	 */
-   709	
-   710	static int xtpg_parse_of(struct xtpg_device *xtpg)
-   711	{
-   712		struct device *dev = xtpg->xvip.dev;
-   713		struct device_node *node = xtpg->xvip.dev->of_node;
-   714		struct device_node *ports;
-   715		struct device_node *port;
-   716		unsigned int nports = 0;
-   717		bool has_endpoint = false;
-   718	
-   719		ports = of_get_child_by_name(node, "ports");
-   720		if (ports == NULL)
-   721			ports = node;
-   722	
-   723		for_each_child_of_node(ports, port) {
-   724			const struct xvip_video_format *format;
-   725			struct device_node *endpoint;
-   726	
-   727			if (!of_node_name_eq(port, "port"))
-   728				continue;
-   729	
-   730			format = xvip_of_get_format(port);
-   731			if (IS_ERR(format)) {
-   732				dev_err(dev, "invalid format in DT");
-   733				of_node_put(port);
-   734				return PTR_ERR(format);
-   735			}
-   736	
-   737			/* Get and check the format description */
-   738			if (!xtpg->vip_format) {
-   739				xtpg->vip_format = format;
-   740			} else if (xtpg->vip_format != format) {
-   741				dev_err(dev, "in/out format mismatch in DT");
-   742				of_node_put(port);
-   743				return -EINVAL;
-   744			}
-   745	
-   746			if (nports == 0) {
- > 747				endpoint = of_graph_get_next_endpoint_raw(port, NULL);
-   748				if (endpoint)
-   749					has_endpoint = true;
-   750				of_node_put(endpoint);
-   751			}
-   752	
-   753			/* Count the number of ports. */
-   754			nports++;
-   755		}
-   756	
-   757		if (nports != 1 && nports != 2) {
-   758			dev_err(dev, "invalid number of ports %u\n", nports);
-   759			return -EINVAL;
-   760		}
-   761	
-   762		xtpg->npads = nports;
-   763		if (nports == 2 && has_endpoint)
-   764			xtpg->has_input = true;
-   765	
-   766		return 0;
-   767	}
-   768	
+1. [PATCH 0/6] media: rcar-vin: Make use of multiple connections in v4l-async
+
+> 
+> > 
+> > Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-async.c | 68 ++++++++++++++++++++--------
+> >  1 file changed, 49 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > index 3ec323bd528b..8b603527923c 100644
+> > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > @@ -176,15 +176,16 @@ static LIST_HEAD(notifier_list);
+> >  static DEFINE_MUTEX(list_lock);
+> >  
+> >  static struct v4l2_async_connection *
+> > -v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+> > -		      struct v4l2_subdev *sd)
+> > +__v4l2_async_find_in_list(struct v4l2_async_notifier *notifier,
+> > +			  struct v4l2_subdev *sd,
+> > +			  struct list_head *list)
+> >  {
+> >  	bool (*match)(struct v4l2_async_notifier *notifier,
+> >  		      struct v4l2_subdev *sd,
+> >  		      struct v4l2_async_match_desc *match);
+> >  	struct v4l2_async_connection *asc;
+> >  
+> > -	list_for_each_entry(asc, &notifier->waiting_list, asc_entry) {
+> > +	list_for_each_entry(asc, list, asc_entry) {
+> >  		/* bus_type has been verified valid before */
+> >  		switch (asc->match.type) {
+> >  		case V4L2_ASYNC_MATCH_TYPE_I2C:
+> > @@ -207,6 +208,20 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+> >  	return NULL;
+> >  }
+> >  
+> > +static struct v4l2_async_connection *
+> > +v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+> > +		      struct v4l2_subdev *sd)
+> > +{
+> > +	return __v4l2_async_find_in_list(notifier, sd, &notifier->waiting_list);
+> > +}
+> > +
+> > +static struct v4l2_async_connection *
+> > +v4l2_async_find_done(struct v4l2_async_notifier *notifier,
+> > +		     struct v4l2_subdev *sd)
+> > +{
+> > +	return __v4l2_async_find_in_list(notifier, sd, &notifier->done_list);
+> > +}
+> > +
+> >  /* Compare two async match descriptors for equivalence */
+> >  static bool v4l2_async_match_equal(struct v4l2_async_match_desc *match1,
+> >  				   struct v4l2_async_match_desc *match2)
+> > @@ -274,13 +289,14 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
+> >  }
+> >  
+> >  /*
+> > - * Complete the master notifier if possible. This is done when all async
+> > + * Complete the master notifiers if possible. This is done when all async
+> >   * sub-devices have been bound; v4l2_device is also available then.
+> >   */
+> >  static int
+> >  v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
+> >  {
+> > -	struct v4l2_async_notifier *__notifier = notifier;
+> > +	struct v4l2_async_notifier *n;
+> > +	int ret;
+> >  
+> >  	/* Quick check whether there are still more sub-devices here. */
+> >  	if (!list_empty(&notifier->waiting_list))
+> > @@ -290,24 +306,38 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
+> >  		dev_dbg(notifier_dev(notifier),
+> >  			"v4l2-async: trying to complete\n");
+> >  
+> > -	/* Check the entire notifier tree; find the root notifier first. */
+> > -	while (notifier->parent)
+> > -		notifier = notifier->parent;
+> > +	/*
+> > +	 * Notifiers without a parent are either a subnotifier that have not
+> > +	 * yet been associated with it is a root notifier or a root notifier
+> > +	 * itself. If it is a root notifier try to complete it.
+> > +	 */
+> > +	if (!notifier->parent) {
+> > +		/* This is root if it has v4l2_dev. */
+> > +		if (!notifier->v4l2_dev) {
+> > +			dev_dbg(notifier_dev(notifier),
+> > +				"v4l2-async: V4L2 device not available\n");
+> > +			return 0;
+> > +		}
+> >  
+> > -	/* This is root if it has v4l2_dev. */
+> > -	if (!notifier->v4l2_dev) {
+> > -		dev_dbg(notifier_dev(__notifier),
+> > -			"v4l2-async: V4L2 device not available\n");
+> > -		return 0;
+> > -	}
+> > +		/* Is everything ready? */
+> > +		if (!v4l2_async_nf_can_complete(notifier))
+> > +			return 0;
+> > +
+> > +		dev_dbg(notifier_dev(notifier), "v4l2-async: complete\n");
+> >  
+> > -	/* Is everything ready? */
+> > -	if (!v4l2_async_nf_can_complete(notifier))
+> > -		return 0;
+> > +		return v4l2_async_nf_call_complete(notifier);
+> > +	}
+> >  
+> > -	dev_dbg(notifier_dev(__notifier), "v4l2-async: complete\n");
+> > +	/* Try to complete all notifiers containing the subdevices. */
+> > +	list_for_each_entry(n, &notifier_list, notifier_entry) {
+> > +		if (v4l2_async_find_done(n, notifier->sd)) {
+> > +			ret = v4l2_async_nf_try_complete(n);
+> > +			if (ret)
+> > +				return ret;
+> > +		}
+> > +	}
+> >  
+> > -	return v4l2_async_nf_call_complete(notifier);
+> > +	return 0;
+> >  }
+> >  
+> >  static int
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kind Regards,
+Niklas Söderlund
 
