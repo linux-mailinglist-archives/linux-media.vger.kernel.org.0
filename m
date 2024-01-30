@@ -1,149 +1,164 @@
-Return-Path: <linux-media+bounces-4388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4389-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C57841CCD
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 08:40:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6695841CE1
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 08:47:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 19DAFB234C9
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 07:40:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8180A282657
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 07:47:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B72B75477C;
-	Tue, 30 Jan 2024 07:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94DEC54BEF;
+	Tue, 30 Jan 2024 07:47:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="mmg4Uety"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="HiGPYP4d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE3752F93;
-	Tue, 30 Jan 2024 07:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706600436; cv=pass; b=k55dZQPR9qL0dqWB13hdi94zSEiInUEALjNmCUR+Ni9fqkTL46Pp6AYxyskxwGyLkqk41exfbB38eNVYYZgpMwsAC2NrYSyOjvTj6r9ogP2STELrcmQA2zpB28QEFv+1nRQnftubMOOzw9xl/JKX29zVdVUe56D4UtVvLRsa7GE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706600436; c=relaxed/simple;
-	bh=gQFi/hgfA9MVHBETu5aazZyA13OZc9rH5VvRgCcJmsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OoFfLGVKic/q29LogRV2ISwUnQlC01cX1g+U4yFgqcYFXE0KngjfcMds7b/xpYLHs5kxYUPA6SuC3t50vE3KKzwhgrXdV694QtCVre5A0VcJgU2tiAWSQJ+oHqM448ILYmWCAikxAUqjbUIzzjJLAyjxS22qIXC6v+97yV7NViw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=mmg4Uety; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4TPHBy1PY0zyPp;
-	Tue, 30 Jan 2024 09:40:25 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1706600429;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XXYG2rIBeg/NNZorp9z2BhKReEh61TvwReLHXvCjaww=;
-	b=mmg4UetyKwlC7TSRMl0nDOWPi+zjDxXpOp3M6L3+Qb/TsTqYbPp/4uUv261XYGZBcYHB6U
-	T7T3x9ynxedfSLrcBFH+i/H93sAwKym2r1tj/D1GB2T/SkFWrq1/Kt+oc8YHFDjfatHaM9
-	GduB0g58fL7yX+1xcHMtDKkvA1Pp1X0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1706600429;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XXYG2rIBeg/NNZorp9z2BhKReEh61TvwReLHXvCjaww=;
-	b=UJJzQlqCs9VrKm5FbkOAbRgkCMTr9auA3UukM+Cirg/lszktkvqF9Eq5X0OOPQzqyY1zgH
-	1sd2TE0evQiwof0Rp/NhS9QPgZ738HW3BhaVRDZmAvDKyv1e/CfDJchauGIeZMEks+FKYO
-	Gs5KxF3RtGS38UkWzoFa/p1ytG0AjEw=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1706600429; a=rsa-sha256; cv=none;
-	b=b8I/5XUpD8zAG3kEkB9ylC36TMUKxkOVnd3GUPE359jInhtZl89CjKZLsuC/UJuUeEnO3o
-	h5OdGhfPjjgmquLay5oDg7lo+L5ojRZUBSC8QI62oKmUlDJpF6udc9tAur01+JX+nmf0Ct
-	HTROci/T7MAOf+H9Af+iDXNYkNT9M9s=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3FC86634C93;
-	Tue, 30 Jan 2024 09:40:24 +0200 (EET)
-Date: Tue, 30 Jan 2024 07:40:24 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] of: property: add port base loop
-Message-ID: <Zbin6Pg6oNp0cTNO@valkosipuli.retiisi.eu>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <20240129122736.GC8131@pendragon.ideasonboard.com>
- <ZbeoPBvGJlaJco_J@valkosipuli.retiisi.eu>
- <87zfwnirps.wl-kuninori.morimoto.gx@renesas.com>
- <Zbil22dm9x2ZudJC@valkosipuli.retiisi.eu>
- <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D631F53805
+	for <linux-media@vger.kernel.org>; Tue, 30 Jan 2024 07:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706600826; cv=none; b=Lp5hVbn7pKY9+mCpBFAx3u4Z0fgKkoGJIA+DDRI5kW9davP7RthtCsTwFC5sl43WFNb5QCjIxhF+/r7NW1gS/UFttnURk0pqD13VLIxftzC4c/udkf7jdBf3dkKBS52Ow8WAV2QCJJq2e1W8tK6I6gtUP4M9d7Jc1hC2dbW9rxE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706600826; c=relaxed/simple;
+	bh=6wF3pjl+xGSbuQROF2HwbVRfOfePnmBeqT9YPU+Cd88=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=PXDJaJgcIDNav5i+l4Ed4PJ/dNVXNyRvczY9IOrTOHx6+BZQlxhVOO3ITFoG8R4aTILnCPgFvmPTTbPMgBU3DZ7/DqIc8cnlLPYxcNMSxHqPevJbO4aWuIltDjkrv5ALSKkvoQ/DyIzdAKf0WOkpyjtygwUAGo9Kxq1THbF4Zt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=HiGPYP4d; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55f1102b300so1892943a12.2
+        for <linux-media@vger.kernel.org>; Mon, 29 Jan 2024 23:47:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1706600821; x=1707205621; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QlGtGfNm9kPhTsKQ1zfGwKYIV+yyIvsTE/Mjc0NVPIk=;
+        b=HiGPYP4dYhUZByAnXCCfDyML/k5Tvd6nNZeKOF1+AtmmNXus/UUnslfILqa8rUm2gJ
+         9HBwMHR8Zcrj3Jidevt7zIlYx4IqEC20W8ys7x1PWXZc8BiZLfqmP8RpF0px0ytZQWko
+         I+FkP2gEYOyHXLrRqAV16brvLen0EWVDspuM1j+RdoedCPtTagGBCXKIc7ymagE410bC
+         C13k39T3q33FXUvZrEwyzUmM98bmvllEzzg2HN/RccxvNRWz9G5aBadfgBa3hgcpMCco
+         IIkUJc2qWddJXXBRnYcuFhDo0MdGaTj455hVkVa8mbINkt6Z1IMVGlfAB7bvJVNU6iCF
+         N3ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706600821; x=1707205621;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QlGtGfNm9kPhTsKQ1zfGwKYIV+yyIvsTE/Mjc0NVPIk=;
+        b=XuhqJWQeu21Lym8wbmxjjR/AUwzvrluKkZYL4CaE/M/3imX0rIgLd57MLPV8uNto30
+         A/XJskw9zCJGqgu4pLJUN2uWhzhpPFu5Tcc+grCSaiQRyDBY3eH4lRgJJakuB19iZKac
+         nfEEjrrXnve47WaTwjRPuXUVUjK1nYl8e28ZYz3KNOKudOlkLE1j++t12J+6VNNbCLET
+         WM3uMfkcFaqw2xPsodYHpmcDbRzNx+cW65TTG8A4FDz7NwA6smCk2pHBT+uNLfPSWrWF
+         soeui1b57NorFZ/+uYBOdKwHFONHOmmUhNPcj/5QA/sQhwl0T+QEn7QMedLUukOtDdwO
+         fkkw==
+X-Gm-Message-State: AOJu0YxjkpgazMGqePc/VYOsaFs+ZUcE4/jJUmLLufQ6aKHzh2a62L2+
+	wx+WgQ8PiJg2qdGRTCt1Rr5+qr02PkoweBpiaVw2eRzIy3ewEXcB9fnmtVeIIhs=
+X-Google-Smtp-Source: AGHT+IE7X9hDipYR0YX/csSCqzOnet8vdLtg+tkdmtHjx4F4Cc1elveRWT2+rBnQl0qvijzggQV9ow==
+X-Received: by 2002:a50:ed90:0:b0:55f:43af:4a29 with SMTP id h16-20020a50ed90000000b0055f43af4a29mr420603edr.18.1706600821066;
+        Mon, 29 Jan 2024 23:47:01 -0800 (PST)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id q10-20020aa7cc0a000000b0055ef56f4575sm2182091edt.39.2024.01.29.23.47.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 23:47:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jan 2024 08:47:00 +0100
+Message-Id: <CYRVI1IQ2UKE.15ZGCYLRT3ND3@fairphone.com>
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Conor Dooley" <conor@kernel.org>, "Vikash Garodia"
+ <quic_vgarodia@quicinc.com>
+Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konrad.dybcio@linaro.org>, "Stanimir Varbanov"
+ <stanimir.k.varbanov@gmail.com>, "Vikash Garodia"
+ <quic_vgarodia@quicinc.com>, "Bryan O'Donoghue"
+ <bryan.odonoghue@linaro.org>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Rob Herring" <robh+dt@kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ "Stanimir Varbanov" <stanimir.varbanov@linaro.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: dt-bindings: qcom,sc7280-venus: Allow one IOMMU
+ entry
+X-Mailer: aerc 0.15.2
+References: <20240129-sc7280-venus-bindings-v1-1-20a9ba194c60@fairphone.com>
+ <20240129-numerate-brought-4660c2a89719@spud>
+In-Reply-To: <20240129-numerate-brought-4660c2a89719@spud>
 
-On Tue, Jan 30, 2024 at 09:37:42AM +0200, Tomi Valkeinen wrote:
-> On 30/01/2024 09:31, Sakari Ailus wrote:
-> > Hi Morimoto-san,
-> > 
-> > On Tue, Jan 30, 2024 at 12:34:55AM +0000, Kuninori Morimoto wrote:
-> > > 
-> > > Hi Laurent, Sakari
-> > > 
-> > > Thank you for your review
-> > > 
-> > > > > The strategy sounds good to me. However, I'm wondering if you shouldn't
-> > > > > take one more step in the core, and implement these as fwnode
-> > > > > operations. Or is there a reason why OF is special, and iterating over
-> > > > > ports would be useful for drivers on OF systems but not on other types
-> > > > > of systems ?
-> > > > 
-> > > > I'd prefer that, too.
-> > > 
-> > > It is very easy reason, because I'm not fwnode user ;P
-> > > I'm not familiar with fwnode, but in my quick check, it seems it is easy
-> > > to expand fwnode side functions if of_graph side function exist ?
-> > 
-> > That would be one way to do that, yes, but I suggested using the existing
-> > endpoint iterators as that would keep the firmware specific implementation
-> > more simple. The (slight) drawback is that for each node returned, you'd
-> > need to check its parent (i.e. port node) is the same as the port you're
-> > interested in. The alternative may involve reworking the struct
-> > fwnode_operations interface somewhat, including swnode, DT and ACPI
-> > implementations.
-> > 
-> 
-> But we still need the of_* versions, don't we, for patches 4 to 13?
+On Mon Jan 29, 2024 at 6:37 PM CET, Conor Dooley wrote:
+> On Mon, Jan 29, 2024 at 08:48:54AM +0100, Luca Weiss wrote:
+> > Some SC7280-based boards crash when providing the "secure_non_pixel"
+> > context bank, so allow only one iommu in the bindings also.
+> >=20
+> > Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>
+> Do we have any idea why this happens? How is someone supposed to know
+> whether or not their system requires you to only provide one iommu?
+> Yes, a crash might be the obvious answer, but is there a way of knowing
+> without the crashes?
 
-Yes, my comment was indeed about the fwnode property API only.
++CC Vikash Garodia
 
--- 
-Sakari Ailus
+Unfortunately I don't really have much more information than this
+message here:
+https://lore.kernel.org/linux-arm-msm/ff021f49-f81b-0fd1-bd2c-895dbbb03d56@=
+quicinc.com/
+
+And see also the following replies for a bit more context, like this
+one:
+https://lore.kernel.org/linux-arm-msm/a4e8b531-49f9-f4a1-51cb-e422c56281cc@=
+quicinc.com/
+
+Maybe Vikash can add some more info regarding this.
+
+Regards
+Luca
+
+>
+> Cheers,
+> Conor.
+>
+> > ---
+> > Reference:
+> > https://lore.kernel.org/linux-arm-msm/20231201-sc7280-venus-pas-v3-2-bc=
+132dc5fc30@fairphone.com/
+> > ---
+> >  Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.=
+yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+> > index 8f9b6433aeb8..10c334e6b3dc 100644
+> > --- a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+> > +++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+> > @@ -43,6 +43,7 @@ properties:
+> >        - const: vcodec_bus
+> > =20
+> >    iommus:
+> > +    minItems: 1
+> >      maxItems: 2
+> > =20
+> >    interconnects:
+> >=20
+> > ---
+> > base-commit: 596764183be8ebb13352b281a442a1f1151c9b06
+> > change-id: 20240129-sc7280-venus-bindings-6e62a99620de
+> >=20
+> > Best regards,
+> > --=20
+> > Luca Weiss <luca.weiss@fairphone.com>
+> >=20
+
 
