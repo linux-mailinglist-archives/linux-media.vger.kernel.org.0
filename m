@@ -1,165 +1,90 @@
-Return-Path: <linux-media+bounces-4434-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4435-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E57F8428CA
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 17:08:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D788842977
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 17:36:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60FB81C249E1
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 16:08:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8DD94B25F4D
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 16:36:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF52C86ADE;
-	Tue, 30 Jan 2024 16:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WmIFW2K2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D95E485C6F;
+	Tue, 30 Jan 2024 16:36:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1C2605A6;
-	Tue, 30 Jan 2024 16:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FDDF36102;
+	Tue, 30 Jan 2024 16:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706630928; cv=none; b=ZB5cl9jPmLXoaSD5BrkPXqOC6Zf6uEhFjqSCjnLCqm9+Z2/BqBueJLqbcULP+PxwhHbuvYPKXjZbnXtcluAKi2V6PZqSdawN2D8A+/ysbUY7axtbaihVqcRBHBp7JRLHE0/7Fgub57Cqfz5M3akpD9caR5Aexn6dT/SLCspS+vo=
+	t=1706632569; cv=none; b=fn+onMoL/XKcAM6BXeIigKkXN+lC9kD4uN0qI43JDuKgFzi6Xc1TtLt5+s1tcsaGeSadt7jeLGvyj1I48V/OhUQjNt4BvV1DosOYzkHbPFmUSZnjFCDMFtZK+757fymQ2FWLW5wP3p29vN6y6UH7LcqDMK6701tzXsPIvCjWVh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706630928; c=relaxed/simple;
-	bh=sPfj1j3becXJ7FsukmBOZKFUKuKhbginVe76VML0cXQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kElmla3eJaDJdyM21AqHsafQ4rtvRfxYH+43HOn0KlNJXLbPH2hKQND2x7P9re6zugsSVT4c+aQ91ilkLXqKcd0iuvqMGisrbPKhFgIz/berXh4bj8oRcB9b6P17dC3Hf2/GVX15xP1RL3fUN4Q36To2lIx/F9fmFG2KIdc0mz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WmIFW2K2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2BFC433B1;
-	Tue, 30 Jan 2024 16:08:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706630927;
-	bh=sPfj1j3becXJ7FsukmBOZKFUKuKhbginVe76VML0cXQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WmIFW2K2WgTsKXQmDdtFbEnUjOrbNCF8PYC4VvIFsGwbw34L19U9MYFsKAMIPCycY
-	 LC/VcY6WWhHTYIMox8e4CI2JJNi1bbfjUrGSfJdFg/SGj8Xvn87HbUGCo3GcxG6zCO
-	 37P6GVi/kqcp5mLJbkxUDbApSuGsX9yVjfcY6GXrZyUcID/fgA8XuxTPFF6DaGEg4X
-	 0sMYfPheUUaDyV+9PqMuZX/DdKs8mTx0h8HW4+nKLGDsGEF8cCLSOyu0rSRWIXHw9m
-	 avnV2CMbsJpUWj4scBQGRAktSei4fsapCkjhweRp+1TWvmxmAira22HmAcznJJUQyb
-	 ocuRD83nX5Kfw==
-Date: Tue, 30 Jan 2024 21:38:43 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Jonathan Cameron <jic23@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Nuno Sa <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/6] dmaengine: Add API function
- dmaengine_prep_slave_dma_vec()
-Message-ID: <ZbkfC31eWBUQ3kSl@matsya>
-References: <20240129170201.133785-1-paul@crapouillou.net>
- <20240129170201.133785-2-paul@crapouillou.net>
+	s=arc-20240116; t=1706632569; c=relaxed/simple;
+	bh=8ixBQm+pgtUggLI9BZ6kZHDGNhG5Kd7cjL1HuRfUS4g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YmFEiId6Q8qeSJMM7OkwngKuD4KfKJqSgT8u/EY1HCaPziMubA48t5Zm9gTfxIpZ3xWlkX7zWYWaW2ZYUrfDNoeI0BnQTsFN7uPqXYGtJcXFbYiiKBeGIm41G45Bt6mWl2HZN85YCYrn9oWuftt7tzspqUz8Bdez3UtoWsJYWjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.05,230,1701097200"; 
+   d="scan'208";a="192260837"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 31 Jan 2024 01:35:59 +0900
+Received: from localhost.localdomain (unknown [10.226.92.244])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 285C14021B44;
+	Wed, 31 Jan 2024 01:35:55 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/4] clk_disable_unprepare
+Date: Tue, 30 Jan 2024 16:35:49 +0000
+Message-Id: <20240130163553.116249-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240129170201.133785-2-paul@crapouillou.net>
+Content-Transfer-Encoding: 8bit
 
-On 29-01-24, 18:01, Paul Cercueil wrote:
-> This function can be used to initiate a scatter-gather DMA transfer,
-> where the address and size of each segment is located in one entry of
-> the dma_vec array.
-> 
-> The major difference with dmaengine_prep_slave_sg() is that it supports
-> specifying the lengths of each DMA transfer; as trying to override the
-> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
-> process. The introduction of a new API function is also justified by the
-> fact that scatterlists are on their way out.
-> 
-> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
-> case, as it assumes that the address of each segment will be higher than
-> the one of the previous segment, which we just cannot guarantee in case
-> of a scatter-gather transfer.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> 
-> ---
-> v3: New patch
-> 
-> v5: Replace with function dmaengine_prep_slave_dma_vec(), and struct
->     'dma_vec'.
->     Note that at some point we will need to support cyclic transfers
->     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
->     parameter to the function?
+This patch series aims to sync the CSI/CRU driver code with the latest
+hardware manual (R01UH0914EJ0140 Rev.1.40).
 
-that would be better
+v1->v2:
+ * Updated commit description for patch#1 removing deprecated for
+   SET_RUNTIME_PM_OPS() macro.
+ * Aligned RUNTIME_PM_OPS() macro.
+ * Added Rb tag from Laurent for patch#2 and #3.
+ * Replaced usleep_range()->fsleep().
+ * Added blank space after manual in commit description for patch#{2,3}.
+ * Dropped clk-provider.h and __clk_is_enabled() as consumer clk should
+   not use it. Plan to send RFC for clk_disable_unprepare_sync() in ccf.
 
-> ---
->  include/linux/dmaengine.h | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index 3df70d6131c8..ee5931ddb42f 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -160,6 +160,16 @@ struct dma_interleaved_template {
->  	struct data_chunk sgl[];
->  };
->  
-> +/**
-> + * struct dma_vec - DMA vector
-> + * @addr: Bus address of the start of the vector
-> + * @len: Length in bytes of the DMA vector
-> + */
-> +struct dma_vec {
-> +	dma_addr_t addr;
-> +	size_t len;
-> +};
-> +
->  /**
->   * enum dma_ctrl_flags - DMA flags to augment operation preparation,
->   *  control completion, and communicate status.
-> @@ -910,6 +920,10 @@ struct dma_device {
->  	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
->  		struct dma_chan *chan, unsigned long flags);
->  
-> +	struct dma_async_tx_descriptor *(*device_prep_slave_dma_vec)(
-> +		struct dma_chan *chan, const struct dma_vec *vecs,
-> +		size_t nents, enum dma_transfer_direction direction,
-> +		unsigned long flags);
+Biju Das (4):
+  media: platform: rzg2l-cru: rzg2l-csi2: Switch to RUNTIME_PM_OPS()
+  media: platform: rzg2l-cru: rzg2l-ip: Add delay after D-PHY reset
+  media: platform: rzg2l-cru: rzg2l-video: Fix image processing
+    initialization
+  media: platform: rzg2l-cru: rzg2l-video: Restructure clk handling
 
-s/slave/peripheral
-
-I had requested it a bit while ago as well
-
->  	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
->  		struct dma_chan *chan, struct scatterlist *sgl,
->  		unsigned int sg_len, enum dma_transfer_direction direction,
-> @@ -972,6 +986,17 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
->  						  dir, flags, NULL);
->  }
->  
-> +static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_dma_vec(
-> +	struct dma_chan *chan, const struct dma_vec *vecs, size_t nents,
-> +	enum dma_transfer_direction dir, unsigned long flags)
-> +{
-> +	if (!chan || !chan->device || !chan->device->device_prep_slave_dma_vec)
-> +		return NULL;
-> +
-> +	return chan->device->device_prep_slave_dma_vec(chan, vecs, nents,
-> +						       dir, flags);
-> +}
-> +
->  static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
->  	struct dma_chan *chan, struct scatterlist *sgl,	unsigned int sg_len,
->  	enum dma_transfer_direction dir, unsigned long flags)
-> -- 
-> 2.43.0
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 -
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 37 +++++----
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 18 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 83 ++++++++-----------
+ 4 files changed, 62 insertions(+), 79 deletions(-)
 
 -- 
-~Vinod
+2.25.1
+
 
