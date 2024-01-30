@@ -1,145 +1,212 @@
-Return-Path: <linux-media+bounces-4422-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4423-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11AC08425DC
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 14:11:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0911C8425D0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 14:10:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 23EB9B2BD57
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 12:59:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DC111C265C2
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 13:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C529C6A32C;
-	Tue, 30 Jan 2024 12:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90FD26D1B8;
+	Tue, 30 Jan 2024 13:10:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="fU6IjAxN"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yYCnlwpY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2061.outbound.protection.outlook.com [40.107.102.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E9367751
-	for <linux-media@vger.kernel.org>; Tue, 30 Jan 2024 12:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706619584; cv=none; b=GTjBC9+y/Y+I4OC6EjGGiiMg45obk9GEwxlvIIarWDGD4puNgnCTlB/eQBnonIDkwVmCd9BSRE72AWKCchQDvKWfZglMzbqqUtjFqBsFIkOo3pD/T62K6blFd+iGq1M0RACgrkkyqqI76X/lyo99AdE12eJkvUMZAalRbF+XhbI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706619584; c=relaxed/simple;
-	bh=llKIpxzlNFJiUk8PY5b3Z3fCFrJxXebr98TkLhVix6c=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:References; b=E/B96gDYa+xD8mO5KGmAxo16+/ezmb+CcnihV1Xrn+Qp0G2Nciw+tPqrV3g+Zj1iKEqiQV+ZjBW1aBK0OxbqZZNci3D+ahgpQqSRAF/Ueb4Ji4wleH/KUXQQItxAdXLNfNTgHeVSkcmJjwocjvpDc8XBy7MHW8hp3NKHgKMUGxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=fU6IjAxN; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240130125939epoutp010f0089e4012e2a70aa48beec009dcc38~vIXcWXeaS2853628536epoutp01h
-	for <linux-media@vger.kernel.org>; Tue, 30 Jan 2024 12:59:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240130125939epoutp010f0089e4012e2a70aa48beec009dcc38~vIXcWXeaS2853628536epoutp01h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1706619579;
-	bh=86uf5cHblxYzJLM1VjZACQcgiuV34NFC+LyTgR1BKi0=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=fU6IjAxNhaNVoL0dcG9yfloQY4KoDhGzATrGw8o7tpb1z25WZ/4wrV8N42AHUiXnc
-	 JKeTEoXbxeeFbGey/QoOljQ1350q/Rq+0M85BW6+lMXjGyjQ7Qtm6b9K6RUHVTX4ap
-	 6htqun4h5XfRQfvSUn+xUqLR8KDqvg9oezbr+XZY=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240130125938epcas5p27117a2b65534244744c3e07e26ecc13f~vIXbvpSQ82295622956epcas5p22;
-	Tue, 30 Jan 2024 12:59:38 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4TPQHD6C8kz4x9Pr; Tue, 30 Jan
-	2024 12:59:36 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5F.0F.10009.8B2F8B56; Tue, 30 Jan 2024 21:59:36 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240130125754epcas5p2edd5cc52dc58add09299d3aa5985a9fd~vIV7QCMa91230812308epcas5p22;
-	Tue, 30 Jan 2024 12:57:54 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240130125754epsmtrp2e12576e79ff1cc8625f64e1057826356~vIV7PB6Nn0742507425epsmtrp2j;
-	Tue, 30 Jan 2024 12:57:54 +0000 (GMT)
-X-AuditID: b6c32a4a-ff1ff70000002719-cd-65b8f2b8df94
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7A.C1.08755.252F8B56; Tue, 30 Jan 2024 21:57:54 +0900 (KST)
-Received: from cheetah.sa.corp.samsungelectronics.net (unknown
-	[107.109.115.53]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240130125752epsmtip148d450aa6a46e8e5e6576d0cffcc96bd~vIV4u265V0502605026epsmtip1C;
-	Tue, 30 Jan 2024 12:57:52 +0000 (GMT)
-From: Aakarsh Jain <aakarsh.jain@samsung.com>
-To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org, conor+dt@kernel.org, linux-samsung-soc@vger.kernel.org,
-	andi@etezian.org, gost.dev@samsung.com, alim.akhtar@samsung.com,
-	pankaj.dubey@samsung.com, aakarsh.jain@samsung.com
-Subject: [PATCH] dt-bindings: media: s5p-mfc: Remove s5p-mfc.txt binding
-Date: Tue, 30 Jan 2024 18:27:48 +0530
-Message-Id: <20240130125748.54194-1-aakarsh.jain@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSf0wTZxjH895dr6dJl1tB966BrdyGC7BCC6U7pkwZxNw2XdjMNsMi0LQn
-	Rfrj1isC2xJ1C+pwot1GIhbZ5NcMWIsVpLCWYUtk6oDMYecIOB0wLSZzoRXRmTnqwfbf9/3m
-	833e93neh0CldlxGlJptrNWsNVL4SuxsIClZ4ZnzsMpvD6joGU+9iL7eeBanmxduIvRvzWGM
-	PukbQeivB0dE9K8DvQj9U/0kRtfeuoHS7qmgiP65rwGnP+/sFtFHRvsR2jk4Kabb3A8Ruqk7
-	IqarfYPiDU8yv7TMoUyzN4Qw7vbPcGYi6MWZMy27mNqudsCE3c8wF++GxflEQdk6A6vVs1Y5
-	a9ZZ9KXmkmzqjS1FuUWZGqVKocqiX6LkZq2JzabyNuUrNpYaF9ug5Du1xvJFK1/L81TaK+us
-	lnIbKzdYeFs2xXJ6I6fmUnmtiS83l6SaWdvLKqUyPXMRLC4zND24g3FOrPJK4Di2G8yiNWAF
-	AUk1POEPgRqwkpCS3wHYNzaOCYc5AHuHxkVRSkrOAzg5altOhB0TuAD5APzEPbSUqEbgFy47
-	UgMIAicVcLjHGA3EknsAnNpvizIoOYrA1umFx1VjSAZO1oXwKI+RifD3+wlRW0Jmw3D4mli4
-	7FnY0TmARrOQtBNwwH8ZjfKQzIMHWt4TmBg4O9S1xMtg+E8fLmgdnGoKLbVphC7vV5ig18OB
-	sQYsWgYlk6CrL02w42HdxVNIVKPkE/Dg39OI4Eugp3FZr4ENE8LrIRkHAx2tQNAMdLr3ioVZ
-	bYNzP5xGDoP4o//f8A0A7eBpluNNJSyfyaWb2Yr/vklnMbnB491Mft0Dblz/K9UPEAL4ASRQ
-	KlZyP6mblUr02qoPWaulyFpuZHk/yFycmB2VrdJZFpfbbCtSqbOUao1Go87K0KiopyS3q4/p
-	pWSJ1saWsSzHWpdzCLFCths5s3aalV/jHp03DU+1N94kMjbnpL0petdRwmzTUBXcg6odzbff
-	eic3VO+bjkvThFzS7R9ELn258+ON6ck5m77vH5ZdyI3RrI5L3Gd3rW3rybo6grs4M/68+urY
-	1jadZ399MGXzhnuODl/iQy6nMrK9K7H7xPyrJ3WBvMKCYGUhP/0j9GXuiVvV8s9HzjvqyPk1
-	PZEX5K1vf1p10HvX6XB7swK36mZnIufyZYrsQ3pFv/qYIbZ23/jxU6sv181qUtbPJAw/9+Kj
-	vfP3XnOoLojwii0mLNx67v3O+DhCrdqx61D5QkbhFU9xwtE/gl002tt+JOWSd6tTVJA7N1VM
-	BpynCyiMN2hVyaiV1/4LXsDzLCQEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPLMWRmVeSWpSXmKPExsWy7bCSnG7Qpx2pBm3v9Sye7pjJavFg3jY2
-	i8U/njNZ3F/8mcVizd5zTBbzj5xjtbh5YCeTxcWZd1ks+l48ZLbY9Pgaq8XlXXPYLHo2bGW1
-	mHF+H5PF2iN32S2WbfrDZLFo6xd2i9a9R9gdBD2uL/nE7LF4z0smj02rOtk87lzbw+axeUm9
-	R9+WVYwenzfJeZz6+pk9gCOKyyYlNSezLLVI3y6BK2PRr/csBWtZKq4eXsjSwPiKuYuRk0NC
-	wETi8+w7bF2MXBxCArsZJZ71bGeCSMhI/G87xg5hC0us/PecHaKomUniTk8fUBEHB5uArsTZ
-	7TkgcRGBVkaJ6ys7mUAcZoH7TBJP1+4DmyQs4CFxd+pLNpAGFgFViUc/FUHCvAK2Ep8/34Na
-	IC+xesMB5gmMPAsYGVYxSqYWFOem5xYbFhjmpZbrFSfmFpfmpesl5+duYgSHsZbmDsbtqz7o
-	HWJk4mA8xCjBwawkwvtTc2uqEG9KYmVValF+fFFpTmrxIUZpDhYlcV7xF70pQgLpiSWp2amp
-	BalFMFkmDk6pBibBfxMrzkrOarFfpuNl16TBy6H+yuT7r/S8eBb+FUv5bwo1l7/gNDuy2/Xz
-	hu9dbV1/K+x7N5xZrcRQL1STFRmh5fzKOeKbzIxHUy/e89x5xeGi1VpVwUOOv9ZNWLjqr3r8
-	xx0tO15MED3qXvVG/M63tZsbjJZP5pc4JnTa6nlY2J2H33ftZrnlJ8hlO3uGubthEc/jjav+
-	KpU4uSyzeZVy87HJDvu9lp1Bhv4cwXs1XBnTD/97VXWL5ZnxrCknN1/ZeTNgen24uYvaTEar
-	h3dWzPmccodHXaX+hHLKmlfzxI/8OnLy6IVrOv+z37TOWPj79IPTPP0BE0ReK9Z/jf1yY/2V
-	XIlZ5v83/rwTsnTyAiWW4oxEQy3mouJEAGdDD3LSAgAA
-X-CMS-MailID: 20240130125754epcas5p2edd5cc52dc58add09299d3aa5985a9fd
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240130125754epcas5p2edd5cc52dc58add09299d3aa5985a9fd
-References: <CGME20240130125754epcas5p2edd5cc52dc58add09299d3aa5985a9fd@epcas5p2.samsung.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF5B6BB5C;
+	Tue, 30 Jan 2024 13:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706620203; cv=fail; b=ECYl7wKEyJMOAL0Bp12W8FE+H3dGpARvnN9RkrCuEWNdpqKqLdXymxXeEj8xwcJXGZ2dCD1zEmToiDF03Mtb2LtnOTvrXFC5dedoXpBWNyDKf5LCfpYlDSQsUDkA0UjaUQX7LFamEa5eFCiTUE/7IeqeRkyHvnDKegqieloafh4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706620203; c=relaxed/simple;
+	bh=/qrURTatOldc1nL59Q4tzLN7FzggvQwOPTD4vDhRYH4=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=jPTp4/pQGxl7vz24N/vyUqingarj3atpxR3MvWQG5Cs2chHBlNMmMfnfYXUReC2C/9tgB0zm64k+5sANmI/J5MdVArcQA02i5T9M/AJybnZDQXnFh6oZtQLTPWgQh95TnCemHRItNPcVqST9xmWSg29hQeLhcquEoiRnNUIYkhk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yYCnlwpY; arc=fail smtp.client-ip=40.107.102.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KfKrprOf3PaAZA4V1PfAyXaIVaH/MYvYumsBuSHCT9o3PJvzDCewsIckSelRYUhVCg/UfgyYrxuNL9wjjFGwfcj+m22an0aVUEJbide0DwjHX3AxgdIHzBlSvIVGE34moL65ssP3fCm8gw8V86YT6h+FM0p9Vu3RXzBFDzNtte8+WyLyeSIcnQ2pMwxHShid690g/G2zqntbksxd7oBb5ntZHYSSjBbfOgFjcWvkHr8fRHtO8wgYxVzFIU4iIq1xa+YDFY+o65sV/TFw5iE3G++8fqG+QNGlKljecimFti1wciCYKr+Aag9EIvDM9tkY1vEeVlQZEdtygoXIsnMbFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8YyCWdugEcbPxK31IUu4twc4iWTbXF20lRfL264iGms=;
+ b=nx/FGXxxaiSKatI26s0Z8BBC3FkzFvhUpz16hccBZlwmjRUboBhZ2mmyp/BAmNBy7hutl32IcU5E2x66h0tfZTD5QXGuIbBEO04YijphUUk6e36Y3RaovazaFT2Nbo8IoDjqAksS7XiridzOSaQ+qw4YaHg0QrtMkpo7e3C7B0/RUMFwco6qH1SPtCKHFubjVkoE6MIcqxG6yi8ijutEQI1jOPrL5LZhQMWyretJQrcW0xkHkW+IMVFnAgM2G3/49TkUKTxdDRLC7zBO+CJDDvlnO6C5qZOxu+fQJK0aXNsIPDEyN5dMwVkUGUnkpYrmgUNJ/KLx+vXgS/kq3jEzZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8YyCWdugEcbPxK31IUu4twc4iWTbXF20lRfL264iGms=;
+ b=yYCnlwpYtBswQbu32R+MCg1B2U7INFj0GH2Fj8rqQSo5k2dliF9K7QUvqH9Bmv64Z6oY1DaHG6mBL0V6AZVUZzWgTIrQKmd8HoshRZ8HNz5dZxWZX72JqfCKjngSUADI/CDyPMK1fnrnpDBsuedu3Fghuvp8aIqIPCDktinxNWs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY5PR12MB6528.namprd12.prod.outlook.com (2603:10b6:930:43::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Tue, 30 Jan
+ 2024 13:09:53 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7228.029; Tue, 30 Jan 2024
+ 13:09:52 +0000
+Message-ID: <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
+Date: Tue, 30 Jan 2024 14:09:45 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Christoph Hellwig <hch@lst.de>
+References: <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+ <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+ <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+ <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+ <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
+ <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
+ <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
+ <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
+ <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
+ <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
+ <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0383.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f7::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6528:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7585fff9-e117-467c-e830-08dc2194bf2a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	qcof7NtiKz2W+HNvj5RLPNzZhhTRZQffg+5djtOVtdoBmkoukeqHBY9QxGwshN27bhAHn1f8T9X9Bb7iWr5P1H7DSKnCz1QpalsGUT0GNAXKns3+2UWKS2kJmHwOEueUOrNEEib2Tq+NoVFzOJmbtzDo9wlTQNTwYF2OL3p0TCw0uEwd9vjExqFRCJ//tlkue/6HHQvpHEBhg1IXgH08W6jtqLz+NHfRz5Y2aW/qI/n9bwqjta8ZJsZ77BgN9Kf+W3wVlAMobwy7+9cmEIX8xODaXYioiEhdQOC1cd0bmb1en54RH7l8o2ooHcsrnfHrfLTi9s7N7nEyCuDtA/DjGWuk9nTalRx8TIXewjwPtyGg4AHTmAadb0xn7ZlbtHuO1J5yxMzgQUCffgyL25RiIh/qbj6opIMRcdv8kYO+PytFEdV1EXxsAciPbb/7394GRt037CeC0eF8fzAoJZk0v+qcRsQOV8MVGjf1SCUT5bxNMbhrUL8FSeByz3gswwudRL78qXTTgCaEq4J0Pl4GygMKg4/zJDxTHy2KuE+9SbW2koWiwBbKc1/Rz7qEbbB08tU/d4tuvAQ5Js46xBkskN1MfmWemUed+UaxvzjV/4+AU8bljDUW5xyldiJc+81tbQmUSw6dUe6Go6AA3UBheLsqmlTfAD51I+jhXo3tpLU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(136003)(396003)(39860400002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(41300700001)(2906002)(7416002)(5660300002)(36756003)(921011)(66556008)(86362001)(66946007)(66476007)(316002)(31696002)(83380400001)(110136005)(478600001)(6486002)(6666004)(26005)(2616005)(8936002)(6512007)(8676002)(6506007)(66574015)(31686004)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b08xM2thSWdTWVEyWEZEWFVWemdTK1BGVDdyY1JVdmRaZXo4QjUvRlF5b0Q1?=
+ =?utf-8?B?eDMyZWV2QWorQXZvZzdSNUdBSnBnVXdqRWc2TEZUbWp6UnFTQVBYRS9FaVJE?=
+ =?utf-8?B?alA3N21rVEhTVkN1NEdFMG83ZVFlVGZRa2l2b25vcFZSdS9naTFaZld5MGdL?=
+ =?utf-8?B?cVZjbVJvTnJuY0l4OTdiQldIbWRZbDRUN2g5QVgweVgvc2ZNYjJ5NUQxL0JT?=
+ =?utf-8?B?Q2tNYVhqaWc1dlNFVkNxc1BBZklSbUN0VTlFQ2pjRm5oZERTeUsvVTc2RmZh?=
+ =?utf-8?B?a2NKMXd3WStCUVdaTkNUd3dwOG1HK0YvZXY3d1M1YTdUV29SZ2lPeTByanpG?=
+ =?utf-8?B?SHd2aXgxOTFCTGVVajVqYm1qb0Rabzc0YzhnWVpzR01OdVBVTE1Zd2liRGZV?=
+ =?utf-8?B?OUhPa3gyTWZvVU11QzEwNEt6bmJqSWtOR0tuREVNeW1Na2lTeit4a3ovZzhq?=
+ =?utf-8?B?NjJLdFNjZ1lQQ0J0TGQ0OW0vdXJ2T1licXZ3M3p4dUJVdGVQeWpTQXpFa1ZB?=
+ =?utf-8?B?bUVFbTV5cGg1RXd6bkxkdjhxcWRHTXp6aXhhMlVrN2VPMHozbmoyajhLUWZX?=
+ =?utf-8?B?eVVhTGpJWmY2eUNjQU5GQ3E3Lzg0R1JQazZEeEthRFk2eFQ1TU1EWjh1OWZL?=
+ =?utf-8?B?cEFaRWpiQk95OU1iZkpSWGhvSFY3VG5pWFZ0cnNkbFpaeHZsTFNkUnJFem9o?=
+ =?utf-8?B?NHAvUVJCL1ZuUzV3TmpaWndQRC9zQVhvZU5FVlMwL3IyQkpWaU9NMzdRRHQy?=
+ =?utf-8?B?Y00veXYxTjJiZnVQQVlIUm9QVUxRQ3BlSGdrYzlxRGFSYkNUcmZrL1UraHo1?=
+ =?utf-8?B?SDlJTXAvT1RZdUc4MlRhazhSRVdrblpYS0VJK0hoZ0x2a0xmMGZxVkhISklz?=
+ =?utf-8?B?Sm91RjhSOFdSN0owOXU0YjlpUVRMc1ROcjlOeStCZGJkOFVSaEM4bmU3MVRz?=
+ =?utf-8?B?MVdnTUtEdHBjdHJISFJRMFQ0dk16NFJjN0pPc0lXTy8zMzhOc0ZEMjhwZEw2?=
+ =?utf-8?B?QVZUY2U4Y25IQlM2Tm5ZVHNwUVo5d0cwZjc3bWpmaFlKamUrYWxYaGJ5S0hy?=
+ =?utf-8?B?aEQ4czR4K0tFZGVVMk5hdEU1Mzg2L3lwQ1hBRGNvMFhMV3F6dHZPM0VFZU51?=
+ =?utf-8?B?Z0YrYWlkT0x3L1VjKzJqTFV4ZWlrR0RuV0s0ZGFGQW54ZXhTbE8zU3ZreDRW?=
+ =?utf-8?B?SlFJWTZjcUZOSFFiV2dueURLbXpzeS9yMHZwd0ZFd2o5WEt0REVJZHNSeDhs?=
+ =?utf-8?B?ZmtvaUYwNFJ3UjNTZmFwUEcrSk13cHZidW12S1p1RlFMYjIyYWlnV2w1Y1NY?=
+ =?utf-8?B?Mzl5QnE0UVg3aWVjZ0ErRm8xcEI3Y3BPZnpmUDNLR3U0OTRUUkVpR0Z3V3hj?=
+ =?utf-8?B?TzBjc2UybUZyMkh1d3JNR09Bd0MzWjVvOHNhcDYxUklhTWhsSG85MzBwWHNJ?=
+ =?utf-8?B?Nzd6dk5LQzlORGlRTlRWN3NQL2tVR1B6WlFEbEtZRXAvK0diTDFlY01OOHpI?=
+ =?utf-8?B?YlZLa2ZUVlA3d2JvbEd6bEZmWSt4MkEwQzZwaWl4V1lwMDNrVTVobU5JaTBh?=
+ =?utf-8?B?T1h0K05nYVNTWU5IT2x2dDQrWU1WbmZCRktCYkl6bXU0SzFyQjVsb2daOUZQ?=
+ =?utf-8?B?TEFMZDRQUk9xQktVTGQ1QjRBc2ZOQlFjekhSWE04ck03ZktjaHpYZnMzSHkr?=
+ =?utf-8?B?QmNhT2RiYklMZG5FclFkNkpaaTIrWUVod1ZEZlk4QmhtVGNDNTBLM0I4K3JJ?=
+ =?utf-8?B?emZwa2syNjR1STdlYXpiT2VTY3dBL3NVa2FwMWZsSVFCNHJmdEJSei91ZFVX?=
+ =?utf-8?B?MnVzYmpzaXJrbEdIV0U2T3lJSkQ0QTBuVkNybVNydmp1Y1YrZzViZHlQWC9P?=
+ =?utf-8?B?NVpUMnpld3NwSVE2NmxYckppMjZPNzA4dkljTnBHdUs5dzlaTTRKZ1ZITkgw?=
+ =?utf-8?B?dExVYTdTWUExcmU3Y3RaV05Mbk9wUDVoWkxJbjM1cVBFSzlWSzQzSm5Cazlr?=
+ =?utf-8?B?MVd6T1B4aHJMazNOUUNBUWtHZmhBOUpZa2RVMDZlSW5oY0JuUlFPdnkyMkJ3?=
+ =?utf-8?B?dVRQa1RwbjRvY29aMm1QL3VXR2xwa0hvR2NxQUoxZTlXaTFiNjhpZ1hpNGZa?=
+ =?utf-8?Q?h5EAqCcP51ixF3oy1i7IdvimL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7585fff9-e117-467c-e830-08dc2194bf2a
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 13:09:52.7870
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RiH56v4IHea2T5VGpf6DL4a9H+TpS+18JQF55hxSqBFbOilKHlTE95QmJmFogqeQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6528
 
-Commit "538af6e5856b" which convert s5p-mfc bindings to
-json-schema is already merged. Remove "s5p-mfc.txt" file.
+Am 30.01.24 um 11:40 schrieb Daniel Vetter:
+> On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
+>> Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
+>>>   I would say we start with the DMA-API by getting away from sg_tables
+>>> to something cleaner and state oriented.
+>> FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
+>> which is just a dead simple
+>>
+>> struct dma_vec {
+>>    dma_addr_t addr;
+>>    size_t len;
+>> };
+>>
+>> (The rationale for introducing it in the IIO DMABUF patchset was that
+>> the "scatterlist" wouldn't allow me to change the transfer size.)
+>>
+>> So I believe a new "sg_table"-like could just be an array of struct
+>> dma_vec + flags.
+> Yeah that's pretty much the proposal I've seen, split the sg table into
+> input data (struct page + len) and output data (which is the dma_addr_t +
+> len you have above).
 
-Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
----
- Documentation/devicetree/bindings/media/s5p-mfc.txt | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/s5p-mfc.txt
+I would extend that a bit and say we have an array with 
+dma_addr+power_of_two_order and a header structure with lower bit offset 
+and some DMA transaction flags.
 
-diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
-deleted file mode 100644
-index e69de29bb2d1..000000000000
--- 
-2.17.1
+But this is something which can be worked as an optimization later on. 
+For a start this proposal here looks good to me as well.
+
+> The part I don't expect to ever happen, because it hasn't the past 20 or
+> so years, is that the dma-api will give us information about what is
+> needed to keep the buffers coherency between various devices and the cpu.
+
+Well maybe that's what we are doing wrong.
+
+Instead of asking the dma-api about the necessary information we should 
+give the API the opportunity to work for us.
+
+In other words we don't need the information about buffer coherency what 
+we need is that the API works for as and fulfills the requirements we have.
+
+So the question is really what should we propose to change on the 
+DMA-api side to get this working as expected?
+
+Regards,
+Christian.
+
+
+
+
+
+> -Sima
 
 
