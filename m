@@ -1,386 +1,225 @@
-Return-Path: <linux-media+bounces-4407-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4408-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707A3842307
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 12:28:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92097842449
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 13:00:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA3231F2AE8C
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 11:28:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B19511C267F4
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 12:00:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4836E66B58;
-	Tue, 30 Jan 2024 11:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7888679EA;
+	Tue, 30 Jan 2024 12:00:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D48PLFxO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OL52TyIU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A576466B24;
-	Tue, 30 Jan 2024 11:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A5767E60
+	for <linux-media@vger.kernel.org>; Tue, 30 Jan 2024 12:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706614101; cv=none; b=Txw/ZLUZuJiFAXwMcDN8YM0NeBajpUJZ/f/L4xbXZX6SOrbPohPlrjDr8L1oih30WlHHFHx9bIu7ezCshkz1EjMJ70p9qwcSP4Mh4ZrM4d5S+yCjeeqQl3/ojqfmYnKkQsHGMWz9lW+rYQ/v6hQ/sG39P6sxxb74DyrqyyWf56k=
+	t=1706616030; cv=none; b=gS9yxQveOBS1z3FRwS2Zv3VhBPvFziE5cEMP4/Nl+kLh6KIg3YdwUW71egrpN10b8b/GRvoTdlb37b04w9hphTKKMyv0xx6Yy6xLvzaAyKRj7+hhZNm1RIq62uTpLq6zCEV3pqGzIFv/rLRMTn7m556GY5HgJSofO+STl7JN+aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706614101; c=relaxed/simple;
-	bh=p26BQJECcTWiyJgSsIztcnzh4ip7rv+gHoIKmYjiu4Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Vbje0Oj56hVcj39gPpodcVhhymtqsc3HrwjfS104JvDsKQ1zvoFeMQTo60NSQz7+CiQoi4/YRMT2iLWFoZLNgjsKJZKWlc8ZmI4XuVp30uOLlTTrLe+6yOoanIOuevU6yiSdi3kt8/hgrJ5TPG8O3PAwyCP7HkVI8MgK2gsJMU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D48PLFxO; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1706616030; c=relaxed/simple;
+	bh=TUeot2suwSfcDWq0YFNKyu7WMIMufYdNYL3UbbvlEnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B/bj6dwQ35UWodqfGAwNktSqQiz33I6uTyvKpicUA++q5o1wSzK3HC+VA7c0Moiu2ouBoQwqBZSy5LPZgjeAVk6pKc8/BpoZR+rULJ18IHpN+KhzCp5yr69mMgvBnMVl1i0VhH6YPZ6af/gX7rOVaLyPuYTT0ldShhJt8QPYQN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OL52TyIU; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706614100; x=1738150100;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=p26BQJECcTWiyJgSsIztcnzh4ip7rv+gHoIKmYjiu4Q=;
-  b=D48PLFxOEzeS1T2EQGBf+ApQ72A6h+rak8V+uhRFMBqbAAJ7sRoz8ZrK
-   b2MhbMjtIr0ayPadGHq5BXHrmL5foigvmOpzINYhyqmlalEAx2yDQ2eoB
-   OYgD8I3JvKlEksPsTdc9ljSpSJCjl8lXG5373DkhHOxI3ZPqxbZSKfjZB
-   7QHCa9Fhy6v0RX2gP+BTZVTZ5+YNpGlViODC3BLzoSHgbGi2HXrFLtwOj
-   Q0Kfb2ciuniO8ZDcw0R2d1roKhmD9Lb4TDwMXI1spS58H9zW7h0Twy3+t
-   JA5gbjHVCSLaN4wwRDtziF9OU2KoeEJttK/kDPqU/NkJi7NBlAgY/FKxT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="24727173"
+  t=1706616028; x=1738152028;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TUeot2suwSfcDWq0YFNKyu7WMIMufYdNYL3UbbvlEnM=;
+  b=OL52TyIUonF/0ZJd/XTMVmE5nURBVQRnRJ+6Vwdh/ghf4KOFN+aBmtOu
+   xgi4Mru+6tQXNMN+i5YhqEDBdouD07au3Mxh6LcifLE4gcA6JBuUabv2A
+   19e+8bz6TwYPOOk2ldlGhbP5iJ1pRopidJNex95F73mDiL/JPEfcbgi3R
+   PlnKDZnR3z5P7uNR7Zx94yKWOYAgPTr3qAmYys1MtD+jlzz8rfbLBjN3y
+   0vhewcHbe1vBURQry7Hoz0GgNhEKS/mytCBVsNnSKnWpV344gVP8f9nIb
+   MFo3h69vXH7XTpbPPvXcM6/rkPYMqeWaaI7OIKNPuJH6cJHgYjSz8CEWo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="402886800"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="24727173"
+   d="scan'208";a="402886800"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 03:28:19 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 04:00:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="878410349"
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="878415682"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="878410349"
+   d="scan'208";a="878415682"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 03:28:12 -0800
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1740011FBD1;
-	Tue, 30 Jan 2024 13:28:08 +0200 (EET)
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 04:00:26 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 9E6C311F8D2;
+	Tue, 30 Jan 2024 14:00:23 +0200 (EET)
+Date: Tue, 30 Jan 2024 12:00:23 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-pm@vger.kernel.org
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: [PATCH v5 1/2] PM: runtime: Simplify pm_runtime_get_if_active() usage
-Date: Tue, 30 Jan 2024 13:28:05 +0200
-Message-Id: <20240130112805.158790-2-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240130112805.158790-1-sakari.ailus@linux.intel.com>
-References: <20240130112805.158790-1-sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: Weird default vblank value in ov5693
+Message-ID: <Zbjk19khasCsScz-@kekkonen.localdomain>
+References: <0fa07550-80cb-40f2-87c8-23864af33642@redhat.com>
+ <18f20014-44b8-4f83-915d-81f265369821@ideasonboard.com>
+ <1ccf4d19-4db4-48fb-a6bf-17e29cbc5f3e@redhat.com>
+ <vv37qd3rqy5x6343pkiltoyqw2eyozwakmf5dcisybqynme3or@rqy2ww6hr2oq>
+ <c2a0c7ae-ac72-4e26-aa83-cdd0d7f02f90@redhat.com>
+ <y6j4rglwcuum4wfq2cjk56zxdnrk7stwoldsshq5d4knubq5ve@jb6vaj5jfwz3>
+ <cd065a7e-08ca-42a8-bd9f-96aa2d4d9288@redhat.com>
+ <ZbfxId264Ect_wpb@kekkonen.localdomain>
+ <348016db-d2ee-4bc3-b1f6-faf545f3c805@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <348016db-d2ee-4bc3-b1f6-faf545f3c805@redhat.com>
 
-There are two ways to opportunistically increment a device's runtime PM
-usage count, calling either pm_runtime_get_if_active() or
-pm_runtime_get_if_in_use(). The former has an argument to tell whether to
-ignore the usage count or not, and the latter simply calls the former with
-ign_usage_count set to false. The other users that want to ignore the
-usage_count will have to explicitly set that argument to true which is a
-bit cumbersome.
+Hi Hans,
 
-To make this function more practical to use, remove the ign_usage_count
-argument from the function. The main implementation is in a static
-function called pm_runtime_get_conditional() and implementations of
-pm_runtime_get_if_active() and pm_runtime_get_if_in_use() are moved to
-runtime.c.
+On Tue, Jan 30, 2024 at 11:29:20AM +0100, Hans de Goede wrote:
+> Hi Sakari,
+> 
+> On 1/29/24 19:40, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Mon, Jan 29, 2024 at 06:18:08PM +0100, Hans de Goede wrote:
+> >> Hi,
+> >>
+> >> On 1/29/24 15:45, Jacopo Mondi wrote:
+> >>> Hi Hans
+> >>>
+> >>> +dave, laurent and sakari
+> >>>
+> >>> On Mon, Jan 29, 2024 at 01:24:31PM +0100, Hans de Goede wrote:
+> >>>> Hi Jacopo,
+> >>>>
+> >>>> On 1/29/24 13:05, Jacopo Mondi wrote:
+> >>>>> Hi Hans
+> >>>>>
+> >>
+> >> <snip (getting too long)>
+> >>
+> >>>> OTOH I do believe that we want a simple default for vblank which gets
+> >>>> set on every set_mode call to keep things KISS.
+> >>>>
+> >>>> How about something like this: (based on your doc patch):
+> >>>>
+> >>>> """
+> >>>> The vblank control default value is reset so that the sensor runs
+> >>>> at 30 fps. Except when 30 fps cannot be achieved, in that case
+> >>>> the vblank control default value is reset to the control's minimum.
+> >>>>
+> >>>> After adjusting the range, the vblank control's value must be set to its
+> >>>> new default value for consistent behavior after applying a new frame size.
+> >>>> """
+> >>>>
+> >>>
+> >>> Sorry but I'm not super excited about blessing 30fps as the
+> >>> preferred or suggested setting in the documentation. For some use
+> >>> cases 30fps might be extremely slow or extremely fast, if a sensor or
+> >>> a mode cannot achieve this we then suggest the minimum... not sure
+> >>> what's best. What's others opinion here ?
+> >>
+> >> I'm fine with loosing the 30 fps language. I was actually
+> >> already thinking about dropping specifying 30 fps myself.
+> >>
+> >> In the pending documentation patch you write:
+> >>
+> >> "The value used to initialize the vertical and horizontal blanking controls
+> >> should be selected in order to realize, in association with the driver default
+> >> format and default pixel rate, a reasonable frame rate output, usually one of
+> >> the standard 15, 30 or 60 frame per second."
+> >>
+> >> How about:
+> >>
+> >> "When a new frame size is applied on the subdevice, sensor drivers are required
+> >> to update the limits of their blankings controls.
+> >>
+> >> ... part about calling __v4l2_ctrl_modify_range()...
+> >>
+> >> The control's default value is adjusted to achieve a reasonable framerate
+> >> again and the control's value is set to the new default for consistent
+> >> behavior after applying a new frame size."
+> >>
+> >> ?
+> >>
+> >> This basically blesses the existing ov5693 driver's behavior :)
+> > 
+> > What would be the purpose of this? Presumably the user space will set the
+> > vblank value based on its needs in any case, before starting streaming.
+> 
+> As I mentioned currently libcamera's sensor class sets vblank to its
+> default value at initialization time and some pipelines simply leave
+> it there so having a somewhat sane default is important to not have
+> a very high fps / have low max exposure for modes with a low height.
+> 
+> > It would require changing many that currently don't have this. Changing
+> > this could also adversely affect some user space software but presumably is
+> > unlikely to break it.
+> 
+> This is mostly to have clear guidelines for when adding vblank support
+> to existing drivers without vblank support.
+> 
+> Existing drivers often have a fixed vts value independend of the mode /
+> amount of cropping so that they always run at a fixed fps.
+> 
+> Ideally we would not change the behavior of these drivers when adding
+> vblank control. Having these drivers pick a default vblank value
+> (when adjusting the range) so that the old fixed vts is again achieved
+> and then resetting vblank to that default value ensures that the behavior
+> of the driver does not change for userspace which does not touch vblank.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Alex Elder <elder@linaro.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # drivers/accel/ivpu/
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
----
- Documentation/power/runtime_pm.rst      |  5 ++--
- drivers/accel/ivpu/ivpu_pm.c            |  2 +-
- drivers/base/power/runtime.c            | 35 +++++++++++++++++++++++--
- drivers/gpu/drm/i915/intel_runtime_pm.c |  5 +++-
- drivers/gpu/drm/xe/xe_pm.c              |  2 +-
- drivers/media/i2c/ccs/ccs-core.c        |  2 +-
- drivers/media/i2c/ov64a40.c             |  2 +-
- drivers/media/i2c/thp7312.c             |  2 +-
- drivers/net/ipa/ipa_smp2p.c             |  2 +-
- drivers/pci/pci.c                       |  2 +-
- include/linux/pm_runtime.h              | 18 +++----------
- sound/hda/hdac_device.c                 |  2 +-
- 12 files changed, 50 insertions(+), 29 deletions(-)
+Agreed. The text should also say that, then, so new drivers wouldn't need
+to bother. The complexity of adding that is trivial only on entirely
+register list based drivers which we prefer to get rid of anyway,
+eventually.
 
-diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/runtime_pm.rst
-index 65b86e487afe..da99379071a4 100644
---- a/Documentation/power/runtime_pm.rst
-+++ b/Documentation/power/runtime_pm.rst
-@@ -396,10 +396,9 @@ drivers/base/power/runtime.c and include/linux/pm_runtime.h:
-       nonzero, increment the counter and return 1; otherwise return 0 without
-       changing the counter
- 
--  `int pm_runtime_get_if_active(struct device *dev, bool ign_usage_count);`
-+  `int pm_runtime_get_if_active(struct device *dev);`
-     - return -EINVAL if 'power.disable_depth' is nonzero; otherwise, if the
--      runtime PM status is RPM_ACTIVE, and either ign_usage_count is true
--      or the device's usage_count is non-zero, increment the counter and
-+      runtime PM status is RPM_ACTIVE, increment the counter and
-       return 1; otherwise return 0 without changing the counter
- 
-   `void pm_runtime_put_noidle(struct device *dev);`
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 0af8864cb3b5..c6d93c7a1c58 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -292,7 +292,7 @@ int ivpu_rpm_get_if_active(struct ivpu_device *vdev)
- {
- 	int ret;
- 
--	ret = pm_runtime_get_if_active(vdev->drm.dev, false);
-+	ret = pm_runtime_get_if_in_use(vdev->drm.dev);
- 	drm_WARN_ON(&vdev->drm, ret < 0);
- 
- 	return ret;
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index 05793c9fbb84..5275a6b2e980 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -1176,7 +1176,7 @@ int __pm_runtime_resume(struct device *dev, int rpmflags)
- EXPORT_SYMBOL_GPL(__pm_runtime_resume);
- 
- /**
-- * pm_runtime_get_if_active - Conditionally bump up device usage counter.
-+ * pm_runtime_get_conditional - Conditionally bump up device usage counter.
-  * @dev: Device to handle.
-  * @ign_usage_count: Whether or not to look at the current usage counter value.
-  *
-@@ -1197,7 +1197,7 @@ EXPORT_SYMBOL_GPL(__pm_runtime_resume);
-  * The caller is responsible for decrementing the runtime PM usage counter of
-  * @dev after this function has returned a positive value for it.
-  */
--int pm_runtime_get_if_active(struct device *dev, bool ign_usage_count)
-+static int pm_runtime_get_conditional(struct device *dev, bool ign_usage_count)
- {
- 	unsigned long flags;
- 	int retval;
-@@ -1218,8 +1218,39 @@ int pm_runtime_get_if_active(struct device *dev, bool ign_usage_count)
- 
- 	return retval;
- }
-+
-+/**
-+ * pm_runtime_get_if_active - Bump up runtime PM usage counter if the device is
-+ *			      in active state
-+ * @dev: Target device.
-+ *
-+ * Increment the runtime PM usage counter of @dev if its runtime PM status is
-+ * %RPM_ACTIVE, in which case it returns 1. If the device is in a different
-+ * state, 0 is returned. -EINVAL is returned if runtime PM is disabled for the
-+ * device, in which case also the usage_count will remain unmodified.
-+ */
-+int pm_runtime_get_if_active(struct device *dev)
-+{
-+	return pm_runtime_get_conditional(dev, true);
-+}
- EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
- 
-+/**
-+ * pm_runtime_get_if_in_use - Conditionally bump up runtime PM usage counter.
-+ * @dev: Target device.
-+ *
-+ * Increment the runtime PM usage counter of @dev if its runtime PM status is
-+ * %RPM_ACTIVE and its runtime PM usage counter is greater than 0, in which case
-+ * it returns 1. If the device is in a different state or its usage_count is 0,
-+ * 0 is returned. -EINVAL is returned if runtime PM is disabled for the device,
-+ * in which case also the usage_count will remain unmodified.
-+ */
-+int pm_runtime_get_if_in_use(struct device *dev)
-+{
-+	return pm_runtime_get_conditional(dev, false);
-+}
-+EXPORT_SYMBOL_GPL(pm_runtime_get_if_in_use);
-+
- /**
-  * __pm_runtime_set_status - Set runtime PM status of a device.
-  * @dev: Device to handle.
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index 860b51b56a92..d4e844128826 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -246,7 +246,10 @@ static intel_wakeref_t __intel_runtime_pm_get_if_active(struct intel_runtime_pm
- 		 * function, since the power state is undefined. This applies
- 		 * atm to the late/early system suspend/resume handlers.
- 		 */
--		if (pm_runtime_get_if_active(rpm->kdev, ignore_usecount) <= 0)
-+		if ((ignore_usecount &&
-+		     pm_runtime_get_if_active(rpm->kdev) <= 0) ||
-+		    (!ignore_usecount &&
-+		     pm_runtime_get_if_in_use(rpm->kdev) <= 0))
- 			return 0;
- 	}
- 
-diff --git a/drivers/gpu/drm/xe/xe_pm.c b/drivers/gpu/drm/xe/xe_pm.c
-index b429c2876a76..dd110058bf74 100644
---- a/drivers/gpu/drm/xe/xe_pm.c
-+++ b/drivers/gpu/drm/xe/xe_pm.c
-@@ -330,7 +330,7 @@ int xe_pm_runtime_put(struct xe_device *xe)
- 
- int xe_pm_runtime_get_if_active(struct xe_device *xe)
- {
--	return pm_runtime_get_if_active(xe->drm.dev, true);
-+	return pm_runtime_get_if_active(xe->drm.dev);
- }
- 
- void xe_pm_assert_unbounded_bridge(struct xe_device *xe)
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index e21287d50c15..e1ae0f9fad43 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -674,7 +674,7 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
--	pm_status = pm_runtime_get_if_active(&client->dev, true);
-+	pm_status = pm_runtime_get_if_active(&client->dev);
- 	if (!pm_status)
- 		return 0;
- 
-diff --git a/drivers/media/i2c/ov64a40.c b/drivers/media/i2c/ov64a40.c
-index 4fba4c2cb064..541bf74581d2 100644
---- a/drivers/media/i2c/ov64a40.c
-+++ b/drivers/media/i2c/ov64a40.c
-@@ -3287,7 +3287,7 @@ static int ov64a40_set_ctrl(struct v4l2_ctrl *ctrl)
- 					 exp_max, 1, exp_val);
- 	}
- 
--	pm_status = pm_runtime_get_if_active(ov64a40->dev, true);
-+	pm_status = pm_runtime_get_if_active(ov64a40->dev);
- 	if (!pm_status)
- 		return 0;
- 
-diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
-index 2806887514dc..19bd923a7315 100644
---- a/drivers/media/i2c/thp7312.c
-+++ b/drivers/media/i2c/thp7312.c
-@@ -1052,7 +1052,7 @@ static int thp7312_s_ctrl(struct v4l2_ctrl *ctrl)
- 	if (ctrl->flags & V4L2_CTRL_FLAG_INACTIVE)
- 		return -EINVAL;
- 
--	if (!pm_runtime_get_if_active(thp7312->dev, true))
-+	if (!pm_runtime_get_if_active(thp7312->dev))
- 		return 0;
- 
- 	switch (ctrl->id) {
-diff --git a/drivers/net/ipa/ipa_smp2p.c b/drivers/net/ipa/ipa_smp2p.c
-index 5620dc271fac..cbf3d4761ce3 100644
---- a/drivers/net/ipa/ipa_smp2p.c
-+++ b/drivers/net/ipa/ipa_smp2p.c
-@@ -92,7 +92,7 @@ static void ipa_smp2p_notify(struct ipa_smp2p *smp2p)
- 		return;
- 
- 	dev = &smp2p->ipa->pdev->dev;
--	smp2p->power_on = pm_runtime_get_if_active(dev, true) > 0;
-+	smp2p->power_on = pm_runtime_get_if_active(dev) > 0;
- 
- 	/* Signal whether the IPA power is enabled */
- 	mask = BIT(smp2p->enabled_bit);
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index d8f11a078924..f8293ae71389 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -2510,7 +2510,7 @@ static void pci_pme_list_scan(struct work_struct *work)
- 			 * If the device is in a low power state it
- 			 * should not be polled either.
- 			 */
--			pm_status = pm_runtime_get_if_active(dev, true);
-+			pm_status = pm_runtime_get_if_active(dev);
- 			if (!pm_status)
- 				continue;
- 
-diff --git a/include/linux/pm_runtime.h b/include/linux/pm_runtime.h
-index 7c9b35448563..436baa167498 100644
---- a/include/linux/pm_runtime.h
-+++ b/include/linux/pm_runtime.h
-@@ -72,7 +72,8 @@ extern int pm_runtime_force_resume(struct device *dev);
- extern int __pm_runtime_idle(struct device *dev, int rpmflags);
- extern int __pm_runtime_suspend(struct device *dev, int rpmflags);
- extern int __pm_runtime_resume(struct device *dev, int rpmflags);
--extern int pm_runtime_get_if_active(struct device *dev, bool ign_usage_count);
-+extern int pm_runtime_get_if_active(struct device *dev);
-+extern int pm_runtime_get_if_in_use(struct device *dev);
- extern int pm_schedule_suspend(struct device *dev, unsigned int delay);
- extern int __pm_runtime_set_status(struct device *dev, unsigned int status);
- extern int pm_runtime_barrier(struct device *dev);
-@@ -94,18 +95,6 @@ extern void pm_runtime_release_supplier(struct device_link *link);
- 
- extern int devm_pm_runtime_enable(struct device *dev);
- 
--/**
-- * pm_runtime_get_if_in_use - Conditionally bump up runtime PM usage counter.
-- * @dev: Target device.
-- *
-- * Increment the runtime PM usage counter of @dev if its runtime PM status is
-- * %RPM_ACTIVE and its runtime PM usage counter is greater than 0.
-- */
--static inline int pm_runtime_get_if_in_use(struct device *dev)
--{
--	return pm_runtime_get_if_active(dev, false);
--}
--
- /**
-  * pm_suspend_ignore_children - Set runtime PM behavior regarding children.
-  * @dev: Target device.
-@@ -275,8 +264,7 @@ static inline int pm_runtime_get_if_in_use(struct device *dev)
- {
- 	return -EINVAL;
- }
--static inline int pm_runtime_get_if_active(struct device *dev,
--					   bool ign_usage_count)
-+static inline int pm_runtime_get_if_active(struct device *dev)
- {
- 	return -EINVAL;
- }
-diff --git a/sound/hda/hdac_device.c b/sound/hda/hdac_device.c
-index 7f7b67fe1b65..068c16e52dff 100644
---- a/sound/hda/hdac_device.c
-+++ b/sound/hda/hdac_device.c
-@@ -612,7 +612,7 @@ EXPORT_SYMBOL_GPL(snd_hdac_power_up_pm);
- int snd_hdac_keep_power_up(struct hdac_device *codec)
- {
- 	if (!atomic_inc_not_zero(&codec->in_pm)) {
--		int ret = pm_runtime_get_if_active(&codec->dev, true);
-+		int ret = pm_runtime_get_if_active(&codec->dev);
- 		if (!ret)
- 			return -1;
- 		if (ret < 0)
+> 
+> Where as for userspace implementations which already set vblank to
+> their own value the default does not matter.
+> 
+> >>> Maybe we're getting too concerned on this, as if an application sets a
+> >>> new mode, it's likely setting new blankings and exposure as well..
+> >>
+> >> ATM libcamera sets vblank to whatever default the sensor driver
+> >> advertises and not all pipelines change it after that, so IMHO we
+> >> need to have a somewhat sane default (and we probably want
+> >> libcamera pipelines to do a bit better, esp. with increasing
+> >> vblank to allow higher exposure in low light conditions).
+> > 
+> > It should be easy to calculate the right value, given the necessary
+> > information. This is related to the needs of improving the sensor APIs for
+> > register list based drivers.
+> 
+> IMHO it is important to where possible not change the behavior
+> of register list based drivers when adding improvements like
+> vblank control. As I said above these often use a fixed vts
+> for modes, the idea is to set a default vblank value so that
+> the vts does not change compared to before the introduction
+> of the vblank control.
+
+I agree. There are probably less than 20 such drivers, mostly old
+OmniVision sensor drivers.
+
+> 
+> This is just about the default value after a set_mode pad-op
+> call. Vblank aware userspace will likely override that anyway.
+
 -- 
-2.39.2
+Regards,
 
+Sakari Ailus
 
