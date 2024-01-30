@@ -1,146 +1,116 @@
-Return-Path: <linux-media+bounces-4390-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4391-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33456841DB6
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 09:27:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2D4841DE0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 09:35:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ACF0FB28B8F
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 08:27:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 600991C27D64
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 08:35:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC36C55E6B;
-	Tue, 30 Jan 2024 08:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 173DA57893;
+	Tue, 30 Jan 2024 08:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LQs2gxg3"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Elw8/dTC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC3855E52;
-	Tue, 30 Jan 2024 08:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FAC56B71;
+	Tue, 30 Jan 2024 08:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706603239; cv=none; b=UtijZQzgtxO8yk/T1wYeY9xzNsLzXFk+xUcwJ8/3iQHAw6IbSCrG2mgvYj9A120qSooOHqpdoHAAPd8gaoOamYlAvCZ2u7lSEcYZyldQYAKl2Da6JzympO+y//io41h2TtT40Poe8jQSv2VbIHlc25dH1I4UWEHsy1LpIBpsErM=
+	t=1706603711; cv=none; b=nRcmiiKsmQ5LxgFAa3A73Dzwg+I/hdYw/KiBZv+yjS5G0YFz1Ss7Twzho6boMFhdZlMrvTd2n07H9YBJR2PDi3IVnUTueV9QRdU5aCiEVSQywv1kDZiHGhUe3+50COfCUwrCrLTHJRysEsB9LogaJ8n8r8SPjjoQ7IB2g4zHKUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706603239; c=relaxed/simple;
-	bh=y/tOK4kKubOxMCb3R8YpgrR6A+4VGvjHaSVjdAE5tOo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gWu+xYRceLbTkgE5NenXaUdkBlxQZdXMAqb9Djz2/86E3cbYcodD6fYlYnxZ7dkvNgHvdxhNtscMajdBirowNAk3OEwC5tMmisU2EzCS3t4rBoek3WWexy+TScvgX8VIkRwaszMXafUmZD0ROIuQeCggd4yzxapisXKcvzkN2VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LQs2gxg3; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40U6dSR2012565;
-	Tue, 30 Jan 2024 08:27:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=BgZ1iZOYhcZCeI2JkhX8IJ0qmAvDNFqA67+unrC01Nk=; b=LQ
-	s2gxg3bbO9/7q9JDD9CAiWu6zJfsZCiG30wtIjFGzBH74UT26Bd4Konx/b+wSjBl
-	7gXhuE/Wop1vSN4EZi0fpCxcMWkQpanMviGYk5xumX03Z+khz7SvoqgIKXs4N4zb
-	Ljal4xa/AADiIzC1WyipokPdtxgWezQOta5fvGRDYZiAUt1bNYJdXmzuOhpV77LO
-	0g+P4NMnwESb3HXoVwbyws+73X5FNPW7rk7xMHjDhLR4I+zrPIr413DJqz9T7/6Y
-	Wlk5TXv3k421yiiP6JdEjf/+ZxBltWUey7aoJL3DUKy9qgh9Az2ojni5nhe/muW0
-	i33/QE7XBlIxRTcKVcEA==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vxsc40fng-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jan 2024 08:27:09 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40U8R8Sl025543
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jan 2024 08:27:08 GMT
-Received: from [10.206.101.41] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 30 Jan
- 2024 00:27:03 -0800
-Message-ID: <ecd2ffa0-b2b2-3b09-5799-6f7d4d4054c9@quicinc.com>
-Date: Tue, 30 Jan 2024 13:56:59 +0530
+	s=arc-20240116; t=1706603711; c=relaxed/simple;
+	bh=ipSQZFRis56pggEB+mlu51XG4bdnhA2PgLn++wV8MzI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DzNiTHasvKYKXLIWKGXBy4N8BpX+NnfO9584tupO14Lk97pmoo4FPD12q4eSNoaJZARuM7zlm4Tc9ZgvJ0HY0nSCNPRL+QqSrw65AV6H/KSHZj4Qq0ZJYyPK9GVPIgSwSpLURg1H1uO/TF5x/Y8PFntR/CEsbK74fV/vApoO1nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Elw8/dTC; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706603701;
+	bh=ipSQZFRis56pggEB+mlu51XG4bdnhA2PgLn++wV8MzI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Elw8/dTCiBK6tty1acjgrWaZ2rIZZW7BW8zKxbcM1J91nyz7izwXaKaFacPdD1KdH
+	 Vu5D1uxLKbB4pjtPJcxy5XcoMgtxFIPm0fwy/Az6SjbD1swppW4J6DzK1+43e5M2yK
+	 a9Hkg3K4r2EWmEgNet2ha6Ma1nlA5KQTSsYmFwM6cYES9AMCx39Ef7u+4cAFaCKdd8
+	 fS/uAZZ94Oxy1cyppzAerYSUW++15B8fURFxS6kXUPlHRRyt0Hdva0OcK8S2gVWS0Y
+	 Y12Gy62x8cKWywo9z3fupNx313PfLhwiwW6LVrMRsuxszJ8lN6i8sghhX7Rgl6dM94
+	 Q+ArkV8ouIVKQ==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D33A23782076;
+	Tue, 30 Jan 2024 08:35:00 +0000 (UTC)
+Message-ID: <2a918b33-eb95-40d2-9a96-8799e86c66bc@collabora.com>
+Date: Tue, 30 Jan 2024 09:35:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: dt-bindings: qcom,sc7280-venus: Allow one IOMMU
- entry
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: mediatek-jpeg-encoder: change
+ max iommus count
 Content-Language: en-US
-To: Luca Weiss <luca.weiss@fairphone.com>, Conor Dooley <conor@kernel.org>
-CC: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob
- Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240129-sc7280-venus-bindings-v1-1-20a9ba194c60@fairphone.com>
- <20240129-numerate-brought-4660c2a89719@spud>
- <CYRVI1IQ2UKE.15ZGCYLRT3ND3@fairphone.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <CYRVI1IQ2UKE.15ZGCYLRT3ND3@fairphone.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Xv8y1pP61jrbaPJVNBCBn_IPG2vNeojm
-X-Proofpoint-ORIG-GUID: Xv8y1pP61jrbaPJVNBCBn_IPG2vNeojm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-30_02,2024-01-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=805 spamscore=0 suspectscore=0 impostorscore=0
- lowpriorityscore=0 mlxscore=0 priorityscore=1501 clxscore=1011
- adultscore=0 phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2401190000 definitions=main-2401300060
+To: Matthias Brugger <matthias.bgg@gmail.com>, tiffany.lin@mediatek.com,
+ andrew-ct.chen@mediatek.com, linux-mediatek@lists.infradead.org,
+ Eugen Hristev <eugen.hristev@collabora.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, bin.liu@mediatek.com
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ robh+dt@kernel.org, kernel@collabora.com
+References: <20240127084258.68302-1-eugen.hristev@collabora.com>
+ <170652472373.127352.5854831299483160743.b4-ty@collabora.com>
+ <bf79f44f-5fa7-4341-8deb-605503d33c7c@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <bf79f44f-5fa7-4341-8deb-605503d33c7c@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello,
-
-On 1/30/2024 1:17 PM, Luca Weiss wrote:
-> On Mon Jan 29, 2024 at 6:37 PM CET, Conor Dooley wrote:
->> On Mon, Jan 29, 2024 at 08:48:54AM +0100, Luca Weiss wrote:
->>> Some SC7280-based boards crash when providing the "secure_non_pixel"
->>> context bank, so allow only one iommu in the bindings also.
->>>
->>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Il 29/01/24 16:46, Matthias Brugger ha scritto:
+> 
+> 
+> On 29/01/2024 11:41, AngeloGioacchino Del Regno wrote:
 >>
->> Do we have any idea why this happens? How is someone supposed to know
->> whether or not their system requires you to only provide one iommu?
->> Yes, a crash might be the obvious answer, but is there a way of knowing
->> without the crashes?
+>> On Sat, 27 Jan 2024 10:42:57 +0200, Eugen Hristev wrote:
+>>> MT8186 has 4 iommus in the list, to cope with this situation, adjust
+>>> the maxItems to 4 (instead of previous 2).
+>>> Add also minItems as 2 to keep compatibility with current devices.
+>>>
+>>>
+>>
+>> Applied to v6.4-next/dts64, thanks!
+>>
+>> [1/2] dt-bindings: media: mediatek-jpeg-encoder: change max iommus count
+>>        commit: b824b32dd5e98221cbe2e8bcccc6fb4134e35fc1
 > 
-> +CC Vikash Garodia
+> Hm, not sure why you took this one, as DT-Bindings normally go through the 
+> subsystem maintainer trees. Otherwise merge conflicts can occur. Just saying.
 > 
-> Unfortunately I don't really have much more information than this
-> message here:
-> https://lore.kernel.org/linux-arm-msm/ff021f49-f81b-0fd1-bd2c-895dbbb03d56@quicinc.com/
-> 
-> And see also the following replies for a bit more context, like this
-> one:
-> https://lore.kernel.org/linux-arm-msm/a4e8b531-49f9-f4a1-51cb-e422c56281cc@quicinc.com/
-> 
-> Maybe Vikash can add some more info regarding this.
 
-0x2184 is a secure SID i.e any transactions with that ID would be access
-controlled by trustzone (TZ). SC7280 (chromebook) was designed without TZ, while
-some other DT deriving from SC7280 (like qcm6490) might have TZ. Hence it is
-good to move the iommu entry from SC7280 to chrome-common.
+That was done so that we don't get devicetree validation issues on our branch;
+eventually, there were no driver changes to support that binding change, and
+it's there just to validate commit 2/2.
 
-Regards,
-Vikash
+Of course the media maintainers do know about this so there will be no merge
+conflict - but yes next time I'll let them pick these instead, it's probably
+easier for everyone, besides simply being the proper thing to do.
+
+Angelo
+
+> Matthias
+> 
+> 
+>> [2/2] arm64: dts: mediatek: mt8186: Add jpgenc node
+>>        commit: 4c5b46fbf52d52b0f392f0fc3913560bad438e49
+>>
+>> Best regards,
+
 
