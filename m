@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-4391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2D4841DE0
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 09:35:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA551841E04
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 09:39:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 600991C27D64
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 08:35:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3ABD3B2562A
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jan 2024 08:39:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 173DA57893;
-	Tue, 30 Jan 2024 08:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3043656B84;
+	Tue, 30 Jan 2024 08:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Elw8/dTC"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KJ//jMYd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FAC56B71;
-	Tue, 30 Jan 2024 08:35:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEB658107;
+	Tue, 30 Jan 2024 08:39:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706603711; cv=none; b=nRcmiiKsmQ5LxgFAa3A73Dzwg+I/hdYw/KiBZv+yjS5G0YFz1Ss7Twzho6boMFhdZlMrvTd2n07H9YBJR2PDi3IVnUTueV9QRdU5aCiEVSQywv1kDZiHGhUe3+50COfCUwrCrLTHJRysEsB9LogaJ8n8r8SPjjoQ7IB2g4zHKUI=
+	t=1706603963; cv=none; b=rqLypXqCCrHXOMw1EEzHDYlJiisX0VGNeRG7migXIjc8M4QRdjaPMIoatQ5rnCWFW1UKAH0GSsokTfvV4iCIK4egYDq7kRUUpG8CYRS/qbE2XvTdXJZWCLpnShuc9PMGBek1P1MpZaGc7jS9mHoScKsb3YA+6di1ph3wz+JG0j8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706603711; c=relaxed/simple;
-	bh=ipSQZFRis56pggEB+mlu51XG4bdnhA2PgLn++wV8MzI=;
+	s=arc-20240116; t=1706603963; c=relaxed/simple;
+	bh=9fYopgXzbpsQiE7E/H2LDcOlBUc/v20dA7T49dXOcZA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DzNiTHasvKYKXLIWKGXBy4N8BpX+NnfO9584tupO14Lk97pmoo4FPD12q4eSNoaJZARuM7zlm4Tc9ZgvJ0HY0nSCNPRL+QqSrw65AV6H/KSHZj4Qq0ZJYyPK9GVPIgSwSpLURg1H1uO/TF5x/Y8PFntR/CEsbK74fV/vApoO1nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Elw8/dTC; arc=none smtp.client-ip=46.235.227.194
+	 In-Reply-To:Content-Type; b=DNM+/U3cSGMolciHTGlFDYVdYI8nVxXR9mDW3Y/YZdNPatRDdqViDvtlx8ns23y+/OSF1n3P7tjBazxD3V/L4sj9Hogy0EpMGacsWEB4Ok9czSN4j9wuXCiIbDyjhUG9E1zjSmWpqSX7kK3bIBzQiyb/BrnOEEqhubuf/CPpVCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KJ//jMYd; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706603701;
-	bh=ipSQZFRis56pggEB+mlu51XG4bdnhA2PgLn++wV8MzI=;
+	s=mail; t=1706603960;
+	bh=9fYopgXzbpsQiE7E/H2LDcOlBUc/v20dA7T49dXOcZA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Elw8/dTCiBK6tty1acjgrWaZ2rIZZW7BW8zKxbcM1J91nyz7izwXaKaFacPdD1KdH
-	 Vu5D1uxLKbB4pjtPJcxy5XcoMgtxFIPm0fwy/Az6SjbD1swppW4J6DzK1+43e5M2yK
-	 a9Hkg3K4r2EWmEgNet2ha6Ma1nlA5KQTSsYmFwM6cYES9AMCx39Ef7u+4cAFaCKdd8
-	 fS/uAZZ94Oxy1cyppzAerYSUW++15B8fURFxS6kXUPlHRRyt0Hdva0OcK8S2gVWS0Y
-	 Y12Gy62x8cKWywo9z3fupNx313PfLhwiwW6LVrMRsuxszJ8lN6i8sghhX7Rgl6dM94
-	 Q+ArkV8ouIVKQ==
+	b=KJ//jMYd/5xJLL/l0JF6Usg6KpSaxKV6UEPWTOzcid5hnldRaFoWyGoZlVjfNpJAU
+	 8v6aiI+zOR2OKs0pzqlTJZiCRsYVHVHl3y1EuYQudeWWIdSX8ThAkp730BLsd+8Fr+
+	 Kd3VTLJcS/JBsbjk9vsVk+NE5jvLAvmDDBCy1LpxaEgldCbLzRm8JlaawMlrjzBISX
+	 9A4zAwP7HJTScRIy4RL0jCNcmLQgLxuqf58R1H27MMTEocRm67PUoYS60mauL/BXXw
+	 WasRNhhfC5eo0Z/xe6ASTBU+C6xhY5QsnH9Miy4ob7yJo9lHLMagZ41e6nYQEYgzyh
+	 mzS/uShqbszZA==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D33A23782076;
-	Tue, 30 Jan 2024 08:35:00 +0000 (UTC)
-Message-ID: <2a918b33-eb95-40d2-9a96-8799e86c66bc@collabora.com>
-Date: Tue, 30 Jan 2024 09:35:00 +0100
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0719C3782076;
+	Tue, 30 Jan 2024 08:39:19 +0000 (UTC)
+Message-ID: <bc1d5824-fc34-4c04-b375-1f506a358193@collabora.com>
+Date: Tue, 30 Jan 2024 09:39:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,57 +60,62 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/2] dt-bindings: media: mediatek-jpeg-encoder: change
  max iommus count
 Content-Language: en-US
-To: Matthias Brugger <matthias.bgg@gmail.com>, tiffany.lin@mediatek.com,
- andrew-ct.chen@mediatek.com, linux-mediatek@lists.infradead.org,
- Eugen Hristev <eugen.hristev@collabora.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, bin.liu@mediatek.com
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- robh+dt@kernel.org, kernel@collabora.com
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 References: <20240127084258.68302-1-eugen.hristev@collabora.com>
  <170652472373.127352.5854831299483160743.b4-ty@collabora.com>
- <bf79f44f-5fa7-4341-8deb-605503d33c7c@gmail.com>
+ <282822ba-0e96-4078-a807-4b0b08e42014@collabora.com>
+ <CAGXv+5Em3HUJV1pv177LUwf9iMhKSLcGhVAt6ON9YZMNaT2oZw@mail.gmail.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <bf79f44f-5fa7-4341-8deb-605503d33c7c@gmail.com>
+In-Reply-To: <CAGXv+5Em3HUJV1pv177LUwf9iMhKSLcGhVAt6ON9YZMNaT2oZw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Il 29/01/24 16:46, Matthias Brugger ha scritto:
+Il 30/01/24 04:24, Chen-Yu Tsai ha scritto:
+> (Drop a bunch of people from CC)
 > 
-> 
-> On 29/01/2024 11:41, AngeloGioacchino Del Regno wrote:
+> On Mon, Jan 29, 2024 at 6:48 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
 >>
->> On Sat, 27 Jan 2024 10:42:57 +0200, Eugen Hristev wrote:
->>> MT8186 has 4 iommus in the list, to cope with this situation, adjust
->>> the maxItems to 4 (instead of previous 2).
->>> Add also minItems as 2 to keep compatibility with current devices.
+>> Il 29/01/24 11:41, AngeloGioacchino Del Regno ha scritto:
 >>>
+>>> On Sat, 27 Jan 2024 10:42:57 +0200, Eugen Hristev wrote:
+>>>> MT8186 has 4 iommus in the list, to cope with this situation, adjust
+>>>> the maxItems to 4 (instead of previous 2).
+>>>> Add also minItems as 2 to keep compatibility with current devices.
+>>>>
+>>>>
+>>>
+>>> Applied to v6.4-next/dts64, thanks!
 >>>
 >>
->> Applied to v6.4-next/dts64, thanks!
->>
->> [1/2] dt-bindings: media: mediatek-jpeg-encoder: change max iommus count
->>        commit: b824b32dd5e98221cbe2e8bcccc6fb4134e35fc1
+>> Sorry, typo: v6.8-next/dts64
 > 
-> Hm, not sure why you took this one, as DT-Bindings normally go through the 
-> subsystem maintainer trees. Otherwise merge conflicts can occur. Just saying.
+> I was wondering, what script produces this email?
+> 
+> AFAIK `b4 ty` gives a simple thank you letter without branch or commit
+> hashes.
 > 
 
-That was done so that we don't get devicetree validation issues on our branch;
-eventually, there were no driver changes to support that binding change, and
-it's there just to validate commit 2/2.
+That's exactly `b4 ty` :-)
+You can use a custom template, so that it reads something like
 
-Of course the media maintainers do know about this so there will be no merge
-conflict - but yes next time I'll let them pick these instead, it's probably
-easier for everyone, besides simply being the proper thing to do.
+`Applied to ${branch}, thanks!`
 
+Cheers,
 Angelo
 
-> Matthias
+> ChenYu
 > 
-> 
->> [2/2] arm64: dts: mediatek: mt8186: Add jpgenc node
->>        commit: 4c5b46fbf52d52b0f392f0fc3913560bad438e49
+>>> [1/2] dt-bindings: media: mediatek-jpeg-encoder: change max iommus count
+>>>         commit: b824b32dd5e98221cbe2e8bcccc6fb4134e35fc1
+>>> [2/2] arm64: dts: mediatek: mt8186: Add jpgenc node
+>>>         commit: 4c5b46fbf52d52b0f392f0fc3913560bad438e49
+>>>
+>>> Best regards,
 >>
->> Best regards,
+>>
 
 
