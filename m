@@ -1,270 +1,250 @@
-Return-Path: <linux-media+bounces-4502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4503-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC923843BD3
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 11:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302C7843C76
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 11:27:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66CEC1F21D60
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 10:06:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C0291F2EA44
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 10:27:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02F4A69971;
-	Wed, 31 Jan 2024 10:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oBwNzubw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5326F7867C;
+	Wed, 31 Jan 2024 10:22:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1345069965;
-	Wed, 31 Jan 2024 10:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3102869D1B
+	for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 10:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706695569; cv=none; b=ljw2aQygXmmm2DBmwYBEb4E17HsDavGF51ZYaZcMfoVoQu892Uf4Js6iYzpVyPtR7JpQEKcO2IYYuUpT2WRRBDuIqOvYdHXLL+l7jGRv9LmRfaUx2U7Xu2p2+aJq5dM6XyuiU7d/UzCip9te8O6cF4FKmCyI+CK9QXoYl9XCSLA=
+	t=1706696562; cv=none; b=NlpbXa0n6briL4T5OSMs4nOi2vvCcbKrqk5hcyjSyz3KxOSKAh2StHnNmvHIxl48lbdgsgkjqgNosa+tmYnfS9kk/LLlRLu8Qg/99LtMSiyt4aZBK6RjT8w5pMjKyjqlJ5KtED9uK13lwO7dlOBwzJwBnT793tLPDLtYDFqdTio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706695569; c=relaxed/simple;
-	bh=MpuQqnLF66XI0eqOhn7879yMmtGSB4qkaz4eLFpnWNI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ofElpx38vXAQeIMd009cW+/IT849TMioRcarGi+Htd5lR5arE3TONWZkNPvhiaffXtrdGdAkjjABSikaHYtsi3p0TI2QanVNaQAsnYDUaicJBBSozhVyP58H/dhVFp1tdM5h1gcbiljK5iRzij7ej30X455gE8ifmOTeGWEmZMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oBwNzubw; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706695564;
-	bh=MpuQqnLF66XI0eqOhn7879yMmtGSB4qkaz4eLFpnWNI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oBwNzubwdByfMM9ploFOJwWUN1AX2JRpDfKwiJbAekj0zUFGyyImFp9BGFYRBNGOV
-	 rUUhHLuYi6XAijR9gUSEDw8hq9dC4ekpDmef3HUYuYSLu9EF2G4oSw/HhPvgPyBpgJ
-	 bwoOAYsO/zEJiBcUwgU+mipPHkNSKU96rL1pQH01xhzdspIUF26CAGScoGXnMGUQVk
-	 GE38JnW8kxLlqB/cfq9PmrkONyIburVaF5xkq2Tq3ywUVEBN9xj51quLuLLjqX2ZXe
-	 hb++P2PIDL8FOP8FUUzh/1SJBBhT9hAL8+jEmIJlTZ9ye+PeY52AvSHVE2Ecgrum+x
-	 tjsgc8P1mstUw==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B5BCA37811CF;
-	Wed, 31 Jan 2024 10:06:03 +0000 (UTC)
-Message-ID: <6a31726b-1e91-46b1-889c-4f643c759afb@collabora.com>
-Date: Wed, 31 Jan 2024 11:06:03 +0100
+	s=arc-20240116; t=1706696562; c=relaxed/simple;
+	bh=STJ+RItGOkSEEg0GUrI9fiiQBxRmzMTlARJy2C8F5gQ=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=FjIkxZ0v4UKTEbA1LEneP9jsg566bpJm2Oc4or8EYYw8tNo4+sRrDZPNMsqDKVjwDUXCT1ikYt7TyW/k/qwn+d6Tfaxzqghb+oPhWq06xAd1ZpX3zq6xyojZswg2HPs+cWY+ZShwaOCiciqwBEddjD1KCjTScg+qdXt3aB5GGfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3638f9c7ca2so8250685ab.0
+        for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 02:22:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706696559; x=1707301359;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Khdd7I6fdVlhvPhocwYCvULRzqoVieX6zZAUNRny58=;
+        b=NT2kC+tg4mFr3e1pDLf7eqLB4R7TuyMWauQjAoao3HTwkVSLKm1LdGtcef19NCPuFr
+         ZcftpzUJlrGwP2AymKu5WO5s6wE8aYsmkKlJSzHJUwZzsP3MeBQKiA7bH6siWZOP5rCU
+         RytlVt82bdM2JdWu66LwckwNkRf/oHYWvpkVSu9s3gBhwJo0sZCq51/kkQllNsXUnSJn
+         GNPmGK/1GysPejbkrIf/AcmNbN7HSJPyEWHceVSO6pn39o0UYiGXkMG5ze+Y5h1uMk4g
+         s3p++WaIshhZve8V8zRk3dmhBizRZ6j1dy0i2SQKpWucSasNwiC2HyHsthpGh0BYdx3C
+         aXMg==
+X-Gm-Message-State: AOJu0Yy6VPuwzUSwavEYFhqVlXV25mWjL/sgQpi5X6mrcclLu4I7tI3O
+	F2bA5qHPZsP52VQ5A3bMVaa8q3ShrDu8GckSsVSRJ2vWmxMyQHv36cHmCg+gwJUmFG4wbh4qzId
+	oc9iEG19caqJgJuzyRFi+rVfnhgcGPg+LvlCTd9qtfRED8g9RNTZ4Ovw=
+X-Google-Smtp-Source: AGHT+IFlNOmhN/+hWbCyAU5hIbOCv0Mu5ysQi4v3Y33P7/8609xx69WjqA5HLmKzirf1hgxKLR5qGtbA3hHIZAGjTm5PKIO3Np1n
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RCF 1/2] media: videodev2: Add V4L2_FMT_FLAG_ALL_FORMATS flag
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, mchehab@kernel.org,
- p.zabel@pengutronix.de, hverkuil-cisco@xs4all.nl
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com
-References: <20240111160721.50020-1-benjamin.gaignard@collabora.com>
- <20240111160721.50020-2-benjamin.gaignard@collabora.com>
- <cc3944167e6b98470befd575520adb50cb8a45fa.camel@collabora.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <cc3944167e6b98470befd575520adb50cb8a45fa.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a92:cdab:0:b0:363:91a3:4b60 with SMTP id
+ g11-20020a92cdab000000b0036391a34b60mr110019ild.4.1706696559340; Wed, 31 Jan
+ 2024 02:22:39 -0800 (PST)
+Date: Wed, 31 Jan 2024 02:22:39 -0800
+In-Reply-To: <mailman.217.1706634262.2961.pvrusb2@isely.net>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000028b68806103b4266@google.com>
+Subject: Re: [syzbot] [pvrusb2?] KASAN: slab-use-after-free Read in
+ pvr2_context_set_notify (2)
+From: syzbot <syzbot+ce750e124675d4599449@syzkaller.appspotmail.com>
+To: isely@pobox.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-usb@vger.kernel.org, mchehab@kernel.org, pvrusb2-owner@isely.net, 
+	pvrusb2@isely.net, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+syzbot has found a reproducer for the following issue on:
+
+HEAD commit:    f1a27f081c1f usb: typec: qcom-pmic-typec: allow different ..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=14800bdfe80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=986ce9258c6856ff
+dashboard link: https://syzkaller.appspot.com/bug?extid=ce750e124675d4599449
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17c7cad3e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1429ed40180000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c77efcf770e8/disk-f1a27f08.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a827d6ba40bf/vmlinux-f1a27f08.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9d21d228bf73/bzImage-f1a27f08.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ce750e124675d4599449@syzkaller.appspotmail.com
+
+pvrusb2: Device being rendered inoperable
+==================================================================
+BUG: KASAN: slab-use-after-free in pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
+Read of size 4 at addr ffff888112202ad8 by task kworker/0:1/9
+
+CPU: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.8.0-rc1-syzkaller-00046-gf1a27f081c1f #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:377 [inline]
+ print_report+0xc4/0x620 mm/kasan/report.c:488
+ kasan_report+0xda/0x110 mm/kasan/report.c:601
+ pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
+ pvr2_context_notify drivers/media/usb/pvrusb2/pvrusb2-context.c:95 [inline]
+ pvr2_context_disconnect+0x94/0xb0 drivers/media/usb/pvrusb2/pvrusb2-context.c:272
+ pvr_disconnect+0x80/0xf0 drivers/media/usb/pvrusb2/pvrusb2-main.c:79
+ usb_unbind_interface+0x1e5/0x960 drivers/usb/core/driver.c:461
+ device_remove drivers/base/dd.c:569 [inline]
+ device_remove+0x11f/0x170 drivers/base/dd.c:561
+ __device_release_driver drivers/base/dd.c:1272 [inline]
+ device_release_driver_internal+0x44a/0x610 drivers/base/dd.c:1295
+ bus_remove_device+0x22c/0x420 drivers/base/bus.c:574
+ device_del+0x39a/0xa50 drivers/base/core.c:3814
+ usb_disable_device+0x36c/0x7f0 drivers/usb/core/message.c:1416
+ usb_disconnect+0x2e1/0x910 drivers/usb/core/hub.c:2286
+ hub_port_connect drivers/usb/core/hub.c:5334 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5634 [inline]
+ port_event drivers/usb/core/hub.c:5794 [inline]
+ hub_event+0x1be0/0x4f40 drivers/usb/core/hub.c:5876
+ process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
+ process_scheduled_works kernel/workqueue.c:2706 [inline]
+ worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
+ kthread+0x2c6/0x3a0 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+ </TASK>
+
+Allocated by task 9:
+ kasan_save_stack+0x33/0x50 mm/kasan/common.c:47
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:372 [inline]
+ __kasan_kmalloc+0x87/0x90 mm/kasan/common.c:389
+ kmalloc include/linux/slab.h:590 [inline]
+ kzalloc include/linux/slab.h:711 [inline]
+ pvr2_context_create+0x53/0x2a0 drivers/media/usb/pvrusb2/pvrusb2-context.c:207
+ pvr_probe+0x25/0xe0 drivers/media/usb/pvrusb2/pvrusb2-main.c:54
+ usb_probe_interface+0x307/0x9c0 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x117e/0x1aa0 drivers/base/core.c:3625
+ usb_set_configuration+0x10cb/0x1c40 drivers/usb/core/message.c:2207
+ usb_generic_driver_probe+0xad/0x110 drivers/usb/core/generic.c:254
+ usb_probe_device+0xec/0x3e0 drivers/usb/core/driver.c:294
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x117e/0x1aa0 drivers/base/core.c:3625
+ usb_new_device+0xd80/0x19f0 drivers/usb/core/hub.c:2625
+ hub_port_connect drivers/usb/core/hub.c:5494 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5634 [inline]
+ port_event drivers/usb/core/hub.c:5794 [inline]
+ hub_event+0x2e62/0x4f40 drivers/usb/core/hub.c:5876
+ process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
+ process_scheduled_works kernel/workqueue.c:2706 [inline]
+ worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
+ kthread+0x2c6/0x3a0 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+
+Freed by task 901:
+ kasan_save_stack+0x33/0x50 mm/kasan/common.c:47
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+ kasan_save_free_info+0x3f/0x60 mm/kasan/generic.c:640
+ poison_slab_object mm/kasan/common.c:241 [inline]
+ __kasan_slab_free+0x106/0x1b0 mm/kasan/common.c:257
+ kasan_slab_free include/linux/kasan.h:184 [inline]
+ slab_free_hook mm/slub.c:2121 [inline]
+ slab_free mm/slub.c:4299 [inline]
+ kfree+0x105/0x340 mm/slub.c:4409
+ pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:137 [inline]
+ pvr2_context_thread_func+0x69d/0x960 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
+ kthread+0x2c6/0x3a0 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+
+The buggy address belongs to the object at ffff888112202a00
+ which belongs to the cache kmalloc-256 of size 256
+The buggy address is located 216 bytes inside of
+ freed 256-byte region [ffff888112202a00, ffff888112202b00)
+
+The buggy address belongs to the physical page:
+page:ffffea0004488080 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x112202
+head:ffffea0004488080 order:1 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+anon flags: 0x200000000000840(slab|head|node=0|zone=2)
+page_type: 0xffffffff()
+raw: 0200000000000840 ffff888100041b40 ffffea0004498080 0000000000000005
+raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 7680321640, free_ts 0
+ set_page_owner include/linux/page_owner.h:31 [inline]
+ post_alloc_hook+0x2d0/0x350 mm/page_alloc.c:1533
+ prep_new_page mm/page_alloc.c:1540 [inline]
+ get_page_from_freelist+0x139c/0x3470 mm/page_alloc.c:3311
+ __alloc_pages+0x228/0x2250 mm/page_alloc.c:4567
+ __alloc_pages_node include/linux/gfp.h:238 [inline]
+ alloc_pages_node include/linux/gfp.h:261 [inline]
+ alloc_slab_page mm/slub.c:2190 [inline]
+ allocate_slab mm/slub.c:2354 [inline]
+ new_slab+0xcc/0x3a0 mm/slub.c:2407
+ ___slab_alloc+0x4b0/0x1860 mm/slub.c:3540
+ __slab_alloc.constprop.0+0x56/0xa0 mm/slub.c:3625
+ __slab_alloc_node mm/slub.c:3678 [inline]
+ slab_alloc_node mm/slub.c:3850 [inline]
+ __do_kmalloc_node mm/slub.c:3980 [inline]
+ __kmalloc_node_track_caller+0x171/0x420 mm/slub.c:4001
+ __do_krealloc mm/slab_common.c:1187 [inline]
+ krealloc+0x5d/0xf0 mm/slab_common.c:1220
+ add_sysfs_param+0xca/0x960 kernel/params.c:654
+ kernel_add_sysfs_param kernel/params.c:817 [inline]
+ param_sysfs_builtin kernel/params.c:856 [inline]
+ param_sysfs_builtin_init+0x2ca/0x450 kernel/params.c:990
+ do_one_initcall+0x11c/0x650 init/main.c:1236
+ do_initcall_level init/main.c:1298 [inline]
+ do_initcalls init/main.c:1314 [inline]
+ do_basic_setup init/main.c:1333 [inline]
+ kernel_init_freeable+0x682/0xc10 init/main.c:1551
+ kernel_init+0x1c/0x2a0 init/main.c:1441
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff888112202980: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888112202a00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff888112202a80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                    ^
+ ffff888112202b00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888112202b80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
 
 
-Le 17/01/2024 à 20:41, Nicolas Dufresne a écrit :
-> Le jeudi 11 janvier 2024 à 17:07 +0100, Benjamin Gaignard a écrit :
->> Add new flag to allow enumerate all pixels formats when
->> calling VIDIOC_ENUM_FMT ioctl.
->> When this flag is set drivers must ignore the configuration
->> and return the hardware supported pixel formats for the specified queue.
->> This will permit to discover which pixels formats are supported
->> without setting codec-specific information so userland can more easily
->> knows if the driver suit well to what it needs.
->> The main target are stateless decoders so update the documentation
->> about how use this flag.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   .../userspace-api/media/v4l/dev-stateless-decoder.rst         | 3 +++
->>   Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst     | 4 ++++
->>   Documentation/userspace-api/media/videodev2.h.rst.exceptions  | 1 +
->>   drivers/media/v4l2-core/v4l2-ioctl.c                          | 2 +-
->>   include/uapi/linux/videodev2.h                                | 1 +
->>   5 files changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
->> index 35ed05f2695e..b7b650f1a18f 100644
->> --- a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
->> +++ b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
->> @@ -58,6 +58,9 @@ Querying capabilities
->>        default values for these controls being used, and a returned set of formats
->>        that may not be usable for the media the client is trying to decode.
->>   
->> +   * If ``V4L2_FMT_FLAG_ALL_FORMATS`` flag is set the driver must enumerate
->> +     all the supported formats without taking care of codec-dependent controls.
->> +
->>   3. The client may use :c:func:`VIDIOC_ENUM_FRAMESIZES` to detect supported
->>      resolutions for a given format, passing desired pixel format in
->>      :c:type:`v4l2_frmsizeenum`'s ``pixel_format``.
->> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
->> index 000c154b0f98..db8bc8e29a91 100644
->> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
->> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
->> @@ -227,6 +227,10 @@ the ``mbus_code`` field is handled differently:
->>   	The application can ask to configure the quantization of the capture
->>   	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
->>   	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
->> +    * - ``V4L2_FMT_FLAG_ALL_FORMATS``
->> +      - 0x0200
->> +      - Set by userland application to enumerate all possible pixels formats
->> +        without taking care of the current configuration.
-> This is a bit ambiguous regarding if OUTPUT queue FMT is ignored or not. From
-> our chat, it is ignored in this implementation. Such if I use MTK VCODEC as an
-> example, using that feature would return:
-
-I will reword it for next version, but yes the goal of this flag is to enumerate
-all pixels formats without taking care of any queue configuration.
-
->
-> - MM21
-> - MT2T
-> - MT2R
->
-> At high level, the use case is to find an easy way to combine the per codec
-> profile information and the pixel format, since userspace can only use e.g.
-> 10bit capability if it knows the associated pixel formats. This implementation
-> is already useful in my opinion, I'll try and draft a GStreamer change to use
-> it, as I think it will better support the idea. But it has come ceavats.
->
-> Notably, if you had a userland that implement MT2T (VP9/AV1/HEVC) but not MT2R
-> (H264), it would not have an easy API to figure-out. It would still have to
-> resort into enumerating formats for each possible codec and codec specific
-> compound control configuration.
->
-> An alternative is to make this enumerate "all" for the configure OUTPUT format.
-> This increase the precision, while still allowing generic code to be used. In
-> pseudo code that would be like:
->
-> for output formats
->    S_FMT(OUTPUT)
->
->    for ALL capture formats
->      store(format)
->
-> Where right now we have do do:
->
->
-> for output formats
->    S_FMT(OUTPUT)
->
->    S_CTRL(codec_specific_ctl_config_1)
->    for capture formats
->      store(format)
->
->
->    S_CTRL(codec_specific_ctl_config_n)
->    for capture format
->      store(format)
->    
->    ...
->
->    S_CTRL(codec_specific_ctl_config_n)
->    for capture formats
->      store(format)
->
-> Where each config would demote a specific feature, like 10bit, 422, 444, film-
-> grain (posprocessing affect output formats). The posprocessing remains a bit
-> hard to figure-out in both cases though. But in practice, if I use Hantro AV1
-> decoder as an example, I'd get something like:
->
->    NV15_4L4
->    P010
->
-> Where NV15_4L4 is not available with filmgrain filter, but P010 is always
-> available. For my GStreamer use case (template caps) this wouldn't be a problem,
-> P010 is a well supported format and I strictly need a superset of the supported
-> formats.
->
-> What I'd really gain is that I don't have to do complicated enumeration logic
-> per codec features.
->
-> Nicolas
->
-> p.s. It would be logical to update dev-stateless-decoder doc, to mention this
-> enumeration option. Currently it says:
->
->
->     To enumerate the set of supported raw formats, the client calls
->     VIDIOC_ENUM_FMT() on the CAPTURE queue.
->     
->        *    The driver must return only the formats supported for the format
->        currently active on the OUTPUT queue.
->     
->        *    Depending on the currently set OUTPUT format, the set of supported
->        raw formats may depend on the value of some codec-dependent controls. The
->        client is responsible for making sure that these controls are set before
->        querying the CAPTURE queue. Failure to do so will result in the default
->        values for these controls being used, and a returned set of formats that
->        may not be usable for the media the client is trying to decode.
-
-I have done it, look at the top of this patch.
-
->
->
->>   
->>   Return Value
->>   ============
->> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->> index 3e58aac4ef0b..42d9075b7fc2 100644
->> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->> @@ -215,6 +215,7 @@ replace define V4L2_FMT_FLAG_CSC_XFER_FUNC fmtdesc-flags
->>   replace define V4L2_FMT_FLAG_CSC_YCBCR_ENC fmtdesc-flags
->>   replace define V4L2_FMT_FLAG_CSC_HSV_ENC fmtdesc-flags
->>   replace define V4L2_FMT_FLAG_CSC_QUANTIZATION fmtdesc-flags
->> +replace define V4L2_FMT_FLAG_ALL_FORMATS fmtdesc-flags
->>   
->>   # V4L2 timecode types
->>   replace define V4L2_TC_TYPE_24FPS timecode-type
->> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->> index 33076af4dfdb..22a93d074a5b 100644
->> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->> @@ -1544,7 +1544,7 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->>   		p->mbus_code = 0;
->>   
->>   	mbus_code = p->mbus_code;
->> -	memset_after(p, 0, type);
->> +	memset_after(p, 0, flags);
-> In other similar places, we still clear the flags, and only keep the allowed
-> bits. Maybe we should do this here too to avoid accidental flags going through ?
->
-> That should maybe be under some capability flag, so that userland knows if the
-> driver did implement that feature or not. If the driver didn't set that flag, we
-> can then clear it so that userlands not checking that flag would at least get an
-> enumeration response without it.
-
-I will do that in next version.
-
-Regards,
-Benjamin
-
->
->>   	p->mbus_code = mbus_code;
->>   
->>   	switch (p->type) {
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 68e7ac178cc2..82d8c8a7fb7f 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -869,6 +869,7 @@ struct v4l2_fmtdesc {
->>   #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
->>   #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
->>   #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
->> +#define V4L2_FMT_FLAG_ALL_FORMATS		0x0200
->>   
->>   	/* Frame Size and frame rate enumeration */
->>   /*
->
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
