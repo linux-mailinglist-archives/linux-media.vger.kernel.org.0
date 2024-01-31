@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-4528-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4529-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227E6844780
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 19:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86E48447A8
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 20:00:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55E861C21F1B
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 18:52:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A06E31C2368D
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 19:00:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C398F33CFD;
-	Wed, 31 Jan 2024 18:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A679D36AF9;
+	Wed, 31 Jan 2024 18:59:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBPJWwJE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2T2tZJE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E28A210E2;
-	Wed, 31 Jan 2024 18:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F8A339AE;
+	Wed, 31 Jan 2024 18:59:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706727142; cv=none; b=Uk54cbo3uJJD9cjy13oixchaLFb/tT9pXNDim+2AA9ZEmYmGPbb0XTrtSEV9jnVX8ncNJVeXLBh/FshLu/LLwKXXn1e1bhHOstjJMBHt9TT2rI94ghZacqBz3Jjtn479lnsSWK9oj6DBUPLeGpddDSGcEbr1jvCqYvU4UbK5QU8=
+	t=1706727592; cv=none; b=Tb7oth4AUdE6kIn+MymcKHmCJRuNCU53/FG8gup7eGs8VULp7FsXQnt/4qMtAW3Fm2140E+tpjmdzNRTaqmkZMdoO28nhhYx5DsVkQ5+faUwgfYWpEdOjkRsdP27AGi+XrVQmBfjCqLm2iKgLeOtod0RUQEupoejPr27gfW35jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706727142; c=relaxed/simple;
-	bh=8zQgKe5ifbQ5rIqxPOQjyatCTnXh2bIwEYlKyLDty4c=;
+	s=arc-20240116; t=1706727592; c=relaxed/simple;
+	bh=zhKuq+LkCXaKbrjTf0rz7m44R1nLItf93tzKRFen818=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j3tf+eVUERevybBtwbML2EjJtby1w4GoFPmLM6ziEC2Sp5l+NgNIXG03wbmHY7H9EkYXzAQ4xKDp7641GvN7Ol5svZSRs08hx8f85eBjsFHr8obcvXKCJtjIudBhjSKJcEQSpLHXyoP10gQVjzDSVoIJTF6D7H/ipjRaKNVW1S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBPJWwJE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F80BC433F1;
-	Wed, 31 Jan 2024 18:52:21 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=KDZ20ObtDsLSjLtxshjv4n8k7F0xJ1mqExJW67ADRvcn7XZ0MXYnv7Ku/WWWBRzLSeUPgO2wbi8xno2GgjyI/zVTHEopcnjJsSLfYYAHfTon5sugBuNBAGN4IxBQjk+gL5zo/OweGMwJFgL0AIKIqQRLcxuD/YlOnzfuyq9D9lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2T2tZJE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B6DC433C7;
+	Wed, 31 Jan 2024 18:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706727141;
-	bh=8zQgKe5ifbQ5rIqxPOQjyatCTnXh2bIwEYlKyLDty4c=;
+	s=k20201202; t=1706727591;
+	bh=zhKuq+LkCXaKbrjTf0rz7m44R1nLItf93tzKRFen818=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nBPJWwJEbRCw9XGa9O/cOHCz2wJw2zlEBo7FPMIxL3v1TQGVfqcqBmegNDeZm9xS6
-	 F8Y8nV522Hk0ZmC/wzTaR/0Z2mtkIMVEErdfNcwmTwK5QD4PY9XDympcKhdSI1vxwp
-	 rsBgFNsNCVu6BaAuQmbFcyNPl7EVnUha+wsK9xJNcgB6jBeZuXNAa5TYaJ/iPapDgk
-	 uIt5q6xAiyE7Pw1CA1cHa64FC0LbhGWP5rutIc7Bor+s04Fwqn5YxEKdm7PmpU6f+U
-	 DZW50hpcTqkSt35R8ly3ng/Y0JcrZ+4k9xEzgh5CS6fITGxSKQw4R23ajzbKJTw795
-	 AkXu9LmKDNg2g==
-Date: Wed, 31 Jan 2024 12:52:19 -0600
+	b=J2T2tZJEsLoBpHrkqTKdor3Ee8fR4osEdkaiIsbw0pFM+JUAISnyhSeqEXLzx1zHW
+	 tDWEjLTaTOZ+IySnxgNoy/AkBn3s/9CRKSqPMOk4D/+TyVZxprDrOPnqFIdegcTrAE
+	 QcDTN8RN3UhFnEYNy4/+hRJfLDx5XO2xp6flSfxddWXTHT9mNL38pghll2fTkxV4FE
+	 8VeVNXUgKLEGn+QwFZYUjkYhrhAVqcOcTTWduvG93lYLSzqXtkF+L3mo6vE1ZEThiL
+	 /JcbcL/4cAsG3IRKMKK9njFUPPKYCz2amdTdITfWYfX0ri0I97rF51GHMZzgZl8JUb
+	 04l6+s8vY7qJQ==
+Date: Wed, 31 Jan 2024 12:59:49 -0600
 From: Rob Herring <robh@kernel.org>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: =?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
@@ -63,7 +63,7 @@ Cc: =?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de
 	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-sound@vger.kernel.org
 Subject: Re: [PATCH v2 01/13] of: property: add port base loop
-Message-ID: <20240131185219.GB1906672-robh@kernel.org>
+Message-ID: <20240131185949.GC1906672-robh@kernel.org>
 References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
  <87ede1klgr.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
@@ -81,109 +81,10 @@ On Mon, Jan 29, 2024 at 12:54:44AM +0000, Kuninori Morimoto wrote:
 > 	- of_graph_get_next_endpoint()
 > 	- of_graph_get_endpoint_count()
 > 	- for_each_endpoint_of_node()
-> 
-> Here, for_each_endpoint_of_node() loop finds each endpoints
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint {...};
-> 		};
-> 		port@1 {
-> (2)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In above case, for_each_endpoint_of_node() loop finds endpoint as
-> (1) -> (2) -> ...
-> 
-> Basically, user/driver knows which port is used for what, but not in
-> all cases. For example on flexible/generic driver case, how many ports
-> are used is not fixed.
-> 
-> For example Sound Generic Card driver which is used from many venders
-> can't know how many ports are used. Because the driver is very
-> flexible/generic, it is impossible to know how many ports are used,
-> it depends on each vender SoC and/or its used board.
-> 
-> And more, the port can have multi endpoints. For example Generic Sound
-> Card case, it supports many type of connection between CPU / Codec, and
-> some of them uses multi endpoint in one port.
-> Then, Generic Sound Card want to handle each connection via "port"
-> instead of "endpoint".
-> But, it is very difficult to handle each "port" by
-> for_each_endpoint_of_node(). Getting "port" by using of_get_parent()
-> from "endpoint" doesn't work. see below.
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint@0 {...};
-> (2)			endpoint@1 {...};
-> 		};
-> 		port@1 {
-> (3)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> Add "port" base functions.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/of/property.c    | 48 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/of_graph.h | 21 ++++++++++++++++++
->  2 files changed, 69 insertions(+)
-> 
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index afdaefbd03f6..9e670e99dbbb 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -631,6 +631,42 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
->  }
->  EXPORT_SYMBOL(of_graph_get_port_by_id);
->  
-> +/**
-> + * of_graph_get_next_port() - get next port node
-> + * @parent: pointer to the parent device node
-> + * @port: current port node, or NULL to get first
-> + *
-> + * Return: An 'port' node pointer with refcount incremented. Refcount
-> + * of the passed @prev node is decremented.
-> + */
-> +struct device_node *of_graph_get_next_port(const struct device_node *parent,
-> +					   struct device_node *port)
-> +{
-> +	if (!parent)
-> +		return NULL;
-> +
-> +	if (!port) {
-> +		struct device_node *node;
-> +
-> +		node = of_get_child_by_name(parent, "ports");
-> +		if (node) {
-> +			parent = node;
-> +			of_node_put(node);
 
-The original code had this right, but here you have it wrong.
+I also noticed that your mail setup has an issue. You have some utf-8 
+encoded email names, but the headers say it is ascii. git-send-email 
+should do the right thing here, but maybe Exchange is messing things up.
 
-You are releasing ports here, but then using it...
-
-> +		}
-> +
-> +		return of_get_child_by_name(parent, "port");
-
-...here. You have to get the child before you can put the parent.
-
-> +	}
-> +
-> +	do {
-> +		port = of_get_next_child(parent, port);
-> +		if (!port)
-> +			break;
-> +	} while (!of_node_name_eq(port, "port"));
-> +
-> +	return port;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_next_port);
-> +
+Rob
 
