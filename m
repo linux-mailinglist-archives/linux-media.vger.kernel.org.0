@@ -1,151 +1,155 @@
-Return-Path: <linux-media+bounces-4454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4456-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C49784328D
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 02:09:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B450C8432BF
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 02:31:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED749282C8F
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 01:09:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8B2B1C22E8D
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 01:31:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C0871366;
-	Wed, 31 Jan 2024 01:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AE471FB3;
+	Wed, 31 Jan 2024 01:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qsstPPHC"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.onmicrosoft.com header.i=@chipsnmedia.onmicrosoft.com header.b="QTDLVta5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from KOR01-SL2-obe.outbound.protection.outlook.com (mail-sl2kor01on2119.outbound.protection.outlook.com [40.107.129.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EED1368;
-	Wed, 31 Jan 2024 01:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706663368; cv=none; b=nSILEafDdQMMKSuAOajobcl6t8MDPY7iAatvDQzT/f2igsqfQq6shDaOeYPSk7nUE2WUBSb5Kk+5fziESFLoEefuyfFuQHNouONBzrqVTvhbfiDbl8IZSTXmVzRehrRblDjLMTBWxiYvVZBmcTBEmbAliCN9ZyXdcHLqiG1+fmA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706663368; c=relaxed/simple;
-	bh=GdArBPbBjQlx8Ti50cz+N0yZGlmVHlTS3IHwASRVRp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tLj7vLOCY8icUMY1uguR59jasf50y5fW6xCPd6YWlJMGr9Ec2ENTNsS1nXwp6r5w4GlxLKCd9HKB0sAEuf5QhQslt4OhyiAYKYljA/C4nBLwEsv/rV9fz3CYgEJdOyfFc61N/MlwK25NQo5omyR9yNZrw3KY3Hi5/CAmZXIFCqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qsstPPHC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F954C433C7;
-	Wed, 31 Jan 2024 01:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706663367;
-	bh=GdArBPbBjQlx8Ti50cz+N0yZGlmVHlTS3IHwASRVRp8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qsstPPHCkltVZEEzKwHkIB1x5kAMx2nXLWPf5UNDjqnvjXIizPNyW/5kn3ndPHXZs
-	 I33paSjEFttYp3rrFkbw4O4FmxtUYpNlMwMLaj4xdb/jJ28e8aZ5RxLsOCBsMYegF8
-	 2ERG01fIzc1OdURjtnfXGGat+OCmlSDMuIm9KM3WTzAckt+3w04I0WEefOpSVP23+9
-	 0N/ohXhtle2DXlYDVzeVvGBlMhjMMKkM+2pEUpc6u9ZTf7LitcKPLijsdDenW2gQf5
-	 TqmGYWcCD6IfpGndPduQsVwe7gaajid1xbNp3xLRvMKXlskQlfFNtgaSnQPi68cM7S
-	 jYbHWwcWcjoJg==
-Date: Tue, 30 Jan 2024 19:09:24 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Kevin Hilman <khilman@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Gross <agross@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Taniya Das <quic_tdas@quicinc.com>, 
-	Jagadeesh Kona <quic_jkona@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd to
- be managed by HW
-Message-ID: <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
-References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
- <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FFB1368;
+	Wed, 31 Jan 2024 01:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.129.119
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706664661; cv=fail; b=E4bSpSFuQprpFtJvvZK1872tAw6GdNNZ59ofOK/bLE7zbAoJ9r9vec2Q8HNq5HpXf8xwTK6wWgU6nSADp0jzhOjPMRYPntTJjox3CzIKL2JBrSXMe3OZanESlLB3LG+Z6GDaD5kAjjprhjxGFpZTO4pA1NWtl08etA0GyacvLNA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706664661; c=relaxed/simple;
+	bh=dvjlxHc+TLAFfBTU97E9XN48DmBxh0X2VNddnOx3ADE=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=FPKtJn/eTdBkAaWCqUc22diykNieHKWoYbv+WDZNf0KlQfgUCeWNKNipgMvyvpAX2gniSxlH5CtxiNGOratN5ogKB5WTQ/7DrlFDCvE9ErJlkS/nbkyfleI1wSbW3brGq+gjqM5wF8MvdSjPzKSjSEuvUL+o8wevf6BgSKohTB0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.onmicrosoft.com header.i=@chipsnmedia.onmicrosoft.com header.b=QTDLVta5; arc=fail smtp.client-ip=40.107.129.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BKDTowDEk03AtrruW6Oa3SgK31m40zOaIuBOHPGu7tevkOD14OzdRCUwvVKpbv/4vjGxnUsCbupvFrhs6nf0aKCcLQHmORMgdY3iHfceNvasBr2zyS4Yrr3LCH3sSi+UcE3GCfLwrMcHjhcM6K5vpzitjyjRqjmMk3tgCKihO6H40dAX3foHEtlbFhDKaABnE/FYoV/kgX3RtHcaqMkzjXtADAdxmd3CkQMGL8r3t3CsJ9fkxiOZlCXQNYzR3ep7krDrDVird2GzSq39AwYyQ32rbn5x/NdepDCplzNVt9M5Gk6w2xT7HATOKE/e1mh1kvhrA7Rw4gDirLiNqxVDaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MQq1t6K1bEhEniYP01XdbZ48GmDO8XHdRZNYC7vi9p4=;
+ b=icHem+mIi0kQ7X9urcIYrFYnjvv+m2TjsKbHMyyO/s9OlkXBzdOnUBvr36YvVx3vo393bQ5ZFrcsWUScFUv2pnfMtzYNxUC833PQzK82OXkLfbTf84tQr6kF+uLq+XM4CIdKq7Q7KBUZAHouywRui96Pi7zLNQNzoZ0odllQCGXGzotzWvYqIUE9rzn13vgMS7wEiw5hCdPq+PrXh7PnQhyplBB6ALUwSNicxlZEbLIdtGx7GqlitmThNsj4R5a6D6Js955Q+t2aIjNNZXoOtVs+iX3U2ks0PG6U/SFLO4oIfOBNcOS0D6l1Nbtdbc/hcpz+z/3gCU704LgfOrZ+Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chipsnmedia.onmicrosoft.com; s=selector2-chipsnmedia-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MQq1t6K1bEhEniYP01XdbZ48GmDO8XHdRZNYC7vi9p4=;
+ b=QTDLVta5yIV1yd2ModaATjMFgTgJDKyPm/7J10sLDqW4KHjcfHyvkHZOE2UV8TIK+Wm4RCsrKVoHuRqruIjG/YuB5ylLMliBozgMhiEGimmRnsX8egdAfeogAhv+ujdSFzoosbgGw+pusgOiCGNmXFsGaCKzA4twR9n49qj6Ttk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
+ PU4P216MB2229.KORP216.PROD.OUTLOOK.COM (2603:1096:301:131::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7249.22; Wed, 31 Jan 2024 01:30:54 +0000
+Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ ([fe80::de27:9f30:e1f9:1b5c]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ ([fe80::de27:9f30:e1f9:1b5c%4]) with mapi id 15.20.7249.023; Wed, 31 Jan 2024
+ 01:30:54 +0000
+From: "jackson.lee" <jackson.lee@chipsnmedia.com>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nas.chung@chipsnmedia.com
+Cc: jackson.lee@chipsnmedia.com,
+	lafley.kim@chipsnmedia.com,
+	b-brnich@ti.com
+Subject: [RESEND PATCH v0 0/5] wave5 codec driver
+Date: Wed, 31 Jan 2024 10:30:41 +0900
+Message-Id: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SL2P216CA0224.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:18::12) To SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:15::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SE1P216MB1303:EE_|PU4P216MB2229:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49b23bf3-045b-42a0-d4f8-08dc21fc4442
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	YFg93oYNGqKJZCGHsTsEoK37Wd38Qp785cLFAojFr7LTTg3rHyDVyz7qnQVjsogL3/AzFcRxqyHavmXnTTE8mRyehV94ItNaJX+0lnHDv7BenQUa5C7PPySqcIIneOLKxO5DZHGFuGmrGktoJxKFo4X+iAcNrfXIw56l5D54yB+Eg8fYVr34VJQos29+FZASUvnsobPXZ3sfxLxAD3rY7Bwsufkt3saJa98cEEsCD7Af5Y5rK5KuL7B4nX5G0ihOyXf36uPxIABUN1KV12/Bly2n8aBvnXLkjN7PW1DxZVxZ/gtyfStwK4tdROHOXq3owDB3z5R6LXvrN4pGqVoRMQefz+wc9bagSMThI+j7aslPKIOg3QySO1Q6HAZNSXWDjg7iP5A0ggLircFFIGXcvOexX902nw5XpfS3mjlgFXB+7N/SWmO5vVDYSlY8m0ETf2c+x/WMrT015BB8ld7uQpEtr06lKh2/QKEQ9wFDil2qwh9ztWDLAjRbpeG1pSA28x6thI5iOMIFoGcSrsKYSV7FmhiuYnbYSQ2AjwwJsCOkiky6AcVK5HUP17h5ZwkTSyIYcoefARwnLOAEnG4xnIlpFQDWJpvhkDfAc35UakSmUnWbk/2wUVY2jviVjO/M
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(39850400004)(396003)(346002)(366004)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(83380400001)(6666004)(52116002)(2616005)(6506007)(316002)(6486002)(478600001)(86362001)(6636002)(66946007)(66556008)(66476007)(41300700001)(26005)(6512007)(1076003)(5660300002)(8936002)(4326008)(8676002)(38100700002)(4744005)(2906002)(38350700005)(36756003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?mX2y62NVnzUSx6WKa6bkgivjVyh95igvDPTXPJqjnbiYiDuN7Ob4NATffItO?=
+ =?us-ascii?Q?7ENK0KVUJIZoD7HfALfhVMya9URTZmOA4bb3xWlZiz5tOJataQZuHyJOEOd7?=
+ =?us-ascii?Q?TpXGxPybcblEY1ydjJAldTRo2jTTLFlYTQitS1uRgkY+cmMWsv/Vs4qnS+7y?=
+ =?us-ascii?Q?79mp8dx9iB7wap9lUZHSkqgI7wB3NKlSXCg7bG1sW6DE+TqIA1COaMg8D4I4?=
+ =?us-ascii?Q?KdUNIcf84UAjjSKOcz5Y+apqvv7VwPFc+Tk4Xeo17VA1QVk7RN2ot63vueZW?=
+ =?us-ascii?Q?Ore4yw09aLoGygZIzRZR4TJudp+CADzmVZcdTXU+j6vGYOXPLdZEF2f6sFCe?=
+ =?us-ascii?Q?NDp2e3vu8gDgc/gcLO3GeIHVCuHF5xIq3FvRLbgKwKmyY6AahiIFTEsi0EQN?=
+ =?us-ascii?Q?dPYorfvncXTL6/8MCIlgp8ic4DVDLKQikREVHGch6Q7zeyyU1nbjJJAsph4l?=
+ =?us-ascii?Q?S2IwdmKK/UHVVj0+A3YXItAqEhHGiL061/XHpowykL/oIuesauF1NiHuSDwQ?=
+ =?us-ascii?Q?AN5VLKF5l1J3XgqIhE2e3nmrG/5qzkP+vFhpanW5ZdEeCrVfDDRXoO02fI9s?=
+ =?us-ascii?Q?ymyjoB50LjSYcqIvNRoSQhb+NwEWDymk7xg/x969OFctaRCIWve9Jf6eEs1H?=
+ =?us-ascii?Q?sOGN/pIlNPvSXhRri7uXtrgUSdN/iQaGldkn335o5Z7LmSa4n0Mvf+j56K44?=
+ =?us-ascii?Q?U5LRzW1WcQu/LncfAwL8RGg6wT0e5LOnA0jP/cfWEaFiyi0ooJnLeic8ZaAU?=
+ =?us-ascii?Q?zKZgcj42EWfUMh9oO0kCk2bygvTj6pz7JnDXj3S4ulqWc0TTGETNoLBIGFiF?=
+ =?us-ascii?Q?Tcr635f/1KiSEroOTm96Pof7iMctMLaGQ9xR8cVZPvl3NIt1t1PNdD+937QY?=
+ =?us-ascii?Q?48Y+tIqktb5YrPqQ6fRDkLGQmBD+yvNGBWBadYie05XVCM1fdt4n6We81iO1?=
+ =?us-ascii?Q?+VjDbriVmx9KPMdD7eVOlZRISxoXQK511Y/pqa6siV+UCp1D7qO6SSZNz7tg?=
+ =?us-ascii?Q?BCrVZOYwTQlFC6RKRXW/PvLZRsVNmxtl9+Fhg2u5tuFVkdM184oNKM97bafl?=
+ =?us-ascii?Q?d7rmduj4HgF65pA+P9bBOn7wiER15rW+u8tGkQYdDHkHBMKKU5r+qvd4YQyd?=
+ =?us-ascii?Q?4D5V9u24e1zVPOAoZrXzhb+AWNjrHMUlMGeyJPflHLWtwz4Q8ZcR6iPRktQW?=
+ =?us-ascii?Q?tJfjeHJslX8eCrHFet4VbRTdtQVEJoCCtXTsXfOXonFVTkuY6n5jcGlEYhhW?=
+ =?us-ascii?Q?v6m9otiM7LdXjwqBqGGm4oHa/vx3JG0qrhnaPd4WXMO9jCky6J4RdCWm6xIR?=
+ =?us-ascii?Q?VFh/xvEYItHBp+7dVMbBQV14xP8Ou5WPtbP5uS4EZxiK74xZq736bHVSe9WL?=
+ =?us-ascii?Q?Xx8zBWlSQrTgQewifEkrXbni/X3difv4uFl4k3wbsFmufJvO7B2lgv9Ggdcy?=
+ =?us-ascii?Q?Hn8BuL7aGwQN7ad8quS5xW253eH6NFOXxvFLaDBQwqHLRIrpugmOB202Ao7p?=
+ =?us-ascii?Q?9cSFjcfDWSbi5I175mmfz1hYVb5gIa6SpW9wM2pbWmR450eGJo5T7K61kzyT?=
+ =?us-ascii?Q?U9QBuffeU24243xN94HyQSiu5luwFCexsBmuQX4mpYki6ojLOKbn5iWeiMNs?=
+ =?us-ascii?Q?fEd77y+8hNi9XSHCVBZtFPw=3D?=
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49b23bf3-045b-42a0-d4f8-08dc21fc4442
+X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 01:30:54.1893
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BehKJTkECIWRwsY+ssC+DJBCbaX5QscmNX/7L1+tjSpaW9rNHN1bNYUalOBSzHn2548L9vw+xzdlcP3GIy011Bt+ljcUCu0PomQhlBDQxBY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB2229
 
-On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
-> From: Ulf Hansson <ulf.hansson@linaro.org>
-> 
-> Some power-domains may be capable of relying on the HW to control the power
-> for a device that's hooked up to it. Typically, for these kinds of
-> configurations the consumer driver should be able to change the behavior of
-> power domain at runtime, control the power domain in SW mode for certain
-> configurations and handover the control to HW mode for other usecases.
-> 
-> To allow a consumer driver to change the behaviour of the PM domain for its
-> device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
-> let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
-> which the genpd provider should implement if it can support switching
-> between HW controlled mode and SW controlled mode. Similarly, add the
-> dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
-> its corresponding optional genpd callback, ->get_hwmode_dev(), which the
-> genpd provider can also implement for reading back the mode from the
-> hardware.
-> 
-> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/pm_domain.h | 17 ++++++++++++
->  2 files changed, 86 insertions(+)
-> 
-> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-> index a1f6cba3ae6c..41b6411d0ef5 100644
-> --- a/drivers/pmdomain/core.c
-> +++ b/drivers/pmdomain/core.c
-> @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
->  }
->  EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
->  
-> +/**
-> + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
+The wave5 codec driver is a stateful encoder/decoder.
+The following patches is for supporting yuv422 inpuy format, supporting
+runtime suspend/resume feature and extra things.
 
-This isn't proper kernel-doc
+jackson.lee (5):
+  wave5 : Support yuv422 input format for encoder.
+  wave5: Support to prepend sps/pps to IDR frame.
+  wave5 : Support runtime suspend/resume.
+  wave5: Use the bitstream buffer size from host.
+  wave5 : Fixed the wrong buffer size formula.
 
-> + *
-> + * @dev: Device for which the HW-mode should be changed.
-> + * @enable: Value to set or unset the HW-mode.
-> + *
-> + * Some PM domains can rely on HW signals to control the power for a device. To
-> + * allow a consumer driver to switch the behaviour for its device in runtime,
-> + * which may be beneficial from a latency or energy point of view, this function
-> + * may be called.
-> + *
-> + * It is assumed that the users guarantee that the genpd wouldn't be detached
-> + * while this routine is getting called.
-> + *
-> + * Returns 0 on success and negative error values on failures.
-> + */
-> +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
-> +{
-> +	struct generic_pm_domain *genpd;
-> +	int ret = 0;
-> +
-> +	genpd = dev_to_genpd_safe(dev);
-> +	if (!genpd)
-> +		return -ENODEV;
-> +
-> +	if (!genpd->set_hwmode_dev)
-> +		return -EOPNOTSUPP;
-> +
-> +	genpd_lock(genpd);
-> +
-> +	if (dev_gpd_data(dev)->hw_mode == enable)
+ .../platform/chips-media/wave5/wave5-hw.c     |  11 +-
+ .../chips-media/wave5/wave5-vpu-dec.c         |  86 ++++------
+ .../chips-media/wave5/wave5-vpu-enc.c         | 159 +++++++++++++++---
+ .../platform/chips-media/wave5/wave5-vpu.c    |  68 ++++++++
+ .../platform/chips-media/wave5/wave5-vpuapi.c |   7 +
+ .../platform/chips-media/wave5/wave5-vpuapi.h |   1 +
+ .../media/platform/chips-media/wave5/wave5.h  |   3 +
+ 7 files changed, 255 insertions(+), 80 deletions(-)
 
-Between this and the gdsc patch, the hw_mode state might not match the
-hardware state at boot.
+-- 
+2.43.0
 
-With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
-false) will not bring control to SW - which might be fatal.
-
-Regards,
-Bjorn
 
