@@ -1,104 +1,128 @@
-Return-Path: <linux-media+bounces-4522-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4523-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462FE8444C9
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 17:48:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A4F844643
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 18:37:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73F8A1C21EB6
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 16:48:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBE36283B25
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 17:37:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A96D612C53D;
-	Wed, 31 Jan 2024 16:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 196F512DDAA;
+	Wed, 31 Jan 2024 17:37:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Oa3NqV7o"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="nF3k3kVD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CDB12C531;
-	Wed, 31 Jan 2024 16:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FCF12CDB4;
+	Wed, 31 Jan 2024 17:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706719660; cv=none; b=oJOd/ebgkNZ+ZoiwYNfK2BWynT/t/spOD32kOIQb4WyeSC6CPZMMRuCullbfuuu0MOsx3L8DqIzrD626pkiAMrlAOTc0qT4zpwwWvBqAYRqkmj5nbDrttY3iBRIPuRKHPl4Hdq04HbFSjxZXJv1bIXM2jC9sZAnxGJkGf2n2sJQ=
+	t=1706722624; cv=none; b=hXP09YexvkSObnJdVrLLeldvLVD0HoaUPN6HrXnqIlvsJYusdiQPuKYgNJJXnX4PmIjNsUVo/XJLC4SxNGnlzMYhtNefOO0v/FcXy/oC/7TcKau20InK8bRCXdSUVUa6HA+CDnc0Pr9kCKAa3HmCXYye4GE3AMo+px/IfClrvAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706719660; c=relaxed/simple;
-	bh=DGcK0FIcPkD4YKJCNhEP/WorviNVuwHABB6p3EQwyD8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ky3HExcpd4aNNjabVOHE5DSJRqa2ZYpYpTqNttuZj79sx/RPFZxdvPaExqERjMtoM+EYXpvUtOtD6vIZcG2/IfHpnecZvmUjlWS1fa9C7K5wKNCOfe2bPHi8J5kf30IRxjUSXnSfw8pqTRMeclh33KL40MTr1wZ+uWvirH7Q3a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Oa3NqV7o; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13FEB6536;
-	Wed, 31 Jan 2024 17:46:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1706719568;
-	bh=DGcK0FIcPkD4YKJCNhEP/WorviNVuwHABB6p3EQwyD8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Oa3NqV7oN8kOAJdD7FH2l9OvdV+0KS1P2CzkVakJTt0zbZd7uMQzqs9xnptu4AYS2
-	 lQivypfkhdoEe2zfFqRMTQIY9/9CoBOGQO0g4brCT5nOya8sqhTK52ov+1QtDl6PCn
-	 cvgavvw/uErnuBgnzqP/3kTU/Hwcdrdo0hzSVcME=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com,
-	robh+dt@kernel.org,
-	mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	jerome.forissier@linaro.org,
-	kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH 5/5] MAINTAINERS: Add entry for mali-c55 driver
-Date: Wed, 31 Jan 2024 16:47:09 +0000
-Message-Id: <20240131164709.810587-6-dan.scally@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240131164709.810587-1-dan.scally@ideasonboard.com>
-References: <20240131164709.810587-1-dan.scally@ideasonboard.com>
+	s=arc-20240116; t=1706722624; c=relaxed/simple;
+	bh=a0P+lMRjYaPeMolIYIQjzbUFgcGY/qyTR/5pwhzuHxo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YnoJLJFtQhqi63zLfYrHI4xHTyvrBbkj3U0BZBCOkVMzkQ3iMmVKyD5MLQYw4VgGo2wg6jPTJd/+oHn+6cWo00h8wuqKT72Ent5lD+zBD90WwaXYSpk3El8nv18QfXfBRVaE8qJSsF+SvfyPUl5r/C+UdRyhfxjxhn55XSPVFB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=nF3k3kVD; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40VHapN8063748;
+	Wed, 31 Jan 2024 11:36:51 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1706722611;
+	bh=WTTPI1YMhpzX7MWjUurK3vAS6Baqvui9xeLzvJebuv8=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=nF3k3kVDrFKU7N8UmIlEnj4ehPEIiEnuKbgPH6/RDKHxFr6Y3CC6WEkGxKJCQJUkj
+	 kJzARE4OARJhVc1GMn0wemuf5vCenkfaQdABMr94tpVYVAuJqHdLehrjd2QMbdkvmO
+	 kVkxi+aP1fDEePWosC0ulK/4qkkHuSHdELKM1XiY=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40VHap0o002539
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 31 Jan 2024 11:36:51 -0600
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 31
+ Jan 2024 11:36:51 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 31 Jan 2024 11:36:51 -0600
+Received: from [10.249.42.149] ([10.249.42.149])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40VHaoT6060251;
+	Wed, 31 Jan 2024 11:36:50 -0600
+Message-ID: <7bc035db-607a-48db-b497-4bc29d0a805c@ti.com>
+Date: Wed, 31 Jan 2024 11:36:50 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v0 4/5] wave5: Use the bitstream buffer size from
+ host.
+Content-Language: en-US
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <nas.chung@chipsnmedia.com>
+CC: <lafley.kim@chipsnmedia.com>, <b-brnich@ti.com>
+References: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
+ <20240131013046.15687-5-jackson.lee@chipsnmedia.com>
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20240131013046.15687-5-jackson.lee@chipsnmedia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Add a MAINTAINERS entry for the mali-c55 driver and its associated
-documentation.
+On 1/30/24 7:30 PM, jackson.lee wrote:
+> In V4L2 spec, Host can set the bitstream buffer size.
+> Allow the larger size between default size and input size.
+> 
+> Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
+> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+> ---
+>   drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index ff73d69de41c..19018ace41b6 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> @@ -11,6 +11,10 @@
+>   #define VPU_ENC_DEV_NAME "C&M Wave5 VPU encoder"
+>   #define VPU_ENC_DRV_NAME "wave5-enc"
+>   
+> +#define DEFAULT_SRC_SIZE(width, height) ({			\
+> +	(width) * (height) / 8 * 3;					\
 
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
----
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+These "\" are tabbed out way to far, and not to the same amount..
+Why have this in {;} brackets?
+Why multiple lines?
+Just:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8d1052fa6a69..bec50bfb09ec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1668,6 +1668,16 @@ F:	Documentation/gpu/panfrost.rst
- F:	drivers/gpu/drm/panfrost/
- F:	include/uapi/drm/panfrost_drm.h
- 
-+ARM MALI-C55 ISP DRIVER
-+M:	Daniel Scally <dan.scally@ideasonboard.com>
-+M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/admin-guide/media/mali-c55.rst
-+F:	Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-+F:	drivers/media/platform/arm/mali-c55/
-+
- ARM MALI-DP DRM DRIVER
- M:	Liviu Dudau <liviu.dudau@arm.com>
- S:	Supported
--- 
-2.34.1
+#define DEFAULT_SRC_SIZE(width, height) ((width) * (height) / 8 * 3)
 
+Andrew
+
+> +})
+> +
+>   static const struct vpu_format enc_fmt_list[FMT_TYPES][MAX_FMTS] = {
+>   	[VPU_FMT_TYPE_CODEC] = {
+>   		{
+> @@ -193,7 +197,8 @@ static void wave5_update_pix_fmt(struct v4l2_pix_format_mplane *pix_mp, unsigned
+>   		pix_mp->width = width;
+>   		pix_mp->height = height;
+>   		pix_mp->plane_fmt[0].bytesperline = 0;
+> -		pix_mp->plane_fmt[0].sizeimage = width * height / 8 * 3;
+> +		pix_mp->plane_fmt[0].sizeimage = max(DEFAULT_SRC_SIZE(width, height),
+> +						     pix_mp->plane_fmt[0].sizeimage);
+>   		break;
+>   	}
+>   }
 
