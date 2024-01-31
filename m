@@ -1,83 +1,84 @@
-Return-Path: <linux-media+bounces-4513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4514-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBBF7844115
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 14:54:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32779844194
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 15:15:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CC7C1C22017
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 13:54:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56C111C27B6D
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 14:15:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D85880C11;
-	Wed, 31 Jan 2024 13:53:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1B2E82D9C;
+	Wed, 31 Jan 2024 14:15:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V6VBIkFJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GSTNZdsQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2154080BF5
-	for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 13:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5301381ACF
+	for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 14:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706709231; cv=none; b=Pe9wzcgv5tk+UqxuEj/tM+KVJXSdHl/4P08t11AbVpLubXLEseRr9J4w7T1IXIMES+q/Lyi1R+EGh+jSZGXi7l5oJuv80oCZCyvgS34S7e4K5G3ViMVpXp8UmLJvPvJPTNA9+abuq5jK1r1hEV6iQXQcpw4dGkvShYhNdKVXGYc=
+	t=1706710530; cv=none; b=WyZ68pw/X2Rb9/NtOXFhRwdYT9bOWRbqYsAVOXOCyBL0X4HgfajUT6beKSq+dWwnsOV/BP2e8cmtWU96zVwXdTUOBJ9Lfw6WTgxCanWA0BIqfpFIG1uVDoP59Hz8lExpLnLKHc/U9KXwUYsUOMfiZ1gAQdNL/DCvHLbq9KExubU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706709231; c=relaxed/simple;
-	bh=1fsKiWzD4eBtpYRLLRU5ypafXrjCVp3jRWjh9i+qbLk=;
+	s=arc-20240116; t=1706710530; c=relaxed/simple;
+	bh=Qp4GngRv4PQifziULzNvlHbekeHD7V6c0VEtftkfzWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xmbe8lV73soq84MK+sGBLZ8YdmI2VglsvS1GdlMRodulCurYIOgQ9BFhpXtXGJaPUR+3RjbBdwyuTIO4KK+/ywWPHv0zzQcfnpoh6YKUp9in9Y2Y0rcJy8qTBZxXJKGw1M/jOijtyH5Ra9GcSbGNNZ6aK0/Xm8a4/VXlFZOrDEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V6VBIkFJ; arc=none smtp.client-ip=209.85.208.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=HAu+IgJIfZlD65HAZ3lwfUVZSmFR52t4uy3X78KvLMW2P8w3a7qXBb47l/tGqLCiA/TZ56dHEKrTEWUaF/l+p2QurUh5CyIgbJrWhX/Mqi7JkNS8E8Cn3lU4dSU7y30PKAv/1Rk7ildDiaL1t6JOTAMMXoUAnz/LZfAIDnxpTn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GSTNZdsQ; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-55eed368b0bso1892518a12.0
-        for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 05:53:47 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a366ad7ad45so94665866b.3
+        for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 06:15:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706709226; x=1707314026; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ahOd0DsEgD/5LLUjuJjav5ZXUjQod+q+9a1w7vEMGKU=;
-        b=V6VBIkFJ7jSyDUASutomTagEWexNPrxNMyF1x9NJIK0K7Ch5C2QaiEUtNHyTwbda8v
-         9aEKPBVSUI4cVyc1T21TQyyByTJz39/mWMqank3uR7J6qhFTL9G6fefuU6TRZiiygFPx
-         1DeqtmzE2CDu5wr84FT/fpUmsMLfI+8ZyHMc0CjCKWfUynmfUnn82QHwc7wDi3QpyIXp
-         /c1OHhXt9JOA3yBqqxSsQtmLiriVsG0fY5rGEjzXp9Z/TVC3/wf8ikvtPXdfC58Q6HZx
-         0mOEkyr5PVHyy6aMlwKB5DU0CIyWi0AoXVPuPc6lPac3mC7NN7zscHubIyakdubQUuLd
-         rAaQ==
+        d=linaro.org; s=google; t=1706710526; x=1707315326; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nNlIzsJJ/O803DqutNwmb0UTB7M/H8vgIySfsDe/068=;
+        b=GSTNZdsQR8cKi1UztfkzD1rlAHChoE6/SXk04/AUMlZSlUvT4arMCWptsNCyHnOSEE
+         TuFRgzP0tQHUr82bYFDVIAd5UgMMs58R5YFSU5p0MK25gAzy5hL2i/OLw3s9DZmqva49
+         y/bCDVkJI7EAvClSMv5wcOLAwbYoUEWa4UXZcQgYxankfpvntzrHPsP+XkRnq6HboeL/
+         CzZCoqnZdkgJ2QfPoDnGBE9ZM5rT1L3FG1ps6XlGZ/6ajBrEyTQ8BlaUgdlkLpdLWX7A
+         xqrYqiE/TftwS3bBHkKux3ivlEAXPdFUpUkZs0It2llt+hDIa9aHYVEn7kY+G02mZvgr
+         B01w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706709226; x=1707314026;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ahOd0DsEgD/5LLUjuJjav5ZXUjQod+q+9a1w7vEMGKU=;
-        b=QExwKV8/oTCL3decruDs1nQT17VFRcdrFsNJMGOKrpJVAuv0DmrNwbWgFFNut2YXr/
-         DUizmJ/bMXtkf/X9+7jwc30r8leTq9KmIpSvHyH9A32ygNsArwOyTneNEzhD8Da+GP6I
-         NB3w1STS1QthQ+H1xHaOYKLtag0jSFgM3hP03PlY58x/3HpQoGWJWrGZWfWqmYxN7xHN
-         J0ocEyGm154I7pdfXECy9rZkLM6K3YE49RzpDBlDjhCSHEhHXSTiQ7eq3/qjkwfLRrkZ
-         uzDiiWqxBroxNgKTOM7eHNpgz17TIOCZPLzTSIrCqdf62St+p9Jh9x2Eoevo+Xh2uJKh
-         cMJg==
-X-Gm-Message-State: AOJu0YyjhPjBkz6EBa9krh9JuTRRxTRgjgZUmkYYueNpJw1YL0asqKEJ
-	XMjwT0y+eQ28OuAtMP3bzJmeCvQwQ2b7dEqALsH9DlpTtCmNbGwkkoyaWDvg2Cw=
-X-Google-Smtp-Source: AGHT+IF/HhYD9uEpTmG0foPvY+xCTXKvk5obu0HsU61MTSjfgdbYBqyNsdDIta+ap8fzjTNneV6ulw==
-X-Received: by 2002:a05:6402:26ce:b0:55f:992a:6214 with SMTP id x14-20020a05640226ce00b0055f992a6214mr544647edd.4.1706709226169;
-        Wed, 31 Jan 2024 05:53:46 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWUqIoHU49HCTb1rUovxV2gzF0kNXugLnZJeOYtS/NemWRrh0sE6nRlMpUq+1mJOwWQ4reR3QOaR4C3hI6SS4Kh4wZKVlDJ6uoiKBDU6GaEZZwuVqTSlfqoRX1FVckX34fLfeEqodIdgfqNacwxzO+JYfyzbocr4Tf59DtEwj01giG3YFJYFmtUtcG6AP90iDOC5tTEc867KA+4Emd3CN1m+cq3Dcnp1bMhe39oHkOf2V0jc4Bm3Bv6PK49WOdh4e/icTK6ccAzVCAvXM8v/flwcNq8frmo+e6JZeNhUY6YN1hwSWBx+UtwP0rMZbbaqwrgKeKmjD2tJSVyvIRoB22IZqQSA0oS+sFhSdh38PdbvFu5BAMPHZv/GJMNZp30c6wZ1ADFFk8hz9MQ3y+PNePEmHaVS9CRINxdCNihRo6E4sgFvNybrmAmsC9H269+TZOeVrhCndoEuH72nqlo1ERZTy5ElrRbIMG8cczjx3VcSNQBRpAh1bFq1MgJiK5+nY1mN/UQhps5E330KFEiv7gJSnXi/jK8jB8We7h/tnrp/0t23yaFt41Svs574zOCgtjvdO0u52EcTzEez9PatHNpm5lOxC8qYzIzcVI0R91u1nCmwKpYslmUYln4R7MnjewahTR+IYHmByVBXx0FTdOFqHCMcWcrlN39J5yYs1np2PrPxYyI3DIW1gi3OCDgZNdD5rVHlFc75iXOjasBH7eahPDFLcVx0p6BqqJ2mLLk4NTcoZIP85Zu5wI7g8IBiqrZJcWYGgNwTRryHRWokBw5XBe1BnY+ib53YyThWi+SlQrwBSm9ItKEaslSYUzPrVjWnl0hURKIOdO4Q1NPXPTGQdvnNoeFf6lkeqho5K0m8d5bIh8SAM9gkGTnBDlRsusQAZ8M5GG+Da2YhJoKqVc8P0u+gvHUcFdFxRqRfZjFVyBvK4UT6BKw+xELIa0Q+7Tc6t
- togPTrIj/XhTaCr9NEbPyyavGfIsDRv+PD
+        d=1e100.net; s=20230601; t=1706710526; x=1707315326;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nNlIzsJJ/O803DqutNwmb0UTB7M/H8vgIySfsDe/068=;
+        b=D6RunJrltTdtSnOMCyEnxCzSIFW4r5y9AHmWnJFPiuhtTG4sElGSG8tIwuVm2gwb89
+         61jMwBnzLBYun1c4eCkooMh1fPvEaww4/CfyvSi06XrVoPsbK5RonempCGoOD8B9n8DZ
+         zA/skB/MWN97esVyBRAOuPaoG0an1f+/Y9OEi+IYV63kt1o/OlccZMAV5/rchuQ/2b0Y
+         1rK2e5hqL+drTfo0gATOrUhEK2hzlM+LvV0q5O0Dtf8bbKqHb0+mw6G+r+8QtHxc6qeq
+         fYjXyMEEVj5S0SiMJx0KCuhHfkLi31LVCUJnZjwmK7mgWH2CJZlLUzxsE+/ScJXcp7qu
+         VGsQ==
+X-Gm-Message-State: AOJu0Yw6hH67KuvANfpld4DAj5Cu+hfIiMcnh158vT2rMKK0/LBqzi42
+	AYklGawdJ0m7upYSEyP+VfGi0Vy0eh+bDOvikNc7B17uGa0m3QWlLZmPeF/+HRw=
+X-Google-Smtp-Source: AGHT+IHGSNrZrx8lhdfpuacSLRFgTdJ5NfMsSvc/CvwYDYgJxFvfWZNSFP+DAnXhOop8GVnRQDrb6A==
+X-Received: by 2002:a17:906:6d8:b0:a31:3dc5:6bda with SMTP id v24-20020a17090606d800b00a313dc56bdamr1293250ejb.64.1706710526369;
+        Wed, 31 Jan 2024 06:15:26 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCU6efCsWycPh1JAhTyNPAjNvnweXqD7LfOvLHeNnwv0SvdHIfC7xlCv5STV+33dO+lY6NYJYz4SAyhuS25W5HmIsKnF6IG7JdUB21pnh0QfOQ1lCcEwg8NWyt4e7a9vNb//fZPrFcLCq+mt6UfXnuYVq5RS8RnavneViDd5N6Su2aFK4whsxxRmJoif7dJWT+chAcUGwWlZxUbGvoOWMB3G8DV6VDnhGda0U96+67dma+Nv9E085BKS4tGcAovVwU7cgXUWywrg032CUiidKOXOU15Ran40Whooteb7Lk+RUuOmzz49sVTJwT/eI1hJVuiV1YSchMZ0NHwXYr6VjCNtQHOfBYpy5AmBEGhHJSSC3kgPn1HwSA52JP2g+oE2lN1hzC8o4Jo1Y8j6DU+PoPuR+FKrKBX0SwGcxLWfvq1CMFwwBVdkDj1fb5FSBa2TvRsV+KQx8ksmqvY3/bRSHobT0Bl+kbLmt0tTUm+R7Y9tHXnEz2tuNvmP5aHV+g6ZlruKt2lwSJfaPzujaeV5DSNv4+yyJnDLfBRUzCefUVy5aId4uCPDgO/JDcDDEegEi6k6RD2wfQFIK8X0HUkbHUt6YigPf5ZcLX+0X9ezZFfZ+0oInafUsOsICdEzpL4wIlsdXL9P1Vi443C3RLBTMEfR/u9yh61fxe3tVeJmfWxowtX9iage1AwJTiXHCvEDedDpY4omThjVx/SYLcBLMPk8Wi5Nen1zWtD6NsJIh8Y+WOxwQATkh/am6qDgLjdayMNiBblkaO9v7fj7mxybs0lRhqpVAYJEDXv++KavYBBKZWqp7kLnRMr0JlWmty201Js0Kj6EkatLZd2kDdGgUvp6ysOgjFO/IvCN7dmQ7wzBsKbPdxyTsC+X8CPg+XM3S5TT4t+qMOLotFHsEN+9geGbqdJYz0xGgVAbWzhxNWl8h6WZhk96k9pCCvsuvjwe6qpVQ5
+ 6Z0BQFdKikglYoMlYcES1SpehdgBV2xwU=
 Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com. [81.231.61.187])
-        by smtp.gmail.com with ESMTPSA id ec37-20020a0564020d6500b0055f8adf1d6esm465420edb.47.2024.01.31.05.53.44
+        by smtp.gmail.com with ESMTPSA id vk8-20020a170907cbc800b00a352afd952fsm5396812ejc.43.2024.01.31.06.15.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 05:53:45 -0800 (PST)
-Date: Wed, 31 Jan 2024 14:53:43 +0100
+        Wed, 31 Jan 2024 06:15:25 -0800 (PST)
+Date: Wed, 31 Jan 2024 15:15:23 +0100
 From: Joakim Bech <joakim.bech@linaro.org>
-To: Yong Wu <yong.wu@mediatek.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
+To: John Stultz <jstultz@google.com>
+Cc: Jeffrey Kardatzke <jkardatzke@google.com>,
+	Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com,
 	Sumit Semwal <sumit.semwal@linaro.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>, tjmercier@google.com,
+	Brian Starkey <Brian.Starkey@arm.com>, tjmercier@google.com,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -86,15 +87,19 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	linux-mediatek@lists.infradead.org,
 	Robin Murphy <robin.murphy@arm.com>,
 	Vijayanand Jitta <quic_vjitta@quicinc.com>,
-	Jeffrey Kardatzke <jkardatzke@google.com>,
 	Pavel Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>,
 	Pekka Paalanen <ppaalanen@gmail.com>, jianjiao.zeng@mediatek.com,
 	kuohong.wang@mediatek.com, youlin.pei@mediatek.com
 Subject: Re: [PATCH v4 3/7] dma-buf: heaps: restricted_heap: Add private heap
  ops
-Message-ID: <20240131135343.rj6xlch6zcev2v47@pop-os.localdomain>
+Message-ID: <20240131141523.yh74hsddtuooqfgi@pop-os.localdomain>
 References: <20240112092014.23999-1-yong.wu@mediatek.com>
  <20240112092014.23999-4-yong.wu@mediatek.com>
+ <CANDhNCrxpeqEhJD0xJzu3vm8a4jMXD2v+_dbDNvaKhLsLB5-4g@mail.gmail.com>
+ <CA+ddPcNdniUTpE_pJb-fL7+MHNSUZTkQojL48iqvW9JPr-Tc-g@mail.gmail.com>
+ <CANDhNCqieBaH-Wi=vy3NSKTpwHcWef6qMOFi-7sgdGiDW7JtwA@mail.gmail.com>
+ <CA+ddPcP9bgApNw_Nu7bxcV-oK_s3Bq1i5qun+vNSuRUO9tPEkA@mail.gmail.com>
+ <CANDhNCrGxhHJLA2ct-iqemLAsQRt3C8m5=xAD3_dDdKH6Njrdg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -103,142 +108,135 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240112092014.23999-4-yong.wu@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANDhNCrGxhHJLA2ct-iqemLAsQRt3C8m5=xAD3_dDdKH6Njrdg@mail.gmail.com>
 
-On Fri, Jan 12, 2024 at 05:20:10PM +0800, Yong Wu wrote:
-> Add "struct restricted_heap_ops". For the restricted memory, totally there
-> are two steps:
-> a) memory_alloc: Allocate the buffer in kernel;
-> b) memory_restrict: Restrict/Protect/Secure that buffer.
-> The memory_alloc is mandatory while memory_restrict is optinal since it may
->
-s/optinal/optional/
-
-> be part of memory_alloc.
+On Fri, Jan 12, 2024 at 05:23:07PM -0800, John Stultz wrote:
+> On Fri, Jan 12, 2024 at 4:13 PM Jeffrey Kardatzke <jkardatzke@google.com> wrote:
+> > On Fri, Jan 12, 2024 at 3:51 PM John Stultz <jstultz@google.com> wrote:
+> > >
+> > > On Fri, Jan 12, 2024 at 3:27 PM Jeffrey Kardatzke <jkardatzke@google.com> wrote:
+> > > > On Fri, Jan 12, 2024 at 2:52 PM John Stultz <jstultz@google.com> wrote:
+> > > > > I know part of this effort here is to start to centralize all these
+> > > > > vendor specific restricted buffer implementations, which I think is
+> > > > > great, but I just worry that in doing it in the dmabuf heap interface,
+> > > > > it is a bit too user-facing. The likelihood of encoding a particular
+> > > > > semantic to the singular "restricted_heap" name seems high.
+> > > >
+> > > > In patch #5 it has the actual driver implementation for the MTK heap
+> > > > that includes the heap name of "restricted_mtk_cm", so there shouldn't
+> > > > be a heap named "restricted_heap" that's actually getting exposed. The
+> > >
+> > > Ah, I appreciate that clarification! Indeed, you're right the name is
+> > > passed through. Apologies for missing that detail.
+> > >
+> > > > restricted_heap code is a framework, and not a driver itself.  Unless
+> > > > I'm missing something in this patchset...but that's the way it's
+> > > > *supposed* to be.
+> > >
+> > > So I guess I'm not sure I understand the benefit of the extra
+> > > indirection. What then does the restricted_heap.c logic itself
+> > > provide?
+> > > The dmabuf heaps framework already provides a way to add heap implementations.
+> >
+> > So in the v1 patchset, it was done with just a Mediatek specific heap
+> > with no framework or abstractions for another vendor to build on top
+> > of. The feedback was to make this more generic since Mediatek won't be
+> > the only vendor who wants a restricted heap..which is how it ended up
+> > here. There was more code in the framework before relating to TEE
+> > calls, but then that was moved to the vendor specific code since not
+> > all restricted heaps are allocated through a TEE.
 > 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
->  drivers/dma-buf/heaps/restricted_heap.c | 41 ++++++++++++++++++++++++-
->  drivers/dma-buf/heaps/restricted_heap.h | 12 ++++++++
->  2 files changed, 52 insertions(+), 1 deletion(-)
+> Yeah. I apologize, as I know how frustrating the contradictory
+> feedback can be. I don't mean to demotivate. :(
 > 
-> diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/heaps/restricted_heap.c
-> index fd7c82abd42e..8c266a0f6192 100644
-> --- a/drivers/dma-buf/heaps/restricted_heap.c
-> +++ b/drivers/dma-buf/heaps/restricted_heap.c
-> @@ -12,10 +12,44 @@
->  
->  #include "restricted_heap.h"
->  
-> +static int
-> +restricted_heap_memory_allocate(struct restricted_heap *heap, struct restricted_buffer *buf)
-> +{
-> +	const struct restricted_heap_ops *ops = heap->ops;
-> +	int ret;
-> +
-> +	ret = ops->memory_alloc(heap, buf);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (ops->memory_restrict) {
-> +		ret = ops->memory_restrict(heap, buf);
-> +		if (ret)
-> +			goto memory_free;
-> +	}
-> +	return 0;
-> +
-> +memory_free:
-> +	ops->memory_free(heap, buf);
-> +	return ret;
-> +}
-> +
-> +static void
-> +restricted_heap_memory_free(struct restricted_heap *heap, struct restricted_buffer *buf)
-> +{
-> +	const struct restricted_heap_ops *ops = heap->ops;
-> +
-> +	if (ops->memory_unrestrict)
-> +		ops->memory_unrestrict(heap, buf);
-> +
-> +	ops->memory_free(heap, buf);
-> +}
-> +
->  static struct dma_buf *
->  restricted_heap_allocate(struct dma_heap *heap, unsigned long size,
->  			 unsigned long fd_flags, unsigned long heap_flags)
->  {
-> +	struct restricted_heap *restricted_heap = dma_heap_get_drvdata(heap);
->  	struct restricted_buffer *restricted_buf;
->  	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->  	struct dma_buf *dmabuf;
-> @@ -28,6 +62,9 @@ restricted_heap_allocate(struct dma_heap *heap, unsigned long size,
->  	restricted_buf->size = ALIGN(size, PAGE_SIZE);
->  	restricted_buf->heap = heap;
->  
-> +	ret = restricted_heap_memory_allocate(restricted_heap, restricted_buf);
->
-Can we guarantee that "restricted_heap" here isn't NULL (i.e., heap->priv). If
-not perhaps we should consider adding a check for NULL in the
-restricted_heap_memory_allocate() function?
-
-> +	if (ret)
-> +		goto err_free_buf;
->  	exp_info.exp_name = dma_heap_get_name(heap);
->  	exp_info.size = restricted_buf->size;
->  	exp_info.flags = fd_flags;
-> @@ -36,11 +73,13 @@ restricted_heap_allocate(struct dma_heap *heap, unsigned long size,
->  	dmabuf = dma_buf_export(&exp_info);
->  	if (IS_ERR(dmabuf)) {
->  		ret = PTR_ERR(dmabuf);
-> -		goto err_free_buf;
-> +		goto err_free_restricted_mem;
->  	}
->  
->  	return dmabuf;
->  
-> +err_free_restricted_mem:
-> +	restricted_heap_memory_free(restricted_heap, restricted_buf);
->  err_free_buf:
->  	kfree(restricted_buf);
->  	return ERR_PTR(ret);
-> diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/heaps/restricted_heap.h
-> index 443028f6ba3b..ddeaf9805708 100644
-> --- a/drivers/dma-buf/heaps/restricted_heap.h
-> +++ b/drivers/dma-buf/heaps/restricted_heap.h
-> @@ -15,6 +15,18 @@ struct restricted_buffer {
->  
->  struct restricted_heap {
->  	const char		*name;
-> +
-> +	const struct restricted_heap_ops *ops;
-> +};
-> +
-> +struct restricted_heap_ops {
->
-This have the same name as used for the dma_heap_ops in the file
-restricted_heap.c, this might be a little bit confusing, or?
-
-> +	int	(*heap_init)(struct restricted_heap *heap);
-> +
-> +	int	(*memory_alloc)(struct restricted_heap *heap, struct restricted_buffer *buf);
-> +	void	(*memory_free)(struct restricted_heap *heap, struct restricted_buffer *buf);
-> +
-> +	int	(*memory_restrict)(struct restricted_heap *heap, struct restricted_buffer *buf);
-> +	void	(*memory_unrestrict)(struct restricted_heap *heap, struct restricted_buffer *buf);
->
-Is the prefix "memory_" superfluous here in these ops?
-
-Also related to a comment on the prior patch. The name here is "heap" for
-restricted_heap, but below you use rstrd_heap. It's the same struct, so I would
-advise to use the same name to avoid confusion when reading the code. As
-mentioned before, I think the name "rheap" would be a good choice.
-
->  };
->  
->  int restricted_heap_add(struct restricted_heap *rstrd_heap);
-> -- 
-> 2.25.1
+> I think folks would very much like to see consolidation around the
+> various implementations, and I agree!
+> I just worry that creating the common framework for this concept in a
+> dmabuf heaps driver is maybe too peripheral/close to userland.
 > 
+> > This was also desirable for the V4L2 pieces since there's going to be
+> > a V4L2 flag set when using restricted dma_bufs (and it wants to
+> > validate that)....so in order to keep that more generic, there should
+> > be a higher level concept of restricted dma_bufs that isn't specific
+> > to a single vendor.  One other thing that would ideally come out of
+> > this is a cleaner way to check that a dma_buf is restricted or not.
+> 
+> Yeah. If there is a clear meaning to "restricted" here, I think having
+> a query method on the dmabuf is reasonable.
+> My only fret is if the meaning is too vague and userland starts
+> depending on it meaning what it meant for vendor1, but doesn't mean
+> for vendor2.
+> 
+> So we need some clarity in what "restricted" really means.  For
+> instance, it being not cpu mappable vs other potential variations like
+> being cpu mappable, but not cpu accessible.  Or not cpu mappable, but
+> only mappable between a set of 3 devices (Which 3 devices?! How can we
+> tell?).
+> 
+Can we flip things around? I.e., instead of saying which devices are
+allowed to use the restricted buffer, can we instead say where it's not
+allowed to be used? My view has been that by default the contents of the
+types of buffers where talking about here is only accessible to things
+running on the secure side, i.e, typically S-EL3, S-EL1 and a specific
+Trusted Application running in S-EL0. I guess that serves as some kind
+of baseline. 
+
+From there, things turns to a more dynamic nature, where firewalls etc,
+can be configured to give access to various IPs, blocks and runtimes.
+
+I understand that it's nice to be able to know all this from the Linux
+kernel point of view, but does it have to be aware of this? What's the
+major drawback if Linux doesn't know about it?
+
+> And if there is variation, maybe we need to enumerate the types of
+> "restricted" buffers so we can be specific when it's queried.
+> 
+> That's where maybe having the framework for this be more central or
+> closer to the kernel mm code and not just a sub-type of a dmabuf heap
+> driver might be better?
+> 
+> > The current V4L2 patchset just attaches the dma_buf and then checks if
+> > the page table is empty....and if so, it's restricted. But now I see
+> > there's other feedback indicating attaching a restricted dma_buf
+> > shouldn't even be allowed, so we'll need another strategy for
+> > detecting them. Ideally there is some function/macro like
+> > is_dma_buf_restricted(struct dma_buf*) that can indicate that...but we
+> > haven't come up with a good way to do that yet which doesn't involve
+> > adding another field to dma_buf or to dma_buf_ops (and if such a thing
+> > would be fine, then OK...but I had assumed we would get pushback on
+> > modifying either of those structs).
+> 
+> If there's a need and the best place to put something is in the
+> dma_buf or dma_buf_ops, that's where it should go.  Folks may
+> reasonably disagree if it's the best place (there may be yet better
+> spots for the state to sit in the abstractions), but for stuff going
+> upstream, there's no reason to try to hack around things or smuggle
+> state just to avoid changing core structures. Especially if core
+> structures are internal only and have no ABI implications.
+> 
+> Sima's suggestion that attachments should fail if the device cannot
+> properly map the restricted buffer makes sense to me. Though I don't
+> quite see why all attachments should fail, and I don't really like the
+> idea of a private api, but I need to look more at the suggested virtio
+> example (but even they said that wasn't their preferred route).
+> 
+> My sense of attach was only that it was supposed to connect a device's
+> interest in the buffer, allowing lazy allocation to satisfy various
+> device constraints before first mapping - a design feature that I
+> don't think anyone ever implemented.  So my sense was it didn't have
+> much meaning otherwise (but was a requirement to call before map). But
+> that may have evolved since the early days.
+> 
+> And I'm sure the method to figure out if the attachment can work with
+> the device may be complicated/difficult, so it sounding reasonable can
+> be far from it being reasonable to implement.
+> 
+> And again, I don't mean to frustrate or demotivate here. I'm really
+> excited to see this effort being pushed upstream!
+> 
+> thanks
+> -john
 
 -- 
 // Regards
