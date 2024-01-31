@@ -1,121 +1,139 @@
-Return-Path: <linux-media+bounces-4507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4508-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB16843D40
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 11:53:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17DA8843DB3
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 12:06:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CFECFB23701
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 10:51:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 193421C268EC
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 11:06:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 810596D1C3;
-	Wed, 31 Jan 2024 10:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 613C47868B;
+	Wed, 31 Jan 2024 11:04:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="0GaId8Ax"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="OWy2bbyt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A4469E0D
-	for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 10:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D3A78679;
+	Wed, 31 Jan 2024 11:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706698219; cv=none; b=FFUc23ZemGdt1MvJVPIcmWQTaxvo/h0PdJkNldDaulJ44jucl6lexuzTXl/VFvdXi09oiRypGRv4Roc6DwhIEFUEb5JglMs/trUUD6PE32dHm9piuUW3N0O2kncnKpUZfbrzPDkdBLMS1SvlCDvJar+r1o0v7rkjHqktN+Xct3o=
+	t=1706699056; cv=none; b=MSrfOtasRYjG+wsH+dRS+rQUfC20OAt6NxQ1/t4wU9PQhj29BQD5YOVmTV5uTmHUdkkJqcsaJvTXPQx5X8QEyT1+XDuowzyZDO4fc++XhIeWR9d0JoKZDhEgucxbLV6cK0t4j4dBYJyrKhGUy0KX3PQSxmisaTCbhuqtavZyDPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706698219; c=relaxed/simple;
-	bh=m+4+w8Nro/6qVnOqVGso2S9Ki0IT4qV76zZG6m3in1I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WNkIVLU+hQ75ggD5bRE9kB3sY9qbICZQOtN/0aUCiToOfzQbv/cm4sBV1vR8uxseAwKJr2/Wp4EGPpP1JJlQiGXM/2JZuuGNUbUonejjaxqHfBy2ZxvKjk3+2N2ZzO4iqqmSMDBfzXP1WqTa+h94TFWujhmS7G31FP2ZywIBR1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=0GaId8Ax; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706698215;
-	bh=m+4+w8Nro/6qVnOqVGso2S9Ki0IT4qV76zZG6m3in1I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=0GaId8Ax/q346NDJYUGLxbvfCfDrWDq7vgJabX9t684hSVr8E+1aIjMVomYcStNQ/
-	 MoqtPqUsUgqqertSxAPcycscdyKOTVGAANPGEgABOtvQ9M+F9zimmdrzb1Vnu9Sksi
-	 eEoHuTpQ6dp+t57wy9Bs0joVzhE52Om9IssLF9254ak2ESjCr7X+I4Q1U3HEefJgJk
-	 sPqIpWaVqOWp8uiGqsInrvWyDO3D8gRL8IZfUfB3DyLFTUGWPFU358gid/lJ2IRIi2
-	 /Fve7ElvyzPTS0WHu3/t4X6+aCcC/Cq4zoQctewuGz1y9zJV2g/+3X1YiItM2X8Mot
-	 Yd/gT7FsDLJWw==
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6DE9D378203B;
-	Wed, 31 Jan 2024 10:50:15 +0000 (UTC)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: hverkuil@xs4all.nl,
-	mchehab@kernel.org,
-	nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 2/2] media: verisilicon: Use V4L2_FMT_FLAG_ALL_FORMATS flag
-Date: Wed, 31 Jan 2024 11:50:08 +0100
-Message-Id: <20240131105008.109457-3-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240131105008.109457-1-benjamin.gaignard@collabora.com>
-References: <20240131105008.109457-1-benjamin.gaignard@collabora.com>
+	s=arc-20240116; t=1706699056; c=relaxed/simple;
+	bh=g4bNDFrpsoSNokjJPA4eIkfgG2JQLINcpNqZGcL3YUg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KrBzxOzN3j03eZAjfEO+h2/PaBiKMs1JA4cD2yS4tqfxFRivbQno3CpzsIhidpsvd7SxONu6paeUQ+bn/ZpNpycTwD+x5dsGffB5QmufLQmctf0nhMnGxhQoRtnZHmXYwMImOPcLXSUIn36ELXnlJ7pbBCP32RzwLh9xSzcnNX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=OWy2bbyt; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References
+	:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=n5YQ/Ki++xPpgaCaf3kRbjcoNi+Wkj8sI8UeDv77yKw=; b=OWy2bbyt+jrhTzb8iYpvHatuNA
+	rARt/7impr2pJtDopSlhS/cfPTTxhLxOtyYCebSabV8M16JcDc2BljdHsL8sXr1vmkv6287MfVXUi
+	urx0SSbIFqShLypX09COaSvWOcyTSjUZH6iXYjSl+F98GBqdujHVyNhrsY3GLSdd9aII=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:57732 helo=[192.168.0.218])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1rV7to-00ENGD-QX; Wed, 31 Jan 2024 11:32:57 +0100
+Message-ID: <d3abce5f-5e99-4a8b-a45b-29b706bc8481@emfend.at>
+Date: Wed, 31 Jan 2024 11:32:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] media: i2c: imx335: Drop setting of 0x3a00
+ register
+Content-Language: de-DE
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20240131055208.170934-1-umang.jain@ideasonboard.com>
+ <20240131055208.170934-2-umang.jain@ideasonboard.com>
+ <170669477439.1011926.18210850208916698098@ping.linuxembedded.co.uk>
+From: Matthias Fend <matthias.fend@emfend.at>
+In-Reply-To: <170669477439.1011926.18210850208916698098@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-If V4L2_FMT_FLAG_ALL_FORMATS flag has been set when calling
-VIDIOC_ENUM_FMT ignore depth match and returns all the
-hardware supported pixels formats.
+Hi Kieran,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/media/platform/verisilicon/hantro_v4l2.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Am 31.01.2024 um 10:52 schrieb Kieran Bingham:
+> Hi Umang,
+> 
+> + Cc: Matthias
+> 
+> Quoting Umang Jain (2024-01-31 05:52:04)
+>> Register 0x3a00 is a reserved field as per the IMX335 datasheet,
+>> hence shouldn't be set by the driver.
+> 
+> We still need to explain more about why we're dropping this register
+> write, and what effects it causes.
+> 
+> Matthias - I believe this stemmed from the work you did, and I think I
+> recall that you stated this register write broke the CSI2 configuration?
+> 
+> Can you clarify anything here for us please?
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 941fa23c211a..6d840911c764 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -201,7 +201,13 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
- 	struct hantro_ctx *ctx = fh_to_ctx(priv);
- 	const struct hantro_fmt *fmt, *formats;
- 	unsigned int num_fmts, i, j = 0;
--	bool skip_mode_none;
-+	bool skip_mode_none, ignore_depth_match;
-+
-+	/*
-+	 * If V4L2_FMT_FLAG_ALL_FORMATS flag is set, we want to enumerate all
-+	 * hardware supported pixels formats
-+	 */
-+	ignore_depth_match = !!(f->flags & V4L2_FMT_FLAG_ALL_FORMATS);
- 
- 	/*
- 	 * When dealing with an encoder:
-@@ -222,7 +228,7 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
- 
- 		if (skip_mode_none == mode_none)
- 			continue;
--		if (!hantro_check_depth_match(fmt, ctx->bit_depth))
-+		if (!hantro_check_depth_match(fmt, ctx->bit_depth) && !ignore_depth_match)
- 			continue;
- 		if (j == f->index) {
- 			f->pixelformat = fmt->fourcc;
-@@ -242,7 +248,7 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
- 	for (i = 0; i < num_fmts; i++) {
- 		fmt = &formats[i];
- 
--		if (!hantro_check_depth_match(fmt, ctx->bit_depth))
-+		if (!hantro_check_depth_match(fmt, ctx->bit_depth) && !ignore_depth_match)
- 			continue;
- 		if (j == f->index) {
- 			f->pixelformat = fmt->fourcc;
--- 
-2.40.1
+yes, that's correct.
 
+Since this driver originally did not work in my setup, I came across 
+this register while searching for differences to my working reference 
+configuration.
+With the default value of this register (0x00), the driver works 
+perfectly. With the value previously written to it by the driver (0x01), 
+I cannot receive any frames.
+The problem may depend on the link frequency used.
+I can only use and test a frequency of 445.5MHz on my hardware. Since 
+only link frequencies of 594MHz were supported so far, this may not have 
+been a problem.
+
+Unfortunately I do not have a description of this register, so I can 
+only speculate about the exact cause.
+
+~Matthias
+
+> 
+> --
+> Kieran
+> 
+> 
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/media/i2c/imx335.c | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+>> index 7a37eb327ff4..927b4806a5d7 100644
+>> --- a/drivers/media/i2c/imx335.c
+>> +++ b/drivers/media/i2c/imx335.c
+>> @@ -249,7 +249,6 @@ static const struct imx335_reg mode_2592x1940_regs[] = {
+>>          {0x3794, 0x7a},
+>>          {0x3796, 0xa1},
+>>          {0x37b0, 0x36},
+>> -       {0x3a00, 0x01},
+>>   };
+>>   
+>>   static const struct imx335_reg raw10_framefmt_regs[] = {
+>> -- 
+>> 2.41.0
+>>
 
