@@ -1,139 +1,94 @@
-Return-Path: <linux-media+bounces-4508-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4509-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17DA8843DB3
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 12:06:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A27843EE8
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 12:57:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 193421C268EC
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 11:06:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF1FD1C222DF
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 11:57:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 613C47868B;
-	Wed, 31 Jan 2024 11:04:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 235827690F;
+	Wed, 31 Jan 2024 11:57:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="OWy2bbyt"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="U2J/zhKQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D3A78679;
-	Wed, 31 Jan 2024 11:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26E469E08
+	for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 11:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706699056; cv=none; b=MSrfOtasRYjG+wsH+dRS+rQUfC20OAt6NxQ1/t4wU9PQhj29BQD5YOVmTV5uTmHUdkkJqcsaJvTXPQx5X8QEyT1+XDuowzyZDO4fc++XhIeWR9d0JoKZDhEgucxbLV6cK0t4j4dBYJyrKhGUy0KX3PQSxmisaTCbhuqtavZyDPU=
+	t=1706702230; cv=none; b=b9VBYZPscXKI+7FzSf/GD93QOAuMgJsECM+mEmyCwpFkjC9VafK8Fe5Ib3s3ISHdN1QHselEUQM8yDr93zWdEG9C5DrjwCxITb1U9futpePmKwjymzUr2gn9c9H3zeW/4j2EVvDWrXoMSihkX68kFRybRo2NDiR3Kgv7JJcQ/ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706699056; c=relaxed/simple;
-	bh=g4bNDFrpsoSNokjJPA4eIkfgG2JQLINcpNqZGcL3YUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KrBzxOzN3j03eZAjfEO+h2/PaBiKMs1JA4cD2yS4tqfxFRivbQno3CpzsIhidpsvd7SxONu6paeUQ+bn/ZpNpycTwD+x5dsGffB5QmufLQmctf0nhMnGxhQoRtnZHmXYwMImOPcLXSUIn36ELXnlJ7pbBCP32RzwLh9xSzcnNX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=OWy2bbyt; arc=none smtp.client-ip=168.119.41.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
-	 s=mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References
-	:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=n5YQ/Ki++xPpgaCaf3kRbjcoNi+Wkj8sI8UeDv77yKw=; b=OWy2bbyt+jrhTzb8iYpvHatuNA
-	rARt/7impr2pJtDopSlhS/cfPTTxhLxOtyYCebSabV8M16JcDc2BljdHsL8sXr1vmkv6287MfVXUi
-	urx0SSbIFqShLypX09COaSvWOcyTSjUZH6iXYjSl+F98GBqdujHVyNhrsY3GLSdd9aII=;
-Received: from 194-208-208-245.tele.net ([194.208.208.245]:57732 helo=[192.168.0.218])
-	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
-	(Exim 4.93)
-	(envelope-from <matthias.fend@emfend.at>)
-	id 1rV7to-00ENGD-QX; Wed, 31 Jan 2024 11:32:57 +0100
-Message-ID: <d3abce5f-5e99-4a8b-a45b-29b706bc8481@emfend.at>
-Date: Wed, 31 Jan 2024 11:32:54 +0100
+	s=arc-20240116; t=1706702230; c=relaxed/simple;
+	bh=cP69MkNuZr0cJWXTN1g0dBET+iwkWdQHvdhDPqk+mWY=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nUcAd6rZtzF+2pILBCFHlBwimhHvYiT6V8yfqzOh466Y8X5vbAqIATNWC/fitTEr489aNtHLU8u9azbbzRY1DuZjEc/6Zgc9uUFPk9FppEGY5Zav+q6ANxn/dB0t+JWcwOpML3FzBx2b+6+q0ro8silAWgyINYHRY+NANitEYd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=U2J/zhKQ; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1706702220; bh=cP69MkNuZr0cJWXTN1g0dBET+iwkWdQHvdhDPqk+mWY=;
+	h=Date:From:To:Subject:From;
+	b=U2J/zhKQRKreVReD0f8ml9O5AdLWHbEqU7DefACcukdaeRQEm7Y2fJIRogeZPum1N
+	 zZL4+jZyHlBJPbxZxG/AtBPcSt4FhFsRgS9m5nt9nLKTSWlrNK/FqrDdk2gMR5Znmw
+	 WJIt8OfZG8T5KD0odYNvfJT0kCk0W/ZpZVT5C8ujrhFaxNF8GmyPLcGjsK78Nq+PHH
+	 deHrudJqpYzieg1n7XTIyGSqilkVw4PgrhwAQC6nKwEw+Lop4Q2TiKc2hpK+NtCkup
+	 UurDgsIzrEGL6/UhTVuMGr+y5PCVqocEiaj6ZTc0Oytt3iiXhLxbVV5Zasq9SK5EKC
+	 h65Vfc813LF4A==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 2AF461000FA; Wed, 31 Jan 2024 11:57:00 +0000 (GMT)
+Date: Wed, 31 Jan 2024 11:57:00 +0000
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v6.9] rc fixes
+Message-ID: <Zbo1jDcilSELSntC@gofer.mess.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] media: i2c: imx335: Drop setting of 0x3a00
- register
-Content-Language: de-DE
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20240131055208.170934-1-umang.jain@ideasonboard.com>
- <20240131055208.170934-2-umang.jain@ideasonboard.com>
- <170669477439.1011926.18210850208916698098@ping.linuxembedded.co.uk>
-From: Matthias Fend <matthias.fend@emfend.at>
-In-Reply-To: <170669477439.1011926.18210850208916698098@ping.linuxembedded.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: 
-X-Spam-Bar: 
-X-Spam-Report: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Kieran,
+Hi Hans, Mauro,
 
-Am 31.01.2024 um 10:52 schrieb Kieran Bingham:
-> Hi Umang,
-> 
-> + Cc: Matthias
-> 
-> Quoting Umang Jain (2024-01-31 05:52:04)
->> Register 0x3a00 is a reserved field as per the IMX335 datasheet,
->> hence shouldn't be set by the driver.
-> 
-> We still need to explain more about why we're dropping this register
-> write, and what effects it causes.
-> 
-> Matthias - I believe this stemmed from the work you did, and I think I
-> recall that you stated this register write broke the CSI2 configuration?
-> 
-> Can you clarify anything here for us please?
+A few simple fixes for rc core.
 
-yes, that's correct.
+Please pull
 
-Since this driver originally did not work in my setup, I came across 
-this register while searching for differences to my working reference 
-configuration.
-With the default value of this register (0x00), the driver works 
-perfectly. With the value previously written to it by the driver (0x01), 
-I cannot receive any frames.
-The problem may depend on the link frequency used.
-I can only use and test a frequency of 445.5MHz on my hardware. Since 
-only link frequencies of 594MHz were supported so far, this may not have 
-been a problem.
+The following changes since commit c8282f7b8523a4d37e5fefa220d93f2be06650e2:
 
-Unfortunately I do not have a description of this register, so I can 
-only speculate about the exact cause.
+  Merge tag 'v6.8-rc2' (2024-01-29 08:59:23 +0100)
 
-~Matthias
+are available in the Git repository at:
 
-> 
-> --
-> Kieran
-> 
-> 
->>
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->>   drivers/media/i2c/imx335.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
->> index 7a37eb327ff4..927b4806a5d7 100644
->> --- a/drivers/media/i2c/imx335.c
->> +++ b/drivers/media/i2c/imx335.c
->> @@ -249,7 +249,6 @@ static const struct imx335_reg mode_2592x1940_regs[] = {
->>          {0x3794, 0x7a},
->>          {0x3796, 0xa1},
->>          {0x37b0, 0x36},
->> -       {0x3a00, 0x01},
->>   };
->>   
->>   static const struct imx335_reg raw10_framefmt_regs[] = {
->> -- 
->> 2.41.0
->>
+  git://linuxtv.org/syoung/media_tree.git tags/v6.9a
+
+for you to fetch changes up to e2a698a0023fd8bb22b76ab9517265be34ea34f3:
+
+  media: pwm-ir-tx: Depend on CONFIG_HIGH_RES_TIMERS (2024-01-31 11:52:44 +0000)
+
+----------------------------------------------------------------
+v6.9a
+
+----------------------------------------------------------------
+Sean Young (2):
+      media: rc: bpf attach/detach requires write permission
+      media: pwm-ir-tx: Depend on CONFIG_HIGH_RES_TIMERS
+
+Zhipeng Lu (1):
+      media: ir_toy: fix a memleak in irtoy_tx
+
+ drivers/media/rc/Kconfig        | 1 +
+ drivers/media/rc/bpf-lirc.c     | 6 +++---
+ drivers/media/rc/ir_toy.c       | 2 ++
+ drivers/media/rc/lirc_dev.c     | 5 ++++-
+ drivers/media/rc/rc-core-priv.h | 2 +-
+ 5 files changed, 11 insertions(+), 5 deletions(-)
 
