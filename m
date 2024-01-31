@@ -1,188 +1,260 @@
-Return-Path: <linux-media+bounces-4511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119A1843F37
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 13:12:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FE9844072
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 14:24:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC2B1284395
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 12:12:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 856061C28237
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 13:24:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 315BF78686;
-	Wed, 31 Jan 2024 12:12:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC6D77BB18;
+	Wed, 31 Jan 2024 13:24:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aF2KQPn2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CdgQK+lp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB277867E
-	for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 12:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FD07BAF3
+	for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 13:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706703159; cv=none; b=LaWEq2BjWoXi56uYaUf0SMUydEaMmf9TAXLq/T23l7Z3mmsG55cjwi++ETFOSM3i3fdpV1bFnBd4KjkBeD9m0c+xOZwHLSpzZjoIm+q6KAOPYIV9iiDuQBDkcRuMMvj7nFaESWJLPyOcc2+gD4+EDSX/BDW+KYyLB3/sMGRG2kQ=
+	t=1706707447; cv=none; b=bLPvLA1nsrS0lEpd3DLB2WdRltZowG2WXsexQX4oVAj4heOuKV/ZiF/yWvpR4CRdN4IQ/DQyX+M3u1n7w8vB26lYbYR3iE3eYML90UI5vMlvlL6OfD6g+xMpiajC1UgPsuSvjao6fKNMmGXiDx/esghkIRcRGANUH6qF4bpvhJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706703159; c=relaxed/simple;
-	bh=/wVA/4AFAw4JgOYNgYRJpbRJX3HBAQ0JInxifG3k/Ds=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fXIaGvwP5rDNJa8WEnLtnHDzUjy+K56v6tOTKe3EYFxd6zemysbabKN1b9Mjef/3NiAywKEEsmq6HJlh+L7XqR+9p0lj7rLX7R1FhxAhvAlg7RB1CT+xY2gjW8yZvJDD2wIP0xIJ1V4udDdAXs7uT9JZnQuIMw0jd9CLINSflSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aF2KQPn2; arc=none smtp.client-ip=209.85.128.179
+	s=arc-20240116; t=1706707447; c=relaxed/simple;
+	bh=dyfkhaaGalerYvo8OYQBwEHcVXTNO0xd7s0BMAtU0XM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbodE/+CIF/+b8sW+/dqj7dItcFBnV9hP0rHjf2/iVwo3++aoXxEUJIPJHeoWb/bUk2s2Bg+OYznryy7Qwf9PBTXLoz3WYS4i8b9/a4m2l3RntU5fDr/jhFlOQP6Lig3z9VpYyp1teZvHbmM8KR4+gEhQWMh6n53bz4TNAKXkSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CdgQK+lp; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6040e7ebf33so3134417b3.0
-        for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 04:12:37 -0800 (PST)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-55f8abbeeddso662952a12.1
+        for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 05:24:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706703156; x=1707307956; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=saoJoK9zStSfMj3STxg2WdyLizENiKtg2wNhGKTv28w=;
-        b=aF2KQPn2T7Z+qBYWgxZRVcdF8BwDapLvSGAjGUQZkETdjabKy67dop89KfZ0y4Me2T
-         up7l1HlMyL+/ucZ4GJEmrLkn8PyeU78/Sl0K092XVz7VhmEKts7tmyv40RZE7idTgFqI
-         pWdqz7EQeBNEHUXvS3T/+fwxeyHn0PXutFYu6zIXdXBgL6X4vwWwQTjTpj4UdMkMROGJ
-         mrdcfZaAGVMUcDo1rcOSG9vXQcEWeFcXvNIxEphvqVTtcJAXvwkW//beAgiTS7hIrIDJ
-         g9/y96JGGe5Tw0iycfFlLcRnd3qtXyawucs1H2zH4/ZEXYuw+OWd8Q/lx2FjB0H0vYuo
-         PFSw==
+        d=linaro.org; s=google; t=1706707443; x=1707312243; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5MUD9HTI1e0BY5P2+rcAvV/RfzBprzDJcgshNjTcI5g=;
+        b=CdgQK+lpwdsYgodZ6YXku7D81f87J0dm54pprlewPzm7s+0l7gVNxH577oRt82588D
+         0Es/Q7h+wl/f1xTLtVYYUJ3mT+U62+DQlOzLAzt6YNOdS1QEmhFQOmvYJARbhIV7z7VN
+         pKRfq+WaZ6lyZfYrYlPfAsCZ1M08d4oZci0ICiITnypAu2Wn4RP9qipGjjrSccAmYIAd
+         2RaGIAEgA6ExKCHcm2Y3Eo9WqB3zhYOki9Gi2nRjWJoYGppZNcpnLQY+pAp4cxp8UnB4
+         sfx4HNkHiKPURbNoNKFXxgBSZIWMih868a/0Zpl+f7gxCiOgC3rZfLQEst02xIoNUgHJ
+         W/VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706703156; x=1707307956;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=saoJoK9zStSfMj3STxg2WdyLizENiKtg2wNhGKTv28w=;
-        b=OjDGQtcWkhBvB0A/YF8a1fBV6NzV3mC4ScduCiuuXUgf5jwRlG+Nnwsa57cQIRzefP
-         6hLg3EOxU29WU0FIXZUdeLWFvb15KaUP1GjkA1CcLSHY9Qr3hYoIrUU/p4/ffKJ/Wtji
-         r/J9uFWvfi/UKi3WfG3aeGSNp/7ULP8OhCk2xBAYGTG1wtzvgRCjjU5bHMd8AjcNyGdo
-         Pi3sWn6+4z/2Pfa7jQeGD3UAUEw4PcO0lxWtZf1Re2HIDCUfk+GGFeCGtxeBE12ScfYI
-         lSknGdIGxbuUY/Q576W1x6orLTwUDEyS1foumD/lLgDKr1PW3jNKm+a/NtGGnzkt1zlI
-         0JlQ==
-X-Gm-Message-State: AOJu0Yz7Lcw7JUJaUXsuKr3weoII7tZ5rbSaLf7glJq0S/La1sIXyvBW
-	ytUt6Se4HwzeffsGYseeQRPwwkk5XugDt32gpksjGNPqhC4F67WiMPeIRrS0cZEwC7/UC5FK/lu
-	Y0gbv2cY1UJ4wCv0Qw1xYnsEBTNMkkTJXB7Kmhg==
-X-Google-Smtp-Source: AGHT+IHyahz3e4s2n42YdMrUWKGK11tElif28yCW0pIcplk+tuCLctSvZ9MyE7xh0xkmoOSg5CSw+arOO7LUGqKd/7A=
-X-Received: by 2002:a81:a0c3:0:b0:604:fd3:e656 with SMTP id
- x186-20020a81a0c3000000b006040fd3e656mr453925ywg.19.1706703156500; Wed, 31
- Jan 2024 04:12:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706707443; x=1707312243;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5MUD9HTI1e0BY5P2+rcAvV/RfzBprzDJcgshNjTcI5g=;
+        b=YZ0PBhztQ9EHEpNHrEzfxV8CVdf6NSUuwfUeZ+9atW3a3S4x7sy5ac4/jy5OI9/9is
+         O2D+iCBqtGwnKGHG1SG3Xh63XIahWv5L4YGQQdTYBLt4pKSGOeSh4/FKVFyU+y7lWDua
+         UjnKdQYFrmYtgmxvI3e7tae/540+WiS6/4Jxefp4PsVmaLrbCRv3F0FgOzPx/Vi08gmk
+         KMJxbN71epHIEjrH2xpLJEGDgTenJkqkBQEpJYA9w5Jo8tv6uIs2y6xM3VmXW0cVXBjU
+         xSvlAryhQ22xRXuT12XKO8YTSI0K28zFckY5OItwP/bEmniptpHeySzYn7aOJf64ZMWi
+         wLsA==
+X-Gm-Message-State: AOJu0Yx6EFHBSywL9soK/S0DTchykRrsxh56jnMTTT5c17EtxzLq5/aU
+	vJNnthxl8FAj/QB/Z8zlTlRfZAiY0+F8fdpt3hFyugAJ4oKUhG3cF7upcHNcD0Y=
+X-Google-Smtp-Source: AGHT+IGsArhQ0W4XwCtuYHmCXvO2RCbEUYwLVnXG7bbJ2f+RWm7qp6uth4/WrrGNVLWi0nMCiDAGlA==
+X-Received: by 2002:a05:6402:5213:b0:55f:7fe9:c567 with SMTP id s19-20020a056402521300b0055f7fe9c567mr1328202edd.1.1706707443454;
+        Wed, 31 Jan 2024 05:24:03 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXAPb1qAxujL6HdXhhSE+sVLYyv05T+1t6zsGllhHznYzX/PMaaMWlWlwdKflV/rE2cW6o74D6P5/MgaRBL50x8hpKC6rdV3SXCT9jg9Ji7TUTPz1pNeBhWMlWC+IfLrPd0B2vhwyNDuizmS32810JX3sqf5JT7V+AQ99g6Rel+10bREe21Sb5EO1A/Omzzjn3QIfCT/mujA2BEUIiu1zZv+0CqUv1MaxkOh7cqm9rocuXEHmjyBszU0xvEJlv0mjNYLCS1XoDJxpzUAq/rfM/zz5jpOFPEGrdjrd9xf/22brANqKdr5Qe7xJD4RBSiEgBrJJf/AkA4q95VBK8PXrnB0jaX78Q7eDv8e+05u79LxxjkpSzKapxDjRADUQkvVUGL4Bo/Fj0g6gCjTSX4jQxfKFGNVzoFUx5kWAFx1+ygTUek7Rz2OKpqQXwb937CLkXtvDD2DA7yqDKv1A+/fqrKg8HBoUNNJECbkjLwH8g99VV5sbLqL0YhV3CLc4Xcu7CMQMVNnwPCTGD4XqyeQSQ8hrz1YCxpBWplY+sPHVREe6iy1/GkJs/OwqCglwcC7CFTSolo9DSTLmRDrk1UhGOFe31qbec+gOCKSWxxr4s6abJlSI8f+navK+6YHoPncMiXIizZv3QIiI1Z4891Tkb4pYAedqs2PA0AE1Wv9C7i3ka9bfYsDX09/hNrgQkhQ1xjUVADtWzUmG0UrwpYOJEmhjfGBkgglntxHOt+hgbn4N4VuA1QdBjYw1CU8N7CJzmVLwtLZaliIjELEvthoIM2ibY5DXpSs5qu9XM59tf609gL0qEP4IFy3iwMydPTmAqogjjmV03dipumTSNdoFHa55YPC2eQ3OyH5nA5YOEQrE4ElC5koxoXVb43SA5OoTdRfnAD93eKIz+BlAAfzx/hqxYe+pKpm1gX8Qh3wS2YqK9fF05r6BlYh117YgypN339P3
+ 9xHWP4A+bTltjSuhLbMpZNEOGvejoeqZB4
+Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com. [81.231.61.187])
+        by smtp.gmail.com with ESMTPSA id et6-20020a056402378600b0055eeb5f0efcsm3641516edb.58.2024.01.31.05.24.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 05:24:02 -0800 (PST)
+Date: Wed, 31 Jan 2024 14:24:00 +0100
+From: Joakim Bech <joakim.bech@linaro.org>
+To: Yong Wu <yong.wu@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>, tjmercier@google.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	Vijayanand Jitta <quic_vjitta@quicinc.com>,
+	Jeffrey Kardatzke <jkardatzke@google.com>,
+	Pavel Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>,
+	Pekka Paalanen <ppaalanen@gmail.com>, jianjiao.zeng@mediatek.com,
+	kuohong.wang@mediatek.com, youlin.pei@mediatek.com
+Subject: Re: [PATCH v4 2/7] dma-buf: heaps: Initialize a restricted heap
+Message-ID: <20240131132400.h3hklvnjjp3pelqz@pop-os.localdomain>
+References: <20240112092014.23999-1-yong.wu@mediatek.com>
+ <20240112092014.23999-3-yong.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
- <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org> <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
-In-Reply-To: <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 31 Jan 2024 13:12:00 +0100
-Message-ID: <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd to be
- managed by HW
-To: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
-	Len Brown <len.brown@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Gross <agross@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Taniya Das <quic_tdas@quicinc.com>, Jagadeesh Kona <quic_jkona@quicinc.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240112092014.23999-3-yong.wu@mediatek.com>
 
-On Wed, 31 Jan 2024 at 02:09, Bjorn Andersson <andersson@kernel.org> wrote:
+On Fri, Jan 12, 2024 at 05:20:09PM +0800, Yong Wu wrote:
+> Initialize a restricted heap. Currently just add a null heap, Prepare for
+> the later patches.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>  drivers/dma-buf/heaps/Kconfig           |  9 ++++
+>  drivers/dma-buf/heaps/Makefile          |  3 +-
+>  drivers/dma-buf/heaps/restricted_heap.c | 67 +++++++++++++++++++++++++
+>  drivers/dma-buf/heaps/restricted_heap.h | 22 ++++++++
+>  4 files changed, 100 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/dma-buf/heaps/restricted_heap.c
+>  create mode 100644 drivers/dma-buf/heaps/restricted_heap.h
+> 
+> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+> index a5eef06c4226..e54506f480ea 100644
+> --- a/drivers/dma-buf/heaps/Kconfig
+> +++ b/drivers/dma-buf/heaps/Kconfig
+> @@ -12,3 +12,12 @@ config DMABUF_HEAPS_CMA
+>  	  Choose this option to enable dma-buf CMA heap. This heap is backed
+>  	  by the Contiguous Memory Allocator (CMA). If your system has these
+>  	  regions, you should say Y here.
+> +
+> +config DMABUF_HEAPS_RESTRICTED
+> +	bool "DMA-BUF Restricted Heap"
+> +	depends on DMABUF_HEAPS
+> +	help
+> +	  Choose this option to enable dma-buf restricted heap. The purpose of this
+> +	  heap is to manage buffers that are inaccessible to the kernel and user space.
+> +	  There may be several ways to restrict it, for example it may be encrypted or
+> +	  protected by a TEE or hypervisor. If in doubt, say N.
+> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+> index 974467791032..a2437c1817e2 100644
+> --- a/drivers/dma-buf/heaps/Makefile
+> +++ b/drivers/dma-buf/heaps/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
+> +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)	+= restricted_heap.o
+> +obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+> diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/heaps/restricted_heap.c
+> new file mode 100644
+> index 000000000000..fd7c82abd42e
+> --- /dev/null
+> +++ b/drivers/dma-buf/heaps/restricted_heap.c
+> @@ -0,0 +1,67 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DMABUF restricted heap exporter
+> + *
+> + * Copyright (C) 2024 MediaTek Inc.
+> + */
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-heap.h>
+> +#include <linux/err.h>
+> +#include <linux/slab.h>
+> +
+> +#include "restricted_heap.h"
+> +
+> +static struct dma_buf *
+> +restricted_heap_allocate(struct dma_heap *heap, unsigned long size,
+> +			 unsigned long fd_flags, unsigned long heap_flags)
+> +{
+> +	struct restricted_buffer *restricted_buf;
+> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +	struct dma_buf *dmabuf;
+> +	int ret;
+> +
+> +	restricted_buf = kzalloc(sizeof(*restricted_buf), GFP_KERNEL);
+> +	if (!restricted_buf)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	restricted_buf->size = ALIGN(size, PAGE_SIZE);
+> +	restricted_buf->heap = heap;
+> +
+> +	exp_info.exp_name = dma_heap_get_name(heap);
+> +	exp_info.size = restricted_buf->size;
+> +	exp_info.flags = fd_flags;
+> +	exp_info.priv = restricted_buf;
+> +
+> +	dmabuf = dma_buf_export(&exp_info);
+> +	if (IS_ERR(dmabuf)) {
+> +		ret = PTR_ERR(dmabuf);
+> +		goto err_free_buf;
+> +	}
+> +
+> +	return dmabuf;
+> +
+> +err_free_buf:
+> +	kfree(restricted_buf);
+> +	return ERR_PTR(ret);
+> +}
+> +
+> +static const struct dma_heap_ops restricted_heap_ops = {
+> +	.allocate = restricted_heap_allocate,
+> +};
+> +
+> +int restricted_heap_add(struct restricted_heap *rstrd_heap)
 >
-> On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
-> > From: Ulf Hansson <ulf.hansson@linaro.org>
-> >
-> > Some power-domains may be capable of relying on the HW to control the power
-> > for a device that's hooked up to it. Typically, for these kinds of
-> > configurations the consumer driver should be able to change the behavior of
-> > power domain at runtime, control the power domain in SW mode for certain
-> > configurations and handover the control to HW mode for other usecases.
-> >
-> > To allow a consumer driver to change the behaviour of the PM domain for its
-> > device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
-> > let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
-> > which the genpd provider should implement if it can support switching
-> > between HW controlled mode and SW controlled mode. Similarly, add the
-> > dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
-> > its corresponding optional genpd callback, ->get_hwmode_dev(), which the
-> > genpd provider can also implement for reading back the mode from the
-> > hardware.
-> >
-> > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/pm_domain.h | 17 ++++++++++++
-> >  2 files changed, 86 insertions(+)
-> >
-> > diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-> > index a1f6cba3ae6c..41b6411d0ef5 100644
-> > --- a/drivers/pmdomain/core.c
-> > +++ b/drivers/pmdomain/core.c
-> > @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
-> >  }
-> >  EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
-> >
-> > +/**
-> > + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
->
-> This isn't proper kernel-doc
+Nothing wrong, but what about shortening rstrd_heap throughout the patch
+set to "rheap", I would find that easier to read.
 
-Sorry, I didn't quite get that. What is wrong?
+> +{
+> +	struct dma_heap_export_info exp_info;
+> +	struct dma_heap *heap;
+> +
+> +	exp_info.name = rstrd_heap->name;
+> +	exp_info.ops = &restricted_heap_ops;
+> +	exp_info.priv = (void *)rstrd_heap;
+> +
+> +	heap = dma_heap_add(&exp_info);
+> +	if (IS_ERR(heap))
+> +		return PTR_ERR(heap);
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(restricted_heap_add);
+> diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/heaps/restricted_heap.h
+> new file mode 100644
+> index 000000000000..443028f6ba3b
+> --- /dev/null
+> +++ b/drivers/dma-buf/heaps/restricted_heap.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Restricted heap Header.
+> + *
+> + * Copyright (C) 2024 MediaTek, Inc.
+> + */
+> +
+> +#ifndef _DMABUF_RESTRICTED_HEAP_H_
+> +#define _DMABUF_RESTRICTED_HEAP_H_
+> +
+> +struct restricted_buffer {
+> +	struct dma_heap		*heap;
+> +	size_t			size;
+> +};
+> +
+> +struct restricted_heap {
+> +	const char		*name;
+> +};
+> +
+> +int restricted_heap_add(struct restricted_heap *rstrd_heap);
+> +
+> +#endif
+> -- 
+> 2.25.1
+> 
 
->
-> > + *
-> > + * @dev: Device for which the HW-mode should be changed.
-> > + * @enable: Value to set or unset the HW-mode.
-> > + *
-> > + * Some PM domains can rely on HW signals to control the power for a device. To
-> > + * allow a consumer driver to switch the behaviour for its device in runtime,
-> > + * which may be beneficial from a latency or energy point of view, this function
-> > + * may be called.
-> > + *
-> > + * It is assumed that the users guarantee that the genpd wouldn't be detached
-> > + * while this routine is getting called.
-> > + *
-> > + * Returns 0 on success and negative error values on failures.
-> > + */
-> > +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
-> > +{
-> > +     struct generic_pm_domain *genpd;
-> > +     int ret = 0;
-> > +
-> > +     genpd = dev_to_genpd_safe(dev);
-> > +     if (!genpd)
-> > +             return -ENODEV;
-> > +
-> > +     if (!genpd->set_hwmode_dev)
-> > +             return -EOPNOTSUPP;
-> > +
-> > +     genpd_lock(genpd);
-> > +
-> > +     if (dev_gpd_data(dev)->hw_mode == enable)
->
-> Between this and the gdsc patch, the hw_mode state might not match the
-> hardware state at boot.
->
-> With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
-> false) will not bring control to SW - which might be fatal.
-
-Right, good point.
-
-I think we have two ways to deal with this:
-1) If the provider is supporting ->get_hwmode_dev(), we can let
-genpd_add_device() invoke it to synchronize the state.
-2) If the provider doesn't support ->get_hwmode_dev() we need to call
-->set_hwmode_dev() to allow an initial state to be set.
-
-The question is then, if we need to allow ->get_hwmode_dev() to be
-optional, if the ->set_hwmode_dev() is supported - or if we can
-require it. What's your thoughts around this?
-
-Kind regards
-Uffe
+-- 
+// Regards
+Joakim
 
