@@ -1,280 +1,176 @@
-Return-Path: <linux-media+bounces-4499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4501-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DA2843A67
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 10:10:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E172843B87
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 10:57:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2691F1F22376
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 09:10:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9E761F24D47
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jan 2024 09:57:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CDBA69DF9;
-	Wed, 31 Jan 2024 09:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="fb3O1GhV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD1E6996C;
+	Wed, 31 Jan 2024 09:57:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2067.outbound.protection.partner.outlook.cn [139.219.17.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AAC69D19
-	for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 09:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706692049; cv=none; b=ECldPwaNUo8yovMzgNTKD2QZD2gRJW4Qs+CGMFWHJXdA06MQXwIo2os7RVJvCIWz2EMIkAPDS8m0OlNdgCKc4PH5AUfueGnDxy6cnd8HlZ1snpzfEdr91xt3NqNKWj7INgNT0LVLQVWhTz9E1LYokIu2wSHxOnIfFPY4kIlysGM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706692049; c=relaxed/simple;
-	bh=CNY1jwS//2OUw7TH3RtzNPnemi/+4THQBdABUHTcnXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OEjJCIuODiDxeCPpLYh4eEQYGJP7wgS306wfjhu2B4SqZ/9wxdLK14KxUwOkz0vk7snjm0vv0SXqbk+n6+z8vBi0tpNNvNVUxsYUs0hAXeknaeup/bnggDLOV4T+CSlNqrmbl2dmJfG8ukDbUBLkQxTdWVOX6CwkYqKyA6FqbUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=fb3O1GhV; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a3169f46d73so114426766b.1
-        for <linux-media@vger.kernel.org>; Wed, 31 Jan 2024 01:07:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1706692046; x=1707296846; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1nyHmju9XQ/E8K2Rl2IixeUYmuUjABoJpLGoEfLLyas=;
-        b=fb3O1GhVCOJIT0/NiqRye3fR1pgpFidpxGqY/qBpNLDo3E+0JhQ00juY/zoOSN7VFW
-         m6BkUzU4iRrgxwhKEWnM08asZwfgYJpwyLcZRUh2EfzKv/IMcw9StSb4gsZkoq/itJsc
-         h8IbKY6UihmNyFTMOkEcQUXGJa+9LSCfzjXoQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706692046; x=1707296846;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1nyHmju9XQ/E8K2Rl2IixeUYmuUjABoJpLGoEfLLyas=;
-        b=LNgGB/avEpVyKu0egwfdxcZks9J44CUH2BQx0o44+2OQB54X3K58ZIY7HIZMmIagEp
-         Gp1pli4HuO5hXi5yhkTeK1Guds/YK/5/3HQblI83jI8cndnd1xeg0+ZZxejN5HvZ7qW+
-         LL0OlQSgX3Vb2S/5pwgyk/AbxxYZYJbyo54t8PcS5OtvjlLTC/L84hCdHL3nL6eYNPmp
-         5QKBt/dNGYqSkw6x2gcRe2V/3yUmzS1n/iToxaD3ycT9WTlR8LJPwotZZIqp1/W72UHi
-         ozpCTAPwd1stP9ZeDWVZN4dQDp7JhYnt5CKl02/YX9xfkVRPa1vT6HEONKw4j1aRiPgJ
-         r7QQ==
-X-Forwarded-Encrypted: i=0; AJvYcCW6rfWtZiEmeJpecBepIomcfT+8Ol9vH+QvYETpgjMMxoXXM8wtzNxNn0o/obD9fuIzC1Yg5wFdXqlRs2CcGGMJ+wAuqXwSQwSU6WA=
-X-Gm-Message-State: AOJu0Yy9ISL8K/qN5AUwngJM28P0ogkq/MIiPEUwuytB9oR1Yr0/kuT6
-	42SdfZvOR3UJ0014is7a2SupP3NRQrwsrXRdMN6HXkoGZMReY4ISAYhClMudjjQ=
-X-Google-Smtp-Source: AGHT+IHB5eqCZmKzcjc2g7JPPAdNArJ7kHHK+OzqhPuyUPAp6vhMz/LdxOxvFmt5K7lTdhhiKUG0EQ==
-X-Received: by 2002:a17:906:4887:b0:a36:63d6:2886 with SMTP id v7-20020a170906488700b00a3663d62886mr583896ejq.3.1706692045444;
-        Wed, 31 Jan 2024 01:07:25 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id rs6-20020a170907890600b00a26d20a48dasm5966647ejc.125.2024.01.31.01.07.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 01:07:24 -0800 (PST)
-Date: Wed, 31 Jan 2024 10:07:22 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Paul Cercueil <paul@crapouillou.net>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42C969958;
+	Wed, 31 Jan 2024 09:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706695041; cv=fail; b=honNmz2pgaHxE3VEb9e1398Gt5vp78RUhMOTasCkRW83RNEdQBeSc9fTVzWPtH5kR1HdoCiJGCxtxCNQQyluBxHmS7sWrSPWuadZsVY+rVL0qe8bKsodroIAbhmBos4j4AA4KwXmSLGxnIDzimFpQGOJiVqn9tFwaHwaQDHOx+s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706695041; c=relaxed/simple;
+	bh=ytVULuwkFklVC91b/qokiLoeTsfLvoZO1FXXpUJ0MM8=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=oOiUlnNghTZ5r7PUAbQy/b9sDENybUhiYqaZeEWnuyPhAVhJXnaMNMaak3d23tx7PIhidGbAlI63JmCwCSUkoHhSgTLTDVZxLxLAh8vkvOJmZGy8NcQkQlagYeFU30uGyiMtF+if8tDKOOj+kRhEQE0pBTvro8xqtNaYqiOS9dc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OG4wJD8kUQ0XAKc66dwH0oCP6HR4x1XgK9xsrtL2+eRJziXIgu2MZD55wesEM5ees7FZoL/RXXzjnog8qDXzaJPnEkJgMNBD5eN/J7WfJT8AXav1t2dd+11c9tYYQFiJwIC4JzGUeZexHl/kgCc3YqLLCWYaq7A48CuluHtN6ehbqhyVLsmfZH3973QKYcsykwcFW6YUVFWg6NPlAJOrj94CZriSMv1Bh6WWWjHHEGnLDG9Q+PrqRlw0ltf4UYWaYY2+fVfntctmpFKr918XLHsD+IEfStxie4Czo5LI3mn5X/PhBZvlCYhV1ZXsAduiWXfgSydteSKisYS+ZXgJCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Aw3CWTlCesETFFXC33GBRJUHEd72O25xH+lGBm4JbLc=;
+ b=FSQw7XxYz9kE9RWrnJk8AA3bpQIL79dF5NlFce1234v/WVvDStUe7L4FNJf9yc2Ybvq5MOFd6cmcISI/NN/8qSB676GW4ehS2r8xm+LNKvcvnazrWm3HC+fVohQukDSw9q9oyV30KAbaF4ev7m4wjoMfValhKoQIF//853u+yaD8J8fI5hsPep0gm84KCm7P9BIGHpU0x0KwcSoSHgM4GRmcuNEccEfM/qUCNW4ZTMOe5tRNHhoX3zHrApqR1u41k4dCT1i3km8uqFuIfIpXKMH9540fz+cr0M2AGkeOUa8GL9ISgeVFqCVRsOvFHSy+AX2gjh+JEDQTzDV93UDepQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0591.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1e::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Wed, 31 Jan
+ 2024 09:24:39 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::148c:e1dd:302a:196b]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::148c:e1dd:302a:196b%6])
+ with mapi id 15.20.7228.022; Wed, 31 Jan 2024 09:24:39 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-Message-ID: <ZboNyju8h4vfSd7v@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Christoph Hellwig <hch@lst.de>
-References: <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
- <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
- <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
- <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
- <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
- <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
- <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
- <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
- <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
- <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Jack Zhu <jack.zhu@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [v1] staging: media: starfive: Set 16 bpp for capture_raw device
+Date: Wed, 31 Jan 2024 01:24:32 -0800
+Message-Id: <20240131092432.232540-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHXPR01CA0014.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1b::23) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0591:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0343a24e-5696-4255-3968-08dc223e72c4
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	HavGtDbH37WLnxAiAPBynLD526uCOO499MjsX2ODQzsYYT4mi9sFkdHu9QIKf3LrSFFwvKWe+YKamlJp6btVQqKWqIhR6GOKFx9lGOOrFqA6CQXXyf39HFaZkEujgbZDP9EGLYWuJ2Il/QGgncIx/OmDNyZx2D3vKbvGWAp4CvTuLiX4SVgGFn4T1vH7mF1UAHb90NMXkVpRWUbBmCcKwMHrz+Eke0oj9yzLgZIfoX7GEtogl/KCA1+SPxsupFjcKXZVl+uKVsmCWBFVBCQdUYxd0jFzwd7QaJjeB0/ReP+hYcZXThV5y+6rasI1SQT834Z+rIMu+OsZWIcfhbNFgDtVyCmCIR9Dtp+pchw4QKEiVbPP1oqlvKJ2FtqJm5DG/EtXckbpasKavNvrP0GCiiCR4XMZNLdFcdWcLUqj0n6oKW/8ebS5BJ9AeNW13nHU20JThbAix5caQCbEY0uiKYL2TyOEtCp57QSR5c7S7bLOCrdUDkU8XF9A/bijUGRIaFbyqcp3ViN6xZm/88dgLWsWIiBr7eGxW5mU07WHqlJksS7nyQmaKN11mjnqoWui
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(39830400003)(346002)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(38350700005)(41300700001)(1076003)(40160700002)(41320700001)(2616005)(26005)(36756003)(52116002)(6666004)(83380400001)(508600001)(54906003)(40180700001)(38100700002)(2906002)(110136005)(86362001)(66556008)(66476007)(8936002)(44832011)(4326008)(66946007)(8676002)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?19DMFhwyfykPhGuennW2ken26WpTWNq805TDQzdpWIVkOaiur9KleDeW0Nsi?=
+ =?us-ascii?Q?Df2DYIlyChO34Szta+XaCYNZ2fl3TBnFF5e4XhQtfxPbXQXTa8w3IWExywuW?=
+ =?us-ascii?Q?IBNJ97Q0NkbJAAaV9m/UFKKcyB7Q1LNq8hmU3YlMomxymoNGT2KPNUaMjRP0?=
+ =?us-ascii?Q?FEhXuuUZhnyBPh745uuMM3CEpZGcoiwwU0qXipJBfVX80BwfIn7KwLF3MrLP?=
+ =?us-ascii?Q?qzQ5e98FiEiKtguNBEWKwS4xxMJs6YihTChItEPyyl/Q8rCv5qI3osU6eK5F?=
+ =?us-ascii?Q?zR7isp+OU21L7bhIijN1XuNP77q5CF2g6tDCq4zWy38biftlGLF3CggdR5hp?=
+ =?us-ascii?Q?j/iDit7PsgsFG1cM/LcRX5jpRSVtaPXSR31ec9a2q6iCwQJXGQvh3ff604l9?=
+ =?us-ascii?Q?FONEGjVWM/V8922b2rM0tO4qm0orDmk20bBhK3yZRAPOt5KltGCC2DrTSqLU?=
+ =?us-ascii?Q?+BiIL58A8Zb/9sMinHAaUWrXTj6nJaZdVaDCYZTioLp5Iuj6Q+vHq0zKPGy2?=
+ =?us-ascii?Q?kp/Bbzorjw7mbBoI1M6i6ce3VfrRskBui+QeZ1fW8j7VcLLsN6RddEmlVIln?=
+ =?us-ascii?Q?DxkWCNyQxLoCcGFcUVEjgcelxh1UVDdJzicchSYMMmh/9nv5eoEmnOPRUE/w?=
+ =?us-ascii?Q?sO7EepMsCEZq7tRq8yCjHuwZawr/J0VrpyfnRkGaziTqU4KVHEAMTrXc9IGD?=
+ =?us-ascii?Q?SNdiYKxwuhGy80Rg0sRQ9EtppXgopAy8+h+GRoFbZzuT9CrNElK62kpGZRou?=
+ =?us-ascii?Q?SgPb/33UrCd4MflQs6ENF2JderkGGqxiNFzFcGpVyADb6RCtvSFunmC6CXl4?=
+ =?us-ascii?Q?KuAkxHf8FX4dh/bDrlUqYjK3+YFC3KewtjnMnxa1JJnCuwVzZ9Kq16x8kc2S?=
+ =?us-ascii?Q?uT32xZWmAf0PXFVUe2sgsXHjopN5ftENrnuzI38tyEDRMQoTLLXvtIS4vLVI?=
+ =?us-ascii?Q?qnTVWiwHfPzkZV+8qL685TsK3yBxbMutdpmTMcN8uZrbLRntaGm3kfrSW0mC?=
+ =?us-ascii?Q?RkRyYK/5GhL4cCliRU1Mj9c78ii1EsZpaJ8MRHr8jPADF4xnSqeApeV7uA9F?=
+ =?us-ascii?Q?VaRI9SYTlk2GHv/hCB2weA8CPo1kYoHjRvDEzqyLxUbRdfPjYdtJGjZIzF6W?=
+ =?us-ascii?Q?0JtZSvyIanyclcoJwQSm5D44kV4AuxaHheQ1GIC77xNIpz9G7+TqIM4Q5ni8?=
+ =?us-ascii?Q?tqpayl6BXmK6uJQ6Eb21Hbq4Od6J//XrxlkZjjXenl8OgpXZglhB2GQyQrul?=
+ =?us-ascii?Q?vAUhCqdMsE+BKfr1JKp+N9McsIar7n1d8d3Rh0g+PJniz7/ngqvxMPQ4n+sn?=
+ =?us-ascii?Q?3h3BzqpQ6s742pNAceExR6X+ajAEe0kmT0o77Rjsk0h/fl3BG5ZWESo3uzNP?=
+ =?us-ascii?Q?N+Kv8L1oTqqd608joNHqJIrwbZ+pPkog0uMdNJBOES2JtE5VWuVjDI4gB7nR?=
+ =?us-ascii?Q?ISCIXIyiRsF8jaN2wT+CRsWPKrupyWXIiwo44v2+LE8TNrQ+E+c5JzbzAcms?=
+ =?us-ascii?Q?zrGvRpGedYgrrdziCC/RfVRiOv/Dgc3aVM4nDQ6BjUTNy4ofO7W7LU5G4EbS?=
+ =?us-ascii?Q?VB27JbJnYqtIv8tQVhNUH2zWq2zAuTLujBNjuhLVqgZe17sWZ46pVGtQxoPz?=
+ =?us-ascii?Q?lCmsY0IpRQmDxgrgwaRYXIw=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0343a24e-5696-4255-3968-08dc223e72c4
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 09:24:38.9669
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vw2j/fIKHpbskVQkmbLa2t2H9K9ktEXYTJOXdLRAbMwH4GGLS0iGvPPx0GFeGEmFpUILkUaHdblUFGCjH/sBFbYkHsPTsF32CAuO2z1SoTPXuJK8Cps1gh4i2M+5wa+r
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0591
 
-On Tue, Jan 30, 2024 at 02:09:45PM +0100, Christian König wrote:
-> Am 30.01.24 um 11:40 schrieb Daniel Vetter:
-> > On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
-> > > Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
-> > > >   I would say we start with the DMA-API by getting away from sg_tables
-> > > > to something cleaner and state oriented.
-> > > FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
-> > > which is just a dead simple
-> > > 
-> > > struct dma_vec {
-> > >    dma_addr_t addr;
-> > >    size_t len;
-> > > };
-> > > 
-> > > (The rationale for introducing it in the IIO DMABUF patchset was that
-> > > the "scatterlist" wouldn't allow me to change the transfer size.)
-> > > 
-> > > So I believe a new "sg_table"-like could just be an array of struct
-> > > dma_vec + flags.
-> > Yeah that's pretty much the proposal I've seen, split the sg table into
-> > input data (struct page + len) and output data (which is the dma_addr_t +
-> > len you have above).
-> 
-> I would extend that a bit and say we have an array with
-> dma_addr+power_of_two_order and a header structure with lower bit offset and
-> some DMA transaction flags.
-> 
-> But this is something which can be worked as an optimization later on. For a
-> start this proposal here looks good to me as well.
-> 
-> > The part I don't expect to ever happen, because it hasn't the past 20 or
-> > so years, is that the dma-api will give us information about what is
-> > needed to keep the buffers coherency between various devices and the cpu.
-> 
-> Well maybe that's what we are doing wrong.
-> 
-> Instead of asking the dma-api about the necessary information we should give
-> the API the opportunity to work for us.
-> 
-> In other words we don't need the information about buffer coherency what we
-> need is that the API works for as and fulfills the requirements we have.
-> 
-> So the question is really what should we propose to change on the DMA-api
-> side to get this working as expected?
+For StarFive JH7110 Camera Subsystem, capture_raw video device output
+raw10 pixelformat requires 16bit of alignment.
 
-So one thing I've been pondering, kinda picking up your point about CXL,
-is that we do make the coherency protocol more explicit by adding a
-coherency mode to dma_buf that the exporter sets. Some ideas for values
-this could have:
+Fixes: e080f339c80a ("media: staging: media: starfive: camss: Add capture driver")
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+---
+ drivers/staging/media/starfive/camss/stf-capture.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-- ATTOMIC_COHERENT: Fully cache coherent, including device/cpu atomis.
-  This would be for CXL. Non-CXL devices could still participate with the
-  old model using explicit devices flushes, but must at comply with
-  CPU_COHERENT.
-
-  There's also the power9-only nvlink that would fit here, but I guess
-  going forward CXL (and cache-coherent integrated gpu) would really be
-  the only users of this flag.
-
-  Peer2peer would have the same rules, otherwise doesn't really make
-  sense. Also we might want to forbib non-CXL imports for these buffers
-  maybe even? Not sure on that.
-
-- CPU_COHERENT: device transactions do snoop cpu devices caches, but
-  devices might do their own caching which isn't snooped by the cpu and
-  needs explicit device-side invalidate/flushing. This means pcie
-  importers are not allowed to use pcie no-snoop transactions, intel igpu
-  wouldn't be allowed to use MOCS that do the same, similar for arm
-  integrated devices.
-
-  Importers can skip all explicit cache management apis like
-  dma_buf_begin/end_cpu_access, or the newly proposed
-  dma_buf_begin/end_device_access here.
-
-  We'd need to figure out what exactly this means for peer2peer
-  transactions, I have no idea whether the no-snoop flag even does
-  anything for those.
-
-  We might also want to split up CPU_COHERENT into CPU_COHERENT_WB and
-  CPU_WOHERENT_WC, so that importers know whether cpu reads are going to
-  be crawling or not.
-
-- MEMORY_COHERENT: devices transactions do not snoop any caches, but
-  promise that all transactions are fully flushed to system memory. Any
-  devices transactions which do fill cpu caches must call the proposed
-  dma_buf_begin/end_device_access functions proposed here. Any cpu access
-  must be braketed by calls to dma_buf_begin/end_cpu_access.
-
-  If your device does fill cpu caches, then essentially you'd not be able
-  to import such buffers. Not sure whether we need to put the
-  responsibility of checking that onto importers or exporters. Ideally
-  core dma-buf.c code would check this.
-
-  Also maybe the cpu WC mapping mode would actually need to be a sub-mode
-  for MEMORY_COHERENT, because all cpu wc achieves is to avoid the need to
-  call dma_buf_begin/end_cpu_access, you would still need your devices to
-  be memory coherent. And if they're not, then you cannot use that
-  dma-buf.
-
-  Or maybe alternatively we need to guarantee that exporters which set
-  MEMORY_COHERENT implement dma_buf_begin/end_device_access to make things
-  work for these cpu-coherent but not memory-coherent devices. This
-  becomes very tricky with device/arch/bus specific details I think.
-
-- DMA_API_COHERENT: The memory is allocated or mapped by the dma-api, and
-  the exact coherency mode is not know. Importers _must_ braket all cpu
-  and device access with the respective dma_buf functions. This is
-  essentially the "we have no idea" default.
-
-  Note that exporters might export memory allocated with dma_map_alloc
-  with MEMORY_COHERENT or CPU_COHERENT if they know how the memory exactly
-  works. E.g. for most arm soc gpu/display drivers we can assume that the
-  dma-api gives us MEMORY_COHERENT or CPU_COHERENT_WC, and just use that.
-  Essentially this would make the current implicit assumptions explicit.
-
-  udmabuf would need to set this, definitely if Paul's patches to add the
-  explicit device flushes land.
-
-- DEFAULT_COHERENT: This would be the backwards compat legacy yolo
-  behvaior. I'm not sure whether we should alias that with
-  DMA_API_COHERENT or leave it as a special value to mark exporters which
-  haven't been updated for the much more explicit coherency handling yet.
-
-  The specification for this coherency mode would be a flat out "who
-  knows, just don't break existing use-cases with actual users".
-  Essentially the only reason we'd have this would be to make sure we can
-  avoid regressions of these existing use-cases, by keeping whatever
-  horrible heuristics we have in current exporters.
-
-  It would also allow us to convert exporters and importers on a case by
-  case basis.
-
-Note that all these coherency modes are defined in terms of bus-sepecific
-device access and in terms of dma_buf apis the importer must call or can
-skip. This way we'd avoid having to change the dma-api in a first step,
-and if this all works out properly we could then use the resulting dma-api
-as a baseline to propose dma-api extensions.
-
-I think starting right out with designing dma-api extension is a few
-bridges too far. Both from a "how do we convince upstream" pov, but maybe
-even more from a "how do we figure out what we even need" pov.
-
-> Regards,
-> Christian.
-> 
-> 
-> 
-> 
-> 
-> > -Sima
-> 
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-
+diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
+index 70c24b050a1b..ec5169e7b391 100644
+--- a/drivers/staging/media/starfive/camss/stf-capture.c
++++ b/drivers/staging/media/starfive/camss/stf-capture.c
+@@ -20,28 +20,28 @@ static const struct stfcamss_format_info stf_wr_fmts[] = {
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB10,
+ 		.planes = 1,
+ 		.vsub = { 1 },
+-		.bpp = 10,
++		.bpp = 16,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG10,
+ 		.planes = 1,
+ 		.vsub = { 1 },
+-		.bpp = 10,
++		.bpp = 16,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG10,
+ 		.planes = 1,
+ 		.vsub = { 1 },
+-		.bpp = 10,
++		.bpp = 16,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR10,
+ 		.planes = 1,
+ 		.vsub = { 1 },
+-		.bpp = 10,
++		.bpp = 16,
+ 	},
+ };
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
 
