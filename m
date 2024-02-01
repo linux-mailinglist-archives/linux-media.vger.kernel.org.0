@@ -1,113 +1,79 @@
-Return-Path: <linux-media+bounces-4544-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4545-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBB18453A8
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 10:19:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2608453C4
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 10:23:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D6B528F68F
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 09:19:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA89328E388
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 09:23:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EDDF15B0FF;
-	Thu,  1 Feb 2024 09:19:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AC4515D5A4;
+	Thu,  1 Feb 2024 09:22:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QLzeQBYW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k73UnDR6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3D3159583;
-	Thu,  1 Feb 2024 09:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706779148; cv=pass; b=HYRZM3vH55U/e3KUsyDzIeNn5DFyiAgWvdoNZoXm6/j7ZKhMGoFRSKottQxLtowDTGgom3BfC277ceNZTvJtwXSf8XqxlJTlQ5q2tinC9Nw+Lv2/Z/tGjnQYU6GLP/s70BYTF28fN+QEoH+Ehg0pwPyAZ2uwnfEMFgmOhwVBzqs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706779148; c=relaxed/simple;
-	bh=R2/KugRaeWca7L8ElD1e0FLg7bs8qEI5wiMRWQAzd80=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E79B15CD4A
+	for <linux-media@vger.kernel.org>; Thu,  1 Feb 2024 09:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706779330; cv=none; b=aLrX8WPLfZz/XJhDYEA2KU6JTsdveWxXJ1JIGntGK/dO3bFCm9Ia67jlGW4JTA5cHsNOR+po/V92+ZXKym5hBS5XqjoVN89AizZCKLgeNEOMMKrAe6sSm3S9wspVuR9o4HwaWvUC7GkMN0Q3AqozyGsvcMifjZeJpOCRQ3HbCL8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706779330; c=relaxed/simple;
+	bh=vliiYuw2YCe794AvmlpJaXqRU0xBZuVtVEhoCGgVqPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MPh1JsxgM55xeNPI1fExecM0lYQLuMqvK8j2VW0CUdP9kPfB+60MVTlP3jyGhVCg6ezv8l03OFw61VJZEKNgdNoJmx2c87HquBavPkU6y12EDjCgYmxNpV0IbXgI4Qw/0IvtJiA+tCHZtg5eipUV6L9k+wY92l5L+Z7v2/MJa2E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QLzeQBYW; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TQYHk0RBKz49Q4M;
-	Thu,  1 Feb 2024 11:18:57 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1706779139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Fpy/KbSzjZ8m/Xpg84MM6yz5okV9u4UdrP7s0ILl8o=;
-	b=QLzeQBYWyIizNCEdOO0UnX0HbEbBMsM6ktPq78KqRpoDIQ8DmizFrGfVVnqwyqtUM/JaQ+
-	erh45k6PJI0YU0dVIUAuNMpYqhechz6r7RLjPhP0fCld4o9s92kwIfth9sixHAur8GV2ye
-	G2lFy1SdeH9AtNZFleuMzdFQqETUVPDqw+urOJfKPNLmyuvp4bBGSIV+V4ig0+XrumyWw8
-	07fO25P6bDSPhfUBeJnaRCgXxunatKkjhJf6ewRWNftJ32L9nbl7zxsY62LhrL6VcpImO1
-	cu/F04Wn3EOnsDbdb61x+zQZO1Yl5mrbRGKmKp8rOJ1aKctoF/qjfKxyftAoLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1706779139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Fpy/KbSzjZ8m/Xpg84MM6yz5okV9u4UdrP7s0ILl8o=;
-	b=NknHwVeZQJph2n5Ymg8Coj2j1/Q2mhhDK6vMUerjuy1o4kzQBFLyw6FjOzTBjxdEHsyG5l
-	mGxwX+TYvyaeBrDhVHKBQEpF3iFhU6h9WDDTUXmLIDiwLhwnGaWiQE7J54Gz4I+J6Xsfkd
-	0XKjFaruAqV8fQa78frFvSmUxR09PvGIFkumiQy+u5QzJuymMuyEzzZzdhePLaudoRtmi+
-	H00XLzwqiTuH2uJ2jx7uUy5JYxlmfWZ3UNNc34jvL6Y53pYP1Sfaw5ysl05YQTVbelZj7M
-	qrK3owq9nvbhux0AG2BXRMCG37dovyKGhjdI1NAXn511Tfdk8kQ+Dsnc+eUzHQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1706779139; a=rsa-sha256;
-	cv=none;
-	b=NXxTkNsVQcVrRPfV3ZqrLN9BDgTVvbgp7hawQ7Q6lKlQaDSt++h0qI6VuOwvJvBLnyCz2N
-	sGZ+lNoYYhWvTGiUU7Bf2GwvZ+WJedRCZNClnC5pZzjA4JKpjpBXsUOc/2qBSERXjSVbFF
-	1kUXTsWurtS6VjuyIEFk594JHCAhlyMxRNZPNtFALs/nyBqKa1pE9ZXCtmqlhAvhs47v6x
-	Zr9qQ8tQ0DEeUNNVFnBzVgvDYhgiqkt/0isTXz8cq9vVKlFUoLg/56p24AjjeXPzwMs5+X
-	vOzDNbGz+dH9WCIlxrE9bSo2nb6QIlWzGvwiKZ/ftfGIOgSJJHSC0KxxDGfyTA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B5FC0634C93;
-	Thu,  1 Feb 2024 11:18:56 +0200 (EET)
-Date: Thu, 1 Feb 2024 09:18:56 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] of: property: add port base loop
-Message-ID: <ZbtiAJklkLaXWY20@valkosipuli.retiisi.eu>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <20240129122736.GC8131@pendragon.ideasonboard.com>
- <ZbeoPBvGJlaJco_J@valkosipuli.retiisi.eu>
- <87zfwnirps.wl-kuninori.morimoto.gx@renesas.com>
- <Zbil22dm9x2ZudJC@valkosipuli.retiisi.eu>
- <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
- <Zbin6Pg6oNp0cTNO@valkosipuli.retiisi.eu>
- <87ttmu76co.wl-kuninori.morimoto.gx@renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Svz2esEB8vqos6WN5h/93N6bfdmgq5BjERlGT5QsNLFVYlGxvIBOxrR920qTXUmaif0Sa42Xkrooxc8M21ogh4171wdKfdjvLWYZ+3MkmLyO31qPSBW0BA1gHNL1Z8tfCRFlCL1z8XxIB7VlukyUGLy/wloDogfG9KV1SZavBTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k73UnDR6; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706779328; x=1738315328;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vliiYuw2YCe794AvmlpJaXqRU0xBZuVtVEhoCGgVqPQ=;
+  b=k73UnDR6K6ZumsBEZkp7sNXLYeA89L6rwMtKfxWxjus7L5tVbEv2XOo3
+   dmyGmEMZkgVDX9edrTdTsTUbpx0W3a5nhMvS6G1PZkaw0nwjEYPFubsGj
+   +zMwWfgg+mfK8wipEOhmcD5njNVNIks99I5LxaGfnHAIL+KN4QqmHpjGi
+   HVWY4eULtkHAgp2NMA8DBUcKDCxOPCGeHENSF6hZYEb5nruOW3CCdaqSi
+   Gx9m+5jIHyVFswlv/8R+iUc5FuxeUJkBeKir+v6nWcZzHqoJ23Hqzu5UG
+   bdwnf6HjhF0a2Bwo4zU38xxl/zr9kF8L8qTGpkAw1jpXeeTNhfe+hbLs9
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="36559"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="36559"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 01:22:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="912071907"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="912071907"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 01:22:04 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8651E11FA94;
+	Thu,  1 Feb 2024 11:22:01 +0200 (EET)
+Date: Thu, 1 Feb 2024 09:22:01 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Tomasz Figa <tomasz.figa@gmail.com>
+Subject: Re: [PATCH v7 17/19] media: mc: Check pad flag validity
+Message-ID: <Zbtiucur0Y_gSEQc@kekkonen.localdomain>
+References: <20231002105557.28972-1-sakari.ailus@linux.intel.com>
+ <20231002105557.28972-18-sakari.ailus@linux.intel.com>
+ <20240201091713.GA69174@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -116,38 +82,51 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87ttmu76co.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20240201091713.GA69174@google.com>
 
-Hi Morimoto-san,
+Hi Sergey,
 
-On Tue, Jan 30, 2024 at 11:24:07PM +0000, Kuninori Morimoto wrote:
-> 
-> Hi Sakari
-> 
-> > > > > I'm not familiar with fwnode, but in my quick check, it seems it is easy
-> > > > > to expand fwnode side functions if of_graph side function exist ?
-> > > > 
-> > > > That would be one way to do that, yes, but I suggested using the existing
-> > > > endpoint iterators as that would keep the firmware specific implementation
-> > > > more simple. The (slight) drawback is that for each node returned, you'd
-> > > > need to check its parent (i.e. port node) is the same as the port you're
-> > > > interested in. The alternative may involve reworking the struct
-> > > > fwnode_operations interface somewhat, including swnode, DT and ACPI
-> > > > implementations.
-> > > > 
-> > > 
-> > > But we still need the of_* versions, don't we, for patches 4 to 13?
+Thanks for the review.
+
+On Thu, Feb 01, 2024 at 06:17:13PM +0900, Sergey Senozhatsky wrote:
+> On (23/10/02 13:55), Sakari Ailus wrote:
 > > 
-> > Yes, my comment was indeed about the fwnode property API only.
+> > Check the validity of pad flags on entity init. Exactly one of the flags
+> > must be set.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/mc/mc-entity.c | 15 ++++++++++++++-
+> >  1 file changed, 14 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > index 83468d4a440b..543a392f8635 100644
+> > --- a/drivers/media/mc/mc-entity.c
+> > +++ b/drivers/media/mc/mc-entity.c
+> > @@ -197,6 +197,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> >  	struct media_device *mdev = entity->graph_obj.mdev;
+> >  	struct media_pad *iter;
+> >  	unsigned int i = 0;
+> > +	int ret = 0;
+> >  
+> >  	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
+> >  		return -E2BIG;
+> > @@ -210,15 +211,27 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> >  	media_entity_for_each_pad(entity, iter) {
+> >  		iter->entity = entity;
+> >  		iter->index = i++;
+> > +
+> > +		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+> > +					     MEDIA_PAD_FL_SOURCE)) != 1) {
+> > +			ret = -EINVAL;
 > 
-> Thank you for your suggestion.
-> But I'm not familiar with fwnode, and it seems we still need of_*,
-> I will keep current style (= non fwnode) in v3
+> Can we please have some sort of WARN_ON() or pr_err() here?
+> This is a pretty big change.
 
-The fwnode API should be kept in sync with the OF (and other firmware
-specific) API. Merging your set in its current form would leave fwnode API
-impaired. Therefore I'd very much prefer to see this set add similar fwnode
-APIs, too.
+Doing proper input validation is hardly anything unusual, is it?
+
+I'm fine with a WARN_ON() though, I'll add that to v8.
 
 -- 
 Regards,
