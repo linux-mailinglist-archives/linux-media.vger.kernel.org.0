@@ -1,164 +1,118 @@
-Return-Path: <linux-media+bounces-4575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4578-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F3384630F
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 22:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ABD8846325
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 23:09:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D4BD3B23973
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 21:59:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 380EEB25C63
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 22:09:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49F763EA89;
-	Thu,  1 Feb 2024 21:59:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A903D3FE23;
+	Thu,  1 Feb 2024 22:08:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MRWg97Hr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5A+sGbn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B111405FB
-	for <linux-media@vger.kernel.org>; Thu,  1 Feb 2024 21:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C893FB04;
+	Thu,  1 Feb 2024 22:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706824760; cv=none; b=jnr00eRddlTN4kFASJ0woR/21yDfrojYBJKoK6Pl396ZgIMOjlfYF+ekT8EvCU6akwMnEk3Ng1H4Dc7rWKkMfTbM66O6POgvs4kw/DjXKMOHSkvgYJ+8EqwbHALP+FW9eaesUxXBNwhX4rj7UK0Ee1xdNmmhh0M5YQnLTaCINdU=
+	t=1706825337; cv=none; b=sGJv/a3YHo5o+8ji0zCq3c/9gQl3yNGzLbNRiqBzqrAFnp/xg6+zg6/2zdc0ZjP1xjg7R2JZ2Zo5AGjkc41roM3oOHYlaj7GrMH8p9DJiqXwuhcogA1bpv3Fq6QdFXsF+yuMJUTZbxqnK5gcewhkwPwaNIjXuuA6gd9uup8IBqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706824760; c=relaxed/simple;
-	bh=9LE9uSrVAOzQzNs+DI6h3J7xWzwYHqCzkQhfOskwvoQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KthYkD9TlpqbdGpbB2mZnCHHD/ePeE/TztTjB3YJdjKEcUTKpkUiAd1W7m8SONdV5QmKVU61ExTLYdFAXwqZaceXAGe2nqPGLqAMgKGk7kH3+Ifp1BYlw0KP7XPY6PSc8+QTTHIxY0mgYSLWWBJmDhhNLNBjEqy7I7YQROWknbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MRWg97Hr; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706824757;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r5s9hTRm31gxF5+OEiFRWw14a77KmxGdyoOr0tbXDpo=;
-	b=MRWg97HrM0tMzYNn6gQH5eZKAggavusePja24P2V8Rr7+26wz8zGeRu4bYspRb2bk2gaPH
-	uk7nR5nwYULn2Mf3G+sxLgeeN7zd+vf1bODKedAECB5F3N0+OfLomJjN78Da0hJw9FTAYa
-	dMRcsxgUcG+8MraMCjTote2ET2rXoyg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-115-444OkJ7gP1mdOaqzpjQxfg-1; Thu, 01 Feb 2024 16:59:15 -0500
-X-MC-Unique: 444OkJ7gP1mdOaqzpjQxfg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C8F38828C0;
-	Thu,  1 Feb 2024 21:59:15 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.90])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id ABEBD3C2E;
-	Thu,  1 Feb 2024 21:59:14 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org
-Subject: [PATCH 4/4] media: hi556: Add support for avdd regulator
-Date: Thu,  1 Feb 2024 22:58:41 +0100
-Message-ID: <20240201215841.153499-5-hdegoede@redhat.com>
-In-Reply-To: <20240201215841.153499-1-hdegoede@redhat.com>
-References: <20240201215841.153499-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1706825337; c=relaxed/simple;
+	bh=iV3KjpkcbMu1j2TsrqeOlRj9zSxIctyG0myc+z6mDpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A0MJ7QWj7yRUBor8lH1/SrWQ2R9ZzK8duUk6zXU6DNsIY0+N4NZ793F8Tg7Ldd/K7QuAUQaAt6R2r2ht0rE/HKZrE1eAKpqhxzh5Q/2mMWJKrmeDFuLfzHv84URm3ad+j2p0k0TsLJxQdohRqmJ99dDi2602j0XJEZbXiW8gtCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5A+sGbn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AE09C433C7;
+	Thu,  1 Feb 2024 22:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706825336;
+	bh=iV3KjpkcbMu1j2TsrqeOlRj9zSxIctyG0myc+z6mDpM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t5A+sGbn3gCifVerFEU+iZKak4tSKAUnolMChaJ0RkBrOUD/4KXiyjQhavKJFabnp
+	 OXbGNcWyOJDB0oQOUl7jpXdPrWICHR9CU0qQdLs/QEHoXIS/lPm215viqn1O2kdKQV
+	 vA3968AM4loaEeu4wgqesQ6TRs2LcqOO33Eixu2y4VlqtKQ7oohXTkHSeO3nJvahtU
+	 5gHMUdzwCvgq7Gy+gO9EPZ+5/8IIR6wg6tqUBLsfOO1ki4xVYXhpH560ywJTITzzSQ
+	 84UlHknB4RmvXAzgJjrRT48hYFO4zvgA78Ovsxc2rCD5QiXKwI7q5u5xQ/j/xu9YTY
+	 7gxjvMB5Hpq7Q==
+Date: Thu, 1 Feb 2024 15:08:53 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Mike Isely <isely@pobox.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 1/3] media: pci: sta2x11: Fix Wcast-function-type-strict
+ warnings
+Message-ID: <20240201220853.GA2240065@dev-arch.thelio-3990X>
+References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
+ <20240128-fix-clang-warnings-v1-1-1d946013a421@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240128-fix-clang-warnings-v1-1-1d946013a421@chromium.org>
 
-On some ACPI platforms, such as Chromebooks the ACPI methods to
-change the power-state (_PS0 and _PS3) fully take care of powering
-on/off the sensor.
+On Sun, Jan 28, 2024 at 02:12:20AM +0000, Ricardo Ribalda wrote:
+> Building with LLVM=1 throws the following warning:
+> drivers/media/pci/sta2x11/sta2x11_vip.c:1057:6: warning: cast from 'irqreturn_t (*)(int, struct sta2x11_vip *)' (aka 'enum irqreturn (*)(int, struct sta2x11_vip *)') to 'irq_handler_t' (aka 'enum irqreturn (*)(int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-On other ACPI platforms, such as e.g. various HP models with IPU6 +
-hi556 sensor, the sensor driver must control the avdd regulator itself.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Add support for having the driver control the sensor's avdd regulator.
-Note this relies on the regulator-core providing a dummy regulator
-(which it does by default) on platforms where Linux is not aware of
-the avdd regulator.
+I wonder if the media tree cares about reverse Christmas tree order for
+variables?
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/hi556.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-index fb6ba6984e38..90eff282a6e2 100644
---- a/drivers/media/i2c/hi556.c
-+++ b/drivers/media/i2c/hi556.c
-@@ -9,6 +9,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -638,6 +639,7 @@ struct hi556 {
- 	/* GPIOs, clocks, etc. */
- 	struct gpio_desc *reset_gpio;
- 	struct clk *clk;
-+	struct regulator *avdd;
- 
- 	/* Current mode */
- 	const struct hi556_mode *cur_mode;
-@@ -1287,8 +1289,17 @@ static int hi556_suspend(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct hi556 *hi556 = to_hi556(sd);
-+	int ret;
- 
- 	gpiod_set_value_cansleep(hi556->reset_gpio, 1);
-+
-+	ret = regulator_disable(hi556->avdd);
-+	if (ret) {
-+		dev_err(dev, "failed to disable avdd: %d\n", ret);
-+		gpiod_set_value_cansleep(hi556->reset_gpio, 0);
-+		return ret;
-+	}
-+
- 	clk_disable_unprepare(hi556->clk);
- 	return 0;
- }
-@@ -1303,6 +1314,13 @@ static int hi556_resume(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	ret = regulator_enable(hi556->avdd);
-+	if (ret) {
-+		dev_err(dev, "failed to enable avdd: %d\n", ret);
-+		clk_disable_unprepare(hi556->clk);
-+		return ret;
-+	}
-+
- 	gpiod_set_value_cansleep(hi556->reset_gpio, 0);
- 	usleep_range(5000, 5500);
- 	return 0;
-@@ -1338,6 +1356,12 @@ static int hi556_probe(struct i2c_client *client)
- 		return dev_err_probe(&client->dev, PTR_ERR(hi556->clk),
- 				     "failed to get clock\n");
- 
-+	/* The regulator core will provide a "dummy" regulator if necessary */
-+	hi556->avdd = devm_regulator_get(&client->dev, "avdd");
-+	if (IS_ERR(hi556->avdd))
-+		return dev_err_probe(&client->dev, PTR_ERR(hi556->avdd),
-+				     "failed to get avdd regulator\n");
-+
- 	full_power = acpi_dev_state_d0(&client->dev);
- 	if (full_power) {
- 		/* Ensure non ACPI managed resources are enabled */
--- 
-2.43.0
-
+> ---
+>  drivers/media/pci/sta2x11/sta2x11_vip.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
+> index e4cf9d63e926..0a3827575753 100644
+> --- a/drivers/media/pci/sta2x11/sta2x11_vip.c
+> +++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
+> @@ -757,7 +757,7 @@ static const struct video_device video_dev_template = {
+>  /**
+>   * vip_irq - interrupt routine
+>   * @irq: Number of interrupt ( not used, correct number is assumed )
+> - * @vip: local data structure containing all information
+> + * @data: local data structure containing all information
+>   *
+>   * check for both frame interrupts set ( top and bottom ).
+>   * check FIFO overflow, but limit number of log messages after open.
+> @@ -767,9 +767,10 @@ static const struct video_device video_dev_template = {
+>   *
+>   * IRQ_HANDLED, interrupt done.
+>   */
+> -static irqreturn_t vip_irq(int irq, struct sta2x11_vip *vip)
+> +static irqreturn_t vip_irq(int irq, void *data)
+>  {
+>  	unsigned int status;
+> +	struct sta2x11_vip *vip = data;
+>  
+>  	status = reg_read(vip, DVP_ITS);
+>  
+> 
+> -- 
+> 2.43.0.429.g432eaa2c6b-goog
+> 
 
