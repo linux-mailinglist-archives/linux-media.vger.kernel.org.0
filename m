@@ -1,116 +1,115 @@
-Return-Path: <linux-media+bounces-4580-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4581-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2186484634E
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 23:17:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A0884636E
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 23:26:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 518D41C24FE3
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 22:17:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A242A1C2518F
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 22:26:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A57F83FE3D;
-	Thu,  1 Feb 2024 22:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D698E405CF;
+	Thu,  1 Feb 2024 22:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJwm95ir"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y2sUzDTq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B983FE27;
-	Thu,  1 Feb 2024 22:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7A23FB34
+	for <linux-media@vger.kernel.org>; Thu,  1 Feb 2024 22:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706825817; cv=none; b=q4OS3Gp3AfWBtExEPTQ44sobCLX4w/cTT+Rfu/o2hZp+g3+p6miUM55R8Og7yKIxVa5c4Upg7/3+SKf6RbXW9SmQEKemGKIuG2+A3RzCvaoVsk3/4G/BQRpD5wVRxP1qzLARtvJxcGfeSbqscI6xQOvvplUbFHjvYjIPK8cEs1k=
+	t=1706826390; cv=none; b=qlWsujUz1JZh1B3og+jZX4KBsRdH+Po3k4uAztI7bLbo7xMgvBrQiGF71Ehf6/962k0omFv6BAGxWOT25x/xTVeaqtcdvMDAOh2Rg434jxZv88foGTQdTPE0R7LAwOvtXpJgUNfbkq7hHfzZR/AwbignEWbQkJQrKKWzqg5Sa60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706825817; c=relaxed/simple;
-	bh=cuWu+ZnwEeDB3jYUYTTRe0UH9c6SmZiHQzhLc1hdnYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xkf+h+klXWk0a9dr0SR6e0iKdrvq4193agVKeVgwE/8wEC27FlkVCI1qkX5ZXUUyUys06aGjnbGUeKJZ6cRC/LbVNnAIacYqVYJNIWwJHWC7EJj5twndC8KmXQy12Ql6YqmsBMaNpwjzNJDgH1iQq544z9DPPqjqDQ0145HAR1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJwm95ir; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE52C433C7;
-	Thu,  1 Feb 2024 22:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706825816;
-	bh=cuWu+ZnwEeDB3jYUYTTRe0UH9c6SmZiHQzhLc1hdnYM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iJwm95iredNZf01FKKqw1K8Cve6weFz5cAOoDZKVoWe3PpexUzoGPjJafD2pGbkGw
-	 eSEIrmo/GHdvyOSQ8oqaYHJagePer7h4jeWCFcLzrdSiR+NZQtF7X69fr3fBc2bo9d
-	 kulDLY8Kb43B7O9lIfuaOA8dxbgBM141x3/9YfJtOJ2uDaMN1G13Dk//xj7FQkbrEQ
-	 PXKTFsXVU0Tcv4J3fY2V5w4Lglh/CMUI8bgD307AaufIO7S6Stan4GILuEx+9xRapX
-	 742IhYAMMkBEGPl9+wv/uNc3ltlBirIMVY5YaxuoWdmIcNDXOjJeSG1SzUHPwX0Smm
-	 BVgzx6ULRUBhQ==
-Date: Thu, 1 Feb 2024 15:16:54 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Mike Isely <isely@pobox.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 3/3] media: mediatek: vcodedc: Fix
- Wcast-function-type-strict warnings
-Message-ID: <20240201221654.GC2240065@dev-arch.thelio-3990X>
-References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
- <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org>
+	s=arc-20240116; t=1706826390; c=relaxed/simple;
+	bh=g1niz+9BFP8nJJvQSZtstaXWeqGreuVXwyIK+21IaXQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KaZqCTQuq0Downn/zlLc0WsrKmnu1Zqa8t++c9+0hZjzk8qaRS4IPMVxx6HTUDMKZhcsaSIgEpmkoXWTK/ZlH2jCszm1GsH44ol8HpDfFvDGPPb98zs94kYpCegynqc6Lw9syYY0UGrd9k5RHQyDyw0sbEexceqK64MRSg2SFIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y2sUzDTq; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-46b35fad293so578369137.1
+        for <linux-media@vger.kernel.org>; Thu, 01 Feb 2024 14:26:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1706826387; x=1707431187; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g1niz+9BFP8nJJvQSZtstaXWeqGreuVXwyIK+21IaXQ=;
+        b=Y2sUzDTqMNuq2LzRYMJ2GlU9BO6W+f/1pmQLHYXUfbCvU7tgwRHhY9fPU9PS4ZiRR8
+         Cd0z4e4zrmZ//iqvBng9HRHRqgrN2atants60IeG+KzI85kYnfLPNcehqSB5ZwX2CbN7
+         Q15Nt+B2z878uj+vMtVJppo5mqdtoUCfADGQRqHyO1UVsXncSOHHGnL2LB/iTRl9ZbRP
+         yiGdXnCiJqwvkFGQF5QqdWGlQlkChh/rJr8rwK7X2EHvu7YUEGhoOWYYXOuko2jQiFUK
+         Rk1u5IbEDkWq8vLsWnvlEkOkVPmfvwBaJcKprAAkUKWCYrOQSRcVAUN7BTpK3OyaeuW+
+         EL6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706826387; x=1707431187;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g1niz+9BFP8nJJvQSZtstaXWeqGreuVXwyIK+21IaXQ=;
+        b=cf+2lHZtDemaD9a0E13MEOXHZ5cBOjf0DyDP1e9AnLTrHA25vfRFcSJC8B2eStSefX
+         zYi8aWFoZgMGVTsRAooI46XtNlQngyIb8PZxXsToCYqobAIQTLGsTc2HxJ1RplMvHxeR
+         XjKhQqZAmGG/bWm/OhdG09br94DYe2TfYv8MLQBrgHI5Xjab0A/QJsRsxY4Vc6BiB9gG
+         eehQAocc07QS0kJEbifdfZVq4EWeZXh9tzpktup9ghlJAixcc6Raubyms8j42d9fDPik
+         wJe9A9cF5pV7Y3zC9MWWtdvBDxnCUeMGsz4/7QqbLxPXExZDvX2JgTDtGIISyYh0XKcU
+         ZrXw==
+X-Gm-Message-State: AOJu0Yx3Cc5OM8F3ey39LhcWEdfbx8uCESDOpOr8g1xZ8keNLv2slhFj
+	V6MclEx4vzWBX15fb+pKBdG1ZFjDAAAgYVtjdGhdgw+KO7pCuPjq9OAmVhdHVdrUa8nzbKVHsiq
+	FnrraPDWxv5MhZaCC6WYcVLVXvotzZmb7uWqZ
+X-Google-Smtp-Source: AGHT+IFCuKF6QiU+ny6kuZUF3GaDPIhQfm+qSFreoCq2anMqN2UYkMUcoGIgF+ZV3z+Yz9/V09IBhzG82IgRKFYsfqw=
+X-Received: by 2002:a05:6102:806:b0:46a:fd91:c15b with SMTP id
+ g6-20020a056102080600b0046afd91c15bmr339945vsb.13.1706826386679; Thu, 01 Feb
+ 2024 14:26:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org>
+References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
+ <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org> <20240201221654.GC2240065@dev-arch.thelio-3990X>
+In-Reply-To: <20240201221654.GC2240065@dev-arch.thelio-3990X>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Thu, 1 Feb 2024 22:25:48 +0000
+Message-ID: <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: mediatek: vcodedc: Fix Wcast-function-type-strict
+ warnings
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Mike Isely <isely@pobox.com>, 
+	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+	Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 28, 2024 at 02:12:22AM +0000, Ricardo Ribalda wrote:
-> Building with LLVM=1 throws the following warning:
-> drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+On Thu, Feb 1, 2024 at 10:17=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> On Sun, Jan 28, 2024 at 02:12:22AM +0000, Ricardo Ribalda wrote:
+> > Building with LLVM=3D1 throws the following warning:
+> > drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32=
+: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsign=
+ed int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned =
+int, void *)') converts to incompatible function type [-Wcast-function-type=
+-strict]
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>
+> I am not positive because I don't have any hardware to test this driver
+> but I suspect this patch is just hiding the warning without actually
+> addressing the issue that it is pointing out.
 
-I am not positive because I don't have any hardware to test this driver
-but I suspect this patch is just hiding the warning without actually
-addressing the issue that it is pointing out. If handler is called
-through vpu_ipi_register() indirectly (which it obviously is if it is
-being passed down), there will be a CFI failure because the type of
-mtk_vcodec_ipi_handler is not the same as ipi_handler_t, as the comment
-mentions.
+Agreed, this won't fix the issue. The correct solution is to drop the
+cast and change the handler type to match the pointer type (i.e. use
+const void* for the first argument).
 
-Has this seen testing on real hardware with kCFI?
-
-> ---
->  drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> index 9f6e4b59455d..781a0359afdc 100644
-> --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> @@ -33,9 +33,11 @@ static int mtk_vcodec_vpu_set_ipi_register(struct mtk_vcodec_fw *fw, int id,
->  	 * The handler we receive takes a void * as its first argument. We
->  	 * cannot change this because it needs to be passed down to the rproc
->  	 * subsystem when SCP is used. VPU takes a const argument, which is
-> -	 * more constrained, so the conversion below is safe.
-> +	 * more constrained, so the conversion below is safe. We use the void
-> +	 * casting, to convince clang with -Wcast-function-type-sctrict that
-> +	 * this is safe.
->  	 */
-> -	ipi_handler_t handler_const = (ipi_handler_t)handler;
-> +	ipi_handler_t handler_const = (ipi_handler_t)((void *)handler);
->  
->  	return vpu_ipi_register(fw->pdev, id, handler_const, name, priv);
->  }
-> 
-> -- 
-> 2.43.0.429.g432eaa2c6b-goog
-> 
+Sami
 
