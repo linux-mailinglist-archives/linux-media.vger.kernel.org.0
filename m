@@ -1,172 +1,133 @@
-Return-Path: <linux-media+bounces-4547-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4548-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487298453E0
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 10:30:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DE984541C
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 10:36:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B5171C26D9E
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 09:30:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC60A1F28E33
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 09:36:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E686215B102;
-	Thu,  1 Feb 2024 09:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E50215D5A9;
+	Thu,  1 Feb 2024 09:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z+dLlSxE"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EpyODtBe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2A515B0F5
-	for <linux-media@vger.kernel.org>; Thu,  1 Feb 2024 09:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EA515CD7C
+	for <linux-media@vger.kernel.org>; Thu,  1 Feb 2024 09:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706779824; cv=none; b=cj6EKT9qj5AVSHieQWkFdSGoYDrccWASK3EMCEyPcriq4wXC8lgoTFB61FKOG4qvPdgvg2mhD8LW05/CjFInHz2SAehFiHofnY15e6lDr8dCPLJyhwjs6Tv3UVrkCoe3wyAU8wSDq+7m3tN+/i2OJHQLbz+4f3jF68iNohJIgf8=
+	t=1706780005; cv=none; b=cfbX5BERtpMal/Iik5SsV0uPpgb1j4wct1kJa9E3C4aqyN/TTqW8fnyh+ceFVQr3+6bzqR7xgMWFQTjbF/tWg6+5Fq8c+dQHPm3WNADZy2+H5K1+H0aP/ZKRJJagUrpCku3vWAZtKe7Pa3ViLHgtGNI7NTnoz4WVUJLTfT6Lc2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706779824; c=relaxed/simple;
-	bh=VrXv2gS2TyXBZc341RcN2m4mda7mjs02xNbkXTnrdd4=;
+	s=arc-20240116; t=1706780005; c=relaxed/simple;
+	bh=eYEY3wLbnOVVp3XHVTf3+CvOLRkf2e7eKBN81o9mahs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WnemFclcHEZqTH3WfCEN8nWf8z9iYJ7aGRYrDFnMx8ZD1V1mPh6094PBLXLRQvkdxj09wcAkwwYLQOeNs6vI6SqiflAmrGLMTowg3ubJ3vInhA3B5kqVz45QNNXr7ml/YdCGfzIzTCZGNlPviw2m59KPGytbrH9Rqmg1XMmOPEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z+dLlSxE; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706779820;
-	bh=VrXv2gS2TyXBZc341RcN2m4mda7mjs02xNbkXTnrdd4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z+dLlSxEL4PyufxCq2og5JWI/LDva+XETCyF71DrexnLG4gv/qVde+xlrbXekbkjd
-	 yqLWYNrroo++MHy/nrzruAu2iqRk/SK+9kweHKZLaesEOuTZyOXDiBVCxYURBr6H+Z
-	 JO+CTtsHHMZQHff51YRMlK4ESBB2BaQwiEPVg/MSZN8ZZRu0k7pWD2l2qKYzpaJMxV
-	 sJrc75tmduSm+2rMvX9bWGTJtiv7qxmtUiKWwjZkvQCv146ov5dIjz1tdaPe1xOaC6
-	 zNeeLexXoxfU8reOnL0yRa5/LHh9+8KvNvnT+6dP53u5dmi87M8sFshb4f0c/deAJS
-	 16vaDWkfp3BVw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id A8BD63782081;
-	Thu,  1 Feb 2024 09:30:20 +0000 (UTC)
-Date: Thu, 1 Feb 2024 10:30:19 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [GIT PULL FOR 6.9] MDP3 on MT8195 support
-Message-ID: <20240201093019.hdtjgkca4rvfobuh@basti-XPS-13-9310>
-References: <20240127124708.equgiz7tsu4mlx4v@basti-XPS-13-9310>
- <20240201073200.42911bd2@coco.lan>
+	 Content-Type:Content-Disposition:In-Reply-To; b=kXyq4hYSnKI/p5W3vNhcq7EC0yvZRmYbeuU9lZQ+hhl3Rvw5VoDG9FdBM+W5b00GXXpDcr1dhUGQikw0T9++AR2YJvoAWATiBZYYgORJinqbLIKObhw9M2pK2w9B0PciwwdyHz5jYLtkuuxeuvFzZwmdtbOc8gksCHRkOQeoIZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EpyODtBe; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1d751bc0c15so6178845ad.2
+        for <linux-media@vger.kernel.org>; Thu, 01 Feb 2024 01:33:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1706780003; x=1707384803; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tV3qCJdKmAGKOGl5k3jwb82q845QvpC7mtS6cwfbwVI=;
+        b=EpyODtBe8gJltQunLmjL8vOB9lNRHMRoYqFNJQBGEHR7MH+AdE5lglQeiRyWtS7c8t
+         7kxxIjTtW1xjB+pp7yHH1jOU+/wL/1bQBmvHq8JEYqU6YAZcYeL9Ygwi0jNStaM3yd2H
+         ErNG4wViqc1aH7GiZ5Z02aRkVJvMf7ZdMW4gg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706780003; x=1707384803;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tV3qCJdKmAGKOGl5k3jwb82q845QvpC7mtS6cwfbwVI=;
+        b=J59Mmexh3oKi9VuCn3tbHj1J/xknQF3ws/0k+Kr3rifSpx4Cu1eo3sHQsmdVJsOcTq
+         wv2bxxnqfNntvXX4W6m32uuq97v690m4cPX5EoHI0WpUX7tlq7mgHyB7gX/z9Pnaj3Zl
+         IgQ3OCbnswcJk2cBSSXA0GoGUuxzfiVA/ok5WXbHxOCAXH1PpBOm7Q9tzvXHMlM++6rK
+         YK8/51P/tm7CW+E2OzcSq21Alb+QnMvwCQqfo85VXyaVDGta54vZsNREHx3J2ARuubUa
+         lNMReXcnob1yvgZJ6yu4FecJEFBrLbM0KEXDLJ0eAd/Escpt+SXuc4S64YhvpQVK48fz
+         JMKg==
+X-Gm-Message-State: AOJu0YwIL756PaUnkESD8alHLzfHAbnbc15NinbfC6SujRoPzaLXn3QM
+	RpRCFUOr6NoIcnIAvQah/DU18HMICWmNd6NuzDPFRpEF3FnAQYj/jlrkm9VfahTlIjcMP1c9zFc
+	=
+X-Google-Smtp-Source: AGHT+IHC3Xj/LkX6h/NZdqA5ZXYy3V51i4s+G9/6M752GXmblqrTwBKvyu+A10cr9YefOBkhnHpeTA==
+X-Received: by 2002:a17:902:8f87:b0:1d9:11bd:a7af with SMTP id z7-20020a1709028f8700b001d911bda7afmr3972558plo.28.1706780003491;
+        Thu, 01 Feb 2024 01:33:23 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVkACmcBf6JceWg8dGJOIKKV1fYksaS5IICc73sI7ni2bCGgpdFjVhgVHteNVkcAzl2CjE/nFbMm4I3mB9b1ae1Ss2t0KWY/x9aHVqaog9hMdhgEHoVVCq9nMiRgKwlZMLO0QiU8UHD6wJvzMfld1CoJFo/r6PL8xbZPkD7f1/BXrEeRPSkbV83vbDI1hNQkOzcp6Uez1AhYfKV4zNhgz/JUKjczFAJcUkLVpcqlGcNFdfKxM5C3bT/q11LI6t5JGXcT29xT2tmmG32szPC4HEHD6zNhBDHlJ5FjxY83N5QLwXuXt0QH9qrcHYlI9xv7EwqyiULi6sgL+yYt/puA3e8qUWzHb9wFTNs0CWEvvIiQpz4YuY=
+Received: from google.com (KD124209171220.ppp-bb.dion.ne.jp. [124.209.171.220])
+        by smtp.gmail.com with ESMTPSA id kb16-20020a170903339000b001d8ec844fe7sm6464237plb.283.2024.02.01.01.33.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 01:33:23 -0800 (PST)
+Date: Thu, 1 Feb 2024 18:33:13 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Tomasz Figa <tomasz.figa@gmail.com>
+Subject: Re: [PATCH v7 17/19] media: mc: Check pad flag validity
+Message-ID: <20240201093313.GB69174@google.com>
+References: <20231002105557.28972-1-sakari.ailus@linux.intel.com>
+ <20231002105557.28972-18-sakari.ailus@linux.intel.com>
+ <20240201091713.GA69174@google.com>
+ <Zbtiucur0Y_gSEQc@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240201073200.42911bd2@coco.lan>
+In-Reply-To: <Zbtiucur0Y_gSEQc@kekkonen.localdomain>
 
-Hey Mauro,
+On (24/02/01 09:22), Sakari Ailus wrote:
+> Hi Sergey,
+> 
+> Thanks for the review.
 
-On 01.02.2024 07:32, Mauro Carvalho Chehab wrote:
->Em Sat, 27 Jan 2024 13:47:08 +0100
->Sebastian Fricke <sebastian.fricke@collabora.com> escreveu:
->
->> Hey Mauro & Hans,
->>
->> this set of patches has been delayed because it was originally submitted
->> on top of linux-next and had dependencies that were not found on the
->> media tree, now that these dependencies have been merged I can post the
->> pull request.
->> This patch set adds support for MDP3 on the Mediatek platform MT8195.
->>
->> Please pull.
->>
->> The following changes since commit 04447d48afd365a837e23cde631517f166045b9d:
->>
->>    media: mediatek: vcodec: drop excess struct members descriptions (2024-01-24 11:38:34 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.9.0-mdp3-signed
->
->Hmm... it seems you're not using "git request-pull". This time, I'll handle the PR,
->but please use "git request-pull" instead of manually formatting a message that
->resembles it. My import scripts are very picky, as it validates the message,
->rejecting manually-formatted pull requests.
+Hi Sakari,
 
-I have used git request-pull for this, here is the command, I still had it in my history:
-`git request-pull 04447d48afd365a837e23cde631517f166045b9d https://gitlab.collabora.com/sebastianfricke/linux.git for-6.9.0-mdp3-signed`
+> On Thu, Feb 01, 2024 at 06:17:13PM +0900, Sergey Senozhatsky wrote:
+> > On (23/10/02 13:55), Sakari Ailus wrote:
+[..]
+> > > @@ -197,6 +197,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> > >  	struct media_device *mdev = entity->graph_obj.mdev;
+> > >  	struct media_pad *iter;
+> > >  	unsigned int i = 0;
+> > > +	int ret = 0;
+> > >  
+> > >  	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
+> > >  		return -E2BIG;
+> > > @@ -210,15 +211,27 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> > >  	media_entity_for_each_pad(entity, iter) {
+> > >  		iter->entity = entity;
+> > >  		iter->index = i++;
+> > > +
+> > > +		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+> > > +					     MEDIA_PAD_FL_SOURCE)) != 1) {
+> > > +			ret = -EINVAL;
+> > 
+> > Can we please have some sort of WARN_ON() or pr_err() here?
+> > This is a pretty big change.
+> 
+> Doing proper input validation is hardly anything unusual, is it?
 
->
->Regards,
->Mauro
+Well, function requirements change quite significantly, to the point
+that drivers that worked before won't work after.
 
-Greetings,
-Sebastian
->
->>
->> for you to fetch changes up to dda00d8a598d9afa7d6da2e924467fbf543cabb7:
->>
->>    media: platform: mtk-mdp3: add support for parallel pipe to improve FPS (2024-01-27 13:24:51 +0100)
->>
->> ----------------------------------------------------------------
->> add support MDP3 on MT8195 platform
->>
->> ----------------------------------------------------------------
->> Moudy Ho (12):
->>        media: platform: mtk-mdp3: add support second sets of MMSYS
->>        media: platform: mtk-mdp3: add support second sets of MUTEX
->>        media: platform: mtk-mdp3: introduce more pipelines from MT8195
->>        media: platform: mtk-mdp3: introduce more MDP3 components
->>        media: platform: mtk-mdp3: add checks for dummy components
->>        media: platform: mtk-mdp3: avoid multiple driver registrations
->>        media: platform: mtk-mdp3: extend GCE event waiting in RDMA and WROT
->>        media: platform: mtk-mdp3: add support for blending multiple components
->>        media: platform: mtk-mdp3: add mt8195 platform configuration
->>        media: platform: mtk-mdp3: add mt8195 shared memory configurations
->>        media: platform: mtk-mdp3: add mt8195 MDP3 component settings
->>        media: platform: mtk-mdp3: add support for parallel pipe to improve FPS
->>
->>   drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c  | 729 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_aal.h   |  25 +++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_color.h |  31 ++++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_fg.h    |  23 ++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_hdr.h   |  31 ++++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_merge.h |  25 +++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_ovl.h   |  25 +++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_pad.h   |  21 ++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_rdma.h  |  24 ++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_rsz.h   |   2 +
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_tdshp.h |  34 ++++++
->>   drivers/media/platform/mediatek/mdp3/mdp_reg_wrot.h  |   8 ++
->>   drivers/media/platform/mediatek/mdp3/mdp_sm_mt8195.h | 283 ++++++++++++++++++++++++++++++++++++++++++++++
->>   drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h   |   4 +
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-cfg.h  |   2 +
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 440 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h |   1 +
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 895 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h |  93 +++++++++++++---
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 142 +++++++++++++++++++-----
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h |  50 ++++++++-
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c  |  15 +++
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.c |  18 +++
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.h |   1 +
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c  |   3 +-
->>   25 files changed, 2747 insertions(+), 178 deletions(-)
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_aal.h
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_color.h
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_fg.h
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_hdr.h
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_merge.h
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_ovl.h
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_pad.h
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_tdshp.h
->>   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_sm_mt8195.h
->>
->
->
->
->Thanks,
->Mauro
+> I'm fine with a WARN_ON() though, I'll add that to v8.
+
+Thanks!
 
