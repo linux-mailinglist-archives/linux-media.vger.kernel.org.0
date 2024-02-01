@@ -1,138 +1,140 @@
-Return-Path: <linux-media+bounces-4570-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4571-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF7A8462D4
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 22:47:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3168462EE
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 22:53:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4235728D8EF
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 21:47:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E330B26B9D
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 21:53:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADD493FB38;
-	Thu,  1 Feb 2024 21:47:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A061D3F8DB;
+	Thu,  1 Feb 2024 21:53:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYhAJw//"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OmMb5s1Y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B0F39AE1;
-	Thu,  1 Feb 2024 21:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019FC3FE3D;
+	Thu,  1 Feb 2024 21:53:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706824053; cv=none; b=Uak3q6fovuTrGQ6irIPfGICYVR6/6afdPLjz5lGScydMdAvIKR/Ha7ZIPGsrj8heY0Ul5oFuu9USIkaIAmsbS2Wh/ipeb4gjhrXDLzP7rEYiWVRvrELSdlwX1XSIfR1w2P79RKfrvzAbn89EXGPA6OMhjEYh+YXMgar4h6gDgzs=
+	t=1706824421; cv=none; b=adaSIp7b6CL5LOY0Yw9LNeF+o765lG14CjD1yPpIP2pDB94UaEt1kVL3rwP/K4G7DZN1v/ayrfIotnDqMcOqQtagEbxOCvpBN1/0R7OaJfsvf9eusU3xSeksA8DJr/a1uikga5qWUaIKDzh72hggdbSB+c5rWfwMP7IhPqTMhGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706824053; c=relaxed/simple;
-	bh=ONdXqAS27cKeOgWX4XGTKCxg4rE0mzWElHVnnYMMb0Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=khxhwSxLDnLzjIdYRf0JZGlz3N+SgDTU1UeUf+6SBoSQeUBK47wAcA3uuk18bvU3k9yTfrG83HMqz2/VEq/jaA28iuim+dgoqHSgNBcucMECnn/FwC7u904JZr5lKQUlIl0uxu6CALvToLATsy7OmaqQxjriTPztTHU9S2cVVvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYhAJw//; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEB5C433C7;
-	Thu,  1 Feb 2024 21:47:14 +0000 (UTC)
+	s=arc-20240116; t=1706824421; c=relaxed/simple;
+	bh=/PfD8LLZ6psxlafhPVyk8PVWnDgOmfWvSdNe88zHNqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pAkpQKvaQ5rf7L6t+uOQrX7FLwPTW6C1kSg/PkE7++QKzwSrPNVdfs6m5d9njipl/5gaCsPV0LrZTItmdBc4lmx/E+uUeiwYCFlcFZ8MxochUZX/him1gSVpN037YAytDY6Z2HXvwckKhNf+uvFRvL86uscIvRIkMCzjXmDRuA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OmMb5s1Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E6A1C433C7;
+	Thu,  1 Feb 2024 21:53:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706824052;
-	bh=ONdXqAS27cKeOgWX4XGTKCxg4rE0mzWElHVnnYMMb0Y=;
+	s=k20201202; t=1706824420;
+	bh=/PfD8LLZ6psxlafhPVyk8PVWnDgOmfWvSdNe88zHNqE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KYhAJw//yARcM3TA6pVCkI4LUiBLE5XWbQdyIJ2IOE9XeeW9PXuRT0u1fpPxxrkwp
-	 Hurjt/dBf8xwi23T1FksMdv9e36XHyjvhrDNFhBSr1xRnTYLMYbJE3ILCL/Xokm/MD
-	 5zQO0eFXQidwjXeacacwmmo5pMdGivYcXVl5OsSlyzb4uDD6zF3QHkW/ipNCSyCrkX
-	 ruFySuh4tDJV4Rf4YFiYpBgTsdWdhvZKAcl5M+3wneiWVFJ2zo1QtBfWDecyRoxa73
-	 fETXEmGDyXWVSu/j1Xloaznpi7OcrAoyx70CgInqn+hTw2H52XDK3rA5SorsXzUwVT
-	 KByKrTZWMbAOA==
+	b=OmMb5s1YNBmZm6pl1THzxGb3f8e8tb1qY6wi+aYWbvkyD+aJBJnJHZ6Jwn4gd2W6b
+	 B0C+g/zzSQA+bGdHTfhSwcjX8TzlnIqSoa20phBV4A0f3ib6UvJa7I2coMyggmgmxB
+	 L6XWIZljtyoDQfBs6Upe9B0SlyMJeW4hnvE40NymCPA6wZAXl4i/WWhqGJbS2FVFXB
+	 2OpF1+hcK2dQTJNQARXbGJlJ4MATLsVSy9gi7Mn8jC+Fqq73tM7lSjgitQjmSb7NYk
+	 kqTSElFvB5xjSS2Ru/NKn4KW05lLqGT8N0kfrerFRXwfJvs7WQgDys+kxprk/iQ3fF
+	 x+OHnwCjmIThQ==
+Date: Thu, 1 Feb 2024 15:53:38 -0600
+From: Rob Herring <robh@kernel.org>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 2/5] dt-bindings: media: Add bindings for ARM mali-c55
+Message-ID: <20240201215338.GA1544581-robh@kernel.org>
+References: <20240131164709.810587-1-dan.scally@ideasonboard.com>
+ <20240131164709.810587-3-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 01 Feb 2024 23:47:13 +0200
-Message-Id: <CYU2MG4IOJ0Q.2UJOTK999FCCC@suppilovahvero>
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Mark Brown" <broonie@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-Cc: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- <kernel@pengutronix.de>, "Moritz Fischer" <mdf@kernel.org>, "Wu Hao"
- <hao.wu@intel.com>, "Xu Yilun" <yilun.xu@intel.com>, "Tom Rix"
- <trix@redhat.com>, <linux-fpga@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Alexander Aring" <alex.aring@gmail.com>,
- "Stefan Schmidt" <stefan@datenfreihafen.org>, "Miquel Raynal"
- <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo
- Abeni" <pabeni@redhat.com>, <linux-wpan@vger.kernel.org>,
- <netdev@vger.kernel.org>, "Lars-Peter Clausen" <lars@metafoo.de>, "Michael
- Hennerich" <Michael.Hennerich@analog.com>, "Jonathan Cameron"
- <jic23@kernel.org>, <linux-iio@vger.kernel.org>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, <linux-input@vger.kernel.org>, "Ulf Hansson"
- <ulf.hansson@linaro.org>, "Rayyan Ansari" <rayyan@ansari.sh>, "Andy
- Shevchenko" <andriy.shevchenko@linux.intel.com>, "Jonathan Cameron"
- <Jonathan.Cameron@huawei.com>, "Martin Tuma"
- <martin.tuma@digiteqautomotive.com>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>, <linux-media@vger.kernel.org>, "Sergey Kozlov"
- <serjk@netup.ru>, "Arnd Bergmann" <arnd@arndb.de>, "Yang Yingliang"
- <yangyingliang@huawei.com>, <linux-mmc@vger.kernel.org>, "Richard
- Weinberger" <richard@nod.at>, "Vignesh Raghavendra" <vigneshr@ti.com>, "Rob
- Herring" <robh@kernel.org>, "Heiko Stuebner" <heiko@sntech.de>, "Michal
- Simek" <michal.simek@amd.com>, "Amit Kumar Mahapatra via Alsa-devel"
- <alsa-devel@alsa-project.org>, <linux-mtd@lists.infradead.org>, "Martin
- Blumenstingl" <martin.blumenstingl@googlemail.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- "Simon Horman" <horms@kernel.org>, "Ronald Wahl" <ronald.wahl@raritan.com>,
- "Benson Leung" <bleung@chromium.org>, "Tzung-Bi Shih" <tzungbi@kernel.org>,
- "Guenter Roeck" <groeck@chromium.org>, <chrome-platform@lists.linux.dev>,
- "Max Filippov" <jcmvbkbc@gmail.com>, <linux-spi@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Bjorn Andersson"
- <andersson@kernel.org>, "Konrad Dybcio" <konrad.dybcio@linaro.org>,
- <linux-arm-msm@vger.kernel.org>, "Matthias Brugger"
- <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>,
- <linux-mediatek@lists.infradead.org>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "Javier Martinez Canillas" <javierm@redhat.com>,
- "Amit Kumar Mahapatra" <amit.kumar-mahapatra@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
- <linux-staging@lists.linux.dev>, "Viresh Kumar" <vireshk@kernel.org>, "Rui
- Miguel Silva" <rmfrfs@gmail.com>, "Johan Hovold" <johan@kernel.org>, "Alex
- Elder" <elder@kernel.org>, <greybus-dev@lists.linaro.org>, "Peter Huewe"
- <peterhuewe@gmx.de>, "Jason Gunthorpe" <jgg@ziepe.ca>,
- <linux-integrity@vger.kernel.org>, "Herve Codina"
- <herve.codina@bootlin.com>, "Alan Stern" <stern@rowland.harvard.edu>, "Aaro
- Koskinen" <aaro.koskinen@iki.fi>, "Krzysztof Kozlowski"
- <krzysztof.kozlowski@linaro.org>, <linux-usb@vger.kernel.org>, "Helge
- Deller" <deller@gmx.de>, "Dario Binacchi"
- <dario.binacchi@amarulasolutions.com>, "Kalle Valo" <kvalo@kernel.org>,
- "Dmitry Antipov" <dmantipov@yandex.ru>, <libertas-dev@lists.infradead.org>,
- <linux-wireless@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "James Clark" <james.clark@arm.com>, "Bjorn Helgaas" <bhelgaas@google.com>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-X-Mailer: aerc 0.15.2
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
- <2024012417-prissy-sworn-bc55@gregkh>
- <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
-In-Reply-To: <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240131164709.810587-3-dan.scally@ideasonboard.com>
 
-On Wed Jan 24, 2024 at 7:22 PM EET, Mark Brown wrote:
-> On Wed, Jan 24, 2024 at 09:13:49AM -0800, Greg Kroah-Hartman wrote:
-> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
->
-> > > Note that Jonathan Cameron has already applied patch 3 to his tree, i=
-t
-> > > didn't appear in a public tree though yet. I still included it here t=
-o
-> > > make the kernel build bots happy.
->
-> > Are we supposed to take the individual changes in our different
-> > subsystem trees, or do you want them all to go through the spi tree?
->
-> Given that the final patch removes the legacy interfaces I'm expecting
-> to take them via SPI.
+On Wed, Jan 31, 2024 at 04:47:06PM +0000, Daniel Scally wrote:
+> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+> 
+> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+>  .../bindings/media/arm,mali-c55.yaml          | 51 +++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/arm,mali-c55.yaml b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+> new file mode 100644
+> index 000000000000..83000175aeda
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/arm,mali-c55.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ARM Mali-C55 Image Signal Processor
+> +
+> +maintainers:
+> +  - Daniel Scally <dan.scally@ideasonboard.com>
+> +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: arm,mali-c55
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/graph.yaml#/properties/endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - port
 
-+1
+Surely some clocks are needed.
 
-least fuss approach
-
-BR, Jarkko
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    mali_c55: isp@400000 {
+> +      compatible = "arm,mali-c55";
+> +      reg = <0x400000 0x200000>;
+> +      interrupts = <0>;
+> +
+> +      port@0 {
+> +        isp_in: endpoint@0 {
+> +          remote-endpoint = <&mipi_out>;
+> +        };
+> +      };
+> +    };
+> +...
+> -- 
+> 2.34.1
+> 
 
