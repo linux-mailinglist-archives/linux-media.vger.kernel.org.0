@@ -1,115 +1,188 @@
-Return-Path: <linux-media+bounces-4581-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4582-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A0884636E
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 23:26:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7566584649C
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 00:52:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A242A1C2518F
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 22:26:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF3381F23577
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 23:52:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D698E405CF;
-	Thu,  1 Feb 2024 22:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC59540BE9;
+	Thu,  1 Feb 2024 23:51:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y2sUzDTq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5EBWuJA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7A23FB34
-	for <linux-media@vger.kernel.org>; Thu,  1 Feb 2024 22:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4724547F59;
+	Thu,  1 Feb 2024 23:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706826390; cv=none; b=qlWsujUz1JZh1B3og+jZX4KBsRdH+Po3k4uAztI7bLbo7xMgvBrQiGF71Ehf6/962k0omFv6BAGxWOT25x/xTVeaqtcdvMDAOh2Rg434jxZv88foGTQdTPE0R7LAwOvtXpJgUNfbkq7hHfzZR/AwbignEWbQkJQrKKWzqg5Sa60=
+	t=1706831509; cv=none; b=bX6nH0Ib01G4QJ5Cv9yG9jc4pd7tI5I7SgEK9BpW7KobpjJjRpihgYS3yjllizYD2dUbNN3dZ8OrfDgZiR7TMI9y3kjgVLgUdV72mTwdbfMEhYq2IAu8C3mBosRtQmH9qlGMO0eAquosuhNH/qLrtgZ4N5MRkHBf9dKU8sTM73c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706826390; c=relaxed/simple;
-	bh=g1niz+9BFP8nJJvQSZtstaXWeqGreuVXwyIK+21IaXQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KaZqCTQuq0Downn/zlLc0WsrKmnu1Zqa8t++c9+0hZjzk8qaRS4IPMVxx6HTUDMKZhcsaSIgEpmkoXWTK/ZlH2jCszm1GsH44ol8HpDfFvDGPPb98zs94kYpCegynqc6Lw9syYY0UGrd9k5RHQyDyw0sbEexceqK64MRSg2SFIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y2sUzDTq; arc=none smtp.client-ip=209.85.217.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-46b35fad293so578369137.1
-        for <linux-media@vger.kernel.org>; Thu, 01 Feb 2024 14:26:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706826387; x=1707431187; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g1niz+9BFP8nJJvQSZtstaXWeqGreuVXwyIK+21IaXQ=;
-        b=Y2sUzDTqMNuq2LzRYMJ2GlU9BO6W+f/1pmQLHYXUfbCvU7tgwRHhY9fPU9PS4ZiRR8
-         Cd0z4e4zrmZ//iqvBng9HRHRqgrN2atants60IeG+KzI85kYnfLPNcehqSB5ZwX2CbN7
-         Q15Nt+B2z878uj+vMtVJppo5mqdtoUCfADGQRqHyO1UVsXncSOHHGnL2LB/iTRl9ZbRP
-         yiGdXnCiJqwvkFGQF5QqdWGlQlkChh/rJr8rwK7X2EHvu7YUEGhoOWYYXOuko2jQiFUK
-         Rk1u5IbEDkWq8vLsWnvlEkOkVPmfvwBaJcKprAAkUKWCYrOQSRcVAUN7BTpK3OyaeuW+
-         EL6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706826387; x=1707431187;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g1niz+9BFP8nJJvQSZtstaXWeqGreuVXwyIK+21IaXQ=;
-        b=cf+2lHZtDemaD9a0E13MEOXHZ5cBOjf0DyDP1e9AnLTrHA25vfRFcSJC8B2eStSefX
-         zYi8aWFoZgMGVTsRAooI46XtNlQngyIb8PZxXsToCYqobAIQTLGsTc2HxJ1RplMvHxeR
-         XjKhQqZAmGG/bWm/OhdG09br94DYe2TfYv8MLQBrgHI5Xjab0A/QJsRsxY4Vc6BiB9gG
-         eehQAocc07QS0kJEbifdfZVq4EWeZXh9tzpktup9ghlJAixcc6Raubyms8j42d9fDPik
-         wJe9A9cF5pV7Y3zC9MWWtdvBDxnCUeMGsz4/7QqbLxPXExZDvX2JgTDtGIISyYh0XKcU
-         ZrXw==
-X-Gm-Message-State: AOJu0Yx3Cc5OM8F3ey39LhcWEdfbx8uCESDOpOr8g1xZ8keNLv2slhFj
-	V6MclEx4vzWBX15fb+pKBdG1ZFjDAAAgYVtjdGhdgw+KO7pCuPjq9OAmVhdHVdrUa8nzbKVHsiq
-	FnrraPDWxv5MhZaCC6WYcVLVXvotzZmb7uWqZ
-X-Google-Smtp-Source: AGHT+IFCuKF6QiU+ny6kuZUF3GaDPIhQfm+qSFreoCq2anMqN2UYkMUcoGIgF+ZV3z+Yz9/V09IBhzG82IgRKFYsfqw=
-X-Received: by 2002:a05:6102:806:b0:46a:fd91:c15b with SMTP id
- g6-20020a056102080600b0046afd91c15bmr339945vsb.13.1706826386679; Thu, 01 Feb
- 2024 14:26:26 -0800 (PST)
+	s=arc-20240116; t=1706831509; c=relaxed/simple;
+	bh=FOHcufONbN0/pF2GMlGqhXYPYixKrUUq72o/McpHSq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pRV8y874F6DWGAB9DEH228FpY/4XwUEVWTkfNPYPeb0E77KSsz4R7Bn2auauT33lmOCYipWXAjVw1gJ50QzkhXUN7GXZbixg7ZfA2yL7vPJJSj32NZ5rnKnDTTIEpOjHjiby18RgoYkN6FBFq8dH/MH0I0uWdcf2I/4Jsh+Zu8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5EBWuJA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08DBEC433C7;
+	Thu,  1 Feb 2024 23:51:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706831508;
+	bh=FOHcufONbN0/pF2GMlGqhXYPYixKrUUq72o/McpHSq0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F5EBWuJAP/b8dmyCSFJx8XNPEJ5E1M8Dp1GohRlEGSI8SE1/pNUNHLxByQS83YTZp
+	 +kTMEBxol1rAQCSE17sCAq+awsWMGpeaDR22rbUWqjevvacu9rtP/dqQbK4c2WAlck
+	 /DIMSq2Q1PowNjSf4B0a4Lz6ZnwyJ7sgh+MPmabnDX89axYwtvdWdbtVqUqkNQMBsO
+	 4rcJmUTLRz6TjSkVc6KS+oRPiGxp/CycgheXgB3YnOGMo96KTOgRI531EHSZLPwmzt
+	 0WUMDoJSDuCHrb3fFel0qo8oZ1fsVssVEgkGDO2djNy9oUkvYklOLAHbuABdumDvlh
+	 +YVdi/wSh/09g==
+Date: Thu, 1 Feb 2024 17:51:45 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Abel Vesa <abel.vesa@linaro.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	Len Brown <len.brown@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Gross <agross@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Taniya Das <quic_tdas@quicinc.com>, Jagadeesh Kona <quic_jkona@quicinc.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd
+ to be managed by HW
+Message-ID: <l7icfezpajren25545n4cjtqehhividt5b2dxnxgetdsshc3k3@tdws423qdblk>
+References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
+ <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org>
+ <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
+ <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
- <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org> <20240201221654.GC2240065@dev-arch.thelio-3990X>
-In-Reply-To: <20240201221654.GC2240065@dev-arch.thelio-3990X>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 1 Feb 2024 22:25:48 +0000
-Message-ID: <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: mediatek: vcodedc: Fix Wcast-function-type-strict
- warnings
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Ricardo Ribalda <ribalda@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Mike Isely <isely@pobox.com>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com>
 
-On Thu, Feb 1, 2024 at 10:17=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> On Sun, Jan 28, 2024 at 02:12:22AM +0000, Ricardo Ribalda wrote:
-> > Building with LLVM=3D1 throws the following warning:
-> > drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32=
-: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsign=
-ed int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned =
-int, void *)') converts to incompatible function type [-Wcast-function-type=
--strict]
+On Wed, Jan 31, 2024 at 01:12:00PM +0100, Ulf Hansson wrote:
+> On Wed, 31 Jan 2024 at 02:09, Bjorn Andersson <andersson@kernel.org> wrote:
 > >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> I am not positive because I don't have any hardware to test this driver
-> but I suspect this patch is just hiding the warning without actually
-> addressing the issue that it is pointing out.
+> > On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
+> > > From: Ulf Hansson <ulf.hansson@linaro.org>
+> > >
+> > > Some power-domains may be capable of relying on the HW to control the power
+> > > for a device that's hooked up to it. Typically, for these kinds of
+> > > configurations the consumer driver should be able to change the behavior of
+> > > power domain at runtime, control the power domain in SW mode for certain
+> > > configurations and handover the control to HW mode for other usecases.
+> > >
+> > > To allow a consumer driver to change the behaviour of the PM domain for its
+> > > device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
+> > > let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
+> > > which the genpd provider should implement if it can support switching
+> > > between HW controlled mode and SW controlled mode. Similarly, add the
+> > > dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
+> > > its corresponding optional genpd callback, ->get_hwmode_dev(), which the
+> > > genpd provider can also implement for reading back the mode from the
+> > > hardware.
+> > >
+> > > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > >  drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
+> > >  include/linux/pm_domain.h | 17 ++++++++++++
+> > >  2 files changed, 86 insertions(+)
+> > >
+> > > diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> > > index a1f6cba3ae6c..41b6411d0ef5 100644
+> > > --- a/drivers/pmdomain/core.c
+> > > +++ b/drivers/pmdomain/core.c
+> > > @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
+> > >
+> > > +/**
+> > > + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
+> >
+> > This isn't proper kernel-doc
+> 
+> Sorry, I didn't quite get that. What is wrong?
+> 
 
-Agreed, this won't fix the issue. The correct solution is to drop the
-cast and change the handler type to match the pointer type (i.e. use
-const void* for the first argument).
+https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
+says that there should be () after the function name, and below there
+should be a Return:
 
-Sami
+> >
+> > > + *
+> > > + * @dev: Device for which the HW-mode should be changed.
+> > > + * @enable: Value to set or unset the HW-mode.
+> > > + *
+> > > + * Some PM domains can rely on HW signals to control the power for a device. To
+> > > + * allow a consumer driver to switch the behaviour for its device in runtime,
+> > > + * which may be beneficial from a latency or energy point of view, this function
+> > > + * may be called.
+> > > + *
+> > > + * It is assumed that the users guarantee that the genpd wouldn't be detached
+> > > + * while this routine is getting called.
+> > > + *
+> > > + * Returns 0 on success and negative error values on failures.
+> > > + */
+> > > +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
+> > > +{
+> > > +     struct generic_pm_domain *genpd;
+> > > +     int ret = 0;
+> > > +
+> > > +     genpd = dev_to_genpd_safe(dev);
+> > > +     if (!genpd)
+> > > +             return -ENODEV;
+> > > +
+> > > +     if (!genpd->set_hwmode_dev)
+> > > +             return -EOPNOTSUPP;
+> > > +
+> > > +     genpd_lock(genpd);
+> > > +
+> > > +     if (dev_gpd_data(dev)->hw_mode == enable)
+> >
+> > Between this and the gdsc patch, the hw_mode state might not match the
+> > hardware state at boot.
+> >
+> > With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
+> > false) will not bring control to SW - which might be fatal.
+> 
+> Right, good point.
+> 
+> I think we have two ways to deal with this:
+> 1) If the provider is supporting ->get_hwmode_dev(), we can let
+> genpd_add_device() invoke it to synchronize the state.
+
+I'd suggest that we skip the optimization for now and just let the
+update hit the driver on each call.
+
+> 2) If the provider doesn't support ->get_hwmode_dev() we need to call
+> ->set_hwmode_dev() to allow an initial state to be set.
+> 
+> The question is then, if we need to allow ->get_hwmode_dev() to be
+> optional, if the ->set_hwmode_dev() is supported - or if we can
+> require it. What's your thoughts around this?
+> 
+
+Iiuc this resource can be shared between multiple clients, and we're
+in either case returning the shared state. That would mean a client
+acting upon the returned value, is subject to races.
+
+I'm therefore inclined to say that we shouldn't have a getter, other
+than for debugging purposes, in which case reading the HW-state or
+failing would be reasonable outcomes.
+
+Regards,
+Bjorn
 
