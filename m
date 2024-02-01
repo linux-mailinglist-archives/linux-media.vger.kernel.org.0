@@ -1,198 +1,139 @@
-Return-Path: <linux-media+bounces-4537-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4538-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E0A844EDA
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 02:48:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A833E84513A
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 07:07:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 702E31F2D49E
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 01:48:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D79D1F229CB
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 06:07:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2081C566F;
-	Thu,  1 Feb 2024 01:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A3285C4F;
+	Thu,  1 Feb 2024 06:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="CS6t+frp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EoLAaEx/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2111.outbound.protection.outlook.com [40.107.114.111])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59ADA4410;
-	Thu,  1 Feb 2024 01:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.111
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706752107; cv=fail; b=Ok8453Q35zKZoIgq7yhrtlpnIsqbjDVjHGGJUQw8NpuGo5XNu4L5+QsluCDxFZVmve6KVxc3IXkBRQV/wMusdfAbxtV14rnk5tKkebinzClnhrKyYRVVyVnbSlPSsfsq1OQBlSHPQe6aLbZpKm9e/jnB/EboulQHDzmyUvP6s6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706752107; c=relaxed/simple;
-	bh=JWOhP7JL9Sl3u2D1wL9rmIGhQ6mykUgBErmpyxBIpCA=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ShoEfEWtEJ+4q0K9o1njVEWI9P/LyX+8ROE4eHH1fiWk69Szq5NljuMjENfawYzXmsk3dKjGj2Vg7FdUiDJQSLPsqYnkt0u8kQ7b5GkKceIG7B3l84/Y9mEG1Su7QkZWMbSFEnKDkjZ49IfPDW7F2Q4Uhy/As9yd+AUQ3kwkEVI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=CS6t+frp; arc=fail smtp.client-ip=40.107.114.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T4o68mupbuHIV7yPw0swscDaE/eJl4pZvbaLWhWnulK8fmKSBdgUXIT93a/Guli5ZtmWKx0tw9GuLxib1IkAOjpirIHiND8loD7LZx0dBHibUXswrwHDib8vzAboBpBGxGGayTjJOJgDEK7AHlLByT63U8dQ/UslUYNnv7NC+cr6bs8mwhsmFDLI/D6p76Nz9QMkGFcA026WzAZFXkkf3L9uFajyu4jCdG7PJlkBVMtzDeUqFEh0rHQ7sWqvNSetnfJgUy79ypytpEZYsNTfgMVyOrKEtRd0O0jze7OcGI8oKDTy6wMey2bzkd11pSRXl2eZ2YzQ7PNVc+NkoC/r5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QOPF473m1mNr5SDcv4YReKxWLIFYkl6lPKu8q8ei2MU=;
- b=XO9buhdAwQJz0TW0E9x0X9Gz8yFUsQrgnrXcsDHWYlnC2oA4hesiy1XECjFMyD+RlHVUbmhcuWUVgS7SNNrYkDLPV4qOEnt7Vn0vMcnF7wNkG8jOrmUznrq0QD3CPODPHx/0eAjJUcW4H1c4zcUMjIXh6l64s9/C+LT9fgGPFRnynIK+PNBHd7/p+xhak/KIdBjaVkpeL7eBEkKbO/i6YKnUc4ZdzAFgRHcBMfq3IgIuZzFrsxukQh3/nPKwBhJ7gs0EtxGEzOSZ4jhTkenpMkvuFoW+LOZB8Wi46vh5eyj2a14bI9dfg9Z2A8w5xmaZytXjV//45tfCCHWm7y9lQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QOPF473m1mNr5SDcv4YReKxWLIFYkl6lPKu8q8ei2MU=;
- b=CS6t+frpFtU1MGPbCseQbvIlX9NWEBVCLQQhoVD4mD1PxI/8UzBA0nQCLB5ZHJOVbmhUaXQgfW6tEgmQFGOkWbq/FikiiV9raqWqiGlURdTARKRHPaVosA0jT/Z+EXnNRUd+gTX+T1SLUOmxMcS10zWWEKtGJPlcu1oCQnnvoXs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSZPR01MB9410.jpnprd01.prod.outlook.com
- (2603:1096:604:1d8::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.23; Thu, 1 Feb
- 2024 01:48:20 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::ce8:8f5e:99a0:aba4]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::ce8:8f5e:99a0:aba4%2]) with mapi id 15.20.7249.023; Thu, 1 Feb 2024
- 01:48:20 +0000
-Message-ID: <87jznpnee4.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,	Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>,	alsa-devel@alsa-project.org,
-	devicetree@vger.kernel.org,	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,	linux-sound@vger.kernel.org,	Uwe
- =?ISO-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,	Daniel
- Vetter <daniel@ffwll.ch>,	David Airlie <airlied@gmail.com>,	Frank Rowand
- <frowand.list@gmail.com>,	Helge Deller <deller@gmx.de>,	Jaroslav Kysela
- <perex@perex.cz>,	Liam Girdwood <lgirdwood@gmail.com>,	Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,	Mark Brown <broonie@kernel.org>,	Mauro
- Carvalho Chehab <mchehab@kernel.org>,	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,	Saravana Kannan
- <saravanak@google.com>,	Takashi Iwai <tiwai@suse.com>,	Thomas Zimmermann
- <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 03/13] of: property: add of_graph_get_next_endpoint_raw()
-In-Reply-To: <87le85nher.wl-kuninori.morimoto.gx@renesas.com>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
-	<87bk95klgc.wl-kuninori.morimoto.gx@renesas.com>
-	<afea123c-12b0-4bcb-8f9e-6a15b4e8c915@ideasonboard.com>
-	<20240129130219.GA20460@pendragon.ideasonboard.com>
-	<20240131184347.GA1906672-robh@kernel.org>
-	<87le85nher.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 1 Feb 2024 01:48:20 +0000
-X-ClientProxiedBy: TY2PR06CA0006.apcprd06.prod.outlook.com
- (2603:1096:404:42::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E3D83CD5;
+	Thu,  1 Feb 2024 06:07:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706767657; cv=none; b=Kiw1QbO7ftXdXGQqvNjzt6qB+FokhVpZtPJlNSNo0SnFsoNFFKTqnh22PcQFNQ2jL+RFLiWiEjLczUn7RRbRQYuO2cUc+A1y3s/WO2LCxjWCEwKYk4p00ebtCTo0R5kW481sxIAj85GqL9CZ3GzD1YUvlVpONsricVu6juWZpd8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706767657; c=relaxed/simple;
+	bh=D6bXdxqiDlPA/Gr9VoLm4TRLXPbuhZp5QeUAVwsb4/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=quOfz78NNPapK6mkyrscKLWDj4VuVo7XMOFHM58OP0k9WSY0scmgLNjT5P78PZNtAKUPMWz3ht3+ySsM55A3HoRwaA8xLUsaRZ2f4LtDghb6Rp26kAhWU/r6Q6BjMH2zqD+ciYiiJYq7rBq96mFZQSI2dBQRT0aiL/VzXyppFUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EoLAaEx/; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706767656; x=1738303656;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D6bXdxqiDlPA/Gr9VoLm4TRLXPbuhZp5QeUAVwsb4/k=;
+  b=EoLAaEx/XFnakGZZEikM833nHlD04+9s35MdXV95Ul0MtS59W5NJ1iCJ
+   rrBxQx9CQzwVjj7UH1e+rjs+9n2TSWSvc/iC230MRu9ioQAXXqNguUg0z
+   emJl+UCvQ5nW9j/rm1AmBkBSTSf2FEGMe5yY/wyD0QXF8wW/4xSDoAPN0
+   HjohnDP4zYQVCIxuc4hsaR0kFLOUCUIeRclx7dwk73qTxyu8lBErHcFjd
+   7trsNlIP2WGjg08yx+VUNQyRH/G4/MHQiBFSmK3holl0yce4XMlKE4q2c
+   GlE8b0Bx/unYlsUIVvTG8/Uo+l1xgLNiptD1rzkcwVVWgqv0mqMoClslT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3680508"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="3680508"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 22:07:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="912032520"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="912032520"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 31 Jan 2024 22:07:31 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVQET-0002Qj-11;
+	Thu, 01 Feb 2024 06:07:29 +0000
+Date: Thu, 1 Feb 2024 14:07:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
+Message-ID: <202402011332.NzuDyrGr-lkp@intel.com>
+References: <20240131164709.810587-4-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSZPR01MB9410:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6694b1d-8d1f-41a5-3f58-08dc22c7de42
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	CZDXjxauUspbDFQ2eWQx+BM781vzFLqq5wWnX23R/BgfO6mV4P6hXUDim7gwHZvTxHRSJ7dpXkhyFYiV8Z7scyCny2CgLOISaZ/mJbrSFODo0/1CILC+rlkegCP2rzFvcLPwRZaounKGxMtTS5GSJxlWmLsm9XehCQZcJ/Ajx6cGZR/pAa2a02i7EBC/u2ExyKU4lS2UdB1Z6G/q/Drp6Dngmn7ukfS3THucUVICo2EIfCbmWWhOAfnVEt90bWEFSBGenQKZhDp9qfkiwkdGcekDsb4XwYr/CHFKkq/xwbl840/u+9MkJbOBPvwJI9vGOJVsagxjGnvEPhkQ7AGG02LCsPQDBgU5WH6YIXv9ZEGjkBJ3E27itmRgsVFTZxEh5wRTQiPmTsBGMKBOCUs7eJcG12rc51BN0gQqUogvQfFyVfSVmVV7OTdwvU4DL5qdYzdxqU5IUgcXSRtrCVMRQIU/EGk2cVzMyGy8HIldlndFwJ4pEK9fBArK2o4ETe+WbXPHEOuubXth5dSMwbRhNtnod7JSilt5eSSAqLRZvASqdQdsrbV6tSeWFkyHKjy7TPLbl3EvsF9/mDGnFkq5nZw2Tm49/onZ1GmgTFkAOt9IX7G1iNm1GebIbCCndXy4
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39860400002)(376002)(366004)(136003)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(38100700002)(66556008)(54906003)(6916009)(66476007)(66946007)(316002)(5660300002)(7416002)(8936002)(52116002)(6512007)(8676002)(2616005)(4326008)(6506007)(2906002)(6486002)(26005)(478600001)(83380400001)(41300700001)(36756003)(38350700005)(86362001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?AOlR1AcPQxE/Ywq/zICxPIN2+BajfQQWPRDUiJYoWgr6W/HjFV/bwWpLjJT0?=
- =?us-ascii?Q?P9jv2ZzVbJfvTaGGE8RlOZLs6pTjQes1svITIPwfgkbpJk4tB9Wulw7C02qO?=
- =?us-ascii?Q?fiRjPwEpflQSopTMvUDymf7kNNpJ9l8D+HxdpmehsEAw1T3xl7r3oaZWBPVz?=
- =?us-ascii?Q?CBl4TKaaAQav3fDMq1NhRxBi76Rd3K2XY0BFHkYs3sPLCL8d8wW8TKieVcax?=
- =?us-ascii?Q?2lbRCXAyyg2gPIRufhfZS02ECR4rNB5jIYwFkAXodOjHOZzE/e+29WRxtIVu?=
- =?us-ascii?Q?zgwnMllfCUMTrEgONvs3r6KXTefY1e/vUhDACTcakVjaZ/CPaXttVN7K6Uvf?=
- =?us-ascii?Q?DXj2QmNeEZl24Q+GCuMGbc70OsIhgdR/erqfs40/+hOJyj0iywvRbGcTlm6x?=
- =?us-ascii?Q?tdnmRqXlkBHn9v5qk5iHijUB1ocbum+B1oiHgoGT6EK0ZPgHBVJmfYUZelmo?=
- =?us-ascii?Q?4aSW+xIv6VvZKTRaBgbcxHLJD8EO7cb3Y/hWRAvYd3dkuHflnY0jg3qp+pSq?=
- =?us-ascii?Q?veWPzqIPNdLgXKilArUtDXH6spW0lFc/kBsRk0cmdlUTIQ7mIfFy+Lv0kJxP?=
- =?us-ascii?Q?AFVeZES1ELmpMI2Izg89GaVmvMec4sRaiOlOn61HOSFe2UlfMbAn+ZkpGI5A?=
- =?us-ascii?Q?w3oS5J4yNkW+dPkx7N10gTxS51StvL9SfhG21pxbhxaTX7sjTm4IgAVv+4ew?=
- =?us-ascii?Q?LSQI9Q4w1aWLdFt96iUXf7wscSaFmx1RV0sJxYkX+xb8lcMOy44ExGTWWcc3?=
- =?us-ascii?Q?mjndWiSfJY61vKypwQZT3Dyx0b1PjG8/PJ2YSb6j6kcnApwGYj6i1NNzvl7a?=
- =?us-ascii?Q?C6hrDH19Huae3a2qr4VKV0Ht7jVPS4kgYf6ReCdGx5+Ld5xk7R7bLoSJ+oo5?=
- =?us-ascii?Q?Acxf2Ke2W+9GyvvXTtyKs+f8e7YZtKPJGyI4w8//sFpzW/1qWX13P8kM+zwd?=
- =?us-ascii?Q?STn+0CAwlbzJzwyi7Ql399TNYnm1Y98oraz30eGenHGjTyJGriF2o9N79xmG?=
- =?us-ascii?Q?5BWUmeimeYv3XfPjpl8BtOf7s+U8Zkco7uZP+K/N8Lk+pQLbByiD1y0e/exJ?=
- =?us-ascii?Q?AzjtmJmvdVi3bbkHtoomTaL2R2+zYSLo+Q753BaTrL4kTqDwfTU1SDNwNS0s?=
- =?us-ascii?Q?UK1X/0hrbmtO8dvP3HqR4uzHmBwuYpVURzYZaOsLCZWDf9LVZVBvJywNJgAO?=
- =?us-ascii?Q?DPdOKEVtrx4k/inyX3SBjNzzUYPU6lLDwP6yxJyY6Y/6flmLwGK15XMmwIME?=
- =?us-ascii?Q?8OGbTv7FTp1e2fMaO8Uy1cIQHehHE4bolwFYzfDS95uDWraxu+Jm7dGiaRJW?=
- =?us-ascii?Q?xqmRiS7cDtgeOYN35hr55ysZbiKAeWbu6tTLrUxAjNej3kPETUloQDdbgqXo?=
- =?us-ascii?Q?k+s1lrW6AuLxuPXC4hg5m2c2F90tGB0nlq+RP0Otxpr4LvRZ3EJ+VPPoyxyc?=
- =?us-ascii?Q?RPJVOWfLhKDd5t7ElllT0hEPe9MHQI6EjIy2XcS84uw4FAVMZ9QESn7BYoAj?=
- =?us-ascii?Q?+SN0dyhsBVdffOjuoCJFxTLX1oLNpV7miZFUebXhpMc9WY++C/8UWa4kB5qE?=
- =?us-ascii?Q?mwgnR24EVFiih5j5hS8LBkmSPsyMHmvclVFQ7GVA6GA5k14ZP3Om8oz/XVA/?=
- =?us-ascii?Q?lNElI5HNBdJ8d6nQgDowgjM=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6694b1d-8d1f-41a5-3f58-08dc22c7de42
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2024 01:48:20.3753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0Yf4Xpf1qpZX+pZLkyZXVw5DzA0GZAKk3rlSS+pVWwps5WxOGXaVOPcAMfTC4Cm3y4827RuGhH25kYcCRLITinBrxzBkQ4cZUz/ThDLRoB52ogG4vB+NybtvwaJYpXcP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9410
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240131164709.810587-4-dan.scally@ideasonboard.com>
+
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master linus/master v6.8-rc2 next-20240131]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240201-005029
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240131164709.810587-4-dan.scally%40ideasonboard.com
+patch subject: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240201/202402011332.NzuDyrGr-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011332.NzuDyrGr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402011332.NzuDyrGr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/arm/mali-c55/mali-c55-capture.c:286:8: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+     286 | static const char * const mali_c55_cap_dev_to_name(struct mali_c55_cap_dev *cap)
+         |        ^~~~~
+--
+   drivers/media/platform/arm/mali-c55/mali-c55-tpg.c: In function 'mali_c55_tpg_configure':
+>> drivers/media/platform/arm/mali-c55/mali-c55-tpg.c:125:36: warning: variable 'fmt' set but not used [-Wunused-but-set-variable]
+     125 |         struct v4l2_mbus_framefmt *fmt;
+         |                                    ^~~
 
 
-Hi Rob
+vim +286 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
 
-> > #define for_each_port_endpoint_of_node(parent, port, child) \
-> > 	for (child = of_graph_get_endpoint_by_regs(parent, port, -1); child != NULL; \
-> > 	     child = of_get_next_child(parent, child))
+   285	
+ > 286	static const char * const mali_c55_cap_dev_to_name(struct mali_c55_cap_dev *cap)
+   287	{
+   288		if (cap->reg_offset == MALI_C55_CAP_DEV_FR_REG_OFFSET)
+   289			return capture_device_names[0];
+   290		else if (cap->reg_offset == MALI_C55_CAP_DEV_DS_REG_OFFSET)
+   291			return capture_device_names[1];
+   292		else
+   293			return "params/stat not supported yet";
+   294	}
+   295	
 
-Hmm... I noticed it is impossible so for.
-of_graph_get_endpoint_by_regs() (A) is based on for_each_endpoint_of_node() (B).
-Thus, we can't replace for_each_endpoint_of_node() (B) with by_regs (A)
-
-(A)	struct device_node *of_graph_get_endpoint_by_regs(...)
-	{
-		...
-(B)		for_each_endpoint_of_node(parent, node) {
-			...
-		}
-
-		return NULL;
-	}
-
-> 	- patch-set for reduce/remove to using current next_endpoint()
-> 	- patch-set for rename current next_endpoint() to next_device_endpoint()
-> 	- patch-set for adding new next_port_endpoint()
-
-So, maybe we can do is,
-
-	0) rename current endpoint functions to device_endpoint
-
-	1) add new port base functions (port_endpoint) which has
-	   for_each_of_graph_port_endpoint() loop. It is for port base endpoint loop
-	   (I want to use new naming, using of_graph instead of _of_node).
-
-	2) replace above (B) part with port base loops 
-
-	-	for_each_endpoint_of_node(parent, node) {
-	+	for_each_of_gprah_port(parent, port) {
-	+		for_each_of_graph_port_endpoint(port, endpoint) {
-
-	3) replace current next_endpoint() by next_endpoint_by_regs(),
-	   and remove next_endpoint()
-
-What do you think ?
-
-Thank you for your help !!
-
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
