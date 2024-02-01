@@ -1,106 +1,207 @@
-Return-Path: <linux-media+bounces-4558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B378845810
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 13:49:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6807E84581D
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 13:51:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BEF3A291662
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 12:49:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E40F41F244C2
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 12:51:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 422248664F;
-	Thu,  1 Feb 2024 12:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8EED8665E;
+	Thu,  1 Feb 2024 12:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VG2TeXqv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9BBA8663F;
-	Thu,  1 Feb 2024 12:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF8186645;
+	Thu,  1 Feb 2024 12:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706791766; cv=none; b=OiU7qJF8akDwINMo/YHNUOr65PQYi/OJwNyJ12GV1b5Z0Bs5B++vCFxxuwxIGPpjr9VfwOQIzcXSFmv++zAl/bLpN27WBuCkagrzfCmXUcKqsD/hcudeeDNU/jMhHGXJ+9zaY10eNiHmQ37g8ejM+bE+oQ/DtI8BIJo72xJUai8=
+	t=1706791879; cv=none; b=NEbKthR7KDB36Dsm1MXCL1aH/OW0nYpJCXhE6EOvMxQI6oBgaoePOfB9F+cl215C/5kEtv7Jh9Vv+wmClKATK6a4iepx42+Ii/dIa9b/UfTIQT44lmqS6AXIo8uJR9iYSYkz4szi/eeDxJVLE2+kSzw8NYVbSfXXoGJazFB0atU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706791766; c=relaxed/simple;
-	bh=Yi8Yp0mra6HVN4MohQAem1CrTDUOAi3hKvHb8V/rYVg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AIgTFWQAyAeJkT2ttOW6+6ARxwVQzlQHwGQTAmdKVWi1120AozIO59XrCoDIC7RwHdO/9/RjV7QBo9OyE91L+qa7EbcOOyck82pRidF2DkSyWRrSyc/hS4NuHEyqDGnJ9GY4B1v/gYGj4z95mWhhJJBgDEp1GatUh/dxqbtDJWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from luzhipeng.223.5.5.5 (unknown [183.128.135.43])
-	by mail-app2 (Coremail) with SMTP id by_KCgDXGqpDk7tl6tQxAQ--.4622S2;
-	Thu, 01 Feb 2024 20:49:07 +0800 (CST)
-From: Zhipeng Lu <alexious@zju.edu.cn>
-To: alexious@zju.edu.cn
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: v4l2-mem2mem: fix a memleak in v4l2_m2m_register_entity
-Date: Thu,  1 Feb 2024 20:48:44 +0800
-Message-Id: <20240201124846.3054579-1-alexious@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1706791879; c=relaxed/simple;
+	bh=iO+Eo8pPglcxEzFGDR/NbmaGU1weyDXreVR1dhmvHfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BU6Uilh/3Bu4lu1s94Sps9ggfaww2gGJeozR5fFbi8InMUe8JdAHqPzpb3kFhlwRpXGBP7OA98xrjtTBmJFhbyHdA1DeEMRF7QjskXqEg31nZc7d2CD9aWzPhA2nHiMWYDLLeqh6WxlU4/MGmvonuIgoLzfcEHWo1ssRjas4qys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VG2TeXqv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C37FC433C7;
+	Thu,  1 Feb 2024 12:51:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706791878;
+	bh=iO+Eo8pPglcxEzFGDR/NbmaGU1weyDXreVR1dhmvHfA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VG2TeXqvjxGcRv1tIL7nOyafkaL7z3CCvzIcS+2JApyFPDRQM0dhUM3PKC9rui9W7
+	 opOWXzX3wf+INRuwos5WuH4cf3M6JbqJJyg+LLI0aU/Mjafxp/zI/6LLOjymUIwDoC
+	 VDSk9ZulqP9mhOGNO91YqNdrN/xj0ITM+fgsH8po+qhjWD78Oni1Q/PDRrpA8716mK
+	 q7pVitaQP60mvxztWefD4GBlghOrGBUOghPd2F99j+OOahvR6F8gTncbv1qJZI/FBz
+	 m1WAK/Vazl7vTC3aR4c4aWHK20XFT2GuwJVRCjUR6Z4saoYMDPtpDx3hv0SXZYc5LH
+	 BbV/B+1mMlIrg==
+Date: Thu, 1 Feb 2024 13:51:15 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH v5 15/44] drm/connector: hdmi: Compute bpc and format
+ automatically
+Message-ID: <jlkoofv7nszj2uqmo2672yo4wjd3yjqarge2l2hxofixcchu6a@j72pa4iybitd>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-15-6538e19d634d@kernel.org>
+ <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:by_KCgDXGqpDk7tl6tQxAQ--.4622S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKw4rWryrJFy3AF45KF48JFb_yoWkAFg_uF
-	s7uFnxWF1UKw43G3WUK395Z340ga9Fqrn3Ga13tF43tFy5JasxtFWDZrn8X397WF17A3sx
-	Crn8WrWfCF1jkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbskFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCY02Avz4vE14v_Xr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-	14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-	IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
-	IFyTuYvjfU0FApUUUUU
-X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vqybhtpmawkwvb6z"
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
 
-The entity->name (i.e. name) is allocated in v4l2_m2m_register_entity
-but isn't freed in its following error-handling paths. This patch
-adds such deallocation to prevent memleak of entity->name.
 
-Fixes: be2fff656322 ("media: add helpers for memory-to-memory media controller")
-Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
----
- drivers/media/v4l2-core/v4l2-mem2mem.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+--vqybhtpmawkwvb6z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 0cc30397fbad..8db9ac9c1433 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -1084,11 +1084,17 @@ static int v4l2_m2m_register_entity(struct media_device *mdev,
- 	entity->function = function;
- 
- 	ret = media_entity_pads_init(entity, num_pads, pads);
--	if (ret)
-+	if (ret) {
-+		kfree(entity->name);
-+		entity->name = NULL;
- 		return ret;
-+	}
- 	ret = media_device_register_entity(mdev, entity);
--	if (ret)
-+	if (ret) {
-+		kfree(entity->name);
-+		entity->name = NULL;
- 		return ret;
-+	}
- 
- 	return 0;
- }
--- 
-2.34.1
+On Thu, Dec 14, 2023 at 03:10:43PM +0000, Dave Stevenson wrote:
+> > +static bool
+> > +sink_supports_format_bpc(const struct drm_connector *connector,
+> > +                        const struct drm_display_info *info,
+> > +                        const struct drm_display_mode *mode,
+> > +                        unsigned int format, unsigned int bpc)
+> > +{
+> > +       struct drm_device *dev =3D connector->dev;
+> > +       u8 vic =3D drm_match_cea_mode(mode);
+> > +
+> > +       if (vic =3D=3D 1 && bpc !=3D 8) {
+> > +               drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
+> > +               return false;
+> > +       }
+> > +
+> > +       if (!info->is_hdmi &&
+> > +           (format !=3D HDMI_COLORSPACE_RGB || bpc !=3D 8)) {
+> > +               drm_dbg(dev, "DVI Monitors require an RGB output at 8 b=
+pc\n");
+> > +               return false;
+> > +       }
+> > +
+> > +       if (!(connector->hdmi.supported_formats & BIT(format))) {
+> > +               drm_dbg(dev, "%s format unsupported by the connector.\n=
+",
+> > +                       drm_hdmi_connector_get_output_format_name(forma=
+t));
+> > +               return false;
+> > +       }
+> > +
+> > +       switch (format) {
+> > +       case HDMI_COLORSPACE_RGB:
+> > +               drm_dbg(dev, "RGB Format, checking the constraints.\n");
+> > +
+> > +               if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
+> > +                       return false;
+>=20
+> We've dropped this check from vc4 in our downstream kernel as it stops
+> you using the prebaked EDIDs (eg drm.edid_firmware=3Dedid/1024x768.bin),
+> or any other EDID that is defined as an analog monitor.
+> The EDID parsing bombs out at [1], so info->color_formats gets left at 0.
 
+Right, but it only does so if the display isn't defined as a digital displa=
+y...
+
+> RGB is mandatory for both DVI and HDMI, so rejecting it seems overly fuss=
+y.
+
+=2E.. which is required for both DVI and HDMI.
+
+And sure enough, if we decode that EDID:
+
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
+05 16 01 03 6d 23 1a 78 ea 5e c0 a4 59 4a 98 25
+20 50 54 00 08 00 61 40 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 64 19 00 40 41 00 26 30 08 90
+36 00 63 0a 11 00 00 18 00 00 00 ff 00 4c 69 6e
+75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
+3d 2f 31 07 00 0a 20 20 20 20 20 20 00 00 00 fc
+00 4c 69 6e 75 78 20 58 47 41 0a 20 20 20 00 55
+
+----------------
+
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.3
+  Vendor & Product Identification:
+    Manufacturer: LNX
+    Model: 0
+    Made in: week 5 of 2012
+  Basic Display Parameters & Features:
+    Analog display
+    Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
+    Blank level equals black level
+    Sync: Separate Composite Serration
+    Maximum image size: 35 cm x 26 cm
+    Gamma: 2.20
+    DPMS levels: Standby Suspend Off
+    RGB color display
+    First detailed timing is the preferred timing
+  Color Characteristics:
+    Red  : 0.6416, 0.3486
+    Green: 0.2919, 0.5957
+    Blue : 0.1474, 0.1250
+    White: 0.3125, 0.3281
+  Established Timings I & II:
+    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 =
+MHz
+  Standard Timings:
+    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 =
+MHz
+  Detailed Timing Descriptors:
+    DTD 1:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz=
+ (355 mm x 266 mm)
+                 Hfront    8 Hsync 144 Hback  168 Hpol N
+                 Vfront    3 Vsync   6 Vback   29 Vpol N
+    Display Product Serial Number: 'Linux #0'
+    Display Range Limits:
+      Monitor ranges (GTF): 59-61 Hz V, 47-49 kHz H, max dotclock 70 MHz
+    Display Product Name: 'Linux XGA'
+Checksum: 0x55
+
+----------------
+
+Warnings:
+
+Block 0, Base EDID:
+  Detailed Timing Descriptor #1: DTD is similar but not identical to DMT 0x=
+10.
+
+EDID conformity: PASS
+
+So, if anything, it's the EDID that needs to be updated, not the code there.
+Maxime
+
+--vqybhtpmawkwvb6z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbuTwwAKCRDj7w1vZxhR
+xStzAQDYM7L7UXag4iNuhrqdZjT3FFQPKQRkvAlVCUNanR6aCQEAkg4xQyzE9/jz
+b81DQAxlvCB4Ne7NX/cfiEPrXcR93Q0=
+=Fb2U
+-----END PGP SIGNATURE-----
+
+--vqybhtpmawkwvb6z--
 
