@@ -1,131 +1,179 @@
-Return-Path: <linux-media+bounces-4561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4562-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C2F8458C1
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 14:21:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 076FA84595B
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 14:53:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA4761F29CC1
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 13:21:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 606B2B286D1
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 13:53:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF5265CDEE;
-	Thu,  1 Feb 2024 13:20:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01B385F48B;
+	Thu,  1 Feb 2024 13:52:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kMRl+nUj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UD9a8fj3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3629753385;
-	Thu,  1 Feb 2024 13:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E3A5F468;
+	Thu,  1 Feb 2024 13:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706793637; cv=none; b=SrhYtvQBr6RnEE+hKjGxKolYc7JX8+B7rzdHakx3O+7iSvAHWmDD8KYmhIzfND9M//fZxsX6fvnjoULdVB0t4X8XzyxnDkXlFu+k9IDiKnuLTPof3sPQSZ/pGjp49hAr4KHFYK1bIwMzkvrqsGOQFKnjGHBg0zG39m67Paxdsuk=
+	t=1706795559; cv=none; b=VfkF/UqZ3LwfMZId8gMG/L0ibGL0RqkZPciGpANzlK+UqdTt3pApf6oCyhCe6rUkVrJKP64aABJTCz5PTOzrPvvbUrs3UhZZmlkbfjamBm0EhDKQc0tUN+XiBqh4J4Qlr34PXFdHPYkCkjZzqFR/LCrRaG7uuqY2cwIevrrxpq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706793637; c=relaxed/simple;
-	bh=91Gbfrxyx92uBpuq3YaFcew4t4G3yajBdrENfvWvljY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MCOVBcMbuiHQnn40RYvQQgyTkiyT4BcpfmIE5HrbqBS/LvzeRdjnl6/5bJQzcqrar+lIyD33TVxPxppOaXs5+uIWq+yh2Om5gR/y01CRD5DxFyweysomSsXwu/JEtnEO0bhHY+qbd7xP0bh1K109qDYThWOHvIpfFTN3RvI/cOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kMRl+nUj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54314C433F1;
-	Thu,  1 Feb 2024 13:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706793636;
-	bh=91Gbfrxyx92uBpuq3YaFcew4t4G3yajBdrENfvWvljY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kMRl+nUj++gMOkY2eiVPeG+iFpOMzK1NWZKLRPO4byjsGjRzyLsPCZE4sLYKbhbe9
-	 a7FcyvH7smLtP40lWLUucwONfOXy6F3Mvw9dwL3QAm7dlvSBM6Uz6p6JXbuQwdUWrP
-	 A2hEG7M+04A9QM+Kxpdbotu6rZZEoLJsFO5Vy1HW8MPY4DAffvTii5KtD5IL+sRVhK
-	 jRK2haV/Okz4qJ9IMw7iVt8oQJJyMP3sc1IQtRIHdd4E/7qMRefZQKRLO4qQoFjj7i
-	 uZ2KIUzf+xb7DiC/YdvN5hc/Ig9p2rZWsmKZsvH4K3A+/5WT2atD8nO2MpVn/eld/o
-	 pxVpYyUEYu+RQ==
-Date: Thu, 1 Feb 2024 14:20:31 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, linux-staging@lists.linux.dev, Kate
- Hsuan <hpa@redhat.com>
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.8-1
-Message-ID: <20240201142031.34b89978@coco.lan>
-In-Reply-To: <3d0d2d3e-f991-4261-83f8-e4fd813e0804@redhat.com>
-References: <d5059986-0329-4e6a-a7a5-30da8ebd58a9@redhat.com>
-	<20240201071017.6032bba8@coco.lan>
-	<508f2b4d-5fbd-4389-b98f-31b9525dd7cd@redhat.com>
-	<20240201131826.7d8502ae@coco.lan>
-	<3d0d2d3e-f991-4261-83f8-e4fd813e0804@redhat.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1706795559; c=relaxed/simple;
+	bh=ebmTHicMZOC5G/O7XY0VPUZ32gErFhOhfjjwyQcH3aQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aaoiZ5/GGBhM4NmpS6jpRxSOD6UphIBRSxQ9i5LWdRcx270iDKh9Ct1HSQ5+ukcFdAdnpR2pop6SoOIzT857ht5vZ3rIeGPMyNANksA/BbRhYv8ml7teKNMr1/DpujdLy0AxTWiqMppVLiVlEe+457pf+X5eR+v4MFRE8Yvrf9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UD9a8fj3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [94.107.229.70])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79909613C;
+	Thu,  1 Feb 2024 14:51:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1706795474;
+	bh=ebmTHicMZOC5G/O7XY0VPUZ32gErFhOhfjjwyQcH3aQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UD9a8fj3OvrZ5BeNaUdR2+AZQXSSCY7pfmfYLmE55moZqqNph9JgP8Gmn+b0M2Ngw
+	 emvh68QZD96AbHtCoqkYXrFjP94ELxMj/vXZuyHumLBdyPSbJns7bqsME9R3cgPzvq
+	 9ZHRS3U/4WrGrwVr+jip+mS55c08kjBzRdFJ5haI=
+Date: Thu, 1 Feb 2024 15:52:32 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Elder <paul.elder@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, kieran.bingham@ideasonboard.com,
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
+	aford173@gmail.com,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 04/11] media: rkisp1: Support devices lacking dual crop
+Message-ID: <20240201135232.GB5344@pendragon.ideasonboard.com>
+References: <20240111114831.656736-1-paul.elder@ideasonboard.com>
+ <20240111114831.656736-5-paul.elder@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240111114831.656736-5-paul.elder@ideasonboard.com>
 
-Em Thu, 1 Feb 2024 13:33:08 +0100
-Hans de Goede <hdegoede@redhat.com> escreveu:
+Hi Paul,
 
-> Hi,
-> 
-> On 2/1/24 13:18, Mauro Carvalho Chehab wrote:
-> > Em Thu, 1 Feb 2024 12:46:19 +0100
-> > Hans de Goede <hdegoede@redhat.com> escreveu:
-> >   
-> >> Hi,
-> >>
-> >> On 2/1/24 07:10, Mauro Carvalho Chehab wrote:  
-> >>> Em Sun, 31 Dec 2023 11:39:18 +0100
-> >>> Hans de Goede <hdegoede@redhat.com> escreveu:
-> >>>     
-> >>>> Hi Mauro,
-> >>>>
-> >>>> Here are the atomisp changes for 6.8.
-> >>>>
-> >>>> My patches in this set been posted on the list, but only a couple of
-> >>>> minutes ago, leaving pretty much zero time for review. Sorry about that,
-> >>>> with the holidays the timing did not work out very well.
-> >>>>
-> >>>> If you don't want to take this pull-request because of this it
-> >>>> would be good if you can at least take the patches up to
-> >>>> the "media: atomisp: Fix spelling mistake in ia_css_acc_types.h"
-> >>>> change. There are only 2 unreviewed patches from me in that
-> >>>> set, which fix the atomisp driver not working at all with
-> >>>> the latest media_stage/master code. And the rest of the patches
-> >>>> in that set are from others and have been reviewed by me.    
-> >>>
-> >>> We typically close the media merge window at -rc6. As I was also
-> >>> in vacations during those weeks, this PR was merged today for 6.9.    
-> >>
-> >> No problem, I know I was late with submitting this PR.
-> >>  
-> >>> Indeed the first two patches seem to be needed to fix an issue on 6.8. 
-> >>> Could you please send them to stable after their arrival at linux-next?    
-> >>
-> >> I'm not sure what you mean with send them to stable ?
-> >>
-> >> 6.8 is not released yet, so these need to be send to Linus this
-> >> cycle. What is the process for media bugfixes for the current
-> >> kernel cycle ?  
-> > 
-> > Heh, sorry, somehow I was thinking on 6.7 :-)
-> > 
-> > If the bug only happens on 6.8, I can just cherry-pick the two patches
-> > on my fixes branch.  
-> 
-> I believe you only need:
-> 
-> "media: atomisp: Adjust for v4l2_subdev_state handling changes in 6.8"
-> 
-> And as the subject says, that is a fix for 6.8, 6.7 is fine AFAIK.
+Thank you for the patch.
 
-Ok, patch cherry-picked to the fixes branch. I'll send it together
-with the other pending patches after they arrive to linux-next
-(so likely next week).
+On Thu, Jan 11, 2024 at 08:48:24PM +0900, Paul Elder wrote:
+> Some versions of the ISP supported by the rkisp1 driver, such as the ISP
+> in the i.MX8MP, lack the dual crop registers and don't support cropping
+> at the resizer input. They instead rely on cropping in the Image
+> Stabilization module, at the output of the ISP, to modify the resizer
+> input size and implement digital zoom.
+> 
+> Support those ISP versions by addind a dual crop feature flag, and
 
-Thanks,
-Mauro
+s/addind/adding/
+
+> mapping the resizer input crop rectangle to either the resizer dual crop
+> module or the image stabilization module.
+
+The implementation doesn't match the commit message. You only disable
+dual-crop here, you don't handle the image stabilization module. I'm
+fine with that, I think adding IS support belongs to a separate patch,
+but what this patch is missing is disabling the ability to set a crop
+rectangle on the resizer input when dual-crop is not supported.
+
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Tested-by: Adam Ford <aford173@gmail.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-common.h  | 2 ++
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c     | 6 ++++--
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c | 6 ++++--
+>  3 files changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index f7c251f79aa9..219d4a2547aa 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -112,6 +112,7 @@ enum rkisp1_isp_pad {
+>   * @RKISP1_FEATURE_MIPI_CSI2: The ISP has an internal MIPI CSI-2 receiver
+>   * @RKISP1_FEATURE_MAIN_STRIDE: The ISP supports configurable stride on the main path
+>   * @RKISP1_FEATURE_SELF_PATH: The ISP has a self path
+> + * @RKISP1_FEATURE_DUAL_CROP: The ISP has the dual crop block at the resizer input
+>   *
+>   * The ISP features are stored in a bitmask in &rkisp1_info.features and allow
+>   * the driver to implement support for features present in some ISP versions
+> @@ -121,6 +122,7 @@ enum rkisp1_feature {
+>  	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
+>  	RKISP1_FEATURE_MAIN_STRIDE = BIT(1),
+>  	RKISP1_FEATURE_SELF_PATH = BIT(2),
+> +	RKISP1_FEATURE_DUAL_CROP = BIT(3),
+>  };
+>  
+>  #define rkisp1_has_feature(rkisp1, feature) \
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index f48a21985b18..2e40c376cab5 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -507,7 +507,8 @@ static const struct rkisp1_info px30_isp_info = {
+>  	.isr_size = ARRAY_SIZE(px30_isp_isrs),
+>  	.isp_ver = RKISP1_V12,
+>  	.features = RKISP1_FEATURE_MIPI_CSI2
+> -		  | RKISP1_FEATURE_SELF_PATH,
+> +		  | RKISP1_FEATURE_SELF_PATH
+> +		  | RKISP1_FEATURE_DUAL_CROP,
+>  };
+>  
+>  static const char * const rk3399_isp_clks[] = {
+> @@ -527,7 +528,8 @@ static const struct rkisp1_info rk3399_isp_info = {
+>  	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
+>  	.isp_ver = RKISP1_V10,
+>  	.features = RKISP1_FEATURE_MIPI_CSI2
+> -		  | RKISP1_FEATURE_SELF_PATH,
+> +		  | RKISP1_FEATURE_SELF_PATH
+> +		  | RKISP1_FEATURE_DUAL_CROP,
+>  };
+>  
+>  static const struct of_device_id rkisp1_of_match[] = {
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> index dd77a31e6014..de2eb2c97cc4 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> @@ -635,7 +635,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+>  	struct v4l2_subdev_state *sd_state;
+>  
+>  	if (!enable) {
+> -		rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
+> +		if (rkisp1_has_feature(rkisp1, DUAL_CROP))
+> +			rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
+>  		rkisp1_rsz_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
+>  		return 0;
+>  	}
+> @@ -646,7 +647,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+>  	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+>  
+>  	rkisp1_rsz_config(rsz, sd_state, when);
+> -	rkisp1_dcrop_config(rsz, sd_state);
+> +	if (rkisp1_has_feature(rkisp1, DUAL_CROP))
+> +		rkisp1_dcrop_config(rsz, sd_state);
+>  
+>  	v4l2_subdev_unlock_state(sd_state);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 
