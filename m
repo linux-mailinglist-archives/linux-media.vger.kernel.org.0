@@ -1,158 +1,169 @@
-Return-Path: <linux-media+bounces-4556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4557-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39C68457E4
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 13:34:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5908A84580E
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 13:48:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 309021F25A54
-	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 12:34:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C9061C22C76
+	for <lists+linux-media@lfdr.de>; Thu,  1 Feb 2024 12:48:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CAA78663E;
-	Thu,  1 Feb 2024 12:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="inAgxRXM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F0A73A1AA;
+	Thu,  1 Feb 2024 12:48:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBB053364
-	for <linux-media@vger.kernel.org>; Thu,  1 Feb 2024 12:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from zg8tmtu5ljg5lje1ms4xmtka.icoremail.net (zg8tmtu5ljg5lje1ms4xmtka.icoremail.net [159.89.151.119])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D635C2135B;
+	Thu,  1 Feb 2024 12:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.89.151.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706790795; cv=none; b=Vp8NKrFGo4IKFj9O0lrPQDvwyffMhihfS7/90egb8v1mTQ6OuKc4MPU/BLABzxpbA9/gmuz9PkoiwXhVxsqVnTDhgfAclEROZyuy9PqaD+2EoGnHN1eN4zbrJIw0g/397J5gPdBOifYMMzrQ52Hutn+Hcdvt0yYrVEfDyJ57eCM=
+	t=1706791714; cv=none; b=IAzI9P79oGCM5Bw2zoc/RKK/lzdost2fy2D/ZrsILktYbgPNowkK8CrH01HITHEQ+jjAA+vWaxSXeuj8aMBJSb2JtDOuTnOHnBVk1pvcnP+i2fmu7PhYldSG4miz8dlhjEUCMvX0lSjxQdopPJfbmXVWUsOSPFiQPmtrTl4ZVBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706790795; c=relaxed/simple;
-	bh=vztFMk5uuEh38jenc7+zX5epdhHN3eiCXzKX1f1ISFY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B2urboe49fq27+Ylw5fFEh8NjNOTDJGSB0Y7r4R6Ox4hFOuk5KxI7EWs/WMW1BL149LtDetCb649b8gX20o1fN3Yi7w9okemPzYUXdpwzkkq7jNKaYFGd7mDWm1ZB4gp4/Rmhj7PCml97JjdA48kQMqIuAZ6rIj7yPnixyXEFV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=inAgxRXM; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706790792;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VykzFS/A4gtaHJ5yZrvwMMrgvKzQbIZs+sazS0I9kak=;
-	b=inAgxRXMv/pSsYbzaazz0H3kkAfoejSiO16T7Cv7UtZGfPSmW3XfPUfaTqdaH+DxNeOPvM
-	x+fUg53Fj8sE2k3MxQ9aYHOCdlIGhlTzLKSDv+mgA/N5jyFpheivLM4nsoCVddEx2YzMnR
-	wjYNj38tliCUjmXhZ9V5kH5uW2uJxsg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-624-7Z1qPjkTNla0Ine-vOe29w-1; Thu, 01 Feb 2024 07:33:11 -0500
-X-MC-Unique: 7Z1qPjkTNla0Ine-vOe29w-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a35247a5d8cso76867866b.2
-        for <linux-media@vger.kernel.org>; Thu, 01 Feb 2024 04:33:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706790790; x=1707395590;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VykzFS/A4gtaHJ5yZrvwMMrgvKzQbIZs+sazS0I9kak=;
-        b=hESNHuIDud0dUWRX0h6SyM3ZkweqKOjwjEbud239mP7TqkVZSpS2ZUocUwFfU8qs/y
-         TPZ0oDLgpiWKUanRBV/Hd2wsbEgOBeX3aEps4XQ/89FyZ0bPuqYGsrv1NwxtgItngYh8
-         ko++20/QcOhv05GOy7OaHg/PYUi2mlMJ8fRa+2Eidb1um6xqupkYfZ3nJdZou4AJ5PgG
-         fvFZcQj791IrOLZ+IfNZVwJIXTp5B61hJN+zvbqpulx2I2X6oLTuInsX2sk8U57b1vme
-         FoZw9bq/HnzaDkRy6I5iOcgWBTTyYV9PCKXBqO72tBqZKPMgJsR8a5pKHm2Y1HBlw6wG
-         VfNA==
-X-Gm-Message-State: AOJu0Yx9TzFoOqwYiIlRCcWFKbxPVxN1BRinJVwL/ACWd53tVlmsZmNG
-	Gpb71G+LNVfBwiCQc4zxzHCJL2htwDM6SzpkJbY/B6+gzQAwFAlYCJkBLWC0WdAAg2yrw0kKzm/
-	p+rlcnZTc6k8lwBsFXC7M+xt5eF5ciOYtb+iaUxQbgycNvi66wKx/3RhFZhpv
-X-Received: by 2002:a17:906:e9b:b0:a36:741e:a5 with SMTP id p27-20020a1709060e9b00b00a36741e00a5mr3637728ejf.70.1706790790069;
-        Thu, 01 Feb 2024 04:33:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG24YEwQkEJ9vizn3D6WUrihJuxwFM1DrqNfiUXQJnJ0eGcsdi1ConwFQ7h1xVfblGwtTtwNw==
-X-Received: by 2002:a17:906:e9b:b0:a36:741e:a5 with SMTP id p27-20020a1709060e9b00b00a36741e00a5mr3637711ejf.70.1706790789773;
-        Thu, 01 Feb 2024 04:33:09 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXk93JY4fPpdN7OjqvVkFatc+yT/+REOzgP4mJdD3AiA7IteyTRYwbPXvSpSEtkDQM5Hu7G8tp4Jobh6WbCWNf1+1zgCn1fr9YqOxzTnVoYLo4+ONTQfeOdyn8eKxx0LKCTSjDftFTBcVRa810kogGx/e2B0c3xX0w5/jvmjPGEYSh4MA4ygM1bo3Ng0lqXqpDtbvMWiB1C6tZjesKjWQ==
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id ig11-20020a1709072e0b00b00a36834a6c0dsm1411188ejc.19.2024.02.01.04.33.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Feb 2024 04:33:09 -0800 (PST)
-Message-ID: <3d0d2d3e-f991-4261-83f8-e4fd813e0804@redhat.com>
-Date: Thu, 1 Feb 2024 13:33:08 +0100
+	s=arc-20240116; t=1706791714; c=relaxed/simple;
+	bh=tlpv1/+2BtvqTlePI9oh+wPTXNu3Bca21y8Cpn5fxy0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=r6Gu/GB7M5Se88jy7NnTf3OykkT7Kt/mZ+OIRUmeSgC9vKjf/PwIj/knWVG/WgacfNsPGwydTm2gQfaA+1tdvjaGGM5kVugdPy35d+9/rVDFBhiG2UdwnD4zSDHzxiaEBfpnorVc3Lb/ZliAFgyz+250YLjqXIQVwpMkPURkoY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=159.89.151.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from luzhipeng.223.5.5.5 (unknown [183.128.135.43])
+	by mail-app2 (Coremail) with SMTP id by_KCgCnfKwTk7tlV88xAQ--.53000S2;
+	Thu, 01 Feb 2024 20:48:19 +0800 (CST)
+From: Zhipeng Lu <alexious@zju.edu.cn>
+To: alexious@zju.edu.cn
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: v4l2-tpg: fix some memleaks in tpg_alloc
+Date: Thu,  1 Feb 2024 20:47:53 +0800
+Message-Id: <20240201124756.3054028-1-alexious@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.8-1
-Content-Language: en-US, nl
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>
-References: <d5059986-0329-4e6a-a7a5-30da8ebd58a9@redhat.com>
- <20240201071017.6032bba8@coco.lan>
- <508f2b4d-5fbd-4389-b98f-31b9525dd7cd@redhat.com>
- <20240201131826.7d8502ae@coco.lan>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240201131826.7d8502ae@coco.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:by_KCgCnfKwTk7tlV88xAQ--.53000S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw13uF4kuF1xGw1fZr4fXwb_yoW5AFy7pa
+	4rWw1jkryUXr13tF9rArWfur43Ww4rWFy7WrW5A3yvqa4Fyr40kry5A342gan0yrWq93W3
+	Jryvy3Z8KFnrtFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvm14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1lc2xSY4AK67AK6ryUMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+	67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+	x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+	z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+	UI43ZEXa7VUjpnQUUUUUU==
+X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
 
-Hi,
+In tpg_alloc, resources should be deallocated in each and every
+error-handling paths, since they are allocated in for statements.
+Otherwise there would be memleaks because tpg_free is called only when
+tpg_alloc return 0.
 
-On 2/1/24 13:18, Mauro Carvalho Chehab wrote:
-> Em Thu, 1 Feb 2024 12:46:19 +0100
-> Hans de Goede <hdegoede@redhat.com> escreveu:
-> 
->> Hi,
->>
->> On 2/1/24 07:10, Mauro Carvalho Chehab wrote:
->>> Em Sun, 31 Dec 2023 11:39:18 +0100
->>> Hans de Goede <hdegoede@redhat.com> escreveu:
->>>   
->>>> Hi Mauro,
->>>>
->>>> Here are the atomisp changes for 6.8.
->>>>
->>>> My patches in this set been posted on the list, but only a couple of
->>>> minutes ago, leaving pretty much zero time for review. Sorry about that,
->>>> with the holidays the timing did not work out very well.
->>>>
->>>> If you don't want to take this pull-request because of this it
->>>> would be good if you can at least take the patches up to
->>>> the "media: atomisp: Fix spelling mistake in ia_css_acc_types.h"
->>>> change. There are only 2 unreviewed patches from me in that
->>>> set, which fix the atomisp driver not working at all with
->>>> the latest media_stage/master code. And the rest of the patches
->>>> in that set are from others and have been reviewed by me.  
->>>
->>> We typically close the media merge window at -rc6. As I was also
->>> in vacations during those weeks, this PR was merged today for 6.9.  
->>
->> No problem, I know I was late with submitting this PR.
->>
->>> Indeed the first two patches seem to be needed to fix an issue on 6.8. 
->>> Could you please send them to stable after their arrival at linux-next?  
->>
->> I'm not sure what you mean with send them to stable ?
->>
->> 6.8 is not released yet, so these need to be send to Linus this
->> cycle. What is the process for media bugfixes for the current
->> kernel cycle ?
-> 
-> Heh, sorry, somehow I was thinking on 6.7 :-)
-> 
-> If the bug only happens on 6.8, I can just cherry-pick the two patches
-> on my fixes branch.
+Fixes: 63881df94d3e ("[media] vivid: add the Test Pattern Generator")
+Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
+---
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 52 +++++++++++++++----
+ 1 file changed, 42 insertions(+), 10 deletions(-)
 
-I believe you only need:
-
-"media: atomisp: Adjust for v4l2_subdev_state handling changes in 6.8"
-
-And as the subject says, that is a fix for 6.8, 6.7 is fine AFAIK.
-
-Thanks & Regards,
-
-Hans
+diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+index a366566f22c3..642c48e8c1f5 100644
+--- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
++++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+@@ -113,6 +113,7 @@ int tpg_alloc(struct tpg_data *tpg, unsigned max_w)
+ {
+ 	unsigned pat;
+ 	unsigned plane;
++	int ret = 0;
+ 
+ 	tpg->max_line_width = max_w;
+ 	for (pat = 0; pat < TPG_MAX_PAT_LINES; pat++) {
+@@ -121,14 +122,18 @@ int tpg_alloc(struct tpg_data *tpg, unsigned max_w)
+ 
+ 			tpg->lines[pat][plane] =
+ 				vzalloc(array3_size(max_w, 2, pixelsz));
+-			if (!tpg->lines[pat][plane])
+-				return -ENOMEM;
++			if (!tpg->lines[pat][plane]) {
++				ret = -ENOMEM;
++				goto free_lines;
++			}
+ 			if (plane == 0)
+ 				continue;
+ 			tpg->downsampled_lines[pat][plane] =
+ 				vzalloc(array3_size(max_w, 2, pixelsz));
+-			if (!tpg->downsampled_lines[pat][plane])
+-				return -ENOMEM;
++			if (!tpg->downsampled_lines[pat][plane]) {
++				ret = -ENOMEM;
++				goto free_lines;
++			}
+ 		}
+ 	}
+ 	for (plane = 0; plane < TPG_MAX_PLANES; plane++) {
+@@ -136,18 +141,45 @@ int tpg_alloc(struct tpg_data *tpg, unsigned max_w)
+ 
+ 		tpg->contrast_line[plane] =
+ 			vzalloc(array_size(pixelsz, max_w));
+-		if (!tpg->contrast_line[plane])
+-			return -ENOMEM;
++		if (!tpg->contrast_line[plane]) {
++			ret = -ENOMEM;
++			goto free_contrast_line;
++		}
+ 		tpg->black_line[plane] =
+ 			vzalloc(array_size(pixelsz, max_w));
+-		if (!tpg->black_line[plane])
+-			return -ENOMEM;
++		if (!tpg->black_line[plane]) {
++			ret = -ENOMEM;
++			goto free_contrast_line;
++		}
+ 		tpg->random_line[plane] =
+ 			vzalloc(array3_size(max_w, 2, pixelsz));
+-		if (!tpg->random_line[plane])
+-			return -ENOMEM;
++		if (!tpg->random_line[plane]) {
++			ret = -ENOMEM;
++			goto free_contrast_line;
++		}
+ 	}
+ 	return 0;
++
++free_contrast_line:
++	for (plane = 0; plane < TPG_MAX_PLANES; plane++) {
++		vfree(tpg->contrast_line[plane]);
++		vfree(tpg->black_line[plane]);
++		vfree(tpg->random_line[plane]);
++		tpg->contrast_line[plane] = NULL;
++		tpg->black_line[plane] = NULL;
++		tpg->random_line[plane] = NULL;
++	}
++free_lines:
++	for (pat = 0; pat < TPG_MAX_PAT_LINES; pat++)
++		for (plane = 0; plane < TPG_MAX_PLANES; plane++) {
++			vfree(tpg->lines[pat][plane]);
++			tpg->lines[pat][plane] = NULL;
++			if (plane == 0)
++				continue;
++			vfree(tpg->downsampled_lines[pat][plane]);
++			tpg->downsampled_lines[pat][plane] = NULL;
++		}
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(tpg_alloc);
+ 
+-- 
+2.34.1
 
 
