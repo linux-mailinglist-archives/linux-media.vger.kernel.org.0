@@ -1,79 +1,91 @@
-Return-Path: <linux-media+bounces-4629-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4630-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BBF1847B5A
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 22:10:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A8A847C2F
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 23:23:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC31C28CB60
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 21:10:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C161A28725E
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 22:23:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74D0812C7F8;
-	Fri,  2 Feb 2024 21:07:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D827A85951;
+	Fri,  2 Feb 2024 22:23:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lbPykI0F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HdB7+hcr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC2082C60;
-	Fri,  2 Feb 2024 21:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A17A8060E;
+	Fri,  2 Feb 2024 22:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706908022; cv=none; b=WV0sfvojY6MbjB0XSwBNT93aYa+ED1QWzsatsWoO6ffhk+eLwjVBGy4YI8tX4/KDS4adK+lr5bg4qTGD8YcjQyHOZ1Dx0C/SF0YSu0BNg1PYKWZ/+vKS6FbqmaAAfd5LGIk4flE72SDXtlib7hcL+piCNmz1QDn+Yyef8r/oE/c=
+	t=1706912615; cv=none; b=n0Ur5tXi6aJnKNq8ganc1aWvXjy+30n7OiCqIJCInpPf4LrFPKsAGayDpmfQC8JeFkycgl8elP5NdeEUAUjSG8cwqJY5q1tPFag6pMN4OgZzJnAVIKW6MyyxIYCZoqKX3QMshvB876ezBWPzbqn75ZTWKuB9m9xpbQ7bfa7Mw3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706908022; c=relaxed/simple;
-	bh=pOT08KJNuS1sfLS3vZwggchfB5iy1EZEG3QY463HBfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XRFD6l8jKHkR4mkBzLQY7xjtHVQWcTDSRSZwTlx3dm1yyxV8FmGPFO6drQhMElbgkiZEQuV9WZ4sNa4V5n114BkbYsPH49JedUk8TIgl1qRfZO8RjWqDAyGg9MAWj9tyEyltISdzmZFaCUavhOSuWmjcBsFsWdryTUjCoV9yYrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lbPykI0F; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB44C433F1;
-	Fri,  2 Feb 2024 21:07:02 +0000 (UTC)
+	s=arc-20240116; t=1706912615; c=relaxed/simple;
+	bh=r3ftRMCphRRMd6wDXZMGi4+Lx21WilpTGLmbJKYhTeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gKycHpkVWdY60v6k4RFytW9NZh00R2xujPZSFSD6h75bMLTSbkNN9VKD1m3oTmdcVKfN6jVkmWl9uCTHRbsSKpRj59IylbkBYuezhhY+RIzC34ZbsyGQ2p9UrIFes+QT0y+lwrLYs9lrag4Z/HQTqbZLEQn5ak1HqilyjsACxWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HdB7+hcr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66582C433C7;
+	Fri,  2 Feb 2024 22:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706908022;
-	bh=pOT08KJNuS1sfLS3vZwggchfB5iy1EZEG3QY463HBfk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lbPykI0FhQTq9PNUjiMoVTYdWNs6UbKW/swId0j174aITvgl3tBPi8qYaffrMpRp8
-	 2TWv85F6hmYtkqHK2DtRq2sDgzXXr8hokdNGKd7c2z4dcsN458XXRF/2mPb0gaRax4
-	 bQsCGq3mnBO1Yq7TPCK5JDfQsjUKd7FDdSvX1kSZqjKLqy965ow9LIQymRYzSfw6nZ
-	 nsjkt/rCCBbwHeCWDeLmAblaBCutOvOe+IO5clMXGIQ027Vm5stwXZ240h+hvqsXkd
-	 0a7aMUYhskZjh2Jc9UFOFbtnjZdt3c3Id8O87s/sxBGpM2WJA3b0WRvUmnh29Xt9N3
-	 PZUPfqyqORNzA==
-Date: Fri, 2 Feb 2024 15:06:59 -0600
+	s=k20201202; t=1706912614;
+	bh=r3ftRMCphRRMd6wDXZMGi4+Lx21WilpTGLmbJKYhTeU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HdB7+hcro/XHqbdPuOzaC3liVbBnIXvo8GJY44eg/WEQp+HBhlFpQ9aLvJCNR9zVg
+	 HWhPlE/cVtN1P37bKUcCl/TZCcSGPVS5vq1D4lkPbkz+GjOxfvn9xSYNxJ36GzMt2e
+	 BICjvSg9VqrzRuja54fgMdf6IwCMU49l3p6DyT7WJSQJfMSm3Pc/VWvjIabOJGOm/3
+	 MiyURzmle8truq12Kxa7sAEBLzYIcseGd0XgxDRm8v/McRYFr6BHD/FPKR5Mgnbtus
+	 JQO6h8XpoI8adTcduZj0gWJeoeDjbZsG1FS4bf2YQd0+rhD+MULLvE67PZuBy/JUwM
+	 R0zI79i1sES1A==
 From: Rob Herring <robh@kernel.org>
-To: Brandon Brnich <b-brnich@ti.com>
-Cc: Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Darren Etheridge <detheridge@ti.com>
-Subject: Re: [PATCH v2] dt-bindings: media: Add sram-size Property for Wave5
-Message-ID: <20240202210659.GA1390727-robh@kernel.org>
-References: <20240201184238.2542695-1-b-brnich@ti.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Mehdi Djait <mehdi.djait@bootlin.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: dt-bindings: techwell,tw9900: Fix port schema ref
+Date: Fri,  2 Feb 2024 16:23:25 -0600
+Message-ID: <20240202222325.1651952-1-robh@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240201184238.2542695-1-b-brnich@ti.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 01, 2024 at 12:42:38PM -0600, Brandon Brnich wrote:
-> Wave521c has capability to use SRAM carveout to store reference data with
-> purpose of reducing memory bandwidth. To properly use this pool, the driver
-> expects to have an sram and sram-size node. Without sram-size node, driver
-> will default value to zero, making sram node irrelevant.
+The port@0 node doesn't define any extra properties in the port or endpoint
+nodes, so the $ref should be to "/properties/port" instead as it restricts
+extra properties.
 
-The mmio-sram binding already defines how to carve up shared SRAM.
+Fixes: 0f82ffa9a295 ("media: dt-bindings: media: i2c: Add bindings for TW9900")
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/media/i2c/techwell,tw9900.yaml          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Also, sram-size here is property, not a node.
+diff --git a/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml b/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+index e37317f81072..c9673391afdb 100644
+--- a/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+@@ -36,7 +36,7 @@ properties:
+ 
+     properties:
+       port@0:
+-        $ref: /schemas/graph.yaml#/$defs/port-base
++        $ref: /schemas/graph.yaml#/properties/port
+         description: Analog input port
+ 
+         properties:
+-- 
+2.43.0
 
-Rob
 
