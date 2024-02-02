@@ -1,121 +1,99 @@
-Return-Path: <linux-media+bounces-4592-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4593-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25659846A8C
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 09:22:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 580B5846A91
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 09:22:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C927E1F22CEF
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 08:22:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E38741F22390
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 08:22:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D583418639;
-	Fri,  2 Feb 2024 08:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SieaC4nr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE9E418E28;
+	Fri,  2 Feb 2024 08:16:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A90618628;
-	Fri,  2 Feb 2024 08:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777E618EB8
+	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 08:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706861793; cv=none; b=DrarRMzYj95efsZJehtwUSqzJ5DJiNklx9eaMXNjeA4z9aBpBJLT1iTS9xGl3ptHR27wlEGlgrbaWCYdJ4Gd/GK9itFOwcGXTrgm5ajAfayYLu49Tojlt/tDqd/iJ/EHHcFyEoQNSd7uta2c2u3F0j2MYz1KN5QoDa9hrk3a5Vk=
+	t=1706861815; cv=none; b=mO01UDfArZ880GMKv37cGCkZZOBAzOJn5POZbDVOXUB4l8B7620pw9kKXI32w3Fw08C7RTpgT8SKz+kG8IjEIPHjNUIElIrJ5RRCmE9qtEL2LqapnH+LuDiHiRGdYXS5g3LPiwK/uNgrihwMauFqxWxutQvd3EpuxhbKKHIZTOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706861793; c=relaxed/simple;
-	bh=FXuZCdbTnTvt3fLOxA1iEZtu+D4augzBlua9BOnW8gA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=alHofRInZ2g1xjAGjKfVEOoeO+qF73VnAGIwNo/7TBfIna11fyZUZ1uJ9xM/ZcUeIwywfANU9Bf4S2GA+oLx5brKhrp6dl/tzZj1ZUW97kZGs1KFDBDAnolambsUvBS4onwhnfW8YyV3qC8bUyUSVHHQiK5LXYSnQygs5Zeb+p8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SieaC4nr; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706861789;
-	bh=FXuZCdbTnTvt3fLOxA1iEZtu+D4augzBlua9BOnW8gA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SieaC4nr1uBh/9hdSqc2QKcCejdq0LofEo4CFU7ZWAGfHk01G4F9DQGV5huEiGk3Q
-	 7A/0Ui1fXdhsTWOIeqyIm3M/8WI5+UK/U9t7ZdOF4UXhTWOa3K1AUnq5GBJ/cRf58T
-	 k6vptQaOFLqpIXAWh++DAjkMvv1MAeYniuZtfYs1UuWFHLcx4kk49odkUgFYyP2mJW
-	 922kaBWSmPxrvILn3Genr0kIrdbgr4ctcJgrEP80XfIhZ1O6fxjUcwuC+/zj+azhpD
-	 dVs7rtuy3Uxzrx6S5iYN/iMlDVSXOE0pl/R1Vdp82GoJ3P7swzMjUYCEYrd/sw0wgR
-	 KVGNguNCCSfyw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 59B9C3782078;
-	Fri,  2 Feb 2024 08:16:29 +0000 (UTC)
-Date: Fri, 2 Feb 2024 09:16:28 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lafley.kim@chipsnmedia.com,
-	b-brnich@ti.com, hverkuil@xs4all.nl, nas.chung@chipsnmedia.com
-Subject: Re: [PATCH v1 0/5] wave5 codec driver
-Message-ID: <20240202081628.bgadpzrgnl3cku3p@basti-XPS-13-9310>
-References: <20240202070352.14307-1-jackson.lee@chipsnmedia.com>
+	s=arc-20240116; t=1706861815; c=relaxed/simple;
+	bh=acTjTrZkkiS4snvzK9apWFC1Scr3rMfw68cXUdKumoU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tSI/mjeWvb/2eodOPJtYO0jIKNeNqWp4nThsvBuxYDfVHFt7KAcy2sYTNvRWipv4pVku3PKbsbrZ0fhgsMC1tIO04wDUAenR6dQINzv7oJRXBBPz3NepKTpJ4mnCAsFmr66V/u3Zhfij0eixYfCkn7+x8A3LRgbosEQSsvKP55s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rVojD-0007Mt-01; Fri, 02 Feb 2024 09:16:51 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rVojC-0041fv-B4; Fri, 02 Feb 2024 09:16:50 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rVojC-0004GJ-0t;
+	Fri, 02 Feb 2024 09:16:50 +0100
+Message-ID: <3833ae6cd2a0b16d4a554c8a8eb3b2c3897c765f.camel@pengutronix.de>
+Subject: Re: [PATCH] media: imx: csc/scaler: fix v4l2_ctrl_handler memory
+ leak
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>, Steve Longerbeam
+	 <slongerbeam@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de, 
+ patchwork-lst@pengutronix.de
+Date: Fri, 02 Feb 2024 09:16:50 +0100
+In-Reply-To: <20240131120033.858877-1-l.stach@pengutronix.de>
+References: <20240131120033.858877-1-l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240202070352.14307-1-jackson.lee@chipsnmedia.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hey Jackson,
+On Mi, 2024-01-31 at 13:00 +0100, Lucas Stach wrote:
+> Free the memory allocated in v4l2_ctrl_handler_init on release.
+>=20
+> Fixes: a8ef0488cc59 ("media: imx: add csc/scaler mem2mem device")
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+>  drivers/staging/media/imx/imx-media-csc-scaler.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/s=
+taging/media/imx/imx-media-csc-scaler.c
+> index 1fd39a2fca98..95cca281e8a3 100644
+> --- a/drivers/staging/media/imx/imx-media-csc-scaler.c
+> +++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+> @@ -803,6 +803,7 @@ static int ipu_csc_scaler_release(struct file *file)
+> =20
+>  	dev_dbg(priv->dev, "Releasing instance %p\n", ctx);
+> =20
+> +	v4l2_ctrl_handler_free(&ctx->ctrl_hdlr);
+>  	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+>  	v4l2_fh_del(&ctx->fh);
+>  	v4l2_fh_exit(&ctx->fh);
 
-thanks for sending the patches!
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-I would advise to not send the next version of a patch series with
-multiple patches too quickly. So far the patches only got a single very
-minor review comment and others might already work on a deeper review
-and test. There is no hard rule but I would say give such a series at
-least a week or two to gather some review comments before sending the
-next version, as it is always a bit of hassle to adjust to a new
-version and you don't want to spam the mailing list.
-Should you not receive any more review comments, then please go ahead
-and ping some relevant people (Hans Verkuil, people from Collabora that
-developed the patches, etc.) to review, either per mail or per IRC on
-the OFTC server on the channel #linux-media.
-
-Greetings,
-Sebastian
-
-On 02.02.2024 16:03, jackson.lee wrote:
->The wave5 codec driver is a stateful encoder/decoder.
->The following patches is for supporting yuv422 inpuy format, supporting
->runtime suspend/resume feature and extra things.
->
->Change since v0:
->=================
->The DEFAULT_SRC_SIZE macro was defined using multiple lines,
->To make a simple define, tab and multiple lines has been removed,
->The macro is defined using one line.
->
->
->jackson.lee (5):
->  wave5 : Support yuv422 input format for encoder.
->  wave5: Support to prepend sps/pps to IDR frame.
->  wave5 : Support runtime suspend/resume.
->  wave5: Use the bitstream buffer size from host.
->  wave5 : Fixed the wrong buffer size formula.
->
-> .../platform/chips-media/wave5/wave5-hw.c     |  11 +-
-> .../chips-media/wave5/wave5-vpu-dec.c         |  86 +++++-----
-> .../chips-media/wave5/wave5-vpu-enc.c         | 157 +++++++++++++++---
-> .../platform/chips-media/wave5/wave5-vpu.c    |  68 ++++++++
-> .../platform/chips-media/wave5/wave5-vpuapi.c |   7 +
-> .../platform/chips-media/wave5/wave5-vpuapi.h |   1 +
-> .../media/platform/chips-media/wave5/wave5.h  |   3 +
-> 7 files changed, 253 insertions(+), 80 deletions(-)
->
->-- 
->2.43.0
->
->
+regards
+Philipp
 
