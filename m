@@ -1,186 +1,220 @@
-Return-Path: <linux-media+bounces-4619-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4620-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0AC84740F
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 17:06:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA83847444
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 17:11:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F1161C25087
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 16:06:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2B6528455F
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 16:11:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A62DD1482F5;
-	Fri,  2 Feb 2024 15:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5215C1474CE;
+	Fri,  2 Feb 2024 16:08:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HTDaz0RY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ovroj3df"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51E41474AD;
-	Fri,  2 Feb 2024 15:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0E41474C3
+	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 16:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706889577; cv=none; b=eXRGJe5v2/XBl7vkDStdCQKbsgCBw5A8rk887zbR4vSA5vcimpXigH9M/80ywLD/8j/zMluTfGTL7TsKfuA3Faw2zYsZmjX9Or8mFKG5Vp4H583lXCRSzlgU6b++txEWT56ZNvplKH8fBNaAXMPmrV7bdRasvMlvxv2RIR60/yY=
+	t=1706890091; cv=none; b=RDRlzBVonC1X1xkq+h2tkvD8qDX6yFHpBVEQL2wkhmHKrmaCm2LzgQ+i6nV3uMgabPMQURSc0tnDena4NCPPQtfH/evWnD5yOFsXTHNfsGUD6hip1jvzI2BMNOSLW868uUM/zzO8dune+bvArcADFB3u19nuxT3440IADJBMQpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706889577; c=relaxed/simple;
-	bh=NeFFADYXbSKDmrGxCWJn52cB3UzPfQUhTWEHOnSrQZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZlDr+aiTLvKXtJ/yZS8jmbXAn/XHuYgN2GAKfjvkt9A9HAna/o+hvFfAhvnUr1woG6l+FfhRKtXN68niQWOfE76vV7FZt3LlbWFfh+tUIUE8F0owwq6pP90iBh5ZKEJgTYkUaZLjZok6rsFJdlobFQzCPeVarcsjRKZa1l6MIyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HTDaz0RY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF4B4C433F1;
-	Fri,  2 Feb 2024 15:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706889576;
-	bh=NeFFADYXbSKDmrGxCWJn52cB3UzPfQUhTWEHOnSrQZo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HTDaz0RYlhUret3nyLqzvt6R8k6VsimfwHqO1yl3uS9kIgBDturoT/SzAOrkJmL0D
-	 gby8DoOSYxkckwhawpNZGiKhJZAA/FYdwsgnDQqfvz3dMDCU/HO5WY8xz2FHu9Kr8L
-	 daPvZmGo4bFFcHgIrkr2mcbFtdg9New0ZyzGfphKcNJO3eDiwJkoGdhHoc6hntlGeH
-	 lerkU+3sB1Fb0yguYyLd2yDxiGP4NzJ3nhUkBgGk+/hfGOKRyXS6Ek/g7K6aW5+Ln+
-	 wxu2+c68gmL0w0uwr/TJaeDRR3RtaEQeDvUyu6v/v1+AmIcFFDLpsTN9Vxh4MaHkrk
-	 8PWHWdcqKrMlQ==
-Date: Fri, 2 Feb 2024 16:59:30 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
+	s=arc-20240116; t=1706890091; c=relaxed/simple;
+	bh=1Sy1DahY5LhmMgnq6h+UTVpAneW/WiqYKvKoRqACwPU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U8VcGLs/oEMHudTQsriTvvqpPr+Oqn1TglgzBHfRNVTWcYhR+vDKe4vjfvoOqSXyRVG/xYv60KcX+L9PHqjnMDM3GDgRTE3HZVhVEBwrJUKhX90DQAe2/uE+NsRod3uuKWxRqIPgWgEaZE5k9JLHVecoVu91WGsYFzQ6kL91SCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ovroj3df; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2cf45305403so27883241fa.2
+        for <linux-media@vger.kernel.org>; Fri, 02 Feb 2024 08:08:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706890088; x=1707494888; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QdOH44GqBNuJv7gNhF+H71j52RbjvAKIOcCjf68RgNE=;
+        b=Ovroj3df70dPtuyRQBmahU5qlBI8SM2xLqy5+or/4w0q1un2pO9WshDLPXEJldH0tv
+         NrlvfJNwXIo4/16XcF21XGQnQcDcTGfbIlmfDGiP8hk/DnKPATlSzr7ChLhy2g711qtJ
+         d1XYNWoB0nmasoA/p916HY8K6E+3e1CbvmkVJLrq3v6PP25m+pJyyJBjk0VVnNXbxOf8
+         aU1gWuqfgbgXYoxnbBgSHzSj1LdwfkmVmE7Ep5a3OqjKC0VtS6wCS0ah9JOsMLihhMc/
+         0sHzW7+2gfDr443MsP/4rJZtMvnrC76CRBY6g/GQMPvQqPD6peRpZm/81fFxEjkoOnsc
+         5Ocw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706890088; x=1707494888;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QdOH44GqBNuJv7gNhF+H71j52RbjvAKIOcCjf68RgNE=;
+        b=xAwN3RB8O7xxuqmzgBQHU45wWFMDvLWSS7NqIukw/h+NuwSDAVK0bwp1fgV7tU9DfW
+         7VK/YJWM9zCTdwaxwS9+1tajKKtveUIrnp71YPkXyZHkToU+H50817iqbZ00Xa7pZ1Ze
+         yhaJxN27sHdMQytOhbB0Xc6xmTsoYmYTBHe+syJlAKHcxcOAwNLNtUWOfAqxDHshNCsF
+         6+E2mHvmmXXzuwxyJTeSBQ3pXjuY0MDgyWcRunuPNXjI43LyW9IdETQXRX5nXiLD6wq9
+         DX4DdnreJ0/vrXGmjR/gT3wyGwmTrTjkVyhRvgSn6CAgZ2J7jl16XbD3T2Rhs7Xt2xKv
+         GYBw==
+X-Gm-Message-State: AOJu0Yx6RI03rLWA98OEgtY9MbevSVhyeSiftC4D4au3OQexestz06Zm
+	tcc1cgWhiZuDCuL8dEuVs2cIkYXiO/1wjxxnqHB4tKjlIzZQSZH4r/UEE4T/we4=
+X-Google-Smtp-Source: AGHT+IFejla8/vJpaC+MwBd7ti69FX7y+1E1msZO7F5Sxy6AtRthKMme+rjGfWPCS6a6O60/eRUsfw==
+X-Received: by 2002:a2e:7817:0:b0:2cc:ee90:e565 with SMTP id t23-20020a2e7817000000b002ccee90e565mr3978358ljc.9.1706890087987;
+        Fri, 02 Feb 2024 08:08:07 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXqPx1EgWdIp0lFo8BPwv2/q4cv9bzZXeZ/oyJT3AWNycWfGQEXvl4Ls9weA+6/2Pls2WfzCdZC+3RmSm++Wol4l8sJjZC0e3+dc0vch2PewDnGfg7FbJhA7+q5XJ8NXNWWhkPC5lF44NzD9uhvpohWfJ0taE2FxmByIxtl8DqNF3Xw3/Ai7BYbiwaR1kX9BFPxq/jvvf8IGcs11ThNXN/BXeTcnJt0H6apnER5n4/ERCE7Jzie5Cah9B0ZUb2BdYaDVxovzpBw6dckW6fj9C4sR/LoPX2/U4wfUGmVeQJh97iGZleLlA59+wuWwR9+o+dEwUP9J85yMVtZbKjOQThb96ZR4rjpBI/BKNb1KpO2ybgZoYAsX+Rz+EmhMbPcX41QxSI7jnpHGuILgKzKilKG4u8AIaocwTBc54vLTzTTLGY=
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id r3-20020aa7da03000000b0055ef0105f2fsm928458eds.80.2024.02.02.08.08.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Feb 2024 08:08:07 -0800 (PST)
+Message-ID: <adfef53c-d64e-4855-ab61-101b6fa419e5@linaro.org>
+Date: Fri, 2 Feb 2024 17:08:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nkbwqjl5lzj6skqt"
-Content-Disposition: inline
-In-Reply-To: <Zb0M_2093UwPXK8y@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dt-bindings: media: Add sram-size Property for Wave5
+Content-Language: en-US
+To: Nishanth Menon <nm@ti.com>
+Cc: Brandon Brnich <b-brnich@ti.com>, Nas Chung <nas.chung@chipsnmedia.com>,
+ Jackson Lee <jackson.lee@chipsnmedia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ Darren Etheridge <detheridge@ti.com>
+References: <20240201184238.2542695-1-b-brnich@ti.com>
+ <1209b7cf-5be2-4107-aa6b-d67a32ea3737@linaro.org>
+ <20240202125257.p4astjuxpzr5ltjs@dragster>
+ <8091a8cf-c1c0-49b0-b136-1ad0d185aa6a@linaro.org>
+ <20240202155813.szxvi7bfp5xh7rvw@babble>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240202155813.szxvi7bfp5xh7rvw@babble>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 02/02/2024 16:58, Nishanth Menon wrote:
+> On 14:56-20240202, Krzysztof Kozlowski wrote:
+>> On 02/02/2024 13:52, Nishanth Menon wrote:
+>>> On 11:47-20240202, Krzysztof Kozlowski wrote:
+>>>> On 01/02/2024 19:42, Brandon Brnich wrote:
+>>>>> Wave521c has capability to use SRAM carveout to store reference data with
+>>>>> purpose of reducing memory bandwidth. To properly use this pool, the driver
+>>>>> expects to have an sram and sram-size node. Without sram-size node, driver
+>>>>> will default value to zero, making sram node irrelevant.
+>>>>
+>>>> I am sorry, but what driver expects should not be rationale for new
+>>>> property. This justification suggests clearly it is not a property for DT.
+>>>>
+>>>
+>>> Yup, the argumentation in the commit message is from the wrong
+>>> perspective. bindings are OS agnostic hardware description, and what
+>>> driver does with the description is driver's problem.
+>>>
+>>> I will at least paraphrase my understanding:
+>>> In this case, however, the hardware block will limp along with
+>>> the usage of DDR (as is the current description), due to the
+>>> latencies involved for DDR accesses. However, the hardware block
+>>> has capability to use a substantially lower latency SRAM to provide
+>>> proper performance and hence for example, deal with higher resolution
+>>> data streams. This SRAM is instantiated at SoC level rather than
+>>> embedded within the hardware block itself.
+>>
+>> That sounds like OS policy. Why would different boards with the same
+>> component have this set differently? Based on amount of available
+>> memory? This, I believe, is runtime configuration because it might
+>> depend on user-space you run. Based on purpose (e.g. optimize for
+>> decoding or general usage)? Again, run-time because same hardware board
+>> can be used for different purposes.
+>>
+> 
+> Why is this OS policy? It is a hardware capability.
 
---nkbwqjl5lzj6skqt
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+How amount of SRAM size is hardware capability? Each hardware can work
+probably with 1, 2 or 100 pages.
 
-On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > >  /**
-> > > > >   * DOC: HDMI connector properties
-> > > > >   *
-> > > > > + * Broadcast RGB
-> > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) u=
-sed.
-> > > > > + *      Infoframes will be generated according to that value.
-> > > > > + *
-> > > > > + *      The value of this property can be one of the following:
-> > > > > + *
-> > > > > + *      Automatic:
-> > > > > + *              RGB Range is selected automatically based on the=
- mode
-> > > > > + *              according to the HDMI specifications.
-> > > > > + *
-> > > > > + *      Full:
-> > > > > + *              Full RGB Range is forced.
-> > > > > + *
-> > > > > + *      Limited 16:235:
-> > > > > + *              Limited RGB Range is forced. Unlike the name sug=
-gests,
-> > > > > + *              this works for any number of bits-per-component.
-> > > > > + *
-> > > > > + *      Drivers can set up this property by calling
-> > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > + *
-> > > >=20
-> > > > This is a good time to document this in more detail. There might be=
- two
-> > > > different things being affected:
-> > > >=20
-> > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > 2. The color pipeline processing
-> > > >=20
-> > > > All values of Broadcast RGB always affect the color pipeline proces=
-sing
-> > > > such that a full-range input to the CRTC is converted to either ful=
-l- or
-> > > > limited-range, depending on what the monitor is supposed to accept.
-> > > >=20
-> > > > When automatic is selected, does that mean that there is no signall=
-ing,
-> > > > or that the signalling matches what the monitor is supposed to acce=
-pt
-> > > > according to the spec? Also, is this really HDMI specific?
-> > > >=20
-> > > > When full or limited is selected and the monitor doesn't support the
-> > > > signalling, what happens?
-> > >=20
-> > > Forgot to mention: user-space still has no control over RGB vs YCbCr =
-on
-> > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > YCbCr?
-> >=20
-> > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > we're using a YCbCr format, i915 will always use a limited range while
-> > vc4 will follow the value of the property.
->=20
-> The property is literally called "Broadcast *RGB*".
-> That should explain why it's only affecting RGB.
+> Traditionally
+> many similar hardware blocks would have allocated local SRAM for
+> worst case inside the hardware block itself and don't need to use
+> DDR in the first place. However, for this hardware block, it has
+> capability to use some part of one of the many SRAM blocks in the SoC,
+> not be shared for some part of the system - so from a hardware
+> description perspective, we will need to call that out as to which
+> SRAM is available for the hardware block.
 
-Right. And the limited range option is called "Limited 16:235" despite
-being usable on bpc > 8 bits. Naming errors occurs, and history happens
-to make names inconsistent too, that's fine and not an argument in
-itself.
+Just because more than one device wants some memory, does not mean this
+is hardware property. Drivers can ask how much memory available there
+is. OS knows how many users of memory there is, so knows how much to
+allocate for each device.
 
-> Full range YCbCr is a much rarer beast so we've never bothered
-> to enable it.
+> 
+> Why would different boards need this differently? simply because
+> different cameras have different resolution and framerates - and you
+> dont want to pay the worst case sram penalty for all product
+> configuration.
 
-vc4 supports it.
+Choice of resolution and framerate is runtime choice or use-case
+dependent, not board level configuration, therefore amount of SRAM size
+to use is as well.
 
-> Eg. with DP it only became possible with the introduction of the VSC
-> SDP (and I don't recall if there's additional capability checks that
-> are also required). With DP MSA signalling full range YCbCr is not
-> possible at all.
+> 
+> Further, Linux is not the only thing that runs on these SoCs.. these are
+> mixed systems with autonomous operations of uC cores who may or maynot
+> (typically not) even need to communicate with MPU to state which part of
+> resource they are hogging (hence the board level definition).
 
-This is for HDMI only.
+OK that could be the case but I could also say choice of RTOS or any
+other is also board-independent.
 
-> I don't recall right now what the HDMI requirements are.
+Best regards,
+Krzysztof
 
-HDMI has supported it for a while, and it's defined (for example) in the
-HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-limited and full range on both RGB and YCbCr, as long as the EDIDs state
-so and the Infoframes signal it.
-
-Maxime
-
---nkbwqjl5lzj6skqt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZb0RYgAKCRDj7w1vZxhR
-xaFMAPwPX00aGuZMcwT8+4307ZfdO5OyFc7WAkZEWUBovapBWAD/d9+niBWsPvl3
-otXPVDwd1PFHbq4/qGvzqn443KiCiQA=
-=rMjR
------END PGP SIGNATURE-----
-
---nkbwqjl5lzj6skqt--
 
