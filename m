@@ -1,178 +1,146 @@
-Return-Path: <linux-media+bounces-4584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4585-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E9B8465FD
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 03:48:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 062B3846887
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 07:50:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5E665B2429C
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 02:48:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38F821C25AF9
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 06:50:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 038D8BE69;
-	Fri,  2 Feb 2024 02:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996591775B;
+	Fri,  2 Feb 2024 06:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="E4nh1c5M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CBFBE59
-	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 02:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706842072; cv=none; b=Qq1CUFNpwqePPY7pvn8SFAZ+3OwXodC+IiRi9KhGogrNAwiSdoDQZ+56bEW/0oUpd5pCi1UyNeHG/fzgKrjKIciiv9UxuUQXOZ+9jAJ5g+ZLcaoV+7/rkQZwLbeDEZRpSesGESChuAKPSO1JSJCCAM90qaJGogGf45Krv6J514Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706842072; c=relaxed/simple;
-	bh=4JVQqXL3gHT4D/EWwkd0tnl/qDLo0bvS6F30N4nlrrA=;
-	h=Date:Message-ID:From:To:Subject; b=qm1yBqBIyh3nShIWhT15ScpbSdNMstoZL6VjmQud+b+60Zb3+Rt2QqhdrHxMGbjO8dWpxHJ74zPvU+uOfT/GEMbBZXqLontbTlDsYwq5ztS+BqDL3xycpjwdBpO80SPslkfwNEyhSdmLNTZyS5OrrJqrlCRC0ME+UZIKOQEiNQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0B06C433F1
-	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 02:47:51 +0000 (UTC)
-Date: Fri, 02 Feb 2024 03:47:49 +0100
-Message-ID: <5bfe2128094f15ce67abcda9f927d1f4.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3894182A0;
+	Fri,  2 Feb 2024 06:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706856586; cv=pass; b=FcbSkga1dfpBbPAMto9zL3fdzx7Rl6ci1T0j+xYA7FfPXreqMo8IlXEMFhzfOoESRS/a9oP4+8t6YStZcVt/09MchNaRsghq/XdSMeBU9pkftQ1hYpyjijqdi7Z18Xi0OoZnCQvo7g14WRXTLgQw71Pmd6G3HsLesoeWu6+nqbY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706856586; c=relaxed/simple;
+	bh=cI4t2m1K4N4nI9kr6LJY7dfRYR18tBAIKGW+bSIN52c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R0DwTOgi2IT5kLJqY4CYEdqT+GREeQ7KuqW/7puV2a1SSymHKIvL6oCzGGhMxPc1SQZt0RBp1BhSDaTUFS1AwmGxEH5cKVC/TsZDBN8goR1Oc2RBDXGJRFoem5FbB1b2fiBZ2YMf+kYwqqOXPcVk/VcVeLDKhu1dthDcOyw6+kI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=E4nh1c5M; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TR5wy73RVz49Q05;
+	Fri,  2 Feb 2024 08:49:38 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1706856580;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8LePBLWdUkHfkTJ/OCvJo4ZmKQvMph9R1nxnUHE5gms=;
+	b=E4nh1c5MoZj5NYLeS+pqPp3W/IIw3lhf+LpH78+ySLvM9Fca8IIBUhu0qiOdGGGCxW5uYL
+	pdIEMWx0++bigZO3DYrTAEdW+xF3UMwgGB6r34jkGtFOL2UIRKXK4uXE++BdcVFM6QaEpZ
+	HD7Bd/3MQhS/rAI76MTqvKhrofDEmCIUFSeVn4epXN5vjvE6zVZ4VvywsL8SeyC/aQifuj
+	g9Euk2WOgzoVxe1/Y4qDXIkhCr8xigNkaZUeWCfIEggK1YEUYFBkDjvZP7Trv9aJ+HmhLu
+	DWx3qrraMOz0P/AfHjibHcQnWRZT0q4nvUyfN/awWOIye88DZhISXkx8MT0VxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1706856580;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8LePBLWdUkHfkTJ/OCvJo4ZmKQvMph9R1nxnUHE5gms=;
+	b=gSynK9xwvaBlxIEci7rjQVyhNSPrtww6XkfAHBLfYCwfEm/2Pl9nFpdtTgoUwIs3XUi/SL
+	dFL1QJDBDhGVR8FUaIkXF/tpg2gV1Et7p8mRPebh6nYraoR/YVQwLf1XbjCHKr7lhfVNLJ
+	cpeO8epmlAVnOu0lE/rJQZ5uXQL2AbiFCNDGNqUVQFS3YUYsK7K2i1JJHR5K+VYul+0aVU
+	wr7T+E5W4YLFI+M7ZbtNivE800Iwz1eJz+rgqcazX6PieGBXHzq5PWf4it2Cmkc7Zri7Pd
+	AgXa7l57lsnR2gdXF4j9iQawsXzAZzF8bHyYGQl7kJo1ixG3+20KeRV8+RiEwQ==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1706856580; a=rsa-sha256;
+	cv=none;
+	b=Me6OJuBNa5iWFctTEljFkVa0gOOu1RkesBTrVGd74CebFvh1tes3yRtrQIdbT8fOb8aWtA
+	iiGLvxnHTFgCFCaAQXD2GOG3hlLzcwins1fHvCvve/xUx5LzqC0inYv4eSGrqJW3VjQeEf
+	pwZ0znUALTN4HGnfiVSsru+2WDuXzpgNzkZ9j8fOFCKsjMWkQ6/aZYIDNiBbKIGo9ne1w2
+	HVA/l/oa/5o0JMkgk3y3QTRm3Ih57IhiLRbDR7r9qfBKpzdkbj98K5vslOtoZVh7Wst4Iz
+	m36+Y0JqREGT9HkK6P2TrbYHhPUOZTn/iZxcauyaVMKV6LcLnqEyUYs4p9NSgw==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 87F0E634C93;
+	Fri,  2 Feb 2024 08:49:38 +0200 (EET)
+Date: Fri, 2 Feb 2024 06:49:38 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: yuji2.ishikawa@toshiba.co.jp
+Cc: hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	nobuhiro1.iwamatsu@toshiba.co.jp, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] documentation: media: add documentation for
+ Toshiba Visconti Video Input Interface driver
+Message-ID: <ZbyQgkGicrnP-XZL@valkosipuli.retiisi.eu>
+References: <20231012071329.2542003-1-yuji2.ishikawa@toshiba.co.jp>
+ <20231012071329.2542003-5-yuji2.ishikawa@toshiba.co.jp>
+ <ZV3oq0szH8JjSNsc@valkosipuli.retiisi.eu>
+ <TYAPR01MB620180FF82B8993B45FF6E0A9286A@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYAPR01MB620180FF82B8993B45FF6E0A9286A@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Yuji,
 
-Results of the daily build of media_tree:
+On Mon, Dec 04, 2023 at 04:32:40AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
+> > > +Vendor specific v4l2 controls
+> > > +=============================
+> > > +
+> > > +.. _V4L2_CID_VISCONTI_VIIF_MAIN_SET_RAWPACK_MODE:
+> > > +
+> > > +V4L2_CID_VISCONTI_VIIF_MAIN_SET_RAWPACK_MODE
+> > > +--------------------------------------------
+> > > +
+> > > +This control sets the format to pack multiple RAW pixel values into a word.
+> > > +
+> > > +This control accepts a __u32 value defined as `enum viif_rawpack_mode`.
+> > > +
+> > > +This control should be set before ioctl(S_FMT) and should not be changed
+> > after that.
+> > 
+> > Why do you need this? Doesn't the V4L2 pixelformat already explicitly define
+> > the format, including packing?
+> > 
+> 
+> This control value affects the unpacker between CSI2 receiver and ISP.
+> The rawpack mode is an option to receive from Wide-Dynamic-Range image
+> sensors, whose output bit width is larger than standard format (RAW20,
+> RAW24). For example, some WDR image sensors split 20 bit value into
+> upper/lower 10bit values, then put them into consective pixels to make a
+> double-width RAW10 format image.
 
-date:			Fri Feb  2 03:00:18 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	feb8831be9d468ee961289c6a275536a1ee0011c
-v4l-utils git hash:	d700deb143685b8217aa8a6eeeba3b090d4287fc
-edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8575-g7162b9ec
-sparse version:		v0.5.0-8575-g7162b9ec
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+Do you have a sensor that really does this? Which one is it?
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+> 
+> This option is only related to the interpretation of CSI2 input data.
+> Therefore, I think V4L2 pixel format (for resulting image) is not related
+> to it. The media bus format seems more relevant, but there is no
+> corresponding definition to this case.
 
-drivers/staging/media/atomisp/pci/atomisp_drvfs.c:40:14: warning: symbol 'dbgopt' was not declared. Should it be static?
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+-- 
+Regards,
 
-smatch: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/staging/media/atomisp/pci/sh_css.c:3609 ia_css_pipe_enqueue_buffer() warn: sizeof(NUMBER)?
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: ERRORS:
-
-Documentation/media/driver-api/v4l2-common:6: ./include/media/v4l2-common.h:566: ERROR: Unexpected indentation.
-Documentation/media/driver-api/v4l2-common:6: ./include/media/v4l2-common.h:567: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-kerneldoc: WARNINGS:
-
-include/uapi/linux/videodev2.h:1072: warning: Excess struct member 'mem_offset' description in 'v4l2_plane'
-include/uapi/linux/videodev2.h:1072: warning: Excess struct member 'userptr' description in 'v4l2_plane'
-include/uapi/linux/videodev2.h:1072: warning: Excess struct member 'fd' description in 'v4l2_plane'
-include/uapi/linux/videodev2.h:1137: warning: Excess struct member 'offset' description in 'v4l2_buffer'
-include/uapi/linux/videodev2.h:1137: warning: Excess struct member 'userptr' description in 'v4l2_buffer'
-include/uapi/linux/videodev2.h:1137: warning: Excess struct member 'fd' description in 'v4l2_buffer'
-include/uapi/linux/videodev2.h:1137: warning: Excess struct member 'planes' description in 'v4l2_buffer'
-include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'pix' description in 'v4l2_format'
-include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'pix_mp' description in 'v4l2_format'
-include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'win' description in 'v4l2_format'
-include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'vbi' description in 'v4l2_format'
-include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'sliced' description in 'v4l2_format'
-include/uapi/linux/videodev2.h:2448: warning: Excess struct member 'raw_data' description in 'v4l2_format'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/cec.h:297: warning: Excess struct member 'status_file' description in 'cec_adapter'
-include/media/cec.h:297: warning: Excess struct member 'error_inj_file' description in 'cec_adapter'
-drivers/media/usb/dvb-usb/dvb-usb.h:164: warning: Excess struct member 'num_frontends' description in 'dvb_usb_adapter_fe_properties'
-drivers/media/usb/dvb-usb/dvb-usb.h:164: warning: Excess struct member 'frontend_ctrl' description in 'dvb_usb_adapter_fe_properties'
-drivers/media/pci/dt3155/dt3155.h:185: warning: Excess struct member 'stats' description in 'dt3155_priv'
-drivers/media/platform/qcom/venus/core.h:512: warning: Excess struct member 'priv' description in 'venus_inst'
-drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h:163: warning: Excess struct member 'hw_rdy' description in 'mtk_jpegenc_comp_dev'
-drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h:66: warning: Excess struct member 'list' description in 'mtk_video_dec_buf'
-drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.h:47: warning: Excess struct member 'dev' description in 'vdec_vpu_inst'
-drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h:39: warning: Excess struct member 'list' description in 'mtk_video_enc_buf'
-drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:733: warning: Excess struct member 'frame_type' description in 's5p_mfc_ctx'
-drivers/media/platform/samsung/exynos4-is/fimc-lite.h:180: warning: Excess struct member 'pipeline' description in 'fimc_lite'
-drivers/media/platform/samsung/exynos4-is/fimc-lite.h:180: warning: Excess struct member 'pipeline_ops' description in 'fimc_lite'
-drivers/media/platform/samsung/exynos4-is/fimc-lite.h:180: warning: Excess struct member 'active_buf_count' description in 'fimc_lite'
-drivers/media/platform/verisilicon/hantro.h:277: warning: Excess struct member 'jpeg_enc' description in 'hantro_ctx'
-drivers/media/i2c/adv748x/adv748x.h:199: warning: Excess struct member 'i2c_addresses' description in 'adv748x_state'
-drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'write' description in 'ccs_quirk'
-drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'reg' description in 'ccs_quirk'
-drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'value' description in 'ccs_quirk'
-drivers/staging/media/meson/vdec/vdec.h:111: warning: Excess struct member 'use_offsets' description in 'amvdec_ops'
-
-
-date:			Fri Feb  2 03:19:20 CET 2024
-virtme-64: WARNINGS: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 2
-
-date:			Fri Feb  2 03:46:14 CET 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Sakari Ailus
 
