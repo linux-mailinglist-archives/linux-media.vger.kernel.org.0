@@ -1,118 +1,119 @@
-Return-Path: <linux-media+bounces-4608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4609-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137848470AB
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 13:53:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4808470BA
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 13:58:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2F5E289CCE
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 12:53:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBF681F2C7AB
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 12:58:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 547723F8DF;
-	Fri,  2 Feb 2024 12:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A37AC3D6D;
+	Fri,  2 Feb 2024 12:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FaSRF19T"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XxK6AL0R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1462C187F;
-	Fri,  2 Feb 2024 12:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B49846433;
+	Fri,  2 Feb 2024 12:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706878388; cv=none; b=m4VVdhRaK6vf31vYPYVW0ci/iKiPSWFOUBoTo94kPie4jBCt6CaWpoBZhIdACvvfYUf85peYYX1DE562ZrqdDRpyA53mNsmX/xJzoyF7pwN4mzwX+fnGl3KCXfm0ZhGHtVicYQezMFu4F45IBEUUsen0z/WVTgfICfgxjt129mg=
+	t=1706878692; cv=none; b=E8w3EqTg2/dP89LbLRsCaOwZsSzbOQlxjgO6g8pBc3MMq92f+WbjIGSwumg7trfNX1IlTEoGivyOPz8NgQ3dSbuZhSuHuAP9p725fBhsPFFkUXRILuq0kiLBuuOrRH+ul/4SYwf+PeU+WneLY7iPbqAXP3SLix5sTO+HD80wTFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706878388; c=relaxed/simple;
-	bh=aI6tdoMPLKlxeu03PJwY+6PTUmy8/t1n/2qpRcDuYbY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rhs8lQzpvaDoQzYfdiyOohHZaTeO9/yg7/0x+nNoo8kBA4utz1SMvpIwRDUclUx39pXnW6LOLkBs2AGWB+5H/UF9wpHtLeOKp6t8yVmiGOI2eOnD3Pu+RJhnCFZ8r3CSA0rLqf0khQPNuevHmHq8bI6pG7XPWq26lj5DsaW3h4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=FaSRF19T; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 412CqwUO085110;
-	Fri, 2 Feb 2024 06:52:58 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1706878378;
-	bh=NT2KkZYcchRC7YCcmd8jd30rJ0gLMf93hNnBIQa0it4=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=FaSRF19TRdwnHT6XWwPncK4IBMLtU3SNUZk4gAsvTl576KBa25FrQGIFT7ebY5uaS
-	 vgD2gZ34pfBZcU+GAxht+hdAACl/6FBVDP5gzoOHOfXpLNl9UWaJlYAjhDVN7BOtaw
-	 00MbkdNGc1MeMUdKq1nFElywhz5h8UFgfA7nHJk4=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 412CqwvE047001
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 2 Feb 2024 06:52:58 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 2
- Feb 2024 06:52:57 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 2 Feb 2024 06:52:57 -0600
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 412CqvPA009693;
-	Fri, 2 Feb 2024 06:52:57 -0600
-Date: Fri, 2 Feb 2024 06:52:57 -0600
-From: Nishanth Menon <nm@ti.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: Brandon Brnich <b-brnich@ti.com>, Nas Chung <nas.chung@chipsnmedia.com>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Darren
- Etheridge <detheridge@ti.com>
-Subject: Re: [PATCH v2] dt-bindings: media: Add sram-size Property for Wave5
-Message-ID: <20240202125257.p4astjuxpzr5ltjs@dragster>
-References: <20240201184238.2542695-1-b-brnich@ti.com>
- <1209b7cf-5be2-4107-aa6b-d67a32ea3737@linaro.org>
+	s=arc-20240116; t=1706878692; c=relaxed/simple;
+	bh=eZxOtydVn75KlLDsjhljk2E/9by5DLKsxQBgEm9BoA4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eQyhRajEr6mw3VSHng6PaLiYiNn8NY5n1jmO7OFr3VmH/iy36hvFbpVJYiHCgmmwK91OwgwToiuiDAzZzm4fgo1bIjj585URkCjb49LfxRLcUMa9H8FlEsK9N0YDSRgk0fQ9H8pd4t8NsYaKh2XIilkemlzbtcGDqc3ukcnBlvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=XxK6AL0R; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706878687;
+	bh=eZxOtydVn75KlLDsjhljk2E/9by5DLKsxQBgEm9BoA4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XxK6AL0RPCUwDZCkOln4QsiMSxSV+V+FsoLeSFodim/VeGCBa1gRurxBCEurJn9H1
+	 M2eGLmZ+8wJVHWBjjDGOkpEOaya0UT3PXQi1F27UH0gXzNGRVlOL4c/Cez0pazK5Rr
+	 d9cB1gGLUlMHG3kODLG+Gi6kn012YCsOX8O9kqZ/jGxnF3UgCGRr0Vn76qmqgatdU6
+	 5JZ+kROqn3LJvFe9To2ze9qVVshRt8ZPYqZQBDdxr4afC+bq5B5knr2nVetBzsmkTA
+	 /28LyP/bnxgLvhI5Kx9TFGvU4P2UVolG0oliYpt3Pt/ApMa4UW5btQsmVeYAJpdc/k
+	 QYH8MpJArwguA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 79E863781183;
+	Fri,  2 Feb 2024 12:58:06 +0000 (UTC)
+Message-ID: <5658ec37-868f-454d-a149-467e6de139cd@collabora.com>
+Date: Fri, 2 Feb 2024 13:58:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1209b7cf-5be2-4107-aa6b-d67a32ea3737@linaro.org>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] media: mediatek: vcodedc: Fix
+ Wcast-function-type-strict warnings
+Content-Language: en-US
+To: Sami Tolvanen <samitolvanen@google.com>,
+ Nathan Chancellor <nathan@kernel.org>, Ricardo Ribalda
+ <ribalda@chromium.org>, =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?=
+ <nfraprado@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Mike Isely <isely@pobox.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
+ <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org>
+ <20240201221654.GC2240065@dev-arch.thelio-3990X>
+ <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 11:47-20240202, Krzysztof Kozlowski wrote:
-> On 01/02/2024 19:42, Brandon Brnich wrote:
-> > Wave521c has capability to use SRAM carveout to store reference data with
-> > purpose of reducing memory bandwidth. To properly use this pool, the driver
-> > expects to have an sram and sram-size node. Without sram-size node, driver
-> > will default value to zero, making sram node irrelevant.
+Il 01/02/24 23:25, Sami Tolvanen ha scritto:
+> On Thu, Feb 1, 2024 at 10:17 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>>
+>> On Sun, Jan 28, 2024 at 02:12:22AM +0000, Ricardo Ribalda wrote:
+>>> Building with LLVM=1 throws the following warning:
+>>> drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+>>>
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>
+>> I am not positive because I don't have any hardware to test this driver
+>> but I suspect this patch is just hiding the warning without actually
+>> addressing the issue that it is pointing out.
 > 
-> I am sorry, but what driver expects should not be rationale for new
-> property. This justification suggests clearly it is not a property for DT.
+> Agreed, this won't fix the issue. The correct solution is to drop the
+> cast and change the handler type to match the pointer type (i.e. use
+> const void* for the first argument).
 > 
 
-Yup, the argumentation in the commit message is from the wrong
-perspective. bindings are OS agnostic hardware description, and what
-driver does with the description is driver's problem.
+Even though I agree that the correct solution is to change the handler's type,
+I think that having a test on the actual hardware done is still valuable.
 
-I will at least paraphrase my understanding:
-In this case, however, the hardware block will limp along with
-the usage of DDR (as is the current description), due to the
-latencies involved for DDR accesses. However, the hardware block
-has capability to use a substantially lower latency SRAM to provide
-proper performance and hence for example, deal with higher resolution
-data streams. This SRAM is instantiated at SoC level rather than
-embedded within the hardware block itself.
+We scheduled a job on KernelCI to test this commit on our integration kernel,
+you'll get results for ChromeOS' tast decoders (MT8195 only) and Fluster tests
+on MT8183/8186/8192/8195.
 
 
--- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+The results should be available in a couple of hours here, relative to commit 
+`49955a84129dbe1f94fedf729690efcf28513828` on our tree:
+https://chromeos.kernelci.org/job/collabora-chromeos-kernel/branch/for-kernelci/
+
+P.S.: If they don't, feel free to ping me or Nicolas (added to the loop) about it.
+
+Cheers,
+Angelo
 
