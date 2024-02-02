@@ -1,149 +1,140 @@
-Return-Path: <linux-media+bounces-4627-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4628-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3138284772A
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 19:12:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 904C0847A58
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 21:16:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C45C51F257F6
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 18:12:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40AEF1F26DCF
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 20:16:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ADF814D422;
-	Fri,  2 Feb 2024 18:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16D9C81728;
+	Fri,  2 Feb 2024 20:15:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvA1zAF5"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KkX+zAQg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D59014C596;
-	Fri,  2 Feb 2024 18:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EB680632;
+	Fri,  2 Feb 2024 20:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706897566; cv=none; b=ZCT81henDZ0xTlROkVBmA/sLe9xBFZcOOxBM0tAhIRaGu9HIxfQ3Z/tl1J6RsADs0N8V6Tdhv1pQEGLMW2Z+hxiJQM59/NX1hZP/HlpXLPv/zXZ4JeSmIst0h0ez6NGTDaM0U2oeVbENaPvyP4QWaHgXTu4QtjNOlpC714SBvOI=
+	t=1706904957; cv=none; b=DXkwIzfA5g9O7NNbZm7+iP7vlPS2aSC0tDOfvZPySzxTv5ieNweO03feVVJBCn/TLi2JSneYO5n2G4jGYdIewBjh2qqg0nJdlqWPbUDAODEzmScslNIt1lTTN0JC8a0OPhdpna5IL90UhDdKAx/yMXZcM0HWwQ3sH/m5UYFwO70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706897566; c=relaxed/simple;
-	bh=B/LZguq9EB059xq5IiI6hqPxxL0vnXVLbvtINrDrK+8=;
+	s=arc-20240116; t=1706904957; c=relaxed/simple;
+	bh=8Eb6CVHvUmhvVTdSdy4hQhQ0gw+ENbyLq6EVTtPrF6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dFgKJNOQWDC3D0T40k1zrEJRe3QDPmuriDmwSvsT8u+kXtdQ36r0st6veoKKdNWgUBfYGVvSyUypP1WnNPm1ITtTpruX3N9q4hVvJjSI3RF/Y1NbQF2pVQP5ZM/Y3wfkXcIYS8q2mDxZPjj6GmFTbS4zYgkbOXMZGayj4IMcKN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvA1zAF5; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706897565; x=1738433565;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B/LZguq9EB059xq5IiI6hqPxxL0vnXVLbvtINrDrK+8=;
-  b=AvA1zAF5tTY1ZXqYNrPdkP1FnKFrd2/xnFZ/o8nTpY1EsJEfiPNZMumA
-   6kIoZLJG3aKkIauPjrw6CQKZfrpCz6XAMH84gjpXYEHQc4MNb31Lwk+pQ
-   OtECclXzusm0MPILoUuX8vr/hLaKpyxYD9O+a7mPMvhOAFewCiGYPj/e+
-   eV43zWNd88vL3slb1jJ7eZ23F2P1evaO3LH+gdEJtcyfABJ5j1/7lRyiW
-   0IO/vKBJEMOl9sXbWqZPndou0heITIRvSzARlDA2hemLfi2ll2kDSyjAl
-   2peuCxzANjXBWlgq8a3Hyw4mbjFY5qsAmGXi1V0xSNFAVMM8+6hG8wIax
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="369708"
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="369708"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 10:12:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="418410"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Feb 2024 10:12:41 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rVy1l-00049C-34;
-	Fri, 02 Feb 2024 18:12:38 +0000
-Date: Sat, 3 Feb 2024 02:12:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <202402030114.spgdRGpC-lkp@intel.com>
-References: <20240131164709.810587-4-dan.scally@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=B17WHXq4RLsGbmSJpX77In2ee2Fb341tfo6lMh6SZGm9qDRRDdpC1RIohZuM5x5YlG/t8IG5KvGwBgyTIZj4JxPMUr/gydE8OqLnV4V9sxdrJ16i8jt72z+0mRiQY66sPN2u4b1IH0k0467ruK5SIxuqfFqFMTCSEdIEH8Y8GgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KkX+zAQg; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706904952;
+	bh=8Eb6CVHvUmhvVTdSdy4hQhQ0gw+ENbyLq6EVTtPrF6M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KkX+zAQg4u9JHou4hpFsyJsuIDcEANiaR6FAwe35n3VMT6eVe1/MIDXqyfhTT2amZ
+	 MX+22V8TjVaTtpClvaVdJe2woQReq6niv/Y90ZJPYrayU0wjcZBkFtNiYC/2gzHb+Y
+	 yM6MPs695fy5HK73hFkBAl39e+5E2KwqNGLaXToYi6lQ96Lg0OeGCw3sqx2Jj0G5pT
+	 13+NmiSKIKcDJIEtZA6E6t7X/g5IK6SK2emqULcluGJMALPVCq6gMiQ2To1JnOnkT/
+	 yW6m1aimWyrCmokUHMJChEfXmqT4fTni6TQQm4NP0a98uk47zDex8iXOCXAJ1XqTlP
+	 JsIpiaTiVtKzw==
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0B5703782098;
+	Fri,  2 Feb 2024 20:15:48 +0000 (UTC)
+Date: Fri, 2 Feb 2024 15:15:46 -0500
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Sami Tolvanen <samitolvanen@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Mike Isely <isely@pobox.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 3/3] media: mediatek: vcodedc: Fix
+ Wcast-function-type-strict warnings
+Message-ID: <12d0c580-788d-4466-af8a-feb5ab3c6677@notapiano>
+References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
+ <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org>
+ <20240201221654.GC2240065@dev-arch.thelio-3990X>
+ <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
+ <5658ec37-868f-454d-a149-467e6de139cd@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240131164709.810587-4-dan.scally@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5658ec37-868f-454d-a149-467e6de139cd@collabora.com>
 
-Hi Daniel,
+On Fri, Feb 02, 2024 at 01:58:05PM +0100, AngeloGioacchino Del Regno wrote:
+> Il 01/02/24 23:25, Sami Tolvanen ha scritto:
+> > On Thu, Feb 1, 2024 at 10:17 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> > > 
+> > > On Sun, Jan 28, 2024 at 02:12:22AM +0000, Ricardo Ribalda wrote:
+> > > > Building with LLVM=1 throws the following warning:
+> > > > drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+> > > > 
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > 
+> > > I am not positive because I don't have any hardware to test this driver
+> > > but I suspect this patch is just hiding the warning without actually
+> > > addressing the issue that it is pointing out.
+> > 
+> > Agreed, this won't fix the issue. The correct solution is to drop the
+> > cast and change the handler type to match the pointer type (i.e. use
+> > const void* for the first argument).
+> > 
+> 
+> Even though I agree that the correct solution is to change the handler's type,
+> I think that having a test on the actual hardware done is still valuable.
+> 
+> We scheduled a job on KernelCI to test this commit on our integration kernel,
+> you'll get results for ChromeOS' tast decoders (MT8195 only) and Fluster tests
+> on MT8183/8186/8192/8195.
+> 
+> 
+> The results should be available in a couple of hours here, relative to
+> commit `49955a84129dbe1f94fedf729690efcf28513828` on our tree:
+> https://chromeos.kernelci.org/job/collabora-chromeos-kernel/branch/for-kernelci/
+> 
+> P.S.: If they don't, feel free to ping me or Nicolas (added to the loop) about it.
 
-kernel test robot noticed the following build warnings:
+Hi,
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linuxtv-media-stage/master linus/master v6.8-rc2 next-20240202]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+the results are available at 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240201-005029
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240131164709.810587-4-dan.scally%40ideasonboard.com
-patch subject: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
-config: arc-randconfig-r132-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030114.spgdRGpC-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240203/202402030114.spgdRGpC-lkp@intel.com/reproduce)
+https://chromeos.kernelci.org/test/job/collabora-chromeos-kernel/branch/for-kernelci/kernel/v6.8-rc2-3109-g49955a84129d/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030114.spgdRGpC-lkp@intel.com/
+(You need to type "decoder" into the search bar to limit the results to only the
+decoder tests)
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/platform/arm/mali-c55/mali-c55-core.c:33:12: sparse: sparse: symbol 'mali_c55_interrupt_names' was not declared. Should it be static?
->> drivers/media/platform/arm/mali-c55/mali-c55-core.c:602:29: sparse: sparse: Using plain integer as NULL pointer
+The only regressions I see are due to infrastructure error or broken test
+unrelated to this change (v4l2-decoder-conformance-h264-frext test on
+MT8195-Tomato, and cros-tast-decoder-v4l2-sl-h264 test on MT8183-Juniper)
 
-vim +/mali_c55_interrupt_names +33 drivers/media/platform/arm/mali-c55/mali-c55-core.c
+Otherwise, all platforms (MT8183/8186/8192/8195) and video codecs
+(VP8/VP9/H264/H265/AV1) seem unaffected.
 
-    32	
-  > 33	const char * const mali_c55_interrupt_names[] = {
-    34		[MALI_C55_IRQ_ISP_START] = "ISP start",
-    35		[MALI_C55_IRQ_ISP_DONE] = "ISP done",
-    36		[MALI_C55_IRQ_MCM_ERROR] = "Multi-context management error",
-    37		[MALI_C55_IRQ_BROKEN_FRAME_ERROR] = "Broken frame error",
-    38		[MALI_C55_IRQ_MET_AF_DONE] = "AF metering done",
-    39		[MALI_C55_IRQ_MET_AEXP_DONE] = "AEXP metering done",
-    40		[MALI_C55_IRQ_MET_AWB_DONE] = "AWB metering done",
-    41		[MALI_C55_IRQ_AEXP_1024_DONE] = "AEXP 1024-bit histogram done",
-    42		[MALI_C55_IRQ_IRIDIX_MET_DONE] = "Iridix metering done",
-    43		[MALI_C55_IRQ_LUT_INIT_DONE] = "LUT memory init done",
-    44		[MALI_C55_IRQ_FR_Y_DONE] = "Full resolution Y plane DMA done",
-    45		[MALI_C55_IRQ_FR_UV_DONE] = "Full resolution U/V plane DMA done",
-    46		[MALI_C55_IRQ_DS_Y_DONE] = "Downscale Y plane DMA done",
-    47		[MALI_C55_IRQ_DS_UV_DONE] = "Downscale U/V plane DMA done",
-    48		[MALI_C55_IRQ_LINEARIZATION_DONE] = "Linearisation done",
-    49		[MALI_C55_IRQ_RAW_FRONTEND_DONE] = "Raw frontend processing done",
-    50		[MALI_C55_IRQ_NOISE_REDUCTION_DONE] = "Noise reduction done",
-    51		[MALI_C55_IRQ_IRIDIX_DONE] = "Iridix done",
-    52		[MALI_C55_IRQ_BAYER2RGB_DONE] = "Bayer to RGB conversion done",
-    53		[MALI_C55_IRQ_WATCHDOG_TIMER] = "Watchdog timer timed out",
-    54		[MALI_C55_IRQ_FRAME_COLLISION] = "Frame collision error",
-    55		[MALI_C55_IRQ_UNUSED] = "IRQ bit unused",
-    56		[MALI_C55_IRQ_DMA_ERROR] = "DMA error",
-    57		[MALI_C55_IRQ_INPUT_STOPPED] = "Input port safely stopped",
-    58		[MALI_C55_IRQ_MET_AWB_TARGET1_HIT] = "AWB metering target 1 address hit",
-    59		[MALI_C55_IRQ_MET_AWB_TARGET2_HIT] = "AWB metering target 2 address hit"
-    60	};
-    61	
+Note that these are GCC builds.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Nícolas
 
