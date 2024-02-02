@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-4598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A26846BC9
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 10:22:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2283C846BCA
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 10:22:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1136728AF2D
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 09:22:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0B0C1F21AE4
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 09:22:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B55577F1F;
-	Fri,  2 Feb 2024 09:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE97B77F29;
+	Fri,  2 Feb 2024 09:21:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1069677F18
-	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 09:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECA977F16
+	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 09:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706865715; cv=none; b=aY52TlCynPKSW5rT7hUb/J50aM9lyoNnWOaNbsMZdTRKQ836f3bhAYwLejJ70OgjfQmw1e4GqEJ45l+ZFjgU4h+7BvormkEGmecQbAa0IM9iDlsDlXpPzw4ByYS0mSy526jBVjU6VCuSlGa6KTVhUfMsYypQhjOjR7hydpFJrkA=
+	t=1706865716; cv=none; b=OvVXEAlqeZflNWyTaGKsEAqNay9GhVy41bhDrMrj1JCaaas37SJwIXP06MsHz4dq7CHSjprSeynsmJFIuQeiyDvTRmlujS5G0f55621dwRkDpvdMG1QQtvhoG7eHHXXMUWcNhlath9SyO57XlLDm9cClbmAtR5ugXBSDPn9gwq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706865715; c=relaxed/simple;
-	bh=iOQWAbPUgsenTVdkFpbrscgPLXD4FaVrv9hpFWTjqDY=;
+	s=arc-20240116; t=1706865716; c=relaxed/simple;
+	bh=XG3niVjd1bzTtJ618XnidxW9urJQ1OUodvz1MQhWH9w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DLjkPUT3z8l12dtBvuX1q3hWVi8a4JULP1lQhDvmSGa08mZSTt07OoDdx/IIvkhtIPOiHZRwf4dzEjhk7KuWw/w75UoiJha02a2/7i2wWLhK+kaU0pKPb58Zf980bX8puW6W+jQ9i254Qla1UXgIlzJH+ZMWPubsslRZGNHid7Q=
+	 MIME-Version; b=o6w7AGA5zRFFCitP37XBXeSU2WGJzclXu2yTaVFbP3+Bu7oXp498NwQ3rRqnYda3ahR/FuroLsKllKPFmpIDbREF0zDmaKmlt/n1FwwDYu+ZvBkUdR2WnahC7DFaV0fD23mPtjkmHWOR0L4yn5IgasnZhO51Ox0JgZ4+Q84dP18=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9FBBC433C7;
-	Fri,  2 Feb 2024 09:21:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBFFC43390;
+	Fri,  2 Feb 2024 09:21:54 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 1/2] media: atomisp: make dbgopt static
-Date: Fri,  2 Feb 2024 10:21:20 +0100
-Message-ID: <186826ed0f3d3ff42171fdabb30897f03575141a.1706865681.git.hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 2/2] media: atomisp: don't use sizeof(NULL)
+Date: Fri,  2 Feb 2024 10:21:21 +0100
+Message-ID: <d33c9271ed30997eb1774d1a6af997f538ecd888.1706865681.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1706865681.git.hverkuil-cisco@xs4all.nl>
 References: <cover.1706865681.git.hverkuil-cisco@xs4all.nl>
@@ -47,28 +47,29 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This fixes a sparse warning:
+Check the size of another pointer instead of NULL. This fixes this
+smatch warning:
 
-drivers/staging/media/atomisp/pci/atomisp_drvfs.c:40:14: warning: symbol 'dbgopt' was not declared. Should it be static?
+drivers/staging/media/atomisp/pci/sh_css.c:3609 ia_css_pipe_enqueue_buffer() warn: sizeof(NUMBER)?
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/staging/media/atomisp/pci/atomisp_drvfs.c | 2 +-
+ drivers/staging/media/atomisp/pci/sh_css.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-index 293171da1266..ba7dd569a55a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-@@ -37,7 +37,7 @@
-  *        bit 1: running binary
-  *        bit 2: memory statistic
-  */
--unsigned int dbgopt = OPTION_BIN_LIST;
-+static unsigned int dbgopt = OPTION_BIN_LIST;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 1d1fbda75da1..0d2ef96fabce 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -3606,7 +3606,7 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
  
- static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
- 				    unsigned int opt)
+ 	assert(pipeline || pipe_id == IA_CSS_PIPE_ID_COPY);
+ 
+-	assert(sizeof(NULL) <= sizeof(ddr_buffer.kernel_ptr));
++	assert(sizeof(pipe) <= sizeof(ddr_buffer.kernel_ptr));
+ 	ddr_buffer.kernel_ptr = HOST_ADDRESS(NULL);
+ 	ddr_buffer.cookie_ptr = buffer->driver_cookie;
+ 	ddr_buffer.timing_data = buffer->timing_data;
 -- 
 2.43.0
 
