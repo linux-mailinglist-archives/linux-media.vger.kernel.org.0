@@ -1,119 +1,153 @@
-Return-Path: <linux-media+bounces-4609-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4610-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4808470BA
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 13:58:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AF68470C7
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 14:01:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBF681F2C7AB
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 12:58:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BCD61F26D22
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 13:01:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A37AC3D6D;
-	Fri,  2 Feb 2024 12:58:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73464C8F1;
+	Fri,  2 Feb 2024 13:01:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XxK6AL0R"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rk52/yef"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B49846433;
-	Fri,  2 Feb 2024 12:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D24210E8;
+	Fri,  2 Feb 2024 13:01:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706878692; cv=none; b=E8w3EqTg2/dP89LbLRsCaOwZsSzbOQlxjgO6g8pBc3MMq92f+WbjIGSwumg7trfNX1IlTEoGivyOPz8NgQ3dSbuZhSuHuAP9p725fBhsPFFkUXRILuq0kiLBuuOrRH+ul/4SYwf+PeU+WneLY7iPbqAXP3SLix5sTO+HD80wTFw=
+	t=1706878902; cv=none; b=VRR2+LPcxFlXO1kW4EqX5IgIErfs4cuGnkhpRL/qpwt0DM1aZ3AISdfRONjNywEUKKNuiHKMbDaOrnF4almRqAOIoInjzLkZabNwQp+2tmb+fEiOdz78xDoKzHURb10n5s15GGqHs8OfT+oaVrc5x1l4lj+wicBa9If//RNI25g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706878692; c=relaxed/simple;
-	bh=eZxOtydVn75KlLDsjhljk2E/9by5DLKsxQBgEm9BoA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eQyhRajEr6mw3VSHng6PaLiYiNn8NY5n1jmO7OFr3VmH/iy36hvFbpVJYiHCgmmwK91OwgwToiuiDAzZzm4fgo1bIjj585URkCjb49LfxRLcUMa9H8FlEsK9N0YDSRgk0fQ9H8pd4t8NsYaKh2XIilkemlzbtcGDqc3ukcnBlvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=XxK6AL0R; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706878687;
-	bh=eZxOtydVn75KlLDsjhljk2E/9by5DLKsxQBgEm9BoA4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XxK6AL0RPCUwDZCkOln4QsiMSxSV+V+FsoLeSFodim/VeGCBa1gRurxBCEurJn9H1
-	 M2eGLmZ+8wJVHWBjjDGOkpEOaya0UT3PXQi1F27UH0gXzNGRVlOL4c/Cez0pazK5Rr
-	 d9cB1gGLUlMHG3kODLG+Gi6kn012YCsOX8O9kqZ/jGxnF3UgCGRr0Vn76qmqgatdU6
-	 5JZ+kROqn3LJvFe9To2ze9qVVshRt8ZPYqZQBDdxr4afC+bq5B5knr2nVetBzsmkTA
-	 /28LyP/bnxgLvhI5Kx9TFGvU4P2UVolG0oliYpt3Pt/ApMa4UW5btQsmVeYAJpdc/k
-	 QYH8MpJArwguA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 79E863781183;
-	Fri,  2 Feb 2024 12:58:06 +0000 (UTC)
-Message-ID: <5658ec37-868f-454d-a149-467e6de139cd@collabora.com>
-Date: Fri, 2 Feb 2024 13:58:05 +0100
+	s=arc-20240116; t=1706878902; c=relaxed/simple;
+	bh=ZjGVUgcdYqjFELWbtS5Tz+gafK6SLtjIYXwEYo18YXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lwlp1bbvGXNxCG5EyyNWbPK2jEUYH4sQ0NzWw4iAzSYmSNsmHVQCzCl/77Sw6WYsphX0FoPfmoYLeE6KDnfI3chh9fXGiP95J1HatK71nYtfJEXHlgDUelD6CnkcJ/BzBGP5simandsmv/c20WStXX+hMmXcSSQwGKPEkiR4KDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rk52/yef; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E34C433F1;
+	Fri,  2 Feb 2024 13:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706878902;
+	bh=ZjGVUgcdYqjFELWbtS5Tz+gafK6SLtjIYXwEYo18YXo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Rk52/yefcJ7xC9MuTUP9sVCJC4n6DX/+ofLVOsiOkeAH60dIBnk2fZXv9ByUydBSm
+	 DtqxnIWw/Mom3yYSOahogiwlITZbO6GPKqH6MT9Kdr8LoJYR+meY7ea3x86U/vmdK4
+	 jRDsbJiXrCZxHBdA/8os4Npi7r/i1RsmqZO0HydLSMRy0rWgj6ua7CH416PSWMz9pG
+	 0eAtdr7brPlRIP4fC1N9uM9JlSNyxx5dHaPSkw9vVrEL5j6Xw4EmSZSGqLZYN6CIUl
+	 apPnlO5ZVBPs/+JA5YylF5MM9Ainw7YQkJYQDn356jUppnedKDWil6gE6ptW+ae8v4
+	 30Y4ACuH/ziuw==
+Date: Fri, 2 Feb 2024 14:01:39 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
+ <20240115143720.GA160656@toolbox>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] media: mediatek: vcodedc: Fix
- Wcast-function-type-strict warnings
-Content-Language: en-US
-To: Sami Tolvanen <samitolvanen@google.com>,
- Nathan Chancellor <nathan@kernel.org>, Ricardo Ribalda
- <ribalda@chromium.org>, =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?=
- <nfraprado@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Mike Isely <isely@pobox.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
- <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org>
- <20240201221654.GC2240065@dev-arch.thelio-3990X>
- <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Il 01/02/24 23:25, Sami Tolvanen ha scritto:
-> On Thu, Feb 1, 2024 at 10:17 PM Nathan Chancellor <nathan@kernel.org> wrote:
->>
->> On Sun, Jan 28, 2024 at 02:12:22AM +0000, Ricardo Ribalda wrote:
->>> Building with LLVM=1 throws the following warning:
->>> drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
->>>
->>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>
->> I am not positive because I don't have any hardware to test this driver
->> but I suspect this patch is just hiding the warning without actually
->> addressing the issue that it is pointing out.
-> 
-> Agreed, this won't fix the issue. The correct solution is to drop the
-> cast and change the handler type to match the pointer type (i.e. use
-> const void* for the first argument).
-> 
-
-Even though I agree that the correct solution is to change the handler's type,
-I think that having a test on the actual hardware done is still valuable.
-
-We scheduled a job on KernelCI to test this commit on our integration kernel,
-you'll get results for ChromeOS' tast decoders (MT8195 only) and Fluster tests
-on MT8183/8186/8192/8195.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6dznigm7bfdw265q"
+Content-Disposition: inline
+In-Reply-To: <20240115143720.GA160656@toolbox>
 
 
-The results should be available in a couple of hours here, relative to commit 
-`49955a84129dbe1f94fedf729690efcf28513828` on our tree:
-https://chromeos.kernelci.org/job/collabora-chromeos-kernel/branch/for-kernelci/
+--6dznigm7bfdw265q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-P.S.: If they don't, feel free to ping me or Nicolas (added to the loop) about it.
+Hi,
 
-Cheers,
-Angelo
+On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > >  /**
+> > >   * DOC: HDMI connector properties
+> > >   *
+> > > + * Broadcast RGB
+> > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > + *      Infoframes will be generated according to that value.
+> > > + *
+> > > + *      The value of this property can be one of the following:
+> > > + *
+> > > + *      Automatic:
+> > > + *              RGB Range is selected automatically based on the mode
+> > > + *              according to the HDMI specifications.
+> > > + *
+> > > + *      Full:
+> > > + *              Full RGB Range is forced.
+> > > + *
+> > > + *      Limited 16:235:
+> > > + *              Limited RGB Range is forced. Unlike the name suggest=
+s,
+> > > + *              this works for any number of bits-per-component.
+> > > + *
+> > > + *      Drivers can set up this property by calling
+> > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > + *
+> >=20
+> > This is a good time to document this in more detail. There might be two
+> > different things being affected:
+> >=20
+> > 1. The signalling (InfoFrame/SDP/...)
+> > 2. The color pipeline processing
+> >=20
+> > All values of Broadcast RGB always affect the color pipeline processing
+> > such that a full-range input to the CRTC is converted to either full- or
+> > limited-range, depending on what the monitor is supposed to accept.
+> >=20
+> > When automatic is selected, does that mean that there is no signalling,
+> > or that the signalling matches what the monitor is supposed to accept
+> > according to the spec? Also, is this really HDMI specific?
+> >=20
+> > When full or limited is selected and the monitor doesn't support the
+> > signalling, what happens?
+>=20
+> Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> the cable, so is this only affecting RGB? If not, how does it affect
+> YCbCr?
+
+So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+we're using a YCbCr format, i915 will always use a limited range while
+vc4 will follow the value of the property.
+
+I guess the best way to reconcile that would be to state that it also
+controls the YCbCr range, and i915 can choose to reject/adjust the
+configurations it can't support.
+
+Does that make sense?
+
+Maxime
+
+--6dznigm7bfdw265q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbznsgAKCRDj7w1vZxhR
+xY65AP4thN3Jypd+NMHjCI2DGcLcaa/6C19RZkReczuElu+gZwEA4x7ld5E6OIjM
+5nF1e+nTxH1f21uOqX5xJzdswy85Rw8=
+=NO9C
+-----END PGP SIGNATURE-----
+
+--6dznigm7bfdw265q--
 
