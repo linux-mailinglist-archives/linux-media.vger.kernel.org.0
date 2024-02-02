@@ -1,217 +1,231 @@
-Return-Path: <linux-media+bounces-4605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693A2846ECF
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 12:20:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60021847051
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 13:30:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CC032879BA
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 11:20:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BDB48B242FF
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 12:30:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB30B13D514;
-	Fri,  2 Feb 2024 11:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8F6714534B;
+	Fri,  2 Feb 2024 12:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j3P3q7PM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494D560244;
-	Fri,  2 Feb 2024 11:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA05144624
+	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 12:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706872828; cv=none; b=sPm+CXi+cn3eRheQvZ5+fWjznSySFqXqv41XP89+40xVGIUoyZHg7Tk2tWggRVm/RMH7hC1yZboc/DGIeF4NVJz1oVTE+LRPM8qmUAVmFS+G7ASb9rw0/41krpTqni80ApFzKfzrI/tASzQXAZ45EeGg3ZNjZOEsmdXrd6/KLn0=
+	t=1706877023; cv=none; b=jmM6wcdAV7hVMagi9JLzJRHV7wUdwbiWUj0H5SUQWfzdQs9UGQUYOFdhQxnZXXuityJHzecMn4tPgQJ2mJmZz6LyMFnQPhmhJzXtlmz2F7TK84rjXq4UOcfC3Nb1XczMItG/kEWdkC7jaceCWv1RHNYdyGI/Ln1p/Ff0R9HDEHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706872828; c=relaxed/simple;
-	bh=UgCZ0dCPok1yCgQUIpcSRxnDE9MtjJTQmgm/MixG4IU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HzECF7EVR10+sjv5MRkDDUdL+zPaHNmCIZgkDK3AD+yUPtjHHml/khk9sOudEVA8BydnANcJD+mJErqpqoQlVJ1t6is/3iVAp+TGJGPbk4o57c5bD6yJwUcJFXoCDWwYULnk/VmTNaigT4aFMsW3wpizQvGMhmARpc/5nqkLRmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DADD9C433C7;
-	Fri,  2 Feb 2024 11:20:23 +0000 (UTC)
-Message-ID: <c37e9225-3890-4f4d-b45c-919b907b184b@xs4all.nl>
-Date: Fri, 2 Feb 2024 12:20:21 +0100
+	s=arc-20240116; t=1706877023; c=relaxed/simple;
+	bh=IGI9/dQV3qGBVH5j2vJp9yftTikrYa+t8RlZXVoJbpk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lTfMTEXmR7nx1ZdxkByoANCcdvVfvZK4FnRSX/QBTGRtZ/2WFc6WycX6m2pIRmEJL1REtraPDRsS7ZYQotPHW0Atjds9rSO9cDPzB5YJg1nDX7xx4S5tRjHmcMXNCnEhgAjjJexCO6Z+Yd14SekDCIGJ3Xj5tv1TplWGKJiuLKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j3P3q7PM; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-604055e48a3so21612807b3.0
+        for <linux-media@vger.kernel.org>; Fri, 02 Feb 2024 04:30:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706877020; x=1707481820; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=v8oOpYwr9iTQslYutTkqU0qxshC1/W4QlmLIOUl40bM=;
+        b=j3P3q7PMRtEF//DUJSJAzp+q30tS7/3EAyFxKYJoBQ6DJBoU3f3y4Ox3fOvvMxEPps
+         o+OAQWjgGd8FDMiNhHIIVHaifSCi5+KmGXoVVELn72zmCcbD0b0UKo1BWEkokh7cB2tY
+         sepVIuuXtzUDR18Zmk8pCsQw7ATmexdkQfrD7eY0tx3WpXGNnHQfXN+IQOqn1vvVxlv7
+         V439fOeRn9wP+beqbNmfsLHq8hKEbCd8FKcYYn9eYknBPCIL7/Z63TNfCk4RpTOjBTyo
+         jPUOTAHYvZPUPgXB+Oj8ja57B1E3WhMgfvVtIRnn5zaFyo5IlbkcA9CjetF7DMsP38HJ
+         PusA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706877020; x=1707481820;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v8oOpYwr9iTQslYutTkqU0qxshC1/W4QlmLIOUl40bM=;
+        b=T3m3gPoskX68I3mhS2I2sbQw8SoV4xnVjUWXQI9QaKMkHk244+tzndQf8W+T5MPAqs
+         ibdjFYRxXDCUb0oeyHSU45EW7qPOg3dCqkMCdXaMoms5uHudbMuOS8OkDjUeBKy8rMvt
+         L+ggjM1Ru20BfPI8s1dxtQFZ1d05N51/KqA9G4MGn5UhHDAOOJviCAccgoLjTuufHvim
+         xP+ysPvwpEfuvxiDSz8ntSsdcHjglft8kedu86Pcq+XAooXwe1yDIeT2YnEBOYy0bf31
+         u6pkfeisZ0E8glYgtLrHtcEyY60JbcYUBm+8Z8aV70ukJk7KHVNjN5HN3AvbGr5XIwP0
+         VQmw==
+X-Gm-Message-State: AOJu0Yyu7r/exTkqn8+szotqNoKY8l8fGaqWYLe+/1UYFpI7o8qNRPur
+	Bs/8GPIe93xHWVHQ8nOntJkl+gZ76KgdHo0rGj3J2EwP72JtEVK8WGGoyy79WSCa71pIElVMmZE
+	cq6d/OVQpIWEWvI2MUuzOHmX7OJiRprb0Y15McA==
+X-Google-Smtp-Source: AGHT+IETPsoeVpj0fMEFsGC6sNVxTsee80Br4NXMlKwi1BUq1xFrUlkgkaLYgBcbwbf7U/G9cwauAMTlt8UuJHRtKp0=
+X-Received: by 2002:a0d:ddcc:0:b0:5ff:58f1:9944 with SMTP id
+ g195-20020a0dddcc000000b005ff58f19944mr2068910ywe.30.1706877020693; Fri, 02
+ Feb 2024 04:30:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-Content-Language: en-US, nl
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- David Airlie <airlied@gmail.com>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox> <874jerf7ot.fsf@intel.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <874jerf7ot.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
+ <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org> <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
+ <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com> <l7icfezpajren25545n4cjtqehhividt5b2dxnxgetdsshc3k3@tdws423qdblk>
+In-Reply-To: <l7icfezpajren25545n4cjtqehhividt5b2dxnxgetdsshc3k3@tdws423qdblk>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 2 Feb 2024 13:29:44 +0100
+Message-ID: <CAPDyKFp1vg2+-pHJ_idkdhb_zZUMpq7W17DnCCGj0eTwd4jFbQ@mail.gmail.com>
+Subject: Re: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd
+ to be managed by HW
+To: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	Len Brown <len.brown@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Gross <agross@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Taniya Das <quic_tdas@quicinc.com>, Jagadeesh Kona <quic_jkona@quicinc.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 02/02/2024 12:04, Jani Nikula wrote:
-> On Mon, 15 Jan 2024, Sebastian Wick <sebastian.wick@redhat.com> wrote:
->> On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
->>> The i915 driver has a property to force the RGB range of an HDMI output.
->>> The vc4 driver then implemented the same property with the same
->>> semantics. KWin has support for it, and a PR for mutter is also there to
->>> support it.
->>>
->>> Both drivers implementing the same property with the same semantics,
->>> plus the userspace having support for it, is proof enough that it's
->>> pretty much a de-facto standard now and we can provide helpers for it.
->>>
->>> Let's plumb it into the newly created HDMI connector.
->>>
->>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> 
-> [snip]
-> 
->>> @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
->>>  /**
->>>   * DOC: HDMI connector properties
->>>   *
->>> + * Broadcast RGB
->>> + *      Indicates the RGB Quantization Range (Full vs Limited) used.
->>> + *      Infoframes will be generated according to that value.
->>> + *
->>> + *      The value of this property can be one of the following:
->>> + *
->>> + *      Automatic:
->>> + *              RGB Range is selected automatically based on the mode
->>> + *              according to the HDMI specifications.
->>> + *
->>> + *      Full:
->>> + *              Full RGB Range is forced.
->>> + *
->>> + *      Limited 16:235:
->>> + *              Limited RGB Range is forced. Unlike the name suggests,
->>> + *              this works for any number of bits-per-component.
->>> + *
->>> + *      Drivers can set up this property by calling
->>> + *      drm_connector_attach_broadcast_rgb_property().
->>> + *
->>
->> This is a good time to document this in more detail. There might be two
->> different things being affected:
->>
->> 1. The signalling (InfoFrame/SDP/...)
->> 2. The color pipeline processing
->>
->> All values of Broadcast RGB always affect the color pipeline processing
->> such that a full-range input to the CRTC is converted to either full- or
->> limited-range, depending on what the monitor is supposed to accept.
->>
->> When automatic is selected, does that mean that there is no signalling,
->> or that the signalling matches what the monitor is supposed to accept
->> according to the spec? Also, is this really HDMI specific?
-> 
-> Automatic is based on the mode as described in the specs
-> below. Basically certain modes are expected to be broadcast range, and
-> others full range.
-> 
-> I don't remember why we don't use the full range if the display
-> indicates it supports selectable quantization range in Video
-> Capabilities Data Block. It's quite possible there are displays that
-> declare support but don't. Cc: Ville.
+On Fri, 2 Feb 2024 at 00:51, Bjorn Andersson <andersson@kernel.org> wrote:
+>
+> On Wed, Jan 31, 2024 at 01:12:00PM +0100, Ulf Hansson wrote:
+> > On Wed, 31 Jan 2024 at 02:09, Bjorn Andersson <andersson@kernel.org> wrote:
+> > >
+> > > On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
+> > > > From: Ulf Hansson <ulf.hansson@linaro.org>
+> > > >
+> > > > Some power-domains may be capable of relying on the HW to control the power
+> > > > for a device that's hooked up to it. Typically, for these kinds of
+> > > > configurations the consumer driver should be able to change the behavior of
+> > > > power domain at runtime, control the power domain in SW mode for certain
+> > > > configurations and handover the control to HW mode for other usecases.
+> > > >
+> > > > To allow a consumer driver to change the behaviour of the PM domain for its
+> > > > device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
+> > > > let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
+> > > > which the genpd provider should implement if it can support switching
+> > > > between HW controlled mode and SW controlled mode. Similarly, add the
+> > > > dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
+> > > > its corresponding optional genpd callback, ->get_hwmode_dev(), which the
+> > > > genpd provider can also implement for reading back the mode from the
+> > > > hardware.
+> > > >
+> > > > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > > > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > ---
+> > > >  drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
+> > > >  include/linux/pm_domain.h | 17 ++++++++++++
+> > > >  2 files changed, 86 insertions(+)
+> > > >
+> > > > diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> > > > index a1f6cba3ae6c..41b6411d0ef5 100644
+> > > > --- a/drivers/pmdomain/core.c
+> > > > +++ b/drivers/pmdomain/core.c
+> > > > @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
+> > > >
+> > > > +/**
+> > > > + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
+> > >
+> > > This isn't proper kernel-doc
+> >
+> > Sorry, I didn't quite get that. What is wrong?
+> >
+>
+> https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
+> says that there should be () after the function name, and below there
+> should be a Return:
 
-I have not seen such displays. Enabling RGB Selectable Quantization Range
-is something that a vendor has to do explicitly, so it is reasonable to
-expect that it works, otherwise there would be no point to that flag!
+Thanks for the pointers!
 
-Transmitting full range if possible gives a better picture quality and
-so is recommended.
+>
+> > >
+> > > > + *
+> > > > + * @dev: Device for which the HW-mode should be changed.
+> > > > + * @enable: Value to set or unset the HW-mode.
+> > > > + *
+> > > > + * Some PM domains can rely on HW signals to control the power for a device. To
+> > > > + * allow a consumer driver to switch the behaviour for its device in runtime,
+> > > > + * which may be beneficial from a latency or energy point of view, this function
+> > > > + * may be called.
+> > > > + *
+> > > > + * It is assumed that the users guarantee that the genpd wouldn't be detached
+> > > > + * while this routine is getting called.
+> > > > + *
+> > > > + * Returns 0 on success and negative error values on failures.
+> > > > + */
+> > > > +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
+> > > > +{
+> > > > +     struct generic_pm_domain *genpd;
+> > > > +     int ret = 0;
+> > > > +
+> > > > +     genpd = dev_to_genpd_safe(dev);
+> > > > +     if (!genpd)
+> > > > +             return -ENODEV;
+> > > > +
+> > > > +     if (!genpd->set_hwmode_dev)
+> > > > +             return -EOPNOTSUPP;
+> > > > +
+> > > > +     genpd_lock(genpd);
+> > > > +
+> > > > +     if (dev_gpd_data(dev)->hw_mode == enable)
+> > >
+> > > Between this and the gdsc patch, the hw_mode state might not match the
+> > > hardware state at boot.
+> > >
+> > > With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
+> > > false) will not bring control to SW - which might be fatal.
+> >
+> > Right, good point.
+> >
+> > I think we have two ways to deal with this:
+> > 1) If the provider is supporting ->get_hwmode_dev(), we can let
+> > genpd_add_device() invoke it to synchronize the state.
+>
+> I'd suggest that we skip the optimization for now and just let the
+> update hit the driver on each call.
 
-> 
-> - HDMI 1.4b section 6.6 Video Quantization Ranges
-> 
-> - HDMI 2.1 section 7.3 Video Quantization Ranges
-> 
-> - DP 2.1 (and earlier) section 5.1.1.1 Video Colorimetry
-> 
-> - CTA-861-H (and earlier) section 5.1 Default Encoding Parameters and
->   section 6.4.3 Quantization Range
+Okay.
 
-Note that CTA-861-H deprecated the use of Default Range in the AVI
-InfoFrame, instead the source should always signal limited or full range
-in the Q field.
+>
+> > 2) If the provider doesn't support ->get_hwmode_dev() we need to call
+> > ->set_hwmode_dev() to allow an initial state to be set.
+> >
+> > The question is then, if we need to allow ->get_hwmode_dev() to be
+> > optional, if the ->set_hwmode_dev() is supported - or if we can
+> > require it. What's your thoughts around this?
+> >
+>
+> Iiuc this resource can be shared between multiple clients, and we're
+> in either case returning the shared state. That would mean a client
+> acting upon the returned value, is subject to races.
 
-Regards,
+Not sure I understand this, but I also don't have in-depth knowledge
+of how the HW works.
 
-	Hans
+Isn't the HW mode set on a per device basis?
 
-> 
->> When full or limited is selected and the monitor doesn't support the
->> signalling, what happens?
-> 
-> 1) Limited selected, display expects full, colors seem washed out.
-> 
-> 2) Full selected, display expects limited, black screen possible.
-> 
-> We receive the occasional bug report for 1, because there are displays
-> that incorrectly expect full when spec says it should be limited. We
-> reject the bug reports, because erring the other way can lead to black
-> screens.
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> 
+>
+> I'm therefore inclined to say that we shouldn't have a getter, other
+> than for debugging purposes, in which case reading the HW-state or
+> failing would be reasonable outcomes.
 
+If you only want this for debug purposes, it seems better to keep it
+closer to the rpmh code, rather than adding generic callbacks to the
+genpd interface.
+
+So to conclude, you think having a ->set_hwmode_dev() callback should
+be sufficient and no caching of the current state?
+
+Abel, what's your thoughts around this?
+
+Kind regards
+Uffe
 
