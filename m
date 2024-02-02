@@ -1,83 +1,88 @@
-Return-Path: <linux-media+bounces-4621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94808474F2
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 17:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EC7847507
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 17:38:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEB581C26C5B
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 16:36:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE2F61C2679A
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 16:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83D621487F2;
-	Fri,  2 Feb 2024 16:35:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 322281487F7;
+	Fri,  2 Feb 2024 16:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivRJUm1s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HLDMYY3q"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E73B1474BD;
-	Fri,  2 Feb 2024 16:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125BD14830B;
+	Fri,  2 Feb 2024 16:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706891716; cv=none; b=intWkq4yAcDScWWcX5vBBep/OJgVxV+yZuh6Ro6HoSdWGiBhQeicNrz0oCLJbpORctMYlIRnlIKE1ZSVFyJ4YsiLeTBB0f+qeW5FJgkHq523vZP469ERZULBudqZVWXX8y5bpJN8eBxuy2u6VJ+bOHoH+h1FOZ3qEVDQgg3Vjvc=
+	t=1706891882; cv=none; b=oK8JSf1qr1ASWciFHRp0hTk8qXSDzHrKxFkqegzUr1myfF6KLV4qQR+7RxzMXzVTO2KMfusOd5WJ9Bft+ioUNgCrJW6Th3LsM51P1F7tKJWDrwjKho1iu33wtshNwuNdqWvgP2kV7dmWQR/MHXwfsfWKlSNGEj7/H1NW4Flbxfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706891716; c=relaxed/simple;
-	bh=1lLd48O5ySvz7PNZFF6ltqKVz+fi3YrSX8Kst1Luccw=;
+	s=arc-20240116; t=1706891882; c=relaxed/simple;
+	bh=DI+vowAp6HxEMoicKFi0dBorFyKWjCm9wzepkmTNs34=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hL++vFH28dS46QXf8GHE/2yQl/6Ag4w/+SvW3kU4EC2OL+n2j8BRsZKIbQe2jLDf39pq8A4UBkOwuGUdkgE7ahsRQqkV6ejX9e4gRn+loe6czw/LoEPhirQPfKipv3BPLxWW6XOcrZ2LRNEdfQa1gi+hOpgb15ABSub+Lwfg0pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivRJUm1s; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=pYTrOVQ+0B5ukyzMsUBdXn3MNleMK0e+V09t72LLKYvg+eYUCXNPLL6Dke9pdhX2sR8bB3vK2sdlxy1WZwP3OODujWav3QgiZgNeJK+AACcdqx9+5AyPoH/eZgAJNDe7jf3sWTN6dImF+TvNlvLD7oziUtaKyFylSQYN86aCnD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HLDMYY3q; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706891715; x=1738427715;
+  t=1706891882; x=1738427882;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=1lLd48O5ySvz7PNZFF6ltqKVz+fi3YrSX8Kst1Luccw=;
-  b=ivRJUm1sVTVzYilHwwtUQlpnCtQx5B6h0JIMuvuK+X+B3qKdu1nTle4B
-   9oF8RfB2g4Q1wH6hwG0kMvtoCxx2qhvCXkGiVySFVIrgjMrNy9T4aNnDu
-   8wJMFKQ/O90LsJSIBpp6Aa/48goxFZbtyTDNDj5/Gd7e8D5b+Te6f2bzW
-   SKubOlplqe6xf1yH1pNrKehwTdLVbCvngmlyMWgHqIyh580ytDzRfLjkf
-   gFFN4b0GCWtD18eq+IuMXPKFfvPld+XOV4ICmDwNiGvB94/rI50QPBaCt
-   FhgXT4lStAmmAlPusJQKOfNObILY5Ssqwju0f4aWnAkMQhh7TqgWDylLv
+  bh=DI+vowAp6HxEMoicKFi0dBorFyKWjCm9wzepkmTNs34=;
+  b=HLDMYY3qW9KfFYTZxPLMbqIFj+jvdrbRnmE5dZrYcgpAqc7ZAuOL2cm+
+   LYMJ37m8JQlaRbr1CX2fdQKWy9OdkG57G+N8W3Ig9WEEdhsrl8TMb7dkd
+   apPEVCQKpPQuzcxoR+m/1lxgzq8o/n15m0RggQBmMHDN2psDgKeNVevHZ
+   8IveClGH4QyZfi8p5HdlBU/yhFOYt19GJq6fwwyWC/GWOlHHEJeF56/Oy
+   WyOhE9KIFEo8XtCm4ggCyswY0CRTXC/Mt13ck1XZas9g2no4PqGHIxEcU
+   rUvvRef4Ldmgs+5qxTBS84fJSd7GpVSZEyCpxp1Bxhfoyap5QLfB0Clkb
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="354667"
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="354999"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="354667"
+   d="scan'208";a="354999"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 08:35:14 -0800
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 08:38:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="823251099"
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="823251802"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="823251099"
+   d="scan'208";a="823251802"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga001.jf.intel.com with SMTP; 02 Feb 2024 08:35:07 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 02 Feb 2024 18:35:06 +0200
-Date: Fri, 2 Feb 2024 18:35:06 +0200
+  by orsmga001.jf.intel.com with SMTP; 02 Feb 2024 08:37:53 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Fri, 02 Feb 2024 18:37:52 +0200
+Date: Fri, 2 Feb 2024 18:37:52 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>,
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-doc@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <Zb0ZujO9E_WH8Pm3@intel.com>
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <Zb0aYAapkxQ2kopt@intel.com>
 References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
  <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
  <20240115143308.GA159345@toolbox>
- <874jerf7ot.fsf@intel.com>
- <c37e9225-3890-4f4d-b45c-919b907b184b@xs4all.nl>
+ <20240115143720.GA160656@toolbox>
+ <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+ <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,124 +92,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c37e9225-3890-4f4d-b45c-919b907b184b@xs4all.nl>
+In-Reply-To: <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
 X-Patchwork-Hint: comment
 
-On Fri, Feb 02, 2024 at 12:20:21PM +0100, Hans Verkuil wrote:
-> On 02/02/2024 12:04, Jani Nikula wrote:
-> > On Mon, 15 Jan 2024, Sebastian Wick <sebastian.wick@redhat.com> wrote:
-> >> On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
-> >>> The i915 driver has a property to force the RGB range of an HDMI output.
-> >>> The vc4 driver then implemented the same property with the same
-> >>> semantics. KWin has support for it, and a PR for mutter is also there to
-> >>> support it.
-> >>>
-> >>> Both drivers implementing the same property with the same semantics,
-> >>> plus the userspace having support for it, is proof enough that it's
-> >>> pretty much a de-facto standard now and we can provide helpers for it.
-> >>>
-> >>> Let's plumb it into the newly created HDMI connector.
-> >>>
-> >>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > Hi,
+> > > 
+> > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > >  /**
+> > > > > >   * DOC: HDMI connector properties
+> > > > > >   *
+> > > > > > + * Broadcast RGB
+> > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > + *
+> > > > > > + *      The value of this property can be one of the following:
+> > > > > > + *
+> > > > > > + *      Automatic:
+> > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > + *              according to the HDMI specifications.
+> > > > > > + *
+> > > > > > + *      Full:
+> > > > > > + *              Full RGB Range is forced.
+> > > > > > + *
+> > > > > > + *      Limited 16:235:
+> > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > + *              this works for any number of bits-per-component.
+> > > > > > + *
+> > > > > > + *      Drivers can set up this property by calling
+> > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > + *
+> > > > > 
+> > > > > This is a good time to document this in more detail. There might be two
+> > > > > different things being affected:
+> > > > > 
+> > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > 2. The color pipeline processing
+> > > > > 
+> > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > 
+> > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > 
+> > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > signalling, what happens?
+> > > > 
+> > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > YCbCr?
+> > > 
+> > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > we're using a YCbCr format, i915 will always use a limited range while
+> > > vc4 will follow the value of the property.
 > > 
-> > [snip]
-> > 
-> >>> @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
-> >>>  /**
-> >>>   * DOC: HDMI connector properties
-> >>>   *
-> >>> + * Broadcast RGB
-> >>> + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> >>> + *      Infoframes will be generated according to that value.
-> >>> + *
-> >>> + *      The value of this property can be one of the following:
-> >>> + *
-> >>> + *      Automatic:
-> >>> + *              RGB Range is selected automatically based on the mode
-> >>> + *              according to the HDMI specifications.
-> >>> + *
-> >>> + *      Full:
-> >>> + *              Full RGB Range is forced.
-> >>> + *
-> >>> + *      Limited 16:235:
-> >>> + *              Limited RGB Range is forced. Unlike the name suggests,
-> >>> + *              this works for any number of bits-per-component.
-> >>> + *
-> >>> + *      Drivers can set up this property by calling
-> >>> + *      drm_connector_attach_broadcast_rgb_property().
-> >>> + *
-> >>
-> >> This is a good time to document this in more detail. There might be two
-> >> different things being affected:
-> >>
-> >> 1. The signalling (InfoFrame/SDP/...)
-> >> 2. The color pipeline processing
-> >>
-> >> All values of Broadcast RGB always affect the color pipeline processing
-> >> such that a full-range input to the CRTC is converted to either full- or
-> >> limited-range, depending on what the monitor is supposed to accept.
-> >>
-> >> When automatic is selected, does that mean that there is no signalling,
-> >> or that the signalling matches what the monitor is supposed to accept
-> >> according to the spec? Also, is this really HDMI specific?
-> > 
-> > Automatic is based on the mode as described in the specs
-> > below. Basically certain modes are expected to be broadcast range, and
-> > others full range.
-> > 
-> > I don't remember why we don't use the full range if the display
-> > indicates it supports selectable quantization range in Video
-> > Capabilities Data Block. It's quite possible there are displays that
-> > declare support but don't. Cc: Ville.
+> > The property is literally called "Broadcast *RGB*".
+> > That should explain why it's only affecting RGB.
 > 
-> I have not seen such displays. Enabling RGB Selectable Quantization Range
-> is something that a vendor has to do explicitly, so it is reasonable to
-> expect that it works, otherwise there would be no point to that flag!
+> Right. And the limited range option is called "Limited 16:235" despite
+> being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> to make names inconsistent too, that's fine and not an argument in
+> itself.
 > 
-> Transmitting full range if possible gives a better picture quality and
-> so is recommended.
+> > Full range YCbCr is a much rarer beast so we've never bothered
+> > to enable it.
 > 
-> > 
-> > - HDMI 1.4b section 6.6 Video Quantization Ranges
-> > 
-> > - HDMI 2.1 section 7.3 Video Quantization Ranges
-> > 
-> > - DP 2.1 (and earlier) section 5.1.1.1 Video Colorimetry
-> > 
-> > - CTA-861-H (and earlier) section 5.1 Default Encoding Parameters and
-> >   section 6.4.3 Quantization Range
+> vc4 supports it.
+
+Someone implemented it incorrectly then.
+
 > 
-> Note that CTA-861-H deprecated the use of Default Range in the AVI
-> InfoFrame, instead the source should always signal limited or full range
-> in the Q field.
+> > Eg. with DP it only became possible with the introduction of the VSC
+> > SDP (and I don't recall if there's additional capability checks that
+> > are also required). With DP MSA signalling full range YCbCr is not
+> > possible at all.
+> 
+> This is for HDMI only.
+> 
+> > I don't recall right now what the HDMI requirements are.
+> 
+> HDMI has supported it for a while, and it's defined (for example) in the
+> HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
+> limited and full range on both RGB and YCbCr, as long as the EDIDs state
+> so and the Infoframes signal it.
 
-Only because the QS=1 is now mandatory IIRC.
-We do always set Q bit explicitly when QS==1.
-
-But yeah, I guess we could always go for full range
-by default when QS==1. Or maybe we even did that at
-some point in the past and it broke some things?
-Can't recall anymore.
-
-Anyways, QS=1 being mandatory is a clear improvement
-in CTA-861, but some other CTA-861 rule updates are
-more or less pointless as you can't in general detect
-which version of the spec the sink claims to implement.
-
-Eg. we already had cases where following the new CTA-861-F
-rules for the YQ bit when transmitting RGB broke some
-displays. And we are now forced to use the presence of
-HDMI 2.0+ capabilities as a heuristic to detect CTA-851-F+.
-(see drm_hdmi_avi_infoframe_quant_range()). It's pretty
-nasty.
-
-And I think there is some other infoframe related issue
-(something to do with VICs IIRC) where we'd need to derive
-the CTA-861 version eg. from the set of advertised VICs
-in the EDID. I might have even written some code for that
-at some point but never finished it. So it's still
-broken in the current code. Can't recall the specific
-details right now unfortunately.
+I think a good reason for not using a simple boolean like this 
+YCbCr is that it doesn't cover the color encoding part at all,
+which is probably more important than the quantization range.
+So we need a new property anyway.
 
 -- 
 Ville Syrjälä
