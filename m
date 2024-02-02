@@ -1,103 +1,61 @@
-Return-Path: <linux-media+bounces-4596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4597-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821E9846B4B
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 09:54:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBD0846BE7
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 10:27:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C95D2882C9
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 08:54:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24C9AB2D4B8
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 09:22:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99F8D604A7;
-	Fri,  2 Feb 2024 08:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAFwCoxc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1736B63128;
+	Fri,  2 Feb 2024 09:21:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931065FDB1
-	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 08:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B720277655
+	for <linux-media@vger.kernel.org>; Fri,  2 Feb 2024 09:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706864035; cv=none; b=n1HN4T6njIRUPHGcrOtt2XgP6+NLDfyw/9QWLkA1zfkkUmFZvr+XZbq8+15JHMsKneg7FTXt5xIsVOG2Z5ez9YMwNkZ/3STHubkLp/OIZEFHVV8IaMYsSi96XO4IcpBezUwldBbADCXMxLFvfLOq4JPVixujxv9BufXed03C8dU=
+	t=1706865713; cv=none; b=rhQqdVTN1Z+cskEzf7ZMGcQVMKQZALCfIYsNWiTaTZMaoyDefmAcstyB49CfnK+7bwOVIIoE0x+ev7hLulAIaJZEzLheexV3aUuJvlXNvdr+BiTi6YKQGg57IR6WS2NQ3c7jUaqxon3kbKrkWLtymXQXjDLFzDdKuV+Dmia0Hk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706864035; c=relaxed/simple;
-	bh=NzgXuy8F6rNscu28DhnICfNxZOiLgcxdJhQIETdOx0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWddvAdUQ8Vgx5ZwBPaQuII/rHRD7hTUuiVWX6z394p2GoODLFMDzLRETV5mIRQuGEfiUlrugqJb5dIDhEUwFfMlN2ivmtimK9EWv+ziM9bBqgkKVaFgEEOe4iJvHxdBVD117mBX2MPNf1Ob7iLoYe8u5MutDf2cnymo9vDMw6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAFwCoxc; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706864034; x=1738400034;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NzgXuy8F6rNscu28DhnICfNxZOiLgcxdJhQIETdOx0s=;
-  b=bAFwCoxcuaXYXHslF+1LQRPcPwFWtD2Hc81ExXKsm0C4819AL1dJSKSU
-   ajkHd9TOjguQrlxE/wHu9KzYuUG+0udQJzYnwLcKuuUIl8wnWMss6V6z+
-   LRllTjYEyRrHJWzVZMb5VzncHYbhm7849YdX6IM/ySGucZ/tdjhJf4Rdx
-   GNobDpCvEHsVU3IljxJtKaalH8aCWg+uYD9GDqT9zkNquCVB7vieZNt3k
-   7pNj8iXvDrzUwzpUA7oo8IRcMfcKNHr7/Fv1dqF7x5SK0OFYSIJ8hY/wm
-   72k53avjUeOQmldwDyDD4FWNJjt8aYseg1k9pzKtQZA3/mdWn9nrF2kuo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="11478665"
-X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
-   d="scan'208";a="11478665"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 00:53:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="823163484"
-X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
-   d="scan'208";a="823163484"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 00:53:52 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id DC80111FB1F;
-	Fri,  2 Feb 2024 10:47:23 +0200 (EET)
-Date: Fri, 2 Feb 2024 08:47:23 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] media: v4l2-common.h: kerneldoc: correctly format return
- values
-Message-ID: <ZbysG-sUu9jf3fwQ@kekkonen.localdomain>
-References: <d38e25c0-a508-46d9-97cd-a50d31483c82@xs4all.nl>
+	s=arc-20240116; t=1706865713; c=relaxed/simple;
+	bh=C3svhF4Zo5yxgMaRoGRJn5SpzZwUsXnEaEGnpkz4vPY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cnHySWYH4Y8gNcMDjmY4ZbVI0hz14ebBekrawRnhgNocnSzSeVRqUqUSquTuUfnBHrN62d9EdWe6moUcT5X85zYrDIuZhX4O5NBzJy5yA6hyb9cIRK6AtKbYchgCCLX7G2UfG+l2RLRAOr+s1KXvETddTLheWhuOOo018jpoesQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78FB5C43390;
+	Fri,  2 Feb 2024 09:21:52 +0000 (UTC)
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH 0/2] media: atomisp: two sparse/smatch fixes
+Date: Fri,  2 Feb 2024 10:21:19 +0100
+Message-ID: <cover.1706865681.git.hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d38e25c0-a508-46d9-97cd-a50d31483c82@xs4all.nl>
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+Two small fixes to shut up sparse/smatch.
 
-On Fri, Feb 02, 2024 at 09:25:44AM +0100, Hans Verkuil wrote:
-> Building the kerneldoc resulted in two errors:
-> 
-> Documentation/media/driver-api/v4l2-common:6: ./include/media/v4l2-common.h:566: ERROR: Unexpected indentation.
-> Documentation/media/driver-api/v4l2-common:6: ./include/media/v4l2-common.h:567: WARNING: Block quote ends without a blank line; unexpected unindent.
-> 
-> Format v4l2_link_freq_to_bitmap according to the kerneldoc standard.
-> The v4l2_fill_pixfmt_mp function also had incorrect return value formatting,
-> although that didn't report an error/warning, but it looked ugly in the
-> generated documentation. So fix that one as well.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Fixes: a68e88e2cf9e ("media: v4l: Add a helper for setting up link-frequencies control")
+	Hans
 
-I wrote a patch to address these as well but I think yours is better.
+Hans Verkuil (2):
+  media: atomisp: make dbgopt static
+  media: atomisp: don't use sizeof(NULL)
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+ drivers/staging/media/atomisp/pci/atomisp_drvfs.c | 2 +-
+ drivers/staging/media/atomisp/pci/sh_css.c        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 -- 
-Regards,
+2.43.0
 
-Sakari Ailus
 
