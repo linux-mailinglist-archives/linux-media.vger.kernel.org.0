@@ -1,191 +1,220 @@
-Return-Path: <linux-media+bounces-4622-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4623-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EC7847507
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 17:38:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A67848476A9
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 18:51:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE2F61C2679A
-	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 16:38:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EDE59B25D09
+	for <lists+linux-media@lfdr.de>; Fri,  2 Feb 2024 17:50:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 322281487F7;
-	Fri,  2 Feb 2024 16:38:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A27614900B;
+	Fri,  2 Feb 2024 17:49:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HLDMYY3q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WPJJYvAz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125BD14830B;
-	Fri,  2 Feb 2024 16:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCEE148FFF;
+	Fri,  2 Feb 2024 17:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706891882; cv=none; b=oK8JSf1qr1ASWciFHRp0hTk8qXSDzHrKxFkqegzUr1myfF6KLV4qQR+7RxzMXzVTO2KMfusOd5WJ9Bft+ioUNgCrJW6Th3LsM51P1F7tKJWDrwjKho1iu33wtshNwuNdqWvgP2kV7dmWQR/MHXwfsfWKlSNGEj7/H1NW4Flbxfw=
+	t=1706896184; cv=none; b=YDIyMj6GsiKTX8FwYtRTnwXM96mOn5kMPIJJW93iXTK2aZs/z0r3zkxwNMulY6nQuK360wH/JfBAC6PSIZ/NGT5Pimm7fCm246K2+IqhpVgoDWHjJybKQrWzN05KyMCRmsnJ6YdJzsTux8mk7XY18prVk9ps/eGcCZgzpu07pt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706891882; c=relaxed/simple;
-	bh=DI+vowAp6HxEMoicKFi0dBorFyKWjCm9wzepkmTNs34=;
+	s=arc-20240116; t=1706896184; c=relaxed/simple;
+	bh=dOC6l/UpwJt+sDh73ImH2SYn2JbGC0ZF3A9tIFxdqtk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pYTrOVQ+0B5ukyzMsUBdXn3MNleMK0e+V09t72LLKYvg+eYUCXNPLL6Dke9pdhX2sR8bB3vK2sdlxy1WZwP3OODujWav3QgiZgNeJK+AACcdqx9+5AyPoH/eZgAJNDe7jf3sWTN6dImF+TvNlvLD7oziUtaKyFylSQYN86aCnD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HLDMYY3q; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706891882; x=1738427882;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=DI+vowAp6HxEMoicKFi0dBorFyKWjCm9wzepkmTNs34=;
-  b=HLDMYY3qW9KfFYTZxPLMbqIFj+jvdrbRnmE5dZrYcgpAqc7ZAuOL2cm+
-   LYMJ37m8JQlaRbr1CX2fdQKWy9OdkG57G+N8W3Ig9WEEdhsrl8TMb7dkd
-   apPEVCQKpPQuzcxoR+m/1lxgzq8o/n15m0RggQBmMHDN2psDgKeNVevHZ
-   8IveClGH4QyZfi8p5HdlBU/yhFOYt19GJq6fwwyWC/GWOlHHEJeF56/Oy
-   WyOhE9KIFEo8XtCm4ggCyswY0CRTXC/Mt13ck1XZas9g2no4PqGHIxEcU
-   rUvvRef4Ldmgs+5qxTBS84fJSd7GpVSZEyCpxp1Bxhfoyap5QLfB0Clkb
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="354999"
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="354999"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 08:38:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="823251802"
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="823251802"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga001.jf.intel.com with SMTP; 02 Feb 2024 08:37:53 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 02 Feb 2024 18:37:52 +0200
-Date: Fri, 2 Feb 2024 18:37:52 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=q8FrLABDuJ2YzIBnCSTfQ0mx/QESP0eyj51NH5pTzUeiN1YQkwsEPIiwpG61oOjj1cpp2nV8hKqSxujoS0EoKhE3I7xeQQYwKDmJYKoY5d77619Du09xr8dgpdx2ekTtJVpmZVmaGY/i2ZW6d2KzcouZuQBeR4ZtW/ScZkcJzSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WPJJYvAz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA7E5C433C7;
+	Fri,  2 Feb 2024 17:49:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706896184;
+	bh=dOC6l/UpwJt+sDh73ImH2SYn2JbGC0ZF3A9tIFxdqtk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WPJJYvAz83PqbWfJevH/VqATyZyF8CMELM/qsF5iGbGg+7c08RkvpLVnt1A5GE/cF
+	 tcu63FYZn4b7uhLLPzbN+EdUSZoRoygx/1agCdTpP9s/n883bAkiQP8gjBz/mp+kDW
+	 qAUTtz5OnUdUz5st4dAWc5OGoV8IM7DK0KDm2fKGNgkvkbFxVCqblojdOgeVCjK2WT
+	 8TgIKe63Wz1bq6Pwy73SdDw6XnGCRuLJmukJO4LPOLdK/c9MQGRTbs1oxi0ZYlm/v9
+	 h+6C4sTZAkHgIq2mWUe1PiL9Ix6Qz58Sj0f91Fwj4LzNhLlO4dG31aRGnZ1zxuS/WT
+	 KdHH/uaxwI7ag==
+Date: Fri, 2 Feb 2024 11:49:41 -0600
+From: Rob Herring <robh@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	"Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
+	=?iso-8859-1?Q?=22Niklas_S=C3=B6derlund=22?= <niklas.soderlund+renesas@ragnatech.se>,
+	=?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Andy Gross <agross@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Airlie <airlied@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Emma Anholt <emma@anholt.net>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Helge Deller <deller@gmx.de>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Jacopo Mondi <jacopo@jmondi.org>, James Clark <james.clark@arm.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Liu Ying <victor.liu@nxp.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Michal Simek <michal.simek@amd.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Todor Tomov <todor.too@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <Zb0aYAapkxQ2kopt@intel.com>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Jonas Karlman <jonas@kwiboo.se>, Leo Yan <leo.yan@linaro.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Mike Leach <mike.leach@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+	Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>,
+	coresight@lists.linaro.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v3 05/24] media: i2c: switch to use
+ of_graph_get_next_device_endpoint()
+Message-ID: <20240202174941.GA310089-robh@kernel.org>
+References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
+ <87h6iu6qjs.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
-X-Patchwork-Hint: comment
+In-Reply-To: <87h6iu6qjs.wl-kuninori.morimoto.gx@renesas.com>
 
-On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
-> > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > Hi,
-> > > 
-> > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > >  /**
-> > > > > >   * DOC: HDMI connector properties
-> > > > > >   *
-> > > > > > + * Broadcast RGB
-> > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > + *
-> > > > > > + *      The value of this property can be one of the following:
-> > > > > > + *
-> > > > > > + *      Automatic:
-> > > > > > + *              RGB Range is selected automatically based on the mode
-> > > > > > + *              according to the HDMI specifications.
-> > > > > > + *
-> > > > > > + *      Full:
-> > > > > > + *              Full RGB Range is forced.
-> > > > > > + *
-> > > > > > + *      Limited 16:235:
-> > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
-> > > > > > + *              this works for any number of bits-per-component.
-> > > > > > + *
-> > > > > > + *      Drivers can set up this property by calling
-> > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > + *
-> > > > > 
-> > > > > This is a good time to document this in more detail. There might be two
-> > > > > different things being affected:
-> > > > > 
-> > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > 2. The color pipeline processing
-> > > > > 
-> > > > > All values of Broadcast RGB always affect the color pipeline processing
-> > > > > such that a full-range input to the CRTC is converted to either full- or
-> > > > > limited-range, depending on what the monitor is supposed to accept.
-> > > > > 
-> > > > > When automatic is selected, does that mean that there is no signalling,
-> > > > > or that the signalling matches what the monitor is supposed to accept
-> > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > 
-> > > > > When full or limited is selected and the monitor doesn't support the
-> > > > > signalling, what happens?
-> > > > 
-> > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> > > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > > YCbCr?
-> > > 
-> > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > > we're using a YCbCr format, i915 will always use a limited range while
-> > > vc4 will follow the value of the property.
-> > 
-> > The property is literally called "Broadcast *RGB*".
-> > That should explain why it's only affecting RGB.
+On Wed, Jan 31, 2024 at 05:05:27AM +0000, Kuninori Morimoto wrote:
+> of_graph_get_next_endpoint() is now renamed to
+> of_graph_get_next_device_endpoint(). Switch to it.
 > 
-> Right. And the limited range option is called "Limited 16:235" despite
-> being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> to make names inconsistent too, that's fine and not an argument in
-> itself.
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  drivers/media/i2c/adv7343.c              | 2 +-
+>  drivers/media/i2c/adv748x/adv748x-core.c | 2 +-
+>  drivers/media/i2c/adv7604.c              | 2 +-
+>  drivers/media/i2c/isl7998x.c             | 2 +-
+>  drivers/media/i2c/max9286.c              | 2 +-
+>  drivers/media/i2c/mt9p031.c              | 2 +-
+>  drivers/media/i2c/mt9v032.c              | 2 +-
+>  drivers/media/i2c/ov2659.c               | 2 +-
+>  drivers/media/i2c/ov5645.c               | 2 +-
+>  drivers/media/i2c/ov5647.c               | 2 +-
+>  drivers/media/i2c/s5c73m3/s5c73m3-core.c | 2 +-
+>  drivers/media/i2c/s5k5baf.c              | 2 +-
+>  drivers/media/i2c/tc358743.c             | 2 +-
+>  drivers/media/i2c/tda1997x.c             | 2 +-
+>  drivers/media/i2c/tvp514x.c              | 2 +-
+>  drivers/media/i2c/tvp5150.c              | 4 ++--
+>  drivers/media/i2c/tvp7002.c              | 2 +-
+>  17 files changed, 18 insertions(+), 18 deletions(-)
 > 
-> > Full range YCbCr is a much rarer beast so we've never bothered
-> > to enable it.
-> 
-> vc4 supports it.
+> diff --git a/drivers/media/i2c/adv7343.c b/drivers/media/i2c/adv7343.c
+> index ff21cd4744d3..7e4eb2f8bf0d 100644
+> --- a/drivers/media/i2c/adv7343.c
+> +++ b/drivers/media/i2c/adv7343.c
+> @@ -403,7 +403,7 @@ adv7343_get_pdata(struct i2c_client *client)
+>  	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
+>  		return client->dev.platform_data;
+>  
+> -	np = of_graph_get_next_endpoint(client->dev.of_node, NULL);
+> +	np = of_graph_get_next_device_endpoint(client->dev.of_node, NULL);
 
-Someone implemented it incorrectly then.
+This is assuming there's just 1 port and 1 endpoint, but let's be 
+specific as the bindings are (first endpoint on port 0):
 
-> 
-> > Eg. with DP it only became possible with the introduction of the VSC
-> > SDP (and I don't recall if there's additional capability checks that
-> > are also required). With DP MSA signalling full range YCbCr is not
-> > possible at all.
-> 
-> This is for HDMI only.
-> 
-> > I don't recall right now what the HDMI requirements are.
-> 
-> HDMI has supported it for a while, and it's defined (for example) in the
-> HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-> limited and full range on both RGB and YCbCr, as long as the EDIDs state
-> so and the Infoframes signal it.
+of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
 
-I think a good reason for not using a simple boolean like this 
-YCbCr is that it doesn't cover the color encoding part at all,
-which is probably more important than the quantization range.
-So we need a new property anyway.
+Note we could ask for endpoint 0 here, but the bindings generally allow 
+for more than 1.
 
--- 
-Ville Syrjälä
-Intel
+I imagine most of the other cases here are the same.
+
+>  	if (!np)
+>  		return NULL;
+>  
+> diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+> index 3eb6d5e8f082..4e9e4cef8954 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-core.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-core.c
+> @@ -657,7 +657,7 @@ static int adv748x_parse_dt(struct adv748x_state *state)
+>  	bool in_found = false;
+>  	int ret;
+>  
+> -	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
+> +	for_each_device_endpoint_of_node(state->dev->of_node, ep_np) {
+
+I would skip the rename.
+
+Rob
 
