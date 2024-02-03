@@ -1,76 +1,151 @@
-Return-Path: <linux-media+bounces-4646-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4647-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D226884874B
-	for <lists+linux-media@lfdr.de>; Sat,  3 Feb 2024 16:59:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4828488D2
+	for <lists+linux-media@lfdr.de>; Sat,  3 Feb 2024 21:48:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71A9F1F240EB
-	for <lists+linux-media@lfdr.de>; Sat,  3 Feb 2024 15:59:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 610521C22460
+	for <lists+linux-media@lfdr.de>; Sat,  3 Feb 2024 20:48:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C5325FB87;
-	Sat,  3 Feb 2024 15:58:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1551134C9;
+	Sat,  3 Feb 2024 20:47:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YPZ+VnNM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GN/4T/Rq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9F25FB82;
-	Sat,  3 Feb 2024 15:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B6811C8B;
+	Sat,  3 Feb 2024 20:47:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706975914; cv=none; b=cown85fQmBkCjJ+zGvSQnQXxLkfNoDPRNsL74veWrn0/RomFrq69HHbH+3KlUStXd+oGM1/ggPZ7BuhYCCCxktMKMl94HVKiwSTv+dCTJaVl8dxYjTj0O4pbZhIs/qJvRX6PuDAiljAYiPEYM/EQJ1CXO0ZNL0JCru+ZjpAnsts=
+	t=1706993264; cv=none; b=jlHohH7yfiqm1aODvTEoRzozoJHyHq1DQ7ES2BOcq9dVz2b+4SNndJB+s/+bk8J3g6DofQPr4y1npog3G2IG4G4mHLUVM2cxA/h4uk/6BMUqOIDNV7ie7I63ID0ZT2BZisuax44gcmHw1qfETMPElhTTUaUPmIWMGa7B90w/jjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706975914; c=relaxed/simple;
-	bh=+qLxnypZuud3zlNiK/RSlw7RdMEvBX4l44JJi/kQdmc=;
+	s=arc-20240116; t=1706993264; c=relaxed/simple;
+	bh=f2I8gWEzkwSZbGGlhrQHuwLADXjkshYxOtnScKHw11s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WtlGQjB0G9smPK4PyyNcJmjxYSVkJnFB9Q4dhigvf2hYN0ixSwRUEdAoQTO3f5dRfy6PT7w3x1PbX14X69RU1CyxKQhk8tAP8+yYA07sVtK8Xx/ZzwHUdLEH4SHusWw8qo8+e9RdjQb+SAmI1TtNDGDh21vBhsEhYGcUONzlbx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YPZ+VnNM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5652C433F1;
-	Sat,  3 Feb 2024 15:58:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706975914;
-	bh=+qLxnypZuud3zlNiK/RSlw7RdMEvBX4l44JJi/kQdmc=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=M2ieEU5QHTImoDhGtfYNa29Wywi7gIvfmRQDOwqtEX7rQU3S70ZYCAa0Q37NDayfaw5QzJSdzRrwKGUDkcG+c0mOxfiuM6qN9KQ/GLWe4Kk9MBpW7RMnsPttj1gIs8KJjDm2MNRl4GAsJXdiHVc2GPNXG4wN40yX/1kkA+4unpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GN/4T/Rq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2F8C433F1;
+	Sat,  3 Feb 2024 20:47:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706993263;
+	bh=f2I8gWEzkwSZbGGlhrQHuwLADXjkshYxOtnScKHw11s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YPZ+VnNMtlUqA34fBDsw66fqrzb3cw2nwPqFxCtEvI3Xl0veMcykU/pmZgRSSxIIK
-	 mu4ElRYLacG5HuODWbHDJM8sYGUNh3fDElcO2BzOxjvk9gE+kEWpTyFOYEi7rFwMiJ
-	 TTlDM4xHzA2iLqNX022O1Pe25eemTTjJxgn70UDM=
-Date: Sat, 3 Feb 2024 07:58:33 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: media-devnode: make media_bus_type const
-Message-ID: <2024020328-sculpture-size-009e@gregkh>
-References: <20240203-bus_cleanup-media-v1-0-33e8feeab912@marliere.net>
- <20240203-bus_cleanup-media-v1-2-33e8feeab912@marliere.net>
+	b=GN/4T/RqtAM5pPUfQihjK3Wa8sAV3pUsmPhYvA/cg2Mt2nro2ZyjanWbrJsFNV3X0
+	 z5BUbR+pQSMZAeHOP3sXKHIURcwPfLXvK10KTL7JVV6BMqAtJcWeBZZaUNH8BgEZwr
+	 WzCvc/4pSyEOOKjimaGiYIRPvzhm5cFZkClqVzDoxmb/PXTafnKB5XS5SvdpzINgmK
+	 q/IJVnPabe73UT5UmIzBjjFDfb7yi95qtdPjsD2ng69sNJ9Ox97m8liHEvjdKMoKE0
+	 QcQjfDe1BO9oUeMuwNyLPZn3s3kiyHosGSbJT7/8lpjlfsPnQ91fjVkcMwRyGM/tUl
+	 QPqwMl+qAzuzA==
+Date: Sat, 3 Feb 2024 21:47:39 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Gatien Chevallier <gatien.chevallier@foss.st.com>
+Cc: Oleksii_Moisieiev@epam.com, gregkh@linuxfoundation.org,
+	herbert@gondor.apana.org.au, davem@davemloft.net,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, alexandre.torgue@foss.st.com, vkoul@kernel.org,
+	jic23@kernel.org, olivier.moysan@foss.st.com,
+	arnaud.pouliquen@foss.st.com, mchehab@kernel.org,
+	fabrice.gasnier@foss.st.com, andi.shyti@kernel.org,
+	ulf.hansson@linaro.org, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, hugues.fruchet@foss.st.com, lee@kernel.org,
+	will@kernel.org, catalin.marinas@arm.com, arnd@kernel.org,
+	richardcochran@gmail.com, Frank Rowand <frowand.list@gmail.com>,
+	peng.fan@oss.nxp.com, lars@metafoo.de, rcsekar@samsung.com,
+	wg@grandegger.com, mkl@pengutronix.de, linux-crypto@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v8 02/13] dt-bindings: treewide: add access-controllers
+ description
+Message-ID: <Zb6ma9lHMu3SAe0U@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Oleksii_Moisieiev@epam.com, gregkh@linuxfoundation.org,
+	herbert@gondor.apana.org.au, davem@davemloft.net,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, alexandre.torgue@foss.st.com, vkoul@kernel.org,
+	jic23@kernel.org, olivier.moysan@foss.st.com,
+	arnaud.pouliquen@foss.st.com, mchehab@kernel.org,
+	fabrice.gasnier@foss.st.com, andi.shyti@kernel.org,
+	ulf.hansson@linaro.org, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, hugues.fruchet@foss.st.com, lee@kernel.org,
+	will@kernel.org, catalin.marinas@arm.com, arnd@kernel.org,
+	richardcochran@gmail.com, Frank Rowand <frowand.list@gmail.com>,
+	peng.fan@oss.nxp.com, lars@metafoo.de, rcsekar@samsung.com,
+	wg@grandegger.com, mkl@pengutronix.de, linux-crypto@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-usb@vger.kernel.org
+References: <20231212152356.345703-1-gatien.chevallier@foss.st.com>
+ <20231212152356.345703-3-gatien.chevallier@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VPm+VxExOC+V7OZ+"
+Content-Disposition: inline
+In-Reply-To: <20231212152356.345703-3-gatien.chevallier@foss.st.com>
+
+
+--VPm+VxExOC+V7OZ+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240203-bus_cleanup-media-v1-2-33e8feeab912@marliere.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 03, 2024 at 12:31:27PM -0300, Ricardo B. Marliere wrote:
-> Now that the driver core can properly handle constant struct bus_type,
-> move the media_bus_type variable to be a constant structure as well,
-> placing it into read-only memory which can not be modified at runtime.
-> 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
-> ---
->  drivers/media/mc/mc-devnode.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Dec 12, 2023 at 04:23:45PM +0100, Gatien Chevallier wrote:
+> access-controllers is an optional property that allows a peripheral to
+> refer to one or more domain access controller(s).
+>=20
+> Description of this property is added to all peripheral binding files of
+> the peripheral under the STM32 firewall controller. It allows an accurate
+> representation of the hardware, where various peripherals are connected
+> to a firewall bus. The firewall can then check the peripheral accesses
+> before allowing its device to probe.
+>=20
+> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # for I2C
+
+
+--VPm+VxExOC+V7OZ+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW+pmsACgkQFA3kzBSg
+KbY64RAAof4Gx7h4jhXu9UFvGgxDMB7nucJwU2vnrWAQqslpX78IIuHnDzQGSdx4
+YeqQnv3x5PquSqBz8x/rnE1ptR0LqnAgeJdEOQB0AAicQ+VFy75kPngr9dtiCJuf
+SrCwaIYQ13qIhhC6pa7HTEUSQN/KX6DVSffmeJmOJoHIqGa1L1ldEH5tujF71Plb
+q5ugpGi2Jkmb+UU5/EaXadNKZ5b3BSp/xWur8Eemy9Z4DqqoipzJRzSJHufFNZDR
+pRdNn14JQlzQ948vT+YdpGqPE6jrVpd48rygAjaXsPx3cVQx7ouU6tKPnFLjtgyp
+tb0R2ZIQNXVaQV36XLwhvv0qFqHEiY36q+GjYSEbMHbO1b0+zneKgmZXNSwCclEp
+WQ8DrD3UEKTXcDHmoRV5GVgzZyk7wmK8zq3jofTemYyfKhSvsmAiufzZCQLV/9GI
+ScuNib34aJrsiIXiD40DsFNcutPh2v+aBXQmtfpkA++3ZvY9aBQa5KeEqzrKPaa0
+AVXFtXPN4hnNkUzTogCTHEvL7dYtbi0h7W5fun3D5kOLdZuewR8vFAotIaDRG7tB
+S7AWJDu+x2RT2xAs2yJEfSHMwoBZRdq3nJVugmRDb+VELZmIDBdN4vwBRXfi+cHr
+ouzPgt76DcQhfF6JGRUhloWtVuWW3QRQ1uYMpWUrKztG+3WiqBU=
+=nMRV
+-----END PGP SIGNATURE-----
+
+--VPm+VxExOC+V7OZ+--
 
