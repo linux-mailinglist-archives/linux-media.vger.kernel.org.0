@@ -1,145 +1,136 @@
-Return-Path: <linux-media+bounces-4641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD3584868C
-	for <lists+linux-media@lfdr.de>; Sat,  3 Feb 2024 14:42:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 859F484871E
+	for <lists+linux-media@lfdr.de>; Sat,  3 Feb 2024 16:32:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5410B25C8B
-	for <lists+linux-media@lfdr.de>; Sat,  3 Feb 2024 13:42:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 951BF1C218CD
+	for <lists+linux-media@lfdr.de>; Sat,  3 Feb 2024 15:32:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFB7E5CDCC;
-	Sat,  3 Feb 2024 13:42:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A245F54C;
+	Sat,  3 Feb 2024 15:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marliere.net header.i=@marliere.net header.b="BOmXPGat"
 X-Original-To: linux-media@vger.kernel.org
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF2A05D72E;
-	Sat,  3 Feb 2024 13:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0815F47B;
+	Sat,  3 Feb 2024 15:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706967723; cv=none; b=AI9F1HPmCaPqPrSv+SQX/nAosHe/hh6V5hu2RQtnNUqidiZuroQBGSnVehDD+WuYi3R1lnLUPjkHNRs4EN5P/tMF3e3lmPYpm36V2qLeBdjBxXwLqHdIqOUStH3LhtP2CZno8yPFwoKd4qOMXSbg1du49VgaWxs3A6Hrt9MHHqE=
+	t=1706974317; cv=none; b=uo7CZufRMgTfmJfr88rd/wNjQGJlqhlPT6evU0BFoKsn/2nxKcM2xMCQhr1XNhAifsR/8j6xFQztoSwKu+s2ywtY+Otj8AgowK62al8K+LTHx2dbuApngJWxCOC4hwPzgXPIMgDSKQK51vw8dggXZWoybJo0gw9GHL7oMRhp8Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706967723; c=relaxed/simple;
-	bh=EY85asdBeaFg8NPjWqjuEp+edDi5chEflzQvYoOVY6s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AQwiIEltcXuZwkb8OLepI3PLZEQmEy2r9QksH4QXc6XsFqreqsEb3ZVO1H32qJrXLQkaQPZEbl3rsbU592WzabEOgY/gEfWFKtYwEpudYUGdenwkW8/qpfrXyg/xHwTFYsu0puAEYOcwH8oMorQ+6PYq24hwdS/d0I+tbQJinGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.237.72.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from luzhipeng.223.5.5.5 (unknown [39.174.92.167])
-	by mail-app3 (Coremail) with SMTP id cC_KCgB37TeBQr5l8Ib0AA--.2616S2;
-	Sat, 03 Feb 2024 21:41:22 +0800 (CST)
-From: Zhipeng Lu <alexious@zju.edu.cn>
-To: alexious@zju.edu.cn
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hyunwoo Kim <imv4bel@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Marcel Siegert <mws@linuxtv.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] edia: dvbdev: fix a use-after-free
-Date: Sat,  3 Feb 2024 21:40:43 +0800
-Message-Id: <20240203134046.3120099-1-alexious@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1706974317; c=relaxed/simple;
+	bh=YSZsrBNc4lkUfiRW88bNuQMEiyztwov5LMvAYeDsszk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=suggvUi9R6wJ1q2vHvP/jQfVG/941E0Iji2PqZ8WO32H3AyrS4bL0yjlLvQUmBrY6sglKWYiYnFGp+9peVerZV3d9CynPGPWTUbFqfw+UoJD57DlesusAHWv2qxP8N8XST/vyT+vLa86zXg7OKiGwViR82AT8wb65hC9y39MO80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=fail (0-bit key) header.d=marliere.net header.i=@marliere.net header.b=BOmXPGat reason="key not found in DNS"; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marliere.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5ceb3fe708eso2415447a12.3;
+        Sat, 03 Feb 2024 07:31:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706974314; x=1707579114;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:dkim-signature:from:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=EfEAya2Po/NTpzjg18kA111lBWjJucJyUKngKegUbBU=;
+        b=Ih5a05UY7Eim0kvapUHq0Ub8n5pdKpiFTedFm1TThGQwBVyk9GKNISQcp/xszo2HLs
+         SVqPX5bafX12vOLdWsayEF1J3IwalYkc+PjMiPBep8tuM6IXRAc9s9R7YzyedIwbRMMe
+         KbsD3oUZDij1DCJ3L/S+wj4r0VAf+yRF5c39pfL7ynUEimWLp5V8Nm1thW5iuVfv0hhA
+         1pbaWW6M6qnH0VzQlq2+J4N5t6Vq4P6u7qMFxUdcxmqH1S+trc/9w3WEt2Y4VyZREPIg
+         578cOSccQDmjyqKKO+PHjIWhPiWTBoUIE6fZos3Qivkq5kkUOOS1FgDtAWBmM+lc44vi
+         DOlg==
+X-Gm-Message-State: AOJu0YyrPMoDVztYutnWl1+zXh96S3J/Tj8R1qUrgYBA29EhreKN1oHW
+	roXImY/0O+lmE0SRiBHoqzyA3Fa8XCdPd4jejglp6r+fZfohAb7tR7QLAHEm0pLJfw==
+X-Google-Smtp-Source: AGHT+IECdtNfRCSA3EcS8wa75aIpomiY9JafyCrxU9ezFA/RY/KaPzjFlQup91n7A5XiyE1P7P/NhQ==
+X-Received: by 2002:a17:902:be07:b0:1d8:ed67:c360 with SMTP id r7-20020a170902be0700b001d8ed67c360mr9261873pls.65.1706974314326;
+        Sat, 03 Feb 2024 07:31:54 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWs7cjf5YC7ZgY/ZV3UzOQRLKa5NjYeTt3NXigxIDEuY3+4jff8eWrsDZcQpMOrOEqSEX4fIu6ZBHgAZeQTT4mu0oyGo49x5/3glhxLzeOlSJnU4ds3SHwP3H+705m3ypjEno/EkXLHJOsUuuke4LyaoqgHfyJtZG/gP/AFNwaq0r+BGQQVmcsPGWJ+wlG/AoZW+z41rUtt0VWNJ5iTP4r2Ts+IBr9YOznOF4GonU/yU+Fgf3RYMSub4V3yFKQa
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id f7-20020a170902ce8700b001d8f81ecebesm3353636plg.192.2024.02.03.07.31.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Feb 2024 07:31:53 -0800 (PST)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+	s=2023; t=1706974312;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EfEAya2Po/NTpzjg18kA111lBWjJucJyUKngKegUbBU=;
+	b=BOmXPGatoiVZEN5RMjCaJryHndwzJ61dwBsEF1iytQppuFwb6cbfpSY0MM7RBUyM5I1Oad
+	0KFzOrNMTqLbDYIU/+CfACYEpYV+2EJ9K99nQu9e+BF+m0riDXLRuC4gyVdk9otRd94KDo
+	A6Sc2tfqz57OJv6VXtHuagDxOj3s6+OFNPXvoomK5wmDMysRM4LXcWSFSYZxsCYTB1lI0a
+	g0Ub61/OJ0eHT3Rl8zhI/88UOazsjZI4fAuz8gEdF7+qQssiLH8GHChreGA/+TpUIBow/b
+	B0XntgsV3Us7FfaRerhH7Fh3TfnO3hsWMNucU3xQRaoisNRinW1DYtVaCKzxKw==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+Subject: [PATCH 0/2] drivers: media: struct bus_type cleanup
+Date: Sat, 03 Feb 2024 12:31:25 -0300
+Message-Id: <20240203-bus_cleanup-media-v1-0-33e8feeab912@marliere.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cC_KCgB37TeBQr5l8Ib0AA--.2616S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxWF1rWFW5Gr1xKFyfXF4xJFb_yoW5Jw48pF
-	4DGay5KrWj9rn7Zr4UAw18WF98Gw4Sk3y5ur1fCwnxKFsxJryrtryYyay7Z3W8A3ykA347
-	tr17X3Wkur45Gr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
-	VFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
-X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE1cvmUC/x3MQQqAIBRF0a3IHyeYVoO2EhFWz/pQFkoRhHtPG
+ p7BvS9FBEakVrwUcHPkw2eUhaBptX6B5DmbtNKV0srI8YrDtMH665Q7ZrZSAQ2M0Q6uptydAY6
+ f/9n1KX1xWMuPYwAAAA==
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1007; i=ricardo@marliere.net;
+ h=from:subject:message-id; bh=YSZsrBNc4lkUfiRW88bNuQMEiyztwov5LMvAYeDsszk=;
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBlvlyDz2NvgyjwFsEn7QGhyvd/HeOP67s39xmMF
+ BQsgLNgSA6JAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZb5cgwAKCRDJC4p8Y4ZY
+ pkWyEACwAQmWU3sp/UQX+qvsVBloMSCedQe/0BjmYBwnUDLy03hpqcJPhHKvfB5qJ5o+Hj6Tl14
+ fx3EpmVRx6ow2bl/BFZ5KtVBgNv2Uzho6sxvAkoNhVpYI3P/WZjVjNqbe4NnARyIqvOliCslpwA
+ p5yv5nt7NCCggFlovsmKTMdGO2aDDD1CXNDhB2IVkgowVwpYaONqUHMU/dIWRziVEhy/gJnsWl8
+ fBIao9MMsdkn0dYH3/vMWIIJk4t1oQTym/zr5LsEdU7JM1f3Clkoi0Lpg1e7Te9gSnT426mYwiA
+ TkWjt1oIuz5x2h46MHiijHNay72YCKgVmlor2nqpjeStgApCgu3/GOQJn2aE+ppD3Y1EWgldqaQ
+ jq0wQ5uw7iHQKo/mu0uF/UaNJl0h/R3D/bIlJOHyHiOT8dajeRbSbBiOhtPpw5v+CiZsCa6DM5/
+ qRHTOTipIfaPZcG+xskErOpFS9hm2E0wIpwcESkjV91iOgsIOK6QE4dC7sGXuRnKYmeeBxXTq5d
+ +9fIP4ofHQnpY9rYvoswRn09M14a3DDPUyzBEp/W1S86Dc+/T+o0/+XtVLHOqiqjJIN7hbeZdfk
+ ZpC9WTy0GPiBCR2AJGPZcLq07nnCkkBc/1d46lOViLyctwMRV6AdplqyLLGNOidqazXKc72lPiO
+ 399mVj8DJtDtMEw==
+X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
+ fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 
-In dvb_register_device, *pdvbdev is set equal to dvbdev, which is freed
-in several error-handling paths. However, *pdvbdev is not set to NULL
-after dvbdev's deallocation, causing use-after-frees in many places,
-for example, in the following call chain:
+This series is part of an effort to cleanup the users of the driver
+core, as can be seen in many recent patches authored by Greg across the
+tree (e.g. [1]). Specifically, this series is part of the task of
+splitting one of his TODOs [2].
 
-budget_register
-  |-> dvb_dmxdev_init
-        |-> dvb_register_device
-  |-> dvb_dmxdev_release
-        |-> dvb_unregister_device
-              |-> dvb_remove_device
-                    |-> dvb_device_put
-                          |-> kref_put
-
-When calling dvb_unregister_device, dmxdev->dvbdev (i.e. *pdvbdev in
-dvb_register_device) could point to memory that had been freed in
-dvb_register_device. Thereafter, this pointer is transferred to
-kref_put and triggering a use-after-free.
-
-Fixes: b61901024776 ("V4L/DVB (5244): Dvbdev: fix illegal re-usage of fileoperations struct")
-Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
 ---
- drivers/media/dvb-core/dvbdev.c | 5 +++++
- 1 file changed, 5 insertions(+)
+[1]: https://lore.kernel.org/lkml/?q=f%3Agregkh%40linuxfoundation.org+s%3A%22make%22+and+s%3A%22const%22
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?h=bus_cleanup&id=26105f537f0c60eacfeb430abd2e05d7ddcdd8aa
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 305bb21d843c..a027b9110793 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -488,6 +488,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
- 		if (!dvbdevfops) {
- 			kfree(dvbdev);
-+			*pdvbdev = NULL;
- 			mutex_unlock(&dvbdev_register_lock);
- 			return -ENOMEM;
- 		}
-@@ -496,6 +497,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		if (!new_node) {
- 			kfree(dvbdevfops);
- 			kfree(dvbdev);
-+			*pdvbdev = NULL;
- 			mutex_unlock(&dvbdev_register_lock);
- 			return -ENOMEM;
- 		}
-@@ -529,6 +531,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		}
- 		list_del(&dvbdev->list_head);
- 		kfree(dvbdev);
-+		*pdvbdev = NULL;
- 		up_write(&minor_rwsem);
- 		mutex_unlock(&dvbdev_register_lock);
- 		return -EINVAL;
-@@ -551,6 +554,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		dvb_media_device_free(dvbdev);
- 		list_del(&dvbdev->list_head);
- 		kfree(dvbdev);
-+		*pdvbdev = NULL;
- 		mutex_unlock(&dvbdev_register_lock);
- 		return ret;
- 	}
-@@ -569,6 +573,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		dvb_media_device_free(dvbdev);
- 		list_del(&dvbdev->list_head);
- 		kfree(dvbdev);
-+		*pdvbdev = NULL;
- 		mutex_unlock(&dvbdev_register_lock);
- 		return PTR_ERR(clsdev);
- 	}
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+
+---
+Ricardo B. Marliere (2):
+      media: cec: make cec_bus_type const
+      media: media-devnode: make media_bus_type const
+
+ drivers/media/cec/core/cec-core.c | 2 +-
+ drivers/media/mc/mc-devnode.c     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+---
+base-commit: 41bccc98fb7931d63d03f326a746ac4d429c1dd3
+change-id: 20240203-bus_cleanup-media-0ee6e332fef5
+
+Best regards,
 -- 
-2.34.1
+Ricardo B. Marliere <ricardo@marliere.net>
 
 
