@@ -1,1361 +1,234 @@
-Return-Path: <linux-media+bounces-4663-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4664-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7862849115
-	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 23:15:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 591108491EB
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 00:45:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C8A81C20C67
-	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 22:15:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE0911F21302
+	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 23:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 157852C69F;
-	Sun,  4 Feb 2024 22:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5DF5E57F;
+	Sun,  4 Feb 2024 23:44:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tBEs7pgQ"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="dUESpUC3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2129.outbound.protection.outlook.com [40.107.113.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7622F2C689
-	for <linux-media@vger.kernel.org>; Sun,  4 Feb 2024 22:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707084935; cv=none; b=In3uOihHI3F1NeASSK5Kva1NpiumiFwdD6TNbj53d36dN4JLRgBrH4e8E589eb0HO4cwHmUqtsv6il5G0vc9vjytyiDj4R983R8akzJN9E1XNlGwPxck49WPvids1qJz3dxd8vhmk9HMjc9TB3a5zrxntCvPCpiSbrTgIcfFQoM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707084935; c=relaxed/simple;
-	bh=e8WcTLRjDk9liA8FKc2uae/duqW1DQBmi7766Yv6F3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eCjMyTq/lNJlKL8QQgfThZiv3saFonwNKTBr2swr0x286FUF+5dzdHkUEoxEJJvZKD/EfUENV1cx2wTYwf2jxThIgFTEvMmf6sEX5AYo+itQNWtX2E4MUAtfqcmWhmPojJM67tGC9BiSF1gbXUxH5S35h6WwgwulAMFP5xxkkEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tBEs7pgQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [109.128.141.99])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D8776B5;
-	Sun,  4 Feb 2024 23:14:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707084847;
-	bh=e8WcTLRjDk9liA8FKc2uae/duqW1DQBmi7766Yv6F3U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tBEs7pgQlsc/q7ema5G2kc7l29K135yAx1x3by/NCIDjNUI25lI88uVKud4WNLInn
-	 6vjdg01qKeoMr5QannWBH1PHHPLR6/oSorPnSZOw3UKyXKmPa+nEmur4EbAzuDP2oK
-	 hbkmdXy/uaMQGVV4lwmXmhp3W4QKXNOdfzWlohoQ=
-Date: Mon, 5 Feb 2024 00:15:30 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] Revert "media: ov08x40: Reduce start streaming time"
-Message-ID: <20240204221530.GD6804@pendragon.ideasonboard.com>
-References: <20240204215328.694421-1-sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AEBDDCF;
+	Sun,  4 Feb 2024 23:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.129
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707090296; cv=fail; b=DYDu8oZd8+KWttJbQm4NBWlXrkIIMK6KKkP/b9cf88bpHfyr8hEARvMscAa0zAvU5H4i/jTjTVzcQabiALSzHd43nlI4dF8EdOxqMVQD9qbGmWFYjsaUy5pWJRXzgpT8+jXcjluLrzWmF1H2sPk1dAvdInXR3PLOYZ88Ahzq1nk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707090296; c=relaxed/simple;
+	bh=MH9nB6ux2s/+NCVr2S0h1B6JREmnAdG3wqNf1R8mJaw=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=a73ZT6+hsVonbNRQdnzeMQPU1ycbr2XMt/0CbLizsV8bIBN/kyB+8DgmSLRO0ds2xiNrJAeVOvgI1HoAltjKUKvDbgp3LCF6UHYlqNSL619oW/fT3RjrCLg9hnXThH65L7sxy5bcbWQdBUQ/05v5vridIXs+aFEqfocb8YPj41w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=dUESpUC3; arc=fail smtp.client-ip=40.107.113.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NlL2dRGMsTIvtqiA/w1SVs36/siA9y6+PxzLSBE4bkZ8PZgTGGH0iQMpuAu3Jq94/I+xFZRrXo3DjtRn1CTEczzvVB3HYv/MbGMu/as0l7MkQJqjOuxXJ8hwQg/qNfp3d9wGC6Lsl/QzF4pcdPWe8zec+EcJ+xuaryEXcZsJpz5ItLpAE/tlXU3zx55IOy4XcFBKu8XSbjtNJ4dMKLQVsv7JgJI/IK7RfMX/rTgVB5Owgr8BzsTl2HF9Np+TLpWcpinvuAwN/Jt1R+8cayi68FNlqpgRd1DvYrr6qiiTKeytWR9XSnTe0oF/7IydhIOPAlwFUKDcZM2r/hJsEsWanA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JAIGVyqVDt1okm0zADf/MCqj5u3NVqHjHiCFJPiPG6E=;
+ b=G/MSoyvLj1hSW7K8L92orU8tatdo7q3n5BZLOttGhL0UnX4eHWiWcwUYobA8BUZqnBVNQvDnuoMDEYtmvCB5QrK59rH8hKHU960FngbHpnRlVno/E49jyO/2U9Upb0Yv9+Gv9gX9zVUmozYqVYgYibZBPOJHZ7Zr0olZZ9CqTLFBO67EqW7V93W2C/HBNKh1bWFfPfRF3bpTCCCSgufMS2a0of3xZHk5SbCeXlocWW/GrO+7UGY4D8j46npqeYx0J4uSQYCjAR6bY4dTlC8+TAsWJxvGDetztmq2tLPZGWMp3twwoW54lepV/4c2rHj0sS/JZwUMsl8dbSc2Yk5YbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JAIGVyqVDt1okm0zADf/MCqj5u3NVqHjHiCFJPiPG6E=;
+ b=dUESpUC3D7P6nU5PeIQfjD8E4H9/8Mi5dwrPWIQLg5dBBA9+iGitBA88jCILFRlKDbjYMkWZK48bzcdMM54gQRujOE5RBA+FBgpE1v1q4ZUoDuH9pTBPXS+s70Mj/cgwPuPWCDbqwSTu51f1QVG0OLJWnuHzWZqasZ+9qjkZ76Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY1PR01MB10656.jpnprd01.prod.outlook.com
+ (2603:1096:400:323::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.14; Sun, 4 Feb
+ 2024 23:44:40 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::4d0b:6738:dc2b:51c8]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::4d0b:6738:dc2b:51c8%6]) with mapi id 15.20.7249.032; Sun, 4 Feb 2024
+ 23:44:40 +0000
+Message-ID: <875xz3n6ag.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,	"Lad,  Prabhakar"
+ <prabhakar.csengg@gmail.com>,	=?ISO-8859-1?Q?=22Niklas_S=C3=B6derlund=22?=
+ <niklas.soderlund+renesas@ragnatech.se>,	=?ISO-8859-1?Q?=22Uwe_Kleine-K?=
+ =?ISO-8859-1?Q?=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,	Abhinav
+ Kumar <quic_abhinavk@quicinc.com>,	Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>,	Alexander Stein
+ <alexander.stein@ew.tq-group.com>,	Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,	Alexandre Torgue
+ <alexandre.torgue@foss.st.com>,	Alexey Brodkin <abrodkin@synopsys.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,	Andy Gross <agross@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,	Bjorn Andersson
+ <andersson@kernel.org>,	Claudiu Beznea <claudiu.beznea@tuxon.dev>,	Daniel
+ Vetter <daniel@ffwll.ch>,	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Airlie <airlied@gmail.com>,	Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>,	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Emma Anholt <emma@anholt.net>,	Eugen Hristev
+ <eugen.hristev@collabora.com>,	Florian Fainelli
+ <florian.fainelli@broadcom.com>,	Frank Rowand <frowand.list@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,	Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>,	Helge Deller <deller@gmx.de>,	Hugues Fruchet
+ <hugues.fruchet@foss.st.com>,	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Jacopo Mondi <jacopo@jmondi.org>,	James Clark <james.clark@arm.com>,
+	Jaroslav Kysela <perex@perex.cz>,	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kevin Hilman <khilman@baylibre.com>,	Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>,	Kieran Bingham
+ <kieran.bingham@ideasonboard.com>,	Konrad Dybcio
+ <konrad.dybcio@linaro.org>,	Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>,	Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>,	Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,	Liam Girdwood <lgirdwood@gmail.com>,
+	Liu Ying <victor.liu@nxp.com>,	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,	Marek Vasut
+ <marex@denx.de>,	Mark Brown <broonie@kernel.org>,	Mauro Carvalho Chehab
+ <mchehab@kernel.org>,	Maxime Coquelin <mcoquelin.stm32@gmail.com>,	Maxime
+ Ripard <mripard@kernel.org>,	Michael Tretter <m.tretter@pengutronix.de>,
+	Michal Simek <michal.simek@amd.com>,	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,	Neil Armstrong
+ <neil.armstrong@linaro.org>,	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,	Philipp Zabel
+ <p.zabel@pengutronix.de>,	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,	Rob Clark
+ <robdclark@gmail.com>,	Robert Foss <rfoss@kernel.org>,	Russell King
+ <linux@armlinux.org.uk>,	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Saravana Kannan <saravanak@google.com>,	Sascha Hauer
+ <s.hauer@pengutronix.de>,	Shawn Guo <shawnguo@kernel.org>,	Sowjanya
+ Komatineni <skomatineni@nvidia.com>,	Stefan Agner <stefan@agner.ch>,	Suzuki
+ K Poulose <suzuki.poulose@arm.com>,	Sylwester Nawrocki
+ <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Thierry Reding
+ <thierry.reding@gmail.com>,	Thomas Zimmermann <tzimmermann@suse.de>,	Tim
+ Harvey <tharvey@gateworks.com>,	Todor Tomov <todor.too@gmail.com>,	Tomi
+ Valkeinen <tomi.valkeinen@ideasonboard.com>,	Yannick Fertre
+ <yannick.fertre@foss.st.com>,	Alim Akhtar <alim.akhtar@samsung.com>,	Fabio
+ Estevam <festevam@gmail.com>,	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,	Jerome Brunet
+ <jbrunet@baylibre.com>,	Jessica Zhang <quic_jesszhan@quicinc.com>,	Jonas
+ Karlman <jonas@kwiboo.se>,	Leo Yan <leo.yan@linaro.org>,	Marijn Suijten
+ <marijn.suijten@somainline.org>,	Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,	Mike Leach <mike.leach@linaro.org>,
+	Sam Ravnborg <sam@ravnborg.org>,	Sean Paul <sean@poorly.run>,	Tom Rix
+ <trix@redhat.com>,	coresight@lists.linaro.org,	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,	freedreno@lists.freedesktop.org,
+	linux-amlogic@lists.infradead.org,	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,	linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org,	linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,	linux-rpi-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,	linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev,	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org,	llvm@lists.linux.dev
+Subject: Re: [PATCH v3 05/24] media: i2c: switch to use of_graph_get_next_device_endpoint()
+In-Reply-To: <20240202174941.GA310089-robh@kernel.org>
+References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
+	<87h6iu6qjs.wl-kuninori.morimoto.gx@renesas.com>
+	<20240202174941.GA310089-robh@kernel.org>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Sun, 4 Feb 2024 23:44:39 +0000
+X-ClientProxiedBy: TYWPR01CA0018.jpnprd01.prod.outlook.com
+ (2603:1096:400:a9::23) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240204215328.694421-1-sakari.ailus@linux.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY1PR01MB10656:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce9702a3-24e7-4d54-2b1f-08dc25db4164
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	/O52G/Tf4EynOcF+CqlepmWEhaPKnRSC7dHmtSIHmNjFXLCtWrivEuE8w7zTy0crJC+Kp05Gy1W4kVB6ir6xcO8b0+sLfhM9YgHBbcwzx4k5FWm5mM6Qtig0wWJwUvdGYwihvC+3V4AC1Wg4mimEqp9ocfNxQEGDr261+Xo7WVJgBNT4mMmZA0VTJCPw39KTly8iInLeEG0L9RqpUPmt1w+WpewISnpi2a/cZ28hUdk3Qx+FuqJin/ERQtbhrkx6r2iJ4MM/0H20HA7TdyR6rSM5WcjUHpxcbADjhHpAbPR0WEOgkhol1o2izt5i9ObWqNz9YNy4+EHsiWZVd42jorfk+6Lm9ItSfbh3/syuN+adMU+a3vd08c1f3rku/PI0qDsgliiproGiY6DVMYNpG48pqW3J+h6KSHa3xZAPfEDdkzVkDA2G7ip1EgE12hk1RePaldVLx/LftupAoyRYfbPI27gyRoVf2pfS8x1jot4OTUGYq0xocxCpGGWX8QVI7TNbC5L4It9DKF7g+6UL7mINFX97/VXXzsqbE/94Ka3CQZH+0HwiM2fhoSZoi4BFdGoFLALGTlYiqlcnqmFQPcxFLfLA7esClBdQ8CAWq/o=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(376002)(366004)(136003)(346002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(4326008)(8676002)(8936002)(66556008)(66476007)(6916009)(66946007)(316002)(54906003)(26005)(6486002)(966005)(478600001)(38100700002)(36756003)(2616005)(6512007)(7416002)(86362001)(41300700001)(7366002)(6506007)(5660300002)(2906002)(7406005)(4744005)(52116002)(7276002)(7336002)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?MlOk4Y/sddMQ2YpdYHdbIaOjKUW1atQ/ZAkXUtAY/udPsvSEzQ9wb6w4+9+8?=
+ =?us-ascii?Q?16VIPm0Om7pDBamGT853Es+d7hy+wxbWlMU3kcNkuP+DAn0EImtAbpOdXjcH?=
+ =?us-ascii?Q?OjXCfnjqy5XlsYTOjQEMv5XFJn9QIp1Pof3/uFQLv2x7jYHi4oSaOemQFXhb?=
+ =?us-ascii?Q?QdMDNwsfMx1uWMN5IgmHYyg8iDRKxneb12fssDp24dSBDw6/mrIho9I5bIAl?=
+ =?us-ascii?Q?MORU8FW+DfNXTE9i0/IlhKcaqA5oon5WpH7p5xDQu85KFCiMSxGq7X7Ww+od?=
+ =?us-ascii?Q?aRmfHONS7Gpo6UMMwiCKwAEvBQC8PBCv4Nr4aGSrWXV7a0/dHJacqnbaVEBS?=
+ =?us-ascii?Q?0elyliUF00erR1BQVIUZgVTgOeI1v4lPoEijOujFlFnt+Rbhl6E/KiauXLEk?=
+ =?us-ascii?Q?qmly06ccIQcVZle6EcA6BMFsfV0viDT5YoVwHzBIWFysAdyN+4CCKPoERS8N?=
+ =?us-ascii?Q?rsuvx3BG5ycwVXeUD1yowGjjO1NF7NmX4eTxsFnOdIi70LUs3edxFTQeOQHN?=
+ =?us-ascii?Q?spBmqxPzXCokgy/uata4WktGY/6qXMBAdwr/EEjSmxmzKo2fRJ7pevzp9pLN?=
+ =?us-ascii?Q?mLarsYujvZk+avqcbI71Mk1wKScfmz8qqaxAf4RoTYzyxlGFBpjbKg0FgFcN?=
+ =?us-ascii?Q?lC6G6jPiZ57QNlEAk/KB9mGLZzKP6l5HfSxdxkKsMIeC7MAKMJexruFRJjdG?=
+ =?us-ascii?Q?M1GHAqylyyfhxUwwKJ1BDhKz1oGFa4Rva5HK4peUcaccoGMckcQdFnUT1x/l?=
+ =?us-ascii?Q?8WpUxweIkdcq02wmX2hL+cg3vzaXD8JXpPLLvsu5JT2OF7cCKryqlN2VycBZ?=
+ =?us-ascii?Q?SgJW+QPjAIh/BPSYOtSC3yg3JoIZ8y03HyA9WVzQWw6NKiegYI4Uu3PixzGX?=
+ =?us-ascii?Q?a+gCVAIGpdvmV8WzvmLBbM7Thdv2LIB0wH29R0YK5xBHMzRRs9wN6KbU143T?=
+ =?us-ascii?Q?HUP66jrA2i/QuGvSgE4d7MNzoBoHpuyLOJhjbgHtAx8SrA3AfQ2VGEMcAGOq?=
+ =?us-ascii?Q?ACWB8BaIYcTHB5OO27tai+9ezbVvbwhRHaChfAxOAZo/2kWhEfV2NEyXWN7w?=
+ =?us-ascii?Q?Xmg4ynr68iMGMdenbsM0zhry1BKsuki/t/1Izw/6ouFnuQnXamyBYOnC7I27?=
+ =?us-ascii?Q?y0/3H7oIHr4wRkagezECt6IJ2LdJsyGwOaNFwHBOx/ZHNALAFL5tzOXeYkGy?=
+ =?us-ascii?Q?GwjwF6OX0MFJYMg0Gy7HYZ1G+0HlU+yKmILIL3GtQTv+oiRaxoW6y+ZcjFir?=
+ =?us-ascii?Q?02ALWGgznThFG7IAiUL07L1WbFcx5aPxONUMp72pagrPaO0/cacLHDOX8jV3?=
+ =?us-ascii?Q?WGq8wtnSTrFg0+M8d3kOk8UPnudW+XkPwV0DsZ5O4ht8vpoP/u1lafOEhfBm?=
+ =?us-ascii?Q?VlNFEqUYYr9mQskQ0NQqDIqg9p9W120bGkdjJZe7nGBJDedVlvVOkNbvkveQ?=
+ =?us-ascii?Q?jnZQxVAoLRulrLUIqByzrlICGxao6qG+p5RwFC0JGaFafuJWcHgrIE+p96Oa?=
+ =?us-ascii?Q?kanv3Oy9e3D/KBKbY8hcDQnKO65cXuMzb+KRWJ2VwvprFSskYwcKt+82BugF?=
+ =?us-ascii?Q?ubjnn/VZZAg4DiHXRXltfRS/FEFvAXXbeSN5TtI164qE8fEO3+7bZELmwmF8?=
+ =?us-ascii?Q?YueRChZ6xIjhwbKZh1GH/J4=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce9702a3-24e7-4d54-2b1f-08dc25db4164
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2024 23:44:40.7009
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4kjz26qbchml8CHh6clYPS1ycK8vwv3eyyJSmF5HgNCf49rF5esw/Tuz24MY6Wj87Zxz+cVpyjTQcx1XymcJbKt0T46SF360Kx0R1bL8HAvASpMJALlHoRaCE/xNEUW6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10656
 
-Hi Sakari,
 
-Thank you for the patch.
+Hi Rob
 
-On Sun, Feb 04, 2024 at 11:53:27PM +0200, Sakari Ailus wrote:
-> This reverts commit feb8831be9d468ee961289c6a275536a1ee0011c.
+> This is assuming there's just 1 port and 1 endpoint, but let's be 
+> specific as the bindings are (first endpoint on port 0):
 > 
-> Commit feb8831be9d468ee961289c6a275536a1ee0011c contained unintentional
-> changes to Documentation/devicetree/bindings/media/video-interfaces.yaml
-> and arch/arm/boot/dts/ti/omap/omap3-n9.dts. Revert the entire patch.
+> of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  .../bindings/media/video-interfaces.yaml      |    2 +-
->  arch/arm/boot/dts/ti/omap/omap3-n9.dts        |    2 +-
->  drivers/media/i2c/ov08x40.c                   | 1209 ++++++++++++++++-
->  3 files changed, 1154 insertions(+), 59 deletions(-)
+> Note we could ask for endpoint 0 here, but the bindings generally allow 
+> for more than 1.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> index ea511f2fed98..26e3e7d7c67b 100644
-> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> @@ -190,7 +190,7 @@ properties:
->        Allow MIPI CSI-2 non-continuous clock mode.
->  
->    link-frequencies:
-> -    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    $ref: /schemas/types.yaml#/definitions/uint64-array
->      description:
->        Allowed data bus frequencies. For MIPI CSI-2, for instance, this is the
->        actual frequency of the bus, not bits per clock per lane value. An array
-> diff --git a/arch/arm/boot/dts/ti/omap/omap3-n9.dts b/arch/arm/boot/dts/ti/omap/omap3-n9.dts
-> index 728a8fcf25b3..a3cf3f443785 100644
-> --- a/arch/arm/boot/dts/ti/omap/omap3-n9.dts
-> +++ b/arch/arm/boot/dts/ti/omap/omap3-n9.dts
-> @@ -26,7 +26,7 @@ smia_1: camera@10 {
->  		flash-leds = <&as3645a_flash &as3645a_indicator>;
->  		port {
->  			smia_1_1: endpoint {
-> -				link-frequencies = /bits/ 32 <199200000 210000000 499200000>;
-> +				link-frequencies = /bits/ 64 <199200000 210000000 499200000>;
->  				clock-lanes = <0>;
->  				data-lanes = <1 2>;
->  				remote-endpoint = <&csi2a_ep>;
-> diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-> index 48df077522ad..010a6017e1ad 100644
-> --- a/drivers/media/i2c/ov08x40.c
-> +++ b/drivers/media/i2c/ov08x40.c
-> @@ -1,7 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  // Copyright (c) 2022 Intel Corporation.
->  
-> -#include <asm-generic/unaligned.h>
->  #include <linux/acpi.h>
->  #include <linux/i2c.h>
->  #include <linux/module.h>
-> @@ -96,12 +95,6 @@
->  /* Vertical Window Offset */
->  #define OV08X40_REG_V_WIN_OFFSET	0x3813
->  
-> -/* Burst Register */
-> -#define OV08X40_REG_XTALK_FIRST_A	0x5a80
-> -#define OV08X40_REG_XTALK_LAST_A	0x5b9f
-> -#define OV08X40_REG_XTALK_FIRST_B	0x5bc0
-> -#define OV08X40_REG_XTALK_LAST_B	0x5f1f
-> -
->  enum {
->  	OV08X40_LINK_FREQ_400MHZ_INDEX,
->  };
-> @@ -677,6 +670,1158 @@ static const struct ov08x40_reg mode_3856x2416_regs[] = {
->  	{0x3502, 0x10},
->  	{0x3508, 0x0f},
->  	{0x3509, 0x80},
-> +	{0x5a80, 0x75},
-> +	{0x5a81, 0x75},
-> +	{0x5a82, 0x75},
-> +	{0x5a83, 0x75},
-> +	{0x5a84, 0x75},
-> +	{0x5a85, 0x75},
-> +	{0x5a86, 0x75},
-> +	{0x5a87, 0x75},
-> +	{0x5a88, 0x75},
-> +	{0x5a89, 0x75},
-> +	{0x5a8a, 0x75},
-> +	{0x5a8b, 0x75},
-> +	{0x5a8c, 0x75},
-> +	{0x5a8d, 0x75},
-> +	{0x5a8e, 0x75},
-> +	{0x5a8f, 0x75},
-> +	{0x5a90, 0x75},
-> +	{0x5a91, 0x75},
-> +	{0x5a92, 0x75},
-> +	{0x5a93, 0x75},
-> +	{0x5a94, 0x75},
-> +	{0x5a95, 0x75},
-> +	{0x5a96, 0x75},
-> +	{0x5a97, 0x75},
-> +	{0x5a98, 0x75},
-> +	{0x5a99, 0x75},
-> +	{0x5a9a, 0x75},
-> +	{0x5a9b, 0x75},
-> +	{0x5a9c, 0x75},
-> +	{0x5a9d, 0x75},
-> +	{0x5a9e, 0x75},
-> +	{0x5a9f, 0x75},
-> +	{0x5aa0, 0x75},
-> +	{0x5aa1, 0x75},
-> +	{0x5aa2, 0x75},
-> +	{0x5aa3, 0x75},
-> +	{0x5aa4, 0x75},
-> +	{0x5aa5, 0x75},
-> +	{0x5aa6, 0x75},
-> +	{0x5aa7, 0x75},
-> +	{0x5aa8, 0x75},
-> +	{0x5aa9, 0x75},
-> +	{0x5aaa, 0x75},
-> +	{0x5aab, 0x75},
-> +	{0x5aac, 0x75},
-> +	{0x5aad, 0x75},
-> +	{0x5aae, 0x75},
-> +	{0x5aaf, 0x75},
-> +	{0x5ab0, 0x75},
-> +	{0x5ab1, 0x75},
-> +	{0x5ab2, 0x75},
-> +	{0x5ab3, 0x75},
-> +	{0x5ab4, 0x75},
-> +	{0x5ab5, 0x75},
-> +	{0x5ab6, 0x75},
-> +	{0x5ab7, 0x75},
-> +	{0x5ab8, 0x75},
-> +	{0x5ab9, 0x75},
-> +	{0x5aba, 0x75},
-> +	{0x5abb, 0x75},
-> +	{0x5abc, 0x75},
-> +	{0x5abd, 0x75},
-> +	{0x5abe, 0x75},
-> +	{0x5abf, 0x75},
-> +	{0x5ac0, 0x75},
-> +	{0x5ac1, 0x75},
-> +	{0x5ac2, 0x75},
-> +	{0x5ac3, 0x75},
-> +	{0x5ac4, 0x75},
-> +	{0x5ac5, 0x75},
-> +	{0x5ac6, 0x75},
-> +	{0x5ac7, 0x75},
-> +	{0x5ac8, 0x75},
-> +	{0x5ac9, 0x75},
-> +	{0x5aca, 0x75},
-> +	{0x5acb, 0x75},
-> +	{0x5acc, 0x75},
-> +	{0x5acd, 0x75},
-> +	{0x5ace, 0x75},
-> +	{0x5acf, 0x75},
-> +	{0x5ad0, 0x75},
-> +	{0x5ad1, 0x75},
-> +	{0x5ad2, 0x75},
-> +	{0x5ad3, 0x75},
-> +	{0x5ad4, 0x75},
-> +	{0x5ad5, 0x75},
-> +	{0x5ad6, 0x75},
-> +	{0x5ad7, 0x75},
-> +	{0x5ad8, 0x75},
-> +	{0x5ad9, 0x75},
-> +	{0x5ada, 0x75},
-> +	{0x5adb, 0x75},
-> +	{0x5adc, 0x75},
-> +	{0x5add, 0x75},
-> +	{0x5ade, 0x75},
-> +	{0x5adf, 0x75},
-> +	{0x5ae0, 0x75},
-> +	{0x5ae1, 0x75},
-> +	{0x5ae2, 0x75},
-> +	{0x5ae3, 0x75},
-> +	{0x5ae4, 0x75},
-> +	{0x5ae5, 0x75},
-> +	{0x5ae6, 0x75},
-> +	{0x5ae7, 0x75},
-> +	{0x5ae8, 0x75},
-> +	{0x5ae9, 0x75},
-> +	{0x5aea, 0x75},
-> +	{0x5aeb, 0x75},
-> +	{0x5aec, 0x75},
-> +	{0x5aed, 0x75},
-> +	{0x5aee, 0x75},
-> +	{0x5aef, 0x75},
-> +	{0x5af0, 0x75},
-> +	{0x5af1, 0x75},
-> +	{0x5af2, 0x75},
-> +	{0x5af3, 0x75},
-> +	{0x5af4, 0x75},
-> +	{0x5af5, 0x75},
-> +	{0x5af6, 0x75},
-> +	{0x5af7, 0x75},
-> +	{0x5af8, 0x75},
-> +	{0x5af9, 0x75},
-> +	{0x5afa, 0x75},
-> +	{0x5afb, 0x75},
-> +	{0x5afc, 0x75},
-> +	{0x5afd, 0x75},
-> +	{0x5afe, 0x75},
-> +	{0x5aff, 0x75},
-> +	{0x5b00, 0x75},
-> +	{0x5b01, 0x75},
-> +	{0x5b02, 0x75},
-> +	{0x5b03, 0x75},
-> +	{0x5b04, 0x75},
-> +	{0x5b05, 0x75},
-> +	{0x5b06, 0x75},
-> +	{0x5b07, 0x75},
-> +	{0x5b08, 0x75},
-> +	{0x5b09, 0x75},
-> +	{0x5b0a, 0x75},
-> +	{0x5b0b, 0x75},
-> +	{0x5b0c, 0x75},
-> +	{0x5b0d, 0x75},
-> +	{0x5b0e, 0x75},
-> +	{0x5b0f, 0x75},
-> +	{0x5b10, 0x75},
-> +	{0x5b11, 0x75},
-> +	{0x5b12, 0x75},
-> +	{0x5b13, 0x75},
-> +	{0x5b14, 0x75},
-> +	{0x5b15, 0x75},
-> +	{0x5b16, 0x75},
-> +	{0x5b17, 0x75},
-> +	{0x5b18, 0x75},
-> +	{0x5b19, 0x75},
-> +	{0x5b1a, 0x75},
-> +	{0x5b1b, 0x75},
-> +	{0x5b1c, 0x75},
-> +	{0x5b1d, 0x75},
-> +	{0x5b1e, 0x75},
-> +	{0x5b1f, 0x75},
-> +	{0x5b20, 0x75},
-> +	{0x5b21, 0x75},
-> +	{0x5b22, 0x75},
-> +	{0x5b23, 0x75},
-> +	{0x5b24, 0x75},
-> +	{0x5b25, 0x75},
-> +	{0x5b26, 0x75},
-> +	{0x5b27, 0x75},
-> +	{0x5b28, 0x75},
-> +	{0x5b29, 0x75},
-> +	{0x5b2a, 0x75},
-> +	{0x5b2b, 0x75},
-> +	{0x5b2c, 0x75},
-> +	{0x5b2d, 0x75},
-> +	{0x5b2e, 0x75},
-> +	{0x5b2f, 0x75},
-> +	{0x5b30, 0x75},
-> +	{0x5b31, 0x75},
-> +	{0x5b32, 0x75},
-> +	{0x5b33, 0x75},
-> +	{0x5b34, 0x75},
-> +	{0x5b35, 0x75},
-> +	{0x5b36, 0x75},
-> +	{0x5b37, 0x75},
-> +	{0x5b38, 0x75},
-> +	{0x5b39, 0x75},
-> +	{0x5b3a, 0x75},
-> +	{0x5b3b, 0x75},
-> +	{0x5b3c, 0x75},
-> +	{0x5b3d, 0x75},
-> +	{0x5b3e, 0x75},
-> +	{0x5b3f, 0x75},
-> +	{0x5b40, 0x75},
-> +	{0x5b41, 0x75},
-> +	{0x5b42, 0x75},
-> +	{0x5b43, 0x75},
-> +	{0x5b44, 0x75},
-> +	{0x5b45, 0x75},
-> +	{0x5b46, 0x75},
-> +	{0x5b47, 0x75},
-> +	{0x5b48, 0x75},
-> +	{0x5b49, 0x75},
-> +	{0x5b4a, 0x75},
-> +	{0x5b4b, 0x75},
-> +	{0x5b4c, 0x75},
-> +	{0x5b4d, 0x75},
-> +	{0x5b4e, 0x75},
-> +	{0x5b4f, 0x75},
-> +	{0x5b50, 0x75},
-> +	{0x5b51, 0x75},
-> +	{0x5b52, 0x75},
-> +	{0x5b53, 0x75},
-> +	{0x5b54, 0x75},
-> +	{0x5b55, 0x75},
-> +	{0x5b56, 0x75},
-> +	{0x5b57, 0x75},
-> +	{0x5b58, 0x75},
-> +	{0x5b59, 0x75},
-> +	{0x5b5a, 0x75},
-> +	{0x5b5b, 0x75},
-> +	{0x5b5c, 0x75},
-> +	{0x5b5d, 0x75},
-> +	{0x5b5e, 0x75},
-> +	{0x5b5f, 0x75},
-> +	{0x5b60, 0x75},
-> +	{0x5b61, 0x75},
-> +	{0x5b62, 0x75},
-> +	{0x5b63, 0x75},
-> +	{0x5b64, 0x75},
-> +	{0x5b65, 0x75},
-> +	{0x5b66, 0x75},
-> +	{0x5b67, 0x75},
-> +	{0x5b68, 0x75},
-> +	{0x5b69, 0x75},
-> +	{0x5b6a, 0x75},
-> +	{0x5b6b, 0x75},
-> +	{0x5b6c, 0x75},
-> +	{0x5b6d, 0x75},
-> +	{0x5b6e, 0x75},
-> +	{0x5b6f, 0x75},
-> +	{0x5b70, 0x75},
-> +	{0x5b71, 0x75},
-> +	{0x5b72, 0x75},
-> +	{0x5b73, 0x75},
-> +	{0x5b74, 0x75},
-> +	{0x5b75, 0x75},
-> +	{0x5b76, 0x75},
-> +	{0x5b77, 0x75},
-> +	{0x5b78, 0x75},
-> +	{0x5b79, 0x75},
-> +	{0x5b7a, 0x75},
-> +	{0x5b7b, 0x75},
-> +	{0x5b7c, 0x75},
-> +	{0x5b7d, 0x75},
-> +	{0x5b7e, 0x75},
-> +	{0x5b7f, 0x75},
-> +	{0x5b80, 0x75},
-> +	{0x5b81, 0x75},
-> +	{0x5b82, 0x75},
-> +	{0x5b83, 0x75},
-> +	{0x5b84, 0x75},
-> +	{0x5b85, 0x75},
-> +	{0x5b86, 0x75},
-> +	{0x5b87, 0x75},
-> +	{0x5b88, 0x75},
-> +	{0x5b89, 0x75},
-> +	{0x5b8a, 0x75},
-> +	{0x5b8b, 0x75},
-> +	{0x5b8c, 0x75},
-> +	{0x5b8d, 0x75},
-> +	{0x5b8e, 0x75},
-> +	{0x5b8f, 0x75},
-> +	{0x5b90, 0x75},
-> +	{0x5b91, 0x75},
-> +	{0x5b92, 0x75},
-> +	{0x5b93, 0x75},
-> +	{0x5b94, 0x75},
-> +	{0x5b95, 0x75},
-> +	{0x5b96, 0x75},
-> +	{0x5b97, 0x75},
-> +	{0x5b98, 0x75},
-> +	{0x5b99, 0x75},
-> +	{0x5b9a, 0x75},
-> +	{0x5b9b, 0x75},
-> +	{0x5b9c, 0x75},
-> +	{0x5b9d, 0x75},
-> +	{0x5b9e, 0x75},
-> +	{0x5b9f, 0x75},
-> +	{0x5bc0, 0x75},
-> +	{0x5bc1, 0x75},
-> +	{0x5bc2, 0x75},
-> +	{0x5bc3, 0x75},
-> +	{0x5bc4, 0x75},
-> +	{0x5bc5, 0x75},
-> +	{0x5bc6, 0x75},
-> +	{0x5bc7, 0x75},
-> +	{0x5bc8, 0x75},
-> +	{0x5bc9, 0x75},
-> +	{0x5bca, 0x75},
-> +	{0x5bcb, 0x75},
-> +	{0x5bcc, 0x75},
-> +	{0x5bcd, 0x75},
-> +	{0x5bce, 0x75},
-> +	{0x5bcf, 0x75},
-> +	{0x5bd0, 0x75},
-> +	{0x5bd1, 0x75},
-> +	{0x5bd2, 0x75},
-> +	{0x5bd3, 0x75},
-> +	{0x5bd4, 0x75},
-> +	{0x5bd5, 0x75},
-> +	{0x5bd6, 0x75},
-> +	{0x5bd7, 0x75},
-> +	{0x5bd8, 0x75},
-> +	{0x5bd9, 0x75},
-> +	{0x5bda, 0x75},
-> +	{0x5bdb, 0x75},
-> +	{0x5bdc, 0x75},
-> +	{0x5bdd, 0x75},
-> +	{0x5bde, 0x75},
-> +	{0x5bdf, 0x75},
-> +	{0x5be0, 0x75},
-> +	{0x5be1, 0x75},
-> +	{0x5be2, 0x75},
-> +	{0x5be3, 0x75},
-> +	{0x5be4, 0x75},
-> +	{0x5be5, 0x75},
-> +	{0x5be6, 0x75},
-> +	{0x5be7, 0x75},
-> +	{0x5be8, 0x75},
-> +	{0x5be9, 0x75},
-> +	{0x5bea, 0x75},
-> +	{0x5beb, 0x75},
-> +	{0x5bec, 0x75},
-> +	{0x5bed, 0x75},
-> +	{0x5bee, 0x75},
-> +	{0x5bef, 0x75},
-> +	{0x5bf0, 0x75},
-> +	{0x5bf1, 0x75},
-> +	{0x5bf2, 0x75},
-> +	{0x5bf3, 0x75},
-> +	{0x5bf4, 0x75},
-> +	{0x5bf5, 0x75},
-> +	{0x5bf6, 0x75},
-> +	{0x5bf7, 0x75},
-> +	{0x5bf8, 0x75},
-> +	{0x5bf9, 0x75},
-> +	{0x5bfa, 0x75},
-> +	{0x5bfb, 0x75},
-> +	{0x5bfc, 0x75},
-> +	{0x5bfd, 0x75},
-> +	{0x5bfe, 0x75},
-> +	{0x5bff, 0x75},
-> +	{0x5c00, 0x75},
-> +	{0x5c01, 0x75},
-> +	{0x5c02, 0x75},
-> +	{0x5c03, 0x75},
-> +	{0x5c04, 0x75},
-> +	{0x5c05, 0x75},
-> +	{0x5c06, 0x75},
-> +	{0x5c07, 0x75},
-> +	{0x5c08, 0x75},
-> +	{0x5c09, 0x75},
-> +	{0x5c0a, 0x75},
-> +	{0x5c0b, 0x75},
-> +	{0x5c0c, 0x75},
-> +	{0x5c0d, 0x75},
-> +	{0x5c0e, 0x75},
-> +	{0x5c0f, 0x75},
-> +	{0x5c10, 0x75},
-> +	{0x5c11, 0x75},
-> +	{0x5c12, 0x75},
-> +	{0x5c13, 0x75},
-> +	{0x5c14, 0x75},
-> +	{0x5c15, 0x75},
-> +	{0x5c16, 0x75},
-> +	{0x5c17, 0x75},
-> +	{0x5c18, 0x75},
-> +	{0x5c19, 0x75},
-> +	{0x5c1a, 0x75},
-> +	{0x5c1b, 0x75},
-> +	{0x5c1c, 0x75},
-> +	{0x5c1d, 0x75},
-> +	{0x5c1e, 0x75},
-> +	{0x5c1f, 0x75},
-> +	{0x5c20, 0x75},
-> +	{0x5c21, 0x75},
-> +	{0x5c22, 0x75},
-> +	{0x5c23, 0x75},
-> +	{0x5c24, 0x75},
-> +	{0x5c25, 0x75},
-> +	{0x5c26, 0x75},
-> +	{0x5c27, 0x75},
-> +	{0x5c28, 0x75},
-> +	{0x5c29, 0x75},
-> +	{0x5c2a, 0x75},
-> +	{0x5c2b, 0x75},
-> +	{0x5c2c, 0x75},
-> +	{0x5c2d, 0x75},
-> +	{0x5c2e, 0x75},
-> +	{0x5c2f, 0x75},
-> +	{0x5c30, 0x75},
-> +	{0x5c31, 0x75},
-> +	{0x5c32, 0x75},
-> +	{0x5c33, 0x75},
-> +	{0x5c34, 0x75},
-> +	{0x5c35, 0x75},
-> +	{0x5c36, 0x75},
-> +	{0x5c37, 0x75},
-> +	{0x5c38, 0x75},
-> +	{0x5c39, 0x75},
-> +	{0x5c3a, 0x75},
-> +	{0x5c3b, 0x75},
-> +	{0x5c3c, 0x75},
-> +	{0x5c3d, 0x75},
-> +	{0x5c3e, 0x75},
-> +	{0x5c3f, 0x75},
-> +	{0x5c40, 0x75},
-> +	{0x5c41, 0x75},
-> +	{0x5c42, 0x75},
-> +	{0x5c43, 0x75},
-> +	{0x5c44, 0x75},
-> +	{0x5c45, 0x75},
-> +	{0x5c46, 0x75},
-> +	{0x5c47, 0x75},
-> +	{0x5c48, 0x75},
-> +	{0x5c49, 0x75},
-> +	{0x5c4a, 0x75},
-> +	{0x5c4b, 0x75},
-> +	{0x5c4c, 0x75},
-> +	{0x5c4d, 0x75},
-> +	{0x5c4e, 0x75},
-> +	{0x5c4f, 0x75},
-> +	{0x5c50, 0x75},
-> +	{0x5c51, 0x75},
-> +	{0x5c52, 0x75},
-> +	{0x5c53, 0x75},
-> +	{0x5c54, 0x75},
-> +	{0x5c55, 0x75},
-> +	{0x5c56, 0x75},
-> +	{0x5c57, 0x75},
-> +	{0x5c58, 0x75},
-> +	{0x5c59, 0x75},
-> +	{0x5c5a, 0x75},
-> +	{0x5c5b, 0x75},
-> +	{0x5c5c, 0x75},
-> +	{0x5c5d, 0x75},
-> +	{0x5c5e, 0x75},
-> +	{0x5c5f, 0x75},
-> +	{0x5c60, 0x75},
-> +	{0x5c61, 0x75},
-> +	{0x5c62, 0x75},
-> +	{0x5c63, 0x75},
-> +	{0x5c64, 0x75},
-> +	{0x5c65, 0x75},
-> +	{0x5c66, 0x75},
-> +	{0x5c67, 0x75},
-> +	{0x5c68, 0x75},
-> +	{0x5c69, 0x75},
-> +	{0x5c6a, 0x75},
-> +	{0x5c6b, 0x75},
-> +	{0x5c6c, 0x75},
-> +	{0x5c6d, 0x75},
-> +	{0x5c6e, 0x75},
-> +	{0x5c6f, 0x75},
-> +	{0x5c70, 0x75},
-> +	{0x5c71, 0x75},
-> +	{0x5c72, 0x75},
-> +	{0x5c73, 0x75},
-> +	{0x5c74, 0x75},
-> +	{0x5c75, 0x75},
-> +	{0x5c76, 0x75},
-> +	{0x5c77, 0x75},
-> +	{0x5c78, 0x75},
-> +	{0x5c79, 0x75},
-> +	{0x5c7a, 0x75},
-> +	{0x5c7b, 0x75},
-> +	{0x5c7c, 0x75},
-> +	{0x5c7d, 0x75},
-> +	{0x5c7e, 0x75},
-> +	{0x5c7f, 0x75},
-> +	{0x5c80, 0x75},
-> +	{0x5c81, 0x75},
-> +	{0x5c82, 0x75},
-> +	{0x5c83, 0x75},
-> +	{0x5c84, 0x75},
-> +	{0x5c85, 0x75},
-> +	{0x5c86, 0x75},
-> +	{0x5c87, 0x75},
-> +	{0x5c88, 0x75},
-> +	{0x5c89, 0x75},
-> +	{0x5c8a, 0x75},
-> +	{0x5c8b, 0x75},
-> +	{0x5c8c, 0x75},
-> +	{0x5c8d, 0x75},
-> +	{0x5c8e, 0x75},
-> +	{0x5c8f, 0x75},
-> +	{0x5c90, 0x75},
-> +	{0x5c91, 0x75},
-> +	{0x5c92, 0x75},
-> +	{0x5c93, 0x75},
-> +	{0x5c94, 0x75},
-> +	{0x5c95, 0x75},
-> +	{0x5c96, 0x75},
-> +	{0x5c97, 0x75},
-> +	{0x5c98, 0x75},
-> +	{0x5c99, 0x75},
-> +	{0x5c9a, 0x75},
-> +	{0x5c9b, 0x75},
-> +	{0x5c9c, 0x75},
-> +	{0x5c9d, 0x75},
-> +	{0x5c9e, 0x75},
-> +	{0x5c9f, 0x75},
-> +	{0x5ca0, 0x75},
-> +	{0x5ca1, 0x75},
-> +	{0x5ca2, 0x75},
-> +	{0x5ca3, 0x75},
-> +	{0x5ca4, 0x75},
-> +	{0x5ca5, 0x75},
-> +	{0x5ca6, 0x75},
-> +	{0x5ca7, 0x75},
-> +	{0x5ca8, 0x75},
-> +	{0x5ca9, 0x75},
-> +	{0x5caa, 0x75},
-> +	{0x5cab, 0x75},
-> +	{0x5cac, 0x75},
-> +	{0x5cad, 0x75},
-> +	{0x5cae, 0x75},
-> +	{0x5caf, 0x75},
-> +	{0x5cb0, 0x75},
-> +	{0x5cb1, 0x75},
-> +	{0x5cb2, 0x75},
-> +	{0x5cb3, 0x75},
-> +	{0x5cb4, 0x75},
-> +	{0x5cb5, 0x75},
-> +	{0x5cb6, 0x75},
-> +	{0x5cb7, 0x75},
-> +	{0x5cb8, 0x75},
-> +	{0x5cb9, 0x75},
-> +	{0x5cba, 0x75},
-> +	{0x5cbb, 0x75},
-> +	{0x5cbc, 0x75},
-> +	{0x5cbd, 0x75},
-> +	{0x5cbe, 0x75},
-> +	{0x5cbf, 0x75},
-> +	{0x5cc0, 0x75},
-> +	{0x5cc1, 0x75},
-> +	{0x5cc2, 0x75},
-> +	{0x5cc3, 0x75},
-> +	{0x5cc4, 0x75},
-> +	{0x5cc5, 0x75},
-> +	{0x5cc6, 0x75},
-> +	{0x5cc7, 0x75},
-> +	{0x5cc8, 0x75},
-> +	{0x5cc9, 0x75},
-> +	{0x5cca, 0x75},
-> +	{0x5ccb, 0x75},
-> +	{0x5ccc, 0x75},
-> +	{0x5ccd, 0x75},
-> +	{0x5cce, 0x75},
-> +	{0x5ccf, 0x75},
-> +	{0x5cd0, 0x75},
-> +	{0x5cd1, 0x75},
-> +	{0x5cd2, 0x75},
-> +	{0x5cd3, 0x75},
-> +	{0x5cd4, 0x75},
-> +	{0x5cd5, 0x75},
-> +	{0x5cd6, 0x75},
-> +	{0x5cd7, 0x75},
-> +	{0x5cd8, 0x75},
-> +	{0x5cd9, 0x75},
-> +	{0x5cda, 0x75},
-> +	{0x5cdb, 0x75},
-> +	{0x5cdc, 0x75},
-> +	{0x5cdd, 0x75},
-> +	{0x5cde, 0x75},
-> +	{0x5cdf, 0x75},
-> +	{0x5ce0, 0x75},
-> +	{0x5ce1, 0x75},
-> +	{0x5ce2, 0x75},
-> +	{0x5ce3, 0x75},
-> +	{0x5ce4, 0x75},
-> +	{0x5ce5, 0x75},
-> +	{0x5ce6, 0x75},
-> +	{0x5ce7, 0x75},
-> +	{0x5ce8, 0x75},
-> +	{0x5ce9, 0x75},
-> +	{0x5cea, 0x75},
-> +	{0x5ceb, 0x75},
-> +	{0x5cec, 0x75},
-> +	{0x5ced, 0x75},
-> +	{0x5cee, 0x75},
-> +	{0x5cef, 0x75},
-> +	{0x5cf0, 0x75},
-> +	{0x5cf1, 0x75},
-> +	{0x5cf2, 0x75},
-> +	{0x5cf3, 0x75},
-> +	{0x5cf4, 0x75},
-> +	{0x5cf5, 0x75},
-> +	{0x5cf6, 0x75},
-> +	{0x5cf7, 0x75},
-> +	{0x5cf8, 0x75},
-> +	{0x5cf9, 0x75},
-> +	{0x5cfa, 0x75},
-> +	{0x5cfb, 0x75},
-> +	{0x5cfc, 0x75},
-> +	{0x5cfd, 0x75},
-> +	{0x5cfe, 0x75},
-> +	{0x5cff, 0x75},
-> +	{0x5d00, 0x75},
-> +	{0x5d01, 0x75},
-> +	{0x5d02, 0x75},
-> +	{0x5d03, 0x75},
-> +	{0x5d04, 0x75},
-> +	{0x5d05, 0x75},
-> +	{0x5d06, 0x75},
-> +	{0x5d07, 0x75},
-> +	{0x5d08, 0x75},
-> +	{0x5d09, 0x75},
-> +	{0x5d0a, 0x75},
-> +	{0x5d0b, 0x75},
-> +	{0x5d0c, 0x75},
-> +	{0x5d0d, 0x75},
-> +	{0x5d0e, 0x75},
-> +	{0x5d0f, 0x75},
-> +	{0x5d10, 0x75},
-> +	{0x5d11, 0x75},
-> +	{0x5d12, 0x75},
-> +	{0x5d13, 0x75},
-> +	{0x5d14, 0x75},
-> +	{0x5d15, 0x75},
-> +	{0x5d16, 0x75},
-> +	{0x5d17, 0x75},
-> +	{0x5d18, 0x75},
-> +	{0x5d19, 0x75},
-> +	{0x5d1a, 0x75},
-> +	{0x5d1b, 0x75},
-> +	{0x5d1c, 0x75},
-> +	{0x5d1d, 0x75},
-> +	{0x5d1e, 0x75},
-> +	{0x5d1f, 0x75},
-> +	{0x5d20, 0x75},
-> +	{0x5d21, 0x75},
-> +	{0x5d22, 0x75},
-> +	{0x5d23, 0x75},
-> +	{0x5d24, 0x75},
-> +	{0x5d25, 0x75},
-> +	{0x5d26, 0x75},
-> +	{0x5d27, 0x75},
-> +	{0x5d28, 0x75},
-> +	{0x5d29, 0x75},
-> +	{0x5d2a, 0x75},
-> +	{0x5d2b, 0x75},
-> +	{0x5d2c, 0x75},
-> +	{0x5d2d, 0x75},
-> +	{0x5d2e, 0x75},
-> +	{0x5d2f, 0x75},
-> +	{0x5d30, 0x75},
-> +	{0x5d31, 0x75},
-> +	{0x5d32, 0x75},
-> +	{0x5d33, 0x75},
-> +	{0x5d34, 0x75},
-> +	{0x5d35, 0x75},
-> +	{0x5d36, 0x75},
-> +	{0x5d37, 0x75},
-> +	{0x5d38, 0x75},
-> +	{0x5d39, 0x75},
-> +	{0x5d3a, 0x75},
-> +	{0x5d3b, 0x75},
-> +	{0x5d3c, 0x75},
-> +	{0x5d3d, 0x75},
-> +	{0x5d3e, 0x75},
-> +	{0x5d3f, 0x75},
-> +	{0x5d40, 0x75},
-> +	{0x5d41, 0x75},
-> +	{0x5d42, 0x75},
-> +	{0x5d43, 0x75},
-> +	{0x5d44, 0x75},
-> +	{0x5d45, 0x75},
-> +	{0x5d46, 0x75},
-> +	{0x5d47, 0x75},
-> +	{0x5d48, 0x75},
-> +	{0x5d49, 0x75},
-> +	{0x5d4a, 0x75},
-> +	{0x5d4b, 0x75},
-> +	{0x5d4c, 0x75},
-> +	{0x5d4d, 0x75},
-> +	{0x5d4e, 0x75},
-> +	{0x5d4f, 0x75},
-> +	{0x5d50, 0x75},
-> +	{0x5d51, 0x75},
-> +	{0x5d52, 0x75},
-> +	{0x5d53, 0x75},
-> +	{0x5d54, 0x75},
-> +	{0x5d55, 0x75},
-> +	{0x5d56, 0x75},
-> +	{0x5d57, 0x75},
-> +	{0x5d58, 0x75},
-> +	{0x5d59, 0x75},
-> +	{0x5d5a, 0x75},
-> +	{0x5d5b, 0x75},
-> +	{0x5d5c, 0x75},
-> +	{0x5d5d, 0x75},
-> +	{0x5d5e, 0x75},
-> +	{0x5d5f, 0x75},
-> +	{0x5d60, 0x75},
-> +	{0x5d61, 0x75},
-> +	{0x5d62, 0x75},
-> +	{0x5d63, 0x75},
-> +	{0x5d64, 0x75},
-> +	{0x5d65, 0x75},
-> +	{0x5d66, 0x75},
-> +	{0x5d67, 0x75},
-> +	{0x5d68, 0x75},
-> +	{0x5d69, 0x75},
-> +	{0x5d6a, 0x75},
-> +	{0x5d6b, 0x75},
-> +	{0x5d6c, 0x75},
-> +	{0x5d6d, 0x75},
-> +	{0x5d6e, 0x75},
-> +	{0x5d6f, 0x75},
-> +	{0x5d70, 0x75},
-> +	{0x5d71, 0x75},
-> +	{0x5d72, 0x75},
-> +	{0x5d73, 0x75},
-> +	{0x5d74, 0x75},
-> +	{0x5d75, 0x75},
-> +	{0x5d76, 0x75},
-> +	{0x5d77, 0x75},
-> +	{0x5d78, 0x75},
-> +	{0x5d79, 0x75},
-> +	{0x5d7a, 0x75},
-> +	{0x5d7b, 0x75},
-> +	{0x5d7c, 0x75},
-> +	{0x5d7d, 0x75},
-> +	{0x5d7e, 0x75},
-> +	{0x5d7f, 0x75},
-> +	{0x5d80, 0x75},
-> +	{0x5d81, 0x75},
-> +	{0x5d82, 0x75},
-> +	{0x5d83, 0x75},
-> +	{0x5d84, 0x75},
-> +	{0x5d85, 0x75},
-> +	{0x5d86, 0x75},
-> +	{0x5d87, 0x75},
-> +	{0x5d88, 0x75},
-> +	{0x5d89, 0x75},
-> +	{0x5d8a, 0x75},
-> +	{0x5d8b, 0x75},
-> +	{0x5d8c, 0x75},
-> +	{0x5d8d, 0x75},
-> +	{0x5d8e, 0x75},
-> +	{0x5d8f, 0x75},
-> +	{0x5d90, 0x75},
-> +	{0x5d91, 0x75},
-> +	{0x5d92, 0x75},
-> +	{0x5d93, 0x75},
-> +	{0x5d94, 0x75},
-> +	{0x5d95, 0x75},
-> +	{0x5d96, 0x75},
-> +	{0x5d97, 0x75},
-> +	{0x5d98, 0x75},
-> +	{0x5d99, 0x75},
-> +	{0x5d9a, 0x75},
-> +	{0x5d9b, 0x75},
-> +	{0x5d9c, 0x75},
-> +	{0x5d9d, 0x75},
-> +	{0x5d9e, 0x75},
-> +	{0x5d9f, 0x75},
-> +	{0x5da0, 0x75},
-> +	{0x5da1, 0x75},
-> +	{0x5da2, 0x75},
-> +	{0x5da3, 0x75},
-> +	{0x5da4, 0x75},
-> +	{0x5da5, 0x75},
-> +	{0x5da6, 0x75},
-> +	{0x5da7, 0x75},
-> +	{0x5da8, 0x75},
-> +	{0x5da9, 0x75},
-> +	{0x5daa, 0x75},
-> +	{0x5dab, 0x75},
-> +	{0x5dac, 0x75},
-> +	{0x5dad, 0x75},
-> +	{0x5dae, 0x75},
-> +	{0x5daf, 0x75},
-> +	{0x5db0, 0x75},
-> +	{0x5db1, 0x75},
-> +	{0x5db2, 0x75},
-> +	{0x5db3, 0x75},
-> +	{0x5db4, 0x75},
-> +	{0x5db5, 0x75},
-> +	{0x5db6, 0x75},
-> +	{0x5db7, 0x75},
-> +	{0x5db8, 0x75},
-> +	{0x5db9, 0x75},
-> +	{0x5dba, 0x75},
-> +	{0x5dbb, 0x75},
-> +	{0x5dbc, 0x75},
-> +	{0x5dbd, 0x75},
-> +	{0x5dbe, 0x75},
-> +	{0x5dbf, 0x75},
-> +	{0x5dc0, 0x75},
-> +	{0x5dc1, 0x75},
-> +	{0x5dc2, 0x75},
-> +	{0x5dc3, 0x75},
-> +	{0x5dc4, 0x75},
-> +	{0x5dc5, 0x75},
-> +	{0x5dc6, 0x75},
-> +	{0x5dc7, 0x75},
-> +	{0x5dc8, 0x75},
-> +	{0x5dc9, 0x75},
-> +	{0x5dca, 0x75},
-> +	{0x5dcb, 0x75},
-> +	{0x5dcc, 0x75},
-> +	{0x5dcd, 0x75},
-> +	{0x5dce, 0x75},
-> +	{0x5dcf, 0x75},
-> +	{0x5dd0, 0x75},
-> +	{0x5dd1, 0x75},
-> +	{0x5dd2, 0x75},
-> +	{0x5dd3, 0x75},
-> +	{0x5dd4, 0x75},
-> +	{0x5dd5, 0x75},
-> +	{0x5dd6, 0x75},
-> +	{0x5dd7, 0x75},
-> +	{0x5dd8, 0x75},
-> +	{0x5dd9, 0x75},
-> +	{0x5dda, 0x75},
-> +	{0x5ddb, 0x75},
-> +	{0x5ddc, 0x75},
-> +	{0x5ddd, 0x75},
-> +	{0x5dde, 0x75},
-> +	{0x5ddf, 0x75},
-> +	{0x5de0, 0x75},
-> +	{0x5de1, 0x75},
-> +	{0x5de2, 0x75},
-> +	{0x5de3, 0x75},
-> +	{0x5de4, 0x75},
-> +	{0x5de5, 0x75},
-> +	{0x5de6, 0x75},
-> +	{0x5de7, 0x75},
-> +	{0x5de8, 0x75},
-> +	{0x5de9, 0x75},
-> +	{0x5dea, 0x75},
-> +	{0x5deb, 0x75},
-> +	{0x5dec, 0x75},
-> +	{0x5ded, 0x75},
-> +	{0x5dee, 0x75},
-> +	{0x5def, 0x75},
-> +	{0x5df0, 0x75},
-> +	{0x5df1, 0x75},
-> +	{0x5df2, 0x75},
-> +	{0x5df3, 0x75},
-> +	{0x5df4, 0x75},
-> +	{0x5df5, 0x75},
-> +	{0x5df6, 0x75},
-> +	{0x5df7, 0x75},
-> +	{0x5df8, 0x75},
-> +	{0x5df9, 0x75},
-> +	{0x5dfa, 0x75},
-> +	{0x5dfb, 0x75},
-> +	{0x5dfc, 0x75},
-> +	{0x5dfd, 0x75},
-> +	{0x5dfe, 0x75},
-> +	{0x5dff, 0x75},
-> +	{0x5e00, 0x75},
-> +	{0x5e01, 0x75},
-> +	{0x5e02, 0x75},
-> +	{0x5e03, 0x75},
-> +	{0x5e04, 0x75},
-> +	{0x5e05, 0x75},
-> +	{0x5e06, 0x75},
-> +	{0x5e07, 0x75},
-> +	{0x5e08, 0x75},
-> +	{0x5e09, 0x75},
-> +	{0x5e0a, 0x75},
-> +	{0x5e0b, 0x75},
-> +	{0x5e0c, 0x75},
-> +	{0x5e0d, 0x75},
-> +	{0x5e0e, 0x75},
-> +	{0x5e0f, 0x75},
-> +	{0x5e10, 0x75},
-> +	{0x5e11, 0x75},
-> +	{0x5e12, 0x75},
-> +	{0x5e13, 0x75},
-> +	{0x5e14, 0x75},
-> +	{0x5e15, 0x75},
-> +	{0x5e16, 0x75},
-> +	{0x5e17, 0x75},
-> +	{0x5e18, 0x75},
-> +	{0x5e19, 0x75},
-> +	{0x5e1a, 0x75},
-> +	{0x5e1b, 0x75},
-> +	{0x5e1c, 0x75},
-> +	{0x5e1d, 0x75},
-> +	{0x5e1e, 0x75},
-> +	{0x5e1f, 0x75},
-> +	{0x5e20, 0x75},
-> +	{0x5e21, 0x75},
-> +	{0x5e22, 0x75},
-> +	{0x5e23, 0x75},
-> +	{0x5e24, 0x75},
-> +	{0x5e25, 0x75},
-> +	{0x5e26, 0x75},
-> +	{0x5e27, 0x75},
-> +	{0x5e28, 0x75},
-> +	{0x5e29, 0x75},
-> +	{0x5e2a, 0x75},
-> +	{0x5e2b, 0x75},
-> +	{0x5e2c, 0x75},
-> +	{0x5e2d, 0x75},
-> +	{0x5e2e, 0x75},
-> +	{0x5e2f, 0x75},
-> +	{0x5e30, 0x75},
-> +	{0x5e31, 0x75},
-> +	{0x5e32, 0x75},
-> +	{0x5e33, 0x75},
-> +	{0x5e34, 0x75},
-> +	{0x5e35, 0x75},
-> +	{0x5e36, 0x75},
-> +	{0x5e37, 0x75},
-> +	{0x5e38, 0x75},
-> +	{0x5e39, 0x75},
-> +	{0x5e3a, 0x75},
-> +	{0x5e3b, 0x75},
-> +	{0x5e3c, 0x75},
-> +	{0x5e3d, 0x75},
-> +	{0x5e3e, 0x75},
-> +	{0x5e3f, 0x75},
-> +	{0x5e40, 0x75},
-> +	{0x5e41, 0x75},
-> +	{0x5e42, 0x75},
-> +	{0x5e43, 0x75},
-> +	{0x5e44, 0x75},
-> +	{0x5e45, 0x75},
-> +	{0x5e46, 0x75},
-> +	{0x5e47, 0x75},
-> +	{0x5e48, 0x75},
-> +	{0x5e49, 0x75},
-> +	{0x5e4a, 0x75},
-> +	{0x5e4b, 0x75},
-> +	{0x5e4c, 0x75},
-> +	{0x5e4d, 0x75},
-> +	{0x5e4e, 0x75},
-> +	{0x5e4f, 0x75},
-> +	{0x5e50, 0x75},
-> +	{0x5e51, 0x75},
-> +	{0x5e52, 0x75},
-> +	{0x5e53, 0x75},
-> +	{0x5e54, 0x75},
-> +	{0x5e55, 0x75},
-> +	{0x5e56, 0x75},
-> +	{0x5e57, 0x75},
-> +	{0x5e58, 0x75},
-> +	{0x5e59, 0x75},
-> +	{0x5e5a, 0x75},
-> +	{0x5e5b, 0x75},
-> +	{0x5e5c, 0x75},
-> +	{0x5e5d, 0x75},
-> +	{0x5e5e, 0x75},
-> +	{0x5e5f, 0x75},
-> +	{0x5e60, 0x75},
-> +	{0x5e61, 0x75},
-> +	{0x5e62, 0x75},
-> +	{0x5e63, 0x75},
-> +	{0x5e64, 0x75},
-> +	{0x5e65, 0x75},
-> +	{0x5e66, 0x75},
-> +	{0x5e67, 0x75},
-> +	{0x5e68, 0x75},
-> +	{0x5e69, 0x75},
-> +	{0x5e6a, 0x75},
-> +	{0x5e6b, 0x75},
-> +	{0x5e6c, 0x75},
-> +	{0x5e6d, 0x75},
-> +	{0x5e6e, 0x75},
-> +	{0x5e6f, 0x75},
-> +	{0x5e70, 0x75},
-> +	{0x5e71, 0x75},
-> +	{0x5e72, 0x75},
-> +	{0x5e73, 0x75},
-> +	{0x5e74, 0x75},
-> +	{0x5e75, 0x75},
-> +	{0x5e76, 0x75},
-> +	{0x5e77, 0x75},
-> +	{0x5e78, 0x75},
-> +	{0x5e79, 0x75},
-> +	{0x5e7a, 0x75},
-> +	{0x5e7b, 0x75},
-> +	{0x5e7c, 0x75},
-> +	{0x5e7d, 0x75},
-> +	{0x5e7e, 0x75},
-> +	{0x5e7f, 0x75},
-> +	{0x5e80, 0x75},
-> +	{0x5e81, 0x75},
-> +	{0x5e82, 0x75},
-> +	{0x5e83, 0x75},
-> +	{0x5e84, 0x75},
-> +	{0x5e85, 0x75},
-> +	{0x5e86, 0x75},
-> +	{0x5e87, 0x75},
-> +	{0x5e88, 0x75},
-> +	{0x5e89, 0x75},
-> +	{0x5e8a, 0x75},
-> +	{0x5e8b, 0x75},
-> +	{0x5e8c, 0x75},
-> +	{0x5e8d, 0x75},
-> +	{0x5e8e, 0x75},
-> +	{0x5e8f, 0x75},
-> +	{0x5e90, 0x75},
-> +	{0x5e91, 0x75},
-> +	{0x5e92, 0x75},
-> +	{0x5e93, 0x75},
-> +	{0x5e94, 0x75},
-> +	{0x5e95, 0x75},
-> +	{0x5e96, 0x75},
-> +	{0x5e97, 0x75},
-> +	{0x5e98, 0x75},
-> +	{0x5e99, 0x75},
-> +	{0x5e9a, 0x75},
-> +	{0x5e9b, 0x75},
-> +	{0x5e9c, 0x75},
-> +	{0x5e9d, 0x75},
-> +	{0x5e9e, 0x75},
-> +	{0x5e9f, 0x75},
-> +	{0x5ea0, 0x75},
-> +	{0x5ea1, 0x75},
-> +	{0x5ea2, 0x75},
-> +	{0x5ea3, 0x75},
-> +	{0x5ea4, 0x75},
-> +	{0x5ea5, 0x75},
-> +	{0x5ea6, 0x75},
-> +	{0x5ea7, 0x75},
-> +	{0x5ea8, 0x75},
-> +	{0x5ea9, 0x75},
-> +	{0x5eaa, 0x75},
-> +	{0x5eab, 0x75},
-> +	{0x5eac, 0x75},
-> +	{0x5ead, 0x75},
-> +	{0x5eae, 0x75},
-> +	{0x5eaf, 0x75},
-> +	{0x5eb0, 0x75},
-> +	{0x5eb1, 0x75},
-> +	{0x5eb2, 0x75},
-> +	{0x5eb3, 0x75},
-> +	{0x5eb4, 0x75},
-> +	{0x5eb5, 0x75},
-> +	{0x5eb6, 0x75},
-> +	{0x5eb7, 0x75},
-> +	{0x5eb8, 0x75},
-> +	{0x5eb9, 0x75},
-> +	{0x5eba, 0x75},
-> +	{0x5ebb, 0x75},
-> +	{0x5ebc, 0x75},
-> +	{0x5ebd, 0x75},
-> +	{0x5ebe, 0x75},
-> +	{0x5ebf, 0x75},
-> +	{0x5ec0, 0x75},
-> +	{0x5ec1, 0x75},
-> +	{0x5ec2, 0x75},
-> +	{0x5ec3, 0x75},
-> +	{0x5ec4, 0x75},
-> +	{0x5ec5, 0x75},
-> +	{0x5ec6, 0x75},
-> +	{0x5ec7, 0x75},
-> +	{0x5ec8, 0x75},
-> +	{0x5ec9, 0x75},
-> +	{0x5eca, 0x75},
-> +	{0x5ecb, 0x75},
-> +	{0x5ecc, 0x75},
-> +	{0x5ecd, 0x75},
-> +	{0x5ece, 0x75},
-> +	{0x5ecf, 0x75},
-> +	{0x5ed0, 0x75},
-> +	{0x5ed1, 0x75},
-> +	{0x5ed2, 0x75},
-> +	{0x5ed3, 0x75},
-> +	{0x5ed4, 0x75},
-> +	{0x5ed5, 0x75},
-> +	{0x5ed6, 0x75},
-> +	{0x5ed7, 0x75},
-> +	{0x5ed8, 0x75},
-> +	{0x5ed9, 0x75},
-> +	{0x5eda, 0x75},
-> +	{0x5edb, 0x75},
-> +	{0x5edc, 0x75},
-> +	{0x5edd, 0x75},
-> +	{0x5ede, 0x75},
-> +	{0x5edf, 0x75},
-> +	{0x5ee0, 0x75},
-> +	{0x5ee1, 0x75},
-> +	{0x5ee2, 0x75},
-> +	{0x5ee3, 0x75},
-> +	{0x5ee4, 0x75},
-> +	{0x5ee5, 0x75},
-> +	{0x5ee6, 0x75},
-> +	{0x5ee7, 0x75},
-> +	{0x5ee8, 0x75},
-> +	{0x5ee9, 0x75},
-> +	{0x5eea, 0x75},
-> +	{0x5eeb, 0x75},
-> +	{0x5eec, 0x75},
-> +	{0x5eed, 0x75},
-> +	{0x5eee, 0x75},
-> +	{0x5eef, 0x75},
-> +	{0x5ef0, 0x75},
-> +	{0x5ef1, 0x75},
-> +	{0x5ef2, 0x75},
-> +	{0x5ef3, 0x75},
-> +	{0x5ef4, 0x75},
-> +	{0x5ef5, 0x75},
-> +	{0x5ef6, 0x75},
-> +	{0x5ef7, 0x75},
-> +	{0x5ef8, 0x75},
-> +	{0x5ef9, 0x75},
-> +	{0x5efa, 0x75},
-> +	{0x5efb, 0x75},
-> +	{0x5efc, 0x75},
-> +	{0x5efd, 0x75},
-> +	{0x5efe, 0x75},
-> +	{0x5eff, 0x75},
-> +	{0x5f00, 0x75},
-> +	{0x5f01, 0x75},
-> +	{0x5f02, 0x75},
-> +	{0x5f03, 0x75},
-> +	{0x5f04, 0x75},
-> +	{0x5f05, 0x75},
-> +	{0x5f06, 0x75},
-> +	{0x5f07, 0x75},
-> +	{0x5f08, 0x75},
-> +	{0x5f09, 0x75},
-> +	{0x5f0a, 0x75},
-> +	{0x5f0b, 0x75},
-> +	{0x5f0c, 0x75},
-> +	{0x5f0d, 0x75},
-> +	{0x5f0e, 0x75},
-> +	{0x5f0f, 0x75},
-> +	{0x5f10, 0x75},
-> +	{0x5f11, 0x75},
-> +	{0x5f12, 0x75},
-> +	{0x5f13, 0x75},
-> +	{0x5f14, 0x75},
-> +	{0x5f15, 0x75},
-> +	{0x5f16, 0x75},
-> +	{0x5f17, 0x75},
-> +	{0x5f18, 0x75},
-> +	{0x5f19, 0x75},
-> +	{0x5f1a, 0x75},
-> +	{0x5f1b, 0x75},
-> +	{0x5f1c, 0x75},
-> +	{0x5f1d, 0x75},
-> +	{0x5f1e, 0x75},
-> +	{0x5f1f, 0x75},
->  };
->  
->  static const struct ov08x40_reg mode_1928x1208_regs[] = {
-> @@ -1339,40 +2484,6 @@ static int ov08x40_read_reg(struct ov08x40 *ov08x,
->  	return 0;
->  }
->  
-> -static int ov08x40_burst_fill_regs(struct ov08x40 *ov08x, u16 first_reg,
-> -				   u16 last_reg,  u8 val)
-> -{
-> -	struct i2c_client *client = v4l2_get_subdevdata(&ov08x->sd);
-> -	struct i2c_msg msgs;
-> -	size_t i, num_regs;
-> -	int ret;
-> -
-> -	num_regs = last_reg - first_reg + 1;
-> -	msgs.addr = client->addr;
-> -	msgs.flags = 0;
-> -	msgs.len = 2 + num_regs;
-> -	msgs.buf = kmalloc(msgs.len, GFP_KERNEL);
-> -
-> -	if (!msgs.buf)
-> -		return -ENOMEM;
-> -
-> -	put_unaligned_be16(first_reg, msgs.buf);
-> -
-> -	for (i = 0; i < num_regs; ++i)
-> -		msgs.buf[2 + i] = val;
-> -
-> -	ret = i2c_transfer(client->adapter, &msgs, 1);
-> -
-> -	kfree(msgs.buf);
-> -
-> -	if (ret != 1) {
-> -		dev_err(&client->dev, "Failed regs transferred: %d\n", ret);
-> -		return -EIO;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  /* Write registers up to 4 at a time */
->  static int ov08x40_write_reg(struct ov08x40 *ov08x,
->  			     u16 reg, u32 len, u32 __val)
-> @@ -1813,22 +2924,6 @@ static int ov08x40_start_streaming(struct ov08x40 *ov08x)
->  		return ret;
->  	}
->  
-> -	/* Use i2c burst to write register on full size registers */
-> -	if (ov08x->cur_mode->exposure_shift == 1) {
-> -		ret = ov08x40_burst_fill_regs(ov08x, OV08X40_REG_XTALK_FIRST_A,
-> -					      OV08X40_REG_XTALK_LAST_A, 0x75);
-> -		if (ret == 0)
-> -			ret = ov08x40_burst_fill_regs(ov08x,
-> -						      OV08X40_REG_XTALK_FIRST_B,
-> -						      OV08X40_REG_XTALK_LAST_B,
-> -						      0x75);
-> -	}
-> -
-> -	if (ret) {
-> -		dev_err(&client->dev, "%s failed to set regs\n", __func__);
-> -		return ret;
-> -	}
-> -
->  	/* Apply customized values from user */
->  	ret =  __v4l2_ctrl_handler_setup(ov08x->sd.ctrl_handler);
->  	if (ret)
+> I imagine most of the other cases here are the same.
 
--- 
-Regards,
+I will do it on new patch-set
 
-Laurent Pinchart
+> > -	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
+> > +	for_each_device_endpoint_of_node(state->dev->of_node, ep_np) {
+> 
+> I would skip the rename.
+
+It is needed to avoid confuse, because new function will add
+another endpoint loop.
+
+see
+https://lore.kernel.org/r/20240131100701.754a95ee@booty
+
+
+Thank you for your help !!
+
+Best regards
+---
+Renesas Electronics
+Ph.D. Kuninori Morimoto
 
