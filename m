@@ -1,70 +1,72 @@
-Return-Path: <linux-media+bounces-4657-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4658-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2942848E36
-	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 14:51:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C40E849081
+	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 21:56:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DAA728445B
-	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 13:51:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE9481C21C5A
+	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 20:56:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DFFB225AA;
-	Sun,  4 Feb 2024 13:51:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ED4B286A2;
+	Sun,  4 Feb 2024 20:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WFXe4dUJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WeVbqBWF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D54F224EA;
-	Sun,  4 Feb 2024 13:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A789525565;
+	Sun,  4 Feb 2024 20:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707054662; cv=none; b=snWAN0UIx3mjdmNWBFrKgOo2Wr3Y2ucKT+c5+NqhZV9ensNTUWCkKL89JkIlactwajnjvUjv9AIjCzUrEdKsCx93oxuSSxJsQ3bNGV3HG4Y7eDP+yXBDvAXsZOTofi1a7YOjHQUobSJpd7fMYO3sH+x/9keB/m2/zI5d+wqm3oA=
+	t=1707080152; cv=none; b=ajlBpnQRyskSFxNuvLtjc1125lkKDeBvAIPsnXsuVmR3ZgUaZxFtSUFy5jFCDTcvyjzzuB1ldVa1W2bmVFiZOw1IsNS7dqUtistFjUlGWPODWV+JcOkZzPWszrA5Ug9Ibulv5eo+XGGCKsOIDSXkBDF3YLjER4vFvym4gDBLKuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707054662; c=relaxed/simple;
-	bh=4/u6c8A7HPqivSqSRYin51hS3p0zUCCOPF4PXCVBzYY=;
+	s=arc-20240116; t=1707080152; c=relaxed/simple;
+	bh=nP25hJvCpMad5PlXLZIYw/Vb97I4Hz7shBB0Jia5HHc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uLiyQBk7ybijItT0mXRFi1Gs0bUI/v7w42qp3BZOwY/U5OMYiyQdEUi2Lwb62fX+PCkF7s6TLw6NAkPeDx0BzMZxsErpyfL+CEDBkQwY6LjMQ3qy1UyybC85y1I81VkUj1OyaRkehKu8m+mtl7YQHQOpnsxmsK0X2nTqhHTzMAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WFXe4dUJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [151.216.142.210])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9F6C720;
-	Sun,  4 Feb 2024 14:49:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707054574;
-	bh=4/u6c8A7HPqivSqSRYin51hS3p0zUCCOPF4PXCVBzYY=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=sg7OQTcRuzOvcU7bYevtGEKlaqTK6O04HFmba3kWPtaWm+wuTF+09Y3qg+icxI6lZiC3mXt0dZvtRslzSrs0zkgWLoilD6Pgytca7sj+DgLOPSkXP8Jc2OLfryAJvoU/wz00EBzrc9j2aQD28HvU7Nd76hDfXxD/4uVeRs2okPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WeVbqBWF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2495DC433C7;
+	Sun,  4 Feb 2024 20:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707080152;
+	bh=nP25hJvCpMad5PlXLZIYw/Vb97I4Hz7shBB0Jia5HHc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WFXe4dUJuMzaOEeLaWAsJL0smy/yif2Tw2PnsZJwJZ0fYQAKJsFHBBLkxOO8SOxAJ
-	 FLUVjjt/qc56Z5GGKRLMPL2MEeq/6pHs41aZU6UJx1idAkEaqURxI8C8Nweik+Ssb4
-	 3N2pN5Ch1jqlWKbR+g87QY5aTUTVAvPlY2I3AvMA=
-Date: Sun, 4 Feb 2024 15:50:56 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Zhi Mao <zhi.mao@mediatek.com>
-Cc: mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, sakari.ailus@linux.intel.com,
-	shengnan.wang@mediatek.com, yaya.chang@mediatek.com,
-	10572168@qq.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
-	yunkec@chromium.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	jacopo.mondi@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-	heiko@sntech.de, jernej.skrabec@gmail.com, macromorgan@hotmail.com,
-	linus.walleij@linaro.org, hdegoede@redhat.com,
-	tomi.valkeinen@ideasonboard.com, gerald.loacker@wolfvision.net,
-	andy.shevchenko@gmail.com, bingbu.cao@intel.com,
-	dan.scally@ideasonboard.com, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v4 1/2] media: dt-bindings: i2c: add GalaxyCore GC08A3
- image sensor
-Message-ID: <20240204135056.GA6804@pendragon.ideasonboard.com>
-References: <20240204061538.2105-1-zhi.mao@mediatek.com>
- <20240204061538.2105-2-zhi.mao@mediatek.com>
+	b=WeVbqBWFFSYNvQZJAL+NQMcCXY6OwMBTTE+Q0NLY7n4AfnQOdXkGtZ6QLR+TdOvg7
+	 So+KSD+O4OYvex427MVujDNT+Nu77npRgycQ4IZu4JYgBNpdjM9U7+oTmWd2ge0VQQ
+	 0Cqjxcgd2J3x23LqZdBLVuOhdl69Yr4jKOPevXxG+EGAa0EkOQWYFqK0+xwa76gLRA
+	 n2Q4d8Jc+6lcIEfOiEy3fJtAP60haS0FrWxYfndFik7Z3/wUttXh3Rr6CYNvFShnbB
+	 VTB992+rERfbjt+b/wna+D6GvlFjJ75tXtGa921WcrznHj4NqQ1RRonAN0T5m3mvHo
+	 eJwyRTe+X3zkQ==
+Date: Sun, 4 Feb 2024 13:55:49 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Mike Isely <isely@pobox.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 3/3] media: mediatek: vcodedc: Fix
+ Wcast-function-type-strict warnings
+Message-ID: <20240204205549.GA2892810@dev-fedora.aadp>
+References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
+ <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org>
+ <20240201221654.GC2240065@dev-arch.thelio-3990X>
+ <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
+ <5658ec37-868f-454d-a149-467e6de139cd@collabora.com>
+ <12d0c580-788d-4466-af8a-feb5ab3c6677@notapiano>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,147 +75,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240204061538.2105-2-zhi.mao@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <12d0c580-788d-4466-af8a-feb5ab3c6677@notapiano>
 
-Hi Zhi,
-
-Thank you for the patch.
-
-On Sun, Feb 04, 2024 at 02:15:37PM +0800, Zhi Mao wrote:
-> Add YAML device tree binding for GC08A3 CMOS image sensor,
-> and the relevant MAINTAINERS entries.
+On Fri, Feb 02, 2024 at 03:15:46PM -0500, Nícolas F. R. A. Prado wrote:
+> On Fri, Feb 02, 2024 at 01:58:05PM +0100, AngeloGioacchino Del Regno wrote:
+> > Il 01/02/24 23:25, Sami Tolvanen ha scritto:
+> > > On Thu, Feb 1, 2024 at 10:17 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> > > > 
+> > > > On Sun, Jan 28, 2024 at 02:12:22AM +0000, Ricardo Ribalda wrote:
+> > > > > Building with LLVM=1 throws the following warning:
+> > > > > drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+> > > > > 
+> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > 
+> > > > I am not positive because I don't have any hardware to test this driver
+> > > > but I suspect this patch is just hiding the warning without actually
+> > > > addressing the issue that it is pointing out.
+> > > 
+> > > Agreed, this won't fix the issue. The correct solution is to drop the
+> > > cast and change the handler type to match the pointer type (i.e. use
+> > > const void* for the first argument).
+> > > 
+> > 
+> > Even though I agree that the correct solution is to change the handler's type,
+> > I think that having a test on the actual hardware done is still valuable.
+> > 
+> > We scheduled a job on KernelCI to test this commit on our integration kernel,
+> > you'll get results for ChromeOS' tast decoders (MT8195 only) and Fluster tests
+> > on MT8183/8186/8192/8195.
+> > 
+> > 
+> > The results should be available in a couple of hours here, relative to
+> > commit `49955a84129dbe1f94fedf729690efcf28513828` on our tree:
+> > https://chromeos.kernelci.org/job/collabora-chromeos-kernel/branch/for-kernelci/
+> > 
+> > P.S.: If they don't, feel free to ping me or Nicolas (added to the loop) about it.
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  .../bindings/media/i2c/galaxycore,gc08a3.yaml | 112 ++++++++++++++++++
->  1 file changed, 112 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
+> Hi,
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
-> new file mode 100644
-> index 000000000000..8c09e8c121e5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
-> @@ -0,0 +1,112 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (c) 2023 MediaTek Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/galaxycore,gc08a3.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: GalaxyCore gc08a3 1/4" 8M Pixel MIPI CSI-2 sensor
-> +
-> +maintainers:
-> +  - Zhi Mao <zhi.mao@mediatek.com>
-> +
-> +description:
-> +  The gc08a3 is a raw image sensor with an MIPI CSI-2 image data
-> +  interface and CCI (I2C compatible) control bus. The output format
-> +  is raw Bayer.
-> +
-> +properties:
-> +  compatible:
-> +    const: galaxycore,gc08a3
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  dovdd-supply: true
-> +
-> +  avdd-supply: true
-> +
-> +  dvdd-supply: true
-> +
-> +  reset-gpios:
-> +    description: Reference to the GPIO connected to the RESETB pin.
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +    description:
-> +      Output port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            oneOf:
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +
-> +          link-frequencies: true
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - dovdd-supply
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - reset-gpios
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        sensor@31 {
-> +            compatible = "galaxycore,gc08a3";
-> +            reg = <0x31>;
-> +
-> +            clocks = <&gc08a3_clk>;
-> +
-> +            reset-gpios = <&pio 19 GPIO_ACTIVE_HIGH>;
-> +
-> +            avdd-supply = <&gc08a3_avdd>;
-> +            dovdd-supply = <&gc08a3_dovdd>;
-> +            dvdd-supply = <&gc08a3_dvdd>;
-> +
-> +            port {
-> +                sensor_out: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <336000000 207000000>;
-> +                    remote-endpoint = <&seninf_csi_port_0_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+> the results are available at 
+> 
+> https://chromeos.kernelci.org/test/job/collabora-chromeos-kernel/branch/for-kernelci/kernel/v6.8-rc2-3109-g49955a84129d/
+> 
+> (You need to type "decoder" into the search bar to limit the results to only the
+> decoder tests)
+> 
+> The only regressions I see are due to infrastructure error or broken test
+> unrelated to this change (v4l2-decoder-conformance-h264-frext test on
+> MT8195-Tomato, and cros-tast-decoder-v4l2-sl-h264 test on MT8183-Juniper)
+> 
+> Otherwise, all platforms (MT8183/8186/8192/8195) and video codecs
+> (VP8/VP9/H264/H265/AV1) seem unaffected.
+> 
+> Note that these are GCC builds.
 
--- 
-Regards,
+Thank you for running the tests to make sure this series does not
+regress anything. If possible, it would be good to try and build with
+LLVM and enable kernel Control Flow Integrity (kCFI, CONFIG_CFI_CLANG)
+to see if my theory that this is currently broken is correct. I have
+prebuilt LLVM toolchains on kernel.org but if it is too much of a
+hassle, I would not worry about it.
 
-Laurent Pinchart
+https://mirrors.edge.kernel.org/pub/tools/llvm/
+
+Cheers,
+Nathan
 
