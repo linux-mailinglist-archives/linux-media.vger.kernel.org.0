@@ -1,106 +1,100 @@
-Return-Path: <linux-media+bounces-4654-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4655-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA3E848C41
-	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 09:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73AE848C83
+	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 10:40:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB5511F24547
-	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 08:47:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 64BC91F22154
+	for <lists+linux-media@lfdr.de>; Sun,  4 Feb 2024 09:40:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F1914A83;
-	Sun,  4 Feb 2024 08:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pjT/nKXn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AB7B18B1A;
+	Sun,  4 Feb 2024 09:39:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5137514275;
-	Sun,  4 Feb 2024 08:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D7118AF4;
+	Sun,  4 Feb 2024 09:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707036462; cv=none; b=sLh90RsYAtOPXROGVc4z6a4K6G/E+p6oVltx+Ewru+AFqDPirnBicyxk2qFvDr8oAMHQjXvWfOB2VFKdQDx3d4q6niosr4AXLGQWDGsJpbtP8EDPy9AHz7Ua9r5vwFNwJ4FeZdyA8+zht8PUeJwdNX2CbBjcaLHaBfyhDRJ7fzw=
+	t=1707039598; cv=none; b=Zsg7jVCESv7128wpSoKkNSUj2B3ms0LzSk1bXks3xF/CnJ2U0eZY4kRlqk6rSeEhgcAgAVmPUxk/2k9usal1yUYWPLPC62OoH8xUpH2GRFIgSxUOjlby3MIxZyCs0fV4VXLa0iDqtwrlHB/tTBuJmocJFMDa/71o9wmQw3BWUyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707036462; c=relaxed/simple;
-	bh=aMQ/B7x9B9Pfpeyfedj+KUwS04B0TqLnOD5kM/m24u0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=akChcDlEDsJcAIviBPkMAetA7pH0zSzFjA++YEMZkJxOUqL1N+dUZ5MUQok7ylzf6BO0DKTe92huevvKtuqDIx6OS0pHovhlp4CnP4hYmgMb4XzZlXbQ3zju8XR3iAUNWeBeMEdziQfD5IwoDNPaTVInWEK9CzbOKFUsN5P2wac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pjT/nKXn; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [109.128.141.99])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B5DE720;
-	Sun,  4 Feb 2024 09:46:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707036378;
-	bh=aMQ/B7x9B9Pfpeyfedj+KUwS04B0TqLnOD5kM/m24u0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pjT/nKXnbJjNiASQ2yUf7IgXh6jBcMXaGX0bRwdfPvsVxZPXNjtj247WzAr6neblX
-	 PMaA61IFAVGh/NV/GmH9zNm3MVClDuoak/Py0D4uGYEHtI47wE4AFnfPWbEnjf4cvl
-	 ZbYytrUwp8M1Jo7zYy/EwPti2NE0GK5WfaCzCrRg=
-Date: Sun, 4 Feb 2024 10:47:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: cec: make cec_bus_type const
-Message-ID: <20240204084740.GF3094@pendragon.ideasonboard.com>
-References: <20240203-bus_cleanup-media-v1-0-33e8feeab912@marliere.net>
- <20240203-bus_cleanup-media-v1-1-33e8feeab912@marliere.net>
+	s=arc-20240116; t=1707039598; c=relaxed/simple;
+	bh=PdA1mnfSW14Bg2XhjSaEUQ9BkxujDuI3oGTdddVhwso=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V4CpzbmIpsPI0qtMGV9Rvm3/tFsWppyVTQz6v2ulDjmtfoqEA3zjY+PJvSpWVtWKysJoXNwSazG3/VtVuQEiXtuUQNqvBr+cnprsw8lSnrPItE4S5+kc4zUKJAJKw9CT7JRHg99v4R7LF4gMXx3EKBmivdLM5Sx5elXP4g9fYlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 316F7C433C7;
+	Sun,  4 Feb 2024 09:39:55 +0000 (UTC)
+Message-ID: <f539a53c-0ede-4c70-8e53-9eed131c581d@xs4all.nl>
+Date: Sun, 4 Feb 2024 10:39:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240203-bus_cleanup-media-v1-1-33e8feeab912@marliere.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: cec: make cec_bus_type const
+Content-Language: en-US, nl
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240203-bus_cleanup-media-v1-0-33e8feeab912@marliere.net>
+ <20240203-bus_cleanup-media-v1-1-33e8feeab912@marliere.net>
+ <20240204084740.GF3094@pendragon.ideasonboard.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240204084740.GF3094@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Ricardo,
-
-Thank you for the patch.
-
-On Sat, Feb 03, 2024 at 12:31:26PM -0300, Ricardo B. Marliere wrote:
-> Now that the driver core can properly handle constant struct bus_type,
-> move the cec_bus_type variable to be a constant structure as well,
-> placing it into read-only memory which can not be modified at runtime.
+On 04/02/2024 09:47, Laurent Pinchart wrote:
+> Hi Ricardo,
 > 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Hans, I assume you'll pick this patch. Could you also pick 2/2 from the
-series ?
-
-> ---
->  drivers/media/cec/core/cec-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Thank you for the patch.
 > 
-> diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-> index 7e153c5cad04..5a54db839e5d 100644
-> --- a/drivers/media/cec/core/cec-core.c
-> +++ b/drivers/media/cec/core/cec-core.c
-> @@ -93,7 +93,7 @@ static void cec_devnode_release(struct device *cd)
->  	cec_delete_adapter(to_cec_adapter(devnode));
->  }
->  
-> -static struct bus_type cec_bus_type = {
-> +static const struct bus_type cec_bus_type = {
->  	.name = CEC_NAME,
->  };
->  
+> On Sat, Feb 03, 2024 at 12:31:26PM -0300, Ricardo B. Marliere wrote:
+>> Now that the driver core can properly handle constant struct bus_type,
+>> move the cec_bus_type variable to be a constant structure as well,
+>> placing it into read-only memory which can not be modified at runtime.
+>>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> Hans, I assume you'll pick this patch. Could you also pick 2/2 from the
+> series ?
 
--- 
-Regards,
+Of course!
 
-Laurent Pinchart
+	Hans
+
+> 
+>> ---
+>>  drivers/media/cec/core/cec-core.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
+>> index 7e153c5cad04..5a54db839e5d 100644
+>> --- a/drivers/media/cec/core/cec-core.c
+>> +++ b/drivers/media/cec/core/cec-core.c
+>> @@ -93,7 +93,7 @@ static void cec_devnode_release(struct device *cd)
+>>  	cec_delete_adapter(to_cec_adapter(devnode));
+>>  }
+>>  
+>> -static struct bus_type cec_bus_type = {
+>> +static const struct bus_type cec_bus_type = {
+>>  	.name = CEC_NAME,
+>>  };
+>>  
+> 
+
 
