@@ -1,114 +1,132 @@
-Return-Path: <linux-media+bounces-4684-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4685-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E1E849668
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 10:26:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01CFA84966C
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 10:26:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 976BA1C2233E
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 09:26:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A8C62811EC
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 09:26:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBDA612B71;
-	Mon,  5 Feb 2024 09:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E1712B85;
+	Mon,  5 Feb 2024 09:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="foU6YdKK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F63F12B6B;
-	Mon,  5 Feb 2024 09:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDDE125B7;
+	Mon,  5 Feb 2024 09:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707125190; cv=none; b=blnPFfG5kIB109j4NJfolayMjgbfXq1ePf3ffvhW3cQLmSQSSmVl3FSqRJ/ZCbGEP1exsLldcLszc59KwyZrYf4ZgEPTrX/nv1xhHIAq0T4JF8VgyhAIaaDAp1nPztYiiFp6lGuM2VWNSpPcrOLTr5s2jdSr4fSYTxNbo7erDvI=
+	t=1707125207; cv=none; b=Y5ijBQmsL1Pps1NbBsW3Czt1lPidAp/reOjEYWiLSuKm7VsDqLlWF84oGdSXvN2iS0KItth9YWXWuA94VmT9RfLaj1s0FH+vaT9TBls3KYsopm9gqauIedhxHUePIDOi8NgB6m1GFwU5P+KY1VC2beuf4FWSUTncv0JOZ7XjTuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707125190; c=relaxed/simple;
-	bh=7OyURGYGOY4oL4U5w30W7RLDOoIaRQQmTHuPg6B3DAo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AnVg2KGMN1344omUR78MSVXuwMHemJuD0uPCjGLtJE0xVGes/4fbsH6MbNaFLU9J/knWXPdX9Niwn9VpzEGP5RMSyiceqosHHv0BFqxAIX2VuQX8IE1fa0ZDFHuupMv958QbNxqjKaN+DCWvYmYhzrFdjRbbQAUwQuTIYgIgK70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 061A0C433F1;
-	Mon,  5 Feb 2024 09:26:28 +0000 (UTC)
-Message-ID: <4d453cd8-6cee-44f1-a14a-fc5ecdea1971@xs4all.nl>
-Date: Mon, 5 Feb 2024 10:26:26 +0100
+	s=arc-20240116; t=1707125207; c=relaxed/simple;
+	bh=rHMp+3HUl38fXd92yWtNbr68AI7/ldR3UAk7XKf8c/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FSsN+8shkbb90uiwqQksoNQKcHnB9bEPCGP3iWH8CjFz4BG2Ip2d9AK+XYykYAxw5cpmXxY0W2rYKLXO46Y/fAtmWl8uU2h/kQpz4YNWbS2g1A4P3n0+6Fp+YWZ2BNU2bcq6al4SLsNwE0bPhaLphSwK9AKL5OnnioeEU4HAWnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=foU6YdKK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (99.141-128-109.adsl-dyn.isp.belgacom.be [109.128.141.99])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC5A4268;
+	Mon,  5 Feb 2024 10:25:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707125120;
+	bh=rHMp+3HUl38fXd92yWtNbr68AI7/ldR3UAk7XKf8c/k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=foU6YdKKlM9CYYob1znc8ZbHPp9AotBroDPzPQoXy+b/czrpSr2+sCa6G+Ae/kfVB
+	 25qzq1p6Da4NtDQRhfuNtUSKEzqrSE5R9H5IWOWjoTkOmLgq8fFGITxV+PjOybBUQL
+	 lYZr6XhiRpmFvuU+yPl8n7b2fWnhBNp6lHkspcAE=
+Date: Mon, 5 Feb 2024 11:26:44 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Sakari Ailus <sakari.ailus@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Uwe =?utf-8?B?S2xlaW5lLUvDg8K2bmln?= <u.kleine-koenig@pengutronix.de>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 00/13] of: property: add port base loop
+Message-ID: <20240205092644.GK6804@pendragon.ideasonboard.com>
+References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
+ <20240129122736.GC8131@pendragon.ideasonboard.com>
+ <ZbeoPBvGJlaJco_J@valkosipuli.retiisi.eu>
+ <87zfwnirps.wl-kuninori.morimoto.gx@renesas.com>
+ <Zbil22dm9x2ZudJC@valkosipuli.retiisi.eu>
+ <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
+ <Zbin6Pg6oNp0cTNO@valkosipuli.retiisi.eu>
+ <87ttmu76co.wl-kuninori.morimoto.gx@renesas.com>
+ <ZbtiAJklkLaXWY20@valkosipuli.retiisi.eu>
+ <87ttmncw9f.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: go7007: fix a memleak in go7007_load_encoder
-Content-Language: en-US, nl
-To: Zhipeng Lu <alexious@zju.edu.cn>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240122172556.3842580-1-alexious@zju.edu.cn>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240122172556.3842580-1-alexious@zju.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87ttmncw9f.wl-kuninori.morimoto.gx@renesas.com>
 
-On 22/01/2024 18:25, Zhipeng Lu wrote:
-> In go7007_load_encoder, bounce(i.e. go->boot_fw), is allocated without
-> a deallocation thereafter. After the following call chain:
+Hello Morimoto-san,
+
+On Mon, Feb 05, 2024 at 05:31:25AM +0000, Kuninori Morimoto wrote:
 > 
-> saa7134_go7007_init
->   |-> go7007_boot_encoder
->         |-> go7007_load_encoder
->   |-> kfree(go)
+> Hi Sakari
 > 
-> go is freed and thus bounce is leaked.
-
-It doesn't look like you compiled this!
-
-drivers/media/usb/go7007/go7007-driver.c: In function 'go7007_load_encoder':
-drivers/media/usb/go7007/go7007-driver.c:112:17: warning: 'bounce' may be used uninitialized [-Wmaybe-uninitialized]
-  112 |                 kfree(bounce);
-      |                 ^~~~~~~~~~~~~
-drivers/media/usb/go7007/go7007-driver.c:82:15: note: 'bounce' was declared here
-   82 |         void *bounce;
-      |               ^~~~~~
-
+> > > Thank you for your suggestion.
+> > > But I'm not familiar with fwnode, and it seems we still need of_*,
+> > > I will keep current style (= non fwnode) in v3
+> > 
+> > The fwnode API should be kept in sync with the OF (and other firmware
+> > specific) API. Merging your set in its current form would leave fwnode API
+> > impaired. Therefore I'd very much prefer to see this set add similar fwnode
+> > APIs, too.
 > 
-> Fixes: 95ef39403f89 ("[media] go7007: remember boot firmware")
-> Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
-> ---
->  drivers/media/usb/go7007/go7007-driver.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/usb/go7007/go7007-driver.c b/drivers/media/usb/go7007/go7007-driver.c
-> index 0c24e2984304..65d6a63068dc 100644
-> --- a/drivers/media/usb/go7007/go7007-driver.c
-> +++ b/drivers/media/usb/go7007/go7007-driver.c
-> @@ -80,7 +80,7 @@ static int go7007_load_encoder(struct go7007 *go)
->  	const struct firmware *fw_entry;
->  	char fw_name[] = "go7007/go7007fw.bin";
->  	void *bounce;
-> -	int fw_len, rv = 0;
-> +	int fw_len;
->  	u16 intr_val, intr_data;
->  
->  	if (go->boot_fw == NULL) {
-> @@ -109,9 +109,10 @@ static int go7007_load_encoder(struct go7007 *go)
->  	    go7007_read_interrupt(go, &intr_val, &intr_data) < 0 ||
->  			(intr_val & ~0x1) != 0x5a5a) {
->  		v4l2_err(go, "error transferring firmware\n");
-> -		rv = -1;
-> +		kfree(bounce);
+> I will keep current fwnode API behavior, but I can't test it.
 
-Just do kfree(go->boot_fw).
+The fwnode API is an abstraction layer on top of the OF or ACPI APIs,
+and allows drivers to work on both without needing to support OF and
+ACPI explicitly and separately. You should be able to convert the
+drivers you're using to the fwnode API, and it should work exactly the
+same as when using the OF-specific functions. That will give you a way
+to test the API.
 
+For instance, if you look at the drivers/media/platform/rcar_drif.c
+driver, you will see
+
+        if (!fwnode_property_read_u32(fwnode, "sync-active", &val))
+
+which, on OF platforms, is equivalent to
+
+        if (!of_property_read_u32(np, "sync-active", &val))
+
+This particular driver will never be used on an ACPI-based system, but
+drivers are still encouraged to use the fwnode API. 
+
+> Now, I'm separating the patch-set into small stages.
+> There is no problem for a while, but I think I will ask you to test it in the
+> final stage.
+
+-- 
 Regards,
 
-	Hans
-
-> +		return -1;
->  	}
-> -	return rv;
-> +	return 0;
->  }
->  
->  MODULE_FIRMWARE("go7007/go7007fw.bin");
-
+Laurent Pinchart
 
