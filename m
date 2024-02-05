@@ -1,212 +1,168 @@
-Return-Path: <linux-media+bounces-4686-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4688-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB448496D0
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 10:41:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0D5849718
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 10:56:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A97E1F22477
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 09:41:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9239028D9CB
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 09:56:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B7DB14004;
-	Mon,  5 Feb 2024 09:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGjcGlZS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ABE6134A9;
+	Mon,  5 Feb 2024 09:56:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C4813FF5;
-	Mon,  5 Feb 2024 09:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24DD12E75;
+	Mon,  5 Feb 2024 09:56:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707125982; cv=none; b=myQOnl8NbmxciQfBO6+VEep7dIeH1ATMqvDkjDIxjmjmSjKfk7eMIkt8X0mTkJhDOROJM7/TRzWLO+kUEs2cGFOxWgQzs5gipEzj1JeRJ7PHzNYqbOdC/9C0Vn+jnpMkZbcz+7Nph8Rx7Hzhn9ReQ/Zwr/MAEyqHOHL/fG5YuN4=
+	t=1707126976; cv=none; b=c0/3whFlzsQzqix64aGkIrp9HLp32k2LYyU/NrPmDuk5eu8aVLsve8E1mp5smb0puBgpHpQX9157hiOLNLxgXCT2bGlfEytT3EaajIAikxEbdKf8yMbkk3cgKJl6Vtdx8LSSt7AZhOCKvBj3CkPwy5AzyhTt7W4m+09jXS1BWrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707125982; c=relaxed/simple;
-	bh=QSsaMz2aa4Ow1e/E+8+zBv0RXCM/l1/3uCQIFHDC8Bg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SH1DGC6mXiXK7in7CkFymcWTIndxO7VHifpjyim0hg3Z5r/NKyJl6QcZiu+4lM4clQD2wybYaB5FsmwirfFuugVBXWKmChQZUSjw1y1SuNEJef8pXKpe4e/M8WgtTIUX7ex2WJfXoOs/uAKtAddmPzQtqITjYLS4Oc+1ijgsLJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGjcGlZS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3A85C433C7;
-	Mon,  5 Feb 2024 09:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707125981;
-	bh=QSsaMz2aa4Ow1e/E+8+zBv0RXCM/l1/3uCQIFHDC8Bg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CGjcGlZS0fBCh8Pj91FOCfGeLuBLH2IJXsvlSDNMJNYXbieL6OYjONC2i8L3eyk2A
-	 gDjW66Kot7LNXs+KGyl9mTfxQHJYFLZ3t0L1RLIN1Dm1Wck0ZHUJPEScRyxhMkJDmj
-	 OXKlIi1RFgz/w6HuL5qsHb2rRJ71FEHpXG+35Ca18O49av3Z/EfEhdmPtI+kXJX0OP
-	 ty/ICYtQbhjVujqeERH5pvK1Lj5IcwybfB49b1ssuH53OFwd8+WGgdjXHg0/GmHiR5
-	 6HgFPBmIm+TpGHkQdx/8FL7eeEjve5s0Czv4tmwkki21i0l2PqfomTZ58KFKCHSM9S
-	 99nBqUaN/35Jw==
-Date: Mon, 5 Feb 2024 10:39:38 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast
- RGB property
-Message-ID: <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
+	s=arc-20240116; t=1707126976; c=relaxed/simple;
+	bh=u3UHw68fN7+IkE23kchq6FnkTdKNYPKXZ66IvYNi2es=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gn9s3D+XX4Z4yygFl0ETI/q66K9kFin7E/HpjwM8jJnH1WiXfjZvoZGWgYX75VIYzY3lc2RPaRXoPWKH9Wo0+nDvdF7eXlA5oudVK2lJzjSXRaqZi5xvKkVdmCgzlrlsRZI9Xf9nq9JCJO5vwnBgKdnYFF78bxWvlpR1wcI2zAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33B14C433F1;
+	Mon,  5 Feb 2024 09:56:15 +0000 (UTC)
+Message-ID: <cffd5052-9314-424d-872c-07796feb7ce9@xs4all.nl>
+Date: Mon, 5 Feb 2024 10:56:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="i6rjjatuyp65otli"
-Content-Disposition: inline
-In-Reply-To: <Zb0aYAapkxQ2kopt@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: usb: hackrf: add null ptr check in hackrf_ctrl_msg
+Content-Language: en-US, nl
+To: Mingxuan Xiang <mx_xiang@hust.edu.cn>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240122112210.424698-1-mx_xiang@hust.edu.cn>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240122112210.424698-1-mx_xiang@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 22/01/2024 12:22, Mingxuan Xiang wrote:
+> If the user yanks out the cable before closing the file,
+> dev->udev would be set to NULL therefore causing a null-ptr-deref
+> in hackrf_ctrl_msg issued by hackrf_stop_streaming.
+> 
+> This patch adds a check in hackrf_ctrl_msg before using
+> dev->udev.
+> 
+> Found by modified syzkaller.
+> 
+> BUG: KASAN: null-ptr-deref in hackrf_ctrl_msg+0x6d/0x180 drivers/media/usb/hackrf/hackrf.c:195
+> Read of size 4 at addr 0000000000000000 by task syz-executor/579
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:88 [inline]
+>  dump_stack_lvl+0x5e/0x7c lib/dump_stack.c:106
+>  print_report.cold+0x49a/0x6bb mm/kasan/report.c:436
+>  kasan_report+0xa8/0x130 mm/kasan/report.c:495
+>  hackrf_ctrl_msg+0x6d/0x180 drivers/media/usb/hackrf/hackrf.c:195
+>  hackrf_stop_streaming+0x45/0x140 drivers/media/usb/hackrf/hackrf.c:869
+>  __vb2_queue_cancel+0x5c/0x550 drivers/media/common/videobuf2/videobuf2-core.c:1992
+>  vb2_core_streamoff+0x2f/0xb0 drivers/media/common/videobuf2/videobuf2-core.c:2149
+>  __vb2_cleanup_fileio+0x3e/0xa0 drivers/media/common/videobuf2/videobuf2-core.c:2710
+>  vb2_core_queue_release+0x1a/0x50 drivers/media/common/videobuf2/videobuf2-core.c:2430
+>  vb2_queue_release drivers/media/common/videobuf2/videobuf2-v4l2.c:947 [inline]
+>  _vb2_fop_release+0x110/0x140 drivers/media/common/videobuf2/videobuf2-v4l2.c:1132
+>  v4l2_release+0x1b9/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:459
+>  __fput+0x12d/0x4b0 fs/file_table.c:320
+>  task_work_run+0xa8/0xf0 kernel/task_work.c:177
+>  resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+>  exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
+>  exit_to_user_mode_prepare+0x123/0x130 kernel/entry/common.c:201
+>  __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
+>  syscall_exit_to_user_mode+0x22/0x50 kernel/entry/common.c:294
+>  do_syscall_64+0x48/0x90 arch/x86/entry/common.c:86
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> 
+> Signed-off-by: Mingxuan Xiang <mx_xiang@hust.edu.cn>
+> ---
+>  drivers/media/usb/hackrf/hackrf.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
+> index 9c0ecd5f056c..9588b8aa6e98 100644
+> --- a/drivers/media/usb/hackrf/hackrf.c
+> +++ b/drivers/media/usb/hackrf/hackrf.c
+> @@ -186,6 +186,11 @@ static int hackrf_ctrl_msg(struct hackrf_dev *dev, u8 request, u16 value,
+>  	unsigned int pipe;
+>  	u8 requesttype;
+>  
+> +	if (!dev->udev) {
+> +		pr_err("udev is null in %s\n", __func__);
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
 
---i6rjjatuyp65otli
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Just replace this with:
 
-On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > Hi,
-> > > >=20
-> > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > >  /**
-> > > > > > >   * DOC: HDMI connector properties
-> > > > > > >   *
-> > > > > > > + * Broadcast RGB
-> > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limite=
-d) used.
-> > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > + *
-> > > > > > > + *      The value of this property can be one of the followi=
-ng:
-> > > > > > > + *
-> > > > > > > + *      Automatic:
-> > > > > > > + *              RGB Range is selected automatically based on=
- the mode
-> > > > > > > + *              according to the HDMI specifications.
-> > > > > > > + *
-> > > > > > > + *      Full:
-> > > > > > > + *              Full RGB Range is forced.
-> > > > > > > + *
-> > > > > > > + *      Limited 16:235:
-> > > > > > > + *              Limited RGB Range is forced. Unlike the name=
- suggests,
-> > > > > > > + *              this works for any number of bits-per-compon=
-ent.
-> > > > > > > + *
-> > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > + *
-> > > > > >=20
-> > > > > > This is a good time to document this in more detail. There migh=
-t be two
-> > > > > > different things being affected:
-> > > > > >=20
-> > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > 2. The color pipeline processing
-> > > > > >=20
-> > > > > > All values of Broadcast RGB always affect the color pipeline pr=
-ocessing
-> > > > > > such that a full-range input to the CRTC is converted to either=
- full- or
-> > > > > > limited-range, depending on what the monitor is supposed to acc=
-ept.
-> > > > > >=20
-> > > > > > When automatic is selected, does that mean that there is no sig=
-nalling,
-> > > > > > or that the signalling matches what the monitor is supposed to =
-accept
-> > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > >=20
-> > > > > > When full or limited is selected and the monitor doesn't suppor=
-t the
-> > > > > > signalling, what happens?
-> > > > >=20
-> > > > > Forgot to mention: user-space still has no control over RGB vs YC=
-bCr on
-> > > > > the cable, so is this only affecting RGB? If not, how does it aff=
-ect
-> > > > > YCbCr?
-> > > >=20
-> > > > So I dug a bit into both the i915 and vc4 drivers, and it looks lik=
-e if
-> > > > we're using a YCbCr format, i915 will always use a limited range wh=
-ile
-> > > > vc4 will follow the value of the property.
-> > >=20
-> > > The property is literally called "Broadcast *RGB*".
-> > > That should explain why it's only affecting RGB.
-> >=20
-> > Right. And the limited range option is called "Limited 16:235" despite
-> > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > to make names inconsistent too, that's fine and not an argument in
-> > itself.
-> >=20
-> > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > to enable it.
-> >=20
-> > vc4 supports it.
->=20
-> Someone implemented it incorrectly then.
+	if (!dev->udev)
+		return -ENODEV;
 
-Incorrectly according to what documentation / specification? I'm sorry,
-but I find it super ironic that i915 gets to do its own thing, not
-document any of it, and when people try to clean things up they get told
-that we got it all wrong.
+-ENODEV is the correct error code for this situation, and the error
+message is overkill here, I think.
 
-> > > Eg. with DP it only became possible with the introduction of the VSC
-> > > SDP (and I don't recall if there's additional capability checks that
-> > > are also required). With DP MSA signalling full range YCbCr is not
-> > > possible at all.
-> >=20
-> > This is for HDMI only.
-> >=20
-> > > I don't recall right now what the HDMI requirements are.
-> >=20
-> > HDMI has supported it for a while, and it's defined (for example) in the
-> > HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-> > limited and full range on both RGB and YCbCr, as long as the EDIDs state
-> > so and the Infoframes signal it.
->=20
-> I think a good reason for not using a simple boolean like this=20
-> YCbCr is that it doesn't cover the color encoding part at all,
-> which is probably more important than the quantization range.
-> So we need a new property anyway.
+Regards,
 
-This isn't what is being discussed here, and as I've shown you, is
-completely orthogonal as far as HDMI is concerned.
+	Hans
 
-Maxime
+>  	switch (request) {
+>  	case CMD_SET_TRANSCEIVER_MODE:
+>  	case CMD_SET_FREQ:
 
---i6rjjatuyp65otli
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcCs2gAKCRDj7w1vZxhR
-xfaBAQD78t262ocyxX6HKmtZFJU24L6e/wHmLbEAi1D59Gs+tAEApB/D8z2XtVcT
-HS9PH5mQL0RDg4t5JjTmJFk1zuBxygo=
-=6BSH
------END PGP SIGNATURE-----
-
---i6rjjatuyp65otli--
 
