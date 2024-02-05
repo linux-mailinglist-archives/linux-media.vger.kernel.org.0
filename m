@@ -1,162 +1,179 @@
-Return-Path: <linux-media+bounces-4709-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4711-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C0B849D6C
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 15:53:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B2B849D73
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 15:56:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8B77B244A0
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 14:53:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C8B81F2412F
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 14:56:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9535B2C1B9;
-	Mon,  5 Feb 2024 14:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="v2iTjAGZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C2B22C1BA;
+	Mon,  5 Feb 2024 14:56:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CFC2C848;
-	Mon,  5 Feb 2024 14:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FDC2C859
+	for <linux-media@vger.kernel.org>; Mon,  5 Feb 2024 14:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707144808; cv=none; b=dSYIuSOPgofA1q+uaX6sgABloiKeqSBtMBB4jj4DlVyFlmWz4431L2DKDs9zaVq9aKyRQNCcRnXoSrLiTagaxELw0W7zpFsdQBEjL8If2Q94JV9TISpLI+vJGEjKDuWZjeOj0/52TxOSr3AA4cJ7cSLoUeR4llzVTPiMBCDvAkk=
+	t=1707144985; cv=none; b=lXy8iUN0ppu3Rk6tq8Lc1G4+jM/awk9HBnZR+hTz5YLj3hP1RFkgJw008okGmklB1EN2p+EwO10ydZq+RdDvJ579xz0vfVpmJD9AmaHRft2wKhUBNPjW4Fue9Dj8FM9NWW3yBkPUMIPL+DRvRHnJTJuT5mWSFjCl9cLUcWquz8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707144808; c=relaxed/simple;
-	bh=N5S3QB/YuiwuK74Hpcl5CcJl2TR2YgDRJk+uYMrvNzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gdUrzG1PJ3hnWBkfpbbj2v+Vhb5FxfpuJ3du/pgpnO/gZw2kPqxNhO2wDvQhrom6wQwA/U1AXmoCyWr4hudCWC8ysl4ECBo+m2L4i2VwrSb9tWEJigbqgxMqNtow0+6Z4bv7alyMvETV84U98WjHVe7LsqGVR+tcMs1AfbDG468=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=v2iTjAGZ; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707144804;
-	bh=N5S3QB/YuiwuK74Hpcl5CcJl2TR2YgDRJk+uYMrvNzY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=v2iTjAGZGi/MpVLUpKPYp/8SRERGhHVyqe3ElC4kyxXzzrPfiPxjPRcAEpJL5vPHU
-	 PnjvCeAtUxwFEStbT4Hdgc7f0Jw/6C5XvNxK80Vjdgw49pvPMtpPnD2wPjEH64i6oo
-	 o4tGCMav+ms1zfmGy81weTr5FTcicH+nR5IbXOsrGuQAkLHCwoN6af4E9wlB1VfTAu
-	 pkSK5se92JKH66V7bMkmlwoUUBbLu/y5Eggh3sIseTlNEkfBuHLTnMXembqsnr5T1E
-	 HB4OWzJCN2JicnG2x1eIJgUJBPo2keCn9/nFd5fXRPV/G1ugUDLTy2fobGgmHmSsRt
-	 oF1tyzf0z2Bkg==
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3C7B537811CD;
-	Mon,  5 Feb 2024 14:53:21 +0000 (UTC)
-Date: Mon, 5 Feb 2024 09:53:19 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Mike Isely <isely@pobox.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 3/3] media: mediatek: vcodedc: Fix
- Wcast-function-type-strict warnings
-Message-ID: <e75a0207-1f95-427c-8d72-e6a86505522e@notapiano>
-References: <20240128-fix-clang-warnings-v1-0-1d946013a421@chromium.org>
- <20240128-fix-clang-warnings-v1-3-1d946013a421@chromium.org>
- <20240201221654.GC2240065@dev-arch.thelio-3990X>
- <CABCJKudd3SUy3Qor7Tc0zyJsSAWy0PavbbBFALuWEpBa32pBCQ@mail.gmail.com>
- <5658ec37-868f-454d-a149-467e6de139cd@collabora.com>
- <12d0c580-788d-4466-af8a-feb5ab3c6677@notapiano>
- <20240204205549.GA2892810@dev-fedora.aadp>
+	s=arc-20240116; t=1707144985; c=relaxed/simple;
+	bh=4xtRQkuiPqyu6TyLwdlTOSwth1b8ntrgFb54HjrouaQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nKQnNuFWwsaSOlkswA2UoulQOsuvJ4KsDzoH0ZHtgm7MRAFmSDZUi3E1pueOSIJR8nK5Z6MsUcsjqEOfabdTDH9Q+17tCZ8mX+Kg0Mv0TXzVf9f/0FOwmdxfjT2hCRvik3HroB2sIp0g106dgb+BIe9PDXdkwd8BqfvMGWHSDxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1112C433C7;
+	Mon,  5 Feb 2024 14:56:23 +0000 (UTC)
+Message-ID: <2708ec26-3156-4269-85ae-d9e783dc3bd1@xs4all.nl>
+Date: Mon, 5 Feb 2024 15:56:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240204205549.GA2892810@dev-fedora.aadp>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 17/29] media: v4l: Acquire a reference to the media
+ device for every video device
+Content-Language: en-US, nl
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com
+References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
+ <20231220103713.113386-18-sakari.ailus@linux.intel.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231220103713.113386-18-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Feb 04, 2024 at 01:55:49PM -0700, Nathan Chancellor wrote:
-> On Fri, Feb 02, 2024 at 03:15:46PM -0500, Nícolas F. R. A. Prado wrote:
-> > On Fri, Feb 02, 2024 at 01:58:05PM +0100, AngeloGioacchino Del Regno wrote:
-> > > Il 01/02/24 23:25, Sami Tolvanen ha scritto:
-> > > > On Thu, Feb 1, 2024 at 10:17 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> > > > > 
-> > > > > On Sun, Jan 28, 2024 at 02:12:22AM +0000, Ricardo Ribalda wrote:
-> > > > > > Building with LLVM=1 throws the following warning:
-> > > > > > drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
-> > > > > > 
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > 
-> > > > > I am not positive because I don't have any hardware to test this driver
-> > > > > but I suspect this patch is just hiding the warning without actually
-> > > > > addressing the issue that it is pointing out.
-> > > > 
-> > > > Agreed, this won't fix the issue. The correct solution is to drop the
-> > > > cast and change the handler type to match the pointer type (i.e. use
-> > > > const void* for the first argument).
-> > > > 
-> > > 
-> > > Even though I agree that the correct solution is to change the handler's type,
-> > > I think that having a test on the actual hardware done is still valuable.
-> > > 
-> > > We scheduled a job on KernelCI to test this commit on our integration kernel,
-> > > you'll get results for ChromeOS' tast decoders (MT8195 only) and Fluster tests
-> > > on MT8183/8186/8192/8195.
-> > > 
-> > > 
-> > > The results should be available in a couple of hours here, relative to
-> > > commit `49955a84129dbe1f94fedf729690efcf28513828` on our tree:
-> > > https://chromeos.kernelci.org/job/collabora-chromeos-kernel/branch/for-kernelci/
-> > > 
-> > > P.S.: If they don't, feel free to ping me or Nicolas (added to the loop) about it.
-> > 
-> > Hi,
-> > 
-> > the results are available at 
-> > 
-> > https://chromeos.kernelci.org/test/job/collabora-chromeos-kernel/branch/for-kernelci/kernel/v6.8-rc2-3109-g49955a84129d/
-> > 
-> > (You need to type "decoder" into the search bar to limit the results to only the
-> > decoder tests)
-> > 
-> > The only regressions I see are due to infrastructure error or broken test
-> > unrelated to this change (v4l2-decoder-conformance-h264-frext test on
-> > MT8195-Tomato, and cros-tast-decoder-v4l2-sl-h264 test on MT8183-Juniper)
-> > 
-> > Otherwise, all platforms (MT8183/8186/8192/8195) and video codecs
-> > (VP8/VP9/H264/H265/AV1) seem unaffected.
-> > 
-> > Note that these are GCC builds.
+On 20/12/2023 11:37, Sakari Ailus wrote:
+> The video device depends on the existence of its media device --- if there
+> is one. Acquire a reference to it.
 > 
-> Thank you for running the tests to make sure this series does not
-> regress anything. If possible, it would be good to try and build with
-> LLVM and enable kernel Control Flow Integrity (kCFI, CONFIG_CFI_CLANG)
-> to see if my theory that this is currently broken is correct. I have
-> prebuilt LLVM toolchains on kernel.org but if it is too much of a
-> hassle, I would not worry about it.
+> Note that when the media device release callback is used, then the V4L2
+> device release callback is ignored and a warning is issued if both are
+> set.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c | 51 ++++++++++++++++++++----------
+>  1 file changed, 34 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index d13954bd31fd..c1e4995eaf5c 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -176,6 +176,11 @@ static void v4l2_device_release(struct device *cd)
+>  {
+>  	struct video_device *vdev = to_video_device(cd);
+>  	struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
+> +	bool v4l2_dev_has_release = v4l2_dev->release;
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	struct media_device *mdev = v4l2_dev->mdev;
+> +	bool mdev_has_release = mdev && mdev->ops && mdev->ops->release;
+> +#endif
+>  
+>  	mutex_lock(&videodev_lock);
+>  	if (WARN_ON(video_devices[vdev->minor] != vdev)) {
+> @@ -198,8 +203,8 @@ static void v4l2_device_release(struct device *cd)
+>  
+>  	mutex_unlock(&videodev_lock);
+>  
+> -#if defined(CONFIG_MEDIA_CONTROLLER)
+> -	if (v4l2_dev->mdev && vdev->vfl_dir != VFL_DIR_M2M) {
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	if (mdev && vdev->vfl_dir != VFL_DIR_M2M) {
+>  		/* Remove interfaces and interface links */
+>  		media_devnode_remove(vdev->intf_devnode);
+>  		if (vdev->entity.function != MEDIA_ENT_F_UNKNOWN)
+> @@ -207,23 +212,31 @@ static void v4l2_device_release(struct device *cd)
+>  	}
+>  #endif
+>  
+> -	/* Do not call v4l2_device_put if there is no release callback set.
+> -	 * Drivers that have no v4l2_device release callback might free the
+> -	 * v4l2_dev instance in the video_device release callback below, so we
+> -	 * must perform this check here.
+> -	 *
+> -	 * TODO: In the long run all drivers that use v4l2_device should use the
+> -	 * v4l2_device release callback. This check will then be unnecessary.
+> -	 */
+> -	if (v4l2_dev->release == NULL)
+> -		v4l2_dev = NULL;
+> -
+>  	/* Release video_device and perform other
+>  	   cleanups as needed. */
+>  	vdev->release(vdev);
+>  
+> -	/* Decrease v4l2_device refcount */
+> -	if (v4l2_dev)
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	if (mdev)
+> +		media_device_put(mdev);
+> +
+> +	/*
+> +	 * Generally both struct media_device and struct v4l2_device are
+> +	 * embedded in the same driver's context struct so having a release
+> +	 * callback in both is a bug.
+> +	 */
+> +	WARN_ON(v4l2_dev_has_release && mdev_has_release);
 
-We don't have a way in KernelCI to run a one-off test, instead we need to make a
-PR adding a build definition that will be triggered for every update on a given
-tree. The results I reported above were for configurations that we already had
-in place.
+How about:
 
-That said, maybe we should be running with LLVM and CONFIG_CFI_CLANG enabled on
-a regular basis, if you think it is useful as a general tool for identifying
-issues. I'd also be interested in hearing more from you on what other kind of
-clang configs you think might be good to enable in CI to provide value to the
-community.
+	if (WARN_ON(v4l2_dev_has_release && mdev_has_release))
+		v4l2_dev_has_release = false;
 
-Thanks,
-Nícolas
+> +#endif
+> +
+> +	/*
+> +	 * Decrease v4l2_device refcount, but only if the media device doesn't
+> +	 * have a release callback.
+> +	 */
+> +	if (v4l2_dev_has_release
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	    && !mdev_has_release
+> +#endif
+> +	    )
+
+Then this change is no longer needed.
+
+General question: do we have drivers today that set both release functions?
+Because that would now cause a WARN in the kernel log with this patch.
+
+>  		v4l2_device_put(v4l2_dev);
+>  }
+>  
+> @@ -792,11 +805,14 @@ static int video_register_media_controller(struct video_device *vdev)
+>  	u32 intf_type;
+>  	int ret;
+>  
+> -	/* Memory-to-memory devices are more complex and use
+> +	/*
+> +	 * Memory-to-memory devices are more complex and use
+>  	 * their own function to register its mc entities.
+>  	 */
+> -	if (!vdev->v4l2_dev->mdev || vdev->vfl_dir == VFL_DIR_M2M)
+> +	if (!vdev->v4l2_dev->mdev || vdev->vfl_dir == VFL_DIR_M2M) {
+> +		media_device_get(vdev->v4l2_dev->mdev);
+>  		return 0;
+> +	}
+>  
+>  	vdev->entity.obj_type = MEDIA_ENTITY_TYPE_VIDEO_DEVICE;
+>  	vdev->entity.function = MEDIA_ENT_F_UNKNOWN;
+> @@ -875,6 +891,7 @@ static int video_register_media_controller(struct video_device *vdev)
+>  
+>  	/* FIXME: how to create the other interface links? */
+>  
+> +	media_device_get(vdev->v4l2_dev->mdev);
+>  #endif
+>  	return 0;
+>  }
+
+Regards,
+
+	Hans
 
