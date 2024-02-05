@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-4697-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4698-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E8D849972
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 13:01:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5168499C0
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 13:13:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9F611B27D30
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 12:01:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D62C1C22739
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 12:13:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0E9F1A702;
-	Mon,  5 Feb 2024 12:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83C1A19BBA;
+	Mon,  5 Feb 2024 12:07:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6535A1A5BA;
-	Mon,  5 Feb 2024 12:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5E11CA87
+	for <linux-media@vger.kernel.org>; Mon,  5 Feb 2024 12:07:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707134410; cv=none; b=GRA8mBW1zJa5v7377Nv/IiqMMM3Y1HwQlfAZnDH8cTfV3RhEZvQf1SY9LPxFGVEXkHULuBcI4CcZ6DGaGsCZhzk27qH7PkmSMtgcwQh42NkU567311iTFlB5ALoloq69TMk8TDSEyiGPxgx3f5nC1/GxteM+lAZvy4xVL2RuOnY=
+	t=1707134827; cv=none; b=pBwOTrZN2MdTYZs5Iq5IoEvq/5AMawq9qVygusH/8EUhBI+LtLsUgtHTrdEZnZNYbst9x7ctNdjuYtM0jcGf6g5ZN/J9muP5FTK4EZHjdoKo1ot5DwU4jmNbF6q+TE1UpqTcM1ztX4SMWuKX3+Hq7Oi/Co9RPhMuF7gkbwB5D2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707134410; c=relaxed/simple;
-	bh=srmUkqDwM3l+DNKrojuZuVgjMzoYMNUPRcJviySaKCg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bvl+dj2tK9blq5H0eT5X2u7L95qssyp5p7nFW/T1Nwq3OUHAgWI2yG936PUHLLqji7XpLZn4lhCPbLIAYnKQDqmNQ3w5IzAyWs1KV16aIfsCWx3T5jbN5Jh/AIk7/05FE17dfWbQsefM1ylgdk0j1LlPWP1dnrT+/il13gBOBrQ=
+	s=arc-20240116; t=1707134827; c=relaxed/simple;
+	bh=bFWM0xyGfFyki29rUq372XmJfn41eKHQjK5VeBmMpC0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=vEee784LzfhvNOk7f4kX0lnfmy4cD9k71KugKJ7AarC0/lfp50EnWjF2t1PeGuK/s3zJMZwIZ8xRnAmmXf9PihnO1g+j2AvADT0kLU9E/ayDhyTA6glQlwzbySQDkWa+1SaIrTEmvYEKjRYkbaNxkvJRomFurn4RT9ugRodN5gs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A3C6C433C7;
-	Mon,  5 Feb 2024 12:00:07 +0000 (UTC)
-Message-ID: <8a4447ba-d4ac-40ac-9d6b-796db37f3100@xs4all.nl>
-Date: Mon, 5 Feb 2024 13:00:05 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32BADC433F1;
+	Mon,  5 Feb 2024 12:07:05 +0000 (UTC)
+Message-ID: <34a01f66-83c5-420f-b147-e77963d29936@xs4all.nl>
+Date: Mon, 5 Feb 2024 13:07:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,76 +38,109 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: cec: core: remove length check of Timer Status
+Subject: Re: [GIT PULL FOR v6.9] MUST_CONNECT & imx8-isi fixes
 Content-Language: en-US, nl
-To: nini.song@mediatek.com
-Cc: ci.wu@mediatek.com, mchehab@kernel.org, nicolas@fjasle.eu,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org
-References: <20240125132850.10430-1-nini.song@mediatek.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240125132850.10430-1-nini.song@mediatek.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?B?8J+Qpy1tZWRpYQ==?= <linux-media@vger.kernel.org>
+References: <20240201131737.GA5344@pendragon.ideasonboard.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240201131737.GA5344@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 25/01/2024 14:28, nini.song@mediatek.com wrote:
-> From: "nini.song" <nini.song@mediatek.com>
+On 01/02/2024 14:17, Laurent Pinchart wrote:
+> Hello Hans and Mauro,
 > 
-> The valid_la is used to check the length requirements,
-> including special cases of Timer Status. If the length is
-> shorter than 5, that means no Duration Available is returned,
-> the message will be forced to be invalid.
+> The following changes since commit feb8831be9d468ee961289c6a275536a1ee0011c:
 > 
-> However, the description of Duration Available in the spec
-> is that this parameter may be returned when these cases, or
-> that it can be optionally return when these cases. The key
-> words in the spec description are flexible choices.
+>   media: ov08x40: Reduce start streaming time (2024-02-01 13:45:19 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-imx-next-20240131
+> 
+> for you to fetch changes up to 87a913cc4385da5313208ae240484fa2c591eb2e:
+> 
+>   media: nxp: imx8-isi: Factor out a variable (2024-02-01 15:12:32 +0200)
+> 
+> ----------------------------------------------------------------
+> - Fix handling of MEDIA_PAD_FL_MUST_CONNECT flag in V4L2 core
+> - Fix MUST_CONNECT-related crash in the imx8-isi driver
+> - Fix compiler warning in imx8-isi driver
+> 
+> ----------------------------------------------------------------
+> Laurent Pinchart (6):
+>       media: mc: Add local pad to pipeline regardless of the link state
+>       media: mc: Fix flags handling when creating pad links
+>       media: mc: Add num_links flag to media_pad
+>       media: mc: Rename pad variable to clarify intent
+>       media: mc: Expand MUST_CONNECT flag to always require an enabled link
+>       media: nxp: imx8-isi: Mark all crossbar sink pads as MUST_CONNECT
+> 
+> Marek Vasut (1):
+>       media: nxp: imx8-isi: Check whether crossbar pad is non-NULL before access
 
-Good catch, the spec indeed says 'may', so dropping the check
-in this patch is the correct thing to do.
-
-It's merged in our staging tree and it will appear in v6.9.
+All the patches above have a CC to stable, but only 2 have a Fixes tag. Is that
+intended or are the Fixes tags missing? It's odd to CC to stable without a Fixes
+tag.
 
 Regards,
 
 	Hans
 
 > 
-> Remove the special length check of Timer Status to fit the
-> spec which is not compulsory about that.
+> Ricardo Ribalda (1):
+>       media: nxp: imx8-isi: Factor out a variable
 > 
-> Signed-off-by: Nini Song <nini.song@mediatek.com>
-> ---
->  drivers/media/cec/core/cec-adap.c | 14 --------------
->  1 file changed, 14 deletions(-)
+>  .../userspace-api/media/mediactl/media-types.rst   | 11 ++-
+>  drivers/media/mc/mc-entity.c                       | 93 ++++++++++++++++------
+>  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |  4 +-
+>  drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |  8 +-
+>  include/media/media-entity.h                       |  2 +
+>  5 files changed, 81 insertions(+), 37 deletions(-)
 > 
-> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-> index 5741adf09a2e..559a172ebc6c 100644
-> --- a/drivers/media/cec/core/cec-adap.c
-> +++ b/drivers/media/cec/core/cec-adap.c
-> @@ -1151,20 +1151,6 @@ void cec_received_msg_ts(struct cec_adapter *adap,
->  	if (valid_la && min_len) {
->  		/* These messages have special length requirements */
->  		switch (cmd) {
-> -		case CEC_MSG_TIMER_STATUS:
-> -			if (msg->msg[2] & 0x10) {
-> -				switch (msg->msg[2] & 0xf) {
-> -				case CEC_OP_PROG_INFO_NOT_ENOUGH_SPACE:
-> -				case CEC_OP_PROG_INFO_MIGHT_NOT_BE_ENOUGH_SPACE:
-> -					if (msg->len < 5)
-> -						valid_la = false;
-> -					break;
-> -				}
-> -			} else if ((msg->msg[2] & 0xf) == CEC_OP_PROG_ERROR_DUPLICATE) {
-> -				if (msg->len < 5)
-> -					valid_la = false;
-> -			}
-> -			break;
->  		case CEC_MSG_RECORD_ON:
->  			switch (msg->msg[2]) {
->  			case CEC_OP_RECORD_SRC_OWN:
 
 
