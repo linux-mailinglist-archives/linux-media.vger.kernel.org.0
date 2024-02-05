@@ -1,136 +1,124 @@
-Return-Path: <linux-media+bounces-4700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4710-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12689849B47
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 14:01:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB6E849D6F
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 15:54:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35FCF1C20385
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 13:01:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 454D01C224DE
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 14:54:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA7420DF6;
-	Mon,  5 Feb 2024 12:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B9C72C684;
+	Mon,  5 Feb 2024 14:54:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d5vXidBx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7WGG+9Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87343A1C3
-	for <linux-media@vger.kernel.org>; Mon,  5 Feb 2024 12:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBACC2C1AF
+	for <linux-media@vger.kernel.org>; Mon,  5 Feb 2024 14:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707137924; cv=none; b=H2R5AGfuffEkojHHBbChEQUeYcdQ7aPYWp//JMUDBh8WGqQfKRLJJueQkygIiw5iV5FnH1OphgHawHUpg7XHPuqXvJ+DaN4ddMeWNHbbqxhYHqIzbJMdEWMQaYjB27ewHS3yAA0we2b+5YkHDIfa5Q3JY6eMtKb4fiBZLNVJ8tU=
+	t=1707144868; cv=none; b=HqIHlPKRjf+UheKvfjK2TnFZBgUR6spKN6X10mV9WgM+4cQmPQ7J7S8FE8g+mtHcxWJl4XI1unSbXGdK6ir/KgRjVe7jRdm81XKW+21pjCrVI8TAQMtxvPDIq+b9oyUMXYInwCpbj6ho9bPLoj/KgSb5tmuz/Vprf+b5uJT8Hy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707137924; c=relaxed/simple;
-	bh=O4EDsft+77j612glbAeJb9mByXgHcDSntXWHKC09Wvc=;
+	s=arc-20240116; t=1707144868; c=relaxed/simple;
+	bh=qKyXNNPPbwrzAOCrEKd4284T0HqPCUowkiBaonsY500=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gMfz1pgzg9QYDEMgYTaLRP6ovdKNs7TqVsjol7j2X+8OOn47/RcCYpbJqeWAeuyjB0mi1Irke981NaKiT0mJyxQ/ZF05+vyhObII12EYPhw6xcbpjkBap5e2JUMQG2i9r5sL5XcYYFhvWVVsAElhhDP9B/r+9hzz0PC/UdgfzzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d5vXidBx; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [109.128.141.99])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B2D52B3;
-	Mon,  5 Feb 2024 13:57:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707137830;
-	bh=O4EDsft+77j612glbAeJb9mByXgHcDSntXWHKC09Wvc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d5vXidBx9GI2AFyUhCg5U6EB0LTHMEKWS4C/qdTMoje6K0QvW9+VApXW57jGrC9EA
-	 77nb15ImdFpeaMt7VdbZF1luP5TOFii/lTWqQ+/KmUIkx4svl9Zh99bNrflP9OkCFq
-	 c4VIsGPsaDGkKZ1catCFaV1+foXj1oOmUK/Ok7vY=
-Date: Mon, 5 Feb 2024 14:58:29 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: =?utf-8?B?8J+Qpy1tZWRpYQ==?= <linux-media@vger.kernel.org>
-Subject: Re: [GIT PULL FOR v6.9] MUST_CONNECT & imx8-isi fixes
-Message-ID: <20240205125829.GA15182@pendragon.ideasonboard.com>
-References: <20240201131737.GA5344@pendragon.ideasonboard.com>
- <34a01f66-83c5-420f-b147-e77963d29936@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YCzryKDca69roI9hmSAMoyTR75v1LKpyxDYmrpgCdhCkvnNYf+OC59FJXVkdeKs1cJL3uUqsD0UbTV8Bn8buOdo3uizUyJs3uLmGCr1znht80xzBcUSHn5NR1qUtKt0ZK7DjjwRniuefiETsE3WJiMva6FE8HAI2BEOjkSOAtyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7WGG+9Q; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707144867; x=1738680867;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qKyXNNPPbwrzAOCrEKd4284T0HqPCUowkiBaonsY500=;
+  b=M7WGG+9QQ1WZPn1regkccDg+VlImkndo0LHvTJ7xRNOacnx0TWtdJxo/
+   Z7MDWdMVAVVD8/+/q31nz4liihgR5JfqWkSWKZx3/Zu7KZcqvGYUPeuyw
+   W+CSAfOQdDZ+p/1Xn1zGRpKaE4MWXY+5bzvRt+TL86Wcq/uO5XmSyEVqQ
+   ahYYz8v/1Mq6wlpd5Zfx6Lu+bYogVQ5u9+cUX3VWoOgrVvnRxygvzgho+
+   8EIvvpumQv2MFtwgm3xEjoZGjX/UMkBMymFPqxP2vkop9nzkquhtCHSaV
+   gj4smjF06kncLTd26B5nvYN2AiG5M52c2Ioq6AlQKKSfFpwcD7nT12ZNe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="11182385"
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="11182385"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 06:54:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="933172658"
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="933172658"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 06:54:24 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 66E4211F89A;
+	Mon,  5 Feb 2024 12:08:01 +0200 (EET)
+Date: Mon, 5 Feb 2024 10:08:01 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 1/2] media: dt-bindings: Revert changes to
+ video-interfaces.yaml
+Message-ID: <ZcCzgbmyGo5TlyLD@kekkonen.localdomain>
+References: <20240204210642.693958-1-sakari.ailus@linux.intel.com>
+ <ffce7362-f3ee-492d-92b7-a8cee846b692@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <34a01f66-83c5-420f-b147-e77963d29936@xs4all.nl>
+In-Reply-To: <ffce7362-f3ee-492d-92b7-a8cee846b692@kernel.org>
 
-On Mon, Feb 05, 2024 at 01:07:03PM +0100, Hans Verkuil wrote:
-> On 01/02/2024 14:17, Laurent Pinchart wrote:
-> > Hello Hans and Mauro,
+Hi Krzysztof,
+
+On Mon, Feb 05, 2024 at 09:35:02AM +0100, Krzysztof Kozlowski wrote:
+> On 04/02/2024 22:06, Sakari Ailus wrote:
+> > Commit feb8831be9d4 ("media: ov08x40: Reduce start streaming time")
+> > introduced an unintentional change to
+> > Documentation/devicetree/bindings/media/video-interfaces.yaml. Revert this
+> > change now.
 > > 
-> > The following changes since commit feb8831be9d468ee961289c6a275536a1ee0011c:
-> > 
-> >   media: ov08x40: Reduce start streaming time (2024-02-01 13:45:19 +0100)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-imx-next-20240131
-> > 
-> > for you to fetch changes up to 87a913cc4385da5313208ae240484fa2c591eb2e:
-> > 
-> >   media: nxp: imx8-isi: Factor out a variable (2024-02-01 15:12:32 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > - Fix handling of MEDIA_PAD_FL_MUST_CONNECT flag in V4L2 core
-> > - Fix MUST_CONNECT-related crash in the imx8-isi driver
-> > - Fix compiler warning in imx8-isi driver
-> > 
-> > ----------------------------------------------------------------
-> > Laurent Pinchart (6):
-> >       media: mc: Add local pad to pipeline regardless of the link state
-> >       media: mc: Fix flags handling when creating pad links
-> >       media: mc: Add num_links flag to media_pad
-> >       media: mc: Rename pad variable to clarify intent
-> >       media: mc: Expand MUST_CONNECT flag to always require an enabled link
-> >       media: nxp: imx8-isi: Mark all crossbar sink pads as MUST_CONNECT
-> > 
-> > Marek Vasut (1):
-> >       media: nxp: imx8-isi: Check whether crossbar pad is non-NULL before access
+> > Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Fixes: feb8831be9d4 ("media: ov08x40: Reduce start streaming time")
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > 
-> All the patches above have a CC to stable, but only 2 have a Fixes tag. Is that
-> intended or are the Fixes tags missing? It's odd to CC to stable without a Fixes
-> tag.
+> Even if it is simple, it still should be tested...
+> 
+> Please use scripts/get_maintainers.pl to get a list of necessary people
+> and lists to CC. It might happen, that command when run on an older
+> kernel, gives you outdated entries. Therefore please be sure you base
+> your patches on recent Linux kernel.
+> 
+> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+> people, so fix your workflow. Tools might also fail if you work on some
+> ancient tree (don't, instead use mainline), work on fork of kernel
+> (don't, instead use mainline) or you ignore some maintainers (really
+> don't). Just use b4 and everything should be fine, although remember
+> about `b4 prep --auto-to-cc` if you added new patches to the patchset.
+> 
+> You missed at least devicetree list (maybe more), so this won't be
+> tested by automated tooling. Performing review on untested code might be
+> a waste of time, thus I will skip this patch entirely till you follow
+> the process allowing the patch to be tested.
 
-That's intended.
+We decided to revert the original patch in its entirety. Note that merging
+this (or the full revert of the original patch) reverts the changes
+that were previously merged unintentionally. Not doing so will break
+video-interfaces.yaml and omap3-n9.dts.
 
-Commit "media: mc: Add local pad to pipeline regardless of the link
-state" is a standalone bug fix and has a Fixes: tag. No problem there.
-
-Commit "media: nxp: imx8-isi: Check whether crossbar pad is non-NULL
-before access" is another fix, and depends on the previous commit
-("media: mc: Fix flags handling when creating pad links"), which is
-CC'ed to stable as it's a dependency.
-
-The fix in "media: nxp: imx8-isi: Check whether crossbar pad is non-NULL
-before access" is a bit of a hack though, as it addresses the imx8-isi
-driver only, while the problem is more widespread. The subsequent
-commits implement a better fix, which is why I CC'ed them to stable too.
-As the original problem is already fixed by a previous commit, there's
-no new Fixes: tag.
-
-I could have dropped "media: nxp: imx8-isi: Check whether crossbar pad
-is non-NULL before access" in favour of the more generic fix, but I
-decided to keep it in case the more generic rework ends up introducing a
-problem and needs to be reverted.
-
-> > Ricardo Ribalda (1):
-> >       media: nxp: imx8-isi: Factor out a variable
-> > 
-> >  .../userspace-api/media/mediactl/media-types.rst   | 11 ++-
-> >  drivers/media/mc/mc-entity.c                       | 93 ++++++++++++++++------
-> >  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |  4 +-
-> >  drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |  8 +-
-> >  include/media/media-entity.h                       |  2 +
-> >  5 files changed, 81 insertions(+), 37 deletions(-)
-> > 
+I didn't cc the devicetree list or DT maintainers as I viewed addressing
+this problem internal to the media tree.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
