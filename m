@@ -1,226 +1,118 @@
-Return-Path: <linux-media+bounces-4729-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4730-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D1C84A8CF
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 23:12:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CB284A8F7
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 23:17:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 999BF29BC72
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 22:12:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A23E2881A0
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 22:17:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741AA1EB31;
-	Mon,  5 Feb 2024 21:53:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 932A74C3D6;
+	Mon,  5 Feb 2024 22:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZbPz6v7D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KAGqpIne"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5F21EA7D;
-	Mon,  5 Feb 2024 21:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AC01AB7F6;
+	Mon,  5 Feb 2024 22:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707169986; cv=none; b=CX0bu4ITBn5yE+cBTAkRmM/Squ3dLEFBwY0H5+MJ9BUMQgXAilwr9/g3+QP6dr1rvLSObv7TIDeLuJvha3HmNcxX70KkllWPKSTlQuxRJIx7HskFXVnJlwWopUPQhX5HtGhk3IfnKaiVynheIL+egdRUtyKTBUOazm/mVpA8myE=
+	t=1707170714; cv=none; b=istdGAmgzjRopPCt+y2Pzgllo/YqqNChpD++hXiHH38Eo694uoUES2BWZrm6nFjK42A+o7IAL527FLsO6sD8o1U7lyM7sBPTcN5OIrmdrFPDYlZLg7HzNStKC+B/8Od9HAIzqj3yyRxSigrUNuqzC3HdqIn+LBqyUjZFfGEJNuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707169986; c=relaxed/simple;
-	bh=PNopHqJ7BsKVIDJVHx0hCpN6klK/RINUZrRYUaJJg1U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NKdv76r76yOTW4E7tHdUxHceur2zHrsHlW8fR4nfvu4NKJATyXIkO6Uvg1fuVPltsJIRSC5vq3E3FcNM+o+i5gdkhNbfL/a1QLMjotq8kAX+FlXyMHP2DBxxq7p2XEyYgkfpVInTj2NVJiYbT4nlBVteq6SzGuVS/5hKixULjRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZbPz6v7D; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 415LqtVi049477;
-	Mon, 5 Feb 2024 15:52:55 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1707169975;
-	bh=01gEcfbuvE/0tYmOwUOr4jJrPonp7KaFK31nM2E1vKk=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=ZbPz6v7DRM9EiRH2MrErSnoj9FRCj7xd01s1WeW33zHLm353hdrCsflL5ngwW1Q/a
-	 6NZk4ueUiJgHFTIpQVDBEdqGQer4Y/+FZpst8GFQwxtbMs3P4qUVLTK3AU8zuXO8Hh
-	 FsBvY/wFIB1HwSBVs05TvqqbWAJzGtebKrRHtIzk=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 415Lqt33070036
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 5 Feb 2024 15:52:55 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 5
- Feb 2024 15:52:55 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 5 Feb 2024 15:52:55 -0600
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 415LqsL6087347;
-	Mon, 5 Feb 2024 15:52:54 -0600
-Message-ID: <b98a3cb1-ad0d-4f7e-872e-b6381e57ec4a@ti.com>
-Date: Mon, 5 Feb 2024 15:52:54 -0600
+	s=arc-20240116; t=1707170714; c=relaxed/simple;
+	bh=FyL3xtkXQG82Kmq8Fv2Y9NKGybm2l+eMfpJXN6+S5z8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=LUO0R1tHr7kNrXSYW3/DEjpziMY88Z5UY8tShsVa0KQ8dVJD/9S4wVFpmSNDmD4lzCDjdXfC1S3Hd0dnIfo0F20aj4nS9llW7OqqBEbQPntK94pGmWqYZssi+OwlhhSvy/IAU9Ig3STsyN7RQWTN41iDDzUIzlaN/H2qgbaKsKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KAGqpIne; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40fd2f7ef55so11770415e9.0;
+        Mon, 05 Feb 2024 14:05:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707170710; x=1707775510; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sTGI0UOvdQER0iXMpVjZqKLFkuJds7ABf556kHVbzGc=;
+        b=KAGqpIneRTwat++D7e4f3AAwPgoZI31jjzM/2BCBE+NLeB7t3e9h/EYXiH25mATlHO
+         modfAHm97WRxTF+SGGKuArQGRH+QEFtM7+radn8BBRhVEO5hQIpxeh8HgKNmRloKix/C
+         5MlAFa7cZudfjoUZ1Misj3Cvueffp8RNPzRkzrlIjaFSo8Gq9pcu9ibnZkU3s/yFbVsJ
+         mytw6ZgrcHsVQ8H928vMcmLtznrF1SRrfIfDHXcC6voFVSj+AvVea+Fc1r+YNuS4Oykk
+         prFV35BSAXEyLEUyVyj6X5XQnRkA6Nm5ak7MFLilp2Up4CARqDM0o8M2Du41kNRmf5zU
+         aaYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707170710; x=1707775510;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sTGI0UOvdQER0iXMpVjZqKLFkuJds7ABf556kHVbzGc=;
+        b=ellmQSZDrHFmaqhhpW1EUOTVdfq5xZeYoZMrXr0tP4SNV/9Js/zJJGAOonqZrqMLcs
+         ZSoIUozAfqdRgrSOyAWkvJ/J3TfrBpZt85aMXzUxL2uCFPxNJCSVzREgWVUTc1lJgBsm
+         ElgXnKjiHvBOrBLZv3y7mOtCRzFCvRkdsymfhFlObsgNcu3XaMt39xwzJfMOsAZI3bY/
+         cu+uNrJS/amiMHaywRMASvlUNj2oHxSq5TwZgTqr/Ga7BwD2PTZUolL6/ONm4w9hRH0f
+         wWdHaYimKYMpXlLNsuCYhFRaQaeTojUHGRaaLh7FpoEt60k64XWHUvXmWnJJYZ12XEZx
+         In7Q==
+X-Gm-Message-State: AOJu0Ywm2S4RhEvFs2wIHu9pUoRZoboxOGEyIbhwJMT7Czmi3jnRIWw5
+	UoXYMo18E0E4e2xgym5vEBiUSX9sn9Gnba2NBEz3RKdJFlVJF7aQKkI/YqUVsoM=
+X-Google-Smtp-Source: AGHT+IGbQR1rjjufS35x9olRWmtFr/4qd/TgbArZKtOYNkI3cVsnQOq3X55ZmsYk0RxjZNuBAn+L1w==
+X-Received: by 2002:a05:600c:3b19:b0:40e:45c0:ad64 with SMTP id m25-20020a05600c3b1900b0040e45c0ad64mr737050wms.14.1707170710256;
+        Mon, 05 Feb 2024 14:05:10 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXHI52K5kg1H/CHZ3CLOaAEclxvAPTRmdA3Dpx4xpLeFAaIDRKyIv4H4KhNdpxeOjsq6+GYlXZkm/rdBzwVa0mc/nKhvDCdR8AhXMKmN332iVIPRPqUxY18MGBsXk9YjDY8S7tD7JiE51zR1C90r8AyerM1Y8LcrxLump8+qNfP/AxUE7LD5vaISYVcNUlzO2ARpWe+G/XK1ftQ1NBTdXor0F+U+XbUY0T7GcY8W/CQJhQQTnvcif4MNLALTFiNj6P3alFPgrUiINTlAdmHzOA2
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id q12-20020adff78c000000b0033ae4df3cf4sm536712wrp.40.2024.02.05.14.05.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 14:05:09 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: i2c: st-vgxy61: remove redundant initialization of pointer mode
+Date: Mon,  5 Feb 2024 22:05:08 +0000
+Message-Id: <20240205220508.1851545-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] media: dt-bindings: Add Imagination E5010 JPEG
- Encoder
-Content-Language: en-US
-To: Devarsh Thakkar <devarsht@ti.com>, <mchehab@kernel.org>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>
-References: <20240205114239.924697-1-devarsht@ti.com>
- <20240205114239.924697-2-devarsht@ti.com>
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20240205114239.924697-2-devarsht@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 2/5/24 5:42 AM, Devarsh Thakkar wrote:
-> Add dt-bindings for Imagination E5010 JPEG Encoder [1] which is implemented
-> as stateful V4L2 M2M driver.
-> 
-> The device supports baseline encoding with two different quantization
-> tables and compression ratio as demanded.
-> 
-> Minimum resolution supported is 64x64 and Maximum resolution supported is
-> 8192x8192.
-> 
-> [1]:  AM62A TRM (Section 7.6 is for JPEG Encoder)
-> Link: https://www.ti.com/lit/pdf/spruj16
-> 
-> Co-developed-by: David Huang <d-huang@ti.com>
-> Signed-off-by: David Huang <d-huang@ti.com>
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V2: No change
-> V3:
-> - Add vendor specific compatible
-> - Update reg names
-> - Update clocks to 1
-> - Fix dts example with proper naming
-> V4:
->   - Use ti-specific compatible ti,am62a-jpeg-enc as secondary one
->   - Update commit message and title
->   - Remove clock-names as only single clock
-> 
-> Link to previous commit:
-> https://lore.kernel.org/all/20230816152210.4080779-2-devarsht@ti.com/
-> ---
->   .../bindings/media/img,e5010-jpeg-enc.yaml    | 75 +++++++++++++++++++
->   MAINTAINERS                                   |  5 ++
->   2 files changed, 80 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-> new file mode 100644
-> index 000000000000..085020cb9e61
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-> @@ -0,0 +1,75 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Imagination E5010 JPEG Encoder
-> +
-> +maintainers:
-> +  - Devarsh Thakkar <devarsht@ti.com>
-> +
-> +description: |
-> +  The E5010 is a JPEG encoder from Imagination Technologies implemented on
-> +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
-> +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
-> +  8Kx8K resolution.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - const: ti,am62a-jpeg-enc
-> +          - const: img,e5010-jpeg-enc
-> +      - const: img,e5010-jpeg-enc
-> +
-> +  reg:
-> +    items:
-> +      - description: The E5010 core register region
-> +      - description: The E5010 mmu register region
-> +
-> +  reg-names:
-> +    items:
-> +      - const: core
-> +      - const: mmu
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
+The pointer mode is being initialized with a value that is never
+read, it is being re-assigned later on. The initialization is
+redundant and can be removed.
 
-"resets" seems unused.
+Cleans up clang scan build warning:
+drivers/media/i2c/st-vgxy61.c:632:33: warning: Value stored to 'mode'
+during its initialization is never read [deadcode.DeadStores]
 
-Andrew
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/media/i2c/st-vgxy61.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    soc {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +      jpeg-encoder@fd20000 {
-> +          compatible = "img,e5010-jpeg-enc";
-> +          reg = <0x00 0xfd20000 0x00 0x100>,
-> +                <0x00 0xfd20200 0x00 0x200>;
-> +          reg-names = "core", "mmu";
-> +          clocks = <&k3_clks 201 0>;
-> +          power-domains = <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
-> +          interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8999497011a2..d0f8c46d3ce9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10461,6 +10461,11 @@ S:	Maintained
->   F:	Documentation/devicetree/bindings/auxdisplay/img,ascii-lcd.yaml
->   F:	drivers/auxdisplay/img-ascii-lcd.c
->   
-> +IMGTEC JPEG ENCODER DRIVER
-> +M:	Devarsh Thakkar <devarsht@ti.com>
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-> +
->   IMGTEC IR DECODER DRIVER
->   S:	Orphan
->   F:	drivers/media/rc/img-ir/
+diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
+index 2d64466d7ecf..b9e7c57027b1 100644
+--- a/drivers/media/i2c/st-vgxy61.c
++++ b/drivers/media/i2c/st-vgxy61.c
+@@ -629,7 +629,7 @@ static int vgxy61_try_fmt_internal(struct v4l2_subdev *sd,
+ 				   const struct vgxy61_mode_info **new_mode)
+ {
+ 	struct vgxy61_dev *sensor = to_vgxy61_dev(sd);
+-	const struct vgxy61_mode_info *mode = sensor->sensor_modes;
++	const struct vgxy61_mode_info *mode;
+ 	unsigned int index;
+ 
+ 	for (index = 0; index < ARRAY_SIZE(vgxy61_supported_codes); index++) {
+-- 
+2.39.2
+
 
