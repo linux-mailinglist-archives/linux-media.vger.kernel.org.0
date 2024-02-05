@@ -1,48 +1,36 @@
-Return-Path: <linux-media+bounces-4669-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4670-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3A2849570
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 09:35:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE3A849572
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 09:36:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18B041C212BC
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 08:35:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6DFC7B23AFB
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 08:36:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 462E711705;
-	Mon,  5 Feb 2024 08:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C9QHrkLL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 333D011705;
+	Mon,  5 Feb 2024 08:36:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58C4111AE
-	for <linux-media@vger.kernel.org>; Mon,  5 Feb 2024 08:35:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7B911709;
+	Mon,  5 Feb 2024 08:36:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707122109; cv=none; b=sgrVa29yFFRCcS9qkb4Hj/C14SoE86cCzvhfYf+VcG48a099MgLhq+EqEABODkD0fweH/0GGAk61va++up6DNYO/6dDtWk78UMZt4B0VBl0KB0WFWeBFuemMieLjgRavZ4uQh8Xhlyf8lPIJY1B7jH7vGM0zkeyqRZ0Hu2c5Nfg=
+	t=1707122206; cv=none; b=Wx1BZXCSzZ3kcgVHZu/KEVyr1JurakRFW4/E5z7ItI1JFCUhwtIUo0eg09Xgy7lQD0Hh7PJqddpBAKYqWJaQLbNwShNDzXTcbU0NaCSxIkTl9NEI1HLdZS+HCFUqgm+X/FIZIg/roElEqlEoMEOdI3IO6VmjC31pb4Wv4JIBZik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707122109; c=relaxed/simple;
-	bh=6GV5QD6NO3dPXg/8wJZXqkFHEIG3IpqAyk9OB/hpckE=;
+	s=arc-20240116; t=1707122206; c=relaxed/simple;
+	bh=PBJbgNE1rG55vEcU7ckTRz1OS1DxK+djMz/tNxMUaR4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pKH1lzTuny93MlZc1auSUS+qFy2HZKpmqcGQW3FdjeFW9p31UD0aTy/Z7R/8IiP3zRXd7xQDR6WxjRY0qfIOopx+L8vKrKLyIgFUBSEWy0UMbD35A0oHq+siLfHTiqWzg0qD0/Ac1Df0Jgs7hm1YsjPOzEGucCUZU93rVRUxEy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C9QHrkLL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 903F7C433F1;
-	Mon,  5 Feb 2024 08:35:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707122109;
-	bh=6GV5QD6NO3dPXg/8wJZXqkFHEIG3IpqAyk9OB/hpckE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=C9QHrkLL3d6G9uFXbZozSWrpGc6vgCpy7fx63TnY/7dl/aEFOSEovZoJamt1w4JnX
-	 zhhUIajZi3HiQblQTfEgv3yCXCu3IjURsP/QBam2yYU2EQt0Nx7rmYRPUams8d/cRI
-	 xDYh2o6Lhzm86A0tHGiR/IZHWcYGF+YAcHXEOCCse3RRgKsP2sTzEnZwdPvj2eB3xu
-	 Ycq6gEFMlD0SvB3YjD3m5ZJ2XOcabXTS2Ea6vIC2W6HaeWkA5nvINeRxyC+Q1eyQb+
-	 1oX6ty+goNDcaJka4OhuP4FxYQ21ibRdVrjlcOGGOVKXirDGzZPJsvscFN9ybiwz/M
-	 I4h+9aUbmSkHA==
-Message-ID: <ffce7362-f3ee-492d-92b7-a8cee846b692@kernel.org>
-Date: Mon, 5 Feb 2024 09:35:02 +0100
+	 In-Reply-To:Content-Type; b=qLFPmMEDNOqhibHBekNIdM+wi1sBFw2KP4zpspiRkrO+yq7onKTIbzyebTEHlaruD7xUsgGAwsGzF9StVFJbUUiRZjAP+V5lod1hyjHIByJ9y7MkzxpDneEl7MWrKqsq+g0uNW7XaPPI6GJe0nuYaIBkLQ6cDOp1PeOVoik0pgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C6A0C433C7;
+	Mon,  5 Feb 2024 08:36:44 +0000 (UTC)
+Message-ID: <16ef7746-d038-4607-8e2f-8f7cef5a8b48@xs4all.nl>
+Date: Mon, 5 Feb 2024 09:36:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,90 +38,188 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: dt-bindings: Revert changes to
- video-interfaces.yaml
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com
-References: <20240204210642.693958-1-sakari.ailus@linux.intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240204210642.693958-1-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2] media: adv7180: Fix cppcheck warnings
+Content-Language: en-US, nl
+To: Bhavin Sharma <bhavin.sharma@siliconsignals.io>, mchehab@kernel.org,
+ kieran.bingham@ideasonboard.com
+Cc: Lars-Peter Clausen <lars@metafoo.de>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240102142729.1743421-1-bhavin.sharma@siliconsignals.io>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240102142729.1743421-1-bhavin.sharma@siliconsignals.io>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/02/2024 22:06, Sakari Ailus wrote:
-> Commit feb8831be9d4 ("media: ov08x40: Reduce start streaming time")
-> introduced an unintentional change to
-> Documentation/devicetree/bindings/media/video-interfaces.yaml. Revert this
-> change now.
+Hi Bhavin,
+
+On 02/01/2024 15:27, Bhavin Sharma wrote:
+> WARNING: Missing a blank line after declarations
 > 
-> Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Fixes: feb8831be9d4 ("media: ov08x40: Reduce start streaming time")
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
+> ---
+>  drivers/media/i2c/adv7180.c | 27 ++++++++++++++++++---------
+>  1 file changed, 18 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> index 54134473186b..0023a546b3c9 100644
+> --- a/drivers/media/i2c/adv7180.c
+> +++ b/drivers/media/i2c/adv7180.c
+> @@ -335,8 +335,9 @@ static u32 adv7180_status_to_v4l2(u8 status1)
+>  static int __adv7180_status(struct adv7180_state *state, u32 *status,
+>  			    v4l2_std_id *std)
+>  {
+> -	int status1 = adv7180_read(state, ADV7180_REG_STATUS1);
+> +	int status1;
+>  
+> +	status1 = adv7180_read(state, ADV7180_REG_STATUS1);
+>  	if (status1 < 0)
+>  		return status1;
+>  
+> @@ -356,7 +357,9 @@ static inline struct adv7180_state *to_state(struct v4l2_subdev *sd)
+>  static int adv7180_querystd(struct v4l2_subdev *sd, v4l2_std_id *std)
+>  {
+>  	struct adv7180_state *state = to_state(sd);
+> -	int err = mutex_lock_interruptible(&state->mutex);
+> +	int err;
+> +
+> +	err = mutex_lock_interruptible(&state->mutex);
 
-Even if it is simple, it still should be tested...
+The problem here is the missing empty line, not that 'int err = <something>;' part.
+So just add the empty line and don't split up the variable assignment.
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+>  	if (err)
+>  		return err;
+>  
+> @@ -388,8 +391,9 @@ static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
+>  			     u32 output, u32 config)
+>  {
+>  	struct adv7180_state *state = to_state(sd);
+> -	int ret = mutex_lock_interruptible(&state->mutex);
+> +	int ret;
+>  
+> +	ret = mutex_lock_interruptible(&state->mutex);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -399,7 +403,6 @@ static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
+>  	}
+>  
+>  	ret = state->chip_info->select_input(state, input);
+> -
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline), work on fork of kernel
-(don't, instead use mainline) or you ignore some maintainers (really
-don't). Just use b4 and everything should be fine, although remember
-about `b4 prep --auto-to-cc` if you added new patches to the patchset.
+Why remove this empty line? It has nothing to do with what you are trying
+to fix.
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time, thus I will skip this patch entirely till you follow
-the process allowing the patch to be tested.
+>  	if (ret == 0)
+>  		state->input = input;
+>  out:
+> @@ -410,7 +413,9 @@ static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
+>  static int adv7180_g_input_status(struct v4l2_subdev *sd, u32 *status)
+>  {
+>  	struct adv7180_state *state = to_state(sd);
+> -	int ret = mutex_lock_interruptible(&state->mutex);
+> +	int ret;
+> +
+> +	ret = mutex_lock_interruptible(&state->mutex);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -436,8 +441,9 @@ static int adv7180_program_std(struct adv7180_state *state)
+>  static int adv7180_s_std(struct v4l2_subdev *sd, v4l2_std_id std)
+>  {
+>  	struct adv7180_state *state = to_state(sd);
+> -	int ret = mutex_lock_interruptible(&state->mutex);
+> +	int ret;
+>  
+> +	ret = mutex_lock_interruptible(&state->mutex);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -466,8 +472,9 @@ static int adv7180_g_std(struct v4l2_subdev *sd, v4l2_std_id *norm)
+>  static int adv7180_g_frame_interval(struct v4l2_subdev *sd,
+>  				    struct v4l2_subdev_frame_interval *fi)
+>  {
+> -	struct adv7180_state *state = to_state(sd);
+> +	struct adv7180_state *state;
+>  
+> +	state = to_state(sd);
 
-Best regards,
-Krzysztof
+And I am sure this never produced a cppcheck warning since there is an
+empty line. If cppcheck DOES produce a warning on this, then it is a
+useless application.
 
+>  	if (state->curr_norm & V4L2_STD_525_60) {
+>  		fi->interval.numerator = 1001;
+>  		fi->interval.denominator = 30000;
+> @@ -828,8 +835,9 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
+>  				   unsigned int pad,
+>  				   struct v4l2_mbus_config *cfg)
+>  {
+> -	struct adv7180_state *state = to_state(sd);
+> +	struct adv7180_state *state;
+>  
+> +	state = to_state(sd);
+>  	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
+>  		cfg->type = V4L2_MBUS_CSI2_DPHY;
+>  		cfg->bus.mipi_csi2.num_data_lanes = 1;
+> @@ -857,8 +865,9 @@ static int adv7180_get_skip_frames(struct v4l2_subdev *sd, u32 *frames)
+>  
+>  static int adv7180_g_pixelaspect(struct v4l2_subdev *sd, struct v4l2_fract *aspect)
+>  {
+> -	struct adv7180_state *state = to_state(sd);
+> +	struct adv7180_state *state;
+>  
+> +	state = to_state(sd);
+>  	if (state->curr_norm & V4L2_STD_525_60) {
+>  		aspect->numerator = 11;
+>  		aspect->denominator = 10;
+
+Honestly, none of these changes are worth the effort, so I just reject this.
+
+Regards,
+
+	Hans
 
