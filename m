@@ -1,120 +1,136 @@
-Return-Path: <linux-media+bounces-4699-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBEF849A00
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 13:21:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12689849B47
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 14:01:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AC271F2930A
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 12:21:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35FCF1C20385
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 13:01:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A14A1BC3D;
-	Mon,  5 Feb 2024 12:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA7420DF6;
+	Mon,  5 Feb 2024 12:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="vtp3+NxY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d5vXidBx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6B21C2AC;
-	Mon,  5 Feb 2024 12:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87343A1C3
+	for <linux-media@vger.kernel.org>; Mon,  5 Feb 2024 12:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707135656; cv=none; b=lIYaPlGdNblQ72nanLNxMwJe6akkMsujUY/W7nUE9GGqU+ccwqsL/1uBurJw+6IKsf3lBI+aal9+G5Bh2j5YGkAV5UGkoM8lcpcOlGnspV+joiginzRnfoU043VnZNPRLPPfFa6iLl3MiIe55yRdTDlmiKjEsUXXI3SOzQSzYNU=
+	t=1707137924; cv=none; b=H2R5AGfuffEkojHHBbChEQUeYcdQ7aPYWp//JMUDBh8WGqQfKRLJJueQkygIiw5iV5FnH1OphgHawHUpg7XHPuqXvJ+DaN4ddMeWNHbbqxhYHqIzbJMdEWMQaYjB27ewHS3yAA0we2b+5YkHDIfa5Q3JY6eMtKb4fiBZLNVJ8tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707135656; c=relaxed/simple;
-	bh=ssiJlgBUI7ADgXSqk107hR0CggEulbQh1yQXI0z7sdc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=l06w0undXnc5lnhI5lyeOw26yCj8uOlwxzv3QJsEOKpYGi/abkj6j1SF83W0Bo2ilGlNlJ9bfN+xD6Z2IIXk7AZvyPKJbqwbrLTnBWrbTlua/H2gRg6VfEJd40PLWADaoEouz2Hiiisc/vP9Y+gNVgg2xaW1iM8ZV1/LVPZLHlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=vtp3+NxY; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1707135631; x=1707740431; i=markus.elfring@web.de;
-	bh=ssiJlgBUI7ADgXSqk107hR0CggEulbQh1yQXI0z7sdc=;
-	h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
-	b=vtp3+NxYPaQVXNd+ebO+tEKeJ6HD7qi3MAxXoevBMmguK9PaLZ5/MoRxYaa0+DCZ
-	 TD3GKN7XJiXray4h3S9I9YfGf+9/fVpxYFPG9382PLUOLSj0NqVL0mh26U0i195oz
-	 rZjklZxMPm8kJtE0jHU1bHYbDwm5XAQp7QPNDCwDELhasBxANPJWzRNwlYEoWTBRa
-	 LyTJW5G1xQ4EEyxHwsTHvB5ndbsK1FoQib4+i5s0QoV7msQ6os3b0ZkWqh8YFplA0
-	 jHHHxrItYmB9WTsA0q9O8DatO9tBBfyPnfD7Ubl/jeP0GS5gPXfPQYae3CnixGcn7
-	 fODx6hGqQEBWoMsIfw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mdf89-1qxuG61hOD-00Zemy; Mon, 05
- Feb 2024 13:20:31 +0100
-Message-ID: <66d7218d-ed57-4dec-b6ac-630b01056b5e@web.de>
-Date: Mon, 5 Feb 2024 13:20:30 +0100
+	s=arc-20240116; t=1707137924; c=relaxed/simple;
+	bh=O4EDsft+77j612glbAeJb9mByXgHcDSntXWHKC09Wvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gMfz1pgzg9QYDEMgYTaLRP6ovdKNs7TqVsjol7j2X+8OOn47/RcCYpbJqeWAeuyjB0mi1Irke981NaKiT0mJyxQ/ZF05+vyhObII12EYPhw6xcbpjkBap5e2JUMQG2i9r5sL5XcYYFhvWVVsAElhhDP9B/r+9hzz0PC/UdgfzzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d5vXidBx; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [109.128.141.99])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B2D52B3;
+	Mon,  5 Feb 2024 13:57:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707137830;
+	bh=O4EDsft+77j612glbAeJb9mByXgHcDSntXWHKC09Wvc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d5vXidBx9GI2AFyUhCg5U6EB0LTHMEKWS4C/qdTMoje6K0QvW9+VApXW57jGrC9EA
+	 77nb15ImdFpeaMt7VdbZF1luP5TOFii/lTWqQ+/KmUIkx4svl9Zh99bNrflP9OkCFq
+	 c4VIsGPsaDGkKZ1catCFaV1+foXj1oOmUK/Ok7vY=
+Date: Mon, 5 Feb 2024 14:58:29 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: =?utf-8?B?8J+Qpy1tZWRpYQ==?= <linux-media@vger.kernel.org>
+Subject: Re: [GIT PULL FOR v6.9] MUST_CONNECT & imx8-isi fixes
+Message-ID: <20240205125829.GA15182@pendragon.ideasonboard.com>
+References: <20240201131737.GA5344@pendragon.ideasonboard.com>
+ <34a01f66-83c5-420f-b147-e77963d29936@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Jai Luthra <j-luthra@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] media: ti: Use devm_platform_get_and_ioremap_resource() in
- ti_csi2rx_probe()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:c8yM135bGmgwYC7BG02277c5xhebqr+9/bcAkhSvOz8K9U1VdZk
- C1x4YkMyfvuW747HRLRycFhOiawMvQmF+5q4wq+lMHvfwaYPHiHnl1SlWMANc7jAv1RjGYP
- xJO58S+2daU2kHEXQQNDZTtzVPmIYADevmWLK/7kq8VsriHFa1U64zw+eA6DBQVad+3t4h2
- GJ/nZnrnDxv5KMk3QuGdg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XYQUlrf8/cI=;p+FRLnS58AOgbgxls0D7TAWU6yT
- 3xoTpT5Kz6fwRYNCvz8HLRuEPDXBacEOE4CYolaqKxB1cNX791czIDlHaHObPLBJPn8uqTjRD
- D6WoL+WDYzjQmPjIRcChr4/QzPF6ZQligVYnHymEkAfj+FmY86UtB6IRO8nlCTw6jUumsI5BC
- ZOhifBuS+aZNGmSQNNCyENn5e2M73dlb+0kZOEUybjakHy7MTAwmqCaULYE3n2LqcR3GHQaHY
- qkFiiVPoNdfyCga8rf4dayFobCqYXqxWmp/o56tRI+9HrQ2UtXEwMc6wh5YWcNCSYPfO7Rh4U
- tZaMgrHncvibDJHJNkaphbnRwx1DyRycePchDrpvJXeIHJ8X6zPi9Izt6FwTWpg5ijOUxG8tc
- LmtX0GLoBz0c+xumOTJo3DY0CmJ2ULS1sUuhVGpj3z7E5TWBSG3sL20qBHitiYHMsc35sMJ6z
- cXKBTMn+2FZUTphdtqrqvsFs9SzYtmXi62lBbk6XKXlPL7MTkkqvWKe0XauGbYCUkg5AeywjG
- HzMcVOIZVN9IOwv1yIJ7ldLDd5DghCphEL5gp94QsoOXCJy2qE2XSwBANsrftg3Z1foV7MTL2
- U1Ke6aujzi8zvBJpg2psKRuGX0Y++dX0jo0bD63jzu390hrgELZxXmMiikflE0K2BDX8LOlaV
- oxUZLuWAA5saf+f6ur4qA8o6VZEKxpfXuIHX9BAE3KMV0CdjFUqf2Q+hZ3Cpxs41Idxic03wD
- HWN7g3YP0BZ1jhSLsgc1P//UtGNxyqsqDVShtn2RhElRuPRfKJ8S7lhDosmowFJx7cMHMP8iE
- Zw5PYPKlL8Fcxm4zSZQmwR22t7OLlCnG4XEYKpZVAV6GA=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <34a01f66-83c5-420f-b147-e77963d29936@xs4all.nl>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Mon, 5 Feb 2024 13:14:00 +0100
+On Mon, Feb 05, 2024 at 01:07:03PM +0100, Hans Verkuil wrote:
+> On 01/02/2024 14:17, Laurent Pinchart wrote:
+> > Hello Hans and Mauro,
+> > 
+> > The following changes since commit feb8831be9d468ee961289c6a275536a1ee0011c:
+> > 
+> >   media: ov08x40: Reduce start streaming time (2024-02-01 13:45:19 +0100)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-imx-next-20240131
+> > 
+> > for you to fetch changes up to 87a913cc4385da5313208ae240484fa2c591eb2e:
+> > 
+> >   media: nxp: imx8-isi: Factor out a variable (2024-02-01 15:12:32 +0200)
+> > 
+> > ----------------------------------------------------------------
+> > - Fix handling of MEDIA_PAD_FL_MUST_CONNECT flag in V4L2 core
+> > - Fix MUST_CONNECT-related crash in the imx8-isi driver
+> > - Fix compiler warning in imx8-isi driver
+> > 
+> > ----------------------------------------------------------------
+> > Laurent Pinchart (6):
+> >       media: mc: Add local pad to pipeline regardless of the link state
+> >       media: mc: Fix flags handling when creating pad links
+> >       media: mc: Add num_links flag to media_pad
+> >       media: mc: Rename pad variable to clarify intent
+> >       media: mc: Expand MUST_CONNECT flag to always require an enabled link
+> >       media: nxp: imx8-isi: Mark all crossbar sink pads as MUST_CONNECT
+> > 
+> > Marek Vasut (1):
+> >       media: nxp: imx8-isi: Check whether crossbar pad is non-NULL before access
+> 
+> All the patches above have a CC to stable, but only 2 have a Fixes tag. Is that
+> intended or are the Fixes tags missing? It's odd to CC to stable without a Fixes
+> tag.
 
-A wrapper function is available since the commit 890cc39a879906b63912482df=
-c41944579df2dc6
-("drivers: provide devm_platform_get_and_ioremap_resource()").
-Thus reuse existing functionality instead of keeping duplicate source code=
-.
+That's intended.
 
-This issue was detected by using the Coccinelle software.
+Commit "media: mc: Add local pad to pipeline regardless of the link
+state" is a standalone bug fix and has a Fixes: tag. No problem there.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Commit "media: nxp: imx8-isi: Check whether crossbar pad is non-NULL
+before access" is another fix, and depends on the previous commit
+("media: mc: Fix flags handling when creating pad links"), which is
+CC'ed to stable as it's a dependency.
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drive=
-rs/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index 2b078c5d7f5d..6ff066097346 100644
-=2D-- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -1100,9 +1100,7 @@ static int ti_csi2rx_probe(struct platform_device *p=
-dev)
- 	platform_set_drvdata(pdev, csi);
+The fix in "media: nxp: imx8-isi: Check whether crossbar pad is non-NULL
+before access" is a bit of a hack though, as it addresses the imx8-isi
+driver only, while the problem is more widespread. The subsequent
+commits implement a better fix, which is why I CC'ed them to stable too.
+As the original problem is already fixed by a previous commit, there's
+no new Fixes: tag.
 
- 	mutex_init(&csi->mutex);
--
--	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	csi->shim =3D devm_ioremap_resource(&pdev->dev, res);
-+	csi->shim =3D devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(csi->shim)) {
- 		ret =3D PTR_ERR(csi->shim);
- 		goto err_mutex;
-=2D-
-2.43.0
+I could have dropped "media: nxp: imx8-isi: Check whether crossbar pad
+is non-NULL before access" in favour of the more generic fix, but I
+decided to keep it in case the more generic rework ends up introducing a
+problem and needs to be reverted.
 
+> > Ricardo Ribalda (1):
+> >       media: nxp: imx8-isi: Factor out a variable
+> > 
+> >  .../userspace-api/media/mediactl/media-types.rst   | 11 ++-
+> >  drivers/media/mc/mc-entity.c                       | 93 ++++++++++++++++------
+> >  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |  4 +-
+> >  drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |  8 +-
+> >  include/media/media-entity.h                       |  2 +
+> >  5 files changed, 81 insertions(+), 37 deletions(-)
+> > 
+
+-- 
+Regards,
+
+Laurent Pinchart
 
