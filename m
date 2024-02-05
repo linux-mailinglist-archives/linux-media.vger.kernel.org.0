@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-4704-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4705-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AEB0849CC6
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 15:16:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3B5849D0C
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 15:28:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A059F1F26707
-	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 14:16:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EB381C24748
+	for <lists+linux-media@lfdr.de>; Mon,  5 Feb 2024 14:28:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 830742C6BB;
-	Mon,  5 Feb 2024 14:15:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288572C19E;
+	Mon,  5 Feb 2024 14:28:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280D22DF87;
-	Mon,  5 Feb 2024 14:15:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B4D2C183;
+	Mon,  5 Feb 2024 14:28:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707142530; cv=none; b=e6ThGwfGebfiVNOkT47oVvwv2pPlI09UB3Z9MkvXYhJR9da4D+ie0obkQTe5laC0JaA47Kv919yUJGw+zbH19B1pqOymsyav70FbNUGYHc9J8aMikGjnGjY/TYewTXGouswKtcGA8IIOToPgVYWrLyu92/PtYoPtDPnpdGA3g4U=
+	t=1707143300; cv=none; b=CEBcswOUYawP79kTRo7hZxhb6Wro9Y3991K5EB+QmktfIzppw9gEakHDie/NA8HAbwTpB1nJeUyrF/7n2txkmazDCFzYuubyvC2LTS/3j02FAmP8eS7e8TX8fuU3E/4fCLfNI/ISvoYFZs334bnpviEzxIqNh8jwZFb2eLs7jPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707142530; c=relaxed/simple;
-	bh=gUmWB0WUxmbFtOW6iXntjLks2xNk20WwAGRGYL9uiH0=;
+	s=arc-20240116; t=1707143300; c=relaxed/simple;
+	bh=vVn5to0qBCqDZdmR9TIm7gUCg/zmiTRpqN5I4fXA9sQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q/YdcuPA2QGK4JVGaaXJqZT3oJicRRmJv5kxndZfirnMbm+Nb4HRO9Znzxz8yRgXb0i4GDO91WP8LehLqnjqiGl6zuL59bzDxPwH1vqp6SnQXojyAKyi/0fOl/NxbKzgkaL1q+J0JqKDLqkyymHdJP1/vdfj3Epy+B/+LV8E2I4=
+	 In-Reply-To:Content-Type; b=dNHuIwXhsk5nGk3qnSfP+FEkdtsSReNrdCqpAqjVQx0my4bwSyVfCwi1QVbONyqhtgFgcIQ6G3UaiqmhSaxj7l4Wooc14LmJbK/Eaou1AefCN0KnW6yeatzGvDy0IWj4IM299uFlFe2XuXmBGh4EnYxsoGwED6PXHHiaXgoqxf4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CC27C433C7;
-	Mon,  5 Feb 2024 14:15:28 +0000 (UTC)
-Message-ID: <f9cf797b-d628-480b-bd6e-5217b111e983@xs4all.nl>
-Date: Mon, 5 Feb 2024 15:15:26 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433F7C433F1;
+	Mon,  5 Feb 2024 14:28:19 +0000 (UTC)
+Message-ID: <3b921ffd-d9a7-4f60-aeff-b7c865be9e89@xs4all.nl>
+Date: Mon, 5 Feb 2024 15:28:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,13 +38,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 6/9] media: core: Free range of buffers
+Subject: Re: [PATCH v18 7/9] media: v4l2: Add DELETE_BUFS ioctl
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  kernel@collabora.com
 References: <20240126110141.135896-1-benjamin.gaignard@collabora.com>
- <20240126110141.135896-7-benjamin.gaignard@collabora.com>
+ <20240126110141.135896-8-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -89,202 +89,382 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240126110141.135896-7-benjamin.gaignard@collabora.com>
+In-Reply-To: <20240126110141.135896-8-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 26/01/2024 12:01, Benjamin Gaignard wrote:
-> Improve __vb2_queue_free() and __vb2_free_mem() to free
-> range of buffers and not only the last few buffers.
-> Intoduce starting index to be flexible on range and change the loops
-
-Intoduce -> Introduce
-
-> according to this parameters.
-
-parameters -> parameter
-
+> VIDIOC_DELETE_BUFS ioctl allows to delete buffers from a queue.
+> The number of buffers to delete in given by count field of
+> struct v4l2_delete_buffers and the range start at the index
+> specified in the same structure.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  .../media/common/videobuf2/videobuf2-core.c   | 56 +++++++++----------
->  1 file changed, 26 insertions(+), 30 deletions(-)
+> version 18:
+> - remove per queue capability flag.
+> - rework v4l_delete_bufs() to check if VIDIOC_CREATE_BUFS is enabled
+>   and if vidioc_delete_bufs pointer is valid.
+> - update documentation.
 > 
+>  .../userspace-api/media/v4l/user-func.rst     |  1 +
+>  .../media/v4l/vidioc-delete-bufs.rst          | 78 +++++++++++++++++++
+>  .../media/common/videobuf2/videobuf2-core.c   | 38 +++++++++
+>  .../media/common/videobuf2/videobuf2-v4l2.c   | 12 +++
+>  drivers/media/v4l2-core/v4l2-dev.c            |  1 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          | 28 +++++++
+>  include/media/v4l2-ioctl.h                    |  4 +
+>  include/media/videobuf2-core.h                | 10 +++
+>  include/media/videobuf2-v4l2.h                |  2 +
+>  include/uapi/linux/videodev2.h                | 16 ++++
+>  10 files changed, 190 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
+> index 15ff0bf7bbe6..3fd567695477 100644
+> --- a/Documentation/userspace-api/media/v4l/user-func.rst
+> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
+> @@ -17,6 +17,7 @@ Function Reference
+>      vidioc-dbg-g-chip-info
+>      vidioc-dbg-g-register
+>      vidioc-decoder-cmd
+> +    vidioc-delete-bufs
+>      vidioc-dqevent
+>      vidioc-dv-timings-cap
+>      vidioc-encoder-cmd
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+> new file mode 100644
+> index 000000000000..eb235d1750c8
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+> @@ -0,0 +1,78 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +.. c:namespace:: V4L
+> +
+> +.. _VIDIOC_DELETE_BUFS:
+> +
+> +************************
+> +ioctl VIDIOC_DELETE_BUFS
+> +************************
+> +
+> +Name
+> +====
+> +
+> +VIDIOC_DELETE_BUFS - Deletes buffers from a queue
+> +
+> +Synopsis
+> +========
+> +
+> +.. c:macro:: VIDIOC_DELETE_BUFs
+
+VIDIOC_DELETE_BUFs -> VIDIOC_DELETE_BUFS
+
+> +
+> +``int ioctl(int fd, VIDIOC_DELETE_BUFs, struct v4l2_delete_buffers *argp)``
+
+Ditto.
+
+> +
+> +Arguments
+> +=========
+> +
+> +``fd``
+> +    File descriptor returned by :c:func:`open()`.
+> +
+> +``argp``
+> +    Pointer to struct :c:type:`v4l2_delete_buffers`.
+> +
+> +Description
+> +===========
+> +
+> +Applications can optionally call the :ref:`VIDIOC_DELETE_BUFS` ioctl to
+> +delete buffers from a queue.
+> +:ref:`VIDIOC_CREATE_BUFS` ioctl support is mandatory to enable :ref:`VIDIOC_DELETE_BUFS`.
+> +
+> +.. c:type:: v4l2_delete_buffers
+> +
+> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.5cm}|
+> +
+> +.. flat-table:: struct v4l2_delete_buffers
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - __u32
+> +      - ``index``
+> +      - The starting buffer index to delete.
+> +    * - __u32
+> +      - ``count``
+> +      - The number of buffers to be deleted with indices 'index' until 'index + count - 1'.
+> +        All buffers in this range must be valid and in DEQUEUED state.
+> +        If count is set to 0 :ref:`VIDIOC_DELETE_BUFS` will do nothing and return 0.
+> +    * - __u32
+> +      - ``type``
+> +      - Type of the stream or buffers, this is the same as the struct
+> +	:c:type:`v4l2_format` ``type`` field. See
+> +	:c:type:`v4l2_buf_type` for valid values.
+> +    * - __u32
+> +      - ``reserved``\ [13]
+> +      - A place holder for future extensions. Drivers and applications
+> +	must set the array to zero.
+> +
+> +Return Value
+> +============
+> +
+> +On success 0 is returned, on error -1 and the ``errno`` variable is set
+> +appropriately. The generic error codes are described at the
+> +:ref:`Generic Error Codes <gen-errors>` chapter.
+> +
+> +EBUSY
+> +    File I/O is in progress.
+> +    Any buffer in range ``index`` to ``index + count - 1`` is not in
+
+Any buffer in range -> One or more of the buffers in the range
+is -> are
+
+> +    DEQUEUED state.
+> +
+> +EINVAL
+> +    Any buffer in range ``index`` to ``index + count - 1`` doesn't exist in the queue.
+
+Any buffer in range -> One or more of the buffers in the range
+doesn't exist in the queue -> do not exist
+
 > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 1506fbe8fc76..8486a2f2c09d 100644
+> index 8486a2f2c09d..6ca0e949dc27 100644
 > --- a/drivers/media/common/videobuf2/videobuf2-core.c
 > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -540,17 +540,16 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+> @@ -1692,6 +1692,44 @@ int vb2_core_prepare_buf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb)
 >  }
+>  EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
 >  
+> +int vb2_core_delete_bufs(struct vb2_queue *q, unsigned int start, unsigned int count)
+> +{
+> +	unsigned int i, ret = 0;
+> +	unsigned int q_num_bufs = vb2_get_num_buffers(q);
+> +
+> +	if (count == 0)
+> +		return 0;
+> +
+> +	if (count > q_num_bufs)
+> +		return -EINVAL;
+> +
+> +	if (start > q->max_num_buffers - count)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&q->mmap_lock);
+> +
+> +	/* Check that all buffers in the range exist */
+> +	for (i = start; i < start + count; i++) {
+> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
+> +
+> +		if (!vb) {
+> +			ret = -EINVAL;
+> +			goto unlock;
+> +		}
+> +		if (vb->state != VB2_BUF_STATE_DEQUEUED) {
+> +			ret = -EBUSY;
+> +			goto unlock;
+> +		}
+> +	}
+> +	__vb2_queue_free(q, start, count);
+> +	dprintk(q, 2, "%u buffers deleted\n", count);
+> +
+> +unlock:
+> +	mutex_unlock(&q->mmap_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(vb2_core_delete_bufs);
+> +
 >  /*
-> - * __vb2_free_mem() - release all video buffer memory for a given queue
-> + * __vb2_free_mem() - release video buffer memory for a given range of
-> + * buffers in a given queue
->   */
-> -static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
-> +static void __vb2_free_mem(struct vb2_queue *q, unsigned int start, unsigned int count)
+>   * vb2_start_streaming() - Attempt to start streaming.
+>   * @q:		videobuf2 queue
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 03e8080a68a8..8e437104f9c1 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -1001,6 +1001,18 @@ EXPORT_SYMBOL_GPL(vb2_poll);
+>  
+>  /* vb2 ioctl helpers */
+>  
+> +int vb2_ioctl_delete_bufs(struct file *file, void *priv,
+> +			  struct v4l2_delete_buffers *d)
+> +{
+> +	struct video_device *vdev = video_devdata(file);
+> +
+> +	if (vb2_queue_is_busy(vdev->queue, file))
+> +		return -EBUSY;
+> +
+> +	return vb2_core_delete_bufs(vdev->queue, d->index, d->count);
+> +}
+> +EXPORT_SYMBOL_GPL(vb2_ioctl_delete_bufs);
+> +
+>  int vb2_ioctl_reqbufs(struct file *file, void *priv,
+>  			  struct v4l2_requestbuffers *p)
 >  {
-> -	unsigned int buffer;
-> +	unsigned int i;
->  	struct vb2_buffer *vb;
-> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index d13954bd31fd..e764af2e29ff 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -722,6 +722,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		SET_VALID_IOCTL(ops, VIDIOC_PREPARE_BUF, vidioc_prepare_buf);
+>  		SET_VALID_IOCTL(ops, VIDIOC_STREAMON, vidioc_streamon);
+>  		SET_VALID_IOCTL(ops, VIDIOC_STREAMOFF, vidioc_streamoff);
+> +		SET_VALID_IOCTL(ops, VIDIOC_DELETE_BUFS, vidioc_delete_bufs);
+
+I think this is a much better place to disable DELETE_BUFS if CREATE_BUFS
+is missing. Just check for the presence of create_bufs before enabling
+delete_bufs.
+
+>  	}
 >  
-> -	for (buffer = q_num_buffers - buffers; buffer < q_num_buffers;
-> -	     ++buffer) {
-> -		vb = vb2_get_buffer(q, buffer);
-> +	for (i = start; i < start + count; i++) {
-> +		vb = vb2_get_buffer(q, i);
->  		if (!vb)
->  			continue;
->  
-> @@ -565,35 +564,33 @@ static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
+>  	if (is_vid || is_vbi || is_meta) {
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 33076af4dfdb..2162de908afa 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -489,6 +489,14 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
+>  	v4l_print_format(&p->format, write_only);
 >  }
 >  
+> +static void v4l_print_delete_buffers(const void *arg, bool write_only)
+> +{
+> +	const struct v4l2_delete_buffers *p = arg;
+> +
+> +	pr_cont("type=%s, index=%u, count=%u\n",
+> +		prt_names(p->type, v4l2_type_names), p->index, p->count);
+> +}
+> +
+>  static void v4l_print_streamparm(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_streamparm *p = arg;
+> @@ -2161,6 +2169,25 @@ static int v4l_prepare_buf(const struct v4l2_ioctl_ops *ops,
+>  	return ret ? ret : ops->vidioc_prepare_buf(file, fh, b);
+>  }
+>  
+> +static int v4l_delete_bufs(const struct v4l2_ioctl_ops *ops,
+> +			   struct file *file, void *fh, void *arg)
+> +{
+> +	struct v4l2_delete_buffers *delete = arg;
+> +	int ret = check_fmt(file, delete->type);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* VIDIOC_CREATE_BUFS support is mandatory */
+> +	if (!ops->vidioc_create_bufs)
+> +		return -ENOTTY;
+> +
+
+Then this check can be dropped.
+
+> +	if (ops->vidioc_delete_bufs)
+> +		return ops->vidioc_delete_bufs(file, fh, delete);
+> +
+> +	return -ENOTTY;
+> +}
+> +
+>  static int v4l_g_parm(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -2910,6 +2937,7 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_ENUM_FREQ_BANDS, v4l_enum_freq_bands, v4l_print_freq_band, 0),
+>  	IOCTL_INFO(VIDIOC_DBG_G_CHIP_INFO, v4l_dbg_g_chip_info, v4l_print_dbg_chip_info, INFO_FL_CLEAR(v4l2_dbg_chip_info, match)),
+>  	IOCTL_INFO(VIDIOC_QUERY_EXT_CTRL, v4l_query_ext_ctrl, v4l_print_query_ext_ctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_query_ext_ctrl, id)),
+> +	IOCTL_INFO(VIDIOC_DELETE_BUFS, v4l_delete_bufs, v4l_print_delete_buffers, INFO_FL_PRIO | INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_delete_buffers, type)),
+>  };
+>  #define V4L2_IOCTLS ARRAY_SIZE(v4l2_ioctls)
+>  
+> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+> index edb733f21604..55afbde54211 100644
+> --- a/include/media/v4l2-ioctl.h
+> +++ b/include/media/v4l2-ioctl.h
+> @@ -163,6 +163,8 @@ struct v4l2_fh;
+>   *	:ref:`VIDIOC_CREATE_BUFS <vidioc_create_bufs>` ioctl
+>   * @vidioc_prepare_buf: pointer to the function that implements
+>   *	:ref:`VIDIOC_PREPARE_BUF <vidioc_prepare_buf>` ioctl
+> + * @vidioc_delete_bufs: pointer to the function that implements
+> + *	:ref:`VIDIOC_DELETE_BUFS <vidioc_delete_bufs>` ioctl
+>   * @vidioc_overlay: pointer to the function that implements
+>   *	:ref:`VIDIOC_OVERLAY <vidioc_overlay>` ioctl
+>   * @vidioc_g_fbuf: pointer to the function that implements
+> @@ -422,6 +424,8 @@ struct v4l2_ioctl_ops {
+>  				  struct v4l2_create_buffers *b);
+>  	int (*vidioc_prepare_buf)(struct file *file, void *fh,
+>  				  struct v4l2_buffer *b);
+> +	int (*vidioc_delete_bufs)(struct file *file, void *fh,
+> +				  struct v4l2_delete_buffers *d);
+>  
+>  	int (*vidioc_overlay)(struct file *file, void *fh, unsigned int i);
+>  	int (*vidioc_g_fbuf)(struct file *file, void *fh,
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 88e35a3b7730..0d17e5605c09 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -867,6 +867,16 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>   */
+>  int vb2_core_prepare_buf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb);
+>  
+> +/**
+> + * vb2_core_delete_bufs() -
+> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
+> + * @start:	first index of the range of buffers to delete.
+> + * @count:	number of buffers to delete.
+> + *
+> + *  Return: returns zero on success; an error code otherwise.
+> + */
+> +int vb2_core_delete_bufs(struct vb2_queue *q, unsigned int start, unsigned int count);
+> +
+>  /**
+>   * vb2_core_qbuf() - Queue a buffer from userspace
+>   *
+> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
+> index 5a845887850b..ddc08623606c 100644
+> --- a/include/media/videobuf2-v4l2.h
+> +++ b/include/media/videobuf2-v4l2.h
+> @@ -334,6 +334,8 @@ int vb2_ioctl_streamon(struct file *file, void *priv, enum v4l2_buf_type i);
+>  int vb2_ioctl_streamoff(struct file *file, void *priv, enum v4l2_buf_type i);
+>  int vb2_ioctl_expbuf(struct file *file, void *priv,
+>  	struct v4l2_exportbuffer *p);
+> +int vb2_ioctl_delete_bufs(struct file *file, void *priv,
+> +			  struct v4l2_delete_buffers *p);
+>  
+>  /* struct v4l2_file_operations helpers */
+>  
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 68e7ac178cc2..47fdd17babbb 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -2624,6 +2624,20 @@ struct v4l2_create_buffers {
+>  	__u32			reserved[5];
+>  };
+>  
+> +/**
+> + * struct v4l2_delete_buffers - VIDIOC_DELETE_BUFS argument
+> + * @index:	the first buffer to be deleted
+> + * @count:	number of buffers to delete
+> + * @type:	enum v4l2_buf_type
+> + * @reserved:	future extensions
+> + */
+> +struct v4l2_delete_buffers {
+> +	__u32			index;
+> +	__u32			count;
+> +	__u32			type;
+> +	__u32			reserved[13];
+> +};
+> +
 >  /*
-> - * __vb2_queue_free() - free buffers at the end of the queue - video memory and
-> + * __vb2_queue_free() - free @count buffers from @start index of the queue - video memory and
->   * related information, if no buffers are left return the queue to an
->   * uninitialized state. Might be called even if the queue has already been freed.
->   */
-> -static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
-> +static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned int count)
->  {
-> -	unsigned int buffer;
-> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
-> +	unsigned int i;
+>   *	I O C T L   C O D E S   F O R   V I D E O   D E V I C E S
+>   *
+> @@ -2723,6 +2737,8 @@ struct v4l2_create_buffers {
+>  #define VIDIOC_DBG_G_CHIP_INFO  _IOWR('V', 102, struct v4l2_dbg_chip_info)
 >  
->  	lockdep_assert_held(&q->mmap_lock);
+>  #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
+> +#define VIDIOC_DELETE_BUFS	_IOWR('V', 104, struct v4l2_delete_buffers)
+> +
 >  
->  	/* Call driver-provided cleanup function for each buffer, if provided */
-> -	for (buffer = q_num_buffers - buffers; buffer < q_num_buffers;
-> -	     ++buffer) {
-> -		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-> +	for (i = start; i < start + count; i++) {
-> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
->  
->  		if (vb && vb->planes[0].mem_priv)
->  			call_void_vb_qop(vb, buf_cleanup, vb);
->  	}
->  
->  	/* Release video buffer memory */
-> -	__vb2_free_mem(q, buffers);
-> +	__vb2_free_mem(q, start, count);
->  
->  #ifdef CONFIG_VIDEO_ADV_DEBUG
->  	/*
->  	 * Check that all the calls were balanced during the life-time of this
->  	 * queue. If not then dump the counters to the kernel log.
->  	 */
-> -	if (q_num_buffers) {
-> +	if (vb2_get_num_buffers(q)) {
->  		bool unbalanced = q->cnt_start_streaming != q->cnt_stop_streaming ||
->  				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming ||
->  				  q->cnt_wait_prepare != q->cnt_wait_finish;
-> @@ -619,8 +616,8 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  		q->cnt_stop_streaming = 0;
->  		q->cnt_unprepare_streaming = 0;
->  	}
-> -	for (buffer = 0; buffer < vb2_get_num_buffers(q); buffer++) {
-> -		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-> +	for (i = start; i < start + count; i++) {
-> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
->  		bool unbalanced;
->  
->  		if (!vb)
-> @@ -637,7 +634,7 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  
->  		if (unbalanced) {
->  			pr_info("unbalanced counters for queue %p, buffer %d:\n",
-> -				q, buffer);
-> +				q, i);
->  			if (vb->cnt_buf_init != vb->cnt_buf_cleanup)
->  				pr_info("     buf_init: %u buf_cleanup: %u\n",
->  					vb->cnt_buf_init, vb->cnt_buf_cleanup);
-> @@ -671,9 +668,8 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  #endif
->  
->  	/* Free vb2 buffers */
-> -	for (buffer = q_num_buffers - buffers; buffer < q_num_buffers;
-> -	     ++buffer) {
-> -		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-> +	for (i = start; i < start + count; i++) {
-> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
->  
->  		if (!vb)
->  			continue;
-> @@ -713,7 +709,7 @@ EXPORT_SYMBOL(vb2_buffer_in_use);
->  static bool __buffers_in_use(struct vb2_queue *q)
->  {
->  	unsigned int buffer;
-> -	for (buffer = 0; buffer < vb2_get_num_buffers(q); ++buffer) {
-> +	for (buffer = 0; buffer < q->max_num_buffers; ++buffer) {
->  		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
->  
->  		if (!vb)
-> @@ -899,7 +895,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		 * queued without ever calling STREAMON.
->  		 */
->  		__vb2_queue_cancel(q);
-> -		__vb2_queue_free(q, q_num_bufs);
-> +		__vb2_queue_free(q, 0, q->max_num_buffers);
->  		mutex_unlock(&q->mmap_lock);
->  
->  		/*
-> @@ -1002,7 +998,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		 * from already queued buffers and it will reset q->memory to
->  		 * VB2_MEMORY_UNKNOWN.
->  		 */
-> -		__vb2_queue_free(q, allocated_buffers);
-> +		__vb2_queue_free(q, first_index, allocated_buffers);
->  		mutex_unlock(&q->mmap_lock);
->  		return ret;
->  	}
-> @@ -1127,7 +1123,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		 * from already queued buffers and it will reset q->memory to
->  		 * VB2_MEMORY_UNKNOWN.
->  		 */
-> -		__vb2_queue_free(q, allocated_buffers);
-> +		__vb2_queue_free(q, *first_index, allocated_buffers);
->  		mutex_unlock(&q->mmap_lock);
->  		return -ENOMEM;
->  	}
-> @@ -1742,7 +1738,7 @@ static int vb2_start_streaming(struct vb2_queue *q)
->  		 * Forcefully reclaim buffers if the driver did not
->  		 * correctly return them to vb2.
->  		 */
-> -		for (i = 0; i < vb2_get_num_buffers(q); ++i) {
-> +		for (i = 0; i < q->max_num_buffers; ++i) {
->  			vb = vb2_get_buffer(q, i);
->  
->  			if (!vb)
-> @@ -2148,7 +2144,7 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
->  	 * to vb2 in stop_streaming().
->  	 */
->  	if (WARN_ON(atomic_read(&q->owned_by_drv_count))) {
-> -		for (i = 0; i < vb2_get_num_buffers(q); i++) {
-> +		for (i = 0; i < q->max_num_buffers; i++) {
->  			struct vb2_buffer *vb = vb2_get_buffer(q, i);
->  
->  			if (!vb)
-> @@ -2192,7 +2188,7 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
->  	 * call to __fill_user_buffer() after buf_finish(). That order can't
->  	 * be changed, so we can't move the buf_finish() to __vb2_dqbuf().
->  	 */
-> -	for (i = 0; i < vb2_get_num_buffers(q); i++) {
-> +	for (i = 0; i < q->max_num_buffers; i++) {
->  		struct vb2_buffer *vb;
->  		struct media_request *req;
->  
-> @@ -2619,7 +2615,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
->  	__vb2_cleanup_fileio(q);
->  	__vb2_queue_cancel(q);
->  	mutex_lock(&q->mmap_lock);
-> -	__vb2_queue_free(q, vb2_get_num_buffers(q));
-> +	__vb2_queue_free(q, 0, q->max_num_buffers);
->  	vb2_core_free_buffers_storage(q);
->  	mutex_unlock(&q->mmap_lock);
->  }
+>  /* Reminder: when adding new ioctls please add support for them to
+>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
 
 Regards,
 
