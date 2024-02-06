@@ -1,139 +1,232 @@
-Return-Path: <linux-media+bounces-4733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC6884AC4D
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 03:47:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD28984AC71
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 03:54:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1C8A1C239FF
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 02:47:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20140B22B52
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 02:54:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D4CC5647B;
-	Tue,  6 Feb 2024 02:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 443FC6EB49;
+	Tue,  6 Feb 2024 02:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="kEiyjiPI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2096.outbound.protection.outlook.com [40.107.114.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1964556B62
-	for <linux-media@vger.kernel.org>; Tue,  6 Feb 2024 02:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707187618; cv=none; b=q4AmP2H7Fgo9oxtNOjKmoLA4h6f/fGL40ozpgoyPqiX1TUDBD7JDFEbgCUxP9ajwxFuN9qK6RVZbMSCXZatcWUQVVsbo10JarMZhCMp/D6b+TpVRWOTx5W7sDkm8MiPPPJRYTcGynUcqChN3PLOqu7fXHNTczgkO+1QlXu77QCM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707187618; c=relaxed/simple;
-	bh=cHitvUmm1k+Nc7ksr1dyglRjoJ9FVeuWBSICVMyx9Uw=;
-	h=Date:Message-ID:From:To:Subject; b=R2O6YR9sdg4MrxWM/O6lg0D+eE6VV3RcDCPdojez84n1HOk3X+f/bLxAz4QQ5no3OQTumG+7sdciXq1z4QH236bl+0gN96j8vu8YVk/GbhUsSAGCvzSmY0OgG3HKEaYItCBIl0u739Ds6zqdSiipbu0tQ3T6+I74lkc4qIgx8Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38005C433F1
-	for <linux-media@vger.kernel.org>; Tue,  6 Feb 2024 02:46:57 +0000 (UTC)
-Date: Tue, 06 Feb 2024 03:46:55 +0100
-Message-ID: <179ed7b1d839842e661cf4b72772d470.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2E63D543;
+	Tue,  6 Feb 2024 02:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.96
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707188059; cv=fail; b=DyicwSNwa/A2JDKIH+FrRKIejdTMGewzg+GQ70BwxLOjk8/CQidiDCMTGfMFEfuSm2/W14ngTkFZxS4nKyEYxunIShw+RkXwvFI0YESxuSDjmjAMVQCnrhSIvbD76R9CU5e3cI7KIq9+QId+cQXIdAKobWfUKyus0MAHt2oJ+qA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707188059; c=relaxed/simple;
+	bh=erwmxIW+pOL/HO6bvBFOpvVZ/ObHerA/sAL6yx1RVNc=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=S8Ok7SH6QwBNaFVjNyXDizMzfH2MBfGsWIFKF9IVXLX2QH0nxU+PZg2Vx1DEd9NG18iU6vQ93zzga5JlTp4q4Mu1a0UkiKvYGnztkvf+FKqWEOQ/S2O4QnPNXSzCzNBjTLotLiGHEgiH+z/u+fljXms7XRB65nhCOsAujqNMeuA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=kEiyjiPI; arc=fail smtp.client-ip=40.107.114.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M+ieCyxWybpYH9SuXDxhBeHeWDbTGcLPjRC9qoGIhXXljMYpTEQO+gPqPA2lq+8WLdGxLTmGs20JvXqU4gnAFc4vebMY6KUN6aFIVfeFnZYJKznR0tZvSjg2deqLhF/frydJN1p4xlX2q6sTD4VQACwhBDLTTCFfxDqSc7L6yUEcZdLR/QirsYs2Y76dmGiVlCmE+RyYfOwF77gAkiyyhTAId5OgsBUAG7z9H8CBTzSpEqiMzQ5njocUgQIJ3Ygwt5LfNcsfA6bYma/waNKxz1ZTXkH/m9g7k1VKzDbSe34TSEvk68G6nvD5qavGNqNtChdMWbsF4TqI3bm2Vxpscw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oWAYyZ/WU+PkFtK7rW7bf06qLxVO4EcOq61arcoJRWE=;
+ b=CtJSqrlIV82G7j+3AVZ33rp0DGzlQpPGhHJ9+e3YUZHWfAKz8JOJL6eHK4TCLo3cmXvkGGJvLCy/Yx+Ove3rNqpQybXOX16NZGc0qNgk+iGeMr6raMALbl47qM+IflLJTTgRncnNLHaqgPwe4hXwNUXM/ikKdutWfTmky62ugLm5ZYRirJ1RS5F1Y7XgJ6ie3UtaI13n8A39H1Cb+V23CqL5oQIlqwuGT5eo9B4F6bXIfudbXQHI0mX+zrDxw3FEBVntZQpu/zgvcewcDs5y0qyhfaquFLlV7p/UiafdrvUUe5J6hr+6vU3mNUdpmsbh7EChBP5d40W3XB1f0EYn/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oWAYyZ/WU+PkFtK7rW7bf06qLxVO4EcOq61arcoJRWE=;
+ b=kEiyjiPIpGoaOi9cU2107Jbb4ITMTihWXfR5SZG291CROwdV3d5nNhJX2cRMHLk41pWIbN9uWzkUPE21HviXWKUPCZCqShhtovHrntHeVd75TViCJnsEOWaHLgYBowUCmjIqA/prgDRPC2xaEq1korG5f+1LU5ON+/aWA3jszvE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OSZPR01MB9518.jpnprd01.prod.outlook.com
+ (2603:1096:604:1d4::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Tue, 6 Feb
+ 2024 02:54:13 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::4d0b:6738:dc2b:51c8]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::4d0b:6738:dc2b:51c8%6]) with mapi id 15.20.7249.035; Tue, 6 Feb 2024
+ 02:54:13 +0000
+Message-ID: <87ttmmnvzh.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
+	u.kleine-koenig@pengutronix.de,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Airlie <airlied@gmail.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Helge Deller <deller@gmx.de>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <"maa rten.lankhorst"@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tim Harvey <tharvey@gateworks.com>, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH 0/4] of: replace of_graph_get_next_endpoint()
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 6 Feb 2024 02:54:10 +0000
+X-ClientProxiedBy: TYAPR01CA0065.jpnprd01.prod.outlook.com
+ (2603:1096:404:2b::29) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
-
-Results of the daily build of media_tree:
-
-date:			Tue Feb  6 03:00:27 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	ee171dc5050212ea8677ed5cb777746cf00d72d9
-v4l-utils git hash:	d700deb143685b8217aa8a6eeeba3b090d4287fc
-edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8575-g7162b9ec
-sparse version:		v0.5.0-8575-g7162b9ec
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
-
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: WARNINGS:
-
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSZPR01MB9518:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf022802-de56-4506-324c-08dc26bee65c
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	v/kkYXAQLE5c81/q9pBp+1/84G8WPEb/OWRRcOHcLWtulQxdZK0zMBKlKvb5Mt4LpK/Zhesxwt6KsNuwFJW3NJIgt93KLepNMPq/Hbarmu/kAJh9hIqlUzRLRBSc9T4+jPnBRmpc/Lt5dfPo+fsABnH72tikwPrCGU3YWsIGZZhkMU+kVUn4AiBxK18vBoADoq5kWQLmMbjdGNPPp2kasMIfLc4rq86sYYCCy7eWfmnXN2cHzBFrWgNIVmVJK1AiBvCpzsOGq+nFOWL+L4JHRoPsNyLOA4Y8Hb6NFoQJT44kCXYJC2xcqitLcwhNmRWbZWdbIR2hU9LSA5wpFPHH73+HShL1xeulEapcsbFekWARqv6IxG1eUltd4N7y6eG+t9v6LRKq7iIvi4pUh3PW3AGz+J8bzofS1l5gw1JGb8bw0cbTmNepOEzfstMkpWBFskknuqS3GmbR31JZmnxkEiZdEoAH94N57ihD9Tdest1X3OM/I2u8CjEcbztc4ejROZdOAIc9dmrelc+46amHrlddNf7z2txw3gUXGmyqye0cUCGySL7DyL4GiHgRbBgXbnu4PqVnQXcDjmWC+eFEHK6MX9vdKQuAPG2+Lor3ktrcOgvCK6QpLqMrCoDvUVwg
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(136003)(346002)(396003)(39860400002)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(38100700002)(52116002)(6506007)(316002)(83380400001)(26005)(86362001)(2616005)(41300700001)(8676002)(8936002)(6512007)(36756003)(921011)(2906002)(478600001)(6486002)(966005)(7416002)(7406005)(5660300002)(66556008)(66946007)(66476007)(38350700005)(110136005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?jj+EIlDwm84taHwhRoQj05MPjJJ+Wg//U3XzRRayjdbE0fWm9VwURhh13Pq8?=
+ =?us-ascii?Q?WBKQhWuQTS82PJcwYoLSl14yDxS+mcXr+xUYowFSmvNF5Qn/i4Dq1mGFMhQI?=
+ =?us-ascii?Q?543wK7ERtY5uVs9UPvQzgFhDOsy1kDfWECLGOYolb/+n6mCm3ma7N8y3kate?=
+ =?us-ascii?Q?wb6NjNuIeO01V1wPyYxeNK2HbYFRIl6Cq+FQ12ZOz+FryB8002wjNYpgLPLz?=
+ =?us-ascii?Q?e1wo9eLNuaJUGBbzC38vXgmwhNGG81agMkx1nn0TlAjcUWaPEdfVvsQv38J9?=
+ =?us-ascii?Q?BjKclS6yjRHhuLFWhIlzeps6C/lheOlZPy32z+cr1yTZMEHMYiWdnElYyrem?=
+ =?us-ascii?Q?xuNLlVgc1TCjx4mmO7yMasNT160ca+xRSmnSc1Cy/rxbs88AC2hKfJXCDohB?=
+ =?us-ascii?Q?kMKNqNeQLXZ8tfvrzCbMN8duCA3pXCPbid1vYtjjbUqt+WaPbeVUYx7ZG2rB?=
+ =?us-ascii?Q?NgXCrDTKr9M2HmanUb9/7CqpdCXC5mVlZxuGQOuUfKgfzmkLHtHvvLnYoAts?=
+ =?us-ascii?Q?otZt4xuH7aYybI1FzqMFk2mGVL8e2k4MYemPYK/KiqnMh+rtKDZ6RO13nhjh?=
+ =?us-ascii?Q?Uly3K+Cy4AkZLNbhXUhVfIV3ef68O/kYAWGksYJfvg0crOgdHJ6xpdYO5f6C?=
+ =?us-ascii?Q?1xHFhXe20s5tjuqE0mtqBTM8q/WLIRIaDwfEt8mJocNJb5Xx7xjWPTl0tZ0S?=
+ =?us-ascii?Q?kCGk9wkJ3StHYhVzXGnKhoDilmQPe4+FCI+3zV4rwkpjHj7brXvrhRLt+nUK?=
+ =?us-ascii?Q?ZFYA03DzyU6KhlnrxTcZ/zTluzRJ9AghN9zi0asgFaZTDoXLv/DYUie+eGNd?=
+ =?us-ascii?Q?MYhlhOIa0MksBIDXFhmOnry1LSm2c+vnR/DV7gizgVBVkji9xEmx0l8MAtBF?=
+ =?us-ascii?Q?FlAzLXXSfbHpG310U07mhd/nSGH2H9Uv8DrCrmVLuzTjHk+eLwiIlhypMuaS?=
+ =?us-ascii?Q?aurx+gVxEG6XlCYeldM4FNCyOO9wH6vBzHRIgSFkhChUk8hinjG7iqTSutQs?=
+ =?us-ascii?Q?8hbOV3nNWUdN6ItT3J9LEhS9OrCcTN6nliPPeWj9jUJ6KnhHGfHK6EC8EUMt?=
+ =?us-ascii?Q?4zMYBC0nKf04CrG9AdNm19QeelVV/nGh4eWPKrmL2LBSk2MIbj5IjXqtAZfh?=
+ =?us-ascii?Q?JqOyViJiaNK84P+2Fi4oytRNlYNVkukBUZ78xicnMPyxKxJFiR95aWu/J6GU?=
+ =?us-ascii?Q?L1zl1/kClP2P9/t8ppG7HUU5KEPYPZn5RqKltvhP7LCh4E2jMqZ6FUadMIfJ?=
+ =?us-ascii?Q?sPLlzVZNqC1zSL06dLkp9yy7dr+8ZYTmJbeu8oWYg67aS92cmMtBRjbK5oXm?=
+ =?us-ascii?Q?AzWUO/nDft2ErITWqmbVjg9mx1o8IK96l56wx63mm3MM/UQpB3jjRU6bXNyW?=
+ =?us-ascii?Q?ALB0gaB9l9DJ34DLkK3EO7vlA0Ty1r6NnTPthcnmF0vl10MNtQSJckkiWLhK?=
+ =?us-ascii?Q?ettvOlVnJ/gJPTZJIw9Qi2aRiTeBCNIM+JktrJBRDLud5/RYIPRYz38D3r3T?=
+ =?us-ascii?Q?E6mu9ZcMCgdbE0ZRpo6f8gU/BkNxRAOCOMSt8s9hrl4YAfTpavNqqoP6I5Ms?=
+ =?us-ascii?Q?0LeGQbrOeMGkNGrdrKVPf0h0STMq2EWctmJBtsZnY0kzER3qr6Io1sRxDGx5?=
+ =?us-ascii?Q?Nld/FceMH6P7o5UW0xlSGuY=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf022802-de56-4506-324c-08dc26bee65c
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2024 02:54:13.1450
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h3QwofiB4R9rYGsBAxqAMKYuUm6nTlcAVabDEzJau6jcXrQ7cCpP/2sN+DixLBDVa/str0OLt6QkX4YpQskOI3hwakdPxbrNis5f6C1YK56Awsqgt6yrZF6Cdztn44cf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9518
 
 
-date:			Tue Feb  6 03:19:18 CET 2024
-virtme-64: WARNINGS: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 5
+Hi Rob
 
-date:			Tue Feb  6 03:45:38 CET 2024
+We should get rid of or minimize of_graph_get_next_endpoint() in
+its current form. In general, drivers should be asking for a specific 
+port number because their function is fixed in the binding.
 
-Detailed results are available here:
+	https://lore.kernel.org/r/20240131184347.GA1906672-robh@kernel.org
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+This patch-set replace of_graph_get_next_endpoint() by
+of_graph_get_endpoint_by_regs(). There are still next_endpoint()
+after this patch-set, but it will be replaced by
+for_each_endpoint_of_node() in next patch-set (A)
 
-Detailed regression test results are available here:
+[*] this patch-set
+[o] done
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+	[o] tidyup of_graph_get_endpoint_count()
+	[*] replace endpoint func - use endpoint_by_regs()
+(A)	[ ] replace endpoint func - use for_each()
+	[ ] rename endpoint func to device_endpoint
+	[ ] add new port function
+	[ ] add new endpont function
+	[ ] remove of_graph_get_next_device_endpoint()
 
-Full logs are available here:
+Kuninori Morimoto (4):
+  gpu: drm: replace of_graph_get_next_endpoint()
+  media: i2c: replace of_graph_get_next_endpoint()
+  media: platform: replace of_graph_get_next_endpoint()
+  video: fbdev: replace of_graph_get_next_endpoint()
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+ drivers/gpu/drm/drm_of.c                      |  2 +-
+ .../drm/panel/panel-raspberrypi-touchscreen.c |  2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+ drivers/media/i2c/adv7343.c                   |  2 +-
+ drivers/media/i2c/adv7604.c                   |  2 +-
+ drivers/media/i2c/mt9p031.c                   |  2 +-
+ drivers/media/i2c/mt9v032.c                   |  2 +-
+ drivers/media/i2c/ov2659.c                    |  2 +-
+ drivers/media/i2c/ov5645.c                    |  2 +-
+ drivers/media/i2c/ov5647.c                    |  2 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  2 +-
+ drivers/media/i2c/s5k5baf.c                   |  2 +-
+ drivers/media/i2c/tc358743.c                  |  2 +-
+ drivers/media/i2c/tda1997x.c                  |  2 +-
+ drivers/media/i2c/tvp514x.c                   |  2 +-
+ drivers/media/i2c/tvp7002.c                   |  2 +-
+ drivers/media/platform/atmel/atmel-isi.c      |  4 ++--
+ drivers/media/platform/intel/pxa_camera.c     |  2 +-
+ .../platform/samsung/exynos4-is/fimc-is.c     |  2 +-
+ .../platform/samsung/exynos4-is/mipi-csis.c   |  2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |  4 ++--
+ drivers/media/platform/ti/davinci/vpif.c      |  3 +--
+ drivers/video/fbdev/amba-clcd.c               |  2 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dsi.c    |  3 ++-
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 20 +------------------
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c  |  3 ++-
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c  |  3 ++-
+ drivers/video/fbdev/omap2/omapfb/dss/venc.c   |  3 ++-
+ drivers/video/fbdev/pxafb.c                   |  2 +-
+ include/video/omapfb_dss.h                    |  3 ---
+ 30 files changed, 35 insertions(+), 53 deletions(-)
 
-The Media Infrastructure API from this daily build is here:
+-- 
+2.25.1
 
-https://hverkuil.home.xs4all.nl/spec/index.html
 
