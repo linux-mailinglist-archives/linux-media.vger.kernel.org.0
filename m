@@ -1,317 +1,384 @@
-Return-Path: <linux-media+bounces-4764-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4765-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DE484B6C4
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 14:44:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA35984B706
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 14:57:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73E721C244AD
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 13:44:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 455EBB26D25
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 13:57:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0797132483;
-	Tue,  6 Feb 2024 13:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C94BF131E24;
+	Tue,  6 Feb 2024 13:57:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FGuKLCoR"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="AvHlf8ZF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5372C132477;
-	Tue,  6 Feb 2024 13:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134F1131742
+	for <linux-media@vger.kernel.org>; Tue,  6 Feb 2024 13:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707226920; cv=none; b=RUGjvvSS/Z+jYyYuUOpCV0vurARcQ/2zBpVLChSjYmZdWKoeEOA/Q22PC7egfpOH3NN5I/1Ou45uqtatC+0pNzYITJNSFzvEJIkSU1gobMjNbOaIaqGJSvQnwNVEZiYbMjezBO8SRDaKjerTb2U1Ca1/Iz4z9u57BhYKmPiuYis=
+	t=1707227830; cv=none; b=oG2nHa92PgevBF7SlFjI1ijrT6zSLriTz4SYw+M/2dweDGbh0xOqOr+iluo7Ql910A4uwSP03X6UrIHNExvB+GLvLI7weedKY+K02mBbC+DY2QI63L4jLycQVTwXKlNnSGw5Jb9MO5F54dsieu9gXeSs9eNTOCtpo9lZDSkD1vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707226920; c=relaxed/simple;
-	bh=D+TBqmysgnL/HqC+ck7im51xVuE0eKf2Vx5tfRp1Hkc=;
+	s=arc-20240116; t=1707227830; c=relaxed/simple;
+	bh=OOelxUoiVHdNQnYiq8PpssK7fO4+9GMJyY83Ls7aG20=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lxs763zyvYTk+RoeOlHd8UmhVbuiNGt2VfzUyDlRwFZ7g2gyIrJhKlFWmJyiUWrdT9tkQ0jlEi7Cqj+xptC5HvU74TaKIj+HZw58taKMliQpTTy8ZRTwv41VglKNL6UfJuFKDhzCrur5k4rhK9FY8N46uLOYDjz3jWZLdiNjiC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FGuKLCoR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (85-76-34-85-nat.elisa-mobile.fi [85.76.34.85])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C521240;
-	Tue,  6 Feb 2024 14:40:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707226832;
-	bh=D+TBqmysgnL/HqC+ck7im51xVuE0eKf2Vx5tfRp1Hkc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FGuKLCoR+tVg+6jR2YorraeR/At256PUFSppI95wrfNlx7aNBd5r4yEwq9f25NR3a
-	 EIL4EjimIbaYLv31HcXfK52O2BzGqUtcyDxLuSEHyg9q+PVZ2BI8KXioxCy9gTSj/4
-	 jlffOsqbpaVGIRnG62lv5Xi896kxrLt84Lv+nzbA=
-Date: Tue, 6 Feb 2024 15:41:55 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
-	=?utf-8?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Airlie <airlied@gmail.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Helge Deller <deller@gmx.de>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tim Harvey <tharvey@gateworks.com>, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 2/4] media: i2c: replace of_graph_get_next_endpoint()
-Message-ID: <20240206134155.GB2827@pendragon.ideasonboard.com>
-References: <87ttmmnvzh.wl-kuninori.morimoto.gx@renesas.com>
- <87r0hqnvxc.wl-kuninori.morimoto.gx@renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=A1V1qOeuGwwxAE7aGv34LrdMZjq3WdQuWtkyenv533MhOtU3IAefEpiG2wHt49Xp4acMAfDLp6nf98jzUU/B9l6ROCMDTjtnGDhUo0+2346CVbBYtV75E/9FKiY1vMAEPM4LcAFMDVPx7GBIJRugf3vhrYVWcA99LV2Ye4VgYn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=AvHlf8ZF; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40fcc74a0a0so6621885e9.1
+        for <linux-media@vger.kernel.org>; Tue, 06 Feb 2024 05:57:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1707227826; x=1707832626; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kb3EfwQ1MJaeA9+O1qYrsLSl0T9nvfGVDQWyYC/ou2o=;
+        b=AvHlf8ZF+fzw5SzqMUUoLXXXPRsOmm5z+Ee+iQaL/Y7KEL5DaAEsHI1amOwVvSydqg
+         t9q5TjHTWPvXiVPm5tRyYn2m+uq5RF0+lrbyNTE6VaObN0iJd8QP5IMLmt3TqHJEcSJ/
+         dqNniKo4rp8DxZMeejoc+YtqMvqpaevOtfZTE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707227826; x=1707832626;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kb3EfwQ1MJaeA9+O1qYrsLSl0T9nvfGVDQWyYC/ou2o=;
+        b=EZ3ccG7QZOCj/07DVZch0IX6DjD2KmPXDPVBrKyJKkp4YC1BNUaqopq8SC2U8a2wvR
+         hZ9kTS0Vbby+d/i4htSx52vZJNvxx5RAL16eOrI+dnecuc1wPwfqLq6wJawrg/3bPmBI
+         6hTOt7Z512yy9URsliuxhgYApa8YYJktKlgbUvPvlvV3W1adrqtiaIG+zka1l/G8dWRS
+         rKRBa4EbGJAcsyKHBWD8g78ttRi6Md7+JkRxcgr9fLvai0TaiLkKIZRirh5DJgaUERD+
+         lPpaQyBqkqeIzV6vGIZbqZKr8QVMYMzpGVGKl1xciveQH/RU//7nBvJBQ+rc4jRO02wF
+         WBYQ==
+X-Gm-Message-State: AOJu0Yx2kCu+oj/VlSd9alb+DtgV02Fu52MilA5dXn92GIKzGFF6d6rV
+	ZV5pRy3EzQxjVfwPVqZlk+nN6WNQIzio8EfDA8j88NxHbEaSUtaf6UKo0ztlKqc=
+X-Google-Smtp-Source: AGHT+IFOqn0cbJK+WY/X2jzsNFe5DlfE9RRoN3pYgv6uF/Bp/mQ+6ZreQmabY1RjWhfdxFOF8hFqgg==
+X-Received: by 2002:a05:600c:1d07:b0:40f:dd10:180f with SMTP id l7-20020a05600c1d0700b0040fdd10180fmr2171433wms.3.1707227826124;
+        Tue, 06 Feb 2024 05:57:06 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVlNRdjfnrbeDjDbrCKYEBO3kd6rGhLpeMtXIG9oqKa+D8JDxEGy5DMCrqpoHSWZs0/bNypXMCfWtNtUPqoesQgAB0H6Daunh1Zgxlc+2Ut33t2ErRQSVGy8smjuSRGtY0tvTXLVh7k2qgPJ93b3ErEDdLGeMwVxq55VuThizfQDT/p92QBrVwVt6BC9+X/SgRZrG0aownrL7ZHiM5971IDJlkOtrvm6vm9btDr7rv6V6gklC7NhCAFtqZc8Pe/XJ7+9n2Rv5Auu909IPa39tT735ZRStAPQXX0KhuLsVAp7u7JKEaZy/OQBZ7OyT7GVfzIqxz+sgDsJt66dHh2BvC1uWUyIwCoa0jWx1h5P8wd7yKn0PYKtKi83LfG4m6t2/LSboEDvEmcshMx0eJHZjkLyWzcDWnLXG0SAj4nS4G+WWjIVaUS8optm2+U6EPGTnjDirg8XZAwCT2sFJbsh9+wpp7btXrzOT/ocxKYjY8ji4cYLruFDMZrZtrTNBc7+j0i3Mnw/EvN2ackeUuZ4g==
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id f6-20020a5d50c6000000b0033afcc069c3sm2153649wrt.84.2024.02.06.05.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Feb 2024 05:57:05 -0800 (PST)
+Date: Tue, 6 Feb 2024 14:57:03 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Message-ID: <ZcI6r_F1RQf8MCrq@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Christoph Hellwig <hch@lst.de>
+References: <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
+ <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
+ <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
+ <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
+ <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
+ <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
+ <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
+ <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
+ <ZboNyju8h4vfSd7v@phenom.ffwll.local>
+ <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87r0hqnvxc.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 
-Hi Morimoto-san,
-
-(Adding Krzysztof HaÅ‚asa)
-
-Thank you for the patch.
-
-On Tue, Feb 06, 2024 at 02:55:27AM +0000, Kuninori Morimoto wrote:
-> From DT point of view, in general, drivers should be asking for a
-> specific port number because their function is fixed in the binding.
+On Tue, Feb 06, 2024 at 02:28:35PM +0100, Christian König wrote:
+> Am 31.01.24 um 10:07 schrieb Daniel Vetter:
+> > On Tue, Jan 30, 2024 at 02:09:45PM +0100, Christian König wrote:
+> > > Am 30.01.24 um 11:40 schrieb Daniel Vetter:
+> > > > On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
+> > > > > Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
+> > > > > >    I would say we start with the DMA-API by getting away from sg_tables
+> > > > > > to something cleaner and state oriented.
+> > > > > FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
+> > > > > which is just a dead simple
+> > > > > 
+> > > > > struct dma_vec {
+> > > > >     dma_addr_t addr;
+> > > > >     size_t len;
+> > > > > };
+> > > > > 
+> > > > > (The rationale for introducing it in the IIO DMABUF patchset was that
+> > > > > the "scatterlist" wouldn't allow me to change the transfer size.)
+> > > > > 
+> > > > > So I believe a new "sg_table"-like could just be an array of struct
+> > > > > dma_vec + flags.
+> > > > Yeah that's pretty much the proposal I've seen, split the sg table into
+> > > > input data (struct page + len) and output data (which is the dma_addr_t +
+> > > > len you have above).
+> > > I would extend that a bit and say we have an array with
+> > > dma_addr+power_of_two_order and a header structure with lower bit offset and
+> > > some DMA transaction flags.
+> > > 
+> > > But this is something which can be worked as an optimization later on. For a
+> > > start this proposal here looks good to me as well.
+> > > 
+> > > > The part I don't expect to ever happen, because it hasn't the past 20 or
+> > > > so years, is that the dma-api will give us information about what is
+> > > > needed to keep the buffers coherency between various devices and the cpu.
+> > > Well maybe that's what we are doing wrong.
+> > > 
+> > > Instead of asking the dma-api about the necessary information we should give
+> > > the API the opportunity to work for us.
+> > > 
+> > > In other words we don't need the information about buffer coherency what we
+> > > need is that the API works for as and fulfills the requirements we have.
+> > > 
+> > > So the question is really what should we propose to change on the DMA-api
+> > > side to get this working as expected?
+> > So one thing I've been pondering, kinda picking up your point about CXL,
+> > is that we do make the coherency protocol more explicit by adding a
+> > coherency mode to dma_buf that the exporter sets. Some ideas for values
+> > this could have:
+> > 
+> > - ATTOMIC_COHERENT: Fully cache coherent, including device/cpu atomis.
+> >    This would be for CXL. Non-CXL devices could still participate with the
+> >    old model using explicit devices flushes, but must at comply with
+> >    CPU_COHERENT.
+> > 
+> >    There's also the power9-only nvlink that would fit here, but I guess
+> >    going forward CXL (and cache-coherent integrated gpu) would really be
+> >    the only users of this flag.
+> > 
+> >    Peer2peer would have the same rules, otherwise doesn't really make
+> >    sense. Also we might want to forbib non-CXL imports for these buffers
+> >    maybe even? Not sure on that.
+> > 
+> > - CPU_COHERENT: device transactions do snoop cpu devices caches, but
+> >    devices might do their own caching which isn't snooped by the cpu and
+> >    needs explicit device-side invalidate/flushing. This means pcie
+> >    importers are not allowed to use pcie no-snoop transactions, intel igpu
+> >    wouldn't be allowed to use MOCS that do the same, similar for arm
+> >    integrated devices.
+> > 
+> >    Importers can skip all explicit cache management apis like
+> >    dma_buf_begin/end_cpu_access, or the newly proposed
+> >    dma_buf_begin/end_device_access here.
+> > 
+> >    We'd need to figure out what exactly this means for peer2peer
+> >    transactions, I have no idea whether the no-snoop flag even does
+> >    anything for those.
+> > 
+> >    We might also want to split up CPU_COHERENT into CPU_COHERENT_WB and
+> >    CPU_WOHERENT_WC, so that importers know whether cpu reads are going to
+> >    be crawling or not.
+> > 
+> > - MEMORY_COHERENT: devices transactions do not snoop any caches, but
+> >    promise that all transactions are fully flushed to system memory. Any
+> >    devices transactions which do fill cpu caches must call the proposed
+> >    dma_buf_begin/end_device_access functions proposed here. Any cpu access
+> >    must be braketed by calls to dma_buf_begin/end_cpu_access.
+> > 
+> >    If your device does fill cpu caches, then essentially you'd not be able
+> >    to import such buffers. Not sure whether we need to put the
+> >    responsibility of checking that onto importers or exporters. Ideally
+> >    core dma-buf.c code would check this.
+> > 
+> >    Also maybe the cpu WC mapping mode would actually need to be a sub-mode
+> >    for MEMORY_COHERENT, because all cpu wc achieves is to avoid the need to
+> >    call dma_buf_begin/end_cpu_access, you would still need your devices to
+> >    be memory coherent. And if they're not, then you cannot use that
+> >    dma-buf.
+> > 
+> >    Or maybe alternatively we need to guarantee that exporters which set
+> >    MEMORY_COHERENT implement dma_buf_begin/end_device_access to make things
+> >    work for these cpu-coherent but not memory-coherent devices. This
+> >    becomes very tricky with device/arch/bus specific details I think.
+> > 
+> > - DMA_API_COHERENT: The memory is allocated or mapped by the dma-api, and
+> >    the exact coherency mode is not know. Importers _must_ braket all cpu
+> >    and device access with the respective dma_buf functions. This is
+> >    essentially the "we have no idea" default.
+> > 
+> >    Note that exporters might export memory allocated with dma_map_alloc
+> >    with MEMORY_COHERENT or CPU_COHERENT if they know how the memory exactly
+> >    works. E.g. for most arm soc gpu/display drivers we can assume that the
+> >    dma-api gives us MEMORY_COHERENT or CPU_COHERENT_WC, and just use that.
+> >    Essentially this would make the current implicit assumptions explicit.
+> > 
+> >    udmabuf would need to set this, definitely if Paul's patches to add the
+> >    explicit device flushes land.
+> > 
+> > - DEFAULT_COHERENT: This would be the backwards compat legacy yolo
+> >    behvaior. I'm not sure whether we should alias that with
+> >    DMA_API_COHERENT or leave it as a special value to mark exporters which
+> >    haven't been updated for the much more explicit coherency handling yet.
+> > 
+> >    The specification for this coherency mode would be a flat out "who
+> >    knows, just don't break existing use-cases with actual users".
+> >    Essentially the only reason we'd have this would be to make sure we can
+> >    avoid regressions of these existing use-cases, by keeping whatever
+> >    horrible heuristics we have in current exporters.
+> > 
+> >    It would also allow us to convert exporters and importers on a case by
+> >    case basis.
+> > 
+> > Note that all these coherency modes are defined in terms of bus-sepecific
+> > device access and in terms of dma_buf apis the importer must call or can
+> > skip. This way we'd avoid having to change the dma-api in a first step,
+> > and if this all works out properly we could then use the resulting dma-api
+> > as a baseline to propose dma-api extensions.
 > 
-> of_graph_get_next_endpoint() doesn't match to this concept.
+> When I read this for the first time my initial impression was that the idea
+> mostly looked good, but while thinking about it more and more I came to the
+> conclusion that this would go into the wrong direction.
 > 
-> Simply replace
+> Maybe I'm repeating myself, but I think we first of all have to talk a bit
+> about some aspects of coherency:
 > 
-> 	- of_graph_get_next_endpoint(xxx, NULL);
-> 	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
+> 1. Intra device coherency. This means that intra devices caches are
+> invalidated before beginning an operation and flushed before signaling that
+> an operation finished.
 > 
-> Link: https://lore.kernel.org/r/20240202174941.GA310089-robh@kernel.org
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/media/i2c/adv7343.c              | 2 +-
->  drivers/media/i2c/adv7604.c              | 2 +-
->  drivers/media/i2c/mt9p031.c              | 2 +-
->  drivers/media/i2c/mt9v032.c              | 2 +-
->  drivers/media/i2c/ov2659.c               | 2 +-
->  drivers/media/i2c/ov5645.c               | 2 +-
->  drivers/media/i2c/ov5647.c               | 2 +-
->  drivers/media/i2c/s5c73m3/s5c73m3-core.c | 2 +-
->  drivers/media/i2c/s5k5baf.c              | 2 +-
->  drivers/media/i2c/tc358743.c             | 2 +-
->  drivers/media/i2c/tda1997x.c             | 2 +-
->  drivers/media/i2c/tvp514x.c              | 2 +-
->  drivers/media/i2c/tvp7002.c              | 2 +-
->  13 files changed, 13 insertions(+), 13 deletions(-)
+> 2. Inter device and device to CPU coherency. This means that caches which
+> sit in between devices and between devices and the CPU need to be
+> invalidated and flushed appropriately when buffers are accessed by different
+> parties.
 > 
-> diff --git a/drivers/media/i2c/adv7343.c b/drivers/media/i2c/adv7343.c
-> index ff21cd4744d3..4fbe4e18570e 100644
-> --- a/drivers/media/i2c/adv7343.c
-> +++ b/drivers/media/i2c/adv7343.c
-> @@ -403,7 +403,7 @@ adv7343_get_pdata(struct i2c_client *client)
->  	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
->  		return client->dev.platform_data;
->  
-> -	np = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-> +	np = of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
->  	if (!np)
->  		return NULL;
->  
-> diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-> index b202a85fbeaa..dcfdbb975473 100644
-> --- a/drivers/media/i2c/adv7604.c
-> +++ b/drivers/media/i2c/adv7604.c
-> @@ -3205,7 +3205,7 @@ static int adv76xx_parse_dt(struct adv76xx_state *state)
->  	np = state->i2c_clients[ADV76XX_PAGE_IO]->dev.of_node;
->  
->  	/* Parse the endpoint. */
-> -	endpoint = of_graph_get_next_endpoint(np, NULL);
-> +	endpoint = of_graph_get_endpoint_by_regs(np, 0, -1);
+> Number 1 is device specific, part of the DMA-buf framework and handled by
+> dma_fences. As far as I can see that part is actually quite well designed
+> and I don't see any obvious need for change.
+> 
+> Number 2 is platform specific and I completely agree with the DMA-api folks
+> that this doesn't belong into DMA-buf in the first place. That's why I think
+> the begin_cpu_access()/end_cpu_access() callbacks are actually a bit
+> misplaced. We still can use those in the exporter, but to make better buffer
+> placement decisions, but should not invalidate any caches when they are
+> called.
 
-I think this should be port 1 for the adv7611 and port2 for the adv7612.
-The adv7610 may need to use port 1 too, but the bindings likely need to
-be updated.
+I don't think there's cases where we can avoid the cache management in
+begin/end_cpu_access, because there are SoC out there with the following
+constraints:
 
-Hans, Krzysztof, any opinion ?
+- Device access is not coherent with cpu caches, no snooping going on at
+  all. Device2device dma is fully coherent though (since there's no caches
+  to take care of at all).
 
->  	if (!endpoint)
->  		return -EINVAL;
->  
-> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> index 348f1e1098fb..c57a0d436421 100644
-> --- a/drivers/media/i2c/mt9p031.c
-> +++ b/drivers/media/i2c/mt9p031.c
-> @@ -1080,7 +1080,7 @@ mt9p031_get_pdata(struct i2c_client *client)
->  	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
->  		return client->dev.platform_data;
->  
-> -	np = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-> +	np = of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
->  	if (!np)
->  		return NULL;
->  
-> diff --git a/drivers/media/i2c/mt9v032.c b/drivers/media/i2c/mt9v032.c
-> index 1c6f6cea1204..14d277680fa2 100644
-> --- a/drivers/media/i2c/mt9v032.c
-> +++ b/drivers/media/i2c/mt9v032.c
-> @@ -1008,7 +1008,7 @@ mt9v032_get_pdata(struct i2c_client *client)
->  	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
->  		return client->dev.platform_data;
->  
-> -	np = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-> +	np = of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
->  	if (!np)
->  		return NULL;
->  
-> diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-> index 2c3dbe164eb6..edea62a02320 100644
-> --- a/drivers/media/i2c/ov2659.c
-> +++ b/drivers/media/i2c/ov2659.c
-> @@ -1388,7 +1388,7 @@ ov2659_get_pdata(struct i2c_client *client)
->  	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
->  		return client->dev.platform_data;
->  
-> -	endpoint = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-> +	endpoint = of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
->  	if (!endpoint)
->  		return NULL;
->  
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index a70db7e601a4..31d214bd4a83 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -1053,7 +1053,7 @@ static int ov5645_probe(struct i2c_client *client)
->  	ov5645->i2c_client = client;
->  	ov5645->dev = dev;
->  
-> -	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
-> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
->  	if (!endpoint) {
->  		dev_err(dev, "endpoint node not found\n");
->  		return -EINVAL;
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index dcfe3129c63a..beab2813c672 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -1363,7 +1363,7 @@ static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
->  	struct device_node *ep;
->  	int ret;
->  
-> -	ep = of_graph_get_next_endpoint(np, NULL);
-> +	ep = of_graph_get_endpoint_by_regs(np, 0, -1);
->  	if (!ep)
->  		return -EINVAL;
->  
-> diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-> index ed5b10731a14..aaec5f64f31a 100644
-> --- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-> +++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-> @@ -1555,7 +1555,7 @@ static int s5c73m3_get_dt_data(struct s5c73m3 *state)
->  				     "failed to request gpio S5C73M3_RST\n");
->  	gpiod_set_consumer_name(state->reset, "S5C73M3_RST");
->  
-> -	node_ep = of_graph_get_next_endpoint(node, NULL);
-> +	node_ep = of_graph_get_endpoint_by_regs(node, 0, -1);
->  	if (!node_ep) {
->  		dev_warn(dev, "no endpoint defined for node: %pOF\n", node);
->  		return 0;
-> diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
-> index 67da2045f543..af7e49e6cc5b 100644
-> --- a/drivers/media/i2c/s5k5baf.c
-> +++ b/drivers/media/i2c/s5k5baf.c
-> @@ -1836,7 +1836,7 @@ static int s5k5baf_parse_device_node(struct s5k5baf *state, struct device *dev)
->  			 state->mclk_frequency);
->  	}
->  
-> -	node_ep = of_graph_get_next_endpoint(node, NULL);
-> +	node_ep = of_graph_get_endpoint_by_regs(node, 0, -1);
->  	if (!node_ep) {
->  		dev_err(dev, "no endpoint defined at node %pOF\n", node);
->  		return -EINVAL;
-> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> index 2785935da497..872e802cdfbe 100644
-> --- a/drivers/media/i2c/tc358743.c
-> +++ b/drivers/media/i2c/tc358743.c
-> @@ -1895,7 +1895,7 @@ static int tc358743_probe_of(struct tc358743_state *state)
->  		return dev_err_probe(dev, PTR_ERR(refclk),
->  				     "failed to get refclk\n");
->  
-> -	ep = of_graph_get_next_endpoint(dev->of_node, NULL);
-> +	ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
->  	if (!ep) {
->  		dev_err(dev, "missing endpoint node\n");
->  		return -EINVAL;
-> diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-> index 325e99125941..662efd5e69b9 100644
-> --- a/drivers/media/i2c/tda1997x.c
-> +++ b/drivers/media/i2c/tda1997x.c
-> @@ -2307,7 +2307,7 @@ static int tda1997x_parse_dt(struct tda1997x_state *state)
->  	pdata->vidout_sel_de = DE_FREF_SEL_DE_VHREF;
->  
->  	np = state->client->dev.of_node;
-> -	ep = of_graph_get_next_endpoint(np, NULL);
-> +	ep = of_graph_get_endpoint_by_regs(np, 0, -1);
->  	if (!ep)
->  		return -EINVAL;
->  
-> diff --git a/drivers/media/i2c/tvp514x.c b/drivers/media/i2c/tvp514x.c
-> index c37f605cb75f..b1630a6c396b 100644
-> --- a/drivers/media/i2c/tvp514x.c
-> +++ b/drivers/media/i2c/tvp514x.c
-> @@ -988,7 +988,7 @@ tvp514x_get_pdata(struct i2c_client *client)
->  	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
->  		return client->dev.platform_data;
->  
-> -	endpoint = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-> +	endpoint = of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
->  	if (!endpoint)
->  		return NULL;
->  
-> diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
-> index a2d7bc799849..8e58ce400df2 100644
-> --- a/drivers/media/i2c/tvp7002.c
-> +++ b/drivers/media/i2c/tvp7002.c
-> @@ -893,7 +893,7 @@ tvp7002_get_pdata(struct i2c_client *client)
->  	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
->  		return client->dev.platform_data;
->  
-> -	endpoint = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-> +	endpoint = of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
->  	if (!endpoint)
->  		return NULL;
->  
+- Mapping as write-combined on the cpu is not possible. Not every platform
+  is reasonable and has something like pat with cache control in each pte.
+  Or they have, but in practice it's not useable.
 
+Which means your options are only a) no cpu access b) bracket cpu access
+with cache management. So I'm not sure what exactly you have in mind here,
+since people really don't like a) that's why we added that cpu access
+braketing stuff?
+
+Also what exactly would you do in begin/end_cpu_access instead of cache
+management? Note that you kinda need to call dma_buf_vmap (for kernel
+access) or dma_buf_mmap (for userspace) before you can call these, and any
+placement changes should be done in those functions and not in
+begin/end_cpu_access. Especially for dma_buf_vmap the buffer must be
+pinned, so you have no other choice. And for userspace you'd need fault
+handlers, you cannot rely on the begin/end ioct calls, because that would
+defacto make those into a pin/unpin ioctl, which defeats the point of
+having more dynamic memory management for these buffers.
+
+> The flushing and invalidation for platform caches should really be in the
+> DMA-buf framework and not the exporter.
+> 
+> So in my thinking the enumeration you outlined above should really go into
+> struct device and explaining to everybody what the coherency properties of
+> DMA operations of this device is.
+
+So that's the part that I think dma-api folks really don't like. They
+don't want higher levels to know about cache management at all, so I don't
+see how we can make this happen.
+
+The other issue is that we have a ton of exporter which flaunt the dma-api
+rules for their platform/device, e.g. x86 is officially fully cache
+coherent. Except integrated gpu/camera isp are not, and for rendering you
+can select the coherency mode on a per-transaction level in the cs
+packets.
+
+So putting this into a struct device flags is not going to work I think
+for these two cases: for dma-api allocated/managed memory I don't
+think'll get it, and for stuff like i915-gem it's too strict, we need at
+least a per-buffer flag for this.
+
+> > I think starting right out with designing dma-api extension is a few
+> > bridges too far. Both from a "how do we convince upstream" pov, but maybe
+> > even more from a "how do we figure out what we even need" pov.
+> 
+> Well I totally agree on the "how do we figure out what we even need", but I
+> disagree a bit on that we don't know what DMA-api extension we need.
+> 
+> We don't have the full picture yet, but as I already outlined from the
+> DMA-api pov we have two major things on our TODO list:
+> 
+> 1. Somehow remove the struct pages from the DMA-buf *importer* API.
+> 
+>     My best suggestion at the moment for this is to split sg_tables into two
+> data structures, one for the struct pages and one for the DMA addresses.
+> 
+>     Mangling the addresses to ensure that no importer messes with the struct
+> pages was a good step, but it also creates problems when
+> dma_sync_sg_for_cpu() dma_sync_for_device() are supposed to be called.
+
+Hm yeah we need to temporarily unmangle those around those calls. Since
+it's a debug only option this should't be a big deal.
+
+I agree that eventually we should aim towards splitting this properly, but
+I think as long as the dma-api itself isn't there yet, it doesn't make too
+much sense to charge ahead in dma-buf code.
+
+> 2. Add some dma_sync_sg_between_devices(A, B....).
+> 
+>     And on this I think we are on the same page that we are going to need
+> this, but we are just not clear on who is going to use it.
+
+Yeah I think this we might be able to eventually get added to dma-api. But
+I think that's only on the table once
+- we have this in dma-buf code (can be in dma-buf.c or in exporters, I'm
+  not extremely opionated about this).
+- we have real-world use-cases where fusing superflous caches management
+  operations with the existing dma_sync_sg_for_device/cpu actually matters
+- someone's willing to roll out the infrastructure work - altough a
+  default implementation that just calss dma_sync_sg_for_device/cpu in the
+  right order is probably good enough as fallback for most platforms.
+
+I think the other issue is that all this is multi-year projects with a lot
+of effort, and I think we need something that will work a lot sooner for
+Paul's use-case here.
+
+Cheers, Sima
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
