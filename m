@@ -1,158 +1,202 @@
-Return-Path: <linux-media+bounces-4756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4757-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE3084B06C
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 09:54:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F6C684B07B
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 09:58:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9171A1F26B2F
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 08:54:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5D721F220B7
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 08:58:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84B2F12D144;
-	Tue,  6 Feb 2024 08:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="J+mZpeRZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9540512C7F1;
+	Tue,  6 Feb 2024 08:58:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC2F12D148;
-	Tue,  6 Feb 2024 08:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACDD2E3F0;
+	Tue,  6 Feb 2024 08:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707209650; cv=none; b=sLjD1gdmLiV8vmbxByaHdGzFKw6tjMyfaKYdVqsB7AcizV1PH6pw1rq6kvTdGy8FWCK9QdOHMOksjJkoYn6aFhAhY7j6WGWzp4B2Dwit2o1gpDmw0zbdGHREhAdUQF9bByCZFMmiTUX4bahCnEg6W6Btyyh3TkY/XzX1uz3iJYg=
+	t=1707209923; cv=none; b=o5t9rnUgKayh0Jhoi5HJ04dk4O4VfZ2HRmRP2YiFp2tumRAtFlD3ZHI0k7759SI0Ju4OJ3L/qTDL/0Su+Oz4HZoaDeRMuXkFxj4rsCsa7/AY5i+ihuNb4MRTEojqElsGQAALTjRXF2KWv0R1neZagLpx+fU6zY2oVkouXLzHj9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707209650; c=relaxed/simple;
-	bh=mA46pEqExH9qPI2VkoyDfgxKpACMEhbjzanFkijR/2M=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AVCuvpbG6HrBT4vLOiYqY+CPmb8TkecS+Ct7NxIdnCqVf1lhIaS6BHnVmKW/TGeNuMbsRvwXKhkMJtnDkpOMOC2Q1MXTgYujZi5BsXb4IuBPj559YI4QpJ8S9kZLCfwxJEQEj+K2DRc7y2oB8Ns2pENbu65cIGZAS/5PQJvz8yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=J+mZpeRZ; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707209647;
-	bh=mA46pEqExH9qPI2VkoyDfgxKpACMEhbjzanFkijR/2M=;
-	h=From:To:Cc:Subject:Date:From;
-	b=J+mZpeRZVWGguPLqT6eaMJmRjZCdaKc0S1mrIWO2GQN7qApaXpqF8msZPzt149SWW
-	 TPmIAXtlE/ySEaVjPcqgVqsvZZsNDaaoDgoUgWcKhmYGifFq3eaWhR9hzSzVfVOOuX
-	 SkokDHRC31o5zMZMTlwKz0bPJxuvv0GhrAPcA3FVE+ppFYLj08gXjhf+k3rIVp7YXi
-	 5dMtVRthX+QGzUx2yVcQkVOi9Q4iemrp7Mlk5MC0mbTLqAZm/0Yf3Hm2fSe6hcGXlT
-	 EBQEl1e9zAi+kRpsTxm34ZtZ6tELJ1t+BK3wAh/8hbFu37JoPZt1QJUudeOj9npI9S
-	 o7Fu17kKQVUng==
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 42B7F378000E;
-	Tue,  6 Feb 2024 08:54:07 +0000 (UTC)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: hverkuil@xs4all.nl,
-	mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v19.1 1/9] media: videobuf2: Update vb2_is_busy() logic
-Date: Tue,  6 Feb 2024 09:54:00 +0100
-Message-Id: <20240206085400.14507-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.40.1
+	s=arc-20240116; t=1707209923; c=relaxed/simple;
+	bh=sJ7EBJB4uoeIeAIXUMQKztMwMKSsEWc3v2/UXm//ccg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oChYGXOguSls3Pgn07yfw8QIbs89UQLbfYbOFvC278JeTHEbGvBUfA1AzFtv4H+M/owZQapN4YIuXkVjWadg3Q8E1walxWWNeZNNqnRhQruyuphvSml/w00b56Ibu7qFIIgi2HeYv+L409ZQdA+bVlZN28mjQrXqqY/xY8lWkWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2E5FC433C7;
+	Tue,  6 Feb 2024 08:58:41 +0000 (UTC)
+Message-ID: <dcafb602-228f-439f-99d2-010d26a23ad1@xs4all.nl>
+Date: Tue, 6 Feb 2024 09:58:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v19 0/9] Add DELETE_BUF ioctl
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20240206080219.11951-1-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240206080219.11951-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Do not rely on the number of allocated buffers to know if the
-queue is busy but on a flag set when at least one buffer has been allocated
-by REQBUFS or CREATE_BUFS ioctl.
-The flag is reset when REQBUFS is called with count = 0 or the file
-handle is closed.
-This is needed because delete buffers feature will be able to remove
-all the buffers from a queue while streaming so relying on the number
-of allocated buffers in the queue won't be possible.
+On 06/02/2024 09:02, Benjamin Gaignard wrote:
+> Unlike when resolution change on keyframes, dynamic resolution change
+> on inter frames doesn't allow to do a stream off/on sequence because
+> it is need to keep all previous references alive to decode inter frames.
+> This constraint have two main problems:
+> - more memory consumption.
+> - more buffers in use.
+> To solve these issue this series introduce DELETE_BUFS ioctl and remove
+> the 32 buffers limit per queue.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
-version 19.1:
-- Add q->is_busy = 0 in vb2_core_queue_release()
-- Fix q->is_busy usage in vb2_core_reqbufs()
-- Reword commit message.
-- Fix typo in commit message
+This v19 looks good. There are three outstanding issues that I need to take a
+look at:
 
- drivers/media/common/videobuf2/videobuf2-core.c | 4 ++++
- include/media/videobuf2-core.h                  | 4 +++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+1) Can we still signal support for DELETE_BUFS in the V4L2_BUF_CAP_ caps?
+   It would be nice to have, but I'm not sure if and how that can be done.
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index b6bf8f232f48..d8b3c04cb3b5 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -854,6 +854,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 		__vb2_queue_free(q, q_num_bufs);
- 		mutex_unlock(&q->mmap_lock);
- 
-+		q->is_busy = 0;
- 		/*
- 		 * In case of REQBUFS(0) return immediately without calling
- 		 * driver's queue_setup() callback and allocating resources.
-@@ -966,6 +967,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	 */
- 	*count = allocated_buffers;
- 	q->waiting_for_buffers = !q->is_output;
-+	q->is_busy = 1;
- 
- 	return 0;
- 
-@@ -1091,6 +1093,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 	 * to the userspace.
- 	 */
- 	*count = allocated_buffers;
-+	q->is_busy = 1;
- 
- 	return 0;
- 
-@@ -2555,6 +2558,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
- 	__vb2_queue_free(q, vb2_get_num_buffers(q));
- 	kfree(q->bufs);
- 	q->bufs = NULL;
-+	q->is_busy = 0;
- 	mutex_unlock(&q->mmap_lock);
- }
- EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 56719a26a46c..b317286a7b08 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -579,6 +579,7 @@ struct vb2_buf_ops {
-  *		called since poll() needs to return %EPOLLERR in that situation.
-  * @is_multiplanar: set if buffer type is multiplanar
-  * @is_output:	set if buffer type is output
-+ * @is_busy:	set if at least one buffer has been allocated at some time.
-  * @copy_timestamp: set if vb2-core should set timestamps
-  * @last_buffer_dequeued: used in poll() and DQBUF to immediately return if the
-  *		last decoded buffer was already dequeued. Set for capture queues
-@@ -644,6 +645,7 @@ struct vb2_queue {
- 	unsigned int			waiting_in_dqbuf:1;
- 	unsigned int			is_multiplanar:1;
- 	unsigned int			is_output:1;
-+	unsigned int			is_busy:1;
- 	unsigned int			copy_timestamp:1;
- 	unsigned int			last_buffer_dequeued:1;
- 
-@@ -1163,7 +1165,7 @@ static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
-  */
- static inline bool vb2_is_busy(struct vb2_queue *q)
- {
--	return vb2_get_num_buffers(q) > 0;
-+	return !!q->is_busy;
- }
- 
- /**
--- 
-2.40.1
+2) I want to take another look at providing a next version of the VIDIOC_CREATE_BUFS
+   ioctl and how that would possibly influence the design of DELETE_BUFS.
+   Just to make sure we're not blocking anything or making life harder.
+
+3) Review the v4l2-compliance tests. I haven't spend much time on that, so
+   I need to take a look at v7 and see if I can come up with more tests.
+
+I'll try to make time for this either tomorrow or next week.
+
+Regards,
+
+	Hans
+
+> 
+> VP9 conformance tests using fluster give a score of 210/305.
+> The 23 of the 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+> but require to use postprocessor.
+> 
+> Kernel branch is available here:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v19
+> 
+> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+> change is here:
+> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+> 
+> changes in version 19:
+> - Fix typo in commit message.
+> - Fix ioctl domentation
+> - Rework q->is_busy patch following Hans's comments
+> - Change where DELETE_BUFS is enabled
+> 
+> changes in version 18:
+> - rebased on top of:
+>   https://patchwork.linuxtv.org/project/linux-media/patch/20240118121452.29151-1-benjamin.gaignard@collabora.com/
+>   https://patchwork.linuxtv.org/project/linux-media/patch/92975c06-d6e1-4ba6-8d03-b2ef0b199c21@xs4all.nl/
+> - Add a patch to update vb2_is_busy() logic.
+> - fix __vb2_queue_alloc() parameters descriptions.
+> - rework bitmap free range finding loop
+> - remove per queue capability flag.
+> - rework v4l_delete_bufs() to check if VIDIOC_CREATE_BUFS is enabled
+>   and if vidioc_delete_bufs pointer is valid.
+> - update documentation.
+> - Direclty use vb2_core_delete_bufs() in v4l2_m2m_ioctl_delete_bufs().
+>   Remove useless static functions.
+> 
+> changes in version 17:
+> - rebased on top of:
+>   https://patchwork.linuxtv.org/project/linux-media/patch/20240118121452.29151-1-benjamin.gaignard@collabora.com/
+>   https://patchwork.linuxtv.org/project/linux-media/patch/92975c06-d6e1-4ba6-8d03-b2ef0b199c21@xs4all.nl/
+> - rewrite min_reqbufs_allocation field documentation.
+> - rewrite vb2_core_create_bufs() first_index parameter documentation.
+> - rework bitmap allocation usage in __vb2_queue_alloc().
+> - remove useless i < q->max_num_buffers checks.
+> - rework DELETE_BUFS documentation.
+> - change split between patch 7 and patch 8
+> - v4l2_m2m_delete_bufs() is now a static function.
+> 
+>  
+> Benjamin Gaignard (9):
+>   media: videobuf2: Update vb2_is_busy() logic
+>   videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+>   media: test-drivers: Set REQBUFS minimum number of buffers
+>   media: core: Rework how create_buf index returned value is computed
+>   media: core: Add bitmap manage bufs array entries
+>   media: core: Free range of buffers
+>   media: v4l2: Add DELETE_BUFS ioctl
+>   media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+>   media: verisilicon: Support deleting buffers on capture queue
+> 
+>  .../userspace-api/media/v4l/user-func.rst     |   1 +
+>  .../media/v4l/vidioc-delete-bufs.rst          |  79 +++++++
+>  .../media/common/videobuf2/videobuf2-core.c   | 223 ++++++++++++------
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |  26 +-
+>  .../media/platform/verisilicon/hantro_v4l2.c  |   1 +
+>  .../media/test-drivers/vicodec/vicodec-core.c |   1 +
+>  drivers/media/test-drivers/vim2m.c            |   1 +
+>  .../media/test-drivers/vimc/vimc-capture.c    |   3 +-
+>  drivers/media/test-drivers/visl/visl-video.c  |   1 +
+>  drivers/media/test-drivers/vivid/vivid-core.c |   5 +-
+>  drivers/media/v4l2-core/v4l2-dev.c            |   3 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  24 ++
+>  drivers/media/v4l2-core/v4l2-mem2mem.c        |  10 +
+>  include/media/v4l2-ioctl.h                    |   4 +
+>  include/media/v4l2-mem2mem.h                  |   2 +
+>  include/media/videobuf2-core.h                |  52 +++-
+>  include/media/videobuf2-v4l2.h                |   2 +
+>  include/uapi/linux/videodev2.h                |  16 ++
+>  18 files changed, 369 insertions(+), 85 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+> 
 
 
