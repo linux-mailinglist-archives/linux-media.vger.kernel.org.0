@@ -1,384 +1,149 @@
-Return-Path: <linux-media+bounces-4765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4766-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA35984B706
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 14:57:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DC084B80E
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 15:38:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 455EBB26D25
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 13:57:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C052B28DC85
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 14:38:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C94BF131E24;
-	Tue,  6 Feb 2024 13:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F137212FF97;
+	Tue,  6 Feb 2024 14:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="AvHlf8ZF"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="hBlS9meR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134F1131742
-	for <linux-media@vger.kernel.org>; Tue,  6 Feb 2024 13:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E4A1E500;
+	Tue,  6 Feb 2024 14:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707227830; cv=none; b=oG2nHa92PgevBF7SlFjI1ijrT6zSLriTz4SYw+M/2dweDGbh0xOqOr+iluo7Ql910A4uwSP03X6UrIHNExvB+GLvLI7weedKY+K02mBbC+DY2QI63L4jLycQVTwXKlNnSGw5Jb9MO5F54dsieu9gXeSs9eNTOCtpo9lZDSkD1vM=
+	t=1707230275; cv=none; b=WAlXJ90XbOa8iZow6Uaw64Eu8LkR43FDvZVwDH7KNhdraNDUiojnjpTueOGM5yM9ezlc7avAI5Lz8tQfyA7IW8L4T5aDpndUFx352syZZ0OYRQS4e7JytoIJPcmP4TcPPWjC6v8q46lRdEApPRGvcZzF46EOKoReJKE2vmb+S2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707227830; c=relaxed/simple;
-	bh=OOelxUoiVHdNQnYiq8PpssK7fO4+9GMJyY83Ls7aG20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A1V1qOeuGwwxAE7aGv34LrdMZjq3WdQuWtkyenv533MhOtU3IAefEpiG2wHt49Xp4acMAfDLp6nf98jzUU/B9l6ROCMDTjtnGDhUo0+2346CVbBYtV75E/9FKiY1vMAEPM4LcAFMDVPx7GBIJRugf3vhrYVWcA99LV2Ye4VgYn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=AvHlf8ZF; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40fcc74a0a0so6621885e9.1
-        for <linux-media@vger.kernel.org>; Tue, 06 Feb 2024 05:57:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1707227826; x=1707832626; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kb3EfwQ1MJaeA9+O1qYrsLSl0T9nvfGVDQWyYC/ou2o=;
-        b=AvHlf8ZF+fzw5SzqMUUoLXXXPRsOmm5z+Ee+iQaL/Y7KEL5DaAEsHI1amOwVvSydqg
-         t9q5TjHTWPvXiVPm5tRyYn2m+uq5RF0+lrbyNTE6VaObN0iJd8QP5IMLmt3TqHJEcSJ/
-         dqNniKo4rp8DxZMeejoc+YtqMvqpaevOtfZTE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707227826; x=1707832626;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kb3EfwQ1MJaeA9+O1qYrsLSl0T9nvfGVDQWyYC/ou2o=;
-        b=EZ3ccG7QZOCj/07DVZch0IX6DjD2KmPXDPVBrKyJKkp4YC1BNUaqopq8SC2U8a2wvR
-         hZ9kTS0Vbby+d/i4htSx52vZJNvxx5RAL16eOrI+dnecuc1wPwfqLq6wJawrg/3bPmBI
-         6hTOt7Z512yy9URsliuxhgYApa8YYJktKlgbUvPvlvV3W1adrqtiaIG+zka1l/G8dWRS
-         rKRBa4EbGJAcsyKHBWD8g78ttRi6Md7+JkRxcgr9fLvai0TaiLkKIZRirh5DJgaUERD+
-         lPpaQyBqkqeIzV6vGIZbqZKr8QVMYMzpGVGKl1xciveQH/RU//7nBvJBQ+rc4jRO02wF
-         WBYQ==
-X-Gm-Message-State: AOJu0Yx2kCu+oj/VlSd9alb+DtgV02Fu52MilA5dXn92GIKzGFF6d6rV
-	ZV5pRy3EzQxjVfwPVqZlk+nN6WNQIzio8EfDA8j88NxHbEaSUtaf6UKo0ztlKqc=
-X-Google-Smtp-Source: AGHT+IFOqn0cbJK+WY/X2jzsNFe5DlfE9RRoN3pYgv6uF/Bp/mQ+6ZreQmabY1RjWhfdxFOF8hFqgg==
-X-Received: by 2002:a05:600c:1d07:b0:40f:dd10:180f with SMTP id l7-20020a05600c1d0700b0040fdd10180fmr2171433wms.3.1707227826124;
-        Tue, 06 Feb 2024 05:57:06 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVlNRdjfnrbeDjDbrCKYEBO3kd6rGhLpeMtXIG9oqKa+D8JDxEGy5DMCrqpoHSWZs0/bNypXMCfWtNtUPqoesQgAB0H6Daunh1Zgxlc+2Ut33t2ErRQSVGy8smjuSRGtY0tvTXLVh7k2qgPJ93b3ErEDdLGeMwVxq55VuThizfQDT/p92QBrVwVt6BC9+X/SgRZrG0aownrL7ZHiM5971IDJlkOtrvm6vm9btDr7rv6V6gklC7NhCAFtqZc8Pe/XJ7+9n2Rv5Auu909IPa39tT735ZRStAPQXX0KhuLsVAp7u7JKEaZy/OQBZ7OyT7GVfzIqxz+sgDsJt66dHh2BvC1uWUyIwCoa0jWx1h5P8wd7yKn0PYKtKi83LfG4m6t2/LSboEDvEmcshMx0eJHZjkLyWzcDWnLXG0SAj4nS4G+WWjIVaUS8optm2+U6EPGTnjDirg8XZAwCT2sFJbsh9+wpp7btXrzOT/ocxKYjY8ji4cYLruFDMZrZtrTNBc7+j0i3Mnw/EvN2ackeUuZ4g==
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f6-20020a5d50c6000000b0033afcc069c3sm2153649wrt.84.2024.02.06.05.57.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 05:57:05 -0800 (PST)
-Date: Tue, 6 Feb 2024 14:57:03 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-Message-ID: <ZcI6r_F1RQf8MCrq@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Christoph Hellwig <hch@lst.de>
-References: <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
- <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
- <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
- <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
- <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
- <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
- <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
- <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
- <ZboNyju8h4vfSd7v@phenom.ffwll.local>
- <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
+	s=arc-20240116; t=1707230275; c=relaxed/simple;
+	bh=dACWXeLInRzV10diT38UakiAC6q/ddZegipCKPgaSIM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j6hf06dYTBro6/9SJy3x71K9oxr9emE0W9y4I9s4ArGlQYtpRJpbbKDVFkB4+R0KEwqmTuBCHPQOXHKdXGKoteGFI/usfSPfe0xSNxoddE8M4WczpvnMu7lhm57uNF3vvWx4Bz7pJCbUDqusDjF+MrcUHNSQYJZ1w2vDBbU43F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=hBlS9meR; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1707230251; x=1707835051; i=markus.elfring@web.de;
+	bh=dACWXeLInRzV10diT38UakiAC6q/ddZegipCKPgaSIM=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=hBlS9meRQMiujP0vn1fKOzs+e3SDvGJ6a8t6BNXdCHr8t2ofXCN89fEyOG07itUb
+	 GHbpvXr4KZaFlFC/NmWxrIT41/rbmTEkbgYD+Rlypi3MHPigQZZDxWdCzf0sEd8ba
+	 xzkpl0sI9p44e7ambb5vf/MtgoozrX2DrdrOUuUAs03kq7xrII2HNdzXvQRMm+7JS
+	 l7oxVPKW/Zfl+4DGCeB+7gjOD8N76Vc0+fHQU4Y5nW+xEggDJsYCD7lwOA1+bnrl+
+	 K3siz+uqqcXd6hvRSI0n/POYXsetNxv+tPSqKIuVy9dSKJfaHZT+U2bytCeE3Aguc
+	 wjacLHgpySh/NczJLw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M59jC-1rYSVS3tkS-0016bv; Tue, 06
+ Feb 2024 15:37:30 +0100
+Message-ID: <c110c46b-e7b3-4175-9b14-d4cfc9982bca@web.de>
+Date: Tue, 6 Feb 2024 15:37:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH v2] media: ti: Use devm_platform_ioremap_resource() in
+ ti_csi2rx_probe()
+Content-Language: en-GB
+To: Jai Luthra <j-luthra@ti.com>, linux-media@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <66d7218d-ed57-4dec-b6ac-630b01056b5e@web.de>
+ <5m4zr6d3geqdyxtr5owlur4ysn6ublauvc5km3boga2vnm2rwj@mflpsf4ql2yj>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <5m4zr6d3geqdyxtr5owlur4ysn6ublauvc5km3boga2vnm2rwj@mflpsf4ql2yj>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:uOoIt/XHCy31CBnLmqQO7p8WTNob91ZFaGXyyNoTMv+1EVL+twM
+ N5OpjyT0i6oPbhEc0sHmGqCF3M/Lw6qRaOso6La+BbzUgDbL7QrJnRBYkSQAjKWzC5iES1S
+ 9wFo4QYFX5dQwTov+QojYyTpkJmllrxPil87Ne7AvVvUoXkvMHy+SQCmryBbHi3Md+iWcsa
+ bpJZp4qhdYB7Ba2kycQ6Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:WFXQQheY7yY=;Ji6+JHd+jVBWoMQ33Yl//JXx48H
+ sv8P2NTg0wLYVkZ8ocH6Hcub7PjYtuxZMTmseR6w29PWJQa+D9PpHi+PqOMwvmYBVM4O2Cb8i
+ OeklnKIlIPQEzHctKAijT8KUaXRyitgMSTM8943mu2ZJhuJE5UpgjIGr6QdJ5yv8mHGUXDbDo
+ GhH9sZm5ylH/oyou1UpnRTBHQPPd8ToGHxRcq+sAF9hXgzRZ+nnu7dVCY9Zhib/u4nGp7dhln
+ x+hRmlfeg1SvppAySmGuvgxFc4V8vkKfvU+YYd0/2xWNRSCcZeDWOc4Ax8a81LeqlP+iL+cQk
+ RC6uqWcSk/wWHPNonhvfS9Zq0C969ZXcI0BbXraf3mPoIAMoxKsdohmHgQqhJ/Bl3OzPaKhHR
+ MQ6T19u+AYpXRjmwmYcBBProjdo5iMLAldCnJU6ym6BzqfPNY7APed2CEJoOvthIdLjfVRc7P
+ wmflmPuE3hBomfb4BQU5li4UxU5uSHo2R1Lvt9ANu7Nb58w43HcC0zFhlRKcNOzs0Dl2yjaMT
+ 58e3xhlIBdk5MzFdCf7MvJ8Zmv1zNpBiBwVDjQH872IROeCWR7ehZVbiu3RoFataAcvxEyHd/
+ Hd95xSVQyrDAiXWvg0krX5AYMpRHK8Y7XaSG3rCrU/yb9LdXgFRxBf7Vqs7QEiW3Z15fMn2bR
+ TMihaq6m2f2TV9ca3cSF/GOF0GmSfCc8oWRWealgmGMejXBdD2MLGWiVBbnszmaSYlagzzeiL
+ jAc69qqdkVFS8gJfFEqYGuzsdBZZTDnnc7sOZb3wOk50emCFr9M1mUwZnL4IJ18b8IuylYVsS
+ QC8v7evRBf5SFeUWzsu6DCyjKY9VLbVrCtdsmfWObfCfc=
 
-On Tue, Feb 06, 2024 at 02:28:35PM +0100, Christian König wrote:
-> Am 31.01.24 um 10:07 schrieb Daniel Vetter:
-> > On Tue, Jan 30, 2024 at 02:09:45PM +0100, Christian König wrote:
-> > > Am 30.01.24 um 11:40 schrieb Daniel Vetter:
-> > > > On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
-> > > > > Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
-> > > > > >    I would say we start with the DMA-API by getting away from sg_tables
-> > > > > > to something cleaner and state oriented.
-> > > > > FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
-> > > > > which is just a dead simple
-> > > > > 
-> > > > > struct dma_vec {
-> > > > >     dma_addr_t addr;
-> > > > >     size_t len;
-> > > > > };
-> > > > > 
-> > > > > (The rationale for introducing it in the IIO DMABUF patchset was that
-> > > > > the "scatterlist" wouldn't allow me to change the transfer size.)
-> > > > > 
-> > > > > So I believe a new "sg_table"-like could just be an array of struct
-> > > > > dma_vec + flags.
-> > > > Yeah that's pretty much the proposal I've seen, split the sg table into
-> > > > input data (struct page + len) and output data (which is the dma_addr_t +
-> > > > len you have above).
-> > > I would extend that a bit and say we have an array with
-> > > dma_addr+power_of_two_order and a header structure with lower bit offset and
-> > > some DMA transaction flags.
-> > > 
-> > > But this is something which can be worked as an optimization later on. For a
-> > > start this proposal here looks good to me as well.
-> > > 
-> > > > The part I don't expect to ever happen, because it hasn't the past 20 or
-> > > > so years, is that the dma-api will give us information about what is
-> > > > needed to keep the buffers coherency between various devices and the cpu.
-> > > Well maybe that's what we are doing wrong.
-> > > 
-> > > Instead of asking the dma-api about the necessary information we should give
-> > > the API the opportunity to work for us.
-> > > 
-> > > In other words we don't need the information about buffer coherency what we
-> > > need is that the API works for as and fulfills the requirements we have.
-> > > 
-> > > So the question is really what should we propose to change on the DMA-api
-> > > side to get this working as expected?
-> > So one thing I've been pondering, kinda picking up your point about CXL,
-> > is that we do make the coherency protocol more explicit by adding a
-> > coherency mode to dma_buf that the exporter sets. Some ideas for values
-> > this could have:
-> > 
-> > - ATTOMIC_COHERENT: Fully cache coherent, including device/cpu atomis.
-> >    This would be for CXL. Non-CXL devices could still participate with the
-> >    old model using explicit devices flushes, but must at comply with
-> >    CPU_COHERENT.
-> > 
-> >    There's also the power9-only nvlink that would fit here, but I guess
-> >    going forward CXL (and cache-coherent integrated gpu) would really be
-> >    the only users of this flag.
-> > 
-> >    Peer2peer would have the same rules, otherwise doesn't really make
-> >    sense. Also we might want to forbib non-CXL imports for these buffers
-> >    maybe even? Not sure on that.
-> > 
-> > - CPU_COHERENT: device transactions do snoop cpu devices caches, but
-> >    devices might do their own caching which isn't snooped by the cpu and
-> >    needs explicit device-side invalidate/flushing. This means pcie
-> >    importers are not allowed to use pcie no-snoop transactions, intel igpu
-> >    wouldn't be allowed to use MOCS that do the same, similar for arm
-> >    integrated devices.
-> > 
-> >    Importers can skip all explicit cache management apis like
-> >    dma_buf_begin/end_cpu_access, or the newly proposed
-> >    dma_buf_begin/end_device_access here.
-> > 
-> >    We'd need to figure out what exactly this means for peer2peer
-> >    transactions, I have no idea whether the no-snoop flag even does
-> >    anything for those.
-> > 
-> >    We might also want to split up CPU_COHERENT into CPU_COHERENT_WB and
-> >    CPU_WOHERENT_WC, so that importers know whether cpu reads are going to
-> >    be crawling or not.
-> > 
-> > - MEMORY_COHERENT: devices transactions do not snoop any caches, but
-> >    promise that all transactions are fully flushed to system memory. Any
-> >    devices transactions which do fill cpu caches must call the proposed
-> >    dma_buf_begin/end_device_access functions proposed here. Any cpu access
-> >    must be braketed by calls to dma_buf_begin/end_cpu_access.
-> > 
-> >    If your device does fill cpu caches, then essentially you'd not be able
-> >    to import such buffers. Not sure whether we need to put the
-> >    responsibility of checking that onto importers or exporters. Ideally
-> >    core dma-buf.c code would check this.
-> > 
-> >    Also maybe the cpu WC mapping mode would actually need to be a sub-mode
-> >    for MEMORY_COHERENT, because all cpu wc achieves is to avoid the need to
-> >    call dma_buf_begin/end_cpu_access, you would still need your devices to
-> >    be memory coherent. And if they're not, then you cannot use that
-> >    dma-buf.
-> > 
-> >    Or maybe alternatively we need to guarantee that exporters which set
-> >    MEMORY_COHERENT implement dma_buf_begin/end_device_access to make things
-> >    work for these cpu-coherent but not memory-coherent devices. This
-> >    becomes very tricky with device/arch/bus specific details I think.
-> > 
-> > - DMA_API_COHERENT: The memory is allocated or mapped by the dma-api, and
-> >    the exact coherency mode is not know. Importers _must_ braket all cpu
-> >    and device access with the respective dma_buf functions. This is
-> >    essentially the "we have no idea" default.
-> > 
-> >    Note that exporters might export memory allocated with dma_map_alloc
-> >    with MEMORY_COHERENT or CPU_COHERENT if they know how the memory exactly
-> >    works. E.g. for most arm soc gpu/display drivers we can assume that the
-> >    dma-api gives us MEMORY_COHERENT or CPU_COHERENT_WC, and just use that.
-> >    Essentially this would make the current implicit assumptions explicit.
-> > 
-> >    udmabuf would need to set this, definitely if Paul's patches to add the
-> >    explicit device flushes land.
-> > 
-> > - DEFAULT_COHERENT: This would be the backwards compat legacy yolo
-> >    behvaior. I'm not sure whether we should alias that with
-> >    DMA_API_COHERENT or leave it as a special value to mark exporters which
-> >    haven't been updated for the much more explicit coherency handling yet.
-> > 
-> >    The specification for this coherency mode would be a flat out "who
-> >    knows, just don't break existing use-cases with actual users".
-> >    Essentially the only reason we'd have this would be to make sure we can
-> >    avoid regressions of these existing use-cases, by keeping whatever
-> >    horrible heuristics we have in current exporters.
-> > 
-> >    It would also allow us to convert exporters and importers on a case by
-> >    case basis.
-> > 
-> > Note that all these coherency modes are defined in terms of bus-sepecific
-> > device access and in terms of dma_buf apis the importer must call or can
-> > skip. This way we'd avoid having to change the dma-api in a first step,
-> > and if this all works out properly we could then use the resulting dma-api
-> > as a baseline to propose dma-api extensions.
-> 
-> When I read this for the first time my initial impression was that the idea
-> mostly looked good, but while thinking about it more and more I came to the
-> conclusion that this would go into the wrong direction.
-> 
-> Maybe I'm repeating myself, but I think we first of all have to talk a bit
-> about some aspects of coherency:
-> 
-> 1. Intra device coherency. This means that intra devices caches are
-> invalidated before beginning an operation and flushed before signaling that
-> an operation finished.
-> 
-> 2. Inter device and device to CPU coherency. This means that caches which
-> sit in between devices and between devices and the CPU need to be
-> invalidated and flushed appropriately when buffers are accessed by different
-> parties.
-> 
-> Number 1 is device specific, part of the DMA-buf framework and handled by
-> dma_fences. As far as I can see that part is actually quite well designed
-> and I don't see any obvious need for change.
-> 
-> Number 2 is platform specific and I completely agree with the DMA-api folks
-> that this doesn't belong into DMA-buf in the first place. That's why I think
-> the begin_cpu_access()/end_cpu_access() callbacks are actually a bit
-> misplaced. We still can use those in the exporter, but to make better buffer
-> placement decisions, but should not invalidate any caches when they are
-> called.
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Tue, 6 Feb 2024 15:30:13 +0100
 
-I don't think there's cases where we can avoid the cache management in
-begin/end_cpu_access, because there are SoC out there with the following
-constraints:
+A wrapper function is available since the commit 7945f929f1a77a1c8887a97ca=
+07f87626858ff42
+("drivers: provide devm_platform_ioremap_resource()").
 
-- Device access is not coherent with cpu caches, no snooping going on at
-  all. Device2device dma is fully coherent though (since there's no caches
-  to take care of at all).
+* Thus reuse existing functionality instead of keeping duplicate source co=
+de.
 
-- Mapping as write-combined on the cpu is not possible. Not every platform
-  is reasonable and has something like pat with cache control in each pte.
-  Or they have, but in practice it's not useable.
+* Delete a local variable which became unnecessary with this refactoring.
 
-Which means your options are only a) no cpu access b) bracket cpu access
-with cache management. So I'm not sure what exactly you have in mind here,
-since people really don't like a) that's why we added that cpu access
-braketing stuff?
 
-Also what exactly would you do in begin/end_cpu_access instead of cache
-management? Note that you kinda need to call dma_buf_vmap (for kernel
-access) or dma_buf_mmap (for userspace) before you can call these, and any
-placement changes should be done in those functions and not in
-begin/end_cpu_access. Especially for dma_buf_vmap the buffer must be
-pinned, so you have no other choice. And for userspace you'd need fault
-handlers, you cannot rely on the begin/end ioct calls, because that would
-defacto make those into a pin/unpin ioctl, which defeats the point of
-having more dynamic memory management for these buffers.
+This issue was transformed by using the Coccinelle software.
 
-> The flushing and invalidation for platform caches should really be in the
-> DMA-buf framework and not the exporter.
-> 
-> So in my thinking the enumeration you outlined above should really go into
-> struct device and explaining to everybody what the coherency properties of
-> DMA operations of this device is.
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
 
-So that's the part that I think dma-api folks really don't like. They
-don't want higher levels to know about cache management at all, so I don't
-see how we can make this happen.
+v2:
+The transformation pattern was adjusted based on advices by known contribu=
+tors.
 
-The other issue is that we have a ton of exporter which flaunt the dma-api
-rules for their platform/device, e.g. x86 is officially fully cache
-coherent. Except integrated gpu/camera isp are not, and for rendering you
-can select the coherency mode on a per-transaction level in the cs
-packets.
+Examples:
+* Doug Anderson
+* Geert Uytterhoeven
+* Robin Murphy
 
-So putting this into a struct device flags is not going to work I think
-for these two cases: for dma-api allocated/managed memory I don't
-think'll get it, and for stuff like i915-gem it's too strict, we need at
-least a per-buffer flag for this.
 
-> > I think starting right out with designing dma-api extension is a few
-> > bridges too far. Both from a "how do we convince upstream" pov, but maybe
-> > even more from a "how do we figure out what we even need" pov.
-> 
-> Well I totally agree on the "how do we figure out what we even need", but I
-> disagree a bit on that we don't know what DMA-api extension we need.
-> 
-> We don't have the full picture yet, but as I already outlined from the
-> DMA-api pov we have two major things on our TODO list:
-> 
-> 1. Somehow remove the struct pages from the DMA-buf *importer* API.
-> 
->     My best suggestion at the moment for this is to split sg_tables into two
-> data structures, one for the struct pages and one for the DMA addresses.
-> 
->     Mangling the addresses to ensure that no importer messes with the struct
-> pages was a good step, but it also creates problems when
-> dma_sync_sg_for_cpu() dma_sync_for_device() are supposed to be called.
+ drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Hm yeah we need to temporarily unmangle those around those calls. Since
-it's a debug only option this should't be a big deal.
+diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drive=
+rs/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+index 2b078c5d7f5d..54aba055c96b 100644
+=2D-- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
++++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+@@ -1089,7 +1089,6 @@ static void ti_csi2rx_cleanup_vb2q(struct ti_csi2rx_=
+dev *csi)
+ static int ti_csi2rx_probe(struct platform_device *pdev)
+ {
+ 	struct ti_csi2rx_dev *csi;
+-	struct resource *res;
+ 	int ret;
 
-I agree that eventually we should aim towards splitting this properly, but
-I think as long as the dma-api itself isn't there yet, it doesn't make too
-much sense to charge ahead in dma-buf code.
+ 	csi =3D devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
+@@ -1100,9 +1099,7 @@ static int ti_csi2rx_probe(struct platform_device *p=
+dev)
+ 	platform_set_drvdata(pdev, csi);
 
-> 2. Add some dma_sync_sg_between_devices(A, B....).
-> 
->     And on this I think we are on the same page that we are going to need
-> this, but we are just not clear on who is going to use it.
+ 	mutex_init(&csi->mutex);
+-
+-	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	csi->shim =3D devm_ioremap_resource(&pdev->dev, res);
++	csi->shim =3D devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(csi->shim)) {
+ 		ret =3D PTR_ERR(csi->shim);
+ 		goto err_mutex;
+=2D-
+2.43.0
 
-Yeah I think this we might be able to eventually get added to dma-api. But
-I think that's only on the table once
-- we have this in dma-buf code (can be in dma-buf.c or in exporters, I'm
-  not extremely opionated about this).
-- we have real-world use-cases where fusing superflous caches management
-  operations with the existing dma_sync_sg_for_device/cpu actually matters
-- someone's willing to roll out the infrastructure work - altough a
-  default implementation that just calss dma_sync_sg_for_device/cpu in the
-  right order is probably good enough as fallback for most platforms.
-
-I think the other issue is that all this is multi-year projects with a lot
-of effort, and I think we need something that will work a lot sooner for
-Paul's use-case here.
-
-Cheers, Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 
