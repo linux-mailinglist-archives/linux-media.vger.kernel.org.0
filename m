@@ -1,121 +1,157 @@
-Return-Path: <linux-media+bounces-4744-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4746-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A958584AF33
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 08:49:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 845A284AF7E
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 09:03:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB9DE1C226BD
-	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 07:49:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0064A1F22644
+	for <lists+linux-media@lfdr.de>; Tue,  6 Feb 2024 08:03:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 057C7128831;
-	Tue,  6 Feb 2024 07:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2B0F12B157;
+	Tue,  6 Feb 2024 08:02:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20230601.gappssmtp.com header.i=@quanta-corp-partner-google-com.20230601.gappssmtp.com header.b="kO9nWSKW"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="a78RhLpi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C641F128818
-	for <linux-media@vger.kernel.org>; Tue,  6 Feb 2024 07:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791D912AAD3;
+	Tue,  6 Feb 2024 08:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707205785; cv=none; b=dJPkry1Q+6CwBo34CeO1AW/Gbl6iChkjmNlNRur/cH0Ptdf2P08/kXoNuxGpRUfdUHFaLiMhLPfTrErmZXrNFeDBf1MGzJBbMm83Yd0ML96cu6pT2ROfq82yT/e6RMNjeg52VRolrjT9YuKc906T59OcHB4do+kTzWVNUw/qPfg=
+	t=1707206555; cv=none; b=hPRMCioVTPPGesx4yNUbJri63IEqzh3s58Zb8iyziwbksBFX9MYegcVwKD66Y7xEFD6hJU0Qgrox5oJ3NgpPMHdx5hkXyReH6asmGP+/UfzjKmHxvjbOqNMAS1KuQRbQCseIDFpFx8BGb6tMlIEUCRTsLOD2bCiNww+1sQHuCGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707205785; c=relaxed/simple;
-	bh=OK5lRA7V7FsFnorYgS3IOSgU4KdjRhWcO5SvFbUkZsg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=g4yE5oqBof4rOKAeKD3tW7q7nbGh/jSR+JlPQ8O/FzWWVZvOahzbljT4ubDUtj4o4bHSsWFRaYwzRheLdqV/mjrb8TzNktJT4craATdhnFEI3Eugm5llcAS1ekBKwsQ0Mcf/RFRHfeTiE3G5PflyBqrduoKyViw2y7me5Q3dnwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com; spf=pass smtp.mailfrom=quanta.corp-partner.google.com; dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20230601.gappssmtp.com header.i=@quanta-corp-partner-google-com.20230601.gappssmtp.com header.b=kO9nWSKW; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quanta.corp-partner.google.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d91397bd22so4166515ad.0
-        for <linux-media@vger.kernel.org>; Mon, 05 Feb 2024 23:49:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quanta-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1707205783; x=1707810583; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V3BkzWidJIUO6a5Li3rvGAaKQcBMxM0YR6nza1WJwCE=;
-        b=kO9nWSKWQv/wasE3YQPBEOWCkH+shhX72CCQH6ZkHKx52cClMQqh2AaCp546w/ebx6
-         tK/h3DsYXnvV3gzv/+jF6E/zZKQ2lo67WqmZSLj2NUwM40iTrjbdKrkUS9QlB7F/dCzZ
-         6NLIBQU3r4xSfq4p+18SRzd5L+lPOjQrAhD4d/x5UXHeHbFxgc5VjJCKY53I6GZhEaG8
-         CEJz7YvlW6oCg21nkbw3bdZdZzGJ8VXwDF8evHOC64FbH6+/GhEkNeK5xJ0XswkXvWuc
-         R/+qg7CiljV5nHv32Iu2CAWY3QL2bB/jpFlPvQVyNFtuT9aWt01b5RlvLBgkywlIP3rK
-         SN7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707205783; x=1707810583;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V3BkzWidJIUO6a5Li3rvGAaKQcBMxM0YR6nza1WJwCE=;
-        b=fygCTGUIT4pkJreCRabFgVxbhgMcHsdByM5jaCi1o05vCFBRz5JrWonJ0o6o1uxwHg
-         CJn+QqwSR+a0SiqHi8uxKbFypO5MtZrN6oGTMt1XzyiA3l+68GlPNHqC2w9bBw/0tm8b
-         HQYXqsPZo6Ig2hqIhYBE7V9t6ssUrUGBtuB3eFcCOALp2QVnquuRpA0WCEC29WIeBYoK
-         EN3VtewkT7ZKcS4FFbkmYQYDiJpzSU/OEGfseQ2ZmJHMZhy755Sgt1xiT5Fo7cN61Neg
-         VXG2pqSflSPAAM7zxpwHc4dDAIb7uJU37S1CuY3upYLdLzUTUCh06pd9ri0GySGo+Q+n
-         EoTQ==
-X-Gm-Message-State: AOJu0YxoSGxmVMp0SOsyBGBQuEBMLObZAWOUyarszQ1cMgpOqjQ4cDYv
-	WHJbWcGnLD27Q+kU/yjiOEI4xQg5m8G/e1ffslsUjwC13AFaGVvoVbDXwizfiMk=
-X-Google-Smtp-Source: AGHT+IFDevANh84iQ1483ULm4E0yqwag9AtHapByfK7FNk/QEDKBINLaUH9tPZNYc2pM/dNHJSnWag==
-X-Received: by 2002:a17:902:fc84:b0:1d8:f129:a0bc with SMTP id mf4-20020a170902fc8400b001d8f129a0bcmr1083908plb.13.1707205783032;
-        Mon, 05 Feb 2024 23:49:43 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUlYLAD2TI0URNOjz1VP3E2L0Tm8XPfE+3jlygdTA3W/OaqPBY+ELn5r7O804/7e1oEqu4ngclAOcg+4SHooCRmTfWMx6MTsWYOB9MG95zlsEH9U/D0OqAMMWKAyDagTWhd7TkI8vpjrd8R6LkQmmsyW9Zgan/OUucupBSVmvobJ672nU4KFzXKHC5Cf/BnAphl2Or3aUTDMUPABi9I+6bsh4s13ZtEGsYJiI1tOmmO9X49okYlmF5nnz25J/0N2aGYc5rG7W7zI9dNdTZHUozUeY4V9rkWrKIdwNE+BM7Kxt3PtaQcdy8uyZ1S4uI+jFGwF7+Yck4+7heO9ORVMqPbJtoz7YQx8YjYteKVJsogs8hCQ8SE8ogeCfuKN18TjedPJqYAH/te7PEq2qpoGvy38JiBB4q/YpiJgd+C8kWTs+Nz4kJ5980TjAvhs0I224O9yLAfBwriz9TLTfh8HljPJGdXK50DGNlG62o4mhlSngGdS/93HC/Wb9DPL74sqq6sicdLntsrJLRJLu5lmAO5gX46
-Received: from kells-TravelMate-P414P-53G.mshome.net (211-75-10-161.hinet-ip.hinet.net. [211.75.10.161])
-        by smtp.gmail.com with ESMTPSA id z3-20020a170903018300b001d9773a1993sm1163819plg.213.2024.02.05.23.49.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 23:49:42 -0800 (PST)
-From: Kells Ping <kells.ping@quanta.corp-partner.google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: groeck@chromium.org,
-	Kells Ping <kells.ping@quanta.corp-partner.google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Ken Lin <kenlin5@quanta.corp-partner.google.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Reka Norman <rekanorman@chromium.org>,
-	Ricky Chang <rickytlchang@chromium.org>,
-	Sam McNally <sammc@chromium.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	s=arc-20240116; t=1707206555; c=relaxed/simple;
+	bh=+l8/EjbsSDKBZxu0xBjL+HgBDGvONuZhvfABUHiMgVk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=miMSsdZwMG2m/blFiDz6u67bJJf7FN63029HTCeweJbsi6URTL0xXLb7BJjNGsAIKcC+jyg9EeFoVyZ4zojp7iNIH4zWoCv54xTfFd00g0J/S0oVKklIH8cvsvIJEwWJxfbxxUmjyesX0aNY8rLf7dau+N+D1+Xc1f0hKhrfdig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=a78RhLpi; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1707206545;
+	bh=+l8/EjbsSDKBZxu0xBjL+HgBDGvONuZhvfABUHiMgVk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=a78RhLpi4FufLvNxwnzJThKHnCF4fEMA2PwzAX38CQ+lYAztnchPLr2pVcUTmmFN6
+	 cIL/XCDTIuB6bEYeS9uZ2ybQVJY2qZQ3NNQYdOs74G+KkFgFt2tG+ODmZSUUfwCVVr
+	 0tmXI9rnHtG0jElHnU0/md6jgk0Xi9d9mxXTA6070r0T/w2iaeoMw8c0BZY98TP1Fz
+	 K6/gvqPKP6YHSxjG+u3zeeF4n/UAWIFg94tOy9/uPXZI75/DP+jaq1PGLgonMWF5Gq
+	 fL02YDW5OnyK50qdAUClR+MsNIM6IOUwnuMvM7qr7R96m6g6zR5UGw7j8I2x7aTf5G
+	 xoJOtfkQzGYPg==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1A6D537803EE;
+	Tue,  6 Feb 2024 08:02:25 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	"rasheed.hsueh" <rasheed.hsueh@lcfc.corp-partner.google.com>
-Subject: [PATCH] media: platform: cros-ec: Add Dita to the match table
-Date: Tue,  6 Feb 2024 15:49:26 +0800
-Message-Id: <20240206154554.1.Ic01f1c2400bac3dc97ff0ec232a5da41c0578554@changeid>
-X-Mailer: git-send-email 2.34.1
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v19 0/9] Add DELETE_BUF ioctl
+Date: Tue,  6 Feb 2024 09:02:10 +0100
+Message-Id: <20240206080219.11951-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Google Dita device uses the same approach as the Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce DELETE_BUFS ioctl and remove
+the 32 buffers limit per queue.
 
-Signed-off-by: Kells Ping <kells.ping@quanta.corp-partner.google.com>
----
+VP9 conformance tests using fluster give a score of 210/305.
+The 23 of the 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
 
- drivers/media/platform/cros-ec-cec/cros-ec-cec.c | 2 ++
- 1 file changed, 2 insertions(+)
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v19
 
-diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-index 488147b71338..9340d117314b 100644
---- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-+++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-@@ -309,6 +309,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Taranza", "0000:00:02.0", port_db_conns },
- 	/* Google Dexi */
- 	{ "Google", "Dexi", "0000:00:02.0", port_db_conns },
-+	/* Google Dita */↲
-+	{ "Google", "Dita", "0000:00:02.0", port_db_conns },
- };
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+
+changes in version 19:
+- Fix typo in commit message.
+- Fix ioctl domentation
+- Rework q->is_busy patch following Hans's comments
+- Change where DELETE_BUFS is enabled
+
+changes in version 18:
+- rebased on top of:
+  https://patchwork.linuxtv.org/project/linux-media/patch/20240118121452.29151-1-benjamin.gaignard@collabora.com/
+  https://patchwork.linuxtv.org/project/linux-media/patch/92975c06-d6e1-4ba6-8d03-b2ef0b199c21@xs4all.nl/
+- Add a patch to update vb2_is_busy() logic.
+- fix __vb2_queue_alloc() parameters descriptions.
+- rework bitmap free range finding loop
+- remove per queue capability flag.
+- rework v4l_delete_bufs() to check if VIDIOC_CREATE_BUFS is enabled
+  and if vidioc_delete_bufs pointer is valid.
+- update documentation.
+- Direclty use vb2_core_delete_bufs() in v4l2_m2m_ioctl_delete_bufs().
+  Remove useless static functions.
+
+changes in version 17:
+- rebased on top of:
+  https://patchwork.linuxtv.org/project/linux-media/patch/20240118121452.29151-1-benjamin.gaignard@collabora.com/
+  https://patchwork.linuxtv.org/project/linux-media/patch/92975c06-d6e1-4ba6-8d03-b2ef0b199c21@xs4all.nl/
+- rewrite min_reqbufs_allocation field documentation.
+- rewrite vb2_core_create_bufs() first_index parameter documentation.
+- rework bitmap allocation usage in __vb2_queue_alloc().
+- remove useless i < q->max_num_buffers checks.
+- rework DELETE_BUFS documentation.
+- change split between patch 7 and patch 8
+- v4l2_m2m_delete_bufs() is now a static function.
+
  
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+Benjamin Gaignard (9):
+  media: videobuf2: Update vb2_is_busy() logic
+  videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+  media: test-drivers: Set REQBUFS minimum number of buffers
+  media: core: Rework how create_buf index returned value is computed
+  media: core: Add bitmap manage bufs array entries
+  media: core: Free range of buffers
+  media: v4l2: Add DELETE_BUFS ioctl
+  media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+  media: verisilicon: Support deleting buffers on capture queue
+
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-delete-bufs.rst          |  79 +++++++
+ .../media/common/videobuf2/videobuf2-core.c   | 223 ++++++++++++------
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  26 +-
+ .../media/platform/verisilicon/hantro_v4l2.c  |   1 +
+ .../media/test-drivers/vicodec/vicodec-core.c |   1 +
+ drivers/media/test-drivers/vim2m.c            |   1 +
+ .../media/test-drivers/vimc/vimc-capture.c    |   3 +-
+ drivers/media/test-drivers/visl/visl-video.c  |   1 +
+ drivers/media/test-drivers/vivid/vivid-core.c |   5 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   3 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  24 ++
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  10 +
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |   2 +
+ include/media/videobuf2-core.h                |  52 +++-
+ include/media/videobuf2-v4l2.h                |   2 +
+ include/uapi/linux/videodev2.h                |  16 ++
+ 18 files changed, 369 insertions(+), 85 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+
 -- 
-2.34.1
+2.40.1
 
 
