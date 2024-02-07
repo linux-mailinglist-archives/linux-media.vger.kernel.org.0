@@ -1,406 +1,255 @@
-Return-Path: <linux-media+bounces-4840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4845-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB8E84D137
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 19:32:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 350DC84D1B7
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 19:52:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B2481C22CF5
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 18:32:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B461C1F23EA1
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 18:52:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46ECA4438F;
-	Wed,  7 Feb 2024 18:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="wkL728VJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E663485659;
+	Wed,  7 Feb 2024 18:45:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DC31E4A2
-	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 18:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2E08564B
+	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 18:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707330723; cv=none; b=S/dTCLGKC4a2w62HQ6LqeYrYJz7BSVe3VVWdDPrKK1msvL+31X//15bpU6hKKz6xYloq7lMylzi+LXJM/NndIeQv8mMz3MQfs459vqcFl1lN9TCXY8aBfPjol0WQciwjkrjSn/BHrr5wY2HJvXQN6Hfib6zl5tTgmk6ZC7aVMjA=
+	t=1707331500; cv=none; b=KoroVib6M6+dY8sycd3jCKyTjp2NAg4lf0IIZPKVCxv6QwCPe5zVboTkk0V4pSq0VnusTFwe1+W8z0+KGn5DyAdSae+yL8meDugWjh68aEkNV1e8jwCoWz4RMpjWbGnVck64mjh/p05Dq/682j/kYuev4JwReUFjLHzthdjTTC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707330723; c=relaxed/simple;
-	bh=ugjzdpdqWvk/XRxaXitZV7UeF73SOnU4F9tATJvn5jY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AwROD/XwNUhoEoTNKvewcDYkWOiwr4M0r7nXHttNEBE/xz9FRwGqdT+ulCdIdlLSrkOEPsKyf9+m/Odn9bxoSqa9nG3euoWLATLrlvhKgWQVP3pwRdGsi3cgviAtfcS/jnfJwc5iR8WSNaGXKtp9K3lx2Va620VdHsbgXLqyHDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=wkL728VJ; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7857bbfb25bso55824885a.3
-        for <linux-media@vger.kernel.org>; Wed, 07 Feb 2024 10:32:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707330720; x=1707935520; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xiZrfaXoDns80FS5vZuJhwtMeBB/GDE4Y1RJbKsgQl8=;
-        b=wkL728VJlEXgmrBfCXhKYNRMAv18MD/Bg/Kv5U8wDEP+kBptmVpZEjVIyUdf0mjaAz
-         FFUjXpOl5bDYx7ji1nngmq/DVE9lqzZQrxUt8EQkaWQJVrGMxI1rFlf0Uf57tYZyhj3u
-         ktj+9GHriGFUmloDsNUDW8E3BxBsQciQNMsF2C9MwLSrSj88cxH2D11XhPqp5z9y2XDe
-         2ebv44PYkbwKNeG11EWxXtyVSrwvWnCy+c/Dw49v1K728pbuBotBqgSGyW8fRQi0Mz3O
-         t4t8Yq48jCjK+r0pWJ17Ptl7gON7vUdVMBu9ctGxAyU/iQequiEYKOEbo4eGhr8g704h
-         1Gpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707330720; x=1707935520;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xiZrfaXoDns80FS5vZuJhwtMeBB/GDE4Y1RJbKsgQl8=;
-        b=rDZFxvu/KB9ASnZVY8EzIuYDEQ3SouGn+4aNfYnZctZTa5x3BACvYDLX1cZshuEpRz
-         MSVA9eBEljXs/YG86K+ikrPcnOV/Fms2JiPnP7xAyGg1PgHKe7IPvaEcuFwugFOorFN+
-         KqHlTCjL/p+Gzucr6ejoS8HMdipUM1Hx/59g4jlWYY/RvGUJnMyXWOYVJCy1Nnd8C2b9
-         fH1cAPkmd3pS7M1iyNffsAKucvOKDSOKqbTyLVt2O/ZJs3QMqG0eKWG7Ap5q6FRphoan
-         6zYq9KTSeRVVqYZLzVhTerRwGUB0LkI5FgVm8TmSgvrasF3MZzGC/N6bTu39+uZ4+1In
-         mcYQ==
-X-Gm-Message-State: AOJu0YzVXbnibEdfJzQ5zEra2Kk3XodTR6I1logyopUQhz67ZQxgO7m3
-	srhBAltD0I+Ww95h1R/lTfZwcrqCd9STc51zfW1ZcbS9lprbO5qi20+TOTWIIIU=
-X-Google-Smtp-Source: AGHT+IE4cdzI6omn160Zh4nV7jizWSOo2Fx3aXlHEQYAwxbiHHWHVJaanYJSvPSUNU1bQTZPH0wnBA==
-X-Received: by 2002:a05:620a:3914:b0:783:de24:f315 with SMTP id qr20-20020a05620a391400b00783de24f315mr7621646qkn.58.1707330720559;
-        Wed, 07 Feb 2024 10:32:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUiUFVIgBA0PGPxbkkrzGPB4hqJv029fW7V7vQgXHAHWrm9BxX9Oh2wysHQZn9caufV/0iPprLUHlAfkUbg5ZT6QAdp+W7h/4hJ8l1hHxp0hM83IM0OoKHnJEQwTVBVNUi2hi2uwSAQfY63dIb7OKhUwTMdGyeSDSfuywiUku1iL7ezj+5m1iTBQZxmetaxHCuWHJyRgzn5U8zVcuYZeVJpFdT+Y84cqHdS
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
-        by smtp.gmail.com with ESMTPSA id v22-20020ae9e316000000b007840bab5897sm741901qkf.111.2024.02.07.10.31.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 10:32:00 -0800 (PST)
-Message-ID: <90e82dd29a10fb196332e9228fa318febb5e035b.camel@ndufresne.ca>
-Subject: Re: [RESEND PATCH v0 5/5] wave5 : Fixed the wrong buffer size
- formula.
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nas.chung@chipsnmedia.com
-Cc: lafley.kim@chipsnmedia.com, b-brnich@ti.com
-Date: Wed, 07 Feb 2024 13:31:59 -0500
-In-Reply-To: <20240131013046.15687-6-jackson.lee@chipsnmedia.com>
-References: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
-	 <20240131013046.15687-6-jackson.lee@chipsnmedia.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	s=arc-20240116; t=1707331500; c=relaxed/simple;
+	bh=s51zDtEtzddF+fOLbQ8v2gtuX5PVGr2PxCfCP0eStY0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ljI3SZad0rjb7hkCyv7c8MRwqM0kzyViIUMWL4IKXQquRRBL2mO4uIs7EWvUOGk1WjZ3o5FqpifZPWueKHy3XQtQyaZA4ohu0FU6eDLgxAgUWCvJ7ts9d3tF6874BMU5/V2nDRmFRvG3gJ3d83vXPVdi1yc4vBVQ+rfdvTQgOCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmtA-0007PF-WC; Wed, 07 Feb 2024 19:43:17 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmt1-0054Wo-Fo; Wed, 07 Feb 2024 19:43:07 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmt1-00HRrh-0y;
+	Wed, 07 Feb 2024 19:43:07 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: kernel@pengutronix.de,
+	Moritz Fischer <mdf@kernel.org>,
+	Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	linux-fpga@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-wpan@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	linux-iio@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-input@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Sergey Kozlov <serjk@netup.ru>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	linux-mmc@vger.kernel.org,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Rob Herring <robh@kernel.org>,
+	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+	linux-mtd@lists.infradead.org,
+	Simon Horman <horms@kernel.org>,
+	Ronald Wahl <ronald.wahl@raritan.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Michal Simek <michal.simek@amd.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-arm-msm@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Viresh Kumar <vireshk@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-integrity@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-usb@vger.kernel.org,
+	Helge Deller <deller@gmx.de>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Dmitry Antipov <dmantipov@yandex.ru>,
+	libertas-dev@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	James Clark <james.clark@arm.com>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 00/32] spi: get rid of some legacy macros
+Date: Wed,  7 Feb 2024 19:40:14 +0100
+Message-ID: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5860; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=s51zDtEtzddF+fOLbQ8v2gtuX5PVGr2PxCfCP0eStY0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlw86QixivRCd8jxsnKPB8Ssu0rmVV57zjiJehV Ejr/jxfufWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZcPOkAAKCRCPgPtYfRL+ TqoZB/9v16XZw2mKXG2KBm/qLQpqoIFtAvhj1rhNwGsvXv87uFIurzYxaSWRcHnoydLYAUjcWin wLRECa33v1gti0Be6oV9BMfvx+Pvhq4lk4RnaSn96oPtZRpq+OTzE2mMSgz0Rgm3Al2XVM+wtll cMJhm+DE3KYghNi+61ohTBgmqcQSwjofaml1oAIf8F12/QJkYPMbKHLFo3eYUENR8f8KW6xfzcA Auq9djKc8DcVzUnZlQ8jFBRc78e3H4Wwojwi6fhxTf6BorMOWK2zEE8p+1QpcaPMCBrTOJnRdaw ZunuM2tkWRUATbyKWfDc9YAdTKZGkKDoDmegK95iBOzv5EQf
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hi,
+Changes since v2
+(https://lore.kernel.org/linux-spi/cover.1705944943.git.u.kleine-koenig@pengutronix.de):
 
-Le mercredi 31 janvier 2024 =C3=A0 10:30 +0900, jackson.lee a =C3=A9crit=C2=
-=A0:
-> S_FMT/G_FMT should report the buffer size based on aligned width and heig=
-ht.
-> And, Host can set the real encoding size through s_selection and g_select=
-ion.
-> So, Driver should use the conf_win information for encoding size instead =
-of size of S_FMT/G_FMT.
+ - Drop patch "mtd: rawnand: fsl_elbc: Let .probe retry if local bus is
+   missing" which doesn't belong into this series.
+ - Fix a build failure noticed by the kernel build bot in
+   drivers/spi/spi-au1550.c. (I failed to catch this because this driver
+   is mips only, but not enabled in a mips allmodconfig. That's a bit
+   unfortunate, but not easily fixable.)
+ - Add the Reviewed-by: and Acked-by: tags I received for v2.
 
-This patch will go away as soon as you have ported to v4l2-common as reques=
-ted
-in patch 1/5. It will also make future addition of pixel formats less tedio=
-us.
+Mark already announced for v2 that he is willing to apply the whole
+series to his spi tree. Assuming no other show stoper are found in this
+v3, I assume that's the plan still for this series now.
 
-regards,
-Nicolas
+Thanks
+Uwe
 
->=20
-> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
-> ---
->  .../chips-media/wave5/wave5-vpu-dec.c         | 77 +++++++------------
->  .../chips-media/wave5/wave5-vpu-enc.c         | 77 +++++++++++--------
->  2 files changed, 72 insertions(+), 82 deletions(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/d=
-rivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> index 328a7a8f26c5..fb9449908ebd 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> @@ -243,54 +243,54 @@ static void wave5_update_pix_fmt(struct v4l2_pix_fo=
-rmat_mplane *pix_mp, unsigned
->  	case V4L2_PIX_FMT_NV21:
->  		pix_mp->width =3D round_up(width, 32);
->  		pix_mp->height =3D round_up(height, 16);
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D width * height * 3 / 2;
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height * 3 =
-/ 2;
->  		break;
->  	case V4L2_PIX_FMT_YUV422P:
->  	case V4L2_PIX_FMT_NV16:
->  	case V4L2_PIX_FMT_NV61:
->  		pix_mp->width =3D round_up(width, 32);
->  		pix_mp->height =3D round_up(height, 16);
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D width * height * 2;
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height * 2;
->  		break;
->  	case V4L2_PIX_FMT_YUV420M:
->  		pix_mp->width =3D round_up(width, 32);
->  		pix_mp->height =3D round_up(height, 16);
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D width * height;
-> -		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32) / 2;
-> -		pix_mp->plane_fmt[1].sizeimage =3D width * height / 4;
-> -		pix_mp->plane_fmt[2].bytesperline =3D round_up(width, 32) / 2;
-> -		pix_mp->plane_fmt[2].sizeimage =3D width * height / 4;
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height;
-> +		pix_mp->plane_fmt[1].bytesperline =3D pix_mp->width / 2;
-> +		pix_mp->plane_fmt[1].sizeimage =3D pix_mp->width * pix_mp->height / 4;
-> +		pix_mp->plane_fmt[2].bytesperline =3D pix_mp->width / 2;
-> +		pix_mp->plane_fmt[2].sizeimage =3D pix_mp->width * pix_mp->height / 4;
->  		break;
->  	case V4L2_PIX_FMT_NV12M:
->  	case V4L2_PIX_FMT_NV21M:
->  		pix_mp->width =3D round_up(width, 32);
->  		pix_mp->height =3D round_up(height, 16);
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D width * height;
-> -		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[1].sizeimage =3D width * height / 2;
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height;
-> +		pix_mp->plane_fmt[1].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[1].sizeimage =3D pix_mp->width * pix_mp->height / 2;
->  		break;
->  	case V4L2_PIX_FMT_YUV422M:
->  		pix_mp->width =3D round_up(width, 32);
->  		pix_mp->height =3D round_up(height, 16);
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D width * height;
-> -		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32) / 2;
-> -		pix_mp->plane_fmt[1].sizeimage =3D width * height / 2;
-> -		pix_mp->plane_fmt[2].bytesperline =3D round_up(width, 32) / 2;
-> -		pix_mp->plane_fmt[2].sizeimage =3D width * height / 2;
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height;
-> +		pix_mp->plane_fmt[1].bytesperline =3D pix_mp->width / 2;
-> +		pix_mp->plane_fmt[1].sizeimage =3D pix_mp->width * pix_mp->height / 2;
-> +		pix_mp->plane_fmt[2].bytesperline =3D pix_mp->width / 2;
-> +		pix_mp->plane_fmt[2].sizeimage =3D pix_mp->width * pix_mp->height / 2;
->  		break;
->  	case V4L2_PIX_FMT_NV16M:
->  	case V4L2_PIX_FMT_NV61M:
->  		pix_mp->width =3D round_up(width, 32);
->  		pix_mp->height =3D round_up(height, 16);
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D width * height;
-> -		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[1].sizeimage =3D width * height;
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height;
-> +		pix_mp->plane_fmt[1].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[1].sizeimage =3D pix_mp->width * pix_mp->height;
->  		break;
->  	default:
->  		pix_mp->width =3D width;
-> @@ -1003,6 +1003,7 @@ static int wave5_vpu_dec_queue_setup(struct vb2_que=
-ue *q, unsigned int *num_buff
->  	struct vpu_instance *inst =3D vb2_get_drv_priv(q);
->  	struct v4l2_pix_format_mplane inst_format =3D
->  		(q->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) ? inst->src_fmt : i=
-nst->dst_fmt;
-> +	unsigned int i;
-> =20
->  	dev_dbg(inst->dev->dev, "%s: num_buffers: %u | num_planes: %u | type: %=
-u\n", __func__,
->  		*num_buffers, *num_planes, q->type);
-> @@ -1016,31 +1017,9 @@ static int wave5_vpu_dec_queue_setup(struct vb2_qu=
-eue *q, unsigned int *num_buff
->  		if (*num_buffers < inst->fbc_buf_count)
->  			*num_buffers =3D inst->fbc_buf_count;
-> =20
-> -		if (*num_planes =3D=3D 1) {
-> -			if (inst->output_format =3D=3D FORMAT_422)
-> -				sizes[0] =3D inst_format.width * inst_format.height * 2;
-> -			else
-> -				sizes[0] =3D inst_format.width * inst_format.height * 3 / 2;
-> -			dev_dbg(inst->dev->dev, "%s: size[0]: %u\n", __func__, sizes[0]);
-> -		} else if (*num_planes =3D=3D 2) {
-> -			sizes[0] =3D inst_format.width * inst_format.height;
-> -			if (inst->output_format =3D=3D FORMAT_422)
-> -				sizes[1] =3D inst_format.width * inst_format.height;
-> -			else
-> -				sizes[1] =3D inst_format.width * inst_format.height / 2;
-> -			dev_dbg(inst->dev->dev, "%s: size[0]: %u | size[1]: %u\n",
-> -				__func__, sizes[0], sizes[1]);
-> -		} else if (*num_planes =3D=3D 3) {
-> -			sizes[0] =3D inst_format.width * inst_format.height;
-> -			if (inst->output_format =3D=3D FORMAT_422) {
-> -				sizes[1] =3D inst_format.width * inst_format.height / 2;
-> -				sizes[2] =3D inst_format.width * inst_format.height / 2;
-> -			} else {
-> -				sizes[1] =3D inst_format.width * inst_format.height / 4;
-> -				sizes[2] =3D inst_format.width * inst_format.height / 4;
-> -			}
-> -			dev_dbg(inst->dev->dev, "%s: size[0]: %u | size[1]: %u | size[2]: %u\=
-n",
-> -				__func__, sizes[0], sizes[1], sizes[2]);
-> +		for (i =3D 0; i < *num_planes; i++) {
-> +			sizes[i] =3D inst_format.plane_fmt[i].sizeimage;
-> +			dev_dbg(inst->dev->dev, "%s: size[%u]: %u\n", __func__, i, sizes[i]);
->  		}
->  	}
-> =20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
-rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> index 19018ace41b6..762973d0677b 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> @@ -152,46 +152,46 @@ static void wave5_update_pix_fmt(struct v4l2_pix_fo=
-rmat_mplane *pix_mp, unsigned
->  	case V4L2_PIX_FMT_YUV420:
->  	case V4L2_PIX_FMT_NV12:
->  	case V4L2_PIX_FMT_NV21:
-> -		pix_mp->width =3D width;
-> -		pix_mp->height =3D height;
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D round_up(width, 32) * height * 3 / =
-2;
-> +		pix_mp->width =3D round_up(width, 32);
-> +		pix_mp->height =3D round_up(height, 16);
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height * 3 =
-/ 2;
->  		break;
->  	case V4L2_PIX_FMT_YUV420M:
-> -		pix_mp->width =3D width;
-> -		pix_mp->height =3D height;
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D round_up(width, 32) * height;
-> -		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32) / 2;
-> -		pix_mp->plane_fmt[1].sizeimage =3D round_up(width, 32) * height / 4;
-> -		pix_mp->plane_fmt[2].bytesperline =3D round_up(width, 32) / 2;
-> -		pix_mp->plane_fmt[2].sizeimage =3D round_up(width, 32) * height / 4;
-> +		pix_mp->width =3D round_up(width, 32);
-> +		pix_mp->height =3D round_up(height, 16);
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height;
-> +		pix_mp->plane_fmt[1].bytesperline =3D pix_mp->width / 2;
-> +		pix_mp->plane_fmt[1].sizeimage =3D pix_mp->width * pix_mp->height / 4;
-> +		pix_mp->plane_fmt[2].bytesperline =3D pix_mp->width / 2;
-> +		pix_mp->plane_fmt[2].sizeimage =3D pix_mp->width * pix_mp->height / 4;
->  		break;
->  	case V4L2_PIX_FMT_NV12M:
->  	case V4L2_PIX_FMT_NV21M:
-> -		pix_mp->width =3D width;
-> -		pix_mp->height =3D height;
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D round_up(width, 32) * height;
-> -		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[1].sizeimage =3D round_up(width, 32) * height / 2;
-> +		pix_mp->width =3D round_up(width, 32);
-> +		pix_mp->height =3D round_up(height, 16);
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height;
-> +		pix_mp->plane_fmt[1].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[1].sizeimage =3D pix_mp->width * pix_mp->height / 2;
->  		break;
->  	case V4L2_PIX_FMT_YUV422P:
->  	case V4L2_PIX_FMT_NV16:
->  	case V4L2_PIX_FMT_NV61:
-> -		pix_mp->width =3D width;
-> -		pix_mp->height =3D height;
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D round_up(width, 32) * height * 2;
-> +		pix_mp->width =3D round_up(width, 32);
-> +		pix_mp->height =3D round_up(height, 16);
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height * 2;
->  		break;
->  	case V4L2_PIX_FMT_NV16M:
->  	case V4L2_PIX_FMT_NV61M:
-> -		pix_mp->width =3D width;
-> -		pix_mp->height =3D height;
-> -		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[0].sizeimage =3D round_up(width, 32) * height;
-> -		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32);
-> -		pix_mp->plane_fmt[1].sizeimage =3D round_up(width, 32) * height;
-> +		pix_mp->width =3D round_up(width, 32);
-> +		pix_mp->height =3D round_up(height, 16);
-> +		pix_mp->plane_fmt[0].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[0].sizeimage =3D pix_mp->width * pix_mp->height;
-> +		pix_mp->plane_fmt[1].bytesperline =3D pix_mp->width;
-> +		pix_mp->plane_fmt[1].sizeimage =3D pix_mp->width * pix_mp->height;
->  		break;
->  	default:
->  		pix_mp->width =3D width;
-> @@ -638,6 +638,8 @@ static int wave5_vpu_enc_s_fmt_out(struct file *file,=
- void *fh, struct v4l2_form
->  	inst->xfer_func =3D f->fmt.pix_mp.xfer_func;
-> =20
->  	wave5_update_pix_fmt(&inst->dst_fmt, f->fmt.pix_mp.width, f->fmt.pix_mp=
-.height);
-> +	inst->conf_win.width =3D inst->dst_fmt.width;
-> +	inst->conf_win.height =3D inst->dst_fmt.height;
-> =20
->  	return 0;
->  }
-> @@ -653,12 +655,17 @@ static int wave5_vpu_enc_g_selection(struct file *f=
-ile, void *fh, struct v4l2_se
->  	switch (s->target) {
->  	case V4L2_SEL_TGT_CROP_DEFAULT:
->  	case V4L2_SEL_TGT_CROP_BOUNDS:
-> -	case V4L2_SEL_TGT_CROP:
->  		s->r.left =3D 0;
->  		s->r.top =3D 0;
->  		s->r.width =3D inst->dst_fmt.width;
->  		s->r.height =3D inst->dst_fmt.height;
->  		break;
-> +	case V4L2_SEL_TGT_CROP:
-> +		s->r.left =3D 0;
-> +		s->r.top =3D 0;
-> +		s->r.width =3D inst->conf_win.width;
-> +		s->r.height =3D inst->conf_win.height;
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -681,8 +688,10 @@ static int wave5_vpu_enc_s_selection(struct file *fi=
-le, void *fh, struct v4l2_se
-> =20
->  	s->r.left =3D 0;
->  	s->r.top =3D 0;
-> -	s->r.width =3D inst->src_fmt.width;
-> -	s->r.height =3D inst->src_fmt.height;
-> +	s->r.width =3D min(s->r.width, inst->dst_fmt.width);
-> +	s->r.height =3D min(s->r.height, inst->dst_fmt.height);
-> +
-> +	inst->conf_win =3D s->r;
-> =20
->  	return 0;
->  }
-> @@ -1229,8 +1238,8 @@ static void wave5_set_enc_openparam(struct enc_open=
-_param *open_param,
->  	open_param->wave_param.lambda_scaling_enable =3D 1;
-> =20
->  	open_param->line_buf_int_en =3D true;
-> -	open_param->pic_width =3D inst->dst_fmt.width;
-> -	open_param->pic_height =3D inst->dst_fmt.height;
-> +	open_param->pic_width =3D inst->conf_win.width;
-> +	open_param->pic_height =3D inst->conf_win.height;
->  	open_param->frame_rate_info =3D inst->frame_rate;
->  	open_param->rc_enable =3D inst->rc_enable;
->  	if (inst->rc_enable) {
-> @@ -1806,6 +1815,8 @@ static int wave5_vpu_open_enc(struct file *filp)
->  	v4l2_ctrl_handler_setup(v4l2_ctrl_hdl);
-> =20
->  	wave5_set_default_format(&inst->src_fmt, &inst->dst_fmt);
-> +	inst->conf_win.width =3D inst->dst_fmt.width;
-> +	inst->conf_win.height =3D inst->dst_fmt.height;
->  	inst->colorspace =3D V4L2_COLORSPACE_REC709;
->  	inst->ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
->  	inst->quantization =3D V4L2_QUANTIZATION_DEFAULT;
+Uwe Kleine-König (32):
+  fpga: ice40-spi: Follow renaming of SPI "master" to "controller"
+  ieee802154: ca8210: Follow renaming of SPI "master" to "controller"
+  iio: adc: ad_sigma_delta: Follow renaming of SPI "master" to "controller"
+  Input: pxspad - follow renaming of SPI "master" to "controller"
+  Input: synaptics-rmi4 - follow renaming of SPI "master" to "controller"
+  media: mgb4: Follow renaming of SPI "master" to "controller"
+  media: netup_unidvb: Follow renaming of SPI "master" to "controller"
+  media: usb/msi2500: Follow renaming of SPI "master" to "controller"
+  media: v4l2-subdev: Follow renaming of SPI "master" to "controller"
+  misc: gehc-achc: Follow renaming of SPI "master" to "controller"
+  mmc: mmc_spi: Follow renaming of SPI "master" to "controller"
+  mtd: dataflash: Follow renaming of SPI "master" to "controller"
+  net: ks8851: Follow renaming of SPI "master" to "controller"
+  net: vertexcom: mse102x: Follow renaming of SPI "master" to "controller"
+  platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+  spi: bitbang: Follow renaming of SPI "master" to "controller"
+  spi: cadence-quadspi: Don't emit error message on allocation error
+  spi: cadence-quadspi: Follow renaming of SPI "master" to "controller"
+  spi: cavium: Follow renaming of SPI "master" to "controller"
+  spi: geni-qcom: Follow renaming of SPI "master" to "controller"
+  spi: loopback-test: Follow renaming of SPI "master" to "controller"
+  spi: slave-mt27xx: Follow renaming of SPI "master" to "controller"
+  spi: spidev: Follow renaming of SPI "master" to "controller"
+  staging: fbtft: Follow renaming of SPI "master" to "controller"
+  staging: greybus: spi: Follow renaming of SPI "master" to "controller"
+  tpm_tis_spi: Follow renaming of SPI "master" to "controller"
+  usb: gadget: max3420_udc: Follow renaming of SPI "master" to "controller"
+  video: fbdev: mmp: Follow renaming of SPI "master" to "controller"
+  wifi: libertas: Follow renaming of SPI "master" to "controller"
+  spi: fsl-lib: Follow renaming of SPI "master" to "controller"
+  spi: Drop compat layer from renaming "master" to "controller"
+  Documentation: spi: Update documentation for renaming "master" to "controller"
+
+ .../driver-api/driver-model/devres.rst        |  2 +-
+ Documentation/spi/spi-summary.rst             | 74 +++++++++----------
+ drivers/char/tpm/tpm_tis_spi_main.c           |  4 +-
+ drivers/fpga/ice40-spi.c                      |  4 +-
+ drivers/iio/adc/ad_sigma_delta.c              | 14 ++--
+ drivers/input/joystick/psxpad-spi.c           |  4 +-
+ drivers/input/rmi4/rmi_spi.c                  |  2 +-
+ drivers/media/pci/mgb4/mgb4_core.c            | 14 ++--
+ .../media/pci/netup_unidvb/netup_unidvb_spi.c | 48 ++++++------
+ drivers/media/usb/msi2500/msi2500.c           | 38 +++++-----
+ drivers/media/v4l2-core/v4l2-spi.c            |  4 +-
+ drivers/misc/gehc-achc.c                      |  8 +-
+ drivers/mmc/host/mmc_spi.c                    |  6 +-
+ drivers/mtd/devices/mtd_dataflash.c           |  2 +-
+ drivers/net/ethernet/micrel/ks8851_spi.c      |  4 +-
+ drivers/net/ethernet/vertexcom/mse102x.c      |  2 +-
+ drivers/net/ieee802154/ca8210.c               |  2 +-
+ .../net/wireless/marvell/libertas/if_spi.c    |  2 +-
+ drivers/platform/chrome/cros_ec_spi.c         |  8 +-
+ drivers/spi/spi-ath79.c                       |  4 +-
+ drivers/spi/spi-au1550.c                      |  2 +-
+ drivers/spi/spi-bitbang.c                     | 64 ++++++++--------
+ drivers/spi/spi-butterfly.c                   |  6 +-
+ drivers/spi/spi-cadence-quadspi.c             |  7 +-
+ drivers/spi/spi-cavium.c                      |  6 +-
+ drivers/spi/spi-cavium.h                      |  2 +-
+ drivers/spi/spi-davinci.c                     |  6 +-
+ drivers/spi/spi-fsl-lib.c                     | 14 ++--
+ drivers/spi/spi-geni-qcom.c                   |  2 +-
+ drivers/spi/spi-gpio.c                        |  2 +-
+ drivers/spi/spi-lm70llp.c                     |  6 +-
+ drivers/spi/spi-loopback-test.c               |  4 +-
+ drivers/spi/spi-oc-tiny.c                     |  6 +-
+ drivers/spi/spi-omap-uwire.c                  |  4 +-
+ drivers/spi/spi-sh-sci.c                      | 10 +--
+ drivers/spi/spi-slave-mt27xx.c                |  2 +-
+ drivers/spi/spi-xilinx.c                      |  4 +-
+ drivers/spi/spi-xtensa-xtfpga.c               |  2 +-
+ drivers/spi/spi.c                             |  2 +-
+ drivers/spi/spidev.c                          |  2 +-
+ drivers/staging/fbtft/fbtft-core.c            |  4 +-
+ drivers/staging/greybus/spilib.c              | 66 ++++++++---------
+ drivers/usb/gadget/udc/max3420_udc.c          |  2 +-
+ drivers/video/fbdev/mmp/hw/mmp_spi.c          | 26 +++----
+ include/linux/spi/spi.h                       | 20 +----
+ include/linux/spi/spi_bitbang.h               |  2 +-
+ include/media/v4l2-common.h                   |  6 +-
+ 47 files changed, 253 insertions(+), 272 deletions(-)
+
+
+base-commit: b9b98f594b6f4c0b0fb2da4493453aef183bca4b
+-- 
+2.43.0
 
 
