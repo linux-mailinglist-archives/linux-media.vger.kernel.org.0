@@ -1,213 +1,202 @@
-Return-Path: <linux-media+bounces-4773-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4774-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BCF84C12E
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 01:07:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2DE84C1A8
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 02:06:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0AE111F253F6
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 00:07:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA338289027
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 01:06:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25D743212;
-	Wed,  7 Feb 2024 00:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A03348F55;
+	Wed,  7 Feb 2024 01:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ZfJE2BJ8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2086.outbound.protection.outlook.com [40.107.113.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154C7170
-	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 00:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707264451; cv=none; b=CBqsnIRaUY2/IWwlxgPbac5IodgrZZueaQyRql2UiC4LSeDLlyO7V1niE65T44X4k8OHNcRZPl16R0h91/kjsceh0m8dQ/iauqOR17Y7Pr9rTLXdA2Z4v6pnPK1i4ScoTvfftBE0BseYnuAjupNwo/12M6IR/SGL15HfJD7ZoNE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707264451; c=relaxed/simple;
-	bh=fzBMwjP3R+a5R2HdhiIMhtmDSAFyjPs7cnyLs+nLCOU=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=PYwnPX6l3Xog3RAuvSFrhmoCEnM7diOagg5LzzSocAV2kcQDGwa85wPc6uHOH/M5USAyMOVOng8GJOPLCDpREMTrpYx3gPWr1Qn2uXW814PjQGG5afRhPTA8Rr74Mlrp2TOfunfJ47gaFKZ7CanQPZMuIBFc4WNcFIU4f90Qw1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7bf4698825eso7316539f.0
-        for <linux-media@vger.kernel.org>; Tue, 06 Feb 2024 16:07:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707264449; x=1707869249;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OEF1tKQoR2J3woTag73sOwwH7baxXxEr34WqP9038pg=;
-        b=K2+hanq/5QPatK2CbfASzys/ojzfHmOg3JkGb9oavaRlJZdIjCYP8/yPKyo4CsHEal
-         QgSQkuYGb8BnVP2N+dXg/Hiltyp9vCXdAyeodp71CtjacJtp8Ck28OJ9Ur3X0p4yFrvT
-         myqlsnzdPdwtqI4/+f5/FnFLUAA62Xs3WbmXvdFHF9Lbktca6dk40Z6y0bIMEZwHPmSw
-         DkMgGgrj3O3IXCxlY+4lHb9zCXpbrodbPve7tUb9tWEjIZioIUFf/qBOz9sD6cl83IPL
-         cVu05Ss36ZjWeoDKpmLjcn5SazWX7rCTPvaf4StC4eSKis6ELjykRi25zzJ1fbqteaQX
-         qRWA==
-X-Gm-Message-State: AOJu0Yy+ViKjIUkf13sIkhq+dCa/7tuYJodYPaOCN3H6Hnl44vFZ3AsF
-	w5ybmdF9aSBeJC0mfRJ9rH0z9mtbbl8DS6otbr7dc9VSgdP7RkTO4Ks/rogMTlic65/dX44YrhE
-	PDTR7FMw5jXxcBW6gfJY2IiJ4THehmm0lkmk2o3JZ/Q7vdUMvU0l43JU=
-X-Google-Smtp-Source: AGHT+IFG5NSDC+h42rp1GTbwW/E6K5b3F2dv0r7w0pkLfSL+5ZlsjoFnWtxwdMjaBhcrohwkoPjYFWEfTOMWyHaK4e9ZY8sx5o/e
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27F39457;
+	Wed,  7 Feb 2024 01:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707267971; cv=fail; b=HHEdqcy6je8yh8CcoAMFOTmxuThLXKbmmdUxTJy0aHP5lpQJnfan66UCAJCX4hPqH7ABnz/iR9AynP87rlpU9s8s6n6C+yCNA4gHiPpF/uXC4qANLv4qtF+FS1Gj7woPto/y/3gDdGtNmfOZLqFBvjokcOaYLRTNAZbiR9cRS34=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707267971; c=relaxed/simple;
+	bh=JUr9nAMarWnz6gPTVMxgqdduXwq8cA8kA/9mt5+8pmM=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=qZ0vbvrpGSNu97m5lLYwHO10zsURsGY4eWuQDigXE5JfhyAH78/6DMwCgJJBYycb4vt06gOkzI31rcpzC6FsXCX+kMblrJ/qnRumtjIfwIwg77bGNcJaFRZBOc48az5xeR5RQMawHFNJjn0qY0dBHArP5xc3ccDm1xrCfUUxDas=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ZfJE2BJ8; arc=fail smtp.client-ip=40.107.113.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bZ/rsSRMOUu01BIicgbErpNuk3znpKRBYoK0BASM5HBs9fb7ls2b6VuO62WWSkcBqKO/cIa/0PKBi7raRnQIMKJe4gWE41WJLWXttMsqG5qzI7aMtzRGHmZCW5gx/Ft+lnI7tg7y5XkaM6UysJS/brnEV1cabelWK8NC56wblZJ6y/EXXjGKHpvgnfaM1QtQzgnnv0UEUOSmvUXloyNSwsd620Q48MpUAsTX0tQb3JWBe9wD7LtiMCmUZFd3PNeey5M9oXz4KLcf7xHrL9IZeDN9psLKCRewpFMPhFwROgjzotnjWiF9xWfaFGXN3kGgUyR9GAUZIy4kDsSmpRNKrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UuYXGK4RFsD1Cdml4BDT6X+uhZDHYMfB1RCjmEJUYIg=;
+ b=SV99r1xbgLgJ7bHF/B4DJztlH99PXhbFSSMZt2sROYAQOn4X5UkZlZ9cEZGs4vprt2ptMlpQSryU4j0etAQHZRZgagID+rn9bjb05foe/t0UMKrDuEVb+pxoghivRPQZddIg3tV9gKHk+ne2HUKAbjndkkXPR7NIJMIyS+AoXNe87qQOzub+iyBoz30SHzrJeMts6lEPOuFJfkI6jLWFg/+wmH9+VKuolfG5ipddWM+12Vshx/BxhMpIQ1FwF/MGthqviTDvGiC8bpc6gS6s2ijqpJQfDw8AdqusUDt5ekdqqO5umoEYuPh4gpPBKFZFgRyQNxhHa6XqU8heFNEffg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UuYXGK4RFsD1Cdml4BDT6X+uhZDHYMfB1RCjmEJUYIg=;
+ b=ZfJE2BJ8IirqZ0iRl8rddFvUe0lXLr+6/j85UoK7TQh6/amVy4VaoeH6351/KmlD2a7t96AC+9AwOcwcFJr+SN+rlrGGnwqf+uIXJVfoI7rlZqX4yHubSltlWxc0NdUuLNEYB6qm4s5JUVUmbpy7xDFVpHLv5je+aDRJuCIIqyA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB8599.jpnprd01.prod.outlook.com
+ (2603:1096:400:13a::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Wed, 7 Feb
+ 2024 01:06:03 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::4d0b:6738:dc2b:51c8]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::4d0b:6738:dc2b:51c8%6]) with mapi id 15.20.7249.035; Wed, 7 Feb 2024
+ 01:06:03 +0000
+Message-ID: <87zfwdrslh.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,	Krzysztof
+ =?ISO-8859-2?Q?Ha=B3asa?= <khalasa@piap.pl>,	"Lad, Prabhakar"
+ <prabhakar.csengg@gmail.com>,	Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>,	Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,	Alexandre Torgue
+ <alexandre.torgue@foss.st.com>,	Alexey Brodkin <abrodkin@synopsys.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,	Andrzej Hajda
+ <andrzej.hajda@intel.com>,	Biju Das <biju.das.jz@bp.renesas.com>,	Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,	Daniel Vetter <daniel@ffwll.ch>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,	David Airlie
+ <airlied@gmail.com>,	Eugen Hristev <eugen.hristev@collabora.com>,	Florian
+ Fainelli <florian.fainelli@broadcom.com>,	Helge Deller <deller@gmx.de>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,	Jacopo Mondi
+ <jacopo@jmondi.org>,	Jessica Zhang <quic_jesszhan@quicinc.com>,	Krzysztof
+ Kozlowski <krzysztof.kozlowski@linaro.org>,	Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,	Mauro Carvalho Chehab
+ <mchehab@kernel.org>,	Maxime Coquelin <mcoquelin.stm32@gmail.com>,	Maxime
+ Ripard <mripard@kernel.org>,	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,	Russell King
+ <linux@armlinux.org.uk>,	Sakari Ailus <sakari.ailus@linux.intel.com>,	Sam
+ Ravnborg <sam@ravnborg.org>,	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,	Tim Harvey
+ <tharvey@gateworks.com>,	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,	linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org,	linux-omap@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 2/4] media: i2c: replace of_graph_get_next_endpoint()
+In-Reply-To: <9d1e99b0-892d-4a72-a9b3-886b8ed094b0@xs4all.nl>
+References: <87ttmmnvzh.wl-kuninori.morimoto.gx@renesas.com>
+	<87r0hqnvxc.wl-kuninori.morimoto.gx@renesas.com>
+	<20240206134155.GB2827@pendragon.ideasonboard.com>
+	<9d1e99b0-892d-4a72-a9b3-886b8ed094b0@xs4all.nl>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 7 Feb 2024 01:06:03 +0000
+X-ClientProxiedBy: TYCP286CA0137.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31b::15) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:35ac:b0:471:cde:78e with SMTP id
- v44-20020a05663835ac00b004710cde078emr75269jal.3.1707264449265; Tue, 06 Feb
- 2024 16:07:29 -0800 (PST)
-Date: Tue, 06 Feb 2024 16:07:29 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000946190610bf7bd5@google.com>
-Subject: [syzbot] [dri?] [media?] inconsistent lock state in valid_state (2)
-From: syzbot <syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com>
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
-	gustavo@padovan.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    021533194476 Kconfig: Disable -Wstringop-overflow for GCC ..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=10a82db0180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=457249c250b93697
-dashboard link: https://syzkaller.appspot.com/bug?extid=a225ee3df7e7f9372dbe
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/da8c6426660d/disk-02153319.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/a866aaa09be9/vmlinux-02153319.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/4a5680d805d7/bzImage-02153319.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com
-
-================================
-WARNING: inconsistent lock state
-6.8.0-rc2-syzkaller-00199-g021533194476 #0 Not tainted
---------------------------------
-inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.
-syz-executor.4/9508 [HC0[0]:SC0[0]:HE0:SE1] takes:
-ffffffff8ea8c5d8 (sync_timeline_list_lock){?...}-{2:2}, at: spin_lock_irq include/linux/spinlock.h:376 [inline]
-ffffffff8ea8c5d8 (sync_timeline_list_lock){?...}-{2:2}, at: sync_info_debugfs_show+0x94/0x4d0 drivers/dma-buf/sync_debug.c:147
-{IN-HARDIRQ-W} state was registered at:
-  lock_acquire+0x1e3/0x530 kernel/locking/lockdep.c:5754
-  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
-  _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
-  sync_timeline_debug_remove+0x2c/0x150 drivers/dma-buf/sync_debug.c:31
-  sync_timeline_free drivers/dma-buf/sw_sync.c:125 [inline]
-  kref_put include/linux/kref.h:65 [inline]
-  sync_timeline_put drivers/dma-buf/sw_sync.c:137 [inline]
-  timeline_fence_release+0x204/0x250 drivers/dma-buf/sw_sync.c:165
-  kref_put include/linux/kref.h:65 [inline]
-  dma_fence_put include/linux/dma-fence.h:297 [inline]
-  dma_fence_array_release+0x13e/0x240 drivers/dma-buf/dma-fence-array.c:120
-  irq_work_single+0xe1/0x240 kernel/irq_work.c:221
-  irq_work_run_list kernel/irq_work.c:252 [inline]
-  irq_work_run+0x18b/0x350 kernel/irq_work.c:261
-  __sysvec_irq_work+0xa8/0x3e0 arch/x86/kernel/irq_work.c:22
-  sysvec_irq_work+0x8f/0xb0 arch/x86/kernel/irq_work.c:17
-  asm_sysvec_irq_work+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:160 [inline]
-  _raw_spin_unlock_irq+0x29/0x50 kernel/locking/spinlock.c:202
-  spin_unlock_irq include/linux/spinlock.h:401 [inline]
-  sw_sync_debugfs_release+0x14b/0x1d0 drivers/dma-buf/sw_sync.c:359
-  __fput+0x429/0x8a0 fs/file_table.c:376
-  task_work_run+0x24e/0x310 kernel/task_work.c:180
-  exit_task_work include/linux/task_work.h:38 [inline]
-  do_exit+0xa2c/0x2740 kernel/exit.c:871
-  do_group_exit+0x206/0x2c0 kernel/exit.c:1020
-  __do_sys_exit_group kernel/exit.c:1031 [inline]
-  __se_sys_exit_group kernel/exit.c:1029 [inline]
-  __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1029
-  do_syscall_64+0xf9/0x240
-  entry_SYSCALL_64_after_hwframe+0x6f/0x77
-irq event stamp: 364
-hardirqs last  enabled at (363): [<ffffffff8b710daf>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
-hardirqs last  enabled at (363): [<ffffffff8b710daf>] _raw_spin_unlock_irqrestore+0x8f/0x140 kernel/locking/spinlock.c:194
-hardirqs last disabled at (364): [<ffffffff8b710bdd>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
-hardirqs last disabled at (364): [<ffffffff8b710bdd>] _raw_spin_lock_irq+0xad/0x120 kernel/locking/spinlock.c:170
-softirqs last  enabled at (0): [<ffffffff8156a0f3>] rcu_lock_acquire include/linux/rcupdate.h:298 [inline]
-softirqs last  enabled at (0): [<ffffffff8156a0f3>] rcu_read_lock include/linux/rcupdate.h:750 [inline]
-softirqs last  enabled at (0): [<ffffffff8156a0f3>] copy_process+0x9c3/0x3fc0 kernel/fork.c:2366
-softirqs last disabled at (0): [<0000000000000000>] 0x0
-
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock(sync_timeline_list_lock);
-  <Interrupt>
-    lock(sync_timeline_list_lock);
-
- *** DEADLOCK ***
-
-3 locks held by syz-executor.4/9508:
- #0: ffff888086cd7748 (&f->f_pos_lock){+.+.}-{3:3}, at: __fdget_pos+0x258/0x320 fs/file.c:1191
- #1: ffff88801f9c8448 (&p->lock){+.+.}-{3:3}, at: seq_read_iter+0xb7/0xd60 fs/seq_file.c:182
- #2: ffffffff8ea8c5d8 (sync_timeline_list_lock){?...}-{2:2}, at: spin_lock_irq include/linux/spinlock.h:376 [inline]
- #2: ffffffff8ea8c5d8 (sync_timeline_list_lock){?...}-{2:2}, at: sync_info_debugfs_show+0x94/0x4d0 drivers/dma-buf/sync_debug.c:147
-
-stack backtrace:
-CPU: 0 PID: 9508 Comm: syz-executor.4 Not tainted 6.8.0-rc2-syzkaller-00199-g021533194476 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1e7/0x2e0 lib/dump_stack.c:106
- valid_state+0x13a/0x1c0 kernel/locking/lockdep.c:4013
- mark_lock_irq+0xbb/0xc20 kernel/locking/lockdep.c:4216
- mark_lock+0x223/0x350 kernel/locking/lockdep.c:4678
- mark_held_locks kernel/locking/lockdep.c:4274 [inline]
- __trace_hardirqs_on_caller kernel/locking/lockdep.c:4292 [inline]
- lockdep_hardirqs_on_prepare+0x281/0x780 kernel/locking/lockdep.c:4359
- trace_hardirqs_on+0x28/0x40 kernel/trace/trace_preemptirq.c:61
- __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
- _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:202
- spin_unlock_irq include/linux/spinlock.h:401 [inline]
- sync_print_obj drivers/dma-buf/sync_debug.c:118 [inline]
- sync_info_debugfs_show+0x158/0x4d0 drivers/dma-buf/sync_debug.c:153
- seq_read_iter+0x445/0xd60 fs/seq_file.c:230
- seq_read+0x3a3/0x4f0 fs/seq_file.c:162
- vfs_read+0x204/0xb70 fs/read_write.c:474
- ksys_read+0x1a0/0x2c0 fs/read_write.c:619
- do_syscall_64+0xf9/0x240
- entry_SYSCALL_64_after_hwframe+0x6f/0x77
-RIP: 0033:0x7fc881e7dda9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fc882b390c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-RAX: ffffffffffffffda RBX: 00007fc881fabf80 RCX: 00007fc881e7dda9
-RDX: 0000000000002020 RSI: 0000000020001b00 RDI: 0000000000000006
-RBP: 00007fc881eca47a R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 000000000000000b R14: 00007fc881fabf80 R15: 00007fc8820cfa48
- </TASK>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8599:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8621c84-0905-4d73-28c6-08dc2778f4b2
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	mghTxU+JPOY0W+ulZi8cY0fVmGQWbzkc6ek4kfsoImANvWvwIk99ARne3KFtFMsKIE8CUdqSaifiy2qmYh5MGaeWzP7MUcok2c98onzWErTsxtON1oIJDcTDOWtAt+xzvJeSAqsYN9aYhyHXeKIR+AF/Ankj43fMEWq82NdoNygE+TBvrfgBsu6uoq5A/aB+3OisluOEPzcNPZSzaB5FIk9Pj859nVL6baJAZs7ir8BwlJNviUJerjlegfai3QDWn+1Qkt4xwmE9S//TbAHQJV8/OGVtlahu4l/l7ZRzSoom6b5j+9jbY3Eym7CdOnxbCqJzjOSmdcLwdVyWphsX+3KbZRn32/ifmGc5BOint7Q50gEDThlxcB2D+L4sPu5aCbDeryb9jR7hFBaz9FEkRtL5xZgftdEq1tR115OEeKpuEYKBhUsyO3AqCMjVhT5sTy166n2PwZ8rFIlUi0SXOfw8kLOgY5BDv80fgU9bEraPMJ445pLan8KgXYa2nJSROUrlzakK5u8Yqu3zN8PfWsbRwx2DDGXODJCrHRe3aU5gxn/ZoTf/ON4IBC0Rj/NZxO1j/IvUuQt6y2jSZ4HhcUkEi78bDGiLicAlfiJVnbqVAJ2rioM0BnuSCrNKLfgP
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(366004)(346002)(136003)(39860400002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(41300700001)(2616005)(26005)(86362001)(7416002)(2906002)(6486002)(5660300002)(478600001)(38350700005)(66476007)(316002)(66556008)(6916009)(54906003)(66946007)(7406005)(4326008)(36756003)(8936002)(6512007)(8676002)(52116002)(6506007)(83380400001)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?DxaBEPkivV1neeAzeePzq1IJJr/1pfel0Er3oyBGgTz/0rRZIji51O6c3r/y?=
+ =?us-ascii?Q?WxUkXOYl6ci8oLBblY1FrihvY1ZENCRhTqPgzB9TB5s3M4XvrGg/v0EueST5?=
+ =?us-ascii?Q?ySPpNyn0qFWpEHT066rXvYcWCbL+DP3MyP8UGF/C25EE2pgH8HahNvoWNh2B?=
+ =?us-ascii?Q?x8UuYBz8Vrb7g6ENGvOo/60k2gE8Oe0eGuxICB+UIW+3d6Tm+h//puU7nET/?=
+ =?us-ascii?Q?SPNz+vgV46cEM/aXTKQPdcFjqtQBk0o31+C4Peinwb1ZXSC9aOoUTwVpxx2L?=
+ =?us-ascii?Q?x8Z7Y8LYm74QTYoiQSbmxT9YMznoQP+MgQReTV2Q/v0O5qcbMEG7/kEdfsx5?=
+ =?us-ascii?Q?rFMnkBtjnV9vUrRaf8KbFCwUoUy66TynXvszo4Ub/CNeRpGZlesIT163njdt?=
+ =?us-ascii?Q?oixUObg+0SL1EUPFiLh9ZkibdUzvKjrA5oIZkiRd4pccvHzQ3du63lTHEPAf?=
+ =?us-ascii?Q?39eJCLYYB+dTzVv2nI1pUPNnd0sig/MqaQZAF6N5FwMzezxnscNZJzxjtmsH?=
+ =?us-ascii?Q?o8yrENiztVTn1wNzjZ0ZAlaxs4kHlbSGijn80YS+eXKxY1RxH8Pd9CCdUj3w?=
+ =?us-ascii?Q?crITOe96dbRbGtZUjhpz5OsxMgRFEwQSRD6oTKC275jH7fwH0JFphTMP7jVO?=
+ =?us-ascii?Q?EPPcNg7mJaW+VEq+vaFWT1wgTztgrZrttRQLb6JZyXEde6bIcVqkLTJtEPQv?=
+ =?us-ascii?Q?FlFzHhmTbId5eyTjXV209JbSjByKDE9EuDWdDKLyItWLOmPNRNOwjPynh1MH?=
+ =?us-ascii?Q?7U0BO0ItHvaRs+zC1D8wa+SZf7mUF42iFq+fWZ3E9NSgShhtV82OVjAlfhY/?=
+ =?us-ascii?Q?JRnQGsMB6n14Xn+3c2wb9v1lQ8JhIGVAp4HPk67jnEuxHGEVvCtvQ1zItZf0?=
+ =?us-ascii?Q?/TyLQEkswgx0J/3Y+0vCR9rw+KloPB9Xppc5RLFF1ooM2lMfRy2Ju4TDrKO8?=
+ =?us-ascii?Q?2wgdTzaKbatrSNihKpjUyAu96CtbJmKwT64erBFhJIyXSeSFoANjHO35U/a2?=
+ =?us-ascii?Q?i0bG9sl2imQNHkEB6hw5h46MuyxrGhgqw0PV3GTrB8Lnf3EhlPYAnplpqwE1?=
+ =?us-ascii?Q?xugcU9VH4bHg0dqg+HyKw+TMRWYL9PM82qsiPhdR8rG0nIlOjC55zDbRMbcB?=
+ =?us-ascii?Q?M62enZplpZJJi6FeLVzBCga+qEbMOV9g2C0QEWe0m+qrTV6T42oLJUsXDrvl?=
+ =?us-ascii?Q?7LjpbVQ08prcpkCWtLqcBjV5w1b5nogB1hhGpquc9aY0U5UW0GT19ZY3Yfvr?=
+ =?us-ascii?Q?yK4zAA4yWaGdz4vAtBvon2ugKlPIPTyHNYmBnrW0oxtsVy8SlixSt7iSK8FC?=
+ =?us-ascii?Q?CrfcQbjvM9WfdDCg4OCLMCZ2NtC58y7dTDIe3Q3i3t3cHdJfkADl6wMTI5uE?=
+ =?us-ascii?Q?SnxjYsTX1EB3K2op1qY4l417/jB2JM5CqHbKbq4bVQzGQH8uwZgTXcaNhZrd?=
+ =?us-ascii?Q?TIYKwg/HP65I2V7bB2vccFgUQ+3GtU+pqiWa2IVFmEDyHwkwxVCh7QBWQ0UC?=
+ =?us-ascii?Q?LKryp+cB/+OyJfek+/A9NyXlQsQkR02f2se3Z4rtp0nO6gDE41OVox6NQi4Q?=
+ =?us-ascii?Q?dwrFBYbg152X0533K6ZbwuvqlPvAsP8yV7iIdHvZgjFM6NrCDGlNi9cQd2r0?=
+ =?us-ascii?Q?hYbsiMpSJMNrV6BZxLosmCY=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8621c84-0905-4d73-28c6-08dc2778f4b2
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2024 01:06:03.5722
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3O4G9g/8Vv2ALrbe5DDm6DOwbPzgq1VPa+W26R1QkqNaoJRju5gjzKl9hCcoIl/BCayEw5EYtenX1asgCscu1LGWsTkGYhAUkfdnmJqtea72XQhhWaHWiF41V3MS00Ze
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8599
 
 
+Hi Laurent, Hans
+
+> >> From DT point of view, in general, drivers should be asking for a
+> >> specific port number because their function is fixed in the binding.
+> >>
+> >> of_graph_get_next_endpoint() doesn't match to this concept.
+> >>
+> >> Simply replace
+> >>
+> >> 	- of_graph_get_next_endpoint(xxx, NULL);
+> >> 	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
+(snip)
+> >>  	/* Parse the endpoint. */
+> >> -	endpoint = of_graph_get_next_endpoint(np, NULL);
+> >> +	endpoint = of_graph_get_endpoint_by_regs(np, 0, -1);
+> > 
+> > I think this should be port 1 for the adv7611 and port2 for the adv7612.
+> > The adv7610 may need to use port 1 too, but the bindings likely need to
+> > be updated.
+> > 
+> > Hans, Krzysztof, any opinion ?
+> 
+> It looks like it. But I suspect the code never worked. The endpoint parsing
+> is only needed if a specific mbus type is used (i.e., not 'UNKNOWN'), and
+> I don't think that is used in the device trees in the kernel. So everything
+> silently falls back to UNKNOWN and some default bus config that 'just works' (tm).
+> 
+> I'm pretty sure this code is wrong, but nobody ever noticed. Changing it
+> to the new code just makes it bug-compatible :-)
+
+Nice ;)
+So, let's add /* FIXME */ here in v2
+
+Thank you for your help !!
+
+Best regards
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Renesas Electronics
+Ph.D. Kuninori Morimoto
 
