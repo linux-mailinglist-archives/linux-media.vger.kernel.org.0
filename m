@@ -1,120 +1,211 @@
-Return-Path: <linux-media+bounces-4796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4797-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C010984C84B
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 11:08:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FB384C898
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 11:28:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 772E12864AB
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 10:08:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EC4E1F23C54
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 10:28:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00C2E241EC;
-	Wed,  7 Feb 2024 10:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z1Pk5GCZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E5FB25614;
+	Wed,  7 Feb 2024 10:28:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9161725601
-	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 10:08:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E3125602;
+	Wed,  7 Feb 2024 10:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707300492; cv=none; b=DH9E/yJIqKHfby3ikRbLwK0EsRRL70MqoPQVXc0u2ZxmH5y1uOVd4BQfdPJpHUj+8ktCXLN4b+rDF1ehuMWHM81KTUmwGUgV8daQFRb1BC/gWxXkm+Hi5nfXfnLdyrG+XwiZJFxwgf6srLl2tk5Z2O6B2pn1oplNBWpFe+eNb60=
+	t=1707301684; cv=none; b=bUqlTaEjc0ViG+ux/CG2TSmZvYwT/Ub6vOXEUCgwYfru4zrzOk/18mnPkW2g6iHT3StL484XKl0lIaiexAw37Tiwf/oBv/oYjVER/7Mn2FU5qL6HRdRiWxef0qUtR6iguQ4egO969PlpfvI63koXF4jjM3C+OzanC+t+d/fXwmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707300492; c=relaxed/simple;
-	bh=LIBAgFjIK5pNH9NWahlxj4MakrFjWDFL6XvopjqVxHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i+5R2TPa9fYAyZfxSJy84eiDuraxzalnhcyhjJhArszW9hfE8mRluhny7gbf+zkuAM6uRuIlo3yFSqpBcrvgqc5XzVineO6amEtd1vkLqyMuh+tmfxE7XTfqKZo5lIZqEGTb7aEi3Pn1ns9dDQZCuSeJRFOczCp3n7PFF3fdTOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z1Pk5GCZ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11A27975;
-	Wed,  7 Feb 2024 11:06:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707300405;
-	bh=LIBAgFjIK5pNH9NWahlxj4MakrFjWDFL6XvopjqVxHM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z1Pk5GCZx2ppkZsxWff6tOhMv/JdAHz+lHCQ4PXXFR9Y56RfP2Z8lPMYyUOR6hbRo
-	 Vw+SVegu5J2P+2gY9o1p4xBKPt/1K7vl/p50wAxosdArl/XC6l68E2xB8zrw2sGO3b
-	 ogTzBaVntSTRif/ZetnBmDb6PpXQyLkOdf7aijfk=
-Date: Wed, 7 Feb 2024 12:08:10 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 10/29] media: mc: Delete character device early
-Message-ID: <20240207100810.GG23702@pendragon.ideasonboard.com>
-References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
- <20231220103713.113386-11-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1707301684; c=relaxed/simple;
+	bh=uC0MYzc9viXcsjURB6yEfdxhm8sZVMtWJzuwWazJQ+0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UOuMVdjCX0E7q45DJAA7pv/NU5d6YinlGPyhdd9tyqQD7UghjUh8aO5uNmPeD4Ea2QxJc0GHei5pRgXpPxiyWOWKjcq+cOl7nn0/8ca8DUjcgd1HT6LPZ5taaUnfrh6Hv2N3YIFzyXv7AV8ZDMwD8aEtrxlhH1EGU3MkdYsODaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DCEFC433F1;
+	Wed,  7 Feb 2024 10:28:02 +0000 (UTC)
+Message-ID: <63a46881-7fe8-4858-b0f7-cde33ffc7ea6@xs4all.nl>
+Date: Wed, 7 Feb 2024 11:28:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231220103713.113386-11-sakari.ailus@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v19 0/9] Add DELETE_BUF ioctl
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20240206080219.11951-1-benjamin.gaignard@collabora.com>
+ <dcafb602-228f-439f-99d2-010d26a23ad1@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <dcafb602-228f-439f-99d2-010d26a23ad1@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Wed, Dec 20, 2023 at 12:36:54PM +0200, Sakari Ailus wrote:
-> The parent of the character device related to the media devnode is the
-> media devnode. Thus the character device needs to be released before the
-> media devnode's release function. Move it to unregistering of the media
-> devnode, which mirrors adding the character device in conjunction with
-> registering the media devnode.
+On 06/02/2024 09:58, Hans Verkuil wrote:
+> On 06/02/2024 09:02, Benjamin Gaignard wrote:
+>> Unlike when resolution change on keyframes, dynamic resolution change
+>> on inter frames doesn't allow to do a stream off/on sequence because
+>> it is need to keep all previous references alive to decode inter frames.
+>> This constraint have two main problems:
+>> - more memory consumption.
+>> - more buffers in use.
+>> To solve these issue this series introduce DELETE_BUFS ioctl and remove
+>> the 32 buffers limit per queue.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/media/mc/mc-devnode.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> This v19 looks good. There are three outstanding issues that I need to take a
+> look at:
 > 
-> diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-> index 7e22938dfd81..8bc7450ac144 100644
-> --- a/drivers/media/mc/mc-devnode.c
-> +++ b/drivers/media/mc/mc-devnode.c
-> @@ -51,9 +51,6 @@ static void media_devnode_release(struct device *cd)
->  
->  	mutex_lock(&media_devnode_lock);
->  
-> -	/* Delete the cdev on this minor as well */
-> -	cdev_del(&devnode->cdev);
-> -
->  	/* Mark device node number as free */
->  	clear_bit(devnode->minor, media_devnode_nums);
+> 1) Can we still signal support for DELETE_BUFS in the V4L2_BUF_CAP_ caps?
+>    It would be nice to have, but I'm not sure if and how that can be done.
+> 
+> 2) I want to take another look at providing a next version of the VIDIOC_CREATE_BUFS
+>    ioctl and how that would possibly influence the design of DELETE_BUFS.
+>    Just to make sure we're not blocking anything or making life harder.
 
-Should this be moved to media_devnode_unregister() too ? It can be done
-in a separate patch.
+So I just tried creating a new version of the VIDIOC_CREATE_BUFS ioctl
+that is greatly simplified. This just updates the header, no real code yet:
 
->  
-> @@ -270,6 +267,7 @@ void media_devnode_unregister(struct media_devnode *devnode)
->  	clear_bit(MEDIA_FLAG_REGISTERED, &devnode->flags);
->  	mutex_unlock(&media_devnode_lock);
->  
-> +	cdev_del(&devnode->cdev);
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 03443833aaaa..a7398e4c85e7 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -2624,6 +2624,39 @@ struct v4l2_create_buffers {
+ 	__u32			reserved[5];
+ };
 
-I initially wondered if this could raise with the cdev access in
-media_open(), as the media_devnode_lock is released just before calling
-cdev_dev(), but my understanding is that the dev/open race is properly
-handled in the cdev layer.
++/**
++ * struct v4l2_create_buffers_v2 - VIDIOC_CREATE_BUFFERS argument
++ * @type:	enum v4l2_buf_type
++ * @memory:	enum v4l2_memory; buffer memory type
++ * @count:	entry: number of requested buffers,
++ *		return: number of created buffers
++ * @num_planes:	requested number of planes for each buffer
++ * @sizes:	requested plane sizes for each buffer
++ * @start_index:on return, index of the first created buffer
++ * @total_count:on return, the total number of allocated buffers
++ * @capabilities: capabilities of this buffer type.
++ * @flags:	additional buffer management attributes (ignored unless the
++ *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
++ *		and configured for MMAP streaming I/O).
++ * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
++ *		this field indicate the maximum possible number of buffers
++ *		for this queue.
++ * @reserved:	future extensions
++ */
++struct v4l2_create_buffers_v2 {
++	__u32			type;
++	__u32			memory;
++	__u32			count;
++	__u32			num_planes;
++	__u32			size[VIDEO_MAX_PLANES];
++	__u32			start_index;
++	__u32			total_count;
++	__u32			capabilities;
++	__u32			flags;
++	__u32			max_num_buffers;
++	__u32			reserved[7];
++};
++
+ /**
+  * struct v4l2_delete_buffers - VIDIOC_DELETE_BUFS argument
+  * @index:	the first buffer to be deleted
+@@ -2738,6 +2771,7 @@ struct v4l2_delete_buffers {
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
+ #define VIDIOC_DELETE_BUFS	_IOWR('V', 104, struct v4l2_delete_buffers)
++#define VIDIOC_CREATE_BUFFERS	_IOWR('V', 105, struct v4l2_create_buffers_v2)
 
-I wonder if a similar change in v4l2-dev.c would be beneficial.
 
->  	device_unregister(&devnode->dev);
->  }
->  
+ /* Reminder: when adding new ioctls please add support for them to
 
--- 
+
+Sadly, struct v4l2_create_buffers was already used for the existing
+VIDIOC_CREATE_BUFS (I wish it was called v4l2_create_bufs...), so I did
+have to add a _v2 suffix. Compared to the old struct it just moves the
+type, num_planes and sizes from v4l2_format into the new struct and drops
+the format field. Note that those fields are the only v4l2_format fields
+that VIDIOC_CREATE_BUFS used, so getting rid of the format makes live
+much easier. I also renamed 'index' to 'start_index' and added a new 'total_count'
+field to report the total number of buffers.
+
+The reason for adding 'total_count' is that VIDIOC_CREATE_BUFS with
+count == 0 would report the total number of buffers in the 'index' field,
+which was rather odd. Adding a specific field for this purpose is nicer.
+
+One thing that might impact your series is the name of the ioctls.
+
+We have:
+
+VIDIOC_CREATE_BUFS/v4l2_create_buffers
+VIDIOC_DELETE_BUFS/v4l2_delete_buffers
+VIDIOC_CREATE_BUFFERS/v4l2_create_buffers_v2 (TBD)
+
+I'm wondering if VIDIOC_DELETE_BUFS should be renamed to
+VIDIOC_DELETE_BUFFERS, that would make it more consistent with
+the proposed VIDIOC_CREATE_BUFFERS.
+
+Alternatively, instead of calling it VIDIOC_CREATE_BUFFERS we
+might call it VIDIOC_CREATE_BUFS_V2.
+
+Or perhaps some other naming convention?
+
+Ideas are welcome.
+
 Regards,
 
-Laurent Pinchart
+	Hans
 
