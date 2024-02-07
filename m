@@ -1,201 +1,175 @@
-Return-Path: <linux-media+bounces-4788-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4789-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E5384C6FA
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 10:12:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 332A284C7A4
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 10:40:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C9C81C242CF
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 09:12:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD2DA1F2A3B3
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 09:40:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D04020DCF;
-	Wed,  7 Feb 2024 09:12:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AC192555B;
+	Wed,  7 Feb 2024 09:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZXTgUeV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F3220B34;
-	Wed,  7 Feb 2024 09:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D0D2C6B5
+	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 09:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707297137; cv=none; b=Hy0PTc/KgHHex73sYiovxwXSqBlizmTO529wVD3Eat5xXu5/DGSzW5MCACnoHTVuvxBspG0j56xrcBZ+lOnYF4qe4TeFf8DjdygAMBGBy3aDJ9sHID6PsGJhUr62OS5hDrU7IFV3x+CMj3oysOjCQUHD+8U2MtoaHnefems/3Dw=
+	t=1707298580; cv=none; b=UXsYLiLuJuaN8dYXDEWTiomdgEkxMFDjj6GfBJnQ1riWdgNPAK82C5yVjsRUCxPL8XFUOXjMShqCFg3253ZVeWk5PClM/N/mz0mrEmDpCW0A/FB6mSl/P66r5atsRNo6vuEluH6fO8WfVtWpGypkV+xOZJVyWKztdlQ+4FT7mjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707297137; c=relaxed/simple;
-	bh=Hak/Wks0pD+5w/+gwNlOXGyCqKdw8c+mYnb4+Bjejbk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=XuVcl8YjCCb30w2wD68jgkgeELZJnvJTpkkX5cAWMZ1mIOwTizP6+ZnyOz7ILE9/waZSShXuc1uNtVTo1BsIc4b/DMevlOFNIJa9Lfa8zA5tQpJ+BjT7BOZ/3K57vKHFpP69yoiFwv88Xlhnqey8iE6cnXHwpi5apVc0vS5mlwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01AAAC43399;
-	Wed,  7 Feb 2024 09:12:15 +0000 (UTC)
-Message-ID: <67823e2e-9d60-4c08-bdd1-c974aaf96a93@xs4all.nl>
-Date: Wed, 7 Feb 2024 10:12:14 +0100
+	s=arc-20240116; t=1707298580; c=relaxed/simple;
+	bh=twnrwsvtl41sM/hN5AD0mat9SXYxMrdvkA8BYSeCgUs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fT3EuDqbk6uuSgPXs945lFbE7sImSyR4KiqRlBrrl32xGFWsara6udtYAqW/al9TsQ8HFsUFR2A3douymS7uQUyZKB7jbQEkG4A6CUwajrx62jMI896kVq6JpEzDKivSKls7t9jDHIQjJd9kppGtDqyVQMzT8Rs4V3LexRHR/qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZXTgUeV; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a36126ee41eso54436866b.2
+        for <linux-media@vger.kernel.org>; Wed, 07 Feb 2024 01:36:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707298577; x=1707903377; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=I69AXfDu8JHBJv3Ewq03JkOBRw7iCOArsMqUOKIeY7E=;
+        b=DZXTgUeVVupKDVOl91YYslWS/s3S2V9e1EdMlkew72zfZ0p6BbcaogVvrdq5UD3RhD
+         +7n5FOCxx4TbqkY3nI7AUMtR57k6U0bFywgBayKJxxxhhjNSYpg6bmoRw1xmT/Undf1W
+         7FvLwB8Lzbh8sVZL03RAuFUZfT3kNlAj96mYCvFM++ZthnAu6P28R0GeJ/4YISyUaWYo
+         5Cb3KAxHWTy6GTB0DhY2gGbExNpa1H9naK7CKB6a5NsRsZo4FmKS+kTi2JDuSFHhYvAh
+         qA7P8NGzec+hCz6jLQE6NYBAqJYedXdYe03RIstovlPUsQwdl5rxnEOXxKI3CBpaaNk4
+         t4pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707298577; x=1707903377;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I69AXfDu8JHBJv3Ewq03JkOBRw7iCOArsMqUOKIeY7E=;
+        b=n5VKKi99eVAA9fzi8dmRhSsCdyzkPpUrwo4LMs6/yFTA26PijLzrBH0+CIC8jS+vRh
+         sZnehr6YHmdO0bM1t3MM2LuZjzw7r1q0igYtGvFJprTgbBAHftOPnty6MhyINO86+moL
+         Tj20cqHMujf7vTt1VUzWc9RALFSO6EkZdB6s5ZYHRgyAtqHSV4ztGqGje182ShdzvIUI
+         HUugroup3rNZat9tPuEyTTSekkeq6ejBmi5hvHhdRzTIpxWlqLnuOfzo1HceTvy+Spdj
+         jUIhU4Dn98KRpRSvtgi9iG8BGElUiktEEvtDcWL1NZfDKBOyb5XNcuhXjgNIKO+HgTZF
+         ObbQ==
+X-Gm-Message-State: AOJu0Yw6n08/yNp+NyC6JkLbqbuRZE4LSEia3KI8Aiu4AIvqMKj251yd
+	+uzPOarUmNUzq0nD248ov+FHv2q5as3Yv5KnJO8See66A2Nc6b81
+X-Google-Smtp-Source: AGHT+IE5J8N25I9Zk2f/SeNAvekp7xIfC5kN2SPnE94DFuY8nYfpcPe/LVUVvBJHiXbK1Y0mZ7xDog==
+X-Received: by 2002:a17:907:7784:b0:a37:31c2:773a with SMTP id ky4-20020a170907778400b00a3731c2773amr3139044ejc.0.1707298576992;
+        Wed, 07 Feb 2024 01:36:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUn6sfgDGpNjaph8FgZPlxnwvYUAD94//xiMlgxJ7G0nhrn+V6abZEH3NY4MitQZ9Hs/aZkQz8RS28zBH3vPJiJrggUa2aF8aXFQs2alrTMfdFXODhqnUja6Mb3RTgebc1P0iaf19aOzXPTBNlWr3Vjwr1lTG2FZ7D611/z6tFbeum/EGq0425YR0xyylERqSGkZhl6pQBj4zcPLKUjGGIwfK1cmetjLuXpxUZ2d3/DuAwQUX3NPtfedyZ3zEvH+K6UtNAX8XvSLWZGOfME721K3y3kGbTiH8P3n9gcX36vyptAo3GDq/Fj7LXlE2Iqola1dimqdjIHaM1CTaIH1B0CWbU9XyN+6uhLHiqCgG2sE/7G/NI0D24YCNpn98T5p5KatN3W2vEvrdW1BYCDcOj8CLA8Mwj4I/cZGk10sOfUUOBLXbHmjqC3h4OuNa3xijnxJ8XMPspC3cC8TSufKczVbgD3nnY2hqSgP9rnHO2iFYLkluBjahzdXw==
+Received: from [192.168.50.250] (c-x5996889d.customers.hiper-net.dk. [89.150.136.157])
+        by smtp.gmail.com with ESMTPSA id vk4-20020a170907cbc400b00a360239f006sm549744ejc.37.2024.02.07.01.36.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 01:36:16 -0800 (PST)
+Message-ID: <f3fe18c6857982d8ff862566bc7d6511225d9193.camel@gmail.com>
+Subject: Re: [PATCH v3 10/17] media: intel/ipu6: add input system driver
+From: Andreas Helbech Kleist <andreaskleist@gmail.com>
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org, 
+	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com, 
+	andriy.shevchenko@linux.intel.com, hdegoede@redhat.com
+Cc: ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com, 
+ tomi.valkeinen@ideasonboard.com, tfiga@chromium.org,
+ senozhatsky@chromium.org,  bingbu.cao@linux.intel.com,
+ tian.shu.qiu@intel.com, hongju.wang@intel.com
+Date: Wed, 07 Feb 2024 10:36:15 +0100
+In-Reply-To: <20240111065531.2418836-11-bingbu.cao@intel.com>
+References: <20240111065531.2418836-1-bingbu.cao@intel.com>
+	 <20240111065531.2418836-11-bingbu.cao@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 0/9] Add DELETE_BUF ioctl
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20240206080219.11951-1-benjamin.gaignard@collabora.com>
- <dcafb602-228f-439f-99d2-010d26a23ad1@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <dcafb602-228f-439f-99d2-010d26a23ad1@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Benjamin,
+Hi Bingbu,
 
-On 06/02/2024 09:58, Hans Verkuil wrote:
-> On 06/02/2024 09:02, Benjamin Gaignard wrote:
->> Unlike when resolution change on keyframes, dynamic resolution change
->> on inter frames doesn't allow to do a stream off/on sequence because
->> it is need to keep all previous references alive to decode inter frames.
->> This constraint have two main problems:
->> - more memory consumption.
->> - more buffers in use.
->> To solve these issue this series introduce DELETE_BUFS ioctl and remove
->> the 32 buffers limit per queue.
-> 
-> This v19 looks good. There are three outstanding issues that I need to take a
-> look at:
-> 
-> 1) Can we still signal support for DELETE_BUFS in the V4L2_BUF_CAP_ caps?
->    It would be nice to have, but I'm not sure if and how that can be done.
+Thank you for the patch series, I haven't had a chance to look at v3 in
+detail yet, so this is just a small comment from my testing on v2 +
+IPU4 hacks, which I can see is also here in v3.
 
-So, I came up with the following patch to add back the V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS
-capability. If the DELETE_BUFS ioctl is valid, then it sets this capability
-before calling vidioc_reqbufs or vidioc_create_bufs. So right now it will set
-this for any queue. If we ever want to disable this for a specific queue, then
-either the driver has to override these two ops and clear the flag, or a new
-vb2_queue flag (e.g. disable_delete_bufs) is added and vb2_set_flags_and_caps()
-will clear that capability based on that flag.
+ On Thu, 2024-01-11 at 14:55 +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+>=20
+> Input system driver do basic isys hardware setup and irq handling
+> and work with fwnode and v4l2 to register the ISYS v4l2 devices.
+>=20
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/media/pci/intel/ipu6/ipu6-isys.c | 1353 ++++++++++++++++++++++
+>  drivers/media/pci/intel/ipu6/ipu6-isys.h |  207 ++++
+>  2 files changed, 1560 insertions(+)
+>  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.c
+>  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.h
+>=20
+> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci=
+/intel/ipu6/ipu6-isys.c
 
-In any case, for now just set it for both queues by default.
+...
 
-If you agree that this is a good way to proceed, then can you incorporate this
-into a v20? You can add the documentation for this cap from the v17 version.
+> +static void isys_unregister_devices(struct ipu6_isys *isys)
+> +{
+> +	isys_unregister_video_devices(isys);
+> +	isys_csi2_unregister_subdevices(isys);
+> +	v4l2_device_unregister(&isys->v4l2_dev);
+> +	media_device_unregister(&isys->media_dev);
+> +	media_device_cleanup(&isys->media_dev);
+> +}
 
-Regards,
+...
 
-	Hans
+> +static void isys_remove(struct auxiliary_device *auxdev)
+> +{
+> +	struct ipu6_bus_device *adev =3D auxdev_to_adev(auxdev);
+> +	struct ipu6_isys *isys =3D dev_get_drvdata(&auxdev->dev);
+> +	struct ipu6_device *isp =3D adev->isp;
+> +	struct isys_fw_msgs *fwmsg, *safe;
+> +	unsigned int i;
+> +
+> +	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist, head)
+> +		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
+> +			       fwmsg, fwmsg->dma_addr, 0);
+> +
+> +	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist_fw, head)
+> +		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
+> +			       fwmsg, fwmsg->dma_addr, 0);
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 8e437104f9c1..64f2d662d068 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -685,7 +685,7 @@ static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
- 		*flags &= V4L2_MEMORY_FLAG_NON_COHERENT;
- 	}
+I experienced a crash in ipu6_get_fw_msg_buf when unbinding the PCI
+driver while streaming.
 
--	*caps = V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
-+	*caps |= V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
- 	if (q->io_modes & VB2_MMAP)
- 		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP;
- 	if (q->io_modes & VB2_USERPTR)
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index a172d33edd19..45bc705e171e 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -2100,6 +2100,7 @@ static int v4l_overlay(const struct v4l2_ioctl_ops *ops,
- static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
-+	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_requestbuffers *p = arg;
- 	int ret = check_fmt(file, p->type);
+It happens because the above two lists are still used at this point. I
+believe it is safe to free the fw msgs after the
+isys_unregister_devices(isys) call below.
 
-@@ -2108,6 +2109,9 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
+> +
+> +	isys_unregister_devices(isys);
+> +	isys_notifier_cleanup(isys);
+> +
+> +	cpu_latency_qos_remove_request(&isys->pm_qos);
+> +
+> +	if (!isp->secure_mode) {
+> +		ipu6_cpd_free_pkg_dir(adev);
+> +		ipu6_buttress_unmap_fw_image(adev, &adev->fw_sgt);
+> +		release_firmware(adev->fw);
+> +	}
+> +
+> +	for (i =3D 0; i < IPU6_ISYS_MAX_STREAMS; i++)
+> +		mutex_destroy(&isys->streams[i].mutex);
+> +
+> +	isys_iwake_watermark_cleanup(isys);
+> +	mutex_destroy(&isys->stream_mutex);
+> +	mutex_destroy(&isys->mutex);
+> +}
 
- 	memset_after(p, 0, flags);
-
-+	if (is_valid_ioctl(vfd, VIDIOC_DELETE_BUFS))
-+		p->capabilities = V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS;
-+
- 	return ops->vidioc_reqbufs(file, fh, p);
- }
-
-@@ -2141,6 +2145,7 @@ static int v4l_dqbuf(const struct v4l2_ioctl_ops *ops,
- static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
-+	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_create_buffers *create = arg;
- 	int ret = check_fmt(file, create->format.type);
-
-@@ -2151,6 +2156,9 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
-
- 	v4l_sanitize_format(&create->format);
-
-+	if (is_valid_ioctl(vfd, VIDIOC_DELETE_BUFS))
-+		create->capabilities = V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS;
-+
- 	ret = ops->vidioc_create_bufs(file, fh, create);
-
- 	if (create->format.type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 03443833aaaa..da307f46f903 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1036,6 +1036,7 @@ struct v4l2_requestbuffers {
- #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
- #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
- #define V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS		(1 << 7)
-+#define V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS		(1 << 8)
-
- /**
-  * struct v4l2_plane - plane info for multi-planar buffers
-
-
+/Andreas
 
