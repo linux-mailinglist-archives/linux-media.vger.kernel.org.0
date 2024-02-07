@@ -1,202 +1,139 @@
-Return-Path: <linux-media+bounces-4774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2DE84C1A8
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 02:06:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D64D84C29F
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 03:46:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA338289027
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 01:06:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D392A1F23A04
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 02:46:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A03348F55;
-	Wed,  7 Feb 2024 01:06:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ZfJE2BJ8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1DCFDDD4;
+	Wed,  7 Feb 2024 02:46:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2086.outbound.protection.outlook.com [40.107.113.86])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27F39457;
-	Wed,  7 Feb 2024 01:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707267971; cv=fail; b=HHEdqcy6je8yh8CcoAMFOTmxuThLXKbmmdUxTJy0aHP5lpQJnfan66UCAJCX4hPqH7ABnz/iR9AynP87rlpU9s8s6n6C+yCNA4gHiPpF/uXC4qANLv4qtF+FS1Gj7woPto/y/3gDdGtNmfOZLqFBvjokcOaYLRTNAZbiR9cRS34=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707267971; c=relaxed/simple;
-	bh=JUr9nAMarWnz6gPTVMxgqdduXwq8cA8kA/9mt5+8pmM=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=qZ0vbvrpGSNu97m5lLYwHO10zsURsGY4eWuQDigXE5JfhyAH78/6DMwCgJJBYycb4vt06gOkzI31rcpzC6FsXCX+kMblrJ/qnRumtjIfwIwg77bGNcJaFRZBOc48az5xeR5RQMawHFNJjn0qY0dBHArP5xc3ccDm1xrCfUUxDas=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ZfJE2BJ8; arc=fail smtp.client-ip=40.107.113.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bZ/rsSRMOUu01BIicgbErpNuk3znpKRBYoK0BASM5HBs9fb7ls2b6VuO62WWSkcBqKO/cIa/0PKBi7raRnQIMKJe4gWE41WJLWXttMsqG5qzI7aMtzRGHmZCW5gx/Ft+lnI7tg7y5XkaM6UysJS/brnEV1cabelWK8NC56wblZJ6y/EXXjGKHpvgnfaM1QtQzgnnv0UEUOSmvUXloyNSwsd620Q48MpUAsTX0tQb3JWBe9wD7LtiMCmUZFd3PNeey5M9oXz4KLcf7xHrL9IZeDN9psLKCRewpFMPhFwROgjzotnjWiF9xWfaFGXN3kGgUyR9GAUZIy4kDsSmpRNKrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UuYXGK4RFsD1Cdml4BDT6X+uhZDHYMfB1RCjmEJUYIg=;
- b=SV99r1xbgLgJ7bHF/B4DJztlH99PXhbFSSMZt2sROYAQOn4X5UkZlZ9cEZGs4vprt2ptMlpQSryU4j0etAQHZRZgagID+rn9bjb05foe/t0UMKrDuEVb+pxoghivRPQZddIg3tV9gKHk+ne2HUKAbjndkkXPR7NIJMIyS+AoXNe87qQOzub+iyBoz30SHzrJeMts6lEPOuFJfkI6jLWFg/+wmH9+VKuolfG5ipddWM+12Vshx/BxhMpIQ1FwF/MGthqviTDvGiC8bpc6gS6s2ijqpJQfDw8AdqusUDt5ekdqqO5umoEYuPh4gpPBKFZFgRyQNxhHa6XqU8heFNEffg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UuYXGK4RFsD1Cdml4BDT6X+uhZDHYMfB1RCjmEJUYIg=;
- b=ZfJE2BJ8IirqZ0iRl8rddFvUe0lXLr+6/j85UoK7TQh6/amVy4VaoeH6351/KmlD2a7t96AC+9AwOcwcFJr+SN+rlrGGnwqf+uIXJVfoI7rlZqX4yHubSltlWxc0NdUuLNEYB6qm4s5JUVUmbpy7xDFVpHLv5je+aDRJuCIIqyA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB8599.jpnprd01.prod.outlook.com
- (2603:1096:400:13a::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Wed, 7 Feb
- 2024 01:06:03 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::4d0b:6738:dc2b:51c8]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::4d0b:6738:dc2b:51c8%6]) with mapi id 15.20.7249.035; Wed, 7 Feb 2024
- 01:06:03 +0000
-Message-ID: <87zfwdrslh.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,	Krzysztof
- =?ISO-8859-2?Q?Ha=B3asa?= <khalasa@piap.pl>,	"Lad, Prabhakar"
- <prabhakar.csengg@gmail.com>,	Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <u.kleine-koenig@pengutronix.de>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alexandre Torgue
- <alexandre.torgue@foss.st.com>,	Alexey Brodkin <abrodkin@synopsys.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,	Andrzej Hajda
- <andrzej.hajda@intel.com>,	Biju Das <biju.das.jz@bp.renesas.com>,	Broadcom
- internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,	Daniel Vetter <daniel@ffwll.ch>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,	David Airlie
- <airlied@gmail.com>,	Eugen Hristev <eugen.hristev@collabora.com>,	Florian
- Fainelli <florian.fainelli@broadcom.com>,	Helge Deller <deller@gmx.de>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,	Jacopo Mondi
- <jacopo@jmondi.org>,	Jessica Zhang <quic_jesszhan@quicinc.com>,	Krzysztof
- Kozlowski <krzysztof.kozlowski@linaro.org>,	Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,	Mauro Carvalho Chehab
- <mchehab@kernel.org>,	Maxime Coquelin <mcoquelin.stm32@gmail.com>,	Maxime
- Ripard <mripard@kernel.org>,	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,	Russell King
- <linux@armlinux.org.uk>,	Sakari Ailus <sakari.ailus@linux.intel.com>,	Sam
- Ravnborg <sam@ravnborg.org>,	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,	Tim Harvey
- <tharvey@gateworks.com>,	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,	linux-omap@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 2/4] media: i2c: replace of_graph_get_next_endpoint()
-In-Reply-To: <9d1e99b0-892d-4a72-a9b3-886b8ed094b0@xs4all.nl>
-References: <87ttmmnvzh.wl-kuninori.morimoto.gx@renesas.com>
-	<87r0hqnvxc.wl-kuninori.morimoto.gx@renesas.com>
-	<20240206134155.GB2827@pendragon.ideasonboard.com>
-	<9d1e99b0-892d-4a72-a9b3-886b8ed094b0@xs4all.nl>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 7 Feb 2024 01:06:03 +0000
-X-ClientProxiedBy: TYCP286CA0137.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31b::15) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571A51CF80
+	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 02:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707273992; cv=none; b=JBoaY4C1deH9D8erOT0JQHCwY2LVjd8oZrGxJR1nt/ogC6GmwplUS1UeSkdayYXZ5ZGTKnkdvIEBQeSXZ+i5aoG81mP7F89n8+R+xoK45k9fJtxOMzpdQAffhrGN3Zmnve5+B5u2V9xuh1TmSAPWe1UpVhSq1zQJhXp3d6rQgIk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707273992; c=relaxed/simple;
+	bh=l+Yf/2TPCnqRrCuPgeJW/cQNCyA4t9WwY6H5B7pkVgk=;
+	h=Date:Message-ID:From:To:Subject; b=RYONPLbnT/45e1aSSNJ/z29euQLK40Vj7GHXydimRkKYBgdp6HLZE54KXDsGaYfhFwOlUfrFqEymYI/QmXowU5uKdkmH1qBf23vESVFOr4kHxan6wk8h/n+6srQwLLS4IdPIM4IglTXOSXx4qKPOHaOO8eEAtMsHk6ei/6x5ZwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4068FC433C7
+	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 02:46:30 +0000 (UTC)
+Date: Wed, 07 Feb 2024 03:46:28 +0100
+Message-ID: <f2e586ecec14dfe41191c028c3478c15.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8599:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8621c84-0905-4d73-28c6-08dc2778f4b2
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	mghTxU+JPOY0W+ulZi8cY0fVmGQWbzkc6ek4kfsoImANvWvwIk99ARne3KFtFMsKIE8CUdqSaifiy2qmYh5MGaeWzP7MUcok2c98onzWErTsxtON1oIJDcTDOWtAt+xzvJeSAqsYN9aYhyHXeKIR+AF/Ankj43fMEWq82NdoNygE+TBvrfgBsu6uoq5A/aB+3OisluOEPzcNPZSzaB5FIk9Pj859nVL6baJAZs7ir8BwlJNviUJerjlegfai3QDWn+1Qkt4xwmE9S//TbAHQJV8/OGVtlahu4l/l7ZRzSoom6b5j+9jbY3Eym7CdOnxbCqJzjOSmdcLwdVyWphsX+3KbZRn32/ifmGc5BOint7Q50gEDThlxcB2D+L4sPu5aCbDeryb9jR7hFBaz9FEkRtL5xZgftdEq1tR115OEeKpuEYKBhUsyO3AqCMjVhT5sTy166n2PwZ8rFIlUi0SXOfw8kLOgY5BDv80fgU9bEraPMJ445pLan8KgXYa2nJSROUrlzakK5u8Yqu3zN8PfWsbRwx2DDGXODJCrHRe3aU5gxn/ZoTf/ON4IBC0Rj/NZxO1j/IvUuQt6y2jSZ4HhcUkEi78bDGiLicAlfiJVnbqVAJ2rioM0BnuSCrNKLfgP
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(366004)(346002)(136003)(39860400002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(41300700001)(2616005)(26005)(86362001)(7416002)(2906002)(6486002)(5660300002)(478600001)(38350700005)(66476007)(316002)(66556008)(6916009)(54906003)(66946007)(7406005)(4326008)(36756003)(8936002)(6512007)(8676002)(52116002)(6506007)(83380400001)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DxaBEPkivV1neeAzeePzq1IJJr/1pfel0Er3oyBGgTz/0rRZIji51O6c3r/y?=
- =?us-ascii?Q?WxUkXOYl6ci8oLBblY1FrihvY1ZENCRhTqPgzB9TB5s3M4XvrGg/v0EueST5?=
- =?us-ascii?Q?ySPpNyn0qFWpEHT066rXvYcWCbL+DP3MyP8UGF/C25EE2pgH8HahNvoWNh2B?=
- =?us-ascii?Q?x8UuYBz8Vrb7g6ENGvOo/60k2gE8Oe0eGuxICB+UIW+3d6Tm+h//puU7nET/?=
- =?us-ascii?Q?SPNz+vgV46cEM/aXTKQPdcFjqtQBk0o31+C4Peinwb1ZXSC9aOoUTwVpxx2L?=
- =?us-ascii?Q?x8Z7Y8LYm74QTYoiQSbmxT9YMznoQP+MgQReTV2Q/v0O5qcbMEG7/kEdfsx5?=
- =?us-ascii?Q?rFMnkBtjnV9vUrRaf8KbFCwUoUy66TynXvszo4Ub/CNeRpGZlesIT163njdt?=
- =?us-ascii?Q?oixUObg+0SL1EUPFiLh9ZkibdUzvKjrA5oIZkiRd4pccvHzQ3du63lTHEPAf?=
- =?us-ascii?Q?39eJCLYYB+dTzVv2nI1pUPNnd0sig/MqaQZAF6N5FwMzezxnscNZJzxjtmsH?=
- =?us-ascii?Q?o8yrENiztVTn1wNzjZ0ZAlaxs4kHlbSGijn80YS+eXKxY1RxH8Pd9CCdUj3w?=
- =?us-ascii?Q?crITOe96dbRbGtZUjhpz5OsxMgRFEwQSRD6oTKC275jH7fwH0JFphTMP7jVO?=
- =?us-ascii?Q?EPPcNg7mJaW+VEq+vaFWT1wgTztgrZrttRQLb6JZyXEde6bIcVqkLTJtEPQv?=
- =?us-ascii?Q?FlFzHhmTbId5eyTjXV209JbSjByKDE9EuDWdDKLyItWLOmPNRNOwjPynh1MH?=
- =?us-ascii?Q?7U0BO0ItHvaRs+zC1D8wa+SZf7mUF42iFq+fWZ3E9NSgShhtV82OVjAlfhY/?=
- =?us-ascii?Q?JRnQGsMB6n14Xn+3c2wb9v1lQ8JhIGVAp4HPk67jnEuxHGEVvCtvQ1zItZf0?=
- =?us-ascii?Q?/TyLQEkswgx0J/3Y+0vCR9rw+KloPB9Xppc5RLFF1ooM2lMfRy2Ju4TDrKO8?=
- =?us-ascii?Q?2wgdTzaKbatrSNihKpjUyAu96CtbJmKwT64erBFhJIyXSeSFoANjHO35U/a2?=
- =?us-ascii?Q?i0bG9sl2imQNHkEB6hw5h46MuyxrGhgqw0PV3GTrB8Lnf3EhlPYAnplpqwE1?=
- =?us-ascii?Q?xugcU9VH4bHg0dqg+HyKw+TMRWYL9PM82qsiPhdR8rG0nIlOjC55zDbRMbcB?=
- =?us-ascii?Q?M62enZplpZJJi6FeLVzBCga+qEbMOV9g2C0QEWe0m+qrTV6T42oLJUsXDrvl?=
- =?us-ascii?Q?7LjpbVQ08prcpkCWtLqcBjV5w1b5nogB1hhGpquc9aY0U5UW0GT19ZY3Yfvr?=
- =?us-ascii?Q?yK4zAA4yWaGdz4vAtBvon2ugKlPIPTyHNYmBnrW0oxtsVy8SlixSt7iSK8FC?=
- =?us-ascii?Q?CrfcQbjvM9WfdDCg4OCLMCZ2NtC58y7dTDIe3Q3i3t3cHdJfkADl6wMTI5uE?=
- =?us-ascii?Q?SnxjYsTX1EB3K2op1qY4l417/jB2JM5CqHbKbq4bVQzGQH8uwZgTXcaNhZrd?=
- =?us-ascii?Q?TIYKwg/HP65I2V7bB2vccFgUQ+3GtU+pqiWa2IVFmEDyHwkwxVCh7QBWQ0UC?=
- =?us-ascii?Q?LKryp+cB/+OyJfek+/A9NyXlQsQkR02f2se3Z4rtp0nO6gDE41OVox6NQi4Q?=
- =?us-ascii?Q?dwrFBYbg152X0533K6ZbwuvqlPvAsP8yV7iIdHvZgjFM6NrCDGlNi9cQd2r0?=
- =?us-ascii?Q?hYbsiMpSJMNrV6BZxLosmCY=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8621c84-0905-4d73-28c6-08dc2778f4b2
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2024 01:06:03.5722
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3O4G9g/8Vv2ALrbe5DDm6DOwbPzgq1VPa+W26R1QkqNaoJRju5gjzKl9hCcoIl/BCayEw5EYtenX1asgCscu1LGWsTkGYhAUkfdnmJqtea72XQhhWaHWiF41V3MS00Ze
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8599
+
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
+
+Results of the daily build of media_tree:
+
+date:			Wed Feb  7 03:00:15 CET 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	8f667d2023844f3a2631c686f970b2f04c7fe7ec
+v4l-utils git hash:	d700deb143685b8217aa8a6eeeba3b090d4287fc
+edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8575-g7162b9ec
+sparse version:		v0.5.0-8575-g7162b9ec
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
+
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: WARNINGS:
+
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
 
 
-Hi Laurent, Hans
+date:			Wed Feb  7 03:18:39 CET 2024
+virtme-64: WARNINGS: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 1
 
-> >> From DT point of view, in general, drivers should be asking for a
-> >> specific port number because their function is fixed in the binding.
-> >>
-> >> of_graph_get_next_endpoint() doesn't match to this concept.
-> >>
-> >> Simply replace
-> >>
-> >> 	- of_graph_get_next_endpoint(xxx, NULL);
-> >> 	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
-(snip)
-> >>  	/* Parse the endpoint. */
-> >> -	endpoint = of_graph_get_next_endpoint(np, NULL);
-> >> +	endpoint = of_graph_get_endpoint_by_regs(np, 0, -1);
-> > 
-> > I think this should be port 1 for the adv7611 and port2 for the adv7612.
-> > The adv7610 may need to use port 1 too, but the bindings likely need to
-> > be updated.
-> > 
-> > Hans, Krzysztof, any opinion ?
-> 
-> It looks like it. But I suspect the code never worked. The endpoint parsing
-> is only needed if a specific mbus type is used (i.e., not 'UNKNOWN'), and
-> I don't think that is used in the device trees in the kernel. So everything
-> silently falls back to UNKNOWN and some default bus config that 'just works' (tm).
-> 
-> I'm pretty sure this code is wrong, but nobody ever noticed. Changing it
-> to the new code just makes it bug-compatible :-)
+date:			Wed Feb  7 03:45:07 CET 2024
 
-Nice ;)
-So, let's add /* FIXME */ here in v2
+Detailed results are available here:
 
-Thank you for your help !!
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
 
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
