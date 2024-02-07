@@ -1,194 +1,66 @@
-Return-Path: <linux-media+bounces-4786-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4787-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BD984C67C
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 09:44:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D64E084C6D0
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 10:03:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C695283161
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 08:44:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1393A1C21A05
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 09:03:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D89A920B03;
-	Wed,  7 Feb 2024 08:44:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F24C5208CB;
+	Wed,  7 Feb 2024 09:03:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6068125CC
-	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 08:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922EF208C4
+	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 09:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707295464; cv=none; b=S/spzMDr0EdEq4Pf5p0OcNVVHkx00OR1MTpZ+srx1QQWZm2+uJCwtJjtduL3013jbFMp5mVWFoAJ2H91G7LuNy0dHBeaowZJj4tbACxrpOi8OUtE0rdAbgKkBDlQUuuajgtcddT4zVCxKOZlmVk6CtTHjwCzTfyaEpX3Mx7uaCY=
+	t=1707296613; cv=none; b=ujiJJ8bB7orI70f8Sz2B5yaveR2vmDDU8TsaFZml6ADW56RT2n8v5mHFtm7oYvu6Ystg9dqXkIxp1/6zwwAhFGAfFeXPXi3Ms+rRVaaXtl7iqPyxiZh3MsQ5sgTwCnTlRdeIRSmH09lTEMIIAZs63J+hnL9FohossHuDyx3kRiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707295464; c=relaxed/simple;
-	bh=eIlROG4B7EcDoLKh81C4IKrc0N6l4onNNKJepMb4FYg=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=dAiR8bQwYk37nUPHLpat82G5OT6fsrz/SwVKpkjU+wjLkAymb2sUck41XzJDmjS0BbQb1pKaBIU+RDVvYMgqoNU5yxvjMzz6EOlAZFonPsBYFg3wTLLhDgMeN8+8PLHf/NT0XHcduo9Bo+YSzZ/noD5AXvCncASD1de6U2lrg74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7bbb3de4dcbso43240939f.1
-        for <linux-media@vger.kernel.org>; Wed, 07 Feb 2024 00:44:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707295462; x=1707900262;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yTU86qj7si/4Pn1nPUigCFSYaL0c1/3ps+DVLuqddlA=;
-        b=Yzv+24ZwW2R24o4ruPZSOEpLiGaswXcChVUEwzllcTFzoPJdOVwS6xZs4nkdJRgw7/
-         WBt2tykc61RE3tTENs5nYgCpxNe5xWl48X2fodNyOum8tVTYezptbzQNF4GY+0GVvXG7
-         +k69Ps1Kei3Jvubo34zpyXmd2I9P2m/NKD0Aq0AM+P+XBhjpEbyqtVrZlldw5BeIouQN
-         BSM1NaY/f3O1dFCmAsRThQjrMMJANWZEGXCTPjXk12/GVxYs2S1yiSc81rrsUDUuL8XC
-         JYrr18yOuYBj0Gu+COb7qcKehdhkAuH1ZPK/6Pd34Bveuxd60jTQNQKEf81Rjk8KLmh+
-         rBOQ==
-X-Gm-Message-State: AOJu0YygRClU7w1yEnbNFSbgvthidEL2TydQt3UyB7veArl105bWGr1s
-	9H/DKbHS35jsSYV4qhi9StaKRYe/tcnLDWQwuAUDpg3kUuQNZy1Xv70tvNoxR4EFltSU6j4bdJY
-	xQOcO1nODDQaLOc7l8uOUNTnsIUTgPfTRNNMG/CFcZtVR7eZ9guwLR9I=
-X-Google-Smtp-Source: AGHT+IHnhhpmRjLY4XytKwgZN/toC6Zm16q/YGvCONoGoYwuTNbQo15GrTcFly/ahghkj6dNG2hLmkQaOG9Tw9gXJau9ScLBQnrU
+	s=arc-20240116; t=1707296613; c=relaxed/simple;
+	bh=5ocwE3L3BkIQod8W8Tsq5AaUNBaZOsOi9ugz97IO29A=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=pvpbhqQ9iJ1BIvNV9ZerFrp8QdkknYETzCmBUb2pANyagjbFtqipjaFspZ7B41sajmCZi1uCYcfWNmdF91u8Wet1UXs+1hZUmWc6vT1LQbNfHmSeegGphl+bxYVE8+JPSI0w9zJNlwhsEDQIUafFYDzKGzc+xGUIUByp+0q7zCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B90E7C433C7
+	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 09:03:32 +0000 (UTC)
+Message-ID: <1ad05817-1f75-4492-9814-937cef20c6f7@xs4all.nl>
+Date: Wed, 7 Feb 2024 10:03:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:2dcc:b0:7c3:e384:d8a8 with SMTP id
- l12-20020a0566022dcc00b007c3e384d8a8mr178309iow.2.1707295462099; Wed, 07 Feb
- 2024 00:44:22 -0800 (PST)
-Date: Wed, 07 Feb 2024 00:44:22 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000008b96230610c6b3fe@google.com>
-Subject: [syzbot] [usb?] [media?] possible deadlock in vb2_video_unregister_device
-From: syzbot <syzbot+3b1d4b3d5f7a358bf9a9@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, m.szyprowski@samsung.com, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com, tfiga@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] media: core: v4l2-ioctl.c: use is_valid_ioctl()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+In most cases the is_valid_ioctl() macro is used to check if an ioctl is
+valid, except in one place. Use it there as well as it makes the code
+easier to read.
 
-syzbot found the following issue on:
-
-HEAD commit:    ed5551279c91 Merge 6.8-rc3 into usb-next
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=16940d7be80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=28a3704ea90ef255
-dashboard link: https://syzkaller.appspot.com/bug?extid=3b1d4b3d5f7a358bf9a9
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14450a38180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1603629fe80000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/10b543a7171a/disk-ed555127.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/dc10f27643e8/vmlinux-ed555127.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/bb6389e754b9/bzImage-ed555127.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3b1d4b3d5f7a358bf9a9@syzkaller.appspotmail.com
-
-usb 1-1: SerialNumber: syz
-usb 1-1: config 0 descriptor??
-usbtv 1-1:0.0: Fushicai USBTV007 Audio-Video Grabber
-usb 1-1: USB disconnect, device number 2
-============================================
-WARNING: possible recursive locking detected
-6.8.0-rc3-syzkaller-00047-ged5551279c91 #0 Not tainted
---------------------------------------------
-kworker/0:2/694 is trying to acquire lock:
-ffff888109f20b70 (&usbtv->vb2q_lock){+.+.}-{3:3}, at: vb2_video_unregister_device drivers/media/common/videobuf2/videobuf2-v4l2.c:1269 [inline]
-ffff888109f20b70 (&usbtv->vb2q_lock){+.+.}-{3:3}, at: vb2_video_unregister_device+0x12b/0x2d0 drivers/media/common/videobuf2/videobuf2-v4l2.c:1245
-
-but task is already holding lock:
-ffff888109f20b70 (&usbtv->vb2q_lock){+.+.}-{3:3}, at: usbtv_video_free+0x28/0x70 drivers/media/usb/usbtv/usbtv-video.c:966
-
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock(&usbtv->vb2q_lock);
-  lock(&usbtv->vb2q_lock);
-
- *** DEADLOCK ***
-
- May be due to missing lock nesting notation
-
-7 locks held by kworker/0:2/694:
- #0: ffff888106ad2138 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x789/0x15d0 kernel/workqueue.c:2608
- #1: ffffc90001c0fd80 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15d0 kernel/workqueue.c:2609
- #2: ffff88810af2f190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:990 [inline]
- #2: ffff88810af2f190 (&dev->mutex){....}-{3:3}, at: hub_event+0x1be/0x4f40 drivers/usb/core/hub.c:5840
- #3: ffff888107799190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:990 [inline]
- #3: ffff888107799190 (&dev->mutex){....}-{3:3}, at: usb_disconnect+0x10a/0x910 drivers/usb/core/hub.c:2287
- #4: ffff88810779a160 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:990 [inline]
- #4: ffff88810779a160 (&dev->mutex){....}-{3:3}, at: __device_driver_lock drivers/base/dd.c:1095 [inline]
- #4: ffff88810779a160 (&dev->mutex){....}-{3:3}, at: device_release_driver_internal+0xa4/0x610 drivers/base/dd.c:1292
- #5: ffff888109f20b70 (&usbtv->vb2q_lock){+.+.}-{3:3}, at: usbtv_video_free+0x28/0x70 drivers/media/usb/usbtv/usbtv-video.c:966
- #6: ffff888109f20ae0 (&usbtv->v4l2_lock){+.+.}-{3:3}, at: usbtv_video_free+0x32/0x70 drivers/media/usb/usbtv/usbtv-video.c:967
-
-stack backtrace:
-CPU: 0 PID: 694 Comm: kworker/0:2 Not tainted 6.8.0-rc3-syzkaller-00047-ged5551279c91 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
- check_deadlock kernel/locking/lockdep.c:3062 [inline]
- validate_chain kernel/locking/lockdep.c:3856 [inline]
- __lock_acquire+0x210a/0x3b30 kernel/locking/lockdep.c:5137
- lock_acquire kernel/locking/lockdep.c:5754 [inline]
- lock_acquire+0x1ae/0x520 kernel/locking/lockdep.c:5719
- __mutex_lock_common kernel/locking/mutex.c:608 [inline]
- __mutex_lock+0x175/0x9d0 kernel/locking/mutex.c:752
- vb2_video_unregister_device drivers/media/common/videobuf2/videobuf2-v4l2.c:1269 [inline]
- vb2_video_unregister_device+0x12b/0x2d0 drivers/media/common/videobuf2/videobuf2-v4l2.c:1245
- usbtv_video_free+0x4a/0x70 drivers/media/usb/usbtv/usbtv-video.c:970
- usbtv_disconnect+0x5c/0xd0 drivers/media/usb/usbtv/usbtv-core.c:138
- usb_unbind_interface+0x1e5/0x960 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:569 [inline]
- device_remove+0x11f/0x170 drivers/base/dd.c:561
- __device_release_driver drivers/base/dd.c:1272 [inline]
- device_release_driver_internal+0x44a/0x610 drivers/base/dd.c:1295
- bus_remove_device+0x22c/0x420 drivers/base/bus.c:574
- device_del+0x39a/0xa50 drivers/base/core.c:3814
- usb_disable_device+0x36c/0x7f0 drivers/usb/core/message.c:1416
- usb_disconnect+0x2e1/0x910 drivers/usb/core/hub.c:2296
- hub_port_connect drivers/usb/core/hub.c:5352 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5652 [inline]
- port_event drivers/usb/core/hub.c:5812 [inline]
- hub_event+0x1be0/0x4f40 drivers/usb/core/hub.c:5894
- process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
- process_scheduled_works kernel/workqueue.c:2706 [inline]
- worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
- kthread+0x2c6/0x3a0 kernel/kthread.c:388
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
- </TASK>
-
-
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index a172d33edd19..6ce443dafd97 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -3052,7 +3052,7 @@ static long __video_do_ioctl(struct file *file,
+ 	if (v4l2_is_known_ioctl(cmd)) {
+ 		info = &v4l2_ioctls[_IOC_NR(cmd)];
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+-		if (!test_bit(_IOC_NR(cmd), vfd->valid_ioctls) &&
++		if (!is_valid_ioctl(vfd, cmd) &&
+ 		    !((info->flags & INFO_FL_CTRL) && vfh && vfh->ctrl_handler))
+ 			goto done;
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
