@@ -1,84 +1,85 @@
-Return-Path: <linux-media+bounces-4836-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4837-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3097C84D03B
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 18:55:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4D884D0C7
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 19:10:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A08B81F2533C
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 17:55:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 432BD1F2625C
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 18:10:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BD082D8C;
-	Wed,  7 Feb 2024 17:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E49B68563E;
+	Wed,  7 Feb 2024 18:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="x1bSm2NB"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="3CfqzVB5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B788289F
-	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 17:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7BC85266
+	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 18:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707328534; cv=none; b=BCX3ks9otSykzcx08NvgJr4aiVUyYughnKFWX00iBBgS3TKVZCfDop5/x7XpChKXPuOkL1w3aHwxKx3nyzRdoPy2QQEt8geV59QJG67J0cZej4adzTadczmuTGKfCB47IsSbecq5ItpUB5FuMX4mn2mzeYRIb76YPuVO3u/SfjI=
+	t=1707328812; cv=none; b=jFXavQfkyKV/TflXhPFpjh63wUlCfufnRQgBfFfN5veByt6xf1H11QA5DVsz1a4ZyVFpQ2C2ngGNETWVRJ5HI68bptmArO/J4Pjr5PnQfQr4cRmXHreiT5W+BPmKUJILzUKio8TYBC9WYctkhpPD71vfgdVPSykzSKPUswCT6vU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707328534; c=relaxed/simple;
-	bh=PVNQ9lrRXOnUdGtFtfU2OixZ+ynURyncL9U0HlnF7Uo=;
+	s=arc-20240116; t=1707328812; c=relaxed/simple;
+	bh=/dH1SJ+1oGDDvblcOZkoEcbtGSXPkYVk2pQQtnvzRC8=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Bi6sCpz9HQF3NJjDc8qPEpLVD46eBbD7n800pW33rLgdP9VdzGp8RPNzEn6E3/TVsFchJT6RFLvcfYEc+DRHc5qkzOBRY865sslaXqef7jYA4PO5tRhWaBgOEnjQgozyVZNYkPY0CORrfaiGfLP7jaNrSiHiJTkDubGaykYeUYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=x1bSm2NB; arc=none smtp.client-ip=209.85.221.181
+	 Content-Type:MIME-Version; b=op+xBjGUdo7BRQy8R9fKI7wvwtQCEPQ4Xyvl4k2dnUFNkJm/wATTGYX+GepgtUqFQHOBJ+GNPAoFiJ2UEWkSTngnQDiAayB45w3dzTsZ0F/R6j9sB0VNkkgX7fFLbeUsmqw+wJLyQc6Jhuc8V5BtPo7gkRd+nG4vI3NWDp8nAYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=3CfqzVB5; arc=none smtp.client-ip=209.85.167.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-4c0215837e2so340193e0c.1
-        for <linux-media@vger.kernel.org>; Wed, 07 Feb 2024 09:55:31 -0800 (PST)
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3bfcbfbfd92so490824b6e.2
+        for <linux-media@vger.kernel.org>; Wed, 07 Feb 2024 10:00:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707328531; x=1707933331; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707328809; x=1707933609; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=AaTfUXqJMnus5HhQJpbMfqNcu6i2urdtegdYNHUHp14=;
-        b=x1bSm2NBAIBRIyOQW0k5X1f4/98Gcf+bUSaIN11lX3b6AxtFmaZlCcu0H7v2N4cope
-         hMWehkyU3dFcRN+NyS73999CC11Q1NZcxqLHsZ4oxObIkDB4SLGTDLQGTtDBiWM4ab0H
-         qVIvCLsXVHJ90x9zGL9+d/9Y+Mo0BGDuDLvVwnG3wNDwMFU1pydpSnyYTm3uw44+0ntc
-         5FVCKDbU4WhUydYlhTFXhTrb90b2kwBTIR5GcpY1vdKcXo9sh3mg4tIBJfM4eYAv3pUP
-         eSe/OfA1h+GhQlKTgE28gww3/OhuTwxWQLZJe1ikJ2vLcbOqypgnLY384ihLaRm7DePz
-         rtKA==
+        bh=atTeCdizyi3sZCKnlWTta7eXoq1GPnFuq1V8uU4FIFc=;
+        b=3CfqzVB5SDgXdyN1SEczw4UoaF9BkA1YeUJTurK1/vKEk6MVolmzA+0iL2uca8qK8M
+         vOhIU/73ybMlUn7Ggy/hJ6yvlwFEIo7cp8IKgl0ZYKBVTg++AdI3OlsNBGOBmCrnlt9K
+         eVipAbTaUr/BDMaP5bw1XgwnmYEfUMKvPNWbOSQ9eRNMMPINwXOXC+Sag4wv7BEx2ZP4
+         5dn9QSq50SSt0VVrIlqa8FLyYbivIx2DU8INSjyAApSxnSDfmj0FgaiTVmBwfi/8gZEX
+         hncU6qmprsbXSM7lNdKHSR85pFiFtD13qJW1fss9jqqFqTt76a+a1+J5iRTQ94cRX7Do
+         tA+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707328531; x=1707933331;
+        d=1e100.net; s=20230601; t=1707328809; x=1707933609;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AaTfUXqJMnus5HhQJpbMfqNcu6i2urdtegdYNHUHp14=;
-        b=Ubop2HqpqwaVb2DeuYd34mqi588NQo8Ejg1I03AJkdkO5lhYgNXuvZn4tdwIqH2l+n
-         fahl+e2rsx6Vxtb1BoV00p/8KXbpzN+X5ZQz58BnWEOXj6xXXWcA847C+0rZBzC4DFht
-         RW/lyhKbqvRGedUzmBH4CvzHIqhnrKJQRL/SggLK+fbGarMjzhhEP6KAI9SnDxlmjt3z
-         OeoDjJsFamBqiux/UV6+lsNwKKbis4w0rgye3OU4wisXAPdj21G9fqgYtsVd963TPS9K
-         /WyXtLNmpt9tkMl3+0/7zuz3oKD7MLCQQoHTDwAV7yFcS8TGCYGlG1Ar59wpLk+e7rLi
-         UAfw==
-X-Gm-Message-State: AOJu0YzG2/HairlTK28dOmaeYIoJi8d6yUEx7TXMRt/CI6jPnDyhD7UL
-	a090i87m+vw84NdO7eHL2cNCT48XEKRdcG9DkZ5CER37X3M+67t4BAzR5X60ZpA=
-X-Google-Smtp-Source: AGHT+IGnfAtMOsdhiib/U3MKWXDTsAiVeW67+8y5X5O2rcRyTWlXolBO5cIwQWnXtlfqUocVYzsuUg==
-X-Received: by 2002:a05:6122:280f:b0:4c0:2767:b778 with SMTP id en15-20020a056122280f00b004c02767b778mr3310174vkb.16.1707328530633;
-        Wed, 07 Feb 2024 09:55:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVTTOhy5MBG7gPD/cq2qmjUJGwKSNn1m5m6rK09MO6VweDrOHpUF8znKLU+YJ2TE8whOk0zGjOL/dTPdEm9yXr30Rtp8l3NP6m/L1jIapxnWoXcHr6dSak78TFulBtikddk2T5L4CMjTF0gkHiqdXHho/C2Gww4P4uy0DjxK1W5EaCKIG1nccc+au63Bxsditnl1DFWG66xD/qTo3WqFcvz9YAKifM+uekO
+        bh=atTeCdizyi3sZCKnlWTta7eXoq1GPnFuq1V8uU4FIFc=;
+        b=PkiWE29f7oU4w3iZBnOwuPmamdqZc/1LZwQ3VbfI3AogaMuYNXp9skBuPWrwPvOSq9
+         wtIBkKgZ9ebiXbrYHV+wM5OTR6KNHHQ5L0BXAjA2JFsRKPfPuh2smgxsd9XtI3aKLOyb
+         hql4arJ2oVRCO82pz/gNBCza4uyA+EgaWh4V3XmzHFYNjbBiCnOujgoZ1f5HeiOD2AqI
+         TDBk/NzZD8vsVfoOOFxflfZZY6Xjkj6RxG02vP9T4MhRDxNiyb6cWtBwbkY8fODBF0ZA
+         qNmoDf7VsAfkeH65WG2z0kNnYTOVxwrBhIt3S5CZ00zHhXaX2Ggzm95Lq2jnK9bGEUgm
+         jxKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZSCdp4HWMwDI3BUEZWsA4fdKdqm9b8sYh4vid9banDpEL40vUuS9bU19eoU3J2PT1kUTZQWyDCMzg0AQ+yQD7KBlL7U8LxghuZv8=
+X-Gm-Message-State: AOJu0Yxn1u8dJ5rf/UgaAZhggaXIiZYn8P2pCZ3KxhVlO6rR4eUb5WxY
+	pK1S1Srd4BhlfKFSsoeMWGDnpnx/ItNjqJ97hRUMoDsHGjktaQAYekm9ZiD3xs4=
+X-Google-Smtp-Source: AGHT+IFYAdfEEPYHXZrZD8drsRK2WPzrtgCEfz1KwgUtllEkgkufhwR9Wb11m728D4Ks2bQ7ptg38g==
+X-Received: by 2002:a05:6808:384b:b0:3bf:ee86:6ecc with SMTP id ej11-20020a056808384b00b003bfee866eccmr2749857oib.34.1707328808632;
+        Wed, 07 Feb 2024 10:00:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXaJY4UrjJA7uNj1pRPY7DD5LTHRmxwbPRf5Noge3Q2pTDGB2ptvmhwB3FYL/3a2pY3wXctmd3Fw1Kuvzc0oZAXiMZE2+sGhDnT1f9ZKQo+Y0v+RMgUP8UwS9pRHb4+qa0CZb1Mq94sRItdllW1NOU12r1v87HVU8vC4PqfJPULLfki+kOLDgLyoTK0oXY9wGL9vFt3nh3sxN61/NewCjf7Zs23paPJUCRx
 Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
-        by smtp.gmail.com with ESMTPSA id ow8-20020a0562143f8800b0068c87aa8c06sm797920qvb.19.2024.02.07.09.55.29
+        by smtp.gmail.com with ESMTPSA id m21-20020a05620a24d500b007840a08a097sm717844qkn.76.2024.02.07.10.00.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 09:55:30 -0800 (PST)
-Message-ID: <baa85477b241880e1cf96efd7037fc1b2423fab5.camel@ndufresne.ca>
-Subject: Re: [RESEND PATCH v0 1/5] wave5 : Support yuv422 input format for
- encoder.
+        Wed, 07 Feb 2024 10:00:08 -0800 (PST)
+Message-ID: <cdcf594ecaefaac748655bdcb7dcc1c4f9ad1a68.camel@ndufresne.ca>
+Subject: Re: [RESEND PATCH v0 2/5] wave5: Support to prepend sps/pps to IDR
+ frame.
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: "jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	nas.chung@chipsnmedia.com
 Cc: lafley.kim@chipsnmedia.com, b-brnich@ti.com
-Date: Wed, 07 Feb 2024 12:55:29 -0500
-In-Reply-To: <20240131013046.15687-2-jackson.lee@chipsnmedia.com>
+Date: Wed, 07 Feb 2024 13:00:06 -0500
+In-Reply-To: <20240131013046.15687-3-jackson.lee@chipsnmedia.com>
 References: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
-	 <20240131013046.15687-2-jackson.lee@chipsnmedia.com>
+	 <20240131013046.15687-3-jackson.lee@chipsnmedia.com>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
@@ -96,176 +97,102 @@ Hi Jackson,
 
 Le mercredi 31 janvier 2024 =C3=A0 10:30 +0900, jackson.lee a =C3=A9crit=C2=
 =A0:
-> Encoder supports the following formats.
-> YUV422P, NV16, NV61, NV16M, NV61M
+> Indicates whether to generate SPS and PPS at every IDR. Setting it to 0 d=
+isables generating SPS and PPS at every IDR.
+> Setting it to one enables generating SPS and PPS at every IDR.
 >=20
 > Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
 > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 > ---
->  .../chips-media/wave5/wave5-vpu-enc.c         | 79 ++++++++++++++++++-
->  1 file changed, 76 insertions(+), 3 deletions(-)
+>  drivers/media/platform/chips-media/wave5/wave5-hw.c      | 6 ++++--
+>  drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 7 +++++++
+>  drivers/media/platform/chips-media/wave5/wave5-vpuapi.h  | 1 +
+>  3 files changed, 12 insertions(+), 2 deletions(-)
 >=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/driver=
+s/media/platform/chips-media/wave5/wave5-hw.c
+> index f1e022fb148e..8ad7f3a28ae1 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> @@ -1602,11 +1602,13 @@ int wave5_vpu_enc_init_seq(struct vpu_instance *i=
+nst)
+>  	if (inst->std =3D=3D W_AVC_ENC)
+>  		vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_INTRA_PARAM, p_param->intra_qp=
+ |
+>  				((p_param->intra_period & 0x7ff) << 6) |
+> -				((p_param->avc_idr_period & 0x7ff) << 17));
+> +				((p_param->avc_idr_period & 0x7ff) << 17) |
+> +				(p_param->forced_idr_header_enable << 28));
+
+I can spot evident hard-coding of mask and bit shifts in here. In order to
+continuously improve this driver code, I would like to see this (and the
+following) magic number being defined with well named macros as a preparati=
+on
+patch to this feature change.
+
+regards,
+Nicolas
+
+>  	else if (inst->std =3D=3D W_HEVC_ENC)
+>  		vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_INTRA_PARAM,
+>  			      p_param->decoding_refresh_type | (p_param->intra_qp << 3) |
+> -				(p_param->intra_period << 16));
+> +			      (p_param->forced_idr_header_enable << 9) |
+> +			      (p_param->intra_period << 16));
+> =20
+>  	reg_val =3D (p_param->rdo_skip << 2) |
+>  		(p_param->lambda_scaling_enable << 3) |
 > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
 rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> index f29cfa3af94a..0cb5bfb67258 100644
+> index 0cb5bfb67258..761775216cd4 100644
 > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
 > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> @@ -70,6 +70,41 @@ static const struct vpu_format enc_fmt_list[FMT_TYPES]=
-[MAX_FMTS] =3D {
->  			.max_height =3D W5_MAX_ENC_PIC_HEIGHT,
->  			.min_height =3D W5_MIN_ENC_PIC_HEIGHT,
->  		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_YUV422P,
-> +			.max_width =3D W5_MAX_ENC_PIC_WIDTH,
-> +			.min_width =3D W5_MIN_ENC_PIC_WIDTH,
-> +			.max_height =3D W5_MAX_ENC_PIC_HEIGHT,
-> +			.min_height =3D W5_MIN_ENC_PIC_HEIGHT,
-> +		},
-
-During upstreaming, we discussed the lack of usage of v4l2-common in this d=
-river
-and agreed that future updates such as this one should first port the drive=
-r to
-use the common helpers instead.
-
-This implies dropping this custom made structure in favour of
-v4l2_frmsize_stepwise structure. Unlike yours, you can encoded the needed
-padding, allowing to encode this in one place instead of spreading it acros=
-s
-numerous formulas in the code.
-
-With this information, you will be able to use:
-
-  v4l2_apply_frmsize_constraints()
-  v4l2_fill_pixfmt_mp()
-
-To adjust your dimensions to padded dimensions and compute your bytesperlin=
-e
-(stride) and sizeimage. You can of course increase the size image after thi=
-s
-call. You can have a look at rkvdec driver as an example.
-
-Please port existing set of pixel formats support, and then add the new pix=
-el
-formats. This should remove about 3/4 of this patch and remove that huge ri=
-sk of
-miss-computing a size.
-
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV16,
-> +			.max_width =3D W5_MAX_ENC_PIC_WIDTH,
-> +			.min_width =3D W5_MIN_ENC_PIC_WIDTH,
-> +			.max_height =3D W5_MAX_ENC_PIC_HEIGHT,
-> +			.min_height =3D W5_MIN_ENC_PIC_HEIGHT,
-> +		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV61,
-> +			.max_width =3D W5_MAX_ENC_PIC_WIDTH,
-> +			.min_width =3D W5_MIN_ENC_PIC_WIDTH,
-> +			.max_height =3D W5_MAX_ENC_PIC_HEIGHT,
-> +			.min_height =3D W5_MIN_ENC_PIC_HEIGHT,
-> +		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV16M,
-> +			.max_width =3D W5_MAX_ENC_PIC_WIDTH,
-> +			.min_width =3D W5_MIN_ENC_PIC_WIDTH,
-> +			.max_height =3D W5_MAX_ENC_PIC_HEIGHT,
-> +			.min_height =3D W5_MIN_ENC_PIC_HEIGHT,
-> +		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV61M,
-> +			.max_width =3D W5_MAX_ENC_PIC_WIDTH,
-> +			.min_width =3D W5_MIN_ENC_PIC_WIDTH,
-> +			.max_height =3D W5_MAX_ENC_PIC_HEIGHT,
-> +			.min_height =3D W5_MIN_ENC_PIC_HEIGHT,
-> +		},
+> @@ -1125,6 +1125,9 @@ static int wave5_vpu_enc_s_ctrl(struct v4l2_ctrl *c=
+trl)
+>  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
+>  		inst->enc_param.entropy_coding_mode =3D ctrl->val;
+>  		break;
+> +	case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:
+> +		inst->enc_param.forced_idr_header_enable =3D ctrl->val;
+> +		break;
+>  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
+>  		break;
+>  	default:
+> @@ -1292,6 +1295,7 @@ static void wave5_set_enc_openparam(struct enc_open=
+_param *open_param,
+>  		else
+>  			open_param->wave_param.intra_refresh_arg =3D num_ctu_row;
 >  	}
+> +	open_param->wave_param.forced_idr_header_enable =3D input.forced_idr_he=
+ader_enable;
+>  }
+> =20
+>  static int initialize_sequence(struct vpu_instance *inst)
+> @@ -1775,6 +1779,9 @@ static int wave5_vpu_open_enc(struct file *filp)
+>  			  0, 1, 1, 0);
+>  	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
+>  			  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 32, 1, 1);
+> +	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
+> +			  V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR,
+> +			  0, 1, 1, 0);
+> =20
+>  	if (v4l2_ctrl_hdl->error) {
+>  		ret =3D -ENODEV;
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/dr=
+ivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> index 352f6e904e50..3ad6118550ac 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> @@ -566,6 +566,7 @@ struct enc_wave_param {
+>  	u32 lambda_scaling_enable: 1; /* enable lambda scaling using custom GOP=
+ */
+>  	u32 transform8x8_enable: 1; /* enable 8x8 intra prediction and 8x8 tran=
+sform */
+>  	u32 mb_level_rc_enable: 1; /* enable MB-level rate control */
+> +	u32 forced_idr_header_enable: 1; /* enable header encoding before IDR f=
+rame */
 >  };
 > =20
-> @@ -136,6 +171,23 @@ static void wave5_update_pix_fmt(struct v4l2_pix_for=
-mat_mplane *pix_mp, unsigned
->  		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32);
->  		pix_mp->plane_fmt[1].sizeimage =3D round_up(width, 32) * height / 2;
->  		break;
-> +	case V4L2_PIX_FMT_YUV422P:
-> +	case V4L2_PIX_FMT_NV16:
-> +	case V4L2_PIX_FMT_NV61:
-> +		pix_mp->width =3D width;
-> +		pix_mp->height =3D height;
-> +		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> +		pix_mp->plane_fmt[0].sizeimage =3D round_up(width, 32) * height * 2;
-> +		break;
-> +	case V4L2_PIX_FMT_NV16M:
-> +	case V4L2_PIX_FMT_NV61M:
-> +		pix_mp->width =3D width;
-> +		pix_mp->height =3D height;
-> +		pix_mp->plane_fmt[0].bytesperline =3D round_up(width, 32);
-> +		pix_mp->plane_fmt[0].sizeimage =3D round_up(width, 32) * height;
-> +		pix_mp->plane_fmt[1].bytesperline =3D round_up(width, 32);
-> +		pix_mp->plane_fmt[1].sizeimage =3D round_up(width, 32) * height;
-> +		break;
->  	default:
->  		pix_mp->width =3D width;
->  		pix_mp->height =3D height;
-> @@ -155,11 +207,19 @@ static int start_encode(struct vpu_instance *inst, =
-u32 *fail_res)
->  	struct enc_param pic_param;
->  	u32 stride =3D ALIGN(inst->dst_fmt.width, 32);
->  	u32 luma_size =3D (stride * inst->dst_fmt.height);
-> -	u32 chroma_size =3D ((stride / 2) * (inst->dst_fmt.height / 2));
-> +	u32 chroma_size;
-> =20
->  	memset(&pic_param, 0, sizeof(struct enc_param));
->  	memset(&frame_buf, 0, sizeof(struct frame_buffer));
-> =20
-> +	if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV420 ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV420M)
-> +		chroma_size =3D ((stride / 2) * (inst->dst_fmt.height / 2));
-> +	else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV422P)
-> +		chroma_size =3D ((stride) * (inst->dst_fmt.height / 2));
-> +	else
-> +		chroma_size =3D 0;
-> +
->  	dst_buf =3D v4l2_m2m_next_dst_buf(m2m_ctx);
->  	if (!dst_buf) {
->  		dev_dbg(inst->dev->dev, "%s: No destination buffer found\n", __func__)=
-;
-> @@ -550,11 +610,15 @@ static int wave5_vpu_enc_s_fmt_out(struct file *fil=
-e, void *fh, struct v4l2_form
->  	}
-> =20
->  	if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12 ||
-> -	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12M) {
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12M ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16 ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16M) {
->  		inst->cbcr_interleave =3D true;
->  		inst->nv21 =3D false;
->  	} else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21 ||
-> -		   inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21M) {
-> +		   inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21M ||
-> +		   inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61 ||
-> +		   inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61M) {
->  		inst->cbcr_interleave =3D true;
->  		inst->nv21 =3D true;
->  	} else {
-> @@ -1132,6 +1196,15 @@ static void wave5_set_enc_openparam(struct enc_ope=
-n_param *open_param,
->  	u32 num_ctu_row =3D ALIGN(inst->dst_fmt.height, 64) / 64;
->  	u32 num_mb_row =3D ALIGN(inst->dst_fmt.height, 16) / 16;
-> =20
-> +	if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16 ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61 ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV422P ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16M ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61M)
-> +		open_param->src_format =3D FORMAT_422;
-> +	else
-> +		open_param->src_format =3D FORMAT_420;
-> +
->  	open_param->wave_param.gop_preset_idx =3D PRESET_IDX_IPP_SINGLE;
->  	open_param->wave_param.hvs_qp_scale =3D 2;
->  	open_param->wave_param.hvs_max_delta_qp =3D 10;
+>  struct enc_open_param {
 
 
