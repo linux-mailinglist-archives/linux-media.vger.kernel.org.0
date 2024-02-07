@@ -1,183 +1,147 @@
-Return-Path: <linux-media+bounces-4830-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4831-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8487E84CDD5
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 16:18:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA16E84CE2C
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 16:37:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4138B283E94
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 15:18:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCBC01C20BDF
+	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 15:37:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D42B7F7E5;
-	Wed,  7 Feb 2024 15:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CF627FBC7;
+	Wed,  7 Feb 2024 15:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dqpY/gHB"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="Z/md2VFH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01olkn2109.outbound.protection.outlook.com [40.92.52.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88D77F7D4;
-	Wed,  7 Feb 2024 15:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707319127; cv=none; b=exwMcOeJ2Ae+FO1TQlsDUvdaq6Ru5Agur/e3Zv+/JqCR20Nd7Q50ZNX7GduaSfdwWXFXoDQJvJb9tF4wO3790s5pl+lCXRBF9WyXmXUb/nZiQZJ8/LE4N2FSBFwZhFe4SwhOS6xYRJLmG2C3SgyUhv/tloXBAPCor25eiCfyaA8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707319127; c=relaxed/simple;
-	bh=tY5ecJDiWRgQfR15XnT6sr26N06KCzgBu+oCAppi+2I=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mto+B/qpJFo9iMtoWNOmCd34mqx/OU4ReylByzU58flZMt07XptMithmB4bXowDlkJU9s1RV8Z825XQYijs32hS2NrKDPhd+sa56zupb4qHF2Gd5v/+hGtm7MlloRlupMdID0wg5YNE5i32GLp+P1mLzxjmmVAEw/Ds1FcT+yAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dqpY/gHB; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 417FIVb8103266;
-	Wed, 7 Feb 2024 09:18:31 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1707319111;
-	bh=f7VohMqMIEhbj4OYHXX4yY0/nqrzl3/aoxQ51t+Xjww=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=dqpY/gHBY4wgIzUPDLsOsmmfTfrM1TQsps/AyuyAVpLcOwz8ETQYbIGM1rioinU1Y
-	 UFq524M38rDhbBCfA1x9MduOXyEXvLkCiBVDrvkTN+km+b+PGk6LCDw8GbrxSrqdCA
-	 erDrdBRPmz0NVOuH/PVuLEDt4rmFW2H91Qu9Lgic=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 417FIVbw011504
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 7 Feb 2024 09:18:31 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
- Feb 2024 09:18:30 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 7 Feb 2024 09:18:30 -0600
-Received: from localhost ([10.249.131.210])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 417FIToc038018;
-	Wed, 7 Feb 2024 09:18:30 -0600
-Date: Wed, 7 Feb 2024 20:48:29 +0530
-From: Jai Luthra <j-luthra@ti.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-CC: <linux-media@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        Mauro
- Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] media: ti: Use devm_platform_ioremap_resource() in
- ti_csi2rx_probe()
-Message-ID: <aogfgugtynpo7v5a4df5n2r7nx7jujcbrtwmggkesti2quzrwf@xzzivrbtjd4r>
-References: <66d7218d-ed57-4dec-b6ac-630b01056b5e@web.de>
- <5m4zr6d3geqdyxtr5owlur4ysn6ublauvc5km3boga2vnm2rwj@mflpsf4ql2yj>
- <c110c46b-e7b3-4175-9b14-d4cfc9982bca@web.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EBB1E4BD
+	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 15:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.52.109
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707320226; cv=fail; b=HOdm+VtU9eENTivoYY/t7vHcS7T/xYrAJjTonzXjahbTQXRX1AKUh/GD7UAzOOne32MCrLs28JwFqAUGI3nEK7hmTu+SACLR4+0UNnDeWKLm/XoEQiCQIsvUXiWo2q+95mNJtH/RA0dFUFz2lYfCSFtWRL2Fneuvx3Yv2c4eRvo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707320226; c=relaxed/simple;
+	bh=HkDStaRSRjob7ueZRUDgaBDzVkBZTlmQuX5Zb6TwpMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=RQsZOLrs/LrWZt9g213ZoY3laR13yIEwRONw1WBPB5gfl46RCEfV93bpS+UrsMiqxRwKCKnhRAZwqMrelCPLzNm/CujxAaktthbhL8uYQSeRKFRUpib3Wyi+z92O+57REAf1yKYl/p9XVwILDuMifOPKpwlYlS3sc7FNXgiFv3A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=Z/md2VFH; arc=fail smtp.client-ip=40.92.52.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=obUJG/4NBDS9uNClXgbTRCkmNjRqxEfWaZ9idg1Resxj3NfW85Ys6vr2SInobc/Ju7pqGErgKdGc6udvWaO8ayS7FyVU98oibncPrP0KJ8AaZi8wBE2HETeeyv3gaVqRVIF3cOFb4OTcfTSDQg7jOkcdmZUUnbFMAFV9a3dinOotEDOjT/D5exZQbVUL8nwz8btMbTr81BGNHsm+FgNWKFntBTLipDnXJB8SBc/lYTuNaAotVn7WaEdtkF2NP27xmoqJrOs2F5ejwzNFBslWp54lgcQ19t/G+QLi/ZlsbbEM92vr8gsXPCs/KPC4pDIaZv0F6EnWFgEigyERMxIx5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q5xmiNwMzuQ0s1yDbsv0KEkypuAOMNHiB+O//iJ6gYk=;
+ b=P/VL5N+6O7KW8yV+S/SLlv7N6o+IhH8FNQYeVGDsB6WmLu9ISTcM+U+QGd9O+ksrz3lPmFIkxycgdErvZaOkyBlXRiHStkB0xWfKAwqFekgqETzBHT1GzyQrEdyDTEm5ghRXxqqFHUnCWcRPit8sfCgZqC97y5A/iJtcT9b/NLex/ViO16f2bSUsHNwRfii6Bx+WpSgxYP1+3lkznPoyUp9pu3B0/F4A+vl100YhTwWDqFrDZ5heAQBDMAsmGvmTFFONRUB/Ajwcis5pcBGul0NIW3vc4JgNfxGubKZJhER82RdPMw09A7/LNPeaxtbymBppJmQLPLvwuqLtKLBliQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q5xmiNwMzuQ0s1yDbsv0KEkypuAOMNHiB+O//iJ6gYk=;
+ b=Z/md2VFHxsujYHrkQzpdrCJqAnj69u3m9fLLzDusthon69V/eEnV16TQe6aKCGghY9ftKfNamWbaTF83uAfslHGYXL77NMCL82IYsSQkQJ8ZUK4u0vrh+LZLoa1kA0dxUQ4wFbNCzhweBxgbl6JHv7Gzn3TSmtmtJU6i4eKbT5tyNPzswNnA0zPrWGLLwgG8JPZclPO8OUf5qj/QFfi7vP3HOaEMr7diKoj/B1j1NdyAdjMivyt8c5VNnhGYeAIp9HrmUpGoJL2IYuBfAps2Y/q2DhrLPSr6tplcPcfpWzypZdvg+YvKB+e/7HIP50AQzdhB5q/uZwATv63mfEsnXQ==
+Received: from KL1PR06MB6178.apcprd06.prod.outlook.com (2603:1096:820:d8::6)
+ by OS8PR06MB7337.apcprd06.prod.outlook.com (2603:1096:604:287::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Wed, 7 Feb
+ 2024 15:37:01 +0000
+Received: from KL1PR06MB6178.apcprd06.prod.outlook.com
+ ([fe80::f116:c835:7a40:f79c]) by KL1PR06MB6178.apcprd06.prod.outlook.com
+ ([fe80::f116:c835:7a40:f79c%7]) with mapi id 15.20.7249.035; Wed, 7 Feb 2024
+ 15:37:01 +0000
+Date: Wed, 7 Feb 2024 23:36:57 +0800
+From: Andy Chen <andy.chen88@outlook.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Ming Qian <ming.qian@nxp.com>
+Cc: linux-media@vger.kernel.org
+Subject: [PATCH] media: platform: nxp: fix return value check in
+ mipi_csis_s_stream()
+Message-ID:
+ <KL1PR06MB617883F6696C3A07B5B5CEB5E0452@KL1PR06MB6178.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-TMN: [6sZSuNgIb/YU1rpt7LRFcGbVKsU6Ky7iONzCc9S0Ah8=]
+X-ClientProxiedBy: TYCP286CA0171.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c6::6) To KL1PR06MB6178.apcprd06.prod.outlook.com
+ (2603:1096:820:d8::6)
+X-Microsoft-Original-Message-ID: <20240207153657.GA3836@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jpmq56a6mp47qds4"
-Content-Disposition: inline
-In-Reply-To: <c110c46b-e7b3-4175-9b14-d4cfc9982bca@web.de>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KL1PR06MB6178:EE_|OS8PR06MB7337:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32764868-b695-49ed-8380-08dc27f2a070
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	WihZKN6XVlshsbSCF1rmPEdNveh9zo3btGnPn1EpWIi/aMquihQYzGh+sUAn+3hsMXRvKIh25fKh0U8XGet30FYZ7mGK+v1+g3KVHbkqqlTUesgUzCnrEixBAoY2wO/hcTmy2sWBYwzbZ+3Xpo4n/DaAW3ibkXWrSzGslEHPjNSkcPn9gonxVLjEIvht9v9mkJlEJLg2fO1Qikn3iyN+P0io5AEUvYYA1WQ0z9lPAngOyAz6Ukbx9IOoNvUE5cJtmMJgdLzXSX/bzW0MKKHFs46nJXMeE+YNMnzIwmlPUAoJc4GPTjEacFv8ZcPba1ARSglsWj5/KBBi6NXj+Xk7Ojrr30WzCa/dPhVF9+Ybdg4wh8IIoxYvIu16yxuObqM/nnzTxuTPV5buWA+8+w0iYv82SNkuPtaryDp/YYz/A2ftq8j4s4mgsfxd4M6y2oWl8DL6cU7JzNRtJSr2nrkDEpydWcfi7QW25xZqJEnRjWuKhHQ0JFMbKcLTvxixWQNHywjw+kfE26Q0WiqftD0BtpaF68f0qBIWCdO/Ls5X9/Z/y0RfdE2Taq5DjSscibgD
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?fivTBbBM+i5yfTaVpfUz5t661dyyzWYu3NoZZMSLDSZEqNJlIGjAFDmI5Gik?=
+ =?us-ascii?Q?/kRyQ891vnF5CsCbawFdeh2FZtOAh5SdmBxC2szTE/qzepW7EA8y0lrs6LLe?=
+ =?us-ascii?Q?oyjD/akcHYgYjJ6XZx45/c8bOlxEl8ppIVRufDybouwSigQu8kUQzqPJ3GBL?=
+ =?us-ascii?Q?ySEexH7HJborYq5nhXKDxradqH5Wewp0QN9M3S0DOB4n2YYQHd/g5ZxQBOze?=
+ =?us-ascii?Q?O3u39bzerQecLCFBdzefxkbUBTMy+9rbuN7Bgp/ERD1ojm5hoGyw41AnOqLG?=
+ =?us-ascii?Q?vu1qgntMxzfAUDEIGyA4igt16jX3TiDQ9R3nJeOMRQY57+0ZPRnW+hSXbSeU?=
+ =?us-ascii?Q?nnr1VCXSxG2H2qGHFqrCGU2GvqY8lDU9ovbkg1u2FByI0Bjx9oL/u7GF6Ccz?=
+ =?us-ascii?Q?iQUpAulP4DGWiyI/grOku3dN+sqeb2jXMiit2DbLL5wpxfAFdl72VEG/5Ue5?=
+ =?us-ascii?Q?2hmELBHgN28zVxQdM3swD2MuomR8ioI38I23knsra6Mi9Z+6Rd0HkuhhCWlz?=
+ =?us-ascii?Q?h9Bnimcbv8AVKP89j/eRhJoFpoIKTJJRKXOPVBKYbEH1Av0w4iVixG0zi7Ng?=
+ =?us-ascii?Q?H9ROJGY43EhmTaYFK0HziFQ+W7BRSIhtueAgqk65NYqqCzFvi5Udycm3ys/O?=
+ =?us-ascii?Q?jQg7zp2QhlMvYVX7wftPV4flUhRTIppWJgvM/qfKznGLrAQcMMQ6NUIcP/Em?=
+ =?us-ascii?Q?GbSrEg4mSboa/V64hzh1w09n+KJTp5eUmwQ0i3NPeuLQy+QFpojIEtfBsZ5U?=
+ =?us-ascii?Q?W9m9+GOlZgR5cb5HTxM0qjU/EltbszBfjIuaVkl0/KPZij4uRQvX5T3oJ7BM?=
+ =?us-ascii?Q?BYaAI4DR7BaSuz3lXIIH6AyfZNq+1PlBEKAF4QWe0SSONwnzEQMgeW8tWS+V?=
+ =?us-ascii?Q?xPlSA/wa+7J66Of+sIw+yCxQjy1AUzoLPaHU89vQTLoHmDf1Wt2+bHpPVr68?=
+ =?us-ascii?Q?EQLBfN+RWN/yIoyWjOHxUkTvqGVUbp4eIdnhV7iVfHUk7WEt+W0oh0wUyQoT?=
+ =?us-ascii?Q?hugZuIpQHhGRvHVA+dYVim4MGSk0m/Hwn7EbFlwCiZimYjwBE3yIdJ/4tPKX?=
+ =?us-ascii?Q?gXqY1ToONuWs13susA+YtQzpkuol0JNKBOC5O6z18PPY21xfnztzphCEfHAu?=
+ =?us-ascii?Q?js5aYu9c88HeAeAT4tRv0ET4xqPqSDHaPVsGrdyvQEes/0+4OMh0NqSVPFnt?=
+ =?us-ascii?Q?3qVeAik0gx9SQxH7kgh6Wz8S8nyD24t2hembPHYWqDMx1S7Ni/dZUSSRUO4?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32764868-b695-49ed-8380-08dc27f2a070
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR06MB6178.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2024 15:37:00.9853
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS8PR06MB7337
 
---jpmq56a6mp47qds4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi Markus,
+find_csis_format() may return NULL, and we should determine its return value
+to prevent a fatal error when later functions use it.
 
-On Feb 06, 2024 at 15:37:30 +0100, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Tue, 6 Feb 2024 15:30:13 +0100
->=20
-> A wrapper function is available since the commit 7945f929f1a77a1c8887a97c=
-a07f87626858ff42
-> ("drivers: provide devm_platform_ioremap_resource()").
->=20
-> * Thus reuse existing functionality instead of keeping duplicate source c=
-ode.
->=20
-> * Delete a local variable which became unnecessary with this refactoring.
->=20
->=20
-> This issue was transformed by using the Coccinelle software.
->=20
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+index db8ff5f5c4d3..ac867620e2ba 100644
+--- a/drivers/media/platform/nxp/imx-mipi-csis.c
++++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+@@ -956,6 +956,8 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 	format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
+ 	csis_fmt = find_csis_format(format->code);
++	if (!csis_fmt)
++		return -EPIPE;
+ 
+ 	ret = mipi_csis_calculate_params(csis, csis_fmt);
+ 	if (ret < 0)
 
-Reviewed-by: Jai Luthra <j-luthra@ti.com>
+This is my first patch, any suggestions are welcome, thanks!
 
-> ---
->=20
-> v2:
-> The transformation pattern was adjusted based on advices by known contrib=
-utors.
->=20
-> Examples:
-> * Doug Anderson
-> * Geert Uytterhoeven
-> * Robin Murphy
->=20
->=20
->  drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/driv=
-ers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index 2b078c5d7f5d..54aba055c96b 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -1089,7 +1089,6 @@ static void ti_csi2rx_cleanup_vb2q(struct ti_csi2rx=
-_dev *csi)
->  static int ti_csi2rx_probe(struct platform_device *pdev)
->  {
->  	struct ti_csi2rx_dev *csi;
-> -	struct resource *res;
->  	int ret;
->=20
->  	csi =3D devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
-> @@ -1100,9 +1099,7 @@ static int ti_csi2rx_probe(struct platform_device *=
-pdev)
->  	platform_set_drvdata(pdev, csi);
->=20
->  	mutex_init(&csi->mutex);
-> -
-> -	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	csi->shim =3D devm_ioremap_resource(&pdev->dev, res);
-> +	csi->shim =3D devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(csi->shim)) {
->  		ret =3D PTR_ERR(csi->shim);
->  		goto err_mutex;
-> --
-> 2.43.0
->=20
+Regards,
 
---=20
-Thanks,
-Jai
-
-GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
-
---jpmq56a6mp47qds4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmXDn0EACgkQQ96R+SSa
-cUVTtg//Xv0HbelPVk5uEF7Hf1yTBhHi9TYVaJhddrIslnFvwExJ9PRSaQ4eFFD+
-vMKZZZomPvwPjrnyvEY79l9BFx8tOcXKs7znmH693tmaKG33JCrOG2QjlS8ZbxQX
-3vpn4JfWBTKt1oXo0zp5mBkPiWLbZDgwg4bZiQIQew3O2lY1WCTBjZkX4yx8kC83
-4rqRzprRCBjW49UBWkmba41eZTAalNBC2e5+/bscs3/RpLzmSY0CaK9vbl1Rk3z1
-dPh1T/lzWAOP7pERXAOU8439DEE59BhMeXUTBrA+XtJ1O5uQxkEGsusfK7jKsTyQ
-gDhAIPtBqg1ZAmde1iYga1YYHowTHEzuZW+SGzQ7023huQH5+dHU6uBcbRwCmey4
-ksN95tAJSVkdWUOYB4zA6NwMjgjcHf45xWzWOnkaqFrzLNj+HI0JD8Msqi/0KKfM
-GTEHxHBvpwLcuKNL29/6Y49U76Z3iQTsjU+aWG12/Sw61XpDquumiCwxU570+Tfq
-m+yT/VKUZMPQmuEatmWUPunCLQ9TtmY9JOix6dB+miX2C1sZBT8zFGCn5QjQ3n3E
-87h/TSXhCpqO6S6k3h5yZ3CbejgTwAdErJUVhvUsV6WaKWxM1/c+xrZnP0t3L7du
-r0h/MUoaPie7X7b2ysuZ55GNnwXJP/A+oXcxOUr0aAlk8m6IN48=
-=XaaJ
------END PGP SIGNATURE-----
-
---jpmq56a6mp47qds4--
+Andy Chen
 
