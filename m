@@ -1,120 +1,113 @@
-Return-Path: <linux-media+bounces-4859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4860-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159C784E203
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 14:32:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A5184E4F7
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 17:23:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C52172906B6
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 13:32:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F12971F2A4B2
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 16:23:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72325763F7;
-	Thu,  8 Feb 2024 13:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFBC17E59F;
+	Thu,  8 Feb 2024 16:23:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ggyadpt9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+i050Xj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2688E763FF
-	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 13:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0987D41A;
+	Thu,  8 Feb 2024 16:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707399116; cv=none; b=glHv1VCyQhSzcks1Qbk4J1dnV19Z7v9++ZIUK7sRA48el7bbD+miN3nqN4/VC6mYsYMtJOX67RarDqIQgkFCOesb18gc3hNxf3j1Z9VKFM4/Lu4dsvetUaH0i6/ziQQElU5ftry1vgKkBgBBrM8XkPR1+pry6eU8fyNiA0DdjlI=
+	t=1707409406; cv=none; b=cbvA5MzLEjDMWyLAYm/u7L98QxFfaT3WO0MsjfZRIxvEd95jH6EjPCxXzZkhBrWn1+23gKe6yMpy7hbA8+SutC88u9uPyb38p1BQ5aUdm61qQbSyafN3f/cRywdh8KQZgdmxIbBdNNsgqOUqidl95ekp9kbq/akGZtlFM0vnbPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707399116; c=relaxed/simple;
-	bh=Wl5FkmFzgsXXflrnteBiGWhJ12DGOqK+tyMOhgKuiOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W+csh/B2RLd8j7DimCxcdvqvZbZMTbOSJ0ZJbjsBg3gzSN5cRWnDxufwrOZXKVBDjT8XiRQ7m9RWcwbaFQGL+2LQvii/WUFGWEXneEv+SzRw8llOB8xRzRxm+FjTcIYO2UuY3LhsmhITtWIrRTMGWbArlZnsauon5DAUw1/j3NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ggyadpt9; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707399115; x=1738935115;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wl5FkmFzgsXXflrnteBiGWhJ12DGOqK+tyMOhgKuiOM=;
-  b=ggyadpt9uiAJ7VdPFwa+7po/o3WNEricegWfVldd1tzq9MNP7UYGyihv
-   6Hhcr7M8MhYKnmuIKXUk1wTUYfrAHlzgJl121iVRqz8cNCh4kyU3pIUCK
-   thiQPw97QBYYlBzyfmCNkN/+zOoaiWazYOi9DaWPLYL4UR9BaWLNZz4BE
-   qBQhIYji51DIkZGxWydIaaCLhoLp0QL861KZbOiLSvI2UxDufwsCkxVox
-   TIgaLlvM3w6xydz/PEVw5oxzeB/nxAoD56th2bjL7AiLk/CjuDGfxqJPC
-   GbSyowp6zmVH3Eg3yw+Qc27BK/OgVwzlzImzwOgZcXLR/AzHo1qbCnAV5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1363000"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1363000"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 05:31:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1953448"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Feb 2024 05:31:44 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rY4V9-0003mK-2V;
-	Thu, 08 Feb 2024 13:31:39 +0000
-Date: Thu, 8 Feb 2024 21:31:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:media-ref 37/39]
- drivers/media/pci/intel/ipu3/ipu3-cio2.c:1698:1-6: WARNING: invalid free of
- devm_ allocated data
-Message-ID: <202402082104.K7l4QATL-lkp@intel.com>
+	s=arc-20240116; t=1707409406; c=relaxed/simple;
+	bh=XSbI4p8cfTNAnfz90m6UvSOBjVQtI0cNaq7RlLExBCg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mebO0nT/p9bBydCzmktVsSIm8AZLLM5SfXj/gbujdt3HeHvhtvd0OIcmLArTDlGQjESX8+gLpQcwqSxRZ/TvDjJEOZ7PURdXlD+pfyWDo1hTOi2mK7JenKKVmo2ftxc43vwCCNuotaK3GfCjcQZi5Jx/8Xkhj7aOssiqGvRgJW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G+i050Xj; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5116bf4dcf4so1472005e87.0;
+        Thu, 08 Feb 2024 08:23:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707409402; x=1708014202; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5fHV9+zIO+0IkutaijdwO8mXBVrGFAikLKk07NhjxfQ=;
+        b=G+i050Xjlk0K3h9yeQM9B+cRyjdmeJZwIL27BW2PM91J7Gh2rrTB0qin4ZqMODF9x4
+         Rgrq9JGivqRMFwE0noPGTIpYt3JiZOH6DwLIBtYLO4UIS8rhFRWX1v5yYRh7cjKFuNO2
+         rZ4X1KJi/7Ny7nnlCftzTJDlnYPpxtDzh/B/Chs7QxJMHb+2vI2gkjp/7vvm6wE5hmQp
+         Tj4NBS6NyhLPxSTs3Qspu7UQA2pzqAL4yFwYDtEdDq3niI/EARZmZu/QRA/ucmJmTG0I
+         pr4HiQgq5WU2shitKtg2dv64cLcN58iKKUUlBNZpYqIuo1h5gSFktkv5aSZ5b3fcqpAV
+         f/ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707409402; x=1708014202;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5fHV9+zIO+0IkutaijdwO8mXBVrGFAikLKk07NhjxfQ=;
+        b=Uq7qHIja1/CuGECOc9lnzka+bZFO7qtnUtlsCgSUeuVC8y5Dt4AmB38swarr4pZHcG
+         nyObuDu1IhADLeWsMXFK99fBBEgsqbfAEJTLoZ4bVFeaasuZVlYZXyjs8wS2PzOd4qOE
+         /go+6JlWYXGqGQX6EMqj8lwMM1M9u6XdPtPC8L03urJUB948HzxflxmKmEYUAthSrtGu
+         gJpb5te2+Zyt7f2FcfefIyakjcwPfuEjb2dw4zKC5cIOSegZdzyBabbeaFo65iM3YeKN
+         A9fWAmVriuUiluKiLtcOyHHAntklLt0LKXtn+eVZBIMfQrFGqETO+uSXu+ub4MZMXml3
+         jZNQ==
+X-Gm-Message-State: AOJu0YzZttofHuGAdJmiBV8U8ybv1ZStdwoE5HIitvPlYu577Yw9nh0Q
+	nOb6+Pd8MmyTa+biyVNgu9JjBp/OCoSR5epus+nrgYn1PtZJs5qL
+X-Google-Smtp-Source: AGHT+IEVDNJO8itB6REMJMyJRNrZeTPaWCuL8J2Q9W8E0E24Ms2e7G7zRtB9CXlYio2hR2dXhiAmpg==
+X-Received: by 2002:ac2:46cc:0:b0:511:42b5:5616 with SMTP id p12-20020ac246cc000000b0051142b55616mr6494596lfo.17.1707409402301;
+        Thu, 08 Feb 2024 08:23:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXFYwmNfpCeGaVHYlN/mOivVUxMbr4GNh5eUn02YEfoPQEsPWeL8onjqmzuDEyJxGWo30hl3t4Yv8l1O+WP2WPrKiBIjFwLKwfpcmSPETHNi0Sgi4Rrc40rM8Unsl8RaqFf8YFeOQSUSxtCH61fftK+wX/KaEQFoNzZpK+fqr3ujYDjpg==
+Received: from sacco-Inspiron-5559.. (88-160-103-158.subs.proxad.net. [88.160.103.158])
+        by smtp.gmail.com with ESMTPSA id x5-20020ac24885000000b0051152c32fdfsm39852lfc.267.2024.02.08.08.23.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 08:23:21 -0800 (PST)
+From: Vincenzo Mezzela <vincenzo.mezzela@gmail.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	Vincenzo Mezzela <vincenzo.mezzela@gmail.com>
+Subject: [PATCH] docs: media: fix typo in docs
+Date: Thu,  8 Feb 2024 17:23:17 +0100
+Message-Id: <20240208162317.109915-1-vincenzo.mezzela@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   git://linuxtv.org/sailus/media_tree.git media-ref
-head:   f94611d22fa335b7dabf2e7356b4486e5a1f8907
-commit: fe3ba53caaf90a9499ff44949efc31f6cb34d7e0 [37/39] unref test
-config: x86_64-randconfig-r053-20240208 (https://download.01.org/0day-ci/archive/20240208/202402082104.K7l4QATL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+This patch resolves a spelling error in the documentation.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402082104.K7l4QATL-lkp@intel.com/
+It is submitted as part of my application to the "Linux Kernel Bug
+Fixing Spring Unpaid 2024" mentorship program of the Linux Kernel
+Foundation.
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/media/pci/intel/ipu3/ipu3-cio2.c:1698:1-6: WARNING: invalid free of devm_ allocated data
-   drivers/media/pci/intel/ipu3/ipu3-cio2.c:1742:1-6: WARNING: invalid free of devm_ allocated data
+Signed-off-by: Vincenzo Mezzela <vincenzo.mezzela@gmail.com>
+---
+ Documentation/driver-api/media/v4l2-subdev.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-vim +1698 drivers/media/pci/intel/ipu3/ipu3-cio2.c
-
-803abec64ef9d3 drivers/media/pci/intel/ipu3/ipu3-cio2-main.c Daniel Scally 2021-01-07  1685  
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1686  static void cio2_media_release(struct media_device *mdev)
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1687  {
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1688  	struct cio2_device *cio2 =
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1689  		container_of(mdev, struct cio2_device, media_dev);
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1690  
-c24173726c0e70 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2023-10-05  1691  	printk("cio2 media release\n");
-c24173726c0e70 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2023-10-05  1692  
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1693  	v4l2_async_nf_cleanup(&cio2->notifier);
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1694  	cio2_queues_exit(cio2);
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1695  	cio2_fbpt_exit_dummy(cio2);
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1696  	mutex_destroy(&cio2->lock);
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1697  
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20 @1698  	kfree(cio2);
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1699  }
-1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1700  
-
-:::::: The code at line 1698 was first introduced by commit
-:::::: 1812a9376b1c6b78744fd6af0a05c2077977f6a9 media: ipu3-cio2: Release the cio2 device context by media device callback
-
-:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-
+diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+index 1db2ba27c54c..13aec460e802 100644
+--- a/Documentation/driver-api/media/v4l2-subdev.rst
++++ b/Documentation/driver-api/media/v4l2-subdev.rst
+@@ -229,7 +229,7 @@ Asynchronous sub-device notifier for sub-devices
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ A driver that registers an asynchronous sub-device may also register an
+-asynchronous notifier. This is called an asynchronous sub-device notifier andthe
++asynchronous notifier. This is called an asynchronous sub-device notifier and the
+ process is similar to that of a bridge driver apart from that the notifier is
+ initialised using :c:func:`v4l2_async_subdev_nf_init` instead. A sub-device
+ notifier may complete only after the V4L2 device becomes available, i.e. there's
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
 
