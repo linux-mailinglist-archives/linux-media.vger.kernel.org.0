@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-4854-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4855-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF55D84DD2A
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 10:42:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFAB84DDB3
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 11:06:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 313661F264FA
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 09:42:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03DF61F2AB4E
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 10:06:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 589746BFAB;
-	Thu,  8 Feb 2024 09:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C741A6E2CD;
+	Thu,  8 Feb 2024 10:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="0FF/uE1N"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bLzj8ooH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAF069300;
-	Thu,  8 Feb 2024 09:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787766D1BD;
+	Thu,  8 Feb 2024 10:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707385342; cv=none; b=g0Bop1VCIfzfFBYeQ6Pvb1AaqLD5bOCTzevfxAR0b0HCKBUJE7G15gGu4QKfDvi1WrLODK0fLFdHM9OCjf1K7tVn0NaspVxoByVLGTYAFTbTssRmt1Z/PdIXk5wR942AbD/JuUmu+jUEs1aYQZACVJslgNe4Ha52ArkRbzbe9Q8=
+	t=1707386520; cv=none; b=rmOY4CUTBPrf0guTAwT9gsUVu3ahRHHDRTCDm0PO7F5eu/o2fWXCGPjo6RspAifWWvV0+xDSuJWExHrdmxuh2t4N+8iaDdfttE3MXkr34UHbDNEGFHyEWJDgSceqU/UtGSEmvfz2fYoba/ua1ojXgaGpXvLNudmUDn951A1vDDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707385342; c=relaxed/simple;
-	bh=kEoPO4lzGFJXsKVlv3cGLfhAw7EqukJVsoGKDJfDJqk=;
+	s=arc-20240116; t=1707386520; c=relaxed/simple;
+	bh=ZjTYuZI27yktivY2o1E00i2URHt1xHbHgN6Q3LlWvUI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hJbx/2Kvl2mYfMCeaMREYwDe9NiM0swenjqEv8aV8ilEg1WN/H8l6o4aZaG+sbuqulL4HoHRwj6UX5PU/29ztOL68+AexYR8HBirGnNRBRZa7vDVzBCGYgS928fZxRlBQiMV3qAcSzoG3pT27Uc3+07IwpIfOXGxk/amIJCmPDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=0FF/uE1N; arc=none smtp.client-ip=46.235.227.194
+	 Content-Type:Content-Disposition:In-Reply-To; b=TL/25RjoxGqw+ITI2aZkPKLUCUUj8RceMUZPEAZgo71z7P/q0yGVACsnVrSUP8rHFr3W9uBKqa3qpCLvor2quPTv2QH+raT3pCEeVXMpS24nrBd8tz3dzdsJOlJ1t6/RgH88fe08p/fAsf4RT+4PmkNOkCGVHuaCS0785fX0eac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bLzj8ooH; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707385339;
-	bh=kEoPO4lzGFJXsKVlv3cGLfhAw7EqukJVsoGKDJfDJqk=;
+	s=mail; t=1707386511;
+	bh=ZjTYuZI27yktivY2o1E00i2URHt1xHbHgN6Q3LlWvUI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0FF/uE1NNmbAKwmLHTJl6bVHoWzBDcZEYLKe9ocgaIYsoCWfJ8K63SwnGl6Yg4s9g
-	 1W55eL5oMuXmzEoiCX1Ov82dmGHRSFMscQGrLBMa8V2WaE+hvP8ulfk7ZWy38tqot+
-	 1VJu+oMz5VcXVHJacisNbtah2XJWIEhzlfudYep/Y/qbimQes/UZA1LqgyxDMKrMXN
-	 Wz77KdGzFVq+sJQrD58ndEW1Q2Xwj+hF57orSeccvMLmojUXHEuD7qrUuTxZbcs5SW
-	 0mERyJa8OKLW6HE4TX4F1gMJzkIQ/ym0dW30/H3JwwuyFf9FxXQxpH6I4X+sKOG0/Z
-	 pF8Vz4e91J+VA==
+	b=bLzj8ooHWv6M8Wo0jLN4HnS6vZrxTMuvLVSOVdDYjWuM/wDAXm6ZxcIOgdeKCBU9x
+	 V8l6sJ37DgW/wfiecteAzhN5YxFX+vLozXOJHzrnzU0UpIjOG1e4TqABaeKFuQ4rL/
+	 mqsUkesAckB5rqalYvcYW8UbiOMEXZWPcvGPLRjbHDsltlUJjOHBFzTCEDKsD30P4r
+	 cXKXCDFen+ZEC4+fAQA4yKA+W8WuVhMU4NXls4O5Lyr7+LjKpNOoDQlVsdhdi2BX5g
+	 hvG3iDAEVqohLtG/+0ioroGo1Az8wddNkqxIhgSGXu4qtyCRo3NQHu+HqiqidU3LD6
+	 q8VMBfDldMvrQ==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9AD843780624;
-	Thu,  8 Feb 2024 09:42:18 +0000 (UTC)
-Date: Thu, 8 Feb 2024 10:42:17 +0100
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9EDA237811CF;
+	Thu,  8 Feb 2024 10:01:50 +0000 (UTC)
+Date: Thu, 8 Feb 2024 11:01:49 +0100
 From: Sebastian Fricke <sebastian.fricke@collabora.com>
 To: Nicolas Dufresne <nicolas@ndufresne.ca>
 Cc: "jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	nas.chung@chipsnmedia.com, lafley.kim@chipsnmedia.com,
 	b-brnich@ti.com
-Subject: Re: [RESEND PATCH v0 1/5] wave5 : Support yuv422 input format for
- encoder.
-Message-ID: <20240208094217.ipkbk5ixsvavnf26@basti-XPS-13-9310>
+Subject: Re: [RESEND PATCH v0 2/5] wave5: Support to prepend sps/pps to IDR
+ frame.
+Message-ID: <20240208100149.pet6em5tnunv2ome@basti-XPS-13-9310>
 References: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
- <20240131013046.15687-2-jackson.lee@chipsnmedia.com>
- <baa85477b241880e1cf96efd7037fc1b2423fab5.camel@ndufresne.ca>
+ <20240131013046.15687-3-jackson.lee@chipsnmedia.com>
+ <cdcf594ecaefaac748655bdcb7dcc1c4f9ad1a68.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,245 +70,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <baa85477b241880e1cf96efd7037fc1b2423fab5.camel@ndufresne.ca>
+In-Reply-To: <cdcf594ecaefaac748655bdcb7dcc1c4f9ad1a68.camel@ndufresne.ca>
 
 Hey Jackson,
 
-a few additional comments ...
+as with the previous review, the title needs to be adjusted 'wave5:' is
+not enough.
+Also 'Support to prepend sps/pps to IDR' sounds a bit weird and doesn't
+quite match what you describe below.
+How about:
+'Support SPS/PPS generation for each IDR'
 
-Please extend the patch title a bit, the title has to clearly indicate
-where the driver can be found, so the correct title is:
-
-media: chips-media: wave5: Support yuv422 input format for encoder.
-
-and even better might be:
-
-media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder 
-
-Notice that you do not need punctuation and no space before the ':'.
-
-On 07.02.2024 12:55, Nicolas Dufresne wrote:
+On 07.02.2024 13:00, Nicolas Dufresne wrote:
 >Hi Jackson,
 >
 >Le mercredi 31 janvier 2024 à 10:30 +0900, jackson.lee a écrit :
->> Encoder supports the following formats.
->> YUV422P, NV16, NV61, NV16M, NV61M
+>> Indicates whether to generate SPS and PPS at every IDR. Setting it to 0 disables generating SPS and PPS at every IDR.
+>> Setting it to one enables generating SPS and PPS at every IDR.
 
-I would slightly reword this, the way it is written now is a bit
-confusing.
-First of all, when I look into the encoder, I can see support for the
-following formats:
-V4L2_PIX_FMT_YUV420
-V4L2_PIX_FMT_NV12
-V4L2_PIX_FMT_NV21
-V4L2_PIX_FMT_YUV420M
-V4L2_PIX_FMT_NV12M
-V4L2_PIX_FMT_NV21M
-V4L2_PIX_FMT_YUV422P
-V4L2_PIX_FMT_NV16
-V4L2_PIX_FMT_NV61
-V4L2_PIX_FMT_NV16M
-V4L2_PIX_FMT_NV61M
+My suggestion:
 
-which is clearly more than would you provide, so your patch adds support
-for a couple of new formats but the encoder supports more formats.
+Provide a control to toggle (0 = off / 1 = on), whether the SPS and PPS
+are generated for every IDR.
 
-Secondly, the commit message should shortly explain what happens in the
-patch and the reason for doing it. Stating what the encoder supports
-doesn't explain both of these things.
-
-My suggestion for the commit message would be something like:
-
-Add support for the YUV422P, NV16, NV61, NV16M & NV61M raw pixel-formats
-to the Wave5 encoder. All these formats have a chroma subsampling ratio
-of 4:2:0 and therefore require a new image size calculation as the
-driver previously only handled a ratio of 4:2:0.
-
-And when you switch to v4l2_fill_pixfmt_mp please note that in the
-commit message as well.
-
-more below ..
+Greetings,
+Sebastian
 
 >>
 >> Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
 >> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 >> ---
->>  .../chips-media/wave5/wave5-vpu-enc.c         | 79 ++++++++++++++++++-
->>  1 file changed, 76 insertions(+), 3 deletions(-)
+>>  drivers/media/platform/chips-media/wave5/wave5-hw.c      | 6 ++++--
+>>  drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 7 +++++++
+>>  drivers/media/platform/chips-media/wave5/wave5-vpuapi.h  | 1 +
+>>  3 files changed, 12 insertions(+), 2 deletions(-)
 >>
+>> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+>> index f1e022fb148e..8ad7f3a28ae1 100644
+>> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+>> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+>> @@ -1602,11 +1602,13 @@ int wave5_vpu_enc_init_seq(struct vpu_instance *inst)
+>>  	if (inst->std == W_AVC_ENC)
+>>  		vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_INTRA_PARAM, p_param->intra_qp |
+>>  				((p_param->intra_period & 0x7ff) << 6) |
+>> -				((p_param->avc_idr_period & 0x7ff) << 17));
+>> +				((p_param->avc_idr_period & 0x7ff) << 17) |
+>> +				(p_param->forced_idr_header_enable << 28));
+>
+>I can spot evident hard-coding of mask and bit shifts in here. In order to
+>continuously improve this driver code, I would like to see this (and the
+>following) magic number being defined with well named macros as a preparation
+>patch to this feature change.
+>
+>regards,
+>Nicolas
+>
+>>  	else if (inst->std == W_HEVC_ENC)
+>>  		vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_INTRA_PARAM,
+>>  			      p_param->decoding_refresh_type | (p_param->intra_qp << 3) |
+>> -				(p_param->intra_period << 16));
+>> +			      (p_param->forced_idr_header_enable << 9) |
+>> +			      (p_param->intra_period << 16));
+>>
+>>  	reg_val = (p_param->rdo_skip << 2) |
+>>  		(p_param->lambda_scaling_enable << 3) |
 >> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->> index f29cfa3af94a..0cb5bfb67258 100644
+>> index 0cb5bfb67258..761775216cd4 100644
 >> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
 >> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->> @@ -70,6 +70,41 @@ static const struct vpu_format enc_fmt_list[FMT_TYPES][MAX_FMTS] = {
->>  			.max_height = W5_MAX_ENC_PIC_HEIGHT,
->>  			.min_height = W5_MIN_ENC_PIC_HEIGHT,
->>  		},
->> +		{
->> +			.v4l2_pix_fmt = V4L2_PIX_FMT_YUV422P,
->> +			.max_width = W5_MAX_ENC_PIC_WIDTH,
->> +			.min_width = W5_MIN_ENC_PIC_WIDTH,
->> +			.max_height = W5_MAX_ENC_PIC_HEIGHT,
->> +			.min_height = W5_MIN_ENC_PIC_HEIGHT,
->> +		},
->
->During upstreaming, we discussed the lack of usage of v4l2-common in this driver
->and agreed that future updates such as this one should first port the driver to
->use the common helpers instead.
->
->This implies dropping this custom made structure in favour of
->v4l2_frmsize_stepwise structure. Unlike yours, you can encoded the needed
->padding, allowing to encode this in one place instead of spreading it across
->numerous formulas in the code.
->
->With this information, you will be able to use:
->
->  v4l2_apply_frmsize_constraints()
->  v4l2_fill_pixfmt_mp()
->
->To adjust your dimensions to padded dimensions and compute your bytesperline
->(stride) and sizeimage. You can of course increase the size image after this
->call. You can have a look at rkvdec driver as an example.
->
->Please port existing set of pixel formats support, and then add the new pixel
->formats. This should remove about 3/4 of this patch and remove that huge risk of
->miss-computing a size.
-
-Please have a look at:
-https://elixir.bootlin.com/linux/latest/source/drivers/staging/media/rkvdec/rkvdec.c#L257
-
-There you see a nice example of how that can look.
-
->
->> +		{
->> +			.v4l2_pix_fmt = V4L2_PIX_FMT_NV16,
->> +			.max_width = W5_MAX_ENC_PIC_WIDTH,
->> +			.min_width = W5_MIN_ENC_PIC_WIDTH,
->> +			.max_height = W5_MAX_ENC_PIC_HEIGHT,
->> +			.min_height = W5_MIN_ENC_PIC_HEIGHT,
->> +		},
->> +		{
->> +			.v4l2_pix_fmt = V4L2_PIX_FMT_NV61,
->> +			.max_width = W5_MAX_ENC_PIC_WIDTH,
->> +			.min_width = W5_MIN_ENC_PIC_WIDTH,
->> +			.max_height = W5_MAX_ENC_PIC_HEIGHT,
->> +			.min_height = W5_MIN_ENC_PIC_HEIGHT,
->> +		},
->> +		{
->> +			.v4l2_pix_fmt = V4L2_PIX_FMT_NV16M,
->> +			.max_width = W5_MAX_ENC_PIC_WIDTH,
->> +			.min_width = W5_MIN_ENC_PIC_WIDTH,
->> +			.max_height = W5_MAX_ENC_PIC_HEIGHT,
->> +			.min_height = W5_MIN_ENC_PIC_HEIGHT,
->> +		},
->> +		{
->> +			.v4l2_pix_fmt = V4L2_PIX_FMT_NV61M,
->> +			.max_width = W5_MAX_ENC_PIC_WIDTH,
->> +			.min_width = W5_MIN_ENC_PIC_WIDTH,
->> +			.max_height = W5_MAX_ENC_PIC_HEIGHT,
->> +			.min_height = W5_MIN_ENC_PIC_HEIGHT,
->> +		},
+>> @@ -1125,6 +1125,9 @@ static int wave5_vpu_enc_s_ctrl(struct v4l2_ctrl *ctrl)
+>>  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
+>>  		inst->enc_param.entropy_coding_mode = ctrl->val;
+>>  		break;
+>> +	case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:
+>> +		inst->enc_param.forced_idr_header_enable = ctrl->val;
+>> +		break;
+>>  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
+>>  		break;
+>>  	default:
+>> @@ -1292,6 +1295,7 @@ static void wave5_set_enc_openparam(struct enc_open_param *open_param,
+>>  		else
+>>  			open_param->wave_param.intra_refresh_arg = num_ctu_row;
 >>  	}
+>> +	open_param->wave_param.forced_idr_header_enable = input.forced_idr_header_enable;
+>>  }
+>>
+>>  static int initialize_sequence(struct vpu_instance *inst)
+>> @@ -1775,6 +1779,9 @@ static int wave5_vpu_open_enc(struct file *filp)
+>>  			  0, 1, 1, 0);
+>>  	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
+>>  			  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 32, 1, 1);
+>> +	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
+>> +			  V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR,
+>> +			  0, 1, 1, 0);
+>>
+>>  	if (v4l2_ctrl_hdl->error) {
+>>  		ret = -ENODEV;
+>> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>> index 352f6e904e50..3ad6118550ac 100644
+>> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>> @@ -566,6 +566,7 @@ struct enc_wave_param {
+>>  	u32 lambda_scaling_enable: 1; /* enable lambda scaling using custom GOP */
+>>  	u32 transform8x8_enable: 1; /* enable 8x8 intra prediction and 8x8 transform */
+>>  	u32 mb_level_rc_enable: 1; /* enable MB-level rate control */
+>> +	u32 forced_idr_header_enable: 1; /* enable header encoding before IDR frame */
 >>  };
 >>
->> @@ -136,6 +171,23 @@ static void wave5_update_pix_fmt(struct v4l2_pix_format_mplane *pix_mp, unsigned
->>  		pix_mp->plane_fmt[1].bytesperline = round_up(width, 32);
->>  		pix_mp->plane_fmt[1].sizeimage = round_up(width, 32) * height / 2;
->>  		break;
->> +	case V4L2_PIX_FMT_YUV422P:
->> +	case V4L2_PIX_FMT_NV16:
->> +	case V4L2_PIX_FMT_NV61:
->> +		pix_mp->width = width;
->> +		pix_mp->height = height;
->> +		pix_mp->plane_fmt[0].bytesperline = round_up(width, 32);
->> +		pix_mp->plane_fmt[0].sizeimage = round_up(width, 32) * height * 2;
->> +		break;
->> +	case V4L2_PIX_FMT_NV16M:
->> +	case V4L2_PIX_FMT_NV61M:
->> +		pix_mp->width = width;
->> +		pix_mp->height = height;
->> +		pix_mp->plane_fmt[0].bytesperline = round_up(width, 32);
->> +		pix_mp->plane_fmt[0].sizeimage = round_up(width, 32) * height;
->> +		pix_mp->plane_fmt[1].bytesperline = round_up(width, 32);
->> +		pix_mp->plane_fmt[1].sizeimage = round_up(width, 32) * height;
->> +		break;
->>  	default:
->>  		pix_mp->width = width;
->>  		pix_mp->height = height;
->> @@ -155,11 +207,19 @@ static int start_encode(struct vpu_instance *inst, u32 *fail_res)
->>  	struct enc_param pic_param;
->>  	u32 stride = ALIGN(inst->dst_fmt.width, 32);
->>  	u32 luma_size = (stride * inst->dst_fmt.height);
->> -	u32 chroma_size = ((stride / 2) * (inst->dst_fmt.height / 2));
->> +	u32 chroma_size;
->>
->>  	memset(&pic_param, 0, sizeof(struct enc_param));
->>  	memset(&frame_buf, 0, sizeof(struct frame_buffer));
->>
->> +	if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV420 ||
->> +	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV420M)
->> +		chroma_size = ((stride / 2) * (inst->dst_fmt.height / 2));
->> +	else if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV422P)
->> +		chroma_size = ((stride) * (inst->dst_fmt.height / 2));
->> +	else
->> +		chroma_size = 0;
-
-Just making sure, with the previous calculation the chroma size was
-unable to ever be 0 and here you say that:
-V4L2_PIX_FMT_NV12
-V4L2_PIX_FMT_NV21
-V4L2_PIX_FMT_NV12M
-V4L2_PIX_FMT_NV21M
-V4L2_PIX_FMT_NV16
-V4L2_PIX_FMT_NV61
-V4L2_PIX_FMT_NV16M
-V4L2_PIX_FMT_NV61M
-
-All have a chroma size of 0, that seems odd to me as these formats have
-a chroma part. Maybe I am misunderstanding something, please provide a
-little explanation as a comment on top of that block.
-
-Greetings,
-Sebastian
-
->> +
->>  	dst_buf = v4l2_m2m_next_dst_buf(m2m_ctx);
->>  	if (!dst_buf) {
->>  		dev_dbg(inst->dev->dev, "%s: No destination buffer found\n", __func__);
->> @@ -550,11 +610,15 @@ static int wave5_vpu_enc_s_fmt_out(struct file *file, void *fh, struct v4l2_form
->>  	}
->>
->>  	if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12 ||
->> -	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12M) {
->> +	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12M ||
->> +	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16 ||
->> +	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16M) {
->>  		inst->cbcr_interleave = true;
->>  		inst->nv21 = false;
->>  	} else if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21 ||
->> -		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21M) {
->> +		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21M ||
->> +		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61 ||
->> +		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61M) {
->>  		inst->cbcr_interleave = true;
->>  		inst->nv21 = true;
->>  	} else {
->> @@ -1132,6 +1196,15 @@ static void wave5_set_enc_openparam(struct enc_open_param *open_param,
->>  	u32 num_ctu_row = ALIGN(inst->dst_fmt.height, 64) / 64;
->>  	u32 num_mb_row = ALIGN(inst->dst_fmt.height, 16) / 16;
->>
->> +	if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16 ||
->> +	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61 ||
->> +	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV422P ||
->> +	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16M ||
->> +	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61M)
->> +		open_param->src_format = FORMAT_422;
->> +	else
->> +		open_param->src_format = FORMAT_420;
->> +
->>  	open_param->wave_param.gop_preset_idx = PRESET_IDX_IPP_SINGLE;
->>  	open_param->wave_param.hvs_qp_scale = 2;
->>  	open_param->wave_param.hvs_max_delta_qp = 10;
+>>  struct enc_open_param {
 >
 >
 
