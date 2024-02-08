@@ -1,387 +1,216 @@
-Return-Path: <linux-media+bounces-4862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4863-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B8084E6D3
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 18:31:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B34A84EA4F
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 22:22:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B43B9B2AC55
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 17:31:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 508C51C23941
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 21:22:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D21A823DB;
-	Thu,  8 Feb 2024 17:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B30CA4F5E8;
+	Thu,  8 Feb 2024 21:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="GZv2krmN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5BmvqcR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD1981AD7
-	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 17:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06E14EB41;
+	Thu,  8 Feb 2024 21:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707413468; cv=none; b=GJmIhcGuJJ7Jl0nbypu0eh7O8RA3jpkCzDRIYwdf+PlACqY0GhUleJNJqtfRM9XRfylrKfLmzkbBleambrs1+/BSVXHk2SA2BNp3tKtBkXYa4zqXtt7gli3mLlS1/zMI714QMEo2pDYjB+e3HQe6M00yBsiw8ihV/YQiBsiSTV8=
+	t=1707427314; cv=none; b=fxdd+HHzJHTxaghotfTMXvAzN8CGf6b7cV6hX4h//TwZB0/vRJFu+RYLna5+Cz+ZIJJ2StsXI7SHOBpnmDDk0sU+HA4C4qMnWsWP7zZiylhnliXKiEXcAb3MjmTMZ1nEpnsZ4ncrMoCpQt2DlT0aoKGW4uBhR7Y8k1eFcr4F4w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707413468; c=relaxed/simple;
-	bh=YNtjngXLYRCI2+et5QYTQRQZwrosvIIoo+FuTqIhaSI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RWQ+zInVmrmcELAmo7f+6IRloZDQW0Wlc1P9v8/zIZrWlC19OiKxCB7U7fpa8GuKjrg1beUCmKOj5/C/FMyuuTEpL1MzsBSGA9JnN2tx6l3f8oJZ2EK8S7R0ffF/M9qcgJVypukJh8hFDktE0m+LMNKS5FGKzIBU8WlMT71Myzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=GZv2krmN; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d0d799b55cso1898581fa.0
-        for <linux-media@vger.kernel.org>; Thu, 08 Feb 2024 09:31:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1707413463; x=1708018263; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Rx4j6m5la6pNu8SJKZBzfyZlZEj9xjGHcsMAne4FKTg=;
-        b=GZv2krmNZgOiMWeFZVxhMwvKUgYhvrXs/ijyoxjAFpGIyrNtKOTlgg3fCnCt3/iy2T
-         BXusC4njBn2MLKlBylDhLnuOzlFG4+SYy1r/Tzda/twnbwUEVnma/NBEPkArnDKzSFXF
-         rI8yXe1mMfMgVfoIT8i8wS4Wp+CWZiZONqT83+IBSTIq+xpIkKa5fdkvN94y5e6Vq+Xp
-         w2i+qq4EO6/2ca7B+49rn452xBDm6VvXGGQF7xU+f3dGhRmyEmTCrpqivsDqQbx2WLAR
-         A6NHBtyGK0ptXgx7kmUeET27jTr6HZouGO8Jhmj2/MAY32lNHg25bwy99bH9bhHf7fUP
-         CfMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707413463; x=1708018263;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rx4j6m5la6pNu8SJKZBzfyZlZEj9xjGHcsMAne4FKTg=;
-        b=ENWfLTOU28Klo6qpu3USDQ7/KsNJCpxs9VVwkrVNPBi7qNibTa1jOxwnVV73DEJUWD
-         ADF89vcZDbnKtodiOh5xAfi8u5hiLwIffciXfHtDJmzq3KoxlIm/82u1vzwrsSjpNb+h
-         OSo+bTdhP59PerM6cD6+grcR85SVOHN5vPxTlMTpyfGgBG0h7xZ7ovZ+ER/FJ0z0XJ5f
-         AMy2iPG+ONVgllrjyASkaUBF1Cb9JwdziyfpfyvmlIz9RrN91hStR0qEBAXFxayHYUB2
-         zIj2+kbpR8kgb3KAS4zpNPAPgejR2QokS84NZEqOjpYTzePgOJewuZ1+gjqT0R37ce6b
-         3yhQ==
-X-Gm-Message-State: AOJu0YwaAaGCDq3AbHlq0DqMBmvkX7arqiurzhlUg1BCiaAwM5CndHkl
-	Run4t7gjmLVkNYZ9tcaGz6GQuuNkH1darJJyzsXG0LZfe6zsb9QPkGN0621bHm4=
-X-Google-Smtp-Source: AGHT+IGX0+mTx7qO/9FWOISfKxFruMdERl5U1Ep+gKZZVrkG7iUcebMreeSFCyr2hwuEyY2QXTZEUw==
-X-Received: by 2002:a2e:99c4:0:b0:2d0:cfe6:4362 with SMTP id l4-20020a2e99c4000000b002d0cfe64362mr2716ljj.49.1707413463090;
-        Thu, 08 Feb 2024 09:31:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW6aQICdeFW3oXKv4YmwYtLi1Ax5dhl53kaqyEHrIYQgXWnQj7CpoLVrVHNakjYNdbXdbTGCNr5thKaBdk5u55TVGbrsG8ORy+FZ+U9PEF3+jRdDU+oywVisJkEBOmSKRuy2cVi8iiGJSLzfCHHqg==
-Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
-        by smtp.gmail.com with ESMTPSA id f23-20020a2e3817000000b002d0a801b4cesm51639lja.36.2024.02.08.09.31.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 09:31:02 -0800 (PST)
-Date: Thu, 8 Feb 2024 18:31:01 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: v4l: async: Fix completion of chained subnotifiers
-Message-ID: <20240208173101.GD912165@ragnatech.se>
-References: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
- <ZbjmDTvI0PiUWvL_@kekkonen.localdomain>
- <20240130134341.GA2544372@ragnatech.se>
- <ZbkVd79Yk5sYyql-@kekkonen.localdomain>
- <20240130154058.GC2544372@ragnatech.se>
- <ZboC-S8P6en7ifTv@kekkonen.localdomain>
- <20240131104045.GD2544372@ragnatech.se>
+	s=arc-20240116; t=1707427314; c=relaxed/simple;
+	bh=oqvxtofftemHVkqCtUvTHWJMUcVkNerevyhL33rOVTg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=kFm9B1Bt+I4Sv0mkNHoT2A1hykScHR2o9Fc0wJbIJe6SR7bihC/v7ye0rQ71a6D/sLT2mkiM79M3Q3HZbu9cuW0Tq1U5pp77e3nHLblaq7avENDbs7GltNiuxizVdmUjwvw/yb/5FP3TVX9w0xkSKZe81MeFQEAth3Q45exXITY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5BmvqcR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 289CDC433F1;
+	Thu,  8 Feb 2024 21:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707427313;
+	bh=oqvxtofftemHVkqCtUvTHWJMUcVkNerevyhL33rOVTg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=L5BmvqcRkgnwQazmD6GNbT/V4WhBK5Jh6gNZcDqvZtq3vD3bjm4E5j4iLEoOGBSf2
+	 9F9jyrrWriCDl5Wu0BAXPhkb1g056buOTe2Ztq7rnNXkEo1LQlxR/MS5DrRDwOGECL
+	 PzXvkI3prpHFsJQ85rgk8WagJHAGPijl/nL+cwohJK5pgSdWN4EVlzkTj2GSjD78+U
+	 Do4/ScbKYtsrkZ/UX5X3+BMEO6gp6SsFMVnpleSnv3fJUOOdIaypIpDthmOW76tyzt
+	 Evsw5NI06O+Mh6/qIrxzDT3P++ocGhgYPwbeQwHydxaTl96OS/0UKdfbCWCgOU5q38
+	 wcv+IJzWFU9dQ==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, 
+ Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, 
+ Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>, 
+ Stefan Schmidt <stefan@datenfreihafen.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-input@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, 
+ Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+ Sergey Kozlov <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, 
+ Yang Yingliang <yangyingliang@huawei.com>, linux-mmc@vger.kernel.org, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Rob Herring <robh@kernel.org>, 
+ Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, 
+ Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>, 
+ linux-mtd@lists.infradead.org, Simon Horman <horms@kernel.org>, 
+ Ronald Wahl <ronald.wahl@raritan.com>, Benson Leung <bleung@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+ chrome-platform@lists.linux.dev, Michal Simek <michal.simek@amd.com>, 
+ Max Filippov <jcmvbkbc@gmail.com>, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+ Viresh Kumar <vireshk@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>, 
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+ greybus-dev@lists.linaro.org, Peter Huewe <peterhuewe@gmx.de>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ linux-integrity@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>, 
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
+ Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>, 
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas <bhelgaas@google.com>, 
+ James Clark <james.clark@arm.com>, linux-doc@vger.kernel.org
+In-Reply-To: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 00/32] spi: get rid of some legacy macros
+Message-Id: <170742729486.2266792.11643460714402047207.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 21:21:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240131104045.GD2544372@ragnatech.se>
+X-Mailer: b4 0.13-dev-0438c
 
-Hej Sakari,
+On Wed, 07 Feb 2024 19:40:14 +0100, Uwe Kleine-König wrote:
+> Changes since v2
+> (https://lore.kernel.org/linux-spi/cover.1705944943.git.u.kleine-koenig@pengutronix.de):
+> 
+>  - Drop patch "mtd: rawnand: fsl_elbc: Let .probe retry if local bus is
+>    missing" which doesn't belong into this series.
+>  - Fix a build failure noticed by the kernel build bot in
+>    drivers/spi/spi-au1550.c. (I failed to catch this because this driver
+>    is mips only, but not enabled in a mips allmodconfig. That's a bit
+>    unfortunate, but not easily fixable.)
+>  - Add the Reviewed-by: and Acked-by: tags I received for v2.
+> 
+> [...]
 
-Gentle ping on this.
+Applied to
 
-On 2024-01-31 11:40:46 +0100, Niklas Söderlund wrote:
-> Hej Sakari,
-> 
-> On 2024-01-31 08:21:13 +0000, Sakari Ailus wrote:
-> > Hejssan Niklas,
-> > 
-> > On Tue, Jan 30, 2024 at 04:40:58PM +0100, Niklas Söderlund wrote:
-> > > Hi Sakari,
-> > > 
-> > > On 2024-01-30 15:27:51 +0000, Sakari Ailus wrote:
-> > > > Hej Niklas,
-> > > > 
-> > > > On Tue, Jan 30, 2024 at 02:43:41PM +0100, Niklas Söderlund wrote:
-> > > > > Hi Sakari,
-> > > > > 
-> > > > > Thanks for your feedback.
-> > > > > 
-> > > > > On 2024-01-30 12:05:33 +0000, Sakari Ailus wrote:
-> > > > > > Hi Niklas,
-> > > > > > 
-> > > > > > Thanks for the patch.
-> > > > > > 
-> > > > > > On Mon, Jan 29, 2024 at 08:59:54PM +0100, Niklas Söderlund wrote:
-> > > > > > > Allowing multiple connections between entities are very useful but the
-> > > > > > > addition of this feature did not considerate nested subnotifiers.
-> > > > > > > 
-> > > > > > > Consider the scenario,
-> > > > > > > 
-> > > > > > > rcar-vin.ko     rcar-isp.ko     rcar-csi2.ko    max96712.ko
-> > > > > > > 
-> > > > > > > video0 ---->    v4l-subdev0 ->  v4l-subdev1 ->  v4l-subdev2
-> > > > > > > video1 -´
-> > > > > > > 
-> > > > > > > Where each videoX or v4l-subdevX is controlled and register by a
-> > > > > > > separate instance of the driver listed above it. And each driver
-> > > > > > > instance registers a notifier (videoX) or a subnotifier (v4l-subdevX)
-> > > > > > > trying to bind to the device pointed to.
-> > > > > > > 
-> > > > > > > If the devices probe in any other except where the vidoeX ones are
-> > > > > > > probed last only one of them will have their complete callback called,
-> > > > > > > the one who last registered its notifier. Both of them will however have
-> > > > > > > their bind() callback called as expected.
-> > > > > > > 
-> > > > > > > This is due to v4l2_async_nf_try_complete() only walking the chain from
-> > > > > > > the subnotifier to one root notifier and completing it while ignoring
-> > > > > > > all other notifiers the subdevice might be part of. This works if there
-> > > > > > > are only one subnotifier in the mix. For example if either v4l-subdev0
-> > > > > > > or v4l-subdev1 was not part of the pipeline above.
-> > > > > > > 
-> > > > > > > This patch addresses the issue of nested subnotifiers by instead looking
-> > > > > > > at all notifiers and try to complete all the ones that contain the
-> > > > > > > subdevice which subnotifier was completed.
-> > > > > > 
-> > > > > > Why do you need this?
-> > > > > 
-> > > > > I need this for the use-case described as an example above. In a 
-> > > > > separate series [1] I remove the rcar-vin workaround for the earlier 
-> > > > > lack of multiple connections between entities in v4l-async and without a 
-> > > > > solution this patch tries to address this breaks on some boards that 
-> > > > > already use nested subnotifiers but for which the rcar-vin workaround 
-> > > > > addresses.
-> > > > > 
-> > > > > > This is also not a bug, the documentation for the complete callback says:
-> > > > > > 
-> > > > > >  * @complete:	All connections have been bound successfully. The complete
-> > > > > >  *		callback is only executed for the root notifier.
-> > > > > 
-> > > > > Yes, and here there are two root notifiers. One in the driver 
-> > > > > registering video0 and the one registering video1. Both notifiers wish 
-> > > > > to bind to v4l-subdev0. And both notifers have their bind callback 
-> > > > > called when v4l-subdev0 is registered, but only one have its complete 
-> > > > > callback called.
-> > > > 
-> > > > In this respect the current framework isn't perfect, it only allows one
-> > > > parent...
-> > > 
-> > > With this fix (or something like it) it works with multiple parents ;-) 
-> > > If it's not a bug and we drop the Fixes tag do you think this is a step 
-> > > in the right direction? Or shall I drop trying to solve my use-case with 
-> > > a solution in this area and focus on trying to work around this 
-> > > limitation in the driver?
-> > 
-> > I'll review the patch properly later today.
-> 
-> Thanks!
-> 
-> > 
-> > > 
-> > > > 
-> > > > > 
-> > > > > > 
-> > > > > > Rather it would be better to get rid of this callback entirely, one reason
-> > > > > > being the impossibility of error handling. We won't be there for quite some
-> > > > > > time but extending its scope does go to the other direction.
-> > > > > 
-> > > > > I agree this is the way to go. And I could do without it in my use-cases 
-> > > > > if I was allowed to register the video device at probe time instead of 
-> > > > > in the complete callback. I have brought this up over the years but 
-> > > > > always been told that the video device should be registered in the 
-> > > > > callback handler. If this is no longer true I can rework [1] and a fix 
-> > > > 
-> > > > Are you sure?
-> > > > 
-> > > > I guess there may be differing opinions on the matter but drivers such as
-> > > > ipu3-cio2 and omap3isp do it in probe. I don't think rcar-vin should be
-> > > > different in this respect.
-> > > 
-> > > Yes, I even tried to move it to probe [2] in 2017 to solve a different 
-> > > issue at the time. I have also discussed this in person at various 
-> > > conferences around that time. But 2017 was a long time ago and if you 
-> > > think it's now OK to register the video device at probe time I will do 
-> > > so work around my issue that way. But would be nice with a confirmation 
-> > > that this is OK before I move down that route.
-> > 
-> > Two other drivers are already doing it, I don't see why rcar-vin shouldn't.
-> > I'm sure there are others as I checked only two. :-)
-> 
-> Super! I will move in this direction then as I think it makes more sens 
-> to register them in probe and is step in the right direction. I will 
-> wait for your review feedback on this patch to see if will make the move 
-> before or after the change that spoored this patch.
-> 
-> > 
-> > > 
-> > > 2.  https://lore.kernel.org/linux-renesas-soc/20170524001540.13613-16-niklas.soderlund@ragnatech.se/
-> > 
-> > Why is control handler initialisation left to the complete handler?
-> 
-> Good question, not sure why 2017 version of me thought that was a good 
-> idea. Today's version of me knows better and will not try something like 
-> that.
-> 
-> > 
-> > > 
-> > > > 
-> > > > > like this wont be needed for my use-cases.
-> > > > > 
-> > > > > Looking beyond my use-case do you agree that as long as we do have the 
-> > > > > complete callback it needs to be supported for nested subnotifiers?
-> > > > > 
-> > > > > 1. [PATCH 0/6] media: rcar-vin: Make use of multiple connections in v4l-async
-> > > > > 
-> > > > > > 
-> > > > > > > 
-> > > > > > > Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
-> > > > > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > > > > > ---
-> > > > > > >  drivers/media/v4l2-core/v4l2-async.c | 68 ++++++++++++++++++++--------
-> > > > > > >  1 file changed, 49 insertions(+), 19 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > > > > > > index 3ec323bd528b..8b603527923c 100644
-> > > > > > > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > > > > > > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > > > > > > @@ -176,15 +176,16 @@ static LIST_HEAD(notifier_list);
-> > > > > > >  static DEFINE_MUTEX(list_lock);
-> > > > > > >  
-> > > > > > >  static struct v4l2_async_connection *
-> > > > > > > -v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-> > > > > > > -		      struct v4l2_subdev *sd)
-> > > > > > > +__v4l2_async_find_in_list(struct v4l2_async_notifier *notifier,
-> > > > > > > +			  struct v4l2_subdev *sd,
-> > > > > > > +			  struct list_head *list)
-> > > > > > >  {
-> > > > > > >  	bool (*match)(struct v4l2_async_notifier *notifier,
-> > > > > > >  		      struct v4l2_subdev *sd,
-> > > > > > >  		      struct v4l2_async_match_desc *match);
-> > > > > > >  	struct v4l2_async_connection *asc;
-> > > > > > >  
-> > > > > > > -	list_for_each_entry(asc, &notifier->waiting_list, asc_entry) {
-> > > > > > > +	list_for_each_entry(asc, list, asc_entry) {
-> > > > > > >  		/* bus_type has been verified valid before */
-> > > > > > >  		switch (asc->match.type) {
-> > > > > > >  		case V4L2_ASYNC_MATCH_TYPE_I2C:
-> > > > > > > @@ -207,6 +208,20 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-> > > > > > >  	return NULL;
-> > > > > > >  }
-> > > > > > >  
-> > > > > > > +static struct v4l2_async_connection *
-> > > > > > > +v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-> > > > > > > +		      struct v4l2_subdev *sd)
-> > > > > > > +{
-> > > > > > > +	return __v4l2_async_find_in_list(notifier, sd, &notifier->waiting_list);
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static struct v4l2_async_connection *
-> > > > > > > +v4l2_async_find_done(struct v4l2_async_notifier *notifier,
-> > > > > > > +		     struct v4l2_subdev *sd)
-> > > > > > > +{
-> > > > > > > +	return __v4l2_async_find_in_list(notifier, sd, &notifier->done_list);
-> > > > > > > +}
-> > > > > > > +
-> > > > > > >  /* Compare two async match descriptors for equivalence */
-> > > > > > >  static bool v4l2_async_match_equal(struct v4l2_async_match_desc *match1,
-> > > > > > >  				   struct v4l2_async_match_desc *match2)
-> > > > > > > @@ -274,13 +289,14 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
-> > > > > > >  }
-> > > > > > >  
-> > > > > > >  /*
-> > > > > > > - * Complete the master notifier if possible. This is done when all async
-> > > > > > > + * Complete the master notifiers if possible. This is done when all async
-> > > > > > >   * sub-devices have been bound; v4l2_device is also available then.
-> > > > > > >   */
-> > > > > > >  static int
-> > > > > > >  v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
-> > > > > > >  {
-> > > > > > > -	struct v4l2_async_notifier *__notifier = notifier;
-> > > > > > > +	struct v4l2_async_notifier *n;
-> > > > > > > +	int ret;
-> > > > > > >  
-> > > > > > >  	/* Quick check whether there are still more sub-devices here. */
-> > > > > > >  	if (!list_empty(&notifier->waiting_list))
-> > > > > > > @@ -290,24 +306,38 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
-> > > > > > >  		dev_dbg(notifier_dev(notifier),
-> > > > > > >  			"v4l2-async: trying to complete\n");
-> > > > > > >  
-> > > > > > > -	/* Check the entire notifier tree; find the root notifier first. */
-> > > > > > > -	while (notifier->parent)
-> > > > > > > -		notifier = notifier->parent;
-> > > > > > > +	/*
-> > > > > > > +	 * Notifiers without a parent are either a subnotifier that have not
-> > > > > > > +	 * yet been associated with it is a root notifier or a root notifier
-> > > > > > > +	 * itself. If it is a root notifier try to complete it.
-> > > > > > > +	 */
-> > > > > > > +	if (!notifier->parent) {
-> > > > > > > +		/* This is root if it has v4l2_dev. */
-> > > > > > > +		if (!notifier->v4l2_dev) {
-> > > > > > > +			dev_dbg(notifier_dev(notifier),
-> > > > > > > +				"v4l2-async: V4L2 device not available\n");
-> > > > > > > +			return 0;
-> > > > > > > +		}
-> > > > > > >  
-> > > > > > > -	/* This is root if it has v4l2_dev. */
-> > > > > > > -	if (!notifier->v4l2_dev) {
-> > > > > > > -		dev_dbg(notifier_dev(__notifier),
-> > > > > > > -			"v4l2-async: V4L2 device not available\n");
-> > > > > > > -		return 0;
-> > > > > > > -	}
-> > > > > > > +		/* Is everything ready? */
-> > > > > > > +		if (!v4l2_async_nf_can_complete(notifier))
-> > > > > > > +			return 0;
-> > > > > > > +
-> > > > > > > +		dev_dbg(notifier_dev(notifier), "v4l2-async: complete\n");
-> > > > > > >  
-> > > > > > > -	/* Is everything ready? */
-> > > > > > > -	if (!v4l2_async_nf_can_complete(notifier))
-> > > > > > > -		return 0;
-> > > > > > > +		return v4l2_async_nf_call_complete(notifier);
-> > > > > > > +	}
-> > > > > > >  
-> > > > > > > -	dev_dbg(notifier_dev(__notifier), "v4l2-async: complete\n");
-> > > > > > > +	/* Try to complete all notifiers containing the subdevices. */
-> > > > > > > +	list_for_each_entry(n, &notifier_list, notifier_entry) {
-> > > > > > > +		if (v4l2_async_find_done(n, notifier->sd)) {
-> > > > > > > +			ret = v4l2_async_nf_try_complete(n);
-> > > > > > > +			if (ret)
-> > > > > > > +				return ret;
-> > > > > > > +		}
-> > > > > > > +	}
-> > > > > > >  
-> > > > > > > -	return v4l2_async_nf_call_complete(notifier);
-> > > > > > > +	return 0;
-> > > > > > >  }
-> > > > > > >  
-> > > > > > >  static int
-> > > > > > 
-> > > > 
-> > > > -- 
-> > > > Hälsningar,
-> > > > 
-> > > > Sakari Ailus
-> > > 
-> > > -- 
-> > > Kind Regards,
-> > > Niklas Söderlund
-> > 
-> > -- 
-> > Hälsningar,
-> > 
-> > Sakari Ailus
-> 
-> -- 
-> Kind Regards,
-> Niklas Söderlund
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
--- 
-Kind Regards,
-Niklas Söderlund
+Thanks!
+
+[01/32] fpga: ice40-spi: Follow renaming of SPI "master" to "controller"
+        commit: 227ab73b89d66e3064b3c2bcb5fe382b1815763d
+[02/32] ieee802154: ca8210: Follow renaming of SPI "master" to "controller"
+        commit: 167b78446706bb4d19f7dd93ca320aed25ae1bbd
+[03/32] iio: adc: ad_sigma_delta: Follow renaming of SPI "master" to "controller"
+        commit: 2780e7b716a605781dbee753ef4983d775a65427
+[04/32] Input: pxspad - follow renaming of SPI "master" to "controller"
+        commit: a78acec53b8524593afeed7258a442adc3450818
+[05/32] Input: synaptics-rmi4 - follow renaming of SPI "master" to "controller"
+        commit: 1245633c61baf159fcc1303d7f0855f49831b9c1
+[06/32] media: mgb4: Follow renaming of SPI "master" to "controller"
+        commit: 2c2f93fbfba7186cc081e23120f169eac3b5b62a
+[07/32] media: netup_unidvb: Follow renaming of SPI "master" to "controller"
+        commit: cfa13a64bd631d8f04a1c385923706fcef9a63ed
+[08/32] media: usb/msi2500: Follow renaming of SPI "master" to "controller"
+        commit: dd868ae646d5770f80f90dc056d06eb2e6d39c62
+[09/32] media: v4l2-subdev: Follow renaming of SPI "master" to "controller"
+        commit: d920b3a672b7f79cd13b341234aebd49233f836c
+[10/32] misc: gehc-achc: Follow renaming of SPI "master" to "controller"
+        commit: 26dcf09ee5d9ceba2c627ae3ba174a229f25638f
+[11/32] mmc: mmc_spi: Follow renaming of SPI "master" to "controller"
+        commit: b0a6776e53403aa380411f2a43cdefb9f00ff50a
+[12/32] mtd: dataflash: Follow renaming of SPI "master" to "controller"
+        commit: 44ee998db9eef84bf005c39486566a67cb018354
+[13/32] net: ks8851: Follow renaming of SPI "master" to "controller"
+        commit: 1cc711a72ae7fd44e90839f0c8d3226664de55a2
+[14/32] net: vertexcom: mse102x: Follow renaming of SPI "master" to "controller"
+        commit: 7969b98b80c0332f940c547f84650a20aab33841
+[15/32] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+        commit: 85ad0ec049a771c4910c8aebb2d0bd9ce9311fd9
+[16/32] spi: bitbang: Follow renaming of SPI "master" to "controller"
+        commit: 2259233110d90059187c5ba75537eb93eba8417b
+[17/32] spi: cadence-quadspi: Don't emit error message on allocation error
+        commit: e71011dacc3413bed4118d2c42f10736ffcd762c
+[18/32] spi: cadence-quadspi: Follow renaming of SPI "master" to "controller"
+        commit: 28e59d8bf1ace0ddf05f989a48d6824d75731267
+[19/32] spi: cavium: Follow renaming of SPI "master" to "controller"
+        commit: 1747fbdedba8b6b3fd459895ed5d57e534549884
+[20/32] spi: geni-qcom: Follow renaming of SPI "master" to "controller"
+        commit: 14cea92338a0776c1615994150e738ac0f5fbb2c
+[21/32] spi: loopback-test: Follow renaming of SPI "master" to "controller"
+        commit: 2c2310c17fac13aa7e78756d7f3780c7891f9397
+[22/32] spi: slave-mt27xx: Follow renaming of SPI "master" to "controller"
+        commit: 8197b136bbbe64a7cab1020a4b067020e5977d98
+[23/32] spi: spidev: Follow renaming of SPI "master" to "controller"
+        commit: d934cd6f0e5d0052772612db4b07df60cb9da387
+[24/32] staging: fbtft: Follow renaming of SPI "master" to "controller"
+        commit: bbd25d7260eeeaef89f7371cbadcd33dd7f7bff9
+[25/32] staging: greybus: spi: Follow renaming of SPI "master" to "controller"
+        commit: ee3c668dda3d2783b0fff4091461356fe000e4d8
+[26/32] tpm_tis_spi: Follow renaming of SPI "master" to "controller"
+        commit: b6af14eacc8814b0986e20507df423cebe9fd859
+[27/32] usb: gadget: max3420_udc: Follow renaming of SPI "master" to "controller"
+        commit: 8c716f4a3d4fcbec976247e3443d36cbc24c0512
+[28/32] video: fbdev: mmp: Follow renaming of SPI "master" to "controller"
+        commit: b23031e730e72ec9067b7c38c25e776c5e27e116
+[29/32] wifi: libertas: Follow renaming of SPI "master" to "controller"
+        commit: 30060d57cee194d6b70283f2faf787e2fdc61b6e
+[30/32] spi: fsl-lib: Follow renaming of SPI "master" to "controller"
+        commit: 801185efa2402dce57828930e9684884fc8d62da
+[31/32] spi: Drop compat layer from renaming "master" to "controller"
+        commit: 620d269f29a569ba37419cc03cf1da2d55f6252a
+[32/32] Documentation: spi: Update documentation for renaming "master" to "controller"
+        commit: 76b31eb4c2da3ddb3195cc14f6aad24908adf524
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
