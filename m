@@ -1,212 +1,260 @@
-Return-Path: <linux-media+bounces-4852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC1284DB77
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 09:32:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 106F684DC9E
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 10:17:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8EE931C23924
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 08:32:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B14EA282DDB
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 09:17:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 937256A32C;
-	Thu,  8 Feb 2024 08:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67C86A35B;
+	Thu,  8 Feb 2024 09:17:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2AA6A8B1
-	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 08:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF58D6BB42
+	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 09:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707381113; cv=none; b=Za6yXlIJRutIOw/hQugJITx4ObWMZP8UnUu20+UGt7kRVpjaFQ81H0n1xr5d33Pi6J27Rt+csWesZOgVUc7DxRzkiGd/K//UPXj5jtlpTn3v4R0clO+iYusr7o4uXS5F2wwuWjLQIOnQvo1XwKXR/h1Mnfga1mMX1PiJpDjJ0L8=
+	t=1707383851; cv=none; b=lKC6q1pVNM3zjtzg18YVuaF0yWAPUWDRmei6pIxEpc+VxQ0U/AoE3gKvlEEQBc/HTXuGt7LoK7ICqJHOzPt3AJNyRxetP5l/4nVkNZhXs4VoecznAXl71NnLwTSdCDtDWY3h6dVS6q2Tct0AZ0S8EyUv0RrIwcd6GDvtDvf6jIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707381113; c=relaxed/simple;
-	bh=7MMi3iTAsEI2I99J0ryotX7wUVAQ1ArecD44f3q+5ek=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=gt97e51mAuhEOz2eCOtLOcTe8Zl9eYK6XTu5btOkQ60bd5M+vTbBh17ozGTORe1eCjyfavNoyey7Dyxqt1anlovMwLtjl+d/4bpjEtruMvJwxxNm9HDOT59xSgn48HRKLewnjli2funXR+Q4i7HT6of/XJSVtoN4TNs6dKKAq1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D97C433F1;
-	Thu,  8 Feb 2024 08:31:51 +0000 (UTC)
-Message-ID: <243a66ad-6dff-4a43-ab03-e01d1038fe8a@xs4all.nl>
-Date: Thu, 8 Feb 2024 09:31:49 +0100
+	s=arc-20240116; t=1707383851; c=relaxed/simple;
+	bh=5QGlvwWwK5NX6M3faMusU5zN0ItBkNk7c7q7SRpusLs=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=O5hOZ3U5X+V1EnbRmDecCYNDNxrAYHjkjLLDMLCYrJMkDC41YmHlzxkp1K9cwfsJvXh1DJGbypsN3qpaoacGUXNx2wvrko3/1bvTLzHH9L6j1ySGgAj0NMZ/LbXI9njTl4qFoXzytls6gdks7oCVxZ7OuhN60ijKGDKAHLjka7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7bfd755ae39so117841539f.1
+        for <linux-media@vger.kernel.org>; Thu, 08 Feb 2024 01:17:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707383849; x=1707988649;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GbQKhMkgUAdXOuR+N9fHEjxW2Yakh7ERvRxxb5b3kUE=;
+        b=EXL3FTCNGbDdcg2uv7EZvEd1ovucYb5zYR5iG9cIwEqpLSZI+VbyQU4zXSar4v8yuo
+         XfcOtPKfi82uki+VgxyOrIF3ZI5btkHFp7mwzponjzzyrMISe0FtIrwCs3NeXX0YFnXE
+         OJPGLWp4TEYov4X6eHBxT6vdm7P12IIi0s3iVIZkYomFXU9fJKDcEGnfJC71romy0q9j
+         ZKrjVLO8cvwex/JwJ87j85hu+eXoNkkvlQn4meGV6T8uPzrdQbmE8ZatNRHAb3vNVCTV
+         YxKJDUHkWw3MwmXQaMm9Vvaq+Fjb2uds6ifvXOUpiE0APyl7OQlXsFynR+tWsI+GoEuw
+         okJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW982Dxx5+jT3WOTm4tLvTTsK353zf4OEptbYSc+msFWzRrxudaug8iiMmzUF9Bo0E5dvhIoEvP/6t5GWrb2rfsLo913/ix0pQiwZY=
+X-Gm-Message-State: AOJu0YzpfKEUIn0LCTk10/lupYkvZBg4dHEeihbTxNAfXHLCKe+vwxx4
+	B2WpeaZLrZ6D8iNQhPJghKzO+mY0KEpcvp2eVpZNKODJOSAlvs43Pg0LcyLXw2FOXMZz64JEEUM
+	KobJhqhU7UDX0lHUdXWGcyMGeqjtfmcChnrJ+2g+Yzlzkwl1qyQ+8UF8=
+X-Google-Smtp-Source: AGHT+IEhg0VvULUFiNgMZyw8dhF7pIAOWCm3ui644MwMqLxIEt48phLUG22SrNn5AumOk3XGq5KHlR+cW5osVSO3K79WtRA0r4HA
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: RFC: VIDIOC_ADD_BUFS, a VIDIOC_CREATE_BUFS replacement
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6e02:12cf:b0:363:7b86:21bd with SMTP id
+ i15-20020a056e0212cf00b003637b8621bdmr576926ilm.4.1707383848838; Thu, 08 Feb
+ 2024 01:17:28 -0800 (PST)
+Date: Thu, 08 Feb 2024 01:17:28 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ce2dde0610db47a8@google.com>
+Subject: [syzbot] [media?] possible deadlock in v4l2_ctrl_handler_log_status
+From: syzbot <syzbot+9948f8e188482c5d1a3e@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
+Hello,
 
-Benjamin Gaignard's 'DELETE_BUFS' series [1] is almost ready, but there is
-one outstanding issue: it works closely together with VIDIOC_CREATE_BUFS,
-but that ioctl has long since been a thorn in my eye due to the use of
-struct v4l2_format embedded in the struct v4l2_create_buffers. This makes
-it hard to use in applications.
+syzbot found the following issue on:
 
-The only fields of that struct v4l2_format that are actually used are:
+HEAD commit:    b1d3a0e70c38 Add linux-next specific files for 20240208
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=105d3360180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=bb693ba195662a06
+dashboard link: https://syzkaller.appspot.com/bug?extid=9948f8e188482c5d1a3e
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=148953c4180000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1746f9b7e80000
 
-type
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/176a6b395bbe/disk-b1d3a0e7.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/02d7d46f81bd/vmlinux-b1d3a0e7.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/18a5a5030e19/bzImage-b1d3a0e7.xz
 
-and, depending on 'type':
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9948f8e188482c5d1a3e@syzkaller.appspotmail.com
 
-pix.sizeimage
-pix_mp.num_planes, pix_mp.plane_fmt.sizeimage
-sdr.buffersize
-meta.buffersize
-vbi.samples_per_line, vbi.count
-sliced.io_size
+vivid-000: =================  START STATUS  =================
+vivid-000: Boolean: 
+======================================================
+WARNING: possible circular locking dependency detected
+6.8.0-rc3-next-20240208-syzkaller #0 Not tainted
+------------------------------------------------------
+syz-executor190/5068 is trying to acquire lock:
+ffff8880253306e0 (vivid_ctrls:1606:(hdl_user_gen)->_lock){+.+.}-{3:3}, at: v4l2_ctrl_lock include/media/v4l2-ctrls.h:572 [inline]
+ffff8880253306e0 (vivid_ctrls:1606:(hdl_user_gen)->_lock){+.+.}-{3:3}, at: log_ctrl drivers/media/v4l2-core/v4l2-ctrls-core.c:2518 [inline]
+ffff8880253306e0 (vivid_ctrls:1606:(hdl_user_gen)->_lock){+.+.}-{3:3}, at: v4l2_ctrl_handler_log_status+0x2f3/0x540 drivers/media/v4l2-core/v4l2-ctrls-core.c:2556
 
-See vb2_create_bufs() in videobuf2-v4l2.c.
+but task is already holding lock:
+ffff888025334278 (vivid_ctrls:1634:(hdl_sdr_cap)->_lock){+.+.}-{3:3}, at: v4l2_ctrl_handler_log_status+0x11f/0x540 drivers/media/v4l2-core/v4l2-ctrls-core.c:2551
 
-It's a pain to use since you need to fill in different fields
-depending on the type in order to allocate the new buffer memory,
-but all you want is just to give new buffer sizes.
-
-I propose to add a new ioctl:
-
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 03443833aaaa..a7398e4c85e7 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -2624,6 +2624,39 @@ struct v4l2_create_buffers {
- 	__u32			reserved[5];
- };
-
-+/**
-+ * struct v4l2_add_buffers - VIDIOC_ADD_BUFS argument
-+ * @type:	enum v4l2_buf_type
-+ * @memory:	enum v4l2_memory; buffer memory type
-+ * @count:	entry: number of requested buffers,
-+ *		return: number of created buffers
-+ * @num_planes:	requested number of planes for each buffer
-+ * @sizes:	requested plane sizes for each buffer
-+ * @start_index:on return, index of the first created buffer
-+ * @total_count:on return, the total number of allocated buffers
-+ * @capabilities: capabilities of this buffer type.
-+ * @flags:	additional buffer management attributes (ignored unless the
-+ *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
-+ *		and configured for MMAP streaming I/O).
-+ * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
-+ *		this field indicate the maximum possible number of buffers
-+ *		for this queue.
-+ * @reserved:	future extensions
-+ */
-+struct v4l2_add_buffers {
-+	__u32			type;
-+	__u32			memory;
-+	__u32			count;
-+	__u32			num_planes;
-+	__u32			size[VIDEO_MAX_PLANES];
-+	__u32			start_index;
-+	__u32			total_count;
-+	__u32			capabilities;
-+	__u32			flags;
-+	__u32			max_num_buffers;
-+	__u32			reserved[7];
-+};
-+
- /**
-  * struct v4l2_delete_buffers - VIDIOC_DELETE_BUFS argument
-  * @index:	the first buffer to be deleted
-@@ -2738,6 +2771,7 @@ struct v4l2_delete_buffers {
-
- #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
- #define VIDIOC_DELETE_BUFS	_IOWR('V', 104, struct v4l2_delete_buffers)
-+#define VIDIOC_ADD_BUFS	_IOWR('V', 105, struct v4l2_add_buffers)
+which lock already depends on the new lock.
 
 
- /* Reminder: when adding new ioctls please add support for them to
+the existing dependency chain (in reverse order) is:
 
-Note that this patch sits on top of [1].
+-> #1 (vivid_ctrls:1634:(hdl_sdr_cap)->_lock){+.+.}-{3:3}:
+       lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
+       find_ref_lock+0x5b/0x470 drivers/media/v4l2-core/v4l2-ctrls-core.c:1647
+       handler_new_ref+0x102/0x940 drivers/media/v4l2-core/v4l2-ctrls-core.c:1684
+       v4l2_ctrl_add_handler+0x1a1/0x290 drivers/media/v4l2-core/v4l2-ctrls-core.c:2208
+       vivid_create_controls+0x2b3c/0x3580 drivers/media/test-drivers/vivid/vivid-ctrls.c:1981
+       vivid_create_instance drivers/media/test-drivers/vivid/vivid-core.c:1854 [inline]
+       vivid_probe+0x4289/0x6fa0 drivers/media/test-drivers/vivid/vivid-core.c:2018
+       platform_probe+0x13a/0x1c0 drivers/base/platform.c:1404
+       really_probe+0x29e/0xc50 drivers/base/dd.c:658
+       __driver_probe_device+0x1a2/0x3e0 drivers/base/dd.c:800
+       driver_probe_device+0x50/0x430 drivers/base/dd.c:830
+       __driver_attach+0x45f/0x710 drivers/base/dd.c:1216
+       bus_for_each_dev+0x239/0x2b0 drivers/base/bus.c:368
+       bus_add_driver+0x347/0x620 drivers/base/bus.c:673
+       driver_register+0x23a/0x320 drivers/base/driver.c:246
+       vivid_init+0x3d/0x70 drivers/media/test-drivers/vivid/vivid-core.c:2145
+       do_one_initcall+0x238/0x830 init/main.c:1233
+       do_initcall_level+0x157/0x210 init/main.c:1295
+       do_initcalls+0x3f/0x80 init/main.c:1311
+       kernel_init_freeable+0x430/0x5d0 init/main.c:1542
+       kernel_init+0x1d/0x2b0 init/main.c:1432
+       ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:242
 
-The new struct is mostly the same as v4l2_create_buffers, but replacing the
-embedded v4l2_format with just the data it actually needs.  I also renamed
-'index' to 'start_index' and added a new 'total_count' field to report the
-total number of buffers. VIDIOC_CREATE_BUFS used the 'index' field for that
-when called with count == 0, but that is awkward once you allow for deleting
-buffers.
+-> #0 (vivid_ctrls:1606:(hdl_user_gen)->_lock){+.+.}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3134 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain+0x18cb/0x58e0 kernel/locking/lockdep.c:3869
+       __lock_acquire+0x1346/0x1fd0 kernel/locking/lockdep.c:5137
+       lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
+       v4l2_ctrl_lock include/media/v4l2-ctrls.h:572 [inline]
+       log_ctrl drivers/media/v4l2-core/v4l2-ctrls-core.c:2518 [inline]
+       v4l2_ctrl_handler_log_status+0x2f3/0x540 drivers/media/v4l2-core/v4l2-ctrls-core.c:2556
+       v4l2_ctrl_log_status+0xe3/0x100 drivers/media/v4l2-core/v4l2-ctrls-api.c:1206
+       vidioc_log_status+0x63/0x110 drivers/media/test-drivers/vivid/vivid-core.c:426
+       v4l_log_status+0x8f/0x110 drivers/media/v4l2-core/v4l2-ioctl.c:2562
+       __video_do_ioctl+0xc26/0xde0 drivers/media/v4l2-core/v4l2-ioctl.c:3049
+       video_usercopy+0x899/0x1180 drivers/media/v4l2-core/v4l2-ioctl.c:3390
+       v4l2_ioctl+0x18c/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:364
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:871 [inline]
+       __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:857
+       do_syscall_64+0xfb/0x240
+       entry_SYSCALL_64_after_hwframe+0x6d/0x75
 
-Implementing VIDIOC_ADD_BUFS would be very easy, it is almost all done in
-vb2. Drivers would just need to point .vidioc_add_bufs to vb2_ioctl_add_bufs.
+other info that might help us debug this:
 
-The vb2_queue ops do not change since those are already based on just an
-array of requested sizes.
+ Possible unsafe locking scenario:
 
-One reason I am bringing this up is that this has a potential impact on the
-name of the new ioctl in [1]. Do we call it 'VIDIOC_DELETE_BUFS' or
-'VIDIOC_REMOVE_BUFS'?
+       CPU0                    CPU1
+       ----                    ----
+  lock(vivid_ctrls:1634:(hdl_sdr_cap)->_lock);
+                               lock(vivid_ctrls:1606:(hdl_user_gen)->_lock);
+                               lock(vivid_ctrls:1634:(hdl_sdr_cap)->_lock);
+  lock(vivid_ctrls:1606:(hdl_user_gen)->_lock);
 
-I like the ADD/REMOVE pair better than ADD/DELETE. I never quite liked
-'CREATE/DELETE' since buffer memory is only created/deleted in the MMAP
-streaming case, not with DMABUF/USERPTR. I think add/remove are better names.
+ *** DEADLOCK ***
 
-I think CREATE/REMOVE is also acceptable, so I am leaning towards calling
-the new ioctl in [1] VIDIOC_REMOVE_BUFS instead of VIDIOC_DELETE_BUFS.
+2 locks held by syz-executor190/5068:
+ #0: ffff888025335a58 (&dev->mutex#3){+.+.}-{3:3}, at: __video_do_ioctl+0x4ed/0xde0 drivers/media/v4l2-core/v4l2-ioctl.c:3017
+ #1: ffff888025334278 (vivid_ctrls:1634:(hdl_sdr_cap)->_lock){+.+.}-{3:3}, at: v4l2_ctrl_handler_log_status+0x11f/0x540 drivers/media/v4l2-core/v4l2-ctrls-core.c:2551
 
-So, please comment on this RFC, both whether adding a CREATE_BUFS replacement
-makes sense, and whether using REMOVE_BUFS instead of DELETE_BUFS makes sense.
+stack backtrace:
+CPU: 0 PID: 5068 Comm: syz-executor190 Not tainted 6.8.0-rc3-next-20240208-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
+ check_noncircular+0x36a/0x4a0 kernel/locking/lockdep.c:2187
+ check_prev_add kernel/locking/lockdep.c:3134 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain+0x18cb/0x58e0 kernel/locking/lockdep.c:3869
+ __lock_acquire+0x1346/0x1fd0 kernel/locking/lockdep.c:5137
+ lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
+ v4l2_ctrl_lock include/media/v4l2-ctrls.h:572 [inline]
+ log_ctrl drivers/media/v4l2-core/v4l2-ctrls-core.c:2518 [inline]
+ v4l2_ctrl_handler_log_status+0x2f3/0x540 drivers/media/v4l2-core/v4l2-ctrls-core.c:2556
+ v4l2_ctrl_log_status+0xe3/0x100 drivers/media/v4l2-core/v4l2-ctrls-api.c:1206
+ vidioc_log_status+0x63/0x110 drivers/media/test-drivers/vivid/vivid-core.c:426
+ v4l_log_status+0x8f/0x110 drivers/media/v4l2-core/v4l2-ioctl.c:2562
+ __video_do_ioctl+0xc26/0xde0 drivers/media/v4l2-core/v4l2-ioctl.c:3049
+ video_usercopy+0x899/0x1180 drivers/media/v4l2-core/v4l2-ioctl.c:3390
+ v4l2_ioctl+0x18c/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:364
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:871 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:857
+ do_syscall_64+0xfb/0x240
+ entry_SYSCALL_64_after_hwframe+0x6d/0x75
+RIP: 0033:0x7fc7060250e9
+Code: 48 83 c4 28 c3 e8 37 17 00 00 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff130f5498 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fff130f5668 RCX: 00007fc7060250e9
+RDX: 0000000000000000 RSI: 0000000000005646 RDI: 0000000000000003
+RBP: 00007fc706098610 R08: 00236f6964617277 R09: 00007fff130f5668
+R10: 000000000000000f R11: 0000000000000246 R12: 0000000000000001
+R13: 00007fff130f5658 R14: 0000000000000001 R15: 0000000000000001
+ </TASK>
+true
+vivid-000: Integer 32 Bits: 0
+vivid-000: Integer 64 Bits: 0
+vivid-000: Menu: Menu Item 3
+vivid-000: String:   
+vivid-000: Bitmask: 0x80002000
+vivid-000: Integer Menu: 5
+vivid-000: U32 1 Element Array: [1] 24
+vivid-000: U16 8x16 Matrix: [8][16] 24
+vivid-000: U8 2x3x4x5 Array: [2][3][4][5] 24
+vivid-000: Area: unknown type 262
+vivid-000: Read-Only Integer 32 Bits: 0
+vivid-000: U32 Dynamic Array: [100] 50
+vivid-000: U8 Pixel Array: [640][368] 128
+vivid-000: S32 2 Element Array: [2] 2
+vivid-000: S64 5 Element Array: [5] 4
+vivid-000: Wrap Sequence Number: false
+vivid-000: Wrap Timestamp: None
+vivid-000: Percentage of Dropped Buffers: 0
+vivid-000: FM Deviation: 75000
+vivid-000: ==================  END STATUS  ========
 
-Ideally it would be nice to introduce both ADD_BUFS and REMOVE_BUFS at the
-same time, so any userspace application that needs to use REMOVE_BUFS to
-remove buffers can rely on the new ADD_BUFS ioctl being available as well.
 
-Regards,
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-	Hans
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-[1]: https://patchwork.linuxtv.org/project/linux-media/list/?series=12195
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
