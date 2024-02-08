@@ -1,334 +1,269 @@
-Return-Path: <linux-media+bounces-4850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4851-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8714384D9C6
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 07:09:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B98DD84DA04
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 07:22:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB5B91C23778
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 06:09:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E08C9B2460D
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 06:22:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84A2267C6D;
-	Thu,  8 Feb 2024 06:09:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5629C67E63;
+	Thu,  8 Feb 2024 06:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikcV616R"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="lDLRGOo7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DC867E61
-	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 06:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A7A67C79;
+	Thu,  8 Feb 2024 06:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707372573; cv=none; b=RRJjDZ9R5LOjVcneaTC16JLijxUjEV6ART+bDnCHNrWIuRbTfTc80yXYSG7i+AI6tpihMeCKU3E6yxfNiZJnFh1IX4g5mTQt8oMpFVi3keBfJaCS4JMwkE02oKXwmT06XTR+rio8g0pd2sVH4fwWrekZzVpG41T5qR3wzKgTFtE=
+	t=1707373339; cv=none; b=P0Niyb9YZwtvuMSZ3hwDg7BpBMYMJkm2vTa83Hkvu6ObeAlXhC5Qqk3xeXdSUW2nzb1+cxOm8fzaaHDxQ5PO0eBq8uBfC1aZmSXJ8woZaUeUBTZCVmAs5p249hzBPnv4crlvBWSB4s1geDGFF7X9l+RUMU+s7CWv02l5dObnoYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707372573; c=relaxed/simple;
-	bh=+VMaCIo4WTuG6g9dAAnWlwMJrE4w/KgAD+vvDvqV2vI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UkCflyS4mrFA8y+h5qCFTbZ0i2CePZW5kPpgii62OJJQHIgiz+AOZIu14v79WnH5GOf+RPVBkdwyZJz6T/W1FryYRvZ3EuBddp9a3tCVUTLg5xGgQg2mqa8lm7a4q9FDX7LEelvDZZPPb81aSg7sPwbeZ8HHXemnuwdyO44NU6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ikcV616R; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707372571; x=1738908571;
-  h=date:from:to:cc:subject:message-id;
-  bh=+VMaCIo4WTuG6g9dAAnWlwMJrE4w/KgAD+vvDvqV2vI=;
-  b=ikcV616RiLNAaVnR7jnO9vH8N1jDsy15m629hD38MOkWGwdRSOpC4BxB
-   cWAWFMMKkLu9U2B4tCs0wfw1RvVs+RCfoIsyylw6iZOKFRFhNrKvmUkAa
-   TVyLc2rTXjaPvQIXvpSaNznbvibs0i4N6hpu+t9IyT/dDfSxkxyjFc4/n
-   Ari22b/mMmmjiO/p5bueWZtaIcX7yuv8Y8FtJ5WpoQsn0rqpC09V8Gkct
-   1yPYd1ViDk2Bd5xskQr5XPzqCvLN0e+f/JGoiwH09bROimIjTPTMewt5p
-   pfJfYIf7WbIbDgpksJNjKaSjqHw78wuhZ4s6wxZQ97PA82+nKYFd9YmOZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="11731084"
-X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="11731084"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 22:09:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="1553378"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Feb 2024 22:09:27 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rXxbC-0003Q2-1r;
-	Thu, 08 Feb 2024 06:09:26 +0000
-Date: Thu, 08 Feb 2024 14:09:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- 8c64f4cdf4e6cc5682c52523713af8c39c94e6d5
-Message-ID: <202402081417.ROD8XAqM-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1707373339; c=relaxed/simple;
+	bh=r14oebp+KeyBZkqFTuBJOO3xPPUWEpLLOwLHbAbBBMo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=K4oSHi64PsFK2eohGVbcGPNoQoIOwJwoZlSryUEOtHNrhLKoIBofmogNLSenrlc+BBa9mCrKxMSfYMgqBBmoDYjCQrpng4+QYUmleBWymvZrolbDjcVvhXJkn2w7AeJYs3T0qBnS1mKLxX3/gyvZxazUpySCh5Z0W3NbJ2AFmu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=lDLRGOo7; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4186M8dj113275;
+	Thu, 8 Feb 2024 00:22:08 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1707373328;
+	bh=ejWOb2HuMreagglrbUJOiWVLACXdSChrO+PXOXWj+hQ=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=lDLRGOo7ngTXbcQy66+2yupUpd2NSMm0Obx4tYAX84WHSCr4pMKp7eCe6FN/mgbeH
+	 f4MDRAFGm6Yq34wh2MNm7BWj6YGi5QZ1TTo9HhgCY7/lNkG86Qtdwn4j4g62ZRqnem
+	 jeWH1fogkHrOGCcx46GBSw3aVX+30jYhG85lM9oQ=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4186M8a1030841
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 8 Feb 2024 00:22:08 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 8
+ Feb 2024 00:22:08 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 8 Feb 2024 00:22:08 -0600
+Received: from [10.250.146.202] ([10.250.146.202])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4186M3Co092479;
+	Thu, 8 Feb 2024 00:22:03 -0600
+Message-ID: <ab029558-fc04-854e-1f97-785f5cec0681@ti.com>
+Date: Thu, 8 Feb 2024 11:52:02 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] dt-bindings: media: Add sram-size Property for Wave5
+Content-Language: en-US
+To: Brandon Brnich <b-brnich@ti.com>, Nishanth Menon <nm@ti.com>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Nas Chung
+	<nas.chung@chipsnmedia.com>,
+        Jackson Lee <jackson.lee@chipsnmedia.com>,
+        Mauro
+ Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Vignesh
+ Raghavendra <vigneshr@ti.com>,
+        Darren Etheridge <detheridge@ti.com>
+References: <20240201184238.2542695-1-b-brnich@ti.com>
+ <1209b7cf-5be2-4107-aa6b-d67a32ea3737@linaro.org>
+ <20240202125257.p4astjuxpzr5ltjs@dragster>
+ <8091a8cf-c1c0-49b0-b136-1ad0d185aa6a@linaro.org>
+ <20240202155813.szxvi7bfp5xh7rvw@babble>
+ <adfef53c-d64e-4855-ab61-101b6fa419e5@linaro.org>
+ <20240205141255.z5kybm42qld44tdz@portfolio>
+ <20240205192003.3qns6cxqurqnnj7c@udba0500997>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20240205192003.3qns6cxqurqnnj7c@udba0500997>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: 8c64f4cdf4e6cc5682c52523713af8c39c94e6d5  media: edia: dvbdev: fix a use-after-free
+Hi Brandon, et-al,
 
-elapsed time: 1450m
+On 06/02/24 00:50, Brandon Brnich wrote:
+> On 08:12-20240205, Nishanth Menon wrote:
+>> On 17:08-20240202, Krzysztof Kozlowski wrote:
+>>> On 02/02/2024 16:58, Nishanth Menon wrote:
+>>>> On 14:56-20240202, Krzysztof Kozlowski wrote:
+>>>>> On 02/02/2024 13:52, Nishanth Menon wrote:
+>>>>>> On 11:47-20240202, Krzysztof Kozlowski wrote:
+>>>>>>> On 01/02/2024 19:42, Brandon Brnich wrote:
+>>>>>>>> Wave521c has capability to use SRAM carveout to store reference data with
+>>>>>>>> purpose of reducing memory bandwidth. To properly use this pool, the driver
+>>>>>>>> expects to have an sram and sram-size node. Without sram-size node, driver
+>>>>>>>> will default value to zero, making sram node irrelevant.
+>>>>>>>
+>>>>>>> I am sorry, but what driver expects should not be rationale for new
+>>>>>>> property. This justification suggests clearly it is not a property for DT.
+>>>>>>>
+>>>>>>
+>>>>>> Yup, the argumentation in the commit message is from the wrong
+>>>>>> perspective. bindings are OS agnostic hardware description, and what
+>>>>>> driver does with the description is driver's problem.
+>>>>>>
+>>>>>> I will at least paraphrase my understanding:
+>>>>>> In this case, however, the hardware block will limp along with
+>>>>>> the usage of DDR (as is the current description), due to the
+>>>>>> latencies involved for DDR accesses. However, the hardware block
+>>>>>> has capability to use a substantially lower latency SRAM to provide
+>>>>>> proper performance and hence for example, deal with higher resolution
+>>>>>> data streams. This SRAM is instantiated at SoC level rather than
+>>>>>> embedded within the hardware block itself.
+>>>>>
+>>>>> That sounds like OS policy. Why would different boards with the same
+>>>>> component have this set differently? Based on amount of available
+>>>>> memory? This, I believe, is runtime configuration because it might
+>>>>> depend on user-space you run. Based on purpose (e.g. optimize for
+>>>>> decoding or general usage)? Again, run-time because same hardware board
+>>>>> can be used for different purposes.
+>>>>>
+>>>>
+>>>> Why is this OS policy? It is a hardware capability.
+>>>
+>>> How amount of SRAM size is hardware capability? Each hardware can work
+>>> probably with 1, 2 or 100 pages.
+>>>
+>>>> Traditionally
+>>>> many similar hardware blocks would have allocated local SRAM for
+>>>> worst case inside the hardware block itself and don't need to use
+>>>> DDR in the first place. However, for this hardware block, it has
+>>>> capability to use some part of one of the many SRAM blocks in the SoC,
+>>>> not be shared for some part of the system - so from a hardware
+>>>> description perspective, we will need to call that out as to which
+>>>> SRAM is available for the hardware block.
+>>>
+>>> Just because more than one device wants some memory, does not mean this
+>>> is hardware property. Drivers can ask how much memory available there
+>>> is. OS knows how many users of memory there is, so knows how much to
+>>> allocate for each device.
+>>>
+>>>>
+>>>> Why would different boards need this differently? simply because
+>>>> different cameras have different resolution and framerates - and you
+>>>> dont want to pay the worst case sram penalty for all product
+>>>> configuration.
+>>>
+>>> Choice of resolution and framerate is runtime choice or use-case
+>>> dependent, not board level configuration, therefore amount of SRAM size
+>>> to use is as well.
+>>
+>> I am arguing this is similar to what we have for remote-procs. Yes,
+>> usecases usage come to a conclusion that sram size X is needed. Sure.
+>> Lets even argue that sram = <&sram> has X+100 bytes available, so as
+>> far as allocator is concerned, it can allocate. But how does the driver
+>> know that 1k of that sram is already used by a remote core or some other
+>> function?
+>>
+>> This is no different from a remote proc usecase, following which, I
+>> wonder if "memory-region" is the right way to describe this usage? That
+>> would be a very specific bucket that is made available to the driver.
+>> And I'd say sram and memory-region are two mutually exclusive option?
+> 
+> Wouldn't this just be a static allocation of the SRAM then? I believe
+> the correct way to do this is highlighted in Rob's[0] response. This is
+> also something we have done in the past[1], but I thought dynamic
+> allocation was preferred method so that the VPU didn't hog a portion of
+> SRAM. Seems wasteful in cases where the VPU is not being used.
+> 
 
-configs tested: 245
-configs skipped: 4
+I think even with the approach selected in [1] i.e. referring the
+mmio-sram node using DT property, you can still use dynamic SRAM
+allocation.
+The driver can still allocate from global sram pool dynamically using
+of_gen_pool API as being explained here [3] i.e allocate when first
+instance is opened and free up later when no instances are running.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+But I agree with Nishanth's point too that we may not want to give all
+of SRAM to VPU. For e.g. on AM62A we have 64KiB SRAM and a 1080p
+use-case requires 48KiB and even higher for 4K so if there is another
+peripheral who is referring this sram node, then it may not get enough
+as VPU will hog the major chunk (or all) of it while it is running and
+this is where an optional property like sram-size will help to cap the
+max sram usage for VPU and so this helps especially on platforms with
+limited SRAM availability.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240207   gcc  
-arc                   randconfig-001-20240208   gcc  
-arc                   randconfig-002-20240207   gcc  
-arc                   randconfig-002-20240208   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                     davinci_all_defconfig   clang
-arm                                 defconfig   clang
-arm                        keystone_defconfig   gcc  
-arm                         mv78xx0_defconfig   clang
-arm                         orion5x_defconfig   clang
-arm                   randconfig-001-20240207   clang
-arm                   randconfig-001-20240208   gcc  
-arm                   randconfig-002-20240207   clang
-arm                   randconfig-002-20240208   gcc  
-arm                   randconfig-003-20240207   clang
-arm                   randconfig-003-20240208   gcc  
-arm                   randconfig-004-20240207   gcc  
-arm                        shmobile_defconfig   gcc  
-arm                        spear6xx_defconfig   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240207   clang
-arm64                 randconfig-002-20240207   clang
-arm64                 randconfig-003-20240207   clang
-arm64                 randconfig-004-20240207   clang
-arm64                 randconfig-004-20240208   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240207   gcc  
-csky                  randconfig-001-20240208   gcc  
-csky                  randconfig-002-20240207   gcc  
-csky                  randconfig-002-20240208   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240207   clang
-hexagon               randconfig-002-20240207   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240207   clang
-i386         buildonly-randconfig-001-20240208   gcc  
-i386         buildonly-randconfig-002-20240207   clang
-i386         buildonly-randconfig-003-20240207   clang
-i386         buildonly-randconfig-003-20240208   gcc  
-i386         buildonly-randconfig-004-20240207   clang
-i386         buildonly-randconfig-004-20240208   gcc  
-i386         buildonly-randconfig-005-20240207   clang
-i386         buildonly-randconfig-005-20240208   gcc  
-i386         buildonly-randconfig-006-20240207   clang
-i386         buildonly-randconfig-006-20240208   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240207   gcc  
-i386                  randconfig-001-20240208   gcc  
-i386                  randconfig-002-20240207   clang
-i386                  randconfig-002-20240208   gcc  
-i386                  randconfig-003-20240207   gcc  
-i386                  randconfig-003-20240208   gcc  
-i386                  randconfig-004-20240207   gcc  
-i386                  randconfig-005-20240207   gcc  
-i386                  randconfig-005-20240208   gcc  
-i386                  randconfig-006-20240207   clang
-i386                  randconfig-006-20240208   gcc  
-i386                  randconfig-011-20240207   gcc  
-i386                  randconfig-012-20240207   gcc  
-i386                  randconfig-013-20240207   gcc  
-i386                  randconfig-014-20240207   gcc  
-i386                  randconfig-015-20240207   gcc  
-i386                  randconfig-016-20240207   gcc  
-i386                  randconfig-016-20240208   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240207   gcc  
-loongarch             randconfig-001-20240208   gcc  
-loongarch             randconfig-002-20240207   gcc  
-loongarch             randconfig-002-20240208   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                          multi_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                          ath25_defconfig   clang
-mips                        bcm63xx_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240207   gcc  
-nios2                 randconfig-001-20240208   gcc  
-nios2                 randconfig-002-20240207   gcc  
-nios2                 randconfig-002-20240208   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240207   gcc  
-parisc                randconfig-001-20240208   gcc  
-parisc                randconfig-002-20240207   gcc  
-parisc                randconfig-002-20240208   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                   bluestone_defconfig   clang
-powerpc                      chrp32_defconfig   clang
-powerpc                       eiger_defconfig   clang
-powerpc                      ep88xc_defconfig   gcc  
-powerpc                    gamecube_defconfig   clang
-powerpc                     kilauea_defconfig   clang
-powerpc                      mgcoge_defconfig   clang
-powerpc                 mpc8313_rdb_defconfig   gcc  
-powerpc                 mpc8315_rdb_defconfig   clang
-powerpc                     mpc83xx_defconfig   clang
-powerpc                      pcm030_defconfig   clang
-powerpc               randconfig-001-20240207   clang
-powerpc               randconfig-002-20240207   clang
-powerpc               randconfig-002-20240208   gcc  
-powerpc               randconfig-003-20240207   gcc  
-powerpc               randconfig-003-20240208   gcc  
-powerpc64                        alldefconfig   clang
-powerpc64             randconfig-001-20240207   clang
-powerpc64             randconfig-001-20240208   gcc  
-powerpc64             randconfig-002-20240207   gcc  
-powerpc64             randconfig-002-20240208   gcc  
-powerpc64             randconfig-003-20240207   gcc  
-powerpc64             randconfig-003-20240208   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240207   clang
-riscv                 randconfig-001-20240208   gcc  
-riscv                 randconfig-002-20240207   gcc  
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240207   gcc  
-s390                  randconfig-002-20240207   gcc  
-s390                  randconfig-002-20240208   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20240207   gcc  
-sh                    randconfig-001-20240208   gcc  
-sh                    randconfig-002-20240207   gcc  
-sh                    randconfig-002-20240208   gcc  
-sh                           sh2007_defconfig   gcc  
-sh                        sh7757lcr_defconfig   gcc  
-sh                        sh7763rdp_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240207   gcc  
-sparc64               randconfig-001-20240208   gcc  
-sparc64               randconfig-002-20240207   gcc  
-sparc64               randconfig-002-20240208   gcc  
-um                               alldefconfig   clang
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                    randconfig-001-20240207   clang
-um                    randconfig-002-20240207   gcc  
-um                    randconfig-002-20240208   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240207   clang
-x86_64       buildonly-randconfig-002-20240207   clang
-x86_64       buildonly-randconfig-003-20240207   gcc  
-x86_64       buildonly-randconfig-003-20240208   gcc  
-x86_64       buildonly-randconfig-004-20240207   clang
-x86_64       buildonly-randconfig-005-20240207   clang
-x86_64       buildonly-randconfig-006-20240207   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240207   clang
-x86_64                randconfig-001-20240208   gcc  
-x86_64                randconfig-002-20240207   gcc  
-x86_64                randconfig-002-20240208   gcc  
-x86_64                randconfig-003-20240207   gcc  
-x86_64                randconfig-003-20240208   gcc  
-x86_64                randconfig-004-20240207   gcc  
-x86_64                randconfig-005-20240207   clang
-x86_64                randconfig-005-20240208   gcc  
-x86_64                randconfig-006-20240207   clang
-x86_64                randconfig-006-20240208   gcc  
-x86_64                randconfig-011-20240207   clang
-x86_64                randconfig-011-20240208   gcc  
-x86_64                randconfig-012-20240207   gcc  
-x86_64                randconfig-012-20240208   gcc  
-x86_64                randconfig-013-20240207   clang
-x86_64                randconfig-014-20240207   clang
-x86_64                randconfig-015-20240207   gcc  
-x86_64                randconfig-016-20240207   gcc  
-x86_64                randconfig-071-20240207   gcc  
-x86_64                randconfig-072-20240207   clang
-x86_64                randconfig-073-20240207   clang
-x86_64                randconfig-073-20240208   gcc  
-x86_64                randconfig-074-20240207   gcc  
-x86_64                randconfig-075-20240207   gcc  
-x86_64                randconfig-075-20240208   gcc  
-x86_64                randconfig-076-20240207   clang
-x86_64                randconfig-076-20240208   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                       common_defconfig   gcc  
-xtensa                randconfig-001-20240207   gcc  
-xtensa                randconfig-001-20240208   gcc  
-xtensa                randconfig-002-20240207   gcc  
-xtensa                randconfig-002-20240208   gcc  
+As I understand, the sram size allocation is dependent on resolution and
+once programmed can't be changed until all instances of VPU are done,
+and we can't predict how many instances user will launch and with what
+resolutions.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So here's the flow we had thought of some time back :
+1) Define worst case sram size (per 4K use-case as I believe that's the
+max for CnM wave521c) as a macro in driver
+
+Then the condition for determining sram size to be allocated should be
+as below  :
+
+2) When first instance of VPU is opened, allocate as per sram-size if
+sram-size property is specified.
+
+3) If sram-size is not specified then :
+   -> Allocate as per worst case size macro defined in driver from sram
+pool,
+   -> If worst case size of SRAM > max SRAM size, then allocate
+      max SRAM size
+
+4). When all of the instances of VPU are closed, then free up all
+allocated SRAM.
+
+[3] :
+https://wiki.analog.com/resources/tools-software/linuxdsp/docs/linux-kernel-and-drivers/sram
+
+Regards
+Devarsh
+
+> The device itself has the capability of doing runtime allocation before
+> any decoder/encoder stream instances are opened. All of these opened
+> streams will share this one allocated pool, meaning first open stream
+> allocates and the rest share. Because of this, the goal is to allocate
+> enough to meet maximum use case of VPU (4K60) or max case supported by
+> the SoC itself if the SoC is unable to handle 4K60.
+> 
+> Is there preferred method for dynamic SRAM allocation? I understand
+> point that framerate and resolution are runtime choice, but these
+> properties are not guaranteed to be known when streams are being opened.
+> 
+> If static SRAM allocation is the correct method to go, then this series
+> can be ignored and I will add section in device tree and remove check
+> for parameter in driver as that will now be a bug.
+> 
+> [0]: https://patchwork.kernel.org/project/linux-media/patch/20240201184238.2542695-1-b-brnich@ti.com/#25696671
+> [1]: https://patchwork.kernel.org/project/linux-media/patch/20231108-wave5-v14-rebased-v14-8-0b4af1258656@collabora.com/
+>  
+>>>
+>>>>
+>>>> Further, Linux is not the only thing that runs on these SoCs.. these are
+>>>> mixed systems with autonomous operations of uC cores who may or maynot
+>>>> (typically not) even need to communicate with MPU to state which part of
+>>>> resource they are hogging (hence the board level definition).
+>>>
+>>> OK that could be the case but I could also say choice of RTOS or any
+>>> other is also board-independent.
+>> -- 
+>> Regards,
+>> Nishanth Menon
+>> Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+> 
+> Thanks,
+> Brandon
+> 
 
