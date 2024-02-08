@@ -1,107 +1,120 @@
-Return-Path: <linux-media+bounces-4858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4859-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D6E84DE69
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 11:36:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 159C784E203
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 14:32:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A2A91C21B79
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 10:36:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C52172906B6
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 13:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF7C9433A9;
-	Thu,  8 Feb 2024 10:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72325763F7;
+	Thu,  8 Feb 2024 13:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="idwWE5Wt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ggyadpt9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9661DFCE;
-	Thu,  8 Feb 2024 10:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2688E763FF
+	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 13:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707388568; cv=none; b=KPUI0eeiqlew9JJMrnGUJU66NeWzhuLaqHpBsDnnS1no7Jb4X5ErrPkhPfQNcH97dyvcroempNULNrqFcAx2kShkdinss8jgn4mUQ7zJIi0RxtNutqq3CB7F1Zqb+FDGP+JUn2E03fLyGXOfKap7JS+brDl2KSbMVCkRFBrbvaE=
+	t=1707399116; cv=none; b=glHv1VCyQhSzcks1Qbk4J1dnV19Z7v9++ZIUK7sRA48el7bbD+miN3nqN4/VC6mYsYMtJOX67RarDqIQgkFCOesb18gc3hNxf3j1Z9VKFM4/Lu4dsvetUaH0i6/ziQQElU5ftry1vgKkBgBBrM8XkPR1+pry6eU8fyNiA0DdjlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707388568; c=relaxed/simple;
-	bh=0zNRXF4ORDisC/Kb4dNM9tOYTW/WUJ5hS2ia3vIjIlE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UmQIZRcBa9QUxQec2qJxY+JtCpah2sAQ5i5wo4agYhzYu2O9FVNo/L9mc/E7zhXNmi52+7eGvEL9Up+xoLRYM+DfokWti9xAlZZ5iyg+uBoo+Zbi7ZeVzLn5VTzIUPOqw4OllOxoch1ado9NWwIl26QIuSCtZstvX1vYAcj9nZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=idwWE5Wt; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707388564;
-	bh=0zNRXF4ORDisC/Kb4dNM9tOYTW/WUJ5hS2ia3vIjIlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=idwWE5WtYmYgXTKLjEZvSDEqRvpwz7lGhOsDQ0QGI5H/q3KXfTTjW7fDvfAqUgLYP
-	 Rv5GqSJ1kjBSyDcU9ae9hrB9ur2m+jwtW/O8lywICCXxpWBsoa9iH3LYphNzHFh2jz
-	 +bVNSJHzM8GBALLauuNwAKBgoPOyvMNcHP6167FcevXaDdCn3G89eodkwg6ocdM/y8
-	 gwVSK3W38QnLwt+tQr0cRJYxtJ5GqO2p8mc+JmtvFg/kbeJJC4R+u3XY41fZSlbheD
-	 qPsrgG4CB11CC/izWa80apElV6jPO8JDK6e+kWWNaGSU4fBV8GRngSbRwohBYRNtja
-	 2PF3Zs4PCUxXg==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D5210378134F;
-	Thu,  8 Feb 2024 10:36:03 +0000 (UTC)
-Date: Thu, 8 Feb 2024 11:36:02 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nas.chung@chipsnmedia.com,
-	lafley.kim@chipsnmedia.com, b-brnich@ti.com
-Subject: Re: [RESEND PATCH v0 0/5] wave5 codec driver
-Message-ID: <20240208103602.bnkhvoy5jnzns44i@basti-XPS-13-9310>
-References: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
+	s=arc-20240116; t=1707399116; c=relaxed/simple;
+	bh=Wl5FkmFzgsXXflrnteBiGWhJ12DGOqK+tyMOhgKuiOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W+csh/B2RLd8j7DimCxcdvqvZbZMTbOSJ0ZJbjsBg3gzSN5cRWnDxufwrOZXKVBDjT8XiRQ7m9RWcwbaFQGL+2LQvii/WUFGWEXneEv+SzRw8llOB8xRzRxm+FjTcIYO2UuY3LhsmhITtWIrRTMGWbArlZnsauon5DAUw1/j3NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ggyadpt9; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707399115; x=1738935115;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Wl5FkmFzgsXXflrnteBiGWhJ12DGOqK+tyMOhgKuiOM=;
+  b=ggyadpt9uiAJ7VdPFwa+7po/o3WNEricegWfVldd1tzq9MNP7UYGyihv
+   6Hhcr7M8MhYKnmuIKXUk1wTUYfrAHlzgJl121iVRqz8cNCh4kyU3pIUCK
+   thiQPw97QBYYlBzyfmCNkN/+zOoaiWazYOi9DaWPLYL4UR9BaWLNZz4BE
+   qBQhIYji51DIkZGxWydIaaCLhoLp0QL861KZbOiLSvI2UxDufwsCkxVox
+   TIgaLlvM3w6xydz/PEVw5oxzeB/nxAoD56th2bjL7AiLk/CjuDGfxqJPC
+   GbSyowp6zmVH3Eg3yw+Qc27BK/OgVwzlzImzwOgZcXLR/AzHo1qbCnAV5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1363000"
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
+   d="scan'208";a="1363000"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 05:31:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
+   d="scan'208";a="1953448"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Feb 2024 05:31:44 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rY4V9-0003mK-2V;
+	Thu, 08 Feb 2024 13:31:39 +0000
+Date: Thu, 8 Feb 2024 21:31:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:media-ref 37/39]
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c:1698:1-6: WARNING: invalid free of
+ devm_ allocated data
+Message-ID: <202402082104.K7l4QATL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
 
-Hey Jackson,
+tree:   git://linuxtv.org/sailus/media_tree.git media-ref
+head:   f94611d22fa335b7dabf2e7356b4486e5a1f8907
+commit: fe3ba53caaf90a9499ff44949efc31f6cb34d7e0 [37/39] unref test
+config: x86_64-randconfig-r053-20240208 (https://download.01.org/0day-ci/archive/20240208/202402082104.K7l4QATL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-On 31.01.2024 10:30, jackson.lee wrote:
->The wave5 codec driver is a stateful encoder/decoder.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402082104.K7l4QATL-lkp@intel.com/
 
-You don't have to re introduce the driver here.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/media/pci/intel/ipu3/ipu3-cio2.c:1698:1-6: WARNING: invalid free of devm_ allocated data
+   drivers/media/pci/intel/ipu3/ipu3-cio2.c:1742:1-6: WARNING: invalid free of devm_ allocated data
 
->The following patches is for supporting yuv422 inpuy format, supporting
->runtime suspend/resume feature and extra things.
+vim +1698 drivers/media/pci/intel/ipu3/ipu3-cio2.c
 
-Could you provide some test scores in your next patch version?
-Interesting would be your score on V4L2-compliance and also the fluster
-score for the decoder.
+803abec64ef9d3 drivers/media/pci/intel/ipu3/ipu3-cio2-main.c Daniel Scally 2021-01-07  1685  
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1686  static void cio2_media_release(struct media_device *mdev)
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1687  {
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1688  	struct cio2_device *cio2 =
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1689  		container_of(mdev, struct cio2_device, media_dev);
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1690  
+c24173726c0e70 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2023-10-05  1691  	printk("cio2 media release\n");
+c24173726c0e70 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2023-10-05  1692  
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1693  	v4l2_async_nf_cleanup(&cio2->notifier);
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1694  	cio2_queues_exit(cio2);
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1695  	cio2_fbpt_exit_dummy(cio2);
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1696  	mutex_destroy(&cio2->lock);
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1697  
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20 @1698  	kfree(cio2);
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1699  }
+1812a9376b1c6b drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1700  
 
-Greetings,
-Sebastian
->
->jackson.lee (5):
->  wave5 : Support yuv422 input format for encoder.
->  wave5: Support to prepend sps/pps to IDR frame.
->  wave5 : Support runtime suspend/resume.
->  wave5: Use the bitstream buffer size from host.
->  wave5 : Fixed the wrong buffer size formula.
->
-> .../platform/chips-media/wave5/wave5-hw.c     |  11 +-
-> .../chips-media/wave5/wave5-vpu-dec.c         |  86 ++++------
-> .../chips-media/wave5/wave5-vpu-enc.c         | 159 +++++++++++++++---
-> .../platform/chips-media/wave5/wave5-vpu.c    |  68 ++++++++
-> .../platform/chips-media/wave5/wave5-vpuapi.c |   7 +
-> .../platform/chips-media/wave5/wave5-vpuapi.h |   1 +
-> .../media/platform/chips-media/wave5/wave5.h  |   3 +
-> 7 files changed, 255 insertions(+), 80 deletions(-)
->
->-- 
->2.43.0
->
->
+:::::: The code at line 1698 was first introduced by commit
+:::::: 1812a9376b1c6b78744fd6af0a05c2077977f6a9 media: ipu3-cio2: Release the cio2 device context by media device callback
+
+:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
