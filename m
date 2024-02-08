@@ -1,117 +1,139 @@
-Return-Path: <linux-media+bounces-4848-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4849-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE3784D687
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 00:20:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFD884D7F6
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 03:47:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 516B21F234B9
-	for <lists+linux-media@lfdr.de>; Wed,  7 Feb 2024 23:20:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7DBD4287627
+	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 02:47:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 387DB2032C;
-	Wed,  7 Feb 2024 23:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 774CE1BF37;
+	Thu,  8 Feb 2024 02:47:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E9720325
-	for <linux-media@vger.kernel.org>; Wed,  7 Feb 2024 23:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E241BC40
+	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 02:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707348025; cv=none; b=RcxOn/jv3uPrQWr4jPlQejVPcxnIrOiWrg1Q6yiaLndXjDYAX6AoU/CaLfwUYktyOSNXDn7lqL40HPLM9GFLi1Gh06HV3TK/zozyKjlzqB2E9MUzo2tN6MZI7AeBtAizVjorn1jY9EPVVoCIwLgJJi3nbO+kF8zHVlWdRNJhr5E=
+	t=1707360432; cv=none; b=EUyJgxezD5mboa0CmIqnlGtLowd813lzDhri4KlOkIux++2HVb8UXGvYiY+3hQe26CN2uVoGN8eY1d8o+O1ibBlhOUaDgm79nosaW1GKgUjxw7GFD/hSjzLJ6Ey6v2IpMsIJx3TsMMgci74TBIHsevTyV4cVJn5IpJNJ0HTW/LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707348025; c=relaxed/simple;
-	bh=XBeWvZovhZhFUSQrc4Lc0KU7j30exUS1aQ/80rDaIDI=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WW7ztWX/M5Yo4USyJGFzqb8KSPy5FgRut8p7oyy347uJ+E7fjHiG38dfONiEK86b2uka0ekaidL5iqGFO0mf4PI+D64Hgyy9ebkaAqS366pAfZW6zjYNVI+9qo150jJXg8/dfHrlbSlqzu5zcfEb97MLCYHSgVps84tLUkFXLUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Message-ID: <4b0425f6c876fd90d2de422ee8173a0819bee603.camel@gentoo.org>
-Subject: Re: [PATCH] v4l2-compliance: Fix building against libc++
-From: James Le Cuirot <chewi@gentoo.org>
+	s=arc-20240116; t=1707360432; c=relaxed/simple;
+	bh=JXMKKuH8UbePBctvw77UZ6bJv87sz8M/EzWSYMDDh1I=;
+	h=Date:Message-ID:From:To:Subject; b=N+GT6Adectzhu/geMdRHJuGd/uVF2PFIp5P8lnydUtUgNu9m6yKcvrl0Pg0xgMxh6bw76FJ1zO2dM/PEeq1u9CNwBays1wm7LFt2Vtemu3myIJDEls7t297/TNI5UlHDeJ0Jz1AKAkwTzk2r0vPIimEpxqn+2dDSbj/XKbGoXBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D82BC433F1
+	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 02:47:09 +0000 (UTC)
+Date: Thu, 08 Feb 2024 03:47:06 +0100
+Message-ID: <8cb5a810c93bba018e76dbdfe8280fca.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
-Date: Wed, 07 Feb 2024 23:20:16 +0000
-In-Reply-To: <20240207225732.22970-1-chewi@gentoo.org>
-References: <20240207225732.22970-1-chewi@gentoo.org>
-Autocrypt: addr=chewi@gentoo.org; prefer-encrypt=mutual;
- keydata=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
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-3N73Ub2t1ttEzKBjQI0E"
-User-Agent: Evolution 3.50.3 
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
+
+Results of the daily build of media_tree:
+
+date:			Thu Feb  8 03:00:55 CET 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	8c64f4cdf4e6cc5682c52523713af8c39c94e6d5
+v4l-utils git hash:	d700deb143685b8217aa8a6eeeba3b090d4287fc
+edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8575-g7162b9ec
+sparse version:		v0.5.0-8575-g7162b9ec
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
+
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: WARNINGS:
+
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
 
 
---=-3N73Ub2t1ttEzKBjQI0E
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+date:			Thu Feb  8 03:19:25 CET 2024
+virtme-64: OK: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 0
 
-On Wed, 2024-02-07 at 22:57 +0000, James Le Cuirot wrote:
-> v4l2-test-time32-64.cpp included compiler.h, which checks
-> _LIBCPP_VERSION. This only works against libc++ when a C++ header has
-> already been included, which wasn't the case here.
->=20
-> v4l2-test-time32-64.cpp doesn't need to include compiler.h anyway, so
-> just drop the include.
->=20
-> Signed-off-by: James Le Cuirot <chewi@gentoo.org>
-> ---
->  utils/v4l2-compliance/v4l2-test-time32-64.cpp | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/utils/v4l2-compliance/v4l2-test-time32-64.cpp b/utils/v4l2-c=
-ompliance/v4l2-test-time32-64.cpp
-> index e175c055..810fd5e4 100644
-> --- a/utils/v4l2-compliance/v4l2-test-time32-64.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-time32-64.cpp
-> @@ -16,7 +16,6 @@
-> =20
->  #include <sys/types.h>
-> =20
-> -#include "compiler.h"
->  #include "v4l2-compliance.h"
-> =20
->  typedef __s32		old_time32_t;
+date:			Thu Feb  8 03:45:48 CET 2024
 
-Sorry, ignore this patch. I'll write a better one soon.
+Detailed results are available here:
 
---=-3N73Ub2t1ttEzKBjQI0E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
 
------BEGIN PGP SIGNATURE-----
+Detailed regression test results are available here:
 
-iQJFBAABCAAvFiEEPxcZ3tkwcedKm2a8EiZBXQDdMTcFAmXEEDARHGNoZXdpQGdl
-bnRvby5vcmcACgkQEiZBXQDdMTfmIxAAqkmxCXpxWl73L79gGFq83EGMbzkvmU7Q
-4VzXrtSdwKie98SmWqVenGGRHMVuwd/80uA6QtcgAGIZmBu6jKwrebp0tY3ILq5b
-qr6dzOKu6xcVSFmBdhcLbuhCa6ECk1VWNlFZnZG0q/3Gbl9eGPEYJIHTr86syj3V
-DMz6Z/PJ6kjlsmbdBnBqSVFd87P9qXdCLUJZu5JoBxOoTMRGawUdfY36LYlP+zHN
-WOxuqAUH+uK/Cbunl4+xgacJP0ETza51X5KEy+7+URSX3JpShfJSre65acLJ6fZ0
-h0dj2ydIJpzUkg1RgeCWI/HIkVqoYkNbvaRgS2F5phN/j9Lz/m/2u0RZ8EIOe7RR
-K1LYsvzI4vfTDAt/ORN51kNOj1rlTFWSUK+0uhWXjkfxmuLwBm9OkqIkbyry3grB
-G8N8Uo2hznLXUMrQT3c47j62WGiHawCwuq89Yq+2mcE07sS1NHs/+oOKygaf8oRs
-cF65tjJUgUl+seT5TXQzZ8wmMk1q3xcMRrgOk7yRjiucpo3bZWIC1s1wDjRVjpS8
-XoeMxWI681iP5NjBTRzrrBWTw5ewx+BqeYCTA2rBSYf00AVl3kUI7LkZKtpYKAhN
-b6vI+gjo0I1/TlOkGk0r5y/ie+WNEUd7/ue4EphBb+4FprX5FKr08cZY5KpCj+FP
-JRqVhqLg9eA=
-=yudL
------END PGP SIGNATURE-----
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
 
---=-3N73Ub2t1ttEzKBjQI0E--
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
