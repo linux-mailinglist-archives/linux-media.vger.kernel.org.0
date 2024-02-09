@@ -1,248 +1,142 @@
-Return-Path: <linux-media+bounces-4894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4896-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF97284FA28
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 17:52:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0780C84FAF6
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 18:22:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F9561F21635
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 16:52:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6498A28CF1D
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 17:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23C2D129A8B;
-	Fri,  9 Feb 2024 16:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD9D27EF02;
+	Fri,  9 Feb 2024 17:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vtQB7j7S"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="OJK5+rus"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA417E115
-	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 16:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3E97BB06
+	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 17:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707497344; cv=none; b=CSey46W0p34iXHvdkd3+NiZUoUG7Wq6BrLHbugU2Rmj64Voxv5XEklUYaW2wK6DZnW49kZ9LcUlpMy2iADX/3Nv8NYfxEhEQWmGgCaCVkkzFYsvzXbj3GW0BTf2JupvPAHZzCheC+Zd2v7sAyIalDBP/5An7UBHw4SbMeHtbNqw=
+	t=1707499329; cv=none; b=X25wEZM3tdYMoFjvw1cKqiXdSJTHifOVqpHDoNddh1TtJ7EYqqKL11ppL/6guKi0MmQHsedx5eeNQjQLD7YfhhZ4OZvHMmo9OkDRjnuPwHDMJz4n/BJKcDLs49TPD1vqoWZSo9zxBvmFpmtXCIAgqE3zKv2t4E5e2k27uEZpVvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707497344; c=relaxed/simple;
-	bh=0HtMe6hNYfpY/mewRhsoX6CI2BMKIa0cQQLfu40DBb4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ui5IWKgtRvKjSWVx8W1753g5yA6e+udvKTxVGuYVsEkuSo1ui4VLBz6Ahzev5Ppzxe7o3+MGh0df/V+16Xmb65wu4f6LgCOWQaQZCtOCzzqSWW346T+7fY87J85wqWDpUjs44o5yV4IMmZ5v7r5icSIdMpCsHo8d4e9CWl9Fdxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vtQB7j7S; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96CF66054;
-	Fri,  9 Feb 2024 17:47:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707497246;
-	bh=0HtMe6hNYfpY/mewRhsoX6CI2BMKIa0cQQLfu40DBb4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vtQB7j7SyHJARlTwiYpxKYg8U5zPH+v9OnAoAwXDzf+Te/a2FG4OxtYwTuwa8bDVG
-	 UCof4VLdq1ZSOl8UCotCZE4v0iyZrp0RiRmmwUylHCqb+Dak/Z4+wi0hIoWMSeQelU
-	 BEutlYtoqnXHXvki7qZS4KteHmjFP5Pwd85UwHeg=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 8/8] media: admin-guide: Document the Raspberry Pi PiSP BE
-Date: Fri,  9 Feb 2024 17:48:23 +0100
-Message-ID: <20240209164825.166800-9-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
-References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1707499329; c=relaxed/simple;
+	bh=+imSJtxf176adv1L38bIPJf24ZMDxnz4d3q1WOYyKQE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WY7GvA0DZXzzdjbLxDxBFbqhT4ZxgKIV9uT4myjrqbxP5z9N3aJVM5VNrG5BevrB0T/l1tcYSwUVGTDLQ6+NSzOaZ8sJZJd+V+W4QnkWeoEsk7Vsq96S48sOTBii/njGvekh9Q7Az3lQw/PViRIi1By3N/YwZnJQJPwHBqXZg3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=OJK5+rus; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6e125818649so528639a34.1
+        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 09:22:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707499326; x=1708104126; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+imSJtxf176adv1L38bIPJf24ZMDxnz4d3q1WOYyKQE=;
+        b=OJK5+rus6F1AyXivlrEo+gEc6DR3qy/ewI+Q/JirZeMNhhsCsbzsgPX0z3fnFxJJGj
+         p6DUFSkcT7jDkIn9AgqVuzK6dMJFnRou4HmFc7038zeuzU2OUiTiYgUWfwMNAnHnAcP4
+         jmiaSzL7+S2Pnh0fIA/RD4435x3fGDwHTwWSRY8xYjOasOajzoFpEeHbWTRUSnU0H46i
+         TBS+KXGz8EzFKu8UZ7yHzjcfOEJ6upmPUltfS9U6cUgKqd5faWLau9oQSHw1dMMlaP3A
+         cufBLUgjATVA/IWXiaa0suzPq7d3vcgPrYBwfZMl12OIcpOSN+P5SKAD8nQ6HNqEIb/X
+         7Ktg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707499326; x=1708104126;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+imSJtxf176adv1L38bIPJf24ZMDxnz4d3q1WOYyKQE=;
+        b=Dstde+b3sanfpm5bUqDLSF6BiFgSg5wGoA42hz1JWuTQazWFhDGKjfhwZe1zbjT7IU
+         GHcXnK+ulkl+zAV3yTa/WTusngmfoyUQDq4c5fa76VoBX0vGshf6Cyy1NLQHq+ZtLGgL
+         qy6QpMAXq4bkOFNNuqPiH2CDdfRtnyYyFpxCEegEE6HjPgON4UNqCrJ8atJPuZs0Kz5c
+         DP+iydXCwiJpJSw7kocnJo3FnU2HLp/8UuKhmBK//EXokJA84aDHV4zGQslFdEmWi9hS
+         OQC1zp+xsKsbALY2mH+DINtFcJLiqfzYmqF5fD4saHGxMFFsuveOQQQMfTmwJHsYGZHS
+         oHDw==
+X-Forwarded-Encrypted: i=1; AJvYcCV0rVQXitKqIhzJTRP6mOxT2zSmgkN+/zrIoTACcGdZINlwaDdB6ZjucmSwdeAfyyug31IQ905u/FneJCfQ+616O6A07YB9yVF4nwg=
+X-Gm-Message-State: AOJu0Yw9BOYNYzx3OwtZs273KhfCEad+E5BqXLygxyssZqjqX+35fRgz
+	3Fqc7uOeqCD9PDmEh900s+kRVpA0JN0tbjEnR7p6G8uANxBQ3K0vqLnCbtiaxUE=
+X-Google-Smtp-Source: AGHT+IFVo1pyfJE5nNc0iZXG549RZyZgrMmyUpAXcQcZ48gSLZ324pgrOfBLIZmWlQVqzzGfl7rpPg==
+X-Received: by 2002:a9d:4f19:0:b0:6e1:34d7:27b1 with SMTP id d25-20020a9d4f19000000b006e134d727b1mr2335811otl.8.1707499326690;
+        Fri, 09 Feb 2024 09:22:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVl6Fpxn1AxKI+k4lodJiIXYHWQhjKKkC3ASjZ65vLhhYopbZD4x09DaxSONhI9f8fNv19KzFGRx1cEyAi+lcYnbk01QarhXSdQvJjFiZPx26YW9yk+m2bEXnvQO4Vm+xdI6xoOLpYg9y3dZKmS0g+tWyYI98LdWAIGjmXB25m2q4OH2vr2FWWl4kPhsyJkPHGQk5GY2NPD9aO4yHNB9FopjPSt0hHOhVTu6ZbduszvYPa6zwzw2mSoTa6oBmPPOg5Cj58vApHjPEYGb09XDfFSoupbxGYjPFBqsnOnzDpYU7Exzl+ppvMd90+W0t6+wu/+oSf8TbAdWO2ru3lhIwHQ6rOZFdGIwc2/cgx7xOA7GnY/DXTXZEglLjYG/e9zCA6Mx5N79QBEUV9dT1wA6Ijj7TEiqofo45d+BB+opNiu0Awrd3f/nin2pvp1FavRnd7Zxa1pdqG1DdGofLxzlk5Hhg==
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
+        by smtp.gmail.com with ESMTPSA id o19-20020ac85553000000b0042a31bc98b9sm860015qtr.24.2024.02.09.09.22.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 09:22:04 -0800 (PST)
+Message-ID: <49067f872e56d6f315a8b1b93bea92e54cba4874.camel@ndufresne.ca>
+Subject: Re: [PATCH v2] dt-bindings: media: Add sram-size Property for Wave5
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Nishanth Menon <nm@ti.com>, Krzysztof Kozlowski
+	 <krzysztof.kozlowski@linaro.org>
+Cc: Brandon Brnich <b-brnich@ti.com>, Nas Chung <nas.chung@chipsnmedia.com>,
+  Jackson Lee <jackson.lee@chipsnmedia.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>, Darren
+ Etheridge <detheridge@ti.com>
+Date: Fri, 09 Feb 2024 12:22:02 -0500
+In-Reply-To: <20240202125257.p4astjuxpzr5ltjs@dragster>
+References: <20240201184238.2542695-1-b-brnich@ti.com>
+	 <1209b7cf-5be2-4107-aa6b-d67a32ea3737@linaro.org>
+	 <20240202125257.p4astjuxpzr5ltjs@dragster>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add documentation for the PiSP Back End memory-to-memory ISP.
+Le vendredi 02 f=C3=A9vrier 2024 =C3=A0 06:52 -0600, Nishanth Menon a =C3=
+=A9crit=C2=A0:
+> On 11:47-20240202, Krzysztof Kozlowski wrote:
+> > On 01/02/2024 19:42, Brandon Brnich wrote:
+> > > Wave521c has capability to use SRAM carveout to store reference data =
+with
+> > > purpose of reducing memory bandwidth. To properly use this pool, the =
+driver
+> > > expects to have an sram and sram-size node. Without sram-size node, d=
+river
+> > > will default value to zero, making sram node irrelevant.
+> >=20
+> > I am sorry, but what driver expects should not be rationale for new
+> > property. This justification suggests clearly it is not a property for =
+DT.
+> >=20
+>=20
+> Yup, the argumentation in the commit message is from the wrong
+> perspective. bindings are OS agnostic hardware description, and what
+> driver does with the description is driver's problem.
+>=20
+> I will at least paraphrase my understanding:
+> In this case, however, the hardware block will limp along with
+> the usage of DDR (as is the current description), due to the
+> latencies involved for DDR accesses. However, the hardware block
+> has capability to use a substantially lower latency SRAM to provide
+> proper performance and hence for example, deal with higher resolution
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- Documentation/admin-guide/media/pisp-be.dot   |  22 ++++
- Documentation/admin-guide/media/pisp-be.rst   | 117 ++++++++++++++++++
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- 3 files changed, 140 insertions(+)
- create mode 100644 Documentation/admin-guide/media/pisp-be.dot
- create mode 100644 Documentation/admin-guide/media/pisp-be.rst
+nit: I'd suggest to refer to "higher bandwidth" to generalize the combinati=
+on
+formed by resolution and frame rate. The resolution is always fixed with th=
+is
+IP, regardless if its fast enough of not. It may not match the stream creat=
+or
+intended frame rate though, which such optimization may fix.
 
-diff --git a/Documentation/admin-guide/media/pisp-be.dot b/Documentation/admin-guide/media/pisp-be.dot
-new file mode 100644
-index 000000000000..001b2c16e232
---- /dev/null
-+++ b/Documentation/admin-guide/media/pisp-be.dot
-@@ -0,0 +1,22 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0 | <port1> 1 | <port2> 2 | <port8> 8} | pispbe\n | {<port3> 3 | <port4> 4 | <port5> 5 | <port6> 6 | <port7> 7}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port3 -> n0000001d [style=bold]
-+	n00000001:port4 -> n00000023 [style=bold]
-+	n00000001:port5 -> n00000029 [style=bold]
-+	n00000001:port6 -> n0000002f [style=bold]
-+	n00000001:port7 -> n00000035 [style=bold]
-+	n0000000b [label="pispbe-input\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n0000000b -> n00000001:port0 [style=bold]
-+	n00000011 [label="pispbe-tdn_input\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n00000011 -> n00000001:port1 [style=bold]
-+	n00000017 [label="pispbe-stitch_input\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000017 -> n00000001:port2 [style=bold]
-+	n0000001d [label="pispbe-hog_output\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n00000023 [label="pispbe-output0\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-+	n00000029 [label="pispbe-output1\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
-+	n0000002f [label="pispbe-tdn_output\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
-+	n00000035 [label="pispbe-stitch_output\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
-+	n0000003b [label="pispbe-config\n/dev/video8", shape=box, style=filled, fillcolor=yellow]
-+	n0000003b -> n00000001:port8 [style=bold]
-+}
-diff --git a/Documentation/admin-guide/media/pisp-be.rst b/Documentation/admin-guide/media/pisp-be.rst
-new file mode 100644
-index 000000000000..871d44c3de04
---- /dev/null
-+++ b/Documentation/admin-guide/media/pisp-be.rst
-@@ -0,0 +1,117 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================================
-+Raspberry Pi PiSP Back End Memory-to-Memory ISP (pisp-be)
-+=========================================================
-+
-+The PiSP Back End
-+=================
-+
-+The PiSP Back End is a memory-to-memory Image Signal Processor (ISP) which reads
-+image data from DRAM memory and performs image processing as specified by the
-+application through the parameters in a configuration buffer, before writing
-+pixel data back to memory through two distinct output channels.
-+
-+The ISP registers a programming model are documented in the `Raspberry Pi Image
-+Signal Processor (ISP) Specification document
-+<https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf>`_
-+
-+The PiSP Back End ISP processes images in tiles to allow concurrent processing
-+of different images. The handling of image tassellation and the computation of
-+low-level configuration parameters is realized by a free software library
-+called `libpisp <https://github.com/raspberrypi/libpisp>`_.
-+
-+The full image processing pipeline, which involves capturing RAW Bayer data from
-+an image sensor through a MIPI CSI-2 compatible capture interface, storing them
-+in DRAM memory and processing them in the PiSP Back to obtain images usable by
-+an application is implemented in `libcamera <www.libcamera.org>`_ as part of the
-+Raspberry Pi platform support.
-+
-+The pisp-be driver
-+==================
-+
-+The Raspberry Pi PiSP Back End (pisp-be) driver is located under
-+drivers/media/platform/raspberrypi/pisp-be. It uses the `V4L2 API` to register
-+a number of video capture and output devices, the `V4L2 subdev API` to register
-+a subdevice for the ISP that connects the video devices in a single media graph
-+realized using the `Media Controller (MC) API`.
-+
-+As the PiSP Back End device processes images in tiles, it can be multiplexed
-+between several different execution contexts. The driver registers two
-+`contexts` represented as two distinct media graph instances but could
-+potentially register more of them.
-+
-+The media topology registered by the `pisp-be` driver is the following one:
-+
-+.. _pips-be-topology:
-+
-+.. kernel-figure:: pisp-be.dot
-+    :alt:   Diagram of the default media pipeline topology
-+    :align: center
-+
-+
-+Each media graph instance registers the following video device nodes:
-+
-+- pispbe-input: output device for images to be submitted to the ISP for
-+  processing.
-+- pispbe-tdn_input: output device for temporal denoise.
-+- pispbe-stitch_input: output device for image stitching (HDR).
-+- pipsbe-hog_output: capture device for HOG (histogram of oriented gradients).
-+- pispbe-output0: first capture device for processed images.
-+- pispbe-output1: second capture device for processed images.
-+- pispbe-tdn_output: capture device for temporal denoise.
-+- pispbe-stitch_output: capture device for image stitching (HDR).
-+- pispbe-config: output device for ISP configuration parameters.
-+
-+pispbe-input
-+------------
-+
-+Images to be processed by the ISP are queued to the `pispbe-input` output device
-+node. For a list of image formats supported as input format by the ISP refer to
-+the PiSP specification document.
-+
-+pispbe-tdn_input, pispbe-tdn_output
-+-----------------------------------
-+
-+The `pispbe-tdn_input` output video device receives images to be processed by
-+the temporal denoise block which are captured from the `pispbe-tdn_output`
-+capture video device. Userspace should maintain a queue of buffers as captured
-+from the TDN output and input to the TDN input device.
-+
-+pispbe-stitch_input, pispbe-tdn_output
-+--------------------------------------
-+
-+To realize HDR (high dynamic range) image processing the image stitching and
-+tonemapping blocks are used. The `pispbe-stitch_output` writes images to memory
-+and the `pispbe-stitch_input` receives the previously written frame to process
-+it along with the current input image. Userspace should maintain a queue of
-+buffers as captured from the stitch output and input to the stitch input device.
-+
-+pipsbe-hog_output
-+-----------------
-+
-+The `pipsbe-hog_output` video capture device produces image statistics in the
-+form of 'Histogram of Oriented Gradients'.
-+
-+pispbe-output0, pispbe-output1
-+------------------------------
-+
-+The two capture devices write to memory the pixel data as processed by the ISP.
-+
-+pispbe-config
-+-------------
-+
-+The `pispbe-config` output video devices receives a buffer of configuration
-+parameters that define the desired image processing to be performed by the ISP.
-+
-+The format of the ISP configuration parameter is defined by
-+:c:type:`pisp_be_tiles_config` C structure and the meaning of each parameter is
-+described in the `PiSP specification` document.
-+
-+ISP configuration
-+=================
-+
-+The ISP configuration is described solely by the content of the parameters
-+buffer. The only parameter that userspace needs to configure using the V4L2 API
-+is the image format on the output and capture video devices for validation of
-+the content of the parameters buffer.
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index f4bb2605f07e..1a491a74a272 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -21,6 +21,7 @@ Video4Linux (V4L) driver-specific documentation
- 	omap3isp
- 	omap4_camera
- 	philips
-+	pisp-be
- 	qcom_camss
- 	rcar-fdp1
- 	rkisp1
--- 
-2.43.0
+> data streams. This SRAM is instantiated at SoC level rather than
+> embedded within the hardware block itself.
+>=20
+>=20
 
 
