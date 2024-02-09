@@ -1,269 +1,222 @@
-Return-Path: <linux-media+bounces-4898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4899-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FFA84FB1C
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 18:34:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF9384FB20
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 18:36:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB0AAB2B58C
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 17:34:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B5D7287EDB
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 17:36:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B84E180C01;
-	Fri,  9 Feb 2024 17:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48FE27E595;
+	Fri,  9 Feb 2024 17:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="OJlo6k2S"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L0ezojss"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7627F482
-	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 17:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D2674E33
+	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 17:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707500030; cv=none; b=Lty8O5iWFo9+f4Fl8s4EHAVY/ePBRFtHl5RnhVXyrXud87hPtfF/35rbjdngq85mJQgGTCLczzEVRYVNQV14N4Cy1fuNiXdBxzBJMz9kbcR1SBDUUi3Uno1ZLIkB/vMHr3xsWMQutlu1ikNSshWK/vpOm/jtWdfTIAYv7kCsrYo=
+	t=1707500157; cv=none; b=pd5suUcvIeFP/1Tv9EYqQQXIz+/KMPoa2U8CqFUFjOyjOGt33Nl8gcbztXvaE1tr1SE5/EJPFHb0YK8VM7enSATX/6P2LlnDLkc+QHZt0CErrlGlh5v/hSEVR20omuq59NwoUQec6G82qRfCALKQ5D311yepoO7YVkORGcAXEwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707500030; c=relaxed/simple;
-	bh=RKyLaCYcOuKgOwJ/abfkPuR4VjhD6wnEE2iEjrY9u1w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qE66FQQoKdS4Q5nqjvOU2C6VmnaY6riS9jr3eUFeizuX+WbrbCgCti4L21qY8LuYo+acupUAEy5NEE4mnB2vyRN44eogVHO0/V1Ann7rtYFAWsp2qFVI4f987iDeYkIL4JRDT8tcnbrheYiAMZwFHoUzaUp3FSO577bxF3fKzeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=OJlo6k2S; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-42a8b99eaf9so7523091cf.1
-        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 09:33:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707500027; x=1708104827; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=t+wCQrKg4lem3H6X4ivk4Tc4IVPl1/Suib/kv/2Lkog=;
-        b=OJlo6k2SSsgR19STCRrIn5SG+TWHaERVAFuZ/OdfOnfpDLMWlPcrA66iy1sTEYWUhb
-         uKLTNWOyiSa2+V8WZs9uz0qsRQEBBbeWE5XiKFcHSiiroaBSsZzPG0tsFphKQRbY4YSG
-         ba2icxLIk5OixWyHl2zcRq5U/pKQVBPKdV29sloutvwI8oaqMfQmBMstC7KL6lHzR+YE
-         6X47/569tktiFl/I+ClAlBxEQ+L5QrqlZrwi3sVzTJGiQYClEKx4tj+ae5P9L429S6La
-         hMS8KJwK3ejyZGStUuK5/7WxltBjSuSd2rudlSnk6KNrc6XCTEFvg2XMMOHxefsr/VyT
-         RISw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707500027; x=1708104827;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t+wCQrKg4lem3H6X4ivk4Tc4IVPl1/Suib/kv/2Lkog=;
-        b=LMeUZDO5vDtWbHYAFihBlOoxUR8VipFTVpVpR5lTlEgXFSu3TbMTOLM8gKw4otlXxT
-         +sjWHoPPZHI6rErEDB7gmDL9Fr5cEOxECoaHkwG+j0KoyNWkwO6mE1jy1ehj3yDMtJjM
-         90LyiGHT9o6BK7Ii8RfegWX5jP0s/aFrKEsGeYsuv+rldJzAAr+AJG1ZtSeJgVuRNFzI
-         EU5k0Bb8ZKlLNCiX6eo7fTucKbalsJEz9lMzh9/ABa3hUdwKQ/RmFmo2NoN5xph3ZKKS
-         NVptRkOZB0Ytr/5IPSGJu/0AuS3yWFtHAU3fuTH9gwBWymcfxDmqwDkJdxOIrec2gnov
-         uhdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEXnGpfH29BMTDM9XTeNGtJwI1SblIjS1fJFrGwzhGUyhQ0L7O0d47SKksBnxqULrUgW3TweDYHsIaBeqWcmwyxlekxUsrxekKZ6s=
-X-Gm-Message-State: AOJu0Yy3GUrSrPN93YnODVeb9UnRDzN91SRgdGAd5GS9PcbP9oyzYBR/
-	tCWdyCYPlJOiMU/1RbpkCRPlDAdqMm6Ms8rpFwr2MjSbeppiXXND20jcKmsaWSk=
-X-Google-Smtp-Source: AGHT+IFmfC8wYXUThuVw4pJuxiaKGAmNB6cqQ62NC4StBW3cIFzbVY1fXDLROlcSIm11c9lVWhN7aw==
-X-Received: by 2002:a05:622a:292:b0:42c:613c:b695 with SMTP id z18-20020a05622a029200b0042c613cb695mr1237864qtw.43.1707500027307;
-        Fri, 09 Feb 2024 09:33:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVPDBi6RJDjDprdH22TJkaDgQLmzHhtgrwku8zxA/WHNMafcV0jy/g7VcaklNjhRLnsmZyzEhQhBlouQQfUu0InF5BwbD6No3wo9K5Z5RIOV/fb+wY+XX4xGgsFz8VLgp7eRW2OWpkpLoyxEE8kuMx/YfJGWbSRKw24iL2SXUyjf5SohRynbnOMpeptlVmua0X4HDVL+6ANzDASsTGcZ1wMcybfj8lT36AbSKQYGEDhOkY+WOa3mursEJ1tFlpkUoGy1VA8tVv5BIkvFrI7a3GpDx1x0LL2JCfXiYr5bSmeOAjubFHwl9GQ697g6tGeh6OTJlf0kO5y6VlbpmoPMqWBmZjeq4/1Ptctp5tSAZZjq66IjNsVAbgHaxNjkFcxkvzCxWX0kjz64rM=
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
-        by smtp.gmail.com with ESMTPSA id z13-20020ac8454d000000b0042c00beee84sm870956qtn.43.2024.02.09.09.33.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 09:33:46 -0800 (PST)
-Message-ID: <99bf4d6d988d426492fffc8de9015751c323bd8a.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] dt-bindings: media: Add sram-size Property for Wave5
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Brandon Brnich <b-brnich@ti.com>, Nishanth Menon <nm@ti.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Nas Chung
- <nas.chung@chipsnmedia.com>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
- linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>, Darren
- Etheridge <detheridge@ti.com>
-Date: Fri, 09 Feb 2024 12:33:45 -0500
-In-Reply-To: <20240205192003.3qns6cxqurqnnj7c@udba0500997>
-References: <20240201184238.2542695-1-b-brnich@ti.com>
-	 <1209b7cf-5be2-4107-aa6b-d67a32ea3737@linaro.org>
-	 <20240202125257.p4astjuxpzr5ltjs@dragster>
-	 <8091a8cf-c1c0-49b0-b136-1ad0d185aa6a@linaro.org>
-	 <20240202155813.szxvi7bfp5xh7rvw@babble>
-	 <adfef53c-d64e-4855-ab61-101b6fa419e5@linaro.org>
-	 <20240205141255.z5kybm42qld44tdz@portfolio>
-	 <20240205192003.3qns6cxqurqnnj7c@udba0500997>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	s=arc-20240116; t=1707500157; c=relaxed/simple;
+	bh=+cvuL5TKOhg8d9BPpDLs+fMACwYXdjo1VRAGUvenw8E=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=prJyRk5uRxVIOP32fsgM9Y1ed+VYee13mi3XiUp7o/KNsSezjJpS0dZOCJBiVrK5QW6jAOahNBH50pdTolR4HpXtLeki/XWQ9gZG7OfWwvIAkno48ojVQdwcaH/nwVO8x+YZj03pLDALkSMulvqX1+Sd1c/q4EK8AiaqnvyFHvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L0ezojss; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02FA474A;
+	Fri,  9 Feb 2024 18:34:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707500068;
+	bh=+cvuL5TKOhg8d9BPpDLs+fMACwYXdjo1VRAGUvenw8E=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=L0ezojssf/8rNYglYUVp8qwBxgZoxImzrxATPIRhOiAymo+HR71cZE30KrejWILJf
+	 266P3+RxOscSOFeo7nbBDaCigbHVOSlt++jBeSRWV5SNlM99avaFjoiQNnYAj+QK7q
+	 d74x+INncVUOoBxUTw4vELU0six6OCRv1+mMR9vI=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240209164825.166800-4-jacopo.mondi@ideasonboard.com>
+References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com> <20240209164825.166800-4-jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 3/8] media: Add a pixel format for BRG48 and RGB48
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, Naushir Patuck <naush@raspberrypi.com>, Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List <linux-media@vger.kernel.org>
+Date: Fri, 09 Feb 2024 17:35:50 +0000
+Message-ID: <170750015052.493890.8248324138903208198@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Le lundi 05 f=C3=A9vrier 2024 =C3=A0 13:20 -0600, Brandon Brnich a =C3=A9cr=
-it=C2=A0:
-> On 08:12-20240205, Nishanth Menon wrote:
-> > On 17:08-20240202, Krzysztof Kozlowski wrote:
-> > > On 02/02/2024 16:58, Nishanth Menon wrote:
-> > > > On 14:56-20240202, Krzysztof Kozlowski wrote:
-> > > > > On 02/02/2024 13:52, Nishanth Menon wrote:
-> > > > > > On 11:47-20240202, Krzysztof Kozlowski wrote:
-> > > > > > > On 01/02/2024 19:42, Brandon Brnich wrote:
-> > > > > > > > Wave521c has capability to use SRAM carveout to store refer=
-ence data with
-> > > > > > > > purpose of reducing memory bandwidth. To properly use this =
-pool, the driver
-> > > > > > > > expects to have an sram and sram-size node. Without sram-si=
-ze node, driver
-> > > > > > > > will default value to zero, making sram node irrelevant.
-> > > > > > >=20
-> > > > > > > I am sorry, but what driver expects should not be rationale f=
-or new
-> > > > > > > property. This justification suggests clearly it is not a pro=
-perty for DT.
-> > > > > > >=20
-> > > > > >=20
-> > > > > > Yup, the argumentation in the commit message is from the wrong
-> > > > > > perspective. bindings are OS agnostic hardware description, and=
- what
-> > > > > > driver does with the description is driver's problem.
-> > > > > >=20
-> > > > > > I will at least paraphrase my understanding:
-> > > > > > In this case, however, the hardware block will limp along with
-> > > > > > the usage of DDR (as is the current description), due to the
-> > > > > > latencies involved for DDR accesses. However, the hardware bloc=
-k
-> > > > > > has capability to use a substantially lower latency SRAM to pro=
-vide
-> > > > > > proper performance and hence for example, deal with higher reso=
-lution
-> > > > > > data streams. This SRAM is instantiated at SoC level rather tha=
-n
-> > > > > > embedded within the hardware block itself.
-> > > > >=20
-> > > > > That sounds like OS policy. Why would different boards with the s=
-ame
-> > > > > component have this set differently? Based on amount of available
-> > > > > memory? This, I believe, is runtime configuration because it migh=
-t
-> > > > > depend on user-space you run. Based on purpose (e.g. optimize for
-> > > > > decoding or general usage)? Again, run-time because same hardware=
- board
-> > > > > can be used for different purposes.
-> > > > >=20
-> > > >=20
-> > > > Why is this OS policy? It is a hardware capability.
-> > >=20
-> > > How amount of SRAM size is hardware capability? Each hardware can wor=
-k
-> > > probably with 1, 2 or 100 pages.
-> > >=20
-> > > > Traditionally
-> > > > many similar hardware blocks would have allocated local SRAM for
-> > > > worst case inside the hardware block itself and don't need to use
-> > > > DDR in the first place. However, for this hardware block, it has
-> > > > capability to use some part of one of the many SRAM blocks in the S=
-oC,
-> > > > not be shared for some part of the system - so from a hardware
-> > > > description perspective, we will need to call that out as to which
-> > > > SRAM is available for the hardware block.
-> > >=20
-> > > Just because more than one device wants some memory, does not mean th=
-is
-> > > is hardware property. Drivers can ask how much memory available there
-> > > is. OS knows how many users of memory there is, so knows how much to
-> > > allocate for each device.
-> > >=20
-> > > >=20
-> > > > Why would different boards need this differently? simply because
-> > > > different cameras have different resolution and framerates - and yo=
-u
-> > > > dont want to pay the worst case sram penalty for all product
-> > > > configuration.
-> > >=20
-> > > Choice of resolution and framerate is runtime choice or use-case
-> > > dependent, not board level configuration, therefore amount of SRAM si=
-ze
-> > > to use is as well.
-> >=20
-> > I am arguing this is similar to what we have for remote-procs. Yes,
-> > usecases usage come to a conclusion that sram size X is needed. Sure.
-> > Lets even argue that sram =3D <&sram> has X+100 bytes available, so as
-> > far as allocator is concerned, it can allocate. But how does the driver
-> > know that 1k of that sram is already used by a remote core or some othe=
-r
-> > function?
-> >=20
-> > This is no different from a remote proc usecase, following which, I
-> > wonder if "memory-region" is the right way to describe this usage? That
-> > would be a very specific bucket that is made available to the driver.
-> > And I'd say sram and memory-region are two mutually exclusive option?
->=20
-> Wouldn't this just be a static allocation of the SRAM then? I believe
-> the correct way to do this is highlighted in Rob's[0] response. This is
-> also something we have done in the past[1], but I thought dynamic
-> allocation was preferred method so that the VPU didn't hog a portion of
-> SRAM. Seems wasteful in cases where the VPU is not being used.
->=20
-> The device itself has the capability of doing runtime allocation before
-> any decoder/encoder stream instances are opened. All of these opened
-> streams will share this one allocated pool, meaning first open stream
-> allocates and the rest share. Because of this, the goal is to allocate
-> enough to meet maximum use case of VPU (4K60) or max case supported by
-> the SoC itself if the SoC is unable to handle 4K60.
->=20
-> Is there preferred method for dynamic SRAM allocation? I understand
-> point that framerate and resolution are runtime choice, but these
-> properties are not guaranteed to be known when streams are being opened.
+In $SUBJECT s/BRG48/BGR48/
 
-Indeed, the driver won't know until the decoding process, the processing of=
- the
-stream headers, will have started. At this point, it is too late to introdu=
-ce
-usage of SRAM. A "static" probe time allocation base on the selected board
-capabilities seems like a fair direction, you may combine with driver param=
-eter
-perhaps to allow per use case customization. At least, you don't wastefully
-allocate sram even when there is no driver on your OS or if the driver is n=
-ever
-loaded.
 
+The other references all look like they state BGR correctly so with that
+fixed:
+
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+I think I heard you might have run this through some new linux-media CI
+system. Does that produce artifacts that make it easy to see the
+produced documentation? That would be easier to look at than the source
+to see the table.
+
+--
+Kieran
+
+
+
+Quoting Jacopo Mondi (2024-02-09 16:48:18)
+> Add BGR48 and RGB48 16-bit per component image formats.
 >=20
-> If static SRAM allocation is the correct method to go, then this series
-> can be ignored and I will add section in device tree and remove check
-> for parameter in driver as that will now be a bug.
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 39 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c         |  2 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+>  include/uapi/linux/videodev2.h                |  4 ++
+>  4 files changed, 47 insertions(+)
 >=20
-> [0]: https://patchwork.kernel.org/project/linux-media/patch/2024020118423=
-8.2542695-1-b-brnich@ti.com/#25696671
-> [1]: https://patchwork.kernel.org/project/linux-media/patch/20231108-wave=
-5-v14-rebased-v14-8-0b4af1258656@collabora.com/
-
-Ack.
-
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Docum=
+entation/userspace-api/media/v4l/pixfmt-rgb.rst
+> index b71b80d634d6..458308ae4eb8 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> @@ -996,6 +996,45 @@ arranged in little endian order.
 > =20
-> > >=20
-> > > >=20
-> > > > Further, Linux is not the only thing that runs on these SoCs.. thes=
-e are
-> > > > mixed systems with autonomous operations of uC cores who may or may=
-not
-> > > > (typically not) even need to communicate with MPU to state which pa=
-rt of
-> > > > resource they are hogging (hence the board level definition).
-> > >=20
-> > > OK that could be the case but I could also say choice of RTOS or any
-> > > other is also board-independent.
-> > --=20
-> > Regards,
-> > Nishanth Menon
-> > Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 =
-DDB5 849D 1736 249D
->=20
-> Thanks,
-> Brandon
->=20
-
+>      \normalsize
+> =20
+> +16 Bits Per Component
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +These formats store an RGB triplet in six bytes, with 16 bits per compon=
+ent.
+> +
+> +.. raw:: latex
+> +
+> +    \small
+> +
+> +.. flat-table:: RGB Formats With 16 Bits Per Component
+> +    :header-rows:  1
+> +
+> +    * - Identifier
+> +      - Code
+> +      - Byte 1-0
+> +      - Byte 3-2
+> +      - Byte 5-4
+> +    * .. _V4L2-PIX-FMT-BGR48:
+> +
+> +      - ``V4L2_PIX_FMT_BGR48``
+> +      - 'BGR6'
+> +
+> +      - B\ :sub:`15-0`
+> +      - G\ :sub:`15-0`
+> +      - R\ :sub:`15-0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGB48:
+> +
+> +      - ``V4L2_PIX_FMT_RGB48``
+> +      - 'RGB6'
+> +
+> +      - R\ :sub:`15-0`
+> +      - G\ :sub:`15-0`
+> +      - B\ :sub:`15-0`
+> +
+> +.. raw:: latex
+> +
+> +    \normalsize
+> +
+>  Deprecated RGB Formats
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index d34d210908d9..ff4b4d2de9d2 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -253,6 +253,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+>                 { .format =3D V4L2_PIX_FMT_RGB555,  .pixel_enc =3D V4L2_P=
+IXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 =
+}, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+>                 { .format =3D V4L2_PIX_FMT_BGR666,  .pixel_enc =3D V4L2_P=
+IXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 =
+}, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+>                 { .format =3D V4L2_PIX_FMT_BGR48_12, .pixel_enc =3D V4L2_=
+PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0=
+ }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +               { .format =3D V4L2_PIX_FMT_BGR48, .pixel_enc =3D V4L2_PIX=
+EL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 },=
+ .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +               { .format =3D V4L2_PIX_FMT_RGB48, .pixel_enc =3D V4L2_PIX=
+EL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 },=
+ .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+>                 { .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2=
+_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, =
+0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+>                 { .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4=
+L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0=
+, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+>                 { .format =3D V4L2_PIX_FMT_RGBX1010102, .pixel_enc =3D V4=
+L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0=
+, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index 24f52485e59c..3c9b5b2f456c 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1298,6 +1298,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>         case V4L2_PIX_FMT_RGBX1010102:  descr =3D "32-bit RGBX 10-10-10-2=
+"; break;
+>         case V4L2_PIX_FMT_RGBA1010102:  descr =3D "32-bit RGBA 10-10-10-2=
+"; break;
+>         case V4L2_PIX_FMT_ARGB2101010:  descr =3D "32-bit ARGB 2-10-10-10=
+"; break;
+> +       case V4L2_PIX_FMT_BGR48:        descr =3D "48-bit BGR 16-16-16"; =
+break;
+> +       case V4L2_PIX_FMT_RGB48:        descr =3D "48-bit RGB 16-16-16"; =
+break;
+>         case V4L2_PIX_FMT_BGR48_12:     descr =3D "12-bit Depth BGR"; bre=
+ak;
+>         case V4L2_PIX_FMT_ABGR64_12:    descr =3D "12-bit Depth BGRA"; br=
+eak;
+>         case V4L2_PIX_FMT_GREY:         descr =3D "8-bit Greyscale"; brea=
+k;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 94a0373e8234..2782c7962974 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -584,6 +584,10 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_BGR48_12    v4l2_fourcc('B', '3', '1', '2') /* 48  =
+BGR 12-bit per component */
+>  #define V4L2_PIX_FMT_ABGR64_12   v4l2_fourcc('B', '4', '1', '2') /* 64  =
+BGRA 12-bit per component */
+> =20
+> +/* RGB formats (6 bytes per pixel) */
+> +#define V4L2_PIX_FMT_BGR48 v4l2_fourcc('B', 'G', 'R', '6') /* 16  BGR-16=
+-16-16 */
+> +#define V4L2_PIX_FMT_RGB48 v4l2_fourcc('R', 'G', 'B', '6') /* 16  RGB-16=
+-16-16 */
+> +
+>  /* Grey formats */
+>  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Grey=
+scale     */
+>  #define V4L2_PIX_FMT_Y4      v4l2_fourcc('Y', '0', '4', ' ') /*  4  Grey=
+scale     */
+> --=20
+> 2.43.0
+>
 
