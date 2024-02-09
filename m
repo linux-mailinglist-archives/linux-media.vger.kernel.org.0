@@ -1,313 +1,276 @@
-Return-Path: <linux-media+bounces-4875-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4876-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFEC84F296
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 10:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D15484F526
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 13:25:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 435711F2679D
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 09:48:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D41E1F230B8
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 12:25:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E16C67C7B;
-	Fri,  9 Feb 2024 09:48:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E8D333CCF;
+	Fri,  9 Feb 2024 12:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="dHKxph8B"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sU+GlcAX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1056664A3;
-	Fri,  9 Feb 2024 09:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707472116; cv=pass; b=JQdijwNKNvXDTf2i1RbPvUigLSVJymDk4EGgfNmXJEFAPDvmlhEQRU5D2E4DlZaDg14o3RwphjXfrmR81drmaTG6EtY0Z7p/WxAtqosVoqzbY7d1/tnGUL5HkOMWYVGPqdFrtYuU5hGm2GPLuJ8QtWqv0dyKXn3jZQQW+/3gHEE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707472116; c=relaxed/simple;
-	bh=vORW683FBpA+qrF+C2rCdYcNkhpTAxupmgbECNkzkjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hoAMVP32VBen10kzTlB2ggByu8MGgeVUOmBNa9iHayk0TFN1uxzXe4Qtu/J5VOYEQTYaqNxZYOJmRP/3hiX0NHMlBvh+sJyc2KX+rw73B1JXZVbeQDWTsnbFFJitNuPxG2BtSogGKUu1osEHE053GQFL2VsIv55hJQOCDtIfLDA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=dHKxph8B; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TWTZ72Gb1z49Pv3;
-	Fri,  9 Feb 2024 11:48:31 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1707472111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6xFovG9lh/igg6TJvOZbqG+Gi6zv4L7L9QJSaWfDgik=;
-	b=dHKxph8BRn2FL1fXiqmFYYJA3QDqoNST+8rhSKiW1HnR+YtNZ8evvPWr1jvo/gOuyIIPeS
-	R/dbatG7hktt8B3LDLkrGMx+24vho6zj8upOR8jE4g/dgWcosyNfevUT6nu/eDbomwmkRf
-	uAoDZ8NCwNYWDUnoJ0wkweKiu8vc2xTezgr/ef5t705Sg/RN3MtZBdl1ZuInGjUaX7j8q3
-	vhvIWqgMNOuIb9MR/gK1a4KXJFImjt31Gg2W2D2mJK869iBT7H9Ym7TaBKzjPuAa65eKCK
-	nH7RrCkQE3JPtfNO1ebBB4SH5944EgvgUuycE7FG2THCB7VwknOREmATr1TeHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1707472111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6xFovG9lh/igg6TJvOZbqG+Gi6zv4L7L9QJSaWfDgik=;
-	b=QBs9IKW6kyN8V2owFCCaVBOtIYdQKGeoSKB1jE3BmG2qrWf4wkFwLEN0m1SWniP8ysuyBu
-	u4X9jMYBp0TKtERVsvjcWo7erDU4QOZyy01fxMxW2R9lCAdFqodrBHXknikT1dFgsuZZ7W
-	YvCrYKy6ahVzlQFmkEf3/9zaDOQ1l7fYT81dBGfD/Ft8MaR7xRHVnwCnaqILMOipp5OGby
-	/ZTxddacH99NDLg9Lv3UA9CMfMMunHZc+VFfY6X+6iMVhI5wrcWIBhRqYWUgrBM/k7y39L
-	fz/KYVZTFKwtHZtLvYExCvsbKoJHop59m6wH0oYa9OTrlG+/AEh6A85eMPZ6nA==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1707472111; a=rsa-sha256;
-	cv=none;
-	b=rq5uc1wBx5zIgHw+CbDMnV61QX+6SRd+ulAPoPJ1QfUHnFu3cnmknvnydJ18mnThCbsZxw
-	PP16GvPu0rBqdK2pgK8mJuiRcmWa1vDn7shFFxGAL517niJb+6FiYpibXBtRSXbqCJLEB8
-	0UU4RpjhU/HlyYSPMWd4yuc71WHfER7pJ+0I1o58a/pWR8sGaykJt5x6fucJqPGgy5gKyv
-	hjwEl9moQVk1mXV9fMWR0nX+AhwrqwIfioTrYuxrbZhxIlWmv6OVVEO8GBwugHsx2mQSAG
-	+hPMsI/NyahIIhFCvkJ26KljeFRKRE9YFGnQ8lJQO/07DixgulFwkHwQS7SaxA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 16548634C93;
-	Fri,  9 Feb 2024 11:48:31 +0200 (EET)
-Date: Fri, 9 Feb 2024 09:48:30 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: linux-media@vger.kernel.org, kernel@collabora.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
-Subject: Re: [PATCH v3 2/4] dt-bindings: media: add Maxim MAX96714F GMSL2
- Deserializer
-Message-ID: <ZcX07nUiI4IUuReP@valkosipuli.retiisi.eu>
-References: <20240111130349.2776699-1-julien.massot@collabora.com>
- <20240111130349.2776699-3-julien.massot@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224BF1DFE8;
+	Fri,  9 Feb 2024 12:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707481523; cv=none; b=dAFJxvnjhA/IMtKXAvSkJZG7zJgOQwcdjJKVRSfk2mA1SpnNth1pGIBGkw5hE3hOKNOF296z3B/+kT2kXiMw9GnkopiIwIWLgunYP16mCnm2lRLLs7J1Xoq89Y9VQ8n5G8rgkpitfuEoD8/2ALj346E1h2o55eUqLn1wGH8Cb+U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707481523; c=relaxed/simple;
+	bh=hRVlKXf2yacLO4M+lrkCWA9/Q2DQ9DL7E/DWm0kUQcI=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=nZPLFEZ2RWkt1gi5dmHOdt110b5Aai/zW4I50+2Ql0VJW92ejsx31FwBzwIQd1lPWspH81q4kQGX6KY9WCH03ZbxeiHB+g1zdVgBO3f/umIyKWWx782dBZdqXwE6mi6+szmq0QyI14CFFozqazvjNrqKhg+C0rOUSj2EX07WWHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sU+GlcAX; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BCA69B6;
+	Fri,  9 Feb 2024 13:23:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707481426;
+	bh=hRVlKXf2yacLO4M+lrkCWA9/Q2DQ9DL7E/DWm0kUQcI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=sU+GlcAXQDeMfNOFwYfjiEFxGizTCs3aoTL12WWWK1uuQVPywUniAg+FG8oJRsuvW
+	 KX6H1UHqOb9xJr7whi7ZogUs+pRJ8idR4GWAcI3DmN++gcsXX9W/wGeZBKfrDV/ej2
+	 4yM44c1eWeqDmtGbed8doYaPdoCWaUQTDN6df+rg=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240111130349.2776699-3-julien.massot@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <MAZPR01MB6957B9B109854FED3106A3DEF24B2@MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM>
+References: <20240102142729.1743421-1-bhavin.sharma@siliconsignals.io> <16ef7746-d038-4607-8e2f-8f7cef5a8b48@xs4all.nl> <MAZPR01MB695711E70CEDFC41DE5C2C8DF2462@MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM> <ae539786-f73a-41ba-97a4-ea409fb88e2f@xs4all.nl> <MAZPR01MB6957B9B109854FED3106A3DEF24B2@MAZPR01MB6957.INDPRD01.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH v2] media: adv7180: Fix cppcheck warnings
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, linux-media@vger.kernel.org <linux-media@vger.kernel.org>, linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
+To: Bhavin Sharma <bhavin.sharma@siliconsignals.io>, Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org
+Date: Fri, 09 Feb 2024 12:25:09 +0000
+Message-ID: <170748150921.721346.13310424783139362841@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Hi Julien,
+Quoting Bhavin Sharma (2024-02-09 09:11:22)
+> Hi Hans,
+>=20
+> > On 06/02/2024 06:05, Bhavin Sharma wrote:
+> >> Hi Hans,
+> >>
+> > >> Hi Bhavin,
+> >>
+> >>> On 02/01/2024 15:27, Bhavin Sharma wrote:
+> >>>> WARNING: Missing a blank line after declarations
+> >>>>
+> >>>> Signed-off-by: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
+> >>>> ---
+> >>>>=EF=BF=BD=EF=BF=BD drivers/media/i2c/adv7180.c | 27 +++++++++++++++++=
++---------
+> >>>>=EF=BF=BD=EF=BF=BD 1 file changed, 18 insertions(+), 9 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180=
+.c
+> >>>> index 54134473186b..0023a546b3c9 100644
+> >>>> --- a/drivers/media/i2c/adv7180.c
+> >>>> +++ b/drivers/media/i2c/adv7180.c
+> >>>> @@ -335,8 +335,9 @@ static u32 adv7180_status_to_v4l2(u8 status1)
+> >>>>=EF=BF=BD=EF=BF=BD static int __adv7180_status(struct adv7180_state *=
+state, u32 *status,
+> >>>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD=EF=BF=BD=EF=BF=BD v4l2_std_id *std)
+> >>>>=EF=BF=BD=EF=BF=BD {
+> >>>> -=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD int status1 =3D adv7180_read(s=
+tate, ADV7180_REG_STATUS1);
+> >>>> +=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD int status1;
+> >>>>
+> >>>> +=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD status1 =3D adv7180_read(state=
+, ADV7180_REG_STATUS1);
+> >>>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD if (s=
+tatus1 < 0)
+> >>>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD return s=
+tatus1;
+> >>>>
+> >>>> @@ -356,7 +357,9 @@ static inline struct adv7180_state *to_state(str=
+uct v4l2_subdev *sd)
+> >>>>=EF=BF=BD=EF=BF=BD static int adv7180_querystd(struct v4l2_subdev *sd=
+, v4l2_std_id *std)
+> >>>>=EF=BF=BD=EF=BF=BD {
+> >>>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD struc=
+t adv7180_state *state =3D to_state(sd);
+> >>>> -=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD int err =3D mutex_lock_interru=
+ptible(&state->mutex);
+> >>>> +=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD int err;
+> >>>> +
+> >>>> +=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD err =3D mutex_lock_interruptib=
+le(&state->mutex);
+> >>
+> >>> The problem here is the missing empty line, not that 'int err =3D <so=
+mething>;' part.
+> >>> So just add the empty line and don't split up the variable assignment.
+> >>
+> >> Yes, the error is of missing empty line and I only resolved that parti=
+cular error in the first version
+> >> of this patch.
+> >>
+> >> But I was recommended to keep the conditional statement close to the l=
+ine it is associated with
+> >> and to make changes in the code wherever similar format is followed.
+> >
+> >> So I followed the advise of Kieran Bingham and made changes accordingl=
+y.
+> >>
+> >> Below is the link of the full discussion : https://lore.kernel.org/lkm=
+l/MAZPR01MB695752E4ADB0110443EA695CF2432@MAZPR01MB6957.INDPRD01.PROD.OUTLOO=
+K.COM/T/
+>=20
+> > Kieran said this:
+>=20
+> >>> @@ -357,6 +357,7 @@ static int adv7180_querystd(struct v4l2_subdev *s=
+d, v4l2_std_id *std)
+> >>>=EF=BF=BD {
+> >>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD struct adv7180_state *state =3D to_state(sd);
+> >>
+> >> Personally, I would keep the if (err) hugging the line it's associated
+> >> with.
+> >>
+> >>
+> >>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD int err =3D mutex_lock_interruptible(&state->mutex);
+> >>> +
+> >>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD if (err)
+> >>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+ return err;
+> >>>
+>=20
+> > which I interpret as saying that he doesn't like adding the extra empty=
+ line.
+>=20
+> >>
+> >>>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD if (e=
+rr)
+> >>>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD return e=
+rr;
+> >>>>
+> >>>> @@ -388,8 +391,9 @@ static int adv7180_s_routing(struct v4l2_subdev =
+*sd, u32 input,
+> >>>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD u32 output, u32 config)
+> >>>>=EF=BF=BD=EF=BF=BD {
+> >>>>=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD struc=
+t adv7180_state *state =3D to_state(sd);
+> >>>> -=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD int ret =3D mutex_lock_interru=
+ptible(&state->mutex);
+> >>>> +=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD int ret;
+> >>>>
+> >>>> +=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD ret =3D mutex_lock_interruptib=
+le(&state->mutex);
+>=20
+> > I don't believe he meant doing this.
+>=20
+> > In any case, none of this is worth the effort, just leave this driver a=
+s-is.
+>=20
+> I appreciate your comments.=20
+> My intention is to make linux kernel source as per kernel code style. In =
+this approach I found these warnings "missing a blank line after declaratio=
+ns"  and made changes accordingly.=20
+> Also, there should be blank line after declaration of a variable, correct=
+ me here if I am wrong.
+> As per the suggestions of Kieran Bingham, he recommended to keep the if(e=
+rr) hugging the line it's associated. So to adopt this change I made change=
+s accordingly.
 
-On Thu, Jan 11, 2024 at 02:03:47PM +0100, Julien Massot wrote:
-> Add DT bindings for Maxim MAX96714F GMSL2 Deserializer.
-> 
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> 
-> ---
-> Change since v2:
->  - remove reg description
->  - rename enable gpio to powerdown
->  - use generic node name: i2c, serializer, deserializer
-> ---
->  .../bindings/media/i2c/maxim,max96714f.yaml   | 171 ++++++++++++++++++
->  1 file changed, 171 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
-> new file mode 100644
-> index 000000000000..2423d166c954
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
-> @@ -0,0 +1,171 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2024 Collabora Ltd.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/maxim,max96714f.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim MAX96714 GMSL2 to CSI-2 Deserializer
-> +
-> +maintainers:
-> +  - Julien Massot <julien.massot@collabora.com>
-> +
-> +description: |
-> +  The MAX96714F deserializer converts GMSL2 serial inputs into MIPI
-> +  CSI-2 D-PHY or C-PHY formatted output. The device allows the GMSL2 link to
-> +  simultaneously transmit bidirectional control-channel data while forward
-> +  video transmissions are in progress. The MAX96714F can connect to one
-> +  remotely located serializer using industry-standard coax or STP
-> +  interconnects. The device cans operate in pixel or tunnel mode. In pixel mode
-> +  the MAX96714F can select individual video stream, while the tunnel mode forward all
-> +  the MIPI data received by the serializer.
-> +
-> +  The GMSL2 serial link operates at a fixed rate of 3Gbps in the
-> +  forward direction and 187.5Mbps in the reverse direction.
-> +
-> +properties:
-> +  compatible:
-> +    const: maxim,max96714f
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Specifier for the GPIO connected to the PWDNB pin.
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        unevaluatedProperties: false
-> +        description: GMSL Input
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +            description:
-> +              Endpoint for GMSL2-Link port.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: CSI-2 Output port
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +              link-frequencies:
-> +                maxItems: 1
-> +
-> +              bus-type:
-> +                enum:
-> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+Yes, I stated keep the if (err) hugging the line that sets err:
 
-MEDIA_BUS_TYPE_CSI2_CPHY (1) is missing. Even if the driver doesn't support
-it, it would be best to list it here.
 
-> +
-> +            required:
-> +              - data-lanes
-> +              - bus-type
-> +
-> +    required:
-> +      - port@1
+  >         struct adv7180_state *state =3D to_state(sd);
 
-Why port@1 but not port@0?
+  Personally, I would keep the if (err) hugging the line it's associated
+  with.
 
-> +
-> +  i2c-gate:
-> +    $ref: /schemas/i2c/i2c-controller.yaml
-> +    unevaluatedProperties: false
-> +    description: |
-> +      The MAX96714 will pass through and forward the I2C requests from the
-> +      incoming I2C bus over the GMSL2 link. Therefore it supports an i2c-gate
-> +      subnode to configure a serializer.
-> +
-> +  port0-poc-supply:
-> +    description: Regulator providing Power over Coax for the GMSL port
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        deserializer@28 {
-> +            compatible = "maxim,max96714f";
-> +            reg = <0x28>;
-> +            powerdown-gpios = <&main_gpio0 37 GPIO_ACTIVE_LOW>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                port@0 {
-> +                    reg = <0>;
-> +                    max96714_gmsl_in: endpoint {
-> +                        remote-endpoint = <&max96917f_gmsl_out>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    max96714_csi_out: endpoint {
-> +                        bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
-> +                        clock-lanes = <0>;
 
-clock-lanes isn't listed in bindings. You can drop it from here.
+  >         int err =3D mutex_lock_interruptible(&state->mutex);
+  > +
+  >         if (err)
+  >                 return err;
 
-> +                        data-lanes = <1 2 3 4>;
-> +                        link-frequencies = /bits/ 64 <400000000>;
-> +                        remote-endpoint = <&csi_in>;
-> +                    };
-> +                };
-> +            };
-> +
-> +            i2c-gate {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                serializer@40 {
-> +                    compatible = "maxim,max96717f";
-> +                    reg = <0x40>;
-> +                    gpio-controller;
-> +                    #gpio-cells = <2>;
-> +                    #clock-cells = <0>;
-> +
-> +                    ports {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +
-> +                        port@0 {
-> +                            reg = <0>;
-> +                            max96717f_csi_in: endpoint {
-> +                                data-lanes = <1 2>;
-> +                                lane-polarities = <1 0 1>;
 
-Shouldn't lane-polarities be mentioned in bindings, too?
+To me the if (err) is directly associated with the
+mutex_lock_interruptible(). That's the error it's checking, so they
+should stay together.
 
-> +                                remote-endpoint = <&sensor_out>;
-> +                            };
-> +                        };
-> +
-> +                        port@1 {
-> +                            reg = <1>;
-> +                            max96917f_gmsl_out: endpoint {
-> +                                remote-endpoint = <&max96714_gmsl_in>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
+Which you can do by using the following if it's clearer:
 
--- 
-Regards,
+	struct adv7180_state *state =3D to_state(sd);
 
-Sakari Ailus
+	int err =3D mutex_lock_interruptible(&state->mutex);
+	if (err)
+		return err;
+
+That may not even remove the checkpatch warning though.
+
+As Hans says, there's little reward here, except for learning how to get
+patches into the kernel and bumping your kernel stats.
+
+If you're a junior trying to learn how to get into kernel development, I
+think that's reasonable to some degree. (Which was my assumption when I
+responded, and on that note, It seems that your replies are coming
+through really badly formatted to me, which I assume is your mail client
+needing some checking through).
+
+
+I see your updated patch now makes unrelated changes which confuse
+matters. This was partially at my request, but I think it was
+mis-understood, so I'm sorry for not being more clear and direct:
+
+
+      >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D state->chip_info->se=
+lect_input(state, input);
+      >>> -
+      >
+      >> Why remove this empty line? It has nothing to do with what you are=
+ trying
+      >> to fix.
+      >
+      >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret =3D=3D 0)
+
+
+And I agree with Hans, now you have a commit title that states:
+
+ WARNING: Missing a blank line after declarations
+
+And you are making changes which bear no direct relation ship to that.
+I suggested if you are making one change through out it should be in
+it's own full patch, but that patch must be able to stand out right on
+it's own. So the commit message but clearly say what the patch does and
+it should do only one thing.
+
+
+
+If you're really trying to work through the whole kernel with cleanups,
+then I think there's a kernel janitors project you should post to. But
+I'm not sure if that's still a thing. Otherwise, this is indeed taking
+rare and valuable review time away from more substantial topics.
+
+--
+Regards
+
+Kieran
 
