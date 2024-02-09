@@ -1,65 +1,55 @@
-Return-Path: <linux-media+bounces-4872-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4873-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691A084F239
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 10:24:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728E584F240
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 10:25:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E19ABB2186C
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 09:24:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97DF41C23F72
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 09:25:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4312966B5B;
-	Fri,  9 Feb 2024 09:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B45E679ED;
+	Fri,  9 Feb 2024 09:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="go1r9tIv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FK2SHU92"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15D6664B1;
-	Fri,  9 Feb 2024 09:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CABF664C9;
+	Fri,  9 Feb 2024 09:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707470669; cv=none; b=dG4QYeDRKQlvbwYTk0njY+qlr5ulotNEARsyEPe9K7IZatxEkNvi4RByvG7W2oI2rXAQIOJS2iJSdVR6ZU2bx+7iY5mNMGyTulXIiceDlLdO1I3+A2ind7YgkB9J/uFTiqh4V3L29GSyZGeXoY0xeQrPCYuz5mxwwGeXT+gnZwM=
+	t=1707470703; cv=none; b=CXRqTw73gnh1IZo00XR/wP+dj+C5DqvUOj/g4ct+lpE4n5aahiJ9bcmcrl+hAwtL8yiaqzr3b5k0sMgC2dZ92pcPgp4UVCVHolOOCa3IShMQ37cDq8CTU/xRF1RByB26bcTJAA+DtPuwvaZ7PIXvXumumvH/InXLIMIqcad/6tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707470669; c=relaxed/simple;
-	bh=LWo09Ys4wrV+4aRTLA+zoGjZ77c40wS/ePushfPdaVY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=cxcZJHDXoLy2+zIdF8LjsMboLbhG/T0zkjItR5h9rXramQ5uD87KyM3ofyR/zGu4nzbFrj0EUntJ2ObA+StOF+Xc31LlF4ing4YunizacfdR8XzJPL3507IiwI8z3ibBEAvpKmcEPe5x0lDWJK1pJHvYVp5zH3eVNbMKKVuK9FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=go1r9tIv; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4196LvNB025594;
-	Fri, 9 Feb 2024 10:24:20 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=G8hv0Ly9R1rT33a7xksaagvTQAfMa5pgb5qJjkEb21U=; b=go
-	1r9tIv4JdHkmq78CLfNkktZfRUcyFQ9GCvK9W3gbBXDhe5ZqPR32oheuRwrwWnS/
-	/CqHDAEF1n3WLcCiqoqCu5s34cfeyNlRROSm/K6jQ+les6A8EJE9ZzwqgfoyCARX
-	3NT7lbJC8t0US5tp46A270yLMc40FNQ5ax2S8sWvc1f6NOeLarw1hCdfTSqAKwTY
-	aR0b8Lo58yzTGpaq0cwx6h/iBs3BNwjK2IfmBL7EgeOBGGJ6NzJtyOigNqR/jwc6
-	BuVIWMRvxx2F8cB+05KSOwH2IVQEWPSjBRVpVSLiMNXTcTJnowG+X9L9oO03slEc
-	q0w1kS1kqvwvAFDRpbZA==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3w1eyprt7v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 09 Feb 2024 10:24:20 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 9704410004F;
-	Fri,  9 Feb 2024 10:24:19 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8C58D2128DF;
-	Fri,  9 Feb 2024 10:24:19 +0100 (CET)
-Received: from [10.252.23.147] (10.252.23.147) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 9 Feb
- 2024 10:24:19 +0100
-Message-ID: <4bffed14-0edf-49a6-8bbb-cc122137e9de@foss.st.com>
-Date: Fri, 9 Feb 2024 10:24:18 +0100
+	s=arc-20240116; t=1707470703; c=relaxed/simple;
+	bh=sKhHl6jhkzY2ubfjApNOMunSMfubTCqnhOeVufRe1LU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dkIssbX/sgyrt9ldU/CRPU48H2W0760i3RZczqX8NN3vhhWLgQNZXyVf/UeR4Awt8bN0VF2FeNAskVq9RkJ4l/52mO3tF6YECfulWBxTRgN+Chl7RQHjbsirtnlqwSnaV6s9Vbft2eGWGKCQC4ptTjxBxy/D4ZYRlHVW5zeO5Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FK2SHU92; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1707470699;
+	bh=sKhHl6jhkzY2ubfjApNOMunSMfubTCqnhOeVufRe1LU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FK2SHU92+qUDn4rAMQZxyOYZ/CgLhp3w39srHrPMlum1nIdJz/pEIwyvQXewZ1SOl
+	 yBboWGqWi/OD/ECNSP9cY2s9foHFHXEqiwqXu5Iyw6ywHMgnICiWRnNJ5GM8RqrFA+
+	 ZxSLwpaE3G11qrJniCws0Jrn7kRTQo2gYyeooNsTgwWMvOsl+3JPXxpBXO14HWm9kq
+	 A/As26nFbSuX4lWjo3fKouVsa2eFjzRKaelKTs3Aya9iHOBqa2kk1wJYV1yNPvFQEL
+	 x3x7NxZXiVdsMcqKVnZR1IXDiy2sNq/5TMy7Yb90M09IFmECFxa/4tGQBp4+gOz5m1
+	 vrO9GeFlFr8WQ==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id CF09537811F4;
+	Fri,  9 Feb 2024 09:24:58 +0000 (UTC)
+Message-ID: <76d31dea-2fcf-46ce-8d73-2d84edab797a@collabora.com>
+Date: Fri, 9 Feb 2024 10:24:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,76 +57,145 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: dt-bindings: st-vgxy61: relax data-lanes
- restriction
+Subject: Re: [PATCH V2] dt-bindings: media: convert Mediatek consumer IR to
+ the json-schema
 Content-Language: en-US
-To: Julien Massot <julien.massot@collabora.com>,
-        Conor Dooley
-	<conor@kernel.org>
-CC: <sylvain.petinot@foss.st.com>, <mchehab@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <kernel@collabora.com>, <devicetree@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-References: <20231213071737.1070162-1-julien.massot@collabora.com>
- <20231213-chest-turf-8e9c4fb0a3db@spud>
- <aa478429-57f6-40f8-8481-269311fdc937@collabora.com>
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <aa478429-57f6-40f8-8481-269311fdc937@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Sean Wang <sean.wang@mediatek.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+References: <20240209085616.1062-1-zajec5@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240209085616.1062-1-zajec5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-09_06,2024-02-08_01,2023-05-22_02
 
-Hi Julien,
-
-On 1/5/24 10:36, Julien Massot wrote:
-> Hi,
+Il 09/02/24 09:56, Rafał Miłecki ha scritto:
+> From: Rafał Miłecki <rafal@milecki.pl>
 > 
-> On 12/13/23 17:30, Conor Dooley wrote:
->> On Wed, Dec 13, 2023 at 08:17:37AM +0100, Julien Massot wrote:
->>> The ST VGXY61 sensors support multiple lane number, as
->>> well as lane mapping.
->>>
->>> Signed-off-by: Julien Massot <julien.massot@collabora.com>
->>> ---
->>>   .../devicetree/bindings/media/i2c/st,st-vgxy61.yaml        | 7 ++-----
->>>   1 file changed, 2 insertions(+), 5 deletions(-)
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
->>> b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
->>> index 8c28848b226a..733fac85a20f 100644
->>> --- a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
->>> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
->>> @@ -67,11 +67,8 @@ properties:
->>>             data-lanes:
->>>               description:
->>>                 CSI lanes to use
->>> -            items:
->>> -              - const: 1
->>> -              - const: 2
->>> -              - const: 3
->>> -              - const: 4
->>> +            minItems: 1
->>> +            maxItems: 4
->>
->> So, it is now valid to have "data-lanes = <6 7 8>;" now?
+> This helps validating DTS files. Introduced changes:
+> 1. Reworded title
+> 2. Made "bus" clock required on MT7623 as well
+> 3. Added required #include-s and adjusted "reg" & clocks in example
 > 
-> Indeed it's not valid, I will send a v2 with a 'minimum: 1', 'maximum:
-> 4' items properties.
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> ---
+> V2: Extended "IR" in title
+>      Made "bus" required at MT7623 needs it as well
+>      Updated example
+> 
+> Thanks AngeloGioacchino!
 
-I'm interested in this patch. Did you send a v2 yet that I might have
-missed ?
-Thank you.
+You're welcome :-)
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 > 
-> Thanks,
+>   .../bindings/media/mediatek,mt7622-cir.yaml   | 55 +++++++++++++++++++
+>   .../devicetree/bindings/media/mtk-cir.txt     | 28 ----------
+>   2 files changed, 55 insertions(+), 28 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+>   delete mode 100644 Documentation/devicetree/bindings/media/mtk-cir.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml b/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+> new file mode 100644
+> index 000000000000..c01210e053f9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+> @@ -0,0 +1,55 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mt7622-cir.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Consumer Infrared Receiver on-SoC Controller
+> +
+> +maintainers:
+> +  - Sean Wang <sean.wang@mediatek.com>
+> +
+> +allOf:
+> +  - $ref: rc.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt7622-cir
+> +      - mediatek,mt7623-cir
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: clk
+> +      - const: bus
+> +
+> +required:
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt2701-clk.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    ir@10013000 {
+> +        compatible = "mediatek,mt7623-cir";
+> +        reg = <0x10013000 0x1000>;
+> +        interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+> +        clocks = <&infracfg CLK_INFRA_IRRX>, <&topckgen CLK_TOP_AXI_SEL>;
+> +        clock-names = "clk", "bus";
+> +        linux,rc-map-name = "rc-rc6-mce";
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/mtk-cir.txt b/Documentation/devicetree/bindings/media/mtk-cir.txt
+> deleted file mode 100644
+> index 5e18087ce11f..000000000000
+> --- a/Documentation/devicetree/bindings/media/mtk-cir.txt
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -Device-Tree bindings for Mediatek consumer IR controller
+> -found in Mediatek SoC family
+> -
+> -Required properties:
+> -- compatible	    : Should be
+> -			"mediatek,mt7623-cir": for MT7623 SoC
+> -			"mediatek,mt7622-cir": for MT7622 SoC
+> -- clocks	    : list of clock specifiers, corresponding to
+> -		      entries in clock-names property;
+> -- clock-names	    : should contain
+> -			- "clk" entries: for MT7623 SoC
+> -			- "clk", "bus" entries: for MT7622 SoC
+> -- interrupts	    : should contain IR IRQ number;
+> -- reg		    : should contain IO map address for IR.
+> -
+> -Optional properties:
+> -- linux,rc-map-name : see rc.txt file in the same directory.
+> -
+> -Example:
+> -
+> -cir: cir@10013000 {
+> -	compatible = "mediatek,mt7623-cir";
+> -	reg = <0 0x10013000 0 0x1000>;
+> -	interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+> -	clocks = <&infracfg CLK_INFRA_IRRX>;
+> -	clock-names = "clk";
+> -	linux,rc-map-name = "rc-rc6-mce";
+> -};
 
--- 
-Regards,
-
-Benjamin
 
