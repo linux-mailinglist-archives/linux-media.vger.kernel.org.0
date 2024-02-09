@@ -1,76 +1,75 @@
-Return-Path: <linux-media+bounces-4926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F0884FE66
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 22:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A1684FE68
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 22:15:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36FD51C227EE
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 21:15:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B74411C2179A
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 21:15:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52C883DB91;
-	Fri,  9 Feb 2024 21:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFC0E3E485;
+	Fri,  9 Feb 2024 21:10:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dwUObXyk"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qC+7pgNL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB0A3D562
-	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 21:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473A33DB89
+	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 21:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707513010; cv=none; b=Nx/QrF9SOFDRahMaO8/n9j6gB2Qwf3a9MWqfpZJFPdcg0WV8pG8uONV+brS1eGRBakylMUjpuQQ0JqVprKCcgmDGhG7ujHiiFQ9zOF9QbVtoju9+HxbVIHGFUmzDUNYrWJrHGM+94wjln2/JUQMuUXhtTnwEl27FjfNZ4PgJXnM=
+	t=1707513013; cv=none; b=K84IBVFUYpcoLSie79yQZVpJsdK7gmF/Ys3jM090SWIJZ0Gup/9YBl7IF9whjo43bgDB/CrVIzW3yRxQDCnxy1WuBKU36V1rdwdumHm4H0KCSkFhUpFe9YcGllf4XJIcNFOfzHznOLsaso1wX6/sz9fetq3iK9g+1oe4qkaLPKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707513010; c=relaxed/simple;
-	bh=jT4cYVE3H7d20Q/uwPs8NimA9d74CuArTIfCuOqGfSo=;
+	s=arc-20240116; t=1707513013; c=relaxed/simple;
+	bh=/kFnbapgubNRtfX1KEblqNgRWZdEMPDSWK83uPCG7ls=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MdtOY9NPh4FTpXwH/RRmzC+ONQra/As2Mn4m29I0zJ3echM9OwDvbAvRUp94fPqJIPENaFJR4zHWsqkVmekbSai+MXJd1sHdMWLPeHx9OY0+wU4aZKnmqu8CFQdbQK+Ht0eMsc7teCsCX6hJ7J5qkpw4m1F4xPghOktZFFUI0zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dwUObXyk; arc=none smtp.client-ip=209.85.218.41
+	 In-Reply-To:To:Cc; b=Sgv0yKvXQhLazbNegipbCzA7xVOa4y2A5aCJsGJG1M0wWOoHXpRlWG/f35HQ15/k5b+LGr7nxz85SkSRKUnCycw2D+n0yKeQ4/pJtybR2u8fTGW//GN0BcDzgquGl3UyLyt1tsgvUxfyuzMcM9B8S5iZaD9SXLPwGdmeZ702veQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qC+7pgNL; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a30e445602cso482881166b.0
-        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 13:10:08 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-511616b73ddso2311984e87.0
+        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 13:10:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707513007; x=1708117807; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1707513009; x=1708117809; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WkisGcwj7EZsB2uxQJKfFxLa5Zz/RB1HixKJSSlCEXg=;
-        b=dwUObXykmmsUQFUV7bkwhGtWVRvqLux/q0/d8b6wzBxOieQk9paU81JtAnXTQRJo1P
-         fAjqLlTX8YQaTzFzsc1kAB+Tnr2wB3qvR80qNQCPtFewHTpph6E8EuDkIjC3Pzj5y4h8
-         6xTHvaTjJwN1X+EhIThDPu411XsrCvGHZfvQpBphoHTFdv0qNdWHwHOWsLjBqMXmEMIb
-         uj0gE82cN3TnrwEqK/8BXP0B6LMR3w8pK5JbrGIkMmRRUI8QKWUg2hKB7Unm3cyHnl1O
-         3eo9Gxw0eVjccEq2hCLYNrQlDxaMmc8NebRrLWywi8By68+as04orn5PRzd0ynzNGQEz
-         8+Xg==
+        bh=P8GIqzjr5F0muhdfu+nSlnTYCrXU9jfYOiTVyQ6Sb9U=;
+        b=qC+7pgNL2hqTjlyL0taRYFtGe700EWUItg4BXiyX93XWpv1eemsCeLdlJrWgk1WA+y
+         B+yXAwliaTjSYMldnkhxlAZWZjzDCIIE9zohzoAXL3ibCGXhlpjNtHdY/AujqE/g779l
+         qZSifBUe5tFfLm9eIiNUqvfr5DrFzDbATFcFrvRGVc1abnBwdKzNVEqKTeX0NRfctXdu
+         ds5jtJcw+jJ2Pc208J3tv7k4mrR8PrasoWlwQYbg600B3gWxXWr5Wgx2G1A5BeV2TYMZ
+         KEdh3B6Gf3KssYdELpBDWlb0f8jH4kviPjRS0tEEEFhb9EaTl2E0vlWTF9sZZgh/heMN
+         uGtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707513007; x=1708117807;
+        d=1e100.net; s=20230601; t=1707513009; x=1708117809;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WkisGcwj7EZsB2uxQJKfFxLa5Zz/RB1HixKJSSlCEXg=;
-        b=KPn8Zan+XRz3NY7AuVx9YzJ9ghdKh9I9lCz0rKTylVUVrb7OoVfRkSFJR/4cy9Yy2M
-         ux1RyzwEv5Mk/DVE9LI9Wq7Uk0j032SoMEZKFtQsrY3R/gPPztKaEcdfoM6NNiJ1jspj
-         yeq1df2JoyR+4UVFl3xUM34W2CaWhuIWqPbur83XHRLYgA076gcKJafArFIoaczQ/Wuq
-         OkDI4YsXBdvQRkPn9YI75gGRGuAChvpTcZnxgoxeRFP+BZeTNeeWy/sZ5p6rvKRJEuuR
-         BdJ1l6it9HnYDNFhSFW8wmQC71Swiq2lJ4SeZMY6382HUXAk8sgxgKcMiQUpAeHhKyPX
-         kCuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWrl1j8VnPdnmhh4j39n8lr4zWxNbRr9r52I24qnKZbA89S9vQocAxiU6+ddcXSaOLPZv7Zut8Q/JXx4E+DSCXlrgqxWqVZHNgD15Y=
-X-Gm-Message-State: AOJu0YwTEx8BFRp+4210XV9l2FMl5gIuKMNdWvxxVZtz1lbBSWcIi7GL
-	Qi8ap3dCLQQSw73Dz8Eeyr3CAo4PRLjFTsXZX3vrfsyAjL5uISOlorEQEnGUNBY=
-X-Google-Smtp-Source: AGHT+IEV2H34ApePMZXUbaCjKh72AuWAiuYiRsbsouxJ+9ihBWWmei4quy45Vg8EiBRX+XstRPX3xA==
-X-Received: by 2002:a17:906:370e:b0:a38:4f6a:4e7e with SMTP id d14-20020a170906370e00b00a384f6a4e7emr261180ejc.32.1707513007230;
-        Fri, 09 Feb 2024 13:10:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU8qP6K965v6pwV2jGGur2yfOhYX9UkKJcDNbPkJzFLgrzHOvxp4AoTJa1Sm2nuKXPyws3QTpEbCik7ElfeFzX8DpIFvy7t/WA9HOiswLIl/qkqtiKoYF2gcILrvpHx/xVIJXIHc2omny6cad7YDa4lU1pFwu2gLejfRKaDfgO2WrM+kXvBtffyKLFMn4+UhX9m7lMJifL7mV+epibggxhqbXS/ZUi7S5EsOPGARKkJ2h7ItEXSGz0nPY1p1ROdMLhh0AU1bkR64tlfzcxJCz4BRio0toD6xBbx7db3x7/+XssoI+Ob3FxoXBbJH9S+p+CY12XJIZbPiDrz2pdAdDTQFtnTqDVajRJv81Cu4HgjZt1JKa5MQxbXUsyFNnv3hcUdaeNHg3FyfptLlleBOmTRBRf4VxvKJyke7E78hrMQvNGKIu7iD26ymC/uBfecI7MCKBmC0KSUPwQl+otnxMLWCb7M3xoVnV8Jb1sZ9cFLoyjJcNJCqJDmmVlvRiNxtpQjRQ==
+        bh=P8GIqzjr5F0muhdfu+nSlnTYCrXU9jfYOiTVyQ6Sb9U=;
+        b=M/4/UHYcrY12orD774/mmrzv6HniMSWB1B3ZNUfZK9EoG9k20lIQ4T8yFHijikR5vj
+         pw94WQ006wIwpm0h6At37QyHBFNHvEG6S0w5RqrVk46dmdtuAMmA4B9X8uGBOb4aRP8j
+         3R3PDIO0DN6yhKr7Psr9QgqaI0NJ7Ei7P3uNF1HGkDw2JDR2KCO7PANEeDNvcg53V6MP
+         h0aCDcdOTr4uhFbI50axB1KYUQiIiQ6KyuryqvEfd4k+eYE99Yi/SYD6YsGe5PRQZ6lc
+         WkbWuY+g0DqATDk8hAZnMmhMWWIKDZ8CALNOHaoi36q6GNkn4TwQZEf70Bq0OVPg3rgY
+         Y66w==
+X-Gm-Message-State: AOJu0Yzz0djQe9LpencLC2PSILKLv3sCnEhpFKNfI9GRjiWXVpFRB08E
+	yUOAOCjJQUqyiqEKVjc0AMKo88iotR2DXDNvhixSD8wvToYdHgU6H15Lf2QfCt4=
+X-Google-Smtp-Source: AGHT+IFXV3KzQwy58rEP2blWOY14Ikqpib0euEGzIkKjV/J4kBP2N2s4twAQCqgmVWtRV1Jq+SXPXg==
+X-Received: by 2002:a19:ee09:0:b0:511:494b:c483 with SMTP id g9-20020a19ee09000000b00511494bc483mr118496lfb.31.1707513009461;
+        Fri, 09 Feb 2024 13:10:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVoFd23U02RRkhlYViO40gpOFYMCnq7G/cfZ0MZFVFnjHbrNv11wygCqcW+U/f8KFUpjBx8RaHsNERMwGIRWJp00rpzbtxi/MNYPSQ4wpHFIB3hbnIhJV24O7JbN6XT1T31RFaQoOfbb9R6/68uiw/yMqH+EzS2WlOygEGsAqUefY/p1v44PW/dffgdwVqQ3A6UxiQdBHJEmTzMoB0UtYruPdqOTc2UPWbL6vPL8LtalR2mukGZorQ9XUzi01PNhup3ZLlXhCu72g+hbZc33Fc9aDf7AaVjg9vEErr/gxJAPOudKqQuYm/fyItv2AD3F1E4pPWuLF0sXmf3hGEttM/6H5RuHQGr9QaYdDt2nvaUelta2QAhWDU91EiuRf3YNpz7NpEFKUW8nydd9BI73GVchzYddFVga0iRPlA/U8vbF8Zzea8FNvAzkiyyG6RFmNsJkf6BHzmafw9IQ+ts5GE+eSohjm6pWNqBjacWVBDzkarqcoIl215LF6Y1kpG+yabohg==
 Received: from [10.167.154.1] (037008245233.garwolin.vectranet.pl. [37.8.245.233])
-        by smtp.gmail.com with ESMTPSA id vo5-20020a170907a80500b00a3be3b27d0bsm1056517ejc.49.2024.02.09.13.10.05
+        by smtp.gmail.com with ESMTPSA id vo5-20020a170907a80500b00a3be3b27d0bsm1056517ejc.49.2024.02.09.13.10.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 13:10:06 -0800 (PST)
+        Fri, 09 Feb 2024 13:10:08 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Fri, 09 Feb 2024 22:09:55 +0100
-Subject: [PATCH v2 11/20] media: venus: core: Use GENMASK for dma_mask
+Date: Fri, 09 Feb 2024 22:09:56 +0100
+Subject: [PATCH v2 12/20] media: venus: core: Remove cp_start
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,7 +78,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230911-topic-mars-v2-11-3dac84b88c4b@linaro.org>
+Message-Id: <20230911-topic-mars-v2-12-3dac84b88c4b@linaro.org>
 References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
 In-Reply-To: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
@@ -95,89 +94,93 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1707512986; l=2706;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1707512986; l=3274;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=jT4cYVE3H7d20Q/uwPs8NimA9d74CuArTIfCuOqGfSo=;
- b=klquj+6pOLak7Axq6ddq02Jht/IyRARYQgLefOrwlb581p4+JvxIEmi6OHz6/y61S/0AJX91F
- bZPG5shtVjqAhAAVOPKTlhsk+dNJHgvmzrbytoDKJ43RPIJf1MukBPz
+ bh=/kFnbapgubNRtfX1KEblqNgRWZdEMPDSWK83uPCG7ls=;
+ b=XjNO/TzZnniFSFa+959SHOc3p3ge3qqR+DGSwZyLfroBs3WCkm3oMoczUsS1gsC6BlPMDBGTZ
+ xYIgwPIWAcrCFu2HvHqfMCDbLcyvH6GxscR+pstT5S2CYm526//SOmR
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
-The raw literals mean very little. Substitute it with more telling
-bitops macros.
+It's hardcoded to be zero. Always. Ever since msm-3.10. Or maybe
+even before. Remove it!
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/core.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/media/platform/qcom/venus/core.c     | 4 ----
+ drivers/media/platform/qcom/venus/core.h     | 1 -
+ drivers/media/platform/qcom/venus/firmware.c | 3 +--
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 43105e765c53..06b78e98cebd 100644
+index 06b78e98cebd..65a9e815e6ba 100644
 --- a/drivers/media/platform/qcom/venus/core.c
 +++ b/drivers/media/platform/qcom/venus/core.c
-@@ -562,7 +562,7 @@ static const struct venus_resources msm8916_res = {
- 	.clks_num = 3,
- 	.max_load = 352800, /* 720p@30 + 1080p@30 */
- 	.hfi_version = HFI_VERSION_1XX,
--	.dma_mask = 0xddc00000 - 1,
-+	.dma_mask = (GENMASK(31, 30) | GENMASK(28, 26) | GENMASK(24, 22)) - 1,
- 	.fwname = "qcom/venus-1.8/venus.mbn",
- };
- 
-@@ -592,7 +592,7 @@ static const struct venus_resources msm8996_res = {
+@@ -647,7 +647,6 @@ static const struct venus_resources sdm660_res = {
  	.vcodec_clks_num = 1,
- 	.max_load = 2563200,
+ 	.max_load = 1036800,
  	.hfi_version = HFI_VERSION_3XX,
--	.dma_mask = 0xddc00000 - 1,
-+	.dma_mask = (GENMASK(31, 30) | GENMASK(28, 26) | GENMASK(24, 22)) - 1,
- 	.fwname = "qcom/venus-4.2/venus.mbn",
- };
- 
-@@ -693,7 +693,7 @@ static const struct venus_resources sdm845_res = {
- 	.max_load = 3110400,	/* 4096x2160@90 */
+-	.cp_start = 0,
+ 	.cp_size = 0x79000000,
+ 	.cp_nonpixel_start = 0x1000000,
+ 	.cp_nonpixel_size = 0x28000000,
+@@ -716,7 +715,6 @@ static const struct venus_resources sdm845_res_v2 = {
  	.hfi_version = HFI_VERSION_4XX,
  	.vpu_version = VPU_VERSION_AR50,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.fwname = "qcom/venus-5.2/venus.mbn",
- };
- 
-@@ -715,7 +715,7 @@ static const struct venus_resources sdm845_res_v2 = {
- 	.max_load = 3110400,	/* 4096x2160@90 */
- 	.hfi_version = HFI_VERSION_4XX,
- 	.vpu_version = VPU_VERSION_AR50,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.cp_start = 0,
+ 	.dma_mask = GENMASK(31, 29) - 1,
+-	.cp_start = 0,
  	.cp_size = 0x70800000,
  	.cp_nonpixel_start = 0x1000000,
-@@ -759,7 +759,7 @@ static const struct venus_resources sc7180_res = {
- 	.opp_pmdomain = pd_names_cx,
+ 	.cp_nonpixel_size = 0x24800000,
+@@ -760,7 +758,6 @@ static const struct venus_resources sc7180_res = {
  	.hfi_version = HFI_VERSION_4XX,
  	.vpu_version = VPU_VERSION_AR50,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.cp_start = 0,
+ 	.dma_mask = GENMASK(31, 29) - 1,
+-	.cp_start = 0,
  	.cp_size = 0x70800000,
  	.cp_nonpixel_start = 0x1000000,
-@@ -814,7 +814,7 @@ static const struct venus_resources sm8250_res = {
- 	.hfi_version = HFI_VERSION_6XX,
- 	.vpu_version = VPU_VERSION_IRIS2,
- 	.num_vpp_pipes = 4,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.fwname = "qcom/vpu-1.0/venus.mbn",
- };
- 
-@@ -868,7 +868,7 @@ static const struct venus_resources sc7280_res = {
- 	.hfi_version = HFI_VERSION_6XX,
+ 	.cp_nonpixel_size = 0x24800000,
+@@ -869,7 +866,6 @@ static const struct venus_resources sc7280_res = {
  	.vpu_version = VPU_VERSION_IRIS2_1,
  	.num_vpp_pipes = 1,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.cp_start = 0,
+ 	.dma_mask = GENMASK(31, 29) - 1,
+-	.cp_start = 0,
  	.cp_size = 0x25800000,
  	.cp_nonpixel_start = 0x1000000,
+ 	.cp_nonpixel_size = 0x24800000,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index b1d0687d294f..9dacf533c7ad 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -80,7 +80,6 @@ struct venus_resources {
+ 	const enum vpu_version vpu_version;
+ 	const u8 num_vpp_pipes;
+ 	const u32 max_load;
+-	const u32 cp_start;
+ 	const u32 cp_size;
+ 	const u32 cp_nonpixel_start;
+ 	const u32 cp_nonpixel_size;
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index fe7da2b30482..16e578780be7 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -245,7 +245,6 @@ int venus_boot(struct venus_core *core)
+ 	if (core->use_tz && res->cp_size) {
+ 		/*
+ 		 * Clues for porting using downstream data:
+-		 * cp_start = 0
+ 		 * cp_size = venus_ns/virtual-addr-pool[0] - yes, address and not size!
+ 		 *   This works, as the non-secure context bank is placed
+ 		 *   contiguously right after the Content Protection region.
+@@ -253,7 +252,7 @@ int venus_boot(struct venus_core *core)
+ 		 * cp_nonpixel_start = venus_sec_non_pixel/virtual-addr-pool[0]
+ 		 * cp_nonpixel_size = venus_sec_non_pixel/virtual-addr-pool[1]
+ 		 */
+-		ret = qcom_scm_mem_protect_video_var(res->cp_start,
++		ret = qcom_scm_mem_protect_video_var(0,
+ 						     res->cp_size,
+ 						     res->cp_nonpixel_start,
+ 						     res->cp_nonpixel_size);
 
 -- 
 2.43.0
