@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-4891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4DE84FA18
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 17:52:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8BCC84FA1A
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 17:52:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A01F81C2920C
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 16:52:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4397CB29277
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 16:52:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 042331292C9;
-	Fri,  9 Feb 2024 16:48:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01FE8127B6D;
+	Fri,  9 Feb 2024 16:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LloTJbBu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ovqbq8Eh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB989128839
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B07E7EEFD
 	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 16:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707497337; cv=none; b=G4UJI4LYQS3zHn1BHZTjE3Se764knFe68Ns+iK8H5wGlrhV6de7COEE69NQR21oZZzzzwn0FC8WEPXda4Hm0sW5Po+S2jY0DPKLIu9yCaw9/C0fa1q7e91HFb4hSq2ilyOtzFGJ49S+MJlNfxLPkHXOai87rjn31o/406D1lIy4=
+	t=1707497338; cv=none; b=NlEIGyJOcN28RWYeKI8FD3KqPc1pTQH3Q4xKiiAd/0IC96JZS2F5mTDkj+iVFfmMb61lHg0otuzfqCyZLFkQi7V7B9yPTlPrEdnmTpfsz/IPDjYxUG1QB4y1tbjh9L6xBjMmfcC8mKZzQaIBSviGVud5egmUCpc9Sij6pbCpdME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707497337; c=relaxed/simple;
-	bh=s4SlRb40a+dXJ5M5SLhySr2jTNbmHLngLnHuqhdBnOI=;
+	s=arc-20240116; t=1707497338; c=relaxed/simple;
+	bh=GNkO1f13TvBPdvtgoqETf3TRV7PKZmkAvp8W3Oba1eg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kK/r8Lacg7BHizzq+RrPIl16GWQfT2eh5+vS9AoVjip9qjA04Vd/ADdV9n46JCvcye1Bo2EeMnCR2Psx1LLqjwrRKR1TEhv2uUmb44yARZg7RR+BR6Skxjj8VLVqV6GykGZrGczRPCRwinhTpAB4WXEHWk7k26TiP6PLyI1cB1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LloTJbBu; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=DuVLW+b2Mt0mbyVYlYS52brNR4/1f7X9KzVe1lEd6guCOXNg8rAUqFF6Pgfy5TnPfEY62jcEvESpHDlwmiz34Eh89Ikp1mGdn2qXq8kx/fFd1Bg0EW3ulsAv3imYASTRAwQNnm4K4g9WBA+TNYTuso+tQmBmGfB2AOO4xQbigYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ovqbq8Eh; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 231434AB2;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D981351A4;
 	Fri,  9 Feb 2024 17:47:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707497242;
-	bh=s4SlRb40a+dXJ5M5SLhySr2jTNbmHLngLnHuqhdBnOI=;
+	s=mail; t=1707497243;
+	bh=GNkO1f13TvBPdvtgoqETf3TRV7PKZmkAvp8W3Oba1eg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LloTJbBui+uFce1tl3Mo2TSuR7G6X6P5cmSJ/7d8lYFK9Alj3fyR4LwOr0q9t0Fwh
-	 0QvoJ9TJCtTzSMBfvwCg4i6AAuRYxCRTnzalYaC5xSWz2AFkpr4UY43JnkOK4oSSeX
-	 H7zNf9GCT8UdAOpnrPjxNtkjhAf0t66tblQSRfak=
+	b=ovqbq8EhJOy0FyqmPN5nu+9cCQRbrZ0XpTropCWgQgNn5M48OJ5y8Ncckb+w1FAxd
+	 ehUVyhfFcOi2WC1D7E+UrFrrryC4OR/ARhm4v0/cO+K+OQg1H8Gx8CYNaV8ooN3nk0
+	 AsXmJJTWkaSrYGA07JaXdwBwidnJtUIIzs/qLGiM=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -54,9 +54,9 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@iki.fi>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 4/8] media: Add meta pixel format for PiSP BE config
-Date: Fri,  9 Feb 2024 17:48:19 +0100
-Message-ID: <20240209164825.166800-5-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 5/8] media: Add PiSP Compressed RAW Bayer formats
+Date: Fri,  9 Feb 2024 17:48:20 +0100
+Message-ID: <20240209164825.166800-6-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
 References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
@@ -68,108 +68,149 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add format description for the PiSP Back End configuration parameter
-buffer.
+Add Raspberry Pi compressed RAW Bayer formats.
+
+The compression algorithm description is provided by Nick Hollinghurst
+<nick.hollinghurst@raspberrypi.com> from Raspberry Pi.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../userspace-api/media/v4l/meta-formats.rst  |  1 +
- .../media/v4l/metafmt-pisp-be.rst             | 46 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
- include/uapi/linux/videodev2.h                |  3 ++
- 4 files changed, 51 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
+ .../userspace-api/media/v4l/pixfmt-bayer.rst  |  1 +
+ .../media/v4l/pixfmt-pisp-comp-rggb.rst       | 70 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 10 +++
+ include/uapi/linux/videodev2.h                | 12 ++++
+ 4 files changed, 93 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
 
-diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-index 0bb61fc5bc00..d96ff1ea3373 100644
---- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-@@ -14,6 +14,7 @@ These formats are used for the :ref:`metadata` interface only.
- 
-     metafmt-d4xx
-     metafmt-intel-ipu3
-+    metafmt-pisp-be
-     metafmt-rkisp1
-     metafmt-uvc
-     metafmt-vsp1-hgo
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst b/Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+index 2500413e5f43..81b69ea4084a 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+@@ -30,3 +30,4 @@ orders. See also `the Wikipedia article on Bayer filter
+     pixfmt-srggb14
+     pixfmt-srggb14p
+     pixfmt-srggb16
++    pixfmt-pisp-comp-rggb
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst b/Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
 new file mode 100644
-index 000000000000..f3d30ba989b3
+index 000000000000..7be1b25b2241
 --- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
-@@ -0,0 +1,46 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
+@@ -0,0 +1,70 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 +
-+.. _v4l2-meta-fmt-rpi-be-cfg:
++.. _v4l2-pix-fmt-pisp-comp1-rggb:
++.. _v4l2-pix-fmt-pisp-comp1-grbg:
++.. _v4l2-pix-fmt-pisp-comp1-gbrg:
++.. _v4l2-pix-fmt-pisp-comp1-bggr:
++.. _v4l2-pix-fmt-pisp-comp1-mono:
++.. _v4l2-pix-fmt-pisp-comp2-rggb:
++.. _v4l2-pix-fmt-pisp-comp2-grbg:
++.. _v4l2-pix-fmt-pisp-comp2-gbrg:
++.. _v4l2-pix-fmt-pisp-comp2-bggr:
++.. _v4l2-pix-fmt-pisp-comp2-mono:
 +
-+************************
-+V4L2_META_FMT_RPI_BE_CFG
-+************************
++================================================
++Raspberry Pi PiSP compressed 8-bit Bayer formats
++================================================
 +
-+Raspberry Pi PiSP Back End configuration format
-+===============================================
++Description
++===========
 +
-+The Raspberry Pi PiSP Back End memory-to-memory image signal processor is
-+configured by userspace by providing a buffer of configuration parameters
-+to the `pispbe-config` output video device node using the
-+:c:type:`v4l2_meta_format` interface.
++Raspberry Pi ISP uses a family of three fixed-rate compressed Bayer formats.
++A black-level offset may be subtracted to improve compression efficiency;
++the nominal black level and amount of offset must be signalled out of band.
++Each scanline is padded to a multiple of 8 pixels wide, and each block of 8
++horizontally-contiguous pixels is coded using 8 bytes.
 +
-+The PiSP Back End processes images in tiles, and its configuration requires
-+specifying two different sets of parameters by populating the members of
-+:c:type:`pisp_be_tiles_config` defined in the ``pisp_be_config.h`` header file.
++Mode 1 uses a quantization and delta-based coding scheme which preserves up to
++12 significant bits. Mode 2 is a simple sqrt-like companding scheme with 6 PWL
++chords, preserving up to 12 significant bits. Mode 3 combines both companding
++(with 4 chords) and the delta scheme, preserving up to 14 significant bits.
 +
-+The `Raspberry Pi PiSP technical specification
-+<https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf>_`
-+provide detailed description of the ISP back end configuration and programming
-+model.
++The remainder of this description applies to Modes 1 and 3.
 +
-+Global configuration data
-+-------------------------
++Each block of 8 pixels is separated into even and odd phases of 4 pixels,
++coded independently by 32-bit words at successive locations in memory.
++The two LS bits of each 32-bit word give its "quantization mode".
 +
-+The global configuration data describe how the pixels in a particular image are
-+to be processed and is therefore shared across all the tiles of the image. So
-+for example, LSC (Lens Shading Correction) or Denoise parameters would be common
-+across all tiles from the same frame.
++In quantization mode 0, the lowest 321 quantization levels are multiples of
++FSD/4096 and the remaining levels are successive multiples of FSD/2048.
++Quantization modes 1 and 2 use linear quantization with step sizes of
++FSD/1024 and FSD/512 respectively. Each of the four pixels is quantized
++independently, with rounding to the nearest level.
++In quantization mode 2 where the middle two samples have quantized values
++(q1,q2) both in the range [384..511], they are coded using 9 bits for q1
++followed by 7 bits for (q2 & 127). Otherwise, for quantization modes
++0, 1 and 2: a 9-bit field encodes MIN(q1,q2) which must be in the range
++[0..511] and a 7-bit field encodes (q2-q1+64) which must be in [0..127].
 +
-+Global configuration data are passed to the ISP by populating the member of
-+:c:type:`pisp_be_config`.
++Each of the outer samples (q0,q3) is encoded using a 7-bit field based
++on its inner neighbour q1 or q2. In quantization mode 2 where the inner
++sample has a quantized value in the range [448..511], the field value is
++(q0-384). Otherwise for quantization modes 0, 1 and 2: The outer sample
++is encoded as (q0-MAX(0,q1-64)). q3 is likewise coded based on q2.
++Each of these values must be in the range [0..127]. All these fields
++of 2, 9, 7, 7, 7 bits respectively are packed in little-endian order
++to give a 32-bit word with LE byte order.
 +
-+Tile parameters
-+---------------
++Quantization mode 3 has a "7.5-bit" escape, used when none of the above
++encodings will fit. Each pixel value is quantized to the nearest of 176
++levels, where the lowest 48 levels are multiples of FSD/256 and the
++remaining levels are multiples of FSD/512 (level 175 represents values
++very close to FSD and may require saturating arithmetic to decode).
 +
-+As the ISP processes images in tiles, each set of tiles parameters describe how
-+a single tile in an image is going to be processed. A single set of tile
-+parameters consist of 160 bytes of data and to process a batch of tiles several
-+sets of tiles parameters are required.
++Each pair of quantized pixels (q0,q1) or (q2,q3) is jointly coded
++by a 15-bit field: 2816*(q0>>4) + 16*q1 + (q0&15).
++Three fields of 2, 15, 15 bits are packed in LE order {15,15,2}.
 +
-+Tiles parameters are passed to the ISP by populating the member of
-+:c:type:`pisp_tile` and the :c:type:`num_tiles` field.
++An implementation of a software decoder of compressed formats is available
++in `Raspberry Pi camera applications code base
++<https://github.com/raspberrypi/rpicam-apps/blob/main/image/dng.cpp>_`.
 diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 3c9b5b2f456c..1720c268fb30 100644
+index 1720c268fb30..2c396ba6196e 100644
 --- a/drivers/media/v4l2-core/v4l2-ioctl.c
 +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1456,6 +1456,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_Y210:		descr = "10-bit YUYV Packed"; break;
- 	case V4L2_PIX_FMT_Y212:		descr = "12-bit YUYV Packed"; break;
- 	case V4L2_PIX_FMT_Y216:		descr = "16-bit YUYV Packed"; break;
-+	case V4L2_META_FMT_RPI_BE_CFG:	descr = "RPi PiSP BE Config format"; break;
- 
- 	default:
- 		/* Compressed formats */
+@@ -1516,6 +1516,16 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 		case V4L2_PIX_FMT_MT2110T:	descr = "Mediatek 10bit Tile Mode"; break;
+ 		case V4L2_PIX_FMT_MT2110R:	descr = "Mediatek 10bit Raster Mode"; break;
+ 		case V4L2_PIX_FMT_HEXTILE:	descr = "Hextile Compressed Format"; break;
++		case V4L2_PIX_FMT_PISP_COMP1_RGGB: descr = "PiSP 8b RGRG/GBGB mode1 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP1_GRBG: descr = "PiSP 8b GRGR/BGBG mode1 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP1_GBRG: descr = "PiSP 8b GBGB/RGRG mode1 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP1_BGGR: descr = "PiSP 8b BGBG/GRGR mode1 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP1_MONO: descr = "PiSP 8b monochrome mode1 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP2_RGGB: descr = "PiSP 8b RGRG/GBGB mode2 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP2_GRBG: descr = "PiSP 8b GRGR/BGBG mode2 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP2_GBRG: descr = "PiSP 8b GBGB/RGRG mode2 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP2_BGGR: descr = "PiSP 8b BGBG/GRGR mode2 compr"; break;
++		case V4L2_PIX_FMT_PISP_COMP2_MONO: descr = "PiSP 8b monochrome mode2 compr"; break;
+ 		default:
+ 			if (fmt->description[0])
+ 				return;
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 2782c7962974..ed72afd0e209 100644
+index ed72afd0e209..dbe1829a2875 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -845,6 +845,9 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
- #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
+@@ -818,6 +818,18 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_IPU3_SGRBG10	v4l2_fourcc('i', 'p', '3', 'G') /* IPU3 packed 10-bit GRBG bayer */
+ #define V4L2_PIX_FMT_IPU3_SRGGB10	v4l2_fourcc('i', 'p', '3', 'r') /* IPU3 packed 10-bit RGGB bayer */
  
-+/* Vendor specific - used for RaspberryPi PiSP */
-+#define V4L2_META_FMT_RPI_BE_CFG v4l2_fourcc('R', 'P', 'B', 'C') /* PiSP BE configuration */
++/* Raspberry Pi PiSP compressed formats. */
++#define V4L2_PIX_FMT_PISP_COMP1_RGGB	v4l2_fourcc('P', 'C', '1', 'R') /* PiSP 8-bit mode 1 compressed RGGB bayer */
++#define V4L2_PIX_FMT_PISP_COMP1_GRBG	v4l2_fourcc('P', 'C', '1', 'G') /* PiSP 8-bit mode 1 compressed GRBG bayer */
++#define V4L2_PIX_FMT_PISP_COMP1_GBRG	v4l2_fourcc('P', 'C', '1', 'g') /* PiSP 8-bit mode 1 compressed GBRG bayer */
++#define V4L2_PIX_FMT_PISP_COMP1_BGGR	v4l2_fourcc('P', 'C', '1', 'B') /* PiSP 8-bit mode 1 compressed BGGR bayer */
++#define V4L2_PIX_FMT_PISP_COMP1_MONO	v4l2_fourcc('P', 'C', '1', 'M') /* PiSP 8-bit mode 1 compressed monochrome */
++#define V4L2_PIX_FMT_PISP_COMP2_RGGB	v4l2_fourcc('P', 'C', '2', 'R') /* PiSP 8-bit mode 2 compressed RGGB bayer */
++#define V4L2_PIX_FMT_PISP_COMP2_GRBG	v4l2_fourcc('P', 'C', '2', 'G') /* PiSP 8-bit mode 2 compressed GRBG bayer */
++#define V4L2_PIX_FMT_PISP_COMP2_GBRG	v4l2_fourcc('P', 'C', '2', 'g') /* PiSP 8-bit mode 2 compressed GBRG bayer */
++#define V4L2_PIX_FMT_PISP_COMP2_BGGR	v4l2_fourcc('P', 'C', '2', 'B') /* PiSP 8-bit mode 2 compressed BGGR bayer */
++#define V4L2_PIX_FMT_PISP_COMP2_MONO	v4l2_fourcc('P', 'C', '2', 'M') /* PiSP 8-bit mode 2 compressed monochrome */
 +
- /* priv field value to indicates that subsequent fields are valid. */
- #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
- 
+ /* SDR formats - used only for Software Defined Radio devices */
+ #define V4L2_SDR_FMT_CU8          v4l2_fourcc('C', 'U', '0', '8') /* IQ u8 */
+ #define V4L2_SDR_FMT_CU16LE       v4l2_fourcc('C', 'U', '1', '6') /* IQ u16le */
 -- 
 2.43.0
 
