@@ -1,53 +1,74 @@
-Return-Path: <linux-media+bounces-4865-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4866-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8EFB84EE1C
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 00:57:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D1384F0B9
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 08:25:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C95B2841A0
-	for <lists+linux-media@lfdr.de>; Thu,  8 Feb 2024 23:57:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 748C31C25156
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 07:25:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5314F51008;
-	Thu,  8 Feb 2024 23:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE90C657CA;
+	Fri,  9 Feb 2024 07:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="F7Bwqhy4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIsvn0/P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E0B4F89C
-	for <linux-media@vger.kernel.org>; Thu,  8 Feb 2024 23:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70F4657B7;
+	Fri,  9 Feb 2024 07:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707436624; cv=none; b=qNLvx/jkuNvyEq24zMbphhVTTXOSJXop7dVWpiMs2023rWNqq/PuX8V4VOIuekqexYsQmjnUfoMis2PYqDCWnLE/7zhBhZfVBHyi6J+bh3zqttuG0XIRKnTlYUqLGm3Vk3g8hhDx1WYoNV0+9l+KJ6eUl7TKpYRW5j9wSiu7kao=
+	t=1707463502; cv=none; b=Qr0WIhq+6SVJshfdsdrfzk48QmSnrRhYERcWKSFfuoCDBjX6ZLvbPxs+TrpXnerOh7flN7MlcEItLjmBXKlQXuDCIzlzuIb3JTOx/Hcnav9s4RVrS9O4DHmXOmrYwnwm0etDAHhy2lKMPVfn2lplnILJGG9ecp4eyv3Tnib7s3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707436624; c=relaxed/simple;
-	bh=H96lt6AOsIZvQzTjfh3aZtBCC/gUm9b1THYv3gpiEIA=;
+	s=arc-20240116; t=1707463502; c=relaxed/simple;
+	bh=rsmnzsz5GNmHcSYK3iHXVA/WXaZ8lTmW8zulPyJVVGI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C5pipL0ontQSsikd5ISsqNEsebXaS7D9LANewEKbMY+WnseCf9bNhLGckphbypXzDc8ZxfSer6djruqFGCB5kx93MpVIxgPThgpst2CdfJYzzj0n4IoGKnop3gL8H7jS6AVfKpsig/kEVk5ythuMdAVc8KgZZjUJOLf5Lstu8qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=F7Bwqhy4; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nurfuerspam.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
-	s=s31663417; t=1707436611; x=1708041411; i=herdler@nurfuerspam.de;
-	bh=H96lt6AOsIZvQzTjfh3aZtBCC/gUm9b1THYv3gpiEIA=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=F7Bwqhy4nYqUwlt87ZfB8EYoQarH21Arpb8GtLq0ol2h1UNnXgFNOvet7HociklL
-	 mjfU6meu3iOqn9xv/xv3KjaH2Ph2NJk0R6IqyrUyCC9/EJutYFyGhapD5R/N5hnLk
-	 bEDgKLgO5b7pG6Oqp0fijtm1PzjrDMrJPCFXFqrKlkp9wiTwWSJthGil6dAbsO4WS
-	 C3K9W0Z81yf3GjQ30+KyELEFRIR+HnbJEmttj1jYuh9p/lIwUf1g3VeBcvxCgKvi8
-	 4Em9Fvm2LueAJKmnW45+XM1a2VBk4ctTRxolqXETfhEmgBkTSF2QCSqxsXMP2nZEQ
-	 qaJliS/ydL372k0MHQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([217.113.186.203]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N63Ra-1qwsIt3Dmy-016Pu5; Fri, 09
- Feb 2024 00:56:51 +0100
-Message-ID: <4686fb0d-3b7c-42a5-90b6-716da29e5ef4@nurfuerspam.de>
-Date: Fri, 9 Feb 2024 00:56:51 +0100
+	 In-Reply-To:Content-Type; b=o2drAx3tAG6ByZJ7Ws0y9B+NpAGDXxBkCsxyDgH3YcryoZgrsjfh3v7+X116X5LdDDrJT9e0AWFiXvYG+K2JhnGqPf/SyNFzGDksrbelmK7b5zN5QXWBoYv5QiRbOfOCv90usHuZzMyMNcSSditCL5oFcoS5OLlPpHC8ccVcoBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YIsvn0/P; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5116b540163so1014546e87.1;
+        Thu, 08 Feb 2024 23:25:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707463498; x=1708068298; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pdG3hSNGGNzr2pOTIyIMpLiclcO5pq5s1cnkvilc9io=;
+        b=YIsvn0/PyPivVoKOpLN3vPf+532I11c3ka3S8BXtkAGHQ4/rGysDTBHjI4L/p3rPyb
+         e1wjHHX/7c+G/q+oMsuUq/8TbSv3MXGbFZpf0G8ujCMowcFgon+GUzb2PywvVBz7wAOp
+         DrMxTJlTUH2775e5/WtSHjceR99vus/OOLrzR4RTBr0OUOcscDMWur9g+2tG3I6Dl4kK
+         ukoQe+8tbStfq++Q7UzsLTbtkyxfque/hduCjvlHafl9Ldc/QtA6E8FjdA8N8FWKw3Rq
+         QqGtYP1Wp7dH+ozWqobxyjt7Pr5KoZKyYPRBvZKY+l9EETmo42+IivcI77pQho0GXaw3
+         3dJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707463498; x=1708068298;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pdG3hSNGGNzr2pOTIyIMpLiclcO5pq5s1cnkvilc9io=;
+        b=hfQ3SzBU2+aphW1S/6im6IkplwOj9HAc71kclbdbJEMkcoR5vxJKVlkHjMg66T8zz3
+         LVIdrHlllI8YbJ4/ze+1ZquF8NFArneL47ZUbi0zWZ4/cqZ6q9lokl3VIrgxFkREFmev
+         jVyM62BHY2TZfRAwLmTaxFV1PKC+ummtyWce7nhy39KxmyQEfNp30q9Qd+/6mXhh/lD3
+         on6sJujLZPT5vDHCVSNLYfJn9vDBVSEuv7+I+z509FSokAIBsemfkRbnSdIXBqDfY74N
+         uK9NQYnGt6OO9isoz7xCrQPoBILgRJjTWX40OJI5M4umG+sT2aU2wWwYvJsi/mCzPUYj
+         VxMA==
+X-Gm-Message-State: AOJu0Yx6RESia4VRi1pIXapAxF3Hp0jH1SHKbBPhSTvVeM92ZFMjXf8E
+	xw4sFoTu6sJ0Wrt/5oofrLnQsOLOElXy2bZtQuic/QZGv9TPN1m9
+X-Google-Smtp-Source: AGHT+IFb0xkO87iajvnu/RbrVAPg0isliEel8BvJnRkKJGUPpTxcrJm/nJ0DjzFAmMTSwgwn4ZHkXw==
+X-Received: by 2002:ac2:5382:0:b0:511:4e6a:52fd with SMTP id g2-20020ac25382000000b005114e6a52fdmr423108lfh.3.1707463498323;
+        Thu, 08 Feb 2024 23:24:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVmi3o04Mdh3bqS+nHOZJmxKHpty+1hF0QEis1iuO4IqPlOp4kP98t7IUFwkPEa7qgTROukdKO5UVrwk0cWNyAqh6wShS8HW9ZFd+T8IlacrnFkWPK8ttTuvwUIzCeaNiCvS3qHXJ5jXwv5MUFKF+LGXlQhWaTswrb4P50bqtWeagCAu/IbDeY29Ey7f2fz9d9BP5Ko26GY5Oq3kn/DeSqNV7YLRzjzlVN8M5ESVphOl9V0FUmx1YTsZhbiMVcQt4F9aTcjfUv5h0K3rqhDIrs4trxuWjVyE9eCxg/LydWXan7RDD1MSCHc6RObeAKMkCNEWVwhLrMt0nQ11aLpAicm9R28EqPeoHNBe5+xRKnQxyy7bpG5po1SkpNLXoyIDtE8lr4MQDt6Of+0wPAnrX1F5tUNnuKSiidhBp3grKSIKHcEDTJwyutHhtMrhDADr3GCvxKJVS3v++U=
+Received: from [192.168.26.149] (031011218106.poznan.vectranet.pl. [31.11.218.106])
+        by smtp.googlemail.com with ESMTPSA id z13-20020a170906714d00b00a370e130fc0sm478163ejj.59.2024.02.08.23.24.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Feb 2024 23:24:57 -0800 (PST)
+Message-ID: <6012ec99-4246-41b6-adb2-1bcd4dd159ac@gmail.com>
+Date: Fri, 9 Feb 2024 08:24:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,182 +76,45 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/6] media: docs: uAPI: dvb/decoder: completing the
- documentation
-Content-Language: de-DE
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, smoch@web.de,
- tmn505@gmail.com, vinschen@redhat.com
-References: <20230327192826.65ae299d@sal.lan>
- <20240128233249.32794-1-herdler@nurfuerspam.de>
- <20240207061020.0a6fa3bb@coco.lan>
-From: Stefan Herdler <herdler@nurfuerspam.de>
-In-Reply-To: <20240207061020.0a6fa3bb@coco.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KBuwWcv13smkvesB2Wlbdzi0+a+cGqkT8Bffog/VDqllvnpVvCb
- 775sKmkchsOS9ZXvBNVRkhhg5wdKoDjEX/M4OucTgyuIOjpsdlQvHmkyLeqagQ5mmb22oPx
- TXhnEB2NHBVY3zmSmNp7gX+lPL/f+ycPGW8nfH5+cPeQgGHPYSTjhiLq0zi60ojRFhjC7mY
- O2ER32XgFBEALdUclYsQA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Rj1olpxUgno=;ma0oVOf/KD31O/iAyJSXHU6XyaW
- PaTeSswfsyhfGtv+bo9AaoHEBC0xhv9yi4LzCRf27edML010FN2oRiXY9YKhL5HZatTeXK6Xk
- y7f8ewm7qhuPYFtXFRE3yLAnY4zYSG8QHf4r+ao0C/ydSeUFK8i833hfkgTelamwITbftDe3B
- YlcL7j2oIV73bKlyHgffsPBpdhmfSDHWlsvqwqgJbZA9qsOAZqVnkUIJWN4JY6vsbCN7hu3tq
- BD6t8DDq+CkiyRZoaQN2+EwSwsyh9Xu73vxjTAJtOxa8h7pcTyi8rKZNBkUfoSjmHvxj4uOsu
- fM4GgntZL5JGoIxQ2c9TJoV7///AUPwIjLvBEf8LtT9hTpkQUpIFuU6lpz/6YuFSxWDB7mySI
- B243lA1lK7GskovJ4sU/0lBC3WRX0f9Dhj/yTmEsSnvMLAPCMZVK0A6gdl3MymtMf0ENuw64f
- tjmDgXuHSiY+tkjEdiY6k+unNMkDArPu37eu/tfRpDskKw1OWU7Cp8cutDaZw/x0wQUlzJOG1
- P5cVOTHEIyoYE401y2Q/TpRzpQmE3lUqmb9GYm2FNyrLcRw3NqjIPCybYQVAVO3BxEIX4cLza
- Q/pRedL9mv/1EcVE2dzdZ3Kp8uRi5QBKuvQ20YpNgknkWL/q9QlMVYlTruqIxkkhhYXBiBeJL
- +msD94smNNfQfFaGGFCkrvsu4KALebKw4Zges+EO66qDNR4fWbNN19UtTIVV/9osb1W5kWguN
- JlFEcTc2dlegCbi4oYysWkLJkIjvLvnJme1XoBDrK5cs4o4umQwSmSpSXZMNrucI+gvlWNfZQ
- qMMX/msCRpoAyUAeOUVn4Q8Y6bqjWbtULhTQc3aMRnfIw=
+Subject: Re: [PATCH] dt-bindings: media: convert Mediatek consumer IR to the
+ json-schema
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Sean Wang <sean.wang@mediatek.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240124095230.25704-1-zajec5@gmail.com>
+ <62fca33c-eb1a-42ad-b7f7-31b14f0aa446@collabora.com>
+Content-Language: en-US
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <62fca33c-eb1a-42ad-b7f7-31b14f0aa446@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 24.01.2024 13:33, AngeloGioacchino Del Regno wrote:
+> The driver says:
+> 
+>      ir->bus = devm_clk_get(dev, "bus");
+>      if (IS_ERR(ir->bus)) {
+>          /*
+>           * For compatibility with older device trees try unnamed
+>           * ir->bus uses the same clock as ir->clock.
+>           */
+>          ir->bus = ir->clk;
+>      }
+> 
+> This makes me think that requiring *one* clock on MT7623 would be a mistake
+> and the devicetree should use clk, bus - CLK_INFRA_IRRX_PD, CLK_TOP_F10M_REF_SEL.
 
-Hi Mauro,
+Looking at mt2701-clk.h I can see CLK_INFRA_IRRX (which I guess you
+meant above).
 
-On 07/02/24 06:10 Mauro Carvalho Chehab wrote:
-> Hi Stefan,
->
-> Em Mon, 29 Jan 2024 00:32:43 +0100
-> Stefan Herdler <herdler@nurfuerspam.de> escreveu:
->
->> This is basically a resend of v3 after 6 month, with some minor updates=
-.
->> Changes since v3:
->> * Adjust title and description to better match existing documentation.
->> * Fix warnings from kernel test robot.
->>   (At least I hope it is fixed now, I couldn't reproduce this warning.)
->>
->> No changes to the text it self.
->> The layout is still identical since v1, just split into multiple patche=
-s.
->> My comments of v3 attached below, they refer to Mauros comments[3] to
->> v2 and still fully apply.
->
-> Patch series applied. I opted to reorder the series placing patch 1 at t=
-he
-> end, as otherwise it would cause bisect issues, as the index would be
-> trying to reference non-existing files.
-
-To reorder makes perfectly sense to me.
-Somehow I overlooked it all the time.
-Thanks for fixing :-).
-
-I'm glad, that it was the only thing I messed up, I expected much more.
-This hole process is still a learning experience for me.
-Thank you again, for your feedback, hints and patience.
-
-
-Regards,
-Stefan
-
->
-> Thank you for the series!
->
-> Regards,
-> Mauro
->
->
->>
->> [3: https://patchwork.kernel.org/project/linux-media/patch/decd5d71-f06=
-e-5873-5ebf-7028107f65ee@nurfuerspam.de/]
->>
->>
->> [PATCH v3] (July '23) -------------------------------------------------=
---
->>
->> Changes since v2:
->> * Split the patch into a patch series.
->> * Incorporate the changes requested.
->> * Style updates to better match the existing documentation.
->> * And a lot of small fixes.
->>
->>
->> Hi Mauro,
->>
->> it took a little longer then expected, but I didn't had much time in sp=
-are
->> for this. I'm pretty much occupied by other things at the moment.
->> The winter season would be better for things like this, but I try to
->> finish it as quick as possible.
->>
->> I went through your mail point by point and I'm confident, that I was a=
-ble
->> to sort out your questions now. At least I don't see anything that need=
- to
->> be improved anymore.
->> The work has been done in a lot of small blocks over a pretty long peri=
-od
->> after my daily work, mostly late at night. Despite double checking
->> everything, I maybe still have missed something. I hope it is not too
->> much.
->>
->> For usage it has been checked against the known projects using the DVB
->> decoder APIs:
->> * The AV7110 kernel driver.
->> * The out of tree driver for the HD full featured cards.[1]
->> * The "Enigma2" sources from openatv team.[2]
->>   (The drivers of the boxes are binary only.)
->>
->> Possibly unused items have been listed in the comment of the patches.
->> Please take this lists with a pinch of salt. With the number of items
->> checked, it is pretty easy to miss an occurrence or have a false positi=
-ve.
->> Although I've done my best, there is still the chance that I've missed =
-an
->> use case.
->>
->> I tried to complete the documentation of this unused definition too.
->> Most information had been collect anyway and writing it down wasn't tha=
-t
->> much of effort.
->>
->> Removing the definition and documentation later at once is always an
->> option.
->> I would prefer to do it this way, if something has to be removed.
->> It is easier to revert the change in case of a regression.
->> If necessary I can provide the patches too.
->>
->> Regards
->> Stefan
->>
->> [1: https://github.com/s-moch/linux-saa716x]
->> [2: https://github.com/openatv/enigma2/tree/master]
->>
->>
->>
->> Stefan Herdler (6):
->>   Add documentation for legacy DVB decoder API
->>   Add documentation for osd.h
->>   Add documentation for audio.h (data types)
->>   Add documentation for audio.h (function calls)
->>   Add documentation for video.h (data types)
->>   Add documentation for video.h (function calls)
->>
->>  .../media/dvb/legacy_dvb_apis.rst             |    1 +
->>  .../media/dvb/legacy_dvb_audio.rst            | 1642 +++++++++++
->>  .../media/dvb/legacy_dvb_decoder_api.rst      |   61 +
->>  .../media/dvb/legacy_dvb_osd.rst              |  883 ++++++
->>  .../media/dvb/legacy_dvb_video.rst            | 2430 +++++++++++++++++
->>  5 files changed, 5017 insertions(+)
->>  create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_au=
-dio.rst
->>  create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_de=
-coder_api.rst
->>  create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_os=
-d.rst
->>  create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_vi=
-deo.rst
->>
->> --
->> 2.34.0
->>
->>
->
->
->
-> Thanks,
-> Mauro
+I can't find CLK_TOP_F10M_REF_SEL however. This seems to be available on
+MT7622 and MT7629 only.
+Could you take another look at it, please? Can you somehow verify what
+clock should be used by IR on MT7623?
 
