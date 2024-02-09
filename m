@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-4874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4875-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6951A84F24A
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 10:28:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFEC84F296
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 10:48:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 213B4281AE0
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 09:28:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 435711F2679D
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 09:48:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E476C679FB;
-	Fri,  9 Feb 2024 09:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E16C67C7B;
+	Fri,  9 Feb 2024 09:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="rDp8UGfC"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="dHKxph8B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BDF66B2C;
-	Fri,  9 Feb 2024 09:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1056664A3;
+	Fri,  9 Feb 2024 09:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707470925; cv=pass; b=TkNfN0E4svGaeuCqkFQ8wXmkOCF79IRb+Zk2euCet0xi0QJ3HjlgqwFXe0CpHSm3IUxYkaNQMuQhS9i8C9OaK4ZwHqBwJOk4LUXIVvRu4koOQCp2bX5mJjxFyoP2JerzKSCOFmjfs6gsWY9uU4sS/eXlVjSa43zm2sEraw0GE6M=
+	t=1707472116; cv=pass; b=JQdijwNKNvXDTf2i1RbPvUigLSVJymDk4EGgfNmXJEFAPDvmlhEQRU5D2E4DlZaDg14o3RwphjXfrmR81drmaTG6EtY0Z7p/WxAtqosVoqzbY7d1/tnGUL5HkOMWYVGPqdFrtYuU5hGm2GPLuJ8QtWqv0dyKXn3jZQQW+/3gHEE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707470925; c=relaxed/simple;
-	bh=L5f4APd0uaZvkdFCaL72gp3Z/NFm0xLnVgomHN3AAQw=;
+	s=arc-20240116; t=1707472116; c=relaxed/simple;
+	bh=vORW683FBpA+qrF+C2rCdYcNkhpTAxupmgbECNkzkjA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iP1Kt5woDLLmauLNOUThI6FxF1Mn7XdMpOZR+7qXV5ywjWTkDkOLig4pyKWuPGH6o7TwhQHypT+tkjmHnTfrmUO/+LwWojIYHN+MJWnlntFXX947svbi6PztMYrR8mJXgMlyWlsK1kdbNF+fXQcNwxGuQOReTJFlwGOFK5/Aid0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=rDp8UGfC; arc=pass smtp.client-ip=185.185.170.37
+	 Content-Type:Content-Disposition:In-Reply-To; b=hoAMVP32VBen10kzTlB2ggByu8MGgeVUOmBNa9iHayk0TFN1uxzXe4Qtu/J5VOYEQTYaqNxZYOJmRP/3hiX0NHMlBvh+sJyc2KX+rw73B1JXZVbeQDWTsnbFFJitNuPxG2BtSogGKUu1osEHE053GQFL2VsIv55hJQOCDtIfLDA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=dHKxph8B; arc=pass smtp.client-ip=185.185.170.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
@@ -36,37 +36,37 @@ Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.c
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TWT750Ghpz49Pv3;
-	Fri,  9 Feb 2024 11:28:32 +0200 (EET)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TWTZ72Gb1z49Pv3;
+	Fri,  9 Feb 2024 11:48:31 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1707470913;
+	t=1707472111;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=od5oreMF7LSJoZ5E7e8qfjLHLaZ52GFaLl3Biqo5qgw=;
-	b=rDp8UGfCvqRqxqcst7tnaH9TFm6qZBcQddNqlanCnYUd+ujS4xn/hAN/ZxAcOCOW0Glb5v
-	X7mDGLw941eA8niYbXpCMWZS/yGuAzjOyZkXfliJJcmw2VbINeA6fmDyuuMwS6fdhSaWqh
-	6VxXpKZBJTy2pjkfXJgBK1oGmK1Bqt/PtQTYGcJibF/1CqOp13ySFNpFiPfNGqsDjvKM2R
-	yWfv8++32FGlNwc4Sfyr5dNCOJ3TgqgKk+FIT746+KaUDvHh82CkSXXb3ICuzAredrSmkN
-	aiU+kf/vrHfSOy0zoM0ydq5pm1TP4987ubp+FSsnS3hl3HJXt7aiarMrw7H5MA==
+	bh=6xFovG9lh/igg6TJvOZbqG+Gi6zv4L7L9QJSaWfDgik=;
+	b=dHKxph8BRn2FL1fXiqmFYYJA3QDqoNST+8rhSKiW1HnR+YtNZ8evvPWr1jvo/gOuyIIPeS
+	R/dbatG7hktt8B3LDLkrGMx+24vho6zj8upOR8jE4g/dgWcosyNfevUT6nu/eDbomwmkRf
+	uAoDZ8NCwNYWDUnoJ0wkweKiu8vc2xTezgr/ef5t705Sg/RN3MtZBdl1ZuInGjUaX7j8q3
+	vhvIWqgMNOuIb9MR/gK1a4KXJFImjt31Gg2W2D2mJK869iBT7H9Ym7TaBKzjPuAa65eKCK
+	nH7RrCkQE3JPtfNO1ebBB4SH5944EgvgUuycE7FG2THCB7VwknOREmATr1TeHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1707470913;
+	s=lahtoruutu; t=1707472111;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=od5oreMF7LSJoZ5E7e8qfjLHLaZ52GFaLl3Biqo5qgw=;
-	b=h9LZYz6x9JdJeINobJbOAlMjrwQ9xhjDogRHTmUErjMKk70WI1HXMzPNp1byee2HLVnrcx
-	I0SIuI3r7Kx0/3eqjCMyZnD/7DAV0hYFGKqv8e7Q64+D0qEOp+M+UucR/ii3OrsYDH/4P4
-	JQ8Iu/QrlM3p3IrGv8zJsryjX1+FokdcIfQntQgWhXLMeL1D50UNGAxvyW60O1aQxc7DmH
-	76w6r/uLk/+QyMfVv5ylFJWlVgDSrtb257H6Vo6W8y+gJs+M0EPVLgS0es4wu6ogotAMHL
-	sZa2JsPrnlCvC7etxdoqXqya9JA+nns79IEWcUayrBl56sYzjqaC6S7qRHRcIg==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1707470913; a=rsa-sha256;
+	bh=6xFovG9lh/igg6TJvOZbqG+Gi6zv4L7L9QJSaWfDgik=;
+	b=QBs9IKW6kyN8V2owFCCaVBOtIYdQKGeoSKB1jE3BmG2qrWf4wkFwLEN0m1SWniP8ysuyBu
+	u4X9jMYBp0TKtERVsvjcWo7erDU4QOZyy01fxMxW2R9lCAdFqodrBHXknikT1dFgsuZZ7W
+	YvCrYKy6ahVzlQFmkEf3/9zaDOQ1l7fYT81dBGfD/Ft8MaR7xRHVnwCnaqILMOipp5OGby
+	/ZTxddacH99NDLg9Lv3UA9CMfMMunHZc+VFfY6X+6iMVhI5wrcWIBhRqYWUgrBM/k7y39L
+	fz/KYVZTFKwtHZtLvYExCvsbKoJHop59m6wH0oYa9OTrlG+/AEh6A85eMPZ6nA==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1707472111; a=rsa-sha256;
 	cv=none;
-	b=RKQ56Hz5Do1u9kZkkdriiD8xZ1+Ez/ACg56IoSYzivlQ20y42Sk6MfrCAIYm94NrYjuZhz
-	XMZGbANcfWjKcujSs2jmTWq8ZNpfz16nTJMp9Yr8UuCAom73JyQVRj5N8QU/+nntrHv/Ek
-	Rc+xVl8D8rstLVKdF8fShHXtr9L1CbEePPC3z06tCm9Dfk43L1f5ustabEVM/xUiyXo6pa
-	DxgIqVfrlLVtRFipxXIsB7OcXXxHGQJkXhIbCmhB0URAkKvIZcC3A09NP+APthXsdNyxOm
-	eDF3rkMII0Sv6y6WlZPlDT0cOu/ncZldoTsaC9B+MZKliJgwUtYHLWROJ7+WOw==
+	b=rq5uc1wBx5zIgHw+CbDMnV61QX+6SRd+ulAPoPJ1QfUHnFu3cnmknvnydJ18mnThCbsZxw
+	PP16GvPu0rBqdK2pgK8mJuiRcmWa1vDn7shFFxGAL517niJb+6FiYpibXBtRSXbqCJLEB8
+	0UU4RpjhU/HlyYSPMWd4yuc71WHfER7pJ+0I1o58a/pWR8sGaykJt5x6fucJqPGgy5gKyv
+	hjwEl9moQVk1mXV9fMWR0nX+AhwrqwIfioTrYuxrbZhxIlWmv6OVVEO8GBwugHsx2mQSAG
+	+hPMsI/NyahIIhFCvkJ26KljeFRKRE9YFGnQ8lJQO/07DixgulFwkHwQS7SaxA==
 ARC-Authentication-Results: i=1;
 	ORIGINATING;
 	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
@@ -74,20 +74,20 @@ Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A6D54634C93;
-	Fri,  9 Feb 2024 11:28:32 +0200 (EET)
-Date: Fri, 9 Feb 2024 09:28:32 +0000
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 16548634C93;
+	Fri,  9 Feb 2024 11:48:31 +0200 (EET)
+Date: Fri, 9 Feb 2024 09:48:30 +0000
 From: Sakari Ailus <sakari.ailus@iki.fi>
 To: Julien Massot <julien.massot@collabora.com>
 Cc: linux-media@vger.kernel.org, kernel@collabora.com,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	mchehab@kernel.org, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: add Maxim MAX96717F GMSL2
- Serializer
-Message-ID: <ZcXwQA3IiDu1etH1@valkosipuli.retiisi.eu>
+Subject: Re: [PATCH v3 2/4] dt-bindings: media: add Maxim MAX96714F GMSL2
+ Deserializer
+Message-ID: <ZcX07nUiI4IUuReP@valkosipuli.retiisi.eu>
 References: <20240111130349.2776699-1-julien.massot@collabora.com>
- <20240111130349.2776699-2-julien.massot@collabora.com>
+ <20240111130349.2776699-3-julien.massot@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -96,88 +96,87 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240111130349.2776699-2-julien.massot@collabora.com>
+In-Reply-To: <20240111130349.2776699-3-julien.massot@collabora.com>
 
 Hi Julien,
 
-On Thu, Jan 11, 2024 at 02:03:46PM +0100, Julien Massot wrote:
-> Add DT bindings for Maxim MAX96717F GMSL2 Serializer.
+On Thu, Jan 11, 2024 at 02:03:47PM +0100, Julien Massot wrote:
+> Add DT bindings for Maxim MAX96714F GMSL2 Deserializer.
 > 
 > Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> 
 > ---
 > Change since v2:
 >  - remove reg description
->  - add data lanes min/maxItems
->  - Use generic node name 
-> 
+>  - rename enable gpio to powerdown
+>  - use generic node name: i2c, serializer, deserializer
 > ---
->  .../bindings/media/i2c/maxim,max96717f.yaml   | 147 ++++++++++++++++++
->  1 file changed, 147 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml
+>  .../bindings/media/i2c/maxim,max96714f.yaml   | 171 ++++++++++++++++++
+>  1 file changed, 171 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
 > new file mode 100644
-> index 000000000000..f31517b1dbc8
+> index 000000000000..2423d166c954
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml
-> @@ -0,0 +1,147 @@
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
+> @@ -0,0 +1,171 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +# Copyright (C) 2024 Collabora Ltd.
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/media/i2c/maxim,max96717f.yaml#
+> +$id: http://devicetree.org/schemas/media/i2c/maxim,max96714f.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: MAX96717 CSI-2 to GMSL2 Serializer
+> +title: Maxim MAX96714 GMSL2 to CSI-2 Deserializer
 > +
 > +maintainers:
 > +  - Julien Massot <julien.massot@collabora.com>
 > +
 > +description: |
-> +  The MAX96717F serializer converts MIPI CSI-2 D-PHY or C-PHY formatted input
-
-Presumably this will need to be configured on the device? You should thus
-require the bus-type property in the endpoint.
-
-> +  into GMSL2 serial outputs. The device allows the GMSL2 link to
+> +  The MAX96714F deserializer converts GMSL2 serial inputs into MIPI
+> +  CSI-2 D-PHY or C-PHY formatted output. The device allows the GMSL2 link to
 > +  simultaneously transmit bidirectional control-channel data while forward
-> +  video transmissions are in progress. The MAX96717F can connect to one
-> +  remotely located deserializer using industry-standard coax or STP
+> +  video transmissions are in progress. The MAX96714F can connect to one
+> +  remotely located serializer using industry-standard coax or STP
 > +  interconnects. The device cans operate in pixel or tunnel mode. In pixel mode
-> +  the MAX96717F can select the MIPI datatype, while the tunnel mode forward all the MIPI
-> +  data received by the serializer.
-> +  The MAX96717F supports Reference Over Reverse (channel),
-> +  to generate a clock output for the sensor from the GMSL reverse channel.
+> +  the MAX96714F can select individual video stream, while the tunnel mode forward all
+> +  the MIPI data received by the serializer.
 > +
 > +  The GMSL2 serial link operates at a fixed rate of 3Gbps in the
 > +  forward direction and 187.5Mbps in the reverse direction.
 > +
 > +properties:
 > +  compatible:
-> +    const: maxim,max96717f
-> +
-> +  '#gpio-cells':
-> +    const: 2
-> +    description:
-> +      First cell is the GPIO pin number, second cell is the flags. The GPIO pin
-> +      number must be in range of [0, 10].
-> +
-> +  gpio-controller: true
-> +
-> +  '#clock-cells':
-> +    const: 0
+> +    const: maxim,max96714f
 > +
 > +  reg:
 > +    maxItems: 1
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Specifier for the GPIO connected to the PWDNB pin.
 > +
 > +  ports:
 > +    $ref: /schemas/graph.yaml#/properties/ports
 > +
 > +    properties:
 > +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        unevaluatedProperties: false
+> +        description: GMSL Input
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +            description:
+> +              Endpoint for GMSL2-Link port.
+> +
+> +      port@1:
 > +        $ref: /schemas/graph.yaml#/$defs/port-base
 > +        unevaluatedProperties: false
-> +        description: CSI-2 Input port
+> +        description: CSI-2 Output port
 > +
 > +        properties:
 > +          endpoint:
@@ -189,27 +188,37 @@ require the bus-type property in the endpoint.
 > +                minItems: 1
 > +                maxItems: 4
 > +
+> +              link-frequencies:
+> +                maxItems: 1
+> +
+> +              bus-type:
+> +                enum:
+> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+
+MEDIA_BUS_TYPE_CSI2_CPHY (1) is missing. Even if the driver doesn't support
+it, it would be best to list it here.
+
+> +
 > +            required:
 > +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        unevaluatedProperties: false
-> +        description: GMSL Output port
+> +              - bus-type
 > +
 > +    required:
 > +      - port@1
+
+Why port@1 but not port@0?
+
 > +
 > +  i2c-gate:
 > +    $ref: /schemas/i2c/i2c-controller.yaml
 > +    unevaluatedProperties: false
 > +    description: |
-
-I think you can remove ' |'.
-
-> +      The MAX96717F will forward the I2C requests from the
-> +      incoming GMSL2 link. Therefore, it supports an i2c-gate
-> +      subnode to configure a sensor.
+> +      The MAX96714 will pass through and forward the I2C requests from the
+> +      incoming I2C bus over the GMSL2 link. Therefore it supports an i2c-gate
+> +      subnode to configure a serializer.
+> +
+> +  port0-poc-supply:
+> +    description: Regulator providing Power over Coax for the GMSL port
 > +
 > +required:
 > +  - compatible
@@ -226,29 +235,33 @@ I think you can remove ' |'.
 > +    i2c {
 > +        #address-cells = <1>;
 > +        #size-cells = <0>;
-> +        serializer: serializer@40 {
-> +            compatible = "maxim,max96717f";
-> +            reg = <0x40>;
-> +            gpio-controller;
-> +            #gpio-cells = <2>;
-> +            #clock-cells = <0>;
+> +
+> +        deserializer@28 {
+> +            compatible = "maxim,max96714f";
+> +            reg = <0x28>;
+> +            powerdown-gpios = <&main_gpio0 37 GPIO_ACTIVE_LOW>;
 > +
 > +            ports {
 > +                #address-cells = <1>;
 > +                #size-cells = <0>;
-> +
 > +                port@0 {
 > +                    reg = <0>;
-> +                    max96717f_csi_in: endpoint {
-> +                        data-lanes = <1 2 3 4>;
-> +                        remote-endpoint = <&sensor_out>;
+> +                    max96714_gmsl_in: endpoint {
+> +                        remote-endpoint = <&max96917f_gmsl_out>;
 > +                    };
 > +                };
 > +
 > +                port@1 {
 > +                    reg = <1>;
-> +                    max96917f_gmsl_out: endpoint {
-> +                        remote-endpoint = <&deser_gmsl_in>;
+> +                    max96714_csi_out: endpoint {
+> +                        bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
+> +                        clock-lanes = <0>;
+
+clock-lanes isn't listed in bindings. You can drop it from here.
+
+> +                        data-lanes = <1 2 3 4>;
+> +                        link-frequencies = /bits/ 64 <400000000>;
+> +                        remote-endpoint = <&csi_in>;
 > +                    };
 > +                };
 > +            };
@@ -256,18 +269,35 @@ I think you can remove ' |'.
 > +            i2c-gate {
 > +                #address-cells = <1>;
 > +                #size-cells = <0>;
-> +                sensor@10 {
-> +                    compatible = "st,st-vgxy61";
-> +                    reg = <0x10>;
-> +                    reset-gpios = <&serializer 0 GPIO_ACTIVE_LOW>;
-> +                    clocks = <&serializer>;
-> +                    VCORE-supply = <&v1v2>;
-> +                    VDDIO-supply = <&v1v8>;
-> +                    VANA-supply = <&v2v8>;
-> +                    port {
-> +                        sensor_out: endpoint {
-> +                            data-lanes = <1 2 3 4>;
-> +                            remote-endpoint = <&max96717f_csi_in>;
+> +
+> +                serializer@40 {
+> +                    compatible = "maxim,max96717f";
+> +                    reg = <0x40>;
+> +                    gpio-controller;
+> +                    #gpio-cells = <2>;
+> +                    #clock-cells = <0>;
+> +
+> +                    ports {
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +
+> +                        port@0 {
+> +                            reg = <0>;
+> +                            max96717f_csi_in: endpoint {
+> +                                data-lanes = <1 2>;
+> +                                lane-polarities = <1 0 1>;
+
+Shouldn't lane-polarities be mentioned in bindings, too?
+
+> +                                remote-endpoint = <&sensor_out>;
+> +                            };
+> +                        };
+> +
+> +                        port@1 {
+> +                            reg = <1>;
+> +                            max96917f_gmsl_out: endpoint {
+> +                                remote-endpoint = <&max96714_gmsl_in>;
+> +                            };
 > +                        };
 > +                    };
 > +                };
@@ -277,7 +307,7 @@ I think you can remove ' |'.
 > +...
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
 
