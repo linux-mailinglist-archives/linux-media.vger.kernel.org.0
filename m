@@ -1,257 +1,341 @@
-Return-Path: <linux-media+bounces-4903-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4904-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2164784FB79
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 19:03:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD0A84FC31
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 19:45:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F0761F22AFC
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 18:03:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14D0128CF3B
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 18:45:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 095AB7F48A;
-	Fri,  9 Feb 2024 18:03:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1864D7B3FC;
+	Fri,  9 Feb 2024 18:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ZuAliUkZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="S3Cn9scZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BB274E09
-	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 18:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E5457337
+	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 18:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707501797; cv=none; b=PTN4SVCVsgBvDwBhkUvELlx4f0R1vtP8E8LGl47dn0AuqScqMJyDrB4cTZcH4wFvVl/waHSNpcqAsHxx9c4BoC2qV+foYa8kv1X2s8wFlQVc1blLDTypowZsq15o2LPhkGzxenlS5uUTH5ZtDqsuLb2KQtOrH3Q85o71Azr3P4M=
+	t=1707504318; cv=none; b=MSSRTuITpoi8LA3swBtYHEuDmOVqly3yLqVtiN7aJ1cLti0oL9A8dAkmETDZfa0325zQ9J+1LCpdldmbW5fLnPAgdsaUCACSZ43lyZx41FXf+edJd1+9SezUpvov+PogvDt0cV4fi8qdeVq1vr7uS1aupvqCABcvD+jNvtK6B5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707501797; c=relaxed/simple;
-	bh=wUOqp8O/+2PTeDwtPu+slsGGd4B2LkrSlXEkL7ydopk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=V02Ox3oSioxsyX3NakIJkxwy8zGvyTli6RXE/4EVIxyrcb3iX3fOZL66zN7EQp3G/aGBt0MgtqYlBIHifTnejsNtGbJSPY86xBKbbDeOptIWKQz6XM/3kmOoYRltaDxjHhmDVdnogbLrk7Yz4baC0yXISm9LeW2UNHQegOPRWeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ZuAliUkZ; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-42a8b99eaf9so7727671cf.1
-        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 10:03:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707501795; x=1708106595; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XMmtR/jVreZJZL0VPGdv7OCSid3xFfo3cmr9iPZCS/o=;
-        b=ZuAliUkZmUPFWupP3L2YYYU5+LFXFpNzZKQfpXfdAXBKEeS+fuxaEZueIgBxo39367
-         Woh/Zfkuif5d6svkjEiL1CVkxSk+l90FhVa39jjPILpn+0VxF03JNnQmw7m85hGTl/2B
-         MgwkvBTZ6MbxBQHlWYeGarYSPXdZzUmwUwYWy2m80eV7/+k6MR/8HJJ3oQctkzWt0wLx
-         ZMePJBLwOseES0cPn9t4kB4ntkxZTm/ZwzyyMr8eDCykvL+yXGoxTJieoOpQZrMKDTdT
-         oTeRV+fI39TEBHZOy0bzCpovT9OcEqZMl7f4X5DPwQTsiml6i6t4ErRPoIayBeBrapVA
-         HVmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707501795; x=1708106595;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XMmtR/jVreZJZL0VPGdv7OCSid3xFfo3cmr9iPZCS/o=;
-        b=RRa9dcxZOPtGOf12icfQ5MI9CXKzjC+fUNmPIgg4GebBripJOLS8kNRddsWf1UtMqJ
-         iLl1kmYapvnQ6TJVSK0BrcRFNdum1JIZKLwsd8NOg7/WGFqq/VRcxY7QuuiMeBYptwWx
-         czhOtV8dLJrBXYgKR+iwFKCPG0ZBpv9it3R6T+TG9Lht/y2d3ccGpVHbnQbS3bHOifGM
-         69sYOkOtxfrIezKtQRq72N4cZ5kH7O6qXkO+TjIOo7dcl7sWOzuHe3OZSHVHslKnc/Wp
-         OkCsk7StMFG6ZzbR+TcNte8/Dke+nEu/+4zXMXgU9k6KVszJtN9ee9871IB7b8r9wOho
-         qoiA==
-X-Forwarded-Encrypted: i=1; AJvYcCUFz3dSAPrvEX6LrAVPP1heYs/r3S+ziRD6UaJHNu7bCqTZy9+BKQUHy+mFYjhe8t0ilbYghnU1rrCNerpNoSwFzrR4tUf9tw0IZ70=
-X-Gm-Message-State: AOJu0YxmesB/uO3kajZUJredIwoXP5OG8xF2+DH+ZlKo3WRDtzwCWULa
-	zrmqlyq12HTGoYNyjfMzieBdm8b2aE7BrE0Lzl/+Nzu/Uu5OhEBma5FIL7j7zUg=
-X-Google-Smtp-Source: AGHT+IF2D2hDsfZCxLHiFrFsWZvtS5n2ULyhAmFlR+34UsRTHielf89U1eNyz73xjruzJHxP6Th0HA==
-X-Received: by 2002:ac8:7f87:0:b0:42b:f17f:8db2 with SMTP id z7-20020ac87f87000000b0042bf17f8db2mr2392876qtj.51.1707501794647;
-        Fri, 09 Feb 2024 10:03:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVvvNzcTNwO2ufTeQXwNcPU52LzeHzAH+rWzfo/KZjVshpswHaH4nMEbBMIzlF86ZI/HI9NLuKxIMkIN7vXvqCeXzLsZHllTsdTwKE=
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
-        by smtp.gmail.com with ESMTPSA id d14-20020a05622a100e00b0042a8c890444sm902025qte.1.2024.02.09.10.03.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 10:03:14 -0800 (PST)
-Message-ID: <644a9bfa5f2d3bba8e5c590a8c6fce302279a94b.camel@ndufresne.ca>
-Subject: Re: RFC: VIDIOC_ADD_BUFS, a VIDIOC_CREATE_BUFS replacement
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Hans Verkuil <hverkuil@xs4all.nl>, Linux Media Mailing List
-	 <linux-media@vger.kernel.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Date: Fri, 09 Feb 2024 13:03:11 -0500
-In-Reply-To: <243a66ad-6dff-4a43-ab03-e01d1038fe8a@xs4all.nl>
-References: <243a66ad-6dff-4a43-ab03-e01d1038fe8a@xs4all.nl>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	s=arc-20240116; t=1707504318; c=relaxed/simple;
+	bh=k72iz8nPsXqbNpRzEbxNVUyTa396gvYMjDiLi95jUlE=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=isVefbtpBGFXuAh8elrft61Vg/zA4ciRnmxsz6/+dXON+4OPxlfKgrz/OmF5JnS8SkR4l04z2SfVXYq2c3AvDiHgG3MgY9c6+qFtRblcp6QCC9RCdvCEdR358NQmG1iAo0Zlt6G54izE2ldcK50ZARn3uexOgquZe6D7JY6E9jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=S3Cn9scZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53C6282A;
+	Fri,  9 Feb 2024 19:43:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707504228;
+	bh=k72iz8nPsXqbNpRzEbxNVUyTa396gvYMjDiLi95jUlE=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=S3Cn9scZPNfVNEdyW9NPyPLhtwDlfeGs7miGP9oQO4K/M9O94pCJzQYWkxBrL1Wtk
+	 IQv3Fbfh8gNQ1aD+SIj98h0H7+93wPdCoXB50MVfcioFo1a6SZ4B4LgsnPf38jES2l
+	 3Wz13oiM95M+1RfhAaWTmJfLiqDL/Uvkx+bs+ZAc=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240209164825.166800-9-jacopo.mondi@ideasonboard.com>
+References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com> <20240209164825.166800-9-jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 8/8] media: admin-guide: Document the Raspberry Pi PiSP BE
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, Naushir Patuck <naush@raspberrypi.com>, Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List <linux-media@vger.kernel.org>
+Date: Fri, 09 Feb 2024 18:45:11 +0000
+Message-ID: <170750431136.1011926.1857665645955840255@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Hi,
+Quoting Jacopo Mondi (2024-02-09 16:48:23)
+> Add documentation for the PiSP Back End memory-to-memory ISP.
+>=20
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  Documentation/admin-guide/media/pisp-be.dot   |  22 ++++
+>  Documentation/admin-guide/media/pisp-be.rst   | 117 ++++++++++++++++++
+>  .../admin-guide/media/v4l-drivers.rst         |   1 +
+>  3 files changed, 140 insertions(+)
+>  create mode 100644 Documentation/admin-guide/media/pisp-be.dot
+>  create mode 100644 Documentation/admin-guide/media/pisp-be.rst
+>=20
+> diff --git a/Documentation/admin-guide/media/pisp-be.dot b/Documentation/=
+admin-guide/media/pisp-be.dot
+> new file mode 100644
+> index 000000000000..001b2c16e232
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/pisp-be.dot
+> @@ -0,0 +1,22 @@
+> +digraph board {
+> +       rankdir=3DTB
+> +       n00000001 [label=3D"{{<port0> 0 | <port1> 1 | <port2> 2 | <port8>=
+ 8} | pispbe\n | {<port3> 3 | <port4> 4 | <port5> 5 | <port6> 6 | <port7> 7=
+}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+> +       n00000001:port3 -> n0000001d [style=3Dbold]
+> +       n00000001:port4 -> n00000023 [style=3Dbold]
+> +       n00000001:port5 -> n00000029 [style=3Dbold]
+> +       n00000001:port6 -> n0000002f [style=3Dbold]
+> +       n00000001:port7 -> n00000035 [style=3Dbold]
+> +       n0000000b [label=3D"pispbe-input\n/dev/video0", shape=3Dbox, styl=
+e=3Dfilled, fillcolor=3Dyellow]
+> +       n0000000b -> n00000001:port0 [style=3Dbold]
+> +       n00000011 [label=3D"pispbe-tdn_input\n/dev/video1", shape=3Dbox, =
+style=3Dfilled, fillcolor=3Dyellow]
+> +       n00000011 -> n00000001:port1 [style=3Dbold]
+> +       n00000017 [label=3D"pispbe-stitch_input\n/dev/video2", shape=3Dbo=
+x, style=3Dfilled, fillcolor=3Dyellow]
+> +       n00000017 -> n00000001:port2 [style=3Dbold]
+> +       n0000001d [label=3D"pispbe-hog_output\n/dev/video3", shape=3Dbox,=
+ style=3Dfilled, fillcolor=3Dyellow]
 
-Le jeudi 08 f=C3=A9vrier 2024 =C3=A0 09:31 +0100, Hans Verkuil a =C3=A9crit=
-=C2=A0:
-> Hi all,
->=20
-> Benjamin Gaignard's 'DELETE_BUFS' series [1] is almost ready, but there i=
-s
-> one outstanding issue: it works closely together with VIDIOC_CREATE_BUFS,
-> but that ioctl has long since been a thorn in my eye due to the use of
-> struct v4l2_format embedded in the struct v4l2_create_buffers. This makes
-> it hard to use in applications.
->=20
-> The only fields of that struct v4l2_format that are actually used are:
->=20
-> type
->=20
-> and, depending on 'type':
->=20
-> pix.sizeimage
-> pix_mp.num_planes, pix_mp.plane_fmt.sizeimage
-> sdr.buffersize
-> meta.buffersize
-> vbi.samples_per_line, vbi.count
-> sliced.io_size
+I suspect this node is now removed, so this needs a refresh.
 
-Sorry to disrupt, but that is only true since no driver support allocating =
-for a
-different target input. In stateless CODEC drivers, when these are used as
-reference frame, extra space is needed to store reference data like motion
-vectors and more.
-
-The size of the data will vary depending on the width/height and pixelforma=
-t
-(from which we can deduce the depth). Of course, some driver will only oper=
-ate
-with secondary buffer (post processed display buffer), which is the case fo=
-r the
-driver this feature is being demonstrated, but won't be true for other driv=
-ers.
-
-I sincerely think this RFC does not work for the use case we are adding del=
-ete
-bufs for.
-
-Nicolas
-
->=20
-> See vb2_create_bufs() in videobuf2-v4l2.c.
->=20
-> It's a pain to use since you need to fill in different fields
-> depending on the type in order to allocate the new buffer memory,
-> but all you want is just to give new buffer sizes.
->=20
-> I propose to add a new ioctl:
->=20
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 03443833aaaa..a7398e4c85e7 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -2624,6 +2624,39 @@ struct v4l2_create_buffers {
->  	__u32			reserved[5];
->  };
->=20
-> +/**
-> + * struct v4l2_add_buffers - VIDIOC_ADD_BUFS argument
-> + * @type:	enum v4l2_buf_type
-> + * @memory:	enum v4l2_memory; buffer memory type
-> + * @count:	entry: number of requested buffers,
-> + *		return: number of created buffers
-> + * @num_planes:	requested number of planes for each buffer
-> + * @sizes:	requested plane sizes for each buffer
-> + * @start_index:on return, index of the first created buffer
-> + * @total_count:on return, the total number of allocated buffers
-> + * @capabilities: capabilities of this buffer type.
-> + * @flags:	additional buffer management attributes (ignored unless the
-> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
-> + *		and configured for MMAP streaming I/O).
-> + * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability=
- flag is set
-> + *		this field indicate the maximum possible number of buffers
-> + *		for this queue.
-> + * @reserved:	future extensions
-> + */
-> +struct v4l2_add_buffers {
-> +	__u32			type;
-> +	__u32			memory;
-> +	__u32			count;
-> +	__u32			num_planes;
-> +	__u32			size[VIDEO_MAX_PLANES];
-> +	__u32			start_index;
-> +	__u32			total_count;
-> +	__u32			capabilities;
-> +	__u32			flags;
-> +	__u32			max_num_buffers;
-> +	__u32			reserved[7];
-> +};
+> +       n00000023 [label=3D"pispbe-output0\n/dev/video4", shape=3Dbox, st=
+yle=3Dfilled, fillcolor=3Dyellow]
+> +       n00000029 [label=3D"pispbe-output1\n/dev/video5", shape=3Dbox, st=
+yle=3Dfilled, fillcolor=3Dyellow]
+> +       n0000002f [label=3D"pispbe-tdn_output\n/dev/video6", shape=3Dbox,=
+ style=3Dfilled, fillcolor=3Dyellow]
+> +       n00000035 [label=3D"pispbe-stitch_output\n/dev/video7", shape=3Db=
+ox, style=3Dfilled, fillcolor=3Dyellow]
+> +       n0000003b [label=3D"pispbe-config\n/dev/video8", shape=3Dbox, sty=
+le=3Dfilled, fillcolor=3Dyellow]
+> +       n0000003b -> n00000001:port8 [style=3Dbold]
+> +}
+> diff --git a/Documentation/admin-guide/media/pisp-be.rst b/Documentation/=
+admin-guide/media/pisp-be.rst
+> new file mode 100644
+> index 000000000000..871d44c3de04
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/pisp-be.rst
+> @@ -0,0 +1,117 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
->  /**
->   * struct v4l2_delete_buffers - VIDIOC_DELETE_BUFS argument
->   * @index:	the first buffer to be deleted
-> @@ -2738,6 +2771,7 @@ struct v4l2_delete_buffers {
->=20
->  #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl=
-)
->  #define VIDIOC_DELETE_BUFS	_IOWR('V', 104, struct v4l2_delete_buffers)
-> +#define VIDIOC_ADD_BUFS	_IOWR('V', 105, struct v4l2_add_buffers)
->=20
->=20
->  /* Reminder: when adding new ioctls please add support for them to
->=20
-> Note that this patch sits on top of [1].
->=20
-> The new struct is mostly the same as v4l2_create_buffers, but replacing t=
-he
-> embedded v4l2_format with just the data it actually needs.  I also rename=
-d
-> 'index' to 'start_index' and added a new 'total_count' field to report th=
-e
-> total number of buffers. VIDIOC_CREATE_BUFS used the 'index' field for th=
-at
-> when called with count =3D=3D 0, but that is awkward once you allow for d=
-eleting
-> buffers.
->=20
-> Implementing VIDIOC_ADD_BUFS would be very easy, it is almost all done in
-> vb2. Drivers would just need to point .vidioc_add_bufs to vb2_ioctl_add_b=
-ufs.
->=20
-> The vb2_queue ops do not change since those are already based on just an
-> array of requested sizes.
->=20
-> One reason I am bringing this up is that this has a potential impact on t=
-he
-> name of the new ioctl in [1]. Do we call it 'VIDIOC_DELETE_BUFS' or
-> 'VIDIOC_REMOVE_BUFS'?
->=20
-> I like the ADD/REMOVE pair better than ADD/DELETE. I never quite liked
-> 'CREATE/DELETE' since buffer memory is only created/deleted in the MMAP
-> streaming case, not with DMABUF/USERPTR. I think add/remove are better na=
-mes.
->=20
-> I think CREATE/REMOVE is also acceptable, so I am leaning towards calling
-> the new ioctl in [1] VIDIOC_REMOVE_BUFS instead of VIDIOC_DELETE_BUFS.
->=20
-> So, please comment on this RFC, both whether adding a CREATE_BUFS replace=
-ment
-> makes sense, and whether using REMOVE_BUFS instead of DELETE_BUFS makes s=
-ense.
->=20
-> Ideally it would be nice to introduce both ADD_BUFS and REMOVE_BUFS at th=
-e
-> same time, so any userspace application that needs to use REMOVE_BUFS to
-> remove buffers can rely on the new ADD_BUFS ioctl being available as well=
-.
->=20
-> Regards,
->=20
-> 	Hans
->=20
-> [1]: https://patchwork.linuxtv.org/project/linux-media/list/?series=3D121=
-95
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> +Raspberry Pi PiSP Back End Memory-to-Memory ISP (pisp-be)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The PiSP Back End
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The PiSP Back End is a memory-to-memory Image Signal Processor (ISP) whi=
+ch reads
+> +image data from DRAM memory and performs image processing as specified b=
+y the
+> +application through the parameters in a configuration buffer, before wri=
+ting
+> +pixel data back to memory through two distinct output channels.
+> +
+> +The ISP registers a programming model are documented in the `Raspberry P=
+i Image
 
+The ISP registers 'and' programming model?
+
+> +Signal Processor (ISP) Specification document
+> +<https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-pro=
+cessor-specification.pdf>`_
+> +
+> +The PiSP Back End ISP processes images in tiles to allow concurrent proc=
+essing
+
+
+
+> +of different images. The handling of image tassellation and the computat=
+ion of
+
+s/tassellation/tessellation/ ?
+
+
+> +low-level configuration parameters is realized by a free software library
+> +called `libpisp <https://github.com/raspberrypi/libpisp>`_.
+> +
+> +The full image processing pipeline, which involves capturing RAW Bayer d=
+ata from
+> +an image sensor through a MIPI CSI-2 compatible capture interface, stori=
+ng them
+> +in DRAM memory and processing them in the PiSP Back to obtain images usa=
+ble by
+
+s/PiSP Back/PiSP Back End/
+
+> +an application is implemented in `libcamera <www.libcamera.org>`_ as par=
+t of the
+> +Raspberry Pi platform support.
+> +
+> +The pisp-be driver
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The Raspberry Pi PiSP Back End (pisp-be) driver is located under
+> +drivers/media/platform/raspberrypi/pisp-be. It uses the `V4L2 API` to re=
+gister
+> +a number of video capture and output devices, the `V4L2 subdev API` to r=
+egister
+> +a subdevice for the ISP that connects the video devices in a single medi=
+a graph
+> +realized using the `Media Controller (MC) API`.
+
+There's an 'and' missing in there somewhere. Probably before "the `v4l2
+subdev API` ?
+
+> +
+> +As the PiSP Back End device processes images in tiles, it can be multipl=
+exed
+> +between several different execution contexts. The driver registers two
+> +`contexts` represented as two distinct media graph instances but could
+> +potentially register more of them.
+> +
+> +The media topology registered by the `pisp-be` driver is the following o=
+ne:
+
+I'd phrase this as
+ "is as follows:" or "is represented below:"
+
+> +
+> +.. _pips-be-topology:
+> +
+> +.. kernel-figure:: pisp-be.dot
+> +    :alt:   Diagram of the default media pipeline topology
+> +    :align: center
+> +
+> +
+> +Each media graph instance registers the following video device nodes:
+> +
+> +- pispbe-input: output device for images to be submitted to the ISP for
+> +  processing.
+> +- pispbe-tdn_input: output device for temporal denoise.
+> +- pispbe-stitch_input: output device for image stitching (HDR).
+> +- pipsbe-hog_output: capture device for HOG (histogram of oriented gradi=
+ents).
+
+The HOGs got baconed out I think.
+
+> +- pispbe-output0: first capture device for processed images.
+> +- pispbe-output1: second capture device for processed images.
+> +- pispbe-tdn_output: capture device for temporal denoise.
+> +- pispbe-stitch_output: capture device for image stitching (HDR).
+> +- pispbe-config: output device for ISP configuration parameters.
+> +
+> +pispbe-input
+> +------------
+> +
+> +Images to be processed by the ISP are queued to the `pispbe-input` outpu=
+t device
+> +node. For a list of image formats supported as input format by the ISP r=
+efer to
+
+"For a list of image formats supported as inputs to the ISP" ?
+
+> +the PiSP specification document.
+> +
+> +pispbe-tdn_input, pispbe-tdn_output
+> +-----------------------------------
+> +
+> +The `pispbe-tdn_input` output video device receives images to be process=
+ed by
+> +the temporal denoise block which are captured from the `pispbe-tdn_outpu=
+t`
+> +capture video device. Userspace should maintain a queue of buffers as ca=
+ptured
+> +from the TDN output and input to the TDN input device.
+
+This doesn't sound very clear at the end. I think I recall that
+userspace is responsible for maintaining queues on both devices, and
+ensuring that buffers completed on the output are queued to the input?
+
+> +
+> +pispbe-stitch_input, pispbe-tdn_output
+
+pispbe-stitch_output?=20
+
+> +--------------------------------------
+> +
+> +To realize HDR (high dynamic range) image processing the image stitching=
+ and
+> +tonemapping blocks are used. The `pispbe-stitch_output` writes images to=
+ memory
+> +and the `pispbe-stitch_input` receives the previously written frame to p=
+rocess
+> +it along with the current input image. Userspace should maintain a queue=
+ of
+> +buffers as captured from the stitch output and input to the stitch input=
+ device.
+
+Same as above. Probably could be clear that userspace is queueing the
+captured buffers of the output to the input for processing on the next
+frame.
+
+> +
+> +pipsbe-hog_output
+> +-----------------
+> +
+> +The `pipsbe-hog_output` video capture device produces image statistics i=
+n the
+> +form of 'Histogram of Oriented Gradients'.
+
+I think this was removed from the driver support, so likely needs to be
+removed here too.
+
+
+> +
+> +pispbe-output0, pispbe-output1
+> +------------------------------
+> +
+> +The two capture devices write to memory the pixel data as processed by t=
+he ISP.
+> +
+> +pispbe-config
+> +-------------
+> +
+> +The `pispbe-config` output video devices receives a buffer of configurat=
+ion
+> +parameters that define the desired image processing to be performed by t=
+he ISP.
+> +
+> +The format of the ISP configuration parameter is defined by
+> +:c:type:`pisp_be_tiles_config` C structure and the meaning of each param=
+eter is
+> +described in the `PiSP specification` document.
+> +
+> +ISP configuration
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The ISP configuration is described solely by the content of the paramete=
+rs
+> +buffer. The only parameter that userspace needs to configure using the V=
+4L2 API
+> +is the image format on the output and capture video devices for validati=
+on of
+> +the content of the parameters buffer.
+> diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentat=
+ion/admin-guide/media/v4l-drivers.rst
+> index f4bb2605f07e..1a491a74a272 100644
+> --- a/Documentation/admin-guide/media/v4l-drivers.rst
+> +++ b/Documentation/admin-guide/media/v4l-drivers.rst
+> @@ -21,6 +21,7 @@ Video4Linux (V4L) driver-specific documentation
+>         omap3isp
+>         omap4_camera
+>         philips
+> +       pisp-be
+>         qcom_camss
+>         rcar-fdp1
+>         rkisp1
+> --=20
+> 2.43.0
+>
 
