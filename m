@@ -1,93 +1,82 @@
-Return-Path: <linux-media+bounces-4902-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4903-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A2184FB4A
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 18:55:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2164784FB79
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 19:03:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B8D171C24EE7
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 17:54:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F0761F22AFC
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 18:03:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0307F480;
-	Fri,  9 Feb 2024 17:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 095AB7F48A;
+	Fri,  9 Feb 2024 18:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="1P58MvDm"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ZuAliUkZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C507B3D2
-	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 17:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BB274E09
+	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 18:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707501292; cv=none; b=qR2z+n6ZY0N7PuV3cQxrcArJ2wOHeLRywgHRODoQap4Jm3TYMm/8gM2UHI67zI2TmC2+Xu8r7BKXk7AbcGG708bDLNIHDlAt5Tv25pT1yT9byDQNcNHYCAhimtzm2iArM00ckolTeKNSmsTH6TVxERIPIjfJy4dKZX0f1nKH4wg=
+	t=1707501797; cv=none; b=PTN4SVCVsgBvDwBhkUvELlx4f0R1vtP8E8LGl47dn0AuqScqMJyDrB4cTZcH4wFvVl/waHSNpcqAsHxx9c4BoC2qV+foYa8kv1X2s8wFlQVc1blLDTypowZsq15o2LPhkGzxenlS5uUTH5ZtDqsuLb2KQtOrH3Q85o71Azr3P4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707501292; c=relaxed/simple;
-	bh=gWZw4yf0JHXGbkpciR329qu3AY3v6oPJamredEmyRTo=;
+	s=arc-20240116; t=1707501797; c=relaxed/simple;
+	bh=wUOqp8O/+2PTeDwtPu+slsGGd4B2LkrSlXEkL7ydopk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=b6soHt+vQ0TL935jCi2Gbj4Qjc3GJTtqEqAhxQu2lShGC7TGEHkMq8b5Nap7FYPd84Ct0zG36ijNyW8zJuXywm4wkzFq6MSABnO0NNhVPypLeOfxDENw1BOlKwkOhq9ER36ED8Fm3TdjldDqXKv9IHXIbk5W59WPe2318D7Mue0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=1P58MvDm; arc=none smtp.client-ip=209.85.167.176
+	 Content-Type:MIME-Version; b=V02Ox3oSioxsyX3NakIJkxwy8zGvyTli6RXE/4EVIxyrcb3iX3fOZL66zN7EQp3G/aGBt0MgtqYlBIHifTnejsNtGbJSPY86xBKbbDeOptIWKQz6XM/3kmOoYRltaDxjHhmDVdnogbLrk7Yz4baC0yXISm9LeW2UNHQegOPRWeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ZuAliUkZ; arc=none smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3beab443a63so818287b6e.3
-        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 09:54:50 -0800 (PST)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-42a8b99eaf9so7727671cf.1
+        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 10:03:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707501290; x=1708106090; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707501795; x=1708106595; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=3zdh1PY7jFpj6YM7X9MHSaSZeC9dSk3Dr5/mWWHNgO8=;
-        b=1P58MvDmLnuzFcEv4f8EwQr3VO3VoYjjt1GAK8X3gUfdeK5I9xDXxOjwhqXtTEs4oz
-         Hqi6quYPHe1TFiFQJKk5ABRHo5iqKkj0jsjQFL3q0BbZVJr4yK8wKmwLWFdIQHWOE0Jt
-         9Rdgtt0oNU6apqF/uyOjrBnvWLlfORKWF9aTwowhkD4yKi8uuAT6vu9ARgSu+GYNRV4w
-         Qup4qdKCXi6EYC+yTN9i5YMTSkiz2TBxSErx0Uy/L5RdBrroLYvpH3L76g1PxTg5Laak
-         cnySl+RTOFAvU1JS3wgVc+ms8wZde2JHhUWaDIISVBAKRZVaWxHn1t70mFei1Lqf3U0H
-         S6nQ==
+        bh=XMmtR/jVreZJZL0VPGdv7OCSid3xFfo3cmr9iPZCS/o=;
+        b=ZuAliUkZmUPFWupP3L2YYYU5+LFXFpNzZKQfpXfdAXBKEeS+fuxaEZueIgBxo39367
+         Woh/Zfkuif5d6svkjEiL1CVkxSk+l90FhVa39jjPILpn+0VxF03JNnQmw7m85hGTl/2B
+         MgwkvBTZ6MbxBQHlWYeGarYSPXdZzUmwUwYWy2m80eV7/+k6MR/8HJJ3oQctkzWt0wLx
+         ZMePJBLwOseES0cPn9t4kB4ntkxZTm/ZwzyyMr8eDCykvL+yXGoxTJieoOpQZrMKDTdT
+         oTeRV+fI39TEBHZOy0bzCpovT9OcEqZMl7f4X5DPwQTsiml6i6t4ErRPoIayBeBrapVA
+         HVmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707501290; x=1708106090;
+        d=1e100.net; s=20230601; t=1707501795; x=1708106595;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3zdh1PY7jFpj6YM7X9MHSaSZeC9dSk3Dr5/mWWHNgO8=;
-        b=VKstSeF6ZULZoi/Vpvn0zbnJMQJDJ3ivW1InZ1nHun7Bg+9N5MZ05taphm4OO42kCd
-         Na9bEZfAdDUKM32XTbYDiJVEoWbZbDUbZwkj2eCvJYex3xwYzWhEJSnAJD92KWbdx8++
-         M1gsBUePkGmSWFjmRMualx7fWvP760J7AP1PyqWVyJUExFvHXIzpqQ3E4rdqu2gMCGoE
-         2YzhDQzANF5S84kkmW8AEDCUINTtJ0NE25ajWfLlRDueOn7Wu+pmxfhJ/RYile52krRS
-         j5FJIkD2Z9iYioqiNcCEisvJg3yggMUplEIowHjq5o7GeXQcKGaVt7xdQiTvcr/Edo7U
-         aCJw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLTKKdTXpWJ6Yma4liy7nic4fgIXQ53fv+ame1h8kBBdLswsYmp6c94gSgVGTnaCtS58VgrK5ZuYik67fxBf5dDeNizMK2HCKLZCw=
-X-Gm-Message-State: AOJu0YwIjDniTfSisDbp5Yhjussxr9J1wXD5kRoEzbAonIq6AQexk+iM
-	YR/0wfMUimKAHk0PGc9ezCjRTu15WtvmCmA0UEqiZs3DfCvXyC96hg3UNrGtFm0XPJH93idz7QR
-	Vn9c=
-X-Google-Smtp-Source: AGHT+IGWdjKx2REL9+Jq648FKXKS8cFF/TuZSGHoVLLc8u8wcO6CedM8mpHll/04d/F2ILOrSrCjqA==
-X-Received: by 2002:a05:6808:f94:b0:3c0:8d2:e740 with SMTP id o20-20020a0568080f9400b003c008d2e740mr1119950oiw.11.1707501289831;
-        Fri, 09 Feb 2024 09:54:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW09paW9hWdyTlHnxX4HUjjmtdDadxcl40G1Y76qnK+6CwtrSdUCKZPb8p4078xpvGH4qf6hEfFkgOyx5eO/RQqzBjYvc79+mWSBGq6Gdw5hQAzte8RXLWQybSOYuFzm1ngZlRmd/3PNih3+SQCs6YoT6fw6cvL8BeWOU24T4xva20tu8azxdEDI++7PCzxR88faWMn3XfqnMmroJ65Gxu36hlB1139ZbKRXWVTdZTjwEbB04UlouKXDMt7DxmfOW290/TqsMRZcbRW4rOsZ0K+Hez8h8bmeuUxphC9TAHc5ZdeWsgcDdTwDwp/GRnh5iBVPHeal2NvYOFi8pRStybS4Doiqui5T9kj0cUR7vMVvLi8V+3QN4Zu0LUO7rWJjv9lGsodFXegNt1fyrgUiS/tpPPQw0NC7ikZzulzTBSgf7dOrxNhPQXE6CPoENQ=
+        bh=XMmtR/jVreZJZL0VPGdv7OCSid3xFfo3cmr9iPZCS/o=;
+        b=RRa9dcxZOPtGOf12icfQ5MI9CXKzjC+fUNmPIgg4GebBripJOLS8kNRddsWf1UtMqJ
+         iLl1kmYapvnQ6TJVSK0BrcRFNdum1JIZKLwsd8NOg7/WGFqq/VRcxY7QuuiMeBYptwWx
+         czhOtV8dLJrBXYgKR+iwFKCPG0ZBpv9it3R6T+TG9Lht/y2d3ccGpVHbnQbS3bHOifGM
+         69sYOkOtxfrIezKtQRq72N4cZ5kH7O6qXkO+TjIOo7dcl7sWOzuHe3OZSHVHslKnc/Wp
+         OkCsk7StMFG6ZzbR+TcNte8/Dke+nEu/+4zXMXgU9k6KVszJtN9ee9871IB7b8r9wOho
+         qoiA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFz3dSAPrvEX6LrAVPP1heYs/r3S+ziRD6UaJHNu7bCqTZy9+BKQUHy+mFYjhe8t0ilbYghnU1rrCNerpNoSwFzrR4tUf9tw0IZ70=
+X-Gm-Message-State: AOJu0YxmesB/uO3kajZUJredIwoXP5OG8xF2+DH+ZlKo3WRDtzwCWULa
+	zrmqlyq12HTGoYNyjfMzieBdm8b2aE7BrE0Lzl/+Nzu/Uu5OhEBma5FIL7j7zUg=
+X-Google-Smtp-Source: AGHT+IF2D2hDsfZCxLHiFrFsWZvtS5n2ULyhAmFlR+34UsRTHielf89U1eNyz73xjruzJHxP6Th0HA==
+X-Received: by 2002:ac8:7f87:0:b0:42b:f17f:8db2 with SMTP id z7-20020ac87f87000000b0042bf17f8db2mr2392876qtj.51.1707501794647;
+        Fri, 09 Feb 2024 10:03:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVvvNzcTNwO2ufTeQXwNcPU52LzeHzAH+rWzfo/KZjVshpswHaH4nMEbBMIzlF86ZI/HI9NLuKxIMkIN7vXvqCeXzLsZHllTsdTwKE=
 Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
-        by smtp.gmail.com with ESMTPSA id k6-20020ac80746000000b0042c58191861sm861820qth.53.2024.02.09.09.54.48
+        by smtp.gmail.com with ESMTPSA id d14-20020a05622a100e00b0042a8c890444sm902025qte.1.2024.02.09.10.03.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 09:54:48 -0800 (PST)
-Message-ID: <89cc82e2cc64a0b32b7e26faa949893cd9f9e279.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/8] media: Add a pixel format for MIPI packed 14bit
- luma only
+        Fri, 09 Feb 2024 10:03:14 -0800 (PST)
+Message-ID: <644a9bfa5f2d3bba8e5c590a8c6fce302279a94b.camel@ndufresne.ca>
+Subject: Re: RFC: VIDIOC_ADD_BUFS, a VIDIOC_CREATE_BUFS replacement
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List
+To: Hans Verkuil <hverkuil@xs4all.nl>, Linux Media Mailing List
 	 <linux-media@vger.kernel.org>
-Cc: David Plowman <david.plowman@raspberrypi.com>, Naushir Patuck
- <naush@raspberrypi.com>, Nick Hollinghurst
- <nick.hollinghurst@raspberrypi.org>,  Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Kieran Bingham
- <kieran.bingham@ideasonboard.com>,  Sakari Ailus <sakari.ailus@iki.fi>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Date: Fri, 09 Feb 2024 12:54:47 -0500
-In-Reply-To: <20240209164825.166800-3-jacopo.mondi@ideasonboard.com>
-References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
-	 <20240209164825.166800-3-jacopo.mondi@ideasonboard.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Date: Fri, 09 Feb 2024 13:03:11 -0500
+In-Reply-To: <243a66ad-6dff-4a43-ab03-e01d1038fe8a@xs4all.nl>
+References: <243a66ad-6dff-4a43-ab03-e01d1038fe8a@xs4all.nl>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
@@ -101,132 +90,168 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Le vendredi 09 f=C3=A9vrier 2024 =C3=A0 17:48 +0100, Jacopo Mondi a =C3=A9c=
-rit=C2=A0:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->=20
-> This is the format used by monochrome 14bit image sensors.
->=20
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-y14p.rst   | 47 +++++++++++++++++++
->  .../userspace-api/media/v4l/yuv-formats.rst   |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->  include/uapi/linux/videodev2.h                |  1 +
->  4 files changed, 50 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y14p.rst
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-y14p.rst b/Docu=
-mentation/userspace-api/media/v4l/pixfmt-y14p.rst
-> new file mode 100644
-> index 000000000000..8e986bc6904f
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-y14p.rst
-> @@ -0,0 +1,47 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +
-> +.. _V4L2-PIX-FMT-Y14P:
-> +
-> +**************************
-> +V4L2_PIX_FMT_Y14P ('Y14P')
-> +**************************
-> +
-> +Grey-scale image as a MIPI RAW14 packed array
+Hi,
 
-Same suggestion applies, could be called Y14_MIPI due to the specific
-arrangement.
+Le jeudi 08 f=C3=A9vrier 2024 =C3=A0 09:31 +0100, Hans Verkuil a =C3=A9crit=
+=C2=A0:
+> Hi all,
+>=20
+> Benjamin Gaignard's 'DELETE_BUFS' series [1] is almost ready, but there i=
+s
+> one outstanding issue: it works closely together with VIDIOC_CREATE_BUFS,
+> but that ioctl has long since been a thorn in my eye due to the use of
+> struct v4l2_format embedded in the struct v4l2_create_buffers. This makes
+> it hard to use in applications.
+>=20
+> The only fields of that struct v4l2_format that are actually used are:
+>=20
+> type
+>=20
+> and, depending on 'type':
+>=20
+> pix.sizeimage
+> pix_mp.num_planes, pix_mp.plane_fmt.sizeimage
+> sdr.buffersize
+> meta.buffersize
+> vbi.samples_per_line, vbi.count
+> sliced.io_size
 
-> +
-> +
-> +Description
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +This is a packed grey-scale image format with a depth of 14 bits per
-> +pixel. Every four consecutive samples are packed into seven bytes. Each
-> +of the first four bytes contain the eight high order bits of the pixels,
-> +and the three following bytes contains the six least significants bits o=
-f
-> +each pixel, in the same order.
-> +
-> +**Byte Order.**
-> +Each cell is one byte.
-> +
-> +.. tabularcolumns:: |p{1.8cm}|p{1.0cm}|p{1.0cm}|p{1.0cm}|p{1.1cm}|p{3.3c=
-m}|p{3.3cm}|p{3.3cm}|
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       2 1 1 1 1 3 3 3
-> +
-> +
-> +    -  -  start + 0:
-> +       -  Y'\ :sub:`00high`
-> +       -  Y'\ :sub:`01high`
-> +       -  Y'\ :sub:`02high`
-> +       -  Y'\ :sub:`03high`
-> +       -  Y'\ :sub:`01low bits 1--0`\ (bits 7--6)
-> +
-> +	  Y'\ :sub:`00low bits 5--0`\ (bits 5--0)
-> +
-> +       -  Y'\ :sub:`02low bits 3--0`\ (bits 7--4)
-> +
-> +	  Y'\ :sub:`01low bits 5--2`\ (bits 3--0)
-> +
-> +       -  Y'\ :sub:`03low bits 5--0`\ (bits 7--2)
-> +
-> +	  Y'\ :sub:`02low bits 5--4`\ (bits 1--0)
-> diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst b/Docu=
-mentation/userspace-api/media/v4l/yuv-formats.rst
-> index 7c9ccfdd94cd..6104747d17d4 100644
-> --- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-> @@ -268,6 +268,7 @@ image.
->      pixfmt-yuv-planar
->      pixfmt-yuv-luma
->      pixfmt-y12p
-> +    pixfmt-y14p
->      pixfmt-y8i
->      pixfmt-y12i
->      pixfmt-uv8
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index 483498c55899..24f52485e59c 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1312,6 +1312,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->  	case V4L2_PIX_FMT_Y10BPACK:	descr =3D "10-bit Greyscale (Packed)"; brea=
-k;
->  	case V4L2_PIX_FMT_Y10P:		descr =3D "10-bit Greyscale (MIPI Packed)"; br=
-eak;
->  	case V4L2_PIX_FMT_Y12P:		descr =3D "12-bit Greyscale (MIPI Packed)"; br=
-eak;
-> +	case V4L2_PIX_FMT_Y14P:		descr =3D "14-bit Greyscale (MIPI Packed)"; br=
-eak;
->  	case V4L2_PIX_FMT_IPU3_Y10:	descr =3D "10-bit greyscale (IPU3 Packed)";=
- break;
->  	case V4L2_PIX_FMT_Y8I:		descr =3D "Interleaved 8-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y12I:		descr =3D "Interleaved 12-bit Greyscale"; brea=
-k;
+Sorry to disrupt, but that is only true since no driver support allocating =
+for a
+different target input. In stateless CODEC drivers, when these are used as
+reference frame, extra space is needed to store reference data like motion
+vectors and more.
+
+The size of the data will vary depending on the width/height and pixelforma=
+t
+(from which we can deduce the depth). Of course, some driver will only oper=
+ate
+with secondary buffer (post processed display buffer), which is the case fo=
+r the
+driver this feature is being demonstrated, but won't be true for other driv=
+ers.
+
+I sincerely think this RFC does not work for the use case we are adding del=
+ete
+bufs for.
+
+Nicolas
+
+>=20
+> See vb2_create_bufs() in videobuf2-v4l2.c.
+>=20
+> It's a pain to use since you need to fill in different fields
+> depending on the type in order to allocate the new buffer memory,
+> but all you want is just to give new buffer sizes.
+>=20
+> I propose to add a new ioctl:
+>=20
 > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
 2.h
-> index 11ebf9b22ccb..94a0373e8234 100644
+> index 03443833aaaa..a7398e4c85e7 100644
 > --- a/include/uapi/linux/videodev2.h
 > +++ b/include/uapi/linux/videodev2.h
-> @@ -599,6 +599,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  =
-Greyscale bit-packed */
->  #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Grey=
-scale, MIPI RAW10 packed */
->  #define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12  Grey=
-scale, MIPI RAW12 packed */
-> +#define V4L2_PIX_FMT_Y14P    v4l2_fourcc('Y', '1', '4', 'P') /* 14  Grey=
-scale, MIPI RAW12 packed */
->  #define V4L2_PIX_FMT_IPU3_Y10		v4l2_fourcc('i', 'p', '3', 'y') /* IPU3 p=
-acked 10-bit greyscale */
-> =20
->  /* Palette formats */
+> @@ -2624,6 +2624,39 @@ struct v4l2_create_buffers {
+>  	__u32			reserved[5];
+>  };
+>=20
+> +/**
+> + * struct v4l2_add_buffers - VIDIOC_ADD_BUFS argument
+> + * @type:	enum v4l2_buf_type
+> + * @memory:	enum v4l2_memory; buffer memory type
+> + * @count:	entry: number of requested buffers,
+> + *		return: number of created buffers
+> + * @num_planes:	requested number of planes for each buffer
+> + * @sizes:	requested plane sizes for each buffer
+> + * @start_index:on return, index of the first created buffer
+> + * @total_count:on return, the total number of allocated buffers
+> + * @capabilities: capabilities of this buffer type.
+> + * @flags:	additional buffer management attributes (ignored unless the
+> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
+> + *		and configured for MMAP streaming I/O).
+> + * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability=
+ flag is set
+> + *		this field indicate the maximum possible number of buffers
+> + *		for this queue.
+> + * @reserved:	future extensions
+> + */
+> +struct v4l2_add_buffers {
+> +	__u32			type;
+> +	__u32			memory;
+> +	__u32			count;
+> +	__u32			num_planes;
+> +	__u32			size[VIDEO_MAX_PLANES];
+> +	__u32			start_index;
+> +	__u32			total_count;
+> +	__u32			capabilities;
+> +	__u32			flags;
+> +	__u32			max_num_buffers;
+> +	__u32			reserved[7];
+> +};
+> +
+>  /**
+>   * struct v4l2_delete_buffers - VIDIOC_DELETE_BUFS argument
+>   * @index:	the first buffer to be deleted
+> @@ -2738,6 +2771,7 @@ struct v4l2_delete_buffers {
+>=20
+>  #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl=
+)
+>  #define VIDIOC_DELETE_BUFS	_IOWR('V', 104, struct v4l2_delete_buffers)
+> +#define VIDIOC_ADD_BUFS	_IOWR('V', 105, struct v4l2_add_buffers)
+>=20
+>=20
+>  /* Reminder: when adding new ioctls please add support for them to
+>=20
+> Note that this patch sits on top of [1].
+>=20
+> The new struct is mostly the same as v4l2_create_buffers, but replacing t=
+he
+> embedded v4l2_format with just the data it actually needs.  I also rename=
+d
+> 'index' to 'start_index' and added a new 'total_count' field to report th=
+e
+> total number of buffers. VIDIOC_CREATE_BUFS used the 'index' field for th=
+at
+> when called with count =3D=3D 0, but that is awkward once you allow for d=
+eleting
+> buffers.
+>=20
+> Implementing VIDIOC_ADD_BUFS would be very easy, it is almost all done in
+> vb2. Drivers would just need to point .vidioc_add_bufs to vb2_ioctl_add_b=
+ufs.
+>=20
+> The vb2_queue ops do not change since those are already based on just an
+> array of requested sizes.
+>=20
+> One reason I am bringing this up is that this has a potential impact on t=
+he
+> name of the new ioctl in [1]. Do we call it 'VIDIOC_DELETE_BUFS' or
+> 'VIDIOC_REMOVE_BUFS'?
+>=20
+> I like the ADD/REMOVE pair better than ADD/DELETE. I never quite liked
+> 'CREATE/DELETE' since buffer memory is only created/deleted in the MMAP
+> streaming case, not with DMABUF/USERPTR. I think add/remove are better na=
+mes.
+>=20
+> I think CREATE/REMOVE is also acceptable, so I am leaning towards calling
+> the new ioctl in [1] VIDIOC_REMOVE_BUFS instead of VIDIOC_DELETE_BUFS.
+>=20
+> So, please comment on this RFC, both whether adding a CREATE_BUFS replace=
+ment
+> makes sense, and whether using REMOVE_BUFS instead of DELETE_BUFS makes s=
+ense.
+>=20
+> Ideally it would be nice to introduce both ADD_BUFS and REMOVE_BUFS at th=
+e
+> same time, so any userspace application that needs to use REMOVE_BUFS to
+> remove buffers can rely on the new ADD_BUFS ioctl being available as well=
+.
+>=20
+> Regards,
+>=20
+> 	Hans
+>=20
+> [1]: https://patchwork.linuxtv.org/project/linux-media/list/?series=3D121=
+95
 
 
