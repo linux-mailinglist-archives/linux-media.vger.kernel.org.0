@@ -1,157 +1,269 @@
-Return-Path: <linux-media+bounces-4936-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4937-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A21E84FE88
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 22:18:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D76984FE94
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 22:20:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E0FB1C22ED7
-	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 21:18:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 717F51C23AB3
+	for <lists+linux-media@lfdr.de>; Fri,  9 Feb 2024 21:20:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6BFD524C7;
-	Fri,  9 Feb 2024 21:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D57238FA8;
+	Fri,  9 Feb 2024 21:15:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EwT7yTee"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Tr7M9fhT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654AB524BF
-	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 21:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E259238DE2
+	for <linux-media@vger.kernel.org>; Fri,  9 Feb 2024 21:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707513038; cv=none; b=ULNDA4zo0DCb7n26PRdbciNy5QEdlzPzrpDwF6870hodc1B2i68l1lS9C9WlEyXQr7EZG2wz7nyaWfLvHN8gGkz7j/TtfqmGqu0GwvYdfZMN9/ZSkI/QIvBPaMVts3ET6aHhExha7Jg9ZNPEZuz4Tw8eYxGuAXYlZH4g97uZBvI=
+	t=1707513328; cv=none; b=nbwz8G6e7lSZqUFcASy0TjQzf9GT6foL3weuAuvCAfx/PtzYjNXgRSzoNTdU6TWLbUJaAQSQT/8LuDXQEtHcC6hm7cdOnhhubhy5afGJyy2tSC3PtHy0WOOAJgTJNTB0d8PpWPUnnDJpnlwn8g+XdZ8ZWolf71rhCfm6IaafW4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707513038; c=relaxed/simple;
-	bh=2vjvS5sq/meEEjzl1dSjLlS5UDvty5zIyDecyRkLEQY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CpHDOP/yUcu9WQGYygijjRJkpkfuzFwVNI4EEMlPPguOySYFpJih6mhhNM8QCC/w4ygKTjGWK642xQI6jeu6rZxsbupQYeWhE0K7qduWH7mpolES0Yk9hllnrxh6CijxFyjHOe4z1iJdqDR4KmyRzHITpaw1scOZsCRZnhUZWg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EwT7yTee; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-560e9c7a094so1888618a12.0
-        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 13:10:36 -0800 (PST)
+	s=arc-20240116; t=1707513328; c=relaxed/simple;
+	bh=xa9HcCv94oXd+TAe8LyqDSByhVxwmKkj8/REpSzRR38=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=stUOGyF8JTQRQbLsk/jMRHhcin6CSzQtatMPkmkXox3rXsb3rhBvk80/BZqFz3LX+HCtKAl/EHysT3ojwluaHejGwWHiFypBpxLavY6eg4AMq7/9NTE3K0ja49VtO/3S8FPMzg13zqtN57TaEG9uvY12GmO1lf/BSRWyAYgC04I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Tr7M9fhT; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-68c4673eff5so6784656d6.1
+        for <linux-media@vger.kernel.org>; Fri, 09 Feb 2024 13:15:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707513034; x=1708117834; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=lz8OIucAr0zZ3B0lyDXRMPZ4gjhkvqUIJ9jeciUSfSA=;
-        b=EwT7yTee0luHIeuw+hIajFhKSnjHEqgD7wtn7jqwO951wFhtI8cXLx4coVBKdg3EnW
-         JH6L+2X1ck9qP5gjxfAOjUw5uD/zvgMMaliT7ssBOQIkRLvr9zzcMMgiEMNy1WhApRVK
-         BcpoLkzSUPSdn2HPKUcZA2OMiLRYEg8jiuHJhLDsxFQvnnwc1p+HK6UEIVeQCrImEb6v
-         bIdFwr6z7vI7SWdOoX8Z4xRl9GsAHJA5DeqsmB7mxZ9kkju0FGH7RhvmyyD/ME4QMsLI
-         cZMsGWG5ov46Fy8p8l2H2tKfr4EhiXxoMX02Iz6gz52+RsZtd5bxGx8KmdbQ07Z02h0V
-         7pEw==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1707513326; x=1708118126; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=l1UMy7+Cpzxq1GUMZL2p6WFOHPgcthWoYko7ywSz+JU=;
+        b=Tr7M9fhTUUoqK0ZAPvW5EpYGYYAUlX+LwLMz796iTSyp3aWQ9+jyyNDqkBlcjfA5b0
+         5FPMY/Q3hsJWOUzcTJNrFuNNSuAs0aKfpB6SVyPx/fxjN6Wu1UB6jXt0fdCoj1AAmySm
+         UNj7iUc4JRKEHQbm30+eq2BllWUyYHv9JupcBNPh8MTiFQzY6mueWwFC45VwuIbKheo0
+         RGC7/PF9YQfss0XH+e6i5dwe26En1eJ4Vl83SxrH21R6GSHVfH2FanW832323hNj1Gix
+         GoSMmquxTpcJLPQPdgCP/zb1SKeMhLAgqEmUzdlJhpNKWzx/b/u4XUxgPyTNXj07AbY4
+         RlZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707513034; x=1708117834;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lz8OIucAr0zZ3B0lyDXRMPZ4gjhkvqUIJ9jeciUSfSA=;
-        b=GchwdRC5UnpdURZ4vtgGe7SwhjQHgsze5MsZ/RkJG4G+qK4IQwL6u5RCNPwGcxAXJJ
-         usqFfLSsJLma+/24D+Xe/e+2I2gS7q4acFl4dcW4wur9PPOpKIC+9XZ4CYX7BRCjXrre
-         lX9S0wdj3wRDKvjJ0IXPMvuir+DJc54QOHyi67whbW8YaJQJ/bjAC3+sm5w39Iq04Yjw
-         a513Stk/rCCwBTMHTruSOH4hcekffffncZyFzC+kMxir2nIVJ6rhoAFpxkCVsYzxPvJn
-         UEv99AFf+ZXWxrzRSnij4q6EcJENAxKoCMV8T0I4pBHazU8kPQwJULd/mchq7mfl52+O
-         njFw==
-X-Gm-Message-State: AOJu0YyYrY35Dzl0neVYq3+9YMFhw5jPexFQnLOPYcemq2MHXScH5ETR
-	yKNp7F5v2LzKlrzONugexli16VCID5RI/hHvh6F1UxoIF96/KXsdemDV1jPzCfk=
-X-Google-Smtp-Source: AGHT+IGIClcD3CCK95LlB0DYp9S3ZIhFoVqcLf9t6U2xxuYY3GDWJ90CyW0i3TPHR5r/7He39lsQDw==
-X-Received: by 2002:a17:906:370e:b0:a38:215c:89b with SMTP id d14-20020a170906370e00b00a38215c089bmr159692ejc.73.1707513034732;
-        Fri, 09 Feb 2024 13:10:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWm28I4epj+SAZCn6DxZkZlsjmleMbJ9f2He48l/bQ0i2Z+LndgubUFAVE1OufG94TS8xu7cxYJJ/hhcgKq0BKmcvJ1XZTz5T3hmntqfeoSmWq+pgVli45EbC3dqzOj0uEwPqI9FjxwqT+U/Q9BrVEXrKaoCisDQ+pBx9j5TK1u1Pbx/BAF5sKssv0Udo4Xf/DI65rSt1rJ6/MycFZtugHxKCJSiC58EmOmSkzrBxD2vBtf3hQlrnw8GlmDo4cg/0XcP1xjpXJ08U7/9AKXtOZgEvvdODQQCrdhLo6sNEJv3ShcOH6A+7HJQza3INt+FdAV8l4f+3CVs+bg7E6KsS7mKfx6dfDpy6hl+X51pJr3Xi3Eo/Fs1AvAw27WBWDNmBoQbUKCp/XT8IE9J9pO17PQA0ieShrVDUuw9LQoiiTqBFsmZqw9SFSxjVhkaO0LYnQscQsHQhXFBVgODFD/5L+xw21gmTiIHJI=
-Received: from [192.168.192.207] (037008245233.garwolin.vectranet.pl. [37.8.245.233])
-        by smtp.gmail.com with ESMTPSA id ox27-20020a170907101b00b00a38a3201085sm1111615ejb.193.2024.02.09.13.10.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Feb 2024 13:10:34 -0800 (PST)
-Message-ID: <58e42e1c-3cfd-4ecd-8bd4-9f727a82bd81@linaro.org>
-Date: Fri, 9 Feb 2024 22:10:31 +0100
+        d=1e100.net; s=20230601; t=1707513326; x=1708118126;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l1UMy7+Cpzxq1GUMZL2p6WFOHPgcthWoYko7ywSz+JU=;
+        b=quSu5vkup6PVRw3aGH/8Qzf0VPPJKSfYXatZrSji9ZmYG5YxX2RbSuMzy7QBKs8BGI
+         MzmGbzHsrBr8mKSgMUDidIfE+Mb0zE8x1pGoB72889jaq9OVlqeQTIJDj73Y/yLPoXtj
+         M7qVjiyzuevLrGGs4ya2M4VNsJvytDaBgMFJEk0XtquYJ6siHNv7sYpHCStFoe4YYmLf
+         tgx3Oaul5N8o4/iUYtUIBmH/VWzaq2XmIF8OhARsJGsofNIhFRicOZadX9/YzdyIUvNw
+         ti+dG3sG7sVp1FhrCCBL/9tEhaGJQeq1UhhShiLOfUWv8eNHO8r7VQtBCmT+tItBuYKl
+         K6hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9CYcua5LDUYzef/16cWdmWRe5utBGQIiYmUnJOqfD4qTtGcsWl4aVvGk955PcS7SGIFUbbsiyPu1X5wecJOCf+Ul8PbAd3MJbw/8=
+X-Gm-Message-State: AOJu0YxmjZ5h0vRw98hA+LFWoM1bhNTqBXLVpL8l+32gd2tdJkWRG8sS
+	Smi44biEZYIdjp1w/wmpbH+Yr9c5t7nGab/5UghEFsR0bwwY1Qu6BhylxZtsoMo=
+X-Google-Smtp-Source: AGHT+IEAVRYmOB+3cA5x2u6ZsE0qeNl+hDkGNTvVLPbzcNLdQlxqcA4o64HETBxvl+P8QPBpn40MNQ==
+X-Received: by 2002:a05:6214:76f:b0:68c:92d3:73e1 with SMTP id f15-20020a056214076f00b0068c92d373e1mr378767qvz.30.1707513325761;
+        Fri, 09 Feb 2024 13:15:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWv0OzKbIQCzQzaJHAIJJdsuLcmB+K+7MpQz4/lNLfCMydSPz36u48OXGSr2gZYeygmk7Yaz2jJLb0gaGZ2ewb/O4TnqDO5fQtDwF3V+A1w/xcnKQ7Yp2viqJsOAF9E+Jou+bM4VtVR4yGVk8A7xqtAxwGfxlGt+DwqPghRaG4Hs4BmdB7qVulANv1Zykn8AoKzXmTxI8K62AX0zY24mu4AzNq97xjE4cdfzX7NEfXV6vDKnSU5Q3a5LR83fCJOE1Y9kShSrl87BrIikwkpcD2be5EChJg72Zvu2jpOpLmgyjlt/uThCf+5AIdjra9jJ5Psdm9fjMwE0Q1x1f3t0KeYaeBhRsYKEbV9KyJUzRI8brs48GR+8sgtFyiXHe4HtohHlqyMcixBD9g6txI/voC+VB3V2q+hRRuQwu7tAw7LmGqKt6yGwXs51tNgeA==
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
+        by smtp.gmail.com with ESMTPSA id pj11-20020a0562144b0b00b0068cdbdb8af8sm251742qvb.119.2024.02.09.13.15.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 13:15:25 -0800 (PST)
+Message-ID: <05259197166f5077ccbad5a98246b0f257207b8c.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/8] media: Add a pixel format for MIPI packed 12bit
+ luma only.
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, David Plowman
+ <david.plowman@raspberrypi.com>,  Naushir Patuck <naush@raspberrypi.com>,
+ Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Date: Fri, 09 Feb 2024 16:15:24 -0500
+In-Reply-To: <CAPY8ntBJuZsm+h=zFy59M5u6D5hbwtnrRVEOjwQRWQv-ZyogfQ@mail.gmail.com>
+References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
+	 <20240209164825.166800-2-jacopo.mondi@ideasonboard.com>
+	 <1cd5ff6b9d24588a2fb0aa69cc1e8c0dfb63e597.camel@ndufresne.ca>
+	 <CAPY8ntBJuZsm+h=zFy59M5u6D5hbwtnrRVEOjwQRWQv-ZyogfQ@mail.gmail.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/20] Venus cleanups
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Andy Gross
- <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20230911-topic-mars-v2-0-fa090d7f1b91@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20230911-topic-mars-v2-0-fa090d7f1b91@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 9.02.2024 22:09, Konrad Dybcio wrote:
-> With the driver supporting multiple generations of hardware, some mold
-> has definitely grown over the code..
-> 
-> This series attempts to amend this situation a bit by commonizing some
-> code paths and fixing some bugs while at it.
-> 
-> Only tested on SM8250.
-> 
-> Definitely needs testing on:
-> 
-> - SDM845 with old bindings
-> - SDM845 with new bindings or 7180
-> - MSM8916
-> - MSM8996
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
+Le vendredi 09 f=C3=A9vrier 2024 =C3=A0 19:28 +0000, Dave Stevenson a =C3=
+=A9crit=C2=A0:
+> Hi Nicolas
+>=20
+> On Fri, 9 Feb 2024 at 17:53, Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
+e:
+> >=20
+> > Le vendredi 09 f=C3=A9vrier 2024 =C3=A0 17:48 +0100, Jacopo Mondi a =C3=
+=A9crit :
+> > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > >=20
+> > > This is the format used by monochrome 12bit image sensors.
+> > >=20
+> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > ---
+> > >  .../userspace-api/media/v4l/pixfmt-y12p.rst   | 38 +++++++++++++++++=
+++
+> > >  .../userspace-api/media/v4l/yuv-formats.rst   |  1 +
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+> > >  include/uapi/linux/videodev2.h                |  1 +
+> > >  4 files changed, 41 insertions(+)
+> > >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y12p=
+.rst
+> > >=20
+> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-y12p.rst b/=
+Documentation/userspace-api/media/v4l/pixfmt-y12p.rst
+> > > new file mode 100644
+> > > index 000000000000..b2eb4a72724d
+> > > --- /dev/null
+> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-y12p.rst
+> > > @@ -0,0 +1,38 @@
+> > > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> > > +
+> > > +.. _V4L2-PIX-FMT-Y12P:
+> > > +
+> > > +******************************
+> > > +V4L2_PIX_FMT_Y12P ('Y12P')
+> > > +******************************
+> > > +
+> > > +Grey-scale image as a MIPI RAW12 packed array
+> > > +
+> > > +
+> > > +Description
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +
+> > > +This is a packed grey-scale image format with a depth of 12 bits per
+> > > +pixel. Two consecutive pixels are packed into 3 bytes. The first 2 b=
+ytes
+> > > +contain the 8 high order bits of the pixels, and the 3rd byte contai=
+ns the 4
+> > > +least significants bits of each pixel, in the same order.
+> >=20
+> > This is an interesting arrangement, which make me feel that Y12P is per=
+haps bit
+> > too generic ? Perhaps something like:
+> >=20
+> >   V4L2_PIX_FMT_Y12_MIPI
+> >=20
+> > That being said, I don't mind if you reserve the nice and short name fo=
+r the
+> > first occurrence of such format in 20 years (it might equally be the la=
+st). Will
+> > they do the same for Y10, by storing 4 bytes of higher 8bit of 4 pixels=
+, and
+> > packing the remaining lower 2 bits packed in the fif bytes ? Cause for =
+this one,
+> > we'd have confusion, since CODEC usually just place all the bits in ord=
+er over 5
+> > bytes here (which have its own issues of course).
+>=20
+> We already have V4L2_PIX_FMT_Y10P defined for the MIPI packing for
+> 10bit luma-only.
+> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-yuv=
+-luma.html
+>=20
+> This is only extending the definitions for the other bit depths using
+> the same pattern.
+>=20
+> Adding the P is also the same pattern as for the Bayer formats -
+> V4L2_PIX_FMT_SRGGB10 for the 10bit unpacked to 16bit, and
+> V4L2_PIX_FMT_SRGGB10P for the MIPI packed variant.
+>=20
+> I'm not inventing anything new here :)
 
-Apologies for sending this twice. The other submission should be looked at.
+A bit sad, but what can we do, I keep missing patches ;-P
 
-Konrad
+Nicolas
+
+>=20
+>   Dave
+>=20
+> > > +
+> > > +**Byte Order.**
+> > > +Each cell is one byte.
+> > > +
+> > > +.. tabularcolumns:: |p{2.2cm}|p{1.2cm}|p{1.2cm}|p{3.1cm}|
+> > > +
+> > > +
+> > > +.. flat-table::
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +    :widths:       2 1 1 1
+> > > +
+> > > +
+> > > +    -  -  start + 0:
+> > > +       -  Y'\ :sub:`00high`
+> > > +       -  Y'\ :sub:`01high`
+> > > +       -  Y'\ :sub:`01low`\ (bits 7--4)
+> > > +
+> > > +          Y'\ :sub:`00low`\ (bits 3--0)
+> > > +
+> > > diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst b/=
+Documentation/userspace-api/media/v4l/yuv-formats.rst
+> > > index 24b34cdfa6fe..7c9ccfdd94cd 100644
+> > > --- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
+> > > @@ -267,6 +267,7 @@ image.
+> > >      pixfmt-packed-yuv
+> > >      pixfmt-yuv-planar
+> > >      pixfmt-yuv-luma
+> > > +    pixfmt-y12p
+> > >      pixfmt-y8i
+> > >      pixfmt-y12i
+> > >      pixfmt-uv8
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l=
+2-core/v4l2-ioctl.c
+> > > index 33076af4dfdb..483498c55899 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > @@ -1311,6 +1311,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdes=
+c *fmt)
+> > >       case V4L2_PIX_FMT_Y16_BE:       descr =3D "16-bit Greyscale BE"=
+; break;
+> > >       case V4L2_PIX_FMT_Y10BPACK:     descr =3D "10-bit Greyscale (Pa=
+cked)"; break;
+> > >       case V4L2_PIX_FMT_Y10P:         descr =3D "10-bit Greyscale (MI=
+PI Packed)"; break;
+> > > +     case V4L2_PIX_FMT_Y12P:         descr =3D "12-bit Greyscale (MI=
+PI Packed)"; break;
+> > >       case V4L2_PIX_FMT_IPU3_Y10:     descr =3D "10-bit greyscale (IP=
+U3 Packed)"; break;
+> > >       case V4L2_PIX_FMT_Y8I:          descr =3D "Interleaved 8-bit Gr=
+eyscale"; break;
+> > >       case V4L2_PIX_FMT_Y12I:         descr =3D "Interleaved 12-bit G=
+reyscale"; break;
+> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vide=
+odev2.h
+> > > index a8015e5e7fa4..11ebf9b22ccb 100644
+> > > --- a/include/uapi/linux/videodev2.h
+> > > +++ b/include/uapi/linux/videodev2.h
+> > > @@ -598,6 +598,7 @@ struct v4l2_pix_format {
+> > >  /* Grey bit-packed formats */
+> > >  #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* =
+10  Greyscale bit-packed */
+> > >  #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  =
+Greyscale, MIPI RAW10 packed */
+> > > +#define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12  =
+Greyscale, MIPI RAW12 packed */
+> > >  #define V4L2_PIX_FMT_IPU3_Y10                v4l2_fourcc('i', 'p', '=
+3', 'y') /* IPU3 packed 10-bit greyscale */
+> > >=20
+> > >  /* Palette formats */
+> >=20
+
 
