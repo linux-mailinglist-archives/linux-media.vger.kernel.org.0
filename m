@@ -1,249 +1,364 @@
-Return-Path: <linux-media+bounces-4951-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4952-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08EF850A3D
-	for <lists+linux-media@lfdr.de>; Sun, 11 Feb 2024 17:14:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35A0850AF9
+	for <lists+linux-media@lfdr.de>; Sun, 11 Feb 2024 20:03:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F2EE1C21F55
-	for <lists+linux-media@lfdr.de>; Sun, 11 Feb 2024 16:14:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 481BB1F218BD
+	for <lists+linux-media@lfdr.de>; Sun, 11 Feb 2024 19:03:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9D605C5E8;
-	Sun, 11 Feb 2024 16:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2327D5D72A;
+	Sun, 11 Feb 2024 19:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="WzZ2F/of"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mFibo63T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2062.outbound.protection.outlook.com [40.107.113.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED282AE74;
-	Sun, 11 Feb 2024 16:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707668039; cv=fail; b=VWX5p4KiNUF1mKMV0joSdxw0fBsJ3yhed9eR0qYBlff3Q0rhkENF33XhQ4Pu8mVoufJBD1HNT+/VfjQuyhw3mHj7TMhihxIJo4tPFEQ7X1jw0FH7Jjr45l4j1sRFERpLMuwupQ45SW52slIXYXvREoInmZ6p0WGG4yPbsp9xA/E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707668039; c=relaxed/simple;
-	bh=0kwCy1nV1Gront+Z5SLTaWueLeBRc6c48tVXyWbuzII=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GPUlhmfkHLJ4042X1/C4KY1fkXTz68/njfaXRRicEayqQAsGPuQiTPqsEDyC3DdO9M28Ia4Z71VQ+gEbwz1csv7zltwUz6DfLieKrCBLj91RJh5tHxLKf3KuBwTGHE4Z8BpWu4WAg5BVVkFUbYe9OILQzLvW68JoRgvegjVx90Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=WzZ2F/of; arc=fail smtp.client-ip=40.107.113.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fbKsh3oS2nlQCpowb0XaIfaBXb6YeDFN5wgcdM8l+UCZ130tzi91xKnOyZCSY0x9aPlKFEM62n3pFy6IoJtu4TZ+sgzhLUtLyRa1Nmn676EuYJvkG+U2ULjxIvXtUqrRYLzecx+aIS9VXiEZsV3eV/SpxYuGECvSAITTINbjhdsCrprIQwXb8gQQOlHAeX3ioeem3Swvm1q6L2GHFq34MkmArZgPTaznJHSq5uPy/27z/FmxHKQh/Qpt4d17zs+dpZOOlZM1kdLruLnqwQTk8Yg3/zOhCVKriyihuNn6tSOF+0e+fbz8zIaLpOb/zfZRI+ZWMLJoDi9BqmL33r9sZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0kwCy1nV1Gront+Z5SLTaWueLeBRc6c48tVXyWbuzII=;
- b=XCmXC5mSYTCCv7pf7EYb0mPuMhZ4FsdKlyLg1IoqrpK7wUcn7zBIOwUzQ1Gh5ly6dntSlYJAEnrgnm1HdPTYDvUzaYumUZFpePC31W9yLptdiGzKwhbltMWBf9r3qsJM4zt/uk2tSHyjsqTVdDhfUVFVti8yOiq2Fm7KgWGKBWuwPab9ZVz/wsuoufFjZR8HrjlYrKGiVGKHANMyBG1IXhtPE/lPp+/gUYG3JVmye9fZoCd7Hd3V+rMHj6BsXxcW012hkWneGLYpM/7IFDgx256dISuTr+2jhTB8QT/Msb1+yz1aom2d+DHc5qI6ShDvpMi6FomOR7N66wzmcEvKWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0kwCy1nV1Gront+Z5SLTaWueLeBRc6c48tVXyWbuzII=;
- b=WzZ2F/of9eqItpKt9Kad2DC5M/mMohgkfOzHptz4c+Iwjy+HiSkL1Qwlnbv6gPS60TQB9PDbnXzFLMygq+a3XVVRppjorbzxpUOtqdcbz/uPP1nk+dQPCFFIqanH+3IJzUZ/r6gp1jza958wzR+yCGO/nf3nxwkp7L1b9rDoAlc=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OS3PR01MB9947.jpnprd01.prod.outlook.com
- (2603:1096:604:1e6::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.37; Sun, 11 Feb
- 2024 16:13:52 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7270.033; Sun, 11 Feb 2024
- 16:13:47 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Geert Uytterhoeven <geert@linux-m68k.org>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>, Jacopo Mondi
-	<jacopo.mondi@ideasonboard.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Prabhakar Mahadev
- Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>
-Subject: RE: [PATCH v2 5/5] arm64: dts: renesas:
- r9a07g043u11-smarc-cru-csi-ov5645: Reduce I2C frequency
-Thread-Topic: [PATCH v2 5/5] arm64: dts: renesas:
- r9a07g043u11-smarc-cru-csi-ov5645: Reduce I2C frequency
-Thread-Index:
- AQHaUFwCasVyX+Z+l0SMEVmNhiL9xrDsHTmAgAAe0VCABi7lcIAPvXqQgAANIoCAAzPR8A==
-Date: Sun, 11 Feb 2024 16:13:46 +0000
-Message-ID:
- <TYCPR01MB11269102490F2707ADEEA9FF686492@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240126133116.121981-1-biju.das.jz@bp.renesas.com>
- <20240126133116.121981-6-biju.das.jz@bp.renesas.com>
- <CAMuHMdUa+wd36-ErDRgb91KpRbryNYzA2Mmhvzjx0-_47=zfdg@mail.gmail.com>
- <TYCPR01MB11269FEE3A8C6D695CBBACEE086792@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB11269379C39A0242C9F87A40E867D2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB112693439518B0DA3E7E11693864B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <ZcZCGZn0xHMHVVD1@kekkonen.localdomain>
-In-Reply-To: <ZcZCGZn0xHMHVVD1@kekkonen.localdomain>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OS3PR01MB9947:EE_
-x-ms-office365-filtering-correlation-id: 88b54101-ab05-45d1-0ba8-08dc2b1c6d2e
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- fuy7g/cvgTCGJv6CWEBu/k2hjGHJGXTvQHZEBiS6SOO+z7FWsGdZryBk/EtEQATIQsY5h+JMDYT2s8PhtXKcdbRjvHNQ7EAjN4qMrt9cibRymhkNLrfcifQpHfptQFNJ4iAQNxGz58TXG2Qcav+sh+87lSvanpZXu4unEG+Q3NZzKxSTpYDO99wbLgUOjZR0ogw0kGNOPGvRyabxG+x1i3ZsaR5StsQxRWCJJAfFkLGpK3UVjyfpgupo5Al1guy4l8Q4V0BPSyMOAblDByMiBbEVLS5Es9yw83rP+93fo1IQqKUjTQMC223m4HI5fEiw/4XHRD+KuysvWzlC5l0smwM9BYe4YgpVvW3MlA45M4VfJ5NE5a28SSlKNX0ExeuOOfJqBQ8ejdQ37Wn8bsXBZ/8wkpBMn7fyeTsUMyRlRPM0jFrNqAl3Qz7KtlNElKvcBeQtZe4TJVI7n20iC+pdV0F7ZOFjrJDDO4C/47e41v5/1V33rQBVaGjZ4iqvW9O8oR8RXs+lASefyRt/IQWLrOpbVbBdv+tG9u/xZdEWG4ipk45eXpHlZGGbiKjiICisZ7KPBstHpjn8wlaSJ/rgj2XwVp87saaddTq7OYhoo3xGe9OSQqNfzuC9Nktc2YCU
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(346002)(396003)(376002)(136003)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(52536014)(5660300002)(8676002)(76116006)(64756008)(7416002)(66946007)(66556008)(66476007)(66446008)(6916009)(4326008)(2906002)(33656002)(122000001)(86362001)(38100700002)(83380400001)(38070700009)(478600001)(55236004)(54906003)(9686003)(7696005)(6506007)(316002)(53546011)(8936002)(26005)(41300700001)(71200400001)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?c2FUVHAxMTNWYVQxYXVRUFA4N1VtYzhUZ1pmeUNpaE80dFp0WlBKbHhTMzlT?=
- =?utf-8?B?R05QUitJT1IxYWNMYnJwOCtMbWdUMmpqaGVPME5mR1Vac1JaM2cxeVAzVE1M?=
- =?utf-8?B?ZTM0UGs4MFhoOEwrRmF1eDZxRktuQXVlY1loZngwQzMxM0I2K3hWYVR2UWNH?=
- =?utf-8?B?VHBPb1BNS2xaOWM4SW9ES2E4MzZHREhmV2VWeHkyR1g3MHplU0RINCtTc1V2?=
- =?utf-8?B?WlZlbk9IZ2o3bjdjVk5LVGkxZXFQZmQ3VUhlQ0wrT0xGdXJlSTJPQk1HbmNs?=
- =?utf-8?B?SU1xcnhKcWw4M3NyTlpkMGtQMFBZLzRSSDNqYmJybWwzL3VLelRxM0NSVDNo?=
- =?utf-8?B?T2lBUkZrcFdwVlNqdFhaeGg3dTAvaDkreStYSlJRSUJuZEk5QVhrOWxTOU91?=
- =?utf-8?B?T1ZET0NuRWF6ZHBVZUIxSzZiVnhJNDE2R2Flak9za2JvWFZGRWdrNlRoTXRZ?=
- =?utf-8?B?S3IyTTI0b1RCYmJBNzkxQ0FNQm1XYmZpOFgzMVprUEd1bXBGY1hDRjJydkhu?=
- =?utf-8?B?UjZlTzlycTJOVENzWjJuYkJZRjRkdXpIZkFHQi91cFM4Y1QwREVtSFZDK2Vl?=
- =?utf-8?B?MkxiUUJtbGxxYnhnSlBGREZ2L0FZbFNtMzVXMThTd29MRDNBWDlnWmFzWDVW?=
- =?utf-8?B?aTBJck1iTTQxMm5oRnVmVnVFTEJuV3JLcUpGNTgrL2hEaGhaU244QVR1eWJ5?=
- =?utf-8?B?dmtuT0NGZWZJNStxdGVkcWVUNm5uK2JyYUlmT3JVdU1IaUU1cS8xakFjMWxM?=
- =?utf-8?B?R0dYcTNjNG9QdldkbkZCZHhPVEtOSm5vZTdaZDBUb0VSSUxtdUFMSHFyYlU3?=
- =?utf-8?B?a0ZEWnp4TzNIM0dZekN6a0JIOEdNem1vNEQvakF2SGQ5VVpsN2ZLSzREb1RR?=
- =?utf-8?B?cm8zRkFSVmFxdmw1VW16VnZFaFl6UmtkN1g3dTBqcmVEQ0s5aGpPbnRJcGJH?=
- =?utf-8?B?dUpmeDVyK0hUNWw0Q3ZOMFhrRUlPekxGbXNBNkEzdHczQmhkYVBDUitKTStI?=
- =?utf-8?B?ZjJkeTkwbTcyMEwwMm1jandsTU1IVlhJRVBIN3cxY1FxZXVGUlFMMGRPY1hF?=
- =?utf-8?B?MzZiSFd6L2VQNnliL2s2QWFMWjc1UVJhdHUzNW5oTG41TWFBa3F1eGRtUEZH?=
- =?utf-8?B?Wm1nT0VHd2tMcysxZlhwTG43aittekN3dUtzTkV6ZXZickFzejJEV29FZks3?=
- =?utf-8?B?YnlWaTlFaTk1alg1R3pjb1RFZlNVZXJCeDJ2bi9xQ3lzVTR1a3RsT2I1Nlhh?=
- =?utf-8?B?RnpBenV2Q3RXVWIwb3EvL2tleURNTFdzSi8zNWdlNk1PMUVoQnV0Y1VsNXp4?=
- =?utf-8?B?UjVFc3dUYkYvRmcrejJKWnRqb1pRRGVNRlBMcmxWNS9KK2M5b2FQRWRiajNT?=
- =?utf-8?B?UGZRMi9TUk9VQVQxeFJDTEtjejlTdncxRytRY09SRlVScWFjK3kwNzZJZXdv?=
- =?utf-8?B?L0hhZHcxbVpGYnJCU25uUGJkd3pQeHZXemw0TTdiUytnWVJEN2hwUmJuSHR1?=
- =?utf-8?B?M0haL2FXUWFoY0pkWmNuTzUvZTBXQTRTeGZCYXNremZYVXFzQUwybWkyVzQ0?=
- =?utf-8?B?VkpHNThSR0g2VUsyVTA1QWlRc0NKdXZXNTJ6VDFPTG5FZkxhQ1FWaTNnL3lW?=
- =?utf-8?B?cC90d2k3QmZZaVJQYzdGWmVvdXlnWUgzZWxScS9qZHU0dmNzdUtzL29TbUJr?=
- =?utf-8?B?WmhScVVGY3FEWWZ1YXJiSnoyOFJ0V2h5cG85UjZxazZ1dkhUOUViVzAwN3Nr?=
- =?utf-8?B?cTExeXFyV0JUekw4MXNsaUpZR1FLc0tRZUtRV2NTR3JUSnJ3Q1Zaclk3b2Vy?=
- =?utf-8?B?bWZaR2crVGxNN2JmT3EyK01VQUhELzc3TUhkOHR6WHFENDFvTEE4S2NGaFBR?=
- =?utf-8?B?dU5JSm1RRDRkcTFlODcyVlNHRk9oS1RhakQ1aitlUVUxQk5XSEtuUDJGMDBy?=
- =?utf-8?B?bXdwaWlhRDBXUDMwN2N3UXNsYlVaNWtWbzVYeW0yUXRGTWFOeVMyd3JMdEJI?=
- =?utf-8?B?c3ZFSjlWdWZUNkc3OVR4a3ppb24xdWE1TkhVWTN0ZnlhQzQ1cDJEdlFkeWhP?=
- =?utf-8?B?bDJkbWZKRi9WazEvbzkyNXdqV0J0R3h3dU5nck9ocU41aXJ5VHdmTy9zQnIx?=
- =?utf-8?B?cGswMWNkNTNpMzhVVm91aXlqdE1rQVVZMzZiclhGUnpMeCtlK2NnckdmdDZR?=
- =?utf-8?B?T3c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACA45C614;
+	Sun, 11 Feb 2024 19:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707678220; cv=none; b=GIjDtfipVcOfshW2z3H6jpct1XD9CYsRTFtiOuRXRnxI9HTwRuPmCIzh7Fag9aSoIM9ORp2vR8bqBIvXb5i93WW7JAl7Jq1zJfv8mJrvTCjvdojhVbwA0SX9qnXD7V4LaJNudDcf9xVa49ATvMhb27rsXW/Lzn3/IBTciHS1PcM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707678220; c=relaxed/simple;
+	bh=RaMOKViQvaxJtvgQTzlSoori+uRspHW/M54NbGK1onc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JTZzDfHta0N67sb1kEh67m9IgqiRW8UEAKke0y9Ail7vi4G5r9Aq7LjwW4gbgFf5jNgl5n0ddNL06vrLTnSCx7H+grUtFNKXB32eA56NMG6JUYOlgKUcmWjr38Sta7zgGt9cHVES4cCy7C0NMXy0I6e8plO6WuGOJgssxSVXv2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mFibo63T; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5116b017503so3453039e87.1;
+        Sun, 11 Feb 2024 11:03:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707678216; x=1708283016; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+hpuvQnI/8Udj+lSLZ3SiKEf5/ByRcVcriKwAxCSZqQ=;
+        b=mFibo63T/QmeZlyfMQX6j3qMgVmMCCJGM7bwrHrYnav8X0ole8hMIDtm5p9wI3L4+L
+         Mc29yZ30iqaudjyWlcE2N2wVNzeKVrmkB8WRBbnpVOiKeaLYtJucmrs+RZMREamHSJtN
+         P6gIp/GHWW80N2A4aU8KLPjuM2XJQOUcNDI3ksdl9oRZSwixvE619svUcggUYmIglu6K
+         X6Ii+sxhRHQshiymtiKmHeoTkDYyQdLY4IPKY25vQNQIWe+nkBuLa3xPsh2MxxmqVlEW
+         8KryQooRAWKQ/0A6BIWWvNGJr5S8zOxECh4WY8eCAyZXlQKlF5Sqmv1rU2+cI+6zVjsi
+         k6YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707678216; x=1708283016;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+hpuvQnI/8Udj+lSLZ3SiKEf5/ByRcVcriKwAxCSZqQ=;
+        b=i1J1yji8/AJ2ddXsYRTtxqLtIjRHtkM8fM7q64f1RPO9XQGfCVjhBLSYBRZ9TIgFRt
+         2OEOisxqoUkc118AbEC4q3UMM65wFs1HiPe4pB5vG/1vWpf7E2AIX2grGCst8RFC73DM
+         7WhF0hj9Ihc8TDpCLf50rLV/IF1qgd1FNNAJw9VkFKBgIHRIYd++61MewGX99OdlmLpV
+         SuJYH7fCGErIubNxcBzVrhKDZCmunyFc1j88uJwj+XuYzCED54SLi1EY6+DXqJFrpmaG
+         1COuADbolk8dVqg+dK3zuidpGLnhd6PoYA6PkEj/MSDofO8KrkkQ4sy9xrPNEiiHhs7h
+         A3iA==
+X-Gm-Message-State: AOJu0Yxvexp//6EbRENDBXLqghlF3ypKL2oiw1wqpHteYvB/oRusT2GQ
+	GFZdpKfiqBAcm8gizjQEGPC40yYx8IO1jqsa58BZxQERSh+uUwmy
+X-Google-Smtp-Source: AGHT+IH8AuAyQu9K/mPXSAgMfMgDsu33CODUNfJmHSk6MSYoV5aIZTKnl5AegbHcnIXzsl5yr2Zwaw==
+X-Received: by 2002:ac2:4eca:0:b0:511:6a0b:cd3 with SMTP id p10-20020ac24eca000000b005116a0b0cd3mr2727742lfr.57.1707678216124;
+        Sun, 11 Feb 2024 11:03:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU5gGdj2LBWiW7m95osvu5pacmInkvYap4LODRBfqk0J+tmWaszmtpBjTmEgILx1W3vWIyuX4pgmomgBhLNBk1eHIApDKdT/NYqB72AxyeK0wEzSuc49E4jnC/Ln1PGJhmz42OArfuT/WMdYggQ6d9sUlcxhi5nKM/dnEDO/Ad+dri6BXgh5B1If+9KsEi3GVOEEOEV0yPzb4tWT5Wp/IlKIYMxWpV/1+ilqRv52CPo52yHQCAQGt32oK/TdtRl4DbyZfZLeJkMsDMKQw/nCz0+l+8pecVTbwAg0EvayJt/oqLOTBTHKf51nzXjHzt+ZDAxLot33HxUnJLBopJFhbMvuGfC4+upNfWBca7jgz5QVaxDP/UeOyyvfxuYYQcPXaMiZVe8hJUlWf1eMuU66PCeOe5sYAPUk2TzvO5h2S4yFJ2XSlSUIjhGeoniE83O6jajoGkngqWX2w6QZ9iNCSJH2QX7vOSfZT/qBAk1ZholA1JQrgsAfXO7au/rm2K3LqxMfAWh7ZTtac0aTk4M0H0u3/oN4ZKypnhsKVi2Ty8OCPKrgz6HXYkl2Mu3USZZtsf76zvCGA==
+Received: from localhost.localdomain ([2a02:8109:aa27:2d00::2d2b])
+        by smtp.gmail.com with ESMTPSA id ps7-20020a170906bf4700b00a3c5fa1052csm1207400ejb.138.2024.02.11.11.03.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Feb 2024 11:03:35 -0800 (PST)
+From: Mehdi Djait <mehdi.djait.k@gmail.com>
+To: mchehab@kernel.org,
+	heiko@sntech.de,
+	hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com,
+	alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	paul.kocialkowski@bootlin.com,
+	michael.riesch@wolfvision.net,
+	laurent.pinchart@ideasonboard.com,
+	Mehdi Djait <mehdi.djait.k@gmail.com>
+Subject: [RESEND Patch v13 0/3] media: rockchip: Add a driver for Rockchip's camera interface
+Date: Sun, 11 Feb 2024 20:03:29 +0100
+Message-ID: <cover.1707677804.git.mehdi.djait.k@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88b54101-ab05-45d1-0ba8-08dc2b1c6d2e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2024 16:13:46.9980
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hepqxNOvRteuM7nRCFQpJXJKclgYco6wnWbMMouhhJ5Tqt69lxfssEr7aayaD6jZgJIFIYYD6wHaTYwLarc5iL3H8uwSq8vNy+TD8cEhsTM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9947
+Content-Transfer-Encoding: 8bit
 
-SGkgU2FrYXJpIEFpbHVzLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
-IFNha2FyaSBBaWx1cyA8c2FrYXJpLmFpbHVzQGxpbnV4LmludGVsLmNvbT4NCj4gU2VudDogRnJp
-ZGF5LCBGZWJydWFyeSA5LCAyMDI0IDM6MTggUE0NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiA1
-LzVdIGFybTY0OiBkdHM6IHJlbmVzYXM6IHI5YTA3ZzA0M3UxMS1zbWFyYy1jcnUtDQo+IGNzaS1v
-djU2NDU6IFJlZHVjZSBJMkMgZnJlcXVlbmN5DQo+IA0KPiBIaSBmb2xrcywNCj4gDQo+IE9uIEZy
-aSwgRmViIDA5LCAyMDI0IGF0IDAyOjM2OjIyUE0gKzAwMDAsIEJpanUgRGFzIHdyb3RlOg0KPiA+
-IEhpIEdlZXJ0LA0KPiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4g
-RnJvbTogQmlqdSBEYXMNCj4gPiA+IFNlbnQ6IFR1ZXNkYXksIEphbnVhcnkgMzAsIDIwMjQgMjox
-NSBQTQ0KPiA+ID4gU3ViamVjdDogUkU6IFtQQVRDSCB2MiA1LzVdIGFybTY0OiBkdHM6IHJlbmVz
-YXM6DQo+ID4gPiByOWEwN2cwNDN1MTEtc21hcmMtY3J1LQ0KPiA+ID4gY3NpLW92NTY0NTogUmVk
-dWNlIEkyQyBmcmVxdWVuY3kNCj4gPiA+DQo+ID4gPiBIaSBHZWVydCwNCj4gPiA+DQo+ID4gPiA+
-IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiA+IEZyb206IEJpanUgRGFzDQo+ID4g
-PiA+IFNlbnQ6IEZyaWRheSwgSmFudWFyeSAyNiwgMjAyNCAzOjU3IFBNDQo+ID4gPiA+IFN1Ympl
-Y3Q6IFJFOiBbUEFUQ0ggdjIgNS81XSBhcm02NDogZHRzOiByZW5lc2FzOg0KPiA+ID4gPiByOWEw
-N2cwNDN1MTEtc21hcmMtY3J1LQ0KPiA+ID4gPiBjc2ktb3Y1NjQ1OiBSZWR1Y2UgSTJDIGZyZXF1
-ZW5jeQ0KPiA+ID4gPg0KPiA+ID4gPiBIaSBHZWVydCwNCj4gPiA+ID4NCj4gPiA+ID4gVGhhbmtz
-IGZvciB0aGUgZmVlZGJhY2suDQo+ID4gPiA+DQo+ID4gPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNz
-YWdlLS0tLS0NCj4gPiA+ID4gPiBGcm9tOiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
-LW02OGsub3JnPg0KPiA+ID4gPiA+IFNlbnQ6IEZyaWRheSwgSmFudWFyeSAyNiwgMjAyNCAxOjUz
-IFBNDQo+ID4gPiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiA1LzVdIGFybTY0OiBkdHM6IHJl
-bmVzYXM6DQo+ID4gPiA+ID4gcjlhMDdnMDQzdTExLXNtYXJjLWNydS0NCj4gPiA+ID4gPiBjc2kt
-b3Y1NjQ1OiBSZWR1Y2UgSTJDIGZyZXF1ZW5jeQ0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gSGkgQmlq
-dSwNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IE9uIEZyaSwgSmFuIDI2LCAyMDI0IGF0IDI6MzHigK9Q
-TSBCaWp1IERhcw0KPiA+ID4gPiA+IDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiA+
-ID4gPiB3cm90ZToNCj4gPiA+ID4gPiA+IFJlZHVjZSBpMmMgZnJlcSBmcm9tIDQwMC0+MTAwIGtI
-eiBvbiBSWi9HMlVMIFNNQVJDIEVWSyBhcyB0aGUNCj4gPiA+ID4gPiA+IGNhcHR1cmVkIGltYWdl
-IGlzIG5vdCBwcm9wZXIgd2l0aCB0aGUgc2Vuc29yIGNvbmZpZ3VyYXRpb24gb3Zlcg0KPiBJMkMu
-DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUu
-ZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gVGhhbmtzIGZvciB5
-b3VyIHBhdGNoIQ0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAtLS0NCj4gPiA+ID4gPiA+IGEvYXJj
-aC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I5YTA3ZzA0M3UxMS1zbWFyYy1jcnUtY3NpLW92NTY0
-DQo+ID4gPiA+ID4gPiA1LmR0DQo+ID4gPiA+ID4gPiBzbw0KPiA+ID4gPiA+ID4gKysrIGIvYXJj
-aC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I5YTA3ZzA0M3UxMS1zbWFyYy1jcnUtY3NpLQ0KPiBv
-djU2NDUuDQo+ID4gPiA+ID4gPiArKysgZHQNCj4gPiA+ID4gPiA+ICsrKyBzbw0KPiA+ID4gPiA+
-ID4gQEAgLTE5LDMgKzE5LDcgQEAgJm92NTY0NSB7DQo+ID4gPiA+ID4gPiAgICAgICAgIGVuYWJs
-ZS1ncGlvcyA9IDwmcGluY3RybCBSWkcyTF9HUElPKDQsIDQpDQo+IEdQSU9fQUNUSVZFX0hJR0g+
-Ow0KPiA+ID4gPiA+ID4gICAgICAgICByZXNldC1ncGlvcyA9IDwmcGluY3RybCBSWkcyTF9HUElP
-KDAsIDEpDQo+ID4gPiA+ID4gPiBHUElPX0FDVElWRV9MT1c+OyB9Ow0KPiA+ID4gPiA+ID4gKw0K
-PiA+ID4gPiA+ID4gKyZpMmMwIHsNCj4gPiA+ID4gPiA+ICsgICAgICAgY2xvY2stZnJlcXVlbmN5
-ID0gPDEwMDAwMD47IH07DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBJcyB0aGlzIGEgbGltaXRhdGlv
-biBvZiBvbmUgb2YgdGhlIEkyQyBkZXZpY2VzIG9uIHRoZSBidXMsIG9yIGENCj4gPiA+ID4gPiBQ
-Q0IgZGVzaWduIGlzc3VlPw0KPiA+ID4gPg0KPiA+ID4gPiBDdXJyZW50bHkgdmVyc2EzIGNsb2Nr
-IGdlbmVyYXRvciBjb25uZWN0ZWQgdG8gdGhlIHNhbWUgYnVzIGFuZCBpdA0KPiA+ID4gPiB3b3Jr
-cyBvayB3aXRoIDQwMGtIeiBjbG9jay4gTWF5YmUgaXQgaXMgc3RyZXNzZWQgbm90IHRoYXQgbXVj
-aA0KPiA+ID4gPiBjb21wYXJlZCB0byBPVjU2NDUgc2Vuc29yIGNvbmZpZ3VyYXRpb24uDQo+ID4g
-PiA+DQo+ID4gPiA+IEF0IHRoZSBtb21lbnQgd2l0aCA0MDBrSHogSTJDIGJ1cyBjbG9jaywgQ2Ft
-ZXJhIGNhcHR1cmUgaXMgbm90DQo+ID4gPiA+IHdvcmtpbmcgcHJvcGVybHkgb24gUlovRzJVTCwg
-YnV0IHdpdGggc2FtZSBidXMgZnJlcXVlbmN5IHRoZSBzYW1lDQo+ID4gPiA+IHdvcmtzIGZpbmUg
-b24gUlove0cyTCxHMkxDLFYyTH0uDQo+ID4gPiA+IFRoZXJlIG1heSBiZSBzb21lIGhhcmR3YXJl
-IGRpZmZlcmVuY2VzIHdoaWNoIGlzIGNhdXNpbmcgdGhpcyBpc3N1ZS4NCj4gPiA+ID4NCj4gPiA+
-ID4gPg0KPiA+ID4gPiA+IERvZXNuJ3QgdGhpcyBuZWVkIGEgRml4ZXMgdGFnPw0KPiA+ID4gPg0K
-PiA+ID4gPiBJIGNhbiBjcmVhdGUgYSBuZXcgcGF0Y2ggdXBkYXRpbmcgYnVzIGZyZXF1ZW5jeSBh
-cyAxMDBrSHogYW5kIGFkZA0KPiA+ID4gPiBmaXhlcyB0YWcuDQo+ID4gPiA+IEFmdGVyIHRoaXMg
-SSB3aWxsIGRyb3AgdGhpcyBwYXRjaCBhcyBpdCBubyBsb25nZXIgbmVlZGVkLg0KPiA+ID4gPg0K
-PiA+ID4gPiBQbGVhc2UgbGV0IG1lIGtub3cuDQo+ID4gPg0KPiA+ID4gKyBtZWRpYQ0KPiA+ID4N
-Cj4gPiA+IEFkZGluZyBhIGRlbGF5IGFmdGVyIFNvZnR3YXJlIHJlc2V0IG1ha2VzIGl0IHRvIHdv
-cmsgYXQgNDAwa0h6IHdpdGgNCj4gPiA+IFJaL0cyVUwgU01BUkMgRVZLLg0KPiA+ID4NCj4gPiA+
-IFNvIG5vdCBzdXJlIHdlIG5lZWQgdG8gYWRkIGRlbGF5IGFmdGVyIHNvZnR3YXJlIHJlc2V0Pw0K
-PiA+ID4NCj4gPiA+IE5vdyBhZnRlciBPVjU2NDUgZ3BpbyByZXNldCwgdGhlbiB0aGVyZSBpcyAy
-MG1zZWMgZGVsYXkgYW5kIHRoZW4NCj4gPiA+IGFnYWluIHdlIGFyZSBpc3N1aW5nIHNvZnR3YXJl
-IHJlc2V0IGFuZCB0aGVyZSBpcyBubyBkZWxheSBhZnRlciB0aGlzDQo+ID4gPiBmb3IgdGhpcyBz
-b2Z0d2FyZSByZXNldC4NCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9p
-MmMvb3Y1NjQ1LmMgYi9kcml2ZXJzL21lZGlhL2kyYy9vdjU2NDUuYw0KPiA+ID4gaW5kZXggYTI2
-YWMxMWM5ODlkLi5kNjdhNWUyM2ZlNWEgMTAwNjQ0DQo+ID4gPiAtLS0gYS9kcml2ZXJzL21lZGlh
-L2kyYy9vdjU2NDUuYw0KPiA+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQ1LmMNCj4g
-PiA+IEBAIC02MjIsMTEgKzYyMiwxOSBAQCBzdGF0aWMgaW50IG92NTY0NV9zZXRfcmVnaXN0ZXJf
-YXJyYXkoc3RydWN0DQo+ID4gPiBvdjU2NDUgKm92NTY0NSwgIHsNCj4gPiA+ICAgICAgICAgdW5z
-aWduZWQgaW50IGk7DQo+ID4gPiAgICAgICAgIGludCByZXQ7DQo+ID4gPg0KPiA+ID4gICAgICAg
-ICBmb3IgKGkgPSAwOyBpIDwgbnVtX3NldHRpbmdzOyArK2ksICsrc2V0dGluZ3MpIHsNCj4gPiA+
-ICAgICAgICAgICAgICAgICByZXQgPSBvdjU2NDVfd3JpdGVfcmVnKG92NTY0NSwgc2V0dGluZ3Mt
-PnJlZywNCj4gPiA+IHNldHRpbmdzLQ0KPiA+ID4gPnZhbCk7DQo+ID4gPiAgICAgICAgICAgICAg
-ICAgaWYgKHJldCA8IDApDQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0
-Ow0KPiA+ID4gKw0KPiA+ID4gKyAgICAgICAgICAgICAgIGlmIChzZXR0aW5ncy0+cmVnID09IE9W
-NTY0NV9TWVNURU1fQ1RSTDApDQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICBmc2xlZXAo
-MTAwMCk7DQo+ID4gPg0KPiA+DQo+ID4gVGhpcyBpc3N1ZSBzZWVuIG9uIFJaL0cyTCBTTUFSQyBF
-VksgYXMgd2VsbC4gTXkgdGVzdGluZyBvbiBHMkwgZmFtaWx5DQo+ID4gc2hvd3Mgd2UgbmVlZCB0
-byBhZGQgZGVsYXkgdG8gbWFrZSBPVjU2NDUgdG8gd29yayBANDAwa0haLg0KPiANCj4gVHlwaWNh
-bGx5IHRoZXJlJ3MgYSBkZWxheSBiZWZvcmUgdGhlIGNoaXAgaXMgYWNjZXNzaWJsZSBvdmVyIEnC
-skMgYWZ0ZXINCj4gcmVzZXR0aW5nIGl0LiBJdCdzIGEgYml0IG9wZW4gd2hldGhlciB0aGlzIG9u
-ZSBuZWVkcyBpdCwgdmVyeSBwcm9iYWJseSBpdA0KPiBkb2VzLiBJdCdkIGJlIG5pY2VyIG5vbmV0
-aGVsZXNzIHRvIGRvIHRoaXMgb3V0c2lkZSB0aGUgcmVnaXN0ZXIgbGlzdCBhbmQNCj4gaW5zdGVh
-ZCB1c2UgYSBzZXBhcmF0ZSBvdjU2NDVfd3JpdGVfcmVnKCkgY2FsbC4NCg0KT0suDQo+IA0KPiBQ
-cm9iYWJseSB0aGUgZmlyc3Qgd3JpdGUgaXMgcmVkdW5kYW50LiBUaGUgc2Vjb25kIHdyaXRlIHJl
-c2V0cyB0aGUgZGV2aWNlLg0KPiAweDgwIHNob3VsZCBiZSBzdWZmaWNpZW50IHZhbHVlIGZvciB0
-aGF0Lg0KDQpXaWxsIHRlc3QgYW5kIHNlbmQgcGF0Y2ggZm9yIGl0Lg0KDQpDaGVlcnMsDQpCaWp1
-DQo=
+Hello everyone,
+
+V13 for basic support of the Camera Interface found on the Rockchip PX30 SoC
+
+Most of this driver was written following the BSP driver from rockchip,
+removing the parts that either didn't fit correctly the guidelines, or
+that couldn't be tested.
+
+In the BSP, this driver is known as the "cif" driver, but this
+controller was renamed to "vip" in the datasheet.
+
+This version of the driver supports ONLY the parallel interface BT656
+and was tested/implemented using an SDTV video decoder.
+
+media_stage, base-commit: 8c64f4cdf4e6cc5682c52523713af8c39c94e6d5
+
+V12 => V13:
+cif/cif-capture.c
+- changed the vb2_queue member min_buffer_needed to min_queued_buffers
+
+V11 => V12:
+cif/cif-capture.c cif/cif-dev.c cif/cif-common.h cif/cif-capture.h:
+- changed the name of the files to add "cif-"
+- made use of the reset array in the pmruntime suspend and resume
+  functions
+- made the subdev stop before the cif in cif_stop_streaming()
+- removed pinctrl_pm_select_sleep_state()
+- removed cif_soft_reset()
+- changed the dt-binding filename in the MAINTAINERS file
+- removed remote_info->mbus
+rockchip,px30-vip.yaml:
+- removed the undocumented compatible in the example
+
+V10 => V11:
+cif/capture.c cif/dev.c cif/common.h cif/capture.h:
+- removed the csi_fmt_val and all the CSI reg defines
+- removed the setting of buffer numbers in the queue_setup vb2_ops
+  callback
+- changed the v4l2_fwnode_endpoint declaration to V4L2_MBUS_UNKNOWN:
+  letting the device tree decide which bus is being used
+- split dev.h into common.h and capture.h
+
+rockchip,px30-vip.yaml:
+- renamed rockchip,rk3066-cif.yaml back to rockchip,px30-vip.yaml as
+  suggested by Conor
+- added the description of the port's endpoint bus-type property
+- extended the example to include the definition of the corresponding
+  video-decoder
+
+V9 => V10:
+cif/capture.c cif/dev.c cif/dev.h:
+as suggested by Paul:
+- ensured that the lock is still being held when accessing
+  stream->buffs[0,1]
+- adjusted the comment explaining why the spinlock is used
+
+as suggested by Michael:
+- made the IRQ requested SHARED: the cif shares the IRQ with the io_mmu
+
+rockchip,rk3066-cif.yaml:
+- dropped the rk3066-cif compatible but kept the name and added the
+  reason for this in the commit msg: the name of the file rk3066 is the first
+  Rockchip SoC generation that uses cif instead of the px30 which is just one
+  of the many iterations of the unit.
+
+V8 => V9:
+cif/capture.c cif/dev.c cif/dev.h:
+as suggested by Paul:
+- changed the name from "vip" back to "cif"
+- removed the scratch buffer and added frame dropping
+- removed mplane, only single plane formats are supported anyway
+- adjusted the Kconfig
+- added the match_data to the stream struct
+- some cosmetics, and error return codes changes
+
+as suggested by Michael:
+- changed the writel and readl helpers to be inline functions and
+  changed the name
+- fixed typos in the commit message
+- changed the cif_device struct element "sensor" to "remote"
+
+rockchip,rk3066-cif.yaml:
+- changed the compatible rockchip,px30-vip to rockchip,rk3066-cif:
+  rk3066 is the earliest Rockchip SoC that uses cif and it is the
+  first model starting the RK30 lineup.
+- changed the node name to video-capture
+- adjusted the description
+
+V7 => V8:
+vip/capture.c:
+- fixed a warning: unused variable reported by the kernel test robot
+
+V6 => V7:
+vip/capture.c vip/dev.c vip/dev.h
+- renamed all struct rk_vip_dev dev => struct rk_vip_dev vip_dev
+- added some error when rk_vip_get_buffer() returns NULL
+- removed a WARN_ON
+- made the irq NOT shared
+- dropped of_match_ptr
+- added the rk_vip_get_resource() function
+
+rockchip,px30-vip.yaml:
+- changed filename to match the compatible
+- dropped the mention of the other rockchip SoC in the dt-binding
+  description and added a more detailed description of VIP
+- removed unused labels in the example
+
+V5[1] => V6:
+vip/capture.c vip/dev.c vip/dev.h
+- added a video g_input_status subdev call, V4L2_IN_CAP_STD and the
+  supported stds in rk_vip_enum_input callback
+- added rk_vip_g_std, rk_vip_s_std and rk_vip_querystd callbacks
+- added the supported video_device->tvnorms
+- s_std will now update the format as this depends on the standard
+  NTSC/PAL (as suggested by Hans in [1])
+- removed STD_ATSC
+- moved the colorimetry information to come from the subdev
+- removed the core s_power subdev calls
+- dropped cropping in rk_vip_stream struct
+
+rockchip-vip.yaml:
+- fixed a mistake in the name of third clock plckin -> plck
+- changed the reg maxItems 2 -> 1
+
+[1] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxime.chevallier@bootlin.com/
+
+I used v4l-utils with HEAD: commit db9478a91120dccc18d1388fe9b812567e33b6bb
+
+# v4l2-compliance 
+v4l2-compliance 1.27.0, 64 bits, 64-bit time_t
+
+Compliance test for rockchip-cif device /dev/video0:
+
+Driver Info:
+        Driver name      : rockchip-cif
+        Card type        : rockchip-cif
+        Bus info         : platform:ff490000.video-capture
+        Driver version   : 6.7.0
+        Capabilities     : 0x84200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rockchip-cif
+        Model            : cif
+        Serial           : 
+        Bus info         : platform:ff490000.video-capture
+        Media version    : 6.7.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.7.0
+Interface Info:
+        ID               : 0x03000003
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : rockchip_cif
+        Function         : V4L2 I/O
+        Pad 0x01000002   : 0: Sink
+          Link 0x02000009: from remote pad 0x1000006 of entity 'tw9900 2-0044' (Digital Video Decoder): Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for rockchip-cif device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Mehdi Djait (3):
+  media: dt-bindings: media: add bindings for Rockchip CIF
+  media: rockchip: Add a driver for Rockchip's camera interface
+  arm64: dts: rockchip: Add the px30 camera interface
+
+ .../bindings/media/rockchip,px30-vip.yaml     |  123 ++
+ MAINTAINERS                                   |    7 +
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+ drivers/media/platform/rockchip/Kconfig       |    1 +
+ drivers/media/platform/rockchip/Makefile      |    1 +
+ drivers/media/platform/rockchip/cif/Kconfig   |   14 +
+ drivers/media/platform/rockchip/cif/Makefile  |    3 +
+ .../media/platform/rockchip/cif/cif-capture.c | 1111 +++++++++++++++++
+ .../media/platform/rockchip/cif/cif-capture.h |   20 +
+ .../media/platform/rockchip/cif/cif-common.h  |  128 ++
+ drivers/media/platform/rockchip/cif/cif-dev.c |  308 +++++
+ .../media/platform/rockchip/cif/cif-regs.h    |  127 ++
+ 12 files changed, 1855 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+ create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.c
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.h
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-common.h
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-dev.c
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-regs.h
+
+-- 
+2.43.0
+
 
