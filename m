@@ -1,81 +1,36 @@
-Return-Path: <linux-media+bounces-4971-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4972-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F668510D3
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 11:29:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FB7851194
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 11:55:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D577C281231
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 10:29:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B42DB25E2F
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 10:55:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A848118041;
-	Mon, 12 Feb 2024 10:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CMsce6ji"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25D0F28DDE;
+	Mon, 12 Feb 2024 10:52:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B9317BCA
-	for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 10:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8A520DCF
+	for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 10:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707733718; cv=none; b=ivDCT1OeIBhGr2AAEtXI4TrwNxCVihVHQAX9fPdpfAlTUSXhJ5mYyFzv1xFOs+GD1EzebqK8CVEoo7SjExtqFk2K2uX3jG2mLe1ZNh3ZBBzSVZYYETfL+hRVgqMZL9lgl+EsIYAQCy5n1D9CJywy89eqIxBA7ESIjf0ObAHLQvY=
+	t=1707735139; cv=none; b=iQtb6nz8TKl7haqbWEwQA7l27SK6vznpd4JE84RKiVrvGhWkXUYVlVqJJ61DttfW0KKxxonneuo6syWzYETSt4Wk6kB8DREhb0XAekG03UpgZN8pjP6Q8llO0yWgVqQA0wkshlh0n0jbhF267DyPsCw8+KWQUSbf9wD24V1vNwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707733718; c=relaxed/simple;
-	bh=XvOdhPw1IXjl2R8sAKhbKDOaaBAejkPqK8wOjH96vfA=;
+	s=arc-20240116; t=1707735139; c=relaxed/simple;
+	bh=TjYgUAARjf8offzwtlAbqZGtCyhSe8UncG3S71Xu0hg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PVSFCYqEZMNxYKbX23Z+cTFAe/sT92Cr6n/srzHFl84GMqQQwkqtrtJNeswLrmsb+wnlZkDSAt2dVY94cc76x5FJdaJOQSuXOPrgJoemH9jqBNFgaq9oEd6yyMeBRNw6fjN4yEezWkqIMYWKNxM9gqZD0uDPDmmTibkEM+XfyH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CMsce6ji; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707733715;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRq7w2nWl421ZLhvXkb14MsUc/K4z59yCfnfTGfzk+Y=;
-	b=CMsce6jir0k0WSWQMRKzcA9Wn5MDzx9uDAJULyTmDgHDzvH++5G+FIcrV/wqwLWNKNnZyu
-	PpXSo7FintyTGVtGbxMjCVrA3cXJWhW7xmMwcbQS88tsyqmr+E9aMhgq3BxBoXtBaMLt+N
-	EOe2G5dDmf+S7QFJwqKBtOOsTT3nw9g=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-441-5UvaVppBN1GEn3tXV1Hx6g-1; Mon, 12 Feb 2024 05:28:33 -0500
-X-MC-Unique: 5UvaVppBN1GEn3tXV1Hx6g-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-560a5f882c5so4243002a12.1
-        for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 02:28:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707733712; x=1708338512;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YRq7w2nWl421ZLhvXkb14MsUc/K4z59yCfnfTGfzk+Y=;
-        b=ZvD6QZGvY+43WwEbsRh5c83R7v66s3JzgtAnV59EQj+erhjUUTK2+w18PXpnunM0vT
-         fQ1K0MjlX7B+5Td/7M19MVzQjSmaqUlDTtY64uBouRs3um8jjg4lvY6TUXCdXyB3jlDy
-         MqE4LVuWCNVh8kvCXhgtnrUwKbnXL/oL8gyXhEHaq4qu21qtBCrnAKoQkTCLOnIL5cOX
-         4TABPucBouBtDKz79LApD8xyeZXiTm7gfLup/CsLy9mLpT3O+Ycsc+JlmhPMBtEiiDEc
-         kmqlUe7JCBTT2wRZys+z/V9NHYBhunhhJ207BguKDaKQk7DxeaL2OdWjgwsqF7XG8igB
-         c28g==
-X-Forwarded-Encrypted: i=1; AJvYcCWe8IgcONosjg9Qy5DFB+bWFuETiBrTPrUSWp6yRZYL7wdalrUaEKzLecAQbVInRJ4FR92Z1eAsFOLdTS5ZLo6ptmK2p6qBMyQx8lM=
-X-Gm-Message-State: AOJu0YyM5GEdbdLwJXbRz+YcoUYXK90DpgOwQEB586YQBz6zGwbNbICp
-	xWbWFaTfQVzoAn72klgQ3mTiBiUgJxe6BVVYyfaktw32LquFYzg8/dBL5xbI8ViaBtXqKGIMaNz
-	i1negx0LkELw0ZjtHCjNzasddn5mSfmi48GWUMtjuAfGNX9UDhgKHyBixr34o
-X-Received: by 2002:a05:6402:370b:b0:55c:8d17:1bea with SMTP id ek11-20020a056402370b00b0055c8d171beamr7730300edb.17.1707733712281;
-        Mon, 12 Feb 2024 02:28:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFjJ3pLFJ9UMElJKEj4kTyXiIlJ0+t8jjfCUARlThdIWwWH30/zIubOQ/jHsslg1KizQqS4BA==
-X-Received: by 2002:a05:6402:370b:b0:55c:8d17:1bea with SMTP id ek11-20020a056402370b00b0055c8d171beamr7730293edb.17.1707733711972;
-        Mon, 12 Feb 2024 02:28:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCViyE5DIzGky+3JDRARACaQ9RLrWrrZeXaG+jqeUwP10sflZ1ev//7e5+xJAs7s0oweYR3A3tcK1UZMXPHWTYKaYFcgFJhtHvFrxcWYMTHiFh9ZUsbOGwyblW4OXv3GEQoo
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id el3-20020a056402360300b005614ea3e54esm2604337edb.61.2024.02.12.02.28.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 02:28:31 -0800 (PST)
-Message-ID: <9b8b2fb8-ddca-48d5-bbf8-75ad13371037@redhat.com>
-Date: Mon, 12 Feb 2024 11:28:30 +0100
+	 In-Reply-To:Content-Type; b=op4fuUjWKw334KPM74DIhB6ww3RX9FHKudbmvfRWTm6Hkdm30M1ZsbLC6rZgPyTH6NcKa5Nf8Nqbj3V7+xc7vx+E/oyhBh+Ujp08Hv7knNCAvNlPKJaIN0sCqAaB+/wRoP2BLjPWKJ839lm2QSRxR535qxGpBXGOh0/V/Lh2wtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CA3C433C7;
+	Mon, 12 Feb 2024 10:52:17 +0000 (UTC)
+Message-ID: <687072e8-f7c6-4cef-91cd-8f26295ff2af@xs4all.nl>
+Date: Mon, 12 Feb 2024 11:52:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,159 +38,162 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: ipu-bridge: Poll for IVSC CSI device
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
- Bingbu Cao <bingbu.cao@intel.com>
-References: <20240212091917.342715-1-sakari.ailus@linux.intel.com>
- <20240212091917.342715-3-sakari.ailus@linux.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240212091917.342715-3-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH] media: videobuf2: Add missing doc comment for
+ waiting_in_dqbuf
+Content-Language: en-US, nl
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Tomasz Figa <tfiga@chromium.org>
+Cc: linux-media@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@collabora.com,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20240105134020.34312-1-andrzej.p@collabora.com>
+ <CAAFQd5DEfvaGVLdPzjpfRwFMJcrXstp2QyTp-BJqzncXOxTvRQ@mail.gmail.com>
+ <aff1bae8-b87e-4331-bff7-9c385322b8da@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <aff1bae8-b87e-4331-bff7-9c385322b8da@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
-
-On 2/12/24 10:19, Sakari Ailus wrote:
-> The MEI CSI device is created as MEI boots up. This often takes place
-> after the IPU6 driver probes, in which case the IPU6 driver returned
-> -EPROBE_DEFER. The MEI CSI driver also returns -EPROBE_DEFER if the
-> firmware nodes created by the IPU bridge (via IPU6 driver) aren't in
-> place.
+On 12/01/2024 22:26, Andrzej Pietrasiewicz wrote:
+> Hi Tomasz,
 > 
-> If no other drivers are being probed after this point, neither IPU6 nor
-> MEI CSI drivers will be re-probed. Address this (hopefully temporarily) by
-> polling MEI CSI device in the IPU bridge initialisation.
+> W dniu 10.01.2024 o 13:41, Tomasz Figa pisze:
+>> On Fri, Jan 5, 2024 at 10:40 PM Andrzej Pietrasiewicz
+>> <andrzej.p@collabora.com> wrote:
+>>>
+>>> While at it rearrange other comments to match the order of struct members.
+>>>
+>>> Fixes: d65842f7126a ("media: vb2: add waiting_in_dqbuf flag")
+>>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>>> ---
+>>>   include/media/videobuf2-core.h | 12 +++++++-----
+>>>   1 file changed, 7 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+>>> index e41204df19f0..5020e052eda0 100644
+>>> --- a/include/media/videobuf2-core.h
+>>> +++ b/include/media/videobuf2-core.h
+>>> @@ -72,6 +72,10 @@ struct vb2_buffer;
+>>>    *              argument to other ops in this structure.
+>>>    * @put_userptr: inform the allocator that a USERPTR buffer will no longer
+>>>    *              be used.
+>>> + * @prepare:   called every time the buffer is passed from userspace to the
+>>> + *             driver, useful for cache synchronisation, optional.
+>>> + * @finish:    called every time the buffer is passed back from the driver
+>>> + *             to the userspace, also optional.
+>>>    * @attach_dmabuf: attach a shared &struct dma_buf for a hardware operation;
+>>>    *                used for DMABUF memory types; dev is the alloc device
+>>>    *                dbuf is the shared dma_buf; returns ERR_PTR() on failure;
+>>> @@ -86,10 +90,6 @@ struct vb2_buffer;
+>>>    *             dmabuf.
+>>>    * @unmap_dmabuf: releases access control to the dmabuf - allocator is notified
+>>>    *               that this driver is done using the dmabuf for now.
+>>> - * @prepare:   called every time the buffer is passed from userspace to the
+>>> - *             driver, useful for cache synchronisation, optional.
+>>> - * @finish:    called every time the buffer is passed back from the driver
+>>> - *             to the userspace, also optional.
+>>>    * @vaddr:     return a kernel virtual address to a given memory buffer
+>>>    *             associated with the passed private structure or NULL if no
+>>>    *             such mapping exists.
+>>> @@ -484,7 +484,6 @@ struct vb2_buf_ops {
+>>>    *             caller. For example, for V4L2, it should match
+>>>    *             the types defined on &enum v4l2_buf_type.
+>>>    * @io_modes:  supported io methods (see &enum vb2_io_modes).
+>>> - * @alloc_devs:        &struct device memory type/allocator-specific per-plane device
+>>>    * @dev:       device to use for the default allocation context if the driver
+>>>    *             doesn't fill in the @alloc_devs array.
+>>>    * @dma_attrs: DMA attributes to use for the DMA.
+>>> @@ -550,6 +549,7 @@ struct vb2_buf_ops {
+>>>    *             @start_streaming can be called. Used when a DMA engine
+>>>    *             cannot be started unless at least this number of buffers
+>>>    *             have been queued into the driver.
+>>> + * @alloc_devs:        &struct device memory type/allocator-specific per-plane device
+>>>    */
+>>>   /*
+>>>    * Private elements (won't appear at the uAPI book):
+>>> @@ -571,6 +571,8 @@ struct vb2_buf_ops {
+>>>    * @waiting_for_buffers: used in poll() to check if vb2 is still waiting for
+>>>    *             buffers. Only set for capture queues if qbuf has not yet been
+>>>    *             called since poll() needs to return %EPOLLERR in that situation.
+>>> + * @waiting_in_dqbuf: set whenever vb2_queue->lock is released while waiting for
+>>> + *             a buffer to arrive so that -EBUSY can be returned when appropriate
+>>
+>> Appreciate documentation improvements. Thanks!
+>>
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/pci/intel/ipu-bridge.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
+> I haven't been hunting for opportunities to improve the documentation,
+> the opportunity has found me ;P
 > 
-> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-> index b2cf80d62ba2..45c39bd93d74 100644
-> --- a/drivers/media/pci/intel/ipu-bridge.c
-> +++ b/drivers/media/pci/intel/ipu-bridge.c
-> @@ -4,6 +4,7 @@
->  #include <linux/acpi.h>
->  #include <linux/device.h>
->  #include <linux/i2c.h>
-> +#include <linux/iopoll.h>
->  #include <linux/mei_cl_bus.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> @@ -138,17 +139,21 @@ static struct device *ipu_bridge_get_ivsc_csi_dev(struct acpi_device *adev)
->  	/* IVSC device on platform bus */
->  	dev = bus_find_device(&platform_bus_type, NULL, adev,
->  			      ipu_bridge_match_ivsc_dev);
-> -	if (dev) {
-> -		snprintf(name, sizeof(name), "%s-%pUl", dev_name(dev), &uuid);
-> +	if (!dev)
-> +		return NULL;
->  
-> -		csi_dev = device_find_child_by_name(dev, name);
-> +	snprintf(name, sizeof(name), "%s-%pUl", dev_name(dev), &uuid);
->  
-> -		put_device(dev);
-> +	/*
-> +	 * FIXME: instantiate MEI CSI software nodes outside the IPU bridge (or
-> +	 * call IPU bridge from MEI CSI). Wait up to 60 seconds here.
-> +	 */
-> +	read_poll_timeout(device_find_child_by_name, csi_dev, csi_dev,
-> +			  20000, 60000000, false, dev, name);
->  
-> -		return csi_dev;
-> -	}
-> +	put_device(dev);
->  
-> -	return NULL;
-> +	return csi_dev;
->  }
->  
->  static int ipu_bridge_check_ivsc_dev(struct ipu_sensor *sensor,
+>> Just one comment: Could we make it more clear who sets it? For example >      Set by the core for the duration of a blocking DQBUF, when it has
+>> to wait for
+>>      a buffer to become available with vb2_queue->lock released. Used to prevent
+>>      destroying the queue by other threads.
+> 
+> Makes sense for me.
+> 
+> @Nicolas are you ok with changing the text and retaining your R-b?
+> 
+> Andrzej
 
+Since this patch no longer applies, I think it is best if you make a v2.
 
-Hmm, ok so the issue here is that the MEI CSI device's creation does
-not trigger a running of the work to re-probe deferred devices
-because the probe() for the MEI CSI device's driver does not succeed.
-
-And at this point nothing else is getting probed, so the IPU6
-driver's probe() will never get called again, causing things
-to not work.
-
-So 3 options:
-
-1. Instantiate MEI CSI software nodes outside the IPU bridge
-this seems undesirable since the nodes point to each other
-so doing this will be tricky I think.
-
-2. Call ipu_bridge_init from the MEI CSI driver, this seems
-like the best option to me. The MEI CSI driver can lookup
-the PCI device for the bridge and call ipu_bridge_init()
-on it.
-
-ipu_bridge_init() is intended to get called only once
-even if the driver is unbound + rebound. So this should
-be ok, but we would need to:
-
-a) Add a staitc mutex in ipu_bridge.c which is locked for
-the duration of ipu_bridge_init()
-
-b) Move the checks which ensure that ipu_bridge_init()
-gets called only once to inside ipu_bridge_init(), this
-part may be tricky when also taking chromebooks which don't
-need ipu_bridge_init() at all into account. Although that
-would only be a problem if those chromebooks also have
-an ivsc chip.
-
-3. In the -EPROBE_DEFER path of the MEI CSI driver force
-deferred probing to run, this would require:
-
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 85152537dbf1..3836ac02332d 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -194,6 +194,7 @@ void driver_deferred_probe_trigger(void)
- 	 */
- 	queue_work(system_unbound_wq, &deferred_probe_work);
- }
-+EXPORT_SYMBOL_GPL(driver_deferred_probe_trigger);
- 
- /**
-  * device_block_probing() - Block/defer device's probes
-
-And a matching .h change and then we can just call
-driver_deferred_probe_trigger() in the -EPROBE_DEFER
-path of the MEI CSI driver.
-
-This option would be my preferred solution.
-
-I think we can sell exporting this to Greg KH,
-otherwise we can also call:
-
-platform_create_bundle() to create + successfully
-probe() a fake platform device and then immediately
-afterwards unregister the plat-dev + plat-drv again.
-
-But it would be much better if we can just call
-driver_deferred_probe_trigger().
-
-Note if you decide to add:
-
-EXPORT_SYMBOL_GPL(driver_deferred_probe_trigger);
-
-it is important that the commit message properly
-explains the problem (with a step by step what
-happens in time which leads to the case where
-no deferred-probes are running while one should
-run for our purpose).
-
-I would be happy to review the commit message before
-you submit such a patch to Greg.
+I'll mark this one as "Changes Requested" in patchwork.
 
 Regards,
 
-Hans
+	Hans
+
+
+>>
+>> WDYT?
+>>
+>> Best regards,
+>> Tomasz
+>>
+> 
+> 
 
 
