@@ -1,159 +1,143 @@
-Return-Path: <linux-media+bounces-4997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5021-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023828514B9
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 14:19:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A71851506
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 14:27:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51943B21410
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 13:19:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9B9F28B04C
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 13:27:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1D813FB1E;
-	Mon, 12 Feb 2024 13:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C8052F84;
+	Mon, 12 Feb 2024 13:15:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qrqViZLi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="II8RWzCC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCCA3F9E5
-	for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 13:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8AA52F75;
+	Mon, 12 Feb 2024 13:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707743659; cv=none; b=sjD5907YFhrrBJIUGNLy3JcHYBKJfPkE7mT4vR0GJxw6G2i0uDagj1fqibtIfcmyNXp9kvfNeAymNWkY5k1JiETrR9ppNcR6wFHudVHQdskM4wwTY2qTmFCNTD7SpiEuykSBXyZ1J6A/e3/yshbRv6Bqp066pAgtU1wLmENaxms=
+	t=1707743700; cv=none; b=RB7JEcDPYjZpkX5Im1enAmJ76h3gc5wHll6mKpTpdZV3kuqkrCSA5PTY4/dOHkX9MJBtzgHVhhc7zihcU43YIYz79DgVIemCkqCXpa30zmOL6YgxQOoW+DMk89YaY0iQBPHJ8BWrBHlRH3sgtNBtFdcMMU8z/yn5URECyFRS4DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707743659; c=relaxed/simple;
-	bh=JSAWGIZBNCAZSWbCjPYZeQI/FYDdaMk1VJYHwKb53zs=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=h3Hpa+Pcwe8nSbKcxHeL7rWmbmMQm6i3F88H/evMrD31JEQKrTJ7iu1lNFRicTHYdPTKW7OlnBHVI2FOfY42CFFNoq9ukrReK058oOWs+a1tsKydM1WDJHz0vEh6bGYEsYw/otx5RIIt19agZCCMVdYGqTJVWlm7fMaledmSr0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qrqViZLi; arc=none smtp.client-ip=209.85.128.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-604a247b168so58560977b3.3
-        for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 05:14:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707743656; x=1708348456; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kvuLvApdM/ZlGaK4NZuFt8gRWwgyTlGJWJvpEXVTb1w=;
-        b=qrqViZLizdf0aql/k5PcPKn8ORvJ/+FSAIqs6eRLaRQkbEWsMnwesFc05DXnMomrqN
-         laYghTiRnmMOv5Wnn2xG7XsNa2rD4FX+b6QhiIgnK27ccPXQ9f4gmn5YBkuJxP59Cr7+
-         iWXIij8WbEwDyQPUbVh/HF6WAip+9MXLO6Zm1xzGsAgeOVRC+OWu6mpkEsWwxyJlAoxu
-         mDRBvzKfwcg01c0hcDSIunAvthrNGesWdCL/ZvBHVmSCR2WhqDc1Pla5ntrFNX4KoJ+N
-         OdsIZrzlXJ09GpbwwKNT1xLtmB53RoD5frXE7/VkH64gnM+T94Th9jOXgMniT30z2v8X
-         duWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707743656; x=1708348456;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kvuLvApdM/ZlGaK4NZuFt8gRWwgyTlGJWJvpEXVTb1w=;
-        b=ERScqVbxxKdE9y31bMoCcrzH5fJFBFWcZWa+Ak8/rWjJepQ8rtZcoiFXPW11jFcxR2
-         rleVdXEVjI/WWAnr+DmnvB6gzuzGU8QhSkTlLgEV9dglGoYXuZZqj4MncW/b0ed+JuLy
-         5N1JVMUWpNcJSiouxXF/roXHrwh0Ah0u3tf3z/mW0rwHIXP9sjfCnWGFNlpXL2E59v8n
-         Uc51ZMsfctC1Y7QBIgCHiz5njjsWBdm7tajZstJdBaj+oPB1JnpcHdV29Qlw1k8tWep3
-         ATeQ2jEIbajzX+01w0PVHWRuq75oLpuMvkf3Lk7LbrbbXRcwNNn68ZsijHcvj/Pj+/5r
-         YXIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9I2aFe3n62HVt6QB9WBR/adJNJfJFWOYouKN2KF5eRk128uVBVzO2z6nN9zpkzr0aHW4LEnNwN01AEC/RGysOW1cFghgXnUpjz5g=
-X-Gm-Message-State: AOJu0YyRpSbVvliia30PEr1gWFFcDTqaUur4hpzyvSQ/QOM+sPxtAwFT
-	W2rQaDcMz9IXEJFhFoFgp+oECHXMUgV3/rFuvZPhbjSpPXv1h4PHH967JCH47GuSVGCtiACou9G
-	TBLAbkIXOBQ==
-X-Google-Smtp-Source: AGHT+IFr9+EiSzPAdqxdDrunMziFdLc97Szl2+/YcVLrl65gByrGUTWmItIayvjwjfIhJaI2on5s096RjZxdJg==
-X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:a05:6902:120c:b0:dc6:e5d3:5f03 with SMTP
- id s12-20020a056902120c00b00dc6e5d35f03mr1820499ybu.4.1707743656565; Mon, 12
- Feb 2024 05:14:16 -0800 (PST)
-Date: Mon, 12 Feb 2024 13:13:14 +0000
+	s=arc-20240116; t=1707743700; c=relaxed/simple;
+	bh=XmyfHygn/0NwHwPlcl1l0xEMP+Wb3sl9opud5sJQ1uw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=c2DLkXebVf1nFqqdUn0nuJONOZhKTvsQ26QTjpFsZOXcWnSWEafqd0zn9rztwht5QQxIjWx6je8Czm5CrHxUi9x9UV/wOWRFv6L7OIiiZHkXClvmN67zcyG7dWmzRkhoOJ+Jc0L0twWp/HYHDTZMRolzaLu8DbPu1Wj0sLcCGm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=II8RWzCC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB408C433C7;
+	Mon, 12 Feb 2024 13:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707743700;
+	bh=XmyfHygn/0NwHwPlcl1l0xEMP+Wb3sl9opud5sJQ1uw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=II8RWzCCQrg/YyY6R0vK3fI7RE91Th0aFgqPb/fF+/wr1y8F95U79/RZKCCAba6cj
+	 quBbB0OMcB5/WKdBO7tGFejZQ2KcBhI8XQzfyJcFNHcYeSw9PvYk5TerDeu/ieAaQr
+	 R4k6XW6DGZhLmgd12OuR3D5kGsTZvr5+tZMHo5O8cx+za8KpeQCDazbbZw8C1IyHGV
+	 sCf/1Sf1D+FxssMVZnj1HjxFdIbipBkrFwOyLosU2AVtycvaz4W3pmpDTMk0j/56XJ
+	 /Tas1Qx7UgRd08UyeVgzaqAWOpa+ax9BHWw8QoN/Ge7sutF2yfhNdGMdHjXWAWFxZT
+	 4mIyPa0xPVCdA==
+From: Maxime Ripard <mripard@kernel.org>
+Date: Mon, 12 Feb 2024 14:13:15 +0100
+Subject: [PATCH v6 32/36] drm/sun4i: hdmi: Convert encoder to atomic
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
-Message-ID: <20240212131323.2162161-1-panikiel@google.com>
-Subject: [PATCH 0/9] Add Chameleon v3 video support
-From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-To: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
-	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
-	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
-	mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
-	tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	chromeos-krk-upstreaming@google.com, ribalda@chromium.org, 
-	"=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240212-kms-hdmi-connector-state-v6-32-f4bcdc979e6f@kernel.org>
+References: <20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org>
+In-Reply-To: <20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <sui.jingfeng@linux.dev>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2360; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=XmyfHygn/0NwHwPlcl1l0xEMP+Wb3sl9opud5sJQ1uw=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmnJIsT558IjGlQL4r5Ffg5I+T2jeKQTbL3Ljwvd3ZX7
+ im693pDRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACay/hMjw4b0yXcumjEvnPlF
+ KfLT0WUC8R/OsjdJ8rksyNV22DKloIPhf2TL5As6rTqrVDp/ftSLEo3fI/LO+tzkIqGc5w/Ffr8
+ sYAEA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Google Chameleon v3 is a testing device capable of emulating multiple
-DisplayPort monitors, used for testing purposes.  It is based on an Arria
-10 SoCFPGA.  This patchset adds V4L2 drivers for two IP blocks used in
-the device's FPGA: the Chameleon v3 framebuffer, and the Intel DisplayPort
-RX IP.  The former is a video capture device that takes video signal and
-writes frames into memory, which can be later processed by userspace.
-The latter is a DisplayPort receiver IP from Intel, its datasheet can
-be found at:
-https://www.intel.com/programmable/technical-pdfs/683273.pdf
+The sun4i_hdmi driver still uses the non-atomic variants of the encoder
+hooks, so let's convert to their atomic equivalents.
 
-The framebuffer driver is a regular v4l2 capture device driver, while
-the DP RX driver is a v4l2 subdevice driver. In order to avoid code
-duplication, some parts of the DisplayPort code from the DRM subsystem
-were put into headers usable by the DP RX driver. Apart from that, the
-patchset adds a new callback to the internal v4l2 subdevice API to allow
-querying the dv timings of individual video streams of the DP receiver.
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-Pawe=C5=82 Anikiel (9):
-  media: v4l2-subdev: Add a pad variant of .query_dv_timings()
-  media: Add Chameleon v3 framebuffer driver
-  drm/dp_mst: Move DRM-independent structures to separate header
-  lib: Move DisplayPort CRC functions to common lib
-  drm/display: Add mask definitions for DP_PAYLOAD_ALLOCATE_* registers
-  media: intel: Add Displayport RX IP driver
-  media: dt-bindings: Add Chameleon v3 framebuffer
-  media: dt-bindings: Add Intel Displayport RX IP
-  ARM: dts: chameleonv3: Add video device nodes
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 152375f3de2e..799a26215cc2 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -82,7 +82,8 @@ static int sun4i_hdmi_atomic_check(struct drm_encoder *encoder,
+ 	return 0;
+ }
+ 
+-static void sun4i_hdmi_disable(struct drm_encoder *encoder)
++static void sun4i_hdmi_disable(struct drm_encoder *encoder,
++			       struct drm_atomic_state *state)
+ {
+ 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+ 	u32 val;
+@@ -96,7 +97,8 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder)
+ 	clk_disable_unprepare(hdmi->tmds_clk);
+ }
+ 
+-static void sun4i_hdmi_enable(struct drm_encoder *encoder)
++static void sun4i_hdmi_enable(struct drm_encoder *encoder,
++			      struct drm_atomic_state *state)
+ {
+ 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+@@ -120,9 +122,10 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+ }
+ 
+ static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
+-				struct drm_display_mode *mode,
+-				struct drm_display_mode *adjusted_mode)
++				struct drm_crtc_state *crtc_state,
++				struct drm_connector_state *conn_state)
+ {
++	const struct drm_display_mode *mode = &crtc_state->mode;
+ 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+ 	unsigned int x, y;
+ 	u32 val;
+@@ -201,9 +204,9 @@ static enum drm_mode_status sun4i_hdmi_mode_valid(struct drm_encoder *encoder,
+ 
+ static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
+ 	.atomic_check	= sun4i_hdmi_atomic_check,
+-	.disable	= sun4i_hdmi_disable,
+-	.enable		= sun4i_hdmi_enable,
+-	.mode_set	= sun4i_hdmi_mode_set,
++	.atomic_disable	= sun4i_hdmi_disable,
++	.atomic_enable	= sun4i_hdmi_enable,
++	.atomic_mode_set	= sun4i_hdmi_mode_set,
+ 	.mode_valid	= sun4i_hdmi_mode_valid,
+ };
+ 
 
- .../bindings/media/google,chv3-fb.yaml        |   77 +
- .../devicetree/bindings/media/intel,dprx.yaml |  125 +
- .../socfpga/socfpga_arria10_chameleonv3.dts   |  130 +
- drivers/gpu/drm/display/Kconfig               |    1 +
- drivers/gpu/drm/display/drm_dp_mst_topology.c |   76 +-
- drivers/media/platform/Kconfig                |    1 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/google/Kconfig         |    3 +
- drivers/media/platform/google/Makefile        |    2 +
- .../media/platform/google/chameleonv3/Kconfig |   13 +
- .../platform/google/chameleonv3/Makefile      |    3 +
- .../platform/google/chameleonv3/chv3-fb.c     |  897 +++++++
- drivers/media/platform/intel/Kconfig          |   12 +
- drivers/media/platform/intel/Makefile         |    1 +
- drivers/media/platform/intel/intel-dprx.c     | 2171 +++++++++++++++++
- drivers/media/v4l2-core/v4l2-subdev.c         |   11 +
- include/drm/display/drm_dp.h                  |    9 +-
- include/drm/display/drm_dp_mst.h              |  238 ++
- include/drm/display/drm_dp_mst_helper.h       |  232 +-
- include/linux/crc-dp.h                        |   10 +
- include/media/v4l2-subdev.h                   |    5 +
- lib/Kconfig                                   |    8 +
- lib/Makefile                                  |    1 +
- lib/crc-dp.c                                  |   78 +
- 24 files changed, 3801 insertions(+), 304 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/google,chv3-fb.=
-yaml
- create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
- create mode 100644 drivers/media/platform/google/Kconfig
- create mode 100644 drivers/media/platform/google/Makefile
- create mode 100644 drivers/media/platform/google/chameleonv3/Kconfig
- create mode 100644 drivers/media/platform/google/chameleonv3/Makefile
- create mode 100644 drivers/media/platform/google/chameleonv3/chv3-fb.c
- create mode 100644 drivers/media/platform/intel/intel-dprx.c
- create mode 100644 include/drm/display/drm_dp_mst.h
- create mode 100644 include/linux/crc-dp.h
- create mode 100644 lib/crc-dp.c
-
---=20
-2.43.0.687.g38aa6559b0-goog
+-- 
+2.43.0
 
 
