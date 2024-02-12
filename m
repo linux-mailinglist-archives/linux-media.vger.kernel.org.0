@@ -1,213 +1,259 @@
-Return-Path: <linux-media+bounces-4978-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4979-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213568513CD
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 13:49:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26074851451
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 14:13:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBEBC282A87
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 12:49:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1FEB280FBF
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 13:13:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A032239FFF;
-	Mon, 12 Feb 2024 12:49:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2A013A8CD;
+	Mon, 12 Feb 2024 13:13:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="vqE8/Cgv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQpx9702"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4388539FEE
-	for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 12:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707742174; cv=pass; b=vBaAZusj+d/dDxBtPCY8niypvl3RGZnTuseGlI0hGvRIfS0Wv3FnItYcEoNS/55b38NqU9cwCoAVIW3doFhO20hjf+DUCv/4vNi3FJnxPSKrktm1hA/LNd1LCLS+HdxLJz/UYqWJ+TUnGimlYzJ6YUvdzYqAcZvcF/JsZsckR2A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707742174; c=relaxed/simple;
-	bh=StGVc45FM1xUQVxnq/2PKlK00D6BDue1CfBCb6yht/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hf9I5Yree8yCdrJOetbf3BO9VDMQAVrRI4P9+naJPbaoRafFErHVL91tT8hL9v5xwvu8V0ue2jFNp6EdYxG5Kd2Yl4tHQRiuNgwHKQwiOxY/CMPqLwPZ42R5d28zy3DXKtD38RTUanYal2w1psLYBgObQ+fRiu3+IkfiE8zpA4I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=vqE8/Cgv; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4TYPRN6QVgzyNC;
-	Mon, 12 Feb 2024 14:49:20 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1707742163;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Doys4q2GXsBTaPZ1TSoAORLUXat3NlbgMcvMidTfqm0=;
-	b=vqE8/CgvS6KmTemlmzSFLvENnIqmEAsyUPkmvPlNZm+BXSsAD1HVVDeUHjAlg4WgZ4f4PX
-	zkPqb0gUA95lb2s6o8UwLvb/zUWoKIonWN19d95eQTwFcxMz2IeCTmDtApFz41NkSoui8b
-	4ZuHBX1HaTXE+CwrNWDg1z2muc0uLlE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1707742163;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Doys4q2GXsBTaPZ1TSoAORLUXat3NlbgMcvMidTfqm0=;
-	b=wXaTOT8wx0g+tItj76YOIUqMsiXky/dMOAIL8s+vzPxNtGr0SQGEf40gWs46ruygL+h8rk
-	pS3vxW6feTdBKegcyzf+Tr/C0QiWMYeY8xd3qK437IJRF0q7GaP6FvpQTUNn5fNtZb+5Ap
-	taIkJfRN794MMD9+gzNB4qYK7msiupU=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1707742163; a=rsa-sha256; cv=none;
-	b=fSLdQChaIY1qraN+XTWHOPNCUCOWeCzdGogSGbzhB0iU9l4IL9f/V+TV8ghSheY3k0wrKr
-	0AofuoSxzDDiGilhqnUEWQ5vD/2sknMNRAs0888Fx6Z0lNbFlwgdze12zRkWPSEufT8/sf
-	ianzQCIwfafDtNSJ1b0rUgSd/zsibYA=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5B64F634C93;
-	Mon, 12 Feb 2024 14:49:19 +0200 (EET)
-Date: Mon, 12 Feb 2024 12:49:19 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 1/8] media: Add a pixel format for MIPI packed 12bit luma
- only.
-Message-ID: <ZcoTzydgE6bo7lpO@valkosipuli.retiisi.eu>
-References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
- <20240209164825.166800-2-jacopo.mondi@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A66C3A8CE;
+	Mon, 12 Feb 2024 13:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707743609; cv=none; b=CUVk94kvdChLY53Xr75imK32piYiVNdAoscBC5n2uMWNprv2HKtJC8trtFvM5KAxGUzT+scqeWxBRzDyOM7HnMaU/1N/1h/G+0p4BDuBzcNahmBV+51GnDGLqL9IcSwr4Q9LLK43nQ1Cj1oZOsKlVMGSLBQWOeB1S3B/Rcq+gVc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707743609; c=relaxed/simple;
+	bh=nfLivOWirCrzLbv4NQIBwe6Dnr51YbMfSDUPHLxokCE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NcrZG/RgE3RAT4EOZd9ze6IAEuHDn0sT6qBD63T2NAiG42HzLJKiJHhq0Q3e7+DwuYDFLuVj5/rRFcnxtqxJQalLAA/ZJZmv8aS46ch58WLEOa1JgGJA+n386ibGu2SKpjIhDq6O/WeSBJz3qPvmGpE/3GW2DVy+n2yjhye7mZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQpx9702; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DBD5C433C7;
+	Mon, 12 Feb 2024 13:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707743608;
+	bh=nfLivOWirCrzLbv4NQIBwe6Dnr51YbMfSDUPHLxokCE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=UQpx9702gqf8+epegcpIaBYkO2p90PaQEqBUo2EXvu/QXeTlPiKdTcJxXLgmXokFt
+	 6+paNW+4+ihxlstIP7SoGh0YUtH9GGLKyacjjW8Apna0hVVkqfNgUDdgZkf0cx+U/f
+	 a6vIiv8dkFFs0I4T6cAyNOjw7sw1ShVRxqvo2TUFzWWLmowICT5M3WjOW32EIM70HJ
+	 p/5gl6qyaWvYAcp5YmiX9qSiFRjRtc3RdWq3ock+NqLx7jx0EYJT9jIS8HrhDdZnB+
+	 8n1pTYWcv95rKn3MjtW+FsSFL8P5KQpYOL5JjQWVXx8jMKwQgQDTfbwyF0Z0jF04hP
+	 YHxTzzjZGNj+A==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v6 00/36] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Mon, 12 Feb 2024 14:12:43 +0100
+Message-Id: <20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240209164825.166800-2-jacopo.mondi@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEsZymUC/43PTWrDMBAF4KsErasymtGfu+o9ShauNYlFGhkkY
+ yjBd8/QRU0xmK6Gx+N9MA/VuGZu6u30UJWX3PJUJPiXkxrGvlxZ5yRZISBBNFbf7k2P6Z71MJX
+ CwzxV3eZ+Zu2NDzGwDx0GJfMxNym/f+TFyPn4B7IYDRpsBGfThbyz7zeuhb9ep3pVZ1EX3KQO4
+ UBCkUzoCFOfUgppJ9GvZIDMgUQiEcZPuPRsqQ87yW6SwXggWZGG4AGNiwSed5LbJIRwIDmRvKP
+ Ipkue7N/v1nV9AtRs2xvZAQAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8341; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=nfLivOWirCrzLbv4NQIBwe6Dnr51YbMfSDUPHLxokCE=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmnJGM//JKpCvNU+s1Sri7BfWtu0mnH1vmOG+q/rj9+f
+ vXsTxEcHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjI1uWMDL0GOasPz7jbMOHI
+ yw6mm7+uH/q9nJ/JRPu17uH8qizNde8YGRb+kZX4wic177K5TcPhpYa/U3ctXnNRmpmrvll2dnm
+ wHxcA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Hi Jacopo,
+Hi,
 
-On Fri, Feb 09, 2024 at 05:48:16PM +0100, Jacopo Mondi wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> 
-> This is the format used by monochrome 12bit image sensors.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-y12p.rst   | 38 +++++++++++++++++++
->  .../userspace-api/media/v4l/yuv-formats.rst   |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->  include/uapi/linux/videodev2.h                |  1 +
->  4 files changed, 41 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y12p.rst
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-y12p.rst b/Documentation/userspace-api/media/v4l/pixfmt-y12p.rst
-> new file mode 100644
-> index 000000000000..b2eb4a72724d
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-y12p.rst
-> @@ -0,0 +1,38 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +
-> +.. _V4L2-PIX-FMT-Y12P:
-> +
-> +******************************
-> +V4L2_PIX_FMT_Y12P ('Y12P')
-> +******************************
+Here's a series that creates some extra infrastructure specifically
+targeted at HDMI controllers.
 
-You have extra asterisks here.
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else.
 
-> +
-> +Grey-scale image as a MIPI RAW12 packed array
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-I think you may mention it aligns with MIPI CSI-2 but the same packing may
-be used elsewhere, it's fairly trivial. The similar Bayer format
-definitions don't mention this.
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
 
-> +
-> +
-> +Description
-> +===========
-> +
-> +This is a packed grey-scale image format with a depth of 12 bits per
-> +pixel. Two consecutive pixels are packed into 3 bytes. The first 2 bytes
-> +contain the 8 high order bits of the pixels, and the 3rd byte contains the 4
-> +least significants bits of each pixel, in the same order.
-> +
-> +**Byte Order.**
-> +Each cell is one byte.
-> +
-> +.. tabularcolumns:: |p{2.2cm}|p{1.2cm}|p{1.2cm}|p{3.1cm}|
-> +
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       2 1 1 1
-> +
-> +
-> +    -  -  start + 0:
-> +       -  Y'\ :sub:`00high`
-> +       -  Y'\ :sub:`01high`
-> +       -  Y'\ :sub:`01low`\ (bits 7--4)
-> +
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
 
-Is the newline here intentional?
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
 
-> +          Y'\ :sub:`00low`\ (bits 3--0)
-> +
-> diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-> index 24b34cdfa6fe..7c9ccfdd94cd 100644
-> --- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-> @@ -267,6 +267,7 @@ image.
->      pixfmt-packed-yuv
->      pixfmt-yuv-planar
->      pixfmt-yuv-luma
-> +    pixfmt-y12p
->      pixfmt-y8i
->      pixfmt-y12i
->      pixfmt-uv8
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 33076af4dfdb..483498c55899 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1311,6 +1311,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_Y16_BE:	descr = "16-bit Greyscale BE"; break;
->  	case V4L2_PIX_FMT_Y10BPACK:	descr = "10-bit Greyscale (Packed)"; break;
->  	case V4L2_PIX_FMT_Y10P:		descr = "10-bit Greyscale (MIPI Packed)"; break;
-> +	case V4L2_PIX_FMT_Y12P:		descr = "12-bit Greyscale (MIPI Packed)"; break;
->  	case V4L2_PIX_FMT_IPU3_Y10:	descr = "10-bit greyscale (IPU3 Packed)"; break;
->  	case V4L2_PIX_FMT_Y8I:		descr = "Interleaved 8-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y12I:		descr = "Interleaved 12-bit Greyscale"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index a8015e5e7fa4..11ebf9b22ccb 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -598,6 +598,7 @@ struct v4l2_pix_format {
->  /* Grey bit-packed formats */
->  #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
->  #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
-> +#define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12  Greyscale, MIPI RAW12 packed */
->  #define V4L2_PIX_FMT_IPU3_Y10		v4l2_fourcc('i', 'p', '3', 'y') /* IPU3 packed 10-bit greyscale */
->  
->  /* Palette formats */
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
 
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing a tool to
+decode (and eventually check) infoframes. His current work on
+edid-decode to enable that based on that series can be found here:
+https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=hverkuil
+
+And some more context here:
+https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@xs4all.nl/
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+I also used the occasion to unit-test everything but the infoframe
+generation, which can come later once I get a proper understanding of
+what the infoframe are supposed to look like. This required to add some
+extra kunit helpers and infrastructure to have multiple EDIDs and allow
+each test to run with a particular set of capabilities.
+
+This entire series has been tested on a Pi4, passes all its unittests
+(125 new tests), and has only been build-tested for sunxi and rockchip.
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v6:
+- Rebased on top of current next
+- Split the tests into separate patches
+- Improve the Broadcast RGB documentation
+- Link to v5: https://lore.kernel.org/r/20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org
+
+Changes in v5:
+- Dropped the connector init arg checking patch, and the related kunit
+  tests
+- Dropped HDMI Vendor infoframes in rockchip inno_hdmi
+- Fixed the build warnings
+- Link to v4: https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org
+
+Changes in v4:
+- Create unit tests for everything but infoframes
+- Fix a number of bugs identified by the unit tests
+- Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
+- Drop RFC status
+- Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
+
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (36):
+      drm/tests: helpers: Include missing drm_drv header
+      drm/tests: helpers: Add atomic helpers
+      drm/tests: Add helper to create mock plane
+      drm/tests: Add helper to create mock crtc
+      drm/tests: connector: Add tests for drmm_connector_init
+      drm/connector: Introduce an HDMI connector initialization function
+      drm/tests: connector: Add tests for drmm_connector_hdmi_init
+      drm/connector: hdmi: Create an HDMI sub-state
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/tests: Add tests for Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/tests: Add RGB Quantization tests
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/tests: Add output bpc tests
+      drm/connector: hdmi: Add support for output format
+      drm/tests: Add output formats tests
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/tests: Add HDMI TDMS character rate tests
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/tests: Add TDMS character rate connector state tests
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/tests: Add HDMI connector rate filter hook tests
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/tests: Add HDMI connector bpc and format tests
+      drm/connector: hdmi: Add Infoframes generation
+      drm/tests: Add infoframes test
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/vc4: tests: Remove vc4_dummy_plane structure
+      drm/vc4: tests: Convert to plane creation helper
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Convert encoder to atomic
+      drm/sun4i: hdmi: Move mode_set into enable
+      drm/sun4i: hdmi: Switch to container_of_const
+      drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv               |    1 -
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/drm_atomic.c                       |   11 +
+ drivers/gpu/drm/drm_atomic_state_helper.c          |  659 ++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
+ drivers/gpu/drm/drm_connector.c                    |  264 +++
+ drivers/gpu/drm/drm_debugfs.c                      |  110 ++
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  123 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  203 ++-
+ drivers/gpu/drm/tests/Makefile                     |    1 +
+ .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 1728 ++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_connector_test.c         | 1227 +++++++++++++-
+ drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 ++++++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c          |  150 ++
+ drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  638 +-------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
+ include/drm/drm_atomic_state_helper.h              |   12 +
+ include/drm/drm_connector.h                        |  257 +++
+ include/drm/drm_kunit_helpers.h                    |   23 +
+ 23 files changed, 5186 insertions(+), 817 deletions(-)
+---
+base-commit: ae00c445390b349e070a64dc62f08aa878db7248
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
 -- 
-Regards,
+Maxime Ripard <mripard@kernel.org>
 
-Sakari Ailus
 
