@@ -1,132 +1,105 @@
-Return-Path: <linux-media+bounces-4969-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4970-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C8F851045
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 11:03:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BACD8510AD
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 11:24:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 496C01C21D46
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 10:03:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C51E01F22575
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 10:24:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB76F17C9B;
-	Mon, 12 Feb 2024 10:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LWzQNVJn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67584182A1;
+	Mon, 12 Feb 2024 10:24:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B446D17BBE;
-	Mon, 12 Feb 2024 10:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F7118AEA
+	for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 10:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707732211; cv=none; b=oyhC3faMFGsPqY/skv5NjH5cJMhPWaNw53BO0C3DOqNr6SWrnu0YfNZ9ecKspZzIFILiSVQ+i6i1W0tZzjFGiuaahaUYW8b/B2TdZXgldlDYPQLbHw8TAKocE5MPCX9bUb4aJkR+/fHZ+9e9ekX/E5yxcl2IiUFmTuOMdv+dXZU=
+	t=1707733462; cv=none; b=J0P96KvGEwceH4huHWuFfJ/zeUqUiptnMWuBwMvYj+ppuSJbVnhY1LMwa+iOde0k/budtbaUBCW7flumzfbN+s/NxMu21lCfSz0pQJ8UsFVjMwiJEk++2zl+dGxyVHa84iuG0cxOiCTjdpxY/S7Ec6Nj7pxfkzZZ3/HUSSC0KqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707732211; c=relaxed/simple;
-	bh=EUaMkEUqz4qgROvxBCIDolmNlZRkFxJ7hUO/k+Lveu0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ut4W3DEFOcsvv8fjCktwAQ3YrjXi5ruUdp3GBIY2+k5G3XEjATiSvnSOnCKCVnGOH2KjchQv7CRtFtMcNULBsQvHQXee3qAA6LCGeorQSGRFuUGiUw1b20blwzkZWNj8596oK6lGyS6wmucyLpAN2y5SCgeBBn1FeXuxOGG3t/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LWzQNVJn; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41C7sVo4016307;
-	Mon, 12 Feb 2024 04:02:21 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=WLF2X+j3Bn92Q1D
-	DaV05/unswsO5ahBS+1WWPqaApW4=; b=LWzQNVJn8q7dcq0Bd+TtMxT1lIBoGiw
-	yD0TsejCsoABuy8AggRDJW06Q1z2xJlky/ztkU9ADIkffObtOL0UuCQv3Beh4nhA
-	Put6Ypu2vVivviEJ6Oil+cEfW1Q27QM+O9ltZ623dvQO4anhr/dZNovMzxP3lw+a
-	LhOj5jub+y3fjAvlvXTHjliMbTrYlMFuhJHFxHorIs5Vl5GjaGvKHU61HqyF2Ni8
-	oMyxoPUphkMgU1KFNxi+kfuEZzYoo4jyVm3Qy64lf8Glce+CGjlLDllqFwliGFC9
-	RTpYBk2a8X7avMhCql6FZ7NmoU/tVg544Z1TluPmt36M8g8y3w06Uow==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w67e21nee-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 12 Feb 2024 04:02:21 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
- 2024 10:02:18 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Mon, 12 Feb 2024 10:02:18 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 70E1F820242;
-	Mon, 12 Feb 2024 10:02:18 +0000 (UTC)
-Date: Mon, 12 Feb 2024 10:02:17 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
-	<sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
-        Peng Fan
-	<peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
-        Nishanth Menon
-	<nm@ti.com>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter
-	<jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Laurent
- Pinchart" <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, Russell King
-	<linux@armlinux.org.uk>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Mark Brown <broonie@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, <linux-clk@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        NXP Linux Team
-	<linux-imx@nxp.com>,
-        <linux-amlogic@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-omap@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <alsa-devel@alsa-project.org>,
-        <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH] clk: constify the of_phandle_args argument of
- of_clk_provider
-Message-ID: <ZcnsqaIftZXcNaUA@ediswmail9.ad.cirrus.com>
-References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
+	s=arc-20240116; t=1707733462; c=relaxed/simple;
+	bh=BXo6EaA/HxDCl11YRQdW0f2qZos9jkOR0O7aqPAqQak=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=NRNLz9eqkrfAJYa7Uthtvw++ypU1ye1+ZN2Y5Euv82VEcF5m9zRLAA5sXYrXRShCCIqbddVtej6pk30hEySFhM3BQiTA5kajSrnRNRE/57ameM6p8Hkx6PXWpceXX2dq4hzRhs6FdONs+9Sw+mxogJWeD9tfcUaCQz+MQhEJxrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-363c88eff5aso26474395ab.1
+        for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 02:24:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707733459; x=1708338259;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qmU/SGWkogq9oK1nP7heae05OFn/vB1cTpUNhNmJ5Ck=;
+        b=vG7Laqh1l/sEKth5V28e7JQWYgF8uArAdXrudU+oZQoLemX0RBkdJ6Sk6l2hbqLaJt
+         kOKjaCROqsZUYxDGs96R10aY6KmIYc+oMfiDroMJ1YbtZKx957IWfQvBZX1P6skDoqrZ
+         QThFBG7NknowM2Wbz5ee2PexTym9XuggJiPmVwkv7+Bnb+aloc5KXScQjBmXfGzaYwUY
+         hV4+Zp0OPURSqWw6faEU5utJPXNfJX4tmX+t8yx/PLQ3A3yYI27J2YQPy0Ifhz+2Sc9N
+         YJC/tIY1+lKYGIhAGSV26CevhHWFmBfCqEYDzluSwX40h7ElQagNnAG8MNQse9UPSb2U
+         xXKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDh+yVcKpCT3IXYhDGHpTIFnHYd5D9fbfc8+0H4+ygeF4xQ7fkUsotGG8BweCN/ajmnHSCUXUt91HGr2AVaC1S3QcenzTvTmBq3mM=
+X-Gm-Message-State: AOJu0YyKuhiVaF2RImOuT0cWekxE6A+4GTS2QQL+NE5SUiSyx0hFheE2
+	9xUELi82V1v08WZOolQ1fKvoPIv4mCkcfrpuREOF2hEdNMl8uSbseVJY5LcqdJjotL6G/PNH/9m
+	LDZwRgWeO1WWyCfQe8rl8tvo+ZcaAAS3phvbTNdcSc24lNcYNyUqkKl4=
+X-Google-Smtp-Source: AGHT+IGGNVeNpkQF2hAM4NlGHWWGNCkJjSw3YI4prsACWuGliVzlwLYQLCe7eqv9nPZruDQqjKJIWTPdnG/vV1GCm62zPm+naUCp
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
-X-Proofpoint-ORIG-GUID: NzDJLMtFiatrdGDskmwX3IMPmG4MYizJ
-X-Proofpoint-GUID: NzDJLMtFiatrdGDskmwX3IMPmG4MYizJ
-X-Proofpoint-Spam-Reason: safe
+X-Received: by 2002:a92:c24a:0:b0:363:c25b:75e7 with SMTP id
+ k10-20020a92c24a000000b00363c25b75e7mr478883ilo.3.1707733459680; Mon, 12 Feb
+ 2024 02:24:19 -0800 (PST)
+Date: Mon, 12 Feb 2024 02:24:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000003c49c206112cae25@google.com>
+Subject: [syzbot] Monthly media report (Feb 2024)
+From: syzbot <syzbot+list4854992ca3cdf939a1f3@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 08, 2024 at 05:37:10PM +0100, Krzysztof Kozlowski wrote:
-> None of the implementations of the get() and get_hw() callbacks of
-> "struct of_clk_provider" modify the contents of received of_phandle_args
-> pointer.  They treat it as read-only variable used to find the clock to
-> return.  Make obvious that implementations are not supposed to modify
-> the of_phandle_args, by making it a pointer to const.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/clk/clk-lochnagar.c                   |  2 +-
+Hello media maintainers/developers,
 
-For the Lochnagar bits:
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 16 issues are still open and 85 have been fixed so far.
 
-Thanks,
-Charles
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 864     Yes   general protection fault in ir_raw_event_store_with_filter
+                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
+<2> 132     Yes   inconsistent lock state in sync_timeline_debug_remove
+                  https://syzkaller.appspot.com/bug?extid=7dcd254b8987a29f6450
+<3> 100     Yes   WARNING in media_create_pad_link
+                  https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
+<4> 87      Yes   WARNING in smsusb_start_streaming/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
+<5> 24      No    inconsistent lock state in valid_state (2)
+                  https://syzkaller.appspot.com/bug?extid=a225ee3df7e7f9372dbe
+<6> 3       Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
+                  https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
 
