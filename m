@@ -1,273 +1,124 @@
-Return-Path: <linux-media+bounces-4974-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-4975-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2378512ED
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 13:05:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78DF851379
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 13:23:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7FF471C2246B
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 12:05:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9C631C2174C
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 12:23:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE2C3A1B9;
-	Mon, 12 Feb 2024 11:58:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2699239FE6;
+	Mon, 12 Feb 2024 12:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="KyATJGiP"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="HzxojYNF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238813A1C5
-	for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 11:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6510C39FC3
+	for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 12:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707739131; cv=none; b=LsUf5hMtaFnQHADY9Ptdn9t+1wrYj4tJG0FfArk5eSyPGAfYmrM89laWyU8fLTXvY9tmNFgTJKwp0WvQg1Yiw2EBE9g6c2RUZLnfN2kYBTjdqYU1DEMEkGYSHRnogOl+TS3svQYZ5bKTo2uMNAFdss1esLxZyPyzizFWf8AOPk8=
+	t=1707740568; cv=none; b=ovWKSir2+QA1KO8ZPbo4FsPvhpkLHsh9yAQYSALK6cu0t0IIMr7onWb3QjME3QyKiCtvqViGmf7GosSeeYYxcFTXj3MAVw1w17B8mLUQfyefVfYL8gUjYBDwAd0mpN9Z4ChnGEoP14w1rNx8VaB6HCT/KuRbi0owwA9hT2oAooM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707739131; c=relaxed/simple;
-	bh=rPoacq65+c/zAXE8PfVIOD3tTGZdAGIx6VnkSSFolZc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LE0Y6UoSHto4VKuD/y6rP+jCdsemWl/IL2L93yoP05tFt75F0wRFuj2fQ8Fc5GvqtniwNtznTyKExeD0w3vQkWcKoeYe5DdIxhZaSj7DBkoU9YgXgfSv6HSc7DsU10PWTf9j+nN8718Elj41Olucj+VcW7nYUktqRHHDiZcKltA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=KyATJGiP; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc6e080c1f0so2656844276.2
-        for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 03:58:48 -0800 (PST)
+	s=arc-20240116; t=1707740568; c=relaxed/simple;
+	bh=qR9lDFDeKPAo0DiFqn/cvL6ikhz+xZCI83InXXUT9Us=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D21sC8tU3cC5CeVG41ZHaXCxPfpmcmhyaJ3vAuHdTFl9Ehr3fwSH6lbG7JBOmbQSgRh8guk1+Zky1qQTFHphc1H1gmeJna3avPZL+qSQ9QCUxvuBM6jdTkr4PbIS6fap7SRomjvi+v/oooXpmWVnDfx5TBCAWaGVsRWFJCjR1J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=HzxojYNF; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41089cc9ae4so14049655e9.1
+        for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 04:22:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1707739128; x=1708343928; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HIhjDrHgtRMyHQGIeToNVK56mu86Tu13Rge5zu0bcbw=;
-        b=KyATJGiPp8Pnz3wUoolDvJzwlUi2gQAB9FJ5iRXBi1BJHR9Km//IxMrkZWDzFoDmUw
-         QGh8XWr0xE16iMM7/ZZdqGcJe1qErr3MTXTi7cZt9IjKYNSuzofkMvxr/xG6su2FNT+a
-         YtXepaKzzpAV1+4ES4NDQlNJvUN696dcRxg76n1B2R0GLxkXnJOkpU8vvoNklxCd2SS3
-         tZBKmtegvplMHuBoZrptk/XKWRYnoAuNxG3zJ56Vs82WKZmdW5caPkycqO0oL3Sm5bUo
-         vH4H7X0mTCk9/6uKM/XZhWQQQcL1QXkxBjj+ajBTLP1/DLA+SzwWMQ/dPfon/Rf18Q0u
-         f1kA==
+        d=suse.com; s=google; t=1707740564; x=1708345364; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VSmpE+8yO23g+6K8r9vt9Aj1csyqHY8mxoubaVkXygM=;
+        b=HzxojYNFva6BC1gaeAGmjBHhoHb0EbJddMQK9L0VGx0kd1LuYYoMDeLuDU3quxQAn+
+         IIZ3qDHaSP3abc6rPpsx7WhP9ZMQdOpXvmMWJqHcypnNDim/WKRjfq/Ip79UlsEFVLUW
+         GUp3pfefI8LLmvHN7jqfxvxoaJ0JIe4AzKS5GaiRhCENGTefSn9v9/fcrbyFIOCFkpNb
+         jL2tec/iLpDElwKBns69B7ikv6NLzq4fd3YT7QGHpAOtD4uuwRW7v5vyqUNUXTLB7fC0
+         SOg5Nz2pduo1mLfNcgN6t+t691aOhAlMC1885YqUs63XR0/PRhmpTgVU0RaRp2GxswTr
+         wvsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707739128; x=1708343928;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HIhjDrHgtRMyHQGIeToNVK56mu86Tu13Rge5zu0bcbw=;
-        b=PFBB6zZeYLo3NezqmnG3ZSm8pm0KyBwIg1NS+TBsTNVikZ5UslSwectnSeoSHeV5MM
-         1AsgK5pCuhepOlSiIzU//6bjIvJihRNqX54FvFnfyD1jjzUywTOHWnIX7Kr8jww/M/Zc
-         XBHbkZ5yRS+JzQ0jjzEJ/uId/PPAT7YqsoSMexUFE/87LHndh+ZTzm/TbCfRoqOfVQ8S
-         W+Tq7TuGHJnr9iUTtR7nvig0Dn4W8BN78IZOzwPbZaAcoxlhwkUrSfZ7F306+/Naqipb
-         p09Ocxrutnt4i/wgU0g4l3c7SW/0Eh1bbanA1Qen2d0HUV01jLJkDLWG4CWkTVi1ZJHl
-         1yAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLK9ooVVsUsZZrkLv5Cer6fQBe5xnnuiTmaboAHOe5jU6nciytJAY/eL+q5GltEKWdtToUukaLj+tYMD2uOHLqLrX197+12t4nsU8=
-X-Gm-Message-State: AOJu0Yw4OmKOjMI5Z8o9NlMf0nZlVlbI2KMwSe+TvqLCLK7yTRa4pnvT
-	wINjmeMysut1DcPNnoMpofodOMj5lcGKyjasLWE8Co2UBWASt3Xu8k8iIyRCBV2/SB1mnjd+V8P
-	1nBB44p1KtlPQi5wQOcbQDHgwKSbYUV4Sh7yeug==
-X-Google-Smtp-Source: AGHT+IFYs1oG7l009JTTVE3YV6Pei84hezgdERDM1a5ksR9Un3QuVSIYByWVSd3/kzI0W0QVxwCf6xmTp9HbCtQJzNU=
-X-Received: by 2002:a25:900f:0:b0:dc7:5018:4022 with SMTP id
- s15-20020a25900f000000b00dc750184022mr6057015ybl.44.1707739127904; Mon, 12
- Feb 2024 03:58:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707740564; x=1708345364;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VSmpE+8yO23g+6K8r9vt9Aj1csyqHY8mxoubaVkXygM=;
+        b=FB8mTO9Wwz5aPVGA36fHlLQa3cvCl9PE3DrRUry9iIN80+wmuKXmPHK9yh1J8xUsgW
+         Ii4eqQHB1jf8h1z/wcQYNxJdk9GeMT0MAAeELqnk9mkBvEoyZ6r2LsjgvS/d3lC3VMIA
+         mjcGdaXxot/1JF5mh2SWL952o10bLvqjdt7ujOBHRtn6fbZr3SgKPUeghduzVoSdzV7j
+         B5WH8vxnojIdH/jbmuUd4Zz/a0W45yXdDiYJcAb0zV+6rrshQoSa3uoMFQJyixxhhyCQ
+         zLlXLoqK54hbsm7+o6G50KKJzdFVkvxrOJ0TzRo3PsHjVq89tEpDj5PXgUY3Ig+R9Xbb
+         8SXQ==
+X-Gm-Message-State: AOJu0Yw+1RCEreGBbEDU2tINk4vhCohY6KcZJn1TYNX4taoH+fAMWuiH
+	iKxlfIziq2poWMBx/r3eTdnJcdkDptzP3OpPhKYtWt/2Qzv5BM3aVZpVa2nSixw=
+X-Google-Smtp-Source: AGHT+IEMZeyONDchq2UzhKfL03sb3Oz1idn2TcW6TYgzx8z5XM5YwzWmRZASiv6oNZHhGiNDr59fEA==
+X-Received: by 2002:a05:600c:6014:b0:410:df4b:f769 with SMTP id az20-20020a05600c601400b00410df4bf769mr1460899wmb.24.1707740564468;
+        Mon, 12 Feb 2024 04:22:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVjFVn4MaKmiUXEDqozFhQLCpOTa5RJGTa4hA8nm4BpYdwWD6pKfGG4CsvmTKzfIBpcz0NwO7ChEvdW1gYOFd2jFpAeb+9r2TkTs3JmrY34Y8lbT9S9daAnfm5uqB4AAaCfuXJ12Q0XVCEOIAeSzoogIUeuJIj/XNsmuxPsOYZUFiS4bYGRWBCx2qkGLWuHUDznKId5o+C1vz2h+I09WjLBkG4KvakqyBa8FZ/HbwaoFqKMGT3bC9iFq+CG8sXvXzJ8481TOxwUUR2po2XjF5AfBw0pnOqZRwmhS1/Qml62TbY=
+Received: from ?IPV6:2001:a61:1366:6801:b2db:904d:e0b0:46ec? ([2001:a61:1366:6801:b2db:904d:e0b0:46ec])
+        by smtp.gmail.com with ESMTPSA id k9-20020a05600c1c8900b00410d7e55e5asm2630204wms.3.2024.02.12.04.22.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Feb 2024 04:22:44 -0800 (PST)
+Message-ID: <ca89eb86-a566-422c-9448-d8d5254d54b8@suse.com>
+Date: Mon, 12 Feb 2024 13:22:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
- <20240209164825.166800-2-jacopo.mondi@ideasonboard.com> <1cd5ff6b9d24588a2fb0aa69cc1e8c0dfb63e597.camel@ndufresne.ca>
- <CAPY8ntBJuZsm+h=zFy59M5u6D5hbwtnrRVEOjwQRWQv-ZyogfQ@mail.gmail.com> <05259197166f5077ccbad5a98246b0f257207b8c.camel@ndufresne.ca>
-In-Reply-To: <05259197166f5077ccbad5a98246b0f257207b8c.camel@ndufresne.ca>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 12 Feb 2024 11:58:32 +0000
-Message-ID: <CAPY8ntD7ceWJiyHokpv08cfJFpxnW07FGEvdufjtvynkcRSxug@mail.gmail.com>
-Subject: Re: [PATCH 1/8] media: Add a pixel format for MIPI packed 12bit luma only.
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, David Plowman <david.plowman@raspberrypi.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, 
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] media: ucvideo: Add quirk for Logitech Rally Bar
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20240108-rallybar-v4-1-a7450641e41b@chromium.org>
+ <20240204105227.GB25334@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20240204105227.GB25334@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 9 Feb 2024 at 21:15, Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->
-> Le vendredi 09 f=C3=A9vrier 2024 =C3=A0 19:28 +0000, Dave Stevenson a =C3=
-=A9crit :
-> > Hi Nicolas
-> >
-> > On Fri, 9 Feb 2024 at 17:53, Nicolas Dufresne <nicolas@ndufresne.ca> wr=
-ote:
-> > >
-> > > Le vendredi 09 f=C3=A9vrier 2024 =C3=A0 17:48 +0100, Jacopo Mondi a =
-=C3=A9crit :
-> > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > >
-> > > > This is the format used by monochrome 12bit image sensors.
-> > > >
-> > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > ---
-> > > >  .../userspace-api/media/v4l/pixfmt-y12p.rst   | 38 +++++++++++++++=
-++++
-> > > >  .../userspace-api/media/v4l/yuv-formats.rst   |  1 +
-> > > >  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
-> > > >  include/uapi/linux/videodev2.h                |  1 +
-> > > >  4 files changed, 41 insertions(+)
-> > > >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y1=
-2p.rst
-> > > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-y12p.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-y12p.rst
-> > > > new file mode 100644
-> > > > index 000000000000..b2eb4a72724d
-> > > > --- /dev/null
-> > > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-y12p.rst
-> > > > @@ -0,0 +1,38 @@
-> > > > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> > > > +
-> > > > +.. _V4L2-PIX-FMT-Y12P:
-> > > > +
-> > > > +******************************
-> > > > +V4L2_PIX_FMT_Y12P ('Y12P')
-> > > > +******************************
-> > > > +
-> > > > +Grey-scale image as a MIPI RAW12 packed array
-> > > > +
-> > > > +
-> > > > +Description
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +
-> > > > +This is a packed grey-scale image format with a depth of 12 bits p=
-er
-> > > > +pixel. Two consecutive pixels are packed into 3 bytes. The first 2=
- bytes
-> > > > +contain the 8 high order bits of the pixels, and the 3rd byte cont=
-ains the 4
-> > > > +least significants bits of each pixel, in the same order.
-> > >
-> > > This is an interesting arrangement, which make me feel that Y12P is p=
-erhaps bit
-> > > too generic ? Perhaps something like:
-> > >
-> > >   V4L2_PIX_FMT_Y12_MIPI
-> > >
-> > > That being said, I don't mind if you reserve the nice and short name =
-for the
-> > > first occurrence of such format in 20 years (it might equally be the =
-last). Will
-> > > they do the same for Y10, by storing 4 bytes of higher 8bit of 4 pixe=
-ls, and
-> > > packing the remaining lower 2 bits packed in the fif bytes ? Cause fo=
-r this one,
-> > > we'd have confusion, since CODEC usually just place all the bits in o=
-rder over 5
-> > > bytes here (which have its own issues of course).
-> >
-> > We already have V4L2_PIX_FMT_Y10P defined for the MIPI packing for
-> > 10bit luma-only.
-> > https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-y=
-uv-luma.html
-> >
-> > This is only extending the definitions for the other bit depths using
-> > the same pattern.
-> >
-> > Adding the P is also the same pattern as for the Bayer formats -
-> > V4L2_PIX_FMT_SRGGB10 for the 10bit unpacked to 16bit, and
-> > V4L2_PIX_FMT_SRGGB10P for the MIPI packed variant.
-> >
-> > I'm not inventing anything new here :)
->
-> A bit sad, but what can we do, I keep missing patches ;-P
+On 04.02.24 11:52, Laurent Pinchart wrote:
+> Hi Ricardo,
+> 
+> Thank you for the patch.
 
-Not recently though.
+Hi,
 
-V4L2_PIX_FMT_Y10P was added in July 2018. [1]
-The use of V4L2_PIX_FMT_Sxxxx10P for Bayer format MIPI 10 bit packing
-was added in Dec 2014 [2]
+sorry for commenting on this late, but this patch has
+a fundamental issue. In fact this issue is the reason the
+handling for quirks is in usbcore at all.
 
-  Dave
+If you leave the setting/clearing of this flag to a driver you
+are introducing a race condition. The driver may or may not be
+present at the time a device is enumerated. And you have
+no idea how long the autosuspend delay is on a system
+and what its default policy is regarding suspending
+devices.
+That means that a device can have been suspended and
+resumed before it is probed. On a device that needs
+RESET_RESUME, we are in trouble.
+The inverse issue will arise if a device does not react
+well to RESET_RESUME. You cannot rule out that a device
+that must not be reset will be reset.
 
-[1] 6e15bec49f36 media: v4l: Add new 10-bit packed grayscale format
-[2] 4353e36ee84d [media] v4l: Add packed Bayer raw10 pixel formats
+I am sorry, but it seems to me that the exceptions need
+to go into usbcore.
 
-> Nicolas
->
-> >
-> >   Dave
-> >
-> > > > +
-> > > > +**Byte Order.**
-> > > > +Each cell is one byte.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.2cm}|p{1.2cm}|p{1.2cm}|p{3.1cm}|
-> > > > +
-> > > > +
-> > > > +.. flat-table::
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths:       2 1 1 1
-> > > > +
-> > > > +
-> > > > +    -  -  start + 0:
-> > > > +       -  Y'\ :sub:`00high`
-> > > > +       -  Y'\ :sub:`01high`
-> > > > +       -  Y'\ :sub:`01low`\ (bits 7--4)
-> > > > +
-> > > > +          Y'\ :sub:`00low`\ (bits 3--0)
-> > > > +
-> > > > diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst =
-b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-> > > > index 24b34cdfa6fe..7c9ccfdd94cd 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-> > > > @@ -267,6 +267,7 @@ image.
-> > > >      pixfmt-packed-yuv
-> > > >      pixfmt-yuv-planar
-> > > >      pixfmt-yuv-luma
-> > > > +    pixfmt-y12p
-> > > >      pixfmt-y8i
-> > > >      pixfmt-y12i
-> > > >      pixfmt-uv8
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v=
-4l2-core/v4l2-ioctl.c
-> > > > index 33076af4dfdb..483498c55899 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > @@ -1311,6 +1311,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtd=
-esc *fmt)
-> > > >       case V4L2_PIX_FMT_Y16_BE:       descr =3D "16-bit Greyscale B=
-E"; break;
-> > > >       case V4L2_PIX_FMT_Y10BPACK:     descr =3D "10-bit Greyscale (=
-Packed)"; break;
-> > > >       case V4L2_PIX_FMT_Y10P:         descr =3D "10-bit Greyscale (=
-MIPI Packed)"; break;
-> > > > +     case V4L2_PIX_FMT_Y12P:         descr =3D "12-bit Greyscale (=
-MIPI Packed)"; break;
-> > > >       case V4L2_PIX_FMT_IPU3_Y10:     descr =3D "10-bit greyscale (=
-IPU3 Packed)"; break;
-> > > >       case V4L2_PIX_FMT_Y8I:          descr =3D "Interleaved 8-bit =
-Greyscale"; break;
-> > > >       case V4L2_PIX_FMT_Y12I:         descr =3D "Interleaved 12-bit=
- Greyscale"; break;
-> > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vi=
-deodev2.h
-> > > > index a8015e5e7fa4..11ebf9b22ccb 100644
-> > > > --- a/include/uapi/linux/videodev2.h
-> > > > +++ b/include/uapi/linux/videodev2.h
-> > > > @@ -598,6 +598,7 @@ struct v4l2_pix_format {
-> > > >  /* Grey bit-packed formats */
-> > > >  #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /=
-* 10  Greyscale bit-packed */
-> > > >  #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10=
-  Greyscale, MIPI RAW10 packed */
-> > > > +#define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12=
-  Greyscale, MIPI RAW12 packed */
-> > > >  #define V4L2_PIX_FMT_IPU3_Y10                v4l2_fourcc('i', 'p',=
- '3', 'y') /* IPU3 packed 10-bit greyscale */
-> > > >
-> > > >  /* Palette formats */
-> > >
->
+	Regards
+		Oliver
 
