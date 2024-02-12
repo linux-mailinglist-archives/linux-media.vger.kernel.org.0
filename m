@@ -1,114 +1,92 @@
-Return-Path: <linux-media+bounces-5047-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5048-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3633A8521ED
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 00:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B50E85227F
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 00:28:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 964B0B22974
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 23:00:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6C1B6B222B5
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 23:28:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF5104F894;
-	Mon, 12 Feb 2024 22:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A31B51C49;
+	Mon, 12 Feb 2024 23:28:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VzRsKRyI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3qhP0eK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2714F1F6;
-	Mon, 12 Feb 2024 22:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ECA51025;
+	Mon, 12 Feb 2024 23:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707778782; cv=none; b=dMvUIpkeRJYui9s62zMK36WW0s9A3+v5lZiwRHHr34SL+FkcUaflByjWkBhBQAJVuFdfiEfG/gZ1IOVVu4z/yQHrr45RPpQuNMOKcwujtsv9flAv9GbUtn0xQQy81x+0Qx1k0UNVkjVXuEtFiUaZUoyXzw9dO4rNo2Z9KlEeJpI=
+	t=1707780480; cv=none; b=Ob5jWBUO+pBgBcXjMrA3jnx4mmXv10P8/owiYk0EEIUxi8jNDhO2QkJor2VXo4413V0GiS2fYAlTTiV8y8g+EVL5+ExS1Y9RVApZfqInAgTN+lXEfyoQZxFfUPKmQES0klLDx3KhwPHJUU0D8uGHU2cdnOF+Nk9RZRpiyHaT6J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707778782; c=relaxed/simple;
-	bh=vR/K496rPA2KU+aba4Uu2IC/4oIYinSUxJ9EgHzvb30=;
+	s=arc-20240116; t=1707780480; c=relaxed/simple;
+	bh=K5hnkWF2pr9qY4CMY8S2FGPFj4eYlUn4D0jII5LC88I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZaT0S6TyI2Tc5mUNA5rKpEfplHIigACyYfwDe7yXf5/eHdoSqViuMH3ss973rqnL/iEPhatzpfvgUiur+2I9LgB5XfuVhzN1iEvYT6SOIG65IRoA5E3NKdDaBYoSl+FeQjvnnhX7dnNs09yGN+7LByia3ScRC0Rj8RvGTKuVkv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VzRsKRyI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [109.130.69.237])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB11B2D8;
-	Mon, 12 Feb 2024 23:59:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707778776;
-	bh=vR/K496rPA2KU+aba4Uu2IC/4oIYinSUxJ9EgHzvb30=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=S1WYCN2T5fTkzXcVNcBIjqudm7Hp0poWvrThMH1X1EGWlH10J83jIYtLa72e8K/KoJ9N8xYgXlo114sbK16ySZqEDRsC3M0fMtOa5Gk9B3jZ1RgyG6wsyWQwRs3KigYfE9t05o6auKddfPzJzY8BtC9mvupBe5YTo7Yije4Ygx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3qhP0eK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F07EC433F1;
+	Mon, 12 Feb 2024 23:27:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707780479;
+	bh=K5hnkWF2pr9qY4CMY8S2FGPFj4eYlUn4D0jII5LC88I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VzRsKRyIm/u78yM0TPPGDEjCyjn2uwfGVk22wjzOznum1khiuJrpVSi8gHqA0l6FY
-	 djWvyfgXx4yqkHGgBe45uEhcix4qTg4OF9m6HtzR93dtZ0J1O96G3ej19wAoKn4Gzo
-	 sHAJkXLAJd1sve4N2Y9yQec0Yvxkfz9Wfaw7jlEs=
-Date: Tue, 13 Feb 2024 00:59:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 1/6] media: uvcvideo: Fix negative modulus calculation
-Message-ID: <20240212225940.GA19316@pendragon.ideasonboard.com>
-References: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
- <20220920-resend-hwtimestamp-v9-1-55a89f46f6be@chromium.org>
+	b=Z3qhP0eKL69hznd9YtDHbdoj0ZXRgCuF1To9aggV8TWYpzbLhEG8ozPKGiRPIBVut
+	 Pksi/9/lV6Jz9Uo58kbf8h4itYXIMkDEtmX/ZmVaflf+N0rgdEZz8KTnmqnzXKqDBa
+	 AnyggUHWOF2jRCU5muZJvZjeLbwUwDNEfvtfaXhZRldjG7ZS6/UYb+2xuN9UWBKZv5
+	 seYIippDmVkkjnHwm/tNKJAMktXoDgrDcGuuoNCuLQ2kYpvqSiINnBAS/rw9l2UAzj
+	 EDstOhNfdq0Ocbbx95UmH1LJS6kghx9HB2MGPrvHFCjgP6PowWqbemtZ4tf0UHcNEl
+	 /CzgxKGOZN38w==
+Date: Mon, 12 Feb 2024 16:27:57 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: justinstitt@google.com, linux-media@vger.kernel.org,
+	llvm@lists.linux.dev, mchehab@kernel.org, morbo@google.com,
+	ndesaulniers@google.com, patches@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: mxl5xx: Move xpt structures off stack
+Message-ID: <20240212232757.GA3221859@dev-arch.thelio-3990X>
+References: <20240111-dvb-mxl5xx-move-structs-off-stack-v1-1-ca4230e67c11@kernel.org>
+ <20240210162604.342349-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220920-resend-hwtimestamp-v9-1-55a89f46f6be@chromium.org>
+In-Reply-To: <20240210162604.342349-1-ojeda@kernel.org>
 
-Hi Ricardo,
-
-Thank you for the patch.
-
-On Wed, Mar 15, 2023 at 02:30:12PM +0100, Ricardo Ribalda wrote:
-> If head is 0, last will be addressing the index 0 instead of clock->size
-> -1. Luckily clock->head is unsiged, otherwise it would be addressing
-> 0xffffffff.
-
-I'm not following you. In the expression
-
-	(clock->head - 1) % clock->size
-
-clock->head is an unsigned int, and 1 as a signed int, so the result of
-the subtraction is promoted to an unsigned int. When clock->head is 0, the expression evaluates to
-
-	0xffffffff % clock->size
-
-clock->size is a power of two (hardcoded to 32 at the moment), so the
-expression evaluates to 31, as intended.
-
-Am I missing something ?
-
-> Nontheless, this is not the intented behaviour and should be fixed.
+On Sat, Feb 10, 2024 at 05:26:04PM +0100, Miguel Ojeda wrote:
+> > On Thu, 11 Jan 2024 17:40:36 -0700 Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > Closes: https://github.com/ClangBuiltLinux/linux/issues/1977
 > 
-> Fixes: 66847ef013cc ("[media] uvcvideo: Add UVC timestamps support")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> The next one: 1978 :)
+
+This is probably the third link I have messed up in the past couple of
+weeks :/ Mauro, do you want a v2 for these two minor issues or can you
+fix them up during application?
+
+> > of the stackvia 'static const', which is a better location for these
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index d4b023d4de7c..4ff4ab4471fe 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -732,7 +732,7 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
->  		goto done;
->  
->  	first = &clock->samples[clock->head];
-> -	last = &clock->samples[(clock->head - 1) % clock->size];
-> +	last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
->  
->  	/* First step, PTS to SOF conversion. */
->  	delta_stc = buf->pts - (1UL << 31);
+> Nit: space.
+> 
+> Built-tested for loongarch64:
+> 
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> Tested-by: Miguel Ojeda <ojeda@kernel.org>
+> 
+> With this applied, I have a `WERROR`-clean `defconfig` build with a Rust-enabled
+> kernel using LLVM 18 (using LLVM-provided apt pre-releases).
 
--- 
-Regards,
+Thanks for taking a look, this is great to hear!
 
-Laurent Pinchart
+Cheers,
+Nathan
 
