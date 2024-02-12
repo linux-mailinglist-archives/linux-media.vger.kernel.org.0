@@ -1,220 +1,219 @@
-Return-Path: <linux-media+bounces-5034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5035-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E482851821
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 16:34:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE39485186A
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 16:49:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 826F0B2441F
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 15:33:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3928C1F22B17
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 15:49:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F42A3D0D0;
-	Mon, 12 Feb 2024 15:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1B413CF60;
+	Mon, 12 Feb 2024 15:49:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Co2aU8UO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqHcer/r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165C43C497;
-	Mon, 12 Feb 2024 15:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A433CF4C;
+	Mon, 12 Feb 2024 15:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707752001; cv=none; b=S/BayAzGdPR3klvxlZiO1LUgqlCfOoEDK3A4Q5FWj9HKntQaI5WEP5wrcajsUD+iJGMdGLRYWNeiOebLF3LNR+QMpOCI7NhG4AAw4yyZ+2tOT2kn2EJ5inMYbyhypL4z7qI0ixQmTI+BNrt1TEtTI09PH0PE9jDWT98ZI88VEbA=
+	t=1707752983; cv=none; b=Loh2nwP4xi8wFt8PcoY5dETwOx6YLnek4vlmgeWS0EL65r2W2XZ7lydo/uX5ZjML7Xj0/Lbh/b4eJbQQnvs0Uz2cMlylOtu8QEsZ8kEv4yxreyJMMLEkOsAbQYVRaWhT8jx/fSuVjtuM1g4IHKQJ6CAfElGS9QOF+z+kO8RCUv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707752001; c=relaxed/simple;
-	bh=GFsfkdOmJKsuZtWQAq7OhjxHg4IKHiDCDNVd+Gd58aw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MmRv28evJMFIXRjQdtHazGe3+puM5+3YvnVkl9fCoH/skTwqYCQ86cssWz3+SzaivKYcGElJhwYgM9XBfewGWXwDSbbf5wnCNfilgG3W8HgwIVomPFjg7leCuzwja53AP7K89FNPXItD6EjIsS9BRMsm2b2VPXa8qzx7eZd4tFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Co2aU8UO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD66C433F1;
-	Mon, 12 Feb 2024 15:33:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707752000;
-	bh=GFsfkdOmJKsuZtWQAq7OhjxHg4IKHiDCDNVd+Gd58aw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Co2aU8UOdKL4W8SUaaEqV0BTVAuiZ9niMqI5QuXmkWRQqRD+bsuUp32djuJPfJQ7M
-	 J0AdS/WqPhUm+WDhNwj0PIl1NFZPSx4kaz74w8AVaBO2niEWSvmitVVz0AuwMwTUcd
-	 8MtOvRT2s7ojnBMUpDpCQjuzEzxH0//zOgasqtDHJDU6fjIDBJFEa6lJkzge7aVnIn
-	 65sRlXZGfvNWKRj6hhoF+/MvmClp/yoVXWTT6Lqc/PTFBqTwhuA4fpNCA+K8uTOths
-	 DH2aamg+A5g3aeMmWit1ZUc4X0oSEYy8EtlcvJyPFhdziLYkgWINAXOkx2oWF2pGNL
-	 vlKQQFPbdC2Dw==
-From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, 
- Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, 
- Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>, 
- Stefan Schmidt <stefan@datenfreihafen.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
- Ulf Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
- Martin Tuma <martin.tuma@digiteqautomotive.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
- Sergey Kozlov <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Yang Yingliang <yangyingliang@huawei.com>, linux-mmc@vger.kernel.org, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Rob Herring <robh@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Michal Simek <michal.simek@amd.com>, 
- Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>, 
- linux-mtd@lists.infradead.org, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
- Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>, 
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
- Max Filippov <jcmvbkbc@gmail.com>, linux-spi@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, 
- Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
- Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, 
- Jason Gunthorpe <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, 
- Herve Codina <herve.codina@bootlin.com>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Aaro Koskinen <aaro.koskinen@iki.fi>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>, 
- Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
- Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>, 
- libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, 
- Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
-In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
-Subject: Re: (subset) [PATCH v2 00/33] spi: get rid of some legacy macros
-Message-Id: <170775198078.46149.4700126128576800564.b4-ty@kernel.org>
-Date: Mon, 12 Feb 2024 15:33:00 +0000
+	s=arc-20240116; t=1707752983; c=relaxed/simple;
+	bh=RaXsYzelOZvoa5TGyCbteu+6xy/YY/Aun1Nfajjsacg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HLfrSYGpX8uzRdfSK2e4WZMNNPTPpJGy9ywMPGnh0xky0nxBXHkUwXBoKNFddwV0t/GUgE6NppqeoOEyKEF4s5lR2z+Z4rpdqOXlAmtQ47vl9gPYB/ZJd20hu6TqUb5NfzY/0S8ven3t5Z8quZQYIdWleIpk+AYoP2Xz5JZQMBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqHcer/r; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707752982; x=1739288982;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=RaXsYzelOZvoa5TGyCbteu+6xy/YY/Aun1Nfajjsacg=;
+  b=IqHcer/rhQbI3jE9pk0HNclSvXd1+WkzQJuInfZk74hQ4NXffibKBtyF
+   eY+dyHqfY6Z6WY5bJa7Q34WIuIX7BJZtHIf9/QUNwymyscWgyfvMzkTY+
+   POcgRZ2AZI3Z31rOvVc3D8v0NwneDy0x8yRSQYnphAf+n1fVIoE/+Ggi2
+   CcAx2LFN5POd0iDeOTpaRz8HXxyAY9GbomJez+Dfex5bzpf7HJWC1TT0x
+   d4ctc/jgOUeGb4tjapS89Ck/Z3k7aGPhvkz8cZK/1XZEsIoFIwSaebd5k
+   pdU89HupPg91VZhLffeSvL0orKiJ8b3pt9ZueCQcZ865re9bGpYGdZzZj
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="24202747"
+X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; 
+   d="scan'208";a="24202747"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 07:49:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="825840546"
+X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; 
+   d="scan'208";a="825840546"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 12 Feb 2024 07:49:34 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Mon, 12 Feb 2024 17:49:33 +0200
+Date: Mon, 12 Feb 2024 17:49:33 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add
+ Broadcast RGB property
+Message-ID: <Zco-DQaXqae7B1jt@intel.com>
+References: <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
+ <20240115143720.GA160656@toolbox>
+ <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+ <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13-dev-a684c
+In-Reply-To: <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+X-Patchwork-Hint: comment
 
-On Mon, 22 Jan 2024 19:06:55 +0100, Uwe Kleine-KÃ¶nig wrote:
-> this is v2 of this patch set.
+On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+> > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > > > > > Hi,
+> > > > > > > 
+> > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > > > > > >  /**
+> > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > >   *
+> > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      The value of this property can be one of the following:
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Automatic:
+> > > > > > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > > > > > + *              according to the HDMI specifications.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Full:
+> > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > > > > > + *              this works for any number of bits-per-component.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Drivers can set up this property by calling
+> > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > > > > > + *
+> > > > > > > > > 
+> > > > > > > > > This is a good time to document this in more detail. There might be two
+> > > > > > > > > different things being affected:
+> > > > > > > > > 
+> > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > 
+> > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > > > > > 
+> > > > > > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > > > > > 
+> > > > > > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > > > > > signalling, what happens?
+> > > > > > > > 
+> > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > > > > > YCbCr?
+> > > > > > > 
+> > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > > > > > we're using a YCbCr format, i915 will always use a limited range while
+> > > > > > > vc4 will follow the value of the property.
+> > > > > > 
+> > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > That should explain why it's only affecting RGB.
+> > > > > 
+> > > > > Right. And the limited range option is called "Limited 16:235" despite
+> > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> > > > > to make names inconsistent too, that's fine and not an argument in
+> > > > > itself.
+> > > > > 
+> > > > > > Full range YCbCr is a much rarer beast so we've never bothered
+> > > > > > to enable it.
+> > > > > 
+> > > > > vc4 supports it.
+> > > > 
+> > > > Someone implemented it incorrectly then.
+> > > 
+> > > Incorrectly according to what documentation / specification? I'm sorry,
+> > > but I find it super ironic that i915 gets to do its own thing, not
+> > > document any of it, and when people try to clean things up they get told
+> > > that we got it all wrong.
+> > 
+> > FWIW, this was an i915 property and if another driver uses the same
+> > property name it must have the same behavior. Yes, it isn't standardized
+> > and yes, it's not documented (hence this effort here) but it's still on
+> > vc4 to make the property compatible.
 > 
-> Changes since (implicit) v1, sent with Message-Id:
-> cover.1705348269.git.u.kleine-koenig@pengutronix.de:
+> How is it not compatible? It's a superset of what i915 provides, but
+> it's strictly compatible with it.
+
+No it is not. Eg. what happens if you set the thing to full range for
+RGB (which you must on many broken monitors), and then the kernel
+automagically switches to YCbCr (for whatever reason) but the monitor
+doesn't support full range YCbCr? Answer: you get crap output.
+
 > 
->  - Rebase to v6.8-rc1
->  - Fix a build failure on sh
->  - Added the tags received in (implicit) v1.
+> I would argue that i915 is the broken one since userspace could force a
+> full range output, but since the driver takes the YUV vs RGB decision
+> itself and only supports limited range for YUV, the driver would
+> effectively ignore that user-space property, without the user-space
+> being able to tell it was ignored in the first place.
 > 
-> [...]
+> > Trying to make the property handle YCbCr is very much in the "let's try
+> > to fix the property" territory that I want to avoid, so I'm in favor of
+> > adjusting vc4.
+> 
+> Breaking the ABI in the process. For something that is explicitly
+> supported by the spec, the driver, and the hardware. On a property that
+> never said it wasn't meant to be used that way, and with semantics based
+> on a driver that never provided a way to check those restrictions in the
+> first place.
+> 
+> And it's not like i915 is going to use that code anyway.
+> 
+> Maxime
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-Thanks!
-
-[01/33] fpga: ice40-spi: Follow renaming of SPI "master" to "controller"
-        commit: 227ab73b89d66e3064b3c2bcb5fe382b1815763d
-[02/33] ieee802154: ca8210: Follow renaming of SPI "master" to "controller"
-        commit: 167b78446706bb4d19f7dd93ca320aed25ae1bbd
-[03/33] iio: adc: ad_sigma_delta: Follow renaming of SPI "master" to "controller"
-        commit: 2780e7b716a605781dbee753ef4983d775a65427
-[04/33] Input: pxspad - follow renaming of SPI "master" to "controller"
-        commit: a78acec53b8524593afeed7258a442adc3450818
-[05/33] Input: synaptics-rmi4 - follow renaming of SPI "master" to "controller"
-        commit: 1245633c61baf159fcc1303d7f0855f49831b9c1
-[06/33] media: mgb4: Follow renaming of SPI "master" to "controller"
-        commit: 2c2f93fbfba7186cc081e23120f169eac3b5b62a
-[07/33] media: netup_unidvb: Follow renaming of SPI "master" to "controller"
-        commit: cfa13a64bd631d8f04a1c385923706fcef9a63ed
-[08/33] media: usb/msi2500: Follow renaming of SPI "master" to "controller"
-        commit: dd868ae646d5770f80f90dc056d06eb2e6d39c62
-[09/33] media: v4l2-subdev: Follow renaming of SPI "master" to "controller"
-        commit: d920b3a672b7f79cd13b341234aebd49233f836c
-[10/33] misc: gehc-achc: Follow renaming of SPI "master" to "controller"
-        commit: 26dcf09ee5d9ceba2c627ae3ba174a229f25638f
-[11/33] mmc: mmc_spi: Follow renaming of SPI "master" to "controller"
-        commit: b0a6776e53403aa380411f2a43cdefb9f00ff50a
-[12/33] mtd: dataflash: Follow renaming of SPI "master" to "controller"
-        commit: 44ee998db9eef84bf005c39486566a67cb018354
-[14/33] net: ks8851: Follow renaming of SPI "master" to "controller"
-        commit: 1cc711a72ae7fd44e90839f0c8d3226664de55a2
-[15/33] net: vertexcom: mse102x: Follow renaming of SPI "master" to "controller"
-        commit: 7969b98b80c0332f940c547f84650a20aab33841
-[16/33] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
-        commit: 85ad0ec049a771c4910c8aebb2d0bd9ce9311fd9
-[17/33] spi: bitbang: Follow renaming of SPI "master" to "controller"
-        commit: 2259233110d90059187c5ba75537eb93eba8417b
-[18/33] spi: cadence-quadspi: Don't emit error message on allocation error
-        commit: e71011dacc3413bed4118d2c42f10736ffcd762c
-[19/33] spi: cadence-quadspi: Follow renaming of SPI "master" to "controller"
-        commit: 28e59d8bf1ace0ddf05f989a48d6824d75731267
-[20/33] spi: cavium: Follow renaming of SPI "master" to "controller"
-        commit: 1747fbdedba8b6b3fd459895ed5d57e534549884
-[21/33] spi: geni-qcom: Follow renaming of SPI "master" to "controller"
-        commit: 14cea92338a0776c1615994150e738ac0f5fbb2c
-[22/33] spi: loopback-test: Follow renaming of SPI "master" to "controller"
-        commit: 2c2310c17fac13aa7e78756d7f3780c7891f9397
-[23/33] spi: slave-mt27xx: Follow renaming of SPI "master" to "controller"
-        commit: 8197b136bbbe64a7cab1020a4b067020e5977d98
-[24/33] spi: spidev: Follow renaming of SPI "master" to "controller"
-        commit: d934cd6f0e5d0052772612db4b07df60cb9da387
-[25/33] staging: fbtft: Follow renaming of SPI "master" to "controller"
-        commit: bbd25d7260eeeaef89f7371cbadcd33dd7f7bff9
-[26/33] staging: greybus: spi: Follow renaming of SPI "master" to "controller"
-        commit: ee3c668dda3d2783b0fff4091461356fe000e4d8
-[27/33] tpm_tis_spi: Follow renaming of SPI "master" to "controller"
-        commit: b6af14eacc8814b0986e20507df423cebe9fd859
-[28/33] usb: gadget: max3420_udc: Follow renaming of SPI "master" to "controller"
-        commit: 8c716f4a3d4fcbec976247e3443d36cbc24c0512
-[29/33] video: fbdev: mmp: Follow renaming of SPI "master" to "controller"
-        commit: b23031e730e72ec9067b7c38c25e776c5e27e116
-[30/33] wifi: libertas: Follow renaming of SPI "master" to "controller"
-        commit: 30060d57cee194d6b70283f2faf787e2fdc61b6e
-[31/33] spi: fsl-lib: Follow renaming of SPI "master" to "controller"
-        commit: 801185efa2402dce57828930e9684884fc8d62da
-[32/33] spi: Drop compat layer from renaming "master" to "controller"
-        commit: 620d269f29a569ba37419cc03cf1da2d55f6252a
-[33/33] Documentation: spi: Update documentation for renaming "master" to "controller"
-        commit: 76b31eb4c2da3ddb3195cc14f6aad24908adf524
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Ville Syrjälä
+Intel
 
