@@ -1,144 +1,109 @@
-Return-Path: <linux-media+bounces-5037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA20E85187A
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 16:53:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D61628519AD
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 17:40:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 652C11F22120
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 15:53:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90C4E284C48
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 16:40:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9783CF72;
-	Mon, 12 Feb 2024 15:53:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D0363E476;
+	Mon, 12 Feb 2024 16:33:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hBBuBINc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u02bZ6Mz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9544D3CF52
-	for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 15:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F473D566;
+	Mon, 12 Feb 2024 16:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707753183; cv=none; b=VyYHT68sLkPtJzqHMu+gSMvLedpEkiWQZE48mQxGhlFiDCadICamm9tw7rCeTksceF7+cVhRwjG8n4BNIbTQM0IVj4euinD/SAPBlimPM6rkZ9E7yjlxq9Ger9JoUbwnUo6DfX7zydZ/kxo1F7zdIMmisCwUvU0392RyX+cj8JI=
+	t=1707755603; cv=none; b=T3ca8x9num26gHFGWBg5G5NhM4YQSMDs5gRaiWYF0Hd/aOtNKPL8smHvgJQ4YUOloJwXoZuz88zXb5UNWnVr32Iio6OmJXBbAuBY6i7FlBOGHmZAatZubu/vm/6fhsl+Uip0tn7Bh0gA/YS7z/oBgcIj6xcCCyNcn8GTLhAQnDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707753183; c=relaxed/simple;
-	bh=sDj8wpAKnqZJTDtv8CskxWzkhDzZyqf5QDNAuuapONo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LXQ7g1G9yPxTsJ0U/BiaIxrG1e1N0StXPajVxpl16PVLDlCxsn6PWO0O51CkaSOBoKRNhBfHB9koMVaeSU6UhqskBmW+QGb2XoqJW1+lSbUREofbfMwZZZDQduuKVlKGFlM4gyJ74UnTDifjP/hvYl2ziIhfkbWDyX/0D5M+gyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hBBuBINc; arc=none smtp.client-ip=209.85.166.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7c029beb8c9so149372739f.0
-        for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 07:53:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707753180; x=1708357980; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8ga0BKab3mro7xv/pvLTvYj5RDzbbT2tT8OrhfimfXY=;
-        b=hBBuBINcBTXzo0xwsjFPOt6hEE38XATCh3G78M+5aZG9UduhkbjIBUxMdNjVwc/wIB
-         gsZ5TNNeisQtwMYDkFURuyaigid7FNm2tQcd769VUT3Yt9ctbN2AjhSTBHAy4DeWZnSN
-         FdY3AfYhKb2Ug5SOD0kfhBpho4ltoAvfik7806Onfk5H+W/UOzXv3jxOwquhmVrIOnX6
-         3HpWppLdukLfD7YsxsnzndFmglC8TEGnpbIn3NKA43Rm5fmMTWLO+E32NBTZoRxH9oOm
-         iEpwAx2rfoFJdAkVWkn7mnuigqaPWxJmYJU0XwHtyZ3eUI0uIzXRPRRMMgf5xc01kJTp
-         iZrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707753180; x=1708357980;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8ga0BKab3mro7xv/pvLTvYj5RDzbbT2tT8OrhfimfXY=;
-        b=lfGJvOQLbSwPO7vVBap2UuJtFQRfZrr/V1nsBb9xhcgEk5v6ysZyTcCkRgxRthAt8r
-         HIdqHkuyfk7MAMhO4KW/DeusKJe6NnhGOz7MxUClfIQfw8Q9R4AtHcDhEeoqxvnRmmAW
-         ArEhUYDiyC5+0s40hnpRvSH9vdZ2JXl7zPCJna57mCzJ5+at4qmofnGQ8XHrq71cfs1H
-         vQT3KlW+1n2Vhba+GQpvangUgbzb+foMVRJmuf+1g2G4mlPYtmpU+LfVEi731Ghn0J5K
-         DnnJr76UK1Fu3s172225JOzERzR9YlihIiWNvexqnCMY496BqjxNQCv86hwUs8Cdo7UB
-         a8yw==
-X-Gm-Message-State: AOJu0YxqDQyOrowOs7eGCzZ7nChVi+v94gBHN1lEJVkBq5VhrRRK2WMe
-	WDZmBAamteajQbuFtLGJOUOCX4wyOKMp6SS7yW1Eke2PeUH12IurjU1vn1OhjEmQCg5jskJnbxq
-	cyVZ3KUbKuwFhnld8YxOvlKhL3d5pYrfvIuvm
-X-Google-Smtp-Source: AGHT+IFaG5EUEd3w22+15UIe+fR9vs0Mizvgy4uB3bklxmWtpF0mFVHrOZPdEsANkshqajsm1XKOVsyrbwBB5whufrc=
-X-Received: by 2002:a5e:8d0b:0:b0:7c4:3b9e:f766 with SMTP id
- m11-20020a5e8d0b000000b007c43b9ef766mr8640816ioj.20.1707753180672; Mon, 12
- Feb 2024 07:53:00 -0800 (PST)
+	s=arc-20240116; t=1707755603; c=relaxed/simple;
+	bh=B+YBuhuqUOSgESZcvnrhqDgq1djTLds5pMENfQ0P5JU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c5JB9Xl9rqvroIhv/Jnqmy8M9wfAHx6xdN6L/1KBbc98asdU+B9jtwb1D6jGO/xmafHq/bZC5L9Jxxt0cDuJpOqQXEoq4ZfrtolGvZxv2FVS9IDlJXhbmtRM/kuoMhW73zme7AM4wdim++L3BRTDHbN3pZIDu1b34RpppZ4TwyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u02bZ6Mz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (237.69-130-109.adsl-dyn.isp.belgacom.be [109.130.69.237])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41E6263B;
+	Mon, 12 Feb 2024 17:33:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707755598;
+	bh=B+YBuhuqUOSgESZcvnrhqDgq1djTLds5pMENfQ0P5JU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u02bZ6Mzpx64exzZXhbiJpJ9VclEuCgnoht2HmYeMMN5/jFsrADpIOZLVG/dC7WaZ
+	 U/zFQsRUvZYnLwqIIELhzC5XNytWoA16g+tPnM15hL46yHCa0+DJ/BvCiz2shhQxA9
+	 Qu63Wn5nr6KFuUE+Mm+phjuPvJZVa9cNHvvuNy7A=
+Date: Mon, 12 Feb 2024 18:33:22 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Ming Qian <ming.qian@nxp.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mingjia Zhang <mingjia.zhang@mediatek.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 00/13] Add ISP 3A for StarFive
+Message-ID: <20240212163322.GF32016@pendragon.ideasonboard.com>
+References: <20240205090424.40302-1-changhuang.liang@starfivetech.com>
+ <5940e2cd-64f9-45d6-9e1d-e9a1d14c8ad9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212131323.2162161-1-panikiel@google.com> <20240212131323.2162161-9-panikiel@google.com>
- <170774854550.294485.3708612918527188826.robh@kernel.org>
-In-Reply-To: <170774854550.294485.3708612918527188826.robh@kernel.org>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Mon, 12 Feb 2024 16:52:49 +0100
-Message-ID: <CAM5zL5r69im5OENJa0drmZ=Er=uMgJJUC_d3FemZaLgq12in0A@mail.gmail.com>
-Subject: Re: [PATCH 8/9] media: dt-bindings: Add Intel Displayport RX IP
-To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	conor+dt@kernel.org, airlied@gmail.com, mripard@kernel.org, 
-	dinguyen@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
-	robh+dt@kernel.org, hverkuil-cisco@xs4all.nl, devicetree@vger.kernel.org, 
-	ribalda@chromium.org, daniel@ffwll.ch, chromeos-krk-upstreaming@google.com, 
-	mchehab@kernel.org, akpm@linux-foundation.org, 
-	dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5940e2cd-64f9-45d6-9e1d-e9a1d14c8ad9@gmail.com>
 
-On Mon, Feb 12, 2024 at 3:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
->
-> On Mon, 12 Feb 2024 13:13:22 +0000, Pawe=C5=82 Anikiel wrote:
-> > The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
-> > Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> > capture and Multi-Stream Transport. The user guide can be found here:
-> >
-> > https://www.intel.com/programmable/technical-pdfs/683273.pdf
-> >
-> > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
-> > ---
-> >  .../devicetree/bindings/media/intel,dprx.yaml | 125 ++++++++++++++++++
-> >  1 file changed, 125 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.=
-yaml
-> >
->
-> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> Error: Documentation/devicetree/bindings/media/intel,dprx.example.dts:28.=
-27-28 syntax error
-> make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings=
-/media/intel,dprx.example.dtb] Error 1
->
-> doc reference errors (make refcheckdocs):
->
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202402=
-12131323.2162161-9-panikiel@google.com
->
-> The base for the series is generally the latest rc1. A different dependen=
-cy
-> should be noted in *this* patch.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your sch=
-ema.
->
+Hi Matthias,
 
-As with the previous patch, I was missing a #include in the example. I
-will include the fix in v2.
+On Mon, Feb 12, 2024 at 01:40:57PM +0100, Matthias Brugger wrote:
+> Dear Changhuang,
+> 
+> On 05/02/2024 10:04, Changhuang Liang wrote:
+> > Changhuang Liang (13):
+> >    media: starfive: Add JH7110 ISP module definitions
+> >    media: Documentation: Add description for StarFive ISP metadata
+> >      formats
+> >    media: videodev2.h, v4l2-ioctl: Add StarFive ISP meta buffer format
+> >    staging: media: starfive: Add a params sink pad and a scd source pad
+> >      for ISP
+> >    staging: media: starfive: Separate buffer from ISP hardware operation
+> >    staging: media: starfive: Separate buffer be a common file
+> >    staging: media: starfive: Separate ISP hardware from capture device
+> >    staging: media: starfive: Add for StarFive ISP 3A SC
+> >    staging: media: starfive: Update ISP initialise config for 3A
+> >    staging: media: starfive: Add V4L2_CAP_IO_MC capability
+> >    staging: media: starfive: Add ISP params video device
+> >    staging: media: starfive: Add ISP parameters hardware configure
+> >    admin-guide: media: Update documents for StarFive Camera Subsystem
+> 
+> I think instead of adding more support on top of the staging driver, the first 
+> step would be to get the driver out of staging and make it a regular Linux 
+> driver. After that new HW support should be added.
+
+We asked for the driver to be upstreamed in staging first because it was
+mising important features, which this patch series implements (at least
+partly, I still need to review the series in more details). I would
+prefer merging the necessary features first, and destaging the driver
+next, right after.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
