@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-5028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5029-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF1E851737
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 15:42:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D92C7851767
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 15:56:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2DBD1C21076
-	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 14:42:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B2441F2135A
+	for <lists+linux-media@lfdr.de>; Mon, 12 Feb 2024 14:56:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EB683BB25;
-	Mon, 12 Feb 2024 14:42:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3131F3C08F;
+	Mon, 12 Feb 2024 14:56:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1489A39FD7;
-	Mon, 12 Feb 2024 14:42:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86303B29A;
+	Mon, 12 Feb 2024 14:56:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707748964; cv=none; b=lEfcbOXg9/4Um6ghff96z77ZipEjpwuGtckfKXlT4nXBeiDdqDmtIaNRi4gR/yE05x8r/CtoE6lzxAwk1zCToo0gUeYcpY7KruZxe33zD0tiake1LhmisOi6WbpOJdREu3ARPQosBWgQr7K4gcLz2OlvWlBAdnzPheoOUEudZmI=
+	t=1707749784; cv=none; b=GP1vzwVzk97vztWjcSv2XDdG05Sx3YLwDzpPUh4H9nBKUjEoXNBDd6I983Euz6gHpyuygNHPqAVdZIDPLx5Q+grgnWu5iRr9ShvBwSFnyFTGy1Uv0nVD8JSbgfJrr9CzqInes2dP+SFO91hMx9xyAa8kwfddRp+1HYMFP6A93w0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707748964; c=relaxed/simple;
-	bh=/Hf+DbrJyyiXo/DYirJXw3aIfv42g2EBeTeWIWBCGCE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=EaJcDgKc0s7rcubhfyHGtWQ4YRvsFxdzDKkMiJ2SfWX5ZN6INJb1a5WG1PhPoJPDRnvOYe30VyIkFn4lnh0yvnDx3an4BXx6qGPU3Q3n5rq5B0O3LOtHKb7CYKZ4QeW5jFLbxK+me0gyG0bQv/LkcwD9wyVJIbXUG6IBVoV5Ka4=
+	s=arc-20240116; t=1707749784; c=relaxed/simple;
+	bh=QV91femdqa2+MkVe6RQHj+0njwOnIsNHXGtap93Nzm4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pWHE+d1y0ieDnCzDqEMXtyH2D52j12joX31LCvpR6YrEcetPECeaeqCfkljkKPmGj3Y0TuzlbsxUKaeqpMu41oqGmnw+ro5busISu1VRzvz3AUtR97+VZ1Y6lwyqbF66y94VwfLtr1BW7C6d6EomVq5nJ9xMt1AlrbdLOKScOk8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFF32C433F1;
-	Mon, 12 Feb 2024 14:42:41 +0000 (UTC)
-Message-ID: <2e5f1e92-7fad-4a74-b375-1e194ff08ce6@xs4all.nl>
-Date: Mon, 12 Feb 2024 15:42:39 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86003C43390;
+	Mon, 12 Feb 2024 14:56:23 +0000 (UTC)
+Message-ID: <a67b0054-06a7-4730-8694-082dd1a77125@xs4all.nl>
+Date: Mon, 12 Feb 2024 15:56:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,159 +38,96 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
- cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
+Subject: Re: [PATCH] [media] Clean up errors in dib0090.h
 Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: "Yang, Chenyuan" <cy54@illinois.edu>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
- "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>, "Zhao, Zijie"
- <zijie4@illinois.edu>, "Zhang, Lingming" <lingming@illinois.edu>
-References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
- <f985d664-d907-48ed-9b3d-dc956c178b88@xs4all.nl>
- <526380BE-57AC-493D-A7B0-B8F0ECC0FE0A@illinois.edu>
- <f1855145-9562-4bef-800f-43bcacff6fc8@xs4all.nl>
-In-Reply-To: <f1855145-9562-4bef-800f-43bcacff6fc8@xs4all.nl>
+To: XueBing Chen <chenxb_99091@126.com>, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20240111110510.14921-1-chenxb_99091@126.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240111110510.14921-1-chenxb_99091@126.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Chenyuan,
+Hi!
 
-On 30/01/2024 15:35, Hans Verkuil wrote:
-> On 29/01/2024 04:03, Yang, Chenyuan wrote:
->> Hi Hans,
->>
->> Thanks a lot for this new patch!
->>
->> After applying this new patch in the latest kernel (hash: ecb1b8288dc7ccbdcb3b9df005fa1c0e0c0388a7) and fuzzing with Syzkaller, it seems that the hang still exists.
->> To help you better debug it, I attached the covered lines for the fuzz testing and the output of `git diff`. Hope this could help you.
->>
->> By the way, the syscall descriptions for CEC have been merged into the Syzkaller mainstream: https://github.com/google/syzkaller/blob/master/sys/linux/dev_cec.txt.
->>
->> Let me know if you need further information.
->>
->> Best,
->> Chenyuan
-> 
-> Here is another patch. This now time outs on all wait_for_completion calls
-> and reports a WARN_ON and shows additional info. Hopefully this will give me
-> better insight into what is going on.
-> 
-> Unfortunately I was unable to reproduce this issue on my VM, so I have to
-> rely on you to run the test.
+First of all, the proper subject prefix is "media:", and in this case I
+would say: "media: dvb-frontends:".
 
-Did you have time to run the test with this patch? It would be very useful to
-see the results.
+On 11/01/2024 12:05, XueBing Chen wrote:
+> Fix the following errors reported by checkpatch:
+> 
+> ERROR: "foo * bar" should be "foo *bar"
+
+Secondly, the error says that it should be "foo *bar"...
+
+> 
+> Signed-off-by: XueBing Chen <chenxb_99091@126.com>
+> ---
+>  drivers/media/dvb-frontends/dib0090.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/dib0090.h b/drivers/media/dvb-frontends/dib0090.h
+> index e5cb311694d9..613b0eb8c436 100644
+> --- a/drivers/media/dvb-frontends/dib0090.h
+> +++ b/drivers/media/dvb-frontends/dib0090.h
+> @@ -82,7 +82,7 @@ extern u16 dib0090_get_wbd_offset(struct dvb_frontend *fe);
+>  extern int dib0090_gain_control(struct dvb_frontend *fe);
+>  extern enum frontend_tune_state dib0090_get_tune_state(struct dvb_frontend *fe);
+>  extern int dib0090_set_tune_state(struct dvb_frontend *fe, enum frontend_tune_state tune_state);
+> -extern void dib0090_get_current_gain(struct dvb_frontend *fe, u16 * rf, u16 * bb, u16 * rf_gain_limit, u16 * rflt);
+> +extern void dib0090_get_current_gain(struct dvb_frontend *fe, u16* rf, u16* bb, u16* rf_gain_limit, u16* rflt);
+
+...so why do you write "foo* bar"???
 
 Regards,
 
 	Hans
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> [PATCH] Test
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-> index 5741adf09a2e..b1951eb7f5bd 100644
-> --- a/drivers/media/cec/core/cec-adap.c
-> +++ b/drivers/media/cec/core/cec-adap.c
-> @@ -935,9 +935,12 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
->  	 * Release the lock and wait, retake the lock afterwards.
->  	 */
->  	mutex_unlock(&adap->lock);
-> -	wait_for_completion_killable(&data->c);
-> -	if (!data->completed)
-> -		cancel_delayed_work_sync(&data->work);
-> +	if (WARN_ON(wait_for_completion_killable_timeout(&data->c, msecs_to_jiffies(adap->xfer_timeout_ms + 1000)) <= 0)) {
-> +		dprintk(0, "wfc1: %px %d%d%d%d %x\n", adap->kthread_config,
-> +			adap->is_configuring, adap->is_configured,
-> +			adap->is_enabled, adap->must_reconfigure, adap->phys_addr);
-> +	}
-> +	cancel_delayed_work_sync(&data->work);
->  	mutex_lock(&adap->lock);
-> 
->  	/* Cancel the transmit if it was interrupted */
-> @@ -1563,10 +1566,12 @@ static int cec_config_thread_func(void *arg)
->  			cec_transmit_msg_fh(adap, &msg, NULL, false);
->  		}
->  	}
-> +	mutex_unlock(&adap->lock);
-> +    call_void_op(adap, configured);
-> +    mutex_lock(&adap->lock);
->  	adap->kthread_config = NULL;
->  	complete(&adap->config_completion);
->  	mutex_unlock(&adap->lock);
-> -	call_void_op(adap, configured);
->  	return 0;
-> 
->  unconfigure:
-> @@ -1592,6 +1597,17 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
->  	if (WARN_ON(adap->is_configuring || adap->is_configured))
->  		return;
-> 
-> +	if (adap->kthread_config) {
-> +		mutex_unlock(&adap->lock);
-> +//		wait_for_completion(&adap->config_completion);
-> +		if (WARN_ON(wait_for_completion_killable_timeout(&adap->config_completion, msecs_to_jiffies(10000)) <= 0)) {
-> +			dprintk(0, "wfc2: %px %d%d%d%d %x\n", adap->kthread_config,
-> +				adap->is_configuring, adap->is_configured,
-> +				adap->is_enabled, adap->must_reconfigure, adap->phys_addr);
-> +		}
-> +		mutex_lock(&adap->lock);
-> +	}
-> +
->  	init_completion(&adap->config_completion);
-> 
->  	/* Ready to kick off the thread */
-> @@ -1599,11 +1615,17 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
->  	adap->kthread_config = kthread_run(cec_config_thread_func, adap,
->  					   "ceccfg-%s", adap->name);
->  	if (IS_ERR(adap->kthread_config)) {
-> -		adap->kthread_config = NULL;
->  		adap->is_configuring = false;
-> +		adap->kthread_config = NULL;
->  	} else if (block) {
->  		mutex_unlock(&adap->lock);
-> -		wait_for_completion(&adap->config_completion);
-> +		//wait_for_completion(&adap->config_completion);
-> +		if (WARN_ON(wait_for_completion_killable_timeout(&adap->config_completion, msecs_to_jiffies(10000)) <= 0)) {
-> +			dprintk(0, "wfc3: %px %d%d%d%d %x\n", adap->kthread_config,
-> +				adap->is_configuring, adap->is_configured,
-> +				adap->is_enabled, adap->must_reconfigure, adap->phys_addr);
-> +
-> +		}
->  		mutex_lock(&adap->lock);
->  	}
->  }
-> diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
-> index 67dc79ef1705..d64bb716f9c6 100644
-> --- a/drivers/media/cec/core/cec-api.c
-> +++ b/drivers/media/cec/core/cec-api.c
-> @@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
->  		list_del_init(&data->xfer_list);
->  	}
->  	mutex_unlock(&adap->lock);
-> +
-> +	mutex_lock(&fh->lock);
->  	while (!list_empty(&fh->msgs)) {
->  		struct cec_msg_entry *entry =
->  			list_first_entry(&fh->msgs, struct cec_msg_entry, list);
-> @@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
->  			kfree(entry);
->  		}
->  	}
-> +	mutex_unlock(&fh->lock);
->  	kfree(fh);
-> 
->  	cec_put_device(devnode);
-> 
+>  extern void dib0090_set_dc_servo(struct dvb_frontend *fe, u8 DC_servo_cutoff);
+>  extern int dib0090_set_switch(struct dvb_frontend *fe, u8 sw1, u8 sw2, u8 sw3);
+>  extern int dib0090_set_vga(struct dvb_frontend *fe, u8 onoff);
 
 
