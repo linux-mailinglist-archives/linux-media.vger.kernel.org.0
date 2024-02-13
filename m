@@ -1,175 +1,172 @@
-Return-Path: <linux-media+bounces-5061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97594852D6C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 11:05:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5EC852E3D
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 11:44:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52A8B28D990
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 10:05:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E8911C20A90
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 10:44:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D54F2224FA;
-	Tue, 13 Feb 2024 10:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51B97250E2;
+	Tue, 13 Feb 2024 10:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DbQSEYY6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qo3NUzbF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A85F17567;
-	Tue, 13 Feb 2024 10:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227922C69C;
+	Tue, 13 Feb 2024 10:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707818685; cv=none; b=n0GynSJHqhGpSaisXeHoLnz16/T28ZS71f+RmJb9ZO5EyZBYJMnZqYKqnMllEjdQqp7u/F3Ss3ygARdC8Qc5Zmgxhy0V7hlqKm+FIfl2De7YEPPoxEn4b6rJk1CYfCofC0EwyWgxvOysrl8lWIjJP67WLRtDpufIB14SN9wQ3Zw=
+	t=1707821047; cv=none; b=ulGdH8uhv0mIC7eALczfVlYpkyqvBSeUnWuji3/FNwJay45mLbRf6cGi0Y6jYpuE8T5V44vRyGxuYkseBLhjqfFChUSpJ0lUS07ubgOiI/KGH26sMH3wzS8on8qzd4mKkuEHWuL51Q9w+i6c70WNFXrsM8QA0jBkqgiCvjZEKgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707818685; c=relaxed/simple;
-	bh=Arq9qNlXARFYxt4OXAC6yP44LIX+O7ZdPI6fd3sX+wk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EhdRdxMLPikxO/ED1xrpDIsQrFhqVo+iTymEtCx3fW0WzkGndH+zUH9Ra7CeuE/tjDmCQy+u+SUsufskLR9G3oGO8s6QJi4r6s1oFcwlzwfuwgK1ypu58f0E99BdTcew1VIht9/O3PTB6uaBBs+Yq7MJ20ovuaTRzi5l96b6oWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DbQSEYY6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E306FC433F1;
-	Tue, 13 Feb 2024 10:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707818684;
-	bh=Arq9qNlXARFYxt4OXAC6yP44LIX+O7ZdPI6fd3sX+wk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=DbQSEYY6rZjfiKueayqJ39snIfBlDkSwHPpOrc8EV58H02tMPGzYaXnnspeLDSaqq
-	 SNSQeztccLKqgNa219NSBi5zUrpjgqPgucIYj1k1CbJwep9CgMsUi+raL7y2cLamsz
-	 Z1igDID6WPC5nXetFlyN5S1DsdjngU4UQdMMW5u93RKxnvRGy8sCQAAiFF+aAvpKZP
-	 55jPeboB3ROcrPoM6aoPPta75iNHVqU3XvPVOe9ojEM3+sD7yu23zZ9ZDwlpLQXF67
-	 LUdB5SJVNfFtIEI3CvDU14aKuBxeAMNLABIauq33XMp7JoIAiqCki3miJaJsDeu8X3
-	 KVGu8pxEkOqXg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Mike Isely <isely@pobox.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	"Ricardo B. Marliere" <ricardo@marliere.net>,
+	s=arc-20240116; t=1707821047; c=relaxed/simple;
+	bh=lr23qGBwdprFgxx9vqmDLO+mmrKrYyZedQFodyW1Usg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j+7HEI9JxfGGhbhsk2WXBU1GZVrBkUMUqTbn4z/LS3rMxUI8j/QTqPt8Gq6/oZpmLG3Eih9Pw5LebVWjauIZxE/Ip/uqvXNdlJhT4ILCUQy/9thGXYHrtkJ6spLMV9q4KcngMXT+VycggwNhWoi24PhDRoFbRzS23Q56H6+Pq3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qo3NUzbF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [109.130.69.237])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9219F675;
+	Tue, 13 Feb 2024 11:44:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707821040;
+	bh=lr23qGBwdprFgxx9vqmDLO+mmrKrYyZedQFodyW1Usg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qo3NUzbF4SQc9cDzgrxdlt+wVyMIdyO1PW+nW1XsbhIdT3cn0X2Hpt2qCFWTVkRIg
+	 6GSFKeeOaqILTK1Y1+++InjrvpWFwhy9SBaSrFVHvSULOHLKTd3sxOfnrbcYIp0E3F
+	 ZPxMXzK+r/oLObkPdnMc7E8rp6jZ97GkZNvRjtZk=
+Date: Tue, 13 Feb 2024 12:44:05 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Naushir Patuck <naush@raspberrypi.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Michael Krufky <mkrufky@linuxtv.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH] media: pvrusb2: fix pvr2_stream_callback casts
-Date: Tue, 13 Feb 2024 11:04:27 +0100
-Message-Id: <20240213100439.457403-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 6/8] media: dt-bindings: Add bindings for Raspberry Pi
+ PiSP Back End
+Message-ID: <20240213104405.GB5012@pendragon.ideasonboard.com>
+References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
+ <20240209164825.166800-7-jacopo.mondi@ideasonboard.com>
+ <7f7979af-8eda-48cd-a334-bb64ddf5b9b8@linaro.org>
+ <myfjzqh4wqa3lf4dcrgaswrarlh7sril6vz3mtnbz646rwxylt@oz75b5j5srot>
+ <b55f4d1e-2e77-4539-8d18-8d8f2185b501@linaro.org>
+ <5db2c830-2615-4416-9bb1-18fcd2a3a980@ideasonboard.com>
+ <CAEmqJPo-A4wiAiuCa2pb84UU_rTTo9i5P9Kj6eo78MFEs1Y45w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAEmqJPo-A4wiAiuCa2pb84UU_rTTo9i5P9Kj6eo78MFEs1Y45w@mail.gmail.com>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, Feb 13, 2024 at 08:35:39AM +0000, Naushir Patuck wrote:
+> On Tue, 13 Feb 2024 at 07:28, Tomi Valkeinen wrote:
+> > On 12/02/2024 11:05, Krzysztof Kozlowski wrote:
+> > > On 12/02/2024 09:50, Jacopo Mondi wrote:
+> > >
+> > >>>> +properties:
+> > >>>> +  compatible:
+> > >>>> +    const: raspberrypi,pispbe
+> > >>>
+> > >>> Nothing more specific? No model name, no version? It's quite generic
+> > >>> compatible which in general should not be allowed. I would assume that
+> > >>> at least version of Pi could denote some sort of a model... unless
+> > >>> version is detectable?
+> > >>
+> > >> The driver matches on a version register and that should be enough to
+> > >> handle quirks which are specific to an IP revision in the driver
+> > >> itself.
+> > >>
+> > >> Considering how minimal the integration with the SoC is (one clock, one
+> > >> interrupt and one optional iommu reference) even if we'll get future
+> > >> revisions of the SoC I don't think there will be any need to match on
+> > >> a dedicated compatible for bindings-validation purposes.
+> > >>
+> > >> However I understand that to be future-proof it's good practice to
+> > >> allow a more flexible scheme, so we can have a generic fallback and a
+> > >> revision-specific entry.
+> > >>
+> > >> Would
+> > >>
+> > >>    compatible:
+> > >>      items:
+> > >>        - enum:
+> > >>          - raspberrypi,pipspbe-bcm2712
+> > >
+> > > bcm2712 is manufactured by Broadcom, not Raspberry Pi, so it should be
+> > > rather Pi model?
+> >
+> > Indeed, this is something I don't get. If the BE is in the bcm2712, is
+> > it not a broadcom IP? Why is raspberrypi in the compatible name at all?
+> >
+> > Naush, Dave?
+> 
+> The Backend (and Frontend) IP are both owned solely by Raspberry Pi,
+> and the BE is instantiated on the BCM2712.  So I think "raspberry" in
+> the compatible string is correct here.
 
-clang-16 complains about a control flow integrity (KCFI) issue in pvrusb2,
-which casts three different prototypes into pvr2_stream_callback:
+Following what we do with other SoCs, we could have
 
-drivers/media/usb/pvrusb2/pvrusb2-v4l2.c:1070:30: error: cast from 'void (*)(struct pvr2_v4l2_fh *)' to 'pvr2_stream_callback' (aka 'void (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
- 1070 |         pvr2_stream_set_callback(sp,(pvr2_stream_callback)pvr2_v4l2_notify,fh);
-      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/media/usb/pvrusb2/pvrusb2-context.c:110:6: error: cast from 'void (*)(struct pvr2_context *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
-  110 |                                         (void (*)(void *))pvr2_context_notify,
-      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/media/usb/pvrusb2/pvrusb2-dvb.c:152:6: error: cast from 'void (*)(struct pvr2_dvb_adapter *)' to 'pvr2_stream_callback' (aka 'void (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
-  152 |                                  (pvr2_stream_callback) pvr2_dvb_notify, adap);
-      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	compatible = "brcm,pispbe-bcm2712", "raspberrypi,pispbe";
 
-Change the functions to actually take a void* argument so the cast is no longer
-needed.
+However, that scheme is mostly used when SoC vendor license IP cores
+from third parties. Here, while the SoC is indeed manufactured by
+Broadcom, it's a Raspberry Pi-specific SoC.
 
-Fixes: bb8ce9d9143c ("V4L/DVB (7682): pvrusb2-dvb: finish up stream & buffer handling")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/usb/pvrusb2/pvrusb2-context.c | 8 ++++----
- drivers/media/usb/pvrusb2/pvrusb2-dvb.c     | 6 ++++--
- drivers/media/usb/pvrusb2/pvrusb2-v4l2.c    | 6 ++++--
- 3 files changed, 12 insertions(+), 8 deletions(-)
+I don't have a personal preference.
 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-context.c b/drivers/media/usb/pvrusb2/pvrusb2-context.c
-index 1764674de98b..58f2f3ff10ee 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-context.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-context.c
-@@ -90,8 +90,10 @@ static void pvr2_context_destroy(struct pvr2_context *mp)
- }
- 
- 
--static void pvr2_context_notify(struct pvr2_context *mp)
-+static void pvr2_context_notify(void *ptr)
- {
-+	struct pvr2_context *mp = ptr;
-+
- 	pvr2_context_set_notify(mp,!0);
- }
- 
-@@ -106,9 +108,7 @@ static void pvr2_context_check(struct pvr2_context *mp)
- 		pvr2_trace(PVR2_TRACE_CTXT,
- 			   "pvr2_context %p (initialize)", mp);
- 		/* Finish hardware initialization */
--		if (pvr2_hdw_initialize(mp->hdw,
--					(void (*)(void *))pvr2_context_notify,
--					mp)) {
-+		if (pvr2_hdw_initialize(mp->hdw, pvr2_context_notify, mp)) {
- 			mp->video_stream.stream =
- 				pvr2_hdw_get_video_stream(mp->hdw);
- 			/* Trigger interface initialization.  By doing this
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-dvb.c b/drivers/media/usb/pvrusb2/pvrusb2-dvb.c
-index 26811efe0fb5..9a9bae21c614 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-dvb.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-dvb.c
-@@ -88,8 +88,10 @@ static int pvr2_dvb_feed_thread(void *data)
- 	return stat;
- }
- 
--static void pvr2_dvb_notify(struct pvr2_dvb_adapter *adap)
-+static void pvr2_dvb_notify(void *ptr)
- {
-+	struct pvr2_dvb_adapter *adap = ptr;
-+
- 	wake_up(&adap->buffer_wait_data);
- }
- 
-@@ -149,7 +151,7 @@ static int pvr2_dvb_stream_do_start(struct pvr2_dvb_adapter *adap)
- 	}
- 
- 	pvr2_stream_set_callback(pvr->video_stream.stream,
--				 (pvr2_stream_callback) pvr2_dvb_notify, adap);
-+				 pvr2_dvb_notify, adap);
- 
- 	ret = pvr2_stream_set_buffer_count(stream, PVR2_DVB_BUFFER_COUNT);
- 	if (ret < 0) return ret;
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c b/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
-index c04ab7258d64..b305ae7ed415 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
-@@ -1033,8 +1033,10 @@ static int pvr2_v4l2_open(struct file *file)
- }
- 
- 
--static void pvr2_v4l2_notify(struct pvr2_v4l2_fh *fhp)
-+static void pvr2_v4l2_notify(void *ptr)
- {
-+	struct pvr2_v4l2_fh *fhp = ptr;
-+
- 	wake_up(&fhp->wait_data);
- }
- 
-@@ -1067,7 +1069,7 @@ static int pvr2_v4l2_iosetup(struct pvr2_v4l2_fh *fh)
- 
- 	hdw = fh->channel.mc_head->hdw;
- 	sp = fh->pdi->stream->stream;
--	pvr2_stream_set_callback(sp,(pvr2_stream_callback)pvr2_v4l2_notify,fh);
-+	pvr2_stream_set_callback(sp, pvr2_v4l2_notify, fh);
- 	pvr2_hdw_set_stream_type(hdw,fh->pdi->config);
- 	if ((ret = pvr2_hdw_set_streaming(hdw,!0)) < 0) return ret;
- 	return pvr2_ioread_set_enabled(fh->rhp,!0);
+> > >>        - const: raspberrypi,pispbe
+> > >>
+> > >> do in this case ?
+> > >>
+> > >> Also, let's see what RPi think as they are certainly more informed
+> > >> than me on what a good revision-specific match could be
+> > >
+> > > I am fine with auto-detection, though.
+> > >
+> > > ...
+> > >
+> > >>>> +
+> > >>>> +examples:
+> > >>>> +  - |
+> > >>>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > >>>> +
+> > >>>> +    rpi1 {
+> > >>>
+> > >>> soc {
+> > >>>
+> > >>
+> > >> Are you sure ? This will only ever live in the 'rp1' node.
+> > >
+> > > What is "rp1" node? Does not look like a generic name.
+> >
+> > I don't think this is right. RP1 is a separate chip, an IO controller,
+> > on raspberrypi 5. BE is not in the RP1.
+> 
+> Oops, missed this.  Yes, I think it should be the "soc" node.
+
 -- 
-2.39.2
+Regards,
 
+Laurent Pinchart
 
