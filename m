@@ -1,60 +1,55 @@
-Return-Path: <linux-media+bounces-5058-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5059-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E0A852D20
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 10:56:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF615852D26
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 10:57:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A030F28BEC7
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 09:56:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D5291F28C5E
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 09:57:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E382224D8;
-	Tue, 13 Feb 2024 09:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3C922616;
+	Tue, 13 Feb 2024 09:56:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjfvP/Nh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KuUCDrw5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83212BB03;
-	Tue, 13 Feb 2024 09:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB8D224D2;
+	Tue, 13 Feb 2024 09:55:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707818097; cv=none; b=bQmxIkjLG2dW88EYKZSbnVRoNMNfpo4XTJzMCn1RD0br8rV89EnsEhU72hXMdKcSMOzNxNccu495JXbE8OGRtvn8DmDNEiHMfNq+HqfzoCa3TiKcRZb9/t4qhbpi55Qp1uePJr0ZcYOj1dhfFzFrz082pNS7AQZUu3Yz+0Xj/eE=
+	t=1707818161; cv=none; b=qh4nAlF+iqNqz5ezn7uD8cbt0L1iFf4li0kL0ZHJ4B5xveQZ7VNlj+OE5bQMQWN8vD9tOieFhofHqGbWH7mecumok6lRcU2k0otJnslYKXs4ta4NQz8L9NnqXyePVziYB1vbbyNcmwpmjwksGNwqliU8H+lMgspso0NA+x9/Nbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707818097; c=relaxed/simple;
-	bh=4De3RyTU7r+pUzJUl0tRw/D7nVV5tAv3p6T8Js04G/c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M7ZP1qENUFqRSCZY2SD+QrecC7P9D9vNiQvnHnsCah46ti4LofGH8RM46MrmTFUN+HdOPV5Nklx3imFEEx1rOWrTn344ZtThE6YFS5tHj6XHB47CnOaPcYcFH4UTljR/xDeirTrrrn35SnugVJSRtIrIRyePHN14FtgiQB9ypqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjfvP/Nh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE5ECC433F1;
-	Tue, 13 Feb 2024 09:54:54 +0000 (UTC)
+	s=arc-20240116; t=1707818161; c=relaxed/simple;
+	bh=L//fSfhtwMkztN2frNmXVbSJ3+AwEgWGJ086titugr8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eQBWR0SVmUQdBc2WLUUTSsFN06tEdpBa+SzJgvaN2k3iwlzqB9qHl1gFPU2N7Oieo8CcZRnJj3C3T57IWWnUFhy1afwzrYbyDGY9SNjFaYbMaLMsDbKvxtUgmFtITy6SuHFucHZ8TH3UnNYj7tz47e2F8PtngUxRkQMe12HY8hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KuUCDrw5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4699CC433C7;
+	Tue, 13 Feb 2024 09:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707818097;
-	bh=4De3RyTU7r+pUzJUl0tRw/D7nVV5tAv3p6T8Js04G/c=;
+	s=k20201202; t=1707818159;
+	bh=L//fSfhtwMkztN2frNmXVbSJ3+AwEgWGJ086titugr8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=KjfvP/NhWaO4TPXRscwaIdNAvjfmjfNzJMINOI7zjyj3rzCsHcNLiJAjs9E1aQlki
-	 rg5MogLLMywQQ6U8N5g5KnHPpdcPsaG5aSK9fCZj9ailMSDaA0CfYz6O+mcuYx6llh
-	 NRqe7zADwWnvYKUKveVnKLnbsRcKeKNWS8MO7YTAkM23IgzIslBoEQAWbCJFUH0gKy
-	 EgUXlpYiCl3r07CXddQfD6IE72/vLJYB7QtQ9/4bNCTl0ySYNy9OtRS2DRlefwxGDz
-	 xe4N/R7iLBxVzUHT+P8vescQb4PKfT4Mu2wKba29P4ghiPRgQadUSP9dKojAAVUbmg
-	 Srkt73YXHuY0g==
+	b=KuUCDrw5mlnhuvQruHhj6QQxVHa4rVUJpR7fAdfQsmYgn9aXJJLIHrgbjUUvritVt
+	 U7oWQz6PaEI4hvs8okzxdevmIvlbggQQVzNveYVpO4beI7IK4kEwPHjf/E1+rV/4lJ
+	 dhfWC4qp8qPxUv91mmr2AYCEycIp/q181RuDOOwFe0SRMeCoNLUCa7i156DS1/yb24
+	 LlqUccoIDuz5EohPwdqRSVsedl5QULdJtd8dRTzBOsbqXI/bDZ4y33LLxDvMJi/orD
+	 gdpRfA449uZv0fiuuwa42QUSNzd58INuPAmY2nA/syLxZEOWza1mjaWDCjkWS/OOSi
+	 lmaDyzlGKxSTg==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Arnd Bergmann <arnd@arndb.de>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH] media: sta2x11: fix irq handler cast
-Date: Tue, 13 Feb 2024 10:54:47 +0100
-Message-Id: <20240213095451.454142-1-arnd@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: v4l: marvell: select CONFIG_V4L2_ASYNC where needed
+Date: Tue, 13 Feb 2024 10:55:51 +0100
+Message-Id: <20240213095555.454392-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -66,44 +61,43 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-clang-16 warns about casting incompatible function pointers:
+Drivers that call v4l2_async_nf_init() need to select the corresponding
+Kconfig symbol:
 
-drivers/media/pci/sta2x11/sta2x11_vip.c:1057:6: error: cast from 'irqreturn_t (*)(int, struct sta2x11_vip *)' (aka 'enum irqreturn (*)(int, struct sta2x11_vip *)') to 'irq_handler_t' (aka 'enum irqreturn (*)(int, void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/marvell/cafe_ccic.ko] undefined!
+ERROR: modpost: "__v4l2_async_nf_add_i2c" [drivers/media/platform/marvell/cafe_ccic.ko] undefined!
+ERROR: modpost: "v4l2_async_nf_unregister" [drivers/media/platform/marvell/mcam-core.ko] undefined!
+ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/marvell/mmp_camera.ko] undefined!
+ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/marvell/mmp_camera.ko] undefined!
 
-Change the prototype of the irq handler to the regular version with a
-local variable to adjust the argument type.
+I checked all v4l2 drivers to see if anything else has the same
+bug, but these two appear to be the only ones.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/pci/sta2x11/sta2x11_vip.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/media/platform/marvell/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
-index e4cf9d63e926..9def7d08c809 100644
---- a/drivers/media/pci/sta2x11/sta2x11_vip.c
-+++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
-@@ -767,8 +767,9 @@ static const struct video_device video_dev_template = {
-  *
-  * IRQ_HANDLED, interrupt done.
-  */
--static irqreturn_t vip_irq(int irq, struct sta2x11_vip *vip)
-+static irqreturn_t vip_irq(int irq, void *data)
- {
-+	struct sta2x11_vip *vip = data;
- 	unsigned int status;
- 
- 	status = reg_read(vip, DVP_ITS);
-@@ -1053,9 +1054,7 @@ static int sta2x11_vip_init_one(struct pci_dev *pdev,
- 
- 	spin_lock_init(&vip->slock);
- 
--	ret = request_irq(pdev->irq,
--			  (irq_handler_t) vip_irq,
--			  IRQF_SHARED, KBUILD_MODNAME, vip);
-+	ret = request_irq(pdev->irq, vip_irq, IRQF_SHARED, KBUILD_MODNAME, vip);
- 	if (ret) {
- 		dev_err(&pdev->dev, "request_irq failed\n");
- 		ret = -ENODEV;
+diff --git a/drivers/media/platform/marvell/Kconfig b/drivers/media/platform/marvell/Kconfig
+index d6499ffe30e8..d31f4730f2a3 100644
+--- a/drivers/media/platform/marvell/Kconfig
++++ b/drivers/media/platform/marvell/Kconfig
+@@ -7,6 +7,7 @@ config VIDEO_CAFE_CCIC
+ 	depends on V4L_PLATFORM_DRIVERS
+ 	depends on PCI && I2C && VIDEO_DEV
+ 	depends on COMMON_CLK
++	select V4L2_ASYNC
+ 	select VIDEO_OV7670 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+@@ -24,6 +25,7 @@ config VIDEO_MMP_CAMERA
+ 	depends on COMMON_CLK
+ 	select VIDEO_OV7670 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
+ 	select I2C_GPIO
++	select V4L2_ASYNC
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEOBUF2_DMA_SG
 -- 
 2.39.2
 
