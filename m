@@ -1,149 +1,179 @@
-Return-Path: <linux-media+bounces-5071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5072-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D31853161
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 14:08:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AFE853168
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 14:09:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 925A1283A20
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 13:08:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B38201C2307D
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 13:09:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37C6350A7C;
-	Tue, 13 Feb 2024 13:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A65B51C49;
+	Tue, 13 Feb 2024 13:09:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIukKUC4"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="h7Jw+cB9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D38D4CB22
-	for <linux-media@vger.kernel.org>; Tue, 13 Feb 2024 13:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC8238DDF;
+	Tue, 13 Feb 2024 13:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707829716; cv=none; b=mGrhcqjKWtT6lqnHhcrrLTFfK9D+EUMxa+0WIRKWSt2pKCO885Y4asZciZCZMmI/KZOQRi/M1Yrj7v9qEvw8iAGFxyGf9MUK+TFJCPrC4YkdHtFXgxu3iQXTVgUjnh0JkzhsrgNRsuHNgfTtBU1sjaKcqsH5SWF07z+z3oHx2o8=
+	t=1707829757; cv=none; b=Ynp268RF5djr+dbfFF5IcwRiHmiElnE1Y9NbJv5hcYi11e4segPu62L2/zMwGFVI4WfnFFX6LugLDu9l0/CZ/oPXktezJk8JJ8S52AC058HifkajfyZWZmEVTjem7GmdpuaxME9Bt8Fxl3Ytlb5X/wn8Pw/NDkric/FHd8UPB7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707829716; c=relaxed/simple;
-	bh=5x1uQFU/utZ+omLoh5VeYQrzrTgwlyOMHI0cIqHl1ZE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KIXmcXoLRGFmU3a6V2MUM8/2JMQR/iC8Na4AuclAWr522lSqXvx+agshHPbAI6dxfMYFf8Sk3iX9+BNTqaX5QvT+xjcn7Ls18Otpoh4dW4XVOquOzumP50esydbjueQhugLDZZHxKXb1S08Q2MVmoebyjEIRkHk6SLUjQQAVIuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIukKUC4; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707829715; x=1739365715;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=5x1uQFU/utZ+omLoh5VeYQrzrTgwlyOMHI0cIqHl1ZE=;
-  b=PIukKUC4669XbkYsvkoFwpcxR81GBGi5SRdJPPAsB3/N8IO5S89KAy9G
-   mvNSPdqkjgblNpd1/vTRFdV52NMb4l8Wdo8K1neFmuMCMZlzLOtP05lCC
-   BSWeX6u0SZUFTTpqzUxKVxHXLPPI1lUS0kihvyzIIDdjLzrscXyGrdNY8
-   Y3F91UZ2mZJNUW+FC2wskcX9ibyitiyl+QTeTaxHTugR507EmYCaMQnMi
-   FeSIESmufzu8yOBP2A4Up+Se9NU6NIRp5WaoGzsAWxpFZ67LDEeKDXvUq
-   y0RtL2Ysivt9RiQaVBEPiVDX1zQGknYvcxcrAuiTEICXHVDQ0RIruujoC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1739959"
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="1739959"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 05:08:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="26061699"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 05:08:22 -0800
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 57D821202B6;
-	Tue, 13 Feb 2024 15:08:19 +0200 (EET)
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH v2 4/4] media: ivsc: csi: Use IPU bridge
-Date: Tue, 13 Feb 2024 15:08:15 +0200
-Message-Id: <20240213130815.382792-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240213130815.382792-1-sakari.ailus@linux.intel.com>
-References: <20240213130815.382792-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1707829757; c=relaxed/simple;
+	bh=fwjPbwWJuAg6/oVUHwI9+iVzWOd2/i2+1WYTkZqm2tM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=stIOgE+woc7f5z9F9IxoWG9Oxf53E3r8G5Jj0L0aVZxhEWmJeVBwSPqHHRDhw8QdFmoYWBnPSXDslASQNJVcSUxRS/Kx5JHDYYuPIYAGoFo4eW8C0ehV+DncyWDwfWD/w3JUxZsgx4oxLKYwSbfShl2IwCm/HsmBq/DKEii426Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=h7Jw+cB9; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41DCOHJl008150;
+	Tue, 13 Feb 2024 13:09:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=WgNQG4hvr6W840pgn8q/mmFJTING5Dc9KpCyyDaDphE=; b=h7
+	Jw+cB9ffaHkpv1KfC2kg10QYbbINHrDRNlWUbITMAxwsz5HZE/Q+PJM9gPlf2IK5
+	bZvJjoPFcpSh4o/4GVPxBqcPUtHY4uDuFBeFj9X6Hf9sNkDyhakzr+Z76VNqzw9U
+	pnorGyVf3xrh1em6NVcVKCFGinX0klCCVZuGCjKojabTS7J6BSa2kbMmWwRVXLYK
+	FKUgxS3Cy44FG7eBnW+nfFd3cdmiPX2KLi0+UTtOeQqW4ZOczQGGk7EJ0iUpZIAU
+	jvIIpLicGgEdrOJryL9SxMaeckf4Yinw0yVFXh3Yn32kbcQIl99ERihwoNHrcRZq
+	HbROtNr9apOd8Gkt7Brw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7ww5s5w4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 13:09:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41DD95lV005353
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 13:09:05 GMT
+Received: from [10.218.5.19] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
+ 2024 05:08:58 -0800
+Message-ID: <f59244eb-a05d-4aa4-89e8-81cfcbafe288@quicinc.com>
+Date: Tue, 13 Feb 2024 18:38:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/5] clk: qcom: gdsc: Add set and get hwmode callbacks
+ to switch GDSC mode
+Content-Language: en-US
+To: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman
+	<khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>, Pavel Machek
+	<pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Taniya Das <quic_tdas@quicinc.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>,
+        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
+ <20240122-gdsc-hwctrl-v4-3-9061e8a7aa07@linaro.org>
+ <qbqsvxmnl2tuansxzr6u4vqxemw4dzrsvz2ill6qnyxdp5gtji@lsemt4asmsax>
+ <xl767op6zn5iene3h4jg3x3w7fofrqztqkdgg4qqmiy34p27if@hnev3tnldqw5>
+From: Jagadeesh Kona <quic_jkona@quicinc.com>
+In-Reply-To: <xl767op6zn5iene3h4jg3x3w7fofrqztqkdgg4qqmiy34p27if@hnev3tnldqw5>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: nmn1K82QbuOgmsLF47Nec_d7br0AR5-e
+X-Proofpoint-ORIG-GUID: nmn1K82QbuOgmsLF47Nec_d7br0AR5-e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-13_06,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 phishscore=0 mlxlogscore=590 bulkscore=0
+ spamscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402130104
 
-Use IPU bridge to instantiate software nodes for IPU6 related devices. If
-the IPU6 device is probed before the MEI CSI device is created, neither
-will probe unless there are further devices probed successfully which
-triggers re-probe of both IPU6 and MEI CSI.
 
-This patch ensures the necessary software nodes are in place when the MEI
-CSI driver is probed.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ivsc/mei_csi.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+On 1/31/2024 5:49 AM, Bjorn Andersson wrote:
+> On Tue, Jan 30, 2024 at 05:00:28PM -0600, Bjorn Andersson wrote:
+>> On Mon, Jan 22, 2024 at 10:47:03AM +0200, Abel Vesa wrote:
+>>> From: Jagadeesh Kona <quic_jkona@quicinc.com>
+>>>
+>>> Add support for set and get hwmode callbacks to switch the GDSC between
+>>> SW and HW modes. Currently, the GDSC is moved to HW control mode
+>>> using HW_CTRL flag and if this flag is present, GDSC is moved to HW
+>>> mode as part of GDSC enable itself. The intention is to keep the
+>>> HW_CTRL flag functionality as is, since many older chipsets still use
+>>> this flag.
+>>>
+>>
+>> This provides insight into why we end up with both HW_CTRL and
+>> HW_CTRL_TRIGGER. This doesn't describe why this change is needed, but
+>> rather just an implementation detail.
+>>
+>>> But consumer drivers also require the GDSC mode to be switched dynamically
+>>> at runtime based on requirement for certain usecases. Some of these
+>>> usecases are switching the GDSC to SW mode to keep it ON during the
+>>> enablement of clocks that are dependent on GDSC and while programming
+>>> certain configurations that require GDSC to be ON. Introduce a new
+>>> HW_CTRL_TRIGGER flag to register the set_hwmode_dev and get_hwmode_dev
+>>> callbacks which allows the consumer drivers to switch the GDSC back and
+>>> forth between HW/SW modes dynamically at runtime using new
+>>> dev_pm_genpd_set_hwmode API.
+>>>
+>>
+>> This still expresses the need for HW_CTRL_TRIGGER in terms of "some
+>> drivers need for some use case". We don't need these many words to say:
+>> "Introduce HW_CTRL_TRIGGER for client drivers that need it."
+>>
+>>
+>> I find that it would be useful to document that every time a GDSC is
+>> turned on the mode will be switched to SW...
+>>
+> 
+> I believe I'm wrong here. Reading the patch again, I think we might
+> retain the mode across a disable/enable cycle. I at least don't see
+> anything explicit returning us to SW mode.
+> > According to Linux though, the GDSC is off, so as described below, there
+> will be no votes for supplying resources.
+> 
 
-diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
-index 15b905f66ab7..b97f341318fe 100644
---- a/drivers/media/pci/intel/ivsc/mei_csi.c
-+++ b/drivers/media/pci/intel/ivsc/mei_csi.c
-@@ -19,12 +19,15 @@
- #include <linux/mei_cl_bus.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/pci.h>
- #include <linux/pm_runtime.h>
- #include <linux/slab.h>
- #include <linux/units.h>
- #include <linux/uuid.h>
- #include <linux/workqueue.h>
- 
-+#include <media/ipu-bridge.h>
-+#include <media/ipu6-pci-table.h>
- #include <media/v4l2-async.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-fwnode.h>
-@@ -716,11 +719,23 @@ static int mei_csi_probe(struct mei_cl_device *cldev,
- 			 const struct mei_cl_device_id *id)
- {
- 	struct device *dev = &cldev->dev;
-+	unsigned int i;
-+	struct pci_dev *ipu;
- 	struct mei_csi *csi;
- 	int ret;
- 
--	if (!dev_fwnode(dev))
--		return -EPROBE_DEFER;
-+	for (i = 0, ipu = NULL; !ipu && ipu6_pci_tbl[i].vendor; i++)
-+		ipu = pci_get_device(ipu6_pci_tbl[i].vendor,
-+				     ipu6_pci_tbl[i].device, NULL);
-+
-+	if (!ipu)
-+		return -ENODEV;
-+
-+	ret = ipu_bridge_init(&ipu->dev, ipu_bridge_parse_ssdb);
-+	if (ret < 0)
-+		return ret;
-+	if (WARN_ON(!dev_fwnode(dev)))
-+		return -ENXIO;
- 
- 	csi = devm_kzalloc(dev, sizeof(struct mei_csi), GFP_KERNEL);
- 	if (!csi)
-@@ -841,6 +856,7 @@ static struct mei_cl_driver mei_csi_driver = {
- 
- module_mei_cl_driver(mei_csi_driver);
- 
-+MODULE_IMPORT_NS(INTEL_IPU_BRIDGE);
- MODULE_AUTHOR("Wentong Wu <wentong.wu@intel.com>");
- MODULE_AUTHOR("Zhifeng Wang <zhifeng.wang@intel.com>");
- MODULE_DESCRIPTION("Device driver for IVSC CSI");
--- 
-2.39.2
+Yes, With HW_CTRL_TRIGGER flag, the GDSC mode gets switched only in new 
+set_hwmode_dev() callback when consumers explicitly call for it. This is 
+to ensure GenPD f/w's hwmode aligns with the actual GDSC mode in HW.
 
+With the new API, the expectation is consumer drivers should move the 
+GDSC to SW control mode before disabling the GDSC, which ensures that, 
+GDSC is turned ON in SW mode every time.
+
+Thanks,
+Jagadeesh
+
+> Regards,
+> Bjorn
 
