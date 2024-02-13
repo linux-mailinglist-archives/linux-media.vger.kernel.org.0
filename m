@@ -1,251 +1,139 @@
-Return-Path: <linux-media+bounces-5049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB2B8526F6
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 02:49:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D123D852791
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 03:47:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E186BB2946B
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 01:46:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C41C9B23602
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 02:46:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 887C0290E;
-	Tue, 13 Feb 2024 01:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPVOI1ef"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02DF017CE;
+	Tue, 13 Feb 2024 02:46:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BE97E1;
-	Tue, 13 Feb 2024 01:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DFF6119
+	for <linux-media@vger.kernel.org>; Tue, 13 Feb 2024 02:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707786854; cv=none; b=OOlJ3sKemu7dc/mM7Z/KWjFKDQ6IkHp/jYnP+IZEA3FqIT9iiDA/rpWZhGZDILKDHSRpn0WyBfx41bJ+MwTo/a3fy2ZyDPvKBlTosPQhui9AQDpD2XaRiIlbq4N93gS8kq6L2AsbpeM+nIZjWraA1VlayriZtVm5xKnH/VRpCKM=
+	t=1707792406; cv=none; b=J7VeJZcd6CR+fKnQFTutjXLGbiYouZ3s7dKmrK5qWfwpztxT613QVL8WNqrLK2SasZOXTOa/ZlyH+C8kRvMBcJH6U9+fXlaibom/pJw1Pcoja63nQ1kgETlIpOmCWvxawTo3x4WZrC8P7D17Kug6WJmRFUowdG/4M4epwBeoMb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707786854; c=relaxed/simple;
-	bh=rdCSghG/HzbYPNukcgME/dtz2hjSD517GZeuam0NzRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SOQ3NPhDl/H7F80edmqZvFf2LjuUMowvHDZOLPHI9Kh+FWt+ezdJseJZdTg+MfVLXjkqZhlkCVYuVL8vCDLXJPpxVzrMgd35XxhTDG737BWxa4n5U4b8T4vmxQXh7GsEgAVXN5DKghH4ru/oSwxxmQ3rPM+btBOWvf8KX/J9xvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPVOI1ef; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707786852; x=1739322852;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rdCSghG/HzbYPNukcgME/dtz2hjSD517GZeuam0NzRI=;
-  b=TPVOI1efEPQJ492CuXpaM/gEV/ed2Ysee4Tb0Lz04AgyhH2P+9CNpz05
-   SAa0rjPEOl2oONnqLVAqE+W26pvvU243AJpKZnISp76CxsoiFVMbZMYeW
-   5IG5/CEqQxNV9eOg2P5a2cidtyGEh0esBXU3NOs9sDn70u+ye93iQFdXc
-   WjzgaeGEzD7sWqOfsRcUkZkWzgJdsoEDJQ1VqtwvaLuDCw0ulM1AHAFr3
-   yn4+yWS2kRhC258koyQcpYGCOERvsmB2Cp1AjvOPAMPUazQ0R5fwWgH7l
-   8Y8FPDmbeQ71082SZJVyANrOQ33S8S4npDCjMZt8xGd+ckiEPy8H21SFz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27230187"
-X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
-   d="scan'208";a="27230187"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 17:14:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="825971966"
-X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
-   d="scan'208";a="825971966"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 Feb 2024 17:14:08 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rZhN8-0007R8-0X;
-	Tue, 13 Feb 2024 01:14:06 +0000
-Date: Tue, 13 Feb 2024 09:13:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: drivers/media/platform/marvell/cafe-driver.c:543: undefined
- reference to `v4l2_async_nf_init'
-Message-ID: <202402130955.f6uxzdCA-lkp@intel.com>
+	s=arc-20240116; t=1707792406; c=relaxed/simple;
+	bh=GuJH/vjvJfkokuWWVsd7TyNo4AEAFjJ21XS9IJ4lcCs=;
+	h=Date:Message-ID:From:To:Subject; b=sVQEczgcoF+F4QId5wenUeEYXDIR+hi8zlN0aCXO339yOlqAJ2c7fxmuwsetDhQznnhMYtNzGnaZveHutyZzKxHNfePDuWa/P0A3/hG8PnOHyAPdNLxtuXRmsCyqoiN2879wTEzV0Lwg+RKjjsjNVyhXFcz42WP7kgJvNd6f9LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C87C433F1
+	for <linux-media@vger.kernel.org>; Tue, 13 Feb 2024 02:46:45 +0000 (UTC)
+Date: Tue, 13 Feb 2024 03:46:43 +0100
+Message-ID: <3a52b66f7870ea0821648e3aaf909ed4.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c664e16bb1ba1c8cf1d7ecf3df5fd83bbb8ac15a
-commit: 7d3c7d2a2914e10bec3b9cdacdadb8e1f65f715a media: i2c: Add a camera sensor top level menu
-date:   6 months ago
-config: i386-randconfig-r011-20211227 (https://download.01.org/0day-ci/archive/20240213/202402130955.f6uxzdCA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402130955.f6uxzdCA-lkp@intel.com/reproduce)
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402130955.f6uxzdCA-lkp@intel.com/
+Results of the daily build of media_tree:
 
-All errors (new ones prefixed by >>):
+date:			Tue Feb 13 03:00:32 CET 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	8c64f4cdf4e6cc5682c52523713af8c39c94e6d5
+v4l-utils git hash:	d700deb143685b8217aa8a6eeeba3b090d4287fc
+edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8582-gd786c0f0
+sparse version:		v0.5.0-8582-gd786c0f0
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-   ld: drivers/media/i2c/ov7670.o: in function `ov7670_remove':
-   drivers/media/i2c/ov7670.c:2011: undefined reference to `v4l2_async_unregister_subdev'
-   ld: drivers/media/i2c/ov7670.o: in function `ov7670_parse_dt':
-   drivers/media/i2c/ov7670.c:1836: undefined reference to `v4l2_fwnode_endpoint_parse'
-   ld: drivers/media/i2c/ov7670.o: in function `ov7670_probe':
-   drivers/media/i2c/ov7670.c:1990: undefined reference to `v4l2_async_register_subdev'
-   ld: drivers/media/platform/marvell/cafe-driver.o: in function `cafe_pci_probe':
->> drivers/media/platform/marvell/cafe-driver.c:543: undefined reference to `v4l2_async_nf_init'
->> ld: drivers/media/platform/marvell/cafe-driver.c:545: undefined reference to `__v4l2_async_nf_add_i2c'
-   ld: drivers/media/platform/marvell/mcam-core.o: in function `mccic_shutdown':
->> drivers/media/platform/marvell/mcam-core.c:1931: undefined reference to `v4l2_async_nf_unregister'
->> ld: drivers/media/platform/marvell/mcam-core.c:1932: undefined reference to `v4l2_async_nf_cleanup'
-   ld: drivers/media/platform/marvell/mcam-core.o: in function `mccic_register':
-   drivers/media/platform/marvell/mcam-core.c:1910: undefined reference to `v4l2_async_nf_unregister'
-   ld: drivers/media/platform/marvell/mcam-core.c:1911: undefined reference to `v4l2_async_nf_cleanup'
->> ld: drivers/media/platform/marvell/mcam-core.c:1873: undefined reference to `v4l2_async_nf_register'
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_OV7670
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_CAMERA_SENSOR [=n] && I2C [=y] && VIDEO_DEV [=y]
-   Selected by [y]:
-   - VIDEO_CAFE_CCIC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && PCI [=y] && I2C [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: WARNINGS:
+
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
 
 
-vim +543 drivers/media/platform/marvell/cafe-driver.c
+date:			Tue Feb 13 03:19:01 CET 2024
+virtme-64: WARNINGS: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 2
 
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  469  
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  470  /* -------------------------------------------------------------------------- */
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  471  /*
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  472   * PCI interface stuff.
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  473   */
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  474  
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  475  static int cafe_pci_probe(struct pci_dev *pdev,
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  476  		const struct pci_device_id *id)
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  477  {
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  478  	int ret;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  479  	struct cafe_camera *cam;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  480  	struct mcam_camera *mcam;
-adb2dcd5f2d49d drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-02-16  481  	struct v4l2_async_connection *asd;
-2b889a4afcacef drivers/media/platform/marvell-ccic/cafe-driver.c Evgeny Novikov  2021-05-26  482  	struct i2c_client *i2c_dev;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  483  
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  484  	/*
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  485  	 * Start putting together one of our big camera structures.
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  486  	 */
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  487  	ret = -ENOMEM;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  488  	cam = kzalloc(sizeof(struct cafe_camera), GFP_KERNEL);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  489  	if (cam == NULL)
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  490  		goto out;
-953e41153a1662 drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2020-08-18  491  	pci_set_drvdata(pdev, cam);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  492  	cam->pdev = pdev;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  493  	mcam = &cam->mcam;
-7486af1ae3ee34 drivers/media/platform/marvell-ccic/cafe-driver.c Hans Verkuil    2013-05-29  494  	mcam->chip_id = MCAM_CAFE;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  495  	spin_lock_init(&mcam->dev_lock);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  496  	init_waitqueue_head(&cam->smbus_wait);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  497  	mcam->plat_power_up = cafe_ctlr_power_up;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  498  	mcam->plat_power_down = cafe_ctlr_power_down;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  499  	mcam->dev = &pdev->dev;
-a9b36e850782db drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-20  500  	/*
-a9b36e850782db drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-20  501  	 * Vmalloc mode for buffers is traditional with this driver.
-a9b36e850782db drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-20  502  	 * We *might* be able to run DMA_contig, especially on a system
-a9b36e850782db drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-20  503  	 * with CMA in it.
-a9b36e850782db drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-20  504  	 */
-a9b36e850782db drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-20  505  	mcam->buffer_mode = B_vmalloc;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  506  	/*
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  507  	 * Get set up on the PCI bus.
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  508  	 */
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  509  	ret = pci_enable_device(pdev);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  510  	if (ret)
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  511  		goto out_free;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  512  	pci_set_master(pdev);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  513  
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  514  	ret = -EIO;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  515  	mcam->regs = pci_iomap(pdev, 0, 0);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  516  	if (!mcam->regs) {
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  517  		printk(KERN_ERR "Unable to ioremap cafe-ccic regs\n");
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  518  		goto out_disable;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  519  	}
-4e032f3f58800a drivers/media/platform/marvell-ccic/cafe-driver.c Hans Verkuil    2013-05-29  520  	mcam->regs_size = pci_resource_len(pdev, 0);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  521  	ret = request_irq(pdev->irq, cafe_irq, IRQF_SHARED, "cafe-ccic", cam);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  522  	if (ret)
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  523  		goto out_iounmap;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  524  
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  525  	/*
-81a409bfd5517d drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  526  	 * Initialize the controller.
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  527  	 */
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  528  	cafe_ctlr_init(mcam);
-81a409bfd5517d drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  529  
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  530  	/*
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  531  	 * Set up I2C/SMBUS communications.  We have to drop the mutex here
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  532  	 * because the sensor could attach in this call chain, leading to
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  533  	 * unsightly deadlocks.
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  534  	 */
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  535  	ret = cafe_smbus_setup(cam);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  536  	if (ret)
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  537  		goto out_pdown;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  538  
-4af65141e38ea5 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-03-29  539  	ret = v4l2_device_register(mcam->dev, &mcam->v4l2_dev);
-4af65141e38ea5 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-03-29  540  	if (ret)
-4af65141e38ea5 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-03-29  541  		goto out_smbus_shutdown;
-4af65141e38ea5 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-03-29  542  
-b8ec754ae4c563 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-02-23 @543  	v4l2_async_nf_init(&mcam->notifier, &mcam->v4l2_dev);
-50fe0de0fedbc2 drivers/media/platform/marvell-ccic/cafe-driver.c Ezequiel Garcia 2021-01-18  544  
-3c8c153914812a drivers/media/platform/marvell-ccic/cafe-driver.c Sakari Ailus    2021-03-05 @545  	asd = v4l2_async_nf_add_i2c(&mcam->notifier,
-50fe0de0fedbc2 drivers/media/platform/marvell-ccic/cafe-driver.c Ezequiel Garcia 2021-01-18  546  				    i2c_adapter_id(cam->i2c_adapter),
-adb2dcd5f2d49d drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-02-16  547  				    ov7670_info.addr,
-adb2dcd5f2d49d drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-02-16  548  				    struct v4l2_async_connection);
-50fe0de0fedbc2 drivers/media/platform/marvell-ccic/cafe-driver.c Ezequiel Garcia 2021-01-18  549  	if (IS_ERR(asd)) {
-50fe0de0fedbc2 drivers/media/platform/marvell-ccic/cafe-driver.c Ezequiel Garcia 2021-01-18  550  		ret = PTR_ERR(asd);
-4af65141e38ea5 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-03-29  551  		goto out_v4l2_device_unregister;
-50fe0de0fedbc2 drivers/media/platform/marvell-ccic/cafe-driver.c Ezequiel Garcia 2021-01-18  552  	}
-3eefe36cc00c53 drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  553  
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  554  	ret = mccic_register(mcam);
-3eefe36cc00c53 drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  555  	if (ret)
-4af65141e38ea5 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-03-29  556  		goto out_v4l2_device_unregister;
-3eefe36cc00c53 drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  557  
-81a409bfd5517d drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  558  	clkdev_create(mcam->mclk, "xclk", "%d-%04x",
-81a409bfd5517d drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  559  		i2c_adapter_id(cam->i2c_adapter), ov7670_info.addr);
-81a409bfd5517d drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  560  
-2b889a4afcacef drivers/media/platform/marvell-ccic/cafe-driver.c Evgeny Novikov  2021-05-26  561  	i2c_dev = i2c_new_client_device(cam->i2c_adapter, &ov7670_info);
-2b889a4afcacef drivers/media/platform/marvell-ccic/cafe-driver.c Evgeny Novikov  2021-05-26  562  	if (IS_ERR(i2c_dev)) {
-2b889a4afcacef drivers/media/platform/marvell-ccic/cafe-driver.c Evgeny Novikov  2021-05-26  563  		ret = PTR_ERR(i2c_dev);
-2b889a4afcacef drivers/media/platform/marvell-ccic/cafe-driver.c Evgeny Novikov  2021-05-26  564  		goto out_mccic_shutdown;
-2b889a4afcacef drivers/media/platform/marvell-ccic/cafe-driver.c Evgeny Novikov  2021-05-26  565  	}
-2b889a4afcacef drivers/media/platform/marvell-ccic/cafe-driver.c Evgeny Novikov  2021-05-26  566  
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  567  	cam->registered = 1;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  568  	return 0;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  569  
-2b889a4afcacef drivers/media/platform/marvell-ccic/cafe-driver.c Evgeny Novikov  2021-05-26  570  out_mccic_shutdown:
-3eefe36cc00c53 drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  571  	mccic_shutdown(mcam);
-4af65141e38ea5 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-03-29  572  out_v4l2_device_unregister:
-4af65141e38ea5 drivers/media/platform/marvell/cafe-driver.c      Sakari Ailus    2023-03-29  573  	v4l2_device_unregister(&mcam->v4l2_dev);
-3eefe36cc00c53 drivers/media/platform/marvell-ccic/cafe-driver.c Lubomir Rintel  2019-05-28  574  out_smbus_shutdown:
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  575  	cafe_smbus_shutdown(cam);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  576  out_pdown:
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  577  	cafe_ctlr_power_down(mcam);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  578  	free_irq(pdev->irq, cam);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  579  out_iounmap:
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  580  	pci_iounmap(pdev, mcam->regs);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  581  out_disable:
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  582  	pci_disable_device(pdev);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  583  out_free:
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  584  	kfree(cam);
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  585  out:
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  586  	return ret;
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  587  }
-abfa3df36c01a3 drivers/media/video/marvell-ccic/cafe-driver.c    Jonathan Corbet 2011-06-11  588  
+date:			Tue Feb 13 03:45:21 CET 2024
 
-:::::: The code at line 543 was first introduced by commit
-:::::: b8ec754ae4c563f6aab8c0cb47aeb2eae67f1da3 media: v4l: async: Set v4l2_device and subdev in async notifier init
+Detailed results are available here:
 
-:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
