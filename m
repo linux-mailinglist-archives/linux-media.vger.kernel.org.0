@@ -1,190 +1,150 @@
-Return-Path: <linux-media+bounces-5051-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5054-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB07852840
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 06:37:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9619852ADB
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 09:21:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFA471F23B4C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 05:37:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71627281F3D
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 08:21:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4260512B7D;
-	Tue, 13 Feb 2024 05:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9534318654;
+	Tue, 13 Feb 2024 08:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J6NCqQql"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="n45jA2m5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE505125BF
-	for <linux-media@vger.kernel.org>; Tue, 13 Feb 2024 05:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE9E1B7F3
+	for <linux-media@vger.kernel.org>; Tue, 13 Feb 2024 08:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707802661; cv=none; b=SYPG02U728JBodsaKs3RTEBZcI0vD6KUsexwmbsKg6E+N/+W2+MgHY3hJGlmYMGwPPSlC86bTqPM8/VJ5aFcrZwpZvXmVLW08XruxF1i/ZhpboxXZoK8sb230AazGcrb0trs0GfSrlGzSw4jHgS8cONz/HZ5c0hvAStjz5ISPec=
+	t=1707812375; cv=none; b=IDZbuWP5FGHG7m/NkDjufT97o+DNJVZVWwFgdWMCl9NHNhcGY3FFDjgAxa0KXmh2DGdh0Nuvrikp/jPWmaCUNS5RJZ2IOR8jJZCZTq0D05/KhbuxEBEcCQrKSwKU3azhnmyQCh0McpFWuKck/LSqsNbiiJgqraPXDjOgr6rkJFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707802661; c=relaxed/simple;
-	bh=2TvbNHOCXoHHQyd6QEHRFXTQkRdHsfAsdwIUTFsb3/o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ecGajyGPKhiveWzBHzoGD7ZPAJCpV+aGxSYziT9/XTYjXiOc/zFhsjms6+06Kp3U9l9l+XcjQnlIB/63eDG69uHZ1KFkqw76TEab1zb0IAXiXme4q5Y6cTf+0xGbZ8gCcyXPaLWJSZf/9QVuU3RFMn880xfSAkP/k8HT8aJRMl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J6NCqQql; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a30e445602cso964919666b.0
-        for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 21:37:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707802657; x=1708407457; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jIaHZYRSgGkeuSC2R8bvkqzcC5ruMgkbFrkWrF4z2AY=;
-        b=J6NCqQqlbo2P4Zyp+Xm2FUs679XVm4A6bETOkyiitf4a7KGwhDc5IINFz8APWleS5z
-         sKlUosdnyBPIAR1C8homG/mRLyi4BzVc4u1nGQ++xkLtPxEWDvihffYijnmQ1Bgk+C9P
-         btZCeGnFGHtUAE/yABjQEdvPgIS4JkJdgO0Tk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707802657; x=1708407457;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jIaHZYRSgGkeuSC2R8bvkqzcC5ruMgkbFrkWrF4z2AY=;
-        b=T6nHQqFWCTDncpi6IKXiI7NYbVFDoNY8o7lFVRiCKpAS8KaRHtTmW+55WgiMPWn2UB
-         78ii8CeVwjpYGESsML2erABZSJOuxY5r2g7noa9/9PlD3L/xxBkm5FYPf3+983pmdEZw
-         6D8HiaYTC2RfmGObFTDApWxpOQwD5JJ+kvB5FqN3Olb3aUWUA6mHqfPwNi5q9TOwmoAU
-         cDOT7R2PgylyCtxR6gvUJBgv1RhQcJF/33IkdWDYQorq+lOMRQwdr7x42g4nnPfQj/1w
-         3nPz39lRSKjTubaDlncmFwMBtmAoQHz5OM2nwSwaov6a5Rdr3GhLpgmbdDioTym0CyiB
-         qXCg==
-X-Gm-Message-State: AOJu0Yw4nVUCsxx54vOtg0wq18VFviSuGJ7v120l7lt8oLADO0a2qKe3
-	x33jdpZHsbbxkE20nn/VkQ0w2CidktHg7Dj0z8DzYdVtfAYp12+oGDsLJaG8A+WWlYNgch4At6g
-	=
-X-Google-Smtp-Source: AGHT+IGXQQWj7mWA0U6OKOWrOfY0tkf7Hs78NENua2GsQMHMhN99pyIzn3OKqkIuJUmdBkSLcCaA/w==
-X-Received: by 2002:a17:907:174f:b0:a38:3eb1:40a1 with SMTP id lf15-20020a170907174f00b00a383eb140a1mr1270441ejc.26.1707802657487;
-        Mon, 12 Feb 2024 21:37:37 -0800 (PST)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
-        by smtp.gmail.com with ESMTPSA id k20-20020a170906681400b00a3bf7a9edc4sm928547ejr.15.2024.02.12.21.37.36
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 21:37:36 -0800 (PST)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3394bec856fso2912807f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 12 Feb 2024 21:37:36 -0800 (PST)
-X-Received: by 2002:adf:e592:0:b0:33b:48f1:495c with SMTP id
- l18-20020adfe592000000b0033b48f1495cmr954078wrm.12.1707802655794; Mon, 12 Feb
- 2024 21:37:35 -0800 (PST)
+	s=arc-20240116; t=1707812375; c=relaxed/simple;
+	bh=a9KpPEigrsX1iLMABeTlXtvEaBlx5SwQTXXvUiczMB0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:References; b=sa5jrE37BR/VoOPevzivUeI9J4X5QQS+mNKMw4Yf2B2coEWhRemFpto3IuXJyBFiqIMZGYBXPwLTy9tBaMXxbc5/hlIMaa1CgPudHyTs+1JNpDWvhAbRVHMB5WHLS89K2uEBZYgNqq7HTbfHYiu5e8u8hAAwwt3CWr6FPnah1R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=n45jA2m5; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240213081929epoutp0327451920c8215691d2dbb6445a0b27d9~zXk03NRW51818318183epoutp03b
+	for <linux-media@vger.kernel.org>; Tue, 13 Feb 2024 08:19:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240213081929epoutp0327451920c8215691d2dbb6445a0b27d9~zXk03NRW51818318183epoutp03b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1707812369;
+	bh=H1tmDljItywEqFTrCeVCWWEvSW1ptNZPOJ2e9OZtBDU=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=n45jA2m5Khgp+gF6RFYFySgSlZT9CDOxAOUd4ycn9dYHvn7FygcCV9OEL4NqevpOH
+	 JsOGGtvhe6DUebUjL5GEhy4TTaQCfnsHLWnHsBMQHtJIUaZAt8PGh8Nvdxzkcr9yLm
+	 0lFnNhsHM6MF5Na8YatpJi20iO09915MH0DHvyT4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240213081928epcas5p335b1317d210ea234c717440690a8224d~zXk0Zpb9U1947019470epcas5p3-;
+	Tue, 13 Feb 2024 08:19:28 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4TYvPW1Rzyz4x9Pw; Tue, 13 Feb
+	2024 08:19:27 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	8B.49.10009.F062BC56; Tue, 13 Feb 2024 17:19:27 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240213045739epcas5p49f28920efda3cb80351b1fcae580b21e~zU0mg__Ak3076530765epcas5p4j;
+	Tue, 13 Feb 2024 04:57:39 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240213045739epsmtrp195d85b4c2bfb9a6608a56432f75f2021~zU0mf7ZVQ2138221382epsmtrp1U;
+	Tue, 13 Feb 2024 04:57:39 +0000 (GMT)
+X-AuditID: b6c32a4a-261fd70000002719-78-65cb260f034a
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	4D.0C.07368.3C6FAC56; Tue, 13 Feb 2024 13:57:39 +0900 (KST)
+Received: from cheetah.sa.corp.samsungelectronics.net (unknown
+	[107.109.115.53]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240213045736epsmtip1f0d0b60a43c700a19890074823abd3b6~zU0kNhaz_0854708547epsmtip1E;
+	Tue, 13 Feb 2024 04:57:36 +0000 (GMT)
+From: Aakarsh Jain <aakarsh.jain@samsung.com>
+To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux-samsung-soc@vger.kernel.org, andi@etezian.org, gost.dev@samsung.com,
+	alim.akhtar@samsung.com, pankaj.dubey@samsung.com, aakarsh.jain@samsung.com
+Subject: [Patch v2] dt-bindings: media: s5p-mfc: Remove s5p-mfc.txt binding
+Date: Tue, 13 Feb 2024 10:27:33 +0530
+Message-Id: <20240213045733.63876-1-aakarsh.jain@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEJsWRmVeSWpSXmKPExsWy7bCmui6/2ulUg7aDHBZPd8xktXgwbxub
+	xeIfz5ks7i/+zGKxZu85Jov5R86xWtw8sJPJ4uLMuywWfS8eMltsenyN1eLyrjlsFj0btrJa
+	zDi/j8li7ZG77BbLNv1hsli09Qu7ReveI+wOgh7Xl3xi9li85yWTx6ZVnWwed67tYfPYvKTe
+	o2/LKkaPz5vkPE59/cwewBGVbZORmpiSWqSQmpecn5KZl26r5B0c7xxvamZgqGtoaWGupJCX
+	mJtqq+TiE6DrlpkD9IaSQlliTilQKCCxuFhJ386mKL+0JFUhI7+4xFYptSAlp8CkQK84Mbe4
+	NC9dLy+1xMrQwMDIFKgwITtj4Y60gn2sFfPerGdrYHzK0sXIySEhYCJx9csU1i5GLg4hgd2M
+	Esc33IRyPjFKXL+5jQXC+cYo0fhzJSNMy6OpF5kgEnsZJTbdPcoO4bQySZyc8J65i5GDg01A
+	V+Ls9hyQBhGBRkaJxx0lIDazwHkmiQudKSC2sIC3xLX1D9lBbBYBVYldzw4zg9i8ArYS06Zf
+	YodYJi+xesMBZpD5EgK9HBLX2s5DHe4iMXvfMWYIW1ji1fEtUA1SEi/726DsZInHi15C1eRI
+	rN8zBarXXuLAlTksIHcyC2hKrN+lDxGWlZh6ah0TxJ18Er2/nzBBxHkldsyDsdUk5tz5wQph
+	y0gcXr0UGigeEi3vH4KtEhKIldh/9S7bBEbZWQgbFjAyrmKUTC0ozk1PLTYtMMpLLYfHU3J+
+	7iZGcOLU8trB+PDBB71DjEwcjIcYJTiYlUR4L804kSrEm5JYWZValB9fVJqTWnyI0RQYZhOZ
+	pUST84GpO68k3tDE0sDEzMzMxNLYzFBJnPd169wUIYH0xJLU7NTUgtQimD4mDk6pBqZtsjzT
+	OzgvM76/aWrY7LSFsckhPJKxwP2nS4fP+nzGTzf8lhw0v3Rst96SuY35sfYKS/gmLCzyP8c2
+	U3zve+0/n/T0Gdjv3eza9ajReYvETOdfz7c6fvlYz1tx4n9e/IH29nshJ3b6GioGqaVM2rtg
+	qbhSVfzHhTNM3v+QuRX8UF//9j1/b0Xvuv3NSnc/n3RbyK5Uv9zA7O3h0zyRnZf9K3gPH+0w
+	Efr990ue5eWury+3my4PvVQrzl3Kkr/nyjGOFZdFz+ioei1k7DAyXrJG76GFjdSarbPP2ymu
+	qQtymL9sxQP+/6b6k06n3rrxf9Kmay2y2f/uVe7d7sD24+WtXZnyNktqsv53yZR3Gv9WYinO
+	SDTUYi4qTgQAlmfW9iUEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPLMWRmVeSWpSXmKPExsWy7bCSnO7hb6dSDS7ME7R4umMmq8WDedvY
+	LBb/eM5kcX/xZxaLNXvPMVnMP3KO1eLmgZ1MFhdn3mWx6HvxkNli0+NrrBaXd81hs+jZsJXV
+	Ysb5fUwWa4/cZbdYtukPk8WirV/YLVr3HmF3EPS4vuQTs8fiPS+ZPDat6mTzuHNtD5vH5iX1
+	Hn1bVjF6fN4k53Hq62f2AI4oLpuU1JzMstQifbsEroyFO9IK9rFWzHuznq2B8SlLFyMnh4SA
+	icSjqReZuhi5OIQEdjNKdL7bBpWQkfjfdowdwhaWWPnvOTtEUTOTxMab+4E6ODjYBHQlzm7P
+	AYmLCLQySlxf2Qk2iVngPpPElYm3WUG6hQW8Ja6tfwg2iUVAVWLXs8PMIDavgK3EtOmXoDbI
+	S6zecIB5AiPPAkaGVYySqQXFuem5yYYFhnmp5XrFibnFpXnpesn5uZsYwWGspbGD8d78f3qH
+	GJk4GA8xSnAwK4nwXppxIlWINyWxsiq1KD++qDQntfgQozQHi5I4r+GM2SlCAumJJanZqakF
+	qUUwWSYOTqkGJuUJE7kuvcjiX8GapGAVZWNzl+eHYOujiOIjBdOfKpSVvjaQ//86htf52M6d
+	RbxnLJ9GrUirTUqYwVb8pT1vxYvYhv7Nwga9iWfe6TvJR71zUTCp3a3FP0H0dz1n8JGaLqfP
+	LNnGKZE7BC6f0ma6mj2nfs+UpE+60hv+LvZcueLwl9dKsd86lS0WVBZaVad0lmQcer52UsLC
+	zsdLTRtvuvrVCbLbqSn0b4vVWPB489LerGnvzuc7avMder51jf/XYsvJUn/V7LsvyWs58GUr
+	mDzpn33JtLjd/sZX/9zZr+ITfk9plr05J+kkB/vFHQ6//77L+seyumvRmxtnmB9NmtS1Wzg0
+	vzj2a8KxM85KSizFGYmGWsxFxYkAY8iUUNICAAA=
+X-CMS-MailID: 20240213045739epcas5p49f28920efda3cb80351b1fcae580b21e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240213045739epcas5p49f28920efda3cb80351b1fcae580b21e
+References: <CGME20240213045739epcas5p49f28920efda3cb80351b1fcae580b21e@epcas5p4.samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240212191203.39238-1-andrzej.p@collabora.com>
-In-Reply-To: <20240212191203.39238-1-andrzej.p@collabora.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Tue, 13 Feb 2024 14:37:17 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AHXWPpwnV910-8SyDRVgP6Trm_AR8GfBv-pkaYpzk1aA@mail.gmail.com>
-Message-ID: <CAAFQd5AHXWPpwnV910-8SyDRVgP6Trm_AR8GfBv-pkaYpzk1aA@mail.gmail.com>
-Subject: Re: [PATCH v2] media: videobuf2: Add missing doc comment for waiting_in_dqbuf
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: linux-media@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 13, 2024 at 4:12=E2=80=AFAM Andrzej Pietrasiewicz
-<andrzej.p@collabora.com> wrote:
->
-> While at it rearrange other comments to match the order of struct members=
-.
->
-> Fixes: d65842f7126a ("media: vb2: add waiting_in_dqbuf flag")
->
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
-> v2: - rebased onto latest media_tree
->     - reformulated the actual doc comment according to Tomasz
->       Figa's suggestion (thx Tomasz)
->  include/media/videobuf2-core.h | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-cor=
-e.h
-> index 56719a26a46c..bec8c3a1ed82 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -72,6 +72,10 @@ struct vb2_buffer;
->   *              argument to other ops in this structure.
->   * @put_userptr: inform the allocator that a USERPTR buffer will no long=
-er
->   *              be used.
-> + * @prepare:   called every time the buffer is passed from userspace to =
-the
-> + *             driver, useful for cache synchronisation, optional.
-> + * @finish:    called every time the buffer is passed back from the driv=
-er
-> + *             to the userspace, also optional.
->   * @attach_dmabuf: attach a shared &struct dma_buf for a hardware operat=
-ion;
->   *                used for DMABUF memory types; dev is the alloc device
->   *                dbuf is the shared dma_buf; returns ERR_PTR() on failu=
-re;
-> @@ -86,10 +90,6 @@ struct vb2_buffer;
->   *             dmabuf.
->   * @unmap_dmabuf: releases access control to the dmabuf - allocator is n=
-otified
->   *               that this driver is done using the dmabuf for now.
-> - * @prepare:   called every time the buffer is passed from userspace to =
-the
-> - *             driver, useful for cache synchronisation, optional.
-> - * @finish:    called every time the buffer is passed back from the driv=
-er
-> - *             to the userspace, also optional.
->   * @vaddr:     return a kernel virtual address to a given memory buffer
->   *             associated with the passed private structure or NULL if n=
-o
->   *             such mapping exists.
-> @@ -484,7 +484,6 @@ struct vb2_buf_ops {
->   *             caller. For example, for V4L2, it should match
->   *             the types defined on &enum v4l2_buf_type.
->   * @io_modes:  supported io methods (see &enum vb2_io_modes).
-> - * @alloc_devs:        &struct device memory type/allocator-specific per=
--plane device
->   * @dev:       device to use for the default allocation context if the d=
-river
->   *             doesn't fill in the @alloc_devs array.
->   * @dma_attrs: DMA attributes to use for the DMA.
-> @@ -553,6 +552,7 @@ struct vb2_buf_ops {
->   *             VIDIOC_REQBUFS will ensure at least @min_queued_buffers
->   *             buffers will be allocated. Note that VIDIOC_CREATE_BUFS w=
-ill not
->   *             modify the requested buffer count.
-> + * @alloc_devs:        &struct device memory type/allocator-specific per=
--plane device
->   */
->  /*
->   * Private elements (won't appear at the uAPI book):
-> @@ -577,6 +577,9 @@ struct vb2_buf_ops {
->   * @waiting_for_buffers: used in poll() to check if vb2 is still waiting=
- for
->   *             buffers. Only set for capture queues if qbuf has not yet =
-been
->   *             called since poll() needs to return %EPOLLERR in that sit=
-uation.
-> + * @waiting_in_dqbuf: set by the core for the duration of a blocking DQB=
-UF, when
-> + *             it has to wait for a buffer to become available with vb2_=
-queue->lock
-> + *             released. Used to prevent destroying the queue by other t=
-hreads.
->   * @is_multiplanar: set if buffer type is multiplanar
->   * @is_output: set if buffer type is output
->   * @copy_timestamp: set if vb2-core should set timestamps
-> --
-> 2.34.1
->
+commit "538af6e5856b" which convert s5p-mfc bindings to
+json-schema is already merged. Remove "s5p-mfc.txt" file.
 
-Thanks!
+Fixes: 538af6e5856b ("dt-bindings: media: s5p-mfc: convert
+bindings to json-schema")
+Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+---
+changelog:
+v1->v2
+Add Fixes tag suggested by Krzysztof
+ Documentation/devicetree/bindings/media/s5p-mfc.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/s5p-mfc.txt
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
+diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+deleted file mode 100644
+index e69de29bb2d1..000000000000
+-- 
+2.17.1
 
-Best regards,
-Tomasz
 
