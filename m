@@ -1,63 +1,76 @@
-Return-Path: <linux-media+bounces-5073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5460A85316F
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 14:10:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4288531C5
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 14:25:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 310431C26C1A
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 13:10:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F4551C2233E
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 13:25:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 636BB53E09;
-	Tue, 13 Feb 2024 13:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03CA65646B;
+	Tue, 13 Feb 2024 13:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RjdMiMLD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="btMYa1Ey"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F9A537EA;
-	Tue, 13 Feb 2024 13:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A3F55C1A;
+	Tue, 13 Feb 2024 13:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707829824; cv=none; b=P0xs0aUTNcNs/MW6g8v+rlAgwP5sMZRrOlhyrJGs79ZpGfEceT05bv2/SwUO6szJaNBKU3+YNQMtw0Jg9bNI4naP4k53S1xtlwvHPqtgvBAEli8JObdhpg4S7fg6YgUtrlWrq8GD9q90vaUAIUXvCYirHHv8rm8sZ/o3aOO4438=
+	t=1707830695; cv=none; b=YXUZY+haRnHMJ+QmeCo/zgTNsZztVvMUkuMCdINaMeWHGSXmxx4q4Dhu3DRK9Cjqo4z/ATfrLQTftXoZgZNqkVwYaKYP58ad/eFytvyrSf2w1/1eQilfclfqHcIBQFjTr6KmrrFD/F/2CmBxbHmGmMnHtK+Ki1l8A/+wgf3zLdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707829824; c=relaxed/simple;
-	bh=DR14cMVeZlNNNiE6vPfYyzqWf6W2FdEaVW+XB5vYdqw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lqiCCdWvBtAlLA2ECY+DE+C+MGy0oRcoK6qJbwVN4T0dFXDozDb3k1Njd+qudUbEBxvVvNLW8+yve305AM/FU6YCKvbXnFrT2eLMiNxUY1njMpUoKbkbSIlmW8u6UHPjs8n8m+BrjmHQxOpvcp4umxypgVPDDRrMERhEll46hZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RjdMiMLD; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41DCX7EP008081;
-	Tue, 13 Feb 2024 13:10:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=2V9i1J+1jVraKN1yhEZ5q4+HSSJA2paBI28wkJjhPCU=; b=Rj
-	dMiMLDcdsC/k2+mWjCbMVUO/43gfsY5Kj8fZO2V99Abkbh4WGb2HXNUFZS6vP7SA
-	xkXm4mj+kmBrIITDedu3G66omsl/QQ8pRMTxoBOGyMRszO/BgyjLX9uaB1XhQn9/
-	Ad66pQCEaan3kbxX2WXoiFEtwjhEdeKnaqvZy/jTqPoN0xyJfIm0IxV/bwMl5fq0
-	LcIFZW1A7i0oTreJksqC2CYtTjvnx5CEn0rtWuyOhAi4Q4nbeEUsAUVmtnWFGMVv
-	ou/Mhwin76vyk/2lDByhzgDVmCfeEPAve69LpV8ALq4PGFbvTxDSHzlnoc3c77ek
-	rZ6tLYDmkVQDitQRDj9g==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w88gq02dm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Feb 2024 13:10:13 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41DDAC7C006472
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Feb 2024 13:10:12 GMT
-Received: from [10.218.5.19] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
- 2024 05:10:05 -0800
-Message-ID: <87b7967f-d8c4-426e-92ed-5a418c702481@quicinc.com>
-Date: Tue, 13 Feb 2024 18:40:05 +0530
+	s=arc-20240116; t=1707830695; c=relaxed/simple;
+	bh=59TqRRl9p0ZETIIG/FXzqG6eofAWlEzd0c94odzx7/0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UT0oyYDEGglUQ9TkWCsAZBc/bJwfjL5Y60rsLtGFRNPDIz1DBxf5Kjg1cjGDS21ZgoQ/L+SjBL0CZeb+PW6AYNNpq8CtFRG+sCVm6CWnF32FOa+7Wi9pRY9hgstJMt7qwzEJS6vuikbGER3K0Op2TVjrBdhW/0Alfmk+5Dy2HG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=btMYa1Ey; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55f0b2c79cdso6020915a12.3;
+        Tue, 13 Feb 2024 05:24:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707830692; x=1708435492; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0QyYjoH+AqqQf6ghl+XM6LALnTPi51ZlBkMJjWYJ7D0=;
+        b=btMYa1EyA4h8C8/eefQ7OTU5j8j9e3xUFMnq8DTLC6gOcE4FDjjf6fbOIj805oHxVT
+         AC3XcU4JhfD+k6qt78JwMvuO2QgW7i9II5nVNau2UUdK0iNqi/a7rTS5KzI9RJJeLkqI
+         BUSJPxCVzB1MlxH2bfDku6nbEdZY5HoUZyqlY/JWQIPFBtFiS/1GIzYKfH8QxW/4iorw
+         oDntrnRQSSu6SK/OBtabnvnuIi0xJ7N9/rpPa+UJzwBkOyK5LpmP6+6kcyCHYExZVrKH
+         xOoDZ3sZzFzL+oX/1Dw2dVGVF6JiH6mSr9qm6CaVUC6nmoIOuHmE5go6wfhzneQ5jFjZ
+         CoIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707830692; x=1708435492;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0QyYjoH+AqqQf6ghl+XM6LALnTPi51ZlBkMJjWYJ7D0=;
+        b=ug33i/csHo71ELSF2ut+fvS7ZIrrTnDF9Oar2FxC4A6h5YdgI8V+AJajGoxS4B28+3
+         vNGLYDNyMLD1yZyQixvBYKqtHbrWLoriPVwNiVeRg7G8YUYaj1ogNRA/NGABFsJNItaC
+         96qo5voPPkGCzhDR5aGQbQxRSW0Qi05a3IhjaDkwgE+Q1LnydGnx+GpeZoAYliszMw1q
+         KCzpU9F5HHaDrHy6lnA9SDGv3THOcYNV9zFOZPY0RA7a5n+tFBOu4LDviOza2DECl334
+         hhmsjSw3qmlH98+VkLUAuZe5jF3fEReg1Y15FTCmMqIx3HMYyHL0rSckJGHcJhBCiBZ1
+         ky9A==
+X-Forwarded-Encrypted: i=1; AJvYcCXcTHz3WqjquAloNpq27L1ro4BJc9TMrLlmA29DP0pwY7Xc/87lPeG2QRAN0nL72X90iIFeehuWAfRBDtv7fB3wDA/QDqG6Iiv1JQUNCkxj8w5H42atbcZLLxN/ip3OUUfB2ibr7MDvBnJJemp2Qcv2X7NZfucdiTud234BdQWtzgagIHZUSOvUFBQyKf6Fbu7CHcmqbcvWD1ZLzYxXkJ1LyJ0vF3NW/z12hKoOzekxbsoiMHKRjzc1qvbZbt+iry0n8k7QENTYRkTdLzrz1EgBDbc+6cSHOvjc+3XCAEaCd/JRUx/5AQ5GqgUlhD/Zaf/Hd1UddFodNbuAF+bHZER1Xfmew/vUHhHhQjVkE3Vs8yi+gdAtQsOFFOpxMngMvii9IHiBxgkjMtVdr/rUH/VfRA5o6oa6m3IFsO3IHImYG6hLGMeLrRUKZwgwjSnhyPzFx51AJGqLsy8A4SaAKc3xyKj3l2/tiso2RoBEH6fBQ4MhvPsILN1lgRY+q48BsDu9lTyfaQ==
+X-Gm-Message-State: AOJu0YyVIYs0xNrGamwG1iuQbyvTf6ChFKspADKrSw1XkyPIVcaerkDl
+	8v6dY1akdnIGC9YmTOn5Lno6n8ff+yjikQhjCZSn7p7IeG9DD0ar
+X-Google-Smtp-Source: AGHT+IEvOYZMro6HR8cOXNPUYT9ZgCc4vRcUyvz622HX4ZCDWHklO0ODmEGlx46UXe5UhrZ820A4mQ==
+X-Received: by 2002:a05:6402:3596:b0:55f:95ac:d698 with SMTP id y22-20020a056402359600b0055f95acd698mr7503927edc.32.1707830691640;
+        Tue, 13 Feb 2024 05:24:51 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVMeArKJi3EifAmOpZcv2Grgg9QOavC+wNyABJk3QLZgkNc7dOXBIDhbgy8vyOBMzsIrAMg6FrTdfqq7fwyR5rS+2iJZSxB/qmQAEIC1C1pB7TfSTnxP+fx13ldXqknLXUyTvQm3D6HdvE0YKiG62Us26JWt3npm8XPaqI9wVM7uGfq0QbE96JFT+LYhAB+W+FwwSi7bTZ4TRkyuc/9DU0cv2LVCr+rvOuhmUBAT4otlLbZm9JYT7Gb/SCjZ5OV5+ll1i1snATirzjnVrJzfPtE0/hYuUaVgoyNXCWtTnLPowekY81P9qkSPcVtd84PjsqjdGrsL2fNGFZEnbHcSvh5CYGQf2B2uGf2BofpqJJhDKcOT01XGpkxqj9v70H0Un4YGKaLxCfh1+5250VMj+waUOL6WvWcMrzfyseTPpoDkRBp4L8ZHuLLQyTJt4FrAuXja+bLhKwDQFwev99ad42GfufGTCKtRi+m6V9Ux+jhKo86FnyUr5R7cBp+NYO0fxy3F6DEGrQc8SH0ZYmIPlXq6OZwQfyJTz9KnKqFdKANS9Uq4VYesafVkDuF5CapSqUVXFTg+p/Pa13rAzk2q/FgOO5yacnYiIWg5S4Eaa4K1Ti+SgzjfQRV622HGf3+lNlZV+7iV3+J/sE+ft6cr/BtFGDVxlmic3zBJmpdlHqRckBqxyWOopqShkKQLpFgAEU5o38mRv70DSn/RNbvUKGe1mElMc/LkPbbHMDk+kjGEn7/Yq5UE7FDt6Zh5dz2rSrl+sKaHFhYVznDZR7n14ZcEylWSFsoa+g43I156d2UhVaNF8wOKD2fu7qIr3PHiNJfehYyF7Wmr84+QGesFaDSpvqEzEt2IIlKOd/KuWr45ctoOeN3EibzRaSdG4gXEubW5gJ0OEIifsXLv/HCy8Bxf0o/J5de6QM3zr4FijUzwJemHVQ/co7tmATUVldvLIICXf
+ CIP5qDmyEYTAWaO4M1rQ11q8jNdj7sP3/cdMu8dYlTxUfELhGwSQX7KdjeI1WJpQg9IC5oR+NcK3wbN5vegyuTGdzm7+auiSLWF8HnWsFY68PsWpIWtV/dd2ZclddAz8PGWZsCPlS/zjrJ0Ymurg5TU6+Er2DLD36rt+PwoT3ggtvpTxvStbhZ9qXxFRBlHJmeAWqFbYhvIsniswygmR+AN4MRbypKK/gViMQ6AnHEKWhunUMirCeA+XPlvApszlNpZj2b49UlEA/Fv2gSkf6qmnXSW4D30DtfHIBs8HNpgsABcttGxCFCxZTWjB5QMwq/atg923vuboIb3o4uMzyYRsNviYeiS2DqNkQTWanwr0qsbgu9C20qbo3/ehtFpDSHBPyen61sVJDmtcPjquAi7dLUy9cxtDcKyPLSvQZ4aNLL2wEe2nGMq5kSJDZtqOs7OOqDIgkH0Yd9NTB2oGen6uU/efOYA7h5WwZElwofslyM9YrCfiZcPkjEf6vtrIQOtlGoWwIJRgbpDkdG7opM4YrEmT8U8nBM9A1aEA12kcIyzQLW94+2lb7MJYHOg+PrKRZXZCFbEOD+lgbfQki9jGXan3k2jGZuppHdRIIf9y+suKZH2riCtWMNkvHFbKX+1v7X0xnJcapXJw7qEtF+5Dk67dDlKhHCOjdPG6YGEoRr/1jmt1J11viRTPtzb0mmjgRyRlnOPJchCv2Ysw/TI0r1H8a0ryGeSOkGhgtamEBDuUs86JnW4sT9WCzH4nO9TOErXZo7rBDnpYdVt0pganVoza54ZkelCxQUtzuQmd+hBPHU
+Received: from ?IPV6:2620:10d:c096:310::23d8? ([2620:10d:c092:600::1:a107])
+        by smtp.gmail.com with ESMTPSA id b6-20020aa7c906000000b00560ba66587csm3657441edt.13.2024.02.13.05.24.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Feb 2024 05:24:51 -0800 (PST)
+Message-ID: <94ff0733-5987-4bf5-a53c-011e03aa6323@gmail.com>
+Date: Tue, 13 Feb 2024 13:15:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,214 +78,119 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd to be
- managed by HW
+Subject: Re: [RFC PATCH net-next v5 05/14] netdev: netdevice devmem allocator
 Content-Language: en-US
-To: Ulf Hansson <ulf.hansson@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Abel Vesa <abel.vesa@linaro.org>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman
-	<khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Len Brown
-	<len.brown@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Andy
- Gross" <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Michael Turquette" <mturquette@baylibre.com>,
-        Stephen Boyd
-	<sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash
- Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Taniya Das <quic_tdas@quicinc.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>,
-        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
- <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org>
- <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
- <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com>
- <l7icfezpajren25545n4cjtqehhividt5b2dxnxgetdsshc3k3@tdws423qdblk>
- <CAPDyKFp1vg2+-pHJ_idkdhb_zZUMpq7W17DnCCGj0eTwd4jFbQ@mail.gmail.com>
-From: Jagadeesh Kona <quic_jkona@quicinc.com>
-In-Reply-To: <CAPDyKFp1vg2+-pHJ_idkdhb_zZUMpq7W17DnCCGj0eTwd4jFbQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Mina Almasry <almasrymina@google.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20231218024024.3516870-1-almasrymina@google.com>
+ <20231218024024.3516870-6-almasrymina@google.com>
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20231218024024.3516870-6-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _8AYuTAM0-bPYxF4NoadvYK_7XRGkJYm
-X-Proofpoint-ORIG-GUID: _8AYuTAM0-bPYxF4NoadvYK_7XRGkJYm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-13_06,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- suspectscore=0 impostorscore=0 clxscore=1015 bulkscore=0 phishscore=0
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402130104
 
+On 12/18/23 02:40, Mina Almasry wrote:
+> Implement netdev devmem allocator. The allocator takes a given struct
+> netdev_dmabuf_binding as input and allocates net_iov from that
+> binding.
+> 
+> The allocation simply delegates to the binding's genpool for the
+> allocation logic and wraps the returned memory region in a net_iov
+> struct.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+> ---
+> 
+> v1:
+> - Rename devmem -> dmabuf (David).
+> 
+> ---
+>   include/net/devmem.h | 12 ++++++++++++
+>   include/net/netmem.h | 26 ++++++++++++++++++++++++++
+>   net/core/dev.c       | 38 ++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 76 insertions(+)
+> 
+...
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index 45eb42d9990b..7fce2efc8707 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -14,8 +14,34 @@
+>   
+>   struct net_iov {
+>   	struct dmabuf_genpool_chunk_owner *owner;
+> +	unsigned long dma_addr;
+>   };
+>   
+> +static inline struct dmabuf_genpool_chunk_owner *
+> +net_iov_owner(const struct net_iov *niov)
+> +{
+> +	return niov->owner;
+> +}
+> +
+> +static inline unsigned int net_iov_idx(const struct net_iov *niov)
+> +{
+> +	return niov - net_iov_owner(niov)->niovs;
+> +}
+> +
+> +static inline dma_addr_t net_iov_dma_addr(const struct net_iov *niov)
+> +{
+> +	struct dmabuf_genpool_chunk_owner *owner = net_iov_owner(niov);
+> +
+> +	return owner->base_dma_addr +
+> +	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
 
+Looks like it should have been niov->dma_addr
 
-On 2/2/2024 5:59 PM, Ulf Hansson wrote:
-> On Fri, 2 Feb 2024 at 00:51, Bjorn Andersson <andersson@kernel.org> wrote:
->>
->> On Wed, Jan 31, 2024 at 01:12:00PM +0100, Ulf Hansson wrote:
->>> On Wed, 31 Jan 2024 at 02:09, Bjorn Andersson <andersson@kernel.org> wrote:
->>>>
->>>> On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
->>>>> From: Ulf Hansson <ulf.hansson@linaro.org>
->>>>>
->>>>> Some power-domains may be capable of relying on the HW to control the power
->>>>> for a device that's hooked up to it. Typically, for these kinds of
->>>>> configurations the consumer driver should be able to change the behavior of
->>>>> power domain at runtime, control the power domain in SW mode for certain
->>>>> configurations and handover the control to HW mode for other usecases.
->>>>>
->>>>> To allow a consumer driver to change the behaviour of the PM domain for its
->>>>> device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
->>>>> let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
->>>>> which the genpd provider should implement if it can support switching
->>>>> between HW controlled mode and SW controlled mode. Similarly, add the
->>>>> dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
->>>>> its corresponding optional genpd callback, ->get_hwmode_dev(), which the
->>>>> genpd provider can also implement for reading back the mode from the
->>>>> hardware.
->>>>>
->>>>> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
->>>>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>   drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
->>>>>   include/linux/pm_domain.h | 17 ++++++++++++
->>>>>   2 files changed, 86 insertions(+)
->>>>>
->>>>> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
->>>>> index a1f6cba3ae6c..41b6411d0ef5 100644
->>>>> --- a/drivers/pmdomain/core.c
->>>>> +++ b/drivers/pmdomain/core.c
->>>>> @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
->>>>>   }
->>>>>   EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
->>>>>
->>>>> +/**
->>>>> + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
->>>>
->>>> This isn't proper kernel-doc
->>>
->>> Sorry, I didn't quite get that. What is wrong?
->>>
->>
->> https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
->> says that there should be () after the function name, and below there
->> should be a Return:
-> 
-> Thanks for the pointers!
-> 
->>
->>>>
->>>>> + *
->>>>> + * @dev: Device for which the HW-mode should be changed.
->>>>> + * @enable: Value to set or unset the HW-mode.
->>>>> + *
->>>>> + * Some PM domains can rely on HW signals to control the power for a device. To
->>>>> + * allow a consumer driver to switch the behaviour for its device in runtime,
->>>>> + * which may be beneficial from a latency or energy point of view, this function
->>>>> + * may be called.
->>>>> + *
->>>>> + * It is assumed that the users guarantee that the genpd wouldn't be detached
->>>>> + * while this routine is getting called.
->>>>> + *
->>>>> + * Returns 0 on success and negative error values on failures.
->>>>> + */
->>>>> +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
->>>>> +{
->>>>> +     struct generic_pm_domain *genpd;
->>>>> +     int ret = 0;
->>>>> +
->>>>> +     genpd = dev_to_genpd_safe(dev);
->>>>> +     if (!genpd)
->>>>> +             return -ENODEV;
->>>>> +
->>>>> +     if (!genpd->set_hwmode_dev)
->>>>> +             return -EOPNOTSUPP;
->>>>> +
->>>>> +     genpd_lock(genpd);
->>>>> +
->>>>> +     if (dev_gpd_data(dev)->hw_mode == enable)
->>>>
->>>> Between this and the gdsc patch, the hw_mode state might not match the
->>>> hardware state at boot.
->>>>
->>>> With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
->>>> false) will not bring control to SW - which might be fatal.
->>>
->>> Right, good point.
->>>
->>> I think we have two ways to deal with this:
->>> 1) If the provider is supporting ->get_hwmode_dev(), we can let
->>> genpd_add_device() invoke it to synchronize the state.
->>
->> I'd suggest that we skip the optimization for now and just let the
->> update hit the driver on each call.
-> 
-> Okay.
-> 
->>
->>> 2) If the provider doesn't support ->get_hwmode_dev() we need to call
->>> ->set_hwmode_dev() to allow an initial state to be set.
->>>
->>> The question is then, if we need to allow ->get_hwmode_dev() to be
->>> optional, if the ->set_hwmode_dev() is supported - or if we can
->>> require it. What's your thoughts around this?
->>>
->>
->> Iiuc this resource can be shared between multiple clients, and we're
->> in either case returning the shared state. That would mean a client
->> acting upon the returned value, is subject to races.
-> 
-> Not sure I understand this, but I also don't have in-depth knowledge
-> of how the HW works.
-> 
-> Isn't the HW mode set on a per device basis?
-> 
->>
->> I'm therefore inclined to say that we shouldn't have a getter, other
->> than for debugging purposes, in which case reading the HW-state or
->> failing would be reasonable outcomes.
-> 
-> If you only want this for debug purposes, it seems better to keep it
-> closer to the rpmh code, rather than adding generic callbacks to the
-> genpd interface.
-> 
-> So to conclude, you think having a ->set_hwmode_dev() callback should
-> be sufficient and no caching of the current state?
-> 
-> Abel, what's your thoughts around this?
-> 
+> +}
+> +
+> +static inline struct netdev_dmabuf_binding *
+> +net_iov_binding(const struct net_iov *niov)
+> +{
+> +	return net_iov_owner(niov)->binding;
+> +}
+> +
+>   /* netmem */
+>   
+>   struct netmem {
+...
 
-We believe it is good to have get_hwmode_dev() callback supported from 
-GenPD, since if multiple devices share a GenPD, and if one device moves 
-the GenPD to HW mode, the other device won't be aware of it and second 
-device's dev_gpd_data(dev)->hw_mode will still be false.
-
-If we have this dev_pm_genpd_get_hwmode() API supported and if we assign 
-dev_gpd_data(dev)->hw_mode after getting the mode from get_hwmode_dev() 
-callback, consumer drivers can use this API to sync the actual HW mode 
-of the GenPD.
-
-Thanks,
-Jagadeesh
-
-> Kind regards
-> Uffe
+-- 
+Pavel Begunkov
 
