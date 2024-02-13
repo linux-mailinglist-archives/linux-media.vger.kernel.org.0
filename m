@@ -1,263 +1,314 @@
-Return-Path: <linux-media+bounces-5064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90393853028
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 13:05:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE42853143
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 14:05:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48C37288921
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 12:05:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDB801C236FB
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 13:05:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6884B39AC3;
-	Tue, 13 Feb 2024 12:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBBAD4EB35;
+	Tue, 13 Feb 2024 13:05:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="tA4/TsMB"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="b2qooR8G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C542C697;
-	Tue, 13 Feb 2024 12:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707825913; cv=pass; b=Vzugyu7gVQbjj9BEtnh/sF+S05qlwO1Hs+AsWolhZGqn0uoL4eOQu0Gxem/LcH/7K5JmMvT5TCvYQESFT3iAqehd2PbhLNOB/vjFh3wMUYjnbCNXEntwKZgoK+Yud1mNDWytx9dNJnv+MQtdvY5P2DPkuQbyQlGK1YjkOnXsfLM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707825913; c=relaxed/simple;
-	bh=8OkoQz8ES9UkCj9vBvR+d75EqRHjA64RcQNleAzUOMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hv9HdoBxD1vO3pKatusqK/ChLTQaXXHibksEpAErbWxTKTkmUF1Zxqae90rwjaivphD9c13cfd97GtSyVxrI5zopQfmavMZeB5uEE90B4MJnKa2FxoE3cZTrVEFxFkc115WDB7CS288/2m4oGlTJ0Yx7/TGAdMM0h/YFpkpBHyE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=tA4/TsMB; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TZ0Pn4D3pz49Q3r;
-	Tue, 13 Feb 2024 14:05:01 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1707825902;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lu+DAqM0vLbVqdWvGB4a60F6/2Pa4siZTHbYrPWKyAc=;
-	b=tA4/TsMB61erjvY8wN3FM1mD3ADVlcIPF9IRLWd/ElCPf3lquCdjszJhzTav4TTfVrbkwC
-	iAaidtXKLMPXBS+/5xjMQBHr9/94C+/7ZVAVYkhfqSaVRX03bIrE74CnKGSvPwGjUD7PFU
-	FuFEBegYNW+fXk64CfJIFd6RyZxobO/DDxD6IkKQiID3SH2//sViJ8sLfTheaVRxAQSwvl
-	Q5kvngcm0CN3m2Ruu9q6lxRs0U/7Br8SLKv+RtlmbWj++5N1f2kObThRCogbhBMk27zyMs
-	/AhFsR47GlAB+L5X8JTbVLBLwuh0rphzZuXCdsrhQtqI0UW5YuGQ8qD9FN6zxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1707825902;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lu+DAqM0vLbVqdWvGB4a60F6/2Pa4siZTHbYrPWKyAc=;
-	b=rUbWzrvuREMVhCfMuBwSuCPvUUTCetlwleOxXYljRpAnlN++BCukKIH6cmpRm0A2AVuL64
-	8Ky7Pv5w2iA3sNtT+FQnhUl2puDXcjSwlkKMuU1ykHwkx8GGpYGS4oGc4Z0jtiW2F7y/Iv
-	h73PNh5sXT6/wdlP8KYFq6niEADpgSH8itd30jGe5PIa7JXbnW88bQjMAupuxrOHKeSQBD
-	Ls9KfTfPLr8GylrA1i5g1eW9R8MqvOcQQwUS3M4RonIiP/0BA0s+K9ubovMFb7rLYIYvPt
-	A/hBmujsmfmHxMKLInZSkOoZsKf8qJxJV3SzQ3LQIAf1ZqAUTAzBuBn0y0cRyQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1707825902; a=rsa-sha256;
-	cv=none;
-	b=CLPVwuFUFUoQeloXutgTtInKNqSTMWBW6lNTRidMwUEmcmfdwebA7D5Cjsgvjqgmb//JSR
-	49s+czty+WiMzMLairSfg3k1KGC/8OZg+vjIaEFF6+kg11R2Mm23/fZZoOTtQRxEy93Rd1
-	fcujjdeka85SQJwUoH1L2Gsnr9E4bUYulBtznLK2cGuEd2LQiPO0hKXn2s/XSvbmljASKa
-	NOj6MIuyWfv626jj3RG9J87+X6I40R4sjDRrRsUEIdEDfI883mIpj3+9jrJKvRn/3Hjlfi
-	hA3ocqgRvseqMwd0iZvh8QNm6XvfFuObpIIurbRSfbrJ3z60rQr2o6YQn+q1mQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 31D7E634C93;
-	Tue, 13 Feb 2024 14:04:59 +0200 (EET)
-Date: Tue, 13 Feb 2024 12:04:58 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Mehdi Djait <mehdi.djait.k@gmail.com>
-Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
-	michael.riesch@wolfvision.net, laurent.pinchart@ideasonboard.com,
-	Mehdi Djait <mehdi.djait@bootlin.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [RESEND Patch v13 1/3] media: dt-bindings: media: add bindings
- for Rockchip CIF
-Message-ID: <Zcta6hhSio67ahKs@valkosipuli.retiisi.eu>
-References: <cover.1707677804.git.mehdi.djait.k@gmail.com>
- <13deb8c5cb58e08c1b47decd112b51e8e0b6c4dc.1707677804.git.mehdi.djait.k@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C12B3D99E;
+	Tue, 13 Feb 2024 13:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707829522; cv=none; b=TS19QZKbXP2Kqn0F7VA00wG9V+N+H/kUYc6oszQ0YS6NfeHqontd/XByaHd82KX8GOGR6mSVx1SOFfLAmDy/f1YEOjCSitLc2DGSHhvVkrCJkt52KysQoAMLZInHDyx/wvg2CWQrPMdJIrtlZtncXjLDPcw3PzRVectBEyEIrlk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707829522; c=relaxed/simple;
+	bh=viMQpHUA0wyuSc0aYpDZXv2P8TIrUTd/nzpVXcOfqVc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UgDb+kfIw7/ePcCwBsx2O1A/vjKwqHcKAvOvda3V+vDLuvCImGfddacRvuLweu0jbvbER0PKWw9/ky1ZcUXhfJYYJGz/lEtcp0FHz6LT0tjRPGalq0MmVey5HvbWiRPmQ/FfGsXrv+fns3ZYZTicTecNzXD5jWzldBXunHu2FIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=b2qooR8G; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41DD0ZYg027948;
+	Tue, 13 Feb 2024 13:05:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=6mOL9PsbxyCYLHe4WBDlAcPGHq/NUHZ80ySMAvSLfSg=; b=b2
+	qooR8GAI+7AxuDb10TLdHXzIlOG6UKGINlldMpmpp6fY/z2M8ewhk5OFsOLQL/oO
+	VVDTxkhaOyFdrlJENeYAL98+HdWSF2hnt6iL84WlRSRLngTPXwRPLTs0mouVP3qr
+	SoPQVQR0eXGnGe7NXoR3nq7mmIJA4G4XphOQcqMBjpsnHYhNe0QKLhTYBowMFiR/
+	TT+IKhlf+fRBA2bpUE23sjmA7JamjQs0zuu0bwsBjq49IIbHIwV6l0QDbNEfE4Vs
+	lHPasbwKSh+Eq+zW80UfuMtxjzcEQMFnRWBEMACTMslbkLeZ/2N7XNCjogChYZ+U
+	PV2MRo3Ski8TPdRqUuTw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7gse2ydp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 13:05:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41DD554N000608
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 13:05:05 GMT
+Received: from [10.218.5.19] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
+ 2024 05:04:58 -0800
+Message-ID: <35907177-eecd-4b58-a5da-7186b0f60193@quicinc.com>
+Date: Tue, 13 Feb 2024 18:34:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <13deb8c5cb58e08c1b47decd112b51e8e0b6c4dc.1707677804.git.mehdi.djait.k@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/5] clk: qcom: gdsc: Add set and get hwmode callbacks
+ to switch GDSC mode
+Content-Language: en-US
+To: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman
+	<khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>, Pavel Machek
+	<pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Taniya Das <quic_tdas@quicinc.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>,
+        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
+ <20240122-gdsc-hwctrl-v4-3-9061e8a7aa07@linaro.org>
+ <qbqsvxmnl2tuansxzr6u4vqxemw4dzrsvz2ill6qnyxdp5gtji@lsemt4asmsax>
+From: Jagadeesh Kona <quic_jkona@quicinc.com>
+In-Reply-To: <qbqsvxmnl2tuansxzr6u4vqxemw4dzrsvz2ill6qnyxdp5gtji@lsemt4asmsax>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: rNU6xjxKFa-tBEBWMTsCjmh3A4wydkXb
+X-Proofpoint-ORIG-GUID: rNU6xjxKFa-tBEBWMTsCjmh3A4wydkXb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-13_06,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 adultscore=0 spamscore=0 clxscore=1011 phishscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402130104
 
-Hi Mehdi,
 
-Thanks for the patchset.
 
-On Sun, Feb 11, 2024 at 08:03:30PM +0100, Mehdi Djait wrote:
-> From: Mehdi Djait <mehdi.djait@bootlin.com>
+On 1/31/2024 4:30 AM, Bjorn Andersson wrote:
+> On Mon, Jan 22, 2024 at 10:47:03AM +0200, Abel Vesa wrote:
+>> From: Jagadeesh Kona <quic_jkona@quicinc.com>
+>>
+>> Add support for set and get hwmode callbacks to switch the GDSC between
+>> SW and HW modes. Currently, the GDSC is moved to HW control mode
+>> using HW_CTRL flag and if this flag is present, GDSC is moved to HW
+>> mode as part of GDSC enable itself. The intention is to keep the
+>> HW_CTRL flag functionality as is, since many older chipsets still use
+>> this flag.
+>>
 > 
-> Add a documentation for the Rockchip Camera Interface binding.
+> This provides insight into why we end up with both HW_CTRL and
+> HW_CTRL_TRIGGER. This doesn't describe why this change is needed, but
+> rather just an implementation detail.
 > 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
-> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> Signed-off-by: Mehdi Djait <mehdi.djait.k@gmail.com>
-> ---
->  .../bindings/media/rockchip,px30-vip.yaml     | 123 ++++++++++++++++++
->  1 file changed, 123 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+>> But consumer drivers also require the GDSC mode to be switched dynamically
+>> at runtime based on requirement for certain usecases. Some of these
+>> usecases are switching the GDSC to SW mode to keep it ON during the
+>> enablement of clocks that are dependent on GDSC and while programming
+>> certain configurations that require GDSC to be ON. Introduce a new
+>> HW_CTRL_TRIGGER flag to register the set_hwmode_dev and get_hwmode_dev
+>> callbacks which allows the consumer drivers to switch the GDSC back and
+>> forth between HW/SW modes dynamically at runtime using new
+>> dev_pm_genpd_set_hwmode API.
+>>
 > 
-> diff --git a/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> new file mode 100644
-> index 000000000000..6af4a9b6774a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> @@ -0,0 +1,123 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/rockchip,px30-vip.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Rockchip Camera Interface (CIF)
-> +
-> +maintainers:
-> +  - Mehdi Djait <mehdi.djait@bootlin.com>
-> +
-> +description:
-> +  CIF is a camera interface present on some Rockchip SoCs. It receives the data
-> +  from Camera sensor or CCIR656 encoder and transfers it into system main memory
-> +  by AXI bus.
-> +
-> +properties:
-> +  compatible:
-> +    const: rockchip,px30-vip
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: ACLK
-> +      - description: HCLK
-> +      - description: PCLK
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +      - const: pclk
-> +
-> +  resets:
-> +    items:
-> +      - description: AXI
-> +      - description: AHB
-> +      - description: PCLK IN
-> +
-> +  reset-names:
-> +    items:
-> +      - const: axi
-> +      - const: ahb
-> +      - const: pclkin
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: input port on the parallel interface
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              bus-type:
-> +                enum: [5, 6]
-> +
-> +            required:
-> +              - bus-type
+> This still expresses the need for HW_CTRL_TRIGGER in terms of "some
+> drivers need for some use case". We don't need these many words to say:
+> "Introduce HW_CTRL_TRIGGER for client drivers that need it."
+> 
 
-What about the vsync-active, hsync-active and data-active properties?
-Aren't they relevant for this device? Are there default values? This should
-be part of the bindings for the device, shouldn't it?
+Thanks Bjorn for your review.
 
-> +
-> +    required:
-> +      - port@0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/px30-cru.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +    #include <dt-bindings/power/px30-power.h>
-> +
-> +    parent {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        video-capture@ff490000 {
-> +            compatible = "rockchip,px30-vip";
-> +            reg = <0x0 0xff490000 0x0 0x200>;
-> +            interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
-> +            clock-names = "aclk", "hclk", "pclk";
-> +            power-domains = <&power PX30_PD_VI>;
-> +            resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
-> +            reset-names = "axi", "ahb", "pclkin";
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +
-> +                    cif_in: endpoint {
-> +                        remote-endpoint = <&tw9900_out>;
-> +                        bus-type = <MEDIA_BUS_TYPE_BT656>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
+Sure will update the commit text to be more precise in next series.
 
--- 
-Kind regards,
+> 
+> I find that it would be useful to document that every time a GDSC is
+> turned on the mode will be switched to SW...
+> 
+>> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
+>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+>> ---
+>>   drivers/clk/qcom/gdsc.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>   drivers/clk/qcom/gdsc.h |  1 +
+>>   2 files changed, 55 insertions(+)
+>>
+>> diff --git a/drivers/clk/qcom/gdsc.c b/drivers/clk/qcom/gdsc.c
+>> index 5358e28122ab..71626eb20101 100644
+>> --- a/drivers/clk/qcom/gdsc.c
+>> +++ b/drivers/clk/qcom/gdsc.c
+>> @@ -363,6 +363,56 @@ static int gdsc_disable(struct generic_pm_domain *domain)
+>>   	return 0;
+>>   }
+>>   
+>> +static int gdsc_set_hwmode(struct generic_pm_domain *domain, struct device *dev, bool mode)
+>> +{
+>> +	struct gdsc *sc = domain_to_gdsc(domain);
+>> +	u32 val;
+>> +	int ret;
+>> +
+>> +	if (sc->rsupply && !regulator_is_enabled(sc->rsupply)) {
+> 
+> Why is this a restriction only for GDSCs supplied by regulators? I don't
+> find anything preventing this API from being called on GDSCs supplied by
+> other genpd instances.
 
-Sakari Ailus
+> 
+> Also note that regulator_is_enabled() is racy, in that it tells us if
+> the regulator is currently turned on, not if we're the one holding that
+> vote. As such this might change at any moment - and hence shouldn't be
+> significant here.
+>
+Below is the consumer's sequence that switch the GDSC's b/w HW & SW modes:-
+1) Enable the GDSC in SW mode
+2) Enable required clocks
+3) Switch the GDSC to HW mode using dev_pm_genpd_set_hwmode(true)
+4) Usecase start
+5) Usecase end
+6) Switch the GDSC back to SW mode using dev_pm_genpd_set_hwmode(false)
+7) Disable clocks
+8) Disable GDSC
+
+Hence the new API dev_pm_genpd_set_hwmode() will always be called 
+between gdsc_enable() and gdsc_disable(), which ensures GDSC's parent 
+power domain/regulator is ON when this callback is being called. Also, 
+we can remove the above regulator_is_enabled() check as well.
+
+>> +		pr_err("Cannot set mode while parent is disabled\n");
+>> +		return -EIO;
+>> +	}
+>> +
+>> +	ret = gdsc_hwctrl(sc, mode);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Wait for 1usec for mode transition to properly complete */
+>> +	udelay(1);
+>> +
+>> +	if (!mode) {
+>> +		ret = regmap_read(sc->regmap, sc->gdscr, &val);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		/*
+>> +		 * While switching from HW to SW mode, if GDSC is in enabled
+>> +		 * state, poll for GDSC to complete the power up.
+>> +		 */
+> 
+> I had to give this some thought, to conclude that this is relevant if HW
+> has the GDSC disabled and we're switching to SW - which would then
+> enable it. I think this comment can be improved slightly, to save the
+> reader the need for figuring out this on their own.
+> 
+
+Sure, I will improvise the comment in next series.
+
+>> +		if (!(val & SW_COLLAPSE_MASK))
+> 
+> This not being true, would imply that gdsc_disable() has been called
+> already, in which case there's no guarantee that the parent still
+> supplies power.
+> 
+> In the introduced API power on and hw control are orthogonal states, but
+> not so in this implementation. This need to made clear, to reduce future
+> surprises.
+> 
+
+Yes, above SW_COLLAPSE_MASK check is also not required and will remove 
+it in next series.
+
+>> +			return gdsc_poll_status(sc, GDSC_ON);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static bool gdsc_get_hwmode(struct generic_pm_domain *domain, struct device *dev)
+>> +{
+>> +	struct gdsc *sc = domain_to_gdsc(domain);
+>> +	u32 val;
+>> +	int ret;
+>> +
+>> +	ret = regmap_read(sc->regmap, sc->gdscr, &val);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	if (val & HW_CONTROL_MASK)
+>> +		return true;
+>> +
+>> +	return false;
+> 
+> return !!(val & HW_CONTROL_MASK);
+> 
+
+Sure, will update this in the next series.
+
+> Regards,
+> Bjorn
+> 
+>> +}
+>> +
+>>   static int gdsc_init(struct gdsc *sc)
+>>   {
+>>   	u32 mask, val;
+>> @@ -451,6 +501,10 @@ static int gdsc_init(struct gdsc *sc)
+>>   		sc->pd.power_off = gdsc_disable;
+>>   	if (!sc->pd.power_on)
+>>   		sc->pd.power_on = gdsc_enable;
+>> +	if (sc->flags & HW_CTRL_TRIGGER) {
+>> +		sc->pd.set_hwmode_dev = gdsc_set_hwmode;
+>> +		sc->pd.get_hwmode_dev = gdsc_get_hwmode;
+>> +	}
+>>   
+>>   	ret = pm_genpd_init(&sc->pd, NULL, !on);
+>>   	if (ret)
+>> diff --git a/drivers/clk/qcom/gdsc.h b/drivers/clk/qcom/gdsc.h
+>> index 803512688336..1e2779b823d1 100644
+>> --- a/drivers/clk/qcom/gdsc.h
+>> +++ b/drivers/clk/qcom/gdsc.h
+>> @@ -67,6 +67,7 @@ struct gdsc {
+>>   #define ALWAYS_ON	BIT(6)
+>>   #define RETAIN_FF_ENABLE	BIT(7)
+>>   #define NO_RET_PERIPH	BIT(8)
+>> +#define HW_CTRL_TRIGGER	BIT(9)
+>>   	struct reset_controller_dev	*rcdev;
+>>   	unsigned int			*resets;
+>>   	unsigned int			reset_count;
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
 
