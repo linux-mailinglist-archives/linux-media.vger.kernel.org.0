@@ -1,213 +1,175 @@
-Return-Path: <linux-media+bounces-5102-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5103-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E548539A2
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 19:13:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38617853A10
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 19:42:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39DAA1F24BF9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 18:13:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B4BF1C20F92
+	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 18:42:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 723EF60863;
-	Tue, 13 Feb 2024 18:13:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38B2A10A22;
+	Tue, 13 Feb 2024 18:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVNVkQL/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37F8E604D5;
-	Tue, 13 Feb 2024 18:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938201097D;
+	Tue, 13 Feb 2024 18:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707847985; cv=none; b=A2MTGvGulAbx/8LuWa+B9lnd4d/HyUCvtOjJHMyZEhaxaYBU4ZrXLlEtamtucHwwCr6iZUkfqYlteIq3LeBi/ZNzBAWvF3FNuFzORZkkUwNTFL3+E2XX5ukarVM5zgSe30c6eNPUCJwgOBLDSRxYpqyb8wpB5XpRXe8wwhqTa3Q=
+	t=1707849771; cv=none; b=kD7XYYCKSeboOOABFzx3TuZ6lNTDzDH0ARhoC3B/FTQghshfdn3Lhqg69iymgMFCnJJqcZhu+1ahAHnwyOr5IvHhBswODTkWTuQ9NaSUzWmIVGUrFJ7d//IyVpTcVcP09n0Hbz+lv7taPraMpXCCa5rGCtmcnrFtAlCHZ5m1qZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707847985; c=relaxed/simple;
-	bh=mPLEFkCN6hEWOJvwLzwjPvq+OB9o1HF849Psz5TPZ5s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m+ZU/2qWhvuWVxuzpu9gBbtjMlSenLzMAkXdWnhJSzEgBn8nppBIrnvVu/tmLratNCMzcWt1IJXVvINXbPVa/vPul8WNWc9r+5AtKTCWMYEUNFf3f+Yd+WVo2WC/ixyTkTwrgobdsIH0dPvH3rQMcLinesrntfYNJWfZOYoUyeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.06,157,1705330800"; 
-   d="scan'208";a="197718685"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Feb 2024 03:13:02 +0900
-Received: from localhost.localdomain (unknown [10.226.93.58])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2B83D40617B1;
-	Wed, 14 Feb 2024 03:12:57 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	s=arc-20240116; t=1707849771; c=relaxed/simple;
+	bh=fsPO/JytLyKx/6g42njVWx5fW4TcWtV6rSPtZKHFIq8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBGHl0ctD2R35JuslbpRD1rwBVyP3ZfrNjYi3STDwN1YyxCeFocC6lHywWy6VGkLP+Te6hRxvS/KevpSjiE9iaA4UdPWPeR3arOQnnglv4peKjncx/nIj4nYMpyHnMt8Clr+SgI7pgTqTYt9DoyEppitQJGrm8zAZR3OIlL3Ezc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVNVkQL/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DD36C433C7;
+	Tue, 13 Feb 2024 18:42:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707849771;
+	bh=fsPO/JytLyKx/6g42njVWx5fW4TcWtV6rSPtZKHFIq8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eVNVkQL/9N2ZsR5iFw6fSNf6VvkvkgdPxiUrBsIqBbubkLzuwjHPoapFAmQy0y8i5
+	 QAr2JBxm41EEC5JYSERrO8HeY+HCne5JNWum41TzIdfidBUOE8tmh9kxOBAf3tlH8o
+	 03hqa8RpHbhsaCJF3yM8wN/q1+FNkb4mKahl+WT9G3eB8s6j9d8WQhYs1VaVw0tuqD
+	 ZIYM+nVcNqlX/QlqPG/p6f0QsS27XXmRB7kKco+U+Mk8/bnmmCuRqyDjSKvXME/N/V
+	 RRltb2sNQdolDjOQcr1SP3U1a79eJ+Ks5T2HV2gcX7p3udUKu2MYh+NJ9gYWRtH/rW
+	 U0G/yybb++11A==
+Date: Tue, 13 Feb 2024 18:42:45 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Naushir Patuck <naush@raspberrypi.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 5/5] media: platform: rzg2l-cru: rzg2l-video: Fix start reception procedure
-Date: Tue, 13 Feb 2024 18:12:33 +0000
-Message-Id: <20240213181233.242316-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240213181233.242316-1-biju.das.jz@bp.renesas.com>
-References: <20240213181233.242316-1-biju.das.jz@bp.renesas.com>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 6/8] media: dt-bindings: Add bindings for Raspberry Pi
+ PiSP Back End
+Message-ID: <20240213-landlady-backstab-6e7da824c99a@spud>
+References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
+ <20240209164825.166800-7-jacopo.mondi@ideasonboard.com>
+ <7f7979af-8eda-48cd-a334-bb64ddf5b9b8@linaro.org>
+ <myfjzqh4wqa3lf4dcrgaswrarlh7sril6vz3mtnbz646rwxylt@oz75b5j5srot>
+ <b55f4d1e-2e77-4539-8d18-8d8f2185b501@linaro.org>
+ <5db2c830-2615-4416-9bb1-18fcd2a3a980@ideasonboard.com>
+ <CAEmqJPo-A4wiAiuCa2pb84UU_rTTo9i5P9Kj6eo78MFEs1Y45w@mail.gmail.com>
+ <20240213104405.GB5012@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ORR7EokQEWOLyWfe"
+Content-Disposition: inline
+In-Reply-To: <20240213104405.GB5012@pendragon.ideasonboard.com>
 
-As per section 35.3.1 Starting Reception for the MIPI CSI-2 Input on the
-latest hardware manual (R01UH0914EJ0145 Rev.1.45) we need to supply all
-the clocks and then release the CRU resets. Currently we are releasing
-the resets and then supplying the clocks. So, fix the start reception
-procedure.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v3:
- * New patch.
----
- .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 59 +++++++++----------
- 1 file changed, 28 insertions(+), 31 deletions(-)
+--ORR7EokQEWOLyWfe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index d15a9bfcc98b..b16b8af6e8f8 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -489,39 +489,24 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
- 
- 		video_device_pipeline_stop(&cru->vdev);
- 
--		pm_runtime_put_sync(cru->dev);
--		clk_disable_unprepare(cru->vclk);
--
- 		return stream_off_ret;
- 	}
- 
--	ret = pm_runtime_resume_and_get(cru->dev);
--	if (ret)
--		return ret;
--
--	ret = clk_prepare_enable(cru->vclk);
--	if (ret)
--		goto err_pm_put;
--
- 	ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
- 	if (ret)
--		goto err_vclk_disable;
-+		return ret;
- 
- 	pipe = media_entity_pipeline(&sd->entity) ? : &cru->vdev.pipe;
- 	ret = video_device_pipeline_start(&cru->vdev, pipe);
- 	if (ret)
--		goto err_vclk_disable;
-+		return ret;
- 
- 	ret = v4l2_subdev_call(sd, video, pre_streamon, 0);
--	if (ret == -ENOIOCTLCMD)
--		ret = 0;
--	if (ret)
-+	if (ret && ret != -ENOIOCTLCMD)
- 		goto pipe_line_stop;
- 
- 	ret = v4l2_subdev_call(sd, video, s_stream, 1);
--	if (ret == -ENOIOCTLCMD)
--		ret = 0;
--	if (ret)
-+	if (ret && ret != -ENOIOCTLCMD)
- 		goto err_s_stream;
- 
- 	return 0;
-@@ -532,12 +517,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
- pipe_line_stop:
- 	video_device_pipeline_stop(&cru->vdev);
- 
--err_vclk_disable:
--	clk_disable_unprepare(cru->vclk);
--
--err_pm_put:
--	pm_runtime_put_sync(cru->dev);
--
- 	return ret;
- }
- 
-@@ -636,25 +615,33 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
- 	struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vq);
- 	int ret;
- 
-+	ret = pm_runtime_resume_and_get(cru->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(cru->vclk);
-+	if (ret)
-+		goto err_pm_put;
-+
- 	/* Release reset state */
- 	ret = reset_control_deassert(cru->aresetn);
- 	if (ret) {
- 		dev_err(cru->dev, "failed to deassert aresetn\n");
--		return ret;
-+		goto err_vclk_disable;
- 	}
- 
- 	ret = reset_control_deassert(cru->presetn);
- 	if (ret) {
- 		reset_control_assert(cru->aresetn);
- 		dev_err(cru->dev, "failed to deassert presetn\n");
--		return ret;
-+		goto assert_aresetn;
- 	}
- 
- 	ret = request_irq(cru->image_conv_irq, rzg2l_cru_irq,
- 			  IRQF_SHARED, KBUILD_MODNAME, cru);
- 	if (ret) {
- 		dev_err(cru->dev, "failed to request irq\n");
--		goto assert_resets;
-+		goto assert_presetn;
- 	}
- 
- 	/* Allocate scratch buffer. */
-@@ -686,10 +673,18 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
- free_image_conv_irq:
- 	free_irq(cru->image_conv_irq, cru);
- 
--assert_resets:
-+assert_presetn:
- 	reset_control_assert(cru->presetn);
-+
-+assert_aresetn:
- 	reset_control_assert(cru->aresetn);
- 
-+err_vclk_disable:
-+	clk_disable_unprepare(cru->vclk);
-+
-+err_pm_put:
-+	pm_runtime_put_sync(cru->dev);
-+
- 	return ret;
- }
- 
-@@ -704,9 +699,11 @@ static void rzg2l_cru_stop_streaming_vq(struct vb2_queue *vq)
- 			  cru->scratch, cru->scratch_phys);
- 
- 	free_irq(cru->image_conv_irq, cru);
--	reset_control_assert(cru->presetn);
--
- 	return_unused_buffers(cru, VB2_BUF_STATE_ERROR);
-+
-+	reset_control_assert(cru->presetn);
-+	clk_disable_unprepare(cru->vclk);
-+	pm_runtime_put_sync(cru->dev);
- }
- 
- static const struct vb2_ops rzg2l_cru_qops = {
--- 
-2.25.1
+On Tue, Feb 13, 2024 at 12:44:05PM +0200, Laurent Pinchart wrote:
+> On Tue, Feb 13, 2024 at 08:35:39AM +0000, Naushir Patuck wrote:
+> > On Tue, 13 Feb 2024 at 07:28, Tomi Valkeinen wrote:
+> > > On 12/02/2024 11:05, Krzysztof Kozlowski wrote:
+> > > > On 12/02/2024 09:50, Jacopo Mondi wrote:
+> > > >
+> > > >>>> +properties:
+> > > >>>> +  compatible:
+> > > >>>> +    const: raspberrypi,pispbe
+> > > >>>
+> > > >>> Nothing more specific? No model name, no version? It's quite gene=
+ric
+> > > >>> compatible which in general should not be allowed. I would assume=
+ that
+> > > >>> at least version of Pi could denote some sort of a model... unless
+> > > >>> version is detectable?
+> > > >>
+> > > >> The driver matches on a version register and that should be enough=
+ to
+> > > >> handle quirks which are specific to an IP revision in the driver
+> > > >> itself.
+> > > >>
+> > > >> Considering how minimal the integration with the SoC is (one clock=
+, one
+> > > >> interrupt and one optional iommu reference) even if we'll get futu=
+re
+> > > >> revisions of the SoC I don't think there will be any need to match=
+ on
+> > > >> a dedicated compatible for bindings-validation purposes.
+> > > >>
+> > > >> However I understand that to be future-proof it's good practice to
+> > > >> allow a more flexible scheme, so we can have a generic fallback an=
+d a
+> > > >> revision-specific entry.
+> > > >>
+> > > >> Would
+> > > >>
+> > > >>    compatible:
+> > > >>      items:
+> > > >>        - enum:
+> > > >>          - raspberrypi,pipspbe-bcm2712
+> > > >
+> > > > bcm2712 is manufactured by Broadcom, not Raspberry Pi, so it should=
+ be
+> > > > rather Pi model?
+> > >
+> > > Indeed, this is something I don't get. If the BE is in the bcm2712, is
+> > > it not a broadcom IP? Why is raspberrypi in the compatible name at al=
+l?
+> > >
+> > > Naush, Dave?
+> >=20
+> > The Backend (and Frontend) IP are both owned solely by Raspberry Pi,
+> > and the BE is instantiated on the BCM2712.  So I think "raspberry" in
+> > the compatible string is correct here.
+>=20
+> Following what we do with other SoCs, we could have
+>=20
+> 	compatible =3D "brcm,pispbe-bcm2712", "raspberrypi,pispbe";
+>=20
+> However, that scheme is mostly used when SoC vendor license IP cores
+> from third parties. Here, while the SoC is indeed manufactured by
+> Broadcom, it's a Raspberry Pi-specific SoC.
+>=20
+> I don't have a personal preference.
 
+I'd be okay with what you propose here, I think it is a better
+reflection of what is going on than that in the original patch etc.
+
+Cheers,
+Conor.
+
+--ORR7EokQEWOLyWfe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcu4JQAKCRB4tDGHoIJi
+0gePAQDPvEreWXY4heELiuCqBAZWnulxmJCuqGEYejIeiXODmQEAlQ/rKvqELSs8
+AwKF416pLCHNSKKC2rpuV4khZIn/Zgg=
+=YLAp
+-----END PGP SIGNATURE-----
+
+--ORR7EokQEWOLyWfe--
 
