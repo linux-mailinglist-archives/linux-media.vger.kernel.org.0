@@ -1,140 +1,188 @@
-Return-Path: <linux-media+bounces-5169-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5170-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B6485541E
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 21:38:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 735BE855451
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 21:49:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89E0B285665
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 20:38:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1DA11C2182E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 20:49:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7BBA60ED6;
-	Wed, 14 Feb 2024 20:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C52D13B785;
+	Wed, 14 Feb 2024 20:49:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="tbvpd4ac"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqyHzEe9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB7D1DDC1;
-	Wed, 14 Feb 2024 20:38:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3835128384;
+	Wed, 14 Feb 2024 20:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707943121; cv=none; b=K5SDyjkpZNhxhqTPp+4/WtZFsZPmStB4ishWKTkMw5+uLd6mciAnVkXD0+o8zLAFFEWwANsOPnXMPBMOpswEb6a7USv37CFYIjRskfZEdnaw+besPRjx8uwKucDyZjT6j9ZJmFdU41EKXt8mU8pQ685ZlKQqaepjJ4O6jS9IQNc=
+	t=1707943777; cv=none; b=g47E86NADDZ4t7zy0GY4fNwMPZSaUpbXrqFxTcl+IK+WdywE/4BAekzihSjeo6Afe5qz+Xs+EkIF7djzrlvfShfgFlpHw/RJxmPK6VtxhIhj0URxZaWwCgirrExTZp9YE6HY7pMKfwGIVYzlOcrPcxO04SMqNVb8z1QBEMii4cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707943121; c=relaxed/simple;
-	bh=DFjL+6b7AkoxeUWqvnBND32t0iwJZ+FDcJ3KKCir4IA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=m2TdaZ3y4sgKjyIm/hCGtsMtFV26pF7xB1pwqz5Q5UsxTdYs2wvw0aB+u/JdLqJJITZqw72nbawizNvuK54LNgedvu4Rd2sgMc/AAOs5zBoh/Iee0j8q1bAPyHP+uOvhPCOce6jQGtN67HdlxIO+hL9xRZpp55asYjUmFY3LoVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=tbvpd4ac; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707943117;
-	bh=DFjL+6b7AkoxeUWqvnBND32t0iwJZ+FDcJ3KKCir4IA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=tbvpd4acCdRprsVF7V9gvcrGE2OA37DjlqK0iPQsf4xO1oKgW5vebs/Cr9ziIgYUy
-	 qGuP2ucQGNuZ4rKCx18z//i+F4dZW1u7FgWGuUmdIGJO/UCK8paQ66tFqmRPfGxHfs
-	 YEfXGzBkeLyFkWyLDnsgkxKq37o8KjURMkbnpSO/RjqUh5rI1hD2R0y8bxBxH/e/0m
-	 GDF/88iyNniO3O6cEY3EcX/tyHPklfU8ZAa7pYm9kEFyEwbC27YUhbLukqXJTxYl0S
-	 0l0tyaS1IOtnsjbU4QVwsDhJPqKWuH9yHb2mp7Tr6FKb8pWKoiN674GP7e36R/s6Og
-	 iF2hXZd73ZlxQ==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5E8203782088;
-	Wed, 14 Feb 2024 20:38:36 +0000 (UTC)
-Message-ID: <a43eaa0cfedeccc85410d2e26f296bda8de635cd.camel@collabora.com>
-Subject: Re: [PATCH] media: v4l2-mem2mem: fix mem order in last buf
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
-	sebastian.fricke@collabora.com, alexious@zju.edu.cn, ayaka@soulik.info, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 14 Feb 2024 15:38:32 -0500
-In-Reply-To: <20240210180414.49184-1-randy.li@synaptics.com>
-References: <20240210180414.49184-1-randy.li@synaptics.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	s=arc-20240116; t=1707943777; c=relaxed/simple;
+	bh=bwvF8W9PD7INh1tOMj8sB5rkwYbeQsKwTsXKdnU2Fr0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FMwk6U8X6zRlOIyK+RjLukDvH9FAi0ckrPI8bOiwN2KaY9rnZkQHLbsQ4z30Whgxkax2xhntLJd4FhjLZFtZGBUora8NTUoYIP36CPv49Z890EChDZUFXQti6UVjzJCSPAfnTBTzR6xH/MUbD5Y7BzOLlNvBuz7dFTszRolkDLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZqyHzEe9; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707943776; x=1739479776;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bwvF8W9PD7INh1tOMj8sB5rkwYbeQsKwTsXKdnU2Fr0=;
+  b=ZqyHzEe9RlxXdKy+huj/thJT3Xr6TOnFVs13BYWrgciQBNR7I9WxO/J4
+   +N8ozVxKOPkZg2bjOHZ/EWjjhHAnNVXOjdTeMsZv+JTIJWgAgBtaJeWwL
+   fFsVIFDp0XE8RY0PP3UG053FO84mLVkeRq1+fQ/0PSU1xU0YAuuYuDUct
+   CNMwgIgD5r0WmR4mTmY3fo2bssqbRPt2U98oMxMmoARDdUFktP/sI14LK
+   WDCqyWjQKGPL0Vx+SyxABAzySODeOG+Xc+zCjF+vzT9UOh6H2nk5+pDYS
+   i4BsZAE0EKpX16qbdQrL9O/kPCdoIpx+mWL2zzWfK5/g+B7BX2N28KjfQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="2154697"
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
+   d="scan'208";a="2154697"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 12:49:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
+   d="scan'208";a="34127165"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 12:49:33 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id F188611F77C;
+	Wed, 14 Feb 2024 22:49:29 +0200 (EET)
+Date: Wed, 14 Feb 2024 20:49:29 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Wolfram Sang <wsa@kernel.org>, "biju.das.au" <biju.das.au@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 from
+ ov5645_global_init_setting
+Message-ID: <Zc0nWfwFFGhqxHQq@kekkonen.localdomain>
+References: <20240213140240.159057-1-biju.das.jz@bp.renesas.com>
+ <20240213140240.159057-2-biju.das.jz@bp.renesas.com>
+ <ZcvsyRfVwC0aJ5fb@shikoro>
+ <CADT+UeDNFBTvRMHd4_J85Yz0RYED4ioG9wjUe4C0X4x6LzVD9w@mail.gmail.com>
+ <Zcx6Ty2tu_ZGdURj@ninjato>
+ <TYCPR01MB11269CC8B2EAB564154C829A2864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB11269CC8B2EAB564154C829A2864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 
-Hi,
+Hi Biju,
 
->  media: v4l2-mem2mem: fix mem order in last buf
+On Wed, Feb 14, 2024 at 08:25:16PM +0000, Biju Das wrote:
+> Hi Wolfram,
+> 
+> Thanks for the feedback.
+> 
+> > -----Original Message-----
+> > From: Wolfram Sang <wsa@kernel.org>
+> > Sent: Wednesday, February 14, 2024 8:31 AM
+> > Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 from
+> > ov5645_global_init_setting
+> > 
+> > Hi Biju,
+> > 
+> > > I think it is different here. That 1 msec is delay associated with
+> > > applying hardware power see [1]
+> > 
+> > Okay, ack.
+> > 
+> > > I will restore it.
+> > 
+> > Thanks!
+> > 
+> > I had meanwhile another thought. What if we kind of merge the two patches,
+> > so the outcome is basically this:
+> > 
+> > In ov5645_set_register_array:
+> > 
+> > 	If (settings->reg == 0x3008 && settings->val == 0x82)
+> > 		usleep_range(1000, 2000)
+> > 
+> > ?
+> > 
+> > Then, we don't need to split the array and we are also future proof if we
+> > ever need to set the reset bit again somewhere else.
+> > 
+> > Bonus points for replacing 0x82 with a define :)
+> > 
+> > What do you think?
+> 
+> 
+> OK, this will do check for all other registers.
+> 
+> But from your power down clue and checking ov5640.c
+> Looks like there are 2 registers changes values after writing.
+> 
+> [1] 0x3008, 0x82-->0x80
+> [2] 0x0601, 0x02-->0x00
+> 
+> I think [1] is soft reset based on ov5640. Since there is a gpio based
+> hardware reset available, we can safely remove soft reset[1] and like
+> ov5640.c, if there is no gpio for reset, then do the soft reset[1].
 
-mem order ? Did you mean call order ?
+I guess that would work. My understanding is that hard reset control is
+mandatory for the device, so there really should be no need for soft reset
+in the driver.
 
-Le dimanche 11 f=C3=A9vrier 2024 =C3=A0 02:04 +0800, Hsia-Jun Li a =C3=A9cr=
-it=C2=A0:
-> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
->=20
-> The has_stopped property in struct v4l2_m2m_ctx is operated
-> without a lock protecction. Then the userspace calls to
-                 protection   When ?                   ~~
+> 
+> 
+> Then add 1msec delay for power down/up(0x3008: 0x42,0x02) and 0x0601
+> registers.
+> 
+> With this looks like the Camera works ok @400kHz.
+> 
+> The plans is to add a u8 variable for delay and enable delays for the above registers
+> and add a check like below
+> 
+> static int ov5645_set_register_array(struct ov5645 *ov5645,
+> 				     const struct reg_value *settings,
+> 				     unsigned int num_settings)
+> {
+> 	unsigned int i;
+> 	int ret;
+> 
+> 	for (i = 0; i < num_settings; ++i, ++settings) {
+> 		ret = ov5645_write_reg(ov5645, settings->reg, settings->val);
+> 		if (ret < 0)
+> 			return ret;
+> 
+> 		if (settings->delay_ms)
+> 			usleep_range(1000 * settings->delay_ms, 2 * 1000 * settings->delay_ms);
 
-> v4l2_m2m_encoder_cmd()/v4l2_m2m_decoder_cmd() may lead to
-> a critical section issue.
+I'd prefer checking the register address in the write function instead of
+this if you really need it. But it seems you don't.
 
-As there is no locking, there is no critical section, perhaps a better phra=
-sing
-could help.
+> 	}
+> 
+> 	return 0;
+> }
+> 
+> Please share your thoughts on this approach.
+> 
+> Cheers,
+> Biju
 
->=20
-> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> ---
->  drivers/media/v4l2-core/v4l2-mem2mem.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-=
-core/v4l2-mem2mem.c
-> index 75517134a5e9..f1de71031e02 100644
-> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> @@ -635,9 +635,9 @@ void v4l2_m2m_last_buffer_done(struct v4l2_m2m_ctx *m=
-2m_ctx,
->  			       struct vb2_v4l2_buffer *vbuf)
->  {
->  	vbuf->flags |=3D V4L2_BUF_FLAG_LAST;
-> -	vb2_buffer_done(&vbuf->vb2_buf, VB2_BUF_STATE_DONE);
-> -
->  	v4l2_m2m_mark_stopped(m2m_ctx);
-> +
-> +	vb2_buffer_done(&vbuf->vb2_buf, VB2_BUF_STATE_DONE);
+-- 
+Regards,
 
-While it most likely fix the issue while testing, since userspace most like=
-ly
-polls on that queue and don't touch the driver until the poll was signalled=
-, I
-strongly believe this is insufficient. When I look at vicodec and wave5, th=
-ey
-both add a layer of locking on top of the mem2mem framework to fix this iss=
-ue.
-
-I think this is unfortunate, but v4l2_m2m_mark_stopped() is backed by 3 boo=
-leans
-accessed in many places that aren't in any known atomic context. I think it
-would be nice to remove the spurious locking in drivers and try and fix thi=
-s
-issue in the framework itself.
-
-Nicolas
-
->  }
->  EXPORT_SYMBOL_GPL(v4l2_m2m_last_buffer_done);
-> =20
-
+Sakari Ailus
 
