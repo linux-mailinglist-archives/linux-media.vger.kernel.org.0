@@ -1,194 +1,139 @@
-Return-Path: <linux-media+bounces-5142-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5143-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25970854A8A
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 14:32:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D15B3854B44
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 15:20:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6818CB21715
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 13:31:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 624CAB23FC7
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 14:20:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C74A5473F;
-	Wed, 14 Feb 2024 13:31:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846855644F;
+	Wed, 14 Feb 2024 14:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="S7XayFHa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEEA52F85
-	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 13:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E004955C10;
+	Wed, 14 Feb 2024 14:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707917503; cv=none; b=LlglFyvK6GbluelHSZdAPbQwfFFEoZAIn3TG8aYG/AXqJOyzK8fifyFRqiLyfp4YGsrigTtBmGKdXI+cp7DNkTC+Lvwo7xztMjxoc9lB5TFwWUAfgp4okI/2P2JNWEBvB2uyGnw4acvSqX7S5eth1UuzjkvxlPHpuScMe+qq0CQ=
+	t=1707920378; cv=none; b=Z3p4NqnVB+Kkzu0FkkuVWIGl0NiMyCYkY/lyHy3ve6KkL1Bm9rq+vd9UUiBY64iuNH9sX6RMmbTSMaDoANIyTx0P5tDkcGWgOBWqzMulHn9pkd/5IahbLF99iHk4roEtknLrznVFlpQEoWGRwUT+Hd423RP0t0D55qcHVdcwmIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707917503; c=relaxed/simple;
-	bh=g7+dYMrf4hQ0Bbepi6j5xfvu9bdIju/3TxK2e2upb9Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cGQdE2xq9TYhoXAIv/GdCmWIKgG1W+qqwU43UprgPORsXLzQbYoPEz/Sk7xyVFlxlxep0Bv+9FuNpjH2voyQJlP+f+3JN+3kWEMDNLAnmJBmCVV5kFE2rfBO5GXY3HNWoH/8wGog/DppKxaJZugfRjPWZMKVxln0MZAYD/9xt9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1raFM1-0005aN-6M; Wed, 14 Feb 2024 14:31:13 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1raFLy-000hZq-4h; Wed, 14 Feb 2024 14:31:10 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1raFLy-000ARF-0F;
-	Wed, 14 Feb 2024 14:31:10 +0100
-Message-ID: <a25224f5d28aa65e8bfd14fe0a8f599b9f9e3f40.camel@pengutronix.de>
-Subject: Re: [PATCH v2 20/20] media: venus: pm_helpers: Use reset_bulk API
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Stanimir Varbanov
- <stanimir.k.varbanov@gmail.com>, Vikash Garodia
- <quic_vgarodia@quicinc.com>,  Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Andy Gross <agross@kernel.org>, Bjorn
- Andersson <andersson@kernel.org>,  Mauro Carvalho Chehab
- <mchehab@kernel.org>, Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>, Stanimir Varbanov
-	 <stanimir.varbanov@linaro.org>, Mauro Carvalho Chehab
-	 <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 14 Feb 2024 14:31:09 +0100
-In-Reply-To: <20230911-topic-mars-v2-20-3dac84b88c4b@linaro.org>
-References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
-	 <20230911-topic-mars-v2-20-3dac84b88c4b@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1707920378; c=relaxed/simple;
+	bh=Op8xfYq9CEblapR+ckPR9YtdwoyMOHb40q2SOwH43kU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Mvm7fA/p6uffWHIyai+PJLTL4CNhRGcAlnUoPJU2aWzA9VBsW1aSF2h/xiL1g/i/xnBYy7Q3XMScZIvOD5nvXed9lnVtZKChazE3N46rHo8OQJSaAKpWUlyc550MPdvZX3Drqu0LpT5lj6ZRJSlQVw0kF5h3F/Riq19qdE2agPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=S7XayFHa; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 599BCB3;
+	Wed, 14 Feb 2024 15:19:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707920364;
+	bh=Op8xfYq9CEblapR+ckPR9YtdwoyMOHb40q2SOwH43kU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=S7XayFHaqVyvax7NMvSVk5ZKI37o5XAL3YEHiap6YtjxiziCkHYyA+Q4+LoO3XsH6
+	 CG5gTGVhYxbbPh20OwSj32dMP8EuFtDzrQZcywUZvY6z4c5nZtmFHkgVlpoIhfhCmh
+	 358+QkAIZ0A8oBDGuNgq6Ee9xkYvPcZYlQnCZ0Gg=
+From: Daniel Scally <dan.scally@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com,
+	robh+dt@kernel.org,
+	mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	jerome.forissier@linaro.org,
+	kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH v2 0/5] Add Arm Mali-C55 Image Signal Processor Driver
+Date: Wed, 14 Feb 2024 14:19:01 +0000
+Message-Id: <20240214141906.245685-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-Hi Konrad,
+Hello all
 
-On Fr, 2024-02-09 at 22:10 +0100, Konrad Dybcio wrote:
-> All of the resets are toggled together. Use the bulk api to save on some
-> code complexity.
->=20
-> The delay between resets is now correctly determined by the reset
-> framework.
+This patchset introduces a driver for Arm's Mali-C55 Image Signal Processor.
+The driver uses the media controller API and in this initial support implements
+both of the ISP's capture pipelines allowing a range of output formats plus
+downscaling and cropping. The capture pipelines are named "Full resolution" and
+"Downscale" and so abbreviated FR and DS throughout the driver.
 
-If this is a recent change, could you reference the commit?
+The driver exposes 4 V4L2 subdevices:
 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/core.c       | 15 ++++++++++-----
->  drivers/media/platform/qcom/venus/core.h       |  4 ++--
->  drivers/media/platform/qcom/venus/pm_helpers.c | 15 +++------------
->  3 files changed, 15 insertions(+), 19 deletions(-)
->=20
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/pla=
-tform/qcom/venus/core.c
-> index 873affe17537..ff5601a5ce77 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -328,11 +328,16 @@ static int venus_probe(struct platform_device *pdev=
-)
->  	if (ret)
->  		return ret;
-> =20
-> -	for (i =3D 0; i < res->resets_num; i++) {
-> -		core->resets[i] =3D devm_reset_control_get_exclusive(dev, res->resets[=
-i]);
-> -		if (IS_ERR(core->resets[i]))
-> -			return PTR_ERR(core->resets[i]);
-> -	}
-> +	core->resets =3D devm_kcalloc(dev, res->resets_num, sizeof(*core->reset=
-s), GFP_KERNEL);
+- mali-c55 isp: input data formatting
+- mali-c55 tpg: test pattern generator (modeled as a camera sensor entity)
+- mali-c55 resizer fr: downscale / crop and format setting for the FR pipe
+- mali-c55 resizer ds: downscale / crop and format setting for the DS pipe
 
-Since VIDC_RESETS_NUM_MAX is only 2, I don't think a separate
-allocation is worth it.
+Conspicuously missing from the list are subdevices for the ISP's statistics and
+parameters; work is progressing in these areas and we plan on introducing them
+in later series on top of this one.
 
-> +	if (res->resets_num && !core->resets)
-> +		return -ENOMEM;
-> +
-> +	for (i =3D 0; i < res->resets_num; i++)
-> +		core->resets[i].id =3D res->resets[i];
-> +
-> +	ret =3D devm_reset_control_bulk_get_exclusive(dev, res->resets_num, cor=
-e->resets);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to get resets\n");
-> =20
->  	ret =3D venus_get_resources(core);
->  	if (ret)
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/pla=
-tform/qcom/venus/core.h
-> index 6ecaa3e38cac..2376b9cbdf2c 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -130,7 +130,7 @@ struct venus_format {
->   * @pmdomains:	a pointer to a list of pmdomains
->   * @opp_dl_venus: an device-link for device OPP
->   * @opp_pmdomain: an OPP power-domain
-> - * @resets: an array of reset signals
-> + * @resets: a reset_control_bulk_data array of hardware reset signals
->   * @vdev_dec:	a reference to video device structure for decoder instance=
-s
->   * @vdev_enc:	a reference to video device structure for encoder instance=
-s
->   * @v4l2_dev:	a holder for v4l2 device structure
-> @@ -183,7 +183,7 @@ struct venus_core {
->  	struct dev_pm_domain_list *pmdomains;
->  	struct device_link *opp_dl_venus;
->  	struct device *opp_pmdomain;
-> -	struct reset_control *resets[VIDC_RESETS_NUM_MAX];
-> +	struct reset_control_bulk_data *resets;
+Thanks
+Dan
 
-Any reason not to just keep this as an array[VIDC_RESETS_NUM_MAX]?
+Daniel Scally (5):
+  media: uapi: Add MEDIA_BUS_FMT_RGB202020_1X60 format code
+  dt-bindings: media: Add bindings for ARM mali-c55
+  media: mali-c55: Add Mali-C55 ISP driver
+  media: Documentation: Add Mali-C55 ISP Documentation
+  MAINTAINERS: Add entry for mali-c55 driver
 
->  	struct video_device *vdev_dec;
->  	struct video_device *vdev_enc;
->  	struct v4l2_device v4l2_dev;
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/med=
-ia/platform/qcom/venus/pm_helpers.c
-> index 9df8f2292c17..170fb131cb1e 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -865,21 +865,12 @@ void vcodec_domains_put(struct venus_core *core)
->  static int core_resets_reset(struct venus_core *core)
->  {
->  	const struct venus_resources *res =3D core->res;
-> -	unsigned int i;
->  	int ret;
-> =20
-> -	for (i =3D 0; i < res->resets_num; i++) {
-> -		ret =3D reset_control_assert(core->resets[i]);
-> -		if (ret)
-> -			goto err;
-> -
-> -		usleep_range(150, 250);
-> -		ret =3D reset_control_deassert(core->resets[i]);
-> -		if (ret)
-> -			goto err;
-> -	}
-> +	ret =3D reset_control_bulk_reset(res->resets_num, core->resets);
-> +	if (ret)
-> +		dev_err(core->dev, "Failed to toggle resets: %d\n", ret);
-> =20
-> -err:
->  	return ret;
+ .../admin-guide/media/mali-c55-graph.dot      |   19 +
+ Documentation/admin-guide/media/mali-c55.rst  |  318 +++++
+ .../admin-guide/media/v4l-drivers.rst         |    1 +
+ .../bindings/media/arm,mali-c55.yaml          |   77 ++
+ .../media/v4l/subdev-formats.rst              |  168 +++
+ MAINTAINERS                                   |   10 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/arm/Kconfig            |    5 +
+ drivers/media/platform/arm/Makefile           |    2 +
+ drivers/media/platform/arm/mali-c55/Kconfig   |   18 +
+ drivers/media/platform/arm/mali-c55/Makefile  |    9 +
+ .../platform/arm/mali-c55/mali-c55-capture.c  | 1021 +++++++++++++++++
+ .../platform/arm/mali-c55/mali-c55-common.h   |  271 +++++
+ .../platform/arm/mali-c55/mali-c55-core.c     |  767 +++++++++++++
+ .../platform/arm/mali-c55/mali-c55-isp.c      |  682 +++++++++++
+ .../arm/mali-c55/mali-c55-registers.h         |  180 +++
+ .../arm/mali-c55/mali-c55-resizer-coefs.h     |  382 ++++++
+ .../platform/arm/mali-c55/mali-c55-resizer.c  |  678 +++++++++++
+ .../platform/arm/mali-c55/mali-c55-tpg.c      |  425 +++++++
+ include/uapi/linux/media-bus-format.h         |    3 +-
+ 21 files changed, 5037 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/media/mali-c55-graph.dot
+ create mode 100644 Documentation/admin-guide/media/mali-c55.rst
+ create mode 100644 Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+ create mode 100644 drivers/media/platform/arm/Kconfig
+ create mode 100644 drivers/media/platform/arm/Makefile
+ create mode 100644 drivers/media/platform/arm/mali-c55/Kconfig
+ create mode 100644 drivers/media/platform/arm/mali-c55/Makefile
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-common.h
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-core.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-isp.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer-coefs.h
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
 
-Could be simplified to:
+-- 
+2.34.1
 
-	return reset_control_bulk_reset(res->resets_num, core-
->resets);
-
-regards
-Philipp
 
