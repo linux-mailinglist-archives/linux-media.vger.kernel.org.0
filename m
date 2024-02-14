@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-5117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5118-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEDF8544DC
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:18:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B2B8544DD
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:18:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2CA21283983
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 09:18:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 049EB1F29F4D
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 09:18:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3CE7125BC;
-	Wed, 14 Feb 2024 09:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9542F125DD;
+	Wed, 14 Feb 2024 09:18:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSgunlxE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YO8iG1Lk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9301310A35
-	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 09:18:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7C611CB1
+	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 09:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707902292; cv=none; b=aFg6UKzs8Q+OcHUIYOa3HqR4pSy5H5Oh1ZkBSeda6CA8DQUIai/PgG21YF7yTe+0FWsX6jmF1DBc732CeMP9d4vkdnllN2A9K+6flULfKmnW4zuZ8CRhN5ivrsJO6YGQidiqkoEP0O5znQgg2piy5bOnlq1yd2uMRXcZ2IXjjbU=
+	t=1707902293; cv=none; b=CHAmKWvzLD1pkrMlkeM53S1S0HdlKJW8W5CXrx8ZOUnjV0AhWDTTMe/su17ebYstu0limXi9JpifdB9l3wNTEcx8W7tWQcmp+HZrCwsTKI4NqgFD0ASF8hcOlLMRlSgzt0KKsbXygKJZUiwreO+ziChTfErXRadNjZtFWQH6k4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707902292; c=relaxed/simple;
-	bh=dOhCsLh7yVfNpfTWyJKGunc8t7LfAL+lYrcSkF0ZIdM=;
+	s=arc-20240116; t=1707902293; c=relaxed/simple;
+	bh=KvMGG0kB9pqr2p4BYVbUwIPfJ1m/0Jfv3Pq8WhIcHuI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Epy2r3sF1sOL7sxHVW5kBq1Zp0cT6cwnm1dFS7T/+Zf3EfVzqkFCLPwFrRlZSpSvX0MwS4cedPOAvfijNTXeZLWFRH071FKfzqxC6bm8XfMV5/itHcf9MtGFg/y9EwZw2nFs/LqegjvX7r6iQIEZNq3mX5q9cZIAZrWXCpXrO8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DSgunlxE; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=uqdjrNrF+m8mksEFhYBeSvT11c3mOXhUNACwvsObU4/h/vZSHROMccwKugZkono9CqGHDwYhAT3ImxmXgVzZ9Jkqy3tg7Av5OhreSD22BCVHV2NL3ZjEWXDBzhk+pIwO1CAWxNQacapds88cG0UyEtx99i3sqLbjuJKoQGP8GqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YO8iG1Lk; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -36,36 +36,36 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1707902290; x=1739438290;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=dOhCsLh7yVfNpfTWyJKGunc8t7LfAL+lYrcSkF0ZIdM=;
-  b=DSgunlxE4iYjh5hoPklzC/vzzX2ObnZXu3fcOESof5CJ+j14rsF4TacY
-   O2Y7w43YLiQy8EoXXWFumoTPqJALiCP3yKCdaJ+hq7koimSASiRn6vbCe
-   byt8e19DazPtxs1mjkyJr2SsB9wqQFiZQnk2w+NDxAV1V7C5TL50e7msI
-   tPsXsvKtvS2jW+w9vZgBiAblf79YvtABcBQndzn9NaqeckQkBYV35y1py
-   53KR+iWKaOQv8OqWGF5H1OSuRgp9vzOSMzXoQmVwioReL6TLwTGx8wjR4
-   pEXmkBFxcwU3Bi6w6XGy7h0lbbUcqmDOr6wbpEEeuCFf0WW66CYkvNL8Q
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="2301708"
+  bh=KvMGG0kB9pqr2p4BYVbUwIPfJ1m/0Jfv3Pq8WhIcHuI=;
+  b=YO8iG1LkBG/vcm8Av6iOaIaRgL19q21Ua2usXJzTQTeumH/tKgaw3BWW
+   Ip8Z+9nyN36ZM6Zy6aU9cP0hn/z//oixIOmUfLouo3RZY3UIDFwoGgpzg
+   CbDsGc0j0SEVfC1vUXuba9+iY362fUFpaJikRxdRUgMF2C5BCgx53gYef
+   CCm69ay1bmMNV3yKQy9KR7uXp24ByYPQV0vw5cTn+HGuY36A+a+sWNKjj
+   tcmVkOPp8cQ3OnY14GB+iHRDMOJmM5ZRrGD+xoiJ7+U9cURMe+WTy1QaN
+   9zDndzuKGWV+R71sKKOCDH+waIyhYhWLsgHNziKWfm6W3fdq2wlluxZFJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="2301711"
 X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="2301708"
+   d="scan'208";a="2301711"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 01:18:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="935605011"
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="935605009"
 X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="935605011"
+   d="scan'208";a="935605009"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 01:18:04 -0800
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 01:18:03 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5CE2D11FA12;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E87A31202AA;
 	Wed, 14 Feb 2024 11:17:55 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Daniel Scally <dan.scally@ideasonboard.com>,
 	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH v3 1/5] media: ipu-bridge: Add ov01a10 in Dell XPS 9315
-Date: Wed, 14 Feb 2024 11:17:50 +0200
-Message-Id: <20240214091754.399340-2-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 2/5] media: ipu-bridge: Move graph checking to IPU bridge
+Date: Wed, 14 Feb 2024 11:17:51 +0200
+Message-Id: <20240214091754.399340-3-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240214091754.399340-1-sakari.ailus@linux.intel.com>
 References: <20240214091754.399340-1-sakari.ailus@linux.intel.com>
@@ -77,28 +77,115 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add Omnivision ov01a10 sensor used in Dell XPS 9315, and use the driver
-default frequency.
+Move checking the graph to the IPU bridge. This way the caller won't need
+to do it.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 ---
- drivers/media/pci/intel/ipu-bridge.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/pci/intel/ipu-bridge.c     | 20 +++++++++++++++
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c | 31 +++---------------------
+ 2 files changed, 23 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index f980e3125a7b..b2cf80d62ba2 100644
+index b2cf80d62ba2..735c62c37c22 100644
 --- a/drivers/media/pci/intel/ipu-bridge.c
 +++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -60,6 +60,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
- 	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
- 	/* GalaxyCore GC0310 */
- 	IPU_SENSOR_CONFIG("INT0310", 0),
-+	/* Omnivision ov01a10 */
-+	IPU_SENSOR_CONFIG("OVTI01A0", 1, 400000000),
- };
+@@ -2,6 +2,7 @@
+ /* Author: Dan Scally <djrscally@gmail.com> */
  
- static const struct ipu_property_names prop_names = {
+ #include <linux/acpi.h>
++#include <linux/cleanup.h>
+ #include <linux/device.h>
+ #include <linux/i2c.h>
+ #include <linux/mei_cl_bus.h>
+@@ -749,6 +750,22 @@ static int ipu_bridge_ivsc_is_ready(void)
+ 	return ready;
+ }
+ 
++static int ipu_bridge_check_fwnode_graph(struct fwnode_handle *fwnode)
++{
++	struct fwnode_handle *endpoint;
++
++	if (IS_ERR_OR_NULL(fwnode))
++		return -EINVAL;
++
++	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
++	if (endpoint) {
++		fwnode_handle_put(endpoint);
++		return 0;
++	}
++
++	return ipu_bridge_check_fwnode_graph(fwnode->secondary);
++}
++
+ int ipu_bridge_init(struct device *dev,
+ 		    ipu_parse_sensor_fwnode_t parse_sensor_fwnode)
+ {
+@@ -757,6 +774,9 @@ int ipu_bridge_init(struct device *dev,
+ 	unsigned int i;
+ 	int ret;
+ 
++	if (!ipu_bridge_check_fwnode_graph(dev_fwnode(dev)))
++		return 0;
++
+ 	if (!ipu_bridge_ivsc_is_ready())
+ 		return -EPROBE_DEFER;
+ 
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+index 83e29c56fe33..c42adc5a408d 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+@@ -1667,29 +1667,12 @@ static void cio2_queues_exit(struct cio2_device *cio2)
+ 		cio2_queue_exit(cio2, &cio2->queue[i]);
+ }
+ 
+-static int cio2_check_fwnode_graph(struct fwnode_handle *fwnode)
+-{
+-	struct fwnode_handle *endpoint;
+-
+-	if (IS_ERR_OR_NULL(fwnode))
+-		return -EINVAL;
+-
+-	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
+-	if (endpoint) {
+-		fwnode_handle_put(endpoint);
+-		return 0;
+-	}
+-
+-	return cio2_check_fwnode_graph(fwnode->secondary);
+-}
+-
+ /**************** PCI interface ****************/
+ 
+ static int cio2_pci_probe(struct pci_dev *pci_dev,
+ 			  const struct pci_device_id *id)
+ {
+ 	struct device *dev = &pci_dev->dev;
+-	struct fwnode_handle *fwnode = dev_fwnode(dev);
+ 	struct cio2_device *cio2;
+ 	int r;
+ 
+@@ -1698,17 +1681,9 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+ 	 * if the device has no endpoints then we can try to build those as
+ 	 * software_nodes parsed from SSDB.
+ 	 */
+-	r = cio2_check_fwnode_graph(fwnode);
+-	if (r) {
+-		if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
+-			dev_err(dev, "fwnode graph has no endpoints connected\n");
+-			return -EINVAL;
+-		}
+-
+-		r = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
+-		if (r)
+-			return r;
+-	}
++	r = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
++	if (r)
++		return r;
+ 
+ 	cio2 = devm_kzalloc(dev, sizeof(*cio2), GFP_KERNEL);
+ 	if (!cio2)
 -- 
 2.39.2
 
