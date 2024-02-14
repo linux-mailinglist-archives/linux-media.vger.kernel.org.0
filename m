@@ -1,242 +1,156 @@
-Return-Path: <linux-media+bounces-5155-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5156-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DE8854C68
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 16:18:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB14854C95
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 16:24:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38B6E1C27DCB
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 15:18:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9E7F281E0F
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 15:24:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24C585C5EE;
-	Wed, 14 Feb 2024 15:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D405C905;
+	Wed, 14 Feb 2024 15:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kBSRxlAw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43DF5A7B4
-	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 15:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8A45380F;
+	Wed, 14 Feb 2024 15:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707923877; cv=none; b=VKJzhToahhlLwKeq+o1bc3rcHKTiFug6gGwsNhai1EBYEJp/F73/Zb6X/jGoXqPHwH+GfwbFY2nVctkze0jxMzkErLGloT5RDLX+YpG3Xw6JsgJipcYl+27rTPNx8pyLk4xkhLWvdyQ/0LXWQ5lvwu7rD2/i3oGE+kpu0hAAhGU=
+	t=1707924270; cv=none; b=O0CjL1lESstF7qoGihiDPLFlUMAVuZ4tO4vxkqfyu1G9F/v4+I7+aPAQQAQkw9uGjXoRxoOfIwMMRM3lCD9SGQ3HMdFKDs+dQ/ZWTuvbb7TZ8UZZnqgmnqi9AWP8At6Sa3VHDlYMnZjnbrsplUC52W2RaB7wewE16atIocSKNvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707923877; c=relaxed/simple;
-	bh=x3kx3jdk873LHfYK4ZGwOUfhn0YNQWvaVfBOCD2uxmk=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Zm0krKDmQ1SxcoE7Qb26JvFZG0Jp2n2aCheyZsDFr9NVn0ttZBnVmpD43YrYz1TeHuaZzbYFW+coGtsnZk9Qj5mwZ7NEIocyaXjMnf6/tRds2WREXsVE3CItuXoW/EXw7usClTanWTtjr1nx6dQmT/5UC0J7iP7ALHEX/4TmzO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74F1AC433F1;
-	Wed, 14 Feb 2024 15:17:56 +0000 (UTC)
-Message-ID: <12e4850c-0ae2-4d9f-83b7-8c762e6e3756@xs4all.nl>
-Date: Wed, 14 Feb 2024 16:17:54 +0100
+	s=arc-20240116; t=1707924270; c=relaxed/simple;
+	bh=hrS+7D98aI8qXwRGWlzZjL30Thwo9vI5kQtILtRmP90=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HsB+YrIBoV4GpYfIMp17S1pvI33mb2SOVjxN0lj4ui5QooLKg7xNKTK5thLFoAA4Qvn1O3TdX95K93kgD98KxyjVv/N9gCR/8Z4RW+zi9XWS8SOO4GHMLF3Dbm6xvB3WBQDE2HaDPfEHPfTpO2OlyIpxBqHdSa6crOOeZ6fNDqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kBSRxlAw; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-411a5b8765bso5599115e9.1;
+        Wed, 14 Feb 2024 07:24:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707924267; x=1708529067; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0OFkureVTXD1x1XtiO0hHaV62fHL9a0D+FDxieJ45iM=;
+        b=kBSRxlAw6kI09zLSMhdyTdb1GWDkn//1e/W/SNcozs87CksUT97oYJSKdkINH7FEqy
+         y4kNOnVgz8bXginkc1aSzbhuf5Mq0j6ieqCevp7AMmjD8v/g1Gi1SLj4Rv9L9MhlPWgL
+         RXk4doZ0k2ISVhzfQhYvp8zP3BMRBNJRoIxIKMJZkj/QsmdKgZd/SGW/7ImBlKnqWaIT
+         xd0IKMIeNRf/19Z4HblK6xhkmpBgJLguEbu4+qWk82bO6KbpT0iz7vQmSF/+BMrrhfuO
+         Wrw2ev7JPdBkEKym7/A1cDUcmWo4mGWrzb9B+/NBA3iynDQ2odrR/Q+joWstZ2i8xcEw
+         9gIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707924267; x=1708529067;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0OFkureVTXD1x1XtiO0hHaV62fHL9a0D+FDxieJ45iM=;
+        b=hTP/mYfNf2G9c2zk1r153kNPFdLvSfZa6IEE2MGDUB8bBeKUAeYaHNL3HqFAIeiPWI
+         +WY1gcmAAY7WJkcak2A7JEzZIn2kuArU508zlaBV/FV4KqAWzj93VGOavmUNCKLwFNnN
+         cn6X9diJTc1AOvJWqLxe/v+FZJwd5QHKwn02O3Qd/xcjRHK2NljliB2BqDrq+rwn/emA
+         oRZy4iaqF/8ISkuTu+uFtkLKyMqNLgSAZVk+xKYHeJ0nB50YT2nvQK39V0QBS6Syf2dO
+         BemJduq2mJw284UIilXzQnfVRLxXuVydOzNV1dGfXSb+qZnZxMPS2R2tUwPZZOk0q34C
+         RjiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6cnOzdADbTCiYzKVUKZlgnrpGMsiDCtMcAxr/2cSMwur333pURbXLCiRoF8KXX0nSOuZ4COI5VTf/qpUU8chbRZ85wcbLNgYmiUFO9qiwq30gczuAtV08IpCeUHOqmWRIl8r+UJuTiZ0=
+X-Gm-Message-State: AOJu0YwvN32D02nC0JZF7vlzS4Ckpp7KocTITT5nrw/xFp+OJTfe1Ur1
+	2Onqrdxlwk+qM4PPd+OEYOXhoKUBc13ZZZosCo2lWLSwpB+oB0hzXvlWHXVk
+X-Google-Smtp-Source: AGHT+IHOl034acDN9oYiI5bWCOeRpm/6dehVlHu7Srqmx1Xr/lSZvYEaRV7yEa6OLBKmnHkH82sXPw==
+X-Received: by 2002:a05:600c:1c08:b0:40f:db22:728 with SMTP id j8-20020a05600c1c0800b0040fdb220728mr2153291wms.1.1707924267256;
+        Wed, 14 Feb 2024 07:24:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV6eLjCaqpDR/W1pHfY2V7q6gY/k6DAWdQQWOvBvSb4KSiBrm6pD74ja3INBLNJNY3KITqvPIXSusPV13a1j1t+fpqIedYKBwlSBTDIN4aHlxCIKArKhjtrrdvT0EPvEydBVu4Z5jTK0eZZIA2IFd4ZOXDDSHzW+b3hGWyhyPEe2qFsSdx6K1cLiZOkwkbZi4LGyt+Pt4NJmg075zxQX/w3WW5/LXHrN1hM/u8I5Rl1MNY=
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-49-42.cust.vodafonedsl.it. [188.217.49.42])
+        by smtp.gmail.com with ESMTPSA id bh7-20020a05600c3d0700b00411ab6dad65sm2314394wmb.29.2024.02.14.07.24.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 07:24:26 -0800 (PST)
+Date: Wed, 14 Feb 2024 16:24:24 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linuxfancy@googlegroups.com, martin.hecht@avnet.eu,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] media: i2c: alvium: fix req_fr check into
+ alvium_s_frame_interval()
+Message-ID: <ZczbKDGXF1PXaBXr@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231220124023.2801417-1-tomm.merciai@gmail.com>
+ <20231220124023.2801417-6-tomm.merciai@gmail.com>
+ <20231220130236.GN29638@pendragon.ideasonboard.com>
+ <ZYLxtTRQF0sWJLiu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZcygmyT1ZaKsbSxX@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Detlev Casanova <detlev.casanova@collabora.com>,
- Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Jernej_=C5=A0krabec?=
- <jernej.skrabec@gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.9] Various fixes and enhancements
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZcygmyT1ZaKsbSxX@kekkonen.localdomain>
 
-If there are no comments, then I'll push this tomorrow or Friday.
+Hi Sakari,
+Sorry for delay.
+
+On Wed, Feb 14, 2024 at 11:14:35AM +0000, Sakari Ailus wrote:
+> Hi Tommaso,
+> 
+> On Wed, Dec 20, 2023 at 02:52:53PM +0100, Tommaso Merciai wrote:
+> > Hi Laurent,
+> > 
+> > On Wed, Dec 20, 2023 at 03:02:36PM +0200, Laurent Pinchart wrote:
+> > > Hi Tommaso,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Wed, Dec 20, 2023 at 01:40:23PM +0100, Tommaso Merciai wrote:
+> > > > Actually req_fr check into alvium_s_frame_interval() is wrong.
+> > > > In particular req_fr can't be >=max and <= min at the same time.
+> > > > Fix this using clamp and remove dft_fr parameter from
+> > > > alvium_get_frame_interval() not more used.
+> > > 
+> > > The commit message should have explained why clamping is better than
+> > > picking a default value, as that's a functional change. If you propose
+> > > an updated commit message in a reply, I think Sakari can update the
+> > > patch when applying the series to his tree, there's no need for a v4.
+> > 
+> > What about:
+> > 
+> > Actually req_fr check into alvium_s_frame_interval() is wrong.
+> > In particular req_fr can't be >=max and <= min at the same time.
+> > Fix this using clamp and remove dft_fr parameter from
+> > alvium_get_frame_interval() not more used.
+> > 
+> > Clamp function make sure that if the setted value exceeds the limits is
+> > replaced with min_fr/max_fr instead of setting the value readed back
+> > from the hw.
+> > 
+> > What do you think?
+> 
+> I used this, hopefully it's ok:
+> 
+> media: i2c: alvium: fix req_fr check in alvium_s_frame_interval()
+> 
+> req_fr check in alvium_s_frame_interval() is incorrect. In particular
+> req_fr can't be >=max and <= min at the same time. Ensure the requested
+> frame rate remains within the supported range between min_fr and max_fr by
+> clamping it.
+> 
+> Also remove the unused dft_fr argument of alvium_get_frame_interval().
+
+Looks good to me! :)
+Thanks for this.
 
 Regards,
+Tommaso
 
-	Hans
 
-The following changes since commit 8c64f4cdf4e6cc5682c52523713af8c39c94e6d5:
-
-  media: edia: dvbdev: fix a use-after-free (2024-02-07 06:06:03 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.9d
-
-for you to fetch changes up to 10a934521ad37903bc290ed9b5fac5cd3c1e26a0:
-
-  media: v4l: marvell: select CONFIG_V4L2_ASYNC where needed (2024-02-14 16:14:11 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Andrzej Pietrasiewicz (1):
-      media: videobuf2: Add missing doc comment for waiting_in_dqbuf
-
-Arnd Bergmann (3):
-      media: sta2x11: fix irq handler cast
-      media: pvrusb2: fix pvr2_stream_callback casts
-      media: v4l: marvell: select CONFIG_V4L2_ASYNC where needed
-
-Changhuang Liang (1):
-      staging: media: starfive: Set 16 bpp for capture_raw device
-
-Colin Ian King (2):
-      media: tda18271: remove redundant assignment to variable bcal
-      media: i2c: st-vgxy61: remove redundant initialization of pointer mode
-
-Daniil Dulov (2):
-      media: go7007: add check of return value of go7007_read_addr()
-      media: pvrusb2: remove redundant NULL check
-
-Detlev Casanova (4):
-      media: visl,vidtv: Set parameters permissions to 0444
-      media: visl: Add a tpg_verbose parameter
-      doc: media: visl: Document tpg_verbose parameter
-      media: visl: Add codec specific variability on output frames
-
-Hans Verkuil (3):
-      media: staging: imx: controls are from another device, mark this
-      media: v4l2-ctrls-core.c: check min/max for menu, controls
-      media: core: v4l2-ioctl.c: use is_valid_ioctl()
-
-Hsia-Jun(Randy) Li (1):
-      media: v4l2-mem2mem: fix mem order in last buf
-
-Jernej Skrabec (4):
-      media: cedrus: h265: Fix configuring bitstream size
-      media: sun8i-di: Fix coefficient writes
-      media: sun8i-di: Fix power on/off sequences
-      media: sun8i-di: Fix chroma difference threshold
-
-Kells Ping (1):
-      media: platform: cros-ec: Add Dita to the match table
-
-Kevin Hao (3):
-      media: dvb_frontend: Use wait_event_freezable_timeout() for freezable kthread
-      media: msp3400: Use wait_event_freezable_timeout() in msp_sleep()
-      media: pvrusb2: Use wait_event_freezable() for freezable kthread
-
-Lucas Stach (1):
-      media: imx: csc/scaler: fix v4l2_ctrl_handler memory leak
-
-Markus Elfring (1):
-      media: ti: Use devm_platform_ioremap_resource() in ti_csi2rx_probe()
-
-Matthias Schwarzott (1):
-      media: zl10036: Fix my email address
-
-Ming Qian (2):
-      media: imx-jpeg: Support for negotiating bytesperline with client
-      media: amphion: Abort vpu parsing directly in seek
-
-Niklas Söderlund (1):
-      media: rcar-csi2: Move driver to renesas directory
-
-Ricardo B. Marliere (1):
-      media: bt8xx: make bttv_sub_bus_type const
-
-Vincenzo Mezzela (1):
-      docs: media: fix typo in docs
-
-XueBing Chen (4):
-      media: dvb-frontends: Clean up errors in cx24110.h
-      media: stv6110x: Clean up errors in stv6110x.h
-      media: Clean up errors in bcm3510_priv.h
-      media: dvb-frontends: Clean up errors in tda8083.h
-
-Yang Li (1):
-      media: mediatek: vcodec: Remove unneeded semicolon
-
- Documentation/admin-guide/media/visl.rst                                  |  12 +-
- Documentation/driver-api/media/v4l2-subdev.rst                            |   2 +-
- MAINTAINERS                                                               |   1 +
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c                          |   2 +
- drivers/media/dvb-core/dvb_frontend.c                                     |  13 +-
- drivers/media/dvb-frontends/bcm3510_priv.h                                |   6 +-
- drivers/media/dvb-frontends/cx24110.h                                     |   8 +-
- drivers/media/dvb-frontends/stv6110x_priv.h                               |   8 +-
- drivers/media/dvb-frontends/tda8083.h                                     |   8 +-
- drivers/media/dvb-frontends/zl10036.c                                     |   2 +-
- drivers/media/dvb-frontends/zl10036.h                                     |   2 +-
- drivers/media/i2c/msp3400-driver.c                                        |  20 +--
- drivers/media/i2c/msp3400-driver.h                                        |   2 +-
- drivers/media/i2c/st-vgxy61.c                                             |   2 +-
- drivers/media/pci/bt8xx/bttv-gpio.c                                       |   2 +-
- drivers/media/pci/bt8xx/bttvp.h                                           |   2 +-
- drivers/media/pci/sta2x11/sta2x11_vip.c                                   |   9 +-
- drivers/media/platform/amphion/vdec.c                                     |   4 +-
- drivers/media/platform/marvell/Kconfig                                    |   2 +
- drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c |  14 +-
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c                            |  16 ++
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h                            |   1 +
- drivers/media/platform/renesas/Kconfig                                    |  16 ++
- drivers/media/platform/renesas/Makefile                                   |   1 +
- drivers/media/platform/renesas/{rcar-vin => }/rcar-csi2.c                 |   0
- drivers/media/platform/renesas/rcar-vin/Kconfig                           |  16 --
- drivers/media/platform/renesas/rcar-vin/Makefile                          |   1 -
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c                          |  69 ++++----
- drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c                     |   5 +-
- drivers/media/test-drivers/vidtv/vidtv_bridge.c                           |  26 +--
- drivers/media/test-drivers/visl/visl-core.c                               |  15 +-
- drivers/media/test-drivers/visl/visl-dec.c                                | 344 +++++++++++++++++++++++-----------------
- drivers/media/test-drivers/visl/visl.h                                    |   1 +
- drivers/media/tuners/tda18271-fe.c                                        |   1 -
- drivers/media/usb/go7007/go7007-usb.c                                     |   4 +-
- drivers/media/usb/pvrusb2/pvrusb2-context.c                               |   8 +-
- drivers/media/usb/pvrusb2/pvrusb2-dvb.c                                   |  12 +-
- drivers/media/usb/pvrusb2/pvrusb2-v4l2.c                                  |  11 +-
- drivers/media/v4l2-core/v4l2-ctrls-api.c                                  |   2 +-
- drivers/media/v4l2-core/v4l2-ctrls-core.c                                 |   5 +-
- drivers/media/v4l2-core/v4l2-ioctl.c                                      |   2 +-
- drivers/media/v4l2-core/v4l2-mem2mem.c                                    |   4 +-
- drivers/staging/media/imx/imx-media-csc-scaler.c                          |   1 +
- drivers/staging/media/imx/imx-media-fim.c                                 |   2 +-
- drivers/staging/media/starfive/camss/stf-capture.c                        |   8 +-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c                          |  10 +-
- include/media/videobuf2-core.h                                            |  13 +-
- 47 files changed, 398 insertions(+), 317 deletions(-)
- rename drivers/media/platform/renesas/{rcar-vin => }/rcar-csi2.c (100%)
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
 
