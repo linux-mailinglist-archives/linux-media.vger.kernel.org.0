@@ -1,128 +1,91 @@
-Return-Path: <linux-media+bounces-5129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5130-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6DA854782
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:48:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35512854792
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:54:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D52BC1F24788
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:48:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 684BC1C22863
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:54:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FAB318AF4;
-	Wed, 14 Feb 2024 10:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Nq5u5pgS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Co5CI5Wb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A69F18C36;
+	Wed, 14 Feb 2024 10:54:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113D018027;
-	Wed, 14 Feb 2024 10:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E92B125BB;
+	Wed, 14 Feb 2024 10:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707907728; cv=none; b=WETmMnwp+Qcj7PVXdX1LZJ09jb2QkT7UfZ+Yu7YJ+YlsarAbwr4Haoczka0DDBe49u6fHIY9B5wGFpqYcTuCEby5MQ/XnosYd+GfP8DcB/YB7UBe2WxPhJHP9OPP1L6upN3waTNR1N82sFrmAGW0135D6pkHAnuFFdsZhdeMi5U=
+	t=1707908056; cv=none; b=O0ULDOA9g1GxqyxAv4GnSd2m/elr6b2Ial8n13r0Su4rVoqEfVmMZgX5SSymU96M/jfiOQqPySRqjeUbkR4DPY7/wmMVRAXfau3hdiEz1yOtlEGJaqGnQaiTLi1vY4jnyOhOHNxY2CbABJBPWN+RFIo4v3nhxIcw1ekCUyt+FPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707907728; c=relaxed/simple;
-	bh=HOpVLzrkwrpaCaBOGts1En5J/94ABppLQek5BJX4AhA=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=UCwafJnMccTzO2CkJ4QIJ8I/hQtx36wMgon1VYoggZE/FE2Wv8fzx5AP2y5M8lZjZzdv+pW5FxfQxSoeXcSI710XP2//mvyxK10+KPzEK/XgIwzbqlMOI39bc3NENtFy2m6nyF7UZXYTZHRoys3naSnrv3FD9dv07JPUXRxqUrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Nq5u5pgS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Co5CI5Wb; arc=none smtp.client-ip=64.147.123.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 94F583200922;
-	Wed, 14 Feb 2024 05:48:45 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 14 Feb 2024 05:48:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1707907725; x=1707994125; bh=Gv8xUDfNBj
-	Pjg5I7E95yOUAvwqbLQDclBoZX6xao6eM=; b=Nq5u5pgSom8OH60hq1TO3E+HA0
-	BUCjxVQ6+I7qef/2NBMMRwnucMwMG53MgFy5nLtKWHKszZbyLnxXpAYQxzbwEkHB
-	agQesBZKwWU6i8zY4agdN5ruGJEnt6HnIsCmwEBPBZLWlriNjH/Gj2vTex6ydO1Q
-	VosvTScviDzZUH4XzTAC1hlW4hPizpf0XsDX3z9qE0/7pqUeuTsDmHcqtl94XEDi
-	k2CmrDvmUNGuypQfOaDyQSdmXCU3FVAbbPeFzhUeD8pgqZihyqCLghn5Owevpj5y
-	vlS7yq2LLDOjhYjwkAxRs9gEJ7n22avQNuE9jK40vqGNi0mF9g7uEJnA2tsQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1707907725; x=1707994125; bh=Gv8xUDfNBjPjg5I7E95yOUAvwqbL
-	QDclBoZX6xao6eM=; b=Co5CI5WbaBOcbD1KZF8SRnZrx6JiUtx/k8adKwLIaFM+
-	MvBMv4yoW+ispyB/y5hxvBDey3+8Ex3TTDx5OPIRyQpqyvHhnk09UBZbiMil/3b4
-	lqey2f0oazZmAxIQi4N3Ls8xODeu85zoilyEIquKpvbWFBUOMm/c1ARH6jugIhkh
-	iMgm2gMCiRsgiK+D7oEusf8TjcN30UzCHN2hl+xrDgR106dNMEr+DOdKiKoMBbF8
-	aB573HgR8pn43F6gFdqCYJAi25rRzhEvcnO+GWouvVU6UdVMSFT6tuEn/TGhHbwI
-	ADccQbLCYHL7YmS6wWEcBW6EMoZFMyUyflwsrjMm8Q==
-X-ME-Sender: <xms:jJrMZS32twMt4Ggu8XtwrULRdriOJRbtCqHOHQ8u5sNKpAONBvxqPQ>
-    <xme:jJrMZVFb8hvwHYO_DpOMDOjDD50L_fWLvCGenWJ4QwythyC7X2SgI2tcj6GbRhAWq
-    eKDUc882WtIovaMu64>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejgddulecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
-    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:jJrMZa7_RwgI3e_r-FzJTezqjml0aoH5KdKNHaj5rBVFF5UHefXHwQ>
-    <xmx:jJrMZT2dqRM8p-1LEE2aXWYXL3FTwyDVkp4GvE9xhobIu_prYByNfw>
-    <xmx:jJrMZVGF_Nhbpm5Yu21jt9OMO1w_1_pxtjmmnZPJunUtF1tN3sSj0A>
-    <xmx:jZrMZZi_l-uMFoobfdjAEB2bgrsNeeXNv8nSI3dUzMvAihxEAa-SCQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 93894B6008F; Wed, 14 Feb 2024 05:48:44 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
+	s=arc-20240116; t=1707908056; c=relaxed/simple;
+	bh=T72cP4eIgPr/rxmsuBNLbrsbqc47TJVvRRR+yxW7iOM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CSfxr56x/xmNCqK4lS8CmA1A4I57k5eL/AGmT6GmhPKe1TXnrhLvrlXp+Cpm3DmHyK+X1Pju/4KUlTJbcnnFfEBOGkrXd0WzNnTgjJglgWHW1viVpL9Yt3jamCbOTRd/aq0aX7viQYBfmnQjWWhSqAstDl/XOlKc4snKVAM3slk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 794A0C433F1;
+	Wed, 14 Feb 2024 10:54:14 +0000 (UTC)
+Message-ID: <6067898e-eaac-4266-b4a3-388db9a918fa@xs4all.nl>
+Date: Wed, 14 Feb 2024 11:54:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <2027d488-a245-4492-bc17-27e17af575fd@app.fastmail.com>
-In-Reply-To: <ZcyW8zn14iIbn45X@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: v4l: marvell: select CONFIG_V4L2_ASYNC where
+ needed
+Content-Language: en-US, nl
+To: Arnd Bergmann <arnd@arndb.de>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Arnd Bergmann <arnd@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
 References: <20240213095555.454392-1-arnd@kernel.org>
  <24cbf7b2-a091-440e-92cc-5c9828d52260@xs4all.nl>
  <ZcyW8zn14iIbn45X@kekkonen.localdomain>
-Date: Wed, 14 Feb 2024 11:48:24 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Sakari Ailus" <sakari.ailus@linux.intel.com>,
- "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-Cc: "Arnd Bergmann" <arnd@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Mauro Carvalho Chehab" <mchehab@kernel.org>
-Subject: Re: [PATCH] media: v4l: marvell: select CONFIG_V4L2_ASYNC where needed
-Content-Type: text/plain
+ <2027d488-a245-4492-bc17-27e17af575fd@app.fastmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <2027d488-a245-4492-bc17-27e17af575fd@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 14, 2024, at 11:33, Sakari Ailus wrote:
-> Hi Hans, Arnd,
->
-> On Wed, Feb 14, 2024 at 11:24:41AM +0100, Hans Verkuil wrote:
->> Arnd, Sakari,
->> 
->> Is this something that needs to go to v6.8? Or just v6.9?
->> 
->> Do we need a Fixes tag?
->
-> The patch seems to be related to this:
-> <URL:https://lore.kernel.org/oe-kbuild-all/202402130955.f6uxzdCA-lkp@intel.com/>.
->
-> So most likely yes, and Cc: stable, too.
+On 14/02/2024 11:48, Arnd Bergmann wrote:
+> On Wed, Feb 14, 2024, at 11:33, Sakari Ailus wrote:
+>> Hi Hans, Arnd,
+>>
+>> On Wed, Feb 14, 2024 at 11:24:41AM +0100, Hans Verkuil wrote:
+>>> Arnd, Sakari,
+>>>
+>>> Is this something that needs to go to v6.8? Or just v6.9?
+>>>
+>>> Do we need a Fixes tag?
+>>
+>> The patch seems to be related to this:
+>> <URL:https://lore.kernel.org/oe-kbuild-all/202402130955.f6uxzdCA-lkp@intel.com/>.
+>>
+>> So most likely yes, and Cc: stable, too.
+> 
+> Ah, so lkp bisected it to that commit, which means it was
+> already broken in 6.5, but I'm fairly sure the bug is even
+> older then, as your commit seems to have only uncovered
+> an existing problem.
+> 
+> It was definitely working before ff3cc65cadb5 ("media: v4l: async,
+> fwnode: Improve module organisation") in linux-5.13, but it's not
+> clear if that is the culprit. It's probably safe to backport
+> to v5.15 and higher.
+> 
+>     Arnd
 
-Ah, so lkp bisected it to that commit, which means it was
-already broken in 6.5, but I'm fairly sure the bug is even
-older then, as your commit seems to have only uncovered
-an existing problem.
+If it has been broken for so long, then should we bother with v6.8?
 
-It was definitely working before ff3cc65cadb5 ("media: v4l: async,
-fwnode: Improve module organisation") in linux-5.13, but it's not
-clear if that is the culprit. It's probably safe to backport
-to v5.15 and higher.
+I'm not saying we should, I just like to get your opinion on this.
 
-    Arnd
+Regards,
+
+	Hans
 
