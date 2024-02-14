@@ -1,161 +1,294 @@
-Return-Path: <linux-media+bounces-5110-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5111-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADC4853EBF
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 23:32:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ABB685420E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 05:30:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED79C1C21D1A
-	for <lists+linux-media@lfdr.de>; Tue, 13 Feb 2024 22:32:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D92DAB24DA1
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 04:30:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF42B62178;
-	Tue, 13 Feb 2024 22:32:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCC58C139;
+	Wed, 14 Feb 2024 04:29:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHhdAusz"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bM5FP0xN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FD958138;
-	Tue, 13 Feb 2024 22:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAE2BA38;
+	Wed, 14 Feb 2024 04:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707863564; cv=none; b=F/szNUs6a/t9AfGTkg+1sVY8Cx0zUfUuc8STxMrKtJ73+axAQFo53YzcU/q0XGSkPSVVOQiqM0IBOLl0fd6KH3IQe6nvJBg4K50DRaR+FQOFLKLv8OIwo6Y807iA5cpXXvtRFv+nThiQtIVTU+E6+7tAzym6YxHUwsSIvlZ3V2s=
+	t=1707884989; cv=none; b=nOXY4GdYhdWJVOUmIIb0pyysCspPIwvKlaEuqXVwb+Di505rV5JHZ1QnpHDT1NYlE2Vwz5aSGqbCym6yKiVkjug0xizqacxzaotfJYyG44ATQLNh6ZD8ZdOW9VXsxpTcMVnazKou6utrJmqvyHn0vEyfo7W+jVmrvpKlaC77ITk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707863564; c=relaxed/simple;
-	bh=f44nsEhJCDnu3Cc9NTmCp54suvfdxHMTdGmgrDZ1tbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVt2i9Xl1Hm3J9kNlv8VJo8Mti2+P748O0DhI2FSOIOIVAMlaobm7AuyuyS3pciTKKvLPGGLQCk796ch0u40TlnNXI0HlmeaD0OgmP3kSsCJu4l+6io5Ja2TqGitd9qk4M58AEAnWA5n7WxqkcjgSBtiwzFOKxA193pIZXVP7lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHhdAusz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBAEC433C7;
-	Tue, 13 Feb 2024 22:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707863563;
-	bh=f44nsEhJCDnu3Cc9NTmCp54suvfdxHMTdGmgrDZ1tbs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RHhdAusz6mzJXaXDBeRiOuRJFPHZx5UgvjFi6wbjllvvGSYUrVQFMg0sfDG0oSq/W
-	 K/WTAKpIdweYz76J6+ddl0HaNnxiAVWaijWF2NSS98X61lZPdt4wawLCuFYCVm2QTS
-	 v2EdmaQ+BNYVRe4eEI+CENSl3hj2kJ05PfVPGkuSdMDuICBuCIGiSHxpxetHClaif0
-	 BU0UWQxdT0DmnGCaoKBMKFcWodffvgpERaawo1A43DVuH0F/ZLjUz1B+5M4AuLPIa7
-	 Tp3PFPf+5XCK3mZOkvk7NrkvVOJQT4mXD5YEXF/3oVsqARPQjVjod543Bq/5LDOTxX
-	 f8IbnGpw5W4uA==
-Date: Tue, 13 Feb 2024 23:32:40 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: ov5645: Add a small delay after writes
- in ov5645_set_register_array()
-Message-ID: <ZcvuCItn1vO6e2CZ@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-References: <20240213140240.159057-1-biju.das.jz@bp.renesas.com>
- <20240213140240.159057-3-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1707884989; c=relaxed/simple;
+	bh=soNF9FVM5OrcEyfvV//2qdMFKYHZZo58NagGsnNR5MM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LM0pnXh0VMTL6Vvf+v5ngaUvuf6lCyNTvd+j7VqZpXw55SDfwyi4eMUJGiuJRmGnOw7NK4DHkqSAU9SOo58Dhz+gwxOOecL6YaXJpK2MujHCXbyy38caspQo26fxkjgilKoNWD4P/fud6jghmrXAT++g/pX6dD4gfkfySNuur+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bM5FP0xN; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41E40DsC014695;
+	Wed, 14 Feb 2024 04:29:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=E5rxHYHkB0OjFcatv+zmGPh1ez6bAKXIDbqU3Ulp4h0=; b=bM
+	5FP0xNVbs3/IcLl3ivU6BpGneoeQ8za+9/QBG3p37KKG22nYE6OGaLaWdx04sRzs
+	uPulD2S9cqDC33ShH0VpgqFZUkZtuo0TICiL0tYBCR5HaenLokDjuPl7PRLs16oI
+	WRzgH9BZnHpEUGoyuF1W4b0Zv+uRE3LJqPRtzyRfOSnvAd1FiNnaJxDSzS6pTovm
+	o/DDMZ1Rkdd5Rjnek9Luhcn0crb3kVWhEUXVmOnBo3k9pnvkA3uS6Ryl3UgY9aJ1
+	vTXQvKrNqHYZtRsDl8vsvS6rrx473cRr0y5kgGSubbL4Vm+j/2mnpuP95g8gJqTi
+	I7NhQhbw8ktfgBvSNTJw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8jrj8ahd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 04:29:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41E4TN2n002441
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 04:29:23 GMT
+Received: from [10.218.5.19] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
+ 2024 20:29:16 -0800
+Message-ID: <a1c2641f-80c0-4e6e-9c44-ef7209da97a5@quicinc.com>
+Date: Wed, 14 Feb 2024 09:59:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1ax8QMUNX5dvUDdf"
-Content-Disposition: inline
-In-Reply-To: <20240213140240.159057-3-biju.das.jz@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd to be
+ managed by HW
+Content-Language: en-US
+To: Ulf Hansson <ulf.hansson@linaro.org>
+CC: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Michael Turquette
+	<mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Taniya Das <quic_tdas@quicinc.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>,
+        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
+ <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org>
+ <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
+ <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com>
+ <l7icfezpajren25545n4cjtqehhividt5b2dxnxgetdsshc3k3@tdws423qdblk>
+ <CAPDyKFp1vg2+-pHJ_idkdhb_zZUMpq7W17DnCCGj0eTwd4jFbQ@mail.gmail.com>
+ <87b7967f-d8c4-426e-92ed-5a418c702481@quicinc.com>
+ <CAPDyKFqy0osJRTU1mL0Ew_3pnYOe5z20ZWNrew8B6t99UFO0pg@mail.gmail.com>
+From: Jagadeesh Kona <quic_jkona@quicinc.com>
+In-Reply-To: <CAPDyKFqy0osJRTU1mL0Ew_3pnYOe5z20ZWNrew8B6t99UFO0pg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3WKGYU3flknvPdKbxmR4CBffYFs3Jo6N
+X-Proofpoint-ORIG-GUID: 3WKGYU3flknvPdKbxmR4CBffYFs3Jo6N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-13_16,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 phishscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2401310000 definitions=main-2402140031
 
 
---1ax8QMUNX5dvUDdf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+On 2/13/2024 7:21 PM, Ulf Hansson wrote:
+> On Tue, 13 Feb 2024 at 14:10, Jagadeesh Kona <quic_jkona@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 2/2/2024 5:59 PM, Ulf Hansson wrote:
+>>> On Fri, 2 Feb 2024 at 00:51, Bjorn Andersson <andersson@kernel.org> wrote:
+>>>>
+>>>> On Wed, Jan 31, 2024 at 01:12:00PM +0100, Ulf Hansson wrote:
+>>>>> On Wed, 31 Jan 2024 at 02:09, Bjorn Andersson <andersson@kernel.org> wrote:
+>>>>>>
+>>>>>> On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
+>>>>>>> From: Ulf Hansson <ulf.hansson@linaro.org>
+>>>>>>>
+>>>>>>> Some power-domains may be capable of relying on the HW to control the power
+>>>>>>> for a device that's hooked up to it. Typically, for these kinds of
+>>>>>>> configurations the consumer driver should be able to change the behavior of
+>>>>>>> power domain at runtime, control the power domain in SW mode for certain
+>>>>>>> configurations and handover the control to HW mode for other usecases.
+>>>>>>>
+>>>>>>> To allow a consumer driver to change the behaviour of the PM domain for its
+>>>>>>> device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
+>>>>>>> let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
+>>>>>>> which the genpd provider should implement if it can support switching
+>>>>>>> between HW controlled mode and SW controlled mode. Similarly, add the
+>>>>>>> dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
+>>>>>>> its corresponding optional genpd callback, ->get_hwmode_dev(), which the
+>>>>>>> genpd provider can also implement for reading back the mode from the
+>>>>>>> hardware.
+>>>>>>>
+>>>>>>> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+>>>>>>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+>>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>>> ---
+>>>>>>>    drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>>>    include/linux/pm_domain.h | 17 ++++++++++++
+>>>>>>>    2 files changed, 86 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+>>>>>>> index a1f6cba3ae6c..41b6411d0ef5 100644
+>>>>>>> --- a/drivers/pmdomain/core.c
+>>>>>>> +++ b/drivers/pmdomain/core.c
+>>>>>>> @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
+>>>>>>>    }
+>>>>>>>    EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
+>>>>>>>
+>>>>>>> +/**
+>>>>>>> + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
+>>>>>>
+>>>>>> This isn't proper kernel-doc
+>>>>>
+>>>>> Sorry, I didn't quite get that. What is wrong?
+>>>>>
+>>>>
+>>>> https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
+>>>> says that there should be () after the function name, and below there
+>>>> should be a Return:
+>>>
+>>> Thanks for the pointers!
+>>>
+>>>>
+>>>>>>
+>>>>>>> + *
+>>>>>>> + * @dev: Device for which the HW-mode should be changed.
+>>>>>>> + * @enable: Value to set or unset the HW-mode.
+>>>>>>> + *
+>>>>>>> + * Some PM domains can rely on HW signals to control the power for a device. To
+>>>>>>> + * allow a consumer driver to switch the behaviour for its device in runtime,
+>>>>>>> + * which may be beneficial from a latency or energy point of view, this function
+>>>>>>> + * may be called.
+>>>>>>> + *
+>>>>>>> + * It is assumed that the users guarantee that the genpd wouldn't be detached
+>>>>>>> + * while this routine is getting called.
+>>>>>>> + *
+>>>>>>> + * Returns 0 on success and negative error values on failures.
+>>>>>>> + */
+>>>>>>> +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
+>>>>>>> +{
+>>>>>>> +     struct generic_pm_domain *genpd;
+>>>>>>> +     int ret = 0;
+>>>>>>> +
+>>>>>>> +     genpd = dev_to_genpd_safe(dev);
+>>>>>>> +     if (!genpd)
+>>>>>>> +             return -ENODEV;
+>>>>>>> +
+>>>>>>> +     if (!genpd->set_hwmode_dev)
+>>>>>>> +             return -EOPNOTSUPP;
+>>>>>>> +
+>>>>>>> +     genpd_lock(genpd);
+>>>>>>> +
+>>>>>>> +     if (dev_gpd_data(dev)->hw_mode == enable)
+>>>>>>
+>>>>>> Between this and the gdsc patch, the hw_mode state might not match the
+>>>>>> hardware state at boot.
+>>>>>>
+>>>>>> With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
+>>>>>> false) will not bring control to SW - which might be fatal.
+>>>>>
+>>>>> Right, good point.
+>>>>>
+>>>>> I think we have two ways to deal with this:
+>>>>> 1) If the provider is supporting ->get_hwmode_dev(), we can let
+>>>>> genpd_add_device() invoke it to synchronize the state.
+>>>>
+>>>> I'd suggest that we skip the optimization for now and just let the
+>>>> update hit the driver on each call.
+>>>
+>>> Okay.
+>>>
+>>>>
+>>>>> 2) If the provider doesn't support ->get_hwmode_dev() we need to call
+>>>>> ->set_hwmode_dev() to allow an initial state to be set.
+>>>>>
+>>>>> The question is then, if we need to allow ->get_hwmode_dev() to be
+>>>>> optional, if the ->set_hwmode_dev() is supported - or if we can
+>>>>> require it. What's your thoughts around this?
+>>>>>
+>>>>
+>>>> Iiuc this resource can be shared between multiple clients, and we're
+>>>> in either case returning the shared state. That would mean a client
+>>>> acting upon the returned value, is subject to races.
+>>>
+>>> Not sure I understand this, but I also don't have in-depth knowledge
+>>> of how the HW works.
+>>>
+>>> Isn't the HW mode set on a per device basis?
+>>>
+>>>>
+>>>> I'm therefore inclined to say that we shouldn't have a getter, other
+>>>> than for debugging purposes, in which case reading the HW-state or
+>>>> failing would be reasonable outcomes.
+>>>
+>>> If you only want this for debug purposes, it seems better to keep it
+>>> closer to the rpmh code, rather than adding generic callbacks to the
+>>> genpd interface.
+>>>
+>>> So to conclude, you think having a ->set_hwmode_dev() callback should
+>>> be sufficient and no caching of the current state?
+>>>
+>>> Abel, what's your thoughts around this?
+>>>
+>>
+>> We believe it is good to have get_hwmode_dev() callback supported from
+>> GenPD, since if multiple devices share a GenPD, and if one device moves
+>> the GenPD to HW mode, the other device won't be aware of it and second
+>> device's dev_gpd_data(dev)->hw_mode will still be false.
+>>
+>> If we have this dev_pm_genpd_get_hwmode() API supported and if we assign
+>> dev_gpd_data(dev)->hw_mode after getting the mode from get_hwmode_dev()
+>> callback, consumer drivers can use this API to sync the actual HW mode
+>> of the GenPD.
+> 
+> Hmm, I thought the HW mode was being set on a per device basis, via
+> its PM domain. Did I get that wrong?
+> 
+> Are you saying there could be multiple devices sharing the same PM
+> domain and thus also sharing the same HW mode? In that case, it sure
+> sounds like we have synchronization issues to deal with too.
+> 
 
-On Tue, Feb 13, 2024 at 02:02:40PM +0000, Biju Das wrote:
-> Since OV5645 is showing issues @400kHz, it makes sense to add a small
-> delay after register writes for settling the register values. So introduce
-> a small delay by adding a read() after write() and also add a debug code
-> for data mismatch.
+Sorry my bad, currently we don't have usecase where multiple devices 
+sharing the same PM domain that have HW control support, so there is no 
+synchronization issue.
 
-That looks not right to me. A write reg should succeed. If it doesn't,
-then either the bus speed needs to be reduced on that board, or the
-frequency should be measured (maybe the clock on the bus is too fast and
-bigger than 400kHz?), or maybe the chip has issues so we need delays
-here and there. Just printing debug output if there is a mismatch is
-nothing for upstream as well, I'd say. It helps to find out after which
-register writes we need delays, but this is only for development, no?
+But it would be good to have .get_hwmode_dev() callback for consumer 
+drivers to query the actual GenPD mode from HW, whenever they require it.
 
-All the best,
+Thanks,
+Jagadeesh
 
-   Wolfram
-
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/media/i2c/ov5645.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index a5cc959d535e..ea9b7c610f2d 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -624,11 +624,20 @@ static int ov5645_set_register_array(struct ov5645 =
-*ov5645,
->  {
->  	unsigned int i;
->  	int ret;
-> +	u8 val;
-> =20
->  	for (i =3D 0; i < num_settings; ++i, ++settings) {
->  		ret =3D ov5645_write_reg(ov5645, settings->reg, settings->val);
->  		if (ret < 0)
->  			return ret;
-> +
-> +		ret =3D ov5645_read_reg(ov5645, settings->reg, &val);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		if (val !=3D settings->val)
-> +			dev_dbg(ov5645->dev, "Data mismatch reg=3D%x val=3D%x/%x\n",
-> +				settings->reg, settings->val, val);
->  	}
-> =20
->  	return 0;
-> --=20
-> 2.25.1
->=20
->=20
-
---1ax8QMUNX5dvUDdf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXL7gcACgkQFA3kzBSg
-KbY49A//QAGS+/g8wUKqLaGWPgyVMCma3OfVDm6emFMDBIWFb1bolYY4PcF9AVB1
-rZsqlIJwE5623rcTpeSE/XoMwQPDoUeVAgATpLCKFvS2eyBcgBJsPNOmqTCobWYj
-opG3fd9Pbp5qjJbgvJLYrLAtyOZg6+A/CvL8mpW5PhQZioz2Dnzx/XF1l4I/HChG
-jWdOHBrWpHFSrTLZdw7V8iHaWFUUYMCdVs+r2T8D76jwNHO93s7VJtmHJJHLRO2y
-QUzSlGj1pEGZKDrwNlUcdNhTjZP9NToohWqpq4E4R0BnfzwqWpHw9TnuL7/zeqee
-zLvCc9Y7pTXveiou/nBvvJZSQlBDx49xfaFDMhJq+sW5TAfVKrfGkbLdjlv1gI0S
-sramuYuMv5Vyv7OzcYRjIipVlV4dGTXs+PB6LwwZhP64nN8/gN1WNp7bc2Z8pnW6
-z1t03MSJBq+zeJPeciEFICNH8yhEQzT93uCZ4FaIXGBmkrWieAr58PYgBnPigo7J
-fQo37f8Edv58xwAnaDIS1XapTBSsgdmG1xCwTPG5X7iof/1gpOAvVjVxgeIK9VnC
-Njsmy/aLmlk6CavvrQuIcwJxCUFhLocFFDY+IRaWUoslKvsSGi68wZCRZRqbPv/o
-CYFBw5TFbvZprphlwUDfN6uMfpow4uHdch+g858FTy6cHBiZujU=
-=lw4c
------END PGP SIGNATURE-----
-
---1ax8QMUNX5dvUDdf--
 
