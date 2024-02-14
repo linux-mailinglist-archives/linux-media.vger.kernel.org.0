@@ -1,539 +1,241 @@
-Return-Path: <linux-media+bounces-5175-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5176-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D5D855720
-	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 00:17:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53482855751
+	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 00:34:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E21F1C29CC3
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 23:17:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D636F28FBC8
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 23:34:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA4D1420AB;
-	Wed, 14 Feb 2024 23:17:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51151420A2;
+	Wed, 14 Feb 2024 23:34:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RwL6JYvo"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="I7arg7NI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33B81419B2
-	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 23:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD661419A6;
+	Wed, 14 Feb 2024 23:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707952638; cv=none; b=Qt8c5Sadk4/MO4SOJtq5jBpBpYLgLKQ2fNJ5LRqV2jO+EgokajB4lkwX4GrsN54HdEMeje268H6CKF+XySEIdlQXpDljjyxQpTm7XCNJF7izviZINxe3JKijRnST1UUCoWuQjaF07qRTHc90IHASPaggi70d0P3CQi0L6ZS/k3Y=
+	t=1707953660; cv=none; b=cOzGyzbOiT6PfDrYGmA2Od+2ugiO6EdNwXbA3x7h2ynV2uNoKhfHuOBlsr/T0xD8O2b6ucEmNfNvZFt5ltYUVcp1eWfANF46ZjoOkkBctXsjyFV1xcn94DOKHdPyFYqr1XLkPOEeF1D1UH4S035a61dC3szSGPiG3/5rF6u9izM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707952638; c=relaxed/simple;
-	bh=LXb9zvEAUj4G5USS7QdqgXSFhyO7Zsv4kbBM0PVwyEQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j2bzQfzJ5TkSZlNjsfEGWGcqUGAr+OsEP5dD0MLhOPpqkVWWSXuNfDeEjilVYC5wNmmEBLTLexWJticQD6JAgKiMt9JFw9YLWWPXkhwvub2Svi7b8OTHiJYQPpaLZnPTJm0OoyzD+QIOcVjzn1HVkGUL8Q8VlUz9UbvJlfGG7mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RwL6JYvo; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6818f3cf00aso1973236d6.0
-        for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 15:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707952634; x=1708557434; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RDEb+rnLgfUtd9dyUQwW7lwMH92r2hAhL3LLKomhzZc=;
-        b=RwL6JYvo0FOqeEFXWrGvSr8n5Z3lB0DDVDKRYtePvA9W8iy/9Z/a1zAWnjCZsQ/hLq
-         VEuezG/9j1KRToxYC9XxXm6G7m155UvJdD67owO9XJ/Mh4pc870vE3tgSz9ajvd8azDR
-         +tb3uvDet8SqYghkI18GlxZMVvx0VIDW8BYbk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707952634; x=1708557434;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RDEb+rnLgfUtd9dyUQwW7lwMH92r2hAhL3LLKomhzZc=;
-        b=gvOXG5yKJKotCgBubvn9tiFYblm5nr/1Rznq0ptuMwBSFJXCRkMjUKZOSatB9nWmS6
-         BA+tWU8AD6Mg+TTWmoT4F3DYd+u2rtTgENiUhTsgcRXxq1rzlfLJPw31vQ41q8Zp1ACq
-         A4Bpx+O23TTZaTuD1DWxGH84iv45J3yeK0SOQDT0bqfhxk41EpeOOtzwWO/z1MuSNNc8
-         OBoD4X4smgF7PS970BhHUvqmkXhdIM9TKmq6VvwVg0u8ipfQmUYXMOMOiQbygHyWI57b
-         eofnMmXwAT+2BJaUAt+xQ6jTfVBkFFq7nXnRbBdtW7zoXeMAL9KuJHfa5DNk2UflA6nc
-         a9xw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVoM2bONJxb6J6c9Qu4VfRsIzQGRe5Hcfv0gUtL7TUFTokgVUbkcbGdhHLQNexBB/T9wstnmelXuN9jTrjETtt49iWLp74umwFiRU=
-X-Gm-Message-State: AOJu0YxZbY0EF6uMUIbvpPFLIRxaYkMaJ76r/zIrr8fAFzHFn9D3LD2H
-	vnCn6SuXwrj7F3JtVEB79UavwfJ15cxap44x0qD1rOBor0PBL80iH959nOohD9/ZEW8uOfoweU6
-	wVg==
-X-Google-Smtp-Source: AGHT+IHHMLhr35cOd1gCu2fJpaBHG/8j4Ex6gSYsanimuodBCEcunYGF8Wx6lWR+Y9k7byoM9RmxyA==
-X-Received: by 2002:a0c:ca10:0:b0:68c:d43d:6cc1 with SMTP id c16-20020a0cca10000000b0068cd43d6cc1mr101677qvk.4.1707952634187;
-        Wed, 14 Feb 2024 15:17:14 -0800 (PST)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
-        by smtp.gmail.com with ESMTPSA id of8-20020a056214434800b0068c6789ce9csm52920qvb.6.2024.02.14.15.17.13
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Feb 2024 15:17:14 -0800 (PST)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-429d7896d35so1273001cf.3
-        for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 15:17:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWXmtgHBu215MDhlsHkp6dkvMAmugo5EzVrscTQcqUdhaSZtMNmNzW0kCsBInEtaFR5gPpcnWAi5Q/9C+yqTdgHZNy/4f0fEyPTzTE=
-X-Received: by 2002:ac8:5916:0:b0:42d:c742:3661 with SMTP id
- 22-20020ac85916000000b0042dc7423661mr283778qty.25.1707952632988; Wed, 14 Feb
- 2024 15:17:12 -0800 (PST)
+	s=arc-20240116; t=1707953660; c=relaxed/simple;
+	bh=EhoG56pQh3Z7IB5fQjHs5pWDeKTByk/4gaFqXtrewrA=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=NSbZd5cHayMkcTjq8GsGjiRn2nvlaf/fuZ40lP8wCS7gO7f0A6XCrogTmyeErO0i1EFgmfHtj3EBTCfMxbNHJQBqoeuxoTEVPntwoyPA6FjXywFZkpJt0j3EbaajPgHYcLrpEgKPqaTwdL7vDs33yOyz2PGiGR0DGHTvJPoUt4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=I7arg7NI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C035231;
+	Thu, 15 Feb 2024 00:34:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707953652;
+	bh=EhoG56pQh3Z7IB5fQjHs5pWDeKTByk/4gaFqXtrewrA=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=I7arg7NIMPTKawvJDW0PUoTusLyDXoFQk4aUrEN7SVIWqPC4k3gj72lgOcqKhUz/q
+	 nbdzTu6ivuWvFpblcNnmfKazXQqz6xD9NqOBXANrTjK9uD5EwUsSzDtdy9oRggUd+z
+	 keN3X3DTXq5LbTpOPL/INYGEEqPqot9Cv9qYmqNg=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240111071713.16331-1-yunfei.dong@mediatek.com> <95daea30-14e6-4c0b-8a0c-60641efc9d92@collabora.com>
-In-Reply-To: <95daea30-14e6-4c0b-8a0c-60641efc9d92@collabora.com>
-From: Fritz Koenig <frkoenig@chromium.org>
-Date: Wed, 14 Feb 2024 15:17:01 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbzcg64mO13_2=FCPu5A79f7BqD77OJMXReHKove6vVSFA@mail.gmail.com>
-Message-ID: <CAMfZQbzcg64mO13_2=FCPu5A79f7BqD77OJMXReHKove6vVSFA@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: setting request complete before
- buffer done
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Yunfei Dong <yunfei.dong@mediatek.com>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Nathan Hebert <nhebert@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>, 
-	Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <TYCPR01MB11269D1C9578F27DE69E732B6864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20240213140240.159057-1-biju.das.jz@bp.renesas.com> <20240213140240.159057-2-biju.das.jz@bp.renesas.com> <ZcvsyRfVwC0aJ5fb@shikoro> <CADT+UeDNFBTvRMHd4_J85Yz0RYED4ioG9wjUe4C0X4x6LzVD9w@mail.gmail.com> <Zcx6Ty2tu_ZGdURj@ninjato> <TYCPR01MB11269CC8B2EAB564154C829A2864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com> <Zc0nWfwFFGhqxHQq@kekkonen.localdomain> <TYCPR01MB11269F35E38BE52CDD6628006864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com> <TYCPR01MB11269D1C9578F27DE69E732B6864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 from ov5645_global_init_setting
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Wolfram Sang <wsa@kernel.org>, biju.das.au <biju.das.au@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org <linux-media@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org <linux-renesas-soc@vger.kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Wed, 14 Feb 2024 23:34:12 +0000
+Message-ID: <170795365234.2765369.4101452918614439944@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-I have seen issues with this patch. It does fix the original issue,
-but now some kernel panics are occuring.
+Quoting Biju Das (2024-02-14 20:57:36)
+> Hi Sakari,
+>=20
+> > -----Original Message-----
+> > From: Biju Das
+> > Sent: Wednesday, February 14, 2024 8:55 PM
+> > Subject: RE: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 f=
+rom
+> > ov5645_global_init_setting
+> >=20
+> > Hi Sakari,
+> >=20
+> > Thanks for the feedback.
+> >=20
+> > > -----Original Message-----
+> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Sent: Wednesday, February 14, 2024 8:49 PM
+> > > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008
+> > > from ov5645_global_init_setting
+> > >
+> > > Hi Biju,
+> > >
+> > > On Wed, Feb 14, 2024 at 08:25:16PM +0000, Biju Das wrote:
+> > > > Hi Wolfram,
+> > > >
+> > > > Thanks for the feedback.
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: Wolfram Sang <wsa@kernel.org>
+> > > > > Sent: Wednesday, February 14, 2024 8:31 AM
+> > > > > Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register
+> > > > > 0x3008 from ov5645_global_init_setting
+> > > > >
+> > > > > Hi Biju,
+> > > > >
+> > > > > > I think it is different here. That 1 msec is delay associated
+> > > > > > with applying hardware power see [1]
+> > > > >
+> > > > > Okay, ack.
+> > > > >
+> > > > > > I will restore it.
+> > > > >
+> > > > > Thanks!
+> > > > >
+> > > > > I had meanwhile another thought. What if we kind of merge the two
+> > > > > patches, so the outcome is basically this:
+> > > > >
+> > > > > In ov5645_set_register_array:
+> > > > >
+> > > > >         If (settings->reg =3D=3D 0x3008 && settings->val =3D=3D 0=
+x82)
+> > > > >                 usleep_range(1000, 2000)
+> > > > >
+> > > > > ?
+> > > > >
+> > > > > Then, we don't need to split the array and we are also future
+> > > > > proof if we ever need to set the reset bit again somewhere else.
+> > > > >
+> > > > > Bonus points for replacing 0x82 with a define :)
 
-[  369.634206] ------------[ cut here ]------------
-[  369.634214]  __schedule+0x4bc/0x8b8
-[  369.634216] WARNING: CPU: 6 PID: 6520 at
-drivers/media/common/videobuf2/videobuf2-core.c:1063
-vb2_buffer_done+0x184/0x228 [videobuf2_common]
-[  369.634220] Modules linked in:
-[  369.634231]  schedule+0x54/0xe0
-[  369.634232]  8021q veth rfcomm algif_hash
-[  369.634246]  schedule_preempt_disabled+0x2c/0x48
-[  369.634247]  algif_skcipher af_alg lzo_rle
-[  369.634262]  __mutex_lock+0x138/0x2ac
-[  369.634272]  __mutex_lock_slowpath+0x1c/0x28
-[  369.634281]  mutex_lock+0x50/0x74
-[  369.634306]  fops_vcodec_open+0x5c/0x2e0 [mtk_vcodec_dec
-879370ff125adc9fa45bebb553dd6005c95bb957]
-[  369.634307]  lzo_compress zram uinput xt_cgroup
-[  369.634322]  v4l2_open+0xa8/0x104
-[  369.634323]  xt_MASQUERADE mtk_vcodec_dec_hw cros_ec_rpmsg
-[  369.634339]  chrdev_open+0x12c/0x1c4
-[  369.634340]  mt7921e mt7921_common mt76_connac_lib mt76
-[  369.634355]  do_dentry_open+0x114/0x37c
-[  369.634367]  vfs_open+0x3c/0x48
-[  369.634377]  path_openat+0x1c8/0x8ac
-[  369.634378]  mtk_vcodec_dec v4l2_h264 mtk_vcodec_enc v4l2_vp9
-[  369.634393]  do_filp_open+0x94/0x11c
-[  369.634395]  uvcvideo mtk_vcodec_dbgfs mtk_mdp3
-[  369.634409]  do_sys_openat2+0x88/0x220
-[  369.634419]  do_sys_open+0x60/0x88
-[  369.634420]  mtk_vcodec_common btusb mtk_vpu
-[  369.634433]  __arm64_sys_openat+0x30/0x3c
-[  369.634435]  btmtk videobuf2_vmalloc btintel videobuf2_dma_contig
-[  369.634450]  el0_svc_common+0xcc/0x1cc
-[  369.634452]  videobuf2_memops v4l2_mem2mem videobuf2_v4l2 btbcm
-[  369.634465]  do_el0_svc+0x30/0x90
-[  369.634467]  btrtl videobuf2_common mac80211 cros_ec_typec
-[  369.634480]  el0_svc+0x10/0x1c
-[  369.634481]  typec
-[  369.634491] PDLOG 2024/01/27 21:48:10.904 P0 SNK Charger ???
-15175mV max 15000mV / 3000mA
-[  369.634492]  snd_sof_mt8195 mtk_scp
-[  369.634506]  el0_sync_handler+0x78/0x108
-[  369.634507]  mtk_rpmsg snd_sof_xtensa_dsp
-[  369.634520]  el0_sync+0x184/0x1c0
-[  369.634521]  rpmsg_core mtk_adsp_common adsp_pcm mtk_scp_ipi
-snd_sof_of snd_sof snd_sof_utils ip6table_nat fuse bluetooth
-ecdh_generic ecc cfg80211 iio_trig_sysfs cros_ec_lid_angle
-cros_ec_sensors cros_ec_sensors_core industrialio_triggered_buffer
-kfifo_buf cros_ec_sensorhub r8153_ecm cdc_ether usbnet r8152 mii
-joydev
-[  369.634539] CPU: 6 PID: 6520 Comm: ThreadPoolForeg Tainted: G
- W         5.10.208-24103-g572c076ef3bf #1
-69a06d15b220b7bbb6ae94835957d4263c132312
-[  369.634540] Hardware name: MediaTek Tomato board (DT)
-[  369.634541] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO BTYPE=3D--)
-[  369.634544] pc : vb2_buffer_done+0x184/0x228 [videobuf2_common]
-[  369.634546] lr : vb2ops_vdec_stop_streaming+0x58/0x130 [mtk_vcodec_dec]
-[  369.634547] sp : ffffffc015be3a40
-[  369.634548] x29: ffffffc015be3a40 x28: 0000000000000013
-[  369.634550] x27: ffffffc015be3c70
-[  369.634554] Kernel panic - not syncing: hung_task: blocked tasks
-[  369.634556] x26: ffffffd6141bea30
-[  369.634563] x25: ffffff8d656e6020 x24: ffffff8d16fc0500
-[  369.634573] CPU: 3 PID: 68 Comm: khungtaskd Tainted: G        W
-    5.10.208-24103-g572c076ef3bf #1
-69a06d15b220b7bbb6ae94835957d4263c132312
-[  369.634574] x23: ffffff8d68cc94d0 x22: ffffff8d656e6328
-[  369.634585] Hardware name: MediaTek Tomato board (DT)
-[  369.634586] x21: 0000000000000000 x20: ffffff8d656e6208
-[  369.634592] Call trace:
-[  369.634593] x19: ffffff8d656e6000 x18: 0000000000001000
-[  369.634604]  dump_backtrace+0x0/0x1e8
-[  369.634605] x17: 6165642820314e4f x16: ffffffd68b3da1ac
-[  369.634614]  show_stack+0x20/0x2c
-[  369.634616] x15: 4c20736920747865 x14: 0000000000000003
-[  369.634625]  dump_stack+0xd8/0x134
-[  369.634626] x13: 0000000000000004 x12: 000000017a6a3d80
-[  369.634635]  panic+0x168/0x3b4
-[  369.634636] x11: c000000104dcc4c1 x10: 00000000ffffffff
-[  369.634648]  hung_task_panic+0x0/0x3c
-[  369.634649] x9 : ffffffd6141ba860 x8 : 0000000000000000
-[  369.634660]  kthread+0x140/0x150
-[  369.634662] x7 : 0000000000000000 x6 : 362e39363320205b
-[  369.634671]  ret_from_fork+0x10/0x30
-[  369.634673] x5 : ffffffd68c1a9e40 x4 : 0000000000000000
-[  369.634676] x3 : ffffffc015be36a8 x2 : ffffffc015be36b0
-[  369.634678] x1 : 0000000000000006 x0 : ffffff8d79780400
-[  369.634680] Call trace:
-[  369.634682]  vb2_buffer_done+0x184/0x228 [videobuf2_common
-90d29a32bbd63b16e1c5ddef29383225f924f6e6]
-[  369.634684]  vb2ops_vdec_stop_streaming+0x58/0x130 [mtk_vcodec_dec
-879370ff125adc9fa45bebb553dd6005c95bb957]
-[  369.634687] SMP: stopping secondary CPUs
-[  369.634690]  __vb2_queue_cancel+0x40/0x1f0 [videobuf2_common
-90d29a32bbd63b16e1c5ddef29383225f924f6e6]
-[  369.634695]  vb2_core_streamoff+0x30/0xb4 [videobuf2_common
-90d29a32bbd63b16e1c5ddef29383225f924f6e6]
-[  369.634699]  vb2_streamoff+0x38/0x60 [videobuf2_v4l2
-57948a05e97f8b4aaa75f86af62463f9372d2eda]
-[  369.634702]  v4l2_m2m_streamoff+0x60/0x13c [v4l2_mem2mem
-b612f8be320a497ae465ef738b2ab624e86ad82f]
-[  369.634703]  v4l2_m2m_ioctl_streamoff+0x20/0x2c [v4l2_mem2mem
-b612f8be320a497ae465ef738b2ab624e86ad82f]
-[  369.634705]  v4l_streamoff+0x2c/0x38
-[  369.634707]  __video_do_ioctl+0x2c4/0x3dc
-[  369.634709]  video_usercopy+0x6d8/0xfac
-[  369.634711]  video_ioctl2+0x20/0x2c
-[  369.634712]  v4l2_ioctl+0x54/0x64
-[  369.634714]  __arm64_sys_ioctl+0x98/0xd0
-[  369.634716]  el0_svc_common+0xcc/0x1cc
-[  369.634718]  do_el0_svc+0x30/0x90
-[  369.634720]  el0_svc+0x10/0x1c
-[  369.634722]  el0_sync_handler+0x78/0x108
-[  369.634723]  el0_sync+0x184/0x1c0
-[  369.634725] ---[ end trace bf910434181f5b65 ]---
-[  369.634735] Kernel Offset: 0x167a800000 from 0xffffffc010000000
-[  369.634747] PHYS_OFFSET: 0xfffffff400000000
-[  369.634760] CPU features: 0x08040026,6a80aa38
-[  369.634770] Memory Limit: none
+Pulling up the datasheet OV5645-A66A v1.1 from the web:
+
+(a little google-fu++ got there, let me know if you need hints if you
+want to do a full clean up)
+
+2.8 reset
+
+The OV5645 sensor includes a RESETB pin that forces a complete hardware
+reset when it is pulled low (GND). The OV5645 clears all registers and
+resets them to their default values when a hardware reset occurs. A
+reset can also be initiated through the SCCB interface by setting
+register 0x3008[7] to high.  Manually applying a hard reset upon power
+up is required even though on-chip reset is included. The hard reset is
+active low with an asynchronized design. The reset pulse width should be
+greater than or equal to 1 ms.
+
+2.9 hardware and software standby
+Two suspend modes are available for the OV5645:
+
+=E2=80=A2 hardware standby
+=E2=80=A2 SCCB software standby
+
+To initiate hardware standby mode, the PWDNB pin must be tied to low
+(while in MIPI mode, set register 0x300E[4:3] to 2=E2=80=99b11 before the P=
+WDNB
+pin is set to low). When this occurs, the OV5645 internal device clock
+is halted and all internal counters are reset and registers are
+maintained.  Executing a software standby through the SCCB interface
+suspends internal circuit activity but does not halt the device clock.
+All register content is maintained in standby mode.
 
 
-On Thu, Jan 11, 2024 at 1:15=E2=80=AFAM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
->
-> Le 11/01/2024 =C3=A0 08:17, Yunfei Dong a =C3=A9crit :
-> > The request status of output queue will be set to MEDIA_REQUEST_STATE_C=
-OMPLETE
-> > when user space dequeue output buffer. Then calling v4l2_ctrl_request_c=
-omplete
-> > will get below warning, need to call v4l2_ctrl_request_complete before
-> > v4l2_m2m_buf_done.
-> > Workqueue: core-decoder vdec_msg_queue_core_work [mtk_vcodec_dec]
-> > pstate: 80c00089 (Nzcv daIf +PAN +UAO -TCO BTYPE=3D--)
-> > pc : media_request_object_bind+0xa8/0x124
-> > lr : media_request_object_bind+0x50/0x124
-> > sp : ffffffc011393be0
-> > x29: ffffffc011393be0 x28: 0000000000000000
-> > x27: ffffff890c280248 x26: ffffffe21a71ab88
-> > x25: 0000000000000000 x24: ffffff890c280280
-> > x23: ffffff890c280280 x22: 00000000fffffff0
-> > x21: 0000000000000000 x20: ffffff890260d280
-> > x19: ffffff890260d2e8 x18: 0000000000001000
-> > x17: 0000000000000400 x16: ffffffe21a4584a0
-> > x15: 000000000053361d x14: 0000000000000018
-> > x13: 0000000000000004 x12: ffffffa82427d000
-> > x11: ffffffe21ac3fce0 x10: 0000000000000001
-> > x9 : 0000000000000000 x8 : 0000000000000003
-> > x7 : 0000000000000000 x6 : 000000000000003f
-> > x5 : 0000000000000040 x4 : ffffff89052e7b98
-> > x3 : 0000000000000000 x2 : 0000000000000001
-> > x1 : 0000000000000000 x0 : 0000000000000000
-> > Call trace:
-> >   media_request_object_bind+0xa8/0x124
-> >   v4l2_ctrl_request_bind+0xc4/0x168
-> >   v4l2_ctrl_request_complete+0x198/0x1f4
-> >   mtk_vdec_stateless_cap_to_disp+0x58/0x8c [mtk_vcodec_dec 245a7c1e48ff=
-1b2451a50e1dfcb174262b6b462c]
-> >   vdec_vp9_slice_core_decode+0x1c0/0x268 [mtk_vcodec_dec 245a7c1e48ff1b=
-2451a50e1dfcb174262b6b462c]
-> >   vdec_msg_queue_core_work+0x60/0x11c [mtk_vcodec_dec 245a7c1e48ff1b245=
-1a50e1dfcb174262b6b462c]
-> >   process_one_work+0x140/0x480
-> >   worker_thread+0x12c/0x2f8
-> >   kthread+0x13c/0x1d8
-> >   ret_from_fork+0x10/0x30
-> >
-> > 'Fixes: 7b182b8d9c852 ("media: mediatek: vcodec: Refactor get and put c=
-apture buffer flow")'
-> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->
-> Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->
-> > ---
-> >   .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  3 ++-
-> >   .../vcodec/decoder/mtk_vcodec_dec_stateless.c        | 12 +++++++----=
--
-> >   .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c        |  7 +++++--
-> >   .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c     |  3 ++-
-> >   .../vcodec/decoder/vdec/vdec_hevc_req_multi_if.c     |  3 ++-
-> >   .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        |  6 ++++--
-> >   .../mediatek/vcodec/decoder/vdec_msg_queue.h         |  2 ++
-> >   7 files changed, 24 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_=
-dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_d=
-rv.h
-> > index 849b89dd205c..3f5b625330bc 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
-.h
-> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
-.h
-> > @@ -111,7 +111,8 @@ struct mtk_vcodec_dec_pdata {
-> >       int (*flush_decoder)(struct mtk_vcodec_dec_ctx *ctx);
-> >       struct vdec_fb *(*get_cap_buffer)(struct mtk_vcodec_dec_ctx *ctx)=
-;
-> >       void (*cap_to_disp)(struct mtk_vcodec_dec_ctx *ctx, int error,
-> > -                         struct media_request *src_buf_req);
-> > +                         struct media_request *src_buf_req,
-> > +                         struct vb2_v4l2_buffer *vb2_v4l2_src);
-> >
-> >       const struct vb2_ops *vdec_vb2_ops;
-> >
-> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_=
-dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec=
-_dec_stateless.c
-> > index d54b3833790d..2efa34b6750b 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta=
-teless.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta=
-teless.c
-> > @@ -245,7 +245,8 @@ static const struct v4l2_frmsize_stepwise stepwise_=
-fhd =3D {
-> >   };
-> >
-> >   static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx =
-*ctx, int error,
-> > -                                        struct media_request *src_buf_=
-req)
-> > +                                        struct media_request *src_buf_=
-req,
-> > +                                        struct vb2_v4l2_buffer *vb2_v4=
-l2_src)
-> >   {
-> >       struct vb2_v4l2_buffer *vb2_dst;
-> >       enum vb2_buffer_state state;
-> > @@ -266,6 +267,9 @@ static void mtk_vdec_stateless_cap_to_disp(struct m=
-tk_vcodec_dec_ctx *ctx, int e
-> >
-> >       if (src_buf_req)
-> >               v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-> > +
-> > +     if (vb2_v4l2_src)
-> > +             v4l2_m2m_buf_done(vb2_v4l2_src, state);
-> >   }
-> >
-> >   static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx =
-*ctx)
-> > @@ -374,14 +378,12 @@ static void mtk_vdec_worker(struct work_struct *w=
-ork)
-> >       state =3D ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE;
-> >       if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
-> >           ctx->current_codec =3D=3D V4L2_PIX_FMT_VP8_FRAME) {
-> > -             v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m=
-2m_ctx, state);
-> >               if (src_buf_req)
-> >                       v4l2_ctrl_request_complete(src_buf_req, &ctx->ctr=
-l_hdl);
-> > +             v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m=
-2m_ctx, state);
-> >       } else {
-> > -             if (ret !=3D -EAGAIN) {
-> > +             if (ret !=3D -EAGAIN)
-> >                       v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
-> > -                     v4l2_m2m_buf_done(vb2_v4l2_src, state);
-> > -             }
-> >               v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-> >       }
-> >   }
-> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_a=
-v1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_=
-av1_req_lat_if.c
-> > index 2b6a5adbc419..f277b907c345 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_=
-lat_if.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_=
-lat_if.c
-> > @@ -1064,6 +1064,8 @@ static int vdec_av1_slice_setup_lat_from_src_buf(=
-struct vdec_av1_slice_instance
-> >               return -EINVAL;
-> >
-> >       lat_buf->src_buf_req =3D src->vb2_buf.req_obj.req;
-> > +     lat_buf->vb2_v4l2_src =3D src;
-> > +
-> >       dst =3D &lat_buf->ts_info;
-> >       v4l2_m2m_buf_copy_metadata(src, dst, true);
-> >       vsi->frame.cur_ts =3D dst->vb2_buf.timestamp;
-> > @@ -2187,7 +2189,7 @@ static int vdec_av1_slice_core_decode(struct vdec=
-_lat_buf *lat_buf)
-> >                      &instance->core_vsi->trans.dma_addr_end);
-> >       vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, instance->core_vs=
-i->trans.dma_addr_end);
-> >
-> > -     ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-> > +     ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req, l=
-at_buf->vb2_v4l2_src);
-> >
-> >       return 0;
-> >
-> > @@ -2196,7 +2198,8 @@ static int vdec_av1_slice_core_decode(struct vdec=
-_lat_buf *lat_buf)
-> >       vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dm=
-a_addr_end);
-> >
-> >       if (fb)
-> > -             ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_bu=
-f_req);
-> > +             ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_bu=
-f_req,
-> > +                                               lat_buf->vb2_v4l2_src);
-> >
-> >       return ret;
-> >   }
-> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h=
-264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vd=
-ec_h264_req_multi_if.c
-> > index 0e741e0dc8ba..7033999018ca 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req=
-_multi_if.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req=
-_multi_if.c
-> > @@ -533,7 +533,7 @@ static int vdec_h264_slice_core_decode(struct vdec_=
-lat_buf *lat_buf)
-> >
-> >   vdec_dec_end:
-> >       vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_in=
-fo->trans_end);
-> > -     ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_re=
-q);
-> > +     ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_re=
-q, lat_buf->vb2_v4l2_src);
-> >       mtk_vdec_debug(ctx, "core decode done err=3D%d", err);
-> >       ctx->decoded_frame_cnt++;
-> >       return 0;
-> > @@ -606,6 +606,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec,=
- struct mtk_vcodec_mem *bs,
-> >
-> >       inst->vsi->dec.nal_info =3D buf[nal_start_idx];
-> >       lat_buf->src_buf_req =3D src_buf_info->m2m_buf.vb.vb2_buf.req_obj=
-.req;
-> > +     lat_buf->vb2_v4l2_src =3D &src_buf_info->m2m_buf.vb;
-> >       v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->t=
-s_info, true);
-> >
-> >       err =3D vdec_h264_slice_fill_decode_parameters(inst, share_info);
-> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h=
-evc_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vd=
-ec_hevc_req_multi_if.c
-> > index 06ed47df693b..67fe3c4bfac3 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req=
-_multi_if.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req=
-_multi_if.c
-> > @@ -742,6 +742,7 @@ static int vdec_hevc_slice_setup_lat_buffer(struct =
-vdec_hevc_slice_inst *inst,
-> >
-> >       src_buf_info =3D container_of(bs, struct mtk_video_dec_buf, bs_bu=
-ffer);
-> >       lat_buf->src_buf_req =3D src_buf_info->m2m_buf.vb.vb2_buf.req_obj=
-.req;
-> > +     lat_buf->vb2_v4l2_src =3D &src_buf_info->m2m_buf.vb;
-> >       v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->t=
-s_info, true);
-> >
-> >       *res_chg =3D inst->resolution_changed;
-> > @@ -961,7 +962,7 @@ static int vdec_hevc_slice_core_decode(struct vdec_=
-lat_buf *lat_buf)
-> >
-> >   vdec_dec_end:
-> >       vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_in=
-fo->trans.dma_addr_end);
-> > -     ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_re=
-q);
-> > +     ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_re=
-q, lat_buf->vb2_v4l2_src);
-> >       mtk_vdec_debug(ctx, "core decode done err=3D%d", err);
-> >       ctx->decoded_frame_cnt++;
-> >       return 0;
-> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_v=
-p9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_=
-vp9_req_lat_if.c
-> > index 69d37b93bd35..a7734d032269 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_=
-lat_if.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_=
-lat_if.c
-> > @@ -723,6 +723,7 @@ static int vdec_vp9_slice_setup_lat_from_src_buf(st=
-ruct vdec_vp9_slice_instance
-> >               return -EINVAL;
-> >
-> >       lat_buf->src_buf_req =3D src->vb2_buf.req_obj.req;
-> > +     lat_buf->vb2_v4l2_src =3D src;
-> >
-> >       dst =3D &lat_buf->ts_info;
-> >       v4l2_m2m_buf_copy_metadata(src, dst, true);
-> > @@ -2188,7 +2189,7 @@ static int vdec_vp9_slice_core_decode(struct vdec=
-_lat_buf *lat_buf)
-> >       mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
-> >                      (unsigned long)pfc->vsi.trans.dma_addr_end);
-> >       vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dm=
-a_addr_end);
-> > -     ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-> > +     ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req, l=
-at_buf->vb2_v4l2_src);
-> >
-> >       return 0;
-> >
-> > @@ -2198,7 +2199,8 @@ static int vdec_vp9_slice_core_decode(struct vdec=
-_lat_buf *lat_buf)
-> >               vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.=
-trans.dma_addr_end);
-> >
-> >               if (fb)
-> > -                     ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf=
-->src_buf_req);
-> > +                     ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf=
-->src_buf_req,
-> > +                                                       lat_buf->vb2_v4=
-l2_src);
-> >       }
-> >       return ret;
-> >   }
-> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_qu=
-eue.h b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-> > index 1d9beb9e4a14..b0f2443d186f 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
-> > @@ -55,6 +55,7 @@ struct vdec_msg_queue_ctx {
-> >    * @rd_mv_addr:     mv addr for av1 lat hardware output, core hardwar=
-e input
-> >    * @tile_addr:      tile buffer for av1 core input
-> >    * @ts_info: need to set timestamp from output to capture
-> > + * @vb2_v4l2_src: the vb2 buffer of output queue
-> >    * @src_buf_req: output buffer media request object
-> >    *
-> >    * @private_data: shared information used to lat and core hardware
-> > @@ -71,6 +72,7 @@ struct vdec_lat_buf {
-> >       struct mtk_vcodec_mem rd_mv_addr;
-> >       struct mtk_vcodec_mem tile_addr;
-> >       struct vb2_v4l2_buffer ts_info;
-> > +     struct vb2_v4l2_buffer *vb2_v4l2_src;
-> >       struct media_request *src_buf_req;
-> >
-> >       void *private_data;
+ Address: 0x3008=20
+ RegName: SYSTEM_CTROL0
+ Default: 0x02
+ R/W:	RW
+Description: System Control
+  Bit[7]: Software reset
+  Bit[6]: Software power down
+
+Then later in the datasheet it also describes:
+System Control
+Bit[7]: Software reset
+Bit[6]: Software power down
+Bit[5]: Debug mode
+Bit[4]: SRB clock sync enable
+Bit[3]: Isolation suspend select
+Bit[2]: MIPI reset mask
+Bit[1]: MIPI suspend mask
+Bit[0]: MIPI reset select
+
+
+> > > > >
+> > > > > What do you think?
+> > > >
+> > > >
+> > > > OK, this will do check for all other registers.
+> > > >
+> > > > But from your power down clue and checking ov5640.c Looks like there
+> > > > are 2 registers changes values after writing.
+> > > >
+> > > > [1] 0x3008, 0x82-->0x80
+> > > > [2] 0x0601, 0x02-->0x00
+> > > >
+> > > > I think [1] is soft reset based on ov5640. Since there is a gpio
+> > > > based hardware reset available, we can safely remove soft reset[1]
+> > > > and like ov5640.c, if there is no gpio for reset, then do the soft
+> > reset[1].
+> > >
+> > > I guess that would work. My understanding is that hard reset control
+> > > is mandatory for the device, so there really should be no need for
+> > > soft reset in the driver.
+> >=20
+> > OK.
+> >=20
+> > >
+> > > >
+> > > >
+> > > > Then add 1msec delay for power down/up(0x3008: 0x42,0x02) and 0x0601
+> > > > registers.
+> > > >
+> > > > With this looks like the Camera works ok @400kHz.
+> > > >
+> > > > The plans is to add a u8 variable for delay and enable delays for
+> > > > the above registers and add a check like below
+> > > >
+> > > > static int ov5645_set_register_array(struct ov5645 *ov5645,
+> > > >                                const struct reg_value *settings,
+> > > >                                unsigned int num_settings)
+> > > > {
+> > > >   unsigned int i;
+> > > >   int ret;
+> > > >
+> > > >   for (i =3D 0; i < num_settings; ++i, ++settings) {
+> > > >           ret =3D ov5645_write_reg(ov5645, settings->reg, settings-=
+>val);
+> > > >           if (ret < 0)
+> > > >                   return ret;
+> > > >
+> > > >           if (settings->delay_ms)
+> > > >                   usleep_range(1000 * settings->delay_ms, 2 * 1000 *
+> > > > settings->delay_ms);
+> > >
+> > > I'd prefer checking the register address in the write function instead
+> > > of this if you really need it. But it seems you don't.
+> >=20
+> > With delays in powerup/down registers (0x3008 : 0x42,0x02) it is not
+> > stable.
+>=20
+> Typo: without delays in powerup/down registers (0x3008 : 0x42,0x02) it is=
+ not
+> stable.
+>=20
+> You can see 0x42 followed by 0x02 which is an indication of power down/up=
+ procedure.
+>=20
+> Cheers,
+> Biju
 
