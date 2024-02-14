@@ -1,36 +1,75 @@
-Return-Path: <linux-media+bounces-5140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5141-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DD28549A9
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 13:53:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055228549C9
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 13:57:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 468B3B266D5
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 12:53:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37C3D1C237A6
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 12:57:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1155E5380F;
-	Wed, 14 Feb 2024 12:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAA795381A;
+	Wed, 14 Feb 2024 12:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gGSZ4C4C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A682852F72;
-	Wed, 14 Feb 2024 12:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DC452F7C
+	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 12:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707915111; cv=none; b=mIY6A8MybAYcZJMNbqhMzSMVUcXZ0HrTfCcnBxUhnAQpzlV+JLQTPSUdnvB0BLpTtiFL1yyBVbGq3fVHFuCwlv60G+SA40k8L1yMiN/VU5PcbzQkfBvJ+ilozCoi3ExjaEuaoVX/fdQJXJqPADyUuWbrlEYCiWLGS23fyBXDB6Q=
+	t=1707915395; cv=none; b=Y/HXb2bI2L8RJx/2gmEZseP+lPNqR/2bQuNHHmOButpfEgq54BL/flK6zsBMDyEUXrP75IWFvxR5S5lNZ8ndsD4QtWAPK06AUbUOApUfURc1C0KbdHnMXdnTWttadweKskkuFFicM3JntibPacDOI6ztxj3HMZZu4/ooVfTd7F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707915111; c=relaxed/simple;
-	bh=h0bXe5xX9YW/t/MGvWzQw9+QyBCufsFJVGdR4dnIIOk=;
+	s=arc-20240116; t=1707915395; c=relaxed/simple;
+	bh=Sa+1BolWChYiZB2NgR3V5OISkN3sIY1zdycmekza9Dw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kwDa+gQK2scD49t/zSWwbyVSesSG454aMAgs/d9bh//oC7BeOv8SztH7uJ/NzEtq2gDURwEi88+UAvWIIYMNpUQq1RB71U2CbvKQqyEW6ibvPXVWSglLXsCHZNZnJRwekQfQGLPYPJN+cNDc34zzKpulLiQbho+DvHgPGKRGZkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 663E4C433C7;
-	Wed, 14 Feb 2024 12:51:49 +0000 (UTC)
-Message-ID: <f2fc7350-d39e-45c2-bfa2-9ee502d8bdec@xs4all.nl>
-Date: Wed, 14 Feb 2024 13:51:47 +0100
+	 In-Reply-To:Content-Type; b=doJQVkZcDssdSmH2SGWoMuMAKY9Z5S1SE/+DS+795ONSigfjYYOVWbXzs7EwGli5PKUi4ZaDNsztLq1rPxJEODZouXTzGo/UdVWvZJEzIZy7AjjNcFrZmM96cT0B+ROSOYgXMk4WZHcltiOYAIT9bxDdG3mXKE07PIvqq2WYHgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gGSZ4C4C; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-411ee70f688so3123515e9.3
+        for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 04:56:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707915391; x=1708520191; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0CVEfoeXX7i2NsSM9t4AdPWCDJc7K0DfQ2BA7RsZvK8=;
+        b=gGSZ4C4CvCYLKvf3/DVknXF7hcOz3/YnVpKpnkDV38+eSlJMlWf3Tsv2cuSJ5ZsdvV
+         9mJQXltIyRcDx+JzcBhL86DFf1Oj29R4baDLPtCWUldzCMXy0+KPOmtDE/mnqKHsNZtJ
+         9lRUUDOUyscuPTKqXmGcP+dgLjnGGL/nq8avSTcx35hiJPlCKDoc5Y6v+K4UrOCKTJss
+         jV2SExkCmCR4b+lSdbhkqZZImmCAbPcOl/siSB8JI5+Ho/FS9KmmmyHD83Zyw6iQWRTe
+         ebMfbJsicK4/BOjGrOXB9bndWY07xLKKrCbVxsF0NaQvVqytCdjKXa5hpNasGfdrlTar
+         eUtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707915391; x=1708520191;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0CVEfoeXX7i2NsSM9t4AdPWCDJc7K0DfQ2BA7RsZvK8=;
+        b=YoRvDd+sTpY5wJUb5VKyeXJkNmitgZdWZ8LTf0a5NKFWjatBw3AwxBRsRwbh1xc93a
+         /PZNgYxYCkV7SX8a/11wFhnQaxtYSd2sDjbI1gODb48hTLhHQ1BPUKoRp8nCLvuWa7Ir
+         sivhyojbioWQiV51hjPxNbK2K6hkfhVFddKHaA61dECERVIpZtr+JpSiSBXVX7dOGhs7
+         2mU66q2xYpupbv9t8mhik2x+1wESgh2dLiTqk9fgwYFNevZj2XAIOALAqfO1/YWmuGlb
+         vypsY9lCE//fIVdIUFafIzAsVv0Ohlegi+kq+MuXOMak9rqo58aH3Mx4nRjZeGJmq/ef
+         d1Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCUbpF3VMS1eQBzOEaqCPvsHYmHqlRwBXtraQYPnoQ04nFleqDNR6q+H4VFCDqWZdG0rmp/e0B0UeX/W1y+dx/lsR17A8c+eVyqGK3I=
+X-Gm-Message-State: AOJu0YyYxlGQAR3A8OV6xE8bh5wN88tW5hlvnBKjbi9BQOf7z7YCjrT1
+	98vFtnJE8ngza/77u5WhVe6OzrqlKODmx/kzlhfHjapDwhO9dgymO1gDQ7Xbcrg=
+X-Google-Smtp-Source: AGHT+IFVfyk3IYiL2cRlnX2EJ3RxS7YdOGPnx5x8KGnLQ4fcHD6UiYs8VGR1b8IpJGlUasIrJb5/lg==
+X-Received: by 2002:a5d:67cf:0:b0:33b:48ee:8a35 with SMTP id n15-20020a5d67cf000000b0033b48ee8a35mr1592835wrw.3.1707915391609;
+        Wed, 14 Feb 2024 04:56:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWhaAFj95gzjw6GIy3yd6sgKrJFZvsXJq7O0a9v7Ng5Hl2RD8aD0joMjbQNBx8ikZX+cGAgaDjo3Bmt6Lo+jbiG+yXdsSF/xdztgL9WCvJa/o86Rmq2Me4qGljVQgxUaNbnl9TvC0GruhA3+ZSrMqbXU4fms/WSxBTMmWS95kclBmRfa/HPa/ymqaSc2qRKB0kyq5Vt2S0v2Cs/wxSdpfJvC0ROG08D5G5NKs3+viuKdsWGuQr5OeYv+ZneWFr3FU99ogezmwj3/Z31JIItL4+jguHcc3ThzuyrQFIHoA+VXfyD/RXGhhqez14473Tptk5P+w2xZfZQLosw8jYSIr3BTtJjsTH48H4mJeq/ckXoiFGodholkg7BJCJT2N0bA+oHkMtFenpb2jq/s8l1XQ3qGbVePdUBIRBuKVws0WdYOYzpgsYzYXeilEIlLYUW6QTlUKCXpHqU+/IlxNPeJNtBnkZuOwjtpgkCDRQ=
+Received: from [192.168.0.102] ([176.61.106.68])
+        by smtp.gmail.com with ESMTPSA id bp9-20020a5d5a89000000b0033b4796641asm12557887wrb.22.2024.02.14.04.56.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 04:56:31 -0800 (PST)
+Message-ID: <c12ce98f-d5af-4c54-a453-2416b85b4a5d@linaro.org>
+Date: Wed, 14 Feb 2024 12:56:30 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,151 +77,37 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: Add dependency of ov7670/mcam/cafe on
- CONFIG_V4L2_ASYNC explicitly
-Content-Language: en-US, nl
-To: Dawei Li <dawei.li@shingroup.cn>, mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- hdegoede@redhat.com, oe-kbuild-all@lists.linux.dev, set_pte_at@outlook.com,
- kernel test robot <lkp@intel.com>
-References: <202402130955.f6uxzdCA-lkp@intel.com>
- <20240214113830.3656367-1-dawei.li@shingroup.cn>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240214113830.3656367-1-dawei.li@shingroup.cn>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 00/20] Venus cleanups
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 14/02/2024 12:38, Dawei Li wrote:
-> Kernel test robot reports:
->    ld: drivers/media/i2c/ov7670.o: in function `ov7670_remove':
->    drivers/media/i2c/ov7670.c:2011: undefined reference to
->    `v4l2_async_unregister_subdev'
->    ld: drivers/media/i2c/ov7670.o: in function `ov7670_parse_dt':
->    drivers/media/i2c/ov7670.c:1836: undefined reference to
->    `v4l2_fwnode_endpoint_parse'
->    ld: drivers/media/i2c/ov7670.o: in function `ov7670_probe':
->    drivers/media/i2c/ov7670.c:1990: undefined reference to
->    `v4l2_async_register_subdev'
->    ld: drivers/media/platform/marvell/cafe-driver.o: in function
->    `cafe_pci_probe':
->>> drivers/media/platform/marvell/cafe-driver.c:543: undefined reference
->    to `v4l2_async_nf_init'
->>> ld: drivers/media/platform/marvell/cafe-driver.c:545: undefined
->    reference to `__v4l2_async_nf_add_i2c'
->    ld: drivers/media/platform/marvell/mcam-core.o: in function
->    `mccic_shutdown':
->>> drivers/media/platform/marvell/mcam-core.c:1931: undefined reference to
->    `v4l2_async_nf_unregister'
->>> ld: drivers/media/platform/marvell/mcam-core.c:1932: undefined reference
->    to `v4l2_async_nf_cleanup'
->    ld: drivers/media/platform/marvell/mcam-core.o: in function
->    `mccic_register':
->    drivers/media/platform/marvell/mcam-core.c:1910: undefined reference to
->    `v4l2_async_nf_unregister'
->    ld: drivers/media/platform/marvell/mcam-core.c:1911: undefined reference
->    to `v4l2_async_nf_cleanup'
->>> ld: drivers/media/platform/marvell/mcam-core.c:1873: undefined reference
->    to `v4l2_async_nf_register'
+On 09/02/2024 21:09, Konrad Dybcio wrote:
+> Definitely needs testing on:
 > 
-> Add explicit dependency on CONFIG_V4L2_ASYNC to mute ld errors.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202402130955.f6uxzdCA-lkp@intel.com/
-> Signed-off-by: Dawei Li <dawei.li@shingroup.cn>
+> - SDM845 with old bindings
+> - SDM845 with new bindings or 7180
 
-This is a duplicate of:
+I can do 8916 for you but, I think we have these boards available 
+remotely on qc.lab.
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20240213095555.454392-1-arnd@kernel.org/
+Could you test those boards out remotely yourself ?
 
-The ov7670 undefined reference has been resolved quite some time ago, this
-kernel test robot build is from a 6 months old tree.
-
-I'll take Arnd's patch instead of yours.
-
-Regards,
-
-	Hans
-
-> ---
->  drivers/media/i2c/Kconfig              | 1 +
->  drivers/media/platform/marvell/Kconfig | 2 ++
->  2 files changed, 3 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 4c3435921f19..453cb4b81d6f 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -523,6 +523,7 @@ config VIDEO_OV7640
->  	  module will be called ov7640.
->  
->  config VIDEO_OV7670
-> +	select V4L2_ASYNC
->  	tristate "OmniVision OV7670 sensor support"
->  	help
->  	  This is a Video4Linux2 sensor driver for the OmniVision
-> diff --git a/drivers/media/platform/marvell/Kconfig b/drivers/media/platform/marvell/Kconfig
-> index d6499ffe30e8..48f5484478a0 100644
-> --- a/drivers/media/platform/marvell/Kconfig
-> +++ b/drivers/media/platform/marvell/Kconfig
-> @@ -11,6 +11,7 @@ config VIDEO_CAFE_CCIC
->  	select VIDEOBUF2_VMALLOC
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEOBUF2_DMA_SG
-> +	select V4L2_ASYNC
->  	help
->  	  This is a video4linux2 driver for the Marvell 88ALP01 integrated
->  	  CMOS camera controller.  This is the controller found on first-
-> @@ -27,6 +28,7 @@ config VIDEO_MMP_CAMERA
->  	select VIDEOBUF2_VMALLOC
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEOBUF2_DMA_SG
-> +	select V4L2_ASYNC
->  	help
->  	  This is a Video4Linux2 driver for the integrated camera
->  	  controller found on Marvell Armada 610 application
-
+---
+bod
 
