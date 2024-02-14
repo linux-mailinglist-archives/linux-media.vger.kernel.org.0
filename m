@@ -1,99 +1,135 @@
-Return-Path: <linux-media+bounces-5123-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5124-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8C3854522
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:28:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C77F6854532
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:29:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8080C2863AF
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 09:28:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06DB91C22EA3
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 09:29:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7225412B85;
-	Wed, 14 Feb 2024 09:27:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0204014ABA;
+	Wed, 14 Feb 2024 09:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpkiJk5S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DA7125CF;
-	Wed, 14 Feb 2024 09:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61ED17586
+	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 09:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707902875; cv=none; b=W6Ydv8T6M9ATFAUkbbnTCY0QphLHDLEoUTl9twG+EPE9Z6/wbJNLBuiXK+KW0wRQTdoJ/YgAAokFumRuXGmJzFObctjRk+GEaDJGizNpczvRs/VUxkIJKXWKY/yVaY9mDX3GQ+HuIPCvg8Dqo8S9cN/Au//02WduRRIVHNCjANE=
+	t=1707902912; cv=none; b=SQj5a5yxBaaUQrpsw3pszoUMesQXknrp4bZVR3fYg/EIuMJJkZOU4VhqUpIuY+h3O3O4O1dfuduRZZU7mT+sqHDvMifHwWlakVM0UgH57XvlxXxgc1x+4McqnPr/GLwmK4C8ZL606/tOgHX+/B2yhot7lOFi3sJ2mi67DLBuP4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707902875; c=relaxed/simple;
-	bh=sIaagt7mtaQOaGtU4zI5wV9vS7vA86dOsiUcFH+wHcA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FqmGoKe6A4rlOOW9SsSW7DAy5cAJSi+lttkxUjOfblIuSdatCaVShfUBDI7n/uIaUJTSWelVvXNDtzod5822YXmtG3ZW50hbKKJL3+k4EVLLrPXx3bF+9UDbAMnHsIZ4P/JF3ul6GlLR2aYidRt6KS1OajPuxteFrfb1w2jrCeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A3FC433F1;
-	Wed, 14 Feb 2024 09:27:53 +0000 (UTC)
-Message-ID: <fb4f6b74-8af4-43c6-9119-0c3ec2a3387b@xs4all.nl>
-Date: Wed, 14 Feb 2024 10:27:51 +0100
+	s=arc-20240116; t=1707902912; c=relaxed/simple;
+	bh=Bv6UaG62e3W/RqyoleQWKG8Fa9LGlbfYgS0DNoiyzCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GF9Xnopasq+5knSoZsuzu0SC8gLSopaNSET0iJ5daQLabVOnpaNVTITmBftqjPsUggWT+d4ZutTj0CP057Em3NshOOt7NEUlDyPZc4RTHLmmk/d2+Mwa/sjTOmOYX0KCaJV/RNulvTZ3rr0rDfBysrWqE0GUvis1GDeeZMpqcwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpkiJk5S; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707902911; x=1739438911;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bv6UaG62e3W/RqyoleQWKG8Fa9LGlbfYgS0DNoiyzCU=;
+  b=hpkiJk5Suo30rOzaGLuL4Wa1O+8jJY/g6qIowJf5CqfmIm6junUr933Y
+   IQQXSxat3NzjdTN/e1m9XokXb8CQLbj8kb4yyK+kpYMpCLPYUD5tqlSHN
+   kVhfU8RWBJiomAQfuChYdKgA2MDgSpyFbo9LyDX2qBpY/ypz5r0KHTW7H
+   70fBry3CMIAx8lBUpz/KaaBO6ZWOEWhOdlNBeLQstc9HXEbKn85b1qfDn
+   C+peAuzeT5bKJri+iSp+qoCAmBqFhhEKMtFI+8olGm6clOKFHTNUKresy
+   2bbXC0xye3mPoTRsIyzLv7CfvoKqcOOD3hPMFVfKSGzXyeTb12Buv3Adb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1812712"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="1812712"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 01:28:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="3119316"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 01:28:26 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 465CB11F86A;
+	Wed, 14 Feb 2024 11:28:23 +0200 (EET)
+Date: Wed, 14 Feb 2024 09:28:23 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: bingbu.cao@intel.com
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
+	claus.stovgaard@gmail.com, tfiga@chromium.org,
+	senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
+	hongju.wang@intel.com
+Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
+Message-ID: <ZcyHt7qcA5FPN3wE@kekkonen.localdomain>
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <ZcMqizLGUVLfydem@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: ttpci: fix two memleaks in budget_av_attach
-Content-Language: en-US, nl
-To: Zhipeng Lu <alexious@zju.edu.cn>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Yu Zhe <yuzhe@nfschina.com>,
- Jakub Kicinski <kuba@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240206073719.3133481-1-alexious@zju.edu.cn>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240206073719.3133481-1-alexious@zju.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZcMqizLGUVLfydem@kekkonen.localdomain>
 
-On 06/02/2024 08:37, Zhipeng Lu wrote:
-> When saa7146_register_device and saa7146_vv_init fails, budget_av_attach
-> should free the resources it allocates, like the error-handling of
-> ttpci_budget_init does. Besides, there are two fixme comment refers to
-> such deallocations.
+On Wed, Feb 07, 2024 at 07:00:27AM +0000, Sakari Ailus wrote:
+> Hi folks,
 > 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
-> ---
->  drivers/media/pci/ttpci/budget-av.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> On Tue, Oct 24, 2023 at 07:29:09PM +0800, bingbu.cao@intel.com wrote:
+> > From: Bingbu Cao <bingbu.cao@intel.com>
+> > 
+> > This patch series adds a driver for Intel IPU6 input system.
+> > IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+> > device which can be found in some Intel Client Platforms. User can use
+> > IPU6 to capture images from MIPI camera sensors.
+> > 
+> > IPU6 has its own firmware which exposes ABIs to driver, and communicates
+> > with CSE to do firmware authentication. IPU6 has its MMU hardware, so
+> > the driver sets up a page table to allow IPU6 DMA to access the system
+> > memory.
+> > 
+> > IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
 > 
-> diff --git a/drivers/media/pci/ttpci/budget-av.c b/drivers/media/pci/ttpci/budget-av.c
-> index 230b104a7cdf..4f897f848581 100644
-> --- a/drivers/media/pci/ttpci/budget-av.c
-> +++ b/drivers/media/pci/ttpci/budget-av.c
-> @@ -1463,7 +1463,8 @@ static int budget_av_attach(struct saa7146_dev *dev, struct saa7146_pci_extensio
->  		budget_av->has_saa7113 = 1;
->  		err = saa7146_vv_init(dev, &vv_data);
->  		if (err != 0) {
-> -			/* fixme: proper cleanup here */
-> +			ttpci_budget_deinit(&budget_av->budget);
-> +			kfree(budget_av);
->  			ERR("cannot init vv subsystem\n");
->  			return err;
->  		}
-> @@ -1472,7 +1473,8 @@ static int budget_av_attach(struct saa7146_dev *dev, struct saa7146_pci_extensio
->  		vv_data.vid_ops.vidioc_s_input = vidioc_s_input;
->  
->  		if ((err = saa7146_register_device(&budget_av->vd, dev, "knc1", VFL_TYPE_VIDEO))) {
-> -			/* fixme: proper cleanup here */
-> +			ttpci_budget_deinit(&budget_av->budget);
-> +			kfree(budget_av);
-I think this should go after the saa7146_vv_release() release below.
-Just in case saa7146_vv_release() relies on budget_av somewhere. And
-besides, it is good practice to release resources in the reverse order
-they were allocated.
+> I've made some changes on top of this (besides some done by Bingbu). I've
+> pushed the current patches here
+> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=ipu6>. What's
+> changed:
+> 
+> - CSI-2 port address calculation simplification.
+> 
+> - Tested (and fixed) driver probing on a Dell XPS 9315 that has IVSC and
+>   Linux camera description that ignores the IVSC. This works if the
+>   intel-ipu6 driver is first removed and then re-probed. I'm not quite sure
+>   why it doesn't re-probe on its own yet. I haven't tried streaming yet.
+> 
+> - The patches are on top of the metadata set. If you want to try without,
+>   just drop the metadata patches (and the last functional driver patch). It
+>   might compile. I'll test this soon, too.
+> 
+> So overall there's some progress but work remains to do. I'll post the IVSC
+> and ACPI patches after a little bit more testing.
 
-Regards,
+I've added further patches to the branch and dropped some... Capturing
+works now on Dell XPS 9315 with ov01a10 without issues (AFAICT), and that
+pipeline includes IVSC. I'm upstreaming the un-media patches to the
+respective trees so some of this is going to take a while to merged back to
+the media tree.
 
-	Hans
+I've also removed the massive number of extra links from the CSI-2 receiver
+subdevs and video nodes. This part remains untested though, the ov01a10
+sensor doesn't have support for embedded data (!).
 
->  			ERR("cannot register capture v4l2 device\n");
->  			saa7146_vv_release(dev);
->  			return err;
+Just FYI.
 
+-- 
+Sakari Ailus
 
