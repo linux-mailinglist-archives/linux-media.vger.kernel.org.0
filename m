@@ -1,119 +1,86 @@
-Return-Path: <linux-media+bounces-5153-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5154-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69266854C1F
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 16:03:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F40A7854C2F
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 16:09:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 120501F297C2
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 15:03:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF361282024
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 15:09:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590785B69C;
-	Wed, 14 Feb 2024 15:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NySjlmxc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 061295C602;
+	Wed, 14 Feb 2024 15:09:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3295A7AB;
-	Wed, 14 Feb 2024 15:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07AB5BACE;
+	Wed, 14 Feb 2024 15:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707922999; cv=none; b=FrHRsSCMghJOpMFFrS/jS6tTDXEeKWhmEbuiOtC/139N5cE7Yaik3i4zIyDDhXLv8Z4obRdbep+94evkhQa1oBVZnPGb7oefLxSbQDm0PNJv/00yMpJzsh/SQ62cy7CcY0Mk3oXPlZEW84XOHRc03UwqVuGvv/W3oMAseGtqLLc=
+	t=1707923351; cv=none; b=eKYBMKxh3hJlGq6OXm1lVL9DdhgsjGaFVEQnfHzPQc/iiqIjrpqEoFaS/2GKaXNiz2wnfVMyNSY2n3LFH/0TJuO5D3LCe3tStilGuin9ZEE7NUX6Tzctnw4Dbhr1a2quxcWeLxQ68Wxb/ghy69zBjAZjm1IJ1e/oHhMrjeAom+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707922999; c=relaxed/simple;
-	bh=cQAcIl/QAXBjiQTatIWRdXIYxEQLnd6fhBzv453xy/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J7AK6+cFZ1is1oBkj2aCtFEBV8sspZQATtirOMvS5wiVPABPQcoobwF7w8HXofO//5Vinhr1ix/0modXRd5KQO4KlulZSzCD6WgakpuBDYhT0sWdni2E+vwbGWs37YwxjR5Y+H7Gbj3gHbHtlKamkyKus4/vGd7u5yXULX0RqFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NySjlmxc; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707922998; x=1739458998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cQAcIl/QAXBjiQTatIWRdXIYxEQLnd6fhBzv453xy/I=;
-  b=NySjlmxcvuSnYeCLEz6bQxSI1B5xYPlZTQu+WOCRdW5vOQpu2rp/VqHD
-   jhvUOGJlugJm7XUS+ftsholcledwtwAn21lMil88w0yrX3u+OTuU4O+uT
-   n88ouCMdmCBEN0bXA6w6AlDuSVvNbtuzbLx2XdWhNqdTEA53QgF0Xepow
-   auJKLsh9L/wOvYjbvVOHbXVwtgLAoyFmlnvYYDDofCTNMAHXRiZrg2H/4
-   70ILG8pbK2TMYQ6L1U8LQi3IQ8K/oz4YRSmR4Ht2VPst5OKxMHDMKE7Pu
-   Ffn0NDXH5NCGdOraiUsTXONsHz4OOKpGoNUbw2rWanFbyk2J5KR4m1LTH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1839137"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="1839137"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 07:03:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="3202959"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 07:03:17 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 2B31F11F871;
-	Wed, 14 Feb 2024 17:03:13 +0200 (EET)
-Date: Wed, 14 Feb 2024 15:03:13 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] media: v4l: marvell: select CONFIG_V4L2_ASYNC where
- needed
-Message-ID: <ZczWMRuSYABtDsVu@kekkonen.localdomain>
-References: <20240213095555.454392-1-arnd@kernel.org>
- <24cbf7b2-a091-440e-92cc-5c9828d52260@xs4all.nl>
- <ZcyW8zn14iIbn45X@kekkonen.localdomain>
- <2027d488-a245-4492-bc17-27e17af575fd@app.fastmail.com>
- <6067898e-eaac-4266-b4a3-388db9a918fa@xs4all.nl>
- <7ec182c6-bd52-4433-bf06-dbc71f186184@app.fastmail.com>
- <3e5b41c0-1249-4546-a146-7c832cbfff28@xs4all.nl>
+	s=arc-20240116; t=1707923351; c=relaxed/simple;
+	bh=M0iGHrbEWM4bnET7RmnkPdaOveYygV+hRXmW2nqXDZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UMfQ5iJSjzNfFu5H2BdIyTrWO6lhk++5gpsF6TtlcqH6l9uNXhh/9kRTgxRmV7FPopPEs8kTjz0EbVrCMA6jB+aEa8Z5EeNFNgqfX4pr3kUnaoKECzWpcgaAf1h/TQvaxL+lHxcKHHWdfnpa11GZrNc9uhuLIS0pgcRgek48n3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45F2EC433F1;
+	Wed, 14 Feb 2024 15:09:10 +0000 (UTC)
+Date: Wed, 14 Feb 2024 10:10:41 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-trace-kernel@vger.kernel.org, Alex
+ Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/6] tracing, dma-buf: add a trace_dma_fence_sync_to
+ event
+Message-ID: <20240214101041.2fbf9b87@gandalf.local.home>
+In-Reply-To: <137e8d79-bf19-4782-918e-0c09b029e3aa@amd.com>
+References: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
+	<20240213155112.156537-1-pierre-eric.pelloux-prayer@amd.com>
+	<20240213155112.156537-2-pierre-eric.pelloux-prayer@amd.com>
+	<137e8d79-bf19-4782-918e-0c09b029e3aa@amd.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3e5b41c0-1249-4546-a146-7c832cbfff28@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024 at 01:42:55PM +0100, Hans Verkuil wrote:
-> On 14/02/2024 11:58, Arnd Bergmann wrote:
-> > On Wed, Feb 14, 2024, at 11:54, Hans Verkuil wrote:
-> >> On 14/02/2024 11:48, Arnd Bergmann wrote:
-> >>
-> >>> It was definitely working before ff3cc65cadb5 ("media: v4l: async,
-> >>> fwnode: Improve module organisation") in linux-5.13, but it's not
-> >>> clear if that is the culprit. It's probably safe to backport
-> >>> to v5.15 and higher.
-> >>
-> >>
-> >> If it has been broken for so long, then should we bother with v6.8?
-> >>
-> >> I'm not saying we should, I just like to get your opinion on this.
-> > 
-> > I don't have a strong opinion either way, there is very little
-> > risk and very little benefit in backporting.
-> > 
-> > If we apply it to 6.8 at all, I think it should also be in
-> > v5.15+ LTS and vice versa, but only queuing it for 6.9 is
-> > fine with me, too.
-> 
-> OK, I'll just take this patch as-is for v6.9. I'm preparing a PR
-> anyway, so I'll include this patch.
-> 
-> Thank you for the quick replies!
+On Wed, 14 Feb 2024 13:00:16 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Feel free to add:
+> > +DEFINE_EVENT(dma_fence_from, dma_fence_sync_to, =20
+>=20
+> For a single event you should probably use TRACE_EVENT() instead of=20
+> declaring a class. A class is only used if you have multiple events with=
+=20
+> the same parameters.
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+FYI, TRACE_EVENT() is actually defined as:
 
--- 
-Sakari Ailus
+#define TRACE_EVENT(name, proto, args, tstruct, assign, print) \
+	DECLARE_EVENT_CLASS(name,			       \
+			     PARAMS(proto),		       \
+			     PARAMS(args),		       \
+			     PARAMS(tstruct),		       \
+			     PARAMS(assign),		       \
+			     PARAMS(print));		       \
+	DEFINE_EVENT(name, name, PARAMS(proto), PARAMS(args));
+
+So basically, you could really just declare one TRACE_EVENT() and add
+DEFINE_EVENT()s on top of it ;)
+
+I never recommended that because I thought it would be confusing.
+
+-- Steve
 
