@@ -1,294 +1,196 @@
-Return-Path: <linux-media+bounces-5111-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5112-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABB685420E
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 05:30:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FF38542D7
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 07:35:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D92DAB24DA1
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 04:30:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 897032851F8
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 06:35:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCC58C139;
-	Wed, 14 Feb 2024 04:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D55BB1119C;
+	Wed, 14 Feb 2024 06:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bM5FP0xN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IboZsip2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAE2BA38;
-	Wed, 14 Feb 2024 04:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7940410A13
+	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 06:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707884989; cv=none; b=nOXY4GdYhdWJVOUmIIb0pyysCspPIwvKlaEuqXVwb+Di505rV5JHZ1QnpHDT1NYlE2Vwz5aSGqbCym6yKiVkjug0xizqacxzaotfJYyG44ATQLNh6ZD8ZdOW9VXsxpTcMVnazKou6utrJmqvyHn0vEyfo7W+jVmrvpKlaC77ITk=
+	t=1707892521; cv=none; b=KYrbLrZs6AApvF7/cWEk+F0FOkuXODed4maX1/fbk1C7XxefC7kk0CYHk6SXsbU0O6VNEK5qvYOQ1WHeeP90FiIARMhWnol+T6/Y2Kg3a6xhxOX6kox3q7eLKe2uJw8mXzT+AFn4YtKZ6coTJ8F1HTob87RYrJKAaEdvOD2TddE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707884989; c=relaxed/simple;
-	bh=soNF9FVM5OrcEyfvV//2qdMFKYHZZo58NagGsnNR5MM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=LM0pnXh0VMTL6Vvf+v5ngaUvuf6lCyNTvd+j7VqZpXw55SDfwyi4eMUJGiuJRmGnOw7NK4DHkqSAU9SOo58Dhz+gwxOOecL6YaXJpK2MujHCXbyy38caspQo26fxkjgilKoNWD4P/fud6jghmrXAT++g/pX6dD4gfkfySNuur+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bM5FP0xN; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41E40DsC014695;
-	Wed, 14 Feb 2024 04:29:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=E5rxHYHkB0OjFcatv+zmGPh1ez6bAKXIDbqU3Ulp4h0=; b=bM
-	5FP0xNVbs3/IcLl3ivU6BpGneoeQ8za+9/QBG3p37KKG22nYE6OGaLaWdx04sRzs
-	uPulD2S9cqDC33ShH0VpgqFZUkZtuo0TICiL0tYBCR5HaenLokDjuPl7PRLs16oI
-	WRzgH9BZnHpEUGoyuF1W4b0Zv+uRE3LJqPRtzyRfOSnvAd1FiNnaJxDSzS6pTovm
-	o/DDMZ1Rkdd5Rjnek9Luhcn0crb3kVWhEUXVmOnBo3k9pnvkA3uS6Ryl3UgY9aJ1
-	vTXQvKrNqHYZtRsDl8vsvS6rrx473cRr0y5kgGSubbL4Vm+j/2mnpuP95g8gJqTi
-	I7NhQhbw8ktfgBvSNTJw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8jrj8ahd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 04:29:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41E4TN2n002441
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 04:29:23 GMT
-Received: from [10.218.5.19] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
- 2024 20:29:16 -0800
-Message-ID: <a1c2641f-80c0-4e6e-9c44-ef7209da97a5@quicinc.com>
-Date: Wed, 14 Feb 2024 09:59:13 +0530
+	s=arc-20240116; t=1707892521; c=relaxed/simple;
+	bh=H/Fa0Ckc85OnRwQaxpFQNTXGMi+i0uX2zO0JNLy5iSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EJXogOkrySU4xRIBWlL/FrZDyfFKtkPTdeRx0XJh04C9hffLldAwHdb4Z12XGwSPPy8YDNGPRsdZbS9O0W0zczPr+aRHuvfYQXgIuq8oLEdFxZh4KMqCc6q28mTeUeyyc482El7xt4kKk3fHAzc4sAFnnOhTBPheVHeP5z/H+zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IboZsip2; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707892518; x=1739428518;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=H/Fa0Ckc85OnRwQaxpFQNTXGMi+i0uX2zO0JNLy5iSo=;
+  b=IboZsip29NJ6d3X4Dimp0+DLKLgdyza29eMgZwz90uw+ixzjUwtP7wGe
+   52djVV0a3SMWD6LTu6fB4s31RTlyKjQflxSitf40EPM0tX3ZVin9aoyrz
+   Fu1U32RdxZgGyspAxh4S91oKKtV/DEAQKAoAYJSLZWBzKOdwNlAd9SVHf
+   CtnXQkHnAyLLZrG++X4IeLzLYoLrs3rzt4PQksmFF3mHPCOWdQgv2oJxn
+   41Oih28K1h8m1E8CKfs1sh6pZzAuI6V1BkZuqLd5bDGZIux7fT9mFNCzO
+   3ot+l+3QsBLVsq1skhF7NtVtkG3d6KgtFqnOk4Vxzgd9CeKSGR3l/MAIo
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="5746959"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="5746959"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 22:35:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="7756423"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 13 Feb 2024 22:35:17 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ra8rS-0008XO-0i;
+	Wed, 14 Feb 2024 06:35:14 +0000
+Date: Wed, 14 Feb 2024 14:34:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [sailus-media-tree:ipu6 65/67]
+ drivers/misc/mei/platform-vsc.c:304:42: warning: unknown escape sequence
+ 'xFFFFFFC5'
+Message-ID: <202402141409.ivNcqTdP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd to be
- managed by HW
-Content-Language: en-US
-To: Ulf Hansson <ulf.hansson@linaro.org>
-CC: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Len Brown <len.brown@intel.com>,
-        "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Michael Turquette
-	<mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Taniya Das <quic_tdas@quicinc.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>,
-        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
- <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org>
- <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
- <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com>
- <l7icfezpajren25545n4cjtqehhividt5b2dxnxgetdsshc3k3@tdws423qdblk>
- <CAPDyKFp1vg2+-pHJ_idkdhb_zZUMpq7W17DnCCGj0eTwd4jFbQ@mail.gmail.com>
- <87b7967f-d8c4-426e-92ed-5a418c702481@quicinc.com>
- <CAPDyKFqy0osJRTU1mL0Ew_3pnYOe5z20ZWNrew8B6t99UFO0pg@mail.gmail.com>
-From: Jagadeesh Kona <quic_jkona@quicinc.com>
-In-Reply-To: <CAPDyKFqy0osJRTU1mL0Ew_3pnYOe5z20ZWNrew8B6t99UFO0pg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 3WKGYU3flknvPdKbxmR4CBffYFs3Jo6N
-X-Proofpoint-ORIG-GUID: 3WKGYU3flknvPdKbxmR4CBffYFs3Jo6N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-13_16,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 phishscore=0
- adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2401310000 definitions=main-2402140031
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+tree:   git://linuxtv.org/sailus/media_tree.git ipu6
+head:   ccfe5fafd33d1b056e3ab93de494cd877a5783a2
+commit: b6eaf785293ecd8deb07ddf9a178d10612340e86 [65/67] debug
+config: i386-randconfig-016-20240214 (https://download.01.org/0day-ci/archive/20240214/202402141409.ivNcqTdP-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402141409.ivNcqTdP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402141409.ivNcqTdP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/misc/mei/platform-vsc.c:304:42: warning: unknown escape sequence '\xFFFFFFC5' [-Wunknown-escape-sequence]
+     304 |         dev_warn(mei_dev->dev, "mei vsc event cb\ņ");
+         |                                                 ^
+   include/linux/dev_printk.h:146:62: note: expanded from macro 'dev_warn'
+     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ^~~
+   include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+      19 | #define dev_fmt(fmt) fmt
+         |                      ^~~
+   include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+>> drivers/misc/mei/platform-vsc.c:304:44: warning: illegal character encoding in string literal [-Winvalid-source-encoding]
+     304 |         dev_warn(mei_dev->dev, "mei vsc event cb\ņ");
+         |                                                  ^
+   include/linux/dev_printk.h:146:62: note: expanded from macro 'dev_warn'
+     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ^~~
+   include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+      19 | #define dev_fmt(fmt) fmt
+         |                      ^~~
+   include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   drivers/misc/mei/platform-vsc.c:333:46: warning: unknown escape sequence '\xFFFFFFC5' [-Wunknown-escape-sequence]
+     333 |         dev_warn(mei_dev->dev, "mei vsc event cb end\ņ");
+         |                                                     ^
+   include/linux/dev_printk.h:146:62: note: expanded from macro 'dev_warn'
+     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ^~~
+   include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+      19 | #define dev_fmt(fmt) fmt
+         |                      ^~~
+   include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   drivers/misc/mei/platform-vsc.c:333:48: warning: illegal character encoding in string literal [-Winvalid-source-encoding]
+     333 |         dev_warn(mei_dev->dev, "mei vsc event cb end\ņ");
+         |                                                      ^
+   include/linux/dev_printk.h:146:62: note: expanded from macro 'dev_warn'
+     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ^~~
+   include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+      19 | #define dev_fmt(fmt) fmt
+         |                      ^~~
+   include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   4 warnings generated.
 
 
+vim +/xFFFFFFC5 +304 drivers/misc/mei/platform-vsc.c
 
-On 2/13/2024 7:21 PM, Ulf Hansson wrote:
-> On Tue, 13 Feb 2024 at 14:10, Jagadeesh Kona <quic_jkona@quicinc.com> wrote:
->>
->>
->>
->> On 2/2/2024 5:59 PM, Ulf Hansson wrote:
->>> On Fri, 2 Feb 2024 at 00:51, Bjorn Andersson <andersson@kernel.org> wrote:
->>>>
->>>> On Wed, Jan 31, 2024 at 01:12:00PM +0100, Ulf Hansson wrote:
->>>>> On Wed, 31 Jan 2024 at 02:09, Bjorn Andersson <andersson@kernel.org> wrote:
->>>>>>
->>>>>> On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
->>>>>>> From: Ulf Hansson <ulf.hansson@linaro.org>
->>>>>>>
->>>>>>> Some power-domains may be capable of relying on the HW to control the power
->>>>>>> for a device that's hooked up to it. Typically, for these kinds of
->>>>>>> configurations the consumer driver should be able to change the behavior of
->>>>>>> power domain at runtime, control the power domain in SW mode for certain
->>>>>>> configurations and handover the control to HW mode for other usecases.
->>>>>>>
->>>>>>> To allow a consumer driver to change the behaviour of the PM domain for its
->>>>>>> device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
->>>>>>> let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
->>>>>>> which the genpd provider should implement if it can support switching
->>>>>>> between HW controlled mode and SW controlled mode. Similarly, add the
->>>>>>> dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
->>>>>>> its corresponding optional genpd callback, ->get_hwmode_dev(), which the
->>>>>>> genpd provider can also implement for reading back the mode from the
->>>>>>> hardware.
->>>>>>>
->>>>>>> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
->>>>>>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>> ---
->>>>>>>    drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
->>>>>>>    include/linux/pm_domain.h | 17 ++++++++++++
->>>>>>>    2 files changed, 86 insertions(+)
->>>>>>>
->>>>>>> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
->>>>>>> index a1f6cba3ae6c..41b6411d0ef5 100644
->>>>>>> --- a/drivers/pmdomain/core.c
->>>>>>> +++ b/drivers/pmdomain/core.c
->>>>>>> @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
->>>>>>>    }
->>>>>>>    EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
->>>>>>>
->>>>>>> +/**
->>>>>>> + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
->>>>>>
->>>>>> This isn't proper kernel-doc
->>>>>
->>>>> Sorry, I didn't quite get that. What is wrong?
->>>>>
->>>>
->>>> https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
->>>> says that there should be () after the function name, and below there
->>>> should be a Return:
->>>
->>> Thanks for the pointers!
->>>
->>>>
->>>>>>
->>>>>>> + *
->>>>>>> + * @dev: Device for which the HW-mode should be changed.
->>>>>>> + * @enable: Value to set or unset the HW-mode.
->>>>>>> + *
->>>>>>> + * Some PM domains can rely on HW signals to control the power for a device. To
->>>>>>> + * allow a consumer driver to switch the behaviour for its device in runtime,
->>>>>>> + * which may be beneficial from a latency or energy point of view, this function
->>>>>>> + * may be called.
->>>>>>> + *
->>>>>>> + * It is assumed that the users guarantee that the genpd wouldn't be detached
->>>>>>> + * while this routine is getting called.
->>>>>>> + *
->>>>>>> + * Returns 0 on success and negative error values on failures.
->>>>>>> + */
->>>>>>> +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
->>>>>>> +{
->>>>>>> +     struct generic_pm_domain *genpd;
->>>>>>> +     int ret = 0;
->>>>>>> +
->>>>>>> +     genpd = dev_to_genpd_safe(dev);
->>>>>>> +     if (!genpd)
->>>>>>> +             return -ENODEV;
->>>>>>> +
->>>>>>> +     if (!genpd->set_hwmode_dev)
->>>>>>> +             return -EOPNOTSUPP;
->>>>>>> +
->>>>>>> +     genpd_lock(genpd);
->>>>>>> +
->>>>>>> +     if (dev_gpd_data(dev)->hw_mode == enable)
->>>>>>
->>>>>> Between this and the gdsc patch, the hw_mode state might not match the
->>>>>> hardware state at boot.
->>>>>>
->>>>>> With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
->>>>>> false) will not bring control to SW - which might be fatal.
->>>>>
->>>>> Right, good point.
->>>>>
->>>>> I think we have two ways to deal with this:
->>>>> 1) If the provider is supporting ->get_hwmode_dev(), we can let
->>>>> genpd_add_device() invoke it to synchronize the state.
->>>>
->>>> I'd suggest that we skip the optimization for now and just let the
->>>> update hit the driver on each call.
->>>
->>> Okay.
->>>
->>>>
->>>>> 2) If the provider doesn't support ->get_hwmode_dev() we need to call
->>>>> ->set_hwmode_dev() to allow an initial state to be set.
->>>>>
->>>>> The question is then, if we need to allow ->get_hwmode_dev() to be
->>>>> optional, if the ->set_hwmode_dev() is supported - or if we can
->>>>> require it. What's your thoughts around this?
->>>>>
->>>>
->>>> Iiuc this resource can be shared between multiple clients, and we're
->>>> in either case returning the shared state. That would mean a client
->>>> acting upon the returned value, is subject to races.
->>>
->>> Not sure I understand this, but I also don't have in-depth knowledge
->>> of how the HW works.
->>>
->>> Isn't the HW mode set on a per device basis?
->>>
->>>>
->>>> I'm therefore inclined to say that we shouldn't have a getter, other
->>>> than for debugging purposes, in which case reading the HW-state or
->>>> failing would be reasonable outcomes.
->>>
->>> If you only want this for debug purposes, it seems better to keep it
->>> closer to the rpmh code, rather than adding generic callbacks to the
->>> genpd interface.
->>>
->>> So to conclude, you think having a ->set_hwmode_dev() callback should
->>> be sufficient and no caching of the current state?
->>>
->>> Abel, what's your thoughts around this?
->>>
->>
->> We believe it is good to have get_hwmode_dev() callback supported from
->> GenPD, since if multiple devices share a GenPD, and if one device moves
->> the GenPD to HW mode, the other device won't be aware of it and second
->> device's dev_gpd_data(dev)->hw_mode will still be false.
->>
->> If we have this dev_pm_genpd_get_hwmode() API supported and if we assign
->> dev_gpd_data(dev)->hw_mode after getting the mode from get_hwmode_dev()
->> callback, consumer drivers can use this API to sync the actual HW mode
->> of the GenPD.
-> 
-> Hmm, I thought the HW mode was being set on a per device basis, via
-> its PM domain. Did I get that wrong?
-> 
-> Are you saying there could be multiple devices sharing the same PM
-> domain and thus also sharing the same HW mode? In that case, it sure
-> sounds like we have synchronization issues to deal with too.
-> 
+   291	
+   292	static void mei_vsc_event_cb(void *context)
+   293	{
+   294		struct mei_device *mei_dev = context;
+   295		struct mei_vsc_hw *hw = mei_dev_to_vsc_hw(mei_dev);
+   296		struct list_head cmpl_list;
+   297		s32 slots;
+   298		int ret;
+   299	
+   300		if (mei_dev->dev_state == MEI_DEV_RESETTING ||
+   301		    mei_dev->dev_state == MEI_DEV_INITIALIZING)
+   302			return;
+   303	
+ > 304		dev_warn(mei_dev->dev, "mei vsc event cb\ņ");
+   305	
+   306		INIT_LIST_HEAD(&cmpl_list);
+   307	
+   308		guard(mutex)(&mei_dev->device_lock);
+   309	
+   310		while (vsc_tp_need_read(hw->tp)) {
+   311			/* check slots available for reading */
+   312			slots = mei_count_full_read_slots(mei_dev);
+   313	
+   314			ret = mei_irq_read_handler(mei_dev, &cmpl_list, &slots);
+   315			if (ret) {
+   316				if (ret != -ENODATA) {
+   317					if (mei_dev->dev_state != MEI_DEV_RESETTING &&
+   318					    mei_dev->dev_state != MEI_DEV_POWER_DOWN)
+   319						schedule_work(&mei_dev->reset_work);
+   320				}
+   321	
+   322				return;
+   323			}
+   324		}
+   325	
+   326		mei_dev->hbuf_is_ready = mei_hbuf_is_ready(mei_dev);
+   327		ret = mei_irq_write_handler(mei_dev, &cmpl_list);
+   328		if (ret)
+   329			dev_err(mei_dev->dev, "dispatch write request failed: %d\n", ret);
+   330	
+   331		mei_dev->hbuf_is_ready = mei_hbuf_is_ready(mei_dev);
+   332		mei_irq_compl_handler(mei_dev, &cmpl_list);
+   333		dev_warn(mei_dev->dev, "mei vsc event cb end\ņ");
+   334	}
+   335	
 
-Sorry my bad, currently we don't have usecase where multiple devices 
-sharing the same PM domain that have HW control support, so there is no 
-synchronization issue.
-
-But it would be good to have .get_hwmode_dev() callback for consumer 
-drivers to query the actual GenPD mode from HW, whenever they require it.
-
-Thanks,
-Jagadeesh
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
