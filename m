@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-5150-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5151-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCDC854BDA
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 15:49:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23799854BF1
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 15:55:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 020CAB22B77
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 14:49:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A2CD31F2346C
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 14:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B2635B03A;
-	Wed, 14 Feb 2024 14:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5E7C5B1F4;
+	Wed, 14 Feb 2024 14:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VuV5DMw3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="C+jWOqnb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E765A7AB;
-	Wed, 14 Feb 2024 14:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF695914A;
+	Wed, 14 Feb 2024 14:55:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707922185; cv=none; b=F8dOfL++pFJk0E97DQhnPI4qqrEf3zNx4xjftssFhaqIjbWS48qEeuRRN6lh5UvPar0VjfeJJGvSD2gq+qTiHcAEFaPU8i700COODYDxZEI3qsFK2dBSYHQLe1FaRxYuqWaN6UOEI2xKpdoPjw0O7SfltDzXoNgmKKXiYTdckpM=
+	t=1707922550; cv=none; b=sEy/eE0L+tqmeEgb/Nxtw9Q9pncgEOnsj+U+5F041awqqU9UFKwwKelH3jrPTZeuerHGT+LksqhxmoZVhy6liIjWG9nQ1dWee7bl9daLvZRLYuuPK6q3E8VOwl7sk9j1b0+1FbAP3ghunO1nQDXfaHsDnTln3AmgZVxN9iLof7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707922185; c=relaxed/simple;
-	bh=WyxXJ2tPgDtfVpLeHx5tVIM6V5E1sUQ6dZZVCtYbKZs=;
+	s=arc-20240116; t=1707922550; c=relaxed/simple;
+	bh=W6bth3p4rwPUgpDajZWTwbquJlpBySusUVL6pfc+ewY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N+Y6MY7VXWLdWEq37zfTrQ06P3SprXCor1423ADV7NRPLExTdaGn80lAuCwsrsa4wUFeiXW+EiZaYSWT3O0UNwCDX+avfqw5nHsHjys34W857ZKNgu5JvwzkIthPK7n/Z5e1UtfXsGhRqGM+soYtZ6+bazMjghW3KEucezU8GOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VuV5DMw3; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXrvqZ2XpFKPH+gTq/YwepdCZwjDmo3MP2Vg6rOOFaoHkQ0FKXRPnxozXgjwbTRxBK3ODhuOHUXElG2caI3OjzpRjSG5rUHtE94uRwIxae++KJUE35qFpZxIoh2Ne3+oAcqarJXG9jgy/69JBzceWEy2SdZSYJuJkd/zN3ljYVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=C+jWOqnb; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (85-76-48-253-nat.elisa-mobile.fi [85.76.48.253])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A05B1B3;
-	Wed, 14 Feb 2024 15:49:37 +0100 (CET)
+Received: from pendragon.ideasonboard.com (85-76-118-194-nat.elisa-mobile.fi [85.76.118.194])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90CC0B3;
+	Wed, 14 Feb 2024 15:55:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707922178;
-	bh=WyxXJ2tPgDtfVpLeHx5tVIM6V5E1sUQ6dZZVCtYbKZs=;
+	s=mail; t=1707922544;
+	bh=W6bth3p4rwPUgpDajZWTwbquJlpBySusUVL6pfc+ewY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VuV5DMw3dCLhtd6EJblkOehslrdE8ofDeJqXmgNYxWJ3VGE9EDT3ZJvG2nIvsaW18
-	 FOYb4fKi9gSsC7QctlA3VQc3mRp/YqX/WUgfZJ+63nDANDLHzFpz68M1148MW/ME02
-	 mIUahm6jboWo9b/+PM2YPQBBSpb670+xRP1le+cw=
-Date: Wed, 14 Feb 2024 16:49:42 +0200
+	b=C+jWOqnbaxQwopkLrd+yIWbQaKRyhcpcnSWsHOKrhVnuobBEdK8f0fejiSrtcPon9
+	 sNpH/AMs+J7BFvG8tAirC7jJXzF66m/V8Gr06gMSoKZqa0qb/GgWtxiSWCaqKXrZSs
+	 sbJGAy053oizECL/Rqzs0AxGBqd4OLP49SGaVCWI=
+Date: Wed, 14 Feb 2024 16:55:48 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -53,11 +53,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] media: platform: rzg2l-cru: rzg2l-csi2:
- Restructure vclk handling
-Message-ID: <20240214144942.GA7120@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 5/5] media: platform: rzg2l-cru: rzg2l-video: Fix
+ start reception procedure
+Message-ID: <20240214145548.GB7120@pendragon.ideasonboard.com>
 References: <20240213181233.242316-1-biju.das.jz@bp.renesas.com>
- <20240213181233.242316-5-biju.das.jz@bp.renesas.com>
+ <20240213181233.242316-6-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,192 +66,166 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240213181233.242316-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240213181233.242316-6-biju.das.jz@bp.renesas.com>
 
 Hi Biju,
 
 Thank you for the patch.
 
-On Tue, Feb 13, 2024 at 06:12:32PM +0000, Biju Das wrote:
+On Tue, Feb 13, 2024 at 06:12:33PM +0000, Biju Das wrote:
 > As per section 35.3.1 Starting Reception for the MIPI CSI-2 Input on the
-> latest hardware manual (R01UH0914EJ0145 Rev.1.45) we need to disable the
-> vclk before enabling the LINK reception and enable the vclk after enabling
-> the link Reception. So restructure vclk handling as per the HW manual.
+> latest hardware manual (R01UH0914EJ0145 Rev.1.45) we need to supply all
+> the clocks and then release the CRU resets. Currently we are releasing
+> the resets and then supplying the clocks. So, fix the start reception
+> procedure.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v2->v3:
->  * Updated commit header and description
->  * Split the patch into 2. Restructuring of vclk for link reception is
->    handled here and fixing start reception procedure is handled
->    in the next patch.
-> v1->v2:
->  * Dropped clk-provider.h and __clk_is_enabled() as consumer clk should
->    not use it. Plan to send RFC for clk_disable_unprepare_sync() in ccf.
+> v3:
+>  * New patch.
 > ---
->  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 --
->  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 28 +++++++++++--------
->  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 15 ++--------
->  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 10 -------
->  4 files changed, 19 insertions(+), 37 deletions(-)
+>  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 59 +++++++++----------
+>  1 file changed, 28 insertions(+), 31 deletions(-)
 > 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> index 811603f18af0..a5a99b004322 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> @@ -133,9 +133,6 @@ struct rzg2l_cru_dev {
->  	struct v4l2_pix_format format;
->  };
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index d15a9bfcc98b..b16b8af6e8f8 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -489,39 +489,24 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
 >  
-> -void rzg2l_cru_vclk_unprepare(struct rzg2l_cru_dev *cru);
-> -int rzg2l_cru_vclk_prepare(struct rzg2l_cru_dev *cru);
+>  		video_device_pipeline_stop(&cru->vdev);
+>  
+> -		pm_runtime_put_sync(cru->dev);
+> -		clk_disable_unprepare(cru->vclk);
 > -
->  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru);
->  void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru);
+>  		return stream_off_ret;
+>  	}
 >  
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> index e00d9379dd2c..e68fcdaea207 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> @@ -108,6 +108,7 @@ struct rzg2l_csi2 {
->  	struct reset_control *presetn;
->  	struct reset_control *cmn_rstb;
->  	struct clk *sysclk;
-> +	struct clk *vclk;
->  	unsigned long vclk_rate;
+> -	ret = pm_runtime_resume_and_get(cru->dev);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = clk_prepare_enable(cru->vclk);
+> -	if (ret)
+> -		goto err_pm_put;
+> -
+>  	ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
+>  	if (ret)
+> -		goto err_vclk_disable;
+> +		return ret;
 >  
->  	struct v4l2_subdev subdev;
-> @@ -361,7 +362,7 @@ static int rzg2l_csi2_dphy_setting(struct v4l2_subdev *sd, bool on)
->  	return rzg2l_csi2_dphy_disable(csi2);
+>  	pipe = media_entity_pipeline(&sd->entity) ? : &cru->vdev.pipe;
+>  	ret = video_device_pipeline_start(&cru->vdev, pipe);
+>  	if (ret)
+> -		goto err_vclk_disable;
+> +		return ret;
+>  
+>  	ret = v4l2_subdev_call(sd, video, pre_streamon, 0);
+> -	if (ret == -ENOIOCTLCMD)
+> -		ret = 0;
+> -	if (ret)
+> +	if (ret && ret != -ENOIOCTLCMD)
+>  		goto pipe_line_stop;
+>  
+>  	ret = v4l2_subdev_call(sd, video, s_stream, 1);
+> -	if (ret == -ENOIOCTLCMD)
+> -		ret = 0;
+> -	if (ret)
+> +	if (ret && ret != -ENOIOCTLCMD)
+>  		goto err_s_stream;
+>  
+>  	return 0;
+> @@ -532,12 +517,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
+>  pipe_line_stop:
+>  	video_device_pipeline_stop(&cru->vdev);
+>  
+> -err_vclk_disable:
+> -	clk_disable_unprepare(cru->vclk);
+> -
+> -err_pm_put:
+> -	pm_runtime_put_sync(cru->dev);
+> -
+>  	return ret;
 >  }
 >  
-> -static void rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
-> +static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
->  {
->  	unsigned long vclk_rate = csi2->vclk_rate / HZ_PER_MHZ;
->  	u32 frrskw, frrclk, frrskw_coeff, frrclk_coeff;
-> @@ -386,11 +387,15 @@ static void rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
->  	rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
->  	rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
->  
-> +	clk_disable_unprepare(csi2->vclk);
-> +
->  	/* Enable LINK reception */
->  	rzg2l_csi2_write(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
-> +
-> +	return clk_prepare_enable(csi2->vclk);
->  }
->  
-> -static void rzg2l_csi2_mipi_link_disable(struct rzg2l_csi2 *csi2)
-> +static int rzg2l_csi2_mipi_link_disable(struct rzg2l_csi2 *csi2)
->  {
->  	unsigned int timeout = VSRSTS_RETRIES;
->  
-> @@ -409,18 +414,21 @@ static void rzg2l_csi2_mipi_link_disable(struct rzg2l_csi2 *csi2)
->  
->  	if (!timeout)
->  		dev_err(csi2->dev, "Clearing CSI2nRTST.VSRSTS timed out\n");
-> +
-> +	return 0;
->  }
->  
->  static int rzg2l_csi2_mipi_link_setting(struct v4l2_subdev *sd, bool on)
->  {
->  	struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
-> +	int ret;
->  
->  	if (on)
-> -		rzg2l_csi2_mipi_link_enable(csi2);
-> +		ret = rzg2l_csi2_mipi_link_enable(csi2);
->  	else
-> -		rzg2l_csi2_mipi_link_disable(csi2);
-> +		ret = rzg2l_csi2_mipi_link_disable(csi2);
->  
-> -	return 0;
-> +	return ret;
->  }
->  
->  static int rzg2l_csi2_s_stream(struct v4l2_subdev *sd, int enable)
-> @@ -731,7 +739,6 @@ static const struct media_entity_operations rzg2l_csi2_entity_ops = {
->  static int rzg2l_csi2_probe(struct platform_device *pdev)
->  {
->  	struct rzg2l_csi2 *csi2;
-> -	struct clk *vclk;
+> @@ -636,25 +615,33 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
+>  	struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vq);
 >  	int ret;
 >  
->  	csi2 = devm_kzalloc(&pdev->dev, sizeof(*csi2), GFP_KERNEL);
-> @@ -757,12 +764,11 @@ static int rzg2l_csi2_probe(struct platform_device *pdev)
->  		return dev_err_probe(&pdev->dev, PTR_ERR(csi2->sysclk),
->  				     "Failed to get system clk\n");
+> +	ret = pm_runtime_resume_and_get(cru->dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = clk_prepare_enable(cru->vclk);
+> +	if (ret)
+> +		goto err_pm_put;
+> +
+>  	/* Release reset state */
+>  	ret = reset_control_deassert(cru->aresetn);
+>  	if (ret) {
+>  		dev_err(cru->dev, "failed to deassert aresetn\n");
+> -		return ret;
+> +		goto err_vclk_disable;
+>  	}
 >  
-> -	vclk = clk_get(&pdev->dev, "video");
-> -	if (IS_ERR(vclk))
-> -		return dev_err_probe(&pdev->dev, PTR_ERR(vclk),
-> +	csi2->vclk = devm_clk_get(&pdev->dev, "video");
-> +	if (IS_ERR(csi2->vclk))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(csi2->vclk),
->  				     "Failed to get video clock\n");
-> -	csi2->vclk_rate = clk_get_rate(vclk);
-> -	clk_put(vclk);
-> +	csi2->vclk_rate = clk_get_rate(csi2->vclk);
+>  	ret = reset_control_deassert(cru->presetn);
+>  	if (ret) {
+>  		reset_control_assert(cru->aresetn);
+>  		dev_err(cru->dev, "failed to deassert presetn\n");
+> -		return ret;
+> +		goto assert_aresetn;
+>  	}
 >  
->  	csi2->dev = &pdev->dev;
->  
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> index 8466b4e55909..2d22c373588b 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> @@ -80,20 +80,9 @@ static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
->  			return ret;
->  		}
->  
-> -		rzg2l_cru_vclk_unprepare(cru);
-> -
->  		ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
-> -		if (ret == -ENOIOCTLCMD)
-> -			ret = 0;
-> -		if (!ret) {
-> -			ret = rzg2l_cru_vclk_prepare(cru);
-> -			if (!ret)
-> -				return 0;
-> -		} else {
-> -			/* enable back vclk so that s_stream in error path disables it */
-> -			if (rzg2l_cru_vclk_prepare(cru))
-> -				dev_err(cru->dev, "Failed to enable vclk\n");
-> -		}
-> +		if (!ret || (ret == -ENOIOCTLCMD))
+>  	ret = request_irq(cru->image_conv_irq, rzg2l_cru_irq,
+>  			  IRQF_SHARED, KBUILD_MODNAME, cru);
 
-No need for the inner parentheses.
-
-I can fix this when applying, no need to send a v4 just for this.
+Requesting the IRQ every time the device is started seems strange.
+That's not related to this patch, but you may want to address it in a
+separate series.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-> +			return 0;
+>  	if (ret) {
+>  		dev_err(cru->dev, "failed to request irq\n");
+> -		goto assert_resets;
+> +		goto assert_presetn;
+>  	}
 >  
->  		s_stream_ret = ret;
+>  	/* Allocate scratch buffer. */
+> @@ -686,10 +673,18 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
+>  free_image_conv_irq:
+>  	free_irq(cru->image_conv_irq, cru);
 >  
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index a7d6fe831d54..d15a9bfcc98b 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -461,16 +461,6 @@ int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
->  	return 0;
+> -assert_resets:
+> +assert_presetn:
+>  	reset_control_assert(cru->presetn);
+> +
+> +assert_aresetn:
+>  	reset_control_assert(cru->aresetn);
+>  
+> +err_vclk_disable:
+> +	clk_disable_unprepare(cru->vclk);
+> +
+> +err_pm_put:
+> +	pm_runtime_put_sync(cru->dev);
+> +
+>  	return ret;
 >  }
 >  
-> -void rzg2l_cru_vclk_unprepare(struct rzg2l_cru_dev *cru)
-> -{
-> -	clk_disable_unprepare(cru->vclk);
-> -}
+> @@ -704,9 +699,11 @@ static void rzg2l_cru_stop_streaming_vq(struct vb2_queue *vq)
+>  			  cru->scratch, cru->scratch_phys);
+>  
+>  	free_irq(cru->image_conv_irq, cru);
+> -	reset_control_assert(cru->presetn);
 > -
-> -int rzg2l_cru_vclk_prepare(struct rzg2l_cru_dev *cru)
-> -{
-> -	return clk_prepare_enable(cru->vclk);
-> -}
-> -
->  static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
->  {
->  	struct media_pipeline *pipe;
+>  	return_unused_buffers(cru, VB2_BUF_STATE_ERROR);
+> +
+> +	reset_control_assert(cru->presetn);
+> +	clk_disable_unprepare(cru->vclk);
+> +	pm_runtime_put_sync(cru->dev);
+>  }
+>  
+>  static const struct vb2_ops rzg2l_cru_qops = {
 
 -- 
 Regards,
