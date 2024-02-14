@@ -1,274 +1,178 @@
-Return-Path: <linux-media+bounces-5172-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5173-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5DE85546F
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 21:57:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A62B85549B
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 22:21:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 428CB28C729
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 20:57:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EFFC1C22785
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 21:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B58913EFE0;
-	Wed, 14 Feb 2024 20:57:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D90A13F000;
+	Wed, 14 Feb 2024 21:21:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Uf52aUzW"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E88bNEtL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2052.outbound.protection.outlook.com [40.107.114.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51ED54649;
-	Wed, 14 Feb 2024 20:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707944261; cv=fail; b=QN4T/95067q3CMJOB1NSt3ygVdMg9Q0tpJR2I9wSAVXWlXjPQ/uHZO5akc/6uArruXOLx4YQqI6SDagkg0bclOsfUBxUlJGNy+rL/YrqTKY7cz0wEpWcKXLqCDf+g01mQBwxxYMmDjHf1fSaJCBUZb/Z/11+Ainfj9VRVTiNfmI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707944261; c=relaxed/simple;
-	bh=fXCxBcfUnhIc45XkvGDCwIwAumCRI5H1Yp6VirZuH5w=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=odX4xrvapRedouUHUe12NP0Hzfg0huAlgpT/G+wWE6U+4dyKF1s36wjC4PtzvuGBOoj2s798jDKm67wUKv9BYhz85csrrkpyvch/C94Rgmpv2A573v5GPZfoJZhNrfP5EaobtbXvx1n9agkl5Mq283sVMhWYeBsUg1EUl5lJMCQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Uf52aUzW; arc=fail smtp.client-ip=40.107.114.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gMBLaI1riup+Pluc9YzpUFgjrb+srIyeLryshsIOtoumgxt2ZQhFQWbV/4QzKERyQyjJoc4kTyUFMgatuUPKk6Q/6cojuElBdVLd/vK+OX3UZUqlLA0dKpMtN610PYQcsbWNHXrWRbkulV7eTroWinQIHb+o9zx/0O0xaC29kshS6NC/eSZaxT9ZfaFjxzvmIbL3U1+He1NwufA5021JMDDBIAyUv04fiiworIpoYkbN5xQYuYPEDjlSFkD1pZcOjFT96Gi5zOSTgiRau+nsq7nhcEkeAvNeMAR7mriUaMYQ23IXCiOByLe6A0/6LVNu+kMa1qyDC3iPbTdIMCRrMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dYpR1FVinaVlOT1kWpGb4RoW4G5v2kxjU3sglwRZKzE=;
- b=gNOrqqeQ6/GNtSZK/NODnmnIjE2HoOc9fOeZX9cx/rDpTCxL/lshse3hMOSBJ14Frvqy5fSxX51HGCTMLyXjQr+v7xF3wuE05OP4ssn9FuGvCJ74kGcvTRmqeIMp7Woq/NyFlTVkNSTTDaHVPrfW4zEAbHW/UHLpH3o92dTcm2xxpUgmV8hmGFKtRLCqE7gKwLsAIRdQMewxZCUSOrxsDCNGjP57f55mHeTH6dWKMPlyf6FeXERi/UkOXj+N/GOyIZN8lw8LfQDhLjY5/HvfIr/F0qaFPEHCTdrNOK46YumVH1lDrdy6DOoO4w3NqS/y/nlKJcjh5q008U/iIHupIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dYpR1FVinaVlOT1kWpGb4RoW4G5v2kxjU3sglwRZKzE=;
- b=Uf52aUzWPyUuak52I5ChddfjHPS/BIFZ4sgWJkEH8EVhHCIfQ9mXVXJ9pOsk4a0nXhTRW4X8LiXfhR5Wj3sY9R+3DZM8tVWsQliTixeb0NHIZSHQfYEfUB5kaFPPoMi76UeGPKaObQpKpSQNPRYJBewlb4k2G9kfOC8lRsUCS7I=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYCPR01MB8642.jpnprd01.prod.outlook.com
- (2603:1096:400:139::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.29; Wed, 14 Feb
- 2024 20:57:36 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7292.026; Wed, 14 Feb 2024
- 20:57:36 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Wolfram Sang <wsa@kernel.org>, biju.das.au <biju.das.au@gmail.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 from
- ov5645_global_init_setting
-Thread-Topic: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 from
- ov5645_global_init_setting
-Thread-Index:
- AQHaXoVU9ilCtHOjSkysdyM8MSKnYrEI2pOAgACbwACAAAz2gIAAw/DAgAAKV4CAAABRgIAAAVWA
-Date: Wed, 14 Feb 2024 20:57:36 +0000
-Message-ID:
- <TYCPR01MB11269D1C9578F27DE69E732B6864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240213140240.159057-1-biju.das.jz@bp.renesas.com>
- <20240213140240.159057-2-biju.das.jz@bp.renesas.com>
- <ZcvsyRfVwC0aJ5fb@shikoro>
- <CADT+UeDNFBTvRMHd4_J85Yz0RYED4ioG9wjUe4C0X4x6LzVD9w@mail.gmail.com>
- <Zcx6Ty2tu_ZGdURj@ninjato>
- <TYCPR01MB11269CC8B2EAB564154C829A2864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <Zc0nWfwFFGhqxHQq@kekkonen.localdomain>
- <TYCPR01MB11269F35E38BE52CDD6628006864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TYCPR01MB11269F35E38BE52CDD6628006864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYCPR01MB8642:EE_
-x-ms-office365-filtering-correlation-id: ba26d790-ffeb-49df-15b1-08dc2d9f927f
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- Xfb8781XWXAzdo3+SToyQ5RPYVoWngOLMvXJmNuHJ/aM6AOe0Re8vgGqxxazM1u1XILEL4sWxv4P9hlDxkDO26egDMOVo1LaEwkW+zOt60kmy1tlHcTvoBgVU/SwuOEEcknYq5C5ij1WE+ow6V+lf13OA1WaAdBC6wO5RWpuqkBoPLQq1qni+q3KE2FpoFmD5PJmjr2Q1BSx4I/X09QQ2wqOfkJCy+k7JYjGzMOmZCZ8pyW1DRxJZy4m7c7cUpiZNSI/Tb67o9NBZxBWfMEZpgWwhdDd/yZcgf3D4aAZzuO+Zj4wHLBn2ylSoAbmqG1uPoSmCWEJS01gdyfyxk3WQustyjbVPmt+0oA6zOU9DygXibEokr0X5TNPzq2QOX/IcYgD3UXTynAtxgWQjH2Qy1O66GXhLXhnO2NXGantT8F86kjhZam3ZGPTJkUEgf0Z+kWnMqo08phpqCslSHenwbMP+nhCNPmu/vBF3EzsTz7gwVhNy5A5youYNOe1d+qsr5Ws9JsFFoh+k75++tChoVjw5SwXrnMSw3GzjiIp2AOiGhAPWolL/mymIPSNxc+h4AAYhvP/mHnHBq7r7vuXGg53UFicay3xGQ+/DjPZ4HPNgH95aRU5qj7bJX2/6r0l
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(39860400002)(376002)(346002)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(38100700002)(55016003)(122000001)(66446008)(2906002)(86362001)(6506007)(5660300002)(52536014)(8676002)(66476007)(66556008)(64756008)(8936002)(76116006)(66946007)(4326008)(6916009)(33656002)(83380400001)(71200400001)(53546011)(7696005)(9686003)(54906003)(316002)(478600001)(41300700001)(26005)(38070700009)(2940100002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?yIBmXgkScuJeoOkVHbDqZc6uOD2VXUVpcC5+oIaPqwO+ZETwtAm29CGC1Mgs?=
- =?us-ascii?Q?DRTSmAS8ejeCsYaE/mCv7+W7lJ8u/4nrry/1SBmQAukWMyuQkl2CkBgULHEw?=
- =?us-ascii?Q?v3vuaVSN1454JQ1/cS3hqZKp4iwJGXWAySb0/h/EGJsc6xRRpX7ZFSBolj/e?=
- =?us-ascii?Q?6MTAwPaRDU5DKFt+VhDBlMdL7PZI5F5Y6Z2lhgBIAiQ+BJlgvwLej2O2yNS/?=
- =?us-ascii?Q?pPj09I/n6J3LiJAOfw4OA2gx38C053pg3bOZa1yVmaGXZQjBhXGy42fF5uSp?=
- =?us-ascii?Q?PCy1qzCPJOiD0lvaSbcxG+dvckIWfwzL0PBNJZIqN0vTAh6/vmabkfhnAWq1?=
- =?us-ascii?Q?zAmhK2JOJQKrYsrZnJ5A5wK2xRANuYaCs7qB8jPmc90aYqEUEvfbUw5WEiet?=
- =?us-ascii?Q?/j+oAgpvL9r2CA/A8eCusz4pL5LoDMHGH0hTbhhOhCiOjMVkFzLZHQpeIN0e?=
- =?us-ascii?Q?+o+FdqAlwDXHRe6BJ41mNk0gFwylM+bjhUf2QX30aim7r3y+ZdQRjLSol5OO?=
- =?us-ascii?Q?p97vbdg1SO6HKJAaH7HDTsEg2d9HfaJVrU5MFEcvBF9Hzs2bHDqxPaF2k+yl?=
- =?us-ascii?Q?DjEbDTKyMV1VwVp3qLXYWQIYcKyNIADwy6I9ph5wXbkcxvKjcxgGLCJu65Bu?=
- =?us-ascii?Q?bWeK8NUuU3q/RuVxwZ8e0H6RhTN57wNWU+eunVwDUnuDAddy7/QDa/too1ae?=
- =?us-ascii?Q?IyIdnflGWmfxzrI/V+bfugAHjLoi1eZTOAn7HGluDyXKtqpXyCsff4zLZxAj?=
- =?us-ascii?Q?Yt2xDdTpejeY8F+/2xkKJU0DgsTQ79VysyWMnbJOh1juTh5iqlspIfn25sJP?=
- =?us-ascii?Q?ZeIyEgT+ixg9jCj+w+IphAN0WBgvUq16SeBIjrM7d5R/+lrwMpBAma5R/1jV?=
- =?us-ascii?Q?e5p8ZQCHWk7o/IiX/tGFZDYvHAjwFDyS34oVxvxtvBcEHRSvZ3SJGeVjUvdt?=
- =?us-ascii?Q?b0e+/qk4GaHdjiwYeTBuwHSEaugk21B1RHTSS4KNerShABNy37NYpQ24BWAi?=
- =?us-ascii?Q?z9gIouFSqRKCEXWQTkV/WJhM8DPklZZgjzJsqDu3GrIFkUs5TnpEtXg+mjIe?=
- =?us-ascii?Q?b8ySoHmLtKaNugtY8h8xDjKZNdjeRZZVvgJaXTZKbadgraRINBJtySYKOBUB?=
- =?us-ascii?Q?NubPbPP/Wy0IBwO7BNb46qYTzXrjfA3rMyorCJJ6Z/+zOdtaIuj7Fq/4XEeX?=
- =?us-ascii?Q?QoOVbaz0AQQmohou+dkNmOce+yb1lI10vh8/TKrsFj8TK+2W9TaVQFqMq4Wo?=
- =?us-ascii?Q?v8uTm3uemsTDrTomqPoqdqQAJCMqE4ba9TIpjm0RT4mfps2BFk9PKIE+lc+t?=
- =?us-ascii?Q?rhwYhPHGb3nJno1p9qXxf0vHJonVXke9wQmbyr6WJsFVOgTdpJgsalSqfNuB?=
- =?us-ascii?Q?j0+be6gOYH1mMTho7EU+UHq1hgCRUNDZqlODulMDYqtEOXwQ1KNuK93McxBC?=
- =?us-ascii?Q?nykudyX1mtFtWx9dlynkhUJ8Cx2vJhmiT0Y69lN4b3Z1rC2rGht92R69nS9C?=
- =?us-ascii?Q?zgEc7hI80dmh8kPtezvAz1Vgs+antN21VU785xUVnA6gU2q3YZoq+HmLYiog?=
- =?us-ascii?Q?YhmyOB2giUX2KyTw3YWlBKfvurrZgbVuXzPBR5qM9g+aaIg83ocTo0apjARG?=
- =?us-ascii?Q?aQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489AA13EFE8
+	for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 21:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707945662; cv=none; b=VsaPZw8Yk+PlTwlgh8QOpbfUxAwdkh4cxY73tAhocDFLG5tqc/fPbonDYZKXxR9EQt5eh+FGdFaqBdwiftJKmDkHgjfZmEFtAdl08abrqJN0jy1TGyoptXLX1YuSpo6g9wkwVV21qR1+5wJzmNBzj2hVtU8MFT6fxARI904ryEw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707945662; c=relaxed/simple;
+	bh=UH20tkUJPZTtnE+bVLwhS0oDXXvWrOablcK+6ybpZF8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cCcmYvl9K4O8/DYHQapIcEn7OYw61xO9gyKeHquYWaVzDRdNpKNW1zQZgNlvZux8Ogt7Ei6t70JphYtjT28Xn0sxB3stVak41W7IwyU6Sg+E1gaU7eQpSQL41rpiN3Dp1IADCSPLaMzFfr+EZlRyZ0Kt3Yg0kvIRa8kxwIF/lv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E88bNEtL; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51182ece518so181175e87.3
+        for <linux-media@vger.kernel.org>; Wed, 14 Feb 2024 13:21:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707945658; x=1708550458; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KOS2B7sbqxhq5r87RRG1TrTI32jzxgx2gbxZryh0k5k=;
+        b=E88bNEtL97yVZVZz8p+PQ7XWCH4i6plpMWfAlyDVX35zqJVlHQUq/pklvZvW7o7QDW
+         flG0flAZU+38fmy3jePSLUqyiTPEoeL9PkDBbm/NDwvsekzmBLLVACk9wZmFPyf0N2hw
+         GQpJBI3v0LBefbxo3IbNsLl5AbKTAR04Mk3SxbcojwtwJpk8QLAjTEyHagEfqzAAu3ow
+         faqnzJK10h8sY2vApYfUfJ4XeRgvK8tsEL3OVCaM3FiZa0276f4j1fkq72KHuRv7jcrJ
+         fBADUWjMetJugX7fLIc8Oo013zn2wyrpT6X1Ij6QC4nuf9QbwMmrbR0tY9WNNE5vmERj
+         KMCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707945658; x=1708550458;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KOS2B7sbqxhq5r87RRG1TrTI32jzxgx2gbxZryh0k5k=;
+        b=mF6XvRvMELHooiGzOu+NTBYYt4HnSQIE0Rd+WVicFGMfvd55+a5l4+EFFHPskokj2S
+         HP7phtx58uu6Wimv2dKlvG+onLwfNsAZZLZmO+Eluoo1488k4snpRTRjCKycx38daJrm
+         m8HUpfXKtYDIrEOiBaIeNJLP9MY5tVnyzAVTW4RgxMBf/85fNjki3EDEEng5DeqHIq+U
+         eK8AuM+ZAFS5WGMZH3rbWpsCWx/Dqnrj9ZQdaqWRGbOJn3TWZEtuq6cfGqdRFFTKZ43P
+         9dANdAZDJxg6IrtTSJgjYPUJ5IPe76IH/+2MuWSBVPiZRgE6AfZKxqrzGgkxhRQMka8/
+         tE1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWi3yit8xE93A3XvK0NGr/JYdKw32py7mh1n195NVELdomy+uDj0p9AOvo+Sg3fYa3V/kc7Azlwcyrjidkkfep+PXXsIibua4yjyt0=
+X-Gm-Message-State: AOJu0YzF9Lt4097v8zqBwy1N82mkEc1d76qDx9o7ir9Ex29ySRWwQWhf
+	x7g5budlHN0Qc04nm2m0C+p6xQbxwxSr7pGOUnWrq2u4u6U4naOvJgI/y2lkoEY=
+X-Google-Smtp-Source: AGHT+IESSnAcoYGoUyHNkZHb6JzZCxOglkyOOBU1GX+rmYmsiuzPmbFGDYr5lywvK7ZqTp+8RlXZYA==
+X-Received: by 2002:a05:6512:2354:b0:511:940b:fc62 with SMTP id p20-20020a056512235400b00511940bfc62mr27362lfu.1.1707945658283;
+        Wed, 14 Feb 2024 13:20:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUpvVKqGEGGnhNvXeluHoQkMPQaJN6hxC2jAk15VH9Gua3GJH/JM21CZRj07Hi1c4NzVC6baHex9pWOcG+YMKMCwcnf4njUApyuUS7olSB0BHtSPvq6rR3ZudCE5qtQM/MkZlN+Gh8DEhkr9dvCzXOLdOs9rMJeg62UOvRPDifj7T4HNCJIr+rCjtGay6b3qg/oFO4A3aETiIrfciJD5hE3ZM/eJRf8dGi26pcBkEYxsi4HbydC5h6R0ZABUkS/T0V6DeRuAd8RdbrXd0wODs6WUfwUYP813cuhXumb3Cvz8R/HCRFT/J2wIpVzWxlwzq4A1zPJt57ESL9SaHZ3F5e+ILy1JPfXQaTC0KUGkQgEc11RKPVigY3I8Md1YbEI9AxrVLPQa+juP+QnWkNZlsVBtvwA8ZuXzse689jmrSAqCB1eQoOOG9/JckadZiRG5KpVS+wReXo1EsT7uaFPyLjLWCyUGxvWFsfnmI19Zh6O
+Received: from [192.168.192.135] (078088045141.garwolin.vectranet.pl. [78.88.45.141])
+        by smtp.gmail.com with ESMTPSA id vw7-20020a170907a70700b00a3d73e6b2f9sm294407ejc.46.2024.02.14.13.20.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 13:20:57 -0800 (PST)
+Message-ID: <ad20b872-0b50-4a16-b342-582d2f33eeca@linaro.org>
+Date: Wed, 14 Feb 2024 22:20:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba26d790-ffeb-49df-15b1-08dc2d9f927f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2024 20:57:36.0579
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hTLj18ykeJu95YEYy0OaVD4PW3X0+GTFIeejWZd/vx/W6eROAQXrWg05pkwDZNjbvHNQRANGy13uUmSyET/Hhu1k8HwP3xiBASqssbH88RU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8642
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 20/20] media: venus: pm_helpers: Use reset_bulk API
+Content-Language: en-US
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
+ <20230911-topic-mars-v2-20-3dac84b88c4b@linaro.org>
+ <a25224f5d28aa65e8bfd14fe0a8f599b9f9e3f40.camel@pengutronix.de>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <a25224f5d28aa65e8bfd14fe0a8f599b9f9e3f40.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+On 14.02.2024 14:31, Philipp Zabel wrote:
+> Hi Konrad,
+> 
+> On Fr, 2024-02-09 at 22:10 +0100, Konrad Dybcio wrote:
+>> All of the resets are toggled together. Use the bulk api to save on some
+>> code complexity.
+>>
+>> The delay between resets is now correctly determined by the reset
+>> framework.
+> 
+> If this is a recent change, could you reference the commit?
 
-> -----Original Message-----
-> From: Biju Das
-> Sent: Wednesday, February 14, 2024 8:55 PM
-> Subject: RE: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 fro=
-m
-> ov5645_global_init_setting
->=20
-> Hi Sakari,
->=20
-> Thanks for the feedback.
->=20
-> > -----Original Message-----
-> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Sent: Wednesday, February 14, 2024 8:49 PM
-> > To: Biju Das <biju.das.jz@bp.renesas.com>
-> > Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008
-> > from ov5645_global_init_setting
-> >
-> > Hi Biju,
-> >
-> > On Wed, Feb 14, 2024 at 08:25:16PM +0000, Biju Das wrote:
-> > > Hi Wolfram,
-> > >
-> > > Thanks for the feedback.
-> > >
-> > > > -----Original Message-----
-> > > > From: Wolfram Sang <wsa@kernel.org>
-> > > > Sent: Wednesday, February 14, 2024 8:31 AM
-> > > > Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register
-> > > > 0x3008 from ov5645_global_init_setting
-> > > >
-> > > > Hi Biju,
-> > > >
-> > > > > I think it is different here. That 1 msec is delay associated
-> > > > > with applying hardware power see [1]
-> > > >
-> > > > Okay, ack.
-> > > >
-> > > > > I will restore it.
-> > > >
-> > > > Thanks!
-> > > >
-> > > > I had meanwhile another thought. What if we kind of merge the two
-> > > > patches, so the outcome is basically this:
-> > > >
-> > > > In ov5645_set_register_array:
-> > > >
-> > > > 	If (settings->reg =3D=3D 0x3008 && settings->val =3D=3D 0x82)
-> > > > 		usleep_range(1000, 2000)
-> > > >
-> > > > ?
-> > > >
-> > > > Then, we don't need to split the array and we are also future
-> > > > proof if we ever need to set the reset bit again somewhere else.
-> > > >
-> > > > Bonus points for replacing 0x82 with a define :)
-> > > >
-> > > > What do you think?
-> > >
-> > >
-> > > OK, this will do check for all other registers.
-> > >
-> > > But from your power down clue and checking ov5640.c Looks like there
-> > > are 2 registers changes values after writing.
-> > >
-> > > [1] 0x3008, 0x82-->0x80
-> > > [2] 0x0601, 0x02-->0x00
-> > >
-> > > I think [1] is soft reset based on ov5640. Since there is a gpio
-> > > based hardware reset available, we can safely remove soft reset[1]
-> > > and like ov5640.c, if there is no gpio for reset, then do the soft
-> reset[1].
-> >
-> > I guess that would work. My understanding is that hard reset control
-> > is mandatory for the device, so there really should be no need for
-> > soft reset in the driver.
->=20
-> OK.
->=20
-> >
-> > >
-> > >
-> > > Then add 1msec delay for power down/up(0x3008: 0x42,0x02) and 0x0601
-> > > registers.
-> > >
-> > > With this looks like the Camera works ok @400kHz.
-> > >
-> > > The plans is to add a u8 variable for delay and enable delays for
-> > > the above registers and add a check like below
-> > >
-> > > static int ov5645_set_register_array(struct ov5645 *ov5645,
-> > > 				     const struct reg_value *settings,
-> > > 				     unsigned int num_settings)
-> > > {
-> > > 	unsigned int i;
-> > > 	int ret;
-> > >
-> > > 	for (i =3D 0; i < num_settings; ++i, ++settings) {
-> > > 		ret =3D ov5645_write_reg(ov5645, settings->reg, settings->val);
-> > > 		if (ret < 0)
-> > > 			return ret;
-> > >
-> > > 		if (settings->delay_ms)
-> > > 			usleep_range(1000 * settings->delay_ms, 2 * 1000 *
-> > > settings->delay_ms);
-> >
-> > I'd prefer checking the register address in the write function instead
-> > of this if you really need it. But it seems you don't.
->=20
-> With delays in powerup/down registers (0x3008 : 0x42,0x02) it is not
-> stable.
+It's a series that recently landed in -next [1]
 
-Typo: without delays in powerup/down registers (0x3008 : 0x42,0x02) it is n=
-ot
-stable.
+[...]
 
-You can see 0x42 followed by 0x02 which is an indication of power down/up p=
-rocedure.
+> 
+> Since VIDC_RESETS_NUM_MAX is only 2, I don't think a separate
+> allocation is worth it.
 
-Cheers,
-Biju
+It's 2 today, anyway. I wanted to keep it flexible
+
+[...]
+
+>> +	ret = reset_control_bulk_reset(res->resets_num, core->resets);
+>> +	if (ret)
+>> +		dev_err(core->dev, "Failed to toggle resets: %d\n", ret);
+>>  
+>> -err:
+>>  	return ret;
+> 
+> Could be simplified to:
+> 
+> 	return reset_control_bulk_reset(res->resets_num, core-
+>> resets);
+
+I intentionally kept the if (ret) to print a specific error message
+in case the call fails, this driver doesn't go a good job of telling
+the user/developer what went wrong.
+
+Konrad
 
