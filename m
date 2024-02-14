@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-5125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63788546B0
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:56:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02580854718
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:25:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FB361F25428
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 09:56:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35A441C274DD
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:25:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAFB0168CD;
-	Wed, 14 Feb 2024 09:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF3891758C;
+	Wed, 14 Feb 2024 10:24:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBEE79DF;
-	Wed, 14 Feb 2024 09:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5317552;
+	Wed, 14 Feb 2024 10:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707904588; cv=none; b=iDSNn9aEmSFzj9aBp27dORYR/ViKGmYTqSzqwWKEJNgA1sNyGUJmIeTPqb9iigqkgTSR72gP4/ArSkYcQVesG7mcQNaSX/d8Xesq7CuBJoA0ezOAlmVpLoQ9vxvde1QCCg8h8n53pPLT3pzhAcWGI+C6ncT75j3R/6k5jHsFYEQ=
+	t=1707906284; cv=none; b=X0p13Q0O50BRsA4NnkbumW3H38mrD36ADVV0yB2SnHf3BokNndb7CettSoMaTrLzMagL1mAi62iIVo54MUrFbkTbEGNlH1Pw9ZiWw2IpFgtT9qzTc5G06C7Xl7N0UEUtYrCKyeZ/sG96YDs9+urUgy0i919wgqF1kgOWkZvZDGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707904588; c=relaxed/simple;
-	bh=Trjd2X4kasVh37I4OiPZRdOuxLnZT7/9ZWAR9S0hh3o=;
+	s=arc-20240116; t=1707906284; c=relaxed/simple;
+	bh=L/qyyXzgC6hYYYA38GAe52ZNx6yR11HINzKT0BfZ7dc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a0NnJzxqKjFDh718CdKswmom8nON4vfUa+e7yZ0SycHlqojDtYxFkPxqJdngNQMiOs/Ubjye0WDWFT2Hwa6eLinuNsGyHCK4f1Wb9PcihxjZ+PQ/maUBWtYL2kZzzVeUb5u5UPxZPpZpbqIczQG8z91JBsYqK+nQ4y5pIowVXWg=
+	 In-Reply-To:Content-Type; b=hrVD9XHSD6oB5s3auWuv4fEQcjST6He3HxW3k5lw1Vz506JBfJEunUFe16lo3iO9uZb6S1wtnl4W44sMHlK1lUG2y5HFtzi9iUBBLbEkhk2uyrU6rMTsHkopsiI3oHFBDZxZlYiX1uhvbVxRDokLUhvylXN/zPsxK2NJR2YXWQY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81AEAC433C7;
-	Wed, 14 Feb 2024 09:56:26 +0000 (UTC)
-Message-ID: <294f39eb-9007-48a6-b340-f3890a9eed9a@xs4all.nl>
-Date: Wed, 14 Feb 2024 10:56:24 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62E3C433F1;
+	Wed, 14 Feb 2024 10:24:42 +0000 (UTC)
+Message-ID: <24cbf7b2-a091-440e-92cc-5c9828d52260@xs4all.nl>
+Date: Wed, 14 Feb 2024 11:24:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,109 +38,68 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 17/17] media: upd64031a: Check return value of
- i2c_master_recv()
+Subject: Re: [PATCH] media: v4l: marvell: select CONFIG_V4L2_ASYNC where
+ needed
 Content-Language: en-US, nl
-To: Daniil Dulov <d.dulov@aladdin.ru>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Takahiro Adachi <tadachi@tadachi-net.com>,
- Takeru Komoriya <komoriya@paken.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-References: <20240211150749.3832-1-d.dulov@aladdin.ru>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240211150749.3832-1-d.dulov@aladdin.ru>
+To: Arnd Bergmann <arnd@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20240213095555.454392-1-arnd@kernel.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240213095555.454392-1-arnd@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/02/2024 16:07, Daniil Dulov wrote:
-> i2c_master_recv() may return an error, so add a check
-> and return 0xff in case it is passed.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: add953cecba8 ("V4L/DVB (3665): Add new NEC uPD64031A and uPD64083 i2c drivers")
-> Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
-> ---
->  drivers/media/i2c/upd64031a.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/upd64031a.c b/drivers/media/i2c/upd64031a.c
-> index ef35c6574785..f51f86f30c73 100644
-> --- a/drivers/media/i2c/upd64031a.c
-> +++ b/drivers/media/i2c/upd64031a.c
-> @@ -73,11 +73,12 @@ static u8 upd64031a_read(struct v4l2_subdev *sd, u8 reg)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
->  	u8 buf[2];
-> +	int rc;
->  
->  	if (reg >= sizeof(buf))
->  		return 0xff;
-> -	i2c_master_recv(client, buf, 2);
-> -	return buf[reg];
-> +	rc = i2c_master_recv(client, buf, 2);
-> +	return rc < 0 ? 0xff : buf[reg];
+Arnd, Sakari,
 
-I don't think this patch adds anything useful.
+Is this something that needs to go to v6.8? Or just v6.9?
 
-If you just want to avoid uninitialized memory to be returned,
-then just do: "u8 buf[2] = {};".
-
-Alternatively, this function should return an int and callers
-have to check if an error (<0) was returned and pass that on.
-
-I think the latter is overkill, but I'll take a patch that just
-zeroes buf.
+Do we need a Fixes tag?
 
 Regards,
 
 	Hans
 
->  }
->  
->  /* ------------------------------------------------------------------------ */
+On 13/02/2024 10:55, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Drivers that call v4l2_async_nf_init() need to select the corresponding
+> Kconfig symbol:
+> 
+> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/marvell/cafe_ccic.ko] undefined!
+> ERROR: modpost: "__v4l2_async_nf_add_i2c" [drivers/media/platform/marvell/cafe_ccic.ko] undefined!
+> ERROR: modpost: "v4l2_async_nf_unregister" [drivers/media/platform/marvell/mcam-core.ko] undefined!
+> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/marvell/mmp_camera.ko] undefined!
+> ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/marvell/mmp_camera.ko] undefined!
+> 
+> I checked all v4l2 drivers to see if anything else has the same
+> bug, but these two appear to be the only ones.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/media/platform/marvell/Kconfig | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/platform/marvell/Kconfig b/drivers/media/platform/marvell/Kconfig
+> index d6499ffe30e8..d31f4730f2a3 100644
+> --- a/drivers/media/platform/marvell/Kconfig
+> +++ b/drivers/media/platform/marvell/Kconfig
+> @@ -7,6 +7,7 @@ config VIDEO_CAFE_CCIC
+>  	depends on V4L_PLATFORM_DRIVERS
+>  	depends on PCI && I2C && VIDEO_DEV
+>  	depends on COMMON_CLK
+> +	select V4L2_ASYNC
+>  	select VIDEO_OV7670 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
+>  	select VIDEOBUF2_VMALLOC
+>  	select VIDEOBUF2_DMA_CONTIG
+> @@ -24,6 +25,7 @@ config VIDEO_MMP_CAMERA
+>  	depends on COMMON_CLK
+>  	select VIDEO_OV7670 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
+>  	select I2C_GPIO
+> +	select V4L2_ASYNC
+>  	select VIDEOBUF2_VMALLOC
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select VIDEOBUF2_DMA_SG
 
 
