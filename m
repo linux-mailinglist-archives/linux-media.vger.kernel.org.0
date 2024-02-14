@@ -1,72 +1,76 @@
-Return-Path: <linux-media+bounces-5132-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5133-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E429B8547B5
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 12:05:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EB58547D4
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 12:14:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 984971F25355
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:05:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 707B8284431
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:14:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 271F518EA5;
-	Wed, 14 Feb 2024 11:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3950618EB9;
+	Wed, 14 Feb 2024 11:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bu55+Q1N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CkOhCRQ1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F06418638;
-	Wed, 14 Feb 2024 11:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1317818EA2;
+	Wed, 14 Feb 2024 11:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707908724; cv=none; b=HYv+jvHjueF9+7CzBkG9zNroX3Mlt/r1WPLgOQ8bPuIDHqqY4Vs5PBvom3NxmMM2D+KcjJqNY/ngaT5QJiWN6rgKFpcocalKO+49Ur9rxT57ybj2zsa3RdLfxEBzvJPnqGhILC2vb7Xd0amNDlngfocJVCeB85CF1eSqaaAUnC4=
+	t=1707909282; cv=none; b=R8yJQYlrAgUCP7xFAIUX5qHtHuvmclvI0zV0OBpfhh7xHAjKLYflEcQCe9sEVxYBZx1kM08thwhD5ZUYB2QEaS0RzaeIguHZNi7fHIShN8dSjTgZ5pQOoOIxemAVGgeBxiS+uqoH7+Eke29P0U3bmv+bQiKArgYBEeKib1fs32g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707908724; c=relaxed/simple;
-	bh=leNWJYh69CV7bQ1lqnd7BjWIi97NaiPuvMnUCm+KwVA=;
+	s=arc-20240116; t=1707909282; c=relaxed/simple;
+	bh=/zBV41EcCG6K/uokJf/6APSOmXZDKRrKNCSzt+OXz+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LPlN5BFsvfg+jRYsdZv47oXuIjFHiOPjE/pBiZbckzg+0AZUldiG3NnOJumbv8MQx/++tWm9ASrWy0JoqxH7mEXz1oB+wr9nC09mt7tjHTKb2/SWO6M5KpKFIKF1wGfBL087/akDTYC/i3CVLliEneYrlJpEPezaIym9fCLwCys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bu55+Q1N; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=H7wGZqGq2rMSLPYJdVynYTPLKiGacoSS6YhWatrS223LI2W7HbXxr9mv7B819PJGTQs0asZ1xJ3uwmHv4F5vP28I+tkWA6cjlLOuKmbb1ri/ftM+J2g08LnNK/5WkipDBRZk5yPTqrFoxP+1nS1zFQNZLSJPHyKm4559FZcFwUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CkOhCRQ1; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707908723; x=1739444723;
+  t=1707909281; x=1739445281;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=leNWJYh69CV7bQ1lqnd7BjWIi97NaiPuvMnUCm+KwVA=;
-  b=Bu55+Q1NxFgFJ5W5IAcJVrZ9trvJowb9yIqCwri1xY3wHVAU/AfArXgf
-   pahKP8AKmz6yTSPY6FcQRwG3T9th+hD6KLvCrgtUU+8aNFUKk0XaFbIVu
-   yfT8mrP9KAb95cSpv8vLv+Tgfgxi+QP54qdvBQizVrf5FNIyMZt2Tr6uL
-   eYzOnEkd+jCOsNylOrKEeY6+KHSFBg7/oj4IRLAg4uKH3iZGqizVXgOb3
-   3cADWHw55biaFjlYNe2VoC5egNE+6th0Dkdc6bNER8LG3SROnlpqmiu6q
-   4tVDhV5Lns7TH+7jNZNfluYLPYZ5JE3habUnQ6UjBoWeFgCkXVel8s+vn
+  bh=/zBV41EcCG6K/uokJf/6APSOmXZDKRrKNCSzt+OXz+4=;
+  b=CkOhCRQ1Ox2wDwjQElorh73rLyVhbNa9mpwDOY9ZlbscHRgdl4kktEET
+   SfI28oLSxMIIuqg5E3AdtALaLRDQmKu60Xs3OsBDUROY1V9uQJtbCB020
+   A0WLCx9+BRopy+Rnc1ZINQr8MoroH+fs71buAN3LIQuepLbnF8UGqM1gm
+   cEqe7RXcxFWC8UvgVqImYokb+WvJP7P2/kp6LMp/AZWR/1qNLHqSFje8d
+   GjS5KZLOHYeqFVjwFtYK3hLxkBR71NdyeUp7J+bYOHukz8iaOhszf9EM6
+   0QJVAmnzY9C7t4EzaFLNBeP1CT1JjaA0jynbEqJt8oA7EL5tPk6M7XWxI
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="2069860"
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="2091795"
 X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="2069860"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:05:22 -0800
+   d="scan'208";a="2091795"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:14:40 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="3511208"
+   d="scan'208";a="3067801"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:05:20 -0800
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:14:38 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id ECCE111F86A;
-	Wed, 14 Feb 2024 13:05:16 +0200 (EET)
-Date: Wed, 14 Feb 2024 11:05:16 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 878CB11F86A;
+	Wed, 14 Feb 2024 13:14:35 +0200 (EET)
+Date: Wed, 14 Feb 2024 11:14:35 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Youssef Quaisse <yquaisse@gmail.com>
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] Fix three warnings when running `make htmldocs`
-Message-ID: <ZcyebKY86sAJDhr4@kekkonen.localdomain>
-References: <20240210221451.27769-1-yquaisse@gmail.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linuxfancy@googlegroups.com, martin.hecht@avnet.eu,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] media: i2c: alvium: fix req_fr check into
+ alvium_s_frame_interval()
+Message-ID: <ZcygmyT1ZaKsbSxX@kekkonen.localdomain>
+References: <20231220124023.2801417-1-tomm.merciai@gmail.com>
+ <20231220124023.2801417-6-tomm.merciai@gmail.com>
+ <20231220130236.GN29638@pendragon.ideasonboard.com>
+ <ZYLxtTRQF0sWJLiu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,57 +79,52 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240210221451.27769-1-yquaisse@gmail.com>
+In-Reply-To: <ZYLxtTRQF0sWJLiu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 
-Hi Youssef,
+Hi Tommaso,
 
-On Sat, Feb 10, 2024 at 10:14:38PM +0000, Youssef Quaisse wrote:
-> Running `make htmldocs` generates warnings for file
-> drivers/staging/media/ipu3/include/uapi/intel-ipu3.h.
+On Wed, Dec 20, 2023 at 02:52:53PM +0100, Tommaso Merciai wrote:
+> Hi Laurent,
 > 
-> Fix was to remove the "excess" definitions.
+> On Wed, Dec 20, 2023 at 03:02:36PM +0200, Laurent Pinchart wrote:
+> > Hi Tommaso,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Wed, Dec 20, 2023 at 01:40:23PM +0100, Tommaso Merciai wrote:
+> > > Actually req_fr check into alvium_s_frame_interval() is wrong.
+> > > In particular req_fr can't be >=max and <= min at the same time.
+> > > Fix this using clamp and remove dft_fr parameter from
+> > > alvium_get_frame_interval() not more used.
+> > 
+> > The commit message should have explained why clamping is better than
+> > picking a default value, as that's a functional change. If you propose
+> > an updated commit message in a reply, I think Sakari can update the
+> > patch when applying the series to his tree, there's no need for a v4.
 > 
-> Warnings in question:
+> What about:
 > 
-> ```
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved1' description in 'ipu3_uapi_acc_param'
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved2' description in 'ipu3_uapi_acc_param'
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2778: warning: Excess struct member '__acc_osys' description in 'ipu3_uapi_flags'
-> ```
+> Actually req_fr check into alvium_s_frame_interval() is wrong.
+> In particular req_fr can't be >=max and <= min at the same time.
+> Fix this using clamp and remove dft_fr parameter from
+> alvium_get_frame_interval() not more used.
 > 
-> Signed-off-by: Youssef Quaisse <yquaisse@gmail.com>
+> Clamp function make sure that if the setted value exceeds the limits is
+> replaced with min_fr/max_fr instead of setting the value readed back
+> from the hw.
+> 
+> What do you think?
 
-Thanks for the patch. These have been already addressed by commit
-dcef3ed5b0d79f89018e31d55cf09f2c2f81392b .
+I used this, hopefully it's ok:
 
-> ---
->  drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> index caa358e0bae4..4aa2797f5e3c 100644
-> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> @@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
->   *		&ipu3_uapi_yuvp1_y_ee_nr_config
->   * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
->   * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
-> - * @reserved1: reserved
->   * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
->   * @tcc:	total color correction config as defined in struct
->   *		&ipu3_uapi_yuvp2_tcc_static_config
-> - * @reserved2: reserved
->   * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
->   * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
->   * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
-> @@ -2724,7 +2722,6 @@ struct ipu3_uapi_obgrid_param {
->   * @acc_ae: 0 = no update, 1 = update.
->   * @acc_af: 0 = no update, 1 = update.
->   * @acc_awb: 0 = no update, 1 = update.
-> - * @__acc_osys: 0 = no update, 1 = update.
->   * @reserved3: Not used.
->   * @lin_vmem_params: 0 = no update, 1 = update.
->   * @tnr3_vmem_params: 0 = no update, 1 = update.
+media: i2c: alvium: fix req_fr check in alvium_s_frame_interval()
+
+req_fr check in alvium_s_frame_interval() is incorrect. In particular
+req_fr can't be >=max and <= min at the same time. Ensure the requested
+frame rate remains within the supported range between min_fr and max_fr by
+clamping it.
+
+Also remove the unused dft_fr argument of alvium_get_frame_interval().
 
 -- 
 Kind regards,
