@@ -1,105 +1,122 @@
-Return-Path: <linux-media+bounces-5126-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5128-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02580854718
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:25:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61072854730
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:33:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35A441C274DD
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:25:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 147B81F2A054
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 10:33:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF3891758C;
-	Wed, 14 Feb 2024 10:24:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50F491756F;
+	Wed, 14 Feb 2024 10:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="RIpH9zGc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Av9KElcQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wfhigh6-smtp.messagingengine.com (wfhigh6-smtp.messagingengine.com [64.147.123.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5317552;
-	Wed, 14 Feb 2024 10:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE61EEAA;
+	Wed, 14 Feb 2024 10:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707906284; cv=none; b=X0p13Q0O50BRsA4NnkbumW3H38mrD36ADVV0yB2SnHf3BokNndb7CettSoMaTrLzMagL1mAi62iIVo54MUrFbkTbEGNlH1Pw9ZiWw2IpFgtT9qzTc5G06C7Xl7N0UEUtYrCKyeZ/sG96YDs9+urUgy0i919wgqF1kgOWkZvZDGk=
+	t=1707906823; cv=none; b=A/apolx+Jrt6JJvc1xhOLBvc59FfhHWh+PGsbPP7ld1AgrhjCPaHibF6+mhx+iYppf0pw+AMM9rYkYTHqlk8pWfCoovKfxQ9XN1Ed0UrOhHg16pjTMPKbvOgor7ypIRcSEYnumJDc1W+ATmPvmkjqPjP6p3IUbdQ2K55dXdG2Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707906284; c=relaxed/simple;
-	bh=L/qyyXzgC6hYYYA38GAe52ZNx6yR11HINzKT0BfZ7dc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hrVD9XHSD6oB5s3auWuv4fEQcjST6He3HxW3k5lw1Vz506JBfJEunUFe16lo3iO9uZb6S1wtnl4W44sMHlK1lUG2y5HFtzi9iUBBLbEkhk2uyrU6rMTsHkopsiI3oHFBDZxZlYiX1uhvbVxRDokLUhvylXN/zPsxK2NJR2YXWQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62E3C433F1;
-	Wed, 14 Feb 2024 10:24:42 +0000 (UTC)
-Message-ID: <24cbf7b2-a091-440e-92cc-5c9828d52260@xs4all.nl>
-Date: Wed, 14 Feb 2024 11:24:41 +0100
+	s=arc-20240116; t=1707906823; c=relaxed/simple;
+	bh=Wz3O9sY5Lb1tlJN6kKFsdarwvOyGVeowPGJkp2m04YQ=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=tsX8V4zPSYNqYKgzeFbw2r0aG61AxY/xtIvMFJ9rhSgiAdS6snNgS/wtHN2i1w7yu14pHtlBhvcguXW6isPKGfh3yHYiM7TO1URlHvn+2+4JopwdoJgPYCvh/2czf4UbzKIJPJUNhCpyM05LpIgNkxpAfSV3SXEtHTB4CuPnbwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=RIpH9zGc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Av9KElcQ; arc=none smtp.client-ip=64.147.123.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 08B241800073;
+	Wed, 14 Feb 2024 05:33:40 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 14 Feb 2024 05:33:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1707906820; x=1707993220; bh=yVnERG6CD6
+	OiUW+apDplUEb99Gqo14cVVGATiFwcNwo=; b=RIpH9zGcsVILCuAQGWXyxiScxo
+	8cKd1tJi1zSHzJwPmGxcCvZIvO/u8HQMt/4qbbsyI9zu3zRSjOhXOGEIClnWVaY6
+	zZqOGUvxrRUwpLFX1eura8piijcNb8Yo4bpvUcN2fdVlXNqRY2Nr1WMyMAHTxZSM
+	DyVqBpJvN0VHVSt8wQnmlFwXo0zSsMw4avQyYOBqzap9rYzWS12Bmk9wVYjiCq0m
+	ju5JOeohxo98GFU8XvUfmEbVzaMrzo4BS2YdVYIk1e4ighnOZUAwzuI663nFl4v0
+	DfrAmmIrlDS909Q5th+aT5+6+zNjcYZS9BkrhDUsL5LC4r7r8pW3ro68H3fQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1707906820; x=1707993220; bh=yVnERG6CD6OiUW+apDplUEb99Gqo
+	14cVVGATiFwcNwo=; b=Av9KElcQJZuy7b3CEZ5iA3c4wLLTz+scibfE7vgFX+uA
+	RL2/rSNYtA5nYv908RnRVROG7PfUsc8CLp/vwaKMdKWGvcixvmHcWFNgS3wWPAKz
+	cavJYYOGFIevXCwGnGY83Cc1rJ6PYQLP5ynyYHpbDWXG3rjhOH8NOGTyHLqJXv28
+	DmhFUv1VwksCHRDBpSvznL806rIwUvnBgfKhQ7ZTGA0eRRZreVdDEeVnNiTv75Lh
+	k0ysmnOWfUjL6JwmHcWxkR/q+Ny6HhMgUVzojvDXMhblgbTY/uNI3AQ5JBfY9wfR
+	kCcBcTSaZBD2zho80BtujoS8OT0wQ0cR52JMbwrqIg==
+X-ME-Sender: <xms:BJfMZWagc5TfNMixZJ8ld2hvLUYOEf-Ryoi0z255aiyDQxKtAqnbGw>
+    <xme:BJfMZZYLVbGUxlwvXppk8FfBPQaUoAHukwkhbjKs-PNngxq_yycoz8oSelTflelIw
+    kvIghsYNaedEoHdFG0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejgdduiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeegteeihfejvdfhfeffhfdvvddvfffgtedvteeigfehhfehudffleejueduvdel
+    gfenucffohhmrghinhepphgrshhtvggsihhnrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:BJfMZQ8LR6OkvrdfHMUacfpaHXwuy-3IR1em-FnA3vTl6-v70brBfw>
+    <xmx:BJfMZYqb5tEqN7XtQyQ5WwuCQMcHS5kEDnxTTh2yqkJ8bqJVBRJiqw>
+    <xmx:BJfMZRr6adqIyNHGFA3X_aSaFAY9LZ8lTFLOabmR7LpxhJ97kU3eOg>
+    <xmx:BJfMZaBWS7sInllRT7VElbQmtvwG2Tv6-FO8c2btfa2sw7kS-BlF8GpE6OU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 3AFD7B6008D; Wed, 14 Feb 2024 05:33:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: v4l: marvell: select CONFIG_V4L2_ASYNC where
- needed
-Content-Language: en-US, nl
-To: Arnd Bergmann <arnd@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Message-Id: <eadeadd2-0913-4c46-8e90-8000eb45b7f8@app.fastmail.com>
+In-Reply-To: <24cbf7b2-a091-440e-92cc-5c9828d52260@xs4all.nl>
 References: <20240213095555.454392-1-arnd@kernel.org>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240213095555.454392-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <24cbf7b2-a091-440e-92cc-5c9828d52260@xs4all.nl>
+Date: Wed, 14 Feb 2024 11:33:19 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+ "Arnd Bergmann" <arnd@kernel.org>,
+ "Sakari Ailus" <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>
+Subject: Re: [PATCH] media: v4l: marvell: select CONFIG_V4L2_ASYNC where needed
+Content-Type: text/plain
 
-Arnd, Sakari,
+On Wed, Feb 14, 2024, at 11:24, Hans Verkuil wrote:
+> Arnd, Sakari,
+>
+> Is this something that needs to go to v6.8? Or just v6.9?
+>
+> Do we need a Fixes tag?
+>
 
-Is this something that needs to go to v6.8? Or just v6.9?
+I'm not sure, I tried to find out what commit caused it
+but could not figure it out short of doing a bisection.
 
-Do we need a Fixes tag?
+I noticed the problem for the first time on linux-next
+this week, but it is likely to have been hiding for a
+long time. If anyone wants to bisect it, I've uploaded
+my .config to [1], otherwise I'd suggest fixing it for
+v6.8 without a backport or further analysis.
 
-Regards,
+     Arnd
 
-	Hans
-
-On 13/02/2024 10:55, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Drivers that call v4l2_async_nf_init() need to select the corresponding
-> Kconfig symbol:
-> 
-> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/marvell/cafe_ccic.ko] undefined!
-> ERROR: modpost: "__v4l2_async_nf_add_i2c" [drivers/media/platform/marvell/cafe_ccic.ko] undefined!
-> ERROR: modpost: "v4l2_async_nf_unregister" [drivers/media/platform/marvell/mcam-core.ko] undefined!
-> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/marvell/mmp_camera.ko] undefined!
-> ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/marvell/mmp_camera.ko] undefined!
-> 
-> I checked all v4l2 drivers to see if anything else has the same
-> bug, but these two appear to be the only ones.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/media/platform/marvell/Kconfig | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/platform/marvell/Kconfig b/drivers/media/platform/marvell/Kconfig
-> index d6499ffe30e8..d31f4730f2a3 100644
-> --- a/drivers/media/platform/marvell/Kconfig
-> +++ b/drivers/media/platform/marvell/Kconfig
-> @@ -7,6 +7,7 @@ config VIDEO_CAFE_CCIC
->  	depends on V4L_PLATFORM_DRIVERS
->  	depends on PCI && I2C && VIDEO_DEV
->  	depends on COMMON_CLK
-> +	select V4L2_ASYNC
->  	select VIDEO_OV7670 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
->  	select VIDEOBUF2_VMALLOC
->  	select VIDEOBUF2_DMA_CONTIG
-> @@ -24,6 +25,7 @@ config VIDEO_MMP_CAMERA
->  	depends on COMMON_CLK
->  	select VIDEO_OV7670 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
->  	select I2C_GPIO
-> +	select V4L2_ASYNC
->  	select VIDEOBUF2_VMALLOC
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEOBUF2_DMA_SG
-
+[1] https://pastebin.com/fcSLRBL8
 
