@@ -1,133 +1,150 @@
-Return-Path: <linux-media+bounces-5133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EB58547D4
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 12:14:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34AD98548A4
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 12:42:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 707B8284431
-	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:14:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 644A11C224CA
+	for <lists+linux-media@lfdr.de>; Wed, 14 Feb 2024 11:42:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3950618EB9;
-	Wed, 14 Feb 2024 11:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CkOhCRQ1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A1CA1A58B;
+	Wed, 14 Feb 2024 11:42:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.67.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1317818EA2;
-	Wed, 14 Feb 2024 11:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6AE18EB4;
+	Wed, 14 Feb 2024 11:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.67.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707909282; cv=none; b=R8yJQYlrAgUCP7xFAIUX5qHtHuvmclvI0zV0OBpfhh7xHAjKLYflEcQCe9sEVxYBZx1kM08thwhD5ZUYB2QEaS0RzaeIguHZNi7fHIShN8dSjTgZ5pQOoOIxemAVGgeBxiS+uqoH7+Eke29P0U3bmv+bQiKArgYBEeKib1fs32g=
+	t=1707910969; cv=none; b=uenCLVujxKRmaZYP7WY47lb298JK8AnUODCw0+2Jewn8Xqit6d0Rj9Ay3eStyEHviHO/okFlaJfoTpBJAzIOtJi7pZfAvCZNLerX4z00Jp70qJouceXzvtV777eqH1UMmP/FjvBQJaohneaRTcH8yF5nCpTHTUBROg+yNrQSlt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707909282; c=relaxed/simple;
-	bh=/zBV41EcCG6K/uokJf/6APSOmXZDKRrKNCSzt+OXz+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H7wGZqGq2rMSLPYJdVynYTPLKiGacoSS6YhWatrS223LI2W7HbXxr9mv7B819PJGTQs0asZ1xJ3uwmHv4F5vP28I+tkWA6cjlLOuKmbb1ri/ftM+J2g08LnNK/5WkipDBRZk5yPTqrFoxP+1nS1zFQNZLSJPHyKm4559FZcFwUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CkOhCRQ1; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707909281; x=1739445281;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/zBV41EcCG6K/uokJf/6APSOmXZDKRrKNCSzt+OXz+4=;
-  b=CkOhCRQ1Ox2wDwjQElorh73rLyVhbNa9mpwDOY9ZlbscHRgdl4kktEET
-   SfI28oLSxMIIuqg5E3AdtALaLRDQmKu60Xs3OsBDUROY1V9uQJtbCB020
-   A0WLCx9+BRopy+Rnc1ZINQr8MoroH+fs71buAN3LIQuepLbnF8UGqM1gm
-   cEqe7RXcxFWC8UvgVqImYokb+WvJP7P2/kp6LMp/AZWR/1qNLHqSFje8d
-   GjS5KZLOHYeqFVjwFtYK3hLxkBR71NdyeUp7J+bYOHukz8iaOhszf9EM6
-   0QJVAmnzY9C7t4EzaFLNBeP1CT1JjaA0jynbEqJt8oA7EL5tPk6M7XWxI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="2091795"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="2091795"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:14:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="3067801"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:14:38 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 878CB11F86A;
-	Wed, 14 Feb 2024 13:14:35 +0200 (EET)
-Date: Wed, 14 Feb 2024 11:14:35 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linuxfancy@googlegroups.com, martin.hecht@avnet.eu,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/5] media: i2c: alvium: fix req_fr check into
- alvium_s_frame_interval()
-Message-ID: <ZcygmyT1ZaKsbSxX@kekkonen.localdomain>
-References: <20231220124023.2801417-1-tomm.merciai@gmail.com>
- <20231220124023.2801417-6-tomm.merciai@gmail.com>
- <20231220130236.GN29638@pendragon.ideasonboard.com>
- <ZYLxtTRQF0sWJLiu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+	s=arc-20240116; t=1707910969; c=relaxed/simple;
+	bh=jl4X2nLs/EGY7MkFbQnr2YKdAJST/jbucKSgzovRLww=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ejIGt14z6c2B6qbuLcQm8MQLUeADgIm/zEWYLXFQwgQo8nwFOVFHJO8wPEat0HmEX2L6HVPcqLxj4IsBY5pYRInprDm64nfrEAcx3n9f1XRZlKOwL5SvaHgdWImWiKFudBGR3yGAfe5EvBlAmBWNhdm97oC+PQdWOccJTE8+NJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shingroup.cn; spf=pass smtp.mailfrom=shingroup.cn; arc=none smtp.client-ip=114.132.67.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shingroup.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shingroup.cn
+X-QQ-mid: bizesmtp69t1707910725t3jqpubl
+X-QQ-Originating-IP: fDEDb8Byls7cymFQN/Cx3S4iUt4gnKrfZ1Si9YIXh+o=
+Received: from localhost ( [112.22.30.30])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 14 Feb 2024 19:38:44 +0800 (CST)
+X-QQ-SSF: 01400000002000504000B00A0000000
+X-QQ-FEAT: uWtt+4oZiA/qS7T2ZI6hwxc3Siw4b/9Zv2iNiIVjBOb8bkerl33Bqy8OZLhaw
+	4G3zIxmMqqLcjxh5jd6LceKODJBczcv+wHcf6kCXBXHrtlzQNY9+UwClyu8CRNi38i+MrEM
+	1qW63T66HF7yzcHm0FWTnEI1pnliSA2c/vcfnTnRlZVPfUL8VRlVeMlFhwOYgNMU1cMM5hN
+	YXtQUgLsFLk6v8rRIXLqSCDy5WlgLzXXvoMoOTtD6vm6uMU2V8N2vVH4IQ8NrpqmzNHUT2D
+	SvSz0SqUELNknSeMm5UG9KwkVdhSBW/D/iAmX1s7MNXe2YZc3dSg8oTzax4oHHjOf0z0gd6
+	Q3iFWqDpSQc5uWnHcXgGgGy5K2e5XYG9l12v/lw+SoGt8piQmsZjpLioVjPBfqU6FmFlQXV
+	dFcXxD69jGU=
+X-QQ-GoodBg: 2
+X-BIZMAIL-ID: 11672996985482081614
+From: Dawei Li <dawei.li@shingroup.cn>
+To: mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com,
+	oe-kbuild-all@lists.linux.dev,
+	set_pte_at@outlook.com,
+	Dawei Li <dawei.li@shingroup.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] media: Add dependency of ov7670/mcam/cafe on CONFIG_V4L2_ASYNC explicitly
+Date: Wed, 14 Feb 2024 19:38:30 +0800
+Message-Id: <20240214113830.3656367-1-dawei.li@shingroup.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <202402130955.f6uxzdCA-lkp@intel.com>
+References: <202402130955.f6uxzdCA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZYLxtTRQF0sWJLiu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:shingroup.cn:qybglogicsvrgz:qybglogicsvrgz5a-1
 
-Hi Tommaso,
+Kernel test robot reports:
+   ld: drivers/media/i2c/ov7670.o: in function `ov7670_remove':
+   drivers/media/i2c/ov7670.c:2011: undefined reference to
+   `v4l2_async_unregister_subdev'
+   ld: drivers/media/i2c/ov7670.o: in function `ov7670_parse_dt':
+   drivers/media/i2c/ov7670.c:1836: undefined reference to
+   `v4l2_fwnode_endpoint_parse'
+   ld: drivers/media/i2c/ov7670.o: in function `ov7670_probe':
+   drivers/media/i2c/ov7670.c:1990: undefined reference to
+   `v4l2_async_register_subdev'
+   ld: drivers/media/platform/marvell/cafe-driver.o: in function
+   `cafe_pci_probe':
+>> drivers/media/platform/marvell/cafe-driver.c:543: undefined reference
+   to `v4l2_async_nf_init'
+>> ld: drivers/media/platform/marvell/cafe-driver.c:545: undefined
+   reference to `__v4l2_async_nf_add_i2c'
+   ld: drivers/media/platform/marvell/mcam-core.o: in function
+   `mccic_shutdown':
+>> drivers/media/platform/marvell/mcam-core.c:1931: undefined reference to
+   `v4l2_async_nf_unregister'
+>> ld: drivers/media/platform/marvell/mcam-core.c:1932: undefined reference
+   to `v4l2_async_nf_cleanup'
+   ld: drivers/media/platform/marvell/mcam-core.o: in function
+   `mccic_register':
+   drivers/media/platform/marvell/mcam-core.c:1910: undefined reference to
+   `v4l2_async_nf_unregister'
+   ld: drivers/media/platform/marvell/mcam-core.c:1911: undefined reference
+   to `v4l2_async_nf_cleanup'
+>> ld: drivers/media/platform/marvell/mcam-core.c:1873: undefined reference
+   to `v4l2_async_nf_register'
 
-On Wed, Dec 20, 2023 at 02:52:53PM +0100, Tommaso Merciai wrote:
-> Hi Laurent,
-> 
-> On Wed, Dec 20, 2023 at 03:02:36PM +0200, Laurent Pinchart wrote:
-> > Hi Tommaso,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Wed, Dec 20, 2023 at 01:40:23PM +0100, Tommaso Merciai wrote:
-> > > Actually req_fr check into alvium_s_frame_interval() is wrong.
-> > > In particular req_fr can't be >=max and <= min at the same time.
-> > > Fix this using clamp and remove dft_fr parameter from
-> > > alvium_get_frame_interval() not more used.
-> > 
-> > The commit message should have explained why clamping is better than
-> > picking a default value, as that's a functional change. If you propose
-> > an updated commit message in a reply, I think Sakari can update the
-> > patch when applying the series to his tree, there's no need for a v4.
-> 
-> What about:
-> 
-> Actually req_fr check into alvium_s_frame_interval() is wrong.
-> In particular req_fr can't be >=max and <= min at the same time.
-> Fix this using clamp and remove dft_fr parameter from
-> alvium_get_frame_interval() not more used.
-> 
-> Clamp function make sure that if the setted value exceeds the limits is
-> replaced with min_fr/max_fr instead of setting the value readed back
-> from the hw.
-> 
-> What do you think?
+Add explicit dependency on CONFIG_V4L2_ASYNC to mute ld errors.
 
-I used this, hopefully it's ok:
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202402130955.f6uxzdCA-lkp@intel.com/
+Signed-off-by: Dawei Li <dawei.li@shingroup.cn>
+---
+ drivers/media/i2c/Kconfig              | 1 +
+ drivers/media/platform/marvell/Kconfig | 2 ++
+ 2 files changed, 3 insertions(+)
 
-media: i2c: alvium: fix req_fr check in alvium_s_frame_interval()
-
-req_fr check in alvium_s_frame_interval() is incorrect. In particular
-req_fr can't be >=max and <= min at the same time. Ensure the requested
-frame rate remains within the supported range between min_fr and max_fr by
-clamping it.
-
-Also remove the unused dft_fr argument of alvium_get_frame_interval().
-
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 4c3435921f19..453cb4b81d6f 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -523,6 +523,7 @@ config VIDEO_OV7640
+ 	  module will be called ov7640.
+ 
+ config VIDEO_OV7670
++	select V4L2_ASYNC
+ 	tristate "OmniVision OV7670 sensor support"
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+diff --git a/drivers/media/platform/marvell/Kconfig b/drivers/media/platform/marvell/Kconfig
+index d6499ffe30e8..48f5484478a0 100644
+--- a/drivers/media/platform/marvell/Kconfig
++++ b/drivers/media/platform/marvell/Kconfig
+@@ -11,6 +11,7 @@ config VIDEO_CAFE_CCIC
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEOBUF2_DMA_SG
++	select V4L2_ASYNC
+ 	help
+ 	  This is a video4linux2 driver for the Marvell 88ALP01 integrated
+ 	  CMOS camera controller.  This is the controller found on first-
+@@ -27,6 +28,7 @@ config VIDEO_MMP_CAMERA
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEOBUF2_DMA_SG
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 driver for the integrated camera
+ 	  controller found on Marvell Armada 610 application
 -- 
-Kind regards,
+2.27.0
 
-Sakari Ailus
 
