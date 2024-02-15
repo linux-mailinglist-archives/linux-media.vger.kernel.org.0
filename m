@@ -1,241 +1,282 @@
-Return-Path: <linux-media+bounces-5222-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5223-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709558566F0
-	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 16:09:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6276485698D
+	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 17:28:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA96C281C71
-	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 15:09:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 868F81C237EE
+	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 16:28:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E118F133283;
-	Thu, 15 Feb 2024 15:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47AF6134CE6;
+	Thu, 15 Feb 2024 16:28:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApIWkTco"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o0L+JYbI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C84713248B;
-	Thu, 15 Feb 2024 15:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931AC13173F
+	for <linux-media@vger.kernel.org>; Thu, 15 Feb 2024 16:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708009756; cv=none; b=VswTsEt9Ke2d8V8x6gohS1AEUfhAlcs+tkndAFYLR9DA1isvAGXDaOghMLf/zmta9TJbAWkbdb2E0wYIN0JRNvtAteGP0Wnh3Kf0CeKr26t2xavO1K/V5yXQpQxvq0KdPV4sEGqDieeh7On4rSIfbafHJCw7h6L5tQf4TT/+qAQ=
+	t=1708014482; cv=none; b=KNlByp1Leub70VKJH01lWw+71rODoU/m2cBTdgBXFv+1TdRj1NBfeaoS3uEvyFtFa9THDrcAwAZlBUivjgvZlT6RfHCeTB2QxSgweC64SYhMNr3YY1gCtH0Ueq8ScPpkf4vMousHrCVQpQ+d3WVO694S7vGICBPTNm40yp7NXa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708009756; c=relaxed/simple;
-	bh=1dewdp2A0Zo42dyThGoQOQMbyk8kJSMF3Ua2SIJeM54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qpp0s7L2t5fS1fD+wN/i+oosLMLGiQ6PFwf47A/GtC8zxsxvsq7N+PF6Ys6DMWV2+HtpHYi+n5vhqbKuRrC7cYezf8MjgkMFZatSLppehitQ/XVFLPhfpyB9yb+PTtmrKES0Q1Acrzo1NxA51AC1+oVdbAvpu02zzvlXRDjGTNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApIWkTco; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708009755; x=1739545755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=1dewdp2A0Zo42dyThGoQOQMbyk8kJSMF3Ua2SIJeM54=;
-  b=ApIWkTcopMBYHHLcqaY4WvaivqTmGD4bX9BEWo70RJsYJ183w8vqA+TY
-   GUO8q+O1J4K2pNnGRkkIVY7K38oKM3fXYntwBSDrpv8RzITPPYuKoTJEa
-   TITDKVthtk2iDVJLlVfMBgWifkTl8Ha8ykCiztaBBuzCc6BRFk6puOcPo
-   PPbz8E4WpImeuqldPTUtYdhDQ7FzPUQ3ohKc/FuyDGUl+16oY1HKnK5oi
-   5fXS8mWIL3ddVT8xSik0Yytd4qSOBdhAwf2RLST9UlDH4nbiaPnSDVHL1
-   A8HlcaCAVX4o7sVD7sWPTZyAwDDTWatdNJJW/qjN5efBI5ZLW8tApb/eE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="5930139"
-X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
-   d="scan'208";a="5930139"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 07:09:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826423681"
-X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
-   d="scan'208";a="826423681"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga001.jf.intel.com with SMTP; 15 Feb 2024 07:09:06 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Thu, 15 Feb 2024 17:09:05 +0200
-Date: Thu, 15 Feb 2024 17:09:05 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi:
- Add Broadcast RGB property
-Message-ID: <Zc4pEfVRItn0ZCXE@intel.com>
-References: <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
- <ZcsqoPCJDjA5PJUF@intel.com>
- <dti6zcuzszhut5m4g2bxiwfogwctfhktv2mwuqlij7wtvh3bny@ry4mxpiqidmt>
+	s=arc-20240116; t=1708014482; c=relaxed/simple;
+	bh=cpvpbp/R/rZLm6Eu/oFFSNRek032UyB1m80TFs7/MOU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iiivAI1IGJJEPko438RvQt3sHNqdJy2QPz/YEyd6h25IvDjFQFpeGGOefcj3irk47+imTzACw38KL1ICU2RhR1PqRa0R+Iznwy0OKIz5arPpfU70CZ37FriB9BDSRsZ6okBwIcNjeLgAPnqzWdiBf9hCNQLZash2m7sTteS5UGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o0L+JYbI; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-607e364c985so5071467b3.1
+        for <linux-media@vger.kernel.org>; Thu, 15 Feb 2024 08:27:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708014478; x=1708619278; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dr3g0O21Ju2z8IcifKuynZ0i8cX1PuwOIKoTXj8k1xk=;
+        b=o0L+JYbI8c5944pyYpXx/bWdTEZJWTRApVtxBJO/zumO8R3HE13MWLJRtXRMu505mj
+         WzLO54K5+dz5RHdVRZmry2YxE4lyq1uhzJHzjVvtwNmoYIM7VJGm7/dERKD02tE98Mlp
+         0+IKIQN9UazGPPCdFrCbWgcJ9Z4x6cN1z+Ya3uGioss2+++9Uw/NMWtjuBvWUfaDIlzi
+         CxWuc2EXfePXza/tmEBX5SRlyPTPHAQa0x0neVPbFV4s4lBeFHMXs1efTL0sdZR9/ve5
+         cYiSBENyLBiD3arD6yXza0CQaQosBFUKJjAYfo/oQVZGCEURMAQCOCF27kF6HJ9jTtX/
+         D9FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708014478; x=1708619278;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dr3g0O21Ju2z8IcifKuynZ0i8cX1PuwOIKoTXj8k1xk=;
+        b=p86H4FACnDReIiF2m6Cbp1qqB9m6pg7ScVzNoicaS4qYV3YakSbY9RQ1Xuj8Xw3d/e
+         1HXC8efkODhpxxweYEnyDqbv8GndF2gCJ6BcFG/VwjJwKL4ZM4iUzs9Jt7Tx8a8Q6DzC
+         fFDG0FhhfNbBrwJSl2OAr+Mn9yxjbiEvCMV4BXe0VG0+nO70sOkUVHxaIQonT3nF8pRM
+         7ZBgISYmUAthYuQnKS3ZE0kBUcNe4V424S4m2WpLbNLXXOIiaV2lxJ9mMMamXr9SQr2z
+         +RujodO1bK84GerMWxZRiTqYa0Eb93RqwMqkm42dFZFgpDkdQuQbbnHLv9h1YAcEPT7L
+         w6rQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5vURXb8c5i88Oi/ZF3b16SXNuWesf3L87+IWNUobzIOJKSfDVgmBkjERzFbiqXSeeUYQM9IQ7yWR8huP3Qd2D3jnuPSBdqtx2/i0=
+X-Gm-Message-State: AOJu0YxhcVoOyH8lfHmePWabKYYsjcrD0XuPI/U0pMALG9x1EhCSgdaa
+	FViv0Ju6KdHjD1TKaO/hNI1+DOUM8Hc/ZZq3WmPYaGZkfmisiIkVndzEW3mzwis8muUBRtk9W7Z
+	fUY/z5kE7317H32zAcX5AV8FtlzHFQ5h4mGZmVA==
+X-Google-Smtp-Source: AGHT+IG9aZYmBds/ApEGPYCba61ImAzmYJcI1UvchtnqR+F54/LeXhO2nZUhKfUR+HAWHDXrps3qKVOxIKONIweG10g=
+X-Received: by 2002:a0d:e606:0:b0:607:9d64:d68d with SMTP id
+ p6-20020a0de606000000b006079d64d68dmr2013062ywe.11.1708014478440; Thu, 15 Feb
+ 2024 08:27:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dti6zcuzszhut5m4g2bxiwfogwctfhktv2mwuqlij7wtvh3bny@ry4mxpiqidmt>
-X-Patchwork-Hint: comment
+References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
+ <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org> <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
+ <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com>
+ <l7icfezpajren25545n4cjtqehhividt5b2dxnxgetdsshc3k3@tdws423qdblk>
+ <CAPDyKFp1vg2+-pHJ_idkdhb_zZUMpq7W17DnCCGj0eTwd4jFbQ@mail.gmail.com>
+ <87b7967f-d8c4-426e-92ed-5a418c702481@quicinc.com> <CAPDyKFqy0osJRTU1mL0Ew_3pnYOe5z20ZWNrew8B6t99UFO0pg@mail.gmail.com>
+ <a1c2641f-80c0-4e6e-9c44-ef7209da97a5@quicinc.com>
+In-Reply-To: <a1c2641f-80c0-4e6e-9c44-ef7209da97a5@quicinc.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 15 Feb 2024 17:27:22 +0100
+Message-ID: <CAPDyKFrg_otBETwM9hTOvxkdCPadDYdaxguS5RVJh4wL9NCovA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd to be
+ managed by HW
+To: Jagadeesh Kona <quic_jkona@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	Len Brown <len.brown@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Gross <agross@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Taniya Das <quic_tdas@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 15, 2024 at 11:53:17AM +0100, Maxime Ripard wrote:
-> On Tue, Feb 13, 2024 at 10:38:56AM +0200, Ville Syrjälä wrote:
-> > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
-> > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
-> > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
-> > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > > > > > > > > Hi,
-> > > > > > > > > > > 
-> > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > > > > > > > > >  /**
-> > > > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > > > >   *
-> > > > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > > > > > > > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      The value of this property can be one of the following:
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
-> > > > > > > > > > > > > > + *              according to the HDMI specifications.
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
-> > > > > > > > > > > > > > + *              this works for any number of bits-per-component.
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > This is a good time to document this in more detail. There might be two
-> > > > > > > > > > > > > different things being affected:
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
-> > > > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
-> > > > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
-> > > > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
-> > > > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
-> > > > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> > > > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > > > > > > > > > > YCbCr?
-> > > > > > > > > > > 
-> > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > > > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
-> > > > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > > > 
-> > > > > > > > > > The property is literally called "Broadcast *RGB*".
-> > > > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > > > 
-> > > > > > > > > Right. And the limited range option is called "Limited 16:235" despite
-> > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > > > > > > > > to make names inconsistent too, that's fine and not an argument in
-> > > > > > > > > itself.
-> > > > > > > > > 
-> > > > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > > > > > > > > to enable it.
-> > > > > > > > > 
-> > > > > > > > > vc4 supports it.
-> > > > > > > > 
-> > > > > > > > Someone implemented it incorrectly then.
-> > > > > > > 
-> > > > > > > Incorrectly according to what documentation / specification? I'm sorry,
-> > > > > > > but I find it super ironic that i915 gets to do its own thing, not
-> > > > > > > document any of it, and when people try to clean things up they get told
-> > > > > > > that we got it all wrong.
-> > > > > > 
-> > > > > > FWIW, this was an i915 property and if another driver uses the same
-> > > > > > property name it must have the same behavior. Yes, it isn't standardized
-> > > > > > and yes, it's not documented (hence this effort here) but it's still on
-> > > > > > vc4 to make the property compatible.
-> > > > > 
-> > > > > How is it not compatible? It's a superset of what i915 provides, but
-> > > > > it's strictly compatible with it.
-> > > > 
-> > > > No it is not.
-> > > 
-> > > The property is compatible with i915 interpretation of it, whether you
-> > > like it or not. And that's what Sebastian was referring to.
-> > > 
-> > > > Eg. what happens if you set the thing to full range for RGB (which you
-> > > > must on many broken monitors), and then the kernel automagically
-> > > > switches to YCbCr (for whatever reason) but the monitor doesn't
-> > > > support full range YCbCr? Answer: you get crap output.
-> > > 
-> > > And that part is just moving goalposts.
-> > 
-> > No. Allowing users to get correct colors with broken displays
-> > is the sole reason why this property even exists.
-> 
-> HDMI 1.4, Section 6.6 - Video Quantization Ranges:
-> 
->   If the sink’s EDID declares a selectable YCC Quantization Range
->   (QY=1), then it shall expect limited range pixel values if it receives
->   AVI YQ=0 and it shall expect full range pixel values if it receives
->   AVI YQ=1. For other values of YQ, the sink shall expect pixel values
->   with the default range for the transmitted video format.
-> 
-> So, the only concern you have is if the EDID has QY set to 1 but the
-> monitor doesn't actually support it? If so, could we qualify the monitor
-> as a "broken display" and thus would require that property to apply to
-> YUV too?
+On Wed, 14 Feb 2024 at 05:29, Jagadeesh Kona <quic_jkona@quicinc.com> wrote:
+>
+>
+>
+> On 2/13/2024 7:21 PM, Ulf Hansson wrote:
+> > On Tue, 13 Feb 2024 at 14:10, Jagadeesh Kona <quic_jkona@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 2/2/2024 5:59 PM, Ulf Hansson wrote:
+> >>> On Fri, 2 Feb 2024 at 00:51, Bjorn Andersson <andersson@kernel.org> wrote:
+> >>>>
+> >>>> On Wed, Jan 31, 2024 at 01:12:00PM +0100, Ulf Hansson wrote:
+> >>>>> On Wed, 31 Jan 2024 at 02:09, Bjorn Andersson <andersson@kernel.org> wrote:
+> >>>>>>
+> >>>>>> On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
+> >>>>>>> From: Ulf Hansson <ulf.hansson@linaro.org>
+> >>>>>>>
+> >>>>>>> Some power-domains may be capable of relying on the HW to control the power
+> >>>>>>> for a device that's hooked up to it. Typically, for these kinds of
+> >>>>>>> configurations the consumer driver should be able to change the behavior of
+> >>>>>>> power domain at runtime, control the power domain in SW mode for certain
+> >>>>>>> configurations and handover the control to HW mode for other usecases.
+> >>>>>>>
+> >>>>>>> To allow a consumer driver to change the behaviour of the PM domain for its
+> >>>>>>> device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
+> >>>>>>> let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
+> >>>>>>> which the genpd provider should implement if it can support switching
+> >>>>>>> between HW controlled mode and SW controlled mode. Similarly, add the
+> >>>>>>> dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
+> >>>>>>> its corresponding optional genpd callback, ->get_hwmode_dev(), which the
+> >>>>>>> genpd provider can also implement for reading back the mode from the
+> >>>>>>> hardware.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> >>>>>>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> >>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>>>>> ---
+> >>>>>>>    drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
+> >>>>>>>    include/linux/pm_domain.h | 17 ++++++++++++
+> >>>>>>>    2 files changed, 86 insertions(+)
+> >>>>>>>
+> >>>>>>> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> >>>>>>> index a1f6cba3ae6c..41b6411d0ef5 100644
+> >>>>>>> --- a/drivers/pmdomain/core.c
+> >>>>>>> +++ b/drivers/pmdomain/core.c
+> >>>>>>> @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
+> >>>>>>>    }
+> >>>>>>>    EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
+> >>>>>>>
+> >>>>>>> +/**
+> >>>>>>> + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
+> >>>>>>
+> >>>>>> This isn't proper kernel-doc
+> >>>>>
+> >>>>> Sorry, I didn't quite get that. What is wrong?
+> >>>>>
+> >>>>
+> >>>> https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
+> >>>> says that there should be () after the function name, and below there
+> >>>> should be a Return:
+> >>>
+> >>> Thanks for the pointers!
+> >>>
+> >>>>
+> >>>>>>
+> >>>>>>> + *
+> >>>>>>> + * @dev: Device for which the HW-mode should be changed.
+> >>>>>>> + * @enable: Value to set or unset the HW-mode.
+> >>>>>>> + *
+> >>>>>>> + * Some PM domains can rely on HW signals to control the power for a device. To
+> >>>>>>> + * allow a consumer driver to switch the behaviour for its device in runtime,
+> >>>>>>> + * which may be beneficial from a latency or energy point of view, this function
+> >>>>>>> + * may be called.
+> >>>>>>> + *
+> >>>>>>> + * It is assumed that the users guarantee that the genpd wouldn't be detached
+> >>>>>>> + * while this routine is getting called.
+> >>>>>>> + *
+> >>>>>>> + * Returns 0 on success and negative error values on failures.
+> >>>>>>> + */
+> >>>>>>> +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
+> >>>>>>> +{
+> >>>>>>> +     struct generic_pm_domain *genpd;
+> >>>>>>> +     int ret = 0;
+> >>>>>>> +
+> >>>>>>> +     genpd = dev_to_genpd_safe(dev);
+> >>>>>>> +     if (!genpd)
+> >>>>>>> +             return -ENODEV;
+> >>>>>>> +
+> >>>>>>> +     if (!genpd->set_hwmode_dev)
+> >>>>>>> +             return -EOPNOTSUPP;
+> >>>>>>> +
+> >>>>>>> +     genpd_lock(genpd);
+> >>>>>>> +
+> >>>>>>> +     if (dev_gpd_data(dev)->hw_mode == enable)
+> >>>>>>
+> >>>>>> Between this and the gdsc patch, the hw_mode state might not match the
+> >>>>>> hardware state at boot.
+> >>>>>>
+> >>>>>> With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
+> >>>>>> false) will not bring control to SW - which might be fatal.
+> >>>>>
+> >>>>> Right, good point.
+> >>>>>
+> >>>>> I think we have two ways to deal with this:
+> >>>>> 1) If the provider is supporting ->get_hwmode_dev(), we can let
+> >>>>> genpd_add_device() invoke it to synchronize the state.
+> >>>>
+> >>>> I'd suggest that we skip the optimization for now and just let the
+> >>>> update hit the driver on each call.
+> >>>
+> >>> Okay.
+> >>>
+> >>>>
+> >>>>> 2) If the provider doesn't support ->get_hwmode_dev() we need to call
+> >>>>> ->set_hwmode_dev() to allow an initial state to be set.
+> >>>>>
+> >>>>> The question is then, if we need to allow ->get_hwmode_dev() to be
+> >>>>> optional, if the ->set_hwmode_dev() is supported - or if we can
+> >>>>> require it. What's your thoughts around this?
+> >>>>>
+> >>>>
+> >>>> Iiuc this resource can be shared between multiple clients, and we're
+> >>>> in either case returning the shared state. That would mean a client
+> >>>> acting upon the returned value, is subject to races.
+> >>>
+> >>> Not sure I understand this, but I also don't have in-depth knowledge
+> >>> of how the HW works.
+> >>>
+> >>> Isn't the HW mode set on a per device basis?
+> >>>
+> >>>>
+> >>>> I'm therefore inclined to say that we shouldn't have a getter, other
+> >>>> than for debugging purposes, in which case reading the HW-state or
+> >>>> failing would be reasonable outcomes.
+> >>>
+> >>> If you only want this for debug purposes, it seems better to keep it
+> >>> closer to the rpmh code, rather than adding generic callbacks to the
+> >>> genpd interface.
+> >>>
+> >>> So to conclude, you think having a ->set_hwmode_dev() callback should
+> >>> be sufficient and no caching of the current state?
+> >>>
+> >>> Abel, what's your thoughts around this?
+> >>>
+> >>
+> >> We believe it is good to have get_hwmode_dev() callback supported from
+> >> GenPD, since if multiple devices share a GenPD, and if one device moves
+> >> the GenPD to HW mode, the other device won't be aware of it and second
+> >> device's dev_gpd_data(dev)->hw_mode will still be false.
+> >>
+> >> If we have this dev_pm_genpd_get_hwmode() API supported and if we assign
+> >> dev_gpd_data(dev)->hw_mode after getting the mode from get_hwmode_dev()
+> >> callback, consumer drivers can use this API to sync the actual HW mode
+> >> of the GenPD.
+> >
+> > Hmm, I thought the HW mode was being set on a per device basis, via
+> > its PM domain. Did I get that wrong?
+> >
+> > Are you saying there could be multiple devices sharing the same PM
+> > domain and thus also sharing the same HW mode? In that case, it sure
+> > sounds like we have synchronization issues to deal with too.
+> >
+>
+> Sorry my bad, currently we don't have usecase where multiple devices
+> sharing the same PM domain that have HW control support, so there is no
+> synchronization issue.
 
-Sinks that declare a selectable quantization range are not the
-problem, or at least I don't recall ever seeing one that lied about
-that. The problem is the sinks that don't have selectable quantization
-range, and which implement the default rules incorrectly. The only way
-to get correct colors on those is for the user to override the
-quantization range manually.
+Okay, good!
 
-Typically TVs get it mostly right (though I have at least one that
-also expects limited range for 640x480 which is not correct), and 
-many (perhaps even most?) computer displays get it wrong (as in
-they always assume RGB to be full range).
+>
+> But it would be good to have .get_hwmode_dev() callback for consumer
+> drivers to query the actual GenPD mode from HW, whenever they require it.
 
-We could in theory quirk those, but the quirk list would be enormous,
-and fragile to maintain because the user can also shoot themselves in
-the foot here by frobbing with the "black level"/etc. settings on the
-display itself. So we'd surely end up with lots of false positives
-on the quirk list.
+Okay, no objection from my side.
 
--- 
-Ville Syrjälä
-Intel
+Then the final question is if we need a variable to keep a cache of
+the current HW mode for each device. Perhaps we should start simple
+and just always invoke the callbacks from genpd, what do you think?
+
+Kind regards
+Uffe
 
