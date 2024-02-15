@@ -1,124 +1,241 @@
-Return-Path: <linux-media+bounces-5221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5222-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34D185668F
-	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 15:51:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 709558566F0
+	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 16:09:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11D101C22740
-	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 14:51:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA96C281C71
+	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 15:09:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 863F113247C;
-	Thu, 15 Feb 2024 14:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E118F133283;
+	Thu, 15 Feb 2024 15:09:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rW7uwNwD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApIWkTco"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AE713172C;
-	Thu, 15 Feb 2024 14:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C84713248B;
+	Thu, 15 Feb 2024 15:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708008712; cv=none; b=Q/Qj/YhoCuTjFWEkN1duQcFAlofvCJ70UQmFHeDs8aiZrEU85x+2nNR+AVpVbvKRpsqgBaWfva4k02BkVq64WNt75tNQQkLfLpjhDVcEzB7x/OhCkRc4vg0LiL5vUm1e9TImAJecYBegqzgVYxeQfePwSpqWaTzj2tlxiWX6wKw=
+	t=1708009756; cv=none; b=VswTsEt9Ke2d8V8x6gohS1AEUfhAlcs+tkndAFYLR9DA1isvAGXDaOghMLf/zmta9TJbAWkbdb2E0wYIN0JRNvtAteGP0Wnh3Kf0CeKr26t2xavO1K/V5yXQpQxvq0KdPV4sEGqDieeh7On4rSIfbafHJCw7h6L5tQf4TT/+qAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708008712; c=relaxed/simple;
-	bh=9EFi1oACmKg8nxZNrcqkL5Xb37gXnlwHmzDx7YTyAtQ=;
+	s=arc-20240116; t=1708009756; c=relaxed/simple;
+	bh=1dewdp2A0Zo42dyThGoQOQMbyk8kJSMF3Ua2SIJeM54=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUOFJH0Do46Dak9jf3mURJEIbG3fYb7O/0ei0zBCf8NNQtXcg8uNu2ic+Qbtb3iN5xtdGcOfRWHdVa0H+xVCiggqojCCMUb9U0Z839RXAUlH0jFjfnJDGqYFnuY2JkUULa3cHxQ9NznVcdtpVTs9eWCSYWBnXSXhjrFSxwib40s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rW7uwNwD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1009CC433C7;
-	Thu, 15 Feb 2024 14:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708008711;
-	bh=9EFi1oACmKg8nxZNrcqkL5Xb37gXnlwHmzDx7YTyAtQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rW7uwNwDUraV1PrsxQnXxpqia0I8e3Mk3j41G6+IbeSgCrcpYXEZFV/KONkuGslyM
-	 8/BFW24aX8au54VfWuCHs3S23Ak3e7AOGaCU9Ca3cXMFAHTbIJ9FCo191DTWWJuvVC
-	 doTAULEY1bsNvv6wUd8WjkpiNu18MMVhegxdxSySceoYsmKyON3PIW+mfWdee+btpm
-	 McZVYNOCD4jfuE0l/bEWvBl0/ktJih5JGlgAKwNZ5aR/zYppmXMOawXxiUglrJN57Q
-	 BjVzLjG4tOHV5FnKz4gA0x3C5aqIbZ6D3GoiZEGnNO9vKYjZwGVAT10FbGJDQG6R8E
-	 at2JWr12LuVrQ==
-Date: Thu, 15 Feb 2024 15:51:48 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] media: i2c: ov5645: Remove software reset entry from
- ov5645_global_init_setting
-Message-ID: <Zc4lBPebbKYcECbB@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-References: <20240215144333.82036-1-biju.das.jz@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qpp0s7L2t5fS1fD+wN/i+oosLMLGiQ6PFwf47A/GtC8zxsxvsq7N+PF6Ys6DMWV2+HtpHYi+n5vhqbKuRrC7cYezf8MjgkMFZatSLppehitQ/XVFLPhfpyB9yb+PTtmrKES0Q1Acrzo1NxA51AC1+oVdbAvpu02zzvlXRDjGTNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApIWkTco; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708009755; x=1739545755;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=1dewdp2A0Zo42dyThGoQOQMbyk8kJSMF3Ua2SIJeM54=;
+  b=ApIWkTcopMBYHHLcqaY4WvaivqTmGD4bX9BEWo70RJsYJ183w8vqA+TY
+   GUO8q+O1J4K2pNnGRkkIVY7K38oKM3fXYntwBSDrpv8RzITPPYuKoTJEa
+   TITDKVthtk2iDVJLlVfMBgWifkTl8Ha8ykCiztaBBuzCc6BRFk6puOcPo
+   PPbz8E4WpImeuqldPTUtYdhDQ7FzPUQ3ohKc/FuyDGUl+16oY1HKnK5oi
+   5fXS8mWIL3ddVT8xSik0Yytd4qSOBdhAwf2RLST9UlDH4nbiaPnSDVHL1
+   A8HlcaCAVX4o7sVD7sWPTZyAwDDTWatdNJJW/qjN5efBI5ZLW8tApb/eE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="5930139"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="5930139"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 07:09:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826423681"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="826423681"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 15 Feb 2024 07:09:06 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Thu, 15 Feb 2024 17:09:05 +0200
+Date: Thu, 15 Feb 2024 17:09:05 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi:
+ Add Broadcast RGB property
+Message-ID: <Zc4pEfVRItn0ZCXE@intel.com>
+References: <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+ <Zco-DQaXqae7B1jt@intel.com>
+ <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+ <ZcsqoPCJDjA5PJUF@intel.com>
+ <dti6zcuzszhut5m4g2bxiwfogwctfhktv2mwuqlij7wtvh3bny@ry4mxpiqidmt>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yswr99nN9xHoeZCL"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240215144333.82036-1-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <dti6zcuzszhut5m4g2bxiwfogwctfhktv2mwuqlij7wtvh3bny@ry4mxpiqidmt>
+X-Patchwork-Hint: comment
 
+On Thu, Feb 15, 2024 at 11:53:17AM +0100, Maxime Ripard wrote:
+> On Tue, Feb 13, 2024 at 10:38:56AM +0200, Ville Syrjälä wrote:
+> > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
+> > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
+> > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+> > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > > > > > > > > > Hi,
+> > > > > > > > > > > 
+> > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > > > > > > > > > >  /**
+> > > > > > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > > > > > >   *
+> > > > > > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > > > > > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      The value of this property can be one of the following:
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Automatic:
+> > > > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > > > > > > > > > + *              according to the HDMI specifications.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Full:
+> > > > > > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > > > > > > > > > + *              this works for any number of bits-per-component.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Drivers can set up this property by calling
+> > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > This is a good time to document this in more detail. There might be two
+> > > > > > > > > > > > > different things being affected:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > > > > > > > > > signalling, what happens?
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > > > > > > > > > YCbCr?
+> > > > > > > > > > > 
+> > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
+> > > > > > > > > > > vc4 will follow the value of the property.
+> > > > > > > > > > 
+> > > > > > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > > > > > That should explain why it's only affecting RGB.
+> > > > > > > > > 
+> > > > > > > > > Right. And the limited range option is called "Limited 16:235" despite
+> > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> > > > > > > > > to make names inconsistent too, that's fine and not an argument in
+> > > > > > > > > itself.
+> > > > > > > > > 
+> > > > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
+> > > > > > > > > > to enable it.
+> > > > > > > > > 
+> > > > > > > > > vc4 supports it.
+> > > > > > > > 
+> > > > > > > > Someone implemented it incorrectly then.
+> > > > > > > 
+> > > > > > > Incorrectly according to what documentation / specification? I'm sorry,
+> > > > > > > but I find it super ironic that i915 gets to do its own thing, not
+> > > > > > > document any of it, and when people try to clean things up they get told
+> > > > > > > that we got it all wrong.
+> > > > > > 
+> > > > > > FWIW, this was an i915 property and if another driver uses the same
+> > > > > > property name it must have the same behavior. Yes, it isn't standardized
+> > > > > > and yes, it's not documented (hence this effort here) but it's still on
+> > > > > > vc4 to make the property compatible.
+> > > > > 
+> > > > > How is it not compatible? It's a superset of what i915 provides, but
+> > > > > it's strictly compatible with it.
+> > > > 
+> > > > No it is not.
+> > > 
+> > > The property is compatible with i915 interpretation of it, whether you
+> > > like it or not. And that's what Sebastian was referring to.
+> > > 
+> > > > Eg. what happens if you set the thing to full range for RGB (which you
+> > > > must on many broken monitors), and then the kernel automagically
+> > > > switches to YCbCr (for whatever reason) but the monitor doesn't
+> > > > support full range YCbCr? Answer: you get crap output.
+> > > 
+> > > And that part is just moving goalposts.
+> > 
+> > No. Allowing users to get correct colors with broken displays
+> > is the sole reason why this property even exists.
+> 
+> HDMI 1.4, Section 6.6 - Video Quantization Ranges:
+> 
+>   If the sink’s EDID declares a selectable YCC Quantization Range
+>   (QY=1), then it shall expect limited range pixel values if it receives
+>   AVI YQ=0 and it shall expect full range pixel values if it receives
+>   AVI YQ=1. For other values of YQ, the sink shall expect pixel values
+>   with the default range for the transmitted video format.
+> 
+> So, the only concern you have is if the EDID has QY set to 1 but the
+> monitor doesn't actually support it? If so, could we qualify the monitor
+> as a "broken display" and thus would require that property to apply to
+> YUV too?
 
---yswr99nN9xHoeZCL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sinks that declare a selectable quantization range are not the
+problem, or at least I don't recall ever seeing one that lied about
+that. The problem is the sinks that don't have selectable quantization
+range, and which implement the default rules incorrectly. The only way
+to get correct colors on those is for the user to override the
+quantization range manually.
 
-On Thu, Feb 15, 2024 at 02:43:33PM +0000, Biju Das wrote:
-> The SYSTEM_CTRL0 register in ov5645 is almost similar to ov5640. But the
-> hard reset control is mandatory for the ov5645 device, so there is no
-> need for soft reset in the driver.
->=20
-> Add a 1msec delay for the software power up (OV5645_SYSTEM_CTRL0_START)
-> register in ov5645_global_init_setting. Without this delay sometimes the
-> image is not captured at all when the i2c frequency is 400kHz.
->=20
-> The changes are fixing both the greenish issue and image capture at 400kHz
-> i2c frequency on Renesas RZ/G2L SMARC EVK platforms.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Typically TVs get it mostly right (though I have at least one that
+also expects limited range for 640x480 which is not correct), and 
+many (perhaps even most?) computer displays get it wrong (as in
+they always assume RGB to be full range).
 
-Much better IMO.
+We could in theory quirk those, but the quirk list would be enormous,
+and fragile to maintain because the user can also shoot themselves in
+the foot here by frobbing with the "black level"/etc. settings on the
+display itself. So we'd surely end up with lots of false positives
+on the quirk list.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-
---yswr99nN9xHoeZCL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXOJQAACgkQFA3kzBSg
-KbZ4ihAAlDB7MORWn2Ad12jRCbB3vu9Ybx+Tqtzfq7bn7zSgaV8qfGolQ8AQNGCK
-HK5SFg+lIIwp2Az/Smbwc+spUMBexXsWy7GCdd/1REy0kodyqFzq1UcWpDZR9C6Z
-gfG15PFWN5RsQDaO9xSF340CSk8NzphX9WJc15T+VLsKPF0EwrTrh88DEXZkunTr
-Z2nh73JWm9toEe35ZXONsKlQ8w6ZaTsDle9CTHIlCtnpx2xWWd3t3MMrGIC2vQW+
-7Jnyn8Z0gGymT9wa43F+wv2Onw9/mqFN1CfG35UV32jqXS6YkhREIfg5H28rwXGP
-9ed9Y8SFp90+9fQLvRiaZBLPtu2RDZRdS37w9elXnLmSstHi7pfwZYT8fbVKMR63
-6kHmalzPPpjrOcS9WQREqBfPovy9UesthSNvuTLWh++ZFrc0RP+llSHHqkb6RB11
-2fV7Q9fvYyFq6AYG7MR5RBxvW8/waREBFDjwwNaPS3gJYuHcO4VPZvU5uxlMWjJf
-dNGjU3i+5fQkaQHYBAD5cQqHGC/ZIw/2dNGbI1THwmAPI0Qe37mIGPwyUJZE5Ddk
-1mBcErzkU6RTND2OiRZaO9ZQbAKyTWYbiHCqxXmjpaZKzibh4QcOaZs5hGmz+VHa
-nxPr0YGx18dRlxw7OalHPIms7SWgHICSObvegB9/Hf2FIjoFV0k=
-=wGoI
------END PGP SIGNATURE-----
-
---yswr99nN9xHoeZCL--
+-- 
+Ville Syrjälä
+Intel
 
