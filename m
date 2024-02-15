@@ -1,154 +1,211 @@
-Return-Path: <linux-media+bounces-5202-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5203-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583FA856049
-	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 11:55:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D96B985605A
+	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 11:57:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C247B1F281BB
-	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 10:55:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09E2C1C2095F
+	for <lists+linux-media@lfdr.de>; Thu, 15 Feb 2024 10:57:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36F8B1384AA;
-	Thu, 15 Feb 2024 10:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B750412AAFF;
+	Thu, 15 Feb 2024 10:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="tORbjEKo"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="O8OdwdWn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19633131E5B;
-	Thu, 15 Feb 2024 10:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B37129A75
+	for <linux-media@vger.kernel.org>; Thu, 15 Feb 2024 10:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707993655; cv=none; b=U/mU1KYw5+ErunyOk/6eq6pQIUqXmkKUNG2nJZeN0FRMtdTC0KjGghn/wCEgMx/1EOcQ5ZxZtWfA3sX0T8GOvOUqDp4BU8Bj8sXv2U5g/Vx57BmxPhoXWMwXl1NShkwDaE7RW/zA+46jgsGDS4u+C/JPZAImPJzlnQIHNs5mk2o=
+	t=1707993757; cv=none; b=NVfhFJsTvAcLFzgRNAk8ocG9bLaRpYloCeN6yfDfSbqIQuzGLX6b8j1rRilAUVpK1qDmQ6wljBQ3SW8VXGECuoDCIyP833FAp6pD4bgimTSPmeRlEANXbQ1MoldKV09l2SA+WH/kCrWKCrWwJGYrRPEdeCplwwUBurQYBoHR2aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707993655; c=relaxed/simple;
-	bh=5wcOrmWAdm8TpcUI51bhbt1tBGqjQwvGwURuQv6OC9E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=VZeYu+qT5b2J/ervXSjl/Z6SwMmZz0n8w1gY6FtXiIbaz28Lu2Fft+COBSwW8sugSO4loTUlN7JLky55D4XRYlFQcDUEwe99ccv5r7Ue3B+TNlXyWO2CF+0pmFqKRSRmqgf5VkzG67Wdx7V2W9ltLrruP+ljXkteLk83OJTBoiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=tORbjEKo; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707993652;
-	bh=5wcOrmWAdm8TpcUI51bhbt1tBGqjQwvGwURuQv6OC9E=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=tORbjEKozUXgDVSjisgTfnm0szQ4Ks63i5wjFUPknRP0oqD85lAO5FCeS3tw0+Zkk
-	 mYDHyFv15I2FqeSYc1C4X1EPicF7PIyVoZy0sfIqsha9T3/genKmlJAfVB1OBxPwSl
-	 zE0f/X1QNjC5Sk6FMeBTBvGKqz+CGs+MTZsY0PNflkCz10o9yDNhr1zxuLXabYy445
-	 EMYoQSD4pvHP5Uwaf6unpAlX2FBinyZQ4tYo+w5ZsIHCR42xfrNR26vNX45drWYEG6
-	 oHUjxmGhAz5gAId3lNZTKTGDkCAhUV3ocSjDuGSYjdYlZicE91WKovSA0X6UjrJR5K
-	 ueEYntvmlGqVw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2C6AD3780FC7;
-	Thu, 15 Feb 2024 10:40:52 +0000 (UTC)
-Message-ID: <21d17701-e40b-49c5-bf16-5e70a6daa2c4@collabora.com>
-Date: Thu, 15 Feb 2024 11:40:52 +0100
+	s=arc-20240116; t=1707993757; c=relaxed/simple;
+	bh=n0FaRviDg9SvHvrq/coSDKjWw6SlUGZ05NtZPkHXEoU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B8pua/HNh78nSmLIFcD6feqPqb5Irb9ApWT9teRwjWqeX02UwEwcWEasXJp3snElbif8lX9+cmG9lgzj6lUshIKYCQDMdFZ4FnYAM978gtwRDUZmPpveT4NLZJ0gyNfVBgPiizNohlOnE+1eSNJO66DUu5AEECSSgY/NtY/fJDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=O8OdwdWn; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcdb210cb6aso717183276.2
+        for <linux-media@vger.kernel.org>; Thu, 15 Feb 2024 02:42:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1707993754; x=1708598554; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4qKysZlhglisU2LTbYG+GagSFxllV6zfoixWRhCtD3Q=;
+        b=O8OdwdWnKJjZ/4LPw1+mxzj/MYRAQb8vw8VC2EVjpGK3XlzuptcHny/LiYsKl6fcdM
+         AYdzeTxbo904zwZIT3JWUT81VDbTNLvRDpGOJdROXBnyQ0CvQL8kPmwGEqGEgoprPbMG
+         YezA6s3c28Z5ewFb+XYc1e9fV1HV73WvbYUftIgCTRPI1VDiRWPYymcxLfS2vwEOwomO
+         BKVuQFL+MngdS+uUIzCftADodpBYD4E5OlCcAW9ePMY5YkmmbZuK+qmH/fsP3RnJDqLi
+         fO0Mvyou9Mov1ZsQWfJiFZNPCthsbgrMeay1Sl3IhgB8riiyoEkz0B+5ehNkjhkPwHKF
+         eCZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707993754; x=1708598554;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4qKysZlhglisU2LTbYG+GagSFxllV6zfoixWRhCtD3Q=;
+        b=CtBkIMV2I4+1ZE+pMINqywVxyAhkx8LKBuAmy+PWZ6lOj0zsgowCAlbmD9RqhUyNQY
+         2Vcghl1xY4LpbE0ky0DexWl93P1MFWYtCTx29zvT9baSap6dB+9VSIzSQI4h29Zsu0th
+         rk/jlCm9otLkBXrH6MiGAz7jX0EC+94WxqrQEUoTx3AAbO3LypkHTPvQ4P4M3alAZlPa
+         r0WZrZBZt/hQEaBVMLHG6eX4dOyEm+HXKiaJxloAh/nm+f9HFru/Iqns2p9R1lc8B/T5
+         EYVgijt2lPCG3KWs/bYCjFmMASsNckD/lNp23WC+uwCpNeHAKTQWS66/UOBqjf6M+ESe
+         8ABw==
+X-Gm-Message-State: AOJu0YyRW20aQ65eA4ckvmx1Z2LHTdmnAVFd2By1gPl6G5fwYsXXXORd
+	gUj9TtYzth677zkCcRlsVBMhP3MKnE7Jr2aUDuMwuGISzqep91285qocTaJ4itC4PetJru4FdnU
+	KGtVjfq4mCuGsgiX/VpgbnncYergbbJ9HMp+BJw==
+X-Google-Smtp-Source: AGHT+IEfSc3zwxf7D85JSdzYuB0xAyGyKKj3kb9vPg35ah51kple+BesPkhykpqoQRuZYeptJWV+aJhO4UAcNKHrdM8=
+X-Received: by 2002:a25:8a07:0:b0:dc2:466a:23bd with SMTP id
+ g7-20020a258a07000000b00dc2466a23bdmr1048353ybl.54.1707993753912; Thu, 15 Feb
+ 2024 02:42:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] soc: mediatek: cmdq: Add parameter shift_pa to
- cmdq_pkt_jump()
-Content-Language: en-US
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20240215004931.3808-1-chunkuang.hu@kernel.org>
- <20240215004931.3808-3-chunkuang.hu@kernel.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240215004931.3808-3-chunkuang.hu@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240209164825.166800-1-jacopo.mondi@ideasonboard.com>
+ <20240209164825.166800-4-jacopo.mondi@ideasonboard.com> <CAEmqJPrEynj=XEyE=Gi-ZQSt-yBFsLBE8dxn=wfWTaa42ALNbA@mail.gmail.com>
+In-Reply-To: <CAEmqJPrEynj=XEyE=Gi-ZQSt-yBFsLBE8dxn=wfWTaa42ALNbA@mail.gmail.com>
+From: Naushir Patuck <naush@raspberrypi.com>
+Date: Thu, 15 Feb 2024 10:41:58 +0000
+Message-ID: <CAEmqJPpaBwNERyZ=T0Wmt=7AwBs+NDtbnXVuRd6aXU8Edi=eow@mail.gmail.com>
+Subject: Re: [PATCH 3/8] media: Add a pixel format for BRG48 and RGB48
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	David Plowman <david.plowman@raspberrypi.com>, 
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Il 15/02/24 01:49, Chun-Kuang Hu ha scritto:
-> In original design, cmdq_pkt_jump() call cmdq_get_shift_pa() every
-> time to get shift_pa. But the shift_pa is constant value for each
-> SoC, so client driver just need to call cmdq_get_shift_pa() once
-> and pass shift_pa to cmdq_pkt_jump() to prevent frequent function
-> call.
-> 
+On Thu, 15 Feb 2024 at 10:37, Naushir Patuck <naush@raspberrypi.com> wrote:
+>
+> Hi Jacopo,
+>
+> Thank you for your patch.
+>
+> On Fri, 9 Feb 2024 at 16:48, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+> >
+> > Add BGR48 and RGB48 16-bit per component image formats.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 39 +++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-common.c         |  2 +
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+> >  include/uapi/linux/videodev2.h                |  4 ++
+> >  4 files changed, 47 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> > index b71b80d634d6..458308ae4eb8 100644
+> > --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> > @@ -996,6 +996,45 @@ arranged in little endian order.
+> >
+> >      \normalsize
+> >
+> > +16 Bits Per Component
+> > +=====================
+> > +
+> > +These formats store an RGB triplet in six bytes, with 16 bits per component.
+> > +
+> > +.. raw:: latex
+> > +
+> > +    \small
+> > +
+> > +.. flat-table:: RGB Formats With 16 Bits Per Component
+> > +    :header-rows:  1
+> > +
+> > +    * - Identifier
+> > +      - Code
+> > +      - Byte 1-0
+> > +      - Byte 3-2
+> > +      - Byte 5-4
+> > +    * .. _V4L2-PIX-FMT-BGR48:
+> > +
+> > +      - ``V4L2_PIX_FMT_BGR48``
+> > +      - 'BGR6'
+> > +
+> > +      - B\ :sub:`15-0`
+> > +      - G\ :sub:`15-0`
+> > +      - R\ :sub:`15-0`
+> > +      -
+> > +    * .. _V4L2-PIX-FMT-RGB48:
+> > +
+> > +      - ``V4L2_PIX_FMT_RGB48``
+> > +      - 'RGB6'
+> > +
+> > +      - R\ :sub:`15-0`
+> > +      - G\ :sub:`15-0`
+> > +      - B\ :sub:`15-0`
+> > +
+> > +.. raw:: latex
+> > +
+> > +    \normalsize
+> > +
+> >  Deprecated RGB Formats
+> >  ======================
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > index d34d210908d9..ff4b4d2de9d2 100644
+> > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > @@ -253,6 +253,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+> >                 { .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> >                 { .format = V4L2_PIX_FMT_BGR666,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> >                 { .format = V4L2_PIX_FMT_BGR48_12, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> > +               { .format = V4L2_PIX_FMT_BGR48, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> > +               { .format = V4L2_PIX_FMT_RGB48, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> >                 { .format = V4L2_PIX_FMT_ABGR64_12, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> >                 { .format = V4L2_PIX_FMT_RGBA1010102, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> >                 { .format = V4L2_PIX_FMT_RGBX1010102, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > index 24f52485e59c..3c9b5b2f456c 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -1298,6 +1298,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+> >         case V4L2_PIX_FMT_RGBX1010102:  descr = "32-bit RGBX 10-10-10-2"; break;
+> >         case V4L2_PIX_FMT_RGBA1010102:  descr = "32-bit RGBA 10-10-10-2"; break;
+> >         case V4L2_PIX_FMT_ARGB2101010:  descr = "32-bit ARGB 2-10-10-10"; break;
+> > +       case V4L2_PIX_FMT_BGR48:        descr = "48-bit BGR 16-16-16"; break;
+> > +       case V4L2_PIX_FMT_RGB48:        descr = "48-bit RGB 16-16-16"; break;
+> >         case V4L2_PIX_FMT_BGR48_12:     descr = "12-bit Depth BGR"; break;
+> >         case V4L2_PIX_FMT_ABGR64_12:    descr = "12-bit Depth BGRA"; break;
+> >         case V4L2_PIX_FMT_GREY:         descr = "8-bit Greyscale"; break;
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > index 94a0373e8234..2782c7962974 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -584,6 +584,10 @@ struct v4l2_pix_format {
+> >  #define V4L2_PIX_FMT_BGR48_12    v4l2_fourcc('B', '3', '1', '2') /* 48  BGR 12-bit per component */
+> >  #define V4L2_PIX_FMT_ABGR64_12   v4l2_fourcc('B', '4', '1', '2') /* 64  BGRA 12-bit per component */
+> >
+> > +/* RGB formats (6 bytes per pixel) */
+>
+> s/6/16/
 
-As far as I understand, the CMDQ supports both relative and absolute jumps, right?
-
-Here's my proposal:
-  - Add a new function cmdq_pkt_jump_rel() or cmdq_pkt_jump_relative()
-    * note: I prefer "rel", as maybe in a future we'll get a jump_abs function? :-)
-  - Don't touch the cmdq_pkt_jump() function for one cycle
-    - Migrate mediatek-drm to use cmdq_pkt_jump_rel()
-  - Remove cmdq_pkt_jump() in the next cycle.
-
-What do you think?
-
-Regards,
-Angelo
-
-> Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> ---
->   drivers/soc/mediatek/mtk-cmdq-helper.c | 5 ++---
->   include/linux/soc/mediatek/mtk-cmdq.h  | 6 ++++--
->   2 files changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> index 67e17974d1e6..ed4ef95adf5b 100644
-> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> @@ -348,14 +348,13 @@ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
->   }
->   EXPORT_SYMBOL(cmdq_pkt_assign);
->   
-> -int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr)
-> +int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr, u8 shift_pa)
->   {
->   	struct cmdq_instruction inst = {};
->   
->   	inst.op = CMDQ_CODE_JUMP;
->   	inst.offset = CMDQ_JUMP_RELATIVE;
-> -	inst.value = addr >>
-> -		cmdq_get_shift_pa(((struct cmdq_client *)pkt->cl)->chan);
-> +	inst.value = addr >> shift_pa;
->   	return cmdq_pkt_append_command(pkt, inst);
->   }
->   EXPORT_SYMBOL(cmdq_pkt_jump);
-> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-> index 6c42d817d368..6215191a328d 100644
-> --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> @@ -238,10 +238,12 @@ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value);
->    *		     a physical address which should contains more instruction.
->    * @pkt:        the CMDQ packet
->    * @addr:       physical address of target instruction buffer
-> + * @shift_pa:	shift bits of physical address in CMDQ instruction. This value
-> + *		is got by cmdq_get_shift_pa().
->    *
->    * Return: 0 for success; else the error code is returned
->    */
-> -int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr);
-> +int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr, u8 shift_pa);
->   
->   /**
->    * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
-> @@ -339,7 +341,7 @@ static inline int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
->   	return -EINVAL;
->   }
->   
-> -static inline int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr)
-> +static inline int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr, u8 shift_pa)
->   {
->   	return -EINVAL;
->   }
+Sorry, I missed *bytes* in that sentence.  Please ignore the above suggestion.
 
 
-
+>
+> Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
+>
+> > +#define V4L2_PIX_FMT_BGR48 v4l2_fourcc('B', 'G', 'R', '6') /* 16  BGR-16-16-16 */
+> > +#define V4L2_PIX_FMT_RGB48 v4l2_fourcc('R', 'G', 'B', '6') /* 16  RGB-16-16-16 */
+> > +
+> >  /* Grey formats */
+> >  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
+> >  #define V4L2_PIX_FMT_Y4      v4l2_fourcc('Y', '0', '4', ' ') /*  4  Greyscale     */
+> > --
+> > 2.43.0
+> >
 
