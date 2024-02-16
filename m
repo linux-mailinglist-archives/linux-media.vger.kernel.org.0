@@ -1,74 +1,74 @@
-Return-Path: <linux-media+bounces-5245-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB22857752
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 09:18:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E73F85775B
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 09:19:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6388E1C214C5
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 08:18:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03AFD282E4E
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 08:19:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 185E01CFBE;
-	Fri, 16 Feb 2024 08:03:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2036E1EB4F;
+	Fri, 16 Feb 2024 08:07:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHjEQmLI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fKbVpMrO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61591CFA0
-	for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 08:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C941773D
+	for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 08:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708070634; cv=none; b=dA/NlFmU2iCauh/sOfhBZ67Z2YkJXZCTKyN1zxreFdYg9/nX4CraA7u/Dmo45AYCijcFPmldyflrES45tjjWcBAa8cwC+Vy0xaVjRHa8s7B/HrZ/QVzqr+QPmveQGil5oZvdzJXhOplu+Kp+dm8TmrqNoazJKooXEyWWC8HMp5Q=
+	t=1708070826; cv=none; b=mwieYsSKOowda+O9RzDkKGgvrG3o1juv18I0mxzQWj5E6oBKD5JqIqlpz2w5PlYwKgNz8//kwyrjODLpZOeoi3t7CvP7M6LTwxUPkGHjMKgfpfC+dtYb2zUElWhVxgITHTfa2StVnTcKepvqDtH9Q1ecQlSdIWhfCzRQDLOYBwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708070634; c=relaxed/simple;
-	bh=KZDWUMc28HnXVWIA7gKDerC2qjrNOVEGrEGrYofsrjg=;
+	s=arc-20240116; t=1708070826; c=relaxed/simple;
+	bh=UiP1Pk0vX8kiO2DMlyu58des/z/ZXvzMS7oGmZUaFx0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AyzAC6PqEtAT6PIX56ybXTEVy1AiQSFekbG2hHldtB7Ur9T51KI8uA8PzD/nKyGjdnePc4muocn78xr0ZbsV9y5EuEZthBZBwpxfwr+ChV55X+DXT4oBXntenIrTBzLB99Dr3k2THg0jinUHAo6jC03JDRLrdV+5H8At4E3sVOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHjEQmLI; arc=none smtp.client-ip=209.85.218.47
+	 In-Reply-To:Content-Type; b=Wx+LpUq/CGW0PbXM8OCf2/69SSWVRryvCbXoE/AniSt+ceZX0GY7gp32BVWOUOXukAXEoPGHpPv/HhX5aHia2jQs2GG25Rk5mGt/vPZpxk1LrwtlBcZeI8VbcRFRD4Enm/FDODWmO4+73eyKCpHCcwzv+MTPRHz3NPjxYCV6CRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fKbVpMrO; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so221267966b.0
-        for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 00:03:52 -0800 (PST)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3d6ea28d46so351822366b.1
+        for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 00:07:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708070631; x=1708675431; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1708070823; x=1708675623; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=9XlviNGlfye5b5FhOzomMB3qJJr+2c27MjUoq+iKVh0=;
-        b=wHjEQmLIQWQYHJaiYbihA9PQMsu5iX31gm1Pdv28i6bRPLW6PmfCjb81NX/09H76Z6
-         WC4L0wbmN74VZBQLp/WPSN3d0qeg6hcRPRkA8eDYLS6XIB9SVcyyexbNjg3yzZmgEoh+
-         1jqHhAhWYv2CQtYJ+vQbWmR+ZwYx1PCf/UxfNwFBH/0JAd7OoaYouGwPtY8ZP55Uf3NJ
-         XQUi/XgZvEUw/OJatHat28GnFjrzqQv9u+9AtdcfpwwYcZ6iHJWJv/dFsCcv8JvaytXE
-         67Cp66xKlx5elHATd0JitcSEhyXDDk0FidJ5GZ+CjJxqb3gcjoP8LHXScwL8daFs/ssm
-         NqBw==
+        bh=CWHtr9BiBDxNMhcw+tAJwCWT9s3nxhzbRXAhtlxCu5A=;
+        b=fKbVpMrO/cbASJ+kCV8skGu3dgeKzoZsvor+0pTeSBd2mSJSjtVHG4xwLenZyFBt1p
+         5DLqPk0Vpk6SUntheXyCdk3/aqlKWhe+NdqfYJr86dV/LGcBykHJgxet7gvZJJyk2Uay
+         icdNBiPuiclA2X001gsjSvN2gK5cIEzCCu4me+jUJHroJvHW9Y+VTXPL0J6TI4fRRxl3
+         l2R0i0ofiJmkE+IJ5KDf6Dw9F9ET2gbVXMZe0UR20erEuLVdMJwZmutNUC+Y8X2f6t/F
+         qNFk02pzizb/brQ+P37Hrt9rYZZEOXbbpJLUDsW+pjVWhTJ3juuGs3f0oCeGVGvSKt89
+         bBfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708070631; x=1708675431;
+        d=1e100.net; s=20230601; t=1708070823; x=1708675623;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9XlviNGlfye5b5FhOzomMB3qJJr+2c27MjUoq+iKVh0=;
-        b=rjhp3yH8C+EX8LIT6QYsq0NwpthGX9OeRx0V46fO87dVXNU+Vf6xOP8C0cnTHPsl/n
-         EBwMiZHNJzNFz+mV4I5Eb6mEzRyuao+QWmvQDN/TM5+NKdN5pT5jkLfgZAOw9mIJSyC+
-         a3eV32VY8bb9aDG/1hEyfdhKBiFdlfSjJCULOzd0vsi94ykkBgt3tBDb8NAfdiTD3qkH
-         E9WixyZsv8CtnWeRrPogQhYUNgOoU+gAm+EvL9ohEzhzCdVlEDWq/eCeEhS11bFSC7Rl
-         MxCnzfSa129+aqsiYfDmeqD9pAFDnqQcfikemuKoGZjOp7PVXvedfuGzIVq2CNS5RUyh
-         jSKA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5k+j97A7V00/CXeCARhwC9uYjIUkbmc5wC4TlH5pZ0bK/yqXWGqKa3cTiK5vG6gx/nV6urGDocnx2KoixsU6JiqDK0QFE8RhBUzw=
-X-Gm-Message-State: AOJu0YyS/GbrufIcsvkVYuROPah2y1uaId/0uvMEXj6MJUqvOEEXgEFS
-	C95yawcnGHGAhOLADHUCksZtkjGt2uGgcqzdoBBsVNNeOdZs54j8WhrcVH7VchE=
-X-Google-Smtp-Source: AGHT+IHL67gbeKJqLOFsYa/DD7gGMYcf+0g6s5TM3rNXMVSE7CtEMQzvR9pTy+FT2ImA1HMJc7OsiA==
-X-Received: by 2002:a17:906:e255:b0:a3d:605b:f54 with SMTP id gq21-20020a170906e25500b00a3d605b0f54mr3087106ejb.58.1708070630925;
-        Fri, 16 Feb 2024 00:03:50 -0800 (PST)
+        bh=CWHtr9BiBDxNMhcw+tAJwCWT9s3nxhzbRXAhtlxCu5A=;
+        b=wsJnISV9utQq60j15hWeauUsmoYzLfkOClcdSWS8y5tP6ySs/6hT8/WpxvPnH/g5Mj
+         81JmndFQNcbj3UnaLLimIjw2uZ9YCWyUaBV2kwrmJZJ+X5N8mePJU+uZIP0UDty2gvC8
+         qlJAqiww5QHxM9kFqENA+5KQTgXDR0TtVuB5InhqkqAkBEVek3tfw/BNapatpHHdlWBM
+         /NiOHnCWM4E3ubq+wKrHvwowQiFXobt1j3WDxI8dEgvzTn19rHO/Amojm+zRUWlNUt85
+         fJy3adpfBUhoddhXYhJQ27zjeCP3I19Wn6qx3tjcj03gpUmgG6es0hJV+w7uLiEma0Kz
+         6CJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVY+6BUzH9aW9BhQ+K+71UeDvGkR+n4Q3Q+38K51HNhnJ25rNtMbZW0EIudoCUQXWbFpQBMO8ZO71Azjk7Al6DnQjliIug0K1P6U4U=
+X-Gm-Message-State: AOJu0YyZ4jXXTetKJ+5LiIQy9ivaFoYVmQVh0SzxvSk6vAQ8TVoZxX9e
+	9l2SkHdeZw8PljYq/p8PmToc1Bsx6/Cp1Hm26rYFA6dqYaAyObK405s/q5GyFhY=
+X-Google-Smtp-Source: AGHT+IH3NzSiOrcqfCovz/PxjhcWRES0TR8NtnosztZ3Y5lbU+SrIrJXhfFWoZO3+rBjij1btF9NmA==
+X-Received: by 2002:a17:906:d29a:b0:a3d:6950:2d2f with SMTP id ay26-20020a170906d29a00b00a3d69502d2fmr3905755ejb.13.1708070822915;
+        Fri, 16 Feb 2024 00:07:02 -0800 (PST)
 Received: from [192.168.0.22] ([78.10.207.130])
-        by smtp.gmail.com with ESMTPSA id vh11-20020a170907d38b00b00a3cbbaf5981sm1303918ejc.51.2024.02.16.00.03.49
+        by smtp.gmail.com with ESMTPSA id s15-20020a17090699cf00b00a3bd8a34b1bsm1319130ejn.164.2024.02.16.00.07.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 00:03:50 -0800 (PST)
-Message-ID: <55d41858-b567-4e23-8d84-3af81b52d018@linaro.org>
-Date: Fri, 16 Feb 2024 09:03:49 +0100
+        Fri, 16 Feb 2024 00:07:02 -0800 (PST)
+Message-ID: <668dafa8-b537-4fd1-94c6-d1bda732c410@linaro.org>
+Date: Fri, 16 Feb 2024 09:07:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,7 +76,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: Add bindings for IMX283
+Subject: Re: [PATCH 2/2] media: i2c: Add imx283 camera sensor driver
 Content-Language: en-US
 To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org
@@ -90,7 +90,7 @@ Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  willl will <will@willwhang.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
 References: <20240215204436.9194-1-umang.jain@ideasonboard.com>
- <20240215204436.9194-2-umang.jain@ideasonboard.com>
+ <20240215204436.9194-3-umang.jain@ideasonboard.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -136,119 +136,180 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240215204436.9194-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20240215204436.9194-3-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 15/02/2024 21:44, Umang Jain wrote:
-> - Add dt-bindings documentation for Sony IMX283 sensor driver
-> - Add MAINTAINERS entry for Sony IMX283 binding documentation
+> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
-
-Due to lack of testing limited review.
-
->  .../bindings/media/i2c/sony,imx283.yaml       | 100 ++++++++++++++++++
->  MAINTAINERS                                   |   8 ++
->  2 files changed, 108 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
+> Add a v4l2 subdevice driver for the Sony IMX283 image sensor.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> new file mode 100644
-> index 000000000000..3cf46429b282
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> @@ -0,0 +1,100 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2024 Ideas on Board Oy
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/sony,imx283.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony IMX283 Sensor
-> +
-> +maintainers:
-> +  - Kieran Bingham <kieran.bingham@ideasonboard.com>
-> +  - Umang Jain <umang.jain@ideasonboard.com>
-> +
-> +description:
-> +  IMX283 sensor is a Sony CMOS active pixel digital image sensor with an active
-> +  array size of 5472H x 3648V. It is programmable through I2C interface. The
-> +  I2C client address is fixed to 0x1a as per sensor data sheet. Image data is
-> +  sent through MIPI CSI-2.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx283
+> The IMX283 is a 20MP Diagonal 15.86 mm (Type 1) CMOS Image Sensor with
+> Square Pixel for Color Cameras.
+> 
 
-Blank line
-
-> +  reg:
-> +    description: I2C address
-
-Drop description
-
-> +    maxItems: 1
-> +
-> +  assigned-clocks: true
-> +  assigned-clock-parents: true
-> +  assigned-clock-rates: true
-
-Drop all three, not really needed, just mention them in example.
+...
 
 > +
-> +  clocks:
-> +    description: Clock frequency from 6 to 24 MHz.
-> +    maxItems: 1
+> +static int imx283_power_off(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct imx283 *imx283 = to_imx283(sd);
 > +
-> +  vana-supply:
-> +    description: Analog power supply (2.9V)
-> +
-> +  vdig-supply:
-> +    description: Interface power supply (1.8V)
-> +
-> +  vddl-supply:
-> +    description: Digital power supply (1.2V)
-> +
-> +  port:
-> +    additionalProperties: false
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +	gpiod_set_value_cansleep(imx283->reset_gpio, 0);
 
-Please reverse above lines, first ref, then additionalprops.
+That's odd. It is reset GPIO, so 0 means deassert means "stop resetting
+device". You have wrong handling of the GPIO.
+
+> +	regulator_bulk_disable(ARRAY_SIZE(imx283_supply_name), imx283->supplies);
+> +	clk_disable_unprepare(imx283->xclk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx283_get_regulators(struct imx283 *imx283)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(imx283_supply_name); i++)
+> +		imx283->supplies[i].supply = imx283_supply_name[i];
+> +
+> +	return devm_regulator_bulk_get(imx283->dev,
+> +				       ARRAY_SIZE(imx283_supply_name),
+> +				       imx283->supplies);
+> +}
+
+...
+
+> +static const struct of_device_id imx283_dt_ids[] = {
+> +	{ .compatible = "sony,imx283", },
+> +	{ /* sentinel */ }
+> +};
+
+This goes next to driver structure. You also miss module device table.
 
 > +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
+> +static int imx283_parse_endpoint(struct imx283 *imx283)
+> +{
+> +	struct fwnode_handle *fwnode = dev_fwnode(imx283->dev);
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY
+> +	};
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	if (!fwnode)
+> +		return -ENXIO;
+> +
+> +	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> +	if (!ep) {
+> +		dev_err(imx283->dev, "Failed to get next endpoint\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
+> +		dev_err(imx283->dev,
+> +			"number of CSI2 data lanes %d is not supported\n",
+> +			bus_cfg.bus.mipi_csi2.num_data_lanes);
+> +		ret = -EINVAL;
+> +		goto done_endpoint_free;
+> +	}
+> +
+> +	ret = v4l2_link_freq_to_bitmap(imx283->dev, bus_cfg.link_frequencies,
+> +				       bus_cfg.nr_of_link_frequencies,
+> +				       link_frequencies, ARRAY_SIZE(link_frequencies),
+> +				       &imx283->link_freq_bitmap);
+> +
+> +done_endpoint_free:
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +
+> +	return ret;
+> +};
+> +
+> +static int imx283_probe(struct i2c_client *client)
+> +{
+> +	struct imx283 *imx283;
+> +	int ret;
+> +	unsigned int i;
+> +	unsigned int xclk_freq;
+> +
+> +	imx283 = devm_kzalloc(&client->dev, sizeof(*imx283), GFP_KERNEL);
+> +	if (!imx283)
+> +		return -ENOMEM;
+> +
+> +	imx283->dev = &client->dev;
+> +
+> +	v4l2_i2c_subdev_init(&imx283->sd, client, &imx283_subdev_ops);
+> +
+> +	imx283->cci = devm_cci_regmap_init_i2c(client, 16);
+> +	if (IS_ERR(imx283->cci)) {
+> +		ret = PTR_ERR(imx283->cci);
+> +		dev_err(imx283->dev, "failed to initialize CCI: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Get system clock (xclk) */
+> +	imx283->xclk = devm_clk_get(imx283->dev, NULL);
+> +	if (IS_ERR(imx283->xclk)) {
+> +		dev_err(imx283->dev, "failed to get xclk\n");
 
-Ditto
+Syntax is: return dev_err_probe()
+
+> +		return PTR_ERR(imx283->xclk);
+> +	}
+> +
+> +	xclk_freq = clk_get_rate(imx283->xclk);
+> +	for (i = 0; i < ARRAY_SIZE(imx283_frequencies); i++) {
+> +		if (xclk_freq == imx283_frequencies[i].mhz) {
+> +			imx283->freq = &imx283_frequencies[i];
+> +			break;
+> +		}
+> +	}
+> +	if (!imx283->freq) {
+> +		dev_err(imx283->dev, "xclk frequency unsupported: %d Hz\n", xclk_freq);
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = imx283_get_regulators(imx283);
+> +	if (ret) {
+> +		dev_err(imx283->dev, "failed to get regulators\n");
+> +		return ret;
+
+return dev_err_probe()
+
+> +	}
+> +
+> +	ret = imx283_parse_endpoint(imx283);
+> +	if (ret) {
+> +		dev_err(imx283->dev, "failed to parse endpoint configuration\n");
+> +		return ret;
+> +	}
+> +
+> +	/* Request optional enable pin */
+> +	imx283->reset_gpio = devm_gpiod_get_optional(imx283->dev, "reset",
+> +						     GPIOD_OUT_HIGH);
+
+No, that's not allowed in your binding. Don't add undocumented properties.
 
 > +
-> +        properties:
-> +          data-lanes: true
+> +	mutex_init(&imx283->mutex);
+> +
+> +	/*
+> +	 * The sensor must be powered for imx283_identify_module()
+> +	 * to be able to read the CHIP_ID register
+> +	 */
+> +	ret = imx283_power_on(imx283->dev);
+> +	if (ret)
+> +		return ret;
+> +
 
-Provide constraints - which lanes/how many.
-
-> +          link-frequencies: true
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - port
-> +
-> +additionalProperties: false
-> +
 
 Best regards,
 Krzysztof
