@@ -1,169 +1,115 @@
-Return-Path: <linux-media+bounces-5296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF03C858205
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:59:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69098858210
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 17:01:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69FC7282CE2
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 15:59:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F3831F213AD
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:01:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44563132C23;
-	Fri, 16 Feb 2024 15:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E50E912F58A;
+	Fri, 16 Feb 2024 16:01:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDFE12F387;
-	Fri, 16 Feb 2024 15:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CFC28E23;
+	Fri, 16 Feb 2024 16:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708099079; cv=none; b=ORo+sVNFEtExD9WyiV3fCIsJvnigoCCNwUrLDEA/k62zwGhs2eoJ9MJs5xlFdzszz5fRedoqPHvuZhl4GBllnklMfMNMDvxXbKF8C7HO7s8zVhBblfSWKugaGqDqibANohT+MwEl+srdS0wEZ7p59wNWeG13Q6wCsk4bnNvctFw=
+	t=1708099298; cv=none; b=oabcs3+7j2YpijA7+xku2B2VxsSRT/t6Iu4GXWcWLcyv2yRsSqotD9XCZKOg0JRwwwHYMmmdsuu8v5GJkvkmhoOnqi8LIXDnSJJOrfod5Eq/LOhgNdH8aYG9zZSqrNm7uyMrACJeuLaqzJ9ctO+0MT1WIvRf0kfK083o/NRuBvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708099079; c=relaxed/simple;
-	bh=sUrIlBk6VxsBPMMz/0ZSRNYcU+x7GykjiOgUj/9dZQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UdKNDlwPNtxVE+VFB0k2Qs0mXxux3LjbssiTwTfPM3q4Hur0IZaGO50wg68FsHaM/G205StQ5k83NYFuxHIsQSJDfevBUpC9ZLZrQCJrGr5CNncdL/jcJYmG21FHsSQx+I5uTcB0VjT/25zZ5juFOBbbaH5eDrpn/yan25JUJPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2221CC433C7;
-	Fri, 16 Feb 2024 15:57:58 +0000 (UTC)
-Date: Fri, 16 Feb 2024 10:59:34 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: "Sumit Semwal" <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
- <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>, Alex Deucher
- <alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v3 6/8] drm: add drm_mode_atomic_commit event
-Message-ID: <20240216105934.7b81eae9@gandalf.local.home>
-In-Reply-To: <20240216151006.475077-7-pierre-eric.pelloux-prayer@amd.com>
-References: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
-	<20240216151006.475077-7-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1708099298; c=relaxed/simple;
+	bh=DV0cf4a5CP+++OA4yCCHPN8FrX65afzSkNcxaEoEVQE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=g/8hKYUm47mXaMrkakQFkkR74rXxVBNQJuOFv1/2QuVA0jSKo9RkKUQQaUqOCxLsGt0Z6uuKeo7GTshdBohwU5FJdgLav6dObCHmNrk9EhCKiZvl2nDWix+mHa6qRzmPCobKEFT9HE6JlYI6LV6QUZd9KBkkHMj9o1axyFZQ0eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from spb1wst022.omp.ru (109.73.39.18) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 16 Feb
+ 2024 19:01:24 +0300
+From: Karina Yankevich <k.yankevich@omp.ru>
+To: Michael Krufky <mkrufky@linuxtv.org>
+CC: Karina Yankevich <k.yankevich@omp.ru>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+	<lvc-project@linuxtesting.org>
+Subject: [PATCH] [media] tda18271: add missing result checking of tda18271_lookup_map()
+Date: Fri, 16 Feb 2024 19:01:10 +0300
+Message-ID: <20240216160110.2735117-1-k.yankevich@omp.ru>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/16/2024 15:45:25
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 183509 [Feb 16 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: k.yankevich@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;127.0.0.199:7.1.2;109.73.39.18:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;spb1wst022.omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 109.73.39.18
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 02/16/2024 15:51:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 2/16/2024 3:14:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Fri, 16 Feb 2024 16:09:55 +0100
-Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com> wrote:
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->  drivers/gpu/drm/drm_atomic_uapi.c | 21 +++++++++++++++++++++
->  drivers/gpu/drm/drm_trace.h       | 23 +++++++++++++++++++++++
->  2 files changed, 44 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 29d4940188d4..f31b5c6f870b 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -41,6 +41,7 @@
->  #include <linux/file.h>
->  
->  #include "drm_crtc_internal.h"
-> +#include "drm_trace.h"
->  
->  /**
->   * DOC: overview
-> @@ -1503,6 +1504,26 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->  		drm_mode_object_put(obj);
->  	}
->  
-> +	if (trace_drm_mode_atomic_commit_enabled()) {
-> +		struct drm_crtc_state *crtc_state;
-> +		struct drm_crtc *crtc;
-> +		int *crtcs;
-> +		int i, num_crtcs;
-> +
-> +		crtcs = kcalloc(dev->mode_config.num_crtc, sizeof(int),
-> +				GFP_KERNEL);
-> +
-> +		if (crtcs) {
-> +			num_crtcs = 0;
-> +			for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-> +				crtcs[num_crtcs++] = drm_crtc_index(crtc);
+tda18271_lookup_map() may return negative error code, but
+tda18271c2_rf_tracking_filters_correction() doesn't check it
+as the other callers.
 
-Hmm, looking deeper into this, could you just do the loop the trace event?
+Found by Linux Verification Center (linuxtesting.org) with the Svace static
+analysis tool.
 
-That is how different is the config.num_crtc compared to the final num_crtcs?
-That way, we don't need to do this allocation if it's not too different.
-That is, pass in the dev->mode_config.num_crtc to the tracepoint instead of
-num_crtcs.
+Signed-off-by: Karina Yankevich <k.yankevich@omp.ru>
+---
+ drivers/media/tuners/tda18271-fe.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> +
-> +			trace_drm_mode_atomic_commit(file_priv, crtcs, num_crtcs, arg->flags);
-> +
-> +			kfree(crtcs);
-> +		}
-> +	}
-> +
->  	ret = prepare_signaling(dev, state, arg, file_priv, &fence_state,
->  				&num_fences);
->  	if (ret)
-> diff --git a/drivers/gpu/drm/drm_trace.h b/drivers/gpu/drm/drm_trace.h
-> index 11c6dd577e8e..63489923c289 100644
-> --- a/drivers/gpu/drm/drm_trace.h
-> +++ b/drivers/gpu/drm/drm_trace.h
-> @@ -66,6 +66,29 @@ TRACE_EVENT(drm_vblank_event_delivered,
->  		      __entry->seq)
->  );
->  
-> +TRACE_EVENT(drm_mode_atomic_commit,
-> +	    TP_PROTO(struct drm_file *file, int *crtcs, int ncrtcs, uint32_t flags),
-> +	    TP_ARGS(file, crtcs, ncrtcs, flags),
-> +	    TP_STRUCT__entry(
-> +		    __field(struct drm_file *, file)
-> +		    __dynamic_array(u32, crtcs, ncrtcs)
-
-Here the ncrtcs is what is passed in. It will always be allocated to that
-size though.
-
-> +		    __field(uint32_t, ncrtcs)
-> +		    __field(uint32_t, flags)
-> +		    ),
-> +	    TP_fast_assign(
-> +		    unsigned int i;
-> +
-> +		    __entry->file = file;
-> +		    for (i = 0; i < ncrtcs; i++)
-> +			((u32 *)__get_dynamic_array(crtcs))[i] = crtcs[i];
-
-Here we have:
-
-		int n = 0;
-
-		for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-			((u32 *)__get_dynamic_array(crtcs))[n++] = drm_crtc_index(crtc);
-
-		__entry->ncrtcs = n;
-
-But this is only viable if the ncrtcs is close to the same size as dev->mode_config.num_crtc,
-otherwise it's not worth it.
-
--- Steve
-
-
-
-> +		    __entry->ncrtcs = ncrtcs;
-> +		    __entry->flags = flags;
-> +		    ),
-> +	    TP_printk("file=%p, pid=%8d, flags=%08x, crtcs=%s", __entry->file,
-> +		      pid_nr(__entry->file->pid), __entry->flags,
-> +		      __print_array(__get_dynamic_array(crtcs), __entry->ncrtcs, 4))
-> +);
-> +
->  #endif /* _DRM_TRACE_H_ */
->  
->  /* This part must be outside protection */
+diff --git a/drivers/media/tuners/tda18271-fe.c b/drivers/media/tuners/tda18271-fe.c
+index f0371d004b36..ff5b22134414 100644
+--- a/drivers/media/tuners/tda18271-fe.c
++++ b/drivers/media/tuners/tda18271-fe.c
+@@ -279,7 +279,9 @@ static int tda18271c2_rf_tracking_filters_correction(struct dvb_frontend *fe,
+ 	if (approx > 255)
+ 		approx = 255;
+ 
+-	tda18271_lookup_map(fe, RF_CAL_DC_OVER_DT, &freq, &dc_over_dt);
++	ret = tda18271_lookup_map(fe, RF_CAL_DC_OVER_DT, &freq, &dc_over_dt);
++	if (tda_fail(ret))
++		goto fail;
+ 
+ 	/* calculate temperature compensation */
+ 	rfcal_comp = dc_over_dt * (s32)(tm_current - priv->tm_rfcal) / 1000;
+-- 
+2.25.1
 
 
