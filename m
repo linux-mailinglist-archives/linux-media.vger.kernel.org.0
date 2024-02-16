@@ -1,60 +1,61 @@
-Return-Path: <linux-media+bounces-5282-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5283-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F451858043
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:11:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF73858046
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:11:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB5031F22A27
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 15:11:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5201B285122
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 15:11:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8153512F39F;
-	Fri, 16 Feb 2024 15:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0797412F397;
+	Fri, 16 Feb 2024 15:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KAPURCFH"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zH9w+WbY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247131292F4;
-	Fri, 16 Feb 2024 15:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13AC12EBD3;
+	Fri, 16 Feb 2024 15:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.66
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708096253; cv=fail; b=FTh8ZlhPk3gCl1Ejeky8SHztoNG3TFXe1CE57fNm6H5uHrVxnllRhXf0DtAkJ4MXhxsIiseI5gXMWY/JZgGzpAf3+Cf7h60Tty1NdpFkZiUkMcVxT8LZ5rOL5HSekq/R/s7q3o9Ps4/tZn0yacbmSFQSXTpT3wRzaT1VH/KcQxE=
+	t=1708096282; cv=fail; b=Lk3QF5KXVxVUBTK/uMEbQDLh+90Ys/0rQpA+BlxzE827Db4/szqPkvvgaxJT2ObcjDRohiZAMXo7ItDwl9zo3pnG76UG6x4PnQV3ZAJOTUyxTkNhivFIXK4UY9p0xXtPVfdnp+1/mJ0Lw4f1moVc5NkP2OMtFj6p0QR0cENe75A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708096253; c=relaxed/simple;
-	bh=LTkaAKM025OAoPLEdO8AFloH++VL7OW8CNg/gjSaTTY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NXvvxUwtr1zPLpCnKW0jum+gAB10nXY7lJpdwNm0RaLdBU1cv+JKhYTw9x1Zn29TL7yykH9djj1xsQ7LbizaJ8WoqeoSqjZGe3Xk+b/Jg7lToMoshX/xU8Za5bfNHdLi+zXWyczKRl6j4k8WoQKpOCwOixPWNAzo/cGTMJVO7TI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KAPURCFH; arc=fail smtp.client-ip=40.107.237.65
+	s=arc-20240116; t=1708096282; c=relaxed/simple;
+	bh=9wuSu8Or0jhklLl7AcLos5DPZH7AegLN+JRM/rD2DAw=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EBKmLqsqJvqoi/az/uDf47DmUn5Q/evlaMzNeiNxgPLPbZlrEWied5+afqPQKKC87/LTvBaOWlm6rfBKFP/cMwV/ecTgVmtKDo5YNn9e4VTIYDPw2s3ZJcVvc5HTZ5UDDygfUFiPMJU30nzHNdurWMp3Dc2qye+4ImP/AHF4D6E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=zH9w+WbY; arc=fail smtp.client-ip=40.107.220.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AW+TwpH2n2+ck2NYyISYiD388NlIw9fw/6r/7+KoqqU+dWxHpn+SdfiZr02+f6oa6w8fWXcE2JuZ4hy3XUwmPGiJWesNGQUvGThycsLckPidgewNJj0mIlSijDiyVRuUxxLeg/ekUzjCUhFZxn0U2/vlrGMWf3zo4D+8pO/qkX6rkkuQM4o0EI5/N+nrMKdm1lnzigjupaoHhopJkbTnPN7MA+34xCeUFYuYe3//5CpaNeqcipDpUlKBO4/myf91kXXL1qNE1osG8qKKJJWPmOeqIktHR9fmIuFOS36T94azxcjHYaL+nSWkPx5dpbVE0VV6W0Nzt/E9WoLUg6kDLA==
+ b=BMqebRBLMbjclz9HvWd3zzu36m/NHSlIqDWfrSBUQca97wbpez1HDlMI8shiJZGqEZo7fbR23Q33dh8MrdOEwqOhnRWeeoxnyklvhAA7WWDG1qSCktEy1rKHr2GQP4vFK/ep6Nd+UzUMgKyROT6ayQF05h+fDyqYAzaweDLJQZB4BsO83L9USJCc1vyKJnw1Ciu88sIgW7F5hSa9aTmPINZ6zIdJh6fwJ7SyfpFTUi7ESgun2VYZXCTvXVgboRddb9UzNx1ry7lhiekttM7nTOA5vj2bKlSnBxwVM6X4A2oMJWL/U6cK7WQgJm2ihxzjulpCsvMzdHMQiYqBGNM92w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6U3zV3sEGElroYDGbHO+ERJDMOuX0a4RKCfE0j5zTZY=;
- b=Bb+MqWARUtQmjeRtIjHqYMmx/msTXzCjKkGrs6CxM2NP0r/VDC/wDYbTgGsNSayLtNXLqYpQ86OD6pHzDZ9QR4SBmNPJqjgYpFLBBzZaVjbgh8UwThl8pCn0htm88LRKbdSmASS5PSRFRZbBj8/g41G6BmDOF/pb7IwSgmgRq4PRKdJXdOM0Aip4043VONHOVu1PgVJZtte+JVBK/LqrD3yth4kB3873VVqJ7IVrjs8uCrxtO+wT5x7VKrUgLdMQatbrQVdgOU6UZk5i9ByTytCD6nGNx9DGN83FCw1NgHY2wyfC/CIkUlhsEsTKi1dVBY38bVPJgsWrUcPaWsfIbQ==
+ bh=CpTSVo2kk6slrMF45OEiNz5zy+SsirxruPo4DHrTL3k=;
+ b=X5xDRrqq7q9dv06pGaJxOkCZ0Br8MqvwDdtkYSkUyjAxmfG6CUtvjJUT8v6/bQkjGuP+c/KX+5ZnAeNyDjZkLvFFGskJsN8Eb52kQKtdQkqZ+K2wGmK4iWwFivDl8NXgHg8QJCiKNNvcDWs+5keAcsEWHXtn6lJmQB8ypPCpvbPTPzEo6uolneFqIffMK7Jif2+NQvaXJ6JRuOMa7Z8ul9rNGY6NH92iqymnIe95ZFpDMMK7uwOy/d5t0CYSqNuC52iRvjG+LYqS3Ta5mLmiNr0frWl84u3os18FpuqwKau05np9DpqYMAN3CG0cINsG+7UofrogY2V1Oc46okff8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6U3zV3sEGElroYDGbHO+ERJDMOuX0a4RKCfE0j5zTZY=;
- b=KAPURCFH4rRGDacY0vQp326ZICXYdv64vEGU/wSZ1pu/blKSkpUuRhniMxPO2vB4KaVA9kaTsRKVPRFKpgcBHWTUDPhRYCHiGyd253PZgbHETP6SOS2RDkJQoIJe3lBhvfTKqk2gC/Yh8aLfnxaMVXjHqgb3gr/fAS2Lr+/MPD0=
-Received: from BLAPR05CA0016.namprd05.prod.outlook.com (2603:10b6:208:36e::22)
- by PH8PR12MB7158.namprd12.prod.outlook.com (2603:10b6:510:22a::8) with
+ bh=CpTSVo2kk6slrMF45OEiNz5zy+SsirxruPo4DHrTL3k=;
+ b=zH9w+WbYceoA6wC+IaiYczSJIQi0YGWaJytAsSkHGue3ZIF+aVegmmF0MzfDozxBWkvFENZimDr+BMVbYdSqHa2qaU+MFbG2TgLj4rGkXUiNSBZJXwvc1Y1vEJL3wnNNa6c53oIOD5/VNe0oEUY9lElhgT8yVwSzZwbmltHUXQ0=
+Received: from MN2PR17CA0031.namprd17.prod.outlook.com (2603:10b6:208:15e::44)
+ by CY5PR12MB6203.namprd12.prod.outlook.com (2603:10b6:930:24::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Fri, 16 Feb
- 2024 15:10:48 +0000
-Received: from MN1PEPF0000F0DE.namprd04.prod.outlook.com
- (2603:10b6:208:36e:cafe::7d) by BLAPR05CA0016.outlook.office365.com
- (2603:10b6:208:36e::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.13 via Frontend
- Transport; Fri, 16 Feb 2024 15:10:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.14; Fri, 16 Feb
+ 2024 15:11:16 +0000
+Received: from MN1PEPF0000F0DF.namprd04.prod.outlook.com
+ (2603:10b6:208:15e:cafe::1c) by MN2PR17CA0031.outlook.office365.com
+ (2603:10b6:208:15e::44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
+ Transport; Fri, 16 Feb 2024 15:11:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -62,13 +63,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MN1PEPF0000F0DE.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ MN1PEPF0000F0DF.mail.protection.outlook.com (10.167.242.37) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Fri, 16 Feb 2024 15:10:48 +0000
+ 15.20.7292.25 via Frontend Transport; Fri, 16 Feb 2024 15:11:16 +0000
 Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 16 Feb
- 2024 09:10:44 -0600
+ 2024 09:11:11 -0600
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Sumit
  Semwal" <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>,
@@ -78,10 +79,12 @@ To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Sumit
 	<dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
 	<linux-trace-kernel@vger.kernel.org>, Alex Deucher
 	<alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v3 0/8] dma-fence, drm, amdgpu new trace events
-Date: Fri, 16 Feb 2024 16:09:49 +0100
-Message-ID: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v3 1/8] tracing, dma-buf: add a trace_dma_fence_sync_to event
+Date: Fri, 16 Feb 2024 16:09:50 +0100
+Message-ID: <20240216151006.475077-2-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
+References: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,71 +97,88 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DE:EE_|PH8PR12MB7158:EE_
-X-MS-Office365-Filtering-Correlation-Id: f07abcd6-8df3-4db7-5974-08dc2f0174e4
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|CY5PR12MB6203:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3f509a2-d33b-444c-a998-08dc2f018599
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	uH84eeJoWKLI/eSsCfbp7/GsecWf1O3FUsVAwSFhkDBWF8FbLetVLFmXXpT7zDALpG9SznPyRXXifvkLWqvl6YL2VZc1GLli9C56ADWNdkDVzBmrU6bJjWYCZGPtzygxva1MZaz9J55lGwMWEMP1wTghwX/kpYz6AtIVsHj+PI8aKDllhOHnpKSCqH8ttKql6Jxer1vfJNNBCreHeeApxBiKz2FZs1i/xWDyccop3hS+t9Pi+6dDTFk/6tDmu+3e1wjN5MvmiBIAvL2Px+vNEu9OKlWw51eWJZxVUiXCJHh8jIK76iHWJz4VGD9TcD81a6pliC66V52kr0BLsmToysbq/QDnxS0EySsh5/Wc8YZ78mW18wyIhlvxM6wvAhJJhDjpOLbMpLUScO5IsqbxzQWU8J5i18Xep0FFAcwBTMCYd39Ta1MIckj6F/FANlxvQrLJQAUn4yXXjqRqZhttQWs9E3jGWeSBDawraUQRRzh4uSpIguoddZL69UUeFkZkIWxx3HhtfbNQ41tlJhXvJ9TqwjaZkHu7XhcGOvcjIoXacsfumQoZu1hbkSIq//AdmJ1milBgam1tiv5lLfyugsAnSLPbSygRrHB7aAXk4n+nKizDoI5GeMvAotFS846ba9wrHaaJHCC93J9mmVQhjg==
+	gm9VSNEFJhIrgibaYgpDCwy9RyY4qYQ8SsPYKIooN/oG/eWqqGlkdi6J1KVh8mDX5Ph9vexPeYGf3mVmS/7QNGFNdY+H6DbjZBZV6+qJJfRDvESaRkhqt2nSDsnCCdww21+GAcxsturCuD54vkfaWyCdA3wE5tke+jZLp5WMRfOC5/a4D6L0PIQ+T7yXCDouXptadsf7gFfm2bG3DN5/Gs3QIVd9onuiMy6XkuHEbLXDYdZQHwwUrXUkTLXJU9bSXMnGQ3tQb/LWPM9/Uj7WRaBOjN2tuOIFarrb5fPtZF+oSakrR8Aavb7KhEZFgJsoV6jvDQGqdZfoPY4Jhk721Z/0ZAVEUjcHG6zBMsjh0f9BuhDVEjeuugsSFZyc8ytJ0M0X9sghyqGcrJB/fl3ehZmdKU1EF7og2s7RqgKd0VYncyaJzc1FuzgrBdwO7jpV3cdnSXcWvC981wqHU2hmb7wN1gQ6WlZZt/hF+5IUJsX5+skf2B68Q2uDryzfBycix8zSdoVKCo/uA0KNy6BCnl6vZ67YQ7WlbOdUx4Kja2lhp/djp1dYQVgQd02z7wQ1xDknUlpPoMoSBGmh7VuliIvZpGYIV70acVhw5q+SG7/AAOqenTeAlNZMK+6YOoRzuh9frKEd1uhztOu6uJlvwzbd3Dtn9zY7OjgaPHadwkw=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(136003)(39860400002)(346002)(396003)(230922051799003)(64100799003)(1800799012)(82310400011)(451199024)(36860700004)(186009)(46966006)(40470700004)(7696005)(966005)(70206006)(86362001)(356005)(2906002)(82740400003)(5660300002)(8676002)(70586007)(8936002)(81166007)(336012)(921011)(26005)(16526019)(478600001)(110136005)(36756003)(41300700001)(316002)(426003)(83380400001)(2616005)(1076003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(396003)(136003)(39860400002)(230922051799003)(186009)(64100799003)(1800799012)(82310400011)(451199024)(36860700004)(40470700004)(46966006)(2906002)(6666004)(8936002)(8676002)(5660300002)(336012)(86362001)(921011)(426003)(1076003)(7696005)(26005)(36756003)(82740400003)(356005)(16526019)(83380400001)(2616005)(81166007)(70586007)(70206006)(110136005)(316002)(478600001)(41300700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:10:48.1893
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:11:16.2368
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f07abcd6-8df3-4db7-5974-08dc2f0174e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3f509a2-d33b-444c-a998-08dc2f018599
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000F0DE.namprd04.prod.outlook.com
+	MN1PEPF0000F0DF.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7158
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6203
 
-This series adds new events to make it easier for tools
-like gpuvis or umr to graph the GPUs, kernel and applications
-activity.
+This new event can be used to trace where a given dma_fence is added
+as a dependency of some other work.
 
-UMR patches using these events can be found here:
-https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+I plan to use it in amdgpu.
 
-V1:
-https://patchwork.kernel.org/project/linux-media/patch/20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com/
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+---
+ drivers/dma-buf/dma-fence.c      |  1 +
+ include/trace/events/dma_fence.h | 27 +++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-Changes from V1:
-* uses trace_dma_fence_sync_to from dma-fence-chain.c
-* new amdgpu events
-* new drm plane commit event
-
-Changes from V2:
-* uses trace_dma_fence_used_as_dependency from drm_sched_job_add_dependency
-* add devname attribute to the trace_amdgpu_sched_run_job event
-* addressed review comments
-
-Pierre-Eric Pelloux-Prayer (8):
-  tracing, dma-buf: add a trace_dma_fence_sync_to event
-  dma-buf/fence-chain: use trace_dma_fence_sync_to
-  amdgpu: use trace_dma_fence_sync_to in amdgpu_fence_sync
-  drm/amdgpu: add a amdgpu_bo_fill trace event
-  drm/amdgpu: add a amdgpu_cs_start trace event
-  drm: add drm_mode_atomic_commit event
-  drm/sched: use trace_dma_fence_used_as_dependency
-  drm/amdgpu: add devname to trace_amdgpu_sched_run_job
-
- drivers/dma-buf/dma-fence-chain.c         |  4 +++
- drivers/dma-buf/dma-fence.c               |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c    |  2 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c   |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c  |  9 +++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h  |  4 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h | 42 ++++++++++++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c   |  2 ++
- drivers/gpu/drm/drm_atomic_uapi.c         | 21 ++++++++++++
- drivers/gpu/drm/drm_trace.h               | 23 +++++++++++++
- drivers/gpu/drm/scheduler/sched_main.c    |  4 +++
- include/trace/events/dma_fence.h          | 27 +++++++++++++++
- 12 files changed, 133 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 0393a9bba3a8..e7276c043984 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -23,6 +23,7 @@
+ EXPORT_TRACEPOINT_SYMBOL(dma_fence_emit);
+ EXPORT_TRACEPOINT_SYMBOL(dma_fence_enable_signal);
+ EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
++EXPORT_TRACEPOINT_SYMBOL(dma_fence_used_as_dependency);
+ 
+ static DEFINE_SPINLOCK(dma_fence_stub_lock);
+ static struct dma_fence dma_fence_stub;
+diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
+index 3963e79ca7b4..5a5d272031ce 100644
+--- a/include/trace/events/dma_fence.h
++++ b/include/trace/events/dma_fence.h
+@@ -83,6 +83,33 @@ DEFINE_EVENT(dma_fence, dma_fence_wait_end,
+ 	TP_ARGS(fence)
+ );
+ 
++TRACE_EVENT(dma_fence_used_as_dependency,
++
++	TP_PROTO(struct dma_fence *fence, const char *reason),
++
++	TP_ARGS(fence, reason),
++
++	TP_STRUCT__entry(
++		__string(driver, fence->ops->get_driver_name(fence))
++		__string(timeline, fence->ops->get_timeline_name(fence))
++		__field(unsigned int, context)
++		__field(unsigned int, seqno)
++		__string(reason, reason)
++	),
++
++	TP_fast_assign(
++		__assign_str(driver, fence->ops->get_driver_name(fence));
++		__assign_str(timeline, fence->ops->get_timeline_name(fence));
++		__entry->context = fence->context;
++		__entry->seqno = fence->seqno;
++		__assign_str(reason, reason);
++	),
++
++	TP_printk("driver=%s timeline=%s context=%u seqno=%u reason=%s",
++		  __get_str(driver), __get_str(timeline), __entry->context,
++		  __entry->seqno, __get_str(reason))
++);
++
+ #endif /*  _TRACE_DMA_FENCE_H */
+ 
+ /* This part must be outside protection */
 -- 
 2.40.1
 
