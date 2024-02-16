@@ -1,153 +1,186 @@
-Return-Path: <linux-media+bounces-5300-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5301-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BAA858281
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 17:32:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B26BF858292
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 17:32:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B76A281DE7
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:32:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6747F281E99
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:32:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D028130AD2;
-	Fri, 16 Feb 2024 16:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DE8B7E0F4;
+	Fri, 16 Feb 2024 16:32:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ba9T0zMH"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="b4d0IJIY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF52219ED;
-	Fri, 16 Feb 2024 16:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA3144369
+	for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 16:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708101128; cv=none; b=OeGM/SQDzTyae3VuXQjTkHMqwCz30kHxlLKn4bPRXQswTotgVT0QKXrixPbbt9Uy8o1MHBS9PLvIIIKpSDozkBuPca6GKi/ZloUTs9vpDq2e5qqs7488dGT+z+gasGCc+9MnUvkTs2Q4fw3xeqM/5uUVVxYwGKSYVZe5NN/1VDM=
+	t=1708101161; cv=none; b=X9IxY0rlfuQsmiGABOjr5Sw53H9X0mpBuYKpr4BzU4kOhdnu1R4HL9OPVKT2T38lpyTFZcDoapI1+Jv1bhx96Llo7bkSzQS/3jBCaSEt8K3jy92jfzfsD4lUx23mMvuxUFHyIdp9V19Iba9T0H44TCJySbjTaINtxSf0DZxMccs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708101128; c=relaxed/simple;
-	bh=JGR9oWuh9+Gj4ak7aoBRm7nN1ezVNuRLhjn7Tq1Dsog=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fOso0/9urkWPXj6CbF09JXVnJTkZRE+SDOqqQprcYNvDy2ZITjmOdOAIRVR+WRHC/3zuZ+NKv/WhfANGrQle5BRffXXdSaiQ7GV5KImjnTJIyRRu5VLeoeX9WKfEInRVghOx8i26k/zIpUF3+4Z2EdwPRvDS+KjDYrEPq/3SNFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ba9T0zMH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCBC8C43390;
-	Fri, 16 Feb 2024 16:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708101127;
-	bh=JGR9oWuh9+Gj4ak7aoBRm7nN1ezVNuRLhjn7Tq1Dsog=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Ba9T0zMHZyf/Ke4gnCc2keIIDMRzmRuPhteX/as0JvsiQ2E3w6CyWZB5GXO6EOOXl
-	 ucXIIJiRkzT2EjoREmF0CVtbFqRuO1tq6H1hwyV+L8t1gP1HNJH1+LEFC7cBRskE+l
-	 2FRK/nqeRrzX0tnK9giDxPJdiRS2pULsRPuix+xkfs/y/sWmfPAU3E5E9iq2WGQeAS
-	 hhWBqo3mGxn44UfaWRAJ3Fe7HibrSYJ+0FMJdy7G/59XRD960WwNBU/yDqZJkkVBT1
-	 542yYzoTa7b4wTPlf7JqZhkDuSgRKIh+YyM10hckMc9K91iF+6w0G23eW1wigsO2nP
-	 NjUY67zUcgAHg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH] media: dvb-frontends: avoid stack overflow warnings with clang
-Date: Fri, 16 Feb 2024 17:31:44 +0100
-Message-Id: <20240216163201.1901744-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1708101161; c=relaxed/simple;
+	bh=nbS+DWL4hB3shfwO1v5rkV0F8YJT3g5jzIQJ4pwcCuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QLHHEPpsw7gSuOVUMIukjou6gtinjy+Nvs6sX0/BMSL3Y3lCrsAVt8jBcUf08TrDPA3MUHqWJM4U6F9HpZAgsA05Pve733I1dCGeab/IXYRy42lkle1HDyAkYqkoCRk45PNFKn13i+1Zk09Fc0zI7haIlsgXnHhEkLrmmiDTylc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=b4d0IJIY; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4123891b49cso2724615e9.1
+        for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 08:32:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1708101158; x=1708705958; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SgQeh6gny5JrINPGAEJwqjErNXlFS7uJm/gN6H25Wl4=;
+        b=b4d0IJIY1V5SNnB4q1eHpb6d0DnFgLeUnH/UW++qfDunEVC3jUWYGX1jvzYRt8Gy2b
+         W3ZVFrMne6tBPNJw+gMD3dL01pPcyZq8DijwoTt11K5F8/VPpirLx/FsOuwfbpkBalDJ
+         wBMWts03hSMBZy4dmncjS3XpRESUSaBXz8wWA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708101158; x=1708705958;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SgQeh6gny5JrINPGAEJwqjErNXlFS7uJm/gN6H25Wl4=;
+        b=tv2ivAcS1Yq+icn03sZNBY3Fzg3cxc0O1SzWzwMACZn4F5EHP2AnlH8It+k/ovIMvr
+         Bu1dlLtC+cdBGeMGJCe2J2IowGiSxgN6wSGsNtSTj38qJH3jd/3/jLsoN3IlYgaV/ENc
+         wMjuSWaGhP3WSAHf+2Yi3XMxtXQbLVaUx+3PV/15DzVmz3bRDGUXlsrCCGwv3dZN7Ecy
+         XoUL+D18w+gAWuhbb5Yv2gL4PK/EEaKmMtyzkIuEX/wudT5lDJmn7sn3jELHslN+d5tK
+         e5c8dNgWJ7tgMmqdP7Lss4HwaOgMJO9f4THa3KGm/ubNek9T6aGjA9SCJvfwdqLKTIWs
+         Bjng==
+X-Forwarded-Encrypted: i=1; AJvYcCUvk4ZB5DfjBCppKekbR8FQu14DdJ7Z2jJDtFtzOQ2TsalddeOnxkl5rjDi2PvqHulb+rt0hogbfb6lHK7LDgKK6z5HXXAbTMToTPs=
+X-Gm-Message-State: AOJu0YxFf4y7YKmQQS8iQp9sqltj8HGlDVQXV7xstxD9jFFKG/aegdII
+	c0rmk9cO2mVGGZPtI0WkAZfQqFW+b5gLJoruW3Iu786j8ylq2NEMSgVQzrAu+gc=
+X-Google-Smtp-Source: AGHT+IFE0jwLawnXRHSScGe2ockTGkEpG5gU+Fwm8RLqeKicUfmzpG/tRRmoFIyQP2z5PdY038vGLA==
+X-Received: by 2002:a05:600c:510a:b0:411:de28:bb52 with SMTP id o10-20020a05600c510a00b00411de28bb52mr3914738wms.4.1708101158500;
+        Fri, 16 Feb 2024 08:32:38 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id j6-20020a05600c190600b00411d0b58056sm2932741wmq.5.2024.02.16.08.32.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 08:32:38 -0800 (PST)
+Date: Fri, 16 Feb 2024 17:32:36 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/6] tracing, dma-buf: add a trace_dma_fence_sync_to
+ event
+Message-ID: <Zc-OJAXlApzcOfYQ@phenom.ffwll.local>
+References: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240213155112.156537-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240213155112.156537-2-pierre-eric.pelloux-prayer@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213155112.156537-2-pierre-eric.pelloux-prayer@amd.com>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, Feb 13, 2024 at 04:50:26PM +0100, Pierre-Eric Pelloux-Prayer wrote:
+> This new event can be used to trace where a given dma_fence is added
+> as a dependency of some other work.
 
-A previous patch worked around a KASAN issue in stv0367, now a similar
-problem showed up with clang:
+How?
 
-drivers/media/dvb-frontends/stv0367.c:1222:12: error: stack frame size (3624) exceeds limit (2048) in 'stv0367ter_set_frontend' [-Werror,-Wframe-larger-than]
- 1214 | static int stv0367ter_set_frontend(struct dvb_frontend *fe)
+What I'd expected here is that you add a dependency chain from one fence
+to another, but this only has one fence. How do you figure out what's the
+next dma_fence that will stall on this dependency? Like in the gpu
+scheduler we do know what will be the fence that userspace gets back, so
+we can make that connection. And same for the atomic code (although you
+don't wire that up at all).
 
-Rework the stv0367_writereg() function to be simpler and mark both
-register access functions as noinline_for_stack so the temporary
-i2c_msg structures do not get duplicated on the stack when KASAN_STACK
-is enabled.
+I'm very confused on how this works and rather worried it's a brittle
+amdgpu-only solution ...
+-Sima
 
-Fixes: 3cd890dbe2a4 ("media: dvb-frontends: fix i2c access helpers for KASAN")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/dvb-frontends/stv0367.c | 34 +++++++--------------------
- 1 file changed, 8 insertions(+), 26 deletions(-)
+> I plan to use it in amdgpu.
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>  drivers/dma-buf/dma-fence.c      |  1 +
+>  include/trace/events/dma_fence.h | 34 ++++++++++++++++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index e0fd99e61a2d..671a499a5ccd 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -23,6 +23,7 @@
+>  EXPORT_TRACEPOINT_SYMBOL(dma_fence_emit);
+>  EXPORT_TRACEPOINT_SYMBOL(dma_fence_enable_signal);
+>  EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
+> +EXPORT_TRACEPOINT_SYMBOL(dma_fence_sync_to);
+>  
+>  static DEFINE_SPINLOCK(dma_fence_stub_lock);
+>  static struct dma_fence dma_fence_stub;
+> diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
+> index 3963e79ca7b4..9b3875f7aa79 100644
+> --- a/include/trace/events/dma_fence.h
+> +++ b/include/trace/events/dma_fence.h
+> @@ -83,6 +83,40 @@ DEFINE_EVENT(dma_fence, dma_fence_wait_end,
+>  	TP_ARGS(fence)
+>  );
+>  
+> +DECLARE_EVENT_CLASS(dma_fence_from,
+> +
+> +	TP_PROTO(struct dma_fence *fence, const char *reason),
+> +
+> +	TP_ARGS(fence, reason),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(driver, fence->ops->get_driver_name(fence))
+> +		__string(timeline, fence->ops->get_timeline_name(fence))
+> +		__field(unsigned int, context)
+> +		__field(unsigned int, seqno)
+> +		__string(reason, reason)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(driver, fence->ops->get_driver_name(fence));
+> +		__assign_str(timeline, fence->ops->get_timeline_name(fence));
+> +		__entry->context = fence->context;
+> +		__entry->seqno = fence->seqno;
+> +		__assign_str(reason, reason);
+> +	),
+> +
+> +	TP_printk("driver=%s timeline=%s context=%u seqno=%u reason=%s",
+> +		  __get_str(driver), __get_str(timeline), __entry->context,
+> +		  __entry->seqno, __get_str(reason))
+> +);
+> +
+> +DEFINE_EVENT(dma_fence_from, dma_fence_sync_to,
+> +
+> +	TP_PROTO(struct dma_fence *fence, const char *reason),
+> +
+> +	TP_ARGS(fence, reason)
+> +);
+> +
+>  #endif /*  _TRACE_DMA_FENCE_H */
+>  
+>  /* This part must be outside protection */
+> -- 
+> 2.40.1
+> 
 
-diff --git a/drivers/media/dvb-frontends/stv0367.c b/drivers/media/dvb-frontends/stv0367.c
-index 48326434488c..72540ef4e5f8 100644
---- a/drivers/media/dvb-frontends/stv0367.c
-+++ b/drivers/media/dvb-frontends/stv0367.c
-@@ -118,50 +118,32 @@ static const s32 stv0367cab_RF_LookUp2[RF_LOOKUP_TABLE2_SIZE][RF_LOOKUP_TABLE2_S
- 	}
- };
- 
--static
--int stv0367_writeregs(struct stv0367_state *state, u16 reg, u8 *data, int len)
-+static noinline_for_stack
-+int stv0367_writereg(struct stv0367_state *state, u16 reg, u8 data)
- {
--	u8 buf[MAX_XFER_SIZE];
-+	u8 buf[3] = { MSB(reg), LSB(reg), data };
- 	struct i2c_msg msg = {
- 		.addr = state->config->demod_address,
- 		.flags = 0,
- 		.buf = buf,
--		.len = len + 2
-+		.len = 3,
- 	};
- 	int ret;
- 
--	if (2 + len > sizeof(buf)) {
--		printk(KERN_WARNING
--		       "%s: i2c wr reg=%04x: len=%d is too big!\n",
--		       KBUILD_MODNAME, reg, len);
--		return -EINVAL;
--	}
--
--
--	buf[0] = MSB(reg);
--	buf[1] = LSB(reg);
--	memcpy(buf + 2, data, len);
--
- 	if (i2cdebug)
- 		printk(KERN_DEBUG "%s: [%02x] %02x: %02x\n", __func__,
--			state->config->demod_address, reg, buf[2]);
-+			state->config->demod_address, reg, data);
- 
- 	ret = i2c_transfer(state->i2c, &msg, 1);
- 	if (ret != 1)
- 		printk(KERN_ERR "%s: i2c write error! ([%02x] %02x: %02x)\n",
--			__func__, state->config->demod_address, reg, buf[2]);
-+			__func__, state->config->demod_address, reg, data);
- 
- 	return (ret != 1) ? -EREMOTEIO : 0;
- }
- 
--static int stv0367_writereg(struct stv0367_state *state, u16 reg, u8 data)
--{
--	u8 tmp = data; /* see gcc.gnu.org/bugzilla/show_bug.cgi?id=81715 */
--
--	return stv0367_writeregs(state, reg, &tmp, 1);
--}
--
--static u8 stv0367_readreg(struct stv0367_state *state, u16 reg)
-+static noinline_for_stack
-+u8 stv0367_readreg(struct stv0367_state *state, u16 reg)
- {
- 	u8 b0[] = { 0, 0 };
- 	u8 b1[] = { 0 };
 -- 
-2.39.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
