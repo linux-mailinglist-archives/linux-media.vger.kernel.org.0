@@ -1,215 +1,142 @@
-Return-Path: <linux-media+bounces-5305-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531E88584BF
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 19:03:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7CE8585CA
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 19:51:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC8961F22BB5
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 18:03:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 456D62890FC
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 18:51:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 198781339A1;
-	Fri, 16 Feb 2024 18:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8405C135A44;
+	Fri, 16 Feb 2024 18:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="L4k18Lh+"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="nBZoFDGN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1FF12F5AB
-	for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 18:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450611353F0
+	for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 18:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708106574; cv=none; b=Ahehtjw+HUD3nTCxbptCm0OgFSMdtBWXbkYMKhK2tRrS5OdogJujHkXnGp2ZuNr+0og4sKwTmL51utjPKOtt5G8+GjfL3hcQZgFc2o/HAJ/8sYE//+Ch6vWlwuTfHJVX4fAzu0fpaybJMOFp41ASPQY2+BpezOF/kLj+O8qc8Zo=
+	t=1708109496; cv=none; b=B7OkdeIisiVZyW8hlW0PBipN1DD39ZAGYoYi9f5dZGTTjtCoboPmg/y/aqfc8YUmRSL+nWzKTf8ksDnSqVW8bPN7tbSi0C3qHQ6NnTQpUj38PGl8zc6+NCJdYwFsJ40E+QZK/+6ttnnRk4t3lEx8mWQK7dOZ75nNtGA5Y2plN3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708106574; c=relaxed/simple;
-	bh=THit63uVPKgH3BKErUJlnkxg4AEbv7tu7om5C0j2s2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EveYJpd3/dOR1s5Mr5ri3QLb2qrZgWD8mia/7nez36C+69icwHHd8DqTtE2QLccEJIdkoW9nO0uwdGAl96h80B+656q109VQbyZSgMvINXomKGQtDGNNVjKRT59g2F7OJKBN+BmO9u+dIKbbiTBSX0LwjWoeI9fVOhyGwQJnut4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=L4k18Lh+; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a3d2422f1b5so66925766b.1
-        for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 10:02:52 -0800 (PST)
+	s=arc-20240116; t=1708109496; c=relaxed/simple;
+	bh=W/b5bbABKz79xZXU+epksZPjBorx/kdtQ4bqersfPQU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fd7PwkRnaD4miF1oEBPH8R32GHMzyOLVL/LgUoIcCR627lzcjgUUKTzdkZBHrpV8ZVd4G5O9pfn6JJGZ8xE4DIxKpLmClhsdCHRewpsDZXYOtJ7f2ShyWWRepCFS+NtVOLOvAt0ncGekq5PQr1BvoI6R2K8V9w7FRzI/wz71F4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=nBZoFDGN; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-68009cb4669so11006286d6.1
+        for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 10:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1708106571; x=1708711371; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1708109494; x=1708714294; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=kWOeJUy90KVtiP9YXPoGesfXE8zdwI8eJnlf9+BtZ90=;
-        b=L4k18Lh+zUoZnan64w743YAqDyB+SdpZQwY7906UFPU3W8bK8bzsfhIuLBidXPuWFS
-         uy4MuQiu1CMEyvAtgUDPmCdxb/XN6Stwo9ePKcSKmpBLug8MzyKKqTEPR8u9SChq+Z8w
-         l9FL3xco8/4+taiptiYGfzTgw6BYtGt2cr0SU=
+        bh=yJXAWTaFF9uXvOf/kvT65ZY3tmlJVTyrCsu5Mk/WAvU=;
+        b=nBZoFDGNZz4PwvsLUlhZUgE8Jt3u3lCeQrKDQmRIbJkRpd82huXjwT7PYI33ZA78Pe
+         ZrKIN/835Y7wQDU7WZrxuM0BR2vznGU7c9eAy0icwPheEF1xEzp/LygXFloaVNLHxzhG
+         CidKQkCxNSUAWb/erzdwbrvug1COnFwCvk3vwQvK2qYkg1cagUnO6AdcxYS3s4E1mwIE
+         sg70u722zzLe7FCKXz340a0hoV/7rTlQfZR+nLU6UzqA2xj3CF/6FnGm3iz4LCDxsBZ8
+         077+eItDF7J1AhXsFoYZek3bdjjrlRHM4DQGdSbSYziVfYMKJltmL8rx61/kUjNLYJ9m
+         KKBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708106571; x=1708711371;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1708109494; x=1708714294;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kWOeJUy90KVtiP9YXPoGesfXE8zdwI8eJnlf9+BtZ90=;
-        b=LV4tfcxuk2/bqGCzq60ONRYFj4+7s0QNaY/7iV+Bcuknhj9OwLTbjEmwktXY9d2eMr
-         EkDomkJk7BPaoP+z/Ey/4kkCqj5LNxU3w+sdkXOiU9EjYL9G1EaSCEDkbfTSHMEdy66T
-         ozGlsIHTED1oAqEnDYstlQoumcdTd+4Dnixhi+b7OYKsbM45bvfAKRGtJQLmM7dQscl6
-         IDNMiG0TaR43/oCvqIfQcShOTY/V9bT0miMX7hViOVxnD2oAqrOqjL3JfJIqOfUyzgBs
-         2JAR9ZbJYAxVkkgkRkc9IKv6Hg0SGB0yPFMhtohTdNiXHOzCBwYGciuia6yc3CByGpWm
-         vmRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUg8HMNJ5FWLgkLgKBpyjhSciGNA4R5eHTW+b76NMbequsrtFE3PnnhdjJXnnRayLaiD9hvlCjlGDXOwsmy0jTuk8rJ5iiduIgE93g=
-X-Gm-Message-State: AOJu0Yx/1mAyShadIf7WH1jHkCtKeJccXI/hy6TLaVFew1Mm+4UCRjGt
-	l+Bvjy3AFdhG0+ta8+5wxRl2i7PCxcfWLvmeUFVuw5w5+lSAYEMjW8i5DE30MTY=
-X-Google-Smtp-Source: AGHT+IHSmOAy3oa2La7yssKepZFC0ok9e49lHpBPZtwML9qSR/4sCtqzMn/r6OGKsb48uF7ZvrRmBQ==
-X-Received: by 2002:a17:907:1604:b0:a38:526e:78ed with SMTP id cw4-20020a170907160400b00a38526e78edmr4205804ejd.7.1708106570987;
-        Fri, 16 Feb 2024 10:02:50 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id lc5-20020a170906f90500b00a3d6ff5f087sm191930ejb.55.2024.02.16.10.02.50
+        bh=yJXAWTaFF9uXvOf/kvT65ZY3tmlJVTyrCsu5Mk/WAvU=;
+        b=YAs8JcH1nI/GtgeZsRwQn0wsqpQ+JLkl0a0RYGa4005smXABF0zGnAkR+I7kLYmcU3
+         1O4GJBczpQOArDQ5p1EMbdiocz1INccVQtiq9ko/Myg8Uj3z39yctMufNC1472rgHD64
+         J51KsTrqF6fNpzbP7dBHeBTXDW1tjkNU5rUX75qhUJAwIjS4xlzFKCGf8Sc49KQ7gAnS
+         2o1Q2hVJch2wdqGZdpluiovOMdn76QluV0lSqrBCZnMKJK+rW61WXPO/dujmHp8wBTM8
+         QI746JmVItpGClKJJIDHJxhwDnBX7tw7NHuJjcJjaOlb3V0Aq9dfGjbEUehWmyMF+TEg
+         w/cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXz9zG3lC/4vzWCBfk7c05oT0JChB6VC0p/Cypw3QIEboF3KCd30O8VED5oE2GGY5GhoPTB+MzLKJdcOMcchiHbCQ9ZLOqa0bBvsw0=
+X-Gm-Message-State: AOJu0YzQGUGr3XpTgRyfR3p6kxT/RlUeGlmtBjdlzKv/W+p/XRNHHKYv
+	qjOSVRfDZIB9dDWKvOXKnsAsgIztqyyn/lZ/akjj3XPz8CFS0QT+4ASCUxtGLdU=
+X-Google-Smtp-Source: AGHT+IF2l2KObMJDyh64wfZZvs6qbBnTPVlf8mdhwZ8NToSMz7Jt1XOTlHhrPjU2Am3rXxkevztHMw==
+X-Received: by 2002:a05:6214:4884:b0:68c:5a42:41a3 with SMTP id pc4-20020a056214488400b0068c5a4241a3mr8259751qvb.34.1708109494126;
+        Fri, 16 Feb 2024 10:51:34 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
+        by smtp.gmail.com with ESMTPSA id nf7-20020a0562143b8700b0068cdc0a0d42sm178010qvb.25.2024.02.16.10.51.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 10:02:50 -0800 (PST)
-Date: Fri, 16 Feb 2024 19:02:48 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/6] tracing, dma-buf: add a trace_dma_fence_sync_to
- event
-Message-ID: <Zc-jSH4BVrBrkj5d@phenom.ffwll.local>
-References: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
- <20240213155112.156537-1-pierre-eric.pelloux-prayer@amd.com>
- <20240213155112.156537-2-pierre-eric.pelloux-prayer@amd.com>
- <Zc-OJAXlApzcOfYQ@phenom.ffwll.local>
- <b719d7b9-8a9a-42ad-b35b-145d6a835964@amd.com>
+        Fri, 16 Feb 2024 10:51:33 -0800 (PST)
+Message-ID: <f1c4efc4d8d2b01a50f3ab23e2c5767de111f4a8.camel@ndufresne.ca>
+Subject: Re: [PATCH] drivers: wave5: Remove unnecessary semicolons
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Thorsten Blum <thorsten.blum@toblux.com>, Nas Chung
+	 <nas.chung@chipsnmedia.com>, Jackson Lee <jackson.lee@chipsnmedia.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Date: Fri, 16 Feb 2024 13:51:33 -0500
+In-Reply-To: <20240213140441.8640-1-thorsten.blum@toblux.com>
+References: <20240213140441.8640-1-thorsten.blum@toblux.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b719d7b9-8a9a-42ad-b35b-145d6a835964@amd.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
 
-On Fri, Feb 16, 2024 at 05:51:59PM +0100, Christian König wrote:
-> Am 16.02.24 um 17:32 schrieb Daniel Vetter:
-> > On Tue, Feb 13, 2024 at 04:50:26PM +0100, Pierre-Eric Pelloux-Prayer wrote:
-> > > This new event can be used to trace where a given dma_fence is added
-> > > as a dependency of some other work.
-> > How?
-> > 
-> > What I'd expected here is that you add a dependency chain from one fence
-> > to another, but this only has one fence.
-> 
-> That's what I though initially as well, but at the point we add the
-> dependency fences to the scheduler job we don't have the scheduler fence
-> initialized yet.
-> 
-> We could change this so that we only trace all the fences after we have
-> initialized the scheduler fence, but then we loose the information where the
-> dependency comes from.
+Hi,
 
-Hm right, I thought we'd dump the hashed pointe value into the fence
-events too, then you could make the connection. But we don't, so this is a
-bit annoying ...
+Le mardi 13 f=C3=A9vrier 2024 =C3=A0 15:04 +0100, Thorsten Blum a =C3=A9cri=
+t=C2=A0:
+> Remove unnecessary semicolons reported by Coccinelle/coccicheck and the
+> semantic patch at scripts/coccinelle/misc/semicolon.cocci.
+>=20
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
 
-And walking the entire scheduler dependency chain at trace_dma_fence_emit
-time (or something similar) maybe?
--Sima
+Thanks for the fix.
 
-> > How do you figure out what's the
-> > next dma_fence that will stall on this dependency?
-> 
-> I'm not fully sure on that either. Pierre?
-> 
-> Christian.
-> 
-> 
-> >   Like in the gpu
-> > scheduler we do know what will be the fence that userspace gets back, so
-> > we can make that connection. And same for the atomic code (although you
-> > don't wire that up at all).
-> > 
-> > I'm very confused on how this works and rather worried it's a brittle
-> > amdgpu-only solution ...
-> > -Sima
-> > 
-> > > I plan to use it in amdgpu.
-> > > 
-> > > Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> > > ---
-> > >   drivers/dma-buf/dma-fence.c      |  1 +
-> > >   include/trace/events/dma_fence.h | 34 ++++++++++++++++++++++++++++++++
-> > >   2 files changed, 35 insertions(+)
-> > > 
-> > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > > index e0fd99e61a2d..671a499a5ccd 100644
-> > > --- a/drivers/dma-buf/dma-fence.c
-> > > +++ b/drivers/dma-buf/dma-fence.c
-> > > @@ -23,6 +23,7 @@
-> > >   EXPORT_TRACEPOINT_SYMBOL(dma_fence_emit);
-> > >   EXPORT_TRACEPOINT_SYMBOL(dma_fence_enable_signal);
-> > >   EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
-> > > +EXPORT_TRACEPOINT_SYMBOL(dma_fence_sync_to);
-> > >   static DEFINE_SPINLOCK(dma_fence_stub_lock);
-> > >   static struct dma_fence dma_fence_stub;
-> > > diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
-> > > index 3963e79ca7b4..9b3875f7aa79 100644
-> > > --- a/include/trace/events/dma_fence.h
-> > > +++ b/include/trace/events/dma_fence.h
-> > > @@ -83,6 +83,40 @@ DEFINE_EVENT(dma_fence, dma_fence_wait_end,
-> > >   	TP_ARGS(fence)
-> > >   );
-> > > +DECLARE_EVENT_CLASS(dma_fence_from,
-> > > +
-> > > +	TP_PROTO(struct dma_fence *fence, const char *reason),
-> > > +
-> > > +	TP_ARGS(fence, reason),
-> > > +
-> > > +	TP_STRUCT__entry(
-> > > +		__string(driver, fence->ops->get_driver_name(fence))
-> > > +		__string(timeline, fence->ops->get_timeline_name(fence))
-> > > +		__field(unsigned int, context)
-> > > +		__field(unsigned int, seqno)
-> > > +		__string(reason, reason)
-> > > +	),
-> > > +
-> > > +	TP_fast_assign(
-> > > +		__assign_str(driver, fence->ops->get_driver_name(fence));
-> > > +		__assign_str(timeline, fence->ops->get_timeline_name(fence));
-> > > +		__entry->context = fence->context;
-> > > +		__entry->seqno = fence->seqno;
-> > > +		__assign_str(reason, reason);
-> > > +	),
-> > > +
-> > > +	TP_printk("driver=%s timeline=%s context=%u seqno=%u reason=%s",
-> > > +		  __get_str(driver), __get_str(timeline), __entry->context,
-> > > +		  __entry->seqno, __get_str(reason))
-> > > +);
-> > > +
-> > > +DEFINE_EVENT(dma_fence_from, dma_fence_sync_to,
-> > > +
-> > > +	TP_PROTO(struct dma_fence *fence, const char *reason),
-> > > +
-> > > +	TP_ARGS(fence, reason)
-> > > +);
-> > > +
-> > >   #endif /*  _TRACE_DMA_FENCE_H */
-> > >   /* This part must be outside protection */
-> > > -- 
-> > > 2.40.1
-> > > 
-> 
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> ---
+>  drivers/media/platform/chips-media/wave5/wave5-hw.c      | 2 +-
+>  drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/driver=
+s/media/platform/chips-media/wave5/wave5-hw.c
+> index f1e022fb148e..2d82791f575e 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> @@ -2315,7 +2315,7 @@ static bool wave5_vpu_enc_check_common_param_valid(=
+struct vpu_instance *inst,
+>  				param->intra_refresh_mode);
+>  			return false;
+>  		}
+> -	};
+> +	}
+>  	return true;
+> =20
+>  invalid_refresh_argument:
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
+rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index f29cfa3af94a..8bbf9d10b467 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> @@ -92,7 +92,7 @@ static int switch_state(struct vpu_instance *inst, enum=
+ vpu_instance_state state
+>  		break;
+>  	case VPU_INST_STATE_STOP:
+>  		break;
+> -	};
+> +	}
+> =20
+>  	dev_dbg(inst->dev->dev, "Switch state from %s to %s.\n",
+>  		state_to_str(inst->state), state_to_str(state));
+
 
