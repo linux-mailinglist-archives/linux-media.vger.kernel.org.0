@@ -1,123 +1,107 @@
-Return-Path: <linux-media+bounces-5278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5277-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEEA857CF0
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 13:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2E1857CEA
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 13:48:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC6E31F22582
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 12:50:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 718B31F22716
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 12:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 455961292CF;
-	Fri, 16 Feb 2024 12:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="OBnE1toA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E76771292D0;
+	Fri, 16 Feb 2024 12:48:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA062CCB4;
-	Fri, 16 Feb 2024 12:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.19.76.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD9477F19;
+	Fri, 16 Feb 2024 12:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708087841; cv=none; b=aegjf+3bGz5LqLszOI+gQ23Zw2/AfnHAWZKMIvpO+oDLxM4y02Iw2m8XgwPpvQj7tvcODDOCt0+uM+XbV6xvpyIoWjJVvhxbRaYWz776/FNXwnTzRHzFO0fvIA8dxeDpEqErA5BJx2yISBkk8wa94tAJq36a2qEXDl8ZktRJWoU=
+	t=1708087701; cv=none; b=BRT3XEdcgrjH03os8Jv2FB4l96b99hO8InGkfHsciE1CraZB67Ea9ErUeg52xxkkwePZ5Dh54FPnNwPOVOc032L2QlVcIml2kszx15LZdpGfvifn7b/tyCJstSZBV04A1vjYfCmktk18xG51Idql7+P+8gg6wJHpZ5sDncLvBY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708087841; c=relaxed/simple;
-	bh=k2fpWlsq3ikrp8PHJJJBcQSXhbD5PcQPjZovIN5SiKE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tOUw2cvAP9RLs4VoFl+mhaYXC2UWSn2MPNIoYA5HHAUbGUsmuNVTDIjvGJcYFOeifU+UU1KpscOyawEmkVxyfWCfV1lPe3+yro73o9kN1MzoUmZqSpuAuMjC8UUfsX7JpqOhY4gs0FnX4tSqMKyNphUringUxyfSzt7ZxqUTuoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru; spf=pass smtp.mailfrom=rosalinux.ru; dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b=OBnE1toA; arc=none smtp.client-ip=195.19.76.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosalinux.ru
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 6DE5418575DEA;
-	Fri, 16 Feb 2024 15:40:28 +0300 (MSK)
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id yTkEI9-BT0By; Fri, 16 Feb 2024 15:40:28 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 3C67A1859D618;
-	Fri, 16 Feb 2024 15:40:28 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru 3C67A1859D618
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
-	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1708087228;
-	bh=zgV0ivj/OEUx/r+edsUgWjC2NypknE++yAGJ22q5QGk=;
-	h=From:To:Date:Message-Id:MIME-Version;
-	b=OBnE1toA9i06HkfC7k8Q2ftnCEJ95/C/kobi4hfdtCJuoHST49Uloz9mYnMHED9MF
-	 waEdFoQlrN3tADQJsGGiPtHQPmdGISVjRJtGUWGSbq8ALxbA6/a7bSx+X6sgtS3xEi
-	 703fzxlXkEe/JEGm55nnwefGh96LMaTnbcRCSuoW84djwwHhTymWArnDiLm3JCmmrs
-	 8NJfKcsLFDSU5nxE4GDqylcaLEJwdiohuAaORB5Me5y6RpdlVtgT8WFHdTWplIu4lX
-	 RnSYdRiUeBVhSjD+XiNCAxyDvptpS5GxWF2L6Q1EUJ6DHa85MBal/QfiuI1GLbk+m5
-	 6GhFh/36hDnzg==
-X-Virus-Scanned: amavisd-new at rosalinux.ru
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id W8JxpCQNt1ZG; Fri, 16 Feb 2024 15:40:28 +0300 (MSK)
-Received: from ubuntu.localdomain (unknown [144.206.93.23])
-	by mail.rosalinux.ru (Postfix) with ESMTPSA id EE6151855EE38;
-	Fri, 16 Feb 2024 15:40:27 +0300 (MSK)
-From: Aleksandr Burakov <a.burakov@rosalinux.ru>
-To: Mauro Carvalho Chehab <mchehab@infradead.org>
-Cc: Aleksandr Burakov <a.burakov@rosalinux.ru>,
-	Hartmut Hackmann <hartmut.hackmann@t.online.de>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] [media] saa7134: Unchecked i2c_transfer function result fixed
-Date: Fri, 16 Feb 2024 15:40:06 +0300
-Message-Id: <20240216124006.18896-1-a.burakov@rosalinux.ru>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1708087701; c=relaxed/simple;
+	bh=ltOuHVrVTKLOnrB7B0KVPfUJ1r7SOLDqXbub8Kj3btc=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=NqThNQyIzvUIo72IGXGwmjnv+VLKyzD7vxAzwGfRK5fAwkVHoKM7PRclUPQC2kXDVEKNqrsFgBuxLf3MD/3lS8p9loqPZ3xp305SScjeAcdPgg5AQ/adst8bnPG7RC0Cu0rhQjcAy6IlYc3s6XFZzrPI4d5R8HvNsLZIVNHLXjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk [IPv6:2a01:4f8:1c1b:c794::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id 4636B3780626;
+	Fri, 16 Feb 2024 12:48:10 +0000 (UTC)
+From: "Shreeya Patel" <shreeya.patel@collabora.com>
+In-Reply-To: <237e690a-2f49-4046-b054-3a878eed6748@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240216094922.257674-1-shreeya.patel@collabora.com>
+ <20240216094922.257674-2-shreeya.patel@collabora.com> <237e690a-2f49-4046-b054-3a878eed6748@linaro.org>
+Date: Fri, 16 Feb 2024 12:48:10 +0000
+Cc: heiko@sntech.de, mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com, dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com, shawn.wen@rock-chips.com, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org, linux-dt@vger.kernel.org, linux-arm@lists.infradead.org
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Message-ID: <30d2-65cf5980-3-2ec9f500@242931553>
+Subject: =?utf-8?q?Re=3A?= [PATCH 1/4] =?utf-8?q?clk=3A?==?utf-8?q?_rockchip=3A?=
+ =?utf-8?q?_rst-rk3588=3A?= Add BIU reset
+User-Agent: SOGoMail 5.9.1
 Content-Transfer-Encoding: quoted-printable
 
-Return value of function 'i2c_transfer' is not checked that
-may cause undefined behaviour.
+On Friday, February 16, 2024 15:33 IST, Krzysztof Kozlowski <krzysztof.=
+kozlowski@linaro.org> wrote:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> On 16/02/2024 10:49, Shreeya Patel wrote:
+> > Export hdmirx=5Fbiu soft reset id which is required by the hdmirx c=
+ontroller.
+> >=20
+> > Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
+> > ---
+> >  drivers/clk/rockchip/rst-rk3588.c               | 1 +
+> >  include/dt-bindings/reset/rockchip,rk3588-cru.h | 2 ++
+>=20
+> Please run scripts/checkpatch.pl and fix reported warnings. Some
+> warnings can be ignored, but the code here looks like it needs a fix.
+> Feel free to get in touch if the warning is not clear.
+>=20
+> Please do internal review. The internal Collabora review would tell y=
+ou:
+> YOU MUST run checkpatch. Then you see errors, so why do you send patc=
+h
+> with errors to the mailing list?
+>=20
 
-Fixes: 2cf36ac44730 ("[PATCH] v4l: 656: added support for the following c=
-ards")
-Signed-off-by: Aleksandr Burakov <a.burakov@rosalinux.ru>
----
- drivers/media/pci/saa7134/saa7134-dvb.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+I am sorry but what errors are you talking about?
+I don't see any errors reported by checkpatch :-
 
-diff --git a/drivers/media/pci/saa7134/saa7134-dvb.c b/drivers/media/pci/=
-saa7134/saa7134-dvb.c
-index 9c6cfef03331..a66df6adfaad 100644
---- a/drivers/media/pci/saa7134/saa7134-dvb.c
-+++ b/drivers/media/pci/saa7134/saa7134-dvb.c
-@@ -466,7 +466,9 @@ static int philips_europa_tuner_sleep(struct dvb_fron=
-tend *fe)
- 	/* switch the board to analog mode */
- 	if (fe->ops.i2c_gate_ctrl)
- 		fe->ops.i2c_gate_ctrl(fe, 1);
--	i2c_transfer(&dev->i2c_adap, &analog_msg, 1);
-+	if (i2c_transfer(&dev->i2c_adap, &analog_msg, 1) !=3D 1)
-+		return -EIO;
-+
- 	return 0;
- }
-=20
-@@ -1018,7 +1020,9 @@ static int md8800_set_voltage2(struct dvb_frontend =
-*fe,
- 	else
- 		wbuf[1] =3D rbuf & 0xef;
- 	msg[0].len =3D 2;
--	i2c_transfer(&dev->i2c_adap, msg, 1);
-+	if (i2c_transfer(&dev->i2c_adap, msg, 1) !=3D 1)
-+		return -EIO;
-+
- 	return 0;
- }
-=20
---=20
-2.25.1
+shreeya@shreeya:~/collabora/rd/rockchip/torvalds$ ./scripts/checkpatch.=
+pl hdmirx/0001-clk-rockchip-rst-rk3588-Add-BIU-reset.patch
+WARNING: DT binding docs and includes should be a separate patch. See: =
+Documentation/devicetree/bindings/submitting-patches.rst
+
+total: 0 errors, 1 warnings, 13 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-in=
+place.
+
+hdmirx-v1-1602/0001-clk-rockchip-rst-rk3588-Add-BIU-reset.patch has sty=
+le problems, please review.
+
+I see the above warning but that looks like a false positive to me.
+
+> Best regards,
+> Krzysztof
+>=20
+> =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
+=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
+> Kernel mailing list -- kernel@mailman.collabora.com
+> To unsubscribe send an email to kernel-leave@mailman.collabora.com
+> This list is managed by https://mailman.collabora.com
 
 
