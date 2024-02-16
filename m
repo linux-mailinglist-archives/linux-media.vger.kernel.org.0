@@ -1,63 +1,70 @@
-Return-Path: <linux-media+bounces-5298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5299-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C3685825B
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 17:24:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04246858269
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 17:25:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5ADA1281C81
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:24:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 98B01B22405
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:25:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FF3412FF6F;
-	Fri, 16 Feb 2024 16:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05DFE12FF8B;
+	Fri, 16 Feb 2024 16:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7NstgV5"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="JAfGjzyZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D4812F39F;
-	Fri, 16 Feb 2024 16:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7A912F39F
+	for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 16:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708100661; cv=none; b=RE2OoDRffZbUsTXluCixGdxyagIWmPjUCjF9nDxaUsNuieJodymFaK48g52BHZD9Kexy8vRxHCBlHQyYIa1HfgeGIBlWkK8sEn4pZWolJFUCzVnTv1qHW3/Iximqy+eD6NXyr1nyP5TEyz9niTa4VrhyPVX4f2OLxT7IUW7itZ8=
+	t=1708100732; cv=none; b=Rrbxt1Jnwy6AsURGBtK94qDQXJ9Nj9c7rYXpsMsUANhuEE8+tZmhZTJ6dpIFFmA13HAtvp3xWNwp0cAZ2rbu6fsGNzaheS4JHNFw4QhHSluhX9Vuv0W5o96MYNcq9tkbn3RH5oeY2xz9aq4to75ienbcGgiQ1gMJ0BfthZNw+IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708100661; c=relaxed/simple;
-	bh=QRBRG+PPKI9lbmCzW9kkuJZJPZ7F9Ovpm+o2PeXYP+8=;
+	s=arc-20240116; t=1708100732; c=relaxed/simple;
+	bh=5yTnta56AR6BXnFEPPoLSDh9Nm3LmRA9pgmcvYBfpIQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YWNsruvmvNFM2QBOMqIvo/E6QOJGmUXVcTZMRxpVTvmeGY9aLmeMkntVeZ8UxOq+G4c0wzxMlys5PYZJiOOy9tA+PMvYN4SWv4hhh4+SWER4htYdHB0zvGVJx+CvfE3OEMs4ZtyptWX2EcEWHC2OBdggJEkmTOIfqh+dLYl1eSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7NstgV5; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708100660; x=1739636660;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=QRBRG+PPKI9lbmCzW9kkuJZJPZ7F9Ovpm+o2PeXYP+8=;
-  b=Q7NstgV5tVGXiDiUYkYet+H3pg+zrOHSHwcJoeDCWQXd6DGdIYlr/oAO
-   FrfZyRck4fi88zXIkByHfNSqTtK9ml/nldEhPAEI03xG3zCgFOvCZMmgJ
-   gjhiFRggpHwB0BsnPd3pmhT7g+rDw55Gbwmb3tb3VLqvZ23wVed3UPxp2
-   QDH4y5TKfFStollMhOzbASHpdFNtCqPQp8no4t3xM3ds5D+lRFs0e96ME
-   B0bcGjahJrXZv4EuLpq87cr2POSgxi/UKzZ8vk86bgmN2OSskcMZAmV4V
-   3z6eCl52nEgGh3It7SAk6UL20/P95gSBMnns9zwQjMrPZAjkKfhCZN1aT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="6060783"
-X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="6060783"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 08:24:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="826595017"
-X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="826595017"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga001.jf.intel.com with SMTP; 16 Feb 2024 08:24:14 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 16 Feb 2024 18:24:13 +0200
-Date: Fri, 16 Feb 2024 18:24:13 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CDtohnCdXyrKS+002vWyTIa2nAkAsxuYNFBODhUcdIwCK1XloIVLYzDi5YRCvVSLfDPZ4Mt1hEaBDIbnAtW09DX13aPUHuMh9nmWI0DlbHNL5gmVTDSD4TXHYhKuW3kBwWD275cxFJN3H1QhST5MtDkX8rQUJzVwQLMdA5/X0z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=JAfGjzyZ; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-411b1c73c66so2897335e9.1
+        for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 08:25:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1708100728; x=1708705528; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FbovBTMRuauZ87JHkxYtCDu9xXwl8pNuoEKKXTPkIE4=;
+        b=JAfGjzyZRf39SvxvvliBO06xKVSlsQQNQykpQHXzfgl1RrfmdpgyyFJ6vpKRAV6UKg
+         lopK9i+uCJQti9k7Ld85tisaYRoC7H4YfYniGX4TV/+ofpW4DCU2ghN8uJx8yZDMhqUM
+         P8KqMIeBfCJ/SxzMloTLXY+FrXz894nB25Y2Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708100728; x=1708705528;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FbovBTMRuauZ87JHkxYtCDu9xXwl8pNuoEKKXTPkIE4=;
+        b=oQzn8JT5tvLbnAGQ5aS8QluaMCtnAEukRX+ACIDqqfjB78ETH07G6VNhtuLnkE9jve
+         9gxahhzyMtuUF+mMR+WaX3QZfXYYRn6qrfyvXv/LSqDtiyCBAfViVASsTRtRrCDjfAF7
+         Y4MIVj4ioelC7Vt8JhWaEf4oyPELoPSw0aG3QgEI07vwTpQPvzLZ5X31qYBYUOpqBI23
+         kDuh9zdMJsdZ2Pq+7E8W8PTqX8dyL+2V+3CA0DC3JYvf1dOALfdQrP7AiWJHQzvRjVli
+         hbMJueQAmjmL7KfQ8os2BwCO5dtmTZjUb5AtiSct5MUGMCXgoB4CZgvyi1qXXLsZhiL/
+         w41w==
+X-Forwarded-Encrypted: i=1; AJvYcCVVmiyFsMcur7sqh96iTyusbFc7JWBIQsdFKIiW0N28FL1+AxGzBoXKe6Uiv7QB+kiiKM1veuj8CB5eS8BZW359v5mzbH/u+YRWBzk=
+X-Gm-Message-State: AOJu0Yw+ietZxm7tn51MYTamYZcI49omFD/WxIc+K1rVwjAhYZElPyX9
+	o0eE24sdasakz5qrIOyB8oTNVBvnKP1qFyig48mJaanKHINGBW+uZwnpv0HPax4=
+X-Google-Smtp-Source: AGHT+IHeHVBrgNXG+qAN5mqx7oJbbjaQd6P5O0lqO0uCc/gzwoRohy4nD+vPEEMKf02n7YyersNUsg==
+X-Received: by 2002:a05:600c:2258:b0:412:456e:636e with SMTP id a24-20020a05600c225800b00412456e636emr1585192wmm.3.1708100728278;
+        Fri, 16 Feb 2024 08:25:28 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id s10-20020a05600c044a00b004122fbf9253sm2726818wmb.39.2024.02.16.08.25.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 08:25:27 -0800 (PST)
+Date: Fri, 16 Feb 2024 17:25:25 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
 To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>,
 	Gustavo Padovan <gustavo@padovan.org>,
@@ -69,143 +76,78 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
 	linux-trace-kernel@vger.kernel.org,
 	Alex Deucher <alexander.deucher@amd.com>,
 	amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v3 6/8] drm: add drm_mode_atomic_commit event
-Message-ID: <Zc-MLQZ1bby_vKal@intel.com>
-References: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
- <20240216151006.475077-7-pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH v2 0/6] dma-fence, drm, amdgpu new trace events
+Message-ID: <Zc-MdXp_2Wcm5ouT@phenom.ffwll.local>
+References: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240213155112.156537-1-pierre-eric.pelloux-prayer@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240216151006.475077-7-pierre-eric.pelloux-prayer@amd.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20240213155112.156537-1-pierre-eric.pelloux-prayer@amd.com>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 
-On Fri, Feb 16, 2024 at 04:09:55PM +0100, Pierre-Eric Pelloux-Prayer wrote:
-> With this and the dma_fence_used_as_dependency event, a tool can draw the
-> relationship between the compositing draw, the atomic commit, and vblank.
+On Tue, Feb 13, 2024 at 04:50:25PM +0100, Pierre-Eric Pelloux-Prayer wrote:
+> This series adds new events to make it easier for tools
+> like gpuvis or umr to graph the GPUs, kernel and applications
+> activity.
 > 
-> An example on a 2 monitors system look like this:
+> UMR patches using these events can be found here:
+> https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
 > 
-> gnome-shell-1638    [018] .....  2571.905124: drm_mode_atomic_commit: file=00000000245c3f0c, pid=    1165, flags=00000201, crtcs={0x1}
-> gnome-shell-1638    [018] .....  2571.905147: dma_fence_used_as_dependency: driver=drm_sched timeline=gfx_0.0.0 context=270 seqno=73240 reason=dma_fence_chain_init
-> gnome-shell-1638    [018] .....  2571.913226: drm_mode_atomic_commit: file=00000000245c3f0c, pid=    1165, flags=00000201, crtcs={0x0}
-> gnome-shell-1638    [018] .....  2571.913250: dma_fence_used_as_dependency: driver=drm_sched timeline=gfx_0.0.0 context=270 seqno=73241 reason=dma_fence_chain_init
->     <idle>-0       [018] d.h3.  2571.915687: drm_vblank_event: crtc=1, seq=155747, time=2571916093743, high-prec=true
->     <idle>-0       [018] d.h3.  2571.915968: drm_vblank_event: crtc=0, seq=153862, time=2571916377180, high-prec=true
+> V1:
+> https://patchwork.kernel.org/project/linux-media/patch/20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com/
 > 
-> v2: fix unchecked memory allocation
+> Changes from V1:
+> * uses trace_dma_fence_sync_to from dma-fence-chain.c
+> * new amdgpu events
+> * new drm plane commit event
+
+I think a patch to add this to the drm/sched dependency tracking would be
+really neat. With the addition of drm_sched_job_add_dependency() and
+friends that would wire up some basic dependency tracking for a _lot_ of
+drivers.
+
+It should also be done before the amdgpu specific additions, because
+amdgpu is also using that and we don't want to duplicate fence dependency
+tracking in drivers that should be in common code.
+
+Cheer, Sima
 > 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->  drivers/gpu/drm/drm_atomic_uapi.c | 21 +++++++++++++++++++++
->  drivers/gpu/drm/drm_trace.h       | 23 +++++++++++++++++++++++
->  2 files changed, 44 insertions(+)
+> Pierre-Eric Pelloux-Prayer (6):
+>   tracing, dma-buf: add a trace_dma_fence_sync_to event
+>   dma-buf/fence-chain: use trace_dma_fence_sync_to
+>   amdgpu: use trace_dma_fence_sync_to in amdgpu_fence_sync
+>   drm/amdgpu: add BO clear event
+>   drm/amdgpu: add a amdgpu_cs_ioctl2 event
+>   drm: add drm_mode_atomic_commit event
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 29d4940188d4..f31b5c6f870b 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -41,6 +41,7 @@
->  #include <linux/file.h>
->  
->  #include "drm_crtc_internal.h"
-> +#include "drm_trace.h"
->  
->  /**
->   * DOC: overview
-> @@ -1503,6 +1504,26 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->  		drm_mode_object_put(obj);
->  	}
->  
-> +	if (trace_drm_mode_atomic_commit_enabled()) {
-> +		struct drm_crtc_state *crtc_state;
-> +		struct drm_crtc *crtc;
-> +		int *crtcs;
-> +		int i, num_crtcs;
-> +
-> +		crtcs = kcalloc(dev->mode_config.num_crtc, sizeof(int),
-> +				GFP_KERNEL);
-> +
-> +		if (crtcs) {
-> +			num_crtcs = 0;
-> +			for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-> +				crtcs[num_crtcs++] = drm_crtc_index(crtc);
-> +
-> +			trace_drm_mode_atomic_commit(file_priv, crtcs, num_crtcs, arg->flags);
-> +
-> +			kfree(crtcs);
-> +		}
-> +	}
-
-I think the current drm trace events are sort of semi-useless.
-The problems are:
-- no device id in the events so good luck with multi gpu systems
-- vblank trace events are only emitted from some vblank
-  codepaths but not others
-
-I'm also not sure putting an event straight into the atomic ioctl is
-particularly useful.
-
-First of all it means that any commit not initiated by the atomic
-ioctl will not be traced.
-
-It would also seem more useful to me if the driver can emit the
-trace just before it commits the frame to the hardware, so that
-we can also observe the latency between userspace submitting
-the frame vs. when the hardware will actually see it.
-
-Also if we want tools to use these I think we're going to have to
-make some kind of abi promises about the events, so we should make
-sure they are as future proof as we can make them (eg. regarding
-mutli-gpu systems/etc.).
-
-> +
->  	ret = prepare_signaling(dev, state, arg, file_priv, &fence_state,
->  				&num_fences);
->  	if (ret)
-> diff --git a/drivers/gpu/drm/drm_trace.h b/drivers/gpu/drm/drm_trace.h
-> index 11c6dd577e8e..63489923c289 100644
-> --- a/drivers/gpu/drm/drm_trace.h
-> +++ b/drivers/gpu/drm/drm_trace.h
-> @@ -66,6 +66,29 @@ TRACE_EVENT(drm_vblank_event_delivered,
->  		      __entry->seq)
->  );
->  
-> +TRACE_EVENT(drm_mode_atomic_commit,
-> +	    TP_PROTO(struct drm_file *file, int *crtcs, int ncrtcs, uint32_t flags),
-> +	    TP_ARGS(file, crtcs, ncrtcs, flags),
-> +	    TP_STRUCT__entry(
-> +		    __field(struct drm_file *, file)
-> +		    __dynamic_array(u32, crtcs, ncrtcs)
-> +		    __field(uint32_t, ncrtcs)
-> +		    __field(uint32_t, flags)
-> +		    ),
-> +	    TP_fast_assign(
-> +		    unsigned int i;
-> +
-> +		    __entry->file = file;
-> +		    for (i = 0; i < ncrtcs; i++)
-> +			((u32 *)__get_dynamic_array(crtcs))[i] = crtcs[i];
-> +		    __entry->ncrtcs = ncrtcs;
-> +		    __entry->flags = flags;
-> +		    ),
-> +	    TP_printk("file=%p, pid=%8d, flags=%08x, crtcs=%s", __entry->file,
-> +		      pid_nr(__entry->file->pid), __entry->flags,
-> +		      __print_array(__get_dynamic_array(crtcs), __entry->ncrtcs, 4))
-> +);
-> +
->  #endif /* _DRM_TRACE_H_ */
->  
->  /* This part must be outside protection */
+>  drivers/dma-buf/dma-fence-chain.c             |  4 +++
+>  drivers/dma-buf/dma-fence.c                   |  1 +
+>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  8 ++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        | 16 +++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c       |  8 ++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c       |  4 +--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  2 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c      | 11 ++++--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h      |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     | 28 +++++++++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c  |  4 +--
+>  drivers/gpu/drm/drm_atomic_uapi.c             | 19 +++++++++++
+>  drivers/gpu/drm/drm_trace.h                   | 28 +++++++++++++--
+>  include/trace/events/dma_fence.h              | 34 +++++++++++++++++++
+>  14 files changed, 144 insertions(+), 26 deletions(-)
+> 
 > -- 
 > 2.40.1
+> 
 
 -- 
-Ville Syrjälä
-Intel
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
