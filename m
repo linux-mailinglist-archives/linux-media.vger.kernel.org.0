@@ -1,135 +1,157 @@
-Return-Path: <linux-media+bounces-5311-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5312-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15EB085862E
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 20:30:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC72E858646
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 20:41:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E73A51C21485
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 19:30:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 489A61F21599
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 19:41:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EF6B1369B4;
-	Fri, 16 Feb 2024 19:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EAA8137C49;
+	Fri, 16 Feb 2024 19:41:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="V1iJodVa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUJNyjx0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E86135402
-	for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 19:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCA8133439;
+	Fri, 16 Feb 2024 19:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708111800; cv=none; b=tn2wD+pgKblpvawjAx4hNJ64Y13PT+GniWXijE50/LNUFvmPLt8Sbpk0h2IoShqdU90qlFUAQFHsO3mSnMVTlCoN1h9QZpFbLFoxVbUWpg1vqV6BQNB81Y3O7IewyzE2+zQ5KTv7lOQWPHQ4DMU0EGdcRyG5ngjQEvHQwCDV5jA=
+	t=1708112500; cv=none; b=u2euYP6mgxZ0wP+bPzDShNUY6nz5dauFgJFxln1JdvqqV/q/FvM3ms4yEv0rHpeBDktJ7HZvjx6/7Whk+6wA8rK7HpNXOiO2Q8UlSpSicFLR+vnU5QUCnCxN0KkS5kVEgJYpQQfDgerK2JAR4SAVz3caXMJ+AjZfmhEQMhfhk/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708111800; c=relaxed/simple;
-	bh=5CLkz15pA3C0PAyuM4OD/Khdbnbhn8Jnj6R4gv2p/Lg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=h7GIXYucew4MbSyK3cKb3ynyW4jq0VqdGB6c8kqmoMh3Z6Owcwk9yLWYLR9er7BEcV+D5h+hLQkZZN1T4StNJYU8MqMUxKBRnVZKDPSKZAPsFygTUWgcjk88ma0ef8y/ATd7i5NFkDC7NjXsJOIJTR2u1HXHtOpPRAU9cYHXT1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=V1iJodVa; arc=none smtp.client-ip=209.85.210.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6e2e5824687so531205a34.0
-        for <linux-media@vger.kernel.org>; Fri, 16 Feb 2024 11:29:59 -0800 (PST)
+	s=arc-20240116; t=1708112500; c=relaxed/simple;
+	bh=DH/uzdUlbeC3FFPnken3LFbJuJQKwv/KhPhyiaVAszY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tKletxDgtc9wx0fXMDSQDVU/WwPVbu7FUxoImRLtfE4FDjCtVJnkFfIouH4MBg6qjrEQUb0XGJ6jJLV78kmISjQaUDLiNyEXpoyqZMgM+w1iWD1djnrHhLe1hG27Z1PT5HGGMAZcrqNqTCzwTIWfoLAsD2/ql6x3oYDh+ou7X1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUJNyjx0; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d746856d85so10598795ad.0;
+        Fri, 16 Feb 2024 11:41:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1708111798; x=1708716598; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cjtHHDVg1EP31BktP6Ck1iG9AHnmh+yzE4yzLtOxWPg=;
-        b=V1iJodVa54Vr8BAocvhUA5kxxu93qf5MjhnBZgy15x1EYltuXb03vhwAhtbCfVr3xL
-         V7msnCAEyj2aelZNqyllKjK9jhmmFwAcVEnulVfcOlMPpwhjVzK3SJeDJJRnT9Y2xKGx
-         rnt+LrJ3KXGZFuuwNSPJSzdeRCdLEJTWix7qGMdx42FCgWJt6fmQDa+z2R8iJwkyLQuA
-         +JGoySpshR1PpZR+7lvhewrtF+TL/DNFLwrkG1HhFoIsCTBl5idFk42qgqe/6+OMwUjL
-         +7o6YchxRB75kcH17F5xsN9du/ZjDojh90ktr7D1/2iJ8pxvc21zYdXT5oDa/YhhIv3B
-         2KQA==
+        d=gmail.com; s=20230601; t=1708112498; x=1708717298; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=33ahW5QYorwTpyWJJP/aIrICM0csSVst9XZI4ba5EMo=;
+        b=CUJNyjx0Bui4DQWkeC4jrArnS9c1N1XsiSS1qRX9HCS7U+P2rJ1wUe22BZS8ATzU4a
+         DAG2At7ZhaUHbFTF2eKKzTcg2EyWAasxWDrUau84VbsynQLkjYHB0EqZPNHxGBqeAj2C
+         q9n1NvVNJoHmjghKJuzz3BXjWqHac4MLk1/FHlB1jDMGC9maetdQJIMCtF7onTkkbzvG
+         TgqJDfbAZTkA3SsZBysocFVjtaES8wEyr+xaogfX6N519poCkTJzB7wMFBlcumgU78D6
+         K8sbSxm4RfMzoy9PNmlOeB8z+az9o4FGYm89jDiWy4gjeyYjkBneY9W0JvwmyYe0YpdO
+         +OMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708111798; x=1708716598;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cjtHHDVg1EP31BktP6Ck1iG9AHnmh+yzE4yzLtOxWPg=;
-        b=mNMGzqLseUIHj9BzLnRYQJ2MvaakN/7ByKGeYReq8YzXU+PLBjSmwWuWt6tB7Jalub
-         9OlO69xxFZk5WYyuUoH4x+q12MU/eRL7wes0p3r7NRnp6kKfKT1Bjq7d3W4O28733D5V
-         BWRmdMZIQEWJt71p6IELRtpijvzx5aALllwxNKQpgcCmbqI/XeXsSFPJ2Q6pU2lXie7n
-         e2gFrSKSKUUiEDTwiVJpkmiDDrMeaGLALzFzZJYM09gE8ObBsVFXmW81h2q7PicaOe8z
-         bb93zFhB8PnmlFM4bp8q8vveS5MJqS+7rqPe2v/yscsQOy3IPUXj/+NTErvBQuQUY0NE
-         TOtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVitaqKzUJA/e174vf05zYWCnIeqr5fyofG5vBfsLCw/Fhxhhl75et0d53egk/pjYzfeVcc5kqm3rB2G22defexgoVSIGEzhb6/TAI=
-X-Gm-Message-State: AOJu0YxTawXAuo+JQJrCvh6cNm2ZgSCL6ACX7yc/cb8WPDdRo2gYFLyU
-	HijEQ6sKvEmNGNGwyqmLUjTq+nnH8R68oYrsAZGXIZPHrKBKsmKQNB4PKwHHo7E=
-X-Google-Smtp-Source: AGHT+IFEYuJ0J4q6Ri7W8LG928weSbYRDzhIjrV39IhvTbn+aiKejHqcf79FSbmpyPZyQyd4jTYPuQ==
-X-Received: by 2002:a05:6358:5389:b0:178:dac3:2b99 with SMTP id z9-20020a056358538900b00178dac32b99mr6283861rwe.1.1708111796945;
-        Fri, 16 Feb 2024 11:29:56 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
-        by smtp.gmail.com with ESMTPSA id p6-20020ac84606000000b0042dc7edf2f4sm206963qtn.45.2024.02.16.11.29.55
+        d=1e100.net; s=20230601; t=1708112498; x=1708717298;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=33ahW5QYorwTpyWJJP/aIrICM0csSVst9XZI4ba5EMo=;
+        b=AkXobaXJwW4HYld4rAGuefqvGrEoa5cBWCqI5mhCyA9pH2POCBUbEOnmA5LZPGW+gb
+         2NCD2NaNzmG8az1DnC4Lj7uQbAdTtW4R4fF/DYOPgD7WnfnlH+4yeOS3XE/E7t1uuxfC
+         RO3I1woe9WfrOOqervxHJiBM1ORtCXMvtI7twXGMqKISFVPVzzPBkgfx2VJX8ldQ7A/y
+         +mnrvr0j/CIa4EivWHcEn1MLkyY+gHJHsSgtFbZ7kVBCbbpMf7tHCepaepZ4ZlQnh284
+         qwTlR1uZCj5uVTdvxcuIeIondl39Z/05m3Ps/gJF3tnFnm5F1npfGNJMhM/ZsLKJ/wSU
+         3PlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUx7+SGwBT0EVJumNXaid5sQH245AQ4i6L3A6Au5k4QB0MXmFQKS+uZUV+DV8ZIOy1+4qwAsPQR6f2RYOEM8345i5ZmltmcN9eLkMhB
+X-Gm-Message-State: AOJu0Yw3R9jpra3kPLyOV5W49ZuHTJEAMIJc08vBrfEwAUFxpchfM5zb
+	RuoN0PqCrw6HS3G1YX1KpFkU8DGUA36aH5FQYBZWVaYOBj01ggpViRg8ih+O
+X-Google-Smtp-Source: AGHT+IGQoEmo/X2Fh8UUX4sWu+Gjv5w2XE861xwFe5+3cEGaTpeCejaqfIOTd8V+lh5n/WOgCC1ZoA==
+X-Received: by 2002:a17:902:ef96:b0:1db:3004:aa9f with SMTP id iz22-20020a170902ef9600b001db3004aa9fmr5050384plb.5.1708112498416;
+        Fri, 16 Feb 2024 11:41:38 -0800 (PST)
+Received: from prabhav.. ([2401:4900:1c62:ed3c:fec:32d0:af06:85d0])
+        by smtp.gmail.com with ESMTPSA id v6-20020a170903238600b001d9bd8fa492sm217800plh.211.2024.02.16.11.41.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 11:29:56 -0800 (PST)
-Message-ID: <8d68a49a35799d1686d9b674ce4edfd91c68850b.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/4] clk: rockchip: rst-rk3588: Add BIU reset
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Shreeya Patel
-	 <shreeya.patel@collabora.com>, heiko@sntech.de, mchehab@kernel.org, 
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, 
-	jose.abreu@synopsys.com, nelson.costa@synopsys.com, 
-	dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com, 
-	shawn.wen@rock-chips.com
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-dt@vger.kernel.org, 
-	linux-arm@lists.infradead.org
-Date: Fri, 16 Feb 2024 14:29:55 -0500
-In-Reply-To: <237e690a-2f49-4046-b054-3a878eed6748@linaro.org>
-References: <20240216094922.257674-1-shreeya.patel@collabora.com>
-	 <20240216094922.257674-2-shreeya.patel@collabora.com>
-	 <237e690a-2f49-4046-b054-3a878eed6748@linaro.org>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+        Fri, 16 Feb 2024 11:41:37 -0800 (PST)
+From: Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
+Subject: [PATCH] Writing the first patch correcting the spelling mistake.
+Date: Sat, 17 Feb 2024 01:11:26 +0530
+Message-Id: <20240216194126.13336-1-pvkumar5749404@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Le vendredi 16 f=C3=A9vrier 2024 =C3=A0 11:03 +0100, Krzysztof Kozlowski a =
-=C3=A9crit=C2=A0:
-> On 16/02/2024 10:49, Shreeya Patel wrote:
-> > Export hdmirx_biu soft reset id which is required by the hdmirx control=
-ler.
-> >=20
-> > Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
-> > ---
-> >  drivers/clk/rockchip/rst-rk3588.c               | 1 +
-> >  include/dt-bindings/reset/rockchip,rk3588-cru.h | 2 ++
->=20
-> Please run scripts/checkpatch.pl and fix reported warnings. Some
-> warnings can be ignored, but the code here looks like it needs a fix.
-> Feel free to get in touch if the warning is not clear.
->=20
-> Please do internal review. The internal Collabora review would tell you:
-> YOU MUST run checkpatch. Then you see errors, so why do you send patch
-> with errors to the mailing list?
+Signed-off-by: Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
+---
+ Documentation/bpf/verifier.rst               | 10 +++++-----
+ Documentation/process/submitting-patches.rst | 12 ++++++------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
-Mistakes helps you learn. Meanwhile, I've triggered our temporary CI which
-hopefully will catch this and some more for a better v2. Shreeya, I don't t=
-hink
-this includes any DT automated checks, this is on you.
-
-https://gitlab.collabora.com/linux/build-scripts/-/pipelines/85935
-
->=20
-> Best regards,
-> Krzysztof
->=20
->=20
+diff --git a/Documentation/bpf/verifier.rst b/Documentation/bpf/verifier.rst
+index f0ec19db301c..1b39809277d2 100644
+--- a/Documentation/bpf/verifier.rst
++++ b/Documentation/bpf/verifier.rst
+@@ -9,15 +9,15 @@ First step does DAG check to disallow loops and other CFG validation.
+ In particular it will detect programs that have unreachable instructions.
+ (though classic BPF checker allows them)
+ 
+-Second step starts from the first insn and descends all possible paths.
+-It simulates execution of every insn and observes the state change of
++Second step starts from the first instruction and descends all possible paths.
++It simulates execution of every instruction and observes the state change of
+ registers and stack.
+ 
+ At the start of the program the register R1 contains a pointer to context
+ and has type PTR_TO_CTX.
+-If verifier sees an insn that does R2=R1, then R2 has now type
++If verifier sees an instruction that does R2=R1, then R2 has now type
+ PTR_TO_CTX as well and can be used on the right hand side of expression.
+-If R1=PTR_TO_CTX and insn is R2=R1+R1, then R2=SCALAR_VALUE,
++If R1=PTR_TO_CTX and instruction is R2=R1+R1, then R2=SCALAR_VALUE,
+ since addition of two valid pointers makes invalid pointer.
+ (In 'secure' mode verifier will reject any type of pointer arithmetic to make
+ sure that kernel addresses don't leak to unprivileged users)
+@@ -323,7 +323,7 @@ Register liveness tracking
+ 
+ In order to make state pruning effective, liveness state is tracked for each
+ register and stack slot. The basic idea is to track which registers and stack
+-slots are actually used during subseqeuent execution of the program, until
++slots are actually used during subsequent execution of the program, until
+ program exit is reached. Registers and stack slots that were never used could be
+ removed from the cached state thus making more states equivalent to a cached
+ state. This could be illustrated by the following program::
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 66029999b587..34a68836aa60 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -5,7 +5,7 @@ Submitting patches: the essential guide to getting your code into the kernel
+ 
+ For a person or company who wishes to submit a change to the Linux
+ kernel, the process can sometimes be daunting if you're not familiar
+-with "the system."  This text is a collection of suggestions which
++with "the system". This text is a collection of suggestions which
+ can greatly increase the chances of your change being accepted.
+ 
+ This document contains a large number of suggestions in a relatively terse
+@@ -468,11 +468,11 @@ ask to have an Acked-by: line added to the patch's changelog.
+ Acked-by: is often used by the maintainer of the affected code when that
+ maintainer neither contributed to nor forwarded the patch.
+ 
+-Acked-by: is not as formal as Signed-off-by:.  It is a record that the acker
+-has at least reviewed the patch and has indicated acceptance.  Hence patch
+-mergers will sometimes manually convert an acker's "yep, looks good to me"
+-into an Acked-by: (but note that it is usually better to ask for an
+-explicit ack).
++Acked-by: is not as formal as Signed-off-by:. It is a record that the
++acknowledger has at least reviewed the patch and has indicated acceptance.
++Hence patch mergers will sometimes manually convert an acknowledger's
++"yep, looks good to me" into an Acked-by: (but note that it is usually
++better to ask for an explicit ack).
+ 
+ Acked-by: does not necessarily indicate acknowledgement of the entire patch.
+ For example, if a patch affects multiple subsystems and has an Acked-by: from
+-- 
+2.34.1
 
 
