@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-5287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5288-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8714858052
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:12:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A119858057
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:13:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 405541F22BA3
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 15:12:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FA7E1C22528
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 15:13:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E495612F589;
-	Fri, 16 Feb 2024 15:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E902812F591;
+	Fri, 16 Feb 2024 15:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="kW2k0nVG"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rcaDrJB1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2077.outbound.protection.outlook.com [40.107.93.77])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2082.outbound.protection.outlook.com [40.107.93.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D027078B4C;
-	Fri, 16 Feb 2024 15:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78E712F589;
+	Fri, 16 Feb 2024 15:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.82
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708096363; cv=fail; b=sU4WqjKC6RaVQHbQ+0flcq99wxt+7+LtlAYfv+u4qDiBF0oTpbgqd9QQL+co93nI75zKp1U9tk78MjD+j1Qj17Ef77OP3ObUu5kNNyDIS1FQlYZXOcbRQHxTUpz1SL1UGvffibOqq9sYufEAhqvBMFUHoYW1jTEJlQgPAPbWBQ4=
+	t=1708096385; cv=fail; b=QMw4doqCLRVMGX/VIA+Lp11V9RCBKIpfyxs+7/MwYufys72Sk4h8KamfdCiVQ/wHnIgOflfRSSjTrwGjRbD5PuHwgjuwwZfWDe44VxMd/Kddm7Y6KLA1dcbpL/7/q34AbiJInif9SgbG6Nm96Mtf/CiFJgJBrnwWgn1zmhPL8+8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708096363; c=relaxed/simple;
-	bh=c0VTrkHLPQHswYDqqk+HFaIZ4R/pmz4MPsv6blw6CUM=;
+	s=arc-20240116; t=1708096385; c=relaxed/simple;
+	bh=TsomIrNGex7xRSeD0N5Ta3zcekkjfiu80H93Q5P+OCE=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OyxS5fV7SnGzpc0H/OrEKU+3hhbbIN3u5T/nWNv/jtOQ8UHGPC+Mo1R5wTfeburU47KEweIP5B27aF7r0G0uY5DlUPDQogtvDd24dSipoDoOq6y7pSrKP4F3hCA84J19xjgAqMxZCY46LDzJF4uNt3Fm4QEl6sg/WXnnGRN+G+0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=kW2k0nVG; arc=fail smtp.client-ip=40.107.93.77
+	 MIME-Version:Content-Type; b=brfB6ZyVk44oh/dFISxr5EB2lhhhiX0VFrEOZt/kGKYOoc/y+K0ROtAQK+TyVbTRpheUly/s/7VRiTGIKFzGg9usPhLsoONfTe0jNEuHGJ2qeViKoJ8cqTamDCGI9kXVduKggbpvVnFjTS/dxzGCRht0G4P2d6ePENWFmsNsZ4w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rcaDrJB1; arc=fail smtp.client-ip=40.107.93.82
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=We1dKE8s6lOJqOlkDuPwsFqai93Z1TbikYXsZRjerTVPzeSuHIidBTulR9U/XeWXcnRCdO9O8fDuvOxXGe5A7i4gDrYvDNP3FHo4S/Ow5Kd8QAAiewONgyqEpUoboxrKMbrRujVlQZITB5kA12LC9KgeShvf2nXJjyl7ezyyFRDxIR3/6rsewiIGO9CoBBKiN0wX6CW66wnE/Lr09s3CpwXTQJ3XOmzF+KqL0OGRFxz35pOcDlD7fkEtm/1iJRVquW8kxhB55U9P6KpFpB3gl1VQNF+Vx5fZeRF6qgwNLBJd1idLaJ6dBRJckGcIfQ21mfnwpN/psiXW4mfkA+zuNg==
+ b=jaSWrR3h/YUPwlC4stR/Qdvjg74ZtJYoAuFhEzjg2Y63IiMWoFroX3ykRx3fF8AvwJS6CzJXcORNCsWbJQRARADt//leT+DUD93gr/QQbvt52+OtDmJAauBFvtl9W0bafL1bFIqqpraIDRHtb4xlNjpluIKm0iJtuSmAyJYLMeNch8EuwW2NdqFNeNrg4P1I6oDZ0ssGRFOTSW5z7eNdnE+DJxcHSNarDOHvggm4tx0+QaMktD040bjGKbSaB5nNQnD/tYQtwwM0ThLdPrRMDZrW+QxdezBtg2Tb24j8qxfUXt+AHtT7wx+ZU07/WNhvePqgg2Q+g/5XOtpspeDXEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RJDNg0QGI964boRyWOyUWRBgcjJuuIEqVTso9xHO8mM=;
- b=ZuHfqCImb08F5lsavfJw6IG5twr8M0Iix9B3CE+U1N+h5Ok5DGoAMUJFdbsf/0q68t2tWVlGsN0icQt16FvU2CvT4zh6EL1ciaddFjHnRfDBMCBb6enGRlJszETg0k+5ZeZET8IAb+/o0YKdSdoJxjTqDBWiAJj51qRQZtoMU8hCBmcp78FPbt0uq1z8rjTUDwwEHdG67YADvqJ9WYfCFJTsUT4TmAcHbTtL3iKs9SxQgiErzDQP55NY5fW/q3pwuk9UPoj4oHWh+RXW4Y9liRKSu1ypzZlgz2rT0+PbGI41Eid4sbfRwt2keWInvX/A/OF7Gfw5+xvjpwVJXTLy5g==
+ bh=Ljojgy8rwY5qa00A4ybe260/3tI9/pfNwX8PxXXmDvQ=;
+ b=YNidFxa/pGTQmH4xz90Pdrx8KXt4ihk2HMAsWunk3gUYrQH/luD5BM+ARQquv5nz97qsx6FxT/H7uohJUS4yOesQB8vy5Ko2QHFLofZ4UtsVDJCEbdlD8tE8XaGhChZ6XVfKFxKAR/VbuGTQJKMOQSoExjd2TAnHjDqu9eIW/aXqzVx9hhhrfKxKAuPPNOsv6VhBjzw5yaMZrgfSMLvcchR0ZUEjoRNSoIA2RqEwfryPytsAJHHqo2eshHvmyy6QRgdxgbypBMqy8xn93chlCeclDE5lg/uth113tq+ljdF6l5miYbVi+CcR4Qi3GGZcIzwCZ7TPGc7hfknTuge8PA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RJDNg0QGI964boRyWOyUWRBgcjJuuIEqVTso9xHO8mM=;
- b=kW2k0nVGNDiq79YxEVozojUGJoWFwSc/dWLOTEDPbjHV5Dmr311MUPSuIuZ3SZN+Q5Up8Dj10ltYdKQXRL+5vtMfKfVIxopgXNqZ1A57yvSbPQEr6oPPcUK2Jzn7r1Xsq5LKMtCozK9G3dCy6OoixQwhYwM8Tfo9VeH6hb3lPXA=
-Received: from BL0PR02CA0095.namprd02.prod.outlook.com (2603:10b6:208:51::36)
- by PH0PR12MB8029.namprd12.prod.outlook.com (2603:10b6:510:26c::8) with
+ bh=Ljojgy8rwY5qa00A4ybe260/3tI9/pfNwX8PxXXmDvQ=;
+ b=rcaDrJB1P/IiWmg4yAU2Egvu0mpq38J1SJkMv0ThaM7tOGCO3j3q4cpaZdAWKdDVjCY4V/BfpcH6BL+lYwaxPtrX9zuA37NrPsyxD+lwjqjQuEueKRWJVBuh/rTOY1GzZRyKMUwYdUPiM3U6v5kofsAxHqNTmqCza+2OoYNg6jw=
+Received: from BL0PR02CA0137.namprd02.prod.outlook.com (2603:10b6:208:35::42)
+ by DM4PR12MB5151.namprd12.prod.outlook.com (2603:10b6:5:392::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.29; Fri, 16 Feb
- 2024 15:12:37 +0000
-Received: from MN1PEPF0000F0E0.namprd04.prod.outlook.com
- (2603:10b6:208:51:cafe::f) by BL0PR02CA0095.outlook.office365.com
- (2603:10b6:208:51::36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.29 via Frontend
- Transport; Fri, 16 Feb 2024 15:12:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.15; Fri, 16 Feb
+ 2024 15:13:00 +0000
+Received: from MN1PEPF0000F0E4.namprd04.prod.outlook.com
+ (2603:10b6:208:35:cafe::d0) by BL0PR02CA0137.outlook.office365.com
+ (2603:10b6:208:35::42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
+ Transport; Fri, 16 Feb 2024 15:12:59 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -63,13 +63,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MN1PEPF0000F0E0.mail.protection.outlook.com (10.167.242.38) with Microsoft
+ MN1PEPF0000F0E4.mail.protection.outlook.com (10.167.242.42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Fri, 16 Feb 2024 15:12:37 +0000
+ 15.20.7292.25 via Frontend Transport; Fri, 16 Feb 2024 15:12:59 +0000
 Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 16 Feb
- 2024 09:12:33 -0600
+ 2024 09:12:56 -0600
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Sumit
  Semwal" <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>,
@@ -79,9 +79,9 @@ To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Sumit
 	<dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
 	<linux-trace-kernel@vger.kernel.org>, Alex Deucher
 	<alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v3 5/8] drm/amdgpu: add a amdgpu_cs_start trace event
-Date: Fri, 16 Feb 2024 16:09:54 +0100
-Message-ID: <20240216151006.475077-6-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v3 6/8] drm: add drm_mode_atomic_commit event
+Date: Fri, 16 Feb 2024 16:09:55 +0100
+Message-ID: <20240216151006.475077-7-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
@@ -97,79 +97,120 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E0:EE_|PH0PR12MB8029:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5651acfc-45e0-41b2-ef02-08dc2f01b5c6
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E4:EE_|DM4PR12MB5151:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff27c672-5678-491e-7dd7-08dc2f01c355
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	OI0BUkxCH/o1ZDW0zaNAbayQWsvh95h6agGKjg93vraoGqv4eobO//7dD3h0W9f/mQVO5Fn4IFrf3lxjk3UwkePv4Eldkekhjx7xVeNJBHzOKt3MqC7fOgl9t3qvEODOcEh3QYx6jUA31sTsYg17HkmHD8yP2eYdUSbtinQnJ4RhGzDbEeCQywVk4dCWu8d/Zkuozaqjh3T/no1zIRXwypXXfJ4CMvkrRAnalfxuYjMMKcrrR3pz39WeyxKBvlbAyTuRG/vlyzvq6FgGC5VPCocLOZewlBS9QszOr/GzYGktAiXMIkCow7rPpbznNjYxZf/jHVGEOIM3MaBPkO8WdgOLjgKM6ce6qlSWXrjSsVCqYAR0oLi45rmIDZmaz0UbF0s1UyqQFSNED9glFzL1dEE4QXAHLEuvG2oJAfgXqwtcLbD7XofYMjRwTvziiaRAJVQt29aTO2BpAdKPXURSTP9nFjkRzQboe2KGhE5q9445Eh1At539ObGT8uWKxqOUTZTe00F7ue9SHtZrmBU76A5/LqY0oDn92Vhg7/ds90k2B66PPFxmezJIagKoDhi2qsh6UAclc/N/bIFxJPRJz92KuLPwkQprZAMI0uH7/bHyHWlW+UivFB1YCocAvyJGUQ0jfDT37YHY3F+obHpOZKUIXkrsiSDjMv0lG2Ug8+0=
+	6/rWuyC38DI0OIusBk4W7Be6pdd+VrcFmRLwnFECXuEsJqZ40p8npDiV1o3TrWyOTYMZzaVC6MPkHp3LKPH2lPj7DBBqa45YrU1Ctt94p4GnJRTlgMeiFfTQHCd87qkrONAFw7HPFwPoC1PXhjk5CYVYfuZCP2p1V8l2rNrxQKZ6kPlUYtNS8zX7VfL+sBfs2Hh2wKZUGOu8CQmhSUvjxwfeISd2/v9fi8LYPLt8nIwwxK04yf47r9ewRptTqbSFii8NU8V5KUi1YbbMC9Kaqi49b32iOpZ0ScGOlbHDvmJ0RTLn5jVYJ7CaqIE+GtxwVvAeqNwm7aaqW0H19m82fLHKlgBmmCKYHKoYDEPH44k3m7RyFccF1ITEKutTcDgbprk5wwJF7MIOFYEAVCNfnmN6T8BrN/PVMKKdnNMH4w++lR5Io8JoeM8VxX0R4ehQFydYyQhSUfru/ZqcnYwDDWwteYi9jPBK9f448GXTpp2QLUwh3FHjEw00O3XdgE6To2vlohM5IXGGCF6vLhOjGMMMMtmlCZufTw/URg0QM6pecSoNJB++oVqFSGHEMRdo7GYlSah6VP4byyr6hlJQ3+Y/CFzyuf3YPR2vOGs3RZtiJmArd0AfSjX3OYor3mYLwyd8ZFDaq+HxhpcMKIJnAK+P018lbuiq2A8omSVzWqg=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(376002)(136003)(396003)(230922051799003)(82310400011)(186009)(451199024)(1800799012)(64100799003)(36860700004)(46966006)(40470700004)(478600001)(7696005)(41300700001)(2616005)(8676002)(2906002)(8936002)(5660300002)(70206006)(70586007)(110136005)(6666004)(316002)(26005)(16526019)(1076003)(86362001)(36756003)(82740400003)(921011)(81166007)(336012)(426003)(356005);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(396003)(136003)(376002)(230922051799003)(1800799012)(36860700004)(186009)(82310400011)(451199024)(64100799003)(46966006)(40470700004)(478600001)(41300700001)(2906002)(8676002)(8936002)(5660300002)(316002)(7696005)(70206006)(110136005)(70586007)(2616005)(1076003)(26005)(356005)(86362001)(81166007)(16526019)(426003)(921011)(336012)(36756003)(82740400003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:12:37.0485
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:12:59.8087
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5651acfc-45e0-41b2-ef02-08dc2f01b5c6
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff27c672-5678-491e-7dd7-08dc2f01c355
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000F0E0.namprd04.prod.outlook.com
+	MN1PEPF0000F0E4.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8029
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5151
 
-amdgpu_cs_ioctl already exists but serves a different
-purpose.
+With this and the dma_fence_used_as_dependency event, a tool can draw the
+relationship between the compositing draw, the atomic commit, and vblank.
 
-amdgpu_cs_start marks the beginning of the kernel processing of
-the ioctl which is useful for tools to map which events belong to
-the same submission (without this, the first event would be the
-amdgpu_bo_set_list ones).
+An example on a 2 monitors system look like this:
 
-v2: renamed to amdgpu_cs_start
+gnome-shell-1638    [018] .....  2571.905124: drm_mode_atomic_commit: file=00000000245c3f0c, pid=    1165, flags=00000201, crtcs={0x1}
+gnome-shell-1638    [018] .....  2571.905147: dma_fence_used_as_dependency: driver=drm_sched timeline=gfx_0.0.0 context=270 seqno=73240 reason=dma_fence_chain_init
+gnome-shell-1638    [018] .....  2571.913226: drm_mode_atomic_commit: file=00000000245c3f0c, pid=    1165, flags=00000201, crtcs={0x0}
+gnome-shell-1638    [018] .....  2571.913250: dma_fence_used_as_dependency: driver=drm_sched timeline=gfx_0.0.0 context=270 seqno=73241 reason=dma_fence_chain_init
+    <idle>-0       [018] d.h3.  2571.915687: drm_vblank_event: crtc=1, seq=155747, time=2571916093743, high-prec=true
+    <idle>-0       [018] d.h3.  2571.915968: drm_vblank_event: crtc=0, seq=153862, time=2571916377180, high-prec=true
+
+v2: fix unchecked memory allocation
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c    |  2 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h | 12 ++++++++++++
- 2 files changed, 14 insertions(+)
+ drivers/gpu/drm/drm_atomic_uapi.c | 21 +++++++++++++++++++++
+ drivers/gpu/drm/drm_trace.h       | 23 +++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 0a4b09709cfb..f3369cd0d9a3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1402,6 +1402,8 @@ int amdgpu_cs_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
- 		return r;
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 29d4940188d4..f31b5c6f870b 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -41,6 +41,7 @@
+ #include <linux/file.h>
+ 
+ #include "drm_crtc_internal.h"
++#include "drm_trace.h"
+ 
+ /**
+  * DOC: overview
+@@ -1503,6 +1504,26 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ 		drm_mode_object_put(obj);
  	}
  
-+	trace_amdgpu_cs_start(data);
++	if (trace_drm_mode_atomic_commit_enabled()) {
++		struct drm_crtc_state *crtc_state;
++		struct drm_crtc *crtc;
++		int *crtcs;
++		int i, num_crtcs;
 +
- 	r = amdgpu_cs_pass1(&parser, data);
- 	if (r)
- 		goto error_fini;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-index 0e47cbe7e0a9..3f18f570e5ac 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-@@ -189,6 +189,18 @@ TRACE_EVENT(amdgpu_cs_ioctl,
- 		      __entry->seqno, __get_str(ring), __entry->num_ibs)
++		crtcs = kcalloc(dev->mode_config.num_crtc, sizeof(int),
++				GFP_KERNEL);
++
++		if (crtcs) {
++			num_crtcs = 0;
++			for_each_new_crtc_in_state(state, crtc, crtc_state, i)
++				crtcs[num_crtcs++] = drm_crtc_index(crtc);
++
++			trace_drm_mode_atomic_commit(file_priv, crtcs, num_crtcs, arg->flags);
++
++			kfree(crtcs);
++		}
++	}
++
+ 	ret = prepare_signaling(dev, state, arg, file_priv, &fence_state,
+ 				&num_fences);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/drm_trace.h b/drivers/gpu/drm/drm_trace.h
+index 11c6dd577e8e..63489923c289 100644
+--- a/drivers/gpu/drm/drm_trace.h
++++ b/drivers/gpu/drm/drm_trace.h
+@@ -66,6 +66,29 @@ TRACE_EVENT(drm_vblank_event_delivered,
+ 		      __entry->seq)
  );
  
-+TRACE_EVENT(amdgpu_cs_start,
-+	    TP_PROTO(union drm_amdgpu_cs *cs),
-+	    TP_ARGS(cs),
++TRACE_EVENT(drm_mode_atomic_commit,
++	    TP_PROTO(struct drm_file *file, int *crtcs, int ncrtcs, uint32_t flags),
++	    TP_ARGS(file, crtcs, ncrtcs, flags),
 +	    TP_STRUCT__entry(
-+			     __field(uint32_t, ctx_id)
-+	    ),
++		    __field(struct drm_file *, file)
++		    __dynamic_array(u32, crtcs, ncrtcs)
++		    __field(uint32_t, ncrtcs)
++		    __field(uint32_t, flags)
++		    ),
 +	    TP_fast_assign(
-+			   __entry->ctx_id = cs->in.ctx_id;
-+	    ),
-+	    TP_printk("context=%u", __entry->ctx_id)
++		    unsigned int i;
++
++		    __entry->file = file;
++		    for (i = 0; i < ncrtcs; i++)
++			((u32 *)__get_dynamic_array(crtcs))[i] = crtcs[i];
++		    __entry->ncrtcs = ncrtcs;
++		    __entry->flags = flags;
++		    ),
++	    TP_printk("file=%p, pid=%8d, flags=%08x, crtcs=%s", __entry->file,
++		      pid_nr(__entry->file->pid), __entry->flags,
++		      __print_array(__get_dynamic_array(crtcs), __entry->ncrtcs, 4))
 +);
 +
- TRACE_EVENT(amdgpu_sched_run_job,
- 	    TP_PROTO(struct amdgpu_job *job),
- 	    TP_ARGS(job),
+ #endif /* _DRM_TRACE_H_ */
+ 
+ /* This part must be outside protection */
 -- 
 2.40.1
 
