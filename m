@@ -1,492 +1,246 @@
-Return-Path: <linux-media+bounces-5250-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5251-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2927785791F
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 10:45:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E09E857964
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 10:53:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 291511C228D6
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 09:45:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8995F1F243FA
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 09:53:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 510701BDD6;
-	Fri, 16 Feb 2024 09:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A18291C691;
+	Fri, 16 Feb 2024 09:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XF2rQLxl"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BWZw3dkt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6C01BC31;
-	Fri, 16 Feb 2024 09:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ED21BF28;
+	Fri, 16 Feb 2024 09:51:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708076720; cv=none; b=PZZCiIUyG9ia04c0RPcxR8dl6RJN6sx2AqjJM3deKcpwxF0NSMQ9fdSj3MDUVJF/qA221OPzNFPIb1mgoqb/GZQ+PbVCrnF8qVAJmtuh/WUYHZqStddJHtcNNj1i/t58670W+uYtePB1uMeT2Q8uFb153427c2cFZvoyBOyLQ8E=
+	t=1708077091; cv=none; b=qgyJLDwvkH7Cl92SCYRIX1kGDeoDvkeI0nMjsSvV7l5Mt90mmsIz5JWnuQGHGM+w1emiOV5Ft3oDwsEfezNSFkfr3HGseRuWuPS+o79MTFotXtX+ESwWfq1fi9KTXBf2PGbfVMn95RMMC6UpGyrXT6GyipMY40tqcazHTShwzo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708076720; c=relaxed/simple;
-	bh=s+ABArMhG5l+/dloR8rQVw+DT5r+vfEHo5dp9ArBV20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bD8/Uh/RMY+FLJyYtyVPbL47RjPz7dC/eyOMsVdKSeWZvE22QNdWVpfYq6LVK623Z848oATKTXVv3x4Y0DMq+qqdlKUaS4yOs3OdeRvtOsRVx3heXB27eWsKsoEVXCYbDsmLndApQNcK8XIu8v+EsXhFnAwbMO/5MRPUwkpbsDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=XF2rQLxl; arc=none smtp.client-ip=46.235.227.194
+	s=arc-20240116; t=1708077091; c=relaxed/simple;
+	bh=+5L6w5aXX/IFqw0JlbmwRtzdrKY61duPIHAKakYlDW4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gPy2q964caU5UeobpJ/DeAHhUihMnKkh9/aJNBD16+20v8r2aL7NZ9Z/llPyTXNWcWGKRDQhv+EPJZ72A3/j20YLQZWAlhXr5+VEvyszSLLe0om0pRJ0BOGzTRJFo486kFGBMeV6n18+dIKl16vMsGlVsVdT2mquOfWJLCH33F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BWZw3dkt; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708076715;
-	bh=s+ABArMhG5l+/dloR8rQVw+DT5r+vfEHo5dp9ArBV20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XF2rQLxl4LqyeQoGYrD3ZNizU3vH53ayvBneykwJYAj9aKRc2v98gKAReCC1GIXVZ
-	 lg2aaRUG992gVHMxcYifPLrksJTfEAkxeT9M/sIsmGv79gvFIVRbdKkmnuHnh+ORAM
-	 8kujHyXjGt8a7bbB5vRGdRhlqBN55wFNClXMcAiuP7ioU3UncCPU/K5+0T4u7fuVGT
-	 L44p9aP2dUaBfHi9gev3LYVLnccQ4MgBTtnMCqdBYJWB08QSSAwozRNmiXnPJHLfJu
-	 fupTLx4WtweD4DHuIcFZ+Qc773nUHKlxJri1I57uI26YGMK1AVQS0WadoaH4lzLGWq
-	 kpfLK0bD5VRrg==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	s=mail; t=1708077087;
+	bh=+5L6w5aXX/IFqw0JlbmwRtzdrKY61duPIHAKakYlDW4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BWZw3dktI9TkDyDR+hmF1+WvbWOtKbzZEknpW3mciT555Yz2fv4aNsGY29qcKu3aF
+	 0vVK8vX6s2DMsruH85BjABQi6oVKkLTMzFkW6HJ2U5ppigrRFVNdhHlGmf0HlPkLwh
+	 PR8uW8wvOrJxZGL04zpjxAi4J+Hksf2gATOrOSgdUHcSB8De5T7vK3gaZgCIuZ0uBF
+	 cAubgm64ZBHZLUG0hj9I4vPkLVg6oWxtZBK/ZawIRGrcBwX8ttmUZDHGIcHjcllAaR
+	 9dUcDySq8vHR3YnqF9Kv7jH/y3rXLm7uaHGhHtq0xAWAZuF6d44/gRw+SZTmbIjMFj
+	 sGYibDcfsJdDg==
+Received: from shreeya.shreeya (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 79CAA3780FC7;
-	Fri, 16 Feb 2024 09:45:15 +0000 (UTC)
-Date: Fri, 16 Feb 2024 10:45:14 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: nas.chung@chipsnmedia.com, jackson.lee@chipsnmedia.com,
-	mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nm@ti.com, praneeth@ti.com,
-	vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
-	detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com
-Subject: Re: [PATCH] media: chips-media: wave5: Add hrtimer based polling
- support
-Message-ID: <20240216094514.lm4naivfrbiexotl@basti-XPS-13-9310>
-References: <20240125130833.1953617-1-devarsht@ti.com>
+	(Authenticated sender: shreeya)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E461F3780FC7;
+	Fri, 16 Feb 2024 09:51:22 +0000 (UTC)
+From: Shreeya Patel <shreeya.patel@collabora.com>
+To: heiko@sntech.de,
+	mchehab@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	p.zabel@pengutronix.de,
+	jose.abreu@synopsys.com,
+	nelson.costa@synopsys.com,
+	dmitry.osipenko@collabora.com,
+	sebastian.reichel@collabora.com,
+	shawn.wen@rock-chips.com
+Cc: kernel@collabora.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-dt@vger.kernel.org,
+	linux-arm@lists.infradead.org,
+	Shreeya Patel <shreeya.patel@collabora.com>
+Subject: [PATCH 0/4] Add Synopsys DesignWare HDMI RX Controller
+Date: Fri, 16 Feb 2024 15:19:18 +0530
+Message-Id: <20240216094922.257674-1-shreeya.patel@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240125130833.1953617-1-devarsht@ti.com>
+Content-Transfer-Encoding: 8bit
 
-Hey Devarsh,
+This series implements support for the Synopsys DesignWare
+HDMI RX Controller, being compliant with standard HDMI 1.4b
+and HDMI 2.0.
 
-@nas.chung@chipsnmedia.com or @jackson.lee@chipsnmedia.com
-Could you please run tests on the hardware with this patch and review
-this patch to make sure that this doesn't break the other hardware with
-Wave5 chips. Thanks!
+Features that are currently supported by the HDMI RX driver
+have been tested on rock5b board using a HDMI to micro-HDMI cable.
+It is recommended to use a good quality cable as there were
+multiple issues seen during testing the driver.
 
-On 25.01.2024 18:38, Devarsh Thakkar wrote:
->Add support for starting a polling timer in case interrupt is not
+Please note the below information :-
+* This patch series depends on series from Sebastian [0] about
+improving GATE_LINK support.
+* While testing the driver on rock5b we noticed that the binary BL31
+from Rockchip contains some unknown code to get the HDMI-RX PHY
+access working. With TF-A BL31, the HDMI-RX PHY doesn't work as
+expected since there are no interrupts seen for rk_hdmirx-hdmi
+leading to some failures in the driver [1].
 
-s/interrupt/an interrupt/
+[0] https://lore.kernel.org/all/20240126182919.48402-1-sebastian.reichel@collabora.com/
+[1] https://gitlab.collabora.com/hardware-enablement/rockchip-3588/trusted-firmware-a/-/issues/1
 
->available. This helps keep the VPU functional in SoC's such as AM62A, where
+To test the HDMI RX Controller driver, following example commands can be used :-
 
-s/helps keep/helps to keep/
-s/SoC's/SoCs/
+root@debian-rockchip-rock5b-rk3588:~# v4l2-ctl --verbose -d /dev/video0 \
+--set-fmt-video=width=1920,height=1080,pixelformat='BGR3' --stream-mmap=4 \
+--stream-skip=3 --stream-count=100 --stream-to=/home/hdmiin4k.raw --stream-poll
 
->the hardware interrupt hookup may not be present due to an SoC errata [1].
+root@debian-rockchip-rock5b-rk3588:~# ffmpeg -f rawvideo -vcodec rawvideo \
+-s 1920x1080 -r 60 -pix_fmt bgr24 -i /home/hdmiin4k.raw output.mkv
 
-I would prefer if we do not hack the driver to adjust to SoC errata,
-instead of adding polling functionality you could also implement a fake
-IRQ chip, then the driver can still assume that an interrupt is present
-and you create a virtual interrupt source that does polling in the
-background.
-You could start by adding the fake irq-chip within the wave5 folder and
-later on that could be moved to the `drivers/irqchip/` directory (by you
-or someone else), which would be a nice addition to the Linux kernel to
-provide machines without IRQ support a way to register an interrupt.
-Please have a look at that potential solution, you potentially need to
-share the registers between the codec and the fake irq-chip in the DTS.
 
->
->The timer is shared across all instances of encoder and decoder and is
+Following is the v4l2-compliance test result :-
 
-s/encoder and decoder/encoders and decoders/
+root@debian-rockchip-rock5b-rk3588:~# v4l2-compliance -d /dev/video0
+v4l2-compliance 1.27.0-5174, 64 bits, 64-bit time_t
+v4l2-compliance SHA: d700deb14368 2024-01-18 12:19:05
 
->started when first instance of encoder or decoder is opened and stopped
+Compliance test for snps_hdmirx device /dev/video0:
 
-s/first/the first/
-s/encoder or decoder/an encoder or a decoder/
+Driver Info:
+        Driver name      : snps_hdmirx
+        Card type        : snps_hdmirx
+        Bus info         : platform: snps_hdmirx
+        Driver version   : 6.8.0
+        Capabilities     : 0x84201000
+                Video Capture Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04201000
+                Video Capture Multiplanar
+                Streaming
+                Extended Pix Format
 
->when last instance is closed, thus avoiding per instance polling and saving
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
 
-s/last/the last/
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
 
->CPU bandwidth.
->
->hrtimer callback is called with 5ms polling interval while any of the
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK
 
-s/hrtimer/The hrtimer/
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
 
->encoder/decoder instances are running to check the interrupt status as
->being done in irq handler.
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
 
-s/irq/the irq/
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
+        test VIDIOC_DV_TIMINGS_CAP: OK
+        test VIDIOC_G/S_EDID: OK
 
-Could you ellaborate why you choose the HRtimer for this job and why
-does it need to be a 5ms polling interval, is that a requirement of this
-specific hardware or the best constant you figured out during testing?
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 2 Private Controls: 0
 
->
->Based on above interrupt status, use a worker thread to iterate over the
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
 
-s/on above interrupt status/on the interrupt status above/
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
 
->interrupt status for each instance and send completion event as being done
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
 
-s/completion/a completion/
+Total for snps_hdmirx device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 0
 
->in irq thread function.
+Shreeya Patel (4):
+  clk: rockchip: rst-rk3588: Add BIU reset
+  dt-bindings: media: Document bindings for HDMI RX Controller
+  arm64: dts: rockchip: Add device tree support for HDMI RX Controller
+  media: platform: synopsys: Add support for hdmi input driver
 
-s/irq/the irq/
+ .../bindings/media/snps,dw-hdmi-rx.yaml       |  128 +
+ .../boot/dts/rockchip/rk3588-pinctrl.dtsi     |   41 +
+ arch/arm64/boot/dts/rockchip/rk3588.dtsi      |   50 +
+ drivers/clk/rockchip/rst-rk3588.c             |    1 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/synopsys/Kconfig       |    3 +
+ drivers/media/platform/synopsys/Makefile      |    2 +
+ .../media/platform/synopsys/hdmirx/Kconfig    |   18 +
+ .../media/platform/synopsys/hdmirx/Makefile   |    4 +
+ .../platform/synopsys/hdmirx/snps_hdmirx.c    | 2856 +++++++++++++++++
+ .../platform/synopsys/hdmirx/snps_hdmirx.h    |  394 +++
+ .../synopsys/hdmirx/snps_hdmirx_cec.c         |  289 ++
+ .../synopsys/hdmirx/snps_hdmirx_cec.h         |   46 +
+ .../dt-bindings/reset/rockchip,rk3588-cru.h   |    2 +
+ 15 files changed, 3836 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+ create mode 100644 drivers/media/platform/synopsys/Kconfig
+ create mode 100644 drivers/media/platform/synopsys/Makefile
+ create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
+ create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
+ create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+ create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+ create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_cec.c
+ create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_cec.h
 
->
->Parse for irq number before v4l2 device registration and if not available
->only then, initialize hrtimer and worker thread.
+-- 
+2.39.2
 
-Thanks for the effort on the description but you do not have to write
-out word for word what the code is doing, the code should be descriptive
-enough on its own.
-More important is that you clearly describe, for example:
-- why did you choose a certain design?
-- why did you choose for the HRtimer?
-- why is the 5ms interval is important (are other intervals also valid?)
-- why did you choose to add a polling mechanism instead of possible alternatives (like for example an fake irq-chip),
-- 
->
->Move the core functionality of irq thread function to a separate function
-
-s/irq/the irq/
-
->wave5_vpu_handle_irq so that it can be used by both the worker thread when
->using polling mode and irq thread when using interrupt mode.
-
-s/irq/the irq/
-
->
->Protect hrtimer access and instance list with device specific mutex locks
-
-s/hrtimer/the hrtimer/
-
->to avoid race conditions while different instances of encoder and decoder
-
-s/encoder and decoder/encoders and decoders/
-
->are started together.
->
->Add module param to change polling interval for debug purpose.
-
-s/module/a module/
-s/polling/the polling/
-s/debug purpose/debugging purposes/
-
-Here again is the question, what can the user expect with different
-polling intervals? Is there a valid range of intervals?
-
-The actual implementation seems good, but I would like to first make
-sure that we take the best possible approach to this issue.
-
-Greetings,
-Sebastian
-
->
->[1] https://www.ti.com/lit/pdf/spruj16
->(Ref: Section 4.2.3.3 Resets, Interrupts, and Clocks)
->
->Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->---
->Test logs:
->https://gist.github.com/devarsht/613bc8aa66e65814c8374ffb6a4f50fb
->---
-> .../platform/chips-media/wave5/wave5-helper.c |  16 ++-
-> .../chips-media/wave5/wave5-vpu-dec.c         |  13 +-
-> .../chips-media/wave5/wave5-vpu-enc.c         |  13 +-
-> .../platform/chips-media/wave5/wave5-vpu.c    | 117 ++++++++++++------
-> .../platform/chips-media/wave5/wave5-vpuapi.h |   4 +
-> 5 files changed, 122 insertions(+), 41 deletions(-)
->
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
->index 8433ecab230c..475b7628964f 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
->@@ -52,6 +52,8 @@ int wave5_vpu_release_device(struct file *filp,
-> 			     char *name)
-> {
-> 	struct vpu_instance *inst = wave5_to_vpu_inst(filp->private_data);
->+	struct vpu_device *dev = inst->dev;
->+	int ret = 0;
->
-> 	v4l2_m2m_ctx_release(inst->v4l2_fh.m2m_ctx);
-> 	if (inst->state != VPU_INST_STATE_NONE) {
->@@ -71,8 +73,20 @@ int wave5_vpu_release_device(struct file *filp,
-> 	}
->
-> 	wave5_cleanup_instance(inst);
->+	if (dev->irq < 0) {
->+		ret = mutex_lock_interruptible(&dev->dev_lock);
->+		if (ret)
->+			return ret;
->
->-	return 0;
->+		if (list_empty(&dev->instances)) {
->+			dev_dbg(dev->dev, "Disabling the hrtimer\n");
->+			hrtimer_cancel(&dev->hrtimer);
->+		}
->+
->+		mutex_unlock(&dev->dev_lock);
->+	}
->+
->+	return ret;
-> }
->
-> int wave5_vpu_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq,
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->index ef227af72348..c8624c681fa6 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->@@ -1810,7 +1810,6 @@ static int wave5_vpu_open_dec(struct file *filp)
-> 	v4l2_fh_add(&inst->v4l2_fh);
->
-> 	INIT_LIST_HEAD(&inst->list);
->-	list_add_tail(&inst->list, &dev->instances);
->
-> 	inst->v4l2_m2m_dev = inst->dev->v4l2_m2m_dec_dev;
-> 	inst->v4l2_fh.m2m_ctx =
->@@ -1867,6 +1866,18 @@ static int wave5_vpu_open_dec(struct file *filp)
->
-> 	wave5_vdi_allocate_sram(inst->dev);
->
->+	ret = mutex_lock_interruptible(&dev->dev_lock);
->+	if (ret)
->+		goto cleanup_inst;
->+
->+	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) && list_empty(&dev->instances))
->+		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev->vpu_poll_interval * NSEC_PER_MSEC),
->+			      HRTIMER_MODE_REL_PINNED);
->+
->+	list_add_tail(&inst->list, &dev->instances);
->+
->+	mutex_unlock(&dev->dev_lock);
->+
-> 	return 0;
->
-> cleanup_inst:
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->index f29cfa3af94a..9e88424761b6 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->@@ -1554,7 +1554,6 @@ static int wave5_vpu_open_enc(struct file *filp)
-> 	v4l2_fh_add(&inst->v4l2_fh);
->
-> 	INIT_LIST_HEAD(&inst->list);
->-	list_add_tail(&inst->list, &dev->instances);
->
-> 	inst->v4l2_m2m_dev = inst->dev->v4l2_m2m_enc_dev;
-> 	inst->v4l2_fh.m2m_ctx =
->@@ -1729,6 +1728,18 @@ static int wave5_vpu_open_enc(struct file *filp)
->
-> 	wave5_vdi_allocate_sram(inst->dev);
->
->+	ret = mutex_lock_interruptible(&dev->dev_lock);
->+	if (ret)
->+		goto cleanup_inst;
->+
->+	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) && list_empty(&dev->instances))
->+		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev->vpu_poll_interval * NSEC_PER_MSEC),
->+			      HRTIMER_MODE_REL_PINNED);
->+
->+	list_add_tail(&inst->list, &dev->instances);
->+
->+	mutex_unlock(&dev->dev_lock);
->+
-> 	return 0;
->
-> cleanup_inst:
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->index bfe4caa79cc9..968ec9baf1ef 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->@@ -26,6 +26,9 @@ struct wave5_match_data {
-> 	const char *fw_name;
-> };
->
->+static int vpu_poll_interval = 5;
->+module_param(vpu_poll_interval, int, 0644);
->+
-> int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int timeout)
-> {
-> 	int ret;
->@@ -40,7 +43,7 @@ int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int timeout)
-> 	return 0;
-> }
->
->-static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
->+static void wave5_vpu_handle_irq(void *dev_id)
-> {
-> 	u32 seq_done;
-> 	u32 cmd_done;
->@@ -48,42 +51,67 @@ static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
-> 	struct vpu_instance *inst;
-> 	struct vpu_device *dev = dev_id;
->
->-	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS)) {
->-		irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
->-		wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
->-		wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
->-
->-		list_for_each_entry(inst, &dev->instances, list) {
->-			seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
->-			cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
->-
->-			if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
->-			    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
->-				if (seq_done & BIT(inst->id)) {
->-					seq_done &= ~BIT(inst->id);
->-					wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO,
->-								 seq_done);
->-					complete(&inst->irq_done);
->-				}
->+	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
->+	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
->+	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
->+
->+	list_for_each_entry(inst, &dev->instances, list) {
->+		seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
->+		cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
->+
->+		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
->+		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
->+			if (seq_done & BIT(inst->id)) {
->+				seq_done &= ~BIT(inst->id);
->+				wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO,
->+							 seq_done);
->+				complete(&inst->irq_done);
-> 			}
->+		}
->
->-			if (irq_reason & BIT(INT_WAVE5_DEC_PIC) ||
->-			    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
->-				if (cmd_done & BIT(inst->id)) {
->-					cmd_done &= ~BIT(inst->id);
->-					wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
->-								 cmd_done);
->-					inst->ops->finish_process(inst);
->-				}
->+		if (irq_reason & BIT(INT_WAVE5_DEC_PIC) ||
->+		    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
->+			if (cmd_done & BIT(inst->id)) {
->+				cmd_done &= ~BIT(inst->id);
->+				wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
->+							 cmd_done);
->+				inst->ops->finish_process(inst);
-> 			}
->-
->-			wave5_vpu_clear_interrupt(inst, irq_reason);
-> 		}
->+
->+		wave5_vpu_clear_interrupt(inst, irq_reason);
-> 	}
->+}
->+
->+static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
->+{
->+	struct vpu_device *dev = dev_id;
->+
->+	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS))
->+		wave5_vpu_handle_irq(dev);
->
-> 	return IRQ_HANDLED;
-> }
->
->+static void wave5_vpu_irq_work_fn(struct kthread_work *work)
->+{
->+	struct vpu_device *dev = container_of(work, struct vpu_device, work);
->+
->+	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS))
->+		wave5_vpu_handle_irq(dev);
->+}
->+
->+static enum hrtimer_restart wave5_vpu_timer_callback(struct hrtimer *timer)
->+{
->+	struct vpu_device *dev =
->+			container_of(timer, struct vpu_device, hrtimer);
->+
->+	kthread_queue_work(dev->worker, &dev->work);
->+	hrtimer_forward_now(timer, ns_to_ktime(vpu_poll_interval * NSEC_PER_MSEC));
->+
->+	return HRTIMER_RESTART;
->+}
->+
-> static int wave5_vpu_load_firmware(struct device *dev, const char *fw_name,
-> 				   u32 *revision)
-> {
->@@ -209,16 +237,24 @@ static int wave5_vpu_probe(struct platform_device *pdev)
->
-> 	dev->irq = platform_get_irq(pdev, 0);
-> 	if (dev->irq < 0) {
->-		dev_err(&pdev->dev, "failed to get irq resource\n");
->-		ret = -ENXIO;
->-		goto err_enc_unreg;
->-	}
->-
->-	ret = devm_request_threaded_irq(&pdev->dev, dev->irq, NULL,
->-					wave5_vpu_irq_thread, IRQF_ONESHOT, "vpu_irq", dev);
->-	if (ret) {
->-		dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
->-		goto err_enc_unreg;
->+		dev_err(&pdev->dev, "failed to get irq resource, falling back to polling\n");
->+		hrtimer_init(&dev->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
->+		dev->hrtimer.function = &wave5_vpu_timer_callback;
->+		dev->worker = kthread_create_worker(0, "vpu_irq_thread");
->+		if (IS_ERR(dev->worker)) {
->+			dev_err(&pdev->dev, "failed to create vpu irq worker\n");
->+			ret = PTR_ERR(dev->worker);
->+			goto err_vdi_release;
->+		}
->+		dev->vpu_poll_interval = vpu_poll_interval;
->+		kthread_init_work(&dev->work, wave5_vpu_irq_work_fn);
->+	} else {
->+		ret = devm_request_threaded_irq(&pdev->dev, dev->irq, NULL,
->+						wave5_vpu_irq_thread, IRQF_ONESHOT, "vpu_irq", dev);
->+		if (ret) {
->+			dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
->+			goto err_enc_unreg;
->+		}
-> 	}
->
-> 	ret = wave5_vpu_load_firmware(&pdev->dev, match_data->fw_name, &fw_revision);
->@@ -254,6 +290,11 @@ static int wave5_vpu_remove(struct platform_device *pdev)
-> {
-> 	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
->
->+	if (dev->irq < 0) {
->+		kthread_destroy_worker(dev->worker);
->+		hrtimer_cancel(&dev->hrtimer);
->+	}
->+
-> 	mutex_destroy(&dev->dev_lock);
-> 	mutex_destroy(&dev->hw_lock);
-> 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->index 352f6e904e50..edc50450ddb8 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->@@ -756,6 +756,10 @@ struct vpu_device {
-> 	u32 product_code;
-> 	struct ida inst_ida;
-> 	struct clk_bulk_data *clks;
->+	struct hrtimer hrtimer;
->+	struct kthread_work work;
->+	struct kthread_worker *worker;
->+	int vpu_poll_interval;
-> 	int num_clks;
-> };
->
->-- 
->2.34.1
->
->
 
