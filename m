@@ -1,269 +1,143 @@
-Return-Path: <linux-media+bounces-5272-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5273-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EA7857A53
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 11:32:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1105A857B87
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 12:23:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C95FB24E23
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 10:32:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBD9F2864A2
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 11:23:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8F0E4EB39;
-	Fri, 16 Feb 2024 10:31:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93D2277655;
+	Fri, 16 Feb 2024 11:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="AhFboV3T"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+TkqYOU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE3948787;
-	Fri, 16 Feb 2024 10:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5140C1BF50;
+	Fri, 16 Feb 2024 11:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708079511; cv=none; b=gXXxVYUjN8+V3YkG5nZvoQBTXr2Nb/ZCrPAUswBWF1K/rpp8yflbqot0zKXN9RXLgQ0xXyR922w5xEtZHiwjUBNxC22o1D3lUW8f1vPzeH0N5aK4vipREK8GlTXPj3sj0LM69Ll4qMoga/eP3FTdI33mOEuP2LsxU6KTXhTWPPA=
+	t=1708082622; cv=none; b=I45czSrF9fovdNW+NuQHcALHGIkJe67bx1veY4ucRjlpRrlea+W+8Llknyn6ep+dq4xFY7zWKu8mFBD74VBs3MUTnsNr2+3GN+kBE9iAPxbOt/SMkOtozcrNFgQDeD/0pMEyaJae42/oTjgf0kgRCf7psc0PcQsGh8S8+odz3ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708079511; c=relaxed/simple;
-	bh=csqlvpw2z/3yyzJxjjS9Fpo71nKwxnAJ+b++04+50pQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ArBP6ExZ3AbhPMX2lwJDxNHNdaLT6vgxCwn5q/kvStNzVw5zA9J4491QNib0E4MJ+bFIP1JgFNvQ8nkXcER6djBlYzGzM9uUrQepHdF2iZGVVn5HVMs4loNdN1P3YZvSHV8AZf37l4J4h6CR+Yls1vrbLLw4SR98gWxVOuZY7QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=AhFboV3T; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1708082622; c=relaxed/simple;
+	bh=JJcfIBGCp3ZKPHLIPV/hxkDPf5TaHhr8o0zt0AcWnRY=;
+	h=Content-Type:Mime-Version:Date:Message-Id:Subject:From:To:
+	 References:In-Reply-To; b=VeNuZsLJBfZaNt4ZlchG+fK6/m3Wk+yeVHVZ1fLqOksInBCK5gkqZYpoYlpeA0Fij7yY+zXZAl28xVrALcK9Gb6l7336ispDXtEzr4NrUCG5ABvUcKdow/cNlJso1cqdbkCnwJKsDBGaVwsgEVRc5UAXSyNfQiTU5G8TFxXPR0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+TkqYOU; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-511acd26c2bso2750065e87.2;
+        Fri, 16 Feb 2024 03:23:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1708079508; x=1739615508;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WOmoaQaLsDmrtvGLYushRM/n3wRCUbdTRdZi3Ojwz58=;
-  b=AhFboV3T/PVE5Q0xAgLw0tTQF8tuKNIEWAU2jIkgz+n3kyXhnLGjx4pl
-   UX+z5cNUwBSEUrNtlBC6O1X8MNdFSX5+jC44OLBlwEzT2/TNf/VvsDrz5
-   b+jR3lwPFonYyOW9QJ/ZTtnf/i9pWJKRZNGM7i0i4AFR8jwGUtxLesW3z
-   4CYffV+67nc1oF1DyV+XYvMmZOpAoiBqgYrWfNYZk9+ebc3wUw2Vs6RAV
-   mjMmliD8JhI9mua5dYDBXZbxFjGApVEHlLSeHv4Tw/jm8qMThduIEmDMP
-   LDBNKNJEonp8S8NQ19jPFsg5SK6kXhfHVM/GtGJTOm7SVsRhQzJKRiJ69
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.06,164,1705359600"; 
-   d="scan'208";a="35443453"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 16 Feb 2024 11:31:45 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 22D87280075;
-	Fri, 16 Feb 2024 11:31:45 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, Paul Elder <paul.elder@ideasonboard.com>
-Cc: kieran.bingham@ideasonboard.com, tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, aford173@gmail.com, Paul Elder <paul.elder@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, "moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v12 08/12] media: rkisp1: Support i.MX8MP's 34-bit DMA
-Date: Fri, 16 Feb 2024 11:31:46 +0100
-Message-ID: <1884916.CQOukoFCf9@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240216095458.2919694-9-paul.elder@ideasonboard.com>
-References: <20240216095458.2919694-1-paul.elder@ideasonboard.com> <20240216095458.2919694-9-paul.elder@ideasonboard.com>
+        d=gmail.com; s=20230601; t=1708082618; x=1708687418; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qCkIBF2HUHDgPA/fkE23qtD6c+3DYAPMy1MuIjYZckA=;
+        b=F+TkqYOU1LIIbCw/kiIShDUIoUVlvbGoyMy5/G8pVcq6M6Ta/1cYcz5KdWju4hGJt/
+         WM3N2BShCm2pmcvre4zpjrSWyJcBwLU8WOuqI+eU7f6URnUzbOYlIZxWnGNtjNTIVn5I
+         nEJUP3btos9Epr5iVcb5e1eqHPgXZZS0+N635f6xAc3IWLjA71h+tCR5Hfj+DzmSBW6l
+         Hskfj3CbhjY9t9VpxB+5RZZsbMIM4NXzD7SaTBbpsz63hTKE6ehmtq5D0a+WLqcC0DBQ
+         lKD5RfaWhT+oqP0QNISyFb6BPUdHAb9ik20rO7Zelfp9aUpsttP4p+YHzHNymX4U+8HY
+         0HVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708082618; x=1708687418;
+        h=in-reply-to:references:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qCkIBF2HUHDgPA/fkE23qtD6c+3DYAPMy1MuIjYZckA=;
+        b=JgBONV4aQhJR1VElPZq6ykdPkVhUtx/xdJ9jeAq6LQacN0FCxhB9Jt24mcXt5BzQZX
+         9yfHdF8gQW2IX1c44TLuFX389YPmt+YrwQPeBddJ8H8X16ZA7Eq5g5JGxRwqKeFL2Pzk
+         wz3ff8CTdqgn0rLpfoI0BXZX4gxjWOXqlmbOCp5v3x1Nk38n+S0QYoC6qy7g1bMY4GAA
+         6HXVr5Q3v+IRSbInP1ZBtv+LHicyuUFnAXona22oeSGt7hILK6mW4xctFrQQ/Z3LQq6g
+         eSgB/fy+1MmtfmYHLcMVMM4dkLyIgK5T84E/T/EuoPiAyyfRuwfG+zXGKcC4O238Fd3g
+         ASPg==
+X-Forwarded-Encrypted: i=1; AJvYcCU6xPvsAzMNcbW4wl21CCLyXej6jLImAWb9o6/qLuPlqBOS+g1DVxsTBilnk/5Bk3lQD2cF7nK/es+aLa5aS4ZmUjxqhORPV6q1dA6Yydp/m0DSSwD9NFpsY9+OCb6rBFuwP7/SGBIY7c+DGXfyofw8dwvClJG99SZ8d4ymjMGeWAeZva1DxTkLQ8FJMyoLEe6f41Wk9ucYUxvIfBVRlriInAnr6PShpYwrIPiKSANm7/VUqfidu+Kms7+GO2BGXjMDfYPytWXZdZH9ZcjdQJvDvDy86DlVUxRUVmQ3aGbs2Rt6F80cVzd6rMRu259tstLGRk5Sf10JfVAHHMhldj5WGOxIGH4/fRahoQUrAE1pVGQqnJddDSGX9G13WQ==
+X-Gm-Message-State: AOJu0YyKyOU+02rDKxEufmO4WKCB9TLkRKlz9WG/bXV622DUcM38thN9
+	YviF23Wh7agyKrc4/ddkBiBn4kThkpFqV3chJcEeWvOYx3TO4isx
+X-Google-Smtp-Source: AGHT+IFk4ZkCa0R/m44omA2Xi3MhoAzI8tKPY8V0cTU/2axm4inHWuZNW2UcVx0PzaNks2ZutoR+ew==
+X-Received: by 2002:a05:6512:716:b0:511:8b40:ab6b with SMTP id b22-20020a056512071600b005118b40ab6bmr2834631lfs.50.1708082618024;
+        Fri, 16 Feb 2024 03:23:38 -0800 (PST)
+Received: from localhost (p200300e41f147f00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f14:7f00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id f23-20020a170906561700b00a3d828c54f1sm1459386ejq.135.2024.02.16.03.23.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Feb 2024 03:23:37 -0800 (PST)
+Content-Type: multipart/signed;
+ boundary=87caa6e717479adfa0f5d015ffee82cc14ceb938e5f7a71c46d45b7997b5;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Date: Fri, 16 Feb 2024 12:23:36 +0100
+Message-Id: <CZ6GR5BWC80N.36XRBM33WF8MW@gmail.com>
+Subject: Re: [PATCH] clk: constify the of_phandle_args argument of
+ of_clk_provider
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>, "Michael
+ Turquette" <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>,
+ "Sudeep Holla" <sudeep.holla@arm.com>, "Peng Fan" <peng.fan@nxp.com>,
+ "Shawn Guo" <shawnguo@kernel.org>, "Nishanth Menon" <nm@ti.com>, "Bjorn
+ Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konrad.dybcio@linaro.org>, "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Linus Walleij"
+ <linus.walleij@linaro.org>, "Laurent Pinchart"
+ <laurent.pinchart@ideasonboard.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Vinod Koul" <vkoul@kernel.org>, "Russell King"
+ <linux@armlinux.org.uk>, "Srinivas Kandagatla"
+ <srinivas.kandagatla@linaro.org>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ <linux-clk@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+ <linux-stm32@st-md-mailman.stormreply.com>, "NXP Linux Team"
+ <linux-imx@nxp.com>, <linux-amlogic@lists.infradead.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+ <linux-tegra@vger.kernel.org>, <linux-omap@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+ <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
+
+--87caa6e717479adfa0f5d015ffee82cc14ceb938e5f7a71c46d45b7997b5
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
 
-Hi Paul,
+On Thu Feb 8, 2024 at 5:37 PM CET, Krzysztof Kozlowski wrote:
+[...]
+>  drivers/clk/tegra/clk-bpmp.c                  |  2 +-
+>  drivers/clk/tegra/clk-tegra124.c              |  2 +-
+>  drivers/clk/tegra/clk-tegra20.c               |  2 +-
+>  drivers/clk/tegra/clk-tegra30.c               |  2 +-
+[...]
 
-thanks for the update.
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Am Freitag, 16. Februar 2024, 10:54:54 CET schrieb Paul Elder:
-> On the ISP that is integrated in the i.MX8MP, DMA addresses have been
-> extended to 34 bits, with the 32 MSBs stored in the DMA address
-> registers and the 2 LSBs set to 0.
->=20
-> To support this:
-> - Shift the addresses to the right by 2 when writing to registers
-> - Set the dma mask to 34 bits
-> - Use dma_addr_t instead of u32 when storing the addresses
->=20
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Tested-by: Adam Ford <aford173@gmail.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Changes since v5:
->=20
-> - Improve the commit message
->=20
-> Changes since v4:
->=20
-> - Squash in fix from Tomi:
->   -
-> https://gitlab.com/ideasonboard/nxp/linux/-/commit/d6477fe673b1c0d05d12ae=
-21
-> d8db9a03b07e7fea
->=20
-> Changes since v2:
->=20
-> - Document the RKISP1_FEATURE_DMA_34BIT bit
-> - Use the rkisp1_has_feature() macro
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-capture.c | 20 ++++++++++---------
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  4 +++-
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  8 ++++++++
->  3 files changed, 22 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c index
-> ca95f62822fa..1ee7639c42b7 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -648,11 +648,13 @@ static void rkisp1_dummy_buf_destroy(struct
-> rkisp1_capture *cap)
->=20
->  static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
->  {
-> +	u8 shift =3D rkisp1_has_feature(cap->rkisp1, DMA_34BIT) ? 2 : 0;
-> +
->  	cap->buf.curr =3D cap->buf.next;
->  	cap->buf.next =3D NULL;
->=20
->  	if (!list_empty(&cap->buf.queue)) {
-> -		u32 *buff_addr;
-> +		dma_addr_t *buff_addr;
->=20
->  		cap->buf.next =3D list_first_entry(&cap->buf.queue, struct=20
-rkisp1_buffer,
-> queue); list_del(&cap->buf.next->queue);
-> @@ -660,7 +662,7 @@ static void rkisp1_set_next_buf(struct rkisp1_capture
-> *cap) buff_addr =3D cap->buf.next->buff_addr;
->=20
->  		rkisp1_write(cap->rkisp1, cap->config->mi.y_base_ad_init,
-> -			     buff_addr[RKISP1_PLANE_Y]);
-> +			     buff_addr[RKISP1_PLANE_Y] >> shift);
->  		/*
->  		 * In order to support grey format we capture
->  		 * YUV422 planar format from the camera and
-> @@ -669,17 +671,17 @@ static void rkisp1_set_next_buf(struct rkisp1_captu=
-re
-> *cap) if (cap->pix.cfg->fourcc =3D=3D V4L2_PIX_FMT_GREY) {
->  			rkisp1_write(cap->rkisp1,
->  				     cap->config->mi.cb_base_ad_init,
-> -				     cap->buf.dummy.dma_addr);
-> +				     cap->buf.dummy.dma_addr >>=20
-shift);
->  			rkisp1_write(cap->rkisp1,
->  				     cap->config->mi.cr_base_ad_init,
-> -				     cap->buf.dummy.dma_addr);
-> +				     cap->buf.dummy.dma_addr >>=20
-shift);
->  		} else {
->  			rkisp1_write(cap->rkisp1,
->  				     cap->config->mi.cb_base_ad_init,
-> -				     buff_addr[RKISP1_PLANE_CB]);
-> +				     buff_addr[RKISP1_PLANE_CB] >>=20
-shift);
->  			rkisp1_write(cap->rkisp1,
->  				     cap->config->mi.cr_base_ad_init,
-> -				     buff_addr[RKISP1_PLANE_CR]);
-> +				     buff_addr[RKISP1_PLANE_CR] >>=20
-shift);
->  		}
->  	} else {
->  		/*
-> @@ -687,11 +689,11 @@ static void rkisp1_set_next_buf(struct rkisp1_captu=
-re
-> *cap) * throw data if there is no available buffer.
->  		 */
->  		rkisp1_write(cap->rkisp1, cap->config->mi.y_base_ad_init,
-> -			     cap->buf.dummy.dma_addr);
-> +			     cap->buf.dummy.dma_addr >> shift);
->  		rkisp1_write(cap->rkisp1, cap->config->mi.cb_base_ad_init,
-> -			     cap->buf.dummy.dma_addr);
-> +			     cap->buf.dummy.dma_addr >> shift);
->  		rkisp1_write(cap->rkisp1, cap->config->mi.cr_base_ad_init,
-> -			     cap->buf.dummy.dma_addr);
-> +			     cap->buf.dummy.dma_addr >> shift);
->  	}
->=20
->  	/* Set plane offsets */
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h index
-> 69940014d597..26573f6ae575 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -114,6 +114,7 @@ enum rkisp1_isp_pad {
->   * @RKISP1_FEATURE_MAIN_STRIDE: The ISP supports configurable stride on =
-the
-> main path * @RKISP1_FEATURE_SELF_PATH: The ISP has a self path
->   * @RKISP1_FEATURE_DUAL_CROP: The ISP has the dual crop block at the
-> resizer input + * @RKISP1_FEATURE_DMA_34BIT: The ISP uses 34-bit DMA
-> addresses
->   *
->   * The ISP features are stored in a bitmask in &rkisp1_info.features and
-> allow * the driver to implement support for features present in some ISP
-> versions @@ -124,6 +125,7 @@ enum rkisp1_feature {
->  	RKISP1_FEATURE_MAIN_STRIDE =3D BIT(1),
->  	RKISP1_FEATURE_SELF_PATH =3D BIT(2),
->  	RKISP1_FEATURE_DUAL_CROP =3D BIT(3),
-> +	RKISP1_FEATURE_DMA_34BIT =3D BIT(4),
->  };
->=20
->  #define rkisp1_has_feature(rkisp1, feature) \
-> @@ -239,7 +241,7 @@ struct rkisp1_vdev_node {
->  struct rkisp1_buffer {
->  	struct vb2_v4l2_buffer vb;
->  	struct list_head queue;
-> -	u32 buff_addr[VIDEO_MAX_PLANES];
-> +	dma_addr_t buff_addr[VIDEO_MAX_PLANES];
->  };
->=20
->  /*
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c index
-> d0a3a13d9dd7..54a62487a4e8 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -552,6 +552,7 @@ static int rkisp1_probe(struct platform_device *pdev)
->  	struct device *dev =3D &pdev->dev;
->  	struct rkisp1_device *rkisp1;
->  	struct v4l2_device *v4l2_dev;
-> +	unsigned long long dma_mask;
+--87caa6e717479adfa0f5d015ffee82cc14ceb938e5f7a71c46d45b7997b5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The signature for dma_set_mask_and_coherent() uses u64 for the mask, so I=20
-would use the same type here as well.
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Alexander
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmXPRbkACgkQ3SOs138+
+s6FzcQ/9F5fJyakwkqSmFCFsFTUwQ0Vv6AmJP7kf0C2oOGiJISmgaFwRE7ikl73f
+tfJ/jetoF3grVZE950B1ZtY1sAK6WLfAlRnkD52YE25Y+NcehSPfcE2403gBL/JZ
+6Rtlw4U/jJhHC7k1NNSCV6W3YM9tFJZzPdOwWL1efc33DWZQkTgvIPKSfqGIHd0i
+iclZTsusANQThdL9ASOlvq81RrglhXgo2PIt/oeGjEBtf+IoDVhHSWqJ65e/lmYV
+cBw1uhHa5zHLiWoT4xTqJY8dPkSLfBSRM3uflLUkA5BRNllvVsHAPvIgR6aBpqi5
+KeLdZEDFeIuIi8nqtYxhhnGa8nKz9t03MNj9GbFf9HYocIVDIV4SvKuKongDjcYZ
+zr5jC3lMZnmuQIM5XOIFu8hQWG0zQ6H+Kuf6ifolHj13E5gplCo4BoZWNnE84OZ8
+fMjNHraK6RNUUqJXW43OBEjejW+FvvZIpMvyyt8TcE/I7hieXCjib0Spu2n5SwvK
+mQgKxPJpsOpCxIOID89cK2VwOX3uOZslT3M5sU9ZkoUcwRpQ/Ntfr7ZWW8Jy/L4Y
+DWnk7IvOvI4fFlmRQONIeWpr8euHFmCL8L8dJ29AI9oB2lvs7ZovvWw9QTE8E6iU
+EjVBwtdG6KqWJxP803h8DAvvD0Vsu0KzQFr+Pwre3NP2FHYDCR0=
+=E0uq
+-----END PGP SIGNATURE-----
 
->  	unsigned int i;
->  	int ret, irq;
->  	u32 cif_id;
-> @@ -566,6 +567,13 @@ static int rkisp1_probe(struct platform_device *pdev)
->  	dev_set_drvdata(dev, rkisp1);
->  	rkisp1->dev =3D dev;
->=20
-> +	dma_mask =3D rkisp1_has_feature(rkisp1, DMA_34BIT) ? DMA_BIT_MASK(34)=20
-:
-> +							  =20
-DMA_BIT_MASK(32);
-> +
-> +	ret =3D dma_set_mask_and_coherent(dev, dma_mask);
-> +	if (ret)
-> +		return ret;
-> +
->  	mutex_init(&rkisp1->stream_lock);
->=20
->  	rkisp1->base_addr =3D devm_platform_ioremap_resource(pdev, 0);
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+--87caa6e717479adfa0f5d015ffee82cc14ceb938e5f7a71c46d45b7997b5--
 
