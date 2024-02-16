@@ -1,93 +1,203 @@
-Return-Path: <linux-media+bounces-5291-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5292-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F1A858066
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:14:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 212B985810F
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 16:31:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D62628530F
-	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 15:14:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC47C281677
+	for <lists+linux-media@lfdr.de>; Fri, 16 Feb 2024 15:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D03112F5A1;
-	Fri, 16 Feb 2024 15:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0A7812F5BD;
+	Fri, 16 Feb 2024 15:21:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iQo0M9TX"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LeHevmTj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2082.outbound.protection.outlook.com [40.107.92.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2978D12F58E;
-	Fri, 16 Feb 2024 15:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708096443; cv=none; b=rSEcJSujusLll3RUAt82wl1jDnRtKf4fqHB7cisqpM+3DnaZvQALt/U36EU6cBT6acKN8d5RFtKg7DEvgUFyohH4P5MfQEQ7BGrwemVECbGhc4HZUZk8rlD+Xv/46rtD3LaJ/gtesko/SXgh62RQKmJkRy7Q0MbYDTRxVAdqD4I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708096443; c=relaxed/simple;
-	bh=BNsVDgqfv9dGmKX2WSwdTC2XUCyV/caGILyjWh5SUm0=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=Bq3xG5A6M2tY/Fj/OAk1gqC0PiatDi5R3mTWe/h0V3Ar27Xkd/DrvuBnLBXNq2aOWF4s45bHU7yiEcGzEHcCGPtplux6uUYdlgCE2AJvs6ZLF+6AjlOfRrBYmHvQnXOQoFpMh1NaFbamzOCfanmHq9c7XRT/uU6+IM9VLZ0Qz1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iQo0M9TX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F0296B3;
-	Fri, 16 Feb 2024 16:13:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708096435;
-	bh=BNsVDgqfv9dGmKX2WSwdTC2XUCyV/caGILyjWh5SUm0=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=iQo0M9TXbL+nqTdXe8p6gxJ44yN+pPUawTlpP41WND/40BauT/lOphq9DnkP/Tawv
-	 FGTTYqAHhfN1dH74G29xCSEVuerpxoh7u7wS6/XcvmpF2YaiuCbsHGjJ4A+pdQp4RO
-	 Y+eCdn5bfy+mvvOxn8jBch9Uk+xKq+6PRGt+iUhg=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F77D12F590;
+	Fri, 16 Feb 2024 15:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708096860; cv=fail; b=lw4gTdAIDCClSIHuQzW8FvJEzGh9cl0vSXs2eDDTMkhoQ3/inl8LPVaN3J7xud6KM4r6n2kJ/4+4geQ015E2jKsPi0gqBIEBRMhnWqJ4V/8OuYsNKzTG1rSMwBXMPd9rhZ8WHx8Jn5keFCWfRvEG7vROvCQaCVCdUtJ3qNS+weM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708096860; c=relaxed/simple;
+	bh=xc8EKelNihmStCrc0ysb+RZe19IM/+IJOyFBqeBcRvc=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=eBuiTZyvzX6qR6uiqVGRqy21nnQk7Yg7UNvxlDsyTOIy/vDvoyHjl4T7rAyLwyHI8r38NwqNsuGS+PWu0yl65kktSpmYGCB/euamDbuAL7rqog6yhg4eHeIVbzugH1TIVTbuRzcUqSCKbIYmL52JgLW9p/KBJh+pZLj1sURgTfc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LeHevmTj; arc=fail smtp.client-ip=40.107.92.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EcZ9uDR+Dli6sWIMDL6yXn4ePxssb4Oa8OFsPME61lgI34VOFtzueAlhH1gOmwkU4vVq4X33MgksUNeY0M89QRtHQrA/6AIxNL6Y0vUyTrDX4rI1WnXWWRX8mPQe5WcIGLdZZ6MNw5j51CngU+ed4qbOIkv8HlefbirJ3qSBJnt4UBQSVYoL+kQWT3XlG+96OSHLcNDnqu2V/XYsPFZL/uTBU7C7iPzU2XD1NfVuNJdBJZ+KHdsKduvnqWmtZvfRDKIv8I02RTkIIj0UD+qt+l5ZuI5UybQMvxzs5Gt21rCvhfgBfb3fofw9vqheSaHOWZAzXDlvdLJoKuAh6e73AA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/NQOHbebJtVEFyk6Fsx8RCC6B2O126C/RiRYtkP/EZo=;
+ b=g0mM3srFt++MhucSXdiLhLPtlR0EhoAoixde7oNQlFZkX+UQlqggjvQaQYD6YdzV1YaaKNxiAiR90xbvzthsNFyDo5KFJk3REU+C15mCWhfq7GFyMi21LDtlHksAthAoU/crvyp3bhIdnezZH29ZcyWG4tIDVCjqOK+rHPiUw2tY4Yx6fak8Aax8yt6918OexHOdDITWJGJ1QwVnM9qTJbaYtn0tObL89P6VoQkAMp9k0H1QYaNQip24qASAT/OnGTqzjcZgxfneN1IcjQmhsskPjoRroeF+MxUNPAbVHa3Olmw0Jdd//nKEHr/jURzBHoTu5DSfx0cT8GWJcCbjUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/NQOHbebJtVEFyk6Fsx8RCC6B2O126C/RiRYtkP/EZo=;
+ b=LeHevmTjrI70Qnco0uXQcLtEMG1NyOvPZlZOZzfsiouA6tE2v79AaBRZJMwtCcbDEDgy9o1fSnoHlQvqUSN4kguG9js2p6zA4P5Os9084DPhqpeSJXbBNmMU4ta7gatLC2i9xiphWVueXG5n6v4NGRtfNuQpNiw5Vvz62MFyAf4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB6797.namprd12.prod.outlook.com (2603:10b6:806:259::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.12; Fri, 16 Feb
+ 2024 15:20:54 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7292.022; Fri, 16 Feb 2024
+ 15:20:54 +0000
+Message-ID: <cec3ad47-b008-4fd1-8f0a-172ec2a6526a@amd.com>
+Date: Fri, 16 Feb 2024 16:20:47 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/8] dma-fence, drm, amdgpu new trace events
+Content-Language: en-US
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Alex Deucher
+ <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
+References: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0030.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Zc8ppr4mE8ZgVNUs@kekkonen.localdomain>
-References: <20240215204436.9194-1-umang.jain@ideasonboard.com> <20240215204436.9194-2-umang.jain@ideasonboard.com> <55d41858-b567-4e23-8d84-3af81b52d018@linaro.org> <Zc8ppr4mE8ZgVNUs@kekkonen.localdomain>
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: Add bindings for IMX283
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, Fabio Estevam <festevam@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, willl will <will@willwhang.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Fri, 16 Feb 2024 15:13:57 +0000
-Message-ID: <170809643706.2629073.1807694963113475412@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB6797:EE_
+X-MS-Office365-Filtering-Correlation-Id: edf99c76-b07e-4f96-626f-08dc2f02de04
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	5J/BEuvzRTHUEUtr3fjMumk8WWemkvzdagkUVjcYzZSgIraWYSTEpbkis26XynyI+cIMBjVuxsk48k+Mk8Gw/5im8+2idoJ3Glp4AbuKqAM4OxTAtrZiVd3KRkg6InmFEEwEMDvYIOTCtyBhDizT5XYXhMRwnXGaMilh9m7hRCLGCPys99QuGo3kEz4Nf+2Ed60st7AALPk740La8ryysl867NBDY1taxjh6tAs+4akRvdFVJpjiOoW2wZ0kWdG6F/fSQBkbFf5nPQxII79TsDBMHkI1AUQ8E+5UciT6BSK0J3g3WKoQyTLNXQdYHC8uvpBgaBqxLfgYvqWBAf+nQomHMPtDpMfYX7OEY70Immb4ngb7o3wU+BoWDXO0NrzACFeSa1w3piupNsEIsWJcoIfjFcGGwNJqljBrDtolqyzJ+DJ90LEe1youJEfxPxDw2ZobweNs17o+Ksl5r3NjQnx6EirlVdv8BCMZRsCb28QD8HQRkRYVGbLSTsWt6cnXIXbJI7jocLy6ArIcvPyVSQ8dDsl9LAqKkoGPsQtmmvkv0K1V7UZWRD4HACSHl8/ewNqW7r3TfKIIvc6AxAwYPA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(376002)(396003)(346002)(39860400002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(66946007)(66556008)(5660300002)(66476007)(316002)(2906002)(8936002)(8676002)(86362001)(478600001)(38100700002)(921011)(83380400001)(31696002)(36756003)(6506007)(6512007)(110136005)(966005)(6486002)(6666004)(41300700001)(2616005)(26005)(31686004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T3F1dzZMaGdubTVwcjR4TEFPNkdIeW9lVi93cnkwblJpem9SM3JVUzN2ZXZD?=
+ =?utf-8?B?RnRNSG1hZnUwc2EyVllzVXpqOUVqQ3dsT1drOWRDN21tQ1FoODRuS3NCY3Z1?=
+ =?utf-8?B?bTkwVVREZVNWQXlJYmtVTWNvRm9iWVBzcGE2WERJNkV2WG5mZFNmMUlBUURr?=
+ =?utf-8?B?cVFjMExuekR2L2pzUTVkUXhQaXdGdUR2Q3liU3lUbGViby9VOEpFVTkxemp4?=
+ =?utf-8?B?U0tuZXFVZWx6bGJQSllIa01jT0ZlREVUUjdqTmZuem96QnlnU2R6ZUloTHMx?=
+ =?utf-8?B?bVpINGx5OWoyaERQNTlLeExPcHZmM21CK0kzRENXSzZ2cnV6dWpla2kwVk9n?=
+ =?utf-8?B?NlNIVTgwckRaYlBPTWVQN3VXWlFJMzNocG54bjh5QlJOWElucU1vS25aK2Nm?=
+ =?utf-8?B?SFRsV1BzYkwyNTJyTm9KZlJEQUxFc21HYU9TQnJnT3pncXRPWjR2dWRCSU5U?=
+ =?utf-8?B?dUN2VGZOREFRWGFpYWorZ0FqMGJ0eGIvSnB5eURkeE9jSitERUp0OHlUTklI?=
+ =?utf-8?B?TGJqNG5Iak1YNWRDbVEvQUYvOUcxSWs0Sk55ejRNV1B3UVF3N2wyMmY2TnVj?=
+ =?utf-8?B?L3owZnU0STM5Z3doVElTSE5lNVpNM0hZOFdaT2MrZ1diU0RJM1pvWkFVamJY?=
+ =?utf-8?B?U1dDVHdEVVUyd0dwUmtCY0J0Yjd4Vzc2REpzbnFuLzJCZ0VQb0JIRlFhZFhw?=
+ =?utf-8?B?WUlzaFJ3TGhLTTNDcFBBS08yeVpiN2s2YVU3YXVtQThzWmtwM3dBRE5IRjRX?=
+ =?utf-8?B?KzZuNTlqTDIxalZ2eUZ2ZWF1SzhKYUtla0t2b3gzNmc3MDNBYjFDWFRGRjlP?=
+ =?utf-8?B?YXAzams1UkxKN0RIcmxLNVJJODRjMDNwKzRaMFNrcVZsWmQ5WTM2NkhKZmhj?=
+ =?utf-8?B?RjVncWIvV2tIeHFzem5HcldyS25Fazlsb2o0bGU3NUt2RHNVbkNzTVhmc2hm?=
+ =?utf-8?B?Y2NMNG1DT1FTaWdoNy9jR0V6aEYrR3JzalFoK0FyUWl6VzY4T1VwNnFoZGVj?=
+ =?utf-8?B?SStwRWtPTHE1WEd2QnZKaFNUTUVSZVFHZzNnTjlzNmZ1ajFTbDhoVFVKTkxT?=
+ =?utf-8?B?Z2NueXU2S29vNXMrUVRuS1VPa293aGJVd2dBV1lsSDE5MDNJNUxuK2VCOGZR?=
+ =?utf-8?B?QkdCOWo3WkYwT09GSHVCblB6TGtHNmsyKzlMcFExUFBxWUFPZGpYUlAxRFpP?=
+ =?utf-8?B?b0YycWZPYXVSSW91ZVllcEhzU0ZXU040TUJVL2FyRHZWZFkxUDBsalVIRWJ6?=
+ =?utf-8?B?cGVRejJteklCUWRIdEUxNGNRVmRpaktXa093Z0VLeWJCTXJ1bGlMRVJBSFJ3?=
+ =?utf-8?B?b001TGJiM0hYUzFnRzJsZGNMZS8zb2hwYmtTdHlHMEw5K2NrcHk2ZWZiN282?=
+ =?utf-8?B?anNaM3oyMXhteVBqMTh5eFRKaklxYnU3bHlMRndidW9BZmFXb1VCYmNhVGEw?=
+ =?utf-8?B?QUx0UjNzWXJRekJHTytUWGtkWE5GQmUwQjJWRkowNzV3K3hOSmplVUVDWnBa?=
+ =?utf-8?B?eW9lM0tUY2ZyOGtMWUMvMlN4TGJKOFdVVUNUSTVvRjB6QnRDU0MxR2pxMXh4?=
+ =?utf-8?B?Q3gxMWZRMEt1a1Z6RWwzT1Q2Q3BXZGlmQmNxa09wc2c3MHh2NHRiOEpVTC9P?=
+ =?utf-8?B?RjBEdElqS2VkODUrRkpZYXRWZnJFQmZzZjFIM3JLc1RsTEsvQXpiMFVKaTJC?=
+ =?utf-8?B?V1p2b0JtMldhTUhhcjRzRFg3cHV3V3FLaUd3d0xzcENnNXJkZzFlOEZnUDc2?=
+ =?utf-8?B?YXdEZGJvTHRKVkt3eHhIdU02aC8xZXFyRWc2anJ6akl1VlhYS0N0UlZkV0E0?=
+ =?utf-8?B?ekVxOHU5Z1cwVnA5VFR3WmxCQW5jM1lwanVkY1JtS2JiSzREZ3hVZlc0aHJS?=
+ =?utf-8?B?ejJUUHFZQWFPdm1Pd3dLazZQZGJ4WThKUzdSK2I0U2pBSkVMV2pIRWlwVEli?=
+ =?utf-8?B?akIrRUc2dkRxeWx1MUQyeUNTM25vWDA0U2NHc0tEZ0FlTWN0RDBhUXpoTUd1?=
+ =?utf-8?B?anhwSVdCc2ltZFFuWGpZdEo2dUZOTm1tRFRxZDFKOGIwV0lpV1pJMUNmc01v?=
+ =?utf-8?B?NHFSbFVWYURROFhmM01BTkVSSWZCSFhwSlJHUWFsOTNHRXAzVlBZWUxNanU3?=
+ =?utf-8?Q?BhsTYtLXFkq48CgmxTYOw3/Er?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: edf99c76-b07e-4f96-626f-08dc2f02de04
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:20:54.4143
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R1im2VPtJFXRX6celQPhNQiZMB9UXJY5bjxdXlCkABeyxgZ2MO8HfAyWEiD/wdm+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6797
 
-Quoting Sakari Ailus (2024-02-16 09:23:50)
-> Hi Krzysztof, Umang,
->=20
-> On Fri, Feb 16, 2024 at 09:03:49AM +0100, Krzysztof Kozlowski wrote:
-> > > +        properties:
-> > > +          data-lanes: true
-> >=20
-> > Provide constraints - which lanes/how many.
->=20
-> Very probably only the number matters on this device. Therefore minimum a=
-nd
-> maximum should suffice. (Or an enum. 3 is probably an invalid number of
-> lanes here, too.)
+Am 16.02.24 um 16:09 schrieb Pierre-Eric Pelloux-Prayer:
+> This series adds new events to make it easier for tools
+> like gpuvis or umr to graph the GPUs, kernel and applications
+> activity.
+>
+> UMR patches using these events can be found here:
+> https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+>
+> V1:
+> https://patchwork.kernel.org/project/linux-media/patch/20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com/
 
-I think we can only support 4 lanes here. I heard rumour that it 'might'
-be possible to support 2 lanes, but I haven't seen any documentation for
-that and I don't think it's likely expected to be supported.
+I need to separate this patch set a bit. The DMA-buf stuff usually goes 
+upstream through drm-misc-next while the amdgpu only patches go upstream 
+through our internal branch.
 
---
-Kieran
+I will keep you looped in which patch I pick from this set to which branch.
 
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
->=20
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Oh, that's going to be fun.
+
+Christian.
+
+>
+> Changes from V1:
+> * uses trace_dma_fence_sync_to from dma-fence-chain.c
+> * new amdgpu events
+> * new drm plane commit event
+>
+> Changes from V2:
+> * uses trace_dma_fence_used_as_dependency from drm_sched_job_add_dependency
+> * add devname attribute to the trace_amdgpu_sched_run_job event
+> * addressed review comments
+>
+> Pierre-Eric Pelloux-Prayer (8):
+>    tracing, dma-buf: add a trace_dma_fence_sync_to event
+>    dma-buf/fence-chain: use trace_dma_fence_sync_to
+>    amdgpu: use trace_dma_fence_sync_to in amdgpu_fence_sync
+>    drm/amdgpu: add a amdgpu_bo_fill trace event
+>    drm/amdgpu: add a amdgpu_cs_start trace event
+>    drm: add drm_mode_atomic_commit event
+>    drm/sched: use trace_dma_fence_used_as_dependency
+>    drm/amdgpu: add devname to trace_amdgpu_sched_run_job
+>
+>   drivers/dma-buf/dma-fence-chain.c         |  4 +++
+>   drivers/dma-buf/dma-fence.c               |  1 +
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c    |  2 ++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c   |  2 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c  |  9 +++--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h  |  4 ++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h | 42 ++++++++++++++++++++---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c   |  2 ++
+>   drivers/gpu/drm/drm_atomic_uapi.c         | 21 ++++++++++++
+>   drivers/gpu/drm/drm_trace.h               | 23 +++++++++++++
+>   drivers/gpu/drm/scheduler/sched_main.c    |  4 +++
+>   include/trace/events/dma_fence.h          | 27 +++++++++++++++
+>   12 files changed, 133 insertions(+), 8 deletions(-)
+>
+
 
