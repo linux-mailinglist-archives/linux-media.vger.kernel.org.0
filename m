@@ -1,114 +1,82 @@
-Return-Path: <linux-media+bounces-5362-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5363-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C178591EB
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 19:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D45C85922E
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 20:45:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A740D1C2287B
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 18:54:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B0B421C20B55
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 19:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A95EB7E11E;
-	Sat, 17 Feb 2024 18:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eknArbpb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E29C7E587;
+	Sat, 17 Feb 2024 19:45:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF6041A91
-	for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 18:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B4B7CF2C;
+	Sat, 17 Feb 2024 19:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708196061; cv=none; b=rKnHZs9EBM/YA9kwsuFNQE5uxIKODkVCZ3KdMtCbn46pP0bskJfVqRf6k4F7L9ogD6H8TZqrjzAlSql+gxYSTFi0zLiTn7dmivn0R3ovKTHtwPizXh2expVJ8+Y9fDLLCNePK2zHYI8OmRGwaibFpK8mWxDgGqHXepovX7Lh6dE=
+	t=1708199103; cv=none; b=CsEqrxcKthYz8q1IF+3uV9id8f9g+4hhrj658x9FsF86PSSYxjYmlMDcHgqGqYJNkerabgFiuYmWaN0JPM7iMb71M0SX5J0mih0h7vNeSZiRdHg7Mn4qXS3hW4t/kiTQJJzI3tw8vfq8jIJweSJN1LQgar6/WJWJ9w6CLn9YWes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708196061; c=relaxed/simple;
-	bh=lpaGIxGljZ9znL0araD7NAX2BM7V27dZcwCtMBjP1cA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z3/nDuwcxKbYTX+Nw87KHYN0wl6Fnr9XXAPk1kjXmQXltMWis0p8SFBY01hfZDODcf0yfaImaLNPJFHRSvNInqX09++E1CiUi2fMhtdxbvp4u+/6O6dkZR987bZP3C9X1utdfqq/IUICpCSP4a4oNqDW5y9zR4aGQJbdOJnUmWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eknArbpb; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-55f50cf2021so4194996a12.1
-        for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 10:54:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708196058; x=1708800858; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lpaGIxGljZ9znL0araD7NAX2BM7V27dZcwCtMBjP1cA=;
-        b=eknArbpbQ2Yo9evC1HoaxvzTaP60EebRqsWFwKXoA/RZxF+2InDC7YFeiDnTmZ6pX3
-         yd2qUTA84HuvgCN01pLeomRw2FHmEZrAXl2OBIoPuaxKavOwt/u77hq10Dpap9jlj9+v
-         t55LjYas5e+JpioAvbmUWH9X7I+0YN4j3/fi2n+kCTiCAFRkw3wrD5aHLa9Jdn3T+ydj
-         20TE4efQyaLYksJiCFILDZ95RuIeW9gcM82wGPJjbnH13FuTLS9dxRkq47eOqcLoO1K5
-         ucDTrobjpbx9eUUbzNOoz8v6ufEThej3U/RnGYIjwLmZcmVe9XsjUCB+TXVNIJiHWDun
-         79Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708196058; x=1708800858;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lpaGIxGljZ9znL0araD7NAX2BM7V27dZcwCtMBjP1cA=;
-        b=pU41sFSw96Kgva/W5kPzV6A1R2dhUAv+LFkiukDFfjOiVQJCe0GHizE/osv3uvC44+
-         nemz3ttQv2R4CYCwb96VmX4W3hv2443OpvTaTFsjIXPzFdDOTnLVbW2NN8GpKtTSlLnw
-         SLsyhANekgxt62u0JLsgAjw7l5eo52eF/8e5V8mKaSR2Ep6w/OMifXFiqgwgW3uwXdIf
-         NXahLelpKdpcI6HfjqTqop3mpJpAMH7ojTBpink6aTzWoUVWIJpA/PFxFXEYOjpi6pag
-         dbnLg65Phm4wMIQvbjsmTvYRhYDllvISSL4nuQi69mxkm0C7YS6m2qAhiEOYCOqzYnhD
-         k04g==
-X-Forwarded-Encrypted: i=1; AJvYcCVN5BZrqqZditCv0nZoFMn3sVyoi4+eOLM0wQDQhQG05qtqS/GFh6ch92TBx+HjIbgnyVY67J2CZxfTU7qBvY19JoInimTGbBnagaw=
-X-Gm-Message-State: AOJu0YyY1KbCqbbrRoyJfDGucgCETYhXp5u6xwm68sPrndYb1lKI5a0Y
-	Hi/blTx9J7D7ibsJhv6ipe+0ttuK7uwdSIz3yovNvwTtBYKnls6KR0gtooj6ULEOlqp0fLFCVHJ
-	qsS9DrrCQ29SnEpw0PphBZuQYm2KMO+Mgljo=
-X-Google-Smtp-Source: AGHT+IGsjeyZrIoWAn9g6o/y9G+R76PNVZSpqeNW3+DnVvNuYsVJMGra8Du7czjq+3/s/4+PPzdOVzCEAGZcYOiIL0k=
-X-Received: by 2002:a17:906:75a:b0:a3d:205d:1d97 with SMTP id
- z26-20020a170906075a00b00a3d205d1d97mr5535088ejb.58.1708196057654; Sat, 17
- Feb 2024 10:54:17 -0800 (PST)
+	s=arc-20240116; t=1708199103; c=relaxed/simple;
+	bh=/ClP/g3jt0iF43oyMub7Rq699tZLH1yRu5G6Rpzq7Ks=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=Gd2UvcgVTUpU1oILqZA1FuH6oh6u13jSMrHP9HLLDVlPv/h16U5qNzFHhKdBKCT38BJEDk6gfsyTaaBIcIwV08Uv++3HRVehBmcE+aox7yaToBGZ5pwTgKUJOxwZo363fe+Ssrh19g7UFTsMnUvDg24SWFIxTSM8Nx/gE+yEU6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id C5D281C0269;
+	Sat, 17 Feb 2024 19:44:59 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 0EEA320025;
+	Sat, 17 Feb 2024 19:44:56 +0000 (UTC)
+Message-ID: <102e5c65e07ebdade5400ca711fba131a37027a8.camel@perches.com>
+Subject: mediatek: media: Missing alloc null test
+From: Joe Perches <joe@perches.com>
+To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
+	 <andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Matthias Brugger
+	 <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	 <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek <linux-mediatek@lists.infradead.org>
+Date: Sat, 17 Feb 2024 11:44:56 -0800
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240217112438.15240-1-hdegoede@redhat.com>
-In-Reply-To: <20240217112438.15240-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 17 Feb 2024 20:53:41 +0200
-Message-ID: <CAHp75Vf0Jm4CXig9GOu=WvqyRFj5W4U6gQsNHy48dFJrD3zb2w@mail.gmail.com>
-Subject: Re: [PATCH 0/9] media: atomisp: Changes for libcamera support
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
-	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
-	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 0EEA320025
+X-Rspamd-Server: rspamout08
+X-Stat-Signature: jtj5gxkjrn6psxqbp7ktoek7c5w55gzq
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/mi3Mj5scL1ByOsIwBfWZOxpOvRRYeA7Y=
+X-HE-Tag: 1708199096-891621
+X-HE-Meta: U2FsdGVkX193Saf57q9yIF6MDuyE5/FDuYOW0Jg6+JkwL2LwrgbYynYObJBWcqCClxlv4MeR25Rb48n5OI1kDPWQaZCTPjJiFzlCnThe+luGs/P1grkpEswA4zNaoAOWJxt6LVHEq7FF5DaqtJLR0sBuNMMuwYV8MGShqen58zm0lAaMXpzxFzD6FKbX3KYS+ux3tYQQhalVyv3kB3KbJ8nJknEFY08TAGSN/kxcfcmejaBHtHI5ngt+k8fiLwu8iRg67fftVlJHRv53JNdp9oAWcLtn5U/CnNtuWtijsWOJPl/z7AUNDgM4zaNPSQQ+
 
-On Sat, Feb 17, 2024 at 1:24=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> Hi All,
->
-> Here is a series of cleanups (prep work) + some small(ish)
-> changes to make the atomisp driver work with libcamera.
->
-> This has been tested with libcamera's simple pipelinehandler
-> together with an ov2680 sensor.
+There's a missing NULL alloc test here:
 
-With some minor comments,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+It doesn't appear obvious what a proper fix is.
 
+diff -u -p ./drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_sc=
+p.c /tmp/nothing/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_f=
+w_scp.c
+--- ./drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
++++ /tmp/nothing/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_f=
+w_scp.c
+@@ -79,7 +79,6 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_
+ 	}
+=20
+ 	fw =3D devm_kzalloc(&plat_dev->dev, sizeof(*fw), GFP_KERNEL);
+-	fw->type =3D SCP;
+ 	fw->ops =3D &mtk_vcodec_rproc_msg;
+ 	fw->scp =3D scp;
 
-> p.s.
->
-> Andy, I known I still need to do some small cleanups from my last
-> pull-requests. I have this on my TODO list :)
-
-Hope you will find time to address. Thanks for maintaining this driver!
-
---=20
-With Best Regards,
-Andy Shevchenko
 
