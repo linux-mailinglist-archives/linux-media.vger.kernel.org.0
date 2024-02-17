@@ -1,50 +1,54 @@
-Return-Path: <linux-media+bounces-5359-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5360-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39AF8591D7
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 19:49:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7525D8591DF
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 19:52:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B2241F2254E
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 18:49:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A5A8282247
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 18:52:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 488637E114;
-	Sat, 17 Feb 2024 18:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D019C7E577;
+	Sat, 17 Feb 2024 18:52:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="p0kanJWR"
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="mWjyxl/s"
 X-Original-To: linux-media@vger.kernel.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A3341A91;
-	Sat, 17 Feb 2024 18:49:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987461C282;
+	Sat, 17 Feb 2024 18:52:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708195790; cv=none; b=cEzZ3uvTlx905hAhzHyc9yJXkNOfQiNUksYwld/LsvjW3TP530tqMLujJH+x/LEtIVy4j7VNUny5vpkSfXNNnbKk0jlPS++i71rWYG2tcWXeZZYv2yppQMojcoLEVnyG0ZMSd914nMgmOebPq++rpF8VmEDrLhCuwSVc/OlsWQo=
+	t=1708195928; cv=none; b=hzc63i2XN98WbIK8s69lAije0OrrvVZ1zY8QUovSlE+q+6PBN1F9Fv+dcMmzu4QawNpE2xpHGe1ZcUHYJ1x23T1rMomf/h2DnqTHvzATBiCCaoGd5ojgyVio9JQG1wewDl5OUKXd0JNTLCraPp2/dfK63qSRt3WjhNX+7qPKays=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708195790; c=relaxed/simple;
-	bh=P6v2JvS1OzYzht9jsA5pBiVpyCWfx3yjVjiid49u5/w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JTNpqS3+ro6XkZD+EHmu+S2iokblpYxJwW8U8cRk2Xs9KLOCevjiiNIwn0jLtXyaR5ccHLH27eBDlDoQ+16d40C6YO1vXPnsJYJYO8jnG36XX4tY42xiWfijPl/Up2/2qTa8gJ6CFS3BtsnRn7l2znPgsQQQ7/s+hihUi5YFf2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=p0kanJWR; arc=none smtp.client-ip=195.181.215.36
+	s=arc-20240116; t=1708195928; c=relaxed/simple;
+	bh=HRBsXHjOejmZlim4WFTvQhmTd/GTxXJaVN/xTbbQgG8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nPnMoegw11tHlChtB9byjJp+ak2IGRFFeQbjY4Ot2AB6EeQkU3W5xlclUvxQIERchAJx/TEciXX5xCmko8yQZkbRj/XnUuDKy4ugycxlDsNP111aSINWD8IMnaPJDKr6ICRVizAaXVRjrVhpu+Zh5ip1SQxpfPPJyXBqOBbpyXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=mWjyxl/s; arc=none smtp.client-ip=195.181.215.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708195786; bh=P6v2JvS1OzYzht9jsA5pBiVpyCWfx3yjVjiid49u5/w=;
+	t=1708195924; bh=HRBsXHjOejmZlim4WFTvQhmTd/GTxXJaVN/xTbbQgG8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=p0kanJWRFlJOStFcRZd6OHuJj8qJIcMfZFEEegxQq5DwKlImYdrK+uyJIBAOKgqXr
-	 03UvSjh3i3+1kZSwf3EDN4AEQFQxOPsfC1Ybw8wh34Bhxj83nAaSwO78S58+OSZRWQ
-	 tZRVXXOf5Dc7WiKU8u6JwRQG1rJtTgw4DynssOP4=
+	b=mWjyxl/suWtNCVP3DS707u2Tlr9gLUP9/LtPcj2llvfo3lH+9+aeYKLqHZShBM5T5
+	 957L5tTyBUBKzQxB4YD55mI5YEKXNuCcATMTQt9l+9JS4bWkBcMrEclljHWwZALfbh
+	 BeGTYyNq14AIq/q7ysXwb2L7h3h+on5ps075co30=
 From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
 To: linux-kernel@vger.kernel.org
 Cc: Ondrej Jirman <megi@xff.cz>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org (open list:V4L2 LENS DRIVERS)
-Subject: [PATCH] media: i2c: dw9714: Fix occasional probe errors
-Date: Sat, 17 Feb 2024 19:49:11 +0100
-Message-ID: <20240217184926.1754245-1-megi@xff.cz>
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-media@vger.kernel.org (open list:ROCKCHIP ISP V1 DRIVER),
+	linux-rockchip@lists.infradead.org (open list:ROCKCHIP ISP V1 DRIVER),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Rockchip SoC support)
+Subject: [PATCH] media: rkisp1: Allow higher input resolution
+Date: Sat, 17 Feb 2024 19:51:58 +0100
+Message-ID: <20240217185202.1754750-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,28 +59,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Ondrej Jirman <megi@xff.cz>
 
-The powerup delay was not observed during probe, leading to occasional
-I2C communication failures in RPM suspend callback. Power delay is
-properly observed in resume callback already.
+In BSP driver, it is allowed, and it works in practice. Tested on
+Pinephone Pro/RK3399 with IMX258 at full res.
 
 Signed-off-by: Ondrej Jirman <megi@xff.cz>
 ---
- drivers/media/i2c/dw9714.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-index cc09b32ede60..84d29bcf0ccd 100644
---- a/drivers/media/i2c/dw9714.c
-+++ b/drivers/media/i2c/dw9714.c
-@@ -157,6 +157,8 @@ static int dw9714_probe(struct i2c_client *client)
- 		return rval;
- 	}
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 4b6b28c05b89..74098ddbeeb3 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -33,8 +33,8 @@ struct dentry;
+ #define RKISP1_ISP_SD_SINK			BIT(1)
  
-+	usleep_range(1000, 2000);
-+
- 	v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
- 	dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
- 				V4L2_SUBDEV_FL_HAS_EVENTS;
+ /* min and max values for the widths and heights of the entities */
+-#define RKISP1_ISP_MAX_WIDTH			4032
+-#define RKISP1_ISP_MAX_HEIGHT			3024
++#define RKISP1_ISP_MAX_WIDTH			4416
++#define RKISP1_ISP_MAX_HEIGHT			3312
+ #define RKISP1_ISP_MIN_WIDTH			32
+ #define RKISP1_ISP_MIN_HEIGHT			32
+ 
 -- 
 2.43.0
 
