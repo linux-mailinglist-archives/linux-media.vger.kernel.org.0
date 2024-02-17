@@ -1,98 +1,79 @@
-Return-Path: <linux-media+bounces-5356-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5357-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219F18590BC
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 17:00:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D932B8590E7
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 17:27:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A8B0B21787
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 16:00:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A4A41F21B69
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 16:27:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 152097CF13;
-	Sat, 17 Feb 2024 16:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 680AD7D403;
+	Sat, 17 Feb 2024 16:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ub09LUBa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IOGg1FXy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3E97C6D2
-	for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 16:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25057CF36;
+	Sat, 17 Feb 2024 16:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708185613; cv=none; b=sr8opseyVOBmC66CgI+8vuuLrdXxhA2NvlcRMYwuWTt23QEUhQhkzUOVI0h3E70COHpvQkxUV/xU8Z5vEvr9JPAwEsxEjfcspEZQCBwfz8PL3RiwXDX5jC+vtm9TcLY6deOCi87gm8ZdhgQZwt49jtxv3I4iBSPJszmYYRpGF5k=
+	t=1708187222; cv=none; b=PGsS3iOlqeNdvHRLAkEGdcfc3MficRB4CFRkSdSjUxh3G05hG71a//9hYgRpsrLKbw6vFYbktzs1AZUmcaFTAAhR55R7EfxtCuk8oTGJ9mODLCyqz5hbdd7IRfspfHcey4d9z/lzhLWcNL+4rNS9FBHyHgcEf+d7xCbJzvhik7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708185613; c=relaxed/simple;
-	bh=tcmVjcmYkBwgueRO+vmbHnHJZNEwAI7lNK5doJdSTeo=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=A9LNc6foEUuCGkUVMj897QhrViCCJheSLaBJxtRE3xRzxc9WYzNk8agGr12VYfmI49pek5BjRjqizvKs0kdJQCtaXE143vlyi7AJ7W1t2moU2I3rrA40/iy6WRhbLHV9RTpGU1OU/26gVZOzv4rdxl41JeNZd5UiXxS6bZVVgFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ub09LUBa; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A080D13AC;
-	Sat, 17 Feb 2024 17:00:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708185604;
-	bh=tcmVjcmYkBwgueRO+vmbHnHJZNEwAI7lNK5doJdSTeo=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=Ub09LUBaFWCssTZJ0dnL0J89lSZUN1TPPQxHNvrTB9jDsP7NKECKlVG2isBRH2cby
-	 eRUWJCrKsmsR51F1N6pzvfZIbjz09NT1gomF/R8sTWs6fx1m2e3pcrv+8emFJdsshc
-	 v2xbYMYycUD0JCmIx3DfWoztyWGRfmPD2w46iigs=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1708187222; c=relaxed/simple;
+	bh=SqH/c7qeG53/RRwO38FMvUSPvOyyfu4QQ77KEHh9fjU=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=q0KMviI9uVlqUyCBNI7gQOY2RWZT+YbH+VQCeYmMPvZ+bEzT24rgf7dnJ9ktr0Lko09gwUkBVuR+GgH5uQcsPPqZfsT4ID1XTyzRoa2ITDT5oI01pQrht+gnxLPY3I+Grqq/9M1Uc8Fs+gZjhv2ugNYayvOEDOH+7ZqVJ0UoCd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IOGg1FXy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 57C0CC433B1;
+	Sat, 17 Feb 2024 16:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708187222;
+	bh=SqH/c7qeG53/RRwO38FMvUSPvOyyfu4QQ77KEHh9fjU=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=IOGg1FXyeHlOrVVW1Y/kmqQjR9saB7BsdfdWMEiPCsTTtQEAbrxXc5f072+PW36LA
+	 VsCPnPDQjZOudBFmhOVt5jAC5sn85mV8iu1hLOiys0qsmJasCFoX8yDZa3DD1ddH7S
+	 dFFsvSWdigo1QM8Jq9/+81WWTUx85zvjgstrRAX0zJvqkdMfMtiiPveHDPmSBN1Luc
+	 awYg/CHgKaP48AjKMhIhOfdfzb3LrQHYRMvikmTIArMoZnlyKpBJ0EOJdiaM6ZX7wv
+	 LFtxzG3XNU6EFxWrADygJZLauLmv9ad5+AR4L9AivMjNmNoOgs2zyWucdcc8Qd62o7
+	 WGqEGhWPM9roA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 38AA0C04E24;
+	Sat, 17 Feb 2024 16:27:02 +0000 (UTC)
+Subject: Re: [GIT PULL for v6.8-rc5] media fixes
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20240217100808.58ef40b6@coco.lan>
+References: <20240217100808.58ef40b6@coco.lan>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20240217100808.58ef40b6@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-4
+X-PR-Tracked-Commit-Id: 346c84e281a963437b9fe9dfcd92c531630289de
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: ac00b6546d390bc12d1d2824c2b5d95046097eb2
+Message-Id: <170818722222.7289.750606811610786631.pr-tracker-bot@kernel.org>
+Date: Sat, 17 Feb 2024 16:27:02 +0000
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240217112438.15240-8-hdegoede@redhat.com>
-References: <20240217112438.15240-1-hdegoede@redhat.com> <20240217112438.15240-8-hdegoede@redhat.com>
-Subject: Re: [PATCH 7/9] media: atomisp: Change ISP subdev name to "ATOM ISP"
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Sat, 17 Feb 2024 16:00:07 +0000
-Message-ID: <170818560760.1206667.14199319396527835603@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
 
-Quoting Hans de Goede (2024-02-17 11:24:36)
-> Change the generic "ATOMISP_SUBDEV" name to "ATOM ISP" to make clear
-> that this is the subdev for the ISP itself.
->=20
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_subdev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers=
-/staging/media/atomisp/pci/atomisp_subdev.c
-> index 8253b6faf8cd..822fe7d129e2 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> @@ -799,7 +799,7 @@ static int isp_subdev_init_entities(struct atomisp_su=
-b_device *asd)
->         int ret;
-> =20
->         v4l2_subdev_init(sd, &isp_subdev_v4l2_ops);
-> -       sprintf(sd->name, "ATOMISP_SUBDEV");
-> +       sprintf(sd->name, "ATOM ISP");
+The pull request you sent on Sat, 17 Feb 2024 10:08:08 +0100:
 
-Pure bikeshedding, but I'd probably lower the shouting to just=20
-	"Atom ISP"
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-4
 
-Either way saying it's a subdev on a subdev isn't much of a value add so=20
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/ac00b6546d390bc12d1d2824c2b5d95046097eb2
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Thank you!
 
->         v4l2_set_subdevdata(sd, asd);
->         sd->flags |=3D V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEV=
-NODE;
-> =20
-> --=20
-> 2.43.0
->
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
