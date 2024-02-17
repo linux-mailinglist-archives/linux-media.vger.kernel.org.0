@@ -1,79 +1,106 @@
-Return-Path: <linux-media+bounces-5357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D932B8590E7
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 17:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59458591D6
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 19:49:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A4A41F21B69
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 16:27:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 471D81F221F9
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 18:49:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 680AD7D403;
-	Sat, 17 Feb 2024 16:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B8C57E10A;
+	Sat, 17 Feb 2024 18:49:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IOGg1FXy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q8qZYAQA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25057CF36;
-	Sat, 17 Feb 2024 16:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8C67CF38
+	for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 18:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708187222; cv=none; b=PGsS3iOlqeNdvHRLAkEGdcfc3MficRB4CFRkSdSjUxh3G05hG71a//9hYgRpsrLKbw6vFYbktzs1AZUmcaFTAAhR55R7EfxtCuk8oTGJ9mODLCyqz5hbdd7IRfspfHcey4d9z/lzhLWcNL+4rNS9FBHyHgcEf+d7xCbJzvhik7o=
+	t=1708195768; cv=none; b=hWno2GP8M6zLyZk97VzCmUkuAClXtIkdYh7+ykwi89RExoAMCZUEFGS/NAvYKcDjo2TEYSMkVoWQmmekDJ6Vh4DBobb6Nqd/e/8lM+sPmqPZkTYvoFzRbWomcZ8BByr9oE7pPzvcox1g7HdwkyUsQyBYi6vc6/Xwf8CM4Z1r3t0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708187222; c=relaxed/simple;
-	bh=SqH/c7qeG53/RRwO38FMvUSPvOyyfu4QQ77KEHh9fjU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=q0KMviI9uVlqUyCBNI7gQOY2RWZT+YbH+VQCeYmMPvZ+bEzT24rgf7dnJ9ktr0Lko09gwUkBVuR+GgH5uQcsPPqZfsT4ID1XTyzRoa2ITDT5oI01pQrht+gnxLPY3I+Grqq/9M1Uc8Fs+gZjhv2ugNYayvOEDOH+7ZqVJ0UoCd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IOGg1FXy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 57C0CC433B1;
-	Sat, 17 Feb 2024 16:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708187222;
-	bh=SqH/c7qeG53/RRwO38FMvUSPvOyyfu4QQ77KEHh9fjU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=IOGg1FXyeHlOrVVW1Y/kmqQjR9saB7BsdfdWMEiPCsTTtQEAbrxXc5f072+PW36LA
-	 VsCPnPDQjZOudBFmhOVt5jAC5sn85mV8iu1hLOiys0qsmJasCFoX8yDZa3DD1ddH7S
-	 dFFsvSWdigo1QM8Jq9/+81WWTUx85zvjgstrRAX0zJvqkdMfMtiiPveHDPmSBN1Luc
-	 awYg/CHgKaP48AjKMhIhOfdfzb3LrQHYRMvikmTIArMoZnlyKpBJ0EOJdiaM6ZX7wv
-	 LFtxzG3XNU6EFxWrADygJZLauLmv9ad5+AR4L9AivMjNmNoOgs2zyWucdcc8Qd62o7
-	 WGqEGhWPM9roA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 38AA0C04E24;
-	Sat, 17 Feb 2024 16:27:02 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.8-rc5] media fixes
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20240217100808.58ef40b6@coco.lan>
-References: <20240217100808.58ef40b6@coco.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20240217100808.58ef40b6@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-4
-X-PR-Tracked-Commit-Id: 346c84e281a963437b9fe9dfcd92c531630289de
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ac00b6546d390bc12d1d2824c2b5d95046097eb2
-Message-Id: <170818722222.7289.750606811610786631.pr-tracker-bot@kernel.org>
-Date: Sat, 17 Feb 2024 16:27:02 +0000
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1708195768; c=relaxed/simple;
+	bh=tVdFkiuKgbKzE6Gz/75ntqSZtQxuEh8c1qDUVRnHDPQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lN+RsDdemBnL1nlNK7xOynRenNp8h8v4pej+gA6BIUGo721MhQ98LH1ZUwDZqKmuKPV4F0PxoeHaym3inVUA2sSRPcB4nNoi7HdCvT4r/ojg4PgIxTxECpABNiLEQ1iC0rJNalCivjrNbnCCO4SWWone9r9dSyEgvllfUbK1H84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q8qZYAQA; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-55ee686b5d5so2215512a12.0
+        for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 10:49:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708195764; x=1708800564; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z8Il7Kft3mdaMOMzG2JXVblquBnarZFp7+L4OeCIil4=;
+        b=Q8qZYAQACBC9Tiq+JZ6B1qiv0Bt2z9tajFADyjsVa7ay3Q5GXx80SUF9eI2TE21HeW
+         SP4SuKkOe6+sA7ai7ZCsqlA1PzPf/+A43OsSDetMZCunzkxROf7R3JcMyEW20weDYcPa
+         5j4l/hEn2dgu79+exhWI+FdQkrh/KF6stnr49XQbyL291uMuR11cPdaLT826j4ymUFNc
+         vmXqy5tIqvAwv+OWKTqsjPLuVwii2sl1/fzlcYch/3JR+UNVTFXNylTpaUFqdpQbwEEn
+         1Wxin8wbTAhj/ZN2OWIwM1lXPldd0N3N1kzwCJ4hZoWVhV7SaF1CtdsNKqqjBuptjjk0
+         6+hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708195764; x=1708800564;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z8Il7Kft3mdaMOMzG2JXVblquBnarZFp7+L4OeCIil4=;
+        b=sABjyyDrSxGD4yL2byb5SJwe9v6ug6zXXtNYEJ747vHM+TiYRD8rHIcHJsMconBeDo
+         IVLzWzhNDNeFSYkeTFRKS4uoss5vO978gnrjRrzfIpkFJvho+VD67yXXciJwF1GVLzSv
+         nr50pEZlr6ZhzBiXGEr18ePCPcxZOIhC1WCfTK+8MzMmAHdg6Nc/5yB5j1TG/eXoPSO1
+         ksRXEe3RCjJD5Fnec8JehmWEDnLKntsFgWwaAf38CkIubOE/5BwMckH7EO2n4bCoUodQ
+         BWypPjCi8TEc77ITIqaaT5vGrwwSbT9Gyf+QBUIm6wMrID/LvXTfwQLLDKCAjYK3QXt7
+         4oHA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWP6vugHiPXHc7VJL/Ztt6r1rF6Uv9IFLAkBDNxGRF95bwEN2wLE/UegUJAY+P/Gchq7c8ilfM07UyGswgKxFPQ3r8d5Utlc9EllQ=
+X-Gm-Message-State: AOJu0YyGYcwowIgokLb53Rf1sFQufcw9I/W2OWE/jQaXzzU41kkkYAhT
+	vIyg4T3ZqWRdHSBcG0FG1TDjMLEGzL0CyslFV/6yWCxZqPMtF2H6hG3f/xtdLiVlbsUJiFSK5Gc
+	QG2kwUKcjSBUY52T8nNOUbPwSS8U=
+X-Google-Smtp-Source: AGHT+IGbT/dABf64NLru2OpDqaHothjKYVRbdBSvna58sx6rvZGnGEWCJoVftQOsH16vsPGZY3be7yejhI8Ls7mkPv0=
+X-Received: by 2002:a17:906:1982:b0:a3d:c9e9:c7e5 with SMTP id
+ g2-20020a170906198200b00a3dc9e9c7e5mr3857107ejd.61.1708195763892; Sat, 17 Feb
+ 2024 10:49:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20240217112438.15240-1-hdegoede@redhat.com> <20240217112438.15240-8-hdegoede@redhat.com>
+ <170818560760.1206667.14199319396527835603@ping.linuxembedded.co.uk>
+In-Reply-To: <170818560760.1206667.14199319396527835603@ping.linuxembedded.co.uk>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 17 Feb 2024 20:48:47 +0200
+Message-ID: <CAHp75Ve-v=gbNtzy4o=gvhhQxhyaw=awkDrf+_Qgee0v43PcsQ@mail.gmail.com>
+Subject: Re: [PATCH 7/9] media: atomisp: Change ISP subdev name to "ATOM ISP"
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>, 
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, 
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Sat, 17 Feb 2024 10:08:08 +0100:
+On Sat, Feb 17, 2024 at 6:00=E2=80=AFPM Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+> Quoting Hans de Goede (2024-02-17 11:24:36)
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-4
+...
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ac00b6546d390bc12d1d2824c2b5d95046097eb2
+> Pure bikeshedding, but I'd probably lower the shouting to just
+>         "Atom ISP"
 
-Thank you!
+You beat me to it, +1.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
