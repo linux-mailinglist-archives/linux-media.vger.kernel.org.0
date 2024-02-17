@@ -1,188 +1,121 @@
-Return-Path: <linux-media+bounces-5325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5326-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB20858DEB
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 09:18:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AAE858E41
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 10:08:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF8491C21167
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 08:18:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE2F1B21956
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 09:08:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E720C1CF8A;
-	Sat, 17 Feb 2024 08:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1B3A1D527;
+	Sat, 17 Feb 2024 09:08:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AWlU2Jb0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kH0Yw64O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61CE1CD18
-	for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 08:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4332213AE2;
+	Sat, 17 Feb 2024 09:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708157879; cv=none; b=i3y9zR/gKdWMPX6n61aTKdcXd82QVPkdPpXQcn+T8vKv27W8oV/LyVAa4BCeAvq6c/T+lS3yj7XVpZV1mQUSi9hjxi8rBCkTWL+1Ceyrw19cuLjtiKwkJZxBTbO0kTnwq0lXin0PBAmeZoaoObCq1kqJmV2ECbKpYPr+Ami3Ano=
+	t=1708160893; cv=none; b=gpim1JKGvDj4M87EATS9OtL46k2D5spBTG9m8e/Gte7+WOJjgPyZf8NsmXnjdcjN71p9S0rOEYM+OGgAZpR8jVY3x7jWgB6GbMC/ZmLqIFWE3mATswoL/YyXUs/sDF3OTD2kcAHqCMG09tG8wVF1p7EGlDy2XwlXRbgERYjraVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708157879; c=relaxed/simple;
-	bh=mZPD6pl61ru1tRN9uYvlKR/Si6aRgYiz1L+8pU5DljQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C4sE/a4HGh2iJB4JT+RhLzOnZ8y4cMDcHQ4nI+suGGzBxzddO1ue2npUGby/Z2g5ByQE/BCfeSWFuwZWX7sD6KowO1wDtYBo19P0RkOqIZEVeLmsDtq84OjdOJq41D/VRPk2wSW8GRu1R3bs3RAKoGGddRkaY9DFQDSsqSsE9tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AWlU2Jb0; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so349834066b.0
-        for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 00:17:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708157876; x=1708762676; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CwPOpkqVqxfLP/r0/a1aV4i2KCiMxSxp2/IT7KltBkI=;
-        b=AWlU2Jb0Z/6dy0nQqWYHSGZRXExLezL5cpDcDs08FqkJsSD+49yBxp3OV4woxW08xE
-         BNM9hx3AZePfgs/2k/UjNDyWapKawmECzWQVC2te7fkFfVUkjg0H8qtgZ+MPNM6Zk4cO
-         eLm49as1MrIUFLARVkrBszKZgjAPYZcR+lUzVy7rBxozczdP3IQ0yRxQxfEoqGWFwNSv
-         4hD45Xi5nDxUCzyG8/xBvqDVEkDZfMq13MSn8U9Aboo36gjJidZeF/aCaPOytQtTzcTZ
-         GriTeU+FnJ5APxPlnQd4XfQgQJ4nicQ4w9tfBUw2ySzglfn82UxrE/73sKWBD3wL4VcZ
-         6fmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708157876; x=1708762676;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CwPOpkqVqxfLP/r0/a1aV4i2KCiMxSxp2/IT7KltBkI=;
-        b=SbTqtQy+WO79LcUQI3CGaqACILshj7RsZPCpHpRSsiwCnl1c3zz9+pUEwZcO9Mj8HC
-         3CPsML7I+EJ6CittAMvhe/75yPPkKDPF257yjdEYtNX8/kjv3JWORF6kFzyY1ArOJKjV
-         7S6t5SwXe/psk2xAUzSnPaNoFDoiid6igXyKJVLMGyzB9Z0KEkNTy0qpd52A6CSpw+zm
-         +sXlLNSuXn3EJgkNYa3cpaFoEOyBJXWg1exn0a56yp1zx7peAP5IwxSuq0cCq6KJVQIe
-         0u1kmbBxiWHlb01QQSKK4lvHpjRYw7h0WT0v9n3jlR4ahmuHZoUwmCG5mYmqqW6syao2
-         Aerg==
-X-Forwarded-Encrypted: i=1; AJvYcCUi3xm5/UiMEuZKy4YGfgg/L7C74sVyPIj4blQldaZ8zqYJphfcykAFewP3usrphn+KgwxfUyuONN1/dPKQxc32bWYQIxc2bLxCteI=
-X-Gm-Message-State: AOJu0YxEpoWeym+sExtBWkFvvRfx5EVWGqyRq6lBfZ0rF3TvzCJifPrx
-	VbB2TRiZ/3HIPxRDnr7ABjfpeBoSUqZ44VaJ6zf9gJUtO9d/WFYhj4vVMDet4/0=
-X-Google-Smtp-Source: AGHT+IGGyO604nMOa87jDhCkt+7xpP/CbQmeT7tQGtKi7mJxmegXZxtKs15Kc/7W6mnDxGwYMk+joA==
-X-Received: by 2002:a17:906:fb9a:b0:a3d:f468:74dc with SMTP id lr26-20020a170906fb9a00b00a3df46874dcmr2241626ejb.34.1708157876107;
-        Sat, 17 Feb 2024 00:17:56 -0800 (PST)
-Received: from [192.168.0.22] ([78.10.207.130])
-        by smtp.gmail.com with ESMTPSA id th7-20020a1709078e0700b00a3e059c5c5fsm757086ejc.188.2024.02.17.00.17.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Feb 2024 00:17:55 -0800 (PST)
-Message-ID: <0c2f4d92-afa9-46f1-844e-994bd45924ef@linaro.org>
-Date: Sat, 17 Feb 2024 09:17:53 +0100
+	s=arc-20240116; t=1708160893; c=relaxed/simple;
+	bh=oBeLX5tgQL4xanUHIVI7PWJf0sy/YCEOyZM8/vqF40w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=EoY+g+qtZK7S+PmJzEzlyDG+5bJjUA6d7ZniJwQzpvV7/1KUtKQyhKXoCzxFCsfbNNkkjr2Fiv9hVDo4yn5fMWAXcB0kriruWRPBXyaMJeipnmYLK/NtZRIuh6uicE4X+nVDRXNP0/A3E2e7Z7AwEenC/kiEvMI5fzxZ3xafyy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kH0Yw64O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5CEC433C7;
+	Sat, 17 Feb 2024 09:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708160892;
+	bh=oBeLX5tgQL4xanUHIVI7PWJf0sy/YCEOyZM8/vqF40w=;
+	h=Date:From:To:Cc:Subject:From;
+	b=kH0Yw64OtjlHvTkHUab3A7Je0ztw5Bc14ixMm5TFUUzgBHy6BCTvJaQza/m/38DN8
+	 bF6vZ5J8F+yhqxI9Z31QMnLX9OLfbgmUfEQpicOSMRqkmUfevDkSzLW4e0PWNQm3cH
+	 ynufnJgTsuQwf1Xha4aAFzUkSIFkxyb8psu7lsWTNg1xWO5xyr9q1o8j+UUw4l4gQd
+	 KwzQUJDMO1GDzPvUmHPmmC81pxPDtLNwud08nbUaNw1I2iQNrgRuJlCvAH3qeE3JF5
+	 n/e1kSYqXOsWJDv8XqiYgoGZjDdOGeweeA9Gdp+fb1nJtHDgq5ixAtOYChxe6jN+Eq
+	 IHOwiTgfPK0fg==
+Date: Sat, 17 Feb 2024 10:08:08 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL for v6.8-rc5] media fixes
+Message-ID: <20240217100808.58ef40b6@coco.lan>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] clk: rockchip: rst-rk3588: Add BIU reset
-Content-Language: en-US
-To: Shreeya Patel <shreeya.patel@collabora.com>
-Cc: heiko@sntech.de, mchehab@kernel.org, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
- jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com,
- shawn.wen@rock-chips.com, kernel@collabora.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-dt@vger.kernel.org, linux-arm@lists.infradead.org
-References: <20240216094922.257674-1-shreeya.patel@collabora.com>
- <20240216094922.257674-2-shreeya.patel@collabora.com>
- <237e690a-2f49-4046-b054-3a878eed6748@linaro.org>
- <30d2-65cf5980-3-2ec9f500@242931553>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <30d2-65cf5980-3-2ec9f500@242931553>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 16/02/2024 13:48, Shreeya Patel wrote:
-> On Friday, February 16, 2024 15:33 IST, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> 
->> On 16/02/2024 10:49, Shreeya Patel wrote:
->>> Export hdmirx_biu soft reset id which is required by the hdmirx controller.
->>>
->>> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
->>> ---
->>>  drivers/clk/rockchip/rst-rk3588.c               | 1 +
->>>  include/dt-bindings/reset/rockchip,rk3588-cru.h | 2 ++
->>
->> Please run scripts/checkpatch.pl and fix reported warnings. Some
->> warnings can be ignored, but the code here looks like it needs a fix.
->> Feel free to get in touch if the warning is not clear.
->>
->> Please do internal review. The internal Collabora review would tell you:
->> YOU MUST run checkpatch. Then you see errors, so why do you send patch
->> with errors to the mailing list?
->>
-> 
-> I am sorry but what errors are you talking about?
-> I don't see any errors reported by checkpatch :-
-> 
-> shreeya@shreeya:~/collabora/rd/rockchip/torvalds$ ./scripts/checkpatch.pl hdmirx/0001-clk-rockchip-rst-rk3588-Add-BIU-reset.patch
-> WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+Hi Linus,
 
-Here.
+Please pull from:
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-4
 
-> 
-> total: 0 errors, 1 warnings, 13 lines checked
-> 
-> NOTE: For some of the reported defects, checkpatch may be able to
->       mechanically convert to the typical style using --fix or --fix-inplace.
-> 
-> hdmirx-v1-1602/0001-clk-rockchip-rst-rk3588-Add-BIU-reset.patch has style problems, please review.
-> 
-> I see the above warning but that looks like a false positive to me.
+For:
 
-Why for your patch it would be false positive and for all others would not?
+- a regression fix at rkisp1 shared IRQ logic;
+- a breakage fix on atomisp due to a kAPI change;
+- a permission fix for remote controller BPF support;
+- a memleak on ir_toy driver;
+- a Kconfig dependency on pwm-ir-rx.
 
-Best regards,
-Krzysztof
+The following changes since commit b32431b753217d8d45b018443b1a7aac215921fb:
+
+  media: vb2: refactor setting flags and caps, fix missing cap (2024-01-24 17:27:51 +0100)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.8-4
+
+for you to fetch changes up to 346c84e281a963437b9fe9dfcd92c531630289de:
+
+  media: pwm-ir-tx: Depend on CONFIG_HIGH_RES_TIMERS (2024-02-01 13:49:39 +0100)
+
+----------------------------------------------------------------
+media fixes for v6.8-rc5
+
+----------------------------------------------------------------
+Hans de Goede (1):
+      media: atomisp: Adjust for v4l2_subdev_state handling changes in 6.8
+
+Sean Young (2):
+      media: rc: bpf attach/detach requires write permission
+      media: pwm-ir-tx: Depend on CONFIG_HIGH_RES_TIMERS
+
+Tomi Valkeinen (2):
+      media: Revert "media: rkisp1: Drop IRQF_SHARED"
+      media:  : Fix IRQ handling due to shared interrupts
+
+Zhipeng Lu (1):
+      media: ir_toy: fix a memleak in irtoy_tx
+
+ .../platform/rockchip/rkisp1/rkisp1-capture.c      |  3 ++
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h |  2 +
+ .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |  3 ++
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 24 ++++++++-
+ .../media/platform/rockchip/rkisp1/rkisp1-isp.c    |  3 ++
+ drivers/media/rc/Kconfig                           |  1 +
+ drivers/media/rc/bpf-lirc.c                        |  6 +--
+ drivers/media/rc/ir_toy.c                          |  2 +
+ drivers/media/rc/lirc_dev.c                        |  5 +-
+ drivers/media/rc/rc-core-priv.h                    |  2 +-
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c    | 58 ++++++++++++---------
+ .../staging/media/atomisp/pci/atomisp_internal.h   |  4 +-
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c  | 52 +++++++++++--------
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c   | 59 ++++++++++++++++------
+ 14 files changed, 156 insertions(+), 68 deletions(-)
 
 
