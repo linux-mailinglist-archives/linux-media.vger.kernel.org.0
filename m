@@ -1,120 +1,188 @@
-Return-Path: <linux-media+bounces-5324-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5325-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F322858DC2
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 08:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB20858DEB
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 09:18:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 912451C210F5
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 07:44:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF8491C21167
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 08:18:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4FFE1CD1E;
-	Sat, 17 Feb 2024 07:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E720C1CF8A;
+	Sat, 17 Feb 2024 08:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bNKELSSA"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AWlU2Jb0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2511CD03;
-	Sat, 17 Feb 2024 07:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61CE1CD18
+	for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 08:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708155843; cv=none; b=cdBGfc3tZeT1ZQQYL1WK6HJOKHzBYuX0pnpeNG8LdfDkpr0CZSnzhUinBKWhgKjHf4cE11/fFjHGcou3gmkk0wtx2nK6+ct42S3Td1TgCWoRH4d+x1/VFLANMM2XiPuspLUSj5T5rEPsucLmVr4FDbRZP+GrUavwjpr6BK4gAs0=
+	t=1708157879; cv=none; b=i3y9zR/gKdWMPX6n61aTKdcXd82QVPkdPpXQcn+T8vKv27W8oV/LyVAa4BCeAvq6c/T+lS3yj7XVpZV1mQUSi9hjxi8rBCkTWL+1Ceyrw19cuLjtiKwkJZxBTbO0kTnwq0lXin0PBAmeZoaoObCq1kqJmV2ECbKpYPr+Ami3Ano=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708155843; c=relaxed/simple;
-	bh=uG1gfpoRfXRgKuEHJKltjR7JrRYIjqvRvSia55JVwcs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VrozBloqWiSzUrtUvcC0czoIYt8jEp5Q804gvXYeB4QuDKq7C7oUhJjvBkmQLuKNRhX1cBrSVT6jaRXoHVStbDWIH8Ya2phCE2pE41yN5mNxuJDT3N/92ZLi8xR+bJX6xwzVaEside6M3sVNuyWNcqLuT3sAa4/g2fha1Zf79Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bNKELSSA; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d8aadc624dso24147675ad.0;
-        Fri, 16 Feb 2024 23:44:01 -0800 (PST)
+	s=arc-20240116; t=1708157879; c=relaxed/simple;
+	bh=mZPD6pl61ru1tRN9uYvlKR/Si6aRgYiz1L+8pU5DljQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C4sE/a4HGh2iJB4JT+RhLzOnZ8y4cMDcHQ4nI+suGGzBxzddO1ue2npUGby/Z2g5ByQE/BCfeSWFuwZWX7sD6KowO1wDtYBo19P0RkOqIZEVeLmsDtq84OjdOJq41D/VRPk2wSW8GRu1R3bs3RAKoGGddRkaY9DFQDSsqSsE9tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AWlU2Jb0; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so349834066b.0
+        for <linux-media@vger.kernel.org>; Sat, 17 Feb 2024 00:17:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708155841; x=1708760641; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A93PgWbW04e3vN6J7sWJkkLxGXflBHffLu+zmG4+tnw=;
-        b=bNKELSSAYPXwpyaU5/4HNNKs+in0bBgrFF84elolcxoXJCjqOQ52B59n6be6QtpboP
-         7l568pJVvInmNze0rHXXqQh2NN1/jMnqI8X3mldsaEiaMV3fMJXVGvgfEAf3NFokL67S
-         EbB+ZTr4TIUpshGdDgbDkLt7ITyk4rOWRDB6MyKrIlBuON/SdtiTz6Bj/dZcOyE0yNT1
-         KKoBt4wGSeyHzW/W04tJ1bBBgZ6wDh4fK07+78HkxxLOdTEUx1pryUKM9tJuZC9YFMzz
-         u42ON4YFWsFkNDMyXHFOsdNDdVaTMrOF3tDkL2vFSqvuvjz1YOLBThs+AkJGgqYkQ/kh
-         9wvg==
+        d=linaro.org; s=google; t=1708157876; x=1708762676; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CwPOpkqVqxfLP/r0/a1aV4i2KCiMxSxp2/IT7KltBkI=;
+        b=AWlU2Jb0Z/6dy0nQqWYHSGZRXExLezL5cpDcDs08FqkJsSD+49yBxp3OV4woxW08xE
+         BNM9hx3AZePfgs/2k/UjNDyWapKawmECzWQVC2te7fkFfVUkjg0H8qtgZ+MPNM6Zk4cO
+         eLm49as1MrIUFLARVkrBszKZgjAPYZcR+lUzVy7rBxozczdP3IQ0yRxQxfEoqGWFwNSv
+         4hD45Xi5nDxUCzyG8/xBvqDVEkDZfMq13MSn8U9Aboo36gjJidZeF/aCaPOytQtTzcTZ
+         GriTeU+FnJ5APxPlnQd4XfQgQJ4nicQ4w9tfBUw2ySzglfn82UxrE/73sKWBD3wL4VcZ
+         6fmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708155841; x=1708760641;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A93PgWbW04e3vN6J7sWJkkLxGXflBHffLu+zmG4+tnw=;
-        b=jO0r+Gg8WHAlUc9i4fMpdVgtCerlOWIUGv0dRk9sZ/+9kRyxvNbATJI8APE9CBDRdZ
-         wZHBlV4wVV6UNDOmhPfesnirbhPiGKsmdW+OfPQELd+S+YYJ8vnYw2yEbor/7AzTcu2F
-         SVtWrEseC4dkXwxe3dVvXJjvC39DuNiF5R5HuudU7LOMLPHHTAPJmU+Zq85/22HMC6J8
-         rBsUCrVv7YRUTKvaAmJMlYOLJiwfF23g9Pkup3akzX0l0wTxfX3qabA0Akq+dF3nyRFZ
-         DYH0idtZCk6Dv37Yy8luasuMhronHpHU4T4zs45j4FjWdg9aQ538MozfqXO5rvT+2nMh
-         e7+w==
-X-Forwarded-Encrypted: i=1; AJvYcCUD5jD22nS6O+E10ILnBmI9wN+LFdP59W7ZJYugr8wevXtDTX65Y4FRm+C2JVX6OJj4MO8P/d7IdVo7hfzan4rYvjcyu+NnTnBaPFCW
-X-Gm-Message-State: AOJu0YyQXGXGkJLMl02j7/BTSPXKmQDkq6wzJMZxUkfEZrFRF7s2mPHH
-	QhYndDL7NB2o1199JzdWwt9ZU6/GjpOrJrq/1QULhAuIaeJHRdP5id0LE8Wk
-X-Google-Smtp-Source: AGHT+IHzYQ1ItysbcXQfrjrnwCsZSlE3FGVl+hW8uk5eTdQqVOZjnXqaOQI6DMcdRI1BDJflnIv7zA==
-X-Received: by 2002:a17:903:298b:b0:1db:c143:abbb with SMTP id lm11-20020a170903298b00b001dbc143abbbmr1847165plb.29.1708155841011;
-        Fri, 16 Feb 2024 23:44:01 -0800 (PST)
-Received: from prabhav.. ([2401:4900:1c23:6dce:8ac9:4d57:e401:745b])
-        by smtp.gmail.com with ESMTPSA id jh18-20020a170903329200b001db3a0c52b1sm929452plb.88.2024.02.16.23.43.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 23:44:00 -0800 (PST)
-From: Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
-To: skhan@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
-Subject: [PATCH] Spelling correction patch
-Date: Sat, 17 Feb 2024 13:13:53 +0530
-Message-Id: <20240217074353.19445-1-pvkumar5749404@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1708157876; x=1708762676;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CwPOpkqVqxfLP/r0/a1aV4i2KCiMxSxp2/IT7KltBkI=;
+        b=SbTqtQy+WO79LcUQI3CGaqACILshj7RsZPCpHpRSsiwCnl1c3zz9+pUEwZcO9Mj8HC
+         3CPsML7I+EJ6CittAMvhe/75yPPkKDPF257yjdEYtNX8/kjv3JWORF6kFzyY1ArOJKjV
+         7S6t5SwXe/psk2xAUzSnPaNoFDoiid6igXyKJVLMGyzB9Z0KEkNTy0qpd52A6CSpw+zm
+         +sXlLNSuXn3EJgkNYa3cpaFoEOyBJXWg1exn0a56yp1zx7peAP5IwxSuq0cCq6KJVQIe
+         0u1kmbBxiWHlb01QQSKK4lvHpjRYw7h0WT0v9n3jlR4ahmuHZoUwmCG5mYmqqW6syao2
+         Aerg==
+X-Forwarded-Encrypted: i=1; AJvYcCUi3xm5/UiMEuZKy4YGfgg/L7C74sVyPIj4blQldaZ8zqYJphfcykAFewP3usrphn+KgwxfUyuONN1/dPKQxc32bWYQIxc2bLxCteI=
+X-Gm-Message-State: AOJu0YxEpoWeym+sExtBWkFvvRfx5EVWGqyRq6lBfZ0rF3TvzCJifPrx
+	VbB2TRiZ/3HIPxRDnr7ABjfpeBoSUqZ44VaJ6zf9gJUtO9d/WFYhj4vVMDet4/0=
+X-Google-Smtp-Source: AGHT+IGGyO604nMOa87jDhCkt+7xpP/CbQmeT7tQGtKi7mJxmegXZxtKs15Kc/7W6mnDxGwYMk+joA==
+X-Received: by 2002:a17:906:fb9a:b0:a3d:f468:74dc with SMTP id lr26-20020a170906fb9a00b00a3df46874dcmr2241626ejb.34.1708157876107;
+        Sat, 17 Feb 2024 00:17:56 -0800 (PST)
+Received: from [192.168.0.22] ([78.10.207.130])
+        by smtp.gmail.com with ESMTPSA id th7-20020a1709078e0700b00a3e059c5c5fsm757086ejc.188.2024.02.17.00.17.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 17 Feb 2024 00:17:55 -0800 (PST)
+Message-ID: <0c2f4d92-afa9-46f1-844e-994bd45924ef@linaro.org>
+Date: Sat, 17 Feb 2024 09:17:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] clk: rockchip: rst-rk3588: Add BIU reset
+Content-Language: en-US
+To: Shreeya Patel <shreeya.patel@collabora.com>
+Cc: heiko@sntech.de, mchehab@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
+ jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com,
+ shawn.wen@rock-chips.com, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-dt@vger.kernel.org, linux-arm@lists.infradead.org
+References: <20240216094922.257674-1-shreeya.patel@collabora.com>
+ <20240216094922.257674-2-shreeya.patel@collabora.com>
+ <237e690a-2f49-4046-b054-3a878eed6748@linaro.org>
+ <30d2-65cf5980-3-2ec9f500@242931553>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <30d2-65cf5980-3-2ec9f500@242931553>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
----
- Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc | 2 +-
- Documentation/ABI/testing/sysfs-bus-cxl                   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On 16/02/2024 13:48, Shreeya Patel wrote:
+> On Friday, February 16, 2024 15:33 IST, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> 
+>> On 16/02/2024 10:49, Shreeya Patel wrote:
+>>> Export hdmirx_biu soft reset id which is required by the hdmirx controller.
+>>>
+>>> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
+>>> ---
+>>>  drivers/clk/rockchip/rst-rk3588.c               | 1 +
+>>>  include/dt-bindings/reset/rockchip,rk3588-cru.h | 2 ++
+>>
+>> Please run scripts/checkpatch.pl and fix reported warnings. Some
+>> warnings can be ignored, but the code here looks like it needs a fix.
+>> Feel free to get in touch if the warning is not clear.
+>>
+>> Please do internal review. The internal Collabora review would tell you:
+>> YOU MUST run checkpatch. Then you see errors, so why do you send patch
+>> with errors to the mailing list?
+>>
+> 
+> I am sorry but what errors are you talking about?
+> I don't see any errors reported by checkpatch :-
+> 
+> shreeya@shreeya:~/collabora/rd/rockchip/torvalds$ ./scripts/checkpatch.pl hdmirx/0001-clk-rockchip-rst-rk3588-Add-BIU-reset.patch
+> WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc
-index 96aafa66b4a5..339cec3b2f1a 100644
---- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc
-+++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc
-@@ -97,7 +97,7 @@ Date:		August 2023
- KernelVersion:	6.7
- Contact:	Anshuman Khandual <anshuman.khandual@arm.com>
- Description:	(Read) Shows all supported Coresight TMC-ETR buffer modes available
--		for the users to configure explicitly. This file is avaialble only
-+		for the users to configure explicitly. This file is available only
- 		for TMC ETR devices.
- 
- What:		/sys/bus/coresight/devices/<memory_map>.tmc/buf_mode_preferred
-diff --git a/Documentation/ABI/testing/sysfs-bus-cxl b/Documentation/ABI/testing/sysfs-bus-cxl
-index fff2581b8033..bbf6de5a4ca1 100644
---- a/Documentation/ABI/testing/sysfs-bus-cxl
-+++ b/Documentation/ABI/testing/sysfs-bus-cxl
-@@ -224,7 +224,7 @@ Description:
- 		decoding a Host Physical Address range. Note that this number
- 		may be elevated without any regionX objects active or even
- 		enumerated, as this may be due to decoders established by
--		platform firwmare or a previous kernel (kexec).
-+		platform firmware or a previous kernel (kexec).
- 
- 
- What:		/sys/bus/cxl/devices/decoderX.Y
--- 
-2.34.1
+Here.
+
+> 
+> total: 0 errors, 1 warnings, 13 lines checked
+> 
+> NOTE: For some of the reported defects, checkpatch may be able to
+>       mechanically convert to the typical style using --fix or --fix-inplace.
+> 
+> hdmirx-v1-1602/0001-clk-rockchip-rst-rk3588-Add-BIU-reset.patch has style problems, please review.
+> 
+> I see the above warning but that looks like a false positive to me.
+
+Why for your patch it would be false positive and for all others would not?
+
+Best regards,
+Krzysztof
 
 
