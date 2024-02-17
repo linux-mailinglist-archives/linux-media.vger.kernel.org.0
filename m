@@ -1,153 +1,120 @@
-Return-Path: <linux-media+bounces-5323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5324-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1621858DBD
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 08:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F322858DC2
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 08:44:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FEFC1C21033
-	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 07:43:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 912451C210F5
+	for <lists+linux-media@lfdr.de>; Sat, 17 Feb 2024 07:44:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A333200CD;
-	Sat, 17 Feb 2024 07:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4FFE1CD1E;
+	Sat, 17 Feb 2024 07:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="cmfYTQpd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="C+pTWRTA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bNKELSSA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690F31EB3B;
-	Sat, 17 Feb 2024 07:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2511CD03;
+	Sat, 17 Feb 2024 07:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708155698; cv=none; b=lA+BkAfhhE/fTiFpqDgJKJ+18ANcxvV83UU6byCoRIXkN+Gv+ROzYgafEeChMRvrtvGxnEowqHE2Egv+lP2bmBuMY/4sk65avH4YeoFsEqf57peVRGxAePNclTcJ98UR+3eRyEaWEmOD9eBSjhMbVNV/NHU2GevBmRldmlVASEY=
+	t=1708155843; cv=none; b=cdBGfc3tZeT1ZQQYL1WK6HJOKHzBYuX0pnpeNG8LdfDkpr0CZSnzhUinBKWhgKjHf4cE11/fFjHGcou3gmkk0wtx2nK6+ct42S3Td1TgCWoRH4d+x1/VFLANMM2XiPuspLUSj5T5rEPsucLmVr4FDbRZP+GrUavwjpr6BK4gAs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708155698; c=relaxed/simple;
-	bh=nrCCv6T5C8KQMncw5eFYVShocADNiOxVr7vH8DHZlBY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jB3D4gfbUji++bUcmLkh3UUqFml1qK1CeH9y9k980Yow7EhUeLM1Gd1ngY5ykCmr/JmbEBkDosvAQhKWnGN0avnxoqTHvAephKSFTp/q1yTldi3ohVWNtAmPXlM2WyCa1TE1M0KemAovwgN8GtsO3pEjn3OeDcSkS+Ah7hGlx8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=cmfYTQpd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=C+pTWRTA; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 5101311400BE;
-	Sat, 17 Feb 2024 02:41:35 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sat, 17 Feb 2024 02:41:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1708155695; x=1708242095; bh=yzscl6eUgx
-	QrEdqt6+ABAiAuOZEKasOQBugBShA9lzg=; b=cmfYTQpd6YNtQYlajIp2FpY5yg
-	3AaWFGYRcCFjxZ/K76/pQNQJa+UOl+XXWDVNQzCIQiN189ijaYibMNKRMMcM/O4N
-	dSKM8xsbgXD01NUVyoNxjvFd1KULM9iERF7nOoaAB3pbWcHJuAwKg4t+pIRrlw81
-	NItTJguy3vggSKvAREKpIXthvTPvoeSeSIJ0eL+QEl36MrM0vgJtiocODN/AxEwF
-	+bO/X2ia1moPp+rRBYymlhzVX0aZZqPnIrxSegniD+Oq+xh/r8oycLfL49bQGB5P
-	l/QXhR9LWe+8izDGj4raIt98WI5j7FlXzDvNgESkUYKOGaVk3AWx0tCNxuDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1708155695; x=1708242095; bh=yzscl6eUgxQrEdqt6+ABAiAuOZEK
-	asOQBugBShA9lzg=; b=C+pTWRTA+ZQA9VWAmohX9ztshfInZ//vdyvFb79tpGaB
-	BLVIqhvcz2N4sZpzvAHXiqpc7hA7Ho5+qIEE6K0mKdwSFKv+9EtQkTWaFtiJNGIO
-	l8R4zGgjlqlFukR6xrI1QYSW8xSAyLIjJSk/B5M8Juo/jwKXrBPxD1kmuo0psLUE
-	pNnCUOdy/yub3a2w0T/Z3/7WWkPWwq9SKw1n7qNd486jPbXYgl2TBMzEZuwBj8ni
-	96b2c8C2HoEEHvb+NoeZGVSGlQp6H02n4aG1aycxLUMCoj7vuaoCIehqfu/qSYte
-	EsKkK/Fc42mju38h69DlxUmGA/Sd5IAPxfpDt1bLLA==
-X-ME-Sender: <xms:LmPQZYRytwuFRw0MMgx4gRgo0GYH5-VtZaDZ2DKbK7AUYbxNuPzL0w>
-    <xme:LmPQZVx2pB8yZh4wXqs3Ncnl4gEI_odRSJIUTM-Sn7i8U9duxGIwn3S_U8Si0fx6e
-    7cLev1AL-oz_A>
-X-ME-Received: <xmr:LmPQZV1ljRcWBhScsK7SxvPpugG_Q1KZnvYnVogfq-Zv_rfdIYEGHZkE2F7ZXrwxbBnQgGAzoBJQPhrib3RhTICZb4Xnu08DCA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdefgdduudduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
-    evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
-    hhrdgtohhm
-X-ME-Proxy: <xmx:LmPQZcAi5WwbIXbP-G76PnVTK4H3WZXZFYHP3TWwW4ZP-wbu50jkBw>
-    <xmx:LmPQZRgQDAAYNjvZKjMUX-MLtoG5ljwfYqtQvGKFFfR1UoqG6ddBXw>
-    <xmx:LmPQZYoGnwLSModAQlNHAnwa7tP-XF_0gasXiqd6xiKYhjJYcVNfzw>
-    <xmx:L2PQZUg6ji-Q6AMZHuR5VjshVMB2oLX1Ko97UHhqms49qgflMqdniQ>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 17 Feb 2024 02:41:34 -0500 (EST)
-Date: Sat, 17 Feb 2024 08:41:33 +0100
-From: Greg KH <greg@kroah.com>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: syzbot+ce750e124675d4599449@syzkaller.appspotmail.com, isely@pobox.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org, mchehab@kernel.org,
-	pvrusb2-owner@isely.net, pvrusb2@isely.net,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH usb] media/pvrusb2: fix uaf in pvr2_context_set_notify
-Message-ID: <2024021716-accent-islamist-6a87@gregkh>
-References: <00000000000028b68806103b4266@google.com>
- <tencent_19D16EF24CA0E7F686C252C8C66D49A2AE06@qq.com>
+	s=arc-20240116; t=1708155843; c=relaxed/simple;
+	bh=uG1gfpoRfXRgKuEHJKltjR7JrRYIjqvRvSia55JVwcs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VrozBloqWiSzUrtUvcC0czoIYt8jEp5Q804gvXYeB4QuDKq7C7oUhJjvBkmQLuKNRhX1cBrSVT6jaRXoHVStbDWIH8Ya2phCE2pE41yN5mNxuJDT3N/92ZLi8xR+bJX6xwzVaEside6M3sVNuyWNcqLuT3sAa4/g2fha1Zf79Ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bNKELSSA; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d8aadc624dso24147675ad.0;
+        Fri, 16 Feb 2024 23:44:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708155841; x=1708760641; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A93PgWbW04e3vN6J7sWJkkLxGXflBHffLu+zmG4+tnw=;
+        b=bNKELSSAYPXwpyaU5/4HNNKs+in0bBgrFF84elolcxoXJCjqOQ52B59n6be6QtpboP
+         7l568pJVvInmNze0rHXXqQh2NN1/jMnqI8X3mldsaEiaMV3fMJXVGvgfEAf3NFokL67S
+         EbB+ZTr4TIUpshGdDgbDkLt7ITyk4rOWRDB6MyKrIlBuON/SdtiTz6Bj/dZcOyE0yNT1
+         KKoBt4wGSeyHzW/W04tJ1bBBgZ6wDh4fK07+78HkxxLOdTEUx1pryUKM9tJuZC9YFMzz
+         u42ON4YFWsFkNDMyXHFOsdNDdVaTMrOF3tDkL2vFSqvuvjz1YOLBThs+AkJGgqYkQ/kh
+         9wvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708155841; x=1708760641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A93PgWbW04e3vN6J7sWJkkLxGXflBHffLu+zmG4+tnw=;
+        b=jO0r+Gg8WHAlUc9i4fMpdVgtCerlOWIUGv0dRk9sZ/+9kRyxvNbATJI8APE9CBDRdZ
+         wZHBlV4wVV6UNDOmhPfesnirbhPiGKsmdW+OfPQELd+S+YYJ8vnYw2yEbor/7AzTcu2F
+         SVtWrEseC4dkXwxe3dVvXJjvC39DuNiF5R5HuudU7LOMLPHHTAPJmU+Zq85/22HMC6J8
+         rBsUCrVv7YRUTKvaAmJMlYOLJiwfF23g9Pkup3akzX0l0wTxfX3qabA0Akq+dF3nyRFZ
+         DYH0idtZCk6Dv37Yy8luasuMhronHpHU4T4zs45j4FjWdg9aQ538MozfqXO5rvT+2nMh
+         e7+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUD5jD22nS6O+E10ILnBmI9wN+LFdP59W7ZJYugr8wevXtDTX65Y4FRm+C2JVX6OJj4MO8P/d7IdVo7hfzan4rYvjcyu+NnTnBaPFCW
+X-Gm-Message-State: AOJu0YyQXGXGkJLMl02j7/BTSPXKmQDkq6wzJMZxUkfEZrFRF7s2mPHH
+	QhYndDL7NB2o1199JzdWwt9ZU6/GjpOrJrq/1QULhAuIaeJHRdP5id0LE8Wk
+X-Google-Smtp-Source: AGHT+IHzYQ1ItysbcXQfrjrnwCsZSlE3FGVl+hW8uk5eTdQqVOZjnXqaOQI6DMcdRI1BDJflnIv7zA==
+X-Received: by 2002:a17:903:298b:b0:1db:c143:abbb with SMTP id lm11-20020a170903298b00b001dbc143abbbmr1847165plb.29.1708155841011;
+        Fri, 16 Feb 2024 23:44:01 -0800 (PST)
+Received: from prabhav.. ([2401:4900:1c23:6dce:8ac9:4d57:e401:745b])
+        by smtp.gmail.com with ESMTPSA id jh18-20020a170903329200b001db3a0c52b1sm929452plb.88.2024.02.16.23.43.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 23:44:00 -0800 (PST)
+From: Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
+Subject: [PATCH] Spelling correction patch
+Date: Sat, 17 Feb 2024 13:13:53 +0530
+Message-Id: <20240217074353.19445-1-pvkumar5749404@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_19D16EF24CA0E7F686C252C8C66D49A2AE06@qq.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 16, 2024 at 03:30:47PM +0800, Edward Adam Davis wrote:
-> [Syzbot reported]
-> BUG: KASAN: slab-use-after-free in pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
-> Read of size 4 at addr ffff888113aeb0d8 by task kworker/1:1/26
-> 
-> CPU: 1 PID: 26 Comm: kworker/1:1 Not tainted 6.8.0-rc1-syzkaller-00046-gf1a27f081c1f #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
-> Workqueue: usb_hub_wq hub_event
-> Call Trace:
->  <TASK>
->  __dump_stack lib/dump_stack.c:88 [inline]
->  dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
->  print_address_description mm/kasan/report.c:377 [inline]
->  print_report+0xc4/0x620 mm/kasan/report.c:488
->  kasan_report+0xda/0x110 mm/kasan/report.c:601
->  pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
->  pvr2_context_notify drivers/media/usb/pvrusb2/pvrusb2-context.c:95 [inline]
->  pvr2_context_disconnect+0x94/0xb0 drivers/media/usb/pvrusb2/pvrusb2-context.c:272
-> 
-> Freed by task 906:
-> kasan_save_stack+0x33/0x50 mm/kasan/common.c:47
-> kasan_save_track+0x14/0x30 mm/kasan/common.c:68
-> kasan_save_free_info+0x3f/0x60 mm/kasan/generic.c:640
-> poison_slab_object mm/kasan/common.c:241 [inline]
-> __kasan_slab_free+0x106/0x1b0 mm/kasan/common.c:257
-> kasan_slab_free include/linux/kasan.h:184 [inline]
-> slab_free_hook mm/slub.c:2121 [inline]
-> slab_free mm/slub.c:4299 [inline]
-> kfree+0x105/0x340 mm/slub.c:4409
-> pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:137 [inline]
-> pvr2_context_thread_func+0x69d/0x960 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
-> 
-> [Analyze]
-> Task A set disconnect_flag = !0, which resulted in Task B's condition being met
-> and releasing mp, leading to this issue.
-> 
-> [Fix]
-> Place the disconnect_flag assignment operation after all code in pvr2_context_disconnect()
-> to avoid this issue.
-> 
-> Reported-and-tested-by: syzbot+ce750e124675d4599449@syzkaller.appspotmail.com
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+Signed-off-by: Prabhav Kumar Vaish <pvkumar5749404@gmail.com>
+---
+ Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc | 2 +-
+ Documentation/ABI/testing/sysfs-bus-cxl                   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-What commit id does this fix?
+diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc
+index 96aafa66b4a5..339cec3b2f1a 100644
+--- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc
++++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tmc
+@@ -97,7 +97,7 @@ Date:		August 2023
+ KernelVersion:	6.7
+ Contact:	Anshuman Khandual <anshuman.khandual@arm.com>
+ Description:	(Read) Shows all supported Coresight TMC-ETR buffer modes available
+-		for the users to configure explicitly. This file is avaialble only
++		for the users to configure explicitly. This file is available only
+ 		for TMC ETR devices.
+ 
+ What:		/sys/bus/coresight/devices/<memory_map>.tmc/buf_mode_preferred
+diff --git a/Documentation/ABI/testing/sysfs-bus-cxl b/Documentation/ABI/testing/sysfs-bus-cxl
+index fff2581b8033..bbf6de5a4ca1 100644
+--- a/Documentation/ABI/testing/sysfs-bus-cxl
++++ b/Documentation/ABI/testing/sysfs-bus-cxl
+@@ -224,7 +224,7 @@ Description:
+ 		decoding a Host Physical Address range. Note that this number
+ 		may be elevated without any regionX objects active or even
+ 		enumerated, as this may be due to decoders established by
+-		platform firwmare or a previous kernel (kexec).
++		platform firmware or a previous kernel (kexec).
+ 
+ 
+ What:		/sys/bus/cxl/devices/decoderX.Y
+-- 
+2.34.1
 
-And should it be cc: stable as well?
-
-thanks,
-
-greg k-h
 
