@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-5389-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003BB859951
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 21:44:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2C4859952
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 21:44:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C7521F21322
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 20:44:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A2321F21538
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 20:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDD373194;
-	Sun, 18 Feb 2024 20:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CAB07319C;
+	Sun, 18 Feb 2024 20:44:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GLHUPIK1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e15IKTI5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161D673191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84376D1AB
 	for <linux-media@vger.kernel.org>; Sun, 18 Feb 2024 20:43:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708289040; cv=none; b=rNFwVVbG7JtIRyLLAFdbCGFd6cVHWONqYlwiCJt/pml5F+Gwjrc1Q8TICMg67wT30lBuYn8bGb80D31mHPRCgScVSRA/e+9MgooU48cLVSx2GwPJc5qctXaWPyYVshNi77EX9QaBX1z8hWaCSBzk4xauVwRye42tNwwpepv29f8=
+	t=1708289041; cv=none; b=RQp7Hie/vzIDe/ZIunhRL3QO0AqA4RkeIDOKU/jJiA/12TLeVxhnBvx1LvxkNofIkl1W0HwcgntAYdySYn96qbxF01x+fh0IO081SoiqrtHIKqZFzV/jCDx4Z8Pk3lOSm+OE3iJlulZpRFfrTbKY9twHW48z2eLeD527tE7IG9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708289040; c=relaxed/simple;
-	bh=OC0mQkPUdulodtG7ZPltjjVGbNlALjHSu3YZQme0GXI=;
+	s=arc-20240116; t=1708289041; c=relaxed/simple;
+	bh=myfgyzlQhGat5I62yC+uRAIT/a6IWyta+n8enXqwCxg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q5xEsJzrYk0L04ownRKg2qvdEjXaxAgbUcPOnH8oe5EXUAq5nZJAUv7c+5x2K7+j00Ub2BsgROvx4e5V6ZwUwsSbWECp07QOa607CARE/wEEmCpa2f3jPaUtAXRY3naTo0zoe7uKg++ZhdfHxeoL44xlFlsiz+cQVbdU77eloqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GLHUPIK1; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=N4T560VtT2XUUHKoFjrZRL4IBMz8bvYjT1SSBuKiF8/101r3w3jsgE4VXayKT1PLKpcl7oUS/Tv3RFAvwsoG1dc1XqLL2ukoGDtYLZTnacEqvyURcV9WCtLLknrtT/HF6DGyNEpR0EnFTHzZriml8uFCKXs1TnQSEwJGxVe14r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=e15IKTI5; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCCA91C42;
-	Sun, 18 Feb 2024 21:43:48 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19D9D18A2;
+	Sun, 18 Feb 2024 21:43:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708289029;
-	bh=OC0mQkPUdulodtG7ZPltjjVGbNlALjHSu3YZQme0GXI=;
+	s=mail; t=1708289030;
+	bh=myfgyzlQhGat5I62yC+uRAIT/a6IWyta+n8enXqwCxg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GLHUPIK1Njczz3Qwc8S9SotaQ0+0H+UoeQh2x4NMd3iF0SbJ3dH4BRN3PkdGjgW6g
-	 38c2SEzAR5isMbfI+iWTwfH/6ensd8noX2UEXutDs/YIuZH7yMjcEc9H2jYILqvJMe
-	 JagBN3yfE+C/+vScVrfIO63yiV9/XSIYYFkHpa58=
+	b=e15IKTI5mPtO/8bgmtanjvhPvrgcj/iM3B8vQHfAXzW+eADxbgorU7ipOAkhboCl0
+	 +kWvArLB9cALJmuIyHuKPXYJ4IaEHa6RyVEUaw4doF8VI0naWgHott6Q6RAeC+qghA
+	 hD86DE3US2+cY9Ay92Zw2KKDQxf0RuKB6lMw4NGk=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Paul Elder <paul.elder@ideasonboard.com>,
-	Adam Ford <aford173@gmail.com>,
+Cc: Adam Ford <aford173@gmail.com>,
 	Alexander Stein <alexander.stein@ew.tq-group.com>,
 	Dafna Hirschfeld <dafna@fastmail.com>,
 	Heiko Stuebner <heiko@sntech.de>,
 	Helen Koike <helen.koike@collabora.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-rockchip@lists.infradead.org
-Subject: [PATCH v13 06/12] media: rkisp1: Add version enum for i.MX8MP ISP
-Date: Sun, 18 Feb 2024 22:43:44 +0200
-Message-ID: <20240218204350.10916-7-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v13 07/12] media: rkisp1: Configure gasket on i.MX8MP
+Date: Sun, 18 Feb 2024 22:43:45 +0200
+Message-ID: <20240218204350.10916-8-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240218204350.10916-1-laurent.pinchart@ideasonboard.com>
 References: <20240218204350.10916-1-laurent.pinchart@ideasonboard.com>
@@ -66,142 +66,270 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Paul Elder <paul.elder@ideasonboard.com>
+The i.MX8MP has a gasket between the CSI-2 receiver and the ISP.
+Configure and enable it when starting the ISP, and disable it when
+stopping.
 
-The NXP i.MX8MP integrates an ISP8000Nano from VeriSilicon, which is a
-derivative of the ISP found in earlier Rockchip SoCs. It isn't clear at
-which exact point the two product lines have diverged, and there is no
-public information regarding the version numbering scheme of the
-ISP8000Nano. Nonetheless, this ISP is close enough to the V10 found in
-the RK3399 to be supported by the same driver.
-
-Add an entry for the ISP found in the NXP i.MX8MP to the version enum.
-Given the lack of information on the version numbering scheme, and on
-whether or not the version in the i.MX8MP is identical to other
-ISP8000Nano versions or has been customized for the i.MX8MP, depart from
-the number-based versions and name this new version V_IMX8MP.
-
-Update comments for the other versions and for relevant parameters
-blocks to clearly indicate the size of grids and histogram for the
-different versions.
-
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Tested-by: Adam Ford <aford173@gmail.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
-Changes since v12:
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |   5 +
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     |  16 +++
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 +++++++++++++++++-
+ 3 files changed, 149 insertions(+), 3 deletions(-)
 
-- Update comments
-
-New in v12:
-
-- Split out from "media: rkisp1: Add match data for i.MX8MP ISP"
-- Changed the version enum name
----
- include/uapi/linux/rkisp1-config.h | 50 ++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 23 deletions(-)
-
-diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-index 730673ecc63d..6eeaf8bf2362 100644
---- a/include/uapi/linux/rkisp1-config.h
-+++ b/include/uapi/linux/rkisp1-config.h
-@@ -175,16 +175,21 @@
- /**
-  * enum rkisp1_cif_isp_version - ISP variants
-  *
-- * @RKISP1_V10: used at least in rk3288 and rk3399
-- * @RKISP1_V11: declared in the original vendor code, but not used
-- * @RKISP1_V12: used at least in rk3326 and px30
-- * @RKISP1_V13: used at least in rk1808
-+ * @RKISP1_V10: Used at least in RK3288 and RK3399.
-+ * @RKISP1_V11: Declared in the original vendor code, but not used. Same number
-+ *	of entries in grids and histogram as v10.
-+ * @RKISP1_V12: Used at least in RK3326 and PX30.
-+ * @RKISP1_V13: Used at least in RK1808. Same number of entries in grids and
-+ *	histogram as v12.
-+ * @RKISP1_V_IMX8MP: Used in at least i.MX8MP. Same number of entries in grids
-+ *	and histogram as v10.
-  */
- enum rkisp1_cif_isp_version {
- 	RKISP1_V10 = 10,
- 	RKISP1_V11,
- 	RKISP1_V12,
- 	RKISP1_V13,
-+	RKISP1_V_IMX8MP,
- };
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 857fea1d079b..070317196aa1 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -24,6 +24,7 @@
+ #include "rkisp1-regs.h"
  
- enum rkisp1_cif_isp_histogram_mode {
-@@ -584,10 +589,9 @@ enum rkisp1_cif_isp_goc_mode {
-  * as is reported by the hw_revision field of the struct media_device_info
-  * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-  *
-- * Versions <= V11 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10
-- * entries, versions >= V12 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
-- * entries. RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES is equal to the maximum
-- * of the two.
-+ * V10 has RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10 entries, V12 has
-+ * RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12 entries.
-+ * RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES is equal to the maximum of the two.
+ struct dentry;
++struct regmap;
+ 
+ /*
+  * flags on the 'direction' field in struct rkisp1_mbus_info' that indicate
+@@ -444,6 +445,8 @@ struct rkisp1_debug {
+  * @dev:	   a pointer to the struct device
+  * @clk_size:	   number of clocks
+  * @clks:	   array of clocks
++ * @gasket:	   the gasket - i.MX8MP only
++ * @gasket_id:	   the gasket ID (0 or 1) - i.MX8MP only
+  * @v4l2_dev:	   v4l2_device variable
+  * @media_dev:	   media_device variable
+  * @notifier:	   a notifier to register on the v4l2-async API to be notified on the sensor
+@@ -465,6 +468,8 @@ struct rkisp1_device {
+ 	struct device *dev;
+ 	unsigned int clk_size;
+ 	struct clk_bulk_data clks[RKISP1_MAX_BUS_CLK];
++	struct regmap *gasket;
++	unsigned int gasket_id;
+ 	struct v4l2_device v4l2_dev;
+ 	struct media_device media_dev;
+ 	struct v4l2_async_notifier notifier;
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 5a3ad2c3347e..885339159763 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -10,6 +10,7 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/interrupt.h>
++#include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_graph.h>
+@@ -579,6 +580,21 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 		return ret;
+ 	rkisp1->clk_size = info->clk_size;
+ 
++	if (info->isp_ver == RKISP1_V_IMX8MP) {
++		unsigned int id;
++
++		rkisp1->gasket = syscon_regmap_lookup_by_phandle_args(dev->of_node,
++								      "fsl,blk-ctrl",
++								      1, &id);
++		if (IS_ERR(rkisp1->gasket)) {
++			ret = PTR_ERR(rkisp1->gasket);
++			dev_err(dev, "failed to get gasket: %d\n", ret);
++			return ret;
++		}
++
++		rkisp1->gasket_id = id;
++	}
++
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	ret = pm_runtime_resume_and_get(&pdev->dev);
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index f00873d31c42..f3552e1a88dd 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -10,6 +10,7 @@
+ 
+ #include <linux/iopoll.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regmap.h>
+ #include <linux/videodev2.h>
+ #include <linux/vmalloc.h>
+ 
+@@ -53,6 +54,115 @@
+  * +---------------------------------------------------------+
   */
- struct rkisp1_cif_isp_goc_config {
- 	__u32 mode;
-@@ -607,10 +611,10 @@ struct rkisp1_cif_isp_goc_config {
-  * as is reported by the hw_revision field of the struct media_device_info
-  * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-  *
-- * Versions <= V11 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10
-- * entries, versions >= V12 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
-- * entries. RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE is equal to the maximum
-- * of the two.
-+ * V10 has RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10 entries, V12 has
-+ * RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12 entries.
-+ * RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE is equal to the maximum of the
-+ * two.
+ 
++/* -----------------------------------------------------------------------------
++ * Media block control (i.MX8MP only)
++ */
++
++#define ISP_DEWARP_CONTROL				0x0138
++
++#define ISP_DEWARP_CONTROL_MIPI_CSI2_HS_POLARITY	BIT(22)
++#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_RISING	(0 << 20)
++#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_NEGATIVE	(1 << 20)
++#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_POSITIVE	(2 << 20)
++#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_FALLING	(3 << 20)
++#define ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_MASK	GENMASK(21, 20)
++#define ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE	BIT(19)
++#define ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE(dt)	((dt) << 13)
++#define ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK	GENMASK(18, 13)
++
++#define ISP_DEWARP_CONTROL_MIPI_CSI1_HS_POLARITY	BIT(12)
++#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_RISING	(0 << 10)
++#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_NEGATIVE	(1 << 10)
++#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_POSITIVE	(2 << 10)
++#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_FALLING	(3 << 10)
++#define ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_MASK	GENMASK(11, 10)
++#define ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE	BIT(9)
++#define ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE(dt)	((dt) << 3)
++#define ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK	GENMASK(8, 3)
++
++#define ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE		BIT(1)
++#define ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE		BIT(0)
++
++static int rkisp1_gasket_enable(struct rkisp1_device *rkisp1,
++				struct media_pad *source)
++{
++	struct v4l2_subdev *source_sd;
++	struct v4l2_mbus_frame_desc fd;
++	unsigned int dt;
++	u32 mask;
++	u32 val;
++	int ret;
++
++	/*
++	 * Configure and enable the gasket with the CSI-2 data type. Set the
++	 * vsync polarity as active high, as that is what the ISP is configured
++	 * to expect in ISP_ACQ_PROP. Enable left justification, as the i.MX8MP
++	 * ISP has a 16-bit wide input and expects data to be left-aligned.
++	 */
++
++	source_sd = media_entity_to_v4l2_subdev(source->entity);
++	ret = v4l2_subdev_call(source_sd, pad, get_frame_desc,
++			       source->index, &fd);
++	if (ret) {
++		dev_err(rkisp1->dev,
++			"failed to get frame descriptor from '%s':%u: %d\n",
++			source_sd->name, 0, ret);
++		return ret;
++	}
++
++	if (fd.num_entries != 1) {
++		dev_err(rkisp1->dev, "invalid frame descriptor for '%s':%u\n",
++			source_sd->name, 0);
++		return -EINVAL;
++	}
++
++	dt = fd.entry[0].bus.csi2.dt;
++
++	if (rkisp1->gasket_id == 0) {
++		mask = ISP_DEWARP_CONTROL_MIPI_CSI1_HS_POLARITY
++		     | ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_MASK
++		     | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
++		     | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK
++		     | ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
++		val = ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_POSITIVE
++		    | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
++		    | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE(dt);
++	} else {
++		mask = ISP_DEWARP_CONTROL_MIPI_CSI2_HS_POLARITY
++		     | ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_MASK
++		     | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
++		     | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK
++		     | ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
++		val = ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_POSITIVE
++		    | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
++		    | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE(dt);
++	}
++
++	regmap_update_bits(rkisp1->gasket, ISP_DEWARP_CONTROL, mask, val);
++
++	return 0;
++}
++
++static void rkisp1_gasket_disable(struct rkisp1_device *rkisp1)
++{
++	u32 mask;
++	u32 val;
++
++	if (rkisp1->gasket_id == 1) {
++		mask = ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
++		     | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK
++		     | ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
++		val = ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
++	} else {
++		mask = ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
++		     | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK
++		     | ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
++		val = ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
++	}
++
++	regmap_update_bits(rkisp1->gasket, ISP_DEWARP_CONTROL, mask, val);
++}
++
+ /* ----------------------------------------------------------------------------
+  * Camera Interface registers configurations
   */
- struct rkisp1_cif_isp_hst_config {
- 	__u32 mode;
-@@ -902,9 +906,9 @@ struct rkisp1_cif_isp_bls_meas_val {
-  * as is reported by the hw_revision field of the struct media_device_info
-  * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-  *
-- * Versions <= V11 have RKISP1_CIF_ISP_AE_MEAN_MAX_V10 entries,
-- * versions >= V12 have RKISP1_CIF_ISP_AE_MEAN_MAX_V12 entries.
-- * RKISP1_CIF_ISP_AE_MEAN_MAX is equal to the maximum of the two.
-+ * V10 has RKISP1_CIF_ISP_AE_MEAN_MAX_V10 entries, V12 has
-+ * RKISP1_CIF_ISP_AE_MEAN_MAX_V12 entries. RKISP1_CIF_ISP_AE_MEAN_MAX is equal
-+ * to the maximum of the two.
-  *
-  * Image is divided into 5x5 blocks on V10 and 9x9 blocks on V12.
-  */
-@@ -944,21 +948,21 @@ struct rkisp1_cif_isp_af_stat {
-  *	       integer part.
-  *
-  * The window of the measurements area is divided to 5x5 sub-windows for
-- * V10/V11 and to 9x9 sub-windows for V12. The histogram is then computed for
-- * each sub-window independently and the final result is a weighted average of
-- * the histogram measurements on all sub-windows. The window of the
-- * measurements area and the weight of each sub-window are configurable using
-+ * V10 and to 9x9 sub-windows for V12. The histogram is then computed for each
-+ * sub-window independently and the final result is a weighted average of the
-+ * histogram measurements on all sub-windows. The window of the measurements
-+ * area and the weight of each sub-window are configurable using
-  * struct @rkisp1_cif_isp_hst_config.
-  *
-- * The histogram contains 16 bins in V10/V11 and 32 bins in V12/V13.
-+ * The histogram contains 16 bins in V10 and 32 bins in V12.
-  *
-  * The number of entries of @hist_bins depends on the hardware revision
-  * as is reported by the hw_revision field of the struct media_device_info
-  * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-  *
-- * Versions <= V11 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10 entries,
-- * versions >= V12 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12 entries.
-- * RKISP1_CIF_ISP_HIST_BIN_N_MAX is equal to the maximum of the two.
-+ * V10 has RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10 entries, V12 has
-+ * RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12 entries. RKISP1_CIF_ISP_HIST_BIN_N_MAX is
-+ * equal to the maximum of the two.
-  */
- struct rkisp1_cif_isp_hist_stat {
- 	__u32 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
+@@ -291,6 +401,9 @@ static void rkisp1_isp_stop(struct rkisp1_isp *isp)
+ 		     RKISP1_CIF_VI_IRCL_MIPI_SW_RST |
+ 		     RKISP1_CIF_VI_IRCL_ISP_SW_RST);
+ 	rkisp1_write(rkisp1, RKISP1_CIF_VI_IRCL, 0x0);
++
++	if (rkisp1->info->isp_ver == RKISP1_V_IMX8MP)
++		rkisp1_gasket_disable(rkisp1);
+ }
+ 
+ static void rkisp1_config_clk(struct rkisp1_isp *isp)
+@@ -315,16 +428,24 @@ static void rkisp1_config_clk(struct rkisp1_isp *isp)
+ 	}
+ }
+ 
+-static void rkisp1_isp_start(struct rkisp1_isp *isp,
+-			     struct v4l2_subdev_state *sd_state)
++static int rkisp1_isp_start(struct rkisp1_isp *isp,
++			    struct v4l2_subdev_state *sd_state,
++			    struct media_pad *source)
+ {
+ 	struct rkisp1_device *rkisp1 = isp->rkisp1;
+ 	const struct v4l2_mbus_framefmt *src_fmt;
+ 	const struct rkisp1_mbus_info *src_info;
+ 	u32 val;
++	int ret;
+ 
+ 	rkisp1_config_clk(isp);
+ 
++	if (rkisp1->info->isp_ver == RKISP1_V_IMX8MP) {
++		ret = rkisp1_gasket_enable(rkisp1, source);
++		if (ret)
++			return ret;
++	}
++
+ 	/* Activate ISP */
+ 	val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_CTRL);
+ 	val |= RKISP1_CIF_ISP_CTRL_ISP_CFG_UPD |
+@@ -338,6 +459,8 @@ static void rkisp1_isp_start(struct rkisp1_isp *isp,
+ 
+ 	if (src_info->pixel_enc != V4L2_PIXEL_ENC_BAYER)
+ 		rkisp1_params_post_configure(&rkisp1->params);
++
++	return 0;
+ }
+ 
+ /* ----------------------------------------------------------------------------
+@@ -848,7 +971,9 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	rkisp1_isp_start(isp, sd_state);
++	ret = rkisp1_isp_start(isp, sd_state, source_pad);
++	if (ret)
++		goto out_unlock;
+ 
+ 	ret = v4l2_subdev_call(rkisp1->source, video, s_stream, true);
+ 	if (ret) {
 -- 
 Regards,
 
