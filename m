@@ -1,129 +1,196 @@
-Return-Path: <linux-media+bounces-5375-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5376-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8728597AB
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 16:49:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC63D859840
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 18:46:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37E0D1C209E9
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 15:49:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A07CB20D2B
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 17:46:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68A556D1B9;
-	Sun, 18 Feb 2024 15:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B4546F06A;
+	Sun, 18 Feb 2024 17:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EGSfMZ7S"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HUrmOfF1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300B91E531;
-	Sun, 18 Feb 2024 15:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C57376EE;
+	Sun, 18 Feb 2024 17:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708271357; cv=none; b=aVgVj5pS8ARTUf57JCgYZ0Yl5OYzmD/Y4wDl/up0FFHVEsHonPJ5RS5DqwS/0QG6kTZkhJWi038lBe/RWDRdKXopzWMTYCQe/rRbpLwZpU4jieHHuC8k++0s11wEfp1Qdjk5HrdNfoxWeITdzLxHTsKo+n5/Vc7OD4LzWALnMhc=
+	t=1708278349; cv=none; b=hxpKJqa1IbUjPFDrT1pUYC8Dx9CHEzHEq2e3/9lDQbtyEvaQ3EVj6K2b0ZvyCCN3Ks9CXspFVBS+i0vBNk+HRHUrReXocsgQqtN4uSv1hqksBDaXRwfo62hwYYTuOMDBeQilvHlaxoUe+OH6noxkFB2x8e5iInIHPSKMP4/axqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708271357; c=relaxed/simple;
-	bh=8nGoFUXWmyGHOy260pPB+sKZI6HN3nM/YAmZ0KHV6BU=;
+	s=arc-20240116; t=1708278349; c=relaxed/simple;
+	bh=m9/HCg4kDl2ulJBzPH/2iPU02A2eJjEuQkTS/agnljA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Iz8x3O5UNarZ8jAfSqvao89+Vs+VfRIc/ml8KYKL/8hkgm/f/Iee2DMqbXDeSMNKNiuuuSbYA3HMCnEzAQRIHmdufve16HypNq0wx30aOd7i1RzBGK9Wiabow/bXVfEYv3vq6Y9+T1TJhR/rIH9aKguwHBSvQO0P7rByNdl7FUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EGSfMZ7S; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6e45ef0115eso3261b3a.2;
-        Sun, 18 Feb 2024 07:49:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708271355; x=1708876155; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HygTjwzdRXTfZJXPzKIecTHavlYq9dpN87Z53dyDVe4=;
-        b=EGSfMZ7SvB8t27nVYbXo/+ynnUnDRSxGP2lVn/+OxahHwGg8Yxel6YBJyL7gtEmAFm
-         u4U/M4V9qoqEqZmZyQmypz5h985vsGJaFY2r16MrMUP2je2IW/ONwqTW3ilkSglTSwhw
-         6IY83NWF0yO7z/lYfHtovR6SZReCJ9NxfJLPPMvTsgmo2FmFuAe46jvrZE97M5thPrn3
-         RKZwkjGAP+FM0TPOfoC1KPsfFu6GBvr3puLCja+vNSbEzNK0kMKsF76q2KcL5Q+suKc9
-         FEkPNO3OpyCMIeVmLrQWiv6NgeUZh6L1LBS0x8vj/I+3553+C8Sc4ZBUKnF3mHBOyw8Y
-         E4qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708271355; x=1708876155;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HygTjwzdRXTfZJXPzKIecTHavlYq9dpN87Z53dyDVe4=;
-        b=fwbHWC73TdmK2i5QUEfPBQfe6GoXs0asx2qPxQq9KFvL7CcD1g1kOaijMiWp/I8VjR
-         NdfbnzMutJQum24rbg15shbBopTeggOX+irsWc7g4VNSqeHNYTPdmDES8ArUZqFRBG1g
-         A96opjTl4vbDYsBWXTnscfCqcWPwSj7Ze04XUEW7RHGC/a5PS3G6ymBpgLziyoUgZhI2
-         o5mV/szi8w9n0udk+Ckbegn1Xx+WFdvfVbiKPYokSRe13uaBGgbf6vo02mP/YeOLvOCW
-         cI2YmeUP7iPSF/MC6+bXL5PONv5osbsFTmNVZiyjNaCKoSEBaJ7Jg0KPw6ZTdyMl9ptB
-         GdqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVazckTcLtmGQ6iIUPbQDPdfB4U2wsh4k4vLiLXu602rY6DUSaHyM5JiR6PC0/WGpaqxKkqDGhSqr8nRG9os0IAi5i/Xkn1lOoys6M8p2BIBG/bPfEAmikd7qVjafeIN5+p1+s6RwL21ck=
-X-Gm-Message-State: AOJu0Yy10m/mt0WkGVwijxxePhsJ2KWWrJPN2Mjydg5zpB5WD0YGNRHd
-	pW4td105vVg9W2/QBORym1vOmIf9sMTNpz/vI0eULuQI+dWDDEDG4HQv8704
-X-Google-Smtp-Source: AGHT+IGtFTeG1xqdQuslCfg46RlX50lmgmsSXRs+AAF00N8eLRLlV9eHfM6YvKpqSj14RdRN0G6Org==
-X-Received: by 2002:a62:cec2:0:b0:6df:c3b1:1c2e with SMTP id y185-20020a62cec2000000b006dfc3b11c2emr8689930pfg.30.1708271355446;
-        Sun, 18 Feb 2024 07:49:15 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x42-20020a056a0018aa00b006e144bac418sm3149232pfh.74.2024.02.18.07.49.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Feb 2024 07:49:14 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 18 Feb 2024 07:49:13 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Marco Pagani <marpagan@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5] drm/test: add a test suite for GEM objects backed by
- shmem
-Message-ID: <a45b796d-5e04-4eac-b5ba-ea6bb3b6131b@roeck-us.net>
-References: <20231130171417.74162-1-marpagan@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=N1OhLF5PmMAMUEB0zBts+KLhOmVrDoJOqW7uHlXT7R8r/scbRR5mQZTBxx0sQt+6JqjMNzaIYT30nhGX2tQNcvj7gt4SiNvOq9gJ6HrL9epVdyJv8Vm2U7GRMwPA2aXtftHTKMZeyXLCqybVkCkTv2a5DR7473giS6azAfnqrNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HUrmOfF1; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0804480;
+	Sun, 18 Feb 2024 18:45:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1708278332;
+	bh=m9/HCg4kDl2ulJBzPH/2iPU02A2eJjEuQkTS/agnljA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HUrmOfF15aj0kJxkHY64oVWY7ivuGxeIgidDRV7pqvdDwj5sjRk8e8ouUaICa1scc
+	 x5lmfX1ekXQNi2G+OvysH/QNY1HU/sh5em4rE7PzHMf4hMVTVgeUCkjQfCQk9vE59y
+	 Kh7unNf+4fwBD/7++qSDNCKyiDg+f3ROaDhPrA6Y=
+Date: Sun, 18 Feb 2024 19:45:41 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Elder <paul.elder@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, kieran.bingham@ideasonboard.com,
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
+	aford173@gmail.com,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v12 04/12] media: rkisp1: Support devices lacking dual
+ crop
+Message-ID: <20240218174541.GH7120@pendragon.ideasonboard.com>
+References: <20240216095458.2919694-1-paul.elder@ideasonboard.com>
+ <20240216095458.2919694-5-paul.elder@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231130171417.74162-1-marpagan@redhat.com>
+In-Reply-To: <20240216095458.2919694-5-paul.elder@ideasonboard.com>
 
-Hi,
+Hi Paul,
 
-On Thu, Nov 30, 2023 at 06:14:16PM +0100, Marco Pagani wrote:
-> This patch introduces an initial KUnit test suite for GEM objects
-> backed by shmem buffers.
+Thank you for the patch.
+
+On Fri, Feb 16, 2024 at 06:54:50PM +0900, Paul Elder wrote:
+> Some versions of the ISP supported by the rkisp1 driver, such as the ISP
+> in the i.MX8MP, lack the dual crop registers and don't support cropping
+> at the resizer input. They instead rely on cropping in the Image
+> Stabilization module, at the output of the ISP, to modify the resizer
+> input size and implement digital zoom.
 > 
-> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: Marco Pagani <marpagan@redhat.com>
+> Add a dual crop feature flag to distinguish the versions of the ISP that
+> support dual crop from those that don't, and make sure that the sink
+> crop is set to the sink format when dual crop is not supported.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Tested-by: Adam Ford <aford173@gmail.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+> Changes in v12:
+> - Remove mention of moving resizer input crop to image stabilizer from
+>   commit message
+> - Make sure the sink crop is set to the sink format when dual crop is
+>   not supported
+> ---
+>  .../media/platform/rockchip/rkisp1/rkisp1-common.h    |  2 ++
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c   |  6 ++++--
+>  .../media/platform/rockchip/rkisp1/rkisp1-resizer.c   | 11 +++++++----
+>  3 files changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index f7c251f79aa9..219d4a2547aa 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -112,6 +112,7 @@ enum rkisp1_isp_pad {
+>   * @RKISP1_FEATURE_MIPI_CSI2: The ISP has an internal MIPI CSI-2 receiver
+>   * @RKISP1_FEATURE_MAIN_STRIDE: The ISP supports configurable stride on the main path
+>   * @RKISP1_FEATURE_SELF_PATH: The ISP has a self path
+> + * @RKISP1_FEATURE_DUAL_CROP: The ISP has the dual crop block at the resizer input
+>   *
+>   * The ISP features are stored in a bitmask in &rkisp1_info.features and allow
+>   * the driver to implement support for features present in some ISP versions
+> @@ -121,6 +122,7 @@ enum rkisp1_feature {
+>  	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
+>  	RKISP1_FEATURE_MAIN_STRIDE = BIT(1),
+>  	RKISP1_FEATURE_SELF_PATH = BIT(2),
+> +	RKISP1_FEATURE_DUAL_CROP = BIT(3),
+>  };
+>  
+>  #define rkisp1_has_feature(rkisp1, feature) \
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index f48a21985b18..2e40c376cab5 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -507,7 +507,8 @@ static const struct rkisp1_info px30_isp_info = {
+>  	.isr_size = ARRAY_SIZE(px30_isp_isrs),
+>  	.isp_ver = RKISP1_V12,
+>  	.features = RKISP1_FEATURE_MIPI_CSI2
+> -		  | RKISP1_FEATURE_SELF_PATH,
+> +		  | RKISP1_FEATURE_SELF_PATH
+> +		  | RKISP1_FEATURE_DUAL_CROP,
+>  };
+>  
+>  static const char * const rk3399_isp_clks[] = {
+> @@ -527,7 +528,8 @@ static const struct rkisp1_info rk3399_isp_info = {
+>  	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
+>  	.isp_ver = RKISP1_V10,
+>  	.features = RKISP1_FEATURE_MIPI_CSI2
+> -		  | RKISP1_FEATURE_SELF_PATH,
+> +		  | RKISP1_FEATURE_SELF_PATH
+> +		  | RKISP1_FEATURE_DUAL_CROP,
+>  };
+>  
+>  static const struct of_device_id rkisp1_of_match[] = {
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> index dd77a31e6014..755d319b568e 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> @@ -447,8 +447,9 @@ static void rkisp1_rsz_set_sink_crop(struct rkisp1_resizer *rsz,
+>  	/* Not crop for MP bayer raw data */
 
-When running this in qemu, I get lots of warnings backtraces in the drm
-core.
+	/* Not crop for MP bayer raw data, or for devices lacking dual crop. */
 
-WARNING: CPU: 0 PID: 1341 at drivers/gpu/drm/drm_gem_shmem_helper.c:327
-WARNING: CPU: 0 PID: 1341 at drivers/gpu/drm/drm_gem_shmem_helper.c:173
-WARNING: CPU: 0 PID: 1341 at drivers/gpu/drm/drm_gem_shmem_helper.c:385
-WARNING: CPU: 0 PID: 1341 at drivers/gpu/drm/drm_gem_shmem_helper.c:211
-WARNING: CPU: 0 PID: 1345 at kernel/dma/mapping.c:194
-WARNING: CPU: 0 PID: 1347 at drivers/gpu/drm/drm_gem_shmem_helper.c:429
-WARNING: CPU: 0 PID: 1349 at drivers/gpu/drm/drm_gem_shmem_helper.c:445 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-It looks like dma_resv_assert_held() asserts each time it is executed.
-The backtrace in kernel/dma/mapping.c is triggered by
-	if (WARN_ON_ONCE(!dev->dma_mask))
-		return 0;
-in __dma_map_sg_attrs().
+I can handle this when applying.
 
-Is this a possible problem in the test code, or can it be caused by
-some limitations or bugs in the qemu emulation ? If so, do you have any
-thoughts or ideas what those limitations / bugs might be ? 
+>  	mbus_info = rkisp1_mbus_info_get_by_code(sink_fmt->code);
+>  
+> -	if (rsz->id == RKISP1_MAINPATH &&
+> -	    mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER) {
+> +	if ((rsz->id == RKISP1_MAINPATH &&
+> +	     mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER) ||
+> +	    !rkisp1_has_feature(rsz->rkisp1, DUAL_CROP)) {
+>  		sink_crop->left = 0;
+>  		sink_crop->top = 0;
+>  		sink_crop->width = sink_fmt->width;
+> @@ -635,7 +636,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+>  	struct v4l2_subdev_state *sd_state;
+>  
+>  	if (!enable) {
+> -		rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
+> +		if (rkisp1_has_feature(rkisp1, DUAL_CROP))
+> +			rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
+>  		rkisp1_rsz_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
+>  		return 0;
+>  	}
+> @@ -646,7 +648,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
+>  	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+>  
+>  	rkisp1_rsz_config(rsz, sd_state, when);
+> -	rkisp1_dcrop_config(rsz, sd_state);
+> +	if (rkisp1_has_feature(rkisp1, DUAL_CROP))
+> +		rkisp1_dcrop_config(rsz, sd_state);
+>  
+>  	v4l2_subdev_unlock_state(sd_state);
+>  
 
-Thanks,
-Guenter
+-- 
+Regards,
+
+Laurent Pinchart
 
