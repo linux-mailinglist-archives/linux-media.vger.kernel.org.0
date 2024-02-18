@@ -1,196 +1,130 @@
-Return-Path: <linux-media+bounces-5376-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5377-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC63D859840
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 18:46:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2238D859845
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 18:47:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A07CB20D2B
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 17:46:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCA95281706
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 17:47:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B4546F06A;
-	Sun, 18 Feb 2024 17:45:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D4146F088;
+	Sun, 18 Feb 2024 17:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HUrmOfF1"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="SD9wlefO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C57376EE;
-	Sun, 18 Feb 2024 17:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F81A376EE
+	for <linux-media@vger.kernel.org>; Sun, 18 Feb 2024 17:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708278349; cv=none; b=hxpKJqa1IbUjPFDrT1pUYC8Dx9CHEzHEq2e3/9lDQbtyEvaQ3EVj6K2b0ZvyCCN3Ks9CXspFVBS+i0vBNk+HRHUrReXocsgQqtN4uSv1hqksBDaXRwfo62hwYYTuOMDBeQilvHlaxoUe+OH6noxkFB2x8e5iInIHPSKMP4/axqc=
+	t=1708278429; cv=none; b=V69gCQEJvbt+ZcpC5USZOx+SbsSWAe2EZlrqAhOlPh78L3awrN+auVmvYIYh/DDt3qntfavmbZ+vh+FFKdYtul6Gwl3DHv045lTsq8TP38UXDX/8PSkQ7d72NkSRlE8aPii/h0PjvbvK4+dKAaDKjgmc9ZgF31LhFClkzfmimbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708278349; c=relaxed/simple;
-	bh=m9/HCg4kDl2ulJBzPH/2iPU02A2eJjEuQkTS/agnljA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N1OhLF5PmMAMUEB0zBts+KLhOmVrDoJOqW7uHlXT7R8r/scbRR5mQZTBxx0sQt+6JqjMNzaIYT30nhGX2tQNcvj7gt4SiNvOq9gJ6HrL9epVdyJv8Vm2U7GRMwPA2aXtftHTKMZeyXLCqybVkCkTv2a5DR7473giS6azAfnqrNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HUrmOfF1; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0804480;
-	Sun, 18 Feb 2024 18:45:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708278332;
-	bh=m9/HCg4kDl2ulJBzPH/2iPU02A2eJjEuQkTS/agnljA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HUrmOfF15aj0kJxkHY64oVWY7ivuGxeIgidDRV7pqvdDwj5sjRk8e8ouUaICa1scc
-	 x5lmfX1ekXQNi2G+OvysH/QNY1HU/sh5em4rE7PzHMf4hMVTVgeUCkjQfCQk9vE59y
-	 Kh7unNf+4fwBD/7++qSDNCKyiDg+f3ROaDhPrA6Y=
-Date: Sun, 18 Feb 2024 19:45:41 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Elder <paul.elder@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, kieran.bingham@ideasonboard.com,
-	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
-	aford173@gmail.com,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v12 04/12] media: rkisp1: Support devices lacking dual
- crop
-Message-ID: <20240218174541.GH7120@pendragon.ideasonboard.com>
-References: <20240216095458.2919694-1-paul.elder@ideasonboard.com>
- <20240216095458.2919694-5-paul.elder@ideasonboard.com>
+	s=arc-20240116; t=1708278429; c=relaxed/simple;
+	bh=72fk0PVXRZ8Q4JWxUxUYDfHppG9f2BAjRRu5pbDdVro=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WFCoDNqRCDRqN6GOEgueRifsWTckX/9exXjhruSeVHrRVGKV9EQstCBHTaJxmy110/BQHtBMWUmw+n/XZG3E+UwAZdGBHL6o8aTJbqyp6s8EJyKypv1huphKHrxvowmnPn0p3KkvvJaXThRlDYXOpxjQ7ggaFpFEi3QAjLAPhto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=SD9wlefO; arc=none smtp.client-ip=80.12.242.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id blFbr8qYHiCLsblFer7StJ; Sun, 18 Feb 2024 18:46:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1708278417;
+	bh=y2+kKbrWEFY2/pmLK9szqs3+euOSxAcesJDdReAip00=;
+	h=From:To:Cc:Subject:Date;
+	b=SD9wlefOwXg6avVhwSrVQdg+pRLNLNGc+ZUkn8lC/1XFjrHZc30uIj2jPvkEWP5cb
+	 wiHSjYsY5V2op+Ln67qbUlLXw/7k3gDzmSapsEgNjU2FE7ZQFZeRAuDAkPHNJi0+9i
+	 3O0ClCSTsfy7DletOKheud1v1mlIm1LkH2827FumbJLNPbd7ozcZdiM34zTIQM6eIp
+	 iFy+zsBoGPfT58YXmqfV0/faepuFDWLu0whT+sljy78xCEZdC8SGTXALv3bim/xS+r
+	 z6Hjxmm8jvIpbKthLpg3OcdQEbqDKstm8BPQdu3EnvoPuV1rqWapIbUpBqLWwioruD
+	 Hs+GmnM6RYFgQ==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 18 Feb 2024 18:46:57 +0100
+X-ME-IP: 92.140.202.140
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: gustavo@embeddedor.com,
+	keescook@chromium.org,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v2] udmabuf: Fix a potential (and unlikely) access to unallocated memory
+Date: Sun, 18 Feb 2024 18:46:44 +0100
+Message-ID: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240216095458.2919694-5-paul.elder@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
+If 'list_limit' is set to a very high value, 'lsize' computation could
+overflow if 'head.count' is big enough.
 
-Thank you for the patch.
+In such a case, udmabuf_create() would access to memory beyond 'list'.
 
-On Fri, Feb 16, 2024 at 06:54:50PM +0900, Paul Elder wrote:
-> Some versions of the ISP supported by the rkisp1 driver, such as the ISP
-> in the i.MX8MP, lack the dual crop registers and don't support cropping
-> at the resizer input. They instead rely on cropping in the Image
-> Stabilization module, at the output of the ISP, to modify the resizer
-> input size and implement digital zoom.
-> 
-> Add a dual crop feature flag to distinguish the versions of the ISP that
-> support dual crop from those that don't, and make sure that the sink
-> crop is set to the sink format when dual crop is not supported.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Tested-by: Adam Ford <aford173@gmail.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Changes in v12:
-> - Remove mention of moving resizer input crop to image stabilizer from
->   commit message
-> - Make sure the sink crop is set to the sink format when dual crop is
->   not supported
-> ---
->  .../media/platform/rockchip/rkisp1/rkisp1-common.h    |  2 ++
->  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c   |  6 ++++--
->  .../media/platform/rockchip/rkisp1/rkisp1-resizer.c   | 11 +++++++----
->  3 files changed, 13 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index f7c251f79aa9..219d4a2547aa 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -112,6 +112,7 @@ enum rkisp1_isp_pad {
->   * @RKISP1_FEATURE_MIPI_CSI2: The ISP has an internal MIPI CSI-2 receiver
->   * @RKISP1_FEATURE_MAIN_STRIDE: The ISP supports configurable stride on the main path
->   * @RKISP1_FEATURE_SELF_PATH: The ISP has a self path
-> + * @RKISP1_FEATURE_DUAL_CROP: The ISP has the dual crop block at the resizer input
->   *
->   * The ISP features are stored in a bitmask in &rkisp1_info.features and allow
->   * the driver to implement support for features present in some ISP versions
-> @@ -121,6 +122,7 @@ enum rkisp1_feature {
->  	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
->  	RKISP1_FEATURE_MAIN_STRIDE = BIT(1),
->  	RKISP1_FEATURE_SELF_PATH = BIT(2),
-> +	RKISP1_FEATURE_DUAL_CROP = BIT(3),
->  };
->  
->  #define rkisp1_has_feature(rkisp1, feature) \
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index f48a21985b18..2e40c376cab5 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -507,7 +507,8 @@ static const struct rkisp1_info px30_isp_info = {
->  	.isr_size = ARRAY_SIZE(px30_isp_isrs),
->  	.isp_ver = RKISP1_V12,
->  	.features = RKISP1_FEATURE_MIPI_CSI2
-> -		  | RKISP1_FEATURE_SELF_PATH,
-> +		  | RKISP1_FEATURE_SELF_PATH
-> +		  | RKISP1_FEATURE_DUAL_CROP,
->  };
->  
->  static const char * const rk3399_isp_clks[] = {
-> @@ -527,7 +528,8 @@ static const struct rkisp1_info rk3399_isp_info = {
->  	.isr_size = ARRAY_SIZE(rk3399_isp_isrs),
->  	.isp_ver = RKISP1_V10,
->  	.features = RKISP1_FEATURE_MIPI_CSI2
-> -		  | RKISP1_FEATURE_SELF_PATH,
-> +		  | RKISP1_FEATURE_SELF_PATH
-> +		  | RKISP1_FEATURE_DUAL_CROP,
->  };
->  
->  static const struct of_device_id rkisp1_of_match[] = {
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> index dd77a31e6014..755d319b568e 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> @@ -447,8 +447,9 @@ static void rkisp1_rsz_set_sink_crop(struct rkisp1_resizer *rsz,
->  	/* Not crop for MP bayer raw data */
+Use memdup_array_user() which checks for overflow.
 
-	/* Not crop for MP bayer raw data, or for devices lacking dual crop. */
+While at it, include <linux/string.h>.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Fixes: fbb0de795078 ("Add udmabuf misc device")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+v2: - Use memdup_array_user()   [Kees Cook]
+    - Use sizeof(*list)   [Gustavo A. R. Silva]
+    - Add include <linux/string.h>
 
-I can handle this when applying.
+v1: https://lore.kernel.org/all/3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr/
 
->  	mbus_info = rkisp1_mbus_info_get_by_code(sink_fmt->code);
->  
-> -	if (rsz->id == RKISP1_MAINPATH &&
-> -	    mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER) {
-> +	if ((rsz->id == RKISP1_MAINPATH &&
-> +	     mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER) ||
-> +	    !rkisp1_has_feature(rsz->rkisp1, DUAL_CROP)) {
->  		sink_crop->left = 0;
->  		sink_crop->top = 0;
->  		sink_crop->width = sink_fmt->width;
-> @@ -635,7 +636,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
->  	struct v4l2_subdev_state *sd_state;
->  
->  	if (!enable) {
-> -		rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
-> +		if (rkisp1_has_feature(rkisp1, DUAL_CROP))
-> +			rkisp1_dcrop_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
->  		rkisp1_rsz_disable(rsz, RKISP1_SHADOW_REGS_ASYNC);
->  		return 0;
->  	}
-> @@ -646,7 +648,8 @@ static int rkisp1_rsz_s_stream(struct v4l2_subdev *sd, int enable)
->  	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
->  
->  	rkisp1_rsz_config(rsz, sd_state, when);
-> -	rkisp1_dcrop_config(rsz, sd_state);
-> +	if (rkisp1_has_feature(rkisp1, DUAL_CROP))
-> +		rkisp1_dcrop_config(rsz, sd_state);
->  
->  	v4l2_subdev_unlock_state(sd_state);
->  
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/dma-buf/udmabuf.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index c40645999648..5728948ea6f2 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/slab.h>
++#include <linux/string.h>
+ #include <linux/udmabuf.h>
+ #include <linux/vmalloc.h>
+ #include <linux/iosys-map.h>
+@@ -314,14 +315,13 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
+ 	struct udmabuf_create_list head;
+ 	struct udmabuf_create_item *list;
+ 	int ret = -EINVAL;
+-	u32 lsize;
+ 
+ 	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+ 		return -EFAULT;
+ 	if (head.count > list_limit)
+ 		return -EINVAL;
+-	lsize = sizeof(struct udmabuf_create_item) * head.count;
+-	list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
++	list = memdup_array_user((void __user *)(arg + sizeof(head)),
++				 sizeof(*list), head.count);
+ 	if (IS_ERR(list))
+ 		return PTR_ERR(list);
+ 
 -- 
-Regards,
+2.43.2
 
-Laurent Pinchart
 
