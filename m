@@ -1,130 +1,110 @@
-Return-Path: <linux-media+bounces-5377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5378-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2238D859845
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 18:47:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB8385988C
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 19:27:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCA95281706
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 17:47:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92571281B64
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 18:27:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D4146F088;
-	Sun, 18 Feb 2024 17:47:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A95C16F085;
+	Sun, 18 Feb 2024 18:27:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="SD9wlefO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mTNVOFjm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F81A376EE
-	for <linux-media@vger.kernel.org>; Sun, 18 Feb 2024 17:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FDDE57E;
+	Sun, 18 Feb 2024 18:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708278429; cv=none; b=V69gCQEJvbt+ZcpC5USZOx+SbsSWAe2EZlrqAhOlPh78L3awrN+auVmvYIYh/DDt3qntfavmbZ+vh+FFKdYtul6Gwl3DHv045lTsq8TP38UXDX/8PSkQ7d72NkSRlE8aPii/h0PjvbvK4+dKAaDKjgmc9ZgF31LhFClkzfmimbg=
+	t=1708280854; cv=none; b=cxBqwIduAUl10xuFw+yQRPd3YnOUXs+7O64I0qPJpi5xo2Xx6+ZxlzFa2pU5ExQUW1DL0phWjgNjsW3xsbthipCuHYyKHrhnmTAjXIdo8Uq8l43I3cOpP97nqqnmM67x3eshJ7LTJoV6sN8VG5O39IY0RR9psOn6abV6Vfcu8HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708278429; c=relaxed/simple;
-	bh=72fk0PVXRZ8Q4JWxUxUYDfHppG9f2BAjRRu5pbDdVro=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WFCoDNqRCDRqN6GOEgueRifsWTckX/9exXjhruSeVHrRVGKV9EQstCBHTaJxmy110/BQHtBMWUmw+n/XZG3E+UwAZdGBHL6o8aTJbqyp6s8EJyKypv1huphKHrxvowmnPn0p3KkvvJaXThRlDYXOpxjQ7ggaFpFEi3QAjLAPhto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=SD9wlefO; arc=none smtp.client-ip=80.12.242.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from fedora.home ([92.140.202.140])
-	by smtp.orange.fr with ESMTPA
-	id blFbr8qYHiCLsblFer7StJ; Sun, 18 Feb 2024 18:46:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1708278417;
-	bh=y2+kKbrWEFY2/pmLK9szqs3+euOSxAcesJDdReAip00=;
-	h=From:To:Cc:Subject:Date;
-	b=SD9wlefOwXg6avVhwSrVQdg+pRLNLNGc+ZUkn8lC/1XFjrHZc30uIj2jPvkEWP5cb
-	 wiHSjYsY5V2op+Ln67qbUlLXw/7k3gDzmSapsEgNjU2FE7ZQFZeRAuDAkPHNJi0+9i
-	 3O0ClCSTsfy7DletOKheud1v1mlIm1LkH2827FumbJLNPbd7ozcZdiM34zTIQM6eIp
-	 iFy+zsBoGPfT58YXmqfV0/faepuFDWLu0whT+sljy78xCEZdC8SGTXALv3bim/xS+r
-	 z6Hjxmm8jvIpbKthLpg3OcdQEbqDKstm8BPQdu3EnvoPuV1rqWapIbUpBqLWwioruD
-	 Hs+GmnM6RYFgQ==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 18 Feb 2024 18:46:57 +0100
-X-ME-IP: 92.140.202.140
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: gustavo@embeddedor.com,
-	keescook@chromium.org,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v2] udmabuf: Fix a potential (and unlikely) access to unallocated memory
-Date: Sun, 18 Feb 2024 18:46:44 +0100
-Message-ID: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.43.2
+	s=arc-20240116; t=1708280854; c=relaxed/simple;
+	bh=TUthxYyUEHuO74Lh6HcqiWly+WRYc2MjeEeGfpBGnMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Of2lJvClYYvDhIY9IVLxCK4Fc9DmMD0WX97cUZZMFqmE0MAX8cpguPW70CELIePmN1rR5WSykrUeBpiWbA08DUUYZCS1JhDHPYyEcAdkmZl29AVXhtrYaCzuaixMfXL80s6YIg73APu3xRZgmPzJjqGb7+RHcrLklvKBkRfJ3qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mTNVOFjm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56E37480;
+	Sun, 18 Feb 2024 19:27:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1708280843;
+	bh=TUthxYyUEHuO74Lh6HcqiWly+WRYc2MjeEeGfpBGnMo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mTNVOFjmPTAypEwrtMCf4mfuoFWGYhm/p+bkVdAGecv/ly5BRoiqNm2gVA12CKy/I
+	 FMpmOcKcUrCFUrO98AjrdzKRVk3pL/emqygq5TSKt/pv2BXWy7gBsSeExIsYsUZ5i8
+	 GJpekJ7kGDF2fGKXSCruj1okIbfcxIxDO25K+onw=
+Date: Sun, 18 Feb 2024 20:27:33 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Elder <paul.elder@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, kieran.bingham@ideasonboard.com,
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
+	aford173@gmail.com, Dafna Hirschfeld <dafna@fastmail.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v12 06/12] media: rkisp1: Add version enum for i.MX8MP ISP
+Message-ID: <20240218182733.GI7120@pendragon.ideasonboard.com>
+References: <20240216095458.2919694-1-paul.elder@ideasonboard.com>
+ <20240216095458.2919694-7-paul.elder@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240216095458.2919694-7-paul.elder@ideasonboard.com>
 
-If 'list_limit' is set to a very high value, 'lsize' computation could
-overflow if 'head.count' is big enough.
+Hi Paul,
 
-In such a case, udmabuf_create() would access to memory beyond 'list'.
+Thank you for the patch.
 
-Use memdup_array_user() which checks for overflow.
+On Fri, Feb 16, 2024 at 06:54:52PM +0900, Paul Elder wrote:
+> Add to the version enum an entry for the i.MX8MP ISP.
+> 
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> ---
+> New in v12:
+> - split out from "media: rkisp1: Add match data for i.MX8MP ISP"
+> - changed the version enum name
+> ---
+>  include/uapi/linux/rkisp1-config.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 730673ecc63d..2d1c448a6ab8 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -179,12 +179,14 @@
+>   * @RKISP1_V11: declared in the original vendor code, but not used
+>   * @RKISP1_V12: used at least in rk3326 and px30
+>   * @RKISP1_V13: used at least in rk1808
+> + * @RKISP1_V_IMX8MP: used in at least imx8mp
 
-While at it, include <linux/string.h>.
+We need to also update the comments that references version numbers in
+the same file. I'll send a v12.1 as a reply.
 
-Fixes: fbb0de795078 ("Add udmabuf misc device")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-v2: - Use memdup_array_user()   [Kees Cook]
-    - Use sizeof(*list)   [Gustavo A. R. Silva]
-    - Add include <linux/string.h>
+>   */
+>  enum rkisp1_cif_isp_version {
+>  	RKISP1_V10 = 10,
+>  	RKISP1_V11,
+>  	RKISP1_V12,
+>  	RKISP1_V13,
+> +	RKISP1_V_IMX8MP,
+>  };
+>  
+>  enum rkisp1_cif_isp_histogram_mode {
 
-v1: https://lore.kernel.org/all/3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr/
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/dma-buf/udmabuf.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index c40645999648..5728948ea6f2 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/shmem_fs.h>
- #include <linux/slab.h>
-+#include <linux/string.h>
- #include <linux/udmabuf.h>
- #include <linux/vmalloc.h>
- #include <linux/iosys-map.h>
-@@ -314,14 +315,13 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
- 	struct udmabuf_create_list head;
- 	struct udmabuf_create_item *list;
- 	int ret = -EINVAL;
--	u32 lsize;
- 
- 	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
- 		return -EFAULT;
- 	if (head.count > list_limit)
- 		return -EINVAL;
--	lsize = sizeof(struct udmabuf_create_item) * head.count;
--	list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
-+	list = memdup_array_user((void __user *)(arg + sizeof(head)),
-+				 sizeof(*list), head.count);
- 	if (IS_ERR(list))
- 		return PTR_ERR(list);
- 
 -- 
-2.43.2
+Regards,
 
+Laurent Pinchart
 
