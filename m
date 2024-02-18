@@ -1,140 +1,163 @@
-Return-Path: <linux-media+bounces-5369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5370-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146618594F5
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 07:23:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77467859699
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 12:08:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74D67283A57
-	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 06:23:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C91BD1F21508
+	for <lists+linux-media@lfdr.de>; Sun, 18 Feb 2024 11:08:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A10863B8;
-	Sun, 18 Feb 2024 06:23:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39E564F1E8;
+	Sun, 18 Feb 2024 11:08:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="XuRurxUj"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CK2n4Kvt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03215673;
-	Sun, 18 Feb 2024 06:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062991E526
+	for <linux-media@vger.kernel.org>; Sun, 18 Feb 2024 11:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708237391; cv=none; b=UXdxUc1Dh1a42jmX41SFjesL8ef1yZQ/ITAFLTICSV20mp9QqBO9haBqUSslYcwv82sw9Ezc16/gwP1YFCXBuj1GooCUAdjrbyzFys2mUlLrptYTTzmSHcRmHjecr6imesqdNCS/Xu7WWgB+rOsidQmPADvT9H1JlE4MBgv/dvw=
+	t=1708254491; cv=none; b=OZtULz90x49nOSUDN6rSrdp522pRS98ES9y6rZz/X2UiKhPFtcchiQ6mxrvTFNqgtRmQFlPcqPEwrv90fYTduvCG8XovXPZZt74edAW77mZkagO8ihQjKFHZMKJbiLOW99eF2ZshJdNjgTuoAfW742fqlZJL1B0BMgwPkiV+FNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708237391; c=relaxed/simple;
-	bh=TpNmMKu6WpziuYbuJj9ICNiDX2B0lv7+wTrPai/vhQ8=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=lUtjKlhnERTtVYj9WxAYoWQ488u3F4GZTmlAEiT+2IqEtrDu4IWUs6vBN9xFdBPeSb9xry6KCazt2+gJARqJv8HWcKPz5GJtN/rszIoOkNcxQ1icwGxURVELqMJG1Lyigo60ISv1Pg/t+YZlekmH5Qa/1MUPJc2BHpk9X02HA9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=XuRurxUj; arc=none smtp.client-ip=162.62.58.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1708237377; bh=gi2NcGCCj6PfFOIK2hkne1naRKBj6Q9hH3RQxbNAwco=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XuRurxUjTBjoayvJgkymXHdpDJDFeivn+sqlDQt82qXK5nJN0GJEjPBVvk9FZYVSr
-	 9XmCYIKdnQExrjviyOKRSgOddSuS6oMVKBhySRxkmVbkIBX2omceElCtuN9oAkms0H
-	 5yokKijQ0MIU1lBJwMZTK2yi67ydJlJRzyo/hL1s=
-Received: from pek-lxu-l1.wrs.com ([111.198.228.140])
-	by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
-	id 5B5B06A1; Sun, 18 Feb 2024 14:22:53 +0800
-X-QQ-mid: xmsmtpt1708237373t67boyyzw
-Message-ID: <tencent_8665C99F2EF26EFF0CAF67DF86C592E74606@qq.com>
-X-QQ-XMAILINFO: MOpJcPT3Yy24wX/PWmzIjsZ2p88WhJoar8OjDsb57NIXVmM231PGujqEA5GSG4
-	 UJ37+zIeeQKSm/mamnZMI2kpbtMTGUww+JG6xsg+3fLRGe4B8WyEH43BsQD1nWf0M2A8oq+OHvS3
-	 V2r7TL9m2qNcNPrAE3q+ix3wEgEC9n3fS6+GmSpIpr0ZWm7UxYysTDdYY5ChCsmRM7fyOHjhRPHK
-	 bkgJBbR2TutT5iIO97LJqBAB7aAlniThYY0JzO54B8VpQpn+L5E8Bf7h+hIv57FZ4l+c6UDq1sK8
-	 hNpYO9PX1X+7jU2Kfz4fdtOPvIum+y7rMA1yZGwJkJnceeOTnt6GTEZo18wy4qGiJinAKobzOw4P
-	 lxPvqAUCB2GrD9HdjYzzga3k1/edxGYpF/qSK403qjJhvaeAjNvvQBwJOZla/TSioNPNJrYazSXU
-	 0MMG3Q1zFSFgK9SjNp0Nd/LZYX9ZkP9JKyQ7hvFCNGAuZz3SB5Chi/g8AZ15XU33wzrb6i5f+1fQ
-	 dtr32vCIF17/JhqAKvQa06fbLE9ELcmFX2pWLJETkncCINy76+BkVTrXoDXEC75e/pTC2GX3ST2c
-	 2/6XP8W4bz/cNGzLxu2nkarrBIZ/qFlb8xmFdVwqLyoJtKwkeyud3p3vNCt1ldlz06LLCtmj10QW
-	 P+ck/G0CWR4VrDQHXoOKGo+eR1dJyZHb/old3BL8PQ3jNONGtxYnCsQNsGSMm67mfP4qy6GJL2PV
-	 sHGby0w2zCcMMf9br913dFW1URF8Bto65UttSJz1wD6LorZg04SFNuj7SL7P+ROKmOVNNjSzhTvH
-	 AcP80QaITTUwB1eIFfuK31D8HTZx42rv3oSblBJmCK0CPsfQlJ2eszBDEPFYGwABoTYnPtp/sYrJ
-	 7OMLjDcOpU9xXiKem52/6Tap9YhQR5CfeCJ/o1QjBoxUJzbaGvvQUlDdRTB8Y5dhtRGx1ZazY95h
-	 L9Hadj9CJ6TxqfcHZRqQ==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-From: Edward Adam Davis <eadavis@qq.com>
-To: greg@kroah.com
-Cc: eadavis@qq.com,
-	isely@pobox.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mchehab@kernel.org,
-	pvrusb2-owner@isely.net,
-	pvrusb2@isely.net,
-	syzbot+ce750e124675d4599449@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH usb] media/pvrusb2: fix uaf in pvr2_context_set_notify
-Date: Sun, 18 Feb 2024 14:22:54 +0800
-X-OQ-MSGID: <20240218062253.101675-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2024021716-accent-islamist-6a87@gregkh>
-References: <2024021716-accent-islamist-6a87@gregkh>
+	s=arc-20240116; t=1708254491; c=relaxed/simple;
+	bh=3TKvhQ3vxwW/peESH3bVfmlT/EEYE6U5+HjKrIuS+lA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZRln9zXY6c/6aVZNiFdOlXMQSY9YVHT4JMf+RIICZGJByjkUZM+DmJUBpIFlo8UWI3WuUD+uFiBvmUjc8wtZTK8uWbx+iTzuv0aBG5dBOITwXjm9uiLIMSRC0LbJ7pfaytZYpPbsmkUgbrUa8M2zo3sybDtC1N2rnqk+EZj6NZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CK2n4Kvt; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708254488;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JHmmZL1fNh88Qylka4+U/ZSAGTN1aKufKX/Quq5dF9M=;
+	b=CK2n4KvtmPjdxeb0eDbZifvLEsuoboMDM3D5+rpWRT9xK8uEzo0fZZHY/8o4ZBJu/XaxMo
+	mXpY8nWrmHtJdvx6HdBcuzqFu4Z3V/8tRcWviDb3+MU+xgZTtn0RtQaH11knC4ZItDzS3L
+	TVGIdc6nKQ95/xDp/8plcEOq41BuOfg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-155-srOj_-NRMu663I3qxLb0IQ-1; Sun, 18 Feb 2024 06:08:06 -0500
+X-MC-Unique: srOj_-NRMu663I3qxLb0IQ-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a2f71c83b7eso286800466b.1
+        for <linux-media@vger.kernel.org>; Sun, 18 Feb 2024 03:08:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708254485; x=1708859285;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JHmmZL1fNh88Qylka4+U/ZSAGTN1aKufKX/Quq5dF9M=;
+        b=qLKylllEqFCnBZoUuipxmD31YRoFsmgzof9EPW5CMsfM/8cmz4l2KVE90taob+3boK
+         McMqIwgdAfGfUGmzXXOY3MUYREuf1PFzr0wuugd+Vg1kGCVKRMSXHjOm+Ii0O4R2ybRd
+         dO6EZq4DC/hetJquOZWmzF40wLe0DHfyIGUlr/gQie1sPIFs9KdU0oryF6Yzit1E4RH2
+         DugeKB7SgByOhTa4qOYDTRDlh97ByjO4uLLRY+vNPDap4AMp/aX5vEdXcisBRu8zTd3I
+         t+YsX2L578z4bQIy6RISFUa1YN3BnLNAr20o+cgOzP6J1AbO8x1Qj6Msu9ej6/WJO62A
+         DL3A==
+X-Forwarded-Encrypted: i=1; AJvYcCUwmBG70JPrjk+iVqYWxtAJ0amgzmy4ppfqjSnUBX86fYR5w33gqpUwYZ5E2QHR5CX3O5cM3z1yWPY8N9o3M7fAJ1loON7yWEshyFo=
+X-Gm-Message-State: AOJu0YzhLlXd1jCfPz33o2raXFenLxIZMFPdClCdf/Lu1eF1YKLMmYWv
+	ainTjf4+/GRkP1Sizrkho+2eQJQg/hITDRrMEL5bmBRd18nvbg/qzl+WtCZkeuQJcxD2Eh8G6j1
+	MLq7o9K52VTv1OL1e/ed3tgHV1Vz/HsCLgQZfIWbkEdihyQ/9f/r9rInE+syn
+X-Received: by 2002:a17:906:231a:b0:a3e:8429:a927 with SMTP id l26-20020a170906231a00b00a3e8429a927mr428130eja.68.1708254485288;
+        Sun, 18 Feb 2024 03:08:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFCDSSiqE95u+4ghdM0qpsXmw/Pn3pWXEEMl5iBEArG7e7qJn0G9Z2BGOgnFtrEJrQRc21/TQ==
+X-Received: by 2002:a17:906:231a:b0:a3e:8429:a927 with SMTP id l26-20020a170906231a00b00a3e8429a927mr428122eja.68.1708254485033;
+        Sun, 18 Feb 2024 03:08:05 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id tz3-20020a170907c78300b00a3e0b7e7217sm1752185ejc.48.2024.02.18.03.08.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Feb 2024 03:08:04 -0800 (PST)
+Message-ID: <1e42993f-bdb3-471a-9c34-04a23f5e71b3@redhat.com>
+Date: Sun, 18 Feb 2024 12:08:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 9/9] media: atomisp: Implement link_setup op for ISP
+ subdev MC entity
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
+ Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20240217112438.15240-1-hdegoede@redhat.com>
+ <20240217112438.15240-10-hdegoede@redhat.com>
+ <CAHp75VfK6QKA4hq0_LNe1_i44M_6j65aYGnU7XSEF0M-NWLs7A@mail.gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75VfK6QKA4hq0_LNe1_i44M_6j65aYGnU7XSEF0M-NWLs7A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Sat, 17 Feb 2024 08:41:33 +0100, Greg KH wrote:
-> On Fri, Feb 16, 2024 at 03:30:47PM +0800, Edward Adam Davis wrote:
-> > [Syzbot reported]
-> > BUG: KASAN: slab-use-after-free in pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
-> > Read of size 4 at addr ffff888113aeb0d8 by task kworker/1:1/26
-> > 
-> > CPU: 1 PID: 26 Comm: kworker/1:1 Not tainted 6.8.0-rc1-syzkaller-00046-gf1a27f081c1f #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
-> > Workqueue: usb_hub_wq hub_event
-> > Call Trace:
-> >  <TASK>
-> >  __dump_stack lib/dump_stack.c:88 [inline]
-> >  dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
-> >  print_address_description mm/kasan/report.c:377 [inline]
-> >  print_report+0xc4/0x620 mm/kasan/report.c:488
-> >  kasan_report+0xda/0x110 mm/kasan/report.c:601
-> >  pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
-> >  pvr2_context_notify drivers/media/usb/pvrusb2/pvrusb2-context.c:95 [inline]
-> >  pvr2_context_disconnect+0x94/0xb0 drivers/media/usb/pvrusb2/pvrusb2-context.c:272
-> > 
-> > Freed by task 906:
-> > kasan_save_stack+0x33/0x50 mm/kasan/common.c:47
-> > kasan_save_track+0x14/0x30 mm/kasan/common.c:68
-> > kasan_save_free_info+0x3f/0x60 mm/kasan/generic.c:640
-> > poison_slab_object mm/kasan/common.c:241 [inline]
-> > __kasan_slab_free+0x106/0x1b0 mm/kasan/common.c:257
-> > kasan_slab_free include/linux/kasan.h:184 [inline]
-> > slab_free_hook mm/slub.c:2121 [inline]
-> > slab_free mm/slub.c:4299 [inline]
-> > kfree+0x105/0x340 mm/slub.c:4409
-> > pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:137 [inline]
-> > pvr2_context_thread_func+0x69d/0x960 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
-> > 
-> > [Analyze]
-> > Task A set disconnect_flag = !0, which resulted in Task B's condition being met
-> > and releasing mp, leading to this issue.
-> > 
-> > [Fix]
-> > Place the disconnect_flag assignment operation after all code in pvr2_context_disconnect()
-> > to avoid this issue.
-> > 
-> > Reported-and-tested-by: syzbot+ce750e124675d4599449@syzkaller.appspotmail.com
-> > Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> 
-> What commit id does this fix?
-e5be15c63804 ("V4L/DVB (7711): pvrusb2: Fix race on module unload")
-> 
-> And should it be cc: stable as well?
-I checked the stable git tree and it introduced e5be15c63804. I think we need to
-cc stable.
+Hi,
 
-thanks,
-edward
+On 2/17/24 19:52, Andy Shevchenko wrote:
+> On Sat, Feb 17, 2024 at 1:25 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> The atomisp driver's Android heritage makes it weird in that
+>> even though it uses MC + subdev-s it is designed to primarily
+>> be controlled through its /dev/video# node.
+>>
+>> It implements s_input on /dev/video# to select which sensor to use,
+>> while ignoring setup_link calls to enable a link to another sensor.
+>>
+>> Add support for selecting the active sensor the MC way by adding
+>> setup_link support.
+> 
+> ->link_setup()
+> 
+>> The implementation is a bit convoluted due to the atomisp driver's
+>> heritage.
+> 
+> ...
+> 
+>>  #include "atomisp_common.h"
+>>  #include "atomisp_compat.h"
+>>  #include "atomisp_fops.h"
+>> +#include "atomisp_ioctl.h"
+>>  #include "atomisp_internal.h"
+> 
+> Hmm... Perhaps keep it ordered?
+
+Yeah my bad, I intended to keep it ordered but I somehow got it wrong.
+this and the commit msg remark are both fixed in my personal tree now.
+
+> 
+> ...
+> 
+>> +       mutex_lock(&isp->mutex);
+> 
+> Side note: Are you planning to use cleanup.h at some point?
+
+Maybe. I have no objections against. For functions needing
+e.g. heap memory only locally it certainly makes sense.
+
+Regards,
+
+Hans
+
+
+
+> 
+>> +       ret = atomisp_pipe_check(&asd->video_out, true);
+>> +       if (ret == 0)
+>> +               asd->input_curr = i;
+>> +       mutex_unlock(&isp->mutex);
+>> +
+>> +       return ret;
+> 
+> 
 
 
