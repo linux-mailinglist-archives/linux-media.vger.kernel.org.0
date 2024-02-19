@@ -1,183 +1,133 @@
-Return-Path: <linux-media+bounces-5438-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5439-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5137585ABC7
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 20:08:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E98485ABF6
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 20:24:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76F9B1C213D7
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 19:08:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1381B20F73
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 19:24:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B89394F5F2;
-	Mon, 19 Feb 2024 19:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E59550A6B;
+	Mon, 19 Feb 2024 19:24:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="atM/CvQ3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eu41wML8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AA74F1F5;
-	Mon, 19 Feb 2024 19:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05A35C99
+	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 19:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708369710; cv=none; b=K2tPTbCe90WDMT/Sf0+Xxk9C0I7Ww/x3ntW8jvte4/pEqR5P+GmL3qw07v2AzHlXq3nwuT6jAItimxb6hEtvibo5Oul+kOGrpPxrXjR6B3Yyj+FKsODeC6dVRqc+Fp2JfaeWZuuHzmYOJplzDfFioDw0U6J6tOfdhZBcZc98f+I=
+	t=1708370680; cv=none; b=O7U0bDf7836xUEyxvrrRXzRi04zUme8El/1CDtBY9CWNLsvZ/2kD6QOaEa6lsbtRYqkP8PquJ8NkeyPVZLRhvB2F/8S/rz7vmuxklz7Nj9stpvOE9Y3W2ox4C0hX2qWEuwKIVM7dH52xLyXoFNL5X4leoAOfvOot5Fot9Er9EwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708369710; c=relaxed/simple;
-	bh=Qgm4yRczBnXgjpxAD+i1bsbP2xXCEc56/SoGjrcpzPo=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:To:Date; b=IhsQqn8nJfn+/YdX3uuVkUY1Pscs9ttCr9naf3/GLoKglfjPCogc1hfwgjxFNVC/3DsMyD07xjFg+pIW/ffEIJMNqhQiHtZvK2OWJ0HccfgdZk0lroOjn7HQbdVXB1CJXdYcVBrqdCs+7mRW5iYrCwaYL2PxXOxrUsJsGzflh+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=atM/CvQ3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE033C433C7;
-	Mon, 19 Feb 2024 19:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708369709;
-	bh=Qgm4yRczBnXgjpxAD+i1bsbP2xXCEc56/SoGjrcpzPo=;
-	h=In-Reply-To:References:Subject:From:To:Date:From;
-	b=atM/CvQ3iM2Anizb1lzybkxvKx4jL0MqzynEc9xfeXYO4jST8XRzcHkXWB1rVSoXm
-	 QzyUkIxjMCH9R5YY/PaB5tsF3NM1FDm8ykl4d3vXKA5asaVD7k3T/dyEoh1VZZzkjV
-	 kIr74/S+E61h0sUkZdHfsYrdNzab1k3HMtQZRRFEGMUr+2ET8tOcs0ZuNnfT1ZRisK
-	 aGWGhy6Ua4SklPFh8q/0UhO+nzJXgQ6wsbcSkaoqa5RFwR1fvwJmxCB+5UNPA+m8me
-	 VnACdEWHC3NqCsBvhJZUamXJbuuKbNyTaBxaPGys8l0JPiznLYdaSAmdLDp4bqSWW0
-	 hCsk3eP26kWrw==
-Message-ID: <e760847bd911671f1e364271888481fd.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1708370680; c=relaxed/simple;
+	bh=+7RYe4hdrSrfp0K7I1usaPBY7XndsDc1j10wOZqP+X8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XFcPMUK8Dc3ka2sQhBqkbQ84NvKKUxlUHMKVk90yBX/UV1noCUJVZTUxpF0Maj2ljoB0wG2JJqRTONAWSqn0W6BfxUkuvU1hDsqY+qT6Y0E7dPVvjaCgstkofsA72h7Mvu+GQ0HlXHKnSusjNY8WJxkr29uAI5QrJRLq5M+n1X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eu41wML8; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-412698ac6f9so5326645e9.0
+        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 11:24:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708370676; x=1708975476; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GdQ2CT7PNWX/unl4Eff66KtywtI6Y0FjDftHF6BPnlM=;
+        b=eu41wML8Gucxb8UhTk7P3E3XSrM6PUDB1iSmw99nw0/YlLuoMuo1ig+iBy1zs5w1Fp
+         pW5lhcPXjC+7HFnOnQ7DNVjxCvP2LgPWxwOCrN9k6g1NT8W5YcqkruXjM0AVR7kQ5Bz7
+         iySbU9Le1/yJBlrtgE4/KkZuRvUpAtz49WdgIJZnpTLXn6BkKTKlbCqj1q+jNWbHX10F
+         TDLEumnDdrv7vNIqFwN9ig6pH7KyggPspZTZQxDgXM+tL6Q3Yj2qfL8v5IIdBFFpaf7N
+         yfqGf9Qg6Aa1IWNtJIUqE8KTcJ04b866BZP59STRTKgRwbweO34u2yncqWpf32q+CFXN
+         UQVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708370676; x=1708975476;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GdQ2CT7PNWX/unl4Eff66KtywtI6Y0FjDftHF6BPnlM=;
+        b=kPMS8PCwv59QRT5sarVti3Zd/pGbTt6SSbqyqueuiCJcM3eG8OsOL2kjLb257RX9VE
+         oHnOji3233p/SDF37Vp3nM0pCnlthM8vde+VP1L9ZQPg+QoukHP9DCQhVhZo13wfTsS+
+         Ka3U6iyWlpcbXlMwz6ggI7NyWwAj8dIyC+3meftoSS2dMYMjI4I0cbovD5UpjnjDiHde
+         p2SLJ1/+anm0rYDKmVxo384QqAFzV+tq2SwGjJxzI7moNIxyweo2s93b0svrAvhi+bi4
+         /6OyKpw6/DTJ5d1QIvrCE0Bb8avY0dp50pLraRryas693i95C9VKXPd32jr+UVtq42BU
+         iyjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUR9AazEgUQU0lkqDNDYIvY2ZfRAuPbPEJCFbcMl1scOphHf6yeHcKnRx8e3dvk4AtLmjzu88G0FJY/yrsfeLCx5ueFbMUQmUbotTk=
+X-Gm-Message-State: AOJu0Yxq4YBA17BAXk1a3fNPhurFvoAoNdxkuS5XJVxdAppBUJ6XKWl8
+	gG3HZ+iqjK19CSbtb8sAnWuehshNja19WiOwm8hrzQ+Ak7ccLLJOazmfo3yVYCY=
+X-Google-Smtp-Source: AGHT+IH3Q4LItHoVsfFRoOPpaA/MlInIIiOmLI7h0LcRzWOpJobbqBDxrFPDKqYVKXMk7xV+XBWXqg==
+X-Received: by 2002:a05:600c:1c8d:b0:411:c8a7:7b09 with SMTP id k13-20020a05600c1c8d00b00411c8a77b09mr11843898wms.10.1708370675773;
+        Mon, 19 Feb 2024 11:24:35 -0800 (PST)
+Received: from [192.168.232.100] (31-187-2-156.dynamic.upc.ie. [31.187.2.156])
+        by smtp.gmail.com with ESMTPSA id l37-20020a05600c1d2500b004126afe04f6sm1388495wms.32.2024.02.19.11.24.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Feb 2024 11:24:35 -0800 (PST)
+Message-ID: <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
+Date: Mon, 19 Feb 2024 19:24:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <02461595-16b3-4fea-a029-54190e10e6f5@linaro.org>
-References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org> <38e7e80f61f7c67c984735cf55c3dfb3.sboyd@kernel.org> <02461595-16b3-4fea-a029-54190e10e6f5@linaro.org>
-Subject: Re: [PATCH] clk: constify the of_phandle_args argument of of_clk_provider
-From: Stephen Boyd <sboyd@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, Jonathan Hunter <jonathanh@nvidia.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Turquette <mturquette@baylibre.com>, NXP Linux Team <linux-imx@nxp.com>, Nishanth Menon <nm@ti.com>, Peng Fan <peng.fan@nxp.com>, Russell King <linux@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Sudeep Holla <sudeep.holla@arm.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, Vinod Koul <vkoul@kernel.org>, alsa-devel@alsa-project.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-omap@vger.kernel.org, linux-phy@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, patches@opensource.cirrus.com
-Date: Mon, 19 Feb 2024 11:08:27 -0800
-User-Agent: alot/0.10
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Marc Gonzalez <mgonzalez@freebox.fr>, DT <devicetree@vger.kernel.org>,
+ linux-media <linux-media@vger.kernel.org>,
+ MSM <linux-arm-msm@vger.kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Pierre-Hugues Husson <phh@phh.me>
+References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+ <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
+ <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Quoting Krzysztof Kozlowski (2024-02-15 23:12:29)
-> On 16/02/2024 00:12, Stephen Boyd wrote:
-> > Quoting Krzysztof Kozlowski (2024-02-08 08:37:10)
-> >> None of the implementations of the get() and get_hw() callbacks of
-> >> "struct of_clk_provider" modify the contents of received of_phandle_ar=
-gs
-> >> pointer.  They treat it as read-only variable used to find the clock to
-> >> return.  Make obvious that implementations are not supposed to modify
-> >> the of_phandle_args, by making it a pointer to const.
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >> ---
-> >=20
-> > This will almost certainly break the build once it is merged to
-> > linux-next. What's your plan to merge this?
->=20
-> First problem is that it might not apply... I prepared it on next to be
-> sure all subsystems are updated.
->=20
-> The idea is to get reviews and acks and then:
-> 1. Maybe it applies cleanly to your tree meaning there will be no
-> conflicts with other trees,
-> 2. If not, then I can keep rebasing it and it should be applied after rc1.
->=20
+On 19/02/2024 5:44 p.m., Dmitry Baryshkov wrote:
+> On Mon, 19 Feb 2024 at 19:29, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>>
+>> On 19.02.2024 18:18, Marc Gonzalez wrote:
+>>> From: Pierre-Hugues Husson <phhusson@freebox.fr>
+>>>
+>>> On our msm8998-based device, calling venus_sys_set_power_control()
+>>> breaks playback. Since the vendor kernel never calls it, we assume
+>>> it should not be called for this device/FW combo.
+>>>
+>>> Signed-off-by: Pierre-Hugues Husson <phhusson@freebox.fr>
+>>> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+>>> ---
+>>
+>> FWIW, this is also broken on other SoCs.. 8280/8350 and 6115
+>> to name a couple.
+> 
+> Then let's just disable it until it gets unbroken?
 
-The struct clk based version is probably not going to be used in any new
-code. If you split the patch up and converted the struct clk based ones
-first then that would probably apply without breaking anything, because
-new code should only be using the struct clk_hw version.
+Its functional on most of our upstream stuff though, why switch if off 
+unless necessary ?
 
-The struct clk_hw version could be done in two steps. Introduce another
-get_hw callback with the const signature, and then update the world to
-use that callback, finally remove the old callback. We could call this
-callback 'get_clk_hw'. This is probably more work than it's worth
-though, but at least this way we don't have to worry about applying
-after rc1.
+Maybe it should be an opt-in instead of an opt-out, TBH my own feeling 
+is its better to minimize the amount of work and opt as per the proposed 
+patch.
 
-Or perhaps we need to cast everything and use macros? It would be bad if
-the callback actually did something with the clkspec and we cast it to
-const, but your patch shows that nobody is doing that. We would get rid
-of this macro garbage once everything is converted.
+Perhaps the qcom vidc team can give insights on 8280xp and 8350 when we 
+come to tackling new HFI6XX and later SoCs ...
 
----8<---
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index 2253c154a824..8e5ed16a97a0 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -4818,7 +4818,7 @@ struct of_clk_provider {
- 	struct list_head link;
-=20
- 	struct device_node *node;
--	struct clk *(*get)(struct of_phandle_args *clkspec, void *data);
-+	struct clk *(*get)(const struct of_phandle_args *clkspec, void *data);
- 	struct clk_hw *(*get_hw)(struct of_phandle_args *clkspec, void *data);
- 	void *data;
- };
-@@ -4880,8 +4880,8 @@ EXPORT_SYMBOL_GPL(of_clk_hw_onecell_get);
-  *
-  * This function is *deprecated*. Use of_clk_add_hw_provider() instead.
-  */
--int of_clk_add_provider(struct device_node *np,
--			struct clk *(*clk_src_get)(struct of_phandle_args *clkspec,
-+int _of_clk_add_provider(struct device_node *np,
-+			struct clk *(*clk_src_get)(const struct of_phandle_args *clkspec,
- 						   void *data),
- 			void *data)
- {
-@@ -4914,7 +4914,7 @@ int of_clk_add_provider(struct device_node *np,
-=20
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(of_clk_add_provider);
-+EXPORT_SYMBOL_GPL(_of_clk_add_provider);
-=20
- /**
-  * of_clk_add_hw_provider() - Register a clock provider for a node
-diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-index 1293c38ddb7f..bfc660fa7c8f 100644
---- a/include/linux/clk-provider.h
-+++ b/include/linux/clk-provider.h
-@@ -1531,10 +1531,11 @@ struct clk_hw_onecell_data {
- 	}
-=20
- #ifdef CONFIG_OF
--int of_clk_add_provider(struct device_node *np,
--			struct clk *(*clk_src_get)(struct of_phandle_args *args,
-+int _of_clk_add_provider(struct device_node *np,
-+			struct clk *(*clk_src_get)(const struct of_phandle_args *args,
- 						   void *data),
- 			void *data);
-+
- int of_clk_add_hw_provider(struct device_node *np,
- 			   struct clk_hw *(*get)(struct of_phandle_args *clkspec,
- 						 void *data),
-@@ -1559,8 +1560,8 @@ int of_clk_detect_critical(struct device_node *np, in=
-t index,
-=20
- #else /* !CONFIG_OF */
-=20
--static inline int of_clk_add_provider(struct device_node *np,
--			struct clk *(*clk_src_get)(struct of_phandle_args *args,
-+static inline int _of_clk_add_provider(struct device_node *np,
-+			struct clk *(*clk_src_get)(const struct of_phandle_args *args,
- 						   void *data),
- 			void *data)
- {
-@@ -1614,6 +1615,12 @@ static inline int of_clk_detect_critical(struct devi=
-ce_node *np, int index,
- }
- #endif /* CONFIG_OF */
-=20
-+typedef struct clk *(*clk_src_get_fn)(const struct of_phandle_args *args, =
-void *data);
-+
-+#define of_clk_add_provider(np, get, data) ({				\
-+		_of_clk_add_provider(np, (clk_src_get_fn)(get), data);		\
-+})
-+
- void clk_gate_restore_context(struct clk_hw *hw);
-=20
- #endif /* CLK_PROVIDER_H */
+---
+bod
+
 
