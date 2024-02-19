@@ -1,145 +1,109 @@
-Return-Path: <linux-media+bounces-5407-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5408-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD5F859CF3
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 08:34:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CE1859E79
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 09:37:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4ACC9281006
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 07:34:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83ED1282350
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 08:37:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BCD520B11;
-	Mon, 19 Feb 2024 07:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E04721363;
+	Mon, 19 Feb 2024 08:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="agmGWt0G"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ge6DQLie"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A1822323
-	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 07:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A70D20315
+	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 08:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708328040; cv=none; b=Mfbeu2ouFIMr3vE3a4yj9GEVUD5mR5DFH8Dm8X00+gCp8htmnP6/n9cIhcg0AcjyEJL0ei9Re+sictIlTQZcDW6AEYyw737kfW3kbnpALfux1blw4yoFsymBemoxmlegcjdzQc6laweifhYAbqhwsMjmNQzXKcpeZuxS8/zDIQs=
+	t=1708331839; cv=none; b=saR8GhLwNOWXUQrQcZVVo5EKgYZ0kkDFivvhjwQNYlDZP6qznKehU+eam4U/mQjwungmyQt7gm1DX3bXwwBS42d1ndsL2DKbXhk+xhdCueUr292ehg3q+ycE3GkYvZCI7PrKk0ca1AnvTMKMHIa4QzUPxGPFgy/WJHEjYkJIgew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708328040; c=relaxed/simple;
-	bh=pSGqYWEkgA5r9fvAZaRNq9VpI+rNE64hzozwKd0Iv60=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=P/lvpKrKMeBx4rAQ83zv9GNGu9jJ6Q+O02YHpU5nBgUV5YL5c9dFrrrzYbgqGCcjblg5LjgPO47jU7JQWm8eYvX6d1OQx85c5/AvTv4zF1AJhBnWOIvAgodMyNqiIfMFmA7dhYQlEcA9uJLhfi6llgt4X5OKMd9PAyZ9+j3z57U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=agmGWt0G; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-512b25893c9so664015e87.3
-        for <linux-media@vger.kernel.org>; Sun, 18 Feb 2024 23:33:58 -0800 (PST)
+	s=arc-20240116; t=1708331839; c=relaxed/simple;
+	bh=tA/HjR4gNsKYDqxOmkzpm1jPCMw5rPMZeBApJ0Rh/cs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Djo/1mkPxP3wwQu5qfkEcnWwVZb+kJkwNLjY1HhOIxd2ikXmXbRWB0gY6eACWPsJG20WLzr1fXrjr3f2za05H0arZARFHvBBn1Pnp21jwbuDkLl4YWevOfBJx4Cnia7jqZJpkLM0Ni2fb6NWk1uzas3M04xCjBTh/Zxq9hLQTQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ge6DQLie; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a3e7f7b3d95so88503366b.3
+        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 00:37:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1708328037; x=1708932837; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+ng3gW4V3o0lgSkXW6LbE2EKjcIRK6fb4LZxE38g6CE=;
-        b=agmGWt0GYXvSMZ5nFELoKzr7zFdgt7JzmtUYPeiiRxQlJxcBoGgOylwgHzarSE/PTY
-         tMd1EuXOdLZH4pZ8dLddHn4tpz7r87EivJpJpv7W8qXRIGa+l+1YC4QUnpmh/0NFxJ93
-         Z509cUXTYLax9/aNTu/CbDLPUv3IJWLNWt4qGTK0MrcK4Vhge74X77GVWFKZtZ8IiB7R
-         N3lR7s/ZNj27Ps77ra8wHKaAswIaatdghJZ3rdc7diLlfN+MT16abFK4lnB4flsJ+bbe
-         JZuGw2fYSioAVUQtJihYeokp3zbnUK3y5CHrMKBVALcXAWqrNyuQIKui8Jn1Vr1jOkKR
-         hCqA==
+        d=linaro.org; s=google; t=1708331837; x=1708936637; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ojbVELbGUO0Fdw1LO3aSx5BEslcvMdmSrG39OaZaxOY=;
+        b=Ge6DQLieZ2ifGEL3Y2+H/rbtAMtU0Zl5t9cedF+AlgRk4g8V9/pw4CBzTO0ehV1IVx
+         95WO1Q72LHvcU4rU118BDgM7NqVnZFYxsg/o44DUMitwmM7WPeUEy0E8/XfTXuMd3ODG
+         ZXQuaphfcGJepmMcgUhakUe9YoCZqmUoxpwRvfp/oLSh8t+Wli4VHG2uWryR8FM5SmPW
+         ngOZsaH3EmFfZpz4AJbfV/qYb3o1cvZWHzWdPWMonjpxRaiRdooGZ9x3hL4kC9302Fdv
+         ibD1pFVBPwXy9L0iWFL4lzvXIsjYn700t9oetL453v/FaZ1ge7FFC4cW1xNtwzgV08xv
+         bhYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708328037; x=1708932837;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+ng3gW4V3o0lgSkXW6LbE2EKjcIRK6fb4LZxE38g6CE=;
-        b=ku2d23dzwonS0V4DECuFG5iW3TO2by6xlIcTzOAwQCy/JXOFg26IHSsv6hyvpodm9E
-         7fv9vyG2C2ODulNYzGiFdqtPrVATA05+4dXcI7NOPSzHqFwg56ZaT6Uar4wkS8FD9Gf4
-         37vgRgLZpUFsoZ77Lfa/7Y2eriMPAhJWXeSv0Qk9F5yCcrOv8Ugx+fGDvl34fOBTpD/C
-         7nRMndmwUtcKTdzvs4l+wM9i4/VVceWxkVrmWRuTRHx54pMGbMHVBWfRzM1CiyAZ9T/g
-         LspoyiQNRM84qAtWd4hPkCWOClucu/lCzZ2WVgWWwh9Xh9l1Coj0RuX2p6zv2/RVMgpO
-         Ovcw==
-X-Forwarded-Encrypted: i=1; AJvYcCXKtjBgedhVeAZBpRHisv6euG5IBNu7zrp29Fiy6kvxXGFvHdzjOLQOprXQH3P/UNxa91H7/DWrgf5ykJgQsB8cKKsadwa6pAvD6tQ=
-X-Gm-Message-State: AOJu0YyP7G3Zpjt9Rs4wx+eSWcKZNgbSV8Oc19x6Dr0o+Rnfq1MI6v0p
-	tV/dWbAMs8Wg3r6sNUmbp+amS7JPFgDuFOfohF63L3AA1G0sg+dVwFjAm2jwxic=
-X-Google-Smtp-Source: AGHT+IH7t2S3UJLlE+g5RosWguA6ACJo1jYaUo0HRFcgzCtXQeK6rSIGLys7KhAWV1PTPsrhu0txhw==
-X-Received: by 2002:a05:6512:3144:b0:511:84fe:8dcd with SMTP id s4-20020a056512314400b0051184fe8dcdmr7786108lfi.1.1708328036943;
-        Sun, 18 Feb 2024 23:33:56 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.20])
-        by smtp.gmail.com with ESMTPSA id l20-20020a05600c1d1400b0041256ab5becsm7611582wms.26.2024.02.18.23.33.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Feb 2024 23:33:56 -0800 (PST)
-Message-ID: <e6c6e825-42dd-4f2d-8329-f7b3e09bb8a9@tuxon.dev>
-Date: Mon, 19 Feb 2024 09:33:53 +0200
+        d=1e100.net; s=20230601; t=1708331837; x=1708936637;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ojbVELbGUO0Fdw1LO3aSx5BEslcvMdmSrG39OaZaxOY=;
+        b=XtNu4vT8jQNp40mwGVs8gE29J8pA3YHBOZ6+NZj7tVkZqVb3OBj+2fCeDS+BQysDyZ
+         96VzrAaAZwh4PbLYx3A+CG18e7fng5Td4EeO1d5yGS0btZbD4Sly2bmaymusjyaGHMqk
+         W3wXvoSRSQRWFJ4J/Z4HKgRkXHPYEElz4SK3fGD2oXQqthP5QcLvNmO0c6ycWwfiA+oB
+         lGS43jPFawfQwpI3f0Wng36NDptxL4E0rspAGzFLMR91qJ6zqthcPhUvuvIMM/MZUtTT
+         /OiCy3x6jRwSIUqC6wXpZOqCmYkqDfF2eK0lymGEJ8IZNSkBU7/9MPd1zZiAU9qDFtij
+         HcSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVX6PIXjU6xcqKec+C29QwVn0GKhCkSyv0plwNrzVVcss3qKIYhePpvMOMX3x9tqjZ2c1gGhpX0QCKcxawxH0KAmnsAKYYhDZNhmh0=
+X-Gm-Message-State: AOJu0YwZGcfadhDFChaHDDOB2KlhIUEQllVNhLC50TfRax7WjPme98q+
+	fIGIpTNj7AzcCo3Rb3qz1muBu3mffXIvQDVJQMva0oILLXcMQpNqKo3lzNYtSI4=
+X-Google-Smtp-Source: AGHT+IHPRRVfa7/lTL/FAHCnZ0EhKSDENbaTpEre/56m0a9j/pZ89HxBxVne3vEkeUmJJ840QF6VYg==
+X-Received: by 2002:a17:906:fcca:b0:a3e:473e:26a0 with SMTP id qx10-20020a170906fcca00b00a3e473e26a0mr2936656ejb.51.1708331836826;
+        Mon, 19 Feb 2024 00:37:16 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id th7-20020a1709078e0700b00a3e059c5c5fsm2695590ejc.188.2024.02.19.00.37.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 00:37:16 -0800 (PST)
+Date: Mon, 19 Feb 2024 11:37:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: gustavo@embeddedor.com, keescook@chromium.org,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2] udmabuf: Fix a potential (and unlikely) access to
+ unallocated memory
+Message-ID: <91d964c2-3d5a-4e96-a4db-e755455c5b5c@moroto.mountain>
+References: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] clk: constify the of_phandle_args argument of
- of_clk_provider
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- Peng Fan <peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Nishanth Menon <nm@ti.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com,
- NXP Linux Team <linux-imx@nxp.com>, linux-amlogic@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-media@vger.kernel.org, linux-phy@lists.infradead.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
- <e43727bd-d83d-4271-9871-ff995c8e7d03@tuxon.dev>
- <88de75cd-4069-4be6-9c4e-f32befa46d58@linaro.org>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <88de75cd-4069-4be6-9c4e-f32befa46d58@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
 
-
-
-On 19.02.2024 08:59, Krzysztof Kozlowski wrote:
-> On 19/02/2024 07:25, claudiu beznea wrote:
->>
->>
->> On 08.02.2024 18:37, Krzysztof Kozlowski wrote:
->>> None of the implementations of the get() and get_hw() callbacks of
->>> "struct of_clk_provider" modify the contents of received of_phandle_args
->>> pointer.  They treat it as read-only variable used to find the clock to
->>> return.  Make obvious that implementations are not supposed to modify
->>> the of_phandle_args, by making it a pointer to const.
->>>
->>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>> ---
->>>  drivers/clk/at91/pmc.c                        |  3 +-
->>>  drivers/clk/at91/pmc.h                        |  3 +-
->>
->> Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+On Sun, Feb 18, 2024 at 06:46:44PM +0100, Christophe JAILLET wrote:
+> If 'list_limit' is set to a very high value, 'lsize' computation could
+> overflow if 'head.count' is big enough.
 > 
-> You understand there is no review for "part of patch"? You probably
-> meant Acked-by.
 
-Sure... Here it is:
-Acked-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+The "list_limit" is set via module parameter so if you set that high
+enough to lead to an integer overflow then you kind of deserve what
+you get.
 
-> 
-> https://elixir.bootlin.com/linux/v6.8-rc5/source/Documentation/process/submitting-patches.rst#L544
-> 
-> Best regards,
-> Krzysztof
-> 
+This patch is nice for kernel hardening and making the code easier to
+read/audit but the real world security impact is negligible.
+
+regards,
+dan carpenter
+
 
