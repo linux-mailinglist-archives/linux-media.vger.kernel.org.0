@@ -1,55 +1,73 @@
-Return-Path: <linux-media+bounces-5430-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5431-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A6D85A7D2
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 16:50:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB0E85A9C5
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 18:19:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4F6028555A
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 15:50:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E9231F22454
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 17:19:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AABAD3B18E;
-	Mon, 19 Feb 2024 15:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BD5E44C8D;
+	Mon, 19 Feb 2024 17:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="D473HamS"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="Q9MvrLQz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6553A3D384;
-	Mon, 19 Feb 2024 15:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E871446D2
+	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 17:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708357792; cv=none; b=PdDckWB4dhXy6dHYiZ0fTVgSQ98oZoCSQm7kNaM0BgMKaggu/UzVKySgDcajebwXZabJGes2WF+WXEuTJOtmIWbN/6KvgDSspzh846ARrySgOF2mXK5jeR8or356FpJTHnjUPFYbMVl8wGiHwV3BpUlN2//wYtSdJUu+yb9Z1CQ=
+	t=1708363140; cv=none; b=DrcLe9rpu1ZWIEPDYl+Nfc0XKlNDsoi+MziFXbFK5pQITgPFbDWsvEQprOufLGBfNKWSn5peA0sDMntKZh32eBE8zW4C/AnB96wVGjscC1vMkxYJkBLfavMnAiiCmLcFcBEM4++xSuk+Ky1JEJQqn0IUtre2uci9UTfg4lmB39g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708357792; c=relaxed/simple;
-	bh=YvFC4xI4AtllwaPrtCPa62a3WM3IH2L8FS7AqLwAqog=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=OCFFANUjexEgY+Wix4ckMjDpUgoO0ZT0+PIYU2+fIUIwA+Q2Ya5cy8dhSM+ZPtiIAgo89nO6k0KGbafoHdE8LkQN/jiKPYT1SwGXpys9u0zd0MO3n/kyocvCEoi2mW+rUOdByJJj4GdP/eYPEXff82mx82Q/6ri7D3A7N0p2WQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=D473HamS; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708357788;
-	bh=YvFC4xI4AtllwaPrtCPa62a3WM3IH2L8FS7AqLwAqog=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=D473HamSNqxxUwlodm4+NXMHH4i3et8L5Eanivq2TgH0na34j7OpM3+QBWz3hHv+x
-	 udmmz4urcPqFJUoIwVmnJBJyk7oyoNpA14mPlKws/h22aMPfvmdMrxqdpDFQzTbsjd
-	 xQc36rD6ccflLWlppJPb9q7/a1TvkcKqLV0BwQnVtbOwGZaR2cQ03e4Qzi6753VzOH
-	 Ie7gq7yMqn8cv0DNTz61/Wac73yIjUTMREKPHne2rLC8vJ6WmZRtHdV3CrKSYdmrbG
-	 h3wr5afdN1ynF8mGWTqO7AoPjg+6TJdtTWiP5K//7FEiKvAK+QpCcCFZoE42U02djw
-	 y3TucHIaNzT3g==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D7DBE3782080;
-	Mon, 19 Feb 2024 15:49:47 +0000 (UTC)
-Message-ID: <98b81fbf-4905-4b45-a8c0-33e7399ef84a@collabora.com>
-Date: Mon, 19 Feb 2024 16:49:47 +0100
+	s=arc-20240116; t=1708363140; c=relaxed/simple;
+	bh=iTLM3uRb+Do/AiNS0Xb0HJmwMZOJkgfTuotbr0kn9go=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=hYdTDffXiHzXpm6g68k6X7osG1uMREpT8mVeygaVTsgASXSlx0OLrRaBHERLAdcLqHIVJPnG8f2EMLO5C43SjFCYXeAj8E1mBSmgrb/xwVVsqOsV/bxqLU6+gD3cy0CAC/EDL2nl2NBDpsW85gitIP3spsRJ96f1QdvUOGY3T5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=Q9MvrLQz; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4126ada76bcso3841995e9.1
+        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 09:18:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1708363137; x=1708967937; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5U9UMku/CkX7+3OIheqbJbG1G4XMMn+BnJs98wrGs/M=;
+        b=Q9MvrLQzzNHNQf3ohItSiMw4xmxRIlZI9SMgudEUBgOEIxOlCh4ZLKlLCmZVkracjL
+         adiK6AyrnA6K/sd09whYTE741hqQLUEvNUOTO1yiHLz87NBf6cMkBqyEeG5nxv7rp1hi
+         Z3/gJ0Q/stqixMozQt4WDsBh/kOepk2+Yne4/lH1ahT+EGCzIwTw3Un23CiEwbZwCuuY
+         s2ul96gPltO5t2LH9Z5UzmYdiAxsTol+aS9QvGOWJ8lgR7LVq7RIMUG5FevVJWmkLwyG
+         5FWXM9FV5ZZ69l4a3vNKYNNzJeL7iD9jVy50WfB6W+rzG7aiONU+9EuY0up3DHkEr1Gk
+         0R4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708363137; x=1708967937;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5U9UMku/CkX7+3OIheqbJbG1G4XMMn+BnJs98wrGs/M=;
+        b=mFnHfZ9R6S27xt5DDwSmtYfrDkVnlpNZCPOkZAizVS8+3tdRYiYNy08i5kWgEzVrjL
+         l1DUnozIvjEXxjQuRuaVFL0LGiYEWana7cj1rKbpn85fyGsqs76NbsxTBOR6a2imerzn
+         cmjxx8wAPHn3FELrEK8FLKd4+k7I2IpdgxQMicO+cCwl1hMsXkmBr1ZlwTyxJVTaHnle
+         GOgeJYiax737mYexM8UH0nv0xmlfRerkYsZ0BFehnJxGdqVGNtcnzW0qrHhKOEWSV4Vw
+         5OPDaxFyowJCCWn/LuLWfOO8tsDtGbKrcVbZ2PawE0BDu/jc2zJ5qzc5N7rIXBqja89J
+         MIhg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4Mg1SRJUHO3xsGp9XrEKK20JKK06ttKUoLLocu0LXXNVUECQrfXTe48yI+NHvuyJstmqJ0r9he9hxln9qmyiVWzN75h9oDrJPpSE=
+X-Gm-Message-State: AOJu0YwhAIAHYqMwc8wSjgvfMm+MlbIZpIJ6uA+7qHcfcNqL1SvFV0Wk
+	MFnLrh2B4d10zxBOa7zNXFjI9pQImIK0Y2K9BFr5UuVFF7eGz7nxkPwK38TL0fw=
+X-Google-Smtp-Source: AGHT+IHUfkwhEny4pldBlneSMSVOBEZmWmmqdtsOXfySiNrUjDQ+DcKurzgbN5N5Pgk90iwYbshmbQ==
+X-Received: by 2002:adf:ed81:0:b0:33d:3553:d395 with SMTP id c1-20020adfed81000000b0033d3553d395mr3619328wro.15.1708363136742;
+        Mon, 19 Feb 2024 09:18:56 -0800 (PST)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
+        by smtp.gmail.com with ESMTPSA id g1-20020a056000118100b00337d5cd0d8asm10847459wrx.90.2024.02.19.09.18.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Feb 2024 09:18:56 -0800 (PST)
+Message-ID: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+Date: Mon, 19 Feb 2024 18:18:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,63 +75,74 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [usb?] [media?] possible deadlock in
- vb2_video_unregister_device
-To: syzbot <syzbot+3b1d4b3d5f7a358bf9a9@syzkaller.appspotmail.com>,
- hdanton@sina.com, hverkuil-cisco@xs4all.nl, hverkuil@xs4all.nl,
- laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
- m.szyprowski@samsung.com, mchehab@kernel.org,
- syzkaller-bugs@googlegroups.com, tfiga@chromium.org
-References: <000000000000cb40790611bbcffd@google.com>
 Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <000000000000cb40790611bbcffd@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: DT <devicetree@vger.kernel.org>, linux-media
+ <linux-media@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>
+Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Pierre-Hugues Husson <phh@phh.me>
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+Subject: [RFC WIP PATCH] venus: add qcom,no-low-power property
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+From: Pierre-Hugues Husson <phhusson@freebox.fr>
 
-Le 19/02/2024 à 14:10, syzbot a écrit :
-> syzbot has bisected this issue to:
->
-> commit c838530d230bc638d79b78737fc4488ffc28c1ee
-> Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Date:   Thu Nov 9 16:34:59 2023 +0000
->
->      media: media videobuf2: Be more flexible on the number of queue stored buffers
->
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=166dc872180000
-> start commit:   b401b621758e Linux 6.8-rc5
-> git tree:       upstream
-> final oops:     https://syzkaller.appspot.com/x/report.txt?x=156dc872180000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=116dc872180000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=eff9f3183d0a20dd
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3b1d4b3d5f7a358bf9a9
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ffaae8180000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13ef909c180000
->
-> Reported-by: syzbot+3b1d4b3d5f7a358bf9a9@syzkaller.appspotmail.com
-> Fixes: c838530d230b ("media: media videobuf2: Be more flexible on the number of queue stored buffers")
->
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+On our msm8998-based device, calling venus_sys_set_power_control()
+breaks playback. Since the vendor kernel never calls it, we assume
+it should not be called for this device/FW combo.
 
-Hans,
-I think the issue occur because of this part of the commit:
-@@ -1264,7 +1264,7 @@ void vb2_video_unregister_device(struct video_device *vdev)
-          */
-         get_device(&vdev->dev);
-         video_unregister_device(vdev);
--       if (vdev->queue && vdev->queue->owner) {
-+       if (vdev->queue) {
-                 struct mutex *lock = vdev->queue->lock ?
-                         vdev->queue->lock : vdev->lock;
+Signed-off-by: Pierre-Hugues Husson <phhusson@freebox.fr>
+Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+---
+TODO in v2: split the patch in 2
+Is "qcom,no-low-power" a proper name for the property?
+Is a boolean property the right approach?
+---
+ .../devicetree/bindings/media/qcom,venus-common.yaml     | 3 +++
+ drivers/media/platform/qcom/venus/hfi_venus.c            | 9 +++++----
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-but I wonder if the correction shouldn't be to remove usbtv->vb2q_lock mutex in usbtv_video_free().
-
-Any opinion ?
-
-Regards,
-Benjamin
-
->
+diff --git a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
+index 3153d91f9d18a..69cb16dc4852c 100644
+--- a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
+@@ -62,6 +62,9 @@ properties:
+     required:
+       - iommus
+ 
++  qcom,no-low-power:
++    type: boolean
++
+ required:
+   - reg
+   - clocks
+diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+index f9437b6412b91..2cd85a8cd837e 100644
+--- a/drivers/media/platform/qcom/venus/hfi_venus.c
++++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+@@ -945,10 +945,11 @@ static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
+ 			dev_warn(dev, "setting idle response ON failed (%d)\n", ret);
+ 	}
+ 
+-	ret = venus_sys_set_power_control(hdev, venus_fw_low_power_mode);
+-	if (ret)
+-		dev_warn(dev, "setting hw power collapse ON failed (%d)\n",
+-			 ret);
++	if (!of_property_read_bool(dev->of_node, "qcom,no-low-power")) {
++		ret = venus_sys_set_power_control(hdev, venus_fw_low_power_mode);
++		if (ret)
++			dev_warn(dev, "setting hw power collapse ON failed (%d)\n", ret);
++	}
+ 
+ 	/* For specific venus core, it is mandatory to set the UBWC configuration */
+ 	if (res->ubwc_conf) {
+-- 
+2.34.1
 
