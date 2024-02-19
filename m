@@ -1,362 +1,171 @@
-Return-Path: <linux-media+bounces-5411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC53B85A05F
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 10:57:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B001585A09B
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 11:11:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F0FEA1C213DD
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 09:57:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C396B20FB9
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 10:11:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 744A42556C;
-	Mon, 19 Feb 2024 09:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C4D2560F;
+	Mon, 19 Feb 2024 10:11:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fpeup+WD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ktb2AKDD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FB72577B
-	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 09:57:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB97725574;
+	Mon, 19 Feb 2024 10:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708336633; cv=none; b=Nko+Bc/dThEMS0TmLCcS9SZUlGN+LXV0rBQmnlBbh3L9Kjx4xtEtHvqTYfWsl99LbHigENAgQJpL45hJzsFLVeAcMEEWQ1mqfV2BE0N9nMpfWJYoYCLAFn6lnQ9ZTdpFueBR612jpUiqkPARt0m6mQaqeLiRFeTlnbbtAPoEJF4=
+	t=1708337498; cv=none; b=Hq57erwGzYQVmOEovQ0RzcvUdIaFFOialzT/kvBrQ12hObCjD1pXzoxIFyE9RIeo8+F+ZfDJyLbJHqVOVJYJfmRYSkzRdn4B9OSPyMYaefbRtZCVFQi0w5qLzcEGRXdX0Fp/TX0lqZ9WTCOnBk3ByXnBzo6kcfUGD40fLOOdcGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708336633; c=relaxed/simple;
-	bh=cGALYH9wpQXinBE3eJq7xfLma+au5VECNieEHnthuKI=;
+	s=arc-20240116; t=1708337498; c=relaxed/simple;
+	bh=BMkkhuKdON4JFZpecVwN90mUFXfKmOeyHVVeBOHZJbg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VeMl+yfHcFDwm5RJLINx4Vx/EcweKrS+zZDS0Chkn+9XcsrwQparTSdI316MWsfsOaIQy5S5hoPKGQEvolEJKs6qhLS1PAhhP8PoLaeNxP6inu0YGnDfoEnP1Sn4ZLixJi1ONkeYeRV+VpXmGeMAyA0EZgkAIJpRbjWa64Zzs64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fpeup+WD; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=jg+sEYGiDETrqXTzaxUsO/1ECY4Oq925KZfKaUG1bSLpHbWYtEIlFEQO3bAuF2MzB1x8arjwooF2VSLBZFUmZovDLiMxWDztI2jsQjhDu/Pcxh7z1Fn7+gSOb9rhe5WjpojkJc1xb6OAOM37LC6PDT8s/Wx2wzP3yrj3nXsQaSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ktb2AKDD; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pyrite.rasen.tech (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C75A522A;
-	Mon, 19 Feb 2024 10:56:59 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A388866F;
+	Mon, 19 Feb 2024 11:11:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708336622;
-	bh=cGALYH9wpQXinBE3eJq7xfLma+au5VECNieEHnthuKI=;
+	s=mail; t=1708337484;
+	bh=BMkkhuKdON4JFZpecVwN90mUFXfKmOeyHVVeBOHZJbg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fpeup+WDHVeleXZz+HQcp1EVHR0WdHnHJtHH7r5ksX+9I7w/nhM58/biMRMBzWI/w
-	 bzskCVZ7U9mWypYYHhexVCRyB5qOjH/dD1gXtfoAREOhOLncVjFTpH1GRn1+EWS/nr
-	 Y7vMcqd9ELEbkt29Esgnazgo1lnUBtqkHg3Ffj/U=
-Date: Mon, 19 Feb 2024 18:56:59 +0900
+	b=Ktb2AKDDnf4Nc5TQ3VpTXsQcoDku1HYDQBbS+0isGB9Udu8nvhda1xBdmctkDrp4a
+	 VmGyqVI11UIIAb/H/tkS11uvD0ZWxB2RA2+XThOuOfpHlaYRiVeXkfIzVgB2vwXmNP
+	 /qa8fXlpP2+Qb9Ym2nVtBiMZa8U+re/XvP7HYPvQ=
+Date: Mon, 19 Feb 2024 19:11:20 +0900
 From: Paul Elder <paul.elder@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Adam Ford <aford173@gmail.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: Adam Ford <aford173@gmail.com>,
+	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-kernel@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Heiko Stuebner <heiko@sntech.de>,
-	Helen Koike <helen.koike@collabora.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v13 11/12] media: rkisp1: Fix endianness on raw streams
- on i.MX8MP
-Message-ID: <ZdMl68AeA8jAF8Sg@pyrite.rasen.tech>
-References: <20240218204350.10916-1-laurent.pinchart@ideasonboard.com>
- <20240218204350.10916-12-laurent.pinchart@ideasonboard.com>
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
+	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] media: rkisp1: Allow higher input resolution
+Message-ID: <ZdMpSLqYVFbU7sF0@pyrite.rasen.tech>
+References: <20240217185202.1754750-1-megi@xff.cz>
+ <20240218205908.GA12766@pendragon.ideasonboard.com>
+ <pftafukuzq7qzbhlvwtmeg3mburnttylgy4246timlghtrdgx4@r6munvmj6oqt>
+ <CAHCN7x+zi3WxnY-mxZFKePs1cS=-DprEmh_CnypJ4XK7xBzjMQ@mail.gmail.com>
+ <b500676e-431f-40fc-868b-9f9bb359a109@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240218204350.10916-12-laurent.pinchart@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b500676e-431f-40fc-868b-9f9bb359a109@ideasonboard.com>
 
-Hi Laurent,
+On Mon, Feb 19, 2024 at 02:33:21PM +0530, Umang Jain wrote:
+> Hi All,
+> 
+> On 19/02/24 7:39 am, Adam Ford wrote:
+> > On Sun, Feb 18, 2024 at 3:02 PM Ondřej Jirman <megi@xff.cz> wrote:
+> > > On Sun, Feb 18, 2024 at 10:59:08PM +0200, Laurent Pinchart wrote:
+> > > > Hi Ondrej,
+> > > > 
+> > > > (CC'ing Paul and Umang)
+> > > > 
+> > > > Thank you for the patch.
+> > > > 
+> > > > On Sat, Feb 17, 2024 at 07:51:58PM +0100, Ondřej Jirman wrote:
+> > > > > From: Ondrej Jirman <megi@xff.cz>
+> > > > > 
+> > > > > In BSP driver, it is allowed, and it works in practice. Tested on
+> > > > > Pinephone Pro/RK3399 with IMX258 at full res.
+> > > > Paul, Umang, do I recall correctly that you have a similar change ?
+> > > > Could you review and test this (especially on the i.MX8MP) ?
+> > > It's also a limit from the datasheet, so the change should not be that
+> > > controversial:
+> > > 
+> > >    https://megous.com/dl/tmp/d2b333043ecebaf3.png
+> > > 
+> > > (so that it doesn't sound like I just copied the BSP values)
+> > > 
+> >  From what I see in the i.MX8M Plus reference manual, it has a max
+> > resolution of 4096x3072, so it might be necessary to move this off
+> 
+> This is what I (and I assume Paul too) have been working with on i.MX8M
+> Plus. So it's the known and tested value of max ISP input from out side.
+> > from a #define into a structure that varies by product family.
 
-On Sun, Feb 18, 2024 at 10:43:49PM +0200, Laurent Pinchart wrote:
-> From: Paul Elder <paul.elder@ideasonboard.com>
-> 
-> The i.MX8MP has extra register fields in the memory interface control
-> register for setting the output format, which work with the output
-> alignment format register for byte-swapping and LSB/MSB alignment.
-> 
-> With processed and 8-bit raw streams, it doesn't cause any problems to
-> not set these, but with raw streams of higher bit depth the endianness
-> is swapped and the data is not aligned properly.
-> 
-> Add support for setting these registers and plumb them in to fix this.
-> 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v12:
-> 
-> - Merge the output_format_mp and output_format_sp fields
-> - Set the MP output format in rkisp1_mp_config()
-> - Fix typo in commit message
-> 
-> Changes since v6:
-> 
-> - replace MP_OUTPUT_FORMAT feature flag with MAIN_STRIDE
-> 
-> New in v6
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-capture.c | 52 +++++++++++++++++--
->  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  8 +++
->  2 files changed, 56 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index 0efdf8513de0..accc16ad1432 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -48,14 +48,17 @@ enum rkisp1_plane {
->   * @fmt_type: helper filed for pixel format
->   * @uv_swap: if cb cr swapped, for yuv
->   * @yc_swap: if y and cb/cr swapped, for yuv
-> + * @byte_swap: if byte pairs are swapped, for raw
->   * @write_format: defines how YCbCr self picture data is written to memory
-> - * @output_format: defines sp output format
-> + * @output_format: defines the output format (RKISP1_CIF_MI_INIT_MP_OUTPUT_* for
-> + *	the main path and RKISP1_MI_CTRL_SP_OUTPUT_* for the self path)
->   * @mbus: the mbus code on the src resizer pad that matches the pixel format
->   */
->  struct rkisp1_capture_fmt_cfg {
->  	u32 fourcc;
->  	u32 uv_swap : 1;
->  	u32 yc_swap : 1;
-> +	u32 byte_swap : 1;
->  	u32 write_format;
->  	u32 output_format;
->  	u32 mbus;
-> @@ -96,42 +99,50 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_YUYV,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_UYVY,
->  		.uv_swap = 0,
->  		.yc_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YUV422P,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_NV16,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_NV61,
->  		.uv_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_NV16M,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_NV61M,
->  		.uv_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YVU422M,
->  		.uv_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	},
->  	/* yuv400 */
-> @@ -139,6 +150,7 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_GREY,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV400,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->  	},
->  	/* yuv420 */
-> @@ -146,81 +158,107 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_NV21,
->  		.uv_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV420,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_1_5X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_NV12,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV420,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_1_5X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_NV21M,
->  		.uv_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV420,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_1_5X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_NV12M,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV420,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_1_5X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YUV420,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV420,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_1_5X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YVU420,
->  		.uv_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV420,
->  		.mbus = MEDIA_BUS_FMT_YUYV8_1_5X8,
->  	},
->  	/* raw */
->  	{
->  		.fourcc = V4L2_PIX_FMT_SRGGB8,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW8,
->  		.mbus = MEDIA_BUS_FMT_SRGGB8_1X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SGRBG8,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW8,
->  		.mbus = MEDIA_BUS_FMT_SGRBG8_1X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SGBRG8,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW8,
->  		.mbus = MEDIA_BUS_FMT_SGBRG8_1X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SBGGR8,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW8,
->  		.mbus = MEDIA_BUS_FMT_SBGGR8_1X8,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SRGGB10,
-> +		.byte_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW10,
->  		.mbus = MEDIA_BUS_FMT_SRGGB10_1X10,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SGRBG10,
-> +		.byte_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW10,
->  		.mbus = MEDIA_BUS_FMT_SGRBG10_1X10,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SGBRG10,
-> +		.byte_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW10,
->  		.mbus = MEDIA_BUS_FMT_SGBRG10_1X10,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SBGGR10,
-> +		.byte_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW10,
->  		.mbus = MEDIA_BUS_FMT_SBGGR10_1X10,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SRGGB12,
-> +		.byte_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW12,
->  		.mbus = MEDIA_BUS_FMT_SRGGB12_1X12,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SGRBG12,
-> +		.byte_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW12,
->  		.mbus = MEDIA_BUS_FMT_SGRBG12_1X12,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SGBRG12,
-> +		.byte_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW12,
->  		.mbus = MEDIA_BUS_FMT_SGBRG12_1X12,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SBGGR12,
-> +		.byte_swap = 1,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
-> +		.output_format = RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW12,
->  		.mbus = MEDIA_BUS_FMT_SBGGR12_1X12,
->  	},
->  };
-> @@ -484,10 +522,12 @@ static void rkisp1_mp_config(struct rkisp1_capture *cap)
->  	 */
->  	if (rkisp1_has_feature(rkisp1, MAIN_STRIDE)) {
->  		reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT);
-> -		if (cap->pix.cfg->yc_swap)
-> +		if (cap->pix.cfg->yc_swap || cap->pix.cfg->byte_swap)
->  			reg |= RKISP1_CIF_OUTPUT_ALIGN_FORMAT_MP_BYTE_SWAP_BYTES;
->  		else
->  			reg &= ~RKISP1_CIF_OUTPUT_ALIGN_FORMAT_MP_BYTE_SWAP_BYTES;
-> +
-> +		reg |= RKISP1_CIF_OUTPUT_ALIGN_FORMAT_MP_LSB_ALIGNMENT;
->  		rkisp1_write(rkisp1, RKISP1_CIF_MI_OUTPUT_ALIGN_FORMAT, reg);
->  	}
->  
-> @@ -557,6 +597,8 @@ static void rkisp1_sp_config(struct rkisp1_capture *cap)
->  		   cap->pix.cfg->output_format |
->  		   RKISP1_CIF_MI_SP_AUTOUPDATE_ENABLE;
->  	rkisp1_write(rkisp1, RKISP1_CIF_MI_CTRL, mi_ctrl);
-> +
-> +	rkisp1_write(rkisp1, RKISP1_CIF_MI_INIT, cap->pix.cfg->output_format);
+Yes, this is what needs to be done. Here's what I have in my notes:
 
-I think you're missing the analogous register setting for the main path.
+- The RK3399 TRM says 4416x3312 max input and output on main path, with
+  1920x1080 max output on self path.
+- The PX30 datasheet [1] says 3264x2448 max input and output on main
+  path, with 1920x1080 max output on self path.
+- The RK3288 documentation [2] (under "Camera Interface and Image
+  Processor") says 4416x3312 max input and output on main path, with
+  1920x1080 max output on self path.
+- The i.MX8MP reference manual (the open one) [3] (in table 13-1) says
+  4096x3072 max resolution in single ISP mode
+
+The i.MX8M Plus seems to indeed be limited to 4096x3072, but the TPG is
+capable of generating 4416x3312, and the ISP works fine in bypass (and
+therefore raw) mode, so technically it has different maximum sizes
+depending on the format which makes this more exciting.
+
+In any case, the PX30 (assuming the datasheet is correct) only supports
+up to 3264x2448, so the existing #define is incorrect anyway.
+
+I don't have a PX30 nor an RK3288 so I can't test those, and I haven't
+set up my OV64A40 yet which (I've heard) can be used to test even bigger
+resolutions.
 
 
 Paul
 
->  }
->  
->  static void rkisp1_mp_disable(struct rkisp1_capture *cap)
-> @@ -943,6 +985,7 @@ static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
->  	struct rkisp1_device *rkisp1 = cap->rkisp1;
->  	struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
->  	bool has_self_path = rkisp1_has_feature(rkisp1, SELF_PATH);
-> +	u32 reg;
->  
->  	cap->ops->set_data_path(cap);
->  	cap->ops->config(cap);
-> @@ -962,8 +1005,9 @@ static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
->  	 */
->  	if (!has_self_path || !other->is_streaming) {
->  		/* force cfg update */
-> -		rkisp1_write(rkisp1, RKISP1_CIF_MI_INIT,
-> -			     RKISP1_CIF_MI_INIT_SOFT_UPD);
-> +		reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_INIT);
-> +		reg |= RKISP1_CIF_MI_INIT_SOFT_UPD;
-> +		rkisp1_write(rkisp1, RKISP1_CIF_MI_INIT, reg);
->  		rkisp1_set_next_buf(cap);
->  	}
->  	spin_unlock_irq(&cap->buf.lock);
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> index 3b19c8411360..762243016f05 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> @@ -144,6 +144,14 @@
->  /* MI_INIT */
->  #define RKISP1_CIF_MI_INIT_SKIP				BIT(2)
->  #define RKISP1_CIF_MI_INIT_SOFT_UPD			BIT(4)
-> +#define RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV400		(0 << 5)
-> +#define RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV420		(1 << 5)
-> +#define RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV422		(2 << 5)
-> +#define RKISP1_CIF_MI_INIT_MP_OUTPUT_YUV444		(3 << 5)
-> +#define RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW12		(4 << 5)
-> +#define RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW8		(5 << 5)
-> +#define RKISP1_CIF_MI_INIT_MP_OUTPUT_JPEG		(6 << 5)
-> +#define RKISP1_CIF_MI_INIT_MP_OUTPUT_RAW10		(7 << 5)
->  
->  /* MI_CTRL_SHD */
->  #define RKISP1_CIF_MI_CTRL_SHD_MP_IN_ENABLED		BIT(0)
+[1] https://opensource.rock-chips.com/images/8/87/Rockchip_PX30_Datasheet_V1.4-20191227.pdf
+[2] https://opensource.rock-chips.com/images/4/49/Rockchip_RK3288_Datasheet_V2.7-20191227.pdf
+[3] (requires login) https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-8-applications-processors/i-mx-8m-plus-arm-cortex-a53-machine-learning-vision-multimedia-and-industrial-iot:IMX8MPLUS
+
+
+> 
+> Yeah!
+> > 
+> > adam
+> > > regards,
+> > >          o.
+> > > 
+> > > > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > > > > ---
+> > > > >   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 4 ++--
+> > > > >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > > > > index 4b6b28c05b89..74098ddbeeb3 100644
+> > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > > > > @@ -33,8 +33,8 @@ struct dentry;
+> > > > >   #define RKISP1_ISP_SD_SINK                 BIT(1)
+> > > > > 
+> > > > >   /* min and max values for the widths and heights of the entities */
+> > > > > -#define RKISP1_ISP_MAX_WIDTH                       4032
+> > > > > -#define RKISP1_ISP_MAX_HEIGHT                      3024
+> > > > > +#define RKISP1_ISP_MAX_WIDTH                       4416
+> > > > > +#define RKISP1_ISP_MAX_HEIGHT                      3312
+> > > > >   #define RKISP1_ISP_MIN_WIDTH                       32
+> > > > >   #define RKISP1_ISP_MIN_HEIGHT                      32
+> > > > > 
+> > > > --
+> > > > Regards,
+> > > > 
+> > > > Laurent Pinchart
+> 
 
