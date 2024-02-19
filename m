@@ -1,171 +1,164 @@
-Return-Path: <linux-media+bounces-5412-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5413-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B001585A09B
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 11:11:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B32985A0FA
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 11:28:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C396B20FB9
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 10:11:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D461F1F25746
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 10:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C4D2560F;
-	Mon, 19 Feb 2024 10:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ECCD288D9;
+	Mon, 19 Feb 2024 10:28:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ktb2AKDD"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bptmoBWB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB97725574;
-	Mon, 19 Feb 2024 10:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5E125625
+	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 10:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708337498; cv=none; b=Hq57erwGzYQVmOEovQ0RzcvUdIaFFOialzT/kvBrQ12hObCjD1pXzoxIFyE9RIeo8+F+ZfDJyLbJHqVOVJYJfmRYSkzRdn4B9OSPyMYaefbRtZCVFQi0w5qLzcEGRXdX0Fp/TX0lqZ9WTCOnBk3ByXnBzo6kcfUGD40fLOOdcGw=
+	t=1708338501; cv=none; b=EJzI1V6Wu4IUHC8YQnCGQ/V+u9AH2c5pOqMtqqkxVRdP7ZYAp14FZwO+kNrVD8MVvWiKse8alaHDpj4kwUzAfCf6Vlt5vUq+c471FZZ/bVd5CI0isOgQgEBCLADFAinSTvF+7aRHDLUq9mQZdFur27WhXIKl0NHTT6QipzQFgLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708337498; c=relaxed/simple;
-	bh=BMkkhuKdON4JFZpecVwN90mUFXfKmOeyHVVeBOHZJbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jg+sEYGiDETrqXTzaxUsO/1ECY4Oq925KZfKaUG1bSLpHbWYtEIlFEQO3bAuF2MzB1x8arjwooF2VSLBZFUmZovDLiMxWDztI2jsQjhDu/Pcxh7z1Fn7+gSOb9rhe5WjpojkJc1xb6OAOM37LC6PDT8s/Wx2wzP3yrj3nXsQaSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ktb2AKDD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pyrite.rasen.tech (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A388866F;
-	Mon, 19 Feb 2024 11:11:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708337484;
-	bh=BMkkhuKdON4JFZpecVwN90mUFXfKmOeyHVVeBOHZJbg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ktb2AKDDnf4Nc5TQ3VpTXsQcoDku1HYDQBbS+0isGB9Udu8nvhda1xBdmctkDrp4a
-	 VmGyqVI11UIIAb/H/tkS11uvD0ZWxB2RA2+XThOuOfpHlaYRiVeXkfIzVgB2vwXmNP
-	 /qa8fXlpP2+Qb9Ym2nVtBiMZa8U+re/XvP7HYPvQ=
-Date: Mon, 19 Feb 2024 19:11:20 +0900
-From: Paul Elder <paul.elder@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: Adam Ford <aford173@gmail.com>,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
-	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] media: rkisp1: Allow higher input resolution
-Message-ID: <ZdMpSLqYVFbU7sF0@pyrite.rasen.tech>
-References: <20240217185202.1754750-1-megi@xff.cz>
- <20240218205908.GA12766@pendragon.ideasonboard.com>
- <pftafukuzq7qzbhlvwtmeg3mburnttylgy4246timlghtrdgx4@r6munvmj6oqt>
- <CAHCN7x+zi3WxnY-mxZFKePs1cS=-DprEmh_CnypJ4XK7xBzjMQ@mail.gmail.com>
- <b500676e-431f-40fc-868b-9f9bb359a109@ideasonboard.com>
+	s=arc-20240116; t=1708338501; c=relaxed/simple;
+	bh=iYEBmJAiZbDHquX5J9zr+Y0/ZXalcfLXS+y4zzeLWyo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tZuXFbR/Lj4+Z/0iyU3l/4kRH9anR1qkREWUjiIZ+bf6tgv19b1oGpYHGHS0xL1dXtEDnxRdhH9hXJk0TUP8Ucg+X+LtfMFiYfvLUsY4gnP3ecHNsCXlrGf89NyAxZCR+lVdRWSsV8MZilSEN8xEUKTNS3YBOYYgPtwoTtDoSxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bptmoBWB; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-785d93d3f08so332390185a.2
+        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 02:28:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1708338499; x=1708943299; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=b6mgSrluIqEO45OZ9CPAhxzFHqfPHFQOqZgtTo0EQsQ=;
+        b=bptmoBWBGk/sQeSf+XImIluL/QL+g4/z1Za/QRHZS6ZO5SzVOoOWosWHb3VD6fkhAf
+         BAwz2ivSeX3mUWvKHjxh2XcszJV1ikzvVgkalVafcoOJ/KT//XSBwGnKCB/LjuVJwQJk
+         hzOi9KlMKtveDme0wLezJQgXTnqe90Bv9CjV0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708338499; x=1708943299;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b6mgSrluIqEO45OZ9CPAhxzFHqfPHFQOqZgtTo0EQsQ=;
+        b=VLvX6rfT2dzjGLx1Vs7JO1yRA/DOn1gicWwhN2N/lofbDa/HvbZnZwjWfy8BRmBM/I
+         zbYgf3jEBuExzIuQkTsO0kFz5sY0/jnCms77MbanxnORrhSaEJbBXOMgP2g7qUdkHYdq
+         CPCcmo04goCbn9oQ3dWZigs7pq4pfr86yS6ygvYxxejVPcjXjSouVJiEJ79rDqwEk83/
+         Dxzm8X8vSPYVVbpNZSNqlgrK3A8D96wHqOvwkn0oC8zpba1ezyR64Wicl258za1lDE9H
+         DR5Isk+YdAhWRDyoi78JLYAKxFxB9PQhvKEmLVAEQ/mZyfIAfhr7d7ItBf+YMGz/BLRE
+         G7CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+k53GUhPgK91Z7tT5mUAB+4ZeJkCt+8XWk2yy/cSiavTWewSoAVmpKQxKx75frXPNxzL0TWcxw8ldzf2BEzkjlCjlcLMNCYytUIU=
+X-Gm-Message-State: AOJu0Yykve5Eb4Yzo3X01hmf+U8wEXA/0m2VyHqKTbh/xHXbmNks3k1t
+	zTSbCbmEpBLJdhMIHKqf+PKDW7aOu+7mPxtShf3Y6EFiJ/Bk092ljl3ykt634lqdHEX/Uo0cY+I
+	=
+X-Google-Smtp-Source: AGHT+IGt3LyrlNgtUp9gHZGGU06hJ/4oic/W79OH9o+T/KbM06eCAFonNs2oerorrF7yEEeeQzM86g==
+X-Received: by 2002:a05:620a:2187:b0:787:1571:1ff3 with SMTP id g7-20020a05620a218700b0078715711ff3mr12168291qka.47.1708338498796;
+        Mon, 19 Feb 2024 02:28:18 -0800 (PST)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com. [209.85.219.44])
+        by smtp.gmail.com with ESMTPSA id sq3-20020a05620a4ac300b007872d50caf5sm2333392qkn.19.2024.02.19.02.28.18
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Feb 2024 02:28:18 -0800 (PST)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-68f54a65ae2so6825916d6.0
+        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 02:28:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWzAGcj/bPYkViIQUWSVBrBTR3YAiGGeZPGNef8nHy43hIr10QHzVqEhILxmdzAUjmGupV4k6WVtAiGnMDbvPvfWdTLDiVF0dOUz68=
+X-Received: by 2002:a0c:971a:0:b0:68f:4d2d:3f34 with SMTP id
+ k26-20020a0c971a000000b0068f4d2d3f34mr6594470qvd.39.1708338497675; Mon, 19
+ Feb 2024 02:28:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b500676e-431f-40fc-868b-9f9bb359a109@ideasonboard.com>
+References: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
+ <20220920-resend-hwtimestamp-v9-1-55a89f46f6be@chromium.org> <20240212225940.GA19316@pendragon.ideasonboard.com>
+In-Reply-To: <20240212225940.GA19316@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 19 Feb 2024 11:28:03 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuoskaERyyzuLen+ReGHBNnOrFducbWYAvFQ6HfbUCPcg@mail.gmail.com>
+Message-ID: <CANiDSCuoskaERyyzuLen+ReGHBNnOrFducbWYAvFQ6HfbUCPcg@mail.gmail.com>
+Subject: Re: [PATCH v9 1/6] media: uvcvideo: Fix negative modulus calculation
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 19, 2024 at 02:33:21PM +0530, Umang Jain wrote:
-> Hi All,
-> 
-> On 19/02/24 7:39 am, Adam Ford wrote:
-> > On Sun, Feb 18, 2024 at 3:02 PM Ondřej Jirman <megi@xff.cz> wrote:
-> > > On Sun, Feb 18, 2024 at 10:59:08PM +0200, Laurent Pinchart wrote:
-> > > > Hi Ondrej,
-> > > > 
-> > > > (CC'ing Paul and Umang)
-> > > > 
-> > > > Thank you for the patch.
-> > > > 
-> > > > On Sat, Feb 17, 2024 at 07:51:58PM +0100, Ondřej Jirman wrote:
-> > > > > From: Ondrej Jirman <megi@xff.cz>
-> > > > > 
-> > > > > In BSP driver, it is allowed, and it works in practice. Tested on
-> > > > > Pinephone Pro/RK3399 with IMX258 at full res.
-> > > > Paul, Umang, do I recall correctly that you have a similar change ?
-> > > > Could you review and test this (especially on the i.MX8MP) ?
-> > > It's also a limit from the datasheet, so the change should not be that
-> > > controversial:
-> > > 
-> > >    https://megous.com/dl/tmp/d2b333043ecebaf3.png
-> > > 
-> > > (so that it doesn't sound like I just copied the BSP values)
-> > > 
-> >  From what I see in the i.MX8M Plus reference manual, it has a max
-> > resolution of 4096x3072, so it might be necessary to move this off
-> 
-> This is what I (and I assume Paul too) have been working with on i.MX8M
-> Plus. So it's the known and tested value of max ISP input from out side.
-> > from a #define into a structure that varies by product family.
+Hi Laurent
 
-Yes, this is what needs to be done. Here's what I have in my notes:
+On Mon, 12 Feb 2024 at 23:59, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Wed, Mar 15, 2023 at 02:30:12PM +0100, Ricardo Ribalda wrote:
+> > If head is 0, last will be addressing the index 0 instead of clock->size
+> > -1. Luckily clock->head is unsiged, otherwise it would be addressing
+> > 0xffffffff.
+>
+> I'm not following you. In the expression
+>
+>         (clock->head - 1) % clock->size
+>
+> clock->head is an unsigned int, and 1 as a signed int, so the result of
+> the subtraction is promoted to an unsigned int. When clock->head is 0, the expression evaluates to
+>
+>         0xffffffff % clock->size
+>
+> clock->size is a power of two (hardcoded to 32 at the moment), so the
+> expression evaluates to 31, as intended.
+>
+> Am I missing something ?
 
-- The RK3399 TRM says 4416x3312 max input and output on main path, with
-  1920x1080 max output on self path.
-- The PX30 datasheet [1] says 3264x2448 max input and output on main
-  path, with 1920x1080 max output on self path.
-- The RK3288 documentation [2] (under "Camera Interface and Image
-  Processor") says 4416x3312 max input and output on main path, with
-  1920x1080 max output on self path.
-- The i.MX8MP reference manual (the open one) [3] (in table 13-1) says
-  4096x3072 max resolution in single ISP mode
+Take a look to: https://godbolt.org/z/xYeqTx6ba
 
-The i.MX8M Plus seems to indeed be limited to 4096x3072, but the TPG is
-capable of generating 4416x3312, and the ISP works fine in bypass (and
-therefore raw) mode, so technically it has different maximum sizes
-depending on the format which makes this more exciting.
+The expression only works because the size is a power of two. In this
+set I am allowing sizes that are not powers of two.
 
-In any case, the PX30 (assuming the datasheet is correct) only supports
-up to 3264x2448, so the existing #define is incorrect anyway.
-
-I don't have a PX30 nor an RK3288 so I can't test those, and I haven't
-set up my OV64A40 yet which (I've heard) can be used to test even bigger
-resolutions.
+Regards!
 
 
-Paul
-
-[1] https://opensource.rock-chips.com/images/8/87/Rockchip_PX30_Datasheet_V1.4-20191227.pdf
-[2] https://opensource.rock-chips.com/images/4/49/Rockchip_RK3288_Datasheet_V2.7-20191227.pdf
-[3] (requires login) https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-8-applications-processors/i-mx-8m-plus-arm-cortex-a53-machine-learning-vision-multimedia-and-industrial-iot:IMX8MPLUS
 
 
-> 
-> Yeah!
-> > 
-> > adam
-> > > regards,
-> > >          o.
-> > > 
-> > > > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > > > > ---
-> > > > >   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 4 ++--
-> > > > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > index 4b6b28c05b89..74098ddbeeb3 100644
-> > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > @@ -33,8 +33,8 @@ struct dentry;
-> > > > >   #define RKISP1_ISP_SD_SINK                 BIT(1)
-> > > > > 
-> > > > >   /* min and max values for the widths and heights of the entities */
-> > > > > -#define RKISP1_ISP_MAX_WIDTH                       4032
-> > > > > -#define RKISP1_ISP_MAX_HEIGHT                      3024
-> > > > > +#define RKISP1_ISP_MAX_WIDTH                       4416
-> > > > > +#define RKISP1_ISP_MAX_HEIGHT                      3312
-> > > > >   #define RKISP1_ISP_MIN_WIDTH                       32
-> > > > >   #define RKISP1_ISP_MIN_HEIGHT                      32
-> > > > > 
-> > > > --
-> > > > Regards,
-> > > > 
-> > > > Laurent Pinchart
-> 
+>
+> > Nontheless, this is not the intented behaviour and should be fixed.
+> >
+> > Fixes: 66847ef013cc ("[media] uvcvideo: Add UVC timestamps support")
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index d4b023d4de7c..4ff4ab4471fe 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -732,7 +732,7 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
+> >               goto done;
+> >
+> >       first = &clock->samples[clock->head];
+> > -     last = &clock->samples[(clock->head - 1) % clock->size];
+> > +     last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
+> >
+> >       /* First step, PTS to SOF conversion. */
+> >       delta_stc = buf->pts - (1UL << 31);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+--
+Ricardo Ribalda
 
