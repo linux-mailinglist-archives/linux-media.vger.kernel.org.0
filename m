@@ -1,109 +1,143 @@
-Return-Path: <linux-media+bounces-5408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5409-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CE1859E79
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 09:37:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B00A7859E98
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 09:42:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83ED1282350
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 08:37:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2C951C21364
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 08:42:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E04721363;
-	Mon, 19 Feb 2024 08:37:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D9E21370;
+	Mon, 19 Feb 2024 08:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ge6DQLie"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="azoAV0SX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A70D20315
-	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 08:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E1920DED;
+	Mon, 19 Feb 2024 08:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708331839; cv=none; b=saR8GhLwNOWXUQrQcZVVo5EKgYZ0kkDFivvhjwQNYlDZP6qznKehU+eam4U/mQjwungmyQt7gm1DX3bXwwBS42d1ndsL2DKbXhk+xhdCueUr292ehg3q+ycE3GkYvZCI7PrKk0ca1AnvTMKMHIa4QzUPxGPFgy/WJHEjYkJIgew=
+	t=1708332157; cv=none; b=jVDaBHmIsFQv2dVqZy+xIGc7LD9LrejZXLeQNikHbJn3yZ9YBd7d8S+cxGv0rbrgRKQjxxCuV8A4ULDQ8kPyFAGhR9jvzJRzhF9zuIFcHVCgbMUGEDLz1uZBQDR86CjmEdv5bQIp+2R6j9Q3KV8ja2Ma6FwkIuC89eWlyZ4tD8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708331839; c=relaxed/simple;
-	bh=tA/HjR4gNsKYDqxOmkzpm1jPCMw5rPMZeBApJ0Rh/cs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Djo/1mkPxP3wwQu5qfkEcnWwVZb+kJkwNLjY1HhOIxd2ikXmXbRWB0gY6eACWPsJG20WLzr1fXrjr3f2za05H0arZARFHvBBn1Pnp21jwbuDkLl4YWevOfBJx4Cnia7jqZJpkLM0Ni2fb6NWk1uzas3M04xCjBTh/Zxq9hLQTQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ge6DQLie; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a3e7f7b3d95so88503366b.3
-        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 00:37:18 -0800 (PST)
+	s=arc-20240116; t=1708332157; c=relaxed/simple;
+	bh=dvOFgjHNK432ujMqvQ81GKNPxgY0ga9ZOsPY3V9qfOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rsit8Z8hSVBKTYKHDSER4LBN9My4UtzXq66xP6VR1Jg9da+5AEpCPIDeY7s+4GmLqg7ZstA50Jlg6tYinUdhxIb0FyQVVDVSoTwoBrsb7XscXqEhw5P3kNUytd1NNoMCUYlUSZSO4g2TCg3FKNFGv/+h6NuV5rIaFLu0M9BXRVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=azoAV0SX; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708331837; x=1708936637; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ojbVELbGUO0Fdw1LO3aSx5BEslcvMdmSrG39OaZaxOY=;
-        b=Ge6DQLieZ2ifGEL3Y2+H/rbtAMtU0Zl5t9cedF+AlgRk4g8V9/pw4CBzTO0ehV1IVx
-         95WO1Q72LHvcU4rU118BDgM7NqVnZFYxsg/o44DUMitwmM7WPeUEy0E8/XfTXuMd3ODG
-         ZXQuaphfcGJepmMcgUhakUe9YoCZqmUoxpwRvfp/oLSh8t+Wli4VHG2uWryR8FM5SmPW
-         ngOZsaH3EmFfZpz4AJbfV/qYb3o1cvZWHzWdPWMonjpxRaiRdooGZ9x3hL4kC9302Fdv
-         ibD1pFVBPwXy9L0iWFL4lzvXIsjYn700t9oetL453v/FaZ1ge7FFC4cW1xNtwzgV08xv
-         bhYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708331837; x=1708936637;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ojbVELbGUO0Fdw1LO3aSx5BEslcvMdmSrG39OaZaxOY=;
-        b=XtNu4vT8jQNp40mwGVs8gE29J8pA3YHBOZ6+NZj7tVkZqVb3OBj+2fCeDS+BQysDyZ
-         96VzrAaAZwh4PbLYx3A+CG18e7fng5Td4EeO1d5yGS0btZbD4Sly2bmaymusjyaGHMqk
-         W3wXvoSRSQRWFJ4J/Z4HKgRkXHPYEElz4SK3fGD2oXQqthP5QcLvNmO0c6ycWwfiA+oB
-         lGS43jPFawfQwpI3f0Wng36NDptxL4E0rspAGzFLMR91qJ6zqthcPhUvuvIMM/MZUtTT
-         /OiCy3x6jRwSIUqC6wXpZOqCmYkqDfF2eK0lymGEJ8IZNSkBU7/9MPd1zZiAU9qDFtij
-         HcSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVX6PIXjU6xcqKec+C29QwVn0GKhCkSyv0plwNrzVVcss3qKIYhePpvMOMX3x9tqjZ2c1gGhpX0QCKcxawxH0KAmnsAKYYhDZNhmh0=
-X-Gm-Message-State: AOJu0YwZGcfadhDFChaHDDOB2KlhIUEQllVNhLC50TfRax7WjPme98q+
-	fIGIpTNj7AzcCo3Rb3qz1muBu3mffXIvQDVJQMva0oILLXcMQpNqKo3lzNYtSI4=
-X-Google-Smtp-Source: AGHT+IHPRRVfa7/lTL/FAHCnZ0EhKSDENbaTpEre/56m0a9j/pZ89HxBxVne3vEkeUmJJ840QF6VYg==
-X-Received: by 2002:a17:906:fcca:b0:a3e:473e:26a0 with SMTP id qx10-20020a170906fcca00b00a3e473e26a0mr2936656ejb.51.1708331836826;
-        Mon, 19 Feb 2024 00:37:16 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id th7-20020a1709078e0700b00a3e059c5c5fsm2695590ejc.188.2024.02.19.00.37.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 00:37:16 -0800 (PST)
-Date: Mon, 19 Feb 2024 11:37:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: gustavo@embeddedor.com, keescook@chromium.org,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2] udmabuf: Fix a potential (and unlikely) access to
- unallocated memory
-Message-ID: <91d964c2-3d5a-4e96-a4db-e755455c5b5c@moroto.mountain>
-References: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1708332153; x=1739868153;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=b3pLRSvlRNkx4QVYyNlxFS5vrERzFzUE1laQUlHC0YI=;
+  b=azoAV0SXybqSPXx52xrsjlsd7KLJv33Jpu+NX7LUF79+E539ESxfB3BO
+   +6Butey4AWfgzD5PUsfKsXMuThWI2YpnmzIMnx/XsUhDzYP747EQicvxi
+   Qcb0KfiRdlQPp+IfGWxPWesQPYqmk0+jOQxcFjX+nPmoYuhAAV49wmUzy
+   eE65oFmwS1TfTG4ki610tudqsEgQjVX/ISwqsiF6ghskQoupyIqz29LnR
+   TxVj0fYjJvHoP78v8EW+BatcEWDY6TT4nBpEHEWhI/3PeDM+wlsNuFFJn
+   bodumCJmI8kX+lH2f5WZq6KQgrtiwfkKDp1xkmM5vmpRnXYbW3YysC0o/
+   g==;
+X-IronPort-AV: E=Sophos;i="6.06,170,1705359600"; 
+   d="scan'208";a="35468937"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 19 Feb 2024 09:42:25 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BD1E7280075;
+	Mon, 19 Feb 2024 09:42:24 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: linux-media@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, Dafna Hirschfeld <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>, Helen Koike <helen.koike@collabora.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Paul Elder <paul.elder@ideasonboard.com>, Rob Herring <robh+dt@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v13 00/12] media: rkisp1: Add support for i.MX8MP
+Date: Mon, 19 Feb 2024 09:42:27 +0100
+Message-ID: <6019598.lOV4Wx5bFT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240218204350.10916-1-laurent.pinchart@ideasonboard.com>
+References: <20240218204350.10916-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Sun, Feb 18, 2024 at 06:46:44PM +0100, Christophe JAILLET wrote:
-> If 'list_limit' is set to a very high value, 'lsize' computation could
-> overflow if 'head.count' is big enough.
-> 
+Hi Laurent,
 
-The "list_limit" is set via module parameter so if you set that high
-enough to lead to an integer overflow then you kind of deserve what
-you get.
+thanks for the update.
 
-This patch is nice for kernel hardening and making the code easier to
-read/audit but the real world security impact is negligible.
+Am Sonntag, 18. Februar 2024, 21:43:38 CET schrieb Laurent Pinchart:
+> Hello,
+>=20
+> This series extends the rkisp1 driver to support the ISP found in the
+> NXP i.MX8MP SoC.
+>=20
+> The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
+> and in the NXP i.MX8MP have the same origin, and have slightly diverged
+> over time as they are now independently developed (afaik) by Rockchip
+> and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
+> and is close enough to the RK3399 ISP that it can easily be supported by
+> the same driver.
+>=20
+> This version of the series specifically has been tested on a Polyhex
+> Debix model A with an IMX219 camera sensor (Raspberry Pi cam v2).
+>=20
+> See individual patches for a detailed description of changes compared to
+> v12.
+>=20
+> This should hopefully be the last version, I plan to send a pull request
+> in a few days, in time for v6.9.
 
-regards,
-dan carpenter
+Still works on my platform TQMa8MPQL/MBa8MPxL + IMX327 using libcamera for =
+1080p + SRGGB10 debayering. For the missing commits:
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+> Laurent Pinchart (2):
+>   media: rkisp1: Add and use rkisp1_has_feature() macro
+>   media: rkisp1: Configure gasket on i.MX8MP
+>=20
+> Paul Elder (10):
+>   media: rkisp1: Support setting memory stride for main path
+>   media: rkisp1: Support devices lacking self path
+>   media: rkisp1: Support devices lacking dual crop
+>   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+>   media: rkisp1: Add version enum for i.MX8MP ISP
+>   media: rkisp1: Support i.MX8MP's 34-bit DMA
+>   media: rkisp1: Add YC swap capability
+>   media: rkisp1: Add UYVY as an output format
+>   media: rkisp1: Fix endianness on raw streams on i.MX8MP
+>   media: rkisp1: Add match data for i.MX8MP ISP
+>=20
+>  .../bindings/media/rockchip-isp1.yaml         |  37 +++-
+>  .../platform/rockchip/rkisp1/rkisp1-capture.c | 180 ++++++++++++++----
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  35 +++-
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  71 ++++++-
+>  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 ++++++++++++-
+>  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  35 ++++
+>  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  19 +-
+>  include/uapi/linux/rkisp1-config.h            |  50 ++---
+>  8 files changed, 472 insertions(+), 86 deletions(-)
+>=20
+>=20
+> base-commit: e0b8eb0f6d652981bfd9ba7c619c9d81ed087ad0
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
 
