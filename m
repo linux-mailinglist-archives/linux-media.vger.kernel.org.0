@@ -1,178 +1,183 @@
-Return-Path: <linux-media+bounces-5437-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5438-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B5685AB61
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 19:48:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5137585ABC7
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 20:08:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA4A31C21E7E
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 18:48:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76F9B1C213D7
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 19:08:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D73BA482EC;
-	Mon, 19 Feb 2024 18:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B89394F5F2;
+	Mon, 19 Feb 2024 19:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="UuCzQEkK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="atM/CvQ3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8277241C7F
-	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 18:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AA74F1F5;
+	Mon, 19 Feb 2024 19:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708368476; cv=none; b=fP/LKpEHJAVZQoUSY+7lF5uu/zvVY8j/HtpJlqjv9SGIiS4Ww0pBCh8BRAoFa94yy/O5QN6KhhQy6Fi048/dDizAUKcw/fn/wf896fYLoONl5v0n7YZOMfKwjnDW5QEzPBZTDHDmIsn1SUEAIFUC9ajygH22FTfxvayF/i6Lte0=
+	t=1708369710; cv=none; b=K2tPTbCe90WDMT/Sf0+Xxk9C0I7Ww/x3ntW8jvte4/pEqR5P+GmL3qw07v2AzHlXq3nwuT6jAItimxb6hEtvibo5Oul+kOGrpPxrXjR6B3Yyj+FKsODeC6dVRqc+Fp2JfaeWZuuHzmYOJplzDfFioDw0U6J6tOfdhZBcZc98f+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708368476; c=relaxed/simple;
-	bh=gg32L9SW51TCVEIcz5TJ3+5Ik5TcvDzFXrh6AEcBGn8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jmyEigW7Gmok3S10HQ7ill3E3y+0d2fIde8US1j+CY/Qp26HqdY5VhNIBQOjEII098fcgkWZDm4xPrv5LmNep9KJWsJWvMTXrpIJIGXkNSmfb30Wxx5t0dEvoYnqh5dGNaniszgW+U+D9uCtCz7YxKXScmb+KPcGj43hrpBJ5Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=UuCzQEkK; arc=none smtp.client-ip=44.202.169.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
-Received: from eig-obgw-5008a.ext.cloudfilter.net ([10.0.29.246])
-	by cmsmtp with ESMTPS
-	id c8ForFH5oTHHuc8g7rt1uH; Mon, 19 Feb 2024 18:47:47 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id c8g6rG5Ji2MMBc8g6rZN8y; Mon, 19 Feb 2024 18:47:46 +0000
-X-Authority-Analysis: v=2.4 cv=HrnVGFTS c=1 sm=1 tr=0 ts=65d3a252
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=VhncohosazJxI00KdYJ/5A==:17
- a=VSjF23E3Ok2ZiNtq:21 a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=wYkD_t78qR0A:10
- a=VwQbUJbxAAAA:8 a=hpmp6n0Fncvi9LRvqokA:9 a=QEXdDO2ut3YA:10
- a=AjGcO6oz07-iQ99wixmX:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=PsUWlBLUfZeSjk+Yv21JCfUUB/vLVf1BaKRuAmYHUeo=; b=UuCzQEkK7vHOFykbSc9v990Ogl
-	NAB8YOvszb6OOJidZ4Yp43lBZgqAoSUSYiLUnc5d3IMdxbWsGrR+bL4gmPSQ+dVgJyh8wD43KouWm
-	TpFRBhC7CmnaaW3u7rGihpPgM+gIxbJG60M21G81RHJqA8zb3Azvp9GmNgpYSkX+X9Ymz5eM0Eo7I
-	vCInVKdGqPPKyOKoL88Xm1F6w+ROJPDY6wq0nhNePvWxBthCnzSsQgH2184A6PsGwM0cJixX9y75N
-	ZWOTW1gUtkMr+uJvIdd3rQtxiY/iKnI67TDWBJAqtfC9POiBgzWT5+e98bmPcVhTQeQCtgwGgTcti
-	cHw5qIYQ==;
-Received: from [201.172.172.225] (port=57308 helo=[192.168.15.10])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1rc8g5-002Aa2-1q;
-	Mon, 19 Feb 2024 12:47:45 -0600
-Message-ID: <292b9fb0-5661-488b-a52a-d5e7dbb3dc45@embeddedor.com>
-Date: Mon, 19 Feb 2024 12:47:43 -0600
+	s=arc-20240116; t=1708369710; c=relaxed/simple;
+	bh=Qgm4yRczBnXgjpxAD+i1bsbP2xXCEc56/SoGjrcpzPo=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:To:Date; b=IhsQqn8nJfn+/YdX3uuVkUY1Pscs9ttCr9naf3/GLoKglfjPCogc1hfwgjxFNVC/3DsMyD07xjFg+pIW/ffEIJMNqhQiHtZvK2OWJ0HccfgdZk0lroOjn7HQbdVXB1CJXdYcVBrqdCs+7mRW5iYrCwaYL2PxXOxrUsJsGzflh+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=atM/CvQ3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE033C433C7;
+	Mon, 19 Feb 2024 19:08:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708369709;
+	bh=Qgm4yRczBnXgjpxAD+i1bsbP2xXCEc56/SoGjrcpzPo=;
+	h=In-Reply-To:References:Subject:From:To:Date:From;
+	b=atM/CvQ3iM2Anizb1lzybkxvKx4jL0MqzynEc9xfeXYO4jST8XRzcHkXWB1rVSoXm
+	 QzyUkIxjMCH9R5YY/PaB5tsF3NM1FDm8ykl4d3vXKA5asaVD7k3T/dyEoh1VZZzkjV
+	 kIr74/S+E61h0sUkZdHfsYrdNzab1k3HMtQZRRFEGMUr+2ET8tOcs0ZuNnfT1ZRisK
+	 aGWGhy6Ua4SklPFh8q/0UhO+nzJXgQ6wsbcSkaoqa5RFwR1fvwJmxCB+5UNPA+m8me
+	 VnACdEWHC3NqCsBvhJZUamXJbuuKbNyTaBxaPGys8l0JPiznLYdaSAmdLDp4bqSWW0
+	 hCsk3eP26kWrw==
+Message-ID: <e760847bd911671f1e364271888481fd.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] udmabuf: Fix a potential (and unlikely) access to
- unallocated memory
-Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- keescook@chromium.org, Gerd Hoffmann <kraxel@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.172.172.225
-X-Source-L: No
-X-Exim-ID: 1rc8g5-002Aa2-1q
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.10]) [201.172.172.225]:57308
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 2
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfKbhbQprKK3VM2kjqG67DvfM/hmbtiI/amDpi5vPiiWBmsok4O7GfqfWat8HrGWTlksGWJty66zAKpA/qKvG+4PseVO15baGqchJOI+aI35gvXuY/8ec
- yfdmRV/iyucy88hu9ZSmvmyaVpe7+z9jEeKuN5q+xiZhuHhg/68Je0pz07S6yMQXy1xxPsCeuXyDUqHn4HRbX9SY1XQEszG2GJ9KpJ+MCXvmFIDwBat0hX1/
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <02461595-16b3-4fea-a029-54190e10e6f5@linaro.org>
+References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org> <38e7e80f61f7c67c984735cf55c3dfb3.sboyd@kernel.org> <02461595-16b3-4fea-a029-54190e10e6f5@linaro.org>
+Subject: Re: [PATCH] clk: constify the of_phandle_args argument of of_clk_provider
+From: Stephen Boyd <sboyd@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, Jonathan Hunter <jonathanh@nvidia.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Turquette <mturquette@baylibre.com>, NXP Linux Team <linux-imx@nxp.com>, Nishanth Menon <nm@ti.com>, Peng Fan <peng.fan@nxp.com>, Russell King <linux@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Sudeep Holla <sudeep.holla@arm.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, Vinod Koul <vkoul@kernel.org>, alsa-devel@alsa-project.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-omap@vger.kernel.org, linux-phy@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, patches@opensource.cirrus.com
+Date: Mon, 19 Feb 2024 11:08:27 -0800
+User-Agent: alot/0.10
 
+Quoting Krzysztof Kozlowski (2024-02-15 23:12:29)
+> On 16/02/2024 00:12, Stephen Boyd wrote:
+> > Quoting Krzysztof Kozlowski (2024-02-08 08:37:10)
+> >> None of the implementations of the get() and get_hw() callbacks of
+> >> "struct of_clk_provider" modify the contents of received of_phandle_ar=
+gs
+> >> pointer.  They treat it as read-only variable used to find the clock to
+> >> return.  Make obvious that implementations are not supposed to modify
+> >> the of_phandle_args, by making it a pointer to const.
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> ---
+> >=20
+> > This will almost certainly break the build once it is merged to
+> > linux-next. What's your plan to merge this?
+>=20
+> First problem is that it might not apply... I prepared it on next to be
+> sure all subsystems are updated.
+>=20
+> The idea is to get reviews and acks and then:
+> 1. Maybe it applies cleanly to your tree meaning there will be no
+> conflicts with other trees,
+> 2. If not, then I can keep rebasing it and it should be applied after rc1.
+>=20
 
+The struct clk based version is probably not going to be used in any new
+code. If you split the patch up and converted the struct clk based ones
+first then that would probably apply without breaking anything, because
+new code should only be using the struct clk_hw version.
 
-On 2/18/24 11:46, Christophe JAILLET wrote:
-> If 'list_limit' is set to a very high value, 'lsize' computation could
-> overflow if 'head.count' is big enough.
-> 
-> In such a case, udmabuf_create() would access to memory beyond 'list'.
-> 
-> Use memdup_array_user() which checks for overflow.
-> 
-> While at it, include <linux/string.h>.
-> 
-> Fixes: fbb0de795078 ("Add udmabuf misc device")'
+The struct clk_hw version could be done in two steps. Introduce another
+get_hw callback with the const signature, and then update the world to
+use that callback, finally remove the old callback. We could call this
+callback 'get_clk_hw'. This is probably more work than it's worth
+though, but at least this way we don't have to worry about applying
+after rc1.
 
-I don't think this tag is needed in this case.
+Or perhaps we need to cast everything and use macros? It would be bad if
+the callback actually did something with the clkspec and we cast it to
+const, but your patch shows that nobody is doing that. We would get rid
+of this macro garbage once everything is converted.
 
-Also, please, CC linux-hardening next time.
-
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-
-In any case, LGTM:
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks!
---
-Gustavo
-
-> ---
-> v2: - Use memdup_array_user()   [Kees Cook]
->      - Use sizeof(*list)   [Gustavo A. R. Silva]
->      - Add include <linux/string.h>
-> 
-> v1: https://lore.kernel.org/all/3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr/
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->   drivers/dma-buf/udmabuf.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index c40645999648..5728948ea6f2 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -11,6 +11,7 @@
->   #include <linux/module.h>
->   #include <linux/shmem_fs.h>
->   #include <linux/slab.h>
-> +#include <linux/string.h>
->   #include <linux/udmabuf.h>
->   #include <linux/vmalloc.h>
->   #include <linux/iosys-map.h>
-> @@ -314,14 +315,13 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
->   	struct udmabuf_create_list head;
->   	struct udmabuf_create_item *list;
->   	int ret = -EINVAL;
-> -	u32 lsize;
->   
->   	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
->   		return -EFAULT;
->   	if (head.count > list_limit)
->   		return -EINVAL;
-> -	lsize = sizeof(struct udmabuf_create_item) * head.count;
-> -	list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
-> +	list = memdup_array_user((void __user *)(arg + sizeof(head)),
-> +				 sizeof(*list), head.count);
->   	if (IS_ERR(list))
->   		return PTR_ERR(list);
->   
+---8<---
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index 2253c154a824..8e5ed16a97a0 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -4818,7 +4818,7 @@ struct of_clk_provider {
+ 	struct list_head link;
+=20
+ 	struct device_node *node;
+-	struct clk *(*get)(struct of_phandle_args *clkspec, void *data);
++	struct clk *(*get)(const struct of_phandle_args *clkspec, void *data);
+ 	struct clk_hw *(*get_hw)(struct of_phandle_args *clkspec, void *data);
+ 	void *data;
+ };
+@@ -4880,8 +4880,8 @@ EXPORT_SYMBOL_GPL(of_clk_hw_onecell_get);
+  *
+  * This function is *deprecated*. Use of_clk_add_hw_provider() instead.
+  */
+-int of_clk_add_provider(struct device_node *np,
+-			struct clk *(*clk_src_get)(struct of_phandle_args *clkspec,
++int _of_clk_add_provider(struct device_node *np,
++			struct clk *(*clk_src_get)(const struct of_phandle_args *clkspec,
+ 						   void *data),
+ 			void *data)
+ {
+@@ -4914,7 +4914,7 @@ int of_clk_add_provider(struct device_node *np,
+=20
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(of_clk_add_provider);
++EXPORT_SYMBOL_GPL(_of_clk_add_provider);
+=20
+ /**
+  * of_clk_add_hw_provider() - Register a clock provider for a node
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index 1293c38ddb7f..bfc660fa7c8f 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -1531,10 +1531,11 @@ struct clk_hw_onecell_data {
+ 	}
+=20
+ #ifdef CONFIG_OF
+-int of_clk_add_provider(struct device_node *np,
+-			struct clk *(*clk_src_get)(struct of_phandle_args *args,
++int _of_clk_add_provider(struct device_node *np,
++			struct clk *(*clk_src_get)(const struct of_phandle_args *args,
+ 						   void *data),
+ 			void *data);
++
+ int of_clk_add_hw_provider(struct device_node *np,
+ 			   struct clk_hw *(*get)(struct of_phandle_args *clkspec,
+ 						 void *data),
+@@ -1559,8 +1560,8 @@ int of_clk_detect_critical(struct device_node *np, in=
+t index,
+=20
+ #else /* !CONFIG_OF */
+=20
+-static inline int of_clk_add_provider(struct device_node *np,
+-			struct clk *(*clk_src_get)(struct of_phandle_args *args,
++static inline int _of_clk_add_provider(struct device_node *np,
++			struct clk *(*clk_src_get)(const struct of_phandle_args *args,
+ 						   void *data),
+ 			void *data)
+ {
+@@ -1614,6 +1615,12 @@ static inline int of_clk_detect_critical(struct devi=
+ce_node *np, int index,
+ }
+ #endif /* CONFIG_OF */
+=20
++typedef struct clk *(*clk_src_get_fn)(const struct of_phandle_args *args, =
+void *data);
++
++#define of_clk_add_provider(np, get, data) ({				\
++		_of_clk_add_provider(np, (clk_src_get_fn)(get), data);		\
++})
++
+ void clk_gate_restore_context(struct clk_hw *hw);
+=20
+ #endif /* CLK_PROVIDER_H */
 
