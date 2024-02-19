@@ -1,161 +1,230 @@
-Return-Path: <linux-media+bounces-5417-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5418-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF59985A28C
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 12:54:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC5D85A305
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 13:17:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0046F1C2220C
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 11:54:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57115286CCB
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 12:17:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C38C2D03B;
-	Mon, 19 Feb 2024 11:54:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C152E854;
+	Mon, 19 Feb 2024 12:17:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OGQZ+uzj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gl5Ire7i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726422D60C;
-	Mon, 19 Feb 2024 11:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4265132C9C;
+	Mon, 19 Feb 2024 12:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708343670; cv=none; b=m7bA7tYENHeUxrFMvfLOhPq6eztqHN0ozmh9ScXZDbevIr9jYHuDHEwpqVCCg2hC2OlnLFb3NMHY5Jpps4/dl9CID9x07mEg1eLOE74A/fT0Je11s7/qAwV6+ppYKbx5fetfh4JwO+HeEUClmflyF0vWzJalSbxrhEoENgsV9T4=
+	t=1708345017; cv=none; b=mERHEtEQzeeTuocUxWqCZPpoNLxVsKFJXswc9tTZoWYbGWYM2tkILmiju8no6Hu3MsyECJRSdootGdiQScS28N2UIT/AM/Pc6dhtzc+1r6aYSomwPRCMHNver9LWdQQawxv50EMSusnLaN6YbeEiPRW4jtdJq739Crji8SxHzuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708343670; c=relaxed/simple;
-	bh=/54XkQRIaMoh0oyLd5k/+n5EWpirSB7YraPB3iemee0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E4yrmS0bckMJStmYVuHdjpzXS2IJcnW+0jUTw5k+9xY+TKayQtTbC+sy36JEllgusjBA4FtmAovX8aYLZz+4JKfqK0qh7TJWlKyN+7L0fErydCSzSLVrer5Us4PXDDUTWzrCQgIo6+Eq63ou84Zr60Zsny4g9xTUDh0chUccRHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OGQZ+uzj; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8365345B;
-	Mon, 19 Feb 2024 12:54:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708343659;
-	bh=/54XkQRIaMoh0oyLd5k/+n5EWpirSB7YraPB3iemee0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OGQZ+uzj6S60sRWV3cHkar0scCy41nytkDQw/oQIDciNTC6hgL18tcdAkYpt+matI
-	 pCoHQBqRNwMm4zCsLbWzxlV5T7llaJwCoketLO3IBrTV0jsJCSOxjVZUrVhysYTFYq
-	 yfOxw4zgZeUddRmalFjxBloINbWmvlnglG0YnTic=
-Date: Mon, 19 Feb 2024 13:54:30 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Elder <paul.elder@ideasonboard.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Adam Ford <aford173@gmail.com>,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	linux-kernel@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
-	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] media: rkisp1: Allow higher input resolution
-Message-ID: <20240219115430.GC13043@pendragon.ideasonboard.com>
-References: <20240217185202.1754750-1-megi@xff.cz>
- <20240218205908.GA12766@pendragon.ideasonboard.com>
- <pftafukuzq7qzbhlvwtmeg3mburnttylgy4246timlghtrdgx4@r6munvmj6oqt>
- <CAHCN7x+zi3WxnY-mxZFKePs1cS=-DprEmh_CnypJ4XK7xBzjMQ@mail.gmail.com>
- <b500676e-431f-40fc-868b-9f9bb359a109@ideasonboard.com>
- <ZdMpSLqYVFbU7sF0@pyrite.rasen.tech>
+	s=arc-20240116; t=1708345017; c=relaxed/simple;
+	bh=Fo7gWX+fN3KK0l+fgHET85/r8KC+eGTLo1tNhMAG3fM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=miyjumOJBVpaFEiAYdy10Sxh3bzeDgcsf2qBP23+/7zzwOgR9/DAtYljphNyR86LkaCgOd7SHKzfv/jc3/oPa23vtUT4WpOlYgO5uT3dfRQ0hgppTvyOvNe1fj/x+SsQen+EmLOuUepOyG5JB5A/lgnsRzwiOI5JHHV+G3pOYyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gl5Ire7i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF6EDC433C7;
+	Mon, 19 Feb 2024 12:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708345016;
+	bh=Fo7gWX+fN3KK0l+fgHET85/r8KC+eGTLo1tNhMAG3fM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gl5Ire7ih1If26CRdbDqceoxp+UT1T+0n8EEUKShBqS3jL61ggxtzzWxM91FaQR89
+	 NluyzJL22D8zdCSvqSChzLd2o+g7HJyJXmsad55aYpwDVOF1i/k/4EqYS4376T4VLl
+	 SyD1vb/7dqKpWKoBHoYfjeXaZkN4PnfPIOvQpXVp2PLNcFI+9u5PopnikQbcn8Zmr0
+	 yG/8Vfz25UbYxWKp3uB28K7m9l9/X58Q7H8pUZW6wXxXhtOQs9GJzWvAFUZ6UBETqg
+	 Jy4Z5XlUcui/Lk7k8+bsNgaqr0py7jCh+uuXOYk7ez2obX1Kzy89dmqUuz9c8F3fj1
+	 vrWQ+Sx7tzI8A==
+Date: Mon, 19 Feb 2024 13:16:49 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, hverkuil@xs4all.nl,
+ sakari.ailus@iki.fi, tfiga@chromium.org, m.szyprowski@samsung.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v12 10/15] media: uapi: Add audio rate controls support
+Message-ID: <20240219131649.1a26769d@coco.lan>
+In-Reply-To: <CAA+D8APQy0NaZH44zgoHfMJ1pFS3TporVZZt7zV=Yy-edWacdg@mail.gmail.com>
+References: <1705581128-4604-1-git-send-email-shengjiu.wang@nxp.com>
+	<1705581128-4604-11-git-send-email-shengjiu.wang@nxp.com>
+	<20240217105708.53c81b04@coco.lan>
+	<CAA+D8APQy0NaZH44zgoHfMJ1pFS3TporVZZt7zV=Yy-edWacdg@mail.gmail.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZdMpSLqYVFbU7sF0@pyrite.rasen.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 19, 2024 at 07:11:20PM +0900, Paul Elder wrote:
-> On Mon, Feb 19, 2024 at 02:33:21PM +0530, Umang Jain wrote:
-> > On 19/02/24 7:39 am, Adam Ford wrote:
-> > > On Sun, Feb 18, 2024 at 3:02 PM Ondřej Jirman <megi@xff.cz> wrote:
-> > > > On Sun, Feb 18, 2024 at 10:59:08PM +0200, Laurent Pinchart wrote:
-> > > > > On Sat, Feb 17, 2024 at 07:51:58PM +0100, Ondřej Jirman wrote:
-> > > > > > From: Ondrej Jirman <megi@xff.cz>
-> > > > > > 
-> > > > > > In BSP driver, it is allowed, and it works in practice. Tested on
-> > > > > > Pinephone Pro/RK3399 with IMX258 at full res.
-> > > > >
-> > > > > Paul, Umang, do I recall correctly that you have a similar change ?
-> > > > > Could you review and test this (especially on the i.MX8MP) ?
-> > > >
-> > > > It's also a limit from the datasheet, so the change should not be that
-> > > > controversial:
-> > > > 
-> > > >    https://megous.com/dl/tmp/d2b333043ecebaf3.png
-> > > > 
-> > > > (so that it doesn't sound like I just copied the BSP values)
-> > > > 
-> > >  From what I see in the i.MX8M Plus reference manual, it has a max
-> > > resolution of 4096x3072, so it might be necessary to move this off
-> > 
-> > This is what I (and I assume Paul too) have been working with on i.MX8M
-> > Plus. So it's the known and tested value of max ISP input from out side.
+Em Mon, 19 Feb 2024 14:03:37 +0800
+Shengjiu Wang <shengjiu.wang@gmail.com> escreveu:
+
+> On Sat, Feb 17, 2024 at 5:57=E2=80=AFPM Mauro Carvalho Chehab
+> <mchehab@kernel.org> wrote:
 > >
-> > > from a #define into a structure that varies by product family.
-> 
-> Yes, this is what needs to be done. Here's what I have in my notes:
-> 
-> - The RK3399 TRM says 4416x3312 max input and output on main path, with
->   1920x1080 max output on self path.
-> - The PX30 datasheet [1] says 3264x2448 max input and output on main
->   path, with 1920x1080 max output on self path.
-> - The RK3288 documentation [2] (under "Camera Interface and Image
->   Processor") says 4416x3312 max input and output on main path, with
->   1920x1080 max output on self path.
-> - The i.MX8MP reference manual (the open one) [3] (in table 13-1) says
->   4096x3072 max resolution in single ISP mode
-> 
-> The i.MX8M Plus seems to indeed be limited to 4096x3072, but the TPG is
-> capable of generating 4416x3312, and the ISP works fine in bypass (and
-> therefore raw) mode, so technically it has different maximum sizes
-> depending on the format which makes this more exciting.
-> 
-> In any case, the PX30 (assuming the datasheet is correct) only supports
-> up to 3264x2448, so the existing #define is incorrect anyway.
-> 
-> I don't have a PX30 nor an RK3288 so I can't test those, and I haven't
-> set up my OV64A40 yet which (I've heard) can be used to test even bigger
-> resolutions.
+> > Em Thu, 18 Jan 2024 20:32:03 +0800
+> > Shengjiu Wang <shengjiu.wang@nxp.com> escreveu:
+> > =20
+> > > Add V4L2_CID_M2M_AUDIO_SOURCE_RATE and V4L2_CID_M2M_AUDIO_DEST_RATE
+> > > new IDs for rate control.
+> > >
+> > > Add V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET and
+> > > V4L2_CID_M2M_AUDIO_DEST_RATE_OFFSET for clock drift.
+> > >
+> > > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > > ---
+> > >  .../media/v4l/ext-ctrls-audio-m2m.rst         | 20 +++++++++++++++++=
+++
+> > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  6 ++++++
+> > >  include/uapi/linux/v4l2-controls.h            |  5 +++++
+> > >  3 files changed, 31 insertions(+)
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2=
+m.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst
+> > > index 82d2ecedbfee..de579ab8fb94 100644
+> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst
+> > > @@ -19,3 +19,23 @@ Audio M2M Control IDs
+> > >      The Audio M2M class descriptor. Calling
+> > >      :ref:`VIDIOC_QUERYCTRL` for this control will
+> > >      return a description of this control class.
+> > > +
+> > > +.. _v4l2-audio-asrc:
+> > > +
+> > > +``V4L2_CID_M2M_AUDIO_SOURCE_RATE (integer menu)``
+> > > +    Sets the audio source sample rate, unit is Hz
+> > > +
+> > > +``V4L2_CID_M2M_AUDIO_DEST_RATE (integer menu)``
+> > > +    Sets the audio destination sample rate, unit is Hz
+> > > +
+> > > +``V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET (fixed point)``
+> > > +    Sets the offset from the audio source sample rate, unit is Hz.
+> > > +    The offset compensates for any clock drift. The actual source au=
+dio
+> > > +    sample rate is the ideal source audio sample rate from
+> > > +    ``V4L2_CID_M2M_AUDIO_SOURCE_RATE`` plus this fixed point offset.
+> > > +
+> > > +``V4L2_CID_M2M_AUDIO_DEST_RATE_OFFSET (fixed point)``
+> > > +    Sets the offset from the audio destination sample rate, unit is =
+Hz.
+> > > +    The offset compensates for any clock drift. The actual destinati=
+on audio
+> > > +    sample rate is the ideal source audio sample rate from
+> > > +    ``V4L2_CID_M2M_AUDIO_DEST_RATE`` plus this fixed point offset. =
+=20
+> >
+> > Hmm... first of all, controls on V4L2 API can either be get or set.
+> > So, starting the sentence with "Set" sounds an assumption that may
+> > be wrong. =20
+>=20
+> Ok, will update the description.
+> >
+> > Also, I would explain a little bit more about the frequency offset valu=
+es,
+> > as clock drift adjustment on PCM streams is something that can be done
+> > using different approaches.
+> >
+> > I'm assuming that what you wanted here is to use it to check if the
+> > video and audio clocks have some drift, and reducing or increasing
+> > the audio sample rate dynamically to ensure that such drift will
+> > stay constraint to a maximum allowed drift measured in mili or nano
+> > seconds. So, userspace would be expected to be monitoring such drift
+> > and increasing/decreasing the sample frequency as needed to maintain
+> > such constraint.
+> >
+> > Is that the way such uAPI is expected to work? =20
+>=20
+> Yes. Userspace should monitor the drift, get the offset based on the
+> common sample rate (8k, 44.1k, 48k...) then send it to the driver.
+> The offset is a fixed point. it is base on the patch:
+> https://patchwork.kernel.org/project/linux-media/patch/cec82507-ced9-4e7d=
+-802c-04a40f84a4b4@xs4all.nl/
 
-Thanks for the summary Paul.
+Ok, so write a description about how this should be used (like the
+test I written),to help userspace developers to better understand
+how this uAPI should be used.
 
-Ondřej, would you be interested in implementing this ?
+See, one of the main goals of the uAPI documentation is to ensure that
+userspace programs will implement the uAPI bits the right way, behaving
+the right way when using it. That's why we even have some userspace code=20
+examples for some ioctls. IMO frequence drift is one of such cases
+where more explanation is needed.
 
-> [1] https://opensource.rock-chips.com/images/8/87/Rockchip_PX30_Datasheet_V1.4-20191227.pdf
-> [2] https://opensource.rock-chips.com/images/4/49/Rockchip_RK3288_Datasheet_V2.7-20191227.pdf
-> [3] (requires login) https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-8-applications-processors/i-mx-8m-plus-arm-cortex-a53-machine-learning-vision-multimedia-and-industrial-iot:IMX8MPLUS
-> 
-> > > > > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > > > > > ---
-> > > > > >   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 4 ++--
-> > > > > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > > index 4b6b28c05b89..74098ddbeeb3 100644
-> > > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > > @@ -33,8 +33,8 @@ struct dentry;
-> > > > > >   #define RKISP1_ISP_SD_SINK                 BIT(1)
-> > > > > > 
-> > > > > >   /* min and max values for the widths and heights of the entities */
-> > > > > > -#define RKISP1_ISP_MAX_WIDTH                       4032
-> > > > > > -#define RKISP1_ISP_MAX_HEIGHT                      3024
-> > > > > > +#define RKISP1_ISP_MAX_WIDTH                       4416
-> > > > > > +#define RKISP1_ISP_MAX_HEIGHT                      3312
-> > > > > >   #define RKISP1_ISP_MIN_WIDTH                       32
-> > > > > >   #define RKISP1_ISP_MIN_HEIGHT                      32
-> > > > > > 
 
--- 
-Regards,
+>=20
+> Best regards
+> Shengjiu Wang
+> > =20
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/medi=
+a/v4l2-core/v4l2-ctrls-defs.c
+> > > index 2a85ea3dc92f..91e1f5348c23 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > @@ -1245,6 +1245,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+> > >
+> > >       /* Audio M2M controls */
+> > >       case V4L2_CID_M2M_AUDIO_CLASS:  return "Audio M2M Controls";
+> > > +     case V4L2_CID_M2M_AUDIO_SOURCE_RATE:    return "Audio Source Sa=
+mple Rate";
+> > > +     case V4L2_CID_M2M_AUDIO_DEST_RATE:      return "Audio Destinati=
+on Sample Rate";
+> > >       default:
+> > >               return NULL;
+> > >       }
+> > > @@ -1606,6 +1608,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,=
+ enum v4l2_ctrl_type *type,
+> > >       case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
+> > >               *type =3D V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+> > >               break;
+> > > +     case V4L2_CID_M2M_AUDIO_SOURCE_RATE:
+> > > +     case V4L2_CID_M2M_AUDIO_DEST_RATE:
+> > > +             *type =3D V4L2_CTRL_TYPE_INTEGER_MENU;
+> > > +             break;
+> > >       default:
+> > >               *type =3D V4L2_CTRL_TYPE_INTEGER;
+> > >               break;
+> > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/=
+v4l2-controls.h
+> > > index a8b4b830c757..30129ccdc282 100644
+> > > --- a/include/uapi/linux/v4l2-controls.h
+> > > +++ b/include/uapi/linux/v4l2-controls.h
+> > > @@ -3495,6 +3495,11 @@ struct v4l2_ctrl_av1_film_grain {
+> > >  #define V4L2_CID_M2M_AUDIO_CLASS_BASE  (V4L2_CTRL_CLASS_M2M_AUDIO | =
+0x900)
+> > >  #define V4L2_CID_M2M_AUDIO_CLASS       (V4L2_CTRL_CLASS_M2M_AUDIO | =
+1)
+> > >
+> > > +#define V4L2_CID_M2M_AUDIO_SOURCE_RATE       (V4L2_CID_M2M_AUDIO_CLA=
+SS_BASE + 0)
+> > > +#define V4L2_CID_M2M_AUDIO_DEST_RATE (V4L2_CID_M2M_AUDIO_CLASS_BASE =
++ 1)
+> > > +#define V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET        (V4L2_CID_M2M_A=
+UDIO_CLASS_BASE + 2)
+> > > +#define V4L2_CID_M2M_AUDIO_DEST_RATE_OFFSET  (V4L2_CID_M2M_AUDIO_CLA=
+SS_BASE + 3)
+> > > +
+> > >  /* MPEG-compression definitions kept for backwards compatibility */
+> > >  #ifndef __KERNEL__
+> > >  #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC =20
+> >
+> >
+> >
+> > Thanks,
+> > Mauro =20
 
-Laurent Pinchart
+
+
+Thanks,
+Mauro
 
