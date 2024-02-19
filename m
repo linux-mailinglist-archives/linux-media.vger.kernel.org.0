@@ -1,111 +1,104 @@
-Return-Path: <linux-media+bounces-5433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5434-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596AB85AA2A
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 18:44:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE8785AA7B
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 19:00:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E4331F21FD1
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 17:44:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AE7A1F251FF
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 18:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAAAA44C92;
-	Mon, 19 Feb 2024 17:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C51E847F67;
+	Mon, 19 Feb 2024 18:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C+zGe7Xu"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="hL2FC/PY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A853926288
-	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 17:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+Received: from smtp.smtpout.orange.fr (smtp-14.smtpout.orange.fr [80.12.242.14])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 202DB46B9F
+	for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 18:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708364657; cv=none; b=BgBtfvBVetODnrsLwWYzYN7MQikAC5aDY6k43oNIdbGnfHtwUe8If4XdFAX3IkhLQpxQKGBe3TDRSMXWsD7fLegDOZWXoL8FcTEL7nj+pWkRgShk3hcqLebMF0RB181r+w+/K2dvPgvxxLWzfnEaY/+/kgzcTzRIAgw/7byEcf4=
+	t=1708365618; cv=none; b=RTZfMBIImsF98G5zArgjIKEHUZUwLCL6B1p7QFnEU6DUifE4FFOmnBBF/XRZUfzrvF28gdbDXb1g8vgdNgA//n45RoUnRnUFyYKh9Dcc0p/fE3QoeMb5KQ7hGKQPKsLtMqsP0qHjf4VmPUjLSgu0dbK5EVx6PasFvMdnsMtwk00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708364657; c=relaxed/simple;
-	bh=9vwu3zNtnqAqbKhJ+6AGN3WXgzDAgZ/Y8sE+lPjvzHw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lc3p5rgxvUBeJ7ctKuv7QnbglikwN99/KzO4idnJ/RnWjurgGsj0YPH9kl4n/yIPQLpyewkmzXiHe/CJfoB/7bNmqFNkt/Gm3CXrwntEmswaHMezFQl0GQKtwFaqvM2kjtuZKC09AtYUUbLIxXfbwkFINZRPMlJZU1lRpjCXg3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C+zGe7Xu; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dcd9e34430cso4638220276.1
-        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 09:44:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708364655; x=1708969455; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=j0zXATHAze8NZy9kFIN3YGfccOzS376coG1qccDgLkg=;
-        b=C+zGe7Xua7pzKtrc8+4tfQtXldBnEvEHqH5ODcpQwLB4Cb/tFU4wP6S7qLc2A7BBe5
-         0NYk3y9RkdGfwNjyZizsHEzR1Hwua4NcFgco2FX+3fIz9bMPs/YnmhgJUB2jm3c45foI
-         r9DoMbR3M9eGDLiGBctpZhWQY96ymHTRNAjBiebDgf44gKn3dwJnAuV68fGVeXnZmiX5
-         xuAf+gkyvUeIYfjTBL/NlH/C+Mg8VqBQ2+oBR4TvEgnx9DJp09QpZJmKyCDh5TZPcJto
-         ZzQWPfHpt1QJddMicM6wnzP0j1E95cxVUJD9FrObM7kxinj81MWxKxjzA74/lfv7RBB6
-         xW+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708364655; x=1708969455;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j0zXATHAze8NZy9kFIN3YGfccOzS376coG1qccDgLkg=;
-        b=KxP3oRuEE5UDo9SeoDDmecfUrydJVCfRZj0nRuzcMm5tvoBrsQvSPvz/RKrQMe6JDr
-         IEi9fCRjW9foeVcI99cVBamPJ1ayhueWN/m4cG9+GJW/EiLVUDrEdiH4uRKWA99p/Zz1
-         TNvgeuB7QHSl9odKTeeJxBEBax4o0EfWbaEIw1JH7iLq5NQHlSz1GkDHnWZ+OV7ffPsR
-         n39r15SUGEWCCPkJ0B73fXUnGs+Z8BYfgTY6n63+8mwB3G9oqkR7SMPM6jDLmy8E37KV
-         QnFUuP2nxD4qaMGFtggPV7DCWHFyih9Rh9DCl0X2sjCyDbziV6M3HmobXo/ffFNxk1/F
-         64cg==
-X-Forwarded-Encrypted: i=1; AJvYcCXV82pE4a/TsIBorNjgJdBQUl6zL7Mxa9TvqggZnk5PONOxXbZa+XynvGR9z/i7IPNITUgOikZ25XshILdlfSosU5JeUuOgQmVkSSs=
-X-Gm-Message-State: AOJu0YwAK9Ey5nLxbWpU9DujuIY5RtmWN/GAjpM03DtL8ze0DR2OcaCF
-	WIzVMjv179DlsPgjpwitnDLrhcwO67c7fB4dyqbE8P4fTDx/SjVLMXSs1NDL5l3kUt2WtQvVy72
-	2a5ii1O3IYhSwsnXn5Wu7E/r83l15PlOntIb2Yw==
-X-Google-Smtp-Source: AGHT+IFKzL6ptSitfZtFW/T6MBsRHT8U4ZmYel6dTcQd6ViVfKfe13gcYjSRgWwo+fjNa26PIFvPmQrxOdu9t+jwOJw=
-X-Received: by 2002:a25:8006:0:b0:dc7:32e5:a707 with SMTP id
- m6-20020a258006000000b00dc732e5a707mr11059292ybk.61.1708364654765; Mon, 19
- Feb 2024 09:44:14 -0800 (PST)
+	s=arc-20240116; t=1708365618; c=relaxed/simple;
+	bh=DdJ+JPoHBEw3IODe8oZcYF1OwcZG3gCPKyYpD6UWBuw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WE7m0wdNX+5AdRbmZiKCMcWYAMqnG3km1R9RSxQkIlTNS03V7ZIerPpE9SZk8r7kZ6kBzLmjDnW9ZcXU+QvquhXVFTR0DmLs71R22pdlTGm1sfcMWuU9Sq0OaMNPz2AyLIyrVnqs6FL9aIBbTDjhENyg2t4yoCBgoZqQl82c/qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=hL2FC/PY; arc=none smtp.client-ip=80.12.242.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.18] ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id c7uwr4K1Rb1Jlc7uwrZn6h; Mon, 19 Feb 2024 18:59:05 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1708365545;
+	bh=ti6upGoRyyrC2hvsjOkpJVRvXntoJTVQ7/Zs/uqxjT4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hL2FC/PYBaouzvlBBq79Hga/FRp5lg0G/W0pv0oEN7ZYTyC6Gf3gvHnHNw0Chyxy3
+	 FEBM012Ssb3ZtdercwRyvz8fiFGb/WOFilLBBKWlE//OA8lgUKJ9csKadViwxkI0ry
+	 t6h6RUTjQLA0vzgEG5S5pymbbZLTHLuX45NWMKnn7JTrIbTkZXPIGrjWBufil8a87Q
+	 Q3EbREOG9yH1CFM3FTepq/D7O8VcQnCYZiD+AsuA4vqGnDdep+v7gGh2yhnrYRnUUH
+	 bJSAvWeNGVO49Iznz8JoOuCSirJw5+4S/PA0MLr0oSlnvzzprX0Ji6NcET/oWbYYCw
+	 mFmzV1c/a833Q==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 19 Feb 2024 18:59:05 +0100
+X-ME-IP: 92.140.202.140
+Message-ID: <3fe4c327-b69b-464e-8e4e-005fa1813279@wanadoo.fr>
+Date: Mon, 19 Feb 2024 18:59:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr> <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
-In-Reply-To: <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 19 Feb 2024 19:44:04 +0200
-Message-ID: <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
-Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Marc Gonzalez <mgonzalez@freebox.fr>, DT <devicetree@vger.kernel.org>, 
-	linux-media <linux-media@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Bryan O Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Pierre-Hugues Husson <phh@phh.me>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] udmabuf: Fix a potential (and unlikely) access to
+ unallocated memory
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gustavo@embeddedor.com, keescook@chromium.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
+ <91d964c2-3d5a-4e96-a4db-e755455c5b5c@moroto.mountain>
+Content-Language: en-MW
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <91d964c2-3d5a-4e96-a4db-e755455c5b5c@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 19 Feb 2024 at 19:29, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->
-> On 19.02.2024 18:18, Marc Gonzalez wrote:
-> > From: Pierre-Hugues Husson <phhusson@freebox.fr>
-> >
-> > On our msm8998-based device, calling venus_sys_set_power_control()
-> > breaks playback. Since the vendor kernel never calls it, we assume
-> > it should not be called for this device/FW combo.
-> >
-> > Signed-off-by: Pierre-Hugues Husson <phhusson@freebox.fr>
-> > Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
-> > ---
->
-> FWIW, this is also broken on other SoCs.. 8280/8350 and 6115
-> to name a couple.
+Le 19/02/2024 à 09:37, Dan Carpenter a écrit :
+> On Sun, Feb 18, 2024 at 06:46:44PM +0100, Christophe JAILLET wrote:
+>> If 'list_limit' is set to a very high value, 'lsize' computation could
+>> overflow if 'head.count' is big enough.
+>>
+> 
+> The "list_limit" is set via module parameter so if you set that high
+> enough to lead to an integer overflow then you kind of deserve what
+> you get.
+> 
+> This patch is nice for kernel hardening and making the code easier to
+> read/audit but the real world security impact is negligible.
 
-Then let's just disable it until it gets unbroken?
+Agreed.
 
+That is what I meant by "and unlikely".
+Maybe the commit message could be more explicit if needed.
 
--- 
-With best wishes
-Dmitry
+Let me know if ok as-is or if I should try to re-word the description.
+
+CJ
+
+> 
+> regards,
+> dan carpenter
+> 
+> 
+> 
+
 
