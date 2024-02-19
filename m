@@ -1,143 +1,137 @@
-Return-Path: <linux-media+bounces-5409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5410-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00A7859E98
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 09:42:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFAC859F11
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 10:03:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2C951C21364
-	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 08:42:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3A37281A0D
+	for <lists+linux-media@lfdr.de>; Mon, 19 Feb 2024 09:03:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D9E21370;
-	Mon, 19 Feb 2024 08:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7473D2263E;
+	Mon, 19 Feb 2024 09:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="azoAV0SX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qtGV317q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E1920DED;
-	Mon, 19 Feb 2024 08:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7B8224CC;
+	Mon, 19 Feb 2024 09:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708332157; cv=none; b=jVDaBHmIsFQv2dVqZy+xIGc7LD9LrejZXLeQNikHbJn3yZ9YBd7d8S+cxGv0rbrgRKQjxxCuV8A4ULDQ8kPyFAGhR9jvzJRzhF9zuIFcHVCgbMUGEDLz1uZBQDR86CjmEdv5bQIp+2R6j9Q3KV8ja2Ma6FwkIuC89eWlyZ4tD8U=
+	t=1708333413; cv=none; b=qoGF+2cMM0EC8XtXmK4Bir8388cmRDnrz1qV55Umci3Y7NgHjs3YxE6Eemz4k2wRwtvNmp74RzosyNXR4uN5nPkBPEsuDX1+xpnreFJGinPKD1tk37B7OJQPuufOX9hO0CDwS9maLXw0mJf4L973XaiqJ8YgI10tWlvbKMQK0vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708332157; c=relaxed/simple;
-	bh=dvOFgjHNK432ujMqvQ81GKNPxgY0ga9ZOsPY3V9qfOo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rsit8Z8hSVBKTYKHDSER4LBN9My4UtzXq66xP6VR1Jg9da+5AEpCPIDeY7s+4GmLqg7ZstA50Jlg6tYinUdhxIb0FyQVVDVSoTwoBrsb7XscXqEhw5P3kNUytd1NNoMCUYlUSZSO4g2TCg3FKNFGv/+h6NuV5rIaFLu0M9BXRVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=azoAV0SX; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1708332153; x=1739868153;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=b3pLRSvlRNkx4QVYyNlxFS5vrERzFzUE1laQUlHC0YI=;
-  b=azoAV0SXybqSPXx52xrsjlsd7KLJv33Jpu+NX7LUF79+E539ESxfB3BO
-   +6Butey4AWfgzD5PUsfKsXMuThWI2YpnmzIMnx/XsUhDzYP747EQicvxi
-   Qcb0KfiRdlQPp+IfGWxPWesQPYqmk0+jOQxcFjX+nPmoYuhAAV49wmUzy
-   eE65oFmwS1TfTG4ki610tudqsEgQjVX/ISwqsiF6ghskQoupyIqz29LnR
-   TxVj0fYjJvHoP78v8EW+BatcEWDY6TT4nBpEHEWhI/3PeDM+wlsNuFFJn
-   bodumCJmI8kX+lH2f5WZq6KQgrtiwfkKDp1xkmM5vmpRnXYbW3YysC0o/
-   g==;
-X-IronPort-AV: E=Sophos;i="6.06,170,1705359600"; 
-   d="scan'208";a="35468937"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 19 Feb 2024 09:42:25 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BD1E7280075;
-	Mon, 19 Feb 2024 09:42:24 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: linux-media@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, Dafna Hirschfeld <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>, Helen Koike <helen.koike@collabora.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Paul Elder <paul.elder@ideasonboard.com>, Rob Herring <robh+dt@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v13 00/12] media: rkisp1: Add support for i.MX8MP
-Date: Mon, 19 Feb 2024 09:42:27 +0100
-Message-ID: <6019598.lOV4Wx5bFT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240218204350.10916-1-laurent.pinchart@ideasonboard.com>
-References: <20240218204350.10916-1-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1708333413; c=relaxed/simple;
+	bh=9N9JTATGue0lSrwB0YkyG4L8xvvl/c/Kp9BnJrpO4FQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=skKVijyAIo06Tf+PBlUxP51+xxFAZFBGmgkLe0CACG1HxJMrJ2s8ohExQL60zf4Sufgw1tYH+NvkW9FSKPuRPBoymmO3UCnjD+dyC/2YqH1q9XUWA30LxHmKverC0IUsv5yD3YW9UDNp/pReS0agGreJaSwufOZ2lozrWWa09NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qtGV317q; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.102] (unknown [103.86.18.199])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD68A183;
+	Mon, 19 Feb 2024 10:03:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1708333402;
+	bh=9N9JTATGue0lSrwB0YkyG4L8xvvl/c/Kp9BnJrpO4FQ=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=qtGV317qIx71HN77jzgzM1hT4bFDAScyOC+DWe70QgG1TtNW3329gWqf0GBrZ9yqM
+	 xV1JOTpX/FYwkOQBncMu0+9eHLSIq0PtqMjaWleV/s770VrrZglCVmrFsKq9qt+JBi
+	 XkYVEi58+/Y32KAJrIPbeQhn7GoXjnf1D9OAArs8=
+Message-ID: <b500676e-431f-40fc-868b-9f9bb359a109@ideasonboard.com>
+Date: Mon, 19 Feb 2024 14:33:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: rkisp1: Allow higher input resolution
+To: Adam Ford <aford173@gmail.com>, =?UTF-8?Q?Ond=C5=99ej_Jirman?=
+ <megi@xff.cz>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>,
+ "open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
+ "open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
+ "moderated list:ARM/Rockchip SoC support"
+ <linux-arm-kernel@lists.infradead.org>,
+ Paul Elder <paul.elder@ideasonboard.com>
+References: <20240217185202.1754750-1-megi@xff.cz>
+ <20240218205908.GA12766@pendragon.ideasonboard.com>
+ <pftafukuzq7qzbhlvwtmeg3mburnttylgy4246timlghtrdgx4@r6munvmj6oqt>
+ <CAHCN7x+zi3WxnY-mxZFKePs1cS=-DprEmh_CnypJ4XK7xBzjMQ@mail.gmail.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <CAHCN7x+zi3WxnY-mxZFKePs1cS=-DprEmh_CnypJ4XK7xBzjMQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent,
+Hi All,
 
-thanks for the update.
+On 19/02/24 7:39 am, Adam Ford wrote:
+> On Sun, Feb 18, 2024 at 3:02 PM Ondřej Jirman <megi@xff.cz> wrote:
+>> On Sun, Feb 18, 2024 at 10:59:08PM +0200, Laurent Pinchart wrote:
+>>> Hi Ondrej,
+>>>
+>>> (CC'ing Paul and Umang)
+>>>
+>>> Thank you for the patch.
+>>>
+>>> On Sat, Feb 17, 2024 at 07:51:58PM +0100, Ondřej Jirman wrote:
+>>>> From: Ondrej Jirman <megi@xff.cz>
+>>>>
+>>>> In BSP driver, it is allowed, and it works in practice. Tested on
+>>>> Pinephone Pro/RK3399 with IMX258 at full res.
+>>> Paul, Umang, do I recall correctly that you have a similar change ?
+>>> Could you review and test this (especially on the i.MX8MP) ?
+>> It's also a limit from the datasheet, so the change should not be that
+>> controversial:
+>>
+>>    https://megous.com/dl/tmp/d2b333043ecebaf3.png
+>>
+>> (so that it doesn't sound like I just copied the BSP values)
+>>
+>  From what I see in the i.MX8M Plus reference manual, it has a max
+> resolution of 4096x3072, so it might be necessary to move this off
 
-Am Sonntag, 18. Februar 2024, 21:43:38 CET schrieb Laurent Pinchart:
-> Hello,
->=20
-> This series extends the rkisp1 driver to support the ISP found in the
-> NXP i.MX8MP SoC.
->=20
-> The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
-> and in the NXP i.MX8MP have the same origin, and have slightly diverged
-> over time as they are now independently developed (afaik) by Rockchip
-> and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
-> and is close enough to the RK3399 ISP that it can easily be supported by
-> the same driver.
->=20
-> This version of the series specifically has been tested on a Polyhex
-> Debix model A with an IMX219 camera sensor (Raspberry Pi cam v2).
->=20
-> See individual patches for a detailed description of changes compared to
-> v12.
->=20
-> This should hopefully be the last version, I plan to send a pull request
-> in a few days, in time for v6.9.
+This is what I (and I assume Paul too) have been working with on i.MX8M 
+Plus. So it's the known and tested value of max ISP input from out side.
+> from a #define into a structure that varies by product family.
 
-Still works on my platform TQMa8MPQL/MBa8MPxL + IMX327 using libcamera for =
-1080p + SRGGB10 debayering. For the missing commits:
-Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-> Laurent Pinchart (2):
->   media: rkisp1: Add and use rkisp1_has_feature() macro
->   media: rkisp1: Configure gasket on i.MX8MP
->=20
-> Paul Elder (10):
->   media: rkisp1: Support setting memory stride for main path
->   media: rkisp1: Support devices lacking self path
->   media: rkisp1: Support devices lacking dual crop
->   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
->   media: rkisp1: Add version enum for i.MX8MP ISP
->   media: rkisp1: Support i.MX8MP's 34-bit DMA
->   media: rkisp1: Add YC swap capability
->   media: rkisp1: Add UYVY as an output format
->   media: rkisp1: Fix endianness on raw streams on i.MX8MP
->   media: rkisp1: Add match data for i.MX8MP ISP
->=20
->  .../bindings/media/rockchip-isp1.yaml         |  37 +++-
->  .../platform/rockchip/rkisp1/rkisp1-capture.c | 180 ++++++++++++++----
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  35 +++-
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  71 ++++++-
->  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 ++++++++++++-
->  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  35 ++++
->  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  19 +-
->  include/uapi/linux/rkisp1-config.h            |  50 ++---
->  8 files changed, 472 insertions(+), 86 deletions(-)
->=20
->=20
-> base-commit: e0b8eb0f6d652981bfd9ba7c619c9d81ed087ad0
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+Yeah!
+>
+> adam
+>> regards,
+>>          o.
+>>
+>>>> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+>>>> ---
+>>>>   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 4 ++--
+>>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>>>> index 4b6b28c05b89..74098ddbeeb3 100644
+>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+>>>> @@ -33,8 +33,8 @@ struct dentry;
+>>>>   #define RKISP1_ISP_SD_SINK                 BIT(1)
+>>>>
+>>>>   /* min and max values for the widths and heights of the entities */
+>>>> -#define RKISP1_ISP_MAX_WIDTH                       4032
+>>>> -#define RKISP1_ISP_MAX_HEIGHT                      3024
+>>>> +#define RKISP1_ISP_MAX_WIDTH                       4416
+>>>> +#define RKISP1_ISP_MAX_HEIGHT                      3312
+>>>>   #define RKISP1_ISP_MIN_WIDTH                       32
+>>>>   #define RKISP1_ISP_MIN_HEIGHT                      32
+>>>>
+>>> --
+>>> Regards,
+>>>
+>>> Laurent Pinchart
 
 
