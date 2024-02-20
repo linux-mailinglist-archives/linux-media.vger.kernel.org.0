@@ -1,307 +1,137 @@
-Return-Path: <linux-media+bounces-5491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5492-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB3885B9AA
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 11:55:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F77A85B9B7
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 11:56:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D5D61F242B0
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 10:55:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D3D1CB23F88
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 10:56:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1A9665BB9;
-	Tue, 20 Feb 2024 10:55:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0B7F657CA;
+	Tue, 20 Feb 2024 10:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDsk/a21"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="iGzX1dRr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A42465190;
-	Tue, 20 Feb 2024 10:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB8E629FD
+	for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 10:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708426530; cv=none; b=MjOvSjM+qL1FkR9Vr7jlJE0qKKDwrMBkp2bUXNTTSFvuOevX4KlYFSSOM2EmmpJPXTKkwjvyMMPIOeorXvNPh+RfEZuFRNtnhfO/qne4tQ+BAa7d29KViE+xwTbCH7aHPHa2jSQlkEHDtn0xDOriSh6VamQGwHlzXa/g2eh8x1o=
+	t=1708426599; cv=none; b=Jh0KzL5k0vIP1BCGXHhjZrbUfET8zRx0o7H/4dlgne+D7pjZp2lXDx0LQGDUgunI39Fn2kdibfKgHq+S4FyUh2WBchjGwqOW+yOiD0LqOF4u7g4LmTOWf43QvkCr+UnbhiqGhVdLm5nX99dHe3L7PiKv5PSkY0rXCuiAZS551ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708426530; c=relaxed/simple;
-	bh=BKKwgJxTsthDhT/YS0/ipstafMeFwfOSGB3VEFS9+Ng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e9naY9NuB/tiJl+yYqlai6pYLfdKoKN0vpLUU21XzXIeQU6X0CPqJbGjSGYevmQQTNHLSAVHwUsFM2sO+uo7iL16R4E4WLvB9V4GKtSekJhXhaQNN4vaoAZBR033yGIddwLSfUyn/MY3C1EyjP7vBeqzeJSjUs4If22FHfkPyGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDsk/a21; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708426528; x=1739962528;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BKKwgJxTsthDhT/YS0/ipstafMeFwfOSGB3VEFS9+Ng=;
-  b=kDsk/a2130z79J9OBSdnzRgV4VM4qEsHqhLmiyTXRhv+qQRJKm67P3Xc
-   2/LkbaAI2wmMsOOYPGSB56kcW+2E3x2kV7gKNDJ9Ry5EzkPnVKS2wv8x3
-   BJWpkTXVXYajiWWffivQW/lm4bzAEQEC/VyAmFzNzLvcFx7mmgunKCUYG
-   wkcQbY0kWC5Zp+MV2NK/LKoYWS3PRGkkDHXfgAjCqsJziscw6XsPNXuF9
-   GAB7CiluUl97t5biizS1jHQx4KpXeV+4dOUd8lQSk33gaQxiMLcE55rS+
-   2JxTujPmf2Z0PLltHJ29wxk7vmAS/br6BMuz7xA1RntsWltMhWEDWHcBs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13080523"
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="13080523"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 02:55:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="5035753"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 02:55:25 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E6CAA11F7E1;
-	Tue, 20 Feb 2024 12:55:21 +0200 (EET)
-Date: Tue, 20 Feb 2024 10:55:21 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Alain Volmat <alain.volmat@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	Pavel Machek <pavel@ucw.cz>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Subject: Re: [PATCH 2/2] media: gc2145: implement basic dvp bus support
-Message-ID: <ZdSFGaJ9qnayYI5C@kekkonen.localdomain>
-References: <20240217220308.594883-1-andrej.skvortzov@gmail.com>
- <20240217220308.594883-3-andrej.skvortzov@gmail.com>
+	s=arc-20240116; t=1708426599; c=relaxed/simple;
+	bh=ItcZXiwx0pn9pwbWyTyXC3iPYxq91O+Pq8jBE7oWMmw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PgrPijeJ8ibKQ4Ong2b+3AgFH4bIsYQzP572SVzQwc8BZimGGRkDAdY2U4mlZPderigFSBZxZbpuEEqJBW4nQ7Ihm/HDGmo3bSo6/C1dPI1yIFealo36z/3906vbHJE6YgCHEJ3W9g8s1KCjmEGXAe6CIGIGQCgWl2vARY0bn9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=iGzX1dRr; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33ce8cbf465so2577780f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 02:56:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1708426595; x=1709031395; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fI4R5r0KNJPe3HSPx51xZM8JsxxzPIp8jg35tmYYxDU=;
+        b=iGzX1dRrOK7IDSuLaQ+iomD7+f8cEWldHokAyCrEGXVDogSgK/iuYPH6lf8G+Jq4yn
+         qiHtX30RUuYaVC3tsJdoeh2ah0YXPYmN2Xqw2ajxnj3i5qQgPfD6MQr4j3OW40u0AHs2
+         hhVFzizTwlG6O/fKhhPinjcPEILFYP+Q+m1+xi7gqMOACPqAA64uzojMu68gTHtcFqgk
+         2zIVw/sdR90SJqotZtPeWxyT0xaYD3GwT7K8vZcKn/i/r/vsJiQ9AoBSK9p85nPsmwpf
+         Qv5gI1Q1sITf4ZyWQ8M6sEI/EG0svj8fscNYTjWRuXwz5QsduQtm6kgfUQ8yHTK5fSj2
+         oApw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708426595; x=1709031395;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fI4R5r0KNJPe3HSPx51xZM8JsxxzPIp8jg35tmYYxDU=;
+        b=Ag9vgi6fi0UbLpwbZdhfU+872QHBB/N7gYyR6LH7vPfhVpt9Z/SIv9dFRMQXVrc92N
+         4a6C0inFeFdczucV7AXbFgvbCgVQGD88sIa72FSOiJ2BXP8tC5ZQZ2CqHbmniYNsvDsv
+         scYC/jY8OzwDuyZRmUXvXYvPFJESKMzEmRI0+HvX35S9ysvou+eJVc14vddr+9Id3gBf
+         4j/PYnJi01D5WFmiHsoGIxqeAW8LogHP1/dbhPoGkLnG0eX9BJ21USFIVKWAgLRsgZFJ
+         fT4kGrcqJYAstoV6T44gzrW0lpDY98eo56b2jVbmP/9zCjt0w4n9rB7+Oz2CFgON1FsK
+         OcmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+H4NLW+D6ocLDKGtHaob35oHNpdyS23XEdKVOp2lalg4YUF+2FwiWhqrpPwl98iBQdVuGw3wY5gUJ7yr53Gh4mIjXCuPZ9EAx6p0=
+X-Gm-Message-State: AOJu0YxclkliHZmusI3bfvGT8atVPq1b8p47oQJxmU7BsmihkAogCUfe
+	gGs3yuhsjfEXj5B3TT/du9LxiK2KFHlSgGhCcBr1BDk9vexjm12iEOxa4fROAwk=
+X-Google-Smtp-Source: AGHT+IGApatcDJbsg9w739dtr2C68EHiOexix3zbasgEM50vzI9etj5RWluvQJQh4ukw4yzcsKiaVw==
+X-Received: by 2002:a5d:5309:0:b0:33d:20f4:def with SMTP id e9-20020a5d5309000000b0033d20f40defmr6830654wrv.59.1708426595328;
+        Tue, 20 Feb 2024 02:56:35 -0800 (PST)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
+        by smtp.gmail.com with ESMTPSA id df2-20020a5d5b82000000b0033d6c928a95sm1430407wrb.63.2024.02.20.02.56.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 02:56:35 -0800 (PST)
+Message-ID: <b8325dbf-67c5-4898-bc23-ff093ae6e14a@freebox.fr>
+Date: Tue, 20 Feb 2024 11:56:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240217220308.594883-3-andrej.skvortzov@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: DT <devicetree@vger.kernel.org>, linux-media
+ <linux-media@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Pierre-Hugues Husson <phh@phh.me>
+References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+ <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
+ <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
+ <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Andrey,
+On 19/02/2024 20:24, Bryan O'Donoghue wrote:
 
-On Sun, Feb 18, 2024 at 01:03:08AM +0300, Andrey Skvortsov wrote:
-> Tested on PinePhone with libcamera-based GNOME screenshot.
+> On 19/02/2024 5:44 p.m., Dmitry Baryshkov wrote:
+>
+>> On Mon, 19 Feb 2024 at 19:29, Konrad Dybcio wrote:
+>>>
+>>> On 19.02.2024 18:18, Marc Gonzalez wrote:
+>>>
+>>>> On our msm8998-based device, calling venus_sys_set_power_control()
+>>>> breaks playback. Since the vendor kernel never calls it, we assume
+>>>> it should not be called for this device/FW combo.
+>>>
+>>> FWIW, this is also broken on other SoCs.. 8280/8350 and 6115
+>>> to name a couple.
+>>
+>> Then let's just disable it until it gets unbroken?
 > 
-> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> ---
->  drivers/media/i2c/gc2145.c | 117 ++++++++++++++++++++++++++++---------
->  1 file changed, 90 insertions(+), 27 deletions(-)
+> Its functional on most of our upstream stuff though, why switch if off 
+> unless necessary ?
 > 
-> diff --git a/drivers/media/i2c/gc2145.c b/drivers/media/i2c/gc2145.c
-> index bef7b0e056a8..9a70b8d504e1 100644
-> --- a/drivers/media/i2c/gc2145.c
-> +++ b/drivers/media/i2c/gc2145.c
-> @@ -39,6 +39,10 @@
->  #define GC2145_REG_ANALOG_MODE1	CCI_REG8(0x17)
->  #define GC2145_REG_OUTPUT_FMT	CCI_REG8(0x84)
->  #define GC2145_REG_SYNC_MODE	CCI_REG8(0x86)
-> +#define GC2145_SYNC_MODE_VSYNC_POL	BIT(0)
-> +#define GC2145_SYNC_MODE_HSYNC_POL	BIT(1)
-> +#define GC2145_SYNC_MODE_OPCLK_POL	BIT(2)
-> +#define GC2145_SYNC_MODE_OPCLK_GATE	BIT(3)
->  #define GC2145_SYNC_MODE_COL_SWITCH	BIT(4)
->  #define GC2145_SYNC_MODE_ROW_SWITCH	BIT(5)
->  #define GC2145_REG_BYPASS_MODE	CCI_REG8(0x89)
-> @@ -53,6 +57,12 @@
->  #define GC2145_REG_GLOBAL_GAIN	CCI_REG8(0xb0)
->  #define GC2145_REG_CHIP_ID	CCI_REG16(0xf0)
->  #define GC2145_REG_PAD_IO	CCI_REG8(0xf2)
-> +#define GC2145_REG_PLL_MODE1	CCI_REG8(0xf7)
-> +#define GC2145_REG_PLL_MODE2	CCI_REG8(0xf8)
-> +#define GC2145_REG_CM_MODE	CCI_REG8(0xf9)
-> +#define GC2145_REG_CLK_DIV_MODE	CCI_REG8(0xfa)
-> +#define GC2145_REG_ANALOG_PWC	CCI_REG8(0xfc)
-> +#define GC2145_REG_PAD_IO	CCI_REG8(0xf2)
->  #define GC2145_REG_PAGE_SELECT	CCI_REG8(0xfe)
->  /* Page 3 */
->  #define GC2145_REG_DPHY_ANALOG_MODE1	CCI_REG8(0x01)
-> @@ -598,6 +608,7 @@ struct gc2145 {
->  	struct v4l2_subdev sd;
->  	struct media_pad pad;
->  
-> +	struct v4l2_fwnode_endpoint ep; /* the parsed DT endpoint info */
->  	struct regmap *regmap;
->  	struct clk *xclk;
->  
-> @@ -612,6 +623,11 @@ struct gc2145 {
->  	const struct gc2145_mode *mode;
->  };
->  
-> +static inline bool gc2145_is_csi2(const struct gc2145 *gc2145)
-> +{
-> +	return gc2145->ep.bus_type == V4L2_MBUS_CSI2_DPHY;
+> Maybe it should be an opt-in instead of an opt-out, TBH my own feeling 
+> is its better to minimize the amount of work and opt as per the proposed 
+> patch.
+> 
+> Perhaps the qcom vidc team can give insights on 8280xp and 8350 when we 
+> come to tackling new HFI6XX and later SoCs ...
 
-This is used in a single place. Could you move this comparison there?
+I was wondering if the chosen property name might cause issues later...
 
-> +}
-> +
->  static inline struct gc2145 *to_gc2145(struct v4l2_subdev *_sd)
->  {
->  	return container_of(_sd, struct gc2145, sd);
-> @@ -773,6 +789,38 @@ static int gc2145_set_pad_format(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static int gc2145_config_dvp_mode(struct gc2145 *gc2145,
-> +				   const struct gc2145_format *gc2145_format)
-> +{
-> +	int ret = 0;
-> +	u64 sync_mode;
-> +	int flags;
-> +
-> +	flags = gc2145->ep.bus.parallel.flags;
-> +
-> +	ret = cci_read(gc2145->regmap, GC2145_REG_SYNC_MODE, &sync_mode, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	sync_mode &= ~(GC2145_SYNC_MODE_VSYNC_POL |
-> +		       GC2145_SYNC_MODE_HSYNC_POL |
-> +		       GC2145_SYNC_MODE_OPCLK_POL);
-> +
-> +	if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> +		sync_mode |= GC2145_SYNC_MODE_VSYNC_POL;
-> +
-> +	if (flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
-> +		sync_mode |= GC2145_SYNC_MODE_HSYNC_POL;
-> +
-> +	if (flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
-> +		sync_mode |= GC2145_SYNC_MODE_OPCLK_POL;
-> +
-> +	cci_write(gc2145->regmap, GC2145_REG_SYNC_MODE, sync_mode, &ret);
-> +	cci_write(gc2145->regmap, GC2145_REG_PAD_IO, 0x0f, &ret);
-> +
-> +	return ret;
-> +}
-> +
->  static const struct cci_reg_sequence gc2145_common_mipi_regs[] = {
->  	{GC2145_REG_PAGE_SELECT, 0x03},
->  	{GC2145_REG_DPHY_ANALOG_MODE1, GC2145_DPHY_MODE_PHY_CLK_EN |
-> @@ -895,10 +943,13 @@ static int gc2145_start_streaming(struct gc2145 *gc2145,
->  		goto err_rpm_put;
->  	}
->  
-> -	/* Perform MIPI specific configuration */
-> -	ret = gc2145_config_mipi_mode(gc2145, gc2145_format);
-> +	/* Perform interface specific configuration */
-> +	if (gc2145_is_csi2(gc2145))
-> +		ret = gc2145_config_mipi_mode(gc2145, gc2145_format);
-> +	else
-> +		ret = gc2145_config_dvp_mode(gc2145, gc2145_format);
->  	if (ret) {
-> -		dev_err(&client->dev, "%s failed to write mipi conf\n",
-> +		dev_err(&client->dev, "%s failed to write interface conf\n",
->  			__func__);
->  		goto err_rpm_put;
->  	}
-> @@ -924,6 +975,9 @@ static void gc2145_stop_streaming(struct gc2145 *gc2145)
->  			GC2145_CSI2_MODE_EN | GC2145_CSI2_MODE_MIPI_EN, 0,
->  			&ret);
->  	cci_write(gc2145->regmap, GC2145_REG_PAGE_SELECT, 0x00, &ret);
-> +
-> +	/* Disable dvp streaming */
-> +	cci_write(gc2145->regmap, GC2145_REG_PAD_IO, 0x00, &ret);
->  	if (ret)
->  		dev_err(&client->dev, "%s failed to write regs\n", __func__);
->  
-> @@ -1233,9 +1287,8 @@ static int gc2145_init_controls(struct gc2145 *gc2145)
->  static int gc2145_check_hwcfg(struct device *dev)
->  {
->  	struct fwnode_handle *endpoint;
-> -	struct v4l2_fwnode_endpoint ep_cfg = {
-> -		.bus_type = V4L2_MBUS_CSI2_DPHY
-> -	};
+Thinking "qcom,no-low-power" might be a bit too general?
+Perhaps would need to mention venus somewhere in the name,
+to limit this to the video decoder?
 
-First try D-PHY and if that fails, then try PARALLEL.
+Regards
 
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct gc2145 *gc2145 = to_gc2145(sd);
->  	int ret;
->  
->  	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-> @@ -1244,36 +1297,46 @@ static int gc2145_check_hwcfg(struct device *dev)
->  		return -EINVAL;
->  	}
->  
-> -	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep_cfg);
-> +	ret = v4l2_fwnode_endpoint_parse(endpoint, &gc2145->ep);
-
-You won't have any link frequencies available with this change.
-
->  	fwnode_handle_put(endpoint);
->  	if (ret)
->  		return ret;
->  
-> -	/* Check the number of MIPI CSI2 data lanes */
-> -	if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2) {
-> -		dev_err(dev, "only 2 data lanes are currently supported\n");
-> -		ret = -EINVAL;
-> -		goto out;
-> -	}
-> +	switch (gc2145->ep.bus_type) {
-> +	case V4L2_MBUS_CSI2_DPHY:
-> +		/* Check the link frequency set in device tree */
-> +		if (!gc2145->ep.nr_of_link_frequencies) {
-> +			dev_err(dev, "link-frequencies property not found in DT\n");
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +
-> +		/* Check the number of MIPI CSI2 data lanes */
-> +		if (gc2145->ep.bus.mipi_csi2.num_data_lanes != 2) {
-> +			dev_err(dev, "only 2 data lanes are currently supported\n");
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +
-> +		if (gc2145->ep.nr_of_link_frequencies != 3 ||
-> +			gc2145->ep.link_frequencies[0] != GC2145_640_480_LINKFREQ ||
-> +			gc2145->ep.link_frequencies[1] != GC2145_1280_720_LINKFREQ ||
-> +			gc2145->ep.link_frequencies[2] != GC2145_1600_1200_LINKFREQ) {
-> +			dev_err(dev, "Invalid link-frequencies provided\n");
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +		break;
->  
-> -	/* Check the link frequency set in device tree */
-> -	if (!ep_cfg.nr_of_link_frequencies) {
-> -		dev_err(dev, "link-frequency property not found in DT\n");
-> +	case V4L2_MBUS_PARALLEL:
-> +		break;
-> +	default:
-> +		dev_err(dev, "unsupported bus type %u\n",
-> +			gc2145->ep.bus_type);
-
-Fits on the previous line.
-
->  		ret = -EINVAL;
->  		goto out;
->  	}
-> -
-> -	if (ep_cfg.nr_of_link_frequencies != 3 ||
-> -	    ep_cfg.link_frequencies[0] != GC2145_640_480_LINKFREQ ||
-> -	    ep_cfg.link_frequencies[1] != GC2145_1280_720_LINKFREQ ||
-> -	    ep_cfg.link_frequencies[2] != GC2145_1600_1200_LINKFREQ) {
-> -		dev_err(dev, "Invalid link-frequencies provided\n");
-> -		ret = -EINVAL;
-> -	}
-> -
->  out:
-> -	v4l2_fwnode_endpoint_free(&ep_cfg);
-> -
->  	return ret;
->  }
->  
-
--- 
-Regards,
-
-Sakari Ailus
 
