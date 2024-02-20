@@ -1,139 +1,191 @@
-Return-Path: <linux-media+bounces-5453-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5454-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA1B85B0F1
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 03:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF6485B10F
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 04:01:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 099E01C214F4
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 02:46:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3378B1C24232
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 03:01:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD6E2E63C;
-	Tue, 20 Feb 2024 02:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05C4741C66;
+	Tue, 20 Feb 2024 03:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cHXdhSVJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3852E413
-	for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 02:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1890524B8;
+	Tue, 20 Feb 2024 03:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708397184; cv=none; b=I5RVgfrsqT+fTUkHouKd/DYKMFjuRTCYT2QkvUJ8ZU6CNqw3rnEGoGDdLeIwxKYLm9yT0XFZWiYMNK81PNew6X9l34qGpZy1hRElZXN7SSYwnMCuy8LXNyFpyswqTyTuhAnMRyjxP2ENkW6NZVaAJaibvSvsHTZrq4OZiKzOzww=
+	t=1708398072; cv=none; b=h+TEv+MYt831F62svCVn29i5Ph6lJaeliRef+yAZ1LV1Lp9PkjNJCrPNtT0Jls30NVDju6WKLqoJughEdKOFlFVm59Pl3m2pk3GjnBBdOvkeS5SQGn4Ue294ttDFAK8oAMPdEGbT6NLtp5exldq62NTsW2GXB0trE7sm7Sy67uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708397184; c=relaxed/simple;
-	bh=FXYfRH9Z6H3CRDPQinlDYhr/bE8+RYBwpEW/OaRGNaY=;
-	h=Date:Message-ID:From:To:Subject; b=QQJFt8QDaXYPYqB5RS7uKYX/OCTKQjZUVr0SZbkQZQ9GLICuDVjcenXffpLgprxEJq0vjKBAwQIox1Al1YROWBNaE87ruf7MiDYH34ziykDDdUO2w5bXfmrUyrAGye3WLh++3ZBOTfJ9MTbhHOMDBzgZ1vDLhStYq2ibIa4b0nU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04DE1C433C7
-	for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 02:46:23 +0000 (UTC)
-Date: Tue, 20 Feb 2024 03:46:22 +0100
-Message-ID: <ac7a986d9f3a9ab0964abe6f6b1a2144.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	s=arc-20240116; t=1708398072; c=relaxed/simple;
+	bh=fi2kbSyA3ZrfR3cC3WHLondtm0nGs7rJi1ZFqm0U/vY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T7sdltYFP9mdz/wR0KAwC6AwukyfxhlCS5uJmcnCNhQBh96efjtMLEqbNYsZpVGIhZJhGGvrikD/fOKcdXUEgfpOl48ESPmipZQmfcRKAIcbRVHb2S1mzWoWCSflAdPaxH/gzpVTGYnLYjHtfJqqFQXJWaLcqe5zywrQ3fdsn2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cHXdhSVJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EBD8899;
+	Tue, 20 Feb 2024 04:00:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1708398053;
+	bh=fi2kbSyA3ZrfR3cC3WHLondtm0nGs7rJi1ZFqm0U/vY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cHXdhSVJxQZjDv+YBnDEYoRoVutXWunp+mModsjWczVP65wmvKlAR8aTm4elJJbMF
+	 k3SG61DqOjVt48p8aQ9GfHoOMCsJMuvporwwtxk195PMwDfpHBFzg9vGIrVJ2sp1Y8
+	 kYNDbfewAb1oofhURcdvbnjzbzj8MzPVBDJIzJeo=
+Date: Tue, 20 Feb 2024 05:01:04 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Zhi Mao =?utf-8?B?KOavm+aZuik=?= <zhi.mao@mediatek.com>
+Cc: "heiko@sntech.de" <heiko@sntech.de>,
+	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"yunkec@chromium.org" <yunkec@chromium.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
+	"gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
+	Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= <shengnan.wang@mediatek.com>,
+	"hdegoede@redhat.com" <hdegoede@redhat.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
+	Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
+	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"bingbu.cao@intel.com" <bingbu.cao@intel.com>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"10572168@qq.com" <10572168@qq.com>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
+	"macromorgan@hotmail.com" <macromorgan@hotmail.com>
+Subject: Re: [PATCH v4 2/2] media: i2c: Add GC08A3 image sensor driver
+Message-ID: <20240220030104.GF20376@pendragon.ideasonboard.com>
+References: <20240204061538.2105-1-zhi.mao@mediatek.com>
+ <20240204061538.2105-3-zhi.mao@mediatek.com>
+ <20240206184542.GE2827@pendragon.ideasonboard.com>
+ <598f62bbb55157eec1e23dd1dbc307fea3851b21.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <598f62bbb55157eec1e23dd1dbc307fea3851b21.camel@mediatek.com>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Zhi,
 
-Results of the daily build of media_tree:
+On Tue, Feb 20, 2024 at 02:12:26AM +0000, Zhi Mao (毛智) wrote:
+> On Tue, 2024-02-06 at 20:45 +0200, Laurent Pinchart wrote:
+> > On Sun, Feb 04, 2024 at 02:15:38PM +0800, Zhi Mao wrote:
+> > > Add a V4L2 sub-device driver for Galaxycore GC08A3 image sensor.
+> > >
+> > > Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
+> > > ---
+> > >  drivers/media/i2c/Kconfig  |   10 +
+> > >  drivers/media/i2c/Makefile |    1 +
+> > >  drivers/media/i2c/gc08a3.c | 1448 ++++++++++++++++++++++++++++++++++++
+> > >  3 files changed, 1459 insertions(+)
+> > >  create mode 100644 drivers/media/i2c/gc08a3.c
 
-date:			Tue Feb 20 03:00:15 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	e0b8eb0f6d652981bfd9ba7c619c9d81ed087ad0
-v4l-utils git hash:	d700deb143685b8217aa8a6eeeba3b090d4287fc
-edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8599-gc7c14ef3
-sparse version:		v0.5.0-8599-gc7c14ef3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+[snip]
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+> > > diff --git a/drivers/media/i2c/gc08a3.c b/drivers/media/i2c/gc08a3.c
+> > > new file mode 100644
+> > > index 000000000000..3fc7fffb815c
+> > > --- /dev/null
+> > > +++ b/drivers/media/i2c/gc08a3.c
+> > > @@ -0,0 +1,1448 @@
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+[snip]
 
-smatch: WARNINGS:
+> > > +static int gc08a3_power_on(struct device *dev)
+> > > +{
+> > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > > +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
+> > > +	int ret;
+> > > +
+> > > +	ret = regulator_bulk_enable(ARRAY_SIZE(gc08a3_supply_name),
+> > > +				    gc08a3->supplies);
+> > > +	if (ret < 0) {
+> > > +		dev_err(gc08a3->dev, "failed to enable regulators: %d\n", ret);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	ret = clk_prepare_enable(gc08a3->xclk);
+> > > +	if (ret < 0) {
+> > > +		regulator_bulk_disable(ARRAY_SIZE(gc08a3_supply_name),
+> > > +				       gc08a3->supplies);
+> > > +		dev_err(gc08a3->dev, "clk prepare enable failed\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
+> > > +
+> > > +	gpiod_set_value_cansleep(gc08a3->reset_gpio, 1);
+> >
+> > Are you asserting reset when powering on ? That sounds wrong, you should
+> > de-assert reset here (and acquire the reset gpio in probe() with
+> > GPIOD_OUT_HIGH). Drivers should use logical levels for GPIOs, setting a
+> > GPIO named "reset" to 1 should assert the reset signal, even if the
+> > physical signal is active low. You may have the wrong polarity in the
+> > device tree.
+>
+> According to the sensor power sequence sepc, "reset" pin should be pull
+> from low to high after "dovdd/dvdd/avdd" power on, so I follow this
+> power sequece to pull "reset" pin high in software flow.
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+From a hardware point of view that's right, but the Linux kernel handles
+logical level of GPIOs. If a GPIO is named "reset", it is expected that
+calling
 
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: WARNINGS:
+	gpiod_set_value_cansleep(gc08a3->reset_gpio, 1);
 
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
+will "assert" the reset signal, setting it to a logical "reset = true"
+level. This maps to the hardware 0V output level, as the signal is
+active-low. To achieve this, define the reset GPIO as active low in DT,
+and the GPIO framework will invert the signal for you. You should then
+call
 
+	gpiod_set_value_cansleep(gc08a3->reset_gpio, 1);
 
-date:			Tue Feb 20 03:18:39 CET 2024
-virtme-64: WARNINGS: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 5
-virtme-32: WARNINGS: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 2
+in the driver when you want to assert reset (set it to 0V), and
 
-date:			Tue Feb 20 03:44:47 CET 2024
+	gpiod_set_value_cansleep(gc08a3->reset_gpio, 0);
 
-Detailed results are available here:
+when you want to deassert it (set it to 3.3V, or whatever the I/O
+voltage for the signal is).
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+This way all driver use logical states, and the inversion is handled in
+DT.
 
-Detailed regression test results are available here:
+> > > +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
+> > > +
+> > > +	return 0;
+> > > +}
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+[snip]
 
-Full logs are available here:
+-- 
+Regards,
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Laurent Pinchart
 
