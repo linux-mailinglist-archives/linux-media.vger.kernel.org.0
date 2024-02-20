@@ -1,191 +1,167 @@
-Return-Path: <linux-media+bounces-5454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5455-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF6485B10F
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 04:01:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BB385B1FD
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 05:50:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3378B1C24232
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 03:01:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D43D284DC5
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 04:50:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05C4741C66;
-	Tue, 20 Feb 2024 03:01:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0605457306;
+	Tue, 20 Feb 2024 04:50:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cHXdhSVJ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kJ/phHWP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1890524B8;
-	Tue, 20 Feb 2024 03:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAFB5677D
+	for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 04:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708398072; cv=none; b=h+TEv+MYt831F62svCVn29i5Ph6lJaeliRef+yAZ1LV1Lp9PkjNJCrPNtT0Jls30NVDju6WKLqoJughEdKOFlFVm59Pl3m2pk3GjnBBdOvkeS5SQGn4Ue294ttDFAK8oAMPdEGbT6NLtp5exldq62NTsW2GXB0trE7sm7Sy67uE=
+	t=1708404629; cv=none; b=LKgiCBhTC2UR/EwA77zJ3lXY1i8cf5MXOnKOfhqkb920MCdAF0TCTdz5QZD/YAzn1PYKdVHWdTa1rrTLxoxmk/6HzrRTUjpfPP7IWubr8MC3Wy5xUspS5fdgylPzjYKuZrt5i9DRbZg2fVSCTZv5xhklrZOCzwdbtR8ilK62HHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708398072; c=relaxed/simple;
-	bh=fi2kbSyA3ZrfR3cC3WHLondtm0nGs7rJi1ZFqm0U/vY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T7sdltYFP9mdz/wR0KAwC6AwukyfxhlCS5uJmcnCNhQBh96efjtMLEqbNYsZpVGIhZJhGGvrikD/fOKcdXUEgfpOl48ESPmipZQmfcRKAIcbRVHb2S1mzWoWCSflAdPaxH/gzpVTGYnLYjHtfJqqFQXJWaLcqe5zywrQ3fdsn2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cHXdhSVJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EBD8899;
-	Tue, 20 Feb 2024 04:00:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708398053;
-	bh=fi2kbSyA3ZrfR3cC3WHLondtm0nGs7rJi1ZFqm0U/vY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cHXdhSVJxQZjDv+YBnDEYoRoVutXWunp+mModsjWczVP65wmvKlAR8aTm4elJJbMF
-	 k3SG61DqOjVt48p8aQ9GfHoOMCsJMuvporwwtxk195PMwDfpHBFzg9vGIrVJ2sp1Y8
-	 kYNDbfewAb1oofhURcdvbnjzbzj8MzPVBDJIzJeo=
-Date: Tue, 20 Feb 2024 05:01:04 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Zhi Mao =?utf-8?B?KOavm+aZuik=?= <zhi.mao@mediatek.com>
-Cc: "heiko@sntech.de" <heiko@sntech.de>,
-	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"yunkec@chromium.org" <yunkec@chromium.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
-	"gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
-	Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= <shengnan.wang@mediatek.com>,
-	"hdegoede@redhat.com" <hdegoede@redhat.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
-	Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"bingbu.cao@intel.com" <bingbu.cao@intel.com>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"10572168@qq.com" <10572168@qq.com>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
-	"macromorgan@hotmail.com" <macromorgan@hotmail.com>
-Subject: Re: [PATCH v4 2/2] media: i2c: Add GC08A3 image sensor driver
-Message-ID: <20240220030104.GF20376@pendragon.ideasonboard.com>
-References: <20240204061538.2105-1-zhi.mao@mediatek.com>
- <20240204061538.2105-3-zhi.mao@mediatek.com>
- <20240206184542.GE2827@pendragon.ideasonboard.com>
- <598f62bbb55157eec1e23dd1dbc307fea3851b21.camel@mediatek.com>
+	s=arc-20240116; t=1708404629; c=relaxed/simple;
+	bh=gnYTVEhLa2UI/BXFUj5DRblz/ShatFGmeSySyZRlwEs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X4CHSAsLnCjmSrg8Rl49jQiKsa1b5lIgFAFHwnNfFEGpCg1Qp8YYH6TxpvW/IGVSVbjuxt/PjuUSIeLU0t8ldYt6CDkWd0E8s56yywQB7NsgHQj10LKNtPEsL7memBuAgXc1pBWmlwxNeB4A3GQNFxOStFaY2BSsQLk5YFvcVYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kJ/phHWP; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a3ee69976c9so79736166b.0
+        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 20:49:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1708404590; x=1709009390; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JBhO9GN51pgFt/DHFo2a0IcTSs/s3/od7X4R5TK/fL0=;
+        b=kJ/phHWPfMdbwH0yo3aHTKlJQBZslvsniIY4q7aOO9tjUAs74hdSNQpwbVrLq8zIVj
+         aovF/FXmmcwuXI6dtISQNyWxUBmqrcgN8NhmDol+/vxszpACo7FssKQnlPeJsQAj5y4p
+         6PXudZAP6O8bPThU1WjL2L33KHb6JFQMZguG8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708404590; x=1709009390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JBhO9GN51pgFt/DHFo2a0IcTSs/s3/od7X4R5TK/fL0=;
+        b=ftomlVjOVZRlMhZ0/EQumdEa1lmtdJckGv0vyqjqXzb9SxpiUOTIn86IfLgtyPSeu0
+         0/+N240FzXRKPFHXrLv1nnvVpy/Y6ZymI01Qi5Kl6cnqzF981TFrU4Yusgrw7I4CShyH
+         CAVwUb4OaEAFXBQrDGl7+MmvUafWfboNfyQgXIiXJ4R7kG8G1uppLBVxavqr5oiQfP+2
+         WRcFX/1P9cBxJpg3nn1PU/m53qIoB24ng6mqFFbbMijGr8yiehk+wlRjQybZuuJOsCzi
+         AlAbkaD+MM/fs+wk+kj8nidFXvX0ui1qA8qGBD2rmucczpwL/RcxJYz81w8bsCU/1BYY
+         qkFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXAbjO2TQ+kakvcJiDAhBQt1TcSsxJ+nsFcvY5uvefgrpbNqeQaTVGvvlJrRx5bzW5bbhYInp3uGsyGeNIbuOKD1XPQ2v4Pe1kwNEg=
+X-Gm-Message-State: AOJu0YzMY5/SFNNReoKSKCEBka97lREeImuwkJ3g19q7m4mP/0Z1u1b1
+	RbPV1z2BTBI28va3yU6USX8V8rJDOl1nPEbtiIzUFeyTmq2vvVo/A22q/+BrleTj8rwP5fZ37ij
+	qEw==
+X-Google-Smtp-Source: AGHT+IHCuq8N6p6Ug/QSCEbX7smqvNsWvVekQmlO5q990hMLifLNYX7fvJoCYBY69cIi4pEa0DZtww==
+X-Received: by 2002:a17:906:3c4f:b0:a3e:9a92:34b7 with SMTP id i15-20020a1709063c4f00b00a3e9a9234b7mr2689316ejg.58.1708404590038;
+        Mon, 19 Feb 2024 20:49:50 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
+        by smtp.gmail.com with ESMTPSA id ha1-20020a170906a88100b00a3d310a2684sm3557909ejb.158.2024.02.19.20.49.48
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Feb 2024 20:49:48 -0800 (PST)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33aeb088324so2640086f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 19 Feb 2024 20:49:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWN7yOsMnHuGpezp3PhQGr0Q9RBhGRPd4seKip1LL9EeLzClTgCf4vd2jYJcF0LENe2vEjjrj43p4rnpf98ohdcMUXdlGP3IZF+LPg=
+X-Received: by 2002:a5d:44cd:0:b0:33d:3893:838a with SMTP id
+ z13-20020a5d44cd000000b0033d3893838amr5261433wrr.56.1708404587902; Mon, 19
+ Feb 2024 20:49:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <598f62bbb55157eec1e23dd1dbc307fea3851b21.camel@mediatek.com>
+References: <000000000000cb40790611bbcffd@google.com> <98b81fbf-4905-4b45-a8c0-33e7399ef84a@collabora.com>
+In-Reply-To: <98b81fbf-4905-4b45-a8c0-33e7399ef84a@collabora.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Tue, 20 Feb 2024 13:49:30 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Cs-eeHsCZ6VWrzChTJqd4FSqBS4z6ncd8tPQPNMdN68Q@mail.gmail.com>
+Message-ID: <CAAFQd5Cs-eeHsCZ6VWrzChTJqd4FSqBS4z6ncd8tPQPNMdN68Q@mail.gmail.com>
+Subject: Re: [syzbot] [usb?] [media?] possible deadlock in vb2_video_unregister_device
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: syzbot <syzbot+3b1d4b3d5f7a358bf9a9@syzkaller.appspotmail.com>, hdanton@sina.com, 
+	hverkuil-cisco@xs4all.nl, hverkuil@xs4all.nl, 
+	laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org, 
+	m.szyprowski@samsung.com, mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Zhi,
-
-On Tue, Feb 20, 2024 at 02:12:26AM +0000, Zhi Mao (毛智) wrote:
-> On Tue, 2024-02-06 at 20:45 +0200, Laurent Pinchart wrote:
-> > On Sun, Feb 04, 2024 at 02:15:38PM +0800, Zhi Mao wrote:
-> > > Add a V4L2 sub-device driver for Galaxycore GC08A3 image sensor.
-> > >
-> > > Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
-> > > ---
-> > >  drivers/media/i2c/Kconfig  |   10 +
-> > >  drivers/media/i2c/Makefile |    1 +
-> > >  drivers/media/i2c/gc08a3.c | 1448 ++++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 1459 insertions(+)
-> > >  create mode 100644 drivers/media/i2c/gc08a3.c
-
-[snip]
-
-> > > diff --git a/drivers/media/i2c/gc08a3.c b/drivers/media/i2c/gc08a3.c
-> > > new file mode 100644
-> > > index 000000000000..3fc7fffb815c
-> > > --- /dev/null
-> > > +++ b/drivers/media/i2c/gc08a3.c
-> > > @@ -0,0 +1,1448 @@
-
-[snip]
-
-> > > +static int gc08a3_power_on(struct device *dev)
-> > > +{
-> > > +	struct i2c_client *client = to_i2c_client(dev);
-> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > > +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> > > +	int ret;
-> > > +
-> > > +	ret = regulator_bulk_enable(ARRAY_SIZE(gc08a3_supply_name),
-> > > +				    gc08a3->supplies);
-> > > +	if (ret < 0) {
-> > > +		dev_err(gc08a3->dev, "failed to enable regulators: %d\n", ret);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	ret = clk_prepare_enable(gc08a3->xclk);
-> > > +	if (ret < 0) {
-> > > +		regulator_bulk_disable(ARRAY_SIZE(gc08a3_supply_name),
-> > > +				       gc08a3->supplies);
-> > > +		dev_err(gc08a3->dev, "clk prepare enable failed\n");
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
-> > > +
-> > > +	gpiod_set_value_cansleep(gc08a3->reset_gpio, 1);
-> >
-> > Are you asserting reset when powering on ? That sounds wrong, you should
-> > de-assert reset here (and acquire the reset gpio in probe() with
-> > GPIOD_OUT_HIGH). Drivers should use logical levels for GPIOs, setting a
-> > GPIO named "reset" to 1 should assert the reset signal, even if the
-> > physical signal is active low. You may have the wrong polarity in the
-> > device tree.
+On Tue, Feb 20, 2024 at 12:49=E2=80=AFAM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
 >
-> According to the sensor power sequence sepc, "reset" pin should be pull
-> from low to high after "dovdd/dvdd/avdd" power on, so I follow this
-> power sequece to pull "reset" pin high in software flow.
+>
+> Le 19/02/2024 =C3=A0 14:10, syzbot a =C3=A9crit :
+> > syzbot has bisected this issue to:
+> >
+> > commit c838530d230bc638d79b78737fc4488ffc28c1ee
+> > Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > Date:   Thu Nov 9 16:34:59 2023 +0000
+> >
+> >      media: media videobuf2: Be more flexible on the number of queue st=
+ored buffers
+> >
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D166dc872=
+180000
+> > start commit:   b401b621758e Linux 6.8-rc5
+> > git tree:       upstream
+> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D156dc872=
+180000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D116dc872180=
+000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3Deff9f3183d0=
+a20dd
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3D3b1d4b3d5f7a3=
+58bf9a9
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D13ffaae81=
+80000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D13ef909c180=
+000
+> >
+> > Reported-by: syzbot+3b1d4b3d5f7a358bf9a9@syzkaller.appspotmail.com
+> > Fixes: c838530d230b ("media: media videobuf2: Be more flexible on the n=
+umber of queue stored buffers")
+> >
+> > For information about bisection process see: https://goo.gl/tpsmEJ#bise=
+ction
+>
+> Hans,
+> I think the issue occur because of this part of the commit:
+> @@ -1264,7 +1264,7 @@ void vb2_video_unregister_device(struct video_devic=
+e *vdev)
+>           */
+>          get_device(&vdev->dev);
+>          video_unregister_device(vdev);
+> -       if (vdev->queue && vdev->queue->owner) {
+> +       if (vdev->queue) {
+>                  struct mutex *lock =3D vdev->queue->lock ?
+>                          vdev->queue->lock : vdev->lock;
+>
+> but I wonder if the correction shouldn't be to remove usbtv->vb2q_lock mu=
+tex in usbtv_video_free().
+>
+> Any opinion ?
 
-From a hardware point of view that's right, but the Linux kernel handles
-logical level of GPIOs. If a GPIO is named "reset", it is expected that
-calling
+That is probably what triggered the failure detected by syzbot, but I
+don't think we've ever had a guarantee that owner is NULL in that
+code.
 
-	gpiod_set_value_cansleep(gc08a3->reset_gpio, 1);
+Looking at the uvc driver [1], it doesn't seem to need any special
+locking there (after all the vb2 code acquires them).  (It also
+doesn't have the custom clean-up code that the usbtv driver has in
+usbtv_stop(), but that's another story). So maybe all we need to fix
+it is removing the mutex_lock/unlock() calls?
 
-will "assert" the reset signal, setting it to a logical "reset = true"
-level. This maps to the hardware 0V output level, as the signal is
-active-low. To achieve this, define the reset GPIO as active low in DT,
-and the GPIO framework will invert the signal for you. You should then
-call
+[1] https://elixir.bootlin.com/linux/v6.8-rc4/source/drivers/media/usb/uvc/=
+uvc_driver.c#L1906
 
-	gpiod_set_value_cansleep(gc08a3->reset_gpio, 1);
-
-in the driver when you want to assert reset (set it to 0V), and
-
-	gpiod_set_value_cansleep(gc08a3->reset_gpio, 0);
-
-when you want to deassert it (set it to 3.3V, or whatever the I/O
-voltage for the signal is).
-
-This way all driver use logical states, and the inversion is handled in
-DT.
-
-> > > +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
-> > > +
-> > > +	return 0;
-> > > +}
-
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+Best,
+Tomasz
 
