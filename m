@@ -1,258 +1,99 @@
-Return-Path: <linux-media+bounces-5509-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5510-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0ED85C60C
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 21:48:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A186885CA30
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 22:45:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B44F1F23A9B
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 20:48:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 578AA1F22E10
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 21:45:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D62A114F9E1;
-	Tue, 20 Feb 2024 20:48:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26AE7152DF9;
+	Tue, 20 Feb 2024 21:45:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AQeWLIMO"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ggk/O8Es"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA3B1FDB;
-	Tue, 20 Feb 2024 20:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0845A151CFD
+	for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 21:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708462094; cv=none; b=D6G4WriPWCU2g6BT7wQ/y2rJQ6xbhdlLxIHQyNCRl/aYsj8uiwDysHSEYthNWMGcnH99KhiZTabpwEuNk+FTPHvI/OV/Q7nsf7goHh/FYLfn2jcU9xxgqioXo7dFs9615EUm6r3TVqRd6RJE+knqmZGjGIS8eC9XEhfnQLmrSWs=
+	t=1708465511; cv=none; b=IX8DPB5+wVLTBhNo5om5Ll+Fm5itGwxu1hi/5WhQIhQYIsjMJ9CqOhd10mwm34rxNODSNTcA2CGWRGlNFRe1DcxONvXPPNn/JGtONBbiahF0S/TvmDfKlaw9qje4O6+Br5K2xUyJ30+3WtqitQZbRvZc7U3ZPj4dEBzcT/9fWTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708462094; c=relaxed/simple;
-	bh=j0ysc+Du9hkfIMh8HUnhXGfu34k2JquJQ3Y/AbVNJPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KF5pJBHs0uskZRVsYqUpeltyAyhVnKSiK8BlcKnP+Hg7GcspbtH2FB4qL+cvaGuBDX0ulrTwwus7XUc6+JUf/73jedbJtOCl1mWLMrAOyhEBegIxF3LNxe3f8ZltvTOioy4uLVIHGXuvqNry5FNsmXPDauSXwpX0+500OyuWpg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AQeWLIMO; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-511976c126dso7260989e87.1;
-        Tue, 20 Feb 2024 12:48:11 -0800 (PST)
+	s=arc-20240116; t=1708465511; c=relaxed/simple;
+	bh=UEui0s6V28sWMfEUHl6LqMaOVpgoXIEPXXvPPkx8reM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ihFG8cchPYS+abogNCIqveyK4GSzuToCT2cY0Ypbtk5+aS0VBB0py4ycXULdFx7+P8nMzCl/nvnkK2YyRB/M218GgrsVWJHcyvRjg6H9z/1h1AShoEixnwOITvtp3x45F04x1g9PVJuyLTqVC5rB6z2HYfLJV7XnBoX1MzLwYiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ggk/O8Es; arc=none smtp.client-ip=209.85.166.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-363acc3bbd8so5519325ab.1
+        for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 13:45:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708462089; x=1709066889; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=exlHopiBCxUlDxBa3rdzATJoG3CThCTdOcxqsDekfXg=;
-        b=AQeWLIMO4LTWpoUlNgc/j+uWHu2u+qqK7LPMJLOKG2zSpI2xydQ+Oa1gF74feO8ueb
-         C32N/MBYdMxoA6SJ/33HGbbJuJxJMB0FhipLzaGntHujqj3ebMVsQRlhtIOzjezrDqPL
-         5EBODQuLOVJQK6B0yTQ7vUa77tLAybD5gWnKbuN9PyFkc5E29M/CA62fo2srzHE+Rht3
-         okBocDMg+PRy4FOcC/fEbj9Y/GVsL0do7SuQGEBTwWWg6XIC/FA3sNIPtW99HmKQQ+2O
-         mw1ze3syiD3ZkTxpvDyHS/P5qZUxzjIQmqgzo39y9ZqffxU+uua0ael0lww4w9IG1VtV
-         KKZA==
+        d=linuxfoundation.org; s=google; t=1708465509; x=1709070309; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UEui0s6V28sWMfEUHl6LqMaOVpgoXIEPXXvPPkx8reM=;
+        b=Ggk/O8EsqmjD8rehAeUDCfHRpdpF/h9el0RD39rocyV7hof7fa7tJ7Z3gQLUiSdkZR
+         MMKU9MN9niMlaZhDr0KZEjN5tsOR6az9vFLfuH7UYpNccZKFkbsWQlRLLNarWOUfD+MB
+         JMelWZUbKAcUE+/qEIDmbN+oJHkDN7+uE5Xl0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708462089; x=1709066889;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=exlHopiBCxUlDxBa3rdzATJoG3CThCTdOcxqsDekfXg=;
-        b=b0yUPcXVPOWVMMpePGkOUmRiiB1HmHOyUGKnSdLPRGSgEm5nRlEFfSbw2FTNR9LjrP
-         Wx+3DQ1Pfv+Qa/necNeuaAE5SGNxju57ozGcGBeR3PHWwzAiSZSUDZMyRVAuw2ZVgAvt
-         mFPFJ8MaFbh/AUQDwOR5ERF+IXINWkxP4xW+EOgEqEqItLjVnIxdVn0sPkRFOYjj9XH4
-         vNLOwiM5qnrd4xgeJcyn2SZh2Cp9oNssgzyfkUpslve9u89ZnujG3F0aD10nA2iAWEDJ
-         GeYVszeO/U8nLFkjZestyuJ8JTZbqfN6uq2N1I5kg7l0sCm75UjfbeAVMkFFPOhfxccy
-         tIGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUI/DNo9r1yyfet4YP9K71ExiaGqIWnPcQEBvqYQYHPBTl2nodn5scRWw+lCQfAgB+EYzki02ndltTr2dNd7RFeCkjLXtoDGIBNzpZjC169i2uUgPuGmfgRVF8D4tSO/yEQUouumUrAqxT6szX2nEF29iK31UkWO88Ct+XtwKX/FTeb9ocN
-X-Gm-Message-State: AOJu0Yxgfsfdp1nGJ84FVGg9wBI4/le75WB9hDE0z/LenL8Z/WX6TI3w
-	upqOTB4rP4FCkvX3OvOAD4qezZpYLzH2kulVv1ZpEnOqISgCwHkZ
-X-Google-Smtp-Source: AGHT+IE73qiEzH0d1j0hNf9G9egIYVPu4qy5uKnmXliXp4xtPPtk7+MSFbxE1v7/YuaZgPUsxO/vNg==
-X-Received: by 2002:a05:6512:3e05:b0:512:8811:5d8f with SMTP id i5-20020a0565123e0500b0051288115d8fmr12474041lfv.65.1708462089249;
-        Tue, 20 Feb 2024 12:48:09 -0800 (PST)
-Received: from mehdi-archlinux ([2a02:8109:aa27:2d00::d069])
-        by smtp.gmail.com with ESMTPSA id r21-20020a50d695000000b00563f3ee5003sm4180759edi.91.2024.02.20.12.48.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 12:48:08 -0800 (PST)
-Date: Tue, 20 Feb 2024 21:48:06 +0100
-From: Mehdi Djait <mehdi.djait.k@gmail.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
-	michael.riesch@wolfvision.net, laurent.pinchart@ideasonboard.com,
-	Mehdi Djait <mehdi.djait@bootlin.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [RESEND Patch v13 1/3] media: dt-bindings: media: add bindings
- for Rockchip CIF
-Message-ID: <ZdUQBl5pkFg2i1iu@mehdi-archlinux>
-References: <cover.1707677804.git.mehdi.djait.k@gmail.com>
- <13deb8c5cb58e08c1b47decd112b51e8e0b6c4dc.1707677804.git.mehdi.djait.k@gmail.com>
- <Zcta6hhSio67ahKs@valkosipuli.retiisi.eu>
- <ZdTbilKCsMFcjz64@mehdi-archlinux>
- <ZdT97Szv3yYG9Xbb@valkosipuli.retiisi.eu>
+        d=1e100.net; s=20230601; t=1708465509; x=1709070309;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UEui0s6V28sWMfEUHl6LqMaOVpgoXIEPXXvPPkx8reM=;
+        b=lP2YoGDiSPHfzu4+8b4hj5lHqmfxa+mp9aze+1wkMN9xlgaU79R1QBK4rRtAcnCUwp
+         CoWNrgqJouNLx+vQHzm05iNcpaAyFQBuA1a6R5X9pZcqP7LwV3JcYnnKzI63RC4fwXAo
+         LllIXyvHJnhLDQEp9YndeYsgRfDOJQJwhuh/uyO/Bkk1rGVjDCeqgfFknL+A1+iI2pbU
+         mmixivHQ0OpqDDKePl/VEIc0HG1mLGqef9qJPxxbjM8PtxwVAsVp4kiCg40ehg1+yv2y
+         u7bYed2AVBlMpHA8yL+uOKOZ15/tdzXFdEnsVOwY2mVAQeK1R1IwZOgxAFMy3agqSdch
+         RjGQ==
+X-Gm-Message-State: AOJu0Yxy3v5GDhIUwR3i5aa0Hhcd1Uc/hlDZ0tC2nn+5ZAYjXP4lUMfc
+	h3+dPxUXfAD13eUASNZK1hsqmo/TkzhcSXs/6tt4sRJVMbEIyTlRBvgY+WWhBDQ=
+X-Google-Smtp-Source: AGHT+IFOVgf4hVeQjVESSY+ggbpz68BsoWauoggn89sDMwFWL/rPxd3AtWFF6ezQRMu04/Di9Qho2w==
+X-Received: by 2002:a6b:c844:0:b0:7c7:224e:ae90 with SMTP id y65-20020a6bc844000000b007c7224eae90mr12163072iof.0.1708465509026;
+        Tue, 20 Feb 2024 13:45:09 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id i22-20020a02c616000000b00474415415a8sm94935jan.100.2024.02.20.13.45.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 13:45:08 -0800 (PST)
+Message-ID: <663c539b-deb2-4cb0-8e9c-325bc841b9a1@linuxfoundation.org>
+Date: Tue, 20 Feb 2024 14:45:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZdT97Szv3yYG9Xbb@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Spelling correction patch
+Content-Language: en-US
+To: prabhav kumar <pvkumar5749404@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240217074353.19445-1-pvkumar5749404@gmail.com>
+ <e2b42c87-f87e-4d09-b17f-82ed4002e989@linuxfoundation.org>
+ <CAH8oh8U84MGb+9g5013NHcBcO=9sQzpBFEm_-7sD1eu7JmTUbQ@mail.gmail.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <CAH8oh8U84MGb+9g5013NHcBcO=9sQzpBFEm_-7sD1eu7JmTUbQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+On 2/20/24 14:38, prabhav kumar wrote:
+> I had missed some names from the get_maintainer.pl <http://get_maintainer.pl> , Will update and send a v2 with proper change log and a summary.
+> Thanks,
+> Prabhav
 
-On Tue, Feb 20, 2024 at 07:30:53PM +0000, Sakari Ailus wrote:
-> Hi Mehdi,
-> 
-> On Tue, Feb 20, 2024 at 06:04:10PM +0100, Mehdi Djait wrote:
-> > Hi Sakari,
-> > 
-> > Thank you for the review.
-> 
-> You're welcome!
-> 
-> > 
-> > On Tue, Feb 13, 2024 at 12:04:58PM +0000, Sakari Ailus wrote:
-> > > Hi Mehdi,
-> > > 
-> > > Thanks for the patchset.
-> > > 
-> > > On Sun, Feb 11, 2024 at 08:03:30PM +0100, Mehdi Djait wrote:
-> > > > From: Mehdi Djait <mehdi.djait@bootlin.com>
-> > > > 
-> > > > Add a documentation for the Rockchip Camera Interface binding.
-> > > > 
-> > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > > > Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
-> > > > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> > > > Signed-off-by: Mehdi Djait <mehdi.djait.k@gmail.com>
-> > > > ---
-> > > >  .../bindings/media/rockchip,px30-vip.yaml     | 123 ++++++++++++++++++
-> > > >  1 file changed, 123 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..6af4a9b6774a
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> > > > @@ -0,0 +1,123 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/media/rockchip,px30-vip.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Rockchip Camera Interface (CIF)
-> > > > +
-> > > > +maintainers:
-> > > > +  - Mehdi Djait <mehdi.djait@bootlin.com>
-> > > > +
-> > > > +description:
-> > > > +  CIF is a camera interface present on some Rockchip SoCs. It receives the data
-> > > > +  from Camera sensor or CCIR656 encoder and transfers it into system main memory
-> > > > +  by AXI bus.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: rockchip,px30-vip
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clocks:
-> > > > +    items:
-> > > > +      - description: ACLK
-> > > > +      - description: HCLK
-> > > > +      - description: PCLK
-> > > > +
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: aclk
-> > > > +      - const: hclk
-> > > > +      - const: pclk
-> > > > +
-> > > > +  resets:
-> > > > +    items:
-> > > > +      - description: AXI
-> > > > +      - description: AHB
-> > > > +      - description: PCLK IN
-> > > > +
-> > > > +  reset-names:
-> > > > +    items:
-> > > > +      - const: axi
-> > > > +      - const: ahb
-> > > > +      - const: pclkin
-> > > > +
-> > > > +  power-domains:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  ports:
-> > > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > +
-> > > > +    properties:
-> > > > +      port@0:
-> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > +        unevaluatedProperties: false
-> > > > +        description: input port on the parallel interface
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint:
-> > > > +            $ref: video-interfaces.yaml#
-> > > > +            unevaluatedProperties: false
-> > > > +
-> > > > +            properties:
-> > > > +              bus-type:
-> > > > +                enum: [5, 6]
-> > > > +
-> > > > +            required:
-> > > > +              - bus-type
-> > > 
-> > > What about the vsync-active, hsync-active and data-active properties?
-> > > Aren't they relevant for this device? Are there default values? This should
-> > > be part of the bindings for the device, shouldn't it?
-> > > 
-> > 
-> > From what I gathered from the Rockchip PX30 TRM and the other
-> > available documents from Rockchip, I will add the following:
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> > index 6af4a9b6774a..6920b0cb0507 100644
-> > --- a/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> > +++ b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> > @@ -69,6 +69,14 @@ properties:
-> >                bus-type:
-> >                  enum: [5, 6]
-> >  
-> > +              hsync-active:
-> > +                enum: [0, 1]
-> > +                default: 1
-> > +
-> > +              vsync-active:
-> > +                enum: [0, 1]
-> > +                default: 0
-> 
-> I'd use the same default for both, whether it's 0 or 1.
-> 
 
-Is this supposed to be the default value HIGH or LOW if it is not
-configured by the driver ? because the manual states the following:
+No top post please. Review kernel submission guidelines
+on how to respond to review comments.
 
-HREF_POL
-Href input polarity:
-1'b0 : high active
-1'b1 : low active
-RESET VALUE: 0x0
-
-VSYNC_POL
-Vsync input polarity:
-1'b0 : low active
-1'b1 : high active
-RESET VALUE: 0x0
-
-And that's why I chose 1 for hsync and 0 for vsync
-
---
-Kind Regards
-Mehdi Djait
+thanks,
+-- Shuah
 
