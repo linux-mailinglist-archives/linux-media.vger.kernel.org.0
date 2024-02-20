@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-5498-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5499-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794BB85BCCE
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 14:03:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C07D885BCCF
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 14:04:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB4FC1C212C5
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 13:03:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CE062811DA
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 13:04:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD796A02E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E27D66A037;
 	Tue, 20 Feb 2024 13:03:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3KSmHQf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhlwPP62"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6000F69E06
-	for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 13:03:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF77A69E1D
+	for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 13:03:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708434228; cv=none; b=IljTdoLVbXjpew0UdWmlgGhIMrAIw9H+/skei0CNk0EUWMDOSKyd0/pNk9v6sesokSVQqGx9Bzi3F3K2zGc05G3cPeqPPkujD4egsZ2lD78eOxsbMcDDaRKJF6VT07i4qwqMtcwhMitHOvz1yCtyv5YFXYldTh9dwiBDtLhxtDM=
+	t=1708434229; cv=none; b=IbNS9vEKURMFHvF+uQ4wYEOaxIxBl++u8jabNx61FnWJLL+rAUN+QK3YcQTD8Yf0PQUqfDJDxA+H1CAwpncB2BQqeEP/WyI0IyXlrJ+VKsr0k02ixsnnTLOpVEvLh6oyDszGLmSeRjZWWg15GyCC0baNmmgpUhnpqX5L+OwpVA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708434228; c=relaxed/simple;
-	bh=UXeOwJi7Jg8COAxQ7qwF88Nk6l1nCgklb97xMK/SbCs=;
+	s=arc-20240116; t=1708434229; c=relaxed/simple;
+	bh=HewI4k2b03fEISi7jlgB9TQB193I3lkbf6LuEGTwS7Q=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GciSzCMvz+ZqBVvt1BWhKQMGn0A9edldbZ31ypRanVqdRBhK/nF/h4FZug0ir/0X4amt6QD8hItB7EuzRCrXBObfzSgvzzJkxFhjJ+r34oo3Un4CjBL0a87uOMRDQLHtsa8LMOQvfIWWKiB5TyzKEn4ymO3NE8aEXIwXKF1U/90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3KSmHQf; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=TzVHzGO5xikDIXjGt//hdt4huwiNzKpjaQYTJcRd4DZWRC5+bU1xc5co39i0XcY0b++daI3QpbXQ8Fo1I3sZkX6TBNnfGhvhmkLAmWVBSPvSq8NSr4X+VSwaXO1EkrePtT25Sf0Zqv3UlVxaisFPOCMuy+OCai9E6OjQkeBCTO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhlwPP62; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708434227; x=1739970227;
+  t=1708434228; x=1739970228;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=UXeOwJi7Jg8COAxQ7qwF88Nk6l1nCgklb97xMK/SbCs=;
-  b=C3KSmHQfqMIij/L0bRohqgKBiY7XfSWSM3G2Xm7S3U0RvQRS4AJlrTpB
-   pzhv1UAj82rbgKnkRpvYX83F08eYZrqYIrtB3TP7ZzP4GSfhlg1O0dpyS
-   0aREJe/6Yx9yROxHfRfV7fWB4OgP21LbedbwtAWhSK1a2IioqofaMXug9
-   fg3rPXu5/cCLaFaThXzreJL3VaN2tXyVC/K4i7p7a4XHrKpDAhnQG0+XL
-   zhj7Vtiv6fQDW9HXDfVRUY4IlqMP3VbnkGndDhZm5wyz6+Ti/zoTeP2Pw
-   hMm7z6DxWoPa+L/jxw9RE3tP9K+K7Er7gilIWrjZUea2eEteJ/GKtr3Oc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13158159"
+  bh=HewI4k2b03fEISi7jlgB9TQB193I3lkbf6LuEGTwS7Q=;
+  b=XhlwPP629qcy0QCPy9/F9tQ+cYWCLHIKzwXT9Av42rfrrMjl7+zNsRoR
+   nWT9l/M4seJaAt6uOZiySTh7SxYHeoybsTkBUgLehAve0rBJpRVoDKuv0
+   pov+CwNEV8IAJ52qpxuebD8qRdI9b0HqJXLVPAieXdxaC2mKsQrwtwHWT
+   j/VPuAttdWvwQkbVYA/jIPiGW7r2giipyayMqTjhfJXfqifKpa7KsrLPN
+   qhLQvBlvetR0w4yzFn/43vyUurixMeqxTZxG69XkK6WpPIN2hyRqkJH49
+   JAphAITOsW0ScvQGPEeS9xtPIF/tQB4kvIoY39+d4h1sGeAV8HqCL2Z7/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13158166"
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="13158159"
+   d="scan'208";a="13158166"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 05:03:45 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 05:03:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="827157822"
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="827157826"
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="827157822"
+   d="scan'208";a="827157826"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 05:03:43 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 05:03:44 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id D89E71201C3;
-	Tue, 20 Feb 2024 15:03:40 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 574F11203E6;
+	Tue, 20 Feb 2024 15:03:41 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com,
 	Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH 2/3] media: Documentation: v4l: LINK_FREQ can be an INTEGER64 control
-Date: Tue, 20 Feb 2024 15:03:38 +0200
-Message-Id: <20240220130339.543749-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH 3/3] media: ivsc: csi: Fix link frequency control behaviour
+Date: Tue, 20 Feb 2024 15:03:39 +0200
+Message-Id: <20240220130339.543749-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240220130339.543749-1-sakari.ailus@linux.intel.com>
 References: <20240220130339.543749-1-sakari.ailus@linux.intel.com>
@@ -76,32 +76,95 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a device passes through the video data while still having its own
-receiver and transmitter, it can use the same frequency as the upstream
-link does. The Intel MEI CSI device is an example of this. An integer menu
-control isn't useful in conveying the actual frequency to the receiver in
-this case.
+The link frequency control was an integer menu control the value of which
+was hard-coded in the MEI CSI driver itself. Instead obtain the control
+value from the upstream sub-device and use a INTEGER64 control type for
+the purpose.
 
-Document that the LINK_FREQ control may also be a 64-bit integer control.
-
+Fixes: 29006e196a56 ("media: pci: intel: ivsc: Add CSI submodule")
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- .../userspace-api/media/v4l/ext-ctrls-image-process.rst         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/intel/ivsc/mei_csi.c | 30 ++++++++++++--------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-index b1c2ab2854af..7a3ccb100e1d 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-@@ -22,7 +22,7 @@ Image Process Control IDs
+diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
+index 89b582a221ab..eef3b028c58e 100644
+--- a/drivers/media/pci/intel/ivsc/mei_csi.c
++++ b/drivers/media/pci/intel/ivsc/mei_csi.c
+@@ -15,6 +15,7 @@
+ #include <linux/completion.h>
+ #include <linux/delay.h>
+ #include <linux/kernel.h>
++#include <linux/limits.h>
+ #include <linux/math64.h>
+ #include <linux/mei_cl_bus.h>
+ #include <linux/module.h>
+@@ -35,8 +36,6 @@
  
- .. _v4l2-cid-link-freq:
+ #define MEI_CSI_ENTITY_NAME "Intel IVSC CSI"
  
--``V4L2_CID_LINK_FREQ (integer menu)``
-+``V4L2_CID_LINK_FREQ (integer menu or 64-bit integer)``
-     The frequency of the data bus (e.g. parallel or CSI-2).
+-#define MEI_CSI_LINK_FREQ_400MHZ 400000000ULL
+-
+ /* the 5s used here is based on experiment */
+ #define CSI_CMD_TIMEOUT (5 * HZ)
+ /* to setup CSI-2 link an extra delay needed and determined experimentally */
+@@ -148,10 +147,6 @@ static const struct v4l2_mbus_framefmt mei_csi_format_mbus_default = {
+ 	.field = V4L2_FIELD_NONE,
+ };
  
- .. _v4l2-cid-pixel-rate:
+-static s64 link_freq_menu_items[] = {
+-	MEI_CSI_LINK_FREQ_400MHZ
+-};
+-
+ static inline struct mei_csi *notifier_to_csi(struct v4l2_async_notifier *n)
+ {
+ 	return container_of(n, struct mei_csi, notifier);
+@@ -484,8 +479,7 @@ static int mei_csi_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+ 			return -EINVAL;
+ 		}
+ 
+-		link_freq_menu_items[0] = freq;
+-		ctrl->val = 0;
++		ctrl->p_new.p_s64[0] = csi->link_freq = freq;
+ 
+ 		return 0;
+ 	}
+@@ -554,9 +548,18 @@ static const struct v4l2_async_notifier_operations mei_csi_notify_ops = {
+ 	.unbind = mei_csi_notify_unbind,
+ };
+ 
++static const struct v4l2_ctrl_config mei_csi_link_freq_ctrl = {
++	.ops = &mei_csi_ctrl_ops,
++	.type = V4L2_CTRL_TYPE_INTEGER64,
++	.id = V4L2_CID_LINK_FREQ,
++	.name = "Link Frequency",
++	.max = S64_MAX,
++	.step = 1,
++	.flags = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
++};
++
+ static int mei_csi_init_controls(struct mei_csi *csi)
+ {
+-	u32 max;
+ 	int ret;
+ 
+ 	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 2);
+@@ -565,13 +568,8 @@ static int mei_csi_init_controls(struct mei_csi *csi)
+ 
+ 	csi->ctrl_handler.lock = &csi->lock;
+ 
+-	max = ARRAY_SIZE(link_freq_menu_items) - 1;
+-	csi->freq_ctrl = v4l2_ctrl_new_int_menu(&csi->ctrl_handler,
+-						&mei_csi_ctrl_ops,
+-						V4L2_CID_LINK_FREQ,
+-						max,
+-						0,
+-						link_freq_menu_items);
++	csi->freq_ctrl = v4l2_ctrl_new_custom(&csi->ctrl_handler,
++					      &mei_csi_link_freq_ctrl, NULL);
+ 	if (csi->freq_ctrl)
+ 		csi->freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY |
+ 					 V4L2_CTRL_FLAG_VOLATILE;
 -- 
 2.39.2
 
