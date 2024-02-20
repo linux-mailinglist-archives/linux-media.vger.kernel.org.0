@@ -1,64 +1,56 @@
-Return-Path: <linux-media+bounces-5460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5342685B475
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 09:07:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B831885B770
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 10:29:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 869161C20C4F
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 08:07:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA8971C24684
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 09:29:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD1D5C5FD;
-	Tue, 20 Feb 2024 08:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B439860DEC;
+	Tue, 20 Feb 2024 09:28:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VCkDb/nb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="doKNTYM1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B295CDC5;
-	Tue, 20 Feb 2024 08:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD54C6025F;
+	Tue, 20 Feb 2024 09:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708416397; cv=none; b=jtfvB6t3GCNyOTh1Ti2XwovYb+MHsIQEyv/vYvD20TCwP90Yo0m/cNOtM/OpVsrbNb7xmLS3v9BGUfg46/c7zZhFIoF+GbeOQR12gUW9JZOCNYwu8DRCc0CIVEyafq4t5/pxyaElyaE78S3/wgQECfos91h/VNALXleWQdrawrU=
+	t=1708421313; cv=none; b=XU4/BASfqeyxbM0nQ15ZD5XTvTuLju2QbUIhQHDZQRxzMK9FYJTkloZPyNd7sCZdhH9EDtbjME8B+gVqqqRWYEzpC80+3j3Y3V/SdslGgGkMGbvk1SO8r8bZCOCHGqKZl9yxz/gDP66tjD0rf0D595ODCdPpxaFNQOEro96GIVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708416397; c=relaxed/simple;
-	bh=ui8eSZdVdgjumnpd/xojksq52lstAHrGG9UQ2pkhy5Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W1KPen7qXxDgmViP2iEN/Tg97PIwRoGdA6/pmWD4kZ7Ec1x751x8zQQ4P7b90a0Uqfx77Ns3CSAdCtAeY8+bpckooLRtdMl5feFklepC2+AcdLvvqBnaMoagrEUB7cOSqnd1FmXEysvUNp3GtUDW9g1TeJuozPlA4T/9pO577iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VCkDb/nb; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708416394;
-	bh=ui8eSZdVdgjumnpd/xojksq52lstAHrGG9UQ2pkhy5Q=;
+	s=arc-20240116; t=1708421313; c=relaxed/simple;
+	bh=K/AN/YaK9IVBdY77EnacWtZKhgY2CAqnGWG4BCo+u2o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nhu+aMulpuUVL3IIU9lh7HzJyIc5kuVhmaklqVk+qfxyQyUS14/uvEm2shPkQclEe+rqMUNb9pFPgJJUxkOx+J9+WPIDu34xiAOlPTNmuIjJigjotcBue5xZTx0j4C+ISueyxyeZ/42mtBLRMg45B0dVRdm0Z+24L6+z3SHUHuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=doKNTYM1; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from umang.jain (unknown [103.86.18.159])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10E3113AC;
+	Tue, 20 Feb 2024 10:28:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1708421301;
+	bh=K/AN/YaK9IVBdY77EnacWtZKhgY2CAqnGWG4BCo+u2o=;
 	h=From:To:Cc:Subject:Date:From;
-	b=VCkDb/nb8Pg/lZSkR5XWI6gB/3S/z4/Wm1nHhSUQsSEBsZnFMEsdoOhLhi8upSQxM
-	 9sjHBlfLQ3gsWtS1drMRAu9urUYXW/qQl3UGUA6839AnBlY28YYqHkTzIBI0Q+vQ3Y
-	 cJiqGfUa6PMvi1K0fUQ2iHc652s8fINlVrECWxfNlJnAlbTMWkbb6dG9LNrNJVzKIp
-	 Q5tK6XEfy22HcQjhgQinhqrdJ3WIoQOGZnYBk4xTJE7CFxeFTjghiIM3Hhre8EbINs
-	 VKIdLoTG3PxgN1njK5URHGn7aO9FWqKGdUb/ZsQ5+qB0R/WVKPiPAxdGd7vLezxWNy
-	 WxZfoW2YVJ+Vw==
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 93C0B37813CB;
-	Tue, 20 Feb 2024 08:06:33 +0000 (UTC)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	tfiga@chromium.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: usbtv: Remove useless locks in usbtv_video_free()
-Date: Tue, 20 Feb 2024 09:06:28 +0100
-Message-Id: <20240220080628.13141-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.40.1
+	b=doKNTYM181xnhCsMJdbDYkGANkM6CjeQ8dF6gwQiJLA2G3ggXZeqbJa0thv6OulH/
+	 kXoLzezBBGPO3ogQYZmAvs+QAaK1B68fgqFdyIVw/+JllTs0JviYlqgRe0OeIwBRYI
+	 Pc/XMF3T7s6ggMyeE9OhJE0QrchihmYWrZkxuKr8=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v3 0/5] media: imx335: Support additional link-freq and TPG
+Date: Tue, 20 Feb 2024 14:58:16 +0530
+Message-ID: <20240220092821.1993-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,37 +59,47 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove locks calls in usbtv_video_free() because
-are useless and may led to a deadlock as reported here:
-https://syzkaller.appspot.com/x/bisect.txt?x=166dc872180000
+This series adds support for additional link frequency and
+test pattern generator on IMX335.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Fixes: c838530d230b ("media: media videobuf2: Be more flexible on the number of queue stored buffers")
----
- drivers/media/usb/usbtv/usbtv-video.c | 6 ------
- 1 file changed, 6 deletions(-)
+Patch 1/5 is a drive-by patch which sets default value to one
+of the reserved register. The non-default value of 0x01 has been
+found responsible to break CSI-2 configuration on one of the i.MX8MP
+based platform. Setting to default value seem to fix it and has been
+tested on RPi5 (downstream BSP) in additional to i.MX8MP platform
+running mainline.
 
-diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
-index 62a583040cd4..96276358d116 100644
---- a/drivers/media/usb/usbtv/usbtv-video.c
-+++ b/drivers/media/usb/usbtv/usbtv-video.c
-@@ -963,15 +963,9 @@ int usbtv_video_init(struct usbtv *usbtv)
- 
- void usbtv_video_free(struct usbtv *usbtv)
- {
--	mutex_lock(&usbtv->vb2q_lock);
--	mutex_lock(&usbtv->v4l2_lock);
--
- 	usbtv_stop(usbtv);
- 	vb2_video_unregister_device(&usbtv->vdev);
- 	v4l2_device_disconnect(&usbtv->v4l2_dev);
- 
--	mutex_unlock(&usbtv->v4l2_lock);
--	mutex_unlock(&usbtv->vb2q_lock);
--
- 	v4l2_device_put(&usbtv->v4l2_dev);
- }
+Patch 2/5 adds usage of v4l2_link_freq_to_bitmap V4L2 helper.
+
+Patch 3/5 supports for additional link-frequency supported by IMX335
+
+Patch 4/5 is also a prep-up patch for TPG introduction(in 5/5), as the test
+pattern needs sensor to be powered up to apply the test pattern.
+
+Patch 5/5 adds the TPG.
+
+changes in v3:
+- Update the patch 1/5 to set the reserved register value
+  to it's default value (instead of dropping it).
+- Drop "i2c: " from commit message in 3/5
+
+Changes in v2:
+- add new patch 2/5 to use v4l2_link_freq_to_bitmap
+- fixup a return; in 4/5
+
+Matthias Fend (1):
+  media: imx335: Add support for test pattern generator
+
+Umang Jain (4):
+  media: imx335: Set reserved register to default value
+  media: imx335: Use v4l2_link_freq_to_bitmap helper
+  media: imx335: Support multiple link frequency
+  media: imx335: Refactor power sequence to set controls
+
+ drivers/media/i2c/imx335.c | 251 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 206 insertions(+), 45 deletions(-)
+
 -- 
-2.40.1
+2.43.0
 
 
