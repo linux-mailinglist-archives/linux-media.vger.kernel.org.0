@@ -1,340 +1,150 @@
-Return-Path: <linux-media+bounces-5447-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5448-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412FF85B06B
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 02:17:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9744E85B085
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 02:26:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED25D283B74
-	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 01:17:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9DCA1C226C8
+	for <lists+linux-media@lfdr.de>; Tue, 20 Feb 2024 01:26:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30F317547;
-	Tue, 20 Feb 2024 01:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A1351EA7F;
+	Tue, 20 Feb 2024 01:26:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="bZsFAB9H"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="N0NKRQKJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2050.outbound.protection.outlook.com [40.107.113.50])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98D6DDB6;
-	Tue, 20 Feb 2024 01:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708391818; cv=fail; b=bIV9A3hy6iobMhj9JgJyOhtPYxx1toOKIk+hq/kqFL/RVBOtwyF0DCrZNvnPypGoWqlO25bNvpD47WlmlpeJHy1fF4Wyp1Sya6K0jNg7McLMIVVMhVQLh2MEEtLAswu3jhEEl3EE+7T3Alhy6LSA/pdZhjwkT5hRgOdYtDLbyuA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708391818; c=relaxed/simple;
-	bh=9D0tmht+UC/To/BNPPRfPIWvJEuU7lMpnpfq5DQo1rc=;
-	h=Message-ID:To:In-Reply-To:References:From:Subject:Content-Type:
-	 Date:MIME-Version; b=hATZdsl619uQeHs7iO9jYvSSG9hmK35L4cJ56hz/53QndJzUI4jdDOb7hPHMBmTeQGkxF+xehurEITCSD/keFp1iufAlZVcc5jddz/c4TC73qEgXhtzZKV3x+/xylEkZKfdrwEBzxgTURN3VAIWs9CDWkYopDwwwMn8KWGj1a1c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=bZsFAB9H; arc=fail smtp.client-ip=40.107.113.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kOG2MPU0O1OqZeG/7nnUp3QEZEZo5oh6A46OPvLEu+FnAuISLwY2Ah9Zb+LT0fYy9SOW2oKNGb4wiaRqzgJQBnxFv0+kFL/qHyvdC3vkhfNUJJusLskB20qZRKY2o9zi9z6Z7NwcHm6CrjNQVEEgkVuB8vqlK/o8/qEMvW1JTlfHDA5UPeGeLX3MZ4FEiEqLro6bVIEkd7bbQM2wEQ1t+GZWn/JG/PQiVpHLUY1oiboCH78H+ZC4ffPWY8SxNW8WhBM5rRTMZdWOPyby9s6L1AYa7Lx8ypxj+D8ATBgyScw7gZUIE4gfmRAXRi4JJmE16vIh7vL6tzJ7kOKs8g0TIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iPWy+PYtnAvN+6i0I6jsdtewufqRlqn7Qxjn1KjTnik=;
- b=A/rjfCIWT7XVsWXV9kGqeLzCSxz7JQZ1Lzv9T7sH5CAqepvZNw/MzLsx2Yg6N7kD7HlR+BOh46/4eBWcP1qUk4xExGNK11mpbBBh0vqRL0lRZGc6PIf5KgPMaGiLF59hEy5dsQS6DXZ/vVXxXHvBG9udAKTFd2kALUpSvWIZLANHLWj6OOIPejZOCXcir4Do1OFpr2BQAK3ELGqwNps3xECUhWWBezk9LrAVFKdiCqpiWUeHdh8ADTV5LxcxfGa0ZUGp04ZKMM+TnwMGIc4FHtNu38yptzcOOHPPui8OZBOn0oIfzbL0RVsJ/43knX1Jp8IbbGhPN23s5+pvX+aNPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iPWy+PYtnAvN+6i0I6jsdtewufqRlqn7Qxjn1KjTnik=;
- b=bZsFAB9HebwFwqY2K5fALKhoSGEgyd8Z0pqss/3FvibP1fp4VXEd/wefD8t24SgU8Bzj3Nnv+oyd81GRcxQAqyn0i79qaB28dbwHKSkdYLGLsfzJqnxYH9SiFkAGhNIxmbLIdU5IEDVh4ewNndY5zlGL14rZcGulnWKInqoY80A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB10730.jpnprd01.prod.outlook.com
- (2603:1096:400:296::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Tue, 20 Feb
- 2024 01:16:52 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::4d0b:6738:dc2b:51c8]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::4d0b:6738:dc2b:51c8%6]) with mapi id 15.20.7292.029; Tue, 20 Feb 2024
- 01:16:52 +0000
-Message-ID: <87y1bgj5oc.wl-kuninori.morimoto.gx@renesas.com>
-To: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,	=?ISO-8859-1?Q?=22Uwe_?=
- =?ISO-8859-1?Q?Kleine-K=F6nig=22?= <u.kleine-koenig@pengutronix.de>,	Alain
- Volmat <alain.volmat@foss.st.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alexandre Torgue
- <alexandre.torgue@foss.st.com>,	Alexey Brodkin <abrodkin@synopsys.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,	Andrzej Hajda
- <andrzej.hajda@intel.com>,	Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Daniel Vetter <daniel@ffwll.ch>,	Dave Stevenson
- <dave.stevenson@raspberrypi.com>,	David Airlie <airlied@gmail.com>,	Eugen
- Hristev <eugen.hristev@collabora.com>,	Florian Fainelli
- <florian.fainelli@broadcom.com>,	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Helge Deller <deller@gmx.de>,	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,	Jessica Zhang
- <quic_jesszhan@quicinc.com>,	Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>,	Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,	Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,	Mauro Carvalho Chehab
- <mchehab@kernel.org>,	Maxime Coquelin <mcoquelin.stm32@gmail.com>,	Maxime
- Ripard <mripard@kernel.org>,	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,	Sakari Ailus
- <sakari.ailus@linux.intel.com>,	Sam Ravnborg <sam@ravnborg.org>,	Sylwester
- Nawrocki <s.nawrocki@samsung.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tim Harvey <tharvey@gateworks.com>,	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,	linux-omap@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
-In-Reply-To: <874je4kkdn.wl-kuninori.morimoto.gx@renesas.com>
-References: <874je4kkdn.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 resend 4/4] video: fbdev: replace of_graph_get_next_endpoint()
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Feb 2024 01:16:52 +0000
-X-ClientProxiedBy: TYCP286CA0092.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b4::10) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37602168C7;
+	Tue, 20 Feb 2024 01:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708392371; cv=none; b=mDFT4E4Tm3beMIoNMP5WDG7k2U9I+JGLEMnqOkIl2Sf5KbEszdYEhr1YJe6irG2cZOFrQ1iKQ9MxWdrhNFMvZtTToKA/cLNuS+2zmieK9Vqa/LnlNau4sUrilMiJXCO84XksYM7KZtk6txFEhRJsq6+6zyOVG7zfrhzowvv0bVo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708392371; c=relaxed/simple;
+	bh=OuqSrEBVr+zxzHdDKD+c7Tmv57tFtsNr/yfG4R6Cu/U=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KQ3LBKHS2xTGUXZBOiwSITUASWf6k0DCj2+7a9s6yOFf3Ig04SFHBorQ6aHL1Dh71HAWw/I2Cc/iyWVLW6X1o2QoWsmrez8FOCCf6kGyXTXWwj/kwSuCts08OyhXuNJtX9E6K4JJatdL7uAjvmyn8B0MLrQapztpLFjEl7fFGDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=N0NKRQKJ; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: fd7b633ecf8e11ee9e680517dc993faa-20240220
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Jb79y2cBHS/ycIILNhbC/ey3i5o/CHC+FKzuHKR7Wf8=;
+	b=N0NKRQKJsmOPcs9m0Jx5NX2yxKh5SMTss3VPhwvjO/S1g2jpD8okHChrZJA91T97LqjEELjHalZf5O5bqD7GOFPlU7Zk2mcfnSN82SLD54+kA14gSgdCmnoerp8tXZc7MYtpVdKGuUruS2sfsQAcqsJ3peKmcLnMY7lkGl0gfvo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:a383cf8b-6d41-426d-bceb-b1e8f2424316,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:6f543d0,CLOUDID:4ba9f8fe-c16b-4159-a099-3b9d0558e447,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: fd7b633ecf8e11ee9e680517dc993faa-20240220
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
+	(envelope-from <zhi.mao@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1192308075; Tue, 20 Feb 2024 09:25:54 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 20 Feb 2024 09:25:52 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 20 Feb 2024 09:25:50 +0800
+From: Zhi Mao <zhi.mao@mediatek.com>
+To: <mchehab@kernel.org>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <sakari.ailus@linux.intel.com>
+CC: <laurent.pinchart@ideasonboard.com>, <shengnan.wang@mediatek.com>,
+	<yaya.chang@mediatek.com>, <10572168@qq.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <yunkec@chromium.org>,
+	<conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>, <jacopo.mondi@ideasonboard.com>,
+	<zhi.mao@mediatek.com>, <hverkuil-cisco@xs4all.nl>, <heiko@sntech.de>,
+	<jernej.skrabec@gmail.com>, <macromorgan@hotmail.com>,
+	<linus.walleij@linaro.org>, <hdegoede@redhat.com>,
+	<tomi.valkeinen@ideasonboard.com>, <gerald.loacker@wolfvision.net>,
+	<andy.shevchenko@gmail.com>, <bingbu.cao@intel.com>,
+	<dan.scally@ideasonboard.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v5 0/2] media: i2c: Add support for GC08A3 sensor 
+Date: Tue, 20 Feb 2024 09:25:38 +0800
+Message-ID: <20240220012540.10607-1-zhi.mao@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB10730:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d26bfcf-b8c6-486a-3238-08dc31b19ed7
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	9Hd1cP0a9uANPQ8rFQ2g2Z4kIf8YS5a4L4DcvdTkvKh7YLP7P11ISDCgrQdSG6rXvVirh16T+pCsaEecF3wEJXf3utcJjugux+YaPWHBe5pkR8pmZew/mG4dg4lgWGScQvg8mvi8Ef+KsoniKE3D799AqZCjHuOrRsmmVCZaMsJDQgu16DaaIXtdbgaAFQk9ko6vKpmamHvIEhVHWnkx79mKunuOx7X329DeR/PluYUd2oV5/2CGrDuUjjNawVVfN44lm+1q8mFHYsDb8G8ECfucRhQZ6UG+DtE7R8MRFj6dTRsEjaza7oQ0c7Z+7DEC9cMkOg2qCYAL8dQvSoKm/32W9TbbaoNgumWOt3EFW7bMEswAz1DZyLqOrhv56lxsz25aimkln0o3VXJ3Zm+tAE0ES3QY9iaSY90QN3yCDZDWZtBVwzd4XMkURJZhOMs9PEFPSHEa3ToVIxFWVZR4TnkxjkwfniAZxbvmNk40bW4Pg9jh9yAXhuopqLgRf/O0+D6A30HEgxhiy7lGSeJvbLhZNVnt4YXHGfVwCYdNpwQm2ci2Xjao6dFoq761AA2go0xp6SlHxbTOw/m37w3KtPRgCJfPNgy1iMdngxKuPiPDB+wW740/FfiI4AxG1ug9
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38350700005)(921011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?i+ckKuOPcvWCQI/6LCEN7ITVi1XKEIpX/DLWvvIppzL4uZRWFsNDsfB6GEYC?=
- =?us-ascii?Q?2/VqNmGiMI8HgLDzfCnK1QDjBykI9XkY86ptXmBE9EafiBZV5krtKQvhJ7ww?=
- =?us-ascii?Q?ZhIw9SAUHvHwo2E2u0uO999C5T6BmS6ulwaP59XQALstIATSEXdbTUQ0QutK?=
- =?us-ascii?Q?7+WNbAs2BVzMJ/YvF8lf2231Cu+CAkIVk6BRSvRytP3zH4uBHjxTjL571O+w?=
- =?us-ascii?Q?Ta2L7ZL/+6H7fUplt61BBHFte+2V20Y6So7vAR+dTsMQtFFAxIZySbJTKmEr?=
- =?us-ascii?Q?TgW0t4RCOtJqz/P4riNqXPG4tHMlty7ylGx2Vnvri2GYk2kyYkN3CMtnTTl8?=
- =?us-ascii?Q?KcY7WdSxulVTjlmpy7Qru2wfXA/0h/UfW2+OIttG8QVSJgsywavDDp2Ulidy?=
- =?us-ascii?Q?fKtW5cQNk29uRSWhLK+IAXG+JMUdiIiQJi/EZ8satX3b8yMaLJMKE5UT4/Qb?=
- =?us-ascii?Q?om0tUN/MmJ7uDJ2e7EonY2NOYDRpOZKFrKIZqjz0uoxcjF/7rwr0n2KLj4mN?=
- =?us-ascii?Q?UFE54X7X7duanHAnu2py1za2bye7ruK9KRBNXTgOtQ1J9Qc6e7gto7vTvW76?=
- =?us-ascii?Q?fopB1Gk69khHJj0n13m2XernBXmBQZMwsIefyuud8jK3N9vzEM7kOFABKeCO?=
- =?us-ascii?Q?0I+mAWkyEURH6shJXts3JxrkvjqI4/zwXGjdbLExzFojHq98I/t0edelqN3e?=
- =?us-ascii?Q?63ZZSg1KjpxyLfGNCYLBO84Bb5xohvVxNJYLpIhWC6a/CFjlhAJu2xXjO8tI?=
- =?us-ascii?Q?KXRRQfDe6syD/L0bXeEemrZ5lOKLHgN0lYedgdqqz43Anr0XJUYFvK0o2ZZ2?=
- =?us-ascii?Q?chDwXSyRWVls0lnM0WYP2hCG40U7t+PGzRzcNMON0H7lQcV3h/vxRfU8H1jM?=
- =?us-ascii?Q?R0CH8gZ14zZVHp56Oo9+OPv6B+BNGmPMsHOMvDq2MWYlLnvlRgSykuFESSso?=
- =?us-ascii?Q?G6S3vELyfccg4535LB3+9TUKZqqgGMqgLQ06s3Iq6E9xptlZH/C5pPrhfBCJ?=
- =?us-ascii?Q?d5y42zSybojYh2V1DjYbo37CcS1AXqX1eyOPlWTX1HcqtErEbMq4M54psqCs?=
- =?us-ascii?Q?G7IJNCVm6x+nmciA6aMut8FChKY2Ip4h6qtmF2nNIqSkqED5SqawzZhOTL2/?=
- =?us-ascii?Q?WdJ+9jZyrI/AQsSfHYT8OWxKEpAHyt3X2y/s0YFBVONIZzJg1qOhbcEl2Y7R?=
- =?us-ascii?Q?E+gMBl4lu38HdLIlMJLC0EdrO96DH0tUEIIKuqjnihA2UogXytdgE8wiWxHO?=
- =?us-ascii?Q?fkAD4Im1zCk5U6iDJaVvk6/LgmWfOpJ1eFAkkl6Y/O//RnXYBfsZAXeCxctp?=
- =?us-ascii?Q?fNqWsvW6PSWvaCWmbtyeWS9FefJKHPgumcRXxV4hGK4WOdE8nAAQNkAju+0t?=
- =?us-ascii?Q?KH//vrWHfdw/MpXIwIGmKfUWOitaF72FqQIi1dcKC6duLHR57mtV5aIqqVQe?=
- =?us-ascii?Q?UDPCnUNk3cvEQap1YmD9NsqREavt3t6MJKs7PahcsOMpoMUbumBBHnEarXRd?=
- =?us-ascii?Q?RzryhsqVf/NtSHSkE9mN5EmxFkuDdOvO7YxcKO8eeuKhEapzMRkWAUkmlgFy?=
- =?us-ascii?Q?b5VZW4Er7Jt6A6ngjVlCiTIjnuJgR/UlyCrCnhnE+E4VBKKFw0XSWGYE2TzA?=
- =?us-ascii?Q?0vf9nd/4o1oXhhbZlZOsHbc=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d26bfcf-b8c6-486a-3238-08dc31b19ed7
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 01:16:52.4622
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pF7DmZqmBHqrSoAGLtmP6zeXzb239ACwWPV0Y0A8GEo8yaRPG49ECNbhenuBTmYzhvhItej97nqAn3voWAGT/jtLlQ+aDZGRGPKnl80AjI1Tv+Ql/7gCgit0+PpdlxkW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10730
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 
-From DT point of view, in general, drivers should be asking for a
-specific port number because their function is fixed in the binding.
+This series adds YAML DT binding and V4L2 sub-device driver for Galaxycore's
+GC08A3 8-megapixel 10-bit RAW CMOS 1/4" sensor, with an MIPI CSI-2 image data
+interface and the I2C control bus.
 
-of_graph_get_next_endpoint() doesn't match to this concept.
+The driver is implemented with V4L2 framework.
+ - Async registered as a V4L2 sub-device.
+ - As the first component of camera system including Seninf, ISP pipeline.
+ - A media entity that provides one source pad in common.
+ - Used in camera features on ChromeOS application.
 
-Simply replace
+Also this driver supports following features:
+ - manual exposure and analog gain control support
+ - vertical blanking control support
+ - test pattern support
+ - media controller support
+ - runtime PM support
+ - support resolution: 3264x2448@30fps, 1920x1080@60fps
 
-	- of_graph_get_next_endpoint(xxx, NULL);
-	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
+Previous versions of this patch-set can be found here:
+v4: https://lore.kernel.org/linux-media/20240204061538.2105-1-zhi.mao@mediatek.com/
+v3: https://lore.kernel.org/linux-media/20240109022715.30278-1-zhi.mao@mediatek.com/
+v2: https://lore.kernel.org/linux-media/20231207052016.25954-1-zhi.mao@mediatek.com/
+v1: https://lore.kernel.org/linux-media/20231123115104.32094-1-zhi.mao@mediatek.com/
 
-Link: https://lore.kernel.org/r/20240202174941.GA310089-robh@kernel.org
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/video/fbdev/omap2/omapfb/dss/dsi.c    |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 20 +------------------
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c  |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c  |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/venc.c   |  3 ++-
- drivers/video/fbdev/pxafb.c                   |  2 +-
- include/video/omapfb_dss.h                    |  3 ---
- 7 files changed, 10 insertions(+), 27 deletions(-)
+This series is based on linux-next, tag: next-20240219
+Changes in v5:
+- gc08a3 sensor driver：
+-- sort the header files alphabetically in driver code
+-- refine the register define and some macros, fix some typo 
+-- drop variable：“clinet/streaming” in struct gc08a3
+-- refine "ret" flow in function:gc08a3_test_pattern()
+-- drop the gc08a3_link_freq_config structure
+-- rename some function and variable with a "gc08a3_" prefix
+-- refine function:gc08a3_identify_module()/gc08a3_power_on()/gc08a3_power_off()/gc08a3_update_pad_format()
+-- use stored crop rectangle in funcion:gc08a3_get_selectoin()
+-- use cci_update_bits() in function:gc08a3_set_ctrl_hflip()/gc08a3_set_ctrl_vflip()
+-- put the HFLIP and VFLIP controls in a cluster to make it efficiently set in an atomic operation
+-- use "fwnode_graph_get_endpoint_by_id" in function: gc08a3_parse_fwnode()
+-- remove function:gc08a3_enum_frame_interval()
+-- enable autosuspend in function:probe()
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbd=
-ev/omap2/omapfb/dss/dsi.c
-index b7eb17a16ec4..1f13bcf73da5 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-@@ -28,6 +28,7 @@
- #include <linux/debugfs.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/of_platform.h>
- #include <linux/component.h>
-=20
-@@ -5079,7 +5080,7 @@ static int dsi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	struct omap_dsi_pin_config pin_cfg;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c b/drivers/video/=
-fbdev/omap2/omapfb/dss/dss-of.c
-index 0282d4eef139..14965a3fd05b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-@@ -130,24 +130,6 @@ static struct device_node *omapdss_of_get_remote_port(=
-const struct device_node *
- 	return np;
- }
-=20
--struct device_node *
--omapdss_of_get_first_endpoint(const struct device_node *parent)
--{
--	struct device_node *port, *ep;
--
--	port =3D omapdss_of_get_next_port(parent, NULL);
--
--	if (!port)
--		return NULL;
--
--	ep =3D omapdss_of_get_next_endpoint(port, NULL);
--
--	of_node_put(port);
--
--	return ep;
--}
--EXPORT_SYMBOL_GPL(omapdss_of_get_first_endpoint);
--
- struct omap_dss_device *
- omapdss_of_find_source_for_first_ep(struct device_node *node)
- {
-@@ -155,7 +137,7 @@ omapdss_of_find_source_for_first_ep(struct device_node =
-*node)
- 	struct device_node *src_port;
- 	struct omap_dss_device *src;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return ERR_PTR(-EINVAL);
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c b/drivers/video/f=
-bdev/omap2/omapfb/dss/hdmi4.c
-index f05b4e35a842..8f407ec134dc 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-@@ -20,6 +20,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/clk.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/component.h>
- #include <video/omapfb_dss.h>
-@@ -529,7 +530,7 @@ static int hdmi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c b/drivers/video/f=
-bdev/omap2/omapfb/dss/hdmi5.c
-index 03292945b1d4..4ad219f522b9 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-@@ -25,6 +25,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/clk.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/component.h>
- #include <video/omapfb_dss.h>
-@@ -561,7 +562,7 @@ static int hdmi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/venc.c b/drivers/video/fb=
-dev/omap2/omapfb/dss/venc.c
-index c9d40e28a06f..0bd80d3b8f1b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-@@ -24,6 +24,7 @@
- #include <linux/regulator/consumer.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/component.h>
-=20
- #include <video/omapfb_dss.h>
-@@ -764,7 +765,7 @@ static int venc_probe_of(struct platform_device *pdev)
- 	u32 channels;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index fa943612c4e2..2ef56fa28aff 100644
---- a/drivers/video/fbdev/pxafb.c
-+++ b/drivers/video/fbdev/pxafb.c
-@@ -2171,7 +2171,7 @@ static int of_get_pxafb_mode_info(struct device *dev,
- 	u32 bus_width;
- 	int ret, i;
-=20
--	np =3D of_graph_get_next_endpoint(dev->of_node, NULL);
-+	np =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
- 	if (!np) {
- 		dev_err(dev, "could not find endpoint\n");
- 		return -EINVAL;
-diff --git a/include/video/omapfb_dss.h b/include/video/omapfb_dss.h
-index e8eaac2cb7b8..a8c0c3eeeb5b 100644
---- a/include/video/omapfb_dss.h
-+++ b/include/video/omapfb_dss.h
-@@ -819,9 +819,6 @@ struct device_node *
- omapdss_of_get_next_endpoint(const struct device_node *parent,
- 			     struct device_node *prev);
-=20
--struct device_node *
--omapdss_of_get_first_endpoint(const struct device_node *parent);
--
- struct omap_dss_device *
- omapdss_of_find_source_for_first_ep(struct device_node *node);
- #else
---=20
+Thanks
+
+Zhi Mao (2):
+  media: dt-bindings: i2c: add GalaxyCore GC08A3 image sensor
+  media: i2c: Add GC08A3 image sensor driver
+
+ .../bindings/media/i2c/galaxycore,gc08a3.yaml |  112 ++
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/gc08a3.c                    | 1335 +++++++++++++++++
+ 4 files changed, 1458 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
+ create mode 100644 drivers/media/i2c/gc08a3.c
+
+-- 
 2.25.1
+
+
 
 
