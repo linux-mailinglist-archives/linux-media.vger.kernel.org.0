@@ -1,72 +1,61 @@
-Return-Path: <linux-media+bounces-5581-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5582-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3911E85E225
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 16:57:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0B385E231
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 16:58:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A68CB26451
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 15:57:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B73011F256B6
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 15:58:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04BC382D98;
-	Wed, 21 Feb 2024 15:54:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF2258120A;
+	Wed, 21 Feb 2024 15:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="yjLWpG6E"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KDzLNgWA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96F382885;
-	Wed, 21 Feb 2024 15:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0D778B70
+	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 15:55:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708530892; cv=none; b=RJsoSbVxPwpSdVyLToIZw88jI20dYRb23itjg7KbC8grrh6Nl4RHsmUW3DZLO16FWaX/rIZV+QZU+/cuXMNKEivjQAEd/Z0unaqR7Nhl8q3q3e8JUvUxWE0zsh7ZlQDxUJAXWYGGGSTpBcsa5bW+K//QyzS32H+oNqXrhrVpNcE=
+	t=1708530956; cv=none; b=Vw81Ts7+QHlq982ultoJDB48uiPuUQ0+4pqs2pKWJ8S8pwnrN1SkPzShhf7pbnEqQbBbwFXwhfqJ0RPDEQbEFWL6cgCdJRaM/DKle+bZXPb/2vqO+yraGkcV76vtoXY+6nc4pPYp+LJf93nW6/7ev49fgssqSoqPKxEG08EcyyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708530892; c=relaxed/simple;
-	bh=fp7Af2JavyVIFNlDhfBtLvTU8aA7T4w2d45EtkwuBHY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cJQNg3VNjoqC8My862LUgkx4qKqF7tWgteKR7BmYRB3h0Rz48lbrXXqAIt+jl5UHmExT0qGmK74AX+XXg84r7ThBZZhzjzz/EDer76Zs94wVpDtJE1F4S+F7SViWpzrD/mY9u01HqZ6b6a5o/h3yilu0Y2xjN523R62zqnjw0PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=yjLWpG6E; arc=none smtp.client-ip=46.235.227.194
+	s=arc-20240116; t=1708530956; c=relaxed/simple;
+	bh=h1+ZGHKkTNoP9dkYM7eO/NzG0gnxlDJ3NEbzYW8menk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QmtpI6f4C1Qg7m1yAfh0MqAC8d2u91eKGsViiABLqVA0wxl1G/yuzoKad3rMQ28gwojkdhoa1yFTebeRK2RdBnz03ycMLHAucDC0KdrZgNbyplBdTQIoMG9dmU8/2zh/VaS/+574SHoBcEYsib4E4+Ilol7va43L2D6lg18j7Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KDzLNgWA; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708530889;
-	bh=fp7Af2JavyVIFNlDhfBtLvTU8aA7T4w2d45EtkwuBHY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=yjLWpG6EANx78oYE9sH5do7GUj0U7n+V9eQoJ6/nfjsLYYzECcc6/ECZpDD9kqRtk
-	 +byzVefibEpLtL+FIeZV1iV6rLOzAIP0DuDL5f7lrNH4A3W9gTYUtqdzXYuvNTlkZv
-	 7ltm40Pw0xAGZF79l1BR8vRBUR3FDrt2s2W4nT0L8CSALgnY7CW5xXfgpnD0NS5EnL
-	 1UZENZGIDlsBycNcwrRDG8aYJCdib2Tyg+usqMjgRCqnm6oyFy5rYc2TVSNU51tjKf
-	 NwJqXMS6b3P/5Kvc/F+yRC4kZbj3zB6+eSUBdikETFRcr1OkJqIofofDORBqvK9Vuy
-	 JAopl0JowHDdg==
+	s=mail; t=1708530953;
+	bh=h1+ZGHKkTNoP9dkYM7eO/NzG0gnxlDJ3NEbzYW8menk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KDzLNgWAwycVwDUhGwM9ysXvcpp39oRiR9s0EAHStOyDIjKphh0F1Sf99Tpfri1ba
+	 TTfkrIUIdzt/WpZRnRMC7LeU3wPANdh4B4c3NtkK9esoYIDxRFjHzl5mKwSvVb9Ryo
+	 hQiAaw5nPxXgjK9kergYegBN3MK7+swHwPNmYgvnKx+EXeNCeoFPTbx2KZLi6crXY+
+	 9N8jFRl8sm+e0VqFKdKHE4K2ny9Bc73zcE27pFxiDdWjME7QoR4U6YRUUjNniPu19N
+	 GIHxyWCvVlp5juAwN7yRxIwsPmYzBgElNDtKTALdx+8G5zmJ4hCeRAEzv3MXn1zbcS
+	 koQ9sYCEFaVRg==
 Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 967903780629;
-	Wed, 21 Feb 2024 15:54:48 +0000 (UTC)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id F3E623780629;
+	Wed, 21 Feb 2024 15:55:52 +0000 (UTC)
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
-	tfiga@chromium.org,
-	m.szyprowski@samsung.com,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	hverkuil-cisco@xs4all.nl,
-	nicolas@ndufresne.ca
+	hverkuil-cisco@xs4all.nl
 Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v20 9/9] media: verisilicon: Support removing buffers on capture queue
-Date: Wed, 21 Feb 2024 16:54:35 +0100
-Message-Id: <20240221155435.100093-10-benjamin.gaignard@collabora.com>
+Subject: [PATCH v8 0/2] v4l2-compliance: Add tests for REMOVE_BUFS
+Date: Wed, 21 Feb 2024 16:55:49 +0100
+Message-Id: <20240221155551.100156-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240221155435.100093-1-benjamin.gaignard@collabora.com>
-References: <20240221155435.100093-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,28 +64,43 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow to remove buffers on capture queue because it the one which
-own the decoded buffers. After a dynamic resolution change lot of
-them could remain allocated but won't be used anymore so deleting
-them save memory.
+This series add tests for this new field and VIDIOC_REMOVE_BUFS ioctl.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/media/platform/verisilicon/hantro_v4l2.c | 1 +
- 1 file changed, 1 insertion(+)
+version 8:
+- Rename structures, function and variables to use 'remove' instead of
+  'delete.
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 941fa23c211a..df6f2536263b 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_remove_bufs = v4l2_m2m_ioctl_remove_bufs,
- 	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+version 7:
+- Remove "v4l2-compliance: Test queue maximum buffers allocation"
+  patches because they have been merged.
+- Remove V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS to be aligned with
+  the v18 of the kernel patches
+- v4l_queue_querybufs() take care of a range of buffers.
+
+version 6:
+- fix compilation issue in "v4l2-compliance: Test queue maximum buffers allocation"
+
+version 5:
+- change g_max_buffers() to g_max_num_buffers().
+- change v4l_queue_g_max_buffers() to v4l_queue_g_max_num_buffers().
+- rename struct v4l_queue max_buffers field to max_num_buffers.
+- fix V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS name in bufcap_def array.
+- add V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS in bufcap_def array.
+- only test MMAP streaming mode.
+- rework test code.
+
+Benjamin Gaignard (2):
+  v4l2-utils: Add VIDIOC_REMOVE_BUFS ioctl
+  v4l2-compliance: Add a test for REMOVE_BUFS ioctl
+
+ include/linux/videodev2.h                   | 16 ++++
+ utils/common/cv4l-helpers.h                 |  4 +
+ utils/common/v4l-helpers.h                  | 27 ++++--
+ utils/v4l2-compliance/v4l2-compliance.cpp   |  1 +
+ utils/v4l2-compliance/v4l2-compliance.h     |  1 +
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 99 +++++++++++++++++++++
+ 6 files changed, 143 insertions(+), 5 deletions(-)
+
 -- 
 2.40.1
 
