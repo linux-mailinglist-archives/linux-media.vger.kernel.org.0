@@ -1,94 +1,73 @@
-Return-Path: <linux-media+bounces-5569-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5570-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAAE85E10E
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 16:27:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A43985E132
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 16:32:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A05A31F23D8C
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 15:27:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DAE71C24356
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 15:32:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9189C80623;
-	Wed, 21 Feb 2024 15:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F262080629;
+	Wed, 21 Feb 2024 15:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="mNfvz9cB"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CXA7eNSt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BB280601
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 15:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A276069D24;
+	Wed, 21 Feb 2024 15:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708529223; cv=none; b=WwKhhrCxGIfVqblivcHuHORzX/Vq0FTfGYIf+Ew6FAPPRBpANH6pkM1kX2Lf745y70QpjDGv6pLPglFAzOsYYoMpNioVIMo0OLtYZ5yzhVXWOBnb/8u/CYSsv9PE+IPNjzwvSTlxH9jMJ1Q1hT4nXKyyuQoQZQb7vq7JPL3JDP0=
+	t=1708529557; cv=none; b=tnAdUgB9pZDtZkWaYWysvLcY0CL3tVQ5+8QwL3Cak63vWQb3JF47v0tjt9XVEHqtvSxdjFiovkY4xummg3/IODozCnH4iVyrTMfEObeEkwEjQkG05RXUafJNUXN/VVouBjTMDgrOGYzhS4dwboEgXthejzxsP/u6z+L7cJaIkA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708529223; c=relaxed/simple;
-	bh=UMyVHwJ+E3hxFUahAJZzZza+ewuOnSmK3q6iw5hJSwY=;
+	s=arc-20240116; t=1708529557; c=relaxed/simple;
+	bh=TIGZ/MJ9Xb2fxnaDoPfLZV6ZzJ6jOXsj8FiH4J88P88=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VJEh6204bll1qJX6f6AvzqtI7tB+hen/NXWZNVVHe5jDFlrlnM7fH0stnmPr3I5BkUaPrWj97ZVdhQ0L4f7Cf19m3lGHrUdbnYtGb3Io10S4cJSoFaz3WlQMr2c/tYXU3lIW1HW6h1S8fFFYARmztLNxilpiDBVaNM5vklTqTxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=mNfvz9cB; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-7d2e16b552dso3845726241.1
-        for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 07:27:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1708529220; x=1709134020; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=w/YNMvZO8t1f9q9QebKmqlEKpDTAu6MakGAAlkCXnaE=;
-        b=mNfvz9cBOWyNKXhiMt/srA5fvIDlegotsFnF3AiIczAd6MH/FwMnGqhg4kkNWcWShE
-         zCIaQg5EGapmzTKYmwe29CcIKtE4zAyzAzkkIngk8/OzEuYNRk/S1mUzWy6A9BBoePj7
-         iZmanGA3PkbKr5oxraF9ICnXrBfj6NNQpfxlO9V1qty6q26iI4hF+CJuin26tYZIis9/
-         pDm3ha9e/pYUBXBQM+sRE7wQoOvLQwcY7JtENZ/TQRxVfvoqldeQ+mHj0H4DmhXms1av
-         fkAPDM++dv5AOvZd5+fSo1U1ya+Uh+U0VIAoWWdqtckKzhDhfztAHbMbLoKesFrpaRBd
-         d1og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708529220; x=1709134020;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=w/YNMvZO8t1f9q9QebKmqlEKpDTAu6MakGAAlkCXnaE=;
-        b=B0/3MaESrm3CC+2Zd9P762Y1zJsj/3UcT4J40ArhnoIxYpecr/agdETUnKEt9ydqV3
-         EsvKUot3f9uvxMvQW6PLmO1WCGwCLZQjNu78EAtXyDy8ANmghT6XzGZ/J13UGk6kVKvw
-         zry0CfTpDJepE4j5ms0OH7NkxMna6WMcYlCylbZBBPzEZzksNgf7XNcJRjgOwkGKverm
-         jTY0iCVOUEq+7hI8U+fvT33K3EbIcShmLeuqgEXBkFiY5blKmkkZ/Y4x+rSFr/lwpVXm
-         rJgFCiViUZLbJ2S+fjBDkLR6R311OrQRpb80Vnrqv2jvj42eeHP1K7u0j+bDZ1ui+1q/
-         L3Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzAK0T2D+tWAfJAATVWjoxKEce7a8lo/Of2rCC29oiqAGABPdUjH3sdBnDoRpEmz7LRhnOweG0su70i4Drr8RBMEfBZPrpXAsgleo=
-X-Gm-Message-State: AOJu0YxdNtPvsWAU36rmL1Qc0j99xZFpEtSjaReqD4uxa6O22MShgl6L
-	twLiBkOJVzziGWaMWVzQNLqadQYKWDglFa0b59DI5Sn7mKLJOfvjV+HO/24bAmc=
-X-Google-Smtp-Source: AGHT+IHL5VdbfmrjwOkdDYbolHvWLbQSQkWbjiHq3JkePyRGRrGHcNgE1G/QlV8vkdML8wNEsL3/8w==
-X-Received: by 2002:a1f:ea04:0:b0:4c8:90e5:6790 with SMTP id i4-20020a1fea04000000b004c890e56790mr10283746vkh.5.1708529220313;
-        Wed, 21 Feb 2024 07:27:00 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
-        by smtp.gmail.com with ESMTPSA id ql1-20020a056214540100b0068f9b20fb0bsm1349796qvb.100.2024.02.21.07.26.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 07:26:59 -0800 (PST)
-Message-ID: <be5ce95b023bcff24f53fdae55763bf4a3f6b1d7.camel@ndufresne.ca>
-Subject: Re: [RESEND PATCH v0 3/5] wave5 : Support runtime suspend/resume.
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"
-	 <mchehab@kernel.org>, "linux-media@vger.kernel.org"
-	 <linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>
-Cc: "lafley.kim" <lafley.kim@chipsnmedia.com>, "b-brnich@ti.com"
-	 <b-brnich@ti.com>
-Date: Wed, 21 Feb 2024 10:26:58 -0500
-In-Reply-To: <SE1P216MB1303932A0D3FC399179115D9ED572@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-References: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
-	 <20240131013046.15687-4-jackson.lee@chipsnmedia.com>
-	 <efe24b949a60034bf618eb3b8a8ba82e8a5dc99c.camel@ndufresne.ca>
-	 <SE1P216MB130326E2C4BA7E723A8955C9ED512@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-	 <20489b01f1ac9ab3e434ea4c17b4e0ccd84afa36.camel@ndufresne.ca>
-	 <SE1P216MB1303CEEF6DFAB5FA7C69D645ED502@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-	 <d5546b48ea829316a8dbd2ecc27bbf05e70e8188.camel@ndufresne.ca>
-	 <SE1P216MB1303932A0D3FC399179115D9ED572@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+	 Content-Type:MIME-Version; b=ukGqbUH+9uNXInpxfxs/SLzMczQZpQYNgu5S0ezUxdjEknF/Oh/hyLRzHWn/HMrzq5wwZo0T0of1PHMZGayHsY5U4xllRkdUlvPuufAM6nPoSZKmPXoqQg04jdBXMhnzpG22mNHTsARmL+3/hoEU5B49uYhjvHRdXZRRgFTN0nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CXA7eNSt; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1708529554;
+	bh=TIGZ/MJ9Xb2fxnaDoPfLZV6ZzJ6jOXsj8FiH4J88P88=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=CXA7eNStnO0KMyf9ndp3Zy68MJQtJgg/SgXkikjuXJ0eBBsjb1PWGJRIL4F9l15a5
+	 URsnbK28uPFn4dwVLzLJJscEuqeufXj2PPz8H0rxgJMdF+jrriR6NyEzuyQVlnWe2L
+	 sSHs7HI6+6ymwsYN/Q404lHDbcqPtU2O3sc+g5Hk8xrwrU6tXD5xCQ8M4YMtXXUJX8
+	 9cQ3EWtMmFs5cBwMw1tQ4uT3SMDuohZ8diW1sMKUZbkC2NKj2yxRX+Lm90U2xpuG1A
+	 2XVM6CjbX2bd30tV3x9F93cSPLlr71en9l/Q9qhTTEEMguotrABVnS3bv7WEvjhBem
+	 IJA0wQqqH1t/g==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BFAAE3781116;
+	Wed, 21 Feb 2024 15:32:32 +0000 (UTC)
+Message-ID: <2a6be79192fdd12eaee182dceb8f1cdf0fc1bd8f.camel@collabora.com>
+Subject: Re: [PATCH] media: v4l2-mem2mem: fix mem order in last buf
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hsia-Jun Li <Randy.Li@synaptics.com>, Hans Verkuil
+	 <hverkuil-cisco@xs4all.nl>
+Cc: mchehab@kernel.org, sebastian.fricke@collabora.com, Randy Li
+	 <ayaka@soulik.info>, alexious@zju.edu.cn, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 21 Feb 2024 10:32:29 -0500
+In-Reply-To: <e5b1db79-7fb2-4e51-bb93-73f31bbd8804@synaptics.com>
+References: <20240210180414.49184-1-randy.li@synaptics.com>
+	 <a43eaa0cfedeccc85410d2e26f296bda8de635cd.camel@collabora.com>
+	 <1f80b5ea-1209-438f-b07f-3a4a308ee35d@soulik.info>
+	 <27ef9490-a56b-46bf-84bd-bc2ec08896af@xs4all.nl>
+	 <8d236cbfca8c4ea573d340109387fc804f1a89cd.camel@collabora.com>
+	 <e5b1db79-7fb2-4e51-bb93-73f31bbd8804@synaptics.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=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
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
@@ -99,557 +78,196 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Le mercredi 21 f=C3=A9vrier 2024 =C3=A0 02:27 +0000, jackson.lee a =C3=A9cr=
+Le mercredi 21 f=C3=A9vrier 2024 =C3=A0 18:37 +0800, Hsia-Jun Li a =C3=A9cr=
 it=C2=A0:
-> Hello Nicolas
 >=20
->=20
-> Thanks for your comment
->=20
-> > Le mardi 20 f=C3=A9vrier 2024 =C3=A0 05:12 +0000, jackson.lee a =C3=A9c=
-rit=C2=A0:
-> > > A pause is common state for media player, but our VPU could trigger a=
-n
-> > interrupt regardless of a player state.
-> > > So at a pause state if a power turns off, our driver becomes hang-up.
-> > > I think power on/off should be controlled in the open/close function.
+> On 2/17/24 03:09, Nicolas Dufresne wrote:
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
 > >=20
-> > Please, avoid top posting, this breaks the discussion completely. Walk
-> > through the comments, and reply to them underneath so we can have a pro=
-per
-> > discussion.
 > >=20
-> > In our experience, and with the rework of the driver we did during up-
-> > streaming, there is no more un-solicited IRQ. The way the driver state
-> > machine has been built, when the m2m framework is idle (no jobs are act=
-ive
-> > or pending), it means the firmware is stalled, waiting on some applicat=
-ion
-> > action. Combined with a timer of course, so we don't actively
-> > suspend/resume, this seems adequate place to do power management. If th=
-at
-> > application action never occurred passed a decent delay, we can suspend=
-.
-> > Later on, user actions like qbuf, will lead to
-> > device_run() to be called again, and it would be a good place to resume=
- it.
+> > Le jeudi 15 f=C3=A9vrier 2024 =C3=A0 09:41 +0100, Hans Verkuil a =C3=A9=
+crit :
+> > > On 15/02/2024 04:16, Randy Li wrote:
+> > > >=20
+> > > > On 2024/2/15 04:38, Nicolas Dufresne wrote:
+> > > > > Hi,
+> > > > >=20
+> > > > > >    media: v4l2-mem2mem: fix mem order in last buf
+> > > > > mem order ? Did you mean call order ?
+> > > > std::memory_order
+> > > > >=20
+> > > > > Le dimanche 11 f=C3=A9vrier 2024 =C3=A0 02:04 +0800, Hsia-Jun Li =
+a =C3=A9crit :
+> > > > > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+> > > > > >=20
+> > > > > > The has_stopped property in struct v4l2_m2m_ctx is operated
+> > > > > > without a lock protecction. Then the userspace calls to
+> > > > >                    protection   When ?                   ~~
+> > > > Access to those 3 booleans you mentioned later.
+> > > > > > v4l2_m2m_encoder_cmd()/v4l2_m2m_decoder_cmd() may lead to
+> > > > > > a critical section issue.
+> > > > > As there is no locking, there is no critical section, perhaps a b=
+etter phrasing
+> > > > > could help.
+> > > >=20
+> > > > "concurrent accesses to shared resources can lead to unexpected or =
+erroneous behavior, so parts of the program where the shared resource is ac=
+cessed need to be protected in ways that avoid the
+> > > > concurrent access."
+> > > >=20
+> > > > It didn't say we need a lock here.
+> > > >=20
+> > > > > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> > > > > > ---
+> > > > > >    drivers/media/v4l2-core/v4l2-mem2mem.c | 4 ++--
+> > > > > >    1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > > >=20
+> > > > > > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/m=
+edia/v4l2-core/v4l2-mem2mem.c
+> > > > > > index 75517134a5e9..f1de71031e02 100644
+> > > > > > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > > > > > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > > > > > @@ -635,9 +635,9 @@ void v4l2_m2m_last_buffer_done(struct v4l2_=
+m2m_ctx *m2m_ctx,
+> > > > > >                       struct vb2_v4l2_buffer *vbuf)
+> > > > > >    {
+> > > > > >        vbuf->flags |=3D V4L2_BUF_FLAG_LAST;
+> > > > > > -    vb2_buffer_done(&vbuf->vb2_buf, VB2_BUF_STATE_DONE);
+> > > > > > -
+> > > > > >        v4l2_m2m_mark_stopped(m2m_ctx);
+> > > > > > +
+> > > > > > +    vb2_buffer_done(&vbuf->vb2_buf, VB2_BUF_STATE_DONE);
+> > > > > While it most likely fix the issue while testing, since userspace=
+ most likely
+> > > > > polls on that queue and don't touch the driver until the poll was=
+ signalled, I
+> > > > > strongly believe this is insufficient. When I look at vicodec and=
+ wave5, they
+> > > > > both add a layer of locking on top of the mem2mem framework to fi=
+x this issue.
+> > > >=20
+> > > > Maybe a memory barrier is enough. Since vb2_buffer_done() itself wo=
+uld invoke the (spin)lock operation.
+> > > >=20
+> > > > When the poll() returns in userspace, the future operation for thos=
+e three boolean variables won't happen before the lock.
+> > > >=20
+> > > > > I think this is unfortunate, but v4l2_m2m_mark_stopped() is backe=
+d by 3 booleans
+> > > > > accessed in many places that aren't in any known atomic context. =
+I think it
+> > > > > would be nice to remove the spurious locking in drivers and try a=
+nd fix this
+> > > > > issue in the framework itself.
+> > > > I tend to not introduce more locks here. There is a spinlock in m2m=
+_ctx which is a pain in the ass, something we could reuse it to save our CP=
+U but it just can't be access.
+> > >=20
+> > > I think the root cause is something else.
+> > >=20
+> > > Let me say first of all that swapping the order of the two calls does=
+ make sense:
+> > > before returning the buffer you want to mark the queue as stopped.
+> > >=20
+> > > But the real problem is that for drivers using the mem2mem framework =
+the streaming
+> > > ioctls can be serialized with a different lock than the VIDIOC_DE/ENC=
+ODER_CMD ioctls.
+> > >=20
+> > > The reason for that is that those two ioctls are not marked with INFO=
+_FL_QUEUE,
+> > > but I think they should. These ioctls are really part of the streamin=
+g ioctls
+> > > and should all use the same lock.
+> > >=20
+> > > Note that for many drivers the same mutex is used for the streaming i=
+octls as for
+> > > all other ioctls, but it looks like at least the venus driver uses se=
+parate mutexes.
+> > >=20
 >=20
-> The above comment means like the below ?
-> The wave5_vpu_dec_finish_decode is called by IRQ if there is a decoded fr=
-ame.
-> And at the end of the function, if there is no data queued, v4l2_m2m_job_=
-finish is called.
-> You means suspend is called in that function and if app feeds new data in=
-to v4l2 driver, the device_run then is called,
-> In the device_run, resume is called.
-
-That is the general idea. (Note that we don't forcefully suspect, for this =
-type
-of HW, we should configure a delay. Just saying in case someone miss-interp=
-ret
-what was written here)
-
+> But I saw many drivers didn't assign that q_lock here. I am an one.
+> Since it is an optional mutex lock.
 >=20
->=20
-> I have a question,=20
-> If app is paused or resumed , the v4l2's vidioc_decoder_cmd is always cal=
-led ?
-
-There is no indication if an app is paused / resumed. Runtime PM in fact sh=
-ould
-not depend on application actions in general. In the case of V4L2, most dri=
-ver
-will configure a delay (like 5 seconds). If the driver has been idle (no pe=
-nding
-work, no jobs) withing that delay, it will auto suspend. Then whenever new
-activity comes, like a QBUF, we resume.
-
-Nicolas
-
->=20
-> Thanks.
->=20
->=20
-> > There is of course other places where you'll have to make sure the
-> > hardware is resumed, like on close, as you want to remove the instance.
-> > There is also small queries here and there that need to be surrounded w=
-ith
-> > resume/put, but with the redesign, most of the HW access now take place
-> > inside device_run() only.
+> > > With that change in v4l2-core/v4l2-ioctl.c I don't believe any lockin=
+g is needed,
+> > > since it should always be serialized by the same top-level mutex.
+> > >=20
+> > > The v4l2_ioctl_get_lock() function in v4l2-ioctl.c is the one that se=
+lects which
+> > > mutex to use for a given ioctl.
 > >=20
-> > Open/Close is not invalid, but it has a lot of issues, as any random
-> > application can endup disabling the kernel ability to save power.
-> > Personally, I think we should at least give it a try, and document vali=
-d
-> > reason not to do so if we find hardware issues. Otherwise, this sounds
-> > like all we care is ticking the box "this driver has runtime PM" withou=
-t
-> > actually caring about effective power saving.
+> > There was no way to comply with the spec without accessing that state i=
+n the irq
+> > thread in Wave5. In that case, we need to decide if we continue or canc=
+el a
+> > dynamic resolution change.
+> >=20
+> >=20
+> >                  if (!v4l2_m2m_has_stopped(m2m_ctx)) {
+> >                          switch_state(inst, VPU_INST_STATE_STOP);
+> >=20
+> >                          if (dec_info.sequence_changed)
+> >                                  handle_dynamic_resolution_change(inst)=
+;
+> >                          else
+> >                                  send_eos_event(inst);
+> >=20
+> >                          flag_last_buffer_done(inst);
+> >                  }
+> >=20
+> > That forced us to introduce a spinlock to protect that state in that dr=
+iver.
+> >=20
+> Usually we won't do buffer operation in the irq handler context. It=20
+> causes too many times,
+
+I took this one out of context, but this is inside a threaded IRQ handle, w=
+e
+indeed have too much work and state to match with how Wave5 firmware behave=
+. As
+discuss on IRC, not being able to see the Synaptics driver you are referrin=
+g to
+has its limitation.
+
+>=20
+> But that makes a point. Sometimes, I can't just introduce that a mutex,=
+=20
+> while most of the m2m context has acquired a spinlock.
+
+In wave5, we had to use a spinlock as the framework holds its own spinlock =
+while
+calling job_ready() (can't mix lock mutex while a spinlock is held), and we=
+ need
+thread safety in that call in order to use that state to make the right
+decisions. On agressive stress test, we were getting stalls due to decision=
+s
+being made with partially written state.
+
+> > As for locking cmd_start, that might help, its certainly a behaviour ch=
+ange and
+> > will have to be taken with care. How does the ioctl lock interact with =
+blocking
+> > QBUF notably ?
 > >=20
 > > Nicolas
 > >=20
 > > >=20
-> > > Thanks.
+> > > Regards,
 > > >=20
-> > > > Le lundi 19 f=C3=A9vrier 2024 =C3=A0 04:04 +0000, jackson.lee a =C3=
-=A9crit=C2=A0:
-> > > > > Hi Nicolas
-> > > > >=20
-> > > > >=20
-> > > > > > This seems very unnatural. We do the get() in
-> > > > > > "start_streaming()", but the
-> > > > > > put() is only done when the device is closed, or when the drive=
-r
-> > > > > > is removed. As this is not balanced, you seem to have to check
-> > > > > > the suspended condition all over the place.
-> > > > > >=20
-> > > > > > I think we could aim for start_streaming()/stop_streaming() for
-> > > > > > your get/put placement. At least they will be bound to an
-> > > > > > entirely balanced
-> > > > API.
-> > > > > > But then, a media player in paused sate will prevent that devic=
-e
-> > > > > > from being suspended.
-> > > > > >=20
-> > > > > > If the HW is capable of preserving enough state, and From the
-> > > > > > short doc I have it gives me the impression it can preserve
-> > > > > > that, I'd suggest to follow what hantro driver is doing. What i=
-s
-> > > > > > does is that it will do get() in device_run(), and put()
-> > > > > > whenever the job completes. This driver has been designed so
-> > > > > > when there is no job, it means the firmware is currently idle
-> > > > > > and looking for more work. So it seems like the perfect moment =
-to
-> > do suspend it.
-> > > > > >=20
-> > > > >=20
-> > > > > Thanks your comment,
-> > > > >=20
-> > > > > Currently they are not balanced,
-> > > > > If we puts "the put functon" into the stop_streaming, our hw is
-> > > > > stalled
-> > > > until doing wake-up command, so our v4l2 device become block.
-> > > > > so I'd like to update the below instead of calling get at the
-> > > > start_streaming function.
-> > > > >=20
-> > > > >=20
-> > > > > @@ -1867,6 +1868,13 @@ static int wave5_vpu_open_dec(struct file
-> > > > > *filp)
-> > > > >=20
-> > > > >         wave5_vdi_allocate_sram(inst->dev);
-> > > > >=20
-> > > > > +       err =3D pm_runtime_resume_and_get(inst->dev->dev);
-> > > > > +       if (err) {
-> > > > > +               dev_err(inst->dev->dev, "decoder runtime resume
-> > > > failed %d\n", err);
-> > > > > +               ret =3D -EINVAL;
-> > > > > +               goto cleanup_inst;
-> > > > > +       }
-> > > > > +
-> > > > >         return 0;
-> > > >=20
-> > > > I guess we need to discuss the power management strategy for this
-> > device.
-> > > > If you do resume_and_get() in open(), and then put in close(), that
-> > > > seems balanced. But in term of power saving, it might not be very
-> > > > strong. If you have a media player that is set to pause and then
-> > > > placed in the background, you still keep the IP running. This is
-> > > > extremely common, since application cannot close their device
-> > > > without loosing the reference frames, and thus having to do extra
-> > > > work on resume to seek back to the previous sync point and drop
-> > unneeded frames.
-> > > >=20
-> > > > It seems like the whole point of asking the firmware to save the
-> > > > state and suspend is to be able to do so while there is meaningful
-> > > > sate in the firt place.
-> > > > If we are to suspend only when there is no meaningful state, we
-> > > > could just free all resources and power it off completely. (This is
-> > > > just for illustration, its probably to slow to boot the firmware at
-> > > > runtime)
-> > > >=20
-> > > >=20
-> > > > I understand you suffered lockup with a start_streaming() for
-> > > > resume_and_get(), and stop_streaming() for put(), this may simply
-> > > > indicate that some hardware access are needed between these two. Ca=
-n
-> > > > you write down a power management plan that would effectively save
-> > > > power in common use cases ? We can certainly help in refactoring th=
-e
-> > code to make that happen.
-> > > >=20
-> > > > Nicolas
-> > > >=20
-> > > > >=20
-> > > > > > Le mercredi 31 janvier 2024 =C3=A0 10:30 +0900, jackson.lee a =
-=C3=A9crit=C2=A0:
-> > > > > > > There are two device run-time PM callbacks defined in 'struct
-> > > > > > dev_pm_ops'
-> > > > > > > int (*runtime_suspend)(struct device *dev); int
-> > > > > > > (*runtime_resume)(struct device *dev);
-> > > > > >=20
-> > > > > > I wonder how useful is it to teach everyone what the generic
-> > > > > > 'struct dev_pm_ops'
-> > > > > > contains. Perhaps you simply wanted that this patch implement
-> > > > > > both suspend and resume ops ?
-> > > > > >=20
-> > > > > > >=20
-> > > > > > > Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
-> > > > > > > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> > > > > > > ---
-> > > > > > >  .../platform/chips-media/wave5/wave5-hw.c     |  5 +-
-> > > > > > >  .../chips-media/wave5/wave5-vpu-dec.c         |  9 +++
-> > > > > > >  .../chips-media/wave5/wave5-vpu-enc.c         |  9 +++
-> > > > > > >  .../platform/chips-media/wave5/wave5-vpu.c    | 68
-> > > > +++++++++++++++++++
-> > > > > > >  .../platform/chips-media/wave5/wave5-vpuapi.c |  7 ++
-> > > > > > > .../media/platform/chips-media/wave5/wave5.h  |  3 +
-> > > > > > >  6 files changed, 99 insertions(+), 2 deletions(-)
-> > > > > > >=20
-> > > > > > > diff --git
-> > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-hw.c
-> > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-hw.c
-> > > > > > > index 8ad7f3a28ae1..8aade5a38439 100644
-> > > > > > > --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
-> > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
-> > > > > > > @@ -503,6 +503,7 @@ int wave5_vpu_build_up_dec_param(struct
-> > > > > > > vpu_instance
-> > > > > > *inst,
-> > > > > > >  	/* This register must be reset explicitly */
-> > > > > > >  	vpu_write_reg(inst->dev, W5_CMD_EXT_ADDR, 0);
-> > > > > > >  	vpu_write_reg(inst->dev, W5_CMD_NUM_CQ_DEPTH_M1,
-> > > > > > > (COMMAND_QUEUE_DEPTH - 1));
-> > > > > > > +	vpu_write_reg(inst->dev, W5_CMD_ERR_CONCEAL, 0);
-> > > > > >=20
-> > > > > > In some way, the relation between suspend and this register
-> > > > > > write is not obvious. If its not related, please do this in its
-> > own patch.
-> > > > > > Otherwise you want to explain why you needed this (possibly jus=
-t
-> > > > > > in the commit message).
-> > > > > >=20
-> > > > > > >=20
-> > > > > > >  	ret =3D send_firmware_command(inst, W5_CREATE_INSTANCE, tru=
-e,
-> > > > > > > NULL,
-> > > > > > NULL);
-> > > > > > >  	if (ret) {
-> > > > > > > @@ -1075,8 +1076,8 @@ int wave5_vpu_re_init(struct device
-> > > > > > > *dev, u8 *fw,
-> > > > > > size_t size)
-> > > > > > >  	return setup_wave5_properties(dev);  }
-> > > > > > >=20
-> > > > > > > -static int wave5_vpu_sleep_wake(struct device *dev, bool
-> > > > > > > i_sleep_wake,
-> > > > > > const uint16_t *code,
-> > > > > > > -				size_t size)
-> > > > > > > +int wave5_vpu_sleep_wake(struct device *dev, bool
-> > > > > > > +i_sleep_wake, const
-> > > > > > uint16_t *code,
-> > > > > > > +			 size_t size)
-> > > > > > >  {
-> > > > > > >  	u32 reg_val;
-> > > > > > >  	struct vpu_buf *common_vb;
-> > > > > > > diff --git
-> > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > > > > > > index ef227af72348..328a7a8f26c5 100644
-> > > > > > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.=
-c
-> > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.=
-c
-> > > > > > > @@ -5,6 +5,7 @@
-> > > > > > >   * Copyright (C) 2021-2023 CHIPS&MEDIA INC
-> > > > > > >   */
-> > > > > > >=20
-> > > > > > > +#include <linux/pm_runtime.h>
-> > > > > > >  #include "wave5-helper.h"
-> > > > > > >=20
-> > > > > > >  #define VPU_DEC_DEV_NAME "C&M Wave5 VPU decoder"
-> > > > > > > @@ -1387,9 +1388,17 @@ static int
-> > > > > > > wave5_vpu_dec_start_streaming(struct
-> > > > > > > vb2_queue *q, unsigned int count
-> > > > > > >=20
-> > > > > > >  	if (q->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE && ins=
-t-
-> > > > > state
-> > > > > > > =3D=3D
-> > > > > > VPU_INST_STATE_NONE) {
-> > > > > > >  		struct dec_open_param open_param;
-> > > > > > > +		int err =3D 0;
-> > > > > > >=20
-> > > > > > >  		memset(&open_param, 0, sizeof(struct dec_open_param));
-> > > > > > >=20
-> > > > > > > +		err =3D pm_runtime_resume_and_get(inst->dev->dev);
-> > > > > > > +		if (err) {
-> > > > > > > +			dev_err(inst->dev->dev, "decoder runtime resume
-> > > > > > failed %d\n", err);
-> > > > > > > +			ret =3D -EINVAL;
-> > > > > > > +			goto return_buffers;
-> > > > > > > +		}
-> > > > > > > +
-> > > > > > >  		ret =3D wave5_vpu_dec_allocate_ring_buffer(inst);
-> > > > > > >  		if (ret)
-> > > > > > >  			goto return_buffers;
-> > > > > > > diff --git
-> > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > > > > > index 761775216cd4..ff73d69de41c 100644
-> > > > > > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.=
-c
-> > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.=
-c
-> > > > > > > @@ -5,6 +5,7 @@
-> > > > > > >   * Copyright (C) 2021-2023 CHIPS&MEDIA INC
-> > > > > > >   */
-> > > > > > >=20
-> > > > > > > +#include <linux/pm_runtime.h>
-> > > > > > >  #include "wave5-helper.h"
-> > > > > > >=20
-> > > > > > >  #define VPU_ENC_DEV_NAME "C&M Wave5 VPU encoder"
-> > > > > > > @@ -1387,9 +1388,17 @@ static int
-> > > > > > > wave5_vpu_enc_start_streaming(struct
-> > > > > > > vb2_queue *q, unsigned int count
-> > > > > > >=20
-> > > > > > >  	if (inst->state =3D=3D VPU_INST_STATE_NONE && q->type =3D=
-=3D
-> > > > > > V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> > > > > > >  		struct enc_open_param open_param;
-> > > > > > > +		int err =3D 0;
-> > > > > > >=20
-> > > > > > >  		memset(&open_param, 0, sizeof(struct enc_open_param));
-> > > > > > >=20
-> > > > > > > +		err =3D pm_runtime_resume_and_get(inst->dev->dev);
-> > > > > > > +		if (err) {
-> > > > > > > +			dev_err(inst->dev->dev, "encoder runtime resume
-> > > > > > failed %d\n", err);
-> > > > > > > +			ret =3D -EINVAL;
-> > > > > > > +			goto return_buffers;
-> > > > > > > +		}
-> > > > > > > +
-> > > > > > >  		wave5_set_enc_openparam(&open_param, inst);
-> > > > > > >=20
-> > > > > > >  		ret =3D wave5_vpu_enc_open(inst, &open_param); diff --
-> > > > git
-> > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> > > > > > > index 0d90b5820bef..f81409740a56 100644
-> > > > > > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> > > > > > > @@ -10,6 +10,7 @@
-> > > > > > >  #include <linux/clk.h>
-> > > > > > >  #include <linux/firmware.h>
-> > > > > > >  #include <linux/interrupt.h>
-> > > > > > > +#include <linux/pm_runtime.h>
-> > > > > > >  #include "wave5-vpu.h"
-> > > > > > >  #include "wave5-regdefine.h"
-> > > > > > >  #include "wave5-vpuconfig.h"
-> > > > > > > @@ -117,6 +118,65 @@ static int wave5_vpu_load_firmware(struc=
-t
-> > > > > > > device
-> > > > > > *dev, const char *fw_name,
-> > > > > > >  	return 0;
-> > > > > > >  }
-> > > > > > >=20
-> > > > > > > +static __maybe_unused int wave5_pm_suspend(struct device *de=
-v)
-> > {
-> > > > > > > +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
-> > > > > > > +
-> > > > > > > +	if (pm_runtime_suspended(dev))
-> > > > > > > +		return 0;
-> > > > > > > +
-> > > > > > > +	wave5_vpu_sleep_wake(dev, true, NULL, 0);
-> > > > > > > +	clk_bulk_disable_unprepare(vpu->num_clks, vpu->clks);
-> > > > > > > +
-> > > > > > > +	return 0;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static __maybe_unused int wave5_pm_resume(struct device *dev=
-) {
-> > > > > > > +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
-> > > > > > > +	int ret =3D 0;
-> > > > > > > +
-> > > > > > > +	wave5_vpu_sleep_wake(dev, false, NULL, 0);
-> > > > > > > +	ret =3D clk_bulk_prepare_enable(vpu->num_clks, vpu->clks);
-> > > > > > > +	if (ret) {
-> > > > > > > +		dev_err(dev, "Enabling clocks, fail: %d\n", ret);
-> > > > > > > +		return ret;
-> > > > > > > +	}
-> > > > > > > +
-> > > > > > > +	return ret;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static __maybe_unused int wave5_suspend(struct device *dev) =
-{
-> > > > > > > +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
-> > > > > > > +	struct vpu_instance *inst;
-> > > > > > > +
-> > > > > > > +	list_for_each_entry(inst, &vpu->instances, list)
-> > > > > > > +		v4l2_m2m_suspend(inst->v4l2_m2m_dev);
-> > > > > > > +
-> > > > > > > +	return pm_runtime_force_suspend(dev); }
-> > > > > > > +
-> > > > > > > +static __maybe_unused int wave5_resume(struct device *dev) {
-> > > > > > > +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
-> > > > > > > +	struct vpu_instance *inst;
-> > > > > > > +	int ret =3D 0;
-> > > > > > > +
-> > > > > > > +	ret =3D pm_runtime_force_resume(dev);
-> > > > > > > +	if (ret < 0)
-> > > > > > > +		return ret;
-> > > > > > > +
-> > > > > > > +	list_for_each_entry(inst, &vpu->instances, list)
-> > > > > > > +		v4l2_m2m_resume(inst->v4l2_m2m_dev);
-> > > > > > > +
-> > > > > > > +	return ret;
-> > > > > > > +}
-> > > > > >=20
-> > > > > > The functions wave5_suspend() and wave5_resume() are not just
-> > > > > > "maybe_unsued" but actually never used. What was the intention =
-?
-> > > > > > Considering the usage of __maybe_unused has been such a bad
-> > > > > > friend for this one, could you instead bracket the functions
-> > > > > > with an
-> > > > explicit ?
-> > > > > >=20
-> > > > > > #ifdef CONFIG_PM
-> > > > > > #endif
-> > > > > >=20
-> > > > > > This way the compiler will have a word if you implement
-> > > > > > something that you forgot to actually use.
-> > > > > >=20
-> > > > > > > +
-> > > > > > > +static const struct dev_pm_ops wave5_pm_ops =3D {
-> > > > > > > +	SET_RUNTIME_PM_OPS(wave5_pm_suspend, wave5_pm_resume,
-> > > > NULL) };
-> > > > > > > +
-> > > > > > >  static int wave5_vpu_probe(struct platform_device *pdev)  {
-> > > > > > >  	int ret;
-> > > > > > > @@ -232,6 +292,10 @@ static int wave5_vpu_probe(struct
-> > > > > > > platform_device
-> > > > > > *pdev)
-> > > > > > >  		 (match_data->flags & WAVE5_IS_DEC) ? "'DECODE'" : "");
-> > > > > > >  	dev_info(&pdev->dev, "Product Code:      0x%x\n", dev-
-> > > > > product_code);
-> > > > > > >  	dev_info(&pdev->dev, "Firmware Revision: %u\n",
-> > > > > > > fw_revision);
-> > > > > > > +
-> > > > > > > +	pm_runtime_enable(&pdev->dev);
-> > > > > > > +	wave5_vpu_sleep_wake(&pdev->dev, true, NULL, 0);
-> > > > > > > +
-> > > > > > >  	return 0;
-> > > > > > >=20
-> > > > > > >  err_enc_unreg:
-> > > > > > > @@ -254,6 +318,9 @@ static int wave5_vpu_remove(struct
-> > > > > > > platform_device
-> > > > > > > *pdev)  {
-> > > > > > >  	struct vpu_device *dev =3D dev_get_drvdata(&pdev->dev);
-> > > > > > >=20
-> > > > > > > +	pm_runtime_put_sync(&pdev->dev);
-> > > > > > > +	pm_runtime_disable(&pdev->dev);
-> > > > > > > +
-> > > > > > >  	mutex_destroy(&dev->dev_lock);
-> > > > > > >  	mutex_destroy(&dev->hw_lock);
-> > > > > > >  	clk_bulk_disable_unprepare(dev->num_clks, dev->clks); @@ -
-> > > > 281,6
-> > > > > > > +348,7 @@ static struct platform_driver wave5_vpu_driver =3D =
-{
-> > > > > > >  	.driver =3D {
-> > > > > > >  		.name =3D VPU_PLATFORM_DEVICE_NAME,
-> > > > > > >  		.of_match_table =3D of_match_ptr(wave5_dt_ids),
-> > > > > > > +		.pm =3D &wave5_pm_ops,
-> > > > > > >  		},
-> > > > > > >  	.probe =3D wave5_vpu_probe,
-> > > > > > >  	.remove =3D wave5_vpu_remove,
-> > > > > > > diff --git
-> > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> > > > > > > index 1a3efb638dde..f1f8e4fc8474 100644
-> > > > > > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> > > > > > > @@ -6,6 +6,7 @@
-> > > > > > >   */
-> > > > > > >=20
-> > > > > > >  #include <linux/bug.h>
-> > > > > > > +#include <linux/pm_runtime.h>
-> > > > > > >  #include "wave5-vpuapi.h"
-> > > > > > >  #include "wave5-regdefine.h"
-> > > > > > >  #include "wave5.h"
-> > > > > > > @@ -232,6 +233,9 @@ int wave5_vpu_dec_close(struct
-> > > > > > > vpu_instance *inst,
-> > > > > > > u32 *fail_res)
-> > > > > > >=20
-> > > > > > >  	wave5_vdi_free_dma_memory(vpu_dev, &p_dec_info->vb_task);
-> > > > > > >=20
-> > > > > > > +	if (!pm_runtime_suspended(inst->dev->dev))
-> > > > > > > +		pm_runtime_put_sync(inst->dev->dev);
-> > > > > > > +
-> > > > > > >  unlock_and_return:
-> > > > > > >  	mutex_unlock(&vpu_dev->hw_lock);
-> > > > > > >=20
-> > > > > > > @@ -734,6 +738,9 @@ int wave5_vpu_enc_close(struct
-> > > > > > > vpu_instance *inst,
-> > > > > > > u32 *fail_res)
-> > > > > > >=20
-> > > > > > >  	wave5_vdi_free_dma_memory(vpu_dev, &p_enc_info->vb_task);
-> > > > > > >=20
-> > > > > > > +	if (!pm_runtime_suspended(inst->dev->dev))
-> > > > > > > +		pm_runtime_put_sync(inst->dev->dev);
-> > > > > >=20
-> > > > > > This seems very unnatural. We do the get() in
-> > > > > > "start_streaming()", but the
-> > > > > > put() is only done when the device is closed, or when the drive=
-r
-> > > > > > is removed. As this is not balanced, you seem to have to check
-> > > > > > the suspended condition all over the place.
-> > > > > >=20
-> > > > > > I think we could aim for start_streaming()/stop_streaming() for
-> > > > > > your get/put placement. At least they will be bound to an
-> > > > > > entirely balanced
-> > > > API.
-> > > > > > But then, a media player in paused sate will prevent that devic=
-e
-> > > > > > from being suspended.
-> > > > > >=20
-> > > > > > If the HW is capable of preserving enough state, and From the
-> > > > > > short doc I have it gives me the impression it can preserve
-> > > > > > that, I'd suggest to follow what hantro driver is doing. What i=
-s
-> > > > > > does is that it will do get() in device_run(), and put()
-> > > > > > whenever the job completes. This driver has been designed so
-> > > > > > when there is no job, it means the firmware is currently idle
-> > > > > > and looking for more work. So it seems like the perfect moment =
-to
-> > do suspend it.
-> > > > > >=20
-> > > > > > Nicolas
-> > > > > >=20
-> > > > > > > +
-> > > > > > >  	mutex_unlock(&vpu_dev->hw_lock);
-> > > > > > >=20
-> > > > > > >  	return 0;
-> > > > > > > diff --git a/drivers/media/platform/chips-media/wave5/wave5.h
-> > > > > > > b/drivers/media/platform/chips-media/wave5/wave5.h
-> > > > > > > index 063028eccd3b..6125eff938a8 100644
-> > > > > > > --- a/drivers/media/platform/chips-media/wave5/wave5.h
-> > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave5.h
-> > > > > > > @@ -56,6 +56,9 @@ int wave5_vpu_get_version(struct vpu_device
-> > > > > > > *vpu_dev, u32 *revision);
-> > > > > > >=20
-> > > > > > >  int wave5_vpu_init(struct device *dev, u8 *fw, size_t size);
-> > > > > > >=20
-> > > > > > > +int wave5_vpu_sleep_wake(struct device *dev, bool
-> > > > > > > +i_sleep_wake, const
-> > > > > > uint16_t *code,
-> > > > > > > +			 size_t size);
-> > > > > > > +
-> > > > > > >  int wave5_vpu_reset(struct device *dev, enum sw_reset_mode
-> > > > > > > reset_mode);
-> > > > > > >=20
-> > > > > > >  int wave5_vpu_build_up_dec_param(struct vpu_instance *inst,
-> > > > > > > struct dec_open_param *param);
-> > > > >=20
+> > >        Hans
 > > >=20
+> > > > >=20
+> > > > > Nicolas
+> > > > >=20
+> > > > > >    }
+> > > > > >    EXPORT_SYMBOL_GPL(v4l2_m2m_last_buffer_done);
+> > > > > >=20
+> > > >=20
+> > >=20
+> > >=20
+> >=20
 >=20
 
 
