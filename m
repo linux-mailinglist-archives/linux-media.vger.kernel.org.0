@@ -1,263 +1,263 @@
-Return-Path: <linux-media+bounces-5598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5287785E4FD
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 18:56:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B77885E94C
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 21:56:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EEEB82846AA
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 17:56:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EE931C22025
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 20:56:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 950A784FD9;
-	Wed, 21 Feb 2024 17:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="em/88Spr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 734C986AE5;
+	Wed, 21 Feb 2024 20:55:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509AE84A20;
-	Wed, 21 Feb 2024 17:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533343BB4C;
+	Wed, 21 Feb 2024 20:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708538162; cv=none; b=LuIFhzB9+0xXGSACr3Q8DhMmPTgV86iPaVx4x4GiwQvuUwD0A76FRHOwGtrO7bk2owUrmzzkINuGAqn/U3VDyVDlDTleb9z4kD9hR8/uffZ2lwkGRZsiYiJcQPuZIhmHoVaHFeGBT3YMaBdQECYjsLRvQyDtZ5goYVQmu20j5OQ=
+	t=1708548952; cv=none; b=iEMOaD8mHJiaJyENX3vTguO62dlUMR2Q0BCXtANcItGjwe98vDFLoB1gd113rtj6vM6uJLpLp2UGlyWJX6CF8GZynJQO4OUT+uJkJhtM3g0wHuGofjWjVREqdHnDpAp6MfauTh2mwZo2aM9mEbwlx3LVpVmzMZYE7HpuWzQPoJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708538162; c=relaxed/simple;
-	bh=oWcHp9x73YgPSkwDaaqgBgFV5ftpC961IK+EKxw6ysQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ubuQXHoeOO62/qnARJQ1/z+xOhEchGklU+1Wj0IHWIt7UcQmVvL/DIY8YY2rmvNnfZqOwj5PapWDMAJn6ot1lOUwa5dUI5ZbR40dS1zkOAYd+7RdGrwmEkA2ad+3fsiXkh1ANgBS2Rs4W9htqbW5OPVpfUt2/UE48qtXUWBnfK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=em/88Spr; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-512d19e2cb8so1255481e87.0;
-        Wed, 21 Feb 2024 09:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708538158; x=1709142958; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QKaICofgbZiOHVrYBW4vGimCtoDYXpJFcZwodVsVwYU=;
-        b=em/88Spr4osdbCdzIvEgyOHwhxprgqLn8AxPweLnkIaVPBj1Gh7GtM1eZj0ldwjrpr
-         ts0H03OKKKfekPJchfygxFHRMO4zsYSnFe9ibndtQfQMvpEetI2dxu4sGRuRZGNJtLeI
-         n1wF4U/QjctShUNrmqBq4dSzLVcNtxng14PPfl7vc0C1PJkvO4JZvK0mvuSjZQe8GCU8
-         hCpi5I2hwGJn48bVJZIF5WhHCcyyFKCmoiNNbadr72UUDMH5ucPIyOvsx2YCgj8wo2Gk
-         aVKYC54Bc3rXvw0/2tau9Kw56UGffURwMV5xMcZAKPwMo6weK/DpwXro+geGSzWyJeXu
-         r54Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708538158; x=1709142958;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QKaICofgbZiOHVrYBW4vGimCtoDYXpJFcZwodVsVwYU=;
-        b=NCWwePyoO2/UxH4M1ayccZCadq0qBOIpjfS5uNtUuzMXBiCRn8BLtWt617D3kGOmtv
-         tUdTzZClUTprh+k56gebzL24gh9uQjZoPOCnaXAxI8yydzOAlchYFOtYxGQj/o7SGVqE
-         OYF4AQL0PcQBBAr0neDHSR9xH1pkkTSd8ZHOB2RPBOd9mRTg9ueuX03NngFPZ7YLypQI
-         kFyX2B7pdMbLVCyMxSkYR7W683axXKSLBtHKddqcg3A5tdTLItX6rwWLWhWWNy93vhsp
-         7X5lWwcwfBr6jVOymNyglvRBY0YTfz9B1H5jVOH4l1OBtQQOvt6zkO9W9lQ0b1dFIAr1
-         8Ubg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhXL5/4Tumxh0orGJyCGwH5jgRn26nCMhKb+L2KZFyeoDmMw4AFo5frkhKkVAg2poqvM3aTplI+UyzgHD7X/xX00kn+usMmzx9lQh+mt0G/4o2knKfpxeGT4VlaZKln+BMovlFDD29V9A7KUhEmPjGxjwdi7smAa4DCNQKxZJUAu3X962w
-X-Gm-Message-State: AOJu0YyAWJY4okL4n9o/OUGZQ3djNe33YjwfVUf17ap3WXovMETzy6om
-	t3Dxc23oW6m62AdsgT62xiNtsmWCoRaCcwDaD+SlfZ39LkW82mmp
-X-Google-Smtp-Source: AGHT+IHT0T5QwNsj80FDj3EmVL9eSCoNrJrN3sGsIorv+ViafW5ew9e3wUllwIpY1jpjnstYlPki/Q==
-X-Received: by 2002:ac2:5e77:0:b0:512:bb2a:c977 with SMTP id a23-20020ac25e77000000b00512bb2ac977mr4334429lfr.56.1708538158223;
-        Wed, 21 Feb 2024 09:55:58 -0800 (PST)
-Received: from mehdi-archlinux ([2a02:8109:aa27:2d00::d069])
-        by smtp.gmail.com with ESMTPSA id fj21-20020a0564022b9500b00564da28dfe2sm1290742edb.19.2024.02.21.09.55.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 09:55:57 -0800 (PST)
-Date: Wed, 21 Feb 2024 18:55:54 +0100
-From: Mehdi Djait <mehdi.djait.k@gmail.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
-	michael.riesch@wolfvision.net, laurent.pinchart@ideasonboard.com,
-	Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: Re: [RESEND Patch v13 2/3] media: rockchip: Add a driver for
- Rockchip's camera interface
-Message-ID: <ZdY5KrTfss4lTjPO@mehdi-archlinux>
-References: <cover.1707677804.git.mehdi.djait.k@gmail.com>
- <715d89214d1ed6a8bb16cbb6268718a737485560.1707677804.git.mehdi.djait.k@gmail.com>
- <Zctwo3s9hso6mQvT@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1708548952; c=relaxed/simple;
+	bh=rHfeQb45HtkUG7g1SRcqejqfXqfz6MTlodE8sg4okTI=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=OtNjebns7/mI+bcgej4f7jrI04p2HTE6MXqDdm7heDi5cRfxkQ4OInUsodVclIyCWUvT4zUR1wn6uR1gtEgn/PWM1gNXR6VDqBS2zNHnw8C9V3TuzpB7eYiCEq+L5KmFsn8WEEJRFppBuRBA/Qheh6s57MWIPKf7aSg16cS+Jl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id BB61937820D2;
+	Wed, 21 Feb 2024 20:55:46 +0000 (UTC)
+From: "Shreeya Patel" <shreeya.patel@collabora.com>
+In-Reply-To: <fd3b7ab7-3702-412f-947a-95396dbe1f4c@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240216094922.257674-1-shreeya.patel@collabora.com>
+ <20240216094922.257674-3-shreeya.patel@collabora.com> <fd3b7ab7-3702-412f-947a-95396dbe1f4c@linaro.org>
+Date: Wed, 21 Feb 2024 20:55:46 +0000
+Cc: heiko@sntech.de, mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com, dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com, shawn.wen@rock-chips.com, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org, linux-dt@vger.kernel.org, linux-arm@lists.infradead.org
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zctwo3s9hso6mQvT@valkosipuli.retiisi.eu>
+Message-ID: <1048c3-65d66380-b-49a25c80@188726434>
+Subject: =?utf-8?q?Re=3A?= [PATCH 2/4] =?utf-8?q?dt-bindings=3A?=
+ =?utf-8?q?_media=3A?= Document bindings for HDMI RX Controller
+User-Agent: SOGoMail 5.9.1
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
+On Friday, February 16, 2024 15:31 IST, Krzysztof Kozlowski <krzysztof.=
+kozlowski@linaro.org> wrote:
 
-Thank you for the review!
-
-On Tue, Feb 13, 2024 at 01:37:39PM +0000, Sakari Ailus wrote:
-> Hi Mahdi,
-> 
-> On Sun, Feb 11, 2024 at 08:03:31PM +0100, Mehdi Djait wrote:
-> > From: Mehdi Djait <mehdi.djait@bootlin.com>
-> > 
-> > This introduces a V4L2 driver for the Rockchip CIF video capture controller.
-> > 
-> > This controller supports multiple parallel interfaces, but for now only the
-> > BT.656 interface could be tested, hence it's the only one that's supported
-> > in the first version of this driver.
-> > 
-> > This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
-> > but for now it's only been tested on the PX30.
-> > 
-> > CIF is implemented as a video node-centric driver.
-> > 
-> > Most of this driver was written following the BSP driver from Rockchip,
-> > removing the parts that either didn't fit correctly the guidelines, or that
-> > couldn't be tested.
-> > 
-> > This basic version doesn't support cropping nor scaling and is only
-> > designed with one SDTV video decoder being attached to it at any time.
-> > 
-> > This version uses the "pingpong" mode of the controller, which is a
-> > double-buffering mechanism.
-> > 
-> > Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
-> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> > Signed-off-by: Mehdi Djait <mehdi.djait.k@gmail.com>
+> On 16/02/2024 10:49, Shreeya Patel wrote:
+> > Document bindings for the Synopsys DesignWare HDMI RX Controller.
+> >=20
+> > Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
+>=20
+> A nit, subject: drop second/last, redundant "bindings for". The
+> "dt-bindings" prefix is already stating that these are bindings.
+> See also:
+> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/device=
+tree/bindings/submitting-patches.rst#L18
+>=20
 > > ---
-> >  MAINTAINERS                                   |    7 +
-> >  drivers/media/platform/rockchip/Kconfig       |    1 +
-> >  drivers/media/platform/rockchip/Makefile      |    1 +
-> >  drivers/media/platform/rockchip/cif/Kconfig   |   14 +
-> >  drivers/media/platform/rockchip/cif/Makefile  |    3 +
-> >  .../media/platform/rockchip/cif/cif-capture.c | 1111 +++++++++++++++++
-> >  .../media/platform/rockchip/cif/cif-capture.h |   20 +
-> >  .../media/platform/rockchip/cif/cif-common.h  |  128 ++
-> >  drivers/media/platform/rockchip/cif/cif-dev.c |  308 +++++
-> >  .../media/platform/rockchip/cif/cif-regs.h    |  127 ++
-> >  10 files changed, 1720 insertions(+)
-> >  create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
-> >  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
-> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.c
-> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.h
-> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-common.h
-> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-dev.c
-> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-regs.h
-> > 
-> > +static int cif_start_streaming(struct vb2_queue *queue, unsigned int count)
-> > +{
-> > +	struct cif_stream *stream = queue->drv_priv;
-> > +	struct cif_device *cif_dev = stream->cifdev;
-> > +	struct v4l2_device *v4l2_dev = &cif_dev->v4l2_dev;
-> > +	struct v4l2_subdev *sd;
-> > +	int ret;
+> >  .../bindings/media/snps,dw-hdmi-rx.yaml       | 128 ++++++++++++++=
+++++
+> >  1 file changed, 128 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/snps,dw=
+-hdmi-rx.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/snps,dw-hdmi-r=
+x.yaml b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+> > new file mode 100644
+> > index 000000000000..a70d96b548ee
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+> > @@ -0,0 +1,128 @@
+> > +# SPDX-License-Identifier: (GPL-3.0 OR BSD-2-Clause)
+>=20
+> Use license checkpatch tells you.
+>=20
+> > +# Device Tree bindings for Synopsys DesignWare HDMI RX Controller
 > > +
-> > +	if (!cif_dev->remote.sd) {
-> > +		ret = -ENODEV;
-> > +		v4l2_err(v4l2_dev, "No remote subdev detected\n");
-> > +		goto destroy_buf;
-> > +	}
-> > +
-> > +	ret = pm_runtime_resume_and_get(cif_dev->dev);
-> > +	if (ret < 0) {
-> > +		v4l2_err(v4l2_dev, "Failed to get runtime pm, %d\n", ret);
-> > +		goto destroy_buf;
-> > +	}
-> > +
-> > +	sd = cif_dev->remote.sd;
-> > +
-> > +	stream->cif_fmt_in = get_input_fmt(cif_dev->remote.sd);
-> 
-> You should use the format on the local pad, not get it from a remote
-> sub-device.
-> 
-> Link validation ensures they're the same (or at least compatible).
-> 
-> Speaking of which---you don't have link_validate callbacks set for the
-> sub-device. See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2.c for an
-> example.
-> 
+> > +---
+> > +$id: http://devicetree.org/schemas/media/snps,dw-hdmi-rx.yaml#
+>=20
+> Why this is a media, not display? Does RX means input? Lack of hardwa=
+re
+> description does not help?
+>=20
 
-...
+Yes, RX means input and this binding doc is for the HDMI INPUT controll=
+er.
+I'll add some description in v2
 
-> > +	if (!stream->cif_fmt_in)
-> > +		goto runtime_put;
+>=20
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +	ret = cif_stream_start(stream);
-> > +	if (ret < 0)
-> > +		goto stop_stream;
+> > +title: Synopsys DesignWare HDMI RX Controller
 > > +
-> > +	ret = v4l2_subdev_call(sd, video, s_stream, 1);
-> > +	if (ret < 0)
-> > +		goto stop_stream;
+> > +maintainers:
+> > +  - Shreeya Patel <shreeya.patel@collabora.com>
 > > +
-> > +	return 0;
+>=20
+> description:
+>=20
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - const: rockchip,rk3588-hdmirx-ctrler
+> > +      - const: snps,dw-hdmi-rx
 > > +
-> > +stop_stream:
-> > +	cif_stream_stop(stream);
-> > +runtime_put:
-> > +	pm_runtime_put(cif_dev->dev);
-> > +destroy_buf:
-> > +	cif_return_all_buffers(stream, VB2_BUF_STATE_QUEUED);
+> > +  reg:
+> > +    maxItems: 1
 > > +
-> > +	return ret;
-> > +}
+> > +  interrupts:
+> > +    maxItems: 3
 > > +
-> > +static int cif_set_fmt(struct cif_stream *stream,
-> > +		       struct v4l2_pix_format *pix)
-> > +{
-> > +	struct cif_device *cif_dev = stream->cifdev;
-> > +	struct v4l2_subdev_format sd_fmt;
-> > +	struct cif_output_fmt *fmt;
-> > +	int ret;
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: cec
+> > +      - const: hdmi
+> > +      - const: dma
 > > +
-> > +	if (vb2_is_streaming(&stream->buf_queue))
-> > +		return -EBUSY;
+> > +  clocks:
+> > +    maxItems: 7
 > > +
-> > +	fmt = find_output_fmt(stream, pix->pixelformat);
-> > +	if (!fmt)
-> > +		fmt = &out_fmts[0];
+> > +  clock-names:
+> > +    items:
+> > +      - const: aclk
+> > +      - const: audio
+> > +      - const: cr=5Fpara
+> > +      - const: pclk
+> > +      - const: ref
+> > +      - const: hclk=5Fs=5Fhdmirx
+> > +      - const: hclk=5Fvo1
 > > +
-> > +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> > +	sd_fmt.pad = 0;
-> > +	sd_fmt.format.width = pix->width;
-> > +	sd_fmt.format.height = pix->height;
+> > +  power-domains:
+> > +    maxItems: 1
 > > +
-> > +	ret = v4l2_subdev_call(cif_dev->remote.sd, pad, set_fmt, NULL, &sd_fmt);
-> 
-> The user space is responsible for controlling the sensor i.e. you shouldn't
-> call set_fmt sub-device op from this driver.
-> 
-> As the driver is MC-enabled, generally the sub-devices act as a control
-> interface and the V4L2 video nodes are a data interface.
-> 
+> > +  resets:
+> > +    maxItems: 4
+> > +
+> > +  reset-names:
+> > +    items:
+> > +      - const: rst=5Fa
+> > +      - const: rst=5Fp
+> > +      - const: rst=5Fref
+> > +      - const: rst=5Fbiu
+>=20
+> Drop rest=5F prefix
+>=20
+> > +
+> > +  pinctrl-names:
+> > +    const: default
+>=20
+> Drop
+>=20
+> > +
+> > +  memory-region:
+> > +    maxItems: 1
+> > +
+> > +  hdmirx-5v-detection-gpios:
+> > +    description: GPIO specifier for 5V detection.
+>=20
+> Detection of what? Isn't this HPD?
+>=20
+> > +    maxItems: 1
+> > +
+> > +  rockchip,grf:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      The phandle of the syscon node for the GRF register.
+>=20
+> Instead describe what for. Basically 80% of your description is
+> redundant and only "GRF register" brings some information.
+>=20
+>=20
+> > +
+> > +  rockchip,vo1=5Fgrf:
+>=20
+> No underscores.
+>=20
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      The phandle of the syscon node for the VO1 GRF register.
+>=20
+> Same problem.
+>=20
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - interrupt-names
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - resets
+> > +  - pinctrl-0
+> > +  - pinctrl-names
+>=20
+> Why? Drop.
+>=20
+> > +  - hdmirx-5v-detection-gpios
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/power/rk3588-power.h>
+> > +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
+> > +    hdmirx=5Fctrler: hdmirx-controller@fdee0000 {
+>=20
+> What is hdmirx-controller? Isn't this just hdmi@?
+>=20
 
-While this is true for MC-centric (Media Controller) drivers, this driver is
-video-node-centric (I mentioned this in the commit msg)
+Writing just hdmi would imply hdmi output I think so that name
+will not be appropriate here.
 
-From the Kernel Documentation: https://docs.kernel.org/userspace-api/media/v4l/open.html
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-de=
+vicetree-basics.html#generic-names-recommendation
+>=20
 
-1 - The devices that are fully controlled via V4L2 device nodes are called video-node-centric.
+This documentation doesn't have any generic name for HDMI INPUT
+but maybe we can use the name hdmi-receiver like some other existing
+binding has it here :-
+Documentation/devicetree/bindings/media/i2c/tda1997x.txt
 
-2- Note:
-A video-node-centric may still provide media-controller and sub-device interfaces as well.
-However, in that case the media-controller and the sub-device interfaces are read-only and just
-provide information about the device. The actual configuration is done via the video nodes.
+Thanks,
+Shreeya Patel
+>=20
+> > +      compatible =3D "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdm=
+i-rx";
+> > +      reg =3D <0x0 0xfdee0000 0x0 0x6000>;
+> > +      interrupts =3D <GIC=5FSPI 177 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>,
+> > +                   <GIC=5FSPI 436 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>,
+> > +                   <GIC=5FSPI 179 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>;
+>=20
+>=20
+>=20
+> Best regards,
+> Krzysztof
+>=20
+> =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
+=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
+> Kernel mailing list -- kernel@mailman.collabora.com
+> To unsubscribe send an email to kernel-leave@mailman.collabora.com
+> This list is managed by https://mailman.collabora.com
 
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	cif_update_pix(stream, fmt, pix);
-> > +	stream->pix = *pix;
-> > +	stream->cif_fmt_out = fmt;
-> > +
-> > +	return 0;
-> > +}
-
---
-Kind Regards
-Mehdi Djait
 
