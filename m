@@ -1,134 +1,120 @@
-Return-Path: <linux-media+bounces-5566-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5567-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14CD85DF4B
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 15:26:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0909A85DFEA
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 15:38:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D5E31C23C43
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 14:26:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8974286EBC
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 14:38:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EAA17C0BD;
-	Wed, 21 Feb 2024 14:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="a6Z0xQtB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332707FBA8;
+	Wed, 21 Feb 2024 14:38:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C744C62;
-	Wed, 21 Feb 2024 14:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.192
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4337C0B8;
+	Wed, 21 Feb 2024 14:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708525592; cv=none; b=RqPX1asokhiRl0S34IzWCIiKYno0zVryM9H2BL5Ij8fgA7DuqDz5J8z5jgszKVoOqVrn18X0MJuj63YVTvGaIyQPt9LPDaHivgv99Bxdhz5s3wiPpcBKcF89ro87zp6PdIqiVEXnbG0D19qxaAoNFqelqEV2/perfNKmS8VnSBI=
+	t=1708526330; cv=none; b=C3lEbrRaNsU2N/aKGprU+alLHxhe8cEygsoMsQk2nlDqM3NRvbe1CnjZdnP9udjYV1WQFQ6TVCK0P94wIClEbdnMy9axKA0nHiyuN5rHJA9jHWNTFWDiomdFafc9A3uMHk3kObZRZlTPGSSaIHg5aWXdHg267pI7dphpQrlSY68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708525592; c=relaxed/simple;
-	bh=v11Pc7CIFtiDJvtTdFEr5KXDbTe1sppjg1bvGaMcSho=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=OsTodSaHXhyT8t2XlcGbOdMEi3fO4zVjFREu9pDag7TC2gcH9Y/MYnVSPBbalF9YoLH8304RDja96fioK42crz9TUGarywvyhprlq3xlqjpMIyEahLf1mbujkNKhyYfgc2sczJBcBzba0JTc9yrAyvha9SpOOnyw+Y4iJz2gz5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=a6Z0xQtB; arc=none smtp.client-ip=203.205.221.192
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1708525581; bh=pj6LoP7IKnvmbi/dGc8hKKjxVKAxUr0Pi1wWsmEFVu4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=a6Z0xQtBUzux2mkhM+3ZTBkc7GG9xTbe5w9a3P5Qj9eONYB9lhI+lZ/8y/Xfi10We
-	 qC6QKRn0J675XN+M7FRePWYQjtl3gFQuh4XGUkXL7lTKCVGc/wkjvKJMi08Mh7kVZ9
-	 M2MHha0CiKjnwuMDuJsIXwyEl7LofK3onaR3rf7M=
-Received: from pek-lxu-l1.wrs.com ([111.198.228.140])
-	by newxmesmtplogicsvrsza10-0.qq.com (NewEsmtp) with SMTP
-	id 50418A1B; Wed, 21 Feb 2024 22:20:04 +0800
-X-QQ-mid: xmsmtpt1708525204t0xgoj2qr
-Message-ID: <tencent_941B48254CBA00BB4933069E391B6E4B5408@qq.com>
-X-QQ-XMAILINFO: M3ziZXKDk+iOt7Y7H7kR7VuOyouwPtJP/BqzCiDi509G429y8WTRXNEwOEy1HQ
-	 KNti5PBaUD73kBsZTMmNaElFH/FiHZ8JaXm+T+38IpASlsWsBNyeBArNa0Pr9w04+SKoRbN8beoy
-	 23SB0wvVYLyQLj6gla93Y5kiUbMbv7jXhifKWb6o5zAZe0Df9dhrmcfq29TyvPfz9uyaR//JS8q/
-	 WNEB/BotOa/knSUCMDx2B4PX+01xpCsrdA8an0jr8Ien++5gph+y/FMQnTZu0wRYt463ZHjvj+A+
-	 4DIbuzCmwlMRS/KF63NEa+5bbh1K6jvCNxYlVJqavgUGa2yge7kHc4gbsb4kNng6xd+78e08Z4QI
-	 ZL++SU+WugkOqsPYHguh4yae5/rpUx8ZMgjIppocoljZEpVBlbgd81cbDl88EaciZeJ/iJyS7UNV
-	 r0l/AxBa41EJbikFa8R/HTaBis4EHY8BTWSXep2UQmwvOTijwhRK+fCVQetq9TiwVqAj8p4ky32i
-	 K3a1ase94OZEsUrCxVyRmXvvLeaTxggMKL+z0ZwS1lBNWM4g72RTyriOr8mKCX4QOchd/auaOk4V
-	 AqYX46h4esToenJvpwS3vsKhUsIxOh5j7ytb6iUhrX+GTdCXrsFIKnS2dr/UdFYHrzp69rKAI3ny
-	 8IFy7aXOxMuppn94MNIc6HLgmaJMMn5+MJNPn0qNnc20m6iRhAAZJcsU0Q/lI4B6mrEzvLhaE/st
-	 ZJEpe8P58ktoFFCsC6uhDxo9D88FpBoaRo8F9RvOLZssOFRZVBGDhbiefKCQfcjgf26KBEPDyx3C
-	 ZrryfrzthXJ+lBmlAXevgjnkfrYIU5+YGxNKkK2qLXXQC7SgTB+niI00IUuB3amn4uHHHIpkR2bs
-	 fzCgWRjzOCVh+N9KheWwLoENBaZN1hLFlmY2RPwXDGTGHQ7P00VcA=
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+116b65a23bc791ae49a6@syzkaller.appspotmail.com
-Cc: hverkuil-cisco@xs4all.nl,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	mchehab@kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] media/cec/core: fix task hung in cec_claim_log_addrs
-Date: Wed, 21 Feb 2024 22:20:05 +0800
-X-OQ-MSGID: <20240221142004.159200-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <0000000000006d96200611de3986@google.com>
-References: <0000000000006d96200611de3986@google.com>
+	s=arc-20240116; t=1708526330; c=relaxed/simple;
+	bh=5YDxSVqC1zF2NM/ES7mlAm2LSM0vCdSoAN168O/YwvA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HklnfQRIpEKqOIqjdq0YU7H99O7QjmVELrbiumTL2S8HDe8o+1stpC+giN2egilEyR8ymNgZkdmU7i1bPYbsQkx2e2eXu9GIpriYnZvhmC2Vk8WPdboYzNgCuuJjPbJsvT2Vl/JGlmHjsKQajgT6mIhy1gx96tNIgN0MH98OlJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79489C433C7;
+	Wed, 21 Feb 2024 14:38:48 +0000 (UTC)
+Message-ID: <4fa62e4f-9768-4434-8f7b-24aa3b2a3490@xs4all.nl>
+Date: Wed, 21 Feb 2024 15:38:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media/cec/core: fix task hung in cec_claim_log_addrs
+Content-Language: en-US, nl
+To: Edward Adam Davis <eadavis@qq.com>,
+ syzbot+116b65a23bc791ae49a6@syzkaller.appspotmail.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+References: <0000000000006d96200611de3986@google.com>
+ <tencent_941B48254CBA00BB4933069E391B6E4B5408@qq.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <tencent_941B48254CBA00BB4933069E391B6E4B5408@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-After unlocking adap->lock in cec_claim_log_addrs(), cec_claim_log_addrs() may
-re-enter, causing this issue to occur.
+On 21/02/2024 15:20, Edward Adam Davis wrote:
+> After unlocking adap->lock in cec_claim_log_addrs(), cec_claim_log_addrs() may
+> re-enter, causing this issue to occur.
 
-In the thread function cec_config_thread_func() adap->lock is also used, so there
-is no need to unlock adap->lock in cec_claim_log_addrs(), and then use adap->lock
-in cec_config_thread_func() to protect.
+But if it is called again, then it should hit this at the start of the function:
 
-Reported-and-tested-by: syzbot+116b65a23bc791ae49a6@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- drivers/media/cec/core/cec-adap.c | 5 -----
- 1 file changed, 5 deletions(-)
+        if (WARN_ON(adap->is_configuring || adap->is_configured))
+                return;
 
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 5741adf09a2e..21b3ff504524 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -1436,7 +1436,6 @@ static int cec_config_thread_func(void *arg)
- 	int err;
- 	int i, j;
- 
--	mutex_lock(&adap->lock);
- 	dprintk(1, "physical address: %x.%x.%x.%x, claim %d logical addresses\n",
- 		cec_phys_addr_exp(adap->phys_addr), las->num_log_addrs);
- 	las->log_addr_mask = 0;
-@@ -1565,7 +1564,6 @@ static int cec_config_thread_func(void *arg)
- 	}
- 	adap->kthread_config = NULL;
- 	complete(&adap->config_completion);
--	mutex_unlock(&adap->lock);
- 	call_void_op(adap, configured);
- 	return 0;
- 
-@@ -1577,7 +1575,6 @@ static int cec_config_thread_func(void *arg)
- 	adap->must_reconfigure = false;
- 	adap->kthread_config = NULL;
- 	complete(&adap->config_completion);
--	mutex_unlock(&adap->lock);
- 	return 0;
- }
- 
-@@ -1602,9 +1599,7 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
- 		adap->kthread_config = NULL;
- 		adap->is_configuring = false;
- 	} else if (block) {
--		mutex_unlock(&adap->lock);
- 		wait_for_completion(&adap->config_completion);
--		mutex_lock(&adap->lock);
- 	}
- }
- 
--- 
-2.43.0
+I'm still not sure what causes the KASAN hung task since I cannot seem to reproduce
+it, and because it is hard for me to find enough time to dig into this.
+
+Regards,
+
+	Hans
+
+> 
+> In the thread function cec_config_thread_func() adap->lock is also used, so there
+> is no need to unlock adap->lock in cec_claim_log_addrs(), and then use adap->lock
+> in cec_config_thread_func() to protect.
+> 
+> Reported-and-tested-by: syzbot+116b65a23bc791ae49a6@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> ---
+>  drivers/media/cec/core/cec-adap.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+> index 5741adf09a2e..21b3ff504524 100644
+> --- a/drivers/media/cec/core/cec-adap.c
+> +++ b/drivers/media/cec/core/cec-adap.c
+> @@ -1436,7 +1436,6 @@ static int cec_config_thread_func(void *arg)
+>  	int err;
+>  	int i, j;
+>  
+> -	mutex_lock(&adap->lock);
+>  	dprintk(1, "physical address: %x.%x.%x.%x, claim %d logical addresses\n",
+>  		cec_phys_addr_exp(adap->phys_addr), las->num_log_addrs);
+>  	las->log_addr_mask = 0;
+> @@ -1565,7 +1564,6 @@ static int cec_config_thread_func(void *arg)
+>  	}
+>  	adap->kthread_config = NULL;
+>  	complete(&adap->config_completion);
+> -	mutex_unlock(&adap->lock);
+>  	call_void_op(adap, configured);
+>  	return 0;
+>  
+> @@ -1577,7 +1575,6 @@ static int cec_config_thread_func(void *arg)
+>  	adap->must_reconfigure = false;
+>  	adap->kthread_config = NULL;
+>  	complete(&adap->config_completion);
+> -	mutex_unlock(&adap->lock);
+>  	return 0;
+>  }
+>  
+> @@ -1602,9 +1599,7 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
+>  		adap->kthread_config = NULL;
+>  		adap->is_configuring = false;
+>  	} else if (block) {
+> -		mutex_unlock(&adap->lock);
+>  		wait_for_completion(&adap->config_completion);
+> -		mutex_lock(&adap->lock);
+>  	}
+>  }
+>  
 
 
