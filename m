@@ -1,293 +1,167 @@
-Return-Path: <linux-media+bounces-5584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5585-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEAC85E233
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 16:58:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA34B85E271
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 17:03:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F0E91F25721
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 15:58:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80F872878F9
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 16:03:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B4E81735;
-	Wed, 21 Feb 2024 15:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1921281ABA;
+	Wed, 21 Feb 2024 16:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="A9IAAv75"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aHeBsY2A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B955E80C03
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 15:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF5081731
+	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 16:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708530957; cv=none; b=jVq+yASNoZKVieTFepoklc0zQrf/hw5a8tYx5M49Q8Rs9g4wDsgfMDfUqArdo9b6GbmNEtrbJ06CYI3gq93g3o9NohKD+Td9r4MLJ+xGy6gbtl8wTpNehY6cw34h1RJhFjRq30OviLJipXqMwyrqRQK8C1nvOvmiu6xEsWxVBrQ=
+	t=1708531353; cv=none; b=Rwv5ywoSPmp0FWQrUnEAdrA7vxZ2uetj2OsAiYRQChjK3zrijdT1+TAJywXqt2unbg+b2e084LznUlc4Mu40Ski0iGI/yB8sqj1z6l0Ttclt78KKaq4Fcar+Dm0S1HtqJXOS1s63d0NII65i6me/8zmOKvjQ/prjSSA7rBbOlBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708530957; c=relaxed/simple;
-	bh=BnnFAkf/Va0lsgcV9rr6+8lSB5KDcemRIbPw6F4gDTg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RQv3+rzZMrNYtmdziirS0uMbwdux+/6WA5mgBzrGSipGp7SeweuQRYYbE0hqRhctsHkoxCxP8K0NRwka9pih+6fguDdXxUev4KViqptF4WFxbALzHJHSuncrkBL8HmZxT3nQrJb5QDJhAUx2LV8Q5xwlFv52sG7E0dldeJ3fRvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=A9IAAv75; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708530954;
-	bh=BnnFAkf/Va0lsgcV9rr6+8lSB5KDcemRIbPw6F4gDTg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A9IAAv75X7gV9H4ACYrExZD8fI8s0eyuyQcri+A4U2/tpq9hjcAIYWSKvBFb7ZGmw
-	 2gDUXWzMOMdMWpvZgQ9kHmrk9FpBXHC4+gZ5iLLWyOnq87CkrbSgKo7PwIny+cw19z
-	 S/fXHq6+Ti2krUUL7B342IlgxmY/Mr+XtjLS8tMP+Fp2q3LWjCdy8eg4NjXv41BAnA
-	 RGO0w5QbMeZhnqi0UUk/7s1gS6B+kaCOMiuQC3WmHNbsPOJBDp4XPcTMTN449Uwl/l
-	 VVHO64mHIit2ibkonIrIIBvakY4U91pXGkF69/X3at88WzXjf5ZcairDFJ7o9mpnV2
-	 RFGE3sS2Z/rWg==
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id EB2523781116;
-	Wed, 21 Feb 2024 15:55:53 +0000 (UTC)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl
-Cc: linux-media@vger.kernel.org,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 2/2] v4l2-compliance: Add a test for REMOVE_BUFS ioctl
-Date: Wed, 21 Feb 2024 16:55:51 +0100
-Message-Id: <20240221155551.100156-3-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240221155551.100156-1-benjamin.gaignard@collabora.com>
-References: <20240221155551.100156-1-benjamin.gaignard@collabora.com>
+	s=arc-20240116; t=1708531353; c=relaxed/simple;
+	bh=+H6rvSd1RmIYXLWsmSKmwveEp9WRJgJ4LAtwMlLEhJw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=PER6IZPnOacHZsgVRpkQf7vyUxwYj6XtbfNJvs6biPHMw1CYPKYVSQQQrpF9wJa4of5yTOuKr4AhKiDfMBybB48DHFzIRrZ7ZAaxSpRUXgddJ6Vn9n3/O20hqWElQaz05Is82Ypnt3m5lT8t3WPOg2n2l0pY8yFGeXRRUxcs6rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aHeBsY2A; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-33d308b0c76so1881425f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 08:02:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1708531350; x=1709136150; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FJVga6C02gm8F+WILMx3neboftdensw7Cuuwer2cEQA=;
+        b=aHeBsY2A1d5dLni4sszxx1Kfw4UTKs8Dcae5lAqXWLgldgh0ewWtnEaVs8Cfw77Oso
+         wqFt6NUS4r3WPt0otOow0bklN7Cu7gCg7znY37sDDy/wgn/R/0cJPG3ZlgUOUAdPtQnO
+         7E75bgnQfzXQ7iOQUKg45UqnnzUU2XgFIGc/4O6I5tkSVL+MlnlEX0V42gTkz3c6JGoD
+         D3oELuDLAVMzyMXV0TOBWVBXz2gql9khbPt80WU3M2zkml4nm3AiMlRodYL5okSeUCuJ
+         pEmqbD52NK6aii0xSZnX3RMcULbBZ8hlyZyx8FZ6eCSjhJQX2/E1a/hClzgddelN3sqx
+         XvIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708531350; x=1709136150;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FJVga6C02gm8F+WILMx3neboftdensw7Cuuwer2cEQA=;
+        b=X/fV7CojqwEjFQuKdi7Llz6of4jZldHXXyM+Gi9oo0rQr5OYsDH9ZiYGJ6+sd57MAw
+         ZjmH5UrTG5rkovGq9rCAQBF3CFUT3jJAp9nQ41sKtZCM1KL31Oaga3hqIfCMj4q2794d
+         czWIqYtiZ8rDJZI/dh6gqUHbgN+HvZBn25WYBAXIs6taa3dOYUUiteAk7h2Vf+yjP5xw
+         QcWSSJbr86FPpXrFkibUezyvjpKx0Gvrs98ral+KQEXzen8tcUiDPm7rb2VdtGIqxfQ+
+         kBAKZYoRZRG6/YQEQ/16x7xl3FZ1Mwz8BUulWwG8x5M7g3VzSLJiXm5yohTFzgfymIpJ
+         eALA==
+X-Forwarded-Encrypted: i=1; AJvYcCUK9UAjQm6XyIyHuQnsE1d2MQ43jrWa+cwdD3TYvBdkKylcFlAnDrNMJntZxe/kSGVfYLrzX2I+LZ2XrIpGaAB/95z6oBmcM699bTY=
+X-Gm-Message-State: AOJu0Yw0eFz2CE2PaXPt0VqP8jg6+oJMBfimjJbMCWtpRPrub2sh9ECy
+	60w6kFO5SFBG19tUbN6CEOXSadiFn3YRjXR0sjBthM7rSZtzpxM1KPTkCSHhghn+h9KnDv3Ru/M
+	ArMDxc5KJfg==
+X-Google-Smtp-Source: AGHT+IEooKRp2zKGUK2syFgTA3tTV4kAt1EwuYhu4+TtSMP3vQ9G88kPNi9mc3bYpxIMwIx+9Ey3AiIC1zmmfQ==
+X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
+ (user=panikiel job=sendgmr) by 2002:adf:ce90:0:b0:33d:87e6:c960 with SMTP id
+ r16-20020adfce90000000b0033d87e6c960mr89wrn.6.1708531350183; Wed, 21 Feb 2024
+ 08:02:30 -0800 (PST)
+Date: Wed, 21 Feb 2024 16:02:06 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
+Message-ID: <20240221160215.484151-1-panikiel@google.com>
+Subject: [PATCH v2 0/9] Add Chameleon v3 video support
+From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
+To: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
+	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
+	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
+	mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
+	tzimmermann@suse.de
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com, ribalda@chromium.org, 
+	"=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add new test for REMOVE_BUFS ioctl.
-It create buffers and check if they could be removed from queue.
-It also check that removing non existing buffer or a queued
-buffer failed.
-Since using REMOVE_BUFS can create "holes" v4l_queue_querybufs()
-function needs to be modify to do a range check between [from..from+count-1].
+Google Chameleon v3 is a testing device capable of emulating multiple
+DisplayPort monitors, used for testing purposes.  It is based on an Arria
+10 SoCFPGA.  This patchset adds V4L2 drivers for two IP blocks used in
+the device's FPGA: the Chameleon v3 framebuffer, and the Intel DisplayPort
+RX IP.  The former is a video capture device that takes video signal and
+writes frames into memory, which can be later processed by userspace.
+The latter is a DisplayPort receiver IP from Intel, its datasheet can
+be found at:
+https://www.intel.com/programmable/technical-pdfs/683273.pdf
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- utils/common/cv4l-helpers.h                 |  4 +
- utils/common/v4l-helpers.h                  | 27 ++++--
- utils/v4l2-compliance/v4l2-compliance.cpp   |  1 +
- utils/v4l2-compliance/v4l2-compliance.h     |  1 +
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 99 +++++++++++++++++++++
- 5 files changed, 127 insertions(+), 5 deletions(-)
+The framebuffer driver is a regular v4l2 capture device driver, while
+the DP RX driver is a v4l2 subdevice driver. In order to avoid code
+duplication, some parts of the DisplayPort code from the DRM subsystem
+were put into headers usable by the DP RX driver. Apart from that, the
+patchset adds a new callback to the internal v4l2 subdevice API to allow
+querying the dv timings of individual video streams of the DP receiver.
 
-diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
-index 77c6517a..afe8d469 100644
---- a/utils/common/cv4l-helpers.h
-+++ b/utils/common/cv4l-helpers.h
-@@ -764,6 +764,10 @@ public:
- 	{
- 		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count, flags);
- 	}
-+	int remove_bufs(cv4l_fd *fd, unsigned index = 0, unsigned count = 0)
-+	{
-+		return v4l_queue_remove_bufs(fd->g_v4l_fd(), this, index, count);
-+	}
- 	bool has_create_bufs(cv4l_fd *fd) const
- 	{
- 		return v4l_queue_has_create_bufs(fd->g_v4l_fd(), this);
-diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-index 7387b621..1240c23f 100644
---- a/utils/common/v4l-helpers.h
-+++ b/utils/common/v4l-helpers.h
-@@ -1513,12 +1513,29 @@ static inline void *v4l_queue_g_dataptr(const struct v4l_queue *q, unsigned inde
- 	return v4l_queue_g_mmapping(q, index, plane);
- }
- 
--static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, unsigned from)
-+static inline int v4l_queue_remove_bufs(struct v4l_fd *f, struct v4l_queue *q, unsigned index, unsigned count)
- {
--	unsigned b, p;
-+	struct v4l2_remove_buffers removebufs;
- 	int ret;
- 
--	for (b = from; b < v4l_queue_g_buffers(q); b++) {
-+	memset(&removebufs, 0, sizeof(removebufs));
-+	removebufs.type = q->type;
-+	removebufs.index = index;
-+	removebufs.count = count;
-+
-+	ret = v4l_ioctl(f, VIDIOC_REMOVE_BUFS, &removebufs);
-+	if (!ret)
-+		q->buffers -= removebufs.count;
-+
-+	return ret;
-+}
-+
-+static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, unsigned from, unsigned count)
-+{
-+	unsigned b, p, max = from + count;
-+	int ret;
-+
-+	for (b = from; b < max; b++) {
- 		struct v4l_buffer buf;
- 
- 		v4l_buffer_init(&buf, v4l_queue_g_type(q), v4l_queue_g_memory(q), b);
-@@ -1556,7 +1573,7 @@ static inline int v4l_queue_reqbufs(struct v4l_fd *f,
- 		return ret;
- 	q->buffers = reqbufs.count;
- 	q->capabilities = reqbufs.capabilities;
--	return v4l_queue_querybufs(f, q, 0);
-+	return v4l_queue_querybufs(f, q, 0, reqbufs.count);
- }
- 
- static inline bool v4l_queue_has_create_bufs(struct v4l_fd *f, const struct v4l_queue *q)
-@@ -1596,7 +1613,7 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
- 	if (q->capabilities & V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS)
- 		q->max_num_buffers = createbufs.max_num_buffers;
- 	q->buffers += createbufs.count;
--	return v4l_queue_querybufs(f, q, q->buffers - createbufs.count);
-+	return v4l_queue_querybufs(f, q, createbufs.index, createbufs.count);
- }
- 
- static inline int v4l_queue_mmap_bufs(struct v4l_fd *f,
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 2f7a5058..c6a685eb 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1466,6 +1466,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		printf("Buffer ioctls%s:\n", suffix);
- 		printf("\ttest VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: %s\n", ok(testReqBufs(&node)));
- 		printf("\ttest CREATE_BUFS maximum buffers: %s\n", ok(testCreateBufsMax(&node)));
-+		printf("\ttest VIDIOC_REMOVE_BUFS: %s\n", ok(testRemoveBufs(&node)));
- 		// Reopen after each streaming test to reset the streaming state
- 		// in case of any errors in the preceeding test.
- 		node.reopen();
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 0cfc9a37..b6e342f3 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -385,6 +385,7 @@ int testReadWrite(struct node *node);
- int testExpBuf(struct node *node);
- int testBlockingWait(struct node *node);
- int testCreateBufsMax(struct node *node);
-+int testRemoveBufs(struct node *node);
- 
- // 32-bit architecture, 32/64-bit time_t tests
- int testTime32_64(struct node *node);
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index 922b99b5..f71a3c0e 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -529,6 +529,105 @@ static int testCanSetSameTimings(struct node *node)
- 	return 0;
- }
- 
-+int testRemoveBufs(struct node *node)
-+{
-+	int ret;
-+	unsigned i;
-+
-+	node->reopen();
-+
-+	for (i = 1; i <= V4L2_BUF_TYPE_LAST; i++) {
-+		struct v4l2_remove_buffers removebufs = { };
-+
-+		if (!(node->valid_buftypes & (1 << i)))
-+			continue;
-+
-+		cv4l_queue q(i, V4L2_MEMORY_MMAP);
-+
-+		if (testSetupVbi(node, i))
-+			continue;
-+		ret = q.remove_bufs(node, 0, 0);
-+		if (ret == ENOTTY) {
-+			warn("VIDIOC_REMOVE_BUFS not supported\n");
-+			continue;
-+		}
-+
-+		q.init(i, V4L2_MEMORY_MMAP);
-+		ret = q.create_bufs(node, 0);
-+		fail_on_test_val(ret && ret != EINVAL, ret);
-+
-+		memset(&removebufs, 0xff, sizeof(removebufs));
-+		removebufs.index = 0;
-+		removebufs.count = 0;
-+		removebufs.type = q.g_type();
-+		fail_on_test(doioctl(node, VIDIOC_REMOVE_BUFS, &removebufs));
-+		fail_on_test(check_0(removebufs.reserved, sizeof(removebufs.reserved)));
-+
-+		if (!ret) {
-+			unsigned buffers;
-+			buffer buf(i);
-+
-+			/* Create only 1 buffer */
-+			fail_on_test(q.create_bufs(node, 1));
-+			buffers = q.g_buffers();
-+			fail_on_test(buffers == 0);
-+			/* Removing buffer index 1 must fail */
-+			fail_on_test(q.remove_bufs(node, 1, buffers) != EINVAL);
-+			/* Removing buffer index 0 is valid */
-+			fail_on_test(q.remove_bufs(node, 0, buffers));
-+			/* Removing buffer index 0 again must fail */
-+			fail_on_test(q.remove_bufs(node, 0, 1) != EINVAL);
-+			/* Create 3 buffers indexes 0 to 2 */
-+			fail_on_test(q.create_bufs(node, 3));
-+			/* Remove them one by one */
-+			fail_on_test(q.remove_bufs(node, 2, 1));
-+			fail_on_test(q.remove_bufs(node, 0, 1));
-+			fail_on_test(q.remove_bufs(node, 1, 1));
-+			/* Removing buffer index 0 again must fail */
-+			fail_on_test(q.remove_bufs(node, 0, 1) != EINVAL);
-+
-+			/* for the next test the queue needs to be able to allocate 7 buffers */
-+			if (q.g_max_num_buffers() < 7)
-+				continue;
-+
-+			/* Create 4 buffers indexes 0 to 3 */
-+			fail_on_test(q.create_bufs(node, 4));
-+			/* Remove buffers index 1 and 2 */
-+			fail_on_test(q.remove_bufs(node, 1, 2));
-+			/* Add 3 more buffers should be indexes 4 to 6 */
-+			fail_on_test(q.create_bufs(node, 3));
-+			/* Query buffers:
-+			 * 1 and 2 have been removed they must fail
-+			 * 0 and 4 to 6 must exist*/
-+			fail_on_test(buf.querybuf(node, 0));
-+			fail_on_test(buf.querybuf(node, 1) != EINVAL);
-+			fail_on_test(buf.querybuf(node, 2) != EINVAL);
-+			fail_on_test(buf.querybuf(node, 4));
-+			fail_on_test(buf.querybuf(node, 5));
-+			fail_on_test(buf.querybuf(node, 6));
-+			/* Remove existing buffer index 6 with bad type must fail */
-+			memset(&removebufs, 0xff, sizeof(removebufs));
-+			removebufs.index = 6;
-+			removebufs.count = 1;
-+			removebufs.type = 0;
-+			fail_on_test(doioctl(node, VIDIOC_REMOVE_BUFS, &removebufs) != EINVAL);
-+
-+			/* Remove crossing max allowed buffers boundary must fail */
-+			fail_on_test(q.remove_bufs(node, q.g_max_num_buffers() - 2, 7) != EINVAL);
-+
-+			/* Remove overflow must fail */
-+			fail_on_test(q.remove_bufs(node, 3, 0xfffffff) != EINVAL);
-+
-+			/* Create 2 buffers, that must fill the hole */
-+			fail_on_test(q.create_bufs(node, 2));
-+			/* Remove all buffers */
-+			fail_on_test(q.remove_bufs(node, 0, 7));
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- int testReqBufs(struct node *node)
- {
- 	struct v4l2_create_buffers crbufs = { };
--- 
-2.40.1
+v2 changes:
+  - Add missing includes in dt binding examples
+  - Add version number to intel,dprx compatible
+  - Use generic node names in dts
+  - Add and document IP configuration parameters
+  - Remove IRQ registers from intel-dprx (they're not a part of the IP)
+  - Remove no-endpoint property and check for "port" node instead
+
+Pawe=C5=82 Anikiel (9):
+  media: v4l2-subdev: Add a pad variant of .query_dv_timings()
+  media: Add Chameleon v3 framebuffer driver
+  drm/dp_mst: Move DRM-independent structures to separate header
+  lib: Move DisplayPort CRC functions to common lib
+  drm/display: Add mask definitions for DP_PAYLOAD_ALLOCATE_* registers
+  media: intel: Add Displayport RX IP driver
+  media: dt-bindings: Add Chameleon v3 framebuffer
+  media: dt-bindings: Add Intel Displayport RX IP
+  ARM: dts: chameleonv3: Add video device nodes
+
+ .../bindings/media/google,chv3-fb.yaml        |   67 +
+ .../devicetree/bindings/media/intel,dprx.yaml |  160 ++
+ .../socfpga/socfpga_arria10_chameleonv3.dts   |  152 ++
+ drivers/gpu/drm/display/Kconfig               |    1 +
+ drivers/gpu/drm/display/drm_dp_mst_topology.c |   76 +-
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/google/Kconfig         |    3 +
+ drivers/media/platform/google/Makefile        |    2 +
+ .../media/platform/google/chameleonv3/Kconfig |   13 +
+ .../platform/google/chameleonv3/Makefile      |    3 +
+ .../platform/google/chameleonv3/chv3-fb.c     |  895 +++++++
+ drivers/media/platform/intel/Kconfig          |   12 +
+ drivers/media/platform/intel/Makefile         |    1 +
+ drivers/media/platform/intel/intel-dprx.c     | 2176 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-subdev.c         |   11 +
+ include/drm/display/drm_dp.h                  |    9 +-
+ include/drm/display/drm_dp_mst.h              |  238 ++
+ include/drm/display/drm_dp_mst_helper.h       |  232 +-
+ include/linux/crc-dp.h                        |   10 +
+ include/media/v4l2-subdev.h                   |    5 +
+ lib/Kconfig                                   |    8 +
+ lib/Makefile                                  |    1 +
+ lib/crc-dp.c                                  |   78 +
+ 24 files changed, 3851 insertions(+), 304 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/google,chv3-fb.=
+yaml
+ create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
+ create mode 100644 drivers/media/platform/google/Kconfig
+ create mode 100644 drivers/media/platform/google/Makefile
+ create mode 100644 drivers/media/platform/google/chameleonv3/Kconfig
+ create mode 100644 drivers/media/platform/google/chameleonv3/Makefile
+ create mode 100644 drivers/media/platform/google/chameleonv3/chv3-fb.c
+ create mode 100644 drivers/media/platform/intel/intel-dprx.c
+ create mode 100644 include/drm/display/drm_dp_mst.h
+ create mode 100644 include/linux/crc-dp.h
+ create mode 100644 lib/crc-dp.c
+
+--=20
+2.44.0.rc0.258.g7320e95886-goog
 
 
