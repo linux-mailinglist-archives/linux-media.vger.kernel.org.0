@@ -1,132 +1,129 @@
-Return-Path: <linux-media+bounces-5562-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5563-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CA785D876
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 13:56:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505C085DAED
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 14:35:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57E921C22B76
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 12:56:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E4BC11F2393A
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 13:35:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E297869D21;
-	Wed, 21 Feb 2024 12:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+YhwHlI"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F4514D5BA;
+	Wed, 21 Feb 2024 13:35:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5716996A
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 12:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40ECF7BAFF
+	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 13:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708520135; cv=none; b=SEfSwzdVoDZKI0sMiqd0UVUjsFd+pBkqX/Pef8d5lJYyVMpYYkeQX5uNVINn1zT1nH8kKZG22HPMAubONf32RPqkhBZpXwEW0i8Fu38v85EhgdvMXCTw/Xkfh0F+6VcLRoCnwKtkao8OxSmB7Kjn7KXfMXwDUf6ABaaVcBjmWJ4=
+	t=1708522500; cv=none; b=B1HgWGilRJF4G6P1LHHpo4abQcs3FRCdOfbabQpYEnfaAeIp67nHfcSvm1q6LxvW5Maz3/pxFxWIqYp6aKW5q9NB024nkF9E8eibmv92vzuSiOSwS66EjKQB0HcpWoSFSz840RRt4Z+I9MKbtccdWD90MJNAT4wXwoXjR0n5/hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708520135; c=relaxed/simple;
-	bh=lPF26loLMbUavGykZKMJhUC56GyN7cblVBRvj9pB8fM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T+SeWx3yCvf/7vbc2fmidrSLGxvaMmBxCVmaqeGT6DaXJLc6ixEF4HNn57KFXVWBUo/pzsv+iJCCGG4YqcwX+Xn4nJxm+97R+bG/Yr1HuMCMfU9x64HTbLQUnEaWnK2EAUfKXP0twgTzTc9VrQjsB8dm1tmKQzY6VXnoZbziNTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+YhwHlI; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708520132; x=1740056132;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lPF26loLMbUavGykZKMJhUC56GyN7cblVBRvj9pB8fM=;
-  b=f+YhwHlId5CjDCDSiK6xg+GN8SY4v2BBbkeHbJhcrvYS46EpHbyV8EoS
-   ZFW5i7E5SLf1Oi2/BF4MZZa0FyHqGhPmU70V/S+rRblgfpMtc8WpuKsMD
-   eVG4+gGgwbNjwWAD2AUVclbFMD00fFD47s3QcCZsyVBMnbsgebxDbAAXP
-   g/Uopkrx9hF5NcnPSTXN7addIPXfQYEWMgA303liEZhjhGV2wcrUz/POp
-   5RyTtJr+zMIlB8fobUO89K6tqkafR+zLkd9ZOLJLt+v9wAMQMTmQ5Jx9c
-   I6dgfYbjCg82WrsogriVPmvH15bvzXZ/rI0N+EGzYhtozlo3G2Kve4FW8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="6507804"
-X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="6507804"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 04:55:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="5504780"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 04:55:30 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id C470F11F855;
-	Wed, 21 Feb 2024 14:55:26 +0200 (EET)
-Date: Wed, 21 Feb 2024 12:55:26 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 04/29] media: mc: utilize new cdev_device_add helper
- function
-Message-ID: <ZdXyvv4fjvvBP7Pf@kekkonen.localdomain>
-References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
- <20231220103713.113386-5-sakari.ailus@linux.intel.com>
- <20240207093817.GF2827@pendragon.ideasonboard.com>
- <20240207095137.GD23702@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1708522500; c=relaxed/simple;
+	bh=zqql2sXx3i2yN008ue+WEu6k8Gl5CMT7NyPCC0UJ8ns=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RMjHlfi7DdAY1An7DwcC4XTUkRfibGCCTmyPUfFdZClUCxAcUXfGBjT8bl/Onv21nW+Vf2CEfyR9ZFfL0WWQbV30/38f3LJU224NZuKu7WRebNMTSQshSJNdxWTdwUW7BKIoFgeKAhVDXsr0Kgs3LSRwx3Qn6vmo4lKC7uonzlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rcmkJ-0004t7-E2; Wed, 21 Feb 2024 14:34:47 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rcmkH-0023Bm-UM; Wed, 21 Feb 2024 14:34:45 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rcmkH-0009YG-2o;
+	Wed, 21 Feb 2024 14:34:45 +0100
+Message-ID: <1cf19cf23ffd88d9ffb673e8f382f3b1d24545bb.camel@pengutronix.de>
+Subject: Re: [PATCH v2 20/20] media: venus: pm_helpers: Use reset_bulk API
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Stanimir Varbanov
+ <stanimir.k.varbanov@gmail.com>, Vikash Garodia
+ <quic_vgarodia@quicinc.com>,  Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Andy Gross <agross@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>,  Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, Stanimir Varbanov
+	 <stanimir.varbanov@linaro.org>, Mauro Carvalho Chehab
+	 <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Wed, 21 Feb 2024 14:34:45 +0100
+In-Reply-To: <ad20b872-0b50-4a16-b342-582d2f33eeca@linaro.org>
+References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
+	 <20230911-topic-mars-v2-20-3dac84b88c4b@linaro.org>
+	 <a25224f5d28aa65e8bfd14fe0a8f599b9f9e3f40.camel@pengutronix.de>
+	 <ad20b872-0b50-4a16-b342-582d2f33eeca@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240207095137.GD23702@pendragon.ideasonboard.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Mi, 2024-02-14 at 22:20 +0100, Konrad Dybcio wrote:
+> On 14.02.2024 14:31, Philipp Zabel wrote:
+> > Hi Konrad,
+> >=20
+> > On Fr, 2024-02-09 at 22:10 +0100, Konrad Dybcio wrote:
+> > > All of the resets are toggled together. Use the bulk api to save on s=
+ome
+> > > code complexity.
+> > >=20
+> > > The delay between resets is now correctly determined by the reset
+> > > framework.
+> >=20
+> > If this is a recent change, could you reference the commit?
+>=20
+> It's a series that recently landed in -next [1]
 
-On Wed, Feb 07, 2024 at 11:51:37AM +0200, Laurent Pinchart wrote:
-> On Wed, Feb 07, 2024 at 11:38:18AM +0200, Laurent Pinchart wrote:
-> > Hi Sakari,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Wed, Dec 20, 2023 at 12:36:48PM +0200, Sakari Ailus wrote:
-> > > From: Logan Gunthorpe <logang@deltatee.com>
-> > > 
-> > > Replace the open coded registration of the cdev and dev with the
-> > > new device_add_cdev() helper. The helper replaces a common pattern by
-> > > taking the proper reference against the parent device and adding both
-> > > the cdev and the device.
-> > > 
-> > > Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-> > > Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> > This reapplies a commit you've reverted in 02/29 in this series. I
-> > understand this is done to be able to apply the revert in 03/29 cleanly.
-> > Given that those three patches are consecutive, wouldn't it be better to
-> > squash 02/29, 03/29 and 04/29, with the commit message of 03/29 ?
-> > Otherwise, I would at least drop the Acked-by and Reviewed-by tags in
-> > the patches you reapply, as they've been reviewed in a different
-> > context.
-> > 
-> > The same applies to patches 05/29, 06/29 and 07/29.
-> 
-> And especially to those patches actually. 06/29 has a single line change
-> for the uvcvideo driver, the revert in 05/29 and re-revert in 07/29 seem
-> overkill.
+Missing link?
 
-The revert can't be applied as-is otherwise but I'm fine merging them.
+> [...]
+>=20
+> >=20
+> > Since VIDC_RESETS_NUM_MAX is only 2, I don't think a separate
+> > allocation is worth it.
+>=20
+> It's 2 today, anyway. I wanted to keep it flexible
 
-> 
-> It would also be nice to expand the commit messages of 03/29 and 06/29
-> to explain why the revert are needed.
+If this is expected to grow, fine.
 
-I can add that. These are basically improvements in the code but depend on
-commit a087ce704b80. Conceptually, it'd get quite difficult as what's
-really needed here is to get back to an earlier state, this is not
-development over the said commit.
+> [...]
+>=20
+> > > +	ret =3D reset_control_bulk_reset(res->resets_num, core->resets);
+> > > +	if (ret)
+> > > +		dev_err(core->dev, "Failed to toggle resets: %d\n", ret);
+> > > =20
+> > > -err:
+> > >  	return ret;
+> >=20
+> > Could be simplified to:
+> >=20
+> > 	return reset_control_bulk_reset(res->resets_num, core-
+> > > resets);
+>=20
+> I intentionally kept the if (ret) to print a specific error message
+> in case the call fails, this driver doesn't go a good job of telling
+> the user/developer what went wrong.
 
-I'll drop the acks.
+Oh, ok.
 
--- 
-Regards,
-
-Sakari Ailus
+regards
+Philipp
 
