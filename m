@@ -1,165 +1,157 @@
-Return-Path: <linux-media+bounces-5546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5547-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1EF85D661
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 12:03:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DE885D66D
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 12:04:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5A3628483E
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 11:03:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AE2D1F243D8
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 11:04:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E00C3FE25;
-	Wed, 21 Feb 2024 11:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF7B23E47C;
+	Wed, 21 Feb 2024 11:04:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CJj19P9X"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="smYDr6/n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C2A3FB3A
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 11:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708513348; cv=none; b=fKFkp8OgGvecMTA7RvKPUGH27t7tzVw+gajJd0hX26XrE9LqXp/R96dpWj8p1ukNpIS2M+udRb25EyoocCIgCZqlWMjSRvp+vrOINcg/ox8oCBaeKhOjIPnkTSEHrQ2jtx+p1RqvWgZM3v62Z4iZxJKSlLhFv0YUFfLKeFU35eQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708513348; c=relaxed/simple;
-	bh=H2Mn5OOcGtUn96uWgf21jgL0NYwLNeOoQW1NNGiOuhA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB99523D;
+	Wed, 21 Feb 2024 11:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708513450; cv=pass; b=g2xGib6FMuGzoOUtbtEhMx2a3TeDLDLub/sJUDt7oW1hXlNEn1iwnqHObVsMrAy2bFctEFGGmtKh8Lub4En17YDp/wb5ECqNJ3PLBKndXAW7uAwYs6KQnmgAmPJRyNNpVyp0m1x5Xs29kUUGXq2eNzXYaNYchWbc+306wNdVGQU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708513450; c=relaxed/simple;
+	bh=rtlDGn0L2qfmAFjQSQW5Jgc5ZYLnl1rCo0+bj014TNg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JAV9p7SeWUfMPryhknulP56duaGoJEFogA/kE2SI18xz4LQkqusLDaePJhgbi4948rmBJTA8Yss2vqsdqlKX2KMC51Y0RmCRfq9BPVwljCadouw2HH1x/Q+EOmcNa9JT0Deigv5cSrVYTEGFibqozzMUhuoRb6WBQEF6gX8w49M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CJj19P9X; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D20203F1;
-	Wed, 21 Feb 2024 12:02:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708513332;
-	bh=H2Mn5OOcGtUn96uWgf21jgL0NYwLNeOoQW1NNGiOuhA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CJj19P9XvDJIWRl1maxvsJwT/4vtQlNUu/uqeQ5ln7JUAn7c/vim9P4PSN2gG5FtK
-	 0h9+fyt5eDLlwlxXRyS3tW3+eJ8gm02pUyz7dJ8YEqydyh6n0YafLfCh/3nUb8yIaT
-	 RypPvY2gD1S7MHEZ/Y97T0wruiorGzm9BWsvxcLY=
-Date: Wed, 21 Feb 2024 13:02:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 23/29] media: vimc: Release resources on media device
- release
-Message-ID: <20240221110222.GB31348@pendragon.ideasonboard.com>
-References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
- <20231220103713.113386-24-sakari.ailus@linux.intel.com>
- <5f37ef41-151e-4320-8921-06e32a936818@xs4all.nl>
- <ZdXWN4wPqT7XdK7K@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hP+x0N/lvc9meZuStKWqBqJygwoGKPBVIUhOcW86tCZzY4azHaTxi4xnfAFB0F/Ej7wAicL29QUoCPqolByZpSKSwmRXnu0FLU37VGOumDu2w4Fsd/umNK1kLXf5Y9SMpuDjgJ9TJDHa834WqgrpL/QyKQhrYDrV7wh+7ppGdzc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=smYDr6/n; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4Tftgn688wzyVn;
+	Wed, 21 Feb 2024 13:04:05 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1708513445;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EG2HxwcbqWIH33ppNrbAfpfTSGk1WUofkhCL91CbaS8=;
+	b=smYDr6/nQt09D2u1w0hMnKiYe8qcML8iJE08YhvRWFiI/U242roEkMx+GL6ZZUXy4bhRyY
+	r5DUgD2+AHQusPC42qn2vOS94+4wa89wU0u32rPOjNxHKGNOVfF0Hhyk47SxVTs2qYyQVb
+	fYN81Ncry4xC8R5B0qGPtvG1P137dyM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1708513445;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EG2HxwcbqWIH33ppNrbAfpfTSGk1WUofkhCL91CbaS8=;
+	b=LSNtxpQErUjwKnPOJOg621QXNvlvKZbCEcq5FsqzwSXfzPyOiEdEZ35VqmBreF8tkhMJfZ
+	YXLvqjwFezyg946tfsvWGKEw5PGBfep0HhoZoj3EYEaDoaUdLogxklpP0TQD3Bw7sD1Bth
+	FbbVeR8OChkbYAcFBk9fzmSoSMniARw=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1708513445; a=rsa-sha256; cv=none;
+	b=SaOCbokch7GfO1SCxcRag7ngGcpjtNJGy+FfIYSgcWg3nqukrtbgnXYiM79u71gXV2QNEg
+	IfJIbtTpdu5Ml6fehc+XSIxweqG32HSaFNyMUIe7t4JGRd84CSw3hHl1NpfNc1K8CmkRQZ
+	l8tu4+g8uTP8rGRlcTFABo/TXez7QJo=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 504DE634C93;
+	Wed, 21 Feb 2024 13:04:05 +0200 (EET)
+Date: Wed, 21 Feb 2024 11:04:05 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: linux-media@vger.kernel.org, kernel@collabora.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mchehab@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
+Subject: Re: [PATCH v3 3/4] media: i2c: add MAX96717 driver
+Message-ID: <ZdXYpc2csVnhtZH9@valkosipuli.retiisi.eu>
+References: <20240111130349.2776699-1-julien.massot@collabora.com>
+ <20240111130349.2776699-4-julien.massot@collabora.com>
+ <ZcZEQyCb2FBsmbsK@valkosipuli.retiisi.eu>
+ <e09ea4d3-361a-4892-a098-98de8da80e65@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZdXWN4wPqT7XdK7K@kekkonen.localdomain>
+In-Reply-To: <e09ea4d3-361a-4892-a098-98de8da80e65@collabora.com>
 
-On Wed, Feb 21, 2024 at 10:53:43AM +0000, Sakari Ailus wrote:
-> Hi Hans,
+Hi Julien,
+
+On Wed, Feb 21, 2024 at 11:34:38AM +0100, Julien Massot wrote:
+> Hi Sakari,
 > 
-> On Mon, Feb 05, 2024 at 04:02:24PM +0100, Hans Verkuil wrote:
-> > On 20/12/2023 11:37, Sakari Ailus wrote:
-> > > Release all the resources when the media device is related, moving away
-> 
-> s/related/released/
-> 
-> > > form the struct v4l2_device used for that purpose.
+> On 2/9/24 16:26, Sakari Ailus wrote:
+> > Hi Julien,
 > > 
-> > form -> from
-> 
-> Yes.
-> 
-> > 
+> > On Thu, Jan 11, 2024 at 02:03:48PM +0100, Julien Massot wrote:
+> > > This driver handle the MAX96717 serializer in tunnel mode.
+> > > All incoming CSI traffic will be tunneled through the GMSL2
+> > > link.
 > > > 
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Signed-off-by: Julien Massot <julien.massot@collabora.com>
 > > > ---
-> > >  drivers/media/test-drivers/vimc/vimc-core.c | 15 +++++++++------
-> > >  1 file changed, 9 insertions(+), 6 deletions(-)
+> > > Change since v2:
+> > >   - Use CCI helpers instead of recoding register access
+> > >   - add missing bitfield header
+> > > ---
+> > >   MAINTAINERS                  |   7 +
+> > >   drivers/media/i2c/Kconfig    |  13 +
+> > >   drivers/media/i2c/Makefile   |   1 +
+> > >   drivers/media/i2c/max96717.c | 956 +++++++++++++++++++++++++++++++++++
+> > >   4 files changed, 977 insertions(+)
+> > >   create mode 100644 drivers/media/i2c/max96717.c
 > > > 
-> > > diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-> > > index af127476e920..3e59f8c256c7 100644
-> > > --- a/drivers/media/test-drivers/vimc/vimc-core.c
-> > > +++ b/drivers/media/test-drivers/vimc/vimc-core.c
-> > > @@ -264,13 +264,12 @@ static int vimc_add_subdevs(struct vimc_device *vimc)
-> > >  	return 0;
-> > >  }
-> > >  
-> > > -static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
-> > > +static void vimc_mdev_release(struct media_device *mdev)
-> > >  {
-> > >  	struct vimc_device *vimc =
-> > > -		container_of(v4l2_dev, struct vimc_device, v4l2_dev);
-> > > +		container_of_const(mdev, struct vimc_device, mdev);
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 675e5d63a25b..a64a7932fe76 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -13039,6 +13039,13 @@ S:	Maintained
+> > >   F:	Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> > >   F:	drivers/staging/media/max96712/max96712.c
+> > > +MAX96717 GMSL2 SERIALIZER DRIVER
+> > > +M:	Julien Massot <julien.massot@collabora.com>
+> > > +L:	linux-media@vger.kernel.org
+> > > +S:	Maintained
+> > > +F:	Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml
 > > 
-> > Why this change?
+> > What's that "f" for? It's in bindings but not in the name of the driver.
+> > Not a typo I suppose? :-)
 > 
-> I changed the line already. There's no reason to continue using
-> container_of() instead of container_of_const() that takes const-ness into
-> account, too.
+> Indeed that's not a typo, the Maxim's GMSL2 chips are available under
+> multiple
+> variants:
+> - MAX96717 which supports GMSL link speed 6 and 3Gbps and CSI lanes up to
+> 2.5Gbps
+> - MAX96717K which supports GMSL link speed 6 and 3Gbps and CSI lanes up to
+> 1.5Gbps
+> - MAX96717F which only supports GMSL link speed 3Gbps and CSI lanes up to
+> 2.5Gbps
+> 
+> They have the same register mapping, so we should be able to add support for
+> the other variants in the future.
 
-It should then be at least mentioned in the commit message.
-
-Any plan to switch to container_of_const() globally in the subsystem ?
-
-> > >  
-> > >  	vimc_release_subdevs(vimc);
-> > > -	media_device_cleanup(&vimc->mdev);
-> > >  	kfree(vimc->ent_devs);
-> > >  	kfree(vimc);
-> > >  }
-> > > @@ -336,6 +335,10 @@ static int vimc_register_devices(struct vimc_device *vimc)
-> > >  	return ret;
-> > >  }
-> > >  
-> > > +static const struct media_device_ops vimc_mdev_ops = {
-> > > +	.release = vimc_mdev_release,
-> > > +};
-> > > +
-> > >  static int vimc_probe(struct platform_device *pdev)
-> > >  {
-> > >  	const struct font_desc *font = find_font("VGA8x16");
-> > > @@ -369,12 +372,12 @@ static int vimc_probe(struct platform_device *pdev)
-> > >  	snprintf(vimc->mdev.bus_info, sizeof(vimc->mdev.bus_info),
-> > >  		 "platform:%s", VIMC_PDEV_NAME);
-> > >  	vimc->mdev.dev = &pdev->dev;
-> > > +	vimc->mdev.ops = &vimc_mdev_ops;
-> > >  	media_device_init(&vimc->mdev);
-> > >  
-> > >  	ret = vimc_register_devices(vimc);
-> > >  	if (ret) {
-> > > -		media_device_cleanup(&vimc->mdev);
-> > > -		kfree(vimc);
-> > > +		media_device_put(&vimc->mdev);
-> > >  		return ret;
-> > >  	}
-> > >  	/*
-> > > @@ -382,7 +385,6 @@ static int vimc_probe(struct platform_device *pdev)
-> > >  	 * if the registration fails, we release directly from probe
-> > >  	 */
-> > >  
-> > > -	vimc->v4l2_dev.release = vimc_v4l2_dev_release;
-> > >  	platform_set_drvdata(pdev, vimc);
-> > >  	return 0;
-> > >  }
-> > > @@ -397,6 +399,7 @@ static void vimc_remove(struct platform_device *pdev)
-> > >  	media_device_unregister(&vimc->mdev);
-> > >  	v4l2_device_unregister(&vimc->v4l2_dev);
-> > >  	v4l2_device_put(&vimc->v4l2_dev);
-> > > +	media_device_put(&vimc->mdev);
-> > >  }
-> > >  
-> > >  static void vimc_dev_release(struct device *dev)
+I think you should probably do this for the bindings, too. I'd thus drop
+"f" from the file name.
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
 
