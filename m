@@ -1,208 +1,135 @@
-Return-Path: <linux-media+bounces-5525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0859285D046
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 07:13:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 654AC85D10D
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 08:16:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B674E2850EA
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 06:13:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95D3A1C22AA5
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 07:16:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E956439FFC;
-	Wed, 21 Feb 2024 06:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D32383A8C6;
+	Wed, 21 Feb 2024 07:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="k79V6Tl1";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="d+oNQomS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB29F39FC4
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 06:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01A03A26E
+	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 07:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708496006; cv=none; b=p/y6W+JRF32zI5A/RwuA1by9ceoT/s+KjRwZY0sIaTLKIdRjMdHrgE0ugVFFF0wBc4aeRG9hOtKpLqs8YlL3afhaCJXFOq7RspIk5WvsjbT16R4Qu3DbaYH1IctwVA1uVjnNYg1fxuHQFMmaZtjmCW+ECnYZdntOnd4Ag1+jhVQ=
+	t=1708499760; cv=none; b=J+mfX4yeLXW5FhO3bNbfEgoMXJGmgQDV1ZZh/MvLgjTdCbLd/S9UbVc5lvrgCYK1TPzDB8+cVcdWqKYfsUcyY3ykOY5QzVJZ2r+VTRJVBlXJhX+e6LKaDXeNeLSEMFG5Am1fz8WqF3XLlrtlqNTrD0yVOVKrezlgl+EfqsUay5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708496006; c=relaxed/simple;
-	bh=D50I3E4E9uZ8Skb1OpRz0bIql4snS5AXgtxCnZXlypk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=CfMTZknm7UCcn8UCWWnkwF+FiXzagbMA5OZf0tyfNvyssS37fIPCOu1T4foHYfiQJ1RThsIholztUzEQhypAMWfFTwTdaW797rjk68Jooaci5J1Mpr8jAEUkGShruHlaZNX33xAYweL8eICVbkrxrk+gtIPntp0agmccNDleMZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3651fd50053so40751025ab.3
-        for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 22:13:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708496004; x=1709100804;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5T7eHue0xMZQbRjJLBhKECiRWQlC4MuMpelXVyZniJw=;
-        b=cQvfWlLrnFUaof51RdY/DVRtohSvCF5PE2B3Y+yDG+elhFs9ZWdlGj7sYeV/388xXP
-         PxYXEFZyfD8FITZyTIHoB+6SPd8qX2ayHaMcmHQqnLhxHWJC+Kkz9csQZWzutgzqEJX9
-         nC2Ix3arLm6ua9IqG9J/oemcec2qD5siCdVPS5xoLT9n1LiEPby0q2XMHCoa0pOfPks8
-         9YUnfc9R6f7fuU6X8Kp/89zpxU73aYPtHgzT2Hj7/rBx24MTtTd3mhsFlR0+BqhlS79L
-         KlVpZ3cHW805hWYcRWf6CrmCtUrs7ZqOdskWNrkA8zQn4b3yEHqePFgd4kVXgikRYBt2
-         p9qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXzhdLjt8TEIkMhQikWoAILGkXlAw3NhDRFBtD2GaRgMvoiCqUGJSRrvQglmBkVCmunI/wgi8bbuuI9RE2I9UwSNFuO5NZlEqIF2js=
-X-Gm-Message-State: AOJu0YyMmILZXWTZo+H8DZtw5meJ2MSCBqU3/6ckWZ6xO39qBT9e90wy
-	LNhLiI2TMSdxvxUB7m9H3JIkE6BqNKlwPsO4l3VKbuFwwNIuFkcUiVcm+/Z41CGkYpOmk6AnyPs
-	pKrmhgrxT3dk7sC6W9SrJz7uKHftadjxSt0tIU9QbLLe7PEBPjHhOIyk=
-X-Google-Smtp-Source: AGHT+IHNJtqSR8RIV1Vx2dx+6OTBBzUc7S4AfWgcQak0Ln9VFw9lIZTLPM+XV5jvTCVDDwlVjAiv2thLNm9r+3jVLpY3yfnfi/wj
+	s=arc-20240116; t=1708499760; c=relaxed/simple;
+	bh=l+GowOlQJNiTzIp7BNlvqI2qcTcPnoTO9kqHcNIwJOI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ghkG1Zz29MPbOKKlfSPmb4k0+10AaLASK+sxiV/tIR+/DFb2Hs78PKIvbNW+COFAt/FJKZnUzk3ubuyvhg9JTgKYAFBoTYuEESo1wIsFOur5yK5T/a18RQGu/NY81m/VDXrR1CdhUmxkz7XuNRRg/DnZdEvfXDly9vzErTJkCts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=k79V6Tl1; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=d+oNQomS reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1708499756; x=1740035756;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5qSUrU6e2SmDtJxdmcHwpdh07Hk6NDpyFgCxgJB/5j8=;
+  b=k79V6Tl1/WDtg3lYqEvl36wJpzSh884ixY895g0wYUjHwjaWPuyehHur
+   j8Nt0dDD6roBCtvi9xeSO0V+FtcxvV4NwhpYJeli1qgJPOBZzCMyw5248
+   Cpwc4g5aDBZiZXZTj8GZbZFy1jMeh6SYiazglKj4FoEU/dhiZ8O+/3Q1f
+   DqtdoTBOJyWma8EIMAxAg54JfFgZRWxTPibiZ2Dda07zoU2hMhS9h99g6
+   Y7ZqLJJfcA+iTICaIimGGStM4lelnEBRlKjjCIc4SJVx4oixKhqa24AAH
+   w+BtBymnec+dS0RmHaS4eIXkOXlUwv+ZPEfbaN6sh07zBBSP/hUJ30kzt
+   A==;
+X-IronPort-AV: E=Sophos;i="6.06,175,1705359600"; 
+   d="scan'208";a="35512537"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 21 Feb 2024 08:15:53 +0100
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4C8CE1713F1;
+	Wed, 21 Feb 2024 08:15:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1708499749; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=5qSUrU6e2SmDtJxdmcHwpdh07Hk6NDpyFgCxgJB/5j8=;
+	b=d+oNQomSomy1GoLoS/TPJi3Dm8f3pNoQlEwsVwhoSVg58wARK9nob5x18nBVOzu1jeNBPr
+	SEljKanZripWSXjDKNj45ZPBARkwWQJ9QxT/WbKJGOZgtnDXH9QyYHPX7itCcgOk2nG+Dr
+	Uzl8YwXjrB6nrqjBvMXM+OY4YSmQzFdn4WxpFO6JW9ict4lGm628c6bBQgQ7f+ZGtDbA79
+	T+jUsEmOo8DEKJT5a0PWGc3xDzTQcwbYM9UNX+EulFD05NUP87Yzjr4rkdqRsJnwRLqYhh
+	W+qIJ9loZs6SgoKrozbK7XBFZ6+k03dJiPvyjSAPO4hsa9H+/0gifUkm3IOWEw==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org
+Subject: [PATCH 1/1] media: i2c: imx290: Fix IMX920 typo
+Date: Wed, 21 Feb 2024 08:15:50 +0100
+Message-Id: <20240221071550.2769570-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:b44:b0:365:3db4:16ee with SMTP id
- f4-20020a056e020b4400b003653db416eemr470650ilu.2.1708496004156; Tue, 20 Feb
- 2024 22:13:24 -0800 (PST)
-Date: Tue, 20 Feb 2024 22:13:24 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006d96200611de3986@google.com>
-Subject: [syzbot] [media?] INFO: task hung in cec_claim_log_addrs
-From: syzbot <syzbot+116b65a23bc791ae49a6@syzkaller.appspotmail.com>
-To: hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello,
+Replace IMX920 by IMX290.
 
-syzbot found the following issue on:
-
-HEAD commit:    83d49ede4b18 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=1719dcf8180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=af5c6c699e57bbb3
-dashboard link: https://syzkaller.appspot.com/bug?extid=116b65a23bc791ae49a6
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16b9ffc8180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11ddc734180000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/773990dc198f/disk-83d49ede.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/cf9c558cd3e8/vmlinux-83d49ede.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/25f87616316c/Image-83d49ede.gz.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+116b65a23bc791ae49a6@syzkaller.appspotmail.com
-
-INFO: task syz-executor398:6279 blocked for more than 143 seconds.
-      Tainted: G    B              6.8.0-rc5-syzkaller-g83d49ede4b18 #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz-executor398 state:D stack:0     pid:6279  tgid:6279  ppid:6193   flags:0x0000000d
-Call trace:
- __switch_to+0x314/0x560 arch/arm64/kernel/process.c:556
- context_switch kernel/sched/core.c:5400 [inline]
- __schedule+0x1498/0x24b4 kernel/sched/core.c:6727
- __schedule_loop kernel/sched/core.c:6802 [inline]
- schedule+0xb8/0x19c kernel/sched/core.c:6817
- schedule_timeout+0xb8/0x348 kernel/time/timer.c:2159
- do_wait_for_common+0x30c/0x468 kernel/sched/completion.c:95
- __wait_for_common kernel/sched/completion.c:116 [inline]
- wait_for_common kernel/sched/completion.c:127 [inline]
- wait_for_completion+0x48/0x60 kernel/sched/completion.c:148
- cec_claim_log_addrs+0x164/0x210 drivers/media/cec/core/cec-adap.c:1606
- __cec_s_log_addrs+0x1238/0x18d8 drivers/media/cec/core/cec-adap.c:1920
- cec_adap_s_log_addrs drivers/media/cec/core/cec-api.c:184 [inline]
- cec_ioctl+0x2684/0x37b0 drivers/media/cec/core/cec-api.c:528
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:871 [inline]
- __se_sys_ioctl fs/ioctl.c:857 [inline]
- __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:857
- __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
- el0_svc+0x54/0x158 arch/arm64/kernel/entry-common.c:678
- el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
-INFO: task syz-executor398:6329 blocked for more than 143 seconds.
-      Tainted: G    B              6.8.0-rc5-syzkaller-g83d49ede4b18 #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz-executor398 state:D stack:0     pid:6329  tgid:6329  ppid:6197   flags:0x0000000d
-Call trace:
- __switch_to+0x314/0x560 arch/arm64/kernel/process.c:556
- context_switch kernel/sched/core.c:5400 [inline]
- __schedule+0x1498/0x24b4 kernel/sched/core.c:6727
- __schedule_loop kernel/sched/core.c:6802 [inline]
- schedule+0xb8/0x19c kernel/sched/core.c:6817
- schedule_timeout+0xb8/0x348 kernel/time/timer.c:2159
- do_wait_for_common+0x30c/0x468 kernel/sched/completion.c:95
- __wait_for_common kernel/sched/completion.c:116 [inline]
- wait_for_common kernel/sched/completion.c:127 [inline]
- wait_for_completion+0x48/0x60 kernel/sched/completion.c:148
- cec_claim_log_addrs+0x164/0x210 drivers/media/cec/core/cec-adap.c:1606
- __cec_s_log_addrs+0x1238/0x18d8 drivers/media/cec/core/cec-adap.c:1920
- cec_adap_s_log_addrs drivers/media/cec/core/cec-api.c:184 [inline]
- cec_ioctl+0x2684/0x37b0 drivers/media/cec/core/cec-api.c:528
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:871 [inline]
- __se_sys_ioctl fs/ioctl.c:857 [inline]
- __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:857
- __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
- el0_svc+0x54/0x158 arch/arm64/kernel/entry-common.c:678
- el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
-INFO: task syz-executor398:6367 blocked for more than 143 seconds.
-      Tainted: G    B              6.8.0-rc5-syzkaller-g83d49ede4b18 #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz-executor398 state:D stack:0     pid:6367  tgid:6367  ppid:6196   flags:0x0000000d
-Call trace:
- __switch_to+0x314/0x560 arch/arm64/kernel/process.c:556
- context_switch kernel/sched/core.c:5400 [inline]
- __schedule+0x1498/0x24b4 kernel/sched/core.c:6727
- __schedule_loop kernel/sched/core.c:6802 [inline]
- schedule+0xb8/0x19c kernel/sched/core.c:6817
- schedule_timeout+0xb8/0x348 kernel/time/timer.c:2159
- do_wait_for_common+0x30c/0x468 kernel/sched/completion.c:95
- __wait_for_common kernel/sched/completion.c:116 [inline]
- wait_for_common kernel/sched/completion.c:127 [inline]
- wait_for_completion+0x48/0x60 kernel/sched/completion.c:148
- cec_claim_log_addrs+0x164/0x210 drivers/media/cec/core/cec-adap.c:1606
- __cec_s_log_addrs+0x1238/0x18d8 drivers/media/cec/core/cec-adap.c:1920
- cec_adap_s_log_addrs drivers/media/cec/core/cec-api.c:184 [inline]
- cec_ioctl+0x2684/0x37b0 drivers/media/cec/core/cec-api.c:528
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:871 [inline]
- __se_sys_ioctl fs/ioctl.c:857 [inline]
- __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:857
- __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
- el0_svc+0x54/0x158 arch/arm64/kernel/entry-common.c:678
- el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
-INFO: lockdep is turned off.
-
-
+Fixes: b4ab57b07c5b9 ("media: i2c: imx290: Add crop selection targets support")
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/media/i2c/imx290.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+index 89fcebe178395..d75e36018cdc0 100644
+--- a/drivers/media/i2c/imx290.c
++++ b/drivers/media/i2c/imx290.c
+@@ -150,10 +150,10 @@
+ 
+ #define IMX290_PIXEL_ARRAY_WIDTH			1945
+ #define IMX290_PIXEL_ARRAY_HEIGHT			1097
+-#define IMX920_PIXEL_ARRAY_MARGIN_LEFT			12
+-#define IMX920_PIXEL_ARRAY_MARGIN_RIGHT			13
+-#define IMX920_PIXEL_ARRAY_MARGIN_TOP			8
+-#define IMX920_PIXEL_ARRAY_MARGIN_BOTTOM		9
++#define IMX290_PIXEL_ARRAY_MARGIN_LEFT			12
++#define IMX290_PIXEL_ARRAY_MARGIN_RIGHT			13
++#define IMX290_PIXEL_ARRAY_MARGIN_TOP			8
++#define IMX290_PIXEL_ARRAY_MARGIN_BOTTOM		9
+ #define IMX290_PIXEL_ARRAY_RECORDING_WIDTH		1920
+ #define IMX290_PIXEL_ARRAY_RECORDING_HEIGHT		1080
+ 
+@@ -1161,10 +1161,10 @@ static int imx290_get_selection(struct v4l2_subdev *sd,
+ 		 * The sensor moves the readout by 1 pixel based on flips to
+ 		 * keep the Bayer order the same.
+ 		 */
+-		sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP
++		sel->r.top = IMX290_PIXEL_ARRAY_MARGIN_TOP
+ 			   + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT - format->height) / 2
+ 			   + imx290->vflip->val;
+-		sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT
++		sel->r.left = IMX290_PIXEL_ARRAY_MARGIN_LEFT
+ 			    + (IMX290_PIXEL_ARRAY_RECORDING_WIDTH - format->width) / 2
+ 			    + imx290->hflip->val;
+ 		sel->r.width = format->width;
+@@ -1183,8 +1183,8 @@ static int imx290_get_selection(struct v4l2_subdev *sd,
+ 		return 0;
+ 
+ 	case V4L2_SEL_TGT_CROP_DEFAULT:
+-		sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP;
+-		sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT;
++		sel->r.top = IMX290_PIXEL_ARRAY_MARGIN_TOP;
++		sel->r.left = IMX290_PIXEL_ARRAY_MARGIN_LEFT;
+ 		sel->r.width = IMX290_PIXEL_ARRAY_RECORDING_WIDTH;
+ 		sel->r.height = IMX290_PIXEL_ARRAY_RECORDING_HEIGHT;
+ 
+-- 
+2.34.1
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
