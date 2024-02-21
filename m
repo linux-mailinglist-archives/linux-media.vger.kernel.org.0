@@ -1,136 +1,119 @@
-Return-Path: <linux-media+bounces-5519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5520-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F3085CF50
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 05:33:20 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F148185CF57
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 05:37:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4ACE31F21D63
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 04:33:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 83532B23AD8
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 04:37:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E17D4383BF;
-	Wed, 21 Feb 2024 04:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J+lJrh5B"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A5973984A;
+	Wed, 21 Feb 2024 04:37:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A190729A1
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 04:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D81929A1;
+	Wed, 21 Feb 2024 04:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708489992; cv=none; b=aNvM1xkD6/rxc+J0/L+FJ4/xapasdHuqDL/dfcKfJNAjc7blyuOho0zZu1so3f1OXFRt54W5JA/UNHw4djNTQuVJ4Wj87lfFRoYMljSh7sCrT86eeWpgL6xP+3apTaAIY153VnYoRn+oK72cKmGMoTBvaLID717GId4HN0az4Jc=
+	t=1708490256; cv=none; b=jL33yJShoMwuspLCoLu/WEx62BG3MI+boYowlo2ejF0K3x/+03wroacfIGQ9zRpGKK3rXQlRLXYMK7bCXpdM8b6A4ZBQyLVdZNk+IOdpnpmXLz6q0bynrQNB+s5p6Bmk7USlOlt94Arw3T80WudJUGJ2hy8oonzyrUa6SRNPPfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708489992; c=relaxed/simple;
-	bh=oL4jzuCKbGJSQdHdOTD8mVuXHXW9YeehgSh1yQfUYr4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CQQ4rO8l3aDRHqmXNAv6URi5jveOPqNX+riTAD4qUk7y1m2PvWVkevR83fcNmPJsx+Lf8pZbEu6omvYSLFxutbkIjPuiDcd5p0KThMm7V76stIYZX58cnv85Qbl8vYbZ4D8xKfqs15kssJ1vKYxujZdwZud7x7SxY91cI5ma6Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J+lJrh5B; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a3e552eff09so287775966b.3
-        for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 20:33:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1708489989; x=1709094789; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vmY04dbj/vIU0t6pHPXsLFor7e8BbOlWKLitvKLNgfs=;
-        b=J+lJrh5BApfGMGFXNqy8UADibA3r4E9St5n9eryvgEDE5ismvmwgOMyeET8WT0Yjhy
-         ohk7hVIb3c4+6IKFUXLEysmML1qDkTGjOYSdKOAII5pOurKzbQcWKnpmqwkFqJFqz4v0
-         RJdDvHbmpR/fK75rfOwrhsf82siUcJiORn8F8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708489989; x=1709094789;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vmY04dbj/vIU0t6pHPXsLFor7e8BbOlWKLitvKLNgfs=;
-        b=KqsNCGN1me6TYm91tp6ALvGHQtuClDOjWgqU6ys6A0JGPmNwcvTNEllF2sVsBVM1Ew
-         94IHKmYWvWJHyz9iW3/FWaOB3iIl/EOpDgZ6Z1/vxD7tsXwfQvuaFDfgkRQlAVmvkuZF
-         jN7qSwhiEN7FgIjLNpT+g6ZqJWZ5FfeEczkBihTKHlWZMp6PEtvQs4vuNHl1XHpmtMst
-         Su8CnLjCUXN3SansQ6TwzOVfAS1daYODcbYnUKe7CMRfUHoONs6f5iNhM9RCNGw3SJoq
-         lyGkU6k3NT/qerPTO0sKdpZ+06CXu2yr8yZVpi99QZFN0N0rt0S5Iyu++thZ2Cq13spI
-         DDrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVldzSgDoEmxuSLePQ+S1udktNLg2tQI4MJejPcnfC2LQ2TdeYHbZvcSPEa39eSj9WXfdT0WjkNL52+X5yhl350+rf6mxlRtLBSU5w=
-X-Gm-Message-State: AOJu0Yws7iK8UdtxbG/gs4M05kNPa4Z26LRRYnOvFTpCGBZwF/TRiR9T
-	VCjFp8cOWhhzzgD7bab0lox+kcGi4Qzjm0eEFk8UvoC4jG4JMeuWbvmQJncIpuL9jlWxwChNWkt
-	nCQ==
-X-Google-Smtp-Source: AGHT+IFnVD98xROCmTEkNAJoxlHQ92IKryGZcfgO51DfE3nmyfCnunFec4thfzSGf7qw3/MGTTtOjA==
-X-Received: by 2002:a17:906:559:b0:a3e:665a:45c0 with SMTP id k25-20020a170906055900b00a3e665a45c0mr5596669eja.45.1708489988977;
-        Tue, 20 Feb 2024 20:33:08 -0800 (PST)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id ot18-20020a170906ccd200b00a3ecdd0ba23sm1974730ejb.52.2024.02.20.20.33.08
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 20:33:08 -0800 (PST)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-412730e5b95so4370795e9.3
-        for <linux-media@vger.kernel.org>; Tue, 20 Feb 2024 20:33:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVKHomBVJO/c4hyttuGZytL9F40Z3kbxjlqV2elcxd54JmSiDa2M6Taojz2aTRS57lM0PcwGtWWEszYNncqgh5VPLJrCZhxin9ueXY=
-X-Received: by 2002:a5d:47a4:0:b0:33d:6ede:1149 with SMTP id
- 4-20020a5d47a4000000b0033d6ede1149mr2829350wrb.35.1708489988167; Tue, 20 Feb
- 2024 20:33:08 -0800 (PST)
+	s=arc-20240116; t=1708490256; c=relaxed/simple;
+	bh=imCS86KllHy88avep2fuGt2I0mBvfsYLEuJnfOLb0ho=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ujotxWYDGhCqvfS//uPE9tTZoBs48ICzJPSlBHSn34a61bbg/jNVyADYJRU7SCyyNsp4hFJop5kwt6eWylt/B4WDyLj2YLxMYs/Vv3Av30RhoZzX3skai4q0MlmhqdOsr/uW4ycxPCQie3+8YT4knASt2TZvhL44Ce2CQpvT7Po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from luzhipeng.223.5.5.5 (unknown [125.119.251.150])
+	by mail-app4 (Coremail) with SMTP id cS_KCgCXtIMFftVl2Ax1AQ--.16686S2;
+	Wed, 21 Feb 2024 12:37:26 +0800 (CST)
+From: Zhipeng Lu <alexious@zju.edu.cn>
+To: alexious@zju.edu.cn
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] [v3] media: go7007: fix a memleak in go7007_load_encoder
+Date: Wed, 21 Feb 2024 12:37:13 +0800
+Message-Id: <20240221043713.3163043-1-alexious@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1705581128-4604-1-git-send-email-shengjiu.wang@nxp.com> <1705581128-4604-8-git-send-email-shengjiu.wang@nxp.com>
-In-Reply-To: <1705581128-4604-8-git-send-email-shengjiu.wang@nxp.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 21 Feb 2024 13:32:50 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Ddip8n90Ma+d_kqgARoMRvpmk5Yyo+D_Csop6Ws8bHqw@mail.gmail.com>
-Message-ID: <CAAFQd5Ddip8n90Ma+d_kqgARoMRvpmk5Yyo+D_Csop6Ws8bHqw@mail.gmail.com>
-Subject: Re: [PATCH v12 07/15] media: v4l2: Add audio capture and output support
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: hverkuil@xs4all.nl, sakari.ailus@iki.fi, m.szyprowski@samsung.com, 
-	mchehab@kernel.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cS_KCgCXtIMFftVl2Ax1AQ--.16686S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFykKrWDXw1rKrWDGry5XFb_yoW8Xryrpa
+	yUGFyUAryrKr4UWanrWw4DKa4Fyan5Cay3C3s3Zw4rZr15tFWDK3y09F1jgr17Ga12qw1S
+	yr1UZr17uF15AF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUSNtxUUU
+	UU=
+X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
 
-On Thu, Jan 18, 2024 at 10:15=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.c=
-om> wrote:
->
-> Audio signal processing has the requirement for memory to
-> memory similar as Video.
->
-> This patch is to add this support in v4l2 framework, defined
-> new buffer type V4L2_BUF_TYPE_AUDIO_CAPTURE and
-> V4L2_BUF_TYPE_AUDIO_OUTPUT, defined new format v4l2_audio_format
-> for audio case usage.
->
-> The created audio device is named "/dev/v4l-audioX".
->
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  .../userspace-api/media/v4l/buffer.rst        |  6 ++
->  .../media/v4l/dev-audio-mem2mem.rst           | 71 +++++++++++++++++++
->  .../userspace-api/media/v4l/devices.rst       |  1 +
->  .../media/v4l/vidioc-enum-fmt.rst             |  2 +
->  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |  4 ++
->  .../media/videodev2.h.rst.exceptions          |  2 +
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  4 ++
->  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |  9 +++
->  drivers/media/v4l2-core/v4l2-dev.c            | 17 +++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 53 ++++++++++++++
->  include/media/v4l2-dev.h                      |  2 +
->  include/media/v4l2-ioctl.h                    | 34 +++++++++
->  include/uapi/linux/videodev2.h                | 17 +++++
->  13 files changed, 222 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem2m=
-em.rst
+In go7007_load_encoder, bounce(i.e. go->boot_fw), is allocated without
+a deallocation thereafter. After the following call chain:
 
-For drivers/media/common/videobuf2:
+saa7134_go7007_init
+  |-> go7007_boot_encoder
+        |-> go7007_load_encoder
+  |-> kfree(go)
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
+go is freed and thus bounce is leaked.
 
-Best regards,
-Tomasz
+Fixes: 95ef39403f89 ("[media] go7007: remember boot firmware")
+Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
+---
+Changelog:
+
+v2: free go->boot_fw instead of bounce
+v3: set go->boot_fw to null after free
+---
+ drivers/media/usb/go7007/go7007-driver.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/usb/go7007/go7007-driver.c b/drivers/media/usb/go7007/go7007-driver.c
+index 0c24e2984304..eb03f98b2ef1 100644
+--- a/drivers/media/usb/go7007/go7007-driver.c
++++ b/drivers/media/usb/go7007/go7007-driver.c
+@@ -80,7 +80,7 @@ static int go7007_load_encoder(struct go7007 *go)
+ 	const struct firmware *fw_entry;
+ 	char fw_name[] = "go7007/go7007fw.bin";
+ 	void *bounce;
+-	int fw_len, rv = 0;
++	int fw_len;
+ 	u16 intr_val, intr_data;
+ 
+ 	if (go->boot_fw == NULL) {
+@@ -109,9 +109,11 @@ static int go7007_load_encoder(struct go7007 *go)
+ 	    go7007_read_interrupt(go, &intr_val, &intr_data) < 0 ||
+ 			(intr_val & ~0x1) != 0x5a5a) {
+ 		v4l2_err(go, "error transferring firmware\n");
+-		rv = -1;
++		kfree(go->boot_fw);
++		go->boot_fw = NULL;
++		return -1;
+ 	}
+-	return rv;
++	return 0;
+ }
+ 
+ MODULE_FIRMWARE("go7007/go7007fw.bin");
+-- 
+2.34.1
+
 
