@@ -1,74 +1,75 @@
-Return-Path: <linux-media+bounces-5554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5555-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34E885D746
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 12:42:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B95685D757
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 12:45:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8636F2838B0
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 11:42:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 779961C22558
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 11:45:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E9634CB54;
-	Wed, 21 Feb 2024 11:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3054745C10;
+	Wed, 21 Feb 2024 11:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhlvJPxL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBaq7D4N"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38A14CB2B
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 11:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4A74501C
+	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 11:45:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708515614; cv=none; b=kJZcuHzpO4znp/4ZJsIKs1MItkSv/szoDRItjnpSmtG6lVmAiwgV8ifesb9bwM8x07plswkvgwh5SbchRMI1Wl6PginBMgBtDyyHrtFH0eRSyFm8TC2kZ4g39mh7Xwg5QEsm2sZ986TzP7KRBrf9KF/ERjxIChsw6LGtyN4pFsU=
+	t=1708515906; cv=none; b=tzeN6VZxyZ850nsOKcKP+XISZ+0kVg0uY5plb/9XXoUzluLiM+M4eOmG5wb8p+k56L1mDHGgPljJTedGVeVqHGmGzRMNb63en6HKmNQiXX3Zpfk8ZZuZO4qDDH4eNY5ICnPwfNSt59TSud/AtGPhf6H0DRIawoyMOiu7bdeu2Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708515614; c=relaxed/simple;
-	bh=I85rwqq7naV/pSXkN/k7jFebU7pM5Go1zk7PIlVV6HQ=;
+	s=arc-20240116; t=1708515906; c=relaxed/simple;
+	bh=UuyTWymEG76nzoSyRlLARs8xzRTnBmRyLkB21XMMPDA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CYKg55H8SfDpE3ZPGyaL8tOqdMnYe8nSnSqD+RxVQx46zqDDbUNOCaxY+2L3ZR3nV9D8gTGcjErfbatM+3pNDqZvK21M2IlHDNWmbHBj41O/ZWs8fL/hbAw9Jw1ER5bgmQvt3GI9gCv7ox5iOeT89cY6r1rZkGRFMSUTH0DNbks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AhlvJPxL; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q8knwSyBqV7bDYI+po9ak/P+ZbtEh4cruUZY9zHp4SytRxhgn1LjBQ8cP9oUGRc3GPmz/ck4F371d3JKlCJ5sc0xc9ViQqx29gS/ozbYI96W8d6g+qjqdHJIPmAEiBVyyXoesEpuXlLrfdtVId4qxvZtB0N6G51pJJvAiA4pt4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBaq7D4N; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708515613; x=1740051613;
+  t=1708515906; x=1740051906;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=I85rwqq7naV/pSXkN/k7jFebU7pM5Go1zk7PIlVV6HQ=;
-  b=AhlvJPxLYPM5Tu7dRVbSRk9+fwt3x/rLaJ7mfTm0aWms1MnYVFXgvQbR
-   jrTpc3/m8rw9ZA/4rndvOiJHortF7eV59A9KGsMXhbekPqbFiASRqKchi
-   U9Lb+RnFBii0MR39SLMfL983/+jOcNdjWbq75s9suWFzFBoqJhZZ01Ry4
-   j/QhehhAne9QhdYk8lYTLf2nj57hn4I9GIlzJMLmwsO+xaCvQJFmn1LN7
-   GzyTzX/JIr2empT//Nt3Z7O87x7oHr0yYe1Pk+uuAEwfWgpIZkx6oB4IH
-   Ucv/eVVMOuAY10vTRjy4mWi3GnJDjzq7iMKNUtvKDyo6NeDIpHameK5Ao
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2541803"
+  bh=UuyTWymEG76nzoSyRlLARs8xzRTnBmRyLkB21XMMPDA=;
+  b=bBaq7D4N2OLvI9fs7nOsaMV8E2gyge7yvdlJt+Ayma9hcPv3C6Sq/rV/
+   SdfchlS4bAxEU9ftvueEylBynScRGl45Xk5N1EdtnFCvP/5esfN/0arOO
+   gsSQf4dwBMK2maqwqZFpONZ9z4M5y3YpWFoevtZN0kk4lKjfKY8ZCRn0G
+   5TNMqX6mO+sjak/4zahhYauO6++ZX/xsSWqIj9Nhzkbe4FLlJ/0ayFOyJ
+   yWYynFs6rmI6A/x1Kz34quR6YT68KKL4NxTLI8izNGSiN/pvKt1fuS8h4
+   JdYkwdGrvUfY4sAzomW2nze9/3L7uMHeDMowKnkbcrHSJa9kLjE+NNKeA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2542273"
 X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="2541803"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 03:40:13 -0800
+   d="scan'208";a="2542273"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 03:45:05 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="936632980"
 X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="5085446"
+   d="scan'208";a="936632980"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 03:40:11 -0800
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 03:45:02 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id EB87B11F855;
-	Wed, 21 Feb 2024 13:40:08 +0200 (EET)
-Date: Wed, 21 Feb 2024 11:40:08 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 7194211F855;
+	Wed, 21 Feb 2024 13:44:59 +0200 (EET)
+Date: Wed, 21 Feb 2024 11:44:59 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2 23/29] media: vimc: Release resources on media device
- release
-Message-ID: <ZdXhGAmJhzQcXbN2@kekkonen.localdomain>
+Subject: Re: [PATCH v2 17/29] media: v4l: Acquire a reference to the media
+ device for every video device
+Message-ID: <ZdXiOxOxKi6U6Ayn@kekkonen.localdomain>
 References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
- <20231220103713.113386-24-sakari.ailus@linux.intel.com>
- <5f37ef41-151e-4320-8921-06e32a936818@xs4all.nl>
- <ZdXWN4wPqT7XdK7K@kekkonen.localdomain>
- <77c003ad-a841-40ae-8f15-58fd6e0e22ff@xs4all.nl>
+ <20231220103713.113386-18-sakari.ailus@linux.intel.com>
+ <2708ec26-3156-4269-85ae-d9e783dc3bd1@xs4all.nl>
+ <ZdXTIW1Gu4eyp7QA@kekkonen.localdomain>
+ <3c72b7ce-1f9f-4622-be0c-706f2af0273b@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,63 +78,136 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <77c003ad-a841-40ae-8f15-58fd6e0e22ff@xs4all.nl>
+In-Reply-To: <3c72b7ce-1f9f-4622-be0c-706f2af0273b@xs4all.nl>
 
 Hi Hans,
 
-On Wed, Feb 21, 2024 at 12:19:21PM +0100, Hans Verkuil wrote:
-> On 21/02/2024 11:53, Sakari Ailus wrote:
+On Wed, Feb 21, 2024 at 11:51:08AM +0100, Hans Verkuil wrote:
+> On 21/02/2024 11:40, Sakari Ailus wrote:
 > > Hi Hans,
 > > 
-> > On Mon, Feb 05, 2024 at 04:02:24PM +0100, Hans Verkuil wrote:
+> > Many thanks for reviewing these.
+> > 
+> > On Mon, Feb 05, 2024 at 03:56:22PM +0100, Hans Verkuil wrote:
 > >> On 20/12/2023 11:37, Sakari Ailus wrote:
-> >>> Release all the resources when the media device is related, moving away
-> > 
-> > s/related/released/
-> > 
-> >>> form the struct v4l2_device used for that purpose.
-> >>
-> >> form -> from
-> > 
-> > Yes.
-> > 
-> >>
+> >>> The video device depends on the existence of its media device --- if there
+> >>> is one. Acquire a reference to it.
+> >>>
+> >>> Note that when the media device release callback is used, then the V4L2
+> >>> device release callback is ignored and a warning is issued if both are
+> >>> set.
 > >>>
 > >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > >>> ---
-> >>>  drivers/media/test-drivers/vimc/vimc-core.c | 15 +++++++++------
-> >>>  1 file changed, 9 insertions(+), 6 deletions(-)
+> >>>  drivers/media/v4l2-core/v4l2-dev.c | 51 ++++++++++++++++++++----------
+> >>>  1 file changed, 34 insertions(+), 17 deletions(-)
 > >>>
-> >>> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-> >>> index af127476e920..3e59f8c256c7 100644
-> >>> --- a/drivers/media/test-drivers/vimc/vimc-core.c
-> >>> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
-> >>> @@ -264,13 +264,12 @@ static int vimc_add_subdevs(struct vimc_device *vimc)
-> >>>  	return 0;
-> >>>  }
-> >>>  
-> >>> -static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
-> >>> +static void vimc_mdev_release(struct media_device *mdev)
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> >>> index d13954bd31fd..c1e4995eaf5c 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> >>> @@ -176,6 +176,11 @@ static void v4l2_device_release(struct device *cd)
 > >>>  {
-> >>>  	struct vimc_device *vimc =
-> >>> -		container_of(v4l2_dev, struct vimc_device, v4l2_dev);
-> >>> +		container_of_const(mdev, struct vimc_device, mdev);
+> >>>  	struct video_device *vdev = to_video_device(cd);
+> >>>  	struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
+> >>> +	bool v4l2_dev_has_release = v4l2_dev->release;
+> >>> +#ifdef CONFIG_MEDIA_CONTROLLER
+> >>> +	struct media_device *mdev = v4l2_dev->mdev;
+> >>> +	bool mdev_has_release = mdev && mdev->ops && mdev->ops->release;
+> >>> +#endif
+> >>>  
+> >>>  	mutex_lock(&videodev_lock);
+> >>>  	if (WARN_ON(video_devices[vdev->minor] != vdev)) {
+> >>> @@ -198,8 +203,8 @@ static void v4l2_device_release(struct device *cd)
+> >>>  
+> >>>  	mutex_unlock(&videodev_lock);
+> >>>  
+> >>> -#if defined(CONFIG_MEDIA_CONTROLLER)
+> >>> -	if (v4l2_dev->mdev && vdev->vfl_dir != VFL_DIR_M2M) {
+> >>> +#ifdef CONFIG_MEDIA_CONTROLLER
+> >>> +	if (mdev && vdev->vfl_dir != VFL_DIR_M2M) {
+> >>>  		/* Remove interfaces and interface links */
+> >>>  		media_devnode_remove(vdev->intf_devnode);
+> >>>  		if (vdev->entity.function != MEDIA_ENT_F_UNKNOWN)
+> >>> @@ -207,23 +212,31 @@ static void v4l2_device_release(struct device *cd)
+> >>>  	}
+> >>>  #endif
+> >>>  
+> >>> -	/* Do not call v4l2_device_put if there is no release callback set.
+> >>> -	 * Drivers that have no v4l2_device release callback might free the
+> >>> -	 * v4l2_dev instance in the video_device release callback below, so we
+> >>> -	 * must perform this check here.
+> >>> -	 *
+> >>> -	 * TODO: In the long run all drivers that use v4l2_device should use the
+> >>> -	 * v4l2_device release callback. This check will then be unnecessary.
+> >>> -	 */
+> >>> -	if (v4l2_dev->release == NULL)
+> >>> -		v4l2_dev = NULL;
+> >>> -
+> >>>  	/* Release video_device and perform other
+> >>>  	   cleanups as needed. */
+> >>>  	vdev->release(vdev);
+> >>>  
+> >>> -	/* Decrease v4l2_device refcount */
+> >>> -	if (v4l2_dev)
+> >>> +#ifdef CONFIG_MEDIA_CONTROLLER
+> >>> +	if (mdev)
+> >>> +		media_device_put(mdev);
+> >>> +
+> >>> +	/*
+> >>> +	 * Generally both struct media_device and struct v4l2_device are
+> >>> +	 * embedded in the same driver's context struct so having a release
+> >>> +	 * callback in both is a bug.
+> >>> +	 */
+> >>> +	WARN_ON(v4l2_dev_has_release && mdev_has_release);
 > >>
-> >> Why this change?
+> >> How about:
+> >>
+> >> 	if (WARN_ON(v4l2_dev_has_release && mdev_has_release))
+> >> 		v4l2_dev_has_release = false;
+> >>
+> >>> +#endif
+> >>> +
+> >>> +	/*
+> >>> +	 * Decrease v4l2_device refcount, but only if the media device doesn't
+> >>> +	 * have a release callback.
+> >>> +	 */
+> >>> +	if (v4l2_dev_has_release
+> >>> +#ifdef CONFIG_MEDIA_CONTROLLER
+> >>> +	    && !mdev_has_release
+> >>> +#endif
+> >>> +	    )
+> >>
+> >> Then this change is no longer needed.
 > > 
-> > I changed the line already. There's no reason to continue using
-> > container_of() instead of container_of_const() that takes const-ness into
-> > account, too.
+> > Good idea.
+> > 
+> > I'll also rename v4l2_dev_has_release as v4l2_dev_call_release.
+> > 
+> >>
+> >> General question: do we have drivers today that set both release functions?
+> >> Because that would now cause a WARN in the kernel log with this patch.
+> > 
+> > Indeed, the intention is to be vocal about it.
+> > 
+> > The only user of the v4l2_device release function I could find is
+> > drivers/media/radio/dsbr100.c . I may have missed some but it certainly
+> > isn't commonly used. Maybe we could try to drop refcounting from
+> > v4l2_device later on?
 > 
-> But neither vimc nor mdev can be const anyway, that would make no sense
-> here.
+> There are a lot more drivers that use this. A quick grep shows gspca, hackrf,
+> usbtv, pwc, au0828 and more.
+> 
+> git grep v4l2_dev.*release.*= drivers/media/
+> 
+> Currently it is the only way to properly release drivers that create multiple
+> video (or other) devices.
 
-Neither is const, true. Yet container_of_const() is preferred over
-container_of(), due to the fact that it does take const-ness into account.
-container_of() should really be avoided.
-
-I'll add this to the commit message as Laurent suggested.
+I mistakenly grepped for ->release, .release is actually more common. I'll
+check how this is currently being used.
 
 -- 
+Regards,
+
 Sakari Ailus
 
