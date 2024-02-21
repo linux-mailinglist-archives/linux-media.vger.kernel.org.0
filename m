@@ -1,114 +1,134 @@
-Return-Path: <linux-media+bounces-5565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5566-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B601085DBD7
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 14:46:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B14CD85DF4B
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 15:26:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 22B43B27330
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 13:46:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D5E31C23C43
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 14:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C93DA7BAFB;
-	Wed, 21 Feb 2024 13:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EAA17C0BD;
+	Wed, 21 Feb 2024 14:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="a6Z0xQtB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B829F77A03
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 13:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C744C62;
+	Wed, 21 Feb 2024 14:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.192
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708523140; cv=none; b=l/N4/RViL/ktyqgTgr++7GM6cTE4qoEEt7+rXdusyJsbtsobLDycgPwClWANyEeaoSWMKDNVRl+7aq/ZdG96bLExLRFUZtgZLYslKV6mbKWx7XJcNszzEkt+aQlCV0BCiGjxXSXuUWAB5Kuv8MWJLy4ltTzNmWNG9xlm8ZCu+ag=
+	t=1708525592; cv=none; b=RqPX1asokhiRl0S34IzWCIiKYno0zVryM9H2BL5Ij8fgA7DuqDz5J8z5jgszKVoOqVrn18X0MJuj63YVTvGaIyQPt9LPDaHivgv99Bxdhz5s3wiPpcBKcF89ro87zp6PdIqiVEXnbG0D19qxaAoNFqelqEV2/perfNKmS8VnSBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708523140; c=relaxed/simple;
-	bh=juEouuUJ136A2uRyt4uiuxJPTi66X9k73J4uyYTWJ0A=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lptkG79EJn080bPNeCZ128LE/quKlXfN9+iVVJyBg5RBuRLqnrmEE4Kt7nuT17KhR7O9Wbinl+tF9159TrmEQkFU/WuG+H7Q8Q0rr+NeaHsabxwHf17ZVwr/t/uNBsaSdm0H7w42vebV0VTohoEqm59E9R5rmy+llV+BuKrZSSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rcmud-0006fc-1G; Wed, 21 Feb 2024 14:45:27 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rcmub-0023Ct-Qm; Wed, 21 Feb 2024 14:45:25 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rcmub-0009z1-2Q;
-	Wed, 21 Feb 2024 14:45:25 +0100
-Message-ID: <8598dea60afa80effd7fad2650dc045bc36d0f0e.camel@pengutronix.de>
-Subject: Re: [PATCH v2 20/20] media: venus: pm_helpers: Use reset_bulk API
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Stanimir Varbanov
- <stanimir.k.varbanov@gmail.com>, Vikash Garodia
- <quic_vgarodia@quicinc.com>,  Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Andy Gross <agross@kernel.org>, Bjorn
- Andersson <andersson@kernel.org>,  Mauro Carvalho Chehab
- <mchehab@kernel.org>, Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>, Stanimir Varbanov
-	 <stanimir.varbanov@linaro.org>, Mauro Carvalho Chehab
-	 <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 21 Feb 2024 14:45:25 +0100
-In-Reply-To: <466efa71-bd42-46b7-b81f-2a70d80e3f03@linaro.org>
-References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
-	 <20230911-topic-mars-v2-20-3dac84b88c4b@linaro.org>
-	 <a25224f5d28aa65e8bfd14fe0a8f599b9f9e3f40.camel@pengutronix.de>
-	 <ad20b872-0b50-4a16-b342-582d2f33eeca@linaro.org>
-	 <1cf19cf23ffd88d9ffb673e8f382f3b1d24545bb.camel@pengutronix.de>
-	 <466efa71-bd42-46b7-b81f-2a70d80e3f03@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1708525592; c=relaxed/simple;
+	bh=v11Pc7CIFtiDJvtTdFEr5KXDbTe1sppjg1bvGaMcSho=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=OsTodSaHXhyT8t2XlcGbOdMEi3fO4zVjFREu9pDag7TC2gcH9Y/MYnVSPBbalF9YoLH8304RDja96fioK42crz9TUGarywvyhprlq3xlqjpMIyEahLf1mbujkNKhyYfgc2sczJBcBzba0JTc9yrAyvha9SpOOnyw+Y4iJz2gz5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=a6Z0xQtB; arc=none smtp.client-ip=203.205.221.192
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1708525581; bh=pj6LoP7IKnvmbi/dGc8hKKjxVKAxUr0Pi1wWsmEFVu4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=a6Z0xQtBUzux2mkhM+3ZTBkc7GG9xTbe5w9a3P5Qj9eONYB9lhI+lZ/8y/Xfi10We
+	 qC6QKRn0J675XN+M7FRePWYQjtl3gFQuh4XGUkXL7lTKCVGc/wkjvKJMi08Mh7kVZ9
+	 M2MHha0CiKjnwuMDuJsIXwyEl7LofK3onaR3rf7M=
+Received: from pek-lxu-l1.wrs.com ([111.198.228.140])
+	by newxmesmtplogicsvrsza10-0.qq.com (NewEsmtp) with SMTP
+	id 50418A1B; Wed, 21 Feb 2024 22:20:04 +0800
+X-QQ-mid: xmsmtpt1708525204t0xgoj2qr
+Message-ID: <tencent_941B48254CBA00BB4933069E391B6E4B5408@qq.com>
+X-QQ-XMAILINFO: M3ziZXKDk+iOt7Y7H7kR7VuOyouwPtJP/BqzCiDi509G429y8WTRXNEwOEy1HQ
+	 KNti5PBaUD73kBsZTMmNaElFH/FiHZ8JaXm+T+38IpASlsWsBNyeBArNa0Pr9w04+SKoRbN8beoy
+	 23SB0wvVYLyQLj6gla93Y5kiUbMbv7jXhifKWb6o5zAZe0Df9dhrmcfq29TyvPfz9uyaR//JS8q/
+	 WNEB/BotOa/knSUCMDx2B4PX+01xpCsrdA8an0jr8Ien++5gph+y/FMQnTZu0wRYt463ZHjvj+A+
+	 4DIbuzCmwlMRS/KF63NEa+5bbh1K6jvCNxYlVJqavgUGa2yge7kHc4gbsb4kNng6xd+78e08Z4QI
+	 ZL++SU+WugkOqsPYHguh4yae5/rpUx8ZMgjIppocoljZEpVBlbgd81cbDl88EaciZeJ/iJyS7UNV
+	 r0l/AxBa41EJbikFa8R/HTaBis4EHY8BTWSXep2UQmwvOTijwhRK+fCVQetq9TiwVqAj8p4ky32i
+	 K3a1ase94OZEsUrCxVyRmXvvLeaTxggMKL+z0ZwS1lBNWM4g72RTyriOr8mKCX4QOchd/auaOk4V
+	 AqYX46h4esToenJvpwS3vsKhUsIxOh5j7ytb6iUhrX+GTdCXrsFIKnS2dr/UdFYHrzp69rKAI3ny
+	 8IFy7aXOxMuppn94MNIc6HLgmaJMMn5+MJNPn0qNnc20m6iRhAAZJcsU0Q/lI4B6mrEzvLhaE/st
+	 ZJEpe8P58ktoFFCsC6uhDxo9D88FpBoaRo8F9RvOLZssOFRZVBGDhbiefKCQfcjgf26KBEPDyx3C
+	 ZrryfrzthXJ+lBmlAXevgjnkfrYIU5+YGxNKkK2qLXXQC7SgTB+niI00IUuB3amn4uHHHIpkR2bs
+	 fzCgWRjzOCVh+N9KheWwLoENBaZN1hLFlmY2RPwXDGTGHQ7P00VcA=
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+116b65a23bc791ae49a6@syzkaller.appspotmail.com
+Cc: hverkuil-cisco@xs4all.nl,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] media/cec/core: fix task hung in cec_claim_log_addrs
+Date: Wed, 21 Feb 2024 22:20:05 +0800
+X-OQ-MSGID: <20240221142004.159200-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <0000000000006d96200611de3986@google.com>
+References: <0000000000006d96200611de3986@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-On Mi, 2024-02-21 at 14:37 +0100, Konrad Dybcio wrote:
-> On 21.02.2024 14:34, Philipp Zabel wrote:
-> > On Mi, 2024-02-14 at 22:20 +0100, Konrad Dybcio wrote:
-> > > On 14.02.2024 14:31, Philipp Zabel wrote:
-> > > > Hi Konrad,
-> > > >=20
-> > > > On Fr, 2024-02-09 at 22:10 +0100, Konrad Dybcio wrote:
-> > > > > All of the resets are toggled together. Use the bulk api to save =
-on some
-> > > > > code complexity.
-> > > > >=20
-> > > > > The delay between resets is now correctly determined by the reset
-> > > > > framework.
-> > > >=20
-> > > > If this is a recent change, could you reference the commit?
-> > >=20
-> > > It's a series that recently landed in -next [1]
-> >=20
-> > Missing link?
->=20
-> Yes, sorry!
->=20
-> Konrad
->=20
-> [1] https://lore.kernel.org/linux-arm-msm/20240105-topic-venus_reset-v2-0=
--c37eba13b5ce@linaro.org/
+After unlocking adap->lock in cec_claim_log_addrs(), cec_claim_log_addrs() may
+re-enter, causing this issue to occur.
 
-Thank you. With that,
+In the thread function cec_config_thread_func() adap->lock is also used, so there
+is no need to unlock adap->lock in cec_claim_log_addrs(), and then use adap->lock
+in cec_config_thread_func() to protect.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Reported-and-tested-by: syzbot+116b65a23bc791ae49a6@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ drivers/media/cec/core/cec-adap.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-regards
-Philipp
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index 5741adf09a2e..21b3ff504524 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -1436,7 +1436,6 @@ static int cec_config_thread_func(void *arg)
+ 	int err;
+ 	int i, j;
+ 
+-	mutex_lock(&adap->lock);
+ 	dprintk(1, "physical address: %x.%x.%x.%x, claim %d logical addresses\n",
+ 		cec_phys_addr_exp(adap->phys_addr), las->num_log_addrs);
+ 	las->log_addr_mask = 0;
+@@ -1565,7 +1564,6 @@ static int cec_config_thread_func(void *arg)
+ 	}
+ 	adap->kthread_config = NULL;
+ 	complete(&adap->config_completion);
+-	mutex_unlock(&adap->lock);
+ 	call_void_op(adap, configured);
+ 	return 0;
+ 
+@@ -1577,7 +1575,6 @@ static int cec_config_thread_func(void *arg)
+ 	adap->must_reconfigure = false;
+ 	adap->kthread_config = NULL;
+ 	complete(&adap->config_completion);
+-	mutex_unlock(&adap->lock);
+ 	return 0;
+ }
+ 
+@@ -1602,9 +1599,7 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
+ 		adap->kthread_config = NULL;
+ 		adap->is_configuring = false;
+ 	} else if (block) {
+-		mutex_unlock(&adap->lock);
+ 		wait_for_completion(&adap->config_completion);
+-		mutex_lock(&adap->lock);
+ 	}
+ }
+ 
+-- 
+2.43.0
+
 
