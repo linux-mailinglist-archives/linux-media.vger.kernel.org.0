@@ -1,263 +1,207 @@
-Return-Path: <linux-media+bounces-5599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B77885E94C
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 21:56:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2600685EC03
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 23:52:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EE931C22025
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 20:56:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EFAADB25363
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 22:52:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 734C986AE5;
-	Wed, 21 Feb 2024 20:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4DF86AFA;
+	Wed, 21 Feb 2024 22:52:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533343BB4C;
-	Wed, 21 Feb 2024 20:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1962781752
+	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 22:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708548952; cv=none; b=iEMOaD8mHJiaJyENX3vTguO62dlUMR2Q0BCXtANcItGjwe98vDFLoB1gd113rtj6vM6uJLpLp2UGlyWJX6CF8GZynJQO4OUT+uJkJhtM3g0wHuGofjWjVREqdHnDpAp6MfauTh2mwZo2aM9mEbwlx3LVpVmzMZYE7HpuWzQPoJg=
+	t=1708555925; cv=none; b=kNDIOnm6Lujl/AQdT16Aj5KA8VhZ+pAPhQZMh5venlnrIOGUOlU95RTMROTcqxyn/a2J1Oo6F3toD5Vk2smRsL0ZmBk40zu0pC1MWfoyzEifJYpq8OTM5n6z1fiR3lZK7m8ndyQgmNCGNkg6tRWvAgqmdHhguw74AV0w0RBPOM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708548952; c=relaxed/simple;
-	bh=rHfeQb45HtkUG7g1SRcqejqfXqfz6MTlodE8sg4okTI=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=OtNjebns7/mI+bcgej4f7jrI04p2HTE6MXqDdm7heDi5cRfxkQ4OInUsodVclIyCWUvT4zUR1wn6uR1gtEgn/PWM1gNXR6VDqBS2zNHnw8C9V3TuzpB7eYiCEq+L5KmFsn8WEEJRFppBuRBA/Qheh6s57MWIPKf7aSg16cS+Jl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
-	by madrid.collaboradmins.com (Postfix) with ESMTP id BB61937820D2;
-	Wed, 21 Feb 2024 20:55:46 +0000 (UTC)
-From: "Shreeya Patel" <shreeya.patel@collabora.com>
-In-Reply-To: <fd3b7ab7-3702-412f-947a-95396dbe1f4c@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-References: <20240216094922.257674-1-shreeya.patel@collabora.com>
- <20240216094922.257674-3-shreeya.patel@collabora.com> <fd3b7ab7-3702-412f-947a-95396dbe1f4c@linaro.org>
-Date: Wed, 21 Feb 2024 20:55:46 +0000
-Cc: heiko@sntech.de, mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com, dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com, shawn.wen@rock-chips.com, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org, linux-dt@vger.kernel.org, linux-arm@lists.infradead.org
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>
+	s=arc-20240116; t=1708555925; c=relaxed/simple;
+	bh=R/JHQ1lrEpJPhxyrIeQctCznqCSCvFwGCgMiq98FyQo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qE7c78sqqm59OWGphC9nnG5QKCC0T9KAzY12wgVOdgzAti9etfA/1oKOOIK1Qm+zPG2Wvfo4gjopi/qzudQ6WJ8vAszuo/AWSh6SHgKDO5BEVkv8whfySAE2XdqMc3Uc78KVEXqH3ttXcZV+IKgjM1URCgOFVmpOO5vGHYm70us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rcvRU-0006yg-FQ; Wed, 21 Feb 2024 23:51:56 +0100
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rcvRU-0027V8-0C; Wed, 21 Feb 2024 23:51:56 +0100
+Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
+	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rcvRT-00A5aE-33;
+	Wed, 21 Feb 2024 23:51:55 +0100
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Date: Wed, 21 Feb 2024 23:51:49 +0100
+Subject: [PATCH] uvc_video: check for fid change early in decode_start and
+ avoid wrong error counting
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <1048c3-65d66380-b-49a25c80@188726434>
-Subject: =?utf-8?q?Re=3A?= [PATCH 2/4] =?utf-8?q?dt-bindings=3A?=
- =?utf-8?q?_media=3A?= Document bindings for HDMI RX Controller
-User-Agent: SOGoMail 5.9.1
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240221-uvc-host-video-decode-start-v1-1-228995925c70@pengutronix.de>
+X-B4-Tracking: v=1; b=H4sIAIR+1mUC/x2NMQrDMAwAvxI0V5C4ydB+pXRwJLkWBLtYjgmE/
+ L2m491wd4JJUTF4DicUaWqaU4fpNgBFnz6Cyp3BjW4enZtwb4QxW8WmLBlZKLOgVV8q+rDcOSw
+ PNxNDL6zeBNfiE8XeSPu2dfktEvT4L1/v6/oBGDngMoIAAAA=
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de, Michael Grzeschik <m.grzeschik@pengutronix.de>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4304;
+ i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
+ bh=R/JHQ1lrEpJPhxyrIeQctCznqCSCvFwGCgMiq98FyQo=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBl1n6F23BMm2PAm3HqB/7FdHZGPkL2gcZvuQgF9
+ YzxBri35zKJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZdZ+hQAKCRC/aVhE+XH0
+ qxjwEACBbnUOZymdfOIo6PGQrjBiQ2M35j16DH6zwUC4TEjun5YIjpH8obnvZqP/L+fSbibfk5g
+ xL8pJeY2y7a51tzZYcOFfF4tIHOfeA7jEJ9OjrkZHrvLXUx4lUUzZozwrFBBwayTDYrogjBcRUs
+ PMv8QXCgYQqF/MntFTFCZL6Ob8jCsc5lhX8FoTDaSj1xwrORab+pgR5YWbsgJiDwJosnDH0xsrf
+ v14WDS2lVv5Uxa0cIkJcvu+ZKgfHbNQTL/zWjNyLFZ9O+L04WKasT8tiIhyYn/68DYKlMZrPuto
+ UaHw0lvpaZVVHp1sd1OSWdM5ISDHRw/Nt3rgC0ApcS7tn+Ez99msqv/Zyw5CbULO6zADeRlnSb8
+ cNSc2+QLwdDnD4YwgDERlr7JXzlqd9iq0FtY+JGoLQXMoOL0mYJW2WJBynOA5oucqOJoep02ETH
+ VPY3U5rLXlhuU5/0Fh8AfkdfYWJ+8PX/IVLGMYw4ZWQNCvxRjhEpUbq+YOX2fx8pBcoBaPPq0m4
+ Azw2hTk8cH+xZYkYQAskAqSKnTyA2cBuv9kL0rT9z53/T3BAiSTmh5w3dxO+lNkn8Yot+0UUqQS
+ QVZTWpfUIgzXmjE8sT2Ka5Sox/gUuEBiwdbg/g+BekxHUscIMKmNxDoMfeyFq7/AyPeyLklW0Wo
+ UzU5zFsTswTNi7Q==
+X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
+ fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-On Friday, February 16, 2024 15:31 IST, Krzysztof Kozlowski <krzysztof.=
-kozlowski@linaro.org> wrote:
+When the uvc request will get parsed by uvc_video_decode_start it will
+leave the function with -EAGAIN to be restarted on the next frame. While
+the first wrong parse the statistics will already be updated with
+uvc_video_stats_decode.
 
-> On 16/02/2024 10:49, Shreeya Patel wrote:
-> > Document bindings for the Synopsys DesignWare HDMI RX Controller.
-> >=20
-> > Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
->=20
-> A nit, subject: drop second/last, redundant "bindings for". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/device=
-tree/bindings/submitting-patches.rst#L18
->=20
-> > ---
-> >  .../bindings/media/snps,dw-hdmi-rx.yaml       | 128 ++++++++++++++=
-++++
-> >  1 file changed, 128 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/snps,dw=
--hdmi-rx.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/snps,dw-hdmi-r=
-x.yaml b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> > new file mode 100644
-> > index 000000000000..a70d96b548ee
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> > @@ -0,0 +1,128 @@
-> > +# SPDX-License-Identifier: (GPL-3.0 OR BSD-2-Clause)
->=20
-> Use license checkpatch tells you.
->=20
-> > +# Device Tree bindings for Synopsys DesignWare HDMI RX Controller
-> > +
-> > +---
-> > +$id: http://devicetree.org/schemas/media/snps,dw-hdmi-rx.yaml#
->=20
-> Why this is a media, not display? Does RX means input? Lack of hardwa=
-re
-> description does not help?
->=20
+One value e.g. is the error_count, which therefor will be incremented
+twice in case the fid has changed on the way. This patch fixes the
+unnecessary extra parsing by returning early from the function when the
+fid has changed.
 
-Yes, RX means input and this binding doc is for the HDMI INPUT controll=
-er.
-I'll add some description in v2
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+ drivers/media/usb/uvc/uvc_video.c | 64 +++++++++++++++++++--------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
->=20
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Synopsys DesignWare HDMI RX Controller
-> > +
-> > +maintainers:
-> > +  - Shreeya Patel <shreeya.patel@collabora.com>
-> > +
->=20
-> description:
->=20
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: rockchip,rk3588-hdmirx-ctrler
-> > +      - const: snps,dw-hdmi-rx
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 3
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: cec
-> > +      - const: hdmi
-> > +      - const: dma
-> > +
-> > +  clocks:
-> > +    maxItems: 7
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: aclk
-> > +      - const: audio
-> > +      - const: cr=5Fpara
-> > +      - const: pclk
-> > +      - const: ref
-> > +      - const: hclk=5Fs=5Fhdmirx
-> > +      - const: hclk=5Fvo1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 4
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: rst=5Fa
-> > +      - const: rst=5Fp
-> > +      - const: rst=5Fref
-> > +      - const: rst=5Fbiu
->=20
-> Drop rest=5F prefix
->=20
-> > +
-> > +  pinctrl-names:
-> > +    const: default
->=20
-> Drop
->=20
-> > +
-> > +  memory-region:
-> > +    maxItems: 1
-> > +
-> > +  hdmirx-5v-detection-gpios:
-> > +    description: GPIO specifier for 5V detection.
->=20
-> Detection of what? Isn't this HPD?
->=20
-> > +    maxItems: 1
-> > +
-> > +  rockchip,grf:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description:
-> > +      The phandle of the syscon node for the GRF register.
->=20
-> Instead describe what for. Basically 80% of your description is
-> redundant and only "GRF register" brings some information.
->=20
->=20
-> > +
-> > +  rockchip,vo1=5Fgrf:
->=20
-> No underscores.
->=20
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description:
-> > +      The phandle of the syscon node for the VO1 GRF register.
->=20
-> Same problem.
->=20
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - interrupt-names
-> > +  - clocks
-> > +  - clock-names
-> > +  - power-domains
-> > +  - resets
-> > +  - pinctrl-0
-> > +  - pinctrl-names
->=20
-> Why? Drop.
->=20
-> > +  - hdmirx-5v-detection-gpios
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/power/rk3588-power.h>
-> > +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-> > +    hdmirx=5Fctrler: hdmirx-controller@fdee0000 {
->=20
-> What is hdmirx-controller? Isn't this just hdmi@?
->=20
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index 7cbf4692bd875..fce5349b5f9fa 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -1068,11 +1068,43 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 
+ 	fid = data[1] & UVC_STREAM_FID;
+ 
++	/*
++	 * Store the payload FID bit and return immediately when the buffer is
++	 * NULL.
++	 */
++	if (buf == NULL) {
++		stream->last_fid = fid;
++		return -ENODATA;
++	}
++
+ 	/*
+ 	 * Increase the sequence number regardless of any buffer states, so
+ 	 * that discontinuous sequence numbers always indicate lost frames.
+ 	 */
+ 	if (stream->last_fid != fid) {
++		/*
++		 * Mark the buffer as done if we're at the beginning of a new frame.
++		 * End of frame detection is better implemented by checking the EOF
++		 * bit (FID bit toggling is delayed by one frame compared to the EOF
++		 * bit), but some devices don't set the bit at end of frame (and the
++		 * last payload can be lost anyway). We thus must check if the FID has
++		 * been toggled.
++		 *
++		 * stream->last_fid is initialized to -1, so the first isochronous
++		 * frame will never trigger an end of frame detection.
++		 *
++		 * Empty buffers (bytesused == 0) don't trigger end of frame detection
++		 * as it doesn't make sense to return an empty buffer. This also
++		 * avoids detecting end of frame conditions at FID toggling if the
++		 * previous payload had the EOF bit set.
++		 */
++		if (buf->bytesused) {
++			uvc_dbg(stream->dev, FRAME,
++				"Frame complete (FID bit toggled)\n");
++			buf->state = UVC_BUF_STATE_READY;
++			return -EAGAIN;
++		}
++
+ 		stream->sequence++;
+ 		if (stream->sequence)
+ 			uvc_video_stats_update(stream);
+@@ -1081,15 +1113,6 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 	uvc_video_clock_decode(stream, buf, data, len);
+ 	uvc_video_stats_decode(stream, data, len);
+ 
+-	/*
+-	 * Store the payload FID bit and return immediately when the buffer is
+-	 * NULL.
+-	 */
+-	if (buf == NULL) {
+-		stream->last_fid = fid;
+-		return -ENODATA;
+-	}
+-
+ 	/* Mark the buffer as bad if the error bit is set. */
+ 	if (data[1] & UVC_STREAM_ERR) {
+ 		uvc_dbg(stream->dev, FRAME,
+@@ -1124,29 +1147,6 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 		buf->state = UVC_BUF_STATE_ACTIVE;
+ 	}
+ 
+-	/*
+-	 * Mark the buffer as done if we're at the beginning of a new frame.
+-	 * End of frame detection is better implemented by checking the EOF
+-	 * bit (FID bit toggling is delayed by one frame compared to the EOF
+-	 * bit), but some devices don't set the bit at end of frame (and the
+-	 * last payload can be lost anyway). We thus must check if the FID has
+-	 * been toggled.
+-	 *
+-	 * stream->last_fid is initialized to -1, so the first isochronous
+-	 * frame will never trigger an end of frame detection.
+-	 *
+-	 * Empty buffers (bytesused == 0) don't trigger end of frame detection
+-	 * as it doesn't make sense to return an empty buffer. This also
+-	 * avoids detecting end of frame conditions at FID toggling if the
+-	 * previous payload had the EOF bit set.
+-	 */
+-	if (fid != stream->last_fid && buf->bytesused != 0) {
+-		uvc_dbg(stream->dev, FRAME,
+-			"Frame complete (FID bit toggled)\n");
+-		buf->state = UVC_BUF_STATE_READY;
+-		return -EAGAIN;
+-	}
+-
+ 	stream->last_fid = fid;
+ 
+ 	return data[0];
 
-Writing just hdmi would imply hdmi output I think so that name
-will not be appropriate here.
+---
+base-commit: 3bf0514dc6f36f81ee11b1becd977cb87b4c90c6
+change-id: 20240221-uvc-host-video-decode-start-af53df5924cd
 
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-de=
-vicetree-basics.html#generic-names-recommendation
->=20
-
-This documentation doesn't have any generic name for HDMI INPUT
-but maybe we can use the name hdmi-receiver like some other existing
-binding has it here :-
-Documentation/devicetree/bindings/media/i2c/tda1997x.txt
-
-Thanks,
-Shreeya Patel
->=20
-> > +      compatible =3D "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdm=
-i-rx";
-> > +      reg =3D <0x0 0xfdee0000 0x0 0x6000>;
-> > +      interrupts =3D <GIC=5FSPI 177 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>,
-> > +                   <GIC=5FSPI 436 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>,
-> > +                   <GIC=5FSPI 179 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>;
->=20
->=20
->=20
-> Best regards,
-> Krzysztof
->=20
-> =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
-> Kernel mailing list -- kernel@mailman.collabora.com
-> To unsubscribe send an email to kernel-leave@mailman.collabora.com
-> This list is managed by https://mailman.collabora.com
+Best regards,
+-- 
+Michael Grzeschik <m.grzeschik@pengutronix.de>
 
 
