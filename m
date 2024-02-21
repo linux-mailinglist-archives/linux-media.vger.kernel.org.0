@@ -1,134 +1,147 @@
-Return-Path: <linux-media+bounces-5556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5557-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A821085D763
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 12:49:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8197085D778
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 12:54:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63ACC283E5A
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 11:49:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC77E1C215AE
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 11:54:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E9746548;
-	Wed, 21 Feb 2024 11:48:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFA2D47F59;
+	Wed, 21 Feb 2024 11:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FMsKfBo2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FC8405C6
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 11:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4A03EA8B
+	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 11:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708516134; cv=none; b=h2xgt63HGcwIZeNtEO3Cv32JM//w+u76RlBChGUN7QxXGu616qSKT3t8U4CZUcFA7Hir6VyLVHyL4LwfdTawTnCwwPQWkKGDNKd0vpz4Tb/bwZp1P6u/Yb2GsJDp4inAsVToGktP9ZHQmTrVI3u0Aaab4TEcLKqlC/a+ptJF1BU=
+	t=1708516437; cv=none; b=OM7wJ5N3WeMnYEAKNND/7iGXq+o7swO8Af3ydRdpn1rEUV8nYSMtoVgjZZTM1ppyLwLsAPbxq40kJWmwuEFpstdgm4GJk9sZc2E/3jiRC07/cH8k9bL2nJ6Ekrdd0iVUPqjwdScLOKUN+YYhjBdNq06SIYBru+NPQPJrmTgz844=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708516134; c=relaxed/simple;
-	bh=DqESWxeYn2C3FMTu8yGDmngIC6TMFE6nIOEdI4ZpBLs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XrP5J/zQ7fiXcZWrgvj8Vf2ScEGAT9QBfAMQ1Ri3zeBJjdSHOzjzudBBndyw6TAwVmkJ6xst/zlyJqTHX1W6w/I7xePRhbWx7BS7EvKGN0eC9hjER7KzHiG7zbyrlliBkT5wvnS9aDjvFKq5O7tka/w6HvAINY9VEHMq9KfbWeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C522C433F1;
-	Wed, 21 Feb 2024 11:48:53 +0000 (UTC)
-Message-ID: <e0014623-aac2-41f5-9102-196caaddc582@xs4all.nl>
-Date: Wed, 21 Feb 2024 12:48:51 +0100
+	s=arc-20240116; t=1708516437; c=relaxed/simple;
+	bh=JnqzTlUNgW/h2mCbQIN5yLHNEehGZbUIl5clPNS/YMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTyR3Ln5K+HFUNvIViWyTro4VebGkeneYBscgcfb9p4tU7YAu7ONoOKjZijTh4hlc6ZFNzWNTc6mW/kkwyRUMHoStymmY3P6cjuYZn4kHoHpzCBMR06lvb63+Wme2h+cpLDgcXeM9l7Lm7B8+je3E/tdbqXk5YQypaMdgw0Quis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FMsKfBo2; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708516436; x=1740052436;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JnqzTlUNgW/h2mCbQIN5yLHNEehGZbUIl5clPNS/YMw=;
+  b=FMsKfBo2jdziZ8OVnxHKeHflOb+4NZ6k+GDdBZIzEgCZw0CP76/YqvPV
+   cR8nXwWZWCPhU1JvRPifVmIIad/sq5xsOfH/l5o85mXvOo6XMoz0xDPnB
+   gFBRJJdIvyDJE/GYiXoRVc9geTNMnvA0Xg9tYcXnAnMDdbpB0A2fB4khk
+   +6PHpr5m73y68IewoMtdW/J0x+rNGP1saR26yYWw5DAX8y1CZo4FTC7dX
+   yIMQrAAsyhIlR4GRPCK5SlWfpPInARk2pJn2NwVPI4w0BcMeFz8qRZO4A
+   2g7tALyZnAtg/cYaQ4pxoJaGTOaPyrAh0QL4yBSZ6lOfRz8uMhvYP/zkK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="20211733"
+X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
+   d="scan'208";a="20211733"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 03:53:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="827337381"
+X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
+   d="scan'208";a="827337381"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 03:53:53 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EC9B011F855;
+	Wed, 21 Feb 2024 13:53:50 +0200 (EET)
+Date: Wed, 21 Feb 2024 11:53:50 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 26/29] media: mc: Maintain a list of open file handles
+ in a media device
+Message-ID: <ZdXkTo2QXrt95a-8@kekkonen.localdomain>
+References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
+ <20231220103713.113386-27-sakari.ailus@linux.intel.com>
+ <84475ab9-e644-4254-81f6-db4da6a3e12e@xs4all.nl>
+ <20240205151602.GA8645@pendragon.ideasonboard.com>
+ <659634d3-64c0-45fa-b816-4e32f9035a06@xs4all.nl>
+ <20240205154136.GA9560@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 23/29] media: vimc: Release resources on media device
- release
-Content-Language: en-US, nl
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
- <20231220103713.113386-24-sakari.ailus@linux.intel.com>
- <5f37ef41-151e-4320-8921-06e32a936818@xs4all.nl>
- <ZdXWN4wPqT7XdK7K@kekkonen.localdomain>
- <77c003ad-a841-40ae-8f15-58fd6e0e22ff@xs4all.nl>
- <ZdXhGAmJhzQcXbN2@kekkonen.localdomain>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <ZdXhGAmJhzQcXbN2@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240205154136.GA9560@pendragon.ideasonboard.com>
 
-On 21/02/2024 12:40, Sakari Ailus wrote:
-> Hi Hans,
+Hi Laurent, Hans,
+
+On Mon, Feb 05, 2024 at 05:41:36PM +0200, Laurent Pinchart wrote:
+> On Mon, Feb 05, 2024 at 04:32:44PM +0100, Hans Verkuil wrote:
+> > On 05/02/2024 16:16, Laurent Pinchart wrote:
+> > > On Mon, Feb 05, 2024 at 04:11:43PM +0100, Hans Verkuil wrote:
+> > >> On 20/12/2023 11:37, Sakari Ailus wrote:
+> > >>> The list of file handles is needed to deliver media events as well as for
+> > >>> other purposes in the future.
+> > >>>
+> > >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > >>> ---
+> > >>>  drivers/media/mc/mc-device.c  | 23 ++++++++++++++++++++++-
+> > >>>  drivers/media/mc/mc-devnode.c |  2 +-
+> > >>>  include/media/media-devnode.h |  4 +++-
+> > >>>  3 files changed, 26 insertions(+), 3 deletions(-)
+> > >>>
+> > >>> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> > >>> index 67a39cb63f89..9cc055deeec9 100644
+> > >>> --- a/drivers/media/mc/mc-device.c
+> > >>> +++ b/drivers/media/mc/mc-device.c
+> > >>> @@ -45,9 +45,11 @@ static inline void __user *media_get_uptr(__u64 arg)
+> > >>>  	return (void __user *)(uintptr_t)arg;
+> > >>>  }
+> > >>>  
+> > >>> -static int media_device_open(struct file *filp)
+> > >>> +static int media_device_open(struct media_devnode *devnode, struct file *filp)
+> > >>>  {
+> > >>> +	struct media_device *mdev = to_media_device(devnode);
+> > >>>  	struct media_device_fh *fh;
+> > >>> +	unsigned long flags;
+> > >>>  
+> > >>>  	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
+> > >>>  	if (!fh)
+> > >>> @@ -55,12 +57,23 @@ static int media_device_open(struct file *filp)
+> > >>>  
+> > >>>  	filp->private_data = &fh->fh;
+> > >>>  
+> > >>> +	spin_lock_irqsave(&mdev->fh_list_lock, flags);
+> > >>
+> > >> The only reason for using the irqsave variant is because we want
+> > >> to support events in the future, and those can be sent in irq context.
+> > > 
+> > > Even in that case, would media_device_open() ever be called from
+> > > interrupt context ? spin_lock_irqsave() is only needed if you don't know
+> > > which context the function can be called from. If we know we'll be
+> > > called from interruptible context only, you can use spin_lock_irq()
+> > > instead.
+> > 
+> > Someone can call open() while at the same time the kernel sends a
+> > media event from interrupt context. Such an event function will walk
+> > over the fh_list. The irqsave here is meant to ensure that no event
+> > interrupt can run while we add our fh to the fh list.
 > 
-> On Wed, Feb 21, 2024 at 12:19:21PM +0100, Hans Verkuil wrote:
->> On 21/02/2024 11:53, Sakari Ailus wrote:
->>> Hi Hans,
->>>
->>> On Mon, Feb 05, 2024 at 04:02:24PM +0100, Hans Verkuil wrote:
->>>> On 20/12/2023 11:37, Sakari Ailus wrote:
->>>>> Release all the resources when the media device is related, moving away
->>>
->>> s/related/released/
->>>
->>>>> form the struct v4l2_device used for that purpose.
->>>>
->>>> form -> from
->>>
->>> Yes.
->>>
->>>>
->>>>>
->>>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>>> ---
->>>>>  drivers/media/test-drivers/vimc/vimc-core.c | 15 +++++++++------
->>>>>  1 file changed, 9 insertions(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
->>>>> index af127476e920..3e59f8c256c7 100644
->>>>> --- a/drivers/media/test-drivers/vimc/vimc-core.c
->>>>> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
->>>>> @@ -264,13 +264,12 @@ static int vimc_add_subdevs(struct vimc_device *vimc)
->>>>>  	return 0;
->>>>>  }
->>>>>  
->>>>> -static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
->>>>> +static void vimc_mdev_release(struct media_device *mdev)
->>>>>  {
->>>>>  	struct vimc_device *vimc =
->>>>> -		container_of(v4l2_dev, struct vimc_device, v4l2_dev);
->>>>> +		container_of_const(mdev, struct vimc_device, mdev);
->>>>
->>>> Why this change?
->>>
->>> I changed the line already. There's no reason to continue using
->>> container_of() instead of container_of_const() that takes const-ness into
->>> account, too.
->>
->> But neither vimc nor mdev can be const anyway, that would make no sense
->> here.
-> 
-> Neither is const, true. Yet container_of_const() is preferred over
+> You don't need spin_lock_irqsave() for that, spin_lock_irq() is enough.
+> In your interrupt handler, you need spin_lock() only.
+> spin_lock_irqsave() is for places that can be called both from
+> interruptible and non-interruptible contexts.
 
-Says who?
+I'll address this in v3.
 
-It makes sense in generic defines that use it, e.g.:
-
-drivers/base/firmware_loader/sysfs.h:#define to_fw_sysfs(__dev) container_of_const(__dev, struct fw_sysfs, dev)
-
-That way it can handle both const and non-const __dev pointers.
-
-In cases where this doesn't come into play I think there is no need to
-make code changes. Perhaps when writing new code it might make sense to
-use it, but changing it in existing code, esp. as part of a patch that
-deals with something else entirely, seems just unnecessary churn.
-
-I won't block this, but I recommend just dropping this change in this patch.
-
-Regards,
-
-	Hans
-
-> container_of(), due to the fact that it does take const-ness into account.
-> container_of() should really be avoided.
-> 
-> I'll add this to the commit message as Laurent suggested.
-> 
-
+-- 
+Sakari Ailus
 
