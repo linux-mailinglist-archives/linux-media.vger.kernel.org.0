@@ -1,331 +1,263 @@
-Return-Path: <linux-media+bounces-5597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDF685E380
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 17:38:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5287785E4FD
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 18:56:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0245E1F23456
-	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 16:38:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EEEB82846AA
+	for <lists+linux-media@lfdr.de>; Wed, 21 Feb 2024 17:56:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D65181AA5;
-	Wed, 21 Feb 2024 16:38:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 950A784FD9;
+	Wed, 21 Feb 2024 17:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="em/88Spr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A917F7EA
-	for <linux-media@vger.kernel.org>; Wed, 21 Feb 2024 16:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509AE84A20;
+	Wed, 21 Feb 2024 17:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708533527; cv=none; b=JUSKJ7NGT4jSpgq7rEGJBm3HvG308HyBztkEYFJe1olOKr21gOPBIFhZudDiZWYYOst0ntPnnoIspntgLmU2+EhTuCNvNlwWBDC8dRa/0p+S4m4t1UGCzCdlQvvSLx2AZk5hpX54fgtbHoTZO0Lgj18yFQCft7kVcxBUQ8ZEJnI=
+	t=1708538162; cv=none; b=LuIFhzB9+0xXGSACr3Q8DhMmPTgV86iPaVx4x4GiwQvuUwD0A76FRHOwGtrO7bk2owUrmzzkINuGAqn/U3VDyVDlDTleb9z4kD9hR8/uffZ2lwkGRZsiYiJcQPuZIhmHoVaHFeGBT3YMaBdQECYjsLRvQyDtZ5goYVQmu20j5OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708533527; c=relaxed/simple;
-	bh=DM2ST+B+0fPlyY4RcWVqncg9Rri7RgDhg1dEl3wInmw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SSo2cqPX9JG3FR3ETLGrbcrJUcZ/0HrdDNhAdkHogl+dBpqmO2kU9hZ5j2sLGQPqm5eHg24mE4U8jLqe/N81/4cbHVhlDm8o/ljQ8EWvTPeccpvHouaXvn5UIfRGIjmDO8ICp5SppY34ZVtyjcoFmJz/wrMroTn74U0XTE4iUJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9D22C433F1;
-	Wed, 21 Feb 2024 16:38:46 +0000 (UTC)
-Message-ID: <9391d932-9416-47ec-9046-bddfcfe95481@xs4all.nl>
-Date: Wed, 21 Feb 2024 17:38:44 +0100
+	s=arc-20240116; t=1708538162; c=relaxed/simple;
+	bh=oWcHp9x73YgPSkwDaaqgBgFV5ftpC961IK+EKxw6ysQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ubuQXHoeOO62/qnARJQ1/z+xOhEchGklU+1Wj0IHWIt7UcQmVvL/DIY8YY2rmvNnfZqOwj5PapWDMAJn6ot1lOUwa5dUI5ZbR40dS1zkOAYd+7RdGrwmEkA2ad+3fsiXkh1ANgBS2Rs4W9htqbW5OPVpfUt2/UE48qtXUWBnfK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=em/88Spr; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-512d19e2cb8so1255481e87.0;
+        Wed, 21 Feb 2024 09:56:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708538158; x=1709142958; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QKaICofgbZiOHVrYBW4vGimCtoDYXpJFcZwodVsVwYU=;
+        b=em/88Spr4osdbCdzIvEgyOHwhxprgqLn8AxPweLnkIaVPBj1Gh7GtM1eZj0ldwjrpr
+         ts0H03OKKKfekPJchfygxFHRMO4zsYSnFe9ibndtQfQMvpEetI2dxu4sGRuRZGNJtLeI
+         n1wF4U/QjctShUNrmqBq4dSzLVcNtxng14PPfl7vc0C1PJkvO4JZvK0mvuSjZQe8GCU8
+         hCpi5I2hwGJn48bVJZIF5WhHCcyyFKCmoiNNbadr72UUDMH5ucPIyOvsx2YCgj8wo2Gk
+         aVKYC54Bc3rXvw0/2tau9Kw56UGffURwMV5xMcZAKPwMo6weK/DpwXro+geGSzWyJeXu
+         r54Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708538158; x=1709142958;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QKaICofgbZiOHVrYBW4vGimCtoDYXpJFcZwodVsVwYU=;
+        b=NCWwePyoO2/UxH4M1ayccZCadq0qBOIpjfS5uNtUuzMXBiCRn8BLtWt617D3kGOmtv
+         tUdTzZClUTprh+k56gebzL24gh9uQjZoPOCnaXAxI8yydzOAlchYFOtYxGQj/o7SGVqE
+         OYF4AQL0PcQBBAr0neDHSR9xH1pkkTSd8ZHOB2RPBOd9mRTg9ueuX03NngFPZ7YLypQI
+         kFyX2B7pdMbLVCyMxSkYR7W683axXKSLBtHKddqcg3A5tdTLItX6rwWLWhWWNy93vhsp
+         7X5lWwcwfBr6jVOymNyglvRBY0YTfz9B1H5jVOH4l1OBtQQOvt6zkO9W9lQ0b1dFIAr1
+         8Ubg==
+X-Forwarded-Encrypted: i=1; AJvYcCVhXL5/4Tumxh0orGJyCGwH5jgRn26nCMhKb+L2KZFyeoDmMw4AFo5frkhKkVAg2poqvM3aTplI+UyzgHD7X/xX00kn+usMmzx9lQh+mt0G/4o2knKfpxeGT4VlaZKln+BMovlFDD29V9A7KUhEmPjGxjwdi7smAa4DCNQKxZJUAu3X962w
+X-Gm-Message-State: AOJu0YyAWJY4okL4n9o/OUGZQ3djNe33YjwfVUf17ap3WXovMETzy6om
+	t3Dxc23oW6m62AdsgT62xiNtsmWCoRaCcwDaD+SlfZ39LkW82mmp
+X-Google-Smtp-Source: AGHT+IHT0T5QwNsj80FDj3EmVL9eSCoNrJrN3sGsIorv+ViafW5ew9e3wUllwIpY1jpjnstYlPki/Q==
+X-Received: by 2002:ac2:5e77:0:b0:512:bb2a:c977 with SMTP id a23-20020ac25e77000000b00512bb2ac977mr4334429lfr.56.1708538158223;
+        Wed, 21 Feb 2024 09:55:58 -0800 (PST)
+Received: from mehdi-archlinux ([2a02:8109:aa27:2d00::d069])
+        by smtp.gmail.com with ESMTPSA id fj21-20020a0564022b9500b00564da28dfe2sm1290742edb.19.2024.02.21.09.55.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Feb 2024 09:55:57 -0800 (PST)
+Date: Wed, 21 Feb 2024 18:55:54 +0100
+From: Mehdi Djait <mehdi.djait.k@gmail.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
+	michael.riesch@wolfvision.net, laurent.pinchart@ideasonboard.com,
+	Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: Re: [RESEND Patch v13 2/3] media: rockchip: Add a driver for
+ Rockchip's camera interface
+Message-ID: <ZdY5KrTfss4lTjPO@mehdi-archlinux>
+References: <cover.1707677804.git.mehdi.djait.k@gmail.com>
+ <715d89214d1ed6a8bb16cbb6268718a737485560.1707677804.git.mehdi.djait.k@gmail.com>
+ <Zctwo3s9hso6mQvT@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: RFC: VIDIOC_ADD_BUFS, a VIDIOC_CREATE_BUFS replacement
-Content-Language: en-US, nl
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-References: <243a66ad-6dff-4a43-ab03-e01d1038fe8a@xs4all.nl>
- <644a9bfa5f2d3bba8e5c590a8c6fce302279a94b.camel@ndufresne.ca>
- <33dc55fd-a8b6-49ac-a5e3-47af5c75065c@xs4all.nl>
- <9428d113d271cc9dce723d68611f843eea6094e6.camel@ndufresne.ca>
- <bf73ea2c-795f-44fd-903e-702f7162c399@xs4all.nl>
- <a68f851919797244d3dab40267428a6367e0ff3c.camel@ndufresne.ca>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <a68f851919797244d3dab40267428a6367e0ff3c.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zctwo3s9hso6mQvT@valkosipuli.retiisi.eu>
 
-On 21/02/2024 16:39, Nicolas Dufresne wrote:
-> Le mercredi 21 février 2024 à 11:43 +0100, Hans Verkuil a écrit :
->> On 16/02/2024 20:49, Nicolas Dufresne wrote:
->>> Le lundi 12 février 2024 à 09:38 +0100, Hans Verkuil a écrit :
->>>> On 09/02/2024 19:03, Nicolas Dufresne wrote:
->>>>> Hi,
->>>>>
->>>>> Le jeudi 08 février 2024 à 09:31 +0100, Hans Verkuil a écrit :
->>>>>> Hi all,
->>>>>>
->>>>>> Benjamin Gaignard's 'DELETE_BUFS' series [1] is almost ready, but there is
->>>>>> one outstanding issue: it works closely together with VIDIOC_CREATE_BUFS,
->>>>>> but that ioctl has long since been a thorn in my eye due to the use of
->>>>>> struct v4l2_format embedded in the struct v4l2_create_buffers. This makes
->>>>>> it hard to use in applications.
->>>>>>
->>>>>> The only fields of that struct v4l2_format that are actually used are:
->>>>>>
->>>>>> type
->>>>>>
->>>>>> and, depending on 'type':
->>>>>>
->>>>>> pix.sizeimage
->>>>>> pix_mp.num_planes, pix_mp.plane_fmt.sizeimage
->>>>>> sdr.buffersize
->>>>>> meta.buffersize
->>>>>> vbi.samples_per_line, vbi.count
->>>>>> sliced.io_size
->>>>>
->>>>> Sorry to disrupt, but that is only true since no driver support allocating for a
->>>>> different target input. In stateless CODEC drivers, when these are used as
->>>>> reference frame, extra space is needed to store reference data like motion
->>>>> vectors and more.
->>>>>
->>>>> The size of the data will vary depending on the width/height and pixelformat
->>>>> (from which we can deduce the depth). Of course, some driver will only operate
->>>>> with secondary buffer (post processed display buffer), which is the case for the
->>>>> driver this feature is being demonstrated, but won't be true for other drivers.
->>>>>
->>>>> I sincerely think this RFC does not work for the use case we are adding delete
->>>>> bufs for.
->>>>
->>>> I don't understand your reply. I'm not sure if you are talking about the fields
->>>> that VIDIOC_CREATE_BUFS uses, or about the proposed new ioctl.
->>>>
->>>> If you are talking about CREATE_BUFS, then it really is ignoring all other
->>>> fields from the struct v4l2_format. See vb2_create_bufs() in videobuf2-v4l2.c.
->>>
->>> Which demonstrate that the API is not fully implemented. What in my opinion it
->>> should be doing is to pass the format structure to the driver try_format for the
->>> adjustments to the format to take place. The updated fmt is then returned like
->>> any other calls in V4L2, and buffers are allocated according to that.
->>
->> No, that's really messy. Really, CREATE_BUFS should just use the buffer size
->> given. If the application wants to call TRY_FMT to obtain the size, then it is
->> free to do so and just use that in CREATE_BUFS. It is a bad idea to combine
-> 
-> There is no IF here, generic application must defer to the driver the
-> calculation of the strides (bytesperline) and plane sizes. Otherwise, userspace
-> must hardcode HW specific details (like gralloc/Android and minigbm(chromeos)).
-> We don't want this for generic Linux software.
-> 
->> TRY_FMT and creating new buffers into one ioctl. It should never have been
->> designed like that, and the fact that for all those years nobody bothered to
->> try to do anything with the format field besides getting the buffer size clearly
->> indicates that. It makes the ioctl much too complicated.
-> 
-> Fine, if you don't think the original design is worth the intended optimization.
-> 
->>
->>>
->>>>
->>>> If you are talking about my proposed ADD_BUFS ioctl: what is missing there
->>>> that you need?
->>>
->>> As I explain, allocation size is not something application can calculate easily
->>> for codec driver reference frames. Width, height and bitdepth will have an
->>> impact on the size in a very hardware specific way. There is a solution of
->>> course to use your proposal, which is that user must call TRY_FMT themself in
->>> order to obtain the correct size from the driver (and due to how create bufs in
->>> currently implemented by vb2, it is already thecase). I'm not too concern, we
->>> just loose the powerful (or over engineered, up to you to decide) bit of
->>> CREATE_BUFS (the API, not its implementation), which could have avoided having
->>> to do 2 ioctl. Its likely not a hot path, so again, I'm not worried.
->>>
->>> I do dislike though that this come up after a year of submitting and updating
->>> the original proposal and hope some coding effort will be shared as our budget
->>> owners are reaching their tolerance limits.
->>
->> The only question here is whether to call the new ioctl 'DELETE_BUFS' or 'REMOVE_BUFS'.
->>
->> If you have no particular preference, then I will just ask Benjamin to rename
->> it to REMOVE_BUFS and post a v20. It should be ready to go, hopefully.
-> 
-> Works for me, we'll rename it REMOVE_BUFS, but we will leave to someone else the
-> implementation of ADD_BUFS (and the deprecation of CREATE_BUFS).
+Hi Sakari,
 
-I always intended to implement ADD_BUFS myself. My apologies if I ever gave the
-impression that I expected Collabora to do that, that was never the case.
+Thank you for the review!
 
-Regards,
-
-	Hans
-
+On Tue, Feb 13, 2024 at 01:37:39PM +0000, Sakari Ailus wrote:
+> Hi Mahdi,
 > 
-> regards,
-> Nicolas
+> On Sun, Feb 11, 2024 at 08:03:31PM +0100, Mehdi Djait wrote:
+> > From: Mehdi Djait <mehdi.djait@bootlin.com>
+> > 
+> > This introduces a V4L2 driver for the Rockchip CIF video capture controller.
+> > 
+> > This controller supports multiple parallel interfaces, but for now only the
+> > BT.656 interface could be tested, hence it's the only one that's supported
+> > in the first version of this driver.
+> > 
+> > This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
+> > but for now it's only been tested on the PX30.
+> > 
+> > CIF is implemented as a video node-centric driver.
+> > 
+> > Most of this driver was written following the BSP driver from Rockchip,
+> > removing the parts that either didn't fit correctly the guidelines, or that
+> > couldn't be tested.
+> > 
+> > This basic version doesn't support cropping nor scaling and is only
+> > designed with one SDTV video decoder being attached to it at any time.
+> > 
+> > This version uses the "pingpong" mode of the controller, which is a
+> > double-buffering mechanism.
+> > 
+> > Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
+> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> > Signed-off-by: Mehdi Djait <mehdi.djait.k@gmail.com>
+> > ---
+> >  MAINTAINERS                                   |    7 +
+> >  drivers/media/platform/rockchip/Kconfig       |    1 +
+> >  drivers/media/platform/rockchip/Makefile      |    1 +
+> >  drivers/media/platform/rockchip/cif/Kconfig   |   14 +
+> >  drivers/media/platform/rockchip/cif/Makefile  |    3 +
+> >  .../media/platform/rockchip/cif/cif-capture.c | 1111 +++++++++++++++++
+> >  .../media/platform/rockchip/cif/cif-capture.h |   20 +
+> >  .../media/platform/rockchip/cif/cif-common.h  |  128 ++
+> >  drivers/media/platform/rockchip/cif/cif-dev.c |  308 +++++
+> >  .../media/platform/rockchip/cif/cif-regs.h    |  127 ++
+> >  10 files changed, 1720 insertions(+)
+> >  create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
+> >  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.c
+> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.h
+> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-common.h
+> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-dev.c
+> >  create mode 100644 drivers/media/platform/rockchip/cif/cif-regs.h
+> > 
+> > +static int cif_start_streaming(struct vb2_queue *queue, unsigned int count)
+> > +{
+> > +	struct cif_stream *stream = queue->drv_priv;
+> > +	struct cif_device *cif_dev = stream->cifdev;
+> > +	struct v4l2_device *v4l2_dev = &cif_dev->v4l2_dev;
+> > +	struct v4l2_subdev *sd;
+> > +	int ret;
+> > +
+> > +	if (!cif_dev->remote.sd) {
+> > +		ret = -ENODEV;
+> > +		v4l2_err(v4l2_dev, "No remote subdev detected\n");
+> > +		goto destroy_buf;
+> > +	}
+> > +
+> > +	ret = pm_runtime_resume_and_get(cif_dev->dev);
+> > +	if (ret < 0) {
+> > +		v4l2_err(v4l2_dev, "Failed to get runtime pm, %d\n", ret);
+> > +		goto destroy_buf;
+> > +	}
+> > +
+> > +	sd = cif_dev->remote.sd;
+> > +
+> > +	stream->cif_fmt_in = get_input_fmt(cif_dev->remote.sd);
 > 
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>> regards,
->>> Nicolas
->>>
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>>
->>>>> Nicolas
->>>>>
->>>>>>
->>>>>> See vb2_create_bufs() in videobuf2-v4l2.c.
->>>>>>
->>>>>> It's a pain to use since you need to fill in different fields
->>>>>> depending on the type in order to allocate the new buffer memory,
->>>>>> but all you want is just to give new buffer sizes.
->>>>>>
->>>>>> I propose to add a new ioctl:
->>>>>>
->>>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>>>>> index 03443833aaaa..a7398e4c85e7 100644
->>>>>> --- a/include/uapi/linux/videodev2.h
->>>>>> +++ b/include/uapi/linux/videodev2.h
->>>>>> @@ -2624,6 +2624,39 @@ struct v4l2_create_buffers {
->>>>>>  	__u32			reserved[5];
->>>>>>  };
->>>>>>
->>>>>> +/**
->>>>>> + * struct v4l2_add_buffers - VIDIOC_ADD_BUFS argument
->>>>>> + * @type:	enum v4l2_buf_type
->>>>>> + * @memory:	enum v4l2_memory; buffer memory type
->>>>>> + * @count:	entry: number of requested buffers,
->>>>>> + *		return: number of created buffers
->>>>>> + * @num_planes:	requested number of planes for each buffer
->>>>>> + * @sizes:	requested plane sizes for each buffer
->>>>>> + * @start_index:on return, index of the first created buffer
->>>>>> + * @total_count:on return, the total number of allocated buffers
->>>>>> + * @capabilities: capabilities of this buffer type.
->>>>>> + * @flags:	additional buffer management attributes (ignored unless the
->>>>>> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
->>>>>> + *		and configured for MMAP streaming I/O).
->>>>>> + * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
->>>>>> + *		this field indicate the maximum possible number of buffers
->>>>>> + *		for this queue.
->>>>>> + * @reserved:	future extensions
->>>>>> + */
->>>>>> +struct v4l2_add_buffers {
->>>>>> +	__u32			type;
->>>>>> +	__u32			memory;
->>>>>> +	__u32			count;
->>>>>> +	__u32			num_planes;
->>>>>> +	__u32			size[VIDEO_MAX_PLANES];
->>>>>> +	__u32			start_index;
->>>>>> +	__u32			total_count;
->>>>>> +	__u32			capabilities;
->>>>>> +	__u32			flags;
->>>>>> +	__u32			max_num_buffers;
->>>>>> +	__u32			reserved[7];
->>>>>> +};
->>>>>> +
->>>>>>  /**
->>>>>>   * struct v4l2_delete_buffers - VIDIOC_DELETE_BUFS argument
->>>>>>   * @index:	the first buffer to be deleted
->>>>>> @@ -2738,6 +2771,7 @@ struct v4l2_delete_buffers {
->>>>>>
->>>>>>  #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
->>>>>>  #define VIDIOC_DELETE_BUFS	_IOWR('V', 104, struct v4l2_delete_buffers)
->>>>>> +#define VIDIOC_ADD_BUFS	_IOWR('V', 105, struct v4l2_add_buffers)
->>>>>>
->>>>>>
->>>>>>  /* Reminder: when adding new ioctls please add support for them to
->>>>>>
->>>>>> Note that this patch sits on top of [1].
->>>>>>
->>>>>> The new struct is mostly the same as v4l2_create_buffers, but replacing the
->>>>>> embedded v4l2_format with just the data it actually needs.  I also renamed
->>>>>> 'index' to 'start_index' and added a new 'total_count' field to report the
->>>>>> total number of buffers. VIDIOC_CREATE_BUFS used the 'index' field for that
->>>>>> when called with count == 0, but that is awkward once you allow for deleting
->>>>>> buffers.
->>>>>>
->>>>>> Implementing VIDIOC_ADD_BUFS would be very easy, it is almost all done in
->>>>>> vb2. Drivers would just need to point .vidioc_add_bufs to vb2_ioctl_add_bufs.
->>>>>>
->>>>>> The vb2_queue ops do not change since those are already based on just an
->>>>>> array of requested sizes.
->>>>>>
->>>>>> One reason I am bringing this up is that this has a potential impact on the
->>>>>> name of the new ioctl in [1]. Do we call it 'VIDIOC_DELETE_BUFS' or
->>>>>> 'VIDIOC_REMOVE_BUFS'?
->>>>>>
->>>>>> I like the ADD/REMOVE pair better than ADD/DELETE. I never quite liked
->>>>>> 'CREATE/DELETE' since buffer memory is only created/deleted in the MMAP
->>>>>> streaming case, not with DMABUF/USERPTR. I think add/remove are better names.
->>>>>>
->>>>>> I think CREATE/REMOVE is also acceptable, so I am leaning towards calling
->>>>>> the new ioctl in [1] VIDIOC_REMOVE_BUFS instead of VIDIOC_DELETE_BUFS.
->>>>>>
->>>>>> So, please comment on this RFC, both whether adding a CREATE_BUFS replacement
->>>>>> makes sense, and whether using REMOVE_BUFS instead of DELETE_BUFS makes sense.
->>>>>>
->>>>>> Ideally it would be nice to introduce both ADD_BUFS and REMOVE_BUFS at the
->>>>>> same time, so any userspace application that needs to use REMOVE_BUFS to
->>>>>> remove buffers can rely on the new ADD_BUFS ioctl being available as well.
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>> 	Hans
->>>>>>
->>>>>> [1]: https://patchwork.linuxtv.org/project/linux-media/list/?series=12195
->>>>>
->>>>
->>>
->>
+> You should use the format on the local pad, not get it from a remote
+> sub-device.
+> 
+> Link validation ensures they're the same (or at least compatible).
+> 
+> Speaking of which---you don't have link_validate callbacks set for the
+> sub-device. See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2.c for an
+> example.
 > 
 
+...
+
+> > +	if (!stream->cif_fmt_in)
+> > +		goto runtime_put;
+> > +
+> > +	ret = cif_stream_start(stream);
+> > +	if (ret < 0)
+> > +		goto stop_stream;
+> > +
+> > +	ret = v4l2_subdev_call(sd, video, s_stream, 1);
+> > +	if (ret < 0)
+> > +		goto stop_stream;
+> > +
+> > +	return 0;
+> > +
+> > +stop_stream:
+> > +	cif_stream_stop(stream);
+> > +runtime_put:
+> > +	pm_runtime_put(cif_dev->dev);
+> > +destroy_buf:
+> > +	cif_return_all_buffers(stream, VB2_BUF_STATE_QUEUED);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int cif_set_fmt(struct cif_stream *stream,
+> > +		       struct v4l2_pix_format *pix)
+> > +{
+> > +	struct cif_device *cif_dev = stream->cifdev;
+> > +	struct v4l2_subdev_format sd_fmt;
+> > +	struct cif_output_fmt *fmt;
+> > +	int ret;
+> > +
+> > +	if (vb2_is_streaming(&stream->buf_queue))
+> > +		return -EBUSY;
+> > +
+> > +	fmt = find_output_fmt(stream, pix->pixelformat);
+> > +	if (!fmt)
+> > +		fmt = &out_fmts[0];
+> > +
+> > +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > +	sd_fmt.pad = 0;
+> > +	sd_fmt.format.width = pix->width;
+> > +	sd_fmt.format.height = pix->height;
+> > +
+> > +	ret = v4l2_subdev_call(cif_dev->remote.sd, pad, set_fmt, NULL, &sd_fmt);
+> 
+> The user space is responsible for controlling the sensor i.e. you shouldn't
+> call set_fmt sub-device op from this driver.
+> 
+> As the driver is MC-enabled, generally the sub-devices act as a control
+> interface and the V4L2 video nodes are a data interface.
+> 
+
+While this is true for MC-centric (Media Controller) drivers, this driver is
+video-node-centric (I mentioned this in the commit msg)
+
+From the Kernel Documentation: https://docs.kernel.org/userspace-api/media/v4l/open.html
+
+1 - The devices that are fully controlled via V4L2 device nodes are called video-node-centric.
+
+2- Note:
+A video-node-centric may still provide media-controller and sub-device interfaces as well.
+However, in that case the media-controller and the sub-device interfaces are read-only and just
+provide information about the device. The actual configuration is done via the video nodes.
+
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	cif_update_pix(stream, fmt, pix);
+> > +	stream->pix = *pix;
+> > +	stream->cif_fmt_out = fmt;
+> > +
+> > +	return 0;
+> > +}
+
+--
+Kind Regards
+Mehdi Djait
 
