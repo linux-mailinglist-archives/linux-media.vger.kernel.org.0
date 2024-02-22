@@ -1,80 +1,55 @@
-Return-Path: <linux-media+bounces-5648-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5649-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B739F85FAA7
-	for <lists+linux-media@lfdr.de>; Thu, 22 Feb 2024 15:01:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2EC85FB41
+	for <lists+linux-media@lfdr.de>; Thu, 22 Feb 2024 15:30:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D28A61C2087F
-	for <lists+linux-media@lfdr.de>; Thu, 22 Feb 2024 14:01:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 656BB281F48
+	for <lists+linux-media@lfdr.de>; Thu, 22 Feb 2024 14:30:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C43FC137C29;
-	Thu, 22 Feb 2024 14:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618751474C0;
+	Thu, 22 Feb 2024 14:30:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QbG+Ba+6"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FICcqJjW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E0713341F
-	for <linux-media@vger.kernel.org>; Thu, 22 Feb 2024 14:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEDF1474D0;
+	Thu, 22 Feb 2024 14:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708610503; cv=none; b=CtJ5+rUIiVcOZZwus6/WwSzAdro/jY6UiEqysVtcGeQfiSLaQ+GTeLmWZfuzNHvwcNc8qiEc2gzC4RDWLKOn03ucawS2ExYS2r2dJ2ooBGu+/mY1P0sYT+BNRxw5OtbuY0d1UuI6jNm2vxFVddu8w16z87UKjmDZZBfOXd6EdlM=
+	t=1708612202; cv=none; b=GylnuzZ5WPYTwLeblDwk+ijd2aTbWSiv+tXpZfFOMkTXTHvF81tM+IXeocXVrhzzgLmq14e8UmDJ24HDdrVX+bq+3YV5iTCv1kjhaVTf3sxD78198yrdQp6ZxKh2wYDIyyFF/SOZuhAwdzf+lppLWeF9OcRqey4BqR3+FuH6sJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708610503; c=relaxed/simple;
-	bh=EmA2BkXIgDlEC//Y8u10vjcrlCkNMRPtNpNgzpbfr+0=;
+	s=arc-20240116; t=1708612202; c=relaxed/simple;
+	bh=eVT6NRXuFee0b5qT1stFSBw6MLt6eYJNdZ0wkAk4zvE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZDpmGpjAyxVsCbqKjzA2i7fjoNV7NJyB7tqsNnZV+QAplxJj+5OFPafKfryLbhLjDt6hscf47A7lmwdBwyO8PGQfgCZ1C4jz88hioz8+PpZe8f8do8DIm/MpuVnLwe/BnElJUzX/1udUhtTS+qp8vueSYtfVpaxw84ZBpUccOp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QbG+Ba+6; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708610500;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hljB189oDAY/r7Y2S/tdJH7IUT30QnNwu/am8dZ2R5c=;
-	b=QbG+Ba+6FuzA5MJeyj8xceSW+Hl+Ew21ff/WzOzxxygzyNbdEATD1y0IucI+KlUu/Oohe3
-	GRdFTzPMbfTQgfa/E9I1IXZlJBohHFpPskfzzkwrF6OvrkonhLz8k9tLwXau6ASTyajrNZ
-	HIEqdb0xX62b2HNUbx1l127nkEx5Shg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-63-ynqAYklnNOCS7PWWREKwug-1; Thu, 22 Feb 2024 09:01:35 -0500
-X-MC-Unique: ynqAYklnNOCS7PWWREKwug-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a30f9374db7so87008366b.0
-        for <linux-media@vger.kernel.org>; Thu, 22 Feb 2024 06:01:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708610494; x=1709215294;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hljB189oDAY/r7Y2S/tdJH7IUT30QnNwu/am8dZ2R5c=;
-        b=rRqquDjCVBAYIAy/UfEU6bxGcWufRMSGk36Avvra9L3DQGBrFxmU73o1qnTBGGivvk
-         Dgky/vOyJUYMY5+Ki/FAK8VVcr2D9pe/5wo1syQa1DkUkHCDaclqgCT5dU+t0AA4ql9n
-         i45KLBQqdMnDifA9Szc0FnHzr1Wd707Cem9kSxu96pJAHzmptsgBXT2aH+NPQFvPm3P2
-         WcTzABG5mG9B/7+2UqYqWFlBSag29lbFNR4SeJ4OT8NIMeXIc5Itpo13o36lVWvOZESj
-         G2I4GTllARYRNzofPXWWkvE3KHfFYXcZfWsGxn1GGEjKIXZe5X0/CWAuWKJm3RcwpVmM
-         SHYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLkiSMQ9CsLWSYb7QbypLgjlEhttRu45Ly8vNwszBLvXOrCzDv4yk0aHHXlVcu8ZTrijPb4M0GpnuceJp9Ze/qu/nXp99AmvaDpQE=
-X-Gm-Message-State: AOJu0YxfWcRLrXeSlbWqKr1tkXGRAcHzEHO/bDrw4sETLpf6T6KKPwOM
-	N/LT/QEVTLhgb1f9+kbofZpg/EUAKeZk5QMeA9AprGfyFMC/asEysNNyQbboSFZtCTHceSPDQxt
-	jYqk4Bvru6nEtGVZn61iLNP08j4VS39baZGyoDQRhLSrvCETRlrsDDFfbNtiN
-X-Received: by 2002:a17:906:af16:b0:a3e:7d76:6559 with SMTP id lx22-20020a170906af1600b00a3e7d766559mr2509073ejb.33.1708610493813;
-        Thu, 22 Feb 2024 06:01:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFxdFKxZww6/GsNzC42i59R+OOLHidUuMWhcYHK65YF/58u40YcNZj2aIM6rKg+FUfHoR+cjA==
-X-Received: by 2002:a17:906:af16:b0:a3e:7d76:6559 with SMTP id lx22-20020a170906af1600b00a3e7d766559mr2509047ejb.33.1708610493467;
-        Thu, 22 Feb 2024 06:01:33 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id lg9-20020a170906f88900b00a3e94142018sm4118756ejb.132.2024.02.22.06.01.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Feb 2024 06:01:33 -0800 (PST)
-Message-ID: <02be0e27-9874-49dc-8367-1c53d72d667c@redhat.com>
-Date: Thu, 22 Feb 2024 15:01:32 +0100
+	 In-Reply-To:Content-Type; b=FjLyxboF9fKusNECD6WgMR/KnsTA11OB/RB//3JfeUJTAoARIiaMSW3xsuih/GvPbd54SypPxhLwEuEEdOiA5zCT2dv2Z4WfWf8mdJ6sjDjkN2Bru1gx+Y2h2KTsPxbfx+VbLuOBTx8TQvKoHNvURVPlbVJulI9SsLuHmzy3DUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FICcqJjW; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1708612196;
+	bh=eVT6NRXuFee0b5qT1stFSBw6MLt6eYJNdZ0wkAk4zvE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FICcqJjWCoyNQyb/649yHJNbZ1FUOhDVyNw1DHCIRzS/ll5j+mw+39USh8Qo6zOf6
+	 kGfy79xPRtuor6C54lXoJZvqYjle760NG8W8EM9fO/5e4eVbhyMfh117fn8Tp0WWwC
+	 ROsAK9uW2iHp7nJOSQOSLdG1fYMXVcqPf8nxlODTs+XR4FDiILqTfHMkzMjKm3hi2R
+	 RZywMTZHPltOSlRp8MpdDBYHEpnBHm6APrck0/xnBxjv+rbTgdE2vdgO0xzxqGQANF
+	 n3s1AvbUxMfYu8xly5Yl9VSEl9UxDRz9ywUgklHHjC/XOAlrZ6p1LETRHEL0xWDXKd
+	 nftCxXkVKHQHA==
+Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 827A3378206B;
+	Thu, 22 Feb 2024 14:29:55 +0000 (UTC)
+Message-ID: <766a4e5b-01fc-4fee-affa-9921ed7cd8f3@collabora.com>
+Date: Thu, 22 Feb 2024 15:29:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,50 +57,123 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.9-1 (#99236)
-Content-Language: en-US, nl
-To: Jenkins <jenkins@linuxtv.org>, mchehab@kernel.org,
- linux-media@vger.kernel.org
-Cc: builder@linuxtv.org
-References: <20240219154739.850030-1-jenkins@linuxtv.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240219154739.850030-1-jenkins@linuxtv.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH RFC 02/21] media: cadence: csi2rx: configure DPHY before
+ starting source stream
+Content-Language: en-US
+To: Jai Luthra <j-luthra@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Vaishnav Achath
+ <vaishnav.a@ti.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>, Jayshri Pawar <jpawar@cadence.com>
+References: <20240222-multistream-v1-0-1837ed916eeb@ti.com>
+ <20240222-multistream-v1-2-1837ed916eeb@ti.com>
+From: Julien Massot <julien.massot@collabora.com>
+In-Reply-To: <20240222-multistream-v1-2-1837ed916eeb@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi All,
+Hi Jai,
 
-On 2/19/24 16:47, Jenkins wrote:
-> From: builder@linuxtv.org
+On 2/22/24 12:31, Jai Luthra wrote:
+> From: Pratyush Yadav <p.yadav@ti.com>
 > 
-> Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/7f7ea4d9-1862-4532-b19f-46c1bba36af8@redhat.com/
-> Build log: https://builder.linuxtv.org/job/patchwork/380130/
-> Build time: 00:29:35
-> Link: https://lore.kernel.org/linux-media/7f7ea4d9-1862-4532-b19f-46c1bba36af8@redhat.com
-
-<snip>
-
-> patches/0005-media-atomisp-Remove-custom-VCM-handling.patch:
+> When the source device is operating above 1.5 Gbps per lane, it needs to
+> send the Skew Calibration Sequence before sending any HS data. If the
+> DPHY is initialized after the source stream is started, then it might
+> miss the sequence and not be able to receive data properly. Move the
+> start of source subdev to the end of the sequence to make sure
+> everything is ready to receive data before the source starts streaming.
 > 
->     allyesconfig: return code #512:
-> 	../drivers/staging/media/atomisp/pci/atomisp_ioctl.c: In function ‘atomisp_queryctl’:
-> 	../drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1401:30: error: unused variable ‘vdev’ [-Werror=unused-variable]
+> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
 
-Mauro, The deletion of that variable accidentally ended up in
-the next patch of the series. So after patch:
+Thanks for your patch!
+This patch is useful even at lower data rate than 1.5 Gbps.
+I'm having the issue at 800Mbps with max96714F deserializer.
 
-0006-media-atomisp-Remove-ISP-controls-which-get-passed-t.patch
+Should this patch deserve a Fixes tag?
+Fixes: 3295cf1241d3 ("media: cadence: Add support for external dphy")
 
-This issue is gone. I assume this is ok?
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
+Tested-by: Julien Massot <julien.massot@collabora.com>
 
-If you would prefer me to do a forced push with a fixed series
-with the removal in patch 5 let me know.
+> ---
+>   drivers/media/platform/cadence/cdns-csi2rx.c | 26 ++++++++++++++------------
+>   1 file changed, 14 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> index 70b7f8a9e4f2..75e602c1d762 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -243,10 +243,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>   
+>   	writel(reg, csi2rx->base + CSI2RX_STATIC_CFG_REG);
+>   
+> -	ret = v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, true);
+> -	if (ret)
+> -		goto err_disable_pclk;
+> -
+>   	/* Enable DPHY clk and data lanes. */
+>   	if (csi2rx->dphy) {
+>   		reg = CSI2RX_DPHY_CL_EN | CSI2RX_DPHY_CL_RST;
+> @@ -256,6 +252,13 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>   		}
+>   
+>   		writel(reg, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+> +
+> +		ret = csi2rx_configure_ext_dphy(csi2rx);
+> +		if (ret) {
+> +			dev_err(csi2rx->dev,
+> +				"Failed to configure external DPHY: %d\n", ret);
+> +			goto err_disable_pclk;
+> +		}
+>   	}
+>   
+>   	/*
+> @@ -295,14 +298,9 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>   
+>   	reset_control_deassert(csi2rx->sys_rst);
+>   
+> -	if (csi2rx->dphy) {
+> -		ret = csi2rx_configure_ext_dphy(csi2rx);
+> -		if (ret) {
+> -			dev_err(csi2rx->dev,
+> -				"Failed to configure external DPHY: %d\n", ret);
+> -			goto err_disable_sysclk;
+> -		}
+> -	}
+> +	ret = v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, true);
+> +	if (ret)
+> +		goto err_disable_sysclk;
+>   
+>   	clk_disable_unprepare(csi2rx->p_clk);
+>   
+> @@ -316,6 +314,10 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>   		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+>   	}
+>   
+> +	if (csi2rx->dphy) {
+> +		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+> +		phy_power_off(csi2rx->dphy);
+> +	}
+>   err_disable_pclk:
+>   	clk_disable_unprepare(csi2rx->p_clk);
+>   
+> 
 
-Regards,
-
-Hans
-
-
-
-
+-- 
+Julien Massot
+Senior Software Engineer
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
