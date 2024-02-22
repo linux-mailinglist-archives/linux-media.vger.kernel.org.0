@@ -1,152 +1,181 @@
-Return-Path: <linux-media+bounces-5715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E9786018A
-	for <lists+linux-media@lfdr.de>; Thu, 22 Feb 2024 19:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7842860248
+	for <lists+linux-media@lfdr.de>; Thu, 22 Feb 2024 20:09:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F1921C24226
-	for <lists+linux-media@lfdr.de>; Thu, 22 Feb 2024 18:36:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBD571C267AC
+	for <lists+linux-media@lfdr.de>; Thu, 22 Feb 2024 19:09:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68D746E606;
-	Thu, 22 Feb 2024 18:25:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99FBE548F8;
+	Thu, 22 Feb 2024 19:08:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RvYZbw3G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/7DCy/Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6C56E61F;
-	Thu, 22 Feb 2024 18:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AD614B837;
+	Thu, 22 Feb 2024 19:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708626315; cv=none; b=FU/rdLq8YfBl2Y+gdHnvddeBetsnjuK1jdxgLD6l3is4BmApXwe669ke94jU6vLzAOnII9r8H9LP4+N2/Ac2tMb6LgXW1p6gKTHqcFOjrj0d/GfZoA4c3YO8AhQllaJlM5ZzE/YiTKjpqON2vdUV5z5/YybCZAzDLNe5T/Ie4ow=
+	t=1708628892; cv=none; b=LfO2XQzZZsH+jhzhCCsQHW/3Hl/jmVRR/jccuD0jTcgsTibGcMaFpLRg30qsR5zVMm3r4EcDHP0zcm/cee9hs3vRvMCIpbIUnfInnA5Ycxexyb/T07kRvQ1xi9QhuTkRosF9uexRtgP1lRHMYDS2AGNBJ9CUStz1DRCyvvrHTwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708626315; c=relaxed/simple;
-	bh=tnXCp6dt5rGPIUld0fVfghgRSYczkMNdQV5eOnHT1dQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qk1TjdKfztk47uy5TdLfh62youErup2qbyO5tI9xzdLQN4rkLUpi5yHs9kPx89ceR9+9esOjZQasG0cWRyCn86Ky0pEd5U3gDIHvRMv7zaxIYfUdfXUthI3V6zTC0b14dE/4C+jyk6g/V+A3QKQ2ysydfgHlLjJvYFRQjmhYKgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RvYZbw3G; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1708628892; c=relaxed/simple;
+	bh=Vj0CdswYrgpd1U1o0M5HTUkMxkiuvEUXaGvjLSwzlcU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xg8j+X/mrhEGY5+eYvZRvxz3B/R5lbd+ZvNr7kT7+Lk+VVmu+qCJfa643ixGH7/aAjguMLEhz9O4CZYc7xp1MI1fDOXk9JUj6NS4Q+uSwHr8UHdaC480WqOAHgvVZrdgrkYWvqOjgp7Tgu4WjxRU7yJOsW+CAQ2T6AQ1kylGbWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K/7DCy/Q; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d51ba18e1bso902415ad.0;
-        Thu, 22 Feb 2024 10:25:09 -0800 (PST)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-564372fb762so3143137a12.0;
+        Thu, 22 Feb 2024 11:08:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708626308; x=1709231108; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bj3IcFn8mnJgzD3CoUY6c78LqZOUjuMORbYEATmxZBU=;
-        b=RvYZbw3G35YJQwweCJRij2O1DvSIc40sRXDw3lKgNdfGtoosjfh32WB9pTRweTrRKG
-         r1wZsA+PtHPoBlMVVXrq+7ke2iBGn5cSZFvkIVPRqXKbf9x4OQJHDcYnx0TaAaJVidkh
-         nebW+49LaO4i+Lc9l6Sre86PmozTX+nSDwMb7gfExKiYSVDkpzeo5GeQFGAcWRygUN4t
-         q2yi6QUbNDuMJtOXJgPCzfr6hWQPDgqVI9O0Oa675dJZ1VTIOHLFyfOBlimkRzcmX/8l
-         G4TksyOX5VFTHZIX1UTc9b91hTHsdZwqVuYAiml+TmSRO8CZXyoBtjLEUSF0M+Jp+a+z
-         kkEQ==
+        d=gmail.com; s=20230601; t=1708628888; x=1709233688; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zwGHver7Zdn7kvlDq1hFb/tIb6DJ0PWghCpxj29Cdaw=;
+        b=K/7DCy/QKu3Bg+TuZ+KnBDbL6HFVR0pjpi9d37QdRCmFOP3faECjUfPT1GM1p8GTs6
+         ZTU3XDmfYMYp+U2sR8FGqweK8g9/2Zm+YB1fZP9IKeZQ7jpXRhtoYFdmcRgsK3DmYHzC
+         be5QMWDMMpI9MVKnHtwvn0v4CklfCGaPtB4ne2Om4FbhF40SEZMXz8mPPqzERGAT20gO
+         OgdaBcp/bJgK/h3ONfZdsQCj9WNTCljOsWkDWBfj6LFg0L6RKOHNe+858ycsufGww5Bs
+         tY2mOwjIJ60Ny5Pi3BrYnJRwHkF4qPXzxrTnRBXVLknmrH6s4AFEunz1I7+ElGquzOce
+         U6xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708626308; x=1709231108;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1708628888; x=1709233688;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bj3IcFn8mnJgzD3CoUY6c78LqZOUjuMORbYEATmxZBU=;
-        b=jbKd09ZydECxSLRsFF+3ButsRErEwim7FPZWRVjPrWBqllFGg6yA6U8KGKxwlOXsL9
-         EK1iMlHexv+wlHljdhYxMaKQw8SUysPFcJHNbg9+iRrz7UZZC2PVvHJpC3vRxid2HyxV
-         VLcuaSaraiGq5WWplbWvEZ18edA0DB65KTHqDjnB5FLsMNAzoQ7+5yDx2wC50SZm712n
-         yMAjxAzBOsTaCIUFKGt4OXbZ+WGugAyZO11YW0o1H3dG2ovEw8rFRWP4YoepXxAL1oLw
-         B8C67kGryS2GAP/zxmlotPBwiEZlM133K0CO8N0V3s6ERkC2rQhQTng1sHYDxlTIfh5E
-         Lijw==
-X-Forwarded-Encrypted: i=1; AJvYcCXajfcHnJleyifzC4oQVBLTuo3l2yLzJSNs4jpHv0LyWjy0F3hhjbwv0mMYawW9/tfSWcgl8m2c0gAGUJvAT1U0qdPk6ppZhvx2p37TO5bdH6A6YE3tqvqOdEx9NANfgFoZZTzfNwyuW7M=
-X-Gm-Message-State: AOJu0YymdV/6tVzEvp9UYqd1hyAXD2uYDZt8WOafpbo9D/iLznT5cWu5
-	znsexzInStOqRfedHfJAlT7JCL4sceNGboA3fu+NSL3Fhcv1wq8n
-X-Google-Smtp-Source: AGHT+IHcoigpFbKIQ5fbALcZQ6Rz++MRYgKPcOOAhRgDC8V+XygUKmSTJuBfrizzNDsVEvMULKcBiQ==
-X-Received: by 2002:a17:902:e545:b0:1db:ed54:a726 with SMTP id n5-20020a170902e54500b001dbed54a726mr15517677plf.63.1708626308374;
-        Thu, 22 Feb 2024 10:25:08 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id mi11-20020a170902fccb00b001da34166cd2sm10255199plb.180.2024.02.22.10.25.07
+        bh=zwGHver7Zdn7kvlDq1hFb/tIb6DJ0PWghCpxj29Cdaw=;
+        b=bSOWpa2tCsiSgxbh4EGxwk8Pvqtt/meZcXiF36kiXOhvc8UPONdRQJqzGWjfYaO9sM
+         VGzd2JUDMjGn93QYXFB6NvM81Ns/XVOsyPWR9qhJWaDEAPCGAcHdEQ5F4JslqUQK7Dmp
+         dRt7gSPY+feuoHczrW6Y8jErBqsSaPIuUI2Er4BnJfzKIx6ceMIM5Mo6WJ39JGFtlbBv
+         ruSbzArqB9rKIpoxfkSmJ2941b42wg75ddXnd8s3PWFqBKXW0xTFSh1wJCGj8QOWeFEs
+         FT9L7vClexKyGuy0kDI2G1CVV0kw38jiTecQJXkud2AVUPvsHaBFDxYeP+M2BaMEo93S
+         e6nw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPCdEA6rxv4oewM3v0Hy/KO8mQfo0WD1+VuJ7CBy8LfMBkaCMuD/16mEuAkaF2I2dIXBZuMGij4s9H+kW0as5qvAIcCLJLDB6iEb1JoBwp0pc1a1aokLgVYNjMIFfdVRBXvgRR/55FyKtxTWPTlOZHJ/f/2TAGa4MYiEu7ywirh362x6s=
+X-Gm-Message-State: AOJu0YyeM3NGI2NjEycmThTvZ5fajUlkhGGx0F+QZBxJZYmak5uwFKYZ
+	MhSN1u3RJUnrTzZs9DjJZI/l9YR48C0IisY0d5E2HUvxl12MFtYP
+X-Google-Smtp-Source: AGHT+IH07eQ34d4DdPWILOvpSPCbS9FOaWmp8ij6cDkZAQw5B9sGMqV+xWKbUWYZV2D0b3TvgKbqtg==
+X-Received: by 2002:a17:906:aad1:b0:a3e:a3d6:eb6f with SMTP id kt17-20020a170906aad100b00a3ea3d6eb6fmr8035501ejb.48.1708628888412;
+        Thu, 22 Feb 2024 11:08:08 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id xg7-20020a170907320700b00a3d11feb32esm6145225ejb.186.2024.02.22.11.08.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 10:25:07 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 22 Feb 2024 10:25:06 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Marco Pagani <marpagan@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5] drm/test: add a test suite for GEM objects backed by
- shmem
-Message-ID: <e38512f3-626f-42ae-bb3b-3f631dfaed9c@roeck-us.net>
-References: <20231130171417.74162-1-marpagan@redhat.com>
- <a45b796d-5e04-4eac-b5ba-ea6bb3b6131b@roeck-us.net>
- <045bfb84-9833-442c-ac54-ed7a26451afa@redhat.com>
- <fb2ac929-6650-444e-8f24-c9b1562d2bb3@roeck-us.net>
- <ad03c582-28b9-40b2-9c7b-8372ed5a05c2@redhat.com>
+        Thu, 22 Feb 2024 11:08:07 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: [PATCH v7 32/36] drm/sun4i: hdmi: Convert encoder to atomic
+Date: Thu, 22 Feb 2024 20:08:05 +0100
+Message-ID: <4545275.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-32-8f4af575fce2@kernel.org>
+References:
+ <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-32-8f4af575fce2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad03c582-28b9-40b2-9c7b-8372ed5a05c2@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 22, 2024 at 05:33:48PM +0100, Marco Pagani wrote:
-> > 
-> > In this context, the TTM unit tests fail as well in qemu, with worse result:
-> > It seems there is some bad cleanup after a failed test case, causing list
-> > corruptions in the drm core and ultimately a crash. I don't know if this
-> > is also caused by the missing dma_mask initialization.
-> > 
-> 
-> That's interesting. Which --arch argument are you using to run the
-> tests with QEMU?
+Dne =C4=8Detrtek, 22. februar 2024 ob 19:14:18 CET je Maxime Ripard napisal=
+(a):
+> The sun4i_hdmi driver still uses the non-atomic variants of the encoder
+> hooks, so let's convert to their atomic equivalents.
+>=20
+> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Example (I am not sure if any of those parameters matters; it is just one
-of my tests):
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-qemu-system-x86_64 -kernel arch/x86/boot/bzImage -M q35 -cpu IvyBridge \
-	-no-reboot -snapshot -smp 2 \
-	-device e1000,netdev=net0 -netdev user,id=net0 -m 512 \
-	-drive file=rootfs.ext2,format=raw,if=ide \
-	--append "earlycon=uart8250,io,0x3f8,9600n8 root=/dev/sda1 console=ttyS0" \
-	-d unimp,guest_errors -nographic -monitor none
+Best regards,
+Jernej
 
-This results in:
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun=
+4i/sun4i_hdmi_enc.c
+> index 152375f3de2e..799a26215cc2 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> @@ -82,7 +82,8 @@ static int sun4i_hdmi_atomic_check(struct drm_encoder *=
+encoder,
+>  	return 0;
+>  }
+> =20
+> -static void sun4i_hdmi_disable(struct drm_encoder *encoder)
+> +static void sun4i_hdmi_disable(struct drm_encoder *encoder,
+> +			       struct drm_atomic_state *state)
+>  {
+>  	struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
+>  	u32 val;
+> @@ -96,7 +97,8 @@ static void sun4i_hdmi_disable(struct drm_encoder *enco=
+der)
+>  	clk_disable_unprepare(hdmi->tmds_clk);
+>  }
+> =20
+> -static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+> +static void sun4i_hdmi_enable(struct drm_encoder *encoder,
+> +			      struct drm_atomic_state *state)
+>  {
+>  	struct drm_display_mode *mode =3D &encoder->crtc->state->adjusted_mode;
+>  	struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
+> @@ -120,9 +122,10 @@ static void sun4i_hdmi_enable(struct drm_encoder *en=
+coder)
+>  }
+> =20
+>  static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
+> -				struct drm_display_mode *mode,
+> -				struct drm_display_mode *adjusted_mode)
+> +				struct drm_crtc_state *crtc_state,
+> +				struct drm_connector_state *conn_state)
+>  {
+> +	const struct drm_display_mode *mode =3D &crtc_state->mode;
+>  	struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
+>  	unsigned int x, y;
+>  	u32 val;
+> @@ -201,9 +204,9 @@ static enum drm_mode_status sun4i_hdmi_mode_valid(str=
+uct drm_encoder *encoder,
+> =20
+>  static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs =3D=
+ {
+>  	.atomic_check	=3D sun4i_hdmi_atomic_check,
+> -	.disable	=3D sun4i_hdmi_disable,
+> -	.enable		=3D sun4i_hdmi_enable,
+> -	.mode_set	=3D sun4i_hdmi_mode_set,
+> +	.atomic_disable	=3D sun4i_hdmi_disable,
+> +	.atomic_enable	=3D sun4i_hdmi_enable,
+> +	.atomic_mode_set	=3D sun4i_hdmi_mode_set,
+>  	.mode_valid	=3D sun4i_hdmi_mode_valid,
+>  };
+> =20
+>=20
+>=20
 
-[ ... ]
-[    5.989496]     KTAP version 1
-[    5.989639]     # Subtest: ttm_device
-[    5.989711]     # module: ttm_device_test
-[    5.989760]     1..5
-[    6.002044]     ok 1 ttm_device_init_basic
-[    6.013557]     ok 2 ttm_device_init_multiple
-ILLOPC: ffffffffb8ac9350: 0f 0b
-[    6.022481]     ok 3 ttm_device_fini_basic
-[    6.026172] ------------[ cut here ]------------
-[    6.026315] WARNING: CPU: 1 PID: 1575 at drivers/gpu/drm/ttm/ttm_device.c:206 ttm_device_init+0x170/0x190
-...
-[    6.135016]         ok 3 Above the allocation limit
-[    6.138759] ------------[ cut here ]------------
-[    6.138925] WARNING: CPU: 1 PID: 1595 at kernel/dma/mapping.c:503 dma_alloc_attrs+0xf6/0x100
-...
-[    6.143850]     # ttm_pool_alloc_basic: ASSERTION FAILED at drivers/gpu/drm/ttm/tests/ttm_pool_test.c:162
-[    6.143850]     Expected err == 0, but
-[    6.143850]         err == -12 (0xfffffffffffffff4)
-[    6.148824]         not ok 4 One page, with coherent DMA mappings enabled
 
-From there things go downhill.
 
-[    6.152821] list_add corruption. prev->next should be next (ffffffffbbd53950), but was 0000000000000000. (prev=ffff8af1c38f9e20).
 
-and so on until the emulation crashes.
-
-Guenter
 
