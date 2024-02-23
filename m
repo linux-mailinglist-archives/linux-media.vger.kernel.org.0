@@ -1,104 +1,121 @@
-Return-Path: <linux-media+bounces-5840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5841-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43932861BD0
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 19:35:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5313D861C1A
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 19:46:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8C671F27C30
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 18:35:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8450B24DAA
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 18:46:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF35143C48;
-	Fri, 23 Feb 2024 18:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ObaUTUni"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAC39148311;
+	Fri, 23 Feb 2024 18:45:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27AC12B74;
-	Fri, 23 Feb 2024 18:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C4F143C7F;
+	Fri, 23 Feb 2024 18:45:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708713313; cv=none; b=PxPGWig+DrprNukVFKQBvf3LZ3H2Ttcp/6BBH+jvlkcd2N5nJJ9t4d2S5koy4E1mTY/ctqTgag4HtN512lEpWS50U63HWrebPWP+9ab/fnr/k7z3U3lHCfflWiNs6bDtqy+olD6LNOepOhK38xfz7N8NWBpGSuBg3QDM5548ylg=
+	t=1708713908; cv=none; b=ORTvMd3ACEcf13KXOpCUTkzInyjX3JMog5Y6o3gk0NtvoCD8VAXTimEYAR3rYCrSsibTxh++P2TjKTWhF2lrZQ3JOVfs6VDDjeia5Up6yd5IgKwvG0zUWb4HNLx3TCTYTeZMIzmk+4eJsEryVq5UNfI1mHdo8M9Kb8vCWz9G5/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708713313; c=relaxed/simple;
-	bh=dzLKfzy4qN2ZJmuazd8NWs7T6X0ZwiQjUtE3XISc66E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qa446B/NV2Trum3huwMitHV5iyEQfMC4dAQ9tIMLJr974/hnWLuYjxyCtiyhvca1WPi8WdTsr08DLNEPA0eP+4eobyJd439anpN1ZhiPiKvjU06NE3hSCGPIXCdLvj3l4hZyaKN6MJKFMpK/n5YrCVqfRDmH3+Jhy1i4wgSqCg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ObaUTUni; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D1C1C43390;
-	Fri, 23 Feb 2024 18:35:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708713313;
-	bh=dzLKfzy4qN2ZJmuazd8NWs7T6X0ZwiQjUtE3XISc66E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ObaUTUni+nzMjfVuUXcj5zrrKj7uYwID+IB0FfAdxGr0HWZvS1M4sX18AA+lC0DHU
-	 Dij/2nKVmO58U4OVzUcQVOF8Lgotkkjit4FKSi7LBYhrhyKVaiyW2JInRvekixxQOI
-	 DPbZ2RVyadjhD8gEHuSehvsU2AVQ7uH5Ngsm0RNVfrU10B+4CqW1PwqFYi7wnT6S2c
-	 TfSa7QNp9IfM+kyRCxTFaCkqpVVTf1s+vFYZWIjjg1LeJg7K9gwd+/AaCphd3y4M9p
-	 3KWDE4rcMKhbOxVmwAklMbz2agmihXViWhr6ujH8+MZqF7NTrRmWn2u1M63JuMIBpJ
-	 ISH7jbwnt/hGw==
-Date: Fri, 23 Feb 2024 18:35:07 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] media: dt-bindings: sony,imx290: Allow props from
- video-interface-devices
-Message-ID: <20240223-catchable-parsley-a36bf8064154@spud>
-References: <20240223124744.545955-1-alexander.stein@ew.tq-group.com>
+	s=arc-20240116; t=1708713908; c=relaxed/simple;
+	bh=HNxDQrAqfHomkkBAL+GsWJU+Nkbn4bLBCPF0LWecwlI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mH8XCKDle3MAUNNmPjBhTAoJf8lgWMqqOLY/1IwskOvfca79pAs0qZuk2PuwroASSBLtVEASVc4GEm+gPccW/cTRU4/KsGBsxuHoONvRWQiKYbckgjgSWIfTFSZdmDXKmLMVL7vnDSd8oo4QUUv8u/SljNoZDDP/KBLdJowgpIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C3ACC433C7;
+	Fri, 23 Feb 2024 18:45:01 +0000 (UTC)
+Date: Fri, 23 Feb 2024 13:46:53 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
+ <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ <linuxppc-dev@lists.ozlabs.org>, <kvm@vger.kernel.org>,
+ <linux-block@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
+ <linux-rdma@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <iommu@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+ <ath10k@lists.infradead.org>, <linux-wireless@vger.kernel.org>,
+ <ath11k@lists.infradead.org>, <ath12k@lists.infradead.org>,
+ <brcm80211@lists.linux.dev>, <brcm80211-dev-list.pdl@broadcom.com>,
+ <linux-usb@vger.kernel.org>, <linux-bcachefs@vger.kernel.org>,
+ <linux-nfs@vger.kernel.org>, <ocfs2-devel@lists.linux.dev>,
+ <linux-cifs@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
+ <linux-edac@vger.kernel.org>, <selinux@vger.kernel.org>,
+ <linux-btrfs@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
+ <linux-f2fs-devel@lists.sourceforge.net>, <linux-hwmon@vger.kernel.org>,
+ <io-uring@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <bpf@vger.kernel.org>, <linux-wpan@vger.kernel.org>, <dev@openvswitch.org>,
+ <linux-s390@vger.kernel.org>, <tipc-discussion@lists.sourceforge.net>,
+ Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [FYI][PATCH] tracing/treewide: Remove second parameter of
+ __assign_str()
+Message-ID: <20240223134653.524a5c9e@gandalf.local.home>
+In-Reply-To: <0aed6cf2-17ae-45aa-b7ff-03da932ea4e0@quicinc.com>
+References: <20240223125634.2888c973@gandalf.local.home>
+	<0aed6cf2-17ae-45aa-b7ff-03da932ea4e0@quicinc.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5puNpy5RKYZuYJmf"
-Content-Disposition: inline
-In-Reply-To: <20240223124744.545955-1-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 23 Feb 2024 10:30:45 -0800
+Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
 
---5puNpy5RKYZuYJmf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 2/23/2024 9:56 AM, Steven Rostedt wrote:
+> > From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> > 
+> > [
+> >    This is a treewide change. I will likely re-create this patch again in
+> >    the second week of the merge window of v6.9 and submit it then. Hoping
+> >    to keep the conflicts that it will cause to a minimum.
+> > ]
+> > 
+> > With the rework of how the __string() handles dynamic strings where it
+> > saves off the source string in field in the helper structure[1], the
+> > assignment of that value to the trace event field is stored in the helper
+> > value and does not need to be passed in again.  
+> 
+> Just curious if this could be done piecemeal by first changing the
+> macros to be variadic macros which allows you to ignore the extra
+> argument. The callers could then be modified in their separate trees.
+> And then once all the callers have be merged, the macros could be
+> changed to no longer be variadic.
 
-On Fri, Feb 23, 2024 at 01:47:43PM +0100, Alexander Stein wrote:
-> Allow properties from video-interface-devices. This aligns the bindings
-> to sony,imx415.yaml. Changes inspired by commit e2e73ed46c395 ("media:
-> dt-bindings: sony,imx415: Allow props from video-interface-devices")
->=20
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+I weighed doing that, but I think ripping off the band-aid is a better
+approach. One thing I found is that leaving unused parameters in the macros
+can cause bugs itself. I found one case doing my clean up, where an unused
+parameter in one of the macros was bogus, and when I made it a used
+parameter, it broke the build.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I think for tree-wide changes, the preferred approach is to do one big
+patch at once. And since this only affects TRACE_EVENT() macros, it
+hopefully would not be too much of a burden (although out of tree users may
+suffer from this, but do we care?)
 
-Cheers,
-Conor.
+Now one thing I could do is to not remove the parameter, but just add:
 
---5puNpy5RKYZuYJmf
-Content-Type: application/pgp-signature; name="signature.asc"
+	WARN_ON_ONCE((src) != __data_offsets->item##_ptr_);
 
------BEGIN PGP SIGNATURE-----
+in the __assign_str() macro to make sure that it's still the same that is
+assigned. But I'm not sure how useful that is, and still causes burden to
+have it. I never really liked the passing of the string in two places to
+begin with.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZdjlWwAKCRB4tDGHoIJi
-0tDQAQC4+givpTsy86WpI85b7iYw/qekLE8F7yEcFknXMNyHegD+NX04CtbNrfkv
-wRqhttiggsftIVt3lDCG2HUllAQxkwM=
-=wIkp
------END PGP SIGNATURE-----
-
---5puNpy5RKYZuYJmf--
+-- Steve
 
