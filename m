@@ -1,164 +1,124 @@
-Return-Path: <linux-media+bounces-5734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BEE860B90
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 08:49:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0BF860C00
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 09:18:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6B1A1F263B6
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 07:49:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A68AA284DE9
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 08:18:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C01F1642C;
-	Fri, 23 Feb 2024 07:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 043EF17C96;
+	Fri, 23 Feb 2024 08:18:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="PtTMhYZd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nWtA+fVy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22EC714ABA;
-	Fri, 23 Feb 2024 07:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF7A17583;
+	Fri, 23 Feb 2024 08:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708674581; cv=none; b=oE8Vipyg/mnmyaXggEXPmJRuTaH+T9V9aLuNWLfZzYKORlld1UhjvnQ+bcWZ4SvA5k/CBUp8l67fTL6wBGlYJamqK3scoc9fiRq+Frm4BEqZGwR4UmB631P9G5/ws0aYqeyL/Ebd+WUIvDZXdcFB3QofxxSvarRiGd9qaXh48B0=
+	t=1708676289; cv=none; b=qhIy2TabQzHQWQ/0C2g7Z01fNa7czT3WICixY6ebFZgUM1cwdg6xGuufR5WQciXmh2ZO7NCZNOSvrb6VcWbi0WQBAjRW+XtpvuO6JqFLdJVnYCTbfQ7VQFXpSE3PscaKmd0GGekUJ26feIw50RDFTD2XUqe6PvDlGyz1XIT0Sl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708674581; c=relaxed/simple;
-	bh=O3Q3jzKQ/3cdXtifz0siSvc8dDL03m6Kbdf4X1Ilf14=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JMNctjAXE2eCP4p74SKhHQLSMMI5u56vRem3lUlUS3JzLYvjGhoTIBzF7QcZKowkDVKzTpontGp7SzMMeRAK1DJUoD3NnZm15rglfGD8lDoUbdQ6r4Z1t7e523TsHkgVLxptIxtQvgaMc+pdKoR2VXFeLGGK7MuQDIt9O1D8q1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=PtTMhYZd; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41N7nEoM056673;
-	Fri, 23 Feb 2024 01:49:14 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1708674554;
-	bh=sPaoASB5atiXiCOt+4ErPru7d1mBrGuaPGnNpeDCJOc=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=PtTMhYZdlcWY9wTqkLl6Urvj1KHjyn/1Y1t7FIjtvYUa5P/8jMiwwC0BbETZnVLHN
-	 G1BDMdwUs6HM/aWP2c+VF6V3RuM0oqaObCexvaCQbEf87Ol8PKZ9BZcLpGmuKBavpf
-	 pTXrKNCzZVIVSwOUyEwIlKXo6lojkyFbv8Vv3Fe0=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41N7nE2i042447
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 23 Feb 2024 01:49:14 -0600
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 23
- Feb 2024 01:49:14 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 23 Feb 2024 01:49:14 -0600
-Received: from localhost (jluthra.dhcp.ti.com [172.24.227.217])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41N7nDW5106733;
-	Fri, 23 Feb 2024 01:49:13 -0600
-Date: Fri, 23 Feb 2024 13:19:12 +0530
-From: Jai Luthra <j-luthra@ti.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans
- Verkuil <hverkuil-cisco@xs4all.nl>,
-        Vaishnav Achath <vaishnav.a@ti.com>,
-        Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Aradhya
- Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
-        Jack Zhu
-	<jack.zhu@starfivetech.com>,
-        Julien Massot <julien.massot@collabora.com>,
-        Jayshri Pawar <jpawar@cadence.com>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQw==?= =?utf-8?Q?H?= RFC 00/21] media:
- cadence,ti: CSI2RX Multistream Support
-Message-ID: <rlqe5xfooueitv6m6kfu6z5yl3gbknbkswf32n4ll625hrqtom@htspcaorydm6>
-References: <20240222-multistream-v1-0-1837ed916eeb@ti.com>
- <SHXPR01MB06714030189A3CFD430A88EEF255A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+	s=arc-20240116; t=1708676289; c=relaxed/simple;
+	bh=jy81sRFR9BWuKSDiQCUuu+4n552mgv58Sc77MFEwpZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=caxQvUMfFu66YGsgCxb6ZR4/7AYNDTXnOhjle4UK5wr7qrpWBn4vX6sOlhBvbO7v1ynYr5QBQx8HZYHI/OYtd19nA6krzUBD0K6aNJCDQYuce9o2XJ3IyfVaRr2zPk5glI6wCWkaReJlylKoJ97Ny0xgLf8at8iFAvjNOaUIznA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nWtA+fVy; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708676288; x=1740212288;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jy81sRFR9BWuKSDiQCUuu+4n552mgv58Sc77MFEwpZQ=;
+  b=nWtA+fVywrRUP8N63WEYditsEIbMhUhuLskWU93QIr1FjgoIkrUfDhcP
+   AhsZ9T5S0p3cgrTd6hGKg86TvBaudsDlfI0D4yDV+SX9RqKrMTYga7GYt
+   g0Tf/mEnxaCBQSV1kxNGShT8EI/lAFN+xjU+jTJ3bJYIDLtZxs5xpkxb/
+   /mRQK28fuX0Jk7lDwMxIvOIiSYKPtgiNMhVSy4vFlFNJNSvwa0On9xzER
+   RpZ5+S01dtDfxSrE7GuQ77JGfpZpVcRMkPtwcrTZB2txwzqg2MA4KoCTi
+   spYxUWguQWW0nLolXbVsJrq9ansj6K2Exf8/yM1zuev5UG8A1NMWh5lOs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="2842530"
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="2842530"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 00:15:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="6241048"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 00:15:44 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2885F11F81D;
+	Fri, 23 Feb 2024 10:15:41 +0200 (EET)
+Date: Fri, 23 Feb 2024 08:15:41 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 00/20] Omnivision OV4689 refactoring and improvements
+Message-ID: <ZdhULRi3w4E5tQgR@kekkonen.localdomain>
+References: <20231218174042.794012-1-mike.rudenko@gmail.com>
+ <87o7c9q27c.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="vqnq6xp2ptvsrrup"
-Content-Disposition: inline
-In-Reply-To: <SHXPR01MB06714030189A3CFD430A88EEF255A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-
---vqnq6xp2ptvsrrup
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87o7c9q27c.fsf@gmail.com>
 
-Hi Changhuang,
+Hi Mikhail,
 
-On Feb 23, 2024 at 02:53:36 +0000, Changhuang Liang wrote:
-> Hi Jai,
->=20
-> > [PATCH RFC 00/21] media: cadence,ti: CSI2RX Multistream Support
-> [...]
-> >  .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  40 +-
-> >  drivers/media/platform/cadence/cdns-csi2rx.c       | 460 +++++++++--
-> >  .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 853
-> > +++++++++++++++------
-> >  3 files changed, 1052 insertions(+), 301 deletions(-)
-> > ---
-> > base-commit: d894a2a286fccd6e47cd1cac4c2d4ff5d300d7c7
->=20
-> Can you provide me with where this commit comes from, I can only=20
-> apply partial patchs to test.
+On Wed, Feb 21, 2024 at 06:02:15PM +0300, Mikhail Rudenko wrote:
+> 
+> Hi,
+> 
+> On 2023-12-18 at 20:40 +03, Mikhail Rudenko <mike.rudenko@gmail.com> wrote:
+> 
+> > Hi,
+> >
+> > This series contains refactoring and new features implementation for
+> > the Omnivision OV4689 sensor driver. Specifically, patches 1, 2, 3, 5,
+> > 6, 10, 15, 16, 18, and 19 are refactorings, and are not supposed to
+> > introduce any functional change. Patches 4 and 7 perform migration to
+> > CCI helpers and subdevice active state respectively, and should not
+> > introduce any hardware- and/or user-visible change either. Patch 8
+> > fixes a possible race condition due to v4l2_async_register_subdev_sensor
+> > being called too early in ov4689_probe, and patch 9 migrates power
+> > management to PM autosuspend.
+> >
+> > Patches 11-14 expose more sensor controls to the userspace, such as
+> > (read-write) HBLANK, VFLIP/HFLIP, digital gain, and color
+> > balance. Patch 17 implements configurable analogue crop rectangle via
+> > .set_selection callback. And finally, patch 20 enables 2x2 binning
+> > option. It should be noted that publicly available sensor
+> > documentation is lacking description of many registers and their value
+> > ranges, so a lot of values had to be found by experimentation.
+> 
+> Gentle ping on this series. Anything I can do to help getting it
+> reviewed and merged? Maybe split patches 15-20 which implement cropping
+> and binning and change the driver away from register list based model
+> into a separate series? Anyone?
 
-My bad, this series is based on next-20240219 but I had a few DT commits=20
-to test that I forgot to remove before sending it out.
+Oops, my bad. I'll review these shortly. I can already tell there's not
+much to do though.
 
-You can apply this on top of=20
-https://gitlab.com/linux-kernel/linux-next/-/tree/next-20240219
+-- 
+Regards,
 
->=20
-> Thanks,
-> Changhuang
-
---=20
-Thanks,
-Jai
-
-GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
-
---vqnq6xp2ptvsrrup
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmXYTfgACgkQQ96R+SSa
-cUXIHxAAhEcjgZeb486+P08BDFmyaZ4hKnTEHmx3m0U5V/jXrnxFVQtmT6oHgtrW
-Vt/TCPv6UQ+jD2J8WLVj2Ed4RpW0Y9/0YeL1oBibmDn1jUmGCnbXLWXFlak1BrHd
-oG93ZhFKpDQDt0buhkKu7s35s/WJPRMcSiSGEQEwWCyp+vcLIr1/K8hfXG9mSOkB
-mX3taQXPKq2lezzkMhDqOIWkg5r54wJ9t5Mfr+t47vfhBOHdea0uXEAtHyF27AXo
-dXBec+w8IYMVA8tCn9tIHX/+FmN312bxzS47UzXEeSEmFJxkVSd81/TjgcEK09sG
-Ys1OS+lfYMit7Bk0MOZN1z7aPzBQ0oT3QX9Fz/dxLNXLeZn/aL5riaszm/PJRUbG
-tulc1nzpYtMxKo7JNJYLaJg6rZYMQLR+gTg4ecZ0X/tNLIt9zYIf1imrzv0GrYzL
-aeo+AP9vBJtlyh3M6xaISsU8Y5O+ixZS80LEMrM7yFDtFtSgqkj8BWukX791rFMq
-CLWrBQCrryZXQjG1wNKwuYidKumXTYVyQpfVSmrnLPGMDAKiXuVkGao4pUe6mhSV
-FBVsNya4NywAiRQ4j99PCh88Ko8+XTbafjCpWt0pUoCMWjozUckCLwTaLVWd22GY
-Bbpy62oI4xuLScI65scpb4fn5Nl1Xl/R+s4MddX4jPuXYz76zoU=
-=XYhn
------END PGP SIGNATURE-----
-
---vqnq6xp2ptvsrrup--
+Sakari Ailus
 
