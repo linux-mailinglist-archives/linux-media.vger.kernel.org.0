@@ -1,91 +1,94 @@
-Return-Path: <linux-media+bounces-5733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E20860B73
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 08:45:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BEE860B90
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 08:49:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B402C28258C
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 07:45:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6B1A1F263B6
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 07:49:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47D614A97;
-	Fri, 23 Feb 2024 07:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C01F1642C;
+	Fri, 23 Feb 2024 07:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Lh4iJg27"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="PtTMhYZd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD4A12B6C;
-	Fri, 23 Feb 2024 07:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22EC714ABA;
+	Fri, 23 Feb 2024 07:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708674305; cv=none; b=nRuX1ZTYLRGj3IzmEVs1uGUUuwD52Y2Deu81bROcSUFzFKnD8Qi8kFVes+XxQ1JhC1Nd+cPCW3I1a6Bz83rFFA8UBSWBo5Cskqr+cVzR4OwrVSOcVCAvvm1e0yg7adDm+GwfGlftI8VPekMlT8bqHZUycv1vZqc3FNYy9A+d92Q=
+	t=1708674581; cv=none; b=oE8Vipyg/mnmyaXggEXPmJRuTaH+T9V9aLuNWLfZzYKORlld1UhjvnQ+bcWZ4SvA5k/CBUp8l67fTL6wBGlYJamqK3scoc9fiRq+Frm4BEqZGwR4UmB631P9G5/ws0aYqeyL/Ebd+WUIvDZXdcFB3QofxxSvarRiGd9qaXh48B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708674305; c=relaxed/simple;
-	bh=aZQtPzQPB1/AfUOCVilt9mDQ6+e6sJCSoNnzUrnCeiA=;
+	s=arc-20240116; t=1708674581; c=relaxed/simple;
+	bh=O3Q3jzKQ/3cdXtifz0siSvc8dDL03m6Kbdf4X1Ilf14=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cZRbllv4HJkJ2Y1RHVdVHbjplwieVTXbuFHKwgQwElvWgB8ldu7FbEWwb6bosx4dKpR34tdRev1fY4CW4lIUF0j2X8LMYQa6ur5i/VjhmvoyxHM4VIgFAPLMTkytpGyWRxvMpZbXO+oUsaQN1KyJPGp6dBHSjA6+UItGkW5KOi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Lh4iJg27; arc=none smtp.client-ip=198.47.19.142
+	 Content-Type:Content-Disposition:In-Reply-To; b=JMNctjAXE2eCP4p74SKhHQLSMMI5u56vRem3lUlUS3JzLYvjGhoTIBzF7QcZKowkDVKzTpontGp7SzMMeRAK1DJUoD3NnZm15rglfGD8lDoUbdQ6r4Z1t7e523TsHkgVLxptIxtQvgaMc+pdKoR2VXFeLGGK7MuQDIt9O1D8q1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=PtTMhYZd; arc=none smtp.client-ip=198.47.23.249
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41N7ikl3086238;
-	Fri, 23 Feb 2024 01:44:46 -0600
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41N7nEoM056673;
+	Fri, 23 Feb 2024 01:49:14 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1708674286;
-	bh=HbrV+ATuFW+OxTTN987BCVpEDxpaf0I7ZAX4hbcUxm0=;
+	s=ti-com-17Q1; t=1708674554;
+	bh=sPaoASB5atiXiCOt+4ErPru7d1mBrGuaPGnNpeDCJOc=;
 	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=Lh4iJg27t5o4sGcHRu8dchvGkFis1wz45NVIqZL+nMPGSoUStd6EZku7oNwJFG9We
-	 CttwRpyKNvH9t8yBQNA+XAX3uOhBOF5PbSk6YLifluSZJ/EDEoSBEkTodiVh3nhb8C
-	 kQVhW3bczkzT76hZAX3V7XUZbvSbVjlAnvc22jNk=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41N7ikYI023176
+	b=PtTMhYZdlcWY9wTqkLl6Urvj1KHjyn/1Y1t7FIjtvYUa5P/8jMiwwC0BbETZnVLHN
+	 G1BDMdwUs6HM/aWP2c+VF6V3RuM0oqaObCexvaCQbEf87Ol8PKZ9BZcLpGmuKBavpf
+	 pTXrKNCzZVIVSwOUyEwIlKXo6lojkyFbv8Vv3Fe0=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41N7nE2i042447
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 23 Feb 2024 01:44:46 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 23
- Feb 2024 01:44:45 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE112.ent.ti.com
+	Fri, 23 Feb 2024 01:49:14 -0600
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE112.ent.ti.com
  (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 23
+ Feb 2024 01:49:14 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 23 Feb 2024 01:44:45 -0600
+ Frontend Transport; Fri, 23 Feb 2024 01:49:14 -0600
 Received: from localhost (jluthra.dhcp.ti.com [172.24.227.217])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41N7ijXL100873;
-	Fri, 23 Feb 2024 01:44:45 -0600
-Date: Fri, 23 Feb 2024 13:14:44 +0530
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41N7nDW5106733;
+	Fri, 23 Feb 2024 01:49:13 -0600
+Date: Fri, 23 Feb 2024 13:19:12 +0530
 From: Jai Luthra <j-luthra@ti.com>
-To: Rob Herring <robh@kernel.org>
-CC: Vaishnav Achath <vaishnav.a@ti.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Jayshri Pawar <jpawar@cadence.com>,
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>,
+        Vaishnav Achath <vaishnav.a@ti.com>,
+        Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Aradhya
+ Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
         Jack Zhu
 	<jack.zhu@starfivetech.com>,
         Julien Massot <julien.massot@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Changhuang Liang
-	<changhuang.liang@starfivetech.com>,
-        Maxime Ripard <mripard@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Aradhya
- Bhatia <a-bhatia1@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, Devarsh Thakkar <devarsht@ti.com>,
-        Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>
-Subject: Re: Re: [PATCH RFC 04/21] dt-bindings: media: ti,j721e-csi2rx-shim:
- Support 32 dma chans
-Message-ID: <jk7jsiws7ivxwdl4teoviu6qxp43fcj2raxj424m5jtep5dm2u@j3vpbetaimhy>
+        Jayshri Pawar <jpawar@cadence.com>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQw==?= =?utf-8?Q?H?= RFC 00/21] media:
+ cadence,ti: CSI2RX Multistream Support
+Message-ID: <rlqe5xfooueitv6m6kfu6z5yl3gbknbkswf32n4ll625hrqtom@htspcaorydm6>
 References: <20240222-multistream-v1-0-1837ed916eeb@ti.com>
- <20240222-multistream-v1-4-1837ed916eeb@ti.com>
- <170860471258.2476270.8232202066004725650.robh@kernel.org>
+ <SHXPR01MB06714030189A3CFD430A88EEF255A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,82 +96,43 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dkpavki64dphg6yq"
+	protocol="application/pgp-signature"; boundary="vqnq6xp2ptvsrrup"
 Content-Disposition: inline
-In-Reply-To: <170860471258.2476270.8232202066004725650.robh@kernel.org>
+In-Reply-To: <SHXPR01MB06714030189A3CFD430A88EEF255A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
---dkpavki64dphg6yq
+--vqnq6xp2ptvsrrup
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
+Hi Changhuang,
 
-On Feb 22, 2024 at 05:25:13 -0700, Rob Herring wrote:
+On Feb 23, 2024 at 02:53:36 +0000, Changhuang Liang wrote:
+> Hi Jai,
 >=20
-> On Thu, 22 Feb 2024 17:01:20 +0530, Jai Luthra wrote:
-> > The CSI2RX SHIM IP can support a maximum of 32x DMA channels.
-> >=20
-> > These can be used to split incoming "streams" of data on the CSI-RX
-> > port, distinguished by MIPI Virtual Channel (or Data Type), into
-> > different locations in memory (/dev/videoX nodes).
-> >=20
-> > Actual number of DMA channels reserved is different for each SoC
-> > integrating this IP, but a maximum of 32x channels are always available
-> > in this IP's register space, so set minimum as 1 and maximum as 32.
-> >=20
-> > Link: https://www.ti.com/lit/pdf/spruiv7
-> > Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> > [PATCH RFC 00/21] media: cadence,ti: CSI2RX Multistream Support
+> [...]
+> >  .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  40 +-
+> >  drivers/media/platform/cadence/cdns-csi2rx.c       | 460 +++++++++--
+> >  .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 853
+> > +++++++++++++++------
+> >  3 files changed, 1052 insertions(+), 301 deletions(-)
 > > ---
-> >  .../bindings/media/ti,j721e-csi2rx-shim.yaml       | 40 ++++++++++++++=
-++++++--
-> >  1 file changed, 37 insertions(+), 3 deletions(-)
-> >=20
+> > base-commit: d894a2a286fccd6e47cd1cac4c2d4ff5d300d7c7
 >=20
-> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->=20
-> yamllint warnings/errors:
->=20
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/m=
-edia/ti,j721e-csi2rx-shim.yaml: properties:dma-names: {'minItems': 1, 'maxI=
-tems': 32, 'items': [{'const': 'rx0'}, {'const': 'rx1'}, {'const': 'rx2'}, =
-{'const': 'rx3'}, {'const': 'rx4'}, {'const': 'rx5'}, {'const': 'rx6'}, {'c=
-onst': 'rx7'}, {'const': 'rx8'}, {'const': 'rx9'}, {'const': 'rx10'}, {'con=
-st': 'rx11'}, {'const': 'rx12'}, {'const': 'rx13'}, {'const': 'rx14'}, {'co=
-nst': 'rx15'}, {'const': 'rx16'}, {'const': 'rx17'}, {'const': 'rx18'}, {'c=
-onst': 'rx19'}, {'const': 'rx20'}, {'const': 'rx21'}, {'const': 'rx22'}, {'=
-const': 'rx23'}, {'const': 'rx24'}, {'const': 'rx25'}, {'const': 'rx26'}, {=
-'const': 'rx27'}, {'const': 'rx28'}, {'const': 'rx29'}, {'const': 'rx30'}, =
-{'const': 'rx31'}]} should not be valid under {'required': ['maxItems']}
-> 	hint: "maxItems" is not needed with an "items" list
+> Can you provide me with where this commit comes from, I can only=20
+> apply partial patchs to test.
 
-Thanks will fix in next revision.
+My bad, this series is based on next-20240219 but I had a few DT commits=20
+to test that I forgot to remove before sending it out.
 
-> 	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+You can apply this on top of=20
+https://gitlab.com/linux-kernel/linux-next/-/tree/next-20240219
+
 >=20
-> doc reference errors (make refcheckdocs):
->=20
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202402=
-22-multistream-v1-4-1837ed916eeb@ti.com
->=20
-> The base for the series is generally the latest rc1. A different dependen=
-cy
-> should be noted in *this* patch.
->=20
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->=20
-> pip3 install dtschema --upgrade
->=20
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your sch=
-ema.
->=20
+> Thanks,
+> Changhuang
 
 --=20
 Thanks,
@@ -176,25 +140,25 @@ Jai
 
 GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
 
---dkpavki64dphg6yq
+--vqnq6xp2ptvsrrup
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmXYTOsACgkQQ96R+SSa
-cUXppxAAiKve/pejPnfyEE6LI718RJadaeKyqDT2+qv/N6KmqzlLizyKRnfta4yG
-04AOumjKIUJjXXZ6AuVHs1qXSCnan0ux6h1hTcBVeCnz4iWQchaJ7mwmO8puJRIH
-rwABkD8TGxeAhBhMnBjfF7pyyCZsTLIJTzJw5Vtee5FlqY2Yz7xhCqdsqoBMpBTz
-5gJoUOLv/HYfUZWI+nnxTOTw95UJEhTGq8Id40neo9AygAZi4h/3NdH9y44Ivy4E
-sAbKaeVaGbjtfRu1HpfoEZGIyUPlp7j3g9z435+kS1G3agOVTE9qf71EgoJfGXu1
-WvW7/gzZcG9ncU/38ekNxApqQm953BNNa9OOpGL08rCdZWMsA3l7sHHkf4H5vpga
-ehyJLHga+6oGiViMojmUBBAS0AB24qOldB944cClRLdXcek32t1SmpP4SLL8wupv
-ttISmAcxnD6ab2Cxz2FY1roA2UTADXyb6JbT+OJSxBhNNlLVyDxyUQ76HLTs1o6W
-ZZ7n13bLOjs9gus0U0KTJhNXnwaAp8nYc//TGSiEqrAjJ+M4wystJdrbrrdbG+BF
-/1rHPZU3iM1tEKhYxk6HBPhLIFih+bHmnRj5sKrYMig7W3LW4sHasLUr2mFE8Wlb
-vTGMHEFlTXu+mQVBPx6PNI0RWS3o4xW+ThEH1IK5y9ap5+fkLWA=
-=9a+5
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmXYTfgACgkQQ96R+SSa
+cUXIHxAAhEcjgZeb486+P08BDFmyaZ4hKnTEHmx3m0U5V/jXrnxFVQtmT6oHgtrW
+Vt/TCPv6UQ+jD2J8WLVj2Ed4RpW0Y9/0YeL1oBibmDn1jUmGCnbXLWXFlak1BrHd
+oG93ZhFKpDQDt0buhkKu7s35s/WJPRMcSiSGEQEwWCyp+vcLIr1/K8hfXG9mSOkB
+mX3taQXPKq2lezzkMhDqOIWkg5r54wJ9t5Mfr+t47vfhBOHdea0uXEAtHyF27AXo
+dXBec+w8IYMVA8tCn9tIHX/+FmN312bxzS47UzXEeSEmFJxkVSd81/TjgcEK09sG
+Ys1OS+lfYMit7Bk0MOZN1z7aPzBQ0oT3QX9Fz/dxLNXLeZn/aL5riaszm/PJRUbG
+tulc1nzpYtMxKo7JNJYLaJg6rZYMQLR+gTg4ecZ0X/tNLIt9zYIf1imrzv0GrYzL
+aeo+AP9vBJtlyh3M6xaISsU8Y5O+ixZS80LEMrM7yFDtFtSgqkj8BWukX791rFMq
+CLWrBQCrryZXQjG1wNKwuYidKumXTYVyQpfVSmrnLPGMDAKiXuVkGao4pUe6mhSV
+FBVsNya4NywAiRQ4j99PCh88Ko8+XTbafjCpWt0pUoCMWjozUckCLwTaLVWd22GY
+Bbpy62oI4xuLScI65scpb4fn5Nl1Xl/R+s4MddX4jPuXYz76zoU=
+=XYhn
 -----END PGP SIGNATURE-----
 
---dkpavki64dphg6yq--
+--vqnq6xp2ptvsrrup--
 
