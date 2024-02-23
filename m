@@ -1,77 +1,89 @@
-Return-Path: <linux-media+bounces-5836-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5837-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92BC861B3A
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 19:12:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F238D861B6B
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 19:19:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 13AF71C23C41
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 18:12:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A936E28B799
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 18:19:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9AF2143C74;
-	Fri, 23 Feb 2024 18:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E75DA142627;
+	Fri, 23 Feb 2024 18:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="zQXCBHZP"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="GfbgSmv5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2821419BA;
-	Fri, 23 Feb 2024 18:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1E0141999
+	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 18:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708711902; cv=none; b=N3qeU3wIXbi1adRzv9hYTP5SiMKhmIPySxCaVykP4r4htcKGlYWO/qjB+FG+NOYVuiRNqBNrtTquJyhd3/KZ33HEL5NA5V0r2cPfH5HoPohh2m3azogbZisqNBp/D1J8ewg8I7xWxvFAhQGDhR71z8Pl0JjjgD9s9ieIF0cnA5c=
+	t=1708712382; cv=none; b=G73yjWg84TLBX7qDhBus/+pzxPdjtlc7FjdtrOIgz35DHCfEck8AFCjLgzRG9LJq70JCfhcJYWO45xSdAW/NlH6/+iF75jaeia97eML9TkOeWcQ/YG5WO7uccZKdf3DIZwX7RBLHG9mnZG0uArO0TFIHszr48GaoejfzuzFBDT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708711902; c=relaxed/simple;
-	bh=L4tt6x3R1Bj+GEMVgCO8O7Sp0dNZ/KFpCcL3E8B8s2Y=;
+	s=arc-20240116; t=1708712382; c=relaxed/simple;
+	bh=NueZbKi+3XNb9lVy0QDU1pZD/eW6p7KRXiE3t6bPNIk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HJRuBkfmJ7EomorBVnQFdVYw9VlAKxFBAJBQfd+8GoqHvkThosMcUyYhkRwPGkN6gFHokfM+yrlSSFWTbdTc+UM4xdNkqOFMcDCv5Vmn9apz8cwVeWDTqg5x4pJOGiOKHSi05SKyPEs/Ip5+0XdTyrmGQ5yQMpUn74+NtDpy/xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=zQXCBHZP; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708711898;
-	bh=L4tt6x3R1Bj+GEMVgCO8O7Sp0dNZ/KFpCcL3E8B8s2Y=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=zQXCBHZPh7mu5cqATdQZMEpfu03nZ0cxfs/33QRKuYevVD3XePgEFuEnyDdPQuI3z
-	 uXenWNl+xWNLfrIJUvYUEKuKCoHO4tP9WTokWFWTVTzULDxTgSxaqsltOCStxmK1HC
-	 Qrg5jBgAo4Kti3VZieI2i4Nr/c1o1IleXvqaSgM3TvJL7ZTr/qoBZgKXMQvyEzPAdL
-	 4O9X0asl6bpxnN/icu7M8oDjQLq1aaZqqXKoL1LDuOCqiRSvOAYnL/Aax3VDtTmrYS
-	 qUl5Ezt0hlgPlqpaX8uLl8giNtIbsiXtTgLabIgOEaZrczDugsl1NTl09wbVq/gWO/
-	 BpTPk6Q60CJiQ==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 604E237820E3;
-	Fri, 23 Feb 2024 18:11:36 +0000 (UTC)
-Message-ID: <176094a180c0535119d487e6cf7c886c376b7d60.camel@collabora.com>
-Subject: Re: [PATCH v3,2/2] media: mediatek: vcodec: adding lock to protect
- encoder context list
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, =?ISO-8859-1?Q?N=EDcolas?= "F .
- R . A . Prado" <nfraprado@collabora.com>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>, 
- Irui Wang <irui.wang@mediatek.com>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig
- <frkoenig@chromium.org>,  Daniel Vetter <daniel@ffwll.ch>, Steve Cho
- <stevecho@chromium.org>, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com
-Date: Fri, 23 Feb 2024 13:11:32 -0500
-In-Reply-To: <20240222092609.31382-3-yunfei.dong@mediatek.com>
-References: <20240222092609.31382-1-yunfei.dong@mediatek.com>
-	 <20240222092609.31382-3-yunfei.dong@mediatek.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=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
+	 Content-Type:MIME-Version; b=Ivx9fFey/6YTf1LJzxaYmkdwTmu3kpdzXP3z3ILtUjCkC637NQTf7EE9Cf8gSK38FLgNhQY9gVfJOnuAa1lylyXEpQCBX51GhVKFtgZT8GxSCl3MbZujalAKEaIhNjm3XLf7KQYMk6coRUN86nL70yw46ZivwXEGj46kR+LwZDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=GfbgSmv5; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-68f63f8d807so4226206d6.0
+        for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 10:19:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1708712380; x=1709317180; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uWYfujPC46FItwm5cSHWM3du9cBBUBnAWtWci2tVpk8=;
+        b=GfbgSmv5Z9dEDlKitZaVRow254RkNdy57SkHoeHGMFP5o4t6+MMhKsSYhzxdRdNiWJ
+         68v5Vqs1i+GAgMVnN0tIBrNpE68kaArkKng9zDIZGulezee9J69vKuMGgbh0lHogrGwW
+         e4tOAhgfHZous/Lup4wzXYQv+iCtUpnL9AafuC+2YenVG1AmG51EwLN05xvPlF2dox5D
+         9EZLUiNBTTsVTOAiid5CaWUWXqCS3F9gTMQSZFEmJV852y2HgkNcjT1i0wJK0nyikT8L
+         H0MnBMyAQIAsGcZfyaWX4qiyl8SB5z46KSyxlWo1iucT/3q6FmVuZmMxNspwtLk3y6pj
+         2X7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708712380; x=1709317180;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uWYfujPC46FItwm5cSHWM3du9cBBUBnAWtWci2tVpk8=;
+        b=pkKOSQN+P4fN8C9TMGDBkXCz87AGjZe9raAVi9blHiEEbw/mDD+Tk0Sykdkf9c/h5e
+         juHkc28VZdCkfeb16tPNRC2Nquz3JZD4vhXDbSVUzZznbokQ/9+Obs5pfglOALOksfUy
+         ocpn3PH+1A+Pka8Id2kmlXHmsGHusgqk4L8JRTkklgg54b1tHgFgqE4N6hoeVM6M5XAT
+         yj7MFNUIxKT0iUM68StFbjxtgcWfFiORlKiIcMCjJ47NBO/scDY6MgSTlIYqnDw6fNa4
+         Lf4qvvJdqwlADyWjq/gsU0zJfvee5eRsQ4AZX1+tFM+dTO92h0El/2/irob7L1m3kkBi
+         vxQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVkLY1oS6snvFeJaoVojqVoaYzDhiRwLfFD8IprM1fRC2mKqmUWmRPOxHC8ZsTtlS834iACKYZqOGEhscZT57RWwxA5bxCKX8BxxW0=
+X-Gm-Message-State: AOJu0Yzq5UUdJ7UZLkmEiKY+LMlm+g5UatFfbhHXD7Md9HAgJErq9gue
+	8Ej19S5BbT4oHiteqI1gahN77dPMiq6buCVOZYCzVKrnI6i1OuMxG/zKit2DuaU=
+X-Google-Smtp-Source: AGHT+IHI3tXKotFLxywdOx7xwLm9TNbvcNN/Mw8gARQZh1bWiK1A+QN0veP3arEmrlOU7tnkEpCbbA==
+X-Received: by 2002:a0c:f011:0:b0:68f:2ebf:851d with SMTP id z17-20020a0cf011000000b0068f2ebf851dmr590566qvk.1.1708712379784;
+        Fri, 23 Feb 2024 10:19:39 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
+        by smtp.gmail.com with ESMTPSA id nf10-20020a0562143b8a00b0068fb6fb217csm2829241qvb.122.2024.02.23.10.19.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Feb 2024 10:19:39 -0800 (PST)
+Message-ID: <f88a238f96215aef5a05d9d532c199eaea82883e.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/5] media: chips-media: wave5: Convert to platform
+ remove callback returning void
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Mauro Carvalho Chehab
+	 <mchehab@kernel.org>
+Cc: Nas Chung <nas.chung@chipsnmedia.com>, Jackson Lee
+	 <jackson.lee@chipsnmedia.com>, linux-media@vger.kernel.org, 
+	kernel@pengutronix.de
+Date: Fri, 23 Feb 2024 13:19:38 -0500
+In-Reply-To: <dfcaf3d23ea35655d8b3a9254ee00f40c20c95c4.1708692946.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1708692946.git.u.kleine-koenig@pengutronix.de>
+	 <dfcaf3d23ea35655d8b3a9254ee00f40c20c95c4.1708692946.git.u.kleine-koenig@pengutronix.de>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
@@ -82,132 +94,70 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Le jeudi 22 f=C3=A9vrier 2024 =C3=A0 17:26 +0800, Yunfei Dong a =C3=A9crit=
-=C2=A0:
-> The ctx_list will be deleted when scp getting unexpected behavior, then t=
-he
-> ctx_list->next will be NULL, the kernel driver maybe access NULL pointer =
-in
-> function vpu_enc_ipi_handler when going through each context, then reboot=
-.
->=20
-> Need to add lock to protect the ctx_list to make sure the ctx_list->next =
-isn't
-> NULL pointer.
->=20
-> Fixes: 1972e32431ed ("media: mediatek: vcodec: Fix possible invalid memor=
-y access for encoder")
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Hi,
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+maybe its already been discussed but ...
 
+Le vendredi 23 f=C3=A9vrier 2024 =C3=A0 13:59 +0100, Uwe Kleine-K=C3=B6nig =
+a =C3=A9crit=C2=A0:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+>=20
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+>=20
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 > ---
->  .../platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c      | 4 ++--
->  .../platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c    | 5 +++++
->  .../platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h    | 2 ++
->  drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c | 2 ++
->  4 files changed, 11 insertions(+), 2 deletions(-)
+>  drivers/media/platform/chips-media/wave5/wave5-vpu.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_=
-vpu.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> index 9a11a2c248045..8d578b6902148 100644
-> --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> @@ -73,12 +73,12 @@ static void mtk_vcodec_vpu_reset_enc_handler(void *pr=
-iv)
-> =20
->  	dev_err(&dev->plat_dev->dev, "Watchdog timeout!!");
-> =20
-> -	mutex_lock(&dev->dev_mutex);
-> +	mutex_lock(&dev->dev_ctx_lock);
->  	list_for_each_entry(ctx, &dev->ctx_list, list) {
->  		ctx->state =3D MTK_STATE_ABORT;
->  		mtk_v4l2_vdec_dbg(0, ctx, "[%d] Change to state MTK_STATE_ABORT", ctx-=
->id);
->  	}
-> -	mutex_unlock(&dev->dev_mutex);
-> +	mutex_unlock(&dev->dev_ctx_lock);
->  }
-> =20
->  static const struct mtk_vcodec_fw_ops mtk_vcodec_vpu_msg =3D {
-> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_en=
-c_drv.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv=
-.c
-> index 5db2bf3db4c54..29524cd59ce8b 100644
-> --- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-> +++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-> @@ -177,7 +177,9 @@ static int fops_vcodec_open(struct file *file)
->  	mtk_v4l2_venc_dbg(2, ctx, "Create instance [%d]@%p m2m_ctx=3D%p ",
->  			  ctx->id, ctx, ctx->m2m_ctx);
-> =20
-> +	mutex_lock(&dev->dev_ctx_lock);
->  	list_add(&ctx->list, &dev->ctx_list);
-> +	mutex_unlock(&dev->dev_ctx_lock);
-> =20
->  	mutex_unlock(&dev->dev_mutex);
->  	mtk_v4l2_venc_dbg(0, ctx, "%s encoder [%d]", dev_name(&dev->plat_dev->d=
-ev),
-> @@ -212,7 +214,9 @@ static int fops_vcodec_release(struct file *file)
->  	v4l2_fh_exit(&ctx->fh);
->  	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
-> =20
-> +	mutex_lock(&dev->dev_ctx_lock);
->  	list_del_init(&ctx->list);
-> +	mutex_unlock(&dev->dev_ctx_lock);
->  	kfree(ctx);
->  	mutex_unlock(&dev->dev_mutex);
->  	return 0;
-> @@ -294,6 +298,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
-dev)
-> =20
->  	mutex_init(&dev->enc_mutex);
->  	mutex_init(&dev->dev_mutex);
-> +	mutex_init(&dev->dev_ctx_lock);
->  	spin_lock_init(&dev->irqlock);
-> =20
->  	snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name), "%s",
-> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_en=
-c_drv.h b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv=
-.h
-> index a042f607ed8d1..0bd85d0fb379a 100644
-> --- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
-> +++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
-> @@ -178,6 +178,7 @@ struct mtk_vcodec_enc_ctx {
->   *
->   * @enc_mutex: encoder hardware lock.
->   * @dev_mutex: video_device lock
-> + * @dev_ctx_lock: the lock of context list
->   * @encode_workqueue: encode work queue
->   *
->   * @enc_irq: h264 encoder irq resource
-> @@ -205,6 +206,7 @@ struct mtk_vcodec_enc_dev {
->  	/* encoder hardware mutex lock */
->  	struct mutex enc_mutex;
->  	struct mutex dev_mutex;
-> +	struct mutex dev_ctx_lock;
->  	struct workqueue_struct *encode_workqueue;
-> =20
->  	int enc_irq;
-> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c=
- b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> index 84ad1cc6ad171..51bb7ee141b9e 100644
-> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> @@ -47,12 +47,14 @@ static bool vpu_enc_check_ap_inst(struct mtk_vcodec_e=
-nc_dev *enc_dev, struct ven
->  	struct mtk_vcodec_enc_ctx *ctx;
->  	int ret =3D false;
-> =20
-> +	mutex_lock(&enc_dev->dev_ctx_lock);
->  	list_for_each_entry(ctx, &enc_dev->ctx_list, list) {
->  		if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst =3D=3D vpu) {
->  			ret =3D true;
->  			break;
->  		}
->  	}
-> +	mutex_unlock(&enc_dev->dev_ctx_lock);
-> =20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drive=
+rs/media/platform/chips-media/wave5/wave5-vpu.c
+> index 0d90b5820bef..1b3df5b04249 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> @@ -250,7 +250,7 @@ static int wave5_vpu_probe(struct platform_device *pd=
+ev)
 >  	return ret;
 >  }
+> =20
+> -static int wave5_vpu_remove(struct platform_device *pdev)
+> +static void wave5_vpu_remove(struct platform_device *pdev)
+>  {
+>  	struct vpu_device *dev =3D dev_get_drvdata(&pdev->dev);
+> =20
+> @@ -262,8 +262,6 @@ static int wave5_vpu_remove(struct platform_device *p=
+dev)
+>  	v4l2_device_unregister(&dev->v4l2_dev);
+>  	wave5_vdi_release(&pdev->dev);
+>  	ida_destroy(&dev->inst_ida);
+> -
+> -	return 0;
+>  }
+> =20
+>  static const struct wave5_match_data ti_wave521c_data =3D {
+> @@ -283,7 +281,7 @@ static struct platform_driver wave5_vpu_driver =3D {
+>  		.of_match_table =3D of_match_ptr(wave5_dt_ids),
+>  		},
+>  	.probe =3D wave5_vpu_probe,
+> -	.remove =3D wave5_vpu_remove,
+> +	.remove_new =3D wave5_vpu_remove,
+
+What if we have another screw up ? remove_new_new ? Why not just remove the=
+ int
+across the tree instead ? Or perhaps its a two step plane ?
+
+Nicolas
+
+>  };
+> =20
+>  module_platform_driver(wave5_vpu_driver);
 
 
