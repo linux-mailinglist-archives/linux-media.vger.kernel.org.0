@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-5816-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5817-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1198617F4
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 17:31:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3D78617F6
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 17:31:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6646C1F23F1E
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 16:31:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06B9D1F241D9
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 16:31:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6767D12AACB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A40E912AAF5;
 	Fri, 23 Feb 2024 16:30:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="v0UUtwWV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="itwFuUIr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334AE127B51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68446128372
 	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 16:30:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708705857; cv=none; b=iIZDCn7dDTXTAIU8VebSQ0vYBj62L9mQZ48IuDN1Ja0l2KkUNGBSZQeC0DvmAakp7O+E2pdEiYNa2NVnWb407eKx+i3Bmn0NgmdCU1X9WZQ+lPcksbr1cTqSKIs6mo5ODV2pSknQ0ANwLl86mNIB9wAwU/xIXeHHuYfNe9CmKJ4=
+	t=1708705858; cv=none; b=niHNUk2goBN5Q83V/CpG8G9TadjNLIjA+8yR8pbupfz+dMH6ZDb8NlGKPj9jjTJ1cqw2Nn6PUwTOVPwPVXWVaWlgKMw2Ps4m9MNm/zB87JdAe29l5hAUBuQHCdWLmyTDPNWqydC0hToL/xH+CxhaDee6Bda/ViDW5AWIZOh6/Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708705857; c=relaxed/simple;
-	bh=JCK8oeAArCm7ANzCIES4sJlxIvAJTz9JGrUflHy5SNg=;
+	s=arc-20240116; t=1708705858; c=relaxed/simple;
+	bh=AP4wrYKoqzp/OWtLhpp+T0rVZI/9lON1ruD4Fuhzt8w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j+0hV5U+FNcVqhULnZBGzxkv/2sNkM8qreFBTZPz20QmZ6gpK7GajHzhzRXzFiQZElvYKcmco5Yvo0GmB8BJB5VhBgPMz8a1Dy1uYtA5Se9UHYvejN2NzFZqKFN6ob3E3wn7ha+7RGDDsC34SutT0cDd7UmQxJSurceVkzgunPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=v0UUtwWV; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Nb/jCsquZ/2NtZ+g62Oc9F4FLkLeJjg42f7E0hJxCs4ovB/cFnyV94TkCU30mzpgVkZahAFaXcFw1qa3cWMzLHiP9fW61KdYZBEAzjHEaJVoZHj9CiplrZ1twsGHvx5bP2SJjwoFyT67O9RcRutJbJoU7vRpYUmDgLg11h5zqYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=itwFuUIr; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CBB6F1653;
-	Fri, 23 Feb 2024 17:30:39 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 984E617E1;
+	Fri, 23 Feb 2024 17:30:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708705840;
-	bh=JCK8oeAArCm7ANzCIES4sJlxIvAJTz9JGrUflHy5SNg=;
+	s=mail; t=1708705841;
+	bh=AP4wrYKoqzp/OWtLhpp+T0rVZI/9lON1ruD4Fuhzt8w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=v0UUtwWVRLTcGZ+gQ546ULix1bC1fWfpzw11J8cDS9mDzB5TZxdJx5sQRjR5324EF
-	 07645o4dUZ/k/S0fkqpotWBw2PG9czyZKbmtxX4C1yM5YDviWQ7dDWumcNH/Imb/xu
-	 aVqQYG9VKjijVce567Nx2l+ZWzzggCvrK2M/idoc=
+	b=itwFuUIrp90utYb9al6IJ/jHzpzvBbZzcKMNtfSyefPvVw3bQs+XJEJBBxgixkTBS
+	 S1ENvAtNe0tXEX0BHB2KCyc6WOOmyE6OJ18MtvpmcE+S/rVvZ+Uhaai/a5x/2ytjyC
+	 /EN9LWBtr5MaLz/E4bXpP9n4whX0Vj5OPGR7yOJw=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -54,9 +54,9 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@iki.fi>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v2 4/9] media: uapi: Add a pixel format for BGR48 and RGB48
-Date: Fri, 23 Feb 2024 17:30:06 +0100
-Message-ID: <20240223163012.300763-5-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v2 5/9] media: uapi: Add meta pixel format for PiSP BE config
+Date: Fri, 23 Feb 2024 17:30:07 +0100
+Message-ID: <20240223163012.300763-6-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240223163012.300763-1-jacopo.mondi@ideasonboard.com>
 References: <20240223163012.300763-1-jacopo.mondi@ideasonboard.com>
@@ -68,108 +68,108 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add BGR48 and RGB48 16-bit per component image formats.
+Add format description for the PiSP Back End configuration parameter
+buffer.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 ---
- .../userspace-api/media/v4l/pixfmt-rgb.rst    | 39 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-common.c         |  2 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
- include/uapi/linux/videodev2.h                |  4 ++
- 4 files changed, 47 insertions(+)
+ .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+ .../media/v4l/metafmt-pisp-be.rst             | 46 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+ include/uapi/linux/videodev2.h                |  3 ++
+ 4 files changed, 51 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-index b71b80d634d6..458308ae4eb8 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-@@ -996,6 +996,45 @@ arranged in little endian order.
+diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+index 0bb61fc5bc00..d96ff1ea3373 100644
+--- a/Documentation/userspace-api/media/v4l/meta-formats.rst
++++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+@@ -14,6 +14,7 @@ These formats are used for the :ref:`metadata` interface only.
  
-     \normalsize
- 
-+16 Bits Per Component
-+=====================
+     metafmt-d4xx
+     metafmt-intel-ipu3
++    metafmt-pisp-be
+     metafmt-rkisp1
+     metafmt-uvc
+     metafmt-vsp1-hgo
+diff --git a/Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst b/Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
+new file mode 100644
+index 000000000000..f3d30ba989b3
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
+@@ -0,0 +1,46 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+These formats store an RGB triplet in six bytes, with 16 bits per component.
++.. _v4l2-meta-fmt-rpi-be-cfg:
 +
-+.. raw:: latex
++************************
++V4L2_META_FMT_RPI_BE_CFG
++************************
 +
-+    \small
++Raspberry Pi PiSP Back End configuration format
++===============================================
 +
-+.. flat-table:: RGB Formats With 16 Bits Per Component
-+    :header-rows:  1
++The Raspberry Pi PiSP Back End memory-to-memory image signal processor is
++configured by userspace by providing a buffer of configuration parameters
++to the `pispbe-config` output video device node using the
++:c:type:`v4l2_meta_format` interface.
 +
-+    * - Identifier
-+      - Code
-+      - Byte 1-0
-+      - Byte 3-2
-+      - Byte 5-4
-+    * .. _V4L2-PIX-FMT-BGR48:
++The PiSP Back End processes images in tiles, and its configuration requires
++specifying two different sets of parameters by populating the members of
++:c:type:`pisp_be_tiles_config` defined in the ``pisp_be_config.h`` header file.
 +
-+      - ``V4L2_PIX_FMT_BGR48``
-+      - 'BGR6'
++The `Raspberry Pi PiSP technical specification
++<https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf>_`
++provide detailed description of the ISP back end configuration and programming
++model.
 +
-+      - B\ :sub:`15-0`
-+      - G\ :sub:`15-0`
-+      - R\ :sub:`15-0`
-+      -
-+    * .. _V4L2-PIX-FMT-RGB48:
++Global configuration data
++-------------------------
 +
-+      - ``V4L2_PIX_FMT_RGB48``
-+      - 'RGB6'
++The global configuration data describe how the pixels in a particular image are
++to be processed and is therefore shared across all the tiles of the image. So
++for example, LSC (Lens Shading Correction) or Denoise parameters would be common
++across all tiles from the same frame.
 +
-+      - R\ :sub:`15-0`
-+      - G\ :sub:`15-0`
-+      - B\ :sub:`15-0`
++Global configuration data are passed to the ISP by populating the member of
++:c:type:`pisp_be_config`.
 +
-+.. raw:: latex
++Tile parameters
++---------------
 +
-+    \normalsize
++As the ISP processes images in tiles, each set of tiles parameters describe how
++a single tile in an image is going to be processed. A single set of tile
++parameters consist of 160 bytes of data and to process a batch of tiles several
++sets of tiles parameters are required.
 +
- Deprecated RGB Formats
- ======================
- 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index d34d210908d9..ff4b4d2de9d2 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -253,6 +253,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_BGR666,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_BGR48_12, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_BGR48, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_RGB48, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_ABGR64_12, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_RGBA1010102, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_RGBX1010102, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
++Tiles parameters are passed to the ISP by populating the member of
++:c:type:`pisp_tile` and the :c:type:`num_tiles` field.
 diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index d0724240a446..a2f9c446a565 100644
+index a2f9c446a565..18e9aa1297e1 100644
 --- a/drivers/media/v4l2-core/v4l2-ioctl.c
 +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1298,6 +1298,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_RGBX1010102:	descr = "32-bit RGBX 10-10-10-2"; break;
- 	case V4L2_PIX_FMT_RGBA1010102:	descr = "32-bit RGBA 10-10-10-2"; break;
- 	case V4L2_PIX_FMT_ARGB2101010:	descr = "32-bit ARGB 2-10-10-10"; break;
-+	case V4L2_PIX_FMT_BGR48:	descr = "48-bit BGR 16-16-16"; break;
-+	case V4L2_PIX_FMT_RGB48:	descr = "48-bit RGB 16-16-16"; break;
- 	case V4L2_PIX_FMT_BGR48_12:	descr = "12-bit Depth BGR"; break;
- 	case V4L2_PIX_FMT_ABGR64_12:	descr = "12-bit Depth BGRA"; break;
- 	case V4L2_PIX_FMT_GREY:		descr = "8-bit Greyscale"; break;
+@@ -1456,6 +1456,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_Y210:		descr = "10-bit YUYV Packed"; break;
+ 	case V4L2_PIX_FMT_Y212:		descr = "12-bit YUYV Packed"; break;
+ 	case V4L2_PIX_FMT_Y216:		descr = "16-bit YUYV Packed"; break;
++	case V4L2_META_FMT_RPI_BE_CFG:	descr = "RPi PiSP BE Config format"; break;
+ 
+ 	default:
+ 		/* Compressed formats */
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 911f00ed28fd..89b2b409fc03 100644
+index 89b2b409fc03..c3daf61f43d5 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -584,6 +584,10 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_BGR48_12    v4l2_fourcc('B', '3', '1', '2') /* 48  BGR 12-bit per component */
- #define V4L2_PIX_FMT_ABGR64_12   v4l2_fourcc('B', '4', '1', '2') /* 64  BGRA 12-bit per component */
+@@ -845,6 +845,9 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
+ #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
  
-+/* RGB formats (6 bytes per pixel) */
-+#define V4L2_PIX_FMT_BGR48 v4l2_fourcc('B', 'G', 'R', '6') /* 16  BGR-16-16-16 */
-+#define V4L2_PIX_FMT_RGB48 v4l2_fourcc('R', 'G', 'B', '6') /* 16  RGB-16-16-16 */
++/* Vendor specific - used for RaspberryPi PiSP */
++#define V4L2_META_FMT_RPI_BE_CFG v4l2_fourcc('R', 'P', 'B', 'C') /* PiSP BE configuration */
 +
- /* Grey formats */
- #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
- #define V4L2_PIX_FMT_Y4      v4l2_fourcc('Y', '0', '4', ' ') /*  4  Greyscale     */
+ /* priv field value to indicates that subsequent fields are valid. */
+ #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+ 
 -- 
 2.43.0
 
