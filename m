@@ -1,163 +1,169 @@
-Return-Path: <linux-media+bounces-5773-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5778-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034998610FF
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 13:06:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC95861142
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 13:12:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83C6D1F23796
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 12:06:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 643551C211BE
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 12:12:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31097A722;
-	Fri, 23 Feb 2024 12:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C04F7CF37;
+	Fri, 23 Feb 2024 12:11:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="CxYx3wMF"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="XwtZwSGq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCFB76911
-	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 12:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708689968; cv=pass; b=A4pjy5lbxDiHQH4YL4VqZzQLpJtAH6py0R6LreMPOhVIoyrZzv8qij3KT/no4rH/D5GLXIN62jdWg4Mx47FOcQQogBOh390iR+zJV/hFS6xJko1utTNuhA8tmXI7t3+Fy6rRfnuyE2TWwvPzRbdHQ00JvX78Az3ahQ4USjco/W4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708689968; c=relaxed/simple;
-	bh=CowqNqxworXJGigu8kHltNN06zuqgTejztiUnItruZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LmcuHbPxGp8250iYQ1Kj808dNlPDo5r5GJPn0pnOamHQ95vtoAWKcsRXPZevCpteRlDr1gdnlBJvA/DH/CQI3Qq8NAGHnh2skArhxVTXzqmPK3rOkEsq9aOzCc5/pX0qnwSmV+QhciROmS1FCydkYa0FWdw5CJH/af9QmGokRiQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=CxYx3wMF; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Th7yL71Nlz49Psw;
-	Fri, 23 Feb 2024 14:06:02 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1708689963;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kmFmw2QOBWOXbjUd/9mr8vc2yK+WGLswbcLSuVg6sIQ=;
-	b=CxYx3wMF9PoqR4SE+WuEbDkg9GFmLhMfCfV+w99ZetlNXtiuxNUxgc2qzg7WHYRsAVb4P1
-	0CtQWwvKU+UIyKHEC8J32Fxp35xzioC4SNVuLRX8kucuZyEJ9CqlPFA9p1ppge7w4YXU9r
-	FHffrXKc4OSU1DSmsZbIhg777dpPHMIu/RcEeUOJFrNhqfT9XTbM9/a1WsCKCBWcDR+3fH
-	NfBq4ed6Hfa24BXw5SQHVe9yNvS5VKXVQM86f1GLQ6PV3ZTRtfMrSIWkl25QlgME0yA57z
-	9ObmPfjSQHurgiSXj96UE0H3AdzoUZyNNqgLgKSplM0Aj2Esn8tlfCVfnw0aNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1708689963;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kmFmw2QOBWOXbjUd/9mr8vc2yK+WGLswbcLSuVg6sIQ=;
-	b=UtOUku+FwFEUdhg1AEdg6v//kk/pcTHEdWnb+boMp1cCJ8M9EA8XmitAGq/4/H3U/QiPPN
-	8pOgRh1fPeK65JSZoJfIk7e5qQpTlL7ljbplr7TS7k86FW1xTa9Sj/Mfqhr8Bw9FdtDODE
-	dlF2LXpgDZIU5MfONhI1dCtc42LGmoCHEsaqDoTuMl2td2gC3ruljCsHJo7kM6TcQZ2ijd
-	cojbtt2i7t6WQSNY1cpz5KaCNt4CkqRelHV6QmtNDek7d5M8enAEyCQRRNMzJH0tdpTD8y
-	VEYs04FmvIMKt/LJT1h0rIyR9beYuIVbmb3KrRomLfJoly7nM4sFt5W5KezEvA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1708689963; a=rsa-sha256;
-	cv=none;
-	b=EPzpQpvZ0Exe3cLQuOxeHq6N1YJzeR6CFvtkiYjNDgMMyW3r55O4pWi/2+O7XRuGBALgbo
-	IVkT9k0qXpEY+hYeC1iZxFdp2wUiGUCwG4+PJ/Fa/ecUxGQICKbwxDs8J6iFy1wcJZgifA
-	H1uNW9x/7LhpblTC8MwHHOwWcrxt7GT4gff+cGZT1obakK2AgrT5m1eF7+RsGdfp6EQAhr
-	G8pv1hm5Ys7aNWnJpybFXY865e26iM96D4TFallMyeAigKeddkGLdbi10bQiJQI5krxjd2
-	nUVSNy63LYvbswbkQnAtkVjStN90aPruflXfauY9IxIV4c5gMcJ1IhLiDukagA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E591F634C93;
-	Fri, 23 Feb 2024 14:06:01 +0200 (EET)
-Date: Fri, 23 Feb 2024 12:06:01 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [GIT PULL FOR 6.9] Revert a faulty ov08x40 patch and re-apply a
- good one
-Message-ID: <ZdiKKaSidocvnIaP@valkosipuli.retiisi.eu>
-References: <ZcIg6YsKuLph6KV7@valkosipuli.retiisi.eu>
- <20240206130838.GD13235@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F9C25742;
+	Fri, 23 Feb 2024 12:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708690302; cv=none; b=LftFr0mSHAEil0vqPCqzZvcZK3qAKyVesy/91YAtUEc9DhSmGvcmP9Y53+SgjHVSHomt57DcvH5lrF8WsocR1p4m2gefVHjq0yrTJI7GpSQbq0dng0kVry4EopZuYKmtBbppHPeRXAJpqy8VlQPFkKOnIDRIH4XQlT1kE8F4MjI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708690302; c=relaxed/simple;
+	bh=vEHWJ4mFFQD8t20Y/2sTFpAm9vga4enu/i02BRzpi2M=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=WvSneO1C9RMyGek85UTy1+25WQwupOXsE/Si89CIV8uQ83FkhhU+E+NDRGKhHiUIR/1dMS9AEai5i01RY2TjCFGZ2atGXeseE+YWwrASdGc60JzFsJ0Ujo2dY1kACeOGsCAzG2s5WBvUnCaiwkN9jSfO5DXpa27X/lncD9iFWrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=XwtZwSGq; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41N6rd0i030350;
+	Fri, 23 Feb 2024 07:11:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	from:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding:to:cc; s=DKIM; bh=j8afl28WKkn2qowBbkq
+	+mc34EwguI2rPkwFLr3iiGdM=; b=XwtZwSGqvFuEL4hU5RnAmUnmYWmD9dixtit
+	ZE0MAdHvQBIupEB0nJV+KOie5+/NP+DW+nAFQ5l6Ob2ls2WsOlfdWTedGJwwjmRi
+	qsmuy5R97kV005Ez7glQsbLdPwtcm0vp7T7MXovhB3qc6EAdx+C2fvpP3w8/cuON
+	a38LOP4A+ZtxNPjq8eTkKaS7JltR/UNUJb9QNdiMn9M8PZEHHm+Rm1aJNQtwz4Mz
+	YXO8vUHnqaDFYzTTotdwwAObuZstWo0Prq5kQHrDAATYetbvOd6GQmpd+6G2FPmB
+	Mu1iUlWhwma2jN/06fKD7Ud5UJPCQy4aIMz2XM27kPSw9ZG27Qw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 3wepgc11ns-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Feb 2024 07:11:20 -0500 (EST)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 41NCAusc004366
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 23 Feb 2024 07:10:56 -0500
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Fri, 23 Feb 2024 07:10:55 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Fri, 23 Feb 2024 07:10:55 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Fri, 23 Feb 2024 07:10:55 -0500
+Received: from [127.0.0.1] ([10.44.3.55])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 41NCAb2R032246;
+	Fri, 23 Feb 2024 07:10:39 -0500
+From: Nuno Sa <nuno.sa@analog.com>
+Subject: [PATCH v7 0/6] iio: new DMABUF based API
+Date: Fri, 23 Feb 2024 13:13:58 +0100
+Message-ID: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240206130838.GD13235@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAaM2GUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDIyNj3czMfN2U3MSk0jRd09RUA1NjA0NL0+REJaCGgqLUtMwKsGHRsbW
+ 1AKc5cJVcAAAA
+To: Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jonathan Corbet
+	<corbet@lwn.net>,
+        Paul Cercueil <paul@crapouillou.net>
+CC: Daniel Vetter <daniel@ffwll.ch>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        <linux-doc@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1708690439; l=2488;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=vEHWJ4mFFQD8t20Y/2sTFpAm9vga4enu/i02BRzpi2M=;
+ b=8JMX1H4q/6Nb2TCb1A9VZrpSSThjCsDfFhXLYOZ5PE8WEfm/Af/LU5sNSgoKAGdr5Id8gmVUw
+ 3y8buCXw3YaCTwjkg5F8Zlxfr6vZBBJRaEoyhxolMtUW5XLgY28Lwom
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: kCYwEmDuPOxAFUUZ2trl7DIyXKH_VMnZ
+X-Proofpoint-ORIG-GUID: kCYwEmDuPOxAFUUZ2trl7DIyXKH_VMnZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-22_15,2024-02-23_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ mlxlogscore=765 clxscore=1015 priorityscore=1501 phishscore=0
+ malwarescore=0 adultscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402230088
 
-On Tue, Feb 06, 2024 at 03:08:38PM +0200, Laurent Pinchart wrote:
-> On Tue, Feb 06, 2024 at 12:07:05PM +0000, Sakari Ailus wrote:
-> > Hi Mauro, Hans,
-> > 
-> > This PR reverts a faulty ov08x40 patch and re-applies the same with the bad
-> > DT binding and source changes removed.
-> > 
-> > Note that this HAS TO be merged before sending the current media stage tree
-> > further to Linus.
-> > 
-> > Thanks to Laurent for spotting the bad changes.
-> 
-> I spotted it thanks to sheer luck. The interesting question is to to
-> prevent this happening again.
+Hi Jonathan, likely you're wondering why I'm sending v7. Well, to be
+honest, we're hoping to get this merged this for the 6.9 merge window.
+Main reason is because the USB part is already in (so it would be nice
+to get the whole thing in). Moreover, the changes asked in v6 were simple
+(even though I'm not quite sure in one of them) and Paul has no access to
+it's laptop so he can't send v7 himself. So he kind of said/asked for me to do it.
 
-Indeed. There's nothing in my workflow that I whink could have caused this.
-I basically did b4 shazam (which was clean, I checked), then edited that
-driver file only, followed by git commit --amend -a. And there it was.
+v6:
+ * https://lore.kernel.org/linux-iio/20240129170201.133785-1-paul@crapouillou.net/
 
-link-frequencies never was an array of 32-bit integers anyway. I may have
-written this some years ago for testing purposes but I no longer have such
-patches as files in my work tree, including the git stash.
+v7:
+ - Patch 1
+  * Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_vec();
+  * Added a new flag parameter to the function as agreed between Paul
+    and Vinod. I renamed the first parameter to prep_flags as it's supposed to
+    be used (I think) with enum dma_ctrl_flags. I'm not really sure how that API
+    can grow but I was thinking in just having a bool cyclic parameter (as the
+    first intention of the flags is to support cyclic transfers) but ended up
+    "respecting" the previously agreed approach.
+- Patch 2
+  * Adapted patch for the changes made in patch 1.
+- Patch 5
+  * Adapted patch for the changes made in patch 1.
 
-$ git diff 88a058cbd080..034b58342662
-diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-index 26e3e7d7c67b..ea511f2fed98 100644
---- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-+++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-@@ -190,7 +190,7 @@ properties:
-       Allow MIPI CSI-2 non-continuous clock mode.
- 
-   link-frequencies:
--    $ref: /schemas/types.yaml#/definitions/uint64-array
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-     description:
-       Allowed data bus frequencies. For MIPI CSI-2, for instance, this is the
-       actual frequency of the bus, not bits per clock per lane value. An array
-diff --git a/arch/arm/boot/dts/ti/omap/omap3-n9.dts b/arch/arm/boot/dts/ti/omap/omap3-n9.dts
-index a3cf3f443785..728a8fcf25b3 100644
---- a/arch/arm/boot/dts/ti/omap/omap3-n9.dts
-+++ b/arch/arm/boot/dts/ti/omap/omap3-n9.dts
-@@ -26,7 +26,7 @@ smia_1: camera@10 {
- 		flash-leds = <&as3645a_flash &as3645a_indicator>;
- 		port {
- 			smia_1_1: endpoint {
--				link-frequencies = /bits/ 64 <199200000 210000000 499200000>;
-+				link-frequencies = /bits/ 32 <199200000 210000000 499200000>;
- 				clock-lanes = <0>;
- 				data-lanes = <1 2>;
- 				remote-endpoint = <&csi2a_ep>;
-diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index d28d31ddc2a7..5631e7d1f328 100644
---- a/drivers/media/i2c/ov08x40.c
-+++ b/drivers/media/i2c/ov08x40.c
-@@ -1361,8 +1361,6 @@ static int ov08x40_burst_fill_regs(struct ov08x40 *ov08x, u16 first_reg,
- 		return -EIO;
- 	}
- 
--	dev_dbg(&client->dev, "I2C burst transfer succeeded\n");
--
- 	return 0;
- }
- 
--- 
-Sakari Ailus
+Patchset based on next-20240223.
+
+---
+Paul Cercueil (6):
+      dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+      dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+      iio: core: Add new DMABUF interface infrastructure
+      iio: buffer-dma: Enable support for DMABUFs
+      iio: buffer-dmaengine: Support new DMABUF based userspace API
+      Documentation: iio: Document high-speed DMABUF based API
+
+ Documentation/iio/dmabuf_api.rst                   |  54 +++
+ Documentation/iio/index.rst                        |   2 +
+ drivers/dma/dma-axi-dmac.c                         |  40 ++
+ drivers/iio/buffer/industrialio-buffer-dma.c       | 181 +++++++-
+ drivers/iio/buffer/industrialio-buffer-dmaengine.c |  59 ++-
+ drivers/iio/industrialio-buffer.c                  | 462 +++++++++++++++++++++
+ include/linux/dmaengine.h                          |  27 ++
+ include/linux/iio/buffer-dma.h                     |  31 ++
+ include/linux/iio/buffer_impl.h                    |  33 ++
+ include/uapi/linux/iio/buffer.h                    |  22 +
+ 10 files changed, 894 insertions(+), 17 deletions(-)
+---
+base-commit: 33e1d31873f87d119e5120b88cd350efa68ef276
+change-id: 20240223-iio-dmabuf-5ee0530195ca
+--
+
+Thanks!
+- Nuno Sá
+
 
