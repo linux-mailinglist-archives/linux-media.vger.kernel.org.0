@@ -1,121 +1,157 @@
-Return-Path: <linux-media+bounces-5841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5842-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5313D861C1A
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 19:46:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5FCC861C2F
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 19:56:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8450B24DAA
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 18:46:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91B80286CDC
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 18:56:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAC39148311;
-	Fri, 23 Feb 2024 18:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E4BF1D6B6;
+	Fri, 23 Feb 2024 18:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ma/O6afa"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C4F143C7F;
-	Fri, 23 Feb 2024 18:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D587D125D1;
+	Fri, 23 Feb 2024 18:56:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708713908; cv=none; b=ORTvMd3ACEcf13KXOpCUTkzInyjX3JMog5Y6o3gk0NtvoCD8VAXTimEYAR3rYCrSsibTxh++P2TjKTWhF2lrZQ3JOVfs6VDDjeia5Up6yd5IgKwvG0zUWb4HNLx3TCTYTeZMIzmk+4eJsEryVq5UNfI1mHdo8M9Kb8vCWz9G5/Y=
+	t=1708714587; cv=none; b=HzpfUZ3KC1jQkLVzdAJMRS3N/WjfmBWoqzOF2ysp/LkDbG4i/tK/8aMdtAz8+1BDiCEvB9SnS676GVf66duSIqRuPrpwoej5ZBRPY4sXewxztgK53GUfdP34SVDw29+LdD8slYcuth4GREP8eWRXrSJgA/NqhOxeaeXiHCZ4oJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708713908; c=relaxed/simple;
-	bh=HNxDQrAqfHomkkBAL+GsWJU+Nkbn4bLBCPF0LWecwlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mH8XCKDle3MAUNNmPjBhTAoJf8lgWMqqOLY/1IwskOvfca79pAs0qZuk2PuwroASSBLtVEASVc4GEm+gPccW/cTRU4/KsGBsxuHoONvRWQiKYbckgjgSWIfTFSZdmDXKmLMVL7vnDSd8oo4QUUv8u/SljNoZDDP/KBLdJowgpIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C3ACC433C7;
-	Fri, 23 Feb 2024 18:45:01 +0000 (UTC)
-Date: Fri, 23 Feb 2024 13:46:53 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- <linuxppc-dev@lists.ozlabs.org>, <kvm@vger.kernel.org>,
- <linux-block@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
- <linux-rdma@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <iommu@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
- <netdev@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
- <ath10k@lists.infradead.org>, <linux-wireless@vger.kernel.org>,
- <ath11k@lists.infradead.org>, <ath12k@lists.infradead.org>,
- <brcm80211@lists.linux.dev>, <brcm80211-dev-list.pdl@broadcom.com>,
- <linux-usb@vger.kernel.org>, <linux-bcachefs@vger.kernel.org>,
- <linux-nfs@vger.kernel.org>, <ocfs2-devel@lists.linux.dev>,
- <linux-cifs@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
- <linux-edac@vger.kernel.org>, <selinux@vger.kernel.org>,
- <linux-btrfs@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
- <linux-f2fs-devel@lists.sourceforge.net>, <linux-hwmon@vger.kernel.org>,
- <io-uring@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <bpf@vger.kernel.org>, <linux-wpan@vger.kernel.org>, <dev@openvswitch.org>,
- <linux-s390@vger.kernel.org>, <tipc-discussion@lists.sourceforge.net>,
- Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [FYI][PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-Message-ID: <20240223134653.524a5c9e@gandalf.local.home>
-In-Reply-To: <0aed6cf2-17ae-45aa-b7ff-03da932ea4e0@quicinc.com>
-References: <20240223125634.2888c973@gandalf.local.home>
-	<0aed6cf2-17ae-45aa-b7ff-03da932ea4e0@quicinc.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1708714587; c=relaxed/simple;
+	bh=92v8dqYoQe0iX+4jAPOv06DZwhWuz2g6WcnnQUex/Oo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dKtjLV9mI9JPHJ3t/cL+pKbjbfcAXhlGpNFbJ2EdKgz8qs7tLLdzknkuTLnQsbXpMZj5TttdcTlEaCxQXnInQZj0Dd7aShZW2jhQEMWndttSGlvluHi1cg4S7q3jNPZhIHvjbPPqQuun75KHyim3s4DZf/Qg7mC8QHot7uX242o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ma/O6afa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E74C433F1;
+	Fri, 23 Feb 2024 18:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708714586;
+	bh=92v8dqYoQe0iX+4jAPOv06DZwhWuz2g6WcnnQUex/Oo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ma/O6afag1lu+G6qSE6ZHE/afi7v0njoztfieEfet3YitV2DTYNkMjYA1qjQZMupF
+	 e+hP5RGpdKb4LM+Vy/wVzveSW3dh6MzE+Xe9FnNv8eXR4K0LxS9XSXNoNaEht548F5
+	 rQQyjSgd7T3I3gMkIK9K4i1fK0J/D0eHo9Cz+bWhCSvMJXFdJhj/Ojqq0KSFHKcf9O
+	 FU2KBVGswGcXVVA++lZxinDtdJDbRHLgoHbf1Q2DwYhR1qqjrYbFa3McRq08oSmm2N
+	 vpumBXTlEyECJOeZjLY2YY/5u46jDpM4A3fpec/owucX3QgZT8h/Ha+U/pKnfhrCXO
+	 vADUqJtyyhgwA==
+Date: Fri, 23 Feb 2024 18:56:20 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+Cc: Mehdi Djait <mehdi.djait.k@gmail.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 04/14] media: dt-bindings: media: rockchip,px30-vip:
+ allow for different variants
+Message-ID: <20240223-repose-snuff-54d75755e9f7@spud>
+References: <20240220-v6-8-topic-rk3568-vicap-v1-0-2680a1fa640b@wolfvision.net>
+ <20240220-v6-8-topic-rk3568-vicap-v1-4-2680a1fa640b@wolfvision.net>
+ <20240220-catchy-cupcake-e600e5af7650@spud>
+ <5bb0b0a9-3d4c-4303-aa43-38789bee286d@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="c2uw00hLgTWLWAIx"
+Content-Disposition: inline
+In-Reply-To: <5bb0b0a9-3d4c-4303-aa43-38789bee286d@wolfvision.net>
 
-On Fri, 23 Feb 2024 10:30:45 -0800
-Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
 
-> On 2/23/2024 9:56 AM, Steven Rostedt wrote:
-> > From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> > 
-> > [
-> >    This is a treewide change. I will likely re-create this patch again in
-> >    the second week of the merge window of v6.9 and submit it then. Hoping
-> >    to keep the conflicts that it will cause to a minimum.
-> > ]
-> > 
-> > With the rework of how the __string() handles dynamic strings where it
-> > saves off the source string in field in the helper structure[1], the
-> > assignment of that value to the trace event field is stored in the helper
-> > value and does not need to be passed in again.  
-> 
-> Just curious if this could be done piecemeal by first changing the
-> macros to be variadic macros which allows you to ignore the extra
-> argument. The callers could then be modified in their separate trees.
-> And then once all the callers have be merged, the macros could be
-> changed to no longer be variadic.
+--c2uw00hLgTWLWAIx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I weighed doing that, but I think ripping off the band-aid is a better
-approach. One thing I found is that leaving unused parameters in the macros
-can cause bugs itself. I found one case doing my clean up, where an unused
-parameter in one of the macros was bogus, and when I made it a used
-parameter, it broke the build.
+On Fri, Feb 23, 2024 at 08:03:20AM +0100, Michael Riesch wrote:
+> Hi Conor,
+>=20
+> On 2/20/24 19:58, Conor Dooley wrote:
+> > Hey,
+> >=20
+> > On Tue, Feb 20, 2024 at 10:39:14AM +0100, Michael Riesch wrote:
+> >> Move the documentation of clocks and resets to a allOf: structure in o=
+rder
+> >> to allow for different variants of the IP block.
+> >>
+> >> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> >> ---
+> >>  .../bindings/media/rockchip,px30-vip.yaml          | 58 +++++++++++++=
++--------
+> >>  1 file changed, 37 insertions(+), 21 deletions(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/media/rockchip,px30-vip=
+=2Eyaml b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+> >> index 675a1ea47210..7168f166798c 100644
+> >> --- a/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+> >> +++ b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+> >> @@ -24,32 +24,16 @@ properties:
+> >>    interrupts:
+> >>      maxItems: 1
+> >> =20
+> >> -  clocks:
+> >> -    items:
+> >> -      - description: ACLK
+> >> -      - description: HCLK
+> >> -      - description: PCLK
+> >> -
+> >> -  clock-names:
+> >> -    items:
+> >> -      - const: aclk
+> >> -      - const: hclk
+> >> -      - const: pclk
+> >> +  clocks: true
+> >> +
+> >> +  clock-names: true
+> >=20
+> > This is, unfortunately, not how we like multiple soc support to be
+> > handled. Instead, the widest constraints are added at the top level
+> > and constrained by the allOf. If none of the names etc are shared, at
+> > least the widest constraints for minItems and maxItems should be able to
+> > be here.
+>=20
+> Just to make sure I got it right:
+>=20
+> clocks:
+>   minItems: 3
+>   maxItems: 4
 
-I think for tree-wide changes, the preferred approach is to do one big
-patch at once. And since this only affects TRACE_EVENT() macros, it
-hopefully would not be too much of a burden (although out of tree users may
-suffer from this, but do we care?)
+>   items:
+>     - const: aclk
+>     - const: hclk
 
-Now one thing I could do is to not remove the parameter, but just add:
+If the names themselves are all different, I wouldn't bother with this,
+and just constrain the numbers at the top level.
+Otherwise ye, on the right track here.
 
-	WARN_ON_ONCE((src) != __data_offsets->item##_ptr_);
+--c2uw00hLgTWLWAIx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-in the __assign_str() macro to make sure that it's still the same that is
-assigned. But I'm not sure how useful that is, and still causes burden to
-have it. I never really liked the passing of the string in two places to
-begin with.
+-----BEGIN PGP SIGNATURE-----
 
--- Steve
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZdjqVAAKCRB4tDGHoIJi
+0sgDAP9NYmoVCik3KPzxF03GN7LgK3kwRDne9lST8Qo/eYyBHgD/V//mwx3Ir5bf
+1SauEFkTl53Jdn4kpgjw4RAfMwEhDg8=
+=E6bW
+-----END PGP SIGNATURE-----
+
+--c2uw00hLgTWLWAIx--
 
