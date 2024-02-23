@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-5798-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5799-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AAD861396
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 15:06:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DD9861398
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 15:06:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F54FB2425E
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 14:06:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9858AB23D65
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 14:06:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ABC3823C1;
-	Fri, 23 Feb 2024 14:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6C487F7CE;
+	Fri, 23 Feb 2024 14:05:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="APtMvge+";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="qqSFXuap"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="AIMZeMGO";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Ki0kzQxj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7C08061F;
-	Fri, 23 Feb 2024 14:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A927F49F;
+	Fri, 23 Feb 2024 14:05:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708697111; cv=none; b=bdEQhmmzB11LG2Sh/ZUKE3g529clnNGorjmIdU4CvQQSfetQLYnb1Q66Wd2iFVi3xrihn1e02Y4PtRguLrYSMNqFm0x18HV/zpTLcj7kb6r5QamgjrRjzBW7NBJnQJKYBur/ktkLK3U7fbEkbK8vWpQAdu7pkK0RB2XZyTdjAts=
+	t=1708697118; cv=none; b=Z642Bkq34p2JdEadRmnBGWU15F8a1zVj3ILG6bzD+T51L/0f7skQ8XVfaG294hxNAIgM69+JmNuOg2hKGwtN4AS9WyoNzTdROtyRB9GxXWhiM2qmcnYCwcOVIIVapTnQYQEPgqXKAXPVyU1KHQMlwetgzKCTcXbArkhsHDIUMpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708697111; c=relaxed/simple;
-	bh=7rEBM2FQFnUKy/TDBhxlTwDH88dsOPrsEvCCdkhvIHI=;
+	s=arc-20240116; t=1708697118; c=relaxed/simple;
+	bh=9tIjTE/kKva9xBA3gqPKlGyp5dZlS1Lj163OwzCwhJY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m/GBIVtUctmhHy6Ti8aVZl3h5KZ/HjQGNhynRMVE54oyocyS0bDFsyCNvGwryfYUk7vVsBwtNgkrqqZKE1j2YNlu7pmX/76d9WfBuCqUU4UdXqXMbqSu5Ej7rnSRrMTlVfCSWh4yuq+fw/YkbXVhH1bjmG2MIc2bcSBzTynyY2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=APtMvge+; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=qqSFXuap reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+	 MIME-Version; b=JhQS+BzF0Rxm1uUVWjZS127cSWZgNPt9MTHLEBOFfIigKOD9ODcLY5DcTpz3wGp/wATxtq5nfSLlzCbF8aQWw2+3nMKNyzkslsC1IOboz1rGOZQYHDCNBFdYbsABIMUhZU62h7yrn56iBnuhxDKBNDiQusdN1UD2E5yoa+DW7PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=AIMZeMGO; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=Ki0kzQxj reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1708697109; x=1740233109;
+  t=1708697116; x=1740233116;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=PJgk8HeX9ew6QDHmHWj6tm8vQGJ/FpFyILM7zofm9nE=;
-  b=APtMvge+UaLJuuvPEs8FFn10/zdn6QwFz/BzwGGBPm/arU6yYJBeD3NO
-   LPUio2RZ847IMKwZ+q47Yg/SbiJBpy95yIMuTQUtnpZuu82z+dRvu+zhK
-   UxtD9NKyl6eo03sA7dSJtHdBcQb+jxCtzx24rdN2YvKCjhJHV/1K8ll77
-   6GZXWJ2JsNLpU9HTiuV1ovjBIcVMss1FqehZW3KDUzSIO2hwRWG+SWBfY
-   8HXlF56iRpRvjh23NdUla52cupDUeoXFY6u886RUK3EkhM9oZnqlKumU1
-   hv4y9pWhxnc5WI0ruFGmzLpNifsXm/radTYDL7auOBHLnnCDB77fBozIK
+  bh=YNkdmTrEJssYvYfNoX6EzwX2xAdmHMe+CFIvEXKOPQY=;
+  b=AIMZeMGOHfTpFi8tR+I71alpDoILnM5qVLssJZEr0NWvfDb2pNAh8JNR
+   rdMT7A2Nw8QwQsX2oJhDZ8/pJMFEZInvs4uDlVYSwCXn55r5tsaW8Zh0t
+   0QOzLUqd4Uq5PvFnznCRCnaw7R1+OIp8EfW7FJsbMNwRvIjSdt3IEDp86
+   RXPQA1HU2vLthYqnCKv4Dt2vi5ShePo0aLgzxBjGHVvHuNchsrc0dLd00
+   wnlaPa2J0BGxi/buwU+NKPyzAkNRmFwV3B+DjTYLJRqfeBGcc/KHzey4w
+   rKRpnlCl5QcZLOm31vm7w/rk3iGh/QN/sP//RmunoVAft3nEZF6g7lTfF
    w==;
 X-IronPort-AV: E=Sophos;i="6.06,180,1705359600"; 
-   d="scan'208";a="35569654"
+   d="scan'208";a="35569659"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 23 Feb 2024 15:05:08 +0100
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9E9E3170276;
-	Fri, 23 Feb 2024 15:05:03 +0100 (CET)
+  by mx1.tq-group.com with ESMTP; 23 Feb 2024 15:05:13 +0100
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7CABF170698;
+	Fri, 23 Feb 2024 15:05:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1708697104; h=from:subject:date:message-id:to:cc:mime-version:
+	s=dkim; t=1708697109; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=PJgk8HeX9ew6QDHmHWj6tm8vQGJ/FpFyILM7zofm9nE=;
-	b=qqSFXuapY/mZwGEUJwoA/wzYaLAtD05jbZ6mh6ZoP8oRkW7dOFcH8/hDM+8zoV5L4esmkK
-	FjcydTHPIc4yVqesIaeFjXbTLJqc5Twa55bib+SoFfvtbZvqqJL2URZ53txQzWCMi9gl1m
-	S8E3oIaG4egwI92ivfgt/dyNyY/meY7KblcjwCUcqno5Yw4RFoMIsRNUIGya/BVrFuqcZE
-	G3xMIUtCz7B6DObTsrmUyhTBPlh1iykZMBr+2oyjVF/5/pD0tK28a5rNnxAF0QeWCLxUo/
-	C1r37zhEVuXbQOH3J2Cm4OwuI7+nGMmgdOL9DfqM2h19OUDFqvV0bahH2Hi+ug==
+	bh=YNkdmTrEJssYvYfNoX6EzwX2xAdmHMe+CFIvEXKOPQY=;
+	b=Ki0kzQxjhIwqOi9zdF3f5+PIGv995rY5dcN2MxWrExbzqCTT/N2vlqXSPBOqPkyAq+0G8t
+	Xab7KFdMpGAkHNS+TKTHQ1q0y1IucNJsvyHF7/Ptt1CaxSP1ArNTPcbvP7DTpLcgCGAvQb
+	eWEK5Dwad9g0B2qSYhYn3IJHJx4U75oWwufCszyr8Zx8LWNkTBDnCKYKOjNQeqDRMTPJlb
+	7ltnHnWpiRLR0MWL20wn4UMMcamobBEHxi39AwxrCa3Lyi7eImHiVhMeaSTIUfEkOTZ8/r
+	mdAZMmjlbxW4ImdSuy5IHoZz/Fxdgcmp+ydP4XMx52Y5T6V1NAkixEIKgr8SAA==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -75,9 +75,9 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 	linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/3] media: dt-bindings: nxp,imx8-isi: Allow single port for single pipeline models
-Date: Fri, 23 Feb 2024 15:04:44 +0100
-Message-Id: <20240223140445.1885083-3-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 3/3] arm64: dts: imx8mn: Use single port for ISI
+Date: Fri, 23 Feb 2024 15:04:45 +0100
+Message-Id: <20240223140445.1885083-4-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240223140445.1885083-1-alexander.stein@ew.tq-group.com>
 References: <20240223140445.1885083-1-alexander.stein@ew.tq-group.com>
@@ -90,60 +90,39 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-In case the hardware only supports just one pipeline, allow using a
-single port node as well.
+The ISI on i.MX8M Nano only has one port/channel, so use the single port
+node. Fixes the DTBS_CHECK warning:
+/soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node
+'port@0', #address-cells/#size-cells are not necessary
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- .../devicetree/bindings/media/nxp,imx8-isi.yaml    | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/freescale/imx8mn.dtsi | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-index 4d5348d456a1f..f855f3cc91fea 100644
---- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-+++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-@@ -53,6 +53,12 @@ properties:
-   power-domains:
-     maxItems: 1
+diff --git a/arch/arm64/boot/dts/freescale/imx8mn.dtsi b/arch/arm64/boot/dts/freescale/imx8mn.dtsi
+index 136e75c51251a..de7704aafbc1a 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mn.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mn.dtsi
+@@ -1118,15 +1118,9 @@ isi: isi@32e20000 {
+ 				power-domains = <&disp_blk_ctrl IMX8MN_DISPBLK_PD_ISI>;
+ 				status = "disabled";
  
-+  port:
-+    $ref: /schemas/graph.yaml#/properties/port
-+    description: |
-+      Port representing the Pixel Link input to the ISI. Used for
-+      single-pipeline models. The port shall have a single endpoint.
-+
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-     description: |
-@@ -66,7 +72,6 @@ required:
-   - clocks
-   - clock-names
-   - fsl,blk-ctrl
--  - ports
- 
- allOf:
-   - if:
-@@ -87,6 +92,11 @@ allOf:
-             port@1: false
-           required:
-             - port@0
-+      oneOf:
-+        - required:
-+            - port
-+        - required:
-+            - ports
- 
-   - if:
-       properties:
-@@ -106,6 +116,8 @@ allOf:
-           required:
-             - port@0
-             - port@1
-+      required:
-+        - ports
- 
- additionalProperties: false
- 
+-				ports {
+-					#address-cells = <1>;
+-					#size-cells = <0>;
+-
+-					port@0 {
+-						reg = <0>;
+-						isi_in: endpoint {
+-							remote-endpoint = <&mipi_csi_out>;
+-						};
++				port {
++					isi_in: endpoint {
++						remote-endpoint = <&mipi_csi_out>;
+ 					};
+ 				};
+ 			};
 -- 
 2.34.1
 
