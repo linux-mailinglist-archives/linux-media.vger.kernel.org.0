@@ -1,91 +1,88 @@
-Return-Path: <linux-media+bounces-5757-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5758-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E854F860EEB
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 11:09:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCCD860F50
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 11:30:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24DC01C218D9
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 10:09:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF63D1C20856
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 10:30:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 589745CDD2;
-	Fri, 23 Feb 2024 10:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A89A65D907;
+	Fri, 23 Feb 2024 10:30:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hadUZC1Y"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AITRzPou"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73BDD533
-	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 10:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819555D906;
+	Fri, 23 Feb 2024 10:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708682976; cv=none; b=oXWcfqvu5/QesgC7dtR20sTI5lR226/prouZiFBjn935Pi2rSOj3RUEvxzUVjuxRAhw2w5jHPKnpsvTO5OmMoaxMU/S68wJWOK2OIcXiKwAo1KlYN0kl3LBaRvJLxYp5ug9/sDoK3qWyyiKvQpJk9hydNfGQ2gbkdTMQ/pkxpv0=
+	t=1708684214; cv=none; b=PKukYik8NR7S4lpuXlZglu5plwRyCSWJL0lvjHgSkFO3o31xjuZ9/wfSOfQ1HMR5zKaF5LWS/ovW6ef0AVCVs9HwF8iELRP2nb6eX892d3KH8gkjiKoMKMf/1umcX/ke7RcrI9vI1naM4yDz0kHRgqxBxxmbvvGLJFCNMmXQN3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708682976; c=relaxed/simple;
-	bh=uyn1jMafq9iqgSvn3eisWqYZjcSHh8iFZXXePmxS7S4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IwenlUB1XU07T6PlHGJzgJ1T1amJPxfQ/ZHBEW8xItyrAy3RGJleOy1G/GMnwqlBZtCvRe7+W2VdmGKUFohBRPQEHd0cPUfrfJuA0/OXhe0z3nTR3t+AffQxHErHSenpbEVeauzcw4nSCnDKOQQ36gAWxAKcqhrlQ2Mt0J1Fy7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hadUZC1Y; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708682975; x=1740218975;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uyn1jMafq9iqgSvn3eisWqYZjcSHh8iFZXXePmxS7S4=;
-  b=hadUZC1YuJ1yyYj69/SNaNO7D5Kucz8xKPy8qVFn4NTgocLYIrrs1OYl
-   rjvVYhnNuBfkIJAmBUKyPdbkMojJdAgMrV1T0wVk0Vb9G78Ks7W6FowA2
-   MXg2ny4UV+aiuu9ZG3JnJIZCdcBZSl/5ntZJidNEAzoil8JBQoBmQdk3Q
-   kbOFcVevaRqz0yB7/KMx/19eRvs2sQf6ruG3xTwPnI1sPCEjrXmo1Cquy
-   4Ii/22VjT0LwPD0pWd/Vefm3dezUpK6pLVeY+jkrwki8EoOMlsOP67E+P
-   YB4zTpIKLDUSnfVyiSDbxzADMk+Tr0YztMJN+Mhrh1lrmbdx1hbrUkPrv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="13629603"
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="13629603"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 02:09:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="5878628"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 02:09:32 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9730C11F81D;
-	Fri, 23 Feb 2024 12:09:29 +0200 (EET)
-Date: Fri, 23 Feb 2024 10:09:29 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] media: mc: mark the media devnode as registered from
- the, start
-Message-ID: <Zdhu2bAswvseLYGI@kekkonen.localdomain>
-References: <b28a6f75-eb46-4d71-a919-b4c9c8e35124@xs4all.nl>
- <20240223100053.GJ31348@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1708684214; c=relaxed/simple;
+	bh=a5wsB2yzzq4HgC/3HlvIPTX8LqprZF/u+NXqYmbqYW8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=oveXDV0eWlzoOvh52kNogaWPsBrcyBjEi2lhM0hP1oL4lvGXo6NXWdfEYqwJFq3uO4HrCqa+wykEMA+5qUWbusKdhK5iQxV/+Jow1hpO/33bDi81qSPSGOkceKewsVluQMImjc2k4mgbeRlqQJreVaJuy9NZl3M17hDRGH9i5GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=AITRzPou; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1708684210;
+	bh=a5wsB2yzzq4HgC/3HlvIPTX8LqprZF/u+NXqYmbqYW8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=AITRzPoueMRYeP57son9yL6hAeAgXHSh8sWxepR3jEGc2Mp36bHj3vHMYYi+J7aEx
+	 tFcIxI397gK1+nh3flb50/8ug7TbRyAyDAKtTc4o3yOzg3wdF1pRBPZ2/OfekKUju1
+	 ib3ph1KHl+R3jvap1mX0iSkEOpiech1UU5Us0C8emgMpSqp23Pk19Mwm1epvnxJLST
+	 GmWULOC0PkTfYbbYBfgWC6aKawmvgh0wS9L4yjWUNTrzcbFvi90WHpE8nnT5bXg0uS
+	 1EumBITbZZDinPGrDEzkCaNX87LUD4sUdF/qvawmv+5EhkewYtAlW8QFmdr3MEu3aD
+	 1rsOgo4/wQfkg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E127E37820CF;
+	Fri, 23 Feb 2024 10:30:09 +0000 (UTC)
+Message-ID: <c365c2c8-8211-4e36-8ba1-8b4638e81039@collabora.com>
+Date: Fri, 23 Feb 2024 11:30:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240223100053.GJ31348@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/12] soc: mediatek: cmdq: Rename cmdq_pkt_jump() to
+ cmdq_pkt_jump_abs()
+Content-Language: en-US
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Moudy Ho
+ <moudy.ho@mediatek.com>, "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20240222154120.16959-1-chunkuang.hu@kernel.org>
+ <20240222154120.16959-4-chunkuang.hu@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240222154120.16959-4-chunkuang.hu@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+Il 22/02/24 16:41, Chun-Kuang Hu ha scritto:
+> In order to distinguish absolute jump and relative jump,
+> cmdq_pkt_jump() append absolute jump command, so rename it to
+> cmdq_pkt_jump_abs().
+> 
+> Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
-On Fri, Feb 23, 2024 at 12:00:53PM +0200, Laurent Pinchart wrote:
-> I however wonder if we couldn't get rid of the flag and delegate the
-> registration test to cdev.
 
-I'd see how this could be done after merging the lifetime management
-patches.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
--- 
-Sakari Ailus
+
 
