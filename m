@@ -1,85 +1,90 @@
-Return-Path: <linux-media+bounces-5772-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5773-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75FC8610E9
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 13:00:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034998610FF
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 13:06:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62A6A1F2598B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 12:00:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83C6D1F23796
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 12:06:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B8B7CF27;
-	Fri, 23 Feb 2024 12:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31097A722;
+	Fri, 23 Feb 2024 12:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="YMi2jd9/"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="CxYx3wMF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ABE7C092
-	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 11:59:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCFB76911
+	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 12:06:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708689606; cv=pass; b=XCzcF0DCmhpw6sbMJswkXaeX5JQcw5Nl9agAYmzc78QNFq9ofwaawiCLQrYwRIZt8aGc8KQldiXnHaHR2IHAf0Fge5UjwrSVDGEg6hI2ldVhajmqjh479AVyBBSKBTGFqZV1D000hZYPkZ3QcCxF6IOAG8fIdfZozRwyroxg6RE=
+	t=1708689968; cv=pass; b=A4pjy5lbxDiHQH4YL4VqZzQLpJtAH6py0R6LreMPOhVIoyrZzv8qij3KT/no4rH/D5GLXIN62jdWg4Mx47FOcQQogBOh390iR+zJV/hFS6xJko1utTNuhA8tmXI7t3+Fy6rRfnuyE2TWwvPzRbdHQ00JvX78Az3ahQ4USjco/W4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708689606; c=relaxed/simple;
-	bh=pdYIOeLSzcI70UCa6ldWMWxs8N9adbcvJ/l9pVw8Iq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Of/PYvC4A5QsW7scRaWx1vnSA8BiLLziUCx0wfwiXaBQ6szh3I9IeylSG39fBJyhfCRDfYfm9FciDsDXcXLw/OP2XixCq8MlUcyftTTsAXIDVsw/C7Fla1/hHjXXg3cHRuXse8YU6SkkaZ2zEkayBMVPaldVSgNqVZcuftEpXHo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=YMi2jd9/; arc=pass smtp.client-ip=185.185.170.37
+	s=arc-20240116; t=1708689968; c=relaxed/simple;
+	bh=CowqNqxworXJGigu8kHltNN06zuqgTejztiUnItruZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LmcuHbPxGp8250iYQ1Kj808dNlPDo5r5GJPn0pnOamHQ95vtoAWKcsRXPZevCpteRlDr1gdnlBJvA/DH/CQI3Qq8NAGHnh2skArhxVTXzqmPK3rOkEsq9aOzCc5/pX0qnwSmV+QhciROmS1FCydkYa0FWdw5CJH/af9QmGokRiQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=CxYx3wMF; arc=pass smtp.client-ip=185.185.170.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Th7q322ZQz49Psw;
-	Fri, 23 Feb 2024 13:59:43 +0200 (EET)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Th7yL71Nlz49Psw;
+	Fri, 23 Feb 2024 14:06:02 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1708689583;
+	t=1708689963;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=y/jy6qdqLkb9HP+1jHo9w815BgtLDuhKrAVZSH6wMVY=;
-	b=YMi2jd9/hCMMwlscQE1YxaZvt50ii/aKBevgaYXOsdVcFEdK+X1vCT3+sgKYDxs2BU9zPu
-	cFjgOOX+GWzN2iFTitFhhgKJpwRxQbkN+7R3COUkMzJXh+hMDIZ998zlAfJ/jvIn2SjgPP
-	luz1Kzlh3jSjNxypXQ3hc1cY0QqoSCt4YTQIuzaSlXnP/+A0Y0+diCO2MXyp8Vr/WMwrie
-	31ulqI24aRhLcQae35lP+JAVVWaTFeWFZsEBddbLJm/FcYF816KtEnPzQsERelCCJXJdev
-	u+DB4X+o+l7bL7TAP4/c3b3ZuM5ekL5mVpk65pmsSpgRTjz92NobpjxM4EM5Cg==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kmFmw2QOBWOXbjUd/9mr8vc2yK+WGLswbcLSuVg6sIQ=;
+	b=CxYx3wMF9PoqR4SE+WuEbDkg9GFmLhMfCfV+w99ZetlNXtiuxNUxgc2qzg7WHYRsAVb4P1
+	0CtQWwvKU+UIyKHEC8J32Fxp35xzioC4SNVuLRX8kucuZyEJ9CqlPFA9p1ppge7w4YXU9r
+	FHffrXKc4OSU1DSmsZbIhg777dpPHMIu/RcEeUOJFrNhqfT9XTbM9/a1WsCKCBWcDR+3fH
+	NfBq4ed6Hfa24BXw5SQHVe9yNvS5VKXVQM86f1GLQ6PV3ZTRtfMrSIWkl25QlgME0yA57z
+	9ObmPfjSQHurgiSXj96UE0H3AdzoUZyNNqgLgKSplM0Aj2Esn8tlfCVfnw0aNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1708689583;
+	s=lahtoruutu; t=1708689963;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=y/jy6qdqLkb9HP+1jHo9w815BgtLDuhKrAVZSH6wMVY=;
-	b=aBgacI8KuVYkentU3ih4b8pJL4fz8TpiSmpkm6OGNGevFt7ZYQJ5jFiXmbQg7HF3cSM0Qu
-	M73FJW5NEWoXURpaFqDODoReEUf+hR7ISjf8Bc/L/V4ZoiRT+pZZauTVSP4sFJCPpSao4e
-	vsBMpKS3DEH8klcZmVJIMJtavz3lrC/856wWhKsCL1JWwuDCD5tbx4R7EElRUYL+GEmTXS
-	ACSIv/2VU0R4rXE/POWCaqcIfLneBQK3hCoo9RqcAhKpexhaQplkMkefiLdU/58iY/i197
-	lQHeTldo6TSVZj2Q3S66KFa0cuFmOVoJ7P34YhabBVzfYmJOWoQD6mwF6Nm7Tg==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kmFmw2QOBWOXbjUd/9mr8vc2yK+WGLswbcLSuVg6sIQ=;
+	b=UtOUku+FwFEUdhg1AEdg6v//kk/pcTHEdWnb+boMp1cCJ8M9EA8XmitAGq/4/H3U/QiPPN
+	8pOgRh1fPeK65JSZoJfIk7e5qQpTlL7ljbplr7TS7k86FW1xTa9Sj/Mfqhr8Bw9FdtDODE
+	dlF2LXpgDZIU5MfONhI1dCtc42LGmoCHEsaqDoTuMl2td2gC3ruljCsHJo7kM6TcQZ2ijd
+	cojbtt2i7t6WQSNY1cpz5KaCNt4CkqRelHV6QmtNDek7d5M8enAEyCQRRNMzJH0tdpTD8y
+	VEYs04FmvIMKt/LJT1h0rIyR9beYuIVbmb3KrRomLfJoly7nM4sFt5W5KezEvA==
 ARC-Authentication-Results: i=1;
 	ORIGINATING;
 	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1708689583; a=rsa-sha256;
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1708689963; a=rsa-sha256;
 	cv=none;
-	b=Xevyo3n/GRWA2G/LMk4x3BllogDjEwttX0D8DPAiPr5xob4hPNz+PCKPYVxhcr/9yl/Hpo
-	bGHAM71Iq89WUr8L6XMe1ugMYxms1DOyu8KdFbqvOEuoNGFLJ/FRf2yqb+Y7rnZdjno2Rp
-	mf9g2iqy3yfe/e0q/MgNUTGHOtX9l2vboCN7P0IHz+xFfur23EklMuIBgOgB5uteJxCtK+
-	POaTq1aKP8A5bN2yLKB/251UKRFYy7mGMk7V/YLsLQx6UeGe9yJHfA3nK5ClPs96lkxRHA
-	WcQnLW+9XSInGhZCJo4fgpASOSdlYPWvkOEE4RBJT00xX7CxVv/UXuv5qyJTvQ==
+	b=EPzpQpvZ0Exe3cLQuOxeHq6N1YJzeR6CFvtkiYjNDgMMyW3r55O4pWi/2+O7XRuGBALgbo
+	IVkT9k0qXpEY+hYeC1iZxFdp2wUiGUCwG4+PJ/Fa/ecUxGQICKbwxDs8J6iFy1wcJZgifA
+	H1uNW9x/7LhpblTC8MwHHOwWcrxt7GT4gff+cGZT1obakK2AgrT5m1eF7+RsGdfp6EQAhr
+	G8pv1hm5Ys7aNWnJpybFXY865e26iM96D4TFallMyeAigKeddkGLdbi10bQiJQI5krxjd2
+	nUVSNy63LYvbswbkQnAtkVjStN90aPruflXfauY9IxIV4c5gMcJ1IhLiDukagA==
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id F374E634C93;
-	Fri, 23 Feb 2024 13:59:42 +0200 (EET)
-Date: Fri, 23 Feb 2024 11:59:42 +0000
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E591F634C93;
+	Fri, 23 Feb 2024 14:06:01 +0200 (EET)
+Date: Fri, 23 Feb 2024 12:06:01 +0000
 From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR 6.9] V4L2 patches
-Message-ID: <ZdiIrrJ6s2wJc83X@valkosipuli.retiisi.eu>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Subject: Re: [GIT PULL FOR 6.9] Revert a faulty ov08x40 patch and re-apply a
+ good one
+Message-ID: <ZdiKKaSidocvnIaP@valkosipuli.retiisi.eu>
+References: <ZcIg6YsKuLph6KV7@valkosipuli.retiisi.eu>
+ <20240206130838.GD13235@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,97 +93,71 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240206130838.GD13235@pendragon.ideasonboard.com>
 
-Hi Hans, Mauro,
+On Tue, Feb 06, 2024 at 03:08:38PM +0200, Laurent Pinchart wrote:
+> On Tue, Feb 06, 2024 at 12:07:05PM +0000, Sakari Ailus wrote:
+> > Hi Mauro, Hans,
+> > 
+> > This PR reverts a faulty ov08x40 patch and re-applies the same with the bad
+> > DT binding and source changes removed.
+> > 
+> > Note that this HAS TO be merged before sending the current media stage tree
+> > further to Linus.
+> > 
+> > Thanks to Laurent for spotting the bad changes.
+> 
+> I spotted it thanks to sheer luck. The interesting question is to to
+> prevent this happening again.
 
-Here's again a bunch of V4L2 patches, mostly camera sensor, for 6.9. Apart
-from that, there are IPU bridge improvements and MEI CSI fixes as well as a
-dw9714 fix and OF graph API usage improvements my Morimoto-san.
+Indeed. There's nothing in my workflow that I whink could have caused this.
+I basically did b4 shazam (which was clean, I checked), then edited that
+driver file only, followed by git commit --amend -a. And there it was.
 
-Please pull.
+link-frequencies never was an array of 32-bit integers anyway. I may have
+written this some years ago for testing purposes but I no longer have such
+patches as files in my work tree, including the git stash.
 
-
-The following changes since commit 8c64f4cdf4e6cc5682c52523713af8c39c94e6d5:
-
-  media: edia: dvbdev: fix a use-after-free (2024-02-07 06:06:03 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.9-4-signed
-
-for you to fetch changes up to eff11b9051f5693e75901fdab59200c476c9b4f9:
-
-  media: i2c: imx290: Fix IMX920 typo (2024-02-21 14:03:32 +0200)
-
-----------------------------------------------------------------
-V4L2 patches for 6.9
-
-----------------------------------------------------------------
-Alexander Stein (1):
-      media: i2c: imx290: Fix IMX920 typo
-
-Biju Das (1):
-      media: i2c: ov5645: Remove software reset entry from ov5645_global_init_setting
-
-Kuninori Morimoto (2):
-      media: i2c: replace of_graph_get_next_endpoint()
-      media: platform: replace of_graph_get_next_endpoint()
-
-Matthias Fend (1):
-      media: imx335: Add support for test pattern generator
-
-Ondrej Jirman (1):
-      media: i2c: dw9714: Fix occasional probe errors
-
-Sakari Ailus (5):
-      media: ipu-bridge: Add ov01a10 in Dell XPS 9315
-      media: ipu-bridge: Move graph checking to IPU bridge
-      media: ipu-bridge: Serialise calls to IPU bridge init
-      media: ivsc: csi: Swap SINK and SOURCE pads
-      media: ivsc: csi: Make use of sub-device state
-
-Tommaso Merciai (5):
-      media: i2c: alvium: removal of dft_fr, min_fr and max_fr
-      media: i2c: alvium: remove the fr field of the alvium_dev structure
-      media: i2c: alvium: inline set_frame_interval into s_frame_interval
-      media: i2c: alvium: store frame interval in subdev state
-      media: i2c: alvium: fix req_fr check in alvium_s_frame_interval()
-
-Umang Jain (4):
-      media: imx335: Set reserved register to default value
-      media: imx335: Use v4l2_link_freq_to_bitmap helper
-      media: imx335: Support multiple link frequency
-      media: imx335: Refactor power sequence to set controls
-
- drivers/media/i2c/adv7343.c                        |   2 +-
- drivers/media/i2c/adv7604.c                        |   4 +-
- drivers/media/i2c/alvium-csi2.c                    |  99 +++-----
- drivers/media/i2c/alvium-csi2.h                    |   5 -
- drivers/media/i2c/dw9714.c                         |   2 +
- drivers/media/i2c/imx290.c                         |  16 +-
- drivers/media/i2c/imx335.c                         | 251 +++++++++++++++++----
- drivers/media/i2c/mt9p031.c                        |   2 +-
- drivers/media/i2c/mt9v032.c                        |   2 +-
- drivers/media/i2c/ov2659.c                         |   2 +-
- drivers/media/i2c/ov5645.c                         |   7 +-
- drivers/media/i2c/ov5647.c                         |   2 +-
- drivers/media/i2c/s5c73m3/s5c73m3-core.c           |   2 +-
- drivers/media/i2c/s5k5baf.c                        |   2 +-
- drivers/media/i2c/tc358743.c                       |   2 +-
- drivers/media/i2c/tda1997x.c                       |   2 +-
- drivers/media/i2c/tvp514x.c                        |   2 +-
- drivers/media/i2c/tvp7002.c                        |   2 +-
- drivers/media/pci/intel/ipu-bridge.c               |  26 +++
- drivers/media/pci/intel/ipu3/ipu3-cio2.c           |  31 +--
- drivers/media/pci/intel/ivsc/mei_csi.c             |  87 ++-----
- drivers/media/platform/atmel/atmel-isi.c           |   4 +-
- drivers/media/platform/intel/pxa_camera.c          |   2 +-
- .../media/platform/samsung/exynos4-is/fimc-is.c    |   2 +-
- .../media/platform/samsung/exynos4-is/mipi-csis.c  |   3 +-
- drivers/media/platform/st/stm32/stm32-dcmi.c       |   4 +-
- drivers/media/platform/ti/davinci/vpif.c           |   3 +-
- 27 files changed, 314 insertions(+), 254 deletions(-)
-
+$ git diff 88a058cbd080..034b58342662
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+index 26e3e7d7c67b..ea511f2fed98 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
++++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+@@ -190,7 +190,7 @@ properties:
+       Allow MIPI CSI-2 non-continuous clock mode.
+ 
+   link-frequencies:
+-    $ref: /schemas/types.yaml#/definitions/uint64-array
++    $ref: /schemas/types.yaml#/definitions/uint32-array
+     description:
+       Allowed data bus frequencies. For MIPI CSI-2, for instance, this is the
+       actual frequency of the bus, not bits per clock per lane value. An array
+diff --git a/arch/arm/boot/dts/ti/omap/omap3-n9.dts b/arch/arm/boot/dts/ti/omap/omap3-n9.dts
+index a3cf3f443785..728a8fcf25b3 100644
+--- a/arch/arm/boot/dts/ti/omap/omap3-n9.dts
++++ b/arch/arm/boot/dts/ti/omap/omap3-n9.dts
+@@ -26,7 +26,7 @@ smia_1: camera@10 {
+ 		flash-leds = <&as3645a_flash &as3645a_indicator>;
+ 		port {
+ 			smia_1_1: endpoint {
+-				link-frequencies = /bits/ 64 <199200000 210000000 499200000>;
++				link-frequencies = /bits/ 32 <199200000 210000000 499200000>;
+ 				clock-lanes = <0>;
+ 				data-lanes = <1 2>;
+ 				remote-endpoint = <&csi2a_ep>;
+diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
+index d28d31ddc2a7..5631e7d1f328 100644
+--- a/drivers/media/i2c/ov08x40.c
++++ b/drivers/media/i2c/ov08x40.c
+@@ -1361,8 +1361,6 @@ static int ov08x40_burst_fill_regs(struct ov08x40 *ov08x, u16 first_reg,
+ 		return -EIO;
+ 	}
+ 
+-	dev_dbg(&client->dev, "I2C burst transfer succeeded\n");
+-
+ 	return 0;
+ }
+ 
 -- 
 Sakari Ailus
 
