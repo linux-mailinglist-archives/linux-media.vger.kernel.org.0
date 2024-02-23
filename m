@@ -1,133 +1,126 @@
-Return-Path: <linux-media+bounces-5742-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5743-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E58860CE7
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 09:34:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0619860D13
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 09:43:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16EC6287061
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 08:34:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 91076B24EC4
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 08:43:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7229B4F888;
-	Fri, 23 Feb 2024 08:28:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A02BC18E2A;
+	Fri, 23 Feb 2024 08:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="5i0bsycN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/GE7Ycn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42ADF1B59B;
-	Fri, 23 Feb 2024 08:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4700618E0E;
+	Fri, 23 Feb 2024 08:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708676915; cv=none; b=irEidcdQfmSfihS3P9puhyti8G7E7M6+XxXOJcqDz+C0dKUJyAoo+Yv6K62dIxaUOkMbL6P/sFi7pgVSfz8imvMpVH27d9Iq2p6UyMRXBvrB58ycTNHStT3Jb/7FCz2kPxULAEen8M9U8lZEmIe2NtjaxzYiEmOP5eTExWUQH5A=
+	t=1708677799; cv=none; b=GRRI1LTyQpwHPcGy3sEWluA+qoSUrInHGLA/CkRoZfMz6fobzKX9GO0ktqvqDOgqjC8lbh4UzxkRFDItBd8G5EXVFuHjPqPV/yQq1AS4cUXcMfvkdPwLYYp0Jsl6pBfb6FGKl8ucXS9kCXxu0cCe/o4WkCfqfDRDjCemnacDUWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708676915; c=relaxed/simple;
-	bh=VQInuZKD4QOobr1zpp5OXgZQ5KFOiImoN91p7A5r86s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dsLnAkVsxNVgT/dqT2zRkpyZ0fqeYGjDYckhFG/t/qOhlmDjLTKE1s5OJZT8QYoO7TojRbuflym7nX+nC09OMBONR/mcH12mj40Uj9C0mbMb6Zghayu2yBPM/koabS71NOAKM7u4KZ0lEZWzp5bKOvGKOW35pAXjbSboXYSjXxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=5i0bsycN; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708676912;
-	bh=VQInuZKD4QOobr1zpp5OXgZQ5KFOiImoN91p7A5r86s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=5i0bsycN0PEShA+rSD7rUGII8bzQSP3VSj0KK8cROouRiefY5QXB/DqldGoZe7HDk
-	 gjz+fV+mS+ihmUABzdz7b1RViYN8yTo7R3ygSU6Wq5cxkePYKr8qdouRWIpGr4/Rvt
-	 yquGPG2IACjwKAkfW4JYJLFkectwCRnqBOliXHq7pT3jdx2agOFRs+8dX1SsAnYnBZ
-	 HtynFoRDgUFBCdF5b5fcAORbXQipp7YYHKKyWdQ+3PbDtGG0FUlobpk8ppnPm90UNF
-	 2wo9NZfv6WEOc4OBQWsC/g3pmo4I9P2PhqzyI2/nXaiaogAiAIrr3drEq6wcYoyn6z
-	 iYLH2fEfFCC+g==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 595C237820DB;
-	Fri, 23 Feb 2024 08:28:31 +0000 (UTC)
-Message-ID: <a7e30fbe-6a82-4c26-afef-e7b75c1c0102@collabora.com>
-Date: Fri, 23 Feb 2024 09:28:30 +0100
+	s=arc-20240116; t=1708677799; c=relaxed/simple;
+	bh=IEeTlpxURy3/yxx9Pu6JpPyffFdM2y6Tfz9e7EtiqbE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DFuY9gaQk0tSluj6T/aAWGeVkxogCVMV7jV04vBj1PVeXN5hHayfHXydxGfv2PVrmDBApbMjDf3KnwlAJ9EH6kWzODEIUI987ZWfkpZE5p5KoTm4fERXr1YPgXAGtvaBZLED9HzDOGk5N8MgMEOFq8fJXNpK/eUSMPsLhEpFYI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/GE7Ycn; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708677797; x=1740213797;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IEeTlpxURy3/yxx9Pu6JpPyffFdM2y6Tfz9e7EtiqbE=;
+  b=a/GE7YcnnKw4ZAhiIvHWQXP9syXTouQtCTed7mT4SA8qkPG7yDOidaKz
+   XfxNI2xDto6SX1qNJIzpRgte7P5HrZ7odfLQYOKBWNLUT/IVG+1o7w18A
+   y10d+ZvQCK2H13kLU1shn5wzZbtIZzHU+xy5A0LyUuvBPpKqZMhoJbH6V
+   Gc25UodTO/vV4yMbkBBc0YCN0jr0MIhbJztapa1Im8CryF+jQRivAOfM/
+   QA1HARDnTWsHG5EPBfpTAJ7dKGqxU6YsR9Gdm/rFY3sKeDqFHZPRf8Usy
+   TaojJ4y38xggtLB0Fe47skFeRLVpv5VL5wTxfuvP5YLusx3Vz1Sqo+05C
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="6767826"
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="6767826"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 00:43:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="43297602"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 00:43:14 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 13BF511F81D;
+	Fri, 23 Feb 2024 10:43:11 +0200 (EET)
+Date: Fri, 23 Feb 2024 08:43:11 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 00/20] Omnivision OV4689 refactoring and improvements
+Message-ID: <Zdhan1Gzi6GD5QfP@kekkonen.localdomain>
+References: <20231218174042.794012-1-mike.rudenko@gmail.com>
+ <87o7c9q27c.fsf@gmail.com>
+ <ZdhULRi3w4E5tQgR@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3,1/2] media: mediatek: vcodec: adding lock to protect
- decoder context list
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Nathan Hebert <nhebert@chromium.org>, Irui Wang <irui.wang@mediatek.com>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240222092609.31382-1-yunfei.dong@mediatek.com>
- <20240222092609.31382-2-yunfei.dong@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240222092609.31382-2-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZdhULRi3w4E5tQgR@kekkonen.localdomain>
 
-Il 22/02/24 10:26, Yunfei Dong ha scritto:
-> The ctx_list will be deleted when scp getting unexpected behavior, then the
-> ctx_list->next will be NULL, the kernel driver maybe access NULL pointer in
-> function vpu_dec_ipi_handler when going through each context, then reboot.
+On Fri, Feb 23, 2024 at 08:15:41AM +0000, Sakari Ailus wrote:
+> Hi Mikhail,
 > 
-> Need to add lock to protect the ctx_list to make sure the ctx_list->next isn't
-> NULL pointer.
+> On Wed, Feb 21, 2024 at 06:02:15PM +0300, Mikhail Rudenko wrote:
+> > 
+> > Hi,
+> > 
+> > On 2023-12-18 at 20:40 +03, Mikhail Rudenko <mike.rudenko@gmail.com> wrote:
+> > 
+> > > Hi,
+> > >
+> > > This series contains refactoring and new features implementation for
+> > > the Omnivision OV4689 sensor driver. Specifically, patches 1, 2, 3, 5,
+> > > 6, 10, 15, 16, 18, and 19 are refactorings, and are not supposed to
+> > > introduce any functional change. Patches 4 and 7 perform migration to
+> > > CCI helpers and subdevice active state respectively, and should not
+> > > introduce any hardware- and/or user-visible change either. Patch 8
+> > > fixes a possible race condition due to v4l2_async_register_subdev_sensor
+> > > being called too early in ov4689_probe, and patch 9 migrates power
+> > > management to PM autosuspend.
+> > >
+> > > Patches 11-14 expose more sensor controls to the userspace, such as
+> > > (read-write) HBLANK, VFLIP/HFLIP, digital gain, and color
+> > > balance. Patch 17 implements configurable analogue crop rectangle via
+> > > .set_selection callback. And finally, patch 20 enables 2x2 binning
+> > > option. It should be noted that publicly available sensor
+> > > documentation is lacking description of many registers and their value
+> > > ranges, so a lot of values had to be found by experimentation.
+> > 
+> > Gentle ping on this series. Anything I can do to help getting it
+> > reviewed and merged? Maybe split patches 15-20 which implement cropping
+> > and binning and change the driver away from register list based model
+> > into a separate series? Anyone?
 > 
-> Hardware name: Google juniper sku16 board (DT)
-> pstate: 20400005 (nzCv daif +PAN -UAO -TCO BTYPE=--)
-> pc : vpu_dec_ipi_handler+0x58/0x1f8 [mtk_vcodec_dec]
-> lr : scp_ipi_handler+0xd0/0x194 [mtk_scp]
-> sp : ffffffc0131dbbd0
-> x29: ffffffc0131dbbd0 x28: 0000000000000000
-> x27: ffffff9bb277f348 x26: ffffff9bb242ad00
-> x25: ffffffd2d440d3b8 x24: ffffffd2a13ff1d4
-> x23: ffffff9bb7fe85a0 x22: ffffffc0133fbdb0
-> x21: 0000000000000010 x20: ffffff9b050ea328
-> x19: ffffffc0131dbc08 x18: 0000000000001000
-> x17: 0000000000000000 x16: ffffffd2d461c6e0
-> x15: 0000000000000242 x14: 000000000000018f
-> x13: 000000000000004d x12: 0000000000000000
-> x11: 0000000000000001 x10: fffffffffffffff0
-> x9 : ffffff9bb6e793a8 x8 : 0000000000000000
-> x7 : 0000000000000000 x6 : 000000000000003f
-> x5 : 0000000000000040 x4 : fffffffffffffff0
-> x3 : 0000000000000020 x2 : ffffff9bb6e79080
-> x1 : 0000000000000010 x0 : ffffffc0131dbc08
-> Call trace:
-> vpu_dec_ipi_handler+0x58/0x1f8 [mtk_vcodec_dec (HASH:6c3f 2)]
-> scp_ipi_handler+0xd0/0x194 [mtk_scp (HASH:7046 3)]
-> mt8183_scp_irq_handler+0x44/0x88 [mtk_scp (HASH:7046 3)]
-> scp_irq_handler+0x48/0x90 [mtk_scp (HASH:7046 3)]
-> irq_thread_fn+0x38/0x94
-> irq_thread+0x100/0x1c0
-> kthread+0x140/0x1fc
-> ret_from_fork+0x10/0x30
-> Code: 54000088 f94ca50a eb14015f 54000060 (f9400108)
-> ---[ end trace ace43ce36cbd5c93 ]---
-> Kernel panic - not syncing: Oops: Fatal exception
-> SMP: stopping secondary CPUs
-> Kernel Offset: 0x12c4000000 from 0xffffffc010000000
-> PHYS_OFFSET: 0xffffffe580000000
-> CPU features: 0x08240002,2188200c
-> Memory Limit: none
-> 
-> Fixes: 655b86e52eac ("media: mediatek: vcodec: Fix possible invalid memory access for decoder")
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Oops, my bad. I'll review these shortly. I can already tell there's not
+> much to do though.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Done.
 
+-- 
+Sakari Ailus
 
