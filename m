@@ -1,205 +1,170 @@
-Return-Path: <linux-media+bounces-5775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5781-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D05861131
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 13:11:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7288486115B
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 13:17:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62D871C20BF1
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 12:11:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25114286C79
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 12:17:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51EDF7B3FB;
-	Fri, 23 Feb 2024 12:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="ytcpBCp4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 127907B3D5;
+	Fri, 23 Feb 2024 12:17:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F07F1427F;
-	Fri, 23 Feb 2024 12:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E0F78667
+	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 12:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708690294; cv=none; b=chR9S9tMTRuShfYUwSWLwSi+w0SXpqIPWmRpDzXUTeoo50estwbELF8uzIVeEOdC8KwMm12iUBXWWV/NKNqX5cgqz1vclGV/dy1oUBtKpYvCFx2GxAuK5nEXZXC9zXU4Z9Lg1vnvD1n6AgIk8+kIoJLX5F4i/JntUlP/UfFffdI=
+	t=1708690655; cv=none; b=mPyuOeNhIJ28AdBLlx767On0rsW27Ior4qABqz3hvSU9vO3w1rC3F5L0A79ZjN1cPxXM0EiC5PTKZ+xDzp+np1vM2hPceNBh7mhGr+PCtUTsRBpgkBWrjUnxDctjLbKQO1tvOkupyhDg8UFLVdo2wsfUSRNUV+PceBJi4xe4JOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708690294; c=relaxed/simple;
-	bh=3A3K2ELw3nB3j1z66xTP0KH+PvL2WJ78US2gUb6iSkY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=dzloQ+XVWRFSL18opKnGxD3wOCUwlPmjevuGSYr8QrOIHUFuXhJ6oNa+HjfXkIJON+Kl/qTV+BfRKvoIn2VJ2HA/lhE/KH0tajBobowx2iPwLRpAj7tRABfqIX3biutobDNaCGdtHozzjl1cXkSNQiqvgoX0bg9SKKsWjaehVRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=ytcpBCp4; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41N9b2JT014757;
-	Fri, 23 Feb 2024 07:11:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
-	from:date:subject:mime-version:content-type
-	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=DKIM; bh=S4d0AT6oM91tAUIZJ87WXIleXKClwHIJCUxbBY7ixLU=; b=
-	ytcpBCp4nKV/s/z/L40R22WVMQ/yKve1MzYfbYk9cr5uAeFBCQH+IV5j47nGlX7h
-	OzdhWwY84nI5/mPaMLngaGhWU696+6JJh1S6MpguOSt1CfX0HFhTO+tIciXaR5fm
-	wBcNqHU7YPQqS2PaTGmIbdyNqUE4ND9aOmp2gdYLgxJfdTYu/BtlirO00VGZcMya
-	9P5nNPwVHg0adUAN7nkaYn2KE/GZfWA57YMJ0mGuoq7edTjB9S8WvzsUrzdYMtaM
-	Api/7TKjhjKqRBbVfKmySiR4AWYQBZy9HEBZoc1zn+9oQwPVV+z1qJcecDbfHVWm
-	aI1V40Y2eJAcAqK/Y0S36w==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3wd21pectf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Feb 2024 07:11:12 -0500 (EST)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 41NCBBD1004375
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 23 Feb 2024 07:11:11 -0500
-Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Fri, 23 Feb 2024 07:11:11 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Fri, 23 Feb 2024 07:11:10 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Fri, 23 Feb 2024 07:11:10 -0500
-Received: from [127.0.0.1] ([10.44.3.55])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 41NCAb2X032246;
-	Fri, 23 Feb 2024 07:11:03 -0500
-From: Nuno Sa <nuno.sa@analog.com>
-Date: Fri, 23 Feb 2024 13:14:04 +0100
-Subject: [PATCH v7 6/6] Documentation: iio: Document high-speed DMABUF
- based API
+	s=arc-20240116; t=1708690655; c=relaxed/simple;
+	bh=/MrxLoFNzY/uuR/oj1sOP5Nm1rtQ4/A3F4DfSG9IUZw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TyJFECIBHCErhi19ltmFALZpI5w5P9KYcKM0XzmiEkzUWFcnVmKZNIVhT4SmiqPaFz31xECWnCkgpQ+LkIYGdrwZtYET7PnoEGG57T8q1rS6Bi2s8XiiWf6PKeA0H4smG9a7tyjzQ7gm/bfAQpR+C2znOB4+2I1jhO+G+qNyrNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F825C43390;
+	Fri, 23 Feb 2024 12:17:34 +0000 (UTC)
+Message-ID: <76875c0d-c8d4-4db8-94dc-2808063a7db9@xs4all.nl>
+Date: Fri, 23 Feb 2024 13:17:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: mc: return ENODEV instead of EIO/ENXIO when dev
+ is, unregistered
+Content-Language: en-US, nl
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <41bb718b-2c6d-41aa-b093-b800dffcbe1e@xs4all.nl>
+ <20240223095045.GI31348@pendragon.ideasonboard.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240223095045.GI31348@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240223-iio-dmabuf-v7-6-78cfaad117b9@analog.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-In-Reply-To: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-To: Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>,
-        Paul Cercueil <paul@crapouillou.net>
-CC: Daniel Vetter <daniel@ffwll.ch>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        <linux-doc@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1708690439; l=3175;
- i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=z7VWDFc/regIP5bhzx5ddI5hjHZUDa7CubfT2DvBqJ8=;
- b=ZeCFCCmBGvyup+Nc++CCzyNQ3WY0zc4zrSfRBrsq/X9t0SdbOXSWy6WJu+e/NnQ/chIERoHRI
- 2XzSTAcXv0pCOdDqVE3ZBXbWcRsFyFzJWuvmExyBgMrE1NgvR8ybw4e
-X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
- pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: Nt2f0PucLUTrPhVHTJjsdoVNy_yaYrct
-X-Proofpoint-ORIG-GUID: Nt2f0PucLUTrPhVHTJjsdoVNy_yaYrct
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-22_15,2024-02-23_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=521 priorityscore=1501
- impostorscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402230087
 
-From: Paul Cercueil <paul@crapouillou.net>
+Hi Laurent,
 
-Document the new DMABUF based API.
+On 23/02/2024 10:50, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Feb 23, 2024 at 10:34:32AM +0100, Hans Verkuil wrote:
+>> If the media device is unregistered, the read/write/ioctl file ops
+>> returned EIO instead of ENODEV. And open returned ENXIO instead of the
+>> linux kernel standard of ENODEV.
+> 
+> Are you sure this is right ? Looking at chrdev_open() for instance, it
+> returns -ENXIO when it can't find a cdev for the requested minor.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Nuno Sa <nuno.sa@analog.com>
----
- Documentation/iio/dmabuf_api.rst | 54 ++++++++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst      |  2 ++
- 2 files changed, 56 insertions(+)
+Right, but in this case the cdev is there, but the underlying device has
+been removed and no longer exists. Linux returned ENODEV in that case.
 
-diff --git a/Documentation/iio/dmabuf_api.rst b/Documentation/iio/dmabuf_api.rst
-new file mode 100644
-index 000000000000..1cd6cd51a582
---- /dev/null
-+++ b/Documentation/iio/dmabuf_api.rst
-@@ -0,0 +1,54 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+High-speed DMABUF interface for IIO
-+===================================
-+
-+1. Overview
-+===========
-+
-+The Industrial I/O subsystem supports access to buffers through a
-+file-based interface, with read() and write() access calls through the
-+IIO device's dev node.
-+
-+It additionally supports a DMABUF based interface, where the userspace
-+can attach DMABUF objects (externally created) to a IIO buffer, and
-+subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+The userspace application can also memory-map the DMABUF objects, and
-+access the sample data directly. The advantage of doing this vs. the
-+read() interface is that it avoids an extra copy of the data between the
-+kernel and userspace. This is particularly useful for high-speed devices
-+which produce several megabytes or even gigabytes of data per second.
-+It does however increase the userspace-kernelspace synchronization
-+overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
-+be used for data integrity.
-+
-+2. User API
-+===========
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on the IIO buffer's file descriptor,
-+obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-+
-+  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    IIO buffer. Returns zero on success, and a negative errno value on
-+    error.
-+
-+  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the IIO buffer. Returns zero on success, and a negative errno
-+    value on error.
-+
-+    Note that closing the IIO buffer's file descriptor will
-+    automatically detach all previously attached DMABUF objects.
-+
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-+    Enqueue a previously attached DMABUF object to the buffer queue.
-+    Enqueued DMABUFs will be read from (if output buffer) or written to
-+    (if input buffer) as long as the buffer is enabled.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 1b7292c58cd0..3eae8fcb1938 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -9,6 +9,8 @@ Industrial I/O
- 
-    iio_configfs
- 
-+   dmabuf_api
-+
-    ep93xx_adc
- 
-    bno055
+'man 2 open' gives an interesting description of ENODEV:
 
--- 
-2.43.2
+ENODEV pathname refers to a device special file and no corresponding device exists.
+    (This is a Linux kernel bug; in this situation ENXIO must be returned.)
+
+I think ENXIO is Posix, but in the linux kernel ENODEV is actually used.
+
+Grepping for ENODEV (and looking at some other subsystems) suggests that ENODEV
+is pretty standard for this. I think it is the difference between the major/minor
+no longer being valid (ENXIO), and that it is still valid, but the underlying
+device has gone. For open() that can happen if it is disconnected right after you
+managed to enter the open() fop.
+
+Personally I would prefer to have all media subsystems (v4l2/dvb/rc/cec/mc) behave
+the same w.r.t. disconnects, and -EIO for read/write/ioctl is really wrong.
+
+That said, if you prefer to stick to ENXIO instead of ENODEV, then I can make
+a v2 that just replaces EIO by ENXIO.
+
+Regards,
+
+	Hans
+
+> Furthermore, the read() 3 manpage documents the ENXIO error as
+> 
+>        ENXIO  A request was made of a nonexistent device, or the request
+>        was outside the capabilities of the device.
+> 
+> while it doesn't document ENODEV at all.
+> 
+>> Change the error code to ENODEV and document this as well in
+>> media-func-open.rst.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  .../userspace-api/media/mediactl/media-func-open.rst   |  4 ++--
+>>  drivers/media/mc/mc-devnode.c                          | 10 +++++-----
+>>  2 files changed, 7 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/mediactl/media-func-open.rst b/Documentation/userspace-api/media/mediactl/media-func-open.rst
+>> index 24487cb0a308..8c1c7ebefdb1 100644
+>> --- a/Documentation/userspace-api/media/mediactl/media-func-open.rst
+>> +++ b/Documentation/userspace-api/media/mediactl/media-func-open.rst
+>> @@ -61,5 +61,5 @@ ENFILE
+>>  ENOMEM
+>>      Insufficient kernel memory was available.
+>>
+>> -ENXIO
+>> -    No device corresponding to this device special file exists.
+>> +ENODEV
+>> +    Device not found or was removed.
+>> diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
+>> index 7f67825c8757..fbf76e1414de 100644
+>> --- a/drivers/media/mc/mc-devnode.c
+>> +++ b/drivers/media/mc/mc-devnode.c
+>> @@ -75,7 +75,7 @@ static ssize_t media_read(struct file *filp, char __user *buf,
+>>  	if (!devnode->fops->read)
+>>  		return -EINVAL;
+>>  	if (!media_devnode_is_registered(devnode))
+>> -		return -EIO;
+>> +		return -ENODEV;
+>>  	return devnode->fops->read(filp, buf, sz, off);
+>>  }
+>>
+>> @@ -87,7 +87,7 @@ static ssize_t media_write(struct file *filp, const char __user *buf,
+>>  	if (!devnode->fops->write)
+>>  		return -EINVAL;
+>>  	if (!media_devnode_is_registered(devnode))
+>> -		return -EIO;
+>> +		return -ENODEV;
+>>  	return devnode->fops->write(filp, buf, sz, off);
+>>  }
+>>
+>> @@ -114,7 +114,7 @@ __media_ioctl(struct file *filp, unsigned int cmd, unsigned long arg,
+>>  		return -ENOTTY;
+>>
+>>  	if (!media_devnode_is_registered(devnode))
+>> -		return -EIO;
+>> +		return -ENODEV;
+>>
+>>  	return ioctl_func(filp, cmd, arg);
+>>  }
+>> @@ -152,11 +152,11 @@ static int media_open(struct inode *inode, struct file *filp)
+>>  	 */
+>>  	mutex_lock(&media_devnode_lock);
+>>  	devnode = container_of(inode->i_cdev, struct media_devnode, cdev);
+>> -	/* return ENXIO if the media device has been removed
+>> +	/* return ENODEV if the media device has been removed
+>>  	   already or if it is not registered anymore. */
+>>  	if (!media_devnode_is_registered(devnode)) {
+>>  		mutex_unlock(&media_devnode_lock);
+>> -		return -ENXIO;
+>> +		return -ENODEV;
+>>  	}
+>>  	/* and increase the device refcount */
+>>  	get_device(&devnode->dev);
+> 
 
 
