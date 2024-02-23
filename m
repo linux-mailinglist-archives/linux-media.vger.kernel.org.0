@@ -1,144 +1,151 @@
-Return-Path: <linux-media+bounces-5802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5803-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192238613D3
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 15:20:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C5F861469
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 15:45:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A6E11C2289B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 14:20:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0CD4C281552
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 14:45:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55AAE80BE3;
-	Fri, 23 Feb 2024 14:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Bs1ZSc9e"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F80580C0E;
+	Fri, 23 Feb 2024 14:44:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64077F7D0;
-	Fri, 23 Feb 2024 14:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C912514B815;
+	Fri, 23 Feb 2024 14:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708697851; cv=none; b=bWr2NMeeFwh+AI06sATH9ubNZNTRybn1pBDCVNjhxS5VjzEAGyPBbeU6Rh+K9gxRopTSXH7iHaQVpqjnXAiGb6/zPPxRZKWgQfT+fKYRO5Q7sDsA7kOLaKC4EsrSAlyf7lj8dZwzyQtik9Fmjo59QSm1PqeYh/uM4qtHh/3OntA=
+	t=1708699468; cv=none; b=ew6bDsXEjXJ1138M4DYDqMhXCJUbxTbYO4CLGFAjMEZQj++zGNABhMTpxZnX/tSDNT+A1a/3cYpdnJbI0igecJIvOgzcbKsfjK6T7KeKSwpzr2Czw5vL+L93Wvav+7krcS2ZTokUx2Td0GA3S/h618wApgo7W/vTow2jZaaXan8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708697851; c=relaxed/simple;
-	bh=qTSb8BoFyUBcgMEpFbXgOKysTONG/bgaNnkHx8c8d2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sI420yDT7UgJP9Baq2qGS7Dl9LCrjtIFGuj8nDei31B+hL1jPdG8Ox568mNzwwQgy9NzbZSiGVnbVSQTO39u7ZtBtCUQGlT9uy7QythYntpAOFAKpTZgUUfvZ2290WlAcEIqYBKwDAK8v4qbe7p3zDKuWfWPtMk5rrQUh5y7eSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Bs1ZSc9e; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDBEE9B6;
-	Fri, 23 Feb 2024 15:17:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708697839;
-	bh=qTSb8BoFyUBcgMEpFbXgOKysTONG/bgaNnkHx8c8d2U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bs1ZSc9eJYd86bVbGvGEMgUIuI11pVzRaHxnF/ys+VUE8ET/hMsmu9FPEMSgbDlOi
-	 9aH9X5uTOKwJMKr88btC2/wmv3u9i9ZnzI3rnSB3mWvanlc0bZiib61Hq9+Z/ThD9W
-	 suSeJdlmsmznCDOh6P/8bm8COv1FgDBdBP7hpoiQ=
-Date: Fri, 23 Feb 2024 16:17:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/3] media: dt-bindings: nxp,imx8-isi: Allow single port
- for single pipeline models
-Message-ID: <20240223141731.GB1313@pendragon.ideasonboard.com>
-References: <20240223140445.1885083-1-alexander.stein@ew.tq-group.com>
- <20240223140445.1885083-3-alexander.stein@ew.tq-group.com>
- <20240223141630.GA1313@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1708699468; c=relaxed/simple;
+	bh=RyvUCZi8Wj5AWG9UJJBgJ1vhks86ype6GuNjY56uF5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SQQEXUyEDoS25kYCyaCopWDTU7fgdhbrWNwkZ3b5IzAlKQopfKsVwqgITFErqCBYvKX3Lw2Nmdqlghml2eUWuxACf9WYowBIEDMsbU47+5e32hs6JBE5rVb96etWPWAMjBusM5dpBdn6TtfGbh9ssOyRA6XXYZ+Vj+GMxxsLxFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01691C433C7;
+	Fri, 23 Feb 2024 14:44:26 +0000 (UTC)
+Message-ID: <49a68c10-9549-4fd8-b929-d4c7a9c8debf@xs4all.nl>
+Date: Fri, 23 Feb 2024 15:44:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240223141630.GA1313@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
+ cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
+Content-Language: en-US, nl
+To: "Yang, Chenyuan" <cy54@illinois.edu>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>, "Zhao, Zijie"
+ <zijie4@illinois.edu>, "Zhang, Lingming" <lingming@illinois.edu>
+References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
+ <f985d664-d907-48ed-9b3d-dc956c178b88@xs4all.nl>
+ <526380BE-57AC-493D-A7B0-B8F0ECC0FE0A@illinois.edu>
+ <f1855145-9562-4bef-800f-43bcacff6fc8@xs4all.nl>
+ <2e5f1e92-7fad-4a74-b375-1e194ff08ce6@xs4all.nl>
+ <F8D4A291-8CFB-4A25-B296-3CA07B56F459@illinois.edu>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <F8D4A291-8CFB-4A25-B296-3CA07B56F459@illinois.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 23, 2024 at 04:16:31PM +0200, Laurent Pinchart wrote:
-> Hi Alexander,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Feb 23, 2024 at 03:04:44PM +0100, Alexander Stein wrote:
-> > In case the hardware only supports just one pipeline, allow using a
-> > single port node as well.
-> 
-> This is frowned upon in DT bindings, as it makes them more complicated
-> for little gain. The recommendation is to always use a ports node if a
-> device can have multiple ports for at least one of its compatibles.
+Hi Chenyuan,
 
-And reading the cover letter, I see this causes warnings. I think we
-need guidance from Rob on this.
+Here is another patch for you to try. I think it is good for blocking CEC_ADAP_S_LOG_ADDRS
+ioctl calls, but if the filehandle is in non-blocking mode, I'm still not certain it
+is correct. But one issue at a time :-)
 
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> >  .../devicetree/bindings/media/nxp,imx8-isi.yaml    | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> > index 4d5348d456a1f..f855f3cc91fea 100644
-> > --- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> > +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> > @@ -53,6 +53,12 @@ properties:
-> >    power-domains:
-> >      maxItems: 1
-> >  
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/properties/port
-> > +    description: |
-> > +      Port representing the Pixel Link input to the ISI. Used for
-> > +      single-pipeline models. The port shall have a single endpoint.
-> > +
-> >    ports:
-> >      $ref: /schemas/graph.yaml#/properties/ports
-> >      description: |
-> > @@ -66,7 +72,6 @@ required:
-> >    - clocks
-> >    - clock-names
-> >    - fsl,blk-ctrl
-> > -  - ports
-> >  
-> >  allOf:
-> >    - if:
-> > @@ -87,6 +92,11 @@ allOf:
-> >              port@1: false
-> >            required:
-> >              - port@0
-> > +      oneOf:
-> > +        - required:
-> > +            - port
-> > +        - required:
-> > +            - ports
-> >  
-> >    - if:
-> >        properties:
-> > @@ -106,6 +116,8 @@ allOf:
-> >            required:
-> >              - port@0
-> >              - port@1
-> > +      required:
-> > +        - ports
-> >  
-> >  additionalProperties: false
-> >  
-
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index 559a172ebc6c..a493cbce2456 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -936,8 +936,7 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
+ 	 */
+ 	mutex_unlock(&adap->lock);
+ 	wait_for_completion_killable(&data->c);
+-	if (!data->completed)
+-		cancel_delayed_work_sync(&data->work);
++	cancel_delayed_work_sync(&data->work);
+ 	mutex_lock(&adap->lock);
+
+ 	/* Cancel the transmit if it was interrupted */
+@@ -1575,9 +1574,12 @@ static int cec_config_thread_func(void *arg)
+  */
+ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
+ {
+-	if (WARN_ON(adap->is_configuring || adap->is_configured))
++	if (WARN_ON(adap->is_claiming_log_addrs ||
++		    adap->is_configuring || adap->is_configured))
+ 		return;
+
++	adap->is_claiming_log_addrs = true;
++
+ 	init_completion(&adap->config_completion);
+
+ 	/* Ready to kick off the thread */
+@@ -1592,6 +1594,7 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
+ 		wait_for_completion(&adap->config_completion);
+ 		mutex_lock(&adap->lock);
+ 	}
++	adap->is_claiming_log_addrs = false;
+ }
+
+ /*
+diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
+index 67dc79ef1705..3ef915344304 100644
+--- a/drivers/media/cec/core/cec-api.c
++++ b/drivers/media/cec/core/cec-api.c
+@@ -178,7 +178,7 @@ static long cec_adap_s_log_addrs(struct cec_adapter *adap, struct cec_fh *fh,
+ 			   CEC_LOG_ADDRS_FL_ALLOW_RC_PASSTHRU |
+ 			   CEC_LOG_ADDRS_FL_CDC_ONLY;
+ 	mutex_lock(&adap->lock);
+-	if (!adap->is_configuring &&
++	if (!adap->is_claiming_log_addrs && !adap->is_configuring &&
+ 	    (!log_addrs.num_log_addrs || !adap->is_configured) &&
+ 	    !cec_is_busy(adap, fh)) {
+ 		err = __cec_s_log_addrs(adap, &log_addrs, block);
+@@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
+ 		list_del_init(&data->xfer_list);
+ 	}
+ 	mutex_unlock(&adap->lock);
++
++	mutex_lock(&fh->lock);
+ 	while (!list_empty(&fh->msgs)) {
+ 		struct cec_msg_entry *entry =
+ 			list_first_entry(&fh->msgs, struct cec_msg_entry, list);
+@@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
+ 			kfree(entry);
+ 		}
+ 	}
++	mutex_unlock(&fh->lock);
+ 	kfree(fh);
+
+ 	cec_put_device(devnode);
+diff --git a/include/media/cec.h b/include/media/cec.h
+index 10c9cf6058b7..cc3fcd0496c3 100644
+--- a/include/media/cec.h
++++ b/include/media/cec.h
+@@ -258,6 +258,7 @@ struct cec_adapter {
+ 	u16 phys_addr;
+ 	bool needs_hpd;
+ 	bool is_enabled;
++	bool is_claiming_log_addrs;
+ 	bool is_configuring;
+ 	bool must_reconfigure;
+ 	bool is_configured;
+
 
