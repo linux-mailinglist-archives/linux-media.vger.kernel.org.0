@@ -1,139 +1,159 @@
-Return-Path: <linux-media+bounces-5728-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5729-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496888608FC
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 03:47:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8376386095F
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 04:27:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD5981F2368D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 02:47:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A717A1C217D2
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 03:27:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30BEABE4E;
-	Fri, 23 Feb 2024 02:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B1D6D310;
+	Fri, 23 Feb 2024 03:27:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2103.outbound.protection.partner.outlook.cn [139.219.17.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0463D51B
-	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 02:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708656412; cv=none; b=AAwlas51KnwO0uP51u+JKCdAAOmLw5ahS8N1txWT1/4KDH5VF49RpZpimOkZo4jzxuVf87vqOQNLYK5hxwakZ2tF3y7NNeS72zabzQg4vrOKYePjk3KMWOH5OheH4n1Hzn3RBtGY8e+XBNQUsNG/X12ntPOCQDMlPH+aDvlAOmg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708656412; c=relaxed/simple;
-	bh=0Absd29aP87iyXf7z2vaMmxKnh1dPOnbn2cPoJnC+S0=;
-	h=Date:Message-ID:From:To:Subject; b=Rqxr9PYh7AxRYerRVeIwPNoDjptSsP/fR3HhQ9g8wo6ZQ02UcrnwbxbuckCQuCeInDBXKGcIfvDyqq1UtW7VGzhlsnTm6SL10omp08JBHj/PL/9e+DuaDFloGUKr2gY6NFUXAE1TXI8p+j07KAx4XEuzRXG98Vrhm2TeQWNJNvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08889C433F1
-	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 02:46:51 +0000 (UTC)
-Date: Fri, 23 Feb 2024 03:46:50 +0100
-Message-ID: <3b2b2d6bcf9ec21f3502c0bffed1f377.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3119CC2C6;
+	Fri, 23 Feb 2024 03:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.103
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708658846; cv=fail; b=oXfV9Qv7soRmEJI1PriiwFxfAdd3XoqEahcwRlwFIQ8jsCAGl/jRGCle6sTnbKQSSJn4xzHpUfJqFs9HnnrtEuD8neDLKJNRyFZ3TAtzaNSqM1NwCSligkz4DT33K2caL7OxM5rkoVrFqFNWsGGPdBWjeYfA/izR/8s5nCP6rlY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708658846; c=relaxed/simple;
+	bh=oJKxtjJvPnbkfw6j3TVtscM8YI1C3KKUDdKGDfAVBlo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=q4AjpkJtSWE0uhj4Z64y6MXxohbFIXgKjGQE/zWlB0M9SJ0dj0Y57MA2C3uF08Qveoe5EdiuBhmJRpUr/BEYAJeIhqO6rz29i4G9DBJZ3BDV9koLQs9n0A4GcZ8ueGwtx36+kZQRwv+b1/mrRyyB3nkAni/Fp6PudkwMTZu7dwE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y0qyR53FMaWbOak0iExzZcgWEXRT1CkCytVPQFPzrzCYh4KZFEbzQz7YJJgw9fNaGl8XMxk0tr1wQxbKW1QLNKot5hk1x5qglgccSB+JpWs2ntJKO/zjv/dohRcQ7cdKxyOU/KZcx907j6jAsYqESjdigJYkI8Z1xYnVd8A7ch7pMK9DCoVYaGgBK1LbrWvuTlo6N2QUxDGnp1490SEwkiLRQB+O0UEuOJfaGunT4R5+6IkexWjNJIGdtC3qtHkL7uTkNO3w0IkiM6DVpovMlYUqGyLcW8W+wZ0M29eYDqTjawWRpPbRdxIQV/DJ7PF9pM1KsZiHaTya6ZzNNBLxlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oJKxtjJvPnbkfw6j3TVtscM8YI1C3KKUDdKGDfAVBlo=;
+ b=CQhv6uJgd2Eh1iGT5WMV/O8Q+0I7Xb2JUoq7cCdc84Ko7+qaYrq58ndvMXsEu3Yj3PxFEw/sWhhZf1DtZnbKTT41xsDYjWCQiGVUd7vXXBg8AlgFFkrLsiNNdNuqj2mTiisSVlTCU0m91BqrtUJNOuCGfHvc1ig14w2oYlfNIUYY5eKLRpxuDqV+VtXOboKs4eLUDYGa4AG+LnANtY+U21tSBMVd2/PIhnj/Sh1nNXXXBvrtzTSyYuutz4DE9lFIMoitjl0bE4jsDgjqT2IxpWFVYlfpx+SPg7THbRUIAwLmkYo5zhSgwGg72mNdf7pwO7HAHqTrgEIULzNLJTqMow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0845.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:26::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.47; Fri, 23 Feb
+ 2024 02:53:36 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::b0af:4c9d:2058:a344]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
+ with mapi id 15.20.7249.041; Fri, 23 Feb 2024 02:53:36 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Jai Luthra <j-luthra@ti.com>, Tomi Valkeinen
+	<tomi.valkeinen@ideasonboard.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>, Vaishnav Achath <vaishnav.a@ti.com>,
+	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh
+ Thakkar <devarsht@ti.com>, Jack Zhu <jack.zhu@starfivetech.com>, Julien
+ Massot <julien.massot@collabora.com>, Jayshri Pawar <jpawar@cadence.com>
+Subject:
+ =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggUkZDIDAwLzIxXSBtZWRpYTogY2FkZW5jZSx0aTog?=
+ =?utf-8?Q?CSI2RX_Multistream_Support?=
+Thread-Topic: [PATCH RFC 00/21] media: cadence,ti: CSI2RX Multistream Support
+Thread-Index: AQHaZYLyz20pRFMaSU2WOsA6GWwHNbEXOg7g
+Date: Fri, 23 Feb 2024 02:53:36 +0000
+Message-ID:
+ <SHXPR01MB06714030189A3CFD430A88EEF255A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+References: <20240222-multistream-v1-0-1837ed916eeb@ti.com>
+In-Reply-To: <20240222-multistream-v1-0-1837ed916eeb@ti.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SHXPR01MB0671:EE_|SHXPR01MB0845:EE_
+x-ms-office365-filtering-correlation-id: daa0fd9f-e4ad-4c2a-d288-08dc341aa166
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ Eir8f7Oht5lIvZG5bPQhT1NYnEh89bqEpS+ZpCAAW8Jlu+Qpr/T/4hKb/CqdHyQhcx38JyZMi8kjUur2p6v2i5G9tRSlC9zx1SkTOJQDohC7L2YP7EAMZfDd0o9Mk7DqUNpO5gVURT/suDmJucwxBdxZWbDe3OpK4xO8LDwM88IfZP1PI9HRYss8SXOO+3vMcu9dM3iE4e0kG5SNn4R/Ls7axoofpus0QeXV6Uv+lTTEWPIQtTPlINB+4kVltIr4N53TtqgROeIaCsH1k/adOY4kwNWVgw665jW2n1lE1uhwgeQq89BEMSjfD+bSmUe/IPnjURwM2bbGsA4rJSPq1j1roAcfaWP5A5xAqgFAt5zW+6LkuLoirx/oVJMVVcPF74utaVylfdpkhPz8MvGm2CBHxBtfnKn8VBpgQHxTLF4sfX8u8/VH/Y5XEWEjaVtoqHCobOOL/NU5cRNFKpeoVIWOallQwA0Kx00/eJELgwhFjZFcWezn62l+7/jfJuKyq74VIVrUESLNLTd9YOx7M/mS6AeGWDJsnIqL+fC5pe0o6hSim+7axHX596jrHzUxXzKbrCPQ+PHsRLRqNSrCJg==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(38070700009)(921011);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?NUtZUGRXUHVDbjN5OThHSjcwVksyK052U1U3YTNvcXpOeUhtcGx1TjRRMG1T?=
+ =?utf-8?B?MzlnV3FVSzZIY240dnlLZlVvN05XVHkyazNLbkRLWCtEc01OTzh5T3hlenNl?=
+ =?utf-8?B?dm9MdVNtdFNvelY5d3V3RnlIQzIvdzZ0alBZMlg3NTZkYWkvWVJsaldzalhL?=
+ =?utf-8?B?UjRCdVhBeUpkNHBQTmJyQzA4SVpzVy9rT2JoZnpEY0N0bUQyaGM3dmdRVlFt?=
+ =?utf-8?B?NjY2eUEwTUZLTHl1VkdZM245UWpyQjhBVTR4d3k3Wk9vNFhIZGhtMU9CNURU?=
+ =?utf-8?B?d3RQZUxteVpNNjRUSVBkT1FmNUV2TndMK1RmM2tEaXVNbk9DSDRmMmRVdXJ5?=
+ =?utf-8?B?emYwZEZQME5Yb2YwdHdKT3Y4VE1aMUxTVFdYd01BYzMvQkl2TGJIaW1ydWov?=
+ =?utf-8?B?QVVzQnVRSTNrMHdqNWsrZ3hSMm9RZTFnS2F0a2Q0MEhLOFhZZHVkNU1lL0xE?=
+ =?utf-8?B?b0RrVm9EYU10Ky9QR0l2U3VhSCsyRStnMkdyK3RVdVU1ZjNXd0Y4alFEWWV3?=
+ =?utf-8?B?STRRY1lzMExWWk5CSEtCQXNrUFRLelQ0STU3R1RrWUJmUEVkakppYVZSUzJE?=
+ =?utf-8?B?aFZiR05GUE85Q3hqeDRjMURUNnI5RVZlUFFKZXhKSk9XS08vaUhNTVdzZlJq?=
+ =?utf-8?B?Rmluais1b2MyNU0xVVE5ZU45RS8yMU9HUjMyNFNJemFMYXg4dVBrSDdFQXAy?=
+ =?utf-8?B?RVVBVWRNVGNVYU15S3BLeDdYSWliNUZWZWdYdFZkNUNpOW9HWHFxcHF6RnRJ?=
+ =?utf-8?B?MHBQY01TWUtSdFl0Rm8wZWdoWVgrRlJicDdYSUgySm4rMHFTR29jbGtxN0ZT?=
+ =?utf-8?B?WjUrcHV2ZlFGVWVlQVJIdE84MFNCbVpHUTZheFErZWFPZ2ZCWlJFYWxqdWo2?=
+ =?utf-8?B?R1p0Ymc3dnpZMnpRRDU5Ny9LY1ovcks4TmFHdGNVZjVJemhlb2M4SURkNVN0?=
+ =?utf-8?B?cFp1c1RaVEN0SzcrUVU0dnJMOGhGMS94OG1CZTBtTjVmUVEzTk1od3E3MVUv?=
+ =?utf-8?B?UURFd1FiYUdSb2ZLZnZ6ckR4dFNTazQvdW1FQzhXRmVEdFhrRU5SUkV5V081?=
+ =?utf-8?B?OXdkeXc5Ri9WUlpWUzFSREhBNklvaHBYZFJOSGNqVGhBMW1TS04wWWtSZ0lq?=
+ =?utf-8?B?eHhUVTh2RldKYjJ2K2x0enREV3ZjN28vbi8wdnZXYm9wZFNMclM5MzVVUklQ?=
+ =?utf-8?B?aS9lRE9IWi9HeUVxOHcvSjAyb2F6NjBwaWMzdHMxRmV2cHVUb2g0TEUzYVFS?=
+ =?utf-8?B?eitEeWN4MC84TFVTYWhsYXFnV0o4aE5peVpybyt3c2prbUVsVkZRSElUdVNv?=
+ =?utf-8?B?Q3I5YkxXdDFOaXBqWkhMNTl5REhzVFd3Y3hrWmNaY0dObHBFNnZ1VVFoYy9B?=
+ =?utf-8?B?bGxISlR5TDV0eGxnbzF2c0cwRkNmdERhR2d1b0hRU05nY3BPb3BmL0ZUZkNS?=
+ =?utf-8?B?LzZPWjNUOXErRFBHdzVsN3ZnMjRrLytNY1pNaU54VHJVZ0VOWUFQc0krdmFa?=
+ =?utf-8?B?TTdiRDFMNFJ4WG96SkgzdWJaRTlVUnlJK3RkWVpWQ0FqaUFXMUU3MmpRTis2?=
+ =?utf-8?B?bGVjY0dQSktXdjB3YlJMeHNFdmpwWlIzSEw1dTMyemdFcG5EdXVQMnZBQXp0?=
+ =?utf-8?B?M0VSMmM2Sjc3QzRzQmFOYzJENm10ZnJhdTROUlg5MDZMK2E5dWFvdFArY2RY?=
+ =?utf-8?B?Z09WbEhzS2t3dGtoNWozK2NtM0VmZjNpQ3dpMmgzN0tueWNBTmx1UHdSK1Nw?=
+ =?utf-8?B?SHBHd1I4cVlubUhFUGhqVWF4VU1VSTdwS1BpaitNZmdDVWhuSEJWeWt1cyto?=
+ =?utf-8?B?RzZobWc0QzFscytwQk1zUGtjMmxBdnQ5bkF3TGE4cllaTEFJL1lVR2ZLMWRP?=
+ =?utf-8?B?OUYxbS9qSUY2NDNkK0ptSlZjVVVXT2ZrNHljT3Z2WEdVTHNWKy84WEZvZzhn?=
+ =?utf-8?B?L05tMVVDeUlCR3dBZ3Z0Slg5TjFTMHM5T29iTE00aEw3d1lqOUQwYmVxa3cx?=
+ =?utf-8?B?VGtGOERHUVRMU1dlRENNdDFLc01VUWI5R0QxcktQSU5uVkdaZ1hVczFlbkFR?=
+ =?utf-8?B?ZUY4K1JMZ3hWT2UwRHNwc2R3Nmtlc1lFK2wweEtXbUEzOXNFOVUzQkhHeXlW?=
+ =?utf-8?B?MXNhT25wS21YK1dHRGFRajBBNC80K3BPL0VmTGxQVmhWUlNVU3Uxem90NXFU?=
+ =?utf-8?B?T2c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: daa0fd9f-e4ad-4c2a-d288-08dc341aa166
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2024 02:53:36.0841
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: u1sJvPCCdg25NKqV7hNnMktLSMK+LMw9R3C1pO87MxFw8UcE0e2Qu2kojH1Zc/3Y0vFv9UjiPlof3/pE8AWjkaRrzt26ij9BILgTzpPPBVtvLAmoScaL25di8VBlbHkz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0845
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
-
-Results of the daily build of media_tree:
-
-date:			Fri Feb 23 03:00:27 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	e0b8eb0f6d652981bfd9ba7c619c9d81ed087ad0
-v4l-utils git hash:	d700deb143685b8217aa8a6eeeba3b090d4287fc
-edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8600-g9f427a02
-sparse version:		v0.5.0-8600-g9f427a02
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
-
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: WARNINGS:
-
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
-
-
-date:			Fri Feb 23 03:19:06 CET 2024
-virtme-64: OK: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 2
-
-date:			Fri Feb 23 03:45:29 CET 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+SGkgSmFpLA0KDQo+IFtQQVRDSCBSRkMgMDAvMjFdIG1lZGlhOiBjYWRlbmNlLHRpOiBDU0kyUlgg
+TXVsdGlzdHJlYW0gU3VwcG9ydA0KWy4uLl0NCj4gIC4uLi9iaW5kaW5ncy9tZWRpYS90aSxqNzIx
+ZS1jc2kycngtc2hpbS55YW1sICAgICAgIHwgIDQwICstDQo+ICBkcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL2NhZGVuY2UvY2Rucy1jc2kycnguYyAgICAgICB8IDQ2MCArKysrKysrKystLQ0KPiAgLi4u
+L21lZGlhL3BsYXRmb3JtL3RpL2o3MjFlLWNzaTJyeC9qNzIxZS1jc2kycnguYyAgfCA4NTMNCj4g
+KysrKysrKysrKysrKysrLS0tLS0tDQo+ICAzIGZpbGVzIGNoYW5nZWQsIDEwNTIgaW5zZXJ0aW9u
+cygrKSwgMzAxIGRlbGV0aW9ucygtKQ0KPiAtLS0NCj4gYmFzZS1jb21taXQ6IGQ4OTRhMmEyODZm
+Y2NkNmU0N2NkMWNhYzRjMmQ0ZmY1ZDMwMGQ3YzcNCg0KQ2FuIHlvdSBwcm92aWRlIG1lIHdpdGgg
+d2hlcmUgdGhpcyBjb21taXQgY29tZXMgZnJvbSwgSSBjYW4gb25seSANCmFwcGx5IHBhcnRpYWwg
+cGF0Y2hzIHRvIHRlc3QuDQoNClRoYW5rcywNCkNoYW5naHVhbmcNCg==
 
