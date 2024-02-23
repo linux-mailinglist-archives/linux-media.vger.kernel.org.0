@@ -1,108 +1,228 @@
-Return-Path: <linux-media+bounces-5811-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5822-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7204861557
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 16:16:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E921586189A
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 18:00:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63534286B6B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 15:16:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9034A282055
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 17:00:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B38E823AA;
-	Fri, 23 Feb 2024 15:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5561112A154;
+	Fri, 23 Feb 2024 17:00:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="wKegyywy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SJTgMIab"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB4D224D8
-	for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 15:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176BF1292C6;
+	Fri, 23 Feb 2024 17:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708701410; cv=none; b=iDKio3Rnc5ATzi0nYcpU0OtZ413s5dP2zL64wSC1cCCb4kxMMpFWaCOMcXKBduS+CfF+29Z7hpiV3rMur6evPUEvHY2lU+cZMptDcBGY7gb9aec7C5ryr0iEqi5yXy7js1zMDYhC+99MO9LWsw2/oHgSOM8j89e4gMdxhBgwSFA=
+	t=1708707632; cv=none; b=k4BfV0EV8sglukBWGrsCRpUzcFnm8GrashRVBPAngs+XEilGhLDqSFziv2BXic+t18TtWe4BMaCU9nEXzGxRb0u8G9l4N1Ab1AzlW+6/o9E9x7HF2mjH8H0CttDq2cx7NFxHPzSThLN7vQX/2tkQUR2yIJlnfQk3wzHAfA6wJdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708701410; c=relaxed/simple;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SDNMXyESg04zMW13lUGp31ixt4j3ZrFLGIllJIDwn1KhEkC48gieJzpImBrdauc9EDqEvjAMPby0Q3cwbOIATRdg3E3YfOcVxUg7M0PWP7siat6ZmLXRLX2v/uLg1IcL9NclKuFtel/FXIMHCBeyjg5WDeronhKhVVK4puASFrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=wKegyywy; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-68f41af71ebso8816786d6.1
-        for <linux-media@vger.kernel.org>; Fri, 23 Feb 2024 07:16:49 -0800 (PST)
+	s=arc-20240116; t=1708707632; c=relaxed/simple;
+	bh=DP07s/Kd4y5Nre6qJCsFlczCNJviiMGXk8qxZy4ibMM=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=PecNZfdT5iyPfV0UeCHipB+aAiQB1/XFutddR7D0rrgFhBqvuKGTikR1/CqAWImVRtuMR0GFVOS/AR/QtoPHkKZO6ex65Fa5+Xn/subwV8lA1aO4f8EVvpS/ESNiPvq+r1kqdO0Bg1+tQ0AXi9vfftLtPsXvz+eakzcURkh83hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SJTgMIab; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-512ab55fde6so792491e87.2;
+        Fri, 23 Feb 2024 09:00:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1708701408; x=1709306208; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=wKegyywyvzxBCMpEH6mg7fnlvwzdf+n7bZC70hQubDz6uov5tYL9r7Q12sAFrxbsne
-         x1yzMfag/puLpbkAw1n6L3NFcgG/wwZ+OiHFaC1U1eZwp7hgHl9AzMKwGc1CbyjuymKW
-         U9gW1rO3TO1QENZpgy/XWYT4Dy+l0SKnoFTv80RO/1yp6RhRgtXbxuLfSoX0pxiWaqfC
-         nd9RkZz6LLfoSoMQhEv0OGRGQWA3FoHth8didD1kxsvlzo6OD5trzN5WV3iJzdOKamxc
-         vHzLIckLR2onGU4xVuyxlkT0Bj0IpWIuI1orZb8P+cr6s9pe9BCQv1cNxmabN2afxbRJ
-         i6bg==
+        d=gmail.com; s=20230601; t=1708707629; x=1709312429; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=KdZCvZnQvtvoXFrprhSZehsA4lrftV7UQsxYXFE5r3k=;
+        b=SJTgMIabpAlnz4uH50iUovUdHjBJvSj8Usj1UcvUedXchcdDU1fk7yxDI0dGpVjZ5a
+         3h6oJ3At9Jqru45+g/klxbJIN4kkktFJaOkyV+PzF4uSTW1//haeEHllKEYkMrOI88YE
+         ADBAQawhbtfEM5/9Ms+HdPztL2yL2YjnVFG/jKHKwuf21Ry9tit4Pu9O0Y2e2jQsDSjh
+         XedHzrniNwr2rifZGb0N9Qwf+YUXvA31Wfc7MdaOH1Bv+j3KCPZCvNBEe8Oiie1ybWaL
+         hY8ZXndFlLfUFxNEubYFC3yg92K+t91goqnQD3vYc9FQq/iqH5/5eBqlamFM5HrAtF0f
+         fPcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708701408; x=1709306208;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=D6xMjiLcPRt81/F7HmRkfOgUuHX922BY3TtzZ+OBYgMqlf0AKOGQTSFUgUCKMstiYR
-         AjE6edi2m8k9q1zl9UjJEzfir5Tq+nOldeDmca9eKAANvnfbkV2QL/wP6g+Oa1qN2KPZ
-         SS7uSY20eyqMONQ7ZUZRgBagh5EwzHdbRrHi+Zpzms0dnV3mTgNqvkslShZHgEAQbTp6
-         rbMnPRKzuqp3/Wh7rsATttikc0iHjzmMI2iQmq2+YTU7bDFHp1lhcW7aZ2/fM8QirSe2
-         LWKhJaaQyzCxvMqkJrjYcQ0Lhr+sYJbbAxda5k+iY/g5MK4iXLsp5RE5aQdsnSnZBapi
-         P0Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCXRIYMJqkW1p64Lg5MB1pc5ig5t3egwVRH9Ax7u66q9vzNW5UafhXiIVAVXPseUcMT6BH+0CNnnoJ8qBTlSPyK5dSPyUQsJiOkWvgw=
-X-Gm-Message-State: AOJu0YyfVQzH4x6CfxLKm0vBvx8qh1xLC0ghoFhLVwuzFAvQLL2zlRSt
-	d2XhjRMO6K00XT3h91oTwPm/2wbZW/kM0UncPmD5esEG5t7C/l0kcCXAgwUHwhw=
-X-Google-Smtp-Source: AGHT+IEOArsqxbbDXi0CJq2UV4huYHW/irLfo3OkqSuAjmKgi+/HuqzouPtNizFJz8rOHJy08Qp9yA==
-X-Received: by 2002:a05:6214:2b8a:b0:68f:ac2c:883c with SMTP id kr10-20020a0562142b8a00b0068fac2c883cmr116917qvb.52.1708701408215;
-        Fri, 23 Feb 2024 07:16:48 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:3354::7a9])
-        by smtp.gmail.com with ESMTPSA id lb25-20020a056214319900b0068f9bb1a247sm4094941qvb.19.2024.02.23.07.16.47
+        d=1e100.net; s=20230601; t=1708707629; x=1709312429;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KdZCvZnQvtvoXFrprhSZehsA4lrftV7UQsxYXFE5r3k=;
+        b=IghkoEMCElNZGVIi7qPuLj4/cThjo67Qd3y8q0rOF3tKKbApB9FkNVoZKlQT+IO7jp
+         CTVwijk5GsQLhtpm/ULfWy34Xg1+js+Igc2SOB6YxyNp2TfEPMrod775CL+fiGoqbY0u
+         l1YvPT9LmLOSw54dybulp675DsFs8uj9zc3VjVBokr/cGlWBSuvT51gAABdoP5DaqmRH
+         X9yf+VSoE5pYJPA057zHTwD8b3k4rJ3QuBj9JuKRLlTD8VLSlqmb2DkDe7IW4cCMgui+
+         4YBco/EEz7E0YBpztJqit2QhXNpFgYZaYNwiGSYRbIhB5rjllTAyx7ZQgAeo4qSeV1ev
+         F8zw==
+X-Forwarded-Encrypted: i=1; AJvYcCUiz8dOE3Yv+wzCpXnBWUDFhZ0pas23/nkufNvqs8AWsFKQR64b9FrurAno/4RKuf5unvHFMw9kv1UAIZpGcoGFwVcIUmpgjWxbAHPFurPfcFnspgYzNJqBF9kAl7cMpl3NhenSkPHJJvo=
+X-Gm-Message-State: AOJu0Yyc3Q/JUZt00oiXltx7rrBEaebLFBt8caHlpcsG14DY2ULnALaD
+	9BwqFazpck8DRwm4dKVzzCip/d/Ph821r4OgvouZRBvpFUeTVuGT
+X-Google-Smtp-Source: AGHT+IHsOc5/Zrb/rPJJ3eV0TA68yL6/1WBUbQzJaTU3sPB0EfY7x7ikiHptfqS9ZrAkw8Swu2eBJg==
+X-Received: by 2002:a19:f710:0:b0:512:bd51:a0ea with SMTP id z16-20020a19f710000000b00512bd51a0eamr234006lfe.9.1708707628879;
+        Fri, 23 Feb 2024 09:00:28 -0800 (PST)
+Received: from razdolb ([37.1.50.248])
+        by smtp.gmail.com with ESMTPSA id j9-20020a19f509000000b00512ebe08d7bsm173052lfb.290.2024.02.23.09.00.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 07:16:47 -0800 (PST)
-Message-ID: <8c9099470cfaee67bf89f393b0d681ac18d3f333.camel@ndufresne.ca>
-Subject: Re: [RESEND PATCH v0 3/5] wave5 : Support runtime suspend/resume.
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"
-	 <mchehab@kernel.org>, "linux-media@vger.kernel.org"
-	 <linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>
-Cc: "lafley.kim" <lafley.kim@chipsnmedia.com>, "b-brnich@ti.com"
-	 <b-brnich@ti.com>
-Date: Fri, 23 Feb 2024 10:16:47 -0500
-In-Reply-To: <SE1P216MB130310210B09C0EBE3B901C8ED552@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-References: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
-	 <20240131013046.15687-4-jackson.lee@chipsnmedia.com>
-	 <efe24b949a60034bf618eb3b8a8ba82e8a5dc99c.camel@ndufresne.ca>
-	 <SE1P216MB130326E2C4BA7E723A8955C9ED512@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-	 <20489b01f1ac9ab3e434ea4c17b4e0ccd84afa36.camel@ndufresne.ca>
-	 <SE1P216MB1303CEEF6DFAB5FA7C69D645ED502@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-	 <d5546b48ea829316a8dbd2ecc27bbf05e70e8188.camel@ndufresne.ca>
-	 <SE1P216MB1303932A0D3FC399179115D9ED572@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-	 <be5ce95b023bcff24f53fdae55763bf4a3f6b1d7.camel@ndufresne.ca>
-	 <SE1P216MB13038F3890F8B4597465B394ED562@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-	 <SE1P216MB13035B8E53454881C87059B9ED562@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-	 <060d634c4c707c9ed93f0d97816407b0195daace.camel@ndufresne.ca>
-	 <SE1P216MB130310210B09C0EBE3B901C8ED552@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+        Fri, 23 Feb 2024 09:00:28 -0800 (PST)
+References: <20231218174042.794012-1-mike.rudenko@gmail.com>
+ <20231218174042.794012-10-mike.rudenko@gmail.com>
+ <ZZvaDyGSMrjb6e75@valkosipuli.retiisi.eu> <878r4z4ysb.fsf@gmail.com>
+ <ZdhVAEElqzmJAynB@kekkonen.localdomain>
+User-agent: mu4e 1.10.8; emacs 29.2.50
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo@jmondi.org>,
+ Tommaso Merciai <tomm.merciai@gmail.com>, Christophe JAILLET
+ <christophe.jaillet@wanadoo.fr>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Subject: Re: [PATCH v2 09/20] media: i2c: ov4689: Use runtime PM autosuspend
+Date: Fri, 23 Feb 2024 18:18:12 +0300
+In-reply-to: <ZdhVAEElqzmJAynB@kekkonen.localdomain>
+Message-ID: <87le7bdsk4.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
 
 
+Hi Sakari,
+
+and thanks for the review!
+
+On 2024-02-23 at 08:19 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+
+> Hi Mikhail,
+>
+> On Mon, Jan 08, 2024 at 06:06:52PM +0300, Mikhail Rudenko wrote:
+>> Hi Sakari,
+>>
+>> Thanks for the review!
+>>
+>> On 2024-01-08 at 11:18 GMT, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>>
+>> > Hi Mikhail,
+>> >
+>> > On Mon, Dec 18, 2023 at 08:40:30PM +0300, Mikhail Rudenko wrote:
+>> >> Use runtime PM autosuspend to avoid powering off the sensor during
+>> >> fast stop-reconfigure-restart cycles.
+>> >>
+>> >> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+>> >> ---
+>> >>  drivers/media/i2c/ov4689.c | 22 +++++++++++++++-------
+>> >>  1 file changed, 15 insertions(+), 7 deletions(-)
+>> >>
+>> >> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
+>> >> index 5300e621ff90..64cc6d9e48cc 100644
+>> >> --- a/drivers/media/i2c/ov4689.c
+>> >> +++ b/drivers/media/i2c/ov4689.c
+>> >> @@ -407,26 +407,27 @@ static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
+>> >>  					  ov4689->cur_mode->num_regs,
+>> >>  					  NULL);
+>> >>  		if (ret) {
+>> >> -			pm_runtime_put(dev);
+>> >> +			pm_runtime_put_sync(dev);
+>> >
+>> > Why are you switching to pm_runtime_put_sync() here? That isn't covered by
+>> > the commit message (nor I think should be done).
+>>
+>> PM autosuspend conversion was suggested earlier by Laurent in his review
+>> of this series [1], and he adviced looking at how it was done for the
+>> imx290 driver. I followed along the lines of the corresponding patch
+>> [2].
+>
+> There's no need to use the _sync() variant here. And at least it wouldn't
+> be related to autosuspend, were you to switch to that.
+
+Ok, will use pm_runtime_put in v3. Or do you suggest dropping this patch
+altogether? Laurent?
+
+>>
+>> >>  			goto unlock_and_return;
+>> >>  		}
+>> >>
+>> >>  		ret = __v4l2_ctrl_handler_setup(&ov4689->ctrl_handler);
+>> >>  		if (ret) {
+>> >> -			pm_runtime_put(dev);
+>> >> +			pm_runtime_put_sync(dev);
+>> >>  			goto unlock_and_return;
+>> >>  		}
+>> >>
+>> >>  		ret = cci_write(ov4689->regmap, OV4689_REG_CTRL_MODE,
+>> >>  				OV4689_MODE_STREAMING, NULL);
+>> >>  		if (ret) {
+>> >> -			pm_runtime_put(dev);
+>> >> +			pm_runtime_put_sync(dev);
+>> >>  			goto unlock_and_return;
+>> >>  		}
+>> >>  	} else {
+>> >>  		cci_write(ov4689->regmap, OV4689_REG_CTRL_MODE,
+>> >>  			  OV4689_MODE_SW_STANDBY, NULL);
+>> >> -		pm_runtime_put(dev);
+>> >> +		pm_runtime_mark_last_busy(dev);
+>> >> +		pm_runtime_put_autosuspend(dev);
+>> >>  	}
+>> >>
+>> >>  unlock_and_return:
+>> >> @@ -606,7 +607,9 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
+>> >>  		break;
+>> >>  	}
+>> >>
+>> >> -	pm_runtime_put(dev);
+>> >> +	pm_runtime_mark_last_busy(dev);
+>> >> +	pm_runtime_put_autosuspend(dev);
+>> >
+>> > Also note that with runtime PM autosuspend,  you have to use
+>> > pm_runtime_get_if_active() instead of pm_runtime_get_if_in_use().
+>>
+>> Noted, will do so in v3.
+>>
+>> >> +
+>> >>  	return ret;
+>> >>  }
+>> >>
+>> >> @@ -877,8 +880,10 @@ static int ov4689_probe(struct i2c_client *client)
+>> >>  	}
+>> >>
+>> >>  	pm_runtime_set_active(dev);
+>> >> +	pm_runtime_get_noresume(dev);
+>> >>  	pm_runtime_enable(dev);
+>> >> -	pm_runtime_idle(dev);
+>> >> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+>> >> +	pm_runtime_use_autosuspend(dev);
+>> >>
+>> >>  	ret = v4l2_async_register_subdev_sensor(sd);
+>> >>  	if (ret) {
+>> >> @@ -886,11 +891,14 @@ static int ov4689_probe(struct i2c_client *client)
+>> >>  		goto err_clean_subdev_pm;
+>> >>  	}
+>> >>
+>> >> +	pm_runtime_mark_last_busy(dev);
+>> >> +	pm_runtime_put_autosuspend(dev);
+>> >> +
+>> >>  	return 0;
+>> >>
+>> >>  err_clean_subdev_pm:
+>> >>  	pm_runtime_disable(dev);
+>> >> -	pm_runtime_set_suspended(dev);
+>> >> +	pm_runtime_put_noidle(dev);
+>> >>  	v4l2_subdev_cleanup(sd);
+>> >>  err_clean_entity:
+>> >>  	media_entity_cleanup(&sd->entity);
+>>
+>> [1] https://lore.kernel.org/all/20231211181935.GG27535@pendragon.ideasonboard.com/
+>> [2] https://lore.kernel.org/all/20230116144454.1012-14-laurent.pinchart@ideasonboard.com/
+>>
+
+
+--
+Best regards,
+Mikhail Rudenko
 
