@@ -1,100 +1,125 @@
-Return-Path: <linux-media+bounces-5843-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5844-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48247861C3F
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 20:04:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6101A861CF9
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 20:51:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79C651C230A6
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 19:04:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0057EB24A4E
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 19:51:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83CAB1448DE;
-	Fri, 23 Feb 2024 19:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DB131487CD;
+	Fri, 23 Feb 2024 19:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kDnk4MTR"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uWxPu15j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB151143C6A;
-	Fri, 23 Feb 2024 19:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B240D145352;
+	Fri, 23 Feb 2024 19:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708715073; cv=none; b=ezU3KfjHnwx4SLas+2xiGzbmbTRlZyL+WfukJEmJupWEwqlL9HRrm/6fVFmhNSrBMXL7dSZmoAjHEQKn0sxarlEL9oLN58uTuFT40+EP5oX0cfnPQ8YEix758jWWlaPpVytCljh7J2b0ITZkf4n948z3feSPkHqHZbBYKxA4eE8=
+	t=1708717871; cv=none; b=cCCNx21/KysX4QvSWru01NGpALIXcDPPKZFNbvqK/gm4ynKUkLplhpHUbtbkS/S1G0QjhZ9Gx4xuM5P3j8N9I+f1j1e9IkgskFPbjEnAGRlHzK/OmqsraM8P/ukMT6ynJt6JW7O+CEZ8o5/T/rkgcdm6UQdDoJWhOtmMKCBtDGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708715073; c=relaxed/simple;
-	bh=kvRBTnpXxJuiMh6rU54+PqzZxLJBaTJYWSM4jkXCnq8=;
+	s=arc-20240116; t=1708717871; c=relaxed/simple;
+	bh=YaVgMmCZccAOj2rhCfHdyWTcmqoRE1LJqZeVBmFLeSU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ieZbF9/nhtv8wCkqfY4Y/0SuYb0Sg9WBkzPc2gw7WrsZ39R58VC+jQdS9IkmyeE8Ul7ON0FsLG0ejyiIF+lSPrTA3ScLRDdg20ux3Ll+4wcX3+7jGDh8lf4krb89Ek3mQNeRMSn1bZnblaxerRvX7avTPl59rsNY0DoqML/elns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDnk4MTR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14F8EC433C7;
-	Fri, 23 Feb 2024 19:04:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708715072;
-	bh=kvRBTnpXxJuiMh6rU54+PqzZxLJBaTJYWSM4jkXCnq8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kDnk4MTRhS2VGtZczg90fw1dl1rw2wbHYY25dtBT/S6bDviEGFP6FaChJVlw8+5dM
-	 U3W0v2XGj4uZ4NnDFbmvJjVsbT6wtStCGQSyBz4+wfkMbJj8DZejfHdad68oGb0Zjf
-	 irqro+Mzzl5AevhZTzKnZhoQGJN06azAAc7E1zTpmt/hUEuuPwDrfO2T2D3xOXhDji
-	 c8zwUXY8oirTcv2HtNvJz7WyIBpA4gnSh3hw+8Q5W46wkx4v0sopm/ZytISe1Y1tHq
-	 JqcnKc1qHE1g67mlNL+qYRwWyyO/sBXbfWpSULAmeSD5qIMYlMDas4a3S7L6Ksk5Gr
-	 tEDR6j1zqI6OA==
-Date: Fri, 23 Feb 2024 19:04:26 +0000
-From: Conor Dooley <conor@kernel.org>
-To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
-	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org,
-	maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
-	mripard@kernel.org, robh+dt@kernel.org, tzimmermann@suse.de,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	chromeos-krk-upstreaming@google.com, ribalda@chromium.org
-Subject: Re: [PATCH v2 0/9] Add Chameleon v3 video support
-Message-ID: <20240223-bottle-grumpily-900dabb22491@spud>
-References: <20240221160215.484151-1-panikiel@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=jopwIebqvkwwBE/i175fQdJ3GozQ7EiwAXHYfWjDG+b2ZCr3ZjKR7ldki4G7O1nT39zBFVHaNgkZ8FY7UzY47mWsYktnXY3iDGRyIicjeRIbNBHgWniMUaRT4VxV6ubDKAhzMeRR52ETflEbNhWgSe4xv/+iJ7CjCtQz6Dxgrj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uWxPu15j; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Fri, 23 Feb 2024 14:50:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708717865;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G9nEEkfFGj8WFYt7yvHDxsoouHxXt+6aC7E5xhimc9A=;
+	b=uWxPu15jxbBy5Qv8sUU4/FKz9vhwMVdq24ex7AxwdBDTkpdTty7N4oFt5H+WpItVhn5h2q
+	QhDNbk6QMiXNrrlkBl7kMfsoV81d2NhOFvXWC0sVWqoHMtRJN5Tm42Zzvb2Qci9w4QIV6Q
+	wpkGE4FwRbb7rZDimmKQkBl02FYhYXk=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Jeff Johnson <quic_jjohnson@quicinc.com>, 
+	LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	virtualization@lists.linux.dev, linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-tegra@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, ath10k@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	ath11k@lists.infradead.org, ath12k@lists.infradead.org, brcm80211@lists.linux.dev, 
+	brcm80211-dev-list.pdl@broadcom.com, linux-usb@vger.kernel.org, linux-bcachefs@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev, linux-cifs@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-edac@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-hwmon@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-wpan@vger.kernel.org, 
+	dev@openvswitch.org, linux-s390@vger.kernel.org, 
+	tipc-discussion@lists.sourceforge.net, Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [FYI][PATCH] tracing/treewide: Remove second parameter of
+ __assign_str()
+Message-ID: <qsksxrdinia3cxr52tfe4p3pafsy4biktnodlfn4vyzud73p2j@6ycnhrhzwsv6>
+References: <20240223125634.2888c973@gandalf.local.home>
+ <0aed6cf2-17ae-45aa-b7ff-03da932ea4e0@quicinc.com>
+ <20240223134653.524a5c9e@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="OQjjAQm+Wl0cgy2+"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240221160215.484151-1-panikiel@google.com>
+In-Reply-To: <20240223134653.524a5c9e@gandalf.local.home>
+X-Migadu-Flow: FLOW_OUT
 
+On Fri, Feb 23, 2024 at 01:46:53PM -0500, Steven Rostedt wrote:
+> On Fri, 23 Feb 2024 10:30:45 -0800
+> Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
+> 
+> > On 2/23/2024 9:56 AM, Steven Rostedt wrote:
+> > > From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> > > 
+> > > [
+> > >    This is a treewide change. I will likely re-create this patch again in
+> > >    the second week of the merge window of v6.9 and submit it then. Hoping
+> > >    to keep the conflicts that it will cause to a minimum.
+> > > ]
+> > > 
+> > > With the rework of how the __string() handles dynamic strings where it
+> > > saves off the source string in field in the helper structure[1], the
+> > > assignment of that value to the trace event field is stored in the helper
+> > > value and does not need to be passed in again.  
+> > 
+> > Just curious if this could be done piecemeal by first changing the
+> > macros to be variadic macros which allows you to ignore the extra
+> > argument. The callers could then be modified in their separate trees.
+> > And then once all the callers have be merged, the macros could be
+> > changed to no longer be variadic.
+> 
+> I weighed doing that, but I think ripping off the band-aid is a better
+> approach. One thing I found is that leaving unused parameters in the macros
+> can cause bugs itself. I found one case doing my clean up, where an unused
+> parameter in one of the macros was bogus, and when I made it a used
+> parameter, it broke the build.
+> 
+> I think for tree-wide changes, the preferred approach is to do one big
+> patch at once. And since this only affects TRACE_EVENT() macros, it
+> hopefully would not be too much of a burden (although out of tree users may
+> suffer from this, but do we care?)
 
---OQjjAQm+Wl0cgy2+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Agreed on doing it all at once, it'll be way less spam for people to
+deal with.
 
-Hey,
-
-On Wed, Feb 21, 2024 at 04:02:06PM +0000, Pawe=C5=82 Anikiel wrote:
->   media: dt-bindings: Add Chameleon v3 framebuffer
->   media: dt-bindings: Add Intel Displayport RX IP
-
-I'm happy with both of these patches, but I would like others to look,
-so I'll hold off leaving R-b tags until someone else has at least
-looked.
-
-Cheers,
-Conor.
-
---OQjjAQm+Wl0cgy2+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZdjsOgAKCRB4tDGHoIJi
-0kdOAP9exKFk426JGBzS6e5PuRv/hRCsdMzhpIG2OVVZR71KBwEAzXMieV4HnLoJ
-WwUH+i5PkLVRTB7IHnBCJVtcCpoTygs=
-=COSl
------END PGP SIGNATURE-----
-
---OQjjAQm+Wl0cgy2+--
+Tangentially related though, what would make me really happy is if we
+could create the string with in the TP__fast_assign() section. I have to
+have a bunch of annoying wrappers right now because the string length
+has to be known when we invoke the tracepoint.
 
