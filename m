@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-5763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5764-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6371861046
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 12:24:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8E786105A
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 12:28:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44E8C1F2407D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 11:24:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AD612854CB
+	for <lists+linux-media@lfdr.de>; Fri, 23 Feb 2024 11:28:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3989576911;
-	Fri, 23 Feb 2024 11:23:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25A186310A;
+	Fri, 23 Feb 2024 11:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rTwCI6KP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vu33y28q"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD7667C7D;
-	Fri, 23 Feb 2024 11:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D687E5C911;
+	Fri, 23 Feb 2024 11:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708687437; cv=none; b=lOMpW921mlMyTZjWW/xM28LUZYGnmIioi3OtWw+0zDjcJgVkxcNc3wUEfLSPoR2oGClIX94fLyaI1Bkn3HUeqqj/ttMlJq01HnizLnasTWNdfOEDJmch3yKuX89Aqw0MZT6Xx5aqyH8gBguebS5zkA0tadUN79j9JykZykvoxXM=
+	t=1708687719; cv=none; b=KGyEyVtf9l/0ynU1X8gveDI0S+dK3/ADaDoovgSK3R+5h0aHitqeFbfgAPojb7JY5rZoHgRRKVIX45rMOSaThbSPSocCuzKfIUVSir0vY8bp8Q65+nAiUB0TX9UKnnx2MByq0qUTNWLOuofZngBzhveK74G13+jE27jTHrmlKdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708687437; c=relaxed/simple;
-	bh=Qa9B1rXQ+gdWbnrbTzJ2o12MstNyG8i2yFEHNXUOric=;
+	s=arc-20240116; t=1708687719; c=relaxed/simple;
+	bh=S4SZBOtb0NpsITkjiCbJF7qK7jEfZsU9vO1S/fV1e7s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QGmxH+uX4S72ruMHKqFR43HZaIq0oFNaLnPytB4QlxDNtWPYzkaPp7adF+XP9pss2coYHQghUNG6cAyFp6+X0H/t1G7e9jCFkjS2+BPEKSkrP37+XfbVZLDxv2fvfHkPLME5ZuY/0nnIIc1Ca3HW6+4hQsl6xk5crypFjUM59bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rTwCI6KP; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=gDhnOTEKQ+w3/krtyz+m550CV7B85KcmIxvPWUfX83qdRtcod5mgCMTTOkoXefo7tNtXTAAV2s8ms9kgJFI6s4n3ZMMz/bglPERYocFO5SVGLbmdE2BAAGHpt0eH8iMv/oCX9YlsACuK4sTtvOLAA726AOuMVN03HreaTRymDP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vu33y28q; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B41109B6;
-	Fri, 23 Feb 2024 12:23:44 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8B8B2E7;
+	Fri, 23 Feb 2024 12:28:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708687424;
-	bh=Qa9B1rXQ+gdWbnrbTzJ2o12MstNyG8i2yFEHNXUOric=;
+	s=mail; t=1708687707;
+	bh=S4SZBOtb0NpsITkjiCbJF7qK7jEfZsU9vO1S/fV1e7s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rTwCI6KPCFJZipqq4J3rzbHMwM3gdlE6ZfTcm6pFEmE40OyFraLmTSByeyNo79kg1
-	 N1DVbfQoizTX5zs9LrGe0PDa/D5LDp/mwtNMCbUAopBMoIiekUDlDPNHtdgJ6PUzgZ
-	 Gc6jhJfJUiQExjch0qB3W10yEScqG9lyYUrsDXjM=
-Date: Fri, 23 Feb 2024 13:23:57 +0200
+	b=vu33y28qj9A4buvFVX9JvdMZyghVH6SeE5TntFiMkZlAqUcai3IzQzD3YXDbF/63g
+	 XyN9Qco/YbQza/vNOFbhWpQqVKuVtr3hCLt6xibkGp/fUbkmcV/BjspVLZsN9tgUs9
+	 U/oyP28EGShqGCo64LEdJi4XmD90yfzEuSq84XDI=
+Date: Fri, 23 Feb 2024 13:28:39 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Mikhail Rudenko <mike.rudenko@gmail.com>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -51,11 +51,10 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 01/20] media: i2c: ov4689: Clean up and annotate the
- register table
-Message-ID: <20240223112357.GN31348@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 07/20] media: i2c: ov4689: Use sub-device active state
+Message-ID: <20240223112839.GO31348@pendragon.ideasonboard.com>
 References: <20231218174042.794012-1-mike.rudenko@gmail.com>
- <20231218174042.794012-2-mike.rudenko@gmail.com>
+ <20231218174042.794012-8-mike.rudenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,252 +63,224 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231218174042.794012-2-mike.rudenko@gmail.com>
+In-Reply-To: <20231218174042.794012-8-mike.rudenko@gmail.com>
 
-HiMikhail,
+Hi Mikhail,
 
 Thank you for the patch.
 
-On Mon, Dec 18, 2023 at 08:40:22PM +0300, Mikhail Rudenko wrote:
-> Many values in the register table are actually power-on
-> defaults. Remove those and also unused HDR exposures and gains.
-> Annotate the remaining values using the publicly available datasheet
-> to facilitate further development. No functional change intended.
-
-I'll trust you on that as I can't test the patch.
-
+On Mon, Dec 18, 2023 at 08:40:28PM +0300, Mikhail Rudenko wrote:
+> Use sub-device active state. Employ control handler lock to
+> synchronize access to the active state and s_stream.
+> 
 > Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
 > ---
->  drivers/media/i2c/ov4689.c | 203 +++++++++++++++++++++----------------
->  1 file changed, 118 insertions(+), 85 deletions(-)
+>  drivers/media/i2c/ov4689.c | 75 ++++++++++++++++----------------------
+>  1 file changed, 32 insertions(+), 43 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-> index 403091651885..ff5213862974 100644
+> index d42f5d1a1ba8..501901aad4ae 100644
 > --- a/drivers/media/i2c/ov4689.c
 > +++ b/drivers/media/i2c/ov4689.c
-> @@ -3,7 +3,7 @@
->   * ov4689 driver
->   *
->   * Copyright (C) 2017 Fuzhou Rockchip Electronics Co., Ltd.
-> - * Copyright (C) 2022 Mikhail Rudenko
-> + * Copyright (C) 2022, 2023 Mikhail Rudenko
->   */
+> @@ -86,7 +86,6 @@ struct ov4689 {
 >  
->  #include <linux/clk.h>
-> @@ -123,90 +123,123 @@ struct ov4689_gain_range {
->   * mipi_datarate per lane 1008Mbps
->   */
->  static const struct regval ov4689_2688x1520_regs[] = {
-> -	{0x0103, 0x01}, {0x3638, 0x00}, {0x0300, 0x00},
-> -	{0x0302, 0x2a}, {0x0303, 0x00}, {0x0304, 0x03},
-> -	{0x030b, 0x00}, {0x030d, 0x1e}, {0x030e, 0x04},
-> -	{0x030f, 0x01}, {0x0312, 0x01}, {0x031e, 0x00},
-> -	{0x3000, 0x20}, {0x3002, 0x00}, {0x3018, 0x72},
-> -	{0x3020, 0x93}, {0x3021, 0x03}, {0x3022, 0x01},
-> -	{0x3031, 0x0a}, {0x303f, 0x0c}, {0x3305, 0xf1},
-> -	{0x3307, 0x04}, {0x3309, 0x29}, {0x3500, 0x00},
-> -	{0x3501, 0x60}, {0x3502, 0x00}, {0x3503, 0x04},
-> -	{0x3504, 0x00}, {0x3505, 0x00}, {0x3506, 0x00},
-> -	{0x3507, 0x00}, {0x3508, 0x00}, {0x3509, 0x80},
-> -	{0x350a, 0x00}, {0x350b, 0x00}, {0x350c, 0x00},
-> -	{0x350d, 0x00}, {0x350e, 0x00}, {0x350f, 0x80},
-> -	{0x3510, 0x00}, {0x3511, 0x00}, {0x3512, 0x00},
-> -	{0x3513, 0x00}, {0x3514, 0x00}, {0x3515, 0x80},
-> -	{0x3516, 0x00}, {0x3517, 0x00}, {0x3518, 0x00},
-> -	{0x3519, 0x00}, {0x351a, 0x00}, {0x351b, 0x80},
-> -	{0x351c, 0x00}, {0x351d, 0x00}, {0x351e, 0x00},
-> -	{0x351f, 0x00}, {0x3520, 0x00}, {0x3521, 0x80},
-> -	{0x3522, 0x08}, {0x3524, 0x08}, {0x3526, 0x08},
-> -	{0x3528, 0x08}, {0x352a, 0x08}, {0x3602, 0x00},
-> -	{0x3603, 0x40}, {0x3604, 0x02}, {0x3605, 0x00},
-> -	{0x3606, 0x00}, {0x3607, 0x00}, {0x3609, 0x12},
-> -	{0x360a, 0x40}, {0x360c, 0x08}, {0x360f, 0xe5},
-> -	{0x3608, 0x8f}, {0x3611, 0x00}, {0x3613, 0xf7},
-> -	{0x3616, 0x58}, {0x3619, 0x99}, {0x361b, 0x60},
-> -	{0x361c, 0x7a}, {0x361e, 0x79}, {0x361f, 0x02},
-> -	{0x3632, 0x00}, {0x3633, 0x10}, {0x3634, 0x10},
-> -	{0x3635, 0x10}, {0x3636, 0x15}, {0x3646, 0x86},
-> -	{0x364a, 0x0b}, {0x3700, 0x17}, {0x3701, 0x22},
-> -	{0x3703, 0x10}, {0x370a, 0x37}, {0x3705, 0x00},
-> -	{0x3706, 0x63}, {0x3709, 0x3c}, {0x370b, 0x01},
-> -	{0x370c, 0x30}, {0x3710, 0x24}, {0x3711, 0x0c},
-> -	{0x3716, 0x00}, {0x3720, 0x28}, {0x3729, 0x7b},
-> -	{0x372a, 0x84}, {0x372b, 0xbd}, {0x372c, 0xbc},
-> -	{0x372e, 0x52}, {0x373c, 0x0e}, {0x373e, 0x33},
-> -	{0x3743, 0x10}, {0x3744, 0x88}, {0x3745, 0xc0},
-> -	{0x374a, 0x43}, {0x374c, 0x00}, {0x374e, 0x23},
-> -	{0x3751, 0x7b}, {0x3752, 0x84}, {0x3753, 0xbd},
-> -	{0x3754, 0xbc}, {0x3756, 0x52}, {0x375c, 0x00},
-> -	{0x3760, 0x00}, {0x3761, 0x00}, {0x3762, 0x00},
-> -	{0x3763, 0x00}, {0x3764, 0x00}, {0x3767, 0x04},
-> -	{0x3768, 0x04}, {0x3769, 0x08}, {0x376a, 0x08},
-> -	{0x376b, 0x20}, {0x376c, 0x00}, {0x376d, 0x00},
-> -	{0x376e, 0x00}, {0x3773, 0x00}, {0x3774, 0x51},
-> -	{0x3776, 0xbd}, {0x3777, 0xbd}, {0x3781, 0x18},
-> -	{0x3783, 0x25}, {0x3798, 0x1b}, {0x3800, 0x00},
-> -	{0x3801, 0x08}, {0x3802, 0x00}, {0x3803, 0x04},
-> -	{0x3804, 0x0a}, {0x3805, 0x97}, {0x3806, 0x05},
-> -	{0x3807, 0xfb}, {0x3808, 0x0a}, {0x3809, 0x80},
-> -	{0x380a, 0x05}, {0x380b, 0xf0}, {0x380c, 0x0a},
-> -	{0x380d, 0x0e}, {0x380e, 0x06}, {0x380f, 0x12},
-> -	{0x3810, 0x00}, {0x3811, 0x08}, {0x3812, 0x00},
-> -	{0x3813, 0x04}, {0x3814, 0x01}, {0x3815, 0x01},
-> -	{0x3819, 0x01}, {0x3820, 0x00}, {0x3821, 0x06},
-> -	{0x3829, 0x00}, {0x382a, 0x01}, {0x382b, 0x01},
-> -	{0x382d, 0x7f}, {0x3830, 0x04}, {0x3836, 0x01},
-> -	{0x3837, 0x00}, {0x3841, 0x02}, {0x3846, 0x08},
-> -	{0x3847, 0x07}, {0x3d85, 0x36}, {0x3d8c, 0x71},
-> -	{0x3d8d, 0xcb}, {0x3f0a, 0x00}, {0x4000, 0xf1},
-> -	{0x4001, 0x40}, {0x4002, 0x04}, {0x4003, 0x14},
-> -	{0x400e, 0x00}, {0x4011, 0x00}, {0x401a, 0x00},
-> -	{0x401b, 0x00}, {0x401c, 0x00}, {0x401d, 0x00},
-> -	{0x401f, 0x00}, {0x4020, 0x00}, {0x4021, 0x10},
-> -	{0x4022, 0x07}, {0x4023, 0xcf}, {0x4024, 0x09},
-> -	{0x4025, 0x60}, {0x4026, 0x09}, {0x4027, 0x6f},
-> -	{0x4028, 0x00}, {0x4029, 0x02}, {0x402a, 0x06},
-> -	{0x402b, 0x04}, {0x402c, 0x02}, {0x402d, 0x02},
-> -	{0x402e, 0x0e}, {0x402f, 0x04}, {0x4302, 0xff},
-> -	{0x4303, 0xff}, {0x4304, 0x00}, {0x4305, 0x00},
-> -	{0x4306, 0x00}, {0x4308, 0x02}, {0x4500, 0x6c},
-> -	{0x4501, 0xc4}, {0x4502, 0x40}, {0x4503, 0x01},
-> -	{0x4601, 0xa7}, {0x4800, 0x04}, {0x4813, 0x08},
-> -	{0x481f, 0x40}, {0x4829, 0x78}, {0x4837, 0x10},
-> -	{0x4b00, 0x2a}, {0x4b0d, 0x00}, {0x4d00, 0x04},
-> -	{0x4d01, 0x42}, {0x4d02, 0xd1}, {0x4d03, 0x93},
-> -	{0x4d04, 0xf5}, {0x4d05, 0xc1}, {0x5000, 0xf3},
-> -	{0x5001, 0x11}, {0x5004, 0x00}, {0x500a, 0x00},
-> -	{0x500b, 0x00}, {0x5032, 0x00}, {0x5040, 0x00},
-> -	{0x5050, 0x0c}, {0x5500, 0x00}, {0x5501, 0x10},
-> -	{0x5502, 0x01}, {0x5503, 0x0f}, {0x8000, 0x00},
-> -	{0x8001, 0x00}, {0x8002, 0x00}, {0x8003, 0x00},
-> -	{0x8004, 0x00}, {0x8005, 0x00}, {0x8006, 0x00},
-> -	{0x8007, 0x00}, {0x8008, 0x00}, {0x3638, 0x00},
-> +	/* System control*/
-> +	{0x0103, 0x01}, /* SC_CTRL0103 software_reset = 1 */
-> +	{0x3000, 0x20}, /* SC_CMMN_PAD_OEN0 FSIN_output_enable = 1 */
-> +	{0x3021, 0x03}, /*
-> +			 * SC_CMMN_MISC_CTRL fst_stby_ctr = 0,
-> +			 * sleep_no_latch_enable = 0
-> +			 */
-> +
-> +	/* AEC PK */
-> +	{0x3503, 0x04}, /* AEC_MANUAL gain_input_as_sensor_gain_format = 1 */
-> +	{0x352a, 0x08}, /* DIG_GAIN_FRAC_LONG dig_gain_long[14:8] = 0x08 (2x) */
-> +
-> +	/* ADC and analog control*/
-> +	{0x3603, 0x40},
-> +	{0x3604, 0x02},
-> +	{0x3609, 0x12},
-> +	{0x360c, 0x08},
-> +	{0x360f, 0xe5},
-> +	{0x3608, 0x8f},
-> +	{0x3611, 0x00},
-> +	{0x3613, 0xf7},
-> +	{0x3616, 0x58},
-> +	{0x3619, 0x99},
-> +	{0x361b, 0x60},
-> +	{0x361e, 0x79},
-> +	{0x3634, 0x10},
-> +	{0x3635, 0x10},
-> +	{0x3636, 0x15},
-> +	{0x3646, 0x86},
-> +	{0x364a, 0x0b},
-> +
-> +	/* Sensor control */
-> +	{0x3700, 0x17},
-> +	{0x3701, 0x22},
-> +	{0x3703, 0x10},
-> +	{0x370a, 0x37},
-> +	{0x3706, 0x63},
-> +	{0x3709, 0x3c},
-> +	{0x370c, 0x30},
-> +	{0x3710, 0x24},
-> +	{0x3720, 0x28},
-> +	{0x3729, 0x7b},
-> +	{0x372b, 0xbd},
-> +	{0x372c, 0xbc},
-> +	{0x372e, 0x52},
-> +	{0x373c, 0x0e},
-> +	{0x373e, 0x33},
-> +	{0x3743, 0x10},
-> +	{0x3744, 0x88},
-> +	{0x3745, 0xc0},
-> +	{0x374c, 0x00},
-> +	{0x374e, 0x23},
-> +	{0x3751, 0x7b},
-> +	{0x3753, 0xbd},
-> +	{0x3754, 0xbc},
-> +	{0x3756, 0x52},
-> +	{0x376b, 0x20},
-> +	{0x3774, 0x51},
-> +	{0x3776, 0xbd},
-> +	{0x3777, 0xbd},
-> +	{0x3781, 0x18},
-> +	{0x3783, 0x25},
-> +	{0x3798, 0x1b},
-> +
-> +	/* Timing control */
-> +	{0x3801, 0x08}, /* H_CROP_START_L h_crop_start[7:0] = 0x08 */
-
-It would be nice to define register macros for the known registers. This
-can be done in a separate patch.
-
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +	{0x3805, 0x97}, /* H_CROP_END_L h_crop_end[7:0] = 0x97 */
-> +	{0x380c, 0x0a}, /* TIMING_HTS_H hts[14:8] = 0x0a */
-> +	{0x380d, 0x0e}, /* TIMING_HTS_L hts[7:0] = 0x0e */
-> +	{0x3811, 0x08}, /* H_WIN_OFF_L h_win_off[7:0] = 0x08*/
-> +	{0x3813, 0x04}, /* V_WIN_OFF_L v_win_off[7:0] = 0x04 */
-> +	{0x3819, 0x01}, /* VSYNC_END_L vsync_end_point[7:0] = 0x01 */
-> +	{0x3821, 0x06}, /* TIMING_FORMAT2 array_h_mirror = 1, digital_h_mirror = 1 */
-> +
-> +	/* OTP control */
-> +	{0x3d85, 0x36}, /* OTP_REG85 OTP_power_up_load_setting_enable = 1,
-> +			 * OTP_power_up_load_data_enable = 1,
-> +			 * OTP_bist_select = 1 (compare with zero)
-> +			 */
-> +	{0x3d8c, 0x71}, /* OTP_SETTING_STT_ADDRESS_H */
-> +	{0x3d8d, 0xcb}, /* OTP_SETTING_STT_ADDRESS_L */
-> +
-> +	/* BLC registers*/
-> +	{0x4001, 0x40}, /* DEBUG_MODE */
-> +	{0x401b, 0x00}, /* DEBUG_MODE */
-> +	{0x401d, 0x00}, /* DEBUG_MODE */
-> +	{0x401f, 0x00}, /* DEBUG_MODE */
-> +	{0x4020, 0x00}, /* ANCHOR_LEFT_START_H anchor_left_start[11:8] = 0 */
-> +	{0x4021, 0x10}, /* ANCHOR_LEFT_START_L anchor_left_start[7:0] = 0x10 */
-> +	{0x4022, 0x07}, /* ANCHOR_LEFT_END_H anchor_left_end[11:8] = 0x07 */
-> +	{0x4023, 0xcf}, /* ANCHOR_LEFT_END_L anchor_left_end[7:0] = 0xcf */
-> +	{0x4024, 0x09}, /* ANCHOR_RIGHT_START_H anchor_right_start[11:8] = 0x09 */
-> +	{0x4025, 0x60}, /* ANCHOR_RIGHT_START_L anchor_right_start[7:0] = 0x60 */
-> +	{0x4026, 0x09}, /* ANCHOR_RIGHT_END_H anchor_right_end[11:8] = 0x09 */
-> +	{0x4027, 0x6f}, /* ANCHOR_RIGHT_END_L anchor_right_end[7:0] = 0x6f */
-> +
-> +	/* ADC sync control */
-> +	{0x4500, 0x6c}, /* ADC_SYNC_CTRL */
-> +	{0x4503, 0x01}, /* ADC_SYNC_CTRL */
-> +
-> +	/* VFIFO */
-> +	{0x4601, 0xa7}, /* VFIFO_CTRL_01 r_vfifo_read_start[7:0] = 0xa7 */
-> +
-> +	/* Temperature monitor */
-> +	{0x4d00, 0x04}, /* TPM_CTRL_00 tmp_slope[15:8] = 0x04 */
-> +	{0x4d01, 0x42}, /* TPM_CTRL_01 tmp_slope[7:0] = 0x42 */
-> +	{0x4d02, 0xd1}, /* TPM_CTRL_02 tpm_offset[31:24] = 0xd1 */
-> +	{0x4d03, 0x93}, /* TPM_CTRL_03 tpm_offset[23:16] = 0x93 */
-> +	{0x4d04, 0xf5}, /* TPM_CTRL_04 tpm_offset[15:8]  = 0xf5 */
-> +	{0x4d05, 0xc1}, /* TPM_CTRL_05 tpm_offset[7:0]   = 0xc1 */
-> +
-> +	/* pre-ISP control */
-> +	{0x5050, 0x0c}, /* DEBUG_MODE */
-> +
-> +	/* OTP-DPC control */
-> +	{0x5501, 0x10}, /* OTP_DPC_START_L otp_start_address[7:0] = 0x10 */
-> +	{0x5503, 0x0f}, /* OTP_DPC_END_L otp_end_address[7:0] = 0x0f */
->  	{REG_NULL, 0x00},
+>  	u32 clock_rate;
+>  
+> -	struct mutex mutex; /* lock to protect ctrls and cur_mode */
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	struct v4l2_ctrl *exposure;
+>  
+> @@ -319,19 +318,6 @@ static int ov4689_set_fmt(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> -static int ov4689_get_fmt(struct v4l2_subdev *sd,
+> -			  struct v4l2_subdev_state *sd_state,
+> -			  struct v4l2_subdev_format *fmt)
+> -{
+> -	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
+> -	struct ov4689 *ov4689 = to_ov4689(sd);
+> -
+> -	/* only one mode supported for now */
+> -	ov4689_fill_fmt(ov4689->cur_mode, mbus_fmt);
+> -
+> -	return 0;
+> -}
+> -
+>  static int ov4689_enum_mbus_code(struct v4l2_subdev *sd,
+>  				 struct v4l2_subdev_state *sd_state,
+>  				 struct v4l2_subdev_mbus_code_enum *code)
+> @@ -405,10 +391,11 @@ static int ov4689_get_selection(struct v4l2_subdev *sd,
+>  static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
+>  {
+>  	struct ov4689 *ov4689 = to_ov4689(sd);
+> +	struct v4l2_subdev_state *sd_state;
+>  	struct device *dev = ov4689->dev;
+>  	int ret = 0;
+>  
+> -	mutex_lock(&ov4689->mutex);
+> +	sd_state = v4l2_subdev_lock_and_get_active_state(&ov4689->subdev);
+>  
+>  	if (on) {
+>  		ret = pm_runtime_resume_and_get(dev);
+> @@ -443,7 +430,7 @@ static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
+>  	}
+>  
+>  unlock_and_return:
+> -	mutex_unlock(&ov4689->mutex);
+> +	v4l2_subdev_unlock_state(sd_state);
+>  
+>  	return ret;
+>  }
+> @@ -506,18 +493,13 @@ static int __maybe_unused ov4689_power_off(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static int ov4689_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> +static int ov4689_init_state(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *sd_state)
+>  {
+> -	struct ov4689 *ov4689 = to_ov4689(sd);
+> -	struct v4l2_mbus_framefmt *try_fmt;
+> -
+> -	mutex_lock(&ov4689->mutex);
+> -
+> -	try_fmt = v4l2_subdev_state_get_format(fh->state, 0);
+> -	/* Initialize try_fmt */
+> -	ov4689_fill_fmt(&supported_modes[OV4689_MODE_2688_1520], try_fmt);
+> +	struct v4l2_mbus_framefmt *fmt =
+> +		v4l2_subdev_state_get_format(sd_state, 0);
+>  
+> -	mutex_unlock(&ov4689->mutex);
+> +	ov4689_fill_fmt(&supported_modes[OV4689_MODE_2688_1520], fmt);
+>  
+>  	return 0;
+>  }
+> @@ -526,10 +508,6 @@ static const struct dev_pm_ops ov4689_pm_ops = {
+>  	SET_RUNTIME_PM_OPS(ov4689_power_off, ov4689_power_on, NULL)
 >  };
 >  
+> -static const struct v4l2_subdev_internal_ops ov4689_internal_ops = {
+> -	.open = ov4689_open,
+> -};
+> -
+>  static const struct v4l2_subdev_video_ops ov4689_video_ops = {
+>  	.s_stream = ov4689_s_stream,
+>  };
+> @@ -537,11 +515,15 @@ static const struct v4l2_subdev_video_ops ov4689_video_ops = {
+>  static const struct v4l2_subdev_pad_ops ov4689_pad_ops = {
+>  	.enum_mbus_code = ov4689_enum_mbus_code,
+>  	.enum_frame_size = ov4689_enum_frame_sizes,
+> -	.get_fmt = ov4689_get_fmt,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_fmt = ov4689_set_fmt,
+>  	.get_selection = ov4689_get_selection,
+>  };
+>  
+> +static const struct v4l2_subdev_internal_ops ov4689_internal_ops = {
+> +	.init_state = ov4689_init_state,
+> +};
+> +
+>  static const struct v4l2_subdev_ops ov4689_subdev_ops = {
+>  	.video = &ov4689_video_ops,
+>  	.pad = &ov4689_pad_ops,
+> @@ -648,7 +630,6 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
+>  	ret = v4l2_ctrl_handler_init(handler, 10);
+>  	if (ret)
+>  		return ret;
+> -	handler->lock = &ov4689->mutex;
+>  
+>  	ctrl = v4l2_ctrl_new_int_menu(handler, NULL, V4L2_CID_LINK_FREQ, 0, 0,
+>  				      link_freq_menu_items);
+> @@ -861,13 +842,15 @@ static int ov4689_probe(struct i2c_client *client)
+>  		return dev_err_probe(dev, ret,
+>  				     "Failed to get power regulators\n");
+>  
+> -	mutex_init(&ov4689->mutex);
+> -
+>  	sd = &ov4689->subdev;
+>  	v4l2_i2c_subdev_init(sd, client, &ov4689_subdev_ops);
+> +	sd->internal_ops = &ov4689_internal_ops;
+> +
+>  	ret = ov4689_initialize_controls(ov4689);
+> -	if (ret)
+> -		goto err_destroy_mutex;
+> +	if (ret) {
+> +		dev_err(dev, "Failed to initialize controls\n");
+> +		return ret;
+> +	}
+>  
+>  	ret = ov4689_power_on(dev);
+>  	if (ret)
+> @@ -877,19 +860,26 @@ static int ov4689_probe(struct i2c_client *client)
+>  	if (ret)
+>  		goto err_power_off;
+>  
+> -	sd->internal_ops = &ov4689_internal_ops;
+>  	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+
+I would move this line above, just before calling
+ov4689_initialize_controls(), to group all subdev initialization code.
+
+> +	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+>  
+>  	ov4689->pad.flags = MEDIA_PAD_FL_SOURCE;
+> -	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+>  	ret = media_entity_pads_init(&sd->entity, 1, &ov4689->pad);
+>  	if (ret < 0)
+>  		goto err_power_off;
+>  
+> +	sd->state_lock = ov4689->ctrl_handler.lock;
+> +	ret = v4l2_subdev_init_finalize(sd);
+> +
+
+No need for a blank line.
+
+With these small changes,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	if (ret) {
+> +		dev_err(dev, "Could not register v4l2 device\n");
+> +		goto err_clean_entity;
+> +	}
+> +
+>  	ret = v4l2_async_register_subdev_sensor(sd);
+>  	if (ret) {
+>  		dev_err(dev, "v4l2 async register subdev failed\n");
+> -		goto err_clean_entity;
+> +		goto err_clean_subdev;
+>  	}
+>  
+>  	pm_runtime_set_active(dev);
+> @@ -898,14 +888,14 @@ static int ov4689_probe(struct i2c_client *client)
+>  
+>  	return 0;
+>  
+> +err_clean_subdev:
+> +	v4l2_subdev_cleanup(sd);
+>  err_clean_entity:
+>  	media_entity_cleanup(&sd->entity);
+>  err_power_off:
+>  	ov4689_power_off(dev);
+>  err_free_handler:
+>  	v4l2_ctrl_handler_free(&ov4689->ctrl_handler);
+> -err_destroy_mutex:
+> -	mutex_destroy(&ov4689->mutex);
+>  
+>  	return ret;
+>  }
+> @@ -917,9 +907,8 @@ static void ov4689_remove(struct i2c_client *client)
+>  
+>  	v4l2_async_unregister_subdev(sd);
+>  	media_entity_cleanup(&sd->entity);
+> -
+> +	v4l2_subdev_cleanup(sd);
+>  	v4l2_ctrl_handler_free(&ov4689->ctrl_handler);
+> -	mutex_destroy(&ov4689->mutex);
+>  
+>  	pm_runtime_disable(&client->dev);
+>  	if (!pm_runtime_status_suspended(&client->dev))
 
 -- 
 Regards,
