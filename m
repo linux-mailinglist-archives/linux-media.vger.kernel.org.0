@@ -1,199 +1,280 @@
-Return-Path: <linux-media+bounces-5855-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5856-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABE2862738
-	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 21:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888A9862801
+	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 23:48:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D53481F22230
-	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 20:05:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE39B1F21949
+	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 22:48:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F04B4CDE7;
-	Sat, 24 Feb 2024 20:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KYX2oOlS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58A724DA1E;
+	Sat, 24 Feb 2024 22:48:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03D64CB2B;
-	Sat, 24 Feb 2024 20:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A856D12B82
+	for <linux-media@vger.kernel.org>; Sat, 24 Feb 2024 22:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708805097; cv=none; b=c3ug7J+fhlfiHavBYXuWVtGFDWym6e6kG1MvDZ2U5PzB7CUXyFoZsHLza3tDUpVaLERigb56v5ev8z98BsPLdITfeRtwMbFiJtH5ojKA41j4gPmZaqoh8H7x8I7LZOTqQQqPLtndlJAIqTrpEk/TTx7+NFxPZvIo84w81ipcxdg=
+	t=1708814881; cv=none; b=VmEvS6pK8nnvUE65vda9VKFlFC17pcNqgu5cUEu1Oot3g5cXwt68GA8vOQwBsOLeDU/vKGMipWpLpVK0kJbfGFQZnuIZ2n6+xZhTfmcfm4Pxiliez9WYR0uwR8p/7p7v7LE7vcRtfl9iA/6yTNsFT/bk6iSmPVIs0umRmz84sPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708805097; c=relaxed/simple;
-	bh=6OkBdB3y/dJKRAA+NQ+DnvqRiRsVO0YLvBl3cn4W4DU=;
+	s=arc-20240116; t=1708814881; c=relaxed/simple;
+	bh=gYI/oF7Q3flur3e/UsUzCZlkvHTwJOcmRVYlQ1nGFL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rkev04eN06+0EPlBttpYhpPbdGCScg0N7SQCUfwAPCyqHx4nQWRB1t+UYkXwJP30in6GbBILVi8gfAAOlYPDl69DBG8CgKjyMWygcVJHYQP3s2n/OikHgDqtjCWOASVjc/PzbaNUFkMgIzstYU0bcj2WSesGhVxfWSGaoTddboA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KYX2oOlS; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708805096; x=1740341096;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6OkBdB3y/dJKRAA+NQ+DnvqRiRsVO0YLvBl3cn4W4DU=;
-  b=KYX2oOlSr1UjV4oXm6Anau7ami09+WDtuCIG5tkyKeEGBog4fl8XhquF
-   51oPNCPP9JXB/WsGhwlPVsQYZgsEUMgClj1JBUnV0iTjqSZJRsUEw/P0a
-   IQRJ0SjyWPnHxGOybGDulh10NagsOEXS55BsJUmRKNk8LkWqaFGF76Vu+
-   sr0qxeCcOxW7j9ka1XwvK+c6pO90qF1bje5OVsPyd/COZncPm1ipHFaUP
-   vIl9iwO4BzXwO/IWPypiFA9PzeqoDSuxBC8fOzYp6Ufdpgbe9iw7wNKV9
-   9c1oUoEjj/DzSSNsZTrpAXvEbn/DHgsaNSHxtsPZM74j7C+Rkgna/Y8YF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="3289847"
-X-IronPort-AV: E=Sophos;i="6.06,182,1705392000"; 
-   d="scan'208";a="3289847"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2024 12:04:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,182,1705392000"; 
-   d="scan'208";a="11036058"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2024 12:04:52 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BCE0B11F853;
-	Sat, 24 Feb 2024 22:04:49 +0200 (EET)
-Date: Sat, 24 Feb 2024 20:04:49 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 12/20] media: i2c: ov4689: Implement vflip/hflip
- controls
-Message-ID: <ZdpL4UxSy8elHkdZ@kekkonen.localdomain>
-References: <20231218174042.794012-1-mike.rudenko@gmail.com>
- <20231218174042.794012-13-mike.rudenko@gmail.com>
- <ZdhWzCNalXnScMQy@kekkonen.localdomain>
- <87h6hzdsi4.fsf@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fbj18ZOpDBUGflO/HW0fQjxTpJ8ejosr+l6WiLVINiqiQzmxMcfGJkvCEwg/dXJYemTEza3WRybylZbpcoNonF5IPHPKXKlZ8+0gESmOBC8X6INJMmR/4msryvrg0pAvRuuionhVOyrGQv4luDjGhBS3pIxZlshfuXS1lHTMA1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1re0oD-0002H7-Sz; Sat, 24 Feb 2024 23:47:53 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1re0oD-002gyz-1I; Sat, 24 Feb 2024 23:47:53 +0100
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1re0oC-005s4W-33;
+	Sat, 24 Feb 2024 23:47:52 +0100
+Date: Sat, 24 Feb 2024 23:47:52 +0100
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH] uvc_video: check for fid change early in decode_start
+ and avoid wrong error counting
+Message-ID: <ZdpyGPMIY5K02nmj@pengutronix.de>
+References: <20240221-uvc-host-video-decode-start-v1-1-228995925c70@pengutronix.de>
+ <CANiDSCtFRugwLX-9jLUwkvxxvO2EFZES6899qcdfnoeQwX3fOQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="x2qYFMPS5AWAZrko"
 Content-Disposition: inline
-In-Reply-To: <87h6hzdsi4.fsf@gmail.com>
+In-Reply-To: <CANiDSCtFRugwLX-9jLUwkvxxvO2EFZES6899qcdfnoeQwX3fOQ@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hi Mikhail,
 
-On Fri, Feb 23, 2024 at 06:21:20PM +0300, Mikhail Rudenko wrote:
-> 
-> Hi Sakari,
-> 
-> and thanks for the review!
-> 
-> On 2024-02-23 at 08:26 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> 
-> > Hi Mikhail,
-> >
-> > On Mon, Dec 18, 2023 at 08:40:33PM +0300, Mikhail Rudenko wrote:
-> >> The OV4689 sensor supports horizontal and vertical flipping. Add
-> >> appropriate controls to the driver. Toggling both array flip and
-> >> digital flip bits allows to achieve flipping while maintaining output
-> >> Bayer order. Note that the default value of hflip control corresponds
-> >> to both bits set, as it was before this patch.
-> >>
-> >> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
-> >> ---
-> >>  drivers/media/i2c/ov4689.c | 24 ++++++++++++++++++++++--
-> >>  1 file changed, 22 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-> >> index 06ed9d22b2c8..6cf986bf305d 100644
-> >> --- a/drivers/media/i2c/ov4689.c
-> >> +++ b/drivers/media/i2c/ov4689.c
-> >> @@ -42,6 +42,14 @@
-> >>  #define OV4689_REG_VTS			CCI_REG16(0x380e)
-> >>  #define OV4689_VTS_MAX			0x7fff
-> >>
-> >> +#define OV4689_REG_TIMING_FORMAT1	CCI_REG8(0x3820)
-> >> +#define OV4689_REG_TIMING_FORMAT2	CCI_REG8(0x3821)
-> >> +#define OV4689_TIMING_FLIP_MASK		GENMASK(2, 1)
-> >> +#define OV4689_TIMING_FLIP_ARRAY	BIT(1)
-> >> +#define OV4689_TIMING_FLIP_DIGITAL	BIT(2)
-> >> +#define OV4689_TIMING_FLIP_BOTH		(OV4689_TIMING_FLIP_ARRAY |\
-> >> +					 OV4689_TIMING_FLIP_DIGITAL)
-> >> +
-> >>  #define OV4689_REG_TEST_PATTERN		CCI_REG8(0x5040)
-> >>  #define OV4689_TEST_PATTERN_ENABLE	0x80
-> >>  #define OV4689_TEST_PATTERN_DISABLE	0x0
-> >> @@ -183,7 +191,6 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
-> >>  	{CCI_REG8(0x3811), 0x08}, /* H_WIN_OFF_L h_win_off[7:0] = 0x08*/
-> >>  	{CCI_REG8(0x3813), 0x04}, /* V_WIN_OFF_L v_win_off[7:0] = 0x04 */
-> >>  	{CCI_REG8(0x3819), 0x01}, /* VSYNC_END_L vsync_end_point[7:0] = 0x01 */
-> >> -	{CCI_REG8(0x3821), 0x06}, /* TIMING_FORMAT2 array_h_mirror = 1, digital_h_mirror = 1 */
-> >>
-> >>  	/* OTP control */
-> >>  	{CCI_REG8(0x3d85), 0x36}, /* OTP_REG85 OTP_power_up_load_setting_enable = 1,
-> >> @@ -607,6 +614,16 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
-> >>  			  (ctrl->val + ov4689->cur_mode->width) /
-> >>  			  OV4689_HTS_DIVIDER, &ret);
-> >>  		break;
-> >> +	case V4L2_CID_VFLIP:
-> >> +		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT1,
-> >> +				OV4689_TIMING_FLIP_MASK,
-> >> +				ctrl->val ? OV4689_TIMING_FLIP_BOTH : 0, &ret);
-> >> +		break;
-> >> +	case V4L2_CID_HFLIP:
-> >> +		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT2,
-> >> +				OV4689_TIMING_FLIP_MASK,
-> >> +				ctrl->val ? 0 : OV4689_TIMING_FLIP_BOTH, &ret);
-> >> +		break;
-> >>  	default:
-> >>  		dev_warn(dev, "%s Unhandled id:0x%x, val:0x%x\n",
-> >>  			 __func__, ctrl->id, ctrl->val);
-> >> @@ -637,7 +654,7 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
-> >>
-> >>  	handler = &ov4689->ctrl_handler;
-> >>  	mode = ov4689->cur_mode;
-> >> -	ret = v4l2_ctrl_handler_init(handler, 10);
-> >> +	ret = v4l2_ctrl_handler_init(handler, 12);
-> >>  	if (ret)
-> >>  		return ret;
-> >>
-> >> @@ -677,6 +694,9 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
-> >>  				     ARRAY_SIZE(ov4689_test_pattern_menu) - 1,
-> >>  				     0, 0, ov4689_test_pattern_menu);
-> >>
-> >> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-> >> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
-> >
-> > Could you take the default value from the mounting rotation?
-> 
-> Could you provide an example (maybe a link to an existing driver) which
-> does this right? If I understand you correctly, I should flip default
-> for both flip controls for 180 degree rotation. But what should I do for
-> 90, 270 and all the rest rotation values?
+--x2qYFMPS5AWAZrko
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Looking at the patch again, it seems that the image wasn't flipped both
-vertically and horizontally, but only horizontally. Was that the case?
+Hi Ricardo
 
-Shouldn't the default then be no flipping?
+On Fri, Feb 23, 2024 at 03:09:39PM +0100, Ricardo Ribalda wrote:
+>In your code when is  uvc_video_stats_update() called or
+>stream->sequence incremented in normal use case?
+>
+>I might be interpreting it wrong, but it seems like if buf->bytesused
+>is !=3D0 that code is never called.
 
-> 
-> > The default should be upside-up, but this is an existing driver and
-> > changing the flipping now could affect existing users.
-> 
-> Do you mean default rotation value when missing device tree property?
-> 
-> > <URL:https://hverkuil.home.xs4all.nl/spec/userspace-api/drivers/camera-sensor.html#rotation-orientation-and-flipping>
-> >
-> 
-> 
-> 
+Doh, Seems I missed that.
 
--- 
-Regards,
+I will move the condition behind the sequence handling code.
+Thanks for pointing this out.
 
-Sakari Ailus
+Michael
+
+>On Wed, 21 Feb 2024 at 23:53, Michael Grzeschik
+><m.grzeschik@pengutronix.de> wrote:
+>>
+>> When the uvc request will get parsed by uvc_video_decode_start it will
+>> leave the function with -EAGAIN to be restarted on the next frame. While
+>> the first wrong parse the statistics will already be updated with
+>> uvc_video_stats_decode.
+>>
+>> One value e.g. is the error_count, which therefor will be incremented
+>> twice in case the fid has changed on the way. This patch fixes the
+>> unnecessary extra parsing by returning early from the function when the
+>> fid has changed.
+>>
+>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>> ---
+>>  drivers/media/usb/uvc/uvc_video.c | 64 +++++++++++++++++++-------------=
+-------
+>>  1 file changed, 32 insertions(+), 32 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/u=
+vc_video.c
+>> index 7cbf4692bd875..fce5349b5f9fa 100644
+>> --- a/drivers/media/usb/uvc/uvc_video.c
+>> +++ b/drivers/media/usb/uvc/uvc_video.c
+>> @@ -1068,11 +1068,43 @@ static int uvc_video_decode_start(struct uvc_str=
+eaming *stream,
+>>
+>>         fid =3D data[1] & UVC_STREAM_FID;
+>>
+>> +       /*
+>> +        * Store the payload FID bit and return immediately when the buf=
+fer is
+>> +        * NULL.
+>> +        */
+>> +       if (buf =3D=3D NULL) {
+>> +               stream->last_fid =3D fid;
+>> +               return -ENODATA;
+>> +       }
+>> +
+>>         /*
+>>          * Increase the sequence number regardless of any buffer states,=
+ so
+>>          * that discontinuous sequence numbers always indicate lost fram=
+es.
+>>          */
+>>         if (stream->last_fid !=3D fid) {
+>> +               /*
+>> +                * Mark the buffer as done if we're at the beginning of =
+a new frame.
+>> +                * End of frame detection is better implemented by check=
+ing the EOF
+>> +                * bit (FID bit toggling is delayed by one frame compare=
+d to the EOF
+>> +                * bit), but some devices don't set the bit at end of fr=
+ame (and the
+>> +                * last payload can be lost anyway). We thus must check =
+if the FID has
+>> +                * been toggled.
+>> +                *
+>> +                * stream->last_fid is initialized to -1, so the first i=
+sochronous
+>> +                * frame will never trigger an end of frame detection.
+>> +                *
+>> +                * Empty buffers (bytesused =3D=3D 0) don't trigger end =
+of frame detection
+>> +                * as it doesn't make sense to return an empty buffer. T=
+his also
+>> +                * avoids detecting end of frame conditions at FID toggl=
+ing if the
+>> +                * previous payload had the EOF bit set.
+>> +                */
+>> +               if (buf->bytesused) {
+>> +                       uvc_dbg(stream->dev, FRAME,
+>> +                               "Frame complete (FID bit toggled)\n");
+>> +                       buf->state =3D UVC_BUF_STATE_READY;
+>> +                       return -EAGAIN;
+>> +               }
+>> +
+>>                 stream->sequence++;
+>>                 if (stream->sequence)
+>>                         uvc_video_stats_update(stream);
+>> @@ -1081,15 +1113,6 @@ static int uvc_video_decode_start(struct uvc_stre=
+aming *stream,
+>>         uvc_video_clock_decode(stream, buf, data, len);
+>>         uvc_video_stats_decode(stream, data, len);
+>>
+>> -       /*
+>> -        * Store the payload FID bit and return immediately when the buf=
+fer is
+>> -        * NULL.
+>> -        */
+>> -       if (buf =3D=3D NULL) {
+>> -               stream->last_fid =3D fid;
+>> -               return -ENODATA;
+>> -       }
+>> -
+>>         /* Mark the buffer as bad if the error bit is set. */
+>>         if (data[1] & UVC_STREAM_ERR) {
+>>                 uvc_dbg(stream->dev, FRAME,
+>> @@ -1124,29 +1147,6 @@ static int uvc_video_decode_start(struct uvc_stre=
+aming *stream,
+>>                 buf->state =3D UVC_BUF_STATE_ACTIVE;
+>>         }
+>>
+>> -       /*
+>> -        * Mark the buffer as done if we're at the beginning of a new fr=
+ame.
+>> -        * End of frame detection is better implemented by checking the =
+EOF
+>> -        * bit (FID bit toggling is delayed by one frame compared to the=
+ EOF
+>> -        * bit), but some devices don't set the bit at end of frame (and=
+ the
+>> -        * last payload can be lost anyway). We thus must check if the F=
+ID has
+>> -        * been toggled.
+>> -        *
+>> -        * stream->last_fid is initialized to -1, so the first isochrono=
+us
+>> -        * frame will never trigger an end of frame detection.
+>> -        *
+>> -        * Empty buffers (bytesused =3D=3D 0) don't trigger end of frame=
+ detection
+>> -        * as it doesn't make sense to return an empty buffer. This also
+>> -        * avoids detecting end of frame conditions at FID toggling if t=
+he
+>> -        * previous payload had the EOF bit set.
+>> -        */
+>> -       if (fid !=3D stream->last_fid && buf->bytesused !=3D 0) {
+>> -               uvc_dbg(stream->dev, FRAME,
+>> -                       "Frame complete (FID bit toggled)\n");
+>> -               buf->state =3D UVC_BUF_STATE_READY;
+>> -               return -EAGAIN;
+>> -       }
+>> -
+>>         stream->last_fid =3D fid;
+>>
+>>         return data[0];
+>>
+>> ---
+>> base-commit: 3bf0514dc6f36f81ee11b1becd977cb87b4c90c6
+>> change-id: 20240221-uvc-host-video-decode-start-af53df5924cd
+>>
+>> Best regards,
+>> --
+>> Michael Grzeschik <m.grzeschik@pengutronix.de>
+>>
+>>
+>
+>
+>--=20
+>Ricardo Ribalda
+>
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--x2qYFMPS5AWAZrko
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmXachYACgkQC+njFXoe
+LGR7cQ/+IdpAKLFSjhM/90y2EbwBhsibkUq+JEt5rb94vKK9OyjLn5KO2pBeU5i3
+NIvGb3+St11nQ8noybsdCJElALUZ5mZijeZJ4FElI99dnY/7vuv4H00/bAZCyg84
+Ga/2cUUuzMORKVdeixCvEsZGeegytoUYri/OgOaAeMssGUAoSFhDbhd6d2hybfUf
+a+j9/+nPgt9DA0nJZgCn1KBS3TWXBYBZUfE0XAOGdr7W4PSjhWqpws6fSu4PQNJJ
+mMQR37+2MlaZ2lXCp2bmsyCLjDlPcF6rAhqdFMTAcyMyFxO8KTjMEi4kCmDTufeJ
+ow/ep4cgjBndaQL2hhftE0YZ77XEGwFeBmsZIBzVGdwJE1xWz1Nf57vg+rqofSGG
+tYIalgJgdGY14lhEtIfyZ9zib1ouIlpk2KPtqkjWvHkI83jIrLkkt/p4lAifhYtt
+kBp5tXV1d/JjK5G6IbRWqAEgEneswehIarmwVWLgXyMYStfF9fC/pPhKZt+uTckp
+Vn7eCpfyIpu5JMWAiVWD9MjvtpfK3pMMvww5xO+rMhMW75KnBvYMhFASWUc0o1FP
+rpOpgXv0fPbJvibsYW6HkTpj39gQ6HeZgYPRSPvSOlyaJtP7ANw8iubo518WWe0d
+3BZYiXyLGxhVNa49gr11vYbyu+lnVFFBtRhzwh7+zZlbmkGzjVU=
+=zn5T
+-----END PGP SIGNATURE-----
+
+--x2qYFMPS5AWAZrko--
 
