@@ -1,135 +1,156 @@
-Return-Path: <linux-media+bounces-5850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5851-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4F2862386
-	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 09:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85CD8624E1
+	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 13:11:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF0D1B226CD
-	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 08:52:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62602B21AF1
+	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 12:11:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DCE11B59B;
-	Sat, 24 Feb 2024 08:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE8043C486;
+	Sat, 24 Feb 2024 12:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSt7BXxu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D3717748
-	for <linux-media@vger.kernel.org>; Sat, 24 Feb 2024 08:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B32250EA;
+	Sat, 24 Feb 2024 12:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708764748; cv=none; b=HXum0jZwycn4SbpGTDNUxfyeO4vFc4HJAnn7tQ10jhK+lFGeIbeD4xIe3oJfMeD6xHD1gjjFGXHjOVZqvWFWZmIJyhuDiAtWIDRmY1HD/BaopTybzJvSGthM/xzXbTsT2OwSkSKO0GRLUtfDrISI28z0QWi6937KWnq1JuL151k=
+	t=1708776667; cv=none; b=YcAHN/xrs9Ms3+tjsh8keFYXOIO9iURezUt/Ua6Z/c/Q0bpwreFCb4rBvz4wJIGVYAa+VDqxro8iMyJRNrHLiEN7kMTSCnFeMvaSbopIZjw1xKwA5+s+Qbdc5xxUrmxYfDRF3L49kz4RsqutKQNBhEoAnBwuhnRGKuHXBwB06jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708764748; c=relaxed/simple;
-	bh=h0tzzw/TaYoqZpql5nk5fV6UuDqzFbcVMDzMQIcA6ks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jk/MRF+EMsgM+O5AB6Pk5jKCyI+GuRUcWpS5PSt9toAP3AfD2IF8X8QH45PNjyH54P2aGonhSOM2SX5/7AC1DvF/iR7jPTLTFxBtkVJYcHwsL8jgFMMEFtMaoaHbBCpeAfrKJvjaDqkk5dTnbRFBoCnkqFWIYUO2kqSAJyYcmu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rdnlZ-0004RB-8L; Sat, 24 Feb 2024 09:52:17 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rdnlY-002a8H-2s; Sat, 24 Feb 2024 09:52:16 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rdnlY-00AtA5-00;
-	Sat, 24 Feb 2024 09:52:16 +0100
-Date: Sat, 24 Feb 2024 09:52:15 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jackson Lee <jackson.lee@chipsnmedia.com>, Nas Chung <nas.chung@chipsnmedia.com>, kernel@pengutronix.de, 
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/5] media: chips-media: wave5: Convert to platform
- remove callback returning void
-Message-ID: <i5fqdbsn2xq7hq5rtgz6mfmbftn5liijdrb3f2ck7h2zeofaow@ybscvafh7zre>
-References: <cover.1708692946.git.u.kleine-koenig@pengutronix.de>
- <dfcaf3d23ea35655d8b3a9254ee00f40c20c95c4.1708692946.git.u.kleine-koenig@pengutronix.de>
- <f88a238f96215aef5a05d9d532c199eaea82883e.camel@ndufresne.ca>
- <8cd8e8cc64458b93cd25b1f44a2a143e60084499.camel@ndufresne.ca>
+	s=arc-20240116; t=1708776667; c=relaxed/simple;
+	bh=Pu6N//eyTGdqifeP3OJ4ufRMcGGxcldi31zFNRd6ipY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LhsJDbV8vWYnWrfm2ps51FpDnWUViNuUj03HCE+T1SsDRsllw3q3bNVXv8nRSkx6Igos3GCA2CNbQOTV1AhV0+RZ3cuEk6Z/5+U3oyowY+fiCbqrfK+UniA6sK701eaRohn5Wsp4JRSOpIEUhEiNLk/KSlWnOrWv7CwVRvxAMv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSt7BXxu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58343C433C7;
+	Sat, 24 Feb 2024 12:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708776666;
+	bh=Pu6N//eyTGdqifeP3OJ4ufRMcGGxcldi31zFNRd6ipY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hSt7BXxugFK7a6uTMtUsydYhZeyQvuf31BUXhaJ2r+XvwbmhPWMF92aOdJnU6cG6e
+	 5fGPGAVUGUD0xRtCmMLGWzVHrGLJgLB5KO7QDq9Wn3U/+6m5gB3mIVGgR98q7n0hW3
+	 Ckej0H/uKk8yTVnBKL4d1qpGph+i7TDUchqkZxTpLRr4XT0S4XkaVtx0LklqDNgy+0
+	 7PhsF4w26CAE0nuKrrzrDwx4jgQt14gxjnTEF0HpAzAC0OyXBikS5sOTCQz3G4Z9vM
+	 7CHJZXoYKz1aTO+X5Yv+DeZ+WsRxtrpkoFpM7LvmQlc9E4N1x0FW9Ex3t0XgcsXGa0
+	 U+TM8UY7Z4QWg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Alexandre Courbot <acourbot@chromium.org>,
+	Pi-Hsun Shih <pihsun@chromium.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] media: mediatek: vcodec: avoid -Wcast-function-type-strict warning
+Date: Sat, 24 Feb 2024 13:10:22 +0100
+Message-Id: <20240224121059.1806691-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ylqqq3fs57nt7p2r"
-Content-Disposition: inline
-In-Reply-To: <8cd8e8cc64458b93cd25b1f44a2a143e60084499.camel@ndufresne.ca>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---ylqqq3fs57nt7p2r
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The ipi handler here tries hard to maintain const-ness of its argument,
+but by doing that causes a warning about function type casts:
 
-Hello Nicolas,
+drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: error: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+   38 |         ipi_handler_t handler_const = (ipi_handler_t)handler;
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~
 
-[reordered the mail a bit to give understandable context.]
+Remove the hack and just use a non-const argument.
 
-On Fri, Feb 23, 2024 at 01:20:59PM -0500, Nicolas Dufresne wrote:
-> Le vendredi 23 f=E9vrier 2024 =E0 13:19 -0500, Nicolas Dufresne a =E9crit=
-=A0:
-> > maybe its already been discussed but ...
-> >=20
-> > Le vendredi 23 f=E9vrier 2024 =E0 13:59 +0100, Uwe Kleine-K=F6nig a =E9=
-crit=A0:
-> > > The .remove() callback for a platform driver returns an int which mak=
-es
-> > > many driver authors wrongly assume it's possible to do error handling=
- by
-> > > returning an error code. However the value returned is ignored (apart
-> > > from emitting a warning) and this typically results in resource leaks.
-> > >=20
-> > > To improve here there is a quest to make the remove callback return
-> > > void. In the first step of this quest all drivers are converted to
-> > > .remove_new(), which already returns void. Eventually after all drive=
-rs
-> > > are converted, .remove_new() will be renamed to .remove().
-> >=20
-> > What if we have another screw up ? remove_new_new ? Why not just remove=
- the int
-> > across the tree instead ? Or perhaps its a two step plane ?
->=20
-> Please ignore my comment, sorry for the noise.
+Fixes: bf1d556ad4e0 ("media: mtk-vcodec: abstract firmware interface")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/platform/mediatek/mdp/mtk_mdp_vpu.c      |  2 +-
+ .../mediatek/vcodec/common/mtk_vcodec_fw_vpu.c         | 10 +---------
+ drivers/media/platform/mediatek/vpu/mtk_vpu.c          |  2 +-
+ drivers/media/platform/mediatek/vpu/mtk_vpu.h          |  2 +-
+ 4 files changed, 4 insertions(+), 12 deletions(-)
 
-Is that an Ack? :-)
+diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_vpu.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_vpu.c
+index b065ccd06914..378a1cba0144 100644
+--- a/drivers/media/platform/mediatek/mdp/mtk_mdp_vpu.c
++++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_vpu.c
+@@ -26,7 +26,7 @@ static void mtk_mdp_vpu_handle_init_ack(const struct mdp_ipi_comm_ack *msg)
+ 	vpu->inst_addr = msg->vpu_inst_addr;
+ }
+ 
+-static void mtk_mdp_vpu_ipi_handler(const void *data, unsigned int len,
++static void mtk_mdp_vpu_ipi_handler(void *data, unsigned int len,
+ 				    void *priv)
+ {
+ 	const struct mdp_ipi_comm_ack *msg = data;
+diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+index 9f6e4b59455d..4c34344dc7dc 100644
+--- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
++++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+@@ -29,15 +29,7 @@ static int mtk_vcodec_vpu_set_ipi_register(struct mtk_vcodec_fw *fw, int id,
+ 					   mtk_vcodec_ipi_handler handler,
+ 					   const char *name, void *priv)
+ {
+-	/*
+-	 * The handler we receive takes a void * as its first argument. We
+-	 * cannot change this because it needs to be passed down to the rproc
+-	 * subsystem when SCP is used. VPU takes a const argument, which is
+-	 * more constrained, so the conversion below is safe.
+-	 */
+-	ipi_handler_t handler_const = (ipi_handler_t)handler;
+-
+-	return vpu_ipi_register(fw->pdev, id, handler_const, name, priv);
++	return vpu_ipi_register(fw->pdev, id, handler, name, priv);
+ }
+ 
+ static int mtk_vcodec_vpu_ipi_send(struct mtk_vcodec_fw *fw, int id, void *buf,
+diff --git a/drivers/media/platform/mediatek/vpu/mtk_vpu.c b/drivers/media/platform/mediatek/vpu/mtk_vpu.c
+index 7243604a82a5..724ae7c2ab3b 100644
+--- a/drivers/media/platform/mediatek/vpu/mtk_vpu.c
++++ b/drivers/media/platform/mediatek/vpu/mtk_vpu.c
+@@ -635,7 +635,7 @@ int vpu_load_firmware(struct platform_device *pdev)
+ }
+ EXPORT_SYMBOL_GPL(vpu_load_firmware);
+ 
+-static void vpu_init_ipi_handler(const void *data, unsigned int len, void *priv)
++static void vpu_init_ipi_handler(void *data, unsigned int len, void *priv)
+ {
+ 	struct mtk_vpu *vpu = priv;
+ 	const struct vpu_run *run = data;
+diff --git a/drivers/media/platform/mediatek/vpu/mtk_vpu.h b/drivers/media/platform/mediatek/vpu/mtk_vpu.h
+index a56053ff135a..da05f3e74081 100644
+--- a/drivers/media/platform/mediatek/vpu/mtk_vpu.h
++++ b/drivers/media/platform/mediatek/vpu/mtk_vpu.h
+@@ -17,7 +17,7 @@
+  * VPU interfaces with other blocks by share memory and interrupt.
+  */
+ 
+-typedef void (*ipi_handler_t) (const void *data,
++typedef void (*ipi_handler_t) (void *data,
+ 			       unsigned int len,
+ 			       void *priv);
+ 
+-- 
+2.39.2
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ylqqq3fs57nt7p2r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXZrj8ACgkQj4D7WH0S
-/k5uqwgAtdPlV1RBhqqYRjud2BKyiWjaOX/6empNxjZWPhKyBuXHfNeOjgTXySyw
-95n+fA+WbPZAjrX7z4jemqdjZckcQn6F2I98WZsI0TDQ0zG3wWV2kRcqLexrUppP
-3Am3zhKyGXw47cAxfRPFJ1CvA1/i27Clobe1to0ij8RfoMXdt6mBMu75tA8hCB2z
-daZjesOVsxdFmwLKe7OuzPTcOq6JUoL0BdHQAbA5EjenDRA8oypMOq9lxAAERjXT
-EZvIF+/vkjJDNwceO+Ih301LpKVnIipJ2Jzx18lZXyv02ZpYcMIty60nAOOj3rCU
-S45Ayp5i+W61V0VY4/Wv62eRIsZC8g==
-=tIuk
------END PGP SIGNATURE-----
-
---ylqqq3fs57nt7p2r--
 
