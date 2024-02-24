@@ -1,251 +1,135 @@
-Return-Path: <linux-media+bounces-5849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5850-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D52486236F
-	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 09:32:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4F2862386
+	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 09:53:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5923F1C2104F
-	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 08:32:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF0D1B226CD
+	for <lists+linux-media@lfdr.de>; Sat, 24 Feb 2024 08:52:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EE6D12B6B;
-	Sat, 24 Feb 2024 08:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrLP2JKg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DCE11B59B;
+	Sat, 24 Feb 2024 08:52:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B427010A2A
-	for <linux-media@vger.kernel.org>; Sat, 24 Feb 2024 08:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D3717748
+	for <linux-media@vger.kernel.org>; Sat, 24 Feb 2024 08:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708763554; cv=none; b=Y8scg8plWp9WuPhl/wHkg8NlwvYMF0I+kvdDjJADHhIVcb8AZHdBdNc56taYH+mjlWh7yYP1vgWZg2FdwrtqdVXZeOA8sABZD978tBjeOEbr08r4fZDpQgXxvozZ5VMjhidAXBLAEjNIEyvdStKlIRKcy1kYw2uGS8NVl2dtUBI=
+	t=1708764748; cv=none; b=HXum0jZwycn4SbpGTDNUxfyeO4vFc4HJAnn7tQ10jhK+lFGeIbeD4xIe3oJfMeD6xHD1gjjFGXHjOVZqvWFWZmIJyhuDiAtWIDRmY1HD/BaopTybzJvSGthM/xzXbTsT2OwSkSKO0GRLUtfDrISI28z0QWi6937KWnq1JuL151k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708763554; c=relaxed/simple;
-	bh=IfqcNqexMgk6RGNZe1xAvm1nsoEU0m5UesKM9yyl4gw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t+6CEB9jdhUtRm0a5r/jJVslgHHRtxF/Wlz5NeEWTBJIrpZ9sNim2XcoYI+mh1aEwrs241/L9VxSyQYsiX0acWUyJGTamlJQKcZPFYWL0rpPPVVCc2lt+zoBuqFm+ICTe2FPp0e0u6OIKPAcWnUPN+G5j7PqUzyI5Wxikfxt9i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrLP2JKg; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708763553; x=1740299553;
-  h=date:from:to:cc:subject:message-id;
-  bh=IfqcNqexMgk6RGNZe1xAvm1nsoEU0m5UesKM9yyl4gw=;
-  b=mrLP2JKg43rZBstFkyA/8I6FLGiEodZNuvYQHYazoEQ9y+gjWJRPqgZl
-   kTg9SAnUFp74UDMchIKVtnlMfQht3lhWgJX2GylX9H7QT+t8CCpuWb4N+
-   Gp25rtEEvUuqPuEWD3mDYQjEMq2Rq+yPGSblR48FVc5OnS0dtkGI4o2Gs
-   BrxTyFrEcZ4OmhrsTr88JNf+KH1AKFp89CfKRNNqsEjDoIwVkvmasrrzj
-   27Ivp3UtPvl18lvTPuizq5a466Q6BoyTCfQdmP+GB+y6fg5gd0RqY2Opp
-   H6nrjPopdaELvldnMtW67o4Ng7Cc7N4exe4zpPlO/DKwx/NUAfuLm+JtG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="2945252"
-X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="2945252"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2024 00:32:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="10830128"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Feb 2024 00:32:31 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rdnSO-0008Nq-2q;
-	Sat, 24 Feb 2024 08:32:28 +0000
-Date: Sat, 24 Feb 2024 16:31:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:ipu6] BUILD SUCCESS
- a26d89895df8efb5214418054600b035183d9ed3
-Message-ID: <202402241651.qXO485Gg-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1708764748; c=relaxed/simple;
+	bh=h0tzzw/TaYoqZpql5nk5fV6UuDqzFbcVMDzMQIcA6ks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jk/MRF+EMsgM+O5AB6Pk5jKCyI+GuRUcWpS5PSt9toAP3AfD2IF8X8QH45PNjyH54P2aGonhSOM2SX5/7AC1DvF/iR7jPTLTFxBtkVJYcHwsL8jgFMMEFtMaoaHbBCpeAfrKJvjaDqkk5dTnbRFBoCnkqFWIYUO2kqSAJyYcmu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rdnlZ-0004RB-8L; Sat, 24 Feb 2024 09:52:17 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rdnlY-002a8H-2s; Sat, 24 Feb 2024 09:52:16 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rdnlY-00AtA5-00;
+	Sat, 24 Feb 2024 09:52:16 +0100
+Date: Sat, 24 Feb 2024 09:52:15 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Jackson Lee <jackson.lee@chipsnmedia.com>, Nas Chung <nas.chung@chipsnmedia.com>, kernel@pengutronix.de, 
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/5] media: chips-media: wave5: Convert to platform
+ remove callback returning void
+Message-ID: <i5fqdbsn2xq7hq5rtgz6mfmbftn5liijdrb3f2ck7h2zeofaow@ybscvafh7zre>
+References: <cover.1708692946.git.u.kleine-koenig@pengutronix.de>
+ <dfcaf3d23ea35655d8b3a9254ee00f40c20c95c4.1708692946.git.u.kleine-koenig@pengutronix.de>
+ <f88a238f96215aef5a05d9d532c199eaea82883e.camel@ndufresne.ca>
+ <8cd8e8cc64458b93cd25b1f44a2a143e60084499.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ylqqq3fs57nt7p2r"
+Content-Disposition: inline
+In-Reply-To: <8cd8e8cc64458b93cd25b1f44a2a143e60084499.camel@ndufresne.ca>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git ipu6
-branch HEAD: a26d89895df8efb5214418054600b035183d9ed3  ACPI: property: Polish ignoring bad data nodes
 
-elapsed time: 1463m
+--ylqqq3fs57nt7p2r
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 162
-configs skipped: 3
+Hello Nicolas,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+[reordered the mail a bit to give understandable context.]
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240224   gcc  
-arc                   randconfig-002-20240224   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240224   gcc  
-arm                   randconfig-002-20240224   gcc  
-arm                   randconfig-003-20240224   gcc  
-arm                   randconfig-004-20240224   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240224   gcc  
-arm64                 randconfig-002-20240224   gcc  
-arm64                 randconfig-003-20240224   clang
-arm64                 randconfig-004-20240224   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240224   gcc  
-csky                  randconfig-002-20240224   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240224   clang
-hexagon               randconfig-002-20240224   clang
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240224   gcc  
-i386         buildonly-randconfig-002-20240224   clang
-i386         buildonly-randconfig-003-20240224   gcc  
-i386         buildonly-randconfig-004-20240224   gcc  
-i386         buildonly-randconfig-005-20240224   clang
-i386         buildonly-randconfig-006-20240224   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240224   gcc  
-i386                  randconfig-002-20240224   clang
-i386                  randconfig-003-20240224   clang
-i386                  randconfig-004-20240224   gcc  
-i386                  randconfig-005-20240224   gcc  
-i386                  randconfig-006-20240224   gcc  
-i386                  randconfig-011-20240224   gcc  
-i386                  randconfig-012-20240224   gcc  
-i386                  randconfig-013-20240224   clang
-i386                  randconfig-014-20240224   clang
-i386                  randconfig-015-20240224   clang
-i386                  randconfig-016-20240224   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240224   gcc  
-loongarch             randconfig-002-20240224   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240224   gcc  
-nios2                 randconfig-002-20240224   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240224   gcc  
-parisc                randconfig-002-20240224   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20240224   clang
-powerpc               randconfig-002-20240224   clang
-powerpc               randconfig-003-20240224   clang
-powerpc64             randconfig-001-20240224   gcc  
-powerpc64             randconfig-002-20240224   clang
-powerpc64             randconfig-003-20240224   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240224   gcc  
-riscv                 randconfig-002-20240224   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240224   gcc  
-s390                  randconfig-002-20240224   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20240224   gcc  
-sh                    randconfig-002-20240224   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240224   gcc  
-sparc64               randconfig-002-20240224   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240224   gcc  
-um                    randconfig-002-20240224   clang
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240224   clang
-x86_64       buildonly-randconfig-002-20240224   clang
-x86_64       buildonly-randconfig-003-20240224   clang
-x86_64       buildonly-randconfig-004-20240224   clang
-x86_64       buildonly-randconfig-005-20240224   clang
-x86_64       buildonly-randconfig-006-20240224   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240224   clang
-x86_64                randconfig-002-20240224   gcc  
-x86_64                randconfig-003-20240224   clang
-x86_64                randconfig-004-20240224   gcc  
-x86_64                randconfig-005-20240224   gcc  
-x86_64                randconfig-006-20240224   clang
-x86_64                randconfig-011-20240224   gcc  
-x86_64                randconfig-012-20240224   gcc  
-x86_64                randconfig-013-20240224   gcc  
-x86_64                randconfig-014-20240224   clang
-x86_64                randconfig-015-20240224   clang
-x86_64                randconfig-016-20240224   clang
-x86_64                randconfig-071-20240224   gcc  
-x86_64                randconfig-072-20240224   clang
-x86_64                randconfig-073-20240224   clang
-x86_64                randconfig-074-20240224   gcc  
-x86_64                randconfig-075-20240224   gcc  
-x86_64                randconfig-076-20240224   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240224   gcc  
-xtensa                randconfig-002-20240224   gcc  
+On Fri, Feb 23, 2024 at 01:20:59PM -0500, Nicolas Dufresne wrote:
+> Le vendredi 23 f=E9vrier 2024 =E0 13:19 -0500, Nicolas Dufresne a =E9crit=
+=A0:
+> > maybe its already been discussed but ...
+> >=20
+> > Le vendredi 23 f=E9vrier 2024 =E0 13:59 +0100, Uwe Kleine-K=F6nig a =E9=
+crit=A0:
+> > > The .remove() callback for a platform driver returns an int which mak=
+es
+> > > many driver authors wrongly assume it's possible to do error handling=
+ by
+> > > returning an error code. However the value returned is ignored (apart
+> > > from emitting a warning) and this typically results in resource leaks.
+> > >=20
+> > > To improve here there is a quest to make the remove callback return
+> > > void. In the first step of this quest all drivers are converted to
+> > > .remove_new(), which already returns void. Eventually after all drive=
+rs
+> > > are converted, .remove_new() will be renamed to .remove().
+> >=20
+> > What if we have another screw up ? remove_new_new ? Why not just remove=
+ the int
+> > across the tree instead ? Or perhaps its a two step plane ?
+>=20
+> Please ignore my comment, sorry for the noise.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Is that an Ack? :-)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ylqqq3fs57nt7p2r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXZrj8ACgkQj4D7WH0S
+/k5uqwgAtdPlV1RBhqqYRjud2BKyiWjaOX/6empNxjZWPhKyBuXHfNeOjgTXySyw
+95n+fA+WbPZAjrX7z4jemqdjZckcQn6F2I98WZsI0TDQ0zG3wWV2kRcqLexrUppP
+3Am3zhKyGXw47cAxfRPFJ1CvA1/i27Clobe1to0ij8RfoMXdt6mBMu75tA8hCB2z
+daZjesOVsxdFmwLKe7OuzPTcOq6JUoL0BdHQAbA5EjenDRA8oypMOq9lxAAERjXT
+EZvIF+/vkjJDNwceO+Ih301LpKVnIipJ2Jzx18lZXyv02ZpYcMIty60nAOOj3rCU
+S45Ayp5i+W61V0VY4/Wv62eRIsZC8g==
+=tIuk
+-----END PGP SIGNATURE-----
+
+--ylqqq3fs57nt7p2r--
 
