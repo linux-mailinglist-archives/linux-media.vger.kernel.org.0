@@ -1,429 +1,240 @@
-Return-Path: <linux-media+bounces-5859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5861-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1276862A82
-	for <lists+linux-media@lfdr.de>; Sun, 25 Feb 2024 14:56:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0797862ADA
+	for <lists+linux-media@lfdr.de>; Sun, 25 Feb 2024 15:58:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F42CB20E44
-	for <lists+linux-media@lfdr.de>; Sun, 25 Feb 2024 13:56:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 333551F213B9
+	for <lists+linux-media@lfdr.de>; Sun, 25 Feb 2024 14:58:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4377E12E70;
-	Sun, 25 Feb 2024 13:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC60914012;
+	Sun, 25 Feb 2024 14:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JuVnjrn5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4DfQLAt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FCD11718;
-	Sun, 25 Feb 2024 13:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5128E10940;
+	Sun, 25 Feb 2024 14:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708869367; cv=none; b=FOgspyeTcoW2oG2hoc69dpYoIRjTJ8GR2bO4tHL+I1OwAGU2c6auz8bQIkGm6WJydKundFg3wRVnvdjv+g4xbFBqgNVIqKG1wzSUx1jQR+A+caEFCDdM2v/yoUaXaKr8Zr+ekumQviiC34Ykij1rgiFswwYnErIJ7lwAtzNCjAo=
+	t=1708873104; cv=none; b=Zcm0X8CQngVWEJHdvXv2D5rDi7PFMGeo0/rkY+y/nXALO7Xio6LG3LnUIxdQ21FfS6bVwC5QixtUaZpg0jjuxIG+XO6OsD+dpF5iO4eOHWbBU0qgsphdZ4g+RXJLoITCEoDvVt9tkQbYu8/i8FydNMCuwAi0av5JCPoGj+He2QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708869367; c=relaxed/simple;
-	bh=7EFMtosF/aCSmqTlhQvkjyqDmbg9f687BB42ob64imY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iHDx8zisvq0GlFT26vSi0L3OOP4qgxQKh9bVOsb4yZjEuBTJl+d15UH3KnZGIjI6iQiMGfPFloApoSmfmvE98Y8Ounl/ACaTnVPZFuumKtj1woxAg+tq8SLju7guAelhQfq1M9OAnXfQAbJcALFMNiEh6ClKOW0tyESZI0TDHjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JuVnjrn5; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1708873104; c=relaxed/simple;
+	bh=FM6nJpDCc1vTozkefXWX8nK7wjoHIU1kHnGlUGQYR1I=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=HVm7tWYz5+dhhfWDnNXrf6NSfzW/yLMGb3rEF5WK1pYqKzzF3hwiTuRlzudTkGb0tzibQiYt2ahFX9W49zeWpAqlD4OProG0TXYl0ofTjhugqssqx2WJGMl6GKhZkCsWrzHmNk2xY77z6X7fLDNEsCIP00QxFCab85UAugMRtsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4DfQLAt; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-412a3716284so2506535e9.1;
-        Sun, 25 Feb 2024 05:56:05 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d28464c554so8242181fa.3;
+        Sun, 25 Feb 2024 06:58:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708869364; x=1709474164; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AGnq5BBZkr2hGrDZl5ODTAPalninzQXJFAE9hJDSqN8=;
-        b=JuVnjrn5Zhm/obLlk2hasVELkupbRFk7a/g5tL/z16UXy+cgrSZ5QnKZET6EJSIY1u
-         YCoGZsvJE2nBvIZrH3wasgz0RO/9HkqGYLTnho8Fwn3O5nmyZkLOXUk1qOM4rSzbm5Lg
-         ri224FeyreacdyxqmgTCkqZEOkqrAc2GcTVzPf284LMsmbkDrIs7z82Kxhkr0coIpdcd
-         n9FT/o+hEO0AMW58tLYorZxuEboAM8xCh0wqPn6eTlQq2sm2XZO+bNrX2Wg6IiUGV/WJ
-         ST6JEh1gKLCGJeaFlS5pyYzLNNphPov77kx5R0nARhueNktxOEQEGXUUYzOqgmtPtAkv
-         Kokg==
+        d=gmail.com; s=20230601; t=1708873100; x=1709477900; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=rktew8MetB6Z0tBx0bsqxvoGbPOtckZbNwltCbnvHNA=;
+        b=Y4DfQLAt2P3sdYU4cIPErL7Yrnkh6/bYPoYiDjloDoTP4XwqrCYzuIeA9eN04BHmLW
+         6W+yzvE4a1Xv0C5eQGme5BF3Q5x0zHLPIGu2aTN/d0c5tFuAN5n3gEiw5xDd0GbY6hYQ
+         P+QUo5oLtlok7auBr70iW0hm+o+TYn+bU3zGkCcmw6ZgS6v2TfFz3zGI332ri51RKyN4
+         7vfQR2p3ttRGsxlMJ3toBHXTL33FrEs9M+QHWiPVbaopW+c+gfy3XrU6dwxmCyAC957U
+         muIXbj6wO9UeR8k39cX8QR/4CqkEfOTuT58NVyavLOFkQl1sJXk/ms6GlnHOCmEAusK1
+         1dow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708869364; x=1709474164;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AGnq5BBZkr2hGrDZl5ODTAPalninzQXJFAE9hJDSqN8=;
-        b=Ij0Z5SmZbpOgY6f3V9K30SjJOF9kSyCu4Y0zUppgYI7R2oZeRHpNQUemvWSeFp0+GF
-         eLb8266HGWYIviS/oFIrJG21ZZbufgClZh+a4GMV9ad7rWGV0m4K98szn5nTi0vVuTzX
-         HuM/lFCgQsEj1pHV/YT0PmtpJEvFp3vDc1j13Z+aEtUPGDWoag6ziPBR0tJPrkBeeIxJ
-         kz9YWWDTLe3FmEpq/m3G0KZ8kBkVkhgMrO32cnOhDv5C4D7lMiGHJ73/4OQgH1wG+yp5
-         R2+LR4Uaf26NHI17GAGpOFQDUav5t8XoFnu9uQrRrMQAgMNODlmITcyzctM3BfZF+nDC
-         bJWw==
-X-Forwarded-Encrypted: i=1; AJvYcCUUiNpoVXypPuZp2zAJ0t3hqG5P/dTM2eUwyxtG9O60oKpJzLn/uGgNexCqTHYC70kZ+egXBcS6Ub93jpqOFmPmkc5u4M4rp6jmioIC0KIeZ3DnMCo0uIfm8vOhe0Y86tcpqKeO3bUkHCdaHd8P/aXpvSPnNlxrnKAeAFX+PdnAhg9IhFM=
-X-Gm-Message-State: AOJu0YxdSBeV4iiouV2GvqZOW4tBlEy6SL46vc0NsGMtxdukXG/aeOrd
-	SKchV1sxMejkf/vWPG8LcT7NpzrjA7Ksk+zPzlf5otmzAuOJf2k=
-X-Google-Smtp-Source: AGHT+IEcB5AtKv1xpKR/8Sb1OXcSBocoyAK3YbemvY3uOxPu2h0msOFMH1lBOExgoNpnrasxnS3OKw==
-X-Received: by 2002:a05:600c:3112:b0:40f:b0bf:6abf with SMTP id g18-20020a05600c311200b0040fb0bf6abfmr3221669wmo.17.1708869363720;
-        Sun, 25 Feb 2024 05:56:03 -0800 (PST)
-Received: from ?IPV6:2a02:810b:f40:4600:feda:c5dd:ebff:fee5? ([2a02:810b:f40:4600:feda:c5dd:ebff:fee5])
-        by smtp.gmail.com with ESMTPSA id h4-20020a5d4304000000b0033d6c928a95sm5167542wrq.63.2024.02.25.05.56.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Feb 2024 05:56:03 -0800 (PST)
-Message-ID: <67e9fbc5-ed7f-48b9-ae2a-e07c5fbd2218@gmail.com>
-Date: Sun, 25 Feb 2024 14:56:02 +0100
+        d=1e100.net; s=20230601; t=1708873100; x=1709477900;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rktew8MetB6Z0tBx0bsqxvoGbPOtckZbNwltCbnvHNA=;
+        b=kImBMWf+S+uIirVQk8LoZ1cxEfqP6REZFUINOBnrgTvg822JWJwgkAp/BZ+coeoIBK
+         G+DgF4A0QinE6u2OXddAWX/bpRHUzP/ln2SIzH/cmxGsg5uRc5nV5hwVET3fbJ73lWbj
+         QmyUjP9kCXa7kL5Fx1X57C87B0QA8wwGnuon02aFzIfuCR+QEE86QQEBOaz0ZVsh9R3f
+         pUCyJBnLvokZNeTxSrTltM0qMaqd7VFvIgATX1o/p4YE5MMNbrDMlhbs4LjX/2UHrnDX
+         0txZkHS4f/sHKtyfNyGeyhVk2a3v6cw5y5ErEEmL2feZr8V2FCXF93lu73EUpl5Jmuy1
+         8hbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVjRNbgApVxrPassWLOtYS9RaH/HkFF4w79gAL7SlG87a2rxTC8chkdXsjw3qoNXH5/s4485fQpEux117h6OOcULdZvhXBFOE/69eXz
+X-Gm-Message-State: AOJu0YyCShcZZd8f7eRCy30/6het1ygUF16TIOykPtqIPL5WGKfei48q
+	IDp/6VFFNWp1jZ40DlcUxjBPj7S/tez6WxY53Zt+2OHA2IF+tR2W
+X-Google-Smtp-Source: AGHT+IH+LprkObfbkRp6BVn/uduHWcpYb+/dLuzRnktTRYfWKngVThd7TtrxnLsBibGZl1C/OxJ0Kw==
+X-Received: by 2002:a2e:a265:0:b0:2d2:2e67:be2e with SMTP id k5-20020a2ea265000000b002d22e67be2emr2636183ljm.46.1708873100122;
+        Sun, 25 Feb 2024 06:58:20 -0800 (PST)
+Received: from razdolb ([89.208.103.172])
+        by smtp.gmail.com with ESMTPSA id w2-20020a05651c102200b002d236c89d92sm565484ljm.135.2024.02.25.06.58.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Feb 2024 06:58:19 -0800 (PST)
+References: <20231218174042.794012-1-mike.rudenko@gmail.com>
+ <20231218174042.794012-13-mike.rudenko@gmail.com>
+ <ZdhWzCNalXnScMQy@kekkonen.localdomain> <87h6hzdsi4.fsf@gmail.com>
+ <ZdpL4UxSy8elHkdZ@kekkonen.localdomain>
+User-agent: mu4e 1.10.8; emacs 29.2.50
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi
+ <jacopo@jmondi.org>, Tommaso Merciai <tomm.merciai@gmail.com>, Christophe
+ JAILLET <christophe.jaillet@wanadoo.fr>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Subject: Re: [PATCH v2 12/20] media: i2c: ov4689: Implement vflip/hflip
+ controls
+Date: Sun, 25 Feb 2024 17:15:18 +0300
+In-reply-to: <ZdpL4UxSy8elHkdZ@kekkonen.localdomain>
+Message-ID: <87il2cd20n.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 19/36] drm/connector: hdmi: Compute bpc and format
- automatically
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-19-8f4af575fce2@kernel.org>
-Content-Language: en-US, de-DE
-From: Alex Bee <knaerzche@gmail.com>
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-19-8f4af575fce2@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi Maxime,
 
-Am 22.02.24 um 19:14 schrieb Maxime Ripard:
-> Now that we have all the infrastructure needed, we can add some code
-> that will, for a given connector state and mode, compute the best output
-> format and bpc.
-> 
-> The algorithm is equivalent to the one already found in i915 and vc4.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->   drivers/gpu/drm/drm_atomic_state_helper.c          | 184 ++++++++++++++++++++-
->   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |  25 ++-
->   2 files changed, 197 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index 448b4a73d1c8..9f517599f117 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -31,6 +31,7 @@
->   #include <drm/drm_connector.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_device.h>
-> +#include <drm/drm_edid.h>
->   #include <drm/drm_framebuffer.h>
->   #include <drm/drm_plane.h>
->   #include <drm/drm_print.h>
-> @@ -662,6 +663,96 @@ connector_state_get_mode(const struct drm_connector_state *conn_state)
->   	return &crtc_state->mode;
->   }
->   
-> +static bool
-> +sink_supports_format_bpc(const struct drm_connector *connector,
-> +			 const struct drm_display_info *info,
-> +			 const struct drm_display_mode *mode,
-> +			 unsigned int format, unsigned int bpc)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	u8 vic = drm_match_cea_mode(mode);
-> +
-> +	if (vic == 1 && bpc != 8) {
-> +		drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
-> +		return false;
-> +	}
-> +
-> +	if (!info->is_hdmi &&
-> +	    (format != HDMI_COLORSPACE_RGB || bpc != 8)) {
-> +		drm_dbg(dev, "DVI Monitors require an RGB output at 8 bpc\n");
-> +		return false;
-> +	}
-> +
-> +	if (!(connector->hdmi.supported_formats & BIT(format))) {
-> +		drm_dbg(dev, "%s format unsupported by the connector.\n",
-> +			drm_hdmi_connector_get_output_format_name(format));
-> +		return false;
-> +	}
-> +
-> +	switch (format) {
-> +	case HDMI_COLORSPACE_RGB:
-> +		drm_dbg(dev, "RGB Format, checking the constraints.\n");
-> +
-> +		if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
-> +			return false;
-> +
-> +		if (bpc == 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30)) {
-> +			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
-> +			return false;
-> +		}
-> +
-> +		if (bpc == 12 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_36)) {
-> +			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
-> +			return false;
-> +		}
-> +
-> +		drm_dbg(dev, "RGB format supported in that configuration.\n");
-> +
-> +		return true;
-> +
-> +	case HDMI_COLORSPACE_YUV422:
-> +		drm_dbg(dev, "YUV422 format, checking the constraints.\n");
-> +
-> +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
-> +			drm_dbg(dev, "Sink doesn't support YUV422.\n");
-> +			return false;
-> +		}
-> +
-> +		if (bpc != 12) {
-> +			drm_dbg(dev, "YUV422 only supports 12 bpc.\n");
-> +			return false;
-> +		}
-> +
-I'm not sure this check is really necessary/helpful.
-In [0] you are quoting HDMI specs which are saying that YUV422 is just
-always 12 bpc - which I guess is correct. The problem I'm seeing here:
-There are HDMI 1.4 controllers, like Rockchip Inno HDMI, that support
-YUV422 but do not support any other color depth than 8 bpc for RGB or
-YUV444. In drmm_connector_hdmi_init you are expecting to give the max bpc
-as parameter and (if I'm getting it correctly) I'd had to set it to 12 to
-also get YUV422 modes, but I'd also get RGB/YUV444 with bpc > 8 modes which
-are not supported by this controller. I guess the same applies to other
-HDMI 1.4 controllers that support YUV422. Or would I have to filter it out
-myself?
-So I guess the easiest way around is to drop the above check since it is
-just always 12 bpc for YUV422 and there is no need to filter out anything.
-(Same applies to the similar check in [0]).
+On 2024-02-24 at 20:04 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 
-Regards,
-Alex
+> Hi Mikhail,
+>
+> On Fri, Feb 23, 2024 at 06:21:20PM +0300, Mikhail Rudenko wrote:
+>>
+>> Hi Sakari,
+>>
+>> and thanks for the review!
+>>
+>> On 2024-02-23 at 08:26 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>>
+>> > Hi Mikhail,
+>> >
+>> > On Mon, Dec 18, 2023 at 08:40:33PM +0300, Mikhail Rudenko wrote:
+>> >> The OV4689 sensor supports horizontal and vertical flipping. Add
+>> >> appropriate controls to the driver. Toggling both array flip and
+>> >> digital flip bits allows to achieve flipping while maintaining output
+>> >> Bayer order. Note that the default value of hflip control corresponds
+>> >> to both bits set, as it was before this patch.
+>> >>
+>> >> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+>> >> ---
+>> >>  drivers/media/i2c/ov4689.c | 24 ++++++++++++++++++++++--
+>> >>  1 file changed, 22 insertions(+), 2 deletions(-)
+>> >>
+>> >> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
+>> >> index 06ed9d22b2c8..6cf986bf305d 100644
+>> >> --- a/drivers/media/i2c/ov4689.c
+>> >> +++ b/drivers/media/i2c/ov4689.c
+>> >> @@ -42,6 +42,14 @@
+>> >>  #define OV4689_REG_VTS			CCI_REG16(0x380e)
+>> >>  #define OV4689_VTS_MAX			0x7fff
+>> >>
+>> >> +#define OV4689_REG_TIMING_FORMAT1	CCI_REG8(0x3820)
+>> >> +#define OV4689_REG_TIMING_FORMAT2	CCI_REG8(0x3821)
+>> >> +#define OV4689_TIMING_FLIP_MASK		GENMASK(2, 1)
+>> >> +#define OV4689_TIMING_FLIP_ARRAY	BIT(1)
+>> >> +#define OV4689_TIMING_FLIP_DIGITAL	BIT(2)
+>> >> +#define OV4689_TIMING_FLIP_BOTH		(OV4689_TIMING_FLIP_ARRAY |\
+>> >> +					 OV4689_TIMING_FLIP_DIGITAL)
+>> >> +
+>> >>  #define OV4689_REG_TEST_PATTERN		CCI_REG8(0x5040)
+>> >>  #define OV4689_TEST_PATTERN_ENABLE	0x80
+>> >>  #define OV4689_TEST_PATTERN_DISABLE	0x0
+>> >> @@ -183,7 +191,6 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
+>> >>  	{CCI_REG8(0x3811), 0x08}, /* H_WIN_OFF_L h_win_off[7:0] = 0x08*/
+>> >>  	{CCI_REG8(0x3813), 0x04}, /* V_WIN_OFF_L v_win_off[7:0] = 0x04 */
+>> >>  	{CCI_REG8(0x3819), 0x01}, /* VSYNC_END_L vsync_end_point[7:0] = 0x01 */
+>> >> -	{CCI_REG8(0x3821), 0x06}, /* TIMING_FORMAT2 array_h_mirror = 1, digital_h_mirror = 1 */
+>> >>
+>> >>  	/* OTP control */
+>> >>  	{CCI_REG8(0x3d85), 0x36}, /* OTP_REG85 OTP_power_up_load_setting_enable = 1,
+>> >> @@ -607,6 +614,16 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
+>> >>  			  (ctrl->val + ov4689->cur_mode->width) /
+>> >>  			  OV4689_HTS_DIVIDER, &ret);
+>> >>  		break;
+>> >> +	case V4L2_CID_VFLIP:
+>> >> +		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT1,
+>> >> +				OV4689_TIMING_FLIP_MASK,
+>> >> +				ctrl->val ? OV4689_TIMING_FLIP_BOTH : 0, &ret);
+>> >> +		break;
+>> >> +	case V4L2_CID_HFLIP:
+>> >> +		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT2,
+>> >> +				OV4689_TIMING_FLIP_MASK,
+>> >> +				ctrl->val ? 0 : OV4689_TIMING_FLIP_BOTH, &ret);
+>> >> +		break;
+>> >>  	default:
+>> >>  		dev_warn(dev, "%s Unhandled id:0x%x, val:0x%x\n",
+>> >>  			 __func__, ctrl->id, ctrl->val);
+>> >> @@ -637,7 +654,7 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
+>> >>
+>> >>  	handler = &ov4689->ctrl_handler;
+>> >>  	mode = ov4689->cur_mode;
+>> >> -	ret = v4l2_ctrl_handler_init(handler, 10);
+>> >> +	ret = v4l2_ctrl_handler_init(handler, 12);
+>> >>  	if (ret)
+>> >>  		return ret;
+>> >>
+>> >> @@ -677,6 +694,9 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
+>> >>  				     ARRAY_SIZE(ov4689_test_pattern_menu) - 1,
+>> >>  				     0, 0, ov4689_test_pattern_menu);
+>> >>
+>> >> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
+>> >> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
+>> >
+>> > Could you take the default value from the mounting rotation?
+>>
+>> Could you provide an example (maybe a link to an existing driver) which
+>> does this right? If I understand you correctly, I should flip default
+>> for both flip controls for 180 degree rotation. But what should I do for
+>> 90, 270 and all the rest rotation values?
+>
+> Looking at the patch again, it seems that the image wasn't flipped both
+> vertically and horizontally, but only horizontally. Was that the case?
+>
+> Shouldn't the default then be no flipping?
+>
 
-[0] 
-https://lore.kernel.org/lkml/20240222-kms-hdmi-connector-state-v7-13-8f4af575fce2@kernel.org/
-> +		drm_dbg(dev, "YUV422 format supported in that configuration.\n");
-> +
-> +		return true;
-> +
-> +	case HDMI_COLORSPACE_YUV444:
-> +		drm_dbg(dev, "YUV444 format, checking the constraints.\n");
-> +
-> +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR444)) {
-> +			drm_dbg(dev, "Sink doesn't support YUV444.\n");
-> +			return false;
-> +		}
-> +
-> +		if (bpc == 10 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_30)) {
-> +			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
-> +			return false;
-> +		}
-> +
-> +		if (bpc == 12 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_36)) {
-> +			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
-> +			return false;
-> +		}
-> +
-> +		drm_dbg(dev, "YUV444 format supported in that configuration.\n");
-> +
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->   static enum drm_mode_status
->   hdmi_clock_valid(const struct drm_connector *connector,
->   		 const struct drm_display_mode *mode,
-> @@ -706,6 +797,95 @@ hdmi_compute_clock(const struct drm_connector *connector,
->   	return 0;
->   }
->   
-> +static bool
-> +hdmi_try_format_bpc(const struct drm_connector *connector,
-> +		    struct drm_connector_state *state,
-> +		    const struct drm_display_mode *mode,
-> +		    unsigned int bpc, enum hdmi_colorspace fmt)
-> +{
-> +	const struct drm_display_info *info = &connector->display_info;
-> +	struct drm_device *dev = connector->dev;
-> +	int ret;
-> +
-> +	drm_dbg(dev, "Trying %s output format\n",
-> +		drm_hdmi_connector_get_output_format_name(fmt));
-> +
-> +	if (!sink_supports_format_bpc(connector, info, mode, fmt, bpc)) {
-> +		drm_dbg(dev, "%s output format not supported with %u bpc\n",
-> +			drm_hdmi_connector_get_output_format_name(fmt), bpc);
-> +		return false;
-> +	}
-> +
-> +	ret = hdmi_compute_clock(connector, state, mode, bpc, fmt);
-> +	if (ret) {
-> +		drm_dbg(dev, "Couldn't compute clock for %s output format and %u bpc\n",
-> +			drm_hdmi_connector_get_output_format_name(fmt), bpc);
-> +		return false;
-> +	}
-> +
-> +	drm_dbg(dev, "%s output format supported with %u (TMDS char rate: %llu Hz)\n",
-> +		drm_hdmi_connector_get_output_format_name(fmt), bpc, state->hdmi.tmds_char_rate);
-> +
-> +	return true;
-> +}
-> +
-> +static int
-> +hdmi_compute_format(const struct drm_connector *connector,
-> +		    struct drm_connector_state *state,
-> +		    const struct drm_display_mode *mode,
-> +		    unsigned int bpc)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +
-> +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_RGB)) {
-> +		state->hdmi.output_format = HDMI_COLORSPACE_RGB;
-> +		return 0;
-> +	}
-> +
-> +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_YUV422)) {
-> +		state->hdmi.output_format = HDMI_COLORSPACE_YUV422;
-> +		return 0;
-> +	}
-> +
-> +	drm_dbg(dev, "Failed. No Format Supported for that bpc count.\n");
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int
-> +hdmi_compute_config(const struct drm_connector *connector,
-> +		    struct drm_connector_state *state,
-> +		    const struct drm_display_mode *mode)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	unsigned int max_bpc = clamp_t(unsigned int,
-> +				       state->max_bpc,
-> +				       8, connector->max_bpc);
-> +	unsigned int bpc;
-> +	int ret;
-> +
-> +	for (bpc = max_bpc; bpc >= 8; bpc -= 2) {
-> +		drm_dbg(dev, "Trying with a %d bpc output\n", bpc);
-> +
-> +		ret = hdmi_compute_format(connector, state, mode, bpc);
-> +		if (ret)
-> +			continue;
-> +
-> +		state->hdmi.output_bpc = bpc;
-> +
-> +		drm_dbg(dev,
-> +			"Mode %ux%u @ %uHz: Found configuration: bpc: %u, fmt: %s, clock: %llu\n",
-> +			mode->hdisplay, mode->vdisplay, drm_mode_vrefresh(mode),
-> +			state->hdmi.output_bpc,
-> +			drm_hdmi_connector_get_output_format_name(state->hdmi.output_format),
-> +			state->hdmi.tmds_char_rate);
-> +
-> +		return 0;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
->   /**
->    * drm_atomic_helper_connector_hdmi_check() - Helper to check HDMI connector atomic state
->    * @connector: DRM Connector
-> @@ -729,9 +909,7 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->   		connector_state_get_mode(new_state);
->   	int ret;
->   
-> -	ret = hdmi_compute_clock(connector, new_state, mode,
-> -				 new_state->hdmi.output_bpc,
-> -				 new_state->hdmi.output_format);
-> +	ret = hdmi_compute_config(connector, new_state, mode);
->   	if (ret)
->   		return ret;
->   
-> diff --git a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
-> index 5a8750153510..f010fde0eb69 100644
-> --- a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
-> @@ -70,9 +70,6 @@ static int light_up_connector(struct kunit *test,
->   	conn_state = drm_atomic_get_connector_state(state, connector);
->   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
->   
-> -	conn_state->hdmi.output_bpc = connector->max_bpc;
-> -	conn_state->hdmi.output_format = HDMI_COLORSPACE_RGB;
-> -
->   	ret = drm_atomic_set_crtc_for_connector(conn_state, crtc);
->   	KUNIT_EXPECT_EQ(test, ret, 0);
->   
-> @@ -251,10 +248,15 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
->   						     10);
->   	KUNIT_ASSERT_NOT_NULL(test, priv);
->   
-> +	conn = &priv->connector;
-> +	ret = set_connector_edid(test, conn,
-> +				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
-> +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
->   	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
->   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
->   
-> -	conn = &priv->connector;
->   	preferred = find_preferred_mode(conn);
->   	KUNIT_ASSERT_NOT_NULL(test, preferred);
->   
-> @@ -272,11 +274,11 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
->   	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
->   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
->   
-> -	new_conn_state->hdmi.output_bpc = 8;
-> +	new_conn_state->max_requested_bpc = 8;
->   
->   	KUNIT_ASSERT_NE(test,
-> -			old_conn_state->hdmi.output_bpc,
-> -			new_conn_state->hdmi.output_bpc);
-> +			old_conn_state->max_requested_bpc,
-> +			new_conn_state->max_requested_bpc);
->   
->   	ret = drm_atomic_check_only(state);
->   	KUNIT_ASSERT_EQ(test, ret, 0);
-> @@ -320,10 +322,15 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
->   						     10);
->   	KUNIT_ASSERT_NOT_NULL(test, priv);
->   
-> +	conn = &priv->connector;
-> +	ret = set_connector_edid(test, conn,
-> +				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
-> +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
->   	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
->   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
->   
-> -	conn = &priv->connector;
->   	preferred = find_preferred_mode(conn);
->   	KUNIT_ASSERT_NOT_NULL(test, preferred);
->   
-> @@ -670,7 +677,7 @@ static void drm_test_check_format_value(struct kunit *test)
->   
->   	conn = &priv->connector;
->   	conn_state = conn->state;
-> -	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
-> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, 0);
->   }
->   
->   /*
-> 
+Do you mean setting FORMAT1 and FORMAT2 to 0x0 and HFLIP and VFLIP
+controls to 0 by default, and doing
 
+   case V4L2_CID_VFLIP:
+		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT1,
+				OV4689_TIMING_FLIP_MASK,
+				ctrl->val ? OV4689_TIMING_FLIP_BOTH : 0, &ret);
+		break;
+	case V4L2_CID_HFLIP:
+		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT2,
+				OV4689_TIMING_FLIP_MASK,
+				ctrl->val ? OV4689_TIMING_FLIP_BOTH : 0, &ret);  // do not invert!
+		break;
+
+in ov4689_set_ctrl? The issue is that we get a mirrored image in this
+case.
+
+The publicly available documentation doesn't clarify this, but it looks
+like the horizontal flipping bits in FORMAT2 are somehow inverted. All
+the other drivers for this sensor I've found default to FORMAT2 = 0x6
+(none implement flipping controls, though).
+
+So I see two options here:
+(1) default to HFLIP = 0, FORMAT2 = 0x6 (as done is this patch)
+(2) default to HFLIP = 1, FORMAT2 = 0x0
+
+I like (1) better, because it results in non-mirrored image by
+default. What is your opinion?
+
+>>
+>> > The default should be upside-up, but this is an existing driver and
+>> > changing the flipping now could affect existing users.
+>>
+>> Do you mean default rotation value when missing device tree property?
+>>
+>> > <URL:https://hverkuil.home.xs4all.nl/spec/userspace-api/drivers/camera-sensor.html#rotation-orientation-and-flipping>
+>> >
+>>
+>>
+>>
+
+
+--
+Best regards,
+Mikhail Rudenko
 
