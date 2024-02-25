@@ -1,499 +1,562 @@
-Return-Path: <linux-media+bounces-5865-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5866-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574C1862BAD
-	for <lists+linux-media@lfdr.de>; Sun, 25 Feb 2024 17:22:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D52F8862D20
+	for <lists+linux-media@lfdr.de>; Sun, 25 Feb 2024 22:23:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 115A9281494
-	for <lists+linux-media@lfdr.de>; Sun, 25 Feb 2024 16:22:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3075FB211B4
+	for <lists+linux-media@lfdr.de>; Sun, 25 Feb 2024 21:23:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AF53175A7;
-	Sun, 25 Feb 2024 16:22:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3902F1B953;
+	Sun, 25 Feb 2024 21:23:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=wsbt.ca header.i=@wsbt.ca header.b="XAb/hvw3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lV4cnoAy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from iguana.tulip.relay.mailchannels.net (iguana.tulip.relay.mailchannels.net [23.83.218.253])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D74175BC
-	for <linux-media@vger.kernel.org>; Sun, 25 Feb 2024 16:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.253
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708878159; cv=pass; b=s4ZIJW+rWwbS6JsI/TuHbufBZSxhTkni29OMESDl+J0GtzpsWs2CgxnJQsPIWGunkkLrw349cbqOOzXOdZnYZ4hn/BTGXIpCu7U3e12F3h5pWGlkWGKUlf+aNMCB4gvkCUCqSFmnd2vs+nKcdpFgX5QYDi6PyNN8Q7kK2cjLVCw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708878159; c=relaxed/simple;
-	bh=FrvRYbd1PkFF5lnxebxDPgXaEcl/sfXjyOKXGtqk610=;
-	h=Content-Type:Message-ID:Date:MIME-Version:To:From:Subject; b=KBgnCSFgCiOkfsDtlKXnt/H0VhoH+pfpytfm4+BgHjSrqlgMPzhxHe7nQLkvP/K5aGtq3Oaia0W8xAsXVTbfrqyvgCSJmt1kLnAbEyUkMzMNaiE9+15lxNlIgBkNQy+s4goF9ojtejqTxv2REKEqcF/HvZ0RXcxyxePcULGdiPQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wsbt.ca; spf=pass smtp.mailfrom=wsbt.ca; dkim=fail (0-bit key) header.d=wsbt.ca header.i=@wsbt.ca header.b=XAb/hvw3 reason="key not found in DNS"; arc=pass smtp.client-ip=23.83.218.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wsbt.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wsbt.ca
-X-Sender-Id: hostpapa|x-authuser|veitw@wsbt.ca
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id AC3B381F77
-	for <linux-media@vger.kernel.org>; Sun, 25 Feb 2024 16:14:15 +0000 (UTC)
-Received: from hp280.hostpapa.com (unknown [127.0.0.6])
-	(Authenticated sender: hostpapa)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 1714981E7E
-	for <linux-media@vger.kernel.org>; Sun, 25 Feb 2024 16:14:15 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1708877655; a=rsa-sha256;
-	cv=none;
-	b=rN7BI1SacPRAWeivLW5GvBK2DCUCKvIUc7k+DZeS9pP2aE4UDR3L8+HhRZtwiMPigG/5Dx
-	yY9Pa7qNFulYu9uD2osTU4xRdHNJOyWe5s8hA6H/Af8WpNCUORazKcKQafGGD5ADtkykMh
-	Z1ErX3YttLM/IirnGjqWrfXZ4o56D6lrtT79/0uTg0dMNpRTH6Ytv+B2foxyGB2DpTw4Y5
-	+FTsN/7Z/oVmvL/YhBLkkbWBoEOT9RmVrM/DgGkynOCzEpsOfKORUGCj8NNyX8qXxkPSrP
-	f1UfEa9+pntYM5ECNPIPdqgy+MYQBAjcd7JhoJpwANYTxoxjztIrCoNbbq16Aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1708877655;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 dkim-signature; bh=fVYpKZ/kZFdltPqr+r3f0NmQ5NTQp6MdbZHaAFW9Cus=;
-	b=BezVAetId/jykCDYZrZGxVuJLsGkGQ62u3vI9hF/7mgGyjoM3QRKvyn3+CoyS0wEqb89nS
-	ny0DEgCz2anFtJAW9EhlFmbdRDN+7gbIPRXRiItXO2X2KLM/FiL5Z6ceNjiC5DhUrsUyws
-	StPo9t1Z4H/pz8oGImgHVFoUlj2WGg/dFbxvnd3KZZRArKqrUTK6wk9q5J+ber++UIf0O8
-	dl7lKtvLzgM2FPM8kjEKwwWu3oWS1WVXhrvEviKwhkNgzj8Gy4MY3cvJqQBaQFgPzlvp9g
-	fd49xhABpF4w1svGFRGCIjI/u/SryXm7Rf8uEPaWHtVM0BStqgvlA4vbFYj2fw==
-ARC-Authentication-Results: i=1;
-	rspamd-6bdc45795d-xtc72;
-	auth=pass smtp.auth=hostpapa smtp.mailfrom=veitw@wsbt.ca
-X-Sender-Id: hostpapa|x-authuser|veitw@wsbt.ca
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: hostpapa|x-authuser|veitw@wsbt.ca
-X-MailChannels-Auth-Id: hostpapa
-X-Zesty-Share: 7e7b2232667f91d4_1708877655566_486106939
-X-MC-Loop-Signature: 1708877655566:674838475
-X-MC-Ingress-Time: 1708877655566
-Received: from hp280.hostpapa.com (hp280.hostpapa.com [69.172.239.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
-	by 100.97.82.30 (trex/6.9.2);
-	Sun, 25 Feb 2024 16:14:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wsbt.ca;
-	s=default; h=Subject:From:To:MIME-Version:Date:Message-ID:Content-Type:Sender
-	:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=fVYpKZ/kZFdltPqr+r3f0NmQ5NTQp6MdbZHaAFW9Cus=; b=XAb/hvw3cOxvhgB1szeRJA5U4p
-	l4rxxAcfTuIN8NkFfPDsCokSHYlhtFBe042gpO078c9OnUF9+kuWvLC9ckyKtsJqxRamj1plQWFVm
-	LGZjn+0vNWCTecV8g8X6tapITmk9NSwMmS5DMTLVwUw7ft/vODYWeRXGliWw7dOTYsS0EjARe6U82
-	8PUY7+UioA/BraMhC5VfAYIHFpMT6OlEmfBcqzBQcMscuAZJKhxHBf6Iyd5QsqMdblJQUMy6rxov+
-	gEVVg3XZnDlNIdgp3Rv1m9z+s0G5ufZs3nnJX7+QldlCia00k11H+qmanKGr0PDvR1KiQ/mewCXXD
-	zzOTucfA==;
-Received: from [209.52.88.148] (port=22529 helo=[172.20.10.10])
-	by hp280.hostpapa.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <veitw@wsbt.ca>)
-	id 1reH8n-005bmM-0A
-	for linux-media@vger.kernel.org;
-	Sun, 25 Feb 2024 11:14:14 -0500
-Content-Type: multipart/mixed; boundary="------------Dp7fTsfLhv0vlRA9bhKA2jk3"
-Message-ID: <c7f458bd-b182-4151-a9ba-82dc9b2efece@wsbt.ca>
-Date: Sun, 25 Feb 2024 09:14:08 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DBA16419;
+	Sun, 25 Feb 2024 21:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708896185; cv=none; b=H7lZL0hi7Okt+M90SLC1BxxGEzWS5MLE2iBVstX/GdpJVJGf4ZIsf6BePOQN5VRiRk+YP+FfqeBdb/J6utEev2sp/ZFMYlcX5wtuhlwGrhmW7Os5qepRO03NJeME/WrgmdXJ5nxKJzTNHEKnFBhjWL6d9JGINTnXO3v15RpBH/I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708896185; c=relaxed/simple;
+	bh=9nvp1cNaPSzmnAzSEznqyw+/2NCRF7TjQN6L8jjSDhA=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=mRuhv8hpIj+SDU44xdlmm5g/3tsBLwZ4/f7Kf8a6BPvkakD7Sayebbff/uFEVhJERcECRLymQQXPnHCyNwc3ifGT+b4l1J10dm6Dom4+eNDbyk2VYDPB3+nGPY+05xuzXvqO4i4WWI7BlBd3fTLToKEbrxrNaCmzaghTwvVXMjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lV4cnoAy; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD74D8C;
+	Sun, 25 Feb 2024 22:22:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1708896163;
+	bh=9nvp1cNaPSzmnAzSEznqyw+/2NCRF7TjQN6L8jjSDhA=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=lV4cnoAyE+JeNbzjOyBFzMxA/vo9Y+m1rKo4S1+SSoqo4I7eWGd1uz2qPxPvzN8cX
+	 V8SiiC8hgqDDC+jTYOlC1LunPFFVrOUUvQlpgIzyimZG3iO14tjO+xwh6p9Exa5YlO
+	 SuF4+5K49bDfCrsXfaHcUEd8wAQlNgw0hUagf7LA=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-media@vger.kernel.org
-Content-Language: en-US
-From: Veit Waltemath <veitw@wsbt.ca>
-Subject: reporting a new supported device
-X-AuthUser: veitw@wsbt.ca
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240214141906.245685-5-dan.scally@ideasonboard.com>
+References: <20240214141906.245685-1-dan.scally@ideasonboard.com> <20240214141906.245685-5-dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v2 4/5] media: Documentation: Add Mali-C55 ISP Documentation
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jerome.forissier@linaro.org, laurent.pinchart@ideasonboard.com, Daniel Scally <dan.scally@ideasonboard.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Date: Sun, 25 Feb 2024 21:22:52 +0000
+Message-ID: <170889617240.914352.11519004661256637360@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-This is a multi-part message in MIME format.
---------------Dp7fTsfLhv0vlRA9bhKA2jk3
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Dan,
 
-Hello,
-I got an Acer Aspire A315-24P laptop with a Quanta Computer webcam.
+Quoting Daniel Scally (2024-02-14 14:19:05)
+> Add a documentation page for the mali-c55 driver, which gives a brief
+> overview of the hardware and explains how to use the driver's capture
+> devices and the crop/scaler functions.
+>=20
+> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+> Changes in v2:
+>=20
+>         - none
+>=20
+>  .../admin-guide/media/mali-c55-graph.dot      |  19 ++
+>  Documentation/admin-guide/media/mali-c55.rst  | 318 ++++++++++++++++++
+>  .../admin-guide/media/v4l-drivers.rst         |   1 +
+>  3 files changed, 338 insertions(+)
+>  create mode 100644 Documentation/admin-guide/media/mali-c55-graph.dot
+>  create mode 100644 Documentation/admin-guide/media/mali-c55.rst
+>=20
+> diff --git a/Documentation/admin-guide/media/mali-c55-graph.dot b/Documen=
+tation/admin-guide/media/mali-c55-graph.dot
+> new file mode 100644
+> index 000000000000..0775ba42bf4c
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/mali-c55-graph.dot
+> @@ -0,0 +1,19 @@
+> +digraph board {
+> +        rankdir=3DTB
+> +        n00000001 [label=3D"{{} | mali-c55 tpg\n/dev/v4l-subdev0 | {<por=
+t0> 0}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+> +        n00000001:port0 -> n00000003:port0 [style=3Ddashed]
+> +        n00000003 [label=3D"{{<port0> 0} | mali-c55 isp\n/dev/v4l-subdev=
+1 | {<port1> 1 | <port2> 2}}", shape=3DMrecord, style=3Dfilled, fillcolor=
+=3Dgreen]
+> +        n00000003:port1 -> n00000007:port0 [style=3Dbold]
+> +        n00000003:port2 -> n00000007:port2 [style=3Dbold]
+> +        n00000003:port1 -> n0000000b:port0 [style=3Dbold]
+> +        n00000007 [label=3D"{{<port0> 0 | <port2> 2} | mali-c55 resizer =
+fr\n/dev/v4l-subdev2 | {<port1> 1}}", shape=3DMrecord, style=3Dfilled, fill=
+color=3Dgreen]
+> +        n00000007:port1 -> n0000000e [style=3Dbold]
+> +        n0000000b [label=3D"{{<port0> 0} | mali-c55 resizer ds\n/dev/v4l=
+-subdev3 | {<port1> 1}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgree=
+n]
+> +        n0000000b:port1 -> n00000012 [style=3Dbold]
+> +        n0000000e [label=3D"mali-c55 fr\n/dev/video0", shape=3Dbox, styl=
+e=3Dfilled, fillcolor=3Dyellow]
+> +        n00000012 [label=3D"mali-c55 ds\n/dev/video1", shape=3Dbox, styl=
+e=3Dfilled, fillcolor=3Dyellow]
+> +        n00000022 [label=3D"{{<port0> 0} | csi2-rx\n/dev/v4l-subdev4 | {=
+<port1> 1}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+> +        n00000022:port1 -> n00000003:port0
+> +        n00000027 [label=3D"{{} | imx415 1-001a\n/dev/v4l-subdev5 | {<po=
+rt0> 0}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+> +        n00000027:port0 -> n00000022:port0 [style=3Dbold]
+> +}
+> \ No newline at end of file
+> diff --git a/Documentation/admin-guide/media/mali-c55.rst b/Documentation=
+/admin-guide/media/mali-c55.rst
+> new file mode 100644
+> index 000000000000..83f630c3bd9d
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/mali-c55.rst
+> @@ -0,0 +1,318 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +ARM Mali-C55 Image Signal Processor driver
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +This file documents the driver for ARM's Mali-C55 Image Signal Processor=
+. The
+> +driver is located under drivers/media/platform/arm/mali-c55.
+> +
+> +The Mali-C55 ISP receives data in either raw Bayer format or RGB/YUV for=
+mat from
+> +sensors through either a parallel interface or a memory bus before proce=
+ssing it
+> +and outputting it through an internal DMA engine. Two output pipelines a=
+re
+> +possible (though one may not be fitted, depending on the implementation)=
+. These
+> +are referred to as "Full resolution" and "Downscale", but the naming is =
+historic
+> +and both pipes are capable of cropping/scaling operations. An integrated=
+ test
+> +pattern generator can be used to drive the ISP and produce image data in=
+ the
+> +absence of a connected camera sensor. The driver module is named mali_c5=
+5, and
+> +is enabled through the CONFIG_VIDEO_MALI_C55 config option.
 
-Bus 005 Device 002: ID 0408:403d Quanta Computer, Inc. ACER HD User Facing
+Can it handle metadata or other datatypes separately? anything else
+that's worthy of mention? Or maybe not yet in this version.
 
-This device is working perfect in cheese and OBS with the 6.6-lts 
-kernel, it just doesn't like current mainline kernel 6.7.6, it will not
-be recognized by this kernel.
-It does perfect stills and video.
-I attached the lsusb dump for this device.
+> +
+> +The driver implements V4L2, Media Controller and V4L2 Subdevice interfac=
+es and
+> +expects camera sensors connected to the ISP to have V4L2 subdevice inter=
+faces.
+> +
+> +Mali-C55 ISP hardware
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +A high level functional view of the Mali-C55 ISP is presented below. The=
+ ISP
+> +takes input from either a live source or through a DMA engine for memory=
+ input,
+> +depending on the SoC integration.::
+> +
+> +  +---------+    +----------+                                     +-----=
+---+
+> +  | Sensor  |--->| CSI-2 Rx |                "Full Resolution"    |  DMA=
+   |
+> +  +---------+    +----------+   |\                 Output    +--->| Writ=
+er |
+> +                       |        | \                          |    +-----=
+---+
+> +                       |        |  \    +----------+  +------+---> Strea=
+ming I/O
+> +  +------------+       +------->|   |   |          |  |
+> +  |            |                |   |-->| Mali-C55 |--+
+> +  | DMA Reader |--------------->|   |   |    ISP   |  |
+> +  |            |                |  /    |          |  |      +---> Strea=
+ming I/O
+> +  +------------+                | /     +----------+  |      |
+> +                                |/                    +------+
+> +                                                            |    +------=
+--+
+> +                                                             +--->|  DMA=
+   |
+> +                                               "Downscaled"       | Writ=
+er |
+> +                                                 Output          +------=
+--+
+> +
+> +Media Controller Topology
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> +
+> +An example of the ISP's topology (as implemented in a system with an IMX=
+415
+> +camera sensor and generic CSI-2 receiver) is below:
+> +
+> +
+> +.. kernel-figure:: mali-c55-graph.dot
+> +    :alt:   mali-c55-graph.dot
+> +    :align: center
+> +
+> +The driver has 4 V4L2 subdevices:
+> +
+> +- `mali_c55 isp`: Responsible for configuring input crop and color space
+> +                  conversion
+> +- `mali_c55 tpg`: The test pattern generator, emulating a camera sensor.
+> +- `mali_c55 resizer fr`: The Full-Resolution pipe resizer
+> +- `mali_c55 resizer ds`: The Downscale pipe resizer
+> +
+> +The driver has 2 V4L2 video devices:
+> +
+> +- `mali-c55 fr`: The full-resolution pipe's capture device
+> +- `mali-c55 ds`: The downscale pipe's capture device
+> +
+> +Idiosyncrasies
+> +--------------
+> +
+> +**mali-c55 isp**
+> +The `mali-c55 isp` subdevice has a single sink pad to which all sources =
+of data
+> +should be connected. The active source is selected by enabling the appro=
+priate
+> +media link and disabling all others.
 
-Thanks for all you do for the community!
--- 
-Veit Waltemath
-Vroombastic Haulers Inc.
-Claresholm, AB, T0L 0T0 Canada
-veitw@wsbt.ca
---------------Dp7fTsfLhv0vlRA9bhKA2jk3
-Content-Type: text/x-log; charset=UTF-8; name="acer_lsusb.log"
-Content-Disposition: attachment; filename="acer_lsusb.log"
-Content-Transfer-Encoding: base64
+By that I presume you mean you can only accept a single input link at a
+time?
 
-CkJ1cyAwMDUgRGV2aWNlIDAwMjogSUQgMDQwODo0MDNkIFF1YW50YSBDb21wdXRlciwgSW5j
-LiBBQ0VSIEhEIFVzZXIgRmFjaW5nCkRldmljZSBEZXNjcmlwdG9yOgogIGJMZW5ndGggICAg
-ICAgICAgICAgICAgMTgKICBiRGVzY3JpcHRvclR5cGUgICAgICAgICAxCiAgYmNkVVNCICAg
-ICAgICAgICAgICAgMi4wMQogIGJEZXZpY2VDbGFzcyAgICAgICAgICAyMzkgTWlzY2VsbGFu
-ZW91cyBEZXZpY2UKICBiRGV2aWNlU3ViQ2xhc3MgICAgICAgICAyIFt1bmtub3duXQogIGJE
-ZXZpY2VQcm90b2NvbCAgICAgICAgIDEgSW50ZXJmYWNlIEFzc29jaWF0aW9uCiAgYk1heFBh
-Y2tldFNpemUwICAgICAgICA2NAogIGlkVmVuZG9yICAgICAgICAgICAweDA0MDggUXVhbnRh
-IENvbXB1dGVyLCBJbmMuCiAgaWRQcm9kdWN0ICAgICAgICAgIDB4NDAzZCBBQ0VSIEhEIFVz
-ZXIgRmFjaW5nCiAgYmNkRGV2aWNlICAgICAgICAgICAgMC4wNAogIGlNYW51ZmFjdHVyZXIg
-ICAgICAgICAgIDMgUXVhbnRhCiAgaVByb2R1Y3QgICAgICAgICAgICAgICAgMSBBQ0VSIEhE
-IFVzZXIgRmFjaW5nCiAgaVNlcmlhbCAgICAgICAgICAgICAgICAgMiAyMDA5MDEwMTAwMDEK
-ICBiTnVtQ29uZmlndXJhdGlvbnMgICAgICAxCiAgQ29uZmlndXJhdGlvbiBEZXNjcmlwdG9y
-OgogICAgYkxlbmd0aCAgICAgICAgICAgICAgICAgOQogICAgYkRlc2NyaXB0b3JUeXBlICAg
-ICAgICAgMgogICAgd1RvdGFsTGVuZ3RoICAgICAgIDB4MDIxYQogICAgYk51bUludGVyZmFj
-ZXMgICAgICAgICAgMwogICAgYkNvbmZpZ3VyYXRpb25WYWx1ZSAgICAgMQogICAgaUNvbmZp
-Z3VyYXRpb24gICAgICAgICAgNCBBQ0VSIEhEIFVzZXIgRmFjaW5nCiAgICBibUF0dHJpYnV0
-ZXMgICAgICAgICAweDgwCiAgICAgIChCdXMgUG93ZXJlZCkKICAgIE1heFBvd2VyICAgICAg
-ICAgICAgICA1MDBtQQogICAgSW50ZXJmYWNlIEFzc29jaWF0aW9uOgogICAgICBiTGVuZ3Ro
-ICAgICAgICAgICAgICAgICA4CiAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgMTEKICAg
-ICAgYkZpcnN0SW50ZXJmYWNlICAgICAgICAgMAogICAgICBiSW50ZXJmYWNlQ291bnQgICAg
-ICAgICAyCiAgICAgIGJGdW5jdGlvbkNsYXNzICAgICAgICAgMTQgVmlkZW8KICAgICAgYkZ1
-bmN0aW9uU3ViQ2xhc3MgICAgICAgMyBWaWRlbyBJbnRlcmZhY2UgQ29sbGVjdGlvbgogICAg
-ICBiRnVuY3Rpb25Qcm90b2NvbCAgICAgICAwIAogICAgICBpRnVuY3Rpb24gICAgICAgICAg
-ICAgICA1IEFDRVIgSEQgVXNlciBGYWNpbmcKICAgIEludGVyZmFjZSBEZXNjcmlwdG9yOgog
-ICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgICA5CiAgICAgIGJEZXNjcmlwdG9yVHlwZSAg
-ICAgICAgIDQKICAgICAgYkludGVyZmFjZU51bWJlciAgICAgICAgMAogICAgICBiQWx0ZXJu
-YXRlU2V0dGluZyAgICAgICAwCiAgICAgIGJOdW1FbmRwb2ludHMgICAgICAgICAgIDEKICAg
-ICAgYkludGVyZmFjZUNsYXNzICAgICAgICAxNCBWaWRlbwogICAgICBiSW50ZXJmYWNlU3Vi
-Q2xhc3MgICAgICAxIFZpZGVvIENvbnRyb2wKICAgICAgYkludGVyZmFjZVByb3RvY29sICAg
-ICAgMCAKICAgICAgaUludGVyZmFjZSAgICAgICAgICAgICAgNSBBQ0VSIEhEIFVzZXIgRmFj
-aW5nCiAgICAgIFZpZGVvQ29udHJvbCBJbnRlcmZhY2UgRGVzY3JpcHRvcjoKICAgICAgICBi
-TGVuZ3RoICAgICAgICAgICAgICAgIDEzCiAgICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAg
-ICAzNgogICAgICAgIGJEZXNjcmlwdG9yU3VidHlwZSAgICAgIDEgKEhFQURFUikKICAgICAg
-ICBiY2RVVkMgICAgICAgICAgICAgICAxLjEwCiAgICAgICAgd1RvdGFsTGVuZ3RoICAgICAg
-IDB4MDA2YwogICAgICAgIGR3Q2xvY2tGcmVxdWVuY3kgICAgICAgMTUuMDAwMDAwTUh6CiAg
-ICAgICAgYkluQ29sbGVjdGlvbiAgICAgICAgICAgMQogICAgICAgIGJhSW50ZXJmYWNlTnIo
-IDApICAgICAgIDEKICAgICAgVmlkZW9Db250cm9sIEludGVyZmFjZSBEZXNjcmlwdG9yOgog
-ICAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgMTgKICAgICAgICBiRGVzY3JpcHRvclR5
-cGUgICAgICAgIDM2CiAgICAgICAgYkRlc2NyaXB0b3JTdWJ0eXBlICAgICAgMiAoSU5QVVRf
-VEVSTUlOQUwpCiAgICAgICAgYlRlcm1pbmFsSUQgICAgICAgICAgICAgMQogICAgICAgIHdU
-ZXJtaW5hbFR5cGUgICAgICAweDAyMDEgQ2FtZXJhIFNlbnNvcgogICAgICAgIGJBc3NvY1Rl
-cm1pbmFsICAgICAgICAgIDAKICAgICAgICBpVGVybWluYWwgICAgICAgICAgICAgICAwIAog
-ICAgICAgIHdPYmplY3RpdmVGb2NhbExlbmd0aE1pbiAgICAgIDAKICAgICAgICB3T2JqZWN0
-aXZlRm9jYWxMZW5ndGhNYXggICAgICAwCiAgICAgICAgd09jdWxhckZvY2FsTGVuZ3RoICAg
-ICAgICAgICAgMAogICAgICAgIGJDb250cm9sU2l6ZSAgICAgICAgICAgICAgICAgIDMKICAg
-ICAgICBibUNvbnRyb2xzICAgICAgICAgICAweDAwMjAwMDBlCiAgICAgICAgICBBdXRvLUV4
-cG9zdXJlIE1vZGUKICAgICAgICAgIEF1dG8tRXhwb3N1cmUgUHJpb3JpdHkKICAgICAgICAg
-IEV4cG9zdXJlIFRpbWUgKEFic29sdXRlKQogICAgICBWaWRlb0NvbnRyb2wgSW50ZXJmYWNl
-IERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0aCAgICAgICAgICAgICAgICAxMgogICAgICAg
-IGJEZXNjcmlwdG9yVHlwZSAgICAgICAgMzYKICAgICAgICBiRGVzY3JpcHRvclN1YnR5cGUg
-ICAgICA1IChQUk9DRVNTSU5HX1VOSVQpCiAgICAgICAgYlVuaXRJRCAgICAgICAgICAgICAg
-ICAgMgogICAgICAgIGJTb3VyY2VJRCAgICAgICAgICAgICAgIDEKICAgICAgICB3TWF4TXVs
-dGlwbGllciAgICAgICAgICAwCiAgICAgICAgYkNvbnRyb2xTaXplICAgICAgICAgICAgMgog
-ICAgICAgIGJtQ29udHJvbHMgICAgIDB4MDAwMDE1N2YKICAgICAgICAgIEJyaWdodG5lc3MK
-ICAgICAgICAgIENvbnRyYXN0CiAgICAgICAgICBIdWUKICAgICAgICAgIFNhdHVyYXRpb24K
-ICAgICAgICAgIFNoYXJwbmVzcwogICAgICAgICAgR2FtbWEKICAgICAgICAgIFdoaXRlIEJh
-bGFuY2UgVGVtcGVyYXR1cmUKICAgICAgICAgIEJhY2tsaWdodCBDb21wZW5zYXRpb24KICAg
-ICAgICAgIFBvd2VyIExpbmUgRnJlcXVlbmN5CiAgICAgICAgICBXaGl0ZSBCYWxhbmNlIFRl
-bXBlcmF0dXJlLCBBdXRvCiAgICAgICAgaVByb2Nlc3NpbmcgICAgICAgICAgICAgMCAKICAg
-ICAgICBibVZpZGVvU3RhbmRhcmRzICAgICAweDAwCiAgICAgIFZpZGVvQ29udHJvbCBJbnRl
-cmZhY2UgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgICA5CiAg
-ICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAgICAzNgogICAgICAgIGJEZXNjcmlwdG9yU3Vi
-dHlwZSAgICAgIDMgKE9VVFBVVF9URVJNSU5BTCkKICAgICAgICBiVGVybWluYWxJRCAgICAg
-ICAgICAgICAzCiAgICAgICAgd1Rlcm1pbmFsVHlwZSAgICAgIDB4MDEwMSBVU0IgU3RyZWFt
-aW5nCiAgICAgICAgYkFzc29jVGVybWluYWwgICAgICAgICAgMAogICAgICAgIGJTb3VyY2VJ
-RCAgICAgICAgICAgICAgIDcKICAgICAgICBpVGVybWluYWwgICAgICAgICAgICAgICAwIAog
-ICAgICBWaWRlb0NvbnRyb2wgSW50ZXJmYWNlIERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0
-aCAgICAgICAgICAgICAgICAyNwogICAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgMzYK
-ICAgICAgICBiRGVzY3JpcHRvclN1YnR5cGUgICAgICA2IChFWFRFTlNJT05fVU5JVCkKICAg
-ICAgICBiVW5pdElEICAgICAgICAgICAgICAgICA0CiAgICAgICAgZ3VpZEV4dGVuc2lvbkNv
-ZGUgICAgICAgICB7MTIyOWE3OGMtNDdiNC00MDk0LWIwY2UtZGIwNzM4NmZiOTM4fQogICAg
-ICAgIGJOdW1Db250cm9scyAgICAgICAgICAgIDIKICAgICAgICBiTnJJblBpbnMgICAgICAg
-ICAgICAgICAxCiAgICAgICAgYmFTb3VyY2VJRCggMCkgICAgICAgICAgMgogICAgICAgIGJD
-b250cm9sU2l6ZSAgICAgICAgICAgIDIKICAgICAgICBibUNvbnRyb2xzKCAwKSAgICAgICAw
-eDAwCiAgICAgICAgYm1Db250cm9scyggMSkgICAgICAgMHgwNgogICAgICAgIGlFeHRlbnNp
-b24gICAgICAgICAgICAgIDAgCiAgICAgIFZpZGVvQ29udHJvbCBJbnRlcmZhY2UgRGVzY3Jp
-cHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgIDI5CiAgICAgICAgYkRlc2Ny
-aXB0b3JUeXBlICAgICAgICAzNgogICAgICAgIGJEZXNjcmlwdG9yU3VidHlwZSAgICAgIDYg
-KEVYVEVOU0lPTl9VTklUKQogICAgICAgIGJVbml0SUQgICAgICAgICAgICAgICAgIDcKICAg
-ICAgICBndWlkRXh0ZW5zaW9uQ29kZSAgICAgICAgIHsyNmI4MTA1YS0wNzEzLTQ4NzAtOTc5
-ZC1kYTc5NDQ0YmI2OGV9CiAgICAgICAgYk51bUNvbnRyb2xzICAgICAgICAgICAgNAogICAg
-ICAgIGJOckluUGlucyAgICAgICAgICAgICAgIDEKICAgICAgICBiYVNvdXJjZUlEKCAwKSAg
-ICAgICAgICA0CiAgICAgICAgYkNvbnRyb2xTaXplICAgICAgICAgICAgNAogICAgICAgIGJt
-Q29udHJvbHMoIDApICAgICAgIDB4MDQKICAgICAgICBibUNvbnRyb2xzKCAxKSAgICAgICAw
-eDA4CiAgICAgICAgYm1Db250cm9scyggMikgICAgICAgMHgwYwogICAgICAgIGJtQ29udHJv
-bHMoIDMpICAgICAgIDB4MDAKICAgICAgICBpRXh0ZW5zaW9uICAgICAgICAgICAgICA3IFJl
-YWx0ZWsgRXh0ZW5kZWQgQ29udHJvbHMgVW5pdAogICAgICBFbmRwb2ludCBEZXNjcmlwdG9y
-OgogICAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDcKICAgICAgICBiRGVzY3JpcHRv
-clR5cGUgICAgICAgICA1CiAgICAgICAgYkVuZHBvaW50QWRkcmVzcyAgICAgMHg4MyAgRVAg
-MyBJTgogICAgICAgIGJtQXR0cmlidXRlcyAgICAgICAgICAgIDMKICAgICAgICAgIFRyYW5z
-ZmVyIFR5cGUgICAgICAgICAgICBJbnRlcnJ1cHQKICAgICAgICAgIFN5bmNoIFR5cGUgICAg
-ICAgICAgICAgICBOb25lCiAgICAgICAgICBVc2FnZSBUeXBlICAgICAgICAgICAgICAgRGF0
-YQogICAgICAgIHdNYXhQYWNrZXRTaXplICAgICAweDAwMjAgIDF4IDMyIGJ5dGVzCiAgICAg
-ICAgYkludGVydmFsICAgICAgICAgICAgICAgNgogICAgSW50ZXJmYWNlIERlc2NyaXB0b3I6
-CiAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDkKICAgICAgYkRlc2NyaXB0b3JUeXBl
-ICAgICAgICAgNAogICAgICBiSW50ZXJmYWNlTnVtYmVyICAgICAgICAxCiAgICAgIGJBbHRl
-cm5hdGVTZXR0aW5nICAgICAgIDAKICAgICAgYk51bUVuZHBvaW50cyAgICAgICAgICAgMAog
-ICAgICBiSW50ZXJmYWNlQ2xhc3MgICAgICAgIDE0IFZpZGVvCiAgICAgIGJJbnRlcmZhY2VT
-dWJDbGFzcyAgICAgIDIgVmlkZW8gU3RyZWFtaW5nCiAgICAgIGJJbnRlcmZhY2VQcm90b2Nv
-bCAgICAgIDAgCiAgICAgIGlJbnRlcmZhY2UgICAgICAgICAgICAgIDAgCiAgICAgIFZpZGVv
-U3RyZWFtaW5nIEludGVyZmFjZSBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgMTUKICAgICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAg
-ICAgICAgICAgICAgIDM2CiAgICAgICAgYkRlc2NyaXB0b3JTdWJ0eXBlICAgICAgICAgICAg
-ICAgICAgMSAoSU5QVVRfSEVBREVSKQogICAgICAgIGJOdW1Gb3JtYXRzICAgICAgICAgICAg
-ICAgICAgICAgICAgIDIKICAgICAgICB3VG90YWxMZW5ndGggICAgICAgICAgICAgICAgICAg
-MHgwMGY1CiAgICAgICAgYkVuZHBvaW50QWRkcmVzcyAgICAgICAgICAgICAgICAgMHg4MSAg
-RVAgMSBJTgogICAgICAgIGJtSW5mbyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAK
-ICAgICAgICBiVGVybWluYWxMaW5rICAgICAgICAgICAgICAgICAgICAgICAzCiAgICAgICAg
-YlN0aWxsQ2FwdHVyZU1ldGhvZCAgICAgICAgICAgICAgICAgMQogICAgICAgIGJUcmlnZ2Vy
-U3VwcG9ydCAgICAgICAgICAgICAgICAgICAgIDEKICAgICAgICBiVHJpZ2dlclVzYWdlICAg
-ICAgICAgICAgICAgICAgICAgICAwCiAgICAgICAgYkNvbnRyb2xTaXplICAgICAgICAgICAg
-ICAgICAgICAgICAgMQogICAgICAgIGJtYUNvbnRyb2xzKCAwKSAgICAgICAgICAgICAgICAg
-ICAgIDAKICAgICAgICBibWFDb250cm9scyggMSkgICAgICAgICAgICAgICAgICAgICAwCiAg
-ICAgIFZpZGVvU3RyZWFtaW5nIEludGVyZmFjZSBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5n
-dGggICAgICAgICAgICAgICAgICAgICAgICAgICAgMTEKICAgICAgICBiRGVzY3JpcHRvclR5
-cGUgICAgICAgICAgICAgICAgICAgIDM2CiAgICAgICAgYkRlc2NyaXB0b3JTdWJ0eXBlICAg
-ICAgICAgICAgICAgICAgNiAoRk9STUFUX01KUEVHKQogICAgICAgIGJGb3JtYXRJbmRleCAg
-ICAgICAgICAgICAgICAgICAgICAgIDEKICAgICAgICBiTnVtRnJhbWVEZXNjcmlwdG9ycyAg
-ICAgICAgICAgICAgICAzCiAgICAgICAgYkZsYWdzICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgMQogICAgICAgICAgRml4ZWQtc2l6ZSBzYW1wbGVzOiBZZXMKICAgICAgICBiRGVm
-YXVsdEZyYW1lSW5kZXggICAgICAgICAgICAgICAgICAxCiAgICAgICAgYkFzcGVjdFJhdGlv
-WCAgICAgICAgICAgICAgICAgICAgICAgMAogICAgICAgIGJBc3BlY3RSYXRpb1kgICAgICAg
-ICAgICAgICAgICAgICAgIDAKICAgICAgICBibUludGVybGFjZUZsYWdzICAgICAgICAgICAg
-ICAgICAweDAwCiAgICAgICAgICBJbnRlcmxhY2VkIHN0cmVhbSBvciB2YXJpYWJsZTogTm8K
-ICAgICAgICAgIEZpZWxkcyBwZXIgZnJhbWU6IDEgZmllbGRzCiAgICAgICAgICBGaWVsZCAx
-IGZpcnN0OiBObwogICAgICAgICAgRmllbGQgcGF0dGVybjogRmllbGQgMSBvbmx5CiAgICAg
-ICAgYkNvcHlQcm90ZWN0ICAgICAgICAgICAgICAgICAgICAgICAgMAogICAgICBWaWRlb1N0
-cmVhbWluZyBJbnRlcmZhY2UgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIDMwCiAgICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAgICAg
-ICAgICAgICAgICAzNgogICAgICAgIGJEZXNjcmlwdG9yU3VidHlwZSAgICAgICAgICAgICAg
-ICAgIDcgKEZSQU1FX01KUEVHKQogICAgICAgIGJGcmFtZUluZGV4ICAgICAgICAgICAgICAg
-ICAgICAgICAgIDEKICAgICAgICBibUNhcGFiaWxpdGllcyAgICAgICAgICAgICAgICAgICAw
-eDAxCiAgICAgICAgICBTdGlsbCBpbWFnZSBzdXBwb3J0ZWQKICAgICAgICB3V2lkdGggICAg
-ICAgICAgICAgICAgICAgICAgICAgICAxMjgwCiAgICAgICAgd0hlaWdodCAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIDcyMAogICAgICAgIGR3TWluQml0UmF0ZSAgICAgICAgICAgICAg
-ICA0NDIzNjgwMDAKICAgICAgICBkd01heEJpdFJhdGUgICAgICAgICAgICAgICAgNDQyMzY4
-MDAwCiAgICAgICAgZHdNYXhWaWRlb0ZyYW1lQnVmZmVyU2l6ZSAgICAgMTg0MzIwMAogICAg
-ICAgIGR3RGVmYXVsdEZyYW1lSW50ZXJ2YWwgICAgICAgICAzMzMzMzMKICAgICAgICBiRnJh
-bWVJbnRlcnZhbFR5cGUgICAgICAgICAgICAgICAgICAxCiAgICAgICAgZHdGcmFtZUludGVy
-dmFsKCAwKSAgICAgICAgICAgIDMzMzMzMwogICAgICBWaWRlb1N0cmVhbWluZyBJbnRlcmZh
-Y2UgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIDMwCiAgICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAgICAgICAgICAgICAgICAzNgog
-ICAgICAgIGJEZXNjcmlwdG9yU3VidHlwZSAgICAgICAgICAgICAgICAgIDcgKEZSQU1FX01K
-UEVHKQogICAgICAgIGJGcmFtZUluZGV4ICAgICAgICAgICAgICAgICAgICAgICAgIDIKICAg
-ICAgICBibUNhcGFiaWxpdGllcyAgICAgICAgICAgICAgICAgICAweDAxCiAgICAgICAgICBT
-dGlsbCBpbWFnZSBzdXBwb3J0ZWQKICAgICAgICB3V2lkdGggICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgNjQwCiAgICAgICAgd0hlaWdodCAgICAgICAgICAgICAgICAgICAgICAgICAg
-IDQ4MAogICAgICAgIGR3TWluQml0UmF0ZSAgICAgICAgICAgICAgICAxNDc0NTYwMDAKICAg
-ICAgICBkd01heEJpdFJhdGUgICAgICAgICAgICAgICAgMTQ3NDU2MDAwCiAgICAgICAgZHdN
-YXhWaWRlb0ZyYW1lQnVmZmVyU2l6ZSAgICAgIDYxNDQwMAogICAgICAgIGR3RGVmYXVsdEZy
-YW1lSW50ZXJ2YWwgICAgICAgICAzMzMzMzMKICAgICAgICBiRnJhbWVJbnRlcnZhbFR5cGUg
-ICAgICAgICAgICAgICAgICAxCiAgICAgICAgZHdGcmFtZUludGVydmFsKCAwKSAgICAgICAg
-ICAgIDMzMzMzMwogICAgICBWaWRlb1N0cmVhbWluZyBJbnRlcmZhY2UgRGVzY3JpcHRvcjoK
-ICAgICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgICAgICAgICAgICAgIDMwCiAgICAgICAg
-YkRlc2NyaXB0b3JUeXBlICAgICAgICAgICAgICAgICAgICAzNgogICAgICAgIGJEZXNjcmlw
-dG9yU3VidHlwZSAgICAgICAgICAgICAgICAgIDcgKEZSQU1FX01KUEVHKQogICAgICAgIGJG
-cmFtZUluZGV4ICAgICAgICAgICAgICAgICAgICAgICAgIDMKICAgICAgICBibUNhcGFiaWxp
-dGllcyAgICAgICAgICAgICAgICAgICAweDAxCiAgICAgICAgICBTdGlsbCBpbWFnZSBzdXBw
-b3J0ZWQKICAgICAgICB3V2lkdGggICAgICAgICAgICAgICAgICAgICAgICAgICAgNjQwCiAg
-ICAgICAgd0hlaWdodCAgICAgICAgICAgICAgICAgICAgICAgICAgIDM2MAogICAgICAgIGR3
-TWluQml0UmF0ZSAgICAgICAgICAgICAgICAxMTA1OTIwMDAKICAgICAgICBkd01heEJpdFJh
-dGUgICAgICAgICAgICAgICAgMTEwNTkyMDAwCiAgICAgICAgZHdNYXhWaWRlb0ZyYW1lQnVm
-ZmVyU2l6ZSAgICAgIDQ2MDgwMAogICAgICAgIGR3RGVmYXVsdEZyYW1lSW50ZXJ2YWwgICAg
-ICAgICAzMzMzMzMKICAgICAgICBiRnJhbWVJbnRlcnZhbFR5cGUgICAgICAgICAgICAgICAg
-ICAxCiAgICAgICAgZHdGcmFtZUludGVydmFsKCAwKSAgICAgICAgICAgIDMzMzMzMwogICAg
-ICBWaWRlb1N0cmVhbWluZyBJbnRlcmZhY2UgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3Ro
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA2CiAgICAgICAgYkRlc2NyaXB0b3JUeXBl
-ICAgICAgICAgICAgICAgICAgICAzNgogICAgICAgIGJEZXNjcmlwdG9yU3VidHlwZSAgICAg
-ICAgICAgICAgICAgMTMgKENPTE9SRk9STUFUKQogICAgICAgIGJDb2xvclByaW1hcmllcyAg
-ICAgICAgICAgICAgICAgICAgIDEgKEJULjcwOSxzUkdCKQogICAgICAgIGJUcmFuc2ZlckNo
-YXJhY3RlcmlzdGljcyAgICAgICAgICAgIDEgKEJULjcwOSkKICAgICAgICBiTWF0cml4Q29l
-ZmZpY2llbnRzICAgICAgICAgICAgICAgICA0IChTTVBURSAxNzBNIChCVC42MDEpKQogICAg
-ICBWaWRlb1N0cmVhbWluZyBJbnRlcmZhY2UgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3Ro
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIDI3CiAgICAgICAgYkRlc2NyaXB0b3JUeXBl
-ICAgICAgICAgICAgICAgICAgICAzNgogICAgICAgIGJEZXNjcmlwdG9yU3VidHlwZSAgICAg
-ICAgICAgICAgICAgIDQgKEZPUk1BVF9VTkNPTVBSRVNTRUQpCiAgICAgICAgYkZvcm1hdElu
-ZGV4ICAgICAgICAgICAgICAgICAgICAgICAgMgogICAgICAgIGJOdW1GcmFtZURlc2NyaXB0
-b3JzICAgICAgICAgICAgICAgIDMKICAgICAgICBndWlkRm9ybWF0ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHszMjU5NTU1OS0wMDAwLTAwMTAtODAwMC0wMGFhMDAzODliNzF9CiAg
-ICAgICAgYkJpdHNQZXJQaXhlbCAgICAgICAgICAgICAgICAgICAgICAxNgogICAgICAgIGJE
-ZWZhdWx0RnJhbWVJbmRleCAgICAgICAgICAgICAgICAgIDEKICAgICAgICBiQXNwZWN0UmF0
-aW9YICAgICAgICAgICAgICAgICAgICAgICAwCiAgICAgICAgYkFzcGVjdFJhdGlvWSAgICAg
-ICAgICAgICAgICAgICAgICAgMAogICAgICAgIGJtSW50ZXJsYWNlRmxhZ3MgICAgICAgICAg
-ICAgICAgIDB4MDAKICAgICAgICAgIEludGVybGFjZWQgc3RyZWFtIG9yIHZhcmlhYmxlOiBO
-bwogICAgICAgICAgRmllbGRzIHBlciBmcmFtZTogMiBmaWVsZHMKICAgICAgICAgIEZpZWxk
-IDEgZmlyc3Q6IE5vCiAgICAgICAgICBGaWVsZCBwYXR0ZXJuOiBGaWVsZCAxIG9ubHkKICAg
-ICAgICBiQ29weVByb3RlY3QgICAgICAgICAgICAgICAgICAgICAgICAwCiAgICAgIFZpZGVv
-U3RyZWFtaW5nIEludGVyZmFjZSBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgMzAKICAgICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAg
-ICAgICAgICAgICAgIDM2CiAgICAgICAgYkRlc2NyaXB0b3JTdWJ0eXBlICAgICAgICAgICAg
-ICAgICAgNSAoRlJBTUVfVU5DT01QUkVTU0VEKQogICAgICAgIGJGcmFtZUluZGV4ICAgICAg
-ICAgICAgICAgICAgICAgICAgIDEKICAgICAgICBibUNhcGFiaWxpdGllcyAgICAgICAgICAg
-ICAgICAgICAweDAxCiAgICAgICAgICBTdGlsbCBpbWFnZSBzdXBwb3J0ZWQKICAgICAgICB3
-V2lkdGggICAgICAgICAgICAgICAgICAgICAgICAgICAxMjgwCiAgICAgICAgd0hlaWdodCAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIDcyMAogICAgICAgIGR3TWluQml0UmF0ZSAgICAg
-ICAgICAgICAgICAxNDc0NTYwMDAKICAgICAgICBkd01heEJpdFJhdGUgICAgICAgICAgICAg
-ICAgMTQ3NDU2MDAwCiAgICAgICAgZHdNYXhWaWRlb0ZyYW1lQnVmZmVyU2l6ZSAgICAgMTg0
-MzIwMAogICAgICAgIGR3RGVmYXVsdEZyYW1lSW50ZXJ2YWwgICAgICAgIDEwMDAwMDAKICAg
-ICAgICBiRnJhbWVJbnRlcnZhbFR5cGUgICAgICAgICAgICAgICAgICAxCiAgICAgICAgZHdG
-cmFtZUludGVydmFsKCAwKSAgICAgICAgICAgMTAwMDAwMAogICAgICBWaWRlb1N0cmVhbWlu
-ZyBJbnRlcmZhY2UgRGVzY3JpcHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIDMwCiAgICAgICAgYkRlc2NyaXB0b3JUeXBlICAgICAgICAgICAgICAg
-ICAgICAzNgogICAgICAgIGJEZXNjcmlwdG9yU3VidHlwZSAgICAgICAgICAgICAgICAgIDUg
-KEZSQU1FX1VOQ09NUFJFU1NFRCkKICAgICAgICBiRnJhbWVJbmRleCAgICAgICAgICAgICAg
-ICAgICAgICAgICAyCiAgICAgICAgYm1DYXBhYmlsaXRpZXMgICAgICAgICAgICAgICAgICAg
-MHgwMQogICAgICAgICAgU3RpbGwgaW1hZ2Ugc3VwcG9ydGVkCiAgICAgICAgd1dpZHRoICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIDY0MAogICAgICAgIHdIZWlnaHQgICAgICAgICAg
-ICAgICAgICAgICAgICAgICA0ODAKICAgICAgICBkd01pbkJpdFJhdGUgICAgICAgICAgICAg
-ICAgMTQ3NDU2MDAwCiAgICAgICAgZHdNYXhCaXRSYXRlICAgICAgICAgICAgICAgIDE0NzQ1
-NjAwMAogICAgICAgIGR3TWF4VmlkZW9GcmFtZUJ1ZmZlclNpemUgICAgICA2MTQ0MDAKICAg
-ICAgICBkd0RlZmF1bHRGcmFtZUludGVydmFsICAgICAgICAgMzMzMzMzCiAgICAgICAgYkZy
-YW1lSW50ZXJ2YWxUeXBlICAgICAgICAgICAgICAgICAgMQogICAgICAgIGR3RnJhbWVJbnRl
-cnZhbCggMCkgICAgICAgICAgICAzMzMzMzMKICAgICAgVmlkZW9TdHJlYW1pbmcgSW50ZXJm
-YWNlIERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0aCAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAzMAogICAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgICAgICAgICAgICAgMzYK
-ICAgICAgICBiRGVzY3JpcHRvclN1YnR5cGUgICAgICAgICAgICAgICAgICA1IChGUkFNRV9V
-TkNPTVBSRVNTRUQpCiAgICAgICAgYkZyYW1lSW5kZXggICAgICAgICAgICAgICAgICAgICAg
-ICAgMwogICAgICAgIGJtQ2FwYWJpbGl0aWVzICAgICAgICAgICAgICAgICAgIDB4MDEKICAg
-ICAgICAgIFN0aWxsIGltYWdlIHN1cHBvcnRlZAogICAgICAgIHdXaWR0aCAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICA2NDAKICAgICAgICB3SGVpZ2h0ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgMzYwCiAgICAgICAgZHdNaW5CaXRSYXRlICAgICAgICAgICAgICAgIDExMDU5
-MjAwMAogICAgICAgIGR3TWF4Qml0UmF0ZSAgICAgICAgICAgICAgICAxMTA1OTIwMDAKICAg
-ICAgICBkd01heFZpZGVvRnJhbWVCdWZmZXJTaXplICAgICAgNDYwODAwCiAgICAgICAgZHdE
-ZWZhdWx0RnJhbWVJbnRlcnZhbCAgICAgICAgIDMzMzMzMwogICAgICAgIGJGcmFtZUludGVy
-dmFsVHlwZSAgICAgICAgICAgICAgICAgIDEKICAgICAgICBkd0ZyYW1lSW50ZXJ2YWwoIDAp
-ICAgICAgICAgICAgMzMzMzMzCiAgICAgIFZpZGVvU3RyZWFtaW5nIEludGVyZmFjZSBEZXNj
-cmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgICAgICAgICAgICAgIDYK
-ICAgICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICAgICAgICAgICAgIDM2CiAgICAgICAg
-YkRlc2NyaXB0b3JTdWJ0eXBlICAgICAgICAgICAgICAgICAxMyAoQ09MT1JGT1JNQVQpCiAg
-ICAgICAgYkNvbG9yUHJpbWFyaWVzICAgICAgICAgICAgICAgICAgICAgMSAoQlQuNzA5LHNS
-R0IpCiAgICAgICAgYlRyYW5zZmVyQ2hhcmFjdGVyaXN0aWNzICAgICAgICAgICAgMSAoQlQu
-NzA5KQogICAgICAgIGJNYXRyaXhDb2VmZmljaWVudHMgICAgICAgICAgICAgICAgIDQgKFNN
-UFRFIDE3ME0gKEJULjYwMSkpCiAgICBJbnRlcmZhY2UgRGVzY3JpcHRvcjoKICAgICAgYkxl
-bmd0aCAgICAgICAgICAgICAgICAgOQogICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA0
-CiAgICAgIGJJbnRlcmZhY2VOdW1iZXIgICAgICAgIDEKICAgICAgYkFsdGVybmF0ZVNldHRp
-bmcgICAgICAgMQogICAgICBiTnVtRW5kcG9pbnRzICAgICAgICAgICAxCiAgICAgIGJJbnRl
-cmZhY2VDbGFzcyAgICAgICAgMTQgVmlkZW8KICAgICAgYkludGVyZmFjZVN1YkNsYXNzICAg
-ICAgMiBWaWRlbyBTdHJlYW1pbmcKICAgICAgYkludGVyZmFjZVByb3RvY29sICAgICAgMCAK
-ICAgICAgaUludGVyZmFjZSAgICAgICAgICAgICAgMCAKICAgICAgRW5kcG9pbnQgRGVzY3Jp
-cHRvcjoKICAgICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgICA3CiAgICAgICAgYkRlc2Ny
-aXB0b3JUeXBlICAgICAgICAgNQogICAgICAgIGJFbmRwb2ludEFkZHJlc3MgICAgIDB4ODEg
-IEVQIDEgSU4KICAgICAgICBibUF0dHJpYnV0ZXMgICAgICAgICAgICA1CiAgICAgICAgICBU
-cmFuc2ZlciBUeXBlICAgICAgICAgICAgSXNvY2hyb25vdXMKICAgICAgICAgIFN5bmNoIFR5
-cGUgICAgICAgICAgICAgICBBc3luY2hyb25vdXMKICAgICAgICAgIFVzYWdlIFR5cGUgICAg
-ICAgICAgICAgICBEYXRhCiAgICAgICAgd01heFBhY2tldFNpemUgICAgIDB4MDA4MCAgMXgg
-MTI4IGJ5dGVzCiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAgMQogICAgSW50ZXJm
-YWNlIERlc2NyaXB0b3I6CiAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDkKICAgICAg
-YkRlc2NyaXB0b3JUeXBlICAgICAgICAgNAogICAgICBiSW50ZXJmYWNlTnVtYmVyICAgICAg
-ICAxCiAgICAgIGJBbHRlcm5hdGVTZXR0aW5nICAgICAgIDIKICAgICAgYk51bUVuZHBvaW50
-cyAgICAgICAgICAgMQogICAgICBiSW50ZXJmYWNlQ2xhc3MgICAgICAgIDE0IFZpZGVvCiAg
-ICAgIGJJbnRlcmZhY2VTdWJDbGFzcyAgICAgIDIgVmlkZW8gU3RyZWFtaW5nCiAgICAgIGJJ
-bnRlcmZhY2VQcm90b2NvbCAgICAgIDAgCiAgICAgIGlJbnRlcmZhY2UgICAgICAgICAgICAg
-IDAgCiAgICAgIEVuZHBvaW50IERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0aCAgICAgICAg
-ICAgICAgICAgNwogICAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDUKICAgICAgICBi
-RW5kcG9pbnRBZGRyZXNzICAgICAweDgxICBFUCAxIElOCiAgICAgICAgYm1BdHRyaWJ1dGVz
-ICAgICAgICAgICAgNQogICAgICAgICAgVHJhbnNmZXIgVHlwZSAgICAgICAgICAgIElzb2No
-cm9ub3VzCiAgICAgICAgICBTeW5jaCBUeXBlICAgICAgICAgICAgICAgQXN5bmNocm9ub3Vz
-CiAgICAgICAgICBVc2FnZSBUeXBlICAgICAgICAgICAgICAgRGF0YQogICAgICAgIHdNYXhQ
-YWNrZXRTaXplICAgICAweDAyMDAgIDF4IDUxMiBieXRlcwogICAgICAgIGJJbnRlcnZhbCAg
-ICAgICAgICAgICAgIDEKICAgIEludGVyZmFjZSBEZXNjcmlwdG9yOgogICAgICBiTGVuZ3Ro
-ICAgICAgICAgICAgICAgICA5CiAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDQKICAg
-ICAgYkludGVyZmFjZU51bWJlciAgICAgICAgMQogICAgICBiQWx0ZXJuYXRlU2V0dGluZyAg
-ICAgICAzCiAgICAgIGJOdW1FbmRwb2ludHMgICAgICAgICAgIDEKICAgICAgYkludGVyZmFj
-ZUNsYXNzICAgICAgICAxNCBWaWRlbwogICAgICBiSW50ZXJmYWNlU3ViQ2xhc3MgICAgICAy
-IFZpZGVvIFN0cmVhbWluZwogICAgICBiSW50ZXJmYWNlUHJvdG9jb2wgICAgICAwIAogICAg
-ICBpSW50ZXJmYWNlICAgICAgICAgICAgICAwIAogICAgICBFbmRwb2ludCBEZXNjcmlwdG9y
-OgogICAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDcKICAgICAgICBiRGVzY3JpcHRv
-clR5cGUgICAgICAgICA1CiAgICAgICAgYkVuZHBvaW50QWRkcmVzcyAgICAgMHg4MSAgRVAg
-MSBJTgogICAgICAgIGJtQXR0cmlidXRlcyAgICAgICAgICAgIDUKICAgICAgICAgIFRyYW5z
-ZmVyIFR5cGUgICAgICAgICAgICBJc29jaHJvbm91cwogICAgICAgICAgU3luY2ggVHlwZSAg
-ICAgICAgICAgICAgIEFzeW5jaHJvbm91cwogICAgICAgICAgVXNhZ2UgVHlwZSAgICAgICAg
-ICAgICAgIERhdGEKICAgICAgICB3TWF4UGFja2V0U2l6ZSAgICAgMHgwM2ZjICAxeCAxMDIw
-IGJ5dGVzCiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAgMQogICAgSW50ZXJmYWNl
-IERlc2NyaXB0b3I6CiAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDkKICAgICAgYkRl
-c2NyaXB0b3JUeXBlICAgICAgICAgNAogICAgICBiSW50ZXJmYWNlTnVtYmVyICAgICAgICAx
-CiAgICAgIGJBbHRlcm5hdGVTZXR0aW5nICAgICAgIDQKICAgICAgYk51bUVuZHBvaW50cyAg
-ICAgICAgICAgMQogICAgICBiSW50ZXJmYWNlQ2xhc3MgICAgICAgIDE0IFZpZGVvCiAgICAg
-IGJJbnRlcmZhY2VTdWJDbGFzcyAgICAgIDIgVmlkZW8gU3RyZWFtaW5nCiAgICAgIGJJbnRl
-cmZhY2VQcm90b2NvbCAgICAgIDAgCiAgICAgIGlJbnRlcmZhY2UgICAgICAgICAgICAgIDAg
-CiAgICAgIEVuZHBvaW50IERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0aCAgICAgICAgICAg
-ICAgICAgNwogICAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDUKICAgICAgICBiRW5k
-cG9pbnRBZGRyZXNzICAgICAweDgxICBFUCAxIElOCiAgICAgICAgYm1BdHRyaWJ1dGVzICAg
-ICAgICAgICAgNQogICAgICAgICAgVHJhbnNmZXIgVHlwZSAgICAgICAgICAgIElzb2Nocm9u
-b3VzCiAgICAgICAgICBTeW5jaCBUeXBlICAgICAgICAgICAgICAgQXN5bmNocm9ub3VzCiAg
-ICAgICAgICBVc2FnZSBUeXBlICAgICAgICAgICAgICAgRGF0YQogICAgICAgIHdNYXhQYWNr
-ZXRTaXplICAgICAweDBiMDAgIDJ4IDc2OCBieXRlcwogICAgICAgIGJJbnRlcnZhbCAgICAg
-ICAgICAgICAgIDEKICAgIEludGVyZmFjZSBEZXNjcmlwdG9yOgogICAgICBiTGVuZ3RoICAg
-ICAgICAgICAgICAgICA5CiAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDQKICAgICAg
-YkludGVyZmFjZU51bWJlciAgICAgICAgMQogICAgICBiQWx0ZXJuYXRlU2V0dGluZyAgICAg
-ICA1CiAgICAgIGJOdW1FbmRwb2ludHMgICAgICAgICAgIDEKICAgICAgYkludGVyZmFjZUNs
-YXNzICAgICAgICAxNCBWaWRlbwogICAgICBiSW50ZXJmYWNlU3ViQ2xhc3MgICAgICAyIFZp
-ZGVvIFN0cmVhbWluZwogICAgICBiSW50ZXJmYWNlUHJvdG9jb2wgICAgICAwIAogICAgICBp
-SW50ZXJmYWNlICAgICAgICAgICAgICAwIAogICAgICBFbmRwb2ludCBEZXNjcmlwdG9yOgog
-ICAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDcKICAgICAgICBiRGVzY3JpcHRvclR5
-cGUgICAgICAgICA1CiAgICAgICAgYkVuZHBvaW50QWRkcmVzcyAgICAgMHg4MSAgRVAgMSBJ
-TgogICAgICAgIGJtQXR0cmlidXRlcyAgICAgICAgICAgIDUKICAgICAgICAgIFRyYW5zZmVy
-IFR5cGUgICAgICAgICAgICBJc29jaHJvbm91cwogICAgICAgICAgU3luY2ggVHlwZSAgICAg
-ICAgICAgICAgIEFzeW5jaHJvbm91cwogICAgICAgICAgVXNhZ2UgVHlwZSAgICAgICAgICAg
-ICAgIERhdGEKICAgICAgICB3TWF4UGFja2V0U2l6ZSAgICAgMHgwYmZjICAyeCAxMDIwIGJ5
-dGVzCiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAgMQogICAgSW50ZXJmYWNlIERl
-c2NyaXB0b3I6CiAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDkKICAgICAgYkRlc2Ny
-aXB0b3JUeXBlICAgICAgICAgNAogICAgICBiSW50ZXJmYWNlTnVtYmVyICAgICAgICAxCiAg
-ICAgIGJBbHRlcm5hdGVTZXR0aW5nICAgICAgIDYKICAgICAgYk51bUVuZHBvaW50cyAgICAg
-ICAgICAgMQogICAgICBiSW50ZXJmYWNlQ2xhc3MgICAgICAgIDE0IFZpZGVvCiAgICAgIGJJ
-bnRlcmZhY2VTdWJDbGFzcyAgICAgIDIgVmlkZW8gU3RyZWFtaW5nCiAgICAgIGJJbnRlcmZh
-Y2VQcm90b2NvbCAgICAgIDAgCiAgICAgIGlJbnRlcmZhY2UgICAgICAgICAgICAgIDAgCiAg
-ICAgIEVuZHBvaW50IERlc2NyaXB0b3I6CiAgICAgICAgYkxlbmd0aCAgICAgICAgICAgICAg
-ICAgNwogICAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDUKICAgICAgICBiRW5kcG9p
-bnRBZGRyZXNzICAgICAweDgxICBFUCAxIElOCiAgICAgICAgYm1BdHRyaWJ1dGVzICAgICAg
-ICAgICAgNQogICAgICAgICAgVHJhbnNmZXIgVHlwZSAgICAgICAgICAgIElzb2Nocm9ub3Vz
-CiAgICAgICAgICBTeW5jaCBUeXBlICAgICAgICAgICAgICAgQXN5bmNocm9ub3VzCiAgICAg
-ICAgICBVc2FnZSBUeXBlICAgICAgICAgICAgICAgRGF0YQogICAgICAgIHdNYXhQYWNrZXRT
-aXplICAgICAweDEzODAgIDN4IDg5NiBieXRlcwogICAgICAgIGJJbnRlcnZhbCAgICAgICAg
-ICAgICAgIDEKICAgIEludGVyZmFjZSBEZXNjcmlwdG9yOgogICAgICBiTGVuZ3RoICAgICAg
-ICAgICAgICAgICA5CiAgICAgIGJEZXNjcmlwdG9yVHlwZSAgICAgICAgIDQKICAgICAgYklu
-dGVyZmFjZU51bWJlciAgICAgICAgMQogICAgICBiQWx0ZXJuYXRlU2V0dGluZyAgICAgICA3
-CiAgICAgIGJOdW1FbmRwb2ludHMgICAgICAgICAgIDEKICAgICAgYkludGVyZmFjZUNsYXNz
-ICAgICAgICAxNCBWaWRlbwogICAgICBiSW50ZXJmYWNlU3ViQ2xhc3MgICAgICAyIFZpZGVv
-IFN0cmVhbWluZwogICAgICBiSW50ZXJmYWNlUHJvdG9jb2wgICAgICAwIAogICAgICBpSW50
-ZXJmYWNlICAgICAgICAgICAgICAwIAogICAgICBFbmRwb2ludCBEZXNjcmlwdG9yOgogICAg
-ICAgIGJMZW5ndGggICAgICAgICAgICAgICAgIDcKICAgICAgICBiRGVzY3JpcHRvclR5cGUg
-ICAgICAgICA1CiAgICAgICAgYkVuZHBvaW50QWRkcmVzcyAgICAgMHg4MSAgRVAgMSBJTgog
-ICAgICAgIGJtQXR0cmlidXRlcyAgICAgICAgICAgIDUKICAgICAgICAgIFRyYW5zZmVyIFR5
-cGUgICAgICAgICAgICBJc29jaHJvbm91cwogICAgICAgICAgU3luY2ggVHlwZSAgICAgICAg
-ICAgICAgIEFzeW5jaHJvbm91cwogICAgICAgICAgVXNhZ2UgVHlwZSAgICAgICAgICAgICAg
-IERhdGEKICAgICAgICB3TWF4UGFja2V0U2l6ZSAgICAgMHgxM2ZjICAzeCAxMDIwIGJ5dGVz
-CiAgICAgICAgYkludGVydmFsICAgICAgICAgICAgICAgMQogICAgSW50ZXJmYWNlIEFzc29j
-aWF0aW9uOgogICAgICBiTGVuZ3RoICAgICAgICAgICAgICAgICA4CiAgICAgIGJEZXNjcmlw
-dG9yVHlwZSAgICAgICAgMTEKICAgICAgYkZpcnN0SW50ZXJmYWNlICAgICAgICAgMgogICAg
-ICBiSW50ZXJmYWNlQ291bnQgICAgICAgICAxCiAgICAgIGJGdW5jdGlvbkNsYXNzICAgICAg
-ICAyNTQgQXBwbGljYXRpb24gU3BlY2lmaWMgSW50ZXJmYWNlCiAgICAgIGJGdW5jdGlvblN1
-YkNsYXNzICAgICAgIDEgRGV2aWNlIEZpcm13YXJlIFVwZGF0ZQogICAgICBiRnVuY3Rpb25Q
-cm90b2NvbCAgICAgICAwIAogICAgICBpRnVuY3Rpb24gICAgICAgICAgICAgIDExIENhbWVy
-YSBERlUgRGV2aWNlCiAgICBJbnRlcmZhY2UgRGVzY3JpcHRvcjoKICAgICAgYkxlbmd0aCAg
-ICAgICAgICAgICAgICAgOQogICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICA0CiAgICAg
-IGJJbnRlcmZhY2VOdW1iZXIgICAgICAgIDIKICAgICAgYkFsdGVybmF0ZVNldHRpbmcgICAg
-ICAgMAogICAgICBiTnVtRW5kcG9pbnRzICAgICAgICAgICAwCiAgICAgIGJJbnRlcmZhY2VD
-bGFzcyAgICAgICAyNTQgQXBwbGljYXRpb24gU3BlY2lmaWMgSW50ZXJmYWNlCiAgICAgIGJJ
-bnRlcmZhY2VTdWJDbGFzcyAgICAgIDEgRGV2aWNlIEZpcm13YXJlIFVwZGF0ZQogICAgICBi
-SW50ZXJmYWNlUHJvdG9jb2wgICAgICAxIAogICAgICBpSW50ZXJmYWNlICAgICAgICAgICAg
-IDExIENhbWVyYSBERlUgRGV2aWNlCiAgICAgIERldmljZSBGaXJtd2FyZSBVcGdyYWRlIElu
-dGVyZmFjZSBEZXNjcmlwdG9yOgogICAgICAgIGJMZW5ndGggICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIDkKICAgICAgICBiRGVzY3JpcHRvclR5cGUgICAgICAgICAgICAgICAgICAg
-IDMzCiAgICAgICAgYm1BdHRyaWJ1dGVzICAgICAgICAgICAgICAgICAgICAgICAxNQogICAg
-ICAgICAgV2lsbCBEZXRhY2gKICAgICAgICAgIE1hbmlmZXN0YXRpb24gVG9sZXJhbnQKICAg
-ICAgICAgIFVwbG9hZCBTdXBwb3J0ZWQKICAgICAgICAgIERvd25sb2FkIFN1cHBvcnRlZAog
-ICAgICAgIHdEZXRhY2hUaW1lb3V0ICAgICAgICAgICAgICAgICAgICAyMDAgbWlsbGlzZWNv
-bmRzCiAgICAgICAgd1RyYW5zZmVyU2l6ZSAgICAgICAgICAgICAgICAgICAgNDA5NiBieXRl
-cwogICAgICAgIGJjZERGVVZlcnNpb24gICAgICAgICAgICAgICAgICAgMS4xMApCaW5hcnkg
-T2JqZWN0IFN0b3JlIERlc2NyaXB0b3I6CiAgYkxlbmd0aCAgICAgICAgICAgICAgICAgNQog
-IGJEZXNjcmlwdG9yVHlwZSAgICAgICAgMTUKICB3VG90YWxMZW5ndGggICAgICAgMHgwMDI5
-CiAgYk51bURldmljZUNhcHMgICAgICAgICAgMgogIFBsYXRmb3JtIERldmljZSBDYXBhYmls
-aXR5OgogICAgYkxlbmd0aCAgICAgICAgICAgICAgICAyOAogICAgYkRlc2NyaXB0b3JUeXBl
-ICAgICAgICAxNgogICAgYkRldkNhcGFiaWxpdHlUeXBlICAgICAgNQogICAgYlJlc2VydmVk
-ICAgICAgICAgICAgICAgMAogICAgUGxhdGZvcm1DYXBhYmlsaXR5VVVJRCAgICB7ZDhkZDYw
-ZGYtNDU4OS00Y2M3LTljZDItNjU5ZDllNjQ4YTlmfQogICAgQ2FwYWJpbGl0eURhdGFbMF0g
-ICAgMHgwMAogICAgQ2FwYWJpbGl0eURhdGFbMV0gICAgMHgwMAogICAgQ2FwYWJpbGl0eURh
-dGFbMl0gICAgMHgwMwogICAgQ2FwYWJpbGl0eURhdGFbM10gICAgMHgwNgogICAgQ2FwYWJp
-bGl0eURhdGFbNF0gICAgMHgxMAogICAgQ2FwYWJpbGl0eURhdGFbNV0gICAgMHgwMgogICAg
-Q2FwYWJpbGl0eURhdGFbNl0gICAgMHgxNQogICAgQ2FwYWJpbGl0eURhdGFbN10gICAgMHgw
-MAogICoqIFVOUkVDT0dOSVpFRDogIDA4IDEwIDExIDAxIDAzIDAwIDAwIDAwCkRldmljZSBT
-dGF0dXM6ICAgICAweDAwMDAKICAoQnVzIFBvd2VyZWQpCg==
+> The ISP has two source pads, reflecting the
+> +different paths through which it can internally route data. Tap points w=
+ithin
+> +the ISP allow users to divert data to avoid processing by some or all of=
+ the
+> +hardware's processing steps. The diagram below is intended only to highl=
+ight how
+> +the bypassing works and is not a true reflection of those processing ste=
+ps; for
+> +a high-level functional block diagram see ARM's developer page for the
+> +ISP [3]_::
+> +
+> +  +--------------------------------------------------------------+
+> +  |                Possible Internal ISP Data Routes             |
+> +  |          +------------+  +----------+  +------------+        |
+> +  +---+      |            |  |          |  |  Colour    |    +---+
+> +  | 0 |--+-->| Processing |->| Demosaic |->|   Space    |--->| 1 |
+> +  +---+  |   |            |  |          |  | Conversion |    +---+
+> +  |      |   +------------+  +----------+  +------------+        |
+> +  |      |                                                   +---+
+> +  |      +---------------------------------------------------| 2 |
+> +  |                                                          +---+
+> +  |                                                              |
+> +  +--------------------------------------------------------------+
+> +
+> +
+> +.. flat-table::
+> +    :header-rows: 1
+> +
+> +    * - Pad
+> +      - Direction
+> +      - Purpose
+> +
+> +    * - 0
+> +      - sink
+> +      - Data input, connected to the TPG and camera sensors
+> +
+> +    * - 1
+> +      - source
+> +      - RGB/YUV data, connected to the FR and DS V4L2 subdevices
+> +
+> +    * - 2
+> +      - source
+> +      - RAW bayer data, connected to the FR V4L2 subdevices
+> +
+> +**mali-c55 resizer fr**
+> +The `mali-c55 resizer fr` subdevice has two _sink_ pads to reflect the d=
+ifferent
+> +insertion points in the hardware (either RAW or demosaiced data):
+> +
+> +.. flat-table::
+> +    :header-rows: 1
+> +
+> +    * - Pad
+> +      - Direction
+> +      - Purpose
+> +
+> +    * - 0
+> +      - sink
+> +      - Data input connected to the ISP's demosaiced stream.
+> +
+> +    * - 1
+> +      - source
+> +      - Data output connected to the capture video device
+> +
+> +    * - 2
+> +      - sink
+> +      - Data input connected to the ISP's raw data stream
+> +
+> +The data source in use is selected through the routing API; two routes e=
+ach of a
+> +single stream are available:
+> +
+> +.. flat-table::
+> +    :header-rows: 1
+> +
+> +    * - Sink Pad
+> +      - Source Pad
+> +      - Purpose
+> +
+> +    * - 0
+> +      - 1
+> +      - Demosaiced data route
+> +
+> +    * - 2
+> +      - 1
+> +      - Raw data route
+> +
+> +
+> +If the demosaiced route is active then the FR pipe is only capable of ou=
+tput
+> +in RGB/YUV formats. If the raw route is active then the output reflects =
+the
+> +input (which may be either Bayer or RGB/YUV data).
+> +
+> +Using the driver to capture video
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Using the media controller APIs we can configure the input source and IS=
+P to
+> +capture images in a variety of formats. In the examples below, configuri=
+ng the
+> +media graph is done with the v4l-utils [1]_ package's media-ctl utility.
+> +Capturing the images is done with yavta [2]_.
+> +
+> +Configuring the input source
+> +----------------------------
+> +
+> +The first step is to set the input source that we wish by enabling the c=
+orrect
+> +media link. Using the example topology above, we can select the TPG as f=
+ollows:
+> +
+> +.. code-block:: none
+> +
+> +    media-ctl -l "'lte-csi2-rx':1->'mali-c55 isp':0[0]"
+> +    media-ctl -l "'mali-c55 tpg':0->'mali-c55 isp':0[1]"
+> +
+> +Capturing bayer data from the source and processing to RGB/YUV
+> +--------------------------------------------------------------
+> +To capture 1920x1080 bayer data from the source and push it through the =
+ISP's
+> +full processing pipeline, we configure the data formats appropriately on=
+ the
+> +source, ISP and resizer subdevices and set the FR resizer's routing to s=
+elect
+> +processed data. The media bus format on the resizer's source pad will be=
+ either
+> +RGB121212_1X36 or YUV10_1X30, depending on whether you want to capture R=
+GB or
+> +YUV. The ISP's debayering block outputs RGB data natively, setting the s=
+ource
+> +pad format to YUV10_1X30 enables the colour space conversion block.
+> +
+> +In this example we target RGB565 output, so select RGB121212_1X36 as the=
+ resizer
+> +source pad's format:
+> +
+> +.. code-block:: none
+> +
+> +    # Set formats on the TPG and ISP
+> +    media-ctl -V "'mali-c55 tpg':0[fmt:SRGGB16_1X16/1920x1080]"
+> +    media-ctl -V "'mali-c55 isp':0[fmt:SRGGB16_1X16/1920x1080]"
+> +    media-ctl -V "'mali-c55 isp':1[fmt:SRGGB16_1X16/1920x1080]"
+> +
+> +    # Set routing on the FR resizer
+> +    media-ctl -R "'mali-c55 resizer fr'[0/0->1/0[1],2/0->1/0[0]]"
+> +
+> +    # Set format on the resizer, must be done AFTER the routing.
+> +    media-ctl -V "'mali-c55 resizer fr':1[fmt:RGB121212_1X36/1920x1080]"
+> +
+> +The downscale output can also be used to stream data at the same time. I=
+n this
+> +case only processed data can be captured and so no routing need be set:
 
---------------Dp7fTsfLhv0vlRA9bhKA2jk3--
+Is the route automatically reset? or is it just that the default route
+is already the correct choice for this instance?
+
+> +
+> +.. code-block:: none
+> +
+> +    # Set format on the resizer
+> +    media-ctl -V "'mali-c55 resizer ds':1[fmt:RGB121212_1X36/1920x1080]"
+> +
+> +Following which images can be captured from both the FR and DS output's =
+video
+> +devices (simultaneously, if desired):
+> +
+> +.. code-block:: none
+> +
+> +    yavta -f RGB565 -s 1920x1080 -c10 /dev/video0
+> +    yavta -f RGB565 -s 1920x1080 -c10 /dev/video1
+> +
+
+Is there any synchronisation required? Can one pipe run without the
+other if they are both enabled? or will stalling on one pipe stall the
+other?
+
+> +Cropping the image
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +Both the full resolution and downscale pipes can crop to a minimum resol=
+ution of
+> +640x480. To crop the image simply configure the resizer's sink pad's cro=
+p and
+> +compose rectangles and set the format on the video device:
+> +
+> +.. code-block:: none
+> +
+> +    media-ctl -V "'mali-c55 resizer fr':0[fmt:RGB121212_1X36/1920x1080 c=
+rop:(480,270)/640x480 compose:(0,0)/640x480]"
+> +    media-ctl -V "'mali-c55 resizer fr':1[fmt:RGB121212_1X36/640x480]"
+> +    yavta -f RGB565 -s 640x480 -c10 /dev/video0
+> +
+> +Downscaling the image
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Both the full resolution and downscale pipes can downscale the image by =
+up to 8x
+> +provided the minimum 640x480 resolution is adhered to. For the best imag=
+e result
+
+'minimum 640x480 output resolution' I presume.
+
+Maybe the ISP limits/restrictions need to be defined before here?
+
+> +the scaling ratio for each dimension should be the same. To configure sc=
+aling we
+> +use the compose rectangle on the resizer's sink pad:
+> +
+> +.. code-block:: none
+> +
+> +    media-ctl -V "'mali-c55 resizer fr':0[fmt:RGB121212_1X36/1920x1080 c=
+rop:(0,0)/1920x1080 compose:(0,0)/640x480]"
+> +    media-ctl -V "'mali-c55 resizer fr':1[fmt:RGB121212_1X36/640x480]"
+> +    yavta -f RGB565 -s 640x480 -c10 /dev/video0
+> +
+> +Capturing images in YUV formats
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +If we need to output YUV data rather than RGB the color space conversion=
+ block
+> +needs to be active, which is achieved by setting MEDIA_BUS_FMT_YUV10_1X3=
+0 on the
+
+Is 10 bit required here? (As opposed to the 12 bit before in the
+pipeline? is that a limitation on the component?) or is this to match
+the desired output format?
+
+> +resizer's source pad. We can then configure a capture format like NV12 (=
+here in
+> +its multi-planar variant)
+> +
+> +.. code-block:: none
+> +
+> +    media-ctl -V "'mali-c55 resizer fr':1[fmt:YUV10_1X30/1920x1080]"
+> +    yavta -f NV12M -s 1920x1080 -c10 /dev/video0
+> +
+> +Capturing RGB data from the source and processing it with the resizers
+> +----------------------------------------------------------------------
+> +
+> +The Mali-C55 ISP can work with sensors capable of outputting RGB data. I=
+n this
+> +case although none of the image quality blocks would be used it can still
+> +crop/scale the data in the usual way.
+> +
+> +To achieve this, the ISP's sink pad's format is set to
+> +MEDIA_BUS_FMT_RGB202020_1X60 - this reflects the format that data must b=
+e in to
+> +work with the ISP. Converting the camera sensor's output to that format =
+is the
+> +responsibility of external hardware.
+> +
+> +In this example we ask the test pattern generator to give us RGB data in=
+stead of
+> +bayer.
+> +
+> +.. code-block:: none
+> +
+> +    media-ctl -V "'mali-c55 tpg':0[fmt:RGB202020_1X60/1920x1080]"
+> +    media-ctl -V "'mali-c55 isp':0[fmt:RGB202020_1X60/1920x1080]"
+> +
+> +Cropping or scaling the data can be done in exactly the same way as outl=
+ined
+> +earlier.
+> +
+> +Capturing raw data from the source and outputting it unmodified
+> +-----------------------------------------------------------------
+> +
+> +The ISP can additionally capture raw data from the source and output it =
+on the
+> +full resolution pipe only, completely unmodified. In this case the downs=
+cale
+> +pipe can still process the data normally and be used at the same time.
+> +
+> +To configure raw bypass the FR resizer's subdevice's routing table needs=
+ to be
+> +configured, followed by formats in the appropriate places:
+> +
+> +.. code-block:: none
+> +
+> +    # We need to configure the routing table for the resizer to use the =
+bypass
+> +    # path along with set formats on the resizer's bypass sink pad. Doin=
+g this
+> +    # necessitates a single media-ctl command, as multiple calls to the =
+program
+> +    # reset the routing table.
+> +    media-ctl -R "'mali-c55 resizer fr'[0/0->1/0[0],2/0->1/0[1]]"\
+> +    -V "'mali-c55 isp':0[fmt:RGB202020_1X60/1920x1080],"\
+> +       "'mali-c55 resizer fr':2[fmt:RGB202020_1X60/1920x1080],"\
+> +       "'mali-c55 resizer fr':1[fmt:RGB202020_1X60/1920x1080]"
+> +
+> +    # Set format on the video device and stream
+> +    yavta -f RGB565 -s 1920x1080 -c10 /dev/video0
+> +
+> +References
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +.. [1] https://git.linuxtv.org/v4l-utils.git/
+> +.. [2] https://git.ideasonboard.org/yavta.git
+> +.. [3] https://developer.arm.com/Processors/Mali-C55
+> diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentat=
+ion/admin-guide/media/v4l-drivers.rst
+> index f4bb2605f07e..af033c892808 100644
+> --- a/Documentation/admin-guide/media/v4l-drivers.rst
+> +++ b/Documentation/admin-guide/media/v4l-drivers.rst
+> @@ -17,6 +17,7 @@ Video4Linux (V4L) driver-specific documentation
+>         imx7
+>         ipu3
+>         ivtv
+> +       mali-c55
+>         mgb4
+>         omap3isp
+>         omap4_camera
+> --=20
+> 2.34.1
+>
 
