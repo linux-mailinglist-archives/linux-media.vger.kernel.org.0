@@ -1,75 +1,74 @@
-Return-Path: <linux-media+bounces-5980-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5981-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB23867E7B
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 18:29:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF78867E85
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 18:30:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AB161F2C930
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 17:29:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B84511C2C088
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 17:30:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E27B712E1C2;
-	Mon, 26 Feb 2024 17:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6B6C12EBCE;
+	Mon, 26 Feb 2024 17:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Bu284n8v"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NQOunsaH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1BE12CD9B
-	for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 17:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E88812D761
+	for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 17:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708968550; cv=none; b=gQpOqwbec0/CdnzTuPlCIn4EmLze63gAXUrYyrl87XKeX1KLFWLn4SXpgA9sih97zFc0+gB3KVE/0HQ+s39DLUzCeCuC6cMfws2dnWeob2GYq7TweNsedmVZwLNs6p1GODt73ZKf5o6amVqVKy+uEI6fSLaTCPCfhWqp4TjzX44=
+	t=1708968623; cv=none; b=iDM1bYqImpVbRtjULeMnG7SKDWVz32vyzMqEVMJSoYwEl9FXzR+TEKzRC5ROKGiitpK6XMcVoyLXcMIMCIkwVKWMDE4zeD/0kBqJWvfpN1XwNtIo6Kh3pzDCv8N5PSZVvvJtGmX/b6Q59k1rY7x5vAWmNasxUpLL2WF6RC9jvIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708968550; c=relaxed/simple;
-	bh=3PemA0qZXTfYcqdwnXhac3ZBiBqrNIFPdhVW4rMEW/k=;
+	s=arc-20240116; t=1708968623; c=relaxed/simple;
+	bh=4OMXV65rzu96gvt6FiMb13JcSwhvInnta0hh9zilWY0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rHMPKUI1EOdx6IznBypycWMtE/n9kZgHK/zbln66PpCrsHI3gGMm4en0YunfhunD1nodPgjcSuETI+KyW1Gf9X8asRwBm9f12KVvIUDZVR2rKnR9raP8XINiwiwRiJLZNOxNDpoB8ZU8GF/34WJz3dRsKn3Jzk2ZDREjmY614FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Bu284n8v; arc=none smtp.client-ip=209.85.218.48
+	 In-Reply-To:Content-Type; b=oKMq6BCL8tKy4zlqsoZV87GzjKXSSupRPSIoQdM4FX4ZzYZ6R24T+TF93B0m7qXCgnFXLwfwKgiRb7D909kHl70H32dCmxvvs1Oxtu3BPvACzFpIaKe3Ud6T5jY3fxEqDMNNb0ajh5OTI+uW+8usQchNWlSxEiKqF7nspNKgwvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NQOunsaH; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a28a6cef709so515487066b.1
-        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 09:29:08 -0800 (PST)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a3f5808b0dfso460913666b.1
+        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 09:30:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708968547; x=1709573347; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=xSHCqUQrlcyM1UtPy6CIgv/PhwbptcNSxQXzTOmXrHA=;
-        b=Bu284n8vX9auFG9LiuJ6h66JsgKn/Ika2hEgwCzlFxQUbnHub+7a/Tn5M9rEd7aF8k
-         RC0O503GnHZMDs9CnmQORewd/7IDO1cGebUrSoHJEvMZNJl/ALi0Yn09a/2DrsBrI7Xp
-         16kyN0NQg+rHpYCHM+g4HK1WBD4/K0e53vfWmiKCfQXzmRWyzczSNm4qYf+crDnsLFf0
-         xmo/NLeCeLpTjEcW/bqCGKXarYvQ5nvN0u8+r1t3EODrglYn4Nx6PeMWorCvzTEvB84w
-         M0HCwnHKGBBuPFCie2Gy8iha+uPoepExUnPRVcELxwZyZiTC5pT1umK7sxLoWPpDH9TI
-         hMiQ==
+        d=linaro.org; s=google; t=1708968618; x=1709573418; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bn0hlznCVxSrsNV/WAQtHRCks7XQUrAy3V66ZRa2PDM=;
+        b=NQOunsaHcTZaJI40nMV6ASl7cNmeuIvPENwOTYq0m9pMffby/7bOSun5mDJ4F3VOeX
+         sGm2agnyIw1bZk4bJH/5CxUYOHiGGBtrf6jgtMlysIgaYI/oDUUjCK6XlT7Lt1HwyudZ
+         b6gTJcWSsFciVcv0R5k1zcguqoIaB5YYlxBsacfSIEb4W9j7536Kdb9TMmGjKhh4BF2t
+         D72tDoGK+dYQw0Fx5jEs8uecNwtWc1GTBxnr8oIRmLxlF3V2kd85luKxwohCBOWT+ge1
+         3Ytwaui1oCKi6DO5shG4DRUtQ9XCgyfU6DDezx2vMrYDbrxJcR4q4x2x9RGeSc/PDVeB
+         J9QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708968547; x=1709573347;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xSHCqUQrlcyM1UtPy6CIgv/PhwbptcNSxQXzTOmXrHA=;
-        b=RlAqV8hDVO6tqChyFmrrVdQ2AIubTD/aP6Mxh0/CEuQvgemtgPEph2Sas/+a87uPRI
-         ZnaCJ+T2ZcQFBeMYwEcGM/kRn/ozRKUNgLI4+WgUS814csvWlK8iFL8HslzxVhj43VeH
-         qMSzLH46r0bXXQZVVu5BJxAhMFfIIwnG0RTZda0uYG2U6u7SYVvy5kqL0ahJtbeGuqBK
-         srGjd85hRllMGwaH6GXcHbRi3cAlPf1UDE0s0pXZmEtgSGCdXMvCdQEtQMqzGxKPHhIK
-         l5Lx/AVe3IgoLrMNXvMF1VvgM0f7mP0LIR3cRbPsbVntVPBEcNTUDEnSMMGZdiETFU5R
-         lQOA==
-X-Forwarded-Encrypted: i=1; AJvYcCWljt4AFMDL3T5hBKbP5RZn7pC+jTCKr9cubftdh8zqhJzb8L2TpGuyK9YU25TMtOvIIPUlqpFSKUjrv2j5dbRD7jjHIZ99CAYYRCk=
-X-Gm-Message-State: AOJu0YzoPgD9tTFwoTzOtoAgk8Zlf9OrendyKcyZ0ZDugcacrPtgczYc
-	s/y7tGa/Ie9LRvyHATbun7UIh9b3ZFY5FBaRhD3S+TD7uVmHuKSlJ3Jj57imsiE=
-X-Google-Smtp-Source: AGHT+IGCBx2sVC3xleLhxR2xoPqUw5ldbavCbeDb+kP8NVH4vfw2fxcHj+dHBK2xmEv8DmrzZ98exQ==
-X-Received: by 2002:a17:906:f15a:b0:a3f:ce31:64d6 with SMTP id gw26-20020a170906f15a00b00a3fce3164d6mr5106209ejb.10.1708968546911;
-        Mon, 26 Feb 2024 09:29:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708968618; x=1709573418;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bn0hlznCVxSrsNV/WAQtHRCks7XQUrAy3V66ZRa2PDM=;
+        b=qd/amW7zZ+xlwItjRm5DtThGW4nyU5a4GyXGeqBgmPWkVfHy/UXcSqe/lqN1RNl199
+         EmQHFgC9TtPo/lWq2Lw7ofKTXt7P37Q2T3+sCBQchilq9AEf6MyVwIu9oGjjb1zDTkKN
+         u1YFWQJ8rZFR8lAJqg999+n/hdY4+jChixl4EI51bcdzI/ik1/4a+vj4XAWb6RQHuD1c
+         xAFxbPDhZ+r/eK3Oo/DQ0oeXbMViVDjJxUDwTTraVEHj7ic6g1/CtjXCHp8YQzjWlNxW
+         EPfkcjS7Y3b3FZP77I50x6XX3VOOO7vwXqMQtAeYJxEZiVDs6B3suylW2GM/4s4bJTGv
+         wbXw==
+X-Forwarded-Encrypted: i=1; AJvYcCWp6iziWLNLPeUqWo7PN6XGILwCLAFg+2wx12SDIExMqxNrqdm9OVT4kWGre4XbgrCfpiJYi/UTlUB5mqFIPd0IARKRsPWyI6D4sjw=
+X-Gm-Message-State: AOJu0YzN6HAJHImMUgpEtpdfecB0fV2j5vCk1vJtpxBWFyCaydNcvgZO
+	WUUlrapBW8wvHikG6celn0HNfzUexvvqHFx4TFDv8QZVcWs0f3getwDwRJgKybE=
+X-Google-Smtp-Source: AGHT+IG8yQL0DnwMkE7tO/Ue3mKmFvDANmQ6n4REJ3Ms098bEXROFPOY0/p47S5xVHX4c0v1D6R+7Q==
+X-Received: by 2002:a17:906:f20a:b0:a3d:169a:220c with SMTP id gt10-20020a170906f20a00b00a3d169a220cmr4246800ejb.24.1708968618530;
+        Mon, 26 Feb 2024 09:30:18 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id z22-20020a1709060ad600b00a3d125b9c0asm2574985ejf.81.2024.02.26.09.29.05
+        by smtp.gmail.com with ESMTPSA id z22-20020a1709060ad600b00a3d125b9c0asm2574985ejf.81.2024.02.26.09.30.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 09:29:06 -0800 (PST)
-Message-ID: <890afb05-1b19-47b2-bfd8-5f6de0caeda3@linaro.org>
-Date: Mon, 26 Feb 2024 18:29:04 +0100
+        Mon, 26 Feb 2024 09:30:18 -0800 (PST)
+Message-ID: <e210b318-dcd7-4c0e-b08e-e1c4da1a8cd9@linaro.org>
+Date: Mon, 26 Feb 2024 18:30:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,7 +76,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
+Subject: Re: [PATCH v2 9/9] ARM: dts: chameleonv3: Add video device nodes
+Content-Language: en-US
 To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
 Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
  daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -88,12 +88,11 @@ Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
  linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com,
  ribalda@chromium.org
 References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-9-panikiel@google.com>
- <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
- <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
- <e1fd8cbd-060b-4d15-8256-6d8dbba545da@linaro.org>
- <CAM5zL5qxBM1xQ__t86gxUKMy8O3BzoCe_vTFxxsqFq7mw4-8EQ@mail.gmail.com>
-Content-Language: en-US
+ <20240221160215.484151-10-panikiel@google.com>
+ <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
+ <CAM5zL5rQsYuo3+rW9+YPmvUg9PtNiR0Dy59e8Kf787ranfLh3Q@mail.gmail.com>
+ <e2ae7bfc-fb51-4a60-bb52-c6ccca7a4189@linaro.org>
+ <CAM5zL5pz0K5ro4-UjiYojM4h9Lqo_af5ZmH1FoZ_ajde_3+Dcg@mail.gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -139,34 +138,68 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAM5zL5qxBM1xQ__t86gxUKMy8O3BzoCe_vTFxxsqFq7mw4-8EQ@mail.gmail.com>
+In-Reply-To: <CAM5zL5pz0K5ro4-UjiYojM4h9Lqo_af5ZmH1FoZ_ajde_3+Dcg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 26/02/2024 13:43, Paweł Anikiel wrote:
->>>>> +  intel,max-stream-count:
->>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>>> +    description: Max stream count configuration parameter
->>>>> +
->>>>> +  port:
->>>>> +    $ref: /schemas/graph.yaml#/properties/port
->>>>> +    description: SST main link
->>>>
->>>> I don't understand why you have both port and ports. Shouldn't this be
->>>> under ports?
->>>
->>> I put both so that you can use the shorter port property when the
->>> device only has one port (i.e. no MST support). It would work fine
->>> without it. If you think that's unnecessary, I can remove it (and use
->>> the ports property even if there is only one).
+On 26/02/2024 13:27, Paweł Anikiel wrote:
+> On Mon, Feb 26, 2024 at 1:07 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
 >>
->> No, it is fine, but then you need allOf: which will restrict to only one
->> of them: either port or ports.
+>> On 26/02/2024 12:09, Paweł Anikiel wrote:
+>>> On Mon, Feb 26, 2024 at 10:15 AM Krzysztof Kozlowski
+>>> <krzysztof.kozlowski@linaro.org> wrote:
+>>>>
+>>>> On 21/02/2024 17:02, Paweł Anikiel wrote:
+>>>>> Add device nodes for the video system present on the Chameleon v3.
+>>>>> It consists of six framebuffers and two Intel Displayport receivers.
+>>>>>
+>>>>> Signed-off-by: Paweł Anikiel <panikiel@google.com>
+>>>>> ---
+>>>>
+>>>> ...
+>>>>
+>>>>> +             dprx_sst: dp-receiver@c0064000 {
+>>>>> +                     compatible = "intel,dprx-20.0.1";
+>>>>> +                     reg = <0xc0064000 0x800>;
+>>>>> +                     interrupt-parent = <&dprx_sst_irq>;
+>>>>> +                     interrupts = <0 IRQ_TYPE_EDGE_RISING>;
+>>>>> +                     intel,max-link-rate = <0x1e>;
+>>>>
+>>>> Rate is not in hex! Rate is in Hz, at least usually...
+>>>>
+>>>> Fix your bindings...
+>>>
+>>> This is the DisplayPort link rate, for which the allowed values are
+>>> 8.1 Gbps, 5.4 Gbps, 2.7 Gbps, or 1.62 Gbps. The standard way to encode
+>>> them (used in the DisplayPort DPCD registers and this device's
+>>
+>> Then it is in bps or some other units:
+>>
+>> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
+>>
+>>> configuration) is by multiples of 0.27Gbps. This value (AFAIK) is
+>>> usually represented in hex, so 8.1Gbps would be 0x1e.
+>>
+>> No, the value is represented in logical units. Frequency in Hz. Rate in
+>> bps/kbps/etc. Voltage in volts.
 > 
-> There already is an allOf below that says that ports is required for
-> MST support and port is required otherwise. Isn't this enough?
+> Okay, thanks for the info. So if I understand correctly, the max link
+> rate should be represented in bps in the devicetree, and then be
 
-Add both port and ports and see if it is enough.
+or kbps
+
+> converted to the per 0.27Gbps value by the driver?
+
+If driver needs some register-based value, then yes.
+
+> 
+> One problem is that the values here are too large to be represented in
+> bps (since the datatype is uint32). Can the property be in Mbps
+> instead?
+
+Can be. You can submit a patch to dtschema (patch to DT spec list or
+github pull request) adding '-mbps' as well.
 
 Best regards,
 Krzysztof
