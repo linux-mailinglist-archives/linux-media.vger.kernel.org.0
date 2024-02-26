@@ -1,164 +1,92 @@
-Return-Path: <linux-media+bounces-5905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D557866F3E
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 10:52:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0557586706B
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 11:17:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FA5EB28D0C
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 09:50:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 378F31C27D15
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 10:17:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D859A12A143;
-	Mon, 26 Feb 2024 09:15:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 318E44C631;
+	Mon, 26 Feb 2024 09:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rzmvm2gp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SuC46VIE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F22C129A75
-	for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 09:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CB44D106;
+	Mon, 26 Feb 2024 09:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708938920; cv=none; b=ZR4b9p70hbNhoqpL2zKbzZnd+6XtEgSQg+o0D2LKMst6SWr6P1OmCQIlio/rlsLoy09/YuBLdVcvxcGRo0aeizZqLFTfX5JjvdB7toiizWfJUnHIHhPCH4Z+ddKB1/q40JWSktCIiPa2hiMkE4MHwaGCRVLKn519EORyMhKdDmA=
+	t=1708941329; cv=none; b=AAMI507xvm9CEnH6yGQ2dnWzs0Zz3g+TuL8yGo8X/szYAckX07Qgh9qy43KtwYfLLJDjx0a5X6e6NRX1H9aJEITtUqV3NtLz2fvdgmz0xySj571Y2GJkTlDxqKURf3Q/t86EA29Y8s5zdW/B6bbT4DtW1E9fM4KVpNhapbxuxaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708938920; c=relaxed/simple;
-	bh=G566LV+/F51/W9KYFln95LPDYYcArDHrm4mzHyYxoZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u2nO6n3WPViV+lCsEgkcZRtP/1QL3Mu+gj3khta7Pg6Fq4KNVMh9Pl+t9Ib32gsBDCgrDzEF/JO83Dv+rqL2r+1o2SJLcBWFH8zCRsqt+ht7AEzrGcQHhJYhv7Pr+uxVKesTThq3C7oXXRe+LM9RVE/RZo21SgVft29eO2/5bjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rzmvm2gp; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5655c7dd3b1so4408596a12.0
-        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 01:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708938917; x=1709543717; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wlH1Ter4o/LuhmUGIySGl8jfbKhW6NJPyE0QFDQ/6s4=;
-        b=rzmvm2gpLi5FHXiOATNBh0HPBz6oZK3tydPONzg486EPi+f+whxmorKHyAtJCQgihS
-         waGCktYzu1er1GADpg9n5pLevWKBJlwlxC8weJkbQtOCifNuGOq3a5KhzZad7gjedCyo
-         +lgMyZ3g7rxBGrOgnYDCeSyT0eBz0Vi6S6IXVBs2OvYnihxMHkFxaLL19g9YzkJR6mye
-         RsixNiZZ9zIPc293Rq6jkJD6WUaYd0tO/GSgychq79NUPetImQU6weoikR8qiiVflAeb
-         OYmkLfYGwr0/Diz36Vdv/QeGAyW3JWo8yV0HgHmGSv3Y77LCnx4VnhUvwDe4ZMEAfdZf
-         whsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708938917; x=1709543717;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wlH1Ter4o/LuhmUGIySGl8jfbKhW6NJPyE0QFDQ/6s4=;
-        b=JqgLw/nL0Pz2LnZujZs3g3ZpX2O6sBK5NiLhD8CVvJw1cYrb2xd08amngWBobW+Nd3
-         MqQJgN2nm7GTh9DibTupvJlGsjRIR+AjcTmxWgeKBDTlYowiw7epzaH3WCQ+Gu7GOdMn
-         eISOyvdMhDKGF1Q8Aa97CVQv6mb9vBE0sU6Ot4xBfdBOu8CAcgTl2DpILaSNuuI/hijn
-         PWrRmbpddHBYfAHbtqg9rNn9QixNKqkSxpSm49ktC8y5JhfZHvMZRGgxDGM/F2o1kHEt
-         slTXUKXXgC7l75ztI6/vQ2slWD7EC72dGsgwgYpN0jsWYOsgTbSrNssbgbCmEiIRCpFJ
-         H0DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXu8Ifdt3GCbBn5nzMdl4sWjXWH/FCOqX3ZPNYIRDcKYApZsGet0fVHETUFPcdnCmo8Fb/DjyWrQw1dCVn4BtbWHZA2NFLG6uc7rRo=
-X-Gm-Message-State: AOJu0YyvSBVjMitkYY2iA12pQZ0mPGGRR9gFyrAaIQTwLGz+g6VFlm2h
-	iC4CqkAI/dFSzXohXZ8GMxNYXqs0EHEtozKmMPY3nVt3v+2IdBfv8gipA2k3C1U=
-X-Google-Smtp-Source: AGHT+IEXUVR/N8Ym4kzVlbEuwaD2lWsgOYP5/F36Su6nMdyWMJ//J8As/t2DKFX23EsFXq+ZVVEfZg==
-X-Received: by 2002:a17:906:1745:b0:a3f:2168:214b with SMTP id d5-20020a170906174500b00a3f2168214bmr5890928eje.1.1708938916861;
-        Mon, 26 Feb 2024 01:15:16 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id tl18-20020a170907c31200b00a437d3e975esm167009ejc.210.2024.02.26.01.15.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 01:15:16 -0800 (PST)
-Message-ID: <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
-Date: Mon, 26 Feb 2024 10:15:14 +0100
+	s=arc-20240116; t=1708941329; c=relaxed/simple;
+	bh=jmpj4xXZsykOFpzL4YNYLixtN3pv5TP8q5jAmFydjwo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=juDgUCIbrTyHhbFatNkaX3T4L9xsaKPpM033VxxTpEfSfQGbXF0m5uhORfc09vzVG3B2KvF8bKO2FX0LhMCrEjHDahWlkRBWbrQLOQmC7VKtH/HM4/vJnHNXWT/+9cW1/I6ZbN9yUYgEFHXjt8o81Y482rPNrLzGjdkx7Cp4kxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SuC46VIE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93379C433C7;
+	Mon, 26 Feb 2024 09:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708941329;
+	bh=jmpj4xXZsykOFpzL4YNYLixtN3pv5TP8q5jAmFydjwo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SuC46VIEmdA1w/aBqbZfhleIh+F23ezvwXu03qYhqvqgZnKXUOtY2me40FRWEU2RW
+	 wNw/82G4NwP9IQpR2B7pSCHbEP7OBLpYz7o/p3r5UljCiW9vZBSXdRbHCJl/ObU47w
+	 h8cBodBXjHd9sVZntKnu7eAbbM23xjpF+GADlRKNfZIQO74kUWfBnyli5Aac7VJHp/
+	 NUZlPOcczzmL1N8tOkhfeqfHFtqDQcCu4VJGW/3jt5MWYb9AfcawjLInRqQiK3QdCd
+	 0zf/dI/IhxHETo2Tdjaqgdt/lxmz1GKMLS9j84N4f557h6ty5Us6RIcVGlYole6lWg
+	 49EHl8rKziN1g==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: (subset) [PATCH v7 32/36] drm/sun4i: hdmi: Convert encoder to atomic
+Date: Mon, 26 Feb 2024 10:55:20 +0100
+Message-ID: <170894131837.29486.10568875108218671603.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-32-8f4af575fce2@kernel.org>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org> <20240222-kms-hdmi-connector-state-v7-32-8f4af575fce2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 9/9] ARM: dts: chameleonv3: Add video device nodes
-Content-Language: en-US
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
- akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
- dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
- krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com,
- mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org,
- tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- chromeos-krk-upstreaming@google.com, ribalda@chromium.org
-References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-10-panikiel@google.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240221160215.484151-10-panikiel@google.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On 21/02/2024 17:02, Paweł Anikiel wrote:
-> Add device nodes for the video system present on the Chameleon v3.
-> It consists of six framebuffers and two Intel Displayport receivers.
+On Thu, 22 Feb 2024 19:14:18 +0100, Maxime Ripard wrote:
+> The sun4i_hdmi driver still uses the non-atomic variants of the encoder
+> hooks, so let's convert to their atomic equivalents.
 > 
-> Signed-off-by: Paweł Anikiel <panikiel@google.com>
-> ---
+> 
 
-...
+Applied to drm/drm-misc (drm-misc-next).
 
-> +		dprx_sst: dp-receiver@c0064000 {
-> +			compatible = "intel,dprx-20.0.1";
-> +			reg = <0xc0064000 0x800>;
-> +			interrupt-parent = <&dprx_sst_irq>;
-> +			interrupts = <0 IRQ_TYPE_EDGE_RISING>;
-> +			intel,max-link-rate = <0x1e>;
-
-Rate is not in hex! Rate is in Hz, at least usually...
-
-Fix your bindings...
-
-Best regards,
-Krzysztof
-
+Thanks!
+Maxime
 
