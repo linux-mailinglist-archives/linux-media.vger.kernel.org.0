@@ -1,186 +1,216 @@
-Return-Path: <linux-media+bounces-5917-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5918-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4F3867444
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:04:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3037386744E
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:06:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 024BF290855
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:04:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9BF32870BB
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:06:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF5B95EE87;
-	Mon, 26 Feb 2024 12:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0135B5FBBC;
+	Mon, 26 Feb 2024 12:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MrCXcpYz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ax9TMgno"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E86B5F472;
-	Mon, 26 Feb 2024 12:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54FE5FBBB
+	for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 12:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708949073; cv=none; b=RTXUoWYRs+tjRuqqIO/+M5eJHkPXB3mtmNj6xP6f5vai9+x742lzs+t5/sK71vtv0cfIwH85wa1wTdo+euCZqELfC8U9fG4cw1cADk8fnwr7L4/tTFAknYy6vLmbnKxyWn05nyoKSckhrYDzNwCoAEJmLZVismt79l7Mrd8p5Hw=
+	t=1708949196; cv=none; b=Y7AqKQ56H+DA5xX/mrPZc0gAvYjaxOjMMzIUZYEOF4pSpldK7Ob8D3k/VnhNwyDg593syvhyDgLIi5UyPdHeVuUP4iX0/xY2EmqjTyP0ywj4w9jpSzry+J3qg2nJRbWrIBfS37evd56so0yEcLU1IS0vJhaXkNdLqV5nNvmlFeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708949073; c=relaxed/simple;
-	bh=SBWQqDUjMuE20OwA5Ka1zYuiXs+U4rc0sinqikqflbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gao/ErgMBdFUA1saiMZdHdvEWLp9/SlPRb9IbGmA1tXKff1wutRsPdsY8qPKE4QADTid2mM6bm1EfGH/Aw0ypJBSimoC9rErVmlnMkw2C2VtFP92fZvJDdRnd82MWC1Mh8MEt9FGUGzKnhFWU0lE0Wi0GFVJVVRAgIlL1aSTCkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MrCXcpYz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C66C1CD1;
-	Mon, 26 Feb 2024 13:04:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708949058;
-	bh=SBWQqDUjMuE20OwA5Ka1zYuiXs+U4rc0sinqikqflbg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MrCXcpYz8sCU9NvJMhAhyCKca/5zJW7Xs99m3ng5c9vl4DDb6uVKZNxTUPCqYcFtd
-	 PldsFNYhDv31nQsgt+HaT82L8rCh8zbz66FpasdeQ/XiehXUK+QjA9NC3L5sG+L1zT
-	 OzTvMnunlnRRQp+lpKP84VxomOVnb3Fe3y0pAlWI=
-Date: Mon, 26 Feb 2024 14:04:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 2/5] dt-bindings: media: Add bindings for ARM mali-c55
-Message-ID: <20240226120431.GA25561@pendragon.ideasonboard.com>
-References: <20240214141906.245685-1-dan.scally@ideasonboard.com>
- <20240214141906.245685-3-dan.scally@ideasonboard.com>
- <Zdx77nyiQn4zya3h@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1708949196; c=relaxed/simple;
+	bh=pTYTDm4YFv+QOrr5bBaNY1rUu1WgvEgqowBld52xfmY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MnWenvfavr2wz6dhshFW1+VDC0TkZ2PWuOFo1KTxmcd88niFU/RBncSo5tWZNpf0LZpezUzJYssZr1hlFbjNo+BVdTPsz53mfqOndkmNIa7Dz+Sfs7kVQq98TgAVU9+34xK/KS7S6uyLjyCGffoh9Afy7pMX/vGwBz7hfgauxQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ax9TMgno; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-564a53b8133so2160215a12.0
+        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 04:06:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708949193; x=1709553993; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=jZb3RsfWCFtGnSiN/0Ua3do7F7uOiKDfXi71EwZXwms=;
+        b=Ax9TMgno1cRe6SUSxkbjyX/hG5Y+0w/FP5globyvHZJQc0kTFxycNmWHsCbutmdha1
+         QYdzeg2+PwRDEXlFIpeb81Nlm5GnwWvEloTXrY/B81eKaFEKU63ED89jiAJTngzE9pcT
+         rxGsOJpcMW33qERJwGeh3h2SKtMv7oj0Y0lrDnFOHA3JJM1gcYijH/i7FxY3NShO3GTX
+         I1GmyNg7GpuHfIXTkFslMxjecRRK68JKdZDFQRzJMCBwt1I38plodZyrLR0dnJh5VIxR
+         yAPoB2cPZOPsEDN6UgFHl2f4YVrf0I2xws2hzNnJ1hPpq/I4mEyNHWc08HPfW2/Z0gSa
+         ncSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708949193; x=1709553993;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jZb3RsfWCFtGnSiN/0Ua3do7F7uOiKDfXi71EwZXwms=;
+        b=k/SeYCnTwx8oLUgJxR4Zn1/i64xYZOJhlkC9Lok7rsNZewG6/GL+K2tb+81Ubo5KVn
+         T2f+muuqPS7zVu69eQ6z/bpevJ67lVCHzutEy4xsefhCVJFqWxZ8QytqePatsCJ+pc92
+         afgGUfwDKLFtojQZyrTir2onv3sO2hHNCBdw/gTnAyRPgxmmcLoNkhohgYD1MZnmbLct
+         nAaP/kgM0H7qGmXC5s7Rev7Cu1buUa49x1FK/uwfjcpBnPaFta9qBHVSiL+U7zPraem2
+         6iX/UopAWyNHtTITOnBm9vMxjA5rVIFbaNWZq7ogHfd99SVCDn7A8el5Gbs6H/z9oV0z
+         /VkA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7tw7IJ7JZCE5CU4L7ech1GExvNaoaEhcm3whxt0UDVahS1m6Nu+hb3dCvvMU6b1UVRy6JS+ZYsvaYbiDxG/9s2CK6j2pXSWFvCis=
+X-Gm-Message-State: AOJu0Yy2ySOiIB06lvIFNhaLIibAXh6eKdI98Dy6I+kEQWcPSZVeuY/l
+	HGt++rjuBLlBB8zoM77G09zf35BZPhtcqR7eRrP3VAHc7jMoaTeklPN3obttpLU=
+X-Google-Smtp-Source: AGHT+IHVPJHNRwyZQ5ZsC6Nz8Lo7dv2F89RO73gTPCFNLMkhI8Kq4cIvhrc3ArE0rurSQnQGJyHI5g==
+X-Received: by 2002:a05:6402:1817:b0:564:4221:9aa9 with SMTP id g23-20020a056402181700b0056442219aa9mr4623645edy.38.1708949193002;
+        Mon, 26 Feb 2024 04:06:33 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.116])
+        by smtp.gmail.com with ESMTPSA id n9-20020a056402060900b0056200715130sm2301671edv.54.2024.02.26.04.06.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Feb 2024 04:06:32 -0800 (PST)
+Message-ID: <e1fd8cbd-060b-4d15-8256-6d8dbba545da@linaro.org>
+Date: Mon, 26 Feb 2024 13:06:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Zdx77nyiQn4zya3h@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
+To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
+ daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
+ krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com,
+ mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org,
+ tzimmermann@suse.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com,
+ ribalda@chromium.org
+References: <20240221160215.484151-1-panikiel@google.com>
+ <20240221160215.484151-9-panikiel@google.com>
+ <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
+ <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
-
-On Mon, Feb 26, 2024 at 11:54:22AM +0000, Sakari Ailus wrote:
-> On Wed, Feb 14, 2024 at 02:19:03PM +0000, Daniel Scally wrote:
-> > Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
-> > 
-> > Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
-> > Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> > ---
-> > Changes in v2:
-> > 
-> > 	- Added clocks information
-> > 	- Fixed the warnings raised by Rob
-> > 
-> >  .../bindings/media/arm,mali-c55.yaml          | 77 +++++++++++++++++++
-> >  1 file changed, 77 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/arm,mali-c55.yaml b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-> > new file mode 100644
-> > index 000000000000..30038cfec3a4
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-> > @@ -0,0 +1,77 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/arm,mali-c55.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: ARM Mali-C55 Image Signal Processor
-> > +
-> > +maintainers:
-> > +  - Daniel Scally <dan.scally@ideasonboard.com>
-> > +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: arm,mali-c55
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: ISP video clock
-> > +      - description: ISP AXI clock
-> > +      - description: ISP AHB-lite clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: vclk
-> > +      - const: aclk
-> > +      - const: hclk
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    mali_c55: isp@400000 {
-> > +      compatible = "arm,mali-c55";
-> > +      reg = <0x400000 0x200000>;
-> > +      clocks = <&clk 0>, <&clk 1>, <&clk 2>;
-> > +      clock-names = "vclk", "aclk", "hclk";
-> > +      interrupts = <0>;
-> > +
-> > +      ports {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        port@0 {
-> > +          reg = <0>;
-> > +          isp_in: endpoint {
-> > +              remote-endpoint = <&mipi_out>;
+On 26/02/2024 11:59, Paweł Anikiel wrote:
+>>> +properties:
+>>> +  compatible:
+>>> +    const: intel,dprx-20.0.1
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +  intel,max-link-rate:
+>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>> +    description: Max link rate configuration parameter
+>>
+>> Please do not duplicate property name in description. It's useless.
+>> Instead explain what is this responsible for.
+>>
+>> Why max-link-rate would differ for the same dprx-20.0.1? And why
+>> standard properties cannot be used?
+>>
+>> Same for all questions below.
 > 
-> I suppose this is a CSI-2 interface with D-PHY?
+> These four properties are the IP configuration parameters mentioned in
+> the device description. When generating the IP core you can set these
+> parameters, which could make them differ for the same dprx-20.0.1.
+> They are documented in the user guide, for which I also put a link in
+> the description. Is that enough? Or should I also document these
+> parameters here?
 
-No, that's an internal parallel bus. Depending on the SoC integration,
-it can be connected to a CSI-2 receiver, a DMA engine, or a mux to
-select between different sources.
+user-guide is something for users, like user-space programmers or
+end-users. I would never open it to look for any information related to
+hardware.
 
-> How many lanes do you have and is lane remapping / polarity inversion
-> supported?
+Anyway, external resources are a no-go. We have it clearly in submitting
+patches:
+
+https://elixir.bootlin.com/linux/v6.8-rc6/source/Documentation/process/submitting-patches.rst#L130
+
 > 
-> This should be reflected in bindings.
+>>
+>>> +
+>>> +  intel,max-lane-count:
+>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>> +    description: Max lane count configuration parameter
+>>> +
+>>> +  intel,multi-stream-support:
+>>> +    type: boolean
+>>> +    description: Multi-Stream Transport support configuration parameter
+>>> +
+>>> +  intel,max-stream-count:
+>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>> +    description: Max stream count configuration parameter
+>>> +
+>>> +  port:
+>>> +    $ref: /schemas/graph.yaml#/properties/port
+>>> +    description: SST main link
+>>
+>> I don't understand why you have both port and ports. Shouldn't this be
+>> under ports?
 > 
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > +...
+> I put both so that you can use the shorter port property when the
+> device only has one port (i.e. no MST support). It would work fine
+> without it. If you think that's unnecessary, I can remove it (and use
+> the ports property even if there is only one).
 
--- 
-Regards,
+No, it is fine, but then you need allOf: which will restrict to only one
+of them: either port or ports.
 
-Laurent Pinchart
+Best regards,
+Krzysztof
+
 
