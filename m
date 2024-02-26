@@ -1,128 +1,119 @@
-Return-Path: <linux-media+bounces-5944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5945-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4668676A3
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 14:33:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E118B8676BA
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 14:37:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 643071F2590E
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:33:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1EB531C246A1
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:37:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0849612881C;
-	Mon, 26 Feb 2024 13:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612261292C0;
+	Mon, 26 Feb 2024 13:37:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YhLG2hT5"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="rPELn4eS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63927E570;
-	Mon, 26 Feb 2024 13:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708954410; cv=none; b=dcS6WuQ3ygfHITECcqFOXJvUBd2+Nul93FWGwcLUU4lktgCRLARFVR28shNbTGynNNC3wtlxfOGHo0j+T3yblgtmW7BCkuoJhI8T14pIXoxo6GS5QgKn291jYeV56bVKbYSCZDfr/DSEeH5ZqNhsh/MHVQrHPS7RUpFwFK45Q/8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708954410; c=relaxed/simple;
-	bh=3sQB4Jid9BCVU9AlXki1bBaFE8YjYmogAbihbNOrFeI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B8784FD5;
+	Mon, 26 Feb 2024 13:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708954638; cv=pass; b=Iqv70mWDVuE/RStSHOafKlmvzas7n0jzpl2WZ4wIOKY4TZbUq59pqgcYfdoG4/lU2Qogrx1VnJrDHytoMh2mQGjJAJNyyMw2pTqrGiALns9wOtgP7j7GW3gIhT0vpCn8WS5d9L7xOSxNXgwmXk34m6vmWu/Uc/6V0zJKXsHIw5g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708954638; c=relaxed/simple;
+	bh=9X0WPimBd7+YxQonIEPwecnreVRwiL9MavIFtObtiVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WCKppzTUt6MoFdaJLNkl3veMGmRsuTlul9nKw1XYb+9wR6ZryXXAOGklUcmir57aYOLvbvPh+bX33jBbMw80YfHol5I9ccHZgnXpu0DucJ1mP4xe+o2hznyoj2osGeQJlE1PpPI31TdMKRmBlfUeY9ifpMcpYug993a/VMH3QpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YhLG2hT5; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708954407;
-	bh=3sQB4Jid9BCVU9AlXki1bBaFE8YjYmogAbihbNOrFeI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YhLG2hT5r9yJlvjsvgSV/ulegdGL2uUzzxX7vRWZTZKICKmnCss5QAxdlWw9+P0OV
-	 6pxaMnU0xOOti/P0xBtaQmarWNa3nBP4Xi5hHiEHl7UxhimXEKEIL6VhfFEuQOUL3G
-	 Md4dvvOffhOjARRAv4fAxoyGsEFbgChBjgMSgfMVw+ONiT7cu+025HFnmlR5EjxAVx
-	 IkPe6YXQ/vCYiH6oN8432f5G5ET04yqZXmEY/ZqTehz5g73YGK1pn6CinbzrJUq/fe
-	 Gup7eMaYlS3Vjpit80eUf2Ij4tzauW5/mQ5jNFO8Y+cwPkNsZQAC2tCrC5gzEKhnsm
-	 X5Hs5n0N7nXWA==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tv0KLNaKV/VOcuG6La3B03krff4XtzqbIENo6ooYtZ0Q9Hut/9aRcy3114QH41eYG2G5EPnl9dqxZPscL5XdulSshAD5WcDN4129HKzSvtUPiUIVxOsYSE6sl676ZeYUAk45ULJYYHZMA+9r/fk0eWULq4EAa/DStQB5d0GZ/m8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=rPELn4eS; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4Tk1r918mZzyR8;
+	Mon, 26 Feb 2024 15:37:12 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1708954633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XIpF/Sg4r6DeZMEmHnWTsmCravJhaXcupIIojuBrgeA=;
+	b=rPELn4eS8RPLE5/+Cs2aO6RNKyLvE1t4PXXNklovD50kA+0jpODkZ4PulC+fuXCDxxDLdQ
+	VQOt1PFctdMaoh0los5VxkYfRsmyvkd6IHNCagai4sjmufXaPMybRAGvPhodJPY+EnhdGH
+	dUv0ZNIC0tKi7qZfn9XQHWkhpgryDLk=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1708954633; a=rsa-sha256; cv=none;
+	b=qjx5dNdlHBBzxDYAdvlw1FwdzaCe9OEMdEAnklmdJcQQak8wRlplV7MvXUZbaWIUrF0Obx
+	krEaag3Uwe+GfeWjBhEckLXZrh8MpMLfApJRZQaCEerXpI7DmlLcwiEJ0nmZ6VnJFYBm1E
+	QSFS5HYZ4RYC4gJ1HQr+o7opF5a3SLw=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1708954633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XIpF/Sg4r6DeZMEmHnWTsmCravJhaXcupIIojuBrgeA=;
+	b=Y4PPyJKtxv/5nCr07vT1IXJ+uCMMb9o7sK0MzugmF+RZBsIayYI2RCMD3r1K3E/O099li2
+	mZ8cl4Hdqnaj6HfOtwKOOU3biGfnvsDW+jPdycftI1auhvfom6HHASKUahkiWEC4wrDcqo
+	y84qor90mJUV10MkWx9azKYIiHP64Ek=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id F12E73780016;
-	Mon, 26 Feb 2024 13:33:26 +0000 (UTC)
-Date: Mon, 26 Feb 2024 14:33:26 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Thorsten Blum <thorsten.blum@toblux.com>
-Cc: Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers: wave5: Remove unnecessary semicolons
-Message-ID: <20240226133326.yoa4vwbdob3kkczq@basti-XPS-13-9310>
-References: <20240213140441.8640-1-thorsten.blum@toblux.com>
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B18FA634C93;
+	Mon, 26 Feb 2024 15:37:11 +0200 (EET)
+Date: Mon, 26 Feb 2024 13:37:11 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v2 2/5] dt-bindings: media: Add bindings for ARM mali-c55
+Message-ID: <ZdyUB_SEx8Gfa7OP@valkosipuli.retiisi.eu>
+References: <20240214141906.245685-1-dan.scally@ideasonboard.com>
+ <20240214141906.245685-3-dan.scally@ideasonboard.com>
+ <Zdx77nyiQn4zya3h@valkosipuli.retiisi.eu>
+ <20240226120431.GA25561@pendragon.ideasonboard.com>
+ <ZdyB_yHn9yImTuhm@valkosipuli.retiisi.eu>
+ <20240226125818.GA26163@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240213140441.8640-1-thorsten.blum@toblux.com>
+In-Reply-To: <20240226125818.GA26163@pendragon.ideasonboard.com>
 
-Hey Thorsten,
+Hi Laurent,
 
-Thanks for the patch, change looks obviously good, one small thing to
-note for the future, the commit title should start with:
+On Mon, Feb 26, 2024 at 02:58:18PM +0200, Laurent Pinchart wrote:
+> > > > > +              remote-endpoint = <&mipi_out>;
+> > > > 
+> > > > I suppose this is a CSI-2 interface with D-PHY?
+> > > 
+> > > No, that's an internal parallel bus. Depending on the SoC integration,
+> > > it can be connected to a CSI-2 receiver, a DMA engine, or a mux to
+> > > select between different sources.
+> > 
+> > The name suggests otherwise. Maybe change that to something more
+> > descriptive?
+> 
+> We could rename mipi_out to csi2_rx_out, sure.
 
-media: chips-media: wave5:
+Sounds good to me.
 
-instead of:
-
-drivers: wave5: 
-
-I will change that myself this time, but please do a quick git log next
-time to check how the path should be formatted for the driver.
-
-Greetings,
-Sebastian
-
-On 13.02.2024 15:04, Thorsten Blum wrote:
->Remove unnecessary semicolons reported by Coccinelle/coccicheck and the
->semantic patch at scripts/coccinelle/misc/semicolon.cocci.
->
->Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
->---
-> drivers/media/platform/chips-media/wave5/wave5-hw.c      | 2 +-
-> drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 +-
-> 2 files changed, 2 insertions(+), 2 deletions(-)
->
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/drivers/media/platform/chips-media/wave5/wave5-hw.c
->index f1e022fb148e..2d82791f575e 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
->@@ -2315,7 +2315,7 @@ static bool wave5_vpu_enc_check_common_param_valid(struct vpu_instance *inst,
-> 				param->intra_refresh_mode);
-> 			return false;
-> 		}
->-	};
->+	}
-> 	return true;
->
-> invalid_refresh_argument:
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->index f29cfa3af94a..8bbf9d10b467 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->@@ -92,7 +92,7 @@ static int switch_state(struct vpu_instance *inst, enum vpu_instance_state state
-> 		break;
-> 	case VPU_INST_STATE_STOP:
-> 		break;
->-	};
->+	}
->
-> 	dev_dbg(inst->dev->dev, "Switch state from %s to %s.\n",
-> 		state_to_str(inst->state), state_to_str(state));
->-- 
->2.43.0
->
->
+-- 
+Sakari Ailus
 
