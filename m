@@ -1,267 +1,181 @@
-Return-Path: <linux-media+bounces-5942-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5943-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CBE867622
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 14:11:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EAA86765E
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 14:22:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62649B22A78
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:09:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 310211C28DCA
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:22:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A45580BE4;
-	Mon, 26 Feb 2024 13:09:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FAA3127B77;
+	Mon, 26 Feb 2024 13:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="ohgxPwaK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7AtsCdA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAF17F7F5
-	for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 13:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AF31272AE;
+	Mon, 26 Feb 2024 13:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708952965; cv=none; b=qdltqq9Z2zVT72+Q7ksMq1YrYcb6impN/Lhv8tu13pLttlgEEUnz5MPBJBsWeH3lWQnROtiSBHKASK7i2fWz5GmbK8n062tBpu7fuhk7p65i7uTjmKWkZuT0ReT1JMmod3F/BCDeRqfRnSWC5bPhVU8wzcX56aRfYMOzd+MP3+s=
+	t=1708953741; cv=none; b=VvjuRYMsHbPNCpbwtmtv5wA469FT3ZBdkjQV/tN9fthVF+IdzVyQKnxohQ4rohWGZEEJs3Oezfsm02G76MuITDgCcLHuCALDnvP16p0D8I8OFI1D7RV3G1+qgd36Xeldg0nIYnwjaX/u4IVzb+n5IxtS7glODOh0Wir6gQE4+gU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708952965; c=relaxed/simple;
-	bh=AigPdH8LIBkBZnNo2k33Nm7pz+Rj7dbzEvXzaGsro7w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=neo0DDT4yNqr90JUyg68TJon89W9IRcDRwxU619Mumz6sk6v/xcLwG3Yh4ZDadXuFz4n/pNX4CPBd+xY54z912fflYj6rskFkzxdDJondqq6S6S4oPTtCEHE2jU7lnzs4Z3PJUPqfqVAtUAoQ492itbGhgZVcnXIYJZXX6eHZXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=ohgxPwaK; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-412a51754c9so4902935e9.3
-        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 05:09:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1708952960; x=1709557760; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NasxQXxlF1BVrh1m9D33ixboybQ40B3Epj/kMXP+pVU=;
-        b=ohgxPwaK4knFDQGAgjh47grRLloL9gORLT8szQMqZWlMuCsGStSrQrPXsJ39mFAFvW
-         733a1TK+ewLZrZ6Cy6CzOAqlkoLWRksk9ZxDYI4viUTPM6le+6Ato21ohfRDmR71P2/c
-         MaQegf4f5dlALOnX8jzsU8Lb+wSYSrvq8810nuYdztWVZhg0XDhrUWO3th6rvRBWnZdq
-         JNhu7zX6w7wkOK61z1VRP9sB0w4VTXubu5/dOAyt8xBnawOqFoB9xMCLJgPLKGzzBS+A
-         DKZrycAzCKSDdL/kqdR6XaUnHVaGhXwrJvRNjV2DAjMbH6pow3Gx4nBihDVQtkW91Bj1
-         3YBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708952960; x=1709557760;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NasxQXxlF1BVrh1m9D33ixboybQ40B3Epj/kMXP+pVU=;
-        b=K3EHQMEc9jt34sZwC3ZETyeJLDw3IDK7s5ugBsg89VFarOCXpnQYuQogXAGAbisSXo
-         DuxBT6gZMcdaLVMB+MHnOxz7bzB7mtLqIs+7Pc+o+on5EHvG3P8jbs7tlE9uxVkbcr5V
-         KLyuufZH9BXLeolM4YRMpIhKNAzVfm65DDe10vTx1w7p9Y1hklYqcKSvAbbD5S35u9YV
-         T1JfKuCg4E75woILElj8mY61gUmjvt3w/SIXZeO3Z42S9Mh7impbXJ3N2Qn2pDPKyBWN
-         CGc3fBUc+jukyRBgVch88ExYgTPLeCzFiU+ENO7V7zwNyGSh7SHSN1RmIPwCd0ZEIu4R
-         t8rg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJftTOd9IMlJEaxkkwB101SxdRYa54pspxST+sVoBhIazNQK2nrNAKUK6u5TO3TXiBcK/JwheQ9h8t02w8NjOtUuOgiDOFo3rxc08=
-X-Gm-Message-State: AOJu0YwnIs31DcCmDRbK4jwvIHWD7Jb+OhBkdENEIgpBs+J4shZgTmvF
-	uooewQ+zWf6zDZ5d8u+LitQNOUBrCovG29IcHBQPQ20m1uE/4DVSPO0kDhdh0yU=
-X-Google-Smtp-Source: AGHT+IEGWa4r5IymlVvSdz8JQ/h+UlZbOuFONE2brDm+Npj59E8l0EqUIdpkX4ARpdQkbUSd3Z9W/Q==
-X-Received: by 2002:a05:600c:4f52:b0:412:96e2:2ada with SMTP id m18-20020a05600c4f5200b0041296e22adamr5305759wmq.11.1708952960360;
-        Mon, 26 Feb 2024 05:09:20 -0800 (PST)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
-        by smtp.gmail.com with ESMTPSA id j34-20020a05600c1c2200b00412a10d9f7asm5764588wms.42.2024.02.26.05.09.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 05:09:20 -0800 (PST)
-Message-ID: <33382ecb-8a73-4d2f-96b1-8048df7a6414@freebox.fr>
-Date: Mon, 26 Feb 2024 14:09:19 +0100
+	s=arc-20240116; t=1708953741; c=relaxed/simple;
+	bh=G1JpQCt7xBq5ZuFeLJZNzoswIp5s4ji8mVX2ZexQGro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rx3XGy9ZLR7iM+zBiwNqjrd13LBZkiPRGG8WyaMi0zXqoSPJ9ryFd0M9CTcpTdSHblcaOz4TtZYg2DTtiDQULn4JQZejEs0NGgGcNDSSq7yXcfNTYFdWFNQf6MFIKP7MuzlwU7lD0SCII6vPa15dY1FwpfjC5OC5T6QgbdgKbBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7AtsCdA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95020C433F1;
+	Mon, 26 Feb 2024 13:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708953741;
+	bh=G1JpQCt7xBq5ZuFeLJZNzoswIp5s4ji8mVX2ZexQGro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T7AtsCdA/xtJ3EoX6jQR+kZNHOFOCrlfIMbhsDkPVxZaFZDJ7k+mDvPE97EsH1I5j
+	 11eSiKoRYlcfxXOQtod9b/+Z9MbyB7yjT8cfEGIvAwfIFWPzxuLScojwy0Drly6vWl
+	 BBid2EkxGJOjOQqtgW+EsnX0VYbbPTPlD0LaJ6PUWq7B9/edORgGjPEBTAEp+5/UB4
+	 ON2tQLxpddAdmNp/OfI84j9G/sTSSzHKxN7PVuXp+H5XnFfOi6JB9s6aYYuLK6weNl
+	 r8k1uqO9gOBylOuHSFsHkE1TExdORSOZYl2QngI1QNiQddQ7PUVPWDslHUIaMRL94U
+	 s4POR6jF+Mklw==
+Date: Mon, 26 Feb 2024 14:22:18 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno <freedreno@lists.freedesktop.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: [PATCH v7 00/36] drm/connector: Create HDMI Connector
+ infrastructure
+Message-ID: <4mm45qddujasmbinalcyhjzu4iege3n2a7odbmqmcsnjifyleh@q3kdpjhvwhsq>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <CAA8EJpqB+Mf4jp88__r5dfsRSuGdAB+Q3vK5MBfBXysvRB92iQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
-Content-Language: en-US
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: DT <devicetree@vger.kernel.org>, linux-media
- <linux-media@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Pierre-Hugues Husson <phh@phh.me>
-References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
- <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
- <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
- <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
- <b8325dbf-67c5-4898-bc23-ff093ae6e14a@freebox.fr>
- <87db77f7-fda4-4cf7-adfd-8545c40c3365@linaro.org>
- <10fe67af-0572-4faa-91c6-fce9c8f9dc92@linaro.org>
- <6342e92d-eed0-45c2-8f04-3779aa2e521d@freebox.fr>
- <4ab95e87-c912-469b-b8d4-be0cf0e4710b@linaro.org>
- <a8c5b27c-47a9-044a-78e8-51c67acf19a6@quicinc.com>
- <c6a9c20e-02d3-4334-badd-2efe5be9ce7e@freebox.fr>
- <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 23/02/2024 14:48, Vikash Garodia wrote:
-
-> On 2/20/2024 8:15 PM, Marc Gonzalez wrote:
-> 
->> On 20/02/2024 14:53, Vikash Garodia wrote:
->>
->>> msm8998 supports configuring the VCodec (venus core0) GDSC in HW power control
->>> mode. Could you please check and confirm if the driver is configuring only the
->>> VCodec GDSC and not the venus GDSC. Look for the attribute
->>> "qcom,support-hw-trigger" in vendor dt file.
->>
->> [ Vendor DTS for easy reference: ]
->> [ https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998.dtsi ]
->>
->> In the queue, we have a patch enabling the Venus Decoder (VDEC) in mainline.
->> (It is using the previously proposed "qcom,no-low-power" mechanism, but that
->> might not be necessary, if I understand correctly?)
->>
->>
->> diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> index 2793cc22d381a..5084191be1446 100644
->> --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> @@ -3000,6 +3000,56 @@ mdss_dsi1_phy: phy@c996400 {
->>  			};
->>  		};
->>  
->> +		venus: video-codec@cc00000 {
->> +			compatible = "qcom,msm8998-venus";
->> +			reg = <0x0cc00000 0xff000>;
->> +			interrupts = <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>;
->> +			power-domains = <&mmcc VIDEO_TOP_GDSC>;
->> +			clocks = <&mmcc VIDEO_CORE_CLK>,
->> +				 <&mmcc VIDEO_AHB_CLK>,
->> +				 <&mmcc VIDEO_AXI_CLK>,
->> +				 <&mmcc VIDEO_MAXI_CLK>;
->> +			clock-names = "core", "iface", "bus", "mbus";
->> +			iommus = <&mmss_smmu 0x400>,
->> +				 <&mmss_smmu 0x401>,
->> +				 <&mmss_smmu 0x40a>,
->> +				 <&mmss_smmu 0x407>,
->> +				 <&mmss_smmu 0x40e>,
->> +				 <&mmss_smmu 0x40f>,
->> +				 <&mmss_smmu 0x408>,
->> +				 <&mmss_smmu 0x409>,
->> +				 <&mmss_smmu 0x40b>,
->> +				 <&mmss_smmu 0x40c>,
->> +				 <&mmss_smmu 0x40d>,
->> +				 <&mmss_smmu 0x410>,
->> +				 <&mmss_smmu 0x411>,
->> +				 <&mmss_smmu 0x421>,
->> +				 <&mmss_smmu 0x428>,
->> +				 <&mmss_smmu 0x429>,
->> +				 <&mmss_smmu 0x42b>,
->> +				 <&mmss_smmu 0x42c>,
->> +				 <&mmss_smmu 0x42d>,
->> +				 <&mmss_smmu 0x411>,
->> +				 <&mmss_smmu 0x431>;
->> +			memory-region = <&venus_mem>;
->> +			status = "disabled";
->> +			qcom,no-low-power; /*** WORK AROUND LOW-POWER ISSUE ***/
->> +
->> +			video-decoder {
->> +				compatible = "venus-decoder";
->> +				clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
->> +				clock-names = "core";
->> +				power-domains = <&mmcc VIDEO_SUBCORE0_GDSC>;
->> +			};
->> +
->> +			video-encoder {
->> +				compatible = "venus-encoder";
->> +				clocks = <&mmcc VIDEO_SUBCORE1_CLK>;
->> +				clock-names = "core";
->> +				power-domains = <&mmcc VIDEO_SUBCORE1_GDSC>;
->> +			};
->> +		};
->> +
->>  		mmss_smmu: iommu@cd00000 {
->>  			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
->>  			reg = <0x0cd00000 0x40000>;
->> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
->> index a712dd4f02a5b..ad1705e510312 100644
->> --- a/drivers/media/platform/qcom/venus/core.c
->> +++ b/drivers/media/platform/qcom/venus/core.c
->> @@ -585,6 +585,43 @@ static const struct venus_resources msm8996_res = {
->>  	.fwname = "qcom/venus-4.2/venus.mbn",
->>  };
->>  
->> +static const struct freq_tbl msm8998_freq_table[] = {
->> +	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
->> +	{  972000, 520000000 },	/* 4k UHD @ 30 */
->> +	{  489600, 346666667 },	/* 1080p @ 60 */
->> +	{  244800, 150000000 },	/* 1080p @ 30 */
->> +	{  108000,  75000000 },	/* 720p @ 30 */
->> +};
->> +
->> +static const struct reg_val msm8998_reg_preset[] = {
->> +    { 0x80124, 0x00000003 },
->> +    { 0x80550, 0x01111111 },
->> +    { 0x80560, 0x01111111 },
->> +    { 0x80568, 0x01111111 },
->> +    { 0x80570, 0x01111111 },
->> +    { 0x80580, 0x01111111 },
->> +    { 0xe2010, 0x00000000 },
->> +};
->> +
->> +static const struct venus_resources msm8998_res = {
->> +	.freq_tbl = msm8998_freq_table,
->> +	.freq_tbl_size = ARRAY_SIZE(msm8998_freq_table),
->> +	.reg_tbl = msm8998_reg_preset,
->> +	.reg_tbl_size = ARRAY_SIZE(msm8998_reg_preset),
->> +	.clks = {"core", "iface", "bus", "mbus"},
->> +	.clks_num = 4,
->> +	.vcodec0_clks = { "core" },
->> +	.vcodec1_clks = { "core" },
->> +	.vcodec_clks_num = 1,
->> +	.max_load = 2563200,
->> +	.hfi_version = HFI_VERSION_3XX,
->> +	.vmem_id = VIDC_RESOURCE_NONE,
->> +	.vmem_size = 0,
->> +	.vmem_addr = 0,
->> +	.dma_mask = 0xddc00000 - 1,
->> +	.fwname = "qcom/venus-4.4/venus.mbn",
->> +};
->> +
->>  static const struct freq_tbl sdm660_freq_table[] = {
->>  	{ 979200, 518400000 },
->>  	{ 489600, 441600000 },
->> @@ -891,6 +928,7 @@ static const struct venus_resources sc7280_res = {
->>  static const struct of_device_id venus_dt_match[] = {
->>  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
->>  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
->> +	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
->>  	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
->>  	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
->>  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
->>
->>
->>
->> @Vikash, are you saying that perhaps the DTS for video-codec@cc00000
->> needs to be written slightly differently?
->
->
-> Certainly yes. For ex, in the clock list, i do not see the core clocks listed
-> i.e clk_mmss_video_subcore0_clk and clk_mmss_video_subcore1_clk. You can refer
-> the downstream video DT node [1] and then align it as per venus driver
-> [1]
-> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hqmqlzbdpcfo2xan"
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpqB+Mf4jp88__r5dfsRSuGdAB+Q3vK5MBfBXysvRB92iQ@mail.gmail.com>
 
 
-If I understand correctly (which is far from certain),
-we should base the "qcom,msm8998-venus" DT node on
-"qcom,sdm845-venus-v2" rather than "qcom,msm8996-venus" ?
+--hqmqlzbdpcfo2xan
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards
+Hi Dmitry,
 
+On Sun, Feb 25, 2024 at 04:50:00PM +0200, Dmitry Baryshkov wrote:
+> On Thu, 22 Feb 2024 at 20:14, Maxime Ripard <mripard@kernel.org> wrote:
+> > Here's a series that creates some extra infrastructure specifically
+> > targeted at HDMI controllers.
+> >
+> > The idea behind this series came from a recent discussion on IRC during
+> > which we discussed infoframes generation of i915 vs everything else.
+> >
+> > Infoframes generation code still requires some decent boilerplate, with
+> > each driver doing some variation of it.
+> >
+> > In parallel, while working on vc4, we ended up converting a lot of i915
+> > logic (mostly around format / bpc selection, and scrambler setup) to
+> > apply on top of a driver that relies only on helpers.
+> >
+> > While currently sitting in the vc4 driver, none of that logic actually
+> > relies on any driver or hardware-specific behaviour.
+> >
+> > The only missing piece to make it shareable are a bunch of extra
+> > variables stored in a state (current bpc, format, RGB range selection,
+> > etc.).
+> >
+> > The initial implementation was relying on some generic subclass of
+> > drm_connector to address HDMI connectors, with a bunch of helpers that
+> > will take care of all the "HDMI Spec" related code. Scrambler setup is
+> > missing at the moment but can easily be plugged in.
+> >
+> > The feedback was that creating a connector subclass like was done for
+> > writeback would prevent the adoption of those helpers since it couldn't
+> > be used in all situations (like when the connector driver can implement
+> > multiple output) and required more churn to cast between the
+> > drm_connector and its subclass. The decision was thus to provide a set
+> > of helper and to store the required variables in drm_connector and
+> > drm_connector_state. This what has been implemented now.
+> >
+> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+> > to retrieve infoframes from HDMI receiver and implementing a tool to
+> > decode (and eventually check) infoframes. His current work on
+> > edid-decode to enable that based on that series can be found here:
+> > https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=3Dhverkuil
+> >
+> > And some more context here:
+> > https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@=
+xs4all.nl/
+> >
+> > This series thus leverages the infoframe generation code to expose it
+> > through debugfs.
+>=20
+> [...]
+>=20
+> >
+> > Let me know what you think,
+> > Maxime
+>=20
+> The overall idea looks great. I've started checking how I can use that
+> for our msm devices family, which makes use of bridges and
+> drm_bridge_connector.
 
+Yeah, I had that in mind for a while too. I think it would be valuable,
+but it's difficult as it is already so I didn't tackle it at first :)
+
+The format negociation especially seems to divert quite a lot from what
+i915 and vc4 have been doing, and that's user facing to some extent.
+
+> My current idea is to extend the drm_bridge_funcs with the new
+> callback to be called once the drm_connector has been instantiated.
+> This way all the bridges can influence new connector.
+> Another possibility is to follow drm_bridge_connector design closely
+> and let it call into drm_connector_hdmi code if it detects that the
+> last bridge is the HDMI one.
+> WDYT?
+
+I had the latter in mind, but I haven't really tried to reconcile the
+connector state output_format with the
+drm_atomic_helper_bridge_propagate_bus_fmt, and plug in the output_bpc
+count too.
+
+We would have to create the max_bpc properties from the HDMI connector,
+and then propagate that upstream along the bridges I guess (or we can
+just ignore it for now).
+
+So, yeah, I had the latter in mind but it might turn out that the former
+is actually easier. Both make sense to me at least.
+
+Maxime
+
+--hqmqlzbdpcfo2xan
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdyQigAKCRDj7w1vZxhR
+xbuAAP4tcqj0CCuj697zMFFK59Fkl+ntwJnDHJijUuztt43AQwD/fzLo/sHP+roN
+fQLUY+aBNymzblpBsRsstG3l6Zw2dgQ=
+=l8IQ
+-----END PGP SIGNATURE-----
+
+--hqmqlzbdpcfo2xan--
 
