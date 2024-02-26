@@ -1,121 +1,215 @@
-Return-Path: <linux-media+bounces-5915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5916-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64C58672B1
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:10:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F868673F7
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:54:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E79E41C27FE3
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 11:10:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D16C8286606
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 11:54:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E401CD35;
-	Mon, 26 Feb 2024 11:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72FE05A7B4;
+	Mon, 26 Feb 2024 11:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a2XB+967"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="PbDOzeXo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADBB1CF8F
-	for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 11:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708945793; cv=none; b=sk2ppkjJXY+xHYCAtI/qSpr5ZqHSvz0itkmQvS/yn/2+0aQOw3edIFCtaQMj2pAL4QIJwBQfzlLL9MAK6csF9zAWVXphr/HPufGES0SvYWeQ48tzXVglb+3yFjBds8xWuOgxW1dR5f2ZZpNJKKCTT6tfulsX0THgo77eMiW4Vns=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708945793; c=relaxed/simple;
-	bh=+jLqiY6cbZkUaeKfyLrEDAjpX1juOggyIGmJMdgRqLw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UKMno71G92L0pEaiTmwQkpz+pwiN+g74EiUZjovOtsi8PtyVr4SjTJwT+rcVBRuKHPkfFoD+fLldXPYvR9fT0qVweP1mZYqidZ4DDUxxOS3KDVNt9cbBIivFIW4a/DGmtGIu9nO/IEQUT+fWSs8oSwTKqy5ea49yu8hmLmbkJcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a2XB+967; arc=none smtp.client-ip=209.85.166.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7c745af8f1cso150516639f.1
-        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 03:09:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708945790; x=1709550590; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JXLJhA1S2e5W/9PS2kr0cO7SXhI9yiOHp+T3ajmhreE=;
-        b=a2XB+967CIeQo5ZJMtHJc0wglP2aueVO3UgSq70jxjug7SRjyemB3PM1Pm4fURQmlI
-         Pog68vVPTzTL7geTiWU93hHLzdfkGlDQ1KMLsy68a4vq2mKCtbWub6oxmTQVBcYqLq5B
-         bzwm5hW1uW8QBJCLzHkGa3VqBc9/Z/SVWGin1jazTdt3p/YDf5hrTMM7JGgFHURU943c
-         qSPC6WYOB5ZHZ5un8c6/0gvtaw8b/QZ+KWMG7ru4MOyMVb9pxHalXYfWKaSeV4iK5auw
-         tcw5Ez4L0cVCLu0Quwvbq92q7oh7z87M078T241mOlK/ESkHQZKPjzKkO7N41sF1Go0x
-         fOqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708945790; x=1709550590;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JXLJhA1S2e5W/9PS2kr0cO7SXhI9yiOHp+T3ajmhreE=;
-        b=MJQdDvjM8E6vUJISufQb6qA9i7z1I70gJt+w3t7whPsJ2d8MVX4p9+xeYNZrAuvQaX
-         /HBs2DU7RBEYi1MWV+RD7grQE+8IhZFUNPGDKhZyzznLeAxRoKAMN7XTzxx3NuJiHdPr
-         pfryL9aNV/uzmstHwLAHpaijc/gV0lyboBTV2as/CiBHXwtC81YUAJ9RbZrr/wxJkPq0
-         gDej6r3oz70EHLsADPLnIVMOnLQH5PNt5VobhnMvDTpdwk6LfdkP+bFscjQUNAgKyXMh
-         ht/2kY4EvoHGNQhX4FJ0CeWfa6Vt/AkbnDAQRuXxfwnfU/Yul9nkZyHXrDy7Nte6wsgH
-         P0cA==
-X-Forwarded-Encrypted: i=1; AJvYcCXt04RrD1Ci0eJya9kFSkO/rZKI14kj1pcH8aonnTs7a5plbQ06FlFT3S1ephbfs/w+gNgzQJjh9NscBnyGPg1/UhfuiW9QpmY6n8Q=
-X-Gm-Message-State: AOJu0YwEi8jKlyJ+iyxX3bMpaQcTo0AGCHLC1BQnJ/sCEQwOxHpOkuzR
-	8hgSUSVGxjC5eFKlAyDfDaOgs+MNig42ANtoijcvneHz7+gRFTzf/NoJJYJCD2lUgsfuThIy9uq
-	cE3Dd28cKFgZVyqCdOIKJnq5vdQTHyEVRzxkS
-X-Google-Smtp-Source: AGHT+IEwEjd31elUaYKxIxM1mh70wep688OMqmuk7WudxZLnasYmVXOgCmS1ONaiIwRiUMQlImGVZaLvPKNgX1VcCmA=
-X-Received: by 2002:a05:6602:2765:b0:7c7:9944:cc8a with SMTP id
- l5-20020a056602276500b007c79944cc8amr8677661ioe.5.1708945790588; Mon, 26 Feb
- 2024 03:09:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C7A249F9;
+	Mon, 26 Feb 2024 11:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708948475; cv=pass; b=m3fr8pg/pLCHLV8jhE5+tr/uA6T/nMadGkpU7CFW3M+zsHzaAJRY2WltOw2qj0xogWoYqV2+ey77uKGxGH22d09SIl2wU2UkeBvRKJ6V+O4y3DF5KV0eiWzczYR8+6lQeAVduqKuIu8/aHdw1jMlNstEzvR3FKi7iisr1tFGnJ8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708948475; c=relaxed/simple;
+	bh=P2nBjIZ8Qk9BLeXDaUReVS3IAhuCOfkOnwJNXC8P3Bo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ez7VvQ2DVZkMVGCm8wfj3PUl4yPo634TDRPk8eHHpkb9cra3vGnUPzJ8ni7l9b+qtm6zhoby7w0Uf2g4ivlDXp6jayat8TkYWpkcIPkC6Y6ds5+O5pnuHVgbOeF/8GmkFuh7n/V2OBuoejeDImRkFqs1qbZ7KIiuU681qBZnGs8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=PbDOzeXo; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TjzYW2m3Lz49Psw;
+	Mon, 26 Feb 2024 13:54:23 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1708948464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jzvy2SvKDmvv4WetelVqs47ATPl2lFOOSOxgQnJjjpA=;
+	b=PbDOzeXouZ2AcWWUg83/ia1tRZWe9oxDxtat5ClEu/d7l7MNU7urvjmT7QeSNil8KCnRDh
+	7n6SuSQyEdfYhxFZyZ8vL+kVAMtuUSqlRDSPG0x9JlPhttO9MCUwwuGAUKDdIf02k0fhDs
+	K+s1P1mXo0WCfBD6ShzZVxIzXUX/W7chHfkyczq0B3LtPxHy6bMglFJlfTiPua50JaarTm
+	27wQD1eS7sdhdGGu4SIQUVw7FExesVPxt0utlIly0dD1ixqhESqhGP85bSsFIaE6vYLvWg
+	bI4hh+NbI3fpYMMDUtAaI6zOzC5t3BWqv+aNwnqs8a2dpy0lkVfUfABX2lpBDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1708948464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jzvy2SvKDmvv4WetelVqs47ATPl2lFOOSOxgQnJjjpA=;
+	b=agPwmz3VwyrSGyTuRJk1Nxy0wO/4WASn2UOqttVEXMpYHaDQCisLl7S8TcHteD0uIUpOJ1
+	1Wyjpnd5znr2Kvu7dDd4K8f7//Mdf7UZ6FGXUEWvAe9c+WN2eCHF6wwaXVmyj6OJlOKmKV
+	V6tVTGHesbxN1YS9wvDBI9S9fjTyMxE1rG3jgBOJBb2IEMNG4L7/nQgvpAA1tFfoaiEQIp
+	MvM6pu8vihk8IAl88jZOcfUWgnOkMosxEfx5XTDA0u9AwQ5toSngATnWDC7pDr9svHY5Ja
+	UI9eaqQLyf2jbN+5i1+jxLzUMg1cPxsrg6i2c49kEIq4nC33eP9N1GxCDzu4gQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1708948464; a=rsa-sha256;
+	cv=none;
+	b=awCHdMVw2e253Vz+PZOmX0ZfklcotmJUaJN7XO5YR0NcSV2XZl2oOLcpPS+WKhGP1OigFn
+	SOkmW6ZhV5B/hOIZLku5hPms22vWvKbsHN6ujDX/8eGlUxc7ebDLPFqr8/S6f/5BctG2GK
+	G9BRjQXGQO1wuNoXa8LgnjCBbT3S+4ZcKdz611J7cx/Xcz6MI9KkpxBkd4x+3pB5umBhnS
+	GVSvzRQlbqvfJVuXR2h5gkNqz5dBn3yv+9IKKKvOPJS4CRUIgiCCOVOzw645kj5OJqIKsU
+	uLRvk/QTzOfJWoR0Mzu/3PJMvueEmcaAouFtZ/KTp2/yAOSw6OOEoSMUPdXh0w==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2D3F5634C93;
+	Mon, 26 Feb 2024 13:54:22 +0200 (EET)
+Date: Mon, 26 Feb 2024 11:54:22 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v2 2/5] dt-bindings: media: Add bindings for ARM mali-c55
+Message-ID: <Zdx77nyiQn4zya3h@valkosipuli.retiisi.eu>
+References: <20240214141906.245685-1-dan.scally@ideasonboard.com>
+ <20240214141906.245685-3-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221160215.484151-1-panikiel@google.com> <20240221160215.484151-10-panikiel@google.com>
- <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
-In-Reply-To: <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Mon, 26 Feb 2024 12:09:39 +0100
-Message-ID: <CAM5zL5rQsYuo3+rW9+YPmvUg9PtNiR0Dy59e8Kf787ranfLh3Q@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] ARM: dts: chameleonv3: Add video device nodes
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
-	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
-	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
-	mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
-	tzimmermann@suse.de, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com, 
-	ribalda@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240214141906.245685-3-dan.scally@ideasonboard.com>
 
-On Mon, Feb 26, 2024 at 10:15=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 21/02/2024 17:02, Pawe=C5=82 Anikiel wrote:
-> > Add device nodes for the video system present on the Chameleon v3.
-> > It consists of six framebuffers and two Intel Displayport receivers.
-> >
-> > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
-> > ---
->
-> ...
->
-> > +             dprx_sst: dp-receiver@c0064000 {
-> > +                     compatible =3D "intel,dprx-20.0.1";
-> > +                     reg =3D <0xc0064000 0x800>;
-> > +                     interrupt-parent =3D <&dprx_sst_irq>;
-> > +                     interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
-> > +                     intel,max-link-rate =3D <0x1e>;
->
-> Rate is not in hex! Rate is in Hz, at least usually...
->
-> Fix your bindings...
+Hi Dan,
 
-This is the DisplayPort link rate, for which the allowed values are
-8.1 Gbps, 5.4 Gbps, 2.7 Gbps, or 1.62 Gbps. The standard way to encode
-them (used in the DisplayPort DPCD registers and this device's
-configuration) is by multiples of 0.27Gbps. This value (AFAIK) is
-usually represented in hex, so 8.1Gbps would be 0x1e.
+On Wed, Feb 14, 2024 at 02:19:03PM +0000, Daniel Scally wrote:
+> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+> 
+> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+> Changes in v2:
+> 
+> 	- Added clocks information
+> 	- Fixed the warnings raised by Rob
+> 
+>  .../bindings/media/arm,mali-c55.yaml          | 77 +++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/arm,mali-c55.yaml b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+> new file mode 100644
+> index 000000000000..30038cfec3a4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/arm,mali-c55.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ARM Mali-C55 Image Signal Processor
+> +
+> +maintainers:
+> +  - Daniel Scally <dan.scally@ideasonboard.com>
+> +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: arm,mali-c55
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: ISP video clock
+> +      - description: ISP AXI clock
+> +      - description: ISP AHB-lite clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: vclk
+> +      - const: aclk
+> +      - const: hclk
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/properties/endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    mali_c55: isp@400000 {
+> +      compatible = "arm,mali-c55";
+> +      reg = <0x400000 0x200000>;
+> +      clocks = <&clk 0>, <&clk 1>, <&clk 2>;
+> +      clock-names = "vclk", "aclk", "hclk";
+> +      interrupts = <0>;
+> +
+> +      ports {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        port@0 {
+> +          reg = <0>;
+> +          isp_in: endpoint {
+> +              remote-endpoint = <&mipi_out>;
+
+I suppose this is a CSI-2 interface with D-PHY?
+
+How many lanes do you have and is lane remapping / polarity inversion
+supported?
+
+This should be reflected in bindings.
+
+> +          };
+> +        };
+> +      };
+> +    };
+> +...
+
+-- 
+Regards,
+
+Sakari Ailus
 
