@@ -1,54 +1,55 @@
-Return-Path: <linux-media+bounces-5927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5929-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E1C8674FD
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:31:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCAF867530
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:39:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8A851C24DE3
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:31:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F6B61C257E4
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:39:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0520D63120;
-	Mon, 26 Feb 2024 12:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EBA77F49B;
+	Mon, 26 Feb 2024 12:39:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="EPkqIIez"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oG6Wk+Kz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74C563113;
-	Mon, 26 Feb 2024 12:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234DA4E1CC;
+	Mon, 26 Feb 2024 12:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708950650; cv=none; b=cjg07qzRoULv804MX3O1j58+20PnOgkFa4Kn8JVRhEStSg9u8/j+V1w3FMrRDALTXHMps//Hj/m1ES5arcVgZ/iMs5p/Ot+n2NgSAyBzbksEZerxJAzFhxlfafB/FMf1YQSuqbPl2o4OCQD8cmVJWzAJFTA+b/V0g/eqWohNIn4=
+	t=1708951160; cv=none; b=fBOpcvZawg5hVDW8qmx94QjQK27nDGJWaAKDU/nJs3P96GFhwu3xdhExTz8Z+6ye7QnJS7ir2i9XaxoAXOzy+JTf2z0JsDeUZKcVENXt3vlwNuxIRMsGlX40Wx4FwNRS3nLPlPw7b2OyHS+iVVScwhL5txnep3U37VrRbpdZI0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708950650; c=relaxed/simple;
-	bh=367nRfM+AwkILElpi2M/PUviC5yCBObZdPSIGUNMP8o=;
+	s=arc-20240116; t=1708951160; c=relaxed/simple;
+	bh=jZDjZz16a7jYDqF/ga6VZUm7J/5zMDjmn/buH8/I2Ws=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aFTOtLbshvuMX1HKI2oOqR2OFpEcyoLF4IvcGT6u6ewkdznlK79g/TuDxAFD1zrKAAai3So6WLEyivTT5pQDwvFFbOD8RaZwS3GHdKdpNOqhF+YecKF1kj5OHIdE2JWa4Q7VmUnSzvPUbpQBhEsZl0wSYTiS1NHCvxQNUSoGmok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=EPkqIIez; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=9E9uFo1ZA4/GNHoSVHywi3ucQYA9wjLjy4y7D2QRVoQ=; b=EPkqIIez4XfxwdTWX1fAQshniD
-	FJKNTXjlGpDIVV5cx73AbQbU7Azp2+otOzvEDrCbsB1QB+UOdRraNjeC+SLcngtv5x07m/8qNxxEk
-	RFGK6TdhGxMHDTlogi9HFkwbumaJaAmi1/JIOxPj4WUSyekNPJzY70rmgEsMuxH/ga1KXbKOfLMGH
-	M4DCO2/SXb6kiAQzcWXAQL0Q0WNp1RqilelPemAmio440xzS6+9rI4r3ps1c/E4irVejK+hTBIedD
-	SFPxx2OLYHPYoYfP8T2JqQAV016Ngc6nrUsDZuyH4Nx3wzURyDeEYrR+RmUrkTBkKYVCfmB0OA9rX
-	BUDcgD0w==;
-Received: from [177.34.169.255] (helo=[192.168.0.139])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1rea7q-003YnI-Ph; Mon, 26 Feb 2024 13:30:31 +0100
-Message-ID: <1c91ff55-e6c6-4543-bbf5-c7543cc03979@igalia.com>
-Date: Mon, 26 Feb 2024 09:30:24 -0300
+	 In-Reply-To:Content-Type; b=OAu8Y0xLJPowO+GjVRvawmzsnnNaQ2wsEYskLE3mxEXNbKUNNj68F+rqpBrZeQ2WBY3V0j8J9dlQYBLrUK9KN14x+XsLqhil9zEEqsuWK7uadJsOW0mdzjgW2PympN/olXNmiyW+7QHMJWk9Km6q5ImKfr5Y5yQHoIgeLmIJgXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oG6Wk+Kz; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1708951157;
+	bh=jZDjZz16a7jYDqF/ga6VZUm7J/5zMDjmn/buH8/I2Ws=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oG6Wk+Kzl1QHp140YXlMFVxLcC2trHNBIcOFA4v9jMBdMXKuFTeb/s36KUUqhaVsZ
+	 0Un+pP6SHNGUhSZKr5vc6qqh0nzmU/2Stk9q/8foCCWhYxpB3gTk5+fNR8xT3CukTM
+	 XAXPyUK/7ylpry+QkwCI5DuG285oeob87xOQ1rDXFNt1WeBdfCNyrmwsXCLAo1+aDa
+	 w625iJrgaMcBv8oxa/2tGmhkiWJOVmypyYsZsAE7LRRsYlJVBp6Pp9yEidqseWkZ90
+	 Nor5FqRkpjku/Fewqlng8Y9DtyvsWKlZ45bOKoCSGQJhESKN4M4FYoo2uYOd3taddm
+	 Rb1JZnRcUsW6w==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 17C6A37803EE;
+	Mon, 26 Feb 2024 12:39:16 +0000 (UTC)
+Message-ID: <3354332e-7e9c-4caf-a38a-a7b26eba76cc@collabora.com>
+Date: Mon, 26 Feb 2024 13:39:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,109 +57,35 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 30/36] drm/vc4: tests: Convert to plane creation helper
+Subject: Re: [PATCH 10/11] drm/mediatek: Rename mtk_ddp_comp functions
 Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-30-8f4af575fce2@kernel.org>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-30-8f4af575fce2@kernel.org>
+To: Shawn Sung <shawn.sung@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
+References: <20240226085059.26850-1-shawn.sung@mediatek.com>
+ <20240226085059.26850-11-shawn.sung@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240226085059.26850-11-shawn.sung@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 2/22/24 15:14, Maxime Ripard wrote:
-> Now that we have a plane create helper for kunit mocked drivers, let's
-> convert to it in vc4.
-
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
-
-Best Regards,
-- Maíra
-
+Il 26/02/24 09:50, Shawn Sung ha scritto:
+> From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 > 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->   drivers/gpu/drm/vc4/tests/vc4_mock_plane.c | 34 +++++++-----------------------
->   1 file changed, 8 insertions(+), 26 deletions(-)
+> Rename functions of mtk_ddp_comp:
+> - To align the naming rule
+> - To reduce the code size
 > 
-> diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-> index 973f5f929097..14357db82238 100644
-> --- a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-> +++ b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-> @@ -1,43 +1,25 @@
->   // SPDX-License-Identifier: GPL-2.0
->   
-> -#include <drm/drm_atomic_state_helper.h>
-> -#include <drm/drm_fourcc.h>
-> -#include <drm/drm_modeset_helper_vtables.h>
-> +#include <drm/drm_kunit_helpers.h>
->   #include <drm/drm_plane.h>
->   
->   #include <kunit/test.h>
->   
->   #include "vc4_mock.h"
->   
-> -static const struct drm_plane_helper_funcs vc4_dummy_plane_helper_funcs = {
-> -};
-> -
-> -static const struct drm_plane_funcs vc4_dummy_plane_funcs = {
-> -	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-> -	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
-> -	.reset			= drm_atomic_helper_plane_reset,
-> -};
-> -
-> -static const uint32_t vc4_dummy_plane_formats[] = {
-> -	DRM_FORMAT_XRGB8888,
-> -};
-> -
->   struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
->   				  enum drm_plane_type type)
->   {
->   	struct drm_plane *plane;
->   
-> -	plane = __drmm_universal_plane_alloc(drm, sizeof(struct drm_plane), 0,
-> -						 0,
-> -						 &vc4_dummy_plane_funcs,
-> -						 vc4_dummy_plane_formats,
-> -						 ARRAY_SIZE(vc4_dummy_plane_formats),
-> -						 NULL,
-> -						 DRM_PLANE_TYPE_PRIMARY,
-> -						 NULL);
-> +	KUNIT_ASSERT_EQ(test, type, DRM_PLANE_TYPE_PRIMARY);
-> +
-> +	plane = drm_kunit_helper_create_primary_plane(test, drm,
-> +						      NULL,
-> +						      NULL,
-> +						      NULL, 0,
-> +						      NULL);
->   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
->   
-> -	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
-> -
->   	return plane;
->   }
-> 
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
+
+Reviewed-by: AngeloGiaocchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+
 
