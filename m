@@ -1,200 +1,267 @@
-Return-Path: <linux-media+bounces-5941-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5942-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1269F8675D6
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:59:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CBE867622
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 14:11:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 353C01C27FE7
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:59:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62649B22A78
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:09:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC9D127B4D;
-	Mon, 26 Feb 2024 12:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A45580BE4;
+	Mon, 26 Feb 2024 13:09:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FA2VPoDT"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="ohgxPwaK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD4480BFB;
-	Mon, 26 Feb 2024 12:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAF17F7F5
+	for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 13:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708952300; cv=none; b=QZjLHi/IF6EIqHMPzhfKQFw5EhbJU+SvXVxDhKnSSQqs6/UB3HWIaYVW9Z9hrP9ywTJDQy8B1ChseGAmqPsChEn+V0yna+NjNYT3htmg8ZpJAhhC+7WVWLbrZhWste+VjfTtSGbDVyr21nVEjGp+ua3ZN1mauFNXAJBJDBlsh1U=
+	t=1708952965; cv=none; b=qdltqq9Z2zVT72+Q7ksMq1YrYcb6impN/Lhv8tu13pLttlgEEUnz5MPBJBsWeH3lWQnROtiSBHKASK7i2fWz5GmbK8n062tBpu7fuhk7p65i7uTjmKWkZuT0ReT1JMmod3F/BCDeRqfRnSWC5bPhVU8wzcX56aRfYMOzd+MP3+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708952300; c=relaxed/simple;
-	bh=nWeVNhQbpzGEzexd0Q9yFGms48MVeo78w5gEoRyrpr8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KnuQ65HsgsSmV0UBNyYxRMs46WMMp4pWwD94/gibkiptv9JePTm1QCILJeavYdTdWrddc3Mjj0yjVXSkfaBdZZptTUdiXchdnAsjS6Qu2n8oQXfT8wW24SZMGBETBTsCjxgnluhhob/Yo859TwwBQ6Jw8Lbarx6wSCdMGZDoCJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FA2VPoDT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0E37CD1;
-	Mon, 26 Feb 2024 13:58:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708952285;
-	bh=nWeVNhQbpzGEzexd0Q9yFGms48MVeo78w5gEoRyrpr8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FA2VPoDTsT76mAO4hlB105eus3JQOgAMyvmU17kpx2upKpRpUqzhMdawkKCYOfLT2
-	 bThxBvxflzXfIeRjq0Q91JyY9gju6LwxeIifN+SgBC9sXCIcUbreil0dpnFqfhhxau
-	 Jx62n+VtA2GihTyER94wnzo6pmgUk7cgNU+QoZuQ=
-Date: Mon, 26 Feb 2024 14:58:18 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 2/5] dt-bindings: media: Add bindings for ARM mali-c55
-Message-ID: <20240226125818.GA26163@pendragon.ideasonboard.com>
-References: <20240214141906.245685-1-dan.scally@ideasonboard.com>
- <20240214141906.245685-3-dan.scally@ideasonboard.com>
- <Zdx77nyiQn4zya3h@valkosipuli.retiisi.eu>
- <20240226120431.GA25561@pendragon.ideasonboard.com>
- <ZdyB_yHn9yImTuhm@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1708952965; c=relaxed/simple;
+	bh=AigPdH8LIBkBZnNo2k33Nm7pz+Rj7dbzEvXzaGsro7w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=neo0DDT4yNqr90JUyg68TJon89W9IRcDRwxU619Mumz6sk6v/xcLwG3Yh4ZDadXuFz4n/pNX4CPBd+xY54z912fflYj6rskFkzxdDJondqq6S6S4oPTtCEHE2jU7lnzs4Z3PJUPqfqVAtUAoQ492itbGhgZVcnXIYJZXX6eHZXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=ohgxPwaK; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-412a51754c9so4902935e9.3
+        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 05:09:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1708952960; x=1709557760; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NasxQXxlF1BVrh1m9D33ixboybQ40B3Epj/kMXP+pVU=;
+        b=ohgxPwaK4knFDQGAgjh47grRLloL9gORLT8szQMqZWlMuCsGStSrQrPXsJ39mFAFvW
+         733a1TK+ewLZrZ6Cy6CzOAqlkoLWRksk9ZxDYI4viUTPM6le+6Ato21ohfRDmR71P2/c
+         MaQegf4f5dlALOnX8jzsU8Lb+wSYSrvq8810nuYdztWVZhg0XDhrUWO3th6rvRBWnZdq
+         JNhu7zX6w7wkOK61z1VRP9sB0w4VTXubu5/dOAyt8xBnawOqFoB9xMCLJgPLKGzzBS+A
+         DKZrycAzCKSDdL/kqdR6XaUnHVaGhXwrJvRNjV2DAjMbH6pow3Gx4nBihDVQtkW91Bj1
+         3YBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708952960; x=1709557760;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NasxQXxlF1BVrh1m9D33ixboybQ40B3Epj/kMXP+pVU=;
+        b=K3EHQMEc9jt34sZwC3ZETyeJLDw3IDK7s5ugBsg89VFarOCXpnQYuQogXAGAbisSXo
+         DuxBT6gZMcdaLVMB+MHnOxz7bzB7mtLqIs+7Pc+o+on5EHvG3P8jbs7tlE9uxVkbcr5V
+         KLyuufZH9BXLeolM4YRMpIhKNAzVfm65DDe10vTx1w7p9Y1hklYqcKSvAbbD5S35u9YV
+         T1JfKuCg4E75woILElj8mY61gUmjvt3w/SIXZeO3Z42S9Mh7impbXJ3N2Qn2pDPKyBWN
+         CGc3fBUc+jukyRBgVch88ExYgTPLeCzFiU+ENO7V7zwNyGSh7SHSN1RmIPwCd0ZEIu4R
+         t8rg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJftTOd9IMlJEaxkkwB101SxdRYa54pspxST+sVoBhIazNQK2nrNAKUK6u5TO3TXiBcK/JwheQ9h8t02w8NjOtUuOgiDOFo3rxc08=
+X-Gm-Message-State: AOJu0YwnIs31DcCmDRbK4jwvIHWD7Jb+OhBkdENEIgpBs+J4shZgTmvF
+	uooewQ+zWf6zDZ5d8u+LitQNOUBrCovG29IcHBQPQ20m1uE/4DVSPO0kDhdh0yU=
+X-Google-Smtp-Source: AGHT+IEGWa4r5IymlVvSdz8JQ/h+UlZbOuFONE2brDm+Npj59E8l0EqUIdpkX4ARpdQkbUSd3Z9W/Q==
+X-Received: by 2002:a05:600c:4f52:b0:412:96e2:2ada with SMTP id m18-20020a05600c4f5200b0041296e22adamr5305759wmq.11.1708952960360;
+        Mon, 26 Feb 2024 05:09:20 -0800 (PST)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
+        by smtp.gmail.com with ESMTPSA id j34-20020a05600c1c2200b00412a10d9f7asm5764588wms.42.2024.02.26.05.09.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Feb 2024 05:09:20 -0800 (PST)
+Message-ID: <33382ecb-8a73-4d2f-96b1-8048df7a6414@freebox.fr>
+Date: Mon, 26 Feb 2024 14:09:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZdyB_yHn9yImTuhm@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
+Content-Language: en-US
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: DT <devicetree@vger.kernel.org>, linux-media
+ <linux-media@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Pierre-Hugues Husson <phh@phh.me>
+References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+ <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
+ <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
+ <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
+ <b8325dbf-67c5-4898-bc23-ff093ae6e14a@freebox.fr>
+ <87db77f7-fda4-4cf7-adfd-8545c40c3365@linaro.org>
+ <10fe67af-0572-4faa-91c6-fce9c8f9dc92@linaro.org>
+ <6342e92d-eed0-45c2-8f04-3779aa2e521d@freebox.fr>
+ <4ab95e87-c912-469b-b8d4-be0cf0e4710b@linaro.org>
+ <a8c5b27c-47a9-044a-78e8-51c67acf19a6@quicinc.com>
+ <c6a9c20e-02d3-4334-badd-2efe5be9ce7e@freebox.fr>
+ <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 26, 2024 at 12:20:15PM +0000, Sakari Ailus wrote:
-> On Mon, Feb 26, 2024 at 02:04:31PM +0200, Laurent Pinchart wrote:
-> > On Mon, Feb 26, 2024 at 11:54:22AM +0000, Sakari Ailus wrote:
-> > > On Wed, Feb 14, 2024 at 02:19:03PM +0000, Daniel Scally wrote:
-> > > > Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
-> > > > 
-> > > > Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
-> > > > Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> > > > ---
-> > > > Changes in v2:
-> > > > 
-> > > > 	- Added clocks information
-> > > > 	- Fixed the warnings raised by Rob
-> > > > 
-> > > >  .../bindings/media/arm,mali-c55.yaml          | 77 +++++++++++++++++++
-> > > >  1 file changed, 77 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/media/arm,mali-c55.yaml b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..30038cfec3a4
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-> > > > @@ -0,0 +1,77 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/media/arm,mali-c55.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: ARM Mali-C55 Image Signal Processor
-> > > > +
-> > > > +maintainers:
-> > > > +  - Daniel Scally <dan.scally@ideasonboard.com>
-> > > > +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: arm,mali-c55
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clocks:
-> > > > +    items:
-> > > > +      - description: ISP video clock
-> > > > +      - description: ISP AXI clock
-> > > > +      - description: ISP AHB-lite clock
-> > > > +
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: vclk
-> > > > +      - const: aclk
-> > > > +      - const: hclk
-> > > > +
-> > > > +  ports:
-> > > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > +
-> > > > +    properties:
-> > > > +      port@0:
-> > > > +        $ref: /schemas/graph.yaml#/properties/port
+On 23/02/2024 14:48, Vikash Garodia wrote:
 
-Adding
-
-        description: Input parallel video bus
-
-here would be useful.
-
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint:
-> > > > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - interrupts
-> > > > +  - clocks
-> > > > +  - clock-names
-> > > > +  - ports
-> > > > +
-> > > > +additionalProperties: false
-> > > > +
-> > > > +examples:
-> > > > +  - |
-> > > > +    mali_c55: isp@400000 {
-> > > > +      compatible = "arm,mali-c55";
-> > > > +      reg = <0x400000 0x200000>;
-> > > > +      clocks = <&clk 0>, <&clk 1>, <&clk 2>;
-> > > > +      clock-names = "vclk", "aclk", "hclk";
-> > > > +      interrupts = <0>;
-> > > > +
-> > > > +      ports {
-> > > > +        #address-cells = <1>;
-> > > > +        #size-cells = <0>;
-> > > > +
-> > > > +        port@0 {
-> > > > +          reg = <0>;
-> > > > +          isp_in: endpoint {
-> > > > +              remote-endpoint = <&mipi_out>;
-> > > 
-> > > I suppose this is a CSI-2 interface with D-PHY?
-> > 
-> > No, that's an internal parallel bus. Depending on the SoC integration,
-> > it can be connected to a CSI-2 receiver, a DMA engine, or a mux to
-> > select between different sources.
+> On 2/20/2024 8:15 PM, Marc Gonzalez wrote:
 > 
-> The name suggests otherwise. Maybe change that to something more
-> descriptive?
+>> On 20/02/2024 14:53, Vikash Garodia wrote:
+>>
+>>> msm8998 supports configuring the VCodec (venus core0) GDSC in HW power control
+>>> mode. Could you please check and confirm if the driver is configuring only the
+>>> VCodec GDSC and not the venus GDSC. Look for the attribute
+>>> "qcom,support-hw-trigger" in vendor dt file.
+>>
+>> [ Vendor DTS for easy reference: ]
+>> [ https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998.dtsi ]
+>>
+>> In the queue, we have a patch enabling the Venus Decoder (VDEC) in mainline.
+>> (It is using the previously proposed "qcom,no-low-power" mechanism, but that
+>> might not be necessary, if I understand correctly?)
+>>
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>> index 2793cc22d381a..5084191be1446 100644
+>> --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>> @@ -3000,6 +3000,56 @@ mdss_dsi1_phy: phy@c996400 {
+>>  			};
+>>  		};
+>>  
+>> +		venus: video-codec@cc00000 {
+>> +			compatible = "qcom,msm8998-venus";
+>> +			reg = <0x0cc00000 0xff000>;
+>> +			interrupts = <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>;
+>> +			power-domains = <&mmcc VIDEO_TOP_GDSC>;
+>> +			clocks = <&mmcc VIDEO_CORE_CLK>,
+>> +				 <&mmcc VIDEO_AHB_CLK>,
+>> +				 <&mmcc VIDEO_AXI_CLK>,
+>> +				 <&mmcc VIDEO_MAXI_CLK>;
+>> +			clock-names = "core", "iface", "bus", "mbus";
+>> +			iommus = <&mmss_smmu 0x400>,
+>> +				 <&mmss_smmu 0x401>,
+>> +				 <&mmss_smmu 0x40a>,
+>> +				 <&mmss_smmu 0x407>,
+>> +				 <&mmss_smmu 0x40e>,
+>> +				 <&mmss_smmu 0x40f>,
+>> +				 <&mmss_smmu 0x408>,
+>> +				 <&mmss_smmu 0x409>,
+>> +				 <&mmss_smmu 0x40b>,
+>> +				 <&mmss_smmu 0x40c>,
+>> +				 <&mmss_smmu 0x40d>,
+>> +				 <&mmss_smmu 0x410>,
+>> +				 <&mmss_smmu 0x411>,
+>> +				 <&mmss_smmu 0x421>,
+>> +				 <&mmss_smmu 0x428>,
+>> +				 <&mmss_smmu 0x429>,
+>> +				 <&mmss_smmu 0x42b>,
+>> +				 <&mmss_smmu 0x42c>,
+>> +				 <&mmss_smmu 0x42d>,
+>> +				 <&mmss_smmu 0x411>,
+>> +				 <&mmss_smmu 0x431>;
+>> +			memory-region = <&venus_mem>;
+>> +			status = "disabled";
+>> +			qcom,no-low-power; /*** WORK AROUND LOW-POWER ISSUE ***/
+>> +
+>> +			video-decoder {
+>> +				compatible = "venus-decoder";
+>> +				clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
+>> +				clock-names = "core";
+>> +				power-domains = <&mmcc VIDEO_SUBCORE0_GDSC>;
+>> +			};
+>> +
+>> +			video-encoder {
+>> +				compatible = "venus-encoder";
+>> +				clocks = <&mmcc VIDEO_SUBCORE1_CLK>;
+>> +				clock-names = "core";
+>> +				power-domains = <&mmcc VIDEO_SUBCORE1_GDSC>;
+>> +			};
+>> +		};
+>> +
+>>  		mmss_smmu: iommu@cd00000 {
+>>  			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
+>>  			reg = <0x0cd00000 0x40000>;
+>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>> index a712dd4f02a5b..ad1705e510312 100644
+>> --- a/drivers/media/platform/qcom/venus/core.c
+>> +++ b/drivers/media/platform/qcom/venus/core.c
+>> @@ -585,6 +585,43 @@ static const struct venus_resources msm8996_res = {
+>>  	.fwname = "qcom/venus-4.2/venus.mbn",
+>>  };
+>>  
+>> +static const struct freq_tbl msm8998_freq_table[] = {
+>> +	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
+>> +	{  972000, 520000000 },	/* 4k UHD @ 30 */
+>> +	{  489600, 346666667 },	/* 1080p @ 60 */
+>> +	{  244800, 150000000 },	/* 1080p @ 30 */
+>> +	{  108000,  75000000 },	/* 720p @ 30 */
+>> +};
+>> +
+>> +static const struct reg_val msm8998_reg_preset[] = {
+>> +    { 0x80124, 0x00000003 },
+>> +    { 0x80550, 0x01111111 },
+>> +    { 0x80560, 0x01111111 },
+>> +    { 0x80568, 0x01111111 },
+>> +    { 0x80570, 0x01111111 },
+>> +    { 0x80580, 0x01111111 },
+>> +    { 0xe2010, 0x00000000 },
+>> +};
+>> +
+>> +static const struct venus_resources msm8998_res = {
+>> +	.freq_tbl = msm8998_freq_table,
+>> +	.freq_tbl_size = ARRAY_SIZE(msm8998_freq_table),
+>> +	.reg_tbl = msm8998_reg_preset,
+>> +	.reg_tbl_size = ARRAY_SIZE(msm8998_reg_preset),
+>> +	.clks = {"core", "iface", "bus", "mbus"},
+>> +	.clks_num = 4,
+>> +	.vcodec0_clks = { "core" },
+>> +	.vcodec1_clks = { "core" },
+>> +	.vcodec_clks_num = 1,
+>> +	.max_load = 2563200,
+>> +	.hfi_version = HFI_VERSION_3XX,
+>> +	.vmem_id = VIDC_RESOURCE_NONE,
+>> +	.vmem_size = 0,
+>> +	.vmem_addr = 0,
+>> +	.dma_mask = 0xddc00000 - 1,
+>> +	.fwname = "qcom/venus-4.4/venus.mbn",
+>> +};
+>> +
+>>  static const struct freq_tbl sdm660_freq_table[] = {
+>>  	{ 979200, 518400000 },
+>>  	{ 489600, 441600000 },
+>> @@ -891,6 +928,7 @@ static const struct venus_resources sc7280_res = {
+>>  static const struct of_device_id venus_dt_match[] = {
+>>  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>>  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+>> +	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+>>  	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+>>  	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+>>  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+>>
+>>
+>>
+>> @Vikash, are you saying that perhaps the DTS for video-codec@cc00000
+>> needs to be written slightly differently?
+>
+>
+> Certainly yes. For ex, in the clock list, i do not see the core clocks listed
+> i.e clk_mmss_video_subcore0_clk and clk_mmss_video_subcore1_clk. You can refer
+> the downstream video DT node [1] and then align it as per venus driver
+> [1]
+> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi
 
-We could rename mipi_out to csi2_rx_out, sure.
 
-> > > How many lanes do you have and is lane remapping / polarity inversion
-> > > supported?
-> > > 
-> > > This should be reflected in bindings.
-> > > 
-> > > > +          };
-> > > > +        };
-> > > > +      };
-> > > > +    };
-> > > > +...
+If I understand correctly (which is far from certain),
+we should base the "qcom,msm8998-venus" DT node on
+"qcom,sdm845-venus-v2" rather than "qcom,msm8996-venus" ?
 
--- 
-Regards,
+Regards
 
-Laurent Pinchart
+
 
