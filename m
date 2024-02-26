@@ -1,159 +1,214 @@
-Return-Path: <linux-media+bounces-5987-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5988-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5FA867F36
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 18:48:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6570686812F
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 20:39:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 871F028BC00
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 17:48:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C9CA289DEE
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 19:39:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E122212EBF3;
-	Mon, 26 Feb 2024 17:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2108C12FF7B;
+	Mon, 26 Feb 2024 19:39:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Ogzxs2hN"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TbT37zpY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E39612D75F
-	for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 17:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CA012FB3A;
+	Mon, 26 Feb 2024 19:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708969712; cv=none; b=eGaG3FQKjQUzFmeVX8249O1oi3JTP2SM5s0S3RQB971BO/CofgHxY7d0cWy4W7YlsPxq5qV1IyggFGRMBhrpYB6iPnaMRc+I7qbjZSUcaskrk6kLKUY8+R38w2D5vE+a4DkL6/NN8L9MeqTcqcfdtAeRMK9P0+tGeX/aE7965rA=
+	t=1708976350; cv=none; b=mAcFhVMYaQv9NA+ZZQyn6oW7Rlc9BtoGAEqHOpQ45g70+JG4AM0CibcepQ1SIuS0f4uiJ4az414msVlY0Qb1ue5Cio4EK/l7axMAmeHaNqYqIWbVlF/baJjQwEM5Lg7QUnkbcGNPEG5Ekzjnc7iwLCRK6K6iZHSOIEXAixG/2XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708969712; c=relaxed/simple;
-	bh=9CNH6eBrpG7Y4RPdoxYMylKkon4YJXsFwRrwUsvdA5I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cFTYL+9DcH3BOdiuB6Sf3ipi1crd8Mn5eCC2f+JUw7w4MeOLtjDS3ILUP4MnrjspHMkhW0MxoioRI8lNZ7ABn46YIWti9Brnl5ulRINvXEaQgKsIcAurVdEQNtrCAb5rupOcRfr3zI3iIRXq4WopJr6BTIRcho+OR2n/rE5YPnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Ogzxs2hN; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33ddebaf810so455872f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 09:48:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1708969707; x=1709574507; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ojp2zJXBZwpD/60KKk/OWh1F7+E9xMLGoW5yyn8MP1Q=;
-        b=Ogzxs2hNvY31TJ8yEzCuEKgsyRflf1CIFLDUPoz3SPZhcI5XpfjFcBVylwMo2p7Rw6
-         YbnFWpNlssFvAjMN+5lDgvZuhx+kbJDeg79CgyfDsAFlttNl6jzn8Xu+YDdpUtV1XxK4
-         2kFCv38UIhiXiAYapi0uTO1+IpyA6P6oKB37zh6Bs51kWNKmi8yzY3OUTxIbXVu7iC2N
-         OSEIQAI/BsNsHjYxhP3pi2tBpZB/0hPbJf75zySUVZ5OelkBFnqYyNTYq6UZFbzkBcp0
-         mr1SM79onmmHXQvdRU9vNc0Rlr6vw8VM3nvYZI0nY/i3ZPZ6Yn6B47U4CLZOklMc6Eoe
-         l2aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708969707; x=1709574507;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ojp2zJXBZwpD/60KKk/OWh1F7+E9xMLGoW5yyn8MP1Q=;
-        b=tHsArerVYpQY13MiJ9wMj+CQ+rmSDxulvsE9t3UnrrtOjalL8Zhyavhb0zJOx69ET9
-         dknU9L0ZQi+vyQs9NN0/6fQ/14IkKflsSnAjpcLoMX4bJ7YOxdZGf0blx1EeKJ9GgcKG
-         VnNvZKrG+yQ+2jrlnHYfFbj8xxg2S8phEhK3rWs/0jH87EE6GbY5r8Z2pgg/T0eM/DOG
-         Qq3CdpzKAOGOTz/caThRngwF8B3nZRPIvejKMwn399kJRwrO8p2KIpU/4EM8DO1L4Q7E
-         05U1/rpHqrZpw6Z//WOtyPtquxlCPNy+Bxpqz54SEqTmDZESxe665ojm6UAYB14zSJ+T
-         9voA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfInAtouXw/5efZl5c4qzOdkhNeY1rJmdK8GwlOND38I6Cxs7tcsDcuY8275jYZj5cU/k4c0GcMpj+P7UxzUKTSFHkT4ZhnnPAVuc=
-X-Gm-Message-State: AOJu0YyU6QQePr6LGPU3tApUiWehdG8saT/y0UGitfzuFFad6HEqSuAZ
-	0joLoP5nV5V14dgSecxCfxGIHZksrybOT/ehw9tJ6vPcpElCAUvgu4xMwD37OU0=
-X-Google-Smtp-Source: AGHT+IFeR4xk7Fwu0u7VFlJ0xMPB7f8Wl3ldtiQ7PBzLuOaNIEmCyOPdZa82wTMgFMPSlFRnwQydCw==
-X-Received: by 2002:a05:6000:4ed:b0:33d:6be8:bb61 with SMTP id cr13-20020a05600004ed00b0033d6be8bb61mr5836632wrb.35.1708969707330;
-        Mon, 26 Feb 2024 09:48:27 -0800 (PST)
-Received: from [192.168.1.70] ([84.102.31.43])
-        by smtp.gmail.com with ESMTPSA id c3-20020adfe703000000b0033d6fe3f6absm8903931wrm.62.2024.02.26.09.48.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 09:48:26 -0800 (PST)
-Message-ID: <1c2fe59a-daf6-4486-84ca-5880222d24bd@baylibre.com>
-Date: Mon, 26 Feb 2024 18:48:25 +0100
+	s=arc-20240116; t=1708976350; c=relaxed/simple;
+	bh=LbcZ6qWq9CdIRdNMvzTM4cnq43tnvnfCY02gSxkWg6o=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FrIcdbuQ282hq6Rw8Fuduno4P5UEQB6DI72PgnvcqUtfEPNJ1Mph6LmFlDz5bgdpMgnl5KeyGmTCAn9N27a286j4Uu+gxdypVtd7M//eYqZGf1XhPQLYKz7Xye0e9IHZtbu0SwjM3vD5AhFzfICNEkOV2BCZBvPDjE7TLDmfMwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TbT37zpY; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1708976346;
+	bh=LbcZ6qWq9CdIRdNMvzTM4cnq43tnvnfCY02gSxkWg6o=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=TbT37zpYPH5KAbLLpe855oKrwwrgqsQTCy4TiemFVOyKXSaJiWz2opdr8Nv6I6pkI
+	 qO3j1L259B+bCL8rDsIhIqIiihW5PBHv6znH/zNcJDLcP5yyW57KeIQ+4n9CyFUvyg
+	 HCOyP5tEaNXgn8x21wTBF9E0cUmGyxqbuaxj3GxdqYUo/d0ysHemRo0SiEndbYmygl
+	 4Syxih5KS0pDrQN5FvJoeaFcxuIjUy4SydreT2KygZe/yltMuEoQG196PuWEgdV4i/
+	 ezujIPTzItOBSZuly5GkFggB0LRyPIqhImuFe8NGtVEAUSndzLro9pNgBfyL9wLzb0
+	 i1dEGh3rUiIgQ==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5165937820AF;
+	Mon, 26 Feb 2024 19:39:04 +0000 (UTC)
+Message-ID: <a50530974d05fb9a625b4bf6fbf531035161f443.camel@collabora.com>
+Subject: Re: [PATCH v3,1/2] media: mediatek: vcodec: adding lock to protect
+ decoder context list
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, =?ISO-8859-1?Q?N=EDcolas?= "F .
+ R . A . Prado" <nfraprado@collabora.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>, 
+ Irui Wang <irui.wang@mediatek.com>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig
+ <frkoenig@chromium.org>,  Daniel Vetter <daniel@ffwll.ch>, Steve Cho
+ <stevecho@chromium.org>, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, Steve Cho
+ <stevecho@google.com>
+Date: Mon, 26 Feb 2024 14:39:00 -0500
+In-Reply-To: <20240222092609.31382-2-yunfei.dong@mediatek.com>
+References: <20240222092609.31382-1-yunfei.dong@mediatek.com>
+	 <20240222092609.31382-2-yunfei.dong@mediatek.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: ethernet: ti: am65-cpsw: Add minimal XDP support
-Content-Language: en-US
-To: Simon Horman <horms@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com>
- <20240226172533.GG13129@kernel.org>
-From: Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <20240226172533.GG13129@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hello Simon,
+Hi,
 
-Thank you for the review.
+Le jeudi 22 f=C3=A9vrier 2024 =C3=A0 17:26 +0800, Yunfei Dong a =C3=A9crit=
+=C2=A0:
+> The ctx_list will be deleted when scp getting unexpected behavior, then t=
+he
+> ctx_list->next will be NULL, the kernel driver maybe access NULL pointer =
+in
+> function vpu_dec_ipi_handler when going through each context, then reboot=
+.
+>=20
+> Need to add lock to protect the ctx_list to make sure the ctx_list->next =
+isn't
+> NULL pointer.
 
-On 2/26/24 18:25, Simon Horman wrote:
-> On Fri, Feb 23, 2024 at 12:01:37PM +0100, Julien Panis wrote:
->> This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
->> Ethernet driver. The following features are implemented:
->> - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
->> - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
->> - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
->>
->> Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> ...
->
->> @@ -440,6 +476,27 @@ static void am65_cpsw_nuss_tx_cleanup(void *data, dma_addr_t desc_dma)
->>   	dev_kfree_skb_any(skb);
->>   }
->>   
->> +static struct sk_buff *am65_cpsw_alloc_skb(struct net_device *ndev, unsigned int len)
->> +{
->> +	struct page *page;
->> +	struct sk_buff *skb;
-> nit: please arrange local variables in reverse xmas tree order,
->       from longest line to shortest in new code.
->
->       This tool can be useful: https://github.com/ecree-solarflare/xmastree
+The cited crash no longer occurs for me, but it still sometimes crashes whi=
+le
+the SCP being rebooted. I think this patch can still go in, as it overall
+improves the situation.
 
-You mean, for the new functions introduced in this patch only ?
+Meanwhile, here's my stress test using GStreamer and stream downloaded by
+fluster. I call this script few times this way as it does not always crash.=
+ The
+test just keep starting decode sessions and terminate them after 2 seconds.=
+ It
+is highly parallel. Using too low number does not reproduce the crash, usin=
+g too
+high number leads to alloc failure, which wasn't the goal of this test.
 
->
->> +
->> +	page = dev_alloc_pages(0);
-> nit: Maybe dev_alloc_page() is appropriate here?
+./mtk-vcodec-crash.sh 100
 
-Absolutely.
+Script code:
+***
+#!/bin/bash
 
->
->> +	if (unlikely(!page))
->> +		return NULL;
->> +
->> +	len += AM65_CPSW_HEADROOM;
->> +
->> +	skb = build_skb(page_address(page), len);
->> +	if (unlikely(!skb))
-> Does page need to be freed here?
+test() {
+	gst-launch-1.0 --no-fault filesrc location=3DTILES_B_Cisco_1.bin ! h265par=
+se ! v4l2slh265dec ! fakevideosink &
+	pid=3D$!
 
-Of course it does ! This will be fixed in the next version.
+	sleep 2
+	kill $pid
+}
 
->
->> +		return NULL;
->> +
->> +	skb_reserve(skb, AM65_CPSW_HEADROOM + NET_IP_ALIGN);
->> +	skb->dev = ndev;
->> +
->> +	return skb;
->> +}
-> ...
+for i in $(seq 1 $1)
+do
+	test &
+done
 
+wait
+***
+
+The kernel Crash:
+[   93.261248] Unable to handle kernel NULL pointer dereference at virtual
+address 0000000000000008
+[   93.270056] Mem abort info:
+[   93.272880]   ESR =3D 0x0000000096000004
+[   93.276804]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+[   93.282233]   SET =3D 0, FnV =3D 0
+[   93.285372]   EA =3D 0, S1PTW =3D 0
+[   93.288561]   FSC =3D 0x04: level 0 translation fault
+[   93.293493] Data abort info:
+[   93.296424]   ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
+[   93.301920]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
+[   93.306977]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
+[   93.312321] user pgtable: 4k pages, 48-bit VAs, pgdp=3D0000000168daf000
+[   93.318790] [0000000000000008] pgd=3D0000000000000000, p4d=3D00000000000=
+00000
+[   93.325588] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+[   93.331842] Modules linked in: mt7921e mt7921_common mt792x_lib
+mt76_connac_lib mt76 mac80211 btusb btintel mtk_vcodec_dec_hw btmtk btrtl
+mtk_vcodec_dec btbcm cfg80211 bluetooth snd_sof_mt8195 mtk_vcodec_enc
+mtk_adsp_common uvcvideo v4l2_vp9 snd_sof_xtensa_dsp v4l2_h264 mtk_vcodec_d=
+bgfs
+snd_sof_of snd_sof ecdh_generic mtk_vcodec_common ecc uvc elan_i2c
+videobuf2_vmalloc crct10dif_ce cros_ec_lid_angle cros_ec_sensors snd_sof_ut=
+ils
+cros_ec_sensors_core cros_usbpd_logger cros_usbpd_charger fuse ip_tables ip=
+v6
+[   93.376652] CPU: 5 PID: 3210 Comm: h265parse0:sink Tainted: G        W  =
+   =20
+6.8.0-rc4-next-20240212+ #14
+[   93.386463] Hardware name: Acer Tomato (rev3 - 4) board (DT)
+[   93.392107] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=
+=3D--)
+[   93.399054] pc : vcodec_vpu_send_msg+0x4c/0x190 [mtk_vcodec_dec]
+[   93.405058] lr : vcodec_send_ap_ipi+0x78/0x170 [mtk_vcodec_dec]
+[   93.410968] sp : ffff80008750bc20
+[   93.414269] x29: ffff80008750bc20 x28: ffff1299f6d70000 x27: 00000000000=
+00000
+[   93.421391] x26: 0000000000000000 x25: 0000000000000000 x24: 00000000000=
+00000
+[   93.428512] x23: ffff80008750bc98 x22: 000000000000a003 x21: ffffd45c4cf=
+ae000
+[   93.435632] x20: 0000000000000010 x19: ffff1299fd668310 x18: 00000000000=
+0001a
+[   93.442753] x17: 000000040044ffff x16: ffffd45cb15dc648 x15: 00000000000=
+00000
+[   93.449874] x14: ffff1299c08da1c0 x13: ffffd45cb1f87a10 x12: ffffd45cb2f=
+5fe80
+[   93.456995] x11: 0000000000000001 x10: 0000000000001b30 x9 : ffffd45c4d1=
+2b488
+[   93.464116] x8 : 1fffe25339380d81 x7 : 0000000000000001 x6 : ffff1299c9c=
+06c00
+[   93.471236] x5 : 0000000000000132 x4 : 0000000000000000 x3 : 00000000000=
+00000
+[   93.478358] x2 : 0000000000000010 x1 : ffff80008750bc98 x0 : 00000000000=
+00000
+[   93.485479] Call trace:
+[   93.487914]  vcodec_vpu_send_msg+0x4c/0x190 [mtk_vcodec_dec]
+[   93.493563]  vcodec_send_ap_ipi+0x78/0x170 [mtk_vcodec_dec]
+[   93.499125]  vpu_dec_deinit+0x1c/0x30 [mtk_vcodec_dec]
+[   93.504254]  vdec_hevc_slice_deinit+0x30/0x98 [mtk_vcodec_dec]
+[   93.510076]  vdec_if_deinit+0x38/0x68 [mtk_vcodec_dec]
+[   93.515205]  mtk_vcodec_dec_release+0x20/0x40 [mtk_vcodec_dec]
+[   93.521027]  fops_vcodec_release+0x64/0x118 [mtk_vcodec_dec]
+[   93.526677]  v4l2_release+0x7c/0x100
+[   93.530245]  __fput+0x80/0x2d8
+[   93.533292]  __fput_sync+0x58/0x70
+[   93.536681]  __arm64_sys_close+0x40/0x90
+[   93.540590]  invoke_syscall+0x50/0x128
+[   93.544329]  el0_svc_common.constprop.0+0x48/0xf0
+[   93.549020]  do_el0_svc+0x24/0x38
+[   93.552323]  el0_svc+0x38/0xd8
+[   93.555367]  el0t_64_sync_handler+0xc0/0xc8
+[   93.559537]  el0t_64_sync+0x1a8/0x1b0
+[   93.563189] Code: d503201f f9401660 b900127f b900227f (f9400400)=20
+[   93.569268] ---[ end trace 0000000000000000 ]---
 
