@@ -1,94 +1,127 @@
-Return-Path: <linux-media+bounces-5909-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5910-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67E2867077
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 11:18:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E91BD8671BF
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 11:45:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B71F1F26ADB
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 10:18:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 264A21C258E4
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 10:45:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302C04EB36;
-	Mon, 26 Feb 2024 09:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6DC63A1B9;
+	Mon, 26 Feb 2024 10:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKOoR+ZB"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="WP/aWXGj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F0C4F213;
-	Mon, 26 Feb 2024 09:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD301C6B5;
+	Mon, 26 Feb 2024 10:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708941338; cv=none; b=s5nCwNgq6WzjcF27WSUgnpytj+PasUpS7Eg6xXraU0cPgxAWyrYwt+3BrLPo2dHl1IvsZHaROTH2Zy8FG+Wd0EzHQDoy8Ooe5IUXDZY1wNF49fDQWLqOydwB7O0TlsTX1UqFQPKWdNLwtRYpV9Bc7BhwT/NyoMrrGSUvtMS2Tk4=
+	t=1708944209; cv=none; b=Ll2eo42/Aed18WyqEzrfkjrGo4SfanXcjAi3pfmJtBJOWKZtQnh0pBINk8RoqrIRA7cM7WnbQLL5vnMb0txFj+nKEjeiPtLdsxdXYdfCrJJ6wPYj8jMjzP2vlKVkIT792fgeh+TzniYzPRrnGaS+TKBXAdcOmefHpTgANf1ar60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708941338; c=relaxed/simple;
-	bh=4dRXifSdQjscvfLmqYmq24fqEGlLnuN4Zc0Ty+/Cqmc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OwvQe0AXbDMwbqXTx19Plyq5xxG/n4x9Mrohgrz8LyHCQPc0SAEYqW476sJS5LjZc6nGWcO89QKUZ8q6IeffzKTbVe0VVhL4+WYTtn++a9sI7BfV0E6wZJRbXWwkR1hu8dlwwOtT5ugjHSbpKlYjSmbzhXGeNkfWq+ztRaCWst0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKOoR+ZB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A503C43390;
-	Mon, 26 Feb 2024 09:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708941338;
-	bh=4dRXifSdQjscvfLmqYmq24fqEGlLnuN4Zc0Ty+/Cqmc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AKOoR+ZBcLmKp+ldEEnw32sKLbEiPsihkWbr/DdXjQshwve9EmlZ69CX+EtAkkxn8
-	 sQyUpyavmYWBTPZNE/bkt+gnQ3uFPqH+u/QwATZ7pQo5CzC5/8+zZ/J1KqdQifIHps
-	 I26x1edA2wGFDQ4aU+Ki4WkTXZ2qkMSkmiOdmA1Pk1Ks/66+cM5AH1KxrUW8RIWSoP
-	 l+iFWriLMKYWviwdLxb+6q7mZOwty3yMCEPJlroxdpULY/+EFw7B0FUcvms7UrnF2f
-	 Q9/VRqle1CfyJD7lHbpkYzrh+6xjfUJR9+1Y9E2AxKz6+vSJzpJIqfuMtAMatoQwCp
-	 7z7aYRZ7g/25A==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: (subset) [PATCH v7 35/36] drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
-Date: Mon, 26 Feb 2024 10:55:23 +0100
-Message-ID: <170894131837.29486.11894124011939274293.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-35-8f4af575fce2@kernel.org>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org> <20240222-kms-hdmi-connector-state-v7-35-8f4af575fce2@kernel.org>
+	s=arc-20240116; t=1708944209; c=relaxed/simple;
+	bh=X8rA+Y7JGOMlvSPtBpSwR4vCKw6Q7thAMVdleZdif9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cqq50B+mG6i//ygsAvCJtZBN9+vq/Gb2rb0nlhVbcTTd+XV4bdUMYHAmWCw+a9Cye/LkOP+i0x7PWI1kqexFGkSIGlf7xn9F0FSSOeniE6aEAAsHGcT2TpVqdubeWn/oxvujWIzTG0V+8fqp6P6p+WJ8HBq7iqJ07ict2Prk8z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=WP/aWXGj; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=gZztgXP/XSLJSI+YL5JFai2EuuNwO+NB7lZeeMFJEPQ=; b=WP/aWXGjWHvv7r+76mUvjC+pNG
+	Si+HOXvuTb++8b/QJahf1MKBLR9QPxkDIkH8wozJPUWSv629/vmwalEISB2FUf+227amdVqJfPDim
+	bkWNliZ8viS+J2xAVmaN6dIRm9gb7ERyqyJSzIy52YIqDoqpRJtW2mdq89vGagLGJvWy1LvpPJQw9
+	gTYpLLaUxpDsGysaVb1HT17ZDQIHmWeFoNFSuFB952jU/Lxd8tRgwQwW7mbXZaJcmj+ulCA1HOjhZ
+	LIb00js8kAwls6kMQu/8KDwI5Va7opouVigUWCcKPHnOwqE9Akv7IlJgrFVspx3EMQIeb+UkTCNH/
+	cbdN8SKg==;
+Received: from [177.34.169.255] (helo=[192.168.0.139])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1reYRV-003X0t-2A; Mon, 26 Feb 2024 11:42:41 +0100
+Message-ID: <fc45b4c9-40e8-4335-b669-9307cc7325ad@igalia.com>
+Date: Mon, 26 Feb 2024 07:42:31 -0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 01/36] drm/tests: helpers: Include missing drm_drv
+ header
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-1-8f4af575fce2@kernel.org>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-1-8f4af575fce2@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Thu, 22 Feb 2024 19:14:21 +0100, Maxime Ripard wrote:
-> atomic_check and mode_valid do not check for the same things which can
-> lead to surprising result if the userspace commits a mode that didn't go
-> through mode_valid. Let's merge the two implementations into a function
-> called by both.
+On 2/22/24 15:13, Maxime Ripard wrote:
+> We have a few functions declared in our kunit helpers header, some of
+> them dereferencing the struct drm_driver.
 > 
+> However, we don't include the drm_drv.h header file defining that
+> structure, leading to compilation errors if we don't include both
+> headers.
 > 
+> Fixes: d98780310719 ("drm/tests: helpers: Allow to pass a custom drm_driver")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Applied to drm/drm-misc (drm-misc-next).
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
-Thanks!
-Maxime
+Best Regards,
+- Maíra
+
+> ---
+>   include/drm/drm_kunit_helpers.h | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
+> index ba483c87f0e7..3ae19892229d 100644
+> --- a/include/drm/drm_kunit_helpers.h
+> +++ b/include/drm/drm_kunit_helpers.h
+> @@ -3,6 +3,8 @@
+>   #ifndef DRM_KUNIT_HELPERS_H_
+>   #define DRM_KUNIT_HELPERS_H_
+>   
+> +#include <drm/drm_drv.h>
+> +
+>   #include <linux/device.h>
+>   
+>   #include <kunit/test.h>
+> 
 
