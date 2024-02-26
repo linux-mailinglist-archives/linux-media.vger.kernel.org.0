@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-5926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-5927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302EE8674F3
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:30:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E1C8674FD
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 13:31:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B44031F26EEC
-	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:30:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8A851C24DE3
+	for <lists+linux-media@lfdr.de>; Mon, 26 Feb 2024 12:31:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 275126087A;
-	Mon, 26 Feb 2024 12:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0520D63120;
+	Mon, 26 Feb 2024 12:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="nO7o1mql"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="EPkqIIez"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31A0604BB;
-	Mon, 26 Feb 2024 12:30:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74C563113;
+	Mon, 26 Feb 2024 12:30:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708950602; cv=none; b=Pr16979YzLzQs14JY4PAUX0LhKeANMF2pDfRhZXgPKcwK+cvZHzaNkSHYIdQilgZJnRoA6zr6jaeUiufFrtPVhs0TTJKhBFixvKSNtTURDbkNvs1Fm5nZyzXOWaEFX86MLMu8L2ZZVhKq5taUPkHTHoexbMNRnUoQxJ1QH//CKo=
+	t=1708950650; cv=none; b=cjg07qzRoULv804MX3O1j58+20PnOgkFa4Kn8JVRhEStSg9u8/j+V1w3FMrRDALTXHMps//Hj/m1ES5arcVgZ/iMs5p/Ot+n2NgSAyBzbksEZerxJAzFhxlfafB/FMf1YQSuqbPl2o4OCQD8cmVJWzAJFTA+b/V0g/eqWohNIn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708950602; c=relaxed/simple;
-	bh=2UzpBftGfONTgJsYO9jo3Eiv5eHfoMEaol+tbd/SXHA=;
+	s=arc-20240116; t=1708950650; c=relaxed/simple;
+	bh=367nRfM+AwkILElpi2M/PUviC5yCBObZdPSIGUNMP8o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PKWPyTvgeW2vqxUBOSUuLHIqLgMUid9jCXPSUo4wTdo9RJ+G1ZMU9J4vFwu+9eMiiEZcLqyO4ogPXM2es+vAAOVztYCoQfcTjwgA0J+u6qZC8/zUj/JuYqossibt4rDd9CO2wU+KBVpom/ZHudGp5quYnNen9ynX9bB0SGSSRM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=nO7o1mql; arc=none smtp.client-ip=213.97.179.56
+	 In-Reply-To:Content-Type; b=aFTOtLbshvuMX1HKI2oOqR2OFpEcyoLF4IvcGT6u6ewkdznlK79g/TuDxAFD1zrKAAai3So6WLEyivTT5pQDwvFFbOD8RaZwS3GHdKdpNOqhF+YecKF1kj5OHIdE2JWa4Q7VmUnSzvPUbpQBhEsZl0wSYTiS1NHCvxQNUSoGmok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=EPkqIIez; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
@@ -37,18 +37,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6uiBS+Qi7asaIxy6/7a5MSyWBWL8eWW6sZvNhsKqAP4=; b=nO7o1mql1l5uhE1TZDI6i2tAQ0
-	wyfpn30zdIhLWSm7LAnvxgSFa2K1lK+j8MYcjGXa3TeWtoyonvn57BTBA9m+ETkCt6ZIvqsghfzW4
-	QAkfqgbBwiJk6xewHIkjbf5mFTN6T3aHAdhW3Y83KUgbhQtVNSRTgrXyQWMm9kq+mNSD53P++KVhj
-	ZNMqKZl7GrmXWMRIT6+EryKM0uK4yq1WzsKmahmk+zfy22KNPxpv9a7uSSI4bexip7spal8O/YBHm
-	eVHrLna8RfH0FyG5WHfJ8TqABMatDf2YBgl8JDX89I05n3kSdljjUpE3jYhLzD+JTP31KV9ZKYzqQ
-	4yOKJ0pQ==;
+	bh=9E9uFo1ZA4/GNHoSVHywi3ucQYA9wjLjy4y7D2QRVoQ=; b=EPkqIIez4XfxwdTWX1fAQshniD
+	FJKNTXjlGpDIVV5cx73AbQbU7Azp2+otOzvEDrCbsB1QB+UOdRraNjeC+SLcngtv5x07m/8qNxxEk
+	RFGK6TdhGxMHDTlogi9HFkwbumaJaAmi1/JIOxPj4WUSyekNPJzY70rmgEsMuxH/ga1KXbKOfLMGH
+	M4DCO2/SXb6kiAQzcWXAQL0Q0WNp1RqilelPemAmio440xzS6+9rI4r3ps1c/E4irVejK+hTBIedD
+	SFPxx2OLYHPYoYfP8T2JqQAV016Ngc6nrUsDZuyH4Nx3wzURyDeEYrR+RmUrkTBkKYVCfmB0OA9rX
+	BUDcgD0w==;
 Received: from [177.34.169.255] (helo=[192.168.0.139])
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1rea72-003YnI-Sh; Mon, 26 Feb 2024 13:29:41 +0100
-Message-ID: <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
-Date: Mon, 26 Feb 2024 09:29:32 -0300
+	id 1rea7q-003YnI-Ph; Mon, 26 Feb 2024 13:30:31 +0100
+Message-ID: <1c91ff55-e6c6-4543-bbf5-c7543cc03979@igalia.com>
+Date: Mon, 26 Feb 2024 09:30:24 -0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
+Subject: Re: [PATCH v7 30/36] drm/vc4: tests: Convert to plane creation helper
 Content-Language: en-US
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -74,7 +74,7 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev
 References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-30-8f4af575fce2@kernel.org>
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Autocrypt: addr=mcanal@igalia.com; keydata=
  xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
@@ -85,106 +85,80 @@ Autocrypt: addr=mcanal@igalia.com; keydata=
  s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
  GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
  pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-30-8f4af575fce2@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 On 2/22/24 15:14, Maxime Ripard wrote:
-> The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
+> Now that we have a plane create helper for kunit mocked drivers, let's
+> convert to it in vc4.
 
-Maybe I understood incorrectly, but isn't the vc4_dummy_plane structure 
-equivalent to drm_plane?
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
 Best Regards,
 - Maíra
 
-> don't need it.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->   drivers/gpu/drm/vc4/tests/vc4_mock.c       |  6 ++----
->   drivers/gpu/drm/vc4/tests/vc4_mock.h       |  9 ++-------
->   drivers/gpu/drm/vc4/tests/vc4_mock_plane.c | 14 +++++---------
->   3 files changed, 9 insertions(+), 20 deletions(-)
+>   drivers/gpu/drm/vc4/tests/vc4_mock_plane.c | 34 +++++++-----------------------
+>   1 file changed, 8 insertions(+), 26 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock.c b/drivers/gpu/drm/vc4/tests/vc4_mock.c
-> index becb3dbaa548..0731a7d85d7a 100644
-> --- a/drivers/gpu/drm/vc4/tests/vc4_mock.c
-> +++ b/drivers/gpu/drm/vc4/tests/vc4_mock.c
-> @@ -109,16 +109,14 @@ static const struct vc4_mock_desc vc5_mock =
->   static int __build_one_pipe(struct kunit *test, struct drm_device *drm,
->   			    const struct vc4_mock_pipe_desc *pipe)
->   {
-> -	struct vc4_dummy_plane *dummy_plane;
->   	struct drm_plane *plane;
->   	struct vc4_dummy_crtc *dummy_crtc;
->   	struct drm_crtc *crtc;
->   	unsigned int i;
->   
-> -	dummy_plane = vc4_dummy_plane(test, drm, DRM_PLANE_TYPE_PRIMARY);
-> -	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_plane);
-> +	plane = vc4_dummy_plane(test, drm, DRM_PLANE_TYPE_PRIMARY);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
->   
-> -	plane = &dummy_plane->plane.base;
->   	dummy_crtc = vc4_mock_pv(test, drm, plane, pipe->data);
->   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_crtc);
->   
-> diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock.h b/drivers/gpu/drm/vc4/tests/vc4_mock.h
-> index 2d0b339bd9f3..002b6218960c 100644
-> --- a/drivers/gpu/drm/vc4/tests/vc4_mock.h
-> +++ b/drivers/gpu/drm/vc4/tests/vc4_mock.h
-> @@ -21,13 +21,8 @@ struct drm_crtc *vc4_find_crtc_for_encoder(struct kunit *test,
->   	return NULL;
->   }
->   
-> -struct vc4_dummy_plane {
-> -	struct vc4_plane plane;
-> -};
-> -
-> -struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
-> -					struct drm_device *drm,
-> -					enum drm_plane_type type);
-> +struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
-> +				  enum drm_plane_type type);
->   
->   struct vc4_dummy_crtc {
->   	struct vc4_crtc crtc;
 > diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-> index 62b18f5f41db..973f5f929097 100644
+> index 973f5f929097..14357db82238 100644
 > --- a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
 > +++ b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-> @@ -22,15 +22,12 @@ static const uint32_t vc4_dummy_plane_formats[] = {
->   	DRM_FORMAT_XRGB8888,
->   };
+> @@ -1,43 +1,25 @@
+>   // SPDX-License-Identifier: GPL-2.0
 >   
-> -struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
-> -					struct drm_device *drm,
-> -					enum drm_plane_type type)
-> +struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
-> +				  enum drm_plane_type type)
+> -#include <drm/drm_atomic_state_helper.h>
+> -#include <drm/drm_fourcc.h>
+> -#include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_kunit_helpers.h>
+>   #include <drm/drm_plane.h>
+>   
+>   #include <kunit/test.h>
+>   
+>   #include "vc4_mock.h"
+>   
+> -static const struct drm_plane_helper_funcs vc4_dummy_plane_helper_funcs = {
+> -};
+> -
+> -static const struct drm_plane_funcs vc4_dummy_plane_funcs = {
+> -	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+> -	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
+> -	.reset			= drm_atomic_helper_plane_reset,
+> -};
+> -
+> -static const uint32_t vc4_dummy_plane_formats[] = {
+> -	DRM_FORMAT_XRGB8888,
+> -};
+> -
+>   struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
+>   				  enum drm_plane_type type)
 >   {
-> -	struct vc4_dummy_plane *dummy_plane;
 >   	struct drm_plane *plane;
 >   
-> -	dummy_plane = drmm_universal_plane_alloc(drm,
-> -						 struct vc4_dummy_plane, plane.base,
-> +	plane = __drmm_universal_plane_alloc(drm, sizeof(struct drm_plane), 0,
->   						 0,
->   						 &vc4_dummy_plane_funcs,
->   						 vc4_dummy_plane_formats,
-> @@ -38,10 +35,9 @@ struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
->   						 NULL,
->   						 DRM_PLANE_TYPE_PRIMARY,
->   						 NULL);
-> -	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_plane);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
+> -	plane = __drmm_universal_plane_alloc(drm, sizeof(struct drm_plane), 0,
+> -						 0,
+> -						 &vc4_dummy_plane_funcs,
+> -						 vc4_dummy_plane_formats,
+> -						 ARRAY_SIZE(vc4_dummy_plane_formats),
+> -						 NULL,
+> -						 DRM_PLANE_TYPE_PRIMARY,
+> -						 NULL);
+> +	KUNIT_ASSERT_EQ(test, type, DRM_PLANE_TYPE_PRIMARY);
+> +
+> +	plane = drm_kunit_helper_create_primary_plane(test, drm,
+> +						      NULL,
+> +						      NULL,
+> +						      NULL, 0,
+> +						      NULL);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
 >   
-> -	plane = &dummy_plane->plane.base;
->   	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
->   
-> -	return dummy_plane;
-> +	return plane;
+> -	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
+> -
+>   	return plane;
 >   }
 > 
 
