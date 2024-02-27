@@ -1,135 +1,186 @@
-Return-Path: <linux-media+bounces-6023-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6024-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B469A868FB1
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 13:08:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D518869066
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 13:25:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3E5D1C20DA5
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 12:08:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 02ED8282623
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 12:25:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6069313A279;
-	Tue, 27 Feb 2024 12:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F5BB13B28A;
+	Tue, 27 Feb 2024 12:24:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPcOhAiN"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QiXTSOo7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C8F137C20;
-	Tue, 27 Feb 2024 12:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F0D13A273;
+	Tue, 27 Feb 2024 12:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709035697; cv=none; b=lPT+vCSgt9jgAIKDWsF/JiM3Ytuh5wLCeh1BmAuF2uuVBlXPTJqu53lNgDWxUOPw8+nXLXBSnDnYhWWx/Wta8xxm+BOsDQe4KR1/VITF+ZrpvKWJxVL+AugbdE3MZ61w1w6X7uTcN64/Oxn2bSs9fF6ijMp2rpYKm+yaaq2AxQQ=
+	t=1709036690; cv=none; b=DBJGp+dz5d1vwaeLp+mudSKqjTX6I7fAf+3G1L1x9ARrEymPcwprz2B4zwFYy4u8ILzDh4PAGkiaimRBOvQzx8wTCiwKcU1UBOwVZ0LxaPNKlqbNQCy/DuElc/QsfbcG1hVUariKWAq4iRUNc4eYpEljTReTyhEX9/23+7gULro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709035697; c=relaxed/simple;
-	bh=ACaz7oj5ReqFoIR72ebNJXl994t4BOU7shgO5K8CUjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qIu6A+sgTD3lzGRrHUzM0ISvDwwTjbYh8FOPWO/DE8Gzj/srQGKcOrMeonvxYdty8sfpFq63jtpEyn8MxTqSHVHCKBOpdP/2CacP99dupwOi1Vq10PVcA2I86GLsEWhQuoSGG4xPcQmhztphDd55kiVPVD4vQA1y2gB8B5FSivE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rPcOhAiN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9B4C43390;
-	Tue, 27 Feb 2024 12:08:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709035697;
-	bh=ACaz7oj5ReqFoIR72ebNJXl994t4BOU7shgO5K8CUjs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rPcOhAiN2PtkNLYRBMqmRiMbDR6p59SbOgdUHY6MdY/GfepvdtHrN4RR9v1sZYqf6
-	 jGI2QQj99JWnXpmDj76LwUn5WOEnN2l8plI/Woy9JymhacQ8VopW5b3x8MDmW6BR3I
-	 1mhXEPNwYTypLA8EvT5QrKq5WyQSqfjz/WuF4zmZbFCzvBEEroimeIedS523uwhWc0
-	 uq2irP6Mmsab/1y0zyVOZI3iqcQ1Tt+elVYtsRMaL5qiHIHNgePfxDPrjcFVWcmbyP
-	 nzPJdHwMz3keyVrdNrECnvtckEFIcLNcawWXousAOSunIXQ/sdzf7RMhsqiuz0ENoH
-	 NKhxbGiV9gDEw==
-Date: Tue, 27 Feb 2024 13:08:14 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v7 25/36] drm/connector: hdmi: Add Infoframes generation
-Message-ID: <lxvyfigepzg4jhqub6lg6lmffen4puf477zjxmi766f3hu6trn@nnvg6htufsjn>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-25-8f4af575fce2@kernel.org>
- <CAA8EJpri_whY8YfX2BsBjMN_4JvFsU-ogfr1W-KUKrasRoH-WQ@mail.gmail.com>
+	s=arc-20240116; t=1709036690; c=relaxed/simple;
+	bh=aVwTDpgYEdrZI3vDH6C4TNu2Fx5LABUkuIt5XlkGYq4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pHakDffHSgHCPyxJLDnJGXiEVk1aSQFA/Gx/yfssDleLNQq7WdENLz2ULXpH7LxyUnj3mx+Cc5x+DZLN4gtq/fkyCLVkYAlVRTPqhhVOv3ba3emWwfYHZ1sOo5zX4A1RIu+JiSaGx6ciVuZRSjsUBVqOM8hLZ/UPPRPXMyFqHHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QiXTSOo7; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41R9YfbS000519;
+	Tue, 27 Feb 2024 12:24:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=IE0VW1j
+	h448aXmao0Jg+0epM3kKiquSK6nql7Ie2IiI=; b=QiXTSOo708baJAvVb21hQKP
+	TOBdJL+Tct79R0Ufi4KMUV2gwvbvfqhEHme2KnoM35HIvTjEvX0au/IkefuCkvet
+	gVo/cwx9o8eBHnBOy8bhLsgVkQ2MRWQg6uOr1MeKGAC+A5E0kP2yfleD1uU/T/tH
+	FcNSYjwzn9ve92ZW8dQKp9YZ9TRV1p9zRoYYrWGS667xLNVnr8JAf2IGdQe5HWqe
+	fOjb1Egp3cWzp19apgiJkk5LsYNyu1trolep4qT9XHL+AzGYnjAXUctikvn9vArY
+	vMVoCH/HqaDzWYG+PSpqspwgHyWQomfyy11Tk979CXk1a7OyYUlL9sAhy2nc5fA=
+	=
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wh6nrh5f2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Feb 2024 12:24:42 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41RCOfwQ012738
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Feb 2024 12:24:41 GMT
+Received: from grosikop.eu.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 27 Feb 2024 04:24:38 -0800
+From: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
+        <hverkuil-cisco@xs4all.nl>, <quic_hariramp@quicinc.com>
+Subject: [PATCH 0/9] Move camss version related defs in to resources
+Date: Tue, 27 Feb 2024 14:24:06 +0200
+Message-ID: <20240227122415.491-1-quic_grosikop@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ocit6yam46alzc5t"
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpri_whY8YfX2BsBjMN_4JvFsU-ogfr1W-KUKrasRoH-WQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: DPlZSTGkA2ZjpVmzaoz_y-UkkIArSU5m
+X-Proofpoint-ORIG-GUID: DPlZSTGkA2ZjpVmzaoz_y-UkkIArSU5m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-26_11,2024-02-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 clxscore=1011 suspectscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 mlxlogscore=938 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
+ definitions=main-2402270097
+
+The different resources required for different camss versions are
+split in to two groups:
+
+1. Camss device related. In this group are all resources described
+in the device tree, clocks, regulators etc.
+
+2. Sub-device specific resources. In the initialization
+of the each sub-device, the version of camss is passed.
+Based on this version the sub-device adds: hw layer support,
+per pad formats, number of dma's etc.
+
+The code for "1" group lives in camss.c itself. However the "2" group
+is spread across all sub-device implementations including video device.
+
+This kind of separation is not very convenient when adding new hw
+version. The reason is that you need to add support in all sub-device
+implementations.
+
+There were some improvements in this direction where some of the
+hw version related definitions were moved in to the "1". One
+example is attaching of the hw operations.
+
+This series aim to improve the things more and add additional definitions
+in to the "1".
 
 
---ocit6yam46alzc5t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What is included:
 
-On Sun, Feb 25, 2024 at 05:02:51PM +0200, Dmitry Baryshkov wrote:
-> > @@ -476,6 +478,7 @@ EXPORT_SYMBOL(drmm_connector_init);
-> >   */
-> >  int drmm_connector_hdmi_init(struct drm_device *dev,
-> >                              struct drm_connector *connector,
-> > +                            const char *vendor, const char *product,
-> >                              const struct drm_connector_funcs *funcs,
-> >                              const struct drm_connector_hdmi_funcs *hdm=
-i_funcs,
-> >                              int connector_type,
-> > @@ -485,6 +488,13 @@ int drmm_connector_hdmi_init(struct drm_device *de=
-v,
-> >  {
-> >         int ret;
-> >
-> > +       if (!vendor || !product)
-> > +               return -EINVAL;
-> > +
-> > +       if ((strlen(vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
-> > +           (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
-> > +               return -EINVAL;
-> > +
-> >         if (!(connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
-> >               connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB))
-> >                 return -EINVAL;
-> > @@ -500,6 +510,12 @@ int drmm_connector_hdmi_init(struct drm_device *de=
-v,
-> >                 return ret;
-> >
-> >         connector->hdmi.supported_formats =3D supported_formats;
-> > +       strtomem_pad(connector->hdmi.vendor, vendor, 0);
-> > +       strtomem_pad(connector->hdmi.product, product, 0);
-> > +
-> > +       ret =3D drmm_mutex_init(dev, &connector->hdmi.infoframes.lock);
->=20
-> I'd suggest moving this call to the generic __drm_connector_init().
-> This way no matter how the rest of the drm code (mis)uses the
-> connector, the lock is always present and valid.
+- Remove all format definitions from camss video. The will be passed
+  by the parent sub-device
 
-Yeah, that makes sense, I'll change it.
+- Make camss generic format definition mapping, containing mbus to
+  v4l2 mapping, mbus bpp and other required fields used by the
+  sub-device and video node.
 
-Thanks!
-Maxime
+- Add per sub-device type union in the resources, different
+  sub-devices are using different resources, as an example: is_lite flag.
 
---ocit6yam46alzc5t
-Content-Type: application/pgp-signature; name="signature.asc"
+- Move camss link operation in to the resources. Currently one
+  function supports different topologies depending of the number
+  of devices. As hw version support increases this is not good
+  way of supporting different topologies.
 
------BEGIN PGP SIGNATURE-----
+- Add parent device ops in to the resources. This resolves
+  inter-dependencies of vfe and csid. Csid requests the clocks
+  regulators etc from parent device instead calling directly vfe
+  functions.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3QrgAKCRDj7w1vZxhR
-xUw4AQDY/7kZ7wFpO+/Ak/W0YWywU3LNZ5pkN4Om9GBNtAUK6wD/YV9OiFjDhmlL
-sW/aBGeDNa/yzjkkc0NKa5D6dGQe5Qc=
-=FJc2
------END PGP SIGNATURE-----
+- Some cleanups in csid code for split the configuration of
+  RX and testgen and RDI.
 
---ocit6yam46alzc5t--
+Atanas Filipov (1):
+  media: qcom: camss: Decompose register and link operations
+
+Milen Mitkov (3):
+  media: qcom: camss: Designate lite subdevices in resources
+  media: qcom: camss: Split testgen, RDI and RX for CSID 170
+  media: qcom: camss: Decouple VFE from CSID
+
+Radoslav Tsvetkov (5):
+  media: qcom: camss: Add per sub-device type resources
+  media: qcom: camss: Attach formats to VFE resources
+  media: qcom: camss: Attach formats to CSID resources
+  media: qcom: camss: Attach formats to CSIPHY resources
+  media: qcom: camss: Move format related functions
+
+ drivers/media/platform/qcom/camss/Makefile    |   1 +
+ .../platform/qcom/camss/camss-csid-4-1.c      | 132 +---
+ .../platform/qcom/camss/camss-csid-4-7.c      | 160 +----
+ .../platform/qcom/camss/camss-csid-gen2.c     | 410 +++++--------
+ .../media/platform/qcom/camss/camss-csid.c    | 512 +++++++++++++++-
+ .../media/platform/qcom/camss/camss-csid.h    |  32 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  73 +--
+ .../media/platform/qcom/camss/camss-csiphy.h  |  23 +-
+ .../media/platform/qcom/camss/camss-format.c  |  98 +++
+ .../media/platform/qcom/camss/camss-format.h  |  67 ++
+ .../media/platform/qcom/camss/camss-vfe-170.c |  10 +-
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   4 +-
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |   6 +-
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |   6 +-
+ .../platform/qcom/camss/camss-vfe-gen1.c      |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c | 483 +++++++++------
+ drivers/media/platform/qcom/camss/camss-vfe.h |  22 +-
+ .../media/platform/qcom/camss/camss-video.c   | 294 +--------
+ .../media/platform/qcom/camss/camss-video.h   |   5 +-
+ drivers/media/platform/qcom/camss/camss.c     | 577 +++++++++++++-----
+ drivers/media/platform/qcom/camss/camss.h     |  28 +-
+ 21 files changed, 1656 insertions(+), 1295 deletions(-)
+ create mode 100644 drivers/media/platform/qcom/camss/camss-format.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-format.h
+
+-- 
+2.17.1
+
 
