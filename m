@@ -1,220 +1,141 @@
-Return-Path: <linux-media+bounces-6000-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6001-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F049868544
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 01:56:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 962688685EF
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 02:33:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 929611C21F79
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 00:56:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 82C2D1C25F7B
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 01:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54EFB441F;
-	Tue, 27 Feb 2024 00:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C08FB5C89;
+	Tue, 27 Feb 2024 01:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="CEAv4M/0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4700C15CB
-	for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 00:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A435A4431;
+	Tue, 27 Feb 2024 01:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708995380; cv=none; b=gRYu/yPRIBeN1L60X5KLQx/2Mrb2sE1uFtVv+mKKdXvpYuzKpJUIJy1VvbYkrBZUcApQqwncVVTOA0Qk8ygr04pWpgJ5T11z6Zvs7stbOORHbVyoY0cNfIqSnTzq5pSX6KFXEa+59VsTXY+fYrbjkXRvIhm7QwERUjMzsqz50tQ=
+	t=1708997561; cv=none; b=LqVbJcFgxVnFELHvmzvuGYCr4kMM3Kizyik075X12qdblRVD9KFoYwWfJELtptBCM7IR/w+28u5qdRR5lc0lFOoy4KJ2oLamu/0QZSSJIM35R0N/aDdwT4pX+tvbUpW//l02COeAuGgZjVfKNr6xeKcafjaei63S3aQHetxFVy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708995380; c=relaxed/simple;
-	bh=GnasIGrmbP27zJ4MU+qdHIvvAAtB3198K396jnP6TQA=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=udkuLVmWyOYm7+DCPFrwtBqPeQLIJJc4V5rHt3XUGU7/6agxDhkTSgnyjYJw1NgDsr2wbfmMLLlGHTpHIPtmbQQbo7ysDJ8J0Si/JJ/2IP9zpfaqBZ6c/DU6HujXa0YAUQECCggOhBJgctdJLV8z/6EnGCGc9O7r+sWXrbBzgyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7bad62322f0so379269839f.3
-        for <linux-media@vger.kernel.org>; Mon, 26 Feb 2024 16:56:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708995377; x=1709600177;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hGS+TsgiaJJB+YR8NChc905gWzRgJqAKHS8Fgnayr7Q=;
-        b=P6c3KDSY97V6nRcLGnC1SoXGzTyKiIXVJAuq2fk6YWnvJmlI7h9xa9/ErcELSplNzB
-         h+/5HIDDDGlkeIkQMWdA4cp8Xh2T9cbsqP6/upI3+dx9uUHOwe0o8vM5PMZsBnevmAAD
-         UyS1KBkwY7KNE2C5wapFYWSYSra2VC5Tcj/nWYih2naKPBaTiD9AKB5WRdO85FzKziSY
-         sVXk7fajzBafo1ngoIk/C4lrkJLmE/KAXroV3tNKerxKH+SsiyxapebfeDzJr65vDPkh
-         79x+AnmuY9iePpMC+QOgvWwNtJ5X2qvPu8eFS5yjsIO50Sjdn8fYbfpEXOW+DJV2qO5N
-         lFSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXzVAn9Ej8LhXY5iZyT4DLJyt/JTdueSMvgWhtIk12mq0iXZ4ncSSjtmO5/C+uckKUFy3vRZ8MBqv98Lc5vqLDg2w9fob87SZ2T/SM=
-X-Gm-Message-State: AOJu0YzpvYD7jsYCEF3KEPQJ3ExEQa1sSauLTHa+y5CNv+0vAd3qqnA1
-	+C91sd9kDUYvSKMQDgb0o4USrtMwhCFHT7yVpfmiuURN2+kgpzuIVSVLW4qMw+fquiCQ79BeOKF
-	F7dDmC8TrrgMmZfYD70DuUckDvZHRWIKr9voL/czkBzMVdRMYZVnRbFE=
-X-Google-Smtp-Source: AGHT+IFibvy0HGfjK3AZXWzszHJz5KeM8HEX+Rxvjkem2/PuwSGEwNBwChjEBm3f99nfHReI8DxFZCj8O15rYvZWT1wvvUnO4QjO
+	s=arc-20240116; t=1708997561; c=relaxed/simple;
+	bh=rwEK40Mj5XvI87taaXUUJLThj4xJgYuaMvN75mfEwus=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LN1TauVQqSMWx3YfVI/9VjUIFYTaQN7bfmKJyft9KyL0LwruEbodfN9mA3q84P5w6lsLzG4+xToeGbojo47bKuxLFNzDATJ03UhjSWclPgGJCajxh5xhn0v88Kr2rRwoi6OAT2kBapHSPd8pkIUfnrCum9wWZGUbI0eeS6LHhho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=CEAv4M/0; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 1285ce64d51011eea4ad694c3f9da370-20240227
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=c0PmycMVRivwEWb41nt3gj2hmGIBdJX1VHqiQ5e65ag=;
+	b=CEAv4M/0hv2llcBJQ/aiABWGppiqyQ+FNyYnkiYMVjLuOLxXQhg7Cx2o1mb0q5yr/5ae7Q9aMic1My8LvAt6znHdBu7XUQDbLkrK+D3rJPbOHIrXGGoIRR/2zDjUTY/klXeIif11haHLzfX9zMMlT181wsr54ulLTo4dEgvhfBk=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:e2ba2bf1-7836-452f-be1b-10d5eec6e432,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:-30,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:-55
+X-CID-META: VersionHash:6f543d0,CLOUDID:81d63dff-c16b-4159-a099-3b9d0558e447,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:2,IP:nil,UR
+	L:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 1285ce64d51011eea4ad694c3f9da370-20240227
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
+	(envelope-from <zhi.mao@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 285279662; Tue, 27 Feb 2024 09:32:30 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 27 Feb 2024 09:32:28 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 27 Feb 2024 09:32:27 +0800
+From: Zhi Mao <zhi.mao@mediatek.com>
+To: <mchehab@kernel.org>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <sakari.ailus@linux.intel.com>
+CC: <laurent.pinchart@ideasonboard.com>, <shengnan.wang@mediatek.com>,
+	<yaya.chang@mediatek.com>, <10572168@qq.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, <yunkec@chromium.org>,
+	<conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>, <jacopo.mondi@ideasonboard.com>,
+	<zhi.mao@mediatek.com>, <hverkuil-cisco@xs4all.nl>, <heiko@sntech.de>,
+	<jernej.skrabec@gmail.com>, <macromorgan@hotmail.com>,
+	<linus.walleij@linaro.org>, <hdegoede@redhat.com>,
+	<tomi.valkeinen@ideasonboard.com>, <gerald.loacker@wolfvision.net>,
+	<andy.shevchenko@gmail.com>, <bingbu.cao@intel.com>,
+	<dan.scally@ideasonboard.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v6 0/2] media: i2c: Add support for GC08A3 sensor
+Date: Tue, 27 Feb 2024 09:32:19 +0800
+Message-ID: <20240227013221.21512-1-zhi.mao@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:2b24:b0:474:7fd9:6bf7 with SMTP id
- fm36-20020a0566382b2400b004747fd96bf7mr130994jab.4.1708995377537; Mon, 26 Feb
- 2024 16:56:17 -0800 (PST)
-Date: Mon, 26 Feb 2024 16:56:17 -0800
-In-Reply-To: <0000000000000946190610bf7bd5@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000066a91a0612527e6d@google.com>
-Subject: Re: [syzbot] [dri?] [media?] inconsistent lock state in valid_state (2)
-From: syzbot <syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com>
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
-	gustavo@padovan.org, linaro-mm-sig-bounces@lists.linaro.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
-	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 
-syzbot has found a reproducer for the following issue on:
+This series adds YAML DT binding and V4L2 sub-device driver for Galaxycore's
+GC08A3 8-megapixel 10-bit RAW CMOS 1/4" sensor, with an MIPI CSI-2 image data
+interface and the I2C control bus.
 
-HEAD commit:    d206a76d7d27 Linux 6.8-rc6
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=12eea106180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=fad652894fc96962
-dashboard link: https://syzkaller.appspot.com/bug?extid=a225ee3df7e7f9372dbe
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1537934a180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1704b3e2180000
+The driver is implemented with V4L2 framework.
+ - Async registered as a V4L2 sub-device.
+ - As the first component of camera system including Seninf, ISP pipeline.
+ - A media entity that provides one source pad in common.
+ - Used in camera features on ChromeOS application.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6fa98109295d/disk-d206a76d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/613b4087d09d/vmlinux-d206a76d.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d8cd6514daf9/bzImage-d206a76d.xz
+Also this driver supports following features:
+ - manual exposure and analog gain control support
+ - vertical blanking control support
+ - test pattern support
+ - media controller support
+ - runtime PM support
+ - support resolution: 3264x2448@30fps, 1920x1080@60fps
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com
+Previous versions of this patch-set can be found here:
+v5: https://lore.kernel.org/linux-media/20240220012540.10607-1-zhi.mao@mediatek.com/
+v4: https://lore.kernel.org/linux-media/20240204061538.2105-1-zhi.mao@mediatek.com/
+v3: https://lore.kernel.org/linux-media/20240109022715.30278-1-zhi.mao@mediatek.com/
+v2: https://lore.kernel.org/linux-media/20231207052016.25954-1-zhi.mao@mediatek.com/
+v1: https://lore.kernel.org/linux-media/20231123115104.32094-1-zhi.mao@mediatek.com/
 
-================================
-WARNING: inconsistent lock state
-6.8.0-rc6-syzkaller #0 Not tainted
---------------------------------
-inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-syz-executor120/5070 [HC1[1]:SC0[0]:HE0:SE1] takes:
-ffffffff8ea8cd18 (sync_timeline_list_lock){?.+.}-{2:2}, at: sync_timeline_debug_remove+0x2c/0x150 drivers/dma-buf/sync_debug.c:31
-{HARDIRQ-ON-W} state was registered at:
-  trace_hardirqs_on+0x28/0x40 kernel/trace/trace_preemptirq.c:61
-  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
-  _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:202
-  spin_unlock_irq include/linux/spinlock.h:401 [inline]
-  sync_print_obj drivers/dma-buf/sync_debug.c:118 [inline]
-  sync_info_debugfs_show+0x158/0x4d0 drivers/dma-buf/sync_debug.c:153
-  seq_read_iter+0x445/0xd60 fs/seq_file.c:230
-  seq_read+0x3a3/0x4f0 fs/seq_file.c:162
-  vfs_read+0x204/0xb70 fs/read_write.c:474
-  ksys_read+0x1a0/0x2c0 fs/read_write.c:619
-  do_syscall_64+0xf9/0x240
-  entry_SYSCALL_64_after_hwframe+0x6f/0x77
-irq event stamp: 9608
-hardirqs last  enabled at (9607): [<ffffffff8b71f113>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
-hardirqs last  enabled at (9607): [<ffffffff8b71f113>] _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:202
-hardirqs last disabled at (9608): [<ffffffff8b66faee>] sysvec_irq_work+0xe/0xb0 arch/x86/kernel/irq_work.c:17
-softirqs last  enabled at (9124): [<ffffffff81592641>] invoke_softirq kernel/softirq.c:427 [inline]
-softirqs last  enabled at (9124): [<ffffffff81592641>] __irq_exit_rcu+0xf1/0x1c0 kernel/softirq.c:632
-softirqs last disabled at (9119): [<ffffffff81592641>] invoke_softirq kernel/softirq.c:427 [inline]
-softirqs last disabled at (9119): [<ffffffff81592641>] __irq_exit_rcu+0xf1/0x1c0 kernel/softirq.c:632
+This series is based on linux-next, tag: next-20240226
+Changes in v6:
+- gc08a3 sensor driver：
+-- refine header files in driver code
+-- use macro HZ_PER_MHZ/USEC_PER_MSEC for some variable define
+-- define reset-pin as active-low in DT,and use logical states: gpiod_set_value_cansleep(reset_gpio, 0) in driver
+-- use new PM macros: pm_ptr()
 
-other info that might help us debug this:
- Possible unsafe locking scenario:
+Thanks
 
-       CPU0
-       ----
-  lock(sync_timeline_list_lock);
-  <Interrupt>
-    lock(sync_timeline_list_lock);
+Zhi Mao (2):
+  media: dt-bindings: i2c: add GalaxyCore GC08A3 image sensor
+  media: i2c: Add GC08A3 image sensor driver
 
- *** DEADLOCK ***
+ .../bindings/media/i2c/galaxycore,gc08a3.yaml |  112 ++
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/gc08a3.c                    | 1333 +++++++++++++++++
+ 4 files changed, 1456 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
+ create mode 100644 drivers/media/i2c/gc08a3.c
 
-no locks held by syz-executor120/5070.
-
-stack backtrace:
-CPU: 0 PID: 5070 Comm: syz-executor120 Not tainted 6.8.0-rc6-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1e7/0x2e0 lib/dump_stack.c:106
- valid_state+0x13a/0x1c0 kernel/locking/lockdep.c:4013
- mark_lock_irq+0xbb/0xc20 kernel/locking/lockdep.c:4216
- mark_lock+0x223/0x350 kernel/locking/lockdep.c:4678
- mark_usage kernel/locking/lockdep.c:4564 [inline]
- __lock_acquire+0xb8d/0x1fd0 kernel/locking/lockdep.c:5091
- lock_acquire+0x1e3/0x530 kernel/locking/lockdep.c:5754
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
- sync_timeline_debug_remove+0x2c/0x150 drivers/dma-buf/sync_debug.c:31
- sync_timeline_free drivers/dma-buf/sw_sync.c:125 [inline]
- kref_put include/linux/kref.h:65 [inline]
- sync_timeline_put drivers/dma-buf/sw_sync.c:137 [inline]
- timeline_fence_release+0x204/0x250 drivers/dma-buf/sw_sync.c:165
- kref_put include/linux/kref.h:65 [inline]
- dma_fence_put include/linux/dma-fence.h:297 [inline]
- dma_fence_array_release+0x13e/0x240 drivers/dma-buf/dma-fence-array.c:120
- irq_work_single+0xe1/0x240 kernel/irq_work.c:221
- irq_work_run_list kernel/irq_work.c:252 [inline]
- irq_work_run+0x18b/0x350 kernel/irq_work.c:261
- __sysvec_irq_work+0xa8/0x3e0 arch/x86/kernel/irq_work.c:22
- sysvec_irq_work+0x8f/0xb0 arch/x86/kernel/irq_work.c:17
- </IRQ>
- <TASK>
- asm_sysvec_irq_work+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:__raw_spin_unlock_irq include/linux/spinlock_api_smp.h:160 [inline]
-RIP: 0010:_raw_spin_unlock_irq+0x29/0x50 kernel/locking/spinlock.c:202
-Code: 90 f3 0f 1e fa 53 48 89 fb 48 83 c7 18 48 8b 74 24 08 e8 da 4b ff f5 48 89 df e8 92 8b 00 f6 e8 ad aa 28 f6 fb bf 01 00 00 00 <e8> 62 5c f2 f5 65 8b 05 e3 cd 91 74 85 c0 74 06 5b c3 cc cc cc cc
-RSP: 0018:ffffc90003a87b50 EFLAGS: 00000282
-RAX: 9ede7a61d4cee000 RBX: ffff888015fb5f30 RCX: ffffffff94485303
-RDX: dffffc0000000000 RSI: ffffffff8baab640 RDI: 0000000000000001
-RBP: ffff88807f87c63c R08: ffffffff8f8568af R09: 1ffffffff1f0ad15
-R10: dffffc0000000000 R11: fffffbfff1f0ad16 R12: ffff888015fb5f20
-R13: ffff88807f87c600 R14: dffffc0000000000 R15: ffff888015fb5ee0
- spin_unlock_irq include/linux/spinlock.h:401 [inline]
- sw_sync_debugfs_release+0x14b/0x1d0 drivers/dma-buf/sw_sync.c:359
- __fput+0x429/0x8a0 fs/file_table.c:376
- task_work_run+0x24e/0x310 kernel/task_work.c:180
- exit_task_work include/linux/task_work.h:38 [inline]
- do_exit+0xa2c/0x2740 kernel/exit.c:871
- do_group_exit+0x206/0x2c0 kernel/exit.c:1020
- __do_sys_exit_group kernel/exit.c:1031 [inline]
- __se_sys_exit_group kernel/exit.c:1029 [inline]
- __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1029
- do_syscall_64+0xf9/0x240
- entry_SYSCALL_64_after_hwframe+0x6f/0x77
-RIP: 0033:0x7fb8001b9f39
-Code: Unable to access opcode bytes at 0x7fb8001b9f0f.
-RSP: 002b:00007ffdaf45d478 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-RAX: ffffffffffffffda RBX: 000000000000000
-----------------
-Code disassembly (best guess):
-   0:	90                   	nop
-   1:	f3 0f 1e fa          	endbr64
-   5:	53                   	push   %rbx
-   6:	48 89 fb             	mov    %rdi,%rbx
-   9:	48 83 c7 18          	add    $0x18,%rdi
-   d:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
-  12:	e8 da 4b ff f5       	call   0xf5ff4bf1
-  17:	48 89 df             	mov    %rbx,%rdi
-  1a:	e8 92 8b 00 f6       	call   0xf6008bb1
-  1f:	e8 ad aa 28 f6       	call   0xf628aad1
-  24:	fb                   	sti
-  25:	bf 01 00 00 00       	mov    $0x1,%edi
-* 2a:	e8 62 5c f2 f5       	call   0xf5f25c91 <-- trapping instruction
-  2f:	65 8b 05 e3 cd 91 74 	mov    %gs:0x7491cde3(%rip),%eax        # 0x7491ce19
-  36:	85 c0                	test   %eax,%eax
-  38:	74 06                	je     0x40
-  3a:	5b                   	pop    %rbx
-  3b:	c3                   	ret
-  3c:	cc                   	int3
-  3d:	cc                   	int3
-  3e:	cc                   	int3
-  3f:	cc                   	int3
+-- 
+2.25.1
 
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
 
