@@ -1,166 +1,351 @@
-Return-Path: <linux-media+bounces-6020-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6021-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8574B868EC2
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 12:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FCE868EE1
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 12:35:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3FC3E28A472
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 11:26:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCD8A2852D7
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 11:35:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3166E13959B;
-	Tue, 27 Feb 2024 11:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DC71139594;
+	Tue, 27 Feb 2024 11:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2xupuvuA"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NdwoUvV9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2103013958A
-	for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 11:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7C7139597
+	for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 11:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709033203; cv=none; b=B58gXJfW4nbX998QmD18HwG/kjyF5s9Gf/K9LpgCExGxSWI0/hzdC6MBkMZGwSJvYBTT3kZDjQ2XrYzW+3t31CUr0LLz3eR947hJwEfnE2F0WQtyEXxqvVIeKUdBKCKTVWAE+nR+wpY+OfsJ6CmrsVZRrt9UILP1nsSRszwNm3U=
+	t=1709033729; cv=none; b=U+87lw7KsCcx3jNtXRBsGA9hbL7mWx9gieoDnqQdIPqrHLAozEyrPtCdJbYxstixs7DY4aN1nMIcPqLI/o2wPYAX4Q4IQ53N7aJEIzUdPe89EaSz63cPpB+ApjH3gPY1AGaN/ntxeOmQh/c3UFOvHjvNDTGMrj9t619yv6jp154=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709033203; c=relaxed/simple;
-	bh=6LEpNgOi1GSNcqOgi2znAWD1/XFEjfJ+3V/za/pe8xU=;
+	s=arc-20240116; t=1709033729; c=relaxed/simple;
+	bh=Pdf7u8DrWmH7pnA5YtZO16OxY3wzSLfVOv8xrfAHUMw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q3UiyyLjz8TKPHGtTFK9voLN4zZ8uSgvp7YTrkQTpAFl3si7sSRZJTFI/Lyh1olOY2zEBnVEqhG3RmkZmJ8s6kv0C11IoK8abd/y9ybfcT3Hnn8uHge+arsA8ZYHZMYaNIOkSvaBPOFxHOlLDu+G0idOmVgW3GWRp1w5iTM9dbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2xupuvuA; arc=none smtp.client-ip=209.85.166.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-7c796072dafso177337139f.0
-        for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 03:26:41 -0800 (PST)
+	 To:Cc:Content-Type; b=mWjlEvJ1qvDukfCDC6IEPxBzQBYUjULjJSGFqTXUYOxvkNECZFcqrpSksj1lU64eWhsi43esnov3IVn4nCxMjmvQJXkCC41qxEaPNxWtjKZupsbWUWJDdL7POWG3ap8zUUhyVxuYLtaIXxYbHhzBrtncaRMdfGPiH3tIid+BDrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NdwoUvV9; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6e0f43074edso2809276a34.1
+        for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 03:35:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709033201; x=1709638001; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1709033725; x=1709638525; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FmS1fmjtFOepekF9OghDxYFpAXEvAMzTVh2ZnQm3g+0=;
-        b=2xupuvuAeeZf/QvZiwB/dTWtTrCWa2oKR73mNfX+5DHgFChWxMNfQiGLSQfseBerb+
-         jn5TeA8ivauKylYK2QkuFyoD86N0MH2RQugmAt0WBwb6O/YVGKA26F5b87KnxdfddxS2
-         4j8FUsG9fA9f87JPJEhXlsylMHZkKKnDpYFTkv7ojEgVfw3aZ4E8T63fpEHik656EYOq
-         YvwDhYt0vBtHPMmj0eanjb5HI1P8Fz1xPeg+sgPZySpc9NePWSveKYcVkpk8YWRKeil8
-         ZAjfFeNP+uo67+iRAzjz8lGFmVMNeVd6FWNYNeaxs7eUdl8NJMfi5Lzdfak8YBWXpXg9
-         nzHA==
+        bh=JXH12Tos9R5LH3IGuLqHagwvQIUCehbeCr2Uw+9roXA=;
+        b=NdwoUvV9QKtIWD91L7poifMTb9r0qch69RW9rdYekmgo5roBvu1fGVyCo3C/ywZihz
+         9b49l3QmcAYTHGJnwmvZ6izGyUgfPgnH5P48+fZhTo6PdD+Jgj61bNFV7BjDKCtmfB+B
+         d6dkGmTsECnDKQ8+Xk5D8+/T7cji9XAQH8gP8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709033201; x=1709638001;
+        d=1e100.net; s=20230601; t=1709033725; x=1709638525;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FmS1fmjtFOepekF9OghDxYFpAXEvAMzTVh2ZnQm3g+0=;
-        b=KCwkjsNyR03um/iZM/vZEUHMSr8qUf18CLNTwLrwjbIj2JPwma1BUX3FUFHrJ3rySE
-         R380MfN8+V1J1ezJp9BZoLgMc+00SMH/+FrnbOQeqZtZasilZv2gOuEKiyGcA00MUXtl
-         OwkNN9qB2JyVCgXO5MMdk0zH9a3NSPkqUic6EXoz50dZWYt3W/p7/R27qGW5SoaRuTW9
-         dIlghxIy6ixmI0t54K/3FJrxvtxjhL62Pfa3n5uu+l47xAcYhGtYQ0x6ffqGGjd4DkWg
-         U8I+gGcU34GGnPb3Akv1nVKLO8PdZu3vOBld/J4zhTp5PUUglslZzcpEw1wSS7HvEAXe
-         TPtg==
-X-Forwarded-Encrypted: i=1; AJvYcCX3YzzO9GjdqnAQxuEKSyo4DjczXKEu+qkDuJKq5p+lfX1ubr8KfXNGbFckP6bx3WJTesrLHphOa6CYLEY0RjiIzz6iyBLZW5wycYc=
-X-Gm-Message-State: AOJu0Ywt4krcGwHQU9tCwmrk8H0SO6iPJXqy1l8zZrOo6OJ9iaBRN1ET
-	6lizMR0KWaBXCt2Rm2FT0aWqaKPtNbX8cKnrViXTwD6RdiU4L395vw4SnStEgyXAJOWoodFeKG1
-	cRkCKpBJgJQcQdmeyJfv4YDuN74KVGKi8i/a9
-X-Google-Smtp-Source: AGHT+IE2fW6rEQg7HcmlpVe7tfHw8EZXpdlB0fKwjX3otFyjepZ7vQ2TUz43JF/WSjntx66KZF//1lllOC+iM+l+o0c=
-X-Received: by 2002:a05:6602:f10:b0:7c7:b5a6:42f4 with SMTP id
- hl16-20020a0566020f1000b007c7b5a642f4mr8390166iob.3.1709033201056; Tue, 27
- Feb 2024 03:26:41 -0800 (PST)
+        bh=JXH12Tos9R5LH3IGuLqHagwvQIUCehbeCr2Uw+9roXA=;
+        b=rM/BcZumrWyzKXhPqAfVEBk66W3Cu2TUYjn26cykZplBDHAlizk6ye/7QD5LJS1GoE
+         nWeSgLMp5tgqVttybh1+lBzJyzFfxrPdAlkuQBRnCLpOZuGTgSdZpVdwJ39+WkFBFNiH
+         wTeD+2SPkxePg7SYQuZ8/UjKU0b/Ok6EXsp9hXwHcVsdfLmP/kFNwN/vXY99DzQyrmL7
+         yn6WF/GGTmz8eHDU3KZIBGTxAPQ0YNivna1Yby19oNXJCVLhv2GZ1uxuNcBJUO4Wg1BQ
+         pRMJDbTO6rvH3PRCD7TY3ingTp5huPynFkLJxN1wL8SBj2CA7EAVCqb8Rkz+ZBo8kQvu
+         0LWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9KA+yOyyIUJYy1LjGEXHU+uXtfm989FK0cge6VkIVhkst03SAihd2Za6Qehq7UnV/II5N7nC4jq8SHATjXtux38TpkmHKie67XEg=
+X-Gm-Message-State: AOJu0YzbCIZrYztbCaq6d45FK33dokYVsb8jyrNb4zK7T0dQXL/nY7CG
+	RiEG5Y7OIdtzgFSecPcdvM5IXVEHwUflV+KCC0FWq1gdka6jz/r9956sng+OmgXbGxKZouCKeVU
+	GAg==
+X-Google-Smtp-Source: AGHT+IHr8Wr7VelF5dDuM+OFRz1Z0/mRRWg0iUPDCelrcZGjs7Ge7CLue6mh5bBbz4lgE+aNidquIQ==
+X-Received: by 2002:a05:6830:1646:b0:6e1:13f2:7d7c with SMTP id h6-20020a056830164600b006e113f27d7cmr9137670otr.25.1709033724917;
+        Tue, 27 Feb 2024 03:35:24 -0800 (PST)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com. [209.85.210.41])
+        by smtp.gmail.com with ESMTPSA id n8-20020a056830320800b006e47527d2f5sm1488585ott.52.2024.02.27.03.35.24
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Feb 2024 03:35:24 -0800 (PST)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6dc8b280155so2989947a34.0
+        for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 03:35:24 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXoWNSRSio60CwjUrC/rY1TO6NspbdhsXWhte6m4kqmgpi+53SJZaul3HwO3VbHYJDhV7NuEsa6lwAaTDx0Gvamrxhy8H6gQJvXUKc=
+X-Received: by 2002:a05:6358:1298:b0:17b:6c3f:1c9a with SMTP id
+ e24-20020a056358129800b0017b6c3f1c9amr7617829rwi.7.1709033723875; Tue, 27 Feb
+ 2024 03:35:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221160215.484151-1-panikiel@google.com> <20240221160215.484151-10-panikiel@google.com>
- <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org> <CAM5zL5rQsYuo3+rW9+YPmvUg9PtNiR0Dy59e8Kf787ranfLh3Q@mail.gmail.com>
- <e2ae7bfc-fb51-4a60-bb52-c6ccca7a4189@linaro.org> <CAM5zL5pz0K5ro4-UjiYojM4h9Lqo_af5ZmH1FoZ_ajde_3+Dcg@mail.gmail.com>
- <e210b318-dcd7-4c0e-b08e-e1c4da1a8cd9@linaro.org>
-In-Reply-To: <e210b318-dcd7-4c0e-b08e-e1c4da1a8cd9@linaro.org>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Tue, 27 Feb 2024 12:26:30 +0100
-Message-ID: <CAM5zL5rDKMbgN7P=KF2ZayN5ipUB7AYpVccZdLunSUNTR4_f1A@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] ARM: dts: chameleonv3: Add video device nodes
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
-	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
-	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
-	mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
-	tzimmermann@suse.de, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com, 
-	ribalda@chromium.org
+References: <20240226-fix-clang-warnings-v2-0-fa1bc931d17e@chromium.org>
+ <20240226-fix-clang-warnings-v2-3-fa1bc931d17e@chromium.org> <c25638af-d40d-4dbc-a179-efb6f29c38aa@xs4all.nl>
+In-Reply-To: <c25638af-d40d-4dbc-a179-efb6f29c38aa@xs4all.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 27 Feb 2024 12:35:08 +0100
+X-Gmail-Original-Message-ID: <CANiDSCsMVR7gqzwrhPCWb7dQcezWbcHxkPNLZJrW=TWaAn+kXA@mail.gmail.com>
+Message-ID: <CANiDSCsMVR7gqzwrhPCWb7dQcezWbcHxkPNLZJrW=TWaAn+kXA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] media: mediatek: vcodedc: Fix Wcast-function-type-strict
+ warnings
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Mike Isely <isely@pobox.com>, 
+	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+	Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-remoteproc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 26, 2024 at 6:30=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+Hi Hans
+
+On Tue, 27 Feb 2024 at 12:17, Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> On 26/02/2024 13:27, Pawe=C5=82 Anikiel wrote:
-> > On Mon, Feb 26, 2024 at 1:07=E2=80=AFPM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> >>
-> >> On 26/02/2024 12:09, Pawe=C5=82 Anikiel wrote:
-> >>> On Mon, Feb 26, 2024 at 10:15=E2=80=AFAM Krzysztof Kozlowski
-> >>> <krzysztof.kozlowski@linaro.org> wrote:
-> >>>>
-> >>>> On 21/02/2024 17:02, Pawe=C5=82 Anikiel wrote:
-> >>>>> Add device nodes for the video system present on the Chameleon v3.
-> >>>>> It consists of six framebuffers and two Intel Displayport receivers=
-.
-> >>>>>
-> >>>>> Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
-> >>>>> ---
-> >>>>
-> >>>> ...
-> >>>>
-> >>>>> +             dprx_sst: dp-receiver@c0064000 {
-> >>>>> +                     compatible =3D "intel,dprx-20.0.1";
-> >>>>> +                     reg =3D <0xc0064000 0x800>;
-> >>>>> +                     interrupt-parent =3D <&dprx_sst_irq>;
-> >>>>> +                     interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
-> >>>>> +                     intel,max-link-rate =3D <0x1e>;
-> >>>>
-> >>>> Rate is not in hex! Rate is in Hz, at least usually...
-> >>>>
-> >>>> Fix your bindings...
-> >>>
-> >>> This is the DisplayPort link rate, for which the allowed values are
-> >>> 8.1 Gbps, 5.4 Gbps, 2.7 Gbps, or 1.62 Gbps. The standard way to encod=
+> Ricardo,
+>
+> First of all, note the typo in theo subject line: vcodedc -> vcodec.
+>
+> There is also a similar (but not identical!) patch from Arnd:
+>
+> https://patchwork.linuxtv.org/project/linux-media/patch/20240224121059.18=
+06691-1-arnd@kernel.org/
+>
+> That patch and yours share the change to common/mtk_vcodec_fw_vpu.c but o=
+therwise
+> they are different, which is a bit odd.
+>
+> Can you take a look at Arnd's patch and see if you need to incorporate hi=
+s changes
+> into your patch?
+
+We went separate paths :), I tried to make everything const (and
+therefore the remoteproc changes) and he removed the const.
+
+His patch looks good to me. Shall I resend the series without this
+patch or you can ignore 3/3 and take 1 and 2?
+
+Thanks!
+
+>
+> Regards,
+>
+>         Hans
+>
+> On 26/02/2024 18:32, Ricardo Ribalda wrote:
+> > Building with LLVM=3D1 throws the following warning:
+> > drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32=
+: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsign=
+ed int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned =
+int, void *)') converts to incompatible function type [-Wcast-function-type=
+-strict]
+> >
+> > Constify the types to avoid the warning.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c          | 12 ++++=
+++------
+> >  .../media/platform/mediatek/vcodec/common/mtk_vcodec_fw.h    |  2 +-
+> >  .../platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c      | 10 +---=
+------
+> >  drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c |  2 +-
+> >  drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c |  2 +-
+> >  drivers/remoteproc/mtk_scp.c                                 |  4 ++--
+> >  include/linux/remoteproc/mtk_scp.h                           |  2 +-
+> >  include/linux/rpmsg/mtk_rpmsg.h                              |  2 +-
+> >  8 files changed, 14 insertions(+), 22 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c b/driv=
+ers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+> > index 49fc2e9d45dd5..c4f1c49b9d52a 100644
+> > --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+> > +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+> > @@ -77,10 +77,10 @@ void mdp_vpu_shared_mem_free(struct mdp_vpu_dev *vp=
+u)
+> >               dma_free_wc(dev, vpu->config_size, vpu->config, vpu->conf=
+ig_addr);
+> >  }
+> >
+> > -static void mdp_vpu_ipi_handle_init_ack(void *data, unsigned int len,
+> > +static void mdp_vpu_ipi_handle_init_ack(const void *data, unsigned int=
+ len,
+> >                                       void *priv)
+> >  {
+> > -     struct mdp_ipi_init_msg *msg =3D (struct mdp_ipi_init_msg *)data;
+> > +     const struct mdp_ipi_init_msg *msg =3D data;
+> >       struct mdp_vpu_dev *vpu =3D
+> >               (struct mdp_vpu_dev *)(unsigned long)msg->drv_data;
+> >
+> > @@ -91,10 +91,10 @@ static void mdp_vpu_ipi_handle_init_ack(void *data,=
+ unsigned int len,
+> >       complete(&vpu->ipi_acked);
+> >  }
+> >
+> > -static void mdp_vpu_ipi_handle_deinit_ack(void *data, unsigned int len=
+,
+> > +static void mdp_vpu_ipi_handle_deinit_ack(const void *data, unsigned i=
+nt len,
+> >                                         void *priv)
+> >  {
+> > -     struct mdp_ipi_deinit_msg *msg =3D (struct mdp_ipi_deinit_msg *)d=
+ata;
+> > +     const struct mdp_ipi_deinit_msg *msg =3D data;
+> >       struct mdp_vpu_dev *vpu =3D
+> >               (struct mdp_vpu_dev *)(unsigned long)msg->drv_data;
+> >
+> > @@ -102,10 +102,10 @@ static void mdp_vpu_ipi_handle_deinit_ack(void *d=
+ata, unsigned int len,
+> >       complete(&vpu->ipi_acked);
+> >  }
+> >
+> > -static void mdp_vpu_ipi_handle_frame_ack(void *data, unsigned int len,
+> > +static void mdp_vpu_ipi_handle_frame_ack(const void *data, unsigned in=
+t len,
+> >                                        void *priv)
+> >  {
+> > -     struct img_sw_addr *addr =3D (struct img_sw_addr *)data;
+> > +     const struct img_sw_addr *addr =3D data;
+> >       struct img_ipi_frameparam *param =3D
+> >               (struct img_ipi_frameparam *)(unsigned long)addr->va;
+> >       struct mdp_vpu_dev *vpu =3D
+> > diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_f=
+w.h b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw.h
+> > index 300363a40158c..2561b99c95871 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw.h
+> > +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw.h
+> > @@ -23,7 +23,7 @@ enum mtk_vcodec_fw_use {
+> >
+> >  struct mtk_vcodec_fw;
+> >
+> > -typedef void (*mtk_vcodec_ipi_handler) (void *data,
+> > +typedef void (*mtk_vcodec_ipi_handler) (const void *data,
+> >       unsigned int len, void *priv);
+> >
+> >  struct mtk_vcodec_fw *mtk_vcodec_fw_select(void *priv, enum mtk_vcodec=
+_fw_type type,
+> > diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_f=
+w_vpu.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+> > index 9f6e4b59455da..4c34344dc7dcb 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+> > +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+> > @@ -29,15 +29,7 @@ static int mtk_vcodec_vpu_set_ipi_register(struct mt=
+k_vcodec_fw *fw, int id,
+> >                                          mtk_vcodec_ipi_handler handler=
+,
+> >                                          const char *name, void *priv)
+> >  {
+> > -     /*
+> > -      * The handler we receive takes a void * as its first argument. W=
 e
-> >>> them (used in the DisplayPort DPCD registers and this device's
-> >>
-> >> Then it is in bps or some other units:
-> >>
-> >> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas=
-/property-units.yaml
-> >>
-> >>> configuration) is by multiples of 0.27Gbps. This value (AFAIK) is
-> >>> usually represented in hex, so 8.1Gbps would be 0x1e.
-> >>
-> >> No, the value is represented in logical units. Frequency in Hz. Rate i=
-n
-> >> bps/kbps/etc. Voltage in volts.
+> > -      * cannot change this because it needs to be passed down to the r=
+proc
+> > -      * subsystem when SCP is used. VPU takes a const argument, which =
+is
+> > -      * more constrained, so the conversion below is safe.
+> > -      */
+> > -     ipi_handler_t handler_const =3D (ipi_handler_t)handler;
+> > -
+> > -     return vpu_ipi_register(fw->pdev, id, handler_const, name, priv);
+> > +     return vpu_ipi_register(fw->pdev, id, handler, name, priv);
+> >  }
 > >
-> > Okay, thanks for the info. So if I understand correctly, the max link
-> > rate should be represented in bps in the devicetree, and then be
->
-> or kbps
-
-The one that's already present in dtschema is kBps (kilobytes per
-second) which isn't right for this case IMO.
-
->
-> > converted to the per 0.27Gbps value by the driver?
->
-> If driver needs some register-based value, then yes.
->
+> >  static int mtk_vcodec_vpu_ipi_send(struct mtk_vcodec_fw *fw, int id, v=
+oid *buf,
+> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if=
+.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> > index 82e57ae983d55..a840dd2a48d0e 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> > @@ -97,7 +97,7 @@ static bool vpu_dec_check_ap_inst(struct mtk_vcodec_d=
+ec_dev *dec_dev, struct vde
+> >   * This function runs in interrupt context and it means there's an IPI=
+ MSG
+> >   * from VPU.
+> >   */
+> > -static void vpu_dec_ipi_handler(void *data, unsigned int len, void *pr=
+iv)
+> > +static void vpu_dec_ipi_handler(const void *data, unsigned int len, vo=
+id *priv)
+> >  {
+> >       struct mtk_vcodec_dec_dev *dec_dev;
+> >       const struct vdec_vpu_ipi_ack *msg =3D data;
+> > diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if=
+.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
+> > index 84ad1cc6ad171..ea0c4a281d1a1 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
+> > +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
+> > @@ -57,7 +57,7 @@ static bool vpu_enc_check_ap_inst(struct mtk_vcodec_e=
+nc_dev *enc_dev, struct ven
+> >       return ret;
+> >  }
 > >
-> > One problem is that the values here are too large to be represented in
-> > bps (since the datatype is uint32). Can the property be in Mbps
-> > instead?
+> > -static void vpu_enc_ipi_handler(void *data, unsigned int len, void *pr=
+iv)
+> > +static void vpu_enc_ipi_handler(const void *data, unsigned int len, vo=
+id *priv)
+> >  {
+> >       struct mtk_vcodec_enc_dev *enc_dev;
+> >       const struct venc_vpu_ipi_msg_common *msg =3D data;
+> > diff --git a/drivers/remoteproc/mtk_scp.c b/drivers/remoteproc/mtk_scp.=
+c
+> > index a35409eda0cf2..b508136b416a8 100644
+> > --- a/drivers/remoteproc/mtk_scp.c
+> > +++ b/drivers/remoteproc/mtk_scp.c
+> > @@ -78,10 +78,10 @@ static void scp_wdt_handler(struct mtk_scp *scp, u3=
+2 scp_to_host)
+> >               rproc_report_crash(scp_node->rproc, RPROC_WATCHDOG);
+> >  }
+> >
+> > -static void scp_init_ipi_handler(void *data, unsigned int len, void *p=
+riv)
+> > +static void scp_init_ipi_handler(const void *data, unsigned int len, v=
+oid *priv)
+> >  {
+> >       struct mtk_scp *scp =3D priv;
+> > -     struct scp_run *run =3D data;
+> > +     const struct scp_run *run =3D data;
+> >
+> >       scp->run.signaled =3D run->signaled;
+> >       strscpy(scp->run.fw_ver, run->fw_ver, SCP_FW_VER_LEN);
+> > diff --git a/include/linux/remoteproc/mtk_scp.h b/include/linux/remotep=
+roc/mtk_scp.h
+> > index 7c2b7cc9fe6c1..84e579940b8e5 100644
+> > --- a/include/linux/remoteproc/mtk_scp.h
+> > +++ b/include/linux/remoteproc/mtk_scp.h
+> > @@ -8,7 +8,7 @@
+> >
+> >  #include <linux/platform_device.h>
+> >
+> > -typedef void (*scp_ipi_handler_t) (void *data,
+> > +typedef void (*scp_ipi_handler_t) (const void *data,
+> >                                  unsigned int len,
+> >                                  void *priv);
+> >  struct mtk_scp;
+> > diff --git a/include/linux/rpmsg/mtk_rpmsg.h b/include/linux/rpmsg/mtk_=
+rpmsg.h
+> > index 363b60178040b..9d67507471fba 100644
+> > --- a/include/linux/rpmsg/mtk_rpmsg.h
+> > +++ b/include/linux/rpmsg/mtk_rpmsg.h
+> > @@ -9,7 +9,7 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/remoteproc.h>
+> >
+> > -typedef void (*ipi_handler_t)(void *data, unsigned int len, void *priv=
+);
+> > +typedef void (*ipi_handler_t)(const void *data, unsigned int len, void=
+ *priv);
+> >
+> >  /*
+> >   * struct mtk_rpmsg_info - IPI functions tied to the rpmsg device.
+> >
 >
-> Can be. You can submit a patch to dtschema (patch to DT spec list or
-> github pull request) adding '-mbps' as well.
 
-I sent a PR with both kbps and mbps.
+
+--=20
+Ricardo Ribalda
 
