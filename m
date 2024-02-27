@@ -1,407 +1,143 @@
-Return-Path: <linux-media+bounces-6033-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6034-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79788869082
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 13:28:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7208D869092
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 13:30:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D3CB4B2B56C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 12:28:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25435283EAD
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 12:30:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E43EB146917;
-	Tue, 27 Feb 2024 12:25:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE37331A66;
+	Tue, 27 Feb 2024 12:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Lupge9mM"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="X1WNMj8w";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="osrzw/mX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821B0145FF0;
-	Tue, 27 Feb 2024 12:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC30E16423;
+	Tue, 27 Feb 2024 12:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709036718; cv=none; b=HU0AQ1f6rA8dt3YmODQ/pE0dWmAlL++xWB8IGNONIDlNeOiPNWBDvmmB/3p/wB4CBnaK4roR/Avnnmem2MnJIg1edbwHGB8y+86L3OdKix/mAHua7lMWp+YhYhwcHttZQ09v843vSor6DfnemRPQinCKRQ7WpQqOqEcIUbJ58tc=
+	t=1709037033; cv=none; b=q3dScn00gcUmjGekvescGWAtAmLZYBVoa3JmwwBH3D8ZWFiT0GlC5CX3sYx1hMq75HRVNdrW5DrO2fUeCnQAsMq9DghtIzu3hM1WA9WOoWBuYvU7jObCJNWsi9E/PrDz7Kl8WeAfhSsZCHEkUnR/n8Vtxmp+SRRdIU9Z1UnCMjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709036718; c=relaxed/simple;
-	bh=aBf4qn7jya1cVaKMMd/kzd02KipjVxsYjZ/HKtUTBMA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UFmOrCfkNjBVcsswk+t4tROc1z5LtVSv54SJf/dhP3jkQ6iUo4vzjl+IkYl1Dw9/mjF9gTYWIRzlS2+AE5c8xfqwxXT+T12QMI/NxQY8YaCnkhXKeBxyBCPYB6EM9CDs3S975L3pciyucHons5hUj0zqd3R/LDgbTOP4ycORxQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Lupge9mM; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41R9Yv9h025167;
-	Tue, 27 Feb 2024 12:25:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=WOHgVY/PntFVNf7qazMcY/FWhEytsvCAFYVY0jGBgvE=; b=Lu
-	pge9mMiDgLJKz6KkiLsHlQ+4mIlYg2ZV+qZnfmwaC1ESadDuHYJ4/c7tImAqm48a
-	8v1EDOT89voTdfwVDvLb5TnZx5D7r0KiUwjHmkTqog0sQFJI4B1p5dn/SP0aadID
-	MMHgW8ku6RRptY4PBSl7bCLb2N1zNdEoiNuLFslWm7iCI6zbBIZkTzUZT9kCC4tv
-	0o1wKTNvfbtmv9TDTYOuLRol6h4n+5x4z8NHDYd6W6agLKHWA/Z4XR9uiKuni2GO
-	fFyS51DwdR9rw5AYLcCUV86lhT0h4TO5EVgSPli/tH09bi1aTSqBTtkSKo9b5ds+
-	n+6gxmc7FarZAJAWzPoA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wh85qry8x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 27 Feb 2024 12:25:10 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41RCPAvo004041
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 27 Feb 2024 12:25:10 GMT
-Received: from grosikop.eu.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 27 Feb 2024 04:25:07 -0800
-From: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
-To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
-        <hverkuil-cisco@xs4all.nl>, <quic_hariramp@quicinc.com>
-Subject: [PATCH 9/9] media: qcom: camss: Decouple VFE from CSID
-Date: Tue, 27 Feb 2024 14:24:15 +0200
-Message-ID: <20240227122415.491-10-quic_grosikop@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240227122415.491-1-quic_grosikop@quicinc.com>
-References: <20240227122415.491-1-quic_grosikop@quicinc.com>
+	s=arc-20240116; t=1709037033; c=relaxed/simple;
+	bh=0HKakmzqYBDg0qBBfaGHutRFP4329ZyA5W0f3BwieQA=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=W0X6Km7lJou9f+RB0Qunqf8WQEbVIxt5tCjTxDUyKW6wlr0M1VKp3tGlteXFMK7K8nchUXlyFQnJp72HCRZ0mNCC9S97g76+0W22y9iwel3s7+WPM8nfNhQckAvFpe87NfxpzU75hq+fcBpXMkCz8je4RXbJvQFUvSrl0fO/5xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=X1WNMj8w; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=osrzw/mX; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id E68EE11400A9;
+	Tue, 27 Feb 2024 07:30:29 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 27 Feb 2024 07:30:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1709037029;
+	 x=1709123429; bh=qqBbSmicccEaZRWFjxZw2zuynONkC517ooPIyNNTL0M=; b=
+	X1WNMj8wIOYFRikCCsz3IU1UGw2DKfQ0DJPDKbnHZlK5tHnX8qbCozMmTIJs+aXu
+	Am/BlxIaJbJJ0LDhF2rYv5UogVyhUmh9CC7NJl8ZnfkfLxVM5+nKn55vp9lTzW+T
+	qmlMOHCMWvmgkk0MB2Iae0noHgw1SqAiWqHY8OON3oEcpEwrKZJKMx39mwSx9M9L
+	D11SMOPR0vtLGq9TPdeLynMlBAGwEx/KyWb5s9x9Ye7Ad+IwE/ZUibJPHVhJ7C0j
+	+z1mQ9BgUmAGQvjJ1oB53TZ52jlo2mU90ucSjsDPTuQKBHh3qs7W2a15IOfMCDtl
+	s95KgLaozxSrul1wqQUsLg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1709037029; x=
+	1709123429; bh=qqBbSmicccEaZRWFjxZw2zuynONkC517ooPIyNNTL0M=; b=o
+	srzw/mX7WXnjAgKeNzPP433kfhGPkXCmwFf2I73FKKK3iJGK7lXHwYX6yHnXnD8P
+	jcBtj25AcerNoFqgemRYfYqkPxVh30F0SJmvETrvzULtn9p5T1o7y5MIyyP/Jlxz
+	kJ23iZUJeUQK3I+4z8VzqNnN4p71m/vslr+DiOMpArU7owtGyq57THJ/2MU+TSU4
+	HSwcy8ePAh6SGxHNUMzpeRd1/fSKNE3ubYwq5YhMoKgrkusoeJ3iOl3FMyuctKa8
+	3TQatt8xjdAwEsCLTpzc036rjH2AVJgk12MJhKxNch61cgwSEeChbhg0Dy/AUVvg
+	0kXcIPQ4JQ9dDeXnDC2HA==
+X-ME-Sender: <xms:5NXdZT2MBgoXvaNAO9ObgCC4iI0Xr08k_sVC9QoRvJbDVbiLHhNh2g>
+    <xme:5NXdZSGg-pyDKEzBtrcXyE0RL3JG_imVe1eb8gQFmpi5PuSps6gYX95t_rIbcD87F
+    h7burAudw3nrw45EFU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeehgddujecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepfeevgfdtueetuddugfeuiedvtddtvdefhedtgffgteektdevkeeljeekhedu
+    feeunecuffhomhgrihhnpehlihhnuhigthhvrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:5NXdZT4sYDb1UBkZ8j1J1Uuxlcgi7hno6AQSkrh_G5nX8smYDLooWw>
+    <xmx:5NXdZY32vWCgblML1DeEoAzPb6g9ZcgBUHZ9j4O4AsMBNkBNb3D4uA>
+    <xmx:5NXdZWFspKj32wwy0o6rtCe_klNmvM7ZclTGrLe5-EOMe7ffGSxSpQ>
+    <xmx:5dXdZTIyRC3Z90rby6PGRowdyc3Cy7ZWkq2vuKRWTT2EUa1Mh0X7hA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 7BD38B6008F; Tue, 27 Feb 2024 07:30:28 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-153-g7e3bb84806-fm-20240215.007-g7e3bb848
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Oqo9_v47YFC8_zAZgl7YcxJNakHQKXzO
-X-Proofpoint-GUID: Oqo9_v47YFC8_zAZgl7YcxJNakHQKXzO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-26_11,2024-02-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015
- mlxlogscore=999 lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0
- mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402270097
+Message-Id: <54dcfb0c-9861-4abb-8a1f-83b5d1722ca8@app.fastmail.com>
+In-Reply-To: 
+ <CAPybu_2JoNfr158FXqYGUV=JuTW8i85XM6cf7K40_xZe9m2qyg@mail.gmail.com>
+References: <20240224121059.1806691-1-arnd@kernel.org>
+ <CAPybu_2JoNfr158FXqYGUV=JuTW8i85XM6cf7K40_xZe9m2qyg@mail.gmail.com>
+Date: Tue, 27 Feb 2024 13:30:07 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ricardo Ribalda Delgado" <ricardo.ribalda@gmail.com>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Minghsiu Tsai" <minghsiu.tsai@mediatek.com>,
+ "Houlong Wei" <houlong.wei@mediatek.com>,
+ "Andrew-CT Chen" <andrew-ct.chen@mediatek.com>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Tiffany Lin" <tiffany.lin@mediatek.com>,
+ "Yunfei Dong" <yunfei.dong@mediatek.com>,
+ "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+ "Nicolas Dufresne" <nicolas.dufresne@collabora.com>,
+ "Alexandre Courbot" <acourbot@chromium.org>,
+ "Pi-Hsun Shih" <pihsun@chromium.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] media: mediatek: vcodec: avoid -Wcast-function-type-strict warning
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Milen Mitkov <quic_mmitkov@quicinc.com>
+On Tue, Feb 27, 2024, at 12:38, Ricardo Ribalda Delgado wrote:
+> On Sat, Feb 24, 2024 at 1:11=E2=80=AFPM Arnd Bergmann <arnd@kernel.org=
+> wrote:
+>>
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> The ipi handler here tries hard to maintain const-ness of its argumen=
+t,
+>> but by doing that causes a warning about function type casts:
+>
+> I worked on the same issue, but in instead of removing the const, I
+> tried to constify everything:
+> https://patchwork.linuxtv.org/project/linux-media/patch/20240226-fix-c=
+lang-warnings-v2-3-fa1bc931d17e@chromium.org/
 
-Decouple the direct calls to VFE's vfe_get/put in the CSID subdev
-in order to prepare for the introduction of IFE subdev.
+I had almost the same patch originally but ended up not sending
+it because I could not figure out what to do about
 
-Also decouple CSID base address from VFE since on the Titan platform
-CSID register base address resides within VFE's base address.
+typedef int (*rpmsg_rx_cb_t)(struct rpmsg_device *, void *, int, void *,=
+ u32);
 
-Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
-Signed-off-by: Radoslav Tsvetkov <quic_rtsvetko@quicinc.com>
----
- .../media/platform/qcom/camss/camss-csid.c    | 16 +++--
- .../media/platform/qcom/camss/camss-csid.h    |  1 +
- drivers/media/platform/qcom/camss/camss.c     | 61 +++++++++++++++++++
- drivers/media/platform/qcom/camss/camss.h     |  8 +++
- 4 files changed, 81 insertions(+), 5 deletions(-)
+which is a generic part of rpmsg that takes a non-const pointer
+and gets called by mtk_rpmsg_ipi_handler(), which would now
+get a const pointer.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index 5b23f5b8746d..858db5d4ca75 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -602,7 +602,6 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 	struct csid_device *csid = v4l2_get_subdevdata(sd);
- 	struct camss *camss = csid->camss;
- 	struct device *dev = camss->dev;
--	struct vfe_device *vfe = &camss->vfe[csid->id];
- 	int ret = 0;
- 
- 	if (on) {
-@@ -611,7 +610,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 		 * switching on the CSID. Do so unconditionally, as there is no
- 		 * drawback in following the same powering order on older SoCs.
- 		 */
--		ret = vfe_get(vfe);
-+		ret = csid->res->parent_dev_ops->get(camss, csid->id);
- 		if (ret < 0)
- 			return ret;
- 
-@@ -663,7 +662,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 		regulator_bulk_disable(csid->num_supplies,
- 				       csid->supplies);
- 		pm_runtime_put_sync(dev);
--		vfe_put(vfe);
-+		csid->res->parent_dev_ops->put(camss, csid->id);
- 	}
- 
- 	return ret;
-@@ -1021,6 +1020,11 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
- 	csid->id = id;
- 	csid->res = &res->csid;
- 
-+	if (dev_WARN_ONCE(dev, !csid->res->parent_dev_ops,
-+			  "Error: CSID depends on VFE/IFE device ops!\n")) {
-+		return -EINVAL;
-+	}
-+
- 	csid->res->hw_ops->subdev_init(csid);
- 
- 	/* Memory */
-@@ -1031,9 +1035,11 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
- 		 * VFE to be initialized before CSID
- 		 */
- 		if (id >= 2) /* VFE/CSID lite */
--			csid->base = camss->vfe[id].base + VFE_480_LITE_CSID_OFFSET;
-+			csid->base = csid->res->parent_dev_ops->get_base_address(camss, id)
-+				+ VFE_480_LITE_CSID_OFFSET;
- 		else
--			csid->base = camss->vfe[id].base + VFE_480_CSID_OFFSET;
-+			csid->base = csid->res->parent_dev_ops->get_base_address(camss, id)
-+				 + VFE_480_CSID_OFFSET;
- 	} else {
- 		csid->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
- 		if (IS_ERR(csid->base))
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index 0e385d17c250..8cdae98e4dca 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -157,6 +157,7 @@ struct csid_hw_ops {
- struct csid_subdev_resources {
- 	bool is_lite;
- 	const struct csid_hw_ops *hw_ops;
-+	const struct parent_dev_ops *parent_dev_ops;
- 	const struct csid_formats *formats;
- };
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 244849db39dc..47df325a2ca9 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -32,6 +32,8 @@
- #define CAMSS_CLOCK_MARGIN_NUMERATOR 105
- #define CAMSS_CLOCK_MARGIN_DENOMINATOR 100
- 
-+static const struct parent_dev_ops vfe_parent_dev_ops;
-+
- static const struct camss_subdev_resources csiphy_res_8x16[] = {
- 	/* CSIPHY0 */
- 	{
-@@ -87,6 +89,7 @@ static const struct camss_subdev_resources csid_res_8x16[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_1,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_1
- 		}
- 	},
-@@ -109,6 +112,7 @@ static const struct camss_subdev_resources csid_res_8x16[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_1,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_1
- 		}
- 	},
-@@ -226,6 +230,7 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -248,6 +253,7 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -270,6 +276,7 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -292,6 +299,7 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	}
-@@ -445,6 +453,7 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -470,6 +479,7 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -495,6 +505,7 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -520,6 +531,7 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	}
-@@ -715,6 +727,7 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 		.csid = {
- 			.is_lite = false,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -741,6 +754,7 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 		.csid = {
- 			.is_lite = false,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -767,6 +781,7 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	}
-@@ -960,6 +975,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.csid = {
- 			.is_lite = false,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -978,6 +994,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.csid = {
- 			.is_lite = false,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -995,6 +1012,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1012,6 +1030,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	}
-@@ -1306,6 +1325,48 @@ void camss_pm_domain_off(struct camss *camss, int id)
- 	}
- }
- 
-+static int vfe_parent_dev_ops_get(struct camss *camss, int id)
-+{
-+	int ret = -EINVAL;
-+
-+	if (id < camss->res->vfe_num) {
-+		struct vfe_device *vfe = &camss->vfe[id];
-+
-+		ret = vfe_get(vfe);
-+	}
-+
-+	return ret;
-+}
-+
-+static int vfe_parent_dev_ops_put(struct camss *camss, int id)
-+{
-+	if (id < camss->res->vfe_num) {
-+		struct vfe_device *vfe = &camss->vfe[id];
-+
-+		vfe_put(vfe);
-+	}
-+
-+	return 0;
-+}
-+
-+static void __iomem
-+*vfe_parent_dev_ops_get_base_address(struct camss *camss, int id)
-+{
-+	if (id < camss->res->vfe_num) {
-+		struct vfe_device *vfe = &camss->vfe[id];
-+
-+		return vfe->base;
-+	}
-+
-+	return NULL;
-+}
-+
-+static const struct parent_dev_ops vfe_parent_dev_ops = {
-+	.get = vfe_parent_dev_ops_get,
-+	.put = vfe_parent_dev_ops_put,
-+	.get_base_address = vfe_parent_dev_ops_get_base_address
-+};
-+
- /*
-  * camss_of_parse_endpoint_node - Parse port endpoint node
-  * @dev: Device
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index fb997b94fd70..362a84bcb2bc 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -142,6 +142,12 @@ struct camss_clock {
- 	u32 nfreqs;
- };
- 
-+struct parent_dev_ops {
-+	int (*get)(struct camss *camss, int id);
-+	int (*put)(struct camss *camss, int id);
-+	void __iomem *(*get_base_address)(struct camss *camss, int id);
-+};
-+
- void camss_add_clock_margin(u64 *rate);
- int camss_enable_clocks(int nclocks, struct camss_clock *clock,
- 			struct device *dev);
-@@ -152,6 +158,8 @@ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
- int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
- int camss_pm_domain_on(struct camss *camss, int id);
- void camss_pm_domain_off(struct camss *camss, int id);
-+int camss_vfe_get(struct camss *camss, int id);
-+void camss_vfe_put(struct camss *camss, int id);
- void camss_delete(struct camss *camss);
- 
- #endif /* QC_MSM_CAMSS_H */
--- 
-2.17.1
-
+     Arnd
 
