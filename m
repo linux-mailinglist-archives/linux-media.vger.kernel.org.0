@@ -1,361 +1,314 @@
-Return-Path: <linux-media+bounces-6006-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6007-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106258687D8
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 04:44:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 852E7868969
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 07:56:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA6A3285A20
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 03:44:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC985B248D8
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 06:56:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F2F38387;
-	Tue, 27 Feb 2024 03:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E49053813;
+	Tue, 27 Feb 2024 06:56:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VQtsR49a"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ENlMy7HO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047A45C82;
-	Tue, 27 Feb 2024 03:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFC437145;
+	Tue, 27 Feb 2024 06:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709005455; cv=none; b=lX7uVioMiUfxRWCa0D8mDkoDs6O7qgRMwdQunE6dZlyqRem4M3KZWrQ9JMpZnH02Bt6A2axeCvFBTjhladav+wOzYEnBJY0YqWpGzZQhVQ7/pjqinQ3LZV1VoNkF2HA5Pm2iozetAncE7O8vGT/ZjN0sNuBys1Xl8fwGSpLJEBc=
+	t=1709016977; cv=none; b=pMvWz4205SorvM8fH4ki2sCfiH5FlmE0WpC49onu1Fy4NtwtweePUJ5onDsEEbEEzhT3AUr9N3W9TOlQ3NmFbORaAm8ffnX4EMaSydrfRy9JDYsf7byxTAA7AQ0ldRs23IGjcCzU4vHoXlpyH9QV01qI0hJSRs+TJuWSoUnzvwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709005455; c=relaxed/simple;
-	bh=lIbmhOiQaUClrvOu6WT/oBvlAm6sh1yj/e8dT0C6lHk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M4qXlBW1OjoFf5893RajfoeaAIsJHt1k4aIsiSJytxFVGzolSTBsIvuRgilhlxOsMCLbJJi0J+KscaFKNQPEjsueVAIFuT11Hh2v3H9eIz0EPixYXBTz6ZKQpfRwBOvgCB2S+Ld/KSgCzbtGnB97U0STb43fDmrliP0c29kRX24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VQtsR49a; arc=none smtp.client-ip=209.85.166.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7c7701f95b6so90815939f.1;
-        Mon, 26 Feb 2024 19:44:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709005453; x=1709610253; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c0m1IEz/3wkY8c34XuQVjwcaeuH7mfm7kh/jPGQpBjU=;
-        b=VQtsR49a9hrvMzqDFYGqBwfPSDrUAxTovAolV50nqlOuXM3FmZ5sg8IP0Ga5hd6j4G
-         YOkPXUrx1hgRVmyupDCkvm1FQXQGBmkSrHAeW3Im7cg1Ww0g9MVGMj7dSceNipym8PO+
-         gxWtux/dXudZakMJaXtn0lC3hKvhJOyLJgCV+cBVyKIWTkrqIVki/sYWw9wn9XSBxMAI
-         r3yk2j8Lt4XfwR8zkPEdTDiB+oFp2gUguuoCjX8f9qdAO5LHzMyE5cs643jHAmb3Wexy
-         JNdwGWsT9i7IA/yc4yfnYnOZGzfpHWGJJOV+SB1Qpb14GRd6hxOmv648v4FHIbg6G6P3
-         p/Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709005453; x=1709610253;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c0m1IEz/3wkY8c34XuQVjwcaeuH7mfm7kh/jPGQpBjU=;
-        b=jOsxlImxdaTXfTYpmp3eyXpGU17SC4Bnxu2VoLJ4MsxBUT0t3vMkhxT4aqmJGrNdv4
-         YQ+L+71E4ikeiLa1jUerlQuR0LGgPO6qqVlwPo9vaU8eIt3VMb6CsFp54t2m++rSo+5E
-         2nkCRc8tIi68dFpVoK4rT+pimWjuoZ1zFOCHLgVC+iwyuU/Qg4Jo2pf8eqKIM8ibg+yr
-         pJoHYCvh1Lc58MjWei0tT0Bx8cETFX/wV2LI4pmUXe0+nZkHRxzFFZDOYMi4XykSw2/2
-         HwBZzJTMzc4r9lZET8jkQRiMT3gdQM64CvkkXi0pkpD2kqLH1NaNcyC5bdgcI8AbcqB3
-         J9BA==
-X-Forwarded-Encrypted: i=1; AJvYcCWEvi2ClAINjydZs5XMTajcS8X9o1Lj6etgQcVIUSG96XKKLqngUAtKEQyRTtyDyhxge4MHJMEOYYW+gGrCxQTZmSbeEtsyV+x8AmSfcqVJEdr3lF3cLGOMnAMUeF1wDi9D4IAQZSszJvg=
-X-Gm-Message-State: AOJu0YzL4STo1PIadeuVUJWZthgOiYeGjbNZE+QGK/T2WzwAvkFxibO2
-	hq9GHq53KBI4yLHFYV9jG+/evRK7JRkUj8iJMuM0DLlvofZHiQettGU8Xs71XRQo63sDx/ajRHf
-	+hKHy1IXCgYCG9dQHVUaD+wo572c=
-X-Google-Smtp-Source: AGHT+IEcZHNy22KpBlVhUYmj1+eNLatGGwFDoA7ukQLkIRnAm/YaKRZduIECheyzjsRmSfzYRSLtXm0bSZIeozgX+Ds=
-X-Received: by 2002:a92:1e03:0:b0:365:1edf:8e2a with SMTP id
- e3-20020a921e03000000b003651edf8e2amr6768951ile.14.1709005452937; Mon, 26 Feb
- 2024 19:44:12 -0800 (PST)
+	s=arc-20240116; t=1709016977; c=relaxed/simple;
+	bh=kXRry81OuP/24J/2oXsixH8Q2p68JadOlSqN0b5HoRs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=WeMD2tI+marKS8MLK3uViqX6V0r6RFoOMb9m4sWcgPqqzCmtkK4KNMqF6aug5Z0lItIsXTyWNBkznEg8gsHqxM7TNkesU9LUB906WTIhlzeqthjd2IcDqu8dJ34nJE8uHLUAB0PvIZl2xWwrr8PKTCst4lOWRyCbcDKtd2E81LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ENlMy7HO; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41R3pmsk008355;
+	Tue, 27 Feb 2024 06:56:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=zDBAYvp2VVYrwXjacy3bARGgknNQivKqgO2dFAVohpI=; b=EN
+	lMy7HO3vYax+y9mJyeT3FmVkTLZJThcr0SmZjRQrp2Oj6WVs/2Hw2nr2bIK4Pt46
+	I+ce/5s37n9Yo03m3WJgkajcuBw9Gm3wd+OnR/km83+mZEX8qoxZ7dXPZ5BdKhL2
+	UtgvLR/mvK4ri/aOD4Iu5fvUuefwasFUpqZV7rlr8mWsKcYPDSSUIsNd1gJ+gn/O
+	yzx4wP/Ew0+rEJK7T9kBJTHwC5dnE7N/tcm8ArDrxXfyrP229ZhXE+SEPemjOJis
+	v2A0pg++PLZplgKG8tEby3qNu57N6ftLg3+lpow3DfJJ+PD33dBgSLkU8PhcsIos
+	1s+9uIcZdBhCAsrja0RA==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wh5078pgh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Feb 2024 06:56:07 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41R6u6o5014603
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Feb 2024 06:56:06 GMT
+Received: from [10.216.23.235] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 26 Feb
+ 2024 22:56:01 -0800
+Message-ID: <edb29faa-01b3-3b96-7c05-3378eb3af073@quicinc.com>
+Date: Tue, 27 Feb 2024 12:25:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1708936109-11587-1-git-send-email-shengjiu.wang@nxp.com>
- <1708936109-11587-10-git-send-email-shengjiu.wang@nxp.com> <71c860869caf899a72ebc547608220074c5939b1.camel@ndufresne.ca>
-In-Reply-To: <71c860869caf899a72ebc547608220074c5939b1.camel@ndufresne.ca>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 27 Feb 2024 11:44:02 +0800
-Message-ID: <CAA+D8AMEMr_PSsfuSByxd0Sxv1zXJoQjEkJEWEpk59kmLGOD1Q@mail.gmail.com>
-Subject: Re: [PATCH v13 09/16] media: uapi: Define audio sample format fourcc type
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, hverkuil@xs4all.nl, sakari.ailus@iki.fi, 
-	tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
+Content-Language: en-US
+To: Marc Gonzalez <mgonzalez@freebox.fr>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+CC: DT <devicetree@vger.kernel.org>,
+        linux-media
+	<linux-media@vger.kernel.org>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        Stanimir
+ Varbanov <stanimir.k.varbanov@gmail.com>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob
+ Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, Pierre-Hugues Husson <phh@phh.me>
+References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+ <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
+ <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
+ <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
+ <b8325dbf-67c5-4898-bc23-ff093ae6e14a@freebox.fr>
+ <87db77f7-fda4-4cf7-adfd-8545c40c3365@linaro.org>
+ <10fe67af-0572-4faa-91c6-fce9c8f9dc92@linaro.org>
+ <6342e92d-eed0-45c2-8f04-3779aa2e521d@freebox.fr>
+ <4ab95e87-c912-469b-b8d4-be0cf0e4710b@linaro.org>
+ <a8c5b27c-47a9-044a-78e8-51c67acf19a6@quicinc.com>
+ <c6a9c20e-02d3-4334-badd-2efe5be9ce7e@freebox.fr>
+ <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
+ <33382ecb-8a73-4d2f-96b1-8048df7a6414@freebox.fr>
+ <3914555d-3c89-a5c5-2906-0bd24d0bf735@quicinc.com>
+ <72741d2e-5165-4505-b079-d7b5d1491888@freebox.fr>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <72741d2e-5165-4505-b079-d7b5d1491888@freebox.fr>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: -LTwjiIvjPAyJNVbb-zajEsjOAbjM4tp
+X-Proofpoint-GUID: -LTwjiIvjPAyJNVbb-zajEsjOAbjM4tp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-26_11,2024-02-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ clxscore=1015 mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402270053
 
-On Mon, Feb 26, 2024 at 9:55=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresne=
-.ca> wrote:
->
-> Le lundi 26 f=C3=A9vrier 2024 =C3=A0 16:28 +0800, Shengjiu Wang a =C3=A9c=
-rit :
-> > The audio sample format definition is from alsa,
-> > the header file is include/uapi/sound/asound.h, but
-> > don't include this header file directly, because in
-> > user space, there is another copy in alsa-lib.
-> > There will be conflict in userspace for include
-> > videodev2.h & asound.h and asoundlib.h
-> >
-> > Here still use the fourcc format.
->
-> I'd like to join Mauro's voice that duplicating the audio formats is a ba=
-d idea.
-> We have the same issues with video formats when you look at V4L2 vs DRM. =
-You're
-> rationale is that videodev2.h will be ambiguous if it includes asound.h, =
-but
-> looking at this change, there is no reason why you need to include asound=
-.h in
-> videodev2.h at all. The format type can be abstracted out with a uint32 i=
-n the
-> API, and then it would be up to the users to include and use the appropri=
-ate
-> formats IDs.
->
 
-Resend for the plain text issue
+On 2/26/2024 9:25 PM, Marc Gonzalez wrote:
+> On 26/02/2024 15:30, Vikash Garodia wrote:
+> 
+>> On 2/26/2024 6:39 PM, Marc Gonzalez wrote:
+>>
+>>> On 23/02/2024 14:48, Vikash Garodia wrote:
+>>>
+>>>> On 2/20/2024 8:15 PM, Marc Gonzalez wrote:
+>>>>
+>>>>> On 20/02/2024 14:53, Vikash Garodia wrote:
+>>>>>
+>>>>>> msm8998 supports configuring the VCodec (venus core0) GDSC in HW power control
+>>>>>> mode. Could you please check and confirm if the driver is configuring only the
+>>>>>> VCodec GDSC and not the venus GDSC. Look for the attribute
+>>>>>> "qcom,support-hw-trigger" in vendor dt file.
+>>>>>
+>>>>> [ Vendor DTS for easy reference: ]
+>>>>> [ https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998.dtsi ]
+>>>>>
+>>>>> In the queue, we have a patch enabling the Venus Decoder (VDEC) in mainline.
+>>>>> (It is using the previously proposed "qcom,no-low-power" mechanism, but that
+>>>>> might not be necessary, if I understand correctly?)
+>>>>>
+>>>>>
+>>>>> diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>>>>> index 2793cc22d381a..5084191be1446 100644
+>>>>> --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>>>>> +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>>>>> @@ -3000,6 +3000,56 @@ mdss_dsi1_phy: phy@c996400 {
+>>>>>  			};
+>>>>>  		};
+>>>>>  
+>>>>> +		venus: video-codec@cc00000 {
+>>>>> +			compatible = "qcom,msm8998-venus";
+>>>>> +			reg = <0x0cc00000 0xff000>;
+>>>>> +			interrupts = <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>;
+>>>>> +			power-domains = <&mmcc VIDEO_TOP_GDSC>;
+>>>>> +			clocks = <&mmcc VIDEO_CORE_CLK>,
+>>>>> +				 <&mmcc VIDEO_AHB_CLK>,
+>>>>> +				 <&mmcc VIDEO_AXI_CLK>,
+>>>>> +				 <&mmcc VIDEO_MAXI_CLK>;
+>>>>> +			clock-names = "core", "iface", "bus", "mbus";
+>>>>> +			iommus = <&mmss_smmu 0x400>,
+>>>>> +				 <&mmss_smmu 0x401>,
+>>>>> +				 <&mmss_smmu 0x40a>,
+>>>>> +				 <&mmss_smmu 0x407>,
+>>>>> +				 <&mmss_smmu 0x40e>,
+>>>>> +				 <&mmss_smmu 0x40f>,
+>>>>> +				 <&mmss_smmu 0x408>,
+>>>>> +				 <&mmss_smmu 0x409>,
+>>>>> +				 <&mmss_smmu 0x40b>,
+>>>>> +				 <&mmss_smmu 0x40c>,
+>>>>> +				 <&mmss_smmu 0x40d>,
+>>>>> +				 <&mmss_smmu 0x410>,
+>>>>> +				 <&mmss_smmu 0x411>,
+>>>>> +				 <&mmss_smmu 0x421>,
+>>>>> +				 <&mmss_smmu 0x428>,
+>>>>> +				 <&mmss_smmu 0x429>,
+>>>>> +				 <&mmss_smmu 0x42b>,
+>>>>> +				 <&mmss_smmu 0x42c>,
+>>>>> +				 <&mmss_smmu 0x42d>,
+>>>>> +				 <&mmss_smmu 0x411>,
+>>>>> +				 <&mmss_smmu 0x431>;
+>>>>> +			memory-region = <&venus_mem>;
+>>>>> +			status = "disabled";
+>>>>> +			qcom,no-low-power; /*** WORK AROUND LOW-POWER ISSUE ***/
+>>>>> +
+>>>>> +			video-decoder {
+>>>>> +				compatible = "venus-decoder";
+>>>>> +				clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
+>>>>> +				clock-names = "core";
+>>>>> +				power-domains = <&mmcc VIDEO_SUBCORE0_GDSC>;
+>>>>> +			};
+>>>>> +
+>>>>> +			video-encoder {
+>>>>> +				compatible = "venus-encoder";
+>>>>> +				clocks = <&mmcc VIDEO_SUBCORE1_CLK>;
+>>>>> +				clock-names = "core";
+>>>>> +				power-domains = <&mmcc VIDEO_SUBCORE1_GDSC>;
+>>>>> +			};
+>>>>> +		};
+>>>>> +
+>>>>>  		mmss_smmu: iommu@cd00000 {
+>>>>>  			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
+>>>>>  			reg = <0x0cd00000 0x40000>;
+>>>>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>>>>> index a712dd4f02a5b..ad1705e510312 100644
+>>>>> --- a/drivers/media/platform/qcom/venus/core.c
+>>>>> +++ b/drivers/media/platform/qcom/venus/core.c
+>>>>> @@ -585,6 +585,43 @@ static const struct venus_resources msm8996_res = {
+>>>>>  	.fwname = "qcom/venus-4.2/venus.mbn",
+>>>>>  };
+>>>>>  
+>>>>> +static const struct freq_tbl msm8998_freq_table[] = {
+>>>>> +	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
+>>>>> +	{  972000, 520000000 },	/* 4k UHD @ 30 */
+>>>>> +	{  489600, 346666667 },	/* 1080p @ 60 */
+>>>>> +	{  244800, 150000000 },	/* 1080p @ 30 */
+>>>>> +	{  108000,  75000000 },	/* 720p @ 30 */
+>>>>> +};
+>>>>> +
+>>>>> +static const struct reg_val msm8998_reg_preset[] = {
+>>>>> +    { 0x80124, 0x00000003 },
+>>>>> +    { 0x80550, 0x01111111 },
+>>>>> +    { 0x80560, 0x01111111 },
+>>>>> +    { 0x80568, 0x01111111 },
+>>>>> +    { 0x80570, 0x01111111 },
+>>>>> +    { 0x80580, 0x01111111 },
+>>>>> +    { 0xe2010, 0x00000000 },
+>>>>> +};
+>>>>> +
+>>>>> +static const struct venus_resources msm8998_res = {
+>>>>> +	.freq_tbl = msm8998_freq_table,
+>>>>> +	.freq_tbl_size = ARRAY_SIZE(msm8998_freq_table),
+>>>>> +	.reg_tbl = msm8998_reg_preset,
+>>>>> +	.reg_tbl_size = ARRAY_SIZE(msm8998_reg_preset),
+>>>>> +	.clks = {"core", "iface", "bus", "mbus"},
+>>>>> +	.clks_num = 4,
+>>>>> +	.vcodec0_clks = { "core" },
+>>>>> +	.vcodec1_clks = { "core" },
+>>>>> +	.vcodec_clks_num = 1,
+>>>>> +	.max_load = 2563200,
+>>>>> +	.hfi_version = HFI_VERSION_3XX,
+>>>>> +	.vmem_id = VIDC_RESOURCE_NONE,
+>>>>> +	.vmem_size = 0,
+>>>>> +	.vmem_addr = 0,
+>>>>> +	.dma_mask = 0xddc00000 - 1,
+>>>>> +	.fwname = "qcom/venus-4.4/venus.mbn",
+>>>>> +};
+>>>>> +
+>>>>>  static const struct freq_tbl sdm660_freq_table[] = {
+>>>>>  	{ 979200, 518400000 },
+>>>>>  	{ 489600, 441600000 },
+>>>>> @@ -891,6 +928,7 @@ static const struct venus_resources sc7280_res = {
+>>>>>  static const struct of_device_id venus_dt_match[] = {
+>>>>>  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>>>>>  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+>>>>> +	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+>>>>>  	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+>>>>>  	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+>>>>>  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+>>>>>
+>>>>>
+>>>>>
+>>>>> @Vikash, are you saying that perhaps the DTS for video-codec@cc00000
+>>>>> needs to be written slightly differently?
+>>>>
+>>>>
+>>>> Certainly yes. For ex, in the clock list, i do not see the core clocks listed
+>>>> i.e clk_mmss_video_subcore0_clk and clk_mmss_video_subcore1_clk. You can refer
+>>>> the downstream video DT node [1] and then align it as per venus driver
+>>>> [1]
+>>>> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi
+>>>
+>>> If I understand correctly (which is far from certain),
+>>> we should base the "qcom,msm8998-venus" DT node on
+>>> "qcom,sdm845-venus-v2" rather than "qcom,msm8996-venus" ?
+>>
+>> That's correct, but that's just another way to do the configuration. With the
+>> existing node, is video decode as well as encode working ?
+> 
+> Errr, there is currently no existing node for msm8998-venus?
+My bad, i meant your initial node msm8998-venus, without migrating to v2.
+> 
+> With the proposed node above (based on msm8996-venus)
+> AND the proposed work-around disabling low-power mode,
+> decoding works correctly.
+Nice, lets fix the work-around part before migrating to v2. Could you share the
+configurations for VIDEO_SUBCORE0_GDSC and VIDEO_SUBCORE1_GDSC ?
 
-Thanks.
+If we see vendor code[1], sys power plane control is very much supported, so
+ideally we should get it working without the workaround
+[1]
+https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/drivers/media/platform/msm/vidc/venus_hfi.c#L2223
 
-There is another reason mentioned by Hans:
+> Encoding does not work, but it has never been used/tested on our device.
+> 
+> [h264_v4l2m2m @ 0xaaaaec9c44a0] Using device /dev/video1
+> [h264_v4l2m2m @ 0xaaaaec9c44a0] driver 'qcom-venus' on card 'Qualcomm Venus video encoder' in mplane mode
+> [h264_v4l2m2m @ 0xaaaaec9c44a0] requesting formats: output=NV12/yuv420p capture=H264/none
+> [h264_v4l2m2m @ 0xaaaaec9c44a0] output VIDIOC_REQBUFS failed: Invalid argument
+> [h264_v4l2m2m @ 0xaaaaec9c44a0] no v4l2 output context's buffers
+> [h264_v4l2m2m @ 0xaaaaec9c44a0] can't configure encoder
+> [vost#0:0/h264_v4l2m2m @ 0xaaaaec9c4160] Error while opening encoder - maybe incorrect parameters such as bit_rate, rate, width or height.
 
-"
-The problem is that within V4L2 we use fourcc consistently to describe a
-format, including in VIDIOC_ENUM_FMT. And the expectation is that the fourc=
-c
-can be printed to a human readable string (there is even a printk format fo=
-r
-that these days).
+We can revisit the encoder failure once we have decode fixed without any workaround.
 
-But the pcm values are all small integers (and can even be 0!), and
-printing the fourcc will give garbage. It doesn't work well at all
-with the V4L2 API. But by having a straightforward conversion between the
-pcm identifier and a fourcc it was really easy to deal with this.
-
-There might even be applications today that call VIDIOC_ENUM_FMT to see
-what is supported and fail if it is not a proper fourcc is returned.
-
-It will certainly report nonsense in v4l_print_fmtdesc() (v4l2-ioctl.c).
-
-One of the early versions of this patch series did precisely what you reque=
-st,
-but it just doesn't work well within the V4L2 uAPI.
-"
-
-Best regards
-Shengjiu Wang
-> Nicolas
->
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> >  .../userspace-api/media/v4l/pixfmt-audio.rst  | 87 +++++++++++++++++++
-> >  .../userspace-api/media/v4l/pixfmt.rst        |  1 +
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          | 13 +++
-> >  include/uapi/linux/videodev2.h                | 23 +++++
-> >  4 files changed, 124 insertions(+)
-> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.=
-rst
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-audio.rst b/D=
-ocumentation/userspace-api/media/v4l/pixfmt-audio.rst
-> > new file mode 100644
-> > index 000000000000..04b4a7fbd8f4
-> > --- /dev/null
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-audio.rst
-> > @@ -0,0 +1,87 @@
-> > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> > +
-> > +.. _pixfmt-audio:
-> > +
-> > +*************
-> > +Audio Formats
-> > +*************
-> > +
-> > +These formats are used for :ref:`audiomem2mem` interface only.
-> > +
-> > +.. tabularcolumns:: |p{5.8cm}|p{1.2cm}|p{10.3cm}|
-> > +
-> > +.. cssclass:: longtable
-> > +
-> > +.. flat-table:: Audio Format
-> > +    :header-rows:  1
-> > +    :stub-columns: 0
-> > +    :widths:       3 1 4
-> > +
-> > +    * - Identifier
-> > +      - Code
-> > +      - Details
-> > +    * .. _V4L2-AUDIO-FMT-S8:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_S8``
-> > +      - 'S8'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_S8 in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-S16-LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_S16_LE``
-> > +      - 'S16_LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_S16_LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-U16-LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_U16_LE``
-> > +      - 'U16_LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_U16_LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-S24-LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_S24_LE``
-> > +      - 'S24_LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_S24_LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-U24-LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_U24_LE``
-> > +      - 'U24_LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_U24_LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-S32-LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_S32_LE``
-> > +      - 'S32_LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_S32_LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-U32-LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_U32_LE``
-> > +      - 'U32_LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_U32_LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-FLOAT-LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_FLOAT_LE``
-> > +      - 'FLOAT_LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_FLOAT_LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-IEC958-SUBFRAME-LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE``
-> > +      - 'IEC958_SUBFRAME_LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-S24-3LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_S24_3LE``
-> > +      - 'S24_3LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_S24_3LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-U24-3LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_U24_3LE``
-> > +      - 'U24_3LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_U24_3LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-S20-3LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_S20_3LE``
-> > +      - 'S20_3LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_S24_3LE in ALSA
-> > +    * .. _V4L2-AUDIO-FMT-U20-3LE:
-> > +
-> > +      - ``V4L2_AUDIO_FMT_U20_3LE``
-> > +      - 'U20_3LE'
-> > +      - Corresponds to SNDRV_PCM_FORMAT_U20_3LE in ALSA
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt.rst b/Documen=
-tation/userspace-api/media/v4l/pixfmt.rst
-> > index 11dab4a90630..2eb6fdd3b43d 100644
-> > --- a/Documentation/userspace-api/media/v4l/pixfmt.rst
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt.rst
-> > @@ -36,3 +36,4 @@ see also :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`.)
-> >      colorspaces
-> >      colorspaces-defs
-> >      colorspaces-details
-> > +    pixfmt-audio
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-=
-core/v4l2-ioctl.c
-> > index 961abcdf7290..be229c69e991 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -1471,6 +1471,19 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc=
- *fmt)
-> >       case V4L2_PIX_FMT_Y210:         descr =3D "10-bit YUYV Packed"; b=
-reak;
-> >       case V4L2_PIX_FMT_Y212:         descr =3D "12-bit YUYV Packed"; b=
-reak;
-> >       case V4L2_PIX_FMT_Y216:         descr =3D "16-bit YUYV Packed"; b=
-reak;
-> > +     case V4L2_AUDIO_FMT_S8:         descr =3D "8-bit Signed"; break;
-> > +     case V4L2_AUDIO_FMT_S16_LE:     descr =3D "16-bit Signed LE"; bre=
-ak;
-> > +     case V4L2_AUDIO_FMT_U16_LE:             descr =3D "16-bit Unsigne=
-d LE"; break;
-> > +     case V4L2_AUDIO_FMT_S24_LE:             descr =3D "24(32)-bit Sig=
-ned LE"; break;
-> > +     case V4L2_AUDIO_FMT_U24_LE:             descr =3D "24(32)-bit Uns=
-igned LE"; break;
-> > +     case V4L2_AUDIO_FMT_S32_LE:             descr =3D "32-bit Signed =
-LE"; break;
-> > +     case V4L2_AUDIO_FMT_U32_LE:             descr =3D "32-bit Unsigne=
-d LE"; break;
-> > +     case V4L2_AUDIO_FMT_FLOAT_LE:           descr =3D "32-bit Float L=
-E"; break;
-> > +     case V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE: descr =3D "32-bit IEC958 =
-LE"; break;
-> > +     case V4L2_AUDIO_FMT_S24_3LE:            descr =3D "24(24)-bit Sig=
-ned LE"; break;
-> > +     case V4L2_AUDIO_FMT_U24_3LE:            descr =3D "24(24)-bit Uns=
-igned LE"; break;
-> > +     case V4L2_AUDIO_FMT_S20_3LE:            descr =3D "20(24)-bit Sig=
-ned LE"; break;
-> > +     case V4L2_AUDIO_FMT_U20_3LE:            descr =3D "20(24)-bit Uns=
-igned LE"; break;
-> >
-> >       default:
-> >               /* Compressed formats */
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videod=
-ev2.h
-> > index 2c03d2dfadbe..673a6235a029 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -843,6 +843,29 @@ struct v4l2_pix_format {
-> >  #define V4L2_META_FMT_RK_ISP1_PARAMS v4l2_fourcc('R', 'K', '1', 'P') /=
-* Rockchip ISP1 3A Parameters */
-> >  #define V4L2_META_FMT_RK_ISP1_STAT_3A        v4l2_fourcc('R', 'K', '1'=
-, 'S') /* Rockchip ISP1 3A Statistics */
-> >
-> > +/*
-> > + * Audio-data formats
-> > + * All these audio formats use a fourcc starting with 'AU'
-> > + * followed by the SNDRV_PCM_FORMAT_ value from asound.h.
-> > + */
-> > +#define V4L2_AUDIO_FMT_S8                    v4l2_fourcc('A', 'U', '0'=
-, '0')
-> > +#define V4L2_AUDIO_FMT_S16_LE                        v4l2_fourcc('A', =
-'U', '0', '2')
-> > +#define V4L2_AUDIO_FMT_U16_LE                        v4l2_fourcc('A', =
-'U', '0', '4')
-> > +#define V4L2_AUDIO_FMT_S24_LE                        v4l2_fourcc('A', =
-'U', '0', '6')
-> > +#define V4L2_AUDIO_FMT_U24_LE                        v4l2_fourcc('A', =
-'U', '0', '8')
-> > +#define V4L2_AUDIO_FMT_S32_LE                        v4l2_fourcc('A', =
-'U', '1', '0')
-> > +#define V4L2_AUDIO_FMT_U32_LE                        v4l2_fourcc('A', =
-'U', '1', '2')
-> > +#define V4L2_AUDIO_FMT_FLOAT_LE                      v4l2_fourcc('A', =
-'U', '1', '4')
-> > +#define V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE    v4l2_fourcc('A', 'U', '1'=
-, '8')
-> > +#define V4L2_AUDIO_FMT_S24_3LE                       v4l2_fourcc('A', =
-'U', '3', '2')
-> > +#define V4L2_AUDIO_FMT_U24_3LE                       v4l2_fourcc('A', =
-'U', '3', '4')
-> > +#define V4L2_AUDIO_FMT_S20_3LE                       v4l2_fourcc('A', =
-'U', '3', '6')
-> > +#define V4L2_AUDIO_FMT_U20_3LE                       v4l2_fourcc('A', =
-'U', '3', '8')
-> > +
-> > +#define v4l2_fourcc_to_audfmt(fourcc)        \
-> > +     (__force snd_pcm_format_t)(((((fourcc) >> 16) & 0xff) - '0') * 10=
-  \
-> > +                                + ((((fourcc) >> 24) & 0xff) - '0'))
-> > +
-> >  /* priv field value to indicates that subsequent fields are valid. */
-> >  #define V4L2_PIX_FMT_PRIV_MAGIC              0xfeedcafe
-> >
->
+Regards,
+Vikash
 
