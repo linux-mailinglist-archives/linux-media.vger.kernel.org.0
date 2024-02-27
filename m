@@ -1,274 +1,171 @@
-Return-Path: <linux-media+bounces-6017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CA9868D75
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 11:24:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B74868DA8
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 11:31:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75CBD1F22CCC
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 10:24:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 523511F2328A
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 10:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B58E13849F;
-	Tue, 27 Feb 2024 10:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D6F130ADF;
+	Tue, 27 Feb 2024 10:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="rwJ0DVXJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a25WGDNI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681C0138492;
-	Tue, 27 Feb 2024 10:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709029438; cv=pass; b=AlnfIuFlC4bo1dpbcH3dsQY/J2Oy4dsjs4YJcOLSyEhXK4nqH0FKzgPCfUD4d8ugWdkbK+leTaUy4BV4fi1p5xONBTVlZQk2iQhR0pt/G+wde+TiXWbgc8HdGCFyzJPjL2xlpeCfg8PVGUdbQ+LGtkcs9DNCZZw1mCzqUY9Lg1k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709029438; c=relaxed/simple;
-	bh=i8Z3BJKTqV2tpEnLiU8y6wyHC2OVAz1euRNw4C3obPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q55IWnehwRdoaeKbg7atuMe12DMVJzNc/U40b29RtP+eICWdsHyNyM1H9P401DwQARlKhSXQzleGoovDiGEi9IEW2gk1dWnFTI+Nh8mJoYV2Ap56pU/tes/1ObAkzOWntssdLCN9uN2WZQlZjmoRgrrqhNDtFNMymiRLG0Pgyco=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=rwJ0DVXJ; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4TkYVX4hLfzyRk;
-	Tue, 27 Feb 2024 12:23:48 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1709029431;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e7CJlVsWqknG0VD0bGsDCpWj600Be6wheaK7cV+aA3M=;
-	b=rwJ0DVXJtnAhe42Af1YIFXFp77CJUlD92dcKhC3JitX+5DvfjefalGkQARQl9oIgIf1r08
-	VJAL4f0eipvO3NkhpNN9PwI/OAQBJzZkEHEGHaf3zpXwYmcNLKVjWCLFcwReSV++PJbyAO
-	2KJb78YlceMtFyBQbQoSaTZaQPUsXB8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1709029431;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e7CJlVsWqknG0VD0bGsDCpWj600Be6wheaK7cV+aA3M=;
-	b=WJi0u4Wr2KVXQJXA7dm8vI/PfmsJJDbukRMN0AqPfcwXD2RE7b8PVXZGOTx5UqsgGbT78R
-	StL1I7WN17yJ15kK4rnnJoc6Q3BJUfkOZqa6CB38jgrENS21Roe8JYlEPNsmEsJ8tv2fc1
-	bTRhQCoKmS9wFeiuMNahLTkV0t5reAU=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1709029431; a=rsa-sha256; cv=none;
-	b=YJL/5RLtrNIVyJpo0whQkcfPlKbrn5iuqqqAOEbsqFmOkee0c+GqPRHLKkxlIyjDZZiJFI
-	wwvAJt8V9x0c8nOmyxfSWAMyMV1Zqj9UH+7oySOCS1JQD75fR/bh05UlVoy/9x+hhEDg3X
-	cwHpWgGeN4qFDXBgQEerE+/9c7H124o=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1A552634C94;
-	Tue, 27 Feb 2024 12:23:47 +0200 (EET)
-Date: Tue, 27 Feb 2024 10:23:46 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Mehdi Djait <mehdi.djait.k@gmail.com>
-Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
-	michael.riesch@wolfvision.net, laurent.pinchart@ideasonboard.com,
-	Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: Re: [RESEND Patch v13 2/3] media: rockchip: Add a driver for
- Rockchip's camera interface
-Message-ID: <Zd24MhLYJlSTRysr@valkosipuli.retiisi.eu>
-References: <cover.1707677804.git.mehdi.djait.k@gmail.com>
- <715d89214d1ed6a8bb16cbb6268718a737485560.1707677804.git.mehdi.djait.k@gmail.com>
- <Zctwo3s9hso6mQvT@valkosipuli.retiisi.eu>
- <ZdY5KrTfss4lTjPO@mehdi-archlinux>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753115577D
+	for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 10:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709029898; cv=none; b=sVzzCe1GpA+fZVWnHFwxMPGLKDSnjqBgUsrP5yCU6q9VKfviiBLr4Cnnmck/ghb7xiaAk+t86skSdfMdkhInfjHTQJ/YgTx1KbVhZVl4LeFiABa9SDkUr7+AFEbsMggaHjit4qjNIev6TNjuXipgL6feQ2rJB/F8NT/J8vaA9Tg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709029898; c=relaxed/simple;
+	bh=oqRyvwZ9kFkOtBSmL+4M05VcOckEN7B6vmEqud3g9ZQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nkoLKyLMGWaz5ktf2H9IowD2MnnqRt+N9yzmkmVdXcy5R6LXGYhouiUGjnVSzNQo9rg94StJJkLh8x4z3CMMed0ZIPgxnUikmYR5tEajHZmW0KalJ4sJAFAbrCXulLrxo3vqp96RGxwOQCutLfoIolf87+XWFgoEe4Jofgt9w0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a25WGDNI; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-55a8fd60af0so5512586a12.1
+        for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 02:31:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709029895; x=1709634695; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f4iudg19y7abzrO0HKBUX7Faev1tIapQqDvDX8vbZQo=;
+        b=a25WGDNIPCCpgBQwH0zJkhYpNPVSdCtKxHGLrW0p664C138TdJ9aSFT/osQpSiKZRr
+         JsUYUYS76KvjgH0Nl1oOQar8O/cbe8kobjAHjVkvsZ7hxgRu6xd0W33fg+NZjsSuuFfC
+         pHdqmw35X7JExCBJTAMIDs0RdcokdaYsQg+3HZ4zkwZrPxhw2E8AzmAiUuhMqn1iFtaA
+         rvw0s+wjiblpmYrbcRYrfBEmnObU7Puv0klcFaltHTjADqrgeFF7OGVKmn1drHnY1XdJ
+         uxCzWI4NbaZyOy894Ov/FTxnzAompOQTKMR49gD9/1VDpN13fvOHu6o5EUZeNtzq3QMQ
+         VRHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709029895; x=1709634695;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f4iudg19y7abzrO0HKBUX7Faev1tIapQqDvDX8vbZQo=;
+        b=B2pCYJOrDKWgrsKly1E9E2KjB6BSKvJbgFBx/LR4JSqllRAsp6hOPG7g31smUGUax9
+         i6C/CiSEaa1zB0mqM2nPz1jJMI6bM2QxnVAh14FSAgsbFQgj9+2ZBkr5HKue11ycFCyI
+         6/wX4nmjv6g8kLVJ/gesB+ZWuLYlRkA47wdk1/+547qERF+v626eB+7vEKhiCOIaRopp
+         +mjU4ENRZ1N/N+foHF+DrkKc9FsigDPFZcizVS9zy1Do7GnG+Jv29alYmb+JyMO1TfAF
+         5joRkBoHBUN/Sj/OrKR0JdE/ZR5wELtfuJBTd3W0LSr1PcCPi0CMYXoRBYLl9rc7yOAZ
+         BQog==
+X-Forwarded-Encrypted: i=1; AJvYcCWu2gD0FvkwOvfczCmzmVxoHtBW4VbKJX6fyLdYKLtO7m4YwY6pZ+QxinUO9Fy1iO1YKYFvTLITdMzwjLIPih9aNiupGGVcZURRADw=
+X-Gm-Message-State: AOJu0YzZzrB8DnMstVYWgNe7kzgcZXi0DZ3iEhxWy/lHtV5ibnMQSOvs
+	qxNXB2LFsFQgc10Y+bcwNX2TWLN3gMP8pS8hf7t10xqh4+Flpft9Mc731w5H20c=
+X-Google-Smtp-Source: AGHT+IEEl8fKy5C7l5uepTiAwXSRMBRmCGJ06jeVF6eHUMlxJ3GqL+ZGbydOs4ZuhukC+mSJM7jiog==
+X-Received: by 2002:a05:6402:2059:b0:563:c54e:f1 with SMTP id bc25-20020a056402205900b00563c54e00f1mr6442198edb.2.1709029894862;
+        Tue, 27 Feb 2024 02:31:34 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.116])
+        by smtp.gmail.com with ESMTPSA id ev19-20020a056402541300b005661b5884adsm622854edb.27.2024.02.27.02.31.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Feb 2024 02:31:34 -0800 (PST)
+Message-ID: <282ca3d6-b403-4378-8dc2-8e1d09fdf7c9@linaro.org>
+Date: Tue, 27 Feb 2024 11:31:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZdY5KrTfss4lTjPO@mehdi-archlinux>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
+ audio sound card document
+Content-Language: en-US
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
+ <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
+ <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Mehdi,
+On 27/02/2024 11:23, Alexandre Mergnat wrote:
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    sound {
+>>> +        compatible = "mediatek,mt8365-mt6357";
+>>> +        mediatek,platform = <&afe>;
+>>
+>> Please:
+>>
+>> https://docs.kernel.org/devicetree/bindings/dts-coding-style.html
+> 
+> Is it about the wrong pinctrl-names tab alignment ?
+> Also, 2ND I2S BE => 2ND_I2S_BE ?
+> Otherwise, I don't get it sorry.
 
-On Wed, Feb 21, 2024 at 06:55:54PM +0100, Mehdi Djait wrote:
-> Hi Sakari,
-> 
-> Thank you for the review!
-> 
-> On Tue, Feb 13, 2024 at 01:37:39PM +0000, Sakari Ailus wrote:
-> > Hi Mahdi,
-> > 
-> > On Sun, Feb 11, 2024 at 08:03:31PM +0100, Mehdi Djait wrote:
-> > > From: Mehdi Djait <mehdi.djait@bootlin.com>
-> > > 
-> > > This introduces a V4L2 driver for the Rockchip CIF video capture controller.
-> > > 
-> > > This controller supports multiple parallel interfaces, but for now only the
-> > > BT.656 interface could be tested, hence it's the only one that's supported
-> > > in the first version of this driver.
-> > > 
-> > > This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
-> > > but for now it's only been tested on the PX30.
-> > > 
-> > > CIF is implemented as a video node-centric driver.
-> > > 
-> > > Most of this driver was written following the BSP driver from Rockchip,
-> > > removing the parts that either didn't fit correctly the guidelines, or that
-> > > couldn't be tested.
-> > > 
-> > > This basic version doesn't support cropping nor scaling and is only
-> > > designed with one SDTV video decoder being attached to it at any time.
-> > > 
-> > > This version uses the "pingpong" mode of the controller, which is a
-> > > double-buffering mechanism.
-> > > 
-> > > Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
-> > > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> > > Signed-off-by: Mehdi Djait <mehdi.djait.k@gmail.com>
-> > > ---
-> > >  MAINTAINERS                                   |    7 +
-> > >  drivers/media/platform/rockchip/Kconfig       |    1 +
-> > >  drivers/media/platform/rockchip/Makefile      |    1 +
-> > >  drivers/media/platform/rockchip/cif/Kconfig   |   14 +
-> > >  drivers/media/platform/rockchip/cif/Makefile  |    3 +
-> > >  .../media/platform/rockchip/cif/cif-capture.c | 1111 +++++++++++++++++
-> > >  .../media/platform/rockchip/cif/cif-capture.h |   20 +
-> > >  .../media/platform/rockchip/cif/cif-common.h  |  128 ++
-> > >  drivers/media/platform/rockchip/cif/cif-dev.c |  308 +++++
-> > >  .../media/platform/rockchip/cif/cif-regs.h    |  127 ++
-> > >  10 files changed, 1720 insertions(+)
-> > >  create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
-> > >  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
-> > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.c
-> > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.h
-> > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-common.h
-> > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-dev.c
-> > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-regs.h
-> > > 
-> > > +static int cif_start_streaming(struct vb2_queue *queue, unsigned int count)
-> > > +{
-> > > +	struct cif_stream *stream = queue->drv_priv;
-> > > +	struct cif_device *cif_dev = stream->cifdev;
-> > > +	struct v4l2_device *v4l2_dev = &cif_dev->v4l2_dev;
-> > > +	struct v4l2_subdev *sd;
-> > > +	int ret;
-> > > +
-> > > +	if (!cif_dev->remote.sd) {
-> > > +		ret = -ENODEV;
-> > > +		v4l2_err(v4l2_dev, "No remote subdev detected\n");
-> > > +		goto destroy_buf;
-> > > +	}
-> > > +
-> > > +	ret = pm_runtime_resume_and_get(cif_dev->dev);
-> > > +	if (ret < 0) {
-> > > +		v4l2_err(v4l2_dev, "Failed to get runtime pm, %d\n", ret);
-> > > +		goto destroy_buf;
-> > > +	}
-> > > +
-> > > +	sd = cif_dev->remote.sd;
-> > > +
-> > > +	stream->cif_fmt_in = get_input_fmt(cif_dev->remote.sd);
-> > 
-> > You should use the format on the local pad, not get it from a remote
-> > sub-device.
-> > 
-> > Link validation ensures they're the same (or at least compatible).
-> > 
-> > Speaking of which---you don't have link_validate callbacks set for the
-> > sub-device. See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2.c for an
-> > example.
-> > 
-> 
-> ...
-> 
-> > > +	if (!stream->cif_fmt_in)
-> > > +		goto runtime_put;
-> > > +
-> > > +	ret = cif_stream_start(stream);
-> > > +	if (ret < 0)
-> > > +		goto stop_stream;
-> > > +
-> > > +	ret = v4l2_subdev_call(sd, video, s_stream, 1);
-> > > +	if (ret < 0)
-> > > +		goto stop_stream;
-> > > +
-> > > +	return 0;
-> > > +
-> > > +stop_stream:
-> > > +	cif_stream_stop(stream);
-> > > +runtime_put:
-> > > +	pm_runtime_put(cif_dev->dev);
-> > > +destroy_buf:
-> > > +	cif_return_all_buffers(stream, VB2_BUF_STATE_QUEUED);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static int cif_set_fmt(struct cif_stream *stream,
-> > > +		       struct v4l2_pix_format *pix)
-> > > +{
-> > > +	struct cif_device *cif_dev = stream->cifdev;
-> > > +	struct v4l2_subdev_format sd_fmt;
-> > > +	struct cif_output_fmt *fmt;
-> > > +	int ret;
-> > > +
-> > > +	if (vb2_is_streaming(&stream->buf_queue))
-> > > +		return -EBUSY;
-> > > +
-> > > +	fmt = find_output_fmt(stream, pix->pixelformat);
-> > > +	if (!fmt)
-> > > +		fmt = &out_fmts[0];
-> > > +
-> > > +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> > > +	sd_fmt.pad = 0;
-> > > +	sd_fmt.format.width = pix->width;
-> > > +	sd_fmt.format.height = pix->height;
-> > > +
-> > > +	ret = v4l2_subdev_call(cif_dev->remote.sd, pad, set_fmt, NULL, &sd_fmt);
-> > 
-> > The user space is responsible for controlling the sensor i.e. you shouldn't
-> > call set_fmt sub-device op from this driver.
-> > 
-> > As the driver is MC-enabled, generally the sub-devices act as a control
-> > interface and the V4L2 video nodes are a data interface.
-> > 
-> 
-> While this is true for MC-centric (Media Controller) drivers, this driver is
-> video-node-centric (I mentioned this in the commit msg)
-> 
-> From the Kernel Documentation:
-> https://docs.kernel.org/userspace-api/media/v4l/open.html
-> 
-> 1 - The devices that are fully controlled via V4L2 device nodes are
-> called video-node-centric.
-> 
-> 2- Note: A video-node-centric may still provide media-controller and
-> sub-device interfaces as well. However, in that case the media-controller
-> and the sub-device interfaces are read-only and just provide information
-> about the device. The actual configuration is done via the video nodes.
+Alignment of continued lines, order of properties.
 
-Are you sure you even want to do this?
+Best regards,
+Krzysztof
 
-It'll limit what kind of sensors you can attach to the device and even more
-so in the future as we're reworking the sensor APIs to allow better control
-of the sensors, using internal pads (that require MC).
-
-There have been some such drivers in the past but many have been already
-converted, or in some cases the newer hardware generation uses MC. Keeping
-API compatibility is a requirement so you can't just "add support" later
-on.
-
--- 
-Regards,
-
-Sakari Ailus
 
