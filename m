@@ -1,120 +1,135 @@
-Return-Path: <linux-media+bounces-6038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6039-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24693869138
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 14:03:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8FE86916C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 14:11:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B71411F22AC2
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 13:03:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 546491F225C1
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 13:11:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACD4313B28B;
-	Tue, 27 Feb 2024 13:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E428613B289;
+	Tue, 27 Feb 2024 13:11:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpmbbDRj"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tvsnowVK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0989113B285;
-	Tue, 27 Feb 2024 13:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA7D1EB25
+	for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 13:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709038976; cv=none; b=sJhe9cN2i7ORzDd9mOYO4GJuF1s3IOSBA5w0r9X6FnxtX8JpYQrOXu3ka9ZMBRslsNTcIsDwpTlFsrGJ9iEea1/nSd+aZ9CAkuuPZ3gdAWzaFONlxUNAwPEm5JaGx4GnJ5JESW7dJaco4mCWmttoU4NoPb1sBn+fFyLwJhJzlsc=
+	t=1709039501; cv=none; b=Os+gp63cFNyeeenDarb/OwVMa6dYhP2Mi7o8NCuzIzWhkvU9SYQMKWEAXxnoaZV2k03IuXqiyOnZgxxk11ETMF+Lhib90eXVODZ79Pwj44mdndMp5U+xqltF2LiNQ+38HKzU5w2WSAcrfOSTmLej8xJpqChHipTsN2EzLD/Svjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709038976; c=relaxed/simple;
-	bh=K8zljY/jOjHfxijTuYAHOGluUedQxnvvUsTqJTxkXzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lheQu2czqLTSeP4NK3mxt33Edb02KQjVy/vzbIwpmyC2cAXBhCnrSl0FIm+7M1+sjkkEwlaM63ZbXKCV2Jimg0wpyMUp6Fd3RdxGX+4rgSXmfY8r82rnPJZbRJepHBQ9PV5w9WFMgOKSQqs1ULqTgiwnSrJragLaGUDaH71vYSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpmbbDRj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFF9C433C7;
-	Tue, 27 Feb 2024 13:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709038975;
-	bh=K8zljY/jOjHfxijTuYAHOGluUedQxnvvUsTqJTxkXzg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HpmbbDRj7DsgN7C+l0Nsac1JlsRLWmqQFqIGFCkbGxKteJFERSFF+sy5GSXwIUKOl
-	 1kkVc2T/o/MNqrMmzbg17m2eYF6giueFjm/iXh9pf2CTrYHd47O+0DLs4CEziLmag8
-	 lqW9T5vGj5jb4I/IQrlatzFgMDOEdJ/eRHcrhERUkTuHuE8WE+FOtIFVQzNJgQI/lj
-	 OFaxV54oZfzgTYDOWj2C6vzyr4cJuzXRtb/dJdW0m/t2DP1h4rYOn8Igyw+lT1MbkT
-	 /xuvt7TFgTDGlZKwg3dCxaPdPdNMiNJuceUy7f/c67/fGV4PZe0iHlh4EjMBSjdirU
-	 qpD4wU3U97/2A==
-Date: Tue, 27 Feb 2024 14:02:52 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
-Message-ID: <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
- <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
+	s=arc-20240116; t=1709039501; c=relaxed/simple;
+	bh=bAZ3iM58OJ/c+sYIqOEGYcO2YI1AZnqpgNdLdjXcmvg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sqRDkNbCNOwZLY24GxmqJdn2KwzWMGWi3w/4XGo8H0SLFYUErtl1Cq8Oq3r+HXM1VG+O6xY8c3MGwcRVVIiy/b2nOYjCz+IklhdTw02xVR2tGMjxI0G4dcffWyxELMxH+2QYwrPeeZch0SXIZKGieqDJqS+O9lyaJuHllHs84H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tvsnowVK; arc=none smtp.client-ip=209.85.166.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7c48e13e0d7so240949839f.1
+        for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 05:11:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1709039499; x=1709644299; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=udo8bD1gQZ0TgNyTOs65mIj8/NeIRI7TPXyi6M/72Q4=;
+        b=tvsnowVK+HdQ/3oyJsC+yItPc89cXzDqP0xkfENlrJci+0g3TmzU6Ayir/FDTZUfrI
+         8fArkCp2LIIlIKgszr2sUpfVtinWm6wfiUAq33Gpya8d+d8cQZTm8s34g2ExuvuEd6lU
+         TSVRMF076NIUSwQoZPInIH1kELkiCxdvcHOvyIMHjjwd4E67K0mSiWG2G5ET1CvINVs0
+         ZelU7nOBzfxSXEQA9TMWdkor7aBDmOQ0wOVnbZ42nId2hMORIED159uH/kDXObTafSJ7
+         kybSfEPnRr5rqhnoPU5xhERt68jrSuuWKNFL8fzOZft19paTlx29N+gd7B3A5fMdyzYJ
+         9+hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709039499; x=1709644299;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=udo8bD1gQZ0TgNyTOs65mIj8/NeIRI7TPXyi6M/72Q4=;
+        b=wHluAtIKbcwk1VpWrdfEQPJGaoZhsmIPDDURllCFgPuaqCfY9j5lz8FUC03K6cfoPk
+         xb2JltQfhSbLlTi+T3NGasE7vOta1A5rpKAdvE/9oMJEcc8NTvSov654SWrfbxGOSy/r
+         SQKGbz4P82/ovsbh0FModjr/gc4I3nUkeGMrP+a49/q4xws7XR5HHgczksMEYaGGJCOf
+         TbSWLA50/mIYxA6Y6QFVEy/Rox3yOI3bB/94rBXEXgHsOIumZrCnLF8uUz31T5c4qAup
+         eEw6o5pifNsXRSzlX3+u2LBA9bg20Ox8AKQLXAyprAohELOmjJrquRZ3HTDQMFUqVc2O
+         c49w==
+X-Forwarded-Encrypted: i=1; AJvYcCX477yqQ3zvBYYN9fGmp7z6H6eBzEqy+l+sINsWXjBcYczxIQLUd4K3Gq3zSHuO775CQElPW9KOCcFT0wEYSz637nHCzTzMR3BWCjI=
+X-Gm-Message-State: AOJu0Yyy2wCGy8g0LzMpGTupy+GK4gJFMtmgReOoDGaTtDG+anyGtSE3
+	pzFraT5Cx26jqFe7KOMtvHmL6hjnpvM2JSTXtFkKThtl8IEhR53gj6XWh+l/X3Gk4T9eZj+Xq6Y
+	6CSmYJJZQoiTi74X6ovz43POUZ/kv9nIRjLx/
+X-Google-Smtp-Source: AGHT+IEbvZWYzJhRl38v/+RURp8VhVb+sc2/zv8znFskRMA/IxEBLb5NyDAoUgrrhIG+yRmDNWyZC23b3qgda22u2K8=
+X-Received: by 2002:a05:6602:14c7:b0:7c7:e2c5:569e with SMTP id
+ b7-20020a05660214c700b007c7e2c5569emr2368172iow.7.1709039499002; Tue, 27 Feb
+ 2024 05:11:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cwsjmzyidxiy2r5i"
-Content-Disposition: inline
-In-Reply-To: <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
-
-
---cwsjmzyidxiy2r5i
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+References: <20240221160215.484151-1-panikiel@google.com> <20240221160215.484151-9-panikiel@google.com>
+ <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org> <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
+ <e1fd8cbd-060b-4d15-8256-6d8dbba545da@linaro.org> <CAM5zL5qxBM1xQ__t86gxUKMy8O3BzoCe_vTFxxsqFq7mw4-8EQ@mail.gmail.com>
+ <890afb05-1b19-47b2-bfd8-5f6de0caeda3@linaro.org>
+In-Reply-To: <890afb05-1b19-47b2-bfd8-5f6de0caeda3@linaro.org>
+From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
+Date: Tue, 27 Feb 2024 14:11:27 +0100
+Message-ID: <CAM5zL5rs4JyFznnWDLZP_2jwnX+yc+OwwOijGZGsQK+WtpiWKA@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
+	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
+	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
+	mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
+	tzimmermann@suse.de, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com, 
+	ribalda@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ma=EDra,
+On Mon, Feb 26, 2024 at 6:29=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 26/02/2024 13:43, Pawe=C5=82 Anikiel wrote:
+> >>>>> +  intel,max-stream-count:
+> >>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >>>>> +    description: Max stream count configuration parameter
+> >>>>> +
+> >>>>> +  port:
+> >>>>> +    $ref: /schemas/graph.yaml#/properties/port
+> >>>>> +    description: SST main link
+> >>>>
+> >>>> I don't understand why you have both port and ports. Shouldn't this =
+be
+> >>>> under ports?
+> >>>
+> >>> I put both so that you can use the shorter port property when the
+> >>> device only has one port (i.e. no MST support). It would work fine
+> >>> without it. If you think that's unnecessary, I can remove it (and use
+> >>> the ports property even if there is only one).
+> >>
+> >> No, it is fine, but then you need allOf: which will restrict to only o=
+ne
+> >> of them: either port or ports.
+> >
+> > There already is an allOf below that says that ports is required for
+> > MST support and port is required otherwise. Isn't this enough?
+>
+> Add both port and ports and see if it is enough.
 
-Thanks for you reviews!
+Ok, I see. I tried and this seems to work:
 
-On Mon, Feb 26, 2024 at 09:29:32AM -0300, Ma=EDra Canal wrote:
-> On 2/22/24 15:14, Maxime Ripard wrote:
-> > The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
->=20
-> Maybe I understood incorrectly, but isn't the vc4_dummy_plane structure
-> equivalent to drm_plane?
+oneOf:
+  - required:
+      - port
+  - required:
+      - ports
 
-Both statements are true :)
-
-vc4 itself uses vc4_plane to holds its plane-related content, but it
-turns out that there's nothing in that structure anymore and vc4_plane
-=3D=3D drm_plane.
-
-In our mock driver, we have another structure meant to store the
-mock-plane-related content which doesn't have anything in it anymore,
-and is thus equivalent to vc4_plane.
-
-So, basically, vc4_dummy_plane =3D=3D vc4_plane =3D=3D drm_plane.
-
-This patch is only about getting rid of vc4_dummy_plane though.
-
-Is it clearer?
-
-Maxime
-
---cwsjmzyidxiy2r5i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3dfAAKCRDj7w1vZxhR
-xQB3AQCM6yIbUIAvcz/rSyKw6mmw6G4nrZh7GPft2T1APOLu4wEAylXMYpdYV8KH
-P8oZ7t3+gt3/8m9lr6IwSflU4vD4bwI=
-=qSeA
------END PGP SIGNATURE-----
-
---cwsjmzyidxiy2r5i--
+And that would make the if/else with port and ports below not needed.
+What do you think?
 
