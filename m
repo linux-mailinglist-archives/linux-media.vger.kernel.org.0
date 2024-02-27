@@ -1,74 +1,73 @@
-Return-Path: <linux-media+bounces-6045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E124B869A25
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 16:18:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A149869BF1
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 17:21:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8866E28C3F2
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 15:18:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 815A3B305FF
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 16:11:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD10145334;
-	Tue, 27 Feb 2024 15:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0024E1482E3;
+	Tue, 27 Feb 2024 16:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="k4mz6vlW"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="uYat35vs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6B213B289
-	for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 15:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B107146E8D
+	for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 16:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709047121; cv=none; b=KZw8o8CZDiaSmnp3O5S3a8+CkB7mQputYqnOIj2D8YzljV7i3Gmw9ZGawoVl4dJgm6T5B3fz7KJGmhBYcLJc+F9rvB5ScakEWX0oUOG7J9+nAkbWZucSjdI0JGp7Ja6AD4MhCJvvdEIG3UzI4c+uzGTTKbQDbsb4sNI5veQqh5E=
+	t=1709050309; cv=none; b=Z1SfVibvPLm3QEtKDk0nMKiI3yFmrRpXz8rA005X9BydjRcXwyRR1zq1d69/pBBIhAx/OXLqLgIAgvxA2ebVpj5J+d3AYiK5dHqSvIcLU3PV26a5MDQOLnkc/vbvOzX/yLXB4tfEMPiyA6y7qAzJJeuHGjwwriuj+AszvjGOkQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709047121; c=relaxed/simple;
-	bh=QlIBhT9SjPcv+nOLgdktMUfy88alkJYEWz1rlWTKDjo=;
+	s=arc-20240116; t=1709050309; c=relaxed/simple;
+	bh=cN4AYHn+uS9S7hzw6DBgJQQDkkWZiX2wW3ukLvakIQo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HCP7+kxzVjRZPVn1uRB1w2FWxNPiUUKposT2RI/XwnShm9cUTbXPcaP1DxQO19Z597Vk/jIVkq5P7T66huZA4PfaOV4sKm4EEIAhHvHV+Hw4QYc+6cGW6Rb9JVO8e0woiowXM5nP2X5XXpRL0Be1Ipl3+GEK16mTuoUmeFjLvwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=k4mz6vlW; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6900f479e3cso16047616d6.0
-        for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 07:18:38 -0800 (PST)
+	 In-Reply-To:Content-Type; b=pvaXeEJi9DaxjXHbkU20+pFIIB1ey8MEUxvqhq4y99uLiSeLdiZSXnGQkz4Biohx/cfIuU6gD30LCy8SaTcb1IFc51gOeKKNf5+OC0BJllKv+D94NdSL++4pg36sO57lok1AmCYDF9tpWldyatpvd65tEFMi/w7k3d6tlAilaRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=uYat35vs; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33d754746c3so2991094f8f.1
+        for <linux-media@vger.kernel.org>; Tue, 27 Feb 2024 08:11:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709047117; x=1709651917; darn=vger.kernel.org;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1709050304; x=1709655104; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=FgeSwdzfejtZ7gerQ3YAwA0BCpS4Ld6TiTQUNC32GpI=;
-        b=k4mz6vlWu3JS8iabSsK2rnaam1eX5rMnuiODcOsCGTyLuWWTL4ScCceoCjyY3htG3X
-         DT0LFt1BFFNctk73XJOa8d7tRmjZKIvox2A+1C1B40wzeFvL1dZyiZgYvESBlJyqt3QU
-         Afm8dHx3wKo0cjK69zYXzZAwQQMiCeQj9dKQsQcDu61J+bVPTpk5ZacJVte6Au20gZTr
-         u0qrK+gUWtMIUpo4Zvt2oOk8bqcXUcukwF34+b8t8/lqMZVU9atPDVA5YqO6PE7v59yX
-         tf3ScQ2xlD9TKHFal9quUpqxH7LQcrRaTUwvUN4Ziyxku8bnjIHqZifK6SKZnEZ5SvWG
-         qO0Q==
+        bh=kt0ExAldhQpCf2X6080uxjsitFeeoLPj3D8IL22E0W4=;
+        b=uYat35vs5Wgnp7J2nLfTV11/cM9FNzhmq8/+GbRefyJEueBIup1eytId5kJ/3SAvkl
+         WxnQillLgCEIPzA9PcynuHDghF5WRCtyatEw2Q7Dm6nQ+buh6uU86zeK/FlMglTQdMNs
+         5nJlY5aKIih+qOzRcxF3WTO8QSOzPTUmtjFiIBk+9NiCd4q4MEzlpb6qxr4OyH9LhszP
+         NWbZ+a7YgbbVquEQd2534BYaB9QRx1S/T8rkV4qZCPzc4XGnhkdbdKZNw9bZmVK9J84U
+         CeM6BXk2AxBkAdwfPxXJeLSo4WHxrxcgRs0yTVkV4gUFCz28KqYAlWeFGZ+U4DnAcgcu
+         Pz1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709047117; x=1709651917;
+        d=1e100.net; s=20230601; t=1709050304; x=1709655104;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FgeSwdzfejtZ7gerQ3YAwA0BCpS4Ld6TiTQUNC32GpI=;
-        b=BUVOGv43EIUz23sDxE/ODTj0qG3D4WsRguAQ1ZAHIFS1ILmPfobNFmQ65AsO3wv0rd
-         U8F9R/fHDYdQ6fnxtdeZU/b7VxjGnKsXn6Kj1kuwD2CBaWre+yKtlSxAyP5RPe9bipCB
-         qPQrfBtV+CNVnq42tbPjpzEw4BEkW6Rdigm8/Rsx4fZP7k13B3QOSDEQIfFJKmsZY/J7
-         4Optit9H6X8a06tRJe7id17DbohxMyAzFvHV9UvZUnDCvhnUeDc8PA+3KvKMQsMlXvwi
-         WHGUOVwD2wGuKZLtQbkBR2gEhbJy9wqcRssAVBJMdP+2vwS32FBhUfBmSBCE292DHW/U
-         gR6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUFLqi6gpGJ3gR8USW/+DdjmWArUXw1b+OAKw5AhZ8x/+5ZG8bULAbh9d9CveaDlJFczOqvpCKrPO1TB/I9BiFLQUkCkrOgHbR4Zos=
-X-Gm-Message-State: AOJu0YzlR62uMPI27TlsdYccaTa1kG5hwr/lq+7b1nSVCDHeROC8IwF4
-	/dRlaBp73QOxDzJj6USWeu1yIpazmYQiUJDqCe4X1c7MSZmSGgG+oF2uSUAMtPM=
-X-Google-Smtp-Source: AGHT+IGCOPu8LzF13tl9Z5c0o4yQmsOPurtebB8rpDPdng5maYtZftIJX0pkpHN6dXZAiJKRZsdFWA==
-X-Received: by 2002:a0c:971a:0:b0:68f:ef9b:44aa with SMTP id k26-20020a0c971a000000b0068fef9b44aamr2191669qvd.27.1709047117308;
-        Tue, 27 Feb 2024 07:18:37 -0800 (PST)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id pf10-20020a056214498a00b0068f914ac80bsm2104905qvb.50.2024.02.27.07.18.33
+        bh=kt0ExAldhQpCf2X6080uxjsitFeeoLPj3D8IL22E0W4=;
+        b=D5cpMd7ldaMkFwoHIdQ0+uTxHN4+HToOeb8xt6jN/HytfOSAa9zocwxrEpgR2i2Jaz
+         0UnqDbX0Q6RSigsW7WX1g1dSHgEijm8aSU5iE8gNZE+SvaVWIV0ANyX0/D6LuIazpIXH
+         u4rz98BwSiBaiyNBkk79BUYvv/vLxldfpo4Fsz61utvN1n/xvHAGiB/yrBK8XXYwDhUI
+         95NxeW6YvBXNqkAjwd8rCV/aMMICuJOiuWxBcNTg7sPfyJ/vPMnRNtIIAFmCThgwGlCk
+         xpSbtboaDVJ5iAPeM5Rq7SE5xSY4gbGwDVataOamBed9EYcqCIXvI7YiKXXIIUVWAc3Y
+         d+2w==
+X-Gm-Message-State: AOJu0YyC+s80PYaCaGkrlNfkrJPbpMbAP0kHR0d743GqEgmmF50HKhUc
+	tbs7ujE4fkEe6m72X0DASoLaVjDViatM0NP2Sl4t99957t5j+qGla4uAazkD3O8=
+X-Google-Smtp-Source: AGHT+IHd2iG/ukj9TSYRENHKjy/JLpH2cUN1ckiwR4HTx4lhORwnv8fiVHS/oeK8i33WByCLC6tXrw==
+X-Received: by 2002:a05:6000:71c:b0:33d:4ee5:6037 with SMTP id bs28-20020a056000071c00b0033d4ee56037mr5290827wrb.29.1709050303827;
+        Tue, 27 Feb 2024 08:11:43 -0800 (PST)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
+        by smtp.gmail.com with ESMTPSA id o9-20020a5d4a89000000b0033df1dc39f0sm2031896wrq.4.2024.02.27.08.11.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 07:18:37 -0800 (PST)
-Message-ID: <eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com>
-Date: Tue, 27 Feb 2024 16:18:32 +0100
+        Tue, 27 Feb 2024 08:11:43 -0800 (PST)
+Message-ID: <21b833cf-61c3-4fb5-8c55-492aac0fd3b6@freebox.fr>
+Date: Tue, 27 Feb 2024 17:11:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,289 +75,247 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
- afe document
+Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-1-4fa1cea1667f@baylibre.com>
- <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media <linux-media@vger.kernel.org>,
+ MSM <linux-arm-msm@vger.kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Pierre-Hugues Husson <phh@phh.me>
+References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+ <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
+ <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
+ <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
+ <b8325dbf-67c5-4898-bc23-ff093ae6e14a@freebox.fr>
+ <87db77f7-fda4-4cf7-adfd-8545c40c3365@linaro.org>
+ <10fe67af-0572-4faa-91c6-fce9c8f9dc92@linaro.org>
+ <6342e92d-eed0-45c2-8f04-3779aa2e521d@freebox.fr>
+ <4ab95e87-c912-469b-b8d4-be0cf0e4710b@linaro.org>
+ <a8c5b27c-47a9-044a-78e8-51c67acf19a6@quicinc.com>
+ <c6a9c20e-02d3-4334-badd-2efe5be9ce7e@freebox.fr>
+ <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
+ <33382ecb-8a73-4d2f-96b1-8048df7a6414@freebox.fr>
+ <3914555d-3c89-a5c5-2906-0bd24d0bf735@quicinc.com>
+ <72741d2e-5165-4505-b079-d7b5d1491888@freebox.fr>
+ <edb29faa-01b3-3b96-7c05-3378eb3af073@quicinc.com>
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <edb29faa-01b3-3b96-7c05-3378eb3af073@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 27/02/2024 07:55, Vikash Garodia wrote:
+
+> On 2/26/2024 9:25 PM, Marc Gonzalez wrote:
+>
+>> Errr, there is currently no existing node for msm8998-venus?
+>
+> My bad, i meant your initial node msm8998-venus, without migrating to v2.
+>
+>> With the proposed node above (based on msm8996-venus)
+>> AND the proposed work-around disabling low-power mode,
+>> decoding works correctly.
+>
+> Nice, lets fix the work-around part before migrating to v2. Could you share the
+> configurations for VIDEO_SUBCORE0_GDSC and VIDEO_SUBCORE1_GDSC ?
+> 
+> If we see vendor code[1], sys power plane control is very much supported, so
+> ideally we should get it working without the workaround
+> [1] https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/drivers/media/platform/msm/vidc/venus_hfi.c#L2223
+
+OK, for easy reference, here are the proposed changes again:
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index 2793cc22d381a..5084191be1446 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -3000,6 +3000,56 @@ mdss_dsi1_phy: phy@c996400 {
+ 			};
+ 		};
+ 
++		venus: video-codec@cc00000 {
++			compatible = "qcom,msm8998-venus";
++			reg = <0x0cc00000 0xff000>;
++			interrupts = <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>;
++			power-domains = <&mmcc VIDEO_TOP_GDSC>;
++			clocks = <&mmcc VIDEO_CORE_CLK>,
++				 <&mmcc VIDEO_AHB_CLK>,
++				 <&mmcc VIDEO_AXI_CLK>,
++				 <&mmcc VIDEO_MAXI_CLK>;
++			clock-names = "core", "iface", "bus", "mbus";
++			iommus = <&mmss_smmu 0x400>,
++				 <&mmss_smmu 0x401>,
++				 <&mmss_smmu 0x40a>,
++				 <&mmss_smmu 0x407>,
++				 <&mmss_smmu 0x40e>,
++				 <&mmss_smmu 0x40f>,
++				 <&mmss_smmu 0x408>,
++				 <&mmss_smmu 0x409>,
++				 <&mmss_smmu 0x40b>,
++				 <&mmss_smmu 0x40c>,
++				 <&mmss_smmu 0x40d>,
++				 <&mmss_smmu 0x410>,
++				 <&mmss_smmu 0x411>,
++				 <&mmss_smmu 0x421>,
++				 <&mmss_smmu 0x428>,
++				 <&mmss_smmu 0x429>,
++				 <&mmss_smmu 0x42b>,
++				 <&mmss_smmu 0x42c>,
++				 <&mmss_smmu 0x42d>,
++				 <&mmss_smmu 0x411>,
++				 <&mmss_smmu 0x431>;
++			memory-region = <&venus_mem>;
++			status = "disabled";
++			qcom,venus-broken-low-power-mode;
++
++			video-decoder {
++				compatible = "venus-decoder";
++				clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
++				clock-names = "core";
++				power-domains = <&mmcc VIDEO_SUBCORE0_GDSC>;
++			};
++
++			video-encoder {
++				compatible = "venus-encoder";
++				clocks = <&mmcc VIDEO_SUBCORE1_CLK>;
++				clock-names = "core";
++				power-domains = <&mmcc VIDEO_SUBCORE1_GDSC>;
++			};
++		};
++
+ 		mmss_smmu: iommu@cd00000 {
+ 			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
+ 			reg = <0x0cd00000 0x40000>;
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index a712dd4f02a5b..ad1705e510312 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -585,6 +585,43 @@ static const struct venus_resources msm8996_res = {
+ 	.fwname = "qcom/venus-4.2/venus.mbn",
+ };
+ 
++static const struct freq_tbl msm8998_freq_table[] = {
++	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
++	{  972000, 520000000 },	/* 4k UHD @ 30 */
++	{  489600, 346666667 },	/* 1080p @ 60 */
++	{  244800, 150000000 },	/* 1080p @ 30 */
++	{  108000,  75000000 },	/* 720p @ 30 */
++};
++
++static const struct reg_val msm8998_reg_preset[] = {
++    { 0x80124, 0x00000003 },
++    { 0x80550, 0x01111111 },
++    { 0x80560, 0x01111111 },
++    { 0x80568, 0x01111111 },
++    { 0x80570, 0x01111111 },
++    { 0x80580, 0x01111111 },
++    { 0xe2010, 0x00000000 },
++};
++
++static const struct venus_resources msm8998_res = {
++	.freq_tbl = msm8998_freq_table,
++	.freq_tbl_size = ARRAY_SIZE(msm8998_freq_table),
++	.reg_tbl = msm8998_reg_preset,
++	.reg_tbl_size = ARRAY_SIZE(msm8998_reg_preset),
++	.clks = {"core", "iface", "bus", "mbus"},
++	.clks_num = 4,
++	.vcodec0_clks = { "core" },
++	.vcodec1_clks = { "core" },
++	.vcodec_clks_num = 1,
++	.max_load = 2563200,
++	.hfi_version = HFI_VERSION_3XX,
++	.vmem_id = VIDC_RESOURCE_NONE,
++	.vmem_size = 0,
++	.vmem_addr = 0,
++	.dma_mask = 0xddc00000 - 1,
++	.fwname = "qcom/venus-4.4/venus.mbn",
++};
++
+ static const struct freq_tbl sdm660_freq_table[] = {
+ 	{ 979200, 518400000 },
+ 	{ 489600, 441600000 },
+@@ -891,6 +928,7 @@ static const struct venus_resources sc7280_res = {
+ static const struct of_device_id venus_dt_match[] = {
+ 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+ 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
++	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+ 	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+ 	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+ 	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
 
 
-On 27/02/2024 10:01, Krzysztof Kozlowski wrote:
-> On 26/02/2024 15:01, Alexandre Mergnat wrote:
->> Add MT8365 audio front-end bindings
->>
->> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
->> ---
->>   .../bindings/sound/mediatek,mt8365-afe.yaml        | 164 +++++++++++++++++++++
->>   1 file changed, 164 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
->> new file mode 100644
->> index 000000000000..1d7eb2532ad2
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
->> @@ -0,0 +1,164 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-afe.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: MediaTek AFE PCM controller for MT8365
->> +
->> +maintainers:
->> +  - Alexandre Mergnat <amergnat@baylibre.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: mediatek,mt8365-afe-pcm
->> +
->> +  reg:
->> +    maxItems: 2
-> 
-> You must describe the items.
 
-Actually, I've took downstream code that I'm not able to explain because 
-the second reg isn't on my MTK documentation.
-So I've remove the second reg and passed all functional tests 
-successfully. Then I will remove the extra reg for v2.
+This patch is on top of v6.8-rc1
+so the configurations for VIDEO_SUBCOREx_GDSC
+are as defined in mainline.
 
-> 
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  mediatek,topckgen:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description: The phandle of the mediatek topckgen controller
-> 
-> What for? Don't repeat the property name. Say something useful.
+#define VIDEO_SUBCORE0_CLK_SRC	51
+#define VIDEO_SUBCORE1_CLK_SRC	52
 
-got it
+#define VIDEO_TOP_GDSC		1
+#define VIDEO_SUBCORE0_GDSC	2
+#define VIDEO_SUBCORE1_GDSC	3
 
-> 
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  "#sound-dai-cells":
->> +    const: 0
->> +
->> +  clocks:
->> +    items:
->> +      - description: 26M clock
->> +      - description: mux for audio clock
->> +      - description: audio i2s0 mck
->> +      - description: audio i2s1 mck
->> +      - description: audio i2s2 mck
->> +      - description: audio i2s3 mck
->> +      - description: engen 1 clock
->> +      - description: engen 2 clock
->> +      - description: audio 1 clock
->> +      - description: audio 2 clock
->> +      - description: mux for i2s0
->> +      - description: mux for i2s1
->> +      - description: mux for i2s2
->> +      - description: mux for i2s3
->> +
->> +  clock-names:
->> +    items:
->> +      - const: top_clk26m_clk
->> +      - const: top_audio_sel
->> +      - const: audio_i2s0_m
->> +      - const: audio_i2s1_m
->> +      - const: audio_i2s2_m
->> +      - const: audio_i2s3_m
->> +      - const: engen1
->> +      - const: engen2
->> +      - const: aud1
->> +      - const: aud2
->> +      - const: i2s0_m_sel
->> +      - const: i2s1_m_sel
->> +      - const: i2s2_m_sel
->> +      - const: i2s3_m_sel
->> +
->> +  mediatek,i2s-shared-clock:
-> 
-> Why do you need this property? Linux (and other systems) handle sharing
-> clocks properly.
+https://github.com/torvalds/linux/blob/master/drivers/clk/qcom/mmcc-msm8998.c#L2536-L2561
 
-Indeed, not needed. It was used by the downstream code driver but I 
-remove it for v2.
+static struct gdsc video_top_gdsc = {
+	.gdscr = 0x1024,
+	.pd = {
+		.name = "video_top",
+	},
+	.pwrsts = PWRSTS_OFF_ON,
+};
 
-> 
->> +    description:
->> +      i2s modules can share the same external clock pin.
->> +      If this property is not present the clock mode is separrate.
-> 
-> Typo
-> 
->> +    type: boolean
->> +
->> +  mediatek,dmic-iir-on:
->> +    description:
->> +      Boolean which specifies whether the DMIC IIR is enabled.
->> +      If this property is not present the IIR is disabled.
-> 
-> "is enabled" or "enable it"?
-> 
-> You described the desired Linux feature or behavior, not the actual
-> hardware. The bindings are about the latter, so instead you need to
-> rephrase the property and its description to match actual hardware
-> capabilities/features/configuration etc.
+static struct gdsc video_subcore0_gdsc = {
+	.gdscr = 0x1040,
+	.pd = {
+		.name = "video_subcore0",
+	},
+	.parent = &video_top_gdsc.pd,
+	.pwrsts = PWRSTS_OFF_ON,
+};
 
-I will rephrase:
+static struct gdsc video_subcore1_gdsc = {
+	.gdscr = 0x1044,
+	.pd = {
+		.name = "video_subcore1",
+	},
+	.parent = &video_top_gdsc.pd,
+	.pwrsts = PWRSTS_OFF_ON,
+};
 
-True to enable the Infinite Impulse Response (IIR) filter
-on the digital microphone inputs.
 
-> 
->> +    type: boolean
->> +
->> +  mediatek,dmic-irr-mode:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description:
->> +      Selects stop band of IIR DC-removal filter.
->> +      0 = Software programmable custom coeff loaded by the driver.
-> 
-> Bindings are for hardware, not drivers. Why is this a property of board DTS?
+	const u8			pwrsts;
+/* Powerdomain allowable state bitfields */
+#define PWRSTS_OFF		BIT(0)
+/*
+ * There is no SW control to transition a GDSC into
+ * PWRSTS_RET. This happens in HW when the parent
+ * domain goes down to a low power state
+ */
+#define PWRSTS_RET		BIT(1)
+#define PWRSTS_ON		BIT(2)
+#define PWRSTS_OFF_ON		(PWRSTS_OFF | PWRSTS_ON)
+#define PWRSTS_RET_ON		(PWRSTS_RET | PWRSTS_ON)
+	const u16			flags;
+#define VOTABLE		BIT(0)
+#define CLAMP_IO	BIT(1)
+#define HW_CTRL		BIT(2)
+#define SW_RESET	BIT(3)
+#define AON_RESET	BIT(4)
+#define POLL_CFG_GDSCR	BIT(5)
+#define ALWAYS_ON	BIT(6)
+#define RETAIN_FF_ENABLE	BIT(7)
+#define NO_RET_PERIPH	BIT(8)
 
-Actually this is a hardware feature. Mode 1 t 5 are predefined filters. 
-Mode 0, the HW will read some "coef filter registers" to setup the 
-custom filter. the "coef filter regs" are written by the driver. 
-Currently the coef values are hardcoded in the driver.
 
-> 
->> +      1 = 5Hz if 48KHz mode.
->> +      2 = 10Hz if 48KHz mode.
->> +      3 = 25Hz if 48KHz mode.
->> +      4 = 50Hz if 48KHz mode.
->> +      5 = 65Hz if 48KHz mode.
-> 
-> Use proper unit suffixes - hz.
-> 
-> 
->> +    enum:
->> +      - 0
->> +      - 1
->> +      - 2
->> +      - 3
->> +      - 4
->> +      - 5
->> +
->> +  mediatek,dmic-two-wire-mode:
->> +    description:
->> +      Boolean which turns on digital microphone for two wire mode.
->> +      If this property is not present the two wire mode is disabled.
-> 
-> This looks like hardware property, but the naming looks like SW. Again
-> you instruct what driver should do. Standard disclaimer:
-> 
-> You described the desired Linux feature or behavior, not the actual
-> hardware. The bindings are about the latter, so instead you need to
-> rephrase the property and its description to match actual hardware
-> capabilities/features/configuration etc.
+Should .pwrsts be PWRSTS_RET_ON instead of PWRSTS_OFF_ON?
 
-Actually this is a hardware feature. This is ALL I have to describe the 
-HW behavior from the datasheet:
-"
-bit name: ul_dmic_two_wire_ctl
-Turns on digital microphone for two wire mode.
-0: Turn off
-1: Turn on
-"
+Should .flags be HW_CTRL instead of 0?
 
-On the board schematic, SoC and DMIC and linked by 3 pins:
-- clk
-- data0
-- data1
 
-IMHO, "two-wire-mode" means the HW use 2 pins for data, and the SoC must 
-be aware of that by reading the register value written by the driver, 
-using the value found in the DTS.
+Regards
 
-I don't get why you think it wouldn't be hardware behavior.
-
-Rephrase description:
-"True to enable the two wire mode of the digital microphone"
-Is it better ?
-
-About the property name, "mediatek,dmic-two-wire-ctl" sound better for you ?
-
-> 
-> 
->> +    type: boolean
->> +
->> +
-> 
-> Just one blank line.
-> 
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - power-domains
->> +  - mediatek,topckgen
->> +  - clocks
->> +  - clock-names
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
->> +
->> +    soc {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        afe@11220000 {
-> 
-> What is AFE?
-
-Audio Front End, this is the same name used for other MTK SoC, to be 
-consistent.
-
-Cook a new patch serie to change "afe" by "audio-controller" for all MTK 
-SoC would be great.
-
-> 
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> 
->> +            compatible = "mediatek,mt8365-afe-pcm";
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
--- 
-Regards,
-Alexandre
 
