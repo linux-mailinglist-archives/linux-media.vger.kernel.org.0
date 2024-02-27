@@ -1,115 +1,140 @@
-Return-Path: <linux-media+bounces-6049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0660F869C29
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 17:31:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4B5869DBD
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 18:34:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0FA71F24810
-	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 16:31:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0570E1C22453
+	for <lists+linux-media@lfdr.de>; Tue, 27 Feb 2024 17:34:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9275F3D541;
-	Tue, 27 Feb 2024 16:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE4E214AD20;
+	Tue, 27 Feb 2024 17:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/mR4v/Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgA1Rji+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652F0224CE;
-	Tue, 27 Feb 2024 16:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4D74EB4C;
+	Tue, 27 Feb 2024 17:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709051454; cv=none; b=ZkZA2/HoufxYo16mYOfK8eI+c6XNDPWWfXOEBm+70gUe11HUxpyFvh5oBhV+kYh1CshkhVx5VoI80yFUqECB0GzWQK6GgNevY1dk6hDKKxAaj9zGLv7D03SIo/S/ycQ6L7rj59A97R7I0HFHQY7M0F2EuHtlCbVnceZ/JdbV0Ig=
+	t=1709055023; cv=none; b=kHLhfSPvuUdyEi6SP3spmWY+xWmYrk9SFp+trNKdYVX5cVWl/NUQIQ5eYDYVXzSdvjgl0mxHlTLIHEMNPofP7RtfunNTz2ZS925PEUbb3j4mqcMR1i//BNnowVTQpQcUuHOVfXJjvRDmYIAkQ4Ooc8pYDg3UYF/GB3a6kWG4Q0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709051454; c=relaxed/simple;
-	bh=a9ax9Th0J/yWwYA9Ji5yycvcTXucxvXbQDowoYu1TZg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OjRYZjn1aVDjZWLlN/Rqvmp+sxBfJYhJbqRR0F04vLeW/lXN/4gbBIOGK+75Xz9eaWZGOAsyflpLWFVfznMzfeDM2nj9P7j9IB7YcPd4mKJT9oCALbdEQA7GYkaVJEuZnY+GCJg5hdD4QEFuAlkj3gAT7dok9H2MtIQ7BuvH1JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/mR4v/Z; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d28e3c0fe0so27764091fa.2;
-        Tue, 27 Feb 2024 08:30:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709051450; x=1709656250; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5GROxoFfHU3ZTM1nyWGwBFIoVLn4kosYhHeZ7KnHqvU=;
-        b=e/mR4v/Za1ifiO8j/QD0V8zeiqrJhwtBPzQ5BS35L+ZrOXJWMlMLaRaFIHL7Drf6H1
-         qmVpbNyu4IqoDgwhw/9nknm/RchiyqmRX/zYABUvo5nU/nUtJNk878IKDCuXamn03Rnc
-         ThkHUu3UWMKW/zjl3mjU1nu1f0+gd/zUzY6pLEfbYHmc9CudgvjU7HYucquZztFm8ayC
-         Y3Ikk2weX5hjw6ANtDxI4RDuQ7VNWESEhGyUSGV6IwrFijQk3uCQKsN84Q3HKD8y+o67
-         cWyyKJYLnbTKnl8YhtqaaSoXUmv5FgI6Ak9uP90P/86IhBu2+Za6QVMsnFNYeKwc6lNr
-         RYnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709051450; x=1709656250;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5GROxoFfHU3ZTM1nyWGwBFIoVLn4kosYhHeZ7KnHqvU=;
-        b=BxLcfxrcsAOSz1hedTejjzGFAHBVHBwXk4010Kjb4GhZmKE6VqEIcqbFR+/j/UcSyM
-         7GpwephNA/ZMjgJhgEF3866SUTgCPVi7k4/zv4q+HoBZLIuR8vRa423F/XoudPu77Wd/
-         ur8ASndngNS8kd+V1KWSoE5EEt0/yoF06HJtyW6dHNqspbAsMcpFPcjgILlY2WFQwban
-         5Gt4H0Zc9nBFw98CiIx2+OmMBZhCZhU3KOSsEEfGVAB4Zm4J0bvh3eavKCi36vgvK9Iz
-         x1rqWW3K/9u/1tuBrezbSNRkDmDEVcmXLry7Vp3gZRwGn422klHW01+vyUEea45/1cl4
-         D//A==
-X-Forwarded-Encrypted: i=1; AJvYcCUaGaO6J5x61SjAxEhN4Z0/hpu5usmVitPfEm3rtviHLnoUkTglBcUGcxc5Y8vs+0kAOosR+ZJHXyXpzXXLCJZnuShQK228ATx0J6bqEIesWfhCQUxNwWNo7nDEzfVySTyHgxSUVEAAr30=
-X-Gm-Message-State: AOJu0YyYJhhZNSOB5Aj/LiEviepXMYh0ADad5btlsSpuKm6rfjxMhnWk
-	vi5LFIDYpkqj/OFeKHQkaOrXw/srwKFWnrpSIao21lk9laM4mEhb
-X-Google-Smtp-Source: AGHT+IF/iQ4vrIr9a49uaXp3S6OT5TonBhk0abKcxb7huLkuue7kJ0ujt5PSBvm8ZItLjlqKa2dlPA==
-X-Received: by 2002:a05:651c:b0a:b0:2d2:846b:8c50 with SMTP id b10-20020a05651c0b0a00b002d2846b8c50mr6367194ljr.6.1709051450465;
-        Tue, 27 Feb 2024 08:30:50 -0800 (PST)
-Received: from localhost.localdomain (c83-255-24-248.bredband.tele2.se. [83.255.24.248])
-        by smtp.googlemail.com with ESMTPSA id n11-20020a2e904b000000b002d0b6eafa8csm1300712ljg.39.2024.02.27.08.30.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 08:30:50 -0800 (PST)
-From: Jonathan Bergh <bergh.jonathan@gmail.com>
-To: hdegoede@redhat.com
-Cc: mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Bergh <bergh.jonathan@gmail.com>
-Subject: [PATCH 3/3] staging: media: atomisp: Replace msleep call for less than 20ms with usleep_range
-Date: Tue, 27 Feb 2024 17:30:43 +0100
-Message-Id: <20240227163043.112162-3-bergh.jonathan@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240227163043.112162-1-bergh.jonathan@gmail.com>
-References: <20240227163043.112162-1-bergh.jonathan@gmail.com>
+	s=arc-20240116; t=1709055023; c=relaxed/simple;
+	bh=opNj8uJCr/Tb4WxfMRjJhwMAcf5/pACNL+Q4Mev7Cw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BsFxDuLllu+/aBY5sIa/73PZ7w3dzY6eF/ljqS2+ZDqtDPnOF/Ehbexbws/H0+504vgwZVQPGRomzYl89cXpsKCGIDP3RVh2kCHxPhkTVgbXzuDJBGQ6e+YKTB5BXXxP4N17R1dTx4/CknsyW3uBBXD89RLSxKp5YEs2x7DYcO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgA1Rji+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D64EC433C7;
+	Tue, 27 Feb 2024 17:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709055022;
+	bh=opNj8uJCr/Tb4WxfMRjJhwMAcf5/pACNL+Q4Mev7Cw8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EgA1Rji+D/Ablygt+Cx1BbkVpIY+lWKtIEv2AkQ361p4wdE2Ltup8alEiIw64KmTx
+	 pN6PCQGch5OnoffDGFZiboNsBO5d+4TvRpWGJZOFZBR6sDOIG28sp81oSi0APHJ1hD
+	 9mwv3GOSEC92ESXEqrqW30B9a6MsLkZAFniGS1rhPYjrBXptt+qTaCBkpEl5w04a7r
+	 CPOqG1VN+NaO+gU6z9uRdr6AOWGovY76tchybnTufl9oVme2FgdRpMXlT/tEbHXkAL
+	 N+qCEp705Klqkoyue2yBhOeiQaUvGn66EnrR94i/oKwVLC1AO0DogNJ34wpcz8DZWt
+	 HNAbFXpVVz5bw==
+Date: Tue, 27 Feb 2024 17:30:17 +0000
+From: Simon Horman <horms@kernel.org>
+To: Julien Panis <jpanis@baylibre.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] net: ethernet: ti: am65-cpsw: Add minimal XDP support
+Message-ID: <20240227173017.GG277116@kernel.org>
+References: <20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com>
+ <20240226172533.GG13129@kernel.org>
+ <1c2fe59a-daf6-4486-84ca-5880222d24bd@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1c2fe59a-daf6-4486-84ca-5880222d24bd@baylibre.com>
 
-This patch makes the following change:
- * Replaces the call the msleep() to usleep_range() where msleep was used
-   for a delay less than 20ms.
+On Mon, Feb 26, 2024 at 06:48:25PM +0100, Julien Panis wrote:
+> Hello Simon,
+> 
+> Thank you for the review.
+> 
+> On 2/26/24 18:25, Simon Horman wrote:
+> > On Fri, Feb 23, 2024 at 12:01:37PM +0100, Julien Panis wrote:
+> > > This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
+> > > Ethernet driver. The following features are implemented:
+> > > - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
+> > > - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
+> > > - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
+> > > 
+> > > Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> > ...
+> > 
+> > > @@ -440,6 +476,27 @@ static void am65_cpsw_nuss_tx_cleanup(void *data, dma_addr_t desc_dma)
+> > >   	dev_kfree_skb_any(skb);
+> > >   }
+> > > +static struct sk_buff *am65_cpsw_alloc_skb(struct net_device *ndev, unsigned int len)
+> > > +{
+> > > +	struct page *page;
+> > > +	struct sk_buff *skb;
+> > nit: please arrange local variables in reverse xmas tree order,
+> >       from longest line to shortest in new code.
+> > 
+> >       This tool can be useful: https://github.com/ecree-solarflare/xmastree
+> 
+> You mean, for the new functions introduced in this patch only ?
 
-Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It's a bit loose. But generally the idea would be to move towards this
+practice. So for new functions: yes. And when modifying old ones old ones:
+if possible.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index cd00282b87b7..607453740dc9 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -594,7 +594,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
- 	} while (1);
- 
- 	if (enable)
--		msleep(10);
-+		usleep_range(10000, 15000);
- 
- 	dev_err(isp->dev, "IUNIT power-%s timeout.\n", enable ? "on" : "off");
- 	return -EBUSY;
--- 
-2.40.1
+> > > +
+> > > +	page = dev_alloc_pages(0);
+> > nit: Maybe dev_alloc_page() is appropriate here?
+> 
+> Absolutely.
+> 
+> > 
+> > > +	if (unlikely(!page))
+> > > +		return NULL;
+> > > +
+> > > +	len += AM65_CPSW_HEADROOM;
+> > > +
+> > > +	skb = build_skb(page_address(page), len);
+> > > +	if (unlikely(!skb))
+> > Does page need to be freed here?
+> 
+> Of course it does ! This will be fixed in the next version.
 
+Thanks!
+
+> 
+> > 
+> > > +		return NULL;
+> > > +
+> > > +	skb_reserve(skb, AM65_CPSW_HEADROOM + NET_IP_ALIGN);
+> > > +	skb->dev = ndev;
+> > > +
+> > > +	return skb;
+> > > +}
+> > ...
+> 
 
