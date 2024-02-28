@@ -1,110 +1,153 @@
-Return-Path: <linux-media+bounces-6085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6087-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0020386B082
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 14:38:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7FE86B15B
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 15:12:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 909C61F28A92
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 13:38:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 502461C258ED
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 14:12:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D95814AD28;
-	Wed, 28 Feb 2024 13:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7DFC15A48C;
+	Wed, 28 Feb 2024 14:12:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="h3VTok+z"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="yUr0DzH/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F26914EFC5;
-	Wed, 28 Feb 2024 13:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3F1159575;
+	Wed, 28 Feb 2024 14:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709127529; cv=none; b=UFYDoL1RNICqw9/huGr0FuJiChlNsf4rXKH1F68Rjs99ufw0D4oUbI6dAI6ExK18vHUIZDkcK6R0tiHg6jh8WnUudCNIGgOV2b5Kl+fBym+7uj1bKNDBO7plYDYSu/T13WbB4/0AjIpyjxfThsEyEV7kdGI8pod5y+KFQL14gRc=
+	t=1709129522; cv=none; b=mAmsxY9Qf82Sue5xJnjcdWNR/nZf19K9MN8UJ+ffIy2UfwVjo756b7jSc9rm72r1EFmbjeE1MbFYMuKCNAj+0A3++GQeREeQCjtq12HMtlIUVaXZw1zLnH6kfKb2kTHGpJKyD6AjuzS5BxAzjSiy9aOzBzQRnXt06NRNE4ghZMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709127529; c=relaxed/simple;
-	bh=9L/WArr+jbZ+dLvbzeoxB0IrvGQgJwXUQ6aC4idN5D0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tg0ewCKFC/aIMejhwsMccfdLBhkQlKFwg+RlbALv+mO4CVmTXVa5EvuiiAuSVAjZumFY2MBz5hqvU0RD61Hx+rbW8vtQJGqZS1nV0UJ5WdY8Sw+Q/8YE+DDlZ/Zz6yDZJZhxLMS3RyK8APkQJ7nWGKdhSMC8oWGudtWqBgz6jFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=h3VTok+z; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E8272B3;
-	Wed, 28 Feb 2024 14:38:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1709127513;
-	bh=9L/WArr+jbZ+dLvbzeoxB0IrvGQgJwXUQ6aC4idN5D0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h3VTok+zTYvQKTpNbUHZt/7WIMkca+g2lCK7Q+UDYp0kz5kVvETQjmJd9LcoW5zs1
-	 v8Kmu9rQjvkoLhsFmhL/bw/536mtD+JZ4ec+fD0iWclm1W7z1++izZkI8ixbjVnxk8
-	 JVslvs6J+GqccIIRnwF2NoMdGSOeUA1EZfcJLago=
-Date: Wed, 28 Feb 2024 15:38:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, nayden.kanchev@arm.com,
-	robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org
-Subject: Re: [PATCH v2 3/5] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <20240228133847.GA9863@pendragon.ideasonboard.com>
-References: <20240214141906.245685-1-dan.scally@ideasonboard.com>
- <20240214141906.245685-4-dan.scally@ideasonboard.com>
- <ZdxwE3omXmUjfLMn@valkosipuli.retiisi.eu>
- <mylttlhcnxe5e37m2ar6xgtus6dbr56teyyp74qm7l2d3wejwv@ewpbhpjr3v4m>
- <Zd8xC0HkZfSo29id@valkosipuli.retiisi.eu>
- <170912697659.1011926.1657561990919797055@ping.linuxembedded.co.uk>
+	s=arc-20240116; t=1709129522; c=relaxed/simple;
+	bh=kRwKT2nXdupHrKIrXRnblKe07oe3mgSb8bWO/XnoAsU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dfJFyt6ZHmXkOC0MlDumm+EDIDlkxae4zhNOrPTcB5PwRN99f2hqGtE6J8RDF9+g5uNhRMhbWRio1aMV0z8MTVgwGzBDeBsOb38ewfMpz2rHCL7+pgBchX99ho+J6ArXalbx60tOuS8FDREJWmQ+kti48PEjdn/cUxRt4GLuB1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=yUr0DzH/; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41SEBgOX100500;
+	Wed, 28 Feb 2024 08:11:42 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1709129502;
+	bh=3Qx3A+xXX4e1MRd4G68RT1Q+bW1auQBLREmBAiZjk/E=;
+	h=From:To:CC:Subject:Date;
+	b=yUr0DzH/8KxOrWY3aRupsZ/UoxQxkRig1AHSfHemKamhnbr8XYMmF4xvn5HLxEOkj
+	 UJ4/tFXHwaZBNDUTX8s8EEFLebQeHvXGSiJkL78u5kIIy8cTwWOyBPmTjGx6ZZ9Vhx
+	 pRtr34t1QmCDFZqud22ogdAYlL6CEiVJt6WQ+WLY=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41SEBgYC004703
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 28 Feb 2024 08:11:42 -0600
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 28
+ Feb 2024 08:11:41 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 28 Feb 2024 08:11:41 -0600
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41SEBegS123204;
+	Wed, 28 Feb 2024 08:11:41 -0600
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
+        <nicolas@ndufresne.ca>, <afd@ti.com>, <milkfafa@gmail.com>
+Subject: [PATCH v6 0/3] Add V4L2 M2M Driver for E5010 JPEG Encoder
+Date: Wed, 28 Feb 2024 19:41:37 +0530
+Message-ID: <20240228141140.3530612-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <170912697659.1011926.1657561990919797055@ping.linuxembedded.co.uk>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Wed, Feb 28, 2024 at 01:29:36PM +0000, Kieran Bingham wrote:
-> Quoting Sakari Ailus (2024-02-28 13:11:39)
-> > On Wed, Feb 28, 2024 at 01:50:14PM +0100, Jacopo Mondi wrote:
-> > > > > +const struct mali_c55_fmt *mali_c55_cap_fmt_next(const struct mali_c55_fmt *fmt,
-> > > > > +                                          bool allow_raw, bool unique)
-> > > > > +{
-> > > > > + if (!fmt)
-> > > > > +         fmt = &mali_c55_fmts[0];
-> > > > > + else
-> > > > > +         ++fmt;
-> > > >
-> > > > fmt++, please.
-> > > 
-> > > Can I ask why ? (here and in the next occurrences you have reported)
-> > 
-> > It's much, much more common and using that form makes the code easier to
-> > read. The rest of the driver primarily uses variable++, too, AFAIR.
-> > 
-> > So you should use ++variable only when you need it.
-> 
-> I don't think this is a hot path, but I'll never forget my C tutor
-> telling us how ++i is more efficient than i++ somewhere to do with the
-> opcode ordering, and not having to make a copy [*1]
-> 
-> Though I bet any clever optimising compiler could spot this anyway.
-> 
-> [*1]. Whatever plausibility there is based on a 20 year old memory and
-> should be verified elsewhere.
+This adds support for V4L2 M2M based driver for E5010 JPEG Encoder
+which is a stateful JPEG encoder from Imagination technologies
+and is present in TI AM62A SoC.
 
-In C I wouldn't expect any practical difference. C++ is a different
-matter, as the prefix and postfix operators can have different
-implementations.
+v4l2-compliance test :
+Link: https://gist.github.com/devarsht/39c1197742cc858c38860e8cab61666d
+
+E5010 JPEG Encoder Manual tests :
+
+Performance:
+Link: https://gist.github.com/devarsht/2f9b30f28768d9f6e338fc5b7c1d1758
+
+Functionality:
+Link: https://gist.github.com/devarsht/f12743405b285f47a0ce9b0f9681acd3
+
+Compression Quality:
+Link: https://gist.github.com/devarsht/8fd9edbdbfda7b2f2fe464b17484ceaf
+
+Multi Instance:
+Link: https://gist.github.com/devarsht/dfcc17e85569bc05c62b069af82a289d
+
+Devarsh Thakkar (3):
+  media: dt-bindings: Add Imagination E5010 JPEG Encoder
+  media: jpeg: Add reference quantization and huffman tables
+  media: imagination: Add E5010 JPEG Encoder driver
+
+---
+Link to previous version of this series:
+V2: https://lore.kernel.org/all/20230727112546.2201995-1-devarsht@ti.com/
+V3: https://lore.kernel.org/all/20230816152210.4080779-1-devarsht@ti.com/
+V4: https://lore.kernel.org/all/20240205114239.924697-1-devarsht@ti.com/
+
+V3->V4 Range diff :
+https://gist.github.com/devarsht/22a744d999080de6e813bcfb5a596272
+
+V4->V5 Range diff :
+https://gist.github.com/devarsht/298790af819f299a0a05fec89371097b
+
+V5->V6 Range diff :
+https://gist.github.com/devarsht/c89180ac2b0d2814614f2b59d0705c19
+
+ .../bindings/media/img,e5010-jpeg-enc.yaml    |   75 +
+ MAINTAINERS                                   |    7 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/imagination/Kconfig    |   12 +
+ drivers/media/platform/imagination/Makefile   |    3 +
+ .../platform/imagination/e5010-core-regs.h    |  585 +++++++
+ .../platform/imagination/e5010-jpeg-enc-hw.c  |  267 +++
+ .../platform/imagination/e5010-jpeg-enc-hw.h  |   42 +
+ .../platform/imagination/e5010-jpeg-enc.c     | 1553 +++++++++++++++++
+ .../platform/imagination/e5010-jpeg-enc.h     |  169 ++
+ .../platform/imagination/e5010-mmu-regs.h     |  311 ++++
+ include/media/jpeg-enc-reftables.h            |  112 ++
+ include/media/jpeg.h                          |    4 +
+ 14 files changed, 3142 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+ create mode 100644 drivers/media/platform/imagination/Kconfig
+ create mode 100644 drivers/media/platform/imagination/Makefile
+ create mode 100644 drivers/media/platform/imagination/e5010-core-regs.h
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.c
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.h
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.c
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.h
+ create mode 100644 drivers/media/platform/imagination/e5010-mmu-regs.h
+ create mode 100644 include/media/jpeg-enc-reftables.h
 
 -- 
-Regards,
+2.39.1
 
-Laurent Pinchart
 
