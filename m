@@ -1,206 +1,1108 @@
-Return-Path: <linux-media+bounces-6071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6072-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E49386AC89
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 12:06:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C889186ACEA
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 12:24:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A784A1C20FA7
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 11:06:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E2751F2834F
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 11:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5E0112C55B;
-	Wed, 28 Feb 2024 11:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kzKr0qQF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFA712F58E;
+	Wed, 28 Feb 2024 11:24:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6478E12C525
-	for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 11:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAF0127B4B;
+	Wed, 28 Feb 2024 11:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709118331; cv=none; b=tjTvHkn8RlQWjsM6ubBFf00P3yDeyEfwGYaQG9X85hk9vnC5Beop269muJEHaOIzA/n5wbgSjBYbZOw5n6c1fX6TAFxE6c5IWGv36a0AF3wzhTuYgjbtnGAozeh4xvcNCwPbbyqc7Rj5vBcS8H/MjG47ViCqJQQBBfqw+aPypS4=
+	t=1709119453; cv=none; b=gYOPDzMnhuX2/n7tyxGXP+ZarY4VL/9jTpqB9o/LjT7Lhz+/PUIy0Md+eAYp568N7svfcJL0rrpbDRVCRf8z8MT3Qs0EO4eD/3n3YiV16W9XW9k5IrXzAwUckCEexDVfwlKVEh+n+Xiz1Fn7ea9A7hQudy+R0Sh2OxURjiusnAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709118331; c=relaxed/simple;
-	bh=YSlyusQKQVJsJ6QiGNoJfitiHng4C0WHuFHr310kln8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VewUh/RmIemA9yGfsiOoy7y7hRps+08HvO02V7o2xGrKDrdm2WNJT5V45EV59wr94/Gkr/XCZ4lKojC7PDE5KqSKElaewxkazEqK2IPRbcq4I68aov9lrpuf81MmL5Rbvz40Kyg+kczMy7K7XFSZOTUxH7sfw9LHGj95OxsfVb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kzKr0qQF; arc=none smtp.client-ip=209.85.166.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7c3e4290f5fso243685539f.2
-        for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 03:05:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709118328; x=1709723128; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SIN5TJ61NQTJqN5mR5pFOd0k+x3pH5IedFrp+UzE1z4=;
-        b=kzKr0qQFLigCnAUcBik5hGbS39mRCXe9o67XsmHWQqHws/e/9fLkHNBrV4WXwIQ0yY
-         zGYvdO1ErrjepfxbVI7Pi5Y/V4EBCRWKekW4b/v2H8vtlZxwVFZ+AIsHamrIlD5XrNmV
-         dXzOF+Z+BbI0hJGveVq3+I9jw2zKeWwWog5LMBFkFT/ucZc238A1ClRuc/6TmCsktccr
-         sfDKMy4rDpSbh4qTrI6doRlUtnkhot22EMeHDSIzQsBPVNpbWX0zJ6EpxGRwWHyC9VW+
-         29BFjEJQbf0xHGo16kCPhg2pMWqJNXRRwlfqXryKVBxASl/H5tn9xh//YM/5kisNheiu
-         AwGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709118328; x=1709723128;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SIN5TJ61NQTJqN5mR5pFOd0k+x3pH5IedFrp+UzE1z4=;
-        b=v7FszossDh/RjMt/nropbeNjS2Ae6C0db2whCSQ+cn23pukjSnb1Cxc6QIIpsh8pIi
-         SjQuZFYa1Ge4k2ZpHh5UGABiTztuJOkxeKm1AALuHlDIpoTeI4XsNWq7twNDMB+Ot4Ca
-         dMqHB91qM9o7QHreUdMCf2szQ2AmFtC81by0Y99I8JBIT4orFr5BpuK5WqJcH0tS/Kyt
-         ITIwmbD6M2ALzrA+APZrizK1Kz27SCyh4k9DOb5lA34j7MELamHMwEQ6fsOI9qiO2sLF
-         U/UUwIeF9/XDgqLdh5yDjGfuK4iB/2wVp1u7ReNjT/6cb/6q8PcVJniWZLJo1e0ErWJt
-         IV3w==
-X-Forwarded-Encrypted: i=1; AJvYcCX16M1qZeNX24/uNwrKzySI+FskM3gFuuq8nVw43E1GDoy9UHf36jth1ATfk291yyUxsG1Rd/01QaXnIztu8gkLj6HdTPMZpTwU6DA=
-X-Gm-Message-State: AOJu0YyK9LZ10MKHmAG6BwfO0XkE8mPfCz82mIoc4dXI78YSUBSXy0ez
-	KOCiPvo/v6ETW3GVwm/HUMIAWeqXK6OpfPmvaRqnOKXbT+kyLDoYhfxwpcuKBejiGOBQD0NmXsu
-	vb5H0siUIiP7ASewKhSPajloBJJd0ihD2cH9T
-X-Google-Smtp-Source: AGHT+IEtOPOXXjbhjWRTvlgw2RoCh449T+tuUODnpg0QVWyKCQfa5m8qgfwgP0ycVI+iuXGb9VZY8QV966FEbQYeMtw=
-X-Received: by 2002:a05:6602:5a:b0:7c4:9ce4:aa3e with SMTP id
- z26-20020a056602005a00b007c49ce4aa3emr13999951ioz.7.1709118328434; Wed, 28
- Feb 2024 03:05:28 -0800 (PST)
+	s=arc-20240116; t=1709119453; c=relaxed/simple;
+	bh=/Q646o7Anl+jNkjxBkMEIRoA/5gN43C2vOUqxD6PABE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iYeHLT0fr977PWt2D/2KPBmkJn0v/JHuRAOQ9YszpJ6PEcrCN6klhpX1kEecBMO3TBxtGT3dH+uF+smbvWp0DOGXcAxmg0aFAgBvHuRq6XhnELhcXJswbRdGChQzx5Dsah+IGvlTf9gJ6aWK+VZVzbZWy66m+6HCS2pF4ai7UkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5382C43390;
+	Wed, 28 Feb 2024 11:24:08 +0000 (UTC)
+Message-ID: <c51fcd39-b17a-48c3-9043-2e877ed29171@xs4all.nl>
+Date: Wed, 28 Feb 2024 12:24:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221160215.484151-1-panikiel@google.com> <20240221160215.484151-9-panikiel@google.com>
- <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org> <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
- <20240227142911.GB3863852-robh@kernel.org>
-In-Reply-To: <20240227142911.GB3863852-robh@kernel.org>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Wed, 28 Feb 2024 12:05:17 +0100
-Message-ID: <CAM5zL5pXu5sbzCHY_BrCJ7eZj-p9n0tCo6CmuTqUpvniTrqWJg@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, airlied@gmail.com, 
-	akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch, 
-	dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
-	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
-	mchehab@kernel.org, mripard@kernel.org, tzimmermann@suse.de, 
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	chromeos-krk-upstreaming@google.com, ribalda@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/9] media: Add Chameleon v3 framebuffer driver
+Content-Language: en-US, nl
+To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
+ akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
+ dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
+ robh+dt@kernel.org, tzimmermann@suse.de
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ chromeos-krk-upstreaming@google.com, ribalda@chromium.org
+References: <20240221160215.484151-1-panikiel@google.com>
+ <20240221160215.484151-3-panikiel@google.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240221160215.484151-3-panikiel@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 27, 2024 at 3:29=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Mon, Feb 26, 2024 at 11:59:42AM +0100, Pawe=C5=82 Anikiel wrote:
-> > On Mon, Feb 26, 2024 at 10:13=E2=80=AFAM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> > >
-> > > On 21/02/2024 17:02, Pawe=C5=82 Anikiel wrote:
-> > > > The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA=
- IP
-> > > > Core. It implements a DisplayPort 1.4 receiver capable of HBR3 vide=
-o
-> > > > capture and Multi-Stream Transport. The user guide can be found her=
-e:
-> > > >
-> > > > https://www.intel.com/programmable/technical-pdfs/683273.pdf
-> > > >
-> > > > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
-> > > > ---
-> > > >  .../devicetree/bindings/media/intel,dprx.yaml | 160 ++++++++++++++=
-++++
-> > > >  1 file changed, 160 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/media/intel,d=
-prx.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yam=
-l b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..31025f2d5dcd
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > > > @@ -0,0 +1,160 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Intel DisplayPort RX IP
-> > > > +
-> > > > +maintainers:
-> > > > +  - Pawe=C5=82 Anikiel <panikiel@google.com>
-> > > > +
-> > > > +description: |
-> > > > +  The Intel Displayport RX IP is a part of the DisplayPort Intel F=
-PGA IP
-> > > > +  Core. It implements a DisplayPort 1.4 receiver capable of HBR3 v=
-ideo
-> > > > +  capture and Multi-Stream Transport.
-> > > > +
-> > > > +  The IP features a large number of configuration parameters, foun=
-d at:
-> > > > +  https://www.intel.com/content/www/us/en/docs/programmable/683273=
-/23-3-20-0-1/sink-parameters.html
-> > > > +
-> > > > +  The following parameters have to be enabled:
-> > > > +    - Support DisplayPort sink
-> > > > +    - Enable GPU control
-> > > > +  The following parameters' values have to be set in the devicetre=
-e:
-> > > > +    - RX maximum link rate
-> > > > +    - Maximum lane count
-> > > > +    - Support MST
-> > > > +    - Max stream count (only if Support MST is enabled)
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: intel,dprx-20.0.1
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  intel,max-link-rate:
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > +    description: Max link rate configuration parameter
-> > >
-> > > Please do not duplicate property name in description. It's useless.
-> > > Instead explain what is this responsible for.
-> > >
-> > > Why max-link-rate would differ for the same dprx-20.0.1? And why
-> > > standard properties cannot be used?
-> > >
-> > > Same for all questions below.
-> >
-> > These four properties are the IP configuration parameters mentioned in
-> > the device description. When generating the IP core you can set these
-> > parameters, which could make them differ for the same dprx-20.0.1.
-> > They are documented in the user guide, for which I also put a link in
-> > the description. Is that enough? Or should I also document these
-> > parameters here?
->
-> Use the standard properties: link-frequencies and data-lanes. Those go
-> under the port(s) because they are inheritly per logical link.
+Hi Paweł,
 
-The DP receiver has one input interface (a deserialized DP stream),
-and up to four output interfaces (the decoded video streams). The "max
-link rate" and "max lane count" parameters only describe the input
-interface to the receiver. However, the port(s) I am using here are
-for the output streams. They are not affected by those parameters, so
-I don't think these properties should go under the output port(s).
+On 21/02/2024 17:02, Paweł Anikiel wrote:
+> Add v4l2 driver for the Google Chameleon v3 framebuffer device.
 
-The receiver doesn't have an input port in the DT, because there isn't
-any controllable entity on the other side - the deserializer doesn't
-have any software interface. Since these standard properties
-(link-frequencies and data-lanes) are only defined in
-video-interfaces.yaml (which IIUC describes a graph endpoint), I can't
-use them directly in the device node.
+This is just a video capture device, right? A framebuffer device is something
+that lives in drivers/video/fbdev.
 
-Do you see a way to use these standard properties here?
+It is *very* confusing to see the term 'framebuffer' used in a video
+capture context.
+
+This commit log should also give a better description of the hardware.
+Just a single one-liner is a bit on the short side :-)
+
+> 
+> Signed-off-by: Paweł Anikiel <panikiel@google.com>
+> ---
+>  drivers/media/platform/Kconfig                |   1 +
+>  drivers/media/platform/Makefile               |   1 +
+>  drivers/media/platform/google/Kconfig         |   3 +
+>  drivers/media/platform/google/Makefile        |   2 +
+>  .../media/platform/google/chameleonv3/Kconfig |  13 +
+>  .../platform/google/chameleonv3/Makefile      |   3 +
+>  .../platform/google/chameleonv3/chv3-fb.c     | 895 ++++++++++++++++++
+
+chv3-video.c would be a much better name for chv3-fb.c.
+
+That's a commonly used filename for video capture drivers.
+
+>  7 files changed, 918 insertions(+)
+>  create mode 100644 drivers/media/platform/google/Kconfig
+>  create mode 100644 drivers/media/platform/google/Makefile
+>  create mode 100644 drivers/media/platform/google/chameleonv3/Kconfig
+>  create mode 100644 drivers/media/platform/google/chameleonv3/Makefile
+>  create mode 100644 drivers/media/platform/google/chameleonv3/chv3-fb.c
+> 
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index 91e54215de3a..b82f7b142b85 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -69,6 +69,7 @@ source "drivers/media/platform/aspeed/Kconfig"
+>  source "drivers/media/platform/atmel/Kconfig"
+>  source "drivers/media/platform/cadence/Kconfig"
+>  source "drivers/media/platform/chips-media/Kconfig"
+> +source "drivers/media/platform/google/Kconfig"
+>  source "drivers/media/platform/intel/Kconfig"
+>  source "drivers/media/platform/marvell/Kconfig"
+>  source "drivers/media/platform/mediatek/Kconfig"
+> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> index 3296ec1ebe16..f7067eb05f76 100644
+> --- a/drivers/media/platform/Makefile
+> +++ b/drivers/media/platform/Makefile
+> @@ -12,6 +12,7 @@ obj-y += aspeed/
+>  obj-y += atmel/
+>  obj-y += cadence/
+>  obj-y += chips-media/
+> +obj-y += google/
+>  obj-y += intel/
+>  obj-y += marvell/
+>  obj-y += mediatek/
+> diff --git a/drivers/media/platform/google/Kconfig b/drivers/media/platform/google/Kconfig
+> new file mode 100644
+> index 000000000000..2a5f01034c11
+> --- /dev/null
+> +++ b/drivers/media/platform/google/Kconfig
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +source "drivers/media/platform/google/chameleonv3/Kconfig"
+> diff --git a/drivers/media/platform/google/Makefile b/drivers/media/platform/google/Makefile
+> new file mode 100644
+> index 000000000000..c971a09faeb4
+> --- /dev/null
+> +++ b/drivers/media/platform/google/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +obj-y += chameleonv3/
+> diff --git a/drivers/media/platform/google/chameleonv3/Kconfig b/drivers/media/platform/google/chameleonv3/Kconfig
+> new file mode 100644
+> index 000000000000..76d0383a8589
+> --- /dev/null
+> +++ b/drivers/media/platform/google/chameleonv3/Kconfig
+> @@ -0,0 +1,13 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config VIDEO_CHV3_FB
+> +	tristate "Google Chameleon v3 framebuffer video driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select V4L2_FWNODE
+> +	help
+> +	  v4l2 driver for the video interface present on the Google
+> +	  Chameleon v3. The Chameleon v3 uses the framebuffer IP core
+> +	  to take the video signal from different sources and directly
+> +	  write frames into memory.
+
+So it is composing different video streams into buffers? Or does it
+capture from a single source at a time? The text is rather ambiguous.
+
+> diff --git a/drivers/media/platform/google/chameleonv3/Makefile b/drivers/media/platform/google/chameleonv3/Makefile
+> new file mode 100644
+> index 000000000000..d63727148688
+> --- /dev/null
+> +++ b/drivers/media/platform/google/chameleonv3/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +obj-$(CONFIG_VIDEO_CHV3_FB) += chv3-fb.o
+> diff --git a/drivers/media/platform/google/chameleonv3/chv3-fb.c b/drivers/media/platform/google/chameleonv3/chv3-fb.c
+> new file mode 100644
+> index 000000000000..35a44365eba0
+> --- /dev/null
+> +++ b/drivers/media/platform/google/chameleonv3/chv3-fb.c
+> @@ -0,0 +1,895 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright 2023-2024 Google LLC.
+> + * Author: Paweł Anikiel <panikiel@google.com>
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/videodev2.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-dv-timings.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +
+> +#define DEVICE_NAME	"chv3-fb"
+> +
+> +/*
+> + * The device is expected to report some format even if there's currently no
+> + * active video stream. In such case we default to 1080p.
+> + */
+> +#define DEFAULT_WIDTH	1920
+> +#define DEFAULT_HEIGHT	1080
+> +
+> +#define FB_EN				0x00
+> +#define FB_EN_BIT			BIT(0)
+> +#define FB_HEIGHT			0x04
+> +#define FB_WIDTH			0x08
+> +#define FB_BUFFERA			0x0c
+> +#define FB_BUFFERB			0x10
+> +#define FB_BUFFERSIZE			0x14
+> +#define FB_RESET			0x18
+> +#define FB_RESET_BIT			BIT(0)
+> +#define FB_ERRORSTATUS			0x1c
+> +#define FB_IOCOLOR			0x20
+> +#define FB_DATARATE			0x24
+> +#define FB_DATARATE_SINGLE		0x0
+> +#define FB_DATARATE_DOUBLE		0x1
+> +#define FB_PIXELMODE			0x28
+> +#define FB_PIXELMODE_SINGLE		0x0
+> +#define FB_PIXELMODE_DOUBLE		0x1
+> +#define FB_SYNCPOLARITY			0x2c
+> +#define FB_DMAFORMAT			0x30
+> +#define FB_DMAFORMAT_8BPC		0x0
+> +#define FB_DMAFORMAT_10BPC_UPPER	0x1
+> +#define FB_DMAFORMAT_10BPC_LOWER	0x2
+> +#define FB_DMAFORMAT_12BPC_UPPER	0x3
+> +#define FB_DMAFORMAT_12BPC_LOWER	0x4
+> +#define FB_DMAFORMAT_16BPC		0x5
+> +#define FB_DMAFORMAT_RAW		0x6
+> +#define FB_DMAFORMAT_8BPC_LEGACY	0x7
+> +#define FB_VERSION			0x34
+> +#define FB_VERSION_CURRENT		0xc0fb0001
+> +
+> +#define FB_IRQ_MASK		0x8
+> +#define FB_IRQ_CLR		0xc
+> +#define FB_IRQ_ALL		0xf
+> +#define FB_IRQ_BUFF0		BIT(0)
+> +#define FB_IRQ_BUFF1		BIT(1)
+> +#define FB_IRQ_RESOLUTION	BIT(2)
+> +#define FB_IRQ_ERROR		BIT(3)
+> +
+> +struct chv3_fb {
+> +	struct device *dev;
+> +	void __iomem *iobase;
+> +	void __iomem *iobase_irq;
+> +
+> +	struct v4l2_device v4l2_dev;
+> +	struct vb2_queue queue;
+> +	struct video_device vdev;
+> +	struct v4l2_pix_format pix_fmt;
+> +	struct v4l2_dv_timings timings;
+> +
+> +	struct v4l2_async_notifier notifier;
+> +	struct v4l2_subdev *subdev;
+> +	int subdev_source_pad;
+> +
+> +	u32 sequence;
+> +	bool writing_to_a;
+> +
+> +	struct list_head bufs;
+> +	spinlock_t bufs_lock;
+> +
+> +	struct mutex fb_lock;
+> +};
+> +
+> +struct chv3_fb_buffer {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct list_head link;
+> +};
+> +
+> +static void chv3_fb_set_format_resolution(struct chv3_fb *fb, u32 width, u32 height)
+> +{
+> +	u32 bytes_per_pixel;
+> +
+> +	if (fb->pix_fmt.pixelformat == V4L2_PIX_FMT_RGB24)
+> +		bytes_per_pixel = 3;
+> +	else
+> +		bytes_per_pixel = 4;
+> +
+> +	fb->pix_fmt.width = width;
+> +	fb->pix_fmt.height = height;
+> +	fb->pix_fmt.bytesperline = width * bytes_per_pixel;
+> +	fb->pix_fmt.sizeimage = fb->pix_fmt.bytesperline * height;
+> +}
+> +
+> +/*
+> + * The video interface has hardware counters which expose the width and
+> + * height of the current video stream. It can't reliably detect if the stream
+> + * is present or not, so this is only used as a fallback in the case where
+> + * we don't have access to the receiver hardware.
+> + */
+> +static int chv3_fb_query_dv_timings_fallback(struct chv3_fb *fb,
+> +					     struct v4l2_dv_timings *timings)
+> +{
+> +	u32 width, height;
+> +
+> +	width  = readl(fb->iobase + FB_WIDTH);
+> +	height = readl(fb->iobase + FB_HEIGHT);
+> +	if (width == 0 || height == 0)
+> +		return -ENOLINK;
+> +
+> +	memset(timings, 0, sizeof(*timings));
+> +	timings->type = V4L2_DV_BT_656_1120;
+> +	timings->bt.width  = width;
+> +	timings->bt.height = height;
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_query_dv_timings(struct chv3_fb *fb, struct v4l2_dv_timings *timings)
+> +{
+> +	if (fb->subdev) {
+> +		return v4l2_subdev_call(fb->subdev, pad, query_dv_timings,
+> +					fb->subdev_source_pad, timings);
+> +	} else {
+> +		return chv3_fb_query_dv_timings_fallback(fb, timings);
+> +	}
+> +}
+> +
+> +static const struct v4l2_dv_timings_cap chv3_fb_fallback_dv_timings_cap = {
+> +	.type = V4L2_DV_BT_656_1120,
+> +	.bt = {
+> +		.min_width = 0,
+
+This is an unlikely minimum width (ditto for height below).
+
+> +		.max_width = 65535,
+
+The max is suspect as well: I would expect it to be a multiple of 2/4/8/16.
+
+> +		.min_height = 0,
+> +		.max_height = 65535,
+> +		.min_pixelclock = 0,
+> +		.max_pixelclock = 2147483647,
+
+Ditto for these.
+
+> +		.standards = V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
+> +			V4L2_DV_BT_STD_CVT | V4L2_DV_BT_STD_GTF,
+> +		.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE |
+> +			V4L2_DV_BT_CAP_REDUCED_BLANKING |
+> +			V4L2_DV_BT_CAP_CUSTOM,
+> +	},
+> +};
+> +
+> +static int chv3_fb_enum_dv_timings_fallback(struct chv3_fb *fb,
+> +					    struct v4l2_enum_dv_timings *timings)
+> +{
+> +	return v4l2_enum_dv_timings_cap(timings, &chv3_fb_fallback_dv_timings_cap,
+> +					NULL, NULL);
+> +}
+> +
+> +static int chv3_fb_dv_timings_cap_fallback(struct chv3_fb *fb,
+> +					   struct v4l2_dv_timings_cap *cap)
+> +{
+> +	*cap = chv3_fb_fallback_dv_timings_cap;
+> +
+> +	return 0;
+> +}
+> +
+> +static void chv3_fb_apply_dv_timings(struct chv3_fb *fb)
+> +{
+> +	struct v4l2_dv_timings timings;
+> +	int res;
+> +
+> +	res = chv3_fb_query_dv_timings(fb, &timings);
+> +	if (res)
+> +		return;
+> +
+> +	fb->timings = timings;
+> +	chv3_fb_set_format_resolution(fb, timings.bt.width, timings.bt.height);
+> +}
+> +
+> +static int chv3_fb_querycap(struct file *file, void *fh,
+> +			    struct v4l2_capability *cap)
+> +{
+> +	strscpy(cap->driver, DEVICE_NAME, sizeof(cap->driver));
+> +	strscpy(cap->card, "Chameleon v3 video", sizeof(cap->card));
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_g_fmt_vid_cap(struct file *file, void *fh,
+> +				 struct v4l2_format *fmt)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +
+> +	fmt->fmt.pix = fb->pix_fmt;
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_enum_fmt_vid_cap(struct file *file, void *fh,
+> +				    struct v4l2_fmtdesc *fmt)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +
+> +	if (fmt->index != 0)
+> +		return -EINVAL;
+> +
+> +	fmt->flags = 0;
+> +	fmt->pixelformat = fb->pix_fmt.pixelformat;
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_enum_framesizes(struct file *file, void *fh,
+> +				   struct v4l2_frmsizeenum *frm)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +
+> +	if (frm->index != 0)
+> +		return -EINVAL;
+> +
+> +	if (frm->pixel_format != fb->pix_fmt.pixelformat)
+> +		return -EINVAL;
+> +
+> +	frm->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+> +	frm->discrete.width  = fb->pix_fmt.width;
+> +	frm->discrete.height = fb->pix_fmt.height;
+
+This is not something you would expect to see supported for a
+video receiver input. This is something you use for camera sensors.
+
+This should almost certainly be dropped.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_g_input(struct file *file, void *fh, unsigned int *index)
+> +{
+> +	*index = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_s_input(struct file *file, void *fh, unsigned int index)
+> +{
+> +	if (index != 0)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_enum_input(struct file *file, void *fh,
+> +			      struct v4l2_input *input)
+> +{
+> +	if (input->index != 0)
+> +		return -EINVAL;
+> +
+> +	strscpy(input->name, "input0", sizeof(input->name));
+> +	input->type = V4L2_INPUT_TYPE_CAMERA;
+> +	input->capabilities = V4L2_IN_CAP_DV_TIMINGS;
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_g_edid(struct file *file, void *fh,
+> +			  struct v4l2_edid *edid)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +	int res;
+> +
+> +	if (!fb->subdev)
+> +		return -ENOTTY;
+> +
+> +	if (edid->pad != 0)
+> +		return -EINVAL;
+> +
+> +	edid->pad = fb->subdev_source_pad;
+> +	res = v4l2_subdev_call(fb->subdev, pad, get_edid, edid);
+> +	edid->pad = 0;
+> +
+> +	return res;
+> +}
+> +
+> +static int chv3_fb_s_edid(struct file *file, void *fh,
+> +			  struct v4l2_edid *edid)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +	int res;
+> +
+> +	if (!fb->subdev)
+> +		return -ENOTTY;
+> +
+> +	if (edid->pad != 0)
+> +		return -EINVAL;
+> +
+> +	edid->pad = fb->subdev_source_pad;
+> +	res = v4l2_subdev_call(fb->subdev, pad, set_edid, edid);
+> +	edid->pad = 0;
+> +
+> +	return res;
+> +}
+> +
+> +static int chv3_fb_s_dv_timings(struct file *file, void *fh,
+> +				struct v4l2_dv_timings *timings)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +
+> +	if (timings->bt.width == fb->timings.bt.width &&
+> +	    timings->bt.height == fb->timings.bt.height)
+
+You would typically use v4l2_match_dv_timings() for this. The check above
+is insufficient since it does not even check for different framerates or
+interlaced vs progressive.
+
+> +		return 0;
+> +
+> +	if (vb2_is_busy(&fb->queue))
+> +		return -EBUSY;
+> +
+> +	if (!v4l2_valid_dv_timings(timings, &chv3_fb_fallback_dv_timings_cap, NULL, NULL))
+> +		return -ERANGE;
+> +
+> +	fb->timings = *timings;
+> +	chv3_fb_set_format_resolution(fb, timings->bt.width, timings->bt.height);
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_g_dv_timings(struct file *file, void *fh,
+> +				struct v4l2_dv_timings *timings)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +
+> +	*timings = fb->timings;
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_vidioc_query_dv_timings(struct file *file, void *fh,
+> +					   struct v4l2_dv_timings *timings)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +
+> +	return chv3_fb_query_dv_timings(fb, timings);
+> +}
+> +
+> +static int chv3_fb_enum_dv_timings(struct file *file, void *fh,
+> +				   struct v4l2_enum_dv_timings *timings)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +	int res;
+> +
+> +	if (timings->pad != 0)
+> +		return -EINVAL;
+> +
+> +	if (fb->subdev) {
+> +		timings->pad = fb->subdev_source_pad;
+> +		res = v4l2_subdev_call(fb->subdev, pad, enum_dv_timings, timings);
+> +		timings->pad = 0;
+> +		return res;
+> +	} else {
+> +		return chv3_fb_enum_dv_timings_fallback(fb, timings);
+> +	}
+> +}
+> +
+> +static int chv3_fb_dv_timings_cap(struct file *file, void *fh,
+> +				  struct v4l2_dv_timings_cap *cap)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +	int res;
+> +
+> +	if (cap->pad != 0)
+> +		return -EINVAL;
+> +
+> +	if (fb->subdev) {
+> +		cap->pad = fb->subdev_source_pad;
+> +		res = v4l2_subdev_call(fb->subdev, pad, dv_timings_cap, cap);
+> +		cap->pad = 0;
+> +		return res;
+> +	} else {
+> +		return chv3_fb_dv_timings_cap_fallback(fb, cap);
+> +	}
+> +}
+> +
+> +static int chv3_fb_subscribe_event(struct v4l2_fh *fh,
+> +				   const struct v4l2_event_subscription *sub)
+> +{
+> +	switch (sub->type) {
+> +	case V4L2_EVENT_SOURCE_CHANGE:
+> +		return v4l2_src_change_event_subscribe(fh, sub);
+> +	}
+> +
+> +	return v4l2_ctrl_subscribe_event(fh, sub);
+> +}
+
+I am missing support for the V4L2_CID_DV_RX_POWER_PRESENT control:
+
+https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/ext-ctrls-dv.html
+
+> +
+> +static const struct v4l2_ioctl_ops chv3_fb_v4l2_ioctl_ops = {
+> +	.vidioc_querycap = chv3_fb_querycap,
+> +
+> +	.vidioc_enum_fmt_vid_cap = chv3_fb_enum_fmt_vid_cap,
+> +	.vidioc_g_fmt_vid_cap = chv3_fb_g_fmt_vid_cap,
+> +	.vidioc_s_fmt_vid_cap = chv3_fb_g_fmt_vid_cap,
+> +	.vidioc_try_fmt_vid_cap = chv3_fb_g_fmt_vid_cap,
+> +
+> +	.vidioc_enum_framesizes = chv3_fb_enum_framesizes,
+> +
+> +	.vidioc_enum_input = chv3_fb_enum_input,
+> +	.vidioc_g_input = chv3_fb_g_input,
+> +	.vidioc_s_input = chv3_fb_s_input,
+> +	.vidioc_g_edid = chv3_fb_g_edid,
+> +	.vidioc_s_edid = chv3_fb_s_edid,
+> +
+> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
+> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
+> +	.vidioc_querybuf = vb2_ioctl_querybuf,
+> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
+> +	.vidioc_expbuf = vb2_ioctl_expbuf,
+> +	.vidioc_qbuf = vb2_ioctl_qbuf,
+> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
+> +	.vidioc_streamon = vb2_ioctl_streamon,
+> +	.vidioc_streamoff = vb2_ioctl_streamoff,
+> +
+> +	.vidioc_s_dv_timings = chv3_fb_s_dv_timings,
+> +	.vidioc_g_dv_timings = chv3_fb_g_dv_timings,
+> +	.vidioc_query_dv_timings = chv3_fb_vidioc_query_dv_timings,
+> +	.vidioc_enum_dv_timings = chv3_fb_enum_dv_timings,
+> +	.vidioc_dv_timings_cap = chv3_fb_dv_timings_cap,
+> +
+> +	.vidioc_subscribe_event = chv3_fb_subscribe_event,
+> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+> +};
+> +
+> +static int chv3_fb_queue_setup(struct vb2_queue *q,
+> +			       unsigned int *nbuffers, unsigned int *nplanes,
+> +			       unsigned int sizes[], struct device *alloc_devs[])
+> +{
+> +	struct chv3_fb *fb = vb2_get_drv_priv(q);
+> +
+> +	if (*nplanes) {
+> +		if (sizes[0] < fb->pix_fmt.sizeimage)
+> +			return -EINVAL;
+> +		return 0;
+> +	}
+> +	*nplanes = 1;
+> +	sizes[0] = fb->pix_fmt.sizeimage;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * There are two address registers: BUFFERA and BUFFERB. The framebuffer
+> + * alternates writing between them (i.e. even frames go to BUFFERA, odd
+> + * ones to BUFFERB).
+> + *
+> + *  (buffer queue) >     QUEUED ---> QUEUED ---> QUEUED ---> ...
+> + *                       BUFFERA     BUFFERB
+> + *  (hw writing to this) ^
+> + *                (and then to this) ^
+> + *
+> + * The buffer swapping happens at irq time. When an irq comes, the next
+> + * frame is already assigned an address in the buffer queue. This gives
+> + * the irq handler a whole frame's worth of time to update the buffer
+> + * address register.
+> + */
+> +
+> +static dma_addr_t chv3_fb_buffer_dma_addr(struct chv3_fb_buffer *buf)
+> +{
+> +	return vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
+> +}
+> +
+> +static void chv3_fb_start_frame(struct chv3_fb *fb, struct chv3_fb_buffer *buf)
+> +{
+> +	fb->writing_to_a = 1;
+> +	writel(chv3_fb_buffer_dma_addr(buf), fb->iobase + FB_BUFFERA);
+> +	writel(FB_EN_BIT, fb->iobase + FB_EN);
+> +}
+> +
+> +static void chv3_fb_next_frame(struct chv3_fb *fb, struct chv3_fb_buffer *buf)
+> +{
+> +	u32 reg = fb->writing_to_a ? FB_BUFFERB : FB_BUFFERA;
+> +
+> +	writel(chv3_fb_buffer_dma_addr(buf), fb->iobase + reg);
+> +}
+> +
+> +static int chv3_fb_start_streaming(struct vb2_queue *q, unsigned int count)
+> +{
+> +	struct chv3_fb *fb = vb2_get_drv_priv(q);
+> +	struct chv3_fb_buffer *buf;
+> +	unsigned long flags;
+> +
+> +	fb->sequence = 0;
+> +	writel(fb->pix_fmt.sizeimage, fb->iobase + FB_BUFFERSIZE);
+> +
+> +	spin_lock_irqsave(&fb->bufs_lock, flags);
+> +	buf = list_first_entry_or_null(&fb->bufs, struct chv3_fb_buffer, link);
+> +	if (buf) {
+> +		chv3_fb_start_frame(fb, buf);
+> +		if (!list_is_last(&buf->link, &fb->bufs))
+> +			chv3_fb_next_frame(fb, list_next_entry(buf, link));
+> +	}
+> +	spin_unlock_irqrestore(&fb->bufs_lock, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +static void chv3_fb_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct chv3_fb *fb = vb2_get_drv_priv(q);
+> +	struct chv3_fb_buffer *buf;
+> +	unsigned long flags;
+> +
+> +	writel(0, fb->iobase + FB_EN);
+> +
+> +	spin_lock_irqsave(&fb->bufs_lock, flags);
+> +	list_for_each_entry(buf, &fb->bufs, link)
+> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+> +	INIT_LIST_HEAD(&fb->bufs);
+> +	spin_unlock_irqrestore(&fb->bufs_lock, flags);
+> +}
+> +
+> +static void chv3_fb_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct chv3_fb *fb = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vb2_v4l2_buffer *v4l2_buf = to_vb2_v4l2_buffer(vb);
+> +	struct chv3_fb_buffer *buf = container_of(v4l2_buf, struct chv3_fb_buffer, vb);
+> +	bool first, second;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&fb->bufs_lock, flags);
+> +	first = list_empty(&fb->bufs);
+> +	second = list_is_singular(&fb->bufs);
+> +	list_add_tail(&buf->link, &fb->bufs);
+> +	if (vb2_is_streaming(vb->vb2_queue)) {
+> +		if (first)
+> +			chv3_fb_start_frame(fb, buf);
+> +		else if (second)
+> +			chv3_fb_next_frame(fb, buf);
+> +	}
+> +	spin_unlock_irqrestore(&fb->bufs_lock, flags);
+> +}
+> +
+> +static const struct vb2_ops chv3_fb_vb2_ops = {
+> +	.queue_setup = chv3_fb_queue_setup,
+> +	.wait_prepare = vb2_ops_wait_prepare,
+> +	.wait_finish = vb2_ops_wait_finish,
+> +	.start_streaming = chv3_fb_start_streaming,
+> +	.stop_streaming = chv3_fb_stop_streaming,
+> +	.buf_queue = chv3_fb_buf_queue,
+> +};
+> +
+> +static int chv3_fb_open(struct file *file)
+> +{
+> +	struct chv3_fb *fb = video_drvdata(file);
+> +	int res;
+> +
+> +	mutex_lock(&fb->fb_lock);
+> +	res = v4l2_fh_open(file);
+> +	if (!res) {
+> +		if (v4l2_fh_is_singular_file(file))
+> +			chv3_fb_apply_dv_timings(fb);
+> +	}
+> +	mutex_unlock(&fb->fb_lock);
+> +
+> +	return res;
+> +}
+> +
+> +static const struct v4l2_file_operations chv3_fb_v4l2_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = chv3_fb_open,
+> +	.release = vb2_fop_release,
+> +	.unlocked_ioctl = video_ioctl2,
+> +	.mmap = vb2_fop_mmap,
+> +	.poll = vb2_fop_poll,
+> +};
+> +
+> +static void chv3_fb_frame_irq(struct chv3_fb *fb)
+> +{
+> +	struct chv3_fb_buffer *buf;
+> +
+> +	spin_lock(&fb->bufs_lock);
+> +
+> +	buf = list_first_entry_or_null(&fb->bufs, struct chv3_fb_buffer, link);
+> +	if (!buf)
+> +		goto empty;
+> +	list_del(&buf->link);
+> +
+> +	vb2_set_plane_payload(&buf->vb.vb2_buf, 0, fb->pix_fmt.sizeimage);
+> +	buf->vb.vb2_buf.timestamp = ktime_get_ns();
+> +	buf->vb.sequence = fb->sequence++;
+> +	buf->vb.field = V4L2_FIELD_NONE;
+> +	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> +
+> +	buf = list_first_entry_or_null(&fb->bufs, struct chv3_fb_buffer, link);
+> +	if (buf) {
+> +		fb->writing_to_a = !fb->writing_to_a;
+> +		if (!list_is_last(&buf->link, &fb->bufs))
+> +			chv3_fb_next_frame(fb, list_next_entry(buf, link));
+> +	} else {
+> +		writel(0, fb->iobase + FB_EN);
+> +	}
+> +empty:
+> +	spin_unlock(&fb->bufs_lock);
+> +}
+> +
+> +static void chv3_fb_error_irq(struct chv3_fb *fb)
+> +{
+> +	if (vb2_is_streaming(&fb->queue))
+> +		vb2_queue_error(&fb->queue);
+> +}
+> +
+> +static void chv3_fb_resolution_irq(struct chv3_fb *fb)
+> +{
+> +	static const struct v4l2_event event = {
+> +		.type = V4L2_EVENT_SOURCE_CHANGE,
+> +		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
+> +	};
+> +
+> +	v4l2_event_queue(&fb->vdev, &event);
+> +	chv3_fb_error_irq(fb);
+> +}
+> +
+> +static irqreturn_t chv3_fb_isr(int irq, void *data)
+> +{
+> +	struct chv3_fb *fb = data;
+> +	unsigned int reg;
+> +
+> +	reg = readl(fb->iobase_irq + FB_IRQ_CLR);
+> +	if (!reg)
+> +		return IRQ_NONE;
+> +
+> +	if (reg & FB_IRQ_BUFF0)
+> +		chv3_fb_frame_irq(fb);
+> +	if (reg & FB_IRQ_BUFF1)
+> +		chv3_fb_frame_irq(fb);
+> +	if (reg & FB_IRQ_RESOLUTION)
+> +		chv3_fb_resolution_irq(fb);
+> +	if (reg & FB_IRQ_ERROR) {
+> +		dev_warn(fb->dev, "framebuffer error: 0x%x\n",
+> +			 readl(fb->iobase + FB_ERRORSTATUS));
+> +		chv3_fb_error_irq(fb);
+> +	}
+> +
+> +	writel(reg, fb->iobase_irq + FB_IRQ_CLR);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int chv3_fb_check_version(struct chv3_fb *fb)
+> +{
+> +	u32 version;
+> +
+> +	version = readl(fb->iobase + FB_VERSION);
+> +	if (version != FB_VERSION_CURRENT) {
+> +		dev_err(fb->dev,
+> +			"wrong framebuffer version: expected %x, got %x\n",
+> +			FB_VERSION_CURRENT, version);
+> +		return -ENODEV;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static void chv3_fb_set_default_format(struct chv3_fb *fb, bool legacy_format)
+> +{
+> +	struct v4l2_pix_format *pix = &fb->pix_fmt;
+> +
+> +	if (legacy_format)
+> +		pix->pixelformat = V4L2_PIX_FMT_BGRX32;
+> +	else
+> +		pix->pixelformat = V4L2_PIX_FMT_RGB24;
+> +	pix->field = V4L2_FIELD_NONE;
+> +	pix->colorspace = V4L2_COLORSPACE_SRGB;
+> +
+> +	chv3_fb_set_format_resolution(fb, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+> +}
+> +
+> +static void chv3_fb_set_default_timings(struct chv3_fb *fb)
+> +{
+> +	memset(&fb->timings, 0, sizeof(fb->timings));
+> +	fb->timings.type = V4L2_DV_BT_656_1120;
+> +	fb->timings.bt.width  = DEFAULT_WIDTH;
+> +	fb->timings.bt.height = DEFAULT_HEIGHT;
+
+Wouldn't it be better to say: fb->timings = V4L2_DV_BT_CEA_1920X1080P60;
+
+> +}
+> +
+> +#define notifier_to_fb(nf) container_of(nf, struct chv3_fb, notifier)
+> +
+> +static int chv3_fb_async_notify_bound(struct v4l2_async_notifier *notifier,
+> +				      struct v4l2_subdev *subdev,
+> +				      struct v4l2_async_connection *asc)
+> +{
+> +	struct chv3_fb *fb = notifier_to_fb(notifier);
+> +	int pad;
+> +
+> +	pad = media_entity_get_fwnode_pad(&subdev->entity, asc->match.fwnode,
+> +					  MEDIA_PAD_FL_SOURCE);
+> +	if (pad < 0)
+> +		return pad;
+> +
+> +	fb->subdev = subdev;
+> +	fb->subdev_source_pad = pad;
+> +
+> +	return 0;
+> +}
+> +
+> +static void chv3_fb_async_notify_unbind(struct v4l2_async_notifier *notifier,
+> +					struct v4l2_subdev *subdev,
+> +					struct v4l2_async_connection *asc)
+> +{
+> +	struct chv3_fb *fb = notifier_to_fb(notifier);
+> +
+> +	video_unregister_device(&fb->vdev);
+
+Use vb2_video_unregister_device. See documentation in include/media/videobuf2-v4l2.h.
+
+> +}
+> +
+> +static int chv3_fb_async_notify_complete(struct v4l2_async_notifier *notifier)
+> +{
+> +	struct chv3_fb *fb = notifier_to_fb(notifier);
+> +
+> +	return video_register_device(&fb->vdev, VFL_TYPE_VIDEO, -1);
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations chv3_fb_async_notify_ops = {
+> +	.bound = chv3_fb_async_notify_bound,
+> +	.unbind = chv3_fb_async_notify_unbind,
+> +	.complete = chv3_fb_async_notify_complete,
+> +};
+> +
+> +static int chv3_fb_fallback_init(struct chv3_fb *fb)
+> +{
+> +	fb->subdev = NULL;
+> +	fb->subdev_source_pad = 0;
+> +
+> +	return video_register_device(&fb->vdev, VFL_TYPE_VIDEO, -1);
+> +}
+> +
+> +static int chv3_fb_fwnode_init(struct chv3_fb *fb)
+> +{
+> +	struct v4l2_async_connection *asc;
+> +	struct fwnode_handle *endpoint;
+> +	int res;
+> +
+> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(fb->dev), NULL);
+> +	if (!endpoint)
+> +		return -EINVAL;
+> +
+> +	v4l2_async_nf_init(&fb->notifier, &fb->v4l2_dev);
+> +
+> +	asc = v4l2_async_nf_add_fwnode_remote(&fb->notifier, endpoint,
+> +					      struct v4l2_async_connection);
+> +	fwnode_handle_put(endpoint);
+> +
+> +	if (IS_ERR(asc))
+> +		return PTR_ERR(asc);
+> +
+> +	fb->notifier.ops = &chv3_fb_async_notify_ops;
+> +	res = v4l2_async_nf_register(&fb->notifier);
+> +	if (res) {
+> +		v4l2_async_nf_cleanup(&fb->notifier);
+> +		return res;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_fb_probe(struct platform_device *pdev)
+> +{
+> +	struct chv3_fb *fb;
+> +	bool legacy_format;
+> +	int res;
+> +	int irq;
+> +
+> +	fb = devm_kzalloc(&pdev->dev, sizeof(*fb), GFP_KERNEL);
+> +	if (!fb)
+> +		return -ENOMEM;
+> +	fb->dev = &pdev->dev;
+> +	platform_set_drvdata(pdev, fb);
+> +
+> +	/* map register space */
+> +	fb->iobase = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(fb->iobase))
+> +		return PTR_ERR(fb->iobase);
+> +
+> +	fb->iobase_irq = devm_platform_ioremap_resource(pdev, 1);
+> +	if (IS_ERR(fb->iobase_irq))
+> +		return PTR_ERR(fb->iobase_irq);
+> +
+> +	/* check hw version */
+> +	res = chv3_fb_check_version(fb);
+> +	if (res)
+> +		return res;
+> +
+> +	/* setup interrupts */
+> +	irq = platform_get_irq(pdev, 0);
+> +	if (irq < 0)
+> +		return -ENXIO;
+> +	res = devm_request_irq(&pdev->dev, irq, chv3_fb_isr, 0, DEVICE_NAME, fb);
+> +	if (res)
+> +		return res;
+> +
+> +	/* initialize v4l2_device */
+> +	res = v4l2_device_register(&pdev->dev, &fb->v4l2_dev);
+> +	if (res)
+> +		return res;
+> +
+> +	/* initialize vb2 queue */
+> +	fb->queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +	fb->queue.io_modes = VB2_MMAP | VB2_DMABUF;
+> +	fb->queue.dev = &pdev->dev;
+> +	fb->queue.lock = &fb->fb_lock;
+> +	fb->queue.ops = &chv3_fb_vb2_ops;
+> +	fb->queue.mem_ops = &vb2_dma_contig_memops;
+> +	fb->queue.drv_priv = fb;
+> +	fb->queue.buf_struct_size = sizeof(struct chv3_fb_buffer);
+> +	fb->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +	res = vb2_queue_init(&fb->queue);
+> +	if (res)
+> +		goto error;
+> +
+> +	/* initialize video_device */
+> +	strscpy(fb->vdev.name, DEVICE_NAME, sizeof(fb->vdev.name));
+> +	fb->vdev.fops = &chv3_fb_v4l2_fops;
+> +	fb->vdev.ioctl_ops = &chv3_fb_v4l2_ioctl_ops;
+> +	fb->vdev.lock = &fb->fb_lock;
+> +	fb->vdev.release = video_device_release_empty;
+> +	fb->vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	fb->vdev.v4l2_dev = &fb->v4l2_dev;
+> +	fb->vdev.queue = &fb->queue;
+> +	video_set_drvdata(&fb->vdev, fb);
+> +
+> +	/* read other DT properties */
+> +	legacy_format = device_property_read_bool(&pdev->dev, "google,legacy-format");
+> +
+> +	if (device_get_named_child_node(&pdev->dev, "port"))
+> +		res = chv3_fb_fwnode_init(fb);
+> +	else
+> +		res = chv3_fb_fallback_init(fb);
+> +	if (res)
+> +		goto error;
+> +
+> +	/* initialize rest of driver struct */
+> +	INIT_LIST_HEAD(&fb->bufs);
+> +	spin_lock_init(&fb->bufs_lock);
+> +	mutex_init(&fb->fb_lock);
+> +
+> +	chv3_fb_set_default_format(fb, legacy_format);
+> +	chv3_fb_set_default_timings(fb);
+> +
+> +	/* initialize hw */
+> +	writel(FB_RESET_BIT, fb->iobase + FB_RESET);
+> +	writel(FB_DATARATE_DOUBLE, fb->iobase + FB_DATARATE);
+> +	writel(FB_PIXELMODE_DOUBLE, fb->iobase + FB_PIXELMODE);
+> +	if (legacy_format)
+> +		writel(FB_DMAFORMAT_8BPC_LEGACY, fb->iobase + FB_DMAFORMAT);
+> +	else
+> +		writel(FB_DMAFORMAT_8BPC, fb->iobase + FB_DMAFORMAT);
+> +
+> +	writel(FB_IRQ_ALL, fb->iobase_irq + FB_IRQ_MASK);
+> +
+> +	return 0;
+> +
+> +error:
+> +	v4l2_device_unregister(&fb->v4l2_dev);
+> +
+> +	return res;
+> +}
+> +
+> +static void chv3_fb_remove(struct platform_device *pdev)
+> +{
+> +	struct chv3_fb *fb = platform_get_drvdata(pdev);
+> +
+> +	/* disable interrupts */
+> +	writel(0, fb->iobase_irq + FB_IRQ_MASK);
+> +
+> +	v4l2_async_nf_unregister(&fb->notifier);
+> +	v4l2_async_nf_cleanup(&fb->notifier);
+> +	v4l2_device_unregister(&fb->v4l2_dev);
+> +}
+> +
+> +static const struct of_device_id chv3_fb_match_table[] = {
+> +	{ .compatible = "google,chv3-fb" },
+> +	{ },
+> +};
+> +
+> +static struct platform_driver chv3_fb_platform_driver = {
+> +	.probe = chv3_fb_probe,
+> +	.remove_new = chv3_fb_remove,
+> +	.driver = {
+> +		.name = DEVICE_NAME,
+> +		.of_match_table = chv3_fb_match_table,
+> +	},
+> +};
+> +
+> +module_platform_driver(chv3_fb_platform_driver);
+> +
+> +MODULE_AUTHOR("Paweł Anikiel <panikiel@google.com>");
+> +MODULE_DESCRIPTION("Google Chameleon v3 video framebuffer driver");
+> +MODULE_LICENSE("GPL");
+
+For the v3, can you also provide the output of 'v4l2-compliance -s'
+in the cover letter? Make sure you compile v4l2-compliance directly
+from the git repo https://git.linuxtv.org/v4l-utils.git/ since the version
+from distros is usually too old.
+
+Regards,
+
+	Hans
 
