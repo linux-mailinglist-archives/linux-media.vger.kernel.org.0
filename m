@@ -1,301 +1,142 @@
-Return-Path: <linux-media+bounces-6075-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6076-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8697B86AE2D
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 12:52:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A738B86AEA4
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 13:03:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 422BB29685C
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 11:52:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 405841F285F6
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 12:03:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3723D1384BB;
-	Wed, 28 Feb 2024 11:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A36773534;
+	Wed, 28 Feb 2024 12:03:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="COSUTH52"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QFvTkSYC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483B573534
-	for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 11:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BB473513;
+	Wed, 28 Feb 2024 12:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709120890; cv=none; b=u1MKx5UDv71KLAFN8zvzEIvZg1z63SafAArecUXynJN2ZRIJamO9oeKbRA73gSdNqSoZSPbiix4ngVReXbPGmHwxTkCwErSdvS8EgYxF5SmAMcEtee+q7bZ6kGB1IxHYLvV9O8nZv4QXM6XBUE84HaqkyJrQ0A0WO9oGgOLgqfU=
+	t=1709121791; cv=none; b=NYEdKm1RgrFrAFpaqZaKycmRup0m2ZKG9fe5XG0Kt7ta7zLYbKovuMQpPryO3AyObfLUDpTXrDsjv/FOZUt9ls4e+cz2So9irppmEqX/7QL+X6Oy/J8XyGgVN81+w67J0vD4MTnlPyrYh4l5qola60RecsJlpKIrDkwN6FUvI1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709120890; c=relaxed/simple;
-	bh=efAhC9hRP8H3lGnTm4GfEFicpOrPdhSIcMulUBDXTn4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=muj6PrXcYTtZitoNyZVN46E9++sWhkAIZHblLTnNKXNZVHc8FdUo1hY5Jqiup9XlUPb27DnwyDwW0wuUbV60zbMzryDUPPqQURap0JpcZH6jgxEG5dc2yYFSAGWhqa0NsZ8zpaL79v0sYZad60HevUSGFNGpJwDZS9D9DmLc2RQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=COSUTH52; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-412b434effaso3683925e9.2
-        for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 03:48:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709120886; x=1709725686; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zu3ewqCG+5EQn7RzZWf4wxjkdVeCPYXJSPVh/ZEGpuY=;
-        b=COSUTH52myYonC9p1wVFPrp122+Ej5uX81zZb445ewbgzlXj1AbYaVKub8slgHwWhv
-         jxcqhxjczBC+Q1AHXz8rdROkB2WN+8oJ87srSMU5WgfM3NrhEYm7FOLYZC0oB3WQVICx
-         pWSPUyflkKpWY5SpvK5p0x2SznbJTWoyNGAhrzKuLN9tDvrxB8dWehztcZpORmWKrcoG
-         b2QQOkMKRHLkIMyQJeq/7W9hfTQhc2kEpocBM4CL5BmGIiWCKDBWzk+LAiUE4UnWqPVe
-         aR60oHEvSY4YfSI+WT2PMqN2GR8zeaz4TC4wWf6DY1N2C/kz+3CH94BQ9yLCJgI0uOiB
-         kDYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709120886; x=1709725686;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zu3ewqCG+5EQn7RzZWf4wxjkdVeCPYXJSPVh/ZEGpuY=;
-        b=BK24UuGar5QKy7vyYh6nT4D+JG8IAhoeD2IPzq6XQ5i5I0kIwhVVdeS1Zt/YlY31Km
-         WPQ1W3DtF19Mv2WpVInvli3+f1MLUZFYtPwVz8NsEj0DCqJHJfpBz2ITXujbunhE55hG
-         y0G+Gtv/JtlwhB9saeMP2YL6KTsMVYLlaQ2HScYMnpBBqBozNZ6W9/KPbQanJkvfIgul
-         IR3+DCU9PXWhHEsriy0VHwMwNxV3XS1/kuh2EvHiEuAvVzmiTqrZBN8QJQ8A6W2+wZ5x
-         Sw11X5V4MA9gS8K7luD95TlF89QQyaWD2SIHDAPbDuL9AMAtIUXNW5b3045bHEWbqFYb
-         oqHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGiuLG879DXO+ywpTmoWLPMKsJcKngWEwiAOPF2OMoSv8JjzHamP+Cn9tmdlOjIFQo35lNz3aKB99+h6aaSyIt3PYkedO/x9Pp3nI=
-X-Gm-Message-State: AOJu0YzVqNRGm7MhXzVPHav1fwlDWxImAuHxbrS/jGe0jIgWR6AvcotW
-	9zALGpNxcg4ahX420Q7NuvqZTEoJk/okSoMAOGrNglf/7i7b/y3eqOM35o9uTs4=
-X-Google-Smtp-Source: AGHT+IEB/UQwleJbf7XKW6dc1tBjhAXHjTKhYWiBK169zurfst+bdJvN4ZyFBulks3zB3QHX3zW7pQ==
-X-Received: by 2002:adf:fd44:0:b0:33d:277d:a2c7 with SMTP id h4-20020adffd44000000b0033d277da2c7mr7855219wrs.16.1709120886505;
-        Wed, 28 Feb 2024 03:48:06 -0800 (PST)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id bo14-20020a056000068e00b0033d6bc17d0esm15009877wrb.74.2024.02.28.03.48.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 03:48:06 -0800 (PST)
-Message-ID: <a4ba6a35-cfb4-4c3d-a9c7-ccd47d4c32d8@baylibre.com>
-Date: Wed, 28 Feb 2024 12:48:04 +0100
+	s=arc-20240116; t=1709121791; c=relaxed/simple;
+	bh=MpZ+7FpSdhy1jX1Eb1448QYNsWBInrp8KzudyioVXOg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l96OjoPCkSM+F1K27gRfXbTz43/Hugc2ZrO5pv+bRo2ZWVh7jFZZsjKu3sJmP42yzIWe7PD4QhTU2g/Qjr2hcuL/ns7822fEfaPPOJB5NX6AKdCK+hw6ZwEUE+aK7oxZ+JjZ2hG3LbxPxi2uTwC01BN/oQHZwuoyC5ZKwnSmElA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QFvTkSYC; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709121790; x=1740657790;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MpZ+7FpSdhy1jX1Eb1448QYNsWBInrp8KzudyioVXOg=;
+  b=QFvTkSYCwaQm67HcG888SC1czCDCyQW5SVbKfl9LjzvAXIPqXRdQlIwO
+   r3I8aRLVQux9u3dcGVyLczCExjf6wbmovhuzQLLC2A2ffbqEW42NMKTLH
+   NN68f75I4w07J9Gdl3y8W0E1/a3xBltRQ2tl/lUe2g7pjKdv7HmLKmKAG
+   MjhXZ4RDUmU19IwxJBkMs+sX/SMDKXhHEFQbijmiVXQnYODowSrdoe4ER
+   u3YfY5qMKxIyB5DaLUXKKZ3z5zjhKRHd/DrOnFnZEebIpu0KNvMS5H/Px
+   WivespjbZEMdZIbFALRlFa7OKXqjp5rxAFZuNx/dYyzAIpQkJnJ3AAZXq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="7297436"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="7297436"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 04:03:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="11988943"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 04:03:02 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id F167911F855;
+	Wed, 28 Feb 2024 14:02:59 +0200 (EET)
+Date: Wed, 28 Feb 2024 12:02:59 +0000
+From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Zhi Mao =?utf-8?B?KOavm+aZuik=?= <zhi.mao@mediatek.com>,
+	"heiko@sntech.de" <heiko@sntech.de>,
+	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"yunkec@chromium.org" <yunkec@chromium.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
+	"gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
+	Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= <shengnan.wang@mediatek.com>,
+	"hdegoede@redhat.com" <hdegoede@redhat.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
+	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"bingbu.cao@intel.com" <bingbu.cao@intel.com>,
+	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"10572168@qq.com" <10572168@qq.com>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
+	"macromorgan@hotmail.com" <macromorgan@hotmail.com>
+Subject: Re: [PATCH v6 2/2] media: i2c: Add GC08A3 image sensor driver
+Message-ID: <Zd8g81wBXyfMvPhB@kekkonen.localdomain>
+References: <20240227013221.21512-1-zhi.mao@mediatek.com>
+ <20240227013221.21512-3-zhi.mao@mediatek.com>
+ <CAHp75VciCJuoOwC8ozanWYqSCM=vWpiaqymJ2-gQfrSt5Ts6fQ@mail.gmail.com>
+ <b4889fad324ec88eb3a22f51b0aa512cc93bd2cb.camel@mediatek.com>
+ <CAHp75Vd=X9e4rOJabF4AbzGRZAF4BiNJa-C4ivOoQb7kAMy3vQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
- afe document
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-1-4fa1cea1667f@baylibre.com>
- <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
- <eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com>
- <bd4bf6ae-350e-4ee6-a924-7dd31b2c6034@linaro.org>
- <66e527af-0253-4565-9822-04ed84e5817c@baylibre.com>
- <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vd=X9e4rOJabF4AbzGRZAF4BiNJa-C4ivOoQb7kAMy3vQ@mail.gmail.com>
 
+Hi Andy, Zhi,
 
+On Wed, Feb 28, 2024 at 11:22:13AM +0200, Andy Shevchenko wrote:
+> > Another, I also reviewed some other sensor driver code(such as
+> > gc0a08/gc2145 and imx/ov), they are all the same.
+> 
+> They are also problematic. So what?
 
-On 28/02/2024 11:25, AngeloGioacchino Del Regno wrote:
-> Il 28/02/24 10:57, Alexandre Mergnat ha scritto:
->> I think I got it.
->>
->> - mediatek,i2s-shared-clock: will be remove from DT
->> - mediatek,dmic-iir-on: will be remove from DT
->> - mediatek,dmic-irr-mode: will be remove from DT
->> - mediatek,dmic-two-wire-mode: rephrase description needed
->>
->> I've did abstraction (despite me) that IIR settings are runtime config 
->> because the driver implement its usage like a one-time-setup -_-'
->>
-> 
-> Yes but just one more thing I just noticed: 
-> `mediatek,dmic-two-wire-mode` - can we
-> please rename this to `mediatek,dmic-mode` ?
+The situation is the same in a large number of drivers, also outside the
+media tree. It's also not trivial to figure out which header should be
+included and it tends to be that if it compiles without warnings,
+developers won't bother trying to figure out what should still be changed.
 
-Sure, I wasn't aware of this property. I will do it.
+I wonder if this could be automated by using the C pre-processor and a
+small Perl script. :-)
 
-Note: the description isn't consistent with the enum comments
-"
-0 means two wires, 1 means one wire.
-...
-        - 0 # one wire
-        - 1 # two wires
-"
+> > Can we keep this coding style and follow with most of those
+> > image sensor driver?
+> 
+> Why? We do NOT want to continue developers to avoid decreasing their
+> technical debts.
 
-> 
-> That'd be for consistency check mt6359.yaml and mt6358.txt
-> 
->    mediatek,dmic-mode:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description: |
->        Indicates how many data pins are used to transmit two channels of 
-> PDM
->        signal. 0 means two wires, 1 means one wire. Default value is 0.
->      enum:
->        - 0 # one wire
->        - 1 # two wires
-> 
-> Cheers,
-> Angelo
-> 
-> 
-> 
->> Thanks for the explanations, that help.
->>
->> Regards,
->> Alexandre
->>
->> On 28/02/2024 08:28, Krzysztof Kozlowski wrote:
->>> On 27/02/2024 16:18, Alexandre Mergnat wrote:
->>>>>
->>>>>> +    type: boolean
->>>>>> +
->>>>>> +  mediatek,dmic-iir-on:
->>>>>> +    description:
->>>>>> +      Boolean which specifies whether the DMIC IIR is enabled.
->>>>>> +      If this property is not present the IIR is disabled.
->>>>>
->>>>> "is enabled" or "enable it"?
->>>>>
->>>>> You described the desired Linux feature or behavior, not the actual
->>>>> hardware. The bindings are about the latter, so instead you need to
->>>>> rephrase the property and its description to match actual hardware
->>>>> capabilities/features/configuration etc.
->>>>
->>>> I will rephrase:
->>>>
->>>> True to enable the Infinite Impulse Response (IIR) filter
->>>> on the digital microphone inputs.
->>>
->>> I still don't know why this is DT-specific. You still tell driver what
->>> to do...
->>>
->>>>
->>>>>
->>>>>> +    type: boolean
->>>>>> +
->>>>>> +  mediatek,dmic-irr-mode:
->>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>>>> +    description:
->>>>>> +      Selects stop band of IIR DC-removal filter.
->>>>>> +      0 = Software programmable custom coeff loaded by the driver.
->>>>>
->>>>> Bindings are for hardware, not drivers. Why is this a property of 
->>>>> board DTS?
->>>>
->>>> Actually this is a hardware feature. Mode 1 t 5 are predefined filters.
->>>> Mode 0, the HW will read some "coef filter registers" to setup the
->>>> custom filter. the "coef filter regs" are written by the driver.
->>>> Currently the coef values are hardcoded in the driver.
->>>
->>> You don't get the point. Just because you choose some mode it does not
->>> mean is hardware feature for DT. Sampling frequency done by hardware is
->>> also "hardware feature", but do you put it to DT? No.
->>>
->>> Explain why this is board-specific, not runtime configuration.
->>>
->>>>
->>>>>
->>>>>> +      1 = 5Hz if 48KHz mode.
->>>>>> +      2 = 10Hz if 48KHz mode.
->>>>>> +      3 = 25Hz if 48KHz mode.
->>>>>> +      4 = 50Hz if 48KHz mode.
->>>>>> +      5 = 65Hz if 48KHz mode.
->>>>>
->>>>> Use proper unit suffixes - hz.
->>>>>
->>>>>
->>>>>> +    enum:
->>>>>> +      - 0
->>>>>> +      - 1
->>>>>> +      - 2
->>>>>> +      - 3
->>>>>> +      - 4
->>>>>> +      - 5
->>>>>> +
->>>>>> +  mediatek,dmic-two-wire-mode:
->>>>>> +    description:
->>>>>> +      Boolean which turns on digital microphone for two wire mode.
->>>>>> +      If this property is not present the two wire mode is disabled.
->>>>>
->>>>> This looks like hardware property, but the naming looks like SW. Again
->>>>> you instruct what driver should do. Standard disclaimer:
->>>>>
->>>>> You described the desired Linux feature or behavior, not the actual
->>>>> hardware. The bindings are about the latter, so instead you need to
->>>>> rephrase the property and its description to match actual hardware
->>>>> capabilities/features/configuration etc.
->>>>
->>>> Actually this is a hardware feature. This is ALL I have to describe the
->>>> HW behavior from the datasheet:
->>>> "
->>>> bit name: ul_dmic_two_wire_ctl
->>>> Turns on digital microphone for two wire mode.
->>>> 0: Turn off
->>>> 1: Turn on
->>>
->>> That's rather suggestion it is not a description of hardware but you
->>> want driver to do something...
->>>
->>>> "
->>>>
->>>> On the board schematic, SoC and DMIC and linked by 3 pins:
->>>> - clk
->>>> - data0
->>>> - data1
->>>>
->>>> IMHO, "two-wire-mode" means the HW use 2 pins for data, and the SoC 
->>>> must
->>>> be aware of that by reading the register value written by the driver,
->>>> using the value found in the DTS.
->>>
->>> So this depends on type of connection of DMIC? Then rephrase description
->>> property like this.
->>>
->>>>
->>>> I don't get why you think it wouldn't be hardware behavior.
->>>
->>> Because telling what to write to the registers which is typical sign of
->>> people stuffing to DT whatever they need to configure the hardware.
->>>
->>>>
->>>> Rephrase description:
->>>> "True to enable the two wire mode of the digital microphone"
->>>> Is it better ?
->>>
->>> No, because again you describe some sort of mode. If you insist on such
->>> description, then my answer is: it's runtime, so not suitable for DT.
->>> Instead describe what is the hardware problem/configuration, e.g. "DMIC
->>> is connected with only CLK and DATA0, without third pin" etc.
->>>
->>>>
->>>> About the property name, "mediatek,dmic-two-wire-ctl" sound better 
->>>> for you ?
->>>
->>> To sound more like a register less like physical characteristic of the
->>> board? No. The name can stay, I don't have better ideas.
->>>
->>>
->>> Best regards,
->>> Krzysztof
->>>
->>
-> 
+I agree. People tend to copy the code from existing drivers and argue "it's
+just a driver, why bother?". That code will be soon found in a dozen other
+new driver patchsets and every time must brought up in review and fixed,
+leading to extra work for reviewers and developers. We've had quite a lot
+of work improving the current (sensor etc.) drivers and fixing up the use
+of bad patterns but this area has so far received little attention.
 
 -- 
 Regards,
-Alexandre
+
+Sakari Ailus
 
