@@ -1,35 +1,74 @@
-Return-Path: <linux-media+bounces-6064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C73486AA7C
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 09:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604FF86AB0E
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 10:18:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC94BB23F8A
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 08:54:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51D3DB236B0
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 09:18:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 536A82EAE6;
-	Wed, 28 Feb 2024 08:53:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE2582E64F;
+	Wed, 28 Feb 2024 09:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="D+ffl35w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B632E859
-	for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 08:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3562E647
+	for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 09:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709110425; cv=none; b=JG+qahjiJyh1YTKWWT2DLCfebVm2i4ZFmM7OEXa8JE8SEcjlMAg1vrZuiVgVQFqY1wJC9iN2Pm+z8ZvPDUMnihGFp1RNEaplUAXdf4krf2Guwp8pbdsQZVmKJAbzvFm2D9Vh2S6yFKIMveLQkZxmrC4sjGBqVpRej+UIwRGJbRo=
+	t=1709111925; cv=none; b=jNipY1owZ96ONqT+UPyb44FwH/Opgaykcn9kRMj2xsKEMCA9W7wLmmnRiLpm41Zf+gn6Q2Zqup1rKVUxkctVFM7+CZKwu9CY5hN2iAtxLR2OjTCafyPHietg2eOYvWpLVNfRUkKsbyigqTIj3ihRtY1/o0Nu2axhOd5Tl4qA0YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709110425; c=relaxed/simple;
-	bh=TCJ0bzccAc9J4mlsYklgBLsWFWvCTT4PyEn+znpn/0w=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=WKDyuFpQMsJTaxWgCuxHJR+YMe1rgKa8M99xxGhxjOKs3GQXxYhHRbUXwbBhL5QFyFBnUeUbYRVRUxN3RiMSMNUaPEtXqPPs3WvMUpHy4YMcnhGa05gyURMQzr1a2MMN/KMH9i6T+2lg0dcEaELBtnkCbxrZMXoNcrKDEcSXUPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5ECC433F1;
-	Wed, 28 Feb 2024 08:53:43 +0000 (UTC)
-Message-ID: <a25c4bb2-66c4-44d3-a36e-5c67d3dfce89@xs4all.nl>
-Date: Wed, 28 Feb 2024 09:53:42 +0100
+	s=arc-20240116; t=1709111925; c=relaxed/simple;
+	bh=WZLBLNg+kP4bFj20885+NwvSGeS+zQiSUEHm+m2WCvc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rBLrLcXJXvRWcm43Dyu5GSjyC4WpPfKwLvRfl+EvFPGUpjp35sLiKoaMab1PHR5g5yEByY4IQl0Ac2FEtd9Ap3AUl/Uiebbg7t+AQpBP0Hjr2i31tVK70p0Zs21NEFl6uGN1oa/TxYsW0GN43VZKmMrIPi8ImZjMXoT07YY9O+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=D+ffl35w; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33d0a7f2424so3555439f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 01:18:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709111920; x=1709716720; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hMmaHFxsdOxXG7OCPRHkrxQe1P3t75LjLh+737W0FeA=;
+        b=D+ffl35wLHxDH8NF6bwf43hsbzTb6G2LsgCcTRpGO9ne97Jk/qozbuFMeuSWUAneOW
+         ENuKQAYesSHyoFlqWusJegeqkV/hovUwMQKxRAbciQLx0/gdB+3yMxkNnloxv8Gajfl7
+         /eMAAhDVZ9M/L4KTa/WUFR9AcJEwRfpG8/uUn0RZH6mModMz0feWJjjF8Cc6ahE0szjT
+         ODbrNwKUoCaLaoax4Vbm0kq4AkOFLPfy/K1ct+zTrrXSuKCyGTqz5XlMvE3dYYJAVv01
+         K0wt4WlHb+crZ3YWmEWFYnqk6nOnlBKbiYX7XXUlrl6jIksMuyAk+yTwts9x6wMHGNy3
+         NovQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709111920; x=1709716720;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hMmaHFxsdOxXG7OCPRHkrxQe1P3t75LjLh+737W0FeA=;
+        b=i/iDPKb7y56sW0fVsXFxmWs1aYA+h68qzF2FrLWo0WHLvI8zUxi7LabjNa9erzvJ/Z
+         yX3KBX5/oJQyOuouSz717kvbZOuE53CWryWoqq/8G6gNh1MLvI2gjYqbOTuwP4G5keh1
+         YbM6p32SETlIINOJH9LcrheYHjxKV1Un9PK+waBrAVf3LzmvUlEK9ATJqXfvNwBDewsF
+         nWEq5V5UHw7nSf1RQwkSiKcBLGvyCvS+CCXqNQA+RGqDLSJmo3ku7V2qmoTfwu95EyuB
+         1RtUCy7n+cbZybEeYD+qcOudZyrvePRyqCDajeap8IgJDi4S/ky0fXL96/ZehmEfEeNk
+         E0gw==
+X-Forwarded-Encrypted: i=1; AJvYcCXLzB4fsJDQnWeg9aPghKSGZdx7iDcGoZC6O94/z+IEZdvt3TzmTD9nAmVjHu+DMedK1Dpmh5rBsNfIp4FM1mMy+0T+8VU+VZouflk=
+X-Gm-Message-State: AOJu0YwsdVf5YI33/UL9Blw4WH2fwUwmL19iuS/8Rznf/+jdg0tfoe8N
+	SCFNYP0OLbt8N7GgJ+IUe9HECuRmNvnJWn+sbEXZx0lUXWoyV0t+EwP0KITUH28=
+X-Google-Smtp-Source: AGHT+IHl+T1jJDOelrcnlLr/v3d1Q6gKha6LkXJVtKyTJdnBjWcimArxu7uFwJpoiZ24rSsAKDTJ4Q==
+X-Received: by 2002:adf:fd8e:0:b0:33d:af84:2a59 with SMTP id d14-20020adffd8e000000b0033daf842a59mr7977078wrr.28.1709111919598;
+        Wed, 28 Feb 2024 01:18:39 -0800 (PST)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id b14-20020a05600003ce00b0033dd06e628asm10602047wrg.27.2024.02.28.01.18.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Feb 2024 01:18:39 -0800 (PST)
+Message-ID: <77509c18-a4a8-4803-8370-cdcaa175ada1@baylibre.com>
+Date: Wed, 28 Feb 2024 10:18:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -37,112 +76,259 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.9] Various fixes
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
+ audio sound card document
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
+ <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
+ <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
+ <e0907559-121f-4cdf-8b5a-744295ec85b3@collabora.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <e0907559-121f-4cdf-8b5a-744295ec85b3@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-If there are no objections, then I plan to merge this by the end of the day.
 
+
+On 27/02/2024 13:38, AngeloGioacchino Del Regno wrote:
+> Il 27/02/24 11:23, Alexandre Mergnat ha scritto:
+>>
+>>
+>> On 26/02/2024 16:30, AngeloGioacchino Del Regno wrote:
+>>> Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
+>>>> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
+>>>>
+>>>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>>>> ---
+>>>>   .../bindings/sound/mediatek,mt8365-mt6357.yaml     | 127 
+>>>> +++++++++++++++++++++
+>>>>   1 file changed, 127 insertions(+)
+>>>>
+>>>> diff --git 
+>>>> a/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..f469611ec6b6
+>>>> --- /dev/null
+>>>> +++ 
+>>>> b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
+>>>> @@ -0,0 +1,127 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-mt6357.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Mediatek MT8365 sound card with MT6357 sound codec.
+>>>> +
+>>>> +maintainers:
+>>>> +  - Alexandre Mergnat <amergnat@baylibre.com>
+>>>> +
+>>>> +description:
+>>>> +  This binding describes the MT8365 sound card.
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    const: mediatek,mt8365-mt6357
+>>>> +
+>>>> +  mediatek,hp-pull-down:
+>>>> +    description:
+>>>> +      Earphone driver positive output stage short to the
+>>>> +      audio reference ground.
+>>>> +      Default value is false.
+>>>> +    type: boolean
+>>>> +
+>>>> +  mediatek,micbias0-microvolt:
+>>>> +    description: |
+>>>
+>>> description: Selects MIC Bias 0 output voltage
+>>>
+>>>> +      Selects MIC Bias 0 output voltage.
+>>>> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
+>>>> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+>>>
+>>> No, you don't say 0 1 2 3 4 to a property that says "microvolt", 
+>>> that's simply
+>>> wrong.
+>>>
+>>> mediatek,micbias0-microvolt = <2100000>;
+>>>
+>>> ...so you want a binding that says
+>>> enum: [ 1700000, 1800000, this, that, 2700000]
+>>>
+>>
+>> Is it correct if I put "description: Selects MIC Bias 0 output voltage 
+>> index" ?
+>>
+> 
+> No, it's still not correct. You have to pass microvolt values.
+> 
+> The driver will then transform the microvolt values to the index and 
+> subsequently
+> write the index value to the hardware registers.
+> 
+> The bindings shall be generic, in the sense that they shall not express 
+> hardware
+> register values... and this is especially true when we have a value that 
+> *does*
+> actually have means to be expressed in common units.
+> 
+> Besides, in the cases in which there's no common units involved, the 
+> values most
+> probably won't be suited for devicetree//bindings, so those would be 
+> hardcoded in
+> the driver as platform data.
+> 
+> This is not the case, so, please keep this property but specify 
+> microvolts in the
+> bindings (and obviously in devicetree).
+
+Got it, thx !
+
+> 
+>>>> +
+>>>> +  mediatek,micbias1-microvolt:
+>>>> +    description: |
+>>>> +      Selects MIC Bias 1 output voltage.
+>>>> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
+>>>> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+>>>
+>>> same here.
+>>>
+>>>> +
+>>>> +  mediatek,platform:
+>>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>>> +    description: The phandle of MT8365 ASoC platform.
+>>>> +
+>>>> +  pinctrl-names:
+>>>> +    minItems: 1
+>>>> +    items:
+>>>> +      - const: aud_default
+>>>> +      - const: aud_dmic
+>>>> +      - const: aud_miso_off
+>>>> +      - const: aud_miso_on
+>>>> +      - const: aud_mosi_off
+>>>> +      - const: aud_mosi_on
+>>>> +
+>>>> +  vaud28-supply:
+>>>> +    description:
+>>>> +      2.8 volt supply for the audio codec
+>>>> +
+>>>> +patternProperties:
+>>>> +  "^dai-link-[0-9]+$":
+>>>> +    type: object
+>>>> +    description:
+>>>> +      Container for dai-link level properties and CODEC sub-nodes.
+>>>> +
+>>>> +    properties:
+>>>> +      codec:
+>>>> +        type: object
+>>>> +        description: Holds subnode which indicates codec dai.
+>>>> +
+>>>> +        properties:
+>>>> +          sound-dai:
+>>>> +            maxItems: 1
+>>>> +            description: phandle of the codec DAI
+>>>> +
+>>>> +        additionalProperties: false
+>>>> +
+>>>> +      link-name:
+>>>> +        description:
+>>>> +          This property corresponds to the name of the BE dai-link 
+>>>> to which
+>>>> +          we are going to update parameters in this node.
+>>>> +        items:
+>>>> +          const: 2ND I2S BE
+>>>> +
+>>>> +      sound-dai:
+>>>> +        maxItems: 1
+>>>> +        description: phandle of the CPU DAI
+>>>> +
+>>>> +    additionalProperties: false
+>>>> +
+>>>> +    required:
+>>>> +      - link-name
+>>>> +      - sound-dai
+>>>> +
+>>>> +additionalProperties: false
+>>>> +
+>>>> +required:
+>>>> +  - compatible
+>>>> +  - mediatek,platform
+>>>> +  - pinctrl-names
+>>>> +  - vaud28-supply
+>>>> +
+>>>> +examples:
+>>>> +  - |
+>>>> +    sound {
+>>>> +        compatible = "mediatek,mt8365-mt6357";
+>>>> +        mediatek,platform = <&afe>;
+>>>
+>>> Please:
+>>>
+>>> https://docs.kernel.org/devicetree/bindings/dts-coding-style.html
+>>
+>> Is it about the wrong pinctrl-names tab alignment ?
+>> Also, 2ND I2S BE => 2ND_I2S_BE ?
+>> Otherwise, I don't get it sorry.
+>>
+> 
+> ...as Krzysztof already clarified, won't repeat :-P
+
+Yes it is, I will fix that.
+
+> 
+> Cheers!
+> 
+>>>
+>>> Regards,
+>>> Angelo
+>>>
+>>>> +        pinctrl-names = "aud_default",
+>>>> +            "aud_dmic",
+>>>> +            "aud_miso_off",
+>>>> +            "aud_miso_on",
+>>>> +            "aud_mosi_off",
+>>>> +            "aud_mosi_on";
+>>>> +        pinctrl-0 = <&aud_default_pins>;
+>>>> +        pinctrl-1 = <&aud_dmic_pins>;
+>>>> +        pinctrl-2 = <&aud_miso_off_pins>;
+>>>> +        pinctrl-3 = <&aud_miso_on_pins>;
+>>>> +        pinctrl-4 = <&aud_mosi_off_pins>;
+>>>> +        pinctrl-5 = <&aud_mosi_on_pins>;
+>>>> +        vaud28-supply = <&mt6357_vaud28_reg>;
+>>>> +
+>>>> +        /* hdmi interface */
+>>>> +        dai-link-0 {
+>>>> +            sound-dai = <&afe>;
+>>>> +            link-name = "2ND I2S BE";
+>>>> +
+>>>> +            codec {
+>>>> +                sound-dai = <&it66121hdmitx>;
+>>>> +            };
+>>>> +        };
+>>>> +    };
+>>>>
+>>>
+>>
+> 
+> 
+
+-- 
 Regards,
-
-	Hans
-
-The following changes since commit ad9be163c5ba80e3e923be2b31c70d2c6fa27138:
-
-  media: chips-media: wave5: Convert to platform remove callback returning void (2024-02-28 08:44:53 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.9e
-
-for you to fetch changes up to 35e3b0877b1e777dcdebf9e6ed0b7e78d2d2b7e4:
-
-  media: mediatek: vcodec: avoid -Wcast-function-type-strict warning (2024-02-28 09:47:31 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Arnd Bergmann (2):
-      media: dvb-frontends: avoid stack overflow warnings with clang
-      media: mediatek: vcodec: avoid -Wcast-function-type-strict warning
-
-Edward Adam Davis (1):
-      media: pvrusb2: fix uaf in pvr2_context_set_notify
-
-Ricardo Ribalda (1):
-      media: usb: s2255: Refactor s2255_get_fx2fw
-
-Uwe Kleine-König (4):
-      media: nuvoton: Convert to platform remove callback returning void
-      media: nxp: imx8-isi: Convert to platform remove callback returning void
-      media: stm32-dcmipp: Convert to platform remove callback returning void
-      media: ti: j721e-csi2rx: Convert to platform remove callback returning void
-
-Zhipeng Lu (2):
-      media: go7007: fix a memleak in go7007_load_encoder
-      media: ttpci: fix two memleaks in budget_av_attach
-
- drivers/media/dvb-frontends/stv0367.c                             | 34 ++++++++--------------------------
- drivers/media/pci/ttpci/budget-av.c                               |  8 +++++---
- drivers/media/platform/mediatek/mdp/mtk_mdp_vpu.c                 |  2 +-
- drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c | 10 +---------
- drivers/media/platform/mediatek/vpu/mtk_vpu.c                     |  2 +-
- drivers/media/platform/mediatek/vpu/mtk_vpu.h                     |  2 +-
- drivers/media/platform/nuvoton/npcm-video.c                       |  6 ++----
- drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c               |  6 ++----
- drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c        |  6 ++----
- drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c             |  6 ++----
- drivers/media/usb/go7007/go7007-driver.c                          |  8 +++++---
- drivers/media/usb/pvrusb2/pvrusb2-context.c                       |  2 +-
- drivers/media/usb/s2255/s2255drv.c                                |  7 ++++---
- 13 files changed, 35 insertions(+), 64 deletions(-)
+Alexandre
 
