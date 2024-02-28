@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-6073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CDC86ACF2
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 12:26:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B18686ADC7
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 12:43:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD649B22BB8
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 11:25:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3684F292502
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 11:43:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A523212F5B7;
-	Wed, 28 Feb 2024 11:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4551E1586F5;
+	Wed, 28 Feb 2024 11:33:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4463512A149;
-	Wed, 28 Feb 2024 11:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2881586D7;
+	Wed, 28 Feb 2024 11:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709119549; cv=none; b=fZV4rcx7V1oH2skxa5e6Y9h0nY712pNHXOIHsRPZZSSaYsdcKQBsumzS4fWg/ZW7zEay3+V3FoqYBYcNdEriVF4pH8I9RDfcLFN6Hxcbhv08ucAljhcH3LOX7pJ/wo/UJ8ctXxx68aoI38UyP47n7sRm6ywfrXt3YcuHTao5LM8=
+	t=1709119999; cv=none; b=uLINqBqlMpVZQv18AB6N9YzSIdx6yre6Ncfbwgzq2x5neWm8qIbnF9SoTAKxtNIypT1M/QJZFGpEGEBhPoVQLT35ocmVtc3rzqEbc0uM0paguL6KWMuDr2YKjlLMCY99srhQvasZWXduqzTbz0KsEKPtnoDgYlFXmaaJoTFaWHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709119549; c=relaxed/simple;
-	bh=ohmwuBlhDPHH8tIibEhU/oAcbkZug7YwDw0TwsvqP6o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TJopxshdDUA0JaWEho6PMGnPHrFlUgMgE58Re8HdxX0iY/Z9pUBqtVZ++AcG3uulGuS8pUlEq+z78bp++znkciyZetJ2YZQSbJzp810RXdcO1TGJQZTOssQGhRG2yOKmOSQ8XKIgkkZNS366mqFTw5paWMnU97zWER5YJ59kNu0=
+	s=arc-20240116; t=1709119999; c=relaxed/simple;
+	bh=UMOX6t7UHHSQsLbszEUMQyDhE8r+bd6X9YOlKd+pYDY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MKLuGd1CnIF8MpcTUntVBBeCaDTi2AgbS7tfjJwqyKxcUILzS6q34tkT68KreZWGwvBdx7t1m2X09tOe3fuv41I+4dpRvvoQWtCs1R9UOpgCil3j4P0VuCxzSESXnoFAVkFqeNSWBhSe+AaHkXQ66p/r4s3ZlFDK/G4nElc23Tw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE6AEC433F1;
-	Wed, 28 Feb 2024 11:25:44 +0000 (UTC)
-Message-ID: <ce262cda-84ba-4d8f-a916-76488c94066d@xs4all.nl>
-Date: Wed, 28 Feb 2024 12:25:44 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E252C433C7;
+	Wed, 28 Feb 2024 11:33:17 +0000 (UTC)
+Message-ID: <19cdefd3-163b-41a1-b603-764aab4b5b90@xs4all.nl>
+Date: Wed, 28 Feb 2024 12:33:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,101 +38,85 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/9] media: v4l2-subdev: Add a pad variant of
- .query_dv_timings()
+Subject: Re: [PATCH] media: usbtv: Remove useless locks in usbtv_video_free()
 Content-Language: en-US, nl
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
- akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
- dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
- robh+dt@kernel.org, tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- chromeos-krk-upstreaming@google.com, ribalda@chromium.org
-References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-2-panikiel@google.com>
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240221160215.484151-2-panikiel@google.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+References: <20240220080628.13141-1-benjamin.gaignard@collabora.com>
+ <b8400b7b-0716-4e8c-9ae5-f594778066c5@xs4all.nl>
+In-Reply-To: <b8400b7b-0716-4e8c-9ae5-f594778066c5@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Paweł,
-
-On 21/02/2024 17:02, Paweł Anikiel wrote:
-> Currently, .query_dv_timings() is defined as a video callback without
-> a pad argument. This is a problem if the subdevice can have different
-> dv timings for each pad (e.g. a DisplayPort receiver with multiple
-> virtual channels).
+On 28/02/2024 09:45, Hans Verkuil wrote:
+> On 20/02/2024 09:06, Benjamin Gaignard wrote:
+>> Remove locks calls in usbtv_video_free() because
+>> are useless and may led to a deadlock as reported here:
+>> https://syzkaller.appspot.com/x/bisect.txt?x=166dc872180000
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Fixes: c838530d230b ("media: media videobuf2: Be more flexible on the number of queue stored buffers")
 > 
-> To solve this, add a pad variant of this callback which includes
-> the pad number as an argument.
+> Hmm, the code was really always wrong, it is just that before this commit
+> it would only fail if you did a disconnect while streaming, and now it also
+> fails if you disconnect when you are not streaming, so it is much more
+> noticeable now.
+> 
+> That should probably be explained better in the commit log. You could add a
+> second Fixes line:
+> 
+> Fixes: f3d27f34fdd7 ("[media] usbtv: Add driver for Fushicai USBTV007 video frame grabber")
+> 
+> but I am not sure how useful that is.
+> 
+>> ---
+>>  drivers/media/usb/usbtv/usbtv-video.c | 6 ------
+>>  1 file changed, 6 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
+>> index 62a583040cd4..96276358d116 100644
+>> --- a/drivers/media/usb/usbtv/usbtv-video.c
+>> +++ b/drivers/media/usb/usbtv/usbtv-video.c
+>> @@ -963,15 +963,9 @@ int usbtv_video_init(struct usbtv *usbtv)
+>>  
+>>  void usbtv_video_free(struct usbtv *usbtv)
+>>  {
+>> -	mutex_lock(&usbtv->vb2q_lock);
+>> -	mutex_lock(&usbtv->v4l2_lock);
+>> -
+>>  	usbtv_stop(usbtv);
+> 
+> This call should also be dropped...
+> 
+>>  	vb2_video_unregister_device(&usbtv->vdev);
+> 
+> ...since this function will call stop_streaming if streaming is in progress,
+> which will call usbtv_stop with all the correct locks held.
 
-So now we have two query_dv_timings ops: one for video ops, and one
-for pad ops. That's not very maintainable. I would suggest switching
-all current users of the video op over to the pad op.
+With that change you can add my:
+
+Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 Regards,
 
 	Hans
 
 > 
-> Signed-off-by: Paweł Anikiel <panikiel@google.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 11 +++++++++++
->  include/media/v4l2-subdev.h           |  5 +++++
->  2 files changed, 16 insertions(+)
+> Regards,
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 4c6198c48dd6..11f865dd19b4 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -389,6 +389,16 @@ static int call_enum_dv_timings(struct v4l2_subdev *sd,
->  	       sd->ops->pad->enum_dv_timings(sd, dvt);
->  }
->  
-> +static int call_query_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				 struct v4l2_dv_timings *timings)
-> +{
-> +	if (!timings)
-> +		return -EINVAL;
-> +
-> +	return check_pad(sd, pad) ? :
-> +	       sd->ops->pad->query_dv_timings(sd, pad, timings);
-> +}
-> +
->  static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
->  				struct v4l2_mbus_config *config)
->  {
-> @@ -489,6 +499,7 @@ static const struct v4l2_subdev_pad_ops v4l2_subdev_call_pad_wrappers = {
->  	.set_edid		= call_set_edid,
->  	.dv_timings_cap		= call_dv_timings_cap,
->  	.enum_dv_timings	= call_enum_dv_timings,
-> +	.query_dv_timings	= call_query_dv_timings,
->  	.get_frame_desc		= call_get_frame_desc,
->  	.get_mbus_config	= call_get_mbus_config,
->  };
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index a9e6b8146279..dc8963fa5a06 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -797,6 +797,9 @@ struct v4l2_subdev_state {
->   * @enum_dv_timings: callback for VIDIOC_SUBDEV_ENUM_DV_TIMINGS() ioctl handler
->   *		     code.
->   *
-> + * @query_dv_timings: same as query_dv_timings() from v4l2_subdev_video_ops,
-> + *		      but with additional pad argument.
-> + *
->   * @link_validate: used by the media controller code to check if the links
->   *		   that belongs to a pipeline can be used for stream.
->   *
-> @@ -868,6 +871,8 @@ struct v4l2_subdev_pad_ops {
->  			      struct v4l2_dv_timings_cap *cap);
->  	int (*enum_dv_timings)(struct v4l2_subdev *sd,
->  			       struct v4l2_enum_dv_timings *timings);
-> +	int (*query_dv_timings)(struct v4l2_subdev *sd, unsigned int pad,
-> +				struct v4l2_dv_timings *timings);
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	int (*link_validate)(struct v4l2_subdev *sd, struct media_link *link,
->  			     struct v4l2_subdev_format *source_fmt,
+> 	Hans
+> 
+>>  	v4l2_device_disconnect(&usbtv->v4l2_dev);
+>>  
+>> -	mutex_unlock(&usbtv->v4l2_lock);
+>> -	mutex_unlock(&usbtv->vb2q_lock);
+>> -
+>>  	v4l2_device_put(&usbtv->v4l2_dev);
+>>  }
+> 
+> 
 
 
