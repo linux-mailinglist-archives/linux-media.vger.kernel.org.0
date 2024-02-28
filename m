@@ -1,74 +1,55 @@
-Return-Path: <linux-media+bounces-6068-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6069-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF3786ABC0
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 10:57:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C26E086ABE1
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 11:09:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8EB12B216D5
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 09:57:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0993E1C218CB
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 10:09:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E56B364A4;
-	Wed, 28 Feb 2024 09:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7906736B1D;
+	Wed, 28 Feb 2024 10:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pndiTzqz"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Skew+2LO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A5B36AE7
-	for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 09:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3396136B0A;
+	Wed, 28 Feb 2024 10:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709114242; cv=none; b=FslIUPRlkSD+OSpRUT/INHUe9+8N1x/ZCEDTBJt8uHZg0O2QI0stKaJXFdYPYBn4i7amQsAXL+ups+iG+Gu9d36wJjUWxxuzRpKlkUwkV0tVrIbCU1KAQGn5ZiaD21MTh26bwltQKMilK9t/L7vx35E7Tbr4BA6kcsMCyfi1o+s=
+	t=1709114968; cv=none; b=fRl6vDZRnh95QoipNGIBfgmPOuNVyAuc3XONiTTELTrFqPfUpkwqtFgPFkZXAxBj2N6K6Q8g18CpW+Hy9UqmdvokfVa1ofC41mpVUp0btHgbHFmr/Z1SPPxucF99AtQAcnvUQsf7EfstIHRhTDatZq7JqDBuqqoWZRWmz2MXzfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709114242; c=relaxed/simple;
-	bh=5zb0cEnLWBBaB0oz5JTV/Xs/1lvchKi6jNvUzVpCoaU=;
+	s=arc-20240116; t=1709114968; c=relaxed/simple;
+	bh=S66s19ilvDHTNIulMAImsMB6AkaPAi9N9/xnkhBU13k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CvLGr4J/VJOp1dwaI766LF6bzvdLppgEmYa/Xr6GFsEOetb+c2uDgr8I8gcO3sv2l6BsxdMr1eo1ifT7/Vz4ACdX7oScPU53yKJt+hFdSblTS7RlFoN5f7s6uVIXebGaDNT90I3nxxfjzbUIGBttKpXF/N2NMaX6OjNaCmD5F80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=pndiTzqz; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-412ae087378so11764755e9.3
-        for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 01:57:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709114239; x=1709719039; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qg3bz6jhBZS7ET92hBbbxbLJcdz5hFSe7r4a1+zUYlM=;
-        b=pndiTzqzKHx7fuXV0g6NZTdY8TEyqvkMIvH5MTaN7r/JCdt2/+YwX9dJqK+e9PQ/1Q
-         u0wk6xayPWF4GGuViJ5sxvxNTC6tM+k4T3Gn1xLTTDUaEyTuu4cQ8IiIaOwrk7hOzYp/
-         OB9sCtvIg30hK27H1bUT8TK8mszp/MJbetTrdQN+rqnwsr5eZ+gSaqFolA9Afq2+fleH
-         DZ2Drz72ChMJ5qjoxiE4s0dHycJ/He4JCHAKOoWErACnKoZRj5H9o27u0gxY8e0/smnw
-         9wxS4V+9oX0Ms2rYm1D39ClkzP6+y1u0lA2JbMGhOFZZJj7eZrna7YNxfXGW4c4tP76v
-         laxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709114239; x=1709719039;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qg3bz6jhBZS7ET92hBbbxbLJcdz5hFSe7r4a1+zUYlM=;
-        b=Qyhi5PK/gdIjcGkmMWnFL+liYYZ8OAtBrLHFacBRoP6xqRfn4udM6Sl/bhTaKvpmGN
-         NNCisgvGRNUcb3x/1V1Lg0R40qglndt8R1dwDbzvXuC28hVxlOLf40xCVZCzFuLEYQr6
-         X5YYgCSIsz72xKnzE02h+EWteW9StGhs8ptL4T/o3L8iPVYDhGoKfnZvzcR/PHydIb2B
-         WsOFQAPV8tae6Kj6kSY/yedgPM886nKGbUmW+SJAw47rRA8t9R4/vWsdq1/RpaLapWKY
-         yS0xs1J8TVvHVICr8f/J+xSk1l4mnpsAhsFGv0pInbIfL0z4MB66bUgbICNtJMMBsVXq
-         kWCg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGcCRnVzoBOaoRpEbVrwLFww+ZzFJLTQ8K0xY5yUQIb9wUPzfLAvgdy5nJ/PgRuzyzWLruPQQFkUYz/6CS4ZiPBWFIgeegn0nspVU=
-X-Gm-Message-State: AOJu0Ywo3wQDXEQCcZ6uVtOjiuQV78GF9Y2Wq/N1mklc7rzAuaNOzU1D
-	IX9OeOvPVkjHYsDLapvAroGYT9HzznWYPjN33TZWEEo60flcQ53yNdbHcwa47A4=
-X-Google-Smtp-Source: AGHT+IGdYYc+4l8lA19KSveVtxa+iJnXttf25DgJgoEb24NGtWPvG7/6OUbeiGefYFJlE7T6JjPt3Q==
-X-Received: by 2002:a05:600c:3b9d:b0:412:b623:bbcc with SMTP id n29-20020a05600c3b9d00b00412b623bbccmr529089wms.10.1709114238861;
-        Wed, 28 Feb 2024 01:57:18 -0800 (PST)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id h17-20020a05600c351100b00412b3bf811bsm1537547wmq.8.2024.02.28.01.57.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 01:57:18 -0800 (PST)
-Message-ID: <66e527af-0253-4565-9822-04ed84e5817c@baylibre.com>
-Date: Wed, 28 Feb 2024 10:57:16 +0100
+	 In-Reply-To:Content-Type; b=tJuFBAxaFhYtqKLTRw5R2q00CGHqDWOZXEg/JaN6LOjU+fXO0WEZ3AY8sdMXWVKy2Rnggj/TRajCkZextXqYN9DYIpUJxtyljLmLN6XNXMs6AKPteOzZ8SLLxUoBra5dn552v+kAZhY0QxahaMUTIDEV7lQKalGRLBLffVJFG8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Skew+2LO; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709114964;
+	bh=S66s19ilvDHTNIulMAImsMB6AkaPAi9N9/xnkhBU13k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Skew+2LOY7JbHwKpTbn8YnEJTYP2G50KkkHUgi6mQv0GLQVie8KLptOh2ijMyWp25
+	 4aFi6QD8QSXodCbY/qyo7t1nSTF1XHcmytnnAhaZ+x3pc3pKGKasqgVigmzCsjnEHr
+	 kolcyRw7M+mEU5aA+Ta1zv4ft/DYLLt5LDgcVRDfXcz4h7TAyeoGZSO0q8lnnzZabE
+	 DhEeUV14LG5nJLEbnE4d793Dy1nRzHAuFkEtFTrHF6BWWdEzU6s7ZZnRDpscnsjjS3
+	 FiZ6L7D4Xsqe7aCd2SJPdL9WPxmDh5y7n5NSzqGrKJg4u3AB1n4ckYgq87Y2/+A8qh
+	 Ggcq2RaJdmgAw==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id AE5D937820CB;
+	Wed, 28 Feb 2024 10:09:23 +0000 (UTC)
+Message-ID: <e7d57472-08f9-4e71-8c42-2f95d9a81f75@collabora.com>
+Date: Wed, 28 Feb 2024 11:09:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,180 +57,126 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
- afe document
+Subject: Re: [PATCH] media: mediatek: vcodec: Fix oops when HEVC init fails
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: kernel@collabora.com, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-1-4fa1cea1667f@baylibre.com>
- <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
- <eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com>
- <bd4bf6ae-350e-4ee6-a924-7dd31b2c6034@linaro.org>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <bd4bf6ae-350e-4ee6-a924-7dd31b2c6034@linaro.org>
+ linux-mediatek@lists.infradead.org
+References: <20240226211954.400891-1-nicolas.dufresne@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240226211954.400891-1-nicolas.dufresne@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-I think I got it.
+Il 26/02/24 22:19, Nicolas Dufresne ha scritto:
+> In stateless HEVC case, the instance pointer was saved in the
+> context regardless if the initialization worked. As the pointer
+> is freed in failure, this resulted in use after free in the
+> deinit function.
+> 
 
-- mediatek,i2s-shared-clock: will be remove from DT
-- mediatek,dmic-iir-on: will be remove from DT
-- mediatek,dmic-irr-mode: will be remove from DT
-- mediatek,dmic-two-wire-mode: rephrase description needed
+ From what I understand, "the pointer" that is freed is struct vdec_vpu_inst; is
+that correct?
 
-I've did abstraction (despite me) that IIR settings are runtime config 
-because the driver implement its usage like a one-time-setup -_-'
+Since you do have a way to easily reproduce the issue on your side, can we resolve
+the safety/reliability root issue as well as making this correct?
 
-Thanks for the explanations, that help.
+The idea is being able to avoid a kernel panic in the situation that you describe
+in this fix, but throw an error message (read: throw a big "wtf!") when this does
+happen, and handle that with returning an error code (avoiding a kernel crash).
 
-Regards,
-Alexandre
+Let's cut it short - please try this:
 
-On 28/02/2024 08:28, Krzysztof Kozlowski wrote:
-> On 27/02/2024 16:18, Alexandre Mergnat wrote:
->>>
->>>> +    type: boolean
->>>> +
->>>> +  mediatek,dmic-iir-on:
->>>> +    description:
->>>> +      Boolean which specifies whether the DMIC IIR is enabled.
->>>> +      If this property is not present the IIR is disabled.
->>>
->>> "is enabled" or "enable it"?
->>>
->>> You described the desired Linux feature or behavior, not the actual
->>> hardware. The bindings are about the latter, so instead you need to
->>> rephrase the property and its description to match actual hardware
->>> capabilities/features/configuration etc.
->>
->> I will rephrase:
->>
->> True to enable the Infinite Impulse Response (IIR) filter
->> on the digital microphone inputs.
+In functions
+   - int vpu_vdec_start()
+   - int vpu_dec_get_param()
+   - int vcodec_send_ap_ipi()
+
+at the beginning, perform this check:
+
+	if (unlikely(!vpu)) {
+		/* Write a scarier message if this is not scary enough */
+		mtk_vdec_err("FIXME!! - VPU is NULL. This is unexpected.\n");
+		return -EINVAL; /* or something else if more meaningful */
+	}
+
+Unless I've misunderstood what's NULL, that'll work. :-)
+
+
+Meanwhile, for this fix:
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Cheers,
+Angelo
+
+>   Hardware name: Acer Tomato (rev3 - 4) board (DT)
+>   pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>   pc : vcodec_vpu_send_msg+0x4c/0x190 [mtk_vcodec_dec]
+>   lr : vcodec_send_ap_ipi+0x78/0x170 [mtk_vcodec_dec]
+>   sp : ffff80008750bc20
+>   x29: ffff80008750bc20 x28: ffff1299f6d70000 x27: 0000000000000000
+>   x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+>   x23: ffff80008750bc98 x22: 000000000000a003 x21: ffffd45c4cfae000
+>   x20: 0000000000000010 x19: ffff1299fd668310 x18: 000000000000001a
+>   x17: 000000040044ffff x16: ffffd45cb15dc648 x15: 0000000000000000
+>   x14: ffff1299c08da1c0 x13: ffffd45cb1f87a10 x12: ffffd45cb2f5fe80
+>   x11: 0000000000000001 x10: 0000000000001b30 x9 : ffffd45c4d12b488
+>   x8 : 1fffe25339380d81 x7 : 0000000000000001 x6 : ffff1299c9c06c00
+>   x5 : 0000000000000132 x4 : 0000000000000000 x3 : 0000000000000000
+>   x2 : 0000000000000010 x1 : ffff80008750bc98 x0 : 0000000000000000
+>   Call trace:
+>    vcodec_vpu_send_msg+0x4c/0x190 [mtk_vcodec_dec]
+>    vcodec_send_ap_ipi+0x78/0x170 [mtk_vcodec_dec]
+>    vpu_dec_deinit+0x1c/0x30 [mtk_vcodec_dec]
+>    vdec_hevc_slice_deinit+0x30/0x98 [mtk_vcodec_dec]
+>    vdec_if_deinit+0x38/0x68 [mtk_vcodec_dec]
+>    mtk_vcodec_dec_release+0x20/0x40 [mtk_vcodec_dec]
+>    fops_vcodec_release+0x64/0x118 [mtk_vcodec_dec]
+>    v4l2_release+0x7c/0x100
+>    __fput+0x80/0x2d8
+>    __fput_sync+0x58/0x70
+>    __arm64_sys_close+0x40/0x90
+>    invoke_syscall+0x50/0x128
+>    el0_svc_common.constprop.0+0x48/0xf0
+>    do_el0_svc+0x24/0x38
+>    el0_svc+0x38/0xd8
+>    el0t_64_sync_handler+0xc0/0xc8
+>    el0t_64_sync+0x1a8/0x1b0
+>   Code: d503201f f9401660 b900127f b900227f (f9400400)
 > 
-> I still don't know why this is DT-specific. You still tell driver what
-> to do...
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Fixes: 2674486aac7d ("media: mediatek: vcodec: support stateless hevc decoder")
+> ---
+>   .../mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c       | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->>
->>>
->>>> +    type: boolean
->>>> +
->>>> +  mediatek,dmic-irr-mode:
->>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>> +    description:
->>>> +      Selects stop band of IIR DC-removal filter.
->>>> +      0 = Software programmable custom coeff loaded by the driver.
->>>
->>> Bindings are for hardware, not drivers. Why is this a property of board DTS?
->>
->> Actually this is a hardware feature. Mode 1 t 5 are predefined filters.
->> Mode 0, the HW will read some "coef filter registers" to setup the
->> custom filter. the "coef filter regs" are written by the driver.
->> Currently the coef values are hardcoded in the driver.
-> 
-> You don't get the point. Just because you choose some mode it does not
-> mean is hardware feature for DT. Sampling frequency done by hardware is
-> also "hardware feature", but do you put it to DT? No.
-> 
-> Explain why this is board-specific, not runtime configuration.
-> 
->>
->>>
->>>> +      1 = 5Hz if 48KHz mode.
->>>> +      2 = 10Hz if 48KHz mode.
->>>> +      3 = 25Hz if 48KHz mode.
->>>> +      4 = 50Hz if 48KHz mode.
->>>> +      5 = 65Hz if 48KHz mode.
->>>
->>> Use proper unit suffixes - hz.
->>>
->>>
->>>> +    enum:
->>>> +      - 0
->>>> +      - 1
->>>> +      - 2
->>>> +      - 3
->>>> +      - 4
->>>> +      - 5
->>>> +
->>>> +  mediatek,dmic-two-wire-mode:
->>>> +    description:
->>>> +      Boolean which turns on digital microphone for two wire mode.
->>>> +      If this property is not present the two wire mode is disabled.
->>>
->>> This looks like hardware property, but the naming looks like SW. Again
->>> you instruct what driver should do. Standard disclaimer:
->>>
->>> You described the desired Linux feature or behavior, not the actual
->>> hardware. The bindings are about the latter, so instead you need to
->>> rephrase the property and its description to match actual hardware
->>> capabilities/features/configuration etc.
->>
->> Actually this is a hardware feature. This is ALL I have to describe the
->> HW behavior from the datasheet:
->> "
->> bit name: ul_dmic_two_wire_ctl
->> Turns on digital microphone for two wire mode.
->> 0: Turn off
->> 1: Turn on
-> 
-> That's rather suggestion it is not a description of hardware but you
-> want driver to do something...
-> 
->> "
->>
->> On the board schematic, SoC and DMIC and linked by 3 pins:
->> - clk
->> - data0
->> - data1
->>
->> IMHO, "two-wire-mode" means the HW use 2 pins for data, and the SoC must
->> be aware of that by reading the register value written by the driver,
->> using the value found in the DTS.
-> 
-> So this depends on type of connection of DMIC? Then rephrase description
-> property like this.
-> 
->>
->> I don't get why you think it wouldn't be hardware behavior.
-> 
-> Because telling what to write to the registers which is typical sign of
-> people stuffing to DT whatever they need to configure the hardware.
-> 
->>
->> Rephrase description:
->> "True to enable the two wire mode of the digital microphone"
->> Is it better ?
-> 
-> No, because again you describe some sort of mode. If you insist on such
-> description, then my answer is: it's runtime, so not suitable for DT.
-> Instead describe what is the hardware problem/configuration, e.g. "DMIC
-> is connected with only CLK and DATA0, without third pin" etc.
-> 
->>
->> About the property name, "mediatek,dmic-two-wire-ctl" sound better for you ?
-> 
-> To sound more like a register less like physical characteristic of the
-> board? No. The name can stay, I don't have better ideas.
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
+> index 06ed47df693bf..21836dd6ef85a 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
+> @@ -869,7 +869,6 @@ static int vdec_hevc_slice_init(struct mtk_vcodec_dec_ctx *ctx)
+>   	inst->vpu.codec_type = ctx->current_codec;
+>   	inst->vpu.capture_type = ctx->capture_fourcc;
+>   
+> -	ctx->drv_handle = inst;
+>   	err = vpu_dec_init(&inst->vpu);
+>   	if (err) {
+>   		mtk_vdec_err(ctx, "vdec_hevc init err=%d", err);
+> @@ -898,6 +897,7 @@ static int vdec_hevc_slice_init(struct mtk_vcodec_dec_ctx *ctx)
+>   	mtk_vdec_debug(ctx, "lat hevc instance >> %p, codec_type = 0x%x",
+>   		       inst, inst->vpu.codec_type);
+>   
+> +	ctx->drv_handle = inst;
+>   	return 0;
+>   error_free_inst:
+>   	kfree(inst);
 
 
