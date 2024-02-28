@@ -1,142 +1,187 @@
-Return-Path: <linux-media+bounces-6076-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6077-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A738B86AEA4
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 13:03:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70ACB86AEC9
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 13:09:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 405841F285F6
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 12:03:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFB481F2424B
+	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 12:09:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A36773534;
-	Wed, 28 Feb 2024 12:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4255073527;
+	Wed, 28 Feb 2024 12:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QFvTkSYC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sECAPH8z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BB473513;
-	Wed, 28 Feb 2024 12:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0887B7350D
+	for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 12:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709121791; cv=none; b=NYEdKm1RgrFrAFpaqZaKycmRup0m2ZKG9fe5XG0Kt7ta7zLYbKovuMQpPryO3AyObfLUDpTXrDsjv/FOZUt9ls4e+cz2So9irppmEqX/7QL+X6Oy/J8XyGgVN81+w67J0vD4MTnlPyrYh4l5qola60RecsJlpKIrDkwN6FUvI1U=
+	t=1709122150; cv=none; b=hhfJEM44TJsV9ZP3y5awSY9foaDPyraGrWbQ75b9gVsCNtJapzb2lhsESKcuU2eUbzJ1YqLkC1GVpcNHSaDRvfdAYwHu4/0B1dYFk5JhrNNMYVhgLyHN5gb5AIgNG8x+b5oPx1/WQX552xcjJQTAQd96GFK1v/VqB3me/lkzTGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709121791; c=relaxed/simple;
-	bh=MpZ+7FpSdhy1jX1Eb1448QYNsWBInrp8KzudyioVXOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l96OjoPCkSM+F1K27gRfXbTz43/Hugc2ZrO5pv+bRo2ZWVh7jFZZsjKu3sJmP42yzIWe7PD4QhTU2g/Qjr2hcuL/ns7822fEfaPPOJB5NX6AKdCK+hw6ZwEUE+aK7oxZ+JjZ2hG3LbxPxi2uTwC01BN/oQHZwuoyC5ZKwnSmElA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QFvTkSYC; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709121790; x=1740657790;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MpZ+7FpSdhy1jX1Eb1448QYNsWBInrp8KzudyioVXOg=;
-  b=QFvTkSYCwaQm67HcG888SC1czCDCyQW5SVbKfl9LjzvAXIPqXRdQlIwO
-   r3I8aRLVQux9u3dcGVyLczCExjf6wbmovhuzQLLC2A2ffbqEW42NMKTLH
-   NN68f75I4w07J9Gdl3y8W0E1/a3xBltRQ2tl/lUe2g7pjKdv7HmLKmKAG
-   MjhXZ4RDUmU19IwxJBkMs+sX/SMDKXhHEFQbijmiVXQnYODowSrdoe4ER
-   u3YfY5qMKxIyB5DaLUXKKZ3z5zjhKRHd/DrOnFnZEebIpu0KNvMS5H/Px
-   WivespjbZEMdZIbFALRlFa7OKXqjp5rxAFZuNx/dYyzAIpQkJnJ3AAZXq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="7297436"
-X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
-   d="scan'208";a="7297436"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 04:03:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
-   d="scan'208";a="11988943"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 04:03:02 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id F167911F855;
-	Wed, 28 Feb 2024 14:02:59 +0200 (EET)
-Date: Wed, 28 Feb 2024 12:02:59 +0000
-From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Zhi Mao =?utf-8?B?KOavm+aZuik=?= <zhi.mao@mediatek.com>,
-	"heiko@sntech.de" <heiko@sntech.de>,
-	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"yunkec@chromium.org" <yunkec@chromium.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
-	"gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
-	Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= <shengnan.wang@mediatek.com>,
-	"hdegoede@redhat.com" <hdegoede@redhat.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"bingbu.cao@intel.com" <bingbu.cao@intel.com>,
-	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"10572168@qq.com" <10572168@qq.com>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
-	"macromorgan@hotmail.com" <macromorgan@hotmail.com>
-Subject: Re: [PATCH v6 2/2] media: i2c: Add GC08A3 image sensor driver
-Message-ID: <Zd8g81wBXyfMvPhB@kekkonen.localdomain>
-References: <20240227013221.21512-1-zhi.mao@mediatek.com>
- <20240227013221.21512-3-zhi.mao@mediatek.com>
- <CAHp75VciCJuoOwC8ozanWYqSCM=vWpiaqymJ2-gQfrSt5Ts6fQ@mail.gmail.com>
- <b4889fad324ec88eb3a22f51b0aa512cc93bd2cb.camel@mediatek.com>
- <CAHp75Vd=X9e4rOJabF4AbzGRZAF4BiNJa-C4ivOoQb7kAMy3vQ@mail.gmail.com>
+	s=arc-20240116; t=1709122150; c=relaxed/simple;
+	bh=zJbLbY1tXW+mQHFTgPyTrU4m2oPXCfcrWOTpqT/Hd7c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Elaek/Y7OD8VmVZgIZc+Suup0eW0YZrbWkhccjD5de4eA6ev+j/vNmz9/9CS9G4tBichEB2/wYRtr/trX+mHJi2izsO1wx62kFJyWBSRD91Uf71599pYMsGSar6H/dPJitL1CNiQrq0Wckour5YmzVZL4aOELClZ2hj4L3rMUhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sECAPH8z; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5643ae47cd3so7027088a12.3
+        for <linux-media@vger.kernel.org>; Wed, 28 Feb 2024 04:09:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709122147; x=1709726947; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=WDRYe/KHQlnSYq9IEFbpIIgAFOjpXxlEkxELgPs5a8I=;
+        b=sECAPH8zbCvjYP+1LqfI7F0FwT4BhSXADoEkqXnQbL2LGtvmCWsMG46T6DXqnr5ya8
+         UD/Dju7/PXmSJVUk+p5OoD2Pqu/uo/vQCNkOYd522mGG6fx/JZJ1GJPTnyFnZ5Hg+4t+
+         4ELFpykpW11GZkwVaMJIJstaZ72T+7HoOCE3H5spWGywhHc4IMbEtGZrfWMdm1PEFiwr
+         obvzc2RcZ+IdXWB7uPU3THIEN5opqD5qvXjLKIojA43rY3vkFyD6li4hwbneAHFvrX2z
+         mZr17rbmHuRRaPXMWWTy/mxbAsearLTFZfu1qjTtdOwfPtsqZ/P5y+ZR7iIjsyGHitOK
+         2TBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709122147; x=1709726947;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WDRYe/KHQlnSYq9IEFbpIIgAFOjpXxlEkxELgPs5a8I=;
+        b=DTgkFK2cq90S8XdaWnZslzkxv4fU4BhS01I9ojniBLhESnnLw2UVzg0jd+2z8Ao9qS
+         NyOCyBH7rUT97ISHwo7DGE9dRYgM+CyCcWm02nwAo0Ulykq1G2TCwW7Y5ufeStT2hngX
+         hx1We1cY7dIsV96Lk/J3G7vSepQ2RvbaL2xHEq1lZ0lYpvktAPnUWUBlCuiREOaZSFaZ
+         o9RyJW3QHIt8efQt3AYFkCzv0H6zJtO1VJmZXaH7QYViRlesp7Ax6Gkwm0EzZB1AvCCm
+         ZDqjfoVXOFaYto8EXXupKzlNWPKJNAZnlHT9C6nFABo9w/I4VuIh5bv8AvFqCrpVWQjF
+         6x5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVxNE8pB6RPQa9vmKFNqwmAuDaao+gVgIRDPnja1sccDJGCHIVOjef8ZmNeAJF0h3vYOv/bT7NVwPurKbN8Uoa1eFAB27Du5jsAg/E=
+X-Gm-Message-State: AOJu0YzRZ1ZxmbZOiVAUoGe4uX7+6ud7VBchfCkuzDIE0bbMb2Vjoite
+	HhIj4/MjUvXAQFU8KX1QHARLAwz9D4PDqNHJLirAKrcfZFlJO5+cg/2d2c3pLHg=
+X-Google-Smtp-Source: AGHT+IFdLV5ldkp0x2cr3dhraZTRWmFPQrhdR1DDCvm1U1uhhE7FIv9Lhc4520o628RK8mW0PxrgKw==
+X-Received: by 2002:a17:906:c196:b0:a40:a615:a9c4 with SMTP id g22-20020a170906c19600b00a40a615a9c4mr8913393ejz.65.1709122147305;
+        Wed, 28 Feb 2024 04:09:07 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.116])
+        by smtp.gmail.com with ESMTPSA id ps3-20020a170906bf4300b00a42ed7421b8sm1790012ejb.93.2024.02.28.04.09.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Feb 2024 04:09:06 -0800 (PST)
+Message-ID: <35e0d5e6-9a65-4a96-93d8-0007b4dee3d7@linaro.org>
+Date: Wed, 28 Feb 2024 13:09:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75Vd=X9e4rOJabF4AbzGRZAF4BiNJa-C4ivOoQb7kAMy3vQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
+ afe document
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-1-4fa1cea1667f@baylibre.com>
+ <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
+ <eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com>
+ <bd4bf6ae-350e-4ee6-a924-7dd31b2c6034@linaro.org>
+ <66e527af-0253-4565-9822-04ed84e5817c@baylibre.com>
+ <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Andy, Zhi,
-
-On Wed, Feb 28, 2024 at 11:22:13AM +0200, Andy Shevchenko wrote:
-> > Another, I also reviewed some other sensor driver code(such as
-> > gc0a08/gc2145 and imx/ov), they are all the same.
+On 28/02/2024 11:25, AngeloGioacchino Del Regno wrote:
+> Il 28/02/24 10:57, Alexandre Mergnat ha scritto:
+>> I think I got it.
+>>
+>> - mediatek,i2s-shared-clock: will be remove from DT
+>> - mediatek,dmic-iir-on: will be remove from DT
+>> - mediatek,dmic-irr-mode: will be remove from DT
+>> - mediatek,dmic-two-wire-mode: rephrase description needed
+>>
+>> I've did abstraction (despite me) that IIR settings are runtime config because the 
+>> driver implement its usage like a one-time-setup -_-'
+>>
 > 
-> They are also problematic. So what?
-
-The situation is the same in a large number of drivers, also outside the
-media tree. It's also not trivial to figure out which header should be
-included and it tends to be that if it compiles without warnings,
-developers won't bother trying to figure out what should still be changed.
-
-I wonder if this could be automated by using the C pre-processor and a
-small Perl script. :-)
-
-> > Can we keep this coding style and follow with most of those
-> > image sensor driver?
+> Yes but just one more thing I just noticed: `mediatek,dmic-two-wire-mode` - can we
+> please rename this to `mediatek,dmic-mode` ?
 > 
-> Why? We do NOT want to continue developers to avoid decreasing their
-> technical debts.
+> That'd be for consistency check mt6359.yaml and mt6358.txt
+> 
+>    mediatek,dmic-mode:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      description: |
+>        Indicates how many data pins are used to transmit two channels of PDM
+>        signal. 0 means two wires, 1 means one wire. Default value is 0.
+>      enum:
+>        - 0 # one wire
+>        - 1 # two wires
 
-I agree. People tend to copy the code from existing drivers and argue "it's
-just a driver, why bother?". That code will be soon found in a dozen other
-new driver patchsets and every time must brought up in review and fixed,
-leading to extra work for reviewers and developers. We've had quite a lot
-of work improving the current (sensor etc.) drivers and fixing up the use
-of bad patterns but this area has so far received little attention.
+Thanks for checking. Now I wonder if entire binding just ignored
+existing work and started doing things from scratch...
 
--- 
-Regards,
+Best regards,
+Krzysztof
 
-Sakari Ailus
 
