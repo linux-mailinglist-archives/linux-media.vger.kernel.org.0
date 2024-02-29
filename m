@@ -1,74 +1,74 @@
-Return-Path: <linux-media+bounces-6193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6194-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0660086D1D2
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 19:16:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B2486D1D6
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 19:16:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24FEE1C22B02
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 18:16:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0F6DB21C8A
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 18:16:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3EC37A122;
-	Thu, 29 Feb 2024 18:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C785D7A15A;
+	Thu, 29 Feb 2024 18:15:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vNHkEEma"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ruhl0gIg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7196875801
-	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 18:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725FC7BAF0
+	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 18:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709230494; cv=none; b=avJxRgU0tS/nlMZEu2yPw7o9WefwDOtdp24vl7pT8SAoiHf0r4vo+ySqKy8gs8LDv41WiIg4/ekfQVHHLM096Q26DpU6fBNyfzTJMxS3vl2jRfNQLIM+mL6TPUQlvpHVXYtcO4EutwMK6W72fYF2pe/Rg0Bj/Waihlr/4p0kCns=
+	t=1709230539; cv=none; b=XdA/pHF48IIieVnOR4aMYVzHLZbjg8Yo74ndMOqwponl8omAaGhAWm6tVY5DslTGbe6e9rOc60ajDDGztRSbIV07b1wqUnBWg69EJ7ZFwilzklhokRWuYiq1uGNNvI3pD/HmU+5vzeUMBP8Qu/rNfctR9prIfY+rMHa/bQAMGKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709230494; c=relaxed/simple;
-	bh=COTOFaOjul7Lr9bwyojRlz6o6Yfbi4a+jug/YW55M/8=;
+	s=arc-20240116; t=1709230539; c=relaxed/simple;
+	bh=Q3jL8Rb35+E9HbPrXye9ZFLN9pp0nAFTSj5e5nQFR5Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qpX5E7d1Ah5usphraJmD2LNHiN5Ldc7AHkpe4RNNOmfzeaJ1xy0UpXbBsEgMICw6MyGrdjKWRlNoaQ+FyBuE3iPLCvG9AzMS++32gA71bb3wrO1yuMT10l2wDQHcGGqeu/gaM2bGG1LnDn+lrnGIprAkllbFyPX8xu60X104WaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vNHkEEma; arc=none smtp.client-ip=209.85.208.42
+	 In-Reply-To:Content-Type; b=tQ9Uw94DLb2OobIWRplmK87ZvHNA1Zw0KRMiXgLG1TnrPXGbys3vFodPQnlt6+1CsvdX4/LKogOK3kYufAR7X8AQ8sYymAJjI4qT7tiRCaIM9L4hfApXIn3IQtsNXP8Yr2CXoU+Zkqxs0gcSWngW2JPN+kFvJe2kMFd8bOgJTEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ruhl0gIg; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-563d56ee65cso2028899a12.2
-        for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 10:14:52 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-565b434f90aso1964579a12.3
+        for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 10:15:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709230491; x=1709835291; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1709230536; x=1709835336; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nZydIBh7HEsSehFdquy9wQ4h+MkSunQkONn2zKbrxR4=;
-        b=vNHkEEmafTw94c/9eYrB0P1Y8ECm9kcyfVs+31jlQEkUrHPwqrSKYMllk7sZ83hGv4
-         LGVH+2JKkUlCJ5HrAzPSBoIKwYYoNQAzNuVLuetjkq3K8qKCTNz1jLZPnM8yw1UkwEXp
-         1GejanB+Rc3H6mz/xi8I7MBNDTIYiWOd96XQBT/atArpgVKBJtFp2NnINkdixdTkkq/6
-         CBhmQqNa2w7GWzfnIkqHaLhE95oK+0ojJbJkk1E9vdQknbFBYLHUxYCqDksmV6lu2Y1B
-         gNZFt+UJR3E/eak+8Skt9giuKauaDjWtLxZ7fcVX1MZvKUFbEFon1LKEZoaH0Qs2XOaz
-         GkFw==
+        bh=lJj8CibPtiDGTyDdaOYw2qAPSJgtV7hnAYPGEUYzkb4=;
+        b=ruhl0gIgHEtfw6Ey+baCLo6AmwqEd/hUjqS5OQ3YPOz6VamHj0rsNZciV6B2M/Wj7g
+         GIC8QQFLTWtI8t+14dCHxhQJhAO6VZUVNxWcQT+Lgn9AReArqW+EFEej4Y8t3fuAXNWx
+         E9JipGOchhYvxAwN29UtfkOG2ZHxADFZGCUzZuxEVUJQUUSFuiFsxvN7H8T0jglyKJUK
+         q/qgQym1B/Rud3YqGlWR2O29u0goxE6DhiNacEIJo2fjb1e2heoxU77h9+8nF+tk0Fi7
+         F5WxKexiO7Z1YqZStD5kDRnM3A4flMI1/Sh8RfCJHVzISOWz7BI0uoaL9KWqK03y1cKA
+         2reQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709230491; x=1709835291;
+        d=1e100.net; s=20230601; t=1709230536; x=1709835336;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nZydIBh7HEsSehFdquy9wQ4h+MkSunQkONn2zKbrxR4=;
-        b=iR+fQVB80mOaTQIpWemkKJ4H8zaUmf4I8+jehw564gdLw1WDZ1vxPFvb4zY1S95rmC
-         p8W8DVFIHvpTGOmLxxdQgUm3IVJ04SucnId5yHDFvQJ7k8n+39F080/LP0bC2+SfkYDf
-         zyCCFZcdSdUZtDCdqEVpy8tmc2CkShdRx8ImpSB4XcrRytEKZh9WezA6jZs/4m7NEDlT
-         lOMR8ON3KbTMMg+UMZkpg9F3/yh6vwlfHAT5SOlX1vt6pcshsuvJY53RxED47rkVAndK
-         /ac+4IdSpMb8p8rus/qlQIttAY8TRkXFjq7e4UuR/LgLyOgCRAZcg81d2hzIIGxqhxWK
-         xOEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXdzg2wSeJa7igNn+7AYJnGv8Ur5uAZF+D+QSMSyqLle7hKKfb/P9FcBHBa4nfSLJjrEsl+12PwGDwHYP4wv2VgBG9qkpKnhdsIAgk=
-X-Gm-Message-State: AOJu0YywQJtTXQ+33/CZtCQGJZswWeHoV14kjl4K1hQiNF+dn9PhxnyR
-	hqFJA9nfKKAZgPFTb0t+wX8FrpV0wOCljbLvYi8v7fJr3xwTb1L6vr+iHHWPE/g=
-X-Google-Smtp-Source: AGHT+IE/I33oQwhjUFfOVZB8t9pPJpT72rKDa6jqtaAPUQ95451HXbdwx+xPhv4Xre84ge74HiGi0w==
-X-Received: by 2002:a17:906:55d2:b0:a3e:ba73:8341 with SMTP id z18-20020a17090655d200b00a3eba738341mr2007201ejp.19.1709230490885;
-        Thu, 29 Feb 2024 10:14:50 -0800 (PST)
+        bh=lJj8CibPtiDGTyDdaOYw2qAPSJgtV7hnAYPGEUYzkb4=;
+        b=P2Jj9pkTqqrUkUTOYkusyN1cQe516oKFFCzaYsbakc6IjmAj5B1txCOXPMWIhzOlsL
+         dDhiieBjzyDOVviRB0UzbINkl8I7otZbLCJg3cI8pnVhuUUUEDbrrV+860+7ecij7SMG
+         B1LgUYUSztt3yCpcrLvAX8mnuV1zgp+mUE4UdBj5V2WeAczygV3MB4h30AuNhwXnVFj+
+         x9Qr7SQlAooYhshRgdauHSzQ+BGk+45r3JCoinQwB/vO8zm4nMZcw183d7/DcR4bJPtz
+         nZ+POiWS1gqyvNOFR98mkt6hwzn4cLexTtJhNKD+zD3piHpfhqp8uXlWBf/XLowyAEwp
+         tIkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVFL1zqvh1Wo1N10DBw+7DZ2PHMSr8eH5bBQFHGRAh5rGUrhixGs2yra+1rUdcNq9GTEI1NNcBEUhmIHsLaXkatfTQ0f1DS3ijPKh8=
+X-Gm-Message-State: AOJu0Ywslj3t5X1UmK84wXC6gHCDen8iXVJowIY9owB6VX48Aw7dAkqw
+	WOS36Sv9csnAipm/O5w4f6Z+DmB99WJPxPOgasdIi1wn4z9EWMRs8bfGPPrLtKA=
+X-Google-Smtp-Source: AGHT+IFwraYz08DtS7ouTn6NlMiu1ZRPB+bcAgMZrz+0gMXTVRDI94gjd9ajv9FZHvR0E4ZkA16HzA==
+X-Received: by 2002:a17:906:b891:b0:a43:f170:bbdb with SMTP id hb17-20020a170906b89100b00a43f170bbdbmr2175503ejb.71.1709230535936;
+        Thu, 29 Feb 2024 10:15:35 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id a9-20020a170906244900b00a43ab37c3besm906314ejb.195.2024.02.29.10.14.49
+        by smtp.gmail.com with ESMTPSA id a9-20020a170906244900b00a43ab37c3besm906314ejb.195.2024.02.29.10.15.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 10:14:50 -0800 (PST)
-Message-ID: <bf892e5b-be7a-4197-9e68-5199e3aada23@linaro.org>
-Date: Thu, 29 Feb 2024 19:14:48 +0100
+        Thu, 29 Feb 2024 10:15:35 -0800 (PST)
+Message-ID: <df7f2b66-fd16-433a-b55b-ea8dc807fd96@linaro.org>
+Date: Thu, 29 Feb 2024 19:15:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,13 +76,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] media: dt-bindings: nxp,imx8-isi: Allow single port
- for single pipeline models
+Subject: Re: [PATCH 3/3] arm64: dts: imx8mn: Use single port for ISI
 Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To: Adam Ford <aford173@gmail.com>,
  Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
@@ -90,9 +90,8 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 References: <20240223140445.1885083-1-alexander.stein@ew.tq-group.com>
- <20240223140445.1885083-3-alexander.stein@ew.tq-group.com>
- <20240223141630.GA1313@pendragon.ideasonboard.com>
- <20240223141731.GB1313@pendragon.ideasonboard.com>
+ <20240223140445.1885083-4-alexander.stein@ew.tq-group.com>
+ <CAHCN7xJ7uGXL6BF7CCvtqVQHy8X+x5nxJc+HS2_Mkd=EBT2g5Q@mail.gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -138,37 +137,26 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240223141731.GB1313@pendragon.ideasonboard.com>
+In-Reply-To: <CAHCN7xJ7uGXL6BF7CCvtqVQHy8X+x5nxJc+HS2_Mkd=EBT2g5Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23/02/2024 15:17, Laurent Pinchart wrote:
-> On Fri, Feb 23, 2024 at 04:16:31PM +0200, Laurent Pinchart wrote:
->> Hi Alexander,
->>
->> Thank you for the patch.
->>
->> On Fri, Feb 23, 2024 at 03:04:44PM +0100, Alexander Stein wrote:
->>> In case the hardware only supports just one pipeline, allow using a
->>> single port node as well.
->>
->> This is frowned upon in DT bindings, as it makes them more complicated
->> for little gain. The recommendation is to always use a ports node if a
->> device can have multiple ports for at least one of its compatibles.
+On 23/02/2024 16:29, Adam Ford wrote:
+> On Fri, Feb 23, 2024 at 8:09 AM Alexander Stein <
+> alexander.stein@ew.tq-group.com> wrote:
 > 
-> And reading the cover letter, I see this causes warnings. I think we
-> need guidance from Rob on this.
+>> The ISI on i.MX8M Nano only has one port/channel, so use the single port
+>> node. Fixes the DTBS_CHECK warning:
+>> /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node
+>> 'port@0', #address-cells/#size-cells are not necessary
+>>
+>>
+> Should we add  fixes tags to both the bindings and the dts?
+> 
+> adam
 
-Here was similar case:
-https://lore.kernel.org/all/20240227142440.GA3863852-robh@kernel.org/
-and @Rob recommendation was to just use ports.
-
-It's true it causes warnings... or I should say - it was causing
-warnings (one of my last warnings in Samsung DTS for W=1).
-
-I wonder what's the base of this patchset?
-
-https://lore.kernel.org/linux-samsung-soc/20231122-dtc-warnings-v2-1-bd4087325392@kernel.org/
+No, because original code is correct and we are just choosing here one
+style over another. "style" fixes should not be backported.
 
 Best regards,
 Krzysztof
