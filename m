@@ -1,174 +1,114 @@
-Return-Path: <linux-media+bounces-6142-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6143-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCAE86C8F7
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 13:17:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E2486C91A
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 13:22:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D22E6B22BC3
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 12:17:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 067161F25276
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 12:22:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C457D3E2;
-	Thu, 29 Feb 2024 12:17:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A63B07D3F0;
+	Thu, 29 Feb 2024 12:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W4tYd70x"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="zLuFe7ZB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600F67CF23
-	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 12:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511487D09C;
+	Thu, 29 Feb 2024 12:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709209015; cv=none; b=V92oNWmBvg2qr+DtGBWOv+p5SLzxVFEy5XrHKstUhxhX2j9zhLFqlvu19IXx0Pqhyj5tHBxLxKPwfKoI/h8MqPFIvov9hszUyQQMD0HUvXQJq3xUaeOQLiEely28mcSrwzwoiIYFk01zfrsr6YYXpdInAbZaOjYSnzYmSXfK3hs=
+	t=1709209292; cv=none; b=nygQZAiRf+1bYbh+GMMLquRP7Xam6ZhExhwMdWfoO8iq00hwbcSkaHtUnmUOCsJIYQ6kAYJeGMQpZMIldXIOwETExn7b9+p3Vkiq1jmK9sdEaYwT+Mdvuf1pMqJHYMMEncUD7pHWfdaajTWgnWE+r4osAW5Ubu8Qi+trZtHYpAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709209015; c=relaxed/simple;
-	bh=Subnlbq9ukBTdcDxZGekPE3doKjkOdUyd/6oTnlz53U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oq2wXzur4/oB1NCtarG2b2foD3SdyHAj6iuyr/rQ8yRonV2C/7zleBXDa5GU2sxbjy34eeldPSVFXyZdhKi1/QJhpHA3TQjphVvAa6IvlU97oYGOfIXt/efov9u5XHQ+Mr8JqlBinQdHOPl9cNx3j9rZjvi6ZkJbIwahUxfGgF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W4tYd70x; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a26fa294e56so158850266b.0
-        for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 04:16:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709209004; x=1709813804; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fLX7C6230jQYiDbyGpCWMxcnBUELrjpD93ih7q+7c8Q=;
-        b=W4tYd70xt4AJvh8085w4fLxlLNNdsXXdYH3xYFgvKG8BwEvIP9jq+Btem++R9NQPmu
-         aFNeK30f/0IVS7i2G0dCg8WkdIMwoa6a0qw8InRMCLBa718QyqLHxccoWpHkqXjpWlGR
-         HuSoQCVaBW32+1fkO12SnRfPq+KbNLLKD8OF0Fs8SdcE8sMQf+vtyqjozUkMUDnNV0dJ
-         f2djVUbQQ+8r1hGZDW085+cMjSCjb7Cz1QIlig0dGgHSeoJuHkfowAiAbjR+qpQmm1CE
-         Wc4ucH6FYZ1tjWsyehs+4Q7tNFIhneH9fW4xJ3SSwr6AXc958Buma247OViGM2lPPNsa
-         xyrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709209004; x=1709813804;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fLX7C6230jQYiDbyGpCWMxcnBUELrjpD93ih7q+7c8Q=;
-        b=i2+zmPjDlDXVyd7LYMMrp1Ki9OAdj14Rta/AtERFrPxEz8oxMMYXSUhb/xhnB+swJK
-         qn2TA3wUTjswwixmllgdgF80O9k/4OVEBljoT+22yx0IkpC86hkf1pAwp5QfXQFi6y6c
-         fBWuBCbTb5+odJsoLOkQOTJP2TCBlvivxfO7Ec5BTzcqAHV979H5qOQV1Ef2e5qSxz0u
-         /lGNNt+mk3MTfN1GUtL60ngSLvaO+RtIQOKHRQNOqgBae/nUep3LPsKS3O1LjQreamWF
-         uIM+FheqScLxXh9qFwN1XAja5lloh43D/iRUtJ7Z/N3K7ypMUnXI7xF7oLIow9PWMElV
-         1w4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXcdDDhAm5St9k9UKihrUdbWr1/9BQP0fsWYRbfVVY5HQR5IJm8Xgw5kHVPe/3Fy+gkVDsZzw/kcgctcQ//42hFN8l2JFSQyJc10es=
-X-Gm-Message-State: AOJu0Yx6LXEbXCI4jTpC9Jq7oSQ6YDOXSMKK7moUrsfNVGNzh9OKmKLM
-	4KPHG0t92JySRFwOpEsEFZxtuzZTfmzZ7AALSZr4Ed7QQG3CrWlvfaTcuGCHo5E=
-X-Google-Smtp-Source: AGHT+IFp5mf2iupLd8cVbWGJCRW3+HVMaHq7WUBwASaF4SUyl4vBjnsWV2FVhH0TjY8HIZOSVyXgww==
-X-Received: by 2002:a17:906:d0d9:b0:a3e:dfce:daf0 with SMTP id bq25-20020a170906d0d900b00a3edfcedaf0mr1332820ejb.39.1709209004238;
-        Thu, 29 Feb 2024 04:16:44 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id dx7-20020a170906a84700b00a3f45b80563sm630715ejb.77.2024.02.29.04.16.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 04:16:43 -0800 (PST)
-Message-ID: <0a7a8e83-8724-4bec-8b3d-a58cc0a70395@linaro.org>
-Date: Thu, 29 Feb 2024 13:16:41 +0100
+	s=arc-20240116; t=1709209292; c=relaxed/simple;
+	bh=MSR7Gohd9L3H1wQbofEpvc+047GL8Hkx47b8e8xjZoY=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=NzfkbKSTcn4iK5II6bLSb+H6k/fMmy7EvVqAgUVpiK3d4OaGml+/bGFCfxKREkq9wR6V2XMEOzeS1HdRKLJr90E2OlfcFZTu7/kjiCpRUTh2vUB1Mzxcs/G/oHaYL2OS85nL1F8yVvR74qKstnK+quLg/VquC1BfSN3zl6VXBYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=zLuFe7ZB; arc=none smtp.client-ip=203.205.221.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1709209285; bh=dU9WJsM0VvFTwAl60XiV2GQzCopZDxedDmkKAu/mywc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=zLuFe7ZBwRoc+faIla3ad/ExTAx0Rh69HtFTsevCtxonUZfXKzCraBpULdlD2ZnuM
+	 vufO9Zuu8u395UWgYv2KYqOLAQMUc4zXFndLxnxSwvqDenqoDCcCk2b6+161C+1qwP
+	 e58Bf2K2/QCi7uT+5IM6VwqPZeJFxWbCbUYpmSj4=
+Received: from pek-lxu-l1.wrs.com ([111.198.228.140])
+	by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
+	id 5563B03A; Thu, 29 Feb 2024 20:21:22 +0800
+X-QQ-mid: xmsmtpt1709209282tqirugosv
+Message-ID: <tencent_70C492C20645C99DEEC9EED28C8E27D40606@qq.com>
+X-QQ-XMAILINFO: MtZ4zLDUQmWfqDyLt8mHh4sepj+IqaTuKdCoCZQQq7B6VdFKCOOR22OzPvhGd+
+	 erMlmfzNiaYFwG6RnrohRlmnnXXJcg2/QGgS5PTEFW73iYyAlwn4wUYK5xTPOK8NVQl85ytkFfmv
+	 F2zOcs9pwq5GWnc63lkz6giUBIN8tcPGq3WRiV726ZWh49xWXT0CjNeyQHpUDLjep7cRxB8ll54o
+	 vvLJdZ1uHJN+8Ioc8+t7XYacScvMf6pJ8bCwdUlyhJREF3RHJfTC9MnB0YIMS3yALCR3NE2RAn8y
+	 QubRbWURu+/tFsCb7P/BigomPU8iJIbVZmsvW5818emUB9D9gyfLz14VyCfjX5zLV7cfj2wVqd9B
+	 n/QpIgGAxLXWr0789SU+wPPMmJ8Pip4GyYmN8dcENXFDa4Gn2vZRfpTZzj83ehUaUrF7QdeH6/so
+	 JLKConi+EZGAmDF4tiCAPR1eYdFLremb+U5Aa9Q6+hU3uwzMFNshcsriYhOWUp846YFkyck3SaHV
+	 MZhjwu0sL5xQJNUK3RGE5wdybGy8hRXZf4bceHCpU95lVTwi8b0+6vKgzU4pLfXPwK9TytZ+U9ap
+	 BvxEVlxKJFW6mD6j671tbXs1rRRgafNlQA/7rSDJOaESfAI4zmavVVOcFf4BXwCmDVADtHHe5Xuo
+	 DFgdB7C8UET45g+oe5xGr2CW7a4FiSJ9AXHbe/FphXDdIqUaY1Ju1gDEd1yEB1I0oEYuQHQyj7To
+	 h+nAalUaqbo3kt6iIX+rveWRprGGReBd0qJJ+BNiW+CrAi/WNIkT2QN7dLrIrg5WFkGaS6TEbyzs
+	 fp4HTLQ0SJx9YGhrKrbhVfnfCRzpei1Z2MOTNawRf/tuCKzWX1xIXUZUseZWdhtZmKhZJn9TheHB
+	 hqYXXjPpphy29mM3kkceIQCmI7j86WmoTgqlPjyiqo7KpIV30ja5g1J5aSeS9NWQ==
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+2622b51b35f91a00ea18@syzkaller.appspotmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	m.szyprowski@samsung.com,
+	mchehab@kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	tfiga@chromium.org
+Subject: [PATCH] media: fix task hung in vb2_video_unregister_device
+Date: Thu, 29 Feb 2024 20:21:22 +0800
+X-OQ-MSGID: <20240229122122.978268-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <0000000000008faf0a06126a0ffb@google.com>
+References: <0000000000008faf0a06126a0ffb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: Add Imagination E5010 JPEG
- Encoder
-Content-Language: en-US
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Devarsh Thakkar <devarsht@ti.com>
-Cc: mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.gaignard@collabora.com, laurent.pinchart@ideasonboard.com,
- praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
- j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com,
- vijayp@ti.com, andrzej.p@collabora.com, nicolas@ndufresne.ca, afd@ti.com,
- milkfafa@gmail.com
-References: <20240228141140.3530612-1-devarsht@ti.com>
- <20240228141140.3530612-2-devarsht@ti.com>
- <20240229102623.ihwhbba4qwzvxzzq@basti-XPS-13-9310>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240229102623.ihwhbba4qwzvxzzq@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 29/02/2024 11:26, Sebastian Fricke wrote:
-> Hey Devarsh,
-> 
-> On 28.02.2024 19:41, Devarsh Thakkar wrote:
->> Add dt-bindings for Imagination E5010 JPEG Encoder [1] which is implemented
->> as stateful V4L2 M2M driver.
->>
->> The device supports baseline encoding with two different quantization
->> tables and compression ratio as demanded.
->>
->> Minimum resolution supported is 64x64 and Maximum resolution supported is
->> 8192x8192.
->>
->> [1]:  AM62A TRM (Section 7.6 is for JPEG Encoder)
->> Link: https://www.ti.com/lit/pdf/spruj16
->>
->> Co-developed-by: David Huang <d-huang@ti.com>
->> Signed-off-by: David Huang <d-huang@ti.com>
->> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->> Reviewed-by: Rob Herring <robh@kernel.org>
-> 
-> hmmm when did Rob give his reviewed by on this patch? (As this is not a
-> DT binding I find that odd)
+vb2_video_unregister_device() will get vb2q_lock, so usbtv_video_free() does
+not need vb2q_lock.
 
-This is a DT binding, which is clearly expressed in subject prefix
-(proper one) and the patch contents.
+Reported-and-tested-by: syzbot+2622b51b35f91a00ea18@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ drivers/media/usb/usbtv/usbtv-video.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
+index 62a583040cd4..b55f432b44d4 100644
+--- a/drivers/media/usb/usbtv/usbtv-video.c
++++ b/drivers/media/usb/usbtv/usbtv-video.c
+@@ -963,7 +963,6 @@ int usbtv_video_init(struct usbtv *usbtv)
+ 
+ void usbtv_video_free(struct usbtv *usbtv)
+ {
+-	mutex_lock(&usbtv->vb2q_lock);
+ 	mutex_lock(&usbtv->v4l2_lock);
+ 
+ 	usbtv_stop(usbtv);
+@@ -971,7 +970,6 @@ void usbtv_video_free(struct usbtv *usbtv)
+ 	v4l2_device_disconnect(&usbtv->v4l2_dev);
+ 
+ 	mutex_unlock(&usbtv->v4l2_lock);
+-	mutex_unlock(&usbtv->vb2q_lock);
+ 
+ 	v4l2_device_put(&usbtv->v4l2_dev);
+ }
+-- 
+2.43.0
 
 
