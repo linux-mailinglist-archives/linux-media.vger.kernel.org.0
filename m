@@ -1,184 +1,126 @@
-Return-Path: <linux-media+bounces-6131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6133-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544E786C575
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 10:36:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F48586C621
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 10:56:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3CC11F270A1
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 09:36:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2E8A285E81
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 09:56:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DECB6086E;
-	Thu, 29 Feb 2024 09:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33874629E8;
+	Thu, 29 Feb 2024 09:56:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="TgwHBu2L"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="N/cP+7EM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF47C5788F;
-	Thu, 29 Feb 2024 09:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203686214F;
+	Thu, 29 Feb 2024 09:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709199389; cv=none; b=PqtztJk5RZdy91ZsDR1I7kQTqnKO06XpnPPZzRmGxIUDhTcKuW+74rziL8rRWDQs8r1PwB2raJFtR2y0YrUihpSyfMVHnkkhr2t8+7KeHApt+dXk0kjttV447V0FKug65OEN0FmW4fV99EeYLrdL+Ksjx+baEQ2OSp9Hz7mQu+8=
+	t=1709200582; cv=none; b=ENItuwfM7CpXCWNy+LvhnUDMLr8zZh5N1aewZ+nlGQIeyzFOelIMW2Du689qKY06PWjJOVcMbFzau7vWshdW4vWhe58t7VKNCEUaeELMH3aiNiv5X8Kgd93h+zEsrwfPQDmtNxITMr7j4ILlG84tPPuMuq2cgPICOZX5siac37A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709199389; c=relaxed/simple;
-	bh=6sGHyawCeXKyw6Rtv98rsGHjfxpOvkfBT9TY5+S/eY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ARQgkMT7VCBgKFAmiKMoN4zHHRtRvIWuBHMqxAgdlrUNwfZ1yHYZRMzHRouzDAVUDkjG0lU+vlMCehGjt85hIgJXi3bhg8PAehYY6YRFkRL2CQ1aIDsaZi+CD1xM3LHIIUk96UroRcOg575KPHVHsBiH7KqTjrEPLCJuv1K9Bc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=TgwHBu2L; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41T4luWM014622;
-	Thu, 29 Feb 2024 10:36:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=bS+bJvkfy7DuArCxhI/IT1mvSmqqENxhxsxmJTMZJRQ=; b=Tg
-	wHBu2Loq6q5dhbzWFi5EeEalO3CkcFrv5sSmh4VPs2VbmXNoNioUTb+J6g80EJbO
-	Jvkgq3THuNAU7F3cGLediPm29FvGHkso4E6a/Onj1JoYbVlTvRW5pTlI3IzV92+Z
-	d7VG7ykF8o0+S00YPOkXEPboISgdZUHQqdjZzF47NNGQVd6jaUk+iZ9CbfNPSGMd
-	rSjeVV1oNwgd2/2fKlOnooEZg/ymE7lTXVG7lk7Dgkskgw8f+XWGoSJouQCcSLQ+
-	eih0a92P+mn8aIQUdcGUaBCepXyyzDsrkLqUhkjH2nvDLz+I4oPG9y1U7/o3ePgq
-	t9UlYnaikBfc1528lfsw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3whf4bhg83-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 29 Feb 2024 10:36:06 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 9600D40047;
-	Thu, 29 Feb 2024 10:35:47 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 01AF52504E1;
-	Thu, 29 Feb 2024 10:34:55 +0100 (CET)
-Received: from [10.201.21.122] (10.201.21.122) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 29 Feb
- 2024 10:34:53 +0100
-Message-ID: <48590723-4495-47ca-89b8-1a858e55fa09@foss.st.com>
-Date: Thu, 29 Feb 2024 10:34:53 +0100
+	s=arc-20240116; t=1709200582; c=relaxed/simple;
+	bh=oX6D0KfNi01U7tSsTaFJWOaYfQ65vpLBSdYFEZ0GUsk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=APRucDEANP4hjKy9P8FgTgOdSO016CNE+GPpB0hepX8ZrPgup6YOfjcLSPIOsWtcFRgy69ea06H9OrXCasqcgdyu8Iz/Ud+qqwIgdAQV5571dJAd4qCyXIaJMMKlPXKpGjUFqcIVwv8K4YmC8Wog4acvFSznDqGWKXGHvDhXAR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=N/cP+7EM; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: c6aedc08d6e811ee935d6952f98a51a9-20240229
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=8mZe/2ayLC1nbMG8YNHZKyZz78ymXaSQ8iXw5n6PhEY=;
+	b=N/cP+7EMBel7PGEdQ2X0OEdtEbJgZsV+mBcucne+5S43i4PWCLE86YdKO5dJjfgaOpE4u4HX3zAMei/q+c2J3LNmyjA8TlgUeHBhvcZ1+7pgi2bXb7oaQKVQWn1nEG17pR5u8XY/MkZFgVD9UCwqzpg1Oiv+UXfEiSxO/4pbaO0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:0d075454-d480-45ba-8505-9dfaad702b72,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:6f543d0,CLOUDID:45477384-8d4f-477b-89d2-1e3bdbef96d1,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: c6aedc08d6e811ee935d6952f98a51a9-20240229
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
+	(envelope-from <yunfei.dong@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1439398416; Thu, 29 Feb 2024 17:56:14 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 29 Feb 2024 17:56:12 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 29 Feb 2024 17:56:12 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+	<nfraprado@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>
+CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, "Yunfei
+ Dong" <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH 0/3] media: mediatek: vcodec: fix vcodec smatch warning
+Date: Thu, 29 Feb 2024 17:56:08 +0800
+Message-ID: <20240229095611.6698-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v6 0/5] Add support for video hardware codec of
- STMicroelectronics STM32 SoC series
-Content-Language: en-US
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Ezequiel Garcia
-	<ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        Laurent Pinchart
-	<laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Almeida
-	<daniel.almeida@collabora.com>,
-        Benjamin Mugnier
-	<benjamin.mugnier@foss.st.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Mauro
- Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>
-CC: Marco Felsch <m.felsch@pengutronix.de>, Adam Ford <aford173@gmail.com>
-References: <20240110104642.532011-1-hugues.fruchet@foss.st.com>
-From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20240110104642.532011-1-hugues.fruchet@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-29_02,2024-02-27_01,2023-05-22_02
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--5.692400-8.000000
+X-TMASE-MatchedRID: GsIztItoYiqoft0ZW3r/iTCaEJt46PppMZm0+sEE9mv7efdnqtsaE2qs
+	CKGiHb6RWXHfTJ/rMPZKhBUJyxjhBiY0eULsNBXlngIgpj8eDcAZ1CdBJOsoY8RB0bsfrpPIfiA
+	qrjYtFiQtkoiozVGxQwPgUY24KmPEUzhAlmaaSM7Hh1Xl/pN1bX7cGd19dSFd
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--5.692400-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	C12846495FBB9F31E1C1D1D305CD86C0CE38D318B493888AF7439DD448A5A48B2000:8
+X-MTK: N
 
-Hi
+Fix below smatch static checker warning from [bug report]:
+The patch 397edc703a10: "media: mediatek: vcodec: add h264 decoder
+driver for mt8186" from May 12, 2022 (linux-next), leads to the
+following (in development) Smatch static checker warning:
 
-On 1/10/24 11:46, Hugues Fruchet wrote:
-> This patchset introduces support for VDEC video hardware decoder
-> and VENC video hardware encoder of STMicroelectronics STM32MP25
-> SoC series.
-> 
-> This initial support implements H264 decoding, VP8 decoding and
-> JPEG encoding.
-> 
-> This has been tested on STM32MP257F-EV1 evaluation board.
-> 
-> ===========
-> = history =
-> ===========
-> version 6:
->     - Use a single file for VDEC and VENC variants as suggested by Alex Bee
->     - Fix some typos raised by Sebastian Fricke
->     - Add Krzysztof Kozlowski Reviewed-by
-> 
-> version 5:
->     - Precise that video decoding as been successfully tested up to full HD
->     - Add Nicolas Dufresne Reviewed-by
-> 
-> version 4:
->     - Fix comments from Nicolas about dropping encoder raw steps
-> 
-> version 3:
->     - Fix remarks from Krzysztof Kozlowski:
->      - drop "items", we keep simple enum in such case
->      - drop second example - it is the same as the first
->     - Drop unused node labels as suggested by Conor Dooley
->     - Revisit min/max resolutions as suggested by Nicolas Dufresne
-> 
-> version 2:
->     - Fix remarks from Krzysztof Kozlowski on v1:
->      - single video-codec binding for both VDEC/VENC
->      - get rid of "-names"
->      - use of generic node name "video-codec"
-> 
-> version 1:
->    - Initial submission
-> 
-> Hugues Fruchet (5):
->    dt-bindings: media: Document STM32MP25 VDEC & VENC video codecs
->    media: hantro: add support for STM32MP25 VDEC
->    media: hantro: add support for STM32MP25 VENC
->    arm64: dts: st: add video decoder support to stm32mp255
->    arm64: dts: st: add video encoder support to stm32mp255
-> 
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_if.c:351
+vdec_h264_slice_decode() potential NULL container_of 'fb'
 
-DT patches ([4]&[5]) applied on stm32-next. I assume that dt-bindings 
-patch will go through the media tree.
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:337
+vdec_vp8_slice_decode() potential NULL container_of 'fb'
 
-Thanks
-Alex
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:728
+vdec_h264_slice_single_decode() potential NULL container_of 'fb'
 
+---
+Yunfei Dong (3):
+  media: mediatek: vcodec: fix h264 multi statless decoder smatch
+    warning
+  media: mediatek: vcodec: fix vp8 stateless decoder smatch warning
+  media: mediatek: vcodec: fix h264 stateless decoder smatch warning
 
->   .../media/st,stm32mp25-video-codec.yaml       |  49 +++++
->   arch/arm64/boot/dts/st/stm32mp251.dtsi        |  12 ++
->   arch/arm64/boot/dts/st/stm32mp255.dtsi        |  17 ++
->   drivers/media/platform/verisilicon/Kconfig    |  14 +-
->   drivers/media/platform/verisilicon/Makefile   |   3 +
->   .../media/platform/verisilicon/hantro_drv.c   |   4 +
->   .../media/platform/verisilicon/hantro_hw.h    |   2 +
->   .../platform/verisilicon/stm32mp25_vpu_hw.c   | 186 ++++++++++++++++++
->   8 files changed, 284 insertions(+), 3 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
->   create mode 100644 drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-> 
+ .../mediatek/vcodec/decoder/vdec/vdec_h264_req_if.c    |  9 +++++++--
+ .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c       |  9 +++++++--
+ .../mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c     | 10 +++++++---
+ 3 files changed, 21 insertions(+), 7 deletions(-)
+
+-- 
+2.25.1
+
 
