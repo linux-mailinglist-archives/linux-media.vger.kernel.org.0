@@ -1,145 +1,228 @@
-Return-Path: <linux-media+bounces-6119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6120-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E9986BF41
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 04:03:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 814D586BFC1
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 05:06:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26D7D1F23FA3
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 03:03:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9DE62B2471E
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 04:06:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 453C7364D8;
-	Thu, 29 Feb 2024 03:03:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72008383AC;
+	Thu, 29 Feb 2024 04:05:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="iCAyrNOE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0bGwvd8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B225364A4;
-	Thu, 29 Feb 2024 03:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D19C38382
+	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 04:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709175782; cv=none; b=p2X26LO2aPNvmJ0BYzn5Bf0Dr7SwPg0jIv6gTIW9NQhQt2RC+DFbgC76J/p2RGu2D2NGv/iynXlt9GhAqo4g8GoqBcLHrNgh1WeQxT0m/GsMSf/l5YmXWfWfarf1iuTCewIpRAb7KCKYBk6oPJ0rAf6yntD20DvWFWwRBhhzTfs=
+	t=1709179540; cv=none; b=A67yXr7op7Vl8n/+qZXESgQV1TNNNp5zLC1g58mrVXH+nIKUo7QOc0WaN73+IBK0JkuUg0CH8kBM7CV7HTydONo/zx783Hfb1MieOyZoMQDLLONUa7Z+Rm9T/aTsITiR856CcfmD5RhWlpCuckxIEUoNw8KzYEFEjWM14rqOOqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709175782; c=relaxed/simple;
-	bh=d5YeaavC8vb1W+Ug/VmFLsdkSOi7EID7OlQsAE8E4fQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W09ByOyoG/PXjDwgja6ElxI98luE0NSDX+t2++YkIf8T2IZz8CAhrtm+JInIIhMv94zJcFWyDnw7yLcb/u4v/qZ6I81BMXZ7cvXSLbZJfg/EvgRFLR+SdweoNBog9Apcv2m+c478xqmUVFgA0hzmwyGVIiQrEAlUbghHc0IdUEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=iCAyrNOE; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 083293a2d6af11eeb8927bc1f75efef4-20240229
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=aYhv12Ei/4yfF7DsV5pcHLs6C/tsptVLgekgyTfK2o0=;
-	b=iCAyrNOEQs9Co0VSv0GRswhR6Bf56YLJoqqT1eBCOd5DVcyEtkqbN/+LvByPUNNoBkNPoayMBAdbw3W6Rhta8oufRgHXyYZ3HVHSIMMlzAYV7ts/oYRjOm5dJWRkWnQ4ZYFek59zSk1bKSIZzXHy4/YnaWSntZ6/gVbG7mSMmv4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:0dd5f1ff-7977-4477-8f68-18c58b84eb8b,IP:0,U
-	RL:0,TC:0,Content:0,EDM:-30,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-30
-X-CID-META: VersionHash:6f543d0,CLOUDID:5f2353ff-c16b-4159-a099-3b9d0558e447,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:2,IP:nil,UR
-	L:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:
-	1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 083293a2d6af11eeb8927bc1f75efef4-20240229
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-	(envelope-from <irui.wang@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1682834460; Thu, 29 Feb 2024 11:02:54 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 29 Feb 2024 11:02:52 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 29 Feb 2024 11:02:51 +0800
-From: Irui Wang <irui.wang@mediatek.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Tiffany Lin <tiffany.lin@mediatek.com>, Matthias
- Brugger <matthias.bgg@gmail.com>, <angelogioacchino.delregno@collabora.com>,
-	<nicolas.dufresne@collabora.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
-	Longfei Wang <longfei.wang@mediatek.com>, Maoguang Meng
-	<maoguang.meng@mediatek.com>
-CC: Irui Wang <irui.wang@mediatek.com>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v2] media: mediatek: vcodec: Handle VP9 superframe bitstream with 8 sub-frames
-Date: Thu, 29 Feb 2024 11:02:49 +0800
-Message-ID: <20240229030249.3404-1-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1709179540; c=relaxed/simple;
+	bh=8s2HSg5BMhwm4rXrCpUXL0T9z1tuQTvDTejfQIVWQno=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tKHojRM5W27D+QBGFryNW5kF0oJ6VRjgtIXTLpaRlkoKp/qDjBRt2W584B2zCiSFdtvycpF9CMWek/2sAnHUXs/0HNPr8dsVpQx39ggEmkjmFhvc4vGucZgXbXcf5b4VRtI6Wbm0hOFe5kCa8oQ7NS5gdrJEomKarPmNrmXoW1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0bGwvd8; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709179538; x=1740715538;
+  h=date:from:to:cc:subject:message-id;
+  bh=8s2HSg5BMhwm4rXrCpUXL0T9z1tuQTvDTejfQIVWQno=;
+  b=b0bGwvd8GhSB8KnU0JknACV2GsAO9WIeS+0XIc1oeiHac3CVI0VqI2pl
+   NyIbtazLD2CJiHk5ZMq+ixAR/zGRD6accFTEjiGxTe5BhP140AiAo+eBS
+   dcv1LuDIFyV47X0k6aIauvcuxFgo0ILF3BYUWHXXVrTMKDefNLQoDNCOp
+   fImojlhOltrr+Ftc1o/aaxo6TsLkYZZ6jDiafiEAfHSi/kaaSGl3cYqNF
+   woLuO6wBb/kmSauMuMloHESMWT31U7EOxK03/jN3woH2lY4WTtwRBH5yY
+   djEexUnzJ0TmqQcV9XbsGp2SzqroO9DrsVCDhMs1iJN9yW6c8cVFV62i9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3474524"
+X-IronPort-AV: E=Sophos;i="6.06,192,1705392000"; 
+   d="scan'208";a="3474524"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 20:05:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,192,1705392000"; 
+   d="scan'208";a="12375696"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 28 Feb 2024 20:05:36 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rfXfD-000Cdl-0q;
+	Thu, 29 Feb 2024 04:05:05 +0000
+Date: Thu, 29 Feb 2024 12:03:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ bfb1b99802ef16045402deb855c197591dc78886
+Message-ID: <202402291223.HwCzejYS-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 
-The VP9 bitstream has 8 sub-frames into one superframe, the superframe
-index validate failed when reach 8, modify the index checking so that the
-last sub-frame can be decoded normally with stateful vp9 decoder.
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: bfb1b99802ef16045402deb855c197591dc78886  media: mediatek: vcodec: avoid -Wcast-function-type-strict warning
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
----
-changed with v1:
- - add a new define 'VP9_MAX_SUPER_FRAMES_NUM' for superframes.
----
- .../mediatek/vcodec/decoder/vdec/vdec_vp9_if.c        | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+elapsed time: 730m
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.c
-index 55355fa70090..039082f600c8 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.c
-@@ -16,6 +16,7 @@
- #include "../vdec_drv_base.h"
- #include "../vdec_vpu_if.h"
- 
-+#define VP9_MAX_SUPER_FRAMES_NUM 8
- #define VP9_SUPER_FRAME_BS_SZ 64
- #define MAX_VP9_DPB_SIZE	9
- 
-@@ -133,11 +134,11 @@ struct vp9_sf_ref_fb {
-  */
- struct vdec_vp9_vsi {
- 	unsigned char sf_bs_buf[VP9_SUPER_FRAME_BS_SZ];
--	struct vp9_sf_ref_fb sf_ref_fb[VP9_MAX_FRM_BUF_NUM-1];
-+	struct vp9_sf_ref_fb sf_ref_fb[VP9_MAX_SUPER_FRAMES_NUM];
- 	int sf_next_ref_fb_idx;
- 	unsigned int sf_frm_cnt;
--	unsigned int sf_frm_offset[VP9_MAX_FRM_BUF_NUM-1];
--	unsigned int sf_frm_sz[VP9_MAX_FRM_BUF_NUM-1];
-+	unsigned int sf_frm_offset[VP9_MAX_SUPER_FRAMES_NUM];
-+	unsigned int sf_frm_sz[VP9_MAX_SUPER_FRAMES_NUM];
- 	unsigned int sf_frm_idx;
- 	unsigned int sf_init;
- 	struct vdec_fb fb;
-@@ -526,7 +527,7 @@ static void vp9_swap_frm_bufs(struct vdec_vp9_inst *inst)
- 	/* if this super frame and it is not last sub-frame, get next fb for
- 	 * sub-frame decode
- 	 */
--	if (vsi->sf_frm_cnt > 0 && vsi->sf_frm_idx != vsi->sf_frm_cnt - 1)
-+	if (vsi->sf_frm_cnt > 0 && vsi->sf_frm_idx != vsi->sf_frm_cnt)
- 		vsi->sf_next_ref_fb_idx = vp9_get_sf_ref_fb(inst);
- }
- 
-@@ -735,7 +736,7 @@ static void get_free_fb(struct vdec_vp9_inst *inst, struct vdec_fb **out_fb)
- 
- static int validate_vsi_array_indexes(struct vdec_vp9_inst *inst,
- 		struct vdec_vp9_vsi *vsi) {
--	if (vsi->sf_frm_idx >= VP9_MAX_FRM_BUF_NUM - 1) {
-+	if (vsi->sf_frm_idx > VP9_MAX_SUPER_FRAMES_NUM) {
- 		mtk_vdec_err(inst->ctx, "Invalid vsi->sf_frm_idx=%u.", vsi->sf_frm_idx);
- 		return -EIO;
- 	}
+configs tested: 139
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240229   gcc  
+arc                   randconfig-002-20240229   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240229   gcc  
+arm                   randconfig-002-20240229   gcc  
+arm                   randconfig-003-20240229   clang
+arm                   randconfig-004-20240229   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240229   clang
+arm64                 randconfig-002-20240229   gcc  
+arm64                 randconfig-003-20240229   clang
+arm64                 randconfig-004-20240229   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240229   gcc  
+csky                  randconfig-002-20240229   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240229   clang
+hexagon               randconfig-002-20240229   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240229   clang
+i386         buildonly-randconfig-002-20240229   gcc  
+i386         buildonly-randconfig-003-20240229   gcc  
+i386         buildonly-randconfig-004-20240229   clang
+i386         buildonly-randconfig-005-20240229   gcc  
+i386         buildonly-randconfig-006-20240229   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240229   clang
+i386                  randconfig-002-20240229   gcc  
+i386                  randconfig-003-20240229   clang
+i386                  randconfig-004-20240229   gcc  
+i386                  randconfig-005-20240229   gcc  
+i386                  randconfig-006-20240229   gcc  
+i386                  randconfig-011-20240229   gcc  
+i386                  randconfig-012-20240229   gcc  
+i386                  randconfig-013-20240229   clang
+i386                  randconfig-014-20240229   clang
+i386                  randconfig-015-20240229   clang
+i386                  randconfig-016-20240229   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240229   gcc  
+loongarch             randconfig-002-20240229   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240229   gcc  
+nios2                 randconfig-002-20240229   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240229   gcc  
+parisc                randconfig-002-20240229   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20240229   clang
+powerpc               randconfig-002-20240229   gcc  
+powerpc               randconfig-003-20240229   clang
+powerpc64             randconfig-001-20240229   gcc  
+powerpc64             randconfig-002-20240229   clang
+powerpc64             randconfig-003-20240229   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240229   clang
+riscv                 randconfig-002-20240229   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240229   clang
+s390                  randconfig-002-20240229   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240229   gcc  
+sh                    randconfig-002-20240229   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240229   gcc  
+sparc64               randconfig-002-20240229   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240229   gcc  
+um                    randconfig-002-20240229   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240229   gcc  
+xtensa                randconfig-002-20240229   gcc  
+
 -- 
-2.18.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
