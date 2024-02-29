@@ -1,111 +1,110 @@
-Return-Path: <linux-media+bounces-6112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6114-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107CD86B7C1
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 19:54:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D9186BF01
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 03:35:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8E041F23A66
-	for <lists+linux-media@lfdr.de>; Wed, 28 Feb 2024 18:54:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DEB92875D2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 02:35:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 707FC71ED2;
-	Wed, 28 Feb 2024 18:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13930374FF;
+	Thu, 29 Feb 2024 02:35:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLw0kHgZ"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="WxLEzrzo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F00E79B79;
-	Wed, 28 Feb 2024 18:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D303E2032C;
+	Thu, 29 Feb 2024 02:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709146461; cv=none; b=THHDO+1ush0JD7QuaE99CDW7LCEMUvo/ZfuO4kBVlYizdheZVzTiE1hFyCA3jhnxbNXVVRbcykesZZGZeQM2wSfm9fQAR+Ot957SpVvxnod+ty6CkrbqMRyWWJgBg93q3Hy32YKH6TvRaf6m09gpjft/giUlFLmETIsH1tarrko=
+	t=1709174138; cv=none; b=q0y6qWquRcYTtJXiz1fWsl4QZWvXd3yjX8v0/9ZqBoW0yI/DPeLWwmOP3OXBD7RVLq6KuN5r9fiTnxCHvHrACHxDrKjX2Bpq05wjX2JLv34kiEVGkZyAyFPMD5QkxaBEwPO0kBtz9+kxa8MTtgvx7P9fHXCanCG6Z9I0gQYtSGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709146461; c=relaxed/simple;
-	bh=UUQNFDIoLGj8E8dC+r/j0MRZe+6zHvZowh5kECkoeHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DsUF2wblztxqzlEmIyn9pmbbOrMxUINnqtvbg4aJCXbKZmBl5vTlChRGHnQRatdaeDQco2Ve82cn9Y4J9KNN5eQS6itKupWXY6MKDz9irBeREC93HfushxR3PWXg+11QwmoDI3eQPXCvgLdhQK1EWe9LMRs8B8boiJ67/GAopek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLw0kHgZ; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709146460; x=1740682460;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UUQNFDIoLGj8E8dC+r/j0MRZe+6zHvZowh5kECkoeHE=;
-  b=cLw0kHgZVt4Zf/Jb9OboIRX44RHxTDiwyN9XblB6ffJT6PoXbDaVVUF6
-   0LG98xkhyHJ7TXTjo0Pq+lSi906AV7PUMC3PVzs0XZx2ymFhTNc+2DUDj
-   7mYjfay94dfj0qDSynam6f9kP0ro42e2lnDM7KCB3m5QWMvmA2uaz3hLA
-   YGMfHaGO5T65CKQE+ctj5tDYXQm9S2f/K7H89Ngo5/xEDkYxaQAKTjeS4
-   0TFz8QK/+DRvfJklVgg9/EpLkyOGNw0AzaZntmpr1KA42mtKpXKy1Khcf
-   OetPGcemwIq+M1fPT79Y1LfJ1wGqh4QhfYJQFHCoXu7giS19d6WUOIEIg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="26035563"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="26035563"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 10:54:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="7584476"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 10:54:17 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0815F11F855;
-	Wed, 28 Feb 2024 20:54:14 +0200 (EET)
-Date: Wed, 28 Feb 2024 18:54:14 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Dominik Brodowski <linux@dominikbrodowski.net>
-Cc: tomas.winkler@intel.com, mchehab@kernel.org, wentong.wu@intel.com,
-	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: v6.8.0-rc6: mei_ace_probe / mei_vsc_probe: do not call blocking
- ops when !TASK_RUNNING
-Message-ID: <Zd-BVmoFOiCxA632@kekkonen.localdomain>
-References: <Zd9wUv1zSJ59WS8i@shine.dominikbrodowski.net>
+	s=arc-20240116; t=1709174138; c=relaxed/simple;
+	bh=R12aDNMBkz2/E9/QnuH5IPVgt9wpnX37VoQyPRX54MY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=C7MWIGSOyGBEhP3HKf68hakxfoOsoV53yW+65pXZtXpJAcxwv60gzFMhvqPzD/T6BjDLQxVqHv3OXBf7iydptcf5IsW2kT6vdEAqqhd0YzaVvpB1qk7jPFrcRmnweBc3TdD/tfjtzwj5PMBo6Yd5A01TzxT4SGlsxTLpeDFB4Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=WxLEzrzo; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 31bf646ad6ab11ee935d6952f98a51a9-20240229
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=/4b6Fa5B/5D8CIvq27+rD7xKd5V7SopVAeiyzUdv4zA=;
+	b=WxLEzrzoBa6XiFC/6TkHMhSLEefUOVJBibjx4G1E4q8Kk0NTk3Zm6ik82T1Qkb2QFPDy6Yp6JiNkL5j/6UciW4iPIjTJDYKTine7bQuyuo8+0Ad177SE2ew3AoV2ZupGPw+Vx7yyK191+FJeIsD54EwUl/LjR0Gf0UkgsBItXKc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:04c228d7-6df1-493a-92eb-047f887bf96c,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6f543d0,CLOUDID:d1016e84-8d4f-477b-89d2-1e3bdbef96d1,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 31bf646ad6ab11ee935d6952f98a51a9-20240229
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1729247641; Thu, 29 Feb 2024 10:35:25 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 29 Feb 2024 10:35:24 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 29 Feb 2024 10:35:24 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu
+	<chunkuang.hu@kernel.org>
+CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>, Jason-ch Chen <jason-ch.chen@mediatek.com>,
+	Johnson Wang <johnson.wang@mediatek.com>, "Jason-JH . Lin"
+	<jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
+ Lin <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Fei Shao
+	<fshao@chromium.org>, Jason-jh Lin
+	<jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH 0/3] Add GAMMA 12-bit LUT support for MT8188
+Date: Thu, 29 Feb 2024 10:35:19 +0800
+Message-ID: <20240229023522.15870-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zd9wUv1zSJ59WS8i@shine.dominikbrodowski.net>
+Content-Type: text/plain
+X-MTK: N
 
-Hi Dominik,
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
-On Wed, Feb 28, 2024 at 06:41:38PM +0100, Dominik Brodowski wrote:
-> Hi,
-> 
-> thanks for your work getting the Intel IPU6 camera system - such as found
-> within my Dell Inc. XPS 9315 - to work with an upstream kernel. Much
-> appreciated!
-> 
-> On Linux 6.8.0-rc6+ (as of this morning, HEAD is at cf1182944c7c), though,
-> I get the following warning during boot with everything built into the
-> kernel:
-> 
-> ------------[ cut here ]------------
-> do not call blocking ops when !TASK_RUNNING; state=2 set at [<000000003688dc79>] prepare_to_wait_event+0x54/0x1a0
-> WARNING: CPU: 5 PID: 122 at kernel/sched/core.c:10099 __might_sleep+0x59/0x60
-> Modules linked in:
-> CPU: 5 PID: 122 Comm: kworker/u24:3 Tainted: G                T  6.8.0-rc6+ #2
-> Hardware name: Dell Inc. XPS 9315/00KRKP, BIOS 1.1.3 05/11/2022
-> Workqueue: events_unbound deferred_probe_work_func
-> RIP: 0010:__might_sleep+0x59/0x60
+Since MT8195 supports GAMMA 12-bit LUT after the landing of [1] series,
+we can now add support for MT8188.
 
-The issue should be fixed by this patch:
-<URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?h=ipu6&id=e2dc122949ce2efd05910c0c78617534c3258158>.
+[1] MediaTek DDP GAMMA - 12-bit LUT support
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=792516
 
-I've posted to the LKML, too, so hopefully we have it merged soon.
+Jason-JH.Lin (3):
+  dt-bindings: display: mediatek: gamma: Change MT8195 to single enum
+    group
+  dt-bindings: display: mediatek: gamma: Add support for MT8188
+  drm/mediatek: Add gamma support for MT8195
+
+ .../bindings/display/mediatek/mediatek,gamma.yaml           | 6 +++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c                      | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
 -- 
-Regards,
+2.18.0
 
-Sakari Ailus
 
