@@ -1,157 +1,165 @@
-Return-Path: <linux-media+bounces-6188-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6189-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D8986D047
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 18:13:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5627786D0A2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 18:29:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A80311C219DC
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 17:13:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 080C728AF5A
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 17:28:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D2D6CBF2;
-	Thu, 29 Feb 2024 17:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 209C670AD0;
+	Thu, 29 Feb 2024 17:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ofh6ZF7P"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C7I4CCfp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4EC85E082
-	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 17:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005E76CBEE
+	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 17:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709226814; cv=none; b=lOGvpbwdXpp4C5AWjAwVLYw5SxTfQNNOqFKWft3zrWOMtO2dyQqUTFgV6ZiICzZBgo5wfTgnZazXQB+Tdq7RdwIRwP/nybGQXBZ+Y/8oqM+0jvlJHLDO59DuIklaTav76DOSBvBf2w72BlDyNjj2qU+PyOd08DCi1YXN5tuFMrU=
+	t=1709227732; cv=none; b=eVtAzL8aFqH37ePezj2ZzCQlP9FmQykewmF6987hwL93KblHa3bFlfs+0j1UNFH817wHahMGshmwUlDpDLMoYKi121iV6XBRAucxLaKUvnt7wY/U0NTh9LCVkCMQpBDRMTTcUXX8b0zzdPU6Oow4AIrXwliu3Ojrx8qNJV99Y0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709226814; c=relaxed/simple;
-	bh=BPU1J2m6r0RUK4gYCJNau6WBo+FVfY1p0kdioEOlKh4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UyTR7ZEIV7BWFFBHld6ym+r/rS91CzVnyIAQZA3kdZOlxb25KCguqTTukD4x+M8+A6EABmPp0Ad3QafZQ5wqupA6xLrLBbhDAmjd9pj+geNmiJYbIDW3/eRGXSlTWi4VZNxcXUFGvDlC4sqE1Nng3gyL+MLQggJ5/2WQYARIJp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ofh6ZF7P; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6900f479e3cso10357566d6.0
-        for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 09:13:32 -0800 (PST)
+	s=arc-20240116; t=1709227732; c=relaxed/simple;
+	bh=kj2OW4XSJIdudcXfCvnjJtebe4Y/IOVzlmHxDNmkMGU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UtM0FdPXuRIAb79QuxMjzgf+mtv9bxaButB3hBazMBiAmmNA0Qtg2d5ROYQyOJRnC18j4RVa2bSniCf+xvJ8h86j5eu/YnNlJG5i1ABmsdVjYIj+VhYbeX39ZwqKnkI7rQwnWCF0uU57/PB9FKtR8qle4V6/WY3iTXgTWJ5Fn5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C7I4CCfp; arc=none smtp.client-ip=209.85.166.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7c7c983157aso57683939f.3
+        for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 09:28:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709226811; x=1709831611; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aQVXD3qgKNPuMjrjDiQ1s1xekqDHxJ94cxmRetI8JhU=;
-        b=Ofh6ZF7P/nZmhEptZyf2fHH8ScuXu38s1tr2GL1kWVYlnK/uIpX60sxmpvYSeLvqQ9
-         4o3VFNAKyyEJGP4ez/jeMnHp3tmce8FlbhsaKhZM5kWTFhdXHZAo7ZAAYzIMkaJLxP2u
-         88xZLXuLieJIxUrcOqydgaKTPjBpa/nLPHEck=
+        d=linaro.org; s=google; t=1709227730; x=1709832530; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=V94VkRNUFe3wiMkq5cn2tldW+uq1j0pN+0F5UnVlG2I=;
+        b=C7I4CCfpnnToh3CgtXgUD2cBXXQe2oUuKIzJ8sg7iEUuLbnY4+ZoG1optv3S/hYwyi
+         eISuQNxpp4uAhmr/azqqJukCCZYDcXDI4cC4q8srDP9EqFNc3ublv4ja3+kwveZe8Dk0
+         5RTa1r5x5g3ZH4YPz8k06+y5oQCUgkcMu6sdrve+8XiMSgoUNuFj+tj86cqm18wPKfnQ
+         oMzVC/d5Yb86IOJYnAMyJp6jDVtDKedb+p/PHZK8g2S3eQpO18LbJ7tld19kZuXABaYD
+         GTrxd3NtYgoTULKoP3ODTL31XoJeC1IaZmRCQst5rOOeT8rMmFsHzBPYh74TyoYqi07S
+         ALaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709226811; x=1709831611;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aQVXD3qgKNPuMjrjDiQ1s1xekqDHxJ94cxmRetI8JhU=;
-        b=JzP14m8sojMxs8Qv10o5bsi3q38LQOOiaDahQMw7f0N+ABKp4+TF6kDqQEmNZvlVTw
-         Bv0ddQ5B/ims5bk6w+frGBdQDGKWJHZlMwIpTD7V8Xwl+MzOH9dbg/cwYwwM4UoXEx3Q
-         YfTLuyQgRjn4x63lOc7RtQvkBC3IpNPYdHaJQYkQxxjdpZy3iI5Igkv9Yghcd7F6iI5Q
-         LkLZXNtZ4RNWIM+DHDBkSc8rh2pyBx3utOrhZuTrO/rV2wf3RLYe09ez/X5NVRTlvhPm
-         uXAcUfNollfS02f4OyKIAHkt27+PKsWRcazyHlVeW8FCk2yiY6YVzs0D7TDKzueO38LN
-         xlbQ==
-X-Gm-Message-State: AOJu0YxG05ApXOYts0z83rvD+z8sStWdKkvsgEzRX0p7MNCFJd9/u3/K
-	+Gnc+Bdc1h2rkI6gzjqUjx2kfrU45Ai36TtGG0SaWpeQAWTGKleWqqyNWWT6vEgdCVWip09jfDc
-	=
-X-Google-Smtp-Source: AGHT+IF0x25lCWnAAf9jyblMJLZrDlG7Tv2V7ev2yfDy7P/I/n7lAu2nXiwZpvL7x9FCnFOGfYlLcQ==
-X-Received: by 2002:a0c:f54e:0:b0:68f:8ddd:aad4 with SMTP id p14-20020a0cf54e000000b0068f8dddaad4mr2947299qvm.35.1709226810950;
-        Thu, 29 Feb 2024 09:13:30 -0800 (PST)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com. [209.85.219.52])
-        by smtp.gmail.com with ESMTPSA id mf5-20020a0562145d8500b0068c88a31f1bsm936012qvb.89.2024.02.29.09.13.30
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1709227730; x=1709832530;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V94VkRNUFe3wiMkq5cn2tldW+uq1j0pN+0F5UnVlG2I=;
+        b=GiEWYOU4cw974gqyEDgqmHIahpIgdHOLwrCyI1ui6bbCl7auBJE0PVkwAMdp2uivX0
+         lz8H/XTDhYJUvVr1jEawuPFw0jTPRShFL2EaaQakz9wTqHm6ao8KhE6YuCRl45iLPaMJ
+         EnMOViTJGJMjht/LMIuDhN9lLLU174ALK7xgz/6cfcPpHplplngGInEukY0TNV8sTkqi
+         BFmBrZOMFgVm/24xHdaPFZTmAhJYEW0Os5myv+LUyvnjWlGm0MlE9uGNNmNpc1JqdUGe
+         LX7p6QWDMxpGVbb/IlOfZyxiBjKrkxljEe7kCWxIPZ+ILbqTa8fDFTYSpGdXs9qUr+fb
+         ojkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJg/pnIGRumaYdBa3tseMjuHYZByyOY0DwliBJ8mLyXRyxDi1Wdhu0ZffJY12/NZhRNWBcqA6FXCDvMBbsePad9vVrf6DoElSurbQ=
+X-Gm-Message-State: AOJu0YxO4G7rU1CHzduv1/EJ2SNJiQ6jfJL7nPjftA37cIYc3SIP9FaT
+	IID5e4Lj1KFPFrQ5y4ZiDuwcoVp27G198E2AkwN6t+KBQXH9VRIXigkpgntIbeLlIPTTERkYxLb
+	L
+X-Google-Smtp-Source: AGHT+IFAVHFpKNlj9hE9auH/O9JVajWoKa8tCD4YLP/n4zz3oVdAi+9V+m2l/XvHMGFTKSfvk7n/lQ==
+X-Received: by 2002:a92:d286:0:b0:365:4b91:7cf9 with SMTP id p6-20020a92d286000000b003654b917cf9mr3218324ilp.26.1709227730219;
+        Thu, 29 Feb 2024 09:28:50 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id r14-20020a92c5ae000000b00365cde788c1sm117460ilt.15.2024.02.29.09.28.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 09:13:30 -0800 (PST)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6900f479e3cso10357176d6.0
-        for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 09:13:30 -0800 (PST)
-X-Received: by 2002:a05:6214:12e:b0:68f:30a1:4bea with SMTP id
- w14-20020a056214012e00b0068f30a14beamr3296627qvs.33.1709226810036; Thu, 29
- Feb 2024 09:13:30 -0800 (PST)
+        Thu, 29 Feb 2024 09:28:49 -0800 (PST)
+Message-ID: <47e8851e-4a1e-458e-9d38-c9f94564de06@linaro.org>
+Date: Thu, 29 Feb 2024 18:28:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAEQmf3EXdt9kTcvR1QMUtO7TUTgRSgVBAZRPmMkBxaBT4hMLTQ@mail.gmail.com>
-In-Reply-To: <CAEQmf3EXdt9kTcvR1QMUtO7TUTgRSgVBAZRPmMkBxaBT4hMLTQ@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 29 Feb 2024 18:13:12 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtDbX4M=e-kVr4ZG_K+KrpNSkrb_+iaKYYOC9arLCQ-gw@mail.gmail.com>
-Message-ID: <CANiDSCtDbX4M=e-kVr4ZG_K+KrpNSkrb_+iaKYYOC9arLCQ-gw@mail.gmail.com>
-Subject: Re: Camera on Dell Inspiron 16 5630 not working - Dropping payload
- (out of sync)
-To: =?UTF-8?Q?Zbyn=C4=9Bk_Winkler?= <zbynek.winkler@gmail.com>
-Cc: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: mediatek: gamma: Add support
+ for MT8188
+Content-Language: en-US
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, Jason-ch Chen <jason-ch.chen@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Shawn Sung <shawn.sung@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fei Shao <fshao@chromium.org>
+References: <20240229144844.1688-1-jason-jh.lin@mediatek.com>
+ <20240229144844.1688-3-jason-jh.lin@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240229144844.1688-3-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Zbyn=C4=9Bk
-
-Have you tried the different quirks on the uvcvideo?
-
-If you have the time, try something like:
-
-rmmod uvcvideo
-modprobe uvcvideo quirks=3D0x1
-
-try using it....
-
-rmmod uvcvideo
-modprobe uvcvideo quirks=3D0x2
-
-try using it....
-
-rmmod uvcvideo
-modprobe uvcvideo quirks=3D0x4
-
-until you reach quirks=3D0x2000 (I think 0x10 might do the trick...)
-
-if that doesn't work maybe you could save the usb traces with
-wireshark so we can have a better idea of what is going on
-
-Regards!
+On 29/02/2024 15:48, Jason-JH.Lin wrote:
+> The gamma LUT setting of MT8188 and MT8195 are the same, so we create
+> a one of items for MT8188 to reuse the driver data settings of MT8195.
+> 
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,gamma.yaml  | 4 ++++
 
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On Fri, 26 Jan 2024 at 12:12, Zbyn=C4=9Bk Winkler <zbynek.winkler@gmail.com=
-> wrote:
->
-> Hello,
->
-> I have a Dell Inspiron 16 5630 (0C15) and the camera is not working.
-> Any app I try
-> it first turns on the LED signalling the camera is active but after
-> about 1s it turns off
-> and the apps report the camera as not working.
->
-> I am running Debian 12, uname -rv says
->
-> 6.1.0-17-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.69-1 (2023-12-30)
->
-> lsusb shows the camera as
->
-> Device 003: ID 0bda:5556 Realtek Semiconductor Corp. Integrated_Webcam_FH=
-D
->
-> Output of lsusb -vd 0bda:5556 attached. I have found
-> https://www.ideasonboard.org/uvc/faq/#faq2
-> so I have enabled the trace. The output is also attached. Here is a sampl=
-e
->
-> [   86.877268] usb 1-6: frame 1 stats: 0/0/1432 packets, 0/0/1432 pts
-> (early !initial), 1431/1432 scr, last pts/stc/sof 0/2695207/1271
-> [   86.909295] usb 1-6: Frame complete (EOF found)
-> [   86.909307] usb 1-6: Dropping payload (out of sync)
->
-> Any help appreciated,
-> Zbyn=C4=9Bk
+Best regards,
+Krzysztof
 
-
-
---=20
-Ricardo Ribalda
 
