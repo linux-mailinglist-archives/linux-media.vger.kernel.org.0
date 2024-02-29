@@ -1,74 +1,74 @@
-Return-Path: <linux-media+bounces-6125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC0B86C36D
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 09:27:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79ADA86C373
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 09:27:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72F631C21017
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 08:27:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D6BC1C214DD
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 08:27:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A20C44F1E5;
-	Thu, 29 Feb 2024 08:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90EDF4EB5F;
+	Thu, 29 Feb 2024 08:27:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yg1MzOsu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tCkrI1/I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B1D4EB23
-	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 08:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA7F4C629
+	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 08:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709195246; cv=none; b=GYNfUZ8cYxdTiSG/+sGIkJLvDjWLOz4hMYpg88rn1HmJR3fd5ByrlwBrUabNikRFVjFutX9Zm98njj24Cis6smvpNR5LwoeFG0PvZousc6iIyUw7UMD6jl5zHz952TLYbLtZjPcaINNVg+9gidNece13k1s45yru/dmoijoFnZU=
+	t=1709195254; cv=none; b=iG5/CWwma+6SivUByLd4h2WnylmHYegJvcO8lrUj65mEkXVuGDB+/QWsITfYh65pZxuQQBy2GV1pw1OeeGH+lOtEycMR3LEK+W9AOTGw+R1JcpBgt8mGg+aoFLJQgh4OY36JXNo0MEkLST+y1ZhX+eUG9RIuSnSyrdP8H01sMvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709195246; c=relaxed/simple;
-	bh=5A4KpH6bhYaq8PY2+FKOq/3hR98qtbP1GMAnSnIC3yI=;
+	s=arc-20240116; t=1709195254; c=relaxed/simple;
+	bh=yyUxjIhVvWH+6UE/UUHkOkOYd0xCCwIy+7uNrlbXBxM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SpIF1NkglGFigwS+0NyNTLGLoAT6pzla9niy+QvOe2TApipEMJTuvMH03zEl7KWSYkxIo97EhgQqSyvb5TrKYJ3c9j+jE0DaKyq8WpOumXw+/0wlfC6LB44IOSG57FrR57XZm7BpUdXfxiqfWwSr+/nwnvHBz7O2OpgLh6rPsE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yg1MzOsu; arc=none smtp.client-ip=209.85.218.50
+	 In-Reply-To:Content-Type; b=e1Yj35R/ZDCleN6fISBKbZThNTZ3ty/WPyLevul6S/+QJ7UzbNcQK6zep1l7UBx+NaGfku5ysTIP0WB1XBc8TRhmgLV49zF2Y8TwjL7lDcBqZlWcI/BSFk7KsFlUDJObmK2Cl0pnrDmn/ZAn/V3XQOHEL0gcnLyqrIuRDGKqci0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tCkrI1/I; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3e72ec566aso98057266b.2
-        for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 00:27:24 -0800 (PST)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a293f2280c7so120134066b.1
+        for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 00:27:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709195243; x=1709800043; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1709195251; x=1709800051; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+jC9NU+Sr0rM0Ox02DOM4ORkqse489i4dWP/gSCDCTs=;
-        b=yg1MzOsurAJGFHmhGBRclio1onafu031QC3gjrde37bsg4N7qF3YR1oj3YjSa979Lv
-         nPguYLAaq49ax7+o0utdoVmbo2bUe40jj5y5OmoA1lj6yPBLZ/+SfjHs06o+nTHiWP2a
-         U9xTkgS55cbaNq4pjSl3h71zukWPbMDjq4kG7TLF0KPzB+I+e4M4fRZ2MFbIsZh3/mk+
-         LhjWy66sjcY9IVUxH++3V2jVm2V6gdYnonqv0y6GBfV+BlQAzapGWfQavPCOriCRUv7C
-         P8LjIeD2Ddymm/29doeO3ku5jrNRg1cM2dDiJPIZ27Rzksg24vGTnKEbLsowOBXia8vq
-         pE0Q==
+        bh=rgnff8MGvBMD8EBe8P50qmhLYND/U/bzSrvV7E5aiFo=;
+        b=tCkrI1/IXvR4+xYghmg1gj15CyGFy92YPwDPffKQ0nOXzk2MowTYumZpazbU4ORYKJ
+         f0Y0OfR7gfwNsXP62lSV7OQgLT2IpecpuAt42AXYpPb5gvoRlEbjG7WLrdz9AtEyr9bk
+         PicLDsblltBm3OjOH1QB26OGuRTHGeojVhfqijhUsyQTrcy/DvYScgdmyB8x8hsUG/1P
+         ykYkI+9W5VjNVxc8+lJqIbLDO3A5qCHxAWn+2qKQevpfqp8oaRVQe/waGTU5OmEc9vAm
+         j/234AlDM3y0HrXTloJC2YdX3IN3p0ebKdEFuVbIqUW05kvMMNfbks8iW12srx91rgzv
+         yEeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709195243; x=1709800043;
+        d=1e100.net; s=20230601; t=1709195251; x=1709800051;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+jC9NU+Sr0rM0Ox02DOM4ORkqse489i4dWP/gSCDCTs=;
-        b=r7lFrpMyouHtwGzIe/Q2IFKKUV8kU8K/PvJV5W6MKkrMJxM/dCVzOMT4cW2m7BwNnc
-         n3Yap/4vYzjhc5D/e5crG9ATAVAFt+m5aDX7ucxLQi2O5d3QKN0KWDi0tilN44R33lP8
-         kddOMPvMiR+TWDaW9h5EgYdJlN3ol7lgqIdYk0XnjnPgS9aNqDA36xa/xEQ6XUHKFuko
-         Gdl3H2iIoPXj9E5rnOsXQ0vVL9ejIO/zdTIIrw1z8YS5wWuE6wQG/BkugJZHYUSVq1VZ
-         ZZo93O6RHrjhx0Qh4/w12uQmkQc0VvsHX6I5Qouz08wSO1FUbNx7kcbatbmUNkoOuSDV
-         /LVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXldudE8SL761CfWDrLZ3tu7yKxd3rP++Fy2HU2TVQ0ZsOE3X1iTn8gWIzibvGQ5e3ZDnZOqSG/gq4LuIhJEKvbORt3Jq90xEzQTz4=
-X-Gm-Message-State: AOJu0Ywhf3bFw2nE+0hqTAvz9QxPM376tRMhsFTJdyBN3pg3Oqoy8gM4
-	aqbPPToDwcfXMDqRuwc0HJBPbWfS12lHotJULqHXLbXJ/6AEiqxeLEXXNehoANA=
-X-Google-Smtp-Source: AGHT+IHtFnTGokxus4yJA0VW8KJfoHKca5tzjEOBUp5rScvISxrFcHYTgLMG8YRVsaFj8MwttJR4fQ==
-X-Received: by 2002:a17:906:dd4:b0:a44:f88:323b with SMTP id p20-20020a1709060dd400b00a440f88323bmr967443eji.54.1709195242806;
-        Thu, 29 Feb 2024 00:27:22 -0800 (PST)
+        bh=rgnff8MGvBMD8EBe8P50qmhLYND/U/bzSrvV7E5aiFo=;
+        b=tctXuX6Sra2mdUzfOfMPzlcJQe4c6FmPKRwSITq4RuLTGs5eOxWKQrvFl2TmomkP9S
+         /9rjPDqAe6Im6TeJlOJuQOzLD1XoTCjakFB+eEG8vxNDoMDnCtchqbD1oMc5xnbYReqV
+         p7kqfk0VsLFh2uUGbxV7O0bilNCjaksgqeLYNUm+/jTqn9/pSerV1wtGfvZUhLio43Lo
+         L+gRrQ8FYug1WsG/GHfaau9RaAMrinzfsW7cpFOWILznZtC/3AiO6YE4oLE1+oT0CeBt
+         uH84717UomP1qHoWZYhQEnpXQri3pEnnqPmKT8sZTrCADC2RU+Mm2kLL421I5R/TmFs9
+         3ZcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXwbrcoyoFI/h0iDx0mZlpeevb5GZjRzE7SkOs5WfhMUgeciyJ2OghvPOE7TVXISiP+G6lAkYjZ22tqv8vW3JTmy9q3LEp7jYGAZuA=
+X-Gm-Message-State: AOJu0YySdpR2CJwGpJW2TZp0FoRNumCnhnSTZuce6s5v/11HoUA0VBKp
+	sQGrgDpUW9OI/rF68nGcENdDhPt3zFsnmHqNquQP6oiO3GMV/MOBWUnYtY/uvRM=
+X-Google-Smtp-Source: AGHT+IGcBZwPTv20828ePbiFHjn6j5WHPedNHJ8vYa+BwrVvKeH88EAeB/GeP2y/LI5tX4vo9G5Qwg==
+X-Received: by 2002:a17:906:44d:b0:a3e:b523:90b with SMTP id e13-20020a170906044d00b00a3eb523090bmr960614eja.14.1709195250894;
+        Thu, 29 Feb 2024 00:27:30 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id vg9-20020a170907d30900b00a4439b7756bsm434508ejc.6.2024.02.29.00.27.20
+        by smtp.gmail.com with ESMTPSA id vg9-20020a170907d30900b00a4439b7756bsm434508ejc.6.2024.02.29.00.27.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 00:27:22 -0800 (PST)
-Message-ID: <23a99e13-fe45-4cb7-8e1c-f6c85d70becc@linaro.org>
-Date: Thu, 29 Feb 2024 09:27:20 +0100
+        Thu, 29 Feb 2024 00:27:30 -0800 (PST)
+Message-ID: <d5c23bd6-3732-477c-af54-7ee1657e390c@linaro.org>
+Date: Thu, 29 Feb 2024 09:27:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,8 +76,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: display: mediatek: gamma: Add support
- for MT8188
+Subject: Re: [PATCH 1/3] dt-bindings: display: mediatek: gamma: Change MT8195
+ to single enum group
 Content-Language: en-US
 To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
  Rob Herring <robh+dt@kernel.org>,
@@ -96,7 +96,7 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
  Fei Shao <fshao@chromium.org>
 References: <20240229023522.15870-1-jason-jh.lin@mediatek.com>
- <20240229023522.15870-3-jason-jh.lin@mediatek.com>
+ <20240229023522.15870-2-jason-jh.lin@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -142,37 +142,21 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240229023522.15870-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20240229023522.15870-2-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/02/2024 03:35, Jason-JH.Lin wrote:
-> The gamma LUT setting of MT8188 and MT8195 are the same, so we create
-> a one of items for MT8188 to reuse the driver data settings of MT8195.
+> Since MT8195 gamma has multiple bank for 12 bits LUT and it is
+> different from any other SoC LUT setting.
+> 
+> So we move MT8195 compatible from the one of items to the
+> single enum group.
 > 
 > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 > ---
->  .../devicetree/bindings/display/mediatek/mediatek,gamma.yaml  | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> index 3e6cb8f48bcc..90c454eea06f 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> @@ -29,6 +29,10 @@ properties:
->            - enum:
->                - mediatek,mt6795-disp-gamma
->            - const: mediatek,mt8173-disp-gamma
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8188-disp-gamma
-> +          - const: mediatek,mt8195-disp-gamma
->        - items:
->            - enum:
->                - mediatek,mt8186-disp-gamma
 
-Please keep this ordered by fallback compatible, so your list with 8195
-fallback should go below the list here.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
