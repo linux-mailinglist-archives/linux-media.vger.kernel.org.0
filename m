@@ -1,137 +1,281 @@
-Return-Path: <linux-media+bounces-6198-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6199-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A61F86D2AE
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 19:56:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 067FF86D2DF
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 20:09:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0ACB7B23DB7
-	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 18:56:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E6441C2184D
+	for <lists+linux-media@lfdr.de>; Thu, 29 Feb 2024 19:09:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDE011361B3;
-	Thu, 29 Feb 2024 18:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 954351369B2;
+	Thu, 29 Feb 2024 19:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="RW+iLcSi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QYB6/ldw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2678132C1E;
-	Thu, 29 Feb 2024 18:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DE71350E4
+	for <linux-media@vger.kernel.org>; Thu, 29 Feb 2024 19:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709232987; cv=none; b=iluQHQFksYie2NJ2il0+JrHCl5Hs1morQ1fcIFLL0JJ1MYk0vDaDHWSescQa8govA3FXDyBtdv1KJslHzy/Eyzs/SfjcYiFnZjdUCAJG3FYi2339KJGP8PHcdALdWNKuP9b0op6vk9zSy9vTrcrcLiPRMYV4sSrhNPwppe4BT8Y=
+	t=1709233752; cv=none; b=bHlP/jBzHrL7l2J4q2j3XWXjq5K5LZ3qH+P+cISt5hvQbERCIx9z+e3/Mwx5OyfRj6Q1QMF4MhVn3D82VcZEYAkvq9BNrWPRa0OlqVOq6vgSqnk1q85nCrgx+xKfrWNxlKqp0uoJqvugeQkfvcb403kF7g7jDRhx5JCme+/drA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709232987; c=relaxed/simple;
-	bh=EKoWtZULRre8yAsyfn1dkM46JTGZw1nHFJhhwMcc01w=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=RGdFuD7d8EAFZdI1cr1tlRIO600ELot2PqwyUBywr4mkm/T9Yj3dN7wd7GXIjznr4uji2D3atbFlaliTGqEOpfas3wqdUA+eZRXZ04X1tVMYr1NnBR5g79x0iHUiOj49t4zWuzW6lFhJ1Ifqlu3P0iGoTUeEv7F+sPiVvT76ABw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=RW+iLcSi; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709232962; x=1709837762; i=markus.elfring@web.de;
-	bh=EKoWtZULRre8yAsyfn1dkM46JTGZw1nHFJhhwMcc01w=;
-	h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
-	b=RW+iLcSiUD808cZ3zD3bg/NTr9RTIrGu16aY5OuhN0LTR/PMuABUuoeAaIES7eGB
-	 VxhIJz4QQPQb8XRdIgLtLMAauYMR4DuC61QHS3UVxqlv7gJZlij7HctCREGO3LjDW
-	 INrA0S6XUN6Yg4grq0XGARDR86SCYXX2KyhjEWxIVdcdMRer/Gbk9J4p07d33Aj1x
-	 Rruu1caBmS5WlsvSEpvUybEab6ZRBV+BTD5CyQSoDn42KvO/B/2yZiaH8x9E+v6iA
-	 VMUteae4DWXjt5gw/q8moZeMZ+NB4M14X1KIAXmZO+kDVC9AObzHYy2eA9sIsg57Q
-	 w+Mkae/6PpbXZ2jhnA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MoecP-1r4X1f18yP-00oyA6; Thu, 29
- Feb 2024 19:56:02 +0100
-Message-ID: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
-Date: Thu, 29 Feb 2024 19:55:46 +0100
+	s=arc-20240116; t=1709233752; c=relaxed/simple;
+	bh=DcjArtAxqSyQQ8Q7oiDuU3o2jIQEGJ1zMYnhR4883l8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nHJaHoj3KV27mqYTP1/gD+hNSosvWhDhZLejvFFrgYURVOxt2v5cgngjdn4/NVfiHk1mgsUASsgAUsnyTOtj1zP3F9wnQTo+XMhA49560STk7Arnlg8ixdBpXIYDYabWJnUsoHa9UTFViju55WwOOM/z4QwJSMHy550NBak1cic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QYB6/ldw; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709233750; x=1740769750;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DcjArtAxqSyQQ8Q7oiDuU3o2jIQEGJ1zMYnhR4883l8=;
+  b=QYB6/ldwrhktc+GADWiUP9UOb2PspuhlZCNwIpiK/Gm3K0LEbSv5c9K/
+   QnOnR59N1ck1kcajIVs1IP3xMxDqocNDiox4o6CKtvlFswrWQEwdkzxjl
+   jIwNfVIV4iXT9baAXHeO6N2IueX8BY6ELfRVLhuW1xrEuwZ1+G8GE6JRB
+   5AaXX7YzX3+nGsjAIjHO0e6gVzisvEb8JciCjXsFpApC70asBoKB2ZFs7
+   TYFaZiAvelff/J6FmiXV6hdwe5h5izyOOzVy4/h5QH74EsJ5hjokqIHDP
+   NSX2V/zASQDl7gAj23jUYPhN5SCLp5DhvOsygHZkHFA8MgepxvPzLm58M
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="21190649"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="21190649"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 11:08:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="12608367"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 29 Feb 2024 11:08:52 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rfllx-000DDh-1z;
+	Thu, 29 Feb 2024 19:08:49 +0000
+Date: Fri, 1 Mar 2024 03:08:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bingbu Cao <bingbu.cao@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hongju Wang <hongju.wang@intel.com>
+Subject: [sailus-media-tree:ipu6 63/68]
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c:348: undefined reference to
+ `vb2_queue_change_type'
+Message-ID: <202403010320.sbbGkQjA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] staging: media: tegra-video: Use common error handling code
- in tegra_vi_graph_parse_one()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5nHI55wJDHdGpQyhkuvBJi5YqQfCTQ34RVAV54eYhVrFpht0hYJ
- dpu9AIS51aPwIEo4rVbUDLJtfkgUxasRSgpRVDR7zFZEPiHWrjypWHDp27FpQ4tG8KPiKr8
- ZsgNifA8T+kv2cMCCRS/BVc/UcwogkKQY67JZgp15hfwnnwhZztIRGMvQZseWL2AwnNj8Np
- g8bk4/kPqrA8tmfqa8XRQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8wIh9N3RJr4=;roRuaNv5zMgHjQW6x4d3+75EZOG
- 74AgeDDDFxXuCBhSq5CvNPRp2bsPirhPPZxPGxHPE8jOtuFJx67/052c/Y+uNG3h8tpobITmA
- 7QI3VdnQzMwDtEQxsokDbc70rYfgGD2OkdzntHfBmCdMMSj96b9Qo20FfEbmFm4HjtBOBfHpf
- 17BSHM39B5uH5TV0rb78dPztfbQLcXZoPtltQrrSEg2iTQ4azX0Gbps3NjjrPpurq1a/hPTuN
- gC5HIB7OulJJQsYww1RiPCg/yIDodvmwzqoRozB4n/cvTi64Qq6uZax7Xh5CV6Z/anNRSH0aG
- nC8/9VT87Tlyp99PtLmAhGS8ix51Cn1szrvf5SkIqErcwwo08aU8mRqbqei61IlDYHHB4Grq0
- S2qIwPqWbG/5uN/b6pJJFDwSHZ1d5b/HsR8Kya3uFTebWKPSUPU40Z730sKUAL4Y5/7dYfa7L
- oMFuTLCbeCQiWK6DNa9R4q74ZyPjodVmwp3CmjOAG+VN9iL4vuE3t/Z2Iptt3pmntsNkJEAbS
- TwP0zjN54m6wwoTIDBNr4LVJBW8Ssr4kdsPFJ4QUGzTRt8A0+qojnuN+Nf4pbar2xC4j2mf4f
- vL/XR3La9h+WMrLcVY6340jvYV6WI82HJdElt2+J0dbMoaCReDnCrqNadeOe11i2ZY/D62ja7
- hBzYJA8wY9/ef/bqS27fvR6Y3lUYzDbuQjbDseBRHkL8klj0ZZeUlLWIGTHOcfch3PvgV/izz
- oD9dMvZPjdWFm/yAozYjbN3Qh4MzFSwsAb2JtgMEAf9+KmBDEMTp3km4TYAsQY/imurcWDlDe
- GFp6eugJIc5b07rgr1RbRxBSYC5jMVduAYGl6xI+bsvlc=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Thu, 29 Feb 2024 19:44:36 +0100
+tree:   git://linuxtv.org/sailus/media_tree.git ipu6
+head:   3733f0aae05e6ac2c55192a4159bc81c5aaf5681
+commit: 9f2b4e29db3a4167042cf2465ed32b8d56941209 [63/68] media: ipu6/isys: support line-based metadata capture support
+config: x86_64-randconfig-075-20240229 (https://download.01.org/0day-ci/archive/20240301/202403010320.sbbGkQjA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010320.sbbGkQjA-lkp@intel.com/reproduce)
 
-Add a jump target so that a bit of exception handling can be better reused
-at the end of this function implementation.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403010320.sbbGkQjA-lkp@intel.com/
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/staging/media/tegra-video/vi.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/medi=
-a/tegra-video/vi.c
-index af6e3a0d8df4..5a08d9551f8b 100644
-=2D-- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1730,21 +1730,20 @@ static int tegra_vi_graph_parse_one(struct tegra_v=
-i_channel *chan,
- 			ret =3D PTR_ERR(tvge);
- 			dev_err(vi->dev,
- 				"failed to add subdev to notifier: %d\n", ret);
--			fwnode_handle_put(remote);
--			goto cleanup;
-+			goto put_fwnode;
- 		}
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.o: in function `isys_register_devices':
+   drivers/media/pci/intel/ipu6/ipu6-isys.c:796: undefined reference to `v4l2_device_register'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.c:825: undefined reference to `v4l2_device_unregister'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.o: in function `isys_notifier_init':
+   drivers/media/pci/intel/ipu6/ipu6-isys.c:717: undefined reference to `v4l2_async_nf_init'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.c:731: undefined reference to `v4l2_fwnode_endpoint_parse'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.c:737: undefined reference to `__v4l2_async_nf_add_fwnode_remote'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.c:761: undefined reference to `v4l2_async_nf_register'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.c:764: undefined reference to `v4l2_async_nf_cleanup'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.o: in function `isys_complete_ext_device_registration':
+   drivers/media/pci/intel/ipu6/ipu6-isys.c:137: undefined reference to `v4l2_device_unregister_subdev'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.o: in function `isys_unregister_devices':
+   drivers/media/pci/intel/ipu6/ipu6-isys.c:840: undefined reference to `v4l2_device_unregister'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.o: in function `isys_notifier_cleanup':
+   drivers/media/pci/intel/ipu6/ipu6-isys.c:772: undefined reference to `v4l2_async_nf_unregister'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.c:773: undefined reference to `v4l2_async_nf_cleanup'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys.o: in function `v4l2_device_register_subdev_nodes':
+   include/media/v4l2-device.h:201: undefined reference to `__v4l2_device_register_subdev_nodes'
+   ld: include/media/v4l2-device.h:201: undefined reference to `__v4l2_device_register_subdev_nodes'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o: in function `ipu6_isys_csi2_get_sel':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:449: undefined reference to `v4l2_subdev_state_get_opposite_stream_format'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:455: undefined reference to `__v4l2_subdev_state_get_crop'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o: in function `ipu6_isys_csi2_set_sel':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:400: undefined reference to `v4l2_subdev_state_get_opposite_stream_format'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:406: undefined reference to `__v4l2_subdev_state_get_format'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:410: undefined reference to `__v4l2_subdev_state_get_crop'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o: in function `ipu6_isys_csi2_cleanup':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:506: undefined reference to `v4l2_device_unregister_subdev'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:507: undefined reference to `v4l2_subdev_cleanup'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:506: undefined reference to `v4l2_device_unregister_subdev'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:507: undefined reference to `v4l2_subdev_cleanup'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o: in function `ipu6_isys_csi2_init':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:535: undefined reference to `__v4l2_subdev_init_finalize'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:541: undefined reference to `v4l2_device_register_subdev'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o: in function `ipu6_isys_csi2_sof_event_by_stream':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:565: undefined reference to `v4l2_event_queue'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o: in function `ipu6_isys_csi2_get_remote_desc':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:604: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:604: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:604: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:604: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:604: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o: in function `csi2_subscribe_event':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:115: undefined reference to `v4l2_event_subscribe'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:117: undefined reference to `v4l2_ctrl_subscribe_event'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o: in function `ipu6_isys_csi2_get_link_freq':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:100: undefined reference to `v4l2_get_link_freq'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o:(.rodata+0x490): undefined reference to `v4l2_subdev_link_validate'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o:(.rodata+0x498): undefined reference to `v4l2_subdev_has_pad_interdep'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o:(.rodata+0x538): undefined reference to `v4l2_subdev_get_fmt'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.o:(.rodata+0x700): undefined reference to `v4l2_event_subdev_unsubscribe'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `video_drvdata':
+   include/media/v4l2-dev.h:516: undefined reference to `video_devdata'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `vidioc_create_bufs':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:348: undefined reference to `vb2_queue_change_type'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `video_drvdata':
+   include/media/v4l2-dev.h:516: undefined reference to `video_devdata'
+   ld: include/media/v4l2-dev.h:516: undefined reference to `video_devdata'
+   ld: include/media/v4l2-dev.h:516: undefined reference to `video_devdata'
+   ld: include/media/v4l2-dev.h:516: undefined reference to `video_devdata'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `vidioc_request_qbufs':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:332: undefined reference to `vb2_queue_change_type'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `video_drvdata':
+   include/media/v4l2-dev.h:516: undefined reference to `video_devdata'
+   ld: include/media/v4l2-dev.h:516: undefined reference to `video_devdata'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `link_validate':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:386: undefined reference to `__v4l2_subdev_state_get_format'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `ipu6_isys_configure_stream_watermark':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:757: undefined reference to `v4l2_g_ctrl'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `ipu6_isys_video_set_streaming':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:998: undefined reference to `v4l2_subdev_routing_find_opposite_end'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1014: undefined reference to `v4l2_subdev_disable_streams'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1025: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1025: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1041: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1041: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1051: undefined reference to `v4l2_subdev_enable_streams'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1066: undefined reference to `v4l2_subdev_disable_streams'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1025: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1041: undefined reference to `v4l2_subdev_call_wrappers'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `ipu6_isys_setup_video':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1217: undefined reference to `__v4l2_subdev_next_active_route'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1257: undefined reference to `video_device_pipeline_start'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1255: undefined reference to `video_device_pipeline_alloc_start'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1265: undefined reference to `video_device_pipeline_stop'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `ipu6_isys_video_init':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1306: undefined reference to `video_device_release_empty'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `video_register_device':
+   include/media/v4l2-dev.h:383: undefined reference to `__video_register_device'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `ipu6_isys_video_init':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1327: undefined reference to `vb2_video_unregister_device'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1331: undefined reference to `vb2_queue_release'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `ipu6_isys_video_cleanup':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1341: undefined reference to `vb2_video_unregister_device'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `vidioc_create_bufs':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:352: undefined reference to `vb2_ioctl_create_bufs'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `vidioc_request_qbufs':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:336: undefined reference to `vb2_ioctl_reqbufs'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o: in function `video_open':
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:109: undefined reference to `v4l2_fh_open'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xb18): undefined reference to `vb2_fop_poll'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xb20): undefined reference to `video_ioctl2'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xb38): undefined reference to `vb2_fop_mmap'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xb48): undefined reference to `vb2_fop_release'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xd58): undefined reference to `vb2_ioctl_querybuf'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xd60): undefined reference to `vb2_ioctl_qbuf'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xd68): undefined reference to `vb2_ioctl_expbuf'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xd70): undefined reference to `vb2_ioctl_dqbuf'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xd80): undefined reference to `vb2_ioctl_prepare_buf'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xda0): undefined reference to `vb2_ioctl_streamon'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-video.o:(.rodata+0xda8): undefined reference to `vb2_ioctl_streamoff'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-queue.o: in function `ipu6_isys_stream_cleanup':
+   drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:517: undefined reference to `video_device_pipeline_stop'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:517: undefined reference to `video_device_pipeline_stop'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-queue.o: in function `ipu6_isys_queue_init':
+   drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:812: undefined reference to `vb2_queue_init'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-queue.o:(.rodata+0x468): undefined reference to `vb2_ops_wait_prepare'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-queue.o:(.rodata+0x470): undefined reference to `vb2_ops_wait_finish'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.o: in function `subdev_set_routing':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:224: undefined reference to `v4l2_subdev_routing_validate'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:229: undefined reference to `v4l2_subdev_set_routing_with_fmt'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.o: in function `ipu6_isys_subdev_set_fmt':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:159: undefined reference to `__v4l2_subdev_state_get_format'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:169: undefined reference to `v4l2_subdev_state_get_opposite_stream_format'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:176: undefined reference to `v4l2_subdev_routing_find_opposite_end'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:184: undefined reference to `__v4l2_subdev_state_get_crop'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:141: undefined reference to `v4l2_subdev_get_fmt'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.o: in function `ipu6_isys_get_stream_pad_fmt':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:242: undefined reference to `__v4l2_subdev_state_get_format'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.o: in function `ipu6_isys_get_stream_pad_crop':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:260: undefined reference to `__v4l2_subdev_state_get_crop'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.o: in function `subdev_set_routing':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:224: undefined reference to `v4l2_subdev_routing_validate'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.o: in function `ipu6_isys_subdev_init':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:332: undefined reference to `v4l2_subdev_init'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:359: undefined reference to `v4l2_ctrl_handler_init_class'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:377: undefined reference to `v4l2_ctrl_handler_free'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.o: in function `subdev_set_routing':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:229: undefined reference to `v4l2_subdev_set_routing_with_fmt'
+   ld: drivers/media/pci/intel/ipu6/ipu6-isys-subdev.o: in function `ipu6_isys_subdev_cleanup':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:388: undefined reference to `v4l2_ctrl_handler_free'
 
- 		ret =3D tegra_vi_graph_parse_one(chan, remote);
--		if (ret < 0) {
--			fwnode_handle_put(remote);
--			goto cleanup;
--		}
-+		if (ret < 0)
-+			goto put_fwnode;
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
+   Selected by [y]:
+   - VIDEO_INTEL_IPU6 [=y] && PCI [=y] && (ACPI [=y] || COMPILE_TEST [=n]) && MEDIA_SUPPORT [=y] && MEDIA_PCI_SUPPORT [=y] && X86 [=y] && X86_64 [=y] && HAS_DMA [=y]
 
- 		fwnode_handle_put(remote);
- 	}
 
- 	return 0;
+vim +348 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
 
-+put_fwnode:
-+	fwnode_handle_put(remote);
- cleanup:
- 	dev_err(vi->dev, "failed parsing the graph: %d\n", ret);
- 	v4l2_async_nf_cleanup(&chan->notifier);
-=2D-
-2.44.0
+   322	
+   323	static int vidioc_request_qbufs(struct file *file, void *priv,
+   324					struct v4l2_requestbuffers *p)
+   325	{
+   326		struct ipu6_isys_video *av = video_drvdata(file);
+   327		int ret;
+   328	
+   329		av->aq.vbq.is_multiplanar = V4L2_TYPE_IS_MULTIPLANAR(p->type);
+   330		av->aq.vbq.is_output = V4L2_TYPE_IS_OUTPUT(p->type);
+   331	
+   332		ret = vb2_queue_change_type(&av->aq.vbq, p->type);
+   333		if (ret)
+   334			return ret;
+   335	
+ > 336		return vb2_ioctl_reqbufs(file, priv, p);
+   337	}
+   338	
+   339	static int vidioc_create_bufs(struct file *file, void *priv,
+   340				      struct v4l2_create_buffers *p)
+   341	{
+   342		struct ipu6_isys_video *av = video_drvdata(file);
+   343		int ret;
+   344	
+   345		av->aq.vbq.is_multiplanar = V4L2_TYPE_IS_MULTIPLANAR(p->format.type);
+   346		av->aq.vbq.is_output = V4L2_TYPE_IS_OUTPUT(p->format.type);
+   347	
+ > 348		ret = vb2_queue_change_type(&av->aq.vbq, p->format.type);
+   349		if (ret)
+   350			return ret;
+   351	
+ > 352		return vb2_ioctl_create_bufs(file, priv, p);
+   353	}
+   354	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
