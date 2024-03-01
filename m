@@ -1,221 +1,304 @@
-Return-Path: <linux-media+bounces-6247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6248-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7CE86E584
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 17:27:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C54C86E5AC
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 17:33:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B8979B25497
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 16:27:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F02D7286B45
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 16:33:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F4A07292E;
-	Fri,  1 Mar 2024 16:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B7F7472;
+	Fri,  1 Mar 2024 16:32:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tOSDSIIb"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Q1PCh+MO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC3B71ED5;
-	Fri,  1 Mar 2024 16:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F983FDC;
+	Fri,  1 Mar 2024 16:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709310398; cv=none; b=BKhxK1ilH8YfaP2UhVQ8jexbpgFxygY3ZLSW+Rj0kT9ErKlbIMlTb5KW6S22eYsdGpK45jRJ3oHYbjhfXHYZvS2hsJQU9a0X2GvbMjSns4blDVFfrPk77tAARlHqaKwVB7ERlTAq57x+jY7V/G0n6/y9GG1XNLwXz1YG6/wNCpA=
+	t=1709310753; cv=none; b=hS5KbHCqG961mvZe53cfVnSjO48dIIYnD07rJRg2FLdLpFsWm9WsiDryoyUsrQLXIb0ZbVZYIp5FSF53nTlPmIutIlHpfW/KeVF7h2PnkFmW1HkfFU3phoPDjEHd27J3eegOnBomHcMp3Xebkn/+Dp1gZaJ7D6Ht852DJgPoS3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709310398; c=relaxed/simple;
-	bh=VcBbt1X8/pmwh+TkEynp3quxlUoSQQK1gtHMDoY69T0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KtPGjX6pJzTc6jK28WEBpPdNaEkMrkWFgut5KP0gIv9idTPTlwfh8CS+9UjizCdJYptJqXd3J1+7yyRhXP32fw+qH/8FqgRskdxEcedzjcdJdiYrsDsHLjWXKPWMxBpZuKNhwMk8b/+ZwAILiXPof5X/qi0pxWNjBqGdD731IG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tOSDSIIb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF2D4C433F1;
-	Fri,  1 Mar 2024 16:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709310398;
-	bh=VcBbt1X8/pmwh+TkEynp3quxlUoSQQK1gtHMDoY69T0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tOSDSIIbb5L1CFwO/8HxTyN6v4fsCPbtHUZZAhaNMXhPYtUXoUYIOgdC8E7wwbX5O
-	 PYQvYDXqF4ToTR5df+ut4bLkyZCZob0F6tATywbItCVYGNHqKTvFWBryYG7BqLGukI
-	 EE7GTqdiLlH82IgoYBoA3KxjBVcqkAzQjYqInnY1hacYrmW8CuP2+eyG05W3yrI4RY
-	 NEM29optYiOwjzU7Sxnhr0YuwvZqktbVSe7JvS6k2aa8z2ovrltB98QnCk1u929KA6
-	 UTzTfrCUj+DfcSnnzr4sgP+NWVs1rDO3J21j/evq2lovrLehs3UBr1An0jV10d2kwZ
-	 RUSZXgvt95OKQ==
-Date: Fri, 1 Mar 2024 10:26:35 -0600
-From: Rob Herring <robh@kernel.org>
-To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, airlied@gmail.com,
-	akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
-	dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org,
-	maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
-	mripard@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com,
-	ribalda@chromium.org
-Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
-Message-ID: <20240301162635.GA2261739-robh@kernel.org>
-References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-9-panikiel@google.com>
- <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
- <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
- <20240227142911.GB3863852-robh@kernel.org>
- <CAM5zL5pXu5sbzCHY_BrCJ7eZj-p9n0tCo6CmuTqUpvniTrqWJg@mail.gmail.com>
- <324f7b6e-c72c-40aa-afe6-779345c2eade@linaro.org>
- <CAM5zL5oJSHxJK4QWsr2X23g-cN6G54VhGfuwHhMJ9rNu6+gZ=w@mail.gmail.com>
- <20240228180950.GA392372-robh@kernel.org>
- <CAM5zL5qen2Zcg3yecH3jXJ3hiLq88p81n9hmUXQ5E0CXV6w61w@mail.gmail.com>
+	s=arc-20240116; t=1709310753; c=relaxed/simple;
+	bh=XyxMUOWRCr05XpfJyPDBVL+KWHm9XPrcyRo1t+9KIv0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JngypBkUmbVuLTC8TO2BxDwoCxs46va6Xzt35Bdae9WYaMXAF0FcGoPqQBXmkvW/13r/RYavIxdTw2YiWVjtQLM9YezsSPUmpY2dfUgMfDDKC87Z6R7Z3S6dJYTPCkf7ATuB1OES8TqDrldOnUebmhW2kBZbDpzkLf3BcoEk3xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Q1PCh+MO; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 421GWBbF072770;
+	Fri, 1 Mar 2024 10:32:11 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1709310731;
+	bh=+kWCT/YztkXZashp8t8cNtiEodOKyDTatSusbK1sHQo=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=Q1PCh+MOt0XB1rkuwp72Bky0zeSAygNlceeuUcObCQwlq8iTFPyA0gcKAYCYRitzC
+	 AWaZ345TA+BymfM2cNNW780oDob45eElnh/heeGzw47FjRArT2kCbxLiJuapDHX4eW
+	 x7O3dGpMGaMXcOXeWM94AnaV7ryfY3QjlMx3yBCM=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 421GWBZW005837
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 1 Mar 2024 10:32:11 -0600
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 1
+ Mar 2024 10:32:11 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 1 Mar 2024 10:32:11 -0600
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 421GW4k5051965;
+	Fri, 1 Mar 2024 10:32:04 -0600
+Message-ID: <eff7080b-42e9-19ae-6022-bfbcc337b4a0@ti.com>
+Date: Fri, 1 Mar 2024 22:02:03 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v6 1/3] media: dt-bindings: Add Imagination E5010 JPEG
+ Encoder
+Content-Language: en-US
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+CC: <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <benjamin.gaignard@collabora.com>, <laurent.pinchart@ideasonboard.com>,
+        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
+        <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
+        <nicolas@ndufresne.ca>, <afd@ti.com>, <milkfafa@gmail.com>
+References: <20240228141140.3530612-1-devarsht@ti.com>
+ <20240228141140.3530612-2-devarsht@ti.com>
+ <20240229102623.ihwhbba4qwzvxzzq@basti-XPS-13-9310>
+ <7a83fe91-5afa-6aee-a8a4-44f6e3d713c2@ti.com>
+ <20240229133046.64h2f4n27emvdhnq@basti-XPS-13-9310>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20240229133046.64h2f4n27emvdhnq@basti-XPS-13-9310>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAM5zL5qen2Zcg3yecH3jXJ3hiLq88p81n9hmUXQ5E0CXV6w61w@mail.gmail.com>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Thu, Feb 29, 2024 at 11:25:41AM +0100, Paweł Anikiel wrote:
-> On Wed, Feb 28, 2024 at 7:10 PM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Wed, Feb 28, 2024 at 02:09:33PM +0100, Paweł Anikiel wrote:
-> > > On Wed, Feb 28, 2024 at 1:18 PM Krzysztof Kozlowski
-> > > <krzysztof.kozlowski@linaro.org> wrote:
-> > > >
-> > > > On 28/02/2024 12:05, Paweł Anikiel wrote:
-> > > > > On Tue, Feb 27, 2024 at 3:29 PM Rob Herring <robh@kernel.org> wrote:
-> > > > >>
-> > > > >> On Mon, Feb 26, 2024 at 11:59:42AM +0100, Paweł Anikiel wrote:
-> > > > >>> On Mon, Feb 26, 2024 at 10:13 AM Krzysztof Kozlowski
-> > > > >>> <krzysztof.kozlowski@linaro.org> wrote:
-> > > > >>>>
-> > > > >>>> On 21/02/2024 17:02, Paweł Anikiel wrote:
-> > > > >>>>> The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
-> > > > >>>>> Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> > > > >>>>> capture and Multi-Stream Transport. The user guide can be found here:
-> > > > >>>>>
-> > > > >>>>> https://www.intel.com/programmable/technical-pdfs/683273.pdf
-> > > > >>>>>
-> > > > >>>>> Signed-off-by: Paweł Anikiel <panikiel@google.com>
-> > > > >>>>> ---
-> > > > >>>>>  .../devicetree/bindings/media/intel,dprx.yaml | 160 ++++++++++++++++++
-> > > > >>>>>  1 file changed, 160 insertions(+)
-> > > > >>>>>  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > > > >>>>>
-> > > > >>>>> diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > > > >>>>> new file mode 100644
-> > > > >>>>> index 000000000000..31025f2d5dcd
-> > > > >>>>> --- /dev/null
-> > > > >>>>> +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > > > >>>>> @@ -0,0 +1,160 @@
-> > > > >>>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > > > >>>>> +%YAML 1.2
-> > > > >>>>> +---
-> > > > >>>>> +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
-> > > > >>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > >>>>> +
-> > > > >>>>> +title: Intel DisplayPort RX IP
-> > > > >>>>> +
-> > > > >>>>> +maintainers:
-> > > > >>>>> +  - Paweł Anikiel <panikiel@google.com>
-> > > > >>>>> +
-> > > > >>>>> +description: |
-> > > > >>>>> +  The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
-> > > > >>>>> +  Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> > > > >>>>> +  capture and Multi-Stream Transport.
-> > > > >>>>> +
-> > > > >>>>> +  The IP features a large number of configuration parameters, found at:
-> > > > >>>>> +  https://www.intel.com/content/www/us/en/docs/programmable/683273/23-3-20-0-1/sink-parameters.html
-> > > > >>>>> +
-> > > > >>>>> +  The following parameters have to be enabled:
-> > > > >>>>> +    - Support DisplayPort sink
-> > > > >>>>> +    - Enable GPU control
-> > > > >>>>> +  The following parameters' values have to be set in the devicetree:
-> > > > >>>>> +    - RX maximum link rate
-> > > > >>>>> +    - Maximum lane count
-> > > > >>>>> +    - Support MST
-> > > > >>>>> +    - Max stream count (only if Support MST is enabled)
-> > > > >>>>> +
-> > > > >>>>> +properties:
-> > > > >>>>> +  compatible:
-> > > > >>>>> +    const: intel,dprx-20.0.1
-> > > > >>>>> +
-> > > > >>>>> +  reg:
-> > > > >>>>> +    maxItems: 1
-> > > > >>>>> +
-> > > > >>>>> +  interrupts:
-> > > > >>>>> +    maxItems: 1
-> > > > >>>>> +
-> > > > >>>>> +  intel,max-link-rate:
-> > > > >>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > >>>>> +    description: Max link rate configuration parameter
-> > > > >>>>
-> > > > >>>> Please do not duplicate property name in description. It's useless.
-> > > > >>>> Instead explain what is this responsible for.
-> > > > >>>>
-> > > > >>>> Why max-link-rate would differ for the same dprx-20.0.1? And why
-> > > > >>>> standard properties cannot be used?
-> > > > >>>>
-> > > > >>>> Same for all questions below.
-> > > > >>>
-> > > > >>> These four properties are the IP configuration parameters mentioned in
-> > > > >>> the device description. When generating the IP core you can set these
-> > > > >>> parameters, which could make them differ for the same dprx-20.0.1.
-> > > > >>> They are documented in the user guide, for which I also put a link in
-> > > > >>> the description. Is that enough? Or should I also document these
-> > > > >>> parameters here?
-> > > > >>
-> > > > >> Use the standard properties: link-frequencies and data-lanes. Those go
-> > > > >> under the port(s) because they are inheritly per logical link.
-> > > > >
-> > > > > The DP receiver has one input interface (a deserialized DP stream),
-> > > > > and up to four output interfaces (the decoded video streams). The "max
-> > > > > link rate" and "max lane count" parameters only describe the input
-> > > > > interface to the receiver. However, the port(s) I am using here are
-> > > > > for the output streams. They are not affected by those parameters, so
-> > > > > I don't think these properties should go under the output port(s).
-> > > > >
-> > > > > The receiver doesn't have an input port in the DT, because there isn't
-> > > > > any controllable entity on the other side - the deserializer doesn't
-> > > > > have any software interface. Since these standard properties
-> > > > > (link-frequencies and data-lanes) are only defined in
-> > > > > video-interfaces.yaml (which IIUC describes a graph endpoint), I can't
-> > > > > use them directly in the device node.
-> > > >
-> > > > DT describes the hardware, so where does the input come? From something,
-> > > > right? Regardless if you have a driver or not. There is dp-connector
-> > > > binding, if this is physical port.
-> > >
-> > > Yes, it is a physical port. I agree adding a DT node for the physical
-> > > DP input connector would let us add link-frequencies to the input port
-> > > of the receiver.
-> > >
-> > > However, dp-connector seems to be a binding for an output port - it's
-> > > under schemas/display/connector, and DP_PWR can be a power supply only
-> > > for an output port (looking at the dp-pwr-supply property). Also, the
-> > > driver for this binding is a DRM bridge driver (display-connector.c)
-> > > which would not be compatible with a v4l2 (sub)device.
-> >
-> > So then we should add 'dp-input-connector' because they are different.
-> > When we haven't defined connectors, properties of the connector have
-> > been shoved in whatever node is associated with a connector like you
-> > have done. That works for a while, but then becomes unmanageable. DP on
-> > USB-C connectors for example.
-> >
-> > OTOH, maybe your use here is niche enough to not be worth the trouble.
-> > Depends if we see the need for video input connectors in general.
+Hi Sebastian,
+
+On 29/02/24 19:00, Sebastian Fricke wrote:
+> Hey Devarsh,
 > 
-> My use case is a dedicated hardware that runs DP tests of an external
-> DUT. I can't think of another scenario where we'd need an input DP
-> port. IMO this is pretty niche, but I'll leave the decision to you
+> On 29.02.2024 16:50, Devarsh Thakkar wrote:
+>> Hi Sebastian,
+>>
+>> Thanks for the review.
+>>
+>> On 29/02/24 15:56, Sebastian Fricke wrote:
+>>> Hey Devarsh,
+>>>
+>>> On 28.02.2024 19:41, Devarsh Thakkar wrote:
+>>>> Add dt-bindings for Imagination E5010 JPEG Encoder [1] which is implemented
+>>>> as stateful V4L2 M2M driver.
+>>>>
+>>>> The device supports baseline encoding with two different quantization
+>>>> tables and compression ratio as demanded.
+>>>>
+>>>> Minimum resolution supported is 64x64 and Maximum resolution supported is
+>>>> 8192x8192.
+>>>>
+>>>> [1]:  AM62A TRM (Section 7.6 is for JPEG Encoder)
+>>>> Link: https://www.ti.com/lit/pdf/spruj16
+>>>>
+>>>> Co-developed-by: David Huang <d-huang@ti.com>
+>>>> Signed-off-by: David Huang <d-huang@ti.com>
+>>>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+>>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>>
+>>> hmmm when did Rob give his reviewed by on this patch? (As this is not a
+>>> DT binding I find that odd)
+>>
+>> [PATCH v6 1/3] media: dt-bindings: Add Imagination E5010 JPEG Encoder : This
+>> is indeed the dt-binding patch. Also As shared in version history it is at V4
+>> where Rob Herring added a Reviewed-By as seen here [0]
+>>
+>>> And where is the Reviewed by tag from Benjamin that he provided on V5?
+>>>
+>>
+>> As captured in patch version history here [1] I thought to remove the
+>> Reviewed-By since the Reviewed-By tag was on V5 and with V6 the driver got
+>> updated with some changes to handle reported sparse warnings and so I have
+>> asked Benjamin to check the range-diff and help with a quick review again if
+>> possible.
+>>
+>> Kindly let me know if I missed something or anything needs to be done from
+>> my end.
+> 
+> Yes thanks I was a bit too swift to write here, sorry for the noise.
+> We'll have a look.
+> 
 
-Your device is niche, but a video capture/in device is not that niche. 
-After all, Smart TVs run Linux. They have video in connectors. Maybe not 
-DP though. It's conceivable someone could make a "Smart Monitor" I 
-suppose.
+Sorry for the back and forth, but on the hindsight and re-looking at the
+kernel patch guidelines [0] they suggest that Reviewed-By tag should only be
+removed if substantial changes were made in further revisions.
 
-Rob
+So looks to me in-fact it was a mistake on my part to remove the Reviewed-by
+considering the change made in the following patch series was not a
+substantial one as seen in the range-diff [1].
 
+Considering this, just wanted to check with you if it's possible for you to
+consider the Reviewed-by tag :
+`Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com`
+if it helps consolidate things faster to get this series in given we are close
+to final RC's ?
 
+[0]:
+https://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes:~:text=changed%20substantially
+
+[1]: https://gist.github.com/devarsht/c89180ac2b0d2814614f2b59d0705c19
+
+Regards
+Devarsh
+
+> 
+> Greetings,
+> Sebastian
+> 
+>>
+>> [0] :
+>> https://lore.kernel.org/all/170716378412.295212.11603162949482063011.robh@kernel.org/
+>> [1] : https://lore.kernel.org/all/20240228141140.3530612-4-devarsht@ti.com/
+>>
+>>
+>> Regards
+>> Devarsh
+>>>> ---
+>>>> V2: No change
+>>>> V3:
+>>>> - Add vendor specific compatible
+>>>> - Update reg names
+>>>> - Update clocks to 1
+>>>> - Fix dts example with proper naming
+>>>> V4:
+>>>> - Use ti-specific compatible ti,am62a-jpeg-enc as secondary one
+>>>> - Update commit message and title
+>>>> - Remove clock-names as only single clock
+>>>> V5:
+>>>> - Add Reviewed-By tag
+>>>> V6:
+>>>> - No change
+>>>>
+>>>> .../bindings/media/img,e5010-jpeg-enc.yaml    | 75 +++++++++++++++++++
+>>>> MAINTAINERS                                   |  5 ++
+>>>> 2 files changed, 80 insertions(+)
+>>>> create mode 100644
+>>>> Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>>> b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..085020cb9e61
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>>> @@ -0,0 +1,75 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Imagination E5010 JPEG Encoder
+>>>> +
+>>>> +maintainers:
+>>>> +  - Devarsh Thakkar <devarsht@ti.com>
+>>>> +
+>>>> +description: |
+>>>> +  The E5010 is a JPEG encoder from Imagination Technologies implemented on
+>>>> +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
+>>>> +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
+>>>> +  8Kx8K resolution.
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    oneOf:
+>>>> +      - items:
+>>>> +          - const: ti,am62a-jpeg-enc
+>>>> +          - const: img,e5010-jpeg-enc
+>>>> +      - const: img,e5010-jpeg-enc
+>>>> +
+>>>> +  reg:
+>>>> +    items:
+>>>> +      - description: The E5010 core register region
+>>>> +      - description: The E5010 mmu register region
+>>>> +
+>>>> +  reg-names:
+>>>> +    items:
+>>>> +      - const: core
+>>>> +      - const: mmu
+>>>> +
+>>>> +  power-domains:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  resets:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  clocks:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  interrupts:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +required:
+>>>> +  - compatible
+>>>> +  - reg
+>>>> +  - reg-names
+>>>> +  - interrupts
+>>>> +  - clocks
+>>>> +
+>>>> +additionalProperties: false
+>>>> +
+>>>> +examples:
+>>>> +  - |
+>>>> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
+>>>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>>>> +
+>>>> +    soc {
+>>>> +      #address-cells = <2>;
+>>>> +      #size-cells = <2>;
+>>>> +      jpeg-encoder@fd20000 {
+>>>> +          compatible = "img,e5010-jpeg-enc";
+>>>> +          reg = <0x00 0xfd20000 0x00 0x100>,
+>>>> +                <0x00 0xfd20200 0x00 0x200>;
+>>>> +          reg-names = "core", "mmu";
+>>>> +          clocks = <&k3_clks 201 0>;
+>>>> +          power-domains = <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
+>>>> +          interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
+>>>> +      };
+>>>> +    };
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index e1475ca38ff2..6b34ee8d92b5 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -10572,6 +10572,11 @@ S:    Maintained
+>>>> F:    Documentation/devicetree/bindings/auxdisplay/img,ascii-lcd.yaml
+>>>> F:    drivers/auxdisplay/img-ascii-lcd.c
+>>>>
+>>>> +IMGTEC JPEG ENCODER DRIVER
+>>>> +M:    Devarsh Thakkar <devarsht@ti.com>
+>>>> +S:    Supported
+>>>> +F:    Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>>> +
+>>>> IMGTEC IR DECODER DRIVER
+>>>> S:    Orphan
+>>>> F:    drivers/media/rc/img-ir/
+>>>> -- 
+>>>> 2.39.1
+>>>>
 
