@@ -1,125 +1,138 @@
-Return-Path: <linux-media+bounces-6210-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6211-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA66B86DD24
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 09:32:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A63486DD47
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 09:41:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80D68282C1B
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 08:32:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB308B27C2F
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 08:41:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9482469D31;
-	Fri,  1 Mar 2024 08:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37D7E6A01F;
+	Fri,  1 Mar 2024 08:40:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="cZ7Opj3f"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="I1gbJAfo";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="MJxkvT+a"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F61C2B9D6;
-	Fri,  1 Mar 2024 08:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066BB6BB36;
+	Fri,  1 Mar 2024 08:40:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709281927; cv=none; b=faR8VpnhkEncd9HJi/Z4rn+XE/SJl2zs80qnVMauf9NuWaytAs8viwevYmF1Bf+Ghmc2Hkd2zlXiDBLF6LkwrMq+MJFihq7JMLImySN8GeAgZ88Kn3SBR6LjPnvfKA9WkschlfqUcYTBgZnVAdJUr4P7dCCRIH7bQabWRqvkNGY=
+	t=1709282444; cv=none; b=EX1lCqYrkPKLGrAVK2n3ZsRl2uL1+MJ6TD2M8MH7m+mpMAO1nUZ/Y55t3Dxff8bdV6aBDpoMzABK/L8rwC7uc5lSz70b47+4mG1gHTypjCcQTVK9ADnsM3yx/ThUpjFMWJIFDFluO+JLK+hlXLmPgBkywrVe7BOHd+cEiaquPSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709281927; c=relaxed/simple;
-	bh=tXo+3yPFTwnKSAxxXrAIP7alPGiEQwOwRgLL411etiA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nLgx4Noo01kT0dOmlVAk+ooaEPYxam3mYQrxAWhYTKLitKCiG7uVZEniV0NH8YwqEj4MIsoCfa9SYeRgou4k7OrDBysPhpjMj2Titp+M9DkFZjBSBEjO8y8i6QCF+y13DDTppbbtR5onP7qrHxMXY67aSldy5IqaoxUVPHLNzoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=cZ7Opj3f; arc=none smtp.client-ip=93.104.207.81
+	s=arc-20240116; t=1709282444; c=relaxed/simple;
+	bh=K63pbKLdAUYOWop/HtJ/eFv3uzmNlEmQ+U68PXHrgco=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VetclD9bgwrVY6yH+FaPRaPuBYvg75wBbk2DSAp6mvzuQbjJ0OwoWRO1II3bishfkTGR+EolssxzfKuW7hi+rFsZB/4cqXyBodNX2JQcNcvKXzl7gPEzoTsjpUNiw19r32ZYyM21PlJwwmqPI+rMMICjNlwyC22Bh7IXhAKxL10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=I1gbJAfo; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=MJxkvT+a reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1709281923; x=1740817923;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=tXo+3yPFTwnKSAxxXrAIP7alPGiEQwOwRgLL411etiA=;
-  b=cZ7Opj3f1HGipZ8mWY8LM3YxFKbRrggehPRR1oYRVzmyMYBSlqR8My7e
-   FM0Iq2/i6lmFFJKz4qpAmxGweF9zyCQ2v/i/EcZxLG3b8AN/zXwQF3UKK
-   w4eTI82blK7fKTlwwFHq7ZnZYsC5T3OAJhPbQ6gn8J0mTKT2FiWLzThlr
-   0qOtOIrq2/TLRolW/KhueEfNCIpXriAUDBSHKxVht/Q52A5gA0ZstR2dF
-   G/cZVfX63Lo4edjOvKMUOP8Yhr6naD1CrL2LaAjWChY4XtQOySlMZriJ+
-   IhWw0kGa5LXZ8xiHumI+ZMShLvDmTEz1prnJZNO3ekEfvzr9DTiEboz0c
-   g==;
+  t=1709282439; x=1740818439;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Lx7L1yeDQfLG89Mz94ToNu0CzTt1dUUrZHxQtg+EH88=;
+  b=I1gbJAfoUJdotmtBeK4sT6GIa3DgGK2MMBeZD4dSMagGGXyjBmpW1Toa
+   gVwABgKxQRHDBEN+zuH06A4nis3HcYYVglWGEYY2AwM1dS+heEk6B2dZ2
+   ZNb6ExnOKi/IIbpwZQzqIBN4Ncpwi6RlcBoz7omHxXZHT5lDsfasem+Vo
+   alm7dEw8xNlgIMkIgIYewwj6lB7jnHZPOEJf0mByTfxnPFJ2aAHnhjYus
+   DmZli74wVf9SOVvy7tz3zD4ImkU4cKAh7iSXQVCHvi2rWMrC5c5VIPqtN
+   M74hZLcCwhms0ViYV7iSoQPRnWg1f/+iavZoV2ClpWW8IsrsLnI/jwWT7
+   A==;
 X-IronPort-AV: E=Sophos;i="6.06,195,1705359600"; 
-   d="scan'208";a="35680235"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 01 Mar 2024 09:32:00 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6E141280071;
-	Fri,  1 Mar 2024 09:32:00 +0100 (CET)
+   d="scan'208";a="35680479"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 01 Mar 2024 09:40:36 +0100
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 61003173639;
+	Fri,  1 Mar 2024 09:40:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1709282432; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=Lx7L1yeDQfLG89Mz94ToNu0CzTt1dUUrZHxQtg+EH88=;
+	b=MJxkvT+au9F5IKIzgwBJN2leQ1QuowHlrAJwinv9p/8a9Is+HEhBQT95ACJD+lowO6PEFd
+	zqta59lnUKdt7xgbzLTqEgBK9laV+tzEPgIPLVlmU8BHHSaXGZ9m1jEnHSIQL0BwAEWCYr
+	jStUATwWSghi+gZrqU5oKKohkuAwQkbem1plX19W9UH52k+FW7UnnQ2Cev6tmcRHsqMGDL
+	A1TQZkhGJ1No5nDrjTqGp43ZsBcbPNAxYeKdXeVgJfPCOCHh0nwL6oRmc9D5VMucYlQc2v
+	jflPoDtDMODF+RVicD5ce520XAdn6xEzPKOqodULfu74Xmk/jlV39UvTHV+UQA==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/3] media: dt-bindings: nxp, imx8-isi: Allow single port for single pipeline models
-Date: Fri, 01 Mar 2024 09:32:00 +0100
-Message-ID: <6655016.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <3f82eadb-a475-4ea0-8de3-0bfe0a46a27b@linaro.org>
-References: <20240223140445.1885083-1-alexander.stein@ew.tq-group.com> <bf892e5b-be7a-4197-9e68-5199e3aada23@linaro.org> <3f82eadb-a475-4ea0-8de3-0bfe0a46a27b@linaro.org>
+To: Sebastian Reichel <sre@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Ricardo Ribalda <ribalda@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 1/2] media: dt-bindings: sony,imx290: Allow props from video-interface-devices
+Date: Fri,  1 Mar 2024 09:40:07 +0100
+Message-Id: <20240301084009.3030753-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Krzysztof,
+Allow properties from video-interface-devices. This aligns the bindings
+to sony,imx415.yaml. Changes inspired by commit e2e73ed46c395 ("media:
+dt-bindings: sony,imx415: Allow props from video-interface-devices")
 
-Am Donnerstag, 29. Februar 2024, 19:18:14 CET schrieb Krzysztof Kozlowski:
-> On 29/02/2024 19:14, Krzysztof Kozlowski wrote:
-> > On 23/02/2024 15:17, Laurent Pinchart wrote:
-> >> On Fri, Feb 23, 2024 at 04:16:31PM +0200, Laurent Pinchart wrote:
-> >>> Hi Alexander,
-> >>>
-> >>> Thank you for the patch.
-> >>>
-> >>> On Fri, Feb 23, 2024 at 03:04:44PM +0100, Alexander Stein wrote:
-> >>>> In case the hardware only supports just one pipeline, allow using a
-> >>>> single port node as well.
-> >>>
-> >>> This is frowned upon in DT bindings, as it makes them more complicated
-> >>> for little gain. The recommendation is to always use a ports node if a
-> >>> device can have multiple ports for at least one of its compatibles.
-> >>
-> >> And reading the cover letter, I see this causes warnings. I think we
-> >> need guidance from Rob on this.
-> >=20
-> > Here was similar case:
-> > https://lore.kernel.org/all/20240227142440.GA3863852-robh@kernel.org/
-> > and @Rob recommendation was to just use ports.
-> >=20
-> > It's true it causes warnings... or I should say - it was causing
-> > warnings (one of my last warnings in Samsung DTS for W=3D1).
-> >=20
-> > I wonder what's the base of this patchset?
-> >=20
-> > https://lore.kernel.org/linux-samsung-soc/20231122-dtc-warnings-v2-1-bd=
-4087325392@kernel.org/
->=20
-> Uh, wait, this was not merged, so the warning still appears. Anyway the
-> preference is simpler schema, so just "ports".
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+Changes in v3:
+* Collected R-b & A-b
 
-Okay, thanks for that information. I'll drop this patch then.
-Just to be on the same side, this implies that using a single port
-in this case ( see patch 3) is not necessary/wanted, no?
-If so, I'll drop patch 3 as well.
+ Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
+index a531badc16c98..bf05ca48601ab 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
+@@ -23,6 +23,9 @@ description: |-
+   is treated the same as this as it was the original compatible string.
+   imx290llr is the mono version of the sensor.
+ 
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
+ properties:
+   compatible:
+     oneOf:
+@@ -101,7 +104,7 @@ required:
+   - vdddo-supply
+   - port
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+-- 
+2.34.1
 
 
