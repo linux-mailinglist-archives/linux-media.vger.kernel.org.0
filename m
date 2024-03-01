@@ -1,163 +1,145 @@
-Return-Path: <linux-media+bounces-6221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6222-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B739E86DE5D
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 10:36:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D7086DE9A
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 10:52:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E96CC1C20FDE
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 09:36:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 465C21C21BB8
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 09:52:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660E66A8B9;
-	Fri,  1 Mar 2024 09:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D842E6A8CA;
+	Fri,  1 Mar 2024 09:52:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ig46G8V0"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QlpjN5Nc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E606A356;
-	Fri,  1 Mar 2024 09:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73446995C;
+	Fri,  1 Mar 2024 09:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709285773; cv=none; b=ausKpaDY5IUSz33MJQuHAFvEho6lRc7wOKD2Rsxu2zmdPWbJ7b0AjlS9aDz4t6hFlLSqWdE3b8a9oVlgc2fIB9sylTHQhriJgmZAzP68xOHg6oEkjTWeoHF7QmPDEoyswHwNpnA3v/gvTwTP3v8sYmocktzn2nua9OBtsDHzdWg=
+	t=1709286742; cv=none; b=HTd1UXeqxoy/xxeeq6S+vCJkkn8RujlbybltHWW7J1cUsLINLjjo2d38VTxWUWcBoNykGaeQAxYSTQHcIUqsVYxXs+AVzKHHHwfG5vhuU1jPVKLeDF76DGEe6JBXLA8OctfNu5iKtXwDojajaDEQZQ4QeAnOHAB1xFdJgIiPdaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709285773; c=relaxed/simple;
-	bh=Gmf0uAuSVCHCNz8dYID/8N8Eng78uQAJL21zEESINHQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X10kmOS1TUoy4QhukLO/lWenWri9Qsou3TMYld99Fns+CaIfE9cqBOYiA3zWpK0ys2O/I1NZmP0Gl0+plzgHca3XqsEi5HmpIQXVkGxCEVUYYYTvBs8ZuyWUvm6bGbhH9IXOwllEq5yUIAHCfJk3i8krDX3+CPVSypDtB0I93Pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Ig46G8V0; arc=none smtp.client-ip=46.235.227.194
+	s=arc-20240116; t=1709286742; c=relaxed/simple;
+	bh=0eEAsDUiGlym1jRBLErLtOHPYKonoraS/Q/lwYdLL6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=umiwyrmIKcrGdeV+FDewlvy7nZbWk8eYlMk5732kPxWE7uKtCbi0ngTrsmB9LLzqnps4OXoWJLUiZSjNxZlKm1W2v1ZureQIs1KnE7qDfp9PNQcF4KzbGjdoqAYjldaF00PQQZE3DKmXixI0tQS/w7h9dhKCLveg/LCjmc5/dGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QlpjN5Nc; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709285770;
-	bh=Gmf0uAuSVCHCNz8dYID/8N8Eng78uQAJL21zEESINHQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ig46G8V0pkgNPXWHGVJB/JcKf0H593/uLUmsUXQHbWjQx4kF5UVwVCYRuSoK2aOdw
-	 BP3PDLMyaGt+zv3W7kFW1FMQSsNolK0+DaQ4EG4RRDTAJnkA28kNFcs/Utre/aP0eK
-	 q+RDgJWxv+p1RjN5fwX5tad13FyU54e2tPc5j+iwYEI5FJUCEjWMO8I5wS+jAD79rG
-	 NOn7t+DvE0GrKqvqoFxYDp22QBfde1KIDbxhIJ77KEz1887NulmfZIgyvACmGBGzVU
-	 y+DmCWHqEOzCv+QJT68pdrrbES/pVEyoycyNuP2AIWR42ajqEP97BUhealuWYyeiF0
-	 aIbd4jGPtJgGg==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	s=mail; t=1709286738;
+	bh=0eEAsDUiGlym1jRBLErLtOHPYKonoraS/Q/lwYdLL6c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QlpjN5NcAeEwbGqu8RBj8FauZX1FwPsgaeROmXHEoWtABFUvUWIUbaBKxyeneagj+
+	 1UMyEDl4P6erEOnJi3aTI2uM1hCwNRyrngSEcUGRVU0ADqgSHnhjKGJ2wkL0tIej5y
+	 Leu0Qqm0fJ+NA7PsAPAlPG4hCRWAToti342lVzo/jtY3F07QE5naDvn17ZiHnKo0wv
+	 tDob4iV+b+hgvM8LtksTiyL5m1Wt3SY6YUGeB/L3g0Q4UEHOa/KEUeKwliFIMsJ2vJ
+	 ubUxB9KvFGIfD7PLvjj4SPMfjJN1ut8Doyf29CMphkVvKLctsGmaGV61XRH55wxG5k
+	 093TghaWTwZKQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6783B37810CD;
-	Fri,  1 Mar 2024 09:36:09 +0000 (UTC)
-Message-ID: <7de218a7-680f-40a8-a002-d6a2c87f53ee@collabora.com>
-Date: Fri, 1 Mar 2024 10:36:08 +0100
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B50A037820C2;
+	Fri,  1 Mar 2024 09:52:18 +0000 (UTC)
+Date: Fri, 1 Mar 2024 10:52:17 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH] media: mediatek: vcodec: support 36bit physical address
+Message-ID: <20240301095217.bmsnizobpb736fgg@basti-XPS-13-9310>
+References: <20240301020126.11539-1-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: mediatek: vcodec: support 36bit physical address
-Content-Language: en-US
-To: =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= <Yunfei.Dong@mediatek.com>,
- "nhebert@chromium.org" <nhebert@chromium.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
- "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "frkoenig@chromium.org" <frkoenig@chromium.org>,
- "stevecho@chromium.org" <stevecho@chromium.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "hsinyi@chromium.org" <hsinyi@chromium.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20240301020126.11539-1-yunfei.dong@mediatek.com>
- <ea7f25bf-2294-4ad4-bc18-226827d49ae8@collabora.com>
- <c1f489c474e3d00ff8573225c5d282df4d82f9e1.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <c1f489c474e3d00ff8573225c5d282df4d82f9e1.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240301020126.11539-1-yunfei.dong@mediatek.com>
 
-Il 01/03/24 10:23, Yunfei Dong (董云飞) ha scritto:
-> Hi AngeloGioacchino,
-> 
-> Thanks for you reviewing.
-> On Fri, 2024-03-01 at 10:03 +0100, AngeloGioacchino Del Regno wrote:
->> Il 01/03/24 03:01, Yunfei Dong ha scritto:
->>> The physical address is beyond 32bit for mt8188 platform, need
->>> to change the type from unsigned int to unsigned long in case of
->>> the high bit missing.
->>>
->>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->>> ---
->>>    .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        | 4
->>> ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git
->>> a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_
->>> lat_if.c
->>> b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_
->>> lat_if.c
->>> index cf48d09b78d7..85df3e7c2983 100644
->>> ---
->>> a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_
->>> lat_if.c
->>> +++
->>> b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_
->>> lat_if.c
->>> @@ -1074,7 +1074,7 @@ static int
->>> vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance
->>> *inst
->>>    	unsigned int mi_row;
->>>    	unsigned int mi_col;
->>>    	unsigned int offset;
->>> -	unsigned int pa;
->>> +	unsigned long pa;
->>
->> If you used the right type from the beginning, you wouldn't have to
->> fix that ;-)
->>
-> Yes, you are right, thanks for your remind.
->> Is there any reason why you didn't - and still don't use the
->> `phys_addr_t` type
->> for the `pa` member?
->>
-> pa is also iova, dma address. Change it to dma_addr_t looks much
-> better.
-> 
+Hey Yunfei,
 
-Ok, dma_addr_t looks good as well.
+On 01.03.2024 10:01, Yunfei Dong wrote:
+>The physical address is beyond 32bit for mt8188 platform, need
+>to change the type from unsigned int to unsigned long in case of
+>the high bit missing.
 
-Cheers!
+I would reword this a bit, the address is not beyond 32 bit, which would
+could be interpret as if the address starts after 32nd bit, instead it
+is larger than 32bits. Secondly, we don't change the type in case the
+high bit is missing, we change the type unconditionally, we do change
+the type so that the high bit isn't missing.
 
-> I will change it in next patch.
->> Cheers,
->> Angelo
->>
-> Best Regards,
-> Yunfei Dong
->>>    	unsigned int size;
->>>    	struct vdec_vp9_slice_tiles *tiles;
->>>    	unsigned char *pos;
->>> @@ -1109,7 +1109,7 @@ static int
->>> vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance
->>> *inst
->>>    	pos = va + offset;
->>>    	end = va + bs->size;
->>>    	/* truncated */
->>> -	pa = (unsigned int)bs->dma_addr + offset;
->>> +	pa = (unsigned long)bs->dma_addr + offset;
->>>    	tb = instance->tile.va;
->>>    	for (i = 0; i < rows; i++) {
->>>    		for (j = 0; j < cols; j++) {
->>
->>
+My suggestion:
 
+The physical address on the MT8188 platform is larger than 32 bits,
+change the type from unsigned int to unsigned long to be able to access
+the high bits of the address.
+
+One more question below...
+
+>
+>Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>---
+> .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+>index cf48d09b78d7..85df3e7c2983 100644
+>--- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+>+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+>@@ -1074,7 +1074,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
+> 	unsigned int mi_row;
+> 	unsigned int mi_col;
+> 	unsigned int offset;
+>-	unsigned int pa;
+>+	unsigned long pa;
+> 	unsigned int size;
+> 	struct vdec_vp9_slice_tiles *tiles;
+> 	unsigned char *pos;
+>@@ -1109,7 +1109,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
+> 	pos = va + offset;
+> 	end = va + bs->size;
+> 	/* truncated */
+>-	pa = (unsigned int)bs->dma_addr + offset;
+>+	pa = (unsigned long)bs->dma_addr + offset;
+
+I can see in other parts of the driver that bs->dma_addr is converted to
+u64 or uint64_t. Is unsigned long always 64-bit on the different
+Mediatek platforms? If so, why do you prefer unsigned long over u64?
+(Which describes the type more precisely)
+
+(Same applies for:
+drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c:452)
+
+Greetings,
+Sebastian
+
+> 	tb = instance->tile.va;
+> 	for (i = 0; i < rows; i++) {
+> 		for (j = 0; j < cols; j++) {
+>-- 
+>2.18.0
+>
+>
 
