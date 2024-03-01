@@ -1,93 +1,107 @@
-Return-Path: <linux-media+bounces-6253-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6254-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE6086E777
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 18:39:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D05386EAF0
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 22:11:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C45D729118B
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 17:39:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C2A68B245AB
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 21:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7CA1118E;
-	Fri,  1 Mar 2024 17:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB13A56B9E;
+	Fri,  1 Mar 2024 21:11:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GWR6kZ6s"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ke/foRsU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF828BED;
-	Fri,  1 Mar 2024 17:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1471920DCD;
+	Fri,  1 Mar 2024 21:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709314786; cv=none; b=d91UVd5syLU1lUC5Tcy9Imf3sGatNGnp/q6bKpzrHqvlisheEEqyasjC+Bz0INPAPdUqXujud6pjbW4HpvU99qYJve++7/+X7TDIJcuKKIRFjKY3eVORprKkMhWA0uR5YU16mW/nE0+fLytwXFqS1lmJUiTy0IfZ8P2qTLHb5N4=
+	t=1709327471; cv=none; b=Ev0C9sVGJk4YvvO8Hrt19q4awP6BGPRiuYYQPHm4cZvVO1Cobiv2NvMEyGd2LPF6e8Lp/SNDPUUoUYR2qN0BWK5j0wLLWdFYKkW/4GLUj88kT6QOGoeMwDvmMR3v7l2+9yeyLW5PTlmak2xHtaq7WleT1pPSlAkU5xuuW0KOm0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709314786; c=relaxed/simple;
-	bh=VE2uSRmbnrUTIwI0MsFFp9dkOgavVaKfIAsVt33kwLE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QViCiqY10P9rHlKvTxmM1eecHO1+jVUYQ3LCxE2QW4KHDW2xaNYktllspb73CYazu9tk45kAUujq1mdKd7L99PbeCuOpECBAtMAM52D8ZfE4yNwS6+7CKA8zInn//CHXpK8ZzFf6GavqX3oh9Kj43gtamZdkV5FchD9Y0qu+XqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GWR6kZ6s; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B7F1240003;
-	Fri,  1 Mar 2024 17:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709314782;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HPOP82Swf39Z+Oml/HNNIoo3JMbE10x1ALBHxRiVIp4=;
-	b=GWR6kZ6sqnLHbD99ZA24rS7vAWtep94ya9NrWpvjdjoRU666FY23absUBejh5k+F1ZnjqS
-	vmTZ6iMMzqD49O7v2Yh+QIbMT1KE1zy+Tdi98zGRiKtU26wJSIs9TWcWZA+VQsfiRxYzwE
-	BAFH32DSCmJkBOMpqeHx96/SKusM3TlsbbTs3zo5dlNrr2aMoCdNhllZoYe3+wc2zFuogv
-	4QpwqK264eg2jGDAYH5JEdEo+ONGAJVGkwb72LSQ13MtxNVWRAupfGJIZytBJ0s+FVm0a0
-	MJYwRN0pi6J13FmpW2SUSbbHvHTLw+BO6oOD9USIHJPS9bsMOgtBWHmj+ml05Q==
-Date: Fri, 1 Mar 2024 18:39:36 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Hunter
- <jonathanh@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Thierry Reding
- <thierry.reding@gmail.com>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: media: tegra-video: Use common error handling
- code in tegra_vi_graph_parse_one()
-Message-ID: <20240301183936.505fcc72@booty>
-In-Reply-To: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
-References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1709327471; c=relaxed/simple;
+	bh=PareT5Uh8qyKXVJmbXssDGNU+1BT0dFwAwAWmEQRgfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FMSXrUeaziyxpW7F+j7RY8xs+lf8+f0T9V3SLJjdpC5SHDxNZQ6Fg9cnaDUarI9wQsmct0zYF1cJCMiIk60+ChixSMZfhkJHIE8ORAMULxoIGyAeLQRddaiutf5uO5CngNOGXnX+dcNeE9qH5e82Uhp4ggVFSELlJ9Nuv3xPZDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ke/foRsU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38681C433C7;
+	Fri,  1 Mar 2024 21:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709327470;
+	bh=PareT5Uh8qyKXVJmbXssDGNU+1BT0dFwAwAWmEQRgfE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ke/foRsUxfyuNyennmryYOLtImZiHI/U9cBz9KR4XL5KcRw/J3ekb0E2Wsj2RsYof
+	 FESedK9y3YvMR/MhHPRE0N3iD8mB0cvI3Fo9sPvrcSDlGC38nEPOGUV0nmAeFD2ay/
+	 L8oeCj+Z4vmhDmSnRNE/nTwKOFXsFmVbVHhDMlQ6RHNILq0ZTo/BmTZKbuVIJgqxqr
+	 gDuqaJvsSD9SS1T63uKw0ZnI0s5hk9/Bse6VdB8Czn9qAh1gALPXAAMtFwK7V73Evl
+	 EKpp8i9NFqjhEPgOHO9HabxpTHU/4uy6+8aEMuu8AB7ngJSf0MlFfFjDE/0DQFNk9e
+	 thFTy1aoc9ZiQ==
+Date: Fri, 1 Mar 2024 15:11:07 -0600
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/3] media: dt-bindings: nxp,imx8-isi: Allow single port
+ for single pipeline models
+Message-ID: <20240301211107.GA3037358-robh@kernel.org>
+References: <20240223140445.1885083-1-alexander.stein@ew.tq-group.com>
+ <20240223140445.1885083-3-alexander.stein@ew.tq-group.com>
+ <20240223141630.GA1313@pendragon.ideasonboard.com>
+ <20240223141731.GB1313@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240223141731.GB1313@pendragon.ideasonboard.com>
 
-Hello Markus,
-
-On Thu, 29 Feb 2024 19:55:46 +0100
-Markus Elfring <Markus.Elfring@web.de> wrote:
-
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Thu, 29 Feb 2024 19:44:36 +0100
+On Fri, Feb 23, 2024 at 04:17:31PM +0200, Laurent Pinchart wrote:
+> On Fri, Feb 23, 2024 at 04:16:31PM +0200, Laurent Pinchart wrote:
+> > Hi Alexander,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Fri, Feb 23, 2024 at 03:04:44PM +0100, Alexander Stein wrote:
+> > > In case the hardware only supports just one pipeline, allow using a
+> > > single port node as well.
+> > 
+> > This is frowned upon in DT bindings, as it makes them more complicated
+> > for little gain. The recommendation is to always use a ports node if a
+> > device can have multiple ports for at least one of its compatibles.
 > 
-> Add a jump target so that a bit of exception handling can be better reused
-> at the end of this function implementation.
-> 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> And reading the cover letter, I see this causes warnings. I think we
+> need guidance from Rob on this.
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+The warning is for:
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+ports {
+  port@0 {};
+};
+
+It should/could be changed like this to fix it:
+
+ports {
+  port {};
+};
+
+But I've also said some warnings are guidance, not absolute. This is one 
+of them. Some devices have optional port@1. In those cases, switching 
+between 'port' and 'port@0' depending on 'port@1' makes little sense.
+
+Rob 
 
