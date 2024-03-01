@@ -1,339 +1,429 @@
-Return-Path: <linux-media+bounces-6227-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6228-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBD686E023
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 12:25:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3FE86E02C
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 12:26:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53E1FB23433
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 11:25:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AAB21C20E27
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 11:26:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D94E6CDA1;
-	Fri,  1 Mar 2024 11:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C5DA6CDC3;
+	Fri,  1 Mar 2024 11:26:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LpNxoC73"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gcH5T3Ft"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB60820300;
-	Fri,  1 Mar 2024 11:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C3F6BB4E
+	for <linux-media@vger.kernel.org>; Fri,  1 Mar 2024 11:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709292324; cv=none; b=sfC8vBjQdgKgCCGiglQH3/ezFHG4Qf4P4TOFI7zuzT/6/jjW8eByj8xnzZHSJEuQCNmzv0oBtcIDx5AnXp87qxEDwwDjWE53BYbMl8Qm5P8YWLvAabU93lLS9xMIUBMkS73q+/zRQuJpwrTk2tkDOmLvnD2KMTm+4TSfdQFnvIs=
+	t=1709292396; cv=none; b=UbDrCB7NY5O7sMjLTulgdyrfkpcVjtbH/qXMUqd29M98Dkt0Mn7MrUqVh1O3eZN4M2v06Tw113JnRZLunLSi9/OCy5dYU2KBIw6xrtBAoDcDozdGVC42uBYqUPLA+hWclh94NZJTnzQdo2ArYY3ZzmsSc5T9g5IIiIL8IrgqAow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709292324; c=relaxed/simple;
-	bh=W/1WfOOnotgfzDhh6sPdm0zlIC75gd/R/TxxcQvU83M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hRXhoE+GKvzbsIY679mrX8+16T7bkrHxJ37iGIvWpSiGl/5jmSIC0SF0xl8x15SZYY89gcZrDbPITSqb2DH92k6baRmcRXDWLDboGVfbdPKGr4JGH/KfppfTWija87Vn/u8p+073Vyq/pUueVOaUAF3KmU5BOq6dQMXvmP80Odk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LpNxoC73; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4216COVw013756;
-	Fri, 1 Mar 2024 11:25:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=ZEXUTybxiN9ZLwTEbHlqBVG7ggy9vypk6yhyt0gudJg=; b=Lp
-	NxoC73Tb+CEkTrckMN9Z4evJMkEYzwBLc9iiPD5zV928meJIjI+jTN/aXoNPd5F9
-	kMFfwpuwUB/lDH0+a/Av4ppqByFl57VIjVw3OCCj5P2a5c7Enfvq7Z5R0KYQBM0p
-	Xm41RQfH49yMzYqszBZ4jGAta93cO4SKQzK1upTBn29ooHTWptBmngvGm7O8x+2P
-	DsuulaInqT6SScyqfobR+CG7A4INe1EKUGo3z1bPTrQEYYRSQicNSbenObTFZauR
-	zzOvmfMMgciO3OBpbVflylB/HbQEW6CAL8dyWwfqHwmG2bBZ1sxiuMyP91qF+2fS
-	jtR3avIQrv5msUxGhDOA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wk9hp0r2t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 01 Mar 2024 11:25:11 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 421BPAgL005394
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 1 Mar 2024 11:25:10 GMT
-Received: from [10.217.216.47] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Mar
- 2024 03:25:03 -0800
-Message-ID: <19bcfe92-8c5a-4736-828a-6680ad81463c@quicinc.com>
-Date: Fri, 1 Mar 2024 16:54:06 +0530
+	s=arc-20240116; t=1709292396; c=relaxed/simple;
+	bh=v9Mw67zmZwjTVLvu50BgA9qZZ4KidgCacU0eeQ7KFx8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hqkXYWILC51wMuN1mUK1iE0fK17KJvlWjMxfctGUbJAOIiKidnaHFf572qx8A6wwOqEQdtOSFVEdD3nCYR8naVGJGuB2zDmBSATvKx/nyjyTP1DWxMeSFGO8bkH0iA9NQv8ioXUn8/+xowxMzcwUE3jZ0B3LNSmx4dgFtjmrafk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gcH5T3Ft; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1709292393;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wjYgI2KsgeWuP3sAlk9TqZqYfNa6GCpmBp03vZLpou0=;
+	b=gcH5T3FtW6MbAToCPV2dEUlSCR7RcfH9J283CNGNhQTqQDLvn8ZDOO0Fs+B8HM++9HrSsz
+	2A76yDXFffZjVWc+ahMECdyvh76Oywu965TH0P6QZmio8uXZVXKsnDrDTBf0rszAa77wpB
+	IbENwTrhkzEGf+ikhQpdfQDQwYSPlF0=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-571-zgGo3XXlNTyYv-i-CQ4jjg-1; Fri, 01 Mar 2024 06:26:31 -0500
+X-MC-Unique: zgGo3XXlNTyYv-i-CQ4jjg-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2d2fe83c377so11199531fa.0
+        for <linux-media@vger.kernel.org>; Fri, 01 Mar 2024 03:26:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709292390; x=1709897190;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wjYgI2KsgeWuP3sAlk9TqZqYfNa6GCpmBp03vZLpou0=;
+        b=U1FCg5pX+YRdAllyRILzUebuMP1gWg1jg+ByPDrFS546joOWSxGVtCngB/GrkYjM/a
+         jj+IBtBqrJlhBJiWJ1EZMwEmK0BAWb0C02wdA4PnWvel+pQ0W/dNJ0L/D2ZJzukAdyEQ
+         v0TKgBcJZZtwHEABPnIKQ4wx1qeGFJNzOPTdDeWhDDpzSl5m1iZVgQ2qEOY54KEp7Vma
+         cp1W2cbFsByD02ioWPVD2XgBtKYyz+gel7QcrgOcN22UzigboN5wSj55LvZwKpNTLpUD
+         QLA3msTFJbh1WNR74VAvjgHoFbePuX4PNNgfHLtICjAQY4xqN3LT+ppNYffr2kZ3cbku
+         Z7SA==
+X-Forwarded-Encrypted: i=1; AJvYcCVQTjDkVpAIOo7biKeoozHCcXF/fHH5NGC9vQOX23Ph/JhNnGNEszkn2tGa1OBd076cJBwk1lpYKk4BELS1ENYs92BOc6MDnLAdoIc=
+X-Gm-Message-State: AOJu0YxJqyJ3XhfOUnlp4I/iy0tKMb/60v+FOr3Q/06eV6u1HSRa73nB
+	rNkADlAKBazN2S8S0KfadeIqStM4+lupDnay8q0h2Pg+e8QsnTpEKuTmuFuUvE4FEDEJcPaBu2j
+	WoJ9OAXqUh/w5KTlBwt5qsWmJJAVPI+HwsfML3A1YDvHNvUN6mceGrBZVdB2u
+X-Received: by 2002:a2e:95d5:0:b0:2d2:5668:3a40 with SMTP id y21-20020a2e95d5000000b002d256683a40mr942903ljh.4.1709292390405;
+        Fri, 01 Mar 2024 03:26:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHUMPEadXUnHsh8Ae/1Y5RYwcaIFHHrv+QbMlgbuWWzQO///QbdhSklfmNGWU04m0Hw1ckfSQ==
+X-Received: by 2002:a2e:95d5:0:b0:2d2:5668:3a40 with SMTP id y21-20020a2e95d5000000b002d256683a40mr942879ljh.4.1709292389946;
+        Fri, 01 Mar 2024 03:26:29 -0800 (PST)
+Received: from toolbox ([2001:9e8:89a0:c500:c65:1f3a:8c08:2a1d])
+        by smtp.gmail.com with ESMTPSA id y16-20020a05600c365000b00412656ba919sm8004431wmq.20.2024.03.01.03.26.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Mar 2024 03:26:29 -0800 (PST)
+Date: Fri, 1 Mar 2024 12:26:27 +0100
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <20240301112627.GD166694@toolbox>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
+ <20240229194726.GB166694@toolbox>
+ <5a8366aa-34b9-4f80-9b14-d92e99873349@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] PM: domains: Allow devices attached to genpd to be
- managed by HW
-To: Ulf Hansson <ulf.hansson@linaro.org>
-CC: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Len Brown <len.brown@intel.com>,
-        "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Michael Turquette
-	<mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Taniya Das <quic_tdas@quicinc.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>,
-        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-References: <20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org>
- <20240122-gdsc-hwctrl-v4-1-9061e8a7aa07@linaro.org>
- <tax3c6o5qjegy6tv3zbgrd5rencfvypr3zg7twxfrmdngscp74@n44ei3q63g64>
- <CAPDyKFpdtrWbzNksLoY++aOY7Ltyt1HhtLZo8bj8sQ05-4Sq0g@mail.gmail.com>
- <l7icfezpajren25545n4cjtqehhividt5b2dxnxgetdsshc3k3@tdws423qdblk>
- <CAPDyKFp1vg2+-pHJ_idkdhb_zZUMpq7W17DnCCGj0eTwd4jFbQ@mail.gmail.com>
- <87b7967f-d8c4-426e-92ed-5a418c702481@quicinc.com>
- <CAPDyKFqy0osJRTU1mL0Ew_3pnYOe5z20ZWNrew8B6t99UFO0pg@mail.gmail.com>
- <a1c2641f-80c0-4e6e-9c44-ef7209da97a5@quicinc.com>
- <CAPDyKFrg_otBETwM9hTOvxkdCPadDYdaxguS5RVJh4wL9NCovA@mail.gmail.com>
- <eb758a6c-a3e0-4ee9-bff4-4b62e5530d09@quicinc.com>
- <CAPDyKFopSyH05oavacniXTesYkeC7wAGd5EKs0p4mNn2QDPm8Q@mail.gmail.com>
-Content-Language: en-US
-From: Jagadeesh Kona <quic_jkona@quicinc.com>
-In-Reply-To: <CAPDyKFopSyH05oavacniXTesYkeC7wAGd5EKs0p4mNn2QDPm8Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: D58NAmZ-YIOif44G2Hjuedlff4s44RKG
-X-Proofpoint-GUID: D58NAmZ-YIOif44G2Hjuedlff4s44RKG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-01_10,2024-03-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
- adultscore=0 impostorscore=0 clxscore=1011 priorityscore=1501 phishscore=0
- mlxlogscore=999 lowpriorityscore=0 suspectscore=0 bulkscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2403010096
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a8366aa-34b9-4f80-9b14-d92e99873349@xs4all.nl>
 
-
-
-On 2/28/2024 8:23 PM, Ulf Hansson wrote:
-> On Fri, 16 Feb 2024 at 09:01, Jagadeesh Kona <quic_jkona@quicinc.com> wrote:
->>
->>
->>
->> On 2/15/2024 9:57 PM, Ulf Hansson wrote:
->>> On Wed, 14 Feb 2024 at 05:29, Jagadeesh Kona <quic_jkona@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 2/13/2024 7:21 PM, Ulf Hansson wrote:
->>>>> On Tue, 13 Feb 2024 at 14:10, Jagadeesh Kona <quic_jkona@quicinc.com> wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On 2/2/2024 5:59 PM, Ulf Hansson wrote:
->>>>>>> On Fri, 2 Feb 2024 at 00:51, Bjorn Andersson <andersson@kernel.org> wrote:
->>>>>>>>
->>>>>>>> On Wed, Jan 31, 2024 at 01:12:00PM +0100, Ulf Hansson wrote:
->>>>>>>>> On Wed, 31 Jan 2024 at 02:09, Bjorn Andersson <andersson@kernel.org> wrote:
->>>>>>>>>>
->>>>>>>>>> On Mon, Jan 22, 2024 at 10:47:01AM +0200, Abel Vesa wrote:
->>>>>>>>>>> From: Ulf Hansson <ulf.hansson@linaro.org>
->>>>>>>>>>>
->>>>>>>>>>> Some power-domains may be capable of relying on the HW to control the power
->>>>>>>>>>> for a device that's hooked up to it. Typically, for these kinds of
->>>>>>>>>>> configurations the consumer driver should be able to change the behavior of
->>>>>>>>>>> power domain at runtime, control the power domain in SW mode for certain
->>>>>>>>>>> configurations and handover the control to HW mode for other usecases.
->>>>>>>>>>>
->>>>>>>>>>> To allow a consumer driver to change the behaviour of the PM domain for its
->>>>>>>>>>> device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
->>>>>>>>>>> let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
->>>>>>>>>>> which the genpd provider should implement if it can support switching
->>>>>>>>>>> between HW controlled mode and SW controlled mode. Similarly, add the
->>>>>>>>>>> dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
->>>>>>>>>>> its corresponding optional genpd callback, ->get_hwmode_dev(), which the
->>>>>>>>>>> genpd provider can also implement for reading back the mode from the
->>>>>>>>>>> hardware.
->>>>>>>>>>>
->>>>>>>>>>> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
->>>>>>>>>>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->>>>>>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>>>>>> ---
->>>>>>>>>>>      drivers/pmdomain/core.c   | 69 +++++++++++++++++++++++++++++++++++++++++++++++
->>>>>>>>>>>      include/linux/pm_domain.h | 17 ++++++++++++
->>>>>>>>>>>      2 files changed, 86 insertions(+)
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
->>>>>>>>>>> index a1f6cba3ae6c..41b6411d0ef5 100644
->>>>>>>>>>> --- a/drivers/pmdomain/core.c
->>>>>>>>>>> +++ b/drivers/pmdomain/core.c
->>>>>>>>>>> @@ -548,6 +548,75 @@ void dev_pm_genpd_synced_poweroff(struct device *dev)
->>>>>>>>>>>      }
->>>>>>>>>>>      EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
->>>>>>>>>>>
->>>>>>>>>>> +/**
->>>>>>>>>>> + * dev_pm_genpd_set_hwmode - Set the HW mode for the device and its PM domain.
->>>>>>>>>>
->>>>>>>>>> This isn't proper kernel-doc
->>>>>>>>>
->>>>>>>>> Sorry, I didn't quite get that. What is wrong?
->>>>>>>>>
->>>>>>>>
->>>>>>>> https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
->>>>>>>> says that there should be () after the function name, and below there
->>>>>>>> should be a Return:
->>>>>>>
->>>>>>> Thanks for the pointers!
->>>>>>>
->>>>>>>>
->>>>>>>>>>
->>>>>>>>>>> + *
->>>>>>>>>>> + * @dev: Device for which the HW-mode should be changed.
->>>>>>>>>>> + * @enable: Value to set or unset the HW-mode.
->>>>>>>>>>> + *
->>>>>>>>>>> + * Some PM domains can rely on HW signals to control the power for a device. To
->>>>>>>>>>> + * allow a consumer driver to switch the behaviour for its device in runtime,
->>>>>>>>>>> + * which may be beneficial from a latency or energy point of view, this function
->>>>>>>>>>> + * may be called.
->>>>>>>>>>> + *
->>>>>>>>>>> + * It is assumed that the users guarantee that the genpd wouldn't be detached
->>>>>>>>>>> + * while this routine is getting called.
->>>>>>>>>>> + *
->>>>>>>>>>> + * Returns 0 on success and negative error values on failures.
->>>>>>>>>>> + */
->>>>>>>>>>> +int dev_pm_genpd_set_hwmode(struct device *dev, bool enable)
->>>>>>>>>>> +{
->>>>>>>>>>> +     struct generic_pm_domain *genpd;
->>>>>>>>>>> +     int ret = 0;
->>>>>>>>>>> +
->>>>>>>>>>> +     genpd = dev_to_genpd_safe(dev);
->>>>>>>>>>> +     if (!genpd)
->>>>>>>>>>> +             return -ENODEV;
->>>>>>>>>>> +
->>>>>>>>>>> +     if (!genpd->set_hwmode_dev)
->>>>>>>>>>> +             return -EOPNOTSUPP;
->>>>>>>>>>> +
->>>>>>>>>>> +     genpd_lock(genpd);
->>>>>>>>>>> +
->>>>>>>>>>> +     if (dev_gpd_data(dev)->hw_mode == enable)
->>>>>>>>>>
->>>>>>>>>> Between this and the gdsc patch, the hw_mode state might not match the
->>>>>>>>>> hardware state at boot.
->>>>>>>>>>
->>>>>>>>>> With hw_mode defaulting to false, your first dev_pm_genpd_set_hwmode(,
->>>>>>>>>> false) will not bring control to SW - which might be fatal.
->>>>>>>>>
->>>>>>>>> Right, good point.
->>>>>>>>>
->>>>>>>>> I think we have two ways to deal with this:
->>>>>>>>> 1) If the provider is supporting ->get_hwmode_dev(), we can let
->>>>>>>>> genpd_add_device() invoke it to synchronize the state.
->>>>>>>>
->>>>>>>> I'd suggest that we skip the optimization for now and just let the
->>>>>>>> update hit the driver on each call.
->>>>>>>
->>>>>>> Okay.
->>>>>>>
->>>>>>>>
->>>>>>>>> 2) If the provider doesn't support ->get_hwmode_dev() we need to call
->>>>>>>>> ->set_hwmode_dev() to allow an initial state to be set.
->>>>>>>>>
->>>>>>>>> The question is then, if we need to allow ->get_hwmode_dev() to be
->>>>>>>>> optional, if the ->set_hwmode_dev() is supported - or if we can
->>>>>>>>> require it. What's your thoughts around this?
->>>>>>>>>
->>>>>>>>
->>>>>>>> Iiuc this resource can be shared between multiple clients, and we're
->>>>>>>> in either case returning the shared state. That would mean a client
->>>>>>>> acting upon the returned value, is subject to races.
->>>>>>>
->>>>>>> Not sure I understand this, but I also don't have in-depth knowledge
->>>>>>> of how the HW works.
->>>>>>>
->>>>>>> Isn't the HW mode set on a per device basis?
->>>>>>>
->>>>>>>>
->>>>>>>> I'm therefore inclined to say that we shouldn't have a getter, other
->>>>>>>> than for debugging purposes, in which case reading the HW-state or
->>>>>>>> failing would be reasonable outcomes.
->>>>>>>
->>>>>>> If you only want this for debug purposes, it seems better to keep it
->>>>>>> closer to the rpmh code, rather than adding generic callbacks to the
->>>>>>> genpd interface.
->>>>>>>
->>>>>>> So to conclude, you think having a ->set_hwmode_dev() callback should
->>>>>>> be sufficient and no caching of the current state?
->>>>>>>
->>>>>>> Abel, what's your thoughts around this?
->>>>>>>
->>>>>>
->>>>>> We believe it is good to have get_hwmode_dev() callback supported from
->>>>>> GenPD, since if multiple devices share a GenPD, and if one device moves
->>>>>> the GenPD to HW mode, the other device won't be aware of it and second
->>>>>> device's dev_gpd_data(dev)->hw_mode will still be false.
->>>>>>
->>>>>> If we have this dev_pm_genpd_get_hwmode() API supported and if we assign
->>>>>> dev_gpd_data(dev)->hw_mode after getting the mode from get_hwmode_dev()
->>>>>> callback, consumer drivers can use this API to sync the actual HW mode
->>>>>> of the GenPD.
->>>>>
->>>>> Hmm, I thought the HW mode was being set on a per device basis, via
->>>>> its PM domain. Did I get that wrong?
->>>>>
->>>>> Are you saying there could be multiple devices sharing the same PM
->>>>> domain and thus also sharing the same HW mode? In that case, it sure
->>>>> sounds like we have synchronization issues to deal with too.
->>>>>
->>>>
->>>> Sorry my bad, currently we don't have usecase where multiple devices
->>>> sharing the same PM domain that have HW control support, so there is no
->>>> synchronization issue.
->>>
->>> Okay, good!
->>>
->>>>
->>>> But it would be good to have .get_hwmode_dev() callback for consumer
->>>> drivers to query the actual GenPD mode from HW, whenever they require it.
->>>
->>> Okay, no objection from my side.
->>>
->>> Then the final question is if we need a variable to keep a cache of
->>> the current HW mode for each device. Perhaps we should start simple
->>> and just always invoke the callbacks from genpd, what do you think?
->>>
->>
->> Yes, agree, we can remove the variable and just always invoke the
->> callbacks from genpd. But we may need the variable to reflect GenPD
->> mode in debugfs genpd_summary, or need to invoke get callback there as
->> well to get the current mode.
+On Fri, Mar 01, 2024 at 09:29:17AM +0100, Hans Verkuil wrote:
+> On 29/02/2024 20:47, Sebastian Wick wrote:
+> > On Thu, Feb 22, 2024 at 07:14:07PM +0100, Maxime Ripard wrote:
+> >> The i915 driver has a property to force the RGB range of an HDMI output.
+> >> The vc4 driver then implemented the same property with the same
+> >> semantics. KWin has support for it, and a PR for mutter is also there to
+> >> support it.
+> >>
+> >> Both drivers implementing the same property with the same semantics,
+> >> plus the userspace having support for it, is proof enough that it's
+> >> pretty much a de-facto standard now and we can provide helpers for it.
+> >>
+> >> Let's plumb it into the newly created HDMI connector.
+> >>
+> >> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> >> ---
+> >>  Documentation/gpu/kms-properties.csv      |  1 -
+> >>  drivers/gpu/drm/drm_atomic.c              |  2 +
+> >>  drivers/gpu/drm/drm_atomic_state_helper.c |  4 +-
+> >>  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+> >>  drivers/gpu/drm/drm_connector.c           | 89 +++++++++++++++++++++++++++++++
+> >>  include/drm/drm_connector.h               | 36 +++++++++++++
+> >>  6 files changed, 134 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
+> >> index 0f9590834829..caef14c532d4 100644
+> >> --- a/Documentation/gpu/kms-properties.csv
+> >> +++ b/Documentation/gpu/kms-properties.csv
+> >> @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
+> >>  ,Virtual GPU,“suggested X”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
+> >>  ,,“suggested Y”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
+> >>  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
+> >> -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
+> >>  ,,“audio”,ENUM,"{ ""force-dvi"", ""off"", ""auto"", ""on"" }",Connector,TBD
+> >>  ,SDVO-TV,“mode”,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NTSC_443"", ""PAL_B"" } etc.",Connector,TBD
+> >>  ,,"""left_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
+> >> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> >> index 26f9e525c0a0..3e57d98d8418 100644
+> >> --- a/drivers/gpu/drm/drm_atomic.c
+> >> +++ b/drivers/gpu/drm/drm_atomic.c
+> >> @@ -1145,6 +1145,8 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
+> >>  
+> >>  	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> >>  	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
+> >> +		drm_printf(p, "\tbroadcast_rgb=%s\n",
+> >> +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
+> >>  		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
+> >>  		drm_printf(p, "\toutput_format=%s\n",
+> >>  			   drm_hdmi_connector_get_output_format_name(state->hdmi.output_format));
+> >> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> >> index 9f517599f117..0e8fb653965a 100644
+> >> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> >> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> >> @@ -589,6 +589,7 @@ void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
+> >>  
+> >>  	new_state->max_bpc = max_bpc;
+> >>  	new_state->max_requested_bpc = max_bpc;
+> >> +	new_state->hdmi.broadcast_rgb = DRM_HDMI_BROADCAST_RGB_AUTO;
+> >>  }
+> >>  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
+> >>  
+> >> @@ -913,7 +914,8 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+> >>  	if (ret)
+> >>  		return ret;
+> >>  
+> >> -	if (old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
+> >> +	if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb ||
+> >> +	    old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
+> >>  	    old_state->hdmi.output_format != new_state->hdmi.output_format) {
+> >>  		struct drm_crtc *crtc = new_state->crtc;
+> >>  		struct drm_crtc_state *crtc_state;
+> >> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> >> index 29d4940188d4..2b415b4ed506 100644
+> >> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> >> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> >> @@ -776,6 +776,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+> >>  		state->max_requested_bpc = val;
+> >>  	} else if (property == connector->privacy_screen_sw_state_property) {
+> >>  		state->privacy_screen_sw_state = val;
+> >> +	} else if (property == connector->broadcast_rgb_property) {
+> >> +		state->hdmi.broadcast_rgb = val;
+> >>  	} else if (connector->funcs->atomic_set_property) {
+> >>  		return connector->funcs->atomic_set_property(connector,
+> >>  				state, property, val);
+> >> @@ -859,6 +861,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+> >>  		*val = state->max_requested_bpc;
+> >>  	} else if (property == connector->privacy_screen_sw_state_property) {
+> >>  		*val = state->privacy_screen_sw_state;
+> >> +	} else if (property == connector->broadcast_rgb_property) {
+> >> +		*val = state->hdmi.broadcast_rgb;
+> >>  	} else if (connector->funcs->atomic_get_property) {
+> >>  		return connector->funcs->atomic_get_property(connector,
+> >>  				state, property, val);
+> >> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> >> index 591d2d500f61..6ffe59d01698 100644
+> >> --- a/drivers/gpu/drm/drm_connector.c
+> >> +++ b/drivers/gpu/drm/drm_connector.c
+> >> @@ -1212,6 +1212,29 @@ static const u32 dp_colorspaces =
+> >>  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
+> >>  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
+> >>  
+> >> +static const struct drm_prop_enum_list broadcast_rgb_names[] = {
+> >> +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
+> >> +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
+> >> +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
+> >> +};
+> >> +
+> >> +/*
+> >> + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDMI connector RGB broadcast selection
+> >> + * @broadcast_rgb: Broadcast RGB selection to compute name of
+> >> + *
+> >> + * Returns: the name of the Broadcast RGB selection, or NULL if the type
+> >> + * is not valid.
+> >> + */
+> >> +const char *
+> >> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb)
+> >> +{
+> >> +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
+> >> +		return NULL;
+> >> +
+> >> +	return broadcast_rgb_names[broadcast_rgb].name;
+> >> +}
+> >> +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
+> >> +
+> >>  static const char * const output_format_str[] = {
+> >>  	[HDMI_COLORSPACE_RGB]		= "RGB",
+> >>  	[HDMI_COLORSPACE_YUV420]	= "YUV 4:2:0",
+> >> @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
+> >>  /**
+> >>   * DOC: HDMI connector properties
+> >>   *
+> >> + * Broadcast RGB (HDMI specific)
+> >> + *      Indicates the Quantization Range (Full vs Limited) used. The color
+> >> + *      processing pipeline will be adjusted to match the value of the
+> >> + *      property, and the Infoframes will be generated and sent accordingly.
+> >> + *
+> >> + *      This property is only relevant if the HDMI output format is RGB. If
+> >> + *      it's one of the YCbCr variant, it will be ignored and the output will
+> >> + *      use a limited quantization range.
+> > 
+> > Uh, maybe just say that the quantization range is selected automatically
+> > in case a YCbCr output format is in use. I'm not sure every YCbCr
+> > variant requires limited and even if it does, new formats could change
+> > this.
 > 
-> Hmm, after some more thinking I believe it may be best to keep the
-> variable after all. For reasons you point out above.
+> For HDMI every YCbCr output format is limited range by default. It is
+> highly unlikely that future YCbCr formats would ever use full range by
+> default.
+
+CTA-861-I, Table 4 - Default Quantization Ranges:
+
+Colorimetry: sYCC601
+CE Video Format: Limited
+IT Video Format: Full
+
+And also this isn't just about the default behavior. Drivers could also
+just choose full range for YCbCr formats via InfoFrames.
+
+The Broadcast RGB property should simply not affect any of those
+decisions. Intel chose to always use limited range apparently but this
+property shouldn't force this behavior.
+
+> So I am fine with the current text since it is actually correct and it
+> explicitly states which quantization range will be used.
 > 
-> However, we need a way to synchronize the initial HW mode state for a
-> device. Therefore I suggest we invoke the ->get_hwmode_dev() callback
-> from genpd_add_device() and store its return value in the variable.
-> Later the variable can be used for debugfs and returned from
-> dev_pm_genpd_get_hwmode() too.
+> Regards,
 > 
-> That should work, right?
+> 	Hans
+> 
+> > 
+> > With this changed, this patch is
+> > 
+> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > 
+> >> + *
+> >> + *      The CRTC attached to the connector must be configured by user-space to
+> >> + *      always produce full-range pixels.
+> >> + *
+> >> + *      The value of this property can be one of the following:
+> >> + *
+> >> + *      Automatic:
+> >> + *              The quantization range is selected automatically based on the
+> >> + *              mode according to the HDMI specifications (HDMI 1.4b - Section
+> >> + *              6.6 - Video Quantization Ranges).
+> >> + *
+> >> + *      Full:
+> >> + *              Full quantization range is forced.
+> >> + *
+> >> + *      Limited 16:235:
+> >> + *              Limited quantization range is forced. Unlike the name suggests,
+> >> + *              this works for any number of bits-per-component.
+> >> + *
+> >> + *      Property values other than Automatic can result in colors being off (if
+> >> + *      limited is selected but the display expects full), or a black screen
+> >> + *      (if full is selected but the display expects limited).
+> >> + *
+> >> + *      Drivers can set up this property by calling
+> >> + *      drm_connector_attach_broadcast_rgb_property().
+> >> + *
+> >>   * content type (HDMI specific):
+> >>   *	Indicates content type setting to be used in HDMI infoframes to indicate
+> >>   *	content type for the external device, so that it adjusts its display
+> >> @@ -2570,6 +2626,39 @@ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *conn
+> >>  }
+> >>  EXPORT_SYMBOL(drm_connector_attach_hdr_output_metadata_property);
+> >>  
+> >> +/**
+> >> + * drm_connector_attach_broadcast_rgb_property - attach "Broadcast RGB" property
+> >> + * @connector: connector to attach the property on.
+> >> + *
+> >> + * This is used to add support for forcing the RGB range on a connector
+> >> + *
+> >> + * Returns:
+> >> + * Zero on success, negative errno on failure.
+> >> + */
+> >> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector)
+> >> +{
+> >> +	struct drm_device *dev = connector->dev;
+> >> +	struct drm_property *prop;
+> >> +
+> >> +	prop = connector->broadcast_rgb_property;
+> >> +	if (!prop) {
+> >> +		prop = drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
+> >> +						"Broadcast RGB",
+> >> +						broadcast_rgb_names,
+> >> +						ARRAY_SIZE(broadcast_rgb_names));
+> >> +		if (!prop)
+> >> +			return -EINVAL;
+> >> +
+> >> +		connector->broadcast_rgb_property = prop;
+> >> +	}
+> >> +
+> >> +	drm_object_attach_property(&connector->base, prop,
+> >> +				   DRM_HDMI_BROADCAST_RGB_AUTO);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +EXPORT_SYMBOL(drm_connector_attach_broadcast_rgb_property);
+> >> +
+> >>  /**
+> >>   * drm_connector_attach_colorspace_property - attach "Colorspace" property
+> >>   * @connector: connector to attach the property on.
+> >> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> >> index 8cda902934cd..bb6b6a36ade3 100644
+> >> --- a/include/drm/drm_connector.h
+> >> +++ b/include/drm/drm_connector.h
+> >> @@ -369,6 +369,29 @@ enum drm_panel_orientation {
+> >>  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+> >>  };
+> >>  
+> >> +/**
+> >> + * enum drm_hdmi_broadcast_rgb - Broadcast RGB Selection for an HDMI @drm_connector
+> >> + */
+> >> +enum drm_hdmi_broadcast_rgb {
+> >> +	/**
+> >> +	 * @DRM_HDMI_BROADCAST_RGB_AUTO: The RGB range is selected
+> >> +	 * automatically based on the mode.
+> >> +	 */
+> >> +	DRM_HDMI_BROADCAST_RGB_AUTO,
+> >> +
+> >> +	/**
+> >> +	 * @DRM_HDMI_BROADCAST_RGB_FULL: Full range RGB is forced.
+> >> +	 */
+> >> +	DRM_HDMI_BROADCAST_RGB_FULL,
+> >> +
+> >> +	/**
+> >> +	 * @DRM_HDMI_BROADCAST_RGB_LIMITED: Limited range RGB is forced.
+> >> +	 */
+> >> +	DRM_HDMI_BROADCAST_RGB_LIMITED,
+> >> +};
+> >> +
+> >> +const char *
+> >> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb);
+> >>  const char *
+> >>  drm_hdmi_connector_get_output_format_name(enum hdmi_colorspace fmt);
+> >>  
+> >> @@ -1041,6 +1064,12 @@ struct drm_connector_state {
+> >>  	 * @drm_atomic_helper_connector_hdmi_check().
+> >>  	 */
+> >>  	struct {
+> >> +		/**
+> >> +		 * @broadcast_rgb: Connector property to pass the
+> >> +		 * Broadcast RGB selection value.
+> >> +		 */
+> >> +		enum drm_hdmi_broadcast_rgb broadcast_rgb;
+> >> +
+> >>  		/**
+> >>  		 * @output_bpc: Bits per color channel to output.
+> >>  		 */
+> >> @@ -1753,6 +1782,12 @@ struct drm_connector {
+> >>  	 */
+> >>  	struct drm_property *privacy_screen_hw_state_property;
+> >>  
+> >> +	/**
+> >> +	 * @broadcast_rgb_property: Connector property to set the
+> >> +	 * Broadcast RGB selection to output with.
+> >> +	 */
+> >> +	struct drm_property *broadcast_rgb_property;
+> >> +
+> >>  #define DRM_CONNECTOR_POLL_HPD (1 << 0)
+> >>  #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
+> >>  #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
+> >> @@ -2092,6 +2127,7 @@ int drm_connector_attach_scaling_mode_property(struct drm_connector *connector,
+> >>  					       u32 scaling_mode_mask);
+> >>  int drm_connector_attach_vrr_capable_property(
+> >>  		struct drm_connector *connector);
+> >> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector);
+> >>  int drm_connector_attach_colorspace_property(struct drm_connector *connector);
+> >>  int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector);
+> >>  bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
+> >>
+> >> -- 
+> >> 2.43.2
+> >>
+> > 
 > 
 
-Yes, it should work.
-
-Thanks,
-Jagadeesh
-
-> Kind regards
-> Uffe
 
