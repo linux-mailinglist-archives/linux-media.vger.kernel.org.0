@@ -1,138 +1,123 @@
-Return-Path: <linux-media+bounces-6218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6219-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E95986DDC8
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 10:02:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B02F586DDCE
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 10:04:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7F231F22D32
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 09:02:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67CA528AEF4
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 09:04:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA36C6A331;
-	Fri,  1 Mar 2024 09:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10EFE6A33D;
+	Fri,  1 Mar 2024 09:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EecX3Ws6"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BOr0fTGx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFB767E7A;
-	Fri,  1 Mar 2024 09:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C506A014;
+	Fri,  1 Mar 2024 09:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709283769; cv=none; b=lZR0jqgnECyZ46vd+51yWAJNQ/4WngMjPOxHxd2PJQShOA5u9gwLp2uoopEq9BgAQ6odovPj7Tgnsoo7yzeY4gu+ULNFvPMXaEpOWYvhLwtvhyts8fOJGAqFJHFNoNXB6Uwl9yGOjY4wAdDklnLN3rZov/R8rpBa4lvPY8PXcYE=
+	t=1709283832; cv=none; b=qbyRyF/30GDh5XYMoG+eZq8Nywysxpf9Ewq5OZARR1CYboPkP+kc6YymEOO88ZwQnPK/wBp9cWIaRwsGFT0Pi4nlE4LpB6s37GtqhhbjvoREdm/bpjmKxu0FJZRmN0/3d/pI1SA8ZziB3ly04apiF1S8BHRFX88CD39g9VfOEg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709283769; c=relaxed/simple;
-	bh=rg/9tIV+l6rkm6nBFZtaGTD9o47J4VCrowIfSPkATgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oSVyY1eL/cmjO0hftSXCdHX/XZK4DlbPU/89FbK0GEaHScNwifanZect9Unx7c73fF7FlLDBErskBlXI8yHkVZ17CaHGPSzmuTtczAmcM6QuvCM+GXFaj4MT71slixH6I96Nxd9O5F93yFTz9W7XDoo4HMXrt+2ZT2Fi/4+ZCdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EecX3Ws6; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709283768; x=1740819768;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rg/9tIV+l6rkm6nBFZtaGTD9o47J4VCrowIfSPkATgw=;
-  b=EecX3Ws6lW1uJpBxuBmm09vDErzA+OQNFPSUETeRoL7OA/Sr7UYSiPwM
-   pfnrB9d0ejgAbV4moq2gzNODaWsNoa1KSOIHceej/TfqTc/Y4qvwPF5fH
-   nw32wytvNI9qNCDZJFR+9JS2y3N382a93kHfvNJXaJATuKonl0KhL0WM1
-   CYqq5DZ1CgMvrQmq5LGJwzr5ZWL0sk1VGOiYhpTlGA8n/oZc+O6JbfNMN
-   3C3sXMfU0hQcePMKEz7nNe6aOinZG12BR5pfqlcpbEaPoDFeHryFR8ngn
-   lO53sVt0IaM+MEhNGRfGuC/9V2R17yVDb3RRMcqeITsEIbYuam2vDq5ik
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="15223600"
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="15223600"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 01:02:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="39156675"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 01:02:44 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 60C9511F811;
-	Fri,  1 Mar 2024 11:02:41 +0200 (EET)
-Date: Fri, 1 Mar 2024 09:02:41 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>, linux-media@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: ds90ub960: Delete duplicate source code in
- ub960_parse_dt_rxports()
-Message-ID: <ZeGZsRtH6YLx2FiM@kekkonen.localdomain>
-References: <79fa4854-976d-4aad-86ac-c156b0c4937e@web.de>
- <ZeGV_siWFkfqSEgZ@kekkonen.localdomain>
- <db1d7227-f9a4-42fa-89ba-b484e1260e0b@ideasonboard.com>
+	s=arc-20240116; t=1709283832; c=relaxed/simple;
+	bh=hkf4tHhd3AClvUxsa8LdGdo131B48+hG3jkXyZorL0o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CzYwbMDRGvuNrdXpYXTmjLchfMkA3weFUF0FSJuBfY6GH3nkgDvaaEz57HDRJwex3xMQHxQ0lyFzHt9xmQ29rsd4IQw/NpTiVRhyz+/oouDHa38K9baT91lcsGSHf2CFxvP5O7k/IsTDa+b6e7CL8NezVPK/jXxpBKBeYF1GWgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BOr0fTGx; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709283829;
+	bh=hkf4tHhd3AClvUxsa8LdGdo131B48+hG3jkXyZorL0o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BOr0fTGxd8buRCpSPVkD7hu6KavyqqEhPT+mNOfdzEy1d0+snnGQPf+Tv/C1nPpA/
+	 efQNQ/RBTEqjxVoi22f/+U2sx9HEFVfKfqN/aaJy2JNwiZSoNSEan7dv2qxJeq7g4T
+	 T3v0G60DqpvGaNRee0haVGps28lrNC1QSV6/YW+v03iIy1bL4O8JllqEOfdskxvysF
+	 FMUTmc+PZdcbIQXbAAJ8P6WMxdJ86ABFc4AVz0clDEUO9QMRC28kUUpeNQPDSL0PwU
+	 TaVr3OfJt+Kfl2t6AqtP3589GiRQon6ApVy/AG6Zq+d+sZ/cPv5yiiT/7NDjZ5Gvwz
+	 d1Rb4OoDlH9dA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4F88637814A4;
+	Fri,  1 Mar 2024 09:03:48 +0000 (UTC)
+Message-ID: <ea7f25bf-2294-4ad4-bc18-226827d49ae8@collabora.com>
+Date: Fri, 1 Mar 2024 10:03:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db1d7227-f9a4-42fa-89ba-b484e1260e0b@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: mediatek: vcodec: support 36bit physical address
+Content-Language: en-US
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240301020126.11539-1-yunfei.dong@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240301020126.11539-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Huomenta,
-
-On Fri, Mar 01, 2024 at 10:49:19AM +0200, Tomi Valkeinen wrote:
-> Hi,
+Il 01/03/24 03:01, Yunfei Dong ha scritto:
+> The physical address is beyond 32bit for mt8188 platform, need
+> to change the type from unsigned int to unsigned long in case of
+> the high bit missing.
 > 
-> On 01/03/2024 10:46, Sakari Ailus wrote:
-> > Hi Markus,
-> > 
-> > On Fri, Mar 01, 2024 at 08:46:25AM +0100, Markus Elfring wrote:
-> > > From: Markus Elfring <elfring@users.sourceforge.net>
-> > > Date: Fri, 1 Mar 2024 08:23:24 +0100
-> > > 
-> > > Avoid the specification of a duplicate fwnode_handle_put() call
-> > > in this function implementation.
-> > > 
-> > > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> > > ---
-> > >   drivers/media/i2c/ds90ub960.c | 5 +----
-> > >   1 file changed, 1 insertion(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> > > index ffe5f25f8647..eb708ed7b56e 100644
-> > > --- a/drivers/media/i2c/ds90ub960.c
-> > > +++ b/drivers/media/i2c/ds90ub960.c
-> > > @@ -3486,10 +3486,7 @@ static int ub960_parse_dt_rxports(struct ub960_data *priv)
-> > >   		}
-> > >   	}
-> > > 
-> > > -	fwnode_handle_put(links_fwnode);
-> > > -
-> > > -	return 0;
-> > > -
-> > > +	ret = 0;
-> > 
-> > I think it'd be nicer to initialise ret as zero, then you can just drop the
-> > assignment above.
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> I don't like successful execution entering error paths. That's why there's
-> the return 0.
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> index cf48d09b78d7..85df3e7c2983 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> @@ -1074,7 +1074,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
+>   	unsigned int mi_row;
+>   	unsigned int mi_col;
+>   	unsigned int offset;
+> -	unsigned int pa;
+> +	unsigned long pa;
 
-It could be called a common cleanup path as what you really want to do here
-is to put the fwnode handle, independently of whether there was an error.
-I think the current code is of course fine, too.
+If you used the right type from the beginning, you wouldn't have to fix that ;-)
 
-Soon you can do
+Is there any reason why you didn't - and still don't use the `phys_addr_t` type
+for the `pa` member?
 
-	struct fwnode_handle *links_fwnode __free(fwnode_handle);
+Cheers,
+Angelo
 
-and forget about putting it (but you must need putting it).
+>   	unsigned int size;
+>   	struct vdec_vp9_slice_tiles *tiles;
+>   	unsigned char *pos;
+> @@ -1109,7 +1109,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
+>   	pos = va + offset;
+>   	end = va + bs->size;
+>   	/* truncated */
+> -	pa = (unsigned int)bs->dma_addr + offset;
+> +	pa = (unsigned long)bs->dma_addr + offset;
+>   	tb = instance->tile.va;
+>   	for (i = 0; i < rows; i++) {
+>   		for (j = 0; j < cols; j++) {
 
--- 
-Terveisin,
 
-Sakari Ailus
 
