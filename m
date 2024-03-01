@@ -1,120 +1,122 @@
-Return-Path: <linux-media+bounces-6230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6231-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774AE86E0E1
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 13:10:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E9E86E0EB
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 13:12:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 183201F25A5E
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 12:10:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9743CB24AA0
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 12:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9F76E5E3;
-	Fri,  1 Mar 2024 12:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7F6B6EB4A;
+	Fri,  1 Mar 2024 12:12:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="n3l4oFTv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oA08poAp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681FE6D1C8;
-	Fri,  1 Mar 2024 12:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0FA6E608;
+	Fri,  1 Mar 2024 12:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709295027; cv=none; b=Qj2Z+SqVzXnO7OZFHXKiIbXK1GsBDZQ9duz/wbhpZntHWbXOEF7aawv9G/+HfEMs+T9V6cKXON2fec6rRDSeT3meJPVGPT/ktxkRRst1zOIXbbK1keA/bitWX8UxMlTH+TPm51jrMABNrJU3KiCiUGrMkuBWUE6muAw10VnUVJk=
+	t=1709295125; cv=none; b=aSM4qmbC76H+HY8uHRDtha1famysZn5ThrV2waEBIrZ0mVn34OZRDq94vH7iV+BTkf1TWbhU88JtxVyJvmhHpipzdJ4/Kqeh6GT7CUAux7odj+qePT6B5jgmD/k7Puh3ZdJuF5YuwY+Xy0A2H9UF63knCI4V42RSj3Fr/FWZL+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709295027; c=relaxed/simple;
-	bh=h8r+c+xKuJfgNjc2uCEc8QP+kKYh711JxeWWh1eRyno=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=QLaPByFn3wc/tMgRKIp80FfLzkywSNOHadEA+JFHJxZEDjOSpOa9pMG3F4eIwqiAki7dTOds5fNHTTlnKnKWTUb47rsypYlSI+FZfSTCvVQnaFoXdqgL+kqHv99Wx55aDwIsqtEFPfvlby/MmwIB1ASxtnFezAAJcXvGOXZgqDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=n3l4oFTv; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709295017; x=1709899817; i=markus.elfring@web.de;
-	bh=h8r+c+xKuJfgNjc2uCEc8QP+kKYh711JxeWWh1eRyno=;
-	h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
-	b=n3l4oFTv4zuiXWliiZvjBJZbFVEooofgg1ZO8VFnph2rxIxDIl3a1PwgUBQjrmMT
-	 3CXKHW6FF4b6vyDMnzUlebagfMbWFB1jxG9n4ESARXmVD4C5S1vvHorddyG68e7f0
-	 lQYhi6ITZN+s218/gF/ZH194gWzLW3RZfGeiEuwHMpnAySke20j9OOKg4o6tLyPPM
-	 NquEwkdm46wXuax9eMfGUuPM/BU96S93UtMW0V5sZo8PDmMk5YedBO+eXwzXrxW6C
-	 nt6c4uoCRWZ12c76sAHXggo15J98ZB9xMTCJCHz4raJ9aphV1fTCxk7umrydX7EIJ
-	 enaQpavjlDWt6IjlzA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MnG2C-1qz1O03hCe-00jGjk; Fri, 01
- Mar 2024 13:10:16 +0100
-Message-ID: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
-Date: Fri, 1 Mar 2024 13:10:15 +0100
+	s=arc-20240116; t=1709295125; c=relaxed/simple;
+	bh=6E5qCAMa5baRaHUWMvXXQI+RrvNsgn7wLP4NhDm0xqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BnqTBA6TCuOXGjHtchRE4r9Pkjy7V8GT3kk7LXYlWEMvN9+Cy1gAWLS4TpunlqBgi9e3rWJEKb617CTbJw8o8I9s+bUncCC90c/2r49a6YU6wftDuUDcA+aEW7xfmcm0gXPDblkmZ4rXANQ7TqurhOPE9qvB3AYbKQ96Qcfjas8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oA08poAp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CE13C43390;
+	Fri,  1 Mar 2024 12:12:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709295124;
+	bh=6E5qCAMa5baRaHUWMvXXQI+RrvNsgn7wLP4NhDm0xqM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oA08poAphN0lZAIQQq2SGgzG3xggzAQadZkfPaCm/Hu8g9cM/T4l3JdOqaYOkxWl9
+	 vrqvj9vAvv+3MFp1p5/mtabU/57iOutCJziDcrIJYbMln3emj+hQUeVjpTN3lw8hyd
+	 DqYNXY7Pe42dfO9kjTSsy2TNv872hwWtUKuvBqgMrvoFQL5290xX0k5fd2/PUkajDW
+	 NhqU/v8Z7ZXb4qhzyA220yicASsbi5YThFJqVW8YgUPMv/mzc7ZUkuLBxas48Pldb6
+	 +hMe7ue4KokCYLS8ArfwOI4F6fZ2+SCQUof3riITI7VglYH26eAgQ10sqxPfzjIpPj
+	 rPBGFlAlB3Q2Q==
+Date: Fri, 1 Mar 2024 13:12:02 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <20240301-loyal-cornflower-oxpecker-83ed59@houat>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
+ <20240229194726.GB166694@toolbox>
+ <20240301-light-impressive-grasshopper-adabeb@houat>
+ <20240301112941.GE166694@toolbox>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] media: rcar-csi2: Use common error handling code in
- rcsi2_parse_dt()
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:e8Qqigu2HipwdgXe/vRLuYUi8hLo5kQbAiTz9sFlCosswWvxxUW
- 4HX41fYAAKfZdNf+WASi8tNE7buVMkC/he+b+KUcDHvvkQqY/z9y76Jb7Qzeyo9q30gYDjA
- 9/rYIq4bJT/pg6NXz12dJdcM6sBVfKt5E11ofBT33ffijdD2GKL6ivh3Rb+SN9x5Ialx1k1
- TD+xhBj2gEFEgphdDkDuA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:UBnMxTdMKLg=;UNsb8OzDk+kpUby0bo5bEnYl2TL
- Nw4xE3IVlD2gtfd9iz32rR9iVDP9wTL72Cno/LKep3Sc1a7lOLYls08djqGUV2EI9pgKAwtoW
- MtjWBIKRApK9d3GA2jjxnyyL41/o8v1P55RlwHJs2CzyZHWiJYIC62fWZQbj5T2YyvsEDZykZ
- RcO/ZgZqrqSlbhjxdQExSqFUeQuz829ILmjxzOEPAAZfv5nfW9CARciS+G+aGjpEdy5ZtGDEN
- 7Eu20ZDp0ZhXFwpX3R+N0ylymoLOuhZIO4sfLvmuLLt/gzu5Bc6ebWGOMD7noTgClnKpp6wTz
- smvimXUuQfBm3egJpr/pLIjEmrfL1x8aE4yPy2+RoVjYDkQL3nqXYh83ZQOhn4bxznKqS8hqE
- UreOHhP9Zx4ON8X3yfMdZFQ2Q4jZ4gNf7j5aYRM41qEhLVH6e1QCMdSrr1i+YIBRcwN3tiewS
- zIQ9zjN6BVirtlqJvjBTrjeVbmK0kWa1enFO1cSV3B4hQXLdhBYYVebBuhg8T49e5vYJDdZ9O
- rGj3H5YspFlCd9s311fdaxfoYM00GcG6fbnN/wrmfjDe5BCZ12jf0nWqBtjPuKfN+B+v/hadt
- 8ojsjT4DgDw8RIPW76W3CBbVAGJhOyIlUE3lrxUTSgCmD0F8aqLho49n2/kU1rFR66UtdgQ8U
- 5tu3i+2OzixOAgKVNKXpZbd9kPnTDExkAEKDtKddptb/c32CoQF7VtwrXzln71ZMQDJPUx+KN
- jT+BmPQrzxkP52XiuQwcL98q4mPU9U3UMfq8c/YeMvyB5QsrtVvNGXuzADJgPDO713Myphypt
- b+/HQFpyV5gyaTdptna/d6DZCDrMuXtjcnDLBspLPEWog=
+In-Reply-To: <20240301112941.GE166694@toolbox>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Fri, 1 Mar 2024 13:02:18 +0100
+On Fri, Mar 01, 2024 at 12:29:41PM +0100, Sebastian Wick wrote:
+> On Fri, Mar 01, 2024 at 11:30:56AM +0100, Maxime Ripard wrote:
+> > On Thu, Feb 29, 2024 at 08:47:26PM +0100, Sebastian Wick wrote:
+> > > > @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subcon=
+nector_property);
+> > > >  /**
+> > > >   * DOC: HDMI connector properties
+> > > >   *
+> > > > + * Broadcast RGB (HDMI specific)
+> > > > + *      Indicates the Quantization Range (Full vs Limited) used. T=
+he color
+> > > > + *      processing pipeline will be adjusted to match the value of=
+ the
+> > > > + *      property, and the Infoframes will be generated and sent ac=
+cordingly.
+> > > > + *
+> > > > + *      This property is only relevant if the HDMI output format i=
+s RGB. If
+> > > > + *      it's one of the YCbCr variant, it will be ignored and the =
+output will
+> > > > + *      use a limited quantization range.
+> > >=20
+> > > Uh, maybe just say that the quantization range is selected automatica=
+lly
+> > > in case a YCbCr output format is in use. I'm not sure every YCbCr
+> > > variant requires limited and even if it does, new formats could change
+> > > this.
+> >=20
+> > I documented what i915 is doing:
+> > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/dis=
+play/intel_hdmi.c#L2143
+>=20
+> Sure, this is one valid strategy for the automatic behavior of YCbCr.
+> Drivers could also always send an InfoFrame to ensure full range where
+> possible. The point here is that this property shall not affect YCbCr
+> output formats!
+>=20
+> Maybe it's even better to say "driver specific" instead of "automatic".
 
-Add a label so that a bit of exception handling can be better reused
-in an if branch of this function implementation.
+Honestly, I'm not sure what you want from me here. Ville and you
+insisted on the previous version to document what i915 is doing and to
+follow whatever the behaviour was, and that we shouldn't spend time
+improving the property. Fine, I did that.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/media/platform/renesas/rcar-csi2.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+But now, you want me to ... improve the property?
 
-diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/pl=
-atform/renesas/rcar-csi2.c
-index 582d5e35db0e..621c92c31965 100644
-=2D-- a/drivers/media/platform/renesas/rcar-csi2.c
-+++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -1388,12 +1388,13 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
- 	ret =3D v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
- 	if (ret) {
- 		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
--		fwnode_handle_put(ep);
--		return -EINVAL;
-+		ret =3D -EINVAL;
-+		goto put_fwnode_ep;
- 	}
-
- 	ret =3D rcsi2_parse_v4l2(priv, &v4l2_ep);
- 	if (ret) {
-+put_fwnode_ep:
- 		fwnode_handle_put(ep);
- 		return ret;
- 	}
-=2D-
-2.44.0
-
+Maxime
 
