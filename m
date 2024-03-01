@@ -1,131 +1,139 @@
-Return-Path: <linux-media+bounces-6204-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6205-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF4586D950
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 03:01:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D0786D9DE
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 03:46:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF3BD1F22A27
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 02:01:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0DD62846F5
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 02:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DD5238F9D;
-	Fri,  1 Mar 2024 02:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="F++7zWSI"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C5173FE55;
+	Fri,  1 Mar 2024 02:46:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B961FC03;
-	Fri,  1 Mar 2024 02:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B8A37705
+	for <linux-media@vger.kernel.org>; Fri,  1 Mar 2024 02:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709258508; cv=none; b=Wwaa+FteXBNnHI1o520Jm/ZTWwxz3pVse6dlSzg4yQ0upWG84S/gCsKhCCdqf2R7je+lzEJzR0WWJAtnKWuS8wvv3ECIBOxNxN5hdsHv08asixAXPrZ5cSngb5TwHxT7+hrI8XXdJthqYjURZiimd4xIMOcfkW+2FdFVIDEJMIQ=
+	t=1709261187; cv=none; b=a1vrvK7F0xbVFK0jiGSDLmRau5Gp5Ct1nL4zatJqQpa0V/A1kpG42MCAVAl6h4S79j2iVzJHuoRBBR6z0u2qGEkEztfZ7xDNYwV5rN8KmiJlwtB9ciUGhqHAYFXZbZeHb5BD5usrFCtDhIQ0gw/JWjDeCUiM9FdHekRmtitOPrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709258508; c=relaxed/simple;
-	bh=qL6ryTGcMgCNWUne3Xb4F08g2n+lnz0zgQg6XVOU8ZY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iRk6fuagQYSCAd83Nv9OykEWFtSTMaT8dRNDgN/6xiKEUAWFPxQCFO9ZGkq38ziV2U99MyQT8JT+k7OM48J5OMzeN0Z/BMz4BCr6FgUCI+TRZoR3JmqJq5eBdgMnHze4OcrOh8BatZitF88CzPdCuAtpGo4dKTfBdtSrP3V9HQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=F++7zWSI; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 9fa86d68d76f11eeb8927bc1f75efef4-20240301
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=HBS1I/NOgPbbX1oZFpsgk/1CALyAPNq0suP+PJ3XesU=;
-	b=F++7zWSIF/rtO46xP5XMrm5P6hDqrY4yxfJE7EF1ORCuygCyGTeNkWAkKbqbhdvgrqqmjmrfCjJqf415/pPlZJq8QWVf6Z0jbytmK5cwzKKrVFW9XA4Ni39QTAdSas+gpZ8SanxipNyasWGa2TbXIxExH8WNGBlI51egEPv/VMI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:dead455a-5c7c-44f8-81b6-dcbfbd48f4bf,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:6f543d0,CLOUDID:cde97984-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 9fa86d68d76f11eeb8927bc1f75efef4-20240301
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
-	(envelope-from <yunfei.dong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 176012849; Fri, 01 Mar 2024 10:01:31 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 1 Mar 2024 10:01:29 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 1 Mar 2024 10:01:28 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
-	<nfraprado@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>
-CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, "Yunfei
- Dong" <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH] media: mediatek: vcodec: support 36bit physical address
-Date: Fri, 1 Mar 2024 10:01:26 +0800
-Message-ID: <20240301020126.11539-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1709261187; c=relaxed/simple;
+	bh=xL3bUQFAUpsKl2IQZc8exyfiqDpLPnmBprXJQyk2D80=;
+	h=Date:Message-ID:From:To:Subject; b=l1qsmSWp948ZipbYkafUZIqS+T1jCBjTLoR7muBzfYQXl1uqHw/23Dcrw0c3ohyqGm0yJjMOM27hvKx/AhE4ZuABkBIkKWLFLDrITWci5sV3xn2S+/6z37Ze9dZH3aV9D/D2yB3h2bzafnzQuXEkgQgm2ljNgTwy2/wrfeaHUxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 697DFC433C7
+	for <linux-media@vger.kernel.org>; Fri,  1 Mar 2024 02:46:26 +0000 (UTC)
+Date: Fri, 01 Mar 2024 03:46:24 +0100
+Message-ID: <d876fd947cc4c8083455b41428077115.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--8.986100-8.000000
-X-TMASE-MatchedRID: MXmpjVMQBvchu4G5/VkGwwPZZctd3P4B7f6JAS2hKPgUtdRZTmEaIb9n
-	SsB9y3SmXfLeWSJ8nKvcFPFR1xoqQh8TzIzimOwPC24oEZ6SpSkj80Za3RRg8Nr8k9p6q6xQ8XR
-	JHb0N4gK2+HtcNQgId7UxHy5DZGDPwaVEpyapekM=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--8.986100-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	81F330C20FD882D5E9A3FF4558755189B19F9D12D06F1B64C5360A96E6826FDE2000:8
-X-MTK: N
 
-The physical address is beyond 32bit for mt8188 platform, need
-to change the type from unsigned int to unsigned long in case of
-the high bit missing.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-index cf48d09b78d7..85df3e7c2983 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-@@ -1074,7 +1074,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
- 	unsigned int mi_row;
- 	unsigned int mi_col;
- 	unsigned int offset;
--	unsigned int pa;
-+	unsigned long pa;
- 	unsigned int size;
- 	struct vdec_vp9_slice_tiles *tiles;
- 	unsigned char *pos;
-@@ -1109,7 +1109,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
- 	pos = va + offset;
- 	end = va + bs->size;
- 	/* truncated */
--	pa = (unsigned int)bs->dma_addr + offset;
-+	pa = (unsigned long)bs->dma_addr + offset;
- 	tb = instance->tile.va;
- 	for (i = 0; i < rows; i++) {
- 		for (j = 0; j < cols; j++) {
--- 
-2.18.0
+date:			Fri Mar  1 03:00:22 CET 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	bfb1b99802ef16045402deb855c197591dc78886
+v4l-utils git hash:	1003e9c6255ae4571082fda4e8d5983feab931fd
+edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8606-gdf508d3a
+sparse version:		v0.5.0-8606-gdf508d3a
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: WARNINGS:
+
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
+
+
+date:			Fri Mar  1 03:18:36 CET 2024
+virtme-64: WARNINGS: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 2
+
+date:			Fri Mar  1 03:45:02 CET 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
