@@ -1,132 +1,126 @@
-Return-Path: <linux-media+bounces-6233-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6234-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453B486E185
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 14:05:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C3686E19A
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 14:11:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56B271C2114A
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 13:05:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B1781B23F66
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 13:11:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE68B6CDD6;
-	Fri,  1 Mar 2024 13:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A0826DD08;
+	Fri,  1 Mar 2024 13:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="vAPAXPKt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586C73C6BF;
-	Fri,  1 Mar 2024 13:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D434269E15;
+	Fri,  1 Mar 2024 13:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709298327; cv=none; b=MjuJjN+0xuWQtVlKajp4GAkFVP/UH9rqe0bM+pFC61OUi0eCwzu9kt/bufe3XT8ev+nVZshNjTU+VSRE3pvDdbMERjcaVq0UWfGmmtpR/+Pkqb8BoRfSYN8ldKGj8yk/EUhtV/PA6dIYW6HWucJby4S29RNM24+BPhkw0Y/3atY=
+	t=1709298682; cv=none; b=otGfYSO/ar6UQOnLQDMZbZnAx9Lj7pmPVT4x+wR40oGCEQYcOjZahH5I9Nx7qqbQPi7JKGBONCp4ankjxIduu4rO+Jaw7xygUBs8IHf+InvYJ+jO4yguxPDZzQHYKREHcbTfzRegoC9EiKfPZQF3ucAnLk9o6aHjgSZvq7AVSLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709298327; c=relaxed/simple;
-	bh=0bVCzrJS9x+1yZMoEFxLm9bnbbJleSpuIb0C3VF53qQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S0knYbSeUwoDkR4v8AsBqnOmiZbWixycnemnunMexYd4dfo9WBmXR2DaNg3eCO6v/yHpUfGji0n9T5KBInV/Flqqf5e2HfL6E7ArMs0SZ14inSA6hYsoYNxVamDtndYeOiuUi9lKXn/Fdfv5bitk/jREYdJbCyGydJZhaxrPZyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6098bf69909so68857b3.1;
-        Fri, 01 Mar 2024 05:05:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709298324; x=1709903124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oQI2EbWiD61r+f+mvhd3WkVdayuolmx0uiT5UHC3aVk=;
-        b=OW0LAvkK8gFJ6A3yRPRHxkaFFcAV22erxlSeyKVKtWtkv6wirTvPIOAtZQKzunfY1K
-         flmTqR83JSz1b+yZULgYS4744fTs9kO+94fCsD1m5onn9Sj7snIP1x4PJjAsLjTDoFAp
-         2FS2E5nWaVDbKD/0neZNn9l/sRpQGnorZzvxGT+s7acY4jkf+nskGxpUVXRTd/Y4F5X6
-         xRIaUg9H2g0OW3aKwrhrmNdndwAh6+FE0nHlX3URHlBlIFckCy7qQzSdcR9kTOL4t3mW
-         +3hbA5+Q0HghSIMC+iwPnTnsoqMJ/sD6IuCuLxtXW/4jEI7K+oMpeS6oqQq1AQ8x20JM
-         DzfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZO1Q26ivPGgTGyQeYsVBAIr2/4OYUDlarXwUI4OuraRB47Plp7BSuSNranMx+vaT8wIRZswSneaW8yRcxqE+N8YjMPalfn0fOyw9YaRbCFFp9jSjyvLKwW4oN4j8Vl/f8zqVov24qzWRp5X4Zus/rbmEpvlJ+mtfdPfuNABWUCSaloJMl3v7AVjE=
-X-Gm-Message-State: AOJu0Yw/hF1XcLjt/fJ3HAvUVQL65PhsMZe6zQENSJQoBHmkSq3NsBEt
-	BDTst6n06dpecjar/D1NfB/7DUciPu+u8ZsK8Z4x4JU9bl4qZZBDhVMZxEkCrVQ=
-X-Google-Smtp-Source: AGHT+IG+Lq9JYtWOeBMPrYoQz7PR0vpZ9fQTaDnPvsBie0GaRSqwNucZkabNJehPhiPyv923Zgaoug==
-X-Received: by 2002:a81:8414:0:b0:609:892e:b944 with SMTP id u20-20020a818414000000b00609892eb944mr429804ywf.4.1709298323984;
-        Fri, 01 Mar 2024 05:05:23 -0800 (PST)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id o1-20020a81ef01000000b00607ad76d855sm909733ywm.67.2024.03.01.05.05.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Mar 2024 05:05:23 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dc6cbe1ac75so1624817276.1;
-        Fri, 01 Mar 2024 05:05:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWhOKClxVr6fkz1Y8KyAOaBWsSDPcPcZhqdLLAXj2qw2G5a7YcRAOfCcf2lk4ny/MMBeDMIHXgAx7ukbVGFNtdk4TBUV4Aa6WbXe1KGjdPOP+9tdcDoQptEv/h02QK2k4t675Pp+wvpsKO6K8ULuYJKC3mIuzVBrz1RfvhoXHy24P3tPtbHQKqveNQ=
-X-Received: by 2002:a05:6902:2310:b0:dc6:daa4:e808 with SMTP id
- do16-20020a056902231000b00dc6daa4e808mr4576821ybb.12.1709298322979; Fri, 01
- Mar 2024 05:05:22 -0800 (PST)
+	s=arc-20240116; t=1709298682; c=relaxed/simple;
+	bh=OHktGIjUm7CQdUtl/zLN2vwuppLnKIcC+CZk6F9ja24=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=PSNIJ23X4srIUfYKWTJHXxnkwLsMZvb4ZrqXOVjTBoY5DbsgKhOlPHc8wsbTuqJEJZd98r+TezCa/4S4OvyHqgNlQ9VO9w4R8gqBPH2Rvs+fa2mdxMLVDG1ZtbSAFogPBlLrrsTjss13wAZahbyWpAmn722ZiIZq/5AZq1zJ2yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=vAPAXPKt; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1709298645; x=1709903445; i=markus.elfring@web.de;
+	bh=OHktGIjUm7CQdUtl/zLN2vwuppLnKIcC+CZk6F9ja24=;
+	h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
+	b=vAPAXPKtfdbuQ2UfClqFlUrK7EJGbKKpZIfa+BIfGuG+lc6YU9GKusC7/BwN8hLR
+	 rr5vsLZo2Di++J6P1jNKuD+pmtjbV7vssOdvC0s4joo16QDo3CGjvJQ0SpSQIc592
+	 ZsirhGC/Q9d0/9a/H+XOh0QTnn9B2RCjyyu8LvHHsr49kJABlpXohV5+RUTtu89Gr
+	 ESB2TDOaLwByG7l5vBWXc+QEC/UHDwrIQMg+J84dcJofvqfrCQsaR4i1OEhKnyeel
+	 dvkjkiLiRX8qBDQ88+takMPKmZisLQrnCO7ueVLU3mtPv92o5WzG/8Dp8RjIcZ5b0
+	 gq5Wxxm3XlixeqVw/w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M59n6-1rh97Z01bA-0016Y7; Fri, 01
+ Mar 2024 14:10:45 +0100
+Message-ID: <c26c73d8-9b20-431e-a299-c9508ac3f6ed@web.de>
+Date: Fri, 1 Mar 2024 14:10:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
-In-Reply-To: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 1 Mar 2024 14:05:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
-Message-ID: <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
-Subject: Re: [PATCH] media: rcar-csi2: Use common error handling code in rcsi2_parse_dt()
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] media: rzg2l-csi2: Use common error handling code in
+ rzg2l_csi2_parse_dt()
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:araX4k2QEvajPbpM9grsaW6s3R17fGhqPxgHzilzewFkzka73/9
+ 7ur2SvI/96mHuYRr+fTAoXmRubf5VMXj12yiz89UepxZ7+o8XjsCpUE5cQT3KJgVfk9JpxL
+ +EvPm+4nDME4cdXGphJVTbbjWXZmgAimVRskD21h1Gag11210+jzhCb/AOIiq8qjAce9XXv
+ 4bXGrPE44gc8+S/IzjPoA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:pxo9Bvkn7pI=;hrb1XBYTw5d2PZ1qJg7WXAXoFOS
+ k4cqOY/kr2TeE7vtqKX23lx4h8xW1a4KqFAMTS8OSJ78+5H1YGGHAC2oWkwNxZXI6f6LzdXcR
+ mJP8Hh0czfLryeyl19anj9laQ1lp+CgVVd7RUoX0AHF14TkOxSe4BuYcYMZq4m7hny/qmy40I
+ /Zygrdc9PXmchcdUMWKlVvT4etJnwU8EMUuA4CoEYbOFkIvXpfzXGC7+wYeoXuQImlunaJ/Jq
+ k/C24ms36Qs9BtjhS01Aka/brG7sneePI/yC9C0h8G5z07oq1zV0N0VCPSqLuOOX91UojMpRm
+ azExq6WTx54HPcggzf4SE9rzXUoLzrnkTL9JbdbarHIqYqInYLqeYl2enMLfbVVb7mfyqXm10
+ Y9x4X50aGEPd/RqkxDAxsYTQVE9GSpDWPj28gnjSCN/OYgJfdeuvvystU9QGttMqeYvhBPvRF
+ tOeCpqN9BdH/vVZkbqbeMi0a+8FzbH9u0wHWcFyRBe0+B+n4M768+4RoiEjXW++/qaJtP2JZ3
+ jQa8pCIwqX6+AkaHXI3pRgr/Yvl/FizrapmuAlaCEIOcZvQwUH5CFBckQZRTIihjXoQbt0lZz
+ R+4HKIMtnO6juof1Wy4WbwQ/nkot0T/KnugpIMq2vTlQdIFUCBFEl54J9p010EBC4EcOK1KgI
+ E0rAXh0r4vEu1Bd3mg85XiDxbKrdLspnc9HqdzABYR3aePL1XANhgcNaejXAPiPEcAIeQUaE+
+ l4SkZFK1ZjSoYxY49NaxhNse2B3dAsNC2hAjr0PdJXyZ50lXkzFWuwxeRZbO54B4at82yoMO3
+ ju6mQeOkGfIMBa6DBg067AP1xfcYiG9ulTS1X9S8HY01A=
 
-Hi Markus,
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Fri, 1 Mar 2024 14:02:22 +0100
 
-On Fri, Mar 1, 2024 at 1:10=E2=80=AFPM Markus Elfring <Markus.Elfring@web.d=
-e> wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Fri, 1 Mar 2024 13:02:18 +0100
->
-> Add a label so that a bit of exception handling can be better reused
-> in an if branch of this function implementation.
->
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+Add a label so that a bit of exception handling can be better reused
+in an if branch of this function implementation.
 
-Thanks for your patch!
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> --- a/drivers/media/platform/renesas/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> @@ -1388,12 +1388,13 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->         ret =3D v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
->         if (ret) {
->                 dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
-> -               fwnode_handle_put(ep);
-> -               return -EINVAL;
-> +               ret =3D -EINVAL;
-> +               goto put_fwnode_ep;
->         }
->
->         ret =3D rcsi2_parse_v4l2(priv, &v4l2_ep);
->         if (ret) {
-> +put_fwnode_ep:
->                 fwnode_handle_put(ep);
->                 return ret;
->         }
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drive=
+rs/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+index e68fcdaea207..ef6922dad35f 100644
+=2D-- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+@@ -671,12 +671,13 @@ static int rzg2l_csi2_parse_dt(struct rzg2l_csi2 *cs=
+i2)
+ 	ret =3D v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
+ 	if (ret) {
+ 		dev_err(csi2->dev, "Could not parse v4l2 endpoint\n");
+-		fwnode_handle_put(ep);
+-		return -EINVAL;
++		ret =3D -EINVAL;
++		goto put_fwnode_ep;
+ 	}
 
-Please do not use goto to jump to random positions buried deep inside
-a function,as this makes the code harder to read.
+ 	ret =3D rzg2l_csi2_parse_v4l2(csi2, &v4l2_ep);
+ 	if (ret) {
++put_fwnode_ep:
+ 		fwnode_handle_put(ep);
+ 		return ret;
+ 	}
+=2D-
+2.44.0
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
