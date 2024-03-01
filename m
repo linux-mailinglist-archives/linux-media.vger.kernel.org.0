@@ -1,143 +1,93 @@
-Return-Path: <linux-media+bounces-6252-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6253-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F4F86E76C
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 18:37:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE6086E777
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 18:39:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59D141C240CF
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 17:37:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C45D729118B
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 17:39:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C78E25619;
-	Fri,  1 Mar 2024 17:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7CA1118E;
+	Fri,  1 Mar 2024 17:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eNjJPaaE"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GWR6kZ6s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0490E8C17;
-	Fri,  1 Mar 2024 17:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF828BED;
+	Fri,  1 Mar 2024 17:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709314584; cv=none; b=ayHEeZFRKSm2Z29uOwDCo887p6tKW/eLOYY4xNHAyZQ63jz64/q7/0t0NdY6WEbW528WXvTgz/nxtQy5LEUO582DxlNJA4oQ/TRi4O5dQr9LioOLiNwk/MXiBxnVxCp2XFOJyYhGaaCDFNeItPL0vrVtTXcXvf5ETofnE01a2Z8=
+	t=1709314786; cv=none; b=d91UVd5syLU1lUC5Tcy9Imf3sGatNGnp/q6bKpzrHqvlisheEEqyasjC+Bz0INPAPdUqXujud6pjbW4HpvU99qYJve++7/+X7TDIJcuKKIRFjKY3eVORprKkMhWA0uR5YU16mW/nE0+fLytwXFqS1lmJUiTy0IfZ8P2qTLHb5N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709314584; c=relaxed/simple;
-	bh=BLPKOOcms3NtQtohwHJmJbLW39B8h2SU5IMAJvs5Bio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y4jB1R1gN1mCtvPeV3r9XULGyvvv9eRD81vZwFvkLwWdYyvbjwOE7NruLbdgoNGjn5c+ghhZOHpN3KhWjS8BrIeyqIWoDyPJz+VI0CttiqKBfbDP8lQWFEyZNUhVbXU6IxzaWHjZRZZKd8tjaUd53VHWVHuBExH6CNq8pPI4irc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eNjJPaaE; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709314583; x=1740850583;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BLPKOOcms3NtQtohwHJmJbLW39B8h2SU5IMAJvs5Bio=;
-  b=eNjJPaaEmbg5eU4PYKJXt7RlYuL7t1g+L3qcnQS+9F0xAIrrrsHwEr8I
-   vQ8TQ6/uB11yIz/EXdgKbUfM7y2QojghqM4jbSjPZ4n+DqoMDZ7k+65lm
-   IdSpIVfMPaOpDrIIHG1Co0m76FDjymFtmt26sddYUey1xsOpCP0eWSRh5
-   wgBb+oN9pNuEcpYRF/tc9Hck558u/4KVXMAFpmkxZvebmizfcODDsYbXd
-   WRHs0CKQpPwodKKPd44dsS8hABDQpi7+LtYoZu3ZlVuSChydInifL50ii
-   W3uxM5oQXtnoEAcksl4AKE+gX0ER//JzlSHDCXZOaxJnDXr52LZ+OuwOa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3724003"
-X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="3724003"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 09:36:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="914021132"
-X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="914021132"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 09:36:20 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rg6nx-00000009168-3emF;
-	Fri, 01 Mar 2024 19:36:17 +0200
-Date: Fri, 1 Mar 2024 19:36:17 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Markus Elfring <Markus.Elfring@web.de>, linux-media@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: ds90ub960: Delete duplicate source code in
- ub960_parse_dt_rxports()
-Message-ID: <ZeISEYXTaiyA-b4K@smile.fi.intel.com>
-References: <79fa4854-976d-4aad-86ac-c156b0c4937e@web.de>
- <ZeGV_siWFkfqSEgZ@kekkonen.localdomain>
- <db1d7227-f9a4-42fa-89ba-b484e1260e0b@ideasonboard.com>
- <ZeGZsRtH6YLx2FiM@kekkonen.localdomain>
+	s=arc-20240116; t=1709314786; c=relaxed/simple;
+	bh=VE2uSRmbnrUTIwI0MsFFp9dkOgavVaKfIAsVt33kwLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QViCiqY10P9rHlKvTxmM1eecHO1+jVUYQ3LCxE2QW4KHDW2xaNYktllspb73CYazu9tk45kAUujq1mdKd7L99PbeCuOpECBAtMAM52D8ZfE4yNwS6+7CKA8zInn//CHXpK8ZzFf6GavqX3oh9Kj43gtamZdkV5FchD9Y0qu+XqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GWR6kZ6s; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B7F1240003;
+	Fri,  1 Mar 2024 17:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709314782;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HPOP82Swf39Z+Oml/HNNIoo3JMbE10x1ALBHxRiVIp4=;
+	b=GWR6kZ6sqnLHbD99ZA24rS7vAWtep94ya9NrWpvjdjoRU666FY23absUBejh5k+F1ZnjqS
+	vmTZ6iMMzqD49O7v2Yh+QIbMT1KE1zy+Tdi98zGRiKtU26wJSIs9TWcWZA+VQsfiRxYzwE
+	BAFH32DSCmJkBOMpqeHx96/SKusM3TlsbbTs3zo5dlNrr2aMoCdNhllZoYe3+wc2zFuogv
+	4QpwqK264eg2jGDAYH5JEdEo+ONGAJVGkwb72LSQ13MtxNVWRAupfGJIZytBJ0s+FVm0a0
+	MJYwRN0pi6J13FmpW2SUSbbHvHTLw+BO6oOD9USIHJPS9bsMOgtBWHmj+ml05Q==
+Date: Fri, 1 Mar 2024 18:39:36 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, Thierry Reding
+ <thierry.reding@gmail.com>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: media: tegra-video: Use common error handling
+ code in tegra_vi_graph_parse_one()
+Message-ID: <20240301183936.505fcc72@booty>
+In-Reply-To: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
+References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZeGZsRtH6YLx2FiM@kekkonen.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Fri, Mar 01, 2024 at 09:02:41AM +0000, Sakari Ailus wrote:
-> On Fri, Mar 01, 2024 at 10:49:19AM +0200, Tomi Valkeinen wrote:
-> > On 01/03/2024 10:46, Sakari Ailus wrote:
-> > > On Fri, Mar 01, 2024 at 08:46:25AM +0100, Markus Elfring wrote:
-> > > > From: Markus Elfring <elfring@users.sourceforge.net>
-> > > > Date: Fri, 1 Mar 2024 08:23:24 +0100
-> > > > 
-> > > > Avoid the specification of a duplicate fwnode_handle_put() call
-> > > > in this function implementation.
-> > > > 
-> > > > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> > > > ---
-> > > >   drivers/media/i2c/ds90ub960.c | 5 +----
-> > > >   1 file changed, 1 insertion(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> > > > index ffe5f25f8647..eb708ed7b56e 100644
-> > > > --- a/drivers/media/i2c/ds90ub960.c
-> > > > +++ b/drivers/media/i2c/ds90ub960.c
-> > > > @@ -3486,10 +3486,7 @@ static int ub960_parse_dt_rxports(struct ub960_data *priv)
-> > > >   		}
-> > > >   	}
-> > > > 
-> > > > -	fwnode_handle_put(links_fwnode);
-> > > > -
-> > > > -	return 0;
-> > > > -
-> > > > +	ret = 0;
-> > > 
-> > > I think it'd be nicer to initialise ret as zero, then you can just drop the
-> > > assignment above.
+Hello Markus,
 
-I think tearing apart the assignment and its actual user is not good.
+On Thu, 29 Feb 2024 19:55:46 +0100
+Markus Elfring <Markus.Elfring@web.de> wrote:
 
-> > I don't like successful execution entering error paths. That's why there's
-> > the return 0.
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Thu, 29 Feb 2024 19:44:36 +0100
 > 
-> It could be called a common cleanup path as what you really want to do here
-> is to put the fwnode handle, independently of whether there was an error.
-> I think the current code is of course fine, too.
+> Add a jump target so that a bit of exception handling can be better reused
+> at the end of this function implementation.
 > 
-> Soon you can do
-> 
-> 	struct fwnode_handle *links_fwnode __free(fwnode_handle);
-> 
-> and forget about putting it (but you must need putting it).
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 
-Let's wait for the Jonathan's patches to land (v6.9-rc1 I hope) and then
-we may modify drivers if needed.
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
