@@ -1,163 +1,221 @@
-Return-Path: <linux-media+bounces-6246-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6247-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B357186E52D
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 17:21:59 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7CE86E584
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 17:27:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27CA41F221E5
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 16:21:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B8979B25497
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 16:27:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0134A70CC8;
-	Fri,  1 Mar 2024 16:21:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F4A07292E;
+	Fri,  1 Mar 2024 16:26:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="czy4G/u4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tOSDSIIb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5446F514;
-	Fri,  1 Mar 2024 16:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC3B71ED5;
+	Fri,  1 Mar 2024 16:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709310109; cv=none; b=MjM8Uunz5Uxm0UhT5orEJOxFfWOKiU+GKKiXiUtwR8dwAAi7oSaNkagSpwdvxOTghehKS+3vh0P1dQfqIFYo592AY6Lp/X+B9Ue1Pr+cGDHsWyUwNnpgEI1s+5/zwNqGcjLuvLUHbuLWs6DO+OcAEy2FWy7mzm0HmI6PsF42/Tc=
+	t=1709310398; cv=none; b=BKhxK1ilH8YfaP2UhVQ8jexbpgFxygY3ZLSW+Rj0kT9ErKlbIMlTb5KW6S22eYsdGpK45jRJ3oHYbjhfXHYZvS2hsJQU9a0X2GvbMjSns4blDVFfrPk77tAARlHqaKwVB7ERlTAq57x+jY7V/G0n6/y9GG1XNLwXz1YG6/wNCpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709310109; c=relaxed/simple;
-	bh=uLo8DCt9T/OGLjkjcfkmhBFOpOALF0agDtdLfzAchAQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QgliS5jDdDwcdmnFRqS/ewz0Uo5rWK0l/7FAQ2Dpop/aGDRb8dZo2nieE3kBYfYFl8bplBrDaRmdohWIBj/hb2tKmPK6bwticm7j12VFAE5EEY9oj5vyIeHYN3T8JeUN3fv3zYw8AuvtuBzPQacenNe/W6viSdtE787+mhyvIJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=czy4G/u4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF4DC673;
-	Fri,  1 Mar 2024 17:21:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1709310090;
-	bh=uLo8DCt9T/OGLjkjcfkmhBFOpOALF0agDtdLfzAchAQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=czy4G/u4njGCJuUhI9i/3DF46OKAexRoGpz18R5/l3IF2Cw0Q2k2UpKapw3RXiLUY
-	 YdmZZONebJXzbIcHLSb5/i+BAw0VyrpiN26f5YueZI2dvW+raoQ0VC3SyTAIuFVzsD
-	 fAKVTmjbsZKHPY/q4XZFQZXTfeAuINz2pSYipTcQ=
-Message-ID: <acfb2294-089d-4246-a8da-62eaf84c162f@ideasonboard.com>
-Date: Fri, 1 Mar 2024 16:21:41 +0000
+	s=arc-20240116; t=1709310398; c=relaxed/simple;
+	bh=VcBbt1X8/pmwh+TkEynp3quxlUoSQQK1gtHMDoY69T0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KtPGjX6pJzTc6jK28WEBpPdNaEkMrkWFgut5KP0gIv9idTPTlwfh8CS+9UjizCdJYptJqXd3J1+7yyRhXP32fw+qH/8FqgRskdxEcedzjcdJdiYrsDsHLjWXKPWMxBpZuKNhwMk8b/+ZwAILiXPof5X/qi0pxWNjBqGdD731IG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tOSDSIIb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF2D4C433F1;
+	Fri,  1 Mar 2024 16:26:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709310398;
+	bh=VcBbt1X8/pmwh+TkEynp3quxlUoSQQK1gtHMDoY69T0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tOSDSIIbb5L1CFwO/8HxTyN6v4fsCPbtHUZZAhaNMXhPYtUXoUYIOgdC8E7wwbX5O
+	 PYQvYDXqF4ToTR5df+ut4bLkyZCZob0F6tATywbItCVYGNHqKTvFWBryYG7BqLGukI
+	 EE7GTqdiLlH82IgoYBoA3KxjBVcqkAzQjYqInnY1hacYrmW8CuP2+eyG05W3yrI4RY
+	 NEM29optYiOwjzU7Sxnhr0YuwvZqktbVSe7JvS6k2aa8z2ovrltB98QnCk1u929KA6
+	 UTzTfrCUj+DfcSnnzr4sgP+NWVs1rDO3J21j/evq2lovrLehs3UBr1An0jV10d2kwZ
+	 RUSZXgvt95OKQ==
+Date: Fri, 1 Mar 2024 10:26:35 -0600
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, airlied@gmail.com,
+	akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
+	dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org,
+	maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+	mripard@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com,
+	ribalda@chromium.org
+Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
+Message-ID: <20240301162635.GA2261739-robh@kernel.org>
+References: <20240221160215.484151-1-panikiel@google.com>
+ <20240221160215.484151-9-panikiel@google.com>
+ <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
+ <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
+ <20240227142911.GB3863852-robh@kernel.org>
+ <CAM5zL5pXu5sbzCHY_BrCJ7eZj-p9n0tCo6CmuTqUpvniTrqWJg@mail.gmail.com>
+ <324f7b6e-c72c-40aa-afe6-779345c2eade@linaro.org>
+ <CAM5zL5oJSHxJK4QWsr2X23g-cN6G54VhGfuwHhMJ9rNu6+gZ=w@mail.gmail.com>
+ <20240228180950.GA392372-robh@kernel.org>
+ <CAM5zL5qen2Zcg3yecH3jXJ3hiLq88p81n9hmUXQ5E0CXV6w61w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] media: mali-c55: Add Mali-C55 ISP driver
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
- laurent.pinchart@ideasonboard.com
-References: <20240214141906.245685-1-dan.scally@ideasonboard.com>
- <20240214141906.245685-4-dan.scally@ideasonboard.com>
- <ZdxwE3omXmUjfLMn@valkosipuli.retiisi.eu>
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <ZdxwE3omXmUjfLMn@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAM5zL5qen2Zcg3yecH3jXJ3hiLq88p81n9hmUXQ5E0CXV6w61w@mail.gmail.com>
 
-Hi Sakari
+On Thu, Feb 29, 2024 at 11:25:41AM +0100, Paweł Anikiel wrote:
+> On Wed, Feb 28, 2024 at 7:10 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Wed, Feb 28, 2024 at 02:09:33PM +0100, Paweł Anikiel wrote:
+> > > On Wed, Feb 28, 2024 at 1:18 PM Krzysztof Kozlowski
+> > > <krzysztof.kozlowski@linaro.org> wrote:
+> > > >
+> > > > On 28/02/2024 12:05, Paweł Anikiel wrote:
+> > > > > On Tue, Feb 27, 2024 at 3:29 PM Rob Herring <robh@kernel.org> wrote:
+> > > > >>
+> > > > >> On Mon, Feb 26, 2024 at 11:59:42AM +0100, Paweł Anikiel wrote:
+> > > > >>> On Mon, Feb 26, 2024 at 10:13 AM Krzysztof Kozlowski
+> > > > >>> <krzysztof.kozlowski@linaro.org> wrote:
+> > > > >>>>
+> > > > >>>> On 21/02/2024 17:02, Paweł Anikiel wrote:
+> > > > >>>>> The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
+> > > > >>>>> Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
+> > > > >>>>> capture and Multi-Stream Transport. The user guide can be found here:
+> > > > >>>>>
+> > > > >>>>> https://www.intel.com/programmable/technical-pdfs/683273.pdf
+> > > > >>>>>
+> > > > >>>>> Signed-off-by: Paweł Anikiel <panikiel@google.com>
+> > > > >>>>> ---
+> > > > >>>>>  .../devicetree/bindings/media/intel,dprx.yaml | 160 ++++++++++++++++++
+> > > > >>>>>  1 file changed, 160 insertions(+)
+> > > > >>>>>  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
+> > > > >>>>>
+> > > > >>>>> diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/Documentation/devicetree/bindings/media/intel,dprx.yaml
+> > > > >>>>> new file mode 100644
+> > > > >>>>> index 000000000000..31025f2d5dcd
+> > > > >>>>> --- /dev/null
+> > > > >>>>> +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
+> > > > >>>>> @@ -0,0 +1,160 @@
+> > > > >>>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > > > >>>>> +%YAML 1.2
+> > > > >>>>> +---
+> > > > >>>>> +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
+> > > > >>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > >>>>> +
+> > > > >>>>> +title: Intel DisplayPort RX IP
+> > > > >>>>> +
+> > > > >>>>> +maintainers:
+> > > > >>>>> +  - Paweł Anikiel <panikiel@google.com>
+> > > > >>>>> +
+> > > > >>>>> +description: |
+> > > > >>>>> +  The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
+> > > > >>>>> +  Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
+> > > > >>>>> +  capture and Multi-Stream Transport.
+> > > > >>>>> +
+> > > > >>>>> +  The IP features a large number of configuration parameters, found at:
+> > > > >>>>> +  https://www.intel.com/content/www/us/en/docs/programmable/683273/23-3-20-0-1/sink-parameters.html
+> > > > >>>>> +
+> > > > >>>>> +  The following parameters have to be enabled:
+> > > > >>>>> +    - Support DisplayPort sink
+> > > > >>>>> +    - Enable GPU control
+> > > > >>>>> +  The following parameters' values have to be set in the devicetree:
+> > > > >>>>> +    - RX maximum link rate
+> > > > >>>>> +    - Maximum lane count
+> > > > >>>>> +    - Support MST
+> > > > >>>>> +    - Max stream count (only if Support MST is enabled)
+> > > > >>>>> +
+> > > > >>>>> +properties:
+> > > > >>>>> +  compatible:
+> > > > >>>>> +    const: intel,dprx-20.0.1
+> > > > >>>>> +
+> > > > >>>>> +  reg:
+> > > > >>>>> +    maxItems: 1
+> > > > >>>>> +
+> > > > >>>>> +  interrupts:
+> > > > >>>>> +    maxItems: 1
+> > > > >>>>> +
+> > > > >>>>> +  intel,max-link-rate:
+> > > > >>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > >>>>> +    description: Max link rate configuration parameter
+> > > > >>>>
+> > > > >>>> Please do not duplicate property name in description. It's useless.
+> > > > >>>> Instead explain what is this responsible for.
+> > > > >>>>
+> > > > >>>> Why max-link-rate would differ for the same dprx-20.0.1? And why
+> > > > >>>> standard properties cannot be used?
+> > > > >>>>
+> > > > >>>> Same for all questions below.
+> > > > >>>
+> > > > >>> These four properties are the IP configuration parameters mentioned in
+> > > > >>> the device description. When generating the IP core you can set these
+> > > > >>> parameters, which could make them differ for the same dprx-20.0.1.
+> > > > >>> They are documented in the user guide, for which I also put a link in
+> > > > >>> the description. Is that enough? Or should I also document these
+> > > > >>> parameters here?
+> > > > >>
+> > > > >> Use the standard properties: link-frequencies and data-lanes. Those go
+> > > > >> under the port(s) because they are inheritly per logical link.
+> > > > >
+> > > > > The DP receiver has one input interface (a deserialized DP stream),
+> > > > > and up to four output interfaces (the decoded video streams). The "max
+> > > > > link rate" and "max lane count" parameters only describe the input
+> > > > > interface to the receiver. However, the port(s) I am using here are
+> > > > > for the output streams. They are not affected by those parameters, so
+> > > > > I don't think these properties should go under the output port(s).
+> > > > >
+> > > > > The receiver doesn't have an input port in the DT, because there isn't
+> > > > > any controllable entity on the other side - the deserializer doesn't
+> > > > > have any software interface. Since these standard properties
+> > > > > (link-frequencies and data-lanes) are only defined in
+> > > > > video-interfaces.yaml (which IIUC describes a graph endpoint), I can't
+> > > > > use them directly in the device node.
+> > > >
+> > > > DT describes the hardware, so where does the input come? From something,
+> > > > right? Regardless if you have a driver or not. There is dp-connector
+> > > > binding, if this is physical port.
+> > >
+> > > Yes, it is a physical port. I agree adding a DT node for the physical
+> > > DP input connector would let us add link-frequencies to the input port
+> > > of the receiver.
+> > >
+> > > However, dp-connector seems to be a binding for an output port - it's
+> > > under schemas/display/connector, and DP_PWR can be a power supply only
+> > > for an output port (looking at the dp-pwr-supply property). Also, the
+> > > driver for this binding is a DRM bridge driver (display-connector.c)
+> > > which would not be compatible with a v4l2 (sub)device.
+> >
+> > So then we should add 'dp-input-connector' because they are different.
+> > When we haven't defined connectors, properties of the connector have
+> > been shoved in whatever node is associated with a connector like you
+> > have done. That works for a while, but then becomes unmanageable. DP on
+> > USB-C connectors for example.
+> >
+> > OTOH, maybe your use here is niche enough to not be worth the trouble.
+> > Depends if we see the need for video input connectors in general.
+> 
+> My use case is a dedicated hardware that runs DP tests of an external
+> DUT. I can't think of another scenario where we'd need an input DP
+> port. IMO this is pretty niche, but I'll leave the decision to you
 
-On 26/02/2024 11:03, Sakari Ailus wrote:
-> < snip>
->> +const struct mali_c55_fmt *mali_c55_cap_fmt_next(const struct mali_c55_fmt *fmt,
->> +						 bool allow_raw, bool unique)
->> +{
->> +	if (!fmt)
->> +		fmt = &mali_c55_fmts[0];
->> +	else
->> +		++fmt;
-> fmt++, please.
->
->> +
->> +	for (; fmt < &mali_c55_fmts[ARRAY_SIZE(mali_c55_fmts)]; ++fmt) {
-> Ditto.
->
->> +		if (!allow_raw && fmt->is_raw) {
->> +			fmt++;
-> Why?
+Your device is niche, but a video capture/in device is not that niche. 
+After all, Smart TVs run Linux. They have video in connectors. Maybe not 
+DP though. It's conceivable someone could make a "Smart Monitor" I 
+suppose.
+
+Rob
 
 
-Sorry, I forgot to reply here...I think neither this nor the enumeration filter below is actually 
-used - I'll double check and remove them for the v3.
-
-
-Thanks
-
-Dan
-
->
->> +			continue;
->> +		}
->> +
->> +		if (unique && !fmt->enumerate) {
->> +			fmt++;
-> Here, too.
-
-
-
->
->> +			continue;
->> +		}
->> +
->> +		return fmt;
->> +	}
->> +
->> +	return NULL;
->> +}
->> +
 
