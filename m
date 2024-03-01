@@ -1,749 +1,312 @@
-Return-Path: <linux-media+bounces-6206-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6207-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E6C86DB5B
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 07:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A60486DBC5
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 08:00:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0269287952
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 06:12:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE0A2288D61
+	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 07:00:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4382B5F845;
-	Fri,  1 Mar 2024 06:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PtjXkKsF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9C26930F;
+	Fri,  1 Mar 2024 07:00:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2106.outbound.protection.partner.outlook.cn [139.219.17.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227905915D
-	for <linux-media@vger.kernel.org>; Fri,  1 Mar 2024 06:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709273530; cv=none; b=qijQWVwlAOEBIZo7fVBZx7jRFqhz6jRbTTLJDx1AuMZZqiCQYqknPwIXUTqeGQK3vxUDQXVWd0bexPa/38eIT++EUJhs1GxpbF47d1V6n5QJWs1Oe8d7KTuMRtPlQb6ZrX0rQwTMBartsdjOSMTxOMAlQh83ioIyEse0NdL4H0I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709273530; c=relaxed/simple;
-	bh=bH+G5rZfIuw/z92ZiQL61hff6O10a8o0CM3atsbi5Og=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rvROejL5G6EAk411WpTl//2Amr0QkChnXM/v7xg8RHo9OdGZ9rbNhvHvIXQt+3UoMTEQgE9B1Wc9Hcm0TuYO/xeVZcEwyevpcQZ3Xta4egVgoq2+PEZhcqheMRGuYqF7u4Nv7WDL1lhanJuRHvbYmSVMP82gRZXuUYo8AmbAI+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtjXkKsF; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709273523; x=1740809523;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bH+G5rZfIuw/z92ZiQL61hff6O10a8o0CM3atsbi5Og=;
-  b=PtjXkKsFvL8xxCwq1ZNE4gAcXtlJbsmPoehFtfNxCMKtrVCQoNrvwvem
-   srzy82GAtmOWIEpLg9A5EEZlrW8QrgLia8q2xUH8GndPrxBDnbtuMJG4D
-   xZqJE6iJvWOe+BinCjnIPRH2YKNs4hR89bqNqCqbmDyTRNPKd9TGKUSl7
-   GtmjXZV5ptee009Zc0y6MN7bIIaEc/ekn1WtMgpu+oTx2+1aPT/XkZN6/
-   tWA82Z3lqx3Iy6DRVrPMzkn33uUVChbEm7wB/viGNHv+1bXGX6jS+8mZq
-   o96QJFiCVgAFxsR/O5p9rZFhkWO4d4OEVkK+OiXcGHjBG/D4UvITIgxnz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3967759"
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="3967759"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 22:12:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
-   d="scan'208";a="8025951"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 29 Feb 2024 22:12:01 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rfw7h-000DaF-0z;
-	Fri, 01 Mar 2024 06:11:57 +0000
-Date: Fri, 1 Mar 2024 14:11:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bingbu Cao <bingbu.cao@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andreas Helbech Kleist <andreaskleist@gmail.com>
-Subject: [sailus-media-tree:ipu6 59/68]
- drivers/media/pci/intel/ipu6/ipu6-isys.c:210:62: error: 'struct
- video_device' has no member named 'entity'
-Message-ID: <202403011421.Pl39qzi3-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F9869943;
+	Fri,  1 Mar 2024 07:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.106
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709276442; cv=fail; b=aykgY1I+P2AOg1igIfDxk9S+/Gvtl/VmS1tRxqS9HW9+gT8YMJpFPKoqB+T7QbKSfdHIuQdsDFQzM2/O2MTOrX4RL+GkFzJMiecCn/zt49Ql8M+qCOyRVZOaMBPPirUgELLi9s1c9OddXYiXXu524b+0vf/eZPCQVSXv031PwJU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709276442; c=relaxed/simple;
+	bh=rEND3FQb5tDK/MVihV89d1ezaLDOKFEaDw7q0GKiOeM=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=LHp9iwRnMRz0qDmtA/+yXSY4GGEbssvzkuBORp9DoKccCle3D8/AQOoBk3hG2nO9snsbhvx7GecsMPiVjb82Ki0aVbGPLGxjQv4/5OI1rVTSjyllLV1YGgV3xQZZfs0Et6mJK3dzeh2A6V9wFOeqfW4T0j+UrnvtpZTlAExVwrs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ClhYqa5ZeVkSsRGiE3eZ+JijJnAZA3nlcPooLTXrGsebYxmQhKqEV6PXJW0AZuM/5Mcb94PbB7iF77bjvVwPj0UITHEkdjmBlUkG52/UTEW6mQiG9qMiJ4isQY7QF053sqV2druPoDmUFggHLBU7JWW/UzdZq3xz5B9vbquWmi+8D2OiZS9SZZqQe143434cMHt+2c2zmfZZA3al52X6CzPfR6C5GuZWcgBHxetb+MBYQhnhbjsSyf3mXVJBpXn3qHA5Kez5mh8B8+F600SuVDXXJnfnvUlqTlk0BJ3M237JwN2BE8TOH8dj3WiZNUOBYHfwr3QkRRhLbLzcabho8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CurFyMpT09PhFVXrzFUVLY2Eln2WXY3rjQUa+Ax+HHU=;
+ b=Ik3XqER+3fiizHhPCPj0kfy0C+jBzmuPStI2kBGjTJd4xMi4wFqwtwIUDTWVWJleiLR/eJNQkrL+dAJLjUh8BIarwC4uKDM0ifSMoP41gnMvm5JCELHMKafZn2UMVFe8NMeNx9jkUNrVKRan0TLCugNUb2Ubg4Ua88tbrarDhVwVkFI/GMroextYTLvAaWWpW99vwLh7HeA/rbW4WDdV9MwAwAmRwMQR8hAWbKSDzjNjgqn4X7/WlzQTeAXcQvkkgNT/FiixtEakJrXYAP4YAfix4BNdTEQXL20GX2pcX/wiiggMWL06nDTMEdcePRCzYNjrlCs4vQO0zQ29mcae0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0864.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:24::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Fri, 1 Mar
+ 2024 07:00:34 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::b0af:4c9d:2058:a344]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
+ with mapi id 15.20.7249.041; Fri, 1 Mar 2024 07:00:33 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [v1] staging: media: starfive: Renamed capture_raw to capture_dump
+Date: Thu, 29 Feb 2024 23:00:25 -0800
+Message-Id: <20240301070025.11144-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ZQ0PR01CA0030.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:2::15) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0864:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8aedcb5-6888-4e80-1c08-08dc39bd4a30
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	5NduyWObZchoDR3s/D++Vj0ZZdY6IpgM1M4Te07T1My3I4ImJXXEROlz085ZDY629K40CiMCCw2t/3dqy0MDpkiEQ09lp9XEp8pfPHS8il3N/v+pOUTYB5WHZg43bKe9ke3DazwO5z0r2J+jyJ5nq0+zZ5PmAiTBvQ3UobN8chmNH90vdfQjE5OnzUn9Y8AYeue64lrqA8ay1N2pIZYN5tyMv9U7qO++4+NatHTnbBLK2wXiqzZlK6CRZv1gVn3UYpFxokKfvsrbmnBQjo9CsH6ZJwFol2xwmw+LsI88sSiMt1ZsRHMAqMwtOPWarJOYyZUN3crStx2t3for8aImIaCn++gl4php+Un9LR0p9REz/ctvDFTzXErsfeu/NjCiOuBC/lDrmCSAYm6xMk5kFP+O6/j7u9fmU34BzW5VwE86UdyP2I2Z/uIiQxxzKiTpm6AfFxWXaMrudcjjYvuzskNeBH+PUCKzgNDA3IqLRvOePi2ewS50rX2953JD072WAsPuLFAxBmstt12HhS4HDiuLk7p8VAC/Z3naZDL8lZECL4yGD9nwfZJBdkCNAWu4cZIKSfrQFT2x3iSb/RKm4G2lAimkfeE0XNw4P+WiM287YiGOhbNK/l4podcm4DHK
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(41320700004)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?mKas+UklEVOhUzusbhbS1hRslzQAQE4NF9mTA3YVOp8tkHzGWhDuCnXAiRVP?=
+ =?us-ascii?Q?iHcoNEAvHdzQR0HhwnF9ekZ/vWBg5bpgIL9zgJUeVmU6tWpa68CUusQ+bpCD?=
+ =?us-ascii?Q?M1bn+xM4Kbl/sdFiB4C44Sm1PP8BkBvmuFXolH6KQRbYeCpkn/qQ3FU1ZEZh?=
+ =?us-ascii?Q?ilXsMQjDxIC6ZUE6+12/6Qu9t9ZtxIfpBecJOXHcgMliobySfmtqbHmZY2M3?=
+ =?us-ascii?Q?Qn9EjfUdVLVs1+ZWyILKvgXi9bzU2fOjd5KymvAoThP765kbBRWXv05FvRNQ?=
+ =?us-ascii?Q?KK3sC8SMhOZfmo7Mfwxv1b4kM5+LErtoUX8FouwQxkW+LoRHYEV8lJXf3x7M?=
+ =?us-ascii?Q?mnYghPsUSiHOs//5FB4/ksLKZNF0XDSb551NAKxbUCQzYJ/ulvbl+whK58DX?=
+ =?us-ascii?Q?aYvpgvXimhcpDq98qulqTI1ul3TPJ32E/nKvQbVRGMni3dqj3obkggooXevm?=
+ =?us-ascii?Q?h8LwzN3ixGRLXd1ICrCKzzaYDjkmuexgckzsIBoiB7Hagdw5GRUxsEHm//a1?=
+ =?us-ascii?Q?W+0arunqcplY0bP+PhP97ZVkA1OrqQRWL/sV/fgf74H4p6hB33PZyWAQnLQv?=
+ =?us-ascii?Q?xC/dmadmLrwaT+h4AVUHx+z6YR1j67TyyPPZ/I9e6EX4ZVOayLz/8irtaGTO?=
+ =?us-ascii?Q?DQQc4fYwfIWgdqSS422P7NL/Jqz6ZPgSeJHtfN1ocqfnDGSPsBcKQyQYCj5t?=
+ =?us-ascii?Q?IeyUEuusW/URfzC3NW7ny6ZJsQIg6LUb5+7wGpVz1CtMZHZCX4eciCWWD2Fc?=
+ =?us-ascii?Q?c/BZ4TRiUM4AZjqN5Vu/hBfSo0R4GeyFV9EqaUMwXBD365FVR6Z1GKs0MP6r?=
+ =?us-ascii?Q?2clVXIJnm3Jtb6zioBB18BGeK27rpq5diXC/oyX0/B7bldjn8iiS12uAnbnn?=
+ =?us-ascii?Q?JduqeU0shnLrblJv737e7ly6BuBbb3AqBLJh2A4xMVxmYr5RG413VyeBKw1L?=
+ =?us-ascii?Q?JOC9zRgQx6J/So0/SNoXyqCDjAdoQhM12L94WD6pLcMfsBgtxkM+abG9TfFt?=
+ =?us-ascii?Q?53TRvKvLc1eCIVuhpjTL8q9fXbPA1PmyCppSM9DD4d+kwzq5igafk8JxxDEm?=
+ =?us-ascii?Q?bGdP1NTd93GyGLkz1FQMMItFmenaUpbdmh+/7b6pqkhbrSRNFPcOqCfuCiq8?=
+ =?us-ascii?Q?+Am2fg54+g65db7jBI8sF931oJCp2VtjfX2MTnK+NNPRjvLo9duhCRsFiB+g?=
+ =?us-ascii?Q?6rju8gAaXClUnF3xyBybHoBTRoCJZr9TfleQ52PlbdVfjgEZH001L3nDxI4U?=
+ =?us-ascii?Q?YWxds+WnfoKYvzyNhCLUz+Mp/R9Gu+RisnTOtXAUCRJFr0w2HA0kw+fORjhD?=
+ =?us-ascii?Q?c046IdYkJZFgwVDPgaIUj3Jr7aT2wpFS1dlMXpao/kbzjslcH+CCn1SvkbQc?=
+ =?us-ascii?Q?ei5VFc0QtQ2i2WpXCDKbziYZh4zOYs7VMusMCtANY9+MHH1ZSdqv3/AS/DLk?=
+ =?us-ascii?Q?9GcPGtNWpr2hwV2W/+ZJOi9QNRdK+dCEgmlPy6ij4RkoGPI7LUuJsrVgWvpI?=
+ =?us-ascii?Q?TkdFkqX4BHmrSLXu/qtSem806UBuVVZHlWOP/Sg3RVMeMAkxP9w2Xn9B0DDc?=
+ =?us-ascii?Q?WQvonil6/ASgdeIa6dfbDZNRBSDael6yaNXmsh4LQHzJX+XpRHIKcZy+myBb?=
+ =?us-ascii?Q?KwvbVtQ2p2Wk8swLMV4BOSI=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8aedcb5-6888-4e80-1c08-08dc39bd4a30
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2024 07:00:33.8159
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aDxMoHgkm7ns+qKLYaBO41fIIh5elaY2fxC3VEpDl0ZK4zSxnXXqnGlw7DQZbrYw/hyWgrFYmafXfa8LQDlb6G2FjqdAtQAgfoOgWBgpTjwKxEXn6cklWyEg+4CzFP/T
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0864
 
-tree:   git://linuxtv.org/sailus/media_tree.git ipu6
-head:   3733f0aae05e6ac2c55192a4159bc81c5aaf5681
-commit: d6c211a676c0a2de6ddfde4d7589878140a0371e [59/68] media: intel/ipu6: add Kconfig and Makefile
-config: x86_64-randconfig-121-20240229 (https://download.01.org/0day-ci/archive/20240301/202403011421.Pl39qzi3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403011421.Pl39qzi3-lkp@intel.com/reproduce)
+The pixel formats captured by the capture_raw video device depends on
+what pixel formats come from the source device. It is actually dump
+the source device data. So renamed it to capture_dump.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403011421.Pl39qzi3-lkp@intel.com/
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+---
+ .../admin-guide/media/starfive_camss.rst      |  2 +-
+ .../media/starfive_camss_graph.dot            |  2 +-
+ .../staging/media/starfive/camss/stf-camss.c  |  6 ++---
+ .../media/starfive/camss/stf-capture.c        | 26 +++++++++----------
+ .../staging/media/starfive/camss/stf-video.h  |  2 +-
+ 5 files changed, 19 insertions(+), 19 deletions(-)
 
-All errors (new ones prefixed by >>):
+diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documentation/admin-guide/media/starfive_camss.rst
+index ca42e9447c47..c224e6123042 100644
+--- a/Documentation/admin-guide/media/starfive_camss.rst
++++ b/Documentation/admin-guide/media/starfive_camss.rst
+@@ -60,7 +60,7 @@ The media controller pipeline graph is as follows:
 
-   drivers/media/pci/intel/ipu6/ipu6-isys.c: In function 'isys_complete_ext_device_registration':
-   drivers/media/pci/intel/ipu6/ipu6-isys.c:113:27: error: 'struct v4l2_subdev' has no member named 'entity'
-     113 |         for (i = 0; i < sd->entity.num_pads; i++) {
-         |                           ^~
-   drivers/media/pci/intel/ipu6/ipu6-isys.c:114:23: error: 'struct v4l2_subdev' has no member named 'entity'
-     114 |                 if (sd->entity.pads[i].flags & MEDIA_PAD_FL_SOURCE)
-         |                       ^~
-   drivers/media/pci/intel/ipu6/ipu6-isys.c:118:20: error: 'struct v4l2_subdev' has no member named 'entity'
-     118 |         if (i == sd->entity.num_pads) {
-         |                    ^~
-   drivers/media/pci/intel/ipu6/ipu6-isys.c:124:40: error: 'struct v4l2_subdev' has no member named 'entity'
-     124 |         ret = media_create_pad_link(&sd->entity, i,
-         |                                        ^~
-   drivers/media/pci/intel/ipu6/ipu6-isys.c:125:67: error: 'struct v4l2_subdev' has no member named 'entity'
-     125 |                                     &isys->csi2[csi2->port].asd.sd.entity,
-         |                                                                   ^
-   drivers/media/pci/intel/ipu6/ipu6-isys.c: In function 'isys_csi2_create_media_links':
-   drivers/media/pci/intel/ipu6/ipu6-isys.c:204:64: error: 'struct v4l2_subdev' has no member named 'entity'
-     204 |                 struct media_entity *sd = &isys->csi2[i].asd.sd.entity;
-         |                                                                ^
->> drivers/media/pci/intel/ipu6/ipu6-isys.c:210:62: error: 'struct video_device' has no member named 'entity'
-     210 |                                                     &av->vdev.entity, 0, 0);
-         |                                                              ^
-   drivers/media/pci/intel/ipu6/ipu6-isys.c: In function 'isys_register_devices':
->> drivers/media/pci/intel/ipu6/ipu6-isys.c:829:9: error: implicit declaration of function 'media_device_cleanup'; did you mean 'media_entity_cleanup'? [-Werror=implicit-function-declaration]
-     829 |         media_device_cleanup(&isys->media_dev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         media_entity_cleanup
-   cc1: some warnings being treated as errors
+ The driver has 2 video devices:
+
+-- capture_raw: The capture device, capturing image data directly from a sensor.
++- capture_dump: The capture device, capturing image data directly from a sensor.
+ - capture_yuv: The capture device, capturing YUV frame data processed by the
+   ISP module
+
+diff --git a/Documentation/admin-guide/media/starfive_camss_graph.dot b/Documentation/admin-guide/media/starfive_camss_graph.dot
+index 8eff1f161ac7..5e8731e27701 100644
+--- a/Documentation/admin-guide/media/starfive_camss_graph.dot
++++ b/Documentation/admin-guide/media/starfive_camss_graph.dot
+@@ -2,7 +2,7 @@ digraph board {
+ 	rankdir=TB
+ 	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+ 	n00000001:port1 -> n00000008 [style=dashed]
+-	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
++	n00000004 [label="capture_dump\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+ 	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+ 	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+ 	n0000000e:port1 -> n00000001:port0 [style=dashed]
+diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
+index a587f860101a..81fc39f20615 100644
+--- a/drivers/staging/media/starfive/camss/stf-camss.c
++++ b/drivers/staging/media/starfive/camss/stf-camss.c
+@@ -176,7 +176,7 @@ static int stfcamss_subdev_notifier_bound(struct v4l2_async_notifier *async,
+ 		container_of(asc, struct stfcamss_async_subdev, asd);
+ 	enum stf_port_num port = csd->port;
+ 	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
+-	struct stf_capture *cap_raw = &stfcamss->captures[STF_CAPTURE_RAW];
++	struct stf_capture *cap_dump = &stfcamss->captures[STF_CAPTURE_DUMP];
+ 	struct media_pad *pad;
+ 	int ret;
+
+@@ -192,12 +192,12 @@ static int stfcamss_subdev_notifier_bound(struct v4l2_async_notifier *async,
+ 		return ret;
+
+ 	ret = media_create_pad_link(&subdev->entity, 1,
+-				    &cap_raw->video.vdev.entity, 0, 0);
++				    &cap_dump->video.vdev.entity, 0, 0);
+ 	if (ret)
+ 		return ret;
+
+ 	isp_dev->source_subdev = subdev;
+-	cap_raw->video.source_subdev = subdev;
++	cap_dump->video.source_subdev = subdev;
+
+ 	return 0;
+ }
+diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
+index ec5169e7b391..5c91126d5132 100644
+--- a/drivers/staging/media/starfive/camss/stf-capture.c
++++ b/drivers/staging/media/starfive/camss/stf-capture.c
+@@ -10,7 +10,7 @@
+ #include "stf-camss.h"
+
+ static const char * const stf_cap_names[] = {
+-	"capture_raw",
++	"capture_dump",
+ 	"capture_yuv",
+ };
+
+@@ -60,7 +60,7 @@ static inline struct stf_capture *to_stf_capture(struct stfcamss_video *video)
+ 	return container_of(video, struct stf_capture, video);
+ }
+
+-static void stf_set_raw_addr(struct stfcamss *stfcamss, dma_addr_t addr)
++static void stf_set_dump_addr(struct stfcamss *stfcamss, dma_addr_t addr)
+ {
+ 	stf_syscon_reg_write(stfcamss, VIN_START_ADDR_O, (long)addr);
+ 	stf_syscon_reg_write(stfcamss, VIN_START_ADDR_N, (long)addr);
+@@ -87,8 +87,8 @@ static void stf_init_addrs(struct stfcamss_video *video)
+ 	addr0 = output->buf[0]->addr[0];
+ 	addr1 = output->buf[0]->addr[1];
+
+-	if (cap->type == STF_CAPTURE_RAW)
+-		stf_set_raw_addr(video->stfcamss, addr0);
++	if (cap->type == STF_CAPTURE_DUMP)
++		stf_set_dump_addr(video->stfcamss, addr0);
+ 	else if (cap->type == STF_CAPTURE_YUV)
+ 		stf_set_yuv_addr(video->stfcamss, addr0, addr1);
+ }
+@@ -179,7 +179,7 @@ static void stf_channel_set(struct stfcamss_video *video)
+ 	struct stfcamss *stfcamss = cap->video.stfcamss;
+ 	u32 val;
+
+-	if (cap->type == STF_CAPTURE_RAW) {
++	if (cap->type == STF_CAPTURE_DUMP) {
+ 		val = stf_syscon_reg_read(stfcamss, VIN_CHANNEL_SEL_EN);
+ 		val &= ~U0_VIN_CHANNEL_SEL_MASK;
+ 		val |= CHANNEL(0);
+@@ -219,7 +219,7 @@ static void stf_capture_start(struct stfcamss_video *video)
+ 	struct stf_capture *cap = to_stf_capture(video);
+
+ 	stf_channel_set(video);
+-	if (cap->type == STF_CAPTURE_RAW) {
++	if (cap->type == STF_CAPTURE_DUMP) {
+ 		stf_wr_irq_enable(video);
+ 		stf_wr_data_en(video);
+ 	}
+@@ -231,7 +231,7 @@ static void stf_capture_stop(struct stfcamss_video *video)
+ {
+ 	struct stf_capture *cap = to_stf_capture(video);
+
+-	if (cap->type == STF_CAPTURE_RAW)
++	if (cap->type == STF_CAPTURE_DUMP)
+ 		stf_wr_irq_disable(video);
+
+ 	stf_cap_s_cleanup(video);
+@@ -252,7 +252,7 @@ static void stf_capture_init(struct stfcamss *stfcamss, struct stf_capture *cap)
+ 	cap->video.stfcamss = stfcamss;
+ 	cap->video.bpl_alignment = 16 * 8;
+
+-	if (cap->type == STF_CAPTURE_RAW) {
++	if (cap->type == STF_CAPTURE_DUMP) {
+ 		cap->video.formats = stf_wr_fmts;
+ 		cap->video.nformats = ARRAY_SIZE(stf_wr_fmts);
+ 		cap->video.bpl_alignment = 8;
+@@ -437,8 +437,8 @@ static void stf_change_buffer(struct stf_v_buf *output)
+ 	if (output->state == STF_OUTPUT_STOPPING) {
+ 		output->last_buffer = ready_buf;
+ 	} else {
+-		if (cap->type == STF_CAPTURE_RAW)
+-			stf_set_raw_addr(stfcamss, new_addr[0]);
++		if (cap->type == STF_CAPTURE_DUMP)
++			stf_set_dump_addr(stfcamss, new_addr[0]);
+ 		else if (cap->type == STF_CAPTURE_YUV)
+ 			stf_set_yuv_addr(stfcamss, new_addr[0], new_addr[1]);
+
+@@ -452,7 +452,7 @@ static void stf_change_buffer(struct stf_v_buf *output)
+ irqreturn_t stf_wr_irq_handler(int irq, void *priv)
+ {
+ 	struct stfcamss *stfcamss = priv;
+-	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_RAW];
++	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_DUMP];
+
+ 	if (atomic_dec_if_positive(&cap->buffers.frame_skip) < 0) {
+ 		stf_change_buffer(&cap->buffers);
+@@ -569,10 +569,10 @@ static void stf_capture_unregister_one(struct stf_capture *cap)
+
+ void stf_capture_unregister(struct stfcamss *stfcamss)
+ {
+-	struct stf_capture *cap_raw = &stfcamss->captures[STF_CAPTURE_RAW];
++	struct stf_capture *cap_dump = &stfcamss->captures[STF_CAPTURE_DUMP];
+ 	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
+
+-	stf_capture_unregister_one(cap_raw);
++	stf_capture_unregister_one(cap_dump);
+ 	stf_capture_unregister_one(cap_yuv);
+ }
+
+diff --git a/drivers/staging/media/starfive/camss/stf-video.h b/drivers/staging/media/starfive/camss/stf-video.h
+index 8052b77e3ad8..90c73c0dee89 100644
+--- a/drivers/staging/media/starfive/camss/stf-video.h
++++ b/drivers/staging/media/starfive/camss/stf-video.h
+@@ -35,7 +35,7 @@ enum stf_v_line_id {
+ };
+
+ enum stf_capture_type {
+-	STF_CAPTURE_RAW = 0,
++	STF_CAPTURE_DUMP = 0,
+ 	STF_CAPTURE_YUV,
+ 	STF_CAPTURE_NUM,
+ };
 --
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_csi2_get_link_freq':
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:85:70: error: 'struct v4l2_subdev' has no member named 'entity'
-      85 |         src_pad = media_entity_remote_source_pad_unique(&csi2->asd.sd.entity);
-         |                                                                      ^
-   In file included from include/linux/atomic/atomic-instrumented.h:15,
-                    from include/linux/atomic.h:82,
-                    from drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:6:
->> include/linux/container_of.h:20:54: error: 'struct v4l2_subdev' has no member named 'entity'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:91:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-      91 |         ext_sd = media_entity_to_v4l2_subdev(src_pad->entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:91:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-      91 |         ext_sd = media_entity_to_v4l2_subdev(src_pad->entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/atomic.h:5:
->> include/linux/stddef.h:16:33: error: 'struct v4l2_subdev' has no member named 'entity'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:91:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-      91 |         ext_sd = media_entity_to_v4l2_subdev(src_pad->entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_csi2_set_sel':
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:395:21: error: implicit declaration of function 'v4l2_subdev_state_get_opposite_stream_format' [-Werror=implicit-function-declaration]
-     395 |         sink_ffmt = v4l2_subdev_state_get_opposite_stream_format(state,
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:395:19: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     395 |         sink_ffmt = v4l2_subdev_state_get_opposite_stream_format(state,
-         |                   ^
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:401:20: error: implicit declaration of function 'v4l2_subdev_state_get_format' [-Werror=implicit-function-declaration]
-     401 |         src_ffmt = v4l2_subdev_state_get_format(state, sel->pad, sel->stream);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:401:18: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     401 |         src_ffmt = v4l2_subdev_state_get_format(state, sel->pad, sel->stream);
-         |                  ^
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:405:16: error: implicit declaration of function 'v4l2_subdev_state_get_crop' [-Werror=implicit-function-declaration]
-     405 |         crop = v4l2_subdev_state_get_crop(state, sel->pad, sel->stream);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:405:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     405 |         crop = v4l2_subdev_state_get_crop(state, sel->pad, sel->stream);
-         |              ^
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_csi2_get_sel':
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:441:15: error: 'struct v4l2_subdev' has no member named 'entity'
-     441 |         if (sd->entity.pads[sel->pad].flags & MEDIA_PAD_FL_SINK)
-         |               ^~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:444:19: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     444 |         sink_ffmt = v4l2_subdev_state_get_opposite_stream_format(state,
-         |                   ^
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:450:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     450 |         crop = v4l2_subdev_state_get_crop(state, sel->pad, sel->stream);
-         |              ^
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: At top level:
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:477:20: error: 'v4l2_subdev_get_fmt' undeclared here (not in a function); did you mean 'v4l2_subdev_notify'?
-     477 |         .get_fmt = v4l2_subdev_get_fmt,
-         |                    ^~~~~~~~~~~~~~~~~~~
-         |                    v4l2_subdev_notify
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:492:26: error: 'v4l2_subdev_link_validate' undeclared here (not in a function); did you mean 'v4l2_subdev_lock_state'?
-     492 |         .link_validate = v4l2_subdev_link_validate,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                          v4l2_subdev_lock_state
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:493:29: error: 'v4l2_subdev_has_pad_interdep' undeclared here (not in a function); did you mean 'v4l2_subdev_ir_parameters'?
-     493 |         .has_pad_interdep = v4l2_subdev_has_pad_interdep,
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                             v4l2_subdev_ir_parameters
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_csi2_cleanup':
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:502:9: error: implicit declaration of function 'v4l2_subdev_cleanup'; did you mean 'v4l2_subdev_call'? [-Werror=implicit-function-declaration]
-     502 |         v4l2_subdev_cleanup(&csi2->asd.sd);
-         |         ^~~~~~~~~~~~~~~~~~~
-         |         v4l2_subdev_call
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_csi2_init':
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:518:21: error: 'struct v4l2_subdev' has no member named 'entity'
-     518 |         csi2->asd.sd.entity.ops = &csi2_entity_ops;
-         |                     ^
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:530:15: error: implicit declaration of function 'v4l2_subdev_init_finalize'; did you mean 'v4l2_subdev_init'? [-Werror=implicit-function-declaration]
-     530 |         ret = v4l2_subdev_init_finalize(&csi2->asd.sd);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |               v4l2_subdev_init
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_csi2_get_remote_desc':
->> include/linux/container_of.h:20:54: error: 'struct v4l2_subdev' has no member named 'entity'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:591:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     591 |         source = media_entity_to_v4l2_subdev(source_entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:591:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     591 |         source = media_entity_to_v4l2_subdev(source_entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: 'struct v4l2_subdev' has no member named 'entity'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:591:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     591 |         source = media_entity_to_v4l2_subdev(source_entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/device.h:15,
-                    from drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:10:
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_set_csi2_streams_status':
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:657:35: error: 'struct v4l2_subdev' has no member named 'entity'
-     657 |                                 sd->entity.name, r_pad->index, r_stream,
-         |                                   ^~
-   include/linux/dev_printk.h:129:48: note: in definition of macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                                ^~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:655:25: note: in expansion of macro 'dev_dbg'
-     655 |                         dev_dbg(&av->isys->adev->auxdev.dev,
-         |                         ^~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/bits.h:21,
-                    from drivers/media/pci/intel/ipu6/ipu6-isys-video.c:7:
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'link_validate':
->> include/linux/container_of.h:20:54: error: 'struct v4l2_subdev' has no member named 'entity'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:281:16: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     281 |         s_sd = media_entity_to_v4l2_subdev(link->source->entity);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:281:16: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     281 |         s_sd = media_entity_to_v4l2_subdev(link->source->entity);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:251,
-                    from include/linux/build_bug.h:5:
->> include/linux/stddef.h:16:33: error: 'struct v4l2_subdev' has no member named 'entity'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:281:16: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     281 |         s_sd = media_entity_to_v4l2_subdev(link->source->entity);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:295:17: error: implicit declaration of function 'v4l2_subdev_state_get_format' [-Werror=implicit-function-declaration]
-     295 |         s_fmt = v4l2_subdev_state_get_format(s_state, s_pad->index, s_stream);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:295:15: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     295 |         s_fmt = v4l2_subdev_state_get_format(s_state, s_pad->index, s_stream);
-         |               ^
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'ipu6_isys_fw_pin_cfg':
->> include/linux/container_of.h:20:54: error: 'struct v4l2_subdev' has no member named 'entity'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:340:34: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     340 |         struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(src_pad->entity);
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:340:34: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     340 |         struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(src_pad->entity);
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: 'struct v4l2_subdev' has no member named 'entity'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:340:34: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     340 |         struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(src_pad->entity);
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'ipu6_isys_configure_stream_watermark':
->> include/linux/container_of.h:20:54: error: 'struct v4l2_subdev' has no member named 'entity'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:657:15: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     657 |         esd = media_entity_to_v4l2_subdev(av->stream->source_entity);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:657:15: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     657 |         esd = media_entity_to_v4l2_subdev(av->stream->source_entity);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: 'struct v4l2_subdev' has no member named 'entity'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:657:15: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     657 |         esd = media_entity_to_v4l2_subdev(av->stream->source_entity);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'get_stream_mask_by_pipeline':
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:863:50: error: 'struct video_device' has no member named 'entity'
-     863 |                 media_entity_pipeline(&__av->vdev.entity);
-         |                                                  ^
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:870:64: error: 'struct video_device' has no member named 'entity'
-     870 |                 if (pipeline == media_entity_pipeline(&av->vdev.entity))
-         |                                                                ^
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'ipu6_isys_video_set_streaming':
->> include/linux/container_of.h:20:54: error: 'struct v4l2_subdev' has no member named 'entity'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:898:15: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     898 |         ssd = media_entity_to_v4l2_subdev(stream->source_entity);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:898:15: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     898 |         ssd = media_entity_to_v4l2_subdev(stream->source_entity);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: 'struct v4l2_subdev' has no member named 'entity'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:898:15: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-     898 |         ssd = media_entity_to_v4l2_subdev(stream->source_entity);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:905:15: error: implicit declaration of function 'v4l2_subdev_routing_find_opposite_end' [-Werror=implicit-function-declaration]
-     905 |         ret = v4l2_subdev_routing_find_opposite_end(routing, r_pad->index,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:921:23: error: implicit declaration of function 'v4l2_subdev_disable_streams' [-Werror=implicit-function-declaration]
-     921 |                 ret = v4l2_subdev_disable_streams(ssd, s_pad->index,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:958:23: error: implicit declaration of function 'v4l2_subdev_enable_streams' [-Werror=implicit-function-declaration]
-     958 |                 ret = v4l2_subdev_enable_streams(ssd, s_pad->index,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'ipu6_isys_setup_video':
->> include/linux/container_of.h:20:54: error: 'struct v4l2_subdev' has no member named 'entity'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1108:21: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-    1108 |         remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1108:21: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-    1108 |         remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: 'struct v4l2_subdev' has no member named 'entity'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/media/v4l2-subdev.h:1110:17: note: in expansion of macro 'container_of'
-    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1108:21: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-    1108 |         remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1120:9: error: implicit declaration of function 'for_each_active_route'; did you mean 'for_each_active_irq'? [-Werror=implicit-function-declaration]
-    1120 |         for_each_active_route(&state->routing, r) {
-         |         ^~~~~~~~~~~~~~~~~~~~~
-         |         for_each_active_irq
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1120:50: error: expected ';' before '{' token
-    1120 |         for_each_active_route(&state->routing, r) {
-         |                                                  ^~
-         |                                                  ;
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1156:51: error: 'struct video_device' has no member named 'entity'
-    1156 |         pipeline = media_entity_pipeline(&av->vdev.entity);
-         |                                                   ^
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1158:23: error: implicit declaration of function 'video_device_pipeline_alloc_start'; did you mean 'media_pipeline_alloc_start'? [-Werror=implicit-function-declaration]
-    1158 |                 ret = video_device_pipeline_alloc_start(&av->vdev);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                       media_pipeline_alloc_start
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1160:23: error: implicit declaration of function 'video_device_pipeline_start'; did you mean 'media_pipeline_start'? [-Werror=implicit-function-declaration]
-    1160 |                 ret = video_device_pipeline_start(&av->vdev, pipeline);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                       media_pipeline_start
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1168:17: error: implicit declaration of function 'video_device_pipeline_stop'; did you mean 'video_device_release'? [-Werror=implicit-function-declaration]
-    1168 |                 video_device_pipeline_stop(&av->vdev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 video_device_release
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'ipu6_isys_video_init':
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1203:47: error: 'struct video_device' has no member named 'entity'
-    1203 |         ret = media_entity_pads_init(&av->vdev.entity, 1, &av->pad);
-         |                                               ^
-   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1207:17: error: 'struct video_device' has no member named 'entity'
-    1207 |         av->vdev.entity.ops = &entity_ops;
-         |                 ^
-   cc1: some warnings being treated as errors
-..
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=n]
-   Selected by [y]:
-   - VIDEO_INTEL_IPU6 [=y] && PCI [=y] && (ACPI [=y] || COMPILE_TEST [=n]) && MEDIA_SUPPORT [=y] && MEDIA_PCI_SUPPORT [=y] && X86 [=y] && X86_64 [=y] && HAS_DMA [=y]
-
-
-vim +210 drivers/media/pci/intel/ipu6/ipu6-isys.c
-
-365931dd66c449 Bingbu Cao 2024-01-31  103  
-365931dd66c449 Bingbu Cao 2024-01-31  104  static int
-365931dd66c449 Bingbu Cao 2024-01-31  105  isys_complete_ext_device_registration(struct ipu6_isys *isys,
-365931dd66c449 Bingbu Cao 2024-01-31  106  				      struct v4l2_subdev *sd,
-365931dd66c449 Bingbu Cao 2024-01-31  107  				      struct ipu6_isys_csi2_config *csi2)
-365931dd66c449 Bingbu Cao 2024-01-31  108  {
-365931dd66c449 Bingbu Cao 2024-01-31  109  	struct device *dev = &isys->adev->auxdev.dev;
-365931dd66c449 Bingbu Cao 2024-01-31  110  	unsigned int i;
-365931dd66c449 Bingbu Cao 2024-01-31  111  	int ret;
-365931dd66c449 Bingbu Cao 2024-01-31  112  
-365931dd66c449 Bingbu Cao 2024-01-31  113  	for (i = 0; i < sd->entity.num_pads; i++) {
-365931dd66c449 Bingbu Cao 2024-01-31  114  		if (sd->entity.pads[i].flags & MEDIA_PAD_FL_SOURCE)
-365931dd66c449 Bingbu Cao 2024-01-31  115  			break;
-365931dd66c449 Bingbu Cao 2024-01-31  116  	}
-365931dd66c449 Bingbu Cao 2024-01-31  117  
-365931dd66c449 Bingbu Cao 2024-01-31  118  	if (i == sd->entity.num_pads) {
-365931dd66c449 Bingbu Cao 2024-01-31  119  		dev_warn(dev, "no src pad in external entity\n");
-365931dd66c449 Bingbu Cao 2024-01-31  120  		ret = -ENOENT;
-365931dd66c449 Bingbu Cao 2024-01-31  121  		goto unregister_subdev;
-365931dd66c449 Bingbu Cao 2024-01-31  122  	}
-365931dd66c449 Bingbu Cao 2024-01-31  123  
-365931dd66c449 Bingbu Cao 2024-01-31  124  	ret = media_create_pad_link(&sd->entity, i,
-365931dd66c449 Bingbu Cao 2024-01-31 @125  				    &isys->csi2[csi2->port].asd.sd.entity,
-365931dd66c449 Bingbu Cao 2024-01-31  126  				    0, 0);
-365931dd66c449 Bingbu Cao 2024-01-31  127  	if (ret) {
-365931dd66c449 Bingbu Cao 2024-01-31  128  		dev_warn(dev, "can't create link\n");
-365931dd66c449 Bingbu Cao 2024-01-31  129  		goto unregister_subdev;
-365931dd66c449 Bingbu Cao 2024-01-31  130  	}
-365931dd66c449 Bingbu Cao 2024-01-31  131  
-365931dd66c449 Bingbu Cao 2024-01-31  132  	isys->csi2[csi2->port].nlanes = csi2->nlanes;
-365931dd66c449 Bingbu Cao 2024-01-31  133  
-365931dd66c449 Bingbu Cao 2024-01-31  134  	return 0;
-365931dd66c449 Bingbu Cao 2024-01-31  135  
-365931dd66c449 Bingbu Cao 2024-01-31  136  unregister_subdev:
-365931dd66c449 Bingbu Cao 2024-01-31  137  	v4l2_device_unregister_subdev(sd);
-365931dd66c449 Bingbu Cao 2024-01-31  138  
-365931dd66c449 Bingbu Cao 2024-01-31  139  	return ret;
-365931dd66c449 Bingbu Cao 2024-01-31  140  }
-365931dd66c449 Bingbu Cao 2024-01-31  141  
-365931dd66c449 Bingbu Cao 2024-01-31  142  static void isys_stream_init(struct ipu6_isys *isys)
-365931dd66c449 Bingbu Cao 2024-01-31  143  {
-365931dd66c449 Bingbu Cao 2024-01-31  144  	u32 i;
-365931dd66c449 Bingbu Cao 2024-01-31  145  
-365931dd66c449 Bingbu Cao 2024-01-31  146  	for (i = 0; i < IPU6_ISYS_MAX_STREAMS; i++) {
-365931dd66c449 Bingbu Cao 2024-01-31  147  		mutex_init(&isys->streams[i].mutex);
-365931dd66c449 Bingbu Cao 2024-01-31  148  		init_completion(&isys->streams[i].stream_open_completion);
-365931dd66c449 Bingbu Cao 2024-01-31  149  		init_completion(&isys->streams[i].stream_close_completion);
-365931dd66c449 Bingbu Cao 2024-01-31  150  		init_completion(&isys->streams[i].stream_start_completion);
-365931dd66c449 Bingbu Cao 2024-01-31  151  		init_completion(&isys->streams[i].stream_stop_completion);
-365931dd66c449 Bingbu Cao 2024-01-31  152  		INIT_LIST_HEAD(&isys->streams[i].queues);
-365931dd66c449 Bingbu Cao 2024-01-31  153  		isys->streams[i].isys = isys;
-365931dd66c449 Bingbu Cao 2024-01-31  154  		isys->streams[i].stream_handle = i;
-365931dd66c449 Bingbu Cao 2024-01-31  155  		isys->streams[i].vc = INVALID_VC_ID;
-365931dd66c449 Bingbu Cao 2024-01-31  156  	}
-365931dd66c449 Bingbu Cao 2024-01-31  157  }
-365931dd66c449 Bingbu Cao 2024-01-31  158  
-365931dd66c449 Bingbu Cao 2024-01-31  159  static void isys_csi2_unregister_subdevices(struct ipu6_isys *isys)
-365931dd66c449 Bingbu Cao 2024-01-31  160  {
-365931dd66c449 Bingbu Cao 2024-01-31  161  	const struct ipu6_isys_internal_csi2_pdata *csi2 =
-365931dd66c449 Bingbu Cao 2024-01-31  162  		&isys->pdata->ipdata->csi2;
-365931dd66c449 Bingbu Cao 2024-01-31  163  	unsigned int i;
-365931dd66c449 Bingbu Cao 2024-01-31  164  
-365931dd66c449 Bingbu Cao 2024-01-31  165  	for (i = 0; i < csi2->nports; i++)
-365931dd66c449 Bingbu Cao 2024-01-31  166  		ipu6_isys_csi2_cleanup(&isys->csi2[i]);
-365931dd66c449 Bingbu Cao 2024-01-31  167  }
-365931dd66c449 Bingbu Cao 2024-01-31  168  
-365931dd66c449 Bingbu Cao 2024-01-31  169  static int isys_csi2_register_subdevices(struct ipu6_isys *isys)
-365931dd66c449 Bingbu Cao 2024-01-31  170  {
-365931dd66c449 Bingbu Cao 2024-01-31  171  	const struct ipu6_isys_internal_csi2_pdata *csi2_pdata =
-365931dd66c449 Bingbu Cao 2024-01-31  172  		&isys->pdata->ipdata->csi2;
-365931dd66c449 Bingbu Cao 2024-01-31  173  	unsigned int i;
-365931dd66c449 Bingbu Cao 2024-01-31  174  	int ret;
-365931dd66c449 Bingbu Cao 2024-01-31  175  
-365931dd66c449 Bingbu Cao 2024-01-31  176  	for (i = 0; i < csi2_pdata->nports; i++) {
-365931dd66c449 Bingbu Cao 2024-01-31  177  		ret = ipu6_isys_csi2_init(&isys->csi2[i], isys,
-365931dd66c449 Bingbu Cao 2024-01-31  178  					  isys->pdata->base +
-365931dd66c449 Bingbu Cao 2024-01-31  179  					  CSI_REG_PORT_BASE(i), i);
-365931dd66c449 Bingbu Cao 2024-01-31  180  		if (ret)
-365931dd66c449 Bingbu Cao 2024-01-31  181  			goto fail;
-365931dd66c449 Bingbu Cao 2024-01-31  182  
-365931dd66c449 Bingbu Cao 2024-01-31  183  		isys->isr_csi2_bits |= IPU6_ISYS_UNISPART_IRQ_CSI2(i);
-365931dd66c449 Bingbu Cao 2024-01-31  184  	}
-365931dd66c449 Bingbu Cao 2024-01-31  185  
-365931dd66c449 Bingbu Cao 2024-01-31  186  	return 0;
-365931dd66c449 Bingbu Cao 2024-01-31  187  
-365931dd66c449 Bingbu Cao 2024-01-31  188  fail:
-365931dd66c449 Bingbu Cao 2024-01-31  189  	while (i--)
-365931dd66c449 Bingbu Cao 2024-01-31  190  		ipu6_isys_csi2_cleanup(&isys->csi2[i]);
-365931dd66c449 Bingbu Cao 2024-01-31  191  
-365931dd66c449 Bingbu Cao 2024-01-31  192  	return ret;
-365931dd66c449 Bingbu Cao 2024-01-31  193  }
-365931dd66c449 Bingbu Cao 2024-01-31  194  
-365931dd66c449 Bingbu Cao 2024-01-31  195  static int isys_csi2_create_media_links(struct ipu6_isys *isys)
-365931dd66c449 Bingbu Cao 2024-01-31  196  {
-365931dd66c449 Bingbu Cao 2024-01-31  197  	const struct ipu6_isys_internal_csi2_pdata *csi2_pdata =
-365931dd66c449 Bingbu Cao 2024-01-31  198  		&isys->pdata->ipdata->csi2;
-365931dd66c449 Bingbu Cao 2024-01-31  199  	struct device *dev = &isys->adev->auxdev.dev;
-365931dd66c449 Bingbu Cao 2024-01-31  200  	unsigned int i, j;
-365931dd66c449 Bingbu Cao 2024-01-31  201  	int ret;
-365931dd66c449 Bingbu Cao 2024-01-31  202  
-365931dd66c449 Bingbu Cao 2024-01-31  203  	for (i = 0; i < csi2_pdata->nports; i++) {
-365931dd66c449 Bingbu Cao 2024-01-31 @204  		struct media_entity *sd = &isys->csi2[i].asd.sd.entity;
-365931dd66c449 Bingbu Cao 2024-01-31  205  
-365931dd66c449 Bingbu Cao 2024-01-31  206  		for (j = 0; j < NR_OF_CSI2_SRC_PADS; j++) {
-365931dd66c449 Bingbu Cao 2024-01-31  207  			struct ipu6_isys_video *av = &isys->csi2[i].av[j];
-365931dd66c449 Bingbu Cao 2024-01-31  208  
-365931dd66c449 Bingbu Cao 2024-01-31  209  			ret = media_create_pad_link(sd, CSI2_PAD_SRC + j,
-365931dd66c449 Bingbu Cao 2024-01-31 @210  						    &av->vdev.entity, 0, 0);
-365931dd66c449 Bingbu Cao 2024-01-31  211  			if (ret) {
-365931dd66c449 Bingbu Cao 2024-01-31  212  				dev_err(dev, "CSI2 can't create link\n");
-365931dd66c449 Bingbu Cao 2024-01-31  213  				return ret;
-365931dd66c449 Bingbu Cao 2024-01-31  214  			}
-365931dd66c449 Bingbu Cao 2024-01-31  215  
-365931dd66c449 Bingbu Cao 2024-01-31  216  			av->csi2 = &isys->csi2[i];
-365931dd66c449 Bingbu Cao 2024-01-31  217  		}
-365931dd66c449 Bingbu Cao 2024-01-31  218  	}
-365931dd66c449 Bingbu Cao 2024-01-31  219  
-365931dd66c449 Bingbu Cao 2024-01-31  220  	return 0;
-365931dd66c449 Bingbu Cao 2024-01-31  221  }
-365931dd66c449 Bingbu Cao 2024-01-31  222  
-
-:::::: The code at line 210 was first introduced by commit
-:::::: 365931dd66c449c09eaf98792640b16ab4578280 media: intel/ipu6: add input system driver
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
 
