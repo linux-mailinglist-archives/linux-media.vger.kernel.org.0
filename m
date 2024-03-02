@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-6285-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6286-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CBA686F012
-	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 11:41:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9745286F03F
+	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 12:26:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E2371C217F3
-	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 10:41:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 044E62848B1
+	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 11:26:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 457C1168AC;
-	Sat,  2 Mar 2024 10:40:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 276511755F;
+	Sat,  2 Mar 2024 11:26:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="w4QQ4ma1"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="aXCy6Sxw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA5F79F0;
-	Sat,  2 Mar 2024 10:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C821017593;
+	Sat,  2 Mar 2024 11:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709376052; cv=none; b=LX/W4fEKNzs7pMJLKBpQaI5QzlzrWuu0NwMfHdtw/N7qVWJknVefHNRVtTKZcuVZJ6SjrM2gFnecGnBtYkyP9g+UCT3H6phqkeU6RDV+sc/LaJ7QtIVMPDLPsjA7g/GTBAnbJYKo4+ay4RdJuhnOcF1cRZ94ucv0JAAc5UFEENQ=
+	t=1709378764; cv=none; b=mRL2OhLxZ2kZJgk3URMOnpphZ5Z6MvyLMtPNOAiivG/QcvLrSW5y9sqU4EoMLwc7WQapxvJ7tLvvYo8q24RxhdAqd1V3CLmSdO8VRbc3hocrNt4LLx29Xa1qjlTQckD8qjXddyw7oqObBYjKPOOeccVD8mcofmTEMNmjUcww55w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709376052; c=relaxed/simple;
-	bh=5KEwfwfpBtHKd/mMoh+MO4I0djnrDy1f2e5WKqE/N+Y=;
+	s=arc-20240116; t=1709378764; c=relaxed/simple;
+	bh=OUTrGAUUb83ehkuew994F0ovDeCHlzF87rm1EoH0du4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XXxFDl0+gNpS+uMw6iyKkfizHwKzXMdPRhF26+kaCJ4bdPe/izlCWEnrtap8Pxpckn0Djb8D6gXPOlEimhLAAyCgi40RJ5vX/T5toyN6aRUITyaOHDml5k181MmZR+AhdLW5XwmPMhIO+gXb/ogPbD4I6pqME9DGlGQEE6pmr0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=w4QQ4ma1; arc=none smtp.client-ip=212.227.15.3
+	 In-Reply-To:Content-Type; b=crNONbYlj8yX2EbmvO4kzksH9SN6G69XsykgNz+XvintSvuDIyTcpivXa+obL6IrUS7FFtDztUbVa1UNCTqa/vGhPshKAP8oCvX6q5a6f1MHiGXt3NNAEVSEZMra/Mxyz4wKlbFQLGA7GplRpboIqqlkaA6tkQfjg3x7PZtBh+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=aXCy6Sxw; arc=none smtp.client-ip=212.227.17.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709376027; x=1709980827; i=markus.elfring@web.de;
-	bh=5KEwfwfpBtHKd/mMoh+MO4I0djnrDy1f2e5WKqE/N+Y=;
+	t=1709378739; x=1709983539; i=markus.elfring@web.de;
+	bh=OUTrGAUUb83ehkuew994F0ovDeCHlzF87rm1EoH0du4=;
 	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
 	 In-Reply-To;
-	b=w4QQ4ma1DcUJNf1607MwmUiWq1VEwhfUtnHjOxpuJ57dgm104lqxEk3tuLs+ASHV
-	 9yU5+PCLDPII4m3KlfLFhUy/NmlbbNat23dHJDPRsFBXm1KiXD64gugniF1qTqnXW
-	 p9bl0BVIVm1/xW7RvepilXKQ8GpEItCCbkUVhyvhEfUCbEKkjcHxrbNX7ugq6xtkK
-	 wEc+udSFuzhCUDa17vl1PU9EwT647Z9Aj2nMzL7sxo7vINMC7ExYm6lllP4UW3jUO
-	 i2GXQmCxBcNhcna/RIeF1GEl9G4H9wK5LJFrPVOqzKIKei0VrtS2PKD9ZVig8aCef
-	 oeJzFtzmJxhdT6OwGA==
+	b=aXCy6SxwmIowIzZrMg0w+a9rBfVupG/Hihlj0+1CFt20ewJU+b3RpC3JrSJNTux2
+	 ws7d1tfAKLe+O6zrNk6P5/sVKQ18pzawuVw30ggiXPMWfbwwN8dcDOyjufGhGQl5r
+	 GuFz+8fk8LhUnuI/pzXfjZFLPT2I4sxbxU6HJPIQ1q8fNY+IHkbBewkC9mLg+CU6b
+	 YHxpTJYKYa4r2pJMHWyWon1U15oF0XW2DXeejR/Z8VIAv2IpHmFQ2HB03Yqh/SzcZ
+	 iPH4hcWytxjq7Yic4pfb1ZUCIm2cuG6MzxOkEuhUfmMcYeVi95Q1Zbip0svgCn/mv
+	 Ixu+b9vD8ug+G4bX0w==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MgibY-1rF2Ji44NQ-00h3sN; Sat, 02
- Mar 2024 11:40:27 +0100
-Message-ID: <f451ffba-db26-4a3b-a4b3-186c31f2ad64@web.de>
-Date: Sat, 2 Mar 2024 11:40:26 +0100
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MGgNU-1rbTvs3eVe-00EIP2; Sat, 02
+ Mar 2024 12:25:38 +0100
+Message-ID: <5b2ac08c-cede-44f3-af7f-1bd1b89d113e@web.de>
+Date: Sat, 2 Mar 2024 12:25:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,69 +55,47 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: staging: media: tegra-video: Use common error handling code in
- tegra_vi_graph_parse_one()
+Subject: Re: [PATCH] media: i2c: ds90ub960: Delete duplicate source code in
+ ub960_parse_dt_rxports()
 Content-Language: en-GB
 To: Dan Carpenter <dan.carpenter@linaro.org>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-staging@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
  LKML <linux-kernel@vger.kernel.org>
-References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
- <20240301183936.505fcc72@booty>
- <9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
+References: <79fa4854-976d-4aad-86ac-c156b0c4937e@web.de>
+ <ZeGV_siWFkfqSEgZ@kekkonen.localdomain>
+ <db1d7227-f9a4-42fa-89ba-b484e1260e0b@ideasonboard.com>
+ <ZeGZsRtH6YLx2FiM@kekkonen.localdomain> <ZeISEYXTaiyA-b4K@smile.fi.intel.com>
+ <8ece4c88-dbc7-4327-ac2a-0a097fc990d0@moroto.mountain>
 From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
+In-Reply-To: <8ece4c88-dbc7-4327-ac2a-0a097fc990d0@moroto.mountain>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8EIFhDOXNVZRFR7rb6IKMJFkCMFDb06oUAxZG70fjR9PxT9vVDb
- ygwmriYITR6G3+mDegwySoLWOaFOrKIdvdfLLtx7Npk3lEV/2yhpzaPrHsOg54hr9fLjXQk
- AzjYhdKxoeGucPy0nUXqkKVuDA3LPFMYyENkuKlBs2M1tOv2hAqXwKOkUXsa7C1+5NUialp
- +CSqHePTqHSMCthsLr/LA==
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:2f5M1q42L5ZXnK64WgtMumJwOpZhYCe7tAAq+BvQzoMSUfSjy2P
+ d87nDiGvj4rLSyfGkbCgRu71ZSV4a9VzsKQB4NX3Y23HcwulkC55LWYn1eUHgDFBLEl1xNy
+ 8i0rY+bWT75o58AwhdCQnazlDw0tSPs6UN8V8vSZf7OLQiHu+Kw+yXaM1fVygId+m/ET6QF
+ 577BEdO954NNg+Co4Upeg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:KfSN83dN8vM=;ZZe12Cqx8Lnelg3dRbEv//XtPa+
- Ov5CSeXzzv6A+QTt5mCYp1fCKAAagNqF5ynAnwrPI4m1jOoE2ypRSpp4/NG2d2XDKQQBiuBv2
- eEc09zFfUiqqUAVJQkQD7Ft+7us/UUJXYYGbArKJFJ3z7nry/qPmgmLmLWbhAYHQbYwAoLE9L
- EKxS5/RONLgDwqzQNt1MFXDptC+PGHk8VMVGkSShxKAmKfuWupdMgKXR/Nk2EoJJ9Gwotc5EL
- aPP+Pe/YU0Sn79UFH2OjecwDHmILfSwP+DUQj+StufPEwPOwI7CcV5HZ1J941hs8uW6MoLDYR
- rZtwx/vPeWJLoQlLTv46aHJNZziFOCtx1EBP3zUNX59nHJ0MYh40KZFiiPqlHShjGoSM+JU7W
- qyltlenXBPC17tldyORFY+2FdWH0M4uobbLeL1JlrScsD8A3b+ph63jnju8CMdu9qedNzQkbk
- QmiKxOb7FJqTGwycqUC3EMnoMUBbiZXFlXLkfqDiUlKzSK2V9JFmsf+BFzXah6ADjVPdfJ7Ui
- MFy/Y80NR/NZMnop2mleoGV06F67SDirHovQC+LUMNSnt19WomGwHZJjm2mb24gcNp8edIXEA
- imvcusWfDabNucAvhU6MCv5cEo1SLoHzR0S9pGPt8rpsB6Bf4iEsAj5CBsGL/LQ8N0pZ4Hfj2
- u/3kEbrMY6tZMQrL7ggvg8W0OO7QegEIt2fWcP77IcwIBXplzVBPrjxO8CFYzYygw0jWnWcKR
- 7qCkT181QQ2ZCz/4Mz/bdK44hJYyJVcJsW+L3MrHJ4+pKpfAZWo6tNyq3KSHQ4pd+N6Nk5HR/
- piduLI8jjzlFyEsJW6Tdnzf608wMZhps3Qnp2fMTqo9QM=
+UI-OutboundReport: notjunk:1;M01:P0:VGhGnEHWso4=;IsBx7aGkzCw3jSEWa5tjcGrRH8P
+ zlnwb9yarrgkzR2Ur2L67ka0yCnsCS0wR3EnI5BYn9Bd6AH62wr5LaAqma7iH1FKzQWjg5Hav
+ +3HMmsrdRzLy1KnijjuI/jrsoKNBrsDVTSMztdao3pDxuVVmin2YxE2Sln9B7DZfZOu1V7vzd
+ g24BOXh5mTMQ4FEyjGBpDT8U72uUP1skgglXbKjiKtW5G5e6Gn2KjXSor4Y93xfGwOw/I9T4g
+ rJtRPWj7dlbJQf24qNx1ITAsc3M4wP++fmX88diGjLEILmpYfOgu9Dd6H+R5LLrYtnIgvcopa
+ q5vxHTATBmpBKCesU1r09pr7Z0MEZZae0/+UivKTog9r/l4zVQyn8ZWRX+RF2lk/f643oLdEm
+ E6AGqWWipDOeZQCZGu4B4uXetntU2iZ4ifl3fZQXC4JzvHO8Ixq5oHukc8RtSdYCp/+oRLb0N
+ DmsW5OPZ4nwp6A5itWjluM0f3YQEovJUX6gyV2wKeqLwukwrEGR3PSDd/c8RBV6ne6jBs+lE7
+ c6nn9b0sIsG7thM+dCEcDfRDfVytCu+TxMjrYxYuWZiRr1JheVtCmVACj6rv7VKryphGxAqFk
+ zEts5mDXs2/TzHg671pDSfjdTZ7NQnAfxvmtc6PG6+wyjB7lu0NxAeTjGVBoNIxFdoFb9hugx
+ aYRqfA4lLp+te0axijvp8f6K/n6lKKUrJwxidoSpvJZ2XLyWcf30QM4YW0IZqoLI01BXA1N9I
+ haWLPL+GrG/b6Tj4cuPhJZhTd//cmk4NNtU4kc6+0Oqr7zBKPd6Za6JpQJyeT2ffaqJBL+ZWx
+ vAW5cLjWSS6+AON4wLvC1FytND+pQYWMcvJF++1n2T0eE=
 
->>> Add a jump target so that a bit of exception handling can be better re=
-used
->>> at the end of this function implementation.
-=E2=80=A6
->> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> These patches make the code worse.  If we're in the middle of a loop,
-> then we should clean up the partial loop before doing the goto.
-> Otherwise it creates a mess when we add a new allocation function after
-> the end of the loop.
+> The __free(fwnode_handle) stuff has already been merged.
 
-How does such a feedback fit to another known information source?
-
-Section =E2=80=9C7) Centralized exiting of functions=E2=80=9D
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/coding-style.rst?h=3Dv6.8-rc6#n526
-
-
-> Someone is going to add a _scoped() loop which uses cleanup.h magic to
-> call _put automatically.  This is a good option.
-
-I became also curious how scope-based resource management will influence
-Linux coding styles further.
-Will various collateral evolution become more interesting?
+Would you like to point a corresponding commit out?
 
 Regards,
 Markus
