@@ -1,102 +1,282 @@
-Return-Path: <linux-media+bounces-6286-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6287-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9745286F03F
-	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 12:26:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F8086F057
+	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 12:51:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 044E62848B1
-	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 11:26:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DECFB23CE6
+	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 11:51:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 276511755F;
-	Sat,  2 Mar 2024 11:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70D4F1755F;
+	Sat,  2 Mar 2024 11:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="aXCy6Sxw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a+tNjvCi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C821017593;
-	Sat,  2 Mar 2024 11:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA9D171D8;
+	Sat,  2 Mar 2024 11:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709378764; cv=none; b=mRL2OhLxZ2kZJgk3URMOnpphZ5Z6MvyLMtPNOAiivG/QcvLrSW5y9sqU4EoMLwc7WQapxvJ7tLvvYo8q24RxhdAqd1V3CLmSdO8VRbc3hocrNt4LLx29Xa1qjlTQckD8qjXddyw7oqObBYjKPOOeccVD8mcofmTEMNmjUcww55w=
+	t=1709380289; cv=none; b=oi/Yk679NDt8vPOllWMeZvK3rB5FMi7FpI+NuNMWwmkD4sU1Y0R1cMrbmoMWVCdXlEh3YQ0HxjxjFSVCKqJ6M5tpmzKFxL1MiJHolr1Ue4bS9qzF13xKBeZlEZBNyQknxxZbEqK+NHCU9Nu2D66MAUxNk+Kyxaq4R7KF8Ev+O7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709378764; c=relaxed/simple;
-	bh=OUTrGAUUb83ehkuew994F0ovDeCHlzF87rm1EoH0du4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=crNONbYlj8yX2EbmvO4kzksH9SN6G69XsykgNz+XvintSvuDIyTcpivXa+obL6IrUS7FFtDztUbVa1UNCTqa/vGhPshKAP8oCvX6q5a6f1MHiGXt3NNAEVSEZMra/Mxyz4wKlbFQLGA7GplRpboIqqlkaA6tkQfjg3x7PZtBh+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=aXCy6Sxw; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709378739; x=1709983539; i=markus.elfring@web.de;
-	bh=OUTrGAUUb83ehkuew994F0ovDeCHlzF87rm1EoH0du4=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=aXCy6SxwmIowIzZrMg0w+a9rBfVupG/Hihlj0+1CFt20ewJU+b3RpC3JrSJNTux2
-	 ws7d1tfAKLe+O6zrNk6P5/sVKQ18pzawuVw30ggiXPMWfbwwN8dcDOyjufGhGQl5r
-	 GuFz+8fk8LhUnuI/pzXfjZFLPT2I4sxbxU6HJPIQ1q8fNY+IHkbBewkC9mLg+CU6b
-	 YHxpTJYKYa4r2pJMHWyWon1U15oF0XW2DXeejR/Z8VIAv2IpHmFQ2HB03Yqh/SzcZ
-	 iPH4hcWytxjq7Yic4pfb1ZUCIm2cuG6MzxOkEuhUfmMcYeVi95Q1Zbip0svgCn/mv
-	 Ixu+b9vD8ug+G4bX0w==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MGgNU-1rbTvs3eVe-00EIP2; Sat, 02
- Mar 2024 12:25:38 +0100
-Message-ID: <5b2ac08c-cede-44f3-af7f-1bd1b89d113e@web.de>
-Date: Sat, 2 Mar 2024 12:25:37 +0100
+	s=arc-20240116; t=1709380289; c=relaxed/simple;
+	bh=rSoQeHsKvblcLObyPUnZ+IeINndMLkvAGZH5AvF5igk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sRjJYW2LuexYZH2ONWJ6AGktivYZAouu2+QqxZiJoPPR1xJn1frDn3lvda2SQ3OxQlL4BnTt/p+U6s9xN9/56K1mCqLPbfFt1tIIn6onmIdrgYXRDlONJpYfs8ahnJyV9XQwYakF6wSgyiJTu3NXLacGYByS8eshonirqgt5W6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a+tNjvCi; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a44cf608a39so54966466b.0;
+        Sat, 02 Mar 2024 03:51:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709380286; x=1709985086; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pn1t2MCqh3EwDFn3L7PI72aDd7hbifVx/K7JMBf7ihw=;
+        b=a+tNjvCiZIGrVfy9cJlCHArsMV/jDR+fkcpDfg6OfPjq4hU3K4TBRrg7SlhJkKvJka
+         r2pIaA/oqOiwtUtO6y4jp7Ti2GseVAjB+v9bwn0XLgsrgk2uTZ4Zup+UIiEEYMkll1Wt
+         f7Cj/jLyERETuUTxS7z0JBR9J21IvKuKz14AzHaSiGYzpj/xdanPTnNukSWJttqPakV0
+         ePK0jRAnEpRnu7JwBVRvx61yruwxtDFAY4wTh10b0TDmlK6vmnBov6knRd5lanJQoBMo
+         9Lc7H5jOIec3wDqTNxtFs17pEWVYZc0ipS149St8B8Y4DhW7Uj2K7R38tEomJ2gI8DW6
+         TaLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709380286; x=1709985086;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pn1t2MCqh3EwDFn3L7PI72aDd7hbifVx/K7JMBf7ihw=;
+        b=ks9Lzc2MfQ1RL54Az8ElHRkLmp4siy98Y3HMmIki/gUTyxQXnf5njXwZXNjkbY91ZD
+         f3t5ZSfGPm9mSMN8r+p/+W43yfQdE8uG69BGJ0kXFvqmxM9NU37VqyLTzmog5OpHbTrR
+         KdBcRROatx3FVkmGCN+vlrOjUvZ94W2ImT0fA/m2kBYhE9JzLyVDMA4N5DrSXLBfquIW
+         GU8SJT1B4Q+1drcZudJm+sgJW7dTQO3D9J2862ezLmhXdDRnx1J+Qaz6hLBAkEX0/lDy
+         GO+WpNQfW0BIcCIutJ4p76cr2eM8LtXC2+Tco2ytStH3i+M0Rb/i1hOLF7n/Wrq55i5Z
+         6xcA==
+X-Forwarded-Encrypted: i=1; AJvYcCWvU3r1vALxMS0IIOHpntnVQ/sQuoe3m2iSaI9INebzYX8wKOQsxIb6xpxwNLckfAfAji89MMMOIQbadoTW7rUJUJ2V0k7YjOuCDqY+Ssxg8FQRJvMdbJ4O/GpkOVn6zKs0WzpI8VT8kSyKWArJGksiwaBNJuELIfzsxogZn4Qhj9LJjGDT
+X-Gm-Message-State: AOJu0YzRP4mSO3XAgQlupEefrmNGjhLqtHV1+qhDlFfHHLN6JuQoI+JC
+	tf92FjXF+slpupvoOCcCIQ5GskTJk/V6dwzKoUcbmbv5/8ONFxwr
+X-Google-Smtp-Source: AGHT+IGtJm5wQabNPfMkCUTKune5knKZdBx7da/Zn9OAIG6Cq2UqF1lMTXv8zj0dl++dYwkikt1wxg==
+X-Received: by 2002:a17:906:f754:b0:a43:76d4:806c with SMTP id jp20-20020a170906f75400b00a4376d4806cmr3262555ejb.74.1709380285919;
+        Sat, 02 Mar 2024 03:51:25 -0800 (PST)
+Received: from mehdi-archlinux ([2a02:8109:aa27:2d00::e094])
+        by smtp.gmail.com with ESMTPSA id a4-20020a17090680c400b00a446b59af63sm1924660ejx.13.2024.03.02.03.51.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Mar 2024 03:51:25 -0800 (PST)
+Date: Sat, 2 Mar 2024 12:51:22 +0100
+From: Mehdi Djait <mehdi.djait.k@gmail.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
+	michael.riesch@wolfvision.net, laurent.pinchart@ideasonboard.com,
+	Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: Re: [RESEND Patch v13 2/3] media: rockchip: Add a driver for
+ Rockchip's camera interface
+Message-ID: <ZeMSuihjcS_wXONr@mehdi-archlinux>
+References: <cover.1707677804.git.mehdi.djait.k@gmail.com>
+ <715d89214d1ed6a8bb16cbb6268718a737485560.1707677804.git.mehdi.djait.k@gmail.com>
+ <Zctwo3s9hso6mQvT@valkosipuli.retiisi.eu>
+ <ZdY5KrTfss4lTjPO@mehdi-archlinux>
+ <Zd24MhLYJlSTRysr@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: ds90ub960: Delete duplicate source code in
- ub960_parse_dt_rxports()
-Content-Language: en-GB
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>
-References: <79fa4854-976d-4aad-86ac-c156b0c4937e@web.de>
- <ZeGV_siWFkfqSEgZ@kekkonen.localdomain>
- <db1d7227-f9a4-42fa-89ba-b484e1260e0b@ideasonboard.com>
- <ZeGZsRtH6YLx2FiM@kekkonen.localdomain> <ZeISEYXTaiyA-b4K@smile.fi.intel.com>
- <8ece4c88-dbc7-4327-ac2a-0a097fc990d0@moroto.mountain>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <8ece4c88-dbc7-4327-ac2a-0a097fc990d0@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:2f5M1q42L5ZXnK64WgtMumJwOpZhYCe7tAAq+BvQzoMSUfSjy2P
- d87nDiGvj4rLSyfGkbCgRu71ZSV4a9VzsKQB4NX3Y23HcwulkC55LWYn1eUHgDFBLEl1xNy
- 8i0rY+bWT75o58AwhdCQnazlDw0tSPs6UN8V8vSZf7OLQiHu+Kw+yXaM1fVygId+m/ET6QF
- 577BEdO954NNg+Co4Upeg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:VGhGnEHWso4=;IsBx7aGkzCw3jSEWa5tjcGrRH8P
- zlnwb9yarrgkzR2Ur2L67ka0yCnsCS0wR3EnI5BYn9Bd6AH62wr5LaAqma7iH1FKzQWjg5Hav
- +3HMmsrdRzLy1KnijjuI/jrsoKNBrsDVTSMztdao3pDxuVVmin2YxE2Sln9B7DZfZOu1V7vzd
- g24BOXh5mTMQ4FEyjGBpDT8U72uUP1skgglXbKjiKtW5G5e6Gn2KjXSor4Y93xfGwOw/I9T4g
- rJtRPWj7dlbJQf24qNx1ITAsc3M4wP++fmX88diGjLEILmpYfOgu9Dd6H+R5LLrYtnIgvcopa
- q5vxHTATBmpBKCesU1r09pr7Z0MEZZae0/+UivKTog9r/l4zVQyn8ZWRX+RF2lk/f643oLdEm
- E6AGqWWipDOeZQCZGu4B4uXetntU2iZ4ifl3fZQXC4JzvHO8Ixq5oHukc8RtSdYCp/+oRLb0N
- DmsW5OPZ4nwp6A5itWjluM0f3YQEovJUX6gyV2wKeqLwukwrEGR3PSDd/c8RBV6ne6jBs+lE7
- c6nn9b0sIsG7thM+dCEcDfRDfVytCu+TxMjrYxYuWZiRr1JheVtCmVACj6rv7VKryphGxAqFk
- zEts5mDXs2/TzHg671pDSfjdTZ7NQnAfxvmtc6PG6+wyjB7lu0NxAeTjGVBoNIxFdoFb9hugx
- aYRqfA4lLp+te0axijvp8f6K/n6lKKUrJwxidoSpvJZ2XLyWcf30QM4YW0IZqoLI01BXA1N9I
- haWLPL+GrG/b6Tj4cuPhJZhTd//cmk4NNtU4kc6+0Oqr7zBKPd6Za6JpQJyeT2ffaqJBL+ZWx
- vAW5cLjWSS6+AON4wLvC1FytND+pQYWMcvJF++1n2T0eE=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zd24MhLYJlSTRysr@valkosipuli.retiisi.eu>
 
-> The __free(fwnode_handle) stuff has already been merged.
+Hi Sakari,
 
-Would you like to point a corresponding commit out?
+On Tue, Feb 27, 2024 at 10:23:46AM +0000, Sakari Ailus wrote:
+> Hi Mehdi,
+> 
+> On Wed, Feb 21, 2024 at 06:55:54PM +0100, Mehdi Djait wrote:
+> > Hi Sakari,
+> > 
+> > Thank you for the review!
+> > 
+> > On Tue, Feb 13, 2024 at 01:37:39PM +0000, Sakari Ailus wrote:
+> > > Hi Mahdi,
+> > > 
+> > > On Sun, Feb 11, 2024 at 08:03:31PM +0100, Mehdi Djait wrote:
+> > > > From: Mehdi Djait <mehdi.djait@bootlin.com>
+> > > > 
+> > > > This introduces a V4L2 driver for the Rockchip CIF video capture controller.
+> > > > 
+> > > > This controller supports multiple parallel interfaces, but for now only the
+> > > > BT.656 interface could be tested, hence it's the only one that's supported
+> > > > in the first version of this driver.
+> > > > 
+> > > > This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
+> > > > but for now it's only been tested on the PX30.
+> > > > 
+> > > > CIF is implemented as a video node-centric driver.
+> > > > 
+> > > > Most of this driver was written following the BSP driver from Rockchip,
+> > > > removing the parts that either didn't fit correctly the guidelines, or that
+> > > > couldn't be tested.
+> > > > 
+> > > > This basic version doesn't support cropping nor scaling and is only
+> > > > designed with one SDTV video decoder being attached to it at any time.
+> > > > 
+> > > > This version uses the "pingpong" mode of the controller, which is a
+> > > > double-buffering mechanism.
+> > > > 
+> > > > Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
+> > > > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> > > > Signed-off-by: Mehdi Djait <mehdi.djait.k@gmail.com>
+> > > > ---
+> > > >  MAINTAINERS                                   |    7 +
+> > > >  drivers/media/platform/rockchip/Kconfig       |    1 +
+> > > >  drivers/media/platform/rockchip/Makefile      |    1 +
+> > > >  drivers/media/platform/rockchip/cif/Kconfig   |   14 +
+> > > >  drivers/media/platform/rockchip/cif/Makefile  |    3 +
+> > > >  .../media/platform/rockchip/cif/cif-capture.c | 1111 +++++++++++++++++
+> > > >  .../media/platform/rockchip/cif/cif-capture.h |   20 +
+> > > >  .../media/platform/rockchip/cif/cif-common.h  |  128 ++
+> > > >  drivers/media/platform/rockchip/cif/cif-dev.c |  308 +++++
+> > > >  .../media/platform/rockchip/cif/cif-regs.h    |  127 ++
+> > > >  10 files changed, 1720 insertions(+)
+> > > >  create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
+> > > >  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+> > > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.c
+> > > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.h
+> > > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-common.h
+> > > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-dev.c
+> > > >  create mode 100644 drivers/media/platform/rockchip/cif/cif-regs.h
+> > > > 
+> > > > +static int cif_start_streaming(struct vb2_queue *queue, unsigned int count)
+> > > > +{
+> > > > +	struct cif_stream *stream = queue->drv_priv;
+> > > > +	struct cif_device *cif_dev = stream->cifdev;
+> > > > +	struct v4l2_device *v4l2_dev = &cif_dev->v4l2_dev;
+> > > > +	struct v4l2_subdev *sd;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (!cif_dev->remote.sd) {
+> > > > +		ret = -ENODEV;
+> > > > +		v4l2_err(v4l2_dev, "No remote subdev detected\n");
+> > > > +		goto destroy_buf;
+> > > > +	}
+> > > > +
+> > > > +	ret = pm_runtime_resume_and_get(cif_dev->dev);
+> > > > +	if (ret < 0) {
+> > > > +		v4l2_err(v4l2_dev, "Failed to get runtime pm, %d\n", ret);
+> > > > +		goto destroy_buf;
+> > > > +	}
+> > > > +
+> > > > +	sd = cif_dev->remote.sd;
+> > > > +
+> > > > +	stream->cif_fmt_in = get_input_fmt(cif_dev->remote.sd);
+> > > 
+> > > You should use the format on the local pad, not get it from a remote
+> > > sub-device.
+> > > 
+> > > Link validation ensures they're the same (or at least compatible).
+> > > 
+> > > Speaking of which---you don't have link_validate callbacks set for the
+> > > sub-device. See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2.c for an
+> > > example.
+> > > 
+> > 
+> > ...
+> > 
+> > > > +	if (!stream->cif_fmt_in)
+> > > > +		goto runtime_put;
+> > > > +
+> > > > +	ret = cif_stream_start(stream);
+> > > > +	if (ret < 0)
+> > > > +		goto stop_stream;
+> > > > +
+> > > > +	ret = v4l2_subdev_call(sd, video, s_stream, 1);
+> > > > +	if (ret < 0)
+> > > > +		goto stop_stream;
+> > > > +
+> > > > +	return 0;
+> > > > +
+> > > > +stop_stream:
+> > > > +	cif_stream_stop(stream);
+> > > > +runtime_put:
+> > > > +	pm_runtime_put(cif_dev->dev);
+> > > > +destroy_buf:
+> > > > +	cif_return_all_buffers(stream, VB2_BUF_STATE_QUEUED);
+> > > > +
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > > +static int cif_set_fmt(struct cif_stream *stream,
+> > > > +		       struct v4l2_pix_format *pix)
+> > > > +{
+> > > > +	struct cif_device *cif_dev = stream->cifdev;
+> > > > +	struct v4l2_subdev_format sd_fmt;
+> > > > +	struct cif_output_fmt *fmt;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (vb2_is_streaming(&stream->buf_queue))
+> > > > +		return -EBUSY;
+> > > > +
+> > > > +	fmt = find_output_fmt(stream, pix->pixelformat);
+> > > > +	if (!fmt)
+> > > > +		fmt = &out_fmts[0];
+> > > > +
+> > > > +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > > > +	sd_fmt.pad = 0;
+> > > > +	sd_fmt.format.width = pix->width;
+> > > > +	sd_fmt.format.height = pix->height;
+> > > > +
+> > > > +	ret = v4l2_subdev_call(cif_dev->remote.sd, pad, set_fmt, NULL, &sd_fmt);
+> > > 
+> > > The user space is responsible for controlling the sensor i.e. you shouldn't
+> > > call set_fmt sub-device op from this driver.
+> > > 
+> > > As the driver is MC-enabled, generally the sub-devices act as a control
+> > > interface and the V4L2 video nodes are a data interface.
+> > > 
+> > 
+> > While this is true for MC-centric (Media Controller) drivers, this driver is
+> > video-node-centric (I mentioned this in the commit msg)
+> > 
+> > From the Kernel Documentation:
+> > https://docs.kernel.org/userspace-api/media/v4l/open.html
+> > 
+> > 1 - The devices that are fully controlled via V4L2 device nodes are
+> > called video-node-centric.
+> > 
+> > 2- Note: A video-node-centric may still provide media-controller and
+> > sub-device interfaces as well. However, in that case the media-controller
+> > and the sub-device interfaces are read-only and just provide information
+> > about the device. The actual configuration is done via the video nodes.
+> 
+> Are you sure you even want to do this?
+> 
+> It'll limit what kind of sensors you can attach to the device and even more
+> so in the future as we're reworking the sensor APIs to allow better control
+> of the sensors, using internal pads (that require MC).
+> 
+> There have been some such drivers in the past but many have been already
+> converted, or in some cases the newer hardware generation uses MC. Keeping
+> API compatibility is a requirement so you can't just "add support" later
+> on.
 
-Regards,
-Markus
+I totally agree that using the MC approach is better but this has nothing to
+do with me wanting this but due to constraints I unfortunately cannot control
+it is impossible to convert it now.
+
+I would say the px30 driver is still very useful and people are going to use it: a follow-up patch series to
+add support for the Rockchip RK3568 Video Capture has already been sent:
+https://lore.kernel.org/linux-media/20240220-v6-8-topic-rk3568-vicap-v1-0-2680a1fa640b@wolfvision.net/
+
+--
+Kind Regards
+Mehdi Djait
 
