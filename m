@@ -1,189 +1,151 @@
-Return-Path: <linux-media+bounces-6278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6279-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB8F86EB9B
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 23:15:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3FB86EE15
+	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 03:13:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8D0F1C21548
-	for <lists+linux-media@lfdr.de>; Fri,  1 Mar 2024 22:15:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18BBD1C219A0
+	for <lists+linux-media@lfdr.de>; Sat,  2 Mar 2024 02:13:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A675915F;
-	Fri,  1 Mar 2024 22:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C702679EA;
+	Sat,  2 Mar 2024 02:13:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qhWcvH3L"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="l3FLu5C3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4DA58ADD
-	for <linux-media@vger.kernel.org>; Fri,  1 Mar 2024 22:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A945963AE;
+	Sat,  2 Mar 2024 02:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709331294; cv=none; b=h4VfIcQjPW1LR927I5tEL426HQaMTJ01cdNG2ALyFtRNiQeFrMR9C52+XOdz94V5SCPPmX4MpcPDK0XCFFCAK6LXse6lPobQ3aX4CEqruNdf5xx4cVA9BU3sLf86s3jeNDmF0fFvK2AAvt75P/G0PW4hO0m/hdqxJKKpHAs/GQg=
+	t=1709345605; cv=none; b=DKv6kJKEDW7E+RJfCszEmbbc7w4bgDFhT4D936pFMdY5huCt5gk1824elzraIvPuCmrQy3LeCc4eaKJr5/W6cPc7BBILt/L9Yz3QqvlQLPYLwrq5JsdGz9+VA7kGP4m0ObLteCMzRFzwk+DDKiswtIdoA1jcDK+977aK1hOJyF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709331294; c=relaxed/simple;
-	bh=ERezWGhJceHhaFNTA5xwSnSm4vHIqXGwDeYUb/rOQp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jz49c84x1pv+FOgFNrIOU0DrsWt4kzvthh0nsgrCENF2WrE+NG8Dyb0MaAPLKRZxK/v7xNd+L6OdWAVZOK2k8OlNheSoAiM097FW1oPB/zAsZh4Y2p2ZpnIb1svd8RWiwOBYzkztD5kyNuUGL/BpJBRKuzFFavcS2QpHKt7mbZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qhWcvH3L; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB7769CE;
-	Fri,  1 Mar 2024 23:14:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1709331277;
-	bh=ERezWGhJceHhaFNTA5xwSnSm4vHIqXGwDeYUb/rOQp8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qhWcvH3LyhqTADGijzSTCcHs3EYSk0U6ta3GjeOpHNmLlw/RcLWgFn9or+AbfKZvb
-	 1e7tizXQw+4mTqtSCg4P8l/aogtLMdv+/d04Wr76XHPvvlbF549fmJDNRDiEi36u4H
-	 Rk0u187Ej6WeSnkCid/UKi4idEVehM4+JQSIOhz0=
-Date: Sat, 2 Mar 2024 00:14:53 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 4/9] media: uapi: Add a pixel format for BGR48 and
- RGB48
-Message-ID: <20240301221453.GS30889@pendragon.ideasonboard.com>
-References: <20240223163012.300763-1-jacopo.mondi@ideasonboard.com>
- <20240223163012.300763-5-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1709345605; c=relaxed/simple;
+	bh=ypnpNuK5U8spfWm1zPCpA2bMMUH6x+EuFKD46vnbfk0=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=U6VQhC6yW8k294dQIWlZWK0N4yTxQ9x+v+u2KC/QNPXs/g/P4lIbnaa7NObyGBsERiPeAwDTfD1qwMEjy3d55Cayru67VJKzH24dNHm4113uhyeSLPB+omwafw+rivde4lQuQ7b9FTyAlJ1e8V6jST5uHYRzaWt+fTKCYykm7GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=l3FLu5C3; arc=none smtp.client-ip=203.205.221.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1709345291; bh=0aswDH86I9wagW7/7Q0JXkWwKqH263XZZbniRb/t2yQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=l3FLu5C3XyS+9UaEvWvhv0VxGaeGt3gAa9HonoopH9exEULXkb9cmZCJHumi5+xGr
+	 rzwxWYcf2nHkFimDgRIemP0OsdpHJihl135+v+o2C309RpmilLTVHojKkL/yt2WDdR
+	 Osn2iNcKpQ5l2Rw2eVXWOxwNZY+8PBvUSA876+HY=
+Received: from pek-lxu-l1.wrs.com ([111.198.228.140])
+	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
+	id 2031FAC0; Sat, 02 Mar 2024 10:08:03 +0800
+X-QQ-mid: xmsmtpt1709345283t23zykfnc
+Message-ID: <tencent_9DB5A7EFC6D152E3065489A46EDF6EE24C06@qq.com>
+X-QQ-XMAILINFO: M/NR0wiIuy70cja9QE9nCnfOWrA2FZnAhHTZYnKXNAV0RdJY6uByilpN9MMhfW
+	 UVpb8vWL80Xw/3jE6G0SB1uIfRPTfY/zORFiZK2H56o6c5ayykji0SCX1ZNf4owXRYkaG2QR5Rnc
+	 xmwcSBoGB531zjnAd6MUAfywjNuwrAQCgu+Dok+ZlvbMTNHsHa0RUQ0CkYrnf0mtDfms18tMRcsP
+	 YkRNvkErTfH0jD53Jz4jLgf/5uFQ8Uodibc3JK+N91eYir8LhLI7VfEedDVx8kI1WW343dcADQv2
+	 oJ6PNAhUuc0OqJFaB7ynvQg9wyfesSjtIdkNmUI3gXbtJhhMZL2X0A2v1xNJe56fiJZt3uvs7Wwt
+	 EJXj3o4Q7bIB1JQWrwN8sx7BbpHPo1ovp897pqaPe+HfE+weBR006JFMuhLbi2qEDhPLt/eHazA9
+	 EKQkKQvqBc3Euop65y/agXpUXMfgEVadmcEdI5KiQkb2BCeOWKZ/f9b7cYo+PlZlKHh3Dc2qAaz3
+	 qpplDnHz6PTLjm0+Xez3YUce8yhhudP5QVDyzfJOI/4zCeaqR+hMfJfKUO8REGusj38kU55Mvx/4
+	 Zir66OOUAtfVujwvASeYCl+OCc0a6cx9LTXGYq0BYUk3irbTEVEN5ZoCDXB508HEjVZCF8vcTm6+
+	 EwHcEFDnkqaM6+Eu7GaYW9bY+Nl16NjF7QISEFpHgva1EGP2aaGGVwTXFSDfD9FBcQFSIoyABnxw
+	 DFVtR189FbS+UR/2OcxHxufiXdRTsbhD3hMUCyh5DysKNj8S0yb/gqtSwhbsynYQ2nN27BrJEQnQ
+	 8UWWzD7U0otb7zHfeNJkYj48QMz++RGHaUuNOS2cZaUqGdIy03YgA9CD9NQFhtwogW5cT8WKS0Pa
+	 eoxdOvAlRYHONpgQAdF/pdYWxnoM1Fw7Hc2gW6xWHpxemaz+0b3cNr/IpIqot9KyJPFQFG0podUT
+	 Kp3Egbq8s=
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+From: Edward Adam Davis <eadavis@qq.com>
+To: greg@kroah.com
+Cc: eadavis@qq.com,
+	isely@pobox.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mchehab@kernel.org,
+	pvrusb2-owner@isely.net,
+	pvrusb2@isely.net,
+	syzbot+ce750e124675d4599449@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH usb V2] media/pvrusb2: fix uaf in pvr2_context_set_notify
+Date: Sat,  2 Mar 2024 10:08:03 +0800
+X-OQ-MSGID: <20240302020802.2858149-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2024021716-accent-islamist-6a87@gregkh>
+References: <2024021716-accent-islamist-6a87@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240223163012.300763-5-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+[Syzbot reported]
+BUG: KASAN: slab-use-after-free in pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
+Read of size 4 at addr ffff888113aeb0d8 by task kworker/1:1/26
 
-Thank you for the patch.
+CPU: 1 PID: 26 Comm: kworker/1:1 Not tainted 6.8.0-rc1-syzkaller-00046-gf1a27f081c1f #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:377 [inline]
+ print_report+0xc4/0x620 mm/kasan/report.c:488
+ kasan_report+0xda/0x110 mm/kasan/report.c:601
+ pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
+ pvr2_context_notify drivers/media/usb/pvrusb2/pvrusb2-context.c:95 [inline]
+ pvr2_context_disconnect+0x94/0xb0 drivers/media/usb/pvrusb2/pvrusb2-context.c:272
 
-On Fri, Feb 23, 2024 at 05:30:06PM +0100, Jacopo Mondi wrote:
-> Add BGR48 and RGB48 16-bit per component image formats.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 39 +++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-common.c         |  2 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
->  include/uapi/linux/videodev2.h                |  4 ++
->  4 files changed, 47 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> index b71b80d634d6..458308ae4eb8 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> @@ -996,6 +996,45 @@ arranged in little endian order.
->  
->      \normalsize
->  
-> +16 Bits Per Component
-> +=====================
-> +
-> +These formats store an RGB triplet in six bytes, with 16 bits per component.
+Freed by task 906:
+kasan_save_stack+0x33/0x50 mm/kasan/common.c:47
+kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+kasan_save_free_info+0x3f/0x60 mm/kasan/generic.c:640
+poison_slab_object mm/kasan/common.c:241 [inline]
+__kasan_slab_free+0x106/0x1b0 mm/kasan/common.c:257
+kasan_slab_free include/linux/kasan.h:184 [inline]
+slab_free_hook mm/slub.c:2121 [inline]
+slab_free mm/slub.c:4299 [inline]
+kfree+0x105/0x340 mm/slub.c:4409
+pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:137 [inline]
+pvr2_context_thread_func+0x69d/0x960 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
 
-You should document here if the 16-bit values are stored in little
-endian or big endian. It would also be clearer if the table below had 6
-bytes columns instead of 3, it would remove any ambiguity.
+[Analyze]
+Task A set disconnect_flag = !0, which resulted in Task B's condition being met
+and releasing mp, leading to this issue.
 
-> +
-> +.. raw:: latex
-> +
-> +    \small
-> +
-> +.. flat-table:: RGB Formats With 16 Bits Per Component
-> +    :header-rows:  1
-> +
-> +    * - Identifier
-> +      - Code
-> +      - Byte 1-0
-> +      - Byte 3-2
-> +      - Byte 5-4
-> +    * .. _V4L2-PIX-FMT-BGR48:
-> +
-> +      - ``V4L2_PIX_FMT_BGR48``
-> +      - 'BGR6'
-> +
-> +      - B\ :sub:`15-0`
-> +      - G\ :sub:`15-0`
-> +      - R\ :sub:`15-0`
-> +      -
-> +    * .. _V4L2-PIX-FMT-RGB48:
-> +
-> +      - ``V4L2_PIX_FMT_RGB48``
-> +      - 'RGB6'
-> +
-> +      - R\ :sub:`15-0`
-> +      - G\ :sub:`15-0`
-> +      - B\ :sub:`15-0`
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
->  Deprecated RGB Formats
->  ======================
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index d34d210908d9..ff4b4d2de9d2 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -253,6 +253,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
->  		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_BGR666,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_BGR48_12, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
-> +		{ .format = V4L2_PIX_FMT_BGR48, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
-> +		{ .format = V4L2_PIX_FMT_RGB48, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_ABGR64_12, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_RGBA1010102, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_RGBX1010102, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index d0724240a446..a2f9c446a565 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1298,6 +1298,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_RGBX1010102:	descr = "32-bit RGBX 10-10-10-2"; break;
->  	case V4L2_PIX_FMT_RGBA1010102:	descr = "32-bit RGBA 10-10-10-2"; break;
->  	case V4L2_PIX_FMT_ARGB2101010:	descr = "32-bit ARGB 2-10-10-10"; break;
-> +	case V4L2_PIX_FMT_BGR48:	descr = "48-bit BGR 16-16-16"; break;
-> +	case V4L2_PIX_FMT_RGB48:	descr = "48-bit RGB 16-16-16"; break;
->  	case V4L2_PIX_FMT_BGR48_12:	descr = "12-bit Depth BGR"; break;
->  	case V4L2_PIX_FMT_ABGR64_12:	descr = "12-bit Depth BGRA"; break;
->  	case V4L2_PIX_FMT_GREY:		descr = "8-bit Greyscale"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 911f00ed28fd..89b2b409fc03 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -584,6 +584,10 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_BGR48_12    v4l2_fourcc('B', '3', '1', '2') /* 48  BGR 12-bit per component */
->  #define V4L2_PIX_FMT_ABGR64_12   v4l2_fourcc('B', '4', '1', '2') /* 64  BGRA 12-bit per component */
->  
-> +/* RGB formats (6 bytes per pixel) */
-> +#define V4L2_PIX_FMT_BGR48 v4l2_fourcc('B', 'G', 'R', '6') /* 16  BGR-16-16-16 */
-> +#define V4L2_PIX_FMT_RGB48 v4l2_fourcc('R', 'G', 'B', '6') /* 16  RGB-16-16-16 */
-> +
->  /* Grey formats */
->  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
->  #define V4L2_PIX_FMT_Y4      v4l2_fourcc('Y', '0', '4', ' ') /*  4  Greyscale     */
+[Fix]
+Place the disconnect_flag assignment operation after all code in pvr2_context_disconnect()
+to avoid this issue.
 
+Reported-and-tested-by: syzbot+ce750e124675d4599449@syzkaller.appspotmail.com
+Fixes: e5be15c63804 ("V4L/DVB (7711): pvrusb2: Fix race on module unload")
+cc: stable@vger.kernel.org
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ drivers/media/usb/pvrusb2/pvrusb2-context.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-context.c b/drivers/media/usb/pvrusb2/pvrusb2-context.c
+index 1764674de98b..e93bca93ce4c 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-context.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-context.c
+@@ -267,9 +267,9 @@ static void pvr2_context_exit(struct pvr2_context *mp)
+ void pvr2_context_disconnect(struct pvr2_context *mp)
+ {
+ 	pvr2_hdw_disconnect(mp->hdw);
+-	mp->disconnect_flag = !0;
+ 	if (!pvr2_context_shutok())
+ 		pvr2_context_notify(mp);
++	mp->disconnect_flag = !0;
+ }
+ 
+ 
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
 
