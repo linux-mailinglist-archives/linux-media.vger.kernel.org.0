@@ -1,111 +1,123 @@
-Return-Path: <linux-media+bounces-6295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42B986F584
-	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 15:23:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB1D786F5D0
+	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 16:27:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D1BEB230AA
-	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 14:23:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A15B41F22B3C
+	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 15:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CA495A114;
-	Sun,  3 Mar 2024 14:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CuHHO2h+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30CD467C4E;
+	Sun,  3 Mar 2024 15:27:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4BABE5B;
-	Sun,  3 Mar 2024 14:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+Received: from mail.rmail.be (mail.rmail.be [85.234.218.189])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5B7B67A19
+	for <linux-media@vger.kernel.org>; Sun,  3 Mar 2024 15:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.234.218.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709475786; cv=none; b=kLZggjCcwxBZr+NrXHYI8rWhSaPZQFrUWzcFXn56R0Ajl3vPdoboZbHGqE1P8THDAy/9Oq6k1+eDNmYl4pbU0/LLYXwsboGLVVo07397tgHsrbXnHcsunNOmN0Et0uftSM3p6PDy8uX0aUPxrXm5Tgtn8NHD3y1UAAr69UjVhdg=
+	t=1709479632; cv=none; b=ejQPvBu5atP7y0QLvWnV386cMioG+EgHMlDpglpJWaMPX1squ4/gynrW6Ou/Q67UzmUaZJdGuIMFVoejFo0nIBcdgVQJEFSr5HDMQ4f1eIUrcezArckTdYrbIMw/HieO8OBl5AVihsy1pygtlKWKicslJOWtKIrpWEkWIrUCVL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709475786; c=relaxed/simple;
-	bh=t5jBL7YflSrKd4hHS9yTmYvU8CNC76z53TMa+27R98M=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GWGJK/JtHwE/DZ3n9bJUNM6ORnzv0UyKWZ/+jQ8PNNJLM0se7yw5PZhaLX7QfXvOO35WJ7gsrGnEgO4QWaddNuSUwOj4R7IkCHpX/o0WS371aVwyWEmmHYFF6i5Ezw0HnwMRI8sbDdRa3oNSX+d5R/y2y4cHXQ1d0jT6d7dyY58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CuHHO2h+; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1dc0e5b223eso31692535ad.1;
-        Sun, 03 Mar 2024 06:23:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709475785; x=1710080585; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Id6mziPFV2Bo5BUrdfcO2e1rBc0/eRCQTm2X30V/Jlg=;
-        b=CuHHO2h+O4l7Lb5HXukJ71gTaj2SQK/MJJ4kJFgm763gTLbvnj7XAQA3vZfdxRAHaJ
-         S0P4jm9fIzn0zOEM0ulsWoFozlNeth8qI3AYDq+5xrPqOhc+cqys8Y7htHwclaxW7IxB
-         nGwaAJlwJEq7odE093vPLmqkvtbzE0zUhLYuqmUkO2YV71t8xfL5edXub9hCMz4m1Adl
-         Dql041oWbMxxTavzpQI6g9kDgVXZgXDOmfDb5ZCTDlG0Rgywyz87UX5VS2YqDb7zdFF4
-         XwCmBcGh2zbUBLa8CQZvMiH4Uxvw0mg79bbMspEZe9F3VE5aqIv6MLrSWrRRBVHIbkGf
-         h5MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709475785; x=1710080585;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Id6mziPFV2Bo5BUrdfcO2e1rBc0/eRCQTm2X30V/Jlg=;
-        b=V/rEcyB0s39jE/7LPQR4FTaxYhD9oIXRbAXFsVoTNxFZoA24AlzsFoI3ZRA1g/C1nl
-         rPYOIKrk/18YrPn9oQpe7Zzg1XepyqwxwXncgg9QutAH1NQdcGq0hKMsS8sPkPyMjUxu
-         tmMZDhVh+Pv2J8QoFgZxr+YLrqFrkRep38KJyCG4SadhXwl5mDV5KB5aoPg+V8ATZ0+Y
-         KTo1lyRgCf+8X7o5SUEWwgNl/b1YVl//DeR7a5X+onqyDve8AUajF/nKCdRGAKFhheNu
-         J+62I003Hdkps7sgqFdzxUJQCLfi8f1qqAzkoEcp8YWukSkcsNfNth5wa0U1ZPtHdbeH
-         LgEw==
-X-Forwarded-Encrypted: i=1; AJvYcCVhELUi2aHwLPK+hUTzMDT6mIrEmHspLDm+vJQXaSi81fgVlfW+8V7l0FmzdMxSKdtNkfBk4TAabgKka0AbuECnyBzYGxNoZOjrIl20
-X-Gm-Message-State: AOJu0YzHr4xl73VuEZORpeX3vS9VTakLcrrmRkPH/wvIfkh5Y1WAU3+f
-	pQRSGABW+3/Rhk8wg9j7ffLhzlJ8K/fvd8yLk3gOKDfXdMJViuPM
-X-Google-Smtp-Source: AGHT+IHF0b3I75HECWEIPvqQ7CoeEGnCAZrJspkLyufByz0tVoA6esIOGEVF7CdXptYj8dXiRWipYg==
-X-Received: by 2002:a17:902:d488:b0:1dc:c17d:6edd with SMTP id c8-20020a170902d48800b001dcc17d6eddmr7572433plg.20.1709475784790;
-        Sun, 03 Mar 2024 06:23:04 -0800 (PST)
-Received: from kernel.. ([2402:e280:214c:86:98b4:6d91:d5f4:8f27])
-        by smtp.gmail.com with ESMTPSA id l1-20020a170903244100b001dc95f56848sm6697305pls.92.2024.03.03.06.23.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 06:23:04 -0800 (PST)
-From: R SUNDAR <prosunofficial@gmail.com>
-To: bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com,
-	sakari.ailus@linux.intel.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	R SUNDAR <prosunofficial@gmail.com>
-Subject: [PATCH] Removed __acc_osys field description to prevent kernel doc warning
-Date: Sun,  3 Mar 2024 19:52:58 +0530
-Message-Id: <20240303142258.6590-1-prosunofficial@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1709479632; c=relaxed/simple;
+	bh=OGhdpW6OcJjwHh5QITNmyo1TrTirXVsBVYaeSrASBn8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IVD6qZFeJZjB5WHsTBX8nxQnk4uaXNYAelXK+fSXEdDUMUDhJWHmjNSqNTjWohmLkINt5UXgfHuRlJA+PBt9xOYYkJN8MJ+m0okQLXJFatmnI9yEpLbQHwQi7Z0YEn1vTaGmRrhw+Sl5Ku9Z6J6AXcji84cEwi2pBWyegoZAIFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rmail.be; spf=pass smtp.mailfrom=rmail.be; arc=none smtp.client-ip=85.234.218.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rmail.be
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rmail.be
+Received: from localhost.rmail.be (unknown [10.238.9.208])
+	by mail.rmail.be (Postfix) with ESMTP id 80F154C074;
+	Sun,  3 Mar 2024 16:26:59 +0100 (CET)
+From: Maarten Vanraes <maarten@rmail.be>
+To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	linux-media@vger.kernel.org
+Cc: Kieran Bingham <kbingham@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Maarten Vanraes <maarten@rmail.be>
+Subject: [RFC PATCH 00/13] bcm2835-codec: driver for HW codecs
+Date: Sun,  3 Mar 2024 16:09:55 +0100
+Message-ID: <20240303152635.2762696-1-maarten@rmail.be>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2778: warning: Excess struct member '__acc_osys' description in 'ipu3_uapi_flags'
+These patches add a bcm2835-codec driver in order to use the hw codecs.
+This makes eg playing a h264 1080p movie playable with some cpu cycles
+to spare, instead of dropping frames and 100% cpu usage.
 
-Signed-off-by: R SUNDAR <prosunofficial@gmail.com>
----
- drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 1 -
- 1 file changed, 1 deletion(-)
+I tested with ffmpeg encode and decode, and I'm using it on my RPI4
+mediabox.
 
-diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-index 926fcf84e33c..4aa2797f5e3c 100644
---- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-+++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-@@ -2722,7 +2722,6 @@ struct ipu3_uapi_obgrid_param {
-  * @acc_ae: 0 = no update, 1 = update.
-  * @acc_af: 0 = no update, 1 = update.
-  * @acc_awb: 0 = no update, 1 = update.
-- * @__acc_osys: 0 = no update, 1 = update.
-  * @reserved3: Not used.
-  * @lin_vmem_params: 0 = no update, 1 = update.
-  * @tnr3_vmem_params: 0 = no update, 1 = update.
+I cherry-picked some patches from the rpi kernel and put these on top of
+Umang's git tree (to have bcm2835-isp driver) and then rebased the whole
+thing to media_stage and then squashed it a bit to these 13 patches.
+
+The reason I put this on top of Umang's patches for bcm2835-isp is
+because of common dependencies.
+
+I know that this will not be accepted until the vchiq is unstaged, but
+I'd like some comments on these patches in order to have this accepted
+faster after vchiq is unstaged.
+
+Umang's git tree I based it on: https://git.uk.ideasonboard.com/uajain/linux/src/branch/uajain/rpi4/staging-next/isp
+
+I pushed my work on github if anyone wishes to try it out: https://github.com/alien999999999/linux/tree/rpi4-codec/media_stage/v1
+
+Thanks in advance for any comment,
+
+Maarten Vanraes (AL13N on #linux-media )
+
+
+Dave Stevenson (11):
+  staging: mmal-vchiq: Avoid use of bool in structures
+  staging: mmal-vchiq: Update mmal_parameters.h with recently defined
+    params
+  staging: mmal-vchiq: Fix memory leak in error path
+  media: videodev2.h: Add a format for column YUV4:2:0 modes
+  staging/vchiq-mmal: Add buffer flags for interlaced video
+  staging/vchiq-mmal: Add parameters for interlaced video support
+  staging/vchiq-mmal: Add the deinterlace image effects enums
+  staging/mmal-vchiq: Rationalise included headers
+  staging: mmal-vchiq: Reset buffers_with_vpu on port_enable
+  vc04_services: vchiq-mmal: Add defines for mmal_es_format flags
+  staging: vc04_services: Add a V4L2 M2M codec driver
+
+Phil Elwell (1):
+  staging: vchiq_arm: Add 36-bit address support
+
+detule (1):
+  staging: vchiq_arm: Usa a DMA pool for small bulks
+
+ .../media/v4l/pixfmt-nv12-col128.rst          |  215 +
+ .../media/v4l/pixfmt-yuv-planar.rst           |   12 +
+ .../userspace-api/media/v4l/yuv-formats.rst   |   19 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
+ drivers/staging/vc04_services/Kconfig         |    2 +
+ drivers/staging/vc04_services/Makefile        |    2 +
+ .../vc04_services/bcm2835-codec/Kconfig       |   11 +
+ .../vc04_services/bcm2835-codec/Makefile      |    5 +
+ .../bcm2835-codec/bcm2835-v4l2-codec.c        | 3973 +++++++++++++++++
+ .../interface/vchiq_arm/vchiq_arm.c           |  147 +-
+ .../vchiq-mmal/mmal-msg-format.h              |   10 +
+ .../vc04_services/vchiq-mmal/mmal-msg.h       |   19 +
+ .../vchiq-mmal/mmal-parameters.h              |   86 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |   40 +-
+ include/uapi/linux/videodev2.h                |    4 +
+ 15 files changed, 4509 insertions(+), 38 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12-col128.rst
+ create mode 100644 drivers/staging/vc04_services/bcm2835-codec/Kconfig
+ create mode 100644 drivers/staging/vc04_services/bcm2835-codec/Makefile
+ create mode 100644 drivers/staging/vc04_services/bcm2835-codec/bcm2835-v4l2-codec.c
+
 -- 
-2.34.1
+2.41.0
 
 
