@@ -1,173 +1,116 @@
-Return-Path: <linux-media+bounces-6293-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6294-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDED686F413
-	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 09:37:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD0A86F524
+	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 14:32:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05074B22AF3
-	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 08:37:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 213C7282EF4
+	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 13:32:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 372BEA94C;
-	Sun,  3 Mar 2024 08:36:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1189FFBFC;
+	Sun,  3 Mar 2024 13:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Y/YxnJ0y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMrKSLbI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F21B65D;
-	Sun,  3 Mar 2024 08:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313475684;
+	Sun,  3 Mar 2024 13:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709455003; cv=none; b=m3Q7kRydxUpEHM28UiCjOpWJoB2vx45lrruRW/lgN76MturDQiONlhVQMJiZrxSLSDzvC93L4m+OcM2DUR6VgL29+MWZzM4aiD0/5IKA+PMDtMZx6sPa6NaOpzvHPFrVTvZH3CnB+Hq/pItGALwhvF6iXWk+LJLDtlXd7bY61t0=
+	t=1709472754; cv=none; b=GutdplUfaaFr0gyelJGjcP757U26gb7Eg9zV/lkW2A9wEnb+rMwXoMYJhQ7DgUxMtyS4J5cMY14eKWWQNUa2Fqe8QXX/80eomvak1q5rLZBHDO/enMsMJmYEe6AA2aM6rSoHgE9/gHKkszDTFHBbQNw8bp9sJ+ftwCd87Ws2j0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709455003; c=relaxed/simple;
-	bh=TjzaCrSVjQxb6zp0lUZIs8SzQu513pmNezGydfAD2t0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tDapewOaPMxGyzvlHaVVzBNgOKTPicWqM9+uuA+bTnkp+3F599WxCByAbharwDe68nAGH0aYSuK7DNNYfh/o6N23/l2qRl2cF+ye4NJOHdeUDmQm1TiE/ZE1JzZlxnPfGst3zeEfjZonPqeF0J/7Zw9SiOvr+wNzRpqYGbrFFJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Y/YxnJ0y; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709454979; x=1710059779; i=markus.elfring@web.de;
-	bh=TjzaCrSVjQxb6zp0lUZIs8SzQu513pmNezGydfAD2t0=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Y/YxnJ0y8y/6w3ppw9VoRWnIF118s/SyLTe1D5EHwo4hyjTS8jPgxDatLsXyKI20
-	 EnuDm0wGCJq9a4ETcycyUQ7rTLgbPxGaXeMGOsXtNBdICgDQ/8ZE4KVdahpgSkogx
-	 UVqwWAwAzaOBTUafB6dT3ncNSpfB5UkMAW0n4VRPM9MSDE1V9fuf1XcEd769QzLus
-	 nFqCaboZfIDaTHrnWLF+mPBOXmLoAqk8pX53IM75xLuZWVFWlyUxC08Iye86ekfnf
-	 ZBhB3Pd3Ov8fBXyoFkM5unrEiZMWENw5qv9It6x3DknpW4OPkk2WOljXWnZ+gbR0w
-	 XTXYDAO4GXpE80PPuw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYLmq-1rLGTZ0z6A-00VnT6; Sun, 03
- Mar 2024 09:36:19 +0100
-Message-ID: <af4995cf-6ea5-4214-a133-af260e2c517f@web.de>
-Date: Sun, 3 Mar 2024 09:36:09 +0100
+	s=arc-20240116; t=1709472754; c=relaxed/simple;
+	bh=3xboL4uDKO9puxjaC/KLuajulbpu8+6bh9CscgkXE6g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JcPjBvK+o8lDSiOt3e+vFIOz+WcPZhphAs+xQ3GYCq75a8DF0K4dV7RjjT4vr9xYTgsLRLPgEsMwN62OwRAp8BEt82ovd8vSMA06N7z5oc3dX905kbrPXNT/QbcrgZ2LuLQryMEMtNxR6ZhkNtDAY9f7LDXyo8ceYx8NdwKY8qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aMrKSLbI; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1dc29f1956cso28478895ad.0;
+        Sun, 03 Mar 2024 05:32:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709472752; x=1710077552; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kwlx5IgoHl5RII/i/nv9JimUnsVXypM6jybnxn6UlcA=;
+        b=aMrKSLbIfjQ1rXHem83eSr6FLYGmd7NVad2A24IX/St6eAPlwVCaJuDWaM0pWHEk7J
+         yuK6UIVYdHkVrTJg1tTLJt2HZUEPBIUcFht5fv+gzkIQcSy86eHL4uHy0lzfjUXTeYfV
+         xDH3sWoRQDQW/UJWha8l4+MmzbATwCTYkp44eGqQcChBzN3gN7SIm7kVPZJzCnyWLMUZ
+         qDBNpMp2SGDIB+dQY9gZaf16Uv94XeJglUew65ExfEDTGRjg9nA0QnAnG04UG1jlUm3b
+         LfDqnTnxTnLRGhmjnrBEiv4lRhn9FL5kuxuZvf14jEu8NMwyrV+ChI4DEnaRsNqriXrJ
+         UaFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709472752; x=1710077552;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kwlx5IgoHl5RII/i/nv9JimUnsVXypM6jybnxn6UlcA=;
+        b=EQdSJ6xsF/c63mHo037AmXKhNb0sDH7efApVGpoXaxwphjQ2FI9B9JG4XNCWjR69nY
+         hI4pCm4QRdFBxIB51nicbcunfEglDOVgmMiR5WJWgCdfRb0ir6lo9eO9xCjRL/LO/pjK
+         aM71vhGm6OSVNmqnu8QiJ7xi0S6gclhs29dSTviKIBrDTS7xxlLjy8ytNs1Rm1CrxWtW
+         vTIgrryZ4nuuV1E7ER89I2IMJxpFpnoNuPqJ08d53OpHdbCd0/1LNmtEdr15h5L/WLT8
+         +yv3yTOwqSISv9Nb/gGY2cSY+oOGSjTyzf528FmNSAPvywPuibudbGICvFvQ5JULKb90
+         OF9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXUP1VdJN2qLJDujztkzdmWa+NX9094wWF1imBXjPH75w5xuNQPy3iAeK9zMV9jjiC7js4eZJdfzQ80ug/YHTJa5htWV7BjwHW+A7kS
+X-Gm-Message-State: AOJu0Yzay5IwhYIaZbY0DVMVGiC9bpx2mrHeC5aPGoe9MYUk2HU6mLk8
+	BolSSFGaxBvan+PC3NVpFingWojd/YH3YrZUPQoqmSpk2BU1Ia4n
+X-Google-Smtp-Source: AGHT+IHySZPGneCeilbyiEHd2PBEFR0SDxJNhhWhViVxgeze4L1iRiaZQ0PmXq9Zn3zXXB12k080lQ==
+X-Received: by 2002:a17:903:2408:b0:1d8:e4b8:95e5 with SMTP id e8-20020a170903240800b001d8e4b895e5mr6717407plo.32.1709472752496;
+        Sun, 03 Mar 2024 05:32:32 -0800 (PST)
+Received: from kernel.. ([2402:e280:214c:86:98b4:6d91:d5f4:8f27])
+        by smtp.gmail.com with ESMTPSA id u9-20020a170902e80900b001d9a42f6183sm6634803plg.45.2024.03.03.05.32.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Mar 2024 05:32:32 -0800 (PST)
+From: R SUNDAR <prosunofficial@gmail.com>
+To: bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com,
+	sakari.ailus@linux.intel.com,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	R SUNDAR <prosunofficial@gmail.com>
+Subject: [PATCH] Removed reserved1/2 fields to prevent kernel-doc warnings
+Date: Sun,  3 Mar 2024 19:02:23 +0530
+Message-Id: <20240303133223.5506-1-prosunofficial@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: rcar-csi2: Use common error handling code in
- rcsi2_parse_dt()
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
- <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
- <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FtJYFEbxNxvq/gj5STpjZsWeQd2N5C5UaMlhKG3LGGyeWAZcWuB
- LZXN9x+O3r5yv5I7Z1CAC+OGBoWsL3XDLRn5owyenNleoZsr7l/5a+CZqdFbWwXi34sofhT
- QLb9KczD9mm0dyS5jCZaKp1BMp3xIz864gmSXPtVYJiL+cBpVjxxnQRT0N2NKzK+wSMxWGl
- Ur4V139e4XcrnufdvGpFA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:u2BtA3GksbE=;A7YNyS2ZssbGa0brxc5GH/Icea8
- rBMD/0398Bq8/Qj3vkiIdqsYltFv5RqlOsDHSOndxudHas2PQVNA7f6UhpI52LiqHJIbLo0qO
- wa163nB0gn72JT/dr+u50YAW+U+qnq+6P0A4aFpUXPeIsPp9ZmpVxSYBAddJQ/2ikrAj75vYn
- 6/Ndui8HYZHMEDuVBBh9oX3ua+5iLXEPHNtO3ULTGZGePB5soHOUAcISPP/gr/PnMai1gOd4e
- FTmvaPVgMJaSYu8w+BFgH455GJsC6mEIBL4WItTjeJT4HW2GUSGmLJGL2Sk8DnNC1+65O+HbQ
- YoEIZDgKkAtwBbgYduPcS5+55lHG26vrOmxiYCYKtPJ6IcQxZf1YrvwLWw0VCXlsJEl7Mxv4d
- wloF0Gu7zbVB4FxBV+YOSJpir7BRxFqZuqKuK5M5bal3kiWroPxdNwsGyEOBaC36mUhAvTe1I
- y2D6mzRrNpvoZt945LCI4P+vLcZZtRZJNP/XBwW+2pRxlvWHeYwZktKgsdnZQwwNByPDSEzPp
- DALlz71fPT5x9Cevy67WOq32b12CvjepwgNiR6/99FWhDFiuo8viNV7xTAyrySWjm12z1jD8j
- 9vxpxQ/XxXPWXiFMma/8bBIv2UTz8siQhCe1rgvvaAyEbRpmhhKB5lKxtOId13XrwXFdDFfm7
- uJZtdmGLoNTLSQY8i5c9+8JK80oVb90dt3bioCXg7fO48RhbH391SgLjbTQU0R+tXdtd5MTyy
- uFF4eU1JQoz9wDVQo5tlT9RARDfbPJJD+62kPnC1783U1yseHfY0WLN3gyplsa54YSj5CehA6
- EPtlOhIh8PuMrpuDJEGDIJ1/W3LjwGZojjfmb8HW1fK6w=
+Content-Transfer-Encoding: 8bit
 
-> Sakari Ailus pointed out in another thread that we could use __free() in=
-stead.
+./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved1' description in 'ipu3_uapi_acc_param'
+./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved2' description in 'ipu3_uapi_acc_param'
 
-See also:
-Contributions by Jonathan Cameron from 2024-02-17
+Signed-off-by: R SUNDAR <prosunofficial@gmail.com>
+---
+ drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-* device property: Move fwnode_handle_put() into property.h
-  https://lore.kernel.org/r/20240217164249.921878-2-jic23@kernel.org
+diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+index caa358e0bae4..926fcf84e33c 100644
+--- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
++++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+@@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
+  *		&ipu3_uapi_yuvp1_y_ee_nr_config
+  * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
+- * @reserved1: reserved
+  * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @tcc:	total color correction config as defined in struct
+  *		&ipu3_uapi_yuvp2_tcc_static_config
+- * @reserved2: reserved
+  * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
+  * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
+  * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
+-- 
+2.34.1
 
-* device property: Add cleanup.h based fwnode_handle_put() scope based cle=
-anup.
-  https://lore.kernel.org/r/20240217164249.921878-3-jic23@kernel.org
-
-
-> Something like this:
->
-> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/=
-platform/renesas/rcar-csi2.c
-> index 582d5e35db0e..c569df6057b7 100644
-> --- a/drivers/media/platform/renesas/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> @@ -1372,8 +1372,8 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv=
-,
->  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  {
->  	struct v4l2_async_connection *asc;
-> -	struct fwnode_handle *fwnode;
-> -	struct fwnode_handle *ep;
-> +	struct fwnode_handle *fwnode __free(fwnode_handle) =3D NULL;
-> +	struct fwnode_handle *ep __free(fwnode_handle);
->  	struct v4l2_fwnode_endpoint v4l2_ep =3D {
->  		.bus_type =3D V4L2_MBUS_UNKNOWN,
->  	};
-
-I suggest to reconsider the position for the adjusted variable declaration=
-s
-a bit more.
-
-
-> @@ -1388,18 +1388,14 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv=
-)
->  	ret =3D v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
->  	if (ret) {
->  		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
-> -		fwnode_handle_put(ep);
->  		return -EINVAL;
->  	}
->
->  	ret =3D rcsi2_parse_v4l2(priv, &v4l2_ep);
-> -	if (ret) {
-> -		fwnode_handle_put(ep);
-> +	if (ret)
->  		return ret;
-> -	}
->
->  	fwnode =3D fwnode_graph_get_remote_endpoint(ep);
-> -	fwnode_handle_put(ep);
->
->  	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(fwnode));
->
-> @@ -1408,7 +1404,6 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->
->  	asc =3D v4l2_async_nf_add_fwnode(&priv->notifier, fwnode,
->  				       struct v4l2_async_connection);
-> -	fwnode_handle_put(fwnode);
->  	if (IS_ERR(asc))
->  		return PTR_ERR(asc);
->
-
-I find that two function calls marked the end of scopes here
-which obviously are not at the end of the discussed function implementatio=
-n.
-Thus I imagine that the known source code transformation =E2=80=9CReduce s=
-cope for variables=E2=80=9D
-will become relevant.
-https://refactoring.com/catalog/reduceScopeOfVariable.html
-
-Regards,
-Markus
 
