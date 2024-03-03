@@ -1,166 +1,110 @@
-Return-Path: <linux-media+bounces-6310-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6311-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5C586F67C
-	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 18:43:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD67C86F6BA
+	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 20:21:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5036EB20F1E
-	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 17:43:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 147031C2087D
+	for <lists+linux-media@lfdr.de>; Sun,  3 Mar 2024 19:21:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888E9768E0;
-	Sun,  3 Mar 2024 17:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B3E279DA8;
+	Sun,  3 Mar 2024 19:20:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gl3mvHj1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RnHyqoXf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBFE1EF12;
-	Sun,  3 Mar 2024 17:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642597605D;
+	Sun,  3 Mar 2024 19:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709487782; cv=none; b=REeGf+mBe/GNjG02mItZAN23hZawcc5ax3mXZtudvr7HT7Xra1r9+6yb7OcqkjrdLteYqv1xDX27e9Aw8cDUM+kGERqKZLtqjrpnFfe3IzzGXRQch/aBlxDfzsnUXzwLao5wjRscG4DVOTwEIxyykA7AhZX0TouYUqtVmDjx/nY=
+	t=1709493656; cv=none; b=puHx5vFD1WaqFHJzFXBh2epYWsC2wpcw/RVKq0HZIGIBW8diIwCXTHA+fb1zBE5bs+uwJ4ceEI6IqzIjSQSOVqdiToPmMXvwhnjrOb19A12ipG5pK6T/iY26N7JS1He7sVB62cLVOcB8OCq1VB+O7Kylp8bimiHxUMn0ZX+PyQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709487782; c=relaxed/simple;
-	bh=qJ09RHZhZupJd0yUAMrg15L1EonazM6hfg7HvBc4dqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zf/OuwGWfDpSBYvHdwjchS0NcM7U9Vrh39JBKge9B9rcOZyx0ZKIlJ0zz/vdGtW4A+4BlMLgA+UO/RrRFAZGO2BdJ0pL2+2mVgosf83nDdQb2vjCd7gSrOkd3XBwDnc5fnPnOpf3GYHZBZfihQFTk17nAQnx/SfNDy9hThqYDAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gl3mvHj1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7E43C433F1;
-	Sun,  3 Mar 2024 17:42:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709487782;
-	bh=qJ09RHZhZupJd0yUAMrg15L1EonazM6hfg7HvBc4dqU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Gl3mvHj1LeSU+t+auF4ARJDUMTEiCum/A3TvDet9nk9H8ra5LejfpRm9zdDrE62fC
-	 lgTsPcPk2mVECDumxiceoujTh4tu/+EL0MWT0mOgD5/NZwu9bExDqwGj5uxJPKkuNP
-	 GBexCInsXs3vGrSMEDXEDndORFgB3DDIJsQocGMIfy8OVODdjAFba0V4sBeSf5FGHU
-	 r4CpDFiebw/m1qH7cEA2RY5wHXl5icL+7gnwBbqID1M3REqMbJvgn6iTI+kOvS0dOr
-	 /Tr+SpzjOdL8uRRiCujBcGkcJwPd25CwhM3/iV7CP5F8iBdRmM8qM0OafgKlj6kwFV
-	 ZO//USU2UeFgQ==
-Date: Sun, 3 Mar 2024 17:42:45 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Paul Cercueil
- <paul@crapouillou.net>, Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
- <Michael.Hennerich@analog.com>, <linux-doc@vger.kernel.org>,
- <dmaengine@vger.kernel.org>, <linux-iio@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
-Message-ID: <20240303174245.37efc0b0@jic23-huawei>
-In-Reply-To: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1709493656; c=relaxed/simple;
+	bh=q19qy03OqV1sYE/Cd6Ro7zu5hMUu18O2FfzTZl9cEB8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RwbCNet3yyl0pJGEHI19QZZnoZh1cGzFvLGOhxQ46Mr2engvJmPraCxKNwIcNyAK/fPUTUl/JBt+3UP1nmCvEeHM3+6YhN1NRi2tgfilVaymu0Tey448X/ncQ3MI/ZSI/jQgsTgDZ79HbvXPt24SYhGxNVqOImy5VhpgrBorTn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RnHyqoXf; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d269b2ff48so42223151fa.3;
+        Sun, 03 Mar 2024 11:20:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709493652; x=1710098452; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rZADT8Xzso2kMaQmTmzt66RpPyIczD7PKHVuaIw0k74=;
+        b=RnHyqoXfQ8kvrUm406dh2G3WVbB332NL1koEPebuuQB2L3OBtLWI6SKFan5ne18kuZ
+         jKWIZadtibLHR637GLhInou174grbMprVduTiX9CfCV0j+keen/wirsF6Jt63+3othIx
+         Oa2PoUnKDjAa0ZlDT78H3NxDEIfNYnLOg1HG9DJgwAjPK07oWS+v9mQ9DNJeRbFN5CBo
+         ODGv9HuzPlzXtFFh9DszUi85cNiSZMl3LM1OI3tZa7PaJq0UoJbAlWRJXkHNeBFr9DXS
+         6y13ap5Jat1ebT4VzEXmyEcLeLTEA2vsjakcExSfiVQ1sifLPLGcpOBnJuFCI2ndna0B
+         uFKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709493652; x=1710098452;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rZADT8Xzso2kMaQmTmzt66RpPyIczD7PKHVuaIw0k74=;
+        b=ByDlskXq5lGc7RACPUWG6mw/ot63F5iaSNQIuzxQ5PwH2J0apY7TgoilNKLZA/dfie
+         32djxdSJYXyZVmz+5M6HcmCNA0yvdK2w+ScszkA4K3txd6zU9bs1u0C79/YtAYZiaI0E
+         99S+QaTKH4mMgL8Z19faxlrPM2ItmpDKQkoA/vemgY9ApPtIOmcfSJS4hWa4D1jNghlp
+         pVdmXc6WP5D5hBkW7848uIJYUKBh2sS8XBlFUJXCXO+SZDfIitpMOFpN0efmdhGVjmB2
+         495z1e1e8RSVm0i5fo+3XsRotf3g+Bb9lheJgahytaRMDM61gOK+1kFCEdcAQFytuZ4w
+         gCKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGxmLlJEAtLakwtTwGFAPpDukrhFTyl5LUqCgy6fmAtDpvrJ8eOgI9tggi/thjjFwJYTaRGQh5yUEPE37uQ+d6FMNNfclv1V4AkbyElBbguHg/rrHxM30UjTGlhb9kPnxfgNrW9dVsXdM=
+X-Gm-Message-State: AOJu0Yx6Jo3S7mT7gcpV7hjnTuKmqc6gbu6ui0QXdhpqiwYikPk6LhC5
+	/oZQeWmJgv75BY1rgiRavV5L12iKh1S2dSgJwZ82ttJTm/YxJL6K
+X-Google-Smtp-Source: AGHT+IFaRQCUN34EwaoDCNtYgQgn2C2N7m/q35LNxEAYuhgraGSJL5V239YFxz5M40XaQeNYvy+UEw==
+X-Received: by 2002:a2e:7a12:0:b0:2d2:ca55:be46 with SMTP id v18-20020a2e7a12000000b002d2ca55be46mr4753304ljc.34.1709493652209;
+        Sun, 03 Mar 2024 11:20:52 -0800 (PST)
+Received: from localhost.localdomain (c83-255-24-248.bredband.tele2.se. [83.255.24.248])
+        by smtp.googlemail.com with ESMTPSA id y10-20020a2e9d4a000000b002d3c466adc7sm68438ljj.15.2024.03.03.11.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Mar 2024 11:20:51 -0800 (PST)
+From: Jonathan Bergh <bergh.jonathan@gmail.com>
+To: mchehab@kernel.org
+Cc: mcgrof@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jonathan Bergh <bergh.jonathan@gmail.com>
+Subject: [PATCH 0/9] staging: media: av7110: These patches address various code style and formatting issues in the av7110 driver
+Date: Sun,  3 Mar 2024 20:20:31 +0100
+Message-Id: <20240303192040.8116-1-bergh.jonathan@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, 23 Feb 2024 13:13:58 +0100
-Nuno Sa <nuno.sa@analog.com> wrote:
+The following patches fix a number of code style issues identified by
+checkpatch in the av7110 driver.
 
-> Hi Jonathan, likely you're wondering why I'm sending v7. Well, to be
-> honest, we're hoping to get this merged this for the 6.9 merge window.
-> Main reason is because the USB part is already in (so it would be nice
-> to get the whole thing in). Moreover, the changes asked in v6 were simple
-> (even though I'm not quite sure in one of them) and Paul has no access to
-> it's laptop so he can't send v7 himself. So he kind of said/asked for me =
-to do it.
+Jonathan Bergh (9):
+  staging: media: av7110: Fix formatting problem where trailing statements
+    should be on a new line
+  staging: media: av7110: Remove braces for single line statement blocks
+  staging: media: av7110: Remove spaces between function name and
+    opening parenthesis
+  staging: media: av7110: Fix formatting of pointers to meet coding
+    style guidelines
+  staging: media: av7110: Fix block comments to meet code style
+    guidelines
+  staging: media: av7110: Remove extra whitespace before opening '['s
+  staging: media: av7110: Remove extra whitespace before ','
+  staging: media: av7110: Ensure whitespace ahead of opening brace '{'
+  staging: media: av7110: Ensure newline after variable declarations
 
-So, we are cutting this very fine. If Linus hints strongly at an rc8 maybe =
-we
-can sneak this in. However, I need an Ack from Vinod for the dma engine cha=
-nges first.
+ drivers/staging/media/av7110/sp8870.c | 136 +++++++++++++-------------
+ 1 file changed, 70 insertions(+), 66 deletions(-)
 
-Also I'd love a final 'looks ok' comment from DMABUF folk (Ack even better!)
-
-Seems that the other side got resolved in the USB gadget, but last we heard=
- form
-Daniel and Christian looks to have been back on v5. I'd like them to confirm
-they are fine with the changes made as a result.=20
-
-I've been happy with the IIO parts for a few versions now but my ability to=
- review
-the DMABUF and DMA engine bits is limited.
-
-A realistic path to get this in is rc8 is happening, is all Acks in place b=
-y Wednesday,
-I get apply it and hits Linux-next Thursday, Pull request to Greg on Saturd=
-ay and Greg
-is feeling particularly generous to take one on the day he normally closes =
-his trees.
-
-Whilst I'll cross my fingers, looks like 6.10 material to me :(
-
-I'd missed the progress on the USB side so wasn't paying enough attention. =
-Sorry!
-
-Jonathan
-
->=20
-> v6:
->  * https://lore.kernel.org/linux-iio/20240129170201.133785-1-paul@crapoui=
-llou.net/
->=20
-> v7:
->  - Patch 1
->   * Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_ve=
-c();
->   * Added a new flag parameter to the function as agreed between Paul
->     and Vinod. I renamed the first parameter to prep_flags as it's suppos=
-ed to
->     be used (I think) with enum dma_ctrl_flags. I'm not really sure how t=
-hat API
->     can grow but I was thinking in just having a bool cyclic parameter (a=
-s the
->     first intention of the flags is to support cyclic transfers) but ende=
-d up
->     "respecting" the previously agreed approach.
-> - Patch 2
->   * Adapted patch for the changes made in patch 1.
-> - Patch 5
->   * Adapted patch for the changes made in patch 1.
->=20
-> Patchset based on next-20240223.
->=20
-> ---
-> Paul Cercueil (6):
->       dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
->       dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
->       iio: core: Add new DMABUF interface infrastructure
->       iio: buffer-dma: Enable support for DMABUFs
->       iio: buffer-dmaengine: Support new DMABUF based userspace API
->       Documentation: iio: Document high-speed DMABUF based API
->=20
->  Documentation/iio/dmabuf_api.rst                   |  54 +++
->  Documentation/iio/index.rst                        |   2 +
->  drivers/dma/dma-axi-dmac.c                         |  40 ++
->  drivers/iio/buffer/industrialio-buffer-dma.c       | 181 +++++++-
->  drivers/iio/buffer/industrialio-buffer-dmaengine.c |  59 ++-
->  drivers/iio/industrialio-buffer.c                  | 462 +++++++++++++++=
-++++++
->  include/linux/dmaengine.h                          |  27 ++
->  include/linux/iio/buffer-dma.h                     |  31 ++
->  include/linux/iio/buffer_impl.h                    |  33 ++
->  include/uapi/linux/iio/buffer.h                    |  22 +
->  10 files changed, 894 insertions(+), 17 deletions(-)
-> ---
-> base-commit: 33e1d31873f87d119e5120b88cd350efa68ef276
-> change-id: 20240223-iio-dmabuf-5ee0530195ca
-> --
->=20
-> Thanks!
-> - Nuno S=C3=A1
->=20
+-- 
+2.40.1
 
 
