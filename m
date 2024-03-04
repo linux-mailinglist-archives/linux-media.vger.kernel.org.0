@@ -1,313 +1,452 @@
-Return-Path: <linux-media+bounces-6359-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6360-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A60870520
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 16:16:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A262F870521
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 16:16:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F79D28B646
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 15:16:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C8581F23442
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 15:16:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9AB0487A7;
-	Mon,  4 Mar 2024 15:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDE81487B6;
+	Mon,  4 Mar 2024 15:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="h5xx+kOA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="h8e4kn6K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2079.outbound.protection.outlook.com [40.107.101.79])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671653FB02;
-	Mon,  4 Mar 2024 15:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709565247; cv=fail; b=MZ5A7bA/YfRd3RzfJXNMYjK4d0s0DC0mbveD9Z2NI6K5xIGyIx4Egf+j+CiwG0kF45vqvNN+iB9ABoO8eAo8KHaO9AMkmJ3WJFdpCHdiO5B/OM+l6XCPjA0tGl+2agaZci+JczvkHN1zK8ZdkbrivRuzxnMz3HLBruRGX4FoKjA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709565247; c=relaxed/simple;
-	bh=G65FQVXwpBrIS4BHilfipSO8jCII482l+umlVotTm0Q=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jZoVlRHHB6MqQRZqviyuqtYVdw/dp27pd4E784UBmmr4I1RMvU6wR2cdLx3NEyZA05Sr3Y2HiZMrsBaPheGgYZXEw09gl2RDlLAO5twYuvvBFqWCeYF5F1TF0FZIUAgwXiOdzN9aZaem07qa4tZEaWfn7J/8Y7L+XtqOJ0UqAwg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=h5xx+kOA; arc=fail smtp.client-ip=40.107.101.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HQIrYnQEDmBPUnL3dPpAmWHEGULn6xH76Vqq4k++91DtaRJx4iIlKxx0IrLP6Iy/nITRb+1ZOJnafMI6ArdN7gQ4oRyjNTFutXCJUWy/UzdsZnDrUCT32SqnKBV+cpx0tBAjUyX4EKHilWpno9u9IYGeHConIoc2I8kfbK4WQavDzpHuW+KtN9xe4L76HuQgwnT3dUFtTA4FUDfERXlSUsrf06weIpp4mWOXJSobXpidwCn1floxPDI2B09+kr6XquyoqJdFqI54iRA6foUABtcJrYT9BteazktVweCfv5XxOsVC2DgzcaEEqvv35WRLfpPZBukSXOOmQEd6et11Zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j2yBKDtNma32BwfBFI8tv+VTE3pOWFtf4koMy/uCcUY=;
- b=ZESXFk9AVyDTeMJgQQWZJkIKhTo2OZwZ5Gj1VLBZIagSnfXapi3tWR3KsB2ahGKjPoZGJfBfgalQfJIaPBtSprqDwmfafB5tDCrk5vLgbyklZrx7MXwMra0DsvpeCSgCem5Wp08/cWCqSwMUGjEszaak1rziyAOYQzggoUPf+C+TS5oC1uk+QgBlNzw08UGj5GKsAZuELnlntW1Bmz6+Jj3/BsUW4PculE3jYemcmobT3fB4kf6tI0CqkQxBJfvJsfUlx9gsc6M9jJnbjHCe1oG4ri5NqENv9rT3Ji/Xe2L5HLh2I7zRO/A9wsXpxO1EoLtHiCpGMokqYmvVh7MMTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j2yBKDtNma32BwfBFI8tv+VTE3pOWFtf4koMy/uCcUY=;
- b=h5xx+kOAzOKUfkdWM2IKNzoweTVlTEhHZUDALa/yMxoUNxpaRAaQdQMJU1M2YmtEA+zJKrvSzrkuUmMDjOrCKDw/CST9C3OVtNXmh4viHa0zQb6occhXEz8xWVDjTcblkuG4pIbjXrinUbSgpERPfVGiFa1I4k88/V50QUkF238=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ0PR12MB7034.namprd12.prod.outlook.com (2603:10b6:a03:449::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38; Mon, 4 Mar
- 2024 15:13:57 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7339.031; Mon, 4 Mar 2024
- 15:13:57 +0000
-Message-ID: <4131f2c2-1143-4de5-82d4-337359b1f20e@amd.com>
-Date: Mon, 4 Mar 2024 16:13:48 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/6] iio: core: Add new DMABUF interface infrastructure
-Content-Language: en-US
-To: Paul Cercueil <paul@crapouillou.net>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <noname.nuno@gmail.com>, Nuno Sa <nuno.sa@analog.com>,
- Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Jonathan Cameron <jic23@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
- <20240223-iio-dmabuf-v7-3-78cfaad117b9@analog.com>
- <85782edb-4876-4cbd-ac14-abcbcfb58770@amd.com>
- <f40f018359d25c78abbeeb3ce02c5b761aabe900.camel@gmail.com>
- <796e8189-0e1a-46d4-8251-7963e56704ac@amd.com>
- <8962f6cf-7e5e-4bfe-a86b-cbb66a815187@amd.com>
- <b00a1fc2ea51816317bf7475f32f85696bd29b4e.camel@crapouillou.net>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <b00a1fc2ea51816317bf7475f32f85696bd29b4e.camel@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ZR0P278CA0114.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:20::11) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A57447772
+	for <linux-media@vger.kernel.org>; Mon,  4 Mar 2024 15:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709565271; cv=none; b=XjcfNL6whwuoiLbL+pzrnF1C2or29sVDPKaOwz5PL5m1qvxjr7YHTC8aTC0TIV2i/pA9tEsSBrZF3hzATkzR2drQqrHWyZIppX4XlyIRnyDULymI+dVb3wQY2SHE+l1rk4vsMW4aTXxb/l9spnMXoSx60ACzvLBzTkcE0fpmqvM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709565271; c=relaxed/simple;
+	bh=MTnKABlfkuyFSlsZUhw/USptxc9PvKOSS1AHk4AphPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ruCJDnf3gUvZB6zpLPN4t1RjgIy7KtcC0dbLRJtSEwDkepPqoyD/NUk10on+d7pR+rrIku+/dfDw4W3xeHEvzJSIzpoA4yQNvoeJpDl45rlmyrbwNaqEiT9ISjAHAPotLWG1+2RZ2/00DZZgOS/LUxejpom9KZ+kIEKF/bfDmwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=h8e4kn6K; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B51753374;
+	Mon,  4 Mar 2024 16:14:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1709565248;
+	bh=MTnKABlfkuyFSlsZUhw/USptxc9PvKOSS1AHk4AphPY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h8e4kn6KbMvlCoWUUpP9d+RuP79Y+kDHjWFzEBJfAtETCGzR1maO72ZjeyyCRvEMS
+	 jA8lAkHX/VLEgkPOipoN6zJddJdqeiQ/FAI4ErWnv4BavaPRhyVJVW0sdwkkDml6co
+	 kZFQVhkbpQn1gKqpSPy2Q1jIDlkyRt01Bq53QVaY=
+Date: Mon, 4 Mar 2024 17:14:26 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com
+Subject: Re: [PATCH v6 02/15] media: i2c: imx219: Add internal image sink pad
+Message-ID: <20240304151426.GB21608@pendragon.ideasonboard.com>
+References: <20240301213231.10340-1-laurent.pinchart@ideasonboard.com>
+ <20240301213231.10340-3-laurent.pinchart@ideasonboard.com>
+ <ttl3uozfwxkcggjubnpnbwvy2nk22ke563zkzbpazyps243f2p@iwf46qtfiwyo>
+ <275z3nycmioo737b2phuy4swhzziqyes4f3hgh5r6w2blvv5wc@ml3acqn6anzt>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB7034:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0ebd2a7-11bc-4a3b-50b5-08dc3c5db69e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	qjzTpePNtf+43rIN34u4q3Mf7XEIkWcefGbda4UHo8j+FTL4i2HRSbLv3RfkPuhNcqrO8v+jt8ZZbJlHXKTUz84MH5xqUSVCAohu/7uGri/Raas3bAPG+OEhTTrtOoiZbUL+xS1W20krFeUIMnARmPefMWvl8o7LF5a2AXPwY8phk4eDJ0ogdHZ2sVVi9JsxX+95rySfL0Oy5YCCqTBhCQuFl/hl4QEzUuFM/joHg0Qw2K8THsfAQbv/FHHmOvHt8wtghTGFiYytI8yUi9SDAiykfnnHyK2bIUhwvkcPTi/A3hwb5pMMe3PaufNrHqh/2P9qLjXmLi/JH5IFv3bZD3g6cpXByWCDEMkdaZFwbPlHqLy/WmapNy/anAfAnnSf08akBslp2PRPE/WNBcxjGoBDfmL9fkMSL3k29lZF3kleY7xw0F6BqEd6Cf/JLeKlQ4RLo+2S+6ihHMNB0ppqu4lc0KPWiwwb0AYIw9R0wY8CWo+hUA95C1IJDf+MUmWex/yDROcYSLu6bNmljps9uaOXHdnzJXHV9e7UgdMcWx3O5kEeRJHJhmjNmMAqABNS8IYb49AiYijNp3jep2ZJiCil21oZJT1rNYfdLLHpYG0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cVVKcEROOGNVNnVIYm9hY3Fud0tNdUdxeWZzaVE4SHhsNWd2MXpDN253VTQ1?=
- =?utf-8?B?UnQ2cTYwN3NsTnpQVll5VjRhYlAxbUZVeTQvcTZPYk00dkFVRFBRWnNERmF0?=
- =?utf-8?B?cEVFUjNvK2pDbU5ZZnJaRzZoL3ZFSmpCZzFaYytiWE1sL3JlL2NTeEdnSHY5?=
- =?utf-8?B?M080cTVxcFM4MWZkQ255NmpyQmZUL0ZpOWswMDU5aW9JV3pXTEJJdnZCb0FY?=
- =?utf-8?B?QllWeEFEMnRmMVBteGY1ZHJqUjVDSVJBM2NPdWdWMlRIUUpoZlhsZHIyVjR6?=
- =?utf-8?B?dVh3UFJLNVdWaThJeDM0dExpeE1EYnpnRHBEMDYxSHcrYzBtTW1XRVozNmVO?=
- =?utf-8?B?VTBVTHpJQlZ5N3JWSkhSeW1HOWlzT3dKRWZ6SC8zTGwzanZJNDVSU2I2MUE2?=
- =?utf-8?B?eG1UTXpzaWJwZkpZNGQyS2NRVTZBWnhKRnpxT2ZFNlptdDdGTm5aeVRTU0U5?=
- =?utf-8?B?TzRYOURrc3N1cTl1emNGbVRRUWRkWW4ySi8wa0hWZmd0S3hJc3JwaURIVmNG?=
- =?utf-8?B?Y2xSc0xLTlN1akxlQldGdXV4cmVFdHc2R0xlTXRPaFBOWFBqeUxOT3d5WFI3?=
- =?utf-8?B?a2YyNWtQSkFqcFNldncyMEJUa0U3eHV1R2E0MUl4R0VuWkIyNUxoOFJJSXR0?=
- =?utf-8?B?MmE5dWxubG1tcGZGZGJKWFJDZG5peHJBeFZEQzNlczM4akVMZzZHQXBwNlpN?=
- =?utf-8?B?RVY0eitlWVVvY3pPcjg4VUliV1RpRy92WkVidDNzb1NLRVdhQ3dkYm1WQkxN?=
- =?utf-8?B?YTFzUHg1aWNBWEpQZ1ZTbjV2dCszNDJoUnpVeGVpZ0NlT0s3RE1EKzFBeE1v?=
- =?utf-8?B?SEcwWExvaklaMTEycnZ6YUxXeVdnMExNZlI2WW44VEVabmhYdUI1SldScjU1?=
- =?utf-8?B?bGUyeUtoa0pnOENGd2pHU0tjOC9oTCtJZmxSL3pYNXhoN1FaNUNpRWdDaVpL?=
- =?utf-8?B?TkpNYmFDLzQvdEc0em5Sa3M2Wkp3dDIwWVZlL1k2bEFrekdwVzYvSXRSK0xo?=
- =?utf-8?B?WUozVFlYdDBJbGFHUC83VCtSZE1zUjhhTzcvQlUrSnhudDZrb0ZJU091YUpB?=
- =?utf-8?B?dktqaFloWExMR3pTbkVyMkhGMGUvQndCZGZIYnBra0RtQkh4ODQ1ejBWeDZU?=
- =?utf-8?B?cVcwMGFMTkNIc2I4RndQYkxyOWNyWmNzdVRla1Jqek4xQ1ZiTGxPSnZTWll5?=
- =?utf-8?B?RnZCWW1tUzJYdmJMUVRGUk5heDlOYTlZOHd3bHNXVjhsZnIyZFJkWlh4Rjhr?=
- =?utf-8?B?ckQwaHpJZFBmVmZWbERqNENSZWhyTTkrNndzSlliRUY5RythVEhFT3FyS1cy?=
- =?utf-8?B?UWpId0ZhSlp4V1h0Rm13NWo0dTJTa2FZaWtDTStKUXptaERYSDUvTkZWKzJp?=
- =?utf-8?B?YlRjMXFsa1l4TENRR1o3WkxTYlQ5TzI2VXdXNzN4ckdITjRmT1g5Q015S1hP?=
- =?utf-8?B?UEJ5UDhtNERnbGRKTTMzZHZxU0hnQXRhanJrYjJzZytqcjRKZy9qSnFpZXZw?=
- =?utf-8?B?SU8zWWNGdFNDcFA5TUl1bUxYK0cxYjY3TE1pKzRkd1pRQW1wRCt3anJFZy9P?=
- =?utf-8?B?TjRNZWk4MlB1d2UyK0FEeHRrSEdDTnNFSmxPYmZKRU5rR2tlVm1KNVBvOEhM?=
- =?utf-8?B?d0E2ZWY1OHpKYUNMZysyZVYvVHZlczZKNUhRQlYxZkpEWEF0MVphdThaSWdt?=
- =?utf-8?B?QXRvL0o1YUFlS3FJWVFCaWtLb0NMTmFqMGdIMy9LQm1BZHFDUGtkend3cFZG?=
- =?utf-8?B?MC95UjBUcTQ1RGlVdURJZ2doRlFrN1BSeU14Qm12Z25qaUhWdTJTbVNnaXJI?=
- =?utf-8?B?Zm5tN3JrRHAwbFE1b0JlTU8yR0k4NTlxbjhObHV4bEk5RHJlVkhqYkpYenp0?=
- =?utf-8?B?Mm0zbmQzNmNsd3NOOWZMelZlNktmaW9ZZUl6dmd1U1FuTld6a1h2NTIxZytF?=
- =?utf-8?B?c3FYeVhtYUdTWHNZWWR1K0N3QkZIK3poUisrK1k5QjZBNCt4VUFzVWdRbzZ4?=
- =?utf-8?B?clVwYUdpT1NWZncyWFBaQksyZXBXZ3ZQMXpwY3VERkpUUmZyU3RmcUppeEhD?=
- =?utf-8?B?aWdNZ1JwV1ViZUpKQkxncmpyNS82SVBZcG00OUZ1d2duNWo3YnpxdWZseEl6?=
- =?utf-8?Q?7CsI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0ebd2a7-11bc-4a3b-50b5-08dc3c5db69e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 15:13:57.4503
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aJnV7ZJo/JNFlZQFQQnnxrxM9V1pDWCvRx3uZjQSsmcpVgm/OqVA0Y7X4vtrT8AQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7034
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <275z3nycmioo737b2phuy4swhzziqyes4f3hgh5r6w2blvv5wc@ml3acqn6anzt>
 
-Am 04.03.24 um 15:29 schrieb Paul Cercueil:
-> Le lundi 04 mars 2024 à 14:41 +0100, Christian König a écrit :
->> Trying to send this once more as text only.
->>
->> Am 04.03.24 um 14:40 schrieb Christian König:
->>> Am 04.03.24 um 14:28 schrieb Nuno Sá:
->>>> On Mon, 2024-03-04 at 13:44 +0100, Christian König wrote:
->>>>> Am 23.02.24 um 13:14 schrieb Nuno Sa:
->>>>>> From: Paul Cercueil<paul@crapouillou.net>
->>>>>>
->>>>>> Add the necessary infrastructure to the IIO core to support a
->>>>>> new
->>>>>> optional DMABUF based interface.
->>>>>>
->>>>>> With this new interface, DMABUF objects (externally created)
->>>>>> can be
->>>>>> attached to a IIO buffer, and subsequently used for data
->>>>>> transfer.
->>>>>>
->>>>>> A userspace application can then use this interface to share
->>>>>> DMABUF
->>>>>> objects between several interfaces, allowing it to transfer
->>>>>> data in a
->>>>>> zero-copy fashion, for instance between IIO and the USB
->>>>>> stack.
->>>>>>
->>>>>> The userspace application can also memory-map the DMABUF
->>>>>> objects, and
->>>>>> access the sample data directly. The advantage of doing this
->>>>>> vs. the
->>>>>> read() interface is that it avoids an extra copy of the data
->>>>>> between the
->>>>>> kernel and userspace. This is particularly userful for high-
->>>>>> speed
->>>>>> devices which produce several megabytes or even gigabytes of
->>>>>> data per
->>>>>> second.
->>>>>>
->>>>>> As part of the interface, 3 new IOCTLs have been added:
->>>>>>
->>>>>> IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
->>>>>>     Attach the DMABUF object identified by the given file
->>>>>> descriptor to the
->>>>>>     buffer.
->>>>>>
->>>>>> IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
->>>>>>     Detach the DMABUF object identified by the given file
->>>>>> descriptor from
->>>>>>     the buffer. Note that closing the IIO buffer's file
->>>>>> descriptor will
->>>>>>     automatically detach all previously attached DMABUF
->>>>>> objects.
->>>>>>
->>>>>> IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
->>>>>>     Request a data transfer to/from the given DMABUF object.
->>>>>> Its file
->>>>>>     descriptor, as well as the transfer size and flags are
->>>>>> provided in the
->>>>>>     "iio_dmabuf" structure.
->>>>>>
->>>>>> These three IOCTLs have to be performed on the IIO buffer's
->>>>>> file
->>>>>> descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL()
->>>>>> ioctl.
->>>>> A few nit picks and one bug below, apart from that looks good
->>>>> to me.
->>>> Hi Christian,
->>>>
->>>> Thanks for looking at it. I'll just add some comment on the bug
->>>> below and for
->>>> the other stuff I hope Paul is already able to step in and reply
->>>> to it. My
->>>> assumption (which seems to be wrong) is that the dmabuf bits
->>>> should be already
->>>> good to go as they should be pretty similar to the USB part of
->>>> it.
->>>>
->>>> ...
->>>>
->>>>>> +	if (dma_to_ram) {
->>>>>> +		/*
->>>>>> +		 * If we're writing to the DMABUF, make sure
->>>>>> we don't have
->>>>>> +		 * readers
->>>>>> +		 */
->>>>>> +		retl = dma_resv_wait_timeout(dmabuf->resv,
->>>>>> +					
->>>>>> DMA_RESV_USAGE_READ, true,
->>>>>> +					     timeout);
->>>>>> +		if (retl == 0)
->>>>>> +			retl = -EBUSY;
->>>>>> +		if (retl < 0) {
->>>>>> +			ret = (int)retl;
->>>>>> +			goto err_resv_unlock;
->>>>>> +		}
->>>>>> +	}
->>>>>> +
->>>>>> +	if (buffer->access->lock_queue)
->>>>>> +		buffer->access->lock_queue(buffer);
->>>>>> +
->>>>>> +	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
->>>>>> +	if (ret)
->>>>>> +		goto err_queue_unlock;
->>>>>> +
->>>>>> +	dma_resv_add_fence(dmabuf->resv, &fence->base,
->>>>>> +			   dma_resv_usage_rw(dma_to_ram));
->>>>> That is incorrect use of the function dma_resv_usage_rw(). That
->>>>> function
->>>>> is for retrieving fences and not adding them.
->>>>>
->>>>> See the function implementation and comments, when you use it
->>>>> like this
->>>>> you get exactly what you don't want.
->>>>>
->>>> Does that mean that the USB stuff [1] is also wrong?
->>>>
->>>> [1]:
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/tr
->>>> ee/drivers/usb/gadget/function/f_fs.c?h=usb-next#n1669
->>> Yes, that's broken as well. The dma_resv_usage_rw() function is
->>> supposed to be used while retrieving fences.
-> Ok, I'll fix it there too.
->
->>> In other words your "if (dma_to_ram) ..." above is incorrect as
->>> well.
->>> That one should look more like this:
->>> /*
->>>    * Writes needs to wait for other writes and reads, but readers
->>> only have to wait for writers.
->>>    */
->>>
->>> retl = dma_resv_wait_timeout(dmabuf->resv,
->>> dma_resv_usage_rw(dma_to_ram), timeout);
-> When writing the DMABUF, the USB code (and the IIO code above) will
-> wait for writers/readers, but it does so through two consecutive calls
-> to dma_resv_wait_timeout (because I did not know the proper usage - I
-> thought I had to check both manually).
+Hi Jacopo,
 
-Yeah, see the documentation on the dma_resv_usage enum. Basically you 
-have KERNEL>WRITE>READ>BOOKKEEP.
+On Mon, Mar 04, 2024 at 10:38:12AM +0100, Jacopo Mondi wrote:
+> On Mon, Mar 04, 2024 at 10:13:47AM +0100, Jacopo Mondi wrote:
+> > On Fri, Mar 01, 2024 at 11:32:17PM +0200, Laurent Pinchart wrote:
+> > > Use the newly added internal pad API to expose the internal
+> > > configuration of the sensor to userspace in a standard manner. This also
+> > > paves the way for adding support for embedded data with an additional
+> > > internal pad.
+> > >
+> > > To maintain compatibility with existing userspace that may operate on
+> > > pad 0 unconditionally, keep the source pad numbered 0 and number the
+> > > internal image pad 1.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >  drivers/media/i2c/imx219.c | 169 +++++++++++++++++++++++++++++--------
+> > >  1 file changed, 133 insertions(+), 36 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > > index 3878da50860e..817bf192e4d9 100644
+> > > --- a/drivers/media/i2c/imx219.c
+> > > +++ b/drivers/media/i2c/imx219.c
+> > > @@ -140,6 +140,7 @@
+> > >  #define IMX219_DEFAULT_LINK_FREQ_4LANE	363000000
+> > >
+> > >  /* IMX219 native and active pixel array size. */
+> > > +#define IMX219_NATIVE_FORMAT		MEDIA_BUS_FMT_SRGGB10_1X10
+> > >  #define IMX219_NATIVE_WIDTH		3296U
+> > >  #define IMX219_NATIVE_HEIGHT		2480U
+> > >  #define IMX219_PIXEL_ARRAY_LEFT		8U
+> > > @@ -312,9 +313,15 @@ static const struct imx219_mode supported_modes[] = {
+> > >  	},
+> > >  };
+> > >
+> > > +enum imx219_pad_ids {
+> > > +	IMX219_PAD_SOURCE,
+> > > +	IMX219_PAD_IMAGE,
+> >
+> > Feels a bit weird for the internal source pad to be named "Image" as
+> > it will (if I understand correctly) host both the image and metadata
+> > streams.
+> >
+> > However, I have an hard time proposing a different name, but we should
+> > find something that should be used in all drivers ported to this new
+> > API.
+> >
+> > Enough with bikeshedding anyway, this is a tiny detail.
+> 
+> Now that I've read 5/15 I now understand why this is called "IMAGE" :)
 
-When waiting for READ you automatically wait for WRITE and KERNEL as 
-well. So no need for two calls to the wait function.
+:-)
 
-If you have any idea how to improve the documentation feel free to 
-suggest, it's certainly not obvious how that works :)
+> > > +	IMX219_NUM_PADS,
+> > > +};
+> > > +
+> > >  struct imx219 {
+> > >  	struct v4l2_subdev sd;
+> > > -	struct media_pad pad;
+> > > +	struct media_pad pads[IMX219_NUM_PADS];
+> > >
+> > >  	struct regmap *regmap;
+> > >  	struct clk *xclk; /* system clock to IMX219 */
+> > > @@ -374,7 +381,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+> > >  	int ret = 0;
+> > >
+> > >  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
+> > > -	format = v4l2_subdev_state_get_format(state, 0);
+> > > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
+> > >
+> > >  	if (ctrl->id == V4L2_CID_VBLANK) {
+> > >  		int exposure_max, exposure_def;
+> > > @@ -593,8 +600,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
+> > >  	u64 bin_h, bin_v;
+> > >  	int ret = 0;
+> > >
+> > > -	format = v4l2_subdev_state_get_format(state, 0);
+> > > -	crop = v4l2_subdev_state_get_crop(state, 0);
+> > > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
+> > > +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
+> > >
+> > >  	switch (format->code) {
+> > >  	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > > @@ -764,10 +771,25 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+> > >  {
+> > >  	struct imx219 *imx219 = to_imx219(sd);
+> > >
+> > > -	if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
+> > > -		return -EINVAL;
+> > > +	if (code->pad == IMX219_PAD_IMAGE) {
+> > > +		/* The internal image pad is hardwired to the native format. */
+> > > +		if (code->index)
+> > > +			return -EINVAL;
+> > >
+> > > -	code->code = imx219_get_format_code(imx219, imx219_mbus_formats[code->index * 4]);
+> > > +		code->code = IMX219_NATIVE_FORMAT;
+> >
+> > If you return 0 here you can spare the else {} branch. Same in the
+> > function below.
+> >
+> 
+> You're reworking this in 5/15, so no need to change this and cause
+> rebase conflicts.
 
-Cheers,
-Christian.
+It's true that I'm reworking it further in 05/15, but I think the change
+here still makes sense, as it updates the driver to support the internal
+pad properly. Beside, if I were to drop this change, then I would get a
+rebase conflict :-)
 
->
-> So this code block should technically be correct; but I'll update this
-> code nonetheless.
->
->>> Regards,
->>> Christian.
-> Cheers,
-> -Paul
+> > > +	} else {
+> > > +		/*
+> > > +		 * On the source pad, the sensor supports multiple raw formats
+> > > +		 * with different bit depths.
+> > > +		 */
+> > > +		u32 format;
+> > > +
+> > > +		if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
+> > > +			return -EINVAL;
+> > > +
+> > > +		format = imx219_mbus_formats[code->index * 4];
+> > > +		code->code = imx219_get_format_code(imx219, format);
+> > > +	}
+> > >
+> > >  	return 0;
+> > >  }
+> > > @@ -777,19 +799,25 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> > >  				  struct v4l2_subdev_frame_size_enum *fse)
+> > >  {
+> > >  	struct imx219 *imx219 = to_imx219(sd);
+> > > -	u32 code;
+> > >
+> > > -	if (fse->index >= ARRAY_SIZE(supported_modes))
+> > > -		return -EINVAL;
+> > > +	if (fse->pad == IMX219_PAD_IMAGE) {
+> > > +		if (fse->code != IMX219_NATIVE_FORMAT || fse->index > 0)
+> > > +			return -EINVAL;
+> > >
+> > > -	code = imx219_get_format_code(imx219, fse->code);
+> > > -	if (fse->code != code)
+> > > -		return -EINVAL;
+> > > +		fse->min_width = IMX219_NATIVE_WIDTH;
+> > > +		fse->max_width = IMX219_NATIVE_WIDTH;
+> > > +		fse->min_height = IMX219_NATIVE_HEIGHT;
+> > > +		fse->max_height = IMX219_NATIVE_HEIGHT;
+> > > +	} else {
+> > > +		if (fse->code != imx219_get_format_code(imx219, fse->code) ||
+> > > +		    fse->index >= ARRAY_SIZE(supported_modes))
+> > > +			return -EINVAL;
+> > >
+> > > -	fse->min_width = supported_modes[fse->index].width;
+> > > -	fse->max_width = fse->min_width;
+> > > -	fse->min_height = supported_modes[fse->index].height;
+> > > -	fse->max_height = fse->min_height;
+> > > +		fse->min_width = supported_modes[fse->index].width;
+> > > +		fse->max_width = fse->min_width;
+> > > +		fse->min_height = supported_modes[fse->index].height;
+> > > +		fse->max_height = fse->min_height;
+> > > +	}
+> > >
+> > >  	return 0;
+> > >  }
+> > > @@ -801,9 +829,17 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> > >  	struct imx219 *imx219 = to_imx219(sd);
+> > >  	const struct imx219_mode *mode;
+> > >  	struct v4l2_mbus_framefmt *format;
+> > > +	struct v4l2_rect *compose;
+> > >  	struct v4l2_rect *crop;
+> > >  	unsigned int bin_h, bin_v;
+> > >
+> > > +	/*
+> > > +	 * The driver is mode-based, the format can be set on the source pad
+> > > +	 * only.
+> > > +	 */
+> > > +	if (fmt->pad != IMX219_PAD_SOURCE)
+> > > +		return v4l2_subdev_get_fmt(sd, state, fmt);
+> > > +
+> > >  	/*
+> > >  	 * Adjust the requested format to match the closest mode. The Bayer
+> > >  	 * order varies with flips.
+> > > @@ -822,22 +858,51 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> > >  	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > >  	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
+> > >
+> > > -	format = v4l2_subdev_state_get_format(state, 0);
+> > > +	/* Propagate the format through the sensor. */
+> > > +
+> > > +	/* The image pad models the pixel array, and thus has a fixed size. */
+> > > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_IMAGE);
+> > >  	*format = fmt->format;
+> >
+> > Is this assignment needed ?
+> >
+> > Isn't 'fmt' meant to be applied at pad #0 ? Also, you overwrite the
+> > code and size below, do the rest of the 'struct v4l2_mbus_framefmt'
+> > fields apply to pad #1 (field, colorspace, quantization etc ? If pad
+> > #1 represents the pixel array, I don't think they do).
 
+It's a shortcut to avoid setting field, colorspace, ycbcr_enc,
+quantization and xfer_func manually, as there's set a few lines above in
+fmt. I can set the fields manually if you prefer.
+
+> > Also, can't the pad #1 format be initialized by .init_state() and never
+> > touched again ?
+
+They could, but then .init_state() couldn't be implemented by simply
+calling imx219_set_pad_format(). I think it is clearer to store all the
+format setting logic in one place, especially when adding support for
+the embedded data stream.
+
+> > > +	format->code = IMX219_NATIVE_FORMAT;
+> > > +	format->width = IMX219_NATIVE_WIDTH;
+> > > +	format->height = IMX219_NATIVE_HEIGHT;
+> > >
+> > >  	/*
+> > >  	 * Use binning to maximize the crop rectangle size, and centre it in the
+> > >  	 * sensor.
+> > >  	 */
+> > > -	bin_h = min(IMX219_PIXEL_ARRAY_WIDTH / format->width, 2U);
+> > > -	bin_v = min(IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
+> > > +	bin_h = min(IMX219_PIXEL_ARRAY_WIDTH / fmt->format.width, 2U);
+> > > +	bin_v = min(IMX219_PIXEL_ARRAY_HEIGHT / fmt->format.height, 2U);
+> > >
+> > > -	crop = v4l2_subdev_state_get_crop(state, 0);
+> > > -	crop->width = format->width * bin_h;
+> > > -	crop->height = format->height * bin_v;
+> > > +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
+> > > +	crop->width = fmt->format.width * bin_h;
+> > > +	crop->height = fmt->format.height * bin_v;
+> > >  	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
+> > >  	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
+> >
+> > This is no different than before, but I now wonder if VGA is actually
+> > obtained by cropping down to 1280x960 and then by a 2x2 binning, or is
+> > there a 4x4 binning mode. I presume this is correct though, as this has been
+> > validated by many people.
+
+It would be worth experimenting with the /4 binning mode.
+
+> > > +	/*
+> > > +	 * The compose rectangle models binning, its size is the sensor output
+> > > +	 * size.
+> > > +	 */
+> > > +	compose = v4l2_subdev_state_get_compose(state, IMX219_PAD_IMAGE);
+> > > +	compose->left = 0;
+> > > +	compose->top = 0;
+> > > +	compose->width = fmt->format.width;
+> > > +	compose->height = fmt->format.height;
+> > > +
+> > > +	/*
+> > > +	 * No mode use digital crop, the source pad crop rectangle size and
+> > > +	 * format are thus identical to the image pad compose rectangle.
+> > > +	 */
+> > > +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE);
+> > > +	crop->left = 0;
+> > > +	crop->top = 0;
+> > > +	crop->width = fmt->format.width;
+> > > +	crop->height = fmt->format.height;
+> > > +
+> > > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
+> > > +	*format = fmt->format;
+> > > +
+> > >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > >  		int exposure_max;
+> > >  		int exposure_def;
+> > > @@ -874,13 +939,13 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> > >  				struct v4l2_subdev_state *state,
+> > >  				struct v4l2_subdev_selection *sel)
+> > >  {
+> > > -	switch (sel->target) {
+> > > -	case V4L2_SEL_TGT_CROP: {
+> > > -		sel->r = *v4l2_subdev_state_get_crop(state, 0);
+> > > -		return 0;
+> > > -	}
+> > > +	struct v4l2_rect *compose;
+> > >
+> > > +	switch (sel->target) {
+> > >  	case V4L2_SEL_TGT_NATIVE_SIZE:
+> > > +		if (sel->pad != IMX219_PAD_IMAGE)
+> > > +			return -EINVAL;
+> > > +
+> > >  		sel->r.top = 0;
+> > >  		sel->r.left = 0;
+> > >  		sel->r.width = IMX219_NATIVE_WIDTH;
+> > > @@ -890,11 +955,35 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> > >
+> > >  	case V4L2_SEL_TGT_CROP_DEFAULT:
+> > >  	case V4L2_SEL_TGT_CROP_BOUNDS:
+> > > -		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
+> > > -		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
+> > > -		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
+> > > -		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
+> > > +		switch (sel->pad) {
+> > > +		case IMX219_PAD_IMAGE:
+> > > +			sel->r.top = IMX219_PIXEL_ARRAY_TOP;
+> > > +			sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
+> > > +			sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
+> > > +			sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
+> > > +			return 0;
+> > >
+> > > +		case IMX219_PAD_SOURCE:
+> > > +			compose = v4l2_subdev_state_get_compose(state,
+> > > +								IMX219_PAD_IMAGE);
+> > > +			sel->r.top = 0;
+> > > +			sel->r.left = 0;
+> > > +			sel->r.width = compose->width;
+> > > +			sel->r.height = compose->height;
+> > > +			return 0;
+> > > +		}
+> > > +
+> > > +		break;
+> > > +
+> > > +	case V4L2_SEL_TGT_CROP:
+> > > +		sel->r = *v4l2_subdev_state_get_crop(state, sel->pad);
+> > > +		return 0;
+> > > +
+> > > +	case V4L2_SEL_TGT_COMPOSE:
+> > > +		if (sel->pad != IMX219_PAD_IMAGE)
+> > > +			return -EINVAL;
+> > > +
+> > > +		sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
+> > >  		return 0;
+> >
+> > Do we need to support TGT_COMPOSE_BOUNDS for PAD_IMAGE ? I would have
+> > suggested V4L2_SEL_TGT_COMPOSE_DEFAULT too, but according to the spec
+> > it does not apply to subdevices.
+
+Good question. V4L2_SEL_TGT_COMPOSE_BOUNDS is a bit under-documented for
+V4L2 subdevs. I wonder if it wouldn't be simpler for drivers to not
+implement it when the compose bounds are identical to the crop rectangle
+size, as that could be considered a default ?
+
+> > >  	}
+> > >
+> > > @@ -906,7 +995,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
+> > >  {
+> > >  	struct v4l2_subdev_format fmt = {
+> > >  		.which = V4L2_SUBDEV_FORMAT_TRY,
+> > > -		.pad = 0,
+> > > +		.pad = IMX219_PAD_SOURCE,
+> > >  		.format = {
+> > >  			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+> > >  			.width = supported_modes[0].width,
+> >
+> > Why not intialize pad#1 format here an never touch it again ? Should
+> > also the pad#1 crop and compose rectangles and pad#0 crop be
+> > initialized here ?
+
+As written above, I think it's cleaner to have all the format-related
+constraints in one place, especially with support for embedded data. It
+may be a style preference, I'm not sure.
+
+> > > @@ -1174,10 +1263,18 @@ static int imx219_probe(struct i2c_client *client)
+> > >  			    V4L2_SUBDEV_FL_HAS_EVENTS;
+> > >  	imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> > >
+> > > -	/* Initialize source pad */
+> > > -	imx219->pad.flags = MEDIA_PAD_FL_SOURCE;
+> > > +	/*
+> > > +	 * Initialize the pads. To preserve backward compatibility with
+> > > +	 * userspace that used the sensor before the introduction of the
+> > > +	 * internal image pad, the external source pad is numbered 0 and the
+> > > +	 * internal image pad numbered 1.
+> > > +	 */
+> > > +	imx219->pads[IMX219_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+> > > +	imx219->pads[IMX219_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK
+> > > +					     | MEDIA_PAD_FL_INTERNAL;
+> > >
+> > > -	ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
+> > > +	ret = media_entity_pads_init(&imx219->sd.entity,
+> > > +				     ARRAY_SIZE(imx219->pads), imx219->pads);
+> > >  	if (ret) {
+> > >  		dev_err(dev, "failed to init entity pads: %d\n", ret);
+> > >  		goto error_handler_free;
+
+-- 
+Regards,
+
+Laurent Pinchart
 
