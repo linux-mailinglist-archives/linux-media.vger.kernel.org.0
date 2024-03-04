@@ -1,69 +1,102 @@
-Return-Path: <linux-media+bounces-6355-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6356-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E538703A4
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 15:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D558703CB
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 15:12:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A85B1C225DC
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 14:08:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E70F1C212F7
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 14:12:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D643FB0D;
-	Mon,  4 Mar 2024 14:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769F23FB1E;
+	Mon,  4 Mar 2024 14:12:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="vJsg2Kx2"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="S12yT6sd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322723F9E8;
-	Mon,  4 Mar 2024 14:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4363F8DE
+	for <linux-media@vger.kernel.org>; Mon,  4 Mar 2024 14:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709561275; cv=none; b=fiMnljmCrV0FjiUgv5T6XXlImxQ7ury5DeSdABgfZzzwTq32CbHUaBCfE1Rxy9MXUgZuMj3u48uu/6N2lJygVrCQ8/liu56XETqwrY71imS2K7wXSIN2eJGQ7IdMVvizdQvu7Jqyt8WHG6rIb/wf4w9Kk5KNPVl80WSNNj1aezk=
+	t=1709561527; cv=none; b=nNBKdVv54NpxbtVBVSu1eQt8vzoIgmHFZ0vHMPVGUHyPSa0UGPnfw69YuGwInbiWQlelALseysWeitnvHA5jdKuthaWDSRtKMn9qehJ+nXJrJhJ52i0hk16Qj2jW0NBFBzIctcIso2qLsVZJBW3d3ONWXn2J+VSabkADXXoELb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709561275; c=relaxed/simple;
-	bh=5s4NzFor67pN50//ocVCL4K1JbG63H1WBzbhYzR1qXA=;
+	s=arc-20240116; t=1709561527; c=relaxed/simple;
+	bh=UbkA6Oyo7eSxFPrqAADfKAjohp1lh9fw3fb4ueMVVio=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MgOsx9IcpMC3fnvx1On2sWFjCtvcn8992VTH/poxOktHH2+DjoBDilHb9eXeLrNrUIW8CzeQKyM+jDUMuK38V2xaNHFV4fJbIBDXw+HuS5yXSO1O3XYtQcOYKAqn3mT7wjcFxL8wSGdu5CKkSOugB0r/y2Bq8rQZ+XBwyDd5U54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=vJsg2Kx2; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1709560786;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=T1JWALYYprRY8RVzH9dWbj46tf9mLmCpVN29TLOzUUg=;
-	b=vJsg2Kx2y/Gugk1GoZuG7kpam9x5BQFYwbJuuDX1NVPSFWXYULKWiWrLknUGQ2vqA5inl7
-	HwcFIdj8MLfYNy6WQ/WKSf3OFuALXR0lCzMu3hj53cln5nqZqlmNXEA4dZJaKr3Uh30gKK
-	Yn8CeJXmN1Sk44M/pOIw1iVKBKoTPYs=
-Message-ID: <d17bd8aa17ac82773d0bdd6ce4edfe4a6249f179.camel@crapouillou.net>
-Subject: Re: [PATCH v7 3/6] iio: core: Add new DMABUF interface
- infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Nuno Sa
-	 <nuno.sa@analog.com>, Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen
-	 <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Sumit Semwal
-	 <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
-	 <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Date: Mon, 04 Mar 2024 14:59:44 +0100
-In-Reply-To: <85782edb-4876-4cbd-ac14-abcbcfb58770@amd.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-	 <20240223-iio-dmabuf-v7-3-78cfaad117b9@analog.com>
-	 <85782edb-4876-4cbd-ac14-abcbcfb58770@amd.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+	 Content-Type:MIME-Version; b=frR/b5JwVFFt8swJmqmt836LNYjyp6LLh+RzcD3g39QP6Vv3SF4E+rmQx6FfwsMPYatCCBFLsXvBUYZmDlraGWvdafLnUSH0z4R2I+c17DuwoSM5IKSN7IM9FTIj3Htbyd0hfijx0HiGcMRfHfZkrMuQ0RCBg2ysvsr5eKlP6Ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=S12yT6sd; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-69012259657so20543206d6.0
+        for <linux-media@vger.kernel.org>; Mon, 04 Mar 2024 06:12:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1709561524; x=1710166324; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=wTNSCdSo3laiqNBeXKgo/conb+Ojwfba9EIWj94qTFQ=;
+        b=S12yT6sd5i9cIreBIfZwfLnH142wW4U01gINo/osLanenhJam36Erk1z7qO4ecJ7z7
+         WGuIlPv9nbOfxsRjqiB73zFzuQ6osmffY+iUQuw316GRsJbx94KrKBA9v3WRhNBa69Lb
+         tHMVxJUPoqeT8ZV3eDdq1FYXggoT4GqBEOmOXw1bFkPD9oHze+hXOC2daJMEKUHCoQp/
+         DymwoS0RxqsYoenia3FhtjLnPmOAJFHAXnveJJ8WRQhPMQM8RFI/blrsHGEj3esgjF4H
+         KbRJeJHr4MovDZDLvYNluODIxyJWDvf2gHRVbwx3IQCGRPI/Cw9IWInSCrDL4zZ9ZWLk
+         BBnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709561524; x=1710166324;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wTNSCdSo3laiqNBeXKgo/conb+Ojwfba9EIWj94qTFQ=;
+        b=H7yLYCKDx8YuPFQY92uCYQCUM/ILT0vTudRczoYlcB2ygcWK8h0cULVCUu2yMQPNdX
+         8JHXsg2GYjTVPrVT4uwZ7evIg22ur03A7cG3oVU8yNQUmZ6v6es4Sp8/IC/PvEpufU2T
+         YTqMFrGNUXiy3bvChwJWIhZSPCGfOVKysNABcvXdjOBUTztBTvvHYX93fRLn/1fsGASt
+         Y+SRfoqpNrSVJOdIipXAjWp3TpcmdXWnjPdgDEaRsRMFABZSI0bWoazMN2xW3i8fX+HY
+         yGFA9FuoKgVVU4s7aVhBj0BhE+O8Ls0PGaA4fdxJ8wVaf+Ozmx/OMsS4xwn/iDcrd/rZ
+         PWrA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYze64EV40a45wza7yH6iccfanGaHjQUfmGZaCh+plDxTmXnxN+WjZXodav50Ep3vBCLE+2yItZWgr0tGGN79OIMbGzxZ3eaAaid8=
+X-Gm-Message-State: AOJu0YyvFLEu9hoQTK6jmKX1ymAVv+tnxd9KKpbRuAvG4PEuzYGNlobl
+	kxYjFKe0XTwmD81npdPbPNKWRYHeo5v1GPXK4b4IWBu6wjmGd/z31aLFKVk+iIc=
+X-Google-Smtp-Source: AGHT+IEOy17ycE7rVaSCt6Wm3jVlxce/LGWb2oBrk1misRmcsQ1FRcjhQRCJoB1WeIUZlLtEmfDwog==
+X-Received: by 2002:ad4:4a6f:0:b0:68f:46df:e780 with SMTP id cn15-20020ad44a6f000000b0068f46dfe780mr6365586qvb.57.1709561523444;
+        Mon, 04 Mar 2024 06:12:03 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:eba4::7a9])
+        by smtp.gmail.com with ESMTPSA id c11-20020a056214070b00b0068f8927ac6fsm5060664qvz.66.2024.03.04.06.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 06:12:03 -0800 (PST)
+Message-ID: <743fb49259975bc27a11b4a3ef9430311ca0eb9e.camel@ndufresne.ca>
+Subject: Re: [RESEND PATCH v0 3/5] wave5 : Support runtime suspend/resume.
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"
+	 <mchehab@kernel.org>, "linux-media@vger.kernel.org"
+	 <linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>
+Cc: "lafley.kim" <lafley.kim@chipsnmedia.com>, "b-brnich@ti.com"
+	 <b-brnich@ti.com>
+Date: Mon, 04 Mar 2024 09:12:02 -0500
+In-Reply-To: <SE1P216MB130316FB016E0FC58A7D4DC7ED5A2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+References: <20240131013046.15687-1-jackson.lee@chipsnmedia.com>
+	 <20240131013046.15687-4-jackson.lee@chipsnmedia.com>
+	 <efe24b949a60034bf618eb3b8a8ba82e8a5dc99c.camel@ndufresne.ca>
+	 <SE1P216MB130326E2C4BA7E723A8955C9ED512@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <20489b01f1ac9ab3e434ea4c17b4e0ccd84afa36.camel@ndufresne.ca>
+	 <SE1P216MB1303CEEF6DFAB5FA7C69D645ED502@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <d5546b48ea829316a8dbd2ecc27bbf05e70e8188.camel@ndufresne.ca>
+	 <SE1P216MB1303932A0D3FC399179115D9ED572@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <be5ce95b023bcff24f53fdae55763bf4a3f6b1d7.camel@ndufresne.ca>
+	 <SE1P216MB13038F3890F8B4597465B394ED562@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <SE1P216MB13035B8E53454881C87059B9ED562@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <d4d43f9e19a9d0ecf54167fd3fc71f1fc03aec2d.camel@ndufresne.ca>
+	 <SE1P216MB130316FB016E0FC58A7D4DC7ED5A2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvkoOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+gozpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhmtHYWTDxBOP5peztyc2PqeKsLsLWzAr7RDTmljb2xhcyBEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCgzYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udWs+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWA
+ gMBAh4BAheAAAoJEHFTAi2sBqgcQX8An2By6LDEeMxi4B9hUbpvRnzaaeNqA J9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypwCfWKc9DorA9f5pyYlD5pQo6SgSoiC0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPohiBBMRAgAiBQJVwNwgAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHCZ4AJ0QwU6/G4c7h9CkMBT9ZxGLX4KSnQCgq0P7CX7hv/M7HeyfMFZe8t3vAEW0RE5pY29sYXMgRHVmcmVzbmUgKEIuIFNjLiBJbmZvcm1hdGlxdWUpIDxuaWNvbGFzZEBibHVlc3RyZWFrdGVjaC5jb20+iGAEExECACAFAkZjGzoCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHBl7AJ0d2lrzshMmJaik/EaDEakzEwqgxQCg0JVZMZm9gRfEou1FvinuZxwf/mu0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr+E7ItOqZEHAs+xabBgknYZIFPW5Ag0ERRA3UhAIAJ0rxl2HsVg/nSOAUt7U/T/W+RKzVAlD9orCB0pRVvyWNxSr8MHcH
+ mWCxykLuB34ouM4GuDVRKfGnqLzJRBfjs7Ax9K2FI3Odund9xpviLCt1jFC0K XL04RebrFT7xjDfocDaSLFvgxMVs/Jr2/ckKPId1oKvgYgt/o+MzUabKyFB8wIvq4GMtj3LoBKLCie2nCaSt7uVUt6q2t5bNWrd3lO6/mWn7YMc5Hsn33H9pS0+9szw6m3dG08eMKNueDlt72QxiYl2rhjzkT4ltKEkFgYBdyrtIj1UO6eX+YXb4E1rCMJrdjBSgqDPK1sWHC7gliy+izr+XTHuFwlfy8gBpsAAwUIAJJNus64gri4HAL632eqVpza83EphX1IuHzLi1LlMnQ9Tm7XKag46NhmJbOByMG33LwBsBdLjjHQSVkYZFWUifq+NWSFC/kqlb72vW8rBAv64+i3QdfxK9FWbweiRsPpvuHjJQuecbPDJpubLaxKbu2aqLCN5LuHXvdQr6KiXwabT+OJ9AJAqHG7q4IEzg4RNUVn9AS6L8bxqMSocjqpWNBCY2efCVd/c6k4Acv6jXu+wDAZEbWXK+71uaUHExhigBYBpiHGrobe32YlTVE/XEIzKKywhm/Hkn5YKWzumLte6xiD9JhKabmD7uqIvLt2twUpz4BdPzj0dvGlSmvFcaaISQQYEQIACQUCRRA3UgIbDAAKCRBxUwItrAaoHJLyAKDeS3AFowM3f1Y3OFU6XRCTKK2ZhwCfT/7P9WDjkkmiq5AfeOiwVlpuHtM=
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,842 +104,1063 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi Christian,
+Hi Jackson,
 
-Le lundi 04 mars 2024 =C3=A0 13:44 +0100, Christian K=C3=B6nig a =C3=A9crit=
+sorry for the the delay, my reply below.
+
+Le lundi 26 f=C3=A9vrier 2024 =C3=A0 01:33 +0000, jackson.lee a =C3=A9crit=
 =C2=A0:
-> Am 23.02.24 um 13:14 schrieb Nuno Sa:
-> > From: Paul Cercueil <paul@crapouillou.net>
-> >=20
-> > Add the necessary infrastructure to the IIO core to support a new
-> > optional DMABUF based interface.
-> >=20
-> > With this new interface, DMABUF objects (externally created) can be
-> > attached to a IIO buffer, and subsequently used for data transfer.
-> >=20
-> > A userspace application can then use this interface to share DMABUF
-> > objects between several interfaces, allowing it to transfer data in
-> > a
-> > zero-copy fashion, for instance between IIO and the USB stack.
-> >=20
-> > The userspace application can also memory-map the DMABUF objects,
-> > and
-> > access the sample data directly. The advantage of doing this vs.
-> > the
-> > read() interface is that it avoids an extra copy of the data
-> > between the
-> > kernel and userspace. This is particularly userful for high-speed
-> > devices which produce several megabytes or even gigabytes of data
-> > per
-> > second.
-> >=20
-> > As part of the interface, 3 new IOCTLs have been added:
-> >=20
-> > IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
-> > =C2=A0 Attach the DMABUF object identified by the given file descriptor
-> > to the
-> > =C2=A0 buffer.
-> >=20
-> > IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
-> > =C2=A0 Detach the DMABUF object identified by the given file descriptor
-> > from
-> > =C2=A0 the buffer. Note that closing the IIO buffer's file descriptor
-> > will
-> > =C2=A0 automatically detach all previously attached DMABUF objects.
-> >=20
-> > IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
-> > =C2=A0 Request a data transfer to/from the given DMABUF object. Its fil=
+> Hello Nicolas
+>=20
+[...]
+>=20
+> I have added the autosuspend feature, can you please review the below cod=
+e ?
+> If there is no problem at your side, I will make a patch for upstream.
+>=20
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/driver=
+s/media/platform/chips-media/wave5/wave5-hw.c
+> index 0b6386f31..2ba9e0f0e 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> @@ -1102,8 +1102,8 @@ int wave5_vpu_re_init(struct device *dev, u8 *fw, s=
+ize_t size)
+>  	return setup_wave5_properties(dev);
+>  }
+> =20
+> -static int wave5_vpu_sleep_wake(struct device *dev, bool i_sleep_wake, c=
+onst uint16_t *code,
+> -				size_t size)
+> +int wave5_vpu_sleep_wake(struct device *dev, bool i_sleep_wake, const ui=
+nt16_t *code,
+> +			 size_t size)
+>  {
+>  	u32 reg_val;
+>  	struct vpu_buf *common_vb;
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/d=
+rivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> index 8b1417ece..4aea66483 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2021-2023 CHIPS&MEDIA INC
+>   */
+> =20
+> +#include <linux/pm_runtime.h>
+>  #include "wave5-helper.h"
+> =20
+>  #define VPU_DEC_DEV_NAME "C&M Wave5 VPU decoder"
+> @@ -518,6 +519,8 @@ static void wave5_vpu_dec_finish_decode(struct vpu_in=
+stance *inst)
+>  	if (q_status.report_queue_count =3D=3D 0 &&
+>  	    (q_status.instance_queue_count =3D=3D 0 || dec_info.sequence_change=
+d)) {
+>  		dev_dbg(inst->dev->dev, "%s: finishing job.\n", __func__);
+> +		pm_runtime_mark_last_busy(inst->dev->dev);
+> +		pm_runtime_put_autosuspend(inst->dev->dev);
+>  		v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+>  	}
+>  }
+> @@ -1382,6 +1385,7 @@ static int wave5_vpu_dec_start_streaming(struct vb2=
+_queue *q, unsigned int count
+>  	int ret =3D 0;
+> =20
+>  	dev_dbg(inst->dev->dev, "%s: type: %u\n", __func__, q->type);
+> +	pm_runtime_resume_and_get(inst->dev->dev);
+> =20
+>  	v4l2_m2m_update_start_streaming_state(m2m_ctx, q);
+> =20
+> @@ -1389,7 +1393,6 @@ static int wave5_vpu_dec_start_streaming(struct vb2=
+_queue *q, unsigned int count
+>  		struct dec_open_param open_param;
+> =20
+>  		memset(&open_param, 0, sizeof(struct dec_open_param));
+> -
+
+I'd refrain from mixing style changes with the function changes. Just leave=
+ the
+empty line, is it harmless. There is other cases in your RFC.
+
+>  		ret =3D wave5_vpu_dec_allocate_ring_buffer(inst);
+>  		if (ret)
+>  			goto return_buffers;
+> @@ -1425,13 +1428,14 @@ static int wave5_vpu_dec_start_streaming(struct v=
+b2_queue *q, unsigned int count
+>  			}
+>  		}
+>  	}
+> -
+
+There is a case were userspace may start streaming but never populate the
+queues. You should call pm_runtime_put_autosuspend() here for this reason. =
+In
+most cases it won't suspend as there device_run() get called very shortly a=
+fter,
+before the timeout expires.
+
+>  	return ret;
+> =20
+>  free_bitstream_vbuf:
+>  	wave5_vdi_free_dma_memory(inst->dev, &inst->bitstream_vbuf);
+>  return_buffers:
+>  	wave5_return_bufs(q, VB2_BUF_STATE_QUEUED);
+> +	pm_runtime_mark_last_busy(inst->dev->dev);
+
+For fast operations or synchronous errors, I believe its fine to skip the
+"mark_last_busy()" calls. This is resetting the timeout start time, but if =
+the
+elapse time is really short, I'm pretty sure there is very little values in
+pushing it forward. Removing that call from error case, stream_start/stop s=
+hould
+make the patch a little lighter.
+
+I think overall your RFC is in the right direction, and this is good materi=
+al
+for a V2.
+
+regards,
+Nicolas
+
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+>  	return ret;
+>  }
+> =20
+> @@ -1517,6 +1521,7 @@ static void wave5_vpu_dec_stop_streaming(struct vb2=
+_queue *q)
+>  	bool check_cmd =3D TRUE;
+> =20
+>  	dev_dbg(inst->dev->dev, "%s: type: %u\n", __func__, q->type);
+> +	pm_runtime_resume_and_get(inst->dev->dev);
+> =20
+>  	while (check_cmd) {
+>  		struct queue_status_info q_status;
+> @@ -1540,6 +1545,9 @@ static void wave5_vpu_dec_stop_streaming(struct vb2=
+_queue *q)
+>  		streamoff_output(q);
+>  	else
+>  		streamoff_capture(q);
+> +
+> +	pm_runtime_mark_last_busy(inst->dev->dev);
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+>  }
+> =20
+>  static const struct vb2_ops wave5_vpu_dec_vb2_ops =3D {
+> @@ -1626,7 +1634,7 @@ static void wave5_vpu_dec_device_run(void *priv)
+>  	int ret =3D 0;
+> =20
+>  	dev_dbg(inst->dev->dev, "%s: Fill the ring buffer with new bitstream da=
+ta", __func__);
+> -
+> +	pm_runtime_resume_and_get(inst->dev->dev);
+>  	ret =3D fill_ringbuffer(inst);
+>  	if (ret) {
+>  		dev_warn(inst->dev->dev, "Filling ring buffer failed\n");
+> @@ -1709,6 +1717,8 @@ static void wave5_vpu_dec_device_run(void *priv)
+> =20
+>  finish_job_and_return:
+>  	dev_dbg(inst->dev->dev, "%s: leave and finish job", __func__);
+> +	pm_runtime_mark_last_busy(inst->dev->dev);
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+>  	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+>  }
+> =20
+> @@ -1866,7 +1876,6 @@ static int wave5_vpu_open_dec(struct file *filp)
+>  	}
+> =20
+>  	wave5_vdi_allocate_sram(inst->dev);
+> -
+>  	return 0;
+> =20
+>  cleanup_inst:
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
+rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index f04baa93a..14fd26204 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2021-2023 CHIPS&MEDIA INC
+>   */
+> =20
+> +#include <linux/pm_runtime.h>
+>  #include "wave5-helper.h"
+> =20
+>  #define VPU_ENC_DEV_NAME "C&M Wave5 VPU encoder"
+> @@ -1310,6 +1311,7 @@ static int wave5_vpu_enc_start_streaming(struct vb2=
+_queue *q, unsigned int count
+>  	struct v4l2_m2m_ctx *m2m_ctx =3D inst->v4l2_fh.m2m_ctx;
+>  	int ret =3D 0;
+> =20
+> +	pm_runtime_resume_and_get(inst->dev->dev);
+>  	v4l2_m2m_update_start_streaming_state(m2m_ctx, q);
+> =20
+>  	if (inst->state =3D=3D VPU_INST_STATE_NONE && q->type =3D=3D V4L2_BUF_T=
+YPE_VIDEO_OUTPUT_MPLANE) {
+> @@ -1364,9 +1366,13 @@ static int wave5_vpu_enc_start_streaming(struct vb=
+2_queue *q, unsigned int count
+>  	if (ret)
+>  		goto return_buffers;
+> =20
+> +	pm_runtime_mark_last_busy(inst->dev->dev);
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+>  	return 0;
+>  return_buffers:
+>  	wave5_return_bufs(q, VB2_BUF_STATE_QUEUED);
+> +	pm_runtime_mark_last_busy(inst->dev->dev);
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+>  	return ret;
+>  }
+> =20
+> @@ -1408,6 +1414,7 @@ static void wave5_vpu_enc_stop_streaming(struct vb2=
+_queue *q)
+>  	 */
+> =20
+>  	dev_dbg(inst->dev->dev, "%s: type: %u\n", __func__, q->type);
+> +	pm_runtime_resume_and_get(inst->dev->dev);
+> =20
+>  	if (wave5_vpu_both_queues_are_streaming(inst))
+>  		switch_state(inst, VPU_INST_STATE_STOP);
+> @@ -1432,6 +1439,9 @@ static void wave5_vpu_enc_stop_streaming(struct vb2=
+_queue *q)
+>  		streamoff_output(inst, q);
+>  	else
+>  		streamoff_capture(inst, q);
+> +
+> +	pm_runtime_mark_last_busy(inst->dev->dev);
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+>  }
+> =20
+>  static const struct vb2_ops wave5_vpu_enc_vb2_ops =3D {
+> @@ -1478,6 +1488,7 @@ static void wave5_vpu_enc_device_run(void *priv)
+>  	u32 fail_res =3D 0;
+>  	int ret =3D 0;
+> =20
+> +	pm_runtime_resume_and_get(inst->dev->dev);
+>  	switch (inst->state) {
+>  	case VPU_INST_STATE_PIC_RUN:
+>  		ret =3D start_encode(inst, &fail_res);
+> @@ -1491,6 +1502,8 @@ static void wave5_vpu_enc_device_run(void *priv)
+>  			break;
+>  		}
+>  		dev_dbg(inst->dev->dev, "%s: leave with active job", __func__);
+> +		pm_runtime_mark_last_busy(inst->dev->dev);
+> +		pm_runtime_put_autosuspend(inst->dev->dev);
+>  		return;
+>  	default:
+>  		WARN(1, "Execution of a job in state %s is invalid.\n",
+> @@ -1498,6 +1511,8 @@ static void wave5_vpu_enc_device_run(void *priv)
+>  		break;
+>  	}
+>  	dev_dbg(inst->dev->dev, "%s: leave and finish job", __func__);
+> +	pm_runtime_mark_last_busy(inst->dev->dev);
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+>  	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+>  }
+> =20
+> @@ -1735,7 +1750,6 @@ static int wave5_vpu_open_enc(struct file *filp)
+>  	}
+> =20
+>  	wave5_vdi_allocate_sram(inst->dev);
+> -
+>  	return 0;
+> =20
+>  cleanup_inst:
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drive=
+rs/media/platform/chips-media/wave5/wave5-vpu.c
+> index 2323dba75..6b4794e0e 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/firmware.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/pm_runtime.h>
+>  #include "wave5-vpu.h"
+>  #include "wave5-regdefine.h"
+>  #include "wave5-vpuconfig.h"
+> @@ -117,6 +118,38 @@ static int wave5_vpu_load_firmware(struct device *de=
+v, const char *fw_name,
+>  	return 0;
+>  }
+> =20
+> +static int wave5_pm_suspend(struct device *dev)
+> +{
+> +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
+> +
+> +	if (pm_runtime_suspended(dev))
+> +		return 0;
+> +
+> +	wave5_vpu_sleep_wake(dev, true, NULL, 0);
+> +	clk_bulk_disable_unprepare(vpu->num_clks, vpu->clks);
+> +
+> +	return 0;
+> +}
+> +
+> +static int wave5_pm_resume(struct device *dev)
+> +{
+> +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
+> +	int ret =3D 0;
+> +
+> +	wave5_vpu_sleep_wake(dev, false, NULL, 0);
+> +	ret =3D clk_bulk_prepare_enable(vpu->num_clks, vpu->clks);
+> +	if (ret) {
+> +		dev_err(dev, "Enabling clocks, fail: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct dev_pm_ops wave5_pm_ops =3D {
+> +	SET_RUNTIME_PM_OPS(wave5_pm_suspend, wave5_pm_resume, NULL)
+> +};
+> +
+>  static int wave5_vpu_probe(struct platform_device *pdev)
+>  {
+>  	int ret;
+> @@ -233,6 +266,12 @@ static int wave5_vpu_probe(struct platform_device *p=
+dev)
+>  		 (match_data->flags & WAVE5_IS_DEC) ? "'DECODE'" : "");
+>  	dev_info(&pdev->dev, "Product Code:      0x%x\n", dev->product_code);
+>  	dev_info(&pdev->dev, "Firmware Revision: %u\n", fw_revision);
+> +
+> +	pm_runtime_set_autosuspend_delay(&pdev->dev, 5000);
+> +	pm_runtime_use_autosuspend(&pdev->dev);
+> +	pm_runtime_enable(&pdev->dev);
+> +	wave5_vpu_sleep_wake(&pdev->dev, true, NULL, 0);
+> +
+>  	return 0;
+> =20
+>  err_enc_unreg:
+> @@ -255,6 +294,9 @@ static int wave5_vpu_remove(struct platform_device *p=
+dev)
+>  {
+>  	struct vpu_device *dev =3D dev_get_drvdata(&pdev->dev);
+> =20
+> +	pm_runtime_put_sync(&pdev->dev);
+> +	pm_runtime_disable(&pdev->dev);
+> +
+>  	mutex_destroy(&dev->dev_lock);
+>  	mutex_destroy(&dev->hw_lock);
+>  	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+> @@ -282,6 +324,7 @@ static struct platform_driver wave5_vpu_driver =3D {
+>  	.driver =3D {
+>  		.name =3D VPU_PLATFORM_DEVICE_NAME,
+>  		.of_match_table =3D of_match_ptr(wave5_dt_ids),
+> +		.pm =3D &wave5_pm_ops,
+>  		},
+>  	.probe =3D wave5_vpu_probe,
+>  	.remove =3D wave5_vpu_remove,
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/dr=
+ivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> index 86b399372..b2357d1b5 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> @@ -6,6 +6,8 @@
+>   */
+> =20
+>  #include <linux/bug.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/delay.h>
+>  #include "wave5-vpuapi.h"
+>  #include "wave5-regdefine.h"
+>  #include "wave5.h"
+> @@ -200,6 +202,8 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u3=
+2 *fail_res)
+>  	if (!inst->codec_info)
+>  		return -EINVAL;
+> =20
+> +	pm_runtime_resume_and_get(inst->dev->dev);
+> +
+>  	ret =3D mutex_lock_interruptible(&vpu_dev->hw_lock);
+>  	if (ret)
+>  		return ret;
+> @@ -234,7 +238,7 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u3=
+2 *fail_res)
+> =20
+>  unlock_and_return:
+>  	mutex_unlock(&vpu_dev->hw_lock);
+> -
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+>  	return ret;
+>  }
+> =20
+> @@ -702,6 +706,8 @@ int wave5_vpu_enc_close(struct vpu_instance *inst, u3=
+2 *fail_res)
+>  	if (!inst->codec_info)
+>  		return -EINVAL;
+> =20
+> +	pm_runtime_resume_and_get(inst->dev->dev);
+> +
+>  	ret =3D mutex_lock_interruptible(&vpu_dev->hw_lock);
+>  	if (ret)
+>  		return ret;
+> @@ -733,9 +739,10 @@ int wave5_vpu_enc_close(struct vpu_instance *inst, u=
+32 *fail_res)
+>  	}
+> =20
+>  	wave5_vdi_free_dma_memory(vpu_dev, &p_enc_info->vb_task);
+> -
+>  	mutex_unlock(&vpu_dev->hw_lock);
+> =20
+> +	pm_runtime_put_autosuspend(inst->dev->dev);
+> +
+>  	return 0;
+>  }
+> =20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+> > >=20
+> > >=20
+> > > Thanks.
+> > > Jackson
+> > >=20
+> > > >=20
+> > > > The delay means a timer, so there is no input for 5 secs, then
+> > > > timeout callback is called, And suspend is set, if new activity
+> > > > comes, the device is resumed again ?
+> > > > My understanding is correct ?
+> > > >=20
+> > >=20
+> > >=20
+> > > >=20
+> > > >=20
+> > > > > Nicolas
+> > > > >=20
+> > > > > >=20
+> > > > > > Thanks.
+> > > > > >=20
+> > > > > >=20
+> > > > > > > There is of course other places where you'll have to make sur=
 e
-> > =C2=A0 descriptor, as well as the transfer size and flags are provided
-> > in the
-> > =C2=A0 "iio_dmabuf" structure.
-> >=20
-> > These three IOCTLs have to be performed on the IIO buffer's file
-> > descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
->=20
-> A few nit picks and one bug below, apart from that looks good to me.
->=20
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> > ---
-> > =C2=A0 drivers/iio/industrialio-buffer.c | 462
-> > ++++++++++++++++++++++++++++++++++++++
-> > =C2=A0 include/linux/iio/buffer_impl.h=C2=A0=C2=A0 |=C2=A0 33 +++
-> > =C2=A0 include/uapi/linux/iio/buffer.h=C2=A0=C2=A0 |=C2=A0 22 ++
-> > =C2=A0 3 files changed, 517 insertions(+)
-> >=20
-> > diff --git a/drivers/iio/industrialio-buffer.c
-> > b/drivers/iio/industrialio-buffer.c
-> > index b581a7e80566..0e63a09fa90a 100644
-> > --- a/drivers/iio/industrialio-buffer.c
-> > +++ b/drivers/iio/industrialio-buffer.c
-> > @@ -9,14 +9,19 @@
-> > =C2=A0=C2=A0 * - Better memory allocation techniques?
-> > =C2=A0=C2=A0 * - Alternative access techniques?
-> > =C2=A0=C2=A0 */
-> > +#include <linux/atomic.h>
-> > =C2=A0 #include <linux/anon_inodes.h>
-> > =C2=A0 #include <linux/kernel.h>
-> > =C2=A0 #include <linux/export.h>
-> > =C2=A0 #include <linux/device.h>
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/dma-fence.h>
-> > +#include <linux/dma-resv.h>
-> > =C2=A0 #include <linux/file.h>
-> > =C2=A0 #include <linux/fs.h>
-> > =C2=A0 #include <linux/cdev.h>
-> > =C2=A0 #include <linux/slab.h>
-> > +#include <linux/mm.h>
-> > =C2=A0 #include <linux/poll.h>
-> > =C2=A0 #include <linux/sched/signal.h>
-> > =C2=A0=20
-> > @@ -28,6 +33,32 @@
-> > =C2=A0 #include <linux/iio/buffer.h>
-> > =C2=A0 #include <linux/iio/buffer_impl.h>
-> > =C2=A0=20
-> > +#define DMABUF_ENQUEUE_TIMEOUT_MS 5000
-> > +
-> > +struct iio_dma_fence;
-> > +
-> > +struct iio_dmabuf_priv {
-> > +	struct list_head entry;
-> > +	struct kref ref;
-> > +
-> > +	struct iio_buffer *buffer;
-> > +	struct iio_dma_buffer_block *block;
-> > +
-> > +	u64 context;
-> > +	spinlock_t lock;
-> > +
-> > +	struct dma_buf_attachment *attach;
-> > +	struct sg_table *sgt;
-> > +	enum dma_data_direction dir;
-> > +	atomic_t seqno;
-> > +};
-> > +
-> > +struct iio_dma_fence {
-> > +	struct dma_fence base;
-> > +	struct iio_dmabuf_priv *priv;
-> > +	struct work_struct work;
-> > +};
-> > +
-> > =C2=A0 static const char * const iio_endian_prefix[] =3D {
-> > =C2=A0=C2=A0	[IIO_BE] =3D "be",
-> > =C2=A0=C2=A0	[IIO_LE] =3D "le",
-> > @@ -332,6 +363,8 @@ void iio_buffer_init(struct iio_buffer *buffer)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	INIT_LIST_HEAD(&buffer->demux_list);
-> > =C2=A0=C2=A0	INIT_LIST_HEAD(&buffer->buffer_list);
-> > +	INIT_LIST_HEAD(&buffer->dmabufs);
-> > +	mutex_init(&buffer->dmabufs_mutex);
-> > =C2=A0=C2=A0	init_waitqueue_head(&buffer->pollq);
-> > =C2=A0=C2=A0	kref_init(&buffer->ref);
-> > =C2=A0=C2=A0	if (!buffer->watermark)
-> > @@ -1519,14 +1552,62 @@ static void
-> > iio_buffer_unregister_legacy_sysfs_groups(struct iio_dev
-> > *indio_dev)
-> > =C2=A0=C2=A0	kfree(iio_dev_opaque->legacy_scan_el_group.attrs);
-> > =C2=A0 }
-> > =C2=A0=20
-> > +static void iio_buffer_dmabuf_release(struct kref *ref)
-> > +{
-> > +	struct iio_dmabuf_priv *priv =3D container_of(ref, struct
-> > iio_dmabuf_priv, ref);
-> > +	struct dma_buf_attachment *attach =3D priv->attach;
-> > +	struct iio_buffer *buffer =3D priv->buffer;
-> > +	struct dma_buf *dmabuf =3D attach->dmabuf;
-> > +
-> > +	dma_resv_lock(dmabuf->resv, NULL);
-> > +	dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
-> > +	dma_resv_unlock(dmabuf->resv);
-> > +
-> > +	buffer->access->detach_dmabuf(buffer, priv->block);
-> > +
-> > +	dma_buf_detach(attach->dmabuf, attach);
-> > +	dma_buf_put(dmabuf);
-> > +	kfree(priv);
-> > +}
-> > +
-> > +void iio_buffer_dmabuf_get(struct dma_buf_attachment *attach)
-> > +{
-> > +	struct iio_dmabuf_priv *priv =3D attach->importer_priv;
-> > +
-> > +	kref_get(&priv->ref);
-> > +}
-> > +EXPORT_SYMBOL_GPL(iio_buffer_dmabuf_get);
-> > +
-> > +void iio_buffer_dmabuf_put(struct dma_buf_attachment *attach)
-> > +{
-> > +	struct iio_dmabuf_priv *priv =3D attach->importer_priv;
-> > +
-> > +	kref_put(&priv->ref, iio_buffer_dmabuf_release);
-> > +}
-> > +EXPORT_SYMBOL_GPL(iio_buffer_dmabuf_put);
-> > +
-> > =C2=A0 static int iio_buffer_chrdev_release(struct inode *inode, struct
-> > file *filep)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	struct iio_dev_buffer_pair *ib =3D filep->private_data;
-> > =C2=A0=C2=A0	struct iio_dev *indio_dev =3D ib->indio_dev;
-> > =C2=A0=C2=A0	struct iio_buffer *buffer =3D ib->buffer;
-> > +	struct iio_dmabuf_priv *priv, *tmp;
-> > =C2=A0=20
-> > =C2=A0=C2=A0	wake_up(&buffer->pollq);
-> > =C2=A0=20
-> > +	mutex_lock(&buffer->dmabufs_mutex);
-> > +
-> > +	/* Close all attached DMABUFs */
-> > +	list_for_each_entry_safe(priv, tmp, &buffer->dmabufs,
-> > entry) {
-> > +		list_del_init(&priv->entry);
-> > +		iio_buffer_dmabuf_put(priv->attach);
-> > +	}
-> > +
-> > +	if (!list_empty(&buffer->dmabufs))
-> > +		dev_warn(&indio_dev->dev, "Buffer FD closed with
-> > active transfers\n");
->=20
-> That check here smells fishy.
->=20
-> Either the list_for_each_entry_safe() above has removed all entries
-> and=20
-> then it can never happen or the buffer list is not always properly=20
-> protected by the mutex.
->=20
-> Do you really need that? If yes then please justify.
-
-The dev_warn() can be removed, the buffers->dmabufs list will always be
-empty at that point because of the loop above.
-
-> BTW: When the transfers are async it's perfectly possible that there
-> are=20
-> active transfers on close (when the application is just killed for
-> example).
->=20
-> > +
-> > +	mutex_unlock(&buffer->dmabufs_mutex);
-> > +
-> > =C2=A0=C2=A0	kfree(ib);
-> > =C2=A0=C2=A0	clear_bit(IIO_BUSY_BIT_POS, &buffer->flags);
-> > =C2=A0=C2=A0	iio_device_put(indio_dev);
-> > @@ -1534,11 +1615,391 @@ static int
-> > iio_buffer_chrdev_release(struct inode *inode, struct file *filep)
-> > =C2=A0=C2=A0	return 0;
-> > =C2=A0 }
-> > =C2=A0=20
-> > +static int iio_dma_resv_lock(struct dma_buf *dmabuf, bool
-> > nonblock)
-> > +{
-> > +	if (!nonblock)
-> > +		return dma_resv_lock_interruptible(dmabuf->resv,
-> > NULL);
-> > +
-> > +	if (!dma_resv_trylock(dmabuf->resv))
-> > +		return -EBUSY;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct dma_buf_attachment *
-> > +iio_buffer_find_attachment(struct iio_dev_buffer_pair *ib,
-> > +			=C2=A0=C2=A0 struct dma_buf *dmabuf, bool nonblock)
-> > +{
-> > +	struct device *dev =3D ib->indio_dev->dev.parent;
-> > +	struct iio_buffer *buffer =3D ib->buffer;
-> > +	struct dma_buf_attachment *attach =3D NULL;
-> > +	struct iio_dmabuf_priv *priv;
-> > +
-> > +	mutex_lock(&buffer->dmabufs_mutex);
-> > +
-> > +	list_for_each_entry(priv, &buffer->dmabufs, entry) {
-> > +		if (priv->attach->dev =3D=3D dev
-> > +		=C2=A0=C2=A0=C2=A0 && priv->attach->dmabuf =3D=3D dmabuf) {
-> > +			attach =3D priv->attach;
-> > +			break;
-> > +		}
-> > +	}
-> > +
-> > +	if (attach)
-> > +		iio_buffer_dmabuf_get(attach);
-> > +
-> > +	mutex_unlock(&buffer->dmabufs_mutex);
-> > +
-> > +	return attach ?: ERR_PTR(-EPERM);
-> > +}
-> > +
-> > +static int iio_buffer_attach_dmabuf(struct iio_dev_buffer_pair
-> > *ib,
-> > +				=C2=A0=C2=A0=C2=A0 int __user *user_fd, bool
-> > nonblock)
-> > +{
-> > +	struct iio_dev *indio_dev =3D ib->indio_dev;
-> > +	struct iio_buffer *buffer =3D ib->buffer;
-> > +	struct dma_buf_attachment *attach;
-> > +	struct iio_dmabuf_priv *priv;
-> > +	struct dma_buf *dmabuf;
-> > +	int err, fd;
-> > +
-> > +	if (!buffer->access->attach_dmabuf
-> > +	=C2=A0=C2=A0=C2=A0 || !buffer->access->detach_dmabuf
-> > +	=C2=A0=C2=A0=C2=A0 || !buffer->access->enqueue_dmabuf)
-> > +		return -EPERM;
-> > +
-> > +	if (copy_from_user(&fd, user_fd, sizeof(fd)))
-> > +		return -EFAULT;
-> > +
-> > +	priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
-> > +	if (!priv)
-> > +		return -ENOMEM;
-> > +
-> > +	spin_lock_init(&priv->lock);
-> > +	priv->context =3D dma_fence_context_alloc(1);
-> > +
-> > +	dmabuf =3D dma_buf_get(fd);
-> > +	if (IS_ERR(dmabuf)) {
-> > +		err =3D PTR_ERR(dmabuf);
-> > +		goto err_free_priv;
-> > +	}
-> > +
-> > +	attach =3D dma_buf_attach(dmabuf, indio_dev->dev.parent);
-> > +	if (IS_ERR(attach)) {
-> > +		err =3D PTR_ERR(attach);
-> > +		goto err_dmabuf_put;
-> > +	}
-> > +
-> > +	err =3D iio_dma_resv_lock(dmabuf, nonblock);
-> > +	if (err)
-> > +		goto err_dmabuf_detach;
-> > +
-> > +	priv->dir =3D buffer->direction =3D=3D IIO_BUFFER_DIRECTION_IN
-> > +		? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> > +
-> > +	priv->sgt =3D dma_buf_map_attachment(attach, priv->dir);
-> > +	if (IS_ERR(priv->sgt)) {
-> > +		err =3D PTR_ERR(priv->sgt);
-> > +		dev_err(&indio_dev->dev, "Unable to map
-> > attachment: %d\n", err);
-> > +		goto err_resv_unlock;
-> > +	}
-> > +
-> > +	kref_init(&priv->ref);
-> > +	priv->buffer =3D buffer;
-> > +	priv->attach =3D attach;
-> > +	attach->importer_priv =3D priv;
-> > +
-> > +	priv->block =3D buffer->access->attach_dmabuf(buffer,
-> > attach);
-> > +	if (IS_ERR(priv->block)) {
-> > +		err =3D PTR_ERR(priv->block);
-> > +		goto err_dmabuf_unmap_attachment;
-> > +	}
-> > +
-> > +	dma_resv_unlock(dmabuf->resv);
-> > +
->=20
-> > +	mutex_lock(&buffer->dmabufs_mutex);
-> > +	list_add(&priv->entry, &buffer->dmabufs);
-> > +	mutex_unlock(&buffer->dmabufs_mutex);
->=20
-> Is it valid to attach the same dma_buf multiple times?
->=20
-> If not that code here should probably check that.
-
-Hmm, I remember that dma_buf_attach() wouldn't allow attaching multiple
-times to the same device, but looking at the code, I can't find where
-it was checked. Maybe it changed (or I just remember wrong).
-
-I can add code to check that.
-
->=20
-> > +
-> > +	return 0;
-> > +
-> > +err_dmabuf_unmap_attachment:
-> > +	dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
-> > +err_resv_unlock:
-> > +	dma_resv_unlock(dmabuf->resv);
-> > +err_dmabuf_detach:
-> > +	dma_buf_detach(dmabuf, attach);
-> > +err_dmabuf_put:
-> > +	dma_buf_put(dmabuf);
-> > +err_free_priv:
-> > +	kfree(priv);
-> > +
-> > +	return err;
-> > +}
-> > +
-> > +static int iio_buffer_detach_dmabuf(struct iio_dev_buffer_pair
-> > *ib,
-> > +				=C2=A0=C2=A0=C2=A0 int *user_req, bool nonblock)
-> > +{
-> > +	struct iio_buffer *buffer =3D ib->buffer;
-> > +	struct iio_dev *indio_dev =3D ib->indio_dev;
-> > +	struct iio_dmabuf_priv *priv;
-> > +	struct dma_buf *dmabuf;
-> > +	int dmabuf_fd, ret =3D -EPERM;
->=20
-> ENOENT is more common to use when something can't be found I think,
-> but=20
-> perfectly up to you what you prefer.
-
-The way I see it, the detach is an "operation not permitted" if the
-DMABUF hasn't been attached before.
-
->=20
-> > +
-> > +	if (copy_from_user(&dmabuf_fd, user_req,
-> > sizeof(dmabuf_fd)))
-> > +		return -EFAULT;
-> > +
-> > +	dmabuf =3D dma_buf_get(dmabuf_fd);
-> > +	if (IS_ERR(dmabuf))
-> > +		return PTR_ERR(dmabuf);
-> > +
-> > +	mutex_lock(&buffer->dmabufs_mutex);
-> > +
-> > +	list_for_each_entry(priv, &buffer->dmabufs, entry) {
-> > +		if (priv->attach->dev =3D=3D indio_dev->dev.parent
-> > +		=C2=A0=C2=A0=C2=A0 && priv->attach->dmabuf =3D=3D dmabuf) {
-> > +			list_del(&priv->entry);
-> > +
-> > +			/* Unref the reference from
-> > iio_buffer_attach_dmabuf() */
-> > +			iio_buffer_dmabuf_put(priv->attach);
-> > +			ret =3D 0;
-> > +			break;
-> > +		}
-> > +	}
-> > +
-> > +	mutex_unlock(&buffer->dmabufs_mutex);
-> > +	dma_buf_put(dmabuf);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const char *
-> > +iio_buffer_dma_fence_get_driver_name(struct dma_fence *fence)
-> > +{
-> > +	return "iio";
-> > +}
-> > +
-> > +static void iio_buffer_dma_fence_release(struct dma_fence *fence)
-> > +{
-> > +	struct iio_dma_fence *iio_fence =3D
-> > +		container_of(fence, struct iio_dma_fence, base);
-> > +
-> > +	kfree(iio_fence);
-> > +}
-> > +
-> > +static const struct dma_fence_ops iio_buffer_dma_fence_ops =3D {
-> > +	.get_driver_name	=3D
-> > iio_buffer_dma_fence_get_driver_name,
-> > +	.get_timeline_name	=3D
-> > iio_buffer_dma_fence_get_driver_name,
-> > +	.release		=3D iio_buffer_dma_fence_release,
-> > +};
-> > +
-> > +static int iio_buffer_enqueue_dmabuf(struct iio_dev_buffer_pair
-> > *ib,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_dmabuf __user
-> > *iio_dmabuf_req,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0 bool nonblock)
-> > +{
-> > +	struct iio_buffer *buffer =3D ib->buffer;
-> > +	struct iio_dmabuf iio_dmabuf;
-> > +	struct dma_buf_attachment *attach;
-> > +	struct iio_dmabuf_priv *priv;
-> > +	struct iio_dma_fence *fence;
-> > +	struct dma_buf *dmabuf;
-> > +	unsigned long timeout;
-> > +	bool cookie, cyclic, dma_to_ram;
-> > +	long retl;
-> > +	u32 seqno;
-> > +	int ret;
-> > +
-> > +	if (copy_from_user(&iio_dmabuf, iio_dmabuf_req,
-> > sizeof(iio_dmabuf)))
-> > +		return -EFAULT;
-> > +
-> > +	if (iio_dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
-> > +		return -EINVAL;
-> > +
-> > +	cyclic =3D iio_dmabuf.flags & IIO_BUFFER_DMABUF_CYCLIC;
-> > +
-> > +	/* Cyclic flag is only supported on output buffers */
-> > +	if (cyclic && buffer->direction !=3D
-> > IIO_BUFFER_DIRECTION_OUT)
-> > +		return -EINVAL;
-> > +
-> > +	dmabuf =3D dma_buf_get(iio_dmabuf.fd);
-> > +	if (IS_ERR(dmabuf))
-> > +		return PTR_ERR(dmabuf);
-> > +
-> > +	if (!iio_dmabuf.bytes_used || iio_dmabuf.bytes_used >
-> > dmabuf->size) {
-> > +		ret =3D -EINVAL;
-> > +		goto err_dmabuf_put;
-> > +	}
-> > +
-> > +	attach =3D iio_buffer_find_attachment(ib, dmabuf, nonblock);
-> > +	if (IS_ERR(attach)) {
-> > +		ret =3D PTR_ERR(attach);
-> > +		goto err_dmabuf_put;
-> > +	}
-> > +
-> > +	priv =3D attach->importer_priv;
-> > +
-> > +	fence =3D kmalloc(sizeof(*fence), GFP_KERNEL);
-> > +	if (!fence) {
-> > +		ret =3D -ENOMEM;
-> > +		goto err_attachment_put;
-> > +	}
-> > +
-> > +	fence->priv =3D priv;
-> > +
-> > +	seqno =3D atomic_add_return(1, &priv->seqno);
-> > +
-> > +	/*
-> > +	 * The transfers are guaranteed to be processed in the
-> > order they are
-> > +	 * enqueued, so we can use a simple incrementing sequence
-> > number for
-> > +	 * the dma_fence.
-> > +	 */
-> > +	dma_fence_init(&fence->base, &iio_buffer_dma_fence_ops,
-> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &priv->lock, priv->context, seq=
-no);
-> > +
-> > +	ret =3D iio_dma_resv_lock(dmabuf, nonblock);
-> > +	if (ret)
-> > +		goto err_fence_put;
-> > +
-> > +	timeout =3D nonblock ? 0 :
-> > msecs_to_jiffies(DMABUF_ENQUEUE_TIMEOUT_MS);
-> > +
-> > +	/* Make sure we don't have writers */
-> > +	retl =3D dma_resv_wait_timeout(dmabuf->resv,
-> > DMA_RESV_USAGE_WRITE,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0 true, timeout);
-> > +	if (retl =3D=3D 0)
-> > +		retl =3D -EBUSY;
-> > +	if (retl < 0) {
-> > +		ret =3D (int)retl;
-> > +		goto err_resv_unlock;
-> > +	}
-> > +
-> > +	dma_to_ram =3D buffer->direction =3D=3D IIO_BUFFER_DIRECTION_IN;
-> > +
-> > +	if (dma_to_ram) {
-> > +		/*
-> > +		 * If we're writing to the DMABUF, make sure we
-> > don't have
-> > +		 * readers
-> > +		 */
-> > +		retl =3D dma_resv_wait_timeout(dmabuf->resv,
-> > +					=C2=A0=C2=A0=C2=A0=C2=A0 DMA_RESV_USAGE_READ,
-> > true,
-> > +					=C2=A0=C2=A0=C2=A0=C2=A0 timeout);
-> > +		if (retl =3D=3D 0)
-> > +			retl =3D -EBUSY;
-> > +		if (retl < 0) {
-> > +			ret =3D (int)retl;
-> > +			goto err_resv_unlock;
-> > +		}
-> > +	}
-> > +
-> > +	if (buffer->access->lock_queue)
-> > +		buffer->access->lock_queue(buffer);
-> > +
-> > +	ret =3D dma_resv_reserve_fences(dmabuf->resv, 1);
-> > +	if (ret)
-> > +		goto err_queue_unlock;
-> > +
-> > +	dma_resv_add_fence(dmabuf->resv, &fence->base,
-> > +			=C2=A0=C2=A0 dma_resv_usage_rw(dma_to_ram));
->=20
-> That is incorrect use of the function dma_resv_usage_rw(). That
-> function=20
-> is for retrieving fences and not adding them.
->=20
-> See the function implementation and comments, when you use it like
-> this=20
-> you get exactly what you don't want.
-
-No, I get exactly what I want. If "dma_to_ram", I get
-DMA_RESV_USAGE_READ, otherwise I get DMA_RESV_USAGE_WRITE.
-
-If you really don't like the macro, I can inline things here.
-
-Cheers,
--Paul
-
->=20
-> Regards,
-> Christian.
->=20
-> > +	dma_resv_unlock(dmabuf->resv);
-> > +
-> > +	cookie =3D dma_fence_begin_signalling();
-> > +
-> > +	ret =3D buffer->access->enqueue_dmabuf(buffer, priv->block,
-> > &fence->base,
-> > +					=C2=A0=C2=A0=C2=A0=C2=A0 priv->sgt,
-> > iio_dmabuf.bytes_used,
-> > +					=C2=A0=C2=A0=C2=A0=C2=A0 cyclic);
-> > +	if (ret) {
-> > +		/*
-> > +		 * DMABUF enqueue failed, but we already added the
-> > fence.
-> > +		 * Signal the error through the fence completion
-> > mechanism.
-> > +		 */
-> > +		iio_buffer_signal_dmabuf_done(&fence->base, ret);
-> > +	}
-> > +
-> > +	if (buffer->access->unlock_queue)
-> > +		buffer->access->unlock_queue(buffer);
-> > +
-> > +	dma_fence_end_signalling(cookie);
-> > +	dma_buf_put(dmabuf);
-> > +
-> > +	return ret;
-> > +
-> > +err_queue_unlock:
-> > +	if (buffer->access->unlock_queue)
-> > +		buffer->access->unlock_queue(buffer);
-> > +err_resv_unlock:
-> > +	dma_resv_unlock(dmabuf->resv);
-> > +err_fence_put:
-> > +	dma_fence_put(&fence->base);
-> > +err_attachment_put:
-> > +	iio_buffer_dmabuf_put(attach);
-> > +err_dmabuf_put:
-> > +	dma_buf_put(dmabuf);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void iio_buffer_cleanup(struct work_struct *work)
-> > +{
-> > +	struct iio_dma_fence *fence =3D
-> > +		container_of(work, struct iio_dma_fence, work);
-> > +	struct iio_dmabuf_priv *priv =3D fence->priv;
-> > +	struct dma_buf_attachment *attach =3D priv->attach;
-> > +
-> > +	dma_fence_put(&fence->base);
-> > +	iio_buffer_dmabuf_put(attach);
-> > +}
-> > +
-> > +void iio_buffer_signal_dmabuf_done(struct dma_fence *fence, int
-> > ret)
-> > +{
-> > +	struct iio_dma_fence *iio_fence =3D
-> > +		container_of(fence, struct iio_dma_fence, base);
-> > +	bool cookie =3D dma_fence_begin_signalling();
-> > +
-> > +	/*
-> > +	 * Get a reference to the fence, so that it's not freed as
-> > soon as
-> > +	 * it's signaled.
-> > +	 */
-> > +	dma_fence_get(fence);
-> > +
-> > +	fence->error =3D ret;
-> > +	dma_fence_signal(fence);
-> > +	dma_fence_end_signalling(cookie);
-> > +
-> > +	/*
-> > +	 * The fence will be unref'd in iio_buffer_cleanup.
-> > +	 * It can't be done here, as the unref functions might try
-> > to lock the
-> > +	 * resv object, which can deadlock.
-> > +	 */
-> > +	INIT_WORK(&iio_fence->work, iio_buffer_cleanup);
-> > +	schedule_work(&iio_fence->work);
-> > +}
-> > +EXPORT_SYMBOL_GPL(iio_buffer_signal_dmabuf_done);
-> > +
-> > +static long iio_buffer_chrdev_ioctl(struct file *filp,
-> > +				=C2=A0=C2=A0=C2=A0 unsigned int cmd, unsigned
-> > long arg)
-> > +{
-> > +	struct iio_dev_buffer_pair *ib =3D filp->private_data;
-> > +	void __user *_arg =3D (void __user *)arg;
-> > +	bool nonblock =3D filp->f_flags & O_NONBLOCK;
-> > +
-> > +	switch (cmd) {
-> > +	case IIO_BUFFER_DMABUF_ATTACH_IOCTL:
-> > +		return iio_buffer_attach_dmabuf(ib, _arg,
-> > nonblock);
-> > +	case IIO_BUFFER_DMABUF_DETACH_IOCTL:
-> > +		return iio_buffer_detach_dmabuf(ib, _arg,
-> > nonblock);
-> > +	case IIO_BUFFER_DMABUF_ENQUEUE_IOCTL:
-> > +		return iio_buffer_enqueue_dmabuf(ib, _arg,
-> > nonblock);
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +}
-> > +
-> > =C2=A0 static const struct file_operations iio_buffer_chrdev_fileops =
-=3D {
-> > =C2=A0=C2=A0	.owner =3D THIS_MODULE,
-> > =C2=A0=C2=A0	.llseek =3D noop_llseek,
-> > =C2=A0=C2=A0	.read =3D iio_buffer_read,
-> > =C2=A0=C2=A0	.write =3D iio_buffer_write,
-> > +	.unlocked_ioctl =3D iio_buffer_chrdev_ioctl,
-> > +	.compat_ioctl =3D compat_ptr_ioctl,
-> > =C2=A0=C2=A0	.poll =3D iio_buffer_poll,
-> > =C2=A0=C2=A0	.release =3D iio_buffer_chrdev_release,
-> > =C2=A0 };
-> > @@ -1953,6 +2414,7 @@ static void iio_buffer_release(struct kref
-> > *ref)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	struct iio_buffer *buffer =3D container_of(ref, struct
-> > iio_buffer, ref);
-> > =C2=A0=20
-> > +	mutex_destroy(&buffer->dmabufs_mutex);
-> > =C2=A0=C2=A0	buffer->access->release(buffer);
-> > =C2=A0 }
-> > =C2=A0=20
-> > diff --git a/include/linux/iio/buffer_impl.h
-> > b/include/linux/iio/buffer_impl.h
-> > index 89c3fd7c29ca..f4b1147291e5 100644
-> > --- a/include/linux/iio/buffer_impl.h
-> > +++ b/include/linux/iio/buffer_impl.h
-> > @@ -9,8 +9,12 @@
-> > =C2=A0 #include <uapi/linux/iio/buffer.h>
-> > =C2=A0 #include <linux/iio/buffer.h>
-> > =C2=A0=20
-> > +struct dma_buf_attachment;
-> > +struct dma_fence;
-> > =C2=A0 struct iio_dev;
-> > +struct iio_dma_buffer_block;
-> > =C2=A0 struct iio_buffer;
-> > +struct sg_table;
-> > =C2=A0=20
-> > =C2=A0 /**
-> > =C2=A0=C2=A0 * INDIO_BUFFER_FLAG_FIXED_WATERMARK - Watermark level of t=
-he
-> > buffer can not be
-> > @@ -39,6 +43,13 @@ struct iio_buffer;
-> > =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 devic=
-e stops sampling. Calles are
-> > balanced with @enable.
-> > =C2=A0=C2=A0 * @release:		called when the last reference to the
-> > buffer is dropped,
-> > =C2=A0=C2=A0 *			should free all resources allocated by the
-> > buffer.
-> > + * @attach_dmabuf:	called from userspace via ioctl to attach
-> > one external
-> > + *			DMABUF.
-> > + * @detach_dmabuf:	called from userspace via ioctl to detach
-> > one previously
-> > + *			attached DMABUF.
-> > + * @enqueue_dmabuf:	called from userspace via ioctl to queue
-> > this DMABUF
-> > + *			object to this buffer. Requires a valid
-> > DMABUF fd, that
-> > + *			was previouly attached to this buffer.
-> > =C2=A0=C2=A0 * @modes:		Supported operating modes by this buffer
-> > type
-> > =C2=A0=C2=A0 * @flags:		A bitmask combination of
-> > INDIO_BUFFER_FLAG_*
-> > =C2=A0=C2=A0 *
-> > @@ -68,6 +79,17 @@ struct iio_buffer_access_funcs {
-> > =C2=A0=20
-> > =C2=A0=C2=A0	void (*release)(struct iio_buffer *buffer);
-> > =C2=A0=20
-> > +	struct iio_dma_buffer_block * (*attach_dmabuf)(struct
-> > iio_buffer *buffer,
-> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct
-> > dma_buf_attachment *attach);
-> > +	void (*detach_dmabuf)(struct iio_buffer *buffer,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_dma_buffer_block *block);
-> > +	int (*enqueue_dmabuf)(struct iio_buffer *buffer,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_dma_buffer_block *block,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence *fence, struct
-> > sg_table *sgt,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t size, bool cyclic);
-> > +	void (*lock_queue)(struct iio_buffer *buffer);
-> > +	void (*unlock_queue)(struct iio_buffer *buffer);
-> > +
-> > =C2=A0=C2=A0	unsigned int modes;
-> > =C2=A0=C2=A0	unsigned int flags;
-> > =C2=A0 };
-> > @@ -136,6 +158,12 @@ struct iio_buffer {
-> > =C2=A0=20
-> > =C2=A0=C2=A0	/* @ref: Reference count of the buffer. */
-> > =C2=A0=C2=A0	struct kref ref;
-> > +
-> > +	/* @dmabufs: List of DMABUF attachments */
-> > +	struct list_head dmabufs; /* P: dmabufs_mutex */
-> > +
-> > +	/* @dmabufs_mutex: Protects dmabufs */
-> > +	struct mutex dmabufs_mutex;
-> > =C2=A0 };
-> > =C2=A0=20
-> > =C2=A0 /**
-> > @@ -156,9 +184,14 @@ int iio_update_buffers(struct iio_dev
-> > *indio_dev,
-> > =C2=A0=C2=A0 **/
-> > =C2=A0 void iio_buffer_init(struct iio_buffer *buffer);
-> > =C2=A0=20
-> > +void iio_buffer_dmabuf_get(struct dma_buf_attachment *attach);
-> > +void iio_buffer_dmabuf_put(struct dma_buf_attachment *attach);
-> > +
-> > =C2=A0 struct iio_buffer *iio_buffer_get(struct iio_buffer *buffer);
-> > =C2=A0 void iio_buffer_put(struct iio_buffer *buffer);
-> > =C2=A0=20
-> > +void iio_buffer_signal_dmabuf_done(struct dma_fence *fence, int
-> > ret);
-> > +
-> > =C2=A0 #else /* CONFIG_IIO_BUFFER */
-> > =C2=A0=20
-> > =C2=A0 static inline void iio_buffer_get(struct iio_buffer *buffer) {}
-> > diff --git a/include/uapi/linux/iio/buffer.h
-> > b/include/uapi/linux/iio/buffer.h
-> > index 13939032b3f6..c666aa95e532 100644
-> > --- a/include/uapi/linux/iio/buffer.h
-> > +++ b/include/uapi/linux/iio/buffer.h
-> > @@ -5,6 +5,28 @@
-> > =C2=A0 #ifndef _UAPI_IIO_BUFFER_H_
-> > =C2=A0 #define _UAPI_IIO_BUFFER_H_
-> > =C2=A0=20
-> > +#include <linux/types.h>
-> > +
-> > +/* Flags for iio_dmabuf.flags */
-> > +#define IIO_BUFFER_DMABUF_CYCLIC		(1 << 0)
-> > +#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS	0x00000001
-> > +
-> > +/**
-> > + * struct iio_dmabuf - Descriptor for a single IIO DMABUF object
-> > + * @fd:		file descriptor of the DMABUF object
-> > + * @flags:	one or more IIO_BUFFER_DMABUF_* flags
-> > + * @bytes_used:	number of bytes used in this DMABUF for
-> > the data transfer.
-> > + *		Should generally be set to the DMABUF's size.
-> > + */
-> > +struct iio_dmabuf {
-> > +	__u32 fd;
-> > +	__u32 flags;
-> > +	__u64 bytes_used;
-> > +};
-> > +
-> > =C2=A0 #define IIO_BUFFER_GET_FD_IOCTL			_IOWR('i',
-> > 0x91, int)
-> > +#define IIO_BUFFER_DMABUF_ATTACH_IOCTL		_IOW('i', 0x92,
-> > int)
-> > +#define IIO_BUFFER_DMABUF_DETACH_IOCTL		_IOW('i', 0x93,
-> > int)
-> > +#define IIO_BUFFER_DMABUF_ENQUEUE_IOCTL		_IOW('i',
-> > 0x94, struct iio_dmabuf)
-> > =C2=A0=20
-> > =C2=A0 #endif /* _UAPI_IIO_BUFFER_H_ */
-> >=20
+> > > > > > > the hardware is resumed, like on close, as you want to remove
+> > > > > > > the
+> > > > instance.
+> > > > > > > There is also small queries here and there that need to be
+> > > > > > > surrounded with resume/put, but with the redesign, most of th=
+e
+> > > > > > > HW access now take place inside device_run() only.
+> > > > > > >=20
+> > > > > > > Open/Close is not invalid, but it has a lot of issues, as any
+> > > > > > > random application can endup disabling the kernel ability to
+> > > > > > > save
+> > > > power.
+> > > > > > > Personally, I think we should at least give it a try, and
+> > > > > > > document valid reason not to do so if we find hardware issues=
+.
+> > > > > > > Otherwise, this sounds like all we care is ticking the box
+> > > > > > > "this driver has runtime PM" without actually caring about
+> > effective power saving.
+> > > > > > >=20
+> > > > > > > Nicolas
+> > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > Thanks.
+> > > > > > > >=20
+> > > > > > > > > Le lundi 19 f=C3=A9vrier 2024 =C3=A0 04:04 +0000, jackson=
+.lee a =C3=A9crit=C2=A0:
+> > > > > > > > > > Hi Nicolas
+> > > > > > > > > >=20
+> > > > > > > > > >=20
+> > > > > > > > > > > This seems very unnatural. We do the get() in
+> > > > > > > > > > > "start_streaming()", but the
+> > > > > > > > > > > put() is only done when the device is closed, or when
+> > > > > > > > > > > the driver is removed. As this is not balanced, you
+> > > > > > > > > > > seem to have to check the suspended condition all ove=
+r
+> > the place.
+> > > > > > > > > > >=20
+> > > > > > > > > > > I think we could aim for
+> > > > > > > > > > > start_streaming()/stop_streaming()
+> > > > > > > > > > > for your get/put placement. At least they will be
+> > > > > > > > > > > bound to an entirely balanced
+> > > > > > > > > API.
+> > > > > > > > > > > But then, a media player in paused sate will prevent
+> > > > > > > > > > > that device from being suspended.
+> > > > > > > > > > >=20
+> > > > > > > > > > > If the HW is capable of preserving enough state, and
+> > > > > > > > > > > From the short doc I have it gives me the impression
+> > > > > > > > > > > it can preserve that, I'd suggest to follow what
+> > > > > > > > > > > hantro driver is doing. What is does is that it will
+> > > > > > > > > > > do get() in device_run(), and put() whenever the job
+> > > > > > > > > > > completes. This driver has been designed so when ther=
+e
+> > > > > > > > > > > is no job, it means the firmware is currently idle an=
+d
+> > looking for more work.
+> > > > > > > > > > > So it seems like the perfect moment to
+> > > > > > > do suspend it.
+> > > > > > > > > > >=20
+> > > > > > > > > >=20
+> > > > > > > > > > Thanks your comment,
+> > > > > > > > > >=20
+> > > > > > > > > > Currently they are not balanced, If we puts "the put
+> > functon"
+> > > > > > > > > > into the stop_streaming, our hw is stalled
+> > > > > > > > > until doing wake-up command, so our v4l2 device become bl=
+ock.
+> > > > > > > > > > so I'd like to update the below instead of calling get
+> > > > > > > > > > at the
+> > > > > > > > > start_streaming function.
+> > > > > > > > > >=20
+> > > > > > > > > >=20
+> > > > > > > > > > @@ -1867,6 +1868,13 @@ static int
+> > > > > > > > > > wave5_vpu_open_dec(struct file
+> > > > > > > > > > *filp)
+> > > > > > > > > >=20
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0wave5_v=
+di_allocate_sram(inst->dev);
+> > > > > > > > > >=20
+> > > > > > > > > > +       err =3D pm_runtime_resume_and_get(inst->dev->de=
+v);
+> > > > > > > > > > +       if (err) {
+> > > > > > > > > > +               dev_err(inst->dev->dev, "decoder runtim=
+e
+> > > > > > > > > > + resume
+> > > > > > > > > failed %d\n", err);
+> > > > > > > > > > +               ret =3D -EINVAL;
+> > > > > > > > > > +               goto cleanup_inst;
+> > > > > > > > > > +       }
+> > > > > > > > > > +
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return =
+0;
+> > > > > > > > >=20
+> > > > > > > > > I guess we need to discuss the power management strategy
+> > > > > > > > > for this
+> > > > > > > device.
+> > > > > > > > > If you do resume_and_get() in open(), and then put in
+> > > > > > > > > close(), that seems balanced. But in term of power saving=
+,
+> > > > > > > > > it might not be very strong. If you have a media player
+> > > > > > > > > that is set to pause and then placed in the background,
+> > > > > > > > > you still keep the IP running. This is extremely common,
+> > > > > > > > > since application cannot close their device without
+> > > > > > > > > loosing the reference frames, and thus having to do extra
+> > > > > > > > > work on resume to seek back to the previous sync point an=
+d
+> > > > > > > > > drop
+> > > > > > > unneeded frames.
+> > > > > > > > >=20
+> > > > > > > > > It seems like the whole point of asking the firmware to
+> > > > > > > > > save the state and suspend is to be able to do so while
+> > > > > > > > > there is meaningful sate in the firt place.
+> > > > > > > > > If we are to suspend only when there is no meaningful
+> > > > > > > > > state, we could just free all resources and power it off
+> > completely.
+> > > > > > > > > (This is just for illustration, its probably to slow to
+> > > > > > > > > boot the firmware at
+> > > > > > > > > runtime)
+> > > > > > > > >=20
+> > > > > > > > >=20
+> > > > > > > > > I understand you suffered lockup with a start_streaming()
+> > > > > > > > > for resume_and_get(), and stop_streaming() for put(), thi=
+s
+> > > > > > > > > may simply indicate that some hardware access are needed
+> > > > > > > > > between these two. Can you write down a power management
+> > > > > > > > > plan that would effectively save power in common use case=
+s
+> > > > > > > > > ? We can certainly help in refactoring the
+> > > > > > > code to make that happen.
+> > > > > > > > >=20
+> > > > > > > > > Nicolas
+> > > > > > > > >=20
+> > > > > > > > > >=20
+> > > > > > > > > > > Le mercredi 31 janvier 2024 =C3=A0 10:30 +0900, jacks=
+on.lee
+> > > > > > > > > > > a
+> > > > > =C3=A9crit=C2=A0:
+> > > > > > > > > > > > There are two device run-time PM callbacks defined
+> > > > > > > > > > > > in 'struct
+> > > > > > > > > > > dev_pm_ops'
+> > > > > > > > > > > > int (*runtime_suspend)(struct device *dev); int
+> > > > > > > > > > > > (*runtime_resume)(struct device *dev);
+> > > > > > > > > > >=20
+> > > > > > > > > > > I wonder how useful is it to teach everyone what the
+> > > > > > > > > > > generic 'struct dev_pm_ops'
+> > > > > > > > > > > contains. Perhaps you simply wanted that this patch
+> > > > > > > > > > > implement both suspend and resume ops ?
+> > > > > > > > > > >=20
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > Signed-off-by: Jackson Lee
+> > > > > > > > > > > > <jackson.lee@chipsnmedia.com>
+> > > > > > > > > > > > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com=
+>
+> > > > > > > > > > > > ---
+> > > > > > > > > > > > =C2=A0.../platform/chips-media/wave5/wave5-hw.c    =
+ |  5 +-
+> > > > > > > > > > > > =C2=A0.../chips-media/wave5/wave5-vpu-dec.c        =
+ |  9 +++
+> > > > > > > > > > > > =C2=A0.../chips-media/wave5/wave5-vpu-enc.c        =
+ |  9 +++
+> > > > > > > > > > > > =C2=A0.../platform/chips-media/wave5/wave5-vpu.c   =
+ | 68
+> > > > > > > > > +++++++++++++++++++
+> > > > > > > > > > > > =C2=A0.../platform/chips-media/wave5/wave5-vpuapi.c=
+ |  7
+> > > > > > > > > > > > ++ .../media/platform/chips-media/wave5/wave5.h  |
+> > > > > > > > > > > > 3 +
+> > > > > > > > > > > > =C2=A06 files changed, 99 insertions(+), 2 deletion=
+s(-)
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > diff --git
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-hw=
+.
+> > > > > > > > > > > > c
+> > > > > > > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-hw=
+.
+> > > > > > > > > > > > c index 8ad7f3a28ae1..8aade5a38439 100644
+> > > > > > > > > > > > ---
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-hw=
+.
+> > > > > > > > > > > > c
+> > > > > > > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave=
+5-
+> > hw.
+> > > > > > > > > > > > +++ c
+> > > > > > > > > > > > @@ -503,6 +503,7 @@ int
+> > > > > > > > > > > > wave5_vpu_build_up_dec_param(struct
+> > > > > > > > > > > > vpu_instance
+> > > > > > > > > > > *inst,
+> > > > > > > > > > > > =C2=A0	/* This register must be reset explicitly */
+> > > > > > > > > > > > =C2=A0	vpu_write_reg(inst->dev, W5_CMD_EXT_ADDR, 0)=
+;
+> > > > > > > > > > > > =C2=A0	vpu_write_reg(inst->dev, W5_CMD_NUM_CQ_DEPTH=
+_M1,
+> > > > > > > > > > > > (COMMAND_QUEUE_DEPTH - 1));
+> > > > > > > > > > > > +	vpu_write_reg(inst->dev, W5_CMD_ERR_CONCEAL, 0);
+> > > > > > > > > > >=20
+> > > > > > > > > > > In some way, the relation between suspend and this
+> > > > > > > > > > > register write is not obvious. If its not related,
+> > > > > > > > > > > please do this in its
+> > > > > > > own patch.
+> > > > > > > > > > > Otherwise you want to explain why you needed this
+> > > > > > > > > > > (possibly just in the commit message).
+> > > > > > > > > > >=20
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0	ret =3D send_firmware_command(inst,
+> > > > > > > > > > > > W5_CREATE_INSTANCE, true, NULL,
+> > > > > > > > > > > NULL);
+> > > > > > > > > > > > =C2=A0	if (ret) {
+> > > > > > > > > > > > @@ -1075,8 +1076,8 @@ int wave5_vpu_re_init(struct
+> > > > > > > > > > > > device *dev, u8 *fw,
+> > > > > > > > > > > size_t size)
+> > > > > > > > > > > > =C2=A0	return setup_wave5_properties(dev);  }
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > -static int wave5_vpu_sleep_wake(struct device *dev=
+,
+> > > > > > > > > > > > bool i_sleep_wake,
+> > > > > > > > > > > const uint16_t *code,
+> > > > > > > > > > > > -				size_t size)
+> > > > > > > > > > > > +int wave5_vpu_sleep_wake(struct device *dev, bool
+> > > > > > > > > > > > +i_sleep_wake, const
+> > > > > > > > > > > uint16_t *code,
+> > > > > > > > > > > > +			 size_t size)
+> > > > > > > > > > > > =C2=A0{
+> > > > > > > > > > > > =C2=A0	u32 reg_val;
+> > > > > > > > > > > > =C2=A0	struct vpu_buf *common_vb; diff --git
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > -dec
+> > > > > > > > > > > > .c
+> > > > > > > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > -dec .c index ef227af72348..328a7a8f26c5 100644
+> > > > > > > > > > > > ---
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > -dec
+> > > > > > > > > > > > .c
+> > > > > > > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave=
+5
+> > > > > > > > > > > > +++ -vpu
+> > > > > > > > > > > > +++ -d
+> > > > > > > > > > > > +++ ec.c
+> > > > > > > > > > > > @@ -5,6 +5,7 @@
+> > > > > > > > > > > > =C2=A0=C2=A0* Copyright (C) 2021-2023 CHIPS&MEDIA I=
+NC
+> > > > > > > > > > > > =C2=A0=C2=A0*/
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +#include <linux/pm_runtime.h>
+> > > > > > > > > > > > =C2=A0#include "wave5-helper.h"
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0#define VPU_DEC_DEV_NAME "C&M Wave5 VPU decod=
+er"
+> > > > > > > > > > > > @@ -1387,9 +1388,17 @@ static int
+> > > > > > > > > > > > wave5_vpu_dec_start_streaming(struct
+> > > > > > > > > > > > vb2_queue *q, unsigned int count
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0	if (q->type =3D=3D
+> > V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+> > > > > > > > > > > > &&
+> > > > > > > > > > > > inst-
+> > > > > > > > > > state
+> > > > > > > > > > > > =3D=3D
+> > > > > > > > > > > VPU_INST_STATE_NONE) {
+> > > > > > > > > > > > =C2=A0		struct dec_open_param open_param;
+> > > > > > > > > > > > +		int err =3D 0;
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0		memset(&open_param, 0, sizeof(struct
+> > > > > dec_open_param));
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +		err =3D pm_runtime_resume_and_get(inst-
+> > > dev->dev);
+> > > > > > > > > > > > +		if (err) {
+> > > > > > > > > > > > +			dev_err(inst->dev->dev, "decoder
+> > runtime
+> > > > > resume
+> > > > > > > > > > > failed %d\n", err);
+> > > > > > > > > > > > +			ret =3D -EINVAL;
+> > > > > > > > > > > > +			goto return_buffers;
+> > > > > > > > > > > > +		}
+> > > > > > > > > > > > +
+> > > > > > > > > > > > =C2=A0		ret =3D
+> > wave5_vpu_dec_allocate_ring_buffer(inst);
+> > > > > > > > > > > > =C2=A0		if (ret)
+> > > > > > > > > > > > =C2=A0			goto return_buffers; diff --git
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > -enc
+> > > > > > > > > > > > .c
+> > > > > > > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > -enc .c index 761775216cd4..ff73d69de41c 100644
+> > > > > > > > > > > > ---
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > -enc
+> > > > > > > > > > > > .c
+> > > > > > > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave=
+5
+> > > > > > > > > > > > +++ -vpu
+> > > > > > > > > > > > +++ -e
+> > > > > > > > > > > > +++ nc.c
+> > > > > > > > > > > > @@ -5,6 +5,7 @@
+> > > > > > > > > > > > =C2=A0=C2=A0* Copyright (C) 2021-2023 CHIPS&MEDIA I=
+NC
+> > > > > > > > > > > > =C2=A0=C2=A0*/
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +#include <linux/pm_runtime.h>
+> > > > > > > > > > > > =C2=A0#include "wave5-helper.h"
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0#define VPU_ENC_DEV_NAME "C&M Wave5 VPU encod=
+er"
+> > > > > > > > > > > > @@ -1387,9 +1388,17 @@ static int
+> > > > > > > > > > > > wave5_vpu_enc_start_streaming(struct
+> > > > > > > > > > > > vb2_queue *q, unsigned int count
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0	if (inst->state =3D=3D VPU_INST_STATE_NONE &=
+& q-
+> > > type
+> > > > > > > > > > > > =3D=3D
+> > > > > > > > > > > V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+> > > > > > > > > > > > =C2=A0		struct enc_open_param open_param;
+> > > > > > > > > > > > +		int err =3D 0;
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0		memset(&open_param, 0, sizeof(struct
+> > > > > enc_open_param));
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +		err =3D pm_runtime_resume_and_get(inst-
+> > > dev->dev);
+> > > > > > > > > > > > +		if (err) {
+> > > > > > > > > > > > +			dev_err(inst->dev->dev, "encoder
+> > runtime
+> > > > > resume
+> > > > > > > > > > > failed %d\n", err);
+> > > > > > > > > > > > +			ret =3D -EINVAL;
+> > > > > > > > > > > > +			goto return_buffers;
+> > > > > > > > > > > > +		}
+> > > > > > > > > > > > +
+> > > > > > > > > > > > =C2=A0		wave5_set_enc_openparam(&open_param,
+> > inst);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0		ret =3D wave5_vpu_enc_open(inst,
+> > &open_param);
+> > > > > diff --
+> > > > > > > > > git
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > .c
+> > > > > > > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > .c index 0d90b5820bef..f81409740a56 100644
+> > > > > > > > > > > > ---
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-vp=
+u
+> > > > > > > > > > > > .c
+> > > > > > > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave=
+5
+> > > > > > > > > > > > +++ -vpu
+> > > > > > > > > > > > +++ .c
+> > > > > > > > > > > > @@ -10,6 +10,7 @@
+> > > > > > > > > > > > =C2=A0#include <linux/clk.h>
+> > > > > > > > > > > > =C2=A0#include <linux/firmware.h>  #include
+> > > > > > > > > > > > <linux/interrupt.h>
+> > > > > > > > > > > > +#include <linux/pm_runtime.h>
+> > > > > > > > > > > > =C2=A0#include "wave5-vpu.h"
+> > > > > > > > > > > > =C2=A0#include "wave5-regdefine.h"
+> > > > > > > > > > > > =C2=A0#include "wave5-vpuconfig.h"
+> > > > > > > > > > > > @@ -117,6 +118,65 @@ static int
+> > > > > > > > > > > > wave5_vpu_load_firmware(struct device
+> > > > > > > > > > > *dev, const char *fw_name,
+> > > > > > > > > > > > =C2=A0	return 0;
+> > > > > > > > > > > > =C2=A0}
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +static __maybe_unused int wave5_pm_suspend(struct
+> > > > > > > > > > > > +device
+> > > > > > > > > > > > +*dev)
+> > > > > > > {
+> > > > > > > > > > > > +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	if (pm_runtime_suspended(dev))
+> > > > > > > > > > > > +		return 0;
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	wave5_vpu_sleep_wake(dev, true, NULL, 0);
+> > > > > > > > > > > > +	clk_bulk_disable_unprepare(vpu->num_clks,
+> > > > > > > > > > > > +vpu->clks);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	return 0;
+> > > > > > > > > > > > +}
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +static __maybe_unused int wave5_pm_resume(struct
+> > > > > > > > > > > > +device
+> > > > > *dev) {
+> > > > > > > > > > > > +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
+> > > > > > > > > > > > +	int ret =3D 0;
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	wave5_vpu_sleep_wake(dev, false, NULL, 0);
+> > > > > > > > > > > > +	ret =3D clk_bulk_prepare_enable(vpu->num_clks,
+> > vpu-
+> > > > > > clks);
+> > > > > > > > > > > > +	if (ret) {
+> > > > > > > > > > > > +		dev_err(dev, "Enabling clocks,
+> > fail: %d\n",
+> > > > > ret);
+> > > > > > > > > > > > +		return ret;
+> > > > > > > > > > > > +	}
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	return ret;
+> > > > > > > > > > > > +}
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +static __maybe_unused int wave5_suspend(struct
+> > > > > > > > > > > > +device
+> > > > > > > > > > > > +*dev)
+> > > > > {
+> > > > > > > > > > > > +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
+> > > > > > > > > > > > +	struct vpu_instance *inst;
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	list_for_each_entry(inst, &vpu->instances, list)
+> > > > > > > > > > > > +		v4l2_m2m_suspend(inst->v4l2_m2m_dev);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	return pm_runtime_force_suspend(dev); }
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +static __maybe_unused int wave5_resume(struct
+> > > > > > > > > > > > +device
+> > > > > > > > > > > > +*dev)
+> > > > > {
+> > > > > > > > > > > > +	struct vpu_device *vpu =3D dev_get_drvdata(dev);
+> > > > > > > > > > > > +	struct vpu_instance *inst;
+> > > > > > > > > > > > +	int ret =3D 0;
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	ret =3D pm_runtime_force_resume(dev);
+> > > > > > > > > > > > +	if (ret < 0)
+> > > > > > > > > > > > +		return ret;
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	list_for_each_entry(inst, &vpu->instances, list)
+> > > > > > > > > > > > +		v4l2_m2m_resume(inst->v4l2_m2m_dev);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	return ret;
+> > > > > > > > > > > > +}
+> > > > > > > > > > >=20
+> > > > > > > > > > > The functions wave5_suspend() and wave5_resume() are
+> > > > > > > > > > > not just "maybe_unsued" but actually never used. What
+> > > > > > > > > > > was the
+> > > > > intention ?
+> > > > > > > > > > > Considering the usage of __maybe_unused has been such
+> > > > > > > > > > > a bad friend for this one, could you instead bracket
+> > > > > > > > > > > the functions with an
+> > > > > > > > > explicit ?
+> > > > > > > > > > >=20
+> > > > > > > > > > > #ifdef CONFIG_PM
+> > > > > > > > > > > #endif
+> > > > > > > > > > >=20
+> > > > > > > > > > > This way the compiler will have a word if you
+> > > > > > > > > > > implement something that you forgot to actually use.
+> > > > > > > > > > >=20
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +static const struct dev_pm_ops wave5_pm_ops =3D {
+> > > > > > > > > > > > +	SET_RUNTIME_PM_OPS(wave5_pm_suspend,
+> > > > > > > > > > > > +wave5_pm_resume,
+> > > > > > > > > NULL) };
+> > > > > > > > > > > > +
+> > > > > > > > > > > > =C2=A0static int wave5_vpu_probe(struct platform_de=
+vice
+> > > > > > > > > > > > *pdev)
+> > > > {
+> > > > > > > > > > > > =C2=A0	int ret;
+> > > > > > > > > > > > @@ -232,6 +292,10 @@ static int
+> > > > > > > > > > > > wave5_vpu_probe(struct platform_device
+> > > > > > > > > > > *pdev)
+> > > > > > > > > > > > =C2=A0		 (match_data->flags & WAVE5_IS_DEC) ?
+> > > > > "'DECODE'" : "");
+> > > > > > > > > > > > =C2=A0	dev_info(&pdev->dev, "Product Code:      0x%=
+x\n",
+> > dev-
+> > > > > > > > > > product_code);
+> > > > > > > > > > > > =C2=A0	dev_info(&pdev->dev, "Firmware Revision: %u\=
+n",
+> > > > > > > > > > > > fw_revision);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > +	pm_runtime_enable(&pdev->dev);
+> > > > > > > > > > > > +	wave5_vpu_sleep_wake(&pdev->dev, true, NULL, 0);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > =C2=A0	return 0;
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0err_enc_unreg:
+> > > > > > > > > > > > @@ -254,6 +318,9 @@ static int
+> > > > > > > > > > > > wave5_vpu_remove(struct platform_device
+> > > > > > > > > > > > *pdev)  {
+> > > > > > > > > > > > =C2=A0	struct vpu_device *dev =3D
+> > > > > > > > > > > > dev_get_drvdata(&pdev->dev);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +	pm_runtime_put_sync(&pdev->dev);
+> > > > > > > > > > > > +	pm_runtime_disable(&pdev->dev);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > =C2=A0	mutex_destroy(&dev->dev_lock);
+> > > > > > > > > > > > =C2=A0	mutex_destroy(&dev->hw_lock);
+> > > > > > > > > > > > =C2=A0	clk_bulk_disable_unprepare(dev->num_clks,
+> > > > > > > > > > > > dev->clks);
+> > > > > @@
+> > > > > > > > > > > > -
+> > > > > > > > > 281,6
+> > > > > > > > > > > > +348,7 @@ static struct platform_driver
+> > > > > > > > > > > > +wave5_vpu_driver =3D {
+> > > > > > > > > > > > =C2=A0	.driver =3D {
+> > > > > > > > > > > > =C2=A0		.name =3D VPU_PLATFORM_DEVICE_NAME,
+> > > > > > > > > > > > =C2=A0		.of_match_table =3D
+> > of_match_ptr(wave5_dt_ids),
+> > > > > > > > > > > > +		.pm =3D &wave5_pm_ops,
+> > > > > > > > > > > > =C2=A0		},
+> > > > > > > > > > > > =C2=A0	.probe =3D wave5_vpu_probe,
+> > > > > > > > > > > > =C2=A0	.remove =3D wave5_vpu_remove, diff --git
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-
+> > vpuapi.
+> > > > > > > > > > > > c
+> > > > > > > > > > > > b/drivers/media/platform/chips-media/wave5/wave5-
+> > vpuapi.
+> > > > > > > > > > > > c index 1a3efb638dde..f1f8e4fc8474 100644
+> > > > > > > > > > > > ---
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5-
+> > vpuapi.
+> > > > > > > > > > > > c
+> > > > > > > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave=
+5
+> > > > > > > > > > > > +++ -vpu
+> > > > > > > > > > > > +++ ap
+> > > > > > > > > > > > +++ i.c
+> > > > > > > > > > > > @@ -6,6 +6,7 @@
+> > > > > > > > > > > > =C2=A0=C2=A0*/
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0#include <linux/bug.h>
+> > > > > > > > > > > > +#include <linux/pm_runtime.h>
+> > > > > > > > > > > > =C2=A0#include "wave5-vpuapi.h"
+> > > > > > > > > > > > =C2=A0#include "wave5-regdefine.h"
+> > > > > > > > > > > > =C2=A0#include "wave5.h"
+> > > > > > > > > > > > @@ -232,6 +233,9 @@ int wave5_vpu_dec_close(struct
+> > > > > > > > > > > > vpu_instance *inst,
+> > > > > > > > > > > > u32 *fail_res)
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0	wave5_vdi_free_dma_memory(vpu_dev,
+> > > > > > > > > > > > &p_dec_info->vb_task);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +	if (!pm_runtime_suspended(inst->dev->dev))
+> > > > > > > > > > > > +		pm_runtime_put_sync(inst->dev->dev);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > =C2=A0unlock_and_return:
+> > > > > > > > > > > > =C2=A0	mutex_unlock(&vpu_dev->hw_lock);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > @@ -734,6 +738,9 @@ int wave5_vpu_enc_close(struct
+> > > > > > > > > > > > vpu_instance *inst,
+> > > > > > > > > > > > u32 *fail_res)
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0	wave5_vdi_free_dma_memory(vpu_dev,
+> > > > > > > > > > > > &p_enc_info->vb_task);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +	if (!pm_runtime_suspended(inst->dev->dev))
+> > > > > > > > > > > > +		pm_runtime_put_sync(inst->dev->dev);
+> > > > > > > > > > >=20
+> > > > > > > > > > > This seems very unnatural. We do the get() in
+> > > > > > > > > > > "start_streaming()", but the
+> > > > > > > > > > > put() is only done when the device is closed, or when
+> > > > > > > > > > > the driver is removed. As this is not balanced, you
+> > > > > > > > > > > seem to have to check the suspended condition all ove=
+r
+> > the place.
+> > > > > > > > > > >=20
+> > > > > > > > > > > I think we could aim for
+> > > > > > > > > > > start_streaming()/stop_streaming()
+> > > > > > > > > > > for your get/put placement. At least they will be
+> > > > > > > > > > > bound to an entirely balanced
+> > > > > > > > > API.
+> > > > > > > > > > > But then, a media player in paused sate will prevent
+> > > > > > > > > > > that device from being suspended.
+> > > > > > > > > > >=20
+> > > > > > > > > > > If the HW is capable of preserving enough state, and
+> > > > > > > > > > > From the short doc I have it gives me the impression
+> > > > > > > > > > > it can preserve that, I'd suggest to follow what
+> > > > > > > > > > > hantro driver is doing. What is does is that it will
+> > > > > > > > > > > do get() in device_run(), and put() whenever the job
+> > > > > > > > > > > completes. This driver has been designed so when ther=
+e
+> > > > > > > > > > > is no job, it means the firmware is currently idle an=
+d
+> > looking for more work.
+> > > > > > > > > > > So it seems like the perfect moment to
+> > > > > > > do suspend it.
+> > > > > > > > > > >=20
+> > > > > > > > > > > Nicolas
+> > > > > > > > > > >=20
+> > > > > > > > > > > > +
+> > > > > > > > > > > > =C2=A0	mutex_unlock(&vpu_dev->hw_lock);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0	return 0;
+> > > > > > > > > > > > diff --git
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5.h
+> > > > > > > > > > > > b/drivers/media/platform/chips-media/wave5/wave5.h
+> > > > > > > > > > > > index 063028eccd3b..6125eff938a8 100644
+> > > > > > > > > > > > ---
+> > > > > > > > > > > > a/drivers/media/platform/chips-media/wave5/wave5.h
+> > > > > > > > > > > > +++ b/drivers/media/platform/chips-media/wave5/wave=
+5
+> > > > > > > > > > > > +++ .h
+> > > > > > > > > > > > @@ -56,6 +56,9 @@ int wave5_vpu_get_version(struct
+> > > > > > > > > > > > vpu_device *vpu_dev, u32 *revision);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0int wave5_vpu_init(struct device *dev, u8 *fw=
+,
+> > > > > > > > > > > > size_t size);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > +int wave5_vpu_sleep_wake(struct device *dev, bool
+> > > > > > > > > > > > +i_sleep_wake, const
+> > > > > > > > > > > uint16_t *code,
+> > > > > > > > > > > > +			 size_t size);
+> > > > > > > > > > > > +
+> > > > > > > > > > > > =C2=A0int wave5_vpu_reset(struct device *dev, enum
+> > > > > > > > > > > > sw_reset_mode reset_mode);
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > =C2=A0int wave5_vpu_build_up_dec_param(struct
+> > > > > > > > > > > > vpu_instance *inst, struct dec_open_param *param);
+> > > > > > > > > >=20
+> > > > > > > >=20
+> > > > > >=20
+> > >=20
 >=20
 
 
