@@ -1,260 +1,225 @@
-Return-Path: <linux-media+bounces-6322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6323-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A607086F916
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 04:51:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B429B86F974
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 06:15:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56EB9281639
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 03:51:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D7731F21938
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 05:15:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C267523C;
-	Mon,  4 Mar 2024 03:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D20BA2B;
+	Mon,  4 Mar 2024 05:15:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ju2M5S33"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PNUZWMvn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2064.outbound.protection.outlook.com [40.107.114.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C10E611A;
-	Mon,  4 Mar 2024 03:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709524268; cv=none; b=PhiNk+N3xAkF9RnaXwc6e5wYVAdPpr6pXt7rSZD876G3+MgD96qWhX/jCqItqKTYETGGtv9XuxQ8uaVT/RCaph4qCxVkbnvmpdBvr5CQQzgvnhp/xR8H7mNPGYgoVLBVKEjuRAIBXkmGy/j2a4UgnnhHMYTCRkVxO3D8zqoFb3A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709524268; c=relaxed/simple;
-	bh=SYNRknKSSrLHCA4uTn0YmSfvsIhhGcOKi15/aY4sdE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gHQx6QfVU/dgtmc3/KxoiyeEMRbMuLm5ZfIlYJBi0v/xZrsh7JQcVOMikrdqMTTixvCGToPlqJ6cDB4kPAjsZY1Q4lxjFToKxE7cmCqPYp1c/04d87XjNFlXxBhyibScl8ruvWrG7xmg1xMhY3uDXehqDqTLGnKbLGYJvAp9lE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ju2M5S33; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709524266; x=1741060266;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SYNRknKSSrLHCA4uTn0YmSfvsIhhGcOKi15/aY4sdE0=;
-  b=ju2M5S33+4jATd6osjHaQiePJajQynYxQzCrqGb13khdaeWUWr/J9XhU
-   dK2K6yrnRR8rDfUqje6K6zghh/FHP0sj7zmxCd/NmBcYIqR89Mtt26Tvp
-   kwqKPjANwUApLOY1jvpCMbi1Qi1Ox1i+5qWH/NHB7OpdDhbDMV0n+8W3W
-   uZ8CmLKwDkP+sEMpHwQGtnGDZ3HyIbCGmJq8aP53TVw4FuEldVcheLiZJ
-   rAxJZFgRwANvM86Xd34VdBfz1xHS0Eor4lMZ586xdqcYDZx9bgnS/DGdQ
-   vCDBcG2nYQG/6Y5suDqWhESevxepMAqKNPKvCN7d+h50irD1+t1PRx6QJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7770073"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="7770073"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 19:51:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="9212868"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Mar 2024 19:51:04 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgzLw-0002KN-2a;
-	Mon, 04 Mar 2024 03:51:00 +0000
-Date: Mon, 4 Mar 2024 11:50:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: WARNING: modpost: "__ashldi3" [drivers/media/v4l2-core/videodev.ko]
- has no CRC!
-Message-ID: <202403041109.BmYl5mGm-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46E579EF;
+	Mon,  4 Mar 2024 05:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709529304; cv=fail; b=Zl6nd9hLCfoMA6WOdGovTWrpAO1lXgHHc6hlC6SV43y6ScNvJEUtHB7FQdVq+tNIdn5ckMzU2PNmfOBfXh/knCJVjCUibHXsDFTVpJLMRfloX6aNlGdcVdsnIXF8/ilwnqfiLZVVhOUppAzwBHrM5th9wSPh/vs7+IqeTBy7Yi4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709529304; c=relaxed/simple;
+	bh=NB4GO9u6fcnh40pzkEeaqK1kF5P9wEPCVAmbAW8Maf4=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=bgM/6tRcM7KtPF+M5O5gJyKWotXRqBlpDHAOcY2M3tQxhe6bOg3As31T64ISBXkEl8V1tzf5DKy99djGD5F69hNFH6RcyDnRKVtEcgWDmyuILmkhev1Hj809xrjN72IlaYosANUNqtTKniDI+9j0sCNbFM002jkOvnJBvPe6InQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PNUZWMvn; arc=fail smtp.client-ip=40.107.114.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ACl25ziSuEH++ip/ASeHAYK5EM+IKTBDJdCGa9f4eaVcjrzl89QJh5gzKDWT8mZXsfIn1fCBAUaccqNbO/ZZSN+mdbS27O8Tao8m8VkaQD5XYSA2crlfMgmwu9DmgmJSSv674Pc2qp4FJyWn5ZBrb8k+ObnakyA8X3hjCSWRNnM++JXY04Y+W5L+5z6OHlZbq2Qt/zzGn7ziNDgWabdP/5FMJ+4U2/6ugolk2hZUVgM18kXUwMFGo+6dVnym+fQC6TJZQAP8CgxNDdKx5XLZ6SOwnu7B8cwJ0KLlgOofSn5g+OxLFujs6dzsf88XT/rZCSfjxazyAvkuwOpN61VjSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pPWqBcRXwbO+R2g6KVNJFygj60WyLlHpr50NYErWcqQ=;
+ b=YJ93jUCHlPBENKG/HIT1tq316ypFB9+1CS3QRV2W6kBtkUFy7eLLSWHtWsfl6lVUKCmLCaSW3DLWaBvjxrvEoHyzqMouthILIwbLALc7vRri3jOrG7ZJKereBRQHsFc2k2NIsz9G7tuJOgjNLUBBmM6sNk2h2TJ8YJLRRhynhp9cNIgxjQy5tnPkgwmJtiC3H0NYH+duSoiU+UqZOVjZf/tD5yF77qSmtd9sz9qEy7WbJTlMMVv81+joJCFXKUEovPn187a3wSvzEuSZ7QvlMFabXQqiQ03T5kTVDRvshnuQ214M+J7YaCDV6CZRP17fWrjcApa64HH7aBGZBk72zA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pPWqBcRXwbO+R2g6KVNJFygj60WyLlHpr50NYErWcqQ=;
+ b=PNUZWMvnOoEGzwqAPyDsFreuYtvn7VQukF4Xfn6qLJL+gZhLDXUBwqwUrCDQCMReqsugJ6TfAlkCxUuGOyWUEsgC6QxGqsXqe+rs/o7DXcSWsnHOX3VRWxNr9Sk5FCKKMW5lpl4KtzW/V5LJdVI/Vd2uyOJjyY5ialHsMSYtwRA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS3PR01MB6322.jpnprd01.prod.outlook.com
+ (2603:1096:604:f4::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38; Mon, 4 Mar
+ 2024 05:14:57 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::1934:4a38:d599:33a2]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::1934:4a38:d599:33a2%5]) with mapi id 15.20.7339.035; Mon, 4 Mar 2024
+ 05:14:57 +0000
+Message-ID: <87plwah92n.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Rob Herring <robh+dt@kernel.org>, "Lad Prabhakar"
+ <prabhakar.csengg@gmail.com>, =?ISO-8859-1?Q?=22Uwe_Kleine-K=F6nig=22?=
+ <u.kleine-koenig@pengutronix.de>, Alain Volmat <alain.volmat@foss.st.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, David Airlie <airlied@gmail.com>, Eugen
+ Hristev <eugen.hristev@collabora.com>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Helge Deller <deller@gmx.de>, Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Jacopo Mondi <jacopo@jmondi.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime
+ Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Sam Ravnborg <sam@ravnborg.org>, Sylwester
+ Nawrocki <s.nawrocki@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tim Harvey <tharvey@gateworks.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH v2 resend 0/4] of: replace of_graph_get_next_endpoint()
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 4 Mar 2024 05:14:57 +0000
+X-ClientProxiedBy: TYAPR01CA0187.jpnprd01.prod.outlook.com
+ (2603:1096:404:ba::31) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB6322:EE_
+X-MS-Office365-Filtering-Correlation-Id: 38b65b10-ba4c-4ba6-470b-08dc3c0a08cf
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	uNFimaYfjhR/GTIBnIlbcpWPpHA5x6Ar0wG6xuCUOcP/S4Y9ZKl6t88vT44WhMPMXuRgdsmXPJLGS3R0W+rRaNti6M1eDqahpMvXSdV9FilD/nbEpUNGbU3l5AhZjkaZooyVe71LYw3bfgWsymE3N+jFkMON1K0djo1aCZIj2N9pFRfEfH2LAGSXSCrWHpBx2AWzMa6Tg2CLg+MvATEqBiX1fs+scXveKsWU9K2aO7hZfSRj0pzmExhH5VsZRfFjd1xgXMFEwC0KntDG/ofbb3UwwNFeNCLcZKYyuMgbr3LVPdkxGiex2U8l8ljn32HGuxCbpgqykwEUVr+F855ZALZ/HLVAOdzkxCTnXOvifZsGKh4aKUkBDtz6bfYWr10QsON8OUIcZh8qRMR+p1y/GE8S2KzUSpmUorGwtOZC6f6UIhPA/7l74BCYJfG0Y5dQufnjt6wL8qYlzF3+vSlb98qLr7Zmqg0c2QXf8BH1xG81ifZvEhJKX8RWKBkpYAz8dHVve3qZCbYpaue5NUkBxvz7hFH/MWvin95A7oyXD9QeSJWMhGPwTMBEgnkOWZMIpWH8boDSuk+sEKZl1DZ/Qjp3lQEHhjVXQFPi1NlUuZlwxspDkI2FBsRHkNbcSmmyT+vEwI1K/TCbmuw3BIByks6bcv2DwsKhMb6hH6fE/DktQqHbiC6b1zPcrcf459n2
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(921011)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4NJEQyIMla2dgd5Q+forIT0Ej/xRKlVE+sVf5LHaJJpHf2tIkD/viwcPY1E3?=
+ =?us-ascii?Q?zO2oh5NhQNLIFQ1Rk/hcb69Yw0sRjAmmAIdFEGLAv1lav2P2XjxfnFXOafFI?=
+ =?us-ascii?Q?mxX5BemcEdu5w0XJ6WEleyONS82E4ywH2km/0DT3khryaObLlmUS+OCdEnBE?=
+ =?us-ascii?Q?L46YovctdMMZIdFC7GSG+a8UWsOjaPCgLSn6NdZOz0eRsbHSjbACK5jMng6V?=
+ =?us-ascii?Q?G0az2QWlkt+q0lojTxMT7xpLsKVZnaJfmnD0YeyWwTeggaQStSTb45DoN/AF?=
+ =?us-ascii?Q?WEgjxRiw9tdQu+IV+vq2bFAE1lRObZejEwv0r9WsHYHti2NZHaw4+G89Tax5?=
+ =?us-ascii?Q?bN/dKhGLDNoni9/WH5cBO8B6SEs8FnafWSuwfJzGw2W9J3e3zbLpPiohSebm?=
+ =?us-ascii?Q?uBXXS1LnYxWcZX/yDKhUKtUWdy6YYAO7n1Oik8522LtBgXkq+VXkzQk1JTAl?=
+ =?us-ascii?Q?TtI876EOUZeIDbqpQsp3KXsh/Gebk4xzeB50NZ5bLdghIFW2jdiS0bahjrdg?=
+ =?us-ascii?Q?HZkvw49h44AwX2ccdmTFB7fQy4k3nlxcJWTWGEs5Vy4kZqVG5fxE/dNs5eil?=
+ =?us-ascii?Q?9fjNtP6aRJG8ofcZgH0MiDwQXkre9RKWzEjPki2zwDqBnaSu0fyTyiR5lafR?=
+ =?us-ascii?Q?huf2QD7vZqQAgYMQvdDxw82F9tRqrnUwJPSjxxJWwtxx7B5ZWFV9GqDK6o3P?=
+ =?us-ascii?Q?t/A9HJMaKejAJWd9l9FButwtqxbuv2iBH+K+sLig/lxn+isxy+FezaMZLEgA?=
+ =?us-ascii?Q?OWeTrjuBoJKbke65A2jT2go/WVPBb/BDomCCyDONJuB8nXaTQiezhIvT3onV?=
+ =?us-ascii?Q?vMadkvDFrx+4H2Lsx6wnJLbZUsNX4zJESe0H3nKwQ0oFXZCPb4l4AK6U8ryZ?=
+ =?us-ascii?Q?hdDXbOtDQJHYD2OyLv6a0TMu3UTi5bNutudRMlf675dfFLYOF7va9vWu2DoF?=
+ =?us-ascii?Q?5qASfoXx83M1t1XyT1PdJWB95msl71x2t3bU9OzRw1ANtMJUGw7MCX226Ow3?=
+ =?us-ascii?Q?xzILhPiXSDcrloY6rSLWbURrxLS8fWoMDs8VBp4K4AVLdIf5sXp/5C/zNdU2?=
+ =?us-ascii?Q?bHvNMp2YZa6FQd100eSkESSTbVBjHD4Yer2Xy9qcogBty3IS9pdbS5/02Qm7?=
+ =?us-ascii?Q?+nOJxbij5qWkNFBC3zY629KPZI3AkXymc9wt8CmgdP9Eq5U/9tfp5yq7UD1b?=
+ =?us-ascii?Q?8IbI/POU8vHszyFKjFSv2iAku/COchUMS6U0NbkbcYgOsgz3pWKGrgElEwE8?=
+ =?us-ascii?Q?lc51r+6cWecqaCr3Tt+zXodK/wh4Ybj9G0lyw9H15XLlI2In5baHXxShd7x7?=
+ =?us-ascii?Q?yo90NURAJo4+hozh6UGTMbhpZzcrDDfYVIyl55MRkqJ7KgcDqKsfuO9meFCR?=
+ =?us-ascii?Q?qIqeg+qkj8ux56RsBdwCXBWns8iXIK7F/RAC8K1kiRlJnZqIG+PW+RCpvYhU?=
+ =?us-ascii?Q?zXZ3zVNYysDm756K1UyB3ITQc5rQZl+4m4WH/rE5uG9Zqi+vrYxq4q2PsKa7?=
+ =?us-ascii?Q?xxyGSV1czNKKF7sdyAgEe5umDZI6f1rnAf0xB7qDi5tpsN8DXUJr5d6sG7Op?=
+ =?us-ascii?Q?BN/1jEo9AU4Pmfnp01QNngDSIsAeLZ5ypeWtzztns5JgQZEGEjRV+5tgUne9?=
+ =?us-ascii?Q?0Y6iCRfno+lQH90cn2IHzYs=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38b65b10-ba4c-4ba6-470b-08dc3c0a08cf
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 05:14:57.6044
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hU+HpGK4Fx+TSG6Kn/4+qg/sNFGtuJrBGqdJogC5ZcnvGXHNpP35QsoLd4w7BC8fmY4aE5n3ZKGugG/t1N7OqIs5yoy9LKxBgYF2/r4G5vGP1NIOFiCacU1wGIqOa2Sa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6322
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90d35da658da8cff0d4ecbb5113f5fac9d00eb72
-commit: a6b995ed03ffeb36f06c4a46d8804c24d776de6f media: subdev: use streams in v4l2_subdev_link_validate()
-date:   1 year, 1 month ago
-config: sparc-buildonly-randconfig-r001-20230222 (https://download.01.org/0day-ci/archive/20240304/202403041109.BmYl5mGm-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240304/202403041109.BmYl5mGm-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403041109.BmYl5mGm-lkp@intel.com/
+Hi Rob
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+This is resend v2 of replace of_graph_get_next_endpoint()
 
-WARNING: modpost: EXPORT symbol "empty_zero_page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "empty_zero_page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__udelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__udelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ndelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ndelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "bzero_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "bzero_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__copy_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__copy_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__divdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__divdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_exit" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_exit" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_try" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_try" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_write_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_write_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__lshrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__lshrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__muldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__muldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "__udelay" [kernel/scftorture.ko] has no CRC!
-WARNING: modpost: "empty_zero_page" [fs/cramfs/cramfs.ko] has no CRC!
-WARNING: modpost: "empty_zero_page" [security/keys/encrypted-keys/encrypted-keys.ko] has no CRC!
-WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_compress.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [lib/zstd/zstd_compress.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_decompress.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_common.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s1d13xxxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/ipmi/ipmi_si.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/xilinx/xilinx_dpdma.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/altera-msgdma.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/idma64.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/regulator/mt6359-regulator.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/regulator/qcom_spmi-regulator.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/sunzilog.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/8250/8250_base.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/tty/serial/8250/8250_base.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/8250/8250_dw.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/8250/8250_tegra.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/tty/serial/sccnxp.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/sc16is7xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/ba431-rng.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/char/xillybus/xillybus_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/altera-stapl/altera-stapl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/si476x-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/atmel-hlcdc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/lpddr/qinfo_probe.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/mtd/lpddr/lpddr_cmds.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/lpddr/lpddr_cmds.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/mtd/devices/phram.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/mtd/nand/onenand/onenand.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/onenand/onenand.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/mtd/nand/onenand/onenand.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/tests/mtd_nandbiterrs.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/mtdoops.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/ubi/ubi.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/ubi/gluebi.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/sbus/char/uctrl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-r7301.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-bit.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-arb-gpio-challenge.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i3c/master/svc-i3c-master.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/i3c/master/svc-i3c-master.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/adv7604.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/adv7842.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/bt819.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/mt9t112.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/mt9v032.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/ov6650.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/tda1997x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/tuners/max2165.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/tuners/mt20xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/tuners/mxl5007t.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/tuners/tuner-simple.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/tuners/tda18271.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/platform/cadence/cdns-csi2rx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/dvb-frontends/atbm8830.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/dvb-frontends/stb6000.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/dvb-frontends/stv0288.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/media/dvb-frontends/stv0910.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/dvb-frontends/stv6110.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/media/dvb-frontends/tda10086.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/dvb-frontends/zl10353.ko] has no CRC!
->> WARNING: modpost: "__ashldi3" [drivers/media/v4l2-core/videodev.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/media/v4l2-core/videodev.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/dvb-core/dvb-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/host/sdhci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-bd2802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fpga/altera-pr-ip-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/spmi/hisi-spmi-controller.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/comedi/comedi.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/accel/mma9551_core.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/ad7606.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/adi-axi-adc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/hx711.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/palmas_gpadc.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/iio/adc/ti-ads1015.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/iio/afe/iio-rescale.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/iio/common/ms_sensors/ms_sensors_i2c.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/potentiometer/ad5272.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/pressure/dlhl60d.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/proximity/ping.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/iio/industrialio.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/core/snd-timer.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/core/snd-pcm-dmaengine.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/ac97/snd-ac97-codec.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/hda/snd-hda-codec.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/pci/hda/snd-hda-codec-generic.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [sound/pci/hda/snd-hda-codec-generic.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/sparc/snd-sun-dbri.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/soc/snd-soc-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/snd-soc-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-adau1701.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-adau17x1.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-ak4458.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-aw8738.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs35l41-lib.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs42l51.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs42l73.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4265.ko] has no CRC!
-WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-cs4270.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4271.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-dmic.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-max98357a.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8540.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8810.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8822.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8824.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rk3328.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5616.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-rt5645.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-sgtl5000.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-sta32x.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tas5086.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic23.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic31xx.ko] has no CRC!
-WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-tlv320aic31xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-tlv320aic3x.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8510.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8711.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8903.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8904.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8974.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-wm8978.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/amd/acp_audio_dma.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/soc/fsl/snd-soc-fsl-asrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-asrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/fsl/snd-soc-fsl-sai.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/hda/snd-hda-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/hda/ext/snd-hda-ext-core.ko] has no CRC!
+We should get rid of or minimize of_graph_get_next_endpoint() in
+its current form. In general, drivers should be asking for a specific 
+port number because their function is fixed in the binding.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	https://lore.kernel.org/r/20240131184347.GA1906672-robh@kernel.org
+
+This patch-set replace of_graph_get_next_endpoint() by
+of_graph_get_endpoint_by_regs(). There are still next_endpoint()
+after this patch-set, but it will be replaced by
+for_each_endpoint_of_node() in next patch-set (A)
+
+[*] this patch-set
+[o] done
+
+	[o] tidyup of_graph_get_endpoint_count()
+	[*] replace endpoint func - use endpoint_by_regs()
+(A)	[ ] replace endpoint func - use for_each()
+	[ ] rename endpoint func to device_endpoint
+	[ ] add new port function
+	[ ] add new endpont function
+	[ ] remove of_graph_get_next_device_endpoint()
+
+v1 -> v2
+	- add Reviewed-by from Launrent
+	- use by_regs(xx, -1, -1) for some devices
+	- add extra explain for drm_of_get_dsi_bus()
+	- add FIXME and Link on adv7604.c
+	- based on latest of branch
+
+Kuninori Morimoto (4):
+  gpu: drm: replace of_graph_get_next_endpoint()
+  media: i2c: replace of_graph_get_next_endpoint()
+  media: platform: replace of_graph_get_next_endpoint()
+  video: fbdev: replace of_graph_get_next_endpoint()
+
+ drivers/gpu/drm/drm_of.c                      |  4 +++-
+ .../drm/panel/panel-raspberrypi-touchscreen.c |  2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+ drivers/media/i2c/adv7343.c                   |  2 +-
+ drivers/media/i2c/adv7604.c                   |  4 ++--
+ drivers/media/i2c/mt9p031.c                   |  2 +-
+ drivers/media/i2c/mt9v032.c                   |  2 +-
+ drivers/media/i2c/ov2659.c                    |  2 +-
+ drivers/media/i2c/ov5645.c                    |  2 +-
+ drivers/media/i2c/ov5647.c                    |  2 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  2 +-
+ drivers/media/i2c/s5k5baf.c                   |  2 +-
+ drivers/media/i2c/tc358743.c                  |  2 +-
+ drivers/media/i2c/tda1997x.c                  |  2 +-
+ drivers/media/i2c/tvp514x.c                   |  2 +-
+ drivers/media/i2c/tvp7002.c                   |  2 +-
+ drivers/media/platform/atmel/atmel-isi.c      |  4 ++--
+ drivers/media/platform/intel/pxa_camera.c     |  2 +-
+ .../platform/samsung/exynos4-is/fimc-is.c     |  2 +-
+ .../platform/samsung/exynos4-is/mipi-csis.c   |  3 ++-
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |  4 ++--
+ drivers/media/platform/ti/davinci/vpif.c      |  3 +--
+ drivers/video/fbdev/omap2/omapfb/dss/dsi.c    |  3 ++-
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 20 +------------------
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c  |  3 ++-
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c  |  3 ++-
+ drivers/video/fbdev/omap2/omapfb/dss/venc.c   |  3 ++-
+ drivers/video/fbdev/pxafb.c                   |  2 +-
+ include/video/omapfb_dss.h                    |  3 ---
+ 29 files changed, 38 insertions(+), 53 deletions(-)
 
