@@ -1,180 +1,156 @@
-Return-Path: <linux-media+bounces-6335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6336-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE5586FAF9
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 08:39:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA4386FB30
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 08:56:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A918281ECD
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 07:39:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 097A61C20E00
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 07:56:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C60AF14F8C;
-	Mon,  4 Mar 2024 07:39:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BBB171A2;
+	Mon,  4 Mar 2024 07:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N9iw3a6r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftNv2pas"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656CF13FFD
-	for <linux-media@vger.kernel.org>; Mon,  4 Mar 2024 07:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFB514005;
+	Mon,  4 Mar 2024 07:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709537942; cv=none; b=Oadd3luU6XzxSCOYm0UiWql/4IUA74SgbHpiKnJjxfMyk0ACd1zUSsXX05WckExuWYXryVK/ig/1zLx2eThKijqGMioAJ3CUC2zR8FLJzuqUTOnVilxbP1wnLoJAjhIPr+vknqo/hr7XF6w6Aq1TpBl3eH2BDJhzHS5NivtZWDA=
+	t=1709538987; cv=none; b=WT967ERcABrSaRIuDrRV1+/biVWZJpL2g6zI8GXu5IarrNPhbVMc5h3ESqF6UNhKxy5ppFSqPkkiC0ocq/NupFLshPqTrHB8svPcAfmaLEC2qfs/duxBwR1qqcYXY5cNHJj4Lz2gkVHx5G/NRfI/2j5t4esaH9v48WY9W6llddk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709537942; c=relaxed/simple;
-	bh=mFmlnvyh7LUji76YPrWiC0+QjXkqktDFpJmIM0Ds7OM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FLdm/88Y5jGiRXdf7IqB/09AvNuzTgnFSVZnMPFS6IqH4nBap5D792HwXZXC9UBma1WlKAbeIE02TjzVtWQqIBIRUb66SWIG4jRjUjPmeoo56N9lGNb4Lqn4Wzm2u9QlJk78cscb5GXWJRSD81N3mSnQMpDsYA2oEqLLlp7NMPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=N9iw3a6r; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709537938;
-	bh=mFmlnvyh7LUji76YPrWiC0+QjXkqktDFpJmIM0Ds7OM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=N9iw3a6riBfWAEKWFZ0LTX06MNyY1cMB/5BRyZ24T/w0uKcziXszZxagqH/gqrDyI
-	 z16o/zOGQ8eFgDMuZyhpZOrg9SlPnD3A1FGQ1x8gp5aDtj5CrVC6BerJ5JauH6Jcx3
-	 5A4kRAXYHC4eZFN4cFyx9g4+rFYbzWK/i73E6U6EVsiX1AViwM1cHHuIbfsKR5P4WH
-	 +qqeL0fCyY+WE//r3AaC5F4m+4iHbzErXOa80yhM6v4/T58jlXZYLMzW3OUn/7I5TW
-	 aSOTETwD/i2JsUheIIESxTX6o4x0Sqh1ZSBsC4m2SL27Vj+FiHbFlQapjRCZCjZzG7
-	 KZjxeKvyclXIA==
-Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2A59037813E3;
-	Mon,  4 Mar 2024 07:38:58 +0000 (UTC)
-Message-ID: <00f3c02e-a71b-4e41-a50b-f0494ce1a73d@collabora.com>
-Date: Mon, 4 Mar 2024 08:38:57 +0100
+	s=arc-20240116; t=1709538987; c=relaxed/simple;
+	bh=JU7B4JEXTqNDcYf4cw4oV1wq3naZdiA7hXrTs7ex2DA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hz9tUXX0KPrJ50I9L/fwd6fOmLxYwlwa9lWTvMb2qCxpYrry6Cirq8heUCStXzDbqSOB0H3fcgmRMbKcAdgliBzBUgazGkXkUJssYNyiSxuqgGswtpuNhbuQZ20O89whq+9JR63ACUz3KvUep48BBbkXFnZERZSpDmmUD4R1D3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftNv2pas; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a45606c8444so41621366b.3;
+        Sun, 03 Mar 2024 23:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709538983; x=1710143783; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JU7B4JEXTqNDcYf4cw4oV1wq3naZdiA7hXrTs7ex2DA=;
+        b=ftNv2paseRsgY8Budqo5Sya3Ru844KgFEAs3H64DDT/pGTikYNodj49JhD/rFIXdQB
+         D/jnpRgo62eK0kXe3I1lJVyiUEgYadvIRpGarcFL/k6S3zmOjx4HNpdw7vcQYp5uPuff
+         +xxQjDtWW2KPMAAk1ql2StkuLCZxFHBBxZgHIQTC/gsAEW69AWKLKvZqIDmNaYPaYHgX
+         nObnB9w3AF5yY+eZ+c0ZtQlo62anm9RUUby/wG6XVfEv9Y8ztS7NRmUYi3h05oDmTn90
+         /cWQuJ/6/R7kfvamXUFsDyO7XZPDyUGfsey/FcC/sxgXWNromQAiEQBswmD0E5QV1nyz
+         7Ddw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709538983; x=1710143783;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JU7B4JEXTqNDcYf4cw4oV1wq3naZdiA7hXrTs7ex2DA=;
+        b=VWqIpQY1l2dXvQklQij5WRDJtH4GB7fJBuPBibt+67UHg1PplvL1qhhtRNC9RSfcp+
+         jeJxjzN78oGvF6FvZRJjDajv7AnXE/nDiV7TcGd//TyrBp/UCSXyK4AFaD5/WboRJIGJ
+         3haoZDPGXn6IQxwshiQqHVFZlhNoqEO0ZqLQhU5TPM3jGCYoJ0KECPcj3//Yv1AJ22S5
+         OhZ4aQ4SWlx6XorVR85Msyt67Py1Zha6ThC6nmnUwOtUGeqHLlwUz680rKQBHgvM1YJj
+         jPwoZk8IC2ZlK+yU+8BebIwywl8Va/c3R6KePBVM4/NqZ38FPUUl+Fxrk+SpFvQZhEwA
+         yL0w==
+X-Forwarded-Encrypted: i=1; AJvYcCW9jkXG8130/gg3fVFDEdwF3FVqSELq6INf33Bx0hWchE8u5Cfrg8+WKjXW4ZyoCY3KO4pmUaChoRbnxe60v8Uj14tNdvdjN5ZizlpcC7yP0a2s2uJZZrFja3pvPlV//bAuzlNiOi2q0Q965bpjmDPvC3iCUNp87Vnfe0Ua0a/Mu8+fSpiAdR2tPsuamlMyN0n8TIZR5ZIeQSnDXRU=
+X-Gm-Message-State: AOJu0YybcC9PQw3+hFyeCao/Ec4+kKiNEH2eMa7RnSOQYX7Rzs2GKK0J
+	0W38v9ZzLOB+DVWoXo2CzjUHadaCis0+DXLNPd9tfoUcY1W3YekI
+X-Google-Smtp-Source: AGHT+IFDGr7vFAQ+PxmjQk9WiX9JA+Bj/agAwF6Fti3FyVIMSz4fL7PwqOI0+GiLNxiumrzfSC6zRg==
+X-Received: by 2002:a17:906:f293:b0:a45:1fa8:3850 with SMTP id gu19-20020a170906f29300b00a451fa83850mr1753968ejb.58.1709538982788;
+        Sun, 03 Mar 2024 23:56:22 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47? (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
+        by smtp.gmail.com with ESMTPSA id h4-20020a1709063b4400b00a433f470cf1sm4402055ejf.138.2024.03.03.23.56.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Mar 2024 23:56:22 -0800 (PST)
+Message-ID: <43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
+Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>, Nuno Sa <nuno.sa@analog.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,  Jonathan Corbet <corbet@lwn.net>, Paul
+ Cercueil <paul@crapouillou.net>, Daniel Vetter <daniel@ffwll.ch>, Michael
+ Hennerich <Michael.Hennerich@analog.com>,  linux-doc@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Date: Mon, 04 Mar 2024 08:59:47 +0100
+In-Reply-To: <20240303174245.37efc0b0@jic23-huawei>
+References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
+	 <20240303174245.37efc0b0@jic23-huawei>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 03/13] staging: mmal-vchiq: Fix memory leak in error
- path
-Content-Language: en-US
-To: Maarten Vanraes <maarten@rmail.be>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- linux-media@vger.kernel.org
-Cc: Kieran Bingham <kbingham@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.org>
-References: <20240303152635.2762696-1-maarten@rmail.be>
- <20240303152635.2762696-4-maarten@rmail.be>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20240303152635.2762696-4-maarten@rmail.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi Maarten,
+On Sun, 2024-03-03 at 17:42 +0000, Jonathan Cameron wrote:
+> On Fri, 23 Feb 2024 13:13:58 +0100
+> Nuno Sa <nuno.sa@analog.com> wrote:
+>=20
+> > Hi Jonathan, likely you're wondering why I'm sending v7. Well, to be
+> > honest, we're hoping to get this merged this for the 6.9 merge window.
+> > Main reason is because the USB part is already in (so it would be nice
+> > to get the whole thing in). Moreover, the changes asked in v6 were simp=
+le
+> > (even though I'm not quite sure in one of them) and Paul has no access =
+to
+> > it's laptop so he can't send v7 himself. So he kind of said/asked for m=
+e to
+> > do it.
+>=20
+> So, we are cutting this very fine. If Linus hints strongly at an rc8 mayb=
+e we
+> can sneak this in. However, I need an Ack from Vinod for the dma engine
+> changes first.
+>=20
+> Also I'd love a final 'looks ok' comment from DMABUF folk (Ack even bette=
+r!)
+>=20
+> Seems that the other side got resolved in the USB gadget, but last we hea=
+rd
+> form
+> Daniel and Christian looks to have been back on v5. I'd like them to conf=
+irm
+> they are fine with the changes made as a result.=20
+>=20
 
-W dniu 3.03.2024 o 16:09, Maarten Vanraes pisze:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> 
-> On error, vchiq_mmal_component_init could leave the
-> event context allocated for ports.
-> Clean them up in the error path.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> 
-> staging: mmal-vchiq: Free the event context for control ports
-> 
-> vchiq_mmal_component_init calls init_event_context for the
-> control port, but vchiq_mmal_component_finalise didn't free
-> it, causing a memory leak..
-> 
-> Add the free call.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> Signed-off-by: Maarten Vanraes <maarten@rmail.be>
-> ---
->   .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 29 ++++++++++++++-----
->   1 file changed, 22 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> index 2e616604943d..1209b7db8f30 100644
-> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> @@ -1825,9 +1825,26 @@ static void free_event_context(struct vchiq_mmal_port *port)
->   {
->   	struct mmal_msg_context *ctx = port->event_context;
->   
-> +	if (!ctx)
-> +		return;
-> +
->   	kfree(ctx->u.bulk.buffer->buffer);
->   	kfree(ctx->u.bulk.buffer);
->   	release_msg_context(ctx);
-> +	port->event_context = NULL;
-> +}
-> +
-> +static void release_all_event_contexts(struct vchiq_mmal_component *component)
-> +{
-> +	int idx;
-> +
-> +	for (idx = 0; idx < component->inputs; idx++)
-> +		free_event_context(&component->input[idx]);
-> +	for (idx = 0; idx < component->outputs; idx++)
-> +		free_event_context(&component->output[idx]);
-> +	for (idx = 0; idx < component->clocks; idx++)
-> +		free_event_context(&component->clock[idx]);
-> +	free_event_context(&component->control);
->   }
->   
->   /* Initialise a mmal component and its ports
-> @@ -1925,6 +1942,7 @@ int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
->   
->   release_component:
->   	destroy_component(instance, component);
-> +	release_all_event_contexts(component);
->   unlock:
->   	if (component)
->   		component->in_use = false;
-> @@ -1940,7 +1958,7 @@ EXPORT_SYMBOL_GPL(vchiq_mmal_component_init);
->   int vchiq_mmal_component_finalise(struct vchiq_mmal_instance *instance,
->   				  struct vchiq_mmal_component *component)
->   {
-> -	int ret, idx;
-> +	int ret;
->   
->   	if (mutex_lock_interruptible(&instance->vchiq_mutex))
->   		return -EINTR;
-> @@ -1952,12 +1970,9 @@ int vchiq_mmal_component_finalise(struct vchiq_mmal_instance *instance,
->   
->   	component->in_use = false;
->   
-> -	for (idx = 0; idx < component->inputs; idx++)
-> -		free_event_context(&component->input[idx]);
-> -	for (idx = 0; idx < component->outputs; idx++)
-> -		free_event_context(&component->output[idx]);
-> -	for (idx = 0; idx < component->clocks; idx++)
-> -		free_event_context(&component->clock[idx]);
-> +	release_all_event_contexts(component);
+I can ask Christian or Daniel for some acks but my feeling (I still need, a=
+t
+some point, to get really familiar with all of this) is that this should be
+pretty similar to the USB series (from a DMABUF point of view) as they are =
+both
+importers.
 
-The way I understand this chunk is that you factor out the 3 "for" loops into
-the new function "release_all_event_contexts()", because it is then reused 
-elsewhere. "release_all_event_contexts()" already contains invocation of
-"free_event_context(&component->control)"...
+> I've been happy with the IIO parts for a few versions now but my ability =
+to
+> review
+> the DMABUF and DMA engine bits is limited.
+>=20
+> A realistic path to get this in is rc8 is happening, is all Acks in place=
+ by
+> Wednesday,
+> I get apply it and hits Linux-next Thursday, Pull request to Greg on Satu=
+rday
+> and Greg
+> is feeling particularly generous to take one on the day he normally close=
+s his
+> trees.
+>=20
 
-> +
-> +	free_event_context(&component->control);
+Well, it looks like we still have a shot. I'll try to see if Vinod is fine =
+with
+the DMAENGINE stuff.
 
-... but it is repeated here. Why?
-
-Regards,
-
-Andrzej
-
->   
->   	mutex_unlock(&instance->vchiq_mutex);
->   
+- Nuno S=C3=A1
 
 
