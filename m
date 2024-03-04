@@ -1,135 +1,150 @@
-Return-Path: <linux-media+bounces-6347-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6348-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8141086FFCA
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 12:07:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 087D4870001
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 12:12:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1B9B6B21D59
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 11:07:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7E9B1F26046
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 11:12:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C15A5383AD;
-	Mon,  4 Mar 2024 11:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF64A39FEE;
+	Mon,  4 Mar 2024 11:11:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkM7w7N6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oHsMJFPZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB4A2BAF5;
-	Mon,  4 Mar 2024 11:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E557A39FE7
+	for <linux-media@vger.kernel.org>; Mon,  4 Mar 2024 11:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709550458; cv=none; b=kRtkCM8RHUBhesC9fEY7ORb027PrehG+HLdjPZturggrAXOQfXMiH8fwsvVZO0pkMlNJ4OffPSUx8O7+vGHAxb4YB1+IyePZYVwemuiRnXdvVs7jO3ECnHWh5+9s6poMmjA/AgNILAW3dwAqMjHkiHuCQ2K7HbALBJ1arHSjMqo=
+	t=1709550712; cv=none; b=BekHp2xEmtTiZTGnu6VBPXbvb6yP/nlgeerqfMYvoSvUkcfH94IICmzYpP3V7fO8nUOZcjcN3vi0DV8zCl/2M03kvVVgrKkAUVs9ZeAURhTAHLF77XGU9rz4aL+8WR7KOXR3eTprx+dsQHVKaFCYDOMPriS42LesVX+CTLuK+BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709550458; c=relaxed/simple;
-	bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JSGDWxJmlVFLs1UUP5/Hd2YdvLbsCht3XPEe/YfI3eJFWws1KBHmJ4OJ+L5eN6Q8YeefgzBndXx1zQ/xWG/2HKxpWXs2Mwm+K4tXvA3K9Ow53GMAaFv3QE8+SVW6Z7y+zfCtO8C82OjK/80B9ZEcQMb9x1zLL1hIfmOhKEWl36A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkM7w7N6; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a441d7c6125so525625466b.2;
-        Mon, 04 Mar 2024 03:07:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709550455; x=1710155255; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
-        b=DkM7w7N6chsrTadjk+5y6I7kQbbUCRM8SVNPGcg/wczjnTO+4rL92wptPGOJmk2LqH
-         JwbHP/lmdzzMo/OY03CFJACZZfXz54WNpF9gxExFCfcerYinHwS4KDUbDVJc9mi6rLEr
-         pWxZfxDyCwc8mkmnhGX7swtkSWlDIpE5GK0E70J7YIzMgdTMfDjRRakoIQ0ILsrrLwPk
-         9JKOPfKx121lUdCaYH8ufT9J0PPwSd0Ba0sqzikovjCgNvY/aSH6sNhfFpbOdeuZ0FFw
-         vUwya8u/KmHQYXPCmk8hzUXqzKm1IzhftsR8cLNv+MmsDNIaGMKs7GJfyy5yrLSAMJSX
-         hlxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709550455; x=1710155255;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
-        b=QdV7bTBI+F9GPF7gtZw3uQjkz4TjzshUcD7D1TOES0pZwY8fjGeJUD1+mQphd37NQP
-         l30CKfeXPOWZgFbqGXi5a+ZAFSoPDoxvrI5gSuDLrjNiG5stKZnPsenLv2czsJScQq3t
-         UrWFJXH7hOP6B/SvUEwGz/qZeeWol6bcqJMDmHNcTuhenuFUckBDf7oAaW9pT8NWgmdX
-         P6lMdQ4AGI1mIaK4Vhgp27gUoXRrH7yu1kBiYNYll6fSkMTWiY4SBySJVkGN8ZJwsH9B
-         Bn/vJCn6hEpeWxnNNhYRGvhrVrPfu8ZTGdBPtpPPJjCg1ul3wcdgE7zkvyVxV2SaCa16
-         V1ww==
-X-Forwarded-Encrypted: i=1; AJvYcCVeb3yrfNQLLqo6YEkPXnPzusPj5bCzwaP+jjArw/sjEAMuHO5qW3m2bQdCJB4qP/EnCa0YoRyho5dFrUnYaSdm09KZbHZkAUZWlL37yxEotinnTrVk17CT6cheOnL1nQWDWFHL9Fbd+vnn2chGSCmoLtP8/J2aCUikYA4+pE4wdF1vKUHY3NHx8jUIO7QnGYpJzKOXFBiplco+/z4=
-X-Gm-Message-State: AOJu0YwOETIYd1Hi/wFLi3+ca6eAJmA+WDfh43Zl6qPw9RA8VV3lBdJY
-	mA8bpoPfHZ9HKnDO2m5t0iIhvBsXTABeosHiveiOEiKA+rv/6qfY
-X-Google-Smtp-Source: AGHT+IHgDGK/BZFLZ4o0q5QlhX+iDooVzGPEucKa4H0749pnNAkElImYC6SGV1YXCUk8M8A4OsMdqw==
-X-Received: by 2002:a17:906:3511:b0:a3f:ac2f:893a with SMTP id r17-20020a170906351100b00a3fac2f893amr5794723eja.73.1709550454470;
-        Mon, 04 Mar 2024 03:07:34 -0800 (PST)
-Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47? (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
-        by smtp.gmail.com with ESMTPSA id i23-20020a170906265700b00a44dca5f9c1sm2512075ejc.100.2024.03.04.03.07.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 03:07:34 -0800 (PST)
-Message-ID: <a8c3bddfb7a53682f23f4c99ce46e67ffc0213d1.camel@gmail.com>
-Subject: Re: [PATCH v7 1/6] dmaengine: Add API function
- dmaengine_prep_peripheral_dma_vec()
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Nuno Sa <nuno.sa@analog.com>, Vinod Koul <vkoul@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Paul Cercueil
- <paul@crapouillou.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
-	 <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Date: Mon, 04 Mar 2024 12:10:58 +0100
-In-Reply-To: <20240223-iio-dmabuf-v7-1-78cfaad117b9@analog.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-	 <20240223-iio-dmabuf-v7-1-78cfaad117b9@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 
+	s=arc-20240116; t=1709550712; c=relaxed/simple;
+	bh=Q1SASmu/WJw2Mj5S2iPHKTsUZmshPIVg0+XqCsOB60k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M0KUBgMvXHmbMDMosZtZXuuCC8okGCsV4XX5sDffv9YpRK63YvFm/2q/GZ3EcsDZnfGwanOMuIDabzaKtwHE+GWoGwFlZNBbkVicFimbSe0LyMJetUurFj13u3QEGsSEIsPUxGGxs16/d6l/H+aMWm5HIN146X0nYTCcv9ipNQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oHsMJFPZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFA763374;
+	Mon,  4 Mar 2024 12:11:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1709550691;
+	bh=Q1SASmu/WJw2Mj5S2iPHKTsUZmshPIVg0+XqCsOB60k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oHsMJFPZuKZxVcG0pn9Vox/ZBc7FBzZw7t9Hn9gM/qc3bIUA60GG9OJc5eG24Y+Q1
+	 iNiPVHu+x0n33hvjwdQqGJQ7OgQxAj13EwNTHf3QJFzEMWldI3Nl/3fRqcdQ0UBJHa
+	 wmkg7096vZsiDX2tVDJ6bGWEHa47J8wXst/eY314=
+Date: Mon, 4 Mar 2024 12:11:44 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, David Plowman <david.plowman@raspberrypi.com>, 
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Naushir Patuck <naush@raspberrypi.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, bcm-kernel-feedback-list@broadcom.com
+Subject: Re: [PATCH v6 06/15] media: v4l: Add V4L2-PIX-FMT-Y12P format
+Message-ID: <dslznbfmxhshdipthsp3u624c33dfse2333xjgs6e4t3mfjozp@xmq5rm3ax2av>
+References: <20240301213231.10340-1-laurent.pinchart@ideasonboard.com>
+ <20240301213231.10340-7-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240301213231.10340-7-laurent.pinchart@ideasonboard.com>
 
-On Fri, 2024-02-23 at 13:13 +0100, Nuno Sa wrote:
-> From: Paul Cercueil <paul@crapouillou.net>
->=20
-> This function can be used to initiate a scatter-gather DMA transfer,
-> where the address and size of each segment is located in one entry of
-> the dma_vec array.
->=20
-> The major difference with dmaengine_prep_slave_sg() is that it supports
-> specifying the lengths of each DMA transfer; as trying to override the
-> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
-> process. The introduction of a new API function is also justified by the
-> fact that scatterlists are on their way out.
->=20
-> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
-> case, as it assumes that the address of each segment will be higher than
-> the one of the previous segment, which we just cannot guarantee in case
-> of a scatter-gather transfer.
->=20
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+Hi Laurent
+
+Ah
+https://patchwork.linuxtv.org/project/linux-media/patch/20240223163012.300763-2-jacopo.mondi@ideasonboard.com/
+
+same for the Y14 one
+
+I guess we have upported the same patch twice ?
+
+Whichever series gets in first wins
+
+On Fri, Mar 01, 2024 at 11:32:21PM +0200, Laurent Pinchart wrote:
+> From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+>
+> This is a packed grey-scale image format with a depth of 12 bits per
+> pixel. Two consecutive pixels are packed into 3 bytes. The first 2 bytes
+> contain the 8 high order bits of the pixels, and the 3rd byte contains
+> the 4 least significants bits of each pixel, in the same order.
+>
+> Add the entry in userspace API, and document it.
+>
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
-
-Hi Vinod,
-
-Is this already good for you? I do not want to be pushy but we're trying to=
- see
-if we can have this in the 6.9 cycle and Jonathan definitely wants an ack f=
-rom
-you before merging this in his tree. I've more or less till Wednesday so th=
-at's
-why I'm asking already today so I still have time to re-spin if you want so=
-me
-changes.
-
-- Nuno S=C3=A1
-
-
+>  .../userspace-api/media/v4l/pixfmt-yuv-luma.rst       | 11 +++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
+>  include/uapi/linux/videodev2.h                        |  1 +
+>  3 files changed, 13 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> index cf8e4dfbfbd4..a650ceda7cdb 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> @@ -114,6 +114,17 @@ are often referred to as greyscale formats.
+>        - ...
+>        - ...
+>
+> +    * .. _V4L2-PIX-FMT-Y12P:
+> +
+> +      - ``V4L2_PIX_FMT_Y12P``
+> +      - 'Y12P'
+> +
+> +      - Y'\ :sub:`0`\ [11:4]
+> +      - Y'\ :sub:`1`\ [11:4]
+> +      - Y'\ :sub:`1`\ [3:0] Y'\ :sub:`0`\ [3:0]
+> +      - ...
+> +      - ...
+> +
+>      * .. _V4L2-PIX-FMT-Y14:
+>
+>        - ``V4L2_PIX_FMT_Y14``
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index f3697ff65817..69ac4482d844 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1313,6 +1313,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_Y10BPACK:	descr = "10-bit Greyscale (Packed)"; break;
+>  	case V4L2_PIX_FMT_Y10P:		descr = "10-bit Greyscale (MIPI Packed)"; break;
+>  	case V4L2_PIX_FMT_IPU3_Y10:	descr = "10-bit greyscale (IPU3 Packed)"; break;
+> +	case V4L2_PIX_FMT_Y12P:		descr = "12-bit Greyscale (MIPI Packed)"; break;
+>  	case V4L2_PIX_FMT_Y8I:		descr = "Interleaved 8-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y12I:		descr = "Interleaved 12-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Z16:		descr = "16-bit Depth"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 117a081c9db9..5122ac0c6765 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -599,6 +599,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
+>  #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
+>  #define V4L2_PIX_FMT_IPU3_Y10		v4l2_fourcc('i', 'p', '3', 'y') /* IPU3 packed 10-bit greyscale */
+> +#define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12  Greyscale, MIPI RAW12 packed */
+>
+>  /* Palette formats */
+>  #define V4L2_PIX_FMT_PAL8    v4l2_fourcc('P', 'A', 'L', '8') /*  8  8-bit palette */
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+>
 
