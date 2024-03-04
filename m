@@ -1,327 +1,135 @@
-Return-Path: <linux-media+bounces-6346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC4B86FFB6
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 12:02:20 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8141086FFCA
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 12:07:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C116B24BDF
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 11:02:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1B9B6B21D59
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 11:07:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43C8925764;
-	Mon,  4 Mar 2024 11:01:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C15A5383AD;
+	Mon,  4 Mar 2024 11:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="svIJcZUi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkM7w7N6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5929376F9;
-	Mon,  4 Mar 2024 11:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709550117; cv=pass; b=bTkYQRpFci0tus+v+51ILTrX8ryeUItR2f5migDPzpxpGZLUM0gwRMgcWtJs+wViCdCh5+L9djWW22d9xaYcjN0LPS5T6P4uhjkWWeK9IPZlZjsVMjJOxJycc6IwPhjg3wO2c0utFm2XGq/1g2FREYyOL3ce6UaxtNFvVTlORHU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709550117; c=relaxed/simple;
-	bh=E9BN46B+Rj1lKO3CZJlOHqbQerCwOrDcQDZX1K/rk+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mbh/qO9annWdAADlQYreOkiF6VEyXdHYanq3Yp7l3Owhd5nYOALFEsEAnSJ3+qpbqaFt9sekTg6HxZgGQAVsgOGjltpv2+jDW611kP/oNpmTgdo2TyIynspQ1Z+CKyuE0lBgc+OZ7P7MwTJ73z9ZFKbb3skRcJc/jKfI6afMM2I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=svIJcZUi; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4TpG3V51YkzySP;
-	Mon,  4 Mar 2024 13:01:42 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1709550105;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ihnx46YYG/dRc7H8/r1H+1hFqkaVemFb3zOnrBAgfz8=;
-	b=svIJcZUioCJUBjxbGCyVtun8B56hhr9i+TxbEd7QcsaD3FlVB1bq8U8l1xp7KA6jFnU7/+
-	dJsaQOjfAT+RYAS++hZtRHHCBeJixMmYWLsBZEBnpGmGWzc58KHEaehSiit+sA8AZoCFD1
-	JtGK7okTjoN53gAdRZiomBDy66cPrMg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1709550105;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ihnx46YYG/dRc7H8/r1H+1hFqkaVemFb3zOnrBAgfz8=;
-	b=xHVRmXEeSAUKuYAxHPyMLfMr1zXcsMfskKDDB4LohCh2huEmoEwrxP4Y9Vv2LkV1yjaaU8
-	Fqf35xp68cHWtUAygRwcXs0+F+LN690dFK4ERtJG3aH9tsKLzBMte/+z3HNln3L/BnUPCG
-	RYWtag0GBQIpldWGq0jcF2gd1MxzuWQ=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1709550105; a=rsa-sha256; cv=none;
-	b=cxMxodOco+px9kKHNq4Jk2fAiCNr4mKTbIrATWuSHG7A627fNPwMU0hz/Mu+tusgp34F/X
-	AXbn70lMBsj5D2zrmNh9yDoysU4FCtrdq5X0aE5D6SEwVu2g/6gunLFd2OUuc7UHstXKrS
-	I05Uylwb3VwNimOGGIWvTUCrK5Xfq7s=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 96B89634C94;
-	Mon,  4 Mar 2024 13:01:38 +0200 (EET)
-Date: Mon, 4 Mar 2024 11:01:38 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Cc: Mehdi Djait <mehdi.djait.k@gmail.com>, mchehab@kernel.org,
-	heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
-	laurent.pinchart@ideasonboard.com,
-	Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: Re: [RESEND Patch v13 2/3] media: rockchip: Add a driver for
- Rockchip's camera interface
-Message-ID: <ZeWqEkcoYN6gXWS9@valkosipuli.retiisi.eu>
-References: <cover.1707677804.git.mehdi.djait.k@gmail.com>
- <715d89214d1ed6a8bb16cbb6268718a737485560.1707677804.git.mehdi.djait.k@gmail.com>
- <Zctwo3s9hso6mQvT@valkosipuli.retiisi.eu>
- <ZdY5KrTfss4lTjPO@mehdi-archlinux>
- <Zd24MhLYJlSTRysr@valkosipuli.retiisi.eu>
- <ZeMSuihjcS_wXONr@mehdi-archlinux>
- <0e68d986-8834-4586-9525-18ac99a3ce6d@wolfvision.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB4A2BAF5;
+	Mon,  4 Mar 2024 11:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709550458; cv=none; b=kRtkCM8RHUBhesC9fEY7ORb027PrehG+HLdjPZturggrAXOQfXMiH8fwsvVZO0pkMlNJ4OffPSUx8O7+vGHAxb4YB1+IyePZYVwemuiRnXdvVs7jO3ECnHWh5+9s6poMmjA/AgNILAW3dwAqMjHkiHuCQ2K7HbALBJ1arHSjMqo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709550458; c=relaxed/simple;
+	bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JSGDWxJmlVFLs1UUP5/Hd2YdvLbsCht3XPEe/YfI3eJFWws1KBHmJ4OJ+L5eN6Q8YeefgzBndXx1zQ/xWG/2HKxpWXs2Mwm+K4tXvA3K9Ow53GMAaFv3QE8+SVW6Z7y+zfCtO8C82OjK/80B9ZEcQMb9x1zLL1hIfmOhKEWl36A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkM7w7N6; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a441d7c6125so525625466b.2;
+        Mon, 04 Mar 2024 03:07:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709550455; x=1710155255; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
+        b=DkM7w7N6chsrTadjk+5y6I7kQbbUCRM8SVNPGcg/wczjnTO+4rL92wptPGOJmk2LqH
+         JwbHP/lmdzzMo/OY03CFJACZZfXz54WNpF9gxExFCfcerYinHwS4KDUbDVJc9mi6rLEr
+         pWxZfxDyCwc8mkmnhGX7swtkSWlDIpE5GK0E70J7YIzMgdTMfDjRRakoIQ0ILsrrLwPk
+         9JKOPfKx121lUdCaYH8ufT9J0PPwSd0Ba0sqzikovjCgNvY/aSH6sNhfFpbOdeuZ0FFw
+         vUwya8u/KmHQYXPCmk8hzUXqzKm1IzhftsR8cLNv+MmsDNIaGMKs7GJfyy5yrLSAMJSX
+         hlxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709550455; x=1710155255;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
+        b=QdV7bTBI+F9GPF7gtZw3uQjkz4TjzshUcD7D1TOES0pZwY8fjGeJUD1+mQphd37NQP
+         l30CKfeXPOWZgFbqGXi5a+ZAFSoPDoxvrI5gSuDLrjNiG5stKZnPsenLv2czsJScQq3t
+         UrWFJXH7hOP6B/SvUEwGz/qZeeWol6bcqJMDmHNcTuhenuFUckBDf7oAaW9pT8NWgmdX
+         P6lMdQ4AGI1mIaK4Vhgp27gUoXRrH7yu1kBiYNYll6fSkMTWiY4SBySJVkGN8ZJwsH9B
+         Bn/vJCn6hEpeWxnNNhYRGvhrVrPfu8ZTGdBPtpPPJjCg1ul3wcdgE7zkvyVxV2SaCa16
+         V1ww==
+X-Forwarded-Encrypted: i=1; AJvYcCVeb3yrfNQLLqo6YEkPXnPzusPj5bCzwaP+jjArw/sjEAMuHO5qW3m2bQdCJB4qP/EnCa0YoRyho5dFrUnYaSdm09KZbHZkAUZWlL37yxEotinnTrVk17CT6cheOnL1nQWDWFHL9Fbd+vnn2chGSCmoLtP8/J2aCUikYA4+pE4wdF1vKUHY3NHx8jUIO7QnGYpJzKOXFBiplco+/z4=
+X-Gm-Message-State: AOJu0YwOETIYd1Hi/wFLi3+ca6eAJmA+WDfh43Zl6qPw9RA8VV3lBdJY
+	mA8bpoPfHZ9HKnDO2m5t0iIhvBsXTABeosHiveiOEiKA+rv/6qfY
+X-Google-Smtp-Source: AGHT+IHgDGK/BZFLZ4o0q5QlhX+iDooVzGPEucKa4H0749pnNAkElImYC6SGV1YXCUk8M8A4OsMdqw==
+X-Received: by 2002:a17:906:3511:b0:a3f:ac2f:893a with SMTP id r17-20020a170906351100b00a3fac2f893amr5794723eja.73.1709550454470;
+        Mon, 04 Mar 2024 03:07:34 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47? (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
+        by smtp.gmail.com with ESMTPSA id i23-20020a170906265700b00a44dca5f9c1sm2512075ejc.100.2024.03.04.03.07.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 03:07:34 -0800 (PST)
+Message-ID: <a8c3bddfb7a53682f23f4c99ce46e67ffc0213d1.camel@gmail.com>
+Subject: Re: [PATCH v7 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Nuno Sa <nuno.sa@analog.com>, Vinod Koul <vkoul@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Paul Cercueil
+ <paul@crapouillou.net>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
+	 <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org
+Date: Mon, 04 Mar 2024 12:10:58 +0100
+In-Reply-To: <20240223-iio-dmabuf-v7-1-78cfaad117b9@analog.com>
+References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
+	 <20240223-iio-dmabuf-v7-1-78cfaad117b9@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0e68d986-8834-4586-9525-18ac99a3ce6d@wolfvision.net>
 
-Hi Michael, Mehdi,
+On Fri, 2024-02-23 at 13:13 +0100, Nuno Sa wrote:
+> From: Paul Cercueil <paul@crapouillou.net>
+>=20
+> This function can be used to initiate a scatter-gather DMA transfer,
+> where the address and size of each segment is located in one entry of
+> the dma_vec array.
+>=20
+> The major difference with dmaengine_prep_slave_sg() is that it supports
+> specifying the lengths of each DMA transfer; as trying to override the
+> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
+> process. The introduction of a new API function is also justified by the
+> fact that scatterlists are on their way out.
+>=20
+> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
+> case, as it assumes that the address of each segment will be higher than
+> the one of the previous segment, which we just cannot guarantee in case
+> of a scatter-gather transfer.
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> ---
 
-On Mon, Mar 04, 2024 at 10:25:23AM +0100, Michael Riesch wrote:
-> Hi Mehdi, Sakari,
-> 
-> On 3/2/24 12:51, Mehdi Djait wrote:
-> > Hi Sakari,
-> > 
-> > On Tue, Feb 27, 2024 at 10:23:46AM +0000, Sakari Ailus wrote:
-> >> Hi Mehdi,
-> >>
-> >> On Wed, Feb 21, 2024 at 06:55:54PM +0100, Mehdi Djait wrote:
-> >>> Hi Sakari,
-> >>>
-> >>> Thank you for the review!
-> >>>
-> >>> On Tue, Feb 13, 2024 at 01:37:39PM +0000, Sakari Ailus wrote:
-> >>>> Hi Mahdi,
-> >>>>
-> >>>> On Sun, Feb 11, 2024 at 08:03:31PM +0100, Mehdi Djait wrote:
-> >>>>> From: Mehdi Djait <mehdi.djait@bootlin.com>
-> >>>>>
-> >>>>> This introduces a V4L2 driver for the Rockchip CIF video capture controller.
-> >>>>>
-> >>>>> This controller supports multiple parallel interfaces, but for now only the
-> >>>>> BT.656 interface could be tested, hence it's the only one that's supported
-> >>>>> in the first version of this driver.
-> >>>>>
-> >>>>> This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
-> >>>>> but for now it's only been tested on the PX30.
-> >>>>>
-> >>>>> CIF is implemented as a video node-centric driver.
-> >>>>>
-> >>>>> Most of this driver was written following the BSP driver from Rockchip,
-> >>>>> removing the parts that either didn't fit correctly the guidelines, or that
-> >>>>> couldn't be tested.
-> >>>>>
-> >>>>> This basic version doesn't support cropping nor scaling and is only
-> >>>>> designed with one SDTV video decoder being attached to it at any time.
-> >>>>>
-> >>>>> This version uses the "pingpong" mode of the controller, which is a
-> >>>>> double-buffering mechanism.
-> >>>>>
-> >>>>> Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
-> >>>>> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> >>>>> Signed-off-by: Mehdi Djait <mehdi.djait.k@gmail.com>
-> >>>>> ---
-> >>>>>  MAINTAINERS                                   |    7 +
-> >>>>>  drivers/media/platform/rockchip/Kconfig       |    1 +
-> >>>>>  drivers/media/platform/rockchip/Makefile      |    1 +
-> >>>>>  drivers/media/platform/rockchip/cif/Kconfig   |   14 +
-> >>>>>  drivers/media/platform/rockchip/cif/Makefile  |    3 +
-> >>>>>  .../media/platform/rockchip/cif/cif-capture.c | 1111 +++++++++++++++++
-> >>>>>  .../media/platform/rockchip/cif/cif-capture.h |   20 +
-> >>>>>  .../media/platform/rockchip/cif/cif-common.h  |  128 ++
-> >>>>>  drivers/media/platform/rockchip/cif/cif-dev.c |  308 +++++
-> >>>>>  .../media/platform/rockchip/cif/cif-regs.h    |  127 ++
-> >>>>>  10 files changed, 1720 insertions(+)
-> >>>>>  create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
-> >>>>>  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
-> >>>>>  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.c
-> >>>>>  create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.h
-> >>>>>  create mode 100644 drivers/media/platform/rockchip/cif/cif-common.h
-> >>>>>  create mode 100644 drivers/media/platform/rockchip/cif/cif-dev.c
-> >>>>>  create mode 100644 drivers/media/platform/rockchip/cif/cif-regs.h
-> >>>>>
-> >>>>> +static int cif_start_streaming(struct vb2_queue *queue, unsigned int count)
-> >>>>> +{
-> >>>>> +	struct cif_stream *stream = queue->drv_priv;
-> >>>>> +	struct cif_device *cif_dev = stream->cifdev;
-> >>>>> +	struct v4l2_device *v4l2_dev = &cif_dev->v4l2_dev;
-> >>>>> +	struct v4l2_subdev *sd;
-> >>>>> +	int ret;
-> >>>>> +
-> >>>>> +	if (!cif_dev->remote.sd) {
-> >>>>> +		ret = -ENODEV;
-> >>>>> +		v4l2_err(v4l2_dev, "No remote subdev detected\n");
-> >>>>> +		goto destroy_buf;
-> >>>>> +	}
-> >>>>> +
-> >>>>> +	ret = pm_runtime_resume_and_get(cif_dev->dev);
-> >>>>> +	if (ret < 0) {
-> >>>>> +		v4l2_err(v4l2_dev, "Failed to get runtime pm, %d\n", ret);
-> >>>>> +		goto destroy_buf;
-> >>>>> +	}
-> >>>>> +
-> >>>>> +	sd = cif_dev->remote.sd;
-> >>>>> +
-> >>>>> +	stream->cif_fmt_in = get_input_fmt(cif_dev->remote.sd);
-> >>>>
-> >>>> You should use the format on the local pad, not get it from a remote
-> >>>> sub-device.
-> >>>>
-> >>>> Link validation ensures they're the same (or at least compatible).
-> >>>>
-> >>>> Speaking of which---you don't have link_validate callbacks set for the
-> >>>> sub-device. See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2.c for an
-> >>>> example.
-> >>>>
-> >>>
-> >>> ...
-> >>>
-> >>>>> +	if (!stream->cif_fmt_in)
-> >>>>> +		goto runtime_put;
-> >>>>> +
-> >>>>> +	ret = cif_stream_start(stream);
-> >>>>> +	if (ret < 0)
-> >>>>> +		goto stop_stream;
-> >>>>> +
-> >>>>> +	ret = v4l2_subdev_call(sd, video, s_stream, 1);
-> >>>>> +	if (ret < 0)
-> >>>>> +		goto stop_stream;
-> >>>>> +
-> >>>>> +	return 0;
-> >>>>> +
-> >>>>> +stop_stream:
-> >>>>> +	cif_stream_stop(stream);
-> >>>>> +runtime_put:
-> >>>>> +	pm_runtime_put(cif_dev->dev);
-> >>>>> +destroy_buf:
-> >>>>> +	cif_return_all_buffers(stream, VB2_BUF_STATE_QUEUED);
-> >>>>> +
-> >>>>> +	return ret;
-> >>>>> +}
-> >>>>> +
-> >>>>> +static int cif_set_fmt(struct cif_stream *stream,
-> >>>>> +		       struct v4l2_pix_format *pix)
-> >>>>> +{
-> >>>>> +	struct cif_device *cif_dev = stream->cifdev;
-> >>>>> +	struct v4l2_subdev_format sd_fmt;
-> >>>>> +	struct cif_output_fmt *fmt;
-> >>>>> +	int ret;
-> >>>>> +
-> >>>>> +	if (vb2_is_streaming(&stream->buf_queue))
-> >>>>> +		return -EBUSY;
-> >>>>> +
-> >>>>> +	fmt = find_output_fmt(stream, pix->pixelformat);
-> >>>>> +	if (!fmt)
-> >>>>> +		fmt = &out_fmts[0];
-> >>>>> +
-> >>>>> +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> >>>>> +	sd_fmt.pad = 0;
-> >>>>> +	sd_fmt.format.width = pix->width;
-> >>>>> +	sd_fmt.format.height = pix->height;
-> >>>>> +
-> >>>>> +	ret = v4l2_subdev_call(cif_dev->remote.sd, pad, set_fmt, NULL, &sd_fmt);
-> >>>>
-> >>>> The user space is responsible for controlling the sensor i.e. you shouldn't
-> >>>> call set_fmt sub-device op from this driver.
-> >>>>
-> >>>> As the driver is MC-enabled, generally the sub-devices act as a control
-> >>>> interface and the V4L2 video nodes are a data interface.
-> >>>>
-> >>>
-> >>> While this is true for MC-centric (Media Controller) drivers, this driver is
-> >>> video-node-centric (I mentioned this in the commit msg)
-> >>>
-> >>> From the Kernel Documentation:
-> >>> https://docs.kernel.org/userspace-api/media/v4l/open.html
-> >>>
-> >>> 1 - The devices that are fully controlled via V4L2 device nodes are
-> >>> called video-node-centric.
-> >>>
-> >>> 2- Note: A video-node-centric may still provide media-controller and
-> >>> sub-device interfaces as well. However, in that case the media-controller
-> >>> and the sub-device interfaces are read-only and just provide information
-> >>> about the device. The actual configuration is done via the video nodes.
-> >>
-> >> Are you sure you even want to do this?
-> >>
-> >> It'll limit what kind of sensors you can attach to the device and even more
-> >> so in the future as we're reworking the sensor APIs to allow better control
-> >> of the sensors, using internal pads (that require MC).
-> >>
-> >> There have been some such drivers in the past but many have been already
-> >> converted, or in some cases the newer hardware generation uses MC. Keeping
-> >> API compatibility is a requirement so you can't just "add support" later
-> >> on.
-> > 
-> > I totally agree that using the MC approach is better but this has nothing to
-> > do with me wanting this but due to constraints I unfortunately cannot control
-> > it is impossible to convert it now.
-> > 
-> > I would say the px30 driver is still very useful and people are going to use it: a follow-up patch series to
-> > add support for the Rockchip RK3568 Video Capture has already been sent:
-> > https://lore.kernel.org/linux-media/20240220-v6-8-topic-rk3568-vicap-v1-0-2680a1fa640b@wolfvision.net/
-> 
-> The driver is indeed useful as is, therefore I was rather hoping that it
-> would be accepted quickly to facilitate further additions (such as the
-> aforementioned RK3568 support series).
-> 
-> However, I was not aware that the video node centric vs. media
-> controller centric approach has significant implications on user space
-> and hence on backwards compatibility. Now that Sakari has pointed out
-> that one, I am leaning towards converting the driver to MC before it is
-> integrated in mainline.
-> 
-> I fully understand, though, that Mehdi is not in the position to make
-> the required changes due to time constraints. Maybe I can fill in and
-> invest some time in that, provided that
->  - it is OK for Mehdi and the Bootlin people that I take over the series
->    at hand, leaving the authorship intact of course, but adding my
->    Co-developed-by:
->  - Sakari (or someone else from the linux-media community) can provide a
->    brief overview of what exactly needs to be done to do the conversion
-> It should be noted that right now I have no clue what needs to be
-> changed, which implies that the conversion will not happen any time soon.
+Hi Vinod,
 
-You need to make the driver Media device centric. The V4L2 video nodes will
-remain a data interface only. In practice this mostly involves, from the
-current driver state, adding a sub-device for CIF device and removing
-sensor control via video node. The driver already registers the media
-device, that's good
+Is this already good for you? I do not want to be pushy but we're trying to=
+ see
+if we can have this in the 6.9 cycle and Jonathan definitely wants an ack f=
+rom
+you before merging this in his tree. I've more or less till Wednesday so th=
+at's
+why I'm asking already today so I still have time to re-spin if you want so=
+me
+changes.
 
-See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2.c for an example. There are
-probably other minor interface related matters, such as the use of
-V4L2_CAP_IO_MC capability flag.
+- Nuno S=C3=A1
 
-> 
-> What do you think?
 
--- 
-Sakari Ailus
 
