@@ -1,96 +1,116 @@
-Return-Path: <linux-media+bounces-6333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6334-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7096E86FABC
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 08:28:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7699D86FADC
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 08:31:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26CD11F21D53
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 07:28:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26F9B285D9C
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 07:31:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A1213AF3;
-	Mon,  4 Mar 2024 07:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 251C114AA1;
+	Mon,  4 Mar 2024 07:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibyHUWd5"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="znY31lQ6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C237B134BF;
-	Mon,  4 Mar 2024 07:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823EE14005
+	for <linux-media@vger.kernel.org>; Mon,  4 Mar 2024 07:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709537322; cv=none; b=LRInm3Bv1U1ghixsnsBJ9O7wadgNO5CjAA1QEEB/BvJsxB4UQex4ABvHE/5eDmRcVcRn8+KZoeS+wLbt/mjjE64EjHpvB9O52HiaJ3Vrdtyt2MgBcORM3Zl4r6Dvc4DgHuXgVHHjYmeDhAgEA7zlJS/Q+fEZm7mAqXyTYN13C2U=
+	t=1709537450; cv=none; b=UoyVUGlrseRRXVru0ch94EgTST38DNWzbV4c8RJ4ERrIl3VBl0d65yzvSXDOR7Xx4ddM46lkwQkjNCGwgOPYjwgnqu69WWgmI/q1bqjaxVvUwvq0ryrfhTIWhJojpSR5e02rddtFJMvr4hFTcQkr4tRh+Y5jZQ1q3trWlq9fm/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709537322; c=relaxed/simple;
-	bh=d8cnAMNa1AJJ8FEjNDOypbxGsMMkLSfcBRz4QBDn+FQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pu3kJPUotWbsEOr3sW+G1JA5mqmnEMNnQkRIEWYkKXrWs1nPPbOXJwlgTfww9cqWW67ekOLGeqYGr9KHkdxuGRdAhZumZuBo9IJwwm89GfKViBYzpGlehqy5pKrQ91eBPbVHHfF9uWuQoEkg4ojKfwmlLL9p1G4dDczM96fguKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibyHUWd5; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709537320; x=1741073320;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d8cnAMNa1AJJ8FEjNDOypbxGsMMkLSfcBRz4QBDn+FQ=;
-  b=ibyHUWd5S+qC+gzJr+WsIM7iJfsO2Q8iN3t1IZVdTD/yDtR8NJ9pBqjB
-   wKXlekidR2WeVpEMStQrzE6BpJwTTrWwt/y+ALnQLI1y/Qz39+wwz5UIn
-   14Te5TUbltcEbqOpj8N9aOnXzeyNEhSJKIAvMrx2YLAGK5UewZRB21P5s
-   S2vJI+x/Q2K7uRf+MPI3f87OMx3GzEM0pasnBGsmWaGWgYUaciwX9fnmK
-   h5/O9KDSWZJGjlLIxy9N/BZpguSaMJeDF3qS6181WLzFBXJdMIhEzBl9a
-   9zwh/FFcQWgIpbOAiPGa665sXjzL2WAtJARtc9eXRXTqt9j7RIVcL0VjF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="29436277"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="29436277"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 23:28:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="39749624"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 23:28:37 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 830C411F8B1;
-	Mon,  4 Mar 2024 09:28:34 +0200 (EET)
-Date: Mon, 4 Mar 2024 07:28:34 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: R SUNDAR <prosunofficial@gmail.com>
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Removed reserved1/2 fields to prevent kernel-doc warnings
-Message-ID: <ZeV4Im9SHmWs0EZM@kekkonen.localdomain>
-References: <20240303133223.5506-1-prosunofficial@gmail.com>
+	s=arc-20240116; t=1709537450; c=relaxed/simple;
+	bh=VMRdQUAhMLtQ3hyGbHrY69RL94i+UzosVMe6DPenXFg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fg4yf4Iar5uLetjdSYljTwL5rCjsvLI64ymVTx+q9K5FHso5JNigw6AOFgPBKfwmRbF9Rv1ooKsEEys9QUbnyoQfT3opDC5jYLra0PRtZ8KBbDfAqPjXTXHfBrVdEPhhdn0GGHAbnV3vBKIVA4d9XTDf1Dz276HX+lTqVPVAkhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=znY31lQ6; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709537440;
+	bh=VMRdQUAhMLtQ3hyGbHrY69RL94i+UzosVMe6DPenXFg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=znY31lQ6H5b8vfBvrFR32CgsAltp3+bydV2CVYIHf6X7QdNwLQH3LfVNcyUXHCfWp
+	 VF+VbW3+XLZGPItZwaZWDH+5S9Ka7mgW6litGxO574ZBPo+IVwSL3/gIgWmQZAkOTD
+	 cvqaJXu238Fj0uNhTWXT6KZ/75vwBrNcSaX0whmGscIxArX3Ip4l2ybmmT0AEmSm9t
+	 yDt5qryS20eYaahynRJrIbmedX0zYc/l4wwSRoQfebDFTP1y3Lc5mPIN3VyvT4K/Y8
+	 um16Z53eSI99N3uqgXCAfcpFDYBib9TtzN01CHOF1RB5iPizrFwLQoKAgMkeCYJYmQ
+	 bfyGATmSKhEDA==
+Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: andrzej.p)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 255443780480;
+	Mon,  4 Mar 2024 07:30:40 +0000 (UTC)
+Message-ID: <4d24fc4c-5e55-48c7-874c-a5138b5d284f@collabora.com>
+Date: Mon, 4 Mar 2024 08:30:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240303133223.5506-1-prosunofficial@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/13] staging: mmal-vchiq: Avoid use of bool in
+ structures
+Content-Language: en-US
+To: Maarten Vanraes <maarten@rmail.be>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ linux-media@vger.kernel.org
+Cc: Kieran Bingham <kbingham@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.org>
+References: <20240303152635.2762696-1-maarten@rmail.be>
+ <20240303152635.2762696-2-maarten@rmail.be>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20240303152635.2762696-2-maarten@rmail.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Maarten,
 
-On Sun, Mar 03, 2024 at 07:02:23PM +0530, R SUNDAR wrote:
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved1' description in 'ipu3_uapi_acc_param'
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved2' description in 'ipu3_uapi_acc_param'
+W dniu 3.03.2024 o 16:09, Maarten Vanraes pisze:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 > 
-> Signed-off-by: R SUNDAR <prosunofficial@gmail.com>
+> Fixes up a checkpatch error "Avoid using bool structure members
+> because of possible alignment issues".
+> 
 
-Thanks for the patch.
+This commit message might be confusing, because...
 
-These have been already addressed by commit
-dcef3ed5b0d79f89018e31d55cf09f2c2f81392b, same for the other patch.
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Maarten Vanraes <maarten@rmail.be>
+> ---
+>   drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> index 890669f874d9..2e616604943d 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> @@ -1983,7 +1983,7 @@ int vchiq_mmal_component_enable(struct vchiq_mmal_instance *instance,
+>   
+>   	ret = enable_component(instance, component);
+>   	if (ret == 0)
+> -		component->enabled = true;
+> +		component->enabled = 1;
 
--- 
-Kind regards,
+... what the patch changes is not a structure member, it is the value assigned 
+(with a potential implicit cast) to a structure member.
 
-Sakari Ailus
+Regards,
+
+Andrzej
+
+>   
+>   	mutex_unlock(&instance->vchiq_mutex);
+>   
+
 
