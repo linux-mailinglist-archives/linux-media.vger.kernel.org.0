@@ -1,340 +1,182 @@
-Return-Path: <linux-media+bounces-6327-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6328-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5F086F98C
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 06:16:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF0C86F9A6
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 06:41:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C91722817BE
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 05:16:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A3B381F210DB
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 05:41:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6C2BA2D;
-	Mon,  4 Mar 2024 05:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67323BE68;
+	Mon,  4 Mar 2024 05:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="L3Yvvu5w"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lMBGTcRo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2053.outbound.protection.outlook.com [40.107.113.53])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1639BA27;
-	Mon,  4 Mar 2024 05:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709529406; cv=fail; b=lh1eNrlR7JNLyuh3/CQVtagCa9szKAYlIOCVesdNP8FwGOqbnu9iCzRaRldXnMrzIinXLeF2UytiRtSTvORq+FeOgVpPIZKyIVXhcSnbFa2Md8EfYnN7PGa/mJP6tJsgMk3+EtVmkxmjQ4IpdJzZeaQu0G2qsvTlI7Rx10zXjAQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709529406; c=relaxed/simple;
-	bh=9D0tmht+UC/To/BNPPRfPIWvJEuU7lMpnpfq5DQo1rc=;
-	h=Message-ID:In-Reply-To:References:To:From:Subject:Content-Type:
-	 Date:MIME-Version; b=EEKw5+wnXF/hPzmjA8/1DBai2erYzZ6iLDqeKVSYHawIYBthmtEDj4mv4qODJSAwhP7HK6UZlCDqfUMnd35OdOqqZS373KKSsEDQWyeWDsazIemrqgDqfRGWZ5etWoFYEqPN36N7+po+g+QIUqarcuYF8Bf1F+UhDjG2TITar7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=L3Yvvu5w; arc=fail smtp.client-ip=40.107.113.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NgnnemBLyd0JX93vUseHxxw6EW1dLdMgV9/ysf8LJcYw3hkuDtvSWQImOOJpQTLkg+7vjUYw5NmMBSAEm/fIUzkGCqv/blR98ZNuywXdJzePTzoWFGsDc3Frz0xvHkUCC0nlYYMFcH2jHUfAVO0XEtKhsT1YQix/RawfT/Ud/CnP+nOt0Pys3SETefWSmy4TmG/EWpEuX92aepqsPCO5fJ87gVyj06aibbNtnCZ+dJUCAuYY4yZkWmksKZG7m97QQ9NBcUyBuLzlD4Aloph7qTVSY7qHSIzHmVlHUSTue/GoapfWPoi7IXV3y/djTgiHkiyKfQ4WXQuBDKHWLlK21w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iPWy+PYtnAvN+6i0I6jsdtewufqRlqn7Qxjn1KjTnik=;
- b=Dhj7B7q0YAbds3an2/uDPVIWRomeNzWcEkwKbEIEkxTltkgK3fNKGriBHWJzgghRsTqv3lpOo9wCVigEUHWHphkbr36qVWX2k/Bqd2GEHYuw0yj80WhdU0Hw0pFPjsWC3QmA0ShDty/+L1zvUtfab6RYrwxYLGzF+pjAWg/ciDBnCaXSckdoGIFUDmtKDensuOptU+etd5kB0oO4Qg2vXFYEVz2FOybbCWDndbawQ9kURBlNRIqk3nkJTE578imPsNm7LrTKvFjpJyaFEnig6CVkvZ8WrBiUQVZ5usCxbaci6crPrVIkPY/cesYtkBs5VqiWE9ux6vQ2CF+4p71T4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iPWy+PYtnAvN+6i0I6jsdtewufqRlqn7Qxjn1KjTnik=;
- b=L3Yvvu5wrTS0eFs32MUsSh9J2UL/PKq/Uf/7AhIniPtnKajt33Cwhv9ZJJiYoldnLZH5sp62imxEjzKkSuDtMkA60JArxhpwOF/uSxvGZMDJYFUbTGjQafZ/dxKvBmulC01fdWAJXbcX4RUuCTC/+wrKW/vUhc0i73ZE7R2dwp0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSZPR01MB6616.jpnprd01.prod.outlook.com
- (2603:1096:604:fe::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38; Mon, 4 Mar
- 2024 05:16:42 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::1934:4a38:d599:33a2]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::1934:4a38:d599:33a2%5]) with mapi id 15.20.7339.035; Mon, 4 Mar 2024
- 05:16:42 +0000
-Message-ID: <87jzmih8zq.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87plwah92n.wl-kuninori.morimoto.gx@renesas.com>
-References: <87plwah92n.wl-kuninori.morimoto.gx@renesas.com>
-To: Rob Herring <robh+dt@kernel.org>, "Lad Prabhakar"
- <prabhakar.csengg@gmail.com>, =?ISO-8859-1?Q?=22Uwe_Kleine-K=F6nig=22?=
- <u.kleine-koenig@pengutronix.de>, Alain Volmat <alain.volmat@foss.st.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, David Airlie <airlied@gmail.com>, Eugen
- Hristev <eugen.hristev@collabora.com>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Helge Deller <deller@gmx.de>, Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime
- Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Sam Ravnborg <sam@ravnborg.org>, Sylwester
- Nawrocki <s.nawrocki@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tim Harvey <tharvey@gateworks.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 4/4] video: fbdev: replace of_graph_get_next_endpoint()
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 4 Mar 2024 05:16:41 +0000
-X-ClientProxiedBy: TYCP286CA0130.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b6::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357D4AD5E;
+	Mon,  4 Mar 2024 05:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709530883; cv=none; b=JhRjmk4D5luw1+tT7MkGFgblZKHzaveThTLssSi2F+00HsIeRLpJlomjX2IckXb3JLHcL1XtEgmN9bhp9ZI7B4iosX1tDP6Ew1pbxlWIddmdDYjtBc/4bas9SevutVRXN9KYUwZYroNwfS7enk4pHvgH8BY0A/NFmgJHBSgkVW4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709530883; c=relaxed/simple;
+	bh=r86wOO+DCKm7iBUKQXQCDVfjbm5Vx1zUufgM+XeeASw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=igf3JTYkiERvWZkm6zpxbtpmGp/iJ2qAp4IbJ/scGR3JY39XXm6Wip0bdmMerds8cK7N6uUMgyb6LEFDSSkycPpyIaXG3lna3bvQ7eSaAs5MM9+Qr7l+5O3OjJTCaF1Mj/fBpGz0Pv4dMUZDbrWd1CMJorg9Dn9rNhdPNIfU+JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lMBGTcRo; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4245UWt3020204;
+	Mon, 4 Mar 2024 05:41:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=bC9iBVAChzkURz7MLks8bBE/LC2FqLowzHb6mhD5U0o=; b=lM
+	BGTcRoXHMqdpzQPdX2Io7bk648S4aWe/69Zac7oZIVliB3SpxgmZEUWDdo9NCQL1
+	c56ycjqcpwR72Lv7LMP+lEGN1fBbgsbVZvaX4LW4v8+LX2zqFZE0g+VLiHxx0lUu
+	Hkj6ZwMx0Z3kxEj06sZVS5r/xo6sXZ/iyUX1slZfQNcba/PdTKD7dP6gpoFBp3W2
+	2ypvOaw+ssWuUs6mi31n9oyxq6B76+AhKZIrXFuxbdeAiJCoj10xfpLzLG5Vcyf4
+	ZlfqZVIrXFIMhqPDt/sMpz1RyxAEtXLOKmBqwI+lnFtqtV+oIYGJSEup2xS6nrIv
+	9eVlGE8yAwZN4LwlVXIg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wmsqnrxmg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Mar 2024 05:41:08 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4245f86v002787
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 4 Mar 2024 05:41:08 GMT
+Received: from [10.50.22.179] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 3 Mar
+ 2024 21:41:03 -0800
+Message-ID: <5e0656ac-badf-dd37-b598-8e4a6f23d2c2@quicinc.com>
+Date: Mon, 4 Mar 2024 11:10:52 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSZPR01MB6616:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce6f1ffa-ad5a-4f71-8bc9-08dc3c0a470a
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	0yeRBJMdvOV/MHZmmaEQlT3LNiGRRzxmZks+64Hk4BQZzfFb7ZqnxAtq2eMWxvdfANe/0irG2/6cOtkdIVyL3OnGlEUvGUERW9+djVx4ISARbGB4GgVVdQGEw1qHdMkBnB5E2T2Xx6mCaR7qNdacUeepu93pv1VAm5ofEU5ovr6lGQG87FmUjv9MAvh3bBU6CpG49BeUkgv3Wt+06GpTSS5ba3BngM0x8ZhISCoRN9tUh5aDm1y6c8dtPKqGDObZJYMhIA/7boFp3wJyXiS7EBRx1C7o7D/IbGBi+0LipCA4UTc3acJuoc4K0elglB5tul2XRQgGHfzQoRpBm/ds7G2anEzv3WQa3QtwLcuMwvP9Lw7vEAZRPwqJ5ZHolVtcRBi87qWc9HduYJ6d526j2X6U4SOHqJIMrqBV0nEjkzTA9kwBdXg/XlOlVO+eOKFrzQ20beDvm/CKgLkbROYmpQ4z+dgmYIppE1hU2LVB3Xddbur4TVb+y8YhuJE95CcaoZ6uiR4DVAkTj5GY4WAJSZbJOar0z0ztriP8Ce2squ5T7wqR7vL8G1/jXeNFqChPAoYs6oy2NX0GVdPTTOv06beKWJfYPXIBFLXNipeSA17B/+0vIMAF7hurHicmj+qPwrF0nJAog+OSK/PFFW0MQeXWT5krl/DcO/kUUcojPjGubr7U5w47WFv1GXhsnKai
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(921011)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?IvU4vwrGHc5Vd6eJhNTkPK5uRVJeeOKrarNLItYzXj4Jl+rRaBvykgX23mss?=
- =?us-ascii?Q?eZRp8MO5AlqRwR6F5Q6V1AsYZGxJx54tPOUZ5TC1up6L9ai6AlN8Gu8SV+ql?=
- =?us-ascii?Q?PS6goQTvv2s93eo55rhcC929k44dKsIDWUI9GYB5LeQTPOolByNvXlOcpzPJ?=
- =?us-ascii?Q?FhO9ZW6HHjjUt9wusa/Ts31uhKO8/+XW7DggVkObrconXsXkUiiBxOXtt6PQ?=
- =?us-ascii?Q?n5AdhIaRuwwC+tIB4LkggH58p+DGiELlCjlWzMVkfWGjBFFLPvDXEYmGgqB1?=
- =?us-ascii?Q?7Em9tj7wfVe0ekeCQmDkkUjMgmEYfm5+CczaaSZNav67dbIP5flqxIzzQmFy?=
- =?us-ascii?Q?yk6Tbb8g8Zt7BxO+w+dN8F01zSJYzdOSomefWWcKfOfwd/wsnOvZ885P8mNL?=
- =?us-ascii?Q?ARDSec7VjAVPSWzL7CbBhA2KvwVFZEHnO2USmOjVX+oQ2LjctOV0mvagUJts?=
- =?us-ascii?Q?sYVfWQHRke9nPFQr1k7TybvlE+0v35StSb0UMkXZmZCsOwCoL8tOObe1ynKU?=
- =?us-ascii?Q?Yjkt8B/Zl79e9Jk+q8KllUHMYGaWhgEPh50x+8Kj4MQ6wde6UeGisfIU0WNE?=
- =?us-ascii?Q?YawVTIVpOPZobWgHdycilHaklMQpHVhYsu3YpugZEycNnNpOk9I3UFAoXHc6?=
- =?us-ascii?Q?fTWz5H/PpMK2/67VLsR2WHumb4DqAXQ4Ru4vsnUy4hWU+zX+liIVfuQzc+k9?=
- =?us-ascii?Q?EV82cmElZntMH2ZOKX0UO2xvo4lVWxaxWIb7bQ3b5EgXkfM9FdwrmZMkqZmq?=
- =?us-ascii?Q?zdt0i3fuH3NjLpdq6PYsPfJd8UOdopR5zsb0lDZf7uFuIZJob80RuWqaFscW?=
- =?us-ascii?Q?Za0jSfpyx1KADHkfCMZkqzxiDNL1yZ55wueUI9q/QxgoAlocwARiDIegCcS6?=
- =?us-ascii?Q?frHKFyaWZgu9vqxtGn6dKKyp0stPO9E07aOvugG4aV1JfwDegysdkSNwUe3l?=
- =?us-ascii?Q?/myRIvaIPjTrRimuj2KtdnQ+VrQCX4nug13cK6jTyJbN13jBbUOhL+VH9oNt?=
- =?us-ascii?Q?BO3mBYlXkyzQ/eb5df6fCoqWC/YTUZHorAspES1Aot1Ct3xEXyg4cUnULgW6?=
- =?us-ascii?Q?0vWmsGqcNLHZ9Gpj2ZT/FBpXsHSNhGH79ID9wHhJ8k599fULlbFTtZH8tQ3Z?=
- =?us-ascii?Q?DoYETOpaZ/2O0398QmQBduH3bUkuFx2tISHpe/7QxNaUPfK04iF1pubFLY1q?=
- =?us-ascii?Q?WAGYtJP++YXsplQA1E4vPHP54N7i4H6NqEWll2pfI7nnxIuBQraOikEXORkJ?=
- =?us-ascii?Q?3+XpJAjvC0kQZnwPU3slqFkzbUUCoLhKwQY9rSEcR3pOvD8Dy/o58CIVoPfU?=
- =?us-ascii?Q?uAECAqxubiiKbNW7ihbwY3D1tWbCNt2rVdU3ENIYkOhZXsaRVoLhdc4WzKD2?=
- =?us-ascii?Q?8U26jt/irUYiv2zLMQFY36UZS2q3xytf4FlAfNR+tq6cugzKaYKac8uzprSK?=
- =?us-ascii?Q?84ogN9XrDEQ4yETNkn7ZUWVPRQsAE9rm4dnWijflSmEZ+MnAcevjFgebmjny?=
- =?us-ascii?Q?V+WPhHZ/7lmO63ekUgKdZDSS9yLrpNkYCU3y+LJ9VQO8fcFq/g8fgOBq24d2?=
- =?us-ascii?Q?p5HjQkcW/HA2Hk+i1UvaQFjjSQcR0WMeftsOqa4mnHJBgrZ2sPW4XE47EICB?=
- =?us-ascii?Q?vZOJRTMiY6xPKSpQSE6Cz9c=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce6f1ffa-ad5a-4f71-8bc9-08dc3c0a470a
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 05:16:42.0006
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u/YeQt0iLyiGlUAXtyF6YJdBdL5yWM9uUuvNWZmTSo4Mlb9TgZyVNHrestba5hrgBguSA/HeosSnh/ItW9VTfYM6V4ncZ9ha+jGJ9PDBrP025UNEAPr5eCttpVHjJq7j
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6616
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 05/20] media: venus: pm_helpers: Kill dead code
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross
+	<agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: Marijn Suijten <marijn.suijten@somainline.org>,
+        Stanimir Varbanov
+	<stanimir.varbanov@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab+huawei@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
+ <20230911-topic-mars-v2-5-3dac84b88c4b@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20230911-topic-mars-v2-5-3dac84b88c4b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: gk1jUqsTBhi5fYHR-XLQcXI0DNaTXove
+X-Proofpoint-GUID: gk1jUqsTBhi5fYHR-XLQcXI0DNaTXove
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-04_02,2024-03-01_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 spamscore=0
+ impostorscore=0 clxscore=1011 mlxlogscore=999 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403040040
 
-From DT point of view, in general, drivers should be asking for a
-specific port number because their function is fixed in the binding.
 
-of_graph_get_next_endpoint() doesn't match to this concept.
 
-Simply replace
-
-	- of_graph_get_next_endpoint(xxx, NULL);
-	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
-
-Link: https://lore.kernel.org/r/20240202174941.GA310089-robh@kernel.org
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/video/fbdev/omap2/omapfb/dss/dsi.c    |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 20 +------------------
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c  |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c  |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/venc.c   |  3 ++-
- drivers/video/fbdev/pxafb.c                   |  2 +-
- include/video/omapfb_dss.h                    |  3 ---
- 7 files changed, 10 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbd=
-ev/omap2/omapfb/dss/dsi.c
-index b7eb17a16ec4..1f13bcf73da5 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-@@ -28,6 +28,7 @@
- #include <linux/debugfs.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/of_platform.h>
- #include <linux/component.h>
-=20
-@@ -5079,7 +5080,7 @@ static int dsi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	struct omap_dsi_pin_config pin_cfg;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c b/drivers/video/=
-fbdev/omap2/omapfb/dss/dss-of.c
-index 0282d4eef139..14965a3fd05b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-@@ -130,24 +130,6 @@ static struct device_node *omapdss_of_get_remote_port(=
-const struct device_node *
- 	return np;
- }
-=20
--struct device_node *
--omapdss_of_get_first_endpoint(const struct device_node *parent)
--{
--	struct device_node *port, *ep;
--
--	port =3D omapdss_of_get_next_port(parent, NULL);
--
--	if (!port)
--		return NULL;
--
--	ep =3D omapdss_of_get_next_endpoint(port, NULL);
--
--	of_node_put(port);
--
--	return ep;
--}
--EXPORT_SYMBOL_GPL(omapdss_of_get_first_endpoint);
--
- struct omap_dss_device *
- omapdss_of_find_source_for_first_ep(struct device_node *node)
- {
-@@ -155,7 +137,7 @@ omapdss_of_find_source_for_first_ep(struct device_node =
-*node)
- 	struct device_node *src_port;
- 	struct omap_dss_device *src;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return ERR_PTR(-EINVAL);
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c b/drivers/video/f=
-bdev/omap2/omapfb/dss/hdmi4.c
-index f05b4e35a842..8f407ec134dc 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-@@ -20,6 +20,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/clk.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/component.h>
- #include <video/omapfb_dss.h>
-@@ -529,7 +530,7 @@ static int hdmi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c b/drivers/video/f=
-bdev/omap2/omapfb/dss/hdmi5.c
-index 03292945b1d4..4ad219f522b9 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-@@ -25,6 +25,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/clk.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/component.h>
- #include <video/omapfb_dss.h>
-@@ -561,7 +562,7 @@ static int hdmi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/venc.c b/drivers/video/fb=
-dev/omap2/omapfb/dss/venc.c
-index c9d40e28a06f..0bd80d3b8f1b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-@@ -24,6 +24,7 @@
- #include <linux/regulator/consumer.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/component.h>
-=20
- #include <video/omapfb_dss.h>
-@@ -764,7 +765,7 @@ static int venc_probe_of(struct platform_device *pdev)
- 	u32 channels;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index fa943612c4e2..2ef56fa28aff 100644
---- a/drivers/video/fbdev/pxafb.c
-+++ b/drivers/video/fbdev/pxafb.c
-@@ -2171,7 +2171,7 @@ static int of_get_pxafb_mode_info(struct device *dev,
- 	u32 bus_width;
- 	int ret, i;
-=20
--	np =3D of_graph_get_next_endpoint(dev->of_node, NULL);
-+	np =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
- 	if (!np) {
- 		dev_err(dev, "could not find endpoint\n");
- 		return -EINVAL;
-diff --git a/include/video/omapfb_dss.h b/include/video/omapfb_dss.h
-index e8eaac2cb7b8..a8c0c3eeeb5b 100644
---- a/include/video/omapfb_dss.h
-+++ b/include/video/omapfb_dss.h
-@@ -819,9 +819,6 @@ struct device_node *
- omapdss_of_get_next_endpoint(const struct device_node *parent,
- 			     struct device_node *prev);
-=20
--struct device_node *
--omapdss_of_get_first_endpoint(const struct device_node *parent);
--
- struct omap_dss_device *
- omapdss_of_find_source_for_first_ep(struct device_node *node);
- #else
---=20
-2.25.1
-
+On 2/10/2024 2:39 AM, Konrad Dybcio wrote:
+> A situation like:
+> 
+> if (!foo)
+> 	goto bar;
+> 
+> for (i = 0; i < foo; i++)
+> 	...1...
+> 
+> bar:
+> 	...2...
+> 
+> is totally identical to:
+> 
+> for (i = 0; i < 0; i++) // === if (0)
+> 	...1...
+> 
+> ...2...
+> 
+> Get rid of such boilerplate.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 10 ----------
+>  1 file changed, 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index 1ba65345a5e2..7193075e8c04 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -878,14 +878,10 @@ static int vcodec_domains_get(struct venus_core *core)
+>  		.pd_flags = PD_FLAG_NO_DEV_LINK,
+>  	};
+>  
+> -	if (!res->vcodec_pmdomains_num)
+> -		goto skip_pmdomains;
+> -
+Removing the if check and relying only on for loop is good.
+but I don't see the for loop here.
+>  	ret = dev_pm_domain_attach_list(dev, &vcodec_data, &core->pmdomains);
+>  	if (ret < 0)
+>  		return ret;
+>  
+Also, what's the base of this change? I don't see above API in the code
+anywhere.
+> -skip_pmdomains:
+>  	if (!core->res->opp_pmdomain)
+>  		return 0;
+>  
+> @@ -928,9 +924,6 @@ static int core_resets_reset(struct venus_core *core)
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	if (!res->resets_num)
+> -		return 0;
+> -
+>  	for (i = 0; i < res->resets_num; i++) {
+>  		ret = reset_control_assert(core->resets[i]);
+>  		if (ret)
+> @@ -953,9 +946,6 @@ static int core_resets_get(struct venus_core *core)
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	if (!res->resets_num)
+> -		return 0;
+> -
+>  	for (i = 0; i < res->resets_num; i++) {
+>  		core->resets[i] =
+>  			devm_reset_control_get_exclusive(dev, res->resets[i]);
+> 
 
