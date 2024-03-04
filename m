@@ -1,253 +1,134 @@
-Return-Path: <linux-media+bounces-6383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6384-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B2C870F00
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 22:50:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5AB87107B
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 23:53:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F96E1F215B6
-	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 21:50:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 91100B2486A
+	for <lists+linux-media@lfdr.de>; Mon,  4 Mar 2024 22:53:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A91BA7B3C3;
-	Mon,  4 Mar 2024 21:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20C587C0A8;
+	Mon,  4 Mar 2024 22:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UQZOEUvR"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fSDidsuR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BC11EB5A;
-	Mon,  4 Mar 2024 21:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADFB7C088
+	for <linux-media@vger.kernel.org>; Mon,  4 Mar 2024 22:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709588997; cv=none; b=M10qHGkWSkTGZ8jKNnhy7mPVuHh4Mk1zVYlXs3jO3dwBhESdHPKd54m05hterWF7OoWZMG+4TTE/92cibLFipqR415XGinK9LFlmvjj9Qn6qO4jRtFldWu7EVBFBE8zfE+kcxxa27RZBAKHBD10UuR1GImrrAzjNnu1aLx+y9hc=
+	t=1709592786; cv=none; b=dmXh9dhqu7PSRI+0PZ+zQDm/H9Pk5gA95PktOa+cg7CtNZg9j3r0NUeUeJ+RuQ0QrXiQykAnMHFisdC+FyX43Ipa04uupESY4uFRmXbybo2gX22jX2CVYhjhzcYF10GY2wNG/b45WigbYtCcTvP/5G+l1odGREutNc7n8wuMXms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709588997; c=relaxed/simple;
-	bh=N/qoAzsb/7sLnf5j1MSPu0te/TnAblCIa6qjqGuyO9E=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=cSI+6HkCE6fEv57nF69/XXpdPDKibj7vTuDGv8hSbwaVYD7r6Yw59IwCxlBE4xPlu7oy2FBoAvAe6wCklv4L1lTeq0eRUtT8xHR8BNOO3JcRxvQUqUVzgIRaCiLFgblKz2rTRVjsDKXA0fQToSoYCjpppJKGPK2Tna7CO8L6wBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UQZOEUvR; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d2ab9c5e83so50691761fa.2;
-        Mon, 04 Mar 2024 13:49:55 -0800 (PST)
+	s=arc-20240116; t=1709592786; c=relaxed/simple;
+	bh=uOmNJyftoQiWMBwtZjjEk5oazk42oiXZB0+69cEngE4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i7YtTpMhJivcp9xw4N7g6dMvFzGVfrSS8qua501kO5iW9YkrpVLD0EJunVCnuG3zUV5EfqHRTEyZu0xW0UbrhzFyqWHQNYUL+63UmDmp8OCWGtPQGIcz+Ssj5nps/f/mOKKcWcQhW0FUsF89Q75EEkcaT7onGwftvL75Au9bpCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fSDidsuR; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-412dda84216so15751775e9.3
+        for <linux-media@vger.kernel.org>; Mon, 04 Mar 2024 14:53:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709588993; x=1710193793; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=r1fd5JWBu5m9ExqQ1tPo3RjEN00HnWcydYH7DAOUA/I=;
-        b=UQZOEUvRsO4y1Vj73CCaYdPqL8/0/INd/t+SuZeXM2GDo/6TTdSuR/Png8YsdBunY6
-         +rVmlvOBtSc4CibE+Nqpsr/ZgXzejGCL6hfB5MmXosBbZJG/XZhw5/cK0V6yL2iN3e8h
-         OaZoISQ7xaCybhbA8Lm5tcK5e9H4KJ87JHzGygmVjc9fYOSTols1AFvMy6e1pbLKExTc
-         jx3LTwPnSJ+jWzb7DjCAIk8ydKABCM0zp2MhAth/gvIUOX3jYbGvOsrlcWOZx23avc3V
-         EYbQ+BjpbaYbKf/N8ny2ngPiVVbfhNDO5gxGdlPqmCiN+I4NlIQJV4CgNjnwI3I9SCPK
-         KknA==
+        d=linaro.org; s=google; t=1709592783; x=1710197583; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=btWynTf3xFFc3JW3PLqmWTjuLdoAa7Aj4yAc6WIdAsM=;
+        b=fSDidsuRb/fJIChlTqzSZiqzRASaUAjwx66r8Wtd3lt6Xr4vrhfMtYjzE1XLiQRm5I
+         Juk8U65YTFVeJTmrJ3CIbsUVwJXp75fxp5BSG9cRGHWT4QXoVpWlgUJcCPwk0fdTodnd
+         PyzniKmtxh5ezNjpOU5TmOmM/fTukigihkDz+Oz7WiWXwCzon02CgjLgdm9E+cQ+o+hB
+         v0Gto+5ag/YH7U2vGP8C3T1gkGeBCPwe1XNpDo8unGPXLZJmryfYd8MhOVHPl+S906cC
+         TDJCWZIW5fGWxpCg+3c709bvw+ShpGzrBhL22ALht/DCoVcssYPqz+fjdMVUf3wiiDBk
+         UaYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709588993; x=1710193793;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r1fd5JWBu5m9ExqQ1tPo3RjEN00HnWcydYH7DAOUA/I=;
-        b=tRm23T4pybooKzusMMRoxD4juEdkS7Whqhs+YzrXbo/94uoVicb+MyiX18KpmS4yC9
-         LQjSqDYsIjA4Sq5akwzUG+1FDtIFcS2do5eRreN8FkApJmOGAyTjQ17D6Z69mwdDrkXl
-         mEdJSGoivfPW4QmtWJCrvagrJIlh/l9DKV0iNVLz0HY3AaPPmlBTx27P2v5+rE6A93bW
-         PntzXkyaJaNrSxCQ9RilnEhUqs17ebyprsQ9Lq/S41gsxYmCA82nALZbld2exOU2fY4E
-         XF0UhbbWEDefdH4JhiWTgDjS83RzwbVswK3q6I1B7Scb0cpJpBLKzO6yRekKsVHu+8vB
-         C5GQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+MOnS0zNOQ8LargZYmepjlCHcOV7hAb5JEaLCjdIRUUIICF37sSdXnd/fgc8mIgqbOnYWuh/JTB4/qOjLBvOAF2n+E8YqbQOACm+i
-X-Gm-Message-State: AOJu0YyZt8Ok0s05fBUW1xR/r3/5eyT9rlIDYKZBXrmVANlm7VVRjBum
-	4SgxE56C0p2sVgjDw+4DeXZH5nNcMJoqQseVrkcukDblUr4nMxJj
-X-Google-Smtp-Source: AGHT+IE0Pk2KzSaDGL17XDUQZmFBaTN4nO30WcTvLXVgfEjNbKLW6/KcodVPa/0E6urqu3Io6JSWCA==
-X-Received: by 2002:a05:651c:b06:b0:2d2:9b43:8d48 with SMTP id b6-20020a05651c0b0600b002d29b438d48mr88296ljr.39.1709588993145;
-        Mon, 04 Mar 2024 13:49:53 -0800 (PST)
-Received: from razdolb (95-24-155-202.broadband.corbina.ru. [95.24.155.202])
-        by smtp.gmail.com with ESMTPSA id r20-20020a2e9954000000b002d0c639e0cesm1902850ljj.6.2024.03.04.13.49.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 13:49:52 -0800 (PST)
-References: <20240229165333.227484-1-mike.rudenko@gmail.com>
- <20240229165333.227484-20-mike.rudenko@gmail.com>
- <20240304213103.GA3239@pendragon.ideasonboard.com>
-User-agent: mu4e 1.10.8; emacs 29.2.50
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo@jmondi.org>, Tommaso
- Merciai <tomm.merciai@gmail.com>, Christophe JAILLET
- <christophe.jaillet@wanadoo.fr>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Subject: Re: [PATCH v3 19/20] media: i2c: ov4689: Refactor ov4689_s_stream
-Date: Tue, 05 Mar 2024 00:48:14 +0300
-In-reply-to: <20240304213103.GA3239@pendragon.ideasonboard.com>
-Message-ID: <87wmqhfz0f.fsf@gmail.com>
+        d=1e100.net; s=20230601; t=1709592783; x=1710197583;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=btWynTf3xFFc3JW3PLqmWTjuLdoAa7Aj4yAc6WIdAsM=;
+        b=YboRoJBiX4FCSV07g6ovNnNdDnDPZVN6exwA+x6e5SmqjfjjmjOTvBiseqvLLqT1qW
+         eaqWFtjbxlkfzENQRzA+RTM+LrLVQtNCtoDCcCIvZBe+TEYwnp28eifK1Pfh3VorVt1s
+         92o/5xiX2rAQs7FDwhnEMx1beDxy1JzUF86jJp4vB+sDYJnjbZDrtoESUIGoxTlLekrw
+         +bqs3goQEElSlT3YsaSC5PabpbE8j5t6j8FV7i7k080ehi1NF+PJ4uYb1DW13xhQShXD
+         NXTP0zKGhWnwowW3qSpCellzbkWoAB/kOZwUQU4pkXz3ySI1lYAhySx0NFSbcINNgfeG
+         qidg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOpkTN8TgB79ty3QmHChYVsjHz7zxZ3F/OxB6aNvHS64vXuW3S3raGePDWzAeqUqhLeFP0YS+53I0jwBa6xoSFP8WLBLPTbyyMoqI=
+X-Gm-Message-State: AOJu0YwP0im7pmoZrqKN9qJ8Vnq9zNHkevlYo/lzaUKN8RlS64ghf2h4
+	qtCht+fpQposVsJs6iLAOaPdjp3WMY3j5vc4s6PAA0b8tImS/0dcqqgk0Kdp0vE=
+X-Google-Smtp-Source: AGHT+IFuHz8KuYiUldcamRZfnck6yCpPU0D3qbH8MnGNSebMlrRChLNBuPmNutjEvsdtyjLBHd+6Xw==
+X-Received: by 2002:a05:600c:4e8e:b0:412:de1f:dd23 with SMTP id f14-20020a05600c4e8e00b00412de1fdd23mr3813219wmq.7.1709592783279;
+        Mon, 04 Mar 2024 14:53:03 -0800 (PST)
+Received: from [10.66.66.2] (9.ip-51-91-159.eu. [51.91.159.9])
+        by smtp.gmail.com with ESMTPSA id bi7-20020a05600c3d8700b00412e5f876adsm3186236wmb.3.2024.03.04.14.53.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Mar 2024 14:53:02 -0800 (PST)
+Message-ID: <d19bd56c-dc85-46ee-831d-e67768ccf6ed@linaro.org>
+Date: Mon, 4 Mar 2024 23:52:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 14/20] media: venus: pm_helpers: Remove
+ pm_ops->core_put
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
+ <20230911-topic-mars-v2-14-3dac84b88c4b@linaro.org>
+ <ec239f69-6ace-c4a4-409c-771f1d24ce81@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <ec239f69-6ace-c4a4-409c-771f1d24ce81@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Hi Laurent,
 
-and thanks for the review.
-
-On 2024-03-04 at 23:31 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-
-> Hi Mikhail,
->
-> Thank you for the patch.
->
-> On Thu, Feb 29, 2024 at 07:53:32PM +0300, Mikhail Rudenko wrote:
->> Split ov4689_s_stream into __ov4689_stream_on and __ov4689_stream_off
->> functions. Also remove repetitive pm_runtime_put calls and call
->> pm_runtime_put once at the end of the __ov4689_stream_off function if
->> any error occurred.
+On 3/4/24 07:57, Dikshita Agarwal wrote:
+> 
+> 
+> On 2/10/2024 2:39 AM, Konrad Dybcio wrote:
+>> Without an OPP table and with vcodec_pmdomains_num (so, v1, v3 and
+>> sdm845_legacy targets), core_put_v4 is a NOP, jut like core_put_v1.
+>> Unify them!
 >>
->> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 >> ---
->>  drivers/media/i2c/ov4689.c | 100 ++++++++++++++++++++-----------------
->>  1 file changed, 53 insertions(+), 47 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
->> index 2496067b90a0..5cea9b5ba201 100644
->> --- a/drivers/media/i2c/ov4689.c
->> +++ b/drivers/media/i2c/ov4689.c
->> @@ -537,61 +537,67 @@ static int ov4689_setup_blc_anchors(struct ov4689 *ov4689,
->>  	return ret;
->>  }
->>
->> +static int __ov4689_stream_on(struct ov4689 *ov4689,
->
-> No need for the __ prefix. Same for __ov4689_stream_off().
 
-Will remove the prefix in v4.
-
->> +			      struct v4l2_subdev_state *sd_state)
->> +{
->> +	int ret;
->> +
->> +	ret = pm_runtime_resume_and_get(ov4689->dev);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ret = cci_multi_reg_write(ov4689->regmap, ov4689_common_regs,
->> +				  ARRAY_SIZE(ov4689_common_regs), NULL);
->> +	if (ret)
->> +		goto cleanup_pm;
->> +
->> +	ret = ov4689_setup_timings(ov4689, sd_state);
->> +	if (ret)
->> +		goto cleanup_pm;
->> +
->> +	ret = ov4689_setup_blc_anchors(ov4689, sd_state);
->> +	if (ret)
->> +		goto cleanup_pm;
->> +
->> +	ret = __v4l2_ctrl_handler_setup(&ov4689->ctrl_handler);
->> +	if (ret)
->> +		goto cleanup_pm;
->> +
->> +	ret = cci_write(ov4689->regmap, OV4689_REG_CTRL_MODE,
->> +			OV4689_MODE_STREAMING, NULL);
->> +	if (ret)
->> +		goto cleanup_pm;
->> +
->> +	return 0;
->> +
->> + cleanup_pm:
->
-> No space before the label. I would also name it just "error".
-
-Thanks for the suggestion, will do so in v4.
-
-> With those small changes,
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
->> +	pm_runtime_put(ov4689->dev);
->> +	return ret;
->> +}
->> +
->> +static int __ov4689_stream_off(struct ov4689 *ov4689)
->> +{
->> +	cci_write(ov4689->regmap, OV4689_REG_CTRL_MODE, OV4689_MODE_SW_STANDBY,
->> +		  NULL);
->> +	pm_runtime_mark_last_busy(ov4689->dev);
->> +	pm_runtime_put_autosuspend(ov4689->dev);
->> +
->> +	return 0;
->> +}
->> +
->>  static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
->>  {
->>  	struct ov4689 *ov4689 = to_ov4689(sd);
->>  	struct v4l2_subdev_state *sd_state;
->> -	struct device *dev = ov4689->dev;
->> -	int ret = 0;
->> +	int ret;
->>
->>  	sd_state = v4l2_subdev_lock_and_get_active_state(&ov4689->subdev);
->>
->> -	if (on) {
->> -		ret = pm_runtime_resume_and_get(dev);
->> -		if (ret < 0)
->> -			goto unlock_and_return;
->> -
->> -		ret = cci_multi_reg_write(ov4689->regmap,
->> -					  ov4689_common_regs,
->> -					  ARRAY_SIZE(ov4689_common_regs),
->> -					  NULL);
->> -		if (ret) {
->> -			pm_runtime_put(dev);
->> -			goto unlock_and_return;
->> -		}
->> -
->> -		ret = ov4689_setup_timings(ov4689, sd_state);
->> -		if (ret) {
->> -			pm_runtime_put(dev);
->> -			goto unlock_and_return;
->> -		}
->> -
->> -		ret = ov4689_setup_blc_anchors(ov4689, sd_state);
->> -		if (ret) {
->> -			pm_runtime_put(dev);
->> -			goto unlock_and_return;
->> -		}
->> -
->> -		ret = __v4l2_ctrl_handler_setup(&ov4689->ctrl_handler);
->> -		if (ret) {
->> -			pm_runtime_put(dev);
->> -			goto unlock_and_return;
->> -		}
->> -
->> -		ret = cci_write(ov4689->regmap, OV4689_REG_CTRL_MODE,
->> -				OV4689_MODE_STREAMING, NULL);
->> -		if (ret) {
->> -			pm_runtime_put(dev);
->> -			goto unlock_and_return;
->> -		}
->> -	} else {
->> -		cci_write(ov4689->regmap, OV4689_REG_CTRL_MODE,
->> -			  OV4689_MODE_SW_STANDBY, NULL);
->> -		pm_runtime_mark_last_busy(dev);
->> -		pm_runtime_put_autosuspend(dev);
->> -	}
->> +	if (on)
->> +		ret = __ov4689_stream_on(ov4689, sd_state);
->> +	else
->> +		ret = __ov4689_stream_off(ov4689);
->>
->> -unlock_and_return:
->>  	v4l2_subdev_unlock_state(sd_state);
->>
->>  	return ret;
+[...]
 
 
---
-Best regards,
-Mikhail Rudenko
+>> -static void vcodec_domains_put(struct venus_core *core)
+>> +void vcodec_domains_put(struct venus_core *core)
+>>   {
+>>   	dev_pm_domain_detach_list(core->pmdomains);
+>>   
+> what is the base of this change?
+> I don't see dev_pm_domain_detach_list in mainline code.
+> Am I missing anything here?
+
+The base is specified in the cover letter.
+
+The code in question is indeed here since January, perhaps
+you're looking at something older than -next.
+
+Konrad
+
 
