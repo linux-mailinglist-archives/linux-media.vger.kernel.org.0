@@ -1,205 +1,228 @@
-Return-Path: <linux-media+bounces-6432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6433-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F19871DFD
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 12:35:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02388871E25
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 12:41:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 556E21F2A4F8
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 11:35:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C528B24E76
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 11:41:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89B155B5BD;
-	Tue,  5 Mar 2024 11:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C37C455C36;
+	Tue,  5 Mar 2024 11:41:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="ZeOa8Sr0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crl2A0T8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810765B1EA;
-	Tue,  5 Mar 2024 11:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A380C433CA
+	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 11:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709638472; cv=none; b=ls7CjeSmhzlI2dgCXOEhESpmoJcioekk1AT2mTyArcZwXqgkL13HfiaNOwJrjybSVQ7UmNecobYvQyxkomLGyamlteDZgvW5nuw2P/Y7pjl8UnPtw5fbHSzywhsf2u23zbryv5DNYfZWfYviSLqwr7mKlB2/fmIhCZdZrwmctNo=
+	t=1709638906; cv=none; b=W/dTfpRHH0hKBq20Xi9f0g/Oa7tX4JXxtvs2hWkqTpxn7sNgf+9NyhiQIcF+Wwj7Ul33z8VtkzxGTNiVWgLGz7bfLWjeRmqDr1TVHxQNXgPwRp7h7AUfbKdWNPs5xONJoJ8DAF+rBqnsZe++BGBREmu17TAdHEQI6O/ohfYquGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709638472; c=relaxed/simple;
-	bh=TBVpOiYhHL/5knKRvD0InlYh5cmtDcK9l0qZqxgxL78=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Dqil5aCongtWgmTtqzVJSgBuu5cByJkV5K3aDrTqa8P0ooxVz1M7KA9Jso9tCmVZBLsQzXrCTZuLpqSM40laBIUOEppNddxp4PEyScoxCx6Gm67YqwufeDhTJ7uNwj8LE45l13HqyigqFK75eC2jE7L3134FfqMXvES6TTRg6EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=ZeOa8Sr0; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dbd32cff0bso46999905ad.0;
-        Tue, 05 Mar 2024 03:34:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709638470; x=1710243270;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:dkim-signature:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SGvjvL1l3IEoVUIMcNND+raHtPvpiWRh02eFx2GTgcs=;
-        b=AoCIrG1PMnITXmJmj3VwZhG90wJNJsY0S4rayW3wcLqNPBymg2ITo8TX2W6KF2b6ui
-         o0AoYKrnx4pKidAXmgG9rv1k+5usTRvXr8E6h3CDTsOjbJF7wfLkYjL+ROfm7KZbYP54
-         mGnSPOgMNWWAZ7fDFXzm161lDpqMf1rdweBoOUFnLsrd15UGrdVyFVn+BCqz5sPonODp
-         idW7vJ03NflOj+s5SF21jkTvUCz2bjM90O+JNPTdjYfVLQwJOpQWUrrB3Aa60BiemIia
-         rnj3yFm1b836HoV4ejX03x0nhqVyQrkW/WNpUDp+2r9g8vrcrkRk9ydI7zjqyjAStIfB
-         BTXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGUZApX+LJPVHM+8UG0fksYk+ZQvSMLqo9VPXw94BavRFkqvLwAySnfrGe0uL5TfLMH2kkEDclCt/hgraI6f9fSfeExezBf8/YEKya79ni1iy6l636PzJEyocYX9JuhpSKO4R/x69iQaJ90acPAWliPB+O2XHyRur61EqHBWvmhveYkhYrHA==
-X-Gm-Message-State: AOJu0YzASSUu1IX+i9FCBJTW9Jn6TGG5z4dVaAQCg6KAoQX/Jj19DS2H
-	B5F9VaW1NLZM6sLf/lxoqHQZJReku/LFelj6sz2BoeLJPsfcjDPwLYZx1aVrT5x8NQ==
-X-Google-Smtp-Source: AGHT+IEvvXqVgNig+0Ajd3GcxrPcqCzSQEPkm0LQdI67Nas42de+ACS1GOh6k+iqXrCZCfKKLop+HQ==
-X-Received: by 2002:a17:902:e74b:b0:1da:22d9:e7fd with SMTP id p11-20020a170902e74b00b001da22d9e7fdmr1703170plf.20.1709638469624;
-        Tue, 05 Mar 2024 03:34:29 -0800 (PST)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id d15-20020a170903230f00b001dc3c4e7a12sm10315600plh.14.2024.03.05.03.34.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 03:34:29 -0800 (PST)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1709638468;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SGvjvL1l3IEoVUIMcNND+raHtPvpiWRh02eFx2GTgcs=;
-	b=ZeOa8Sr0g4u6ioHCa+AEJa2P0N6xyD41cZUQ99KQvEzFdKnmd85LBQCyqKPIR5hy9KPSf7
-	2+tam0hUlZYXqIDf0mcMsitkiEf4w2O2Dsug3zulLjOsnzEaXf10zv9c76IibqBwUbkjxn
-	MWnSweGc9mb7nk902l1B8nIts3HHOF/UOhYGjUTALy8vy8lGwsa28tCcLbBXgfvcuUjmLn
-	d6M6yTQvSWAXtpSrKnFRA/ZhPJRh47SAhJag2AzLaXAhKco444IbXSptaSEjuK0sIydl4h
-	h7PH7a3+TI9JSbm/NNmJU4sIXPFk7ie9bTMFZIZv2WLs3VbdxddhAK4zjQxccQ==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Tue, 05 Mar 2024 08:34:13 -0300
-Subject: [PATCH RESEND drm-misc 4/4] dma-buf: heaps: make dma_heap_class
- constant
+	s=arc-20240116; t=1709638906; c=relaxed/simple;
+	bh=qfBGIlqjI1ZDrVO0Da127j6GuN8Fby8FmuIEOgJfrQw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qnIdpxQ4q0dlBcYTnEBJTTPCs970f+676fhBskaGts8r2HJelJuRdqxCSYfXmJXhYVxzABmvKXv4iJ4PRqoLwg9wDQ4TOauQt40rTkJ7rIXBzoJ85LJejauo/Dcmufv8kyrMO0TpT4/nbNddR1F60ls9XVk2ll6vhUNFjvxDgWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crl2A0T8; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709638905; x=1741174905;
+  h=date:from:to:cc:subject:message-id;
+  bh=qfBGIlqjI1ZDrVO0Da127j6GuN8Fby8FmuIEOgJfrQw=;
+  b=crl2A0T8pKB53L7OCAQcUKz5xfTS53oOVw03tXZZnINqKSgoaO8b7fPK
+   QH6RLHggAfTidrnEZDbH4dJ6JqWg60WjJWxlF1+tXniic309T0kKdVm6G
+   Ne+Ks/maWq0gDQSDhItx95yWHf1WL1Ww7fbrQt00ObmNJUylnMaLKociH
+   ICo6LlMNVcwZs8LK0wwoHNJ8tYqUCy9KD6Ik2+Cyz+BMiFbccqoJTwHNB
+   Id7+cFwTjrttDl2/t1c91OR9PFkONerGrqDvGW5KRgGE1QPuNcaZ9F5WH
+   S0KrkzMVM6n0fUfxB/c15uoXV2TVa6aXe/4gEu/nXkjiXoWGFzW5x6oHk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4043601"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="4043601"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 03:41:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="13834580"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 05 Mar 2024 03:41:43 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rhTAy-0003H0-02;
+	Tue, 05 Mar 2024 11:41:40 +0000
+Date: Tue, 05 Mar 2024 19:40:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ 65e6a2773d655172143cc0b927cdc89549842895
+Message-ID: <202403051951.aJ7V5GAn-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240305-class_cleanup-drm-v1-4-94f82740525a@marliere.net>
-References: <20240305-class_cleanup-drm-v1-0-94f82740525a@marliere.net>
-In-Reply-To: <20240305-class_cleanup-drm-v1-0-94f82740525a@marliere.net>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, 
- "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2638; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=TBVpOiYhHL/5knKRvD0InlYh5cmtDcK9l0qZqxgxL78=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5wMzXXEwr5JfufBuY7fFwRJL8nmL4A2R2R+Df
- j91UwjdnM+JAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecDMwAKCRDJC4p8Y4ZY
- pqQCD/9dAq8lWzYs5OjaBNAHM65zzjgz6Bgu/yB5UChhzZHSF5jbEB1KCMPsLUcOAD+H6g5bK69
- pAUxqPv2rzp9CWK1LphHF75Ys/ePMnp2Bcf4OyzIE6f91RhLoj6a4vbkFPo3ZEjSx/18f21XIqK
- 7npqmmzF9bMJZ4uEDe+jODA+DBQYN9hVaJbTKxDS8gCZmfU25oI1BHVDQhreY8re7+ix7JSRyBm
- wPUj4mXuV+tzsbL9ZckyDvXuWCbO9ahj9PS3uSjE9nNg5frRpySuqZc8r94FQaSLRmTtmqSMmEa
- SaOKMQjsYWaR7HDt0KtlK2iZTXF+vm7jUvldFW4No5i3FP74h3rBI791dRMszvQXVMxe0YSJp1p
- S65Q9hxfqClvd7imVlKLKicraIepW+0Q+1p/FN5pf9wbZH4HmFKRlFJwDXpizdmwDpzqrPs2Fcz
- TS1Ke2yr1f9azqJrtXe2RyDIazXjn8oFYjH/iQ0NVI5qSTQgSiCN7XIsc0P5FF1QaF1J0OycvAg
- a7Y1NrbrkMUlnY3C/s6vWjrVcIDlj+65mOwFAUPdE9/908I9+Wxr3trDsTEbbyM5D1NEFpIhqvP
- kIBLJ4SWnDQasUHC1nJXCj2BVKfRDUdfhOGMRhz6653ioDf0gAwIeNI58zjAOjDGasGv4o8TfbK
- nsoMJNbrypYMCcQ==
-X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
- fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 
-Since commit 43a7206b0963 ("driver core: class: make class_register() take
-a const *"), the driver core allows for struct class to be in read-only
-memory, so move the dma_heap_class structure to be declared at build time
-placing it into read-only memory, instead of having to be dynamically
-allocated at boot time.
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: 65e6a2773d655172143cc0b927cdc89549842895  media: usbtv: Remove useless locks in usbtv_video_free()
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- drivers/dma-buf/dma-heap.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+elapsed time: 1396m
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 84ae708fafe7..bcca6a2bbce8 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -43,10 +43,18 @@ struct dma_heap {
- 	struct cdev heap_cdev;
- };
- 
-+static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
-+{
-+	return kasprintf(GFP_KERNEL, "dma_heap/%s", dev_name(dev));
-+}
-+
- static LIST_HEAD(heap_list);
- static DEFINE_MUTEX(heap_list_lock);
- static dev_t dma_heap_devt;
--static struct class *dma_heap_class;
-+static struct class dma_heap_class = {
-+	.name = DEVNAME,
-+	.devnode = dma_heap_devnode,
-+};
- static DEFINE_XARRAY_ALLOC(dma_heap_minors);
- 
- static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
-@@ -261,7 +269,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- 		goto err1;
- 	}
- 
--	dev_ret = device_create(dma_heap_class,
-+	dev_ret = device_create(&dma_heap_class,
- 				NULL,
- 				heap->heap_devt,
- 				NULL,
-@@ -291,7 +299,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- 	return heap;
- 
- err3:
--	device_destroy(dma_heap_class, heap->heap_devt);
-+	device_destroy(&dma_heap_class, heap->heap_devt);
- err2:
- 	cdev_del(&heap->heap_cdev);
- err1:
-@@ -301,11 +309,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- 	return err_ret;
- }
- 
--static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
--{
--	return kasprintf(GFP_KERNEL, "dma_heap/%s", dev_name(dev));
--}
--
- static int dma_heap_init(void)
- {
- 	int ret;
-@@ -314,12 +317,11 @@ static int dma_heap_init(void)
- 	if (ret)
- 		return ret;
- 
--	dma_heap_class = class_create(DEVNAME);
--	if (IS_ERR(dma_heap_class)) {
-+	ret = class_register(&dma_heap_class);
-+	if (ret) {
- 		unregister_chrdev_region(dma_heap_devt, NUM_HEAP_MINORS);
--		return PTR_ERR(dma_heap_class);
-+		return ret;
- 	}
--	dma_heap_class->devnode = dma_heap_devnode;
- 
- 	return 0;
- }
+configs tested: 139
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240305   gcc  
+arc                   randconfig-002-20240305   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240305   clang
+arm                   randconfig-002-20240305   gcc  
+arm                   randconfig-003-20240305   clang
+arm                   randconfig-004-20240305   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240305   gcc  
+arm64                 randconfig-002-20240305   clang
+arm64                 randconfig-003-20240305   gcc  
+arm64                 randconfig-004-20240305   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240305   gcc  
+csky                  randconfig-002-20240305   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240305   clang
+hexagon               randconfig-002-20240305   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240305   clang
+i386         buildonly-randconfig-002-20240305   gcc  
+i386         buildonly-randconfig-003-20240305   gcc  
+i386         buildonly-randconfig-004-20240305   clang
+i386         buildonly-randconfig-005-20240305   clang
+i386         buildonly-randconfig-006-20240305   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240305   clang
+i386                  randconfig-002-20240305   gcc  
+i386                  randconfig-003-20240305   clang
+i386                  randconfig-004-20240305   gcc  
+i386                  randconfig-005-20240305   gcc  
+i386                  randconfig-006-20240305   gcc  
+i386                  randconfig-011-20240305   gcc  
+i386                  randconfig-012-20240305   gcc  
+i386                  randconfig-013-20240305   gcc  
+i386                  randconfig-014-20240305   gcc  
+i386                  randconfig-015-20240305   clang
+i386                  randconfig-016-20240305   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240305   gcc  
+loongarch             randconfig-002-20240305   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240305   gcc  
+nios2                 randconfig-002-20240305   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240305   gcc  
+parisc                randconfig-002-20240305   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20240305   gcc  
+powerpc               randconfig-002-20240305   gcc  
+powerpc               randconfig-003-20240305   gcc  
+powerpc64             randconfig-001-20240305   clang
+powerpc64             randconfig-002-20240305   clang
+powerpc64             randconfig-003-20240305   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240305   clang
+riscv                 randconfig-002-20240305   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240305   gcc  
+s390                  randconfig-002-20240305   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240305   gcc  
+sh                    randconfig-002-20240305   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240305   gcc  
+sparc64               randconfig-002-20240305   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240305   gcc  
+um                    randconfig-002-20240305   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240305   gcc  
+xtensa                randconfig-002-20240305   gcc  
 
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
