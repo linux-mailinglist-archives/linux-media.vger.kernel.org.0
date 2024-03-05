@@ -1,72 +1,62 @@
-Return-Path: <linux-media+bounces-6470-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6471-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E238723B1
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 17:09:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C5E8723C2
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 17:10:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 692751C232A3
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:08:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 266D91F2632A
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:10:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4B5412A173;
-	Tue,  5 Mar 2024 16:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AB8E12A16E;
+	Tue,  5 Mar 2024 16:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="VVvlkgBI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A7BsmVxD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA18129A8D;
-	Tue,  5 Mar 2024 16:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F1C12A149
+	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 16:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709654754; cv=none; b=knaqyY7nesUVykcSsi67CDXT+XH8raEz/L4VImzze6YonJv1Ef16w2gmOTL1Hnu5kRFzJ1BKHcHOkqnijgRNsswnqtANqBNEd2nEQ0MY9QFUDL+aqE/uM8veEUKHE6BKrztvVDNu8QNKZKEIyIH9W8mOc0GwZMXgBQpeWUU4fts=
+	t=1709654963; cv=none; b=KpBCIpn2qmJXFLa+bD9BLAyatDxMnYS7IYrkn/7zhOyvu4XaGgHrr33FMD4YAttB9rUZtmW/f7mw0HzfzULIKVX4yr88LTJBSvflpiTowpyiRVhv3dJZ5v5VBn5QlGM3rg0QVRdrtwmClh9rcbe/GknyWHrftMRuJY4AFlTFpsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709654754; c=relaxed/simple;
-	bh=yi+Qoq9jhI5EfV7BZEqPQjeGXw+XN7tk1f/9xhPqR08=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r1qWwjYsYPRYDimVoK1424Zu/OWaTnxbAbe3ZRo/MpaCP8oSh+quUfXZ+oW22PgXhe1zjIGVSVi6qk1avOeX1Jlrnb3YLvINdzS1lALkq88QZe7fscCvSvojsasFsCRk2FMrzFz6lYnw4WgzWwOHd8OpGD24ofBkShtjhO+H0l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=VVvlkgBI; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 425G5Vgq001787;
-	Tue, 5 Mar 2024 10:05:31 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1709654731;
-	bh=TN1lJOtZgl9pWC0KQdX8fI7Y8M+iQRPemeKajaXZ7HI=;
-	h=From:To:CC:Subject:Date;
-	b=VVvlkgBIyrJjQHq+Xpjivu1vI/8qrETV8uwXYVTsTIZ0pXn5a17TMHqehyzqu9Xs1
-	 Y5ZiuZa55YQyoVhDf0WJU93UtLo0BpLQxAwesOq9K0WW3WhV0uwE461W9gPm20Y0sq
-	 gfHaZ/Qg+uiUrwB6yyji6KdpewHKRKfkC4rPjZKU=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 425G5V4l076804
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 5 Mar 2024 10:05:31 -0600
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 5
- Mar 2024 10:05:30 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 5 Mar 2024 10:05:30 -0600
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 425G5UME124919;
-	Tue, 5 Mar 2024 10:05:30 -0600
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <nas.chung@chipsnmedia.com>, <jackson.lee@chipsnmedia.com>,
-        <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <sebastian.fricke@collabora.com>,
-        <nm@ti.com>
-CC: <praneeth@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
-        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
-        <p-mantena@ti.com>, <vijayp@ti.com>, <devarsht@ti.com>
-Subject: [PATCH v2] media: chips-media: wave5: Add hrtimer based polling support
-Date: Tue, 5 Mar 2024 21:35:29 +0530
-Message-ID: <20240305160529.4152865-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
+	s=arc-20240116; t=1709654963; c=relaxed/simple;
+	bh=0lSxEvyB9fU7kDzWd5NMpd9y69Xycv07kQUT7MQqtI8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HO/V+P3aRljf1Wmdk3/DZS1jNlxgkiedTIzYOuV5O7QzLOSBKzNNRo9f0EsuOOmnG/Ie3VrD9hD0DhE7uFVI3QZa27muaroUOyWG4Al+/szx9yYEa8oNrTCZb31HMkjIHhgTAwVtPnxHdG5Vz2h06XriUufKmm2xdcsCiRcQTJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=A7BsmVxD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D320A27;
+	Tue,  5 Mar 2024 17:08:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1709654935;
+	bh=0lSxEvyB9fU7kDzWd5NMpd9y69Xycv07kQUT7MQqtI8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=A7BsmVxDlXqitA+m4hW5AWP1MkKwcS4wt9ZVxoVYlHFCNh9aaahniDZWKSFlL2ZG6
+	 dbjjf6NSJaHDWzx9mIbpv+vfL+JbSt0hanD2K4DbgZJ6TpVuOzN1bDwsQlFwHxOQU6
+	 5ckZfu+VCeSpxc/HvOy5hLELu6E4azW4yh4gdBiE=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v3 0/9] media: raspberrypi: Add support for PiSP Back End
+Date: Tue,  5 Mar 2024 17:08:43 +0100
+Message-ID: <20240305160855.147483-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,384 +64,199 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Add support for starting a polling timer in case an interrupt is not
-available. This helps to keep the VPU functional in SoCs such as AM62A,
-where the hardware interrupt hookup may not be present due to an SoC errata
-[1].
+v2->v3:
+- Expand documentation of RGB48 formats
+- Add back to the bindings the 'aclk' clock-names property
+  - Explicitly get the clock by name in the driver
+- minor fixes
 
-The timer is shared across all instances of encoders and decoders and is
-started when the first instance of an encoder or decoder is opened and
-stopped when the last instance is closed, thus avoiding per instance
-polling and saving CPU bandwidth. As VPU driver manages this instance
-related tracking and synchronization, the aforementioned shared timer
-related polling logic is implemented within the VPU driver itself. This
-scheme may also be useful in general too (even if irq is present) for
-non-realtime multi-instance VPU use-cases (for e.g 32 instances of VPU
-being run together) where system is running already under high interrupt
-load and switching to polling may help mitigate this as the polling thread
-is shared across all the VPU instances.
+v1->v2:
+- Add Y12P and Y14P formats to yuv-luma.rst instead of documenting them
+  separately
+- Fix typos in formats and documentation
+- Adjust bindings as suggested during review
+- Fix admin-guide with an up-to-media media graph (remove the HOG node)
+- Add a patch to the driver to safely clean-up the video devices buffer queues
+  in case of errors
+  https://github.com/raspberrypi/linux/commit/9fcfb8ee070ecc2ca9b4fcf4629c4545f9cf178e
 
-Hrtimer is chosen for polling here as it provides precise timing and
-scheduling and the API seems better suited for periodic polling task such
-as this.  As a general rule of thumb,
 
-Worst case latency with hrtimer = Actual latency (achievable with irq)
-                                  + Polling interval
+Add support for the Raspberry Pi PiSP Back End memory-2-memory ISP.
+Documentation available at:
+https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
 
-NOTE (the meaning of terms used above is as follows):
-- Latency: Time taken to process one frame
-- Actual Latency : Time taken by hardware to process one frame and signal
-  it to OS (i.e. if latency that was possible to achieve if irq line was
-present)
+The PiSP Back End is the memory-2-memory ISP found on Raspberry Pi 5. In
+conjunction with the PiSP Front End, for which a driver is expected to
+hit mainline in the next weeks, it implements the Raspberry Pi 5 camera
+system.
 
-There is a trade-off between latency and CPU usage when deciding the value
-for polling interval. With aggressive polling intervals (i.e. going with
-even lesser values) the CPU usage increases although worst case latencies
-get better. On the contrary, with greater polling intervals worst case
-latencies will increase although the CPU usage will decrease.
+The ISP is fully supported in the Raspberry Pi libcamera version and once
+patches for the PiSP Front End will hit mainline the support will land in
+mainline libcamera as well.
 
-The 5ms offered a good balance between the two as we were able to reach
-close to actual latencies (as achievable with irq) without incurring too
-much of CPU as seen in below experiments and thus 5ms is chosen as default
-polling interval.
+Patch based on media-stage master branch.
 
-- 1x 640x480@25 Encoding using different hrtimer polling intervals [2]
-- 4x 1080p30 Transcode (File->decode->encode->file) irq vs polling
-  comparison [3]
-- 1x 1080p Transcode (File->decode->encode->file) irq vs polling comparison
-  [4]
-- 1080p60 Streaming use-case irq vs polling comparison [5]
-- 1x 1080p30 sanity decode and encode tests [6]
+A branch is available at
 
-The polling interval can also be changed using vpu_poll_interval module
-param in case user want to change it as per their use-case requirement
-keeping in mind above trade-off.
+git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
+#pispbe/media-staging/be-upstream
 
-Based on interrupt status, we use a worker thread to iterate over the
-interrupt status for each instance and send completion event as being done
-in irq thread function.
+-------------------- Hans' build scripts build summary ------------------------
+date:                   Fri Feb  9 14:29:10 CET 2024
+media-tree git repo:    git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
+media-tree git branch:  jmondi/pispbe/media-staging/be-upstream
+media-tree git hash:    728775b95062efdecedad4df4013a8db5382d470
+v4l-utils git hash:     4a6a3725dd192759c2998311b00440b84c60df57
+edid-decode git hash:   5f723267e04deb3aa9610483514a02bcee10d9c2
+gcc version:            i686-linux-gcc (GCC) 13.1.0
+ccache version:         ccache version 4.7.5
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:         v0.5.0-8575-g7162b9ec
+sparse version:         v0.5.0-8575-g7162b9ec
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 745fc7cf5ba1a1a841374c61e8470852232584c1
+host hardware:          x86_64
+host os:                6.1.0-10-amd64
 
-Move the core functionality of the irq thread function to a separate
-function wave5_vpu_handle_irq so that it can be used by both the worker
-thread when using polling mode and irq thread when using interrupt mode.
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-Protect the hrtimer access and instance list with device specific mutex
-locks to avoid race conditions while different instances of encoder and
-decoder are started together.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
-[1] https://www.ti.com/lit/pdf/spruj16
-(Ref: Section 4.2.3.3 Resets, Interrupts, and Clocks)
-[2] https://gist.github.com/devarsht/ee9664d3403d1212ef477a027b71896c
-[3] https://gist.github.com/devarsht/3a58b4f201430dfc61697c7e224e74c2
-[4] https://gist.github.com/devarsht/a6480f1f2cbdf8dd694d698309d81fb0
-[5] https://gist.github.com/devarsht/44aaa4322454e85e01a8d65ac47c5edb
-[6] https://gist.github.com/devarsht/2f956bcc6152dba728ce08cebdcebe1d
+smatch: WARNINGS:
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-Tested-by: Jackson Lee <jackson.lee@chipsnmedia.com>
----
-V2:
-- Update commit message as suggested in review to give more context
-  on design being chosen and analysis that was done to decide on same
-- Add Tested-By
-- Remove extra return variable declaration from wave5_vpu_release_device
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
 
-Range diff w.r.t v1 :
-https://gist.github.com/devarsht/cd6bbb4ba90b0229be4718b7140ef924
----
- .../platform/chips-media/wave5/wave5-helper.c |  17 ++-
- .../chips-media/wave5/wave5-vpu-dec.c         |  13 +-
- .../chips-media/wave5/wave5-vpu-enc.c         |  13 +-
- .../platform/chips-media/wave5/wave5-vpu.c    | 117 ++++++++++++------
- .../platform/chips-media/wave5/wave5-vpuapi.h |   4 +
- 5 files changed, 122 insertions(+), 42 deletions(-)
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+spec-git: OK
+kerneldoc: WARNINGS:
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
-index 8433ecab230c..0b1b5a11e15b 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
-@@ -52,11 +52,12 @@ int wave5_vpu_release_device(struct file *filp,
- 			     char *name)
- {
- 	struct vpu_instance *inst = wave5_to_vpu_inst(filp->private_data);
-+	struct vpu_device *dev = inst->dev;
-+	int ret;
- 
- 	v4l2_m2m_ctx_release(inst->v4l2_fh.m2m_ctx);
- 	if (inst->state != VPU_INST_STATE_NONE) {
- 		u32 fail_res;
--		int ret;
- 
- 		ret = close_func(inst, &fail_res);
- 		if (fail_res == WAVE5_SYSERR_VPU_STILL_RUNNING) {
-@@ -71,8 +72,20 @@ int wave5_vpu_release_device(struct file *filp,
- 	}
- 
- 	wave5_cleanup_instance(inst);
-+	if (dev->irq < 0) {
-+		ret = mutex_lock_interruptible(&dev->dev_lock);
-+		if (ret)
-+			return ret;
- 
--	return 0;
-+		if (list_empty(&dev->instances)) {
-+			dev_dbg(dev->dev, "Disabling the hrtimer\n");
-+			hrtimer_cancel(&dev->hrtimer);
-+		}
-+
-+		mutex_unlock(&dev->dev_lock);
-+	}
-+
-+	return ret;
- }
- 
- int wave5_vpu_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq,
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-index ef227af72348..c8624c681fa6 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-@@ -1810,7 +1810,6 @@ static int wave5_vpu_open_dec(struct file *filp)
- 	v4l2_fh_add(&inst->v4l2_fh);
- 
- 	INIT_LIST_HEAD(&inst->list);
--	list_add_tail(&inst->list, &dev->instances);
- 
- 	inst->v4l2_m2m_dev = inst->dev->v4l2_m2m_dec_dev;
- 	inst->v4l2_fh.m2m_ctx =
-@@ -1867,6 +1866,18 @@ static int wave5_vpu_open_dec(struct file *filp)
- 
- 	wave5_vdi_allocate_sram(inst->dev);
- 
-+	ret = mutex_lock_interruptible(&dev->dev_lock);
-+	if (ret)
-+		goto cleanup_inst;
-+
-+	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) && list_empty(&dev->instances))
-+		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev->vpu_poll_interval * NSEC_PER_MSEC),
-+			      HRTIMER_MODE_REL_PINNED);
-+
-+	list_add_tail(&inst->list, &dev->instances);
-+
-+	mutex_unlock(&dev->dev_lock);
-+
- 	return 0;
- 
- cleanup_inst:
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index f29cfa3af94a..9e88424761b6 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -1554,7 +1554,6 @@ static int wave5_vpu_open_enc(struct file *filp)
- 	v4l2_fh_add(&inst->v4l2_fh);
- 
- 	INIT_LIST_HEAD(&inst->list);
--	list_add_tail(&inst->list, &dev->instances);
- 
- 	inst->v4l2_m2m_dev = inst->dev->v4l2_m2m_enc_dev;
- 	inst->v4l2_fh.m2m_ctx =
-@@ -1729,6 +1728,18 @@ static int wave5_vpu_open_enc(struct file *filp)
- 
- 	wave5_vdi_allocate_sram(inst->dev);
- 
-+	ret = mutex_lock_interruptible(&dev->dev_lock);
-+	if (ret)
-+		goto cleanup_inst;
-+
-+	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) && list_empty(&dev->instances))
-+		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev->vpu_poll_interval * NSEC_PER_MSEC),
-+			      HRTIMER_MODE_REL_PINNED);
-+
-+	list_add_tail(&inst->list, &dev->instances);
-+
-+	mutex_unlock(&dev->dev_lock);
-+
- 	return 0;
- 
- cleanup_inst:
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-index 0d90b5820bef..257c5e226129 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-@@ -26,6 +26,9 @@ struct wave5_match_data {
- 	const char *fw_name;
- };
- 
-+static int vpu_poll_interval = 5;
-+module_param(vpu_poll_interval, int, 0644);
-+
- int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int timeout)
- {
- 	int ret;
-@@ -40,7 +43,7 @@ int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int timeout)
- 	return 0;
- }
- 
--static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
-+static void wave5_vpu_handle_irq(void *dev_id)
- {
- 	u32 seq_done;
- 	u32 cmd_done;
-@@ -48,42 +51,67 @@ static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
- 	struct vpu_instance *inst;
- 	struct vpu_device *dev = dev_id;
- 
--	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS)) {
--		irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
--		wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
--		wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
--
--		list_for_each_entry(inst, &dev->instances, list) {
--			seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
--			cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
--
--			if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
--			    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
--				if (seq_done & BIT(inst->id)) {
--					seq_done &= ~BIT(inst->id);
--					wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO,
--								 seq_done);
--					complete(&inst->irq_done);
--				}
-+	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
-+	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
-+	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
-+
-+	list_for_each_entry(inst, &dev->instances, list) {
-+		seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
-+		cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
-+
-+		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
-+		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
-+			if (seq_done & BIT(inst->id)) {
-+				seq_done &= ~BIT(inst->id);
-+				wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO,
-+							 seq_done);
-+				complete(&inst->irq_done);
- 			}
-+		}
- 
--			if (irq_reason & BIT(INT_WAVE5_DEC_PIC) ||
--			    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
--				if (cmd_done & BIT(inst->id)) {
--					cmd_done &= ~BIT(inst->id);
--					wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
--								 cmd_done);
--					inst->ops->finish_process(inst);
--				}
-+		if (irq_reason & BIT(INT_WAVE5_DEC_PIC) ||
-+		    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
-+			if (cmd_done & BIT(inst->id)) {
-+				cmd_done &= ~BIT(inst->id);
-+				wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
-+							 cmd_done);
-+				inst->ops->finish_process(inst);
- 			}
--
--			wave5_vpu_clear_interrupt(inst, irq_reason);
- 		}
-+
-+		wave5_vpu_clear_interrupt(inst, irq_reason);
- 	}
-+}
-+
-+static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
-+{
-+	struct vpu_device *dev = dev_id;
-+
-+	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS))
-+		wave5_vpu_handle_irq(dev);
- 
- 	return IRQ_HANDLED;
- }
- 
-+static void wave5_vpu_irq_work_fn(struct kthread_work *work)
-+{
-+	struct vpu_device *dev = container_of(work, struct vpu_device, work);
-+
-+	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS))
-+		wave5_vpu_handle_irq(dev);
-+}
-+
-+static enum hrtimer_restart wave5_vpu_timer_callback(struct hrtimer *timer)
-+{
-+	struct vpu_device *dev =
-+			container_of(timer, struct vpu_device, hrtimer);
-+
-+	kthread_queue_work(dev->worker, &dev->work);
-+	hrtimer_forward_now(timer, ns_to_ktime(vpu_poll_interval * NSEC_PER_MSEC));
-+
-+	return HRTIMER_RESTART;
-+}
-+
- static int wave5_vpu_load_firmware(struct device *dev, const char *fw_name,
- 				   u32 *revision)
- {
-@@ -209,16 +237,24 @@ static int wave5_vpu_probe(struct platform_device *pdev)
- 
- 	dev->irq = platform_get_irq(pdev, 0);
- 	if (dev->irq < 0) {
--		dev_err(&pdev->dev, "failed to get irq resource\n");
--		ret = -ENXIO;
--		goto err_enc_unreg;
--	}
--
--	ret = devm_request_threaded_irq(&pdev->dev, dev->irq, NULL,
--					wave5_vpu_irq_thread, IRQF_ONESHOT, "vpu_irq", dev);
--	if (ret) {
--		dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
--		goto err_enc_unreg;
-+		dev_err(&pdev->dev, "failed to get irq resource, falling back to polling\n");
-+		hrtimer_init(&dev->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
-+		dev->hrtimer.function = &wave5_vpu_timer_callback;
-+		dev->worker = kthread_create_worker(0, "vpu_irq_thread");
-+		if (IS_ERR(dev->worker)) {
-+			dev_err(&pdev->dev, "failed to create vpu irq worker\n");
-+			ret = PTR_ERR(dev->worker);
-+			goto err_vdi_release;
-+		}
-+		dev->vpu_poll_interval = vpu_poll_interval;
-+		kthread_init_work(&dev->work, wave5_vpu_irq_work_fn);
-+	} else {
-+		ret = devm_request_threaded_irq(&pdev->dev, dev->irq, NULL,
-+						wave5_vpu_irq_thread, IRQF_ONESHOT, "vpu_irq", dev);
-+		if (ret) {
-+			dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
-+			goto err_enc_unreg;
-+		}
- 	}
- 
- 	ret = wave5_vpu_load_firmware(&pdev->dev, match_data->fw_name, &fw_revision);
-@@ -254,6 +290,11 @@ static int wave5_vpu_remove(struct platform_device *pdev)
- {
- 	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
- 
-+	if (dev->irq < 0) {
-+		kthread_destroy_worker(dev->worker);
-+		hrtimer_cancel(&dev->hrtimer);
-+	}
-+
- 	mutex_destroy(&dev->dev_lock);
- 	mutex_destroy(&dev->hw_lock);
- 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-index 352f6e904e50..edc50450ddb8 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-@@ -756,6 +756,10 @@ struct vpu_device {
- 	u32 product_code;
- 	struct ida inst_ida;
- 	struct clk_bulk_data *clks;
-+	struct hrtimer hrtimer;
-+	struct kthread_work work;
-+	struct kthread_worker *worker;
-+	int vpu_poll_interval;
- 	int num_clks;
- };
- 
--- 
-2.39.1
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
+
+
+date:                   Fri Feb  9 15:38:02 CET 2024
+-------------------------------------------------------------------------------
+
+--------------------------- V4L2 compliance -----------------------------------
+pi@raspberrypi:~/v4l-utils$ ./build/utils/v4l2-compliance/v4l2-compliance -d /dev/video4
+v4l2-compliance 1.27.0-5174, 64 bits, 64-bit time_t
+v4l2-compliance SHA: d700deb14368 2024-01-18 12:19:05
+
+Compliance test for pispbe device /dev/video0:
+Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video1:
+Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video2:
+Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video3:
+Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video4:
+Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video5:
+Total for pispbe device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video6:
+Total for pispbe device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video7:
+Total for pispbe device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
+-------------------------------------------------------------------------------
+Dave Stevenson (2):
+  media: uapi: Add MIPI packed 12bit luma
+  media: uapi: Add MIPI packed 14bit luma
+
+Jacopo Mondi (6):
+  media: uapi: pixfmt-luma: Document MIPI CSI-2 packing
+  media: uapi: Add a pixel format for BGR48 and RGB48
+  media: uapi: Add meta pixel format for PiSP BE config
+  media: uapi: Add PiSP Compressed RAW Bayer formats
+  media: dt-bindings: Add bindings for Raspberry Pi PiSP Back End
+  media: admin-guide: Document the Raspberry Pi PiSP BE
+
+Naushir Patuck (1):
+  media: raspberrypi: Add support for PiSP BE
+
+ .../admin-guide/media/raspberrypi-pisp-be.dot |   20 +
+ .../admin-guide/media/raspberrypi-pisp-be.rst |  112 +
+ .../admin-guide/media/v4l-drivers.rst         |    1 +
+ .../bindings/media/raspberrypi,pispbe.yaml    |   68 +
+ .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+ .../media/v4l/metafmt-pisp-be.rst             |   46 +
+ .../userspace-api/media/v4l/pixfmt-bayer.rst  |    1 +
+ .../media/v4l/pixfmt-pisp-comp-rggb.rst       |   70 +
+ .../userspace-api/media/v4l/pixfmt-rgb.rst    |   53 +
+ .../media/v4l/pixfmt-yuv-luma.rst             |   52 +
+ MAINTAINERS                                   |    8 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/raspberrypi/Kconfig    |    5 +
+ drivers/media/platform/raspberrypi/Makefile   |    3 +
+ .../platform/raspberrypi/pisp_be/Kconfig      |   13 +
+ .../platform/raspberrypi/pisp_be/Makefile     |    6 +
+ .../platform/raspberrypi/pisp_be/pisp_be.c    | 1859 +++++++++++++++++
+ .../raspberrypi/pisp_be/pisp_be_formats.h     |  519 +++++
+ drivers/media/v4l2-core/v4l2-common.c         |    2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   15 +
+ .../linux/media/raspberrypi/pisp_be_config.h  |  531 +++++
+ .../linux/media/raspberrypi/pisp_common.h     |  199 ++
+ include/uapi/linux/videodev2.h                |   21 +
+ 24 files changed, 3607 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.dot
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.rst
+ create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
+ create mode 100644 drivers/media/platform/raspberrypi/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_be_config.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_common.h
+
+--
+2.43.2
 
 
