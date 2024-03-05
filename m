@@ -1,674 +1,197 @@
-Return-Path: <linux-media+bounces-6448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762F5871FC6
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 14:05:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8704D8721F0
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 15:50:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25E7F283045
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 13:05:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BD121F242C6
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 14:50:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F45385C55;
-	Tue,  5 Mar 2024 13:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C15586AE9;
+	Tue,  5 Mar 2024 14:49:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EA715DF23;
-	Tue,  5 Mar 2024 13:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAC61F95E;
+	Tue,  5 Mar 2024 14:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709643900; cv=none; b=HWlrXimrlt/EqwR5Js/fpCQS0/DaqRkovPabw1q7ciCwPfAON1fJ7VqLgIgDjUmVRQ9QIIwYCEg7rdtoIuu73ntfkys2kBkr1LcMqdw9gMMtSnzPmk5Sv7ORVfKodp5Es7wM8/TRaJq5xSnEWywLr1YyLHjwvCgLX67MibtxxWM=
+	t=1709650195; cv=none; b=UJ9JVrSYY3mTB8uCJf1m/0WhHNNxIMACURxHrJ2t+7fOL1HFJVBeTvpmCCY+a7Uk1AoxutsAeAmHlms5uBVrBt2ln0zaVqgL/wfE3U5ZAi6ydBXET8M859oDWl0mrGnJOCxj4WomJ2GFP+gmFx+6Rnkfqwz4SKGKk/y4AvK2B88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709643900; c=relaxed/simple;
-	bh=LAssLA8zJjmsovnEH7z7edkhR3HziFzG9i6p8BVykQs=;
+	s=arc-20240116; t=1709650195; c=relaxed/simple;
+	bh=JrCH6EgXFgvmU54XTv3OGayoRVJM9AhD1jxlXOStzVg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ioCBRYjjTdMUrSMuF3Vtdoy8LaQP+4rrINGoECjLDw+k+ffsJGF94pPXdvhC18UelVCMdlA7zt7WHqM9D0FrV9KBbb3J4uxkSNF960RhtpYihFLdBt+Bx3ZZMZNTGq+1AA13lOG8fXMS0eJrmUKa6yU9dy6lkKR7RRnCF9A/H/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from mgb4.digiteq.red (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id 1D2AC49270;
-	Tue,  5 Mar 2024 13:55:20 +0100 (CET)
-From: tumic@gpxsee.org
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH 2/2] media: mgb4: Add support for V4L2_CAP_TIMEPERFRAME
-Date: Tue,  5 Mar 2024 14:54:10 +0100
-Message-ID: <20240305135410.54694-3-tumic@gpxsee.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240305135410.54694-1-tumic@gpxsee.org>
-References: <20240305135410.54694-1-tumic@gpxsee.org>
+	 MIME-Version:Content-Type; b=i2JN4QmpyuocRYHMfYPzLgRA/dorJe0atwUTzV/WfbjZ/SZCmaE10QCH5cw23Yg0KzE2V6ptt3d8DYpqYoWi4bVg5jMNMaac1C3HhZrvMUnXiia/wqL2kj7supMW3IkmMQ577hYbzIoAHaRC6QQNeqit+I9K18B+BCfYFAYpcRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875a9e.versanet.de ([83.135.90.158] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1rhVVj-0006jN-HS; Tue, 05 Mar 2024 15:11:15 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
+ p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com,
+ shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com, hverkuil@xs4all.nl,
+ hverkuil-cisco@xs4all.nl, Shreeya Patel <shreeya.patel@collabora.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm@lists.infradead.org,
+ Shreeya Patel <shreeya.patel@collabora.com>
+Subject:
+ Re: [PATCH v2 4/6] arm64: dts: rockchip: Add device tree support for HDMI RX
+ Controller
+Date: Tue, 05 Mar 2024 15:11:14 +0100
+Message-ID: <7657358.31r3eYUQgx@diego>
+In-Reply-To: <20240305123648.8847-5-shreeya.patel@collabora.com>
+References:
+ <20240305123648.8847-1-shreeya.patel@collabora.com>
+ <20240305123648.8847-5-shreeya.patel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Hi,
 
-Recent mgb4 firmwares have support for setting a variable framerate independent
-of the signal framerate. Add/fix (the mgb4 driver already did promote
-V4L2_CAP_TIMEPERFRAME, but it didn't work) support for V4L2_CAP_TIMEPERFRAME to
-the driver to enable this feature.
 
-Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
----
- Documentation/admin-guide/media/mgb4.rst |   8 +-
- drivers/media/pci/mgb4/mgb4_core.c       |   2 +-
- drivers/media/pci/mgb4/mgb4_core.h       |   2 +
- drivers/media/pci/mgb4/mgb4_io.h         |  23 ++-
- drivers/media/pci/mgb4/mgb4_sysfs_out.c  |   9 +-
- drivers/media/pci/mgb4/mgb4_vin.c        |  89 +++++++---
- drivers/media/pci/mgb4/mgb4_vin.h        |   3 +-
- drivers/media/pci/mgb4/mgb4_vout.c       | 206 +++++++++++++++++++++--
- drivers/media/pci/mgb4/mgb4_vout.h       |   5 +-
- 9 files changed, 302 insertions(+), 45 deletions(-)
+Am Dienstag, 5. M=E4rz 2024, 13:36:46 CET schrieb Shreeya Patel:
+> Add device tree support for Synopsys DesignWare HDMI RX
+> Controller.
+>=20
+> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
+> Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
+> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
+> ---
+> Changes in v2 :-
+>   - Fix some of the checkpatch errors and warnings
+>   - Rename resets, vo1-grf and HPD
+>   - Move hdmirx_cma node to the rk3588.dtsi file
+>=20
+>  .../boot/dts/rockchip/rk3588-pinctrl.dtsi     | 41 ++++++++++++++
+>  arch/arm64/boot/dts/rockchip/rk3588.dtsi      | 55 +++++++++++++++++++
+>  2 files changed, 96 insertions(+)
 
-diff --git a/Documentation/admin-guide/media/mgb4.rst b/Documentation/admin-guide/media/mgb4.rst
-index 2977f74d7e26..044c2cc174a8 100644
---- a/Documentation/admin-guide/media/mgb4.rst
-+++ b/Documentation/admin-guide/media/mgb4.rst
-@@ -228,8 +228,12 @@ Common FPDL3/GMSL output parameters
-     open.*
- 
- **frame_rate** (RW):
--    Output video frame rate in frames per second. The default frame rate is
--    60Hz.
-+    Output video signal frame rate limit. Due to the limited output pixel clock
-+    steps, the card can not always generate a frame rate perfectly matching
-+    the value required by the connected display. Using this parameter one can
-+    limit the frame rate by "crippling" the signal so that the lines are not
-+    equal but the signal appears like having the exact frame rate to
-+    the connected display. The default frame rate limit value is 60Hz.
- 
- **hsync_polarity** (RW):
-     HSYNC signal polarity.
-diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
-index 5bfb8a06202e..9c6294009069 100644
---- a/drivers/media/pci/mgb4/mgb4_core.c
-+++ b/drivers/media/pci/mgb4/mgb4_core.c
-@@ -302,7 +302,7 @@ static int init_i2c(struct mgb4_dev *mgbdev)
- 	/* create dummy clock required by the xiic-i2c adapter */
- 	snprintf(clk_name, sizeof(clk_name), "xiic-i2c.%d", id);
- 	mgbdev->i2c_clk = clk_hw_register_fixed_rate(NULL, clk_name, NULL,
--						     0, 125000000);
-+						     0, MGB4_HW_FREQ);
- 	if (IS_ERR(mgbdev->i2c_clk)) {
- 		dev_err(dev, "failed to register I2C clock\n");
- 		return PTR_ERR(mgbdev->i2c_clk);
-diff --git a/drivers/media/pci/mgb4/mgb4_core.h b/drivers/media/pci/mgb4/mgb4_core.h
-index 2a946e46aec1..b52cd67270b5 100644
---- a/drivers/media/pci/mgb4/mgb4_core.h
-+++ b/drivers/media/pci/mgb4/mgb4_core.h
-@@ -13,6 +13,8 @@
- #include <linux/dmaengine.h>
- #include "mgb4_regs.h"
- 
-+#define MGB4_HW_FREQ 125000000
-+
- #define MGB4_VIN_DEVICES  2
- #define MGB4_VOUT_DEVICES 2
- 
-diff --git a/drivers/media/pci/mgb4/mgb4_io.h b/drivers/media/pci/mgb4/mgb4_io.h
-index 204613a6685c..c921f011140b 100644
---- a/drivers/media/pci/mgb4/mgb4_io.h
-+++ b/drivers/media/pci/mgb4/mgb4_io.h
-@@ -8,10 +8,7 @@
- #define __MGB4_IO_H__
- 
- #include <media/v4l2-dev.h>
--
--#define MGB4_DEFAULT_WIDTH     1280
--#define MGB4_DEFAULT_HEIGHT    640
--#define MGB4_DEFAULT_PERIOD    (125000000 / 60)
-+#include "mgb4_core.h"
- 
- /* Register access error indication */
- #define MGB4_ERR_NO_REG        0xFFFFFFFE
-@@ -20,6 +17,9 @@
- #define MGB4_ERR_QUEUE_EMPTY   0xFFFFFFFC
- #define MGB4_ERR_QUEUE_FULL    0xFFFFFFFB
- 
-+#define MGB4_PERIOD(numerator, denominator) \
-+	((u32)((MGB4_HW_FREQ * (u64)(numerator)) / (u64)(denominator)))
-+
- struct mgb4_frame_buffer {
- 	struct vb2_v4l2_buffer vb;
- 	struct list_head list;
-@@ -30,11 +30,24 @@ static inline struct mgb4_frame_buffer *to_frame_buffer(struct vb2_v4l2_buffer *
- 	return container_of(vbuf, struct mgb4_frame_buffer, vb);
- }
- 
--static inline bool has_yuv(struct mgb4_regs *video)
-+static inline bool has_yuv_and_timeperframe(struct mgb4_regs *video)
- {
- 	u32 status = mgb4_read_reg(video, 0xD0);
- 
- 	return (status & (1U << 8));
- }
- 
-+#define has_yuv(video) has_yuv_and_timeperframe(video)
-+#define has_timeperframe(video) has_yuv_and_timeperframe(video)
-+
-+static inline u32 pixel_size(struct v4l2_dv_timings *timings)
-+{
-+	struct v4l2_bt_timings *bt = &timings->bt;
-+
-+	u32 height = bt->height + bt->vfrontporch + bt->vsync + bt->vbackporch;
-+	u32 width = bt->width + bt->hfrontporch + bt->hsync + bt->hbackporch;
-+
-+	return width * height;
-+}
-+
- #endif
-diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_out.c b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-index 9f6e81c57726..5b4ed504d3c7 100644
---- a/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-+++ b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-@@ -229,9 +229,12 @@ static ssize_t frame_rate_show(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
- 	u32 period = mgb4_read_reg(&voutdev->mgbdev->video,
--				   voutdev->config->regs.frame_period);
-+				   voutdev->config->regs.frame_limit);
- 
--	return sprintf(buf, "%u\n", 125000000 / period);
-+	if (!period)
-+		return -EIO;
-+
-+	return sprintf(buf, "%u\n", MGB4_HW_FREQ / period);
- }
- 
- /*
-@@ -252,7 +255,7 @@ static ssize_t frame_rate_store(struct device *dev,
- 		return ret;
- 
- 	mgb4_write_reg(&voutdev->mgbdev->video,
--		       voutdev->config->regs.frame_period, 125000000 / val);
-+		       voutdev->config->regs.frame_limit, MGB4_HW_FREQ / val);
- 
- 	return count;
- }
-diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
-index 67ced478325e..e0d7f05c829c 100644
---- a/drivers/media/pci/mgb4/mgb4_vin.c
-+++ b/drivers/media/pci/mgb4/mgb4_vin.c
-@@ -34,8 +34,8 @@ ATTRIBUTE_GROUPS(mgb4_fpdl3_in);
- ATTRIBUTE_GROUPS(mgb4_gmsl_in);
- 
- static const struct mgb4_vin_config vin_cfg[] = {
--	{0, 0, 0, 6, {0x10, 0x00, 0x04, 0x08, 0x1C, 0x14, 0x18, 0x20, 0x24, 0x28}},
--	{1, 1, 1, 7, {0x40, 0x30, 0x34, 0x38, 0x4C, 0x44, 0x48, 0x50, 0x54, 0x58}}
-+	{0, 0, 0, 6, {0x10, 0x00, 0x04, 0x08, 0x1C, 0x14, 0x18, 0x20, 0x24, 0x28, 0xE8}},
-+	{1, 1, 1, 7, {0x40, 0x30, 0x34, 0x38, 0x4C, 0x44, 0x48, 0x50, 0x54, 0x58, 0xEC}}
- };
- 
- static const struct i2c_board_info fpdl3_deser_info[] = {
-@@ -387,6 +387,7 @@ static int vidioc_enum_frameintervals(struct file *file, void *priv,
- {
- 	struct mgb4_vin_dev *vindev = video_drvdata(file);
- 	struct mgb4_regs *video = &vindev->mgbdev->video;
-+	struct v4l2_dv_timings timings;
- 
- 	if (ival->index != 0)
- 		return -EINVAL;
-@@ -397,12 +398,15 @@ static int vidioc_enum_frameintervals(struct file *file, void *priv,
- 	    ival->height != vindev->timings.bt.height)
- 		return -EINVAL;
- 
--	ival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
--	ival->stepwise.min.denominator = 60;
--	ival->stepwise.min.numerator = 1;
--	ival->stepwise.max.denominator = 1;
--	ival->stepwise.max.numerator = 1;
--	ival->stepwise.step = ival->stepwise.max;
-+	get_timings(vindev, &timings);
-+
-+	ival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
-+	ival->stepwise.max.denominator = MGB4_HW_FREQ;
-+	ival->stepwise.max.numerator = 0xFFFFFFFF;
-+	ival->stepwise.min.denominator = timings.bt.pixelclock;
-+	ival->stepwise.min.numerator = pixel_size(&timings);
-+	ival->stepwise.step.denominator = MGB4_HW_FREQ;
-+	ival->stepwise.step.numerator = 1;
- 
- 	return 0;
- }
-@@ -563,27 +567,66 @@ static int vidioc_g_input(struct file *file, void *priv, unsigned int *i)
- 	return 0;
- }
- 
--static int vidioc_parm(struct file *file, void *priv,
--		       struct v4l2_streamparm *parm)
-+static int vidioc_g_parm(struct file *file, void *priv,
-+			 struct v4l2_streamparm *parm)
- {
- 	struct mgb4_vin_dev *vindev = video_drvdata(file);
- 	struct mgb4_regs *video = &vindev->mgbdev->video;
--	const struct mgb4_vin_regs *regs = &vindev->config->regs;
--	struct v4l2_fract timeperframe = {
--		.numerator = mgb4_read_reg(video, regs->frame_period),
--		.denominator = 125000000,
--	};
-+	struct v4l2_fract *tpf = &parm->parm.output.timeperframe;
-+	struct v4l2_dv_timings timings;
-+	u32 timer;
- 
- 	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
- 		return -EINVAL;
- 
- 	parm->parm.capture.readbuffers = 2;
--	parm->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
--	parm->parm.capture.timeperframe = timeperframe;
-+
-+	if (has_timeperframe(video)) {
-+		timer = mgb4_read_reg(video, vindev->config->regs.timer);
-+		if (timer < 0xFFFF) {
-+			get_timings(vindev, &timings);
-+			tpf->numerator = pixel_size(&timings);
-+			tpf->denominator = timings.bt.pixelclock;
-+		} else {
-+			tpf->numerator = timer;
-+			tpf->denominator = MGB4_HW_FREQ;
-+		}
-+
-+		parm->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
-+	}
- 
- 	return 0;
- }
- 
-+static int vidioc_s_parm(struct file *file, void *priv,
-+			 struct v4l2_streamparm *parm)
-+{
-+	struct mgb4_vin_dev *vindev = video_drvdata(file);
-+	struct mgb4_regs *video = &vindev->mgbdev->video;
-+	struct v4l2_fract *tpf = &parm->parm.output.timeperframe;
-+	struct v4l2_dv_timings timings;
-+	u32 period, timer;
-+
-+	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		return -EINVAL;
-+
-+	if (has_timeperframe(video)) {
-+		timer = tpf->denominator ?
-+			MGB4_PERIOD(tpf->numerator, tpf->denominator) : 0;
-+		if (timer) {
-+			get_timings(vindev, &timings);
-+			period = MGB4_PERIOD(pixel_size(&timings),
-+					     timings.bt.pixelclock);
-+			if (timer < period)
-+				timer = 0;
-+		}
-+
-+		mgb4_write_reg(video, vindev->config->regs.timer, timer);
-+	}
-+
-+	return vidioc_g_parm(file, priv, parm);
-+}
-+
- static int vidioc_s_dv_timings(struct file *file, void *fh,
- 			       struct v4l2_dv_timings *timings)
- {
-@@ -667,8 +710,8 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
- 	.vidioc_expbuf = vb2_ioctl_expbuf,
- 	.vidioc_streamon = vb2_ioctl_streamon,
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
--	.vidioc_g_parm = vidioc_parm,
--	.vidioc_s_parm = vidioc_parm,
-+	.vidioc_g_parm = vidioc_g_parm,
-+	.vidioc_s_parm = vidioc_s_parm,
- 	.vidioc_dv_timings_cap = vidioc_dv_timings_cap,
- 	.vidioc_enum_dv_timings = vidioc_enum_dv_timings,
- 	.vidioc_g_dv_timings = vidioc_g_dv_timings,
-@@ -851,10 +894,16 @@ static void debugfs_init(struct mgb4_vin_dev *vindev)
- 	vindev->regs[7].offset = vindev->config->regs.signal2;
- 	vindev->regs[8].name = "PADDING_PIXELS";
- 	vindev->regs[8].offset = vindev->config->regs.padding;
-+	if (has_timeperframe(video)) {
-+		vindev->regs[9].name = "TIMER";
-+		vindev->regs[9].offset = vindev->config->regs.timer;
-+		vindev->regset.nregs = 10;
-+	} else {
-+		vindev->regset.nregs = 9;
-+	}
- 
- 	vindev->regset.base = video->membase;
- 	vindev->regset.regs = vindev->regs;
--	vindev->regset.nregs = ARRAY_SIZE(vindev->regs);
- 
- 	debugfs_create_regset32("registers", 0444, vindev->debugfs,
- 				&vindev->regset);
-diff --git a/drivers/media/pci/mgb4/mgb4_vin.h b/drivers/media/pci/mgb4/mgb4_vin.h
-index 0249b400ad4d..9693bd0ce180 100644
---- a/drivers/media/pci/mgb4/mgb4_vin.h
-+++ b/drivers/media/pci/mgb4/mgb4_vin.h
-@@ -25,6 +25,7 @@ struct mgb4_vin_regs {
- 	u32 signal;
- 	u32 signal2;
- 	u32 padding;
-+	u32 timer;
- };
- 
- struct mgb4_vin_config {
-@@ -59,7 +60,7 @@ struct mgb4_vin_dev {
- #ifdef CONFIG_DEBUG_FS
- 	struct dentry *debugfs;
- 	struct debugfs_regset32 regset;
--	struct debugfs_reg32 regs[9];
-+	struct debugfs_reg32 regs[sizeof(struct mgb4_vin_regs) / 4];
- #endif
- };
- 
-diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
-index 48c0ade4e2f6..89230692f6cd 100644
---- a/drivers/media/pci/mgb4/mgb4_vout.c
-+++ b/drivers/media/pci/mgb4/mgb4_vout.c
-@@ -16,6 +16,7 @@
- #include <media/v4l2-ioctl.h>
- #include <media/videobuf2-v4l2.h>
- #include <media/videobuf2-dma-sg.h>
-+#include <media/v4l2-dv-timings.h>
- #include "mgb4_core.h"
- #include "mgb4_dma.h"
- #include "mgb4_sysfs.h"
-@@ -23,12 +24,16 @@
- #include "mgb4_cmt.h"
- #include "mgb4_vout.h"
- 
-+#define DEFAULT_WIDTH     1280
-+#define DEFAULT_HEIGHT    640
-+#define DEFAULT_LIMIT     (MGB4_HW_FREQ / 60)
-+
- ATTRIBUTE_GROUPS(mgb4_fpdl3_out);
- ATTRIBUTE_GROUPS(mgb4_gmsl_out);
- 
- static const struct mgb4_vout_config vout_cfg[] = {
--	{0, 0, 8, {0x78, 0x60, 0x64, 0x68, 0x74, 0x6C, 0x70, 0x7c}},
--	{1, 1, 9, {0x98, 0x80, 0x84, 0x88, 0x94, 0x8c, 0x90, 0x9c}}
-+	{0, 0, 8, {0x78, 0x60, 0x64, 0x68, 0x74, 0x6C, 0x70, 0x7C, 0xE0}},
-+	{1, 1, 9, {0x98, 0x80, 0x84, 0x88, 0x94, 0x8C, 0x90, 0x9C, 0xE4}}
- };
- 
- static const struct i2c_board_info fpdl3_ser_info[] = {
-@@ -40,6 +45,49 @@ static const struct mgb4_i2c_kv fpdl3_i2c[] = {
- 	{0x05, 0xFF, 0x04}, {0x06, 0xFF, 0x01}, {0xC2, 0xFF, 0x80}
- };
- 
-+static const struct v4l2_dv_timings_cap video_timings_cap = {
-+	.type = V4L2_DV_BT_656_1120,
-+	.bt = {
-+		.min_width = 320,
-+		.max_width = 4096,
-+		.min_height = 240,
-+		.max_height = 2160,
-+		.min_pixelclock = 1843200, /* 320 x 240 x 24Hz */
-+		.max_pixelclock = 530841600, /* 4096 x 2160 x 60Hz */
-+		.standards = V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-+			V4L2_DV_BT_STD_CVT | V4L2_DV_BT_STD_GTF,
-+		.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE |
-+			V4L2_DV_BT_CAP_CUSTOM,
-+	},
-+};
-+
-+static void get_timings(struct mgb4_vout_dev *voutdev,
-+			struct v4l2_dv_timings *timings)
-+{
-+	struct mgb4_regs *video = &voutdev->mgbdev->video;
-+	const struct mgb4_vout_regs *regs = &voutdev->config->regs;
-+
-+	u32 hsync = mgb4_read_reg(video, regs->hsync);
-+	u32 vsync = mgb4_read_reg(video, regs->vsync);
-+	u32 resolution = mgb4_read_reg(video, regs->resolution);
-+
-+	memset(timings, 0, sizeof(*timings));
-+	timings->type = V4L2_DV_BT_656_1120;
-+	timings->bt.width = resolution >> 16;
-+	timings->bt.height = resolution & 0xFFFF;
-+	if (hsync & (1U << 31))
-+		timings->bt.polarities |= V4L2_DV_HSYNC_POS_POL;
-+	if (vsync & (1U << 31))
-+		timings->bt.polarities |= V4L2_DV_VSYNC_POS_POL;
-+	timings->bt.pixelclock = voutdev->freq * 1000;
-+	timings->bt.hsync = (hsync & 0x00FF0000) >> 16;
-+	timings->bt.vsync = (vsync & 0x00FF0000) >> 16;
-+	timings->bt.hbackporch = (hsync & 0x0000FF00) >> 8;
-+	timings->bt.hfrontporch = hsync & 0x000000FF;
-+	timings->bt.vbackporch = (vsync & 0x0000FF00) >> 8;
-+	timings->bt.vfrontporch = vsync & 0x000000FF;
-+}
-+
- static void return_all_buffers(struct mgb4_vout_dev *voutdev,
- 			       enum vb2_buffer_state state)
- {
-@@ -339,11 +387,134 @@ static int vidioc_enum_output(struct file *file, void *priv,
- 		return -EINVAL;
- 
- 	out->type = V4L2_OUTPUT_TYPE_ANALOG;
-+	out->capabilities = V4L2_OUT_CAP_DV_TIMINGS;
- 	strscpy(out->name, "MGB4", sizeof(out->name));
- 
- 	return 0;
- }
- 
-+static int vidioc_enum_frameintervals(struct file *file, void *priv,
-+				      struct v4l2_frmivalenum *ival)
-+{
-+	struct mgb4_vout_dev *voutdev = video_drvdata(file);
-+	struct mgb4_regs *video = &voutdev->mgbdev->video;
-+	struct v4l2_dv_timings timings;
-+
-+	if (ival->index != 0)
-+		return -EINVAL;
-+	if (!(ival->pixel_format == V4L2_PIX_FMT_ABGR32 ||
-+	      ((has_yuv(video) && ival->pixel_format == V4L2_PIX_FMT_YUYV))))
-+		return -EINVAL;
-+	if (ival->width != voutdev->width || ival->height != voutdev->height)
-+		return -EINVAL;
-+
-+	get_timings(voutdev, &timings);
-+
-+	ival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
-+	ival->stepwise.max.denominator = MGB4_HW_FREQ;
-+	ival->stepwise.max.numerator = 0xFFFFFFFF;
-+	ival->stepwise.min.denominator = timings.bt.pixelclock;
-+	ival->stepwise.min.numerator = pixel_size(&timings);
-+	ival->stepwise.step.denominator = MGB4_HW_FREQ;
-+	ival->stepwise.step.numerator = 1;
-+
-+	return 0;
-+}
-+
-+static int vidioc_g_parm(struct file *file, void *priv,
-+			 struct v4l2_streamparm *parm)
-+{
-+	struct mgb4_vout_dev *voutdev = video_drvdata(file);
-+	struct mgb4_regs *video = &voutdev->mgbdev->video;
-+	struct v4l2_fract *tpf = &parm->parm.output.timeperframe;
-+	struct v4l2_dv_timings timings;
-+	u32 timer;
-+
-+	if (parm->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-+		return -EINVAL;
-+
-+	parm->parm.output.writebuffers = 2;
-+
-+	if (has_timeperframe(video)) {
-+		timer = mgb4_read_reg(video, voutdev->config->regs.timer);
-+		if (timer < 0xFFFF) {
-+			get_timings(voutdev, &timings);
-+			tpf->numerator = pixel_size(&timings);
-+			tpf->denominator = timings.bt.pixelclock;
-+		} else {
-+			tpf->numerator = timer;
-+			tpf->denominator = MGB4_HW_FREQ;
-+		}
-+
-+		parm->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
-+	}
-+
-+	return 0;
-+}
-+
-+static int vidioc_s_parm(struct file *file, void *priv,
-+			 struct v4l2_streamparm *parm)
-+{
-+	struct mgb4_vout_dev *voutdev = video_drvdata(file);
-+	struct mgb4_regs *video = &voutdev->mgbdev->video;
-+	struct v4l2_fract *tpf = &parm->parm.output.timeperframe;
-+	struct v4l2_dv_timings timings;
-+	u32 timer, period;
-+
-+	if (parm->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-+		return -EINVAL;
-+
-+	if (has_timeperframe(video)) {
-+		timer = tpf->denominator ?
-+			MGB4_PERIOD(tpf->numerator, tpf->denominator) : 0;
-+		if (timer) {
-+			get_timings(voutdev, &timings);
-+			period = MGB4_PERIOD(pixel_size(&timings),
-+					     timings.bt.pixelclock);
-+			if (timer < period)
-+				timer = 0;
-+		}
-+
-+		mgb4_write_reg(video, voutdev->config->regs.timer, timer);
-+	}
-+
-+	return vidioc_g_parm(file, priv, parm);
-+}
-+
-+static int vidioc_g_dv_timings(struct file *file, void *fh,
-+			       struct v4l2_dv_timings *timings)
-+{
-+	struct mgb4_vout_dev *voutdev = video_drvdata(file);
-+
-+	get_timings(voutdev, timings);
-+
-+	return 0;
-+}
-+
-+static int vidioc_s_dv_timings(struct file *file, void *fh,
-+			       struct v4l2_dv_timings *timings)
-+{
-+	struct mgb4_vout_dev *voutdev = video_drvdata(file);
-+
-+	get_timings(voutdev, timings);
-+
-+	return 0;
-+}
-+
-+static int vidioc_enum_dv_timings(struct file *file, void *fh,
-+				  struct v4l2_enum_dv_timings *timings)
-+{
-+	return v4l2_enum_dv_timings_cap(timings, &video_timings_cap, NULL, NULL);
-+}
-+
-+static int vidioc_dv_timings_cap(struct file *file, void *fh,
-+				 struct v4l2_dv_timings_cap *cap)
-+{
-+	*cap = video_timings_cap;
-+
-+	return 0;
-+}
-+
- static const struct v4l2_ioctl_ops video_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
- 	.vidioc_enum_fmt_vid_out = vidioc_enum_fmt,
-@@ -351,8 +522,15 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
- 	.vidioc_s_fmt_vid_out = vidioc_s_fmt,
- 	.vidioc_g_fmt_vid_out = vidioc_g_fmt,
- 	.vidioc_enum_output = vidioc_enum_output,
-+	.vidioc_enum_frameintervals = vidioc_enum_frameintervals,
- 	.vidioc_g_output = vidioc_g_output,
- 	.vidioc_s_output = vidioc_s_output,
-+	.vidioc_g_parm = vidioc_g_parm,
-+	.vidioc_s_parm = vidioc_s_parm,
-+	.vidioc_dv_timings_cap = vidioc_dv_timings_cap,
-+	.vidioc_enum_dv_timings = vidioc_enum_dv_timings,
-+	.vidioc_g_dv_timings = vidioc_g_dv_timings,
-+	.vidioc_s_dv_timings = vidioc_s_dv_timings,
- 	.vidioc_reqbufs = vb2_ioctl_reqbufs,
- 	.vidioc_create_bufs = vb2_ioctl_create_bufs,
- 	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-@@ -495,13 +673,13 @@ static void fpga_init(struct mgb4_vout_dev *voutdev)
- 
- 	mgb4_write_reg(video, regs->config, 0x00000011);
- 	mgb4_write_reg(video, regs->resolution,
--		       (MGB4_DEFAULT_WIDTH << 16) | MGB4_DEFAULT_HEIGHT);
--	mgb4_write_reg(video, regs->hsync, 0x00102020);
--	mgb4_write_reg(video, regs->vsync, 0x40020202);
--	mgb4_write_reg(video, regs->frame_period, MGB4_DEFAULT_PERIOD);
-+		       (DEFAULT_WIDTH << 16) | DEFAULT_HEIGHT);
-+	mgb4_write_reg(video, regs->hsync, 0x00283232);
-+	mgb4_write_reg(video, regs->vsync, 0x40141F1E);
-+	mgb4_write_reg(video, regs->frame_limit, DEFAULT_LIMIT);
- 	mgb4_write_reg(video, regs->padding, 0x00000000);
- 
--	voutdev->freq = mgb4_cmt_set_vout_freq(voutdev, 70000 >> 1) << 1;
-+	voutdev->freq = mgb4_cmt_set_vout_freq(voutdev, 61150 >> 1) << 1;
- 
- 	mgb4_write_reg(video, regs->config,
- 		       (voutdev->config->id + MGB4_VIN_DEVICES) << 2 | 1 << 4);
-@@ -527,14 +705,20 @@ static void debugfs_init(struct mgb4_vout_dev *voutdev)
- 	voutdev->regs[3].offset = voutdev->config->regs.hsync;
- 	voutdev->regs[4].name = "VIDEO_PARAMS_2";
- 	voutdev->regs[4].offset = voutdev->config->regs.vsync;
--	voutdev->regs[5].name = "FRAME_PERIOD";
--	voutdev->regs[5].offset = voutdev->config->regs.frame_period;
--	voutdev->regs[6].name = "PADDING";
-+	voutdev->regs[5].name = "FRAME_LIMIT";
-+	voutdev->regs[5].offset = voutdev->config->regs.frame_limit;
-+	voutdev->regs[6].name = "PADDING_PIXELS";
- 	voutdev->regs[6].offset = voutdev->config->regs.padding;
-+	if (has_timeperframe(video)) {
-+		voutdev->regs[7].name = "TIMER";
-+		voutdev->regs[7].offset = voutdev->config->regs.timer;
-+		voutdev->regset.nregs = 8;
-+	} else {
-+		voutdev->regset.nregs = 7;
-+	}
- 
- 	voutdev->regset.base = video->membase;
- 	voutdev->regset.regs = voutdev->regs;
--	voutdev->regset.nregs = ARRAY_SIZE(voutdev->regs);
- 
- 	debugfs_create_regset32("registers", 0444, voutdev->debugfs,
- 				&voutdev->regset);
-diff --git a/drivers/media/pci/mgb4/mgb4_vout.h b/drivers/media/pci/mgb4/mgb4_vout.h
-index b163dee711fd..adc8fe1e7ae6 100644
---- a/drivers/media/pci/mgb4/mgb4_vout.h
-+++ b/drivers/media/pci/mgb4/mgb4_vout.h
-@@ -19,10 +19,11 @@ struct mgb4_vout_regs {
- 	u32 config;
- 	u32 status;
- 	u32 resolution;
--	u32 frame_period;
-+	u32 frame_limit;
- 	u32 hsync;
- 	u32 vsync;
- 	u32 padding;
-+	u32 timer;
- };
- 
- struct mgb4_vout_config {
-@@ -55,7 +56,7 @@ struct mgb4_vout_dev {
- #ifdef CONFIG_DEBUG_FS
- 	struct dentry *debugfs;
- 	struct debugfs_regset32 regset;
--	struct debugfs_reg32 regs[7];
-+	struct debugfs_reg32 regs[sizeof(struct mgb4_vout_regs) / 4];
- #endif
- };
- 
--- 
-2.44.0
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588.dtsi b/arch/arm64/boot/d=
+ts/rockchip/rk3588.dtsi
+> index 5519c1430cb7..8adb98b99701 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588.dtsi
+> @@ -7,6 +7,24 @@
+>  #include "rk3588-pinctrl.dtsi"
+> =20
+>  / {
+> +	reserved-memory {
+> +		#address-cells =3D <2>;
+> +		#size-cells =3D <2>;
+> +		ranges;
+
+add blank line here
+
+> +		/*
+> +		 * The 4k HDMI capture controller works only with 32bit
+> +		 * phys addresses and doesn't support IOMMU. HDMI RX CMA
+> +		 * must be reserved below 4GB.
+> +		 */
+> +		hdmirx_cma: hdmirx_cma {
+
+phandles use "_", but node-names "-"
+
+> +			compatible =3D "shared-dma-pool";
+> +			alloc-ranges =3D <0x0 0x0 0x0 0xffffffff>;
+> +			size =3D <0x0 (160 * 0x100000)>; /* 160MiB */
+
+The comment above that node, could elaborate where the value of 160MB
+originates from. I assume it is to hold n-times of 4K frames or whatever,
+but it would be helpful for people to be able to read that.
+
+
+> +			no-map;
+> +			status =3D "disabled";
+> +		};
+> +	};
+> +
+>  	pcie30_phy_grf: syscon@fd5b8000 {
+>  		compatible =3D "rockchip,rk3588-pcie3-phy-grf", "syscon";
+>  		reg =3D <0x0 0xfd5b8000 0x0 0x10000>;
+> @@ -85,6 +103,38 @@ i2s10_8ch: i2s@fde00000 {
+>  		status =3D "disabled";
+>  	};
+> =20
+> +	hdmi_receiver: hdmi-receiver@fdee0000 {
+
+Maybe rename the label to "hdmirx:" ... that way in a board enabling the
+cma region, both nodes would stay close to each other?
+
+
+> +		compatible =3D "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdmi-rx";
+> +		reg =3D <0x0 0xfdee0000 0x0 0x6000>;
+> +		power-domains =3D <&power RK3588_PD_VO1>;
+> +		rockchip,grf =3D <&sys_grf>;
+> +		rockchip,vo1-grf =3D <&vo1_grf>;
+> +		interrupts =3D <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH 0>,
+> +			     <GIC_SPI 436 IRQ_TYPE_LEVEL_HIGH 0>,
+> +			     <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		interrupt-names =3D "cec", "hdmi", "dma";
+> +		clocks =3D <&cru ACLK_HDMIRX>,
+> +			 <&cru CLK_HDMIRX_AUD>,
+> +			 <&cru CLK_CR_PARA>,
+> +			 <&cru PCLK_HDMIRX>,
+> +			 <&cru CLK_HDMIRX_REF>,
+> +			 <&cru PCLK_S_HDMIRX>,
+> +			 <&cru HCLK_VO1>;
+> +		clock-names =3D "aclk",
+> +			      "audio",
+> +			      "cr_para",
+> +			      "pclk",
+> +			      "ref",
+> +			      "hclk_s_hdmirx",
+> +			      "hclk_vo1";
+
+the driver uses of_reserved_mem_device_init(), so doesn't this node need
+a "memory-region =3D <&hdmirx_cma>; or similar?
+
+
+> +		resets =3D <&cru SRST_A_HDMIRX>, <&cru SRST_P_HDMIRX>,
+> +			 <&cru SRST_HDMIRX_REF>, <&cru SRST_A_HDMIRX_BIU>;
+> +		reset-names =3D "axi", "apb", "ref", "biu";
+> +		pinctrl-0 =3D <&hdmim1_rx>;
+> +		pinctrl-names =3D "default";
+> +		status =3D "disabled";
+> +	};
+> +
+>  	pcie3x4: pcie@fe150000 {
+>  		compatible =3D "rockchip,rk3588-pcie", "rockchip,rk3568-pcie";
+>  		#address-cells =3D <3>;
+> @@ -339,3 +389,8 @@ pcie30phy: phy@fee80000 {
+>  		status =3D "disabled";
+>  	};
+>  };
+> +
+> +&hdmirx_cma {
+> +	status =3D "okay";
+> +};
+
+I'd assume a board that enables &hdmi_receiver would also enable hdmirx_cma
+and not the soc dtsi for _all_ boards?
+
+
+Thanks
+Heiko
+
 
 
