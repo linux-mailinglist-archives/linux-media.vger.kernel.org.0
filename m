@@ -1,128 +1,127 @@
-Return-Path: <linux-media+bounces-6405-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6406-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9ED871608
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 07:50:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97FC8871692
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 08:17:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 171E7285CDD
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 06:50:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5B89B2467A
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 07:17:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E0217BAE1;
-	Tue,  5 Mar 2024 06:50:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 308237E56C;
+	Tue,  5 Mar 2024 07:16:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TbGEMPNa"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c6f/3gpO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028FF1EB2A
-	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 06:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B757D3F6
+	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 07:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709621421; cv=none; b=EnET9vvvcnBXfCHgWsXuGMqZOzT6cuZ/u2oerkI+Mbs/Udo+1zip0J4Bjn2iV1Ul+X1lbhZKIscDCfj/mzBN/9wq+2EBTTgfxwEOZwNEy8XtfhkYXOff8Qgy422IpDAt7Td39hY3+p7mbf4d12vKlky4jdsfFgvVxbBRe83Kk7M=
+	t=1709623013; cv=none; b=l6SD/7IaRXJIA+nZcA8CtoSrfPaq7sj3NYe+m/h/JeI35BN5Kak3+neBRCwhIVWB0MlE2J/ZQfFGNI2tcB8wAofiSCWDvg18S8u3eViRqZojqFLbWoj33BoJBsm8RKXskgavd8+cXihGxLFim1dv1k7VHBJV17IZthh3KZ5bIxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709621421; c=relaxed/simple;
-	bh=g9iCYnwVzF6MY9u/QtG6TEIKcQOnCkeogVWLu8wu4Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NoM7V52HtR5rnK7i05UIs3puXoNCCqDQzZ9pIPUn9Pe2UKASPnNmxbQDFfI1dbikWlS8TFtEzr6CBHzG799agMZnL2xhzT1KrKpoRnRmiurCWvMWf9mEtxnycN3XDDZXSGnQdBTp01L8aawXj8OztEH3BgqEKDKKK2iYC0Yr/lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TbGEMPNa; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709621420; x=1741157420;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g9iCYnwVzF6MY9u/QtG6TEIKcQOnCkeogVWLu8wu4Bo=;
-  b=TbGEMPNa7rA8pDrSPjvqPZgi9+KjOY4vaZpxXpTWxjH5sLYykYlgF7k+
-   7GUSUVx7dyX7p7FkMSLYSt+/cmSgZFcr0DiPuYkCv7Mi7wsSbVx1muRc4
-   6/3vQCoSoW6AkssG1BL0A8c80Jb1vmAMp52q0RhHdDWzJAU8MzVlHeApF
-   j/2zcZxfLhv2sFVMZ/ojfgL5cxfnja4LThnHR4CGE79cfcpNf8hLERdWq
-   JiKLZDu2EL7/0OgV86gFXVfu2lo0kxCde7dBPGvWL6PLNoMADXVItH20g
-   Ywf8zXbwgbXYslG8TWtx/P7e31ah9xK5qoOwHov5z69H0KqhtG9l4RFX7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4321282"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="4321282"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 22:50:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="13937537"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 22:50:19 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 4827C11F8B1;
-	Tue,  5 Mar 2024 08:50:15 +0200 (EET)
-Date: Tue, 5 Mar 2024 06:50:15 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH 1/1] media: Kconfig: Select MEDIA_CONTROLLER for
- VIDEO_V4L2_SUBDEV_API
-Message-ID: <ZebAp9eOS4Awsfwp@kekkonen.localdomain>
-References: <20240304185125.33713-1-sakari.ailus@linux.intel.com>
- <20240304225907.GA12503@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1709623013; c=relaxed/simple;
+	bh=+U3wbTm1fr0u7B7uauZt02Yd7hkkHWSl3gey4+61HxA=;
+	h=From:In-Reply-To:References:To:cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=naQ/fzMNOPsgNeGEueLch5siqJuZyTi1P84PJtLvEJyOllhGBSTiHRY6pJT3BoMuE15JbwENU9TYnqmEgE85+0BDHDfRxCi12V3ofjs02bdbTAK/y+P2p3OhKYkLpriUCO7iZcdjrlKE7RYp32SIR0mrm9dl+PHBdT+Mp00+tPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c6f/3gpO; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1709623011;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+U3wbTm1fr0u7B7uauZt02Yd7hkkHWSl3gey4+61HxA=;
+	b=c6f/3gpOM703byyI+zpML1dShBIgld8bg1kkA9vZzDoYzvffAyg2woo1XvlaHnxOO+n83p
+	yqlQ8nKKHaQ6E7s9uJjj181+LVUo1dL62F2RTWslJ2BXLuB63ZPdBGJkPJVWoJp14mgaiY
+	GGl8/iVxoXTcRQ2yQhRfu3+3nJDm0yE=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-187-b0x9YGyTODy3NOnbBYpGEA-1; Tue,
+ 05 Mar 2024 02:16:46 -0500
+X-MC-Unique: b0x9YGyTODy3NOnbBYpGEA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E352282D3D3;
+	Tue,  5 Mar 2024 07:16:46 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.114])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id ED1FB1C060A4;
+	Tue,  5 Mar 2024 07:16:37 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20240305020153.2787423-8-almasrymina@google.com>
+References: <20240305020153.2787423-8-almasrymina@google.com> <20240305020153.2787423-1-almasrymina@google.com>
+To: Mina Almasry <almasrymina@google.com>
+cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+    linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+    linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+    sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+    linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+    linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+    dri-devel@lists.freedesktop.org,
+    "David S. Miller" <davem@davemloft.net>,
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+    Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+    Richard Henderson <richard.henderson@linaro.org>,
+    Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+    Matt Turner <mattst88@gmail.com>,
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+    "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+    Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+    Jesper Dangaard Brouer <hawk@kernel.org>,
+    Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+    Steven Rostedt <rostedt@goodmis.org>,
+    Masami Hiramatsu <mhiramat@kernel.org>,
+    Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+    Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+    Daniel Borkmann <daniel@iogearbox.net>,
+    Andrii Nakryiko <andrii@kernel.org>,
+    Martin KaFai Lau <martin.lau@linux.dev>,
+    Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+    Yonghong Song <yonghong.song@linux.dev>,
+    John Fastabend <john.fastabend@gmail.com>,
+    KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+    Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+    David Ahern <dsahern@kernel.org>,
+    Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+    Shuah Khan <shuah@kernel.org>,
+    Sumit Semwal <sumit.semwal@linaro.org>,
+    =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+    Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+    Jason Gunthorpe <jgg@ziepe.ca>,
+    Yunsheng Lin <linyunsheng@huawei.com>,
+    Shailend Chand <shailend@google.com>,
+    Harshitha Ramamurthy <hramamurthy@google.com>,
+    Shakeel Butt <shakeelb@google.com>,
+    Jeroen de Borst <jeroendb@google.com>,
+    Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 07/15] page_pool: convert to use netmem
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240304225907.GA12503@pendragon.ideasonboard.com>
+Content-Type: text/plain
+Date: Tue, 05 Mar 2024 07:16:37 +0000
+Message-ID: <950858.1709622997@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 
-Hi Laurent,
 
-On Tue, Mar 05, 2024 at 12:59:07AM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Mar 04, 2024 at 08:51:25PM +0200, Sakari Ailus wrote:
-> > MEDIA_CONTROLLER has no dependencies and VIDEO_V4L2_SUBDEV_API depends on
-> > it. Select MEDIA_CONTROLLER instead of depending on it. This way Kconfig
-> > options elsewhere do only need to select VIDEO_V4L2_SUBDEV_API, not both.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > Mostly untested but seems reasonable. MEDIA_CONTROLLER has no dependencies
-> > anymore.
-> 
-> It seems reasonable to me too, but I think it would make sense to drop
-> in the same patch the manual selection of MEDIA_CONTROLLER for the
-> Kconfig symbols that already select VIDEO_V4L2_SUBDEV_API.
+Hi Mina,
 
-This should be done, yes, but I'd add a separate patch for it: this one
-doesn't require changes elsewhere as such, just enables making them. Same
-for the other, few users that depend on MEDIA_CONTROLLER, they need to be
-converted, too.
+I recommend you cc linux-mm and Matthew Wilcox on these two patches also.
 
-> 
-> >  drivers/media/v4l2-core/Kconfig | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> > index 331b8e535e5b..d55eff3f31b0 100644
-> > --- a/drivers/media/v4l2-core/Kconfig
-> > +++ b/drivers/media/v4l2-core/Kconfig
-> > @@ -10,7 +10,8 @@ config VIDEO_V4L2_I2C
-> >  
-> >  config VIDEO_V4L2_SUBDEV_API
-> >  	bool
-> > -	depends on VIDEO_DEV && MEDIA_CONTROLLER
-> > +	depends on VIDEO_DEV
-> > +	select MEDIA_CONTROLLER
-> >  	help
-> >  	  Enables the V4L2 sub-device pad-level userspace API used to configure
-> >  	  video format, size and frame rate between hardware blocks.
+David
 
--- 
-Regards,
-
-Sakari Ailus
 
