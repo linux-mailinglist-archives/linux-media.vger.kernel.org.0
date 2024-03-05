@@ -1,166 +1,457 @@
-Return-Path: <linux-media+bounces-6469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6470-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B68872379
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 17:01:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E238723B1
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 17:09:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19CA6283014
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:01:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 692751C232A3
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:08:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22AF5128374;
-	Tue,  5 Mar 2024 16:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4B5412A173;
+	Tue,  5 Mar 2024 16:05:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ADzi9eq1"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="VVvlkgBI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3906A7764A
-	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 16:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA18129A8D;
+	Tue,  5 Mar 2024 16:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709654491; cv=none; b=sJH/q2mtrDhMRV8YSyI4s7y6KXsNpu/v9KTf/um2Q4cm8I4lAji61mcA6HmBZtABSoVeSANEESKq/f1Rad2TIOS3N/NUmwL7A4Qced2VZrwn9vy1eSVYk5By88CV49ns+tC/coe3QqeeHtiRRUWja5T+JvMxSpbf53lbLO02yqo=
+	t=1709654754; cv=none; b=knaqyY7nesUVykcSsi67CDXT+XH8raEz/L4VImzze6YonJv1Ef16w2gmOTL1Hnu5kRFzJ1BKHcHOkqnijgRNsswnqtANqBNEd2nEQ0MY9QFUDL+aqE/uM8veEUKHE6BKrztvVDNu8QNKZKEIyIH9W8mOc0GwZMXgBQpeWUU4fts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709654491; c=relaxed/simple;
-	bh=SoZXdQ8mlFt8Uv/DD89jFd8fl2rolN+/8/IzksQ0TOs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ABAVSkPgO7Iaae+ECL6OoF2YVP/T05uBFfZkTCClIo0RWmUEeh6MVDGHAhyRJLD/EPjph4M7WeojOLqEqPlwc8SBSKWjXg5L6f0iTVTdqdskJl+qyRuaUJB4HRToVfLxJ5gBSwY3slM49291+z/5GCZwq3S02OfFCvD/EM8mr6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ADzi9eq1; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcc7cdb3a98so5697180276.2
-        for <linux-media@vger.kernel.org>; Tue, 05 Mar 2024 08:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1709654488; x=1710259288; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QVtM2JWdDPQLjfw6hUTwiRlVPddAoppsdNC+i1b82ic=;
-        b=ADzi9eq1L6kiqJ/hKcBZQ8UkfCGBvjbKJbHtKg/f+x4couDoCP09KJfqUA1x32yIfd
-         Bwaemks01UKyx6bwnPKSw4NsOtBYgxuYLV+F4CFEYDKSwMCOzS4ZH4xVGRYvr0Kuzfex
-         zWFoCUEpMR/rbLIoTTk0UiNTQ7PA8pgBAnuVBdGXxwjaEyjANQ5HIX0uHs0++H/plUUd
-         coqsdnqqhdvfXuS2jwT8TPaBE8XKNOSHhuuV2cZ9U7UMzL0Jsrq8En+qU0pyzz1E+X9d
-         xhwU2qTozyOQ97RA8ZnT7MorLg1fP21VXrkrkEJR1GR0kJuxsmIcihj98bRm7+dahveU
-         Tlog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709654488; x=1710259288;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QVtM2JWdDPQLjfw6hUTwiRlVPddAoppsdNC+i1b82ic=;
-        b=odfQbgxS87Sgma0qmoSt2DFD61fUdrUx7r8wXQyOa/JjJgyEXmwbRXMaE4mJmLGbVe
-         U6WhItScTqQlxk/TJiVuHaU0/Yzec4gidc6p8WwRy0gX050/dYlyPtV3BvIM3v5NBP8+
-         rCanK2M8sLQq4KnDaOP5SAUw6t48xy3xVkI+zzbKIhMIBovvllzEtIM9nkkGDzHIPo3W
-         TVwCJ5CgMwgad+n/6bot+jbbwJ2CvzXzVvqk81TehfVK1wkM+JKVkBU8bIT5U0gF5mAj
-         WIwZeORLdYM1pg9QQOBhJ2wKilW2t33a1t71YBnK2Irt3OQ8mVcNWN2aTL3l1SxR/q6m
-         gRFw==
-X-Gm-Message-State: AOJu0YykrQZ02GhVrICBp7IzkgP52wejKT+B4SaavBJcC+8x5DCWPzOE
-	JvXyTazrTCKL/zffE6h8xJ7McIGS+1YI3uD13h0oEkC/nCGJBViP8evutnzXA1vv9TgM6QUO7Zq
-	ahUGWPNAQco/8aXNNMYnTKjeb05IuyyTawBBhwg==
-X-Google-Smtp-Source: AGHT+IFYgyIe3rxZ+FW9/tz9tgT/MIzI2yay7/coOJPuLcQhs1GjVZDDOQZBKpk2ydYTvozFEQie6Ladzg671MmJuQI=
-X-Received: by 2002:a25:a28f:0:b0:dc7:32e5:a707 with SMTP id
- c15-20020a25a28f000000b00dc732e5a707mr9572750ybi.61.1709654487932; Tue, 05
- Mar 2024 08:01:27 -0800 (PST)
+	s=arc-20240116; t=1709654754; c=relaxed/simple;
+	bh=yi+Qoq9jhI5EfV7BZEqPQjeGXw+XN7tk1f/9xhPqR08=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r1qWwjYsYPRYDimVoK1424Zu/OWaTnxbAbe3ZRo/MpaCP8oSh+quUfXZ+oW22PgXhe1zjIGVSVi6qk1avOeX1Jlrnb3YLvINdzS1lALkq88QZe7fscCvSvojsasFsCRk2FMrzFz6lYnw4WgzWwOHd8OpGD24ofBkShtjhO+H0l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=VVvlkgBI; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 425G5Vgq001787;
+	Tue, 5 Mar 2024 10:05:31 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1709654731;
+	bh=TN1lJOtZgl9pWC0KQdX8fI7Y8M+iQRPemeKajaXZ7HI=;
+	h=From:To:CC:Subject:Date;
+	b=VVvlkgBIyrJjQHq+Xpjivu1vI/8qrETV8uwXYVTsTIZ0pXn5a17TMHqehyzqu9Xs1
+	 Y5ZiuZa55YQyoVhDf0WJU93UtLo0BpLQxAwesOq9K0WW3WhV0uwE461W9gPm20Y0sq
+	 gfHaZ/Qg+uiUrwB6yyji6KdpewHKRKfkC4rPjZKU=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 425G5V4l076804
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 5 Mar 2024 10:05:31 -0600
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 5
+ Mar 2024 10:05:30 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 5 Mar 2024 10:05:30 -0600
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 425G5UME124919;
+	Tue, 5 Mar 2024 10:05:30 -0600
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <nas.chung@chipsnmedia.com>, <jackson.lee@chipsnmedia.com>,
+        <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <sebastian.fricke@collabora.com>,
+        <nm@ti.com>
+CC: <praneeth@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
+        <p-mantena@ti.com>, <vijayp@ti.com>, <devarsht@ti.com>
+Subject: [PATCH v2] media: chips-media: wave5: Add hrtimer based polling support
+Date: Tue, 5 Mar 2024 21:35:29 +0530
+Message-ID: <20240305160529.4152865-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240301213231.10340-1-laurent.pinchart@ideasonboard.com> <20240301213231.10340-2-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20240301213231.10340-2-laurent.pinchart@ideasonboard.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 5 Mar 2024 16:01:11 +0000
-Message-ID: <CAPY8ntCaKspqDxHNMSfLXQbnS32e5C6AnTS31iWDWBCBuf1=JA@mail.gmail.com>
-Subject: Re: [PATCH v6 01/15] media: i2c: imx219: Inline imx219_update_pad_format()
- in its caller
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, David Plowman <david.plowman@raspberrypi.com>, 
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Naushir Patuck <naush@raspberrypi.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, kernel-list@raspberrypi.com, 
-	linux-rpi-kernel@lists.infradead.org, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, bcm-kernel-feedback-list@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Hi Laurent
+Add support for starting a polling timer in case an interrupt is not
+available. This helps to keep the VPU functional in SoCs such as AM62A,
+where the hardware interrupt hookup may not be present due to an SoC errata
+[1].
 
-On Fri, 1 Mar 2024 at 21:32, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> The imx219_update_pad_format() is short and called from a single place,
-> in imx219_set_pad_format(). Inline the code in the caller to keep all
-> format adjustements grouped in a single place and improve readability.
+The timer is shared across all instances of encoders and decoders and is
+started when the first instance of an encoder or decoder is opened and
+stopped when the last instance is closed, thus avoiding per instance
+polling and saving CPU bandwidth. As VPU driver manages this instance
+related tracking and synchronization, the aforementioned shared timer
+related polling logic is implemented within the VPU driver itself. This
+scheme may also be useful in general too (even if irq is present) for
+non-realtime multi-instance VPU use-cases (for e.g 32 instances of VPU
+being run together) where system is running already under high interrupt
+load and switching to polling may help mitigate this as the polling thread
+is shared across all the VPU instances.
 
-s/adjustements/adjustments
+Hrtimer is chosen for polling here as it provides precise timing and
+scheduling and the API seems better suited for periodic polling task such
+as this.  As a general rule of thumb,
 
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Worst case latency with hrtimer = Actual latency (achievable with irq)
+                                  + Polling interval
 
-Otherwise
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+NOTE (the meaning of terms used above is as follows):
+- Latency: Time taken to process one frame
+- Actual Latency : Time taken by hardware to process one frame and signal
+  it to OS (i.e. if latency that was possible to achieve if irq line was
+present)
 
-> ---
->  drivers/media/i2c/imx219.c | 28 ++++++++++++----------------
->  1 file changed, 12 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index e17ef2e9d9d0..3878da50860e 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -758,21 +758,6 @@ static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
->         return ret;
->  }
->
-> -static void imx219_update_pad_format(struct imx219 *imx219,
-> -                                    const struct imx219_mode *mode,
-> -                                    struct v4l2_mbus_framefmt *fmt, u32 code)
-> -{
-> -       /* Bayer order varies with flips */
-> -       fmt->code = imx219_get_format_code(imx219, code);
-> -       fmt->width = mode->width;
-> -       fmt->height = mode->height;
-> -       fmt->field = V4L2_FIELD_NONE;
-> -       fmt->colorspace = V4L2_COLORSPACE_RAW;
-> -       fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
-> -       fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> -       fmt->xfer_func = V4L2_XFER_FUNC_NONE;
-> -}
-> -
->  static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
->                                  struct v4l2_subdev_state *state,
->                                  struct v4l2_subdev_mbus_code_enum *code)
-> @@ -819,12 +804,23 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->         struct v4l2_rect *crop;
->         unsigned int bin_h, bin_v;
->
-> +       /*
-> +        * Adjust the requested format to match the closest mode. The Bayer
-> +        * order varies with flips.
-> +        */
->         mode = v4l2_find_nearest_size(supported_modes,
->                                       ARRAY_SIZE(supported_modes),
->                                       width, height,
->                                       fmt->format.width, fmt->format.height);
->
-> -       imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
-> +       fmt->format.code = imx219_get_format_code(imx219, fmt->format.code);
-> +       fmt->format.width = mode->width;
-> +       fmt->format.height = mode->height;
-> +       fmt->format.field = V4L2_FIELD_NONE;
-> +       fmt->format.colorspace = V4L2_COLORSPACE_RAW;
-> +       fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_601;
-> +       fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> +       fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
->
->         format = v4l2_subdev_state_get_format(state, 0);
->         *format = fmt->format;
-> --
-> Regards,
->
-> Laurent Pinchart
->
+There is a trade-off between latency and CPU usage when deciding the value
+for polling interval. With aggressive polling intervals (i.e. going with
+even lesser values) the CPU usage increases although worst case latencies
+get better. On the contrary, with greater polling intervals worst case
+latencies will increase although the CPU usage will decrease.
+
+The 5ms offered a good balance between the two as we were able to reach
+close to actual latencies (as achievable with irq) without incurring too
+much of CPU as seen in below experiments and thus 5ms is chosen as default
+polling interval.
+
+- 1x 640x480@25 Encoding using different hrtimer polling intervals [2]
+- 4x 1080p30 Transcode (File->decode->encode->file) irq vs polling
+  comparison [3]
+- 1x 1080p Transcode (File->decode->encode->file) irq vs polling comparison
+  [4]
+- 1080p60 Streaming use-case irq vs polling comparison [5]
+- 1x 1080p30 sanity decode and encode tests [6]
+
+The polling interval can also be changed using vpu_poll_interval module
+param in case user want to change it as per their use-case requirement
+keeping in mind above trade-off.
+
+Based on interrupt status, we use a worker thread to iterate over the
+interrupt status for each instance and send completion event as being done
+in irq thread function.
+
+Move the core functionality of the irq thread function to a separate
+function wave5_vpu_handle_irq so that it can be used by both the worker
+thread when using polling mode and irq thread when using interrupt mode.
+
+Protect the hrtimer access and instance list with device specific mutex
+locks to avoid race conditions while different instances of encoder and
+decoder are started together.
+
+[1] https://www.ti.com/lit/pdf/spruj16
+(Ref: Section 4.2.3.3 Resets, Interrupts, and Clocks)
+[2] https://gist.github.com/devarsht/ee9664d3403d1212ef477a027b71896c
+[3] https://gist.github.com/devarsht/3a58b4f201430dfc61697c7e224e74c2
+[4] https://gist.github.com/devarsht/a6480f1f2cbdf8dd694d698309d81fb0
+[5] https://gist.github.com/devarsht/44aaa4322454e85e01a8d65ac47c5edb
+[6] https://gist.github.com/devarsht/2f956bcc6152dba728ce08cebdcebe1d
+
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+Tested-by: Jackson Lee <jackson.lee@chipsnmedia.com>
+---
+V2:
+- Update commit message as suggested in review to give more context
+  on design being chosen and analysis that was done to decide on same
+- Add Tested-By
+- Remove extra return variable declaration from wave5_vpu_release_device
+
+Range diff w.r.t v1 :
+https://gist.github.com/devarsht/cd6bbb4ba90b0229be4718b7140ef924
+---
+ .../platform/chips-media/wave5/wave5-helper.c |  17 ++-
+ .../chips-media/wave5/wave5-vpu-dec.c         |  13 +-
+ .../chips-media/wave5/wave5-vpu-enc.c         |  13 +-
+ .../platform/chips-media/wave5/wave5-vpu.c    | 117 ++++++++++++------
+ .../platform/chips-media/wave5/wave5-vpuapi.h |   4 +
+ 5 files changed, 122 insertions(+), 42 deletions(-)
+
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+index 8433ecab230c..0b1b5a11e15b 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+@@ -52,11 +52,12 @@ int wave5_vpu_release_device(struct file *filp,
+ 			     char *name)
+ {
+ 	struct vpu_instance *inst = wave5_to_vpu_inst(filp->private_data);
++	struct vpu_device *dev = inst->dev;
++	int ret;
+ 
+ 	v4l2_m2m_ctx_release(inst->v4l2_fh.m2m_ctx);
+ 	if (inst->state != VPU_INST_STATE_NONE) {
+ 		u32 fail_res;
+-		int ret;
+ 
+ 		ret = close_func(inst, &fail_res);
+ 		if (fail_res == WAVE5_SYSERR_VPU_STILL_RUNNING) {
+@@ -71,8 +72,20 @@ int wave5_vpu_release_device(struct file *filp,
+ 	}
+ 
+ 	wave5_cleanup_instance(inst);
++	if (dev->irq < 0) {
++		ret = mutex_lock_interruptible(&dev->dev_lock);
++		if (ret)
++			return ret;
+ 
+-	return 0;
++		if (list_empty(&dev->instances)) {
++			dev_dbg(dev->dev, "Disabling the hrtimer\n");
++			hrtimer_cancel(&dev->hrtimer);
++		}
++
++		mutex_unlock(&dev->dev_lock);
++	}
++
++	return ret;
+ }
+ 
+ int wave5_vpu_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq,
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+index ef227af72348..c8624c681fa6 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+@@ -1810,7 +1810,6 @@ static int wave5_vpu_open_dec(struct file *filp)
+ 	v4l2_fh_add(&inst->v4l2_fh);
+ 
+ 	INIT_LIST_HEAD(&inst->list);
+-	list_add_tail(&inst->list, &dev->instances);
+ 
+ 	inst->v4l2_m2m_dev = inst->dev->v4l2_m2m_dec_dev;
+ 	inst->v4l2_fh.m2m_ctx =
+@@ -1867,6 +1866,18 @@ static int wave5_vpu_open_dec(struct file *filp)
+ 
+ 	wave5_vdi_allocate_sram(inst->dev);
+ 
++	ret = mutex_lock_interruptible(&dev->dev_lock);
++	if (ret)
++		goto cleanup_inst;
++
++	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) && list_empty(&dev->instances))
++		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev->vpu_poll_interval * NSEC_PER_MSEC),
++			      HRTIMER_MODE_REL_PINNED);
++
++	list_add_tail(&inst->list, &dev->instances);
++
++	mutex_unlock(&dev->dev_lock);
++
+ 	return 0;
+ 
+ cleanup_inst:
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+index f29cfa3af94a..9e88424761b6 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+@@ -1554,7 +1554,6 @@ static int wave5_vpu_open_enc(struct file *filp)
+ 	v4l2_fh_add(&inst->v4l2_fh);
+ 
+ 	INIT_LIST_HEAD(&inst->list);
+-	list_add_tail(&inst->list, &dev->instances);
+ 
+ 	inst->v4l2_m2m_dev = inst->dev->v4l2_m2m_enc_dev;
+ 	inst->v4l2_fh.m2m_ctx =
+@@ -1729,6 +1728,18 @@ static int wave5_vpu_open_enc(struct file *filp)
+ 
+ 	wave5_vdi_allocate_sram(inst->dev);
+ 
++	ret = mutex_lock_interruptible(&dev->dev_lock);
++	if (ret)
++		goto cleanup_inst;
++
++	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) && list_empty(&dev->instances))
++		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev->vpu_poll_interval * NSEC_PER_MSEC),
++			      HRTIMER_MODE_REL_PINNED);
++
++	list_add_tail(&inst->list, &dev->instances);
++
++	mutex_unlock(&dev->dev_lock);
++
+ 	return 0;
+ 
+ cleanup_inst:
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+index 0d90b5820bef..257c5e226129 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+@@ -26,6 +26,9 @@ struct wave5_match_data {
+ 	const char *fw_name;
+ };
+ 
++static int vpu_poll_interval = 5;
++module_param(vpu_poll_interval, int, 0644);
++
+ int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int timeout)
+ {
+ 	int ret;
+@@ -40,7 +43,7 @@ int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int timeout)
+ 	return 0;
+ }
+ 
+-static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
++static void wave5_vpu_handle_irq(void *dev_id)
+ {
+ 	u32 seq_done;
+ 	u32 cmd_done;
+@@ -48,42 +51,67 @@ static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
+ 	struct vpu_instance *inst;
+ 	struct vpu_device *dev = dev_id;
+ 
+-	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS)) {
+-		irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
+-		wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
+-		wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
+-
+-		list_for_each_entry(inst, &dev->instances, list) {
+-			seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
+-			cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
+-
+-			if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
+-			    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
+-				if (seq_done & BIT(inst->id)) {
+-					seq_done &= ~BIT(inst->id);
+-					wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO,
+-								 seq_done);
+-					complete(&inst->irq_done);
+-				}
++	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
++	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
++	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
++
++	list_for_each_entry(inst, &dev->instances, list) {
++		seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
++		cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
++
++		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
++		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
++			if (seq_done & BIT(inst->id)) {
++				seq_done &= ~BIT(inst->id);
++				wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO,
++							 seq_done);
++				complete(&inst->irq_done);
+ 			}
++		}
+ 
+-			if (irq_reason & BIT(INT_WAVE5_DEC_PIC) ||
+-			    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
+-				if (cmd_done & BIT(inst->id)) {
+-					cmd_done &= ~BIT(inst->id);
+-					wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
+-								 cmd_done);
+-					inst->ops->finish_process(inst);
+-				}
++		if (irq_reason & BIT(INT_WAVE5_DEC_PIC) ||
++		    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
++			if (cmd_done & BIT(inst->id)) {
++				cmd_done &= ~BIT(inst->id);
++				wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
++							 cmd_done);
++				inst->ops->finish_process(inst);
+ 			}
+-
+-			wave5_vpu_clear_interrupt(inst, irq_reason);
+ 		}
++
++		wave5_vpu_clear_interrupt(inst, irq_reason);
+ 	}
++}
++
++static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
++{
++	struct vpu_device *dev = dev_id;
++
++	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS))
++		wave5_vpu_handle_irq(dev);
+ 
+ 	return IRQ_HANDLED;
+ }
+ 
++static void wave5_vpu_irq_work_fn(struct kthread_work *work)
++{
++	struct vpu_device *dev = container_of(work, struct vpu_device, work);
++
++	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS))
++		wave5_vpu_handle_irq(dev);
++}
++
++static enum hrtimer_restart wave5_vpu_timer_callback(struct hrtimer *timer)
++{
++	struct vpu_device *dev =
++			container_of(timer, struct vpu_device, hrtimer);
++
++	kthread_queue_work(dev->worker, &dev->work);
++	hrtimer_forward_now(timer, ns_to_ktime(vpu_poll_interval * NSEC_PER_MSEC));
++
++	return HRTIMER_RESTART;
++}
++
+ static int wave5_vpu_load_firmware(struct device *dev, const char *fw_name,
+ 				   u32 *revision)
+ {
+@@ -209,16 +237,24 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 
+ 	dev->irq = platform_get_irq(pdev, 0);
+ 	if (dev->irq < 0) {
+-		dev_err(&pdev->dev, "failed to get irq resource\n");
+-		ret = -ENXIO;
+-		goto err_enc_unreg;
+-	}
+-
+-	ret = devm_request_threaded_irq(&pdev->dev, dev->irq, NULL,
+-					wave5_vpu_irq_thread, IRQF_ONESHOT, "vpu_irq", dev);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
+-		goto err_enc_unreg;
++		dev_err(&pdev->dev, "failed to get irq resource, falling back to polling\n");
++		hrtimer_init(&dev->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
++		dev->hrtimer.function = &wave5_vpu_timer_callback;
++		dev->worker = kthread_create_worker(0, "vpu_irq_thread");
++		if (IS_ERR(dev->worker)) {
++			dev_err(&pdev->dev, "failed to create vpu irq worker\n");
++			ret = PTR_ERR(dev->worker);
++			goto err_vdi_release;
++		}
++		dev->vpu_poll_interval = vpu_poll_interval;
++		kthread_init_work(&dev->work, wave5_vpu_irq_work_fn);
++	} else {
++		ret = devm_request_threaded_irq(&pdev->dev, dev->irq, NULL,
++						wave5_vpu_irq_thread, IRQF_ONESHOT, "vpu_irq", dev);
++		if (ret) {
++			dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
++			goto err_enc_unreg;
++		}
+ 	}
+ 
+ 	ret = wave5_vpu_load_firmware(&pdev->dev, match_data->fw_name, &fw_revision);
+@@ -254,6 +290,11 @@ static int wave5_vpu_remove(struct platform_device *pdev)
+ {
+ 	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
+ 
++	if (dev->irq < 0) {
++		kthread_destroy_worker(dev->worker);
++		hrtimer_cancel(&dev->hrtimer);
++	}
++
+ 	mutex_destroy(&dev->dev_lock);
+ 	mutex_destroy(&dev->hw_lock);
+ 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+index 352f6e904e50..edc50450ddb8 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+@@ -756,6 +756,10 @@ struct vpu_device {
+ 	u32 product_code;
+ 	struct ida inst_ida;
+ 	struct clk_bulk_data *clks;
++	struct hrtimer hrtimer;
++	struct kthread_work work;
++	struct kthread_worker *worker;
++	int vpu_poll_interval;
+ 	int num_clks;
+ };
+ 
+-- 
+2.39.1
+
 
