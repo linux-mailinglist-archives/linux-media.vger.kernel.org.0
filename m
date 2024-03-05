@@ -1,291 +1,189 @@
-Return-Path: <linux-media+bounces-6414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6415-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5608718BF
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 09:59:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A03B8718F7
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 10:06:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 658631F22FF3
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 08:59:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AA061F23D1D
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 09:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3530C4F5FA;
-	Tue,  5 Mar 2024 08:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B809537E9;
+	Tue,  5 Mar 2024 09:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E1qBMBkR"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SUA7qEcP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dK6WqAJW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from wfout7-smtp.messagingengine.com (wfout7-smtp.messagingengine.com [64.147.123.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D242538DD1
-	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 08:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1635025C;
+	Tue,  5 Mar 2024 09:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709629169; cv=none; b=QyBbXfHKrjsXyOarmxpv9aPNzEPIxH0zMoRWeAXuGWVIktsORKP45Wk6mVccMmGG/lt+yEtPo7u/q2BnsGUdG4P2PZUsNhj46tbmDIlAisPjq5mwE9n8WvE8+M4ZOMYFhpPSkLqCAV+JUUk6GAUktUigIh4EdDR/Kjfok4dC4GQ=
+	t=1709629509; cv=none; b=jLMkebHKu19+W/+rqGCDC47y3G9KZCUIQ8gd8Jbhh0yDiU9HW8go6sd9Q1rIgGwdCKre6zP/gQPoIvtNI3d6Nz6HusXlSTwOnPO5K6hM3oIUPjNHOLxdu+eKDB5QCDK8qgu8WxWrsTaM97SWtcCGMI4frwc6/QwjhdhtphAG1uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709629169; c=relaxed/simple;
-	bh=u8/MuSG1BJQ+jzH8h+dAenC0hMUIqvPpk/BZm8DHFlo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OwtDCeTEnH7+jh1J1FY7dpguhD6bis4uhBhN5QissJXPdb9oMn4k0XUtKQD4i6N9HYjg1ZPdtWHnE9OQezu1h7FguP8vZp+P62YNgVHWrp6QCKan9hHSKqKJqV4dnFOF3oeBSd1DLk21wm6FIfIhUa8kJukzvTs2eVv10k00jHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E1qBMBkR; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709629168; x=1741165168;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u8/MuSG1BJQ+jzH8h+dAenC0hMUIqvPpk/BZm8DHFlo=;
-  b=E1qBMBkRLCJyFhdD75COdZso94sSqltoAnXMqNXoV8y/RvtXclerVztU
-   VSKisH8S8471t7Vlr+kbm5APcyvLhc/21LD5YnqK9BUPZPllLxIu1rshD
-   4AubjoVv8p3tgdxVIIHnBzxeTAN5Mt+mppAKrTiFLuzbAl+14vKhxTyku
-   X9/BWjAaoES1lMCDlKMiUYXc7f1Ney/mS30r+qZJAJm1B8MRPveLx9udf
-   B2Tqgxgoovtz9hvJiMSiI1l2xsjTF5r2tgSjT7+pwMXHdY+peZXC7Kvhs
-   fnxNfGZsnlJWSNGC5Jz1HP9GHIl7eojvICsxK427Qb4b0PYFmcQt2O/q4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="15596755"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="15596755"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 00:59:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9478102"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 00:59:26 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7C2F511F871;
-	Tue,  5 Mar 2024 10:59:23 +0200 (EET)
-Date: Tue, 5 Mar 2024 08:59:23 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 11/29] media: mc: Split initialising and adding media
- devnode
-Message-ID: <Zebe65TscNPsJi6S@kekkonen.localdomain>
-References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
- <20231220103713.113386-12-sakari.ailus@linux.intel.com>
- <20240207104613.GH23702@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1709629509; c=relaxed/simple;
+	bh=4vEnG02ligmP4LrcfFUAEQhjxpcNYEU0JASPzUPZp/M=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=OI7HcGOtHaAphoatAjA+1DDgwQxAeldkrMRefKnzo3G112Jk/ivKcweRdPFIPwP/pqmDUXByzyRIWtP/ojjH/QisoFH5fsfZp3Kpm0+iUaDsYNJV+GO0iLWn033aEfSsRzjibHYGxSqqvsc7G3HvhIqr0kveYWJZJEnQdtd5KQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SUA7qEcP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dK6WqAJW; arc=none smtp.client-ip=64.147.123.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id 22F5F1C000A7;
+	Tue,  5 Mar 2024 04:05:06 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 05 Mar 2024 04:05:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709629505; x=1709715905; bh=ekmA5RBZ+C
+	vAhdFbvGw1i/0H90ih8Imy4vkxYH5RFbI=; b=SUA7qEcPhA1VtahsdC2df931yx
+	WPbB2j3ZYmy701buT133pPpg1BhTzr7LF+TWNzdIkaWuMpprUFOS48zOhjCA8X4L
+	QrZ0PgfUBHST7vlB23iK8TH+TnQdfOWnY8aOrjupIq/qqANsZJWFyvJpyjWg49XQ
+	kjRXOzZoQ77VNo+thJ82UMaXMQWyNFyk79VVagp2IFPTRJrbjNr8CBts1AxVPG8M
+	bjO7GLbM23jEwBjN3BWsei4NC56uzvQrCWHyScODnQymG6o+zFz4Vj3N2qCbSW81
+	wItzocagCMHv3/TV7LNM6a5j/ru4N0O9LvD+qMa63R76kXfYgkWIAudRwfUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709629505; x=1709715905; bh=ekmA5RBZ+CvAhdFbvGw1i/0H90ih
+	8Imy4vkxYH5RFbI=; b=dK6WqAJWMa4c4fjlHpghFjdIt3LMY3xxMkWUuukHuwfJ
+	Fn5R3/jVLrvPK8HPH0xCLR/+EQRpUAFUnWeAiAO+ZCuiq7mxhTwCGwC3vudSRYpt
+	MeEvo6I1Ro59HzaAWLL9L8NGtrxfmpvxyurfxdpMhbcqggJi2damWFe0e3ex8i8z
+	Eqv+wuJnxl0fXLh/9OXryAC1UYrzcyYWGCIn8Zkc5jwx6wVXoHqm9AT52SlDjrOs
+	0f100LdiAiVQXqNw0pVjgHTryUqiRWP7/Beoq04XH3IJ2YH6FjRUMC91NnB331QM
+	8LzFD0JzIrOBD8QThpScqDeqGHRDE8eYEs7KAfNUMg==
+X-ME-Sender: <xms:QeDmZYcmTl0_cUKPjzetyUgwCOJP16-giZuGRCd23Fcaod5mvwuasg>
+    <xme:QeDmZaPNTc_AthIszgRYHzvvnFvvonjkI_CtQvZRuxXxbMGIW4iUjEpDMn314RxJy
+    bedEwcNX31bqifDbbs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheekgdduvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:QeDmZZhYhQ4N-Vq4pFq8_Jb84muPkreZpR2XpPiBbPCfq5bfWtDhBA>
+    <xmx:QeDmZd-0Yr0yXb4o9AIDX5bt4MvLmUCpkIyuHvt2PZ4e6x8RKq95Ew>
+    <xmx:QeDmZUshX60bTjTnFeVR9hjLDGUNMOB81JWBVd_07wIqc9qNaUxp0g>
+    <xmx:QeDmZSCXGxdi68ql_0o-PZ2wrqACrIJGaPXzq2fBVieFxYOJvISpL5s74vQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 6329AB6008F; Tue,  5 Mar 2024 04:05:05 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-208-g3f1d79aedb-fm-20240301.002-g3f1d79ae
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240207104613.GH23702@pendragon.ideasonboard.com>
+Message-Id: <5e2f9342-4ee9-4b30-9dcf-393e57e0f7c6@app.fastmail.com>
+In-Reply-To: <20240305020153.2787423-6-almasrymina@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-6-almasrymina@google.com>
+Date: Tue, 05 Mar 2024 10:04:45 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mina Almasry" <almasrymina@google.com>, Netdev <netdev@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Helge Deller" <deller@gmx.de>, "Andreas Larsson" <andreas@gaisler.com>,
+ "Jesper Dangaard Brouer" <hawk@kernel.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrii Nakryiko" <andrii@kernel.org>,
+ "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "KP Singh" <kpsingh@kernel.org>, "Stanislav Fomichev" <sdf@google.com>,
+ "Hao Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>,
+ "David Ahern" <dsahern@kernel.org>,
+ "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
+ shuah <shuah@kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pavel Begunkov" <asml.silence@gmail.com>, "David Wei" <dw@davidwei.uk>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>,
+ "Yunsheng Lin" <linyunsheng@huawei.com>,
+ "Shailend Chand" <shailend@google.com>,
+ "Harshitha Ramamurthy" <hramamurthy@google.com>,
+ "Shakeel Butt" <shakeelb@google.com>,
+ "Jeroen de Borst" <jeroendb@google.com>,
+ "Praveen Kaligineedi" <pkaligineedi@google.com>,
+ "Willem de Bruijn" <willemb@google.com>,
+ "Kaiyuan Zhang" <kaiyuanz@google.com>
+Subject: Re: [RFC PATCH net-next v6 05/15] netdev: support binding dma-buf to netdevice
+Content-Type: text/plain
 
-Hi Laurent,
+On Tue, Mar 5, 2024, at 03:01, Mina Almasry wrote:
 
-Thanks for the review.
+> +int netdev_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
+> +		       struct netdev_dmabuf_binding **out)
+> +{
+> +	struct netdev_dmabuf_binding *binding;
+> +	static u32 id_alloc_next;
+> +	struct scatterlist *sg;
+> +	struct dma_buf *dmabuf;
+> +	unsigned int sg_idx, i;
+> +	unsigned long virtual;
+> +	int err;
+> +
+> +	if (!capable(CAP_NET_ADMIN))
+> +		return -EPERM;
+> +
+> +	dmabuf = dma_buf_get(dmabuf_fd);
+> +	if (IS_ERR_OR_NULL(dmabuf))
+> +		return -EBADFD;
 
-On Wed, Feb 07, 2024 at 12:46:13PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Dec 20, 2023 at 12:36:55PM +0200, Sakari Ailus wrote:
-> > As registering a device node of an entity belonging to a media device
-> 
-> Did you mean s/As registering/Registering/ ?
+You should never need to use IS_ERR_OR_NULL() for a properly
+defined kernel interface. This one should always return an
+error or a valid pointer, so don't check for NULL.
 
-That works better in the current context. I'll use that.
+> +	binding->attachment = dma_buf_attach(binding->dmabuf, dev->dev.parent);
+> +	if (IS_ERR(binding->attachment)) {
+> +		err = PTR_ERR(binding->attachment);
+> +		goto err_free_id;
+> +	}
+> +
+> +	binding->sgt =
+> +		dma_buf_map_attachment(binding->attachment, DMA_BIDIRECTIONAL);
+> +	if (IS_ERR(binding->sgt)) {
+> +		err = PTR_ERR(binding->sgt);
+> +		goto err_detach;
+> +	}
 
-> 
-> > will require a reference to the struct device. Taking that reference is
-> > only possible once the device has been initialised, which took place only
-> 
-> s/took/takes/
-> 
-> > when it was registered. Split this in two, and initialise the device when
-> 
-> s/was/is/
+Should there be a check to verify that this buffer
+is suitable for network data?
 
-This describes the behaviour before the patch. I think it makes sense to
-use imperfect here.
+In general, dmabuf allows buffers that are uncached or reside
+in MMIO space of another device, but I think this would break
+when you get an skb with those buffers and try to parse the
+data inside of the kernel on architectures where MMIO space
+is not a normal pointer or unaligned access is disallowed on
+uncached data.
 
-> 
-> > the media device is allocated.
-> > 
-> > Don't distribute the effects of these changes yet. Add media_device_get()
-> > and media_device_put() first.
-> 
-> Don't propagate the effects of these changes to drivers yet, we want to
-> expose media_device refcounting with media_device_get() and
-> media_device_put() functions first.
-> 
-> 
-> I'm not sure that's exactly what you meant though.
-
-Yes, that's roughly what I meant, I can use the above text.
-
-> 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks!
-
-> 
-> > ---
-> >  drivers/media/mc/mc-device.c  | 18 +++++++++++++-----
-> >  drivers/media/mc/mc-devnode.c | 17 ++++++++++-------
-> >  include/media/media-devnode.h | 19 ++++++++++++++-----
-> >  3 files changed, 37 insertions(+), 17 deletions(-)
-> > 
-> > diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> > index c0ea08a8fc31..ebf037cd5f4a 100644
-> > --- a/drivers/media/mc/mc-device.c
-> > +++ b/drivers/media/mc/mc-device.c
-> > @@ -717,19 +717,26 @@ int __must_check __media_device_register(struct media_device *mdev,
-> >  	/* Set version 0 to indicate user-space that the graph is static */
-> >  	mdev->topology_version = 0;
-> >  
-> > +	media_devnode_init(&mdev->devnode);
-> > +
-> >  	ret = media_devnode_register(&mdev->devnode, owner);
-> >  	if (ret < 0)
-> > -		return ret;
-> > +		goto out_put;
-> >  
-> >  	ret = device_create_file(&mdev->devnode.dev, &dev_attr_model);
-> > -	if (ret < 0) {
-> > -		media_devnode_unregister(&mdev->devnode);
-> > -		return ret;
-> > -	}
-> > +	if (ret < 0)
-> > +		goto out_unregister;
-> >  
-> >  	dev_dbg(mdev->dev, "Media device registered\n");
-> >  
-> >  	return 0;
-> > +
-> > +out_unregister:
-> 
-> I would name the labels err_unregister and err_put.
-
-Sounds good.
-
-> 
-> > +	media_devnode_unregister(&mdev->devnode);
-> > +out_put:
-> > +	put_device(&mdev->devnode.dev);
-> > +
-> > +	return ret;
-> >  }
-> >  EXPORT_SYMBOL_GPL(__media_device_register);
-> >  
-> > @@ -803,6 +810,7 @@ void media_device_unregister(struct media_device *mdev)
-> >  	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
-> >  	dev_dbg(mdev->dev, "Media device unregistering\n");
-> >  	media_devnode_unregister(&mdev->devnode);
-> > +	put_device(&mdev->devnode.dev);
-> >  }
-> >  EXPORT_SYMBOL_GPL(media_device_unregister);
-> >  
-> > diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-> > index 8bc7450ac144..7b17419050fb 100644
-> > --- a/drivers/media/mc/mc-devnode.c
-> > +++ b/drivers/media/mc/mc-devnode.c
-> > @@ -204,6 +204,11 @@ static const struct file_operations media_devnode_fops = {
-> >  	.llseek = no_llseek,
-> >  };
-> >  
-> > +void media_devnode_init(struct media_devnode *devnode)
-> > +{
-> > +	device_initialize(&devnode->dev);
-> > +}
-> > +
-> >  int __must_check media_devnode_register(struct media_devnode *devnode,
-> >  					struct module *owner)
-> >  {
-> > @@ -235,7 +240,6 @@ int __must_check media_devnode_register(struct media_devnode *devnode,
-> >  	if (devnode->parent)
-> >  		devnode->dev.parent = devnode->parent;
-> >  	dev_set_name(&devnode->dev, "media%d", devnode->minor);
-> > -	device_initialize(&devnode->dev);
-> >  
-> >  	/* Part 3: Add the media and character devices */
-> >  	ret = cdev_device_add(&devnode->cdev, &devnode->dev);
-> > @@ -267,14 +271,13 @@ void media_devnode_unregister(struct media_devnode *devnode)
-> >  	clear_bit(MEDIA_FLAG_REGISTERED, &devnode->flags);
-> >  	mutex_unlock(&media_devnode_lock);
-> >  
-> > -	cdev_del(&devnode->cdev);
-> > -	device_unregister(&devnode->dev);
-> > +	cdev_device_del(&devnode->cdev, &devnode->dev);
-> >  }
-> >  
-> >  /*
-> >   *	Initialise media for linux
-> >   */
-> > -static int __init media_devnode_init(void)
-> > +static int __init media_devnode_module_init(void)
-> >  {
-> >  	int ret;
-> >  
-> > @@ -296,14 +299,14 @@ static int __init media_devnode_init(void)
-> >  	return 0;
-> >  }
-> >  
-> > -static void __exit media_devnode_exit(void)
-> > +static void __exit media_devnode_module_exit(void)
-> >  {
-> >  	bus_unregister(&media_bus_type);
-> >  	unregister_chrdev_region(media_dev_t, MEDIA_NUM_DEVICES);
-> >  }
-> >  
-> > -subsys_initcall(media_devnode_init);
-> > -module_exit(media_devnode_exit)
-> > +subsys_initcall(media_devnode_module_init);
-> > +module_exit(media_devnode_module_exit)
-> >  
-> >  MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
-> >  MODULE_DESCRIPTION("Device node registration for media drivers");
-> > diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
-> > index 1117d1dfd6bf..6d46c658be21 100644
-> > --- a/include/media/media-devnode.h
-> > +++ b/include/media/media-devnode.h
-> > @@ -90,6 +90,17 @@ struct media_devnode {
-> >  /* dev to media_devnode */
-> >  #define to_media_devnode(cd) container_of(cd, struct media_devnode, dev)
-> >  
-> > +/**
-> > + * media_devnode_init - initialise a media devnode
-> > + *
-> > + * @devnode: struct media_devnode we want to initialise
-> > + *
-> > + * Initialise a media devnode. Note that after initialising the media
-> > + * devnode is refcounted. Releasing references to it may be done using
-> > + * put_device().
-> > + */
-> > +void media_devnode_init(struct media_devnode *devnode);
-> > +
-> >  /**
-> >   * media_devnode_register - register a media device node
-> >   *
-> > @@ -100,11 +111,9 @@ struct media_devnode {
-> >   * with the kernel. An error is returned if no free minor number can be found,
-> >   * or if the registration of the device node fails.
-> >   *
-> > - * Zero is returned on success.
-> > - *
-> > - * Note that if the media_devnode_register call fails, the release() callback of
-> > - * the media_devnode structure is *not* called, so the caller is responsible for
-> > - * freeing any data.
-> > + * Zero is returned on success. Note that in case
-> > + * media_devnode_register() fails, the caller is responsible for
-> > + * releasing the reference to the device using put_device().
-> >   */
-> >  int __must_check media_devnode_register(struct media_devnode *devnode,
-> >  					struct module *owner);
-> 
-
--- 
-Regards,
-
-Sakari Ailus
+        Arnd
 
