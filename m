@@ -1,95 +1,135 @@
-Return-Path: <linux-media+bounces-6460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7798887225D
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:04:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759C18722A2
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:24:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7BA91C21445
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 15:04:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C8DC0B20B39
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 15:24:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02F7F1272C4;
-	Tue,  5 Mar 2024 15:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7601272D2;
+	Tue,  5 Mar 2024 15:24:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SzskPTw7"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UhfaeAnI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56867126F02;
-	Tue,  5 Mar 2024 15:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6A2126F36;
+	Tue,  5 Mar 2024 15:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709651027; cv=none; b=ap6R4HEtRC7+7kAOmjTUQDKf4fSsLqlsHYMQX0c0GYHGKV6BCZ4Wwo+dNaKt+Qr6Ya/8C/G1OasriD4pY+BJOT6apnWZhzknsHzrEHchu6K1Eh1LsL6lQovFOdLO23WhSG/M7URp2vyV+Z22+LLCdw4nAlVt069imA3Gb9LWmJ0=
+	t=1709652274; cv=none; b=VWXJLIk/h+VQ1Heg8jODhSx3y6a1ISSPd8fngctjtXhsVhbq2Oezmb3IudNvs7U+JTFyp6ND59+EL0nfhXioXxYNIQoaj1SLV3t0soHHaBBA3IJypjRIZAsteYcRYNV4cvDZvUqSyd00+XTvUKdZYqfKW7bknroB2n+QA0QxufI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709651027; c=relaxed/simple;
-	bh=7K1Q62MNa2I2tcivs5UpDzs/Q6BDZTp7gt5DMjXX6LA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uT213AL3l48rSnYtc0rwlnRcrsNrQdk00OPwJbECHnPuR8luM7HdGRV5yHonb7C4nPL4JZmGpctOcP+lz97tmncJ7BaOzfwREbJvTnJvivZlGy0iOYnnwPbnt5z6KeAmNl8vWEiYxgeeVMt972bhQ7HReB8JT2hutXlkN/Bj7xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SzskPTw7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 908F3C43394;
-	Tue,  5 Mar 2024 15:03:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709651026;
-	bh=7K1Q62MNa2I2tcivs5UpDzs/Q6BDZTp7gt5DMjXX6LA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SzskPTw7LNMKes+5ala2+bPQLigTb/r1OPUxYscE2ahpKI1c0LygtEMrM7f83VcGY
-	 pf30SFCjSRsIyfu5Ip4N5zKEKDUKu6FFZWaLaVi3v26LhpQryO5IqXJA0cHCBwmiw9
-	 G/1DThwGzxpDW8kJqZ0VghYylzbyQCGbeA4aDHsaxEuVl/d62JCPerGXX8Wm5t/642
-	 /8YOv2u2zrvtOE6rQ7zbxc6qPY7GmlsZMIKdoRU6TApAr6AcV9lCQDJnKVoIGegC6p
-	 9QbTXmlND1+RWCLSpvvi7KyalLRUPEQDMZw6nKk3oGEsqXSJW884EPxsSA0OiC6duD
-	 sC8p/nDgcVj/A==
-Date: Tue, 5 Mar 2024 09:03:44 -0600
-From: Rob Herring <robh@kernel.org>
-To: Shreeya Patel <shreeya.patel@collabora.com>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	nelson.costa@synopsys.com, hverkuil-cisco@xs4all.nl,
-	hverkuil@xs4all.nl, mturquette@baylibre.com,
-	krzysztof.kozlowski+dt@linaro.org, sboyd@kernel.org,
-	sebastian.reichel@collabora.com, conor+dt@kernel.org,
-	heiko@sntech.de, dmitry.osipenko@collabora.com,
-	kernel@collabora.com, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, p.zabel@pengutronix.de,
-	devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-media@vger.kernel.org, linux-arm@lists.infradead.org,
-	jose.abreu@synopsys.com, shawn.wen@rock-chips.com,
-	nicolas.dufresne@collabora.com
-Subject: Re: [PATCH v2 3/6] dt-bindings: media: Document HDMI RX Controller
-Message-ID: <170965102379.3357317.10195104621246588504.robh@kernel.org>
-References: <20240305123648.8847-1-shreeya.patel@collabora.com>
- <20240305123648.8847-4-shreeya.patel@collabora.com>
+	s=arc-20240116; t=1709652274; c=relaxed/simple;
+	bh=qjlIRQeJBKz2vz5aisxD5IOrlTqfFDk0KcO4WDSaG8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qfal3SQi2DORiOgDSH4FQM8DsTcrpkoPAkTai9h0sIDr9LDW76I2H2FLc4mziCdiz2Ca53W7L9sVbRcUuP6PXRfvze0U9qndIkGrCs0LQ8PDi6LkZ3yKsaGPVeNAX9WkW4KnJ3uhm1DbAlKgRjR7pfQaOTsEtd15w14RRGSVe+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UhfaeAnI; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AFA0EE0002;
+	Tue,  5 Mar 2024 15:24:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709652269;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TC7BcVWBBaci9HUeR/cYeDY12xKiEfNlPcIEH+Cc0Io=;
+	b=UhfaeAnIOQbUnNE6KTFMqs54WVSJT5qGaJYgQ3zmXxYfnYO/oq/KMKfa97O0DFuS4gxDae
+	U84iL5lDUbL8yKfUP6E326+8tw0r6fEKbuaJbuPTQ8VK8KLkZiMkDMuDlTgkXgG3yZY6ZU
+	d3AcO6UMdix9Eh1Gu/9sf616R6xVZRRVZrwuTV20ubPxWpEwYkf5YirxAh+uVBtmSqPcbj
+	Q6z8Z8He8c6kwrH/kBGfsp/Gsl1LV9gDPzt6tJLnK6cd1OmAkKE5V5sgfjjcdXVpuiM+cb
+	+lNq8D9Tj0eBdFA500K4B1GPk64bCDQfOeJf79r465gWkJX4g3oVHcDNWx6t6Q==
+Date: Tue, 5 Mar 2024 16:24:27 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Markus Elfring <Markus.Elfring@web.de>, Dan Carpenter
+ <dan.carpenter@linaro.org>
+Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, Thierry Reding
+ <thierry.reding@gmail.com>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: staging: media: tegra-video: Use common error handling code in
+ tegra_vi_graph_parse_one()
+Message-ID: <20240305162427.49a9f013@booty>
+In-Reply-To: <f451ffba-db26-4a3b-a4b3-186c31f2ad64@web.de>
+References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
+	<20240301183936.505fcc72@booty>
+	<9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
+	<f451ffba-db26-4a3b-a4b3-186c31f2ad64@web.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240305123648.8847-4-shreeya.patel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
+Hello Dan, Markus,
 
-On Tue, 05 Mar 2024 18:06:45 +0530, Shreeya Patel wrote:
-> Document bindings for the Synopsys DesignWare HDMI RX Controller.
-> 
-> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
-> ---
-> Changes in v2 :-
->   - Add a description for the hardware
->   - Rename resets, vo1 grf and HPD properties
->   - Add a proper description for grf and vo1-grf phandles
->   - Rename the HDMI Input node name to hdmi-receiver
->   - Improve the subject line
->   - Include gpio header file in example to fix dt_binding_check failure
-> 
->  .../bindings/media/snps,dw-hdmi-rx.yaml       | 132 ++++++++++++++++++
->  1 file changed, 132 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> 
+On Sat, 2 Mar 2024 11:40:26 +0100
+Markus Elfring <Markus.Elfring@web.de> wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> >>> Add a jump target so that a bit of exception handling can be better r=
+eused
+> >>> at the end of this function implementation. =20
+> =E2=80=A6
+> >> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> =20
+> >
+> > These patches make the code worse. =20
 
+This is of course a legitimate opinion. However Markus' patch
+implements what is recommended by the documentation and is in common
+use in the kernel code. A quick search found 73 occurrences in v6.8-rc7:
+
+$ expr $(pcregrep -r -M ':\n\tfwnode_handle_put'  drivers | wc -l) / 2
+73
+$
+
+300+ are found for of_node_put().
+
+> > If we're in the middle of a loop,
+> > then we should clean up the partial loop before doing the goto.
+> > Otherwise it creates a mess when we add a new allocation function after
+> > the end of the loop. =20
+>=20
+> How does such a feedback fit to another known information source?
+>=20
+> Section =E2=80=9C7) Centralized exiting of functions=E2=80=9D
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/process/coding-style.rst?h=3Dv6.8-rc6#n526
+>
+> > Someone is going to add a _scoped() loop which uses cleanup.h magic to
+> > call _put automatically.  This is a good option. =20
+>=20
+> I became also curious how scope-based resource management will influence
+> Linux coding styles further.
+> Will various collateral evolution become more interesting?
+
+After some research I think I found what Dan means:
+
+https://lore.kernel.org/all/20240225142714.286440-3-jic23@kernel.org/
+
+After reading the above thread, I agree using *_scoped() macros will
+be a good improvement. It is not yet in mainline as of v6.8-rc7, but
+it is in linux-next. So I think despite being valid this patch might
+still be discarded because a better solution should be available in a
+few weeks.
+
+Luca
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
