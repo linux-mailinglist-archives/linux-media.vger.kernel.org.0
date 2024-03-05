@@ -1,124 +1,121 @@
-Return-Path: <linux-media+bounces-6442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1992A871F65
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 13:40:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5AE871F96
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 13:55:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE2511F2562A
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 12:40:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E0121F2480D
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 12:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D5225822E;
-	Tue,  5 Mar 2024 12:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="c9DEEfbJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3068985C52;
+	Tue,  5 Mar 2024 12:54:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D7485920;
-	Tue,  5 Mar 2024 12:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B640B58AB6;
+	Tue,  5 Mar 2024 12:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709642336; cv=none; b=IKZxQQxC6o73kCJBe7MIqsNheSxk22yD6gk7k2lYDP0udKf1sQ7bKsDKZjc3qDh6mUTu5H7MY91Bl58cRXwBwbGEtekDHhjowKlON0c6vPinfVYyHfG+Tfn8ILgq09f3Lrn6u4MV7p24paGGWscKoafAUShv0zSeoZ8oVq7p/cg=
+	t=1709643292; cv=none; b=WNjjBZ0cH6it0nAGwU79vaNbgOi9IgmfHVlh6af3v3aCHN4v992VQYqgf3lvK7bpTDst+vTNF3hoBAmX4ELjdcfM4XftLv6apQ7aWlvEq6JJ8TOc43yrfWiT428Yt9KDGC0NQvF66FyUu5kpp9ZX+1DGAltRANgh1kBTUkJT9w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709642336; c=relaxed/simple;
-	bh=VwkM35Jda0C3h7EKsFxBVHx+9GeS6C01tG+KewTTe5E=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UWbbDG0vl2Ltvg8JQHdBctIUybZEQB+p6Q7qqDjri7Qr2wJEekqQcu6emgZMhxl1QbjhiqimAmqUcAqIZ2rPRxQxN2TxUjveXxlCLiBLwUXnI3mRG8eq3jd3fc89mfFNTLangwkdBZwbNFAA6pX3g6djXQqGBZ/Cyxl2rh8wOTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=c9DEEfbJ; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709642333;
-	bh=VwkM35Jda0C3h7EKsFxBVHx+9GeS6C01tG+KewTTe5E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=c9DEEfbJVYKRbFyOJYn8GW/3eer+MVMTZCVghdzEDNmyMtuzEmZ5djstfXjQs9qSn
-	 1PsF1+WJNA2ujD0EReK4D1MKvljfQBIhmwNDF/Ta9rmHFUqNp55E02eIW2SFunNdkS
-	 aSyKEuzmnbPNngDhbo8XgZ1kbLQRybQh3l6pdABCsjSgVEFBcc2YOjJOJ8ZnsGwx8T
-	 vHV5egg2/g6TiGoRIGY2qQJxPZEtDWP48Ws+idTnZ46EJf7z+U1Rdo2wgQiEQ5QS4E
-	 EU2gnCms6fcWUxt9nxD7gARz+Wvo1S1zFMbieEKVNL2+pU7bKgi+E5xKT23DTEsPn0
-	 2a8cHaDFB7CVQ==
-Received: from shreeya.shreeya (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: shreeya)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D182437820F2;
-	Tue,  5 Mar 2024 12:38:45 +0000 (UTC)
-From: Shreeya Patel <shreeya.patel@collabora.com>
-To: heiko@sntech.de,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	p.zabel@pengutronix.de,
-	jose.abreu@synopsys.com,
-	nelson.costa@synopsys.com,
-	dmitry.osipenko@collabora.com,
-	sebastian.reichel@collabora.com,
-	shawn.wen@rock-chips.com,
-	nicolas.dufresne@collabora.com,
-	hverkuil@xs4all.nl,
-	hverkuil-cisco@xs4all.nl
-Cc: kernel@collabora.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-arm@lists.infradead.org,
-	Shreeya Patel <shreeya.patel@collabora.com>
-Subject: [PATCH v2 6/6] MAINTAINERS: Add entry for Synopsys DesignWare HDMI RX Driver
-Date: Tue,  5 Mar 2024 18:06:48 +0530
-Message-Id: <20240305123648.8847-7-shreeya.patel@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240305123648.8847-1-shreeya.patel@collabora.com>
-References: <20240305123648.8847-1-shreeya.patel@collabora.com>
+	s=arc-20240116; t=1709643292; c=relaxed/simple;
+	bh=dBll0MMe1cd+COq57v39zRTivh0aNAY6WcRafFYM2J8=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=RvhzBhkAw8qz3BVDSHI+CLCGlmP1Keqk6FfQCNlG+VaX2YwffXxybJfgJ/yfzPC6eOz461gcPnvGDIjnvAXuHZqnFWZVf+GVHFUZ6DTchEhJkBQrxzDrM4f/kY3k9oFJ+B+toY0dxPizz5C2AWU1r/+uDSr8I/ND2nFNOl5PtPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4TpwVc6CY4zbcjb;
+	Tue,  5 Mar 2024 20:54:00 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id D491214037C;
+	Tue,  5 Mar 2024 20:54:42 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 5 Mar
+ 2024 20:54:42 +0800
+Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
+To: Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+	<richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+	<James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+	<hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+	<arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+	<daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+	<martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+	<song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+	<john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
+	<sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Ahern <dsahern@kernel.org>, Willem de Bruijn
+	<willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+	<christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand
+	<shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel
+ Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
+ Kaligineedi <pkaligineedi@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
+Date: Tue, 5 Mar 2024 20:54:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240305020153.2787423-1-almasrymina@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 
-Add an entry for Synopsys DesignWare HDMI Receiver Controller
-Driver.
+On 2024/3/5 10:01, Mina Almasry wrote:
 
-Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
----
-Changes in v2 :-
-  - Add a patch for MAINTAINERS file changes
+...
 
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> 
+> Perf - page-pool benchmark:
+> ---------------------------
+> 
+> bench_page_pool_simple.ko tests with and without these changes:
+> https://pastebin.com/raw/ncHDwAbn
+> 
+> AFAIK the number that really matters in the perf tests is the
+> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+> cycles without the changes but there is some 1 cycle noise in some
+> results.
+> 
+> With the patches this regresses to 9 cycles with the changes but there
+> is 1 cycle noise occasionally running this test repeatedly.
+> 
+> Lastly I tried disable the static_branch_unlikely() in
+> netmem_is_net_iov() check. To my surprise disabling the
+> static_branch_unlikely() check reduces the fast path back to 8 cycles,
+> but the 1 cycle noise remains.
+> 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 897fbf1b0701..26ff6a1cb24a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21427,6 +21427,14 @@ F:	drivers/net/pcs/pcs-xpcs.c
- F:	drivers/net/pcs/pcs-xpcs.h
- F:	include/linux/pcs/pcs-xpcs.h
- 
-+SYNOPSYS DESIGNWARE HDMI RX CONTROLLER DRIVER
-+M:	Shreeya Patel <shreeya.patel@collabora.com
-+L:	linux-media@vger.kernel.org
-+L:	kernel@collabora.com
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-+F:	drivers/media/platform/synopsys/hdmirx/*
-+
- SYNOPSYS DESIGNWARE I2C DRIVER
- M:	Jarkko Nikula <jarkko.nikula@linux.intel.com>
- R:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
--- 
-2.39.2
-
+The last sentence seems to be suggesting the above 1 ns regresses is caused
+by the static_branch_unlikely() checking?
 
