@@ -1,199 +1,145 @@
-Return-Path: <linux-media+bounces-6412-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6413-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910DC871874
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 09:42:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A64718718A4
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 09:52:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5DAF1C219CE
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 08:42:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F4561F22EC1
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 08:52:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F1534F20C;
-	Tue,  5 Mar 2024 08:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BFE24EB22;
+	Tue,  5 Mar 2024 08:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="nFCUr8mh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MeGRT64E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEQ3irPy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C555C2E40B;
-	Tue,  5 Mar 2024 08:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8234CB58
+	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 08:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709628140; cv=none; b=IuDCgWE0ElNh4fAngvLvjgvKNuMF3zcxJrwP62yhKRmbcuLk1t2PN4oYWRondMDEhpcCH0TCtZcCEAFthcY4gPx5lTV4KVbaxmoCloCIWQFnK/F2qIOxovHYLm80BP6aQWne3RsubB6Fz8RzAxpUBpGmmuttloD9JR9aXARK3qk=
+	t=1709628770; cv=none; b=BwqAye2b+1rxoqvdkt51f9MFkmF2+5ufbbHT4QOe07oziWcb1w/QmQnowBcfqrvhttAo3P8MwVmqqubHr24NtfdgUdfR9Z6LzTwmTs6VXJl51lYIYvSK+1NEyhsmzNs1HyhLSpHKHKYwiGbD8y0XylOD0QDzEKJtb/i9mp7C1UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709628140; c=relaxed/simple;
-	bh=NmJCAuRJ199Nz8coLDr4s+3BbQ9AxZ5w+P+Jx63NVw4=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=KKQ27b7rQWyv1YzcEjRRSKF6uIk9CsJMtCEOwknbNukNVyrM1TulLEWP42KquIABrfI7Xav2nPz1uy6eG/99XGdLDJny/KzmRSVmEC+C18PkeUKPVz84vtmGPpBcBj4I9WcuXUXy8jeOv6T5CYR9Nq/BoKEOwHw8tLXOFt6JpEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=nFCUr8mh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MeGRT64E; arc=none smtp.client-ip=64.147.123.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id 1AD091C0009F;
-	Tue,  5 Mar 2024 03:42:16 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 05 Mar 2024 03:42:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1709628135; x=1709714535; bh=QeA3EPMJnw
-	t6NmNxY9VsOPm58VedM11auwf8kvd3l10=; b=nFCUr8mh4qirfdLiF7rJ3ln4Ee
-	ac3TZcBsBjTwt2v0sdIiovpLKYKyf84Jxe23adpiNL58TY/A6Un5jj6iESmOfBN+
-	NH3EgOLGaP2DQpO5LGujPp+1ACooTgAvYIJALYP/zB1DPOPdMHqcSl6pneGLIuSd
-	0k9KzYIWTlZUxiE5d/Z/VfhGrlYPtpIrvzzKaxh55J1YvHGR53svoOQw5rECchxc
-	E9ikW19OkQ636itot1R2TSnpEFaS+eT+JgKKFsBgMEmk8BlUWkauiXR3Ls5Vvsp5
-	YZii5Qv8k/VvvLOAqjcoX8BsdOlRwRXYH9ceE7QjJGsmut+vnb/zrjODKYag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1709628135; x=1709714535; bh=QeA3EPMJnwt6NmNxY9VsOPm58Ved
-	M11auwf8kvd3l10=; b=MeGRT64EA+QDDWf22wqOrRSkQjCcngCXPFXQcuj7sKlb
-	fsKykmy6Wo/2udr6Dj45/3j5m0Am1YNFMh5ogK0TGmfT3J3p1lUk5UkjwIxfJ/Ci
-	Pk+CIVw/J74yah5SJbYvq+QLaOyKzQH6iNNSmcFd0y5fFCKb9E+Yfzt3yz+45LdK
-	9sFUcb6Fxl0Wjzf+1CiXDA/ghzeaVvr1VBLLs58vNnkiklddooZ4bWdiOUY+GqIR
-	hy0uslWehpOhOdN1+n7zG5X3CplnE4+mdGGx1Yzro47d/GdIV8wduDcs4mOaIpqy
-	CGRzWIXTXwbBC9s0rVJ0cHgCt/kyzi8t44pW07QIUA==
-X-ME-Sender: <xms:59rmZebHuiNKE7gBn9g7Zws1CrVENXbBVlU7KpglFLP7T_XtZaHvBg>
-    <xme:59rmZRbdHQpICUlzFZ9DMOnUcwCIgRZrUGHMk8EmzSdzq9snWlaZ46aLWKLTaTvHK
-    Cg5wi_afUGNXBIHc_8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheekgdduvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:59rmZY8-Af8ZUR5f35jgIeJGVWX966qCxdxdr_0n3EPth7aYYPYY2Q>
-    <xmx:59rmZQqJc6RxhGOktKKAE7ByIoMRz8lUdJERuu3D_WLY5uFdFRGIxA>
-    <xmx:59rmZZoZzA-bUCffCtvffkklND4SVShkax7NIxvDvebcxKbcpR8E8A>
-    <xmx:59rmZdfoSPIHkIwIoZkPmTYx3CVSLM8Fpjgeg_PGly9T-_ds2f3zKnQLvGs>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5045FB6008D; Tue,  5 Mar 2024 03:42:15 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-208-g3f1d79aedb-fm-20240301.002-g3f1d79ae
+	s=arc-20240116; t=1709628770; c=relaxed/simple;
+	bh=KOh0z4IJ9HTRIpjUXkXH9yhu0GkfaUyJK7/4ZV0MD2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LAfScuCKmFVhpIaOs1Pu3BoNv0WH9CSlHAFRyFGRwBgqp+tEyALHhC1HPVJHoFvL5UlcpIzZeX4vjeqWDxiPGx1TVv5ZQfwK+XN+sFJabCl5Yv4/7EutIR9tQvq6ZJ6JJcUfl60rkhZmcoxjDwYnlzR/exwlDBplVdCIsPOTpG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEQ3irPy; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709628768; x=1741164768;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KOh0z4IJ9HTRIpjUXkXH9yhu0GkfaUyJK7/4ZV0MD2A=;
+  b=TEQ3irPyMO6Mhy8LopkJdh9b2Iwv7P4ta3il170gPIgtqF7i6BvP94l5
+   HfEEp+CsXJ033bwD38qd/0jK/jHuOdCD9uTg9cTnfNpPRyHvVrLmMjFlR
+   qXINqaruOD8FELFSR5AgqlAB6jIGbhwQ0nTViRJLy+q8za9lg1koS74dF
+   BqTW+Y12bFi6ZBzzKC2MbWNzHmp8ZFb4kavzHD7WW4npsT95nUFWz48bx
+   2rTgG89nLnZws0BIEB8KuQUWGRJM9rVbttHSuaTunk3mCATRITgax2JEW
+   7d/Lqf3K/WrInzrKA8QKghT44WcKzJ05vZR+V8++ejIir1WxFcJlgjvJy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4090539"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="4090539"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 00:52:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="40296034"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 00:52:46 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5B22011F871;
+	Tue,  5 Mar 2024 10:52:43 +0200 (EET)
+Date: Tue, 5 Mar 2024 08:52:43 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v2 10/29] media: mc: Delete character device early
+Message-ID: <ZebdW6d54exGrAup@kekkonen.localdomain>
+References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
+ <20231220103713.113386-11-sakari.ailus@linux.intel.com>
+ <20240207100810.GG23702@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <a2d926be-695a-484b-b2b5-098da47e372e@app.fastmail.com>
-In-Reply-To: <20240305020153.2787423-13-almasrymina@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-13-almasrymina@google.com>
-Date: Tue, 05 Mar 2024 09:41:55 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Mina Almasry" <almasrymina@google.com>, Netdev <netdev@vger.kernel.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S . Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Richard Henderson" <richard.henderson@linaro.org>,
- "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
- "Matt Turner" <mattst88@gmail.com>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Helge Deller" <deller@gmx.de>, "Andreas Larsson" <andreas@gaisler.com>,
- "Jesper Dangaard Brouer" <hawk@kernel.org>,
- "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
- "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>,
- "Andrii Nakryiko" <andrii@kernel.org>,
- "Martin KaFai Lau" <martin.lau@linux.dev>,
- "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
- "Yonghong Song" <yonghong.song@linux.dev>,
- "John Fastabend" <john.fastabend@gmail.com>,
- "KP Singh" <kpsingh@kernel.org>, "Stanislav Fomichev" <sdf@google.com>,
- "Hao Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>,
- "David Ahern" <dsahern@kernel.org>,
- "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
- shuah <shuah@kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pavel Begunkov" <asml.silence@gmail.com>, "David Wei" <dw@davidwei.uk>,
- "Jason Gunthorpe" <jgg@ziepe.ca>,
- "Yunsheng Lin" <linyunsheng@huawei.com>,
- "Shailend Chand" <shailend@google.com>,
- "Harshitha Ramamurthy" <hramamurthy@google.com>,
- "Shakeel Butt" <shakeelb@google.com>,
- "Jeroen de Borst" <jeroendb@google.com>,
- "Praveen Kaligineedi" <pkaligineedi@google.com>,
- "Willem de Bruijn" <willemb@google.com>,
- "Kaiyuan Zhang" <kaiyuanz@google.com>
-Subject: Re: [RFC PATCH net-next v6 12/15] tcp: RX path for devmem TCP
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240207100810.GG23702@pendragon.ideasonboard.com>
 
-On Tue, Mar 5, 2024, at 03:01, Mina Almasry wrote:
-> --- a/arch/alpha/include/uapi/asm/socket.h
-> +++ b/arch/alpha/include/uapi/asm/socket.h
->  #define SO_PEERPIDFD		77
-> +#define SO_DEVMEM_LINEAR	79
-> +#define SO_DEVMEM_DMABUF	80
-> --- a/arch/mips/include/uapi/asm/socket.h
-> +++ b/arch/mips/include/uapi/asm/socket.h
->  #define SO_PEERPIDFD		77
-> +#define SO_DEVMEM_LINEAR	79
-> +#define SO_DEVMEM_DMABUF	80
-> --- a/arch/parisc/include/uapi/asm/socket.h
-> +++ b/arch/parisc/include/uapi/asm/socket.h
->  #define SO_PEERPIDFD		0x404B
-> +#define SO_DEVMEM_LINEAR	98
-> +#define SO_DEVMEM_DMABUF	99
-> --- a/arch/sparc/include/uapi/asm/socket.h
-> +++ b/arch/sparc/include/uapi/asm/socket.h
->  #define SO_PEERPIDFD             0x0056
-> +#define SO_DEVMEM_LINEAR         0x0058
-> +#define SO_DEVMEM_DMABUF         0x0059
-> --- a/include/uapi/asm-generic/socket.h
-> +++ b/include/uapi/asm-generic/socket.h
-> @@ -135,6 +135,11 @@
->  #define SO_PEERPIDFD		77
-> +#define SO_DEVMEM_LINEAR	98
-> +#define SO_DEVMEM_DMABUF	99
+Hi Laurent,
 
-These look inconsistent. I can see how you picked the
-alpha and mips numbers, but how did you come up with
-the generic and parisc ones? Can you follow the existing
-scheme instead?
-
-> diff --git a/include/uapi/linux/uio.h b/include/uapi/linux/uio.h
-> index 059b1a9147f4..ad92e37699da 100644
-> --- a/include/uapi/linux/uio.h
-> +++ b/include/uapi/linux/uio.h
-> @@ -20,6 +20,16 @@ struct iovec
->  	__kernel_size_t iov_len; /* Must be size_t (1003.1g) */
->  };
+On Wed, Feb 07, 2024 at 12:08:10PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> +struct dmabuf_cmsg {
-> +	__u64 frag_offset;	/* offset into the dmabuf where the frag starts.
-> +				 */
-> +	__u32 frag_size;	/* size of the frag. */
-> +	__u32 frag_token;	/* token representing this frag for
-> +				 * DEVMEM_DONTNEED.
-> +				 */
-> +	__u32  dmabuf_id;	/* dmabuf id this frag belongs to. */
-> +};
+> Thank you for the patch.
+> 
+> On Wed, Dec 20, 2023 at 12:36:54PM +0200, Sakari Ailus wrote:
+> > The parent of the character device related to the media devnode is the
+> > media devnode. Thus the character device needs to be released before the
+> > media devnode's release function. Move it to unregistering of the media
+> > devnode, which mirrors adding the character device in conjunction with
+> > registering the media devnode.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > ---
+> >  drivers/media/mc/mc-devnode.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
+> > index 7e22938dfd81..8bc7450ac144 100644
+> > --- a/drivers/media/mc/mc-devnode.c
+> > +++ b/drivers/media/mc/mc-devnode.c
+> > @@ -51,9 +51,6 @@ static void media_devnode_release(struct device *cd)
+> >  
+> >  	mutex_lock(&media_devnode_lock);
+> >  
+> > -	/* Delete the cdev on this minor as well */
+> > -	cdev_del(&devnode->cdev);
+> > -
+> >  	/* Mark device node number as free */
+> >  	clear_bit(devnode->minor, media_devnode_nums);
+> 
+> Should this be moved to media_devnode_unregister() too ? It can be done
+> in a separate patch.
 
-This structure requires a special compat handler to run
-x86-32 binaries on x86-64 because of the different alignment
-requirements. Any uapi-visible structures should be defined
-to avoid this and just have no holes in them. Maybe extend
-one of the __u32 members to __u64 or add another 32-bit padding field?
+Good question. Yes, I think that seems reasonable. The minor isn't needed
+after unregistering the device.
 
-       Arnd
+> 
+> >  
+> > @@ -270,6 +267,7 @@ void media_devnode_unregister(struct media_devnode *devnode)
+> >  	clear_bit(MEDIA_FLAG_REGISTERED, &devnode->flags);
+> >  	mutex_unlock(&media_devnode_lock);
+> >  
+> > +	cdev_del(&devnode->cdev);
+> 
+> I initially wondered if this could raise with the cdev access in
+> media_open(), as the media_devnode_lock is released just before calling
+> cdev_dev(), but my understanding is that the dev/open race is properly
+> handled in the cdev layer.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+> 
+> I wonder if a similar change in v4l2-dev.c would be beneficial.
+
+Quite possibly. Let's see...
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
