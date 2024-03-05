@@ -1,177 +1,117 @@
-Return-Path: <linux-media+bounces-6451-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6452-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6447872017
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 14:27:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6521F872020
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 14:28:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40CCF1F245FE
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 13:27:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9390F1C238D1
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 13:28:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA4FB8662C;
-	Tue,  5 Mar 2024 13:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 617D585C6F;
+	Tue,  5 Mar 2024 13:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="G1N++5mh"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="fcCvJcgA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74078614C;
-	Tue,  5 Mar 2024 13:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF7D43AB0;
+	Tue,  5 Mar 2024 13:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709645201; cv=none; b=JAOi7Mi02KmZkRhLCAljbJktyCxJXUyCJaBZZJei9o9mbuC7GExx3N3OzOvXMA9CofZh1UhZc4ET2x8+pQSEtwcNC+Q5/RiCzfReUajfNohanRTxh14u5WcL8dTfi0Q6DvXEOZ+pl7obdO00bCULX0sHr7jASIPld36O6/5utkU=
+	t=1709645321; cv=none; b=iQG/ovB2lVZk0N5rIwWF0IudaiuqE8rt/oxdm8XcwTyT5kVcK8Ly12E6rgC8smZYs1wlCxVqUNoaudxjJHrne/RhCmf+6QnKpognuTc1DgUVXQ0AY7QzPCVflrjJmIc32Ww0dVDMnMgkZDu48pGueTGTtvG5HHGAjBwmX8HoLvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709645201; c=relaxed/simple;
-	bh=HK8LB9QJ8mSrtcVi7IoyDMwKj+da6n0YpnV8wKpMhXQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rmbfnKvagZsDGz5Ln5zOc0pojLQR5zfkFteZryWf0VlpDWRmFIpUeGI46/V0C/tcTeUtHFfzoe0DYIme7d20n7W1JRncSdOEFI8xyeO5WoFGAcFE3Is7sChqbAGbThR3NFjtCB7UQV78f9xo5RXjA6CxgtGh4ouBK7ITnZgcrt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=G1N++5mh; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6da202aa138so4123721b3a.2;
-        Tue, 05 Mar 2024 05:26:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709645199; x=1710249999;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:dkim-signature:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NLV8P6DpyW79g9n98lCR51WBPdxINm+PK1VfaCZgZ2g=;
-        b=XgoI/Ks/e0p72ULGkvOVXfyg/nXKxCwZvV0vJr4KOgCTPdPPkJeXj2TOlxbh/YYota
-         2ZOUnrDCIzOwQSRLAaJwo6ZK792uyGXKkNt8IyvUg8rZdXDhB/+0jG8U/B+Km1uJrlN9
-         C699zTFM2tKqwcFiH2Nok+Bz/rIIqHHCXvDbp87oLJk7AtgjJFaDgyhip4QJbQ68JvgN
-         pQ0jiww5MvWJTBNckD3buDd+ZQvGH0OfiXHIzW6PNhtyGW3Jkrmsnbx4TM1xOHczXitO
-         CgIbSvViG3DIOuitfdGOKEcAjTkFtDfVIjvVMSEuXEexPF13cYF7lOOlpxSzuZ/TJQNw
-         RYEg==
-X-Forwarded-Encrypted: i=1; AJvYcCWOcSUj2XbWdhQiXKY2QwNz0N8By6zKjQ8AKiUMiU7Cmtu0QQIz4XKFZYTXXdXDFp636bP6lpySWWGEMaA6wmpGTAo9Vk8w22L+EfMH4zmfO7cEc2BCjlifvoCRLLlipI7S7+sgpqs/e3c=
-X-Gm-Message-State: AOJu0YzT/PpMTU457DvDlxyuK1+pL8ehnDGc/xpr/KfJK4f7aR7xxWP0
-	vqqa0AIqOh3dcsG9WQbzCuWLO6tH7ov1KmKL7pA01mCsPVjEZOCi
-X-Google-Smtp-Source: AGHT+IFMVpTxgwa8CWp274EVMmUymPxeYlUf2+35ENxL0u93SgGhGRKmJsEn4FIzu4unopQee4RzPw==
-X-Received: by 2002:a17:902:7207:b0:1dd:2e6:b951 with SMTP id ba7-20020a170902720700b001dd02e6b951mr2146082plb.12.1709645198955;
-        Tue, 05 Mar 2024 05:26:38 -0800 (PST)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id d3-20020a170903230300b001db7d3276fbsm10484676plh.27.2024.03.05.05.26.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 05:26:38 -0800 (PST)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1709645197;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NLV8P6DpyW79g9n98lCR51WBPdxINm+PK1VfaCZgZ2g=;
-	b=G1N++5mhhxHD5t4eqVq2sn2lSXRo3vRFFF3YjDxmR/Ejdf2cyDZWtFrQRx1tOG+G8at9ne
-	WKKE3rvVuDMpgfmEIfbx8tKPAMQNoDR7q8MMdKJ/Ua5m0ThM9IECKAcce/zTywuhYYiy/T
-	oYsaXttHS5s82TKwgZZB+pYa4R6EVYc4GGmc5Ra+py6YdPi5rkLbvHUnk0dxoEd0TiSewD
-	nNKzqwHGCDyGfl4DzG/L6Z7NKhqi9QJIdXGsOOp9s9xzkRq+CWlIODbU1U5PePaek97shi
-	ZKk0IG4CaYdbekf+d8UWvWef+dJvNUbdEZw2qiiiCWzkioViOVjdQX12ba1cuQ==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Tue, 05 Mar 2024 10:26:26 -0300
-Subject: [PATCH 2/2] media: lirc_dev: make lirc_class constant
+	s=arc-20240116; t=1709645321; c=relaxed/simple;
+	bh=9nHBU801rt03QXGVs4K6yWHFgU//kmL7q1mSOjCjtSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kWqqNaeOQly6QjYj9M5M/lkkTZN2WDpbVpCeMy5to7yjHww8nVlsYl5s6eznTonBNl60vr0wTtYaDwCyetmhgcLPy6QeUkyb3/FphHvs2TyYrE9C6pEqC5VoAb3c1itQhYy/dKq8ykbg9zlqaoCzRZX70hcvUQkZmtPzMeZqRMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=fcCvJcgA; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=2o5mFGZCvQCk7WKP/xRNSu+/KpBgcWlkfRQoWTuInbY=; b=fcCvJcgAkcMcQFOc4nYDR/Yzhv
+	Y8IiVBCtwKjUMpOh02072azemJ8Sb6tC/SVw+f74ahwPgdczkKF8WJ9UMCYkcOVxYnaoVgZ6Z3Jwt
+	iiS6/PoKPPutlUHIT5TpgkIpdugZ8H0BsYpd3BejSVa4AjBYvnRK+kDjUeDZosHHJi3Q=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rhUqi-009Qae-FR; Tue, 05 Mar 2024 14:28:52 +0100
+Date: Tue, 5 Mar 2024 14:28:52 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Julien Panis <jpanis@baylibre.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 2/2] net: ethernet: ti: am65-cpsw: Add minimal XDP
+ support
+Message-ID: <be16d069-062e-489d-b8e9-19ef3ef90029@lunn.ch>
+References: <20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com>
+ <20240223-am65-cpsw-xdp-basic-v2-2-01c6caacabb6@baylibre.com>
+ <356f4dd4-eb0e-49fa-a9eb-4dffbe5c7e7c@lunn.ch>
+ <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240305-class_cleanup-media-v1-2-53e1538973cd@marliere.net>
-References: <20240305-class_cleanup-media-v1-0-53e1538973cd@marliere.net>
-In-Reply-To: <20240305-class_cleanup-media-v1-0-53e1538973cd@marliere.net>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Young <sean@mess.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2204; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=HK8LB9QJ8mSrtcVi7IoyDMwKj+da6n0YpnV8wKpMhXQ=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5x2DJX8Y0mYNbTp+faeCBlcb7d9roIChNlCh9
- LkYYIZLZvqJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecdgwAKCRDJC4p8Y4ZY
- plFgD/4oPVXKHJWVhySynp0jUQEQnj/OM8VBhehaR2rav2ZlVXJgq9LPa76TH7aSN/gtsx3hK5q
- EfzgetwBnQLXff9sbUPxwT5Hr1dKMTzrWrGRzqqFWXl/NKj+N4LkNZCjCnYASMnAY8UWM3YZl05
- rXp5qeUs4dwfAGHduSEZYQ9jick2lfKUhbQ3n+uurL2StCPUgokbTdBm1sipl5mY1ru55YNvxod
- 0HNcitEWbBe6B6H1/MyOeDhaUoSM/MjLeKr3Gl8Hlfsxsx3KFdXfAaKZX09HPormfDXBZ7lBlJ0
- rvsIvCJlKMCtu4pslwu4rq4tPhV258wwZw+Q01NS8/CRmbhbZZIu5bhpUCP8Sso86BswX+Wal42
- udgSd6gQWbi8HBbeZOeOrw46aJM9WGxGRV2Jkpo2GcGIbnz57Ty7cw1RsryWiuBjfnxXHhgxe+k
- CNIZnJFYlwXz9xQYshjHS9EuWFOEwbZ5frTTWYHFmKA9A1MRPyoWU7enKw5/CVAFLvR3pAnaCBC
- +6l4NgLOqJH/r573KrzzpcjqAYnq3k9lACSrhsmAuhjvbhd+YaU8dBGHvIu4J2djI/3KMlZMpdN
- /UCPZ4NFEaVs/5wK/5IdtxDtxTJ7WBYJ+5XkCANY7Ok7TrjSctSYeZWvmPwq1gcrMEzznzeciyC
- b6lhBjjqEQB/3mw==
-X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
- fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
 
-Since commit 43a7206b0963 ("driver core: class: make class_register() take
-a const *"), the driver core allows for struct class to be in read-only
-memory, so move the lirc_class structure to be declared at build time
-placing it into read-only memory, instead of having to be dynamically
-allocated at boot time.
+On Tue, Mar 05, 2024 at 11:46:00AM +0100, Julien Panis wrote:
+> On 3/1/24 17:38, Andrew Lunn wrote:
+> > On Fri, Mar 01, 2024 at 04:02:53PM +0100, Julien Panis wrote:
+> > > This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
+> > > Ethernet driver. The following features are implemented:
+> > > - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
+> > > - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
+> > > - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
+> > > 
+> > > The page pool memory model is used to get better performance.
+> > Do you have any benchmark numbers? It should help with none XDP
+> > traffic as well. So maybe iperf numbers before and after?
+> > 
+> > 	Andrew
+> 
+> Argh...Houston, we have a problem. I checked my v3, which is ready for
+> submission, with iperf3:
+> 1) Before = without page pool -> 500 MBits/sec
+> 2) After = with page pool -> 442 MBits/sec
+> -> ~ 10% worse with page pool here.
+> 
+> Unless the difference is not due to page pool. Maybe there's something else
+> which is not good in my patch. I'm going to send the v3 which uses page pool,
+> hopefully someone will find out something suspicious. Meanwhile, I'll carry on
+> investigating: I'll check the results with my patch, by removing only the using of
+> page pool.
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- drivers/media/rc/lirc_dev.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+You can also go the other way. First add page pool support. For the
+FEC, that improved its performance. Then add XDP, which i think
+decreased the performance a little. It is extra processing in the hot
+path, so a little loss is not unsurprising.
 
-diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
-index a537734832c5..89551f28e99d 100644
---- a/drivers/media/rc/lirc_dev.c
-+++ b/drivers/media/rc/lirc_dev.c
-@@ -27,7 +27,9 @@ static dev_t lirc_base_dev;
- static DEFINE_IDA(lirc_ida);
- 
- /* Only used for sysfs but defined to void otherwise */
--static struct class *lirc_class;
-+static const struct class lirc_class = {
-+	.name = "lirc",
-+};
- 
- /**
-  * lirc_raw_event() - Send raw IR data to lirc to be relayed to userspace
-@@ -724,7 +726,7 @@ int lirc_register(struct rc_dev *dev)
- 		return minor;
- 
- 	device_initialize(&dev->lirc_dev);
--	dev->lirc_dev.class = lirc_class;
-+	dev->lirc_dev.class = &lirc_class;
- 	dev->lirc_dev.parent = &dev->dev;
- 	dev->lirc_dev.release = lirc_release_device;
- 	dev->lirc_dev.devt = MKDEV(MAJOR(lirc_base_dev), minor);
-@@ -789,15 +791,13 @@ int __init lirc_dev_init(void)
- {
- 	int retval;
- 
--	lirc_class = class_create("lirc");
--	if (IS_ERR(lirc_class)) {
--		pr_err("class_create failed\n");
--		return PTR_ERR(lirc_class);
--	}
-+	retval = class_register(&lirc_class);
-+	if (retval)
-+		return retval;
- 
- 	retval = alloc_chrdev_region(&lirc_base_dev, 0, RC_DEV_MAX, "lirc");
- 	if (retval) {
--		class_destroy(lirc_class);
-+		class_unregister(&lirc_class);
- 		pr_err("alloc_chrdev_region failed\n");
- 		return retval;
- 	}
-@@ -810,7 +810,7 @@ int __init lirc_dev_init(void)
- 
- void __exit lirc_dev_exit(void)
- {
--	class_destroy(lirc_class);
-+	class_unregister(&lirc_class);
- 	unregister_chrdev_region(lirc_base_dev, RC_DEV_MAX);
- }
- 
+What tends to be expensive with ARM is cache invalidation and
+flush. So make sure you have the lengths correct. You don't want to
+operate on more memory than necessary. No point flushing the full MTU
+for a 64 byte TCP ACK, etc.
 
--- 
-2.43.0
-
+      Andrew
 
