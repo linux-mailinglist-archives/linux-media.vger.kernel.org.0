@@ -1,160 +1,94 @@
-Return-Path: <linux-media+bounces-6493-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6495-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5740F8725E3
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 18:46:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2988725EE
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 18:49:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A2151C21A7F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 17:46:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD0D41C23583
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 17:49:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D69AE175A5;
-	Tue,  5 Mar 2024 17:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7304E179BE;
+	Tue,  5 Mar 2024 17:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2woS2lS0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUyj5Xr1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD59917565
-	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 17:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E30B1758F;
+	Tue,  5 Mar 2024 17:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709660767; cv=none; b=jfgvCyXS/l15wYCyf8JCfMsgJCJUFUoUeM+5jJctWg/eh9524bdF2Y4h6Tfe23SOhDRXsQLC3OHXIDl00B7r9d7EmMiRppBOBoYUMcVXOfsKSrtItIs6OTDq5z6Rvv0oGaTpbPzh6UxRDSuTY4ha2LWXw/qEZVWGuY19lcbEwHA=
+	t=1709660981; cv=none; b=VYgz6fJaDR9DBFX5bogCL4wex5wJOu2KATj/8skZHHjhHGnUlJbjU0khphdpjFXnvCwu079DobooKExFUR7XUu4svzsWsxwioLamIIIK59Afw8ebRKL05xetj2j9ec/Qb2HTcsIvoX9iQW6RKlzGhMH+Y1Vgxr7TwY/toGSanoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709660767; c=relaxed/simple;
-	bh=9MRLYZX4HE1Pc/fYNDu9fI5JTAIW4+zdyj8ssC8V+gI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XbUvDvjwjFEX50zhyIUHA0zKuWJksDk6Ujlpk4QEJp3KUbgQmJD3kGgglTMRBylbtGtIkyMLedNCQISmHnq98XjlBnrXsgsM2zJiVNnsB/1cvU9J3e13dBbyyLQ4zVo67dkGlf93UbqWh4XYkhk2SoJvt/oHXGCDfJwtvxKllWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2woS2lS0; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-608ccac1899so761257b3.1
-        for <linux-media@vger.kernel.org>; Tue, 05 Mar 2024 09:46:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709660765; x=1710265565; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aGRt8RiRcM7HoBToJhGy2IhtOk9BsPJwbK84po2hCcM=;
-        b=2woS2lS04OVB+822pbXhRI7/VMjRhK7cDgpkIM5/DOgl6MV6hKWK8Ex8lwfsONi8Xs
-         1+nqIoS61QyjJOWfvIubapg8yTnyz9gN/FaF2ZAGtFq6RoeZq8nMqP2aGd3dWP5QvUvH
-         50lbv6M/Je28zW/2Xy5MtFjnkWtz3FHue0PS0lPmGmXEliAUpxt3VKz18JXwYgQ4Bf9L
-         ckdW/ZLN9La3b0JxC3do9ASkqImKypYisntOjFMb+//FEgPxI+X8mr8NgNxgDMjHKIQD
-         uIiYgW2BC5gifNan6/ziN+Niju7c6K2UKajJNTVuJGH5HfbmfRIP5U3TdN+aRWoM9YHh
-         Kqig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709660765; x=1710265565;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aGRt8RiRcM7HoBToJhGy2IhtOk9BsPJwbK84po2hCcM=;
-        b=GBKxQpgE4iDVvJ7G/kkRyYTyRyAwlW9iL9r4MUS/l7C9ld6/4clhhvMtfP44UW8aiG
-         3dJCgbO5w9iYPn6MlVESAoLrk+1ZZT88PCQ5yUBmKFokO1TBoVH3B2TR9naWVJ4WglsZ
-         +CRJSSUswzQbrmyovGOzAps9durAzCE0wCNZCM3zvpyfh7tDxt/fTM4esiWkOLx3FeTn
-         yEEcBONMuJwNtVBmZ/nUNp+tVnYDnYOfZGaxJQWg9nvNsqmS6k4QmoTWLN0sKmkAWA30
-         2YWxao2XXC1juJk8lwiHU02foJgJRrLGajnHiWnnJPgO63u16tMC4i+hvlpbK8bCgPfQ
-         2DNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWt3JbI/JLKYrd//CKaju+pg9RGEsIRRwqFExdestAtZPZRFBEpPbyu1RTXc7QQIEB3tbg0h3pDVR7Tiofn6VeUkCns8VgzUi62trg=
-X-Gm-Message-State: AOJu0Yxw+B8fewHpqAQBrKr8ymCXoPOpDOW/aCWB61D/++9M02dQbMsr
-	8z85gmWYqsS5WgY7IAvrhdpAD1TbGHviWnlYP8W0Es8b1JcF24Ra9eX/QxG0psVniTDWZjKrqhR
-	bwWuoU6qWqX9UaRcRFEVS8kSVbSNS3m5I2onu
-X-Google-Smtp-Source: AGHT+IEH4w81wtDgQ7qxtxm4j8GNKlHjLhmHdUhbPcgEgL2YwGAU2Z1QETpZifRDvMKeW4+uwUhNXQh+A2JI1zKU2JU=
-X-Received: by 2002:a81:85c5:0:b0:609:9171:130d with SMTP id
- v188-20020a8185c5000000b006099171130dmr8371354ywf.19.1709660764517; Tue, 05
- Mar 2024 09:46:04 -0800 (PST)
+	s=arc-20240116; t=1709660981; c=relaxed/simple;
+	bh=iKadSd4SrCoNOWp4+Qlp5ExVXQgLzONe/kqzElpRJjI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=do/8tfkOmZehBdW9N048+bFcJcTHYvmCALISJMZOnI7EXo0sy7a0ryLF0b9SUR0V640+oDKoopinnMcaO8LLkP1qi3cGEQo0JLnMksYioQHngv7SSNhjKnv9fLZHwjzNIXyB6SeWJeoze8ztSfDdMTalsQ5p5EV06h2zLAYOCx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IUyj5Xr1; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709660980; x=1741196980;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iKadSd4SrCoNOWp4+Qlp5ExVXQgLzONe/kqzElpRJjI=;
+  b=IUyj5Xr1+YmZVw0p2CDjWdH6pvGysgPsDcBEty0rkGFQm24kg5fjYFwB
+   j0FdE+LOAAsl/HnvhkXHyiQ1CxVsXNEDg+XD6JlHEotVZdCju+susIevT
+   9TLJv97yZTyTvTtu88vl61sqwLAU/Kbo2gixV3XXUodOKrlFGdaxaddQX
+   AGiW3aaypBY0nQOqj1Mouw8Rswja1XDRc+4GBa1bsI1LD0hKOkWxTrwgU
+   5o/4fTN/yLeQUhbbjxNmWdZ9wVYgdy5qq0ioVrPTdQqK3zbUnIZstwoxX
+   Q2eGfR0M1gwCu4w6cxmfXYP9jvvS464ZLcZ0Pqcfr/oCZy/qc4lGU6Sy/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4092434"
+X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
+   d="scan'208";a="4092434"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 09:49:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="937042794"
+X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
+   d="scan'208";a="937042794"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2024 09:49:36 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 236545BB; Tue,  5 Mar 2024 19:49:34 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>
+Subject: [PATCH v1 0/5] media: ir-spi: A few cleanups
+Date: Tue,  5 Mar 2024 19:48:25 +0200
+Message-ID: <20240305174933.1370708-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240119033126.1802711-1-ototot@chromium.org>
-In-Reply-To: <20240119033126.1802711-1-ototot@chromium.org>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 5 Mar 2024 09:45:53 -0800
-Message-ID: <CABdmKX3azAE9HPLBY3sEFm5YYM=AUp=-RArDjG+ksecx0O+6Gw@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Add syntax highlighting to code listings in the document
-To: Tommy Chiang <ototot@chromium.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 18, 2024 at 7:33=E2=80=AFPM Tommy Chiang <ototot@chromium.org> =
-wrote:
->
-> This patch tries to improve the display of the code listing
-> on The Linux Kernel documentation website for dma-buf [1] .
->
-> Originally, it appears that it was attempting to escape
-> the '*' character, but looks like it's not necessary (now),
-> so we are seeing something like '\*' on the webite.
->
-> This patch removes these unnecessary backslashes and adds syntax
-> highlighting to improve the readability of the code listing.
->
-> [1] https://docs.kernel.org/driver-api/dma-buf.html
->
-> Signed-off-by: Tommy Chiang <ototot@chromium.org>
-> ---
->  drivers/dma-buf/dma-buf.c | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 8fe5aa67b167..e083a0ab06d7 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1282,10 +1282,12 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF=
-);
->   *   vmap interface is introduced. Note that on very old 32-bit architec=
-tures
->   *   vmalloc space might be limited and result in vmap calls failing.
->   *
-> - *   Interfaces::
-> + *   Interfaces:
->   *
-> - *      void \*dma_buf_vmap(struct dma_buf \*dmabuf, struct iosys_map \*=
-map)
-> - *      void dma_buf_vunmap(struct dma_buf \*dmabuf, struct iosys_map \*=
-map)
-> + *   .. code-block:: c
-> + *
-> + *     void *dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-> + *     void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map=
-)
->   *
->   *   The vmap call can fail if there is no vmap support in the exporter,=
- or if
->   *   it runs out of vmalloc space. Note that the dma-buf layer keeps a r=
-eference
-> @@ -1342,10 +1344,11 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF=
-);
->   *   enough, since adding interfaces to intercept pagefaults and allow p=
-te
->   *   shootdowns would increase the complexity quite a bit.
->   *
-> - *   Interface::
-> + *   Interface:
-> + *
-> + *   .. code-block:: c
->   *
-> - *      int dma_buf_mmap(struct dma_buf \*, struct vm_area_struct \*,
-> - *                    unsigned long);
-> + *     int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *, unsig=
-ned long);
->   *
->   *   If the importing subsystem simply provides a special-purpose mmap c=
-all to
->   *   set up a mapping in userspace, calling do_mmap with &dma_buf.file w=
-ill
-> --
-> 2.43.0.381.gb435a96ce8-goog
+While removing of_gpio.h where it's being unused, this driver seems to 
+deserve more love. Hence this series.
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Andy Shevchenko (5):
+  media: ir-spi: Don't use "proxy" headers
+  media: ir-spi: Make use of device properties
+  media: ir-spi: Utilise temporary variable for struct device
+  media: ir-spi: Remove trailing comma in the terminator entry
+  media: ir-spi: Unify indentation and comment style
 
-The code block highlighting is nice.
+ drivers/media/rc/ir-spi.c | 41 +++++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 19 deletions(-)
+
+-- 
+2.43.0.rc1.1.gbec44491f096
+
 
