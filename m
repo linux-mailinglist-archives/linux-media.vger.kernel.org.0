@@ -1,127 +1,182 @@
-Return-Path: <linux-media+bounces-6406-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6407-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FC8871692
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 08:17:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0B48716F4
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 08:34:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5B89B2467A
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 07:17:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E36D1C221F4
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 07:34:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 308237E56C;
-	Tue,  5 Mar 2024 07:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8871E7EEE2;
+	Tue,  5 Mar 2024 07:32:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c6f/3gpO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9DOaTim"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B757D3F6
-	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 07:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5C57E564;
+	Tue,  5 Mar 2024 07:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709623013; cv=none; b=l6SD/7IaRXJIA+nZcA8CtoSrfPaq7sj3NYe+m/h/JeI35BN5Kak3+neBRCwhIVWB0MlE2J/ZQfFGNI2tcB8wAofiSCWDvg18S8u3eViRqZojqFLbWoj33BoJBsm8RKXskgavd8+cXihGxLFim1dv1k7VHBJV17IZthh3KZ5bIxA=
+	t=1709623973; cv=none; b=LAUKHtzRLCAkVu3GpIBPyfhYD7Nmx5yTNktxUit7PF6RDRVVs9RrWxCpAoKs11/FV6sYYqpAtpxTZfRz1K5DC1TdX4pXW225rLtz0hn2+cZyGYpoPhAi4WGCsaQdYLj0VumUtC+pa/iT6VURt/CoEdv+oabh9eNwgRf6XHWr3bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709623013; c=relaxed/simple;
-	bh=+U3wbTm1fr0u7B7uauZt02Yd7hkkHWSl3gey4+61HxA=;
-	h=From:In-Reply-To:References:To:cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=naQ/fzMNOPsgNeGEueLch5siqJuZyTi1P84PJtLvEJyOllhGBSTiHRY6pJT3BoMuE15JbwENU9TYnqmEgE85+0BDHDfRxCi12V3ofjs02bdbTAK/y+P2p3OhKYkLpriUCO7iZcdjrlKE7RYp32SIR0mrm9dl+PHBdT+Mp00+tPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c6f/3gpO; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709623011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+U3wbTm1fr0u7B7uauZt02Yd7hkkHWSl3gey4+61HxA=;
-	b=c6f/3gpOM703byyI+zpML1dShBIgld8bg1kkA9vZzDoYzvffAyg2woo1XvlaHnxOO+n83p
-	yqlQ8nKKHaQ6E7s9uJjj181+LVUo1dL62F2RTWslJ2BXLuB63ZPdBGJkPJVWoJp14mgaiY
-	GGl8/iVxoXTcRQ2yQhRfu3+3nJDm0yE=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-187-b0x9YGyTODy3NOnbBYpGEA-1; Tue,
- 05 Mar 2024 02:16:46 -0500
-X-MC-Unique: b0x9YGyTODy3NOnbBYpGEA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E352282D3D3;
-	Tue,  5 Mar 2024 07:16:46 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.114])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id ED1FB1C060A4;
-	Tue,  5 Mar 2024 07:16:37 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20240305020153.2787423-8-almasrymina@google.com>
-References: <20240305020153.2787423-8-almasrymina@google.com> <20240305020153.2787423-1-almasrymina@google.com>
-To: Mina Almasry <almasrymina@google.com>
-cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-    linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-    linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-    sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-    linux-arch@vger.kernel.org, bpf@vger.kernel.org,
-    linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-    dri-devel@lists.freedesktop.org,
-    "David S. Miller" <davem@davemloft.net>,
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-    Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-    Richard Henderson <richard.henderson@linaro.org>,
-    Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-    Matt Turner <mattst88@gmail.com>,
-    Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-    "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-    Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-    Jesper Dangaard Brouer <hawk@kernel.org>,
-    Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-    Steven Rostedt <rostedt@goodmis.org>,
-    Masami Hiramatsu <mhiramat@kernel.org>,
-    Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-    Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-    Daniel Borkmann <daniel@iogearbox.net>,
-    Andrii Nakryiko <andrii@kernel.org>,
-    Martin KaFai Lau <martin.lau@linux.dev>,
-    Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-    Yonghong Song <yonghong.song@linux.dev>,
-    John Fastabend <john.fastabend@gmail.com>,
-    KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-    Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-    David Ahern <dsahern@kernel.org>,
-    Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-    Shuah Khan <shuah@kernel.org>,
-    Sumit Semwal <sumit.semwal@linaro.org>,
-    =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-    Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
-    Jason Gunthorpe <jgg@ziepe.ca>,
-    Yunsheng Lin <linyunsheng@huawei.com>,
-    Shailend Chand <shailend@google.com>,
-    Harshitha Ramamurthy <hramamurthy@google.com>,
-    Shakeel Butt <shakeelb@google.com>,
-    Jeroen de Borst <jeroendb@google.com>,
-    Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v6 07/15] page_pool: convert to use netmem
+	s=arc-20240116; t=1709623973; c=relaxed/simple;
+	bh=YjfH/4uaFuWJtJMASjOecQcGKJu/nURAXgrynQrpwt8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MpRY+1zEs/tz+7zzZaDKuoY+S4/0H1vGqh0a4fDLxaed+PhSX6YxM4Jth8xFrXBqRamM2+aDWHGOS3JjcrM5Zgvi6P7evuy+K798vAoTYmig76YoKuCDW5G//s/NotcQMzzdfqThvGHVGvbWbSZhQoTpBOx4SNV+MCffeZsC/98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O9DOaTim; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709623972; x=1741159972;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YjfH/4uaFuWJtJMASjOecQcGKJu/nURAXgrynQrpwt8=;
+  b=O9DOaTimStvlbVtGp2xW6XQeU/RJwEAZouQQL4eDZMKRQf4JQwu7w66L
+   V2Z+vZq6S7iJGl+Nbda8aIuDtRYEk518eHXafmdTThC9/yWOkYbCW6Wyi
+   5ebkJNV9A6+EpekSfPLqcPW644l1awWQVYKyKxzzO+ongBqHJO0mmeLwK
+   eyRjQuXoKvKY39dKwJKov+h76VdpLkh9YPA42DM/V/IRi5f9gsIcXAmmI
+   5EuE7K6tjLZxnnrwaIn5XkLRmb6VP/4OixSG9NDdoahNbprCCGISCzrj+
+   C3ai9/zZa/7uQrfNMXMwFFLxj+CE7Oa6PySWpwooGwzXCFjIZG3QQ6nTe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4317376"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="4317376"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 23:32:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="40160744"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 23:32:49 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 14A1211F871;
+	Tue,  5 Mar 2024 09:32:46 +0200 (EET)
+Date: Tue, 5 Mar 2024 07:32:46 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: tomas.winkler@intel.com, mchehab@kernel.org, wentong.wu@intel.com,
+	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: v6.8.0-rc6: mei_ace_probe / mei_vsc_probe: do not call blocking
+ ops when !TASK_RUNNING
+Message-ID: <ZebKnqynAiWBEkE6@kekkonen.localdomain>
+References: <Zd9wUv1zSJ59WS8i@shine.dominikbrodowski.net>
+ <Zd-BVmoFOiCxA632@kekkonen.localdomain>
+ <ZeAwhhW7DSEazs0F@shine.dominikbrodowski.net>
+ <ZeAymVVsI-CNj6Pc@kekkonen.localdomain>
+ <ZeC2jss4IAM4aPWy@shine.dominikbrodowski.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Date: Tue, 05 Mar 2024 07:16:37 +0000
-Message-ID: <950858.1709622997@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZeC2jss4IAM4aPWy@shine.dominikbrodowski.net>
 
+Hi Dominik,
 
-Hi Mina,
+On Thu, Feb 29, 2024 at 05:53:34PM +0100, Dominik Brodowski wrote:
+> Hi Sakari,
+> 
+> Am Thu, Feb 29, 2024 at 07:30:33AM +0000 schrieb Sakari Ailus:
+> > On Thu, Feb 29, 2024 at 08:21:42AM +0100, Dominik Brodowski wrote:
+> > > Hi Sakari,
+> > > 
+> > > many thanks, this patch helps. Another issue persists, though:
+> > > 
+> > > 
+> > > $ dmesg | cut -c16- | grep -E "(mei|vsc)"
+> > > mei_me 0000:00:16.0: enabling device (0000 -> 0002)
+> > > mei_hdcp 0000:00:16.0-b638ab7e-94e2-4ea2-a552-d1c54b627f04: bound 0000:00:02.0 (ops i915_hdcp_ops)
+> > > mei_pxp 0000:00:16.0-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1: bound 0000:00:02.0 (ops i915_pxp_tee_component_ops)
+> > > intel_vsc intel_vsc: silicon stepping version is 0:2
+> > > mei intel_vsc-92335fcf-3203-4472-af93-7b4453ac29da: deferred probe pending: (reason unknown)
+> > > mei intel_vsc-5db76cf6-0a68-4ed6-9b78-0361635e2447: deferred probe pending: (reason unknown)
+> > 
+> > You'll probably need the IPU bridge patches from that branch, too. Or you
+> > can try removing the intel-ipu6 driver and modprobing it again.
+> 
+> Everything is built into the kernel here - and the kernel I run is pure
+> upstream (plus your patch), therefore no intel-ipu6 driver is available
+> (yet) or active.
+> 
+> > > During suspend entry (s2idle), the following messages are emitted:
+> > > 
+> > > ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments - Caller passed 0, method requires 1 (20230628/nsarguments-232)
+> > > intel_vsc intel_vsc: silicon stepping version is 0:2
+> > > PM: Some devices failed to suspend, or early wake event detected
+> > > ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments - Caller passed 0, method requires 1 (20230628/nsarguments-232)
+> > > intel_vsc intel_vsc: silicon stepping version is 0:2
+> > > vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
+> > > vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
+> > > intel_vsc intel_vsc: wait fw ready failed: -110
+> > > intel_vsc intel_vsc: hw_start failed ret = -110 fw status = 
+> > > intel_vsc intel_vsc: unexpected reset: dev_state = RESETTING fw status = 
+> > > ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments - Caller passed 0, method requires 1 (20230628/nsarguments-232)
+> > > intel_vsc intel_vsc: silicon stepping version is 0:2
+> > 
+> > I haven't tried suspending. Is this while streaming or not?
+> 
+> No streaming - in fact, without intel-ipu6 available (upstream + your patch,
+> see above).
+> 
+> 
+> I have now tried upstream plus the ipu6 branch; there I get one message
+> indicating that something is amiss:
+> 
+> 	vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
+> 
+> And if I try to do a suspend&resume cycle, the machine hangs. A longer
+> snippet from dmesg from upstream+ipu6 branch:
+> 
+> mei_me 0000:00:16.0: enabling device (0000 -> 0002)
+> mei_hdcp 0000:00:16.0-b638ab7e-94e2-4ea2-a552-d1c54b627f04: bound 0000:00:02.0 (ops i915_hdcp_ops)
+> mei_pxp 0000:00:16.0-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1: bound 0000:00:02.0 (ops i915_pxp_tee_component_ops)
+> intel-ipu6 0000:00:05.0: enabling device (0000 -> 0002)
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel_vsc intel_vsc: silicon stepping version is 0:2
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
+> intel-ipu6 0000:00:05.0: FW version: 20230925
+> intel-ipu6 0000:00:05.0: Found supported sensor OVTI01A0:00
+> intel-ipu6 0000:00:05.0: Connected 1 cameras
+> intel-ipu6 0000:00:05.0: IPU6-v3[465d] hardware version 5
 
-I recommend you cc linux-mm and Matthew Wilcox on these two patches also.
+I haven't tried suspending but I know Wentong has. So this is odd.
 
-David
+Which system do you have? Could you provide your .config?
 
+-- 
+Regards,
+
+Sakari Ailus
 
