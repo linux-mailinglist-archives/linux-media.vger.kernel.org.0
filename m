@@ -1,225 +1,199 @@
-Return-Path: <linux-media+bounces-6411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AE7871810
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 09:20:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 910DC871874
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 09:42:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 249811F22455
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 08:20:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5DAF1C219CE
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 08:42:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313557F7C5;
-	Tue,  5 Mar 2024 08:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F1534F20C;
+	Tue,  5 Mar 2024 08:42:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/c91784"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="nFCUr8mh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MeGRT64E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7BC7E79F;
-	Tue,  5 Mar 2024 08:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C555C2E40B;
+	Tue,  5 Mar 2024 08:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709626783; cv=none; b=hkqEJ0yQ/lLhD7ROiaDrNTZeqgYjBHJvunIwCMhqT+boMznut4pIKdyN1CRqXLlWoUcIlyW7VG5OVnx6zoe/FAns+2sgm/dYydgFHNTu+6eddymAi6B+aeSE17qTFKvaw0tv4bWNkPxb3Y/x44MgToljIrq5pAiL4eaN200tHhg=
+	t=1709628140; cv=none; b=IuDCgWE0ElNh4fAngvLvjgvKNuMF3zcxJrwP62yhKRmbcuLk1t2PN4oYWRondMDEhpcCH0TCtZcCEAFthcY4gPx5lTV4KVbaxmoCloCIWQFnK/F2qIOxovHYLm80BP6aQWne3RsubB6Fz8RzAxpUBpGmmuttloD9JR9aXARK3qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709626783; c=relaxed/simple;
-	bh=bilhzRyFNIJD0LCiD6Q2ozXcc2w/8gTWOc4p4w8nLj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ddlXLJyOREtN8CWGhY/3ZfcyTyhrPfU69MPEuOlPdyRPGRe3eKE00uvxAGvsC3SWD42HqVPPqOfGmzQ98DM4VM40TGfHnrMtAt/YktSnQaGGTojR88XPHtSnDciAyAmq3d9m5/difOrH9ibx4VPLVZM2/G+2rAH/s8CztmzGKpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/c91784; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709626782; x=1741162782;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bilhzRyFNIJD0LCiD6Q2ozXcc2w/8gTWOc4p4w8nLj8=;
-  b=E/c91784GqYi0RymEsZ7XWt6/gsVfsrDBux3bvB6J3Q/Ic2xvWw3VGBo
-   vRChNPrt9c57Pgpl8ytOOxglRziyAI327sZ9cIwGdgaFmUdYs+GoQs3ZZ
-   qVKAskjgiX4vgE4JPPYhotgjlHYJeqvcP9f1DcdqlOg2KTzApLEDdccB8
-   Ams10FrTzLrn+aQyWeoX16L7Yrz0Y9yvmK/M715j5Dhp2KwKZSQODGhDn
-   GjMeYFOlBlrJQ5O8qUL1Xi92yltmXmlu4OwlDLCtn0aK6WMGU1NPBVZjN
-   YEKqhapB2YsBbD+htXnVeplUYFptsr99mfevF/zVfQzqUCapOoRqpNHqX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="14744784"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="14744784"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 00:19:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="40285462"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2024 00:19:38 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rhQ1Q-00039J-0M;
-	Tue, 05 Mar 2024 08:19:36 +0000
-Date: Tue, 5 Mar 2024 16:19:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: WARNING: modpost: "__udelay" [drivers/media/i2c/imx296.ko] has no
- CRC!
-Message-ID: <202403051610.UnGlUoiw-lkp@intel.com>
+	s=arc-20240116; t=1709628140; c=relaxed/simple;
+	bh=NmJCAuRJ199Nz8coLDr4s+3BbQ9AxZ5w+P+Jx63NVw4=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=KKQ27b7rQWyv1YzcEjRRSKF6uIk9CsJMtCEOwknbNukNVyrM1TulLEWP42KquIABrfI7Xav2nPz1uy6eG/99XGdLDJny/KzmRSVmEC+C18PkeUKPVz84vtmGPpBcBj4I9WcuXUXy8jeOv6T5CYR9Nq/BoKEOwHw8tLXOFt6JpEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=nFCUr8mh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MeGRT64E; arc=none smtp.client-ip=64.147.123.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id 1AD091C0009F;
+	Tue,  5 Mar 2024 03:42:16 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 05 Mar 2024 03:42:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709628135; x=1709714535; bh=QeA3EPMJnw
+	t6NmNxY9VsOPm58VedM11auwf8kvd3l10=; b=nFCUr8mh4qirfdLiF7rJ3ln4Ee
+	ac3TZcBsBjTwt2v0sdIiovpLKYKyf84Jxe23adpiNL58TY/A6Un5jj6iESmOfBN+
+	NH3EgOLGaP2DQpO5LGujPp+1ACooTgAvYIJALYP/zB1DPOPdMHqcSl6pneGLIuSd
+	0k9KzYIWTlZUxiE5d/Z/VfhGrlYPtpIrvzzKaxh55J1YvHGR53svoOQw5rECchxc
+	E9ikW19OkQ636itot1R2TSnpEFaS+eT+JgKKFsBgMEmk8BlUWkauiXR3Ls5Vvsp5
+	YZii5Qv8k/VvvLOAqjcoX8BsdOlRwRXYH9ceE7QjJGsmut+vnb/zrjODKYag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709628135; x=1709714535; bh=QeA3EPMJnwt6NmNxY9VsOPm58Ved
+	M11auwf8kvd3l10=; b=MeGRT64EA+QDDWf22wqOrRSkQjCcngCXPFXQcuj7sKlb
+	fsKykmy6Wo/2udr6Dj45/3j5m0Am1YNFMh5ogK0TGmfT3J3p1lUk5UkjwIxfJ/Ci
+	Pk+CIVw/J74yah5SJbYvq+QLaOyKzQH6iNNSmcFd0y5fFCKb9E+Yfzt3yz+45LdK
+	9sFUcb6Fxl0Wjzf+1CiXDA/ghzeaVvr1VBLLs58vNnkiklddooZ4bWdiOUY+GqIR
+	hy0uslWehpOhOdN1+n7zG5X3CplnE4+mdGGx1Yzro47d/GdIV8wduDcs4mOaIpqy
+	CGRzWIXTXwbBC9s0rVJ0cHgCt/kyzi8t44pW07QIUA==
+X-ME-Sender: <xms:59rmZebHuiNKE7gBn9g7Zws1CrVENXbBVlU7KpglFLP7T_XtZaHvBg>
+    <xme:59rmZRbdHQpICUlzFZ9DMOnUcwCIgRZrUGHMk8EmzSdzq9snWlaZ46aLWKLTaTvHK
+    Cg5wi_afUGNXBIHc_8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheekgdduvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:59rmZY8-Af8ZUR5f35jgIeJGVWX966qCxdxdr_0n3EPth7aYYPYY2Q>
+    <xmx:59rmZQqJc6RxhGOktKKAE7ByIoMRz8lUdJERuu3D_WLY5uFdFRGIxA>
+    <xmx:59rmZZoZzA-bUCffCtvffkklND4SVShkax7NIxvDvebcxKbcpR8E8A>
+    <xmx:59rmZdfoSPIHkIwIoZkPmTYx3CVSLM8Fpjgeg_PGly9T-_ds2f3zKnQLvGs>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 5045FB6008D; Tue,  5 Mar 2024 03:42:15 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-208-g3f1d79aedb-fm-20240301.002-g3f1d79ae
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-Id: <a2d926be-695a-484b-b2b5-098da47e372e@app.fastmail.com>
+In-Reply-To: <20240305020153.2787423-13-almasrymina@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-13-almasrymina@google.com>
+Date: Tue, 05 Mar 2024 09:41:55 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mina Almasry" <almasrymina@google.com>, Netdev <netdev@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Helge Deller" <deller@gmx.de>, "Andreas Larsson" <andreas@gaisler.com>,
+ "Jesper Dangaard Brouer" <hawk@kernel.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrii Nakryiko" <andrii@kernel.org>,
+ "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "KP Singh" <kpsingh@kernel.org>, "Stanislav Fomichev" <sdf@google.com>,
+ "Hao Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>,
+ "David Ahern" <dsahern@kernel.org>,
+ "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
+ shuah <shuah@kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pavel Begunkov" <asml.silence@gmail.com>, "David Wei" <dw@davidwei.uk>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>,
+ "Yunsheng Lin" <linyunsheng@huawei.com>,
+ "Shailend Chand" <shailend@google.com>,
+ "Harshitha Ramamurthy" <hramamurthy@google.com>,
+ "Shakeel Butt" <shakeelb@google.com>,
+ "Jeroen de Borst" <jeroendb@google.com>,
+ "Praveen Kaligineedi" <pkaligineedi@google.com>,
+ "Willem de Bruijn" <willemb@google.com>,
+ "Kaiyuan Zhang" <kaiyuanz@google.com>
+Subject: Re: [RFC PATCH net-next v6 12/15] tcp: RX path for devmem TCP
+Content-Type: text/plain
 
-Hi Laurent,
+On Tue, Mar 5, 2024, at 03:01, Mina Almasry wrote:
+> --- a/arch/alpha/include/uapi/asm/socket.h
+> +++ b/arch/alpha/include/uapi/asm/socket.h
+>  #define SO_PEERPIDFD		77
+> +#define SO_DEVMEM_LINEAR	79
+> +#define SO_DEVMEM_DMABUF	80
+> --- a/arch/mips/include/uapi/asm/socket.h
+> +++ b/arch/mips/include/uapi/asm/socket.h
+>  #define SO_PEERPIDFD		77
+> +#define SO_DEVMEM_LINEAR	79
+> +#define SO_DEVMEM_DMABUF	80
+> --- a/arch/parisc/include/uapi/asm/socket.h
+> +++ b/arch/parisc/include/uapi/asm/socket.h
+>  #define SO_PEERPIDFD		0x404B
+> +#define SO_DEVMEM_LINEAR	98
+> +#define SO_DEVMEM_DMABUF	99
+> --- a/arch/sparc/include/uapi/asm/socket.h
+> +++ b/arch/sparc/include/uapi/asm/socket.h
+>  #define SO_PEERPIDFD             0x0056
+> +#define SO_DEVMEM_LINEAR         0x0058
+> +#define SO_DEVMEM_DMABUF         0x0059
+> --- a/include/uapi/asm-generic/socket.h
+> +++ b/include/uapi/asm-generic/socket.h
+> @@ -135,6 +135,11 @@
+>  #define SO_PEERPIDFD		77
+> +#define SO_DEVMEM_LINEAR	98
+> +#define SO_DEVMEM_DMABUF	99
 
-First bad commit (maybe != root cause):
+These look inconsistent. I can see how you picked the
+alpha and mips numbers, but how did you come up with
+the generic and parisc ones? Can you follow the existing
+scheme instead?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90d35da658da8cff0d4ecbb5113f5fac9d00eb72
-commit: cb33db2b6ccfe3ccc13347755ab3ef38691d59c3 media: i2c: IMX296 camera sensor driver
-date:   1 year, 1 month ago
-config: sparc-randconfig-r034-20230513 (https://download.01.org/0day-ci/archive/20240305/202403051610.UnGlUoiw-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240305/202403051610.UnGlUoiw-lkp@intel.com/reproduce)
+> diff --git a/include/uapi/linux/uio.h b/include/uapi/linux/uio.h
+> index 059b1a9147f4..ad92e37699da 100644
+> --- a/include/uapi/linux/uio.h
+> +++ b/include/uapi/linux/uio.h
+> @@ -20,6 +20,16 @@ struct iovec
+>  	__kernel_size_t iov_len; /* Must be size_t (1003.1g) */
+>  };
+> 
+> +struct dmabuf_cmsg {
+> +	__u64 frag_offset;	/* offset into the dmabuf where the frag starts.
+> +				 */
+> +	__u32 frag_size;	/* size of the frag. */
+> +	__u32 frag_token;	/* token representing this frag for
+> +				 * DEVMEM_DONTNEED.
+> +				 */
+> +	__u32  dmabuf_id;	/* dmabuf id this frag belongs to. */
+> +};
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403051610.UnGlUoiw-lkp@intel.com/
+This structure requires a special compat handler to run
+x86-32 binaries on x86-64 because of the different alignment
+requirements. Any uapi-visible structures should be defined
+to avoid this and just have no holes in them. Maybe extend
+one of the __u32 members to __u64 or add another 32-bit padding field?
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: EXPORT symbol "empty_zero_page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "empty_zero_page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__udelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__udelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ndelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ndelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "bzero_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "bzero_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__copy_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__copy_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__divdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__divdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_exit" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_exit" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_try" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_try" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_write_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_write_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__lshrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__lshrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__muldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__muldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "empty_zero_page" [lib/crypto/libchacha20poly1305.ko] has no CRC!
-WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/cadence/phy-cadence-salvo.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/samsung/phy-exynos5-usbdrd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/core/fb_ddc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/aty128fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/radeonfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/savage/savagefb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/neofb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s3fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/cirrusfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s1d13xxxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/sm501fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/carminefb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/mb862xx/mb862xxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/ipmi/ipmi_si.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/dw/dw_dmac_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/regulator/mt6359-regulator.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/regulator/twl-regulator.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/sunsab.ko] has no CRC!
-ERROR: modpost: "ebus_dma_irq_enable" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_unregister" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_register" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ns87303_lock" [drivers/parport/parport_pc.ko] undefined!
-WARNING: modpost: "__udelay" [drivers/misc/cardreader/rtsx_pci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/dw-xdata-pcie.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/sm501.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/axp20x.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/cafe_nand.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/cafe_nand.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/diskonchip.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/mtd/nand/raw/gpio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mtd/nand/raw/intel-nand-controller.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/firewire/firewire-ohci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/auxdisplay/ks0108.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/auxdisplay/hd44780.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/sbus/char/uctrl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/isp116x-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/uhci-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/xhci-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/ssb-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2280.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/mv_udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/bdc/bdc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/dwc3/dwc3.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/dwc2/dwc2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/cdns3/cdns-usb-common.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/usb/c67x00/c67x00.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/serial/keyspan.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/musb/musb_hdrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/serio/apbps2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-ds2404.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-msm6242.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-x1205.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-pcf.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-pca.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/i2c/busses/i2c-pca-platform.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/busses/i2c-pca-platform.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-arb-gpio-challenge.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-mux-pca9541.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i3c/master/dw-i3c-master.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i3c/master/svc-i3c-master.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/adv7604.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/bt819.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/imx274.ko] has no CRC!
->> WARNING: modpost: "__udelay" [drivers/media/i2c/imx296.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/mt9v032.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/i2c/ov6650.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/tuners/mxl5007t.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/pci/saa7134/saa7134.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/media/usb/cx231xx/cx231xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/w1/masters/sgi_w1.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/hwmon/sht15.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/max15301.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/memstick/host/jmb38x_ms.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-bcm6358.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-bd2802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-is31fl319x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/rapidio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/switches/idt_gen2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/devices/tsi721_mport.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/gameport/gameport.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/ssb/ssb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/accel/mma9551_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/adi-axi-adc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/iio/adc/hx711.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/dac/ad5592r-base.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/potentiometer/ad5272.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fpga/altera-freeze-bridge.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/siox/siox-bus-gpio.ko] has no CRC!
-WARNING: modpost: "empty_zero_page" [net/ceph/libceph.ko] has no CRC!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+       Arnd
 
