@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-6474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE008723C5
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 17:10:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE35C8723C8
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 17:10:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DEF83B212B3
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:10:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E7C31C2188E
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:10:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 751DE12B150;
-	Tue,  5 Mar 2024 16:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C62D412BE8F;
+	Tue,  5 Mar 2024 16:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qqN5Bzdc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Tb/3bUZT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A8F12AAD1
-	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 16:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8E61272D8
+	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 16:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709654966; cv=none; b=gXDT7osoeAqAhJ3tCk06FKEEBm45W9d3o1XIhM1rIGW10WSrUgzzoZMqNWvuO5CbK6Cmrm/i6fxlpzkepMne06ZL3jHSxaDa6L7X7Z3fYFroawhMLhRxaFAMvcyD52aQqZbYP+Y2FSFldJV0k9JJc6wFSqry2f02ahLW59IpfXo=
+	t=1709654969; cv=none; b=lt412YW+V5f/gd+LuRUsCWFP38xIyBDQ+q4cPwE1RrkBI1dMRSvK7hht7J/3wzr4Uvrzp6+J3LBFf/X5ekjDqaUAkh2UgAyrpO2Trjml8+Y1/pjy4sg+kv0onRg0WyET6Pge1go9umNOW+NnYznT9lY5S3IeWKyDt2a8WBsPvsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709654966; c=relaxed/simple;
-	bh=0Y0Raa48Y6rYV+KwjDMUjjfNlg8JoT4Q9kbs8F7o/T8=;
+	s=arc-20240116; t=1709654969; c=relaxed/simple;
+	bh=pXPglHaKgRylEAQrkv+Bbf+H76ykVG7Jrd/zLRtzi+E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iYpPfA7LWu2EUDp6lglEAhZ3/0ewfJ4RmW6so0gAYGSvlk4MruJZerbW6r36Bw8EYf8Rq+7+9cbxPieqmP0lWzV+vvSJaW29zlaIb/AAuA3dvqvyHnWTu3DHHdxqCtSkwlh5yt/ErZb90tMMwNKg5Ns/v9BSqy91IHDtkomLTTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qqN5Bzdc; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=J2HlmlyBj49Zt1kyg+J3QO8ecsR8raw78Tncnm1GE6MEr66r/F0iPFVHSwuwfqP/gMLY2/ZfXlVTSA93eBjiGMYUAfwSWlRYEL6YkPhHVj5MLDTlvTpZxBxLV9yHJfQAmTGl9doGa2vr5xj67Pk0reMGKO969Y0AE0Lg4PUOU/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Tb/3bUZT; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 937A5FA6;
-	Tue,  5 Mar 2024 17:08:57 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 622C99D5;
+	Tue,  5 Mar 2024 17:08:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1709654938;
-	bh=0Y0Raa48Y6rYV+KwjDMUjjfNlg8JoT4Q9kbs8F7o/T8=;
+	s=mail; t=1709654939;
+	bh=pXPglHaKgRylEAQrkv+Bbf+H76ykVG7Jrd/zLRtzi+E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qqN5BzdcNV9m3mJoPG0jYkQBmis/FRaLkrinQc4iN4Ib3WrOrQDi/SkpPfhwylNPC
-	 ctb77GXNMXOfNpJW5lB+5RDvU+akbNvbySSdIRchpjRlIGUyLa5/BnHC5oT2hZUQU0
-	 f4pCuyIA756H+UONzEtr7oC4PYbBkU7lFZ2BIo1U=
+	b=Tb/3bUZTj9L3NsCLICdKppdZaOdHdwWnYPnD0EKnZt9Qjf81XlQIvvrs8IE1Ors6A
+	 6HW1nQSt7rGN64jPgMLw6sLuAOQVxsXIkiXfDiCt/CTytubedoVdAlGBP4CX/TeVOE
+	 KRsIlgPjC5UbSCV68DBzlu72XajjLr+Qq5XYGmxc=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -54,9 +54,9 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@iki.fi>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v3 3/9] media: uapi: pixfmt-luma: Document MIPI CSI-2 packing
-Date: Tue,  5 Mar 2024 17:08:46 +0100
-Message-ID: <20240305160855.147483-4-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v3 4/9] media: uapi: Add a pixel format for BGR48 and RGB48
+Date: Tue,  5 Mar 2024 17:08:47 +0100
+Message-ID: <20240305160855.147483-5-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240305160855.147483-1-jacopo.mondi@ideasonboard.com>
 References: <20240305160855.147483-1-jacopo.mondi@ideasonboard.com>
@@ -68,28 +68,122 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Y10P, Y12P and Y14P format variants are packed according to
-the RAW10, RAW12 and RAW14 formats as defined by the MIPI CSI-2
-specification. Document it.
+Add BGR48 and RGB48 16-bit per component image formats.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 ---
- Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../userspace-api/media/v4l/pixfmt-rgb.rst    | 53 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-common.c         |  2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+ include/uapi/linux/videodev2.h                |  4 ++
+ 4 files changed, 61 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-index 3af6e3cb70c4..8e313aaeb693 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-@@ -209,3 +209,7 @@ are often referred to as greyscale formats.
-     For Y012 and Y12 formats, Y012 places its data in the 12 high bits, with
-     padding zeros in the 4 low bits, in contrast to the Y12 format, which has
-     its padding located in the most significant bits of the 16 bit word.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+index b71b80d634d6..4e282b8b962e 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+@@ -996,6 +996,59 @@ arranged in little endian order.
+ 
+     \normalsize
+ 
++16 Bits Per Component
++=====================
 +
-+    The 'P' variations of the Y10, Y12 and Y14 formats are packed according to
-+    the RAW10, RAW12 and RAW14 packing scheme as defined by the MIPI CSI-2
-+    specification.
++These formats store an RGB triplet in six bytes, with 16 bits per component
++stored in memory in little endian byte order. They are named based on the order
++of the RGB components as stored in memory. For instance, RGB48 stores R\
++:sub:`7:0` and R\ :sub:`15:8` in bytes 0 and 1 respectively. This differs from
++the DRM format nomenclature that instead uses the order of components as seen in
++the 48-bits little endian word.
++
++.. raw:: latex
++
++    \small
++
++.. flat-table:: RGB Formats With 16 Bits Per Component
++    :header-rows:  1
++
++    * - Identifier
++      - Code
++      - Byte 0
++      - Byte 1
++      - Byte 2
++      - Byte 3
++      - Byte 4
++      - Byte 5
++    * .. _V4L2-PIX-FMT-BGR48:
++
++      - ``V4L2_PIX_FMT_BGR48``
++      - 'BGR6'
++
++      - B\ :sub:`7-0`
++      - B\ :sub:`15-8`
++      - G\ :sub:`7-0`
++      - G\ :sub:`15-8`
++      - R\ :sub:`7-0`
++      - R\ :sub:`15-8`
++
++    * .. _V4L2-PIX-FMT-RGB48:
++
++      - ``V4L2_PIX_FMT_RGB48``
++      - 'RGB6'
++
++      - R\ :sub:`7-0`
++      - R\ :sub:`15-8`
++      - G\ :sub:`7-0`
++      - G\ :sub:`15-8`
++      - B\ :sub:`7-0`
++      - B\ :sub:`15-8`
++
++.. raw:: latex
++
++    \normalsize
++
+ Deprecated RGB Formats
+ ======================
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index d34d210908d9..ff4b4d2de9d2 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -253,6 +253,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_BGR666,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_BGR48_12, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_BGR48, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_RGB48, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_ABGR64_12, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_RGBA1010102, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_RGBX1010102, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index d0724240a446..a2f9c446a565 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1298,6 +1298,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_RGBX1010102:	descr = "32-bit RGBX 10-10-10-2"; break;
+ 	case V4L2_PIX_FMT_RGBA1010102:	descr = "32-bit RGBA 10-10-10-2"; break;
+ 	case V4L2_PIX_FMT_ARGB2101010:	descr = "32-bit ARGB 2-10-10-10"; break;
++	case V4L2_PIX_FMT_BGR48:	descr = "48-bit BGR 16-16-16"; break;
++	case V4L2_PIX_FMT_RGB48:	descr = "48-bit RGB 16-16-16"; break;
+ 	case V4L2_PIX_FMT_BGR48_12:	descr = "12-bit Depth BGR"; break;
+ 	case V4L2_PIX_FMT_ABGR64_12:	descr = "12-bit Depth BGRA"; break;
+ 	case V4L2_PIX_FMT_GREY:		descr = "8-bit Greyscale"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 911f00ed28fd..89b2b409fc03 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -584,6 +584,10 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_BGR48_12    v4l2_fourcc('B', '3', '1', '2') /* 48  BGR 12-bit per component */
+ #define V4L2_PIX_FMT_ABGR64_12   v4l2_fourcc('B', '4', '1', '2') /* 64  BGRA 12-bit per component */
+ 
++/* RGB formats (6 bytes per pixel) */
++#define V4L2_PIX_FMT_BGR48 v4l2_fourcc('B', 'G', 'R', '6') /* 16  BGR-16-16-16 */
++#define V4L2_PIX_FMT_RGB48 v4l2_fourcc('R', 'G', 'B', '6') /* 16  RGB-16-16-16 */
++
+ /* Grey formats */
+ #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
+ #define V4L2_PIX_FMT_Y4      v4l2_fourcc('Y', '0', '4', ' ') /*  4  Greyscale     */
 -- 
 2.43.2
 
