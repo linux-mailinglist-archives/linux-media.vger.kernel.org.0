@@ -1,135 +1,203 @@
-Return-Path: <linux-media+bounces-6461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6462-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759C18722A2
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:24:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F36E8722A7
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 16:25:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C8DC0B20B39
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 15:24:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 841311C21B70
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 15:25:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7601272D2;
-	Tue,  5 Mar 2024 15:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B41371272C8;
+	Tue,  5 Mar 2024 15:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UhfaeAnI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LaynyP1c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6A2126F36;
-	Tue,  5 Mar 2024 15:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE4C1272A2;
+	Tue,  5 Mar 2024 15:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709652274; cv=none; b=VWXJLIk/h+VQ1Heg8jODhSx3y6a1ISSPd8fngctjtXhsVhbq2Oezmb3IudNvs7U+JTFyp6ND59+EL0nfhXioXxYNIQoaj1SLV3t0soHHaBBA3IJypjRIZAsteYcRYNV4cvDZvUqSyd00+XTvUKdZYqfKW7bknroB2n+QA0QxufI=
+	t=1709652303; cv=none; b=rT13fb473NmZPTXPAOEIuQn2gBOzIpxDqilIQBwd5ZQfOlgrYSQbsXvBrr5kT6UhD/a+jNDR57gMmoS8bZbD4b+gad8aIG2JkHmA8k5CUIUaUWnvqoI5+MTRd3flDZvsxYtXylSDPCF8t3qU74hS/3AfrzSxjfHdxbPk52v7HVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709652274; c=relaxed/simple;
-	bh=qjlIRQeJBKz2vz5aisxD5IOrlTqfFDk0KcO4WDSaG8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qfal3SQi2DORiOgDSH4FQM8DsTcrpkoPAkTai9h0sIDr9LDW76I2H2FLc4mziCdiz2Ca53W7L9sVbRcUuP6PXRfvze0U9qndIkGrCs0LQ8PDi6LkZ3yKsaGPVeNAX9WkW4KnJ3uhm1DbAlKgRjR7pfQaOTsEtd15w14RRGSVe+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UhfaeAnI; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AFA0EE0002;
-	Tue,  5 Mar 2024 15:24:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709652269;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TC7BcVWBBaci9HUeR/cYeDY12xKiEfNlPcIEH+Cc0Io=;
-	b=UhfaeAnIOQbUnNE6KTFMqs54WVSJT5qGaJYgQ3zmXxYfnYO/oq/KMKfa97O0DFuS4gxDae
-	U84iL5lDUbL8yKfUP6E326+8tw0r6fEKbuaJbuPTQ8VK8KLkZiMkDMuDlTgkXgG3yZY6ZU
-	d3AcO6UMdix9Eh1Gu/9sf616R6xVZRRVZrwuTV20ubPxWpEwYkf5YirxAh+uVBtmSqPcbj
-	Q6z8Z8He8c6kwrH/kBGfsp/Gsl1LV9gDPzt6tJLnK6cd1OmAkKE5V5sgfjjcdXVpuiM+cb
-	+lNq8D9Tj0eBdFA500K4B1GPk64bCDQfOeJf79r465gWkJX4g3oVHcDNWx6t6Q==
-Date: Tue, 5 Mar 2024 16:24:27 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Markus Elfring <Markus.Elfring@web.de>, Dan Carpenter
- <dan.carpenter@linaro.org>
-Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Hunter
- <jonathanh@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Thierry Reding
- <thierry.reding@gmail.com>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: staging: media: tegra-video: Use common error handling code in
- tegra_vi_graph_parse_one()
-Message-ID: <20240305162427.49a9f013@booty>
-In-Reply-To: <f451ffba-db26-4a3b-a4b3-186c31f2ad64@web.de>
-References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
-	<20240301183936.505fcc72@booty>
-	<9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
-	<f451ffba-db26-4a3b-a4b3-186c31f2ad64@web.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1709652303; c=relaxed/simple;
+	bh=fMh+FDFzoAocT8Apb8EZr+0+MJwOavD4CxFVxUT5acA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y3KIsjKefgg2qfDlnJ59L5WGgDFS2OsE28WTCujUieAz8jSWYugRGJfqgS2jPJWdxh4Cj/S+i2mUzWs6szu9JP6fK9wu1oGNntfwLxo5+HslcPYvy1zWiaE/Be5cP7aIqEe2PBpoA7DKDANcskIAgwQkSAi7iWKIWPbcBKSgaQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LaynyP1c; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 752C88D0;
+	Tue,  5 Mar 2024 16:24:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1709652282;
+	bh=fMh+FDFzoAocT8Apb8EZr+0+MJwOavD4CxFVxUT5acA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LaynyP1cxe6U4ckW90P/okqYhxgY4DJYFfyVDYUIn9Y2dUxjxoeUDYiY5InlV1PFR
+	 6YPPCtROEMilBnzNK9REU77YuhqW2KbP6rjEXTX3AIYK78Mj4YrDTTyJpa5DiXwE1t
+	 bGZdP5F48uuBu0cHmPWT63nGGhUj1XTodnZFb5uY=
+Date: Tue, 5 Mar 2024 16:24:56 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	David Plowman <david.plowman@raspberrypi.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 7/9] media: dt-bindings: Add bindings for Raspberry Pi
+ PiSP Back End
+Message-ID: <zxx7o4zssgerlfhoczbledpmjvr5q2qfzogoytqxc353bulemq@ceo2gwinda3l>
+References: <20240223163012.300763-1-jacopo.mondi@ideasonboard.com>
+ <20240223163012.300763-8-jacopo.mondi@ideasonboard.com>
+ <20240301215857.GO30889@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240301215857.GO30889@pendragon.ideasonboard.com>
 
-Hello Dan, Markus,
+Hi Laurent
 
-On Sat, 2 Mar 2024 11:40:26 +0100
-Markus Elfring <Markus.Elfring@web.de> wrote:
-
-> >>> Add a jump target so that a bit of exception handling can be better r=
-eused
-> >>> at the end of this function implementation. =20
-> =E2=80=A6
-> >> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> =20
-> >
-> > These patches make the code worse. =20
-
-This is of course a legitimate opinion. However Markus' patch
-implements what is recommended by the documentation and is in common
-use in the kernel code. A quick search found 73 occurrences in v6.8-rc7:
-
-$ expr $(pcregrep -r -M ':\n\tfwnode_handle_put'  drivers | wc -l) / 2
-73
-$
-
-300+ are found for of_node_put().
-
-> > If we're in the middle of a loop,
-> > then we should clean up the partial loop before doing the goto.
-> > Otherwise it creates a mess when we add a new allocation function after
-> > the end of the loop. =20
->=20
-> How does such a feedback fit to another known information source?
->=20
-> Section =E2=80=9C7) Centralized exiting of functions=E2=80=9D
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
-ocumentation/process/coding-style.rst?h=3Dv6.8-rc6#n526
+On Fri, Mar 01, 2024 at 11:58:57PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
 >
-> > Someone is going to add a _scoped() loop which uses cleanup.h magic to
-> > call _put automatically.  This is a good option. =20
->=20
-> I became also curious how scope-based resource management will influence
-> Linux coding styles further.
-> Will various collateral evolution become more interesting?
+> Thank you for the patch.
+>
+> On Fri, Feb 23, 2024 at 05:30:09PM +0100, Jacopo Mondi wrote:
+> > Add bindings for the Raspberry Pi PiSP Back End memory-to-memory image
+> > signal processor.
+> >
+> > Datasheet:
+> > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  .../bindings/media/raspberrypi,pispbe.yaml    | 63 +++++++++++++++++++
+> >  1 file changed, 63 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml b/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> > new file mode 100644
+> > index 000000000000..d7839f32eabf
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> > @@ -0,0 +1,63 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/raspberrypi,pispbe.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Raspberry Pi PiSP Image Signal Processor (ISP) Back End
+> > +
+> > +maintainers:
+> > +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > +
+> > +description: |
+> > +  The Raspberry Pi PiSP Image Signal Processor (ISP) Back End is an image
+> > +  processor that fetches images in Bayer or Grayscale format from DRAM memory
+> > +  in tiles and produces images consumable by application.
+>
+> s/application/applications/
+>
+> > +
+> > +  The full ISP documentation is available at:
+>
+> s/:$//
+>
+> > +  https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - brcm,bcm2712-pispbe
+> > +      - const: raspberrypi,pispbe
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+>
+> As this is a SoC IP with only memory and register interfaces, I would
+> expect two clocks to be present, one for the register interface (AHB ?
+> AXI4-Lite ?) and one for the memory interfaces (AXI4 ?). While the
+> register interface clock is likely always enabled (in all cases that
+> matter in practice) in the BCM2712, I'm not sure this can be guaranteed
+> for future integration in different SoCs. Should we plan for this, and
+> either define two clocks already (with one of them being optional), or
+> name the single clock ?
+>
+> I know v1 named this clock "isp_be", and the name was dropped upon
+> Krzysztof's request, but I think naming the single clock "axi" or "aclk"
+> (assuming that one of them would be the right name) would be fine for
+> the reason explained above.
+>
 
-After some research I think I found what Dan means:
+The PiSP datasheet does not offer many information on the IP
+integration, only a small graph with the memory interfacing, but no
+clocks.
 
-https://lore.kernel.org/all/20240225142714.286440-3-jic23@kernel.org/
+However your reasoning makes sense, and unless someone from RPi
+suggests the contrary, I'll do so
 
-After reading the above thread, I agree using *_scoped() macros will
-be a good improvement. It is not yet in mainline as of v6.8-rc7, but
-it is in linux-next. So I think despite being valid this patch might
-still be discarded because a better solution should be available in a
-few weeks.
+> > +
+> > +  iommus:
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    soc {
+> > +        #address-cells = <2>;
+> > +        #size-cells = <2>;
+> > +
+> > +        isp@880000  {
+> > +             compatible = "brcm,bcm2712-pispbe", "raspberrypi,pispbe";
+> > +             reg = <0x10 0x00880000  0x0 0x4000>;
+>
+> Double space, I don't know if that's on purpose.
+>
 
-Luca
+Ofc it was not.
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thanks
+   j
+
+> > +             interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+> > +             clocks = <&firmware_clocks 7>;
+> > +             iommus = <&iommu2>;
+> > +        };
+> > +    };
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
