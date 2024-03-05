@@ -1,233 +1,199 @@
-Return-Path: <linux-media+bounces-6507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6508-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B21D872745
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 20:05:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A8E872782
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 20:22:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3119C28CF74
-	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 19:05:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C60A28A72E
+	for <lists+linux-media@lfdr.de>; Tue,  5 Mar 2024 19:22:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A3DB250FE;
-	Tue,  5 Mar 2024 19:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BE7979953;
+	Tue,  5 Mar 2024 19:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HB+2fcJF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D8E4DA11;
-	Tue,  5 Mar 2024 19:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D9A1B809
+	for <linux-media@vger.kernel.org>; Tue,  5 Mar 2024 19:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709665508; cv=none; b=jPogaTfD68hn0tI2WwmWC0MYes3wIIcYTvdbnOHUZHkyjbgrbNVdV7d/GLBIjfyNW0eVvQ5ccpaU+9bLV/GNGLlq1sbShfGcdgO43g0tjdTao74+YWdAPXu3tnfsJbQjpV5c2XRzA4wd10dpE4tm4D6QRLpqRBgZr4q3uLutOBo=
+	t=1709666554; cv=none; b=GULmP7WFxPNT4POIhAiW0X0SQ+8/v+6CVNi+Dd/RmQmU6n/zyEyK+aoVEHZl9BFViYGuZGwZPOggX0GLdOhTPV9ujf6RdfENueQTTGkqqxc7VqH4UUe6HMIh2R+plxm4fTE4JKCqR0s+u/ZLuXggcfqOCBncGD2wzzjkNTB1AfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709665508; c=relaxed/simple;
-	bh=H1Qiv31s9Oe+qmeR5ZSKcolby0D5p691hIDNCYdTa8w=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=KAaKy9UgSLF+AkHW70l1eM/Zf9OsSvseIwQnS/cvCSl75q6mMbeRI/XhoPj5ksPoV8rRoMF27WjytdLuFI+keN+gzuZz7wxh+5WyeG+NnrjL5xIhBWeBbYLqAMw4nhj39juJIamMptbbHw3tG6tp3ceKUPe3Fu7gHp0t+dbxFsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
-	by madrid.collaboradmins.com (Postfix) with ESMTP id 7262F378201D;
-	Tue,  5 Mar 2024 19:05:02 +0000 (UTC)
-From: "Shreeya Patel" <shreeya.patel@collabora.com>
-In-Reply-To: <7657358.31r3eYUQgx@diego>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-References: <20240305123648.8847-1-shreeya.patel@collabora.com>
- <20240305123648.8847-5-shreeya.patel@collabora.com> <7657358.31r3eYUQgx@diego>
-Date: Tue, 05 Mar 2024 19:05:02 +0000
-Cc: mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com, dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com, shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org, linux-arm@lists.infradead.org
-To: =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+	s=arc-20240116; t=1709666554; c=relaxed/simple;
+	bh=kV74Yj1MzqVyf6NNGDQ2CeGxlzKebgu7sxAA/z9x7pk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=di9iMuJtmr/L0BIsdBY2ZoJeLTIcJtiQAPsZuWTXgenrCFTKyVBV8FuNx6x187gB+Tls8jQB+5nRzHZk59ZkAwmH8/Ammi226wcchEqXkOkAh3ztXjpOTh81Hwf476zRpempOCn0cBnXlmVhpUq5cd55lgiC19MJlvFd1C1I0xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HB+2fcJF; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a4515f8e13cso348137466b.3
+        for <linux-media@vger.kernel.org>; Tue, 05 Mar 2024 11:22:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1709666549; x=1710271349; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zz04MsiLPf1EieQ9O8SZKHnfGRYziipBu1MQvsGASi0=;
+        b=HB+2fcJF8i4aysA250J5V59Sykrt6RAA7OXvzat/EnHx2gkocUpUFfYcL8Laz1ldgo
+         uiq13FWYw/j0TY+/6iyX/O6AUybIRCjMfzwKCPIgKaUfkCNCLj3y0UY2V8JiX33j0wen
+         OwgHQb+0rmI4v39A53bSy1Om0beyGkFDa3QQvfHNJTTfum6Inur6L+BWAqkAGRFlS9YP
+         3xSpuMB/U6nEoVyuBlUgOtuPjXyCtuh77HZyW+u7qIRHC47PKwtOqESealfxelh235M8
+         Z7o8aAj05QR3jtuf8U2ilcjw+0l2nsg02feqIqxDTH5A3GXCM5ehYD5yLdpoqIGWrNBh
+         rl2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709666549; x=1710271349;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zz04MsiLPf1EieQ9O8SZKHnfGRYziipBu1MQvsGASi0=;
+        b=jvUJmsQ6KESPDlOu6r/AQwkTJTZJbS5+dpwgLgm8ecAYCoxIjGJNIqpRhWwNgX+9oB
+         WSKdVVSPMjWgcd5V1V+edUiLjoMedo1mt0v3e8PVJ71FSv3OtVXWmz32QvQQp4RzHrUR
+         3o8xSi9zgoLsra8CKtoGkIApbq0O8CRnhPrcBU39P1qplZu3qPHsm2Zjlu4Y3teJkKeK
+         kWqRQJqRt7y0HkboO0TgzXZWtLzo63oHkrq686fZiMsNteYS8hgOlDS+hBoXHOdiU7vF
+         Q7t+bhEI+jOrSR3YKpA48E43vNJIxMC666C5xdCiwmafKgc/1waA01np5f8apfMkbcgj
+         ag8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWMDAw0cj7vwKHrWa4mCbemgg626U6/JagZTJTbNnh+z2cWvnLez5UXdtEuqGlUGTWu3Nbk3lWfLf1YdwwR7QNMYVYi+sszwOpelww=
+X-Gm-Message-State: AOJu0YxD7VniX4MpugIFDqALFtzu2QLDh7kKHydbToL9I3YAADtgJ6qz
+	4pVXJb6etZap18aRqijmvkpm3RGZwLfgSgf9s7UjjH3k/rBKdrScYOYTWOBHvcVw33hCYULwUJ/
+	2DmEd/ifoMxqj11FWCbgTfyMRVy4nXlaWjX4d
+X-Google-Smtp-Source: AGHT+IGfm5Q9d1QQtEV+FHngrLRB7RaEIdB98iS7LcjxrbCUYiUnZIxAhZ7sX2WiKXZhI6ep9u27+39/LAWZPVIzVjw=
+X-Received: by 2002:a17:906:1cd5:b0:a44:15c3:c8e9 with SMTP id
+ i21-20020a1709061cd500b00a4415c3c8e9mr10269704ejh.28.1709666549065; Tue, 05
+ Mar 2024 11:22:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <45138-65e76d00-9-580ee380@232156106>
-Subject: =?utf-8?q?Re=3A?= [PATCH v2 4/6] =?utf-8?q?arm64=3A?==?utf-8?q?_dts=3A?=
- =?utf-8?q?_rockchip=3A?= Add device tree support for HDMI RX Controller
-User-Agent: SOGoMail 5.10.0
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-13-almasrymina@google.com> <a2d926be-695a-484b-b2b5-098da47e372e@app.fastmail.com>
+In-Reply-To: <a2d926be-695a-484b-b2b5-098da47e372e@app.fastmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 5 Mar 2024 11:22:15 -0800
+Message-ID: <CAHS8izPbBHz=rr65ZtCy-+OGPbXXaY66_5EFSXw2bbhfGweRWg@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 12/15] tcp: RX path for devmem TCP
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	Linux-Arch <linux-arch@vger.kernel.org>, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, shuah <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tuesday, March 05, 2024 19:41 IST, Heiko St=C3=BCbner <heiko@sntech.=
-de> wrote:
+On Tue, Mar 5, 2024 at 12:42=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Tue, Mar 5, 2024, at 03:01, Mina Almasry wrote:
+> > --- a/arch/alpha/include/uapi/asm/socket.h
+> > +++ b/arch/alpha/include/uapi/asm/socket.h
+> >  #define SO_PEERPIDFD         77
+> > +#define SO_DEVMEM_LINEAR     79
+> > +#define SO_DEVMEM_DMABUF     80
+> > --- a/arch/mips/include/uapi/asm/socket.h
+> > +++ b/arch/mips/include/uapi/asm/socket.h
+> >  #define SO_PEERPIDFD         77
+> > +#define SO_DEVMEM_LINEAR     79
+> > +#define SO_DEVMEM_DMABUF     80
+> > --- a/arch/parisc/include/uapi/asm/socket.h
+> > +++ b/arch/parisc/include/uapi/asm/socket.h
+> >  #define SO_PEERPIDFD         0x404B
+> > +#define SO_DEVMEM_LINEAR     98
+> > +#define SO_DEVMEM_DMABUF     99
+> > --- a/arch/sparc/include/uapi/asm/socket.h
+> > +++ b/arch/sparc/include/uapi/asm/socket.h
+> >  #define SO_PEERPIDFD             0x0056
+> > +#define SO_DEVMEM_LINEAR         0x0058
+> > +#define SO_DEVMEM_DMABUF         0x0059
+> > --- a/include/uapi/asm-generic/socket.h
+> > +++ b/include/uapi/asm-generic/socket.h
+> > @@ -135,6 +135,11 @@
+> >  #define SO_PEERPIDFD         77
+> > +#define SO_DEVMEM_LINEAR     98
+> > +#define SO_DEVMEM_DMABUF     99
+>
+> These look inconsistent. I can see how you picked the
+> alpha and mips numbers, but how did you come up with
+> the generic and parisc ones? Can you follow the existing
+> scheme instead?
+>
 
-> Hi,
->=20
+Sorry, yes, this is a bit weird. I'll change this to use the next
+available entry rather than leave a gap.
 
-Hi Heiko,
-
->=20
-> Am Dienstag, 5. M=C3=A4rz 2024, 13:36:46 CET schrieb Shreeya Patel:
-> > Add device tree support for Synopsys DesignWare HDMI RX
-> > Controller.
-> >=20
-> > Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
-> > Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
-> > Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
-> > ---
-> > Changes in v2 :-
-> >   - Fix some of the checkpatch errors and warnings
-> >   - Rename resets, vo1-grf and HPD
-> >   - Move hdmirx=5Fcma node to the rk3588.dtsi file
-> >=20
-> >  .../boot/dts/rockchip/rk3588-pinctrl.dtsi     | 41 ++++++++++++++
-> >  arch/arm64/boot/dts/rockchip/rk3588.dtsi      | 55 +++++++++++++++=
-++++
-> >  2 files changed, 96 insertions(+)
->=20
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588.dtsi b/arch/arm64/=
-boot/dts/rockchip/rk3588.dtsi
-> > index 5519c1430cb7..8adb98b99701 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk3588.dtsi
-> > +++ b/arch/arm64/boot/dts/rockchip/rk3588.dtsi
-> > @@ -7,6 +7,24 @@
-> >  #include "rk3588-pinctrl.dtsi"
-> > =20
-> >  / {
-> > +	reserved-memory {
-> > +		#address-cells =3D <2>;
-> > +		#size-cells =3D <2>;
-> > +		ranges;
->=20
-> add blank line here
->=20
-> > +		/*
-> > +		 * The 4k HDMI capture controller works only with 32bit
-> > +		 * phys addresses and doesn't support IOMMU. HDMI RX CMA
-> > +		 * must be reserved below 4GB.
-> > +		 */
-> > +		hdmirx=5Fcma: hdmirx=5Fcma {
->=20
-> phandles use "=5F", but node-names "-"
->=20
-> > +			compatible =3D "shared-dma-pool";
-> > +			alloc-ranges =3D <0x0 0x0 0x0 0xffffffff>;
-> > +			size =3D <0x0 (160 * 0x100000)>; /* 160MiB */
->=20
-> The comment above that node, could elaborate where the value of 160MB
-> originates from. I assume it is to hold n-times of 4K frames or whate=
-ver,
-> but it would be helpful for people to be able to read that.
->=20
-
-right, we did the following calculation to come up with this value :-
-3840 * 2160 * 4 (bytes/pix) * 2 (frames/buffer) / 1000 / 1000 =3D 66M
-and then we do the 2x times of this value to be on the safer side
-and support all practical use-cases.
-
-I'll add some more details to the comment in v3.
-
->=20
-> > +			no-map;
-> > +			status =3D "disabled";
-> > +		};
-> > +	};
-> > +
-> >  	pcie30=5Fphy=5Fgrf: syscon@fd5b8000 {
-> >  		compatible =3D "rockchip,rk3588-pcie3-phy-grf", "syscon";
-> >  		reg =3D <0x0 0xfd5b8000 0x0 0x10000>;
-> > @@ -85,6 +103,38 @@ i2s10=5F8ch: i2s@fde00000 {
-> >  		status =3D "disabled";
-> >  	};
-> > =20
-> > +	hdmi=5Freceiver: hdmi-receiver@fdee0000 {
->=20
-> Maybe rename the label to "hdmirx:" ... that way in a board enabling =
-the
-> cma region, both nodes would stay close to each other?
->=20
-
-Umm we already have receiver in the name so I am not sure if adding rx =
-will be
-a good idea. I was trying to keep it consistent with the names used in =
-other device tree files.
-In case you still feel otherwise then do let me know, I'll make the cha=
-nge.
-
->=20
-> > +		compatible =3D "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdmi-rx=
-";
-> > +		reg =3D <0x0 0xfdee0000 0x0 0x6000>;
-> > +		power-domains =3D <&power RK3588=5FPD=5FVO1>;
-> > +		rockchip,grf =3D <&sys=5Fgrf>;
-> > +		rockchip,vo1-grf =3D <&vo1=5Fgrf>;
-> > +		interrupts =3D <GIC=5FSPI 177 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>,
-> > +			     <GIC=5FSPI 436 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>,
-> > +			     <GIC=5FSPI 179 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>;
-> > +		interrupt-names =3D "cec", "hdmi", "dma";
-> > +		clocks =3D <&cru ACLK=5FHDMIRX>,
-> > +			 <&cru CLK=5FHDMIRX=5FAUD>,
-> > +			 <&cru CLK=5FCR=5FPARA>,
-> > +			 <&cru PCLK=5FHDMIRX>,
-> > +			 <&cru CLK=5FHDMIRX=5FREF>,
-> > +			 <&cru PCLK=5FS=5FHDMIRX>,
-> > +			 <&cru HCLK=5FVO1>;
-> > +		clock-names =3D "aclk",
-> > +			      "audio",
-> > +			      "cr=5Fpara",
-> > +			      "pclk",
-> > +			      "ref",
-> > +			      "hclk=5Fs=5Fhdmirx",
-> > +			      "hclk=5Fvo1";
->=20
-> the driver uses of=5Freserved=5Fmem=5Fdevice=5Finit(), so doesn't thi=
-s node need
-> a "memory-region =3D <&hdmirx=5Fcma>; or similar?
->=20
-
-yes, we should have the memory-region property here. My bad, I'll corre=
-ct this in v3.
-
->=20
-> > +		resets =3D <&cru SRST=5FA=5FHDMIRX>, <&cru SRST=5FP=5FHDMIRX>,
-> > +			 <&cru SRST=5FHDMIRX=5FREF>, <&cru SRST=5FA=5FHDMIRX=5FBIU>;
-> > +		reset-names =3D "axi", "apb", "ref", "biu";
-> > +		pinctrl-0 =3D <&hdmim1=5Frx>;
-> > +		pinctrl-names =3D "default";
-> > +		status =3D "disabled";
-> > +	};
-> > +
-> >  	pcie3x4: pcie@fe150000 {
-> >  		compatible =3D "rockchip,rk3588-pcie", "rockchip,rk3568-pcie";
-> >  		#address-cells =3D <3>;
-> > @@ -339,3 +389,8 @@ pcie30phy: phy@fee80000 {
-> >  		status =3D "disabled";
-> >  	};
+> > diff --git a/include/uapi/linux/uio.h b/include/uapi/linux/uio.h
+> > index 059b1a9147f4..ad92e37699da 100644
+> > --- a/include/uapi/linux/uio.h
+> > +++ b/include/uapi/linux/uio.h
+> > @@ -20,6 +20,16 @@ struct iovec
+> >       __kernel_size_t iov_len; /* Must be size_t (1003.1g) */
 > >  };
-> > +
-> > +&hdmirx=5Fcma {
-> > +	status =3D "okay";
+> >
+> > +struct dmabuf_cmsg {
+> > +     __u64 frag_offset;      /* offset into the dmabuf where the frag =
+starts.
+> > +                              */
+> > +     __u32 frag_size;        /* size of the frag. */
+> > +     __u32 frag_token;       /* token representing this frag for
+> > +                              * DEVMEM_DONTNEED.
+> > +                              */
+> > +     __u32  dmabuf_id;       /* dmabuf id this frag belongs to. */
 > > +};
->=20
-> I'd assume a board that enables &hdmi=5Freceiver would also enable hd=
-mirx=5Fcma
-> and not the soc dtsi for =5Fall=5F boards?
->=20
+>
+> This structure requires a special compat handler to run
+> x86-32 binaries on x86-64 because of the different alignment
+> requirements. Any uapi-visible structures should be defined
+> to avoid this and just have no holes in them. Maybe extend
+> one of the __u32 members to __u64 or add another 32-bit padding field?
+>
 
-Actually this node should be in the rock-5b.dts file instead of here.
-v1 had it correct but I made a mistake in v2 :(
-Thanks for pointing this out, I'll fix this and send a v3 soon.
+Honestly the 32-bit fields as-is are somewhat comically large. I don't
+think extending the __u32 -> __u64 is preferred because I don't see us
+needing that much, so maybe I can add another 32-bit padding field.
+Does this look good to you?
 
+struct dmabuf_cmsg {
+  __u64 frag_offset;
+  __u32 frag_size;
+  __u32 frag_token;
+  __u32 dmabuf_id;
+  __u32 ext; /* reserved for future flags */
+};
 
+Another option is to actually compress frag_token & dmabuf_id to be
+32-bit combined size if that addresses your concern. I prefer that
+less in case they end up being too small for future use cases.
+
+--=20
 Thanks,
-Shreeya Patel
-
->=20
-> Thanks
-> Heiko
->=20
->=20
-> =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
-> Kernel mailing list -- kernel@mailman.collabora.com
-> To unsubscribe send an email to kernel-leave@mailman.collabora.com
-> This list is managed by https://mailman.collabora.com
-
+Mina
 
