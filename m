@@ -1,449 +1,210 @@
-Return-Path: <linux-media+bounces-6605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF1987427E
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 23:11:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A41738742C7
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 23:29:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C7AD1C22B70
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 22:11:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9774F1C22A46
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 22:29:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBD8E1BDDB;
-	Wed,  6 Mar 2024 22:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D901BDCE;
+	Wed,  6 Mar 2024 22:29:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="imSnvB/g"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F9yWS9FK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602CB1B952
-	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 22:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A63D1B947;
+	Wed,  6 Mar 2024 22:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709763072; cv=none; b=rMHF3cl9fS4K7/RS20ey9YLBGeUj5cTHCBaMhETbWu+wLqKbj1yOCi36k3PGi2lIlWAcYXlttkA/+YhrJp5JH5vDwwdzh6BF08GkXRhrQaA5FUsdsPYnl5u01QhQLLENGCwOzQqzEoxjKac+S0hS03OviWRtV9dduidfk+iPugg=
+	t=1709764188; cv=none; b=bpraJOsPZLjORrP/AzG0SwT+2MTS6mVSESRN0pa77XE7NC/vR3EArcE7QpwiR/qFSlCnfycSnl/s2aKosOj6qJAwe9KFPUt/oq4+SEw2WYyp+47XamLC1RN6sYVQj5b8/F7WzaI/LwQ5r4Me+e11IkUeg84Io9g2tRAKw+xO3EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709763072; c=relaxed/simple;
-	bh=e+h5g7ggIAcqtCEsjbwW8QZ4XMZUN74BvuwxvFy1dqE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YTjdUFg4UypKYFHGu17UkkH2yNGGfb3XuzXMk3NRBTg6eRTESnbTMQ81tFDGhb7xICgb3cRdi51TGaD9eGgyZMoWbZRliN7vO6URu6uVnGgzPVgQ5ojMy5BRk3gIXQixB3jVrUZBY5lIAtffk4SmWtAseKWkJSSJOThhl0U3RJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=imSnvB/g; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a45c006ab82so33439166b.3
-        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 14:11:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709763068; x=1710367868; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GMaQ3cDJaF53fme3ObxORiWTrmjgHw0Qfaex1Nu2I/k=;
-        b=imSnvB/glsrcOoPIl62eeq6tzX1mTcMOBOEqK11tyD8Q0h0/m3eXHCKa62zKxIl1k+
-         YqDAFu8QP4A/jo0OqqO3VFfTgffsuHGIPg60Dz2Y/rpwW/z69zYX6P14tfKr3BJFm0LV
-         rpolC4pkfuCAG7xI6MU71ZLwVokmsKyyEvQx9Fva5V6SFM/yuZnVjwezpSC75JLue0FE
-         VqBQp4fGnzQub8hM2Mst6i0IksmKfepM49kQxm+bK49O6M2u0qiSNE5TYZKaxqhaTXVl
-         pptv/cGgeHIqMbTyvqkUl4s18Xy1ph3NeNPUHutsXLXyE5u8Lh4Fy4W0+DQ39RUs8czE
-         25Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709763068; x=1710367868;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GMaQ3cDJaF53fme3ObxORiWTrmjgHw0Qfaex1Nu2I/k=;
-        b=UAlAya949FqsTQvtQWWK7X6Dd0vsAZuecPXYiBbfnf4UfgiRXBL+F0hwztS12u2qPs
-         9w8dk8D70uneQoOQvdHXYB23Ytz7RrFkBjvSWjkFwtGer+ZTxpMHvmQG36KVrJarhNRW
-         slZru/VPnXCGyvf2S3YIFfkD3NkJl/t0LrbWD6Bs1IMxe1wD1AAO5fZOqxURdwk3hPPq
-         F+AhtkJRIr18jen1a71bwS5EVxvkz7qCeOuzy0CD/FETOMzZJvZGgQjJn0Zd/USON9N4
-         DHjGEIfcMKCbbuUzaHhMnFcfac1nMWltzYl9H/ACgCNbzJ0UmhcvbkC29vcNRh8bkORD
-         9ihw==
-X-Forwarded-Encrypted: i=1; AJvYcCVtdmLJJIdzF1YzZaJ9o7oUJ+OXjGulPjq1N4D2C7O8kEdX/9eBD7hyG5I5hn3wzyvq06tfN+ayuJJtWcxu6+ri+UhexqxOIwHv1Ec=
-X-Gm-Message-State: AOJu0YxaNfZxbDf+5ZQXQ/i5ASF6XeiMMiDDBZmu8PLnCghxqrJlmA85
-	P1FwRSGy436NEggX5tuxFv8UvX+5lCxojDSQ9nYD8v+WyVGD63fh1L4zAHbgaiPgQRJmk8EzsUA
-	/W27SpFsDg7ClW5gZRIyZjjtSjhUGiOYUifyp
-X-Google-Smtp-Source: AGHT+IENXwD+VWczLj/dTM2/A1MFyK7LqUp0f5yPqTDI4m7+LrQO5mzGQIb3CxwkX+uMg5NpdLqf746V4nTchzug2EI=
-X-Received: by 2002:a17:906:3442:b0:a44:3ec9:1fd3 with SMTP id
- d2-20020a170906344200b00a443ec91fd3mr9663971ejb.30.1709763067483; Wed, 06 Mar
- 2024 14:11:07 -0800 (PST)
+	s=arc-20240116; t=1709764188; c=relaxed/simple;
+	bh=SIExaGqBB9kZ6UJuSpJW7ZRFchpGQhlPFKL2lD+j7SE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n4TwgGIrWLamr98Utd+U6jJ0JfzEhqXgslp35mtlZpQiOJvntJXut0+g+GmHCx9kLUyBezRe+lH4HOygrVP5uy29e1TBTlWrn/6tGXv1UtnQENyglCO2Z0B/zyNGynZb8OZ47CxCK5Uh5v9024rUy46ete9jtQMliQin+VeukBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F9yWS9FK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (bl13-23-38.dsl.telepac.pt [85.246.23.38])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF729524;
+	Wed,  6 Mar 2024 23:29:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1709764166;
+	bh=SIExaGqBB9kZ6UJuSpJW7ZRFchpGQhlPFKL2lD+j7SE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F9yWS9FKV0sqQp1zgmz34WkokZpOuIvJ2x9cTvjOf76tkMb7fRssCrf8Jnf3kFi9E
+	 w2fUk0vS1vuIB11r1c8IdFnCqGsRAoW3Bg/5hTDuYiZ+29MFitwW2jlxHxoeJpxhBr
+	 JKvBu0V+xEfrdf7V8GbQPvetGF3fAnX3Y7iIibeE=
+Date: Thu, 7 Mar 2024 00:29:44 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Naushir Patuck <naush@raspberrypi.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 7/9] media: dt-bindings: Add bindings for Raspberry Pi
+ PiSP Back End
+Message-ID: <20240306222944.GA17754@pendragon.ideasonboard.com>
+References: <20240223163012.300763-1-jacopo.mondi@ideasonboard.com>
+ <20240223163012.300763-8-jacopo.mondi@ideasonboard.com>
+ <20240301215857.GO30889@pendragon.ideasonboard.com>
+ <zxx7o4zssgerlfhoczbledpmjvr5q2qfzogoytqxc353bulemq@ceo2gwinda3l>
+ <CAEmqJPpopGbDJsRkOsd-ph41_Ac6H50DvcwoE0i6hWyVBr=Kkw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-6-almasrymina@google.com> <da42cea9-c169-599e-f087-d38c419e3dab@huawei.com>
- <CAHS8izM7GbvWHrH=h9q0oG0DMU649EjT1udNEW_8F-hGeC15EQ@mail.gmail.com> <aa892723-7396-998d-db06-166c28fba1e0@huawei.com>
-In-Reply-To: <aa892723-7396-998d-db06-166c28fba1e0@huawei.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 6 Mar 2024 14:10:55 -0800
-Message-ID: <CAHS8izNJFnKGn9nrJ3kRxGwhvjiDey_bfrxQNfsfj=S9hZR_UA@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 05/15] netdev: support binding dma-buf to netdevice
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAEmqJPpopGbDJsRkOsd-ph41_Ac6H50DvcwoE0i6hWyVBr=Kkw@mail.gmail.com>
 
-On Wed, Mar 6, 2024 at 4:38=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
-> wrote:
->
-> On 2024/3/6 5:17, Mina Almasry wrote:
-> > On Tue, Mar 5, 2024 at 4:55=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei=
-.com> wrote:
-> >>
-> >> On 2024/3/5 10:01, Mina Almasry wrote:
-> >>
-> >> ...
-> >>
-> >>>
-> >>> The netdev_dmabuf_binding struct is refcounted, and releases its
-> >>> resources only when all the refs are released.
-> >>>
-> >>> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> >>> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> >>> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >>>
-> >>> ---
-> >>>
-> >>> RFC v6:
-> >>> - Validate rx queue index
-> >>> - Refactor new functions into devmem.c (Pavel)
-> >>
-> >> It seems odd that the functions or stucts in a file called devmem.c
-> >> are named after 'dmabuf' instead of 'devmem'.
-> >>
+On Wed, Mar 06, 2024 at 11:42:51AM +0000, Naushir Patuck wrote:
+> On Tue, 5 Mar 2024 at 15:25, Jacopo Mondi wrote:
+> > On Fri, Mar 01, 2024 at 11:58:57PM +0200, Laurent Pinchart wrote:
+> > > On Fri, Feb 23, 2024 at 05:30:09PM +0100, Jacopo Mondi wrote:
+> > > > Add bindings for the Raspberry Pi PiSP Back End memory-to-memory image
+> > > > signal processor.
+> > > >
+> > > > Datasheet:
+> > > > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > ---
+> > > >  .../bindings/media/raspberrypi,pispbe.yaml    | 63 +++++++++++++++++++
+> > > >  1 file changed, 63 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml b/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..d7839f32eabf
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> > > > @@ -0,0 +1,63 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/media/raspberrypi,pispbe.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Raspberry Pi PiSP Image Signal Processor (ISP) Back End
+> > > > +
+> > > > +maintainers:
+> > > > +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > > > +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > +
+> > > > +description: |
+> > > > +  The Raspberry Pi PiSP Image Signal Processor (ISP) Back End is an image
+> > > > +  processor that fetches images in Bayer or Grayscale format from DRAM memory
+> > > > +  in tiles and produces images consumable by application.
+> > >
+> > > s/application/applications/
+> > >
+> > > > +
+> > > > +  The full ISP documentation is available at:
+> > >
+> > > s/:$//
+> > >
+> > > > +  https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    items:
+> > > > +      - enum:
+> > > > +          - brcm,bcm2712-pispbe
+> > > > +      - const: raspberrypi,pispbe
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interrupts:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clocks:
+> > > > +    maxItems: 1
+> > >
+> > > As this is a SoC IP with only memory and register interfaces, I would
+> > > expect two clocks to be present, one for the register interface (AHB ?
+> > > AXI4-Lite ?) and one for the memory interfaces (AXI4 ?). While the
+> > > register interface clock is likely always enabled (in all cases that
+> > > matter in practice) in the BCM2712, I'm not sure this can be guaranteed
+> > > for future integration in different SoCs. Should we plan for this, and
+> > > either define two clocks already (with one of them being optional), or
+> > > name the single clock ?
+> > >
+> > > I know v1 named this clock "isp_be", and the name was dropped upon
+> > > Krzysztof's request, but I think naming the single clock "axi" or "aclk"
+> > > (assuming that one of them would be the right name) would be fine for
+> > > the reason explained above.
 > >
-> > So my intention with this naming that devmem.c contains all the
-> > functions for all devmem tcp specific support. Currently the only
-> > devmem we support is dmabuf. In the future, other devmem may be
-> > supported and it can fit nicely in devmem.c. For example, if we want
-> > to extend devmem TCP to support NVMe devices, we need to add support
-> > for p2pdma, maybe, and we can add that support under the devmem.c
-> > umbrella rather than add new files.
+> > The PiSP datasheet does not offer many information on the IP
+> > integration, only a small graph with the memory interfacing, but no
+> > clocks.
 > >
-> > But I can rename to dmabuf.c if there is strong objection to the curren=
-t name.
->
-> Grepping 'dmabuf' seems to show that it may be common rename it to
-> something as *_dmabuf.c.
->
-> >
-> >>>
-> >>
-> >> ...
-> >>
-> >>> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> >>> index d8b810245c1d..72e932a1a948 100644
-> >>> --- a/include/net/netmem.h
-> >>> +++ b/include/net/netmem.h
-> >>> @@ -8,6 +8,16 @@
-> >>>  #ifndef _NET_NETMEM_H
-> >>>  #define _NET_NETMEM_H
-> >>>
-> >>> +#include <net/devmem.h>
-> >>> +
-> >>> +/* net_iov */
-> >>> +
-> >>> +struct net_iov {
-> >>> +     struct dmabuf_genpool_chunk_owner *owner;
-> >>> +};
-> >>> +
-> >>> +/* netmem */
-> >>> +
-> >>>  /**
-> >>>   * typedef netmem_ref - a nonexistent type marking a reference to ge=
-neric
-> >>>   * network memory.
-> >>> diff --git a/net/core/Makefile b/net/core/Makefile
-> >>> index 821aec06abf1..592f955c1241 100644
-> >>> --- a/net/core/Makefile
-> >>> +++ b/net/core/Makefile
-> >>> @@ -13,7 +13,7 @@ obj-y                    +=3D dev.o dev_addr_lists.=
-o dst.o netevent.o \
-> >>>                       neighbour.o rtnetlink.o utils.o link_watch.o fi=
-lter.o \
-> >>>                       sock_diag.o dev_ioctl.o tso.o sock_reuseport.o =
-\
-> >>>                       fib_notifier.o xdp.o flow_offload.o gro.o \
-> >>> -                     netdev-genl.o netdev-genl-gen.o gso.o
-> >>> +                     netdev-genl.o netdev-genl-gen.o gso.o devmem.o
-> >>>
-> >>>  obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) +=3D dev_addr_lists_test.o
-> >>>
-> >>> diff --git a/net/core/dev.c b/net/core/dev.c
-> >>> index fe054cbd41e9..bbea1b252529 100644
-> >>> --- a/net/core/dev.c
-> >>> +++ b/net/core/dev.c
-> >>> @@ -155,6 +155,9 @@
-> >>>  #include <net/netdev_rx_queue.h>
-> >>>  #include <net/page_pool/types.h>
-> >>>  #include <net/page_pool/helpers.h>
-> >>> +#include <linux/genalloc.h>
-> >>> +#include <linux/dma-buf.h>
-> >>> +#include <net/devmem.h>
-> >>>
-> >>>  #include "dev.h"
-> >>>  #include "net-sysfs.h"
-> >>> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> >>> new file mode 100644
-> >>> index 000000000000..779ad990971e
-> >>> --- /dev/null
-> >>> +++ b/net/core/devmem.c
-> >>> @@ -0,0 +1,293 @@
-> >>> +// SPDX-License-Identifier: GPL-2.0-or-later
-> >>> +/*
-> >>> + *      Devmem TCP
-> >>> + *
-> >>> + *      Authors:     Mina Almasry <almasrymina@google.com>
-> >>> + *                   Willem de Bruijn <willemdebruijn.kernel@gmail.c=
-om>
-> >>> + *                   Kaiyuan Zhang <kaiyuanz@google.com
-> >>> + */
-> >>> +
-> >>> +#include <linux/types.h>
-> >>> +#include <linux/mm.h>
-> >>> +#include <linux/netdevice.h>
-> >>> +#include <trace/events/page_pool.h>
-> >>> +#include <net/netdev_rx_queue.h>
-> >>> +#include <net/page_pool/types.h>
-> >>> +#include <net/page_pool/helpers.h>
-> >>> +#include <linux/genalloc.h>
-> >>> +#include <linux/dma-buf.h>
-> >>> +#include <net/devmem.h>
-> >>> +
-> >>> +/* Device memory support */
-> >>> +
-> >>> +#ifdef CONFIG_DMA_SHARED_BUFFER
-> >>
-> >> I still think it is worth adding its own config for devmem or dma-buf
-> >> for networking, thinking about the embeded system.
-> >>
-> >
-> > FWIW Willem did weigh on this previously and said he prefers to have
-> > it unguarded by a CONFIG, but I will submit to whatever the consensus
-> > here. It shouldn't be a huge deal to add a CONFIG technically
-> > speaking.
->
-> Grepping 'CONFIG_DMA_SHARED_BUFFER' show that the API user of dmabuf
-> API does not seems to reuse the CONFIG_DMA_SHARED_BUFFER, instead they
-> seem to define its own config, and select CONFIG_DMA_SHARED_BUFFER
-> if necessary, it that any reason it is different here?
->
-> >
-> >>> +static void netdev_dmabuf_free_chunk_owner(struct gen_pool *genpool,
-> >>> +                                        struct gen_pool_chunk *chunk=
-,
-> >>> +                                        void *not_used)
-> >>
-> >> It seems odd to still keep the netdev_ prefix as it is not really rela=
-ted
-> >> to netdev, perhaps use 'net_' or something better.
-> >>
-> >
-> > Yes, thanks for catching. I can change to net_devmem_ maybe or net_dmab=
-uf_*.
->
-> FWIW, net_dmabuf_* seems like a better name technically.
->
-> >
-> >>> +{
-> >>> +     struct dmabuf_genpool_chunk_owner *owner =3D chunk->owner;
-> >>> +
-> >>> +     kvfree(owner->niovs);
-> >>> +     kfree(owner);
-> >>> +}
-> >>> +
-> >>> +void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *bind=
-ing)
-> >>> +{
-> >>> +     size_t size, avail;
-> >>> +
-> >>> +     gen_pool_for_each_chunk(binding->chunk_pool,
-> >>> +                             netdev_dmabuf_free_chunk_owner, NULL);
-> >>> +
-> >>> +     size =3D gen_pool_size(binding->chunk_pool);
-> >>> +     avail =3D gen_pool_avail(binding->chunk_pool);
-> >>> +
-> >>> +     if (!WARN(size !=3D avail, "can't destroy genpool. size=3D%lu, =
-avail=3D%lu",
-> >>> +               size, avail))
-> >>> +             gen_pool_destroy(binding->chunk_pool);
-> >>> +
-> >>> +     dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-> >>> +                              DMA_BIDIRECTIONAL);
-> >>
-> >> For now DMA_FROM_DEVICE seems enough as tx is not supported yet.
-> >>
-> >
-> > Yes, good catch. I suspect we want to reuse this code for TX path. But
-> > for now, I'll test with DMA_FROM_DEVICE and if I see no issues I'll
-> > apply this change.
-> >
-> >>> +     dma_buf_detach(binding->dmabuf, binding->attachment);
-> >>> +     dma_buf_put(binding->dmabuf);
-> >>> +     xa_destroy(&binding->bound_rxq_list);
-> >>> +     kfree(binding);
-> >>> +}
-> >>> +
-> >>> +static int netdev_restart_rx_queue(struct net_device *dev, int rxq_i=
-dx)
-> >>> +{
-> >>> +     void *new_mem;
-> >>> +     void *old_mem;
-> >>> +     int err;
-> >>> +
-> >>> +     if (!dev || !dev->netdev_ops)
-> >>> +             return -EINVAL;
-> >>> +
-> >>> +     if (!dev->netdev_ops->ndo_queue_stop ||
-> >>> +         !dev->netdev_ops->ndo_queue_mem_free ||
-> >>> +         !dev->netdev_ops->ndo_queue_mem_alloc ||
-> >>> +         !dev->netdev_ops->ndo_queue_start)
-> >>> +             return -EOPNOTSUPP;
-> >>> +
-> >>> +     new_mem =3D dev->netdev_ops->ndo_queue_mem_alloc(dev, rxq_idx);
-> >>> +     if (!new_mem)
-> >>> +             return -ENOMEM;
-> >>> +
-> >>> +     err =3D dev->netdev_ops->ndo_queue_stop(dev, rxq_idx, &old_mem)=
-;
-> >>> +     if (err)
-> >>> +             goto err_free_new_mem;
-> >>> +
-> >>> +     err =3D dev->netdev_ops->ndo_queue_start(dev, rxq_idx, new_mem)=
-;
-> >>> +     if (err)
-> >>> +             goto err_start_queue;
-> >>> +
-> >>> +     dev->netdev_ops->ndo_queue_mem_free(dev, old_mem);
-> >>> +
-> >>> +     return 0;
-> >>> +
-> >>> +err_start_queue:
-> >>> +     dev->netdev_ops->ndo_queue_start(dev, rxq_idx, old_mem);
-> >>
-> >> It might worth mentioning why queue start with old_mem will always
-> >> success here as the return value seems to be ignored here.
-> >>
-> >
-> > So the old queue, we stopped it, and if we fail to bring up the new
-> > queue, then we want to start the old queue back up to get the queue
-> > back to a workable state.
-> >
-> > I don't see what we can do to recover if restarting the old queue
-> > fails. Seems like it should be a requirement that the driver tries as
-> > much as possible to keep the old queue restartable.
->
-> Is it possible that we may have the 'old_mem' leaking if the driver
-> fails to restart the old queue? how does the driver handle the
-> firmware cmd failure for ndo_queue_start()? it seems a little
-> tricky to implement it.
->
+> > However your reasoning makes sense, and unless someone from RPi
+> > suggests the contrary, I'll do so
+> 
+> There is only a single clock that clocks the whole BE block, so does
+> the clock need to be explicitly named?  If it does, perhaps we can
+> just use "clk" as this is not explicitly an AXI or APB clock?
 
-I'm not sure what we can do to meaningfully recover from failure to
-restarting the old queue, except log it so the error is visible. In
-theory because we have not modifying any queue configurations
-restarting it would be straight forward, but since it's dealing with
-hardware then any failures are possible.
+If there's really a single clock then I don't think it needs to be
+named. I was expecting there would be a clock for the register
+interface, separate from the processing clock.
 
+> > > > +
+> > > > +  iommus:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +required:
+> > > > +  - compatible
+> > > > +  - reg
+> > > > +  - interrupts
+> > > > +  - clocks
+> > > > +
+> > > > +additionalProperties: false
+> > > > +
+> > > > +examples:
+> > > > +  - |
+> > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > +
+> > > > +    soc {
+> > > > +        #address-cells = <2>;
+> > > > +        #size-cells = <2>;
+> > > > +
+> > > > +        isp@880000  {
+> > > > +             compatible = "brcm,bcm2712-pispbe", "raspberrypi,pispbe";
+> > > > +             reg = <0x10 0x00880000  0x0 0x4000>;
+> > >
+> > > Double space, I don't know if that's on purpose.
 > >
-> > I can improve this by at least logging or warning if restarting the
-> > old queue fails.
->
-> Also the semantics of the above function seems odd that it is not
-> only restarting rx queue, but also freeing and allocating memory
-> despite the name only suggests 'restart', I am a litte afraid that
-> it may conflict with future usecae when user only need the
-> 'restart' part, perhaps rename it to a more appropriate name.
->
+> > Ofc it was not.
+> >
+> > > > +             interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+> > > > +             clocks = <&firmware_clocks 7>;
+> > > > +             iommus = <&iommu2>;
+> > > > +        };
+> > > > +    };
 
-Oh, what we want here is just the 'restart' part. However, Jakub
-mandates that if you restart a queue (or a driver), you do it like
-this, hence the slightly more complicated implementation.
+-- 
+Regards,
 
-https://patchwork.kernel.org/project/netdevbpf/patch/20231106024413.2801438=
--13-almasrymina@google.com/#25590262
-https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
-
-> >
-> >>> +
-> >>> +err_free_new_mem:
-> >>> +     dev->netdev_ops->ndo_queue_mem_free(dev, new_mem);
-> >>> +
-> >>> +     return err;
-> >>> +}
-> >>> +
-> >>> +/* Protected by rtnl_lock() */
-> >>> +static DEFINE_XARRAY_FLAGS(netdev_dmabuf_bindings, XA_FLAGS_ALLOC1);
-> >>> +
-> >>> +void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding)
-> >>> +{
-> >>> +     struct netdev_rx_queue *rxq;
-> >>> +     unsigned long xa_idx;
-> >>> +     unsigned int rxq_idx;
-> >>> +
-> >>> +     if (!binding)
-> >>> +             return;
-> >>> +
-> >>> +     if (binding->list.next)
-> >>> +             list_del(&binding->list);
-> >>
-> >> The above does not seems to be a good pattern to delete a entry, is
-> >> there any reason having a checking before the list_del()? seems like
-> >> defensive programming?
-> >>
-> >
-> > I think I needed to apply this condition to handle the case where
-> > netdev_unbind_dmabuf() is called when binding->list is not initialized
-> > or is empty.
-> >
-> > netdev_nl_bind_rx_doit() will call unbind to free a partially
-> > allocated binding in error paths, so, netdev_unbind_dmabuf() may be
-> > called with a partially initialized binding. This is why we check for
-> > binding->list is initialized here and check that rxq->binding =3D=3D
-> > binding below. The main point is that netdev_unbind_dmabuf() may be
-> > asked to unbind a partially bound dmabuf due to error paths.
-> >
-> > Maybe a comment here will test this better. I will double confirm the
-> > check is needed for the error paths in netdev_nl_bind_rx_doit().
-> >
-> >>> +
-> >>> +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
-> >>> +             if (rxq->binding =3D=3D binding) {
-> >>
-> >> It seems like defensive programming here too?
-> >>
->
-
-
---=20
-Thanks,
-Mina
+Laurent Pinchart
 
