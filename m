@@ -1,136 +1,111 @@
-Return-Path: <linux-media+bounces-6580-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6581-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF83873836
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 15:01:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D0C8738DF
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 15:23:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CAC751F27153
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 14:01:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4940A1F255F6
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 14:23:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A092E131E51;
-	Wed,  6 Mar 2024 14:01:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9804213329F;
+	Wed,  6 Mar 2024 14:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Q9wVm5eL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gfwizPda"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596A11E519;
-	Wed,  6 Mar 2024 14:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFE3133283
+	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 14:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709733683; cv=none; b=gKzDapIUaY8YojBcHv1agU7R2zGhEpIWQAd1APctni57X0BATyCYAaR+WJid5jw4U/bkfYNfMwrecbWJkEYOcW05pCzvsc0UjwTlYD2fh0IEsoPAPnb6sllw/yR2MMMCFHmyek5oUClQcMtb68Hs6O+cjA6WQkv7AHnpQDJZ2L4=
+	t=1709734993; cv=none; b=ZyFSZemstFyaXHM7n1UaeO9cz1EOWb6qHEAZb9wV6tNpKKEqBVhJ1hyFegaDrygbZNirYHVg56A8GKskrOO+zDHEW/Jx1xb7ThTH/E9eIY/B1RD33xCV79kcsTLKk9Fd2WnK5dEQAmmJIqS8fL46qMMmWh3llP7EBf1/uOcK8LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709733683; c=relaxed/simple;
-	bh=OL16fx6KjUVBqodWcez5kPju6qteSkdvY8c4p+ZXvLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TAgMNT3uf56XYymU4i/pUoCRqC6msvWb0mcT2zhq/o3NEwBYcKvnDBVyPZCd3mNcGkh5nH+OPu+F/8ILruFkOHOHebvqFEKxfgizWNJEAvll68hpg9eu3qTLnuCg6XvCu+lFgsHBwatUaw95AOp9W0Qa/j/iqrvzkvBjgWBrSXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Q9wVm5eL; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709733673;
-	bh=OL16fx6KjUVBqodWcez5kPju6qteSkdvY8c4p+ZXvLI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q9wVm5eLpkVFAhVCMsjJ/hcOI1icOPvyOHKdr9rvAH0/Rrb6hMjHXePH37OnLUEHl
-	 Nu0mINsbRFk0gOe1fWLv4nBRKJIuXRMirkx9EwomEPFn5OGXYTBrHgyNXoElkd8EVt
-	 7BNRcXUNKRa4tjUhjCNrfDE+fp5jLKbiU+e3ZwxkRwCmRdUunG98rB2Lbep7D2MW6C
-	 XwDq/ILuj44uJTQuPKle3N1RGORioEzlmYkXZcd8snpXeiM7UflTk2negWjWViyO/Z
-	 i4kRhXezOUkaAPvnig3EQCe7eDAxgS4LgQdaoW9LgSjiqDwh9y6k+UHjpBqk46X1MA
-	 jqPWrGSQhkv5g==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9B09037813B6;
-	Wed,  6 Mar 2024 14:01:12 +0000 (UTC)
-Message-ID: <66a2307a-1420-4cea-aab3-53ac81f8c246@collabora.com>
-Date: Wed, 6 Mar 2024 15:01:11 +0100
+	s=arc-20240116; t=1709734993; c=relaxed/simple;
+	bh=AsmhaGXykgBlpIYOs3YSnmBAyE1Ypg8y1KFAQNP2p/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R4b1NG+YLIfuvdsbkekVRBNlyaj8HqcPb929Ndrr20vCQwTCMx/HPTGupKVPnm0ThJQ/1ANkVlID6RrdrvUQE7CQmDDUu1hOO9TE80yO/ZwdZQgylZJidmrXREtNj0HWQpG9Ji5RLr72OUrBVRRX0Tiw5/xaC3kGEANsbzMRLWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gfwizPda; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-412f8d2b0fcso3490565e9.2
+        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 06:23:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709734989; x=1710339789; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R30SW6r7kkcz9rR70c7AXNIgyI+HRbFxKSmQCilxNYc=;
+        b=gfwizPdaqRzCf8EqiXJaUDvK74Ew2XplU95lFERI8iXDCoOseTlvojnaF0fqL8w+LN
+         wlN/JrJxlWJs+nlI1g33Pdv4VMLMDSeL0/6idhxVwccKjhru/tFn56zCj2WeqfOpS8ct
+         +6ZdQ/NbZJLwzzyHW6UIQ8bR7n4bnHG/QLEmwayyfLpBVa2qTCMwyNr+WFTZRmn/ceIY
+         6mywL2icQbSy7EVSepMQmQJFDt46XWmKkfnWK30ZFZHryqxgfWQZvAppe7VY3OCn4ZM2
+         zUYpicFMqlvZ1AzcqY8BAv989UO42Who92KTEOgbYAGdYR0v2I3nVP5daw4Jqasrnpid
+         9i1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709734989; x=1710339789;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R30SW6r7kkcz9rR70c7AXNIgyI+HRbFxKSmQCilxNYc=;
+        b=t23lkjeVIDea9iv9SI3rFAlaguDL3J22QHFijAQmF94TSwMyaup4VIR7oOzwj+cG+y
+         XB2gNgLIY3jbmBNWcNZJPfywAFParVs+gM2Fv91LW6J0DiVvHgS+0glLr34Xt4AwA1vU
+         HUCw0Jl7QZLwkqXfGrZys6CZcbYDF0r1e+8LPuyehpo1tVIWHQW7lzSK7C09OK0oM8kz
+         JxpLpkejGHJlzk5J4ti/GWJGhiBdbbHi26OV6IOZWuUlMa8PjhMCTeHC9cxtVLOH0XCa
+         edJD+AyyUKDlNtdrJC3sd1SItK8Nnjy5Ld1QHIfNlV1ESlxnE/oHQhm9a66oy2pqV7hK
+         ISyA==
+X-Forwarded-Encrypted: i=1; AJvYcCXpfWtYbRlftYxpujfhWDE0897onJGlFrHa+gEVwkouEy7gUy9EHdlSgYPc3pXFnya9oPz0L/BV2LWmzqJgE69UQscp/5KkwDnpA58=
+X-Gm-Message-State: AOJu0Yy0MIFgmsNZma0lyf1S2TuoQN6cCEKbmid5lAKBauoorWjZaBIN
+	KW8oUqJjEpPKRKe9bPy1EI4QfsL0E8W1qslgh+UIEd9m/p1+eY50JaL2xt0an0k=
+X-Google-Smtp-Source: AGHT+IFik5zZonyK9lfW3FFZ5//dn9vpf/Oex5P9EnsbT+ZYCfD2/JkWWjnOMVAt0EeR7S59HT1j5w==
+X-Received: by 2002:a05:600c:3106:b0:412:ad75:aad1 with SMTP id g6-20020a05600c310600b00412ad75aad1mr11626007wmo.38.1709734989251;
+        Wed, 06 Mar 2024 06:23:09 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id u6-20020a05600c19c600b00412dc5cfc2dsm12309760wmq.33.2024.03.06.06.23.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 06:23:08 -0800 (PST)
+Date: Wed, 6 Mar 2024 17:23:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 1/7] staging: media: starfive: Replaced current_fmt
+ with get from sd_state
+Message-ID: <8a0cf244-1cb7-48a5-a900-1f82877d1e2f@moroto.mountain>
+References: <20240306093334.9321-1-changhuang.liang@starfivetech.com>
+ <20240306093334.9321-2-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: mediatek: vcodec: support 36 bits physical
- address
-Content-Language: en-US
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Nathan Hebert <nhebert@chromium.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240306121902.25069-1-yunfei.dong@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240306121902.25069-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240306093334.9321-2-changhuang.liang@starfivetech.com>
 
-Il 06/03/24 13:19, Yunfei Dong ha scritto:
-> The physical address on the MT8188 platform is larger than 32 bits,
-> change the type from unsigned int to dma_addr_t to be able to access
-> the high bits of the address.
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+On Wed, Mar 06, 2024 at 01:33:28AM -0800, Changhuang Liang wrote:
+> current_fmt only can store one pad format, when setting other pad it
+> will be overwrote. Replaced it with get from sd_state directly.
+>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+These commit descriptions are kind of hard to understand so I have
+proposed new commit messages.
 
-> ---
-> compare with v1:
-> - change address type from unsigned long to dma_addr_t
-> - change vp8 address type
-> ---
->   .../media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c | 2 +-
->   .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        | 4 ++--
->   2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c
-> index 19407f9bc773..987b3d71b662 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c
-> @@ -449,7 +449,7 @@ static int vdec_vp8_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->   		       inst->frm_cnt, y_fb_dma, c_fb_dma, fb);
->   
->   	inst->cur_fb = fb;
-> -	dec->bs_dma = (unsigned long)bs->dma_addr;
-> +	dec->bs_dma = (uint64_t)bs->dma_addr;
->   	dec->bs_sz = bs->size;
->   	dec->cur_y_fb_dma = y_fb_dma;
->   	dec->cur_c_fb_dma = c_fb_dma;
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> index cf48d09b78d7..eea709d93820 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> @@ -1074,7 +1074,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
->   	unsigned int mi_row;
->   	unsigned int mi_col;
->   	unsigned int offset;
-> -	unsigned int pa;
-> +	dma_addr_t pa;
->   	unsigned int size;
->   	struct vdec_vp9_slice_tiles *tiles;
->   	unsigned char *pos;
-> @@ -1109,7 +1109,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
->   	pos = va + offset;
->   	end = va + bs->size;
->   	/* truncated */
-> -	pa = (unsigned int)bs->dma_addr + offset;
-> +	pa = bs->dma_addr + offset;
->   	tb = instance->tile.va;
->   	for (i = 0; i < rows; i++) {
->   		for (j = 0; j < cols; j++) {
+Subject: staging: media: starfive: Get rid of current_fmt
+
+We want to support mutiple formats so saving one "current_fmt" doesn't
+work.  This was only used to set the ISP_REG_STRIDE so use the sd_state
+directly for that and delete the ->current_fmt pointer.  No functional
+change.
+
+regards,
+dan carpenter
 
 
