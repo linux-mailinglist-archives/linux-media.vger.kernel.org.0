@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-6585-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6586-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694018738FB
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 15:26:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A44D78738FF
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 15:26:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A5F928495A
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 14:26:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F7B9284AD7
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 14:26:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB81C132C16;
-	Wed,  6 Mar 2024 14:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 999D9132C19;
+	Wed,  6 Mar 2024 14:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XrN62mpo"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XVdAFXFT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E97130E40
-	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 14:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6993F130E40
+	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 14:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709735173; cv=none; b=hyjcfgpWluVxMHI/yfAk3+M7Fi20u4Ux1Nj/I8ETmD61pWtb0TUQhMpKso65Kkyw2EMkz/16cpw6sxje39z7Hmkjj0/2iFqFxSEZqV1hBdubf+PpZxTZ8DTCFda2zZwzE3+YpxH+/dRXGIbd6EIymax62DUJ7mdNGu7shgtQmZ0=
+	t=1709735191; cv=none; b=RMjFa2iKkMqFL3tR9PsYX4kfg6CvdZuYdUyIaTqo4op2hT8OKBn8+VoQPXLwjDXGE6OgsyHdJGVU3LtA3UjmXFmjC5HTaYHFqzy/4UNagXeqYYrV+JqLtbFOQ8O5iXAc6tMu9MtugUDU/hgEGRGxiYezwMkE6RjIMuI17TMbNgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709735173; c=relaxed/simple;
-	bh=KrW/CZ/APueN64R2bxzAAsZpXWtmKM6iihQbhPlVSsw=;
+	s=arc-20240116; t=1709735191; c=relaxed/simple;
+	bh=NFU1mATLRRBJqrorShDtM8d86bmqV3E0R8MdZOK7Xig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bbS9v3o9UDb5IYw1fSiCOgJbLDFJPVodEMBhKlpr/Ta1Jrt1BQte6QMyHvQ5eNbIBGii+jFETF+cMZaIggN0or2DYJ+K4PEI3yILh73Yf+Z3e94zptjQBtCBGTX1S5ywyMcALDCHGjLpTq7jAesldyckb7ytOTA51ilwRbUitpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XrN62mpo; arc=none smtp.client-ip=209.85.208.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=YARLcFW2v1m3H756kuPr6OPsHkuOLVeDKu8aJFHwNDuUdhZ3KJk/DWM/DiR53pKf0Fx4G3Ae1SEBvRIfcfhKDx5+XXOy9AxvY96NccCFJio1Mu4cCW4DBB7SAo7NcNrWNv5epTCnhaChuTJt0SlKwnGnd7SdxY3CER63Hub82Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XVdAFXFT; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d204e102a9so75990801fa.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 06:26:11 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-412f1ccf8d8so8585515e9.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 06:26:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709735169; x=1710339969; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1709735188; x=1710339988; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ILaJ1ndBrtJxnoedpR0nNpThqGu/CpGbTx1REHQje5Q=;
-        b=XrN62mpo+B2Xoe0MeYK8c2TQWUbmfF/4le4FjE+ESMRGMk5kX4j86xOZdEwlkwXPXP
-         mINAp/+rVmMsJ3EZjvTWqgmgdY6hjp/d9f/xO9lP0dz/Yf2yTqZcE2ziWdIPhezAknES
-         CvYuXTHUMZcWpZKxOMx64MF/cE8g57JQe5o4HeWpGlTf2we2iQNdHuWFzZukEo0GoOc6
-         kFisBPolurtSmdYY8Q05IuiG+lt/YeXZLR0CkhmtDMklDHSbTq1DFZbxnurhEl4ctxKQ
-         Cb452UyBxbbCZDgcJG+fD3vHFUPcSrG/bUNh7DnRMOjGPhGrIfjMK6u3pBIP61/ILYph
-         Z39A==
+        bh=sz597cPsAWEUKOTFznKZhGZK0K5yCCqY1F6ggOkfftM=;
+        b=XVdAFXFTk0hi1ebzbQik5YAG9vsRXoyTswNA4gSAOJY3y50tcp0MQ8DuIV5KI/2kL9
+         dABKbR9NFrz3KRDEa4K0fjP1EnRoa8aW8MTAjeZLjUUHcOeYLamD87kk1Gt+ffNTwaZk
+         NdLsHp5tZq78GJMOdCifLg+iA75udKVBjemtA47OTVxmSa6q580TMX2Z0Bj+uxnMUavO
+         PMI0k3W5L9bIjieAHgN3nH2wV3/mqrE4ntjADOb5PnZjqB+uwpU+SSUfSnrn6K0upPP2
+         XQkSghYEZy3SYJhRJIK8W+BcecmY67xNS54kyHr162qi/7cT6WtTU1MClkhpZMX9cLjP
+         MSBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709735169; x=1710339969;
+        d=1e100.net; s=20230601; t=1709735188; x=1710339988;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ILaJ1ndBrtJxnoedpR0nNpThqGu/CpGbTx1REHQje5Q=;
-        b=xN75cgfBrhkZoC4Q7g+vZk6mcD1XmoDeIAAIrq1jSJp8sR4gbQug3GyDjJRVF+fI2K
-         70LaOoX3Szpvi8NCw9WHe4IGGLdjIw5ZVqjVwhOZv29aUm5HxKWXwa/op5G8sqC0lqo6
-         tglxB1/fU7nIuyVcRD+QBl6IlLaZcswBrE8bi5Kgn90qV5GdXS8z1L5XiLnpjYAu435Z
-         Qx3LPiWPlbAhER96LXIAlbtxskmulBVqeR1ulfB+J4uwRerU+aYYd6GrIwLUPIsaW99A
-         jdG7cVJELjFCJ/ozPtHWh2Vxq7vItzUyTQeTfqNxgV742M31He6/UYi+xJuBLvfIkUQF
-         WweA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvEqkz5TjttVOLejHMZ4CAHo9U3SI0hGpQ+CHmomn9/m8qsyVVGwFGnEQFw/hd7xMlJD/OUJhctCvCd0TxclMUEh+PRfs9fyxzOSs=
-X-Gm-Message-State: AOJu0Yx5XmSv9em2BKi/Rl9OLtsd+5Woj1wxC08xJeWIvuaRttZ0l7HJ
-	96oPmdv28NElsfVc0uiZUuPZjxiO7i7wysGfn1Uo9b7VdCzwJ6ahjUVMJDNTvmE=
-X-Google-Smtp-Source: AGHT+IFaN3MqR0SWCUrtnsqaYb6hwQk83zKUsyA3y/yhWoXR93flI0IncrRaIiKLVUV6LlSrQuFR0Q==
-X-Received: by 2002:ac2:52ac:0:b0:512:98d1:d5e1 with SMTP id r12-20020ac252ac000000b0051298d1d5e1mr3022225lfm.21.1709735169200;
-        Wed, 06 Mar 2024 06:26:09 -0800 (PST)
+        bh=sz597cPsAWEUKOTFznKZhGZK0K5yCCqY1F6ggOkfftM=;
+        b=WkYOGrVJSZAmvCOCOdPinQ4fhzuoN4QoH/wNmcAeJBJOoTT17wLD4JjevBxANzBhzO
+         tlwKXJR+KQ21GwKMMyBGfl9ftlzC0TtJl7oaGzC7gUUJ6gB66cFBx135MDxWBaQG8bqt
+         QOEKkgUNBRECPmL7k8+p7yKENfe8QEa/A7mg8VxRbtAlHlsqlsvsWSzSWP37FS1rsJjE
+         g5ovYyW7ETeGeHS26yWs7+PVMHn/RYJVRSy0ZE/FF2XwjIeIacuOAmvtdysEeBcqH3V3
+         RDaPmKoOxjzBcmeX4qtD0gIfYiuDkgIbEzluDKlOd+Gl+BFCezduxVKiEpkL3wKTqGUz
+         Br7w==
+X-Forwarded-Encrypted: i=1; AJvYcCXrj+yRAEGiUepNoMshofTgwPZIJz72wjgcybWLpZ4eYha8rJAejZRm8DE4Oy7Hl/b4CrpM99eZa1FlFZZNt3g80puRrUZeDDoH3lM=
+X-Gm-Message-State: AOJu0Ywds2c0L5pUag30v3MGa6+lWupUYbnmbUwtARo774rOobblwP4r
+	guoEVk9lbGQUdOQUkjbGbIfJRs8U5KR797bvWWMF8YOclMfUfgWBg3BsWeKnozA=
+X-Google-Smtp-Source: AGHT+IF0YddF+g3tLcQDMU53CKKJm1hZPkdzoF7aB0gEjJiiRFsHLJHMcGngoj6lxG/F3l6jAhGIYw==
+X-Received: by 2002:adf:fc8e:0:b0:33d:284a:401 with SMTP id g14-20020adffc8e000000b0033d284a0401mr11678384wrr.68.1709735187795;
+        Wed, 06 Mar 2024 06:26:27 -0800 (PST)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id m11-20020a05600c4f4b00b00413011933e6sm391818wmq.39.2024.03.06.06.26.08
+        by smtp.gmail.com with ESMTPSA id n6-20020a056000170600b0033e45930f35sm6077958wrc.6.2024.03.06.06.26.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 06:26:08 -0800 (PST)
-Date: Wed, 6 Mar 2024 17:26:05 +0300
+        Wed, 06 Mar 2024 06:26:27 -0800 (PST)
+Date: Wed, 6 Mar 2024 17:26:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Changhuang Liang <changhuang.liang@starfivetech.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -75,10 +75,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 5/7] staging: media: starfive: Add ISP raw video device
-Message-ID: <c474bd8f-6c23-4536-a915-efbc197a223e@moroto.mountain>
+Subject: Re: [PATCH v1 6/7] staging: media: starfive: Add raw output stride
+ configure
+Message-ID: <9f346733-320d-4a7c-95d8-1eb2e5cec22e@moroto.mountain>
 References: <20240306093334.9321-1-changhuang.liang@starfivetech.com>
- <20240306093334.9321-6-changhuang.liang@starfivetech.com>
+ <20240306093334.9321-7-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,79 +88,20 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240306093334.9321-6-changhuang.liang@starfivetech.com>
+In-Reply-To: <20240306093334.9321-7-changhuang.liang@starfivetech.com>
 
-I wasn't able to get this patch to apply.  I tried applying the patch
-mentioned in the cover letter first but it didn't help...  It's not
-your fault, but it made reviewing the rest hard so I might have made
-some mistakes.
-
-On Wed, Mar 06, 2024 at 01:33:32AM -0800, Changhuang Liang wrote:
-> Add raw video device to capture raw data from ISP.
+On Wed, Mar 06, 2024 at 01:33:33AM -0800, Changhuang Liang wrote:
+> Add raw output stride to enable sent the aligned raw data to memory.
 > 
-> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> ---
->  .../staging/media/starfive/camss/stf-camss.c  | 19 ++++++
->  .../media/starfive/camss/stf-capture.c        | 58 ++++++++++++++++++-
->  .../staging/media/starfive/camss/stf-video.h  |  1 +
->  3 files changed, 77 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
-> index 81fc39f20615..90ac8b67c76e 100644
-> --- a/drivers/staging/media/starfive/camss/stf-camss.c
-> +++ b/drivers/staging/media/starfive/camss/stf-camss.c
-> @@ -126,6 +126,7 @@ static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
->  static int stfcamss_register_devs(struct stfcamss *stfcamss)
->  {
->  	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
-> +	struct stf_capture *cap_raw = &stfcamss->captures[STF_CAPTURE_RAW];
->  	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
->  	int ret;
->  
-> @@ -150,8 +151,18 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
->  
->  	cap_yuv->video.source_subdev = &isp_dev->subdev;
->  
-> +	ret = media_create_pad_link(&isp_dev->subdev.entity, STF_ISP_PAD_SRC_RAW,
-> +				    &cap_raw->video.vdev.entity, 0, 0);
-> +	if (ret)
-> +		goto err_rm_links0;
-> +
-> +	cap_raw->video.source_subdev = &isp_dev->subdev;
-> +
->  	return ret;
->  
-> +err_rm_links0:
-> +	media_entity_remove_links(&isp_dev->subdev.entity);
 
-I don't think this line is correct.  I think we only need to
-remove &cap_yuv->video.vdev.entity.
+Subject: staging: media: starfive: Fix raw output stride configuration
 
-> +	media_entity_remove_links(&cap_yuv->video.vdev.entity);
->  err_cap_unregister:
->  	stf_capture_unregister(stfcamss);
->  err_isp_unregister:
-> @@ -162,6 +173,14 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
->  
->  static void stfcamss_unregister_devs(struct stfcamss *stfcamss)
->  {
-> +	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
-> +	struct stf_capture *cap_raw = &stfcamss->captures[STF_CAPTURE_RAW];
-> +	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
-> +
-> +	media_entity_remove_links(&isp_dev->subdev.entity);
+I think this is bugfix?  What is the impact of this change to the user?
 
-I think this line should be deleted.
-
-> +	media_entity_remove_links(&cap_raw->video.vdev.entity);
-> +	media_entity_remove_links(&cap_yuv->video.vdev.entity);
-
-I think this "&cap_yuv" should be submitted by itself as a bugfix patch.
-
-> +
->  	stf_isp_unregister(&stfcamss->isp_dev);
->  	stf_capture_unregister(stfcamss);
->  }
+But I can't really understand the commit message and it's hard to review
+the code without being able to apply it.  I'm also new to this subsystem
+so maybe someone else would have been able to understand it better...
+Sorry...
 
 regards,
 dan carpenter
