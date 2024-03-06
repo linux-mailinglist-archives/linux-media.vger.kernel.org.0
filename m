@@ -1,111 +1,238 @@
-Return-Path: <linux-media+bounces-6564-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6565-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B058735B0
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 12:40:30 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E350F8735B5
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 12:43:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77B9F1C220E2
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 11:40:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DECA9B23FDB
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 11:43:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A2697F7FD;
-	Wed,  6 Mar 2024 11:40:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2079E7FBA1;
+	Wed,  6 Mar 2024 11:43:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QJAmKDuE"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Nk+ahPnP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD627F7E6
-	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 11:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FBF5EE70
+	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 11:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709725224; cv=none; b=BxATfvsEzivaRSQESCIxu0/eAL3xIHS+n+gD6983HHAtX+j3vO2EQolTyVpRiUjthULTvNaMkkdnoI230Zxst1kZYwYqi6PLllRQ1w+nWERbH+q3/wC4G3qURUQ9gbw0RPmEJA5GwcvLt+GbvfcPX+NJy/HcxXzAQTDi6y3IiYI=
+	t=1709725413; cv=none; b=uX31eq67qW3JYe4DL+97gOEDEXXVce3l87Ih9BJvMfxkRP3kiZquYHE1rWtVmpY0XK7tBwWOr5oskyQUJStUxtCuNsY/WZFL4cRocNKUCqdTRul1B8vdcjS4VZR/E2XIrHYHCTbCeE6S0rUdvrjKTrBxdrAQZlCl9QXVHmUEBVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709725224; c=relaxed/simple;
-	bh=MyDgk4afHvneJK/AGrdFnLoUjc8Ck2lGA49YcoT+rSc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jl8jWKvD0OvjuGRBNhnMNrNENF+K9eccLj5fexpieSWXzEtfFELvv2kzZ3+Az3JjqJAV03PS63Aw0jiFaMQjL6UsS9o4p+NsJf8zLXDncdXTw1zF0gASb4hi1QSBAzrH7Yv4vjw5ECegwFkPZG3K/g3FRcEFTYyq6DfVmM+myLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QJAmKDuE; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33e2248948bso2927056f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 03:40:22 -0800 (PST)
+	s=arc-20240116; t=1709725413; c=relaxed/simple;
+	bh=YX5KNi9JoOZfojze0pjQys77KFZBO6i19SqjE/MREoU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JeGZ5KsMuO70ZWQjz5bX4TBUgJeKzS2l7wjPJs43z8rqnnXdnGZO+eULzca4JJYdg8PBm9/kcXiHhp9yRt+TN6hnRg+U3tiETQ0GB+biK14wcuzk+xXutKAdorspiOaj24OD4KDr5R0xNE3shsATFFdd/DRDn9SJpPevrUHISR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Nk+ahPnP; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-565b434f90aso9784435a12.3
+        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 03:43:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709725221; x=1710330021; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bHsDLu11BhsOOu7vOLh5O5SoeXOiXHoKRCejG9ZhGdU=;
-        b=QJAmKDuERm1ib9JzNKOyPSUapuNp3s9GUwU9YQCqHSOXDu7EZHAUu+sckFQsE4dhfQ
-         uvkoM0pQG9YHwMHeroF8pLutTQw4At3bHv/RRoas2NwEMIQzYhE1IWnvKB9asMA4BxML
-         O3JLGql1Zs1riHUhK79LcfrMHbDs0/ryL1xMTUk1lLCW+GaBOkbyNEYJuK8ek36/y5fA
-         LcQN5nRj731LQssULqeN0qHzFFvar2NKz9xTMkkn+lO7JAewe332+3BgSo3zpTU8WFff
-         juvqxPigTkcuNEYCbOefSuKsS8lENM5N4cGcxyslkTSdt6wz2+OtktqXoEPxXq7mqMJo
-         79yA==
+        d=raspberrypi.com; s=google; t=1709725409; x=1710330209; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yZZ4mVEuzjiXR5CF3CJkyChtg0w5lyqbPeRfi90uImI=;
+        b=Nk+ahPnPQaRhFhOua0kKqvBimAnQV4qNv6Q19l2QeQ9PaWwubcPQNRC3AW+IBSNJnG
+         5iegVHWRR+xymHk7dp/vjsLme03Q1C3z3I8TSxrnIDhNgNY5whMF9nzQKGc3ixBaOrUO
+         llv0VPYm/cqBhSlhPgXg5Er9aY3PiIUaak8/RoaXqQx2gS/wsxpJcPeuchw0a3Yu4IGQ
+         I8a5gTKqyeq3TMaUXx0Heg0DnC/u+yoK3xcJbmE/dINXgaXa4ajXlOWm78LgH71twM5w
+         ng3rzlwy4oHR0pj2dlg/hgbW7znMHifMiblExu9rHh6pYCMhfltPVU6eCopa2a5IbeJl
+         nOiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709725221; x=1710330021;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bHsDLu11BhsOOu7vOLh5O5SoeXOiXHoKRCejG9ZhGdU=;
-        b=vIswOGTrZ+NXFlJIOrPcsuLZ7t68pnWTR/ctNS5p5GJB1xw2ClZ7eQz7FALJUyvy+8
-         qeShO6w3C9AQTN6lbUbDEDAK7u03c1ipPgtLpk2qi2bCF6mRt+kxMeK1uh7t7wrVLOvA
-         sHH/Rh2QMGaxt1cHPBRykUliwFnfjF/S3cB4K/8rejCzFTgLUTNc/9FH5MKrZC1nxL7g
-         g5SoPx9keLCMquT4ZYpNbcp95NVvVlHud50wPDDIVZqqQZFr7rzbsrDACr/3UP0LvorY
-         sK9b8cs7AeEDXx0t/Vz2aIaY6jcSRlLDKVdIvr2mNK3nnXiJ5sgilX2iComcDg3nuT9N
-         p4og==
-X-Forwarded-Encrypted: i=1; AJvYcCXAEYnS+A91uaeE7WV2Jj5LehNpPhgz7X1yxNUyY2SQOWqHSZt4ry68nkq1f8aNtQO8QeB9z/YkjHUawV8lB9w6TVFXJq+ZOLl2AQk=
-X-Gm-Message-State: AOJu0Yxm3IlGV8JFJlje6fMhbSjZzCzWz0mAy/xy5yNzUFuRqgXJTx6M
-	5MKJmPJR36tx0E+KODcl0I0Fo4ZU+vpPegFkBstPHjntx2il8g9JetLh/zS/Ypc=
-X-Google-Smtp-Source: AGHT+IGalMQM+1/5hflu9r2698/GCRP0X8SJOvsj+Y+8YnI4kUwo+Wi3TKvJOHm5HSN/ZO1xW0c84g==
-X-Received: by 2002:adf:fb8c:0:b0:33e:24c7:78ba with SMTP id a12-20020adffb8c000000b0033e24c778bamr10175310wrr.62.1709725221439;
-        Wed, 06 Mar 2024 03:40:21 -0800 (PST)
-Received: from [192.168.0.102] ([176.61.106.68])
-        by smtp.gmail.com with ESMTPSA id bq26-20020a5d5a1a000000b0033e2777f313sm12519582wrb.72.2024.03.06.03.40.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 03:40:21 -0800 (PST)
-Message-ID: <d63a573f-1ec5-4b4c-b3e0-29c46828381e@linaro.org>
-Date: Wed, 6 Mar 2024 11:40:20 +0000
+        d=1e100.net; s=20230601; t=1709725409; x=1710330209;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yZZ4mVEuzjiXR5CF3CJkyChtg0w5lyqbPeRfi90uImI=;
+        b=NVyfJVTHslO4/a2abQWcT3bKv/JEBCEgpMiFiXzzB+pG87zhSMPDVTqg+RHfvPqfbl
+         koIEGN4o2Mf4gUkQTzvyFN8Zxs+KBduMBg1+FVkBxSrinmrDY1EbCMVKHaIozp4DTZRq
+         XvsMHqzD3vtS8AIra8nTBmTOe9ADKqbwWibPvC9Cl8HK58Nug7Zitd4ddlMSzX4WQ2Zn
+         rOi+Cfmtdio53fALKtDHg9i5ClAxLUDByYpdmY6oCSpDL+Jq3L1QmdMiy7dx3/O66Pld
+         /BaK/XEqMZUQwADJrsupu0Ullv6aBAQu2cGe7DfQ1ykasBH3CnkLI7D545P8ffcJxTmH
+         UCVA==
+X-Forwarded-Encrypted: i=1; AJvYcCWJyVdYANjXsK1g4sz10FzG2qe801ukCWuilKwXVUyz6RFwsfTdPBSBpS6oPC0hfA3CX2OqtidKWbXkvVxF0kzQMxqCg1Dxm48zS6s=
+X-Gm-Message-State: AOJu0Yxd0mfsSYh678kF4Tzqf6aFDqwsOHogh/8F9Ztx9ooxlvwiYWmQ
+	Po8enio0aqfmvfLDUALxd8rQBoaIfhzp8iJAYooBJDPk099Lje2y3aeYPPPq68LiWnT8muQvr2R
+	9Mbck0IPuI/Fn6F63Yit6bQcr6rNtOIpvLnHcWQ==
+X-Google-Smtp-Source: AGHT+IF3vAORKz02jVRpKImBVSKHtpIn3gxGmIfBMByYrMdcNWR+mujAPqHxYSvjSSOWngMTQqSdDU0aWilEsyj6NG0=
+X-Received: by 2002:a05:6402:230f:b0:565:bd4d:8a89 with SMTP id
+ l15-20020a056402230f00b00565bd4d8a89mr11282951eda.31.1709725408688; Wed, 06
+ Mar 2024 03:43:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: avoid multiple core dumps
-Content-Language: en-US
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <1709704406-22501-1-git-send-email-quic_dikshita@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <1709704406-22501-1-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240223163012.300763-1-jacopo.mondi@ideasonboard.com>
+ <20240223163012.300763-8-jacopo.mondi@ideasonboard.com> <20240301215857.GO30889@pendragon.ideasonboard.com>
+ <zxx7o4zssgerlfhoczbledpmjvr5q2qfzogoytqxc353bulemq@ceo2gwinda3l>
+In-Reply-To: <zxx7o4zssgerlfhoczbledpmjvr5q2qfzogoytqxc353bulemq@ceo2gwinda3l>
+From: Naushir Patuck <naush@raspberrypi.com>
+Date: Wed, 6 Mar 2024 11:42:51 +0000
+Message-ID: <CAEmqJPpopGbDJsRkOsd-ph41_Ac6H50DvcwoE0i6hWyVBr=Kkw@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] media: dt-bindings: Add bindings for Raspberry Pi
+ PiSP Back End
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	David Plowman <david.plowman@raspberrypi.com>, 
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 06/03/2024 05:53, Dikshita Agarwal wrote:
-> Core dump is generated whenever there is system error reported
-> by firmware. Right now, multiple such dumps are generated if
-> recovery fails in first attempt, since the sys error handler is
-> invoked again for every failed recovery.
-> To avoid it, add conditional check to generate core dump only
-> once during every system error notification from firmware.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
+Hi Laurent and Jacopo,
 
- From my non-filter mail addr
+On Tue, 5 Mar 2024 at 15:25, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+>
+> Hi Laurent
+>
+> On Fri, Mar 01, 2024 at 11:58:57PM +0200, Laurent Pinchart wrote:
+> > Hi Jacopo,
+> >
+> > Thank you for the patch.
+> >
+> > On Fri, Feb 23, 2024 at 05:30:09PM +0100, Jacopo Mondi wrote:
+> > > Add bindings for the Raspberry Pi PiSP Back End memory-to-memory image
+> > > signal processor.
+> > >
+> > > Datasheet:
+> > > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > ---
+> > >  .../bindings/media/raspberrypi,pispbe.yaml    | 63 +++++++++++++++++++
+> > >  1 file changed, 63 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml b/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> > > new file mode 100644
+> > > index 000000000000..d7839f32eabf
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+> > > @@ -0,0 +1,63 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/raspberrypi,pispbe.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Raspberry Pi PiSP Image Signal Processor (ISP) Back End
+> > > +
+> > > +maintainers:
+> > > +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > > +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > +
+> > > +description: |
+> > > +  The Raspberry Pi PiSP Image Signal Processor (ISP) Back End is an image
+> > > +  processor that fetches images in Bayer or Grayscale format from DRAM memory
+> > > +  in tiles and produces images consumable by application.
+> >
+> > s/application/applications/
+> >
+> > > +
+> > > +  The full ISP documentation is available at:
+> >
+> > s/:$//
+> >
+> > > +  https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - brcm,bcm2712-pispbe
+> > > +      - const: raspberrypi,pispbe
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> >
+> > As this is a SoC IP with only memory and register interfaces, I would
+> > expect two clocks to be present, one for the register interface (AHB ?
+> > AXI4-Lite ?) and one for the memory interfaces (AXI4 ?). While the
+> > register interface clock is likely always enabled (in all cases that
+> > matter in practice) in the BCM2712, I'm not sure this can be guaranteed
+> > for future integration in different SoCs. Should we plan for this, and
+> > either define two clocks already (with one of them being optional), or
+> > name the single clock ?
+> >
+> > I know v1 named this clock "isp_be", and the name was dropped upon
+> > Krzysztof's request, but I think naming the single clock "axi" or "aclk"
+> > (assuming that one of them would be the right name) would be fine for
+> > the reason explained above.
+> >
+>
+> The PiSP datasheet does not offer many information on the IP
+> integration, only a small graph with the memory interfacing, but no
+> clocks.
+>
+> However your reasoning makes sense, and unless someone from RPi
+> suggests the contrary, I'll do so
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+There is only a single clock that clocks the whole BE block, so does
+the clock need to be explicitly named?  If it does, perhaps we can
+just use "clk" as this is not explicitly an AXI or APB clock?
 
+Naush
+
+>
+> > > +
+> > > +  iommus:
+> > > +    maxItems: 1
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - interrupts
+> > > +  - clocks
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > +
+> > > +    soc {
+> > > +        #address-cells = <2>;
+> > > +        #size-cells = <2>;
+> > > +
+> > > +        isp@880000  {
+> > > +             compatible = "brcm,bcm2712-pispbe", "raspberrypi,pispbe";
+> > > +             reg = <0x10 0x00880000  0x0 0x4000>;
+> >
+> > Double space, I don't know if that's on purpose.
+> >
+>
+> Ofc it was not.
+>
+> Thanks
+>    j
+>
+> > > +             interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+> > > +             clocks = <&firmware_clocks 7>;
+> > > +             iommus = <&iommu2>;
+> > > +        };
+> > > +    };
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
 
