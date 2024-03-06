@@ -1,329 +1,260 @@
-Return-Path: <linux-media+bounces-6589-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6590-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508CC873B60
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 16:58:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA1A873C79
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 17:43:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74A951C223D7
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 15:58:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D9571F23360
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 16:43:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD10136652;
-	Wed,  6 Mar 2024 15:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BC6137921;
+	Wed,  6 Mar 2024 16:42:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="YZyF9Hq1"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="P9mQfS6C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE74B1350C7;
-	Wed,  6 Mar 2024 15:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5E2111A3
+	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 16:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709740656; cv=none; b=VER8ZzbzCqn/iacFCaspBo1uPUAOF2MozsE8lLamPSzuQJ3e6Fv4ZuGPQPkggoO7DvXkllPlyeFGgHe/3pyrlHDqiS1O9v0kOTNfjVk8th+C6wJT2vYWQMHBm+VEbvkIJyKD01xYI65QP8t12An85Ro9euEBQLIIyh5ucnon0+A=
+	t=1709743376; cv=none; b=gAqMlP/UI8Rqi3slkyi/FOxhEV3qi0kXDpPiA8t/vjCGuLQxaNuklJNR6vCUFaHqW6Sw2AIwR8WHAd3LBbPkhsQsFXJ2bHGw9NP0GDDCYCKqc8KOUE7qVUHcKaF/M6flgI3MOup4YX4LUT1Y3qHGZss3hnkSnnS39HrTFCbBFTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709740656; c=relaxed/simple;
-	bh=UO09xTyBFtagByre8vawcNjeJEAUH4ZPU5kzNDX0Vkk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=E6QWHCfb61ZTcsePafF6ox/goh2QhQZ9Ne6ztK/oQ15AisDo5/bz8E9Kg+OJHLyz5YQzysMKoxeN/s61QRyWrjcaLrbE1YkE1Nn3x9ESoxkmSXl4s7ToCyx7rEwGrzYD5us3Qi9e9NOWRUeHYxYUDIzEqmvF84+Rc0/M6THay0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=YZyF9Hq1; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 426FvAQe046579;
-	Wed, 6 Mar 2024 09:57:10 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1709740630;
-	bh=s6XXPOZixBpvArQgqXVPMJ7AALd78icvax/RulohuqI=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=YZyF9Hq1vQ7/SZ3/dKFv8l5uACAKSzZLUIMH3JB307HDrqKPeD4Xza9HUdZDvj6pu
-	 YUHlz9UTY8TvQ6s/BKv2/67QLnws0PA5KyriKrztOvEnAPKrnVo76JFz1JLmnwurZe
-	 kjmRkQ6KFSRBP5x9eQUoWdVyxBLJZkqSvXd0B76M=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 426FvA2R025237
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 6 Mar 2024 09:57:10 -0600
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 6
- Mar 2024 09:57:09 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 6 Mar 2024 09:57:09 -0600
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 426Fv2VC092201;
-	Wed, 6 Mar 2024 09:57:03 -0600
-Message-ID: <9b4c9321-bc3a-95a2-fe9b-f739b5d12598@ti.com>
-Date: Wed, 6 Mar 2024 21:27:02 +0530
+	s=arc-20240116; t=1709743376; c=relaxed/simple;
+	bh=9R9Uql4dpTfR5UzkP02I39c1Wae43SMY2i4QRqQ2E04=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j1fWnPzID98Y3IYAyMKJrTQy+lgDEpDR8+/bbEVITla5Cx3lAWU/7KvEqe1UigYRVx3L5uONUjrpsKJwqrY6IXRU8fAyoRkRNAmsCO1FJGPUoIiFn8EcyQrhsWeOOfseAu4I8slfGVQHgtsP50r0MtgrMovJArl28KVN7aD0p+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=P9mQfS6C; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so6736543276.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 08:42:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1709743373; x=1710348173; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yzW7+P93llx+4bGlKmeM0ss5L9EqxXJA6GAV234pxq4=;
+        b=P9mQfS6Cm7gD052Fhc4IkDpAg2Mz690/n9h3QqkhPI2iXomb8U3sAFNPjt4TgRVJpk
+         fYPC4jNjJmKC2ngB1+ORw13jDfRLWvvQavGIye0g6B7v5EUvOCSVuaI6GTP59lNZGHdU
+         FjHLOhflbVQzDkiqFWpqpPE14H8il3ocQ/DjL3YnCAdbU3FryO9Al3E6rD2ZfgBvqRdZ
+         H7EcykgL+LW+kXR+pqJs5p2niIVvSqdPyXnl7HUF/L+0tpagJjA42W+ajV9oeSVM3nbU
+         xeQN4Kf3pn+4u7zjPWvcEIx8RsX0FaeyPA8E7zKfbNKHXOX+jgq+PP5eJL8G2qySHRqm
+         pP1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709743373; x=1710348173;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yzW7+P93llx+4bGlKmeM0ss5L9EqxXJA6GAV234pxq4=;
+        b=JCZdR+rgJGcuhDPp9NWSWJ5c9KPpFKP0zSPhxRxW4uBm6cY3VN3m0a0+yqCkctBUtn
+         cyx0o0BeV/j8tKWfP924cQ9GQQxnVN8xi9Yg1sLt7lm42W2sb1QFIMbfd/bfvrJi6Zra
+         7b1yaK0ZPSmenfm77mtm0aKhQRB201xZse4OSYDtRpgU9JzAg03aRcOa9k6h/IuiA/KT
+         UMsZcXAA2oSwWi8pc8hnkIaGMaTnH+Xo3VMrhC1tM42kcGycST1WAtEngKa5Vpv2rg1m
+         WHYvDGO1Dls5YclUlqt0Z6MKmHJpmPGZ5BIiX9P72qA7nnDxIfAjemRgxUkns9i1R80F
+         TJXw==
+X-Gm-Message-State: AOJu0YxPoUI8RhR6qO9C0jT0nZQjq4bB3VIsJU7DJQce3ubLtLdLPQLl
+	InFWZdXmly9hrnwe1mpW0Uii6K5et3Jn670rglW2jK6tKrmqM8DCExqCt/ozIWXz9Sqz5FfwIie
+	2q2Z1oPjhXcCNhnEJw8WwPu+FlpadkQpJd3ZveQ==
+X-Google-Smtp-Source: AGHT+IGFvljXxaw12g2V5h9H1EpK5MQBF/YE9XuxVDI14Hwlf+10umhfNZ3LtAFSz8CGLOBPqpBbj9paScPYt1XdPQo=
+X-Received: by 2002:a05:6902:2503:b0:dcb:b0f0:23fc with SMTP id
+ dt3-20020a056902250300b00dcbb0f023fcmr14726647ybb.22.1709743373120; Wed, 06
+ Mar 2024 08:42:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: Add Imagination E5010 JPEG
- Encoder
-Content-Language: en-US
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-CC: <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <laurent.pinchart@ideasonboard.com>,
-        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
-        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
-        <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <afd@ti.com>, <milkfafa@gmail.com>
-References: <20240228141140.3530612-1-devarsht@ti.com>
- <20240228141140.3530612-2-devarsht@ti.com>
- <20240229102623.ihwhbba4qwzvxzzq@basti-XPS-13-9310>
- <7a83fe91-5afa-6aee-a8a4-44f6e3d713c2@ti.com>
- <20240229133046.64h2f4n27emvdhnq@basti-XPS-13-9310>
- <eff7080b-42e9-19ae-6022-bfbcc337b4a0@ti.com>
- <20240301170611.tknj7ncwvgqjwkx5@basti-XPS-13-9310>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20240301170611.tknj7ncwvgqjwkx5@basti-XPS-13-9310>
+References: <20240306081038.212412-1-umang.jain@ideasonboard.com> <20240306081038.212412-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20240306081038.212412-2-umang.jain@ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 6 Mar 2024 16:42:36 +0000
+Message-ID: <CAPY8ntAv2XCgMoA7N6Wj72jOX4rRt4b-HRUr1WXR1diH1bHx8A@mail.gmail.com>
+Subject: Re: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, 
+	Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Hi Sebastian,
+Hi Umang and Kieran
 
-On 01/03/24 22:36, Sebastian Fricke wrote:
-> Hey Devarsh,
-> 
-> On 01.03.2024 22:02, Devarsh Thakkar wrote:
->> Hi Sebastian,
->>
->> On 29/02/24 19:00, Sebastian Fricke wrote:
->>> Hey Devarsh,
->>>
->>> On 29.02.2024 16:50, Devarsh Thakkar wrote:
->>>> Hi Sebastian,
->>>>
->>>> Thanks for the review.
->>>>
->>>> On 29/02/24 15:56, Sebastian Fricke wrote:
->>>>> Hey Devarsh,
->>>>>
->>>>> On 28.02.2024 19:41, Devarsh Thakkar wrote:
->>>>>> Add dt-bindings for Imagination E5010 JPEG Encoder [1] which is implemented
->>>>>> as stateful V4L2 M2M driver.
->>>>>>
->>>>>> The device supports baseline encoding with two different quantization
->>>>>> tables and compression ratio as demanded.
->>>>>>
->>>>>> Minimum resolution supported is 64x64 and Maximum resolution supported is
->>>>>> 8192x8192.
->>>>>>
->>>>>> [1]:  AM62A TRM (Section 7.6 is for JPEG Encoder)
->>>>>> Link: https://www.ti.com/lit/pdf/spruj16
->>>>>>
->>>>>> Co-developed-by: David Huang <d-huang@ti.com>
->>>>>> Signed-off-by: David Huang <d-huang@ti.com>
->>>>>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->>>>>> Reviewed-by: Rob Herring <robh@kernel.org>
->>>>>
->>>>> hmmm when did Rob give his reviewed by on this patch? (As this is not a
->>>>> DT binding I find that odd)
->>>>
->>>> [PATCH v6 1/3] media: dt-bindings: Add Imagination E5010 JPEG Encoder : This
->>>> is indeed the dt-binding patch. Also As shared in version history it is at V4
->>>> where Rob Herring added a Reviewed-By as seen here [0]
->>>>
->>>>> And where is the Reviewed by tag from Benjamin that he provided on V5?
->>>>>
->>>>
->>>> As captured in patch version history here [1] I thought to remove the
->>>> Reviewed-By since the Reviewed-By tag was on V5 and with V6 the driver got
->>>> updated with some changes to handle reported sparse warnings and so I have
->>>> asked Benjamin to check the range-diff and help with a quick review again if
->>>> possible.
->>>>
->>>> Kindly let me know if I missed something or anything needs to be done from
->>>> my end.
->>>
->>> Yes thanks I was a bit too swift to write here, sorry for the noise.
->>> We'll have a look.
->>>
->>
->> Sorry for the back and forth, but on the hindsight and re-looking at the
->> kernel patch guidelines [0] they suggest that Reviewed-By tag should only be
->> removed if substantial changes were made in further revisions.
->>
->> So looks to me in-fact it was a mistake on my part to remove the Reviewed-by
->> considering the change made in the following patch series was not a
->> substantial one as seen in the range-diff [1].
->>
->> Considering this, just wanted to check with you if it's possible for you to
->> consider the Reviewed-by tag :
->> `Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com`
->> if it helps consolidate things faster to get this series in given we are close
->> to final RC's ?
-> 
-> Yup I think we can keep it as the changes are very minor. Otherwise the
-> series is pretty much good to go, I'll prepare the PR asap.
-> 
+On Wed, 6 Mar 2024 at 08:11, Umang Jain <umang.jain@ideasonboard.com> wrote:
+>
+> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>
+> The IMX335 can support both 2 and 4 lane configurations.
+> Extend the driver to configure the lane mode accordingly.
+> Update the pixel rate depending on the number of lanes in use.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx335.c | 46 +++++++++++++++++++++++++++++++-------
+>  1 file changed, 38 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> index dab6d080bc4c..a42f48823515 100644
+> --- a/drivers/media/i2c/imx335.c
+> +++ b/drivers/media/i2c/imx335.c
+> @@ -21,6 +21,11 @@
+>  #define IMX335_MODE_STANDBY    0x01
+>  #define IMX335_MODE_STREAMING  0x00
+>
+> +/* Data Lanes */
+> +#define IMX335_LANEMODE                0x3a01
+> +#define IMX335_2LANE           1
+> +#define IMX335_4LANE           3
+> +
+>  /* Lines per frame */
+>  #define IMX335_REG_LPFR                0x3030
+>
+> @@ -67,8 +72,6 @@
+>  #define IMX335_LINK_FREQ_594MHz                594000000LL
+>  #define IMX335_LINK_FREQ_445MHz                445500000LL
+>
+> -#define IMX335_NUM_DATA_LANES  4
+> -
+>  #define IMX335_REG_MIN         0x00
+>  #define IMX335_REG_MAX         0xfffff
+>
+> @@ -115,7 +118,6 @@ static const char * const imx335_supply_name[] = {
+>   * @vblank: Vertical blanking in lines
+>   * @vblank_min: Minimum vertical blanking in lines
+>   * @vblank_max: Maximum vertical blanking in lines
+> - * @pclk: Sensor pixel clock
+>   * @reg_list: Register list for sensor mode
+>   */
+>  struct imx335_mode {
+> @@ -126,7 +128,6 @@ struct imx335_mode {
+>         u32 vblank;
+>         u32 vblank_min;
+>         u32 vblank_max;
+> -       u64 pclk;
+>         struct imx335_reg_list reg_list;
+>  };
+>
+> @@ -147,6 +148,7 @@ struct imx335_mode {
+>   * @exp_ctrl: Pointer to exposure control
+>   * @again_ctrl: Pointer to analog gain control
+>   * @vblank: Vertical blanking in lines
+> + * @lane_mode Mode for number of connected data lanes
+>   * @cur_mode: Pointer to current selected sensor mode
+>   * @mutex: Mutex for serializing sensor controls
+>   * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
+> @@ -171,6 +173,7 @@ struct imx335 {
+>                 struct v4l2_ctrl *again_ctrl;
+>         };
+>         u32 vblank;
+> +       u32 lane_mode;
+>         const struct imx335_mode *cur_mode;
+>         struct mutex mutex;
+>         unsigned long link_freq_bitmap;
+> @@ -377,7 +380,6 @@ static const struct imx335_mode supported_mode = {
+>         .vblank = 2560,
+>         .vblank_min = 2560,
+>         .vblank_max = 133060,
+> -       .pclk = 396000000,
+>         .reg_list = {
+>                 .num_of_regs = ARRAY_SIZE(mode_2592x1940_regs),
+>                 .regs = mode_2592x1940_regs,
+> @@ -936,6 +938,11 @@ static int imx335_start_streaming(struct imx335 *imx335)
+>                 return ret;
+>         }
+>
+> +       /* Configure lanes */
+> +       ret = imx335_write_reg(imx335, IMX335_LANEMODE, 1, imx335->lane_mode);
+> +       if (ret)
+> +               return ret;
+> +
+>         /* Setup handler will write actual exposure and gain */
+>         ret =  __v4l2_ctrl_handler_setup(imx335->sd.ctrl_handler);
+>         if (ret) {
+> @@ -1096,7 +1103,14 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+>         if (ret)
+>                 return ret;
+>
+> -       if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX335_NUM_DATA_LANES) {
+> +       switch (bus_cfg.bus.mipi_csi2.num_data_lanes) {
+> +       case 2:
+> +               imx335->lane_mode = IMX335_2LANE;
+> +               break;
+> +       case 4:
+> +               imx335->lane_mode = IMX335_4LANE;
+> +               break;
+> +       default:
+>                 dev_err(imx335->dev,
+>                         "number of CSI2 data lanes %d is not supported\n",
+>                         bus_cfg.bus.mipi_csi2.num_data_lanes);
+> @@ -1209,6 +1223,9 @@ static int imx335_init_controls(struct imx335 *imx335)
+>         struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
+>         const struct imx335_mode *mode = imx335->cur_mode;
+>         u32 lpfr;
+> +       u64 pclk;
+> +       s64 link_freq_in_use;
+> +       u8 bpp;
+>         int ret;
+>
+>         ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
+> @@ -1252,11 +1269,24 @@ static int imx335_init_controls(struct imx335 *imx335)
+>                                      0, 0, imx335_tpg_menu);
+>
+>         /* Read only controls */
+> +
+> +       /* pixel rate = link frequency * lanes * 2 / bits_per_pixel */
+> +       switch (imx335->cur_mbus_code) {
+> +       case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +               bpp = 10;
+> +               break;
+> +       case MEDIA_BUS_FMT_SRGGB12_1X12:
+> +               bpp = 12;
+> +               break;
+> +       }
+> +
+> +       link_freq_in_use = link_freq[__ffs(imx335->link_freq_bitmap)];
+> +       pclk = link_freq_in_use * (imx335->lane_mode + 1) * 2 / bpp;
+>         imx335->pclk_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
+>                                               &imx335_ctrl_ops,
+>                                               V4L2_CID_PIXEL_RATE,
+> -                                             mode->pclk, mode->pclk,
+> -                                             1, mode->pclk);
+> +                                             pclk, pclk,
+> +                                             1, pclk);
 
-Thanks, so I assume this could still make it to 6.9 merge window if it gets
-pulled in before 6.8 rc8 ? Also do you think it would be possible to pull in
-https://lore.kernel.org/all/20240305160529.4152865-1-devarsht@ti.com/ as here
-too nothing much has changed w.r.t initial posting apart from commit message.
+Is this actually correct?
+A fair number of the sensors I've encountered have 2 PLL paths - one
+for the pixel array, and one for the CSI block. The bpp will generally
+be fed into the CSI block PLL path, but not into the pixel array one.
+The link frequency will therefore vary with bit depth, but
+V4L2_CID_PIXEL_RATE doesn't change.
 
-Regards
-Devarsh
+imx290 certainly has a disjoin between pixel rate and link freq
+(cropping reduces link freq, but not pixel rate), and we run imx477 in
+2 lane mode with the pixel array at full tilt (840MPix/s) but large
+horizontal blanking to allow CSI2 enough time to send the data.
 
-> Greetings,
-> Sebastian
-> 
->>
->> [0]:
->> https://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes:~:text=changed%20substantially
->>
->> [1]: https://gist.github.com/devarsht/c89180ac2b0d2814614f2b59d0705c19
->>
->> Regards
->> Devarsh
->>
->>>
->>> Greetings,
->>> Sebastian
->>>
->>>>
->>>> [0] :
->>>> https://lore.kernel.org/all/170716378412.295212.11603162949482063011.robh@kernel.org/
->>>> [1] : https://lore.kernel.org/all/20240228141140.3530612-4-devarsht@ti.com/
->>>>
->>>>
->>>> Regards
->>>> Devarsh
->>>>>> ---
->>>>>> V2: No change
->>>>>> V3:
->>>>>> - Add vendor specific compatible
->>>>>> - Update reg names
->>>>>> - Update clocks to 1
->>>>>> - Fix dts example with proper naming
->>>>>> V4:
->>>>>> - Use ti-specific compatible ti,am62a-jpeg-enc as secondary one
->>>>>> - Update commit message and title
->>>>>> - Remove clock-names as only single clock
->>>>>> V5:
->>>>>> - Add Reviewed-By tag
->>>>>> V6:
->>>>>> - No change
->>>>>>
->>>>>> .../bindings/media/img,e5010-jpeg-enc.yaml    | 75 +++++++++++++++++++
->>>>>> MAINTAINERS                                   |  5 ++
->>>>>> 2 files changed, 80 insertions(+)
->>>>>> create mode 100644
->>>>>> Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>>>>>
->>>>>> diff --git
->>>>>> a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>>>>> b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>>>>> new file mode 100644
->>>>>> index 000000000000..085020cb9e61
->>>>>> --- /dev/null
->>>>>> +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>>>>> @@ -0,0 +1,75 @@
->>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>>> +%YAML 1.2
->>>>>> +---
->>>>>> +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
->>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>> +
->>>>>> +title: Imagination E5010 JPEG Encoder
->>>>>> +
->>>>>> +maintainers:
->>>>>> +  - Devarsh Thakkar <devarsht@ti.com>
->>>>>> +
->>>>>> +description: |
->>>>>> +  The E5010 is a JPEG encoder from Imagination Technologies implemented on
->>>>>> +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
->>>>>> +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
->>>>>> +  8Kx8K resolution.
->>>>>> +
->>>>>> +properties:
->>>>>> +  compatible:
->>>>>> +    oneOf:
->>>>>> +      - items:
->>>>>> +          - const: ti,am62a-jpeg-enc
->>>>>> +          - const: img,e5010-jpeg-enc
->>>>>> +      - const: img,e5010-jpeg-enc
->>>>>> +
->>>>>> +  reg:
->>>>>> +    items:
->>>>>> +      - description: The E5010 core register region
->>>>>> +      - description: The E5010 mmu register region
->>>>>> +
->>>>>> +  reg-names:
->>>>>> +    items:
->>>>>> +      - const: core
->>>>>> +      - const: mmu
->>>>>> +
->>>>>> +  power-domains:
->>>>>> +    maxItems: 1
->>>>>> +
->>>>>> +  resets:
->>>>>> +    maxItems: 1
->>>>>> +
->>>>>> +  clocks:
->>>>>> +    maxItems: 1
->>>>>> +
->>>>>> +  interrupts:
->>>>>> +    maxItems: 1
->>>>>> +
->>>>>> +required:
->>>>>> +  - compatible
->>>>>> +  - reg
->>>>>> +  - reg-names
->>>>>> +  - interrupts
->>>>>> +  - clocks
->>>>>> +
->>>>>> +additionalProperties: false
->>>>>> +
->>>>>> +examples:
->>>>>> +  - |
->>>>>> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
->>>>>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>>>>> +
->>>>>> +    soc {
->>>>>> +      #address-cells = <2>;
->>>>>> +      #size-cells = <2>;
->>>>>> +      jpeg-encoder@fd20000 {
->>>>>> +          compatible = "img,e5010-jpeg-enc";
->>>>>> +          reg = <0x00 0xfd20000 0x00 0x100>,
->>>>>> +                <0x00 0xfd20200 0x00 0x200>;
->>>>>> +          reg-names = "core", "mmu";
->>>>>> +          clocks = <&k3_clks 201 0>;
->>>>>> +          power-domains = <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
->>>>>> +          interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
->>>>>> +      };
->>>>>> +    };
->>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>>>> index e1475ca38ff2..6b34ee8d92b5 100644
->>>>>> --- a/MAINTAINERS
->>>>>> +++ b/MAINTAINERS
->>>>>> @@ -10572,6 +10572,11 @@ S:    Maintained
->>>>>> F:    Documentation/devicetree/bindings/auxdisplay/img,ascii-lcd.yaml
->>>>>> F:    drivers/auxdisplay/img-ascii-lcd.c
->>>>>>
->>>>>> +IMGTEC JPEG ENCODER DRIVER
->>>>>> +M:    Devarsh Thakkar <devarsht@ti.com>
->>>>>> +S:    Supported
->>>>>> +F:    Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>>>>> +
->>>>>> IMGTEC IR DECODER DRIVER
->>>>>> S:    Orphan
->>>>>> F:    drivers/media/rc/img-ir/
->>>>>> -- 
->>>>>> 2.39.1
->>>>>>
+If you've validated that for a range of frame rates you get the
+correct output from the sensor in both 10 and 12 bit modes, then I
+don't object. I just have an instinctive tick whenever I see drivers
+computing PIXEL_RATE from LINK_FREQ or vice versa :)
+If you get the right frame rate it may also imply that the link
+frequency isn't as configured, but that rarely has any negative
+effects. You need a reasonably good oscilloscope to be able to measure
+the link frequency.
+
+  Dave
+
+>
+>         imx335->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
+>                                                         &imx335_ctrl_ops,
+> --
+> 2.43.0
+>
+>
 
