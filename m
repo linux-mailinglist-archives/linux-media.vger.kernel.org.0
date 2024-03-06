@@ -1,260 +1,175 @@
-Return-Path: <linux-media+bounces-6590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6591-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA1A873C79
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 17:43:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82780873CA2
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 17:51:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D9571F23360
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 16:43:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5F9F1C21E7F
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 16:51:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BC6137921;
-	Wed,  6 Mar 2024 16:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D772137931;
+	Wed,  6 Mar 2024 16:51:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="P9mQfS6C"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MgZ0KcAS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5E2111A3
-	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 16:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689E413792C
+	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 16:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709743376; cv=none; b=gAqMlP/UI8Rqi3slkyi/FOxhEV3qi0kXDpPiA8t/vjCGuLQxaNuklJNR6vCUFaHqW6Sw2AIwR8WHAd3LBbPkhsQsFXJ2bHGw9NP0GDDCYCKqc8KOUE7qVUHcKaF/M6flgI3MOup4YX4LUT1Y3qHGZss3hnkSnnS39HrTFCbBFTQ=
+	t=1709743894; cv=none; b=AKJmyRcGEgXT+z6IbZ+xYF1u1958+mBl4zCu8KQNjAhd5ztI3nrxree+tRJVbfS96ZGpe69OKfomhjwWDZZ3xnoxhoLv99OqoDj69RNbIz5H1R1w96OSjQ3nKwQY0al52Yotk3jSQOwlDEY3pL3YojrkL7F7kqHsVf0QMiMi+YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709743376; c=relaxed/simple;
-	bh=9R9Uql4dpTfR5UzkP02I39c1Wae43SMY2i4QRqQ2E04=;
+	s=arc-20240116; t=1709743894; c=relaxed/simple;
+	bh=2ZhRIiVOue9t1Wad+eKIOFn2M0PF3k+uzBlQG79ns5E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j1fWnPzID98Y3IYAyMKJrTQy+lgDEpDR8+/bbEVITla5Cx3lAWU/7KvEqe1UigYRVx3L5uONUjrpsKJwqrY6IXRU8fAyoRkRNAmsCO1FJGPUoIiFn8EcyQrhsWeOOfseAu4I8slfGVQHgtsP50r0MtgrMovJArl28KVN7aD0p+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=P9mQfS6C; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so6736543276.1
-        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 08:42:53 -0800 (PST)
+	 To:Cc:Content-Type; b=LjnVzv/TW3nWOr7n7NrZWq5ZriTE4i9cwPpLbkHyWw6ElTdvwoNWbhkDpPc1DiZw09sdKk/Fesijb1Q0DGgVHzHSE2gNAJeyAI/vpcTXW8CMoj0byA8eAtHo9GhHdA7PA9g/XBILQEh5hAxtaMcBykck+6y/5V09VQn41/y2/0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MgZ0KcAS; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-567f7bba941so1027429a12.2
+        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 08:51:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1709743373; x=1710348173; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yzW7+P93llx+4bGlKmeM0ss5L9EqxXJA6GAV234pxq4=;
-        b=P9mQfS6Cm7gD052Fhc4IkDpAg2Mz690/n9h3QqkhPI2iXomb8U3sAFNPjt4TgRVJpk
-         fYPC4jNjJmKC2ngB1+ORw13jDfRLWvvQavGIye0g6B7v5EUvOCSVuaI6GTP59lNZGHdU
-         FjHLOhflbVQzDkiqFWpqpPE14H8il3ocQ/DjL3YnCAdbU3FryO9Al3E6rD2ZfgBvqRdZ
-         H7EcykgL+LW+kXR+pqJs5p2niIVvSqdPyXnl7HUF/L+0tpagJjA42W+ajV9oeSVM3nbU
-         xeQN4Kf3pn+4u7zjPWvcEIx8RsX0FaeyPA8E7zKfbNKHXOX+jgq+PP5eJL8G2qySHRqm
-         pP1g==
+        d=google.com; s=20230601; t=1709743891; x=1710348691; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fAuNxTfS6x4OQHwyTAR2JW08hPHhuONnAVW1sMtWxI0=;
+        b=MgZ0KcAS7HSS77yVu7xyCeHAcaC/1SdsNfuOebsPKTi47ADSikIPFHFpMVlwAuM3Lq
+         ADh3B8tOCDjS8SO22bC5JH7v38MMF7sGik0mAt/5hJkVIW5AEQmXcFeW9oqhkFytK0rb
+         /Ww9ONL83z+QuBnnhMONLXuuoA7qgm3K0ZfBZvgkcOLzqswyIaukdbQhLb3YNczFfmmx
+         jgRR8h2ZQOpnYgWc7g+WCCi0m0f37F6bezegEtZlxh4cxVcQxJZp/udwbPuqUyp3aK1a
+         0D9N4f04odZmGIVAHEJ6AuB6otT/H7GV6nWXPid/olVyvuohW5SN+xe5wVd+/4rfcXAt
+         PowQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709743373; x=1710348173;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yzW7+P93llx+4bGlKmeM0ss5L9EqxXJA6GAV234pxq4=;
-        b=JCZdR+rgJGcuhDPp9NWSWJ5c9KPpFKP0zSPhxRxW4uBm6cY3VN3m0a0+yqCkctBUtn
-         cyx0o0BeV/j8tKWfP924cQ9GQQxnVN8xi9Yg1sLt7lm42W2sb1QFIMbfd/bfvrJi6Zra
-         7b1yaK0ZPSmenfm77mtm0aKhQRB201xZse4OSYDtRpgU9JzAg03aRcOa9k6h/IuiA/KT
-         UMsZcXAA2oSwWi8pc8hnkIaGMaTnH+Xo3VMrhC1tM42kcGycST1WAtEngKa5Vpv2rg1m
-         WHYvDGO1Dls5YclUlqt0Z6MKmHJpmPGZ5BIiX9P72qA7nnDxIfAjemRgxUkns9i1R80F
-         TJXw==
-X-Gm-Message-State: AOJu0YxPoUI8RhR6qO9C0jT0nZQjq4bB3VIsJU7DJQce3ubLtLdLPQLl
-	InFWZdXmly9hrnwe1mpW0Uii6K5et3Jn670rglW2jK6tKrmqM8DCExqCt/ozIWXz9Sqz5FfwIie
-	2q2Z1oPjhXcCNhnEJw8WwPu+FlpadkQpJd3ZveQ==
-X-Google-Smtp-Source: AGHT+IGFvljXxaw12g2V5h9H1EpK5MQBF/YE9XuxVDI14Hwlf+10umhfNZ3LtAFSz8CGLOBPqpBbj9paScPYt1XdPQo=
-X-Received: by 2002:a05:6902:2503:b0:dcb:b0f0:23fc with SMTP id
- dt3-20020a056902250300b00dcbb0f023fcmr14726647ybb.22.1709743373120; Wed, 06
- Mar 2024 08:42:53 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709743891; x=1710348691;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fAuNxTfS6x4OQHwyTAR2JW08hPHhuONnAVW1sMtWxI0=;
+        b=DhfS7g2OAsVszk1eW8ImvP3asv0/OCKkSg0RTEmmaJqQjrw6g/OZxKinQF0tOIHVu8
+         JnmvB75Wu+YoohfbCOHikQD0n1/VtUi71NYoxz7aZjVZARKHdS3/rUg6mLKDq/hDQi3l
+         nmcPkGXUsQQTnBonC6lVzj/LFK+8dEgRIGbMGnsWKv9Jr2qVCpzW26z6luczpTjRBjqC
+         9qUOfj1/e9krcOFT06FPBWvSr41TftJSuPnTTIkVurwbD0XnCSjA78mMHVVj9MVb/qKg
+         dSS8KcjcHx5H3WXQgB/PmairDCrhhA28PDG9Zdcabp08lXrL5kL46xHioMV2Gcss/JO4
+         7u1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVEI6mvlGN2aFPFQ8ng8Wcf8UHH3ZnKOgcQ1nWomPNYBNLMjCZ55BftGBawpsz3WplZnk6XxvWaifxOG05rJ4BLrTpdVQx2DO4BRRw=
+X-Gm-Message-State: AOJu0Yy8XCkKPuiCp73wnDmcM8UwttUPuqBBkMNvOS0bBQIsVFTP+wM9
+	JtQL1EqDhMs+/aehYb0xBMVgRQ4rGnAwd2xCTc2Hs3VFoSApmc1Rdi5pNDTRUqqr+rzzaojB02S
+	SE3OTQLWJitTElmnCMjrYzEhH0HN2YLrqcU1m
+X-Google-Smtp-Source: AGHT+IHrH3y3Ev3rFR65oa9/ga3T2bFvGKoWYUoW9uQPlR8wceBykqCSE0zANfpwXtxsNCt9XtLxrBXjLnroDNOKeBc=
+X-Received: by 2002:a17:906:fc01:b0:a43:f267:789f with SMTP id
+ ov1-20020a170906fc0100b00a43f267789fmr10647282ejb.41.1709743890406; Wed, 06
+ Mar 2024 08:51:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240306081038.212412-1-umang.jain@ideasonboard.com> <20240306081038.212412-2-umang.jain@ideasonboard.com>
-In-Reply-To: <20240306081038.212412-2-umang.jain@ideasonboard.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 6 Mar 2024 16:42:36 +0000
-Message-ID: <CAPY8ntAv2XCgMoA7N6Wj72jOX4rRt4b-HRUr1WXR1diH1bHx8A@mail.gmail.com>
-Subject: Re: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, 
-	Alexander Shiyan <eagle.alexander923@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	open list <linux-kernel@vger.kernel.org>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-10-almasrymina@google.com> <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
+ <CAHS8izP_PzDJVxycwZe_d_x10-SX4=Q-CWpKTjoOQ5dc2NSn3w@mail.gmail.com> <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
+In-Reply-To: <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 6 Mar 2024 08:51:18 -0800
+Message-ID: <CAHS8izMEJHWAHVjaKu9ZpeWRj1TwoLkmY5tCtDYxdDReBV8=Dw@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem
+ memory provider
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Umang and Kieran
+On Wed, Mar 6, 2024 at 6:59=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
+om> wrote:
+>
+> On 3/6/24 02:42, Mina Almasry wrote:
+> > On Tue, Mar 5, 2024 at 6:28=E2=80=AFPM David Wei <dw@davidwei.uk> wrote=
+:
+> >>
+> >> On 2024-03-04 18:01, Mina Almasry wrote:
+> >>> +     if (pool->p.queue)
+> >>> +             binding =3D READ_ONCE(pool->p.queue->binding);
+> >>> +
+> >>> +     if (binding) {
+> >>> +             pool->mp_ops =3D &dmabuf_devmem_ops;
+> >>> +             pool->mp_priv =3D binding;
+> >>> +     }
+> >>
+> >> This is specific to TCP devmem. For ZC Rx we will need something more
+> >> generic to let us pass our own memory provider backend down to the pag=
+e
+> >> pool.
+> >>
+> >> What about storing ops and priv void ptr in struct netdev_rx_queue
+> >> instead? Then we can both use it.
+> >
+> > Yes, this is dmabuf specific, I was thinking you'd define your own
+> > member of netdev_rx_queue, and then add something like this to
+> > page_pool_init:
+>
+> That would be quite annoying, there are 3 expected users together
+> with huge pages, each would need a field and check all others are
+> disabled as you mentioned and so on. It should be cleaner to pass
+> a generic {pp_ops,pp_private} pair instead.
+>
+> If header dependencies is a problem, you it can probably be
+>
+> struct pp_provider_param {
+>         struct pp_ops ops;
+>         void *private;
+> };
+>
+> # netdev_rx_queue.h
+>
+> // definition is not included here
+> struct pp_provider_params;
+>
+> struct netdev_rx_queue {
+>         ...
+>         struct pp_provider_params *pp_params;
+> };
+>
 
-On Wed, 6 Mar 2024 at 08:11, Umang Jain <umang.jain@ideasonboard.com> wrote:
->
-> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
->
-> The IMX335 can support both 2 and 4 lane configurations.
-> Extend the driver to configure the lane mode accordingly.
-> Update the pixel rate depending on the number of lanes in use.
->
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx335.c | 46 +++++++++++++++++++++++++++++++-------
->  1 file changed, 38 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> index dab6d080bc4c..a42f48823515 100644
-> --- a/drivers/media/i2c/imx335.c
-> +++ b/drivers/media/i2c/imx335.c
-> @@ -21,6 +21,11 @@
->  #define IMX335_MODE_STANDBY    0x01
->  #define IMX335_MODE_STREAMING  0x00
->
-> +/* Data Lanes */
-> +#define IMX335_LANEMODE                0x3a01
-> +#define IMX335_2LANE           1
-> +#define IMX335_4LANE           3
-> +
->  /* Lines per frame */
->  #define IMX335_REG_LPFR                0x3030
->
-> @@ -67,8 +72,6 @@
->  #define IMX335_LINK_FREQ_594MHz                594000000LL
->  #define IMX335_LINK_FREQ_445MHz                445500000LL
->
-> -#define IMX335_NUM_DATA_LANES  4
-> -
->  #define IMX335_REG_MIN         0x00
->  #define IMX335_REG_MAX         0xfffff
->
-> @@ -115,7 +118,6 @@ static const char * const imx335_supply_name[] = {
->   * @vblank: Vertical blanking in lines
->   * @vblank_min: Minimum vertical blanking in lines
->   * @vblank_max: Maximum vertical blanking in lines
-> - * @pclk: Sensor pixel clock
->   * @reg_list: Register list for sensor mode
->   */
->  struct imx335_mode {
-> @@ -126,7 +128,6 @@ struct imx335_mode {
->         u32 vblank;
->         u32 vblank_min;
->         u32 vblank_max;
-> -       u64 pclk;
->         struct imx335_reg_list reg_list;
->  };
->
-> @@ -147,6 +148,7 @@ struct imx335_mode {
->   * @exp_ctrl: Pointer to exposure control
->   * @again_ctrl: Pointer to analog gain control
->   * @vblank: Vertical blanking in lines
-> + * @lane_mode Mode for number of connected data lanes
->   * @cur_mode: Pointer to current selected sensor mode
->   * @mutex: Mutex for serializing sensor controls
->   * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
-> @@ -171,6 +173,7 @@ struct imx335 {
->                 struct v4l2_ctrl *again_ctrl;
->         };
->         u32 vblank;
-> +       u32 lane_mode;
->         const struct imx335_mode *cur_mode;
->         struct mutex mutex;
->         unsigned long link_freq_bitmap;
-> @@ -377,7 +380,6 @@ static const struct imx335_mode supported_mode = {
->         .vblank = 2560,
->         .vblank_min = 2560,
->         .vblank_max = 133060,
-> -       .pclk = 396000000,
->         .reg_list = {
->                 .num_of_regs = ARRAY_SIZE(mode_2592x1940_regs),
->                 .regs = mode_2592x1940_regs,
-> @@ -936,6 +938,11 @@ static int imx335_start_streaming(struct imx335 *imx335)
->                 return ret;
->         }
->
-> +       /* Configure lanes */
-> +       ret = imx335_write_reg(imx335, IMX335_LANEMODE, 1, imx335->lane_mode);
-> +       if (ret)
-> +               return ret;
-> +
->         /* Setup handler will write actual exposure and gain */
->         ret =  __v4l2_ctrl_handler_setup(imx335->sd.ctrl_handler);
->         if (ret) {
-> @@ -1096,7 +1103,14 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
->         if (ret)
->                 return ret;
->
-> -       if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX335_NUM_DATA_LANES) {
-> +       switch (bus_cfg.bus.mipi_csi2.num_data_lanes) {
-> +       case 2:
-> +               imx335->lane_mode = IMX335_2LANE;
-> +               break;
-> +       case 4:
-> +               imx335->lane_mode = IMX335_4LANE;
-> +               break;
-> +       default:
->                 dev_err(imx335->dev,
->                         "number of CSI2 data lanes %d is not supported\n",
->                         bus_cfg.bus.mipi_csi2.num_data_lanes);
-> @@ -1209,6 +1223,9 @@ static int imx335_init_controls(struct imx335 *imx335)
->         struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
->         const struct imx335_mode *mode = imx335->cur_mode;
->         u32 lpfr;
-> +       u64 pclk;
-> +       s64 link_freq_in_use;
-> +       u8 bpp;
->         int ret;
->
->         ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
-> @@ -1252,11 +1269,24 @@ static int imx335_init_controls(struct imx335 *imx335)
->                                      0, 0, imx335_tpg_menu);
->
->         /* Read only controls */
-> +
-> +       /* pixel rate = link frequency * lanes * 2 / bits_per_pixel */
-> +       switch (imx335->cur_mbus_code) {
-> +       case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +               bpp = 10;
-> +               break;
-> +       case MEDIA_BUS_FMT_SRGGB12_1X12:
-> +               bpp = 12;
-> +               break;
-> +       }
-> +
-> +       link_freq_in_use = link_freq[__ffs(imx335->link_freq_bitmap)];
-> +       pclk = link_freq_in_use * (imx335->lane_mode + 1) * 2 / bpp;
->         imx335->pclk_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
->                                               &imx335_ctrl_ops,
->                                               V4L2_CID_PIXEL_RATE,
-> -                                             mode->pclk, mode->pclk,
-> -                                             1, mode->pclk);
-> +                                             pclk, pclk,
-> +                                             1, pclk);
+Seems very reasonable, will do! Thanks!
 
-Is this actually correct?
-A fair number of the sensors I've encountered have 2 PLL paths - one
-for the pixel array, and one for the CSI block. The bpp will generally
-be fed into the CSI block PLL path, but not into the pixel array one.
-The link frequency will therefore vary with bit depth, but
-V4L2_CID_PIXEL_RATE doesn't change.
-
-imx290 certainly has a disjoin between pixel rate and link freq
-(cropping reduces link freq, but not pixel rate), and we run imx477 in
-2 lane mode with the pixel array at full tilt (840MPix/s) but large
-horizontal blanking to allow CSI2 enough time to send the data.
-
-If you've validated that for a range of frame rates you get the
-correct output from the sensor in both 10 and 12 bit modes, then I
-don't object. I just have an instinctive tick whenever I see drivers
-computing PIXEL_RATE from LINK_FREQ or vice versa :)
-If you get the right frame rate it may also imply that the link
-frequency isn't as configured, but that rarely has any negative
-effects. You need a reasonably good oscilloscope to be able to measure
-the link frequency.
-
-  Dave
-
->
->         imx335->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
->                                                         &imx335_ctrl_ops,
 > --
-> 2.43.0
->
->
+> Pavel Begunkov
+
+
+
+--=20
+Thanks,
+Mina
 
