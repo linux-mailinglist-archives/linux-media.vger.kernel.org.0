@@ -1,74 +1,74 @@
-Return-Path: <linux-media+bounces-6563-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6564-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604C28735AB
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 12:40:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B058735B0
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 12:40:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CF91FB218B8
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 11:40:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77B9F1C220E2
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 11:40:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66FE07FBA0;
-	Wed,  6 Mar 2024 11:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A2697F7FD;
+	Wed,  6 Mar 2024 11:40:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="IGVZHo3V"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QJAmKDuE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527167F7E1
-	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 11:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD627F7E6
+	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 11:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709725191; cv=none; b=Y3VGttlTFrmDUTl1X23zxOPecEV2ipAUxU53CCJ02zjvC7MCuccU1pEQSbhA+o63zH2DvW49pXpYqQyNjhBc0aFWdseEFJXqCNrqR/3Q6VSwZzt9UooJA1w/6L9xz+cuSO7VE6VTnEAz0WrLDmEZvTFnp2V0FfV8NYVCIq5RC5A=
+	t=1709725224; cv=none; b=BxATfvsEzivaRSQESCIxu0/eAL3xIHS+n+gD6983HHAtX+j3vO2EQolTyVpRiUjthULTvNaMkkdnoI230Zxst1kZYwYqi6PLllRQ1w+nWERbH+q3/wC4G3qURUQ9gbw0RPmEJA5GwcvLt+GbvfcPX+NJy/HcxXzAQTDi6y3IiYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709725191; c=relaxed/simple;
-	bh=jmXJMGcRnQBUkk1Q0aNQZjxooTTiMnOAaGrBdZhF9R8=;
+	s=arc-20240116; t=1709725224; c=relaxed/simple;
+	bh=MyDgk4afHvneJK/AGrdFnLoUjc8Ck2lGA49YcoT+rSc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FJJx2zEoZr9JKvfKJGvXuzGlQz6qtCnUl+ybMYSN2OQgFgK2SfKxmtHhqRJXs/TQ6v7GQhJoiWqBI3qovmY+h/+51Ip2bHuip/O9heoSoxCC3lroCdAFHe1LyyxJ/2KTApyfKxVTwPEHYwjBx9oMpejTrgihi+dx1a8pAiVugT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=IGVZHo3V; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-412e92deb18so18808455e9.1
-        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 03:39:48 -0800 (PST)
+	 In-Reply-To:Content-Type; b=Jl8jWKvD0OvjuGRBNhnMNrNENF+K9eccLj5fexpieSWXzEtfFELvv2kzZ3+Az3JjqJAV03PS63Aw0jiFaMQjL6UsS9o4p+NsJf8zLXDncdXTw1zF0gASb4hi1QSBAzrH7Yv4vjw5ECegwFkPZG3K/g3FRcEFTYyq6DfVmM+myLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QJAmKDuE; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33e2248948bso2927056f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 03:40:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1709725187; x=1710329987; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1709725221; x=1710330021; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=/EQiUTBtPaCxK46oIKmaHtXvFz0YBoimK1cXyVz0Jy0=;
-        b=IGVZHo3Vecpaycq97xGHIDeVLngWHvWVZ2lCs1axAoMBcHSQyKNUgu1eLEo2AJccXx
-         Lxeg78fixDIouS2pRxJ7NDN9K2LJ0zmDRf8I8jeavkN6PtWjzhJAtN8MlPo0dZHiguVV
-         JMyRaH/bqugjA4cGAMXyO+1TGrIRs38hI+z8euZfnCcaqkw8h2sShY4Sub9rL3GYysnm
-         tOts0HXsstnBrqYjX9fhNzU9dAAxhTGncvYp80xZd41QT4sbtActNCNgAVmUaYYaIPFu
-         Qq71EuDY2YWof3h7OS5vyGaBVQfdnp60cP7KXIp0AIUmvdRXHMb0Rw+XV9XXwtPQJzXY
-         O12A==
+        bh=bHsDLu11BhsOOu7vOLh5O5SoeXOiXHoKRCejG9ZhGdU=;
+        b=QJAmKDuERm1ib9JzNKOyPSUapuNp3s9GUwU9YQCqHSOXDu7EZHAUu+sckFQsE4dhfQ
+         uvkoM0pQG9YHwMHeroF8pLutTQw4At3bHv/RRoas2NwEMIQzYhE1IWnvKB9asMA4BxML
+         O3JLGql1Zs1riHUhK79LcfrMHbDs0/ryL1xMTUk1lLCW+GaBOkbyNEYJuK8ek36/y5fA
+         LcQN5nRj731LQssULqeN0qHzFFvar2NKz9xTMkkn+lO7JAewe332+3BgSo3zpTU8WFff
+         juvqxPigTkcuNEYCbOefSuKsS8lENM5N4cGcxyslkTSdt6wz2+OtktqXoEPxXq7mqMJo
+         79yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709725187; x=1710329987;
+        d=1e100.net; s=20230601; t=1709725221; x=1710330021;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/EQiUTBtPaCxK46oIKmaHtXvFz0YBoimK1cXyVz0Jy0=;
-        b=UFPud0OrTyBvZ9EuOxDl/+8C8Q5+QgLtzecxHQnqkCEwY2QvudR8i1GNrgAGlACta4
-         QFSiAYN+u8soU5Zl61IB1qvOBY9ovo/8kEBfRC3RSsMofuwxuXWq1im095kG2nobX8XC
-         ZU6KIRaFZbu7BlJ7TAUngok/yxcJhhamfyLMpxkDO8XGCE578CLGjboNa/nhchMOoDbb
-         ZWwPUoBP+neuEd2sP+7X88dGiRkJVAqLwvdWj1nhWPnSZqwMeKE5w+XRZqW06A/bkz+E
-         TJKpXFazKv1lZaYl1kVI4heGvS+AqjViBBEL8I3HrWEhBW4xehHiDyxKVj+owS4o+JgG
-         vGjA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDGgTyIPv6eTjX+KL3gGdoCtfAPdB3D4qB0RjbJm5NFDl7BqQmI+24zHX6kI0W6vbgy5wSYVLx3eT+8IMqdDlVqN8WQ0PG9wgmRmU=
-X-Gm-Message-State: AOJu0Yz++bsv0mK8678KODHcU332giXxM47Dp5ZbFuFCReDCvDMuDCd6
-	KiKH/Ssoahf2F3Z6qHoslVp4GX3iZY5qSsueyj6mzFRy9EkRtKanb20WP1tYR6s=
-X-Google-Smtp-Source: AGHT+IE0yeWy2wQap7b81/nBlb9F/2UDgBWy2qDnR9pAcy2ADsqmaYAoNU2UIpfNdXJJMmuJgSuHmg==
-X-Received: by 2002:a05:600c:4ed2:b0:412:7218:bda4 with SMTP id g18-20020a05600c4ed200b004127218bda4mr10157714wmq.19.1709725187383;
-        Wed, 06 Mar 2024 03:39:47 -0800 (PST)
+        bh=bHsDLu11BhsOOu7vOLh5O5SoeXOiXHoKRCejG9ZhGdU=;
+        b=vIswOGTrZ+NXFlJIOrPcsuLZ7t68pnWTR/ctNS5p5GJB1xw2ClZ7eQz7FALJUyvy+8
+         qeShO6w3C9AQTN6lbUbDEDAK7u03c1ipPgtLpk2qi2bCF6mRt+kxMeK1uh7t7wrVLOvA
+         sHH/Rh2QMGaxt1cHPBRykUliwFnfjF/S3cB4K/8rejCzFTgLUTNc/9FH5MKrZC1nxL7g
+         g5SoPx9keLCMquT4ZYpNbcp95NVvVlHud50wPDDIVZqqQZFr7rzbsrDACr/3UP0LvorY
+         sK9b8cs7AeEDXx0t/Vz2aIaY6jcSRlLDKVdIvr2mNK3nnXiJ5sgilX2iComcDg3nuT9N
+         p4og==
+X-Forwarded-Encrypted: i=1; AJvYcCXAEYnS+A91uaeE7WV2Jj5LehNpPhgz7X1yxNUyY2SQOWqHSZt4ry68nkq1f8aNtQO8QeB9z/YkjHUawV8lB9w6TVFXJq+ZOLl2AQk=
+X-Gm-Message-State: AOJu0Yxm3IlGV8JFJlje6fMhbSjZzCzWz0mAy/xy5yNzUFuRqgXJTx6M
+	5MKJmPJR36tx0E+KODcl0I0Fo4ZU+vpPegFkBstPHjntx2il8g9JetLh/zS/Ypc=
+X-Google-Smtp-Source: AGHT+IGalMQM+1/5hflu9r2698/GCRP0X8SJOvsj+Y+8YnI4kUwo+Wi3TKvJOHm5HSN/ZO1xW0c84g==
+X-Received: by 2002:adf:fb8c:0:b0:33e:24c7:78ba with SMTP id a12-20020adffb8c000000b0033e24c778bamr10175310wrr.62.1709725221439;
+        Wed, 06 Mar 2024 03:40:21 -0800 (PST)
 Received: from [192.168.0.102] ([176.61.106.68])
-        by smtp.gmail.com with ESMTPSA id t11-20020a05600c198b00b00412c8117a34sm17072539wmq.47.2024.03.06.03.39.46
+        by smtp.gmail.com with ESMTPSA id bq26-20020a5d5a1a000000b0033e2777f313sm12519582wrb.72.2024.03.06.03.40.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 03:39:46 -0800 (PST)
-Message-ID: <70e2b458-6cf1-4953-b9a6-2c03a0d7965a@nexus-software.ie>
-Date: Wed, 6 Mar 2024 11:39:45 +0000
+        Wed, 06 Mar 2024 03:40:21 -0800 (PST)
+Message-ID: <d63a573f-1ec5-4b4c-b3e0-29c46828381e@linaro.org>
+Date: Wed, 6 Mar 2024 11:40:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,7 +88,7 @@ Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <1709704406-22501-1-git-send-email-quic_dikshita@quicinc.com>
-From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 In-Reply-To: <1709704406-22501-1-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -104,5 +104,8 @@ On 06/03/2024 05:53, Dikshita Agarwal wrote:
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > ---
 
+ From my non-filter mail addr
+
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
 
