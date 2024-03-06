@@ -1,152 +1,149 @@
-Return-Path: <linux-media+bounces-6566-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6567-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624E88735DC
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 12:48:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1128C873627
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 13:19:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93A131C21AA5
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 11:48:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6AEC1F24AC5
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 12:19:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059B47FBD3;
-	Wed,  6 Mar 2024 11:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2F047FBD9;
+	Wed,  6 Mar 2024 12:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V5bjZv2J"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="oTwT5u+6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6E57FBA2
-	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 11:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD9B605DC;
+	Wed,  6 Mar 2024 12:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709725696; cv=none; b=fb+Nuj3jSc1VUZDrd7vt7cquebd2fPlApk2zEG4qschQKvnlBNIH8geECY/fwShg6+dqG6KptjoVv+qtAVz6nKuKd12bIYaHAUn5c6dgW521NRqECPIuseFqCNnu9ld6xpgWGwBgJsobWE98/h8nd8z73l4/EA3fw0oeou2p6oI=
+	t=1709727555; cv=none; b=TTemu4IzKfKHmX1S56DnmFh85AgcVkSiOC6ol9Ccbre1+aqfh20GyHJ4jmHVdfxQDscZ56XNiai3q9KkoPDgJnykrrpxNByxnaeUSwV4l6mpf69NhuLSFL8BWv5oTaV519Ejvh+LJkG++vqIFXOjkAY2YhbpTvAFzPhgGcvAd3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709725696; c=relaxed/simple;
-	bh=/NaooI6MCdbyOlXlO6KxhqtDj6Xc9BLxT2lYpNpuyTA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dax+IfPeFUSkZOg9i6X1IgLYFd/cBOWqwbk+oh3MIj2ghRzXHrWPUB9MLftsfIwJh/6XQ2WvKwzhJJWue2kLZt8dOlDmkuJcX1Dp0JnFMLzKtZ/ycocM0lL7XKqFodl314rEU+Wiv3CCBSjJnGg8aT9D+kAoDKQQIfcvzGBZqTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V5bjZv2J; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33d2b354c72so4995852f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 03:48:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709725693; x=1710330493; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hdjqKhX03PzSI2pyjOvW3uxLZQ+MIlVgUNLnoaZ5QpY=;
-        b=V5bjZv2J3imnvnThGkTlo+FkH4FH3cxv/3MgIkgQZodEKj7v5zGxaSHTlayFI/PdBv
-         mD1dOS6VXD3jl9L9rtF7wYpaeomReM7nISz+C2WF34p6mST0JJ/pLS3/pOXn2iQLxNJl
-         45Cv+qNTl0zEzKC9WBiBwM8Qj1zA6qlyaCNls+c8gonKwSyTIvW4l5pn+t873BIE9X76
-         sd3amm2NVA3TZZdvx0CZT8IOsn2RGT2l9dzEI6JRj531TocrJtujPbWHQxbKMpIlyQJC
-         69N/zfJD1hXwXY9vGZvBuhChYDBSWYPEphmGy75ajBcSBNqpjZz7P/IPzMWoPrSaGGRV
-         5UeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709725693; x=1710330493;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hdjqKhX03PzSI2pyjOvW3uxLZQ+MIlVgUNLnoaZ5QpY=;
-        b=irTqJSNKaI8XBswd9goKoAcOzGeSkLLcE8XDnEfF4EmBg9NlRBoPA3aBq08JsuMgRh
-         0gULPsK2KN8rUg552CIzD9H2Mg8cKGazkJyaBOttSRV2soEssfqHe0D7GQ0OWKpuzXX6
-         Q5sxJXdCbdLvkvjnufUdf4V9A9qpQTfdn9c9ra7CBdPfww+6QDn/fzkHle2SLlXJJwLs
-         egDVAFXdMM5l+zDL7CaH2wUGIbgDN5JzjaDb6g80MJdmI/WUOPXhb48scqj610MmPdBz
-         xP1KGZzcJE6LVhMZM0ucUt53/9KGsiE90OZTkJjFUXLmY69o9ioK+Femat+q2Np9pEG9
-         ks9w==
-X-Forwarded-Encrypted: i=1; AJvYcCXSMaFueW6yZl26wgNKoqxaXsMotXP1UsFoX+xS/KeH0Lhm6er9slJy0AZz5fSIKkHWXnou67Onw+inYMU/yjvNvjXHNwJyBofdDS0=
-X-Gm-Message-State: AOJu0YwSZWy6NEjJ2oDe4KuVF9s5oDYXNx4i4Tonnh/i6YybqRf4961P
-	eb2hvh2liQs007gBrRU7oTdctn3PhDGT9dDDA8my36uS/RfvRsba7gE79J2TzNE=
-X-Google-Smtp-Source: AGHT+IFRGKSDU1o5pzZkisag4+rQAq6jSD+XrXtlozIedUnam1oEQFdwWmmInfdxpXcI48SF9F2kQg==
-X-Received: by 2002:adf:fccf:0:b0:33d:3fed:3a18 with SMTP id f15-20020adffccf000000b0033d3fed3a18mr10598070wrs.51.1709725692648;
-        Wed, 06 Mar 2024 03:48:12 -0800 (PST)
-Received: from [192.168.0.102] ([176.61.106.68])
-        by smtp.gmail.com with ESMTPSA id da8-20020a056000196800b0033b87c2725csm17275033wrb.104.2024.03.06.03.48.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 03:48:12 -0800 (PST)
-Message-ID: <ebe234db-73e0-46db-b377-6b9f960597c8@linaro.org>
-Date: Wed, 6 Mar 2024 11:48:11 +0000
+	s=arc-20240116; t=1709727555; c=relaxed/simple;
+	bh=MVqqKIZCSnIGxvz4YPGoem4kx9gkpPGdW6QTNhBVmyk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uObw3VJQzaLNfhs9qrWFUbUyNmH/Goq12LqpdAgqSp83ifh9ExZfLaT1Z1IVUUy7e+RCjBfSUOEU8oZbOVBeJrEKUiRV1sGzxXwZ7AjjF7P93susC6OaldjnSye6bjF2A6eCCea6xdPJMl5kCq+FPMYKR2eKiHdxgk3WFnFMzO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=oTwT5u+6; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: b9c01e2edbb311ee935d6952f98a51a9-20240306
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=IImJC9e9Da9C3lUM5dgN5QOlSp2BnbxeAklEtHNsfVk=;
+	b=oTwT5u+6ceKN91WgfQKlYtpYIJPanP9fILphVFtsNGhyK9SmADO36Jm5vfQ6nLHcMoXR+jOj28chXZPyU9wWkQl0W2ZKCMA8RUZSgGN7wlWu3yZIX5WSJQaVGpEjmchRPfB1ONT9gbYsjlIMoSPVOixdZ2YWAHodDPQSnhSkfAA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:74bc076d-1554-4d47-9129-7b77c9e01a20,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:6f543d0,CLOUDID:36991690-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: b9c01e2edbb311ee935d6952f98a51a9-20240306
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+	(envelope-from <yunfei.dong@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 515065125; Wed, 06 Mar 2024 20:19:05 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 6 Mar 2024 20:19:04 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 6 Mar 2024 20:19:03 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+	<nfraprado@collabora.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>
+CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, "Yunfei
+ Dong" <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v2] media: mediatek: vcodec: support 36 bits physical address
+Date: Wed, 6 Mar 2024 20:19:02 +0800
+Message-ID: <20240306121902.25069-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/20] media: venus: pm_helpers: Rename core_clks_get
- to venus_clks_get
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Andy Gross
- <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
- <20230911-topic-mars-v2-2-3dac84b88c4b@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230911-topic-mars-v2-2-3dac84b88c4b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--9.625700-8.000000
+X-TMASE-MatchedRID: Fdt1IHAXXPKHTNZBcJlnyHQIOMndeKgETJDl9FKHbrk1LB46LFAAkktH
+	ojrK13E49ypTh0ieeunHCCukuCUtoobqZZp5NyFKXpVEIlJTuP2d2Wz0X3OaLZsoi2XrUn/Jn6K
+	dMrRsL14qtq5d3cxkNWCFMTTr110l3BTbPvva4/GNYa/SjhM7l0EM1EKZ9uM8WvxqZnJiH0w=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--9.625700-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 7DE4977BDE382AA717543D2C2D293FFF5A7F45942B469FFE79BB5F9992F8F79F2000:8
+X-MTK: N
 
-On 09/02/2024 21:09, Konrad Dybcio wrote:
-> "core" is used in multiple contexts when talking about Venus, rename
-> the function to save on confusion.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->   drivers/media/platform/qcom/venus/pm_helpers.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 8bd0ce4ce69d..ac7c83404c6e 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -23,7 +23,7 @@
->   
->   static bool legacy_binding;
->   
-> -static int core_clks_get(struct venus_core *core)
-> +static int venus_clks_get(struct venus_core *core)
->   {
->   	const struct venus_resources *res = core->res;
->   	struct device *dev = core->dev;
-> @@ -294,7 +294,7 @@ static int core_get_v1(struct venus_core *core)
->   {
->   	int ret;
->   
-> -	ret = core_clks_get(core);
-> +	ret = venus_clks_get(core);
->   	if (ret)
->   		return ret;
->   
-> @@ -961,7 +961,7 @@ static int core_get_v4(struct venus_core *core)
->   	const struct venus_resources *res = core->res;
->   	int ret;
->   
-> -	ret = core_clks_get(core);
-> +	ret = venus_clks_get(core);
->   	if (ret)
->   		return ret;
->   
-> 
+The physical address on the MT8188 platform is larger than 32 bits,
+change the type from unsigned int to dma_addr_t to be able to access
+the high bits of the address.
 
-We have vcodec_clks_get(). It seems a bit nit-picky but if you are 
-tidying up the namepsace, then I'd suggest venus_core_clks_get() or 
-vcore_clks_get().
-
-Seems more consistent.
-
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
-bod
+compare with v1:
+- change address type from unsigned long to dma_addr_t
+- change vp8 address type
+---
+ .../media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c | 2 +-
+ .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c
+index 19407f9bc773..987b3d71b662 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.c
+@@ -449,7 +449,7 @@ static int vdec_vp8_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+ 		       inst->frm_cnt, y_fb_dma, c_fb_dma, fb);
+ 
+ 	inst->cur_fb = fb;
+-	dec->bs_dma = (unsigned long)bs->dma_addr;
++	dec->bs_dma = (uint64_t)bs->dma_addr;
+ 	dec->bs_sz = bs->size;
+ 	dec->cur_y_fb_dma = y_fb_dma;
+ 	dec->cur_c_fb_dma = c_fb_dma;
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+index cf48d09b78d7..eea709d93820 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+@@ -1074,7 +1074,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
+ 	unsigned int mi_row;
+ 	unsigned int mi_col;
+ 	unsigned int offset;
+-	unsigned int pa;
++	dma_addr_t pa;
+ 	unsigned int size;
+ 	struct vdec_vp9_slice_tiles *tiles;
+ 	unsigned char *pos;
+@@ -1109,7 +1109,7 @@ static int vdec_vp9_slice_setup_tile_buffer(struct vdec_vp9_slice_instance *inst
+ 	pos = va + offset;
+ 	end = va + bs->size;
+ 	/* truncated */
+-	pa = (unsigned int)bs->dma_addr + offset;
++	pa = bs->dma_addr + offset;
+ 	tb = instance->tile.va;
+ 	for (i = 0; i < rows; i++) {
+ 		for (j = 0; j < cols; j++) {
+-- 
+2.18.0
+
 
