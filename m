@@ -1,238 +1,152 @@
-Return-Path: <linux-media+bounces-6565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6566-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E350F8735B5
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 12:43:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 624E88735DC
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 12:48:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DECA9B23FDB
-	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 11:43:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93A131C21AA5
+	for <lists+linux-media@lfdr.de>; Wed,  6 Mar 2024 11:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2079E7FBA1;
-	Wed,  6 Mar 2024 11:43:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059B47FBD3;
+	Wed,  6 Mar 2024 11:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Nk+ahPnP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V5bjZv2J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FBF5EE70
-	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 11:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6E57FBA2
+	for <linux-media@vger.kernel.org>; Wed,  6 Mar 2024 11:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709725413; cv=none; b=uX31eq67qW3JYe4DL+97gOEDEXXVce3l87Ih9BJvMfxkRP3kiZquYHE1rWtVmpY0XK7tBwWOr5oskyQUJStUxtCuNsY/WZFL4cRocNKUCqdTRul1B8vdcjS4VZR/E2XIrHYHCTbCeE6S0rUdvrjKTrBxdrAQZlCl9QXVHmUEBVM=
+	t=1709725696; cv=none; b=fb+Nuj3jSc1VUZDrd7vt7cquebd2fPlApk2zEG4qschQKvnlBNIH8geECY/fwShg6+dqG6KptjoVv+qtAVz6nKuKd12bIYaHAUn5c6dgW521NRqECPIuseFqCNnu9ld6xpgWGwBgJsobWE98/h8nd8z73l4/EA3fw0oeou2p6oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709725413; c=relaxed/simple;
-	bh=YX5KNi9JoOZfojze0pjQys77KFZBO6i19SqjE/MREoU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JeGZ5KsMuO70ZWQjz5bX4TBUgJeKzS2l7wjPJs43z8rqnnXdnGZO+eULzca4JJYdg8PBm9/kcXiHhp9yRt+TN6hnRg+U3tiETQ0GB+biK14wcuzk+xXutKAdorspiOaj24OD4KDr5R0xNE3shsATFFdd/DRDn9SJpPevrUHISR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Nk+ahPnP; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-565b434f90aso9784435a12.3
-        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 03:43:30 -0800 (PST)
+	s=arc-20240116; t=1709725696; c=relaxed/simple;
+	bh=/NaooI6MCdbyOlXlO6KxhqtDj6Xc9BLxT2lYpNpuyTA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dax+IfPeFUSkZOg9i6X1IgLYFd/cBOWqwbk+oh3MIj2ghRzXHrWPUB9MLftsfIwJh/6XQ2WvKwzhJJWue2kLZt8dOlDmkuJcX1Dp0JnFMLzKtZ/ycocM0lL7XKqFodl314rEU+Wiv3CCBSjJnGg8aT9D+kAoDKQQIfcvzGBZqTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V5bjZv2J; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33d2b354c72so4995852f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 03:48:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1709725409; x=1710330209; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yZZ4mVEuzjiXR5CF3CJkyChtg0w5lyqbPeRfi90uImI=;
-        b=Nk+ahPnPQaRhFhOua0kKqvBimAnQV4qNv6Q19l2QeQ9PaWwubcPQNRC3AW+IBSNJnG
-         5iegVHWRR+xymHk7dp/vjsLme03Q1C3z3I8TSxrnIDhNgNY5whMF9nzQKGc3ixBaOrUO
-         llv0VPYm/cqBhSlhPgXg5Er9aY3PiIUaak8/RoaXqQx2gS/wsxpJcPeuchw0a3Yu4IGQ
-         I8a5gTKqyeq3TMaUXx0Heg0DnC/u+yoK3xcJbmE/dINXgaXa4ajXlOWm78LgH71twM5w
-         ng3rzlwy4oHR0pj2dlg/hgbW7znMHifMiblExu9rHh6pYCMhfltPVU6eCopa2a5IbeJl
-         nOiw==
+        d=linaro.org; s=google; t=1709725693; x=1710330493; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hdjqKhX03PzSI2pyjOvW3uxLZQ+MIlVgUNLnoaZ5QpY=;
+        b=V5bjZv2J3imnvnThGkTlo+FkH4FH3cxv/3MgIkgQZodEKj7v5zGxaSHTlayFI/PdBv
+         mD1dOS6VXD3jl9L9rtF7wYpaeomReM7nISz+C2WF34p6mST0JJ/pLS3/pOXn2iQLxNJl
+         45Cv+qNTl0zEzKC9WBiBwM8Qj1zA6qlyaCNls+c8gonKwSyTIvW4l5pn+t873BIE9X76
+         sd3amm2NVA3TZZdvx0CZT8IOsn2RGT2l9dzEI6JRj531TocrJtujPbWHQxbKMpIlyQJC
+         69N/zfJD1hXwXY9vGZvBuhChYDBSWYPEphmGy75ajBcSBNqpjZz7P/IPzMWoPrSaGGRV
+         5UeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709725409; x=1710330209;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yZZ4mVEuzjiXR5CF3CJkyChtg0w5lyqbPeRfi90uImI=;
-        b=NVyfJVTHslO4/a2abQWcT3bKv/JEBCEgpMiFiXzzB+pG87zhSMPDVTqg+RHfvPqfbl
-         koIEGN4o2Mf4gUkQTzvyFN8Zxs+KBduMBg1+FVkBxSrinmrDY1EbCMVKHaIozp4DTZRq
-         XvsMHqzD3vtS8AIra8nTBmTOe9ADKqbwWibPvC9Cl8HK58Nug7Zitd4ddlMSzX4WQ2Zn
-         rOi+Cfmtdio53fALKtDHg9i5ClAxLUDByYpdmY6oCSpDL+Jq3L1QmdMiy7dx3/O66Pld
-         /BaK/XEqMZUQwADJrsupu0Ullv6aBAQu2cGe7DfQ1ykasBH3CnkLI7D545P8ffcJxTmH
-         UCVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJyVdYANjXsK1g4sz10FzG2qe801ukCWuilKwXVUyz6RFwsfTdPBSBpS6oPC0hfA3CX2OqtidKWbXkvVxF0kzQMxqCg1Dxm48zS6s=
-X-Gm-Message-State: AOJu0Yxd0mfsSYh678kF4Tzqf6aFDqwsOHogh/8F9Ztx9ooxlvwiYWmQ
-	Po8enio0aqfmvfLDUALxd8rQBoaIfhzp8iJAYooBJDPk099Lje2y3aeYPPPq68LiWnT8muQvr2R
-	9Mbck0IPuI/Fn6F63Yit6bQcr6rNtOIpvLnHcWQ==
-X-Google-Smtp-Source: AGHT+IF3vAORKz02jVRpKImBVSKHtpIn3gxGmIfBMByYrMdcNWR+mujAPqHxYSvjSSOWngMTQqSdDU0aWilEsyj6NG0=
-X-Received: by 2002:a05:6402:230f:b0:565:bd4d:8a89 with SMTP id
- l15-20020a056402230f00b00565bd4d8a89mr11282951eda.31.1709725408688; Wed, 06
- Mar 2024 03:43:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709725693; x=1710330493;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hdjqKhX03PzSI2pyjOvW3uxLZQ+MIlVgUNLnoaZ5QpY=;
+        b=irTqJSNKaI8XBswd9goKoAcOzGeSkLLcE8XDnEfF4EmBg9NlRBoPA3aBq08JsuMgRh
+         0gULPsK2KN8rUg552CIzD9H2Mg8cKGazkJyaBOttSRV2soEssfqHe0D7GQ0OWKpuzXX6
+         Q5sxJXdCbdLvkvjnufUdf4V9A9qpQTfdn9c9ra7CBdPfww+6QDn/fzkHle2SLlXJJwLs
+         egDVAFXdMM5l+zDL7CaH2wUGIbgDN5JzjaDb6g80MJdmI/WUOPXhb48scqj610MmPdBz
+         xP1KGZzcJE6LVhMZM0ucUt53/9KGsiE90OZTkJjFUXLmY69o9ioK+Femat+q2Np9pEG9
+         ks9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXSMaFueW6yZl26wgNKoqxaXsMotXP1UsFoX+xS/KeH0Lhm6er9slJy0AZz5fSIKkHWXnou67Onw+inYMU/yjvNvjXHNwJyBofdDS0=
+X-Gm-Message-State: AOJu0YwSZWy6NEjJ2oDe4KuVF9s5oDYXNx4i4Tonnh/i6YybqRf4961P
+	eb2hvh2liQs007gBrRU7oTdctn3PhDGT9dDDA8my36uS/RfvRsba7gE79J2TzNE=
+X-Google-Smtp-Source: AGHT+IFRGKSDU1o5pzZkisag4+rQAq6jSD+XrXtlozIedUnam1oEQFdwWmmInfdxpXcI48SF9F2kQg==
+X-Received: by 2002:adf:fccf:0:b0:33d:3fed:3a18 with SMTP id f15-20020adffccf000000b0033d3fed3a18mr10598070wrs.51.1709725692648;
+        Wed, 06 Mar 2024 03:48:12 -0800 (PST)
+Received: from [192.168.0.102] ([176.61.106.68])
+        by smtp.gmail.com with ESMTPSA id da8-20020a056000196800b0033b87c2725csm17275033wrb.104.2024.03.06.03.48.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Mar 2024 03:48:12 -0800 (PST)
+Message-ID: <ebe234db-73e0-46db-b377-6b9f960597c8@linaro.org>
+Date: Wed, 6 Mar 2024 11:48:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223163012.300763-1-jacopo.mondi@ideasonboard.com>
- <20240223163012.300763-8-jacopo.mondi@ideasonboard.com> <20240301215857.GO30889@pendragon.ideasonboard.com>
- <zxx7o4zssgerlfhoczbledpmjvr5q2qfzogoytqxc353bulemq@ceo2gwinda3l>
-In-Reply-To: <zxx7o4zssgerlfhoczbledpmjvr5q2qfzogoytqxc353bulemq@ceo2gwinda3l>
-From: Naushir Patuck <naush@raspberrypi.com>
-Date: Wed, 6 Mar 2024 11:42:51 +0000
-Message-ID: <CAEmqJPpopGbDJsRkOsd-ph41_Ac6H50DvcwoE0i6hWyVBr=Kkw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/9] media: dt-bindings: Add bindings for Raspberry Pi
- PiSP Back End
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	David Plowman <david.plowman@raspberrypi.com>, 
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/20] media: venus: pm_helpers: Rename core_clks_get
+ to venus_clks_get
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20230911-topic-mars-v2-0-3dac84b88c4b@linaro.org>
+ <20230911-topic-mars-v2-2-3dac84b88c4b@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230911-topic-mars-v2-2-3dac84b88c4b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent and Jacopo,
+On 09/02/2024 21:09, Konrad Dybcio wrote:
+> "core" is used in multiple contexts when talking about Venus, rename
+> the function to save on confusion.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>   drivers/media/platform/qcom/venus/pm_helpers.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index 8bd0ce4ce69d..ac7c83404c6e 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -23,7 +23,7 @@
+>   
+>   static bool legacy_binding;
+>   
+> -static int core_clks_get(struct venus_core *core)
+> +static int venus_clks_get(struct venus_core *core)
+>   {
+>   	const struct venus_resources *res = core->res;
+>   	struct device *dev = core->dev;
+> @@ -294,7 +294,7 @@ static int core_get_v1(struct venus_core *core)
+>   {
+>   	int ret;
+>   
+> -	ret = core_clks_get(core);
+> +	ret = venus_clks_get(core);
+>   	if (ret)
+>   		return ret;
+>   
+> @@ -961,7 +961,7 @@ static int core_get_v4(struct venus_core *core)
+>   	const struct venus_resources *res = core->res;
+>   	int ret;
+>   
+> -	ret = core_clks_get(core);
+> +	ret = venus_clks_get(core);
+>   	if (ret)
+>   		return ret;
+>   
+> 
 
-On Tue, 5 Mar 2024 at 15:25, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
->
-> Hi Laurent
->
-> On Fri, Mar 01, 2024 at 11:58:57PM +0200, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, Feb 23, 2024 at 05:30:09PM +0100, Jacopo Mondi wrote:
-> > > Add bindings for the Raspberry Pi PiSP Back End memory-to-memory image
-> > > signal processor.
-> > >
-> > > Datasheet:
-> > > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > ---
-> > >  .../bindings/media/raspberrypi,pispbe.yaml    | 63 +++++++++++++++++++
-> > >  1 file changed, 63 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml b/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
-> > > new file mode 100644
-> > > index 000000000000..d7839f32eabf
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
-> > > @@ -0,0 +1,63 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/raspberrypi,pispbe.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Raspberry Pi PiSP Image Signal Processor (ISP) Back End
-> > > +
-> > > +maintainers:
-> > > +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> > > +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > +
-> > > +description: |
-> > > +  The Raspberry Pi PiSP Image Signal Processor (ISP) Back End is an image
-> > > +  processor that fetches images in Bayer or Grayscale format from DRAM memory
-> > > +  in tiles and produces images consumable by application.
-> >
-> > s/application/applications/
-> >
-> > > +
-> > > +  The full ISP documentation is available at:
-> >
-> > s/:$//
-> >
-> > > +  https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +          - brcm,bcm2712-pispbe
-> > > +      - const: raspberrypi,pispbe
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> >
-> > As this is a SoC IP with only memory and register interfaces, I would
-> > expect two clocks to be present, one for the register interface (AHB ?
-> > AXI4-Lite ?) and one for the memory interfaces (AXI4 ?). While the
-> > register interface clock is likely always enabled (in all cases that
-> > matter in practice) in the BCM2712, I'm not sure this can be guaranteed
-> > for future integration in different SoCs. Should we plan for this, and
-> > either define two clocks already (with one of them being optional), or
-> > name the single clock ?
-> >
-> > I know v1 named this clock "isp_be", and the name was dropped upon
-> > Krzysztof's request, but I think naming the single clock "axi" or "aclk"
-> > (assuming that one of them would be the right name) would be fine for
-> > the reason explained above.
-> >
->
-> The PiSP datasheet does not offer many information on the IP
-> integration, only a small graph with the memory interfacing, but no
-> clocks.
->
-> However your reasoning makes sense, and unless someone from RPi
-> suggests the contrary, I'll do so
+We have vcodec_clks_get(). It seems a bit nit-picky but if you are 
+tidying up the namepsace, then I'd suggest venus_core_clks_get() or 
+vcore_clks_get().
 
-There is only a single clock that clocks the whole BE block, so does
-the clock need to be explicitly named?  If it does, perhaps we can
-just use "clk" as this is not explicitly an AXI or APB clock?
+Seems more consistent.
 
-Naush
-
->
-> > > +
-> > > +  iommus:
-> > > +    maxItems: 1
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - interrupts
-> > > +  - clocks
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > +
-> > > +    soc {
-> > > +        #address-cells = <2>;
-> > > +        #size-cells = <2>;
-> > > +
-> > > +        isp@880000  {
-> > > +             compatible = "brcm,bcm2712-pispbe", "raspberrypi,pispbe";
-> > > +             reg = <0x10 0x00880000  0x0 0x4000>;
-> >
-> > Double space, I don't know if that's on purpose.
-> >
->
-> Ofc it was not.
->
-> Thanks
->    j
->
-> > > +             interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
-> > > +             clocks = <&firmware_clocks 7>;
-> > > +             iommus = <&iommu2>;
-> > > +        };
-> > > +    };
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+---
+bod
 
