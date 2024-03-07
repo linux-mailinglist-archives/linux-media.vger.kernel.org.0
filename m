@@ -1,284 +1,159 @@
-Return-Path: <linux-media+bounces-6653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6654-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8198750B9
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 14:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5FC8751C9
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 15:26:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8436C287CBF
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 13:48:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22B01286F2D
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 14:26:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B08D13B7AB;
-	Thu,  7 Mar 2024 13:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D60E12F37C;
+	Thu,  7 Mar 2024 14:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtWCnRDp"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="aBX6yySh";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="rTGOQtpC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C5B13BACB;
-	Thu,  7 Mar 2024 13:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B6D12F36F;
+	Thu,  7 Mar 2024 14:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709818812; cv=none; b=PQRbBDso7dUdvhKRJYSaLbG8uF+pM6cdGtBvcZPQcgct8kR6s2/G/VNMgl6FJSwWKEfS3fniKWLf8bGSE4lSnz3NLSZHq8ZDqchMJ503s4ymk0FiLm8YbdP3UPF3yVUlcrKnBsYGzegCorll1In7yYLrvrLmvxoHWCzgnUqzEfw=
+	t=1709821508; cv=none; b=qu8Yt2DeJaITztO6evQPh4bw4PYgcCFUOJ8UlSGqhbqO7ad6mjB3gGj3EGHoQ1Ms7ngQiGuAuulK0eI8Uqiw8AiB9s/4eu3k6z0no/AQCi0um/dXOSQwNY6gG7qIhrwi0N8iI8QCD7iOhv+VAYqUYPh8UWHnhMI01eKHpuPKG6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709818812; c=relaxed/simple;
-	bh=ynm2eUkg4770MXlhVxVBYTFOvcdjKNlePExaCrKIcX0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Vyh4KpTTG/GNoQ1OWBAW2Jcu8BvhFmqgFsLnJ/UQZCvDhWNLq3TxgCLY61VCrVC/bBK0eDCUQNaNE77KhcfBcmsxOnRhQ7JDqPC35fdL8mA/OA1TgTVYEpIO6XS1TdCQ5szcbM9kIQeqSL5ycSpF1f6MeYT7uSIW8+EyURdRykg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtWCnRDp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A2CC43394;
-	Thu,  7 Mar 2024 13:40:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709818811;
-	bh=ynm2eUkg4770MXlhVxVBYTFOvcdjKNlePExaCrKIcX0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=QtWCnRDp67VmTyAZwcNJ8B7pmesjLNEt/CQfp0XglLA3UOsqR9DUzbUwbD+1smIXq
-	 AEGalmvPH7r/Zqo5ZeCsmuljQ2Q+MQpjgMVHu1VP4BeJMNNq7w2ti5eI2pbmoPeRKl
-	 7GG4+nALAo0DjRTfHA0FyNI4H9SdL84EqKOMqnkH2W2vSjpmMOEleNUdiZHIOCyuSP
-	 rToeF8U+XHMYu5VDvPR490B+tCCQBAAxfubKYkc4DOqWReU0nQKjHIFUQdUkV43zXU
-	 stBwjPjttpYPXB7ioSY4yZzG9bLk0ULI5VVc6iICZAnLtFLwjWyO3MjKFbfSLi+ebo
-	 iZd86LScSWdIQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 07 Mar 2024 14:38:54 +0100
-Subject: [PATCH v8 27/27] drm/sun4i: hdmi: Switch to HDMI connector
+	s=arc-20240116; t=1709821508; c=relaxed/simple;
+	bh=s3fat3rCD43RsuIuLpGtydaSQZZ20Jgs6Z/8t/y2LoU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P+/kZyuclBycih0mKOFC7wcL040xtTXsUKZt2uGeC7ch5OtZMNAnbXhq88/enF5bbMe6IICyd7m7SeAhEEaM6fT8fcemRNlHqefqZ3ywYWAGEMYjAu+8dyrNnKRKZ6+orlDG/Q5oRFfPybXME2mb43lspd9P6vYSkJr2Dgk1IbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=aBX6yySh; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=rTGOQtpC reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1709821505; x=1741357505;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WhASmGAxo/32YXdlY314I+/8f90iYMLkteylf+FTynU=;
+  b=aBX6yyShHSjJGu0MvxzDbTzFJaW0qqDecdLFEjPGcZdZV/oJzCHfcE9x
+   IqfuJDNfcExqlPQgyEMVLVoUiEDpQIwVOzHSsxEvSw9DG5Ih3VNrJ97qS
+   1RvGzNea9UmBEdyeV9PxFNJqnWkh13OVPz95D8ezFnavS+Q89j+iHVQ0P
+   inZoRA3zpaIpSigsPJIi3IDA8/N/W5PKwuIIvSdRfHCaHFw4ECyzkoXX6
+   cvQ9x7JcipIOl3RwC/Xmwt2G7ZSKOmd7NL0bFwGseLUq7//c60xT31NL7
+   vjBe4z/cDJA4mRU7Vvd9wZaECplxRFb0f9INVCr6iGdD1cwV+y1Kk3/Qy
+   w==;
+X-IronPort-AV: E=Sophos;i="6.07,211,1708383600"; 
+   d="scan'208";a="35791097"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 07 Mar 2024 15:25:00 +0100
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5835C16F436;
+	Thu,  7 Mar 2024 15:24:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1709821496; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=WhASmGAxo/32YXdlY314I+/8f90iYMLkteylf+FTynU=;
+	b=rTGOQtpCiyfZF8XFayT10F8dvDItFfWYxvPcs8dwmLcVfKv/Y19/eAQzOtDqrqc+iFHTFk
+	i52QWBE1tm90Chg6C5n+m3UjLx8+nHYSFzl/YE4lz8eBozoHsgfHz08iddoOTJbXGxYgux
+	ha1S3gnT9OQwPNbav9DtgBXt4OVMWw9kdHOYOyp3/b7y5UP0cx7aqC6yinP5FtBjn2NSq2
+	UdFwHYcKzEFOs0ksxwkehwoVVJEvUNgvXzrp0vWAs03X5xWncCJuhcNa4WIasjBI3TOlyq
+	6eBG+CzYmkAZgu/OPGEPS63P6imAi5742OveIhoJ53DZHHXbFVmf47+EwDOguQ==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] media: v4l: async: Fix notifier list entry init
+Date: Thu,  7 Mar 2024 15:24:51 +0100
+Message-Id: <20240307142452.3685103-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240307-kms-hdmi-connector-state-v8-27-ef6a6f31964b@kernel.org>
-References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org>
-In-Reply-To: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7059; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ynm2eUkg4770MXlhVxVBYTFOvcdjKNlePExaCrKIcX0=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKkvD+f8fB3ik2X1NHfext1831g8p698JPZJavWe6s+Nu
- 9gFvwtM6ChlYRDjYpAVU2SJETZfEndq1utONr55MHNYmUCGMHBxCsBEtn1kZOgq1Sl4JpO+v+5X
- iMHRwrkK043kKphcK2amPLj5p/JPjh4jw1FxJdM317ml5r/Zorlkeekh9XzfB/lCBzac3/Ul8v4
- POVYA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+struct v4l2_async_notifier has several list_head members, but only
+waiting_list and done_list are initialized. notifier_entry was kept
+'zeroed' leading to an uninitialized list_head.
+This results in a NULL-pointer dereference if csi2_async_register() fails,
+e.g. node for remote endpoint is disabled, and returns -ENOTCONN.
+The following calls to v4l2_async_nf_unregister() results in a NULL
+pointer dereference.
+Add the missing list head initializer.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 29 deletions(-)
+Due to all the renames over time, it's hard to find a proper
+Fixes tag. If I see it correctly it was missing from the initial commit
+e9e310491bdbc ("[media] V4L2: support asynchronous subdevice registration").
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index b7cf369b1906..8a9106a39f23 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -34,34 +34,28 @@
- 	container_of_const(e, struct sun4i_hdmi, encoder)
- 
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- 			       struct drm_atomic_state *state)
- {
-@@ -80,18 +74,22 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 			      struct drm_atomic_state *state)
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
- 	       hdmi->base + SUN4I_HDMI_UNKNOWN_REG);
- 
-@@ -140,11 +138,12 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
- 
- 	val = SUN4I_HDMI_VID_CTRL_ENABLE;
-@@ -193,23 +192,26 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
- static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -251,10 +253,15 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 		return ERR_PTR(-EPROBE_DEFER);
- 
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
-@@ -272,15 +279,21 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	}
- 
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
- #ifdef CONFIG_DRM_SUN4I_HDMI_CEC
-@@ -635,14 +648,23 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	       hdmi->base + SUN4I_HDMI_CEC);
- #endif
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
- 		goto err_cleanup_connector;
- 	}
+The backtrace is left outside of commit message due to size.
+Note: Needs CONFIG_DEBUG_LIST to be enabled.
 
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 133 at lib/list_debug.c:52 __list_del_entry_valid_or_report+0x7c/0x148
+list_del corruption, c33b9558->next is NULL
+Modules linked in: imx6_mipi_csi2(C+) v4l2_fwnode snd_soc_imx_audmux snd_soc_tlv320aic32x4_i2c ci_hdrc_imx(+) coda_vpu snd_soc_tlv320aic32x4 imx6_media(C) ci_hdrc snd_soc_fsl_ssi snd_soc_fsl_asrc imx_pcm_dma v4l2_jpeg imx_media_common(C) videobuf2_vmalloc udc_core snd_soc_core videobuf2_dma_contig roles dw_hdmi_imx imx_vdoa videobuf2_memops dw_hdmi caam usbmisc_imx v4l2_mem2mem imx_sdma drm_display_helper error videobuf2_v4l2 snd_pcm_dmaengine virt_dma video_mux imxdrm videobuf2_common snd_pcm v4l2_async mux_mmio drm_dma_helper mux_core videodev drm_kms_helper snd_timer snd etnaviv mc soundcore imx_ipu_v3 gpu_sched gpio_keys gpio_beeper drm drm_panel_orientation_quirks configfs
+CPU: 1 PID: 133 Comm: systemd-udevd Tainted: G        WC         6.8.0-rc7-next-20240307+ #438
+Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+Call trace: 
+ unwind_backtrace from show_stack+0x10/0x14
+ show_stack from dump_stack_lvl+0x50/0x64
+ dump_stack_lvl from __warn+0x98/0xc4
+ __warn from warn_slowpath_fmt+0x11c/0x1b4
+ warn_slowpath_fmt from __list_del_entry_valid_or_report+0x7c/0x148
+ __list_del_entry_valid_or_report from __v4l2_async_nf_unregister.part.0+0x38/0x78 [v4l2_async]
+ __v4l2_async_nf_unregister.part.0 [v4l2_async] from v4l2_async_nf_unregister+0x44/0x4c [v4l2_async]
+ v4l2_async_nf_unregister [v4l2_async] from csi2_probe+0x20c/0x2b4 [imx6_mipi_csi2]
+ csi2_probe [imx6_mipi_csi2] from platform_probe+0x5c/0xb0
+ platform_probe from really_probe+0xd0/0x3cc
+ really_probe from __driver_probe_device+0x8c/0x120
+ __driver_probe_device from driver_probe_device+0x30/0xc0
+ driver_probe_device from __driver_attach+0xd8/0x1b0
+ __driver_attach from bus_for_each_dev+0x70/0xc0
+ bus_for_each_dev from bus_add_driver+0xf0/0x1f4
+ bus_add_driver from driver_register+0x7c/0x118
+ driver_register from do_one_initcall+0x44/0x174
+ do_one_initcall from do_init_module+0xa4/0x2a8
+ do_init_module from init_module_from_file+0x94/0x134
+ init_module_from_file from idempotent_init_module+0xec/0x240
+ idempotent_init_module from sys_finit_module+0x64/0xc4
+ sys_finit_module from ret_fast_syscall+0x0/0x1c
+Exception stack(0xf0d45fa8 to 0xf0d45ff0)
+5fa0:                   00000000 00000000 0000000f b6cfb624 00000000 00020000
+5fc0: 00000000 00000000 00000000 0000017b 00000000 b6eaff5b 00000000 0239e688
+5fe0: bea33658 bea33648 b6cf65ab b6c2b112
+---[ end trace 0000000000000000 ]---
+
+ drivers/media/v4l2-core/v4l2-async.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index 3ec323bd528b1..6a7dcf43d7125 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -563,6 +563,7 @@ void v4l2_async_nf_init(struct v4l2_async_notifier *notifier,
+ {
+ 	INIT_LIST_HEAD(&notifier->waiting_list);
+ 	INIT_LIST_HEAD(&notifier->done_list);
++	INIT_LIST_HEAD(&notifier->notifier_entry);
+ 	notifier->v4l2_dev = v4l2_dev;
+ }
+ EXPORT_SYMBOL(v4l2_async_nf_init);
+@@ -572,6 +573,7 @@ void v4l2_async_subdev_nf_init(struct v4l2_async_notifier *notifier,
+ {
+ 	INIT_LIST_HEAD(&notifier->waiting_list);
+ 	INIT_LIST_HEAD(&notifier->done_list);
++	INIT_LIST_HEAD(&notifier->notifier_entry);
+ 	notifier->sd = sd;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_async_subdev_nf_init);
 -- 
-2.43.2
+2.34.1
 
 
