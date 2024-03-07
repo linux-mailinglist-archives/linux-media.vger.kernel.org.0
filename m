@@ -1,118 +1,128 @@
-Return-Path: <linux-media+bounces-6612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4C7874923
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 08:55:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E778F8749FF
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 09:44:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19E581C2144D
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 07:55:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1EDEB20BE2
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 08:44:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B46B063130;
-	Thu,  7 Mar 2024 07:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC43182D73;
+	Thu,  7 Mar 2024 08:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vUInqjBw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VsmkY0cP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922E76311B
-	for <linux-media@vger.kernel.org>; Thu,  7 Mar 2024 07:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3DE8288B;
+	Thu,  7 Mar 2024 08:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709798123; cv=none; b=YvoX7OrVhuvL6RN+JNaxlXWKH1Nh5DzoayK6H3Ql8ynIFHH+r44Qf1ffTJ3QKEts/BdkvwpHxHJFXwBVn5r7ubkOu9jHGIcwH29un39mBHIHjW8NUbtlxsJsYd+1T1WiEIvpTcaCh7K/rkGYpudHH4OOabbIZzYyTXVk+xPxIug=
+	t=1709801071; cv=none; b=TickUx3QIrhja+Gin01W1DvV1aOUYDVBKebygCgZmKFGkY/pqMkfYVvp2LyDA5kNOmhOSp2zCwSMDqA/Fr+ZthVUOvDa6Ih3dMAJhknyj75cMwERQdR4p1YaVqryTRSpTZM84tXjwYLtDdPVJTdm5gtYD9+nAJ6pgquJrHRXJsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709798123; c=relaxed/simple;
-	bh=Aa66jG2WGimBH4GX5jmV/YXE8uZyBO6e9RgV/X53laE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NHHNwuC8JSq/GMMCyjQV4E4bs6B+Grbdm5ONyQwvA0KmK4fK/SvCuIdRGChM22MkD+wjF1OCGd2y3PrNCLc8Y4dHJXC6t7SrpbzrsL6orqmSwc0X0kkKSwV8zF8o/9L7qk/kOOtdZXOnPI5c3ohk28LWdWbhpYuYLzx889bSm/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vUInqjBw; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a4429c556efso81053366b.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Mar 2024 23:55:21 -0800 (PST)
+	s=arc-20240116; t=1709801071; c=relaxed/simple;
+	bh=fm0iBgE4SabS3Bl2mSLF5myIjuvQi4ZNn/Ua5rusr/Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nIU9JtZXFlRSIRWSAwwHnQWcubjotLbggAoNA99eZGrrNtOqAo/ztMdGDXYx8ovLSPT9aMcyNINm/lrIQkvoDOQA4qXKU8lVkb0a6dqyXl/+Tft8zw81C7LE2WwRad0IJTNz/7cI6hRexysf2P5bYUy4mPmo5slqEycATAJDDW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VsmkY0cP; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a441d7c6125so68781466b.2;
+        Thu, 07 Mar 2024 00:44:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709798120; x=1710402920; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bn0DWqG7g9N74WkvhFXOQ0ffZSSFhFrSnC9Q4XDpoto=;
-        b=vUInqjBwkR9a9RVfmg7a2IODcxTrbnVbXOEfzFN0264q073mNb80bbBgjHP8Do/nVc
-         wp7Wx1qxIdhGNQMSSWKZ7NFGHf8mDLbKzo6aMaz9W+9nyd5QFzFTheD49vjzk/KtTMIt
-         ZtieHxPNI2w0mAk4Kp8MTnSsml3ZhdD9LSYPrQrmSexAspUPt3YlBX8wnkUgAqx5m0/P
-         jjhRNQQfDn6U6fmNJqG+voG7IJpRCOLruKXL20NGZKQMkjxnaiyBc04Kn7OXEJcTzQJL
-         CXpr0BuuE1EKA7Nw36gGiapCd6RwREdTJVqIk7U2+elGEv/pTDqGI4hB18Oz+dxgHHa0
-         7gxQ==
+        d=gmail.com; s=20230601; t=1709801067; x=1710405867; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FoquaOEmQrmaw/2L6NuqbXwLRBOw43U2O3ew7WfCd14=;
+        b=VsmkY0cPweUZnYnUTeYld9D1+jj814ZYbIy0/N/gwxN9oydDD3dCoyK+8GR3xb8ViV
+         90CehsmEYcQHJFr20wEBVo2XZ7bO+POc0K+F6ZjAPHx4Mz4WzNwNaCLEMmnUmpQeqsyS
+         r2QIA9byhbmpyi6TCaLZSnFdb5wiUqLnXphnBaxj0hZNFd/rMSQRnDJPZ1WrHHsP4b2V
+         1thUURn42Q2JIAuRzAivu5qDAyfdk9o6GIH2ZgtsqiHb6fEJhKSTW87shwR4X4K1SJ1g
+         PdvxVqVEdLHbewFl5BlHBBH6NCv8dYLQ+lUERUd4hZD7rO4+4sYzsLbv3NWyyoDftdre
+         bGMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709798120; x=1710402920;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bn0DWqG7g9N74WkvhFXOQ0ffZSSFhFrSnC9Q4XDpoto=;
-        b=vHzbCxfUOXPQ8hb7lFYAz2Os1ItOJ8F4O1utiGr4xNp/qFRm2SIbsZntXohVZ2jhvz
-         PYs6Clk1r0YIzaRJT2b+e0TQh8DnrHgTU80j51/XW73Qoa0OhB4A5GxhST1HTGGR2lGg
-         3dGOV+j/XPCprc5Ve+ldBLOiQO9Cd1xGbw4Dqs1lvOlniZTLeCcqUlxo5X+ZqdhPPkif
-         WtEStoiWSUe5wRHChp0mqI9Dnq5fEzy12EicdHrt1GB5zt6waXVOra/2i4oIlVdd+4JX
-         xC2J/DaJwXmlOY6FkOV4kw/VHbMjUqtjlsCH+zkmlFVWiENhjqCSoX6uzGmJySSu0K/n
-         MeXA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3BP/qVLvSFtxZDDf5n82twSsLJ7H+MEnBZ0LeQv3UWqvseLTTlmyAeVcRwlM/EUeUnprb13k0DnscDqkxTLhaxksK5ck4uwiB3C0=
-X-Gm-Message-State: AOJu0YxGejkFl+QsdNoJP/DW0c959IRYoRUyXav0T+fMqLwUIP0Vs078
-	bOcwunLb0/TB4VRk8y8FRi0anoWPcc8rlw9EZHHThNJzC7zKoi/JXXGMZ6xdBCE=
-X-Google-Smtp-Source: AGHT+IHWh6qHbiDAcCnz7U/s5fQPQnTrwoA3CIOujNr0ES6F4oppiRIthyVdwep26V/Yz6L0NmQdfQ==
-X-Received: by 2002:a17:906:a456:b0:a3f:5144:ada2 with SMTP id cb22-20020a170906a45600b00a3f5144ada2mr11682129ejb.2.1709798119161;
-        Wed, 06 Mar 2024 23:55:19 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id lb7-20020a170906adc700b00a4479997b97sm7037985ejb.66.2024.03.06.23.55.18
+        d=1e100.net; s=20230601; t=1709801067; x=1710405867;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FoquaOEmQrmaw/2L6NuqbXwLRBOw43U2O3ew7WfCd14=;
+        b=St3BUjJxmrx3m2c+Kcb03EYPFhKufHufy1mznqPxQNF7ToK8p+POlN/sVi9aCyQ5Um
+         FlwkLq0Gjnxzpqthx5e3wuyX47cZQmHzO/jdycJapaaok3IlqQHX0C+BD5X0Wa7UIWBX
+         rFPi59nphyZklMihkEcESTdSFhRUynRGDYSfGu3toRRIlXfIi89KfQ7oZRRgsBjPmljh
+         e1M0ph7HXwDgOr5YLySyqvOHdNNetYVbjKnNht95qcQfvJdC6ORVKgM+szdwBHdwo5Zg
+         xzVhbpVSfHIZl94qrIaHDshtUEJv/RcjatVdpYUtaDUN7FVWSaIviW6Jdps1igiurBQt
+         awmg==
+X-Forwarded-Encrypted: i=1; AJvYcCX28G2DvAEbaqUDX1vIEiCEtUHCm81VzSr9bGfMsFVy98OTetfuGBNlgkNQlPawtyhApInol+2KinKkenncxq2rY+i9ZTXVuS20qzwBWbeGqctD1Z/YVJ+YH1TFOGZfn0pMpc6XXtkTOkM=
+X-Gm-Message-State: AOJu0Yw7ErkD7estvdC8pz8Qy9V2/0RvbOwDkxyvtE8C70P/AWEFuTYy
+	c93ZRDSNgUDJg9mKTCoD8J/5TS0dHf1RUQSJsEZi2bxOrXBT/JEoYLdHujY9
+X-Google-Smtp-Source: AGHT+IFZL6NYsiT1l/iU8GebYvDLrylEs3PS0k2he6H/eKFsZQ/jSQkbM2UHgRAgw+obMCIHmMgI7A==
+X-Received: by 2002:a17:906:b08:b0:a45:248e:b253 with SMTP id u8-20020a1709060b0800b00a45248eb253mr8650257ejg.76.1709801067308;
+        Thu, 07 Mar 2024 00:44:27 -0800 (PST)
+Received: from localhost.localdomain ([213.55.225.151])
+        by smtp.gmail.com with ESMTPSA id s23-20020a170906a19700b00a44899a44ddsm7074215ejy.11.2024.03.07.00.44.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 23:55:18 -0800 (PST)
-Date: Thu, 7 Mar 2024 10:55:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQw==?= =?utf-8?Q?H?= v1 5/7] staging:
- media: starfive: Add ISP raw video device
-Message-ID: <17e9c68f-0019-4b76-908b-6763fb24eb22@moroto.mountain>
-References: <20240306093334.9321-1-changhuang.liang@starfivetech.com>
- <20240306093334.9321-6-changhuang.liang@starfivetech.com>
- <c474bd8f-6c23-4536-a915-efbc197a223e@moroto.mountain>
- <SHXPR01MB06715A4810E596B068029472F220A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+        Thu, 07 Mar 2024 00:44:26 -0800 (PST)
+From: Ali Zahraee <ahzahraee@gmail.com>
+To: sakari.ailus@linux.intel.com,
+	bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: Ali Zahraee <ahzahraee@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	javier.carrasco.cruz@gmail.com
+Subject: [PATCH] Documentation: media: remove documentation of obsolete struct members
+Date: Thu,  7 Mar 2024 09:44:04 +0100
+Message-Id: <20240307084404.7796-1-ahzahraee@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SHXPR01MB06715A4810E596B068029472F220A@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 07, 2024 at 02:13:50AM +0000, Changhuang Liang wrote:
-> Hi, Dan
-> 
-> [...]
-> > >
-> > > +err_rm_links0:
-> > > +	media_entity_remove_links(&isp_dev->subdev.entity);
-> > 
-> > I don't think this line is correct.  I think we only need to remove
-> > &cap_yuv->video.vdev.entity.
-> > 
-> 
-> The instance I refer to needs to clear both the source entity and the sink entity. See
-> https://elixir.bootlin.com/linux/v6.8-rc7/source/drivers/media/platform/verisilicon/hantro_drv.c#L855
-> 
+These struct members were removed from the struct, but their
+documentation is still there, which causes warnings from sphinx during
+building of the docs.
 
-Oh yeah.  It's the same in v4l2_m2m_register_media_controller().
+Signed-off-by: Ali Zahraee <ahzahraee@gmail.com>
+---
+ drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+index caa358e0bae4..4aa2797f5e3c 100644
+--- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
++++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+@@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
+  *		&ipu3_uapi_yuvp1_y_ee_nr_config
+  * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
+- * @reserved1: reserved
+  * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @tcc:	total color correction config as defined in struct
+  *		&ipu3_uapi_yuvp2_tcc_static_config
+- * @reserved2: reserved
+  * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
+  * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
+  * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
+@@ -2724,7 +2722,6 @@ struct ipu3_uapi_obgrid_param {
+  * @acc_ae: 0 = no update, 1 = update.
+  * @acc_af: 0 = no update, 1 = update.
+  * @acc_awb: 0 = no update, 1 = update.
+- * @__acc_osys: 0 = no update, 1 = update.
+  * @reserved3: Not used.
+  * @lin_vmem_params: 0 = no update, 1 = update.
+  * @tnr3_vmem_params: 0 = no update, 1 = update.
+-- 
+2.34.1
 
 
