@@ -1,99 +1,100 @@
-Return-Path: <linux-media+bounces-6614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6615-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892A9874A1B
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 09:51:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D428874ABA
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 10:22:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E7231F24EF1
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 08:51:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3866C282209
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 09:22:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 583388286B;
-	Thu,  7 Mar 2024 08:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BgW798Jw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F12AF83CD3;
+	Thu,  7 Mar 2024 09:22:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD371A29A;
-	Thu,  7 Mar 2024 08:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2AF83A00
+	for <linux-media@vger.kernel.org>; Thu,  7 Mar 2024 09:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709801470; cv=none; b=Cmug0JkGqUvWBZwOxtTW5S2PyDMmjwLiiOEp+DRtCOW6Vrx0qZvDS2DQtNNweu2Dzw43JO4X7YN1Km33a4i81PWoSi//X0fw6KU0KN8qFtFnyVqWI9Lff3MY67tiEsGkV/eGoSyIEtaBaRPQKm/assA7HxyJpIzl1rWhL1QS7AE=
+	t=1709803324; cv=none; b=XN12gxJ/+vARalGITecu6Aq7SSD/VgX3HNKQ6ryI+hvkfPmSLuz5FM9Av4/zhI5fMeA9CoL/LzSApMAdLFy4mSzNe07Tf31ciaR5spI620fOSkJdxRDgZLmZ7gFge0z6WxgAFBaNohda+6ug7c3e+FB6G2bVu19A9Dp2UnDvwzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709801470; c=relaxed/simple;
-	bh=yV/OikP6MH4jY26/Y82oK9+/dSYC2x7JTtfrU8Ax2hs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ch27jXre/en1zxSJR2dO/duN++j0Z37lhJWmcuvfMS+xT3yy0l9nE8dT6OBhl9nto68XEzRV3wwQoHJ4PGrrsxVu+rfQY/NHUOW/Qy9SMxY5WxmcAPBmPPfwLbLNCl+Gcf4pFXO2O/j1vZU9NLYgSGc8KKU5gta09PxL41gNhak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BgW798Jw; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709801469; x=1741337469;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yV/OikP6MH4jY26/Y82oK9+/dSYC2x7JTtfrU8Ax2hs=;
-  b=BgW798JwVtG7exnN1vYdl/tRE8EGyM68n6/RCNoz0tXayxDKQjDS9DAB
-   OtJunieZtpP+V1QedRU0YXVAMHQ0h4VCNftermX3g6QGCNfjVbOW4yeMj
-   2VA/MmdDzdVlVwHJZRcvcx+Mys1jqFdcEk4gMj9p7oqr+r742xGm7AM57
-   ZGsD9ps2N6qfu8Z/sTLGAGcPX1YdeP8viTFCBaaHosjvo2+TjPoKFZ688
-   LacG0/iclfYXfTXsH+Zw5c7WXG6hvJVJ93R0PjuPvbtUG34j2r2cJGvja
-   6Cdnc9wVo4Wg+PYBsIfyydLmwdhXCu+31x8832a6X2MN7huRaXmXZwL28
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="21908202"
-X-IronPort-AV: E=Sophos;i="6.06,211,1705392000"; 
-   d="scan'208";a="21908202"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 00:51:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,211,1705392000"; 
-   d="scan'208";a="10201949"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 00:51:06 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 5FA9B11F819;
-	Thu,  7 Mar 2024 10:51:03 +0200 (EET)
-Date: Thu, 7 Mar 2024 08:51:03 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ali Zahraee <ahzahraee@gmail.com>
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com
-Subject: Re: [PATCH] Documentation: media: remove documentation of obsolete
- struct members
-Message-ID: <Zel_98N4G-zADEJw@kekkonen.localdomain>
-References: <20240307084404.7796-1-ahzahraee@gmail.com>
+	s=arc-20240116; t=1709803324; c=relaxed/simple;
+	bh=k6Z8Dy08v8JjctZT+zEqRAI+iDKakEThNIneji3WUs8=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=iLmFx0po5Wk788rQfimvDTc8lYii7xjafIq8uXr6VwO2vat3PlyXhYlOcKq2FDkYxrrHaSk53IP6UCbTnYnlE4P/lcc0AocUpj3RLYxLpbCIaK11LnOyF6DKvXlhbljjIcrQzblrseDijjV06i71fjfQYAJK79M/2XM2ETj4dI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7c75dee76c0so55396939f.1
+        for <linux-media@vger.kernel.org>; Thu, 07 Mar 2024 01:22:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709803322; x=1710408122;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V4cB4mfgxxhOdGVz1qSSrC2aE19EtM0xTHQYqGcCbdk=;
+        b=Kmi7tYjlT7xW78z0wU2AnHdM3NLBVB8LNkR1JrBL/avVNQPeT17YZeIPbvVsFkJr46
+         Asn9fUf6GsRakAM/JiQZYMdyEXS/x++UCq4yDyPAZ3AkOe1L6gH9GbS5S2ymauR43nGJ
+         ASbfMSwJ1o5CxvSf+kbh3DYrhaAlZ3rYb43bRih6lYxMz5NqSsz5PAsFzqhMhhHyqmgD
+         ej40XgMNsoES8SffPxF5CRfsuRksV7KxFTG3exzVPodkFhFW3YpErfqKe0slmf28ps4T
+         M78Z8XOjpuXhxccI/G3WhNyN0Zt0xFTh6W+6ZgKhSDGvkDc4bFzs/8oRkJTG4leo+5+L
+         wnOw==
+X-Forwarded-Encrypted: i=1; AJvYcCWKGOj0g9B38jDwLon9h3MenKhAnCPUOglDhr4Ev0Rianms6quD0H7MMlvwXxc00ZWGPm0ZaZIWbpBrzQy1g4JTJVoKwLgrUJg1ihc=
+X-Gm-Message-State: AOJu0YyB4IA7MpOFwJihU9mdKllGprgzjQXc2CBh4O8JKYZDJHqt3Ve9
+	CF5elGxVGeVv0FKPI+9qbFJkPklSUrWeYt0Z+rtFq0ikw0A7qt8rdsKULUTT46dhVt5L7+oF1Db
+	KlxSblj03A8GZpwxBiw0oRvDQY5EGq0zY9T0tWZCLa29oyUsUNj5EnhQ=
+X-Google-Smtp-Source: AGHT+IEMTxQCdUA6Dv7Lv6y16wV0knL7dKArp17Um7aS/ApI3W+O/xlDfqd9xlZ9X3uv+mg+dW+z3XFCb+N79t1rzwFiFjeKNebx
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240307084404.7796-1-ahzahraee@gmail.com>
+X-Received: by 2002:a05:6638:2b18:b0:476:b3e5:4392 with SMTP id
+ fm24-20020a0566382b1800b00476b3e54392mr44985jab.2.1709803321994; Thu, 07 Mar
+ 2024 01:22:01 -0800 (PST)
+Date: Thu, 07 Mar 2024 01:22:01 -0800
+In-Reply-To: <0000000000009752a005fdc2d114@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000a4bb3506130e9bc5@google.com>
+Subject: Re: [syzbot] [usb] INFO: rcu detected stall in newfstatat (3)
+From: syzbot <syzbot+96127c74434e19e4609d@syzkaller.appspotmail.com>
+To: brauner@kernel.org, davem@davemloft.net, edumazet@google.com, 
+	gregkh@linuxfoundation.org, jack@suse.cz, jiri@nvidia.com, jmorris@namei.org, 
+	kuba@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-usb@vger.kernel.org, mchehab@kernel.org, netdev@vger.kernel.org, 
+	oneukum@suse.com, pabeni@redhat.com, paul@paul-moore.com, 
+	penguin-kernel@i-love.sakura.ne.jp, sean@mess.org, serge@hallyn.com, 
+	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com, 
+	takedakn@nttdata.co.jp, tomoyo-dev-en-owner@lists.osdn.me, 
+	tomoyo-dev-en@lists.osdn.me, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ali,
+syzbot has bisected this issue to:
 
-Thanks for the patch.
+commit c2368b19807affd7621f7c4638cd2e17fec13021
+Author: Jiri Pirko <jiri@nvidia.com>
+Date:   Fri Jul 29 07:10:35 2022 +0000
 
-On Thu, Mar 07, 2024 at 09:44:04AM +0100, Ali Zahraee wrote:
-> These struct members were removed from the struct, but their
-> documentation is still there, which causes warnings from sphinx during
-> building of the docs.
-> 
-> Signed-off-by: Ali Zahraee <ahzahraee@gmail.com>
+    net: devlink: introduce "unregistering" mark and use it during devlinks iteration
 
-These have been already removed by commit
-dcef3ed5b0d79f89018e31d55cf09f2c2f81392b .
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14dc6736180000
+start commit:   29cd507cbec2 Merge tag 'integrity-v6.8-fix' of git://git.k..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=16dc6736180000
+console output: https://syzkaller.appspot.com/x/log.txt?x=12dc6736180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=70429b75d4a1a401
+dashboard link: https://syzkaller.appspot.com/bug?extid=96127c74434e19e4609d
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11767d61180000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15f691a6180000
 
--- 
-Kind regards,
+Reported-by: syzbot+96127c74434e19e4609d@syzkaller.appspotmail.com
+Fixes: c2368b19807a ("net: devlink: introduce "unregistering" mark and use it during devlinks iteration")
 
-Sakari Ailus
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
