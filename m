@@ -1,96 +1,179 @@
-Return-Path: <linux-media+bounces-6661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7029875708
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 20:23:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C652D8757E0
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 21:04:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71567283243
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 19:23:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E82EB24343
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 20:04:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9047A136664;
-	Thu,  7 Mar 2024 19:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743E11386B6;
+	Thu,  7 Mar 2024 20:04:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELUoMbhz"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="3AmaXLH4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA2A1BDDB;
-	Thu,  7 Mar 2024 19:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0003012DDB6;
+	Thu,  7 Mar 2024 20:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709839383; cv=none; b=iXdUbwU0KLN6KRYegBnq5370Q0E8/ARxO1RE3h9dZyGZTrl5xEeJHfW7Oc9V7fQnzpu+jmO9OnQ95uwNMkdJR0vuuYn3JO3FZmqPctvaqM2wH79812e5AGPj+TqJ8wBwj2DYFvb2b8OlcLrfqdoK5HivrSpU8BvlDngMua5VvmA=
+	t=1709841855; cv=none; b=uXR00oY7RH1I5DV5K0XYiZ5Z0v2Rl1o4NI1jDj4kPQ5YJOGM3dm6bAtvM6I9jQIZ/K7KIyd8aJq6V6LAslI9HfF8W09WZErJc3833g5SoDdMYt6RnBOoXdfS2wGDeIbOus43fnm/q+lmR2HbwkXwvO456scBrm/cnLdS3GtUQG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709839383; c=relaxed/simple;
-	bh=YblulDO9X2q8t9DddMx1g+jH0EObHTszAuyRsHPwE2Q=;
+	s=arc-20240116; t=1709841855; c=relaxed/simple;
+	bh=MZVCDWeY67p3xAEfppQ8ZlXuHW8fbkeJZxUBcB3Nxuk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bkcqpPNPU64mCp71IpkHbFYYXW4zow3GmEz61IkmIVzUZ+Va3bsVo5EOyRXXyY6t5XQWiuF33c2eU4q7VMex1GJwDRlKe5Qf5TgSMF5r4le2pIPhYgOyoiFavfp4wPHte0tU01C1Ni0b+pukJvJ97HK43tHvAAW4gnRPsqPxRCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELUoMbhz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E75DC433F1;
-	Thu,  7 Mar 2024 19:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709839382;
-	bh=YblulDO9X2q8t9DddMx1g+jH0EObHTszAuyRsHPwE2Q=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7WW4G52vFcatZ0QpYgsgzUBwRYmXnItX9ITvjldrDm2XFsxs5JQ9s9Mb5r24+ypxvdcXCmuLIjen5wX+Jn+/6HAmGSu/z6pLd4XAsh9G7gPxKdEWljCTsuLiLiDVnfP6pD/Q1Cv4DWmoeCgqJrzgEf3zM/lTyzbRROy2begA1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=3AmaXLH4; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709841852;
+	bh=MZVCDWeY67p3xAEfppQ8ZlXuHW8fbkeJZxUBcB3Nxuk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ELUoMbhzMBbYClW9GaTdePwvD+O7oGPYLjW4aOCkR3ElnAUl1PWGb6E2bMSxZHF+C
-	 UQoYM8JeeU3YQ1gpNjqHcJy/KlZAmZPKgPzNl9RTXNRi19geZ0NnYUYH9nhcuSeh36
-	 6HzPkCSvZIZuvwzZHT6Lp5XUekI8RofrIVwpepKZE/anZL+BSASa3B3/LagWSq52C+
-	 8oWqc+SCRFBMNs9Giri1uCZLRKIvnwHDKwKBSLOPPwFRTTPUi5sHNkZaO/00CZWHWu
-	 4zEG8qpEdmSTxT1e1dRPM7+We0gqSipZBuiQhFYTKFfPYpkjn1kZoI70EePcsChXIG
-	 WSIDPg1LgvX9g==
-Date: Thu, 7 Mar 2024 19:22:58 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: linux-media@vger.kernel.org, kernel@collabora.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	sakari.ailus@iki.fi
-Subject: Re: [PATCH v4 1/4] dt-bindings: media: add Maxim MAX96717 GMSL2
- Serializer
-Message-ID: <20240307-hardly-eligibly-f63c7849c265@spud>
-References: <20240305152608.287527-1-julien.massot@collabora.com>
- <20240305152608.287527-2-julien.massot@collabora.com>
+	b=3AmaXLH4gxhjk6TI1iHnWpL4M/ZYIXT6GXAHObinOQxwYTrK1x8t9DkSroZszS/xL
+	 NLzOWz7SyxbQaRzNl86WOqxU4ZssdkE2IewixJ3ck2QHNBf6phPCLGtLIL82iGx6Nj
+	 U+JI085IRm/HGeXYpPpXjCyn73ZLPZGw1wQnFDi8zEwFgCYnLswUmSjS/cmIQ97PQB
+	 1w3kyaw3mHnTDiZcir8v1sjmGyQ0FyOePtyDeeflUVVutpVlyyUep7jOx6Y/EdyDVk
+	 pHu+C8/xX1KilNVdG/XEC03nsFx1v0TguefUYi66PQOpr/R+msDjXXANxZsO1NYFPN
+	 4hwvpNsc6qvCQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dbrouwer)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7CB5437810CD;
+	Thu,  7 Mar 2024 20:04:11 +0000 (UTC)
+Date: Thu, 7 Mar 2024 12:04:09 -0800
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+	hverkuil@xs4all.nl, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [RFC PATCH v2 0/2] Rewrite parts of rkvdec driver and the VP9
+ codec library in Rust
+Message-ID: <Zeodua65NJpJI1z6@mz550>
+References: <20240227215146.46487-1-daniel.almeida@collabora.com>
+ <20240307190841.10260-1-daniel.almeida@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="vxKKIyiziO9pkzS7"
-Content-Disposition: inline
-In-Reply-To: <20240305152608.287527-2-julien.massot@collabora.com>
-
-
---vxKKIyiziO9pkzS7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240307190841.10260-1-daniel.almeida@collabora.com>
 
-On Tue, Mar 05, 2024 at 04:26:05PM +0100, Julien Massot wrote:
-> Add DT bindings for Maxim MAX96717 GMSL2 Serializer.
->=20
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
-> Change since v3:
->  - Renamed file to maxim,max96717.yaml dropped the 'f' suffix
+Hi Daniel,
 
-Same comments here :)
+On Thu, Mar 07, 2024 at 04:08:14PM -0300, Daniel Almeida wrote:
+> Hi Mauro, Hans,
+> 
+> While working on v1 for this patchset, I realized that we can go further by
+> converting the error-prone sections of our codec drivers to Rust. This also
+> does not need any bindings in order to work.
+> 
+> As yet another proof-of-concept, I have converted parts of the rkvdec driver.
+> Refer to instructions in v1 to test this.
 
---vxKKIyiziO9pkzS7
-Content-Type: application/pgp-signature; name="signature.asc"
+I tested this on rk3399 rkvdec with:
+./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS -j1
 
------BEGIN PGP SIGNATURE-----
+And I get the same result as on mainline (6.8-rc3)
+Ran 220/305 tests successfully               in 913.877 secs
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeoUEQAKCRB4tDGHoIJi
-0rd2AP9Jshe0QymJEY0cQbwN0VYYRGknVmKmLY8oMZkkLNTaTgD+IRZWFVuUF3ZO
-jsXIyn1gEdSrL2D8wXC/oIbH9sPw2AM=
-=MHPL
------END PGP SIGNATURE-----
+So I can't say I understand all the Rust here but my testing didn't show
+any regressions in the VP9 decoding. :)
 
---vxKKIyiziO9pkzS7--
+Deb
+
+> 
+> Notice how:
+> 
+> 1) many problematic memcpy's go away, these become a simple assignment in Rust.
+> 
+> 2) it can interop seamlessly with the code in rkvdec-vp9.c that was already
+> converted in v1 of this series.
+> 
+> 3) it can use the Rust version of `seg_feat_enabled` directly in vp9.rs, while
+> also using the C APIs from the v4l2-vp9-rs library in rkvdec-vp9.c
+> 
+> 4) more modern things become available for the programmer, like iterators and
+> their methods without a performance penalty.
+> 
+> I want to propose the following:
+> 
+> Let's merge a non-RFC version of this series and gate it behind some kconfigs
+> so that we can switch between the C and Rust implementations. Users get the C
+> version by default, while we continuously test the Rust components on a CI for
+> a few months. This will hopefully be enough time until the next Media Summit.
+> 
+> My aim is to eventually deprecate the C parts once we're confident that the
+> Rust code is stable enough. I will keep my own tree, and send PRs to the media
+> tree if a rebase or fix is needed.
+> 
+> I believe this will not be disruptive nor require any extra work from anyone
+> but me.
+> 
+> -- Daniel
+> 
+> 
+> Again, applies on top of:
+> 
+> commit d9c1fae3e5b225f2e45e0bca519f9a2967cd1062
+> Author: Alice Ryhl <aliceryhl@google.com>
+> Date:   Fri Feb 9 11:18:22 2024 +0000
+> 
+>     rust: file: add abstraction for `poll_table`
+> 
+> For those looking for a branch instead: https://gitlab.collabora.com/dwlsalmeida/for-upstream/-/tree/vp9-rs-rkvdec?ref_type=heads
+> 
+> Daniel Almeida (2):
+>   v4l2-core: rewrite the VP9 library in Rust
+>   media: rkvdec: rewrite parts of the driver in Rust
+> 
+>  drivers/media/platform/verisilicon/Kconfig    |    2 +-
+>  .../platform/verisilicon/hantro_g2_vp9_dec.c  |   38 +-
+>  .../media/platform/verisilicon/hantro_hw.h    |    8 +-
+>  drivers/media/v4l2-core/Kconfig               |    5 +
+>  drivers/staging/media/rkvdec/Kconfig          |    3 +-
+>  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>  drivers/staging/media/rkvdec/cbindgen.toml    |   36 +
+>  drivers/staging/media/rkvdec/common.rs        |   19 +
+>  drivers/staging/media/rkvdec/regs.rs          |  237 ++
+>  drivers/staging/media/rkvdec/rkvdec-vp9.c     |  607 +----
+>  drivers/staging/media/rkvdec/rkvdec_rs.h      |  125 +
+>  drivers/staging/media/rkvdec/rkvdec_rs.rs     |   14 +
+>  drivers/staging/media/rkvdec/vp9.rs           |  636 +++++
+>  include/media/v4l2-vp9-rs.h                   |   99 +
+>  rust/bindings/bindings_helper.h               |    1 +
+>  rust/helpers.c                                |    7 +
+>  rust/kernel/lib.rs                            |    2 +
+>  rust/kernel/media.rs                          |    5 +
+>  rust/kernel/media/v4l2_core.rs                |    6 +
+>  rust/kernel/media/v4l2_core/cbindgen.toml     |   26 +
+>  rust/kernel/media/v4l2_core/vp9.rs            | 2053 +++++++++++++++++
+>  21 files changed, 3415 insertions(+), 516 deletions(-)
+>  create mode 100644 drivers/staging/media/rkvdec/cbindgen.toml
+>  create mode 100644 drivers/staging/media/rkvdec/common.rs
+>  create mode 100644 drivers/staging/media/rkvdec/regs.rs
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec_rs.h
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec_rs.rs
+>  create mode 100644 drivers/staging/media/rkvdec/vp9.rs
+>  create mode 100644 include/media/v4l2-vp9-rs.h
+>  create mode 100644 rust/kernel/media.rs
+>  create mode 100644 rust/kernel/media/v4l2_core.rs
+>  create mode 100644 rust/kernel/media/v4l2_core/cbindgen.toml
+>  create mode 100644 rust/kernel/media/v4l2_core/vp9.rs
+> 
+> -- 
+> 2.43.0
+> 
+> 
 
