@@ -1,179 +1,148 @@
-Return-Path: <linux-media+bounces-6662-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6663-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C652D8757E0
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 21:04:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5295E8758E6
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 21:56:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E82EB24343
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 20:04:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CFFFA1F24EB5
+	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 20:56:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743E11386B6;
-	Thu,  7 Mar 2024 20:04:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A47C313A882;
+	Thu,  7 Mar 2024 20:56:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="3AmaXLH4"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="yup57+5/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0003012DDB6;
-	Thu,  7 Mar 2024 20:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930C013A248
+	for <linux-media@vger.kernel.org>; Thu,  7 Mar 2024 20:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709841855; cv=none; b=uXR00oY7RH1I5DV5K0XYiZ5Z0v2Rl1o4NI1jDj4kPQ5YJOGM3dm6bAtvM6I9jQIZ/K7KIyd8aJq6V6LAslI9HfF8W09WZErJc3833g5SoDdMYt6RnBOoXdfS2wGDeIbOus43fnm/q+lmR2HbwkXwvO456scBrm/cnLdS3GtUQG0=
+	t=1709844969; cv=none; b=eZ72EY1lhJTum6XaYd7ySverKIVeElKDGpQORzkoMo/Iyn6uHmM232G+6WfBokUD4N/0L22cxdRQm9O3G4JGlJKqnw2ISn1nDLqBL2iwLSXOIPt3LVKIfxCzKChrst45kvW9Y4vue4mEHimch3Z70vqhotied6+MP+TLiNxX/wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709841855; c=relaxed/simple;
-	bh=MZVCDWeY67p3xAEfppQ8ZlXuHW8fbkeJZxUBcB3Nxuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D7WW4G52vFcatZ0QpYgsgzUBwRYmXnItX9ITvjldrDm2XFsxs5JQ9s9Mb5r24+ypxvdcXCmuLIjen5wX+Jn+/6HAmGSu/z6pLd4XAsh9G7gPxKdEWljCTsuLiLiDVnfP6pD/Q1Cv4DWmoeCgqJrzgEf3zM/lTyzbRROy2begA1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=3AmaXLH4; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709841852;
-	bh=MZVCDWeY67p3xAEfppQ8ZlXuHW8fbkeJZxUBcB3Nxuk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=3AmaXLH4gxhjk6TI1iHnWpL4M/ZYIXT6GXAHObinOQxwYTrK1x8t9DkSroZszS/xL
-	 NLzOWz7SyxbQaRzNl86WOqxU4ZssdkE2IewixJ3ck2QHNBf6phPCLGtLIL82iGx6Nj
-	 U+JI085IRm/HGeXYpPpXjCyn73ZLPZGw1wQnFDi8zEwFgCYnLswUmSjS/cmIQ97PQB
-	 1w3kyaw3mHnTDiZcir8v1sjmGyQ0FyOePtyDeeflUVVutpVlyyUep7jOx6Y/EdyDVk
-	 pHu+C8/xX1KilNVdG/XEC03nsFx1v0TguefUYi66PQOpr/R+msDjXXANxZsO1NYFPN
-	 4hwvpNsc6qvCQ==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dbrouwer)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7CB5437810CD;
-	Thu,  7 Mar 2024 20:04:11 +0000 (UTC)
-Date: Thu, 7 Mar 2024 12:04:09 -0800
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
-	hverkuil@xs4all.nl, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	kernel@collabora.com
-Subject: Re: [RFC PATCH v2 0/2] Rewrite parts of rkvdec driver and the VP9
- codec library in Rust
-Message-ID: <Zeodua65NJpJI1z6@mz550>
+	s=arc-20240116; t=1709844969; c=relaxed/simple;
+	bh=2n/MjL/4X+81aIV4UEAdU1iKxvGLTF8COYlSEQXZy/U=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=McYo+E7z+2iPPe+AfZvWTOuim69Amz9TD+SRbnWGAl+qWedqMrIs3Rz+0iJDy2/zHfHGVQWsUM238RvTJGDNKOf8bL+rliUQZVfDtcZwVrJeYBnoR5WvYgn9j9WxPtjtDzSFT6IVIaWvjnjQEUcM2YEKFvpavaF+AOMcvqqVAjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=yup57+5/; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-787edfea5adso12925185a.2
+        for <linux-media@vger.kernel.org>; Thu, 07 Mar 2024 12:56:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1709844965; x=1710449765; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tw1twkim3tJHa4ruEXI5vxr7AEW36vJHstefhfBYjKw=;
+        b=yup57+5/OnW1ynH5Wx6P5l+ZYF5hRJqTSjU+n+tt6+huLUOXZRS2ynQ/wRtzs7BOf5
+         zYiU679eTbEEZV1/ByHTA8jQZcyQSSuUj8KgD/KOlMul+my3uJe9d7GuvG0qzabS/qXv
+         kLggHc2sIvS4rwmVKf83mgvMFdD10mRDHjYZiJbo+E+18rTtzbcnthwa9x8krRBMsRUw
+         otcKqv8ie+pQucBhWHJ6L4gDTHhNN1apViL7MCJNQK0ZKt/Z2cNf+SWBBUjAZzXihE2O
+         Lvyv+bshmCnAQYxv33D51fRR9541J9Zeq1ZMUxHSk89MP1EVErexUwqVVt11jPgkdrMR
+         eBZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709844965; x=1710449765;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tw1twkim3tJHa4ruEXI5vxr7AEW36vJHstefhfBYjKw=;
+        b=m0v3IFbj7fRbJr1NwUKMfwJUzHBujWzLaMqs5mC2UIZbiPWT9OFmjJpI4hEPr413Xn
+         Q3UjrlW5Eu0CBDHd/NMJAWPUlsE+u7SpCpPfbBl8txiQZ8LbYgDnzObnLNt6ylXXQ9sn
+         IHYDnwOuIYvHzEJW5ejkzhf6ISnpZ/ctjYEVqndW0dJpy+ADxX3GaRAuB2z+e3Wu6dFa
+         /6bCo7MCbSqeem2xp5LKcQdeiuunHbBKZJQY5qWwuH/5gqoYbxpm+ZwbCbqZ9MX/DbPz
+         h3tb3ti5ybCnqLNSrV738+4nfHCCiHB3bcYuFfewCP+fXFdZJXTxhRJkPo9fUEEuaiRM
+         vV8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWISQRl+kPIsr0uh9nMrfFvAKnZd5LMh1mo7J3G8HAIu4RzdE+yrhpz6lkxRosPp6dROyHu/V+No1G/bBj47PekNBm2Bz8ezj2dO98=
+X-Gm-Message-State: AOJu0YxqUmiTdcmJevKSzUhfw1LlaT53NGpdrd5GNNXsbVC3AVkHc3Tn
+	Hx9fGgOJ0KFCdIFDIKpLUqwBlEEkjBbRj1djIKBX2vuarvD+Kj+tSB0ZHzPWHSA=
+X-Google-Smtp-Source: AGHT+IHSboxGSHFyQhRKAiV/dXr6jr+xeGSxmpeqPr8L6HZBuX56WMJ5wkIjORNZwzAww9do3Q4Hdg==
+X-Received: by 2002:a05:620a:31a:b0:788:1a88:3cf6 with SMTP id s26-20020a05620a031a00b007881a883cf6mr8869605qkm.21.1709844965459;
+        Thu, 07 Mar 2024 12:56:05 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:eba4::7a9])
+        by smtp.gmail.com with ESMTPSA id z17-20020a05620a101100b007876e91f392sm6204346qkj.79.2024.03.07.12.56.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 12:56:05 -0800 (PST)
+Message-ID: <c70935815ffc29ae5256b94c0e4880952abad79c.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH v2 2/2] media: rkvdec: rewrite parts of the driver
+ in Rust
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com, 
+	ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, kernel@collabora.com
+Date: Thu, 07 Mar 2024 15:56:03 -0500
+In-Reply-To: <20240307190841.10260-3-daniel.almeida@collabora.com>
 References: <20240227215146.46487-1-daniel.almeida@collabora.com>
- <20240307190841.10260-1-daniel.almeida@collabora.com>
+	 <20240307190841.10260-1-daniel.almeida@collabora.com>
+	 <20240307190841.10260-3-daniel.almeida@collabora.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240307190841.10260-1-daniel.almeida@collabora.com>
 
 Hi Daniel,
 
-On Thu, Mar 07, 2024 at 04:08:14PM -0300, Daniel Almeida wrote:
-> Hi Mauro, Hans,
-> 
-> While working on v1 for this patchset, I realized that we can go further by
-> converting the error-prone sections of our codec drivers to Rust. This also
-> does not need any bindings in order to work.
-> 
-> As yet another proof-of-concept, I have converted parts of the rkvdec driver.
-> Refer to instructions in v1 to test this.
+as I'm already sold to the idea, I decided to discuss other things ;-P see
+below.
 
-I tested this on rk3399 rkvdec with:
-./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0 -ts VP9-TEST-VECTORS -j1
+Le jeudi 07 mars 2024 =C3=A0 16:08 -0300, Daniel Almeida a =C3=A9crit=C2=A0=
+:
+> +++ b/drivers/staging/media/rkvdec/regs.rs
+> @@ -0,0 +1,237 @@
+> +#![allow(dead_code)]
+> +#![allow(unused_macros)]
+> +
+> +pub(crate) const RKVDEC_REG_INTERRUPT: u32 =3D 0x004;
+> +pub(crate) const RKVDEC_INTERRUPT_DEC_E: u32 =3D 1 << 0;
+> +pub(crate) const RKVDEC_CONFIG_DEC_CLK_GATE_E: u32 =3D 1 << 1;
+> +pub(crate) const RKVDEC_E_STRMD_CLKGATE_DIS: u32 =3D 1 << 2;
 
-And I get the same result as on mainline (6.8-rc3)
-Ran 220/305 tests successfully               in 913.877 secs
+Regs file are a bit our coded reference information on how the registers ar=
+e
+layout in memory. So I believe the alignment, indent and readability of tha=
+t
+file would at least need polishing.
 
-So I can't say I understand all the Rust here but my testing didn't show
-any regressions in the VP9 decoding. :)
+But to the light of your comment, being able to use more modern utility, is=
+n't
+there something in Rust we could use to better map the registers ? These
+variables are just mask offset to help someone write specific bits within a=
+ list
+of 32bit registers (Hantro and RKVDEC have that in common). In downstream m=
+pp
+userspace driver, they maps all the register with a C struct.
 
-Deb
+struct reg123 {
+  val1 :3  // bit 31-29
+  val2 :20 // bit 28-9
+  val3 :9  // bit 8-0
+};
 
-> 
-> Notice how:
-> 
-> 1) many problematic memcpy's go away, these become a simple assignment in Rust.
-> 
-> 2) it can interop seamlessly with the code in rkvdec-vp9.c that was already
-> converted in v1 of this series.
-> 
-> 3) it can use the Rust version of `seg_feat_enabled` directly in vp9.rs, while
-> also using the C APIs from the v4l2-vp9-rs library in rkvdec-vp9.c
-> 
-> 4) more modern things become available for the programmer, like iterators and
-> their methods without a performance penalty.
-> 
-> I want to propose the following:
-> 
-> Let's merge a non-RFC version of this series and gate it behind some kconfigs
-> so that we can switch between the C and Rust implementations. Users get the C
-> version by default, while we continuously test the Rust components on a CI for
-> a few months. This will hopefully be enough time until the next Media Summit.
-> 
-> My aim is to eventually deprecate the C parts once we're confident that the
-> Rust code is stable enough. I will keep my own tree, and send PRs to the media
-> tree if a rebase or fix is needed.
-> 
-> I believe this will not be disruptive nor require any extra work from anyone
-> but me.
-> 
-> -- Daniel
-> 
-> 
-> Again, applies on top of:
-> 
-> commit d9c1fae3e5b225f2e45e0bca519f9a2967cd1062
-> Author: Alice Ryhl <aliceryhl@google.com>
-> Date:   Fri Feb 9 11:18:22 2024 +0000
-> 
->     rust: file: add abstraction for `poll_table`
-> 
-> For those looking for a branch instead: https://gitlab.collabora.com/dwlsalmeida/for-upstream/-/tree/vp9-rs-rkvdec?ref_type=heads
-> 
-> Daniel Almeida (2):
->   v4l2-core: rewrite the VP9 library in Rust
->   media: rkvdec: rewrite parts of the driver in Rust
-> 
->  drivers/media/platform/verisilicon/Kconfig    |    2 +-
->  .../platform/verisilicon/hantro_g2_vp9_dec.c  |   38 +-
->  .../media/platform/verisilicon/hantro_hw.h    |    8 +-
->  drivers/media/v4l2-core/Kconfig               |    5 +
->  drivers/staging/media/rkvdec/Kconfig          |    3 +-
->  drivers/staging/media/rkvdec/Makefile         |    2 +-
->  drivers/staging/media/rkvdec/cbindgen.toml    |   36 +
->  drivers/staging/media/rkvdec/common.rs        |   19 +
->  drivers/staging/media/rkvdec/regs.rs          |  237 ++
->  drivers/staging/media/rkvdec/rkvdec-vp9.c     |  607 +----
->  drivers/staging/media/rkvdec/rkvdec_rs.h      |  125 +
->  drivers/staging/media/rkvdec/rkvdec_rs.rs     |   14 +
->  drivers/staging/media/rkvdec/vp9.rs           |  636 +++++
->  include/media/v4l2-vp9-rs.h                   |   99 +
->  rust/bindings/bindings_helper.h               |    1 +
->  rust/helpers.c                                |    7 +
->  rust/kernel/lib.rs                            |    2 +
->  rust/kernel/media.rs                          |    5 +
->  rust/kernel/media/v4l2_core.rs                |    6 +
->  rust/kernel/media/v4l2_core/cbindgen.toml     |   26 +
->  rust/kernel/media/v4l2_core/vp9.rs            | 2053 +++++++++++++++++
->  21 files changed, 3415 insertions(+), 516 deletions(-)
->  create mode 100644 drivers/staging/media/rkvdec/cbindgen.toml
->  create mode 100644 drivers/staging/media/rkvdec/common.rs
->  create mode 100644 drivers/staging/media/rkvdec/regs.rs
->  create mode 100644 drivers/staging/media/rkvdec/rkvdec_rs.h
->  create mode 100644 drivers/staging/media/rkvdec/rkvdec_rs.rs
->  create mode 100644 drivers/staging/media/rkvdec/vp9.rs
->  create mode 100644 include/media/v4l2-vp9-rs.h
->  create mode 100644 rust/kernel/media.rs
->  create mode 100644 rust/kernel/media/v4l2_core.rs
->  create mode 100644 rust/kernel/media/v4l2_core/cbindgen.toml
->  create mode 100644 rust/kernel/media/v4l2_core/vp9.rs
-> 
-> -- 
-> 2.43.0
-> 
-> 
+I seriously think it looks nicer, and when the compiler does not screw it u=
+p
+(the main reason we don't use that), it is also a lot safer and simpler to =
+use.
+Now, lets forget about C, my question is just if there is something in Rust=
+ that
+could give us the safety to edit the right portion of a register, but also =
+allow
+expressing that map in a readable form.
+
+Note that sometimes, we may want to read the register before editing it,
+something MPP giant C struct does not help with.
+
+Nicolas
 
