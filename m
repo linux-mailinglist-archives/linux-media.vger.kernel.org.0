@@ -1,158 +1,124 @@
-Return-Path: <linux-media+bounces-6706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4EC87616C
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 10:59:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1893A876174
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 11:03:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8AECE1F228FE
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 09:59:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD8C91F2327F
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 10:03:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A6B5537FC;
-	Fri,  8 Mar 2024 09:59:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 365105380E;
+	Fri,  8 Mar 2024 10:03:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="kkYYjBvD"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="hiOJspda"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11olkn2010.outbound.protection.outlook.com [40.92.20.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50B91DA21
-	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 09:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.20.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709891973; cv=fail; b=MSdLDwuIQwp3S75BSMIqSYnCnWSBWjQwfx2Ms/ZvHKFreLK8azQuHb/LB/aHW6MaotUCHRljGLKFcq413pLKYqMIiAhDi7jzBB9RbjR0NS7um+73DcaNPvswHzoJu9Oq//e+FssqXyTK/Roi8l0PixR54+be3dyZ9tNo+OPtMag=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709891973; c=relaxed/simple;
-	bh=cBc2Z1d4h/+GFFqByp6d5XbtMCm2fRkidZLyfd0I/Fo=;
-	h=Message-ID:Date:From:Subject:To:Cc:Content-Type:MIME-Version; b=pjh5fWBDo9CfbTkWnnV1BRMZvHipSVrd28Ch4xIpq8cuRjtM/bNFpQgctl1UFCvt5PvkpxPv5Mrd1Eb9sMCY7Bgpp08siMzC90Tq9uQbAQkiLLgLOl4nm4cSOAXEBtSS8gf9U3Mw38rFSJSlV4uFMoxe0UrMZ7KSulA0mOCMTbk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=kkYYjBvD; arc=fail smtp.client-ip=40.92.20.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VEKXaKMnXeQExlZHYF7cWCKFVuegQu8DPefGKShliDN2yHl+rqa0IQCvTWAPCoBEDrhs3W3QaQiPNPMFbSPE5yl6DO1oD/WT72RbxZylLkAgZbxG7U0T5YcVrqprMSH1dipRqFOJjsGPRqV8rshvQtV3iXrVrmix8LQLokIavNPgtiX2F2XGuWQC5quC3ldCGa+xY4GUwFOjp92jnYtJdDC2nHHP6ofsQM1Fgd6iw22CQRa7aRHuaiJa/ly/oXsS3g/zf2KpR8d/jqFwRcSe46GDcUBrVz2NDUf8FDUKbbAvIEvDtb5zvwK0GGy4GDz/Ih21yLuR/jN8PsEt4k1r8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mguPLySyQoAWbCVedn1v1SINwcvb4shDzq+VXMBbkww=;
- b=NPTc++g6p7LNvTOrf7lI1XA82cQ0QgGsPInE6sBquKusElp5TLVuG2Uzj0MD4Cxc/yih3pPekv5GwN7cAOpgINpGqXcfm+caYRNIWZQNMvVHtnI3+85IHsHV9hLDbLqtV//Maq8mRaKxR19wHUxrSgcJXBd0qrKckgZLIaqbelagbXWpePgHy28DcH5MZcbz89OYrfCQoiJtvvayOzyzYmrRtgDkEt9NdT4Iqi91ARafhoISoxb9zhgxAWvROYmiVKmfhzAlOhdkZ5RMYdLfRjS/HFaGjuKwhvqCHQdN9/JsjXrraIen7Ui+o41bIJ747+XMQLYwydKpGdTkWnnAfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mguPLySyQoAWbCVedn1v1SINwcvb4shDzq+VXMBbkww=;
- b=kkYYjBvDnWbOKT+BaFQ/gnKL6wRfyCE6zd96yBUGo7Ljc5Yuj2n4O5IsKH3FdVZXyBLxuX6sqeMVvov46WImZ7ZfKz8tEmLIi9UJnoZJ2YHXRirF/S5WPjr1VS8aIXbFiJeTcL/WQGD0fJJvO5EBcto03bI3IOU2WdNGsdCCszaqV/GlOhC0SDukV9nWRs7NUH/QreTRq90xa1qs3j2zlzgpJaH6lEXIvOU451a9fV17/ULf76Wxlc1YgGfzSOBg0cvM2sfo+LZkMkMIWxReKzayRzTLtVeGPpM7Z4SY7NNbsuPs3ERW5fhxGVoo/aKQRfpjtpv99NGr5uF2n/D4pg==
-Received: from BL3PR19MB6514.namprd19.prod.outlook.com (2603:10b6:208:3b9::10)
- by CO6PR19MB5369.namprd19.prod.outlook.com (2603:10b6:303:144::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.28; Fri, 8 Mar
- 2024 09:59:29 +0000
-Received: from BL3PR19MB6514.namprd19.prod.outlook.com
- ([fe80::707b:75e3:8c68:45f8]) by BL3PR19MB6514.namprd19.prod.outlook.com
- ([fe80::707b:75e3:8c68:45f8%6]) with mapi id 15.20.7362.019; Fri, 8 Mar 2024
- 09:59:29 +0000
-Message-ID:
- <BL3PR19MB65148E663E21F7739BC39628D3272@BL3PR19MB6514.namprd19.prod.outlook.com>
-Date: Fri, 8 Mar 2024 10:59:27 +0100
-User-Agent: Mozilla Thunderbird
-From: Vince Ricosti <vricosti@outlook.com>
-Subject: [PATCH] add missing errno before strtol
-To: linux-media@vger.kernel.org
-Content-Language: en-US
-Cc: sean@mess.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TMN: [FmNSoJC63q879qmnqzOthNtxJzarXlarKaFbIBcFy77SFHE3fXnZBk4BleFusL9k]
-X-ClientProxiedBy: PAZP264CA0209.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:237::14) To BL3PR19MB6514.namprd19.prod.outlook.com
- (2603:10b6:208:3b9::10)
-X-Microsoft-Original-Message-ID:
- <33a90dd0-24bd-43d1-a698-9b62057ea299@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31CE535DA
+	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 10:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709892224; cv=none; b=bmidu0T2k/5x9O9S2chWssmmu0CxaU0fKTaXY1+KKcyMbNXX5TBq5KcmmUVKssGy0LvoZhESErC9KNFvaZRTJYI4ULN9LzSuPhWtYLiLCN4sqd/LcsrWIKdlZJjC/2NyLj4Kn+vp5+bKp9yP8UtOslEv24N5Im/noo7WTXkwDQ0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709892224; c=relaxed/simple;
+	bh=aQjnGDmKhtl7MMpHBhn5kA5pcYQx+QeLLT0L/IrygD0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d6/qW7abd3ZBanHH3IxwbhocXJRtTQIVz1XoFapW+zx/ga5nATqSD6Wxt29R7+aWrZPLGVuq2NcV7soPXgqRTF4IVBmi/B+emI/F0XUZ2y2TcT0IVGfijwPELYnqNYPsqfz3Mc5F9ez7S7Bn7CUEjfTBSzF5HZJXsEcv1PJ8EiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=hiOJspda; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-609f359b7b1so16691517b3.1
+        for <linux-media@vger.kernel.org>; Fri, 08 Mar 2024 02:03:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1709892220; x=1710497020; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=g90/a9O+0e1pQZ9xNq9Ll4wvo40gYQI9H4NV3hH5RXs=;
+        b=hiOJspda9878oGMl8z7ZDauKbZyBdmt/xIOvNv57QbTzaBl2VEwocb1pMfS87Cf3mW
+         PA9B3UNe1dxe1mtLgkYk/PRVnuLt9yhpQt5fIks5Ug9mWPpcRJ9gCJTg6J5IhvN5MNvh
+         PGZJOOwjz814+SPuhc2TesTCL8d6KgjHehuSR2cozo8ym1eY6TtMZiJFRljhn5T1T7G/
+         oavp+qk7sZ1Th3SS7MgxN5xVdhkfLX8YREL2WiR38hZuVkKwWTT3cQUqIElFzbExuWeA
+         jUZns5l/5jk81vnV/FMgydkCVkOlZRjJBWpc8TTPQMEUjj2opsggh9L2N6Syz2csRcIR
+         TJvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709892220; x=1710497020;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g90/a9O+0e1pQZ9xNq9Ll4wvo40gYQI9H4NV3hH5RXs=;
+        b=QIDa36uFt/H8YKwa4TwgrSuZs3/AasJK4rgoOhTneU8ftPJn1CHxe+/nxSDMJD+Z5P
+         jAj/KCOzPYcy5T7cABB/p6UiMOd3IJGg0TGav42NlYgY8DBrnUwGUuZp68vzo8SEbET+
+         pObz7dLhAlfWDpuCbW2pDNaMoj/FFbOXUZWT1gzpk6b+2Wqv9nngHva1Ru9NG+3C7BVL
+         UBA0nw8ndpA7RYDmaQqWXcvGZ8/TTrDNcBVUhFChBQGKkJjYpV2C8dbN5t31g+Fr+e6J
+         tmklBkwGExqE6b0SINVy+l8ASQ6CuBECkN3W9GWpev9b5GfNXR7AKuacedEUBwQFjwnw
+         pSqw==
+X-Gm-Message-State: AOJu0YwwUp7IS/KLJ4cXCtqpvUwhAhQpgEsr7W9EuOFKDbwHUDBMp9+j
+	Pt62d6ICk1Tk0yonZgBxEbKWTXO3sSJAEz/USsqXN1aEw6VxXCO1iSIS+Ls6cdDBqI3NVRoNLj9
+	cYYvL7/Uqxbchb5qm2MyGd7vD6cAfB0jw6ZaVaQ==
+X-Google-Smtp-Source: AGHT+IFLfnIyBrKJhbbrcSZGbEBxWvvakqtgX3KYq9/c7cTS65rf3PmNMDpJb61uxyyQypubvWo6PPLnHeXns5aTCdg=
+X-Received: by 2002:a81:a203:0:b0:609:d822:7dc2 with SMTP id
+ w3-20020a81a203000000b00609d8227dc2mr7955920ywg.10.1709892220586; Fri, 08 Mar
+ 2024 02:03:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL3PR19MB6514:EE_|CO6PR19MB5369:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5115c062-adb2-4391-69ec-08dc3f5671d6
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	0PdmzlvPvVXciVphwxmYV3+Tvh7Z6mDvjYiaSKx7PlvsNyYRWq8X4+hgXv97Azg5lbgi+9D+jeUl4UM+b8FTldi8pvMeaNv52s2z6eVGndO30XwIMdze5H1c4U+/zO5n7Z+dmT4XWROOr9CD+uHB1X2EFb9ilO20fddzXXZ5V88xhuSOQaoOC2AgGFI/vIIxLYdbGxDHaTxUpgObOrcoeVowwaBGHF8UX6OG/cpiYem1debkXK5pQmO/Iw0AbVGyEs1uIaCuCoKO8eVghHFEHBUF8hELTZQz1XZj1i78p5LlkEdlQcFnaeeZFdSEBXgqrIjLb5dHorg2Y/OPRjj79pCn+sGBJ2SVmQIAHf+hgMERrPqr0bec6kc4fXvVmRF3BgvrT274BBTQ9813jnp8rBUX2zYg6yx+YAVDG5euG6rK9jBn616p5h9QnzyZ13WFNqDTOin0cMY1zjuMKeZl6Pd4nTZZMxtgXvY7hcHTsJWXE4vwmY3X0D9yeGbNZrL7L+4sIuO6PcYBGEUnQyULLAOTPWiPgI7l7lIRYwkmqKr5aojxFr04VgDG94CBSEOj
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cjJnVk9IU3A2N1ZmeG1CTDBTYWJDcExtSFNOOXRjMXdQa2xCMjkxdnkrbWN3?=
- =?utf-8?B?d0J4SlV2WmZPbEVEbXFPd0FLKzU5RHhnUHE3d21Ic2FPZ2lqZlpyL2s2RXk1?=
- =?utf-8?B?NHNZWkxFMTQrRTZUY1dnTnFmU1Z3WUFXNzVCdEIxMkdoY2JnendvUTdJMWdM?=
- =?utf-8?B?T3FNd3BmUDhZQmJIVWZWOVJTMUppdEFhMEdhWDNuU0VJamxVRGlIR0NEdXd3?=
- =?utf-8?B?YS83MmtaNmZBWnZEMVZFOHE4Smd6cDZlcUtPZXE5dFltdUpnOExJa1RhWkNC?=
- =?utf-8?B?SXdha3d6NHpMc1hQeDNZdTVjNTQrWjVrNHNYODMxK2s2cktWT1NEZGZ4eVRq?=
- =?utf-8?B?VndNdkMwbTdpREJuQnhCSlZBLzBKbDRnbXZwQlJtSCsxNkluMnJTZS93S2dh?=
- =?utf-8?B?NkRNb09PSXVXK2pISU9UWGxQQTQ4SkpMYnhSQUh3L21xUmI4bHA0bjVsUHA2?=
- =?utf-8?B?VEJpWGcwMlZLd1JuVUhzOTg3TnZTa2ZZNlAwSXFYWE1lQlE5Rk5ONjRrYVV4?=
- =?utf-8?B?cDFYb0g3dFcxaGo1WE1nNDVmbVl5ckFjeWgrR2owSWZBTHlRWmp5YWJJejBV?=
- =?utf-8?B?UzJRaVArdGlGTUxEVkVXWkZEeVRXOHF1cGNuVmZla2pOMGpmU2ZhQnRSWHFs?=
- =?utf-8?B?S01odnVHajhYQ3J1YzhBNFRnYVBvWFVHb2dZdGxqL0NheitUQ0ZIWWZBbWVn?=
- =?utf-8?B?UmFVU2xIN211OFF6Lzh0dGR6Qmh0cGJ0eGhRS09JYVpzSXN4THZnZnhiU0Ir?=
- =?utf-8?B?VWk5T2lPQm9nV1hTalpwS3k1UnI5cjFuTmo5MUM4UWlOMFd2YVVoOUhDWUxE?=
- =?utf-8?B?MDRaTTY3Vm96SWw4a2Z4MFp5MFhuMXZZcU9BcHRkcDNSNE53TUxxOXQxb1Vj?=
- =?utf-8?B?UXpVL2x2SHk1YTBVNUpyVTFham04OGdueGN1U284cnRKNThLb2tPTXRXRnhV?=
- =?utf-8?B?cTdla21FOEY0SjloQXF3VndkWkYzQ2RvSXRjMHQybFIzTWJadFBWR25YZXor?=
- =?utf-8?B?NE8zZVBua1VwanRiTDVzKzFBd0dZSmptRURocEYxbjkvQmhpTXgwVU4zdmdz?=
- =?utf-8?B?VndDQittTmxKMVNZdjRPNlhsM2dhME9OSk51OTFLeStxOGxmbjhaRjBqQ2ds?=
- =?utf-8?B?YVd4K3lHLzNEYlFIQjJlVm4zUk5ETDB3Y0JPbm4vaVcxaG9mRW9GYWQ5WjNQ?=
- =?utf-8?B?VGVNNjZmLzB6cUVvY0dKYklRY0tzR2JjWWpaV0JFUFFPMzNkT2VqZnhNM3U1?=
- =?utf-8?B?UDdDWWVsaHQ3OTJVdEt3WkgrYzQ5M25xU1hDbW8wR3M0c1JZL0pvSWxMMCs1?=
- =?utf-8?B?RnFzTVRpbEV6NXgzcUVxS090UUxZYVVHV0xGc3I5bm8vd04rb3pjakNwK3E5?=
- =?utf-8?B?cHkwajN0bERaOW9ZYm5hWXNER21jTVdzZUo0SXNGeVl2M1MxYWZtNkdhZU1y?=
- =?utf-8?B?c0R5ekl0Q0c1d0p4ZFF4eFA5VlJ3QW9DWm1VSEpRQ3N6Qjl5MmZDeWxoSTJr?=
- =?utf-8?B?R3VGbWd3NHFXcWRSVFN5eTV6c2hOeTVqTEpQNGVQYU9oMjd4a2dZUmdEaDIx?=
- =?utf-8?B?VUhNbFZ2N1o2b2x5cE5pelFTb0N3SzRtSHVycHJFSjVQSGJ4US85VFdkS2dD?=
- =?utf-8?B?OERKREN1ZXBRZXJQblp5OEl6V08zT2xaTG50eHhPamZUb3FyaVk3TmJkZC9m?=
- =?utf-8?B?b1FBVGR6aE5qb3Y4QVZYcDNDeElXNnluLzZKaDNRMkNLME1jdUJ1MXZsOU1r?=
- =?utf-8?Q?MpdDx8RHPQAlRpbIXU=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5115c062-adb2-4391-69ec-08dc3f5671d6
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR19MB6514.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2024 09:59:29.2395
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR19MB5369
+References: <20240308085028.44388-1-jacopo.mondi@ideasonboard.com> <20240308085028.44388-4-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20240308085028.44388-4-jacopo.mondi@ideasonboard.com>
+From: Naushir Patuck <naush@raspberrypi.com>
+Date: Fri, 8 Mar 2024 10:03:04 +0000
+Message-ID: <CAEmqJPoFjFzH0LfVkZUsM-4M80nepCK3PoDvC8HVE6WgPnEbBA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/9] media: uapi: pixfmt-luma: Document MIPI CSI-2 packing
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	David Plowman <david.plowman@raspberrypi.com>, 
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-When testing yesterday the latest master on my raspberry pi I could not 
-send my usual file because
-when entering read_file_raw the errno was already wrong (don't asky why 
-because this morning it works). Anyway since strtol do not update errno 
-except for overflow conditions it's better to set it to 0 as done in 
-other parts of code.
+Hi Jacopo,
 
-Signed-off-by: Vince Ricosti <vricosti@outlook.com>
----
-utils/ir-ctl/ir-ctl.c | 1 +
-1 file changed, 1 insertion(+)
+I think some of my tags may have gone missing in the series.   I'll
+add them again.
 
-diff --git a/utils/ir-ctl/ir-ctl.c b/utils/ir-ctl/ir-ctl.c
-index c480a2b1..e662651e 100644
---- a/utils/ir-ctl/ir-ctl.c
-+++ b/utils/ir-ctl/ir-ctl.c
-@@ -413,6 +413,7 @@ static struct send *read_file_raw(struct arguments 
-*args, const char *fname, FIL
-(keyword[0] == '/' && keyword[1] == '/'))
-break;
-+ errno = 0;
-value = strtol(keyword, &p, 10);
-if (errno || *p) {
-fprintf(stderr, _("%s:%d: error: expected integer, got `%s'\n"),
+On Fri, 8 Mar 2024 at 08:50, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+>
+> The Y10P, Y12P and Y14P format variants are packed according to
+> the RAW10, RAW12 and RAW14 formats as defined by the MIPI CSI-2
+> specification. Document it.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
--- 
-2.30.2
+Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
 
+> ---
+>  Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> index 3af6e3cb70c4..8e313aaeb693 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> @@ -209,3 +209,7 @@ are often referred to as greyscale formats.
+>      For Y012 and Y12 formats, Y012 places its data in the 12 high bits, with
+>      padding zeros in the 4 low bits, in contrast to the Y12 format, which has
+>      its padding located in the most significant bits of the 16 bit word.
+> +
+> +    The 'P' variations of the Y10, Y12 and Y14 formats are packed according to
+> +    the RAW10, RAW12 and RAW14 packing scheme as defined by the MIPI CSI-2
+> +    specification.
+> --
+> 2.43.2
+>
 
