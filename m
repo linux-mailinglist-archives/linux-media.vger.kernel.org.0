@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-6712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39AD87624D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 11:43:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8000587627E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 11:57:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 453F01F22B9E
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 10:43:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B1D9282167
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 10:57:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 526B555766;
-	Fri,  8 Mar 2024 10:43:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D2F255794;
+	Fri,  8 Mar 2024 10:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UCuKD/a7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tlp5ArJg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107A242061;
-	Fri,  8 Mar 2024 10:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A625576D;
+	Fri,  8 Mar 2024 10:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709894581; cv=none; b=G/e87pai25nt82558PU5qs+O4C4cwvHsaEK2j3YW5+n/vLrFxUP61T8GqI8aUzRsnwF6U4PjLSrj6GdVSag27s3yjapCSI/EXdGxfeSA9mubAFY43uT6sgsfqcMGw1mAbFVzcROJ3n0cPGNqIKpMMxjQwAt99sB6gQwEPhVKn60=
+	t=1709895421; cv=none; b=dyftj+Nii5LbJf81J1KRyZAzjJ1WWdTJ2PuUlZQrENCsuMruBoIOvb+rqhvN7XBSgJI6aFtwY8JPhObb2+DXRx+bR5o/6gkBJ+GF7cpSakJ1qvTsk3CNfi5rXnw2c4MzuJJgJSOrjwIgBZ0YRrut97yMiKoNVtZdJvF/bQ6z17o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709894581; c=relaxed/simple;
-	bh=Hskuh0jcTrLaj35GMhuvTS9BPTLaCsiZ/Ramp31XeMo=;
+	s=arc-20240116; t=1709895421; c=relaxed/simple;
+	bh=6MUM1+UrXfr+F/qr/LomUp2CQgH4YIN7KdQkXnuzBEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fKLb8QxN6u3IpJz0ZPokDiQt/8sT5/u5VJ6y2RGZdNNO7DsH1UpR2KYSRDOyUvHn+7XNM2EnGmQQ1CDhsMwXE+Z45HCTopLCwDD/AJ57QNpDRA+hTY2D8ziZ0/ybonuuwThQRQ6Kyg5p/z2XU+2fNW17petdxheCwXK6Z/Hw36w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UCuKD/a7; arc=none smtp.client-ip=209.85.218.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=UtSER4dkasyDw8QuSUtV9qiVpsSm7geuyPW1Ghpd41+qvGuW+4yIEjV4ZjiCrmijne0GwY5HCLkEOBv/ktmY1AI/AP97fTQ/J98PURrsAvDDifZbrHyTJ/DDvi2bSLHbApt7RKtuPU2zNgmaGIDBhKKI6SmqmkRoodVipND4mrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tlp5ArJg; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a45bb2a9c20so246512966b.0;
-        Fri, 08 Mar 2024 02:42:59 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4131bbb7fbcso1130775e9.2;
+        Fri, 08 Mar 2024 02:56:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709894578; x=1710499378; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1709895418; x=1710500218; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YnXeKNe3Pth18IqLBpLGUfhGrY47izo6nmAUIr2+va0=;
-        b=UCuKD/a7Gz0QlR2l7xXHAtWsRAo00atLD3GGYIancPJeWMjwU3T4/LKdoqztxSe6pp
-         pfKWUg1aNy8MP1hh/hc5MfoD0ZxL9FevQCBMkt+2Y/sWY5ZUKsahAuelQ5/r6GybcBNE
-         RuhSR+tTdQeUdLXfFAyZGC52NSbw4OC+7qxt8TIOsR+VTRNeUHAmcigtfcYNsVC7ELXT
-         IoODx3rWu7iuqmREjMX+XrK2yqCVcGWT1uVuLY7+/382hqvPI3+Eeu/dA7a+lsKlcnu7
-         4ToIh5Xt/V6ZEsGXk0l5PFBnpL4EA48Rjzeqp/yfeeYOu4Kf93MKYFSjY7w2Hb35pb7v
-         0T3Q==
+        bh=ubL9v68J0vgO0GICkre151wnPO+/i+XqM+wdizAgqc4=;
+        b=Tlp5ArJgZthPf5iHQTk4xXYwXsYG9c+gQPs+O8LbRfotzEDzGQsPySzJ4nxacQu6nf
+         YBLWT/iGmfUdmJssdwCA0w/yg/pNF/NoO9HsgwOLpmTHlXiXMkfU7Uixqf0aS363y+AC
+         i6zubf6xKfnT0xsfuHt52U7QXpjldq3feGSmT0IJ0TRnIfHzzauibuDUuxkfsB35Epwn
+         0Np4aQB8RDi1a75G255F9MWgMpXJmj6mpkZLcsJtNPoXwIyMxGdcXYJKnPeYFQgI/PJf
+         ya4W5WFaO5Qc2nPQunQ+Um61BaWWpdSBIT++KDMTgm+OeOzpZmvGf0948LoUAUktTQRq
+         bTQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709894578; x=1710499378;
+        d=1e100.net; s=20230601; t=1709895418; x=1710500218;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YnXeKNe3Pth18IqLBpLGUfhGrY47izo6nmAUIr2+va0=;
-        b=NL30iFdx1TIPsTaDPPGousZY5ftV+GA9pgORzMXO4E+lpNfMyykFDO5QvDpTDY4gpw
-         aKSnEcpSE8/ntB/G3ovxukT4HDipvsY3dxpLwq8+QoEc8xZAmZZSFyWvzBBTEALkupAc
-         8ltQATfV7mY9dHFPZ2BtwlzO7T23XoTN0b4csMIzfighPxqXX1ZPh9hQaTCI9LJ9QxGk
-         eKU3tB7P8gHwJDCYeDuQRB5aZsughxwc4O8SnmsApj33xr1rsH+KKKaCTucAIP1YgoEg
-         sbU8LNlf+HOVb6oTJlTZcWOQbrfm6+Xl6lpt0Tahr4aDoQqPO4z58rTRX+Ce3e1P365a
-         QLlw==
-X-Forwarded-Encrypted: i=1; AJvYcCX9e1PFZd4AtJZsatnX3cgWNUOHp5EvEUk5XLE3TMDw+B30YembHJITniIPASxikn0szZs/6jg5/VMagnCj0X71BXP9suZ8UZGYW0Q7
-X-Gm-Message-State: AOJu0YyGH0/znOyR2tKyzJD0fqJgzRx6yi9BzmGlbohjq5mOsxwSbMef
-	McqYD7gisC5pON3WWlsT6iRF0RVLFHb5CJUEVq4DEkoVrUFxI1Jk
-X-Google-Smtp-Source: AGHT+IESCUTGqASumIRxK7U41TDylsD3apKm0+G3vyNHYy9bMp467afRiz4QVnpfuoQd7c5oZbjJNw==
-X-Received: by 2002:a17:906:3bd5:b0:a3f:ac54:5aa1 with SMTP id v21-20020a1709063bd500b00a3fac545aa1mr15553263ejf.21.1709894577966;
-        Fri, 08 Mar 2024 02:42:57 -0800 (PST)
+        bh=ubL9v68J0vgO0GICkre151wnPO+/i+XqM+wdizAgqc4=;
+        b=GLB+vCfAfxayx88zHLwmV3oDDFHVAoJxBMuORPeTZ6EY8694qOgwgPh+WYPhw6ljJJ
+         SgbVGUyX6czs9WSqv80fxlgnFDow18jenSTsf6aZdBaodQ10QyBihOZlGgWxpa/+rHpK
+         /DOTGiXXzov4uObgUyPRgCBBZbHOwmAmrEVNTdwLZ9SDoML1agHzfsfvfoyw8muSS/2F
+         +/bD12XHMxb9qw9uKhGAqoJskfC41RJTnXSFdE9KEo6bo0NeNquCtFvtibZ/u0dX0duJ
+         BnUoo5pmvQgFrGvkSq6sGiM+HKjih/QKNsUcvTSjVdrFZwWPLa7INFGhq451r//N8+zR
+         BgIg==
+X-Forwarded-Encrypted: i=1; AJvYcCVspKXasK5AmXiA6Od/S92xjRhDP4E4U7pD55IYPqZwD6A0WtwtkvcQqSzuDUfh6kDyL52dNi3UuiywjisAjTencCILQA4nJKDlI/ZJ
+X-Gm-Message-State: AOJu0YxXBK/EKE0WmT3mL4mZN2D91Rdi/y5nqsSMXgu/+X+bBc374CKk
+	+uVyZtJ6lKUpqwGZglEv/D7uonzkbHv4yqlEcqO+hLxi764SZbdJ
+X-Google-Smtp-Source: AGHT+IH4fhrQOIu7P0Pj0Wl2QY+9shW0YlFfDBcZ/fYhEru9OuD6mKEWw+r4V3GLEQKgHLumukmRrg==
+X-Received: by 2002:a5d:4f07:0:b0:33e:11c3:7ebf with SMTP id c7-20020a5d4f07000000b0033e11c37ebfmr15096484wru.62.1709895418111;
+        Fri, 08 Mar 2024 02:56:58 -0800 (PST)
 Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-49-82.cust.vodafonedsl.it. [188.217.49.82])
-        by smtp.gmail.com with ESMTPSA id wk15-20020a170907054f00b00a4519304f8bsm6208907ejb.14.2024.03.08.02.42.56
+        by smtp.gmail.com with ESMTPSA id cc6-20020a5d5c06000000b0033e45c3f026sm11056266wrb.4.2024.03.08.02.56.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Mar 2024 02:42:57 -0800 (PST)
-Date: Fri, 8 Mar 2024 11:42:55 +0100
+        Fri, 08 Mar 2024 02:56:57 -0800 (PST)
+Date: Fri, 8 Mar 2024 11:56:55 +0100
 From: Tommaso Merciai <tomm.merciai@gmail.com>
 To: Umang Jain <umang.jain@ideasonboard.com>
 Cc: linux-media@vger.kernel.org,
@@ -75,10 +75,10 @@ Cc: linux-media@vger.kernel.org,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	open list <linux-kernel@vger.kernel.org>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 1/6] media: imx335: Support 2 or 4 lane operation modes
-Message-ID: <Zerrr01BhCxIQq1d@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Subject: Re: [PATCH v2 2/6] media: imx335: Parse fwnode properties
+Message-ID: <Zeru90ETVmNP6ehn@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 References: <20240308083312.90279-1-umang.jain@ideasonboard.com>
- <20240308083312.90279-2-umang.jain@ideasonboard.com>
+ <20240308083312.90279-3-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,91 +87,75 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240308083312.90279-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20240308083312.90279-3-umang.jain@ideasonboard.com>
 
-Hi Umang,
+Hi Umang, Kieram,
 
-On Fri, Mar 08, 2024 at 02:03:07PM +0530, Umang Jain wrote:
+On Fri, Mar 08, 2024 at 02:03:08PM +0530, Umang Jain wrote:
 > From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > 
-> The IMX335 can support both 2 and 4 lane configurations.
-> Extend the driver to configure the lane mode accordingly.
-> Update the pixel rate depending on the number of lanes in use.
+> Call the V4L2 fwnode device parser to handle controls that are
+> standardised by the framework.
 > 
 > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  drivers/media/i2c/imx335.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
+>  drivers/media/i2c/imx335.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> index b47ec71054c3..7162b0a3cef3 100644
+> index 7162b0a3cef3..819ab3a6c5fc 100644
 > --- a/drivers/media/i2c/imx335.c
 > +++ b/drivers/media/i2c/imx335.c
-> @@ -21,6 +21,11 @@
->  #define IMX335_MODE_STANDBY	0x01
->  #define IMX335_MODE_STREAMING	0x00
+> @@ -1225,10 +1225,12 @@ static int imx335_init_controls(struct imx335 *imx335)
+>  {
+>  	struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
+>  	const struct imx335_mode *mode = imx335->cur_mode;
+> +	struct v4l2_fwnode_device_properties props;
+>  	u32 lpfr;
+>  	int ret;
 >  
-> +/* Data Lanes */
-> +#define IMX335_LANEMODE		0x3a01
-> +#define IMX335_2LANE		1
-> +#define IMX335_4LANE		3
-> +
->  /* Lines per frame */
->  #define IMX335_REG_LPFR		0x3030
->  
-> @@ -145,6 +150,7 @@ struct imx335_mode {
->   * @exp_ctrl: Pointer to exposure control
->   * @again_ctrl: Pointer to analog gain control
->   * @vblank: Vertical blanking in lines
-> + * @lane_mode Mode for number of connected data lanes
->   * @cur_mode: Pointer to current selected sensor mode
->   * @mutex: Mutex for serializing sensor controls
->   * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
-> @@ -169,6 +175,7 @@ struct imx335 {
->  		struct v4l2_ctrl *again_ctrl;
->  	};
->  	u32 vblank;
-> +	u32 lane_mode;
->  	const struct imx335_mode *cur_mode;
->  	struct mutex mutex;
->  	unsigned long link_freq_bitmap;
-> @@ -934,6 +941,11 @@ static int imx335_start_streaming(struct imx335 *imx335)
->  		return ret;
->  	}
->  
-> +	/* Configure lanes */
-> +	ret = imx335_write_reg(imx335, IMX335_LANEMODE, 1, imx335->lane_mode);
-> +	if (ret)
-> +		return ret;
-> +
->  	/* Setup handler will write actual exposure and gain */
->  	ret =  __v4l2_ctrl_handler_setup(imx335->sd.ctrl_handler);
->  	if (ret) {
-> @@ -1094,7 +1106,14 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
+> +	/* v4l2_fwnode_device_properties can add two more controls */
+> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 9);
 >  	if (ret)
 >  		return ret;
 >  
-> -	if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX335_NUM_DATA_LANES) {
-> +	switch (bus_cfg.bus.mipi_csi2.num_data_lanes) {
-> +	case 2:
-> +		imx335->lane_mode = IMX335_2LANE;
-> +		break;
-> +	case 4:
-> +		imx335->lane_mode = IMX335_4LANE;
-> +		break;
-> +	default:
->  		dev_err(imx335->dev,
->  			"number of CSI2 data lanes %d is not supported\n",
->  			bus_cfg.bus.mipi_csi2.num_data_lanes);
+> @@ -1300,6 +1302,15 @@ static int imx335_init_controls(struct imx335 *imx335)
+>  		return ctrl_hdlr->error;
+>  	}
+>  
+> +	ret = v4l2_fwnode_device_parse(imx335->dev, &props);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx335_ctrl_ops,
+> +					      &props);
+> +	if (ret)
+> +		return ret;
+> +
+>  	imx335->sd.ctrl_handler = ctrl_hdlr;
+>  
+>  	return 0;
 
+Just a doubt on my side.
+We don't need an error path to free ctrl_hdlr?
+Or I'm missing something?
 
-Looks good to me.
+Something similar:
 
-Similar on what we have on imx219 drv:
-ret = imx219_configure_lanes(imx219);
+ret = v4l2_fwnode_device_parse(imx335->dev, &props);
+if (ret)
+	goto free_ctrls;
 
-Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
+ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx335_ctrl_ops,
+	                              &props);
+if (ret)
+	return ret;
+
+free_ctrls:
+	v4l2_ctrl_handler_free(hdl);
+	return ret;
 
 Thanks & Regards,
 Tommaso
