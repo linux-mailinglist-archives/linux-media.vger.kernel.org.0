@@ -1,361 +1,123 @@
-Return-Path: <linux-media+bounces-6719-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6720-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2F78763F8
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 13:07:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD4E87640B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 13:10:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63E211F21B9D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 12:07:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 86CBAB22BF5
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 12:10:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08DFD5674F;
-	Fri,  8 Mar 2024 12:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5387D56768;
+	Fri,  8 Mar 2024 12:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvwdXM/I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DF656479;
-	Fri,  8 Mar 2024 12:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6572A535CA;
+	Fri,  8 Mar 2024 12:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709899611; cv=none; b=eu6zkUS08Rm70Hm3OnC9q3G5pHOyxttiKWcOPy8tVsfNWcL51TrqRMLCgJi4yHUIGR++23z1crzSOJ5cv+Sx2cohM35EcjlzS29GmQlQB2zJo0woGXn0YKAn0qIf9v6MImBm12QfQ0qhvTYFQ40Hb6hw+FIZ+wna5fnPsQr+OZM=
+	t=1709899826; cv=none; b=S98WSt33X0QTeHI4TNHV6rK3F0P20Z4lEVQTGYvwjF0fYyk6A2Kgjm/BUbnMCd1F1o54glbttfY4HY7ECVvxusSEHH3KmvYwmRwy7otE3jQSGA8KLap/inPwsT/M0xVz6tn+WcT7mXsOEGgt89Fv9gEX3HaU1b9tpWYwajjM6Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709899611; c=relaxed/simple;
-	bh=lDiJ+OuhkNNnrDaX3PW12FBioVoG/J+HJD7BBgLPdgo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kiG3NDBVLumFnjEgMHwPXdMQ/c7i8NsN2cjdnp22BDHUG1mExUci5DNm+i9MioRqhM/O2LUM5OTu+xNs3TPXgU+Oq2IvPZ5GAjrnXZIbZdj73lUoZEhZNBkv/xG5VrDbSat4MzMJycDAPj/Bj3kAoil2UnysOrGQiwD8SlLCTmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D87FFC433C7;
-	Fri,  8 Mar 2024 12:06:47 +0000 (UTC)
-Message-ID: <56368a0d-6ada-4ab6-8389-b4bd20d6efc4@xs4all.nl>
-Date: Fri, 8 Mar 2024 13:06:46 +0100
+	s=arc-20240116; t=1709899826; c=relaxed/simple;
+	bh=Umw52OeAdsCrNTCL2UqZxJ1nYRjrDFqkST66g4dDbGc=;
+	h=From:To:Subject:Date:Message-Id; b=iMxMHEQ8G8WFYy+G+Ml3YGfztOIZd1TkR/S0DCD0hNhhVCoMKTfHt4/Ub/MgKSrUFaHvji6avaDv1Xse91DJqlggYcaS9YtlRqmxAINvl7gqdk1Q6H53RlBaKPy70qb0FgmeN33RkxkCf+v/Qv0sOll8/9Q+YJc6gzvg4NOxsaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FvwdXM/I; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1dc29f1956cso5088275ad.0;
+        Fri, 08 Mar 2024 04:10:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709899825; x=1710504625; darn=vger.kernel.org;
+        h=message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FT4YKhx1arQKM4uZFE6CXUn3u3YsdPfEE6W1XkpDDy0=;
+        b=FvwdXM/IPjZt+7o3kBFuAll5FU/BVwPWDbIfpmdEZ8FOh3TTwDh7XjxpQfdRPhzvt7
+         2Bwr5d7W14h+Elt24k4g46BXGnQrlhg1JNWbrN6XL2+2wdQu70nYKvtvkB3co2W9eqLt
+         /8lYwD5EttxlNuE+YLcW9AFjK4NZKMen/nQuKBr2UOsUVKXtviz15gWxvhZYfg8EfnTH
+         xxMCiUQtlMKnO2fOM8JZJ+mh99kiXNkech8jyWp2kH9zq1PAHpSMYoRmsjBujRhUDAZK
+         4Nf00Inpy1+XRuKdfKWrMixMDRj024q79SfsurbNqr9I6k37DPaRD/7vn6yZeA/y5o6Z
+         bL3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709899825; x=1710504625;
+        h=message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FT4YKhx1arQKM4uZFE6CXUn3u3YsdPfEE6W1XkpDDy0=;
+        b=j0CSGjjmegYcvsdI1A2BV/URH07eANl7t4j4N9TxN02iUUSWUK1SMFgLL0JTESI6XG
+         cASrKfUAtgrvPu/iDOtv1gFN9Hm+RdS/Kz3FojZ6Xg7ZjwmtJr/qNMLlgJRTwBIsN3js
+         JVYQHF1v5ISSelaw+FyTl4/R+z/bR/7/I6cXCJ5g6WN2jymUzUoXzOP66BpaSfUZiCYf
+         pPmVAAWjuBLaazionwOeINRH34Q2SEDoD3w/4Hu0pNd8ozGPOKpTrtIiXJxfLTwnVVqO
+         ZMrfawhsGq8gEAT1ONKaF/Jj3n55wI5vKFoox+Wgm9FLd8hXwCIYQJ1F0ei4vHsNdB4s
+         FcsA==
+X-Forwarded-Encrypted: i=1; AJvYcCWbS6/gG8+VXl9lqNpZ3dj9WDn32y3fUCa7GGx51fNaFaFT3ROZbxJeQEH/+PoeRn/UC5dSfKKQoEsxvAqy4ass5LGZZUvVtkZvjaC/7DrtKRLkSBS5KBrt2gsJLKL7Pf1iF2HQUVWoXJo=
+X-Gm-Message-State: AOJu0YzkSCI+fsv6/MzgBN+RvrjAQp82dTBkfanzcWBMVAiZvjAxgdhE
+	85r4ZLNwSoyEyDR+glc8Rayu1uHBUtdCdsF4cf+AeSpQhSTn4+EBVdzpvjawRwA=
+X-Google-Smtp-Source: AGHT+IHsH8NDwM4TODYOCRN5NcxpEfZ5S2tEIVEttMzmnICm6qCNbDEBiYPhQlBVvEUzv2dZkNIrTA==
+X-Received: by 2002:a17:902:ec92:b0:1dc:42da:bad with SMTP id x18-20020a170902ec9200b001dc42da0badmr12957207plg.62.1709899824581;
+        Fri, 08 Mar 2024 04:10:24 -0800 (PST)
+Received: from goorm.ap-northeast-2.compute.internal (ec2-52-78-100-77.ap-northeast-2.compute.amazonaws.com. [52.78.100.77])
+        by smtp.gmail.com with ESMTPSA id jf19-20020a170903269300b001db37fd26bcsm2491016plb.116.2024.03.08.04.10.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Mar 2024 04:10:24 -0800 (PST)
+From: yongsuyoo0215@gmail.com
+To: mchehab@kernel.org,
+	yongsuyoo0215@gmail.com,
+	v4bel@theori.io,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: dvb_ca_en50221: Fix a bug for detecting CI MODULE
+Date: Fri,  8 Mar 2024 12:10:21 +0000
+Message-Id: <20240308121021.1732-1-yongsuyoo0215@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 09/16] media: uapi: Define audio sample format fourcc
- type
-Content-Language: en-US, nl
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
- tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
- lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
-References: <1708936109-11587-1-git-send-email-shengjiu.wang@nxp.com>
- <1708936109-11587-10-git-send-email-shengjiu.wang@nxp.com>
- <df05261f-2f0e-490f-883b-72ad8a02d11b@xs4all.nl>
- <CAA+D8AMJOCfp6WdqYqy7KSj=mX9o_D5U-aF6Wn=3cOnhWg7VDg@mail.gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <CAA+D8AMJOCfp6WdqYqy7KSj=mX9o_D5U-aF6Wn=3cOnhWg7VDg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On 08/03/2024 12:52 pm, Shengjiu Wang wrote:
-> On Fri, Mar 8, 2024 at 3:34 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> Hi Shengjiu,
->>
->> After thinking it over I think this patch can be improved:
->>
->> On 26/02/2024 9:28 am, Shengjiu Wang wrote:
->>> The audio sample format definition is from alsa,
->>> the header file is include/uapi/sound/asound.h, but
->>> don't include this header file directly, because in
->>> user space, there is another copy in alsa-lib.
->>> There will be conflict in userspace for include
->>> videodev2.h & asound.h and asoundlib.h
->>>
->>> Here still use the fourcc format.
->>>
->>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
->>> ---
->>>  .../userspace-api/media/v4l/pixfmt-audio.rst  | 87 +++++++++++++++++++
->>>  .../userspace-api/media/v4l/pixfmt.rst        |  1 +
->>>  drivers/media/v4l2-core/v4l2-ioctl.c          | 13 +++
->>>  include/uapi/linux/videodev2.h                | 23 +++++
->>>  4 files changed, 124 insertions(+)
->>>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.rst
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-audio.rst b/Documentation/userspace-api/media/v4l/pixfmt-audio.rst
->>> new file mode 100644
->>> index 000000000000..04b4a7fbd8f4
->>> --- /dev/null
->>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-audio.rst
->>> @@ -0,0 +1,87 @@
->>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
->>> +
->>> +.. _pixfmt-audio:
->>> +
->>> +*************
->>> +Audio Formats
->>> +*************
->>> +
->>> +These formats are used for :ref:`audiomem2mem` interface only.
->>
->> Here you should also document that all these fourccs start with 'AU' and are
->> reserved for mappings of the snd_pcm_format_t type.
->>
->> Also document the v4l2_fourcc_to_audfmt define and the v4l2_audfmt_to_fourcc
->> define (see also below).
-> 
-> How about below description?
-> '
-> All these fourccs starting with 'AU' are reserved for mappings
+From: Yongsu yoo <yongsuyoo0215@gmail.com>
 
-All these fourccs -> All FourCCs
+Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
 
-> of the snd_pcm_format_t type.
-> 
-> The v4l2_audfmt_to_fourcc() is defined to convert snd_pcm_format_t
+In source/drivers/media/dvb-core/dvb_ca_en50221.c, if the CA_RESET
+ioctl is called, the dvb_ca_en50221_slot_shutdown will also be called.
+Inside of the dvb_ca_en50221_slot_shutdown,
+the ca->slot_info[slot].slot_state will become DVB_CA_SLOTSTATE_NONE.
+In the most of cases, the ca->slot_info[slot].slot_state will quickly
+becomes restored to other states by the subsequent operations of the
+thread dvb_ca_en50221_thread_state_machine.
+But in some rare cases, when the CA_GET_SLOT_INFO ioctl is immediately
+called after the CA_RESET ioctl is called, the
+the ca->slot_info[slot].slot_state can still remains at
+DVB_CA_SLOTSTATE_NONE, and this causes CA_GET_SLOT_INFO ioctl not to
+return CA_CI_MODULE_PRESENT as info->flags even if CA_CI_MODULE is
+really connected on TV. This means that the CA_GET_SLOT_INFO ioctl
+does not return right informtion. This is a Bug. We fix this bug.
+---
+ drivers/media/dvb-core/dvb_ca_en50221.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-convert -> convert the
-
-> type to fourcc. The first character is 'A', the second character
-
-fourcc -> a FourCC
-
-> is 'U', the third character is ten's digit of snd_pcm_format_t,
-> the fourth character is unit's digit of snd_pcm_format_t.
-
-"is 'U', and the remaining two characters is the snd_pcm_format_t
-value in ASCII. Example: SNDRV_PCM_FORMAT_S16_LE (with value 2)
-maps to 'AU02' and SNDRV_PCM_FORMAT_S24_3LE (with value 32) maps
-to 'AU32'."
-
-> 
-> The v4l2_fourcc_to_audfmt() is defined to convert these fourccs to
-
-fourccs -> FourCCs
-
-> snd_pcm_format_t type.
-
-BTW, given the way snd_pcm_format_t is defined I am fairly certain
-some casts are needed for the v4l2_audfmt_to_fourcc define.
-
-Regards,
-
-	Hans
-
-> '
-> Best regards
-> Shengjiu Wang
->>
->>> +
->>> +.. tabularcolumns:: |p{5.8cm}|p{1.2cm}|p{10.3cm}|
->>> +
->>> +.. cssclass:: longtable
->>> +
->>> +.. flat-table:: Audio Format
->>> +    :header-rows:  1
->>> +    :stub-columns: 0
->>> +    :widths:       3 1 4
->>> +
->>> +    * - Identifier
->>> +      - Code
->>> +      - Details
->>> +    * .. _V4L2-AUDIO-FMT-S8:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_S8``
->>> +      - 'S8'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_S8 in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-S16-LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_S16_LE``
->>> +      - 'S16_LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_S16_LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-U16-LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_U16_LE``
->>> +      - 'U16_LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_U16_LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-S24-LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_S24_LE``
->>> +      - 'S24_LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_S24_LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-U24-LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_U24_LE``
->>> +      - 'U24_LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_U24_LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-S32-LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_S32_LE``
->>> +      - 'S32_LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_S32_LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-U32-LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_U32_LE``
->>> +      - 'U32_LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_U32_LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-FLOAT-LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_FLOAT_LE``
->>> +      - 'FLOAT_LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_FLOAT_LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-IEC958-SUBFRAME-LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE``
->>> +      - 'IEC958_SUBFRAME_LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-S24-3LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_S24_3LE``
->>> +      - 'S24_3LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_S24_3LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-U24-3LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_U24_3LE``
->>> +      - 'U24_3LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_U24_3LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-S20-3LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_S20_3LE``
->>> +      - 'S20_3LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_S24_3LE in ALSA
->>> +    * .. _V4L2-AUDIO-FMT-U20-3LE:
->>> +
->>> +      - ``V4L2_AUDIO_FMT_U20_3LE``
->>> +      - 'U20_3LE'
->>> +      - Corresponds to SNDRV_PCM_FORMAT_U20_3LE in ALSA
->>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt.rst b/Documentation/userspace-api/media/v4l/pixfmt.rst
->>> index 11dab4a90630..2eb6fdd3b43d 100644
->>> --- a/Documentation/userspace-api/media/v4l/pixfmt.rst
->>> +++ b/Documentation/userspace-api/media/v4l/pixfmt.rst
->>> @@ -36,3 +36,4 @@ see also :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`.)
->>>      colorspaces
->>>      colorspaces-defs
->>>      colorspaces-details
->>> +    pixfmt-audio
->>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->>> index 961abcdf7290..be229c69e991 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->>> @@ -1471,6 +1471,19 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>>       case V4L2_PIX_FMT_Y210:         descr = "10-bit YUYV Packed"; break;
->>>       case V4L2_PIX_FMT_Y212:         descr = "12-bit YUYV Packed"; break;
->>>       case V4L2_PIX_FMT_Y216:         descr = "16-bit YUYV Packed"; break;
->>> +     case V4L2_AUDIO_FMT_S8:         descr = "8-bit Signed"; break;
->>> +     case V4L2_AUDIO_FMT_S16_LE:     descr = "16-bit Signed LE"; break;
->>> +     case V4L2_AUDIO_FMT_U16_LE:             descr = "16-bit Unsigned LE"; break;
->>> +     case V4L2_AUDIO_FMT_S24_LE:             descr = "24(32)-bit Signed LE"; break;
->>> +     case V4L2_AUDIO_FMT_U24_LE:             descr = "24(32)-bit Unsigned LE"; break;
->>> +     case V4L2_AUDIO_FMT_S32_LE:             descr = "32-bit Signed LE"; break;
->>> +     case V4L2_AUDIO_FMT_U32_LE:             descr = "32-bit Unsigned LE"; break;
->>> +     case V4L2_AUDIO_FMT_FLOAT_LE:           descr = "32-bit Float LE"; break;
->>> +     case V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE: descr = "32-bit IEC958 LE"; break;
->>> +     case V4L2_AUDIO_FMT_S24_3LE:            descr = "24(24)-bit Signed LE"; break;
->>> +     case V4L2_AUDIO_FMT_U24_3LE:            descr = "24(24)-bit Unsigned LE"; break;
->>> +     case V4L2_AUDIO_FMT_S20_3LE:            descr = "20(24)-bit Signed LE"; break;
->>> +     case V4L2_AUDIO_FMT_U20_3LE:            descr = "20(24)-bit Unsigned LE"; break;
->>>
->>>       default:
->>>               /* Compressed formats */
->>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>> index 2c03d2dfadbe..673a6235a029 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -843,6 +843,29 @@ struct v4l2_pix_format {
->>>  #define V4L2_META_FMT_RK_ISP1_PARAMS v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
->>>  #define V4L2_META_FMT_RK_ISP1_STAT_3A        v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
->>>
->>> +/*
->>> + * Audio-data formats
->>> + * All these audio formats use a fourcc starting with 'AU'
->>> + * followed by the SNDRV_PCM_FORMAT_ value from asound.h.
->>
->> Also document here that fourccs starting with 'AU' are reserved for
->> the snd_pcm_format_t to fourcc mappings.
->>
->> That to avoid that someone adds a 'AUXX' fourcc later.
->>
->>> + */
->>> +#define V4L2_AUDIO_FMT_S8                    v4l2_fourcc('A', 'U', '0', '0')
->>> +#define V4L2_AUDIO_FMT_S16_LE                        v4l2_fourcc('A', 'U', '0', '2')
->>> +#define V4L2_AUDIO_FMT_U16_LE                        v4l2_fourcc('A', 'U', '0', '4')
->>> +#define V4L2_AUDIO_FMT_S24_LE                        v4l2_fourcc('A', 'U', '0', '6')
->>> +#define V4L2_AUDIO_FMT_U24_LE                        v4l2_fourcc('A', 'U', '0', '8')
->>> +#define V4L2_AUDIO_FMT_S32_LE                        v4l2_fourcc('A', 'U', '1', '0')
->>> +#define V4L2_AUDIO_FMT_U32_LE                        v4l2_fourcc('A', 'U', '1', '2')
->>> +#define V4L2_AUDIO_FMT_FLOAT_LE                      v4l2_fourcc('A', 'U', '1', '4')
->>> +#define V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE    v4l2_fourcc('A', 'U', '1', '8')
->>> +#define V4L2_AUDIO_FMT_S24_3LE                       v4l2_fourcc('A', 'U', '3', '2')
->>> +#define V4L2_AUDIO_FMT_U24_3LE                       v4l2_fourcc('A', 'U', '3', '4')
->>> +#define V4L2_AUDIO_FMT_S20_3LE                       v4l2_fourcc('A', 'U', '3', '6')
->>> +#define V4L2_AUDIO_FMT_U20_3LE                       v4l2_fourcc('A', 'U', '3', '8')
->>> +
->>> +#define v4l2_fourcc_to_audfmt(fourcc)        \
->>> +     (__force snd_pcm_format_t)(((((fourcc) >> 16) & 0xff) - '0') * 10  \
->>> +                                + ((((fourcc) >> 24) & 0xff) - '0'))
->>> +
->>
->> As I suggested in an earlier reply, add this:
->>
->> #define v4l2_audfmt_to_fourcc(audfmt) \
->>         v4l2_fourcc('A', 'U', '0' + (audfmt) / 10, '0' + (audfmt) % 10)
->>
->> Even though it is not used in the drivers, since this is a public header used
->> by drivers and applications, it makes sense to provide the reverse mapping as well.
->>
->> Please test it in actual code to make sure there are no compilation warnings.
->>
->> Regards,
->>
->>         Hans
->>
->>>  /* priv field value to indicates that subsequent fields are valid. */
->>>  #define V4L2_PIX_FMT_PRIV_MAGIC              0xfeedcafe
->>>
->>
+diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
+index baf64540dc00..8d37c3c13227 100644
+--- a/drivers/media/dvb-core/dvb_ca_en50221.c
++++ b/drivers/media/dvb-core/dvb_ca_en50221.c
+@@ -1403,6 +1403,10 @@ static int dvb_ca_en50221_io_do_ioctl(struct file *file,
+ 		    (sl->slot_state != DVB_CA_SLOTSTATE_INVALID)) {
+ 			info->flags = CA_CI_MODULE_PRESENT;
+ 		}
++		if ((sl->slot_state == DVB_CA_SLOTSTATE_NONE) &&
++		    (sl->camchange_type == DVB_CA_EN50221_CAMCHANGE_INSERTED)) {
++			info->flags = CA_CI_MODULE_PRESENT;
++	     	}
+ 		if (sl->slot_state == DVB_CA_SLOTSTATE_RUNNING)
+ 			info->flags |= CA_CI_MODULE_READY;
+ 		break;
+-- 
+2.17.1
 
 
