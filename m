@@ -1,45 +1,46 @@
-Return-Path: <linux-media+bounces-6693-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6694-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A855A87601D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 09:50:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0829487601E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 09:50:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F70A1F26A78
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 08:50:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B60DE285581
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 08:50:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D198129CFB;
-	Fri,  8 Mar 2024 08:50:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 853233EA86;
+	Fri,  8 Mar 2024 08:50:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZVtJtfci"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ulQBQanq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C73422F19
-	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 08:50:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400C623759
+	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 08:50:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709887847; cv=none; b=TCSdyeAnHjAMpaQUbqW0+x6jbhEg3OyuwWH1nMQwvaWpJAexkvcr/NeBHhu4/UvjI6IHW8qkY5UjA9AeK/s6f/Vh4XXMxR+qMoORflcaQjsrbOHpc4Zvcw3KLpSkIw26IOZtoDD3AJw11TAyNLv8fnn2bfSeoo+LS/yd2khPPNA=
+	t=1709887848; cv=none; b=W/km3kKFAwA/KmsG+DlNKqslja6DEcz5FXP+jimELJRRR4klbKaJWudE91RGeTD1tCmYZJDWBImf5Nw0nsyLWpDebWeIoK35d3gIckZ8+b0aqkbrNG5eoK55WauZrXAYF8FNrLumeC8EIIwvYIC3Vrk863eznnt74TEVLiU6Zv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709887847; c=relaxed/simple;
-	bh=f36ONzwUS7uaVuxlKWb+e1nDM2h9i4ek+2yJoPbqGNU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aHRZGGsu2sY9+F0NwaxidWALQgJZL2OGGm58L2O7kSGskQQTa6qp1WOIXqaa5E8JJM8IEBkfrGSq/Dedl8yRCbKbAwqBmKpFdfsduny0Vk0kUiS40mVA67rplqlpYK48jIS6wjHbOW919petgkA8MEELIDVieFRTw0cdgL+9CUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZVtJtfci; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1709887848; c=relaxed/simple;
+	bh=Fy1f6brFHHXlrSLbQSC/oug/D6etlkj7sQz04uPTLNg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iVMxGlCt5oK6xu4MIWCHAsgRsy37yRn/xxI+mx+qDESg/ADlzJEE2A75Qc90WqaEYPVpfyZQbz1qmm/ChVOeRGMexoDht5pl7fVqyBEakSKau1ivWjkH9WJq2/XzywwBGPKwa5o7wX6hAiNs09Q/Mj3kr4CagNjYgb/4NjKQeaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ulQBQanq; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89F61552;
-	Fri,  8 Mar 2024 09:50:23 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 575F782A;
+	Fri,  8 Mar 2024 09:50:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1709887824;
-	bh=f36ONzwUS7uaVuxlKWb+e1nDM2h9i4ek+2yJoPbqGNU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZVtJtfciZTYB5JFmeXniAEMM94pL9PHgnvbi64KB1dyjpxTf7tUcUhbglPXwjMAMi
-	 51OAG0d/4pNXxfb8hzLH3InCgkWcv3h0zs+sBsrvAcZjfdqRBG/aiOAs/yMAX8v2OV
-	 yxEkWzGGRFMnzGKgtZorvxnqsfoZ/kvwZVotwuIk=
+	s=mail; t=1709887825;
+	bh=Fy1f6brFHHXlrSLbQSC/oug/D6etlkj7sQz04uPTLNg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ulQBQanqUfdYvOzkdYMHA7RKTgvU4ytbcuFx1gy2oM/IyVAHn5c+wRibvosM/XJAq
+	 oY/EdAg1wqkvlHulobk9+KmsPRXaMywy+8xiUO635grpIC66NNPZ2R/93tdDcMRuDQ
+	 KI0wSLxjGBcdeTJFqT+dksmZIDNfHUYSij3DmIpg=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -53,10 +54,12 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@iki.fi>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v4 0/9] media: raspberrypi: Add support for PiSP Back End
-Date: Fri,  8 Mar 2024 09:50:18 +0100
-Message-ID: <20240308085028.44388-1-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v4 1/9] media: uapi: Add MIPI packed 12bit luma
+Date: Fri,  8 Mar 2024 09:50:19 +0100
+Message-ID: <20240308085028.44388-2-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240308085028.44388-1-jacopo.mondi@ideasonboard.com>
+References: <20240308085028.44388-1-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,203 +68,69 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-v3->v4:
-- Rename the compressed RAW formats and change the page title
-- Minor fixes to the RGB48 documentation
-- Remove the clock name from bindings and driver
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-v2->v3:
-- Expand documentation of RGB48 formats
-- Add back to the bindings the 'aclk' clock-names property
-  - Explicitly get the clock by name in the driver
-- minor fixes
+Add the Y12P format to describe monochrome 12 bit image format
+packed according to the RAW12 format as defined by the MIPI
+CSI-2 specification.
 
-v1->v2:
-- Add Y12P and Y14P formats to yuv-luma.rst instead of documenting them
-  separately
-- Fix typos in formats and documentation
-- Adjust bindings as suggested during review
-- Fix admin-guide with an up-to-media media graph (remove the HOG node)
-- Add a patch to the driver to safely clean-up the video devices buffer queues
-  in case of errors
-  https://github.com/raspberrypi/linux/commit/9fcfb8ee070ecc2ca9b4fcf4629c4545f9cf178e
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
+---
+ .../userspace-api/media/v4l/pixfmt-yuv-luma.rst       | 11 +++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
+ include/uapi/linux/videodev2.h                        |  1 +
+ 3 files changed, 13 insertions(+)
 
-Add support for the Raspberry Pi PiSP Back End memory-2-memory ISP.
-Documentation available at:
-https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-
-The PiSP Back End is the memory-2-memory ISP found on Raspberry Pi 5. In
-conjunction with the PiSP Front End, for which a driver is expected to
-hit mainline in the next weeks, it implements the Raspberry Pi 5 camera
-system.
-
-The ISP is fully supported in the Raspberry Pi libcamera version and once
-patches for the PiSP Front End will hit mainline the support will land in
-mainline libcamera as well.
-
-Patch based on media-stage master branch.
-
-A branch is available at
-
-git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
-#pispbe/media-staging/be-upstream
-
--------------------- Hans' build scripts build summary ------------------------
-date:                   Fri Feb  9 14:29:10 CET 2024
-media-tree git repo:    git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
-media-tree git branch:  jmondi/pispbe/media-staging/be-upstream
-media-tree git hash:    728775b95062efdecedad4df4013a8db5382d470
-v4l-utils git hash:     4a6a3725dd192759c2998311b00440b84c60df57
-edid-decode git hash:   5f723267e04deb3aa9610483514a02bcee10d9c2
-gcc version:            i686-linux-gcc (GCC) 13.1.0
-ccache version:         ccache version 4.7.5
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:         v0.5.0-8575-g7162b9ec
-sparse version:         v0.5.0-8575-g7162b9ec
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 745fc7cf5ba1a1a841374c61e8470852232584c1
-host hardware:          x86_64
-host os:                6.1.0-10-amd64
-
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-spec-git: OK
-kerneldoc: WARNINGS:
-
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
-
-
-date:                   Fri Feb  9 15:38:02 CET 2024
--------------------------------------------------------------------------------
-
---------------------------- V4L2 compliance -----------------------------------
-pi@raspberrypi:~/v4l-utils$ ./build/utils/v4l2-compliance/v4l2-compliance -d /dev/video4
-v4l2-compliance 1.27.0-5174, 64 bits, 64-bit time_t
-v4l2-compliance SHA: d700deb14368 2024-01-18 12:19:05
-
-Compliance test for pispbe device /dev/video0:
-Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-Compliance test for pispbe device /dev/video1:
-Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-Compliance test for pispbe device /dev/video2:
-Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-Compliance test for pispbe device /dev/video3:
-Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-Compliance test for pispbe device /dev/video4:
-Total for pispbe device /dev/video4: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-Compliance test for pispbe device /dev/video5:
-Total for pispbe device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-Compliance test for pispbe device /dev/video6:
-Total for pispbe device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-Compliance test for pispbe device /dev/video7:
-Total for pispbe device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
--------------------------------------------------------------------------------
-
-Dave Stevenson (2):
-  media: uapi: Add MIPI packed 12bit luma
-  media: uapi: Add MIPI packed 14bit luma
-
-Jacopo Mondi (6):
-  media: uapi: pixfmt-luma: Document MIPI CSI-2 packing
-  media: uapi: Add a pixel format for BGR48 and RGB48
-  media: uapi: Add meta pixel format for PiSP BE config
-  media: uapi: Add PiSP Compressed RAW Bayer formats
-  media: dt-bindings: Add bindings for Raspberry Pi PiSP Back End
-  media: admin-guide: Document the Raspberry Pi PiSP BE
-
-Naushir Patuck (1):
-  media: raspberrypi: Add support for PiSP BE
-
- .../admin-guide/media/raspberrypi-pisp-be.dot |   20 +
- .../admin-guide/media/raspberrypi-pisp-be.rst |  112 +
- .../admin-guide/media/v4l-drivers.rst         |    1 +
- .../bindings/media/raspberrypi,pispbe.yaml    |   63 +
- .../userspace-api/media/v4l/meta-formats.rst  |    1 +
- .../media/v4l/metafmt-pisp-be.rst             |   46 +
- .../userspace-api/media/v4l/pixfmt-bayer.rst  |    1 +
- .../userspace-api/media/v4l/pixfmt-rgb.rst    |   54 +
- .../media/v4l/pixfmt-srggb8-pisp-comp.rst     |   74 +
- .../media/v4l/pixfmt-yuv-luma.rst             |   52 +
- MAINTAINERS                                   |    8 +
- drivers/media/platform/Kconfig                |    1 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/raspberrypi/Kconfig    |    5 +
- drivers/media/platform/raspberrypi/Makefile   |    3 +
- .../platform/raspberrypi/pisp_be/Kconfig      |   13 +
- .../platform/raspberrypi/pisp_be/Makefile     |    6 +
- .../platform/raspberrypi/pisp_be/pisp_be.c    | 1859 +++++++++++++++++
- .../raspberrypi/pisp_be/pisp_be_formats.h     |  519 +++++
- drivers/media/v4l2-core/v4l2-common.c         |    2 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |   15 +
- .../linux/media/raspberrypi/pisp_be_config.h  |  531 +++++
- .../linux/media/raspberrypi/pisp_common.h     |  199 ++
- include/uapi/linux/videodev2.h                |   19 +
- 24 files changed, 3605 insertions(+)
- create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.dot
- create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.rst
- create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
- create mode 100644 Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
- create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-srggb8-pisp-comp.rst
- create mode 100644 drivers/media/platform/raspberrypi/Kconfig
- create mode 100644 drivers/media/platform/raspberrypi/Makefile
- create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Kconfig
- create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Makefile
- create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
- create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h
- create mode 100644 include/uapi/linux/media/raspberrypi/pisp_be_config.h
- create mode 100644 include/uapi/linux/media/raspberrypi/pisp_common.h
-
---
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+index cf8e4dfbfbd4..585d736f36e5 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+@@ -114,6 +114,17 @@ are often referred to as greyscale formats.
+       - ...
+       - ...
+ 
++    * .. _V4L2-PIX-FMT-Y12P:
++
++      - ``V4L2_PIX_FMT_Y12P``
++      - 'Y12P'
++
++      -  Y'\ :sub:`0`\ [11:4]
++      -  Y'\ :sub:`1`\ [11:4]
++      -  Y'\ :sub:`1`\ [3:0] Y'\ :sub:`0`\ [3:0]
++      - ...
++      - ...
++
+     * .. _V4L2-PIX-FMT-Y14:
+ 
+       - ``V4L2_PIX_FMT_Y14``
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 6e7b8b682d13..9cb09334161b 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1311,6 +1311,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_Y16_BE:	descr = "16-bit Greyscale BE"; break;
+ 	case V4L2_PIX_FMT_Y10BPACK:	descr = "10-bit Greyscale (Packed)"; break;
+ 	case V4L2_PIX_FMT_Y10P:		descr = "10-bit Greyscale (MIPI Packed)"; break;
++	case V4L2_PIX_FMT_Y12P:		descr = "12-bit Greyscale (MIPI Packed)"; break;
+ 	case V4L2_PIX_FMT_IPU3_Y10:	descr = "10-bit greyscale (IPU3 Packed)"; break;
+ 	case V4L2_PIX_FMT_Y8I:		descr = "Interleaved 8-bit Greyscale"; break;
+ 	case V4L2_PIX_FMT_Y12I:		descr = "Interleaved 12-bit Greyscale"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index a8015e5e7fa4..11ebf9b22ccb 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -598,6 +598,7 @@ struct v4l2_pix_format {
+ /* Grey bit-packed formats */
+ #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
+ #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
++#define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12  Greyscale, MIPI RAW12 packed */
+ #define V4L2_PIX_FMT_IPU3_Y10		v4l2_fourcc('i', 'p', '3', 'y') /* IPU3 packed 10-bit greyscale */
+ 
+ /* Palette formats */
+-- 
 2.43.2
 
 
