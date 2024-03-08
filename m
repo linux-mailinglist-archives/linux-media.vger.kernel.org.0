@@ -1,202 +1,321 @@
-Return-Path: <linux-media+bounces-6679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C11F875D1B
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 05:22:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C02A875D52
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 05:58:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4886282547
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 04:22:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 682BEB21F8D
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 04:58:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5A582C857;
-	Fri,  8 Mar 2024 04:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33E02E647;
+	Fri,  8 Mar 2024 04:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SO89EQhS"
+	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="WHOLKf9i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2709D2C1A6
-	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 04:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D95632C9C
+	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 04:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709871758; cv=none; b=H7s399M6VnIAqb7Vz6xj5ubDCudqpEOKsUKSWcE2GYKTGCEp5jdv2/sAcS/EpmRBsqtalhHagu/99sbIjeFuhL4kzaBdPAUkhsIy49Z30zgrVRJ9BQn8C40+GQp70nVbBR0V+bJKumnOMNponwLFV/+7UZAdtCc9Hy1WQ7Cy508=
+	t=1709873875; cv=none; b=tr+8NJqn7IBJHram2gjRekyhYyA6NsgQJMk01dmZNtLgl+dnIhM+Dnct9EDWrlkYFJyqTFyaEi2BrB6x+d7Vh9nil/+HFEmHkL9qpJHqXdzHRK4EWIrWm5LPMHVowYvPaXwB2mxuDYVNPyDBFoxNx4l9aRbxbTQsITZJntuK/Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709871758; c=relaxed/simple;
-	bh=TeHS6KFqrJ19ahEPTwz/B36DES7mdOC1gIRz2l+H6Pw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dx/FUoS3Y3bJ1BRhTxypgcKrKgoNriXCdX8vqKrfgb2lfhH3wpibzpeGIRk6ZTh9DGVS2cdfm7aqSuIkS6xNzDbZ0q3AlYJshms4UA9h5BliRiIRFFeMOYSbpVaRRBgdsXLW2dQdjMa6aCpeeVNj7ucX33zKou1XgNz5ON6mW9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SO89EQhS; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709871756; x=1741407756;
-  h=date:from:to:cc:subject:message-id;
-  bh=TeHS6KFqrJ19ahEPTwz/B36DES7mdOC1gIRz2l+H6Pw=;
-  b=SO89EQhSje0/am67WbNZkTG74NLAKPHz96rP/eXJZlY9q+PNXoQeHFmR
-   NzCf9v9d7Na0Ia1747xjD/uE+U8lCbBGX6Ya5NKJb6c/A/kXDZdA/k/jE
-   FVUmcASLBNbDn3VyNJM4Hahqq6zG25H7WlKGB+CGy3fQjk2innxxNWFmE
-   MIqSwrSoyH82NsBmdSJHf9vZ2AOPb8b2Q88Lr6GuGtXwj4+AbnVRc5hAL
-   sTc0/8yy/f3GOp7Xp/uMHOJ6cEiF5zVSyOrY/PQCgk806NU7KY1erEeQh
-   zLQsl8FiCGQseCbzJ3375J6bxdqBQB+ZUYirqhX1NH0SBd0k0CEDvUeRg
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="27052353"
-X-IronPort-AV: E=Sophos;i="6.07,108,1708416000"; 
-   d="scan'208";a="27052353"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 20:22:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,108,1708416000"; 
-   d="scan'208";a="10390029"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Mar 2024 20:22:34 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1riRke-00061N-00;
-	Fri, 08 Mar 2024 04:22:32 +0000
-Date: Fri, 08 Mar 2024 12:21:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- b14257abe7057def6127f6fb2f14f9adc8acabdb
-Message-ID: <202403081246.dpi9R94C-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1709873875; c=relaxed/simple;
+	bh=YHgLhGo9u/GaA4wjmsG1D7h2kk3KAbiuEeepwyKoTyA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZgijX8kn8kU7Sp4reMtwlYU0Iu+NhGQ0GW9nBviZEjRUq54F7QTc0FIi+UhOljwvfobHq9nBgDTxcf1aq77lxTY83MZDnGoUqF6zgirXu/mWwzbhMZHb4nmDxQbSnHVjoLjSVEX8S0Ashrdl4NomE1/5MCctffGXPpKZCtXNRNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=WHOLKf9i; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5a14d7f0e66so801281eaf.1
+        for <linux-media@vger.kernel.org>; Thu, 07 Mar 2024 20:57:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1709873872; x=1710478672; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hd5eSIOo7us1LbsNzpdstrnvo/0BBPJxonyWDnWYOdI=;
+        b=WHOLKf9iGdgVvKTjQmxXbGWwIT9aW9o9hEq9U+lj49TYZ42wh7OW8mGicrRGPFBWec
+         GQXHXEEy7tPbKwC1FHg8zUZWXZfzhZPY7eTptlAxCYMCrZISnWijtPow38TPk+467WQI
+         C+SLrK5dNJPHk+1cx98faF71o72UvdNKhUddExLhLHqSlNl82akiFzavl0puT4+AmRFJ
+         Ec9bN9cNgCHYY85wXTpFf//96AeQfDdV8fpasYXN1atMrFSxm0GJhpfw8m5MlTIrmThy
+         aDpFbpiasRW10nZIRqfeXavPvZw0dJn5/4Gc7DZtaG5mAlYsF39ActGfINqVsFI27Zds
+         3LKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709873872; x=1710478672;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hd5eSIOo7us1LbsNzpdstrnvo/0BBPJxonyWDnWYOdI=;
+        b=QrTB9BzGHBuQPxa/olQfjSEHBDavWeZ9pseAEKdoBFncphRriArNKEyUps9bojsTXc
+         cTspN9q/O4FxnHtuask2HUWjNIqGKlZyqsIMW0/3lHL/OOEDVv/YJFenrToHCg+4arEQ
+         u/7Pi48bS3ZyScStiiZ7MimH/CvKyAA/UPWTFAtG2I1UN3HmpGPSr+7VdXOaAKrv+Mm6
+         GJoEgWtmUQNEhrXsuD6WcXw3Rdm7BBXRjAQoYOUJW231lGYciqBiv7stbrKhrmQVjVXD
+         dFw4YeNQCPkO0/KfUF5kGi2R0e5tXEi5UT/ZpR6i2R1noLOvachv1SUgT3Kxb5rBZQZq
+         3KBg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQs7f93xrtl4eN0l5+DEufFY9T3uQ44FHimqUQjH5mcCUB84UNnSbEFZfefj0GcsFWe3SsOXxRrmUcXVoMnQ+74hmI2GpBn6w7zqo=
+X-Gm-Message-State: AOJu0YwaGRk451Vp9gR4M7Pl2qTZE0cO32Ca/1yVh+td0yMPo97V1qkq
+	LybCf2or7IBe8v2611F6OPTXg3vJ4aCkRhNASjOQFFUaFdLxdapK2dniD5lLeIE=
+X-Google-Smtp-Source: AGHT+IGD+SMzrtIqxos2BUylU1ihI6jHOpxBRUaDnHcmTxvqFG6hCKlO2aW2yjsKNPG+MnRLXz5+kA==
+X-Received: by 2002:a05:6358:70b:b0:176:40d5:2bd5 with SMTP id e11-20020a056358070b00b0017640d52bd5mr10614876rwj.6.1709873871879;
+        Thu, 07 Mar 2024 20:57:51 -0800 (PST)
+Received: from [192.168.1.24] (71-212-18-124.tukw.qwest.net. [71.212.18.124])
+        by smtp.gmail.com with ESMTPSA id k76-20020a633d4f000000b005dc8702f0a9sm13477127pga.1.2024.03.07.20.57.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Mar 2024 20:57:51 -0800 (PST)
+Message-ID: <15625bac-dfec-4c4e-a828-d11424f7aced@davidwei.uk>
+Date: Thu, 7 Mar 2024 20:57:49 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
+ custom page providers
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-3-almasrymina@google.com>
+Content-Language: en-GB
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <20240305020153.2787423-3-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: b14257abe7057def6127f6fb2f14f9adc8acabdb  media: rcar-isp: Disallow unbind of devices
+On 2024-03-04 18:01, Mina Almasry wrote:
+> From: Jakub Kicinski <kuba@kernel.org>
+> 
+> The page providers which try to reuse the same pages will
+> need to hold onto the ref, even if page gets released from
+> the pool - as in releasing the page from the pp just transfers
+> the "ownership" reference from pp to the provider, and provider
+> will wait for other references to be gone before feeding this
+> page back into the pool.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+> ---
+> 
+> This is implemented by Jakub in his RFC:
+> https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
+> 
+> I take no credit for the idea or implementation; I only added minor
+> edits to make this workable with device memory TCP, and removed some
+> hacky test code. This is a critical dependency of device memory TCP
+> and thus I'm pulling it into this series to make it revewable and
+> mergeable.
+> 
+> RFC v3 -> v1
+> - Removed unusued mem_provider. (Yunsheng).
+> - Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
+> 
+> ---
+>  include/net/page_pool/types.h | 12 ++++++++++
+>  net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
+>  2 files changed, 50 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
+> index 5e43a08d3231..ffe5f31fb0da 100644
+> --- a/include/net/page_pool/types.h
+> +++ b/include/net/page_pool/types.h
+> @@ -52,6 +52,7 @@ struct pp_alloc_cache {
+>   * @dev:	device, for DMA pre-mapping purposes
+>   * @netdev:	netdev this pool will serve (leave as NULL if none or multiple)
+>   * @napi:	NAPI which is the sole consumer of pages, otherwise NULL
+> + * @queue:	struct netdev_rx_queue this page_pool is being created for.
+>   * @dma_dir:	DMA mapping direction
+>   * @max_len:	max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
+>   * @offset:	DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
+> @@ -64,6 +65,7 @@ struct page_pool_params {
+>  		int		nid;
+>  		struct device	*dev;
+>  		struct napi_struct *napi;
+> +		struct netdev_rx_queue *queue;
+>  		enum dma_data_direction dma_dir;
+>  		unsigned int	max_len;
+>  		unsigned int	offset;
+> @@ -126,6 +128,13 @@ struct page_pool_stats {
+>  };
+>  #endif
+>  
+> +struct memory_provider_ops {
+> +	int (*init)(struct page_pool *pool);
+> +	void (*destroy)(struct page_pool *pool);
+> +	struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
+> +	bool (*release_page)(struct page_pool *pool, struct page *page);
+> +};
 
-elapsed time: 748m
+Separate question as I try to adapt bnxt to this and your queue
+configuration API.
 
-configs tested: 113
-configs skipped: 3
+How does GVE handle the need to allocate kernel pages for headers and
+dmabuf for payloads?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Reading the code, struct gve_rx_ring is the main per-ring object with a
+page pool. gve_queue_page_lists are filled with page pool netmem
+allocations from the page pool in gve_alloc_queue_page_list(). Are these
+strictly used for payloads only?
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240308   gcc  
-arc                   randconfig-002-20240308   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240308   gcc  
-arm                   randconfig-002-20240308   clang
-arm                   randconfig-003-20240308   clang
-arm                   randconfig-004-20240308   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240308   clang
-arm64                 randconfig-002-20240308   clang
-arm64                 randconfig-003-20240308   clang
-arm64                 randconfig-004-20240308   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240308   gcc  
-csky                  randconfig-002-20240308   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240308   clang
-i386         buildonly-randconfig-002-20240308   clang
-i386         buildonly-randconfig-003-20240308   gcc  
-i386         buildonly-randconfig-004-20240308   gcc  
-i386         buildonly-randconfig-005-20240308   gcc  
-i386         buildonly-randconfig-006-20240308   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240308   clang
-i386                  randconfig-002-20240308   clang
-i386                  randconfig-003-20240308   clang
-i386                  randconfig-004-20240308   gcc  
-i386                  randconfig-005-20240308   clang
-i386                  randconfig-006-20240308   clang
-i386                  randconfig-011-20240308   gcc  
-i386                  randconfig-012-20240308   clang
-i386                  randconfig-013-20240308   clang
-i386                  randconfig-014-20240308   clang
-i386                  randconfig-015-20240308   gcc  
-i386                  randconfig-016-20240308   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
+I found a struct gve_header_buf in both gve_rx_ring and struct
+gve_per_rx_queue_mem_dpo. This is allocated in gve_rx_queue_mem_alloc()
+using dma_alloc_coherent(). Is this where GVE stores headers?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+IOW, GVE only uses page pool to allocate memory for QPLs, and QPLs are
+used by the device for split payloads. Is my understanding correct?
+
+> +
+>  struct page_pool {
+>  	struct page_pool_params_fast p;
+>  
+> @@ -176,6 +185,9 @@ struct page_pool {
+>  	 */
+>  	struct ptr_ring ring;
+>  
+> +	void *mp_priv;
+> +	const struct memory_provider_ops *mp_ops;
+> +
+>  #ifdef CONFIG_PAGE_POOL_STATS
+>  	/* recycle stats are per-cpu to avoid locking */
+>  	struct page_pool_recycle_stats __percpu *recycle_stats;
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index d706fe5548df..8776fcad064a 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -25,6 +25,8 @@
+>  
+>  #include "page_pool_priv.h"
+>  
+> +static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
+> +
+>  #define DEFER_TIME (msecs_to_jiffies(1000))
+>  #define DEFER_WARN_INTERVAL (60 * HZ)
+>  
+> @@ -177,6 +179,7 @@ static int page_pool_init(struct page_pool *pool,
+>  			  int cpuid)
+>  {
+>  	unsigned int ring_qsize = 1024; /* Default */
+> +	int err;
+>  
+>  	memcpy(&pool->p, &params->fast, sizeof(pool->p));
+>  	memcpy(&pool->slow, &params->slow, sizeof(pool->slow));
+> @@ -248,10 +251,25 @@ static int page_pool_init(struct page_pool *pool,
+>  	/* Driver calling page_pool_create() also call page_pool_destroy() */
+>  	refcount_set(&pool->user_cnt, 1);
+>  
+> +	if (pool->mp_ops) {
+> +		err = pool->mp_ops->init(pool);
+> +		if (err) {
+> +			pr_warn("%s() mem-provider init failed %d\n",
+> +				__func__, err);
+> +			goto free_ptr_ring;
+> +		}
+> +
+> +		static_branch_inc(&page_pool_mem_providers);
+> +	}
+> +
+>  	if (pool->p.flags & PP_FLAG_DMA_MAP)
+>  		get_device(pool->p.dev);
+>  
+>  	return 0;
+> +
+> +free_ptr_ring:
+> +	ptr_ring_cleanup(&pool->ring, NULL);
+> +	return err;
+>  }
+>  
+>  static void page_pool_uninit(struct page_pool *pool)
+> @@ -546,7 +564,10 @@ struct page *page_pool_alloc_pages(struct page_pool *pool, gfp_t gfp)
+>  		return page;
+>  
+>  	/* Slow-path: cache empty, do real allocation */
+> -	page = __page_pool_alloc_pages_slow(pool, gfp);
+> +	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
+> +		page = pool->mp_ops->alloc_pages(pool, gfp);
+> +	else
+> +		page = __page_pool_alloc_pages_slow(pool, gfp);
+>  	return page;
+>  }
+>  EXPORT_SYMBOL(page_pool_alloc_pages);
+> @@ -603,10 +624,13 @@ void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
+>  void page_pool_return_page(struct page_pool *pool, struct page *page)
+>  {
+>  	int count;
+> +	bool put;
+>  
+> -	__page_pool_release_page_dma(pool, page);
+> -
+> -	page_pool_clear_pp_info(page);
+> +	put = true;
+> +	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
+> +		put = pool->mp_ops->release_page(pool, page);
+> +	else
+> +		__page_pool_release_page_dma(pool, page);
+>  
+>  	/* This may be the last page returned, releasing the pool, so
+>  	 * it is not safe to reference pool afterwards.
+> @@ -614,7 +638,10 @@ void page_pool_return_page(struct page_pool *pool, struct page *page)
+>  	count = atomic_inc_return_relaxed(&pool->pages_state_release_cnt);
+>  	trace_page_pool_state_release(pool, page, count);
+>  
+> -	put_page(page);
+> +	if (put) {
+> +		page_pool_clear_pp_info(page);
+> +		put_page(page);
+> +	}
+>  	/* An optimization would be to call __free_pages(page, pool->p.order)
+>  	 * knowing page is not part of page-cache (thus avoiding a
+>  	 * __page_cache_release() call).
+> @@ -884,6 +911,12 @@ static void __page_pool_destroy(struct page_pool *pool)
+>  
+>  	page_pool_unlist(pool);
+>  	page_pool_uninit(pool);
+> +
+> +	if (pool->mp_ops) {
+> +		pool->mp_ops->destroy(pool);
+> +		static_branch_dec(&page_pool_mem_providers);
+> +	}
+> +
+>  	kfree(pool);
+>  }
+>  
 
