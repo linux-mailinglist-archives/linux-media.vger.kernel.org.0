@@ -1,142 +1,122 @@
-Return-Path: <linux-media+bounces-6733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F42C8768DC
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 17:50:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DF7876908
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 18:01:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90FE91C211D5
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 16:50:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48D201C20C5C
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 17:01:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BE2D1D54C;
-	Fri,  8 Mar 2024 16:50:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F244A1D6A4;
+	Fri,  8 Mar 2024 17:01:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMxSm6nY"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="mmd0bdG2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB381C2BC;
-	Fri,  8 Mar 2024 16:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3E615D0;
+	Fri,  8 Mar 2024 17:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709916621; cv=none; b=L4bVjbdTORCR1ibs+YhlwXRPBzVh4HrYs/2n0P/yqjS7rPA7n/FSJWFWS1qL53urSebD/ys1U0vBneJHDMO+wPbpIG8z7detB46PSqRTnRHFvNynV/8sl0gw5YVsRvcZxaDQhOaqZOA29gIgg3DnNpgWJYSSaT+NJNiM/lp0qxQ=
+	t=1709917276; cv=none; b=b+9K0LZWxST9I8HxMEQD3NUkyww1Gp/2c8VzArpgRkkPTW6nB1WKwORYlBCgcL99f2jSwmCm4US/zIRBLN4Vl4vGiMXp3ieI2xOvUK6a/kAYeKR6O+Zt61yzJkm6gW/ecUJ5gA3WSCTA7DxIL2p9igURxNyVAMVAPZfCOGGbs6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709916621; c=relaxed/simple;
-	bh=j8B0Mnr7gZ1c43Rkz5y5HQ2cNt70Z/gVxxFt62Y5pPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p/V5PqAt7l4jUFmDK+eLXoOfbLRbxu6fcwWLZaASeiAXb6kDLBEVswlC+sx6hClWoL5urj4+goQeuxMEBqJYYcmSl81mV+ElsBn7HayFI/eyDXdNQPXZ14j4J8aHbkHUQsN3Iu4PEIJ8El29pK3S/8Y5af7T8DTiVD9aBx3O3wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMxSm6nY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FDF7C433F1;
-	Fri,  8 Mar 2024 16:50:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709916621;
-	bh=j8B0Mnr7gZ1c43Rkz5y5HQ2cNt70Z/gVxxFt62Y5pPc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hMxSm6nYTHIJuhc+3PaAQjHLvfR3TfRhS67RJxZxok0diPEStJLFqQb0dkq6y87tR
-	 iAjmrwMbJ4/Ja0MWiJnnfAWd+mo5TOZcpDhnxRf9edaw9T/PUU3smEGJfq/PITT1js
-	 E+Ge/3AXwCkNB5XSMRYNz9IvJ0FmEXKkCI4yz2T3qbwLCQZ03dF3c0tXZVUGZn+E/a
-	 /rVBUg9UOifnfcxUsf+t5SxpUi9xdG8TaNfDWoiNucC7vOGoTzMUm03zgqpQYkUlHI
-	 KsjztzI4AuRMP/3feNzx48GPxS84x5hQOk+ezMEUXAubvjIeKDdIbTmkHRfpbbBEfp
-	 RV8wj7Cr9JOag==
-Date: Fri, 8 Mar 2024 16:50:16 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: linux-media@vger.kernel.org, kernel@collabora.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	sakari.ailus@iki.fi
-Subject: Re: [PATCH v4 2/4] dt-bindings: media: add Maxim MAX96714 GMSL2
- Deserializer
-Message-ID: <20240308-blank-issue-857c16294c17@spud>
-References: <20240305152608.287527-1-julien.massot@collabora.com>
- <20240305152608.287527-3-julien.massot@collabora.com>
- <20240307-retract-aloof-9ff1fde79a82@spud>
- <8f6972a1-e174-4c0e-808e-afece9b529bf@collabora.com>
- <20240308-footnote-landmass-e1efcaf72a6d@spud>
- <7d0197b9-9008-4260-86e9-4b7f7017b3b6@collabora.com>
+	s=arc-20240116; t=1709917276; c=relaxed/simple;
+	bh=5s4uVZYzL5xnUpS0cs0ZcugLLMwfYan+D4jDkzO05oI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F5yeBgfJBUpt2plQ6RABpe+qB0nYeW6sYW3gh+vcsrZAb/1TEz+n6rA4PEoz4R++trqZpT7ps0pC48ZEukXYfiVs+Vd/gP7ZcI479ZusZIjUIch4ojcPvfeC6fbN4H1LYC1c9KTxTuMvcy4mswmOXFpJXyZsBO6rnJajtTK2Jec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=mmd0bdG2; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1709917266;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=SFBKjiymmjn1Cc3fHZlhJhqjEETz/4Y5VvGtGcGIiE0=;
+	b=mmd0bdG2Y0uIyMvOaFFYjT8Bw1Stk2P0bT4cT5sR/e4CzY9Zm9IbFsvaT9Hfsr9jTrdlkv
+	hBs20kbmTnPHjoFINI/0dooDsZ/lEFTN/ma1tt030mEWOn3CDLI1ldB2WDsxQlMUagr13Y
+	jenhVg/B0/sIAM4we3ixpKlj8VvNc7Q=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Jonathan Cameron <jic23@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v8 0/6] iio: new DMABUF based API
+Date: Fri,  8 Mar 2024 18:00:40 +0100
+Message-ID: <20240308170046.92899-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="W40v6fOy9DpPu/pY"
-Content-Disposition: inline
-In-Reply-To: <7d0197b9-9008-4260-86e9-4b7f7017b3b6@collabora.com>
+Content-Transfer-Encoding: 8bit
 
+Hi Jonathan,
 
---W40v6fOy9DpPu/pY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here's the final(tm) version of the IIO DMABUF patchset.
 
-On Fri, Mar 08, 2024 at 04:48:16PM +0100, Julien Massot wrote:
->=20
->=20
-> On 3/8/24 16:07, Conor Dooley wrote:
-> > On Fri, Mar 08, 2024 at 03:08:12PM +0100, Julien Massot wrote:
-> > > On 3/7/24 20:21, Conor Dooley wrote:
-> > > > On Tue, Mar 05, 2024 at 04:26:06PM +0100, Julien Massot wrote:
-> > > > > Add DT bindings for Maxim MAX96714 GMSL2 Deserializer.
-> > > > >=20
-> > > > > Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> > > > > ---
-> > > > > Change since v3:
-> > > > >    - Renamed file to maxim,max96714.yaml dropped the 'f' suffix
-> > > >=20
-> > > > Why? The filename should match the compatible, which /does/ have an=
- f.
-> > > All the work has been done on MAX96714F variant of this Maxim GMSL2
-> > > deserializer.
-> > > The driver and the binding remain suitable for all variants of this c=
-hipset,
-> > > since they share the same
-> > > register mapping, similar features etc..
-> > >=20
-> > > MAX96714 exists in different variant: MAX96714 / MAX96714F / MAX96714=
-K that
-> > > will be easy
-> > > to add support for this binding and driver later.
-> >=20
-> > Either document the non-f version if it really is that similar, using
-> > all of the same properties, or name the file after the version you've
-> > actually documented. I don't see why this particular case should be
-> > given an exception to how bindings are named.
-> >=20
-> > What is the actual difference between the f and non f versions? Is it
-> > visible to software?
->=20
-> Yes there are a few differences visible to the software, for example the
-> GMSL
-> link rate since MAX96714 support 6 and 3 Gbps, while MAX96714F only suppo=
-rts
-> 3Gbps.
-> the registers map is the same, but a few values are not possible with the
-> 'f' version.
->=20
-> I will add a compatible for the non 'f' version, and will do the same for
-> the max96717 binding.
+This v8 fixes the remaining few issues that Christian reported.
 
-It's not immediately clear if that means that the f version should be a
-fallback for the non-f version, but sounds like it could be if the
-difference is purely that there's a reduced set of link rates or
-similar.
+I also updated the documentation patch as there has been changes to
+index.rst.
 
---W40v6fOy9DpPu/pY
-Content-Type: application/pgp-signature; name="signature.asc"
+This was based on next-20240308.
 
------BEGIN PGP SIGNATURE-----
+Changelog:
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZetByAAKCRB4tDGHoIJi
-0htFAQCAGppnh/GHai75MVlT/b9AYRkgXulrdtlLA0WKqO4j8wD8DpKGzCGrayAO
-kmkKQV5kZ2cr4pNpysciMQAsApZZfAA=
-=Mxh+
------END PGP SIGNATURE-----
+- [3/6]:
+    - Fix swapped fence direction
+    - Simplify fence wait mechanism
+    - Remove "Buffer closed with active transfers" print, as it was dead
+      code
+    - Un-export iio_buffer_dmabuf_{get,put}. They are not used anywhere
+      else so they can even be static.
+    - Prevent attaching already-attached DMABUFs
+- [6/6]:
+    Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
+    whose format changed in iio/togreg.
 
---W40v6fOy9DpPu/pY--
+Cheers,
+-Paul
+
+Paul Cercueil (6):
+  dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+  dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+  iio: core: Add new DMABUF interface infrastructure
+  iio: buffer-dma: Enable support for DMABUFs
+  iio: buffer-dmaengine: Support new DMABUF based userspace API
+  Documentation: iio: Document high-speed DMABUF based API
+
+ Documentation/iio/iio_dmabuf_api.rst          |  54 ++
+ Documentation/iio/index.rst                   |   1 +
+ drivers/dma/dma-axi-dmac.c                    |  40 ++
+ drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
+ .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
+ drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
+ include/linux/dmaengine.h                     |  27 +
+ include/linux/iio/buffer-dma.h                |  31 ++
+ include/linux/iio/buffer_impl.h               |  30 ++
+ include/uapi/linux/iio/buffer.h               |  22 +
+ 10 files changed, 890 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+
+-- 
+2.43.0
+
 
