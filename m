@@ -1,126 +1,142 @@
-Return-Path: <linux-media+bounces-6732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6733-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244F1876799
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 16:48:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F42C8768DC
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 17:50:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3A8D2811A5
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 15:48:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90FE91C211D5
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 16:50:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03ED425634;
-	Fri,  8 Mar 2024 15:48:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BE2D1D54C;
+	Fri,  8 Mar 2024 16:50:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="F+Gnu+cM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMxSm6nY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4A8366;
-	Fri,  8 Mar 2024 15:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB381C2BC;
+	Fri,  8 Mar 2024 16:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709912901; cv=none; b=lI9dG9mZeHhaxLSUG++5TF3qfbig+xqX0E7h2O/ori8ykMOHZGk8B6xlylZVQA8+PgHziuIabzmkL/mGM7VOEiA2i4oT/Q8irBV8ohRtbQwyKflqGeB2/G3Xky/0XisU8XxIr30sDw3Bib4G9BGHiilCrUaVbfFf+CnyMkrV5ko=
+	t=1709916621; cv=none; b=L4bVjbdTORCR1ibs+YhlwXRPBzVh4HrYs/2n0P/yqjS7rPA7n/FSJWFWS1qL53urSebD/ys1U0vBneJHDMO+wPbpIG8z7detB46PSqRTnRHFvNynV/8sl0gw5YVsRvcZxaDQhOaqZOA29gIgg3DnNpgWJYSSaT+NJNiM/lp0qxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709912901; c=relaxed/simple;
-	bh=Lj9Gw52rMuV7qbx8B3Gh4b2+vyWGBnyU2idByZwFVo0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H+NxWvkDrW+YEBc6VN4nVpaV42vKgAm6yA82nsjJ+QwAtRRM+8CnSKS52cjrzt2x072XAMvTrEumFoOzHLDq4QMYEEdIhySWMKyBIycS+UEg9BYQMUqnWrCanLhp66vM1ENXgR0AqRCtA1YJUsnEJ+GcHQBZC0AhaURJjYeUFmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=F+Gnu+cM; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709912898;
-	bh=Lj9Gw52rMuV7qbx8B3Gh4b2+vyWGBnyU2idByZwFVo0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F+Gnu+cM9h3UhwP7wu4oZyyr6g5c3sBKIzYYbwpakb+5Aizohm1Z4f96DjgI3QPT7
-	 VWDQh5uOMh1QPvcfzEe7+BB9Wq7taQ04QvzrK6uKbbsaujiPIvLBrVR91sFM7Kvhs8
-	 du8sziDvfdP/W/TQT9pQBNEgrbqH+GjpfN4/X6iwxOounxoWuftYBEWt8CW0CczmYH
-	 jg3T2VFLrI2lcZu6aUZnfFTpWIEvUyGevi7zpZpLyOCDPQuT+0OhteG2vh1uok6kkM
-	 jT+s1kJqoiK/f0ZfjtTLpIuf2YVh4eepaZ/uKeH3YYAr4BRal9qWxxU4qb7ZFO7t6X
-	 sDkr/8d8iSo7w==
-Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 65D5D3780B5F;
-	Fri,  8 Mar 2024 15:48:17 +0000 (UTC)
-Message-ID: <7d0197b9-9008-4260-86e9-4b7f7017b3b6@collabora.com>
-Date: Fri, 8 Mar 2024 16:48:16 +0100
+	s=arc-20240116; t=1709916621; c=relaxed/simple;
+	bh=j8B0Mnr7gZ1c43Rkz5y5HQ2cNt70Z/gVxxFt62Y5pPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p/V5PqAt7l4jUFmDK+eLXoOfbLRbxu6fcwWLZaASeiAXb6kDLBEVswlC+sx6hClWoL5urj4+goQeuxMEBqJYYcmSl81mV+ElsBn7HayFI/eyDXdNQPXZ14j4J8aHbkHUQsN3Iu4PEIJ8El29pK3S/8Y5af7T8DTiVD9aBx3O3wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMxSm6nY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FDF7C433F1;
+	Fri,  8 Mar 2024 16:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709916621;
+	bh=j8B0Mnr7gZ1c43Rkz5y5HQ2cNt70Z/gVxxFt62Y5pPc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hMxSm6nYTHIJuhc+3PaAQjHLvfR3TfRhS67RJxZxok0diPEStJLFqQb0dkq6y87tR
+	 iAjmrwMbJ4/Ja0MWiJnnfAWd+mo5TOZcpDhnxRf9edaw9T/PUU3smEGJfq/PITT1js
+	 E+Ge/3AXwCkNB5XSMRYNz9IvJ0FmEXKkCI4yz2T3qbwLCQZ03dF3c0tXZVUGZn+E/a
+	 /rVBUg9UOifnfcxUsf+t5SxpUi9xdG8TaNfDWoiNucC7vOGoTzMUm03zgqpQYkUlHI
+	 KsjztzI4AuRMP/3feNzx48GPxS84x5hQOk+ezMEUXAubvjIeKDdIbTmkHRfpbbBEfp
+	 RV8wj7Cr9JOag==
+Date: Fri, 8 Mar 2024 16:50:16 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: linux-media@vger.kernel.org, kernel@collabora.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mchehab@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	sakari.ailus@iki.fi
+Subject: Re: [PATCH v4 2/4] dt-bindings: media: add Maxim MAX96714 GMSL2
+ Deserializer
+Message-ID: <20240308-blank-issue-857c16294c17@spud>
+References: <20240305152608.287527-1-julien.massot@collabora.com>
+ <20240305152608.287527-3-julien.massot@collabora.com>
+ <20240307-retract-aloof-9ff1fde79a82@spud>
+ <8f6972a1-e174-4c0e-808e-afece9b529bf@collabora.com>
+ <20240308-footnote-landmass-e1efcaf72a6d@spud>
+ <7d0197b9-9008-4260-86e9-4b7f7017b3b6@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] dt-bindings: media: add Maxim MAX96714 GMSL2
- Deserializer
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-media@vger.kernel.org, kernel@collabora.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- mchehab@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, sakari.ailus@iki.fi
-References: <20240305152608.287527-1-julien.massot@collabora.com>
- <20240305152608.287527-3-julien.massot@collabora.com>
- <20240307-retract-aloof-9ff1fde79a82@spud>
- <8f6972a1-e174-4c0e-808e-afece9b529bf@collabora.com>
- <20240308-footnote-landmass-e1efcaf72a6d@spud>
-From: Julien Massot <julien.massot@collabora.com>
-In-Reply-To: <20240308-footnote-landmass-e1efcaf72a6d@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="W40v6fOy9DpPu/pY"
+Content-Disposition: inline
+In-Reply-To: <7d0197b9-9008-4260-86e9-4b7f7017b3b6@collabora.com>
 
 
+--W40v6fOy9DpPu/pY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 3/8/24 16:07, Conor Dooley wrote:
-> On Fri, Mar 08, 2024 at 03:08:12PM +0100, Julien Massot wrote:
->> On 3/7/24 20:21, Conor Dooley wrote:
->>> On Tue, Mar 05, 2024 at 04:26:06PM +0100, Julien Massot wrote:
->>>> Add DT bindings for Maxim MAX96714 GMSL2 Deserializer.
->>>>
->>>> Signed-off-by: Julien Massot <julien.massot@collabora.com>
->>>> ---
->>>> Change since v3:
->>>>    - Renamed file to maxim,max96714.yaml dropped the 'f' suffix
->>>
->>> Why? The filename should match the compatible, which /does/ have an f.
->> All the work has been done on MAX96714F variant of this Maxim GMSL2
->> deserializer.
->> The driver and the binding remain suitable for all variants of this chipset,
->> since they share the same
->> register mapping, similar features etc..
->>
->> MAX96714 exists in different variant: MAX96714 / MAX96714F / MAX96714K that
->> will be easy
->> to add support for this binding and driver later.
-> 
-> Either document the non-f version if it really is that similar, using
-> all of the same properties, or name the file after the version you've
-> actually documented. I don't see why this particular case should be
-> given an exception to how bindings are named.
-> 
-> What is the actual difference between the f and non f versions? Is it
-> visible to software?
+On Fri, Mar 08, 2024 at 04:48:16PM +0100, Julien Massot wrote:
+>=20
+>=20
+> On 3/8/24 16:07, Conor Dooley wrote:
+> > On Fri, Mar 08, 2024 at 03:08:12PM +0100, Julien Massot wrote:
+> > > On 3/7/24 20:21, Conor Dooley wrote:
+> > > > On Tue, Mar 05, 2024 at 04:26:06PM +0100, Julien Massot wrote:
+> > > > > Add DT bindings for Maxim MAX96714 GMSL2 Deserializer.
+> > > > >=20
+> > > > > Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> > > > > ---
+> > > > > Change since v3:
+> > > > >    - Renamed file to maxim,max96714.yaml dropped the 'f' suffix
+> > > >=20
+> > > > Why? The filename should match the compatible, which /does/ have an=
+ f.
+> > > All the work has been done on MAX96714F variant of this Maxim GMSL2
+> > > deserializer.
+> > > The driver and the binding remain suitable for all variants of this c=
+hipset,
+> > > since they share the same
+> > > register mapping, similar features etc..
+> > >=20
+> > > MAX96714 exists in different variant: MAX96714 / MAX96714F / MAX96714=
+K that
+> > > will be easy
+> > > to add support for this binding and driver later.
+> >=20
+> > Either document the non-f version if it really is that similar, using
+> > all of the same properties, or name the file after the version you've
+> > actually documented. I don't see why this particular case should be
+> > given an exception to how bindings are named.
+> >=20
+> > What is the actual difference between the f and non f versions? Is it
+> > visible to software?
+>=20
+> Yes there are a few differences visible to the software, for example the
+> GMSL
+> link rate since MAX96714 support 6 and 3 Gbps, while MAX96714F only suppo=
+rts
+> 3Gbps.
+> the registers map is the same, but a few values are not possible with the
+> 'f' version.
+>=20
+> I will add a compatible for the non 'f' version, and will do the same for
+> the max96717 binding.
 
-Yes there are a few differences visible to the software, for example the 
-GMSL
-link rate since MAX96714 support 6 and 3 Gbps, while MAX96714F only 
-supports 3Gbps.
-the registers map is the same, but a few values are not possible with 
-the 'f' version.
+It's not immediately clear if that means that the f version should be a
+fallback for the non-f version, but sounds like it could be if the
+difference is purely that there's a reduced set of link rates or
+similar.
 
-I will add a compatible for the non 'f' version, and will do the same 
-for the max96717 binding.
+--W40v6fOy9DpPu/pY
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Julien Massot
-Senior Software Engineer
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales, no. 5513718
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZetByAAKCRB4tDGHoIJi
+0htFAQCAGppnh/GHai75MVlT/b9AYRkgXulrdtlLA0WKqO4j8wD8DpKGzCGrayAO
+kmkKQV5kZ2cr4pNpysciMQAsApZZfAA=
+=Mxh+
+-----END PGP SIGNATURE-----
+
+--W40v6fOy9DpPu/pY--
 
