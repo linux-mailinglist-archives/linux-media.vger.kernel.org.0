@@ -1,290 +1,178 @@
-Return-Path: <linux-media+bounces-6746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2822876DE6
-	for <lists+linux-media@lfdr.de>; Sat,  9 Mar 2024 00:46:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CCA876DF4
+	for <lists+linux-media@lfdr.de>; Sat,  9 Mar 2024 00:48:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B66ABB212F8
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 23:45:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4547F1C21315
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 23:48:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3E163BBEF;
-	Fri,  8 Mar 2024 23:45:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DFA240871;
+	Fri,  8 Mar 2024 23:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HIQLR7V4"
+	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="L2SVzAze"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AEDC1E4BE;
-	Fri,  8 Mar 2024 23:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709941550; cv=fail; b=EZMnQPPYw63A6wfJztw/CttJi2vWQgnEDVuHOqWC9hJRSi3FQHvfYHa9+nv/rXR1UrUI+N9w9tZ9AKCthnYT9E3D7KogkD8eFwt91rdVpEGqGyWOYVxRVy0Ri/ZRm2o0ZdGkSbRjIGSiVIuDCHXpGRhq7G6WIoMuSQ9DnM3ZOTQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709941550; c=relaxed/simple;
-	bh=kncbNhbgxBwE2VgGMSHS+ZRl0P+tE9+9kYTWve2kZzU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=OKbg5DAvbrkLOGVBmGMioLsR+CGBWXmEi33P2Kh6PsD6kroK8n0G5oPjcQJf8oPtCMRQ9lXgADOF9P1n8zzm+cb92T2U2QBOoqbIpMuIuPfEa1AgIA8s3iM+h+OpIJZ596HEPJrfTOqJjrHTDezscoKwMWsla3DLevFJLvrngpY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HIQLR7V4; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709941548; x=1741477548;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=kncbNhbgxBwE2VgGMSHS+ZRl0P+tE9+9kYTWve2kZzU=;
-  b=HIQLR7V4+dSEo/OAC06v7F6I/kjMhO3zXOWfnCndNaUoXSDT//viromA
-   GrzB7zh2h2ZK/bP2dKh++/t+SBBec0T+D3ZeNd34lUDS57Qth3AoQETff
-   pzbPIYqZBw80PBZT8/OwDlVAwt/g53rehY2RL/8q4uZSX/yBEJBP1XGTt
-   1xEBo9gprgBoyqsBSYrUTvqsy8RNTSwrmSIo6itZSm5ytBT+2k++hK8QZ
-   LejhQpO1d5I2sVo7RY/gJCXQWnMQdXuTllKzQyPtGO5E21OgRdjjYO3hN
-   9MlesPCrdrMDiBi5oXCO6FXGER0NhzbsdO7RVxoqYA/yIFWAdPV/ORehz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="4851167"
-X-IronPort-AV: E=Sophos;i="6.07,111,1708416000"; 
-   d="scan'208";a="4851167"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 15:45:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,111,1708416000"; 
-   d="scan'208";a="10698664"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Mar 2024 15:45:47 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 8 Mar 2024 15:45:46 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 8 Mar 2024 15:45:46 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 8 Mar 2024 15:45:46 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 8 Mar 2024 15:45:45 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FzZ3f/9SnO+SGJqcMAzD7kiaXkocl6t4+MJxyuUQjwIuE8dkDpnTfRwjHivLGZf5vfrGLE61u1Xa66Py1Qe6oPHxcn46xfBpmCzOR+pVkyX0nzSCMT5ix4Qb9Fq9HrsHNRCfPOUas2g/8n7aAV1LW3qjlzxlEeSSbGfcNPCgT2gQ6p9dVJmY7AeXOTDdNCyF+TJVqaX1vxhbbByGkdvUDBIJZ5KyA5GWRFg+emE1xdadzfftyZcrdfsZsiZkwo+I214AhThrY2S3SCodtQN/HN4O3olM6TeUJZ0Wn+SPN5me5zplJVlPCWna91t9WGQFMAvF10/dUrs0ttEfhmlM4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dYutmjQkRw6UWn3ns03GRg6hDLvI5jtjn1cS6z77XM4=;
- b=a+rSFhgtE5XxyK0fO4g+Xu5u0fnjTzjsBbTIoC2bkT/aFfbDJX/ZglvxuB0D+OImZRLvHMP6MrJx6OgJuv9vQrptL0Is/KY6KtA0K5bCUorHJmkI90tbnj90NqGX2BB7VgCLAO0Ni3us+4cweVcXMJ496e9HiN8oJMh083GDTxUQuCs7x6PIdRP0+zFYiegyB1It3oneGTO2tEUufQTJGX/X0x63RbQSts3A3bto6zN8SH47TStvufTkWrys/A07Oe39reCMYc0PxgJoTao7ByKL2u7TiA8wE2AkuqnI4X56xhiNWvbfGm4U79C2qyjrg/uTzlEgnofWwqLyYtXZ5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MW5PR11MB5787.namprd11.prod.outlook.com (2603:10b6:303:192::7)
- by DS0PR11MB7285.namprd11.prod.outlook.com (2603:10b6:8:13d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.22; Fri, 8 Mar
- 2024 23:45:44 +0000
-Received: from MW5PR11MB5787.namprd11.prod.outlook.com
- ([fe80::8814:40fd:3adb:8de2]) by MW5PR11MB5787.namprd11.prod.outlook.com
- ([fe80::8814:40fd:3adb:8de2%6]) with mapi id 15.20.7386.006; Fri, 8 Mar 2024
- 23:45:44 +0000
-From: "Wu, Wentong" <wentong.wu@intel.com>
-To: Dominik Brodowski <linux@dominikbrodowski.net>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>
-CC: "Winkler, Tomas" <tomas.winkler@intel.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: v6.8.0-rc6: mei_ace_probe / mei_vsc_probe: do not call blocking
- ops when !TASK_RUNNING
-Thread-Topic: v6.8.0-rc6: mei_ace_probe / mei_vsc_probe: do not call blocking
- ops when !TASK_RUNNING
-Thread-Index: AQHaam3EvCzE5l33CkGR0g/9d0yezrEgGjAAgADQ1wCAAAJ5gIAAnU4AgA0EQNA=
-Date: Fri, 8 Mar 2024 23:45:44 +0000
-Message-ID: <MW5PR11MB5787E3A96C8EFF3C9F8BC8908D272@MW5PR11MB5787.namprd11.prod.outlook.com>
-References: <Zd9wUv1zSJ59WS8i@shine.dominikbrodowski.net>
- <Zd-BVmoFOiCxA632@kekkonen.localdomain>
- <ZeAwhhW7DSEazs0F@shine.dominikbrodowski.net>
- <ZeAymVVsI-CNj6Pc@kekkonen.localdomain>
- <ZeC2jss4IAM4aPWy@shine.dominikbrodowski.net>
-In-Reply-To: <ZeC2jss4IAM4aPWy@shine.dominikbrodowski.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW5PR11MB5787:EE_|DS0PR11MB7285:EE_
-x-ms-office365-filtering-correlation-id: e0dfb7b0-87a5-498d-7dfe-08dc3fc9def2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MX5f35b1D7tka7EOhH5hX7bCNa0pXB/esd7tboFIalhGDTShT8qPmCr593DeS4T0etp3Da1Swwavr1VH1gFzwyMgZVXpPx0auL6lcg+QFW8DSOT4Ij2xmosWG0crU2sEAs706J3Iy1RQB54rc8pLq3j8RUyeQWDnh5z512k8sK/kq1pmnFkVzZ9QzAK6h3SBUX+myrqMfMLkACNq2b9sQVVEU4t0l1Jb9ys4r9DJ0H18RQcWYq6vHOehqySRR2W0AL4c3dxRA25IEaJ1e7rKo3aNdK8aGDOrgfn1xVISXuLPEAKrqyUo5Qe9uJo0+TqEiObhSkhlA2iJ4AuwP6RdEqSOv0aaLTLPAMqFRf7Z8LZQtBr+BH2aiF071mS8+PC2O8pe6rZ3rHNbJ86GuLoHNcYJhFv8gwTG9vH24lWZ9KOSLsgM9tRCBxO/1ayuXxy4kHm/kMa3Oi4OeHj05CMEM6MV12GahP9xE/HQnCAxQ75Upfc33xtqEM5gWdRCG5DgN1Yr8NzDcHw99IFK85pmGYSILEsHdbKI7Emi0S/zhJyqeeHxnLRcbaz1F45TOkrdt04ba7FhvovUUPqDGArjuGdVIBBhXC/HJvkLKcFpomSTRGm5IFF7Oz2S7XtB6lDpFpBJEmPaC7ClHVbpXK5PT+VEm32SjzgJp3BIIv21N6nLBXGjHI7r8A5XutTuSqdIIVOvWBgI+9/YXoRzf6qnUAWCVFQk+IQhr8QqMS6ICdY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR11MB5787.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2MZVZ7XXftB2Cm1WQ8AX8tYmWoyHmkeC9VIdr0muwLCdplQNb1CEn+Y7wkab?=
- =?us-ascii?Q?pr9rdIK1S6LZkSRGgCaUOMZ35Q3wv3vXnxdBWg7A4Fg7BKyiYFi0PeKaXJfS?=
- =?us-ascii?Q?kUxPndO3MaLtJ0mIOTtbiJUahcTZaPuR555pRCFSVo3Fvttc1JEiG/fPbUnH?=
- =?us-ascii?Q?DknnWw5jc1lk0N+TZ/3K05o7DudEsczoL7msONDSmHwZKDjA/ziEA/wlOGNp?=
- =?us-ascii?Q?rv9jEGMl/rcym5XzKfx+fmVAoLsetSjT/ib3cHpdPrY5ac5H26evUTt+s4lj?=
- =?us-ascii?Q?vJvue3GcjglbeDoOmTKWLxLzBCu1wD/zdL+QRQGx6p+/K8mlg2gWlgYaUseh?=
- =?us-ascii?Q?tqOIlp6tXn/TTZ407JgcNwLkMzmTB+Bw8Z510bgDY85NQf2G3U/FgSWsRbED?=
- =?us-ascii?Q?160X4+2a2X1pLTnkOZbbd6mv0uxf59XYRNywLXiBj3troRvoD0kCRUMfRV4Z?=
- =?us-ascii?Q?ObRw2QPicKwmgfKNZR9CNXH8GW4GfxSHPcrUBHXiiRMLUiVUMXDwE0Y/h5p0?=
- =?us-ascii?Q?h+T0Z5fVKDwDYevcs/AGifzR/em2dbw3X4qpMviHdXuWbvhwra2nkUw4p5ni?=
- =?us-ascii?Q?dIZwyuRI4fY4y+O04r8C9QPdr6CnPmKt1+Tg52LRjQPsXgCMnqpwVqOSn12N?=
- =?us-ascii?Q?TzCSvWCb5RVgqh/3qjpfbrZmunS3TSaX+wv6CL3dsbHOdDzlLBHqGA5bm1/l?=
- =?us-ascii?Q?8ugXF/DaVTB7ZaDyPlT4fu6j2wrwZrm43tFEipRn/3h91mPSv4Q8g4vwZ/2N?=
- =?us-ascii?Q?Yiy303++mhqJvjmIv9Rrrr+q4uEwCzE7+4+zmIv5owoY66xkNrhtkkTdVSy2?=
- =?us-ascii?Q?cW9Hl5jEu/E9dv2TeaSBskvVYVTx3QWNc/gkPFsE41LhZGIXNDEI5sZZDWe6?=
- =?us-ascii?Q?EayWS+ojd7IJ4rPV/9z6lhcUjw65myJeFyp8RniXzSWifd4cp1bqyWcz813h?=
- =?us-ascii?Q?2iCDKaO0Cl3KjtAhmvUHruyLFrnK9OzHbQ1i6St70PuoP8Oe0GENsYh0upfZ?=
- =?us-ascii?Q?q0gRLPY8DIbiOvlgXAPrGSPzB9DqdGDvEHPI4nlOv6db3LAa1wcVzE9DQNQs?=
- =?us-ascii?Q?WG6Nv3arC47JpMmhAMWfHnlO8K8foAJRLWwlDDufi0uwGBbPX8JYgtKqrCQm?=
- =?us-ascii?Q?mFOPDU/hklWM4Kxnnu90jkwZaLjSpvr8af8a1iX6JT9aYDrG1cqFgey1ZbUG?=
- =?us-ascii?Q?TQ9sZjZGga+B8tGR805jQeNlDFBBrQH1mLY2ipTGBFyZZIKUh7210ACjkTdx?=
- =?us-ascii?Q?pmLPgqVUNKNGZPgIA15IjE6nMm5C2LtaR+JdvvKcNbggShickbC25jiDJpYS?=
- =?us-ascii?Q?HKtBo2q7Y1FIq/hi7h+qhG1YpNiXcW5m0jqgjmLVu1AOpanUemVK/ddCPP4Y?=
- =?us-ascii?Q?1IRlmXFqRKKjctOH8HsCSnnkjg44THhu9lmuD6m8sTX+llqKxOI18FtQX5vb?=
- =?us-ascii?Q?4QoKm58vrPEx2iWnejeDEsxXntZNfHdBcqVAyh6t8P5EdLT0EwirLB+dpB3P?=
- =?us-ascii?Q?jP2/nbcm5uDBR3av+YMiEEd+UfXxmEDhZeVrTagjRmZQ9oC1iQ87CQhoth+4?=
- =?us-ascii?Q?Kql8PnCRVY+GopGbcARMtKmM/kFQKYC1/EtYKNlx?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1614C3BBDF
+	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 23:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709941680; cv=none; b=Vorru+EqoBFPbekHkM29OX50zLPthGRiWdnJf3qz/h8oH7fwYKj/uzydzJGKX0sijhAiNmX6ll4S4QimsPVaFkJKk0SYPYyzLL5j5pgbBWdMRttq4w1yMdJxDPlUF+c9Lz4tyleEyYBEGz3YSMkqxLYfHYX6JsXXdNv9dXm5JWo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709941680; c=relaxed/simple;
+	bh=dchB7UCiRqdqw0lIYP5nDwZdV0ZR/CGk1fMQm9ZuI6c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=umZxbnHdHrxi8qMZTprX34dLk0g1+9cJ2Wuf4voebmZt+Yd7xVUvPpjq/9DRzf+5r3v5TqXk9BgoU8cxlyyol2kWxJLNuVAwXzKb9ivpDC3A9ir1K3z90d+5F1/xN6t9BzNiboG1Xo9F6Lkd941iE2+QXuIwyD7jjFHwe85pTls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=L2SVzAze; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2997a92e23bso996698a91.3
+        for <linux-media@vger.kernel.org>; Fri, 08 Mar 2024 15:47:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1709941676; x=1710546476; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9az8igjncgnaY0U1W1wkJljIYsplkUiE6Xc4XiRbO+4=;
+        b=L2SVzAzePwXBRM6vqpB+QFbzZEMkhm600Z9LNU18bXT3rfz7fAe/P7ogRt60U4uG7i
+         HXLidI2y6SP+IL0S0e8jPXgk0ZTJpN0/8y7eullrSL868jS664cbUrjHCXR4O/6af6wp
+         ZFLM6nJH/aSwMmPRAQgT5BU9GqHvIXEaYVB8iHQqH1I3dbD8/HOv68ShDA3QuRuclBlr
+         9zrKlcKkyUVAbCme+7X6/7vFm8kDVZig93IjG7yddBQmcoZmtKttWjR3jTz/d2rjhG8X
+         +gu3mBdIQhOXdcGDqOlGqigx5LEmPztkJ7/Ngv2Sp4AYJ5m8wOa7K11omw88Hs+ppJ82
+         5Ogg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709941676; x=1710546476;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9az8igjncgnaY0U1W1wkJljIYsplkUiE6Xc4XiRbO+4=;
+        b=N7Orma/fDfFPsecVihLm79RUw/qCJii0n1L5bprJLJo2+7nQTVUgcKHje9/5jPdzWm
+         nI4qEmSAgVB7AcwIMdjWfF6mFQXtc5agShSsx2sir/pGqQmW+3dqJE6cQvXIFjnZakUE
+         4lPZu20tbtVlvw9uGvLH0Ch06eeaakxiseb7x4nyXQAzjticzBuZiJpUD1MUfzBXXRKf
+         iCYT7DAwFd25LVZaYxVrJjVyEw4Pek5ZeXjeZ1B9yHBx28wd3XJl9tUk3vixIVsYlxvC
+         Em5rPC8VTiWVgQ9D6nBE5ikzuH50ipnZqaQDd2zySpU8eGnbFJbYc9B9VG1eTCoOKmgY
+         Iz0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUqkkVM8qWq0qoMLNpp2KbMXdP19CTBs2ROksu6YL0C0g/LLEsC6AUkrl4O6u+lc0YO17VVCVf+5/i9+X9jaxtByeRu0NHf0fntVxE=
+X-Gm-Message-State: AOJu0Yx0VSsiRSf2NJj6yCw0PiBXHq+deey46nChniV+stOV5nzbPSZJ
+	POwxix13iCRM0+5YpBInbxu4ZQd5YoO4pYRPlIgC2HBUEzDC1acAAh6oWBmR2sU=
+X-Google-Smtp-Source: AGHT+IF8a9eHGDem6IS2N02q+0T3yH36EZ/hJ5LpJRaMKjh8ZuXGZ+UFipKrEBkF+ws+Cz/PyRkACw==
+X-Received: by 2002:a17:90b:1286:b0:29a:e097:50be with SMTP id fw6-20020a17090b128600b0029ae09750bemr690309pjb.31.1709941676412;
+        Fri, 08 Mar 2024 15:47:56 -0800 (PST)
+Received: from ?IPV6:2a03:83e0:1156:1:1cbd:da2b:a9f2:881? ([2620:10d:c090:500::5:2342])
+        by smtp.gmail.com with ESMTPSA id d15-20020a17090ad98f00b0029bbf42daeesm265183pjv.30.2024.03.08.15.47.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Mar 2024 15:47:56 -0800 (PST)
+Message-ID: <54891f27-555a-4ed1-b92f-668813c18c37@davidwei.uk>
+Date: Fri, 8 Mar 2024 15:47:51 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR11MB5787.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0dfb7b0-87a5-498d-7dfe-08dc3fc9def2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2024 23:45:44.1117
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XffrMsfEPimLAYeXIfzFuGPLOInoQr56pbHG1oGJ49ANUTuVGjBai+/gqcd6NIge7rmlrpsBFYhcp5FkZUp2jw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7285
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
+Content-Language: en-GB
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-2-almasrymina@google.com>
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <20240305020153.2787423-2-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Dominik,
+On 2024-03-04 18:01, Mina Almasry wrote:
+> This API enables the net stack to reset the queues used for devmem.
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+> ---
+>  include/linux/netdevice.h | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> index c41019f34179..3105c586355d 100644
+> --- a/include/linux/netdevice.h
+> +++ b/include/linux/netdevice.h
+> @@ -1435,6 +1435,20 @@ struct netdev_net_notifier {
+>   *			   struct kernel_hwtstamp_config *kernel_config,
+>   *			   struct netlink_ext_ack *extack);
+>   *	Change the hardware timestamping parameters for NIC device.
+> + *
+> + * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
+> + *	Allocate memory for an RX queue. The memory returned in the form of
+> + *	a void * can be passed to ndo_queue_mem_free() for freeing or to
+> + *	ndo_queue_start to create an RX queue with this memory.
+> + *
+> + * void	(*ndo_queue_mem_free)(struct net_device *dev, void *);
+> + *	Free memory from an RX queue.
+> + *
+> + * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
+> + *	Start an RX queue at the specified index.
+> + *
+> + * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
+> + *	Stop the RX queue at the specified index.
+>   */
+>  struct net_device_ops {
+>  	int			(*ndo_init)(struct net_device *dev);
+> @@ -1679,6 +1693,16 @@ struct net_device_ops {
+>  	int			(*ndo_hwtstamp_set)(struct net_device *dev,
+>  						    struct kernel_hwtstamp_config *kernel_config,
+>  						    struct netlink_ext_ack *extack);
+> +	void *			(*ndo_queue_mem_alloc)(struct net_device *dev,
+> +						       int idx);
+> +	void			(*ndo_queue_mem_free)(struct net_device *dev,
+> +						      void *queue_mem);
+> +	int			(*ndo_queue_start)(struct net_device *dev,
+> +						   int idx,
+> +						   void *queue_mem);
+> +	int			(*ndo_queue_stop)(struct net_device *dev,
+> +						  int idx,
+> +						  void **out_queue_mem);
+>  };
 
-Did you try master branch (v6.8) without IPU6 driver? There
-should be problems with the IPU6 driver you use as below:
+I'm working to port bnxt over to using this API. What are your thoughts
+on maybe pulling this out and use bnxt to drive it?
 
-> intel-ipu6 0000:00:05.0: Found supported sensor OVTI01A0:00
-> intel-ipu6 0000:00:05.0: Connected 1 cameras
-
-If not, could you please help try it on your side? Thanks a lot
-
-BR,
-Wentong
-> From: Dominik Brodowski <linux@dominikbrodowski.net>
->=20
-> Hi Sakari,
->=20
-> Am Thu, Feb 29, 2024 at 07:30:33AM +0000 schrieb Sakari Ailus:
-> > On Thu, Feb 29, 2024 at 08:21:42AM +0100, Dominik Brodowski wrote:
-> > > Hi Sakari,
-> > >
-> > > many thanks, this patch helps. Another issue persists, though:
-> > >
-> > >
-> > > $ dmesg | cut -c16- | grep -E "(mei|vsc)"
-> > > mei_me 0000:00:16.0: enabling device (0000 -> 0002) mei_hdcp
-> > > 0000:00:16.0-b638ab7e-94e2-4ea2-a552-d1c54b627f04: bound
-> > > 0000:00:02.0 (ops i915_hdcp_ops) mei_pxp
-> > > 0000:00:16.0-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1: bound
-> > > 0000:00:02.0 (ops i915_pxp_tee_component_ops) intel_vsc intel_vsc:
-> > > silicon stepping version is 0:2 mei
-> > > intel_vsc-92335fcf-3203-4472-af93-7b4453ac29da: deferred probe
-> > > pending: (reason unknown) mei
-> > > intel_vsc-5db76cf6-0a68-4ed6-9b78-0361635e2447: deferred probe
-> > > pending: (reason unknown)
-> >
-> > You'll probably need the IPU bridge patches from that branch, too. Or
-> > you can try removing the intel-ipu6 driver and modprobing it again.
->=20
-> Everything is built into the kernel here - and the kernel I run is pure
-> upstream (plus your patch), therefore no intel-ipu6 driver is available
-> (yet) or active.
->=20
-> > > During suspend entry (s2idle), the following messages are emitted:
-> > >
-> > > ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments -
-> > > Caller passed 0, method requires 1 (20230628/nsarguments-232)
-> > > intel_vsc intel_vsc: silicon stepping version is 0:2
-> > > PM: Some devices failed to suspend, or early wake event detected
-> > > ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments -
-> > > Caller passed 0, method requires 1 (20230628/nsarguments-232)
-> > > intel_vsc intel_vsc: silicon stepping version is 0:2 vsc-tp
-> > > spi-INTC1094:00: wakeup firmware failed ret: -110 vsc-tp
-> > > spi-INTC1094:00: wakeup firmware failed ret: -110 intel_vsc
-> > > intel_vsc: wait fw ready failed: -110 intel_vsc intel_vsc: hw_start
-> > > failed ret =3D -110 fw status =3D intel_vsc intel_vsc: unexpected res=
-et:
-> > > dev_state =3D RESETTING fw status =3D ACPI Warning:
-> > > \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments - Caller passed
-> > > 0, method requires 1 (20230628/nsarguments-232) intel_vsc intel_vsc:
-> > > silicon stepping version is 0:2
-> >
-> > I haven't tried suspending. Is this while streaming or not?
->=20
-> No streaming - in fact, without intel-ipu6 available (upstream + your pat=
-ch,
-> see above).
->=20
->=20
-> I have now tried upstream plus the ipu6 branch; there I get one message
-> indicating that something is amiss:
->=20
-> 	vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
->=20
-> And if I try to do a suspend&resume cycle, the machine hangs. A longer
-> snippet from dmesg from upstream+ipu6 branch:
->=20
-> mei_me 0000:00:16.0: enabling device (0000 -> 0002) mei_hdcp 0000:00:16.0=
--
-> b638ab7e-94e2-4ea2-a552-d1c54b627f04: bound 0000:00:02.0 (ops
-> i915_hdcp_ops) mei_pxp 0000:00:16.0-fbf6fcf1-96cf-4e2e-a6a6-
-> 1bab8cbe36b1: bound 0000:00:02.0 (ops i915_pxp_tee_component_ops)
-> intel-ipu6 0000:00:05.0: enabling device (0000 -> 0002)
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925 intel_vsc intel_vsc: silico=
-n
-> stepping version is 0:2
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925 vsc-tp spi-INTC1094:00:
-> wakeup firmware failed ret: -110
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 0x0 mask 0xff
-> intel-ipu6 0000:00:05.0: FW version: 20230925
-> intel-ipu6 0000:00:05.0: Found supported sensor OVTI01A0:00
-> intel-ipu6 0000:00:05.0: Connected 1 cameras
-> intel-ipu6 0000:00:05.0: IPU6-v3[465d] hardware version 5
->=20
->=20
-> Best,
-> 	Dominik
+>  
+>  /**
 
