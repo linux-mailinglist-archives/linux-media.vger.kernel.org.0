@@ -1,313 +1,256 @@
-Return-Path: <linux-media+bounces-6683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6684-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E88E875E97
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 08:34:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0975875F33
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 09:15:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6E821F233CE
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 07:34:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8473F282816
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 08:15:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2431F4F208;
-	Fri,  8 Mar 2024 07:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3187A50A83;
+	Fri,  8 Mar 2024 08:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UNBuK9hp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3304E555;
-	Fri,  8 Mar 2024 07:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124BF42A84
+	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 08:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709883273; cv=none; b=Y4Ys2hgFNt1A0L31fnOdA6q9KeY86MiTZs7SJEOE9DD5ukNslZyUPaup0XznfR9trdwjiukNGBnTQfUXoiuNQIsVWhr6H/bqFETvFXoN2FrHfI9eJ/6pFP/WIUYjn7PUmK6RoGChQ2EsbuDxg+w2iFxv8DK3UoGUwVZSJky7ieM=
+	t=1709885710; cv=none; b=hWuKjZZ4/ebDIndmGUMyv/0fgnF3g47IteEn3RPJaQu0lObvuFPKrCwRSS9wfSQF52PraXthzF2ED6T1+NR3zsaFb5pTDXwSzH6UVdaA+9h1sMNOnv31pShwIiy++a6b+zO2+6mw0PpPS/MUs+/rlkBU9g/mITUt7+L9Dt/7xcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709883273; c=relaxed/simple;
-	bh=vd5gMQBUeDRDOvQP1as1pstmJzpr8WwIvQ3zpngO2PY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=CvwY5AtIMLEjEdzoIMp5xOszz5/PMD50TtF08GK57Nm2zkMEt5WonLwhzSk+lvt4fuFFqzaRv8mfVa89238RSKJkZM93oKZw4TPGYMOSiK9+79ZhZSNrECi4gZ+9lnbO7+L83zunTvZL1bYh0aGJv7zLVKAswqGdx2iSmRX87eA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 453CAC433F1;
-	Fri,  8 Mar 2024 07:34:30 +0000 (UTC)
-Message-ID: <df05261f-2f0e-490f-883b-72ad8a02d11b@xs4all.nl>
-Date: Fri, 8 Mar 2024 08:34:28 +0100
+	s=arc-20240116; t=1709885710; c=relaxed/simple;
+	bh=MAKRGee7X8S6llzxt65AYUlVG+dXz/oKHmaaxwXjfNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WP7P4mwv5yZnS+SO+OzWUKHL9vEt4TMUywcRbtWriDIn/UGvLgFWnYP5YG9ec86gI9WjREL8gdby+F6nXaljdE+AP2oFEgPlpjfQiVNMlCMDGDOznRVlt++QnVjc6TnKQDtyZeP8z0TNJIzoiv6AzHDjJInnIZ0dkNgzv3mj7po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UNBuK9hp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0656552;
+	Fri,  8 Mar 2024 09:14:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1709885686;
+	bh=MAKRGee7X8S6llzxt65AYUlVG+dXz/oKHmaaxwXjfNk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UNBuK9hpsXueE/CuJfQ30TS1qIWlqRnDrtmV1Pg4QO204kL7F6n3XTxWWwoyWj+x/
+	 OGiWRVtNU/nfGlliTh2qftmL5OPq5Hb+p1RpxVZdfXz2F02KQrZO3mZ8VjPorpXsAd
+	 0eEpLGEIwBX3IAsx41K4y2wAZgSPjkG8kGfT5QgQ=
+Date: Fri, 8 Mar 2024 09:15:02 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Naushir Patuck <naush@raspberrypi.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, David Plowman <david.plowman@raspberrypi.com>, 
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v3 6/9] media: uapi: Add PiSP Compressed RAW Bayer formats
+Message-ID: <izacz26sxwjhfcrbomijadhcnvs7vjhmgvwlofvghgwupqj5vn@z6wct3xh4hvs>
+References: <20240305160855.147483-1-jacopo.mondi@ideasonboard.com>
+ <20240305160855.147483-7-jacopo.mondi@ideasonboard.com>
+ <CAEmqJPpfNAHDyiv-_1dxJ9-BAi8tz8_hZ08VB7kaYvcq=6qBAw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 09/16] media: uapi: Define audio sample format fourcc
- type
-Content-Language: en-US, nl
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
- tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
- perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
- linuxppc-dev@lists.ozlabs.org
-References: <1708936109-11587-1-git-send-email-shengjiu.wang@nxp.com>
- <1708936109-11587-10-git-send-email-shengjiu.wang@nxp.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <1708936109-11587-10-git-send-email-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAEmqJPpfNAHDyiv-_1dxJ9-BAi8tz8_hZ08VB7kaYvcq=6qBAw@mail.gmail.com>
 
-Hi Shengjiu,
+Hi Naush
 
-After thinking it over I think this patch can be improved:
+On Wed, Mar 06, 2024 at 12:53:03PM +0000, Naushir Patuck wrote:
+> Hi Jacopo,
+>
+> Thank you for your patch.
+>
+> On Tue, 5 Mar 2024 at 16:09, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+> >
+> > Add Raspberry Pi compressed RAW Bayer formats.
+> >
+> > The compression algorithm description is provided by Nick Hollinghurst
+> > <nick.hollinghurst@raspberrypi.com> from Raspberry Pi.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  .../userspace-api/media/v4l/pixfmt-bayer.rst  |  1 +
+> >  .../media/v4l/pixfmt-pisp-comp-rggb.rst       | 70 +++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          | 10 +++
+> >  include/uapi/linux/videodev2.h                | 12 ++++
+> >  4 files changed, 93 insertions(+)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
+>
+> Does the filename need to have the Bayer order suffix (rggb in this
+> case), or would it be better to name it pixfmt-pisp-comp?
+>
 
-On 26/02/2024 9:28 am, Shengjiu Wang wrote:
-> The audio sample format definition is from alsa,
-> the header file is include/uapi/sound/asound.h, but
-> don't include this header file directly, because in
-> user space, there is another copy in alsa-lib.
-> There will be conflict in userspace for include
-> videodev2.h & asound.h and asoundlib.h
-> 
-> Here still use the fourcc format.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-audio.rst  | 87 +++++++++++++++++++
->  .../userspace-api/media/v4l/pixfmt.rst        |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 13 +++
->  include/uapi/linux/videodev2.h                | 23 +++++
->  4 files changed, 124 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.rst
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-audio.rst b/Documentation/userspace-api/media/v4l/pixfmt-audio.rst
-> new file mode 100644
-> index 000000000000..04b4a7fbd8f4
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-audio.rst
-> @@ -0,0 +1,87 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +
-> +.. _pixfmt-audio:
-> +
-> +*************
-> +Audio Formats
-> +*************
-> +
-> +These formats are used for :ref:`audiomem2mem` interface only.
+The other RAW formats file names have an 'srggb' suffix but I guess the
+relevant part there is the bit-depth and any eventual compression
 
-Here you should also document that all these fourccs start with 'AU' and are
-reserved for mappings of the snd_pcm_format_t type.
+Documentation/userspace-api/media/v4l/pixfmt-srggb10alaw8.rst
+Documentation/userspace-api/media/v4l/pixfmt-srggb10dpcm8.rst
+Documentation/userspace-api/media/v4l/pixfmt-srggb10-ipu3.rst
+Documentation/userspace-api/media/v4l/pixfmt-srggb10p.rst
+Documentation/userspace-api/media/v4l/pixfmt-srggb10.rst
+Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst
 
-Also document the v4l2_fourcc_to_audfmt define and the v4l2_audfmt_to_fourcc
-define (see also below).
+I would say the correct name would probably be then
 
-> +
-> +.. tabularcolumns:: |p{5.8cm}|p{1.2cm}|p{10.3cm}|
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: Audio Format
-> +    :header-rows:  1
-> +    :stub-columns: 0
-> +    :widths:       3 1 4
-> +
-> +    * - Identifier
-> +      - Code
-> +      - Details
-> +    * .. _V4L2-AUDIO-FMT-S8:
-> +
-> +      - ``V4L2_AUDIO_FMT_S8``
-> +      - 'S8'
-> +      - Corresponds to SNDRV_PCM_FORMAT_S8 in ALSA
-> +    * .. _V4L2-AUDIO-FMT-S16-LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_S16_LE``
-> +      - 'S16_LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_S16_LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-U16-LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_U16_LE``
-> +      - 'U16_LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_U16_LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-S24-LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_S24_LE``
-> +      - 'S24_LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_S24_LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-U24-LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_U24_LE``
-> +      - 'U24_LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_U24_LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-S32-LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_S32_LE``
-> +      - 'S32_LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_S32_LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-U32-LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_U32_LE``
-> +      - 'U32_LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_U32_LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-FLOAT-LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_FLOAT_LE``
-> +      - 'FLOAT_LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_FLOAT_LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-IEC958-SUBFRAME-LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE``
-> +      - 'IEC958_SUBFRAME_LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-S24-3LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_S24_3LE``
-> +      - 'S24_3LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_S24_3LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-U24-3LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_U24_3LE``
-> +      - 'U24_3LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_U24_3LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-S20-3LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_S20_3LE``
-> +      - 'S20_3LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_S24_3LE in ALSA
-> +    * .. _V4L2-AUDIO-FMT-U20-3LE:
-> +
-> +      - ``V4L2_AUDIO_FMT_U20_3LE``
-> +      - 'U20_3LE'
-> +      - Corresponds to SNDRV_PCM_FORMAT_U20_3LE in ALSA
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt.rst b/Documentation/userspace-api/media/v4l/pixfmt.rst
-> index 11dab4a90630..2eb6fdd3b43d 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt.rst
-> @@ -36,3 +36,4 @@ see also :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`.)
->      colorspaces
->      colorspaces-defs
->      colorspaces-details
-> +    pixfmt-audio
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 961abcdf7290..be229c69e991 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1471,6 +1471,19 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_Y210:		descr = "10-bit YUYV Packed"; break;
->  	case V4L2_PIX_FMT_Y212:		descr = "12-bit YUYV Packed"; break;
->  	case V4L2_PIX_FMT_Y216:		descr = "16-bit YUYV Packed"; break;
-> +	case V4L2_AUDIO_FMT_S8:		descr = "8-bit Signed"; break;
-> +	case V4L2_AUDIO_FMT_S16_LE:	descr = "16-bit Signed LE"; break;
-> +	case V4L2_AUDIO_FMT_U16_LE:		descr = "16-bit Unsigned LE"; break;
-> +	case V4L2_AUDIO_FMT_S24_LE:		descr = "24(32)-bit Signed LE"; break;
-> +	case V4L2_AUDIO_FMT_U24_LE:		descr = "24(32)-bit Unsigned LE"; break;
-> +	case V4L2_AUDIO_FMT_S32_LE:		descr = "32-bit Signed LE"; break;
-> +	case V4L2_AUDIO_FMT_U32_LE:		descr = "32-bit Unsigned LE"; break;
-> +	case V4L2_AUDIO_FMT_FLOAT_LE:		descr = "32-bit Float LE"; break;
-> +	case V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE:	descr = "32-bit IEC958 LE"; break;
-> +	case V4L2_AUDIO_FMT_S24_3LE:		descr = "24(24)-bit Signed LE"; break;
-> +	case V4L2_AUDIO_FMT_U24_3LE:		descr = "24(24)-bit Unsigned LE"; break;
-> +	case V4L2_AUDIO_FMT_S20_3LE:		descr = "20(24)-bit Signed LE"; break;
-> +	case V4L2_AUDIO_FMT_U20_3LE:		descr = "20(24)-bit Unsigned LE"; break;
->  
->  	default:
->  		/* Compressed formats */
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 2c03d2dfadbe..673a6235a029 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -843,6 +843,29 @@ struct v4l2_pix_format {
->  #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
->  #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
->  
-> +/*
-> + * Audio-data formats
-> + * All these audio formats use a fourcc starting with 'AU'
-> + * followed by the SNDRV_PCM_FORMAT_ value from asound.h.
+     srggb-pisp-comp.rst
 
-Also document here that fourccs starting with 'AU' are reserved for
-the snd_pcm_format_t to fourcc mappings.
+as it denotes it's a raw format. Being it an 8-bit format we could
+even go do srggb8-pisp-comp.rst ?
 
-That to avoid that someone adds a 'AUXX' fourcc later.
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > index 2500413e5f43..81b69ea4084a 100644
+> > --- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > @@ -30,3 +30,4 @@ orders. See also `the Wikipedia article on Bayer filter
+> >      pixfmt-srggb14
+> >      pixfmt-srggb14p
+> >      pixfmt-srggb16
+> > +    pixfmt-pisp-comp-rggb
 
-> + */
-> +#define V4L2_AUDIO_FMT_S8			v4l2_fourcc('A', 'U', '0', '0')
-> +#define V4L2_AUDIO_FMT_S16_LE			v4l2_fourcc('A', 'U', '0', '2')
-> +#define V4L2_AUDIO_FMT_U16_LE			v4l2_fourcc('A', 'U', '0', '4')
-> +#define V4L2_AUDIO_FMT_S24_LE			v4l2_fourcc('A', 'U', '0', '6')
-> +#define V4L2_AUDIO_FMT_U24_LE			v4l2_fourcc('A', 'U', '0', '8')
-> +#define V4L2_AUDIO_FMT_S32_LE			v4l2_fourcc('A', 'U', '1', '0')
-> +#define V4L2_AUDIO_FMT_U32_LE			v4l2_fourcc('A', 'U', '1', '2')
-> +#define V4L2_AUDIO_FMT_FLOAT_LE			v4l2_fourcc('A', 'U', '1', '4')
-> +#define V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE	v4l2_fourcc('A', 'U', '1', '8')
-> +#define V4L2_AUDIO_FMT_S24_3LE			v4l2_fourcc('A', 'U', '3', '2')
-> +#define V4L2_AUDIO_FMT_U24_3LE			v4l2_fourcc('A', 'U', '3', '4')
-> +#define V4L2_AUDIO_FMT_S20_3LE			v4l2_fourcc('A', 'U', '3', '6')
-> +#define V4L2_AUDIO_FMT_U20_3LE			v4l2_fourcc('A', 'U', '3', '8')
-> +
-> +#define v4l2_fourcc_to_audfmt(fourcc)	\
-> +	(__force snd_pcm_format_t)(((((fourcc) >> 16) & 0xff) - '0') * 10  \
-> +				   + ((((fourcc) >> 24) & 0xff) - '0'))
-> +
+'p' comes before 's'
 
-As I suggested in an earlier reply, add this:
+One day I'll learn the alphabet
 
-#define v4l2_audfmt_to_fourcc(audfmt) \
- 	v4l2_fourcc('A', 'U', '0' + (audfmt) / 10, '0' + (audfmt) % 10)
-
-Even though it is not used in the drivers, since this is a public header used
-by drivers and applications, it makes sense to provide the reverse mapping as well.
-
-Please test it in actual code to make sure there are no compilation warnings.
-
-Regards,
-
-	Hans
-
->  /* priv field value to indicates that subsequent fields are valid. */
->  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
->  
-
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst b/Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
+> > new file mode 100644
+> > index 000000000000..7be1b25b2241
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
+> > @@ -0,0 +1,70 @@
+> > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> > +
+> > +.. _v4l2-pix-fmt-pisp-comp1-rggb:
+> > +.. _v4l2-pix-fmt-pisp-comp1-grbg:
+> > +.. _v4l2-pix-fmt-pisp-comp1-gbrg:
+> > +.. _v4l2-pix-fmt-pisp-comp1-bggr:
+> > +.. _v4l2-pix-fmt-pisp-comp1-mono:
+> > +.. _v4l2-pix-fmt-pisp-comp2-rggb:
+> > +.. _v4l2-pix-fmt-pisp-comp2-grbg:
+> > +.. _v4l2-pix-fmt-pisp-comp2-gbrg:
+> > +.. _v4l2-pix-fmt-pisp-comp2-bggr:
+> > +.. _v4l2-pix-fmt-pisp-comp2-mono:
+> > +
+> > +================================================
+> > +Raspberry Pi PiSP compressed 8-bit Bayer formats
+> > +================================================
+> > +
+> > +Description
+> > +===========
+> > +
+> > +Raspberry Pi ISP uses a family of three fixed-rate compressed Bayer formats.
+>
+> s/Raspberry Pi ISP/The Raspberry Pi ISP (PiSP)/
+>
+> These very minor comments aside:
+> Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
+>
+> > +A black-level offset may be subtracted to improve compression efficiency;
+> > +the nominal black level and amount of offset must be signalled out of band.
+> > +Each scanline is padded to a multiple of 8 pixels wide, and each block of 8
+> > +horizontally-contiguous pixels is coded using 8 bytes.
+> > +
+> > +Mode 1 uses a quantization and delta-based coding scheme which preserves up to
+> > +12 significant bits. Mode 2 is a simple sqrt-like companding scheme with 6 PWL
+> > +chords, preserving up to 12 significant bits. Mode 3 combines both companding
+> > +(with 4 chords) and the delta scheme, preserving up to 14 significant bits.
+> > +
+> > +The remainder of this description applies to Modes 1 and 3.
+> > +
+> > +Each block of 8 pixels is separated into even and odd phases of 4 pixels,
+> > +coded independently by 32-bit words at successive locations in memory.
+> > +The two LS bits of each 32-bit word give its "quantization mode".
+> > +
+> > +In quantization mode 0, the lowest 321 quantization levels are multiples of
+> > +FSD/4096 and the remaining levels are successive multiples of FSD/2048.
+> > +Quantization modes 1 and 2 use linear quantization with step sizes of
+> > +FSD/1024 and FSD/512 respectively. Each of the four pixels is quantized
+> > +independently, with rounding to the nearest level.
+> > +In quantization mode 2 where the middle two samples have quantized values
+> > +(q1,q2) both in the range [384..511], they are coded using 9 bits for q1
+> > +followed by 7 bits for (q2 & 127). Otherwise, for quantization modes
+> > +0, 1 and 2: a 9-bit field encodes MIN(q1,q2) which must be in the range
+> > +[0..511] and a 7-bit field encodes (q2-q1+64) which must be in [0..127].
+> > +
+> > +Each of the outer samples (q0,q3) is encoded using a 7-bit field based
+> > +on its inner neighbour q1 or q2. In quantization mode 2 where the inner
+> > +sample has a quantized value in the range [448..511], the field value is
+> > +(q0-384). Otherwise for quantization modes 0, 1 and 2: The outer sample
+> > +is encoded as (q0-MAX(0,q1-64)). q3 is likewise coded based on q2.
+> > +Each of these values must be in the range [0..127]. All these fields
+> > +of 2, 9, 7, 7, 7 bits respectively are packed in little-endian order
+> > +to give a 32-bit word with LE byte order.
+> > +
+> > +Quantization mode 3 has a "7.5-bit" escape, used when none of the above
+> > +encodings will fit. Each pixel value is quantized to the nearest of 176
+> > +levels, where the lowest 48 levels are multiples of FSD/256 and the
+> > +remaining levels are multiples of FSD/512 (level 175 represents values
+> > +very close to FSD and may require saturating arithmetic to decode).
+> > +
+> > +Each pair of quantized pixels (q0,q1) or (q2,q3) is jointly coded
+> > +by a 15-bit field: 2816*(q0>>4) + 16*q1 + (q0&15).
+> > +Three fields of 2, 15, 15 bits are packed in LE order {15,15,2}.
+> > +
+> > +An implementation of a software decoder of compressed formats is available
+> > +in `Raspberry Pi camera applications code base
+> > +<https://github.com/raspberrypi/rpicam-apps/blob/main/image/dng.cpp>_`.
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > index 18e9aa1297e1..fc7af7337ab4 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -1516,6 +1516,16 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+> >                 case V4L2_PIX_FMT_MT2110T:      descr = "Mediatek 10bit Tile Mode"; break;
+> >                 case V4L2_PIX_FMT_MT2110R:      descr = "Mediatek 10bit Raster Mode"; break;
+> >                 case V4L2_PIX_FMT_HEXTILE:      descr = "Hextile Compressed Format"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP1_RGGB: descr = "PiSP 8b RGRG/GBGB mode1 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP1_GRBG: descr = "PiSP 8b GRGR/BGBG mode1 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP1_GBRG: descr = "PiSP 8b GBGB/RGRG mode1 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP1_BGGR: descr = "PiSP 8b BGBG/GRGR mode1 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP1_MONO: descr = "PiSP 8b monochrome mode1 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP2_RGGB: descr = "PiSP 8b RGRG/GBGB mode2 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP2_GRBG: descr = "PiSP 8b GRGR/BGBG mode2 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP2_GBRG: descr = "PiSP 8b GBGB/RGRG mode2 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP2_BGGR: descr = "PiSP 8b BGBG/GRGR mode2 compr"; break;
+> > +               case V4L2_PIX_FMT_PISP_COMP2_MONO: descr = "PiSP 8b monochrome mode2 compr"; break;
+> >                 default:
+> >                         if (fmt->description[0])
+> >                                 return;
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > index c3daf61f43d5..feab8a153d2e 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -818,6 +818,18 @@ struct v4l2_pix_format {
+> >  #define V4L2_PIX_FMT_IPU3_SGRBG10      v4l2_fourcc('i', 'p', '3', 'G') /* IPU3 packed 10-bit GRBG bayer */
+> >  #define V4L2_PIX_FMT_IPU3_SRGGB10      v4l2_fourcc('i', 'p', '3', 'r') /* IPU3 packed 10-bit RGGB bayer */
+> >
+> > +/* Raspberry Pi PiSP compressed formats. */
+> > +#define V4L2_PIX_FMT_PISP_COMP1_RGGB   v4l2_fourcc('P', 'C', '1', 'R') /* PiSP 8-bit mode 1 compressed RGGB bayer */
+> > +#define V4L2_PIX_FMT_PISP_COMP1_GRBG   v4l2_fourcc('P', 'C', '1', 'G') /* PiSP 8-bit mode 1 compressed GRBG bayer */
+> > +#define V4L2_PIX_FMT_PISP_COMP1_GBRG   v4l2_fourcc('P', 'C', '1', 'g') /* PiSP 8-bit mode 1 compressed GBRG bayer */
+> > +#define V4L2_PIX_FMT_PISP_COMP1_BGGR   v4l2_fourcc('P', 'C', '1', 'B') /* PiSP 8-bit mode 1 compressed BGGR bayer */
+> > +#define V4L2_PIX_FMT_PISP_COMP1_MONO   v4l2_fourcc('P', 'C', '1', 'M') /* PiSP 8-bit mode 1 compressed monochrome */
+> > +#define V4L2_PIX_FMT_PISP_COMP2_RGGB   v4l2_fourcc('P', 'C', '2', 'R') /* PiSP 8-bit mode 2 compressed RGGB bayer */
+> > +#define V4L2_PIX_FMT_PISP_COMP2_GRBG   v4l2_fourcc('P', 'C', '2', 'G') /* PiSP 8-bit mode 2 compressed GRBG bayer */
+> > +#define V4L2_PIX_FMT_PISP_COMP2_GBRG   v4l2_fourcc('P', 'C', '2', 'g') /* PiSP 8-bit mode 2 compressed GBRG bayer */
+> > +#define V4L2_PIX_FMT_PISP_COMP2_BGGR   v4l2_fourcc('P', 'C', '2', 'B') /* PiSP 8-bit mode 2 compressed BGGR bayer */
+> > +#define V4L2_PIX_FMT_PISP_COMP2_MONO   v4l2_fourcc('P', 'C', '2', 'M') /* PiSP 8-bit mode 2 compressed monochrome */
+> > +
+> >  /* SDR formats - used only for Software Defined Radio devices */
+> >  #define V4L2_SDR_FMT_CU8          v4l2_fourcc('C', 'U', '0', '8') /* IQ u8 */
+> >  #define V4L2_SDR_FMT_CU16LE       v4l2_fourcc('C', 'U', '1', '6') /* IQ u16le */
+> > --
+> > 2.43.2
+> >
 
