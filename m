@@ -1,74 +1,48 @@
-Return-Path: <linux-media+bounces-6680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6681-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C02A875D52
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 05:58:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D56875DA5
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 06:37:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 682BEB21F8D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 04:58:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B9DB1C214DB
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 05:37:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33E02E647;
-	Fri,  8 Mar 2024 04:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05141328DB;
+	Fri,  8 Mar 2024 05:37:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="WHOLKf9i"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g8VviZX3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D95632C9C
-	for <linux-media@vger.kernel.org>; Fri,  8 Mar 2024 04:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A2A1E4AE;
+	Fri,  8 Mar 2024 05:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709873875; cv=none; b=tr+8NJqn7IBJHram2gjRekyhYyA6NsgQJMk01dmZNtLgl+dnIhM+Dnct9EDWrlkYFJyqTFyaEi2BrB6x+d7Vh9nil/+HFEmHkL9qpJHqXdzHRK4EWIrWm5LPMHVowYvPaXwB2mxuDYVNPyDBFoxNx4l9aRbxbTQsITZJntuK/Lg=
+	t=1709876249; cv=none; b=DVD4csRtAHYLLMzcNRi79BgZhAx9G0aneK1MPnklEVGtFaXonqUF8wcd3o9Ti0IR6/ZDWVehyAP5CsghQJ3Zsm9AdwtJnu72lBGMb4nUqeOt3yZF29/CkPZK1tqbkwfhMLJFn0cZ5eAXY3SEcraVY+Liff/MSBC5o5/kzSAFD2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709873875; c=relaxed/simple;
-	bh=YHgLhGo9u/GaA4wjmsG1D7h2kk3KAbiuEeepwyKoTyA=;
+	s=arc-20240116; t=1709876249; c=relaxed/simple;
+	bh=pA30PD9ao8YE5foGBh05uYpzAzeO2NEFV6KJ7h9RX6M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZgijX8kn8kU7Sp4reMtwlYU0Iu+NhGQ0GW9nBviZEjRUq54F7QTc0FIi+UhOljwvfobHq9nBgDTxcf1aq77lxTY83MZDnGoUqF6zgirXu/mWwzbhMZHb4nmDxQbSnHVjoLjSVEX8S0Ashrdl4NomE1/5MCctffGXPpKZCtXNRNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=WHOLKf9i; arc=none smtp.client-ip=209.85.161.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5a14d7f0e66so801281eaf.1
-        for <linux-media@vger.kernel.org>; Thu, 07 Mar 2024 20:57:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1709873872; x=1710478672; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hd5eSIOo7us1LbsNzpdstrnvo/0BBPJxonyWDnWYOdI=;
-        b=WHOLKf9iGdgVvKTjQmxXbGWwIT9aW9o9hEq9U+lj49TYZ42wh7OW8mGicrRGPFBWec
-         GQXHXEEy7tPbKwC1FHg8zUZWXZfzhZPY7eTptlAxCYMCrZISnWijtPow38TPk+467WQI
-         C+SLrK5dNJPHk+1cx98faF71o72UvdNKhUddExLhLHqSlNl82akiFzavl0puT4+AmRFJ
-         Ec9bN9cNgCHYY85wXTpFf//96AeQfDdV8fpasYXN1atMrFSxm0GJhpfw8m5MlTIrmThy
-         aDpFbpiasRW10nZIRqfeXavPvZw0dJn5/4Gc7DZtaG5mAlYsF39ActGfINqVsFI27Zds
-         3LKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709873872; x=1710478672;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hd5eSIOo7us1LbsNzpdstrnvo/0BBPJxonyWDnWYOdI=;
-        b=QrTB9BzGHBuQPxa/olQfjSEHBDavWeZ9pseAEKdoBFncphRriArNKEyUps9bojsTXc
-         cTspN9q/O4FxnHtuask2HUWjNIqGKlZyqsIMW0/3lHL/OOEDVv/YJFenrToHCg+4arEQ
-         u/7Pi48bS3ZyScStiiZ7MimH/CvKyAA/UPWTFAtG2I1UN3HmpGPSr+7VdXOaAKrv+Mm6
-         GJoEgWtmUQNEhrXsuD6WcXw3Rdm7BBXRjAQoYOUJW231lGYciqBiv7stbrKhrmQVjVXD
-         dFw4YeNQCPkO0/KfUF5kGi2R0e5tXEi5UT/ZpR6i2R1noLOvachv1SUgT3Kxb5rBZQZq
-         3KBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQs7f93xrtl4eN0l5+DEufFY9T3uQ44FHimqUQjH5mcCUB84UNnSbEFZfefj0GcsFWe3SsOXxRrmUcXVoMnQ+74hmI2GpBn6w7zqo=
-X-Gm-Message-State: AOJu0YwaGRk451Vp9gR4M7Pl2qTZE0cO32Ca/1yVh+td0yMPo97V1qkq
-	LybCf2or7IBe8v2611F6OPTXg3vJ4aCkRhNASjOQFFUaFdLxdapK2dniD5lLeIE=
-X-Google-Smtp-Source: AGHT+IGD+SMzrtIqxos2BUylU1ihI6jHOpxBRUaDnHcmTxvqFG6hCKlO2aW2yjsKNPG+MnRLXz5+kA==
-X-Received: by 2002:a05:6358:70b:b0:176:40d5:2bd5 with SMTP id e11-20020a056358070b00b0017640d52bd5mr10614876rwj.6.1709873871879;
-        Thu, 07 Mar 2024 20:57:51 -0800 (PST)
-Received: from [192.168.1.24] (71-212-18-124.tukw.qwest.net. [71.212.18.124])
-        by smtp.gmail.com with ESMTPSA id k76-20020a633d4f000000b005dc8702f0a9sm13477127pga.1.2024.03.07.20.57.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 20:57:51 -0800 (PST)
-Message-ID: <15625bac-dfec-4c4e-a828-d11424f7aced@davidwei.uk>
-Date: Thu, 7 Mar 2024 20:57:49 -0800
+	 In-Reply-To:Content-Type; b=lBjlM56LDBCrk7FnuzALWbppkAFVpy8oHBR+h6uL3T7dDHgABGzDIf8X2sqySPwE2ll5cTXw+9s1QNUzNqJvp8mfMj5DVKfBG8lAdd2x3RCSRUDQ6z2BfV/Ejcme6xfAqJSfUepiYiypXN3GYiLiAMVQCiKor34kowi1YyIGSdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g8VviZX3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.102] (unknown [103.251.226.70])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 414FEBEB;
+	Fri,  8 Mar 2024 06:37:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1709876225;
+	bh=pA30PD9ao8YE5foGBh05uYpzAzeO2NEFV6KJ7h9RX6M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=g8VviZX3q4rZL7qQ5OA9CJkETDg/eW0FYARZLzYXwf+6IZz9EidLPngl5w/WjSOJm
+	 tkr4bKD3orgrdhqbZEoAXmtravb1m/qWD/AC5zdhHO0J51zxOq5P7Ov5CgssblgUSc
+	 zZnWw9D6tVBbpOJoxUTY1eWN0It9honeNs1ur52o=
+Message-ID: <72903fa4-be78-48e1-88e1-7c6b2146bc1b@ideasonboard.com>
+Date: Fri, 8 Mar 2024 11:07:16 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,246 +50,208 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
- custom page providers
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-3-almasrymina@google.com>
-Content-Language: en-GB
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <20240305020153.2787423-3-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 1/5] media: imx335: Support 2 or 4 lane operation modes
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: linux-media@vger.kernel.org,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240306081038.212412-1-umang.jain@ideasonboard.com>
+ <20240306081038.212412-2-umang.jain@ideasonboard.com>
+ <CAPY8ntAv2XCgMoA7N6Wj72jOX4rRt4b-HRUr1WXR1diH1bHx8A@mail.gmail.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <CAPY8ntAv2XCgMoA7N6Wj72jOX4rRt4b-HRUr1WXR1diH1bHx8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2024-03-04 18:01, Mina Almasry wrote:
-> From: Jakub Kicinski <kuba@kernel.org>
-> 
-> The page providers which try to reuse the same pages will
-> need to hold onto the ref, even if page gets released from
-> the pool - as in releasing the page from the pp just transfers
-> the "ownership" reference from pp to the provider, and provider
-> will wait for other references to be gone before feeding this
-> page back into the pool.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-> 
-> This is implemented by Jakub in his RFC:
-> https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
-> 
-> I take no credit for the idea or implementation; I only added minor
-> edits to make this workable with device memory TCP, and removed some
-> hacky test code. This is a critical dependency of device memory TCP
-> and thus I'm pulling it into this series to make it revewable and
-> mergeable.
-> 
-> RFC v3 -> v1
-> - Removed unusued mem_provider. (Yunsheng).
-> - Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
-> 
-> ---
->  include/net/page_pool/types.h | 12 ++++++++++
->  net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
->  2 files changed, 50 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-> index 5e43a08d3231..ffe5f31fb0da 100644
-> --- a/include/net/page_pool/types.h
-> +++ b/include/net/page_pool/types.h
-> @@ -52,6 +52,7 @@ struct pp_alloc_cache {
->   * @dev:	device, for DMA pre-mapping purposes
->   * @netdev:	netdev this pool will serve (leave as NULL if none or multiple)
->   * @napi:	NAPI which is the sole consumer of pages, otherwise NULL
-> + * @queue:	struct netdev_rx_queue this page_pool is being created for.
->   * @dma_dir:	DMA mapping direction
->   * @max_len:	max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
->   * @offset:	DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
-> @@ -64,6 +65,7 @@ struct page_pool_params {
->  		int		nid;
->  		struct device	*dev;
->  		struct napi_struct *napi;
-> +		struct netdev_rx_queue *queue;
->  		enum dma_data_direction dma_dir;
->  		unsigned int	max_len;
->  		unsigned int	offset;
-> @@ -126,6 +128,13 @@ struct page_pool_stats {
->  };
->  #endif
->  
-> +struct memory_provider_ops {
-> +	int (*init)(struct page_pool *pool);
-> +	void (*destroy)(struct page_pool *pool);
-> +	struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
-> +	bool (*release_page)(struct page_pool *pool, struct page *page);
-> +};
+Hi Dave
 
-Separate question as I try to adapt bnxt to this and your queue
-configuration API.
+On 06/03/24 10:12 pm, Dave Stevenson wrote:
+> Hi Umang and Kieran
+>
+> On Wed, 6 Mar 2024 at 08:11, Umang Jain <umang.jain@ideasonboard.com> wrote:
+>> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>
+>> The IMX335 can support both 2 and 4 lane configurations.
+>> Extend the driver to configure the lane mode accordingly.
+>> Update the pixel rate depending on the number of lanes in use.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/media/i2c/imx335.c | 46 +++++++++++++++++++++++++++++++-------
+>>   1 file changed, 38 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+>> index dab6d080bc4c..a42f48823515 100644
+>> --- a/drivers/media/i2c/imx335.c
+>> +++ b/drivers/media/i2c/imx335.c
+>> @@ -21,6 +21,11 @@
+>>   #define IMX335_MODE_STANDBY    0x01
+>>   #define IMX335_MODE_STREAMING  0x00
+>>
+>> +/* Data Lanes */
+>> +#define IMX335_LANEMODE                0x3a01
+>> +#define IMX335_2LANE           1
+>> +#define IMX335_4LANE           3
+>> +
+>>   /* Lines per frame */
+>>   #define IMX335_REG_LPFR                0x3030
+>>
+>> @@ -67,8 +72,6 @@
+>>   #define IMX335_LINK_FREQ_594MHz                594000000LL
+>>   #define IMX335_LINK_FREQ_445MHz                445500000LL
+>>
+>> -#define IMX335_NUM_DATA_LANES  4
+>> -
+>>   #define IMX335_REG_MIN         0x00
+>>   #define IMX335_REG_MAX         0xfffff
+>>
+>> @@ -115,7 +118,6 @@ static const char * const imx335_supply_name[] = {
+>>    * @vblank: Vertical blanking in lines
+>>    * @vblank_min: Minimum vertical blanking in lines
+>>    * @vblank_max: Maximum vertical blanking in lines
+>> - * @pclk: Sensor pixel clock
+>>    * @reg_list: Register list for sensor mode
+>>    */
+>>   struct imx335_mode {
+>> @@ -126,7 +128,6 @@ struct imx335_mode {
+>>          u32 vblank;
+>>          u32 vblank_min;
+>>          u32 vblank_max;
+>> -       u64 pclk;
+>>          struct imx335_reg_list reg_list;
+>>   };
+>>
+>> @@ -147,6 +148,7 @@ struct imx335_mode {
+>>    * @exp_ctrl: Pointer to exposure control
+>>    * @again_ctrl: Pointer to analog gain control
+>>    * @vblank: Vertical blanking in lines
+>> + * @lane_mode Mode for number of connected data lanes
+>>    * @cur_mode: Pointer to current selected sensor mode
+>>    * @mutex: Mutex for serializing sensor controls
+>>    * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
+>> @@ -171,6 +173,7 @@ struct imx335 {
+>>                  struct v4l2_ctrl *again_ctrl;
+>>          };
+>>          u32 vblank;
+>> +       u32 lane_mode;
+>>          const struct imx335_mode *cur_mode;
+>>          struct mutex mutex;
+>>          unsigned long link_freq_bitmap;
+>> @@ -377,7 +380,6 @@ static const struct imx335_mode supported_mode = {
+>>          .vblank = 2560,
+>>          .vblank_min = 2560,
+>>          .vblank_max = 133060,
+>> -       .pclk = 396000000,
+>>          .reg_list = {
+>>                  .num_of_regs = ARRAY_SIZE(mode_2592x1940_regs),
+>>                  .regs = mode_2592x1940_regs,
+>> @@ -936,6 +938,11 @@ static int imx335_start_streaming(struct imx335 *imx335)
+>>                  return ret;
+>>          }
+>>
+>> +       /* Configure lanes */
+>> +       ret = imx335_write_reg(imx335, IMX335_LANEMODE, 1, imx335->lane_mode);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>>          /* Setup handler will write actual exposure and gain */
+>>          ret =  __v4l2_ctrl_handler_setup(imx335->sd.ctrl_handler);
+>>          if (ret) {
+>> @@ -1096,7 +1103,14 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+>>          if (ret)
+>>                  return ret;
+>>
+>> -       if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX335_NUM_DATA_LANES) {
+>> +       switch (bus_cfg.bus.mipi_csi2.num_data_lanes) {
+>> +       case 2:
+>> +               imx335->lane_mode = IMX335_2LANE;
+>> +               break;
+>> +       case 4:
+>> +               imx335->lane_mode = IMX335_4LANE;
+>> +               break;
+>> +       default:
+>>                  dev_err(imx335->dev,
+>>                          "number of CSI2 data lanes %d is not supported\n",
+>>                          bus_cfg.bus.mipi_csi2.num_data_lanes);
+>> @@ -1209,6 +1223,9 @@ static int imx335_init_controls(struct imx335 *imx335)
+>>          struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
+>>          const struct imx335_mode *mode = imx335->cur_mode;
+>>          u32 lpfr;
+>> +       u64 pclk;
+>> +       s64 link_freq_in_use;
+>> +       u8 bpp;
+>>          int ret;
+>>
+>>          ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
+>> @@ -1252,11 +1269,24 @@ static int imx335_init_controls(struct imx335 *imx335)
+>>                                       0, 0, imx335_tpg_menu);
+>>
+>>          /* Read only controls */
+>> +
+>> +       /* pixel rate = link frequency * lanes * 2 / bits_per_pixel */
+>> +       switch (imx335->cur_mbus_code) {
+>> +       case MEDIA_BUS_FMT_SRGGB10_1X10:
+>> +               bpp = 10;
+>> +               break;
+>> +       case MEDIA_BUS_FMT_SRGGB12_1X12:
+>> +               bpp = 12;
+>> +               break;
+>> +       }
+>> +
+>> +       link_freq_in_use = link_freq[__ffs(imx335->link_freq_bitmap)];
+>> +       pclk = link_freq_in_use * (imx335->lane_mode + 1) * 2 / bpp;
+>>          imx335->pclk_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
+>>                                                &imx335_ctrl_ops,
+>>                                                V4L2_CID_PIXEL_RATE,
+>> -                                             mode->pclk, mode->pclk,
+>> -                                             1, mode->pclk);
+>> +                                             pclk, pclk,
+>> +                                             1, pclk);
+> Is this actually correct?
+> A fair number of the sensors I've encountered have 2 PLL paths - one
+> for the pixel array, and one for the CSI block. The bpp will generally
+> be fed into the CSI block PLL path, but not into the pixel array one.
+> The link frequency will therefore vary with bit depth, but
+> V4L2_CID_PIXEL_RATE doesn't change.
+>
+> imx290 certainly has a disjoin between pixel rate and link freq
+> (cropping reduces link freq, but not pixel rate), and we run imx477 in
+> 2 lane mode with the pixel array at full tilt (840MPix/s) but large
+> horizontal blanking to allow CSI2 enough time to send the data.
+>
+> If you've validated that for a range of frame rates you get the
+> correct output from the sensor in both 10 and 12 bit modes, then I
 
-How does GVE handle the need to allocate kernel pages for headers and
-dmabuf for payloads?
+I've not validated in such cases. Computing from pixel rate from the 
+link_freq and lane mode came out to be the same as the value currently 
+hardcoded in the mode structure hence I introduced this change. However, 
+I am inclined to dropping it after reading your review  ;-)
+> don't object. I just have an instinctive tick whenever I see drivers
+> computing PIXEL_RATE from LINK_FREQ or vice versa :)
 
-Reading the code, struct gve_rx_ring is the main per-ring object with a
-page pool. gve_queue_page_lists are filled with page pool netmem
-allocations from the page pool in gve_alloc_queue_page_list(). Are these
-strictly used for payloads only?
+Having said that, I do know, the reporting is not perfect since the bpp 
+can be changed and it would change the link-frequency.
+> If you get the right frame rate it may also imply that the link
+> frequency isn't as configured, but that rarely has any negative
 
-I found a struct gve_header_buf in both gve_rx_ring and struct
-gve_per_rx_queue_mem_dpo. This is allocated in gve_rx_queue_mem_alloc()
-using dma_alloc_coherent(). Is this where GVE stores headers?
+Indeed ;-)
+> effects. You need a reasonably good oscilloscope to be able to measure
+> the link frequency.
 
-IOW, GVE only uses page pool to allocate memory for QPLs, and QPLs are
-used by the device for split payloads. Is my understanding correct?
+AH, I see.
+>
+>    Dave
+>
+>>          imx335->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
+>>                                                          &imx335_ctrl_ops,
+>> --
+>> 2.43.0
+>>
+>>
 
-> +
->  struct page_pool {
->  	struct page_pool_params_fast p;
->  
-> @@ -176,6 +185,9 @@ struct page_pool {
->  	 */
->  	struct ptr_ring ring;
->  
-> +	void *mp_priv;
-> +	const struct memory_provider_ops *mp_ops;
-> +
->  #ifdef CONFIG_PAGE_POOL_STATS
->  	/* recycle stats are per-cpu to avoid locking */
->  	struct page_pool_recycle_stats __percpu *recycle_stats;
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index d706fe5548df..8776fcad064a 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -25,6 +25,8 @@
->  
->  #include "page_pool_priv.h"
->  
-> +static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
-> +
->  #define DEFER_TIME (msecs_to_jiffies(1000))
->  #define DEFER_WARN_INTERVAL (60 * HZ)
->  
-> @@ -177,6 +179,7 @@ static int page_pool_init(struct page_pool *pool,
->  			  int cpuid)
->  {
->  	unsigned int ring_qsize = 1024; /* Default */
-> +	int err;
->  
->  	memcpy(&pool->p, &params->fast, sizeof(pool->p));
->  	memcpy(&pool->slow, &params->slow, sizeof(pool->slow));
-> @@ -248,10 +251,25 @@ static int page_pool_init(struct page_pool *pool,
->  	/* Driver calling page_pool_create() also call page_pool_destroy() */
->  	refcount_set(&pool->user_cnt, 1);
->  
-> +	if (pool->mp_ops) {
-> +		err = pool->mp_ops->init(pool);
-> +		if (err) {
-> +			pr_warn("%s() mem-provider init failed %d\n",
-> +				__func__, err);
-> +			goto free_ptr_ring;
-> +		}
-> +
-> +		static_branch_inc(&page_pool_mem_providers);
-> +	}
-> +
->  	if (pool->p.flags & PP_FLAG_DMA_MAP)
->  		get_device(pool->p.dev);
->  
->  	return 0;
-> +
-> +free_ptr_ring:
-> +	ptr_ring_cleanup(&pool->ring, NULL);
-> +	return err;
->  }
->  
->  static void page_pool_uninit(struct page_pool *pool)
-> @@ -546,7 +564,10 @@ struct page *page_pool_alloc_pages(struct page_pool *pool, gfp_t gfp)
->  		return page;
->  
->  	/* Slow-path: cache empty, do real allocation */
-> -	page = __page_pool_alloc_pages_slow(pool, gfp);
-> +	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
-> +		page = pool->mp_ops->alloc_pages(pool, gfp);
-> +	else
-> +		page = __page_pool_alloc_pages_slow(pool, gfp);
->  	return page;
->  }
->  EXPORT_SYMBOL(page_pool_alloc_pages);
-> @@ -603,10 +624,13 @@ void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
->  void page_pool_return_page(struct page_pool *pool, struct page *page)
->  {
->  	int count;
-> +	bool put;
->  
-> -	__page_pool_release_page_dma(pool, page);
-> -
-> -	page_pool_clear_pp_info(page);
-> +	put = true;
-> +	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
-> +		put = pool->mp_ops->release_page(pool, page);
-> +	else
-> +		__page_pool_release_page_dma(pool, page);
->  
->  	/* This may be the last page returned, releasing the pool, so
->  	 * it is not safe to reference pool afterwards.
-> @@ -614,7 +638,10 @@ void page_pool_return_page(struct page_pool *pool, struct page *page)
->  	count = atomic_inc_return_relaxed(&pool->pages_state_release_cnt);
->  	trace_page_pool_state_release(pool, page, count);
->  
-> -	put_page(page);
-> +	if (put) {
-> +		page_pool_clear_pp_info(page);
-> +		put_page(page);
-> +	}
->  	/* An optimization would be to call __free_pages(page, pool->p.order)
->  	 * knowing page is not part of page-cache (thus avoiding a
->  	 * __page_cache_release() call).
-> @@ -884,6 +911,12 @@ static void __page_pool_destroy(struct page_pool *pool)
->  
->  	page_pool_unlist(pool);
->  	page_pool_uninit(pool);
-> +
-> +	if (pool->mp_ops) {
-> +		pool->mp_ops->destroy(pool);
-> +		static_branch_dec(&page_pool_mem_providers);
-> +	}
-> +
->  	kfree(pool);
->  }
->  
 
