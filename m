@@ -1,160 +1,133 @@
-Return-Path: <linux-media+bounces-6672-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6673-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBB8875AF6
-	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 00:14:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDCC875C05
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 02:30:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F3843B21934
-	for <lists+linux-media@lfdr.de>; Thu,  7 Mar 2024 23:14:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBC4228391B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Mar 2024 01:30:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 806C93F9DE;
-	Thu,  7 Mar 2024 23:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB09523763;
+	Fri,  8 Mar 2024 01:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aWb2LE5u"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WuK2qD6w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD3B2E648;
-	Thu,  7 Mar 2024 23:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF4523748;
+	Fri,  8 Mar 2024 01:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709853234; cv=none; b=govzpLHfPCQXBAxEZ5DLaKqJXfuG1cD0Vwxijjr06lSvhwXBwKKHH6aEx08zTKMoyYS1xr+qQoX1vxQl8T7f1zgw7UCTKq4ullg25/CiycEIvnob2u8fojSDYmv01cLIc+6IfI1J3xWMssZ+3pxEyVwA2A4cQ0KaSxT+cihP9aY=
+	t=1709861443; cv=none; b=acwvILkXcLHMUu0rcqAYldOMXb21DFHE2Q6OcwEuFaQeNd76YMSBoY0gzv4GLFngisTUnB2PMh4CM5iTT05LV0YeCdkjIxoc7gWuLyjQd5Ru2Fm4MAXvBYjKMrMDszZ1G0Ivv1ZysAQPeNgOJHX8vkEMzqV2f2EtnzTCj6u6QH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709853234; c=relaxed/simple;
-	bh=RDcVTsd7UxuaEDmhDjPxRBk8J4OY8BEPNTID2PaJcd4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aOTiUGDRiYsWh1p/BObYgHYrpLJaMO0tU1NM9GlUthYYeinmDxeFXj5RDYdwDMO4beuzT0nxnsh6MW1rqCqmdzM562XsiN5TYV1lmUg59CbYIYlYOFoSyRvQ7B7QyYJ8Vn8BY/wXS5zFfMpQkwIds+mcYjq4wrgU8iHnGbyMSSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aWb2LE5u; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-563d56ee65cso235695a12.2;
-        Thu, 07 Mar 2024 15:13:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709853230; x=1710458030; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3S3ACSLwbjngi5u/9n8VUnWe6dy0YuTFMy4TZsOux9E=;
-        b=aWb2LE5uswycoV40gb/dH9apMVkx4Fe3LZDur/Ooa08pWPSoDCUoirSjKXuQbBd9Cg
-         yEqh0kZuExbdJG8cRUl5ftG7W8hzWNCKr/bQuCNg65MV9aoV7j+P3OyxWQ+wu4uyr3dE
-         A0QNPhGTWYJLlvk5CMdZrlapq9HDEFmVgASayKSJcMcJ/w7yhhKmAgDzoWM0SezA7nZ4
-         VScqKqjpzROqH6/reWywwxCk0FqKayAVxwAr6/4j967Rh39mC/Lz3+lLvnf2mZJkC7/n
-         5ZME2z5BMQt+ZnpRYlJ7KILltdLwEia49vfg4R1h72nq5tw9VwSdHQJTfdwtk7nKlN84
-         TR7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709853230; x=1710458030;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3S3ACSLwbjngi5u/9n8VUnWe6dy0YuTFMy4TZsOux9E=;
-        b=qBarTzRIEFGokLrR+ZaT9989utoK2QusDQsZlWHTHKnyhbqGhbDj5WToOmLBSb4Pi9
-         BBpYSjpZ7hI2gFpHmE2QQoPqBpIp08Fj00sB8WnQeISP95vocNsERd3uMmpZw+V2FPLq
-         Z+7nljyzCwQN/PJSlOMAH+Ja7lB4sgKRIx0oqGp8zapFRqEXh3Ef4xPvImihkJMDSVFc
-         QAbwwlBsy8vKxRBJcOTd2erDKoGtbG/jwOfq2beC4tmi37de/Od/IL8TSaQVfFdkmVqZ
-         wufqhBjynYWFXXptFZk1WPisowQHAdzFjvjT34KD11rSc6VEzlf1C9YE/Z3Cxmlj//rg
-         RDZA==
-X-Forwarded-Encrypted: i=1; AJvYcCU8W+d3vNsPLwcEKmS1+ly4GbVurzMPwRdHN68AicKWlODErB/tsPeXpQAT3kBCHOpsWSsvbN1J20AJ62/lU9thC2yS9IFxb7n4IE3i
-X-Gm-Message-State: AOJu0YzihkjlGKsCgALO86Zft+pM6/12Sbku90HzgNTT5GVOBC8u4Zxu
-	Prjr3wy4sy6PIFuXcrI9VFh6kjZXsZGZ2YFXGCmGSOcgiSysLO9R20jlF/p9/SWrHiZ4kdMYGpI
-	IVrxmgs7IoyMtQhr3KdwnjkBCz1yCXNqLivQ=
-X-Google-Smtp-Source: AGHT+IGVDRkRxniL7ZJXFPXALCWyRYjYkqZ/nm6Sm2Slu6x7OaJ1eZCBlqpKaN86hakZ5Aud8ccHDku8Q+wxB0wcnek=
-X-Received: by 2002:a17:906:b154:b0:a45:da1:9364 with SMTP id
- bt20-20020a170906b15400b00a450da19364mr10181601ejb.19.1709853230332; Thu, 07
- Mar 2024 15:13:50 -0800 (PST)
+	s=arc-20240116; t=1709861443; c=relaxed/simple;
+	bh=pWLPfbMGjAqOMIxZXwrouf7NrYnQYoQSjURpmCc84iU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BUYzwCOWas4t/4pTxnKmSP76T6Pb26ePU3ArqJPJ23CzwBFvlyl4EjADLRoflsCUSV6SghsVn6Nf18MrvElfDi/41s15rTgcp2rZwjZk2xbyRzaGPGCedGSUHNvc4UfQozlkP45UYEvFdoHHrb4PR87jz6Lq47L/85nyHmYLeP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WuK2qD6w; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD44C433F1;
+	Fri,  8 Mar 2024 01:30:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709861442;
+	bh=pWLPfbMGjAqOMIxZXwrouf7NrYnQYoQSjURpmCc84iU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WuK2qD6wyzgEpkNGU94oUn6yHcPXxuUo3uJrLGDTiIGph4N/vCBqNc4nDv471KEn3
+	 sm7aoyIlj2FlbTUAzqmFeQZ3jZxx8uq02/lwxrUs6Fs5ne1P7sc9b+jogdt2cNh5om
+	 yy2pPOnMcP+HAkFrHyi8JDY6iodalicwb81v6rzeU0un9tw4HNH9vVQNofxBnlf4+6
+	 iDppG8XOmWfXjccjhAEBc5TroehEx0EzshUNRujMpMwMXGGAQ6kBNOJtKint9xVpy2
+	 SaraH4eSezKXfORbglRhjRO/jH8oAebaFTPdwegjG2bPLQMw9csoNK+YHGu0qpYXyY
+	 O/jGEtvZeHEeQ==
+Date: Thu, 7 Mar 2024 17:30:39 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+ <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
+Message-ID: <20240307173039.00e6fbb7@kernel.org>
+In-Reply-To: <20240305020153.2787423-2-almasrymina@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+	<20240305020153.2787423-2-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240307214048.858318-1-umang.jain@ideasonboard.com>
- <20240307214048.858318-3-umang.jain@ideasonboard.com> <CAHp75Vcvvadd6EeTWk2ZDrmtCQzWBV8rOoxNCotzYRRPwecaEA@mail.gmail.com>
-In-Reply-To: <CAHp75Vcvvadd6EeTWk2ZDrmtCQzWBV8rOoxNCotzYRRPwecaEA@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 8 Mar 2024 01:13:14 +0200
-Message-ID: <CAHp75Veu=ZVwEzXZSbQyqrW2Q9FMYjpm5+Simgkuhyea=jtoPw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] media: i2c: Add imx283 camera sensor driver
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, willl will <will@willwhang.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Hans de Goede <hdegoede@redhat.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Paul Elder <paul.elder@ideasonboard.com>, 
-	Mehdi Djait <mehdi.djait@bootlin.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Sebastian Reichel <sre@kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 8, 2024 at 1:11=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Thu, Mar 7, 2024 at 11:41=E2=80=AFPM Umang Jain <umang.jain@ideasonboa=
-rd.com> wrote:
-> >
-> > From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> >
-> > Add a v4l2 subdevice driver for the Sony IMX283 image sensor.
-> >
-> > The IMX283 is a 20MP Diagonal 15.86 mm (Type 1) CMOS Image Sensor with
-> > Square Pixel for Color Cameras.
-> >
-> > The following features are supported:
-> > - Manual exposure an gain control support
+On Mon,  4 Mar 2024 18:01:36 -0800 Mina Almasry wrote:
+> + * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
+> + *	Allocate memory for an RX queue. The memory returned in the form of
+> + *	a void * can be passed to ndo_queue_mem_free() for freeing or to
+> + *	ndo_queue_start to create an RX queue with this memory.
+> + *
+> + * void	(*ndo_queue_mem_free)(struct net_device *dev, void *);
+> + *	Free memory from an RX queue.
+> + *
+> + * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
+> + *	Start an RX queue at the specified index.
+> + *
+> + * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
+> + *	Stop the RX queue at the specified index.
+>   */
+>  struct net_device_ops {
+>  	int			(*ndo_init)(struct net_device *dev);
+> @@ -1679,6 +1693,16 @@ struct net_device_ops {
+>  	int			(*ndo_hwtstamp_set)(struct net_device *dev,
+>  						    struct kernel_hwtstamp_config *kernel_config,
+>  						    struct netlink_ext_ack *extack);
+> +	void *			(*ndo_queue_mem_alloc)(struct net_device *dev,
+> +						       int idx);
+> +	void			(*ndo_queue_mem_free)(struct net_device *dev,
+> +						      void *queue_mem);
+> +	int			(*ndo_queue_start)(struct net_device *dev,
+> +						   int idx,
+> +						   void *queue_mem);
+> +	int			(*ndo_queue_stop)(struct net_device *dev,
+> +						  int idx,
+> +						  void **out_queue_mem);
 
-and
+The queue configuration object was quite an integral part of the design,
+I'm slightly worried that it's not here :) Also we may want to rename
+the about-to-be-merged ops from netdev_stat_ops and netdev_queue_ops,
+and add these there?
 
-> > - vblank/hblank/link freq control support
-> > - Test pattern support control
-> > - Arbitrary horizontal and vertical cropping
-> > - Supported resolution:
-> >   - 5472x3648 @ 20fps (SRGGB12)
-> >   - 5472x3648 @ 25fps (SRGGB10)
-> >   - 2736x1824 @ 50fps (SRGGB12)
+https://lore.kernel.org/all/20240306195509.1502746-2-kuba@kernel.org/
 
-...
-
-> + array_size.h
-> + bitops.h
-> + container_of.h
->
-> > +#include <linux/clk.h>
-> > +#include <linux/delay.h>
->
-> + errno.h
-
-Actually err.h.
-
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/i2c.h>
-
-And
-+ minmax.h
-
-> > +#include <linux/module.h>
->
-> + mutex.h
->
-> > +#include <linux/of.h>
->
-> How is this being used, please?
->
-> > +#include <linux/pm_runtime.h>
->
-> + property.h
->
-> > +#include <linux/regulator/consumer.h>
->
-> + types.h
->
-> > +#include <linux/units.h>
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+Very excited to hear that you made progress on this and ported GVE over!
 
