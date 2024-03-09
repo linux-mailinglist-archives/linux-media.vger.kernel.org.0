@@ -1,139 +1,156 @@
-Return-Path: <linux-media+bounces-6751-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6752-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795CA876ED6
-	for <lists+linux-media@lfdr.de>; Sat,  9 Mar 2024 03:46:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA710877012
+	for <lists+linux-media@lfdr.de>; Sat,  9 Mar 2024 10:21:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E9C61F21BE6
-	for <lists+linux-media@lfdr.de>; Sat,  9 Mar 2024 02:46:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9B09B210B7
+	for <lists+linux-media@lfdr.de>; Sat,  9 Mar 2024 09:21:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 639A92D05C;
-	Sat,  9 Mar 2024 02:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C1553771C;
+	Sat,  9 Mar 2024 09:21:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from isilmar-4.linta.de (isilmar-4.linta.de [136.243.71.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCDE2CCA7
-	for <linux-media@vger.kernel.org>; Sat,  9 Mar 2024 02:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1A837143;
+	Sat,  9 Mar 2024 09:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.243.71.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709952406; cv=none; b=FqOlaAcIK5AUuTvCjkx/37nmnp9dCuxCJnp8rW8s5d6BZDoHHvEC+wKTDjcxrIIqEZ/d+Kjru3kLRrcy7+Gn/NeNpLHtssFPlw6g+j0mJ2fP0eirURyC9SfamItpLSYBVGgm3AFFrtjyrd8g/0/1d/86tLQ/MShJruCOtyvsgMo=
+	t=1709976098; cv=none; b=cIpPgkFsjtlz8vyV33NuA0JYO560wwi3l1QYGWoui3RpQt49yZK1RvQhSQ0jokSQiYe7Q+S67fNIucLePnzolHcwJ1GVKGzQSLALskI7ZKWabz9lX0fwiqPCQci6H1+Opwj0BDUMFkPKs/XrEtFrriRtPlZVMN3Qy/bYW5Eyv9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709952406; c=relaxed/simple;
-	bh=0zuoBku8qOFzFCIBXPpHFLPqBYzfn9346JBwxcIkC7E=;
-	h=Date:Message-ID:From:To:Subject; b=MXBUQqypBdOeEyrcwncA/jXWvzNQaVlLx1Z3r90EB+enkOx8X3tQkSjhSjXWFKYtJh1qqh5s9fuGMJ1vzINnUMTJAwMDEOvU9DPxUhBOkoeBRJcWlPcw1U3WuqyQ9Y1XwUfVW9PFHWI2TraXaj6ReEfZg5U43B4dNu6keZm9pQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A122C433C7
-	for <linux-media@vger.kernel.org>; Sat,  9 Mar 2024 02:46:44 +0000 (UTC)
-Date: Sat, 09 Mar 2024 03:46:42 +0100
-Message-ID: <394b19cb8a09f60aa52c17f198e64f44.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	s=arc-20240116; t=1709976098; c=relaxed/simple;
+	bh=qu1SVhckDWVGJDdfG0lqncAupnFVlU4EWMvXGIuWYIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YOYJaYGWk2WFOnjL+QtTK7aJKjl1ULhYrn0F4JWagUhn3B891pNMxPZLH8jtY1KMgBkBO8ALV7og7TgDoH399Kfi8rEIUyz/JA9pyLezogQN18bIXuxLKQSLqNnkUmxL9C8b0WsqK4XeEadMLOMlmDbVOHigJ3QOq9JOToRlQL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net; spf=pass smtp.mailfrom=dominikbrodowski.net; arc=none smtp.client-ip=136.243.71.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dominikbrodowski.net
+Received: from shine.dominikbrodowski.net (shine.brodo.linta [10.2.0.112])
+	by isilmar-4.linta.de (Postfix) with ESMTPSA id 916AF200307;
+	Sat,  9 Mar 2024 09:21:25 +0000 (UTC)
+Received: by shine.dominikbrodowski.net (Postfix, from userid 1000)
+	id 2A548A006A; Sat,  9 Mar 2024 10:20:08 +0100 (CET)
+Date: Sat, 9 Mar 2024 10:20:08 +0100
+From: Dominik Brodowski <linux@dominikbrodowski.net>
+To: "Wu, Wentong" <wentong.wu@intel.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Winkler, Tomas" <tomas.winkler@intel.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: v6.8.0-rc6: mei_ace_probe / mei_vsc_probe: do not call blocking
+ ops when !TASK_RUNNING
+Message-ID: <ZewpyJ3d7gx3dSvA@shine.dominikbrodowski.net>
+References: <Zd9wUv1zSJ59WS8i@shine.dominikbrodowski.net>
+ <Zd-BVmoFOiCxA632@kekkonen.localdomain>
+ <ZeAwhhW7DSEazs0F@shine.dominikbrodowski.net>
+ <ZeAymVVsI-CNj6Pc@kekkonen.localdomain>
+ <ZeC2jss4IAM4aPWy@shine.dominikbrodowski.net>
+ <MW5PR11MB5787E3A96C8EFF3C9F8BC8908D272@MW5PR11MB5787.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MW5PR11MB5787E3A96C8EFF3C9F8BC8908D272@MW5PR11MB5787.namprd11.prod.outlook.com>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Wetong,
 
-Results of the daily build of media_tree:
+Am Fri, Mar 08, 2024 at 11:45:44PM +0000 schrieb Wu, Wentong:
+> Did you try master branch (v6.8) without IPU6 driver? There
+> should be problems with the IPU6 driver you use as below:
+> 
+> > intel-ipu6 0000:00:05.0: Found supported sensor OVTI01A0:00
+> > intel-ipu6 0000:00:05.0: Connected 1 cameras
+> 
+> If not, could you please help try it on your side?
 
-date:			Sat Mar  9 03:00:26 CET 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	b14257abe7057def6127f6fb2f14f9adc8acabdb
-v4l-utils git hash:	a18611d8960ff0aefb1c57f15396f4e948e9df3f
-edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8613-g721ca29e
-sparse version:		v0.5.0-8613-g721ca29e
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
-
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: WARNINGS:
-
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
-include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
+Branch master from https://git.linuxtv.org/sailus/media_tree.git/ causes a
+WARNING during boot; some extracts from dmesg:
 
 
-date:			Sat Mar  9 03:19:04 CET 2024
-virtme-64: OK: Final Summary: 1864, Succeeded: 1864, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 1728, Succeeded: 1728, Failed: 0, Warnings: 4
+mei_me 0000:00:16.0: enabling device (0000 -> 0002)
+mei_hdcp 0000:00:16.0-b638ab7e-94e2-4ea2-a552-d1c54b627f04: bound 0000:00:02.0 (ops i915_hdcp_ops)
+mei_pxp 0000:00:16.0-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1: bound 0000:00:02.0 (ops i915_pxp_tee_component_ops)
+intel_vsc intel_vsc: silicon stepping version is 0:2
+------------[ cut here ]------------
+do not call blocking ops when !TASK_RUNNING; state=2 set at [<000000001b97ea26>] prepare_to_wait_event+0x54/0x1a0
+WARNING: CPU: 5 PID: 124 at kernel/sched/core.c:10099 __might_sleep+0x59/0x60
+Modules linked in:
+CPU: 5 PID: 124 Comm: kworker/u24:2 Tainted: G                T  6.8.0-rc2+ #2
+Hardware name: Dell Inc. XPS 9315/00KRKP, BIOS 1.1.3 05/11/2022
+Workqueue: events_unbound deferred_probe_work_func
+RIP: 0010:__might_sleep+0x59/0x60
+Code: ee 48 89 df 5b 31 d2 5d e9 24 fd ff ff 48 8b 90 60 15 00 00 48 c7 c7 a8 3e aa 84 c6 05 6f b3 47 03 01 48 89 d1 e8 b7 6c fb ff <0f> 0b eb d1 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 0018:ffffbd3ec1287a98 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffffffff84a07d0f RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000ea5 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: ffffa224892a3028 R14: ffffa22494ac1028 R15: 00000000c1287b00
+FS:  0000000000000000(0000) GS:ffffa22bef680000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000557ffdf03148 CR3: 00000002b645c000 CR4: 0000000000f50ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ ? __might_sleep+0x59/0x60
+ ? __warn+0x80/0x170
+ ? __might_sleep+0x59/0x60
+ ? report_bug+0x182/0x1b0
+ ? handle_bug+0x40/0x80
+ ? exc_invalid_op+0x17/0x80
+ ? asm_exc_invalid_op+0x1a/0x20
+ ? __might_sleep+0x59/0x60
+ ? __might_sleep+0x59/0x60
+ gpiod_get_value_cansleep+0x19/0x60
+ vsc_tp_xfer+0x177/0x570
+ ? __pfx_autoremove_wake_function+0x10/0x10
+ mei_vsc_write+0xe5/0x1d0
+ mei_hbm_cl_flow_control_req+0x84/0xd0
+ mei_cl_read_start+0x23b/0x330
+ mei_cldev_register_rx_cb+0xf5/0x140
+ mei_ace_probe+0x11f/0x390
+ ? kernfs_add_one+0x146/0x180
+ ? really_probe+0x166/0x300
+ really_probe+0x166/0x300
+ ? __pfx___device_attach_driver+0x10/0x10
+ __driver_probe_device+0x6e/0x120
+ driver_probe_device+0x1a/0x90
+ __device_attach_driver+0x8e/0xd0
+ bus_for_each_drv+0x90/0xf0
+ __device_attach+0xac/0x1a0
+ ? process_one_work+0x19c/0x500
+ bus_probe_device+0x93/0xb0
+ ? process_one_work+0x19c/0x500
+ deferred_probe_work_func+0x96/0xd0
+ process_one_work+0x205/0x500
+ worker_thread+0x1dc/0x3e0
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0xea/0x120
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x2c/0x50
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1b/0x30
+ </TASK>
+irq event stamp: 1166879
+hardirqs last  enabled at (1166885): [<ffffffff81cb6348>] console_unlock+0x118/0x170
+hardirqs last disabled at (1166890): [<ffffffff81cb632d>] console_unlock+0xfd/0x170
+softirqs last  enabled at (1166640): [<ffffffff81c1333e>] irq_exit_rcu+0x7e/0xa0
+softirqs last disabled at (1166635): [<ffffffff81c1333e>] irq_exit_rcu+0x7e/0xa0
+---[ end trace 0000000000000000 ]---
+mei intel_vsc-5db76cf6-0a68-4ed6-9b78-0361635e2447: deferred probe pending: (reason unknown)
+mei intel_vsc-92335fcf-3203-4472-af93-7b4453ac29da: deferred probe pending: (reason unknown)
 
-date:			Sat Mar  9 03:45:24 CET 2024
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Best,
+	Dominik
 
