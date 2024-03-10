@@ -1,72 +1,81 @@
-Return-Path: <linux-media+bounces-6761-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6762-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94C8877366
-	for <lists+linux-media@lfdr.de>; Sat,  9 Mar 2024 19:50:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 692D08774A5
+	for <lists+linux-media@lfdr.de>; Sun, 10 Mar 2024 01:56:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 783691F2127F
-	for <lists+linux-media@lfdr.de>; Sat,  9 Mar 2024 18:50:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2046E2814F0
+	for <lists+linux-media@lfdr.de>; Sun, 10 Mar 2024 00:56:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B80384C619;
-	Sat,  9 Mar 2024 18:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D04941115;
+	Sun, 10 Mar 2024 00:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LoXAojIO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3zOKUb8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B521F951;
-	Sat,  9 Mar 2024 18:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67421FB9;
+	Sun, 10 Mar 2024 00:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710010241; cv=none; b=C2NSCqfe8i2fBBnlRKSIVxxIN6SOvK6PbarVdaBFKM+P1pbMD6oGwFhY4Qs0aXmJspRceKfPVfcOGaR/2aX4dh3beg5iydD/uajZHGapUsrLrzj3vPmYn6Fk1t4xhSEPMF6E3c4D0Vz7Uxh/XGyHth3dK5GMc9cCsWteqzF6FFM=
+	t=1710032156; cv=none; b=JIV1lC+CO2ixoBSwVoAsr64wQ+x7mSXtmRw94N948JbM5uz+sgrXlf++wSMuPASkX9+0f3Nd+/bZp7+QR82ldMd7OHBQ15F3K0CNbZXZk6qgTNAhitMrsexrU9GTDwo2wgI0suGSJJfnaHG5ztFY3bTvCy3spSCgYSeoF6mKOE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710010241; c=relaxed/simple;
-	bh=NmWqeIT6vigupWLanhNbPV2JboASKytOXX9ZPVH7CU8=;
+	s=arc-20240116; t=1710032156; c=relaxed/simple;
+	bh=WSizNHAfSuY2tyhrxSDIPKba58sQViEr4CM533Vwtew=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IsdjtIrIIidQzxH8zLoAEiyJYQn+HQAtPm7KSGfOLKvkTLdDQBIV5CcDm5bRWT0lqVxu0kSdPp3ekIhI4yZCmXwwiNhqtMl/9rp2Bjb7TGI1OaRCt/1krXtl0QEhsxsTxPrj2a+JNLwhRJZm0NNTF1F6DJKEjK7QiGoAeyqYmUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LoXAojIO; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lq0x/2nueLGI57V875YVpYdiQzlGAYhBJdY3gaz2NwP58jA0udrVidqQerTO93Op4X2HdCH7Z9tPc3xa6ZAKkaQsn11be7IuUflAGDQFpdluhASPum6QN4sZGvXN8kmw4tcyRFd2CCS99wJ3BCpQr61lDgHLFkitykMFqCg+rE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3zOKUb8; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710010239; x=1741546239;
+  t=1710032154; x=1741568154;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NmWqeIT6vigupWLanhNbPV2JboASKytOXX9ZPVH7CU8=;
-  b=LoXAojIO/oOL9c1NNXk2yW7o1vuV0dXXJzQtn827X8Ikq0GT0h5UG05m
-   wrF9nK/gvtfoXPjiMzIrhBcXPW2G8ks+7iEUA1n0u+jaOxWV0lX9RVpM+
-   yrX803Whr9RUkrkLRe4Zu9az87mG2jTmG6ehDCp7Q0YJ9hAFAGJ3NIBP7
-   sKr5xwfoN5PTLd7qntcgqBiKldg2ZYjnMAvHB5SZBWITbt9qUSXZQzwwB
-   ZcdpuK3LHu+ajtD5Yt/SdNFohSlkvSz2orzeWak332OWxssDXOlaIoX/5
-   ib99aBfuoTjvogmRtE+31c3IzJaShyrDwapBriP2DNoRK4nJsErXU8T4y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="27187008"
+  bh=WSizNHAfSuY2tyhrxSDIPKba58sQViEr4CM533Vwtew=;
+  b=R3zOKUb8Wpmos543aFi4XOi7eSokbxxt+nBOP/ySDKjsQi9LKMG3QpX/
+   xhprTLdCKriXiGead5aS7WC0BOwrgFDNniMDIUsnhLAo6pYn+M9LxEdEU
+   xVYFnWo3B9qz69BuW4HpSo3cQ3qXBU2hzkNn4UWt3mqTZEyfTn4lH/weq
+   AJANezZ3AW3DVeKyrJ441zTM8tJs177SLXA3O4UKqkjn7hy+5oqMRyKVp
+   4M9BLmKVX6fcC0QhbKJE2XA/EfqnWEr/SmH5rNGDRZhXOv6en+lx8ranr
+   RbNtDWu06iEMWoD1s2Rd8ikso+L+FW+3TeuSasfxjX9vQWKgo6w9mWkoL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="16134081"
 X-IronPort-AV: E=Sophos;i="6.07,113,1708416000"; 
-   d="scan'208";a="27187008"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 10:50:38 -0800
+   d="scan'208";a="16134081"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 16:55:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,113,1708416000"; 
-   d="scan'208";a="15344612"
+   d="scan'208";a="11244977"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Mar 2024 10:50:35 -0800
+  by orviesa007.jf.intel.com with ESMTP; 09 Mar 2024 16:55:49 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rj1mD-0007ad-1o;
-	Sat, 09 Mar 2024 18:50:33 +0000
-Date: Sun, 10 Mar 2024 02:50:22 +0800
+	id 1rj7Td-0007mZ-2J;
+	Sun, 10 Mar 2024 00:55:45 +0000
+Date: Sun, 10 Mar 2024 08:55:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
-Subject: Re: [PATCH v2 2/2] media: mgb4: Add support for V4L2_CAP_TIMEPERFRAME
-Message-ID: <202403100204.vRfWFcC3-lkp@intel.com>
-References: <20240307121822.1852-3-tumic@gpxsee.org>
+To: Paul Cercueil <paul@crapouillou.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v8 3/6] iio: core: Add new DMABUF interface infrastructure
+Message-ID: <202403100826.wjMQq4I6-lkp@intel.com>
+References: <20240308170046.92899-4-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,131 +84,139 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240307121822.1852-3-tumic@gpxsee.org>
+In-Reply-To: <20240308170046.92899-4-paul@crapouillou.net>
 
-Hi,
+Hi Paul,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 65e6a2773d655172143cc0b927cdc89549842895]
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on vkoul-dmaengine/next lwn/docs-next linus/master v6.8-rc7 next-20240308]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/tumic-gpxsee-org/media-mgb4-Add-support-for-YUV-image-formats/20240307-192243
-base:   65e6a2773d655172143cc0b927cdc89549842895
-patch link:    https://lore.kernel.org/r/20240307121822.1852-3-tumic%40gpxsee.org
-patch subject: [PATCH v2 2/2] media: mgb4: Add support for V4L2_CAP_TIMEPERFRAME
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240310/202403100204.vRfWFcC3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403100204.vRfWFcC3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dmaengine-Add-API-function-dmaengine_prep_peripheral_dma_vec/20240309-010421
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240308170046.92899-4-paul%40crapouillou.net
+patch subject: [PATCH v8 3/6] iio: core: Add new DMABUF interface infrastructure
+config: nios2-randconfig-r071-20240309 (https://download.01.org/0day-ci/archive/20240310/202403100826.wjMQq4I6-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403100826.wjMQq4I6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403100204.vRfWFcC3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403100826.wjMQq4I6-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x8 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-da7219.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-dmic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-i2s-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98927.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98357a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98373.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-nau8825.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-probe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt274.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt286.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt298.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5514.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5663.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5682.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-ssm4567.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-mlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/ux500/snd-soc-ux500-plat-msp-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_cmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_nbyte.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_meta.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_text.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_canid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/media/pci/mgb4/mgb4.ko] undefined!
->> ERROR: modpost: "__aeabi_ldivmod" [drivers/media/pci/mgb4/mgb4.ko] undefined!
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_variance_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/sysv/sysv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-meson-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-gw-pld.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-visconti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-vcodec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-apmixedsys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-bdp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-jpgdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-eth.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7986-apmixed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7986-topckgen.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mfgcfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/videocc-sdm845.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-altera-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_zero.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in reference: davinci_mmcsd_driver+0x8 (section: .data) -> davinci_mmcsd_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/xilinx/zynqmp-aes-gcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: drivers/memory/emif: section mismatch in reference: emif_driver+0x8 (section: .data) -> emif_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+>> ERROR: modpost: module industrialio uses symbol dma_buf_attach from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module industrialio uses symbol dma_buf_map_attachment from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module industrialio uses symbol dma_buf_unmap_attachment from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module industrialio uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module industrialio uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module industrialio uses symbol dma_buf_detach from namespace DMA_BUF, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
