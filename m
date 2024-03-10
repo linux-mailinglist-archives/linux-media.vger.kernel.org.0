@@ -1,133 +1,459 @@
-Return-Path: <linux-media+bounces-6768-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6769-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD358776A0
-	for <lists+linux-media@lfdr.de>; Sun, 10 Mar 2024 13:42:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C038776A3
+	for <lists+linux-media@lfdr.de>; Sun, 10 Mar 2024 13:42:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A4371C20F5F
-	for <lists+linux-media@lfdr.de>; Sun, 10 Mar 2024 12:42:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9423A2818D7
+	for <lists+linux-media@lfdr.de>; Sun, 10 Mar 2024 12:42:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A1428383;
-	Sun, 10 Mar 2024 12:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hn884P6N"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EEBC22323;
+	Sun, 10 Mar 2024 12:42:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117A916FF29;
-	Sun, 10 Mar 2024 12:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.rmail.be (mail.rmail.be [85.234.218.189])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09F628485
+	for <linux-media@vger.kernel.org>; Sun, 10 Mar 2024 12:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.234.218.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710074511; cv=none; b=uY4JQMkEoNA4HJ9euNwZqTVC/rxYSqcM4XVZYybbp9CGjrTZ84/eWQgmmqJBkSnApyCht3OVtTVgMazQ81wfWtFy6eHXBcygKQ4gz6AguU4cpnjETVPOHJYG5uN3GCUhHRpX9en2/y5sVa6CocARCD4XGeWcCLdUuZz13r8BhfE=
+	t=1710074547; cv=none; b=q62jHppB1ez0D92e3XNsQE3WyCPtChFxFio21YqudWy3Q0drE13aTkmsNY38tj3YZsKGOjyStRudbJyYikKUolcx+SN1Q3ZhuMqgIvFC5zMtF0cgwbPUFkf03L+tRIEFl8qEdOs7QTV6qHIDs6OKAfzJRHlv8pD2Oq4H6w7KrgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710074511; c=relaxed/simple;
-	bh=T2hnsj3TXxdQauhbrydhvVMlAp4FlGMF27ltKRC1xko=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DsbXEZ/R/HR1oXl2fEJxTmwr1FlinW7og1MUWy47uGdAj6Z5T6o95WDatU8UZcRboBf/URWDaBmHbVbsjM/Vn3LL/CG26kv7zypCirzWC/E5ZEwSJ02iHzm4W0XdPtf/Can9TUOpvbcs+SOkeW9/E2hMqi12nUCv9e4x6DxGjW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hn884P6N; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DD6CC433F1;
-	Sun, 10 Mar 2024 12:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710074510;
-	bh=T2hnsj3TXxdQauhbrydhvVMlAp4FlGMF27ltKRC1xko=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Hn884P6NYCntbYCwhViso8xYitvz/SDSeAYZDfK/+/NNFWBfgkkuxX3gzjYVAT4X2
-	 75YA8TLBgLTHDzXhVe9CfMjGsat0po8S88pq9OfxKLhWElwY7q8w398qcNRr7wwN5g
-	 L5w8HVcrSrqFvtdBU1pSnG4cz71f0xxJMCuP9M5TjxD/GmmO3G4A3kP2ex7IuhABAK
-	 uY76WFjb0LdEG8cy+J2DWRuRgFQhs8QF02ONHzFh4Uhfm5xBQ569mHBp6as4id/fWy
-	 eCUPv+d/UamjMG0dqiKxynXZjHK2WenzLrZnNFt0PLWrVd3K/mhz/nx/8KLipkUqLE
-	 tljcQNovP1rgw==
-Date: Sun, 10 Mar 2024 12:41:33 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jonathan
- Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
- <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa
- <nuno.sa@analog.com>, Michael Hennerich <michael.hennerich@analog.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v8 0/6] iio: new DMABUF based API
-Message-ID: <20240310124133.683e8853@jic23-huawei>
-In-Reply-To: <20240308170046.92899-1-paul@crapouillou.net>
-References: <20240308170046.92899-1-paul@crapouillou.net>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1710074547; c=relaxed/simple;
+	bh=nAUQXpTlNGFwgvrMfBVByZZsptC1cqysFQWBE5sM784=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=TRicG/zq/TXkFzkMq48XfPl1sIM/uLlvhLsHF7zTVNR7ohtNkrqT1ov/9UtUxZbHMB9SQ6S4IooIKuLWN+BSoQ/cF9cLQHpdt8gBqlHpDmNjDVXM5Z/6sVIHfL1/lthFRu+/OX8vf8KWSi9Dtisw7THSEGY3btdE68MIgCLvip8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rmail.be; spf=pass smtp.mailfrom=rmail.be; arc=none smtp.client-ip=85.234.218.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rmail.be
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rmail.be
+Received: from mail.rmail.be (domotica.rmail.be [10.238.9.4])
+	by mail.rmail.be (Postfix) with ESMTP id AB5314D219;
+	Sun, 10 Mar 2024 13:42:13 +0100 (CET)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Date: Sun, 10 Mar 2024 13:42:13 +0100
+From: Maarten <maarten@rmail.be>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>, Raspberry Pi Kernel
+ Maintenance <kernel-list@raspberrypi.com>, linux-media@vger.kernel.org
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Kieran Bingham
+ <kbingham@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>
+Subject: Re: [RFC PATCH 04/13] media: videodev2.h: Add a format for column
+ YUV4:2:0 modes
+In-Reply-To: <CAPY8ntBOEtigg-8mR9CZoMiNMDGkYnB-5Rq4NT96AXYbH2K38A@mail.gmail.com>
+References: <20240303152635.2762696-1-maarten@rmail.be>
+ <20240303152635.2762696-5-maarten@rmail.be>
+ <42bfe748423d0992d001ce23ec1cf209142c3739.camel@ndufresne.ca>
+ <CAPY8ntBOEtigg-8mR9CZoMiNMDGkYnB-5Rq4NT96AXYbH2K38A@mail.gmail.com>
+Message-ID: <d9d39af6b7c4b2ecf3b9ef45ad47dc66@rmail.be>
+X-Sender: maarten@rmail.be
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri,  8 Mar 2024 18:00:40 +0100
-Paul Cercueil <paul@crapouillou.net> wrote:
+Dave Stevenson schreef op 2024-03-05 19:53:
+> Hi Maarten and Nicolas
+> 
+> Sorry, I've not got much time to look at these patches at present.
+> 
+> On Mon, 4 Mar 2024 at 18:10, Nicolas Dufresne <nicolas@ndufresne.ca> 
+> wrote:
+>> 
+>> Hi,
+>> 
+>> Le dimanche 03 mars 2024 à 16:09 +0100, Maarten Vanraes a écrit :
+>> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> >
+>> > Some of the Broadcom codec blocks use a column based YUV4:2:0 image
+>> > format, so add the documentation and defines for both 8 and 10 bit
+>> > versions.
+> 
+> TBH Whilst some of the firmware components do support the column
+> format, this has limited gain in this series.
+> 
+> It will be needed for the HEVC stateless decoder as and when that gets
+> upstreamed.
+> 
+>> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> > Signed-off-by: Maarten Vanraes <maarten@rmail.be>
+>> > ---
+>> >  .../media/v4l/pixfmt-nv12-col128.rst          | 215 ++++++++++++++++++
+>> >  .../media/v4l/pixfmt-yuv-planar.rst           |  12 +
+>> >  .../userspace-api/media/v4l/yuv-formats.rst   |  19 ++
+>> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+>> >  include/uapi/linux/videodev2.h                |   4 +
+>> >  5 files changed, 252 insertions(+)
+>> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12-col128.rst
+>> >
+>> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv12-col128.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv12-col128.rst
+>> > new file mode 100644
+>> > index 000000000000..196ca33a5dff
+>> > --- /dev/null
+>> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-nv12-col128.rst
+>> > @@ -0,0 +1,215 @@
+>> > +.. Permission is granted to copy, distribute and/or modify this
+>> > +.. document under the terms of the GNU Free Documentation License,
+>> > +.. Version 1.1 or any later version published by the Free Software
+>> > +.. Foundation, with no Invariant Sections, no Front-Cover Texts
+>> > +.. and no Back-Cover Texts. A copy of the license is included at
+>> > +.. Documentation/media/uapi/fdl-appendix.rst.
+>> > +..
+>> > +.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+>> > +
+>> > +.. _V4L2_PIX_FMT_NV12_COL128:
+>> > +.. _V4L2_PIX_FMT_NV12_10_COL128:
+>> > +
+>> > +********************************************************************************
+>> > +V4L2_PIX_FMT_NV12_COL128, V4L2_PIX_FMT_NV12_10_COL128
+>> > +********************************************************************************
+>> > +
+>> > +
+>> > +V4L2_PIX_FMT_NV21_COL128
+>> > +Formats with ½ horizontal and vertical chroma resolution. This format
+>> > +has two planes - one for luminance and one for chrominance. Chroma
+>> > +samples are interleaved. The difference to ``V4L2_PIX_FMT_NV12`` is the
+>> > +memory layout. The image is split into columns of 128 bytes wide rather than
+>> > +being in raster order.
+>> > +
+>> > +V4L2_PIX_FMT_NV12_10_COL128
+>> > +Follows the same pattern as ``V4L2_PIX_FMT_NV21_COL128`` with 128 byte, but is
+>> > +a 10bit format with 3 10-bit samples being packed into 4 bytes. Each 128 byte
+>> > +wide column therefore contains 96 samples.
+>> 
+>> Might be worth saying which side the padding goes. Xilinx uses a 
+>> non-tiled
+>> version of this, but depending were the padding is placed (LSB or MSB) 
+>> it may
+>> not actually be the same format.
+> 
+> It's documented later in this page
+>  +    * - Y'\ :sub:`00[7:0]`
+>  +      - Y'\ :sub:`01[5:0] (bits 7--2)` Y'\ :sub:`00[9:8]`\ (bits 
+> 1--0)
+>  +      - Y'\ :sub:`02[3:0] (bits 7--4)` Y'\ :sub:`01[9:6]`\ (bits 
+> 3--0)
+>  +      - unused (bits 7--6)` Y'\ :sub:`02[9:4]`\ (bits 5--0)
+> 
+> I only see V4L2_PIX_FMT_P010 and V4L2_PIX_FMT_NV12M_10BE_8L128 in the
+> tree as 10bit YUV formats. Neither matches that packing.
+> 
+>> > +
+>> > +
+>> > +Description
+>> > +===========
+>> > +
+>> > +This is the two-plane versions of the YUV 4:2:0 format where data is
+>> > +grouped into 128 byte wide columns. The three components are separated into
+>> > +two sub-images or planes. The Y plane has one byte per pixel and pixels
+>> > +are grouped into 128 byte wide columns. The CbCr plane has the same width,
+>> > +in bytes, as the Y plane (and the image), but is half as tall in pixels.
+>> > +The chroma plane is also in 128 byte columns, reflecting 64 Cb and 64 Cr
+>> > +samples.
+>> > +
+>> > +The chroma samples for a column follow the luma samples. If there is any
+>> > +paddding, then that will be reflected via the selection API.
+>> > +The luma height must be a multiple of 2 lines.
+>> > +
+>> > +The normal bytesperline is effectively fixed at 128. However the format
+>> > +requires knowledge of the stride between columns, therefore the bytesperline
+>> > +value has been repurposed to denote the number of 128 byte long lines between
+>> > +the start of each column.
+>> 
+>> I would refrain from a redefinition of bytesperline here. Specially 
+>> that this
+>> seems to be a non-mplane definition (single allocation format). In 
+>> that case,
+>> userspace may be forced to extrapolate some information. I'd keep it 
+>> strictly to
+>> the definition.
+>> 
+>>   byteperlines = n_col * 128
+>>   n_cols = roundup_128(width) / 128
+>> 
+>> As the height returned by TRY_FMT (and S_FMT), is padded, you can 
+>> always
+>> retrieve your tile stride (column stride in this specific case) with:
+>> 
+>>   tile_stride = height * 128
 
-> Hi Jonathan,
-> 
-> Here's the final(tm) version of the IIO DMABUF patchset.
-> 
-> This v8 fixes the remaining few issues that Christian reported.
-> 
-> I also updated the documentation patch as there has been changes to
-> index.rst.
-> 
-> This was based on next-20240308.
-> 
-> Changelog:
-> 
-> - [3/6]:
->     - Fix swapped fence direction
->     - Simplify fence wait mechanism
->     - Remove "Buffer closed with active transfers" print, as it was dead
->       code
->     - Un-export iio_buffer_dmabuf_{get,put}. They are not used anywhere
->       else so they can even be static.
->     - Prevent attaching already-attached DMABUFs
-> - [6/6]:
->     Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
->     whose format changed in iio/togreg.
-> 
-> Cheers,
-> -Paul
-Given nature of the build bug issues reported, I'm guessing you never
-built this as a module :(  Not sure how one instance of a missing 
-user marking got through but also easy to fix.
+Looking at this, would column stride not be:
 
-Anyhow, no need to wait before sending a v9 with those sorted.
+tile_stride = (height + (height/2)) * 128
 
-0-day does it's job again - even better is that it's whilst it's
-still your problem and not mine :)
+or did I not understand this correctly?
 
-Jonathan
-
+> Each column (tile if you wish) contains both luma and chroma. Height
+> is the height of the luma. Chroma comes after the luma per column.
+> tile_stride = height * 128 does not give you where the next column
+> begins - it'd be the start of the chroma for the first column, and
+> then a useless pointer. This is why we were repurposing bytesperline
+> for column stride.
 > 
-> Paul Cercueil (6):
->   dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
->   dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
->   iio: core: Add new DMABUF interface infrastructure
->   iio: buffer-dma: Enable support for DMABUFs
->   iio: buffer-dmaengine: Support new DMABUF based userspace API
->   Documentation: iio: Document high-speed DMABUF based API
+> There may be an option if you only allow sizeimage to be set by the
+> driver, then I believe you could flip it around and use sizeimage /
+> n_cols.
 > 
->  Documentation/iio/iio_dmabuf_api.rst          |  54 ++
->  Documentation/iio/index.rst                   |   1 +
->  drivers/dma/dma-axi-dmac.c                    |  40 ++
->  drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
->  .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
->  drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
->  include/linux/dmaengine.h                     |  27 +
->  include/linux/iio/buffer-dma.h                |  31 ++
->  include/linux/iio/buffer_impl.h               |  30 ++
->  include/uapi/linux/iio/buffer.h               |  22 +
->  10 files changed, 890 insertions(+), 17 deletions(-)
->  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+>   Dave
 > 
+>> Nicolas
+>> 
+>> > +
+>> > +**Byte Order.**
+>> > +
+>> > +
+>> > +.. flat-table::
+>> > +    :header-rows:  0
+>> > +    :stub-columns: 0
+>> > +    :widths: 12 12 12 12 12 4 12 12 12 12
+>> > +
+>> > +    * - start + 0:
+>> > +      - Y'\ :sub:`0,0`
+>> > +      - Y'\ :sub:`0,1`
+>> > +      - Y'\ :sub:`0,2`
+>> > +      - Y'\ :sub:`0,3`
+>> > +      - ...
+>> > +      - Y'\ :sub:`0,124`
+>> > +      - Y'\ :sub:`0,125`
+>> > +      - Y'\ :sub:`0,126`
+>> > +      - Y'\ :sub:`0,127`
+>> > +    * - start + 128:
+>> > +      - Y'\ :sub:`1,0`
+>> > +      - Y'\ :sub:`1,1`
+>> > +      - Y'\ :sub:`1,2`
+>> > +      - Y'\ :sub:`1,3`
+>> > +      - ...
+>> > +      - Y'\ :sub:`1,124`
+>> > +      - Y'\ :sub:`1,125`
+>> > +      - Y'\ :sub:`1,126`
+>> > +      - Y'\ :sub:`1,127`
+>> > +    * - start + 256:
+>> > +      - Y'\ :sub:`2,0`
+>> > +      - Y'\ :sub:`2,1`
+>> > +      - Y'\ :sub:`2,2`
+>> > +      - Y'\ :sub:`2,3`
+>> > +      - ...
+>> > +      - Y'\ :sub:`2,124`
+>> > +      - Y'\ :sub:`2,125`
+>> > +      - Y'\ :sub:`2,126`
+>> > +      - Y'\ :sub:`2,127`
+>> > +    * - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +    * - start + ((height-1) * 128):
+>> > +      - Y'\ :sub:`height-1,0`
+>> > +      - Y'\ :sub:`height-1,1`
+>> > +      - Y'\ :sub:`height-1,2`
+>> > +      - Y'\ :sub:`height-1,3`
+>> > +      - ...
+>> > +      - Y'\ :sub:`height-1,124`
+>> > +      - Y'\ :sub:`height-1,125`
+>> > +      - Y'\ :sub:`height-1,126`
+>> > +      - Y'\ :sub:`height-1,127`
+>> > +    * - start + ((height) * 128):
+>> > +      - Cb\ :sub:`0,0`
+>> > +      - Cr\ :sub:`0,0`
+>> > +      - Cb\ :sub:`0,1`
+>> > +      - Cr\ :sub:`0,1`
+>> > +      - ...
+>> > +      - Cb\ :sub:`0,62`
+>> > +      - Cr\ :sub:`0,62`
+>> > +      - Cb\ :sub:`0,63`
+>> > +      - Cr\ :sub:`0,63`
+>> > +    * - start + ((height+1) * 128):
+>> > +      - Cb\ :sub:`1,0`
+>> > +      - Cr\ :sub:`1,0`
+>> > +      - Cb\ :sub:`1,1`
+>> > +      - Cr\ :sub:`1,1`
+>> > +      - ...
+>> > +      - Cb\ :sub:`1,62`
+>> > +      - Cr\ :sub:`1,62`
+>> > +      - Cb\ :sub:`1,63`
+>> > +      - Cr\ :sub:`1,63`
+>> > +    * - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +    * - start + ((height+(height/2)-1) * 128):
+>> > +      - Cb\ :sub:`(height/2)-1,0`
+>> > +      - Cr\ :sub:`(height/2)-1,0`
+>> > +      - Cb\ :sub:`(height/2)-1,1`
+>> > +      - Cr\ :sub:`(height/2)-1,1`
+>> > +      - ...
+>> > +      - Cb\ :sub:`(height/2)-1,62`
+>> > +      - Cr\ :sub:`(height/2)-1,62`
+>> > +      - Cb\ :sub:`(height/2)-1,63`
+>> > +      - Cr\ :sub:`(height/2)-1,63`
+>> > +    * - start + (bytesperline * 128):
+>> > +      - Y'\ :sub:`0,128`
+>> > +      - Y'\ :sub:`0,129`
+>> > +      - Y'\ :sub:`0,130`
+>> > +      - Y'\ :sub:`0,131`
+>> > +      - ...
+>> > +      - Y'\ :sub:`0,252`
+>> > +      - Y'\ :sub:`0,253`
+>> > +      - Y'\ :sub:`0,254`
+>> > +      - Y'\ :sub:`0,255`
+>> > +    * - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +      - ...
+>> > +
+>> > +V4L2_PIX_FMT_NV12_10_COL128 uses the same 128 byte column structure, but
+>> > +encodes 10-bit YUV.
+>> > +3 10-bit values are packed into 4 bytes as bits 9:0, 19:10, and 29:20, with
+>> > +bits 30 & 31 unused. For the luma plane, bits 9:0 are Y0, 19:10 are Y1, and
+>> > +29:20 are Y2. For the chroma plane the samples always come in pairs of Cr
+>> > +and Cb, so it needs to be considered 6 values packed in 8 bytes.
+>> > +
+>> > +Bit-packed representation.
+>> > +
+>> > +.. raw:: latex
+>> > +
+>> > +    \small
+>> > +
+>> > +.. tabularcolumns:: |p{1.2cm}||p{1.2cm}||p{1.2cm}||p{1.2cm}|p{3.2cm}|p{3.2cm}|
+>> > +
+>> > +.. flat-table::
+>> > +    :header-rows:  0
+>> > +    :stub-columns: 0
+>> > +    :widths: 8 8 8 8
+>> > +
+>> > +    * - Y'\ :sub:`00[7:0]`
+>> > +      - Y'\ :sub:`01[5:0] (bits 7--2)` Y'\ :sub:`00[9:8]`\ (bits 1--0)
+>> > +      - Y'\ :sub:`02[3:0] (bits 7--4)` Y'\ :sub:`01[9:6]`\ (bits 3--0)
+>> > +      - unused (bits 7--6)` Y'\ :sub:`02[9:4]`\ (bits 5--0)
+>> > +
+>> > +.. raw:: latex
+>> > +
+>> > +    \small
+>> > +
+>> > +.. tabularcolumns:: |p{1.2cm}||p{1.2cm}||p{1.2cm}||p{1.2cm}|p{3.2cm}|p{3.2cm}|
+>> > +
+>> > +.. flat-table::
+>> > +    :header-rows:  0
+>> > +    :stub-columns: 0
+>> > +    :widths: 12 12 12 12 12 12 12 12
+>> > +
+>> > +    * - Cb\ :sub:`00[7:0]`
+>> > +      - Cr\ :sub:`00[5:0]`\ (bits 7--2) Cb\ :sub:`00[9:8]`\ (bits 1--0)
+>> > +      - Cb\ :sub:`01[3:0]`\ (bits 7--4) Cr\ :sub:`00[9:6]`\ (bits 3--0)
+>> > +      - unused (bits 7--6) Cb\ :sub:`02[9:4]`\ (bits 5--0)
+>> > +      - Cr\ :sub:`01[7:0]`
+>> > +      - Cb\ :sub:`02[5:0]`\ (bits 7--2) Cr\ :sub:`01[9:8]`\ (bits 1--0)
+>> > +      - Cr\ :sub:`02[3:0]`\ (bits 7--4) Cb\ :sub:`02[9:6]`\ (bits 3--0)
+>> > +      - unused (bits 7--6) Cr\ :sub:`02[9:4]`\ (bits 5--0)
+>> > +
+>> > +.. raw:: latex
+>> > +
+>> > +    \normalsize
+>> > +
+>> > +
+>> > +
+>> > +
+>> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> > index 1840224faa41..56ef9ee9c0e1 100644
+>> > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> > @@ -697,6 +697,18 @@ Data in the 12 high bits, zeros in the 4 low bits, arranged in little endian ord
+>> >        - Cr\ :sub:`11`
+>> >
+>> >
+>> > +V4L2_PIX_FMT_NV12_COL128
+>> > +------------------------
+>> > +
+>> > +``V4L2_PIX_FMT_NV12_COL128`` is the tiled version of
+>> > +``V4L2_PIX_FMT_NV12`` with the image broken down into 128 pixel wide columns of
+>> > +Y followed by the associated combined CbCr plane.
+>> > +The normal bytesperline is effectively fixed at 128. However the format
+>> > +requires knowledge of the stride between columns, therefore the bytesperline
+>> > +value has been repurposed to denote the number of 128 byte long lines between
+>> > +the start of each column.
+>> > +
+>> > +
+>> >  Fully Planar YUV Formats
+>> >  ========================
+>> >
+>> > diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst b/Documentation/userspace-api/media/v4l/yuv-formats.rst
+>> > index 24b34cdfa6fe..458e07782c8d 100644
+>> > --- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
+>> > +++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
+>> > @@ -270,4 +270,23 @@ image.
+>> >      pixfmt-y8i
+>> >      pixfmt-y12i
+>> >      pixfmt-uv8
+>> > +    pixfmt-yuyv
+>> > +    pixfmt-uyvy
+>> > +    pixfmt-yvyu
+>> > +    pixfmt-vyuy
+>> > +    pixfmt-y41p
+>> > +    pixfmt-yuv420
+>> > +    pixfmt-yuv420m
+>> > +    pixfmt-yuv422m
+>> > +    pixfmt-yuv444m
+>> > +    pixfmt-yuv410
+>> > +    pixfmt-yuv422p
+>> > +    pixfmt-yuv411p
+>> > +    pixfmt-nv12
+>> > +    pixfmt-nv12m
+>> > +    pixfmt-nv12mt
+>> > +    pixfmt-nv12-col128
+>> > +    pixfmt-nv16
+>> > +    pixfmt-nv16m
+>> > +    pixfmt-nv24
+>> 
+>> Unrelated fixes should have their own patch.
+>> 
+>> >      pixfmt-m420
+>> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> > index f3584bc3e278..20c83a4c02d6 100644
+>> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> > @@ -1368,6 +1368,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>> >       case V4L2_PIX_FMT_NV12MT:       descr = "Y/UV 4:2:0 (64x32 MB, N-C)"; break;
+>> >       case V4L2_PIX_FMT_NV12MT_16X16: descr = "Y/UV 4:2:0 (16x16 MB, N-C)"; break;
+>> >       case V4L2_PIX_FMT_P012M:        descr = "12-bit Y/UV 4:2:0 (N-C)"; break;
+>> > +     case V4L2_PIX_FMT_NV12_COL128:  descr = "Y/CbCr 4:2:0 (128b cols)"; break;
+>> > +     case V4L2_PIX_FMT_NV12_10_COL128: descr = "10-bit Y/CbCr 4:2:0 (128b cols)"; break;
+>> >       case V4L2_PIX_FMT_YUV420M:      descr = "Planar YUV 4:2:0 (N-C)"; break;
+>> >       case V4L2_PIX_FMT_YVU420M:      descr = "Planar YVU 4:2:0 (N-C)"; break;
+>> >       case V4L2_PIX_FMT_YUV422M:      descr = "Planar YUV 4:2:2 (N-C)"; break;
+>> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> > index 1c9e1275c422..f93e341a1dd7 100644
+>> > --- a/include/uapi/linux/videodev2.h
+>> > +++ b/include/uapi/linux/videodev2.h
+>> > @@ -807,6 +807,10 @@ struct v4l2_pix_format {
+>> >  #define V4L2_PIX_FMT_QC10C    v4l2_fourcc('Q', '1', '0', 'C') /* Qualcomm 10-bit compressed */
+>> >  #define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
+>> >  #define V4L2_PIX_FMT_HEXTILE  v4l2_fourcc('H', 'X', 'T', 'L') /* Hextile compressed */
+>> > +#define V4L2_PIX_FMT_NV12_COL128 v4l2_fourcc('N', 'C', '1', '2') /* 12  Y/CbCr 4:2:0 128 pixel wide column */
+>> > +#define V4L2_PIX_FMT_NV12_10_COL128 v4l2_fourcc('N', 'C', '3', '0')
+>> > +                                                             /* Y/CbCr 4:2:0 10bpc, 3x10 packed as 4 bytes in
+>> > +                                                              * a 128 bytes / 96 pixel wide column */
+>> >
+>> >  /* 10bit raw packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
+>> >  #define V4L2_PIX_FMT_IPU3_SBGGR10    v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+>> 
+>> Can you add this format to v4l2-common please?
 
+looking at v4l2-common, it would seem both of these are exactly the same 
+as V4L2_PIX_FMT_NV12 ? but i'm not 100% sure, due to this odd COL128 
+tiling?
 
