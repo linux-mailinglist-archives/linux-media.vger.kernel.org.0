@@ -1,433 +1,223 @@
-Return-Path: <linux-media+bounces-6779-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6780-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FAD8779BB
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 03:07:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0199877C2D
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 10:01:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4AB591F21238
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 02:07:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C23061C20FFA
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 09:01:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F170710E3;
-	Mon, 11 Mar 2024 02:07:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02FA412E4A;
+	Mon, 11 Mar 2024 09:01:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eJIKGVOa"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qtn3rAa5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939EDA35;
-	Mon, 11 Mar 2024 02:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEED3134CD
+	for <linux-media@vger.kernel.org>; Mon, 11 Mar 2024 09:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710122845; cv=none; b=l35zZkqyjN0NtM+jpxxt0Jyc5TModfd2QShVr8Gh3vsTSpDPUFK/cm6W+G5OGjujZWZj6czFcCrUrQW5lViKekC+QkT4kR7Rt0fR46WDWnD+wrebMFXoCTIaJ8kf2A2G1GLEFy5aoxFUWovXSDTxMqPpQ+i6r+dKqW32tgsMGGU=
+	t=1710147659; cv=none; b=PuFMw1ZOnyEcOtETKdzBEFsuSzEdncO0z31mOD2vqYyrNLS5giDUyOTgea4XGCdKRSCU0BRSENSY2f9Rkf/pIPTRDiaVkOVSmMlWf8dmcxmED5loFabx2ivaTUjlSn6U6mXaCRdEtlMRbkplo72/FAO319njKWL398B3xyFZlmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710122845; c=relaxed/simple;
-	bh=iCaTAj4MVPqhMV4LcDZ/QFZqZiFhy41yOCZ8A2RSgxk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lQuh19Fgk0HEcOdMrLf6jMlSiY8e+MYY78C3vrGjrOfSRLgcWRXdDkFccfSsYLLA/+DpE/v8jEjQJkOoXiBG8l4jbgdv/RYEnDhR7L7MYr+e6wlUDUl4VtY3WncONgrxPTKZRW9tFu6q5Veu6op7XwdHLFbecJSvn/fASJ1tXyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eJIKGVOa; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-36654b6d27fso1758055ab.2;
-        Sun, 10 Mar 2024 19:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710122842; x=1710727642; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LEz2Pe4E4OEDHLyalXPDDQI2Ud+GHImTN6uJ1DNtdwA=;
-        b=eJIKGVOaCxTP2lDCfy5Tu+m5mPdNOQT5acVj/5ZjrveleWOJkqNYicn2oTUUb7CwvI
-         PEqXlGxG2ZC6oQkTsI/Hx5lyUG6QOlAc+om33iDz3KONBaXEtvwYOuRIpbDnFuDbCYh3
-         oCTkLWwvamy/lARn7Lw5zZ6riz0VPv2ziS22j61LhWdwt/IG485FU3lc9Hj0HiiR0QC/
-         8FQEzK/sBIa36B8qQVavK+wlyjOmDUCFqUudzN9FlZnbiI3pJQRa8Mw5LYNhyZXg8ITX
-         EORmgedxAeXlL4HSDpuYZi8kJc78fRoorvobWH9niuHSYA2GHe+K5bCfIzalW/sxvsP/
-         ruQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710122842; x=1710727642;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LEz2Pe4E4OEDHLyalXPDDQI2Ud+GHImTN6uJ1DNtdwA=;
-        b=JG8YbncXkj/ypSEr61v7tPb9UWv7BCgA4YbYFhuUINTPY/C3krauDwkLhCWKzM9R5O
-         y/pIi6W3S3HCiXsnoSM9lRDiOMA1VfUOnjnJp4wkbo7267PJG6ULLRk+cRxHp4k0FZ5R
-         VxIkpL3dFrVtgXDGQ22woeqCiMiY4oM/D9BfrCYxkdp4AXpes3G9HJTuAckzdR+cHRXO
-         J6bgJW6MVRG0sHiSjDH5u7DWeR9dMAWMGSLRpEWSeM1g4L5ueHoJzPnh8tFmxEIMjavL
-         LIOZU92BKHu6u6OwmiuSx7B50g/3M3PegoF20+OPLbAinWzktdRRHPR5ZoR59ExRXBdQ
-         SUgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWrWpxUg8HXdOg1YekfGzj4K+yc+H8iRkpoRSeG/24EwU1rnDnQtGbm+M8VhJNw8BY+Wq63g28sT7AaeUlZxN2rBXEgW+4gtt7fMjWmFdpUa4VoscmJFPY7BdaJJhg3bzHHoTBGTcd2Tw=
-X-Gm-Message-State: AOJu0YxwU4TDNeGoIFaC2Em+dLNCqOzz0cTAa/DkUX94aHpuD2Joy01w
-	VJhQX85m8NGVywvl53irV8eYN/PfCkEkHK0mim2eNQOOia+CugALCSNuypZFvgTX7CpWXDpFtI4
-	pnzYP/84RWzxeAFHbCxgjR+Hk2b8=
-X-Google-Smtp-Source: AGHT+IF/lnqcjWzW+G8WdqGNI/KIXgka6mAlaezEMzVMInE6YrZ1sB/1P5ojtj4PJnvVguFLVYMBSVjr/5Jp23D7owk=
-X-Received: by 2002:a92:d790:0:b0:366:43bd:f0f5 with SMTP id
- d16-20020a92d790000000b0036643bdf0f5mr4061732iln.17.1710122842300; Sun, 10
- Mar 2024 19:07:22 -0700 (PDT)
+	s=arc-20240116; t=1710147659; c=relaxed/simple;
+	bh=5LfTEm+2GAcPhW5eEjwx+hGvI07MOdaneM/UtfmeQsY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PGzzR3fJIyBZyrZYKFqs/6v6oGMGhgON8TC4V6r6UWqIaykFa2ouF8hBwrxRB2LL7uGyVZHrYgI2Bmda8zRyolZGyfhgYqwwEBN0nOHNS3dO8c7vB7MlTCDZ206yiHHL0Up2V9yz2kwcd8avqRrTBpqZBv6jU2CS+629EUOtcd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qtn3rAa5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from umang.jain (unknown [103.251.226.70])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF9186BE;
+	Mon, 11 Mar 2024 10:00:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710147628;
+	bh=5LfTEm+2GAcPhW5eEjwx+hGvI07MOdaneM/UtfmeQsY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qtn3rAa5oFIyl1MvZA0F8+77GAgP7v0ccSpNP9pZj03c/zkWhuRqNtuNepW4DyHGl
+	 RNvX+SGgaL2hLJ92VEy+7X8SS9FkfQFRsiSyhakotioDxarKCwCnJjqbz9Ppad4lyR
+	 VpOsupm61nVmV9lzOdD7sefUAt1HO3ZZuAatNmPU=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: dave.stevenson@raspberrypi.com,
+	sakari.ailus@linux.intel.com,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH] media: i2c: imx219: Use dev_err_probe on probe
+Date: Mon, 11 Mar 2024 14:30:42 +0530
+Message-ID: <20240311090042.30280-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1708936109-11587-1-git-send-email-shengjiu.wang@nxp.com>
- <1708936109-11587-10-git-send-email-shengjiu.wang@nxp.com>
- <df05261f-2f0e-490f-883b-72ad8a02d11b@xs4all.nl> <CAA+D8AMJOCfp6WdqYqy7KSj=mX9o_D5U-aF6Wn=3cOnhWg7VDg@mail.gmail.com>
- <56368a0d-6ada-4ab6-8389-b4bd20d6efc4@xs4all.nl> <CAA+D8AOXKJP1r-+j0QiH82x3MQ+Y1y2c1h04n=jmJncPogn7Vg@mail.gmail.com>
- <c3dbbc57-2df4-4c88-98e3-0500910404c4@xs4all.nl>
-In-Reply-To: <c3dbbc57-2df4-4c88-98e3-0500910404c4@xs4all.nl>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Mon, 11 Mar 2024 10:07:10 +0800
-Message-ID: <CAA+D8AM4c6uo7pPJWHNCx1N1ZeiJO9qThy+dcSo1Mk9mRX9E8Q@mail.gmail.com>
-Subject: Re: [PATCH v13 09/16] media: uapi: Define audio sample format fourcc type
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org, 
-	m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 8, 2024 at 10:04=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
-rote:
->
-> On 08/03/2024 2:52 pm, Shengjiu Wang wrote:
-> > On Fri, Mar 8, 2024 at 8:06=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl=
-> wrote:
-> >>
-> >> On 08/03/2024 12:52 pm, Shengjiu Wang wrote:
-> >>> On Fri, Mar 8, 2024 at 3:34=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.=
-nl> wrote:
-> >>>>
-> >>>> Hi Shengjiu,
-> >>>>
-> >>>> After thinking it over I think this patch can be improved:
-> >>>>
-> >>>> On 26/02/2024 9:28 am, Shengjiu Wang wrote:
-> >>>>> The audio sample format definition is from alsa,
-> >>>>> the header file is include/uapi/sound/asound.h, but
-> >>>>> don't include this header file directly, because in
-> >>>>> user space, there is another copy in alsa-lib.
-> >>>>> There will be conflict in userspace for include
-> >>>>> videodev2.h & asound.h and asoundlib.h
-> >>>>>
-> >>>>> Here still use the fourcc format.
-> >>>>>
-> >>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> >>>>> ---
-> >>>>>  .../userspace-api/media/v4l/pixfmt-audio.rst  | 87 +++++++++++++++=
-++++
-> >>>>>  .../userspace-api/media/v4l/pixfmt.rst        |  1 +
-> >>>>>  drivers/media/v4l2-core/v4l2-ioctl.c          | 13 +++
-> >>>>>  include/uapi/linux/videodev2.h                | 23 +++++
-> >>>>>  4 files changed, 124 insertions(+)
-> >>>>>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-au=
-dio.rst
-> >>>>>
-> >>>>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-audio.rst=
- b/Documentation/userspace-api/media/v4l/pixfmt-audio.rst
-> >>>>> new file mode 100644
-> >>>>> index 000000000000..04b4a7fbd8f4
-> >>>>> --- /dev/null
-> >>>>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-audio.rst
-> >>>>> @@ -0,0 +1,87 @@
-> >>>>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> >>>>> +
-> >>>>> +.. _pixfmt-audio:
-> >>>>> +
-> >>>>> +*************
-> >>>>> +Audio Formats
-> >>>>> +*************
-> >>>>> +
-> >>>>> +These formats are used for :ref:`audiomem2mem` interface only.
-> >>>>
-> >>>> Here you should also document that all these fourccs start with 'AU'=
- and are
-> >>>> reserved for mappings of the snd_pcm_format_t type.
-> >>>>
-> >>>> Also document the v4l2_fourcc_to_audfmt define and the v4l2_audfmt_t=
-o_fourcc
-> >>>> define (see also below).
-> >>>
-> >>> How about below description?
-> >>> '
-> >>> All these fourccs starting with 'AU' are reserved for mappings
-> >>
-> >> All these fourccs -> All FourCCs
-> >>
-> >>> of the snd_pcm_format_t type.
-> >>>
-> >>> The v4l2_audfmt_to_fourcc() is defined to convert snd_pcm_format_t
-> >>
-> >> convert -> convert the
-> >>
-> >>> type to fourcc. The first character is 'A', the second character
-> >>
-> >> fourcc -> a FourCC
-> >>
-> >>> is 'U', the third character is ten's digit of snd_pcm_format_t,
-> >>> the fourth character is unit's digit of snd_pcm_format_t.
-> >>
-> >> "is 'U', and the remaining two characters is the snd_pcm_format_t
-> >> value in ASCII. Example: SNDRV_PCM_FORMAT_S16_LE (with value 2)
-> >> maps to 'AU02' and SNDRV_PCM_FORMAT_S24_3LE (with value 32) maps
-> >> to 'AU32'."
-> >>
-> >>>
-> >>> The v4l2_fourcc_to_audfmt() is defined to convert these fourccs to
-> >>
-> >> fourccs -> FourCCs
-> >>
-> >>> snd_pcm_format_t type.
-> >>
-> >> BTW, given the way snd_pcm_format_t is defined I am fairly certain
-> >> some casts are needed for the v4l2_audfmt_to_fourcc define.
-> >>
-> >> Regards,
-> >>
-> >>         Hans
-> >>
-> >>> '
-> >>> Best regards
-> >>> Shengjiu Wang
-> >>>>
-> >>>>> +
-> >>>>> +.. tabularcolumns:: |p{5.8cm}|p{1.2cm}|p{10.3cm}|
-> >>>>> +
-> >>>>> +.. cssclass:: longtable
-> >>>>> +
-> >>>>> +.. flat-table:: Audio Format
-> >>>>> +    :header-rows:  1
-> >>>>> +    :stub-columns: 0
-> >>>>> +    :widths:       3 1 4
-> >>>>> +
-> >>>>> +    * - Identifier
-> >>>>> +      - Code
-> >>>>> +      - Details
-> >>>>> +    * .. _V4L2-AUDIO-FMT-S8:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_S8``
-> >>>>> +      - 'S8'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_S8 in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-S16-LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_S16_LE``
-> >>>>> +      - 'S16_LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_S16_LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-U16-LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_U16_LE``
-> >>>>> +      - 'U16_LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_U16_LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-S24-LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_S24_LE``
-> >>>>> +      - 'S24_LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_S24_LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-U24-LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_U24_LE``
-> >>>>> +      - 'U24_LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_U24_LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-S32-LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_S32_LE``
-> >>>>> +      - 'S32_LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_S32_LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-U32-LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_U32_LE``
-> >>>>> +      - 'U32_LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_U32_LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-FLOAT-LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_FLOAT_LE``
-> >>>>> +      - 'FLOAT_LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_FLOAT_LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-IEC958-SUBFRAME-LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE``
-> >>>>> +      - 'IEC958_SUBFRAME_LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-S24-3LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_S24_3LE``
-> >>>>> +      - 'S24_3LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_S24_3LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-U24-3LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_U24_3LE``
-> >>>>> +      - 'U24_3LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_U24_3LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-S20-3LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_S20_3LE``
-> >>>>> +      - 'S20_3LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_S24_3LE in ALSA
-> >>>>> +    * .. _V4L2-AUDIO-FMT-U20-3LE:
-> >>>>> +
-> >>>>> +      - ``V4L2_AUDIO_FMT_U20_3LE``
-> >>>>> +      - 'U20_3LE'
-> >>>>> +      - Corresponds to SNDRV_PCM_FORMAT_U20_3LE in ALSA
-> >>>>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt.rst b/Doc=
-umentation/userspace-api/media/v4l/pixfmt.rst
-> >>>>> index 11dab4a90630..2eb6fdd3b43d 100644
-> >>>>> --- a/Documentation/userspace-api/media/v4l/pixfmt.rst
-> >>>>> +++ b/Documentation/userspace-api/media/v4l/pixfmt.rst
-> >>>>> @@ -36,3 +36,4 @@ see also :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`.)
-> >>>>>      colorspaces
-> >>>>>      colorspaces-defs
-> >>>>>      colorspaces-details
-> >>>>> +    pixfmt-audio
-> >>>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v=
-4l2-core/v4l2-ioctl.c
-> >>>>> index 961abcdf7290..be229c69e991 100644
-> >>>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> >>>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> >>>>> @@ -1471,6 +1471,19 @@ static void v4l_fill_fmtdesc(struct v4l2_fmt=
-desc *fmt)
-> >>>>>       case V4L2_PIX_FMT_Y210:         descr =3D "10-bit YUYV Packed=
-"; break;
-> >>>>>       case V4L2_PIX_FMT_Y212:         descr =3D "12-bit YUYV Packed=
-"; break;
-> >>>>>       case V4L2_PIX_FMT_Y216:         descr =3D "16-bit YUYV Packed=
-"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_S8:         descr =3D "8-bit Signed"; bre=
-ak;
-> >>>>> +     case V4L2_AUDIO_FMT_S16_LE:     descr =3D "16-bit Signed LE";=
- break;
-> >>>>> +     case V4L2_AUDIO_FMT_U16_LE:             descr =3D "16-bit Uns=
-igned LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_S24_LE:             descr =3D "24(32)-bit=
- Signed LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_U24_LE:             descr =3D "24(32)-bit=
- Unsigned LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_S32_LE:             descr =3D "32-bit Sig=
-ned LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_U32_LE:             descr =3D "32-bit Uns=
-igned LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_FLOAT_LE:           descr =3D "32-bit Flo=
-at LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE: descr =3D "32-bit IEC=
-958 LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_S24_3LE:            descr =3D "24(24)-bit=
- Signed LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_U24_3LE:            descr =3D "24(24)-bit=
- Unsigned LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_S20_3LE:            descr =3D "20(24)-bit=
- Signed LE"; break;
-> >>>>> +     case V4L2_AUDIO_FMT_U20_3LE:            descr =3D "20(24)-bit=
- Unsigned LE"; break;
-> >>>>>
-> >>>>>       default:
-> >>>>>               /* Compressed formats */
-> >>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vi=
-deodev2.h
-> >>>>> index 2c03d2dfadbe..673a6235a029 100644
-> >>>>> --- a/include/uapi/linux/videodev2.h
-> >>>>> +++ b/include/uapi/linux/videodev2.h
-> >>>>> @@ -843,6 +843,29 @@ struct v4l2_pix_format {
-> >>>>>  #define V4L2_META_FMT_RK_ISP1_PARAMS v4l2_fourcc('R', 'K', '1', 'P=
-') /* Rockchip ISP1 3A Parameters */
-> >>>>>  #define V4L2_META_FMT_RK_ISP1_STAT_3A        v4l2_fourcc('R', 'K',=
- '1', 'S') /* Rockchip ISP1 3A Statistics */
-> >>>>>
-> >>>>> +/*
-> >>>>> + * Audio-data formats
-> >>>>> + * All these audio formats use a fourcc starting with 'AU'
-> >>>>> + * followed by the SNDRV_PCM_FORMAT_ value from asound.h.
-> >>>>
-> >>>> Also document here that fourccs starting with 'AU' are reserved for
-> >>>> the snd_pcm_format_t to fourcc mappings.
-> >>>>
-> >>>> That to avoid that someone adds a 'AUXX' fourcc later.
-> >>>>
-> >>>>> + */
-> >>>>> +#define V4L2_AUDIO_FMT_S8                    v4l2_fourcc('A', 'U',=
- '0', '0')
-> >>>>> +#define V4L2_AUDIO_FMT_S16_LE                        v4l2_fourcc('=
-A', 'U', '0', '2')
-> >>>>> +#define V4L2_AUDIO_FMT_U16_LE                        v4l2_fourcc('=
-A', 'U', '0', '4')
-> >>>>> +#define V4L2_AUDIO_FMT_S24_LE                        v4l2_fourcc('=
-A', 'U', '0', '6')
-> >>>>> +#define V4L2_AUDIO_FMT_U24_LE                        v4l2_fourcc('=
-A', 'U', '0', '8')
-> >>>>> +#define V4L2_AUDIO_FMT_S32_LE                        v4l2_fourcc('=
-A', 'U', '1', '0')
-> >>>>> +#define V4L2_AUDIO_FMT_U32_LE                        v4l2_fourcc('=
-A', 'U', '1', '2')
-> >>>>> +#define V4L2_AUDIO_FMT_FLOAT_LE                      v4l2_fourcc('=
-A', 'U', '1', '4')
-> >>>>> +#define V4L2_AUDIO_FMT_IEC958_SUBFRAME_LE    v4l2_fourcc('A', 'U',=
- '1', '8')
-> >>>>> +#define V4L2_AUDIO_FMT_S24_3LE                       v4l2_fourcc('=
-A', 'U', '3', '2')
-> >>>>> +#define V4L2_AUDIO_FMT_U24_3LE                       v4l2_fourcc('=
-A', 'U', '3', '4')
-> >>>>> +#define V4L2_AUDIO_FMT_S20_3LE                       v4l2_fourcc('=
-A', 'U', '3', '6')
-> >>>>> +#define V4L2_AUDIO_FMT_U20_3LE                       v4l2_fourcc('=
-A', 'U', '3', '8')
-> >>>>> +
-> >>>>> +#define v4l2_fourcc_to_audfmt(fourcc)        \
-> >>>>> +     (__force snd_pcm_format_t)(((((fourcc) >> 16) & 0xff) - '0') =
-* 10  \
-> >>>>> +                                + ((((fourcc) >> 24) & 0xff) - '0'=
-))
-> >>>>> +
-> >>>>
-> >>>> As I suggested in an earlier reply, add this:
-> >>>>
-> >>>> #define v4l2_audfmt_to_fourcc(audfmt) \
-> >>>>         v4l2_fourcc('A', 'U', '0' + (audfmt) / 10, '0' + (audfmt) % =
-10)
-> >>>>
-> >>>> Even though it is not used in the drivers, since this is a public he=
-ader used
-> >>>> by drivers and applications, it makes sense to provide the reverse m=
-apping as well.
-> >>>>
-> >>>> Please test it in actual code to make sure there are no compilation =
-warnings.
-> >
-> > I test this definition, the compiler doesn't report warning.
->
-> typedef int __bitwise snd_pcm_format_t;
->
-> And __bitwise is apparently a sparse static analyzer attribute, so I susp=
-ect that the
-> v4l2_audfmt_to_fourcc definition will cause a sparse warning. So you need=
- to check
-> with sparse.
->
+Drop dev_err() and use the dev_err_probe() helper on probe path.
 
-Thanks,  with sparse there is warning, I will fix it.
+No functional changes intended.
 
-best regards
-Shengjiu Wang
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+---
+ drivers/media/i2c/imx219.c | 64 +++++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-> Regards,
->
->         Hans
->
-> >
-> > best regards
-> > Shengjiu Wang
-> >
-> >>>>
-> >>>> Regards,
-> >>>>
-> >>>>         Hans
-> >>>>
-> >>>>>  /* priv field value to indicates that subsequent fields are valid.=
- */
-> >>>>>  #define V4L2_PIX_FMT_PRIV_MAGIC              0xfeedcafe
-> >>>>>
-> >>>>
-> >>
->
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index e17ef2e9d9d0..acd27e2ef849 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -551,8 +551,9 @@ static int imx219_init_controls(struct imx219 *imx219)
+ 
+ 	if (ctrl_hdlr->error) {
+ 		ret = ctrl_hdlr->error;
+-		dev_err(&client->dev, "%s control init failed (%d)\n",
+-			__func__, ret);
++		dev_err_probe(&client->dev, ret,
++			      "%s control init failed\n",
++			      __func__);
+ 		goto error;
+ 	}
+ 
+@@ -1025,15 +1026,15 @@ static int imx219_identify_module(struct imx219 *imx219)
+ 
+ 	ret = cci_read(imx219->regmap, IMX219_REG_CHIP_ID, &val, NULL);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to read chip id %x\n",
+-			IMX219_CHIP_ID);
+-		return ret;
++		return dev_err_probe(&client->dev, ret,
++				     "failed to read chip id %x\n",
++				     IMX219_CHIP_ID);
+ 	}
+ 
+ 	if (val != IMX219_CHIP_ID) {
+-		dev_err(&client->dev, "chip id mismatch: %x!=%llx\n",
+-			IMX219_CHIP_ID, val);
+-		return -EIO;
++		return dev_err_probe(&client->dev, -EIO,
++				     "chip id mismatch: %x!=%llx\n",
++				     IMX219_CHIP_ID, val);
+ 	}
+ 
+ 	return 0;
+@@ -1048,35 +1049,36 @@ static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
+ 	int ret = -EINVAL;
+ 
+ 	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+-	if (!endpoint) {
+-		dev_err(dev, "endpoint node not found\n");
+-		return -EINVAL;
+-	}
++	if (!endpoint)
++		return dev_err_probe(dev, -EINVAL, "endpoint node not found\n");
+ 
+ 	if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep_cfg)) {
+-		dev_err(dev, "could not parse endpoint\n");
++		dev_err_probe(dev, -EINVAL, "could not parse endpoint\n");
+ 		goto error_out;
+ 	}
+ 
+ 	/* Check the number of MIPI CSI2 data lanes */
+ 	if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2 &&
+ 	    ep_cfg.bus.mipi_csi2.num_data_lanes != 4) {
+-		dev_err(dev, "only 2 or 4 data lanes are currently supported\n");
++		dev_err_probe(dev, -EINVAL,
++			      "only 2 or 4 data lanes are currently supported\n");
+ 		goto error_out;
+ 	}
+ 	imx219->lanes = ep_cfg.bus.mipi_csi2.num_data_lanes;
+ 
+ 	/* Check the link frequency set in device tree */
+ 	if (!ep_cfg.nr_of_link_frequencies) {
+-		dev_err(dev, "link-frequency property not found in DT\n");
++		dev_err_probe(dev, -EINVAL,
++			      "link-frequency property not found in DT\n");
+ 		goto error_out;
+ 	}
+ 
+ 	if (ep_cfg.nr_of_link_frequencies != 1 ||
+ 	   (ep_cfg.link_frequencies[0] != ((imx219->lanes == 2) ?
+ 	    IMX219_DEFAULT_LINK_FREQ : IMX219_DEFAULT_LINK_FREQ_4LANE))) {
+-		dev_err(dev, "Link frequency not supported: %lld\n",
+-			ep_cfg.link_frequencies[0]);
++		dev_err_probe(dev, -EINVAL,
++			      "Link frequency not supported: %lld\n",
++			      ep_cfg.link_frequencies[0]);
+ 		goto error_out;
+ 	}
+ 
+@@ -1108,30 +1110,27 @@ static int imx219_probe(struct i2c_client *client)
+ 
+ 	imx219->regmap = devm_cci_regmap_init_i2c(client, 16);
+ 	if (IS_ERR(imx219->regmap)) {
+-		ret = PTR_ERR(imx219->regmap);
+-		dev_err(dev, "failed to initialize CCI: %d\n", ret);
+-		return ret;
++		return dev_err_probe(dev, PTR_ERR(imx219->regmap),
++				     "failed to initialize CCI\n");
+ 	}
+ 
+ 	/* Get system clock (xclk) */
+ 	imx219->xclk = devm_clk_get(dev, NULL);
+ 	if (IS_ERR(imx219->xclk)) {
+-		dev_err(dev, "failed to get xclk\n");
+-		return PTR_ERR(imx219->xclk);
++		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
++				     "failed to get xclk\n");
+ 	}
+ 
+ 	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+ 	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+-		dev_err(dev, "xclk frequency not supported: %d Hz\n",
+-			imx219->xclk_freq);
+-		return -EINVAL;
++		return dev_err_probe(dev, -EINVAL,
++				     "xclk frequency not supported: %d Hz\n",
++				     imx219->xclk_freq);
+ 	}
+ 
+ 	ret = imx219_get_regulators(imx219);
+-	if (ret) {
+-		dev_err(dev, "failed to get regulators\n");
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to get regulators\n");
+ 
+ 	/* Request optional enable pin */
+ 	imx219->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+@@ -1183,20 +1182,21 @@ static int imx219_probe(struct i2c_client *client)
+ 
+ 	ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
+ 	if (ret) {
+-		dev_err(dev, "failed to init entity pads: %d\n", ret);
++		dev_err_probe(dev, ret, "failed to init entity pads\n");
+ 		goto error_handler_free;
+ 	}
+ 
+ 	imx219->sd.state_lock = imx219->ctrl_handler.lock;
+ 	ret = v4l2_subdev_init_finalize(&imx219->sd);
+ 	if (ret < 0) {
+-		dev_err(dev, "subdev init error: %d\n", ret);
++		dev_err_probe(dev, ret, "subdev init error\n");
+ 		goto error_media_entity;
+ 	}
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&imx219->sd);
+ 	if (ret < 0) {
+-		dev_err(dev, "failed to register sensor sub-device: %d\n", ret);
++		dev_err_probe(dev, ret,
++			      "failed to register sensor sub-device\n");
+ 		goto error_subdev_cleanup;
+ 	}
+ 
+-- 
+2.43.0
+
 
