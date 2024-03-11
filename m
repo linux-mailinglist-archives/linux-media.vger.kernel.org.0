@@ -1,249 +1,274 @@
-Return-Path: <linux-media+bounces-6807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6809-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B01877E78
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 11:57:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5929D877F1A
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 12:35:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62AA01F220B5
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 10:57:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FB76283D2E
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 11:35:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A5E3BBDF;
-	Mon, 11 Mar 2024 10:56:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 582943B794;
+	Mon, 11 Mar 2024 11:35:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="Bgs78w2T"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bpMqnHEg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11020002.outbound.protection.outlook.com [52.101.154.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281F03A8C1;
-	Mon, 11 Mar 2024 10:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.154.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710154603; cv=fail; b=IowkZcqgXhjiMTPA02u/owE7lGRPN2ff7QOFay21yhDqGwmcdLjtbB64CL7tZ8DDL6zuIgNedsWiW055Xda/fd3ZEVGkIeknNdmoMDZKlUuUUB3Xuw7nqJnBWsYu0UxpCHPqVUjfDiuZy1QOb7y/RQfM6fzoRAQ0SWdlP3gofYY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710154603; c=relaxed/simple;
-	bh=yxNFp988MN/rGSkeStJyaW4sORGym2mKJNvRu9JwxrI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=m8EFmqlE8NY9w12GcP4Vl9HjCWW1EaMDMH3vxhfAASO6vxT+zX6MBgb3DjH/uPmqrasKQXfFUpIVvMBQkBmMgrSzRV+GOwRnag+x3+me62Eg9h2OMdlWxUoddqNyeb7/0e9AkGGowR+4HMso1lbZf1XRPLg7ygoSVbKNXBjjdN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=Bgs78w2T; arc=fail smtp.client-ip=52.101.154.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O/imnr/Xm2GlbLAdKDkTPEMZoPQqCTrZZtzYZb/A6Tc+7hoOYu8DSC0UEtCmRxmxseM72bj3XnbnPxzWerI2O/91A4e8u5rvf/+ePJPQ10HPWcxjCSEQtIigYLIUnFs869Z/iNoeaqdz/R0xH9dkQa8YFeW2FOaEj4B98j4qaRVLlgoB+Z3MfYO8zDz2slnNbBEESJLUOjmvQEy4vz1k7rf+SNZP6l/AX8kLx2+r8uayIqxBu330FtDxpSSWumd4XsoocZuGa1XPXzBgcQlFGTCcwHxNmGmK71sg4pVHMjrezACKa0z7/Twfdbu5TXYZtPjegcNakW7EK9LbQVLwVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5AOc2QOAt3qo30Tc77Pm7XC3tlB9nOy+F4lkE4s5kPw=;
- b=MHCUCkkRa4xrwqaWKqQiQFQLb5SOU/fugASXXk5r5EeInUaBkJbO1qlHoVfW1qbDpqk6WI3YsXKUMpK3dxvsPtq9LLVEf1CYI8LjyKvL6w/wxOiF67qDRvkTQu8nEFkvEx2bTWnyt5Psk6NfLlv2VbwCkje1huzxSo5zMiaRxezxMqOBDrDF4zXtfLuPcb4P4WQfcxFBmq+Svyh32RUmcHYXRLi9RX5VKAlKGvJYDie5EMsDoBJp+HiefKPhwMlF0vs+0nWdoYkZi4P5Aku70Bz5mN+mmMGYc+doysdVTpf4t6CEX02SMoaJ6hcCHoW92yzjEfDZGHh5UQ8/ep8ptQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5AOc2QOAt3qo30Tc77Pm7XC3tlB9nOy+F4lkE4s5kPw=;
- b=Bgs78w2T57uhjhAPug3MkqG4hmaZgNjjEJn2SWusmY3LNBCUEtkJ0JN0W2D94hopegDua8d+dqq8W4YSswZQP2Her+VCIVBDnlKl5db9KtXEisoQJe0Z94Kvduh6QIp6q3YjBJVMNJnTlgLT04GHYOLQt8XWfYThSlFoPfJf2cg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
- SE1P216MB2024.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15b::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7362.36; Mon, 11 Mar 2024 10:56:31 +0000
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::ebb8:2043:fd53:303a]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::ebb8:2043:fd53:303a%3]) with mapi id 15.20.7362.035; Mon, 11 Mar 2024
- 10:56:31 +0000
-From: "jackson.lee" <jackson.lee@chipsnmedia.com>
-To: mchehab@kernel.org,
-	nicolas@ndufresne.ca,
-	sebastian.fricke@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	hverkuil@xs4all.nl,
-	nas.chung@chipsnmedia.com,
-	lafley.kim@chipsnmedia.com,
-	b-brnich@ti.com,
-	"Jackson.lee" <jackson.lee@chipsnmedia.com>
-Subject: [RESEND PATCH v2 4/4] media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder.
-Date: Mon, 11 Mar 2024 19:56:23 +0900
-Message-Id: <20240311105623.20406-5-jackson.lee@chipsnmedia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240311105623.20406-1-jackson.lee@chipsnmedia.com>
-References: <20240311105623.20406-1-jackson.lee@chipsnmedia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SL2P216CA0127.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1::6)
- To SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037903A1CD
+	for <linux-media@vger.kernel.org>; Mon, 11 Mar 2024 11:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710156939; cv=none; b=HZbd1tXCByNPgf8+7kpvifsfn7uT/syU7BF+j7mHLsd0Q8z9XR1bZMFZ4DB5+F/9qV4wYCEnmgTlaHgCPi5iBUIFNQmwf5g9xX2ms2SIMhQuhbZqJFEs/EKIvcOv1L2pOy5IV+WXoMRBFYM88YS+BGyVXc/50vet5zlkeWMvU8I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710156939; c=relaxed/simple;
+	bh=h0yobWQyftM/NNxEmNB/LCHJ+/I+pwqoHDLoOibZRAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YcXxaYoDl4LtKraGUix5cLYdHrBv3M4tFFl+EvCvhgFmqj9yL/Ax97JunfseX69mbDuCF6wl9nIDqQl2wD3nrzwFseSJzlkdUxl8Xn1V4Pon5dpcgkMOnhSebeSwJnioVvcVJ1/aRBCQfJrwxAWArRJPjPHXMX2Hbdj1ryP6064=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bpMqnHEg; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33e93514a6aso649652f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Mar 2024 04:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710156936; x=1710761736; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=60KPGdGPlkD64tX317tsyohxUc6XQiy447S1QUV0V8s=;
+        b=bpMqnHEgheUs3ZrQJLsZQlPRMmw0h80ALGWPeGmIugn26xqIMYio29dr02JZpPhtR5
+         aGxU60vV57tzyQblDPkgZoOpTPrP1lpNT5eejzyPuV/I5IyVin9dQWvyLF3mvj5Sdc03
+         zbeqSXh8ZsrnErqpQHS3pJ3M3WtsbaPrJwjU5HqcuFK/dZ4yKBFF7MuiNifJf77+Y6Xx
+         3VPDFBbhDb2nP66iKXE2cAv9baiBXyT0qNgR5R6BN+i1hBLkB1jyc5cw4LWubgaZNCP5
+         PkIm1NgzoOxlXOKjOLNw+bwWecXX2H96s4lPWABFAs3IqX4b/gj6ZbdJ3bZDWa7v4WjI
+         cUDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710156936; x=1710761736;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=60KPGdGPlkD64tX317tsyohxUc6XQiy447S1QUV0V8s=;
+        b=hDivL/VYsT+Kvaw/pH4qRN8PpxusHeXQ+SfWDtaA90TYF6aO8TfxJRHCvfdPP1fmi4
+         y29wRb2sRwmfwwoyjabqtUuSKLQRLzMd+R8JcCxvrIPRjco9SAz2t8s4ve3YEWHOv2Qx
+         Vze/FJBAqACG7jEwxWI2WYr+XSti+NEB5JXHBbhmB8cWCFZ977jY7IbqCEd88xle38Zw
+         YsCMC8aIatZLj975eEfz9nVyKv6RjA6IBdd+zrvoVHsN+QKryIbqLlbxeiNipw20ySlC
+         EHVzyN7bGfueXnKte+jNtq+h3hU9pzd8OdQht+Jh4FJ01Y1NZngo6KI7lX4YnwEJnrDa
+         u5/Q==
+X-Gm-Message-State: AOJu0Yz98uXeiWlXhdvmsHJa+TlDv0tpZy+KVjV0OVaHtejvWG7syneH
+	r45h3901KcxGYRgd4BB/th/rjfs8z6JtQDYSycNmBOmv5E0PpwS2jAhx5AR1+08=
+X-Google-Smtp-Source: AGHT+IH0pMbMCr4Uxmu1wLQ7FkXsuF2EMAtdWHp6Kw9G0NeQN3M93LJaVLxfrButFq09okz2cOC9Pg==
+X-Received: by 2002:a5d:64a2:0:b0:33b:187c:4ca0 with SMTP id m2-20020a5d64a2000000b0033b187c4ca0mr4736746wrp.62.1710156935956;
+        Mon, 11 Mar 2024 04:35:35 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-49-82.cust.vodafonedsl.it. [188.217.49.82])
+        by smtp.gmail.com with ESMTPSA id by19-20020a056000099300b0033e8c50fc3fsm4084411wrb.90.2024.03.11.04.35.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Mar 2024 04:35:35 -0700 (PDT)
+Date: Mon, 11 Mar 2024 12:35:33 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+	sakari.ailus@linux.intel.com,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] media: i2c: imx219: Use dev_err_probe on probe
+Message-ID: <Ze7shcxM/v1+FHCm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20240311090042.30280-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SE1P216MB1303:EE_|SE1P216MB2024:EE_
-X-MS-Office365-Filtering-Correlation-Id: da2880e9-1ddb-458b-e225-08dc41b9e90d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	G1L5LpWatu5C9xrfDaMTvWoaw3WxmYp/x7XkbLFJJErni/KXKuEBwnL9zBF0drzJqggD6IJexvGqW3BDLqNaAgOGCMIhweyoyqeplJqLh2Yf4PqfzHY7sv4o7GV7a+ZNBuGftEnGgzpUJT39+CY4Cub1BJ0wTxyuf8YTpDJV9uBm50XE+v4oyeLYdtRfDiacNLEXrB3qoDrd+wD1jISnGSft+w7dWKNib6T3TdWkvACHK00h85THSwrXVig949Epk0Zn+zFMQxdNV8J0ztfdxbSMIHpOwkEBS23YGt+nVJPdcV0Bf9Iezqql/7xLXLSywrTvlDHOnE/ElIvECi8ZbcYFXT4+gHzKpVHO4HZfloNQ1iZaRPP4IVF1hQ82u4BNi1HJY20KZfZrna627sxXynOuJdjvMNjTleSGtRPS9p/2ytMk7OHrcQhRo0iqd6Iyg04xs3PRulRX6yrhY9Kwo0kq8yE/47Rvsj6/dwZPvuKcWRmDtP097V/eErLE4jVbTgk9OAk6+BTCLT62dgMHugoJ6hch1I9xLVTYeqVmQ08tKbXJ1LUMUiwa39JTg8yL29Ggxwwa4q+ROSJ7ht72h5J38x+6/3Si+gwj5p5WBkZeM8NxS56CNC0Jd6HjwRsHpWsAFd7ljfF417AXtP5hUrQIsvfd3XMIEItpCf38QyZyOXAsqKzHYNyrSwlTcPK4khyD2z/JTiQ1vIXUckYWCe2ymR95L1NiG6IaINg/3Z8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NxP+NFzny3H6BRWGp7EQ97yhu1GDNXoy+LcAbgZDUxtMUhxD39v3TQypV/7N?=
- =?us-ascii?Q?KxrnEpNpVCtw8HOaqc0/dhY4NEVj3x9u85RBp99tLkS09amKhUhLNxxDMHIs?=
- =?us-ascii?Q?dPkw2U4AthEeCDiNQGjAEqNoE0sDKzCuQjXMhSVrBRaR54h8FAXYVI3fA13W?=
- =?us-ascii?Q?FL4ZnmnUQQH0wB0oe1pdt/4uar6hVMaGo2nDdtkRk09LcgdE7xEI45fkQ+1k?=
- =?us-ascii?Q?ZEcnCsA60S0RamCNsGTsL0RtVLsCgmjq03YM/zzpYoTQFfGVDSIv6MP2sbjs?=
- =?us-ascii?Q?NGucyjXoCWavZ92lGMFy7f0ka0U0kn8SqxxoKbHLzI+FCxqA+l4z1OxtC5fR?=
- =?us-ascii?Q?/U+ILRtJP2Osx+d59dVwgkdO8ni+V/v4L1Yn01upCBQqYNoeKzMgeGpTQzom?=
- =?us-ascii?Q?kw8pG1342jvnh2mEHDzVQm745DGfKkHcvOYNbC7uaIuRYkFaqgK95jJHWe5i?=
- =?us-ascii?Q?GNzaPDY8xyuVL9zBYwNJrlR1RMKQ3H/K7PpbVMH8C0pQWNpVPw3NY2rbGNnV?=
- =?us-ascii?Q?V4KHdeQeEwo7HnR6mYY8dWmKHFj2zpvmrtk+yC8G9TaMSesNZr7stu0fR7hN?=
- =?us-ascii?Q?2evG+Np1zZpligrCU+vvb4ruOK4RY3xTIcDdktkOB78jmQE66CTscRAG3J8y?=
- =?us-ascii?Q?CiFRWQYgB0XgF0/MOWmr0RxpTi08bEuiLfJLNqfQDzF6dbIVIj6gR78KlMJD?=
- =?us-ascii?Q?3DKGANwMZXDl0zWuSiXb10l7/qUX+EoI4NLWbWYvnQVzYi1gvmGPvsZmk9fZ?=
- =?us-ascii?Q?95Bh5JMIC5vlLULlEq+WjZdYtfjK4fGaA5HdLTurwbllVIOkp1htfLXwVUq+?=
- =?us-ascii?Q?sWGIox1HAyYifIGCn0gC65xB/U9nruPzj3cD/0iRweMqquiEnPOHnIq3d+lW?=
- =?us-ascii?Q?Qr3nVDhv3fYStZleNAPwxhpRX51l1buceKrSsaJQvz2msztQs6EKKv1tmyjQ?=
- =?us-ascii?Q?+WW7B9lU92X5X3thvkon0VPuYei/60toKFxBzfXJnhOE8YQlLca4JTNzNEeW?=
- =?us-ascii?Q?N71xmLaCj61x9KaMI+qPnUaNTi6E7jRViK1clFWlJsK+B9qRjR703DTW8uPW?=
- =?us-ascii?Q?b5810AwJOFbdlpFZ/PT0pa7nvWWcMki6YQpuNNTw1RqDNpxuygna6QMhZQTj?=
- =?us-ascii?Q?iMlpV7eo4u2dxkNv+5VgH31F/snaNOHSOPq3rSYmCl0cZPXjg5Pt4/V9rSwt?=
- =?us-ascii?Q?YMOC8tQUHeq6atDMegQ591LaqaFaouKgzXdLhzqcULCtK98///yHYOgyzAZv?=
- =?us-ascii?Q?lkWaWIHlq3HFoZh+m5/wZiz/y/WUeVKYFQUSoCbH7xU3gvajIyDwWlOpYeAZ?=
- =?us-ascii?Q?8bwXu72ZGUkwLcmRSzxGNu+bt06e4oepIkzbhGvtYHQ/R537plrOciYyoHJ7?=
- =?us-ascii?Q?6+80UzrNPjgMSkzdXWvQG8lMIIghmCZDAOS3bOMlFBRS8yx0G+c/qUvjaYAW?=
- =?us-ascii?Q?fiXUydxXDpKnHLTNDF39gyMXO5LUC4YIXAAUWqJOo/VPCRuywPQHQcWTZ4ry?=
- =?us-ascii?Q?XXy/NcrTPKXpRTRYzJ/wXcp6w5G4vV9KrHJn/ckfpMRueRzLPULtRF9ce403?=
- =?us-ascii?Q?TxOaHG4YmJVZkKTi5nCXh1zXhOsIDuKcwU7MBqg2Wa9YGfMxQIsqqOjAArzx?=
- =?us-ascii?Q?kg=3D=3D?=
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da2880e9-1ddb-458b-e225-08dc41b9e90d
-X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 10:56:31.5264
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ajZCkbccnSIgBIblDWoYyMGRr5LvfVDLsLElNz6cCloO9LpOWPVlMd/Ses/6kgbsJGE/yCf7hY7Ls1H6EV921Lamcc5v/oG0f4nbPHR5t78=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB2024
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240311090042.30280-1-umang.jain@ideasonboard.com>
 
-From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
+Hi Umang,
+Thanks for the patch.
 
-Add support for the YUV422P, NV16, NV61, YUV422M, NV16M, NV61M raw pixel-formats to the Wave5 encoder.
-All these formats have a chroma subsampling ratio of 4:2:2 and therefore require a new image size calculation as the driver previously only handled a ratio of 4:2:0.
+On Mon, Mar 11, 2024 at 02:30:42PM +0530, Umang Jain wrote:
+> Drop dev_err() and use the dev_err_probe() helper on probe path.
+> 
+> No functional changes intended.
+> 
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx219.c | 64 +++++++++++++++++++-------------------
+>  1 file changed, 32 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index e17ef2e9d9d0..acd27e2ef849 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -551,8 +551,9 @@ static int imx219_init_controls(struct imx219 *imx219)
+>  
+>  	if (ctrl_hdlr->error) {
+>  		ret = ctrl_hdlr->error;
+> -		dev_err(&client->dev, "%s control init failed (%d)\n",
+> -			__func__, ret);
+> +		dev_err_probe(&client->dev, ret,
+> +			      "%s control init failed\n",
+> +			      __func__);
+>  		goto error;
+>  	}
+>  
+> @@ -1025,15 +1026,15 @@ static int imx219_identify_module(struct imx219 *imx219)
+>  
+>  	ret = cci_read(imx219->regmap, IMX219_REG_CHIP_ID, &val, NULL);
+>  	if (ret) {
+> -		dev_err(&client->dev, "failed to read chip id %x\n",
+> -			IMX219_CHIP_ID);
+> -		return ret;
+> +		return dev_err_probe(&client->dev, ret,
+> +				     "failed to read chip id %x\n",
+> +				     IMX219_CHIP_ID);
+>  	}
 
-Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
----
- .../chips-media/wave5/wave5-vpu-enc.c         | 59 +++++++++++++++++--
- 1 file changed, 54 insertions(+), 5 deletions(-)
+I think you can remove also here the curve brakets we don't need that
+anymore.
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index 5a32bb138158..77657f63a169 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -39,6 +39,24 @@ static const struct vpu_format enc_fmt_list[FMT_TYPES][MAX_FMTS] = {
- 		{
- 			.v4l2_pix_fmt = V4L2_PIX_FMT_NV21M,
- 		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_YUV422P,
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_NV16,
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_NV61,
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_YUV422M,
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_NV16M,
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_NV61M,
-+		},
- 	}
- };
- 
-@@ -101,13 +119,30 @@ static int start_encode(struct vpu_instance *inst, u32 *fail_res)
- 	struct vb2_v4l2_buffer *dst_buf;
- 	struct frame_buffer frame_buf;
- 	struct enc_param pic_param;
--	u32 stride = ALIGN(inst->dst_fmt.width, 32);
--	u32 luma_size = (stride * inst->dst_fmt.height);
--	u32 chroma_size = ((stride / 2) * (inst->dst_fmt.height / 2));
-+	u32 stride = inst->src_fmt.plane_fmt[0].bytesperline;
-+	u32 luma_size = (stride * inst->src_fmt.height);
-+	u32 chroma_size = 0;
- 
- 	memset(&pic_param, 0, sizeof(struct enc_param));
- 	memset(&frame_buf, 0, sizeof(struct frame_buffer));
- 
-+	if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV420 ||
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV420M)
-+		chroma_size = luma_size / 4;
-+	else if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12 ||
-+		 inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21 ||
-+		 inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12M ||
-+		 inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21M)
-+		chroma_size = luma_size / 2;
-+	else if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV422P ||
-+		 inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV422M)
-+		chroma_size = luma_size / 2;
-+	else if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16 ||
-+		 inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61 ||
-+		 inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16M ||
-+		 inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61M)
-+		chroma_size = luma_size;
-+
- 	dst_buf = v4l2_m2m_next_dst_buf(m2m_ctx);
- 	if (!dst_buf) {
- 		dev_dbg(inst->dev->dev, "%s: No destination buffer found\n", __func__);
-@@ -490,11 +525,15 @@ static int wave5_vpu_enc_s_fmt_out(struct file *file, void *fh, struct v4l2_form
- 	}
- 
- 	if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12 ||
--	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12M) {
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12M ||
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16 ||
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16M) {
- 		inst->cbcr_interleave = true;
- 		inst->nv21 = false;
- 	} else if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21 ||
--		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21M) {
-+		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21M ||
-+		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61 ||
-+		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61M) {
- 		inst->cbcr_interleave = true;
- 		inst->nv21 = true;
- 	} else {
-@@ -1086,6 +1125,16 @@ static void wave5_set_enc_openparam(struct enc_open_param *open_param,
- 	u32 num_ctu_row = ALIGN(inst->dst_fmt.height, 64) / 64;
- 	u32 num_mb_row = ALIGN(inst->dst_fmt.height, 16) / 16;
- 
-+	if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV422P ||
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16 ||
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61 ||
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_YUV422M ||
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV16M ||
-+	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV61M)
-+		open_param->src_format = FORMAT_422;
-+	else
-+		open_param->src_format = FORMAT_420;
-+
- 	open_param->wave_param.gop_preset_idx = PRESET_IDX_IPP_SINGLE;
- 	open_param->wave_param.hvs_qp_scale = 2;
- 	open_param->wave_param.hvs_max_delta_qp = 10;
--- 
-2.43.0
+>  
+>  	if (val != IMX219_CHIP_ID) {
+> -		dev_err(&client->dev, "chip id mismatch: %x!=%llx\n",
+> -			IMX219_CHIP_ID, val);
+> -		return -EIO;
+> +		return dev_err_probe(&client->dev, -EIO,
+> +				     "chip id mismatch: %x!=%llx\n",
+> +				     IMX219_CHIP_ID, val);
+>  	}
 
+ditto
+
+>  
+>  	return 0;
+> @@ -1048,35 +1049,36 @@ static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
+>  	int ret = -EINVAL;
+>  
+>  	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+> -	if (!endpoint) {
+> -		dev_err(dev, "endpoint node not found\n");
+> -		return -EINVAL;
+> -	}
+> +	if (!endpoint)
+> +		return dev_err_probe(dev, -EINVAL, "endpoint node not found\n");
+>  
+>  	if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep_cfg)) {
+> -		dev_err(dev, "could not parse endpoint\n");
+> +		dev_err_probe(dev, -EINVAL, "could not parse endpoint\n");
+>  		goto error_out;
+>  	}
+>  
+>  	/* Check the number of MIPI CSI2 data lanes */
+>  	if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2 &&
+>  	    ep_cfg.bus.mipi_csi2.num_data_lanes != 4) {
+> -		dev_err(dev, "only 2 or 4 data lanes are currently supported\n");
+> +		dev_err_probe(dev, -EINVAL,
+> +			      "only 2 or 4 data lanes are currently supported\n");
+>  		goto error_out;
+>  	}
+>  	imx219->lanes = ep_cfg.bus.mipi_csi2.num_data_lanes;
+>  
+>  	/* Check the link frequency set in device tree */
+>  	if (!ep_cfg.nr_of_link_frequencies) {
+> -		dev_err(dev, "link-frequency property not found in DT\n");
+> +		dev_err_probe(dev, -EINVAL,
+> +			      "link-frequency property not found in DT\n");
+>  		goto error_out;
+>  	}
+>  
+>  	if (ep_cfg.nr_of_link_frequencies != 1 ||
+>  	   (ep_cfg.link_frequencies[0] != ((imx219->lanes == 2) ?
+>  	    IMX219_DEFAULT_LINK_FREQ : IMX219_DEFAULT_LINK_FREQ_4LANE))) {
+> -		dev_err(dev, "Link frequency not supported: %lld\n",
+> -			ep_cfg.link_frequencies[0]);
+> +		dev_err_probe(dev, -EINVAL,
+> +			      "Link frequency not supported: %lld\n",
+> +			      ep_cfg.link_frequencies[0]);
+>  		goto error_out;
+>  	}
+>  
+> @@ -1108,30 +1110,27 @@ static int imx219_probe(struct i2c_client *client)
+>  
+>  	imx219->regmap = devm_cci_regmap_init_i2c(client, 16);
+>  	if (IS_ERR(imx219->regmap)) {
+> -		ret = PTR_ERR(imx219->regmap);
+> -		dev_err(dev, "failed to initialize CCI: %d\n", ret);
+> -		return ret;
+> +		return dev_err_probe(dev, PTR_ERR(imx219->regmap),
+> +				     "failed to initialize CCI\n");
+>  	}
+
+ditto
+
+>  
+>  	/* Get system clock (xclk) */
+>  	imx219->xclk = devm_clk_get(dev, NULL);
+>  	if (IS_ERR(imx219->xclk)) {
+> -		dev_err(dev, "failed to get xclk\n");
+> -		return PTR_ERR(imx219->xclk);
+> +		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
+> +				     "failed to get xclk\n");
+>  	}
+
+ditto
+
+>  
+>  	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+>  	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> -		dev_err(dev, "xclk frequency not supported: %d Hz\n",
+> -			imx219->xclk_freq);
+> -		return -EINVAL;
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "xclk frequency not supported: %d Hz\n",
+> +				     imx219->xclk_freq);
+>  	}
+
+ditto
+
+>  
+>  	ret = imx219_get_regulators(imx219);
+> -	if (ret) {
+> -		dev_err(dev, "failed to get regulators\n");
+> -		return ret;
+> -	}
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to get regulators\n");
+>  
+>  	/* Request optional enable pin */
+>  	imx219->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> @@ -1183,20 +1182,21 @@ static int imx219_probe(struct i2c_client *client)
+>  
+>  	ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
+>  	if (ret) {
+> -		dev_err(dev, "failed to init entity pads: %d\n", ret);
+> +		dev_err_probe(dev, ret, "failed to init entity pads\n");
+>  		goto error_handler_free;
+>  	}
+>  
+>  	imx219->sd.state_lock = imx219->ctrl_handler.lock;
+>  	ret = v4l2_subdev_init_finalize(&imx219->sd);
+>  	if (ret < 0) {
+> -		dev_err(dev, "subdev init error: %d\n", ret);
+> +		dev_err_probe(dev, ret, "subdev init error\n");
+>  		goto error_media_entity;
+>  	}
+>  
+>  	ret = v4l2_async_register_subdev_sensor(&imx219->sd);
+>  	if (ret < 0) {
+> -		dev_err(dev, "failed to register sensor sub-device: %d\n", ret);
+> +		dev_err_probe(dev, ret,
+> +			      "failed to register sensor sub-device\n");
+>  		goto error_subdev_cleanup;
+>  	}
+>  
+> -- 
+> 2.43.0
+
+Thanks & Regards,
+Tommaso
+
+> 
+> 
 
