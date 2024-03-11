@@ -1,274 +1,157 @@
-Return-Path: <linux-media+bounces-6809-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6810-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5929D877F1A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 12:35:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2564877F82
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 13:04:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FB76283D2E
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 11:35:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8AA728337A
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 12:04:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 582943B794;
-	Mon, 11 Mar 2024 11:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bpMqnHEg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ED363FBA0;
+	Mon, 11 Mar 2024 12:03:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2120.outbound.protection.partner.outlook.cn [139.219.17.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037903A1CD
-	for <linux-media@vger.kernel.org>; Mon, 11 Mar 2024 11:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710156939; cv=none; b=HZbd1tXCByNPgf8+7kpvifsfn7uT/syU7BF+j7mHLsd0Q8z9XR1bZMFZ4DB5+F/9qV4wYCEnmgTlaHgCPi5iBUIFNQmwf5g9xX2ms2SIMhQuhbZqJFEs/EKIvcOv1L2pOy5IV+WXoMRBFYM88YS+BGyVXc/50vet5zlkeWMvU8I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710156939; c=relaxed/simple;
-	bh=h0yobWQyftM/NNxEmNB/LCHJ+/I+pwqoHDLoOibZRAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YcXxaYoDl4LtKraGUix5cLYdHrBv3M4tFFl+EvCvhgFmqj9yL/Ax97JunfseX69mbDuCF6wl9nIDqQl2wD3nrzwFseSJzlkdUxl8Xn1V4Pon5dpcgkMOnhSebeSwJnioVvcVJ1/aRBCQfJrwxAWArRJPjPHXMX2Hbdj1ryP6064=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bpMqnHEg; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33e93514a6aso649652f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 11 Mar 2024 04:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710156936; x=1710761736; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=60KPGdGPlkD64tX317tsyohxUc6XQiy447S1QUV0V8s=;
-        b=bpMqnHEgheUs3ZrQJLsZQlPRMmw0h80ALGWPeGmIugn26xqIMYio29dr02JZpPhtR5
-         aGxU60vV57tzyQblDPkgZoOpTPrP1lpNT5eejzyPuV/I5IyVin9dQWvyLF3mvj5Sdc03
-         zbeqSXh8ZsrnErqpQHS3pJ3M3WtsbaPrJwjU5HqcuFK/dZ4yKBFF7MuiNifJf77+Y6Xx
-         3VPDFBbhDb2nP66iKXE2cAv9baiBXyT0qNgR5R6BN+i1hBLkB1jyc5cw4LWubgaZNCP5
-         PkIm1NgzoOxlXOKjOLNw+bwWecXX2H96s4lPWABFAs3IqX4b/gj6ZbdJ3bZDWa7v4WjI
-         cUDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710156936; x=1710761736;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=60KPGdGPlkD64tX317tsyohxUc6XQiy447S1QUV0V8s=;
-        b=hDivL/VYsT+Kvaw/pH4qRN8PpxusHeXQ+SfWDtaA90TYF6aO8TfxJRHCvfdPP1fmi4
-         y29wRb2sRwmfwwoyjabqtUuSKLQRLzMd+R8JcCxvrIPRjco9SAz2t8s4ve3YEWHOv2Qx
-         Vze/FJBAqACG7jEwxWI2WYr+XSti+NEB5JXHBbhmB8cWCFZ977jY7IbqCEd88xle38Zw
-         YsCMC8aIatZLj975eEfz9nVyKv6RjA6IBdd+zrvoVHsN+QKryIbqLlbxeiNipw20ySlC
-         EHVzyN7bGfueXnKte+jNtq+h3hU9pzd8OdQht+Jh4FJ01Y1NZngo6KI7lX4YnwEJnrDa
-         u5/Q==
-X-Gm-Message-State: AOJu0Yz98uXeiWlXhdvmsHJa+TlDv0tpZy+KVjV0OVaHtejvWG7syneH
-	r45h3901KcxGYRgd4BB/th/rjfs8z6JtQDYSycNmBOmv5E0PpwS2jAhx5AR1+08=
-X-Google-Smtp-Source: AGHT+IH0pMbMCr4Uxmu1wLQ7FkXsuF2EMAtdWHp6Kw9G0NeQN3M93LJaVLxfrButFq09okz2cOC9Pg==
-X-Received: by 2002:a5d:64a2:0:b0:33b:187c:4ca0 with SMTP id m2-20020a5d64a2000000b0033b187c4ca0mr4736746wrp.62.1710156935956;
-        Mon, 11 Mar 2024 04:35:35 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-49-82.cust.vodafonedsl.it. [188.217.49.82])
-        by smtp.gmail.com with ESMTPSA id by19-20020a056000099300b0033e8c50fc3fsm4084411wrb.90.2024.03.11.04.35.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Mar 2024 04:35:35 -0700 (PDT)
-Date: Mon, 11 Mar 2024 12:35:33 +0100
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
-	sakari.ailus@linux.intel.com,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] media: i2c: imx219: Use dev_err_probe on probe
-Message-ID: <Ze7shcxM/v1+FHCm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20240311090042.30280-1-umang.jain@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0A83F9D2;
+	Mon, 11 Mar 2024 12:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.120
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710158608; cv=fail; b=svFh5gLBeO1putlnNcvJ1pZtJPYmwGnpe//zgRnI6VMfZwuuODpEnl56uleXfPrcB1wZDJ5ZyiPd0Xh6FkvzHdaky45Ip3i/sd9RuVbAJeoQpfgO9wE+0zfeSrVFXODAgx5llnXXB0a4uPXqjVPa2Bih3Hwr+0jEW3nvaFn+Lqo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710158608; c=relaxed/simple;
+	bh=cYfthZ/jaT38HqORkj+Brecr+mSEj2m8c1hHhjI194M=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=OY/EgjJMBFRfAyd39j1EedZuEN0nso1kSjH2ar11p2nmY1zDT287pelRYmNBjFebZvT4B1GwHN2GNKAdWrfruQWe3jD92446/qxs+k+k7j96KqChhe7fc5/+cSagliYU6rHOlpAhi20WqdSIMBqR+k8xs/S6dd9I00rVSjMIVWk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UB8y2XR7u0qUW+fAcaqpcYm/lS3oMjIzzy4t8kN8D59DMmDQgNObA/KQYFCuwP5bQJb0P6Lx7NGxxb6RA5Kgvd2TAsO5F53cYTnF02c7qQDeCvEOoCvjojGCeJX/8FRWmU/OP6mw6PKo2W6FustMRwTkdan8KZU8IbIB9/Leh9P/jIklsva1cT4PP6R469vcZgtnkWGEZAY73h4GuK2WI3DUq8T7c/PbMcBeJ/7RR/S/jXPV33DeHM7ENIzkriYEibPez+Ojf0HY9yi/nxnUPw91KsVzyY5MWIzzjbBLIJsLLNIP3qkHQaPhRcQAiL4F7jL0TW0GParQVGGCOwDUCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JhrZVVJAK9s6T2AjPrrnc5ZXfVhkVFtfA2/ycaCWrKE=;
+ b=Xys/Y6RNKJxMJhKg6XwuQIPaDKG8gjriW4AFm1QdjG5N6/lXJKlLt9+1rmjE1nskDTdYNIrEcL1Yyg7K2FtgwNnlVSz6ljphxDD5GOpic+HbSUBiOeXVaUmY22F5goYrK/fm2WqiRwQMSHgoY0qtPWeyfGPGzajiCMS9PnoLBSRzbefc7jrq7XCxyfHweDVEC+2nGxu7nmvqG6hDIwXdJeXXzan/t909MHL23OZA4XuyPD4UyZa8DtTaGZMzC1H2bRhHPxo06TvLYcoPFCP3Kd+ByV9utO2aYjfAtZKtiSPfRhRjKLzTTxgbXwhRJgfe2uT12ZJcVRMGhdirpKqu+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0557.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1e::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.45; Mon, 11 Mar
+ 2024 12:03:15 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::b0af:4c9d:2058:a344]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
+ with mapi id 15.20.7249.041; Mon, 11 Mar 2024 12:03:15 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [v1] staging: media: starfive: Remove links when unregistering devices
+Date: Mon, 11 Mar 2024 05:03:09 -0700
+Message-Id: <20240311120309.5389-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHXPR01CA0015.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1b::24) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240311090042.30280-1-umang.jain@ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0557:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa5f5e79-b7a7-45c1-fec9-08dc41c33bac
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	gq+HqZDMiIlnbpg2H8oVq9pUX5hOZy2Nu70F+0yMnAAp7LnaHfnV0IV4mzzo4o4m827UYWhobfYCD7Bl7Kmp54hjgda4WLV6BcVYOh9Wnb+/iEoGFr3In9YOWO7YYLGv2q63GY7Pj/Z3c1Oq5VdVypNPi2henmu9um36r/LWkvQcZJPscIH+m3yQIU+WE2MzSrSab8yh6pBJJjILINCXoIELDPp+HKUqFpf9WnD0HTpfB8//XbzhcmZabbxdz29ojRbiGQ3AKjbNbq6tkF+T8ecPH9OqWHCgKB5waj4oHmqATYeD4Bruj043s87f2CFMYpALuF0K+pQj0AuTITOSQeRoCOn0tQ0DvBhbrTYK6Lzkmn/K0+q6wu5YzgwBJT5hg+hLcRJb7+KIViqFSzkSqb+92kgXXPkWZ4lS8Bx33jZmRiuweRtRZum8sq68JVQJjhLGa6odBcHCtDxFGfIGDC1p/rtrfbtBJ1H1IWOdagC8wTzFgo3Om6CDfV/SEi7TQe0JVJLotri8iLPP4+XcVCHpnFn33v5RUc4Ftab9Yd/QoEhjAl8CXISNSYQL+jH8JpmD8xeBFmMkLCyWyF006QQup58ZnUas360rT2hXmyQhjZOgssZYA9HIKC+PMaMQ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(41320700004)(52116005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1pV3sxa6kwI2kadRBhCptBZH0OF30+MPTv3j/Nodmq6YgTgT7edejXqC33on?=
+ =?us-ascii?Q?2ctbcHGk7U+GbPB3qmDjfe2hdxZSQ1nh7RQ7V1zL8pvKLhzfFGL3TFgVOPVQ?=
+ =?us-ascii?Q?ElAkyReltGnpP6RiG5Lz1eLhphSQfpr8EYie4UVTM0inFMg9iqGG66T3gvCu?=
+ =?us-ascii?Q?ZEUjl0dOpw11n7KE54v3fa2H13gyikaLR/468+fJS7lVfs1ydDrxMTD2E9Ow?=
+ =?us-ascii?Q?L/7smWKjuxlSqCQayXacQDE3DWa9H+Q55eXUFHKCFDhF7PtO96pyqF8okkL5?=
+ =?us-ascii?Q?qQqAYoqGt54n9sQSmEb6BSSDhcSaZ48J+5LXJg0oDM7y3vptJ2WYVi63etca?=
+ =?us-ascii?Q?Gg1R1prB2JdFPOUQGG4Fd/nyFwvlyV8a+A3mPmXTQX5ZiPq9IAH+nfNmzqEn?=
+ =?us-ascii?Q?iNIJXkXbKlg4dU/7ui9gvfBWrHiL2OWSlFOwHkVk0aN2D24WMfE+YD7BCqSn?=
+ =?us-ascii?Q?1jz4mPINTCPDH5ECQYdwAD3DHB3VMtFJX1rppRQPVTo9eIT7mX0GTpM8lsPR?=
+ =?us-ascii?Q?QwoM0y+PO3QdwpBBVzv0t/dzEqqNDTFGsxaoXd3xOrspJnifH4WTAwr+rkOu?=
+ =?us-ascii?Q?zXnJBGnZ633lxdavxUi+YygAUIDVz0J+++22EM8kN/RVruFfeRJiCqutcalG?=
+ =?us-ascii?Q?peHvJmLcHfkATVK4sdhhD+qiM8aIzcnB8HcsSFAQ0/HWxltfnoT8MyRZCGEg?=
+ =?us-ascii?Q?qvV5wgl9Q//Kq6iXSMVirl/3AHmo6YchIJ1MsRSblt+6UxpxxDAcbfrX21Ml?=
+ =?us-ascii?Q?iWTM7i011JVZYlX7GNHJyB62seuHjDUt3lf4kJXQfNP4Do42eRxSg35TkgWY?=
+ =?us-ascii?Q?4LHXGxXqBs1sQGeYpXr5P7rg2IzpH0UieHGrUyDa9N+qcSr67x8d48Kikyj0?=
+ =?us-ascii?Q?BO/wS7ZvSQozuTFFu00Hi22908hAYd18NDvJkZ5pM7iSgav6fjMC9idwpsRg?=
+ =?us-ascii?Q?oqUZ+NF7/pKFbHpwCuzpC/So0+0fuR4W2tbTfhhf5SZuO2BfFAq+dBA2rHue?=
+ =?us-ascii?Q?I8/K7SJSC7XaT/425IwyhY29TJrNrXIMxN+l7OcuMx/g0cOpMPZHQ4zShnOF?=
+ =?us-ascii?Q?xW+dWmpddYrS4gapbOdqf6L8hds6t8i8feg95+9eeHuHB1H7Km25o15E/M+j?=
+ =?us-ascii?Q?wVIF02LevHsODNqq56lRY9BnBj45ivPRmGNc70673Arsjh2pXwpk4Hf6BrvQ?=
+ =?us-ascii?Q?+pOqU9uyBOQSs0aa4HF+232QLvsOyRewjWl9olLLt8qKEPq6zCVobv23NlGj?=
+ =?us-ascii?Q?hM1O4LgxQ7tVUnC6cvGLUnH1aZ15W5b0R4DAdKSiXq6WOmfgmSo4QBuyKeHC?=
+ =?us-ascii?Q?je+NH/TFoTE5zZGXxb7wxKWkxro0y627y+iA7Dq1fSjqU8GnSlNt+sG/nOsz?=
+ =?us-ascii?Q?xBQkXi9ZK3GktBICcODLOSYZiBWiUZYViliREZUWrhrWFNWXg1z4Iw9fDDu3?=
+ =?us-ascii?Q?RMu/Qzc+NdGjRE3QsGIJ5/hpZ/4zRS2H3xUj3Ou3q5NPwzP8C+/aDs7f+OSh?=
+ =?us-ascii?Q?LiSvYymnA8cRufAHETkMJMKcWli//2xzaR9kakrzsFCDd4oTFU+HngtdiWj7?=
+ =?us-ascii?Q?V9FWufOJ8bm9G8mnfLqF7U4TTjVDGVpL7V8gencdVi+lxBsAsXrDkN7oiP78?=
+ =?us-ascii?Q?4dNqmk59sUrSUHe2UQNM3PU=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa5f5e79-b7a7-45c1-fec9-08dc41c33bac
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 12:03:15.6424
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zzHgvoxqqQDw+q7tgJIHwAxTkS69v0+vaZ68sQLHfdUR2BOGwuVmYgtlg7USwSC03kcA1prPwfAwAUxiFlGHSJfKLbhdKj6bl+PSP78ShWU72Dap5yyDRqHHySDkSCh3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0557
 
-Hi Umang,
-Thanks for the patch.
+Need to remove links when unregistering devices.
 
-On Mon, Mar 11, 2024 at 02:30:42PM +0530, Umang Jain wrote:
-> Drop dev_err() and use the dev_err_probe() helper on probe path.
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx219.c | 64 +++++++++++++++++++-------------------
->  1 file changed, 32 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index e17ef2e9d9d0..acd27e2ef849 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -551,8 +551,9 @@ static int imx219_init_controls(struct imx219 *imx219)
->  
->  	if (ctrl_hdlr->error) {
->  		ret = ctrl_hdlr->error;
-> -		dev_err(&client->dev, "%s control init failed (%d)\n",
-> -			__func__, ret);
-> +		dev_err_probe(&client->dev, ret,
-> +			      "%s control init failed\n",
-> +			      __func__);
->  		goto error;
->  	}
->  
-> @@ -1025,15 +1026,15 @@ static int imx219_identify_module(struct imx219 *imx219)
->  
->  	ret = cci_read(imx219->regmap, IMX219_REG_CHIP_ID, &val, NULL);
->  	if (ret) {
-> -		dev_err(&client->dev, "failed to read chip id %x\n",
-> -			IMX219_CHIP_ID);
-> -		return ret;
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "failed to read chip id %x\n",
-> +				     IMX219_CHIP_ID);
->  	}
+Fixes: ac7da4a73b10 ("media: staging: media: starfive: camss: Register devices")
 
-I think you can remove also here the curve brakets we don't need that
-anymore.
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+---
+ drivers/staging/media/starfive/camss/stf-camss.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
->  
->  	if (val != IMX219_CHIP_ID) {
-> -		dev_err(&client->dev, "chip id mismatch: %x!=%llx\n",
-> -			IMX219_CHIP_ID, val);
-> -		return -EIO;
-> +		return dev_err_probe(&client->dev, -EIO,
-> +				     "chip id mismatch: %x!=%llx\n",
-> +				     IMX219_CHIP_ID, val);
->  	}
+diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
+index a587f860101a..323aa70fdeaf 100644
+--- a/drivers/staging/media/starfive/camss/stf-camss.c
++++ b/drivers/staging/media/starfive/camss/stf-camss.c
+@@ -162,6 +162,12 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
 
-ditto
-
->  
->  	return 0;
-> @@ -1048,35 +1049,36 @@ static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
->  	int ret = -EINVAL;
->  
->  	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-> -	if (!endpoint) {
-> -		dev_err(dev, "endpoint node not found\n");
-> -		return -EINVAL;
-> -	}
-> +	if (!endpoint)
-> +		return dev_err_probe(dev, -EINVAL, "endpoint node not found\n");
->  
->  	if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep_cfg)) {
-> -		dev_err(dev, "could not parse endpoint\n");
-> +		dev_err_probe(dev, -EINVAL, "could not parse endpoint\n");
->  		goto error_out;
->  	}
->  
->  	/* Check the number of MIPI CSI2 data lanes */
->  	if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2 &&
->  	    ep_cfg.bus.mipi_csi2.num_data_lanes != 4) {
-> -		dev_err(dev, "only 2 or 4 data lanes are currently supported\n");
-> +		dev_err_probe(dev, -EINVAL,
-> +			      "only 2 or 4 data lanes are currently supported\n");
->  		goto error_out;
->  	}
->  	imx219->lanes = ep_cfg.bus.mipi_csi2.num_data_lanes;
->  
->  	/* Check the link frequency set in device tree */
->  	if (!ep_cfg.nr_of_link_frequencies) {
-> -		dev_err(dev, "link-frequency property not found in DT\n");
-> +		dev_err_probe(dev, -EINVAL,
-> +			      "link-frequency property not found in DT\n");
->  		goto error_out;
->  	}
->  
->  	if (ep_cfg.nr_of_link_frequencies != 1 ||
->  	   (ep_cfg.link_frequencies[0] != ((imx219->lanes == 2) ?
->  	    IMX219_DEFAULT_LINK_FREQ : IMX219_DEFAULT_LINK_FREQ_4LANE))) {
-> -		dev_err(dev, "Link frequency not supported: %lld\n",
-> -			ep_cfg.link_frequencies[0]);
-> +		dev_err_probe(dev, -EINVAL,
-> +			      "Link frequency not supported: %lld\n",
-> +			      ep_cfg.link_frequencies[0]);
->  		goto error_out;
->  	}
->  
-> @@ -1108,30 +1110,27 @@ static int imx219_probe(struct i2c_client *client)
->  
->  	imx219->regmap = devm_cci_regmap_init_i2c(client, 16);
->  	if (IS_ERR(imx219->regmap)) {
-> -		ret = PTR_ERR(imx219->regmap);
-> -		dev_err(dev, "failed to initialize CCI: %d\n", ret);
-> -		return ret;
-> +		return dev_err_probe(dev, PTR_ERR(imx219->regmap),
-> +				     "failed to initialize CCI\n");
->  	}
-
-ditto
-
->  
->  	/* Get system clock (xclk) */
->  	imx219->xclk = devm_clk_get(dev, NULL);
->  	if (IS_ERR(imx219->xclk)) {
-> -		dev_err(dev, "failed to get xclk\n");
-> -		return PTR_ERR(imx219->xclk);
-> +		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
-> +				     "failed to get xclk\n");
->  	}
-
-ditto
-
->  
->  	imx219->xclk_freq = clk_get_rate(imx219->xclk);
->  	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
-> -		dev_err(dev, "xclk frequency not supported: %d Hz\n",
-> -			imx219->xclk_freq);
-> -		return -EINVAL;
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "xclk frequency not supported: %d Hz\n",
-> +				     imx219->xclk_freq);
->  	}
-
-ditto
-
->  
->  	ret = imx219_get_regulators(imx219);
-> -	if (ret) {
-> -		dev_err(dev, "failed to get regulators\n");
-> -		return ret;
-> -	}
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to get regulators\n");
->  
->  	/* Request optional enable pin */
->  	imx219->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> @@ -1183,20 +1182,21 @@ static int imx219_probe(struct i2c_client *client)
->  
->  	ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
->  	if (ret) {
-> -		dev_err(dev, "failed to init entity pads: %d\n", ret);
-> +		dev_err_probe(dev, ret, "failed to init entity pads\n");
->  		goto error_handler_free;
->  	}
->  
->  	imx219->sd.state_lock = imx219->ctrl_handler.lock;
->  	ret = v4l2_subdev_init_finalize(&imx219->sd);
->  	if (ret < 0) {
-> -		dev_err(dev, "subdev init error: %d\n", ret);
-> +		dev_err_probe(dev, ret, "subdev init error\n");
->  		goto error_media_entity;
->  	}
->  
->  	ret = v4l2_async_register_subdev_sensor(&imx219->sd);
->  	if (ret < 0) {
-> -		dev_err(dev, "failed to register sensor sub-device: %d\n", ret);
-> +		dev_err_probe(dev, ret,
-> +			      "failed to register sensor sub-device\n");
->  		goto error_subdev_cleanup;
->  	}
->  
-> -- 
-> 2.43.0
-
-Thanks & Regards,
-Tommaso
-
-> 
-> 
+ static void stfcamss_unregister_devs(struct stfcamss *stfcamss)
+ {
++	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
++	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
++
++	media_entity_remove_links(&isp_dev->subdev.entity);
++	media_entity_remove_links(&cap_yuv->video.vdev.entity);
++
+ 	stf_isp_unregister(&stfcamss->isp_dev);
+ 	stf_capture_unregister(stfcamss);
+ }
+--
+2.25.1
 
