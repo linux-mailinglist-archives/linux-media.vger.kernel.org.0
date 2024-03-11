@@ -1,219 +1,165 @@
-Return-Path: <linux-media+bounces-6858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6859-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA4F878612
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 18:11:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 867338786CD
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 18:56:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03349B20B1F
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 17:11:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7A5E1C214FA
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 17:56:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCE9D4CB5B;
-	Mon, 11 Mar 2024 17:11:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E95D52F7D;
+	Mon, 11 Mar 2024 17:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8ju/OH8"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="N5RQs48/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5C33BB29;
-	Mon, 11 Mar 2024 17:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1534D9E6
+	for <linux-media@vger.kernel.org>; Mon, 11 Mar 2024 17:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710177066; cv=none; b=Rkm+Nyeg2J72lmCqSW4D3yqMj9w+5tzzLwkzXQ7hzCi5Vo/zuT7O1iicR1cD//NJkB4zsNP/3c9EvpUo12O314vB4w5HL8OT6n+GTPcArEZYbuK7MyK07cfnB5s8OvcHqGtjY627KrjXU+lgC4JcSLbBcZ7VTeOFqmD37cIWGUY=
+	t=1710179797; cv=none; b=Xq8s15w5+TGjbwRkjYVRiJkvanLrvDZC2RhJxVQ5ymuiK1tbTSQgI0s+H5ThnuYhE0nWWDQRb6eCytPQ2/jUBdyEGFrk8a7K+nYJtdYKcoFFQDRltyuhwYO4U1PjpZAtIIXJpVjY7VRtxR93wSTiinj9g5f3Rm6/RGg7A24AXEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710177066; c=relaxed/simple;
-	bh=SnWDqsNR8fmTdDjQzqXGo9Y1BV3aJUfcIxhmuN3gCeY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vd71HvyEb4FGYfnlFImEYrzFomFphiggLg/56lzLzeGBn5FZ60JJcs4CLDt4JAkndvk86xNImVKXkx5ScYswXl/WOWyYSlkO4XpHAZbV7Vbfz+vmhdRf37MYhxt1FjUM2sSvSbR4iq+dlaKT4q3TvKqpVAmquMMhPBx0b4jh5+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8ju/OH8; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710177063; x=1741713063;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SnWDqsNR8fmTdDjQzqXGo9Y1BV3aJUfcIxhmuN3gCeY=;
-  b=g8ju/OH8GcMWiTHLqg9wqys/Oo9zwXjmOLBOgS1j4U0MO+tXLony16PK
-   +Vji5IXB5nLU521ONnS8JP0YViK4QU3D+eocrTbCcBRtggID1UiAM0xtL
-   JRGK9sPWFb6gg8r+3v+3mT/8uq304uB3tVIvkfz1xjGF+JVYtx9HFqNIv
-   fN2wDszntwwFo8I4xXhf9LhZFpaAQxFNJ9sytPY/vZe0cZ6iffmv5PKLE
-   ZvkSzwYArhnDoF6jWysvv7VEPoJYCFDqBO2mObRG4ZsbMCeNmxW3bGSvG
-   5gljO2fCrKQvAPNaoWsP+Y4FQyHryHICA6AabCUDK2SKXEB2nn5OXPreA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="30297475"
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="30297475"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 10:11:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="42150015"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 10:10:57 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 322D711FCAC;
-	Mon, 11 Mar 2024 19:10:55 +0200 (EET)
-Date: Mon, 11 Mar 2024 17:10:55 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	willl will <will@willwhang.com>,
+	s=arc-20240116; t=1710179797; c=relaxed/simple;
+	bh=IliRhLwv+VPsKwkOl2VUGZLLLgWpEQvd7Ekh93vPz9U=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F8tW6L4Ysadi3HsrMR8+yEMqJ+nJiDBMoQNVncNi8NCcv3V209dwO4CKNFF1o/33EnSecBs9gB2RfbLrjCxvGKpC1xjBA7m6SzjDfgrjY+v4HSVm8b48hLl0JTp8Epo1NmsWhqpyd6/1Qak/RILsX/bo0m3E+mwP62SqwIjU+nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=N5RQs48/; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42BBTHgA031821;
+	Mon, 11 Mar 2024 18:55:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-transfer-encoding:in-reply-to; s=
+	selector1; bh=NQG+2qhjNjjYXPhRwsqUC5kmwQUxn53pvpUv3WEV40M=; b=N5
+	RQs48/N6jDwH5C8ioEjmzE3xw/uhDcWeKMKxrdmbfMUWsxm2DuUoV+Y+pG/QCg0z
+	aC3SCZibf00/yODCjOQeInIt+k0QsvltTrQL7Dt7CU+UORWwGghYXmqAhVJQ9+wD
+	/sGEiY4vxe7ajGQggmtesaqWiSuRW9EO+TMsvPm2W6e7y3XjNcsFJMaay1U7fU0G
+	byuX77weaCLtKovuG7gJD6PgfUCByKt7St3OwmII7scNN2WgEpqivWwPO8kCAAgF
+	IK56X4/4lqCiudXiBJVioFpqY9C3n4f/yz64aTYn3blF/ihP9etXtS3xxB4l0Otl
+	1eAB8RqHT37tovMYwJpA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3wrfhfh8mb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 18:55:49 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C15C840044;
+	Mon, 11 Mar 2024 18:55:45 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 885B42967F6;
+	Mon, 11 Mar 2024 18:55:13 +0100 (CET)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 11 Mar
+ 2024 18:55:13 +0100
+Date: Mon, 11 Mar 2024 18:55:07 +0100
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hugues Fruchet
+	<hugues.fruchet@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <kernel@pengutronix.de>
+Subject: Re: [PATCH 4/5] media: stm32-dcmipp: Convert to platform remove
+ callback returning void
+Message-ID: <20240311175442.GA109372@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@bootlin.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] media: i2c: Add imx283 camera sensor driver
-Message-ID: <Ze87Hya-cqmkqjMC@kekkonen.localdomain>
-References: <20240307214048.858318-1-umang.jain@ideasonboard.com>
- <20240307214048.858318-3-umang.jain@ideasonboard.com>
- <Zeq7HBMqqrw4nSPj@kekkonen.localdomain>
- <171016009901.2924028.16001544322304093037@ping.linuxembedded.co.uk>
- <Ze8xY1bqTiXzRvKp@kekkonen.localdomain>
- <171017536692.2924028.6522729664515712567@ping.linuxembedded.co.uk>
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-media@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
+References: <cover.1708692946.git.u.kleine-koenig@pengutronix.de>
+ <7e85adb3c2f11fc10e5a18bb341c5af8b35c4d88.1708692946.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <171017536692.2924028.6522729664515712567@ping.linuxembedded.co.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7e85adb3c2f11fc10e5a18bb341c5af8b35c4d88.1708692946.git.u.kleine-koenig@pengutronix.de>
+X-Disclaimer: ce message est personnel / this message is private
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-11_10,2024-03-11_01,2023-05-22_02
 
-Hi Kieran,
+Hi Uwe,
 
-On Mon, Mar 11, 2024 at 04:42:46PM +0000, Kieran Bingham wrote:
-> Quoting Sakari Ailus (2024-03-11 16:29:23)
-> > Hi Kieran,
-> > 
-> > On Mon, Mar 11, 2024 at 12:28:19PM +0000, Kieran Bingham wrote:
-> > > Hi Sakari, Umang,
-> > > 
-> > > I've replied inline below to a couple of points that I was responsible for.
-> > > 
-> > > > 
-> > > > > +
-> > > > > +struct imx283 {
-> > > > > +     struct device *dev;
-> > > > > +     struct regmap *cci;
-> > > > > +
-> > > > > +     const struct imx283_input_frequency *freq;
-> > > > > +
-> > > > > +     struct v4l2_subdev sd;
-> > > > > +     struct media_pad pad;
-> > > > > +
-> > > > > +     struct clk *xclk;
-> > > > > +
-> > > > > +     struct gpio_desc *reset_gpio;
-> > > > > +     struct regulator_bulk_data supplies[ARRAY_SIZE(imx283_supply_name)];
-> > > > > +
-> > > > > +     /* V4L2 Controls */
-> > > > > +     struct v4l2_ctrl_handler ctrl_handler;
-> > > > > +     struct v4l2_ctrl *exposure;
-> > > > > +     struct v4l2_ctrl *vblank;
-> > > > > +     struct v4l2_ctrl *hblank;
-> > > > > +     struct v4l2_ctrl *vflip;
-> > > > > +
-> > > > > +     unsigned long link_freq_bitmap;
-> > > > > +
-> > > > > +     u16 hmax;
-> > > > > +     u32 vmax;
-> > > > > +};
-> > > > > +
-> > > > > +static inline struct imx283 *to_imx283(struct v4l2_subdev *_sd)
-> > > > > +{
-> > > > > +     return container_of(_sd, struct imx283, sd);
-> > > > 
-> > > > It's a function, you can call _sd sd instead.
-> > > 
-> > > Except then that could 'look' like it is passed as the first and third
-> > > argument to container_of...
-> > 
-> > It's really a non-issue: the third argument is a field name, not a
-> > variable.
-> 
-> That's not so easy to determine when the args are the same name.., but
-> it's fine with me either way.
-> 
-> > > But if it's fine / accepted otherwise then sure.
-> > 
-> > And please use container_of_const(). :)
-> 
-> Ack. Or rather ... I'll leave that to Umang to handle, as he's managing
-> this driver now.
-> 
-> > > > > +
-> > > > > +/* Determine the exposure based on current hmax, vmax and a given SHR */
-> > > > > +static u64 imx283_exposure(struct imx283 *imx283,
-> > > > > +                        const struct imx283_mode *mode, u64 shr)
-> > > > > +{
-> > > > > +     u32 svr = 0; /* SVR feature is not currently supported */
-> > > > 
-> > > > What does this refer to? I guess you could just drop it as well if it's not
-> > > > supported?
-> > > 
-> > > Keeping this will keep the calculation matching the datasheet, and
-> > > provide clear value for what to update when we/others return to enable
-> > > long exposures.
-> > > 
-> > > So it would be nice to keep as it sort of documents/tracks the
-> > > datasheet.
-> > 
-> > Ack.
-> > 
-> > > 
-> > > 
-> > > > > +     u32 hmax = imx283->hmax;
-> > > > > +     u64 vmax = imx283->vmax;
-> > > > 
-> > > > You're not changing the values here. I wouldn't introduce temporary
-> > > > variables just for that.
-> > > > 
-> > > > > +     u32 offset;
-> > > > > +     u64 numerator;
-> > > > > +
-> > > > > +     /* Number of clocks per internal offset period */
-> > > > > +     offset = mode->mode == IMX283_MODE_0 ? 209 : 157;
-> > > > 
-> > > > Shouldn't this be in the mode definition?
-> > > 
-> > > It could be, but then there would be one copy of 209, and 9 copies of
-> > > 157. 
-> > 
-> > That would still be specified explicitly. Someone adding a new mode would
-> > easily miss this.
-> > 
-> > Or, if you can, derive this from something else that is now a part of the
-> > mode itself.
-> 
-> I don't understand the above, other than ... That's exactly what we're
-> doing here.
+thank you for your patch.
 
-Index of the mode, not the mode itself. They're different.
-
+On Fri, Feb 23, 2024 at 01:59:07PM +0100, Uwe Kleine-König wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
 > 
-> *Only* MODE_0 has an offset of 209 in the datasheet. All other modes are
-> 157.
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
 > 
-> This is the table being codified:
->   https://pasteboard.co/OsKf4VX7rtrS.png
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Ok, fine by me. Maybe a comment at the end of the mode list to check this
-when adding new modes? There are other sources of modes than the datasheet.
+Reviewed-by: Alain Volmat <alain.volmat@foss.st.com>
 
--- 
-Sakari Ailus
+> ---
+>  drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+> index 32c6619be9a2..bce821eb71ce 100644
+> --- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+> +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+> @@ -517,7 +517,7 @@ static int dcmipp_probe(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> -static int dcmipp_remove(struct platform_device *pdev)
+> +static void dcmipp_remove(struct platform_device *pdev)
+>  {
+>  	struct dcmipp_device *dcmipp = platform_get_drvdata(pdev);
+>  	unsigned int i;
+> @@ -534,8 +534,6 @@ static int dcmipp_remove(struct platform_device *pdev)
+>  	media_device_cleanup(&dcmipp->mdev);
+>  
+>  	v4l2_device_unregister(&dcmipp->v4l2_dev);
+> -
+> -	return 0;
+>  }
+>  
+>  static int dcmipp_runtime_suspend(struct device *dev)
+> @@ -588,7 +586,7 @@ static const struct dev_pm_ops dcmipp_pm_ops = {
+>  
+>  static struct platform_driver dcmipp_pdrv = {
+>  	.probe		= dcmipp_probe,
+> -	.remove		= dcmipp_remove,
+> +	.remove_new	= dcmipp_remove,
+>  	.driver		= {
+>  		.name	= DCMIPP_PDEV_NAME,
+>  		.of_match_table = dcmipp_of_match,
+> -- 
+> 2.43.0
+> 
+
+Regards,
+Alain
 
