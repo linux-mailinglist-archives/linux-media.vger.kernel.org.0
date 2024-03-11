@@ -1,97 +1,107 @@
-Return-Path: <linux-media+bounces-6829-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6854-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A550287823D
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 15:52:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D5C87855E
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 17:28:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 411101F25BD1
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 14:52:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B5771C21A5C
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 16:28:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADA00482C8;
-	Mon, 11 Mar 2024 14:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79C6D524AE;
+	Mon, 11 Mar 2024 16:22:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VgMnQe2s"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ExQ5/Xjt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EA8481A2;
-	Mon, 11 Mar 2024 14:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364AD4AEF0
+	for <linux-media@vger.kernel.org>; Mon, 11 Mar 2024 16:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710168621; cv=none; b=GNFsQs3MRmYvLM4haM0njM9FGXPUdnmBAfLKwydNm19OyA1aTL3aGZ7gshV4gFiBd59pgQVmd3FvTeCNsGDpPR3w73mNdpy4iDYegisnnIYmn+XdpcTaS7XsDYiK9FrRSUOnktXeZXKVdYRXkv/pnZW/TNTJj35AJ6amO7UUaK8=
+	t=1710174158; cv=none; b=S5dnc5kkCysjdhKlUDj+biPA7sthZfkdku+R/JM5Z2BJTmqtPj36vduDjCmW76+OJi+oP6u1bLj96HeEInqgQI2+qTzbEvGPNdwmIOe66vbC7hbMOI9Xog4nvoeet32K/WP31MfpntYFkzA34ehdMjpYmOkDXyi5YnX3yHKLcP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710168621; c=relaxed/simple;
-	bh=gk/GzbxaMbExhVzfs2uNFiHjDdAeoOPU3wmsCeb1K34=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KGJHMjWfgXJiTlBiC9GqCpaYvcLF/JfuT/aJwpeTnGyaXkAVlAaZwO/cOt/poGHlP4QKHhN4qjmEQrBusfpZdV5WMa+HSOTb0fgVKsT6+1yKQyJoR7Hfo0sla3w/aOWPmOMeFTQdedYkraDFR2DDx6wuQb26xwmjI844qwEfa7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VgMnQe2s; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710168620; x=1741704620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gk/GzbxaMbExhVzfs2uNFiHjDdAeoOPU3wmsCeb1K34=;
-  b=VgMnQe2sh3YGnYaXxmRqn7I2qkZ84ygh4n0siSr6iGq9ULs5ra2Fg3ro
-   +WYdKbCbZFdxcbIIy+NY6C62NNPFIFYcDiavYl9QLdocKuXfCciOe0L1b
-   L3xv0zftvtYpy/oUBUscDIrjflfIjB/jTy1Wjrk6MH1COcdbPbJUV9+nL
-   JfmdCZofmacR5Jy+mk8sxPmjv0rWNx0oN2FO+XcBwOE8LiKASM9aM9mQZ
-   r6hOA47rDPL0Cw943/ik2aAZEcJqb4yAclKuKWeb4S6sxpwBLwyklbpbV
-   hyRIcR99Y8nSsY2FsHT8qGRWdjm5qXBTo3T3/rtpg+67z6+jaQzP+2tpU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4688769"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="4688769"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 07:50:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="914361948"
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="914361948"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 07:50:17 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rjgyl-0000000Bekl-1d6H;
-	Mon, 11 Mar 2024 16:50:15 +0200
-Date: Mon, 11 Mar 2024 16:50:15 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v1 0/5] media: ir-spi: A few cleanups
-Message-ID: <Ze8aJ2U-kKkd4JPC@smile.fi.intel.com>
-References: <20240305174933.1370708-1-andriy.shevchenko@linux.intel.com>
- <Ze8UTyZQ_Ev6s4fz@smile.fi.intel.com>
+	s=arc-20240116; t=1710174158; c=relaxed/simple;
+	bh=TGWBHdhRObFJXZsN7lz4Jh4gFRP1ik+fiRvx0Bj7OEw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XM1Gq7hvC/VD30lQjIFs3Mx6+TaUQ5x4fkR+KLLG5umBoZHKcubO2n0sJo90yJunx0RpzE+309WBJHSqvw3PzqbUgnbY3PmVhgsgCZpRs4h6VkQAvlNAKZyfx6TpEOrjXFQXjTQDMG85lWsy7tSZYi6w0ZtCpIp/OE7dYp7nkuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ExQ5/Xjt; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-563d56ee65cso4031821a12.2
+        for <linux-media@vger.kernel.org>; Mon, 11 Mar 2024 09:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710174155; x=1710778955; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WMW0usQA+/2JDgwiFHaoEUsMDf2P4w3C5kIjpwHZkUc=;
+        b=ExQ5/XjtHmCa1RwzS90NWiAM//fTp5HaQ2RQt0Dwy93ty2OFCM97P8JJC4h7SqXE8a
+         Egg5oxL2fy4hYe3km0oBjuu/nuw1lAqPa+gOLPyw1sPxn0hJ/gaHDv/dHqnpKreS5b7b
+         SnT9sNLpnqTiBcRimXGmp/yvr/rjfDZCxBqvNleSYGfBBirjChBTVoQN0fWOXw/FkSDg
+         A7izvROYEBGyNOG+ofXWIcZuUTNjV0EfG+S4kLo/89EI0TQfc6iQfk64LRweSZrsqZku
+         u7zDj+kFktKyZh15hmc5NRB8svidbvmgPYj2CRaDFdPrGRSpRcn59zx7Va+UQJ6XFyej
+         VMWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710174155; x=1710778955;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WMW0usQA+/2JDgwiFHaoEUsMDf2P4w3C5kIjpwHZkUc=;
+        b=QP7Sqr8PvJ7lv1dKQVxMd0ahEy8tgddcgQoYiTQJOGYkm135IiAoO38y37A2gVBKSA
+         y9y+InAuwRtTt54gTgtZXxSz4ZQ/J5juUphHjq1REyUXuPgR6nq3nr0RkQOGOjyseNeu
+         +1Efeu6k6Z5m37E9Z5osE5aSLZumqeM/iPd9XRjal1iQVZA1m4+e2Eg6V2rNFuVdaw8v
+         tlwA11uN90OJfnVLi1Xi8326qLx53fhRdq2w0RXEs6SwuFmffxU781IS0zGEsuvql/JE
+         KPKVaF//SP1IaFYlpoho1zJEGcD+BqEt5PM3IyFcWCwdiyHBBIl8cPayzJjVOqQzAe4Z
+         LURg==
+X-Gm-Message-State: AOJu0YwSzh4tg4miKjt3t/CrGQPEoMqTNQ2JOmZwdQMQ2LSZoMqq7CfY
+	JS9rhkWluoI+NatWoi5Aap0AD+1i+QfQDL9AP0J0ZeK5EZBsQj84l2BGwFk74zY=
+X-Google-Smtp-Source: AGHT+IENgrDH5fiAmB/1105qTepyqCD7Hz434Z6EiqT/FtseXotKqyuwYDqaF3lUkw+P5xEEJ4kX1g==
+X-Received: by 2002:a17:907:96ab:b0:a44:17da:424 with SMTP id hd43-20020a17090796ab00b00a4417da0424mr4858235ejc.56.1710174155578;
+        Mon, 11 Mar 2024 09:22:35 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.68])
+        by smtp.gmail.com with ESMTPSA id gl8-20020a170906e0c800b00a43e8562566sm2960425ejb.203.2024.03.11.09.22.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Mar 2024 09:22:35 -0700 (PDT)
+Message-ID: <5800231f-633d-44f1-a056-58f87f1d5c67@linaro.org>
+Date: Mon, 11 Mar 2024 16:22:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ze8UTyZQ_Ev6s4fz@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] Move camss version related defs in to resources
+To: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, andersson@kernel.org, konrad.dybcio@linaro.org,
+ mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ hverkuil-cisco@xs4all.nl, quic_hariramp@quicinc.com
+References: <20240227122415.491-1-quic_grosikop@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240227122415.491-1-quic_grosikop@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 11, 2024 at 04:25:19PM +0200, Andy Shevchenko wrote:
-> On Tue, Mar 05, 2024 at 07:48:25PM +0200, Andy Shevchenko wrote:
-> > While removing of_gpio.h where it's being unused, this driver seems to
-> > deserve more love. Hence this series.
-> 
-> Sean, any comments on this series?
+On 27/02/2024 12:24, Gjorgji Rosikopulos wrote:
+> The different resources required for different camss versions are
+> split in to two groups:
 
-Since previous reply, I found an answer in your repository :-)
-Thanks!
+Pardon me for not getting back to you on this earlier.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Would appreciate if you could post this series rebased on sc8280xp 
+patches which are @ v6 and ready for merge already.
 
+I will find time this week to test your patches on rb3, rb5 and x13s 
+with the SoftISP patches on libcamera.
+
+---
+bod
 
 
