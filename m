@@ -1,71 +1,56 @@
-Return-Path: <linux-media+bounces-6818-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6819-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06138878194
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 15:26:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E648781B7
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 15:36:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9022D1F242CD
-	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 14:26:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E08C285B53
+	for <lists+linux-media@lfdr.de>; Mon, 11 Mar 2024 14:36:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E175E3FE46;
-	Mon, 11 Mar 2024 14:25:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BDB0405F9;
+	Mon, 11 Mar 2024 14:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ve6LwyeZ"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="E2TLIv+Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD6C3FBBA;
-	Mon, 11 Mar 2024 14:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388CE3FB8F;
+	Mon, 11 Mar 2024 14:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710167155; cv=none; b=jKpJLMCy92aMICE9B44ZvpBW9unWpSxEpXFDC0J/bVZhspeCW/EYHm7/P1n2hMvdw1X7gwRJ3+zZO3wSbYvnZMVU13xOgu9opGzwSB8Xqh2cHxDCePApQ2beYFnqxkELz7+RmTNp917pVgsLo2CQKj17BCqoh1U/EgBkpjDaNi4=
+	t=1710167752; cv=none; b=k2Q0B7feIkD/G0vCMzY0mklSa0CAShhrUy83vK0XNTR2dMYUpi4iVxANfMYnUw0jWTC4JI4rnBznEypYpXc4fpiKeinBUpXhWaph7ii4dwtSogDj3XWR6PNI422ucbxhhOq1emLBmUnxpCED4orNUTHwLXn7hsORo2ToR5IgdGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710167155; c=relaxed/simple;
-	bh=3EO+X4FVrYQQ7pN1391msu9E8YQJAXij990MMl3E35o=;
+	s=arc-20240116; t=1710167752; c=relaxed/simple;
+	bh=eS2AA1HymDS+4IYH13YDjFki4s+8SSS5wQAF97x5SX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r9h/iePah2nxyaYndxkSXqtqfsbAdYR+wDOfQ6t8sti7RuSSvPcVB2JeHMEyZGu8EOW6hB14ET//1aW5AfQO2ic6I93DMtc+oy1yBKI6AYVXLl16R+c3xw6BPdcJylmUix2FQ0vjO6LvV/jSOha1Jm9ikafmy83ivwR9qrvLUdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ve6LwyeZ; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710167153; x=1741703153;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3EO+X4FVrYQQ7pN1391msu9E8YQJAXij990MMl3E35o=;
-  b=Ve6LwyeZb7nd0G2AIug62wSkrpdG5wYJY/xa9Bt8IgYDkLVTd+V3kLse
-   kflte/vJKGkpBylPRl6wIN1xs61zobScasUknPxQdF9ehQZD3KoOkG4ii
-   7Z8dFJ1paM5/LXH/gOd8EJNF/hcidI5MCLQMUIAKsvfuWGd3wozd9hcOR
-   3zJTHR1RDd0wKIAr7UshjtdgBXhZhBVKBxRz6beElzlTCSIA2KjZp+mr8
-   fTmaeVzvkJ1WXKL9UAKSK7wT8xw3N0hiVvqWxSQXcUFgflfjncnnl+bD2
-   Mv/moNhYKHVsT9ImIJyKIoaFZc8iTPhZiiNR59WtCn/SNPDoB2oVen52D
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="15470984"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="15470984"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 07:25:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="914361324"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="914361324"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 07:25:51 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rjgb7-0000000BeLH-26Z1;
-	Mon, 11 Mar 2024 16:25:49 +0200
-Date: Mon, 11 Mar 2024 16:25:49 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=J2o7nVq7Zs9E1LLCkheUSClf4mtOZ+AxIN2R8mkc26n111CxjF/Ry7SFim2INTliyWIlCTO3WrNRfaKcOku93ezQ82blIR9Zwq4vJdTL7ll8r1qXbQKScc5mgqhYzx+n/ktuHcV4kz7Tz1EQhwhFOhAEyr+Ced/Vj94E+oFYXAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=E2TLIv+Z; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1710167741; bh=eS2AA1HymDS+4IYH13YDjFki4s+8SSS5wQAF97x5SX4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E2TLIv+ZCPBCP8m5kQKgo81WNy2fJBkPhN2lNYWlMgX9xPpBxtBtC8BQIPPXtm2Js
+	 abxOk9RmxD+74hUaUXTeAOjtNmVVxJMgnXq8QY0qfmcPSYEPdaJL96WlLu+fmiwIQ2
+	 Sw6d0qiXvbMmsmM3KmQkx8e0m4VnltjsYzh8AS1uZi18chDeWMqolqjBxU+h/ksHcr
+	 OFp0LNGYrFcAKDtKBN8HZyWnb3p46HNN9AZdYkALLUgqDVp90CXwshDpLw/sNQTtPI
+	 NBZ9HJn0ghc1XDTaPjaMuccUzbTWA1Az6VOt3+PFCoCcAmnPOoizQlQFseQ1Zzpw25
+	 PSqZaBKEAyj7g==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 2FF35100100; Mon, 11 Mar 2024 14:35:41 +0000 (GMT)
+Date: Mon, 11 Mar 2024 14:35:41 +0000
+From: Sean Young <sean@mess.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
 Subject: Re: [PATCH v1 1/1] media: rc: gpio-ir-recv: Remove unused of_gpio.h
-Message-ID: <Ze8Ubb5YQ4DzNHTt@smile.fi.intel.com>
+Message-ID: <Ze8WvTnlay4mDhgi@gofer.mess.org>
 References: <20240304180510.1201042-1-andriy.shevchenko@linux.intel.com>
+ <Ze8Ubb5YQ4DzNHTt@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,18 +59,17 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240304180510.1201042-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <Ze8Ubb5YQ4DzNHTt@smile.fi.intel.com>
 
-On Mon, Mar 04, 2024 at 08:05:10PM +0200, Andy Shevchenko wrote:
-> of_gpio.h is deprecated and subject to remove.
-> The driver doesn't use it, simply remove the unused header.
+On Mon, Mar 11, 2024 at 04:25:49PM +0200, Andy Shevchenko wrote:
+> On Mon, Mar 04, 2024 at 08:05:10PM +0200, Andy Shevchenko wrote:
+> > of_gpio.h is deprecated and subject to remove.
+> > The driver doesn't use it, simply remove the unused header.
+> 
+> Sean, are you okay with this change?
 
-Sean, are you okay with this change?
+Looks great, I've applied it my branch.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Sean
 
