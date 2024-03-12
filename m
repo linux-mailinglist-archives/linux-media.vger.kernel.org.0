@@ -1,76 +1,76 @@
-Return-Path: <linux-media+bounces-6904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6905-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5160879508
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 14:23:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3253387950C
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 14:24:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 45E4FB23DBD
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 13:23:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68E7FB242D0
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 13:24:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76C577AE4F;
-	Tue, 12 Mar 2024 13:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AE357B3F8;
+	Tue, 12 Mar 2024 13:23:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="dyiZTgoN"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OuydTOmX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBC87A135
-	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 13:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2207A149
+	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 13:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710249777; cv=none; b=PnRZW4eZ6HK0mIKjfb9ThFppCqz/a3xCIOU5bdUP1sHzt9DF2eVRNplUiKibjoBrTcBRl2xk/lq3hUT7YHzymp7ZQfQuitBLfpDIJR96u09xvixjJlY3vXygNX0TYmRwsMfgeQA03Yn3q/xdWpMLC1IIxJYhVUzqnDy/hT0+x5M=
+	t=1710249780; cv=none; b=hc6huD8acYFBMWO5gbGTa+3Y424PILsvJgAnUmaOZPb6q4zNsPeMVVi30j0nqWytcT5G2nCMwwiOe2R1N9PmTz96c9DIGakEixVPrzYFvpOj8rj6tzXFY18AsW223E320HFQ0TS0E6/lOp1oUr/mBa6HEso0PLpqxqyns0So0Ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710249777; c=relaxed/simple;
-	bh=jlmDA8j5BPsGTQCQEi11/ZrPzSbTV7KDqXuvMXnrWBo=;
+	s=arc-20240116; t=1710249780; c=relaxed/simple;
+	bh=Y46qZiPIxVqm/+2ngjD2p6sQy4AqjAerfnqGZzoaKmI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZY8MolGZf72ZtZpopGCt7f58dE+4RkZ63DChRKO3cluaQFvUwVIxls3j/vu1qjLz/w4wEMr8t2WypIZ0Ovjz4dI7uVazMw/vyJYgsCCFfMAx536hjA9gPIwRMcC5axkUZyOvdgfhdJElEabkfhw7poj6JzClOM9Nj24Ubau4IhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=dyiZTgoN; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:To:Cc; b=kVVpsb/XJrwtUnj5sYeLRCBoKeFvCREDvTpO685Ni4stsRplErzfvgtaJ7WyQouyLaHBInYIZDjEmZniq/w6WK/v0Uwvcpr76P9m21CG2hDySniAUJIQhdJALpMT8BN0jm6wjAhGxOxYYlzoiz5tJqP45fcOvUScYSxZpFWyAC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=OuydTOmX; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-413328344acso5833075e9.3
-        for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 06:22:55 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4132f37e170so9612575e9.2
+        for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 06:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710249774; x=1710854574; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710249775; x=1710854575; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qEaZoF9mx7Xkycbcd21LmA2/00TCeHKVbh1e2Dzr7Vc=;
-        b=dyiZTgoN45XsRfXvpv4SfJR59VJUf+jjoF0z6RvIpSxgMafbhMT0cos+2ItXOOfF4l
-         Td9QSk/XXkQu+cy31AmUwgAuJSFNIMeAaoSzH2tVMxlZ0FtsdzLzsYh9cx8+/QcJckRa
-         DZakH0bEiYkAStBsKigpN2maloFb2/luF5qN4dk1sK2E96pkNZGElD0BkkDBMvHGcQuB
-         RWGsaZtJIgEKhgv+KzVJ2WA27oT6DOvjmxtjfg+tIjX/ltj/D1UySqf4hDTOZ69zU63J
-         EeG6arvg9P7yuO8aPac9lzcaAp0gqAQ64icD+qvo81jRsXMTVh5lri7sDyX1XESUo0sU
-         wBIQ==
+        bh=canlvOloh4zEnLanokN/WjQ62JpW1VdMiHVT6vaC3r4=;
+        b=OuydTOmXjAgBW/KtkDX66JejwhUpiqvW2Wa3rCu4zj77hM5SnyEy+WDp6kH3GTbxMO
+         aKx8zqQ180glogzfE2DJ8r22Dhug1PbheI9jHzBeF6i+dZjnfsiA4uyScw4J6iGT14EH
+         4PoK3CvcLBxFQNNnND4EAQIFlgoYG16veJZgsQd/H1LKRs0vrt+y93NWn8MZ/RY6qQXk
+         SaxUZfedevPu7R20/qogKIr5DZXTG6MW6q5MXj+Uz9jfnRUE/HcqfAJ1YUMF7oE7F7n1
+         BQoWGKc8R+/0TmQhk8zZjjpYBoI9cUf+XztTwFiPUm2o8UU1Ma263DzBaQRuvhohIH5d
+         DGWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710249774; x=1710854574;
+        d=1e100.net; s=20230601; t=1710249775; x=1710854575;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qEaZoF9mx7Xkycbcd21LmA2/00TCeHKVbh1e2Dzr7Vc=;
-        b=iocN4FiIpDxgC7vWm6YMemxAWCqEmEGSOaM62ktIgYABTNQvO8a0QWr5WUi5C1TvCR
-         kesFlOEFZhwhDW0JyoKVr7VvtTbdFJiG/ZSQkKL9bBzVaXmMvmPE7xYNLWVd6qpTK0DK
-         qIXHRKj/H5Li61NH1xolv2rj5JBXavhi4FUF3xg4WTsruiNzqRn2DeC9NBcJ274c9KJK
-         4pTV7jGhMrhFMfV5d4Tb3P5TwZuyU3eJjqg+f30h4JeFl7PsU6HmswneDm8rymGq56I8
-         cdzCZxoHNMn+Nw2IFfcFKFQLktAAxCmlhLeGcJr6ZQ3gs1P51RSaQW0jNWSOg9PjyV3/
-         ZPWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXGRYAUwP3VtwKy5pFumGMbtfo4tMdrMAFn8d4Cc+pY8u+PPDuFxTiwmtYVGa8UKD0E1oilmPESxYkSY8B+4pBD+/yUcIpqvWumzFQ=
-X-Gm-Message-State: AOJu0YyfeKBlz6jfzaBgxphLC8OqWajurUEMwnvD47ciTYqkeGoHkABA
-	PjrpvIWlAE1v0sZVH+bDQJDzEmRUzLkLGdyGmGtDbAonAQgdkHs//fsjTf4Y1Og=
-X-Google-Smtp-Source: AGHT+IHlytHdEXscr/W+dSAr2nTXoxgxrjyAq7hvZ/powmwJ49KYk2NF7VEmNWzayQm3bD8Elvc57g==
-X-Received: by 2002:a05:600c:458c:b0:413:2c3e:c323 with SMTP id r12-20020a05600c458c00b004132c3ec323mr3370255wmo.38.1710249773976;
-        Tue, 12 Mar 2024 06:22:53 -0700 (PDT)
+        bh=canlvOloh4zEnLanokN/WjQ62JpW1VdMiHVT6vaC3r4=;
+        b=AGosKJg9iwp0d7Bl3fRW2X+/muKg1lLAA7x+mavcsligrR5fRfr4rG8557HlgQaaai
+         wntRmAlcornA4zw+3GePzR/9tD3xko7vqfY7M304k895oTVhC7fPda1rq3SdHnS5nV/s
+         O6PHQOl537L2WJY8ddn1FPMnRhj18OHz5DNRXsH6rooftkFtd+djq9vhMAZXeLZEMvCI
+         /Ae91jDMFPXM4tmXsnJLINdOGVgHUZm4/kwtm38w/+13CtdtIFyhQkCZkGWME35p9qNx
+         TeqUU2csZ7N20uoItmk9mr8Szeu+FiEPeYPxZTzTXWjKFYdZO+Wyix9bBQu8G5DGuNPF
+         4VWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCAfsv74wy4cFWB918DEdRc0D3SJYs/0lwEOSsSQb4cP+91r+UzPSm+djC8Hzjrb2BEcqhpTaQwEej0g73qoVtqcPkqOltJi+fAok=
+X-Gm-Message-State: AOJu0YyUehoElkrTesai62iKXHmJV8mNS+YZg4EKzDgik4V6F+VjURlz
+	fuJBjjWICJ1z7gkv5xF+Cku3oBlen9Ngn5UfcqD1n/C1US/NTrdI+7P5+duvP58=
+X-Google-Smtp-Source: AGHT+IFB0ECK9R9PpvX4t1CVc6wINiFA/rI7RL51IJ/fzCd5UeeMXekEG9GQ6+KP3AGo/ZIj9mi0Xw==
+X-Received: by 2002:a05:600c:5386:b0:413:2a5e:e41a with SMTP id hg6-20020a05600c538600b004132a5ee41amr142273wmb.16.1710249775339;
+        Tue, 12 Mar 2024 06:22:55 -0700 (PDT)
 Received: from [127.0.1.1] (laubervilliers-657-1-248-155.w90-24.abo.wanadoo.fr. [90.24.137.155])
-        by smtp.gmail.com with ESMTPSA id r13-20020adff10d000000b0033b278cf5fesm8980167wro.102.2024.03.12.06.22.53
+        by smtp.gmail.com with ESMTPSA id r13-20020adff10d000000b0033b278cf5fesm8980167wro.102.2024.03.12.06.22.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 06:22:53 -0700 (PDT)
+        Tue, 12 Mar 2024 06:22:54 -0700 (PDT)
 From: Julien Panis <jpanis@baylibre.com>
-Date: Tue, 12 Mar 2024 14:22:40 +0100
-Subject: [PATCH v4 1/3] net: ethernet: ti: Add accessors for struct
- k3_cppi_desc_pool members
+Date: Tue, 12 Mar 2024 14:22:41 +0100
+Subject: [PATCH v4 2/3] net: ethernet: ti: Add desc_infos member to struct
+ k3_cppi_desc_pool
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,7 +79,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240223-am65-cpsw-xdp-basic-v4-1-38361a63a48b@baylibre.com>
+Message-Id: <20240223-am65-cpsw-xdp-basic-v4-2-38361a63a48b@baylibre.com>
 References: <20240223-am65-cpsw-xdp-basic-v4-0-38361a63a48b@baylibre.com>
 In-Reply-To: <20240223-am65-cpsw-xdp-basic-v4-0-38361a63a48b@baylibre.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -96,55 +96,90 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
  Julien Panis <jpanis@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710249771; l=1852;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710249771; l=3220;
  i=jpanis@baylibre.com; s=20230526; h=from:subject:message-id;
- bh=jlmDA8j5BPsGTQCQEi11/ZrPzSbTV7KDqXuvMXnrWBo=;
- b=Hv8qFAJaCv6kB2joBPWZNghBiio/tb9H7gUNxrjl4zJ1hbySQ4ZrUI17WPbsgLUJJGcO8W8rA
- 8wJzf0mor2KBFT1SmQ6ACzZMR0wREU/bfp6sf0fRwAbqrnAk9um/rP2
+ bh=Y46qZiPIxVqm/+2ngjD2p6sQy4AqjAerfnqGZzoaKmI=;
+ b=g1nyAYAcdeU1+dv3h4OJB8y6oIMZ3uYJvNtapYLWKSdX0MixO9UdSg1Ux9oGUZW3LIPaZ70SO
+ 724XsCr2ir/D8zM56jb3JLtke/6IV/gwfg62/RJ8Jb7XRxjNuq+hEsu
 X-Developer-Key: i=jpanis@baylibre.com; a=ed25519;
  pk=8eSM4/xkiHWz2M1Cw1U3m2/YfPbsUdEJPCWY3Mh9ekQ=
 
-This patch adds accessors for desc_size and cpumem members. They may be
-used, for instance, to compute a descriptor index.
+This patch introduces a member and the related accessors which can be
+used to store descriptor specific additional information. This member
+can store, for instance, an ID to differentiate a skb TX buffer type
+from a xdpf TX buffer type.
 
 Signed-off-by: Julien Panis <jpanis@baylibre.com>
 ---
- drivers/net/ethernet/ti/k3-cppi-desc-pool.c | 12 ++++++++++++
+ drivers/net/ethernet/ti/k3-cppi-desc-pool.c | 24 ++++++++++++++++++++++++
  drivers/net/ethernet/ti/k3-cppi-desc-pool.h |  2 ++
- 2 files changed, 14 insertions(+)
+ 2 files changed, 26 insertions(+)
 
 diff --git a/drivers/net/ethernet/ti/k3-cppi-desc-pool.c b/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
-index 05cc7aab1ec8..fe8203c05731 100644
+index fe8203c05731..d0c68d722ef2 100644
 --- a/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
 +++ b/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
-@@ -132,5 +132,17 @@ size_t k3_cppi_desc_pool_avail(struct k3_cppi_desc_pool *pool)
- }
- EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_avail);
+@@ -22,6 +22,7 @@ struct k3_cppi_desc_pool {
+ 	size_t			mem_size;
+ 	size_t			num_desc;
+ 	struct gen_pool		*gen_pool;
++	void			**desc_infos;
+ };
  
-+size_t k3_cppi_desc_pool_desc_size(struct k3_cppi_desc_pool *pool)
-+{
-+	return pool->desc_size;
-+}
-+EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_desc_size);
+ void k3_cppi_desc_pool_destroy(struct k3_cppi_desc_pool *pool)
+@@ -72,6 +73,15 @@ k3_cppi_desc_pool_create_name(struct device *dev, size_t size,
+ 		goto gen_pool_create_fail;
+ 	}
+ 
++	pool->desc_infos = devm_kcalloc(dev, pool->num_desc,
++					sizeof(*pool->desc_infos), GFP_KERNEL);
++	if (!pool->desc_infos) {
++		ret = -ENOMEM;
++		dev_err(pool->dev, "pool descriptor infos alloc failed %d\n", ret);
++		kfree_const(pool_name);
++		goto gen_pool_desc_infos_alloc_fail;
++	}
 +
-+void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool)
+ 	pool->gen_pool->name = pool_name;
+ 
+ 	pool->cpumem = dma_alloc_coherent(pool->dev, pool->mem_size,
+@@ -94,6 +104,8 @@ k3_cppi_desc_pool_create_name(struct device *dev, size_t size,
+ 	dma_free_coherent(pool->dev, pool->mem_size, pool->cpumem,
+ 			  pool->dma_addr);
+ dma_alloc_fail:
++	devm_kfree(pool->dev, pool->desc_infos);
++gen_pool_desc_infos_alloc_fail:
+ 	gen_pool_destroy(pool->gen_pool);	/* frees pool->name */
+ gen_pool_create_fail:
+ 	devm_kfree(pool->dev, pool);
+@@ -144,5 +156,17 @@ void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool)
+ }
+ EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_cpuaddr);
+ 
++void k3_cppi_desc_pool_desc_info_set(struct k3_cppi_desc_pool *pool, int desc_idx, void *info)
 +{
-+	return pool->cpumem;
++	pool->desc_infos[desc_idx] = info;
 +}
-+EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_cpuaddr);
++EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_desc_info_set);
++
++void *k3_cppi_desc_pool_desc_info(struct k3_cppi_desc_pool *pool, int desc_idx)
++{
++	return pool->desc_infos[desc_idx];
++}
++EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_desc_info);
 +
  MODULE_LICENSE("GPL");
  MODULE_DESCRIPTION("TI K3 CPPI5 descriptors pool API");
 diff --git a/drivers/net/ethernet/ti/k3-cppi-desc-pool.h b/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
-index a7e3fa5e7b62..149d5579a5e2 100644
+index 149d5579a5e2..0076596307e7 100644
 --- a/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
 +++ b/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
-@@ -26,5 +26,7 @@ k3_cppi_desc_pool_dma2virt(struct k3_cppi_desc_pool *pool, dma_addr_t dma);
- void *k3_cppi_desc_pool_alloc(struct k3_cppi_desc_pool *pool);
- void k3_cppi_desc_pool_free(struct k3_cppi_desc_pool *pool, void *addr);
+@@ -28,5 +28,7 @@ void k3_cppi_desc_pool_free(struct k3_cppi_desc_pool *pool, void *addr);
  size_t k3_cppi_desc_pool_avail(struct k3_cppi_desc_pool *pool);
-+size_t k3_cppi_desc_pool_desc_size(struct k3_cppi_desc_pool *pool);
-+void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool);
+ size_t k3_cppi_desc_pool_desc_size(struct k3_cppi_desc_pool *pool);
+ void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool);
++void k3_cppi_desc_pool_desc_info_set(struct k3_cppi_desc_pool *pool, int desc_idx, void *info);
++void *k3_cppi_desc_pool_desc_info(struct k3_cppi_desc_pool *pool, int desc_idx);
  
  #endif /* K3_CPPI_DESC_POOL_H_ */
 
