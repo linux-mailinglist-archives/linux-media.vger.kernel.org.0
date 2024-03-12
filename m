@@ -1,74 +1,74 @@
-Return-Path: <linux-media+bounces-6913-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6914-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33488879AED
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 19:03:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA9D879BB7
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 19:41:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57FC41C21E01
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 18:03:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73C671C232EF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 18:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D92B1386C5;
-	Tue, 12 Mar 2024 18:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BADFC1420B6;
+	Tue, 12 Mar 2024 18:39:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="byB2xwYL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K1VvGfZ2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F64C1386D1
-	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 18:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258E21419AA
+	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 18:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710266613; cv=none; b=jdPA1MAzWyQnrzetLMe0l8omO00RLHiVGefcH7hA4o9Fk4zRaoHzgRcyu+Vj78ISKRL3gryC79KbtFfJTHnaQtvdaAmPY9zPA7W6paPit0UaptdT4BePWNHC0EGIPAuQBiTEzXzIGKp2K7PF7wvS36zzU5oGQXWlZzzGAq3fO+4=
+	t=1710268763; cv=none; b=iYdS6kr/KvUXEoQpvvpsqy7lPedC5mf2w6Tk96dynHChHL8hj3rn0wPkbSp4Qqz3LZLYkCqnkebzY5qUx0gueL75LjqbTd/x+9uakTIb2DxaeUVUQxaWySEbpTKmlikpJd5D+H9LD+THn81ZipHPsSXdVWtZeSQ+bI8/7kUBJz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710266613; c=relaxed/simple;
-	bh=tl6GootnZJCViCd3hZwiY8NFba7wM+1REiO8IHBWDPc=;
+	s=arc-20240116; t=1710268763; c=relaxed/simple;
+	bh=zGotLcPmIwuNzqG/4eCjmCYluzzzOQq5Pl6wKJCOSlw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EgwswdfhXBEZZjCDoYqp/S1nT58BRihV66UvVS+PRsE5K5fPoiAiTm0wWm2U+2qMoh2ZBkIvcgyn98JBzg52dKEAB9qQKXnG5eXEmKP0n/DwKaXwwQef/cR/QYpV85iXtq2Ysn2X5Apt7ui6YWtZSMBk9WYGEWgzSiFkssqa21M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=byB2xwYL; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-512f3e75391so4561758e87.2
-        for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 11:03:30 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=e8A22xsXK5F5cN0lv/dAcfuvn4Z4du1bp/apylEeP496UZYuOfxW0++YDri42KtwUROnBB8ov8p2zun8i+zgPc0WCmTGgUCX1V60GoEgNLkEBixGGFVQ3sUrdqc66EvPCWxZumSsEiefl4h65GAp8RIrk8jmjKyJppl3O1QvOQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K1VvGfZ2; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d2fad80eacso54848501fa.2
+        for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 11:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710266608; x=1710871408; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1710268759; x=1710873559; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HREX7H/9qDu7coR15IdnVSKnBY8ogVJjtclSGzuYtSo=;
-        b=byB2xwYL2uMXdT+AGWZk1vADQYsd8X/4BQ9dYHL4IhnYxhJzlS40m1SXxBtQby9Znw
-         CNcMaL0y+sAfR4TgAGobCc2h2Jh6GxS5huXbUOF+XbEZxfMYk4S/5gvlKUQ6P4E3rT+d
-         7LjvNL0fmqtdlJ7t6xquaZOODeA37REKzmWOn+zCrjNLPR2yR/YGJx3B8UMVH7AtWPtA
-         60W5ZtFtRD6Tf5ayYHscZZrP8iHkGaBTr8ow0rUjjFHBLKPqRp8uT93xy5cy34iP6U4+
-         FHRafyBSNGEYymB3M6GcwR4+SqPuEDWS6GvrU3HD8o5jVfzszd1XRUYKg2kgg7Kww7p7
-         h51Q==
+        bh=nZIDPVywQK4s+3iR/pEh+klmiFrap15ypdsgT9qps6A=;
+        b=K1VvGfZ2FZCqVPHT5+tQ7PY6RQijBXZnInU/6N3ojdsx1f72kdtKEohKrj9SUmPeGC
+         82moE09plBvyQvsTeyI7CKkieGHEZtdy/+CXAxk3ZdQ+u8gMcTOd9W1amjJBDayIZYlg
+         5VUPzpDh/7M2zX0U1xpLJOGEw2Gw2H+B9UXt9x2VKv3/XcHD2a27P0v0ARdUmwpAiiGr
+         2klmIYYKSGSj5Pg9wuqa8geZyBUbFnwVb5FnPw2QZxCyIQzyMorgFWRYcPFbzbYBlFJz
+         gu3qoRU3dXq1OKsiDnn43Ru0NHWfDS1VvrK7WdTPM8AN1a73LDI5GN0s3wklH2wNJ6ah
+         vAdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710266608; x=1710871408;
+        d=1e100.net; s=20230601; t=1710268759; x=1710873559;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HREX7H/9qDu7coR15IdnVSKnBY8ogVJjtclSGzuYtSo=;
-        b=V3GuYEmprrEojXeR+8VF8483ljEIagSS3903UDAS6zFDbnnQGqqleCZDA4FA2oFr1D
-         fwbQ8hJt2gZgjNLwHh1J6MoSzENDPvTeFtxndd7J8Qwm3e3FlLOCLNrOmuDru2KbBukd
-         mvDegwdTv10A/M5Q0qhVQoSEDcsjqa3BS2Wbhuj7UhUkkHadtFGNPGaMz6zaRkPM7L1X
-         +BQ+86sAMGpWIqEhGj5WnhZ6D1iz1K8eku5XUC4w4+u9iWGrhieOhPMdP0BKJV6fkO+9
-         pHbaQ8XpkzBhII1b+8Ey8G1kRz2bWKLClEA+gjwCLLfMmkAcE4LoNYH3l93nF+jd2T2B
-         mnjw==
-X-Forwarded-Encrypted: i=1; AJvYcCWxIJncv6Cc3HP3d9DOhQQE+OtFh0B4R4RkkFdrgqDDuflb8N7CCqskWpIhqaFrR7psjstf0SDu1HFoV01hCzGEyAaiDfePBPPdZlM=
-X-Gm-Message-State: AOJu0Yy1f2MiN93WymB+Z3i9muP2kpmC6RIksd5/ae/o9fJA+lF5D4U3
-	ol36WhcsWAC2zJqNCpk80EXcPNcIR27klZcLuO0mlGqXIGzhwuhleW8E1N4HBHw=
-X-Google-Smtp-Source: AGHT+IH4QkVIYDqyhzAKmOcXC+nBQU3/7sOVXezpH3hXulIwAWJtf0fWxm8Rb21sEMqvyOTNR1ZG+Q==
-X-Received: by 2002:a05:6512:ba4:b0:513:a72c:de7c with SMTP id b36-20020a0565120ba400b00513a72cde7cmr2898449lfv.46.1710266608394;
-        Tue, 12 Mar 2024 11:03:28 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id bq7-20020a5d5a07000000b0033e95794186sm6250688wrb.83.2024.03.12.11.03.26
+        bh=nZIDPVywQK4s+3iR/pEh+klmiFrap15ypdsgT9qps6A=;
+        b=bya3iFkMrpF8EG7ilD1HnuYPIe6wSdtxe3oUzjyEaPU2U1QR0Euug5TGyi0YELozA3
+         2tnw+IjCVV/HkcCoPcyZRnF12Q8wFGXoWEBbvyHp3PdF3s2L9AcH0rq1nhdsGQCMZYKz
+         8JESNgWyPDx2uha3hMBbnFIscUEw1bJLXp6lMHEUxHW0zLSVtq3zgtIlWYSlXv+lZyJs
+         miLgzxOEVUP6vZqZpS1IheXd+7XPpf9HJGzxghppC/R69Dc3vBcOEd/dXd7blF5W2JJS
+         NA4d6z3/+Aur6hP0ZL85AevBX7ug/Mi7bPeVTVEgdJPZURBn/RvVSSj19rbgYugfHxDr
+         BOGQ==
+X-Gm-Message-State: AOJu0YwWGk7YjUUi6O8eHuNzHLqQZDqbcrcTlCzsxgDRP8QAeiVYet96
+	uW9xXbnHBIzSLRa/Omd9oagb31H31tCAZgAfaPAyz2JrZCMRLZ7sPaKM1hKLni/G+pxGQ/qvtTV
+	nS1Y=
+X-Google-Smtp-Source: AGHT+IE5iZ+xJ7DaKxzDCguYb7BHho5ugxZHKCD2W9fYDPBSXVLkcqqBPACKI0WOLLwl+KvlqFeRwg==
+X-Received: by 2002:a2e:b711:0:b0:2d3:a096:cb83 with SMTP id j17-20020a2eb711000000b002d3a096cb83mr6274006ljo.51.1710268759261;
+        Tue, 12 Mar 2024 11:39:19 -0700 (PDT)
+Received: from [172.30.204.193] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id s38-20020a2ea726000000b002d435cdf2adsm1343047lje.111.2024.03.12.11.39.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 11:03:27 -0700 (PDT)
-Message-ID: <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
-Date: Tue, 12 Mar 2024 19:03:25 +0100
+        Tue, 12 Mar 2024 11:39:18 -0700 (PDT)
+Message-ID: <bab5bea3-d99e-4389-b27d-1216446b93da@linaro.org>
+Date: Tue, 12 Mar 2024 19:39:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,174 +76,293 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
 Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
- <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+To: Marc Gonzalez <mgonzalez@freebox.fr>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Jeffrey Hugo <jhugo@codeaurora.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-media <linux-media@vger.kernel.org>,
+ MSM <linux-arm-msm@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Pierre-Hugues Husson
+ <phh@phh.me>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+ <f6e68756-72a1-4c32-968d-3d6adaa153c9@linaro.org>
+ <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
+ <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
+ <b8325dbf-67c5-4898-bc23-ff093ae6e14a@freebox.fr>
+ <87db77f7-fda4-4cf7-adfd-8545c40c3365@linaro.org>
+ <10fe67af-0572-4faa-91c6-fce9c8f9dc92@linaro.org>
+ <6342e92d-eed0-45c2-8f04-3779aa2e521d@freebox.fr>
+ <4ab95e87-c912-469b-b8d4-be0cf0e4710b@linaro.org>
+ <a8c5b27c-47a9-044a-78e8-51c67acf19a6@quicinc.com>
+ <c6a9c20e-02d3-4334-badd-2efe5be9ce7e@freebox.fr>
+ <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
+ <33382ecb-8a73-4d2f-96b1-8048df7a6414@freebox.fr>
+ <3914555d-3c89-a5c5-2906-0bd24d0bf735@quicinc.com>
+ <72741d2e-5165-4505-b079-d7b5d1491888@freebox.fr>
+ <edb29faa-01b3-3b96-7c05-3378eb3af073@quicinc.com>
+ <21b833cf-61c3-4fb5-8c55-492aac0fd3b6@freebox.fr>
+ <8170522f-b813-19a4-3f85-f2880809d9a5@quicinc.com>
+ <05285de6-ac5b-4f3b-953a-954c38b0dd2d@freebox.fr>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <05285de6-ac5b-4f3b-953a-954c38b0dd2d@freebox.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 26/02/2024 17:09, Mark Brown wrote:
-> On Mon, Feb 26, 2024 at 03:01:50PM +0100, amergnat@baylibre.com wrote:
+On 2/29/24 17:24, Marc Gonzalez wrote:
+> On 29/02/2024 16:32, Vikash Garodia wrote:
 > 
->> index 000000000000..13e95c227114
->> --- /dev/null
->> +++ b/sound/soc/codecs/mt6357.c
->> @@ -0,0 +1,1805 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * MT6357 ALSA SoC audio codec driver
->> + *
+>> On 2/27/2024 9:41 PM, Marc Gonzalez wrote:
+>>
+>>> On 27/02/2024 07:55, Vikash Garodia wrote:
+>>>
+>>>> On 2/26/2024 9:25 PM, Marc Gonzalez wrote:
+>>>>
+>>>>> Errr, there is currently no existing node for msm8998-venus?
+>>>>
+>>>> My bad, i meant your initial node msm8998-venus, without migrating to v2.
+>>>>
+>>>>> With the proposed node above (based on msm8996-venus)
+>>>>> AND the proposed work-around disabling low-power mode,
+>>>>> decoding works correctly.
+>>>>
+>>>> Nice, lets fix the work-around part before migrating to v2. Could you share the
+>>>> configurations for VIDEO_SUBCORE0_GDSC and VIDEO_SUBCORE1_GDSC ?
+>>>>
+>>>> If we see vendor code[1], sys power plane control is very much supported, so
+>>>> ideally we should get it working without the workaround
+>>>> [1] https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/drivers/media/platform/msm/vidc/venus_hfi.c#L2223
+>>>
+>>> OK, for easy reference, here are the proposed changes again:
+>>>
+>>> diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>>> index 2793cc22d381a..5084191be1446 100644
+>>> --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>>> +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+>>> @@ -3000,6 +3000,56 @@ mdss_dsi1_phy: phy@c996400 {
+>>>   			};
+>>>   		};
+>>>   
+>>> +		venus: video-codec@cc00000 {
+>>> +			compatible = "qcom,msm8998-venus";
+>>> +			reg = <0x0cc00000 0xff000>;
+>>> +			interrupts = <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>;
+>>> +			power-domains = <&mmcc VIDEO_TOP_GDSC>;
+>>> +			clocks = <&mmcc VIDEO_CORE_CLK>,
+>>> +				 <&mmcc VIDEO_AHB_CLK>,
+>>> +				 <&mmcc VIDEO_AXI_CLK>,
+>>> +				 <&mmcc VIDEO_MAXI_CLK>;
+>>> +			clock-names = "core", "iface", "bus", "mbus";
+>>> +			iommus = <&mmss_smmu 0x400>,
+>>> +				 <&mmss_smmu 0x401>,
+>>> +				 <&mmss_smmu 0x40a>,
+>>> +				 <&mmss_smmu 0x407>,
+>>> +				 <&mmss_smmu 0x40e>,
+>>> +				 <&mmss_smmu 0x40f>,
+>>> +				 <&mmss_smmu 0x408>,
+>>> +				 <&mmss_smmu 0x409>,
+>>> +				 <&mmss_smmu 0x40b>,
+>>> +				 <&mmss_smmu 0x40c>,
+>>> +				 <&mmss_smmu 0x40d>,
+>>> +				 <&mmss_smmu 0x410>,
+>>> +				 <&mmss_smmu 0x411>,
+>>> +				 <&mmss_smmu 0x421>,
+>>> +				 <&mmss_smmu 0x428>,
+>>> +				 <&mmss_smmu 0x429>,
+>>> +				 <&mmss_smmu 0x42b>,
+>>> +				 <&mmss_smmu 0x42c>,
+>>> +				 <&mmss_smmu 0x42d>,
+>>> +				 <&mmss_smmu 0x411>,
+>>> +				 <&mmss_smmu 0x431>;
+>>> +			memory-region = <&venus_mem>;
+>>> +			status = "disabled";
+>>> +			qcom,venus-broken-low-power-mode;
+>>> +
+>>> +			video-decoder {
+>>> +				compatible = "venus-decoder";
+>>> +				clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
+>>> +				clock-names = "core";
+>>> +				power-domains = <&mmcc VIDEO_SUBCORE0_GDSC>;
+>>> +			};
+>>> +
+>>> +			video-encoder {
+>>> +				compatible = "venus-encoder";
+>>> +				clocks = <&mmcc VIDEO_SUBCORE1_CLK>;
+>>> +				clock-names = "core";
+>>> +				power-domains = <&mmcc VIDEO_SUBCORE1_GDSC>;
+>>> +			};
+>>> +		};
+>>> +
+>>>   		mmss_smmu: iommu@cd00000 {
+>>>   			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
+>>>   			reg = <0x0cd00000 0x40000>;
+>>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>>> index a712dd4f02a5b..ad1705e510312 100644
+>>> --- a/drivers/media/platform/qcom/venus/core.c
+>>> +++ b/drivers/media/platform/qcom/venus/core.c
+>>> @@ -585,6 +585,43 @@ static const struct venus_resources msm8996_res = {
+>>>   	.fwname = "qcom/venus-4.2/venus.mbn",
+>>>   };
+>>>   
+>>> +static const struct freq_tbl msm8998_freq_table[] = {
+>>> +	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
+>>> +	{  972000, 520000000 },	/* 4k UHD @ 30 */
+>>> +	{  489600, 346666667 },	/* 1080p @ 60 */
+>>> +	{  244800, 150000000 },	/* 1080p @ 30 */
+>>> +	{  108000,  75000000 },	/* 720p @ 30 */
+>>> +};
+>>> +
+>>> +static const struct reg_val msm8998_reg_preset[] = {
+>>> +    { 0x80124, 0x00000003 },
+>>> +    { 0x80550, 0x01111111 },
+>>> +    { 0x80560, 0x01111111 },
+>>> +    { 0x80568, 0x01111111 },
+>>> +    { 0x80570, 0x01111111 },
+>>> +    { 0x80580, 0x01111111 },
+>>> +    { 0xe2010, 0x00000000 },
+>>> +};
+>>> +
+>>> +static const struct venus_resources msm8998_res = {
+>>> +	.freq_tbl = msm8998_freq_table,
+>>> +	.freq_tbl_size = ARRAY_SIZE(msm8998_freq_table),
+>>> +	.reg_tbl = msm8998_reg_preset,
+>>> +	.reg_tbl_size = ARRAY_SIZE(msm8998_reg_preset),
+>>> +	.clks = {"core", "iface", "bus", "mbus"},
+>>> +	.clks_num = 4,
+>>> +	.vcodec0_clks = { "core" },
+>>> +	.vcodec1_clks = { "core" },
+>>> +	.vcodec_clks_num = 1,
+>>> +	.max_load = 2563200,
+>>> +	.hfi_version = HFI_VERSION_3XX,
+>>> +	.vmem_id = VIDC_RESOURCE_NONE,
+>>> +	.vmem_size = 0,
+>>> +	.vmem_addr = 0,
+>>> +	.dma_mask = 0xddc00000 - 1,
+>>> +	.fwname = "qcom/venus-4.4/venus.mbn",
+>>> +};
+>>> +
+>>>   static const struct freq_tbl sdm660_freq_table[] = {
+>>>   	{ 979200, 518400000 },
+>>>   	{ 489600, 441600000 },
+>>> @@ -891,6 +928,7 @@ static const struct venus_resources sc7280_res = {
+>>>   static const struct of_device_id venus_dt_match[] = {
+>>>   	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>>>   	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+>>> +	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+>>>   	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+>>>   	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+>>>   	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+>>>
+>>>
+>>>
+>>> This patch is on top of v6.8-rc1
+>>> so the configurations for VIDEO_SUBCOREx_GDSC
+>>> are as defined in mainline.
+>>>
+>>> #define VIDEO_SUBCORE0_CLK_SRC	51
+>>> #define VIDEO_SUBCORE1_CLK_SRC	52
+>>>
+>>> #define VIDEO_TOP_GDSC		1
+>>> #define VIDEO_SUBCORE0_GDSC	2
+>>> #define VIDEO_SUBCORE1_GDSC	3
+>>>
+>>> https://github.com/torvalds/linux/blob/master/drivers/clk/qcom/mmcc-msm8998.c#L2536-L2561
+>>>
+>>> static struct gdsc video_top_gdsc = {
+>>> 	.gdscr = 0x1024,
+>>> 	.pd = {
+>>> 		.name = "video_top",
+>>> 	},
+>>> 	.pwrsts = PWRSTS_OFF_ON,
+>>> };
+>>>
+>>> static struct gdsc video_subcore0_gdsc = {
+>>> 	.gdscr = 0x1040,
+>>> 	.pd = {
+>>> 		.name = "video_subcore0",
+>>> 	},
+>>> 	.parent = &video_top_gdsc.pd,
+>>> 	.pwrsts = PWRSTS_OFF_ON,
+>>> };
+>>>
+>>> static struct gdsc video_subcore1_gdsc = {
+>>> 	.gdscr = 0x1044,
+>>> 	.pd = {
+>>> 		.name = "video_subcore1",
+>>> 	},
+>>> 	.parent = &video_top_gdsc.pd,
+>>> 	.pwrsts = PWRSTS_OFF_ON,
+>>> };
+>>>
+>>>
+>>> 	const u8			pwrsts;
+>>> /* Powerdomain allowable state bitfields */
+>>> #define PWRSTS_OFF		BIT(0)
+>>> /*
+>>>   * There is no SW control to transition a GDSC into
+>>>   * PWRSTS_RET. This happens in HW when the parent
+>>>   * domain goes down to a low power state
+>>>   */
+>>> #define PWRSTS_RET		BIT(1)
+>>> #define PWRSTS_ON		BIT(2)
+>>> #define PWRSTS_OFF_ON		(PWRSTS_OFF | PWRSTS_ON)
+>>> #define PWRSTS_RET_ON		(PWRSTS_RET | PWRSTS_ON)
+>>> 	const u16			flags;
+>>> #define VOTABLE		BIT(0)
+>>> #define CLAMP_IO	BIT(1)
+>>> #define HW_CTRL		BIT(2)
+>>> #define SW_RESET	BIT(3)
+>>> #define AON_RESET	BIT(4)
+>>> #define POLL_CFG_GDSCR	BIT(5)
+>>> #define ALWAYS_ON	BIT(6)
+>>> #define RETAIN_FF_ENABLE	BIT(7)
+>>> #define NO_RET_PERIPH	BIT(8)
+>>>
+>>>
+>>> Should .pwrsts be PWRSTS_RET_ON instead of PWRSTS_OFF_ON?
+>>>
+>>> Should .flags be HW_CTRL instead of 0?
+>>
+>> Not completely sure on these configurations, but certainly both the
+>> video_subcore0_gdsc and video_subcore1_gdsc should be configured in hardware
+>> control mode in the gdsc configuration.
 > 
-> Please use a C++ comment for the whole comment to make it clearer that
-> this is intentional.
+> Jeffrey, Bjorn,
+> 
+> I'm trying to get mainline support for the msm8998 video decoder (venus).
+> Apparently, there appears to be an issue with the multimedia clocks.
+> 
+> Do you remember why you chose PWRSTS_OFF_ON instead of PWRSTS_RET_ON?
 
-ok
+Doing a quick reconnaissance against msm-4.4, PWRSTS_OFF_ON looks
+very sane.
+
+Moreover, PWRSTS_RET_ON very much only looks useful as a hack for
+non-fully-implemented drivers (and that would indeed match the state
+of our usb and pcie driver today) - it prevents GDSC shutdown, but
+tells the PM framework that the registered power domain has collapsed
 
 > 
->> +static void set_playback_gpio(struct mt6357_priv *priv, bool enable)
->> +{
->> +	if (enable) {
->> +		/* set gpio mosi mode */
->> +		regmap_write(priv->regmap, MT6357_GPIO_MODE2_CLR, GPIO_MODE2_CLEAR_ALL);
->> +		regmap_write(priv->regmap, MT6357_GPIO_MODE2_SET, GPIO8_MODE_SET_AUD_CLK_MOSI |
->> +								  GPIO9_MODE_SET_AUD_DAT_MOSI0 |
->> +								  GPIO10_MODE_SET_AUD_DAT_MOSI1 |
->> +								  GPIO11_MODE_SET_AUD_SYNC_MOSI);
-> 
-> This would be a lot more legible if you worked out the values to set and
-> then had a single set of writes, currently the indentation makes it very
-> hard to read.  Similarly for other similar functions.
+> And why the HW_CTRL bit is not set?
 
-ok
+HW_CTRL means "totally hand over the control of this GDSC to the
+hardware" where "hardware" is very loosely defined..
 
-> 
->> +static int mt6357_put_volsw(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
->> +{
->> +	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
->> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(component);
->> +	struct soc_mixer_control *mc = (struct soc_mixer_control *)kcontrol->private_value;
->> +	unsigned int reg;
->> +	int ret;
->> +
->> +	ret = snd_soc_put_volsw(kcontrol, ucontrol);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	switch (mc->reg) {
->> +	case MT6357_ZCD_CON2:
->> +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
->> +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =
->> +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
->> +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =
->> +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
->> +		break;
-> 
-> It would probably be less code and would definitely be clearer and
-> simpler to just read the values when we need them rather than constatly
-> keeping a cache separate to the register cache.
+Reading msm-4.4 again, it seems like we want HW_CTRL mode to be
+enabled if and only if the low power property has been set through
+the venus firmware interface.
 
-Actually you must save the values because the gain selected by the user 
-will be override to do a ramp => volume_ramp(.....):
-- When you switch on the HP, you start from gain=-40db to final_gain 
-(selected by user).
-- When you switch off the HP, you start from final_gain (selected by 
-user) to gain=-40db.
+More particularly, we don't want it to be there once we wanna shut
+down Venus for good. This is being worked on by folks over at [1].
 
-Also, the microphone's gain change when it's enabled/disabled.
+https://lore.kernel.org/linux-arm-msm/20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org/
 
-So, it can implemented differently but currently it's aligned with the 
-other MTK codecs and I don't see any resource wasted here.
-
-> 
->> +	/* ul channel swap */
->> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
-> 
-> On/off controls should end in Switch.
-
-Sorry, I don't understand your comment. Can you reword it please ?
-
-> 
->> +static const char * const hslo_mux_map[] = {
->> +	"Open", "DACR", "Playback", "Test mode"
->> +};
->> +
->> +static int hslo_mux_map_value[] = {
->> +	0x0, 0x1, 0x2, 0x3,
->> +};
-> 
-> Why not just use a normal mux here, there's no missing values or
-> reordering?  Similarly for other muxes.
-
-I've dug into some other codecs and it's done like that, but I've 
-probably misunderstood something.
-
-The only bad thing I see is enum is missing currently:
-
-enum {
-	PGA_MUX_OPEN = 0,
-	PGA_MUX_DACR,
-	PGA_MUX_PB,
-	PGA_MUX_TM,
-	PGA_MUX_MASK = 0x3,
-};
-
-static const char * const hslo_mux_map[] = {
-	"Open", "DACR", "Playback", "Test mode"
-};
-
-static int hslo_mux_map_value[] = {
-	PGA_MUX_OPEN, PGA_MUX_DACR, PGA_MUX_PB, PGA_MUX_TM,
-};
-
-> 
->> +static unsigned int mt6357_read(struct snd_soc_component *codec, unsigned int reg)
->> +{
->> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
->> +	unsigned int val;
->> +
->> +	pr_debug("%s() reg = 0x%x", __func__, reg);
->> +	regmap_read(priv->regmap, reg, &val);
->> +	return val;
->> +}
-> 
-> Remove these, there are vastly more logging facilities as standard in
-> the regmap core.
-
-ok
-
-> 
->> +/* Reg bit defines */
->> +/* MT6357_GPIO_DIR0 */
->> +#define GPIO8_DIR_MASK				BIT(8)
->> +#define GPIO8_DIR_INPUT				0
-> 
-> Please namespace your defines, these look very generic.
-
-ok
-
--- 
-Regards,
-Alexandre
+Konrad
 
