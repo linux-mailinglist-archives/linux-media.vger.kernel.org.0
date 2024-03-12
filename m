@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-6882-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6885-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80130879226
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 11:35:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B427987922A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 11:35:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2080E1F21DAB
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 10:35:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 440E81F21CC9
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 10:35:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A438C69D09;
-	Tue, 12 Mar 2024 10:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C216579DAC;
+	Tue, 12 Mar 2024 10:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3fIxNxg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f58rlD6B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C72079B76
-	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 10:34:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BB779B75
+	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 10:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710239678; cv=none; b=osaIjTXXTcmp86KvkHIbK/WEaCewqPciGzAbP4nzOi2NNFdJDD6lsZhzG5xZdEdxeh8Qsgo26YZp9ZmL8Gqyj9S7gmm5Se4lNkfI9Idnyk4+Pi/MA3Yy4ZaAGBil4jFX/uSkpNLV7UMWJx6oySyjxJj3Yu1z+HuTs1d4TVVHthU=
+	t=1710239680; cv=none; b=q6egXGhvKAzsUJkJbLbZ8opdxeTkmqCn2kuRS4LFfSF8K7wR2pgWl5qr6l5Ek6W+LsXa7YDNO5qQ+TygvrzrK73P4SpPZt38hXnNmZde61rg1mw/agd9WaEQkDPskerOEXz2wREFDn0XzggpiYC7LmL1xeEjIXVxU0GXnGRh1yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710239678; c=relaxed/simple;
-	bh=II6lz7idmJWX19uPmLqcUf7Hfulwjv5ymsaQBoCu7Zc=;
+	s=arc-20240116; t=1710239680; c=relaxed/simple;
+	bh=gHkn3+4ra63kv16zVeXU2Mj2qs4V5THT9bHKSfu2byc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UCqCKTJvuk3VyrThfYsP6r/zwdOALdcS23n9Ja9YUZG4y87YAFbhrtFagAR7PEQM34FmpUGBZoQ2EMLlgumYYhQOIMaBws6+RuqhT7bKQ5NCaYPHlVEQCkW7UFCt9LxBvJ5s8CAZ/f/JMjgf+ZAG8Dt11rfRunlCMLCJuQhIrM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n3fIxNxg; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=r2Avqk6nbN0wDW+qoBiVRQxIYzaHR3peyw8PV7Vd7qTPXhabGmvbaqQH3KzstEaJJhamw8oHVLeFZKTFzc7IyRmx9IpV+iZLKl1Mcb8q1QNhs+k16d7v4QutAndawsx3Sv/ASK3vJTdbLTXGkvCfPtbMHouQIgMbOpQTQAVkpyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f58rlD6B; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -36,34 +36,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1710239677; x=1741775677;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=II6lz7idmJWX19uPmLqcUf7Hfulwjv5ymsaQBoCu7Zc=;
-  b=n3fIxNxgLqFxE7jmMoIpd8r/wJKnGWAEmi6jzoqRiMpfFh0KCgBOig/G
-   LKR01qW73gmXwWOnF2tPI0QxWKizGsl2TYJLwG8aLkGf6YP9pibiUSo2F
-   BOXMCNWgX/eWwpL5SdnZKMXkOx4Dw0lYwYG/T9SWVESrK+R6ZsVOzzFxM
-   mRJX+HwebMEFInM9wowyI9XqnJ8AR5gYwPAV9H2Qu5p0EVBbtv/s4RJDF
-   NzNHqUN6yynyDd3YCv1AbtA3TSZIz0OYm0wM0L+1e4Xq/5BLIJifPs/gY
-   dbDsuoYRdOwQaWYFnWswFI1zQrvYNme8juDpnPn8DP8wib75cX45seCRY
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4794305"
+  bh=gHkn3+4ra63kv16zVeXU2Mj2qs4V5THT9bHKSfu2byc=;
+  b=f58rlD6B219iJwq9l+OLQGhil3v700ONkz3ngU5WgiSLi2K/GKZoDgii
+   p7PZrmwg5GUA+3ekbeXQulpxtTS961tr9n80oCbLRDpRfCvOsoTXHI840
+   1VpDudv5TFeKnDP63gYmRQSM2karNliawColu5R88Mgs0NVuqtzd4qioQ
+   YMeSCoLrNYcNTpuVPmzcmQuCtwjbyLeJFnemROfugFz0qp35eo8sLHqjb
+   wPPzFha0H3pB4SUmiYX9TUZZ2t3IzhodDdcWLSkH0mux1MB7kaEBdERzc
+   77aXagpaYajSvAlN4uZPbpEW4VqC1ufTBH3gV/IJ6g00KEpGrh6HbBENP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4794309"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4794305"
+   d="scan'208";a="4794309"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:36 -0700
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:37 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16194092"
+   d="scan'208";a="16194094"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:35 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:36 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 773D811F81D;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0EA6A11FB11;
 	Tue, 12 Mar 2024 12:34:32 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com,
 	hverkuil@xs4all.nl
-Subject: [PATCH v3 13/26] media: mc: Initialise media devnode in media_device_init()
-Date: Tue, 12 Mar 2024 12:34:09 +0200
-Message-Id: <20240312103422.216484-14-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 14/26] media: mc: Refcount the media device
+Date: Tue, 12 Mar 2024 12:34:10 +0200
+Message-Id: <20240312103422.216484-15-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240312103422.216484-1-sakari.ailus@linux.intel.com>
 References: <20240312103422.216484-1-sakari.ailus@linux.intel.com>
@@ -75,81 +75,168 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Call media_devnode_init() from media_device_init(). This has the effect of
-creating a struct device for the media_devnode before it is registered,
-making it possible to obtain a reference to it for e.g. video devices.
+As the struct media_device embeds struct media_devnode, the lifetime of
+that object must be that same than that of the media_device.
+
+References are obtained by media_device_get() and released by
+media_device_put(). In order to use refcounting, the driver must set the
+release callback before calling media_device_init() on the media device.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/mc/mc-device.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ drivers/media/mc/mc-device.c  | 35 +++++++++++++++++++++++++++++------
+ drivers/media/mc/mc-devnode.c |  2 +-
+ include/media/media-device.h  | 35 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 65 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-index f1f3addf7932..f1d89d940fe1 100644
+index f1d89d940fe1..bbc233e726d2 100644
 --- a/drivers/media/mc/mc-device.c
 +++ b/drivers/media/mc/mc-device.c
-@@ -711,9 +711,10 @@ void media_device_init(struct media_device *mdev)
- 	mutex_init(&mdev->req_queue_mutex);
- 	mutex_init(&mdev->graph_mutex);
+@@ -700,6 +700,31 @@ void media_device_unregister_entity_notify(struct media_device *mdev,
+ }
+ EXPORT_SYMBOL_GPL(media_device_unregister_entity_notify);
+ 
++static void __media_device_release(struct media_device *mdev)
++{
++	dev_dbg(mdev->dev, "Media device released\n");
++
++	ida_destroy(&mdev->entity_internal_idx);
++	mdev->entity_internal_idx_max = 0;
++	media_graph_walk_cleanup(&mdev->pm_count_walk);
++	mutex_destroy(&mdev->graph_mutex);
++	mutex_destroy(&mdev->req_queue_mutex);
++}
++
++static void media_device_release(struct media_devnode *devnode)
++{
++	struct media_device *mdev = to_media_device(devnode);
++
++	if (mdev->ops && mdev->ops->release) {
++		/*
++		 * If release op isn't set, __media_device_release() is called
++		 * via media_device_cleanup().
++		 */
++		__media_device_release(mdev);
++		mdev->ops->release(mdev);
++	}
++}
++
+ void media_device_init(struct media_device *mdev)
+ {
+ 	INIT_LIST_HEAD(&mdev->entities);
+@@ -713,6 +738,7 @@ void media_device_init(struct media_device *mdev)
  	ida_init(&mdev->entity_internal_idx);
--
  	atomic_set(&mdev->request_id, 0);
  
-+	media_devnode_init(&mdev->devnode);
-+
++	mdev->devnode.release = media_device_release;
+ 	media_devnode_init(&mdev->devnode);
+ 
  	if (!*mdev->bus_info)
- 		media_set_bus_info(mdev->bus_info, sizeof(mdev->bus_info),
- 				   mdev->dev);
-@@ -729,6 +730,7 @@ void media_device_cleanup(struct media_device *mdev)
- 	media_graph_walk_cleanup(&mdev->pm_count_walk);
- 	mutex_destroy(&mdev->graph_mutex);
- 	mutex_destroy(&mdev->req_queue_mutex);
-+	put_device(&mdev->devnode.dev);
+@@ -725,12 +751,9 @@ EXPORT_SYMBOL_GPL(media_device_init);
+ 
+ void media_device_cleanup(struct media_device *mdev)
+ {
+-	ida_destroy(&mdev->entity_internal_idx);
+-	mdev->entity_internal_idx_max = 0;
+-	media_graph_walk_cleanup(&mdev->pm_count_walk);
+-	mutex_destroy(&mdev->graph_mutex);
+-	mutex_destroy(&mdev->req_queue_mutex);
+-	put_device(&mdev->devnode.dev);
++	WARN_ON(mdev->ops && mdev->ops->release);
++	__media_device_release(mdev);
++	media_device_put(mdev);
  }
  EXPORT_SYMBOL_GPL(media_device_cleanup);
  
-@@ -744,26 +746,19 @@ int __must_check __media_device_register(struct media_device *mdev,
- 	/* Set version 0 to indicate user-space that the graph is static */
- 	mdev->topology_version = 0;
+diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
+index 64aadc51352b..6fb3a202eb26 100644
+--- a/drivers/media/mc/mc-devnode.c
++++ b/drivers/media/mc/mc-devnode.c
+@@ -200,6 +200,7 @@ static const struct file_operations media_devnode_fops = {
+ void media_devnode_init(struct media_devnode *devnode)
+ {
+ 	device_initialize(&devnode->dev);
++	devnode->dev.release = media_devnode_release;
+ }
  
--	media_devnode_init(&mdev->devnode);
--
- 	ret = media_devnode_register(&mdev->devnode, owner);
- 	if (ret < 0)
--		goto err_put;
-+		return ret;
+ int __must_check media_devnode_register(struct media_devnode *devnode,
+@@ -229,7 +230,6 @@ int __must_check media_devnode_register(struct media_devnode *devnode,
  
- 	ret = device_create_file(&mdev->devnode.dev, &dev_attr_model);
--	if (ret < 0)
--		goto err_unregister;
-+	if (ret < 0) {
-+		media_devnode_unregister(&mdev->devnode);
-+		return ret;
-+	}
+ 	devnode->dev.bus = &media_bus_type;
+ 	devnode->dev.devt = MKDEV(MAJOR(media_dev_t), devnode->minor);
+-	devnode->dev.release = media_devnode_release;
+ 	if (devnode->parent)
+ 		devnode->dev.parent = devnode->parent;
+ 	dev_set_name(&devnode->dev, "media%d", devnode->minor);
+diff --git a/include/media/media-device.h b/include/media/media-device.h
+index c791f3d5ad77..f1afbfc4dca2 100644
+--- a/include/media/media-device.h
++++ b/include/media/media-device.h
+@@ -62,6 +62,7 @@ struct media_entity_notify {
+  *	       request (and thus the buffer) must be available to the driver.
+  *	       And once a buffer is queued, then the driver can complete
+  *	       or delete objects from the request before req_queue exits.
++ * @release: Release the resources of the media device.
+  */
+ struct media_device_ops {
+ 	int (*link_notify)(struct media_link *link, u32 flags,
+@@ -70,6 +71,7 @@ struct media_device_ops {
+ 	void (*req_free)(struct media_request *req);
+ 	int (*req_validate)(struct media_request *req);
+ 	void (*req_queue)(struct media_request *req);
++	void (*release)(struct media_device *mdev);
+ };
  
- 	dev_dbg(mdev->dev, "Media device registered\n");
+ /**
+@@ -219,6 +221,32 @@ struct usb_device;
+  */
+ void media_device_init(struct media_device *mdev);
  
++/**
++ * media_device_get() - atomically increment the reference count for the media
++ * device
++ *
++ * Returns: the media device
++ *
++ * @mdev: media device
++ */
++static inline struct media_device *media_device_get(struct media_device *mdev)
++{
++	get_device(&mdev->devnode.dev);
++
++	return mdev;
++}
++
++/**
++ * media_device_put() - atomically decrement the reference count for the media
++ * device
++ *
++ * @mdev: media device
++ */
++static inline void media_device_put(struct media_device *mdev)
++{
++	put_device(&mdev->devnode.dev);
++}
++
+ /**
+  * media_device_cleanup() - Cleanups a media device element
+  *
+@@ -435,6 +463,13 @@ void __media_device_usb_init(struct media_device *mdev,
+ static inline void media_device_init(struct media_device *mdev)
+ {
+ }
++static inline struct media_device *media_device_get(struct media_device *mdev)
++{
++	return NULL;
++}
++static inline void media_device_put(struct media_device *mdev)
++{
++}
+ static inline int media_device_register(struct media_device *mdev)
+ {
  	return 0;
--
--err_unregister:
--	media_devnode_unregister(&mdev->devnode);
--err_put:
--	put_device(&mdev->devnode.dev);
--
--	return ret;
- }
- EXPORT_SYMBOL_GPL(__media_device_register);
- 
-@@ -810,7 +805,6 @@ void media_device_unregister(struct media_device *mdev)
- 	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
- 	dev_dbg(mdev->dev, "Media device unregistering\n");
- 	media_devnode_unregister(&mdev->devnode);
--	put_device(&mdev->devnode.dev);
- }
- EXPORT_SYMBOL_GPL(media_device_unregister);
- 
 -- 
 2.39.2
 
