@@ -1,153 +1,119 @@
-Return-Path: <linux-media+bounces-6910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6911-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE87879709
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 16:02:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C39B38797EE
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 16:47:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A2C4C1F21B3A
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 15:02:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76C931F22EC7
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 15:47:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78D0B7BB13;
-	Tue, 12 Mar 2024 15:02:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C088E7C6E0;
+	Tue, 12 Mar 2024 15:47:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nLiwURvL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XuV2fcF1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3282A6FB9;
-	Tue, 12 Mar 2024 15:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32487A70A
+	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 15:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710255727; cv=none; b=MToSoO4KrYWmcaUjOzQWWyGZ7iPEQVDvlx3Qg1u4Oj0IsrH21MJHc6pPoR0xIjSQnGW9Un7MKAr0yd+cSePStDF+RhArqyXOlzObtDjvEljtLFlaCK03DaWMVPFqJaj5ZrGIPY8Vb58Iyr/EfU1TFUqm2ceUpuA0PG0gsMhIXJk=
+	t=1710258469; cv=none; b=Cc9vwLl/oiCkTuImBBRnw6N6SihABNIqSiq5rbLcYLKnDs0CN4XiQgzAQ8kD8XDSIX79Mg2JPnirtouTrUMz10L/U/k/TCJFOWAqui0GBUIrSuvL7KqJ72r8EyqwWQU+noE0zijnhkpbhH+uClLj9Pda5WYBJ8zumGBJ7+3woOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710255727; c=relaxed/simple;
-	bh=+2b6ed3F/KPCOCDW0fG1OdfwFqw9j+nnEkaHGDQ6eqc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Xy18ZPhFu1iZGnIGBxvwryfd0aHhwoVwrHVrBj5G56gK9dJeT8lOhrR2VTNALTee921dHZulkD1O0g8ZleIxInacpJIXE4RwiU6zwVaynJ/NzVFVLp9sqIm2dQpGFgtDbbycBKtdCoH+ulpw7vbwEugqZXH0V3xN0zDjG4hILTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nLiwURvL; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42CAvwvU021211;
-	Tue, 12 Mar 2024 15:02:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=qXoAYhHKfTUJsSlgTVytqgymms4yVPOoUBmHB7FY+F0=; b=nL
-	iwURvLXZXJMQX43Y0kLb4lxaEVl8xGwk4s2N7OzlDJttEtuNqvGVFCiH1DPAO6U1
-	HBi3VyogXhHLXifL1Cmq/2I6WApVFRuuJmymnrcM+NOL9+GmO14oHXBFAtc9B2Hj
-	xB2xvLxuZnkvonoVIKfVHKnZt+GwIhzdISZcO80evlqsfviPU/SUuslxA+tpMgz4
-	7WZShHjlWT+cSutPJudqzJO/ZV4rG7Aw7oc4HAx84Zk9Yek4l7dfneQNjM8a/VGa
-	5sM5gtP+Bm3itHOc7h0lsfp3+/77HAqHZL5d9Aapkrp+fPEVVKVcmUzHFUhdJ78G
-	Qolz6ktpyqu9s/UOn0xQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wtjef0xs3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Mar 2024 15:01:59 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42CF1wAS026791
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Mar 2024 15:01:58 GMT
-Received: from [10.251.45.43] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 12 Mar
- 2024 08:01:55 -0700
-Message-ID: <b852d178-dfb6-47fb-a5bf-55b614cbfae3@quicinc.com>
-Date: Tue, 12 Mar 2024 17:01:53 +0200
+	s=arc-20240116; t=1710258469; c=relaxed/simple;
+	bh=rSV8M403liOsOWpkP+QfGYfJEErc5Df98s4BS9GLlP8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dTiUuPwTx5mRXU5MpTau9S+XjQ+nLzqgU3FOiCzYb6KpXLiXTHyqfizm1lUv27Jo9H11SmAAlvwzsNYAzbgmVdBAWb5WowR/rkkrYZ8h/CoUNfq6wtFsJX6Yh/X6xPR9AQe2cfLd/IlQ9YjYzODeCHhSvqrKavC844yclCu2KPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XuV2fcF1; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710258466;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C03ZzqydLhwftyx/8OV079lEb5JdweH7XCPi8d8sS0U=;
+	b=XuV2fcF119Kad+YeTvuVmJGIgT6GxZQW05egqI4dRsvYGKxBpoT/oq4LjtjOAIdnhRbrcI
+	+LQQmrxIMEO9avUkRyJ/QD2OwUFvbMST5go5S56Q0LwdYMgxFqNoeOMcLZ2Tfpsgwnas/q
+	T5QCVpRLi0npZ43aMPVooFe53XOxM3w=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-652-rCkMi7SQOlqbQ9MNZNNwqA-1; Tue, 12 Mar 2024 11:47:45 -0400
+X-MC-Unique: rCkMi7SQOlqbQ9MNZNNwqA-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-33e6b0f5d23so2971472f8f.0
+        for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 08:47:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710258463; x=1710863263;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C03ZzqydLhwftyx/8OV079lEb5JdweH7XCPi8d8sS0U=;
+        b=JXAWpWhDKIwMSiyzeSiWFUYoseX/ecMj5PKIZc2N1F3YeOKRA56LORUwQeqv2UTbsz
+         d8Ey5/UM8CrQy1VZbMxaXuF3N8q+bWZ4mxsyJkwJhUF+7vn9UtXIt+E7mVAHYeihOlWQ
+         92xFIzpmDj9KNwV2iu1H/COhSqEJu3NpOs0TLYZG2ORlGP0rmS6hx9KZXMXkJF2lfaPW
+         tKZ8PsOGELyiacTipSglVzj+ZZqAZkq6ApxtzFtXJCDgYtoxDyJbbQ8TUc1QCrOWf3ro
+         sP7Th0IcmYRGAOF9FjZ5sOVr1tK87LJrsZBDuEbb9Na64CRZiQ+qwAYra4bMM+temGcE
+         J3Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCVD1vi7ypOrWsRJUsDNBiLY75SVtoYSzk2OCnePK6n8UBDrgqcbh0bWnh64N0CFwuOE6vnW5jLrj83utaHDo8oeWmVWe92L4YTWRcw=
+X-Gm-Message-State: AOJu0Yzz8djasWgQfcQeKltcIa/R8cy4NeIzSCrsm3qf9CiLB1PH5i4l
+	SG97NmMhym+Ks/tc0pFDp8iH2AUSYTn0JdOGM2egsMAJpVjOur95BMjNJOt200vT1vzjPONb6kp
+	AjAjXsP0LbVwfTWhRzZASvzODArQen2l1YmbWpaM0E2uuxMtcDIUPmF/AU2HSFewIu6R/
+X-Received: by 2002:a5d:5288:0:b0:33e:7ae7:accc with SMTP id c8-20020a5d5288000000b0033e7ae7acccmr5781985wrv.45.1710258463662;
+        Tue, 12 Mar 2024 08:47:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEDsApizg7abXDxnCPbaYlKdHgY8nGSh+z+TqlHOoR5D3BylQMjUqTJGZ6234DJDk41455U3g==
+X-Received: by 2002:a5d:5288:0:b0:33e:7ae7:accc with SMTP id c8-20020a5d5288000000b0033e7ae7acccmr5781967wrv.45.1710258463239;
+        Tue, 12 Mar 2024 08:47:43 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id p18-20020adf9d92000000b0033e17341ebesm9404825wre.117.2024.03.12.08.47.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Mar 2024 08:47:42 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ maarten.lankhorst@linux.intel.com
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, tzimmermann@suse.de,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ linux-media@vger.kernel.org
+Subject: Re: [PATCH] drm/shmem-helper: Remove duplicate include
+In-Reply-To: <871qh3k4bg.fsf@minerva.mail-host-address-is-not-set>
+References: <20230320015829.52988-1-jiapeng.chong@linux.alibaba.com>
+ <871qh3k4bg.fsf@minerva.mail-host-address-is-not-set>
+Date: Tue, 12 Mar 2024 16:47:41 +0100
+Message-ID: <87wmq7310i.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] media: qcom: camss: Add per sub-device type resources
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <andersson@kernel.org>, <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
-        <hverkuil-cisco@xs4all.nl>, <quic_hariramp@quicinc.com>
-References: <20240227122415.491-1-quic_grosikop@quicinc.com>
- <20240227122415.491-2-quic_grosikop@quicinc.com>
- <9af62237-98ec-4130-8523-f6c9cb0ad281@linaro.org>
-From: "Gjorgji Rosikopulos (Consultant)" <quic_grosikop@quicinc.com>
-In-Reply-To: <9af62237-98ec-4130-8523-f6c9cb0ad281@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: LGqLkHqDYaoPEJxN4hAgfQ_V7MvdLw0y
-X-Proofpoint-GUID: LGqLkHqDYaoPEJxN4hAgfQ_V7MvdLw0y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-12_10,2024-03-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- suspectscore=0 bulkscore=0 spamscore=0 mlxscore=0 phishscore=0
- malwarescore=0 mlxlogscore=999 priorityscore=1501 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403120115
+Content-Type: text/plain
 
-Hi Konrad,
+Javier Martinez Canillas <javierm@redhat.com> writes:
 
-Thank you for the review.
-
-On 3/12/2024 4:44 PM, Konrad Dybcio wrote:
-> 
-> 
-> On 2/27/24 13:24, Gjorgji Rosikopulos wrote:
->> From: Radoslav Tsvetkov <quic_rtsvetko@quicinc.com>
+> Jiapeng Chong <jiapeng.chong@linux.alibaba.com> writes:
+>
+>> ./drivers/gpu/drm/drm_gem_shmem_helper.c: linux/module.h is included more than once.
 >>
->> Currently resources structure grows with additional parameters
->> required for
->> each sub-deivce. However each sub-device has some specific resources or
->> configurations which need to be passed during the initialization.
->>
->> This change adds per sub-device type structure to simplify the things
->> and removes the magical void pointer to hw_ops.
-> 
-> I'm not quite sure what the benefit here is, as opposed to simply
-> extending <name>_device?
-> 
-> Generally, I think the driver state as of today is somewhat backwards..
-> 
-> We define a common set of resources, and then assign them subdev-specific
-> ops, instead of defining the subdev and consuming clocks/pds/resets
-> within a subdevice there..
+>> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+>> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4567
+>> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+>> ---
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>
 
-In the current code only ops are specific. However there are other
-configurations passed to the sub-devices which are actually specific to
-different sub-device, as an example:
+Pushed to drm-misc (drm-misc-next). Thanks!
 
+-- 
+Best regards,
 
-1. is_lite flag. The lite flag is valid for csid and vfe but not for csiphy.
-
-2. line_num this is valid only for vfe sub-device.
-
-3. video device available formats. Those formats are only used by the
-vfe sub-device and are not valid to other sub-devices which are not
-having any video device connected, (those will be added in next patches
-in the patch-set).
-
-Please check the other changes in this patch-set maybe it will make more
-sense.
-
-I am not sure with such differences in the sub-device code we can have
-generic structure which contains only ops...
-
-And please note that when we are introducing new sub-device for other
-SoC it may need additional specific configuration.
-
-
-Regards,
-
-~Gjorgji
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
 
