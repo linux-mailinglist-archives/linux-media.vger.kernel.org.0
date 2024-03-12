@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-6877-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6878-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E82879220
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 11:35:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C4A879222
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 11:35:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9876EB2214A
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 10:34:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 006F51C212DD
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 10:35:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC19141C89;
-	Tue, 12 Mar 2024 10:34:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F9C553E3C;
+	Tue, 12 Mar 2024 10:34:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sq49bCG4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRF3D4DN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13DD7867A
-	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 10:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A1078695
+	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 10:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710239675; cv=none; b=F2QuygS9+A+V12+lX/BfG0Ilm9aW8foOlYgN4a0LX+0riRoXSEcNzhS+0SP2helrXABZ1EsdSBr3RvvIaoXyh9+Wwxal1f3VvmAPMXu/hgfjh6idosypOxx8UANbN4mFab2GgQ3xeznAeoWxsIpqKeQAyTVb5S1d0tnk5dHZWhQ=
+	t=1710239676; cv=none; b=pCH1R+/II/PRSPvDhMDxPZEwEBjkH9CJ4amnrHFhCN/bB+Y/48eJoOw45SO62ZZ6wba+t0/SPhudTafhOtUOjYeiyo0Ms4SxoXBiutruO2dpZomJahgPYkPp5RveEqz/so2wUqKJW6y7oHA/Ho+TdtezZ8ib6t3eubftyho2S5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710239675; c=relaxed/simple;
-	bh=bbLg7O1l6ZI5zph8yNSYjKyaUdrjlP/AihfL7XBciVc=;
+	s=arc-20240116; t=1710239676; c=relaxed/simple;
+	bh=pumpeucLrbSPE9Y0gR7PCLnIjblk0+6TPE2td5baNZk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JYzvndpVoKITjTZpwmr5VHbRgcgAeZX4r2RCBb+HBcPGi6kysJm2CB27AltXi9KgyVV+Oo0uQdw/C/L/1+dZ/I8Yl/S9GFaGnoDag6lvJks3IYzzgSCfKuRs45F1gpsxNRrKBWDdkpmSMy84tZVuqCxGDQjurwoK3cNqx7IpW60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sq49bCG4; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=MHAiNZ3yuUoFFwpQJdI0/LCX3q2lgD4eegLK4WXfJexN3ALRl68QlnpdE0Y0FsEN2UKyuE2ORxbVVgRHMnKK8khRhiKr6CxiuubbiDmAxoUG5zoxyFSBW6fpO8vu4DiwTKGuNXLc73IycTCmu6kBMVPmuFinQuEsXqQcpeGuD+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRF3D4DN; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710239674; x=1741775674;
+  t=1710239675; x=1741775675;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bbLg7O1l6ZI5zph8yNSYjKyaUdrjlP/AihfL7XBciVc=;
-  b=Sq49bCG4WV8wLeN0Et4VKAuNPjruQtvjFkTVmvUrtNRK+48NHcAbvGeE
-   6lmqwqVIoQcwoTVhPebAuKu40vEXfaoI4UQPgRDCSth+pGOYTuydwFqeo
-   ORY0mpN/ufL1Sj44YRDc371HxJOv9BR44F5oZ/3g5RsmqN8fRdWVAetcF
-   BTCYEe749Fa7VBEPJsxQvy7fsQrL+mTXIN8qS6LV6nQ5Fa4J3ckz3b/0e
-   x0Ewc376BHXmfe40ikczLNRzXY9/9H/VR3p+6FSxet16L65oPnZST8jbq
-   CBTFN7V3Zu31eAOYqwuo0jcB9onsicDsQ6myW53YIm2ZWxzzXMpF/nnY5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4794285"
+  bh=pumpeucLrbSPE9Y0gR7PCLnIjblk0+6TPE2td5baNZk=;
+  b=BRF3D4DNRcEkTq6BJsyRrzQGXCwPIuB6cUW4xuPh6xUPqGWM+3/8qtaM
+   wjSUPxz41YWKwzXTn92so7R+uv7kAxXkv7WOTRLgLpjMCecP4vCY/tZYJ
+   vkKU1cZpWIMbvxhUjIFYvBdQA5GLfwOe9j0/7uySzI0yL8gpseMyozaUG
+   7nGlapdNFGRpvAy+gHPSajPdsZFS7GVKZp1sH/AHcJDoy94BRCH47Hvxj
+   reAQ8QTiuRCZzqueGiyqQf1SxuIy5Pea+FSHMPcOJ4yYGeXHN+9mZario
+   xTD0Evk0SfTpXRCfKteNNEK0nRIRuvWaTBymO680p99f0S8aIxvGeEonF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4794291"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4794285"
+   d="scan'208";a="4794291"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:32 -0700
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:33 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16194068"
+   d="scan'208";a="16194079"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:32 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id E5F0311FB11;
-	Tue, 12 Mar 2024 12:34:28 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6AEE91206F9;
+	Tue, 12 Mar 2024 12:34:29 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com,
 	hverkuil@xs4all.nl
-Subject: [PATCH v3 08/26] media: mc: Do not call cdev_device_del() if cdev_device_add() fails
-Date: Tue, 12 Mar 2024 12:34:04 +0200
-Message-Id: <20240312103422.216484-9-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 09/26] media: mc: Delete character device early
+Date: Tue, 12 Mar 2024 12:34:05 +0200
+Message-Id: <20240312103422.216484-10-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240312103422.216484-1-sakari.ailus@linux.intel.com>
 References: <20240312103422.216484-1-sakari.ailus@linux.intel.com>
@@ -75,31 +75,41 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-cdev_device_del() is the right function to remove a device when
-cdev_device_add() succeeds. If it does not, however, put_device() needs to
-be used instead. Fix this.
+The parent of the character device related to the media devnode is the
+media devnode. Thus the character device needs to be released before the
+media devnode's release function. Move it to unregistering of the media
+devnode, which mirrors adding the character device in conjunction with
+registering the media devnode.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/mc/mc-devnode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/mc/mc-devnode.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-index 186f585545c2..5696ccf01d81 100644
+index 5696ccf01d81..dbf546853ca9 100644
 --- a/drivers/media/mc/mc-devnode.c
 +++ b/drivers/media/mc/mc-devnode.c
-@@ -254,9 +254,9 @@ int __must_check media_devnode_register(struct media_devnode *devnode,
+@@ -51,9 +51,6 @@ static void media_devnode_release(struct device *cd)
  
- cdev_add_error:
  	mutex_lock(&media_devnode_lock);
--	cdev_device_del(&devnode->cdev, &devnode->dev);
- 	clear_bit(devnode->minor, media_devnode_nums);
- 	mutex_unlock(&media_devnode_lock);
-+	put_device(&devnode->dev);
  
- 	return ret;
+-	/* Delete the cdev on this minor as well */
+-	cdev_del(&devnode->cdev);
+-
+ 	/* Mark device node number as free */
+ 	clear_bit(devnode->minor, media_devnode_nums);
+ 
+@@ -271,6 +268,7 @@ void media_devnode_unregister(struct media_devnode *devnode)
+ 	clear_bit(MEDIA_FLAG_REGISTERED, &devnode->flags);
+ 	mutex_unlock(&media_devnode_lock);
+ 
++	cdev_del(&devnode->cdev);
+ 	device_unregister(&devnode->dev);
  }
+ 
 -- 
 2.39.2
 
