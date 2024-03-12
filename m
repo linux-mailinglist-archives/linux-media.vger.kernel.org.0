@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-6887-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6888-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FF187922C
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 11:35:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF33987922D
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 11:35:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89D472823EE
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 10:35:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F6E3B223A1
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 10:35:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E833179DBD;
-	Tue, 12 Mar 2024 10:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B45535F18;
+	Tue, 12 Mar 2024 10:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bdHhElFI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hktqlkrz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDCD79B98
-	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 10:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60ECF79DA2
+	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 10:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710239681; cv=none; b=iA2INnlgQ94qBJwJYfj37kk1PS2KUbpLb2ONM+mpd0GO4KXPRGXUtB9ZH28dVRQi2klPA4fIOUDi3kNKXu1czODGC8J3d3HmZjQ1LFQk8OZ3D2vbu2737TUQAAz+y+7XFuXyyFqMUCgfZIgODy60Tw27kWptbIgsVF2ba02ievw=
+	t=1710239681; cv=none; b=gMcKdQwatPzZ6j+2NPdgANDdtDgr5FOiFd+0jJpXD0cl2HgTMRDeqR1SVRTzMhic+Iium1Awa5vT1pLaxy0uBYycyoO2ww1O4nIwH2S9xne4HhhBL7JrxPs1HW2+LeifA6UnIozusRuBBCBO0kdj7LC2och3PPSDotplNnxtQVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1710239681; c=relaxed/simple;
-	bh=mjtyqLV3PD/0dNFTGCwDwuf08P3lvfWUEm6jcsOWoZs=;
+	bh=+rG7vchsA0u3MasKBPPJoNX+GZxQlI7TKYCl1XWjqSk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oaZEbnpIYK8+Rpsut3N/+RYl9DaV31+hI/uRIiezRmDMKNwkR4KFbULo8TTQa1Jo+aS9dY652q2yOcVklXfEL8EO+G2b0oOlD1lJ3ntvssuQJ55VMV22GlU2YRjHqRztVq34jSOY+9SNdUSnwzzAaCdV8uwSIyvYzZY5X+enZ1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bdHhElFI; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=nAmKhmRtX2/S5p+ZWX2WbbSfAdrKc+NG72yD5SFvIZxtZVtFx/CKnpAYkclBOTGqOEYEegZJwqvoVMW02OvjIQJneICzGvYz8+6uN8k0uw06Vc06P4So7sX7zoGyld0hRmbZyJrVo9u/bDDbXiJrf3EhKkIiJ6get0hu9GofSdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hktqlkrz; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710239680; x=1741775680;
+  t=1710239681; x=1741775681;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mjtyqLV3PD/0dNFTGCwDwuf08P3lvfWUEm6jcsOWoZs=;
-  b=bdHhElFIOJ3DmD2nsFeZg/kfek0oRTmI8c6KQEBFGBHWa4vzkqN3k2Sl
-   CWhTSPFCExJ4Ux02f+BJkV8kGYx+dQ8lgDVnH9W4MfrdxABogkzW4XnSK
-   ewxNjwzawJ9+muhEEf8pyX1NVLbTn9Z3uJ1OYmvsz7I/J2lMGKS38T9bp
-   i1HjyPCgoAFn/VocAldJ2/ZIY49mHnwYrB4OjBkOxC5VD4OSPW/CtT/Zm
-   gu1bUYHUYYsKPN/9Lcl1RNLrIiafGKyaQ7ryNVELqBmXocZS6vUxGFvja
-   gVPyh7vQL6hNDF3mRN+XiiPX9phYR2dGVI9SgNQ257/hQHD6XjxSl2v9T
+  bh=+rG7vchsA0u3MasKBPPJoNX+GZxQlI7TKYCl1XWjqSk=;
+  b=hktqlkrzhOCRSBfnNpIeulWdcYQ0xFiMcqPQAGZpEphqvbGAzBfBqJ7O
+   +8UtiV83iiFW1LSuzIHo0ZgjXp6yijjDekLEoOgjDANvgXz2MR3uVMU4c
+   kkwpjxrEkhYU9ZpnM5FM29jksu8XBHCYXKZwvs+KHrzpA+GM8s7Lm1JZ+
+   l9JVA9rKLIdIG55AfRJdNQQMJ4yWy46JUROztlcdPP/wHNGJPWlh//8Rf
+   xREF2UQeRb/jZ8RY3Hhxmv/PrXV216SEhDF0QGBcDjyv4PsiujTBWRwb2
+   z4jiOi4NTuIWd2YJfiWTjb64T4ynNWn/vDhQFKwpeK4bvIsbXgikM+kkw
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4794325"
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4794328"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4794325"
+   d="scan'208";a="4794328"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:39 -0700
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:40 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16194101"
+   d="scan'208";a="16194104"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:38 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:39 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 52AC21206F9;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E0C3F11F819;
 	Tue, 12 Mar 2024 12:34:35 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com,
 	hverkuil@xs4all.nl
-Subject: [PATCH v3 18/26] media: ipu3-cio2: Release the cio2 device context by media device callback
-Date: Tue, 12 Mar 2024 12:34:14 +0200
-Message-Id: <20240312103422.216484-19-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 19/26] media: vimc: Release resources on media device release
+Date: Tue, 12 Mar 2024 12:34:15 +0200
+Message-Id: <20240312103422.216484-20-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240312103422.216484-1-sakari.ailus@linux.intel.com>
 References: <20240312103422.216484-1-sakari.ailus@linux.intel.com>
@@ -75,174 +75,79 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the media device release callback to release the cio2 device's data
-structure. This approach has the benefit of not releasing memory which may
-still be accessed through open file handles whilst the ipu3-cio2 driver is
-being unbound.
+Release all the resources when the media device is released, moving away
+from the struct v4l2_device used for that purpose. This is done to
+exemplify the use of the media device's release callback.
+
+Switch to container_of_const(), too, while we're changing the code anyway.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/pci/intel/ipu3/ipu3-cio2.c | 72 ++++++++++++++++--------
- 1 file changed, 47 insertions(+), 25 deletions(-)
+ drivers/media/test-drivers/vimc/vimc-core.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index 00090e7f5f9d..87eda435e37d 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -239,9 +239,15 @@ static int cio2_fbpt_init(struct cio2_device *cio2, struct cio2_queue *q)
+diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+index af127476e920..3e59f8c256c7 100644
+--- a/drivers/media/test-drivers/vimc/vimc-core.c
++++ b/drivers/media/test-drivers/vimc/vimc-core.c
+@@ -264,13 +264,12 @@ static int vimc_add_subdevs(struct vimc_device *vimc)
  	return 0;
  }
  
--static void cio2_fbpt_exit(struct cio2_queue *q, struct device *dev)
-+static int cio2_fbpt_exit(struct cio2_queue *q, struct device *dev)
+-static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
++static void vimc_mdev_release(struct media_device *mdev)
  {
-+	if (!q->fbpt)
-+		return -ENOENT;
-+
- 	dma_free_coherent(dev, CIO2_FBPT_SIZE, q->fbpt, q->fbpt_bus_addr);
-+	q->fbpt = NULL;
-+
-+	return 0;
+ 	struct vimc_device *vimc =
+-		container_of(v4l2_dev, struct vimc_device, v4l2_dev);
++		container_of_const(mdev, struct vimc_device, mdev);
+ 
+ 	vimc_release_subdevs(vimc);
+-	media_device_cleanup(&vimc->mdev);
+ 	kfree(vimc->ent_devs);
+ 	kfree(vimc);
+ }
+@@ -336,6 +335,10 @@ static int vimc_register_devices(struct vimc_device *vimc)
+ 	return ret;
  }
  
- /**************** CSI2 hardware setup ****************/
-@@ -1631,13 +1637,16 @@ static int cio2_queue_init(struct cio2_device *cio2, struct cio2_queue *q)
- 
- static void cio2_queue_exit(struct cio2_device *cio2, struct cio2_queue *q)
- {
--	vb2_video_unregister_device(&q->vdev);
- 	media_entity_cleanup(&q->vdev.entity);
--	v4l2_device_unregister_subdev(&q->subdev);
- 	media_entity_cleanup(&q->subdev.entity);
--	cio2_fbpt_exit(q, &cio2->pci_dev->dev);
--	mutex_destroy(&q->subdev_lock);
--	mutex_destroy(&q->lock);
-+	/*
-+	 * Note that not all mutexes may have been initialised, destroy only
-+	 * those that have.
-+	 */
-+	if (!cio2_fbpt_exit(q, &cio2->pci_dev->dev)) {
-+		mutex_destroy(&q->subdev_lock);
-+		mutex_destroy(&q->lock);
-+	}
- }
- 
- static int cio2_queues_init(struct cio2_device *cio2)
-@@ -1647,16 +1656,10 @@ static int cio2_queues_init(struct cio2_device *cio2)
- 	for (i = 0; i < CIO2_QUEUES; i++) {
- 		r = cio2_queue_init(cio2, &cio2->queue[i]);
- 		if (r)
--			break;
-+			return r;
- 	}
- 
--	if (i == CIO2_QUEUES)
--		return 0;
--
--	for (i--; i >= 0; i--)
--		cio2_queue_exit(cio2, &cio2->queue[i]);
--
--	return r;
-+	return 0;
- }
- 
- static void cio2_queues_exit(struct cio2_device *cio2)
-@@ -1667,6 +1670,22 @@ static void cio2_queues_exit(struct cio2_device *cio2)
- 		cio2_queue_exit(cio2, &cio2->queue[i]);
- }
- 
-+static void cio2_media_release(struct media_device *mdev)
-+{
-+	struct cio2_device *cio2 =
-+		container_of(mdev, struct cio2_device, media_dev);
-+
-+	cio2_queues_exit(cio2);
-+	cio2_fbpt_exit_dummy(cio2);
-+	mutex_destroy(&cio2->lock);
-+
-+	kfree(cio2);
-+}
-+
-+static const struct media_device_ops cio2_mdev_ops = {
-+	.release = cio2_media_release,
++static const struct media_device_ops vimc_mdev_ops = {
++	.release = vimc_mdev_release,
 +};
 +
- /**************** PCI interface ****************/
- 
- static int cio2_pci_probe(struct pci_dev *pci_dev,
-@@ -1685,7 +1704,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
- 	if (r)
- 		return r;
- 
--	cio2 = devm_kzalloc(dev, sizeof(*cio2), GFP_KERNEL);
-+	cio2 = kzalloc(sizeof(*cio2), GFP_KERNEL);
- 	if (!cio2)
- 		return -ENOMEM;
- 	cio2->pci_dev = pci_dev;
-@@ -1730,6 +1749,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
- 	mutex_init(&cio2->lock);
- 
- 	cio2->media_dev.dev = dev;
-+	cio2->media_dev.ops = &cio2_mdev_ops;
- 	strscpy(cio2->media_dev.model, CIO2_DEVICE_NAME,
- 		sizeof(cio2->media_dev.model));
- 	cio2->media_dev.hw_revision = 0;
-@@ -1737,7 +1757,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
- 	media_device_init(&cio2->media_dev);
- 	r = media_device_register(&cio2->media_dev);
- 	if (r < 0)
--		goto fail_mutex_destroy;
-+		goto fail_media_device_put;
- 
- 	cio2->v4l2_dev.mdev = &cio2->media_dev;
- 	r = v4l2_device_register(dev, &cio2->v4l2_dev);
-@@ -1772,34 +1792,36 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
- fail_clean_notifier:
- 	v4l2_async_nf_unregister(&cio2->notifier);
- 	v4l2_async_nf_cleanup(&cio2->notifier);
--	cio2_queues_exit(cio2);
-+
- fail_v4l2_device_unregister:
- 	v4l2_device_unregister(&cio2->v4l2_dev);
-+
- fail_media_device_unregister:
- 	media_device_unregister(&cio2->media_dev);
--	media_device_cleanup(&cio2->media_dev);
--fail_mutex_destroy:
--	mutex_destroy(&cio2->lock);
--	cio2_fbpt_exit_dummy(cio2);
- 
-+fail_media_device_put:
-+	media_device_put(&cio2->media_dev);
- 	return r;
- }
- 
- static void cio2_pci_remove(struct pci_dev *pci_dev)
+ static int vimc_probe(struct platform_device *pdev)
  {
- 	struct cio2_device *cio2 = pci_get_drvdata(pci_dev);
-+	unsigned int i;
+ 	const struct font_desc *font = find_font("VGA8x16");
+@@ -369,12 +372,12 @@ static int vimc_probe(struct platform_device *pdev)
+ 	snprintf(vimc->mdev.bus_info, sizeof(vimc->mdev.bus_info),
+ 		 "platform:%s", VIMC_PDEV_NAME);
+ 	vimc->mdev.dev = &pdev->dev;
++	vimc->mdev.ops = &vimc_mdev_ops;
+ 	media_device_init(&vimc->mdev);
  
- 	media_device_unregister(&cio2->media_dev);
- 	v4l2_async_nf_unregister(&cio2->notifier);
- 	v4l2_async_nf_cleanup(&cio2->notifier);
--	cio2_queues_exit(cio2);
--	cio2_fbpt_exit_dummy(cio2);
-+	for (i = 0; i < CIO2_QUEUES; i++) {
-+		vb2_video_unregister_device(&cio2->queue[i].vdev);
-+		v4l2_device_unregister_subdev(&cio2->queue[i].subdev);
-+	}
- 	v4l2_device_unregister(&cio2->v4l2_dev);
--	media_device_cleanup(&cio2->media_dev);
--	mutex_destroy(&cio2->lock);
+ 	ret = vimc_register_devices(vimc);
+ 	if (ret) {
+-		media_device_cleanup(&vimc->mdev);
+-		kfree(vimc);
++		media_device_put(&vimc->mdev);
+ 		return ret;
+ 	}
+ 	/*
+@@ -382,7 +385,6 @@ static int vimc_probe(struct platform_device *pdev)
+ 	 * if the registration fails, we release directly from probe
+ 	 */
  
- 	pm_runtime_forbid(&pci_dev->dev);
- 	pm_runtime_get_noresume(&pci_dev->dev);
-+
-+	media_device_put(&cio2->media_dev);
+-	vimc->v4l2_dev.release = vimc_v4l2_dev_release;
+ 	platform_set_drvdata(pdev, vimc);
+ 	return 0;
+ }
+@@ -397,6 +399,7 @@ static void vimc_remove(struct platform_device *pdev)
+ 	media_device_unregister(&vimc->mdev);
+ 	v4l2_device_unregister(&vimc->v4l2_dev);
+ 	v4l2_device_put(&vimc->v4l2_dev);
++	media_device_put(&vimc->mdev);
  }
  
- static int __maybe_unused cio2_runtime_suspend(struct device *dev)
+ static void vimc_dev_release(struct device *dev)
 -- 
 2.39.2
 
