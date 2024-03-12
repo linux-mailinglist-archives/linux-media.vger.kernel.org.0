@@ -1,140 +1,284 @@
-Return-Path: <linux-media+bounces-6868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6869-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FA0879205
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 11:29:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA0F879216
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 11:34:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 588E61F2323A
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 10:29:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEAB71C2141C
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 10:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0020978B44;
-	Tue, 12 Mar 2024 10:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A318F53E3C;
+	Tue, 12 Mar 2024 10:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="C8t6XGs3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbNyKK6s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518567828D
-	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 10:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500FA2AE8C
+	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 10:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710239345; cv=none; b=oTbf1iON1VeppPIAQn4T4H6cxd41k6g8TJy4ikQsNDCNTVH4ZvzewoVG9VLRguxKl2Gs33ZR7wWtc2LVk5fpcABmMSymjxnsk2NzBVwpIdZSymwGm7aTby7UAs+Be3k1o+gfoBQXYMgw1dpUX4xK4Ty+5lZuZGacx/mZsZXB6hY=
+	t=1710239670; cv=none; b=Y5oFGRpX7GpKTLMi8IynGZC5atDhMGOGm8/coZMzenZQ432X5ccmBOULZzAj8Oo27mt3ohYTWdKdFDLjoi3+MBNa1eI9TMg/7giu215DCKBB9B4oPdPO1eWWqhJNhMAq1Q+oFg+/hm+7YO1pFvFDO+kjYxEWIBQDhLDnz5T6cuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710239345; c=relaxed/simple;
-	bh=JLDcBgW+3vtGMYoTcRPuT4brcDBaHRWE2L0AAL86eQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iqq1wkXiAdEk/lbL7KU2L2iNflOk6Tc1elEPzrWXXxKNwWouM7iMVkNJ15qaPAxTmznP9WDotnjKfQGCacjRVHIbi7wI6kACIPQPGJtx1IK+TcCIPLtvefntaM+sJ5L/HQSpNix4rR4vS40nK2DLa9tWS30factkgJUVxIrG/U4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=C8t6XGs3; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-41333bb74f2so2815795e9.1
-        for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 03:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710239342; x=1710844142; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5d4B/pAoZQB5tS1BWWn28qe/xI29Jo7qr/wZ2JnyTFg=;
-        b=C8t6XGs3CoziosSQAiUwj0PiG6auvS5pl2sHBvguqIx7BvfhSiXEkr5iGwblD1+IHd
-         sueCvPQFHklTGp7t+V6MbMQrv/XMaBhmXa0+lpZrr8Yri/yyrhgWN+B2lIuc5PxYoKnI
-         QktorKAQXEAclLo4ITnG0tIvbwzsQeisSF02kPnKGbLphmWTtbhDQZh/EeWbfRzs7Wlv
-         eJaS3pyXWeOIb++WEp9JS0MECQfIYSQggHZ50kgG9KtA5PTMQ9Xuiybam2jZ6QLyvH4n
-         9us7luNsZ58t0s057CHyIM+dOHbR7kov5mjNT9j7zSasF8SvtUAEsa/FVw0mgOiKezKC
-         Ut8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710239342; x=1710844142;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5d4B/pAoZQB5tS1BWWn28qe/xI29Jo7qr/wZ2JnyTFg=;
-        b=OU2ONJ83DZzmJwaY4pbrO+X5gpT7S4NirRzVWwVwmSvDOihzFrNOe6A5xb2DkHLDjT
-         0Bo6qnd04lF53FTUB7T7j875oVJ/kx1Hp1d4cnI8ibkr2kYHpjyPDTPMb82/rVH9PXKS
-         m6YyceNv5aYyuCWdlAZGFPvUE/pxqhzAECAfaN1JAa7+DAvyQgYbSk6B99eTz0/MtUr1
-         Lt8373npLskAxNhI3Ck/4GrInsPfkaeHjXhRobtvzSFccbjd2oyx0TyVu+P+3FrIJPll
-         MfZjpzmOmu39r8lFqVgdLo1tAOItVGR1rMC+ixtNjYGuV3gL7TKT56aLYmvSt/XFPr4Q
-         FY9A==
-X-Forwarded-Encrypted: i=1; AJvYcCWoEgthSSExSMNsSixzLE7ft3YEcnP0MV+1vd08FB4EWyiajCvhIKqkbRgeLLGO2Q3rCKpqn4btS8Yi+9wybAiCiTZLfji5EgvfJ+o=
-X-Gm-Message-State: AOJu0YzYcByHEGqeER9jFa1UmupZRa9aI4vTbGWva41qXnzc1BIDVc6k
-	r4gc0J8usRHg4nO8o0bf6GldGAqm3fVS/VA137ttKlBwWIPm9zRXjn9Sogk+3qM=
-X-Google-Smtp-Source: AGHT+IEtUTnilAGbJcn+GRXMX4RNIS078U7C8s6e6rzHKdm5WSpVA53oIuu5hDIUApB8xtk4QdMhSg==
-X-Received: by 2002:a05:600c:5101:b0:413:2966:4bfb with SMTP id o1-20020a05600c510100b0041329664bfbmr4277240wms.1.1710239341697;
-        Tue, 12 Mar 2024 03:29:01 -0700 (PDT)
-Received: from [10.3.5.130] (laubervilliers-657-1-248-155.w90-24.abo.wanadoo.fr. [90.24.137.155])
-        by smtp.gmail.com with ESMTPSA id z11-20020a05600c0a0b00b00412f428aedasm18656971wmp.46.2024.03.12.03.29.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 03:29:01 -0700 (PDT)
-Message-ID: <88856abb-f5f8-4dbf-9b26-30915bfaee7a@baylibre.com>
-Date: Tue, 12 Mar 2024 11:28:59 +0100
+	s=arc-20240116; t=1710239670; c=relaxed/simple;
+	bh=iVrx8ByXB969grYJaDeA4UK6HFu845tSxgIjC2ajQ0k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=pcumdeh3JgEWSQ7CrTXGBKDzL3a22mjvddanXgsZWs6CRpfEOyyMwP8x6Hc1wBvxnAtKdHgnqN0HxGOdvb7YqBlSeJgNp5/tAW3Y9Ne6gfRsO/HB2HNpVXvfVp28RqOtKzX5YzRiscDThpfG4UUvewJBkbxTi+3QQHWm5cmlC8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mbNyKK6s; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710239668; x=1741775668;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iVrx8ByXB969grYJaDeA4UK6HFu845tSxgIjC2ajQ0k=;
+  b=mbNyKK6sH/cvBI9/1ufB/zePm7gJMSV8GETaGc+VYpN3PmUKCu9lTV69
+   ARsX/wpiVjc00VakZyXv4wX+rJx/HA7Jc5vrMUWyVJkNMhNp9Rr9ebGwg
+   i0rhtu3RpyrgBOh8eeyGkPhjmiTZzMdheADc/h72BJqWaGRJf/UZvvzIt
+   t144ek9aQ3/tnOznjiRMZ/78G8I//QZynzZ5cLnbM8/FI5bkQiEbZjGTU
+   getRlPE0NHIMRTmE4pq9T5dnTwUYxqXMaWkdpOqK/7qxqk6agoGXLvin0
+   mdZKklSVmCJV4kpcyJ3yecUIBp5vqAVs+UWZN8EeK0XqhdrBPgZo4FvBu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4794253"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
+   d="scan'208";a="4794253"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
+   d="scan'208";a="16194054"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:34:26 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 239CA11F819;
+	Tue, 12 Mar 2024 12:34:23 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	hverkuil@xs4all.nl
+Subject: [PATCH v3 00/26] Media device lifetime management
+Date: Tue, 12 Mar 2024 12:33:56 +0200
+Message-Id: <20240312103422.216484-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] net: ethernet: ti: am65-cpsw: Add minimal XDP
- support
-Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com>
- <20240223-am65-cpsw-xdp-basic-v2-2-01c6caacabb6@baylibre.com>
- <356f4dd4-eb0e-49fa-a9eb-4dffbe5c7e7c@lunn.ch>
- <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
- <be16d069-062e-489d-b8e9-19ef3ef90029@lunn.ch>
- <f0a9524a-08cd-4ec2-89f8-4dff9dd3e09e@baylibre.com>
- <ff4ba8c9-8a34-41c3-92ed-910e46e1ca99@lunn.ch>
-From: Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <ff4ba8c9-8a34-41c3-92ed-910e46e1ca99@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 3/5/24 17:43, Andrew Lunn wrote:
->> 3) From 2), am65_cpsw_alloc_skb() function removed and replaced by
->> netdev_alloc_skb_ip_align(), as used by the driver before -> res = 506
->> Conclusion: Here is where the loss comes from.
->> IOW, My am65_cpsw_alloc_skb() function is not good.
->>
->> Initially, I mainly created this 'custom' am65_cpsw_alloc_skb() function
->> because I thought that none of XDP memory models could be used along
->> with netdev_alloc_skb_ip_align() function. Was I wrong ?
->> By creating this custom am65_cpsw_alloc_skb(), I also wanted to handle
->> the way headroom is reserved differently.
-> What is special about your device? Why would
-> netdev_alloc_skb_ip_align() not work?
->
-> 	Andrew
+Hi folks,
 
-Nothing special about my device, I just misunderstood.
+This is a refresh of my 2016 RFC patchset to start addressing object
+lifetime issues in Media controller. It further allows continuing work to
+address lifetime management of media entities.
 
-Regarding page pool, I now have better performance.
-Two things were missing:
-- I did not call skb_mark_for_recycle(), so pages were freed instead of
-being recycled !
-- In page_pool_params, that's better when I specify the "napi" parameter.
+The underlying problem is described in detail in v4 of the previous RFC:
+<URL:https://lore.kernel.org/linux-media/20161108135438.GO3217@valkosipuli.retiisi.org.uk/>.
+In brief, there is currently no connection between releasing media device
+(and related) memory and IOCTL calls, meaning that there is a time window
+during which released kernel memory can be accessed, and that access can be
+triggered from the user space. The only reason why this is not a grave
+security issue is that it is not triggerable by the user alone but requires
+unbinding a device. That is still not an excuse for not fixing it.
 
-Performance improvement is not that impressive, but it's better:
-505 Mbits/sec (with page pool) instead of 495 Mbits/sec (without).
-There is a ~ 5 Mbits/sec loss due to additional processing in the path, for XDP stuffs.
-So, the difference in favor of page pool using is ~ 15 Mbits/sec.
+This set differs from the earlier RFC to address the issue in the
+following respects:
 
-I'll send a v4 soon.
+- Make changes for ipu3-cio2 driver, too.
 
-Julien
+- Continue to provide best effort attempt to keep the window between device
+  removal and user space being able to access released memory as small as
+  possible. This means the problem won't become worse for drivers for which
+  Media device lifetime management has not been implemented.
+
+The latter is achieved by adding a new object, Media devnode compat
+reference, which is allocated, refcounted and eventually released by the
+Media controller framework itself, and where the information on registration
+and open filehandles is maintained. This is only done if the driver does not
+manage the lifetime of the media device itself, i.e. its release operation
+is NULL.
+
+Due to this, Media device file handles will also be introduced by this
+patchset. I thought the first user of this would be Media device events but
+it seems we already need them here.
+
+Some patches are temporarily reverted in order to make reworks easier,
+then applied later on. Others are not re-applied: this is a change of
+direction, not development over those patches. It would be possible to
+squash the reverts into others on the expense of readability, so the
+reverts are maintained for that reason.
+
+I've tested this on ipu3-cio2 with and without the refcounting patch (media:
+ipu3-cio2: Release the cio2 device context by media device callback),
+including failures in a few parts of the driver initialisation process in
+the MC framework.
+
+Questions and comments are welcome.
+
+since v2:
+
+- Switch to spin_{,un}lock_irq() in fw_list_lock use.
+
+- Clarify documentatino regarding unregistering and releasing the media
+  device.
+
+- Release minor number at unregister time (vs. release time). This
+  effectively caused a few patches to be dropped and one more to be added
+  (mc: Clear minor number reservation at unregistration time).
+
+- Added a comment in ipu3-cio2 driver to clarify destroying mutexes in
+  cio2_queue_exit().
+
+- In ipu3-cio2 driver:
+
+	- Clean up the notifier in probe.
+
+	- Unregister the sub-devices at driver unbind time.
+
+	- Remove queue initialisation error handling. The queues are
+	  released in cio2_queues_exit() later in any case.
+
+- Clean up V4L2 device teardown as suggested by Hans.
+
+- Rewrap added text in video_register_media_controller().
+
+- Make media_device_{get,put}() functions (they were macros) for better
+  type checking.
+
+- Improve kerneldoc for media_device_cleanup().
+
+- Document release function in media_file_operations.
+
+- Correct kerneldoc documentation for struct media_devnode.
+
+- Fix media_devnode_is_registered() usage in sound/usb/media.c that was
+  missed in v2.
+
+- Drop old git tags from revert² patches.
+
+- Drop revert and re-applification of "media: uvcvideo: Refactor teardown
+  of uvc on USB disconnect", instead take this account into other patches.
+
+- Drop patch "ipu3-cio2: Call v4l2_device_unregister() earlier".
+
+- Remove patch "ipu3-cio2: Request IRQ earlier" from this set, it'll be
+  merged separately.
+
+since v1:
+
+- Align subject prefixes with current media tree practices.
+
+- Make release changes to the vimc driver (last patch of the set). This
+  was actually easy as vimc already centralised resource release to struct
+  v4l2_device, so it was just moved to the media device.
+
+- Move cdev field to struct media_devnode_compat_ref and add dev field to
+  the struct, these are needed during device release. This now includes
+  also the character device which is accessed by __fput(). I've now tested
+  ipu3-cio2 and vimc with KASAN. As a by-product the kref in struct
+  media_devnode_compat_ref becomes redundant and is removed. Both devices
+  are registered in case of best effort memory safety support and used for
+  refcounting.
+
+- Drop omap3isp driver patch moving away from devm_request_irq().
+
+- Add a patch to warn of drivers not releasing media device safely (i.e.
+  relying on the best effort memory safety mechanism without refcounting).
+
+- Add a patch to document how the best effort memory release safety helper
+  works.
+
+- Add a note on releasing driver's context with the media device, not the
+  V4L2 device, in MC documentation.
+
+- Check media device is registered before accessing its fops in
+  media_read(), media_write(), media_ioctl and media_compat_ioctl().
+
+- Document best effort media device lifetime management (new patch).
+
+- Use media_devnode_free_minor() in unallocating device node minor number
+  in media_devnode_register().
+
+- Continue to rely on devm_register_irq() in ipu3-cio2 driver but register
+  the IRQ later on (compared to v1).
+
+- Drop the patch to move away from devm_request_irq() in omap3isp.
+
+- Fix putting references to media device and V4L2 device in 
+  v4l2_device_release().
+
+- Add missing media_device_get() (in v1) for M2M devices in
+  video_register_media_controller().
+
+- Unconditionally set the media devnode release function in
+  media_device_init(). There's no harm doing so and the caller of
+  media_device_init() may set the ops after calling the function.
+
+Laurent Pinchart (1):
+  media: mc: Add per-file-handle data support
+
+Logan Gunthorpe (1):
+  media: mc: utilize new cdev_device_add helper function
+
+Sakari Ailus (24):
+  Revert "[media] media: fix media devnode ioctl/syscall and unregister
+    race"
+  Revert "media: utilize new cdev_device_add helper function"
+  Revert "[media] media: fix use-after-free in cdev_put() when app exits
+    after driver unbind"
+  Revert "[media] media-device: dynamically allocate struct
+    media_devnode"
+  media: mc: Drop nop release callback
+  media: mc: Drop media_dev description from struct media_devnode
+  media: mc: Do not call cdev_device_del() if cdev_device_add() fails
+  media: mc: Delete character device early
+  media: mc: Clear minor number reservation at unregistration time
+  media: mc: Split initialising and adding media devnode
+  media: mc: Shuffle functions around
+  media: mc: Initialise media devnode in media_device_init()
+  media: mc: Refcount the media device
+  media: v4l: Acquire a reference to the media device for every video
+    device
+  media: mc: Postpone graph object removal until free
+  media: omap3isp: Release the isp device struct by media device
+    callback
+  media: ipu3-cio2: Release the cio2 device context by media device
+    callback
+  media: vimc: Release resources on media device release
+  media: Documentation: Document how Media device resources are released
+  media: mc: Maintain a list of open file handles in a media device
+  media: mc: Implement best effort media device removal safety sans
+    refcount
+  media: mc: Warn about drivers not releasing media device safely
+  media: mc: Enforce one-time registration
+  media: Documentation: Document media device memory safety helper
+
+ Documentation/driver-api/media/mc-core.rst  |  18 +-
+ drivers/media/cec/core/cec-core.c           |   2 +-
+ drivers/media/mc/mc-device.c                | 256 ++++++++++++--------
+ drivers/media/mc/mc-devnode.c               | 207 ++++++++++------
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c    |  72 ++++--
+ drivers/media/platform/ti/omap3isp/isp.c    |  24 +-
+ drivers/media/test-drivers/vimc/vimc-core.c |  15 +-
+ drivers/media/usb/au0828/au0828-core.c      |   4 +-
+ drivers/media/usb/uvc/uvc_driver.c          |   2 +-
+ drivers/media/v4l2-core/v4l2-dev.c          |  64 +++--
+ drivers/staging/media/sunxi/cedrus/cedrus.c |   2 +-
+ include/media/media-device.h                |  53 +++-
+ include/media/media-devnode.h               | 136 ++++++++---
+ include/media/media-fh.h                    |  32 +++
+ sound/usb/media.c                           |   8 +-
+ 15 files changed, 619 insertions(+), 276 deletions(-)
+ create mode 100644 include/media/media-fh.h
+
+-- 
+2.39.2
 
 
