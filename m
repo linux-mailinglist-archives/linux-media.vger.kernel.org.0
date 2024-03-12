@@ -1,293 +1,117 @@
-Return-Path: <linux-media+bounces-6915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6916-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8B0879BE0
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 19:49:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5B2879D0A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 21:39:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8F1B1F2336B
-	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 18:49:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35551B23409
+	for <lists+linux-media@lfdr.de>; Tue, 12 Mar 2024 20:39:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C56E1420A0;
-	Tue, 12 Mar 2024 18:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E546142907;
+	Tue, 12 Mar 2024 20:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lHeFOoCj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6852433A3
-	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 18:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B31B1E529
+	for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 20:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710269382; cv=none; b=gaKfIjlo4eMqEeKffsBBXYHgeuWmOLl2FDt4anugzBwS0xRhKM585rEWAxC4VrK9O8zvpvtaAJcmstkIt6OHggTagyO+/LdK4KexgwcmfrmwzZHeGfdxj+Qs7maWmiGPkOCSh86iVOUovgBdLck/nOZLi7XtsxOj/3T8tX9RZ14=
+	t=1710275964; cv=none; b=jPmRHm8CS6sgXkJGfwF69Pt96kH30zINKxh/HLh90P74XQ0Nu2nOriSXuEUVvy8bPOVTfbFExQfIgpMUNn934gn2hoAUCILDq1GGdxuVUy1fRCy2GiZil2LzK+NpPAOKy/AEH7Vzhh6WJoxiMCasZE9Db5ltukaJWH/ylbGriO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710269382; c=relaxed/simple;
-	bh=C2UpO1Vrql9j3LyDrX4w4b1Re3/Vft0wf2V8Hg/Sg+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b1InEVOhkhdI5BDKkIpgpBycuQPpuWsc+f7lkRBLTqOL4D8emVj3ga3IiY1kQQRKM4b7XP2MqT6hCoSjViuuUgf6dt4kDEph9sMjXdnqJt0JS/VnflIVXf2ODHIprAHUyzJhukDs1GavIWLij2dINDOEr+ai46Wnc48NkChH7wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rk7Bs-00050r-0v; Tue, 12 Mar 2024 19:49:32 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rk7Br-005y4v-7Q; Tue, 12 Mar 2024 19:49:31 +0100
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rk7Br-00E7ri-0S;
-	Tue, 12 Mar 2024 19:49:31 +0100
-Date: Tue, 12 Mar 2024 19:49:31 +0100
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH v2] uvc_video: check for fid change early in decode_start
- and avoid wrong error counting
-Message-ID: <ZfCju80gnglLNB6N@pengutronix.de>
-References: <20240221-uvc-host-video-decode-start-v2-1-88c6e17e487a@pengutronix.de>
- <CANiDSCtCse74oK_nCcJXRRQ__RnAAfYEFzfftty58stsFVKoYg@mail.gmail.com>
+	s=arc-20240116; t=1710275964; c=relaxed/simple;
+	bh=5dIIDioEedQVKeslk6sHdJ38vdna0ZniV+9gULNiGkw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BHGeuSX7sMYnTTLYgnVkjmsK7n5FgOj4kllhgm1tXWgV/QmTlWGuDOdTnrYESZ7ZOzK/5+Bt2ovxFe14TMPhJauIJJz80o1gT2NybOEa37FiCqntszCE5b5fKBpM7Ewuq/rOQKUIPVzHzgBHXyG9CqbgRnoxftV5sM2vfY5ados=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lHeFOoCj; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51320ca689aso5264150e87.2
+        for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 13:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710275960; x=1710880760; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CMa9uy1xjyCYcVnS1D56e26rdhN3qgYq/HM1aZSyxxQ=;
+        b=lHeFOoCjGC8/Tfqsq2br2WENzwrLFoVpP22rcFn6rXTxsmK40LPsDjvkbLsqTNLam+
+         TA6lBccJGJ3g/sduCla++lLl/WOvYYGNLVU9JECtFFLWai6oo+xRiy5hpweAmz6F/+O7
+         EjOgcz5y7Cma8sI8n2quE1MpTlLpH6SLeniwPPgRKi0ij53OYHZgkBo21MKsHSj4NPD9
+         o0rBdH9Og0OVu/Ine7ydiTncXpgcZwhfy2/gnZDdFE1DaogQ4S3IHI5oLN549MnXet0T
+         rVlAyqU3kzgKSiBwuRMiLMc/OO3un8kFIT9n9wbdvRxu+9KJlxl67IHE+627lYW50G7p
+         KFOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710275960; x=1710880760;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CMa9uy1xjyCYcVnS1D56e26rdhN3qgYq/HM1aZSyxxQ=;
+        b=I8tc9PbuitvjX5tuGtju/Mk1xv4q3QaxzQSR8/sWPPNVQNoZXE5uBS2j10aCAbfxGL
+         O7rpV/OgjdHfD1m9PFeHHVZpMvGACzS9cx8p5qDrp6+JMxbMusW1YC4mjFTf+dU1x4NX
+         MhFAktRU5Vm8F+2sLQCf2YaehJxgupOCMX/iVNp1CfUGFn12LSpTV76S58nwadjUYRD1
+         zcQDWKIC8TuDOKFwPfipvfw9AvGA+5pY1+Gpi6QEOmP9DAwBiCjPHDHmbYrsN9FWcwuX
+         bRKs3X+jwg2TNwFKP1E8iciN2zcGmsJn6Oc8wSyvtli5eeYb2xTK0j9DyGr4prQzA3Dp
+         y8AA==
+X-Forwarded-Encrypted: i=1; AJvYcCUc+VQgOPIESe8tYpD91XQHShtdKo61YE1J7hlZerNiE51k6C2y+QlHGUZtYIHUFHMqMhpwNdoIS+dho2GhvkQXnJSsjsW5bjZGOs8=
+X-Gm-Message-State: AOJu0Yxn/D+zZqTcs+WZi6ZEB9UqjyHCaJdupnjSAav1JO1m+aEuqfRW
+	3J5j6QGRM9My3hYF0yxD6lXGV/D81ak02+lvkHK6/RnkkIUXFpaQc6gxz5XquGk=
+X-Google-Smtp-Source: AGHT+IEFqnfYYAqbOkd1uofvkZfrQN9GSRLx/1bjUeXeGqTXRPEUXnzY5ruOC253oQHGieN3PO9JlA==
+X-Received: by 2002:a05:6512:2f4:b0:513:2e60:a75b with SMTP id m20-20020a05651202f400b005132e60a75bmr7246874lfq.34.1710275960546;
+        Tue, 12 Mar 2024 13:39:20 -0700 (PDT)
+Received: from [172.30.204.193] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id u14-20020a05651220ce00b00513a238039csm1426317lfr.287.2024.03.12.13.39.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Mar 2024 13:39:20 -0700 (PDT)
+Message-ID: <a269a263-70fa-46a3-a7d1-31f369db4f05@linaro.org>
+Date: Tue, 12 Mar 2024 21:39:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WfC7h8bH4szX/i/z"
-Content-Disposition: inline
-In-Reply-To: <CANiDSCtCse74oK_nCcJXRRQ__RnAAfYEFzfftty58stsFVKoYg@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/6] media: qcom: camss: Add sc8280xp resources
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, hverkuil-cisco@xs4all.nl,
+ laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+ matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240222-b4-camss-sc8280xp-v6-0-0e0e6a2f8962@linaro.org>
+ <20240222-b4-camss-sc8280xp-v6-4-0e0e6a2f8962@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240222-b4-camss-sc8280xp-v6-4-0e0e6a2f8962@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---WfC7h8bH4szX/i/z
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 29, 2024 at 07:20:53PM +0100, Ricardo Ribalda wrote:
->Hi Michael
->
->So if my understanding is correct, what you want to achieve is to
->avoid double stats_decode when the function returns -EAGAIN.
->
->Wouldn't it be simpler to simply move uvc_video_clock_decode() and
->uvc_video_stats_decode() before
->
->stream->last_fid =3D fid;
->
->just at the end of the function? Or am I missing something?
->
->Besides being a small and documented function,
->uvc_video_decode_start() is difficult to follow :), So I might be
->saying something stupid
+On 2/22/24 18:17, Bryan O'Donoghue wrote:
+> This commit describes the hardware layout for the sc8280xp for the
+> following hardware blocks:
+> 
+> - 4 x VFE, 4 RDI per VFE
+> - 4 x VFE Lite, 4 RDI per VFE
+> - 4 x CSID
+> - 4 x CSID Lite
+> - 4 x CSI PHY
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> 
+> ---
 
-No, there is nothing stupid. I tested the changed patch. And it works as
-expected. So thanks for the review and the extra mile. I will send v3 now.
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Regards,
-Michael
-
->On Sat, 24 Feb 2024 at 23:52, Michael Grzeschik
-><m.grzeschik@pengutronix.de> wrote:
->>
->> When the uvc request will get parsed by uvc_video_decode_start it will
->> leave the function with -EAGAIN to be restarted on the next frame. While
->> the first wrong parse the statistics will already be updated with
->> uvc_video_stats_decode.
->>
->> One value e.g. is the error_count, which therefor will be incremented
->> twice in case the fid has changed on the way. This patch fixes the
->> unnecessary extra parsing by returning early from the function when the
->> fid has changed.
->>
->> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->> ---
->> Changes in v2:
->> - Moved the EAGAIN bailout after the sequence handling as mentioned by R=
-icardo Ribalda
->> - Link to v1: https://lore.kernel.org/r/20240221-uvc-host-video-decode-s=
-tart-v1-1-228995925c70@pengutronix.de
->> ---
->>  drivers/media/usb/uvc/uvc_video.c | 64 +++++++++++++++++++-------------=
--------
->>  1 file changed, 32 insertions(+), 32 deletions(-)
->>
->> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/u=
-vc_video.c
->> index 7cbf4692bd875..af368c45c4297 100644
->> --- a/drivers/media/usb/uvc/uvc_video.c
->> +++ b/drivers/media/usb/uvc/uvc_video.c
->> @@ -1068,6 +1068,15 @@ static int uvc_video_decode_start(struct uvc_stre=
-aming *stream,
->>
->>         fid =3D data[1] & UVC_STREAM_FID;
->>
->> +       /*
->> +        * Store the payload FID bit and return immediately when the buf=
-fer is
->> +        * NULL.
->> +        */
->> +       if (buf =3D=3D NULL) {
->> +               stream->last_fid =3D fid;
->> +               return -ENODATA;
->> +       }
->> +
->>         /*
->>          * Increase the sequence number regardless of any buffer states,=
- so
->>          * that discontinuous sequence numbers always indicate lost fram=
-es.
->> @@ -1076,20 +1085,34 @@ static int uvc_video_decode_start(struct uvc_str=
-eaming *stream,
->>                 stream->sequence++;
->>                 if (stream->sequence)
->>                         uvc_video_stats_update(stream);
->> +
->> +               /*
->> +                * Mark the buffer as done if we're at the beginning of =
-a new frame.
->> +                * End of frame detection is better implemented by check=
-ing the EOF
->> +                * bit (FID bit toggling is delayed by one frame compare=
-d to the EOF
->> +                * bit), but some devices don't set the bit at end of fr=
-ame (and the
->> +                * last payload can be lost anyway). We thus must check =
-if the FID has
->> +                * been toggled.
->> +                *
->> +                * stream->last_fid is initialized to -1, so the first i=
-sochronous
->> +                * frame will never trigger an end of frame detection.
->> +                *
->> +                * Empty buffers (bytesused =3D=3D 0) don't trigger end =
-of frame detection
->> +                * as it doesn't make sense to return an empty buffer. T=
-his also
->> +                * avoids detecting end of frame conditions at FID toggl=
-ing if the
->> +                * previous payload had the EOF bit set.
->> +                */
->> +               if (buf->bytesused) {
->> +                       uvc_dbg(stream->dev, FRAME,
->> +                               "Frame complete (FID bit toggled)\n");
->> +                       buf->state =3D UVC_BUF_STATE_READY;
->> +                       return -EAGAIN;
->> +               }
->>         }
->>
->>         uvc_video_clock_decode(stream, buf, data, len);
->>         uvc_video_stats_decode(stream, data, len);
->>
->> -       /*
->> -        * Store the payload FID bit and return immediately when the buf=
-fer is
->> -        * NULL.
->> -        */
->> -       if (buf =3D=3D NULL) {
->> -               stream->last_fid =3D fid;
->> -               return -ENODATA;
->> -       }
->> -
->>         /* Mark the buffer as bad if the error bit is set. */
->>         if (data[1] & UVC_STREAM_ERR) {
->>                 uvc_dbg(stream->dev, FRAME,
->> @@ -1124,29 +1147,6 @@ static int uvc_video_decode_start(struct uvc_stre=
-aming *stream,
->>                 buf->state =3D UVC_BUF_STATE_ACTIVE;
->>         }
->>
->> -       /*
->> -        * Mark the buffer as done if we're at the beginning of a new fr=
-ame.
->> -        * End of frame detection is better implemented by checking the =
-EOF
->> -        * bit (FID bit toggling is delayed by one frame compared to the=
- EOF
->> -        * bit), but some devices don't set the bit at end of frame (and=
- the
->> -        * last payload can be lost anyway). We thus must check if the F=
-ID has
->> -        * been toggled.
->> -        *
->> -        * stream->last_fid is initialized to -1, so the first isochrono=
-us
->> -        * frame will never trigger an end of frame detection.
->> -        *
->> -        * Empty buffers (bytesused =3D=3D 0) don't trigger end of frame=
- detection
->> -        * as it doesn't make sense to return an empty buffer. This also
->> -        * avoids detecting end of frame conditions at FID toggling if t=
-he
->> -        * previous payload had the EOF bit set.
->> -        */
->> -       if (fid !=3D stream->last_fid && buf->bytesused !=3D 0) {
->> -               uvc_dbg(stream->dev, FRAME,
->> -                       "Frame complete (FID bit toggled)\n");
->> -               buf->state =3D UVC_BUF_STATE_READY;
->> -               return -EAGAIN;
->> -       }
->> -
->>         stream->last_fid =3D fid;
->>
->>         return data[0];
->>
->> ---
->> base-commit: e89fbb5bc21a10a0de2bb878d4df09f538dc523b
->> change-id: 20240221-uvc-host-video-decode-start-af53df5924cd
->>
->> Best regards,
->> --
->> Michael Grzeschik <m.grzeschik@pengutronix.de>
->>
->>
->
->
->--=20
->Ricardo Ribalda
->
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---WfC7h8bH4szX/i/z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmXwo7gACgkQC+njFXoe
-LGT2mw/+MIQQZbPBgQCfvfV1yeQzgW0prVNIVHy/leCAxMmhPbHM+AQ44Z4jDjB/
-KzBS/06wvwzmvQTVLE6fBjzq1Oq8dZdkQ+ZuWxbb0zteAsunr/j3iVCrAwqcyn4e
-l7YnsTyjQdeK2ZfdwSxut3HirKr28CduF7SoUx21xxkJ4TlUrSyuumAHcvmYo0EO
-0zx7aCvsJte7s++9s+ScKuK2Z/aAZPWBm/+ZM2q167UiCgG9bODb611cPQpRYPJM
-2xKMTQ3iHV7ogk7OaQfOFMNbry+36bWqSEVM3/DxXRuRXFO79n2BGRGwgpxsMEvy
-+eYNpZZxBnbujGW3XqW+nbDt/gwPmffxmxCMxn1FmPX2HYTXTtwFhjOSrVGI/9bk
-nXOwbWrqY/oEY7rpf9eY5ujVJ20Bj/rxpeM9Xbrokdy+mTlRbOVezd0jB4diaqJJ
-07lCAJLQ9YeatyEVnxcZjvaSmFkNiSpppkoVkR+YofHEOdD0KuTqqMr0HZkopj6b
-dWACIxjs3QzCgqrFpd1AO7VopyDSZJ4prH1sJVs9Rr0KSBZaXQHneTLLiOTnCjgl
-wsLEXbxIEWxYBZwzAkgbDZ0/eCfarONeAMQn+G1b3cs+x9mk1Z4JsPpep9B4kIYj
-qVWA6pwyaSzVMfF+NOdZwYtJlYenvBBWBf8JOWEZVym4EbwH9lM=
-=u9ci
------END PGP SIGNATURE-----
-
---WfC7h8bH4szX/i/z--
+Konrad
 
