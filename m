@@ -1,98 +1,132 @@
-Return-Path: <linux-media+bounces-6981-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6982-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13AC87A516
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 10:40:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4C587A532
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 10:50:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66C5B1F21F11
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 09:40:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C85CB21609
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 09:50:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CCC820B3D;
-	Wed, 13 Mar 2024 09:40:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01FE0249F4;
+	Wed, 13 Mar 2024 09:50:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BWIsLizc"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KVilyQ2Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE821798C
-	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 09:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5922C689;
+	Wed, 13 Mar 2024 09:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710322836; cv=none; b=SwDarcb1pQ+qW/5x/Oxq6euttPi5r5TEvPgtfFDXKZAuijA5G45IWaX186P7PzfuMIaRXP0mSx0gLRYGPFv0ybMuJCjtA7OJC+7ZA8nZnYJwkTsOpRzwt6ZdjjUrwdgcaDcFsmI95tDupxeTzCstLCJwMlPAhi52R48Dk8TDLZc=
+	t=1710323405; cv=none; b=lI5bXilsPed9ZGXJMrnIHRhZis7+C5/23e+03OobIqkOLs/JxYRrrFusHF6a79uogrRLCoON6P+qtiyjv2jGG+dyrg8/k5PTkudkQ1Vkz1rWN17t0hu4MgDsfTuOnWATSBg4WzL6v4Tnqd2o7Bj58BzwSqVSk4lPAo4Rp7fKPBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710322836; c=relaxed/simple;
-	bh=uWdxNR0l47efwcSWGCnh52hhCvuS4pDYYJrfqE8GyF8=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=pDElg0dchPvJyY5ZVaCb1opp9lnm+Fbj+5E5nMsH8FIy1tCR9RfgCX9/SuTZJNG7fypWTO+3SzKoJH4c3nRuRySofSJAVDEC/cWBmGm+dmUu8nSBpodF4Bn83dqdOn5hqJVak6XaSQTZNkLEaBE6HPftg8Dpwr9NKocJJoZxklU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BWIsLizc; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52FEB720;
-	Wed, 13 Mar 2024 10:31:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710322268;
-	bh=uWdxNR0l47efwcSWGCnh52hhCvuS4pDYYJrfqE8GyF8=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=BWIsLizcJFHWWIV1TBsrkg9AbEwht57GwHasfh0zzkTXvyNPyJ9xbEIxqeoKFuO9P
-	 Po/J1AGSvR09qduSplbgBXoECP9j7kK49yCjoEY1qSt/LgUAHk2yGcotKzxZFGaqzd
-	 K/pb0Nz4kyviCQB+mqAE76dha0IfmraxydIuTkUo=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1710323405; c=relaxed/simple;
+	bh=fhWIqSz6O6JKDHOrZiy8mAOL3NpEmfUPAA2euiBhWqc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YHvWA/bCVxkc/OFzB9Qz+37ctSBerxNnzOzBAdXJXytZ1+wZgvTl7rn1Ea+29Y4+iSrAlOgHt5BOYMiRL9za9lyvVyGTMbADMcVpCzxRe7SnwNpRLBF/JQHJUYuzVDeVvIjRFibLFwiR+3RGtVBwAQPZvT6xH+LwkPhtYQXm8Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KVilyQ2Q; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1710323396;
+	bh=fhWIqSz6O6JKDHOrZiy8mAOL3NpEmfUPAA2euiBhWqc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KVilyQ2QR/MgxSloYgIHZfjUO0r8ud9BP6W3C08RCGuszfMiQzbCZqqqP6EVoHUsu
+	 DnuMKGC2v0Lci7gcXgNiVVYD3NOCSRbqaO2hbWZrMSN0NJlFJk2aJeMCO609if4Ut3
+	 Q5BQp34laPc0N8KN9/VTIllulKkOzOISbVwZGlaWL0pMxpAuB5haqd8npdXQW43Cbw
+	 LaTLJU1CPgX/jUwm3LUDBJiDIkY/sEDIQQ/W+u6sxlt6LkOxaOj80kKj+aAudTaX6Y
+	 qSGTCL2RGHS/1FQ1YiknwXvV408R/XTikGvpAw7EJWdy0DAv7htOL4BIYtWW083ExV
+	 UZIQu+8z87NLg==
+Received: from stla-brain-8255-1.home (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D71D137813C4;
+	Wed, 13 Mar 2024 09:49:55 +0000 (UTC)
+From: Julien Massot <julien.massot@collabora.com>
+To: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+	kernel@collabora.com,
+	linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	sakari.ailus@iki.fi,
+	Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH v5 0/4]  Add support for MAX96714/F and MAX96717/F GMSL2 ser/des
+Date: Wed, 13 Mar 2024 10:49:18 +0100
+Message-ID: <20240313094922.311743-1-julien.massot@collabora.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240313072516.241106-19-sakari.ailus@linux.intel.com>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com> <20240313072516.241106-19-sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v8 18/38] media: ccs: No need to set streaming to false in power off
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl, Andrey Konovalov <andrey.konovalov@linaro.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Dmitry Perchanov <dmitry.perchanov@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, Alain Volmat <alain.volmat@foss.st.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Date: Wed, 13 Mar 2024 09:31:27 +0000
-Message-ID: <171032228781.3710789.18168037788329287072@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
 
-Quoting Sakari Ailus (2024-03-13 07:24:56)
-> Streaming will have been stopped by the sensor is powered off, and so
+Change since v4:
+ - Add support for MAX96717 and MAX96714 and use them as a fallback for MAX96717F and MAX96714F respectively
+ - The drivers are now compatible with MAX96717 and MAX96714 since no change in the logic is needed
+ - Reference 'i2c-gate' instead of 'i2c-controller' in the bindings
 
-by the time the sensor
+Change since v3:
+- bindings
+  - Renamed bindings to drop the 'f' suffix
+  - Add bus type to MAX96717 and remove from MAX9674
+  - Add lane-polarities to both bindings
 
-or
+- drivers
+  - Address changes requested by Sakari in v3
+  - use v4l2_subdev_s_stream_helper for MAX96714
+  - do not init regmap twice in the MAX96714 driver
+  - Fix compilations on 32 bits platforms
 
-before the sensor
+Change since v2:
+- Convert drivers to use CCI helpers
+- Use generic node name
+- Use 'powerdown' as gpio name instead of 'enable'
+- Add pattern generator support for MAX96714
 
-> sensor->streaming is also false already. Do not set it as part of the
-> runtime suspend callback.
->=20
+These patches add support for Maxim MAX96714F deserializer and
+MAX96717F serializer.
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+MAX96714F has one GMSL2 input port and one CSI2 4 lanes output port,
+MAX96717F has one CSI2 input port and one GMSL2 output port.
 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ccs/ccs-core.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs=
--core.c
-> index e21287d50c15..671540a8ab6a 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -1710,7 +1710,6 @@ static int ccs_power_off(struct device *dev)
->         usleep_range(5000, 5000);
->         regulator_bulk_disable(ARRAY_SIZE(ccs_regulators),
->                                sensor->regulators);
-> -       sensor->streaming =3D false;
-> =20
->         return 0;
->  }
-> --=20
-> 2.39.2
->
+The drivers support the tunnel mode where all the
+CSI2 traffic coming from an imager is replicated through the deserializer
+output port.
+
+Both MAX96714F and MAX96717F are limited to a 3Gbps forward link rate
+leaving a maximum of 2.6Gbps for the video payload.
+
+
+Julien Massot (4):
+  dt-bindings: media: add Maxim MAX96717 GMSL2 Serializer
+  dt-bindings: media: add Maxim MAX96714 GMSL2 Deserializer
+  media: i2c: add MAX96717 driver
+  media: i2c: add MAX96714 driver
+
+ .../bindings/media/i2c/maxim,max96714.yaml    |  176 +++
+ .../bindings/media/i2c/maxim,max96717.yaml    |  165 +++
+ MAINTAINERS                                   |   14 +
+ drivers/media/i2c/Kconfig                     |   28 +
+ drivers/media/i2c/Makefile                    |    2 +
+ drivers/media/i2c/max96714.c                  | 1029 +++++++++++++++++
+ drivers/media/i2c/max96717.c                  |  934 +++++++++++++++
+ 7 files changed, 2348 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+ create mode 100644 drivers/media/i2c/max96714.c
+ create mode 100644 drivers/media/i2c/max96717.c
+
+-- 
+2.44.0
+
 
