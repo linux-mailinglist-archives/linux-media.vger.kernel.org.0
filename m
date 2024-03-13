@@ -1,178 +1,205 @@
-Return-Path: <linux-media+bounces-7022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7023-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EC587B1A4
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 20:22:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7668387B33A
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 22:07:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA0481C27882
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 19:22:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D03628942B
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 21:07:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E86651005;
-	Wed, 13 Mar 2024 19:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F86052F62;
+	Wed, 13 Mar 2024 21:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lMKDdus4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atu7WT2z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A1C60869;
-	Wed, 13 Mar 2024 19:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC2E12E6C
+	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 21:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710357141; cv=none; b=AETp4T5u5v4jqHON+dRaETeSyOz5fSjmWjKIVIx4ByIh2jY0J/OIYmoF3xYo5/alfucxCXcZH0ukcWdUbFhddDprnIH99IcMmVNv0Tl15Sa8OIFIcFovfE9BIXjt0YJB0xSs3iDVts76cZxFMYBISCbX5+/tQ+r7leJ3Z0mkUuM=
+	t=1710364030; cv=none; b=YTXMIsUiP6YNOOrsHCvHMdXHZG/rZ98FYvToGgGbAAd26zPLi+FXBJmnHNrOX6n8CeiIDPXvJwdrs/hGZ/FN56b+VIfPA5+K3LBhtCKcMrvNAotSs1UWwcksL/A7M93v8bWv4HSsB49BLIektYoTTeCnrJichkt1/qTCkWe94gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710357141; c=relaxed/simple;
-	bh=hTfoqgr5I8nbMsecUcmRsIEjs7m0kEe+SvwfjmNPTL4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o+c8kbjQDakpKI5AIFOUJYVIpg+KblPhfnRkS/zqacUmQxk3mPk6xXj3662cQJvZlsLAjs4aSriNLtCcB85VKM4u6+csgrjxRcF0BCOwR6aSSDS+zX01BI3FlZsu6Mbpu6SKDeg+1OlIZCBTeUQfsXvZXprOSoPtvthHXb5kFOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lMKDdus4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.104] (unknown [103.251.226.70])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA0EA720;
-	Wed, 13 Mar 2024 20:11:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710357115;
-	bh=hTfoqgr5I8nbMsecUcmRsIEjs7m0kEe+SvwfjmNPTL4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lMKDdus4yYsWv68nkNJjncIXF6yzNIPvugGvQPNeGzqqO5tAzVg5O5OWfhyLix7oi
-	 zVsnSroLgDnLIcXdN8M0bgW6IflBC/pjOoRQSA4RTsRgmY3fA9VR1aDnP9yUAEc7WS
-	 5EfNDHWrPAjoaf1/OJ98I33W6RMjpFk5GUE/tm9A=
-Message-ID: <99069f32-4bad-4cb9-aa03-4c06a596a248@ideasonboard.com>
-Date: Thu, 14 Mar 2024 00:42:08 +0530
+	s=arc-20240116; t=1710364030; c=relaxed/simple;
+	bh=1XszjB+MT5tS1/uzfX/vTrXgIln5nTPlWzeoKpRDdbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GdoyLHS2NvQT23fZ8u8oIaDdbSAwS2DUmi3wAVUh9pvB+x8yLcb+RUpSsD2YCTob32bBieXnWsT35yiQKhJcT4dACZ65Q1HMLeITuEqMjOBRhqkFQqxaiqCzYBmF5lxieC3klcg/R7NaxKtEWdstY/31hB+V9F4Pob4Vlf9Q6kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atu7WT2z; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710364029; x=1741900029;
+  h=date:from:to:cc:subject:message-id;
+  bh=1XszjB+MT5tS1/uzfX/vTrXgIln5nTPlWzeoKpRDdbQ=;
+  b=atu7WT2zSWyFiVL4+S/nFRm8ya2vRve1X5BXhh9DTeRT24QzyyRR+kyH
+   SXT6pk8RXCUgG6VSgCrbd5fH5btivaTl70ym8q0QvYV4J4mHHTaEgGThl
+   dLx+0aAfU/fcCwjUNCtSRWViZwnZI1Q6Prlb32MxkD9pnAX/uyHzLMD2p
+   z5Jc8HZHwCqBSHnl2RBAOIax8sJmBUuBpELqrZeSDo/bxlQh7kERgsY/G
+   j6hfJ/4YN9mMfEKe8hnH4PyeBKazuE/CE75AtAZAaOoznxNWNKEZwAJgw
+   lUTXBu2VsKjkln7X5U8u64vcjJQilJi8M67KOuEEHoqPmAjljCzSNSDra
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5334321"
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="5334321"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 14:07:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="43091907"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Mar 2024 14:07:04 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rkVoT-000Clj-2a;
+	Wed, 13 Mar 2024 21:07:01 +0000
+Date: Thu, 14 Mar 2024 05:06:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ f8bee4350c8a89d1f76c945972e947bbfda7cbe4
+Message-ID: <202403140549.1Dk46foO-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mipi-csis: Emit V4L2_EVENT_FRAME_SYNC events
-To: Stefan Klug <stefan.klug@ideasonboard.com>,
- libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: Martin Kepplinger <martink@posteo.de>, Purism Kernel Team
- <kernel@puri.sm>, Fabio Estevam <festevam@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rui Miguel Silva <rmfrfs@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>
-References: <20240313153058.189684-1-stefan.klug@ideasonboard.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20240313153058.189684-1-stefan.klug@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi Stefan,
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: f8bee4350c8a89d1f76c945972e947bbfda7cbe4  media: ov2740: Add IMMUTABLE route flag
 
-Thank you for the patch.
+elapsed time: 737m
 
-On 13/03/24 9:00 pm, Stefan Klug wrote:
-> The Samsung CSIS Mipi receiver provides a start-of-frame interrupt and
-> a framecount register. As the CSI receiver is the hardware unit
-> that lies closest to the sensor, the frame counter is the best we can
-> get on these devices.
-> In case of the ISI available on the i.MX8 M Plus it is also the only
-> native start-of-frame signal available.
->
-> This patch exposes the sof interrupt and the framecount as
-> V4L2_EVENT_FRAME_SYNC event on the subdevice.
->
-> It was tested on a Debix-Som-A with a 6.8-rc4 kernel.
->
-> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> ---
->   drivers/media/platform/nxp/imx-mipi-csis.c | 34 +++++++++++++++++++++-
->   1 file changed, 33 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> index db8ff5f5c4d3..caeb1622f741 100644
-> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -30,6 +30,7 @@
->   
->   #include <media/v4l2-common.h>
->   #include <media/v4l2-device.h>
-> +#include <media/v4l2-event.h>
->   #include <media/v4l2-fwnode.h>
->   #include <media/v4l2-mc.h>
->   #include <media/v4l2-subdev.h>
-> @@ -742,6 +743,18 @@ static void mipi_csis_stop_stream(struct mipi_csis_device *csis)
->   	mipi_csis_system_enable(csis, false);
->   }
->   
-> +static void mipi_csis_queue_event_sof(struct mipi_csis_device *csis)
-> +{
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_FRAME_SYNC,
-> +	};
-> +
-> +	u32 frame = mipi_csis_read(csis, MIPI_CSIS_FRAME_COUNTER_CH(0));
+configs tested: 116
+configs skipped: 3
 
-nit: variables declaration go at the start of function and then need to 
-be assigned.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-rest is pointed already on the thread. Otherwise LGTM,
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240313   gcc  
+i386         buildonly-randconfig-002-20240313   gcc  
+i386         buildonly-randconfig-003-20240313   clang
+i386         buildonly-randconfig-004-20240313   clang
+i386         buildonly-randconfig-005-20240313   clang
+i386         buildonly-randconfig-006-20240313   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240313   clang
+i386                  randconfig-002-20240313   clang
+i386                  randconfig-003-20240313   clang
+i386                  randconfig-004-20240313   gcc  
+i386                  randconfig-005-20240313   gcc  
+i386                  randconfig-006-20240313   clang
+i386                  randconfig-011-20240313   gcc  
+i386                  randconfig-012-20240313   clang
+i386                  randconfig-013-20240313   gcc  
+i386                  randconfig-014-20240313   gcc  
+i386                  randconfig-015-20240313   clang
+i386                  randconfig-016-20240313   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240314   clang
+x86_64       buildonly-randconfig-002-20240314   clang
+x86_64       buildonly-randconfig-003-20240314   clang
+x86_64       buildonly-randconfig-004-20240314   gcc  
+x86_64       buildonly-randconfig-005-20240314   clang
+x86_64       buildonly-randconfig-006-20240314   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240314   gcc  
+x86_64                randconfig-002-20240314   gcc  
+x86_64                randconfig-003-20240314   clang
+x86_64                randconfig-004-20240314   clang
+x86_64                randconfig-005-20240314   clang
+x86_64                randconfig-006-20240314   clang
+x86_64                randconfig-011-20240314   clang
+x86_64                randconfig-012-20240314   gcc  
+x86_64                randconfig-013-20240314   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
 
-Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-
-
-
-> +
-> +	event.u.frame_sync.frame_sequence = frame;
-> +	v4l2_event_queue(csis->sd.devnode, &event);
-> +}
-> +
->   static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
->   {
->   	struct mipi_csis_device *csis = dev_id;
-> @@ -765,6 +778,10 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
->   				event->counter++;
->   		}
->   	}
-> +
-> +	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
-> +		mipi_csis_queue_event_sof(csis);
-> +
->   	spin_unlock_irqrestore(&csis->slock, flags);
->   
->   	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status);
-> @@ -1154,8 +1171,23 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
->   	return 0;
->   }
->   
-> +static int mipi_csis_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
-> +			       struct v4l2_event_subscription *sub)
-> +{
-> +	if (sub->type != V4L2_EVENT_FRAME_SYNC)
-> +		return -EINVAL;
-> +
-> +	/* V4L2_EVENT_FRAME_SYNC doesn't require an id, so zero should be set */
-> +	if (sub->id != 0)
-> +		return -EINVAL;
-> +
-> +	return v4l2_event_subscribe(fh, sub, 0, NULL);
-> +}
-> +
->   static const struct v4l2_subdev_core_ops mipi_csis_core_ops = {
->   	.log_status	= mipi_csis_log_status,
-> +	.subscribe_event =  mipi_csis_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
->   };
->   
->   static const struct v4l2_subdev_video_ops mipi_csis_video_ops = {
-> @@ -1358,7 +1390,7 @@ static int mipi_csis_subdev_init(struct mipi_csis_device *csis)
->   	snprintf(sd->name, sizeof(sd->name), "csis-%s",
->   		 dev_name(csis->dev));
->   
-> -	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
->   	sd->ctrl_handler = NULL;
->   
->   	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
