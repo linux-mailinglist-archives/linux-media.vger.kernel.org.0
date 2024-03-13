@@ -1,124 +1,178 @@
-Return-Path: <linux-media+bounces-7021-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7022-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A3087AFE5
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 19:38:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EC587B1A4
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 20:22:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1F8B289D89
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 18:38:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA0481C27882
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 19:22:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A7B6629E0;
-	Wed, 13 Mar 2024 17:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E86651005;
+	Wed, 13 Mar 2024 19:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u4QWTDLS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lMKDdus4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4826280B;
-	Wed, 13 Mar 2024 17:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A1C60869;
+	Wed, 13 Mar 2024 19:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710350671; cv=none; b=N0DY0lvt8HhNSfI7mfR/yZ/QdjORlacLZ5at2VktSJEo198kxrRiEF7LiBTkk50WEHpGMgdRFYGq6n7kKVKd7KtLsW2VPDDK6L6CLnAlqxxFzp7kDbBC+AkzdGnOJZhcGxQ3MCKM+eOl7+E4+LN626bLfo9ya6pkzUJqsvwvZFE=
+	t=1710357141; cv=none; b=AETp4T5u5v4jqHON+dRaETeSyOz5fSjmWjKIVIx4ByIh2jY0J/OIYmoF3xYo5/alfucxCXcZH0ukcWdUbFhddDprnIH99IcMmVNv0Tl15Sa8OIFIcFovfE9BIXjt0YJB0xSs3iDVts76cZxFMYBISCbX5+/tQ+r7leJ3Z0mkUuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710350671; c=relaxed/simple;
-	bh=0G6tQ6qb1wy4fRsOONK7qWXg2LzQwXihYTJ0PSj1DRM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ucJr34oyOjpdeygpQKm5Hkpo82yvd8UhIWhhq7BG8cFYF+OYZwdE7guHr25S4RCgmQ5IbbpxTWtNzbij4NhAsQD8FMvzPVUx9aoCYfX2iZusYyMQmlPTX72Pgse1FeXvLmdgMc+jC5J09ohB6DPMGTRwyMxgvY8t7A2ZRQxFIIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u4QWTDLS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D68B9C433C7;
-	Wed, 13 Mar 2024 17:24:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710350670;
-	bh=0G6tQ6qb1wy4fRsOONK7qWXg2LzQwXihYTJ0PSj1DRM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u4QWTDLStOQw4Goek0IKIpEdeUGflrD6+Ri9QAQ2sG2QdJWl50JmaF48yg2y4GUU8
-	 a5hlJmNEKLjSQ8eISp9Pt7Qe71uB/WBHh/mz8rlP8NbTdA0BExiLykWkzPriuBuHC5
-	 N6welpQ79LSTFw+yy/99QS8iG2tIfT5FVkkfVEYSaAH9rw16kknZeW3PXfdvMcCXY3
-	 WcLxnJaleA2GDiUycERB+HA/spu9dw3DryEPtizlnV+GqhxGET6yz7r/EFUmTrYRV+
-	 yzfJLVs1jAornCo+Rn9Bf4BfgUuvCtqArlWCgADoAPQCIruW8/8XwuYZUOmKb+nJAH
-	 qW9NuL0kb39eQ==
-Date: Wed, 13 Mar 2024 17:24:22 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
-Message-ID: <594cff80-9cd8-45cc-939b-532f9402940c@sirena.org.uk>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
- <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
- <ef4da1f6-d3c5-4484-8df5-1a04df4453a0@baylibre.com>
+	s=arc-20240116; t=1710357141; c=relaxed/simple;
+	bh=hTfoqgr5I8nbMsecUcmRsIEjs7m0kEe+SvwfjmNPTL4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o+c8kbjQDakpKI5AIFOUJYVIpg+KblPhfnRkS/zqacUmQxk3mPk6xXj3662cQJvZlsLAjs4aSriNLtCcB85VKM4u6+csgrjxRcF0BCOwR6aSSDS+zX01BI3FlZsu6Mbpu6SKDeg+1OlIZCBTeUQfsXvZXprOSoPtvthHXb5kFOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lMKDdus4; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.104] (unknown [103.251.226.70])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA0EA720;
+	Wed, 13 Mar 2024 20:11:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710357115;
+	bh=hTfoqgr5I8nbMsecUcmRsIEjs7m0kEe+SvwfjmNPTL4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lMKDdus4yYsWv68nkNJjncIXF6yzNIPvugGvQPNeGzqqO5tAzVg5O5OWfhyLix7oi
+	 zVsnSroLgDnLIcXdN8M0bgW6IflBC/pjOoRQSA4RTsRgmY3fA9VR1aDnP9yUAEc7WS
+	 5EfNDHWrPAjoaf1/OJ98I33W6RMjpFk5GUE/tm9A=
+Message-ID: <99069f32-4bad-4cb9-aa03-4c06a596a248@ideasonboard.com>
+Date: Thu, 14 Mar 2024 00:42:08 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="n0CJkGczErMrH2GD"
-Content-Disposition: inline
-In-Reply-To: <ef4da1f6-d3c5-4484-8df5-1a04df4453a0@baylibre.com>
-X-Cookie: It's later than you think.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mipi-csis: Emit V4L2_EVENT_FRAME_SYNC events
+To: Stefan Klug <stefan.klug@ideasonboard.com>,
+ libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: Martin Kepplinger <martink@posteo.de>, Purism Kernel Team
+ <kernel@puri.sm>, Fabio Estevam <festevam@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>
+References: <20240313153058.189684-1-stefan.klug@ideasonboard.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20240313153058.189684-1-stefan.klug@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Hi Stefan,
+
+Thank you for the patch.
+
+On 13/03/24 9:00 pm, Stefan Klug wrote:
+> The Samsung CSIS Mipi receiver provides a start-of-frame interrupt and
+> a framecount register. As the CSI receiver is the hardware unit
+> that lies closest to the sensor, the frame counter is the best we can
+> get on these devices.
+> In case of the ISI available on the i.MX8 M Plus it is also the only
+> native start-of-frame signal available.
+>
+> This patch exposes the sof interrupt and the framecount as
+> V4L2_EVENT_FRAME_SYNC event on the subdevice.
+>
+> It was tested on a Debix-Som-A with a 6.8-rc4 kernel.
+>
+> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> ---
+>   drivers/media/platform/nxp/imx-mipi-csis.c | 34 +++++++++++++++++++++-
+>   1 file changed, 33 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> index db8ff5f5c4d3..caeb1622f741 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -30,6 +30,7 @@
+>   
+>   #include <media/v4l2-common.h>
+>   #include <media/v4l2-device.h>
+> +#include <media/v4l2-event.h>
+>   #include <media/v4l2-fwnode.h>
+>   #include <media/v4l2-mc.h>
+>   #include <media/v4l2-subdev.h>
+> @@ -742,6 +743,18 @@ static void mipi_csis_stop_stream(struct mipi_csis_device *csis)
+>   	mipi_csis_system_enable(csis, false);
+>   }
+>   
+> +static void mipi_csis_queue_event_sof(struct mipi_csis_device *csis)
+> +{
+> +	struct v4l2_event event = {
+> +		.type = V4L2_EVENT_FRAME_SYNC,
+> +	};
+> +
+> +	u32 frame = mipi_csis_read(csis, MIPI_CSIS_FRAME_COUNTER_CH(0));
+
+nit: variables declaration go at the start of function and then need to 
+be assigned.
+
+rest is pointed already on the thread. Otherwise LGTM,
+
+Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
 
 
---n0CJkGczErMrH2GD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Wed, Mar 13, 2024 at 06:11:50PM +0100, Alexandre Mergnat wrote:
-> On 26/02/2024 17:09, Mark Brown wrote:
-> > > index 000000000000..13e95c227114
-> > > --- /dev/null
-> > > +++ b/sound/soc/codecs/mt6357.c
-> > > @@ -0,0 +1,1805 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * MT6357 ALSA SoC audio codec driver
+> +
+> +	event.u.frame_sync.frame_sequence = frame;
+> +	v4l2_event_queue(csis->sd.devnode, &event);
+> +}
+> +
+>   static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+>   {
+>   	struct mipi_csis_device *csis = dev_id;
+> @@ -765,6 +778,10 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+>   				event->counter++;
+>   		}
+>   	}
+> +
+> +	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
+> +		mipi_csis_queue_event_sof(csis);
+> +
+>   	spin_unlock_irqrestore(&csis->slock, flags);
+>   
+>   	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status);
+> @@ -1154,8 +1171,23 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
+>   	return 0;
+>   }
+>   
+> +static int mipi_csis_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
+> +			       struct v4l2_event_subscription *sub)
+> +{
+> +	if (sub->type != V4L2_EVENT_FRAME_SYNC)
+> +		return -EINVAL;
+> +
+> +	/* V4L2_EVENT_FRAME_SYNC doesn't require an id, so zero should be set */
+> +	if (sub->id != 0)
+> +		return -EINVAL;
+> +
+> +	return v4l2_event_subscribe(fh, sub, 0, NULL);
+> +}
+> +
+>   static const struct v4l2_subdev_core_ops mipi_csis_core_ops = {
+>   	.log_status	= mipi_csis_log_status,
+> +	.subscribe_event =  mipi_csis_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+>   };
+>   
+>   static const struct v4l2_subdev_video_ops mipi_csis_video_ops = {
+> @@ -1358,7 +1390,7 @@ static int mipi_csis_subdev_init(struct mipi_csis_device *csis)
+>   	snprintf(sd->name, sizeof(sd->name), "csis-%s",
+>   		 dev_name(csis->dev));
+>   
+> -	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+>   	sd->ctrl_handler = NULL;
+>   
+>   	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
 
-> > Please use a C++ comment for the whole comment to make it clearer that
-> > this is intentional.
-
-> If I do that, the checkpatch raise a warning:
-
-> WARNING: Improper SPDX comment style for
-> 'sound/soc/mediatek/mt8365/mt8365-afe-clk.c', please use '//' instead
-> #22: FILE: sound/soc/mediatek/mt8365/mt8365-afe-clk.c:1:
-> +/* SPDX-License-Identifier: GPL-2.0
-
-That's not a C++ comment so checkpatch is correctly warning?
-
---n0CJkGczErMrH2GD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXx4UYACgkQJNaLcl1U
-h9CP8Af+KlLX2plI/F5rZJ9p1uJukH33qkBAEGAHtzF9F3uGHLiua+/rxebEzeC1
-ZzIbUyRn+EDtKLerG/GM9tMrlGZgdnENt4T7jnE3Hw0hU+aQJ0IUtB6WnRpyjsON
-MFroY93dAi8Yyn1mt0uFzgYEIbBje/+TBiUxqyVzrzIWq1OH/OBN4NmNqPVv3H2p
-QttacOYxX77On2LGDbnqRcfv30n8mvJgrYBwy9OsvutAJ8nllaYgzQDrME0N9JpY
-0lWOXhg99Mcmx0/SGmfuaNISBhwlwWvcKQ0Iq20Q+AiguyJmPt+kpNTm4Eh7kh+7
-9KdkRUEMFfJezI6fB13+outzifLipg==
-=yFuP
------END PGP SIGNATURE-----
-
---n0CJkGczErMrH2GD--
 
