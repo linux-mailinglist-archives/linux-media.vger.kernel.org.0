@@ -1,138 +1,166 @@
-Return-Path: <linux-media+bounces-7019-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7020-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4013487AFB5
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 19:32:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BEF787AFE0
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 19:37:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9E6E1F2D6B8
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 18:32:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D64C1C25EFA
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 18:37:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6121F7A73A;
-	Wed, 13 Mar 2024 17:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EF9F626D8;
+	Wed, 13 Mar 2024 17:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gSLH53Zu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ias5kLdF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A221C446C9
-	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 17:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B341626B4;
+	Wed, 13 Mar 2024 17:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710349918; cv=none; b=DzZaFsf44aviz0ktyDrvdDaKTO9ealwxjE1YxoPhoKvIHWARhAtmT3dRre0la+N6tBir0RMBrtmAI+A8gPkIghO9fOjC+B+eT9I4AuPlvCEXag684kBYZtuWz4WO3C7uQ1wzCR1KPF4gAl06cqHyvtIzRBnoacp101LZf88avJY=
+	t=1710350607; cv=none; b=Emur821Q1OSO9y69kV0ygMl9O/1WqzQjTv2psVftk1BPeZGRb+JRYAB+/rfNbVt8XL82Xtk+VVnCdPjjCOPS8z2ZcXNU/53aMEIYUv6g1CSVtlOScqMAiWVqyH+caqMsviQ3NY/I1ywXwwHzV4n4BE9PfOJHE4svSYRBSYEVwqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710349918; c=relaxed/simple;
-	bh=yxoN1G+uMZp38YC1jCCVFNGNRYjvjcKz2fKoJoCswhk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OwpKrRzG1sNmbuOo3q3aO5CseYzG2WhSd4wOlB3eSZDSusOvvAsLx+4nDedjo17P6QwhDKoesA3kYmf2Kn8C2nFhvEw8U6X0PQk8Vm3tIZZSTHnPFOZ1FBgvGxr/xFjzis+qU0ECLmcAUvHWFQe4DeWhpS9D1rSEBCYluhFpH0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gSLH53Zu; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4132a5b38fbso694575e9.0
-        for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 10:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710349913; x=1710954713; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DfCyEn4BBkDtIZTeeb4WXSUMa8UuweDcHmhz18/rnUY=;
-        b=gSLH53Zuf44lWqdRb6iA7fAwPJb93ikqPpRNFOPpYfvooXiydYnU+odaOlRyO42z6u
-         VXotUZw8YSGf6fcHH6+NQ7MX58v2AMxhatFk4F/eFXsYlS50Xk5RhDNN2rGQuaCnuMUa
-         7YifQyaqQs6KJfmP8+OKSAHjcHg8uoq0QdKQnfhnIt4goBeNoKKf92fO4n5O7XnzDuSP
-         4DpQisXF63e9RiSfAGbfJG98E2cGKIVJ4Ikw++1/+DL/U5RQ1Ht77cNgLT9OWfHUCxkt
-         yvu7t2IdNmeLpZJVWzthSlAVsSTgSl+zUezXUkoUuX5KJhsGLxUU35m+CRGs1DRoFR2P
-         U9LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710349913; x=1710954713;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DfCyEn4BBkDtIZTeeb4WXSUMa8UuweDcHmhz18/rnUY=;
-        b=NH5kT0MUO5U8DNj2rq50wLMWMSJyeewt1ta9Kj8/5SiKE3lScd/OP6aWpiD0kbDHs7
-         aU7iM6GFw+gQ4zvIdl3XhO/NmQBx0gZnHdnQgDMjPoSy7wOHQ3yLpBZ8Rl/Wcx7GZ5Il
-         xrXgP4lbRoTaA0JuaWFrqHT+oQssXOg8uroPf0BqHGbclyPowVHmokgMAhEPYk/fVaZy
-         v88dRcOH4Gen7az+pxk3CgCw6s2t1BrUVGMbvmxKJYl6v96MqW7elcj0EcIKMvu/qKWY
-         ws+qT/TuAHxr1usDJSqikdZfhHlM4kcGZNTUprEEB5GRuflOdqIPp2DeqdxGvr1wuNBA
-         SSqg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFkWtFFEEdBgu76Kkw4OfsKzdrW6YrcLw4yMyIZq4/HT/iifVXvgncM3YpmyFzg1ycFd9HB1ZoIAt3xH67Yeojt7rDYzt+Y5wxH8E=
-X-Gm-Message-State: AOJu0YyebFgTFO1C6tMbXyYGCJ6nn/Hjnlb612E52J4OW36coKnR+goK
-	VAjdXlNvvfpahYZxdMse+ScSbjNsPdqXfNl4jodxq4jLdhnsUp5GLEWUA+9k8mM=
-X-Google-Smtp-Source: AGHT+IFz1KXw55V676KHOL/rzoBQjJ9Rihc/CWALu4Z7kIN17vZX/My8C/6xcsm62UiChBonG2y1pw==
-X-Received: by 2002:a05:600c:450c:b0:413:1285:6e40 with SMTP id t12-20020a05600c450c00b0041312856e40mr442329wmo.20.1710349912671;
-        Wed, 13 Mar 2024 10:11:52 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id ay23-20020a05600c1e1700b00412ff941abasm2920026wmb.21.2024.03.13.10.11.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Mar 2024 10:11:52 -0700 (PDT)
-Message-ID: <ef4da1f6-d3c5-4484-8df5-1a04df4453a0@baylibre.com>
-Date: Wed, 13 Mar 2024 18:11:50 +0100
+	s=arc-20240116; t=1710350607; c=relaxed/simple;
+	bh=PAjE7BPOCrbybCWWbaLc6x+dJTUxbHq0aBWL3JN7HUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BIbGrzUZiwEOBSWgtnTIUZzB+siw3oNIdbKNod5ztHDKRKQ3ZfluDES5YRUxrA4ZkfVMgOraGFVjI2lGCMdv7+TkM3gpZFnJdBoJtuuqTVLfv5huMTfCITF7ealac477dnWHNe6Nr1TcX9wAzK9XeUqlmWW0r8btiKZqW4S3vDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ias5kLdF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F2F2C433C7;
+	Wed, 13 Mar 2024 17:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710350607;
+	bh=PAjE7BPOCrbybCWWbaLc6x+dJTUxbHq0aBWL3JN7HUI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ias5kLdFpwbVTOnuFBiHfowtvPUTf/oQeYy8ydLpumuvXSWAV5hvswhDSaUXbFeuz
+	 eUu9fC0u60jN7riKiX4kTa7tqZAA6p+j9W7Rqk7esgtV/DK5AlXr0qshOjm/iTBLG8
+	 lPIlYKHkaCsCCcgVq4tlqGSpiNQy5+KVia6zOs3yfcSyYeUZMALoTqx6z2LOncLoVX
+	 +gH4xSWs4c7ATGhaBWq8OT7aALAKbpIKDRn+jx6UFLNIqTUVO9eweTyL4QbPiApksn
+	 aE8Q8tDD8/9THGnlBzvNB9Cb4UCBR9vyZ4gW8RLpIZ9sguYmL0JT3Uzhf2og6TmLoK
+	 kiO0XuPWMvZbg==
+Date: Wed, 13 Mar 2024 17:23:19 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Message-ID: <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+ <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+ <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
- <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bu1f4F19CTgWKqA0"
+Content-Disposition: inline
+In-Reply-To: <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
+X-Cookie: It's later than you think.
 
 
+--bu1f4F19CTgWKqA0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 26/02/2024 17:09, Mark Brown wrote:
->> index 000000000000..13e95c227114
->> --- /dev/null
->> +++ b/sound/soc/codecs/mt6357.c
->> @@ -0,0 +1,1805 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * MT6357 ALSA SoC audio codec driver
->> + *
-> Please use a C++ comment for the whole comment to make it clearer that
-> this is intentional.
+On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
+> On 26/02/2024 17:09, Mark Brown wrote:
 
-If I do that, the checkpatch raise a warning:
+> > > +	case MT6357_ZCD_CON2:
+> > > +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
+> > > +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =3D
+> > > +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
+> > > +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =3D
+> > > +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
+> > > +		break;
 
-WARNING: Improper SPDX comment style for 
-'sound/soc/mediatek/mt8365/mt8365-afe-clk.c', please use '//' instead
-#22: FILE: sound/soc/mediatek/mt8365/mt8365-afe-clk.c:1:
-+/* SPDX-License-Identifier: GPL-2.0
+> > It would probably be less code and would definitely be clearer and
+> > simpler to just read the values when we need them rather than constatly
+> > keeping a cache separate to the register cache.
 
-WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
-#22: FILE: sound/soc/mediatek/mt8365/mt8365-afe-clk.c:1:
-+/* SPDX-License-Identifier: GPL-2.0
+> Actually you must save the values because the gain selected by the user w=
+ill
+> be override to do a ramp =3D> volume_ramp(.....):
+> - When you switch on the HP, you start from gain=3D-40db to final_gain
+> (selected by user).
+> - When you switch off the HP, you start from final_gain (selected by user)
+> to gain=3D-40db.
 
-even if I put:
-/* SPDX-License-Identifier: GPL-2.0 */
+You can just read the value back when you need to do a ramp?
 
-IMO, the checkpatch tool should be fixed/update first.
+> Also, the microphone's gain change when it's enabled/disabled.
 
--- 
-Regards,
-Alexandre
+I don't understand what this means?
+
+> > > +	/* ul channel swap */
+> > > +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT,=
+ 1, 0),
+
+> > On/off controls should end in Switch.
+
+> Sorry, I don't understand your comment. Can you reword it please ?
+
+See control-names.rst.  Run mixer-test on a card with this driver and
+fix all the issues it reports.
+
+> > > +static int hslo_mux_map_value[] =3D {
+> > > +	0x0, 0x1, 0x2, 0x3,
+> > > +};
+
+> > Why not just use a normal mux here, there's no missing values or
+> > reordering?  Similarly for other muxes.
+
+> I've dug into some other codecs and it's done like that, but I've probably
+> misunderstood something.
+
+> The only bad thing I see is enum is missing currently:
+>=20
+> enum {
+> 	PGA_MUX_OPEN =3D 0,
+> 	PGA_MUX_DACR,
+> 	PGA_MUX_PB,
+> 	PGA_MUX_TM,
+> 	PGA_MUX_MASK =3D 0x3,
+> };
+
+The whole thing with explicitly specfying the mapping is just completely
+redundant, you may as well remove it.
+
+--bu1f4F19CTgWKqA0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXx4QYACgkQJNaLcl1U
+h9Cq8gf/c3/T6nZpwn3qjvPt1GYUFUscyy2lTACU0mVHAjCBiaczv/OAoKQGmNpm
+Gg9Lnezruu41314zpVUvu/pl80roWJoCd/b7/VjOp9lawXWnWalXNeqcaTSYne31
+FUzdFe4a+quH9LDo5Nv9AzMnLBokld6ELApXMG/Uxmd5HJn+unU5euMCTH0p4jKs
+H9ptL1meZwotydv6+TTT2jEc8PSdLUr7EdHa6z9/6ih5st+RrHoLI8iCDa3lkOfR
+muwbG4CNh9PqrI00X86GUDvHTv5cZsIPeOoVLgBEA3ouIO5RgX1uWMNW6J779WIa
+3olA/hHBePVDGwV6qVQKVWyLY8klXw==
+=LtHz
+-----END PGP SIGNATURE-----
+
+--bu1f4F19CTgWKqA0--
 
