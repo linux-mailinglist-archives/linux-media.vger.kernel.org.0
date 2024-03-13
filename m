@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-6964-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6965-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A360687A387
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 08:27:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4383787A388
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 08:27:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A55BB2198F
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 07:27:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B24A11F22177
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 07:27:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AE171756B;
-	Wed, 13 Mar 2024 07:26:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52CAC17575;
+	Wed, 13 Mar 2024 07:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9Q0yYe3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V0rnm8kF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79476224C2
-	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 07:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA5C224E4
+	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 07:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710314767; cv=none; b=YptP3kuGDNgNyLlpOso8BN3gMj0D0JNXC4Lq/ag+7Ao5p0xj0h7gRsPpfCz5J3KcBhunBaib9SG/9KhpHWuIzDHX2I9awHHw3f3oRH2z0kK2O3Km3Yu1n7lh0pnU1D59Cb2KvCuJqjQ/AePl+0B8dGrsYThkYKlEmG0DXluSPgo=
+	t=1710314767; cv=none; b=EM8c6l4nrzZfRJHYOwqIuQg82bxoyXfHVTdVikOUrOyFPv9EIHePwCRslw3vkcSxeqaGgrIhW1Qx2OQtOlFwq5kS0e5P49wXOHtcPcyhblIDiQegmT3gsYYUo47XpR99UCneigVzactYUe3rJpmynRnvpsHifk+193DILLRhTCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1710314767; c=relaxed/simple;
-	bh=cu85N5XE3Qm1bo0DSJH11H5nliKbnVRkP1TgqKrv/LE=;
+	bh=pYTWO24s6cCPeQPcqd7ftIku8DtYThGXx0bzZrDWyB8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XtN5mc8jyZCyg0pN5swN06oCXcTlZ6IoHsQhsJE727udU4kf+mHQtPSXk0Ob34EhUd+d6htCkx3l151JlDT4iww1KbwkpRbwtwq77EdGSf7n3dP7T4Q/1O/b4m6J1WLQge8uoFotSsMAKIEX27bV8gOAfSQrpKXOwqkry3FJ7Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9Q0yYe3; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=M31KJ4cTvzHp+G71f+/Cv7enE+REuuIeGKhFm2oFtaY9cvvpUq5KCn4+V62GeGB8utItrO+Gy2wI7cG0+sJe+lE3Z7XoiGai4I0W0c/GtCIqho1+BvpWaYbj3Q3QFb9LitOs8D7fkNnHr51eh+lmXo9wHfzQ8IWnC/y/Rz2qIvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V0rnm8kF; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710314765; x=1741850765;
+  t=1710314766; x=1741850766;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=cu85N5XE3Qm1bo0DSJH11H5nliKbnVRkP1TgqKrv/LE=;
-  b=E9Q0yYe3qJZT9U3dV42Swj7kxn6YmL9yDPDyLce67WcrAez2vJZbG6Go
-   hnF3rFy7M0m8rU8Q+J2kXbRdZcorMD268tRzM1n8xOcnIW2M4PVoT866n
-   Zqm8ECto9qUGdJgwNfL2MClY1N8dQLa3Pf9cQpTc4Fs6GOFcWHGZ80S33
-   pTxWsauQ5iCDTh+tJrDor4up3EoxvKAe1Bt0Qu6agB/7VAuFHm5kOlXwz
-   7Z9ZGwq0ZyF4+KEy8e1mkGgQ2M8xI5oC5VixEJ1nh2fa7u0K085XWBT64
-   1A9F1L0EiYGUm+g9Bo2FKEz1c6knekWTUcpqDSkIheb8YwxgWe/rIcPpE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4909290"
+  bh=pYTWO24s6cCPeQPcqd7ftIku8DtYThGXx0bzZrDWyB8=;
+  b=V0rnm8kF2D4qxXfUxoTlxu0T2hkX3TV8vzhwXhxXxvw3yhOIAZIDkd0p
+   m+f20FTCVMH0bN2hgtONz40rf+jQWcvtCb8Oi5sCY78pw3bR1EoLU5XyZ
+   tuH1XcuayN9zonwTMEp96fFHdqcz7BHR/e7XwY0I1iV3oO1TwNp2q9XRQ
+   DUK+BbKfAYXw6E5crcvoC7QHUwym921XfF+HAWDvam1xEM1+YAQmFhw5w
+   0WMCWVTgaAW04CP0PnBHf3ZStPAUp73D2atH6p9Ciy7okht0HgumfCVq8
+   b1XW3QOUnwhnvZZnXNYicMumdLDxmOdPW0Q/yWEvS/3TOpsjFUgrvi+4a
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4909298"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4909290"
+   d="scan'208";a="4909298"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:26:05 -0700
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:26:06 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16542334"
+   d="scan'208";a="16542337"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:26:02 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:26:04 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id D3DAF1204F6;
-	Wed, 13 Mar 2024 09:25:58 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5B1A711F853;
+	Wed, 13 Mar 2024 09:26:00 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -69,9 +69,9 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH v8 28/38] media: ccs: Compute scaling configuration from sub-device state
-Date: Wed, 13 Mar 2024 09:25:06 +0200
-Message-Id: <20240313072516.241106-29-sakari.ailus@linux.intel.com>
+Subject: [PATCH v8 29/38] media: ccs: Remove which parameter from ccs_propagate
+Date: Wed, 13 Mar 2024 09:25:07 +0200
+Message-Id: <20240313072516.241106-30-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
 References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
@@ -83,157 +83,72 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Compute scaling configuration from sub-device state instead of storing it
-to the driver's device context struct.
+ccs_propagate() no longer stores information in the driver's context
+struct. The which parameter can thus be removed.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 60 ++++++++++++++++++++++----------
- drivers/media/i2c/ccs/ccs.h      |  3 --
- 2 files changed, 41 insertions(+), 22 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 3b80c54453cc..a147dbb9f362 100644
+index a147dbb9f362..838daab212f2 100644
 --- a/drivers/media/i2c/ccs/ccs-core.c
 +++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -547,19 +547,52 @@ ccs_get_binning(struct ccs_sensor *sensor, u8 *binning_mode, u8 *binh, u8 *binv)
- 		*binv = binner_sink_crop->height / binner_sink_comp->height;
- }
+@@ -2304,8 +2304,7 @@ static int ccs_get_format(struct v4l2_subdev *subdev,
  
-+static void ccs_get_scaling(struct ccs_sensor *sensor,
-+			    u8 *scaling_mode, u8 *scale_m)
-+{
-+	struct v4l2_subdev_state *scaler_state =
-+		v4l2_subdev_get_locked_active_state(&sensor->scaler->sd);
-+	struct v4l2_rect *scaler_sink_crop =
-+		v4l2_subdev_state_get_crop(scaler_state, CCS_PAD_SINK,
-+					   CCS_STREAM_PIXEL);
-+	struct v4l2_rect *scaler_sink_comp =
-+		v4l2_subdev_state_get_compose(scaler_state, CCS_PAD_SINK,
-+					      CCS_STREAM_PIXEL);
-+
-+	if (scale_m)
-+		*scale_m = scaler_sink_crop->width *
-+			CCS_LIM(sensor, SCALER_N_MIN) /
-+			scaler_sink_comp->width;
-+
-+	if (scaling_mode) {
-+		if (scaler_sink_crop->width == scaler_sink_comp->width)
-+			*scaling_mode = CCS_SCALING_MODE_NO_SCALING;
-+		else if (scaler_sink_crop->height == scaler_sink_comp->height)
-+			*scaling_mode = CCS_SCALING_MODE_HORIZONTAL;
-+		else
-+			*scaling_mode = SMIAPP_SCALING_MODE_BOTH;
-+	}
-+}
-+
- static int ccs_pll_update(struct ccs_sensor *sensor)
+ /* Changes require propagation only on sink pad. */
+ static void ccs_propagate(struct v4l2_subdev *subdev,
+-			  struct v4l2_subdev_state *sd_state, int which,
+-			  int target)
++			  struct v4l2_subdev_state *sd_state, int target)
  {
- 	struct ccs_pll *pll = &sensor->pll;
- 	u8 binh, binv;
-+	u8 scale_m;
- 	int rval;
- 
- 	ccs_get_binning(sensor, NULL, &binh, &binv);
- 
-+	if (sensor->scaler)
-+		ccs_get_scaling(sensor, NULL, &scale_m);
-+	else
-+		scale_m = CCS_LIM(sensor, SCALER_N_MIN);
-+
- 	pll->binning_horizontal = binh;
- 	pll->binning_vertical = binv;
- 	pll->link_freq =
- 		sensor->link_freq->qmenu_int[sensor->link_freq->val];
--	pll->scale_m = sensor->scale_m;
-+	pll->scale_m = scale_m;
- 	pll->bits_per_pixel = sensor->csi_format->compressed;
- 
- 	rval = ccs_pll_try(sensor, pll);
-@@ -1202,7 +1235,7 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
- 	/* Figure out which BPP values can be used with which formats. */
- 	pll->binning_horizontal = 1;
- 	pll->binning_vertical = 1;
--	pll->scale_m = sensor->scale_m;
-+	pll->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
- 
- 	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
- 		sensor->compressed_min_bpp =
-@@ -1950,11 +1983,15 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
- 	/* Scaling */
- 	if (CCS_LIM(sensor, SCALING_CAPABILITY)
- 	    != CCS_SCALING_CAPABILITY_NONE) {
--		rval = ccs_write(sensor, SCALING_MODE, sensor->scaling_mode);
-+		u8 scaling_mode, scale_m;
-+
-+		ccs_get_scaling(sensor, &scaling_mode, &scale_m);
-+
-+		rval = ccs_write(sensor, SCALING_MODE, scaling_mode);
- 		if (rval < 0)
- 			goto err_pm_put;
- 
--		rval = ccs_write(sensor, SCALE_M, sensor->scale_m);
-+		rval = ccs_write(sensor, SCALE_M, scale_m);
- 		if (rval < 0)
- 			goto err_pm_put;
- 	}
-@@ -2270,7 +2307,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
- 			  struct v4l2_subdev_state *sd_state, int which,
- 			  int target)
- {
--	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
  	struct v4l2_rect *comp, *crop;
- 	struct v4l2_mbus_framefmt *fmt;
-@@ -2283,13 +2319,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
- 						  CCS_STREAM_PIXEL);
- 		comp->width = crop->width;
- 		comp->height = crop->height;
--		if (which == V4L2_SUBDEV_FORMAT_ACTIVE) {
--			if (ssd == sensor->scaler) {
--				sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
--				sensor->scaling_mode =
--					CCS_SCALING_MODE_NO_SCALING;
--			}
--		}
- 		fallthrough;
- 	case V4L2_SEL_TGT_COMPOSE:
- 		crop = v4l2_subdev_state_get_crop(sd_state, CCS_PAD_SRC,
-@@ -2674,11 +2703,6 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
- 			& ~1;
- 	else
- 		sel->r.height = sink_crop->height;
--
--	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
--		sensor->scale_m = scale_m;
--		sensor->scaling_mode = mode;
--	}
+@@ -2512,7 +2511,7 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
+ 	crop->top = 0;
+ 	crop->width = fmt->format.width;
+ 	crop->height = fmt->format.height;
+-	ccs_propagate(subdev, sd_state, fmt->which, V4L2_SEL_TGT_CROP);
++	ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_CROP);
+ 
+ 	return 0;
  }
- /* We're only called on source pads. This function sets scaling. */
- static int ccs_set_compose(struct v4l2_subdev *subdev,
-@@ -3785,8 +3809,6 @@ static int ccs_probe(struct i2c_client *client)
- 	sensor->pixel_array = &sensor->ssds[sensor->ssds_used];
- 	sensor->ssds_used++;
+@@ -2727,7 +2726,7 @@ static int ccs_set_compose(struct v4l2_subdev *subdev,
+ 		ccs_set_compose_scaler(subdev, sd_state, sel, sink_crop, comp);
  
--	sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
--
- 	/* prepare PLL configuration input values */
- 	sensor->pll.bus_type = CCS_PLL_BUS_TYPE_CSI2_DPHY;
- 	sensor->pll.csi2.lanes = sensor->hwcfg.lanes;
-diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
-index e6fc00a9fa11..d33014f2710b 100644
---- a/drivers/media/i2c/ccs/ccs.h
-+++ b/drivers/media/i2c/ccs/ccs.h
-@@ -237,9 +237,6 @@ struct ccs_sensor {
- 	u32 embedded_mbus_code;
- 	u8 emb_data_ctrl;
+ 	*comp = sel->r;
+-	ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_COMPOSE);
++	ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_COMPOSE);
  
--	u8 scale_m;
--	u8 scaling_mode;
--
- 	u8 frame_skip;
- 	u16 embedded_start; /* embedded data start line */
- 	u16 embedded_end;
+ 	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+ 		return ccs_pll_blanking_update(sensor);
+@@ -2817,7 +2816,7 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
+ 	*crop = sel->r;
+ 
+ 	if (ssd != sensor->pixel_array && sel->pad == CCS_PAD_SINK)
+-		ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_CROP);
++		ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_CROP);
+ 
+ 	return 0;
+ }
+@@ -3339,7 +3338,6 @@ static int ccs_init_state(struct v4l2_subdev *sd,
+ 		v4l2_subdev_state_get_format(sd_state, pad, CCS_STREAM_PIXEL);
+ 	struct v4l2_rect *crop =
+ 		v4l2_subdev_state_get_crop(sd_state, pad, CCS_STREAM_PIXEL);
+-	bool is_active = !sd->active_state || sd->active_state == sd_state;
+ 
+ 	ccs_get_native_size(ssd, crop);
+ 
+@@ -3357,7 +3355,7 @@ static int ccs_init_state(struct v4l2_subdev *sd,
+ 		sensor->csi_format->code : sensor->internal_csi_format->code;
+ 	fmt->field = V4L2_FIELD_NONE;
+ 
+-	ccs_propagate(sd, sd_state, is_active, V4L2_SEL_TGT_CROP);
++	ccs_propagate(sd, sd_state, V4L2_SEL_TGT_CROP);
+ 
+ 	return 0;
+ }
 -- 
 2.39.2
 
