@@ -1,120 +1,176 @@
-Return-Path: <linux-media+bounces-6979-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6980-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1809D87A452
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 09:56:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FA787A4F7
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 10:26:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4982E1C21B4E
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 08:56:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1B5A9B21313
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 09:26:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F6801B27A;
-	Wed, 13 Mar 2024 08:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E98D20B02;
+	Wed, 13 Mar 2024 09:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jOZPVISl"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zmrM6hGB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BCC1B965;
-	Wed, 13 Mar 2024 08:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C644C1D53F
+	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 09:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710320180; cv=none; b=ZHT427iv9mPnb6mpZFv0TlMKpKvEsIiknBVFaC8mOknyg4klVLW160GmTxX1T3nraaH/reqnLQq/Z5djAkA5DNFK9RYjbnUsp8wzOab4gRNmB5RTi4DSMKkx01GSoQ4DChznh6cGSB8RF9lyO6m8SV8QxOdeKuDl3xUfiW1gqvA=
+	t=1710321952; cv=none; b=t/2Fo4p7MwiO7WLIWSjt0dzuXyQLRrhk4ZeUdkjQm2zhNQcIcnWIX0FR9YQGSq35+tv7s8iyfAbPYVA4Q3dbF1NG/ft4HJhhmUv0j7G9ldExNjNKtPTSzEp3YEE6wvwdi4U4PmRcBBlkHuz78OlKLVjou/UxqstCg4uXU0tbQeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710320180; c=relaxed/simple;
-	bh=Db5VWsrKGzEZDK9pD+LBmGjlxK6z26zYbHNc0/tNv0k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cImocCmErE+hAhRDJle50hdy9zZfOIR/OsXSUPGPeVqr64w+9mVxV+mANB5hxNf77pbQt9d8rpC4grwnP6ueolNiQ1lg6sFgZLw7beqlWKqwn1IJoC8oNQS6EEGGlt+ejAigGBnhGRO29wKRhmvndX91sAdyRp5qQ+MkTOjkFJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jOZPVISl; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5654f700705so967518a12.1;
-        Wed, 13 Mar 2024 01:56:18 -0700 (PDT)
+	s=arc-20240116; t=1710321952; c=relaxed/simple;
+	bh=sRcZO/KzLiCzYtIZIY03NKNyapOBVMXihw8FM6aklwk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b9pGNGmYugk0hCyb2WJx9IfNACudPs0Qmo0p1xTGCTb38UfsfOnQSTLvuonjGbplGo4SbX3pTDdHw3tIGhJ3L3UW7UF5uItaFt0WUdZtccwhYRR11GTUgHy9wqB8ercpRb2h67VNE5rM8qfyKZtCP0Op8GO/gu+VUjm66rvJ4DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zmrM6hGB; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33e99b639e0so1978645f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 02:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710320177; x=1710924977; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d+mO86kMfMWDJIo9fRORC6334q4eXYxL4m5tAq3xCEk=;
-        b=jOZPVISlJ5PWA3UGAKR3muRGpjHUIax85JQUC+PG872jD9F0iF5mk+MZm3l6lNKJJI
-         dAhOKxfHqv/WO523rTg56o6hbd8no7LZvjupzOo9XqA6nEiiDQN44Ga9WvDyXhAqtisw
-         NYzi/u+Vhv+s9DmwiQuo/DImYmRqZwq6l7AUfLEWuekGvYz4NmEMp6jC/+/ilb1/Ei/i
-         AQEwrL2U1P7/uI7eO8h3D1Jmtx1t+OOWqNIPvpw/BJ5A2QaGMWu3C24ndql4yA2iKEXS
-         WBDMsLAagh7OxNbuvflbMynbRirkHyoWoqpcEVyEbBD0N5Ou4XTqngUxVgXQ/g4jzteB
-         l6jw==
+        d=linaro.org; s=google; t=1710321949; x=1710926749; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TyH7YkiQiIP6w5g7eDOxwkAE9o1tF+zYeHL+jmj5IHc=;
+        b=zmrM6hGBi4auwcpQxaUrKfj8khFOZJORAvXRLpwYkNRSF4ZkLT+2Ayw6yOhdF1iyPT
+         fFc6yLwSzGarHgVLl9sX4EabCc8D8NbnsnyxZs9IQoYXJBePN7VtiNRB7J1fptVumu30
+         2oS68lUsflDKd1xk4Kt2c9I+IObIaUXjxBduoPZOoezz2XH6cSf1rlPAXoKQ4GDfT1Xc
+         fNQrcCK82hzfoXdN0fWygcWJFhEl9hTrgTChHHJLshTL10UphjzmmXxT52/YYno+wZAn
+         b3h09wdiB+9vPDwiCj0FQybEkUZfCAvRLq5R7PE1LgLl9Y3VpCDzXyXm0PGd8QWHfyyT
+         TzLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710320177; x=1710924977;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d+mO86kMfMWDJIo9fRORC6334q4eXYxL4m5tAq3xCEk=;
-        b=MKntWNxcGOD1Xr+t3nLVXz1tebrBhJ2UBIrt0ZE8Fqd/d2vG/LNUJRkF5nLTRnDIJz
-         i30/LbV55WCu2qhiV/tJqmRe7p/wc/gYbVunSjoiU+ffUjqK5TAqaNw+kYyRGCdCje1H
-         lqztbO2Z1cprWtXa8LXtdsNndZO1Z2VfkgcYH4XnJ5daoSzq5gH7YDCCWou+qNN4NfAL
-         /i0kyNy3ocXjrPVDcCSxq/g+RAebJOYBBiGthhP0udCCOCKA96aRj9v4uxf2Ijh/iSR0
-         FBJnikENUFVxBWasWtCd1tt1DbeTT0oVWRvMEL0xrwUtB9MsFERWFvCMpUQqwbeg/F0K
-         B//A==
-X-Forwarded-Encrypted: i=1; AJvYcCWzJG2WEZOvmqb0ImTs5fgPuWwU8rUnSagvVcGCdHj+OqXtWqdqCruC5Uu0O+BqOgmgyZ5PnerQSzvqMgfPJ+khM/UyyJeh8hhPXocc
-X-Gm-Message-State: AOJu0YwjR7Ny+j8bdnaukUJVauVesIW2Fh172GuLu46RdYXXXtWUixPM
-	p3eXOMN2N57DdgEMk5I6ffmLyojhINbihxFx5T1HjxS7dE9ZkRFw8Vnqcsl/NwonNxUFbXd220W
-	086WRLVCWAbvpLAUXKfo0CR3FOwU=
-X-Google-Smtp-Source: AGHT+IGNRJNpkCuB1o+4v+BYFzZP0XtP8y73twDHUCnGXIa7pEfKd+ZuHmpzhScwTAmnqSCY2V/DvEdFUrwnHXCwgMY=
-X-Received: by 2002:a17:906:4481:b0:a46:1b3f:ccbf with SMTP id
- y1-20020a170906448100b00a461b3fccbfmr4047748ejo.25.1710320177469; Wed, 13 Mar
- 2024 01:56:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710321949; x=1710926749;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TyH7YkiQiIP6w5g7eDOxwkAE9o1tF+zYeHL+jmj5IHc=;
+        b=tPcLY04+dN7IGflX2Xoj5cxbSme/jGbRbovSvzk/ImPWvqmmECuJMfAdZM8jlVy/rw
+         bNaC0gGlt+P9xMLFXHQXI6qo9FG/nNr0paJ2igZGy8gjMD4GqUlWzQZUjNVgLY9y+2x3
+         puKLZwNoC3vRMuGFMpY05rNoYQtqdPP10dESLF72M8gHhDsJ0w6y7cu+WWUheuW8lCfq
+         xqkAv7A6Xkk5nXKSLtACRcfL0sZPwDyahCIghsk052YqxeHHee5WhPLSZvYgIoA4yOiE
+         hPfxWVRxgRLlMNn9IhBMC1Jhpk7Do4d43Ic8U5eph6u+DqhGVOARvM0LY3eqHKQEgKZn
+         1TDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWOuegpR10dukCSzXxb7NvYiAHpMxaC8WYQPki4qBlx0dxS1VLUhnLAzOL2n6wP5J9pdEUC9s/8IH8cw4gBiHcgBTeikIsuYO2fawI=
+X-Gm-Message-State: AOJu0YzYqTWphYEbpyr0tm6ZWa00nGp8u5pi8f9xdM7qlNCuIuFG+vKB
+	+8JUlUi11IXj1+skhagQRAEwzkDKHXM/xWkdIhKxXpONBXeiVLXzDjc951vgUGA=
+X-Google-Smtp-Source: AGHT+IE6RKhX68BB8JP036wcs31tX2vaK1dT2SsxKwnYd9bqIpg8thAbw/4pniwxDU+cHSY8FkMLgg==
+X-Received: by 2002:a5d:5547:0:b0:33e:7c19:dec8 with SMTP id g7-20020a5d5547000000b0033e7c19dec8mr1101938wrw.21.1710321949066;
+        Wed, 13 Mar 2024 02:25:49 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id q18-20020adf9dd2000000b0033e90e98886sm8618380wre.71.2024.03.13.02.25.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Mar 2024 02:25:48 -0700 (PDT)
+Message-ID: <e84183e5-c10a-4722-9138-27947a4ca0d9@linaro.org>
+Date: Wed, 13 Mar 2024 10:25:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240313070705.91140-1-umang.jain@ideasonboard.com> <20240313070705.91140-3-umang.jain@ideasonboard.com>
-In-Reply-To: <20240313070705.91140-3-umang.jain@ideasonboard.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 13 Mar 2024 10:55:41 +0200
-Message-ID: <CAHp75VcdcQbF76=j=xTtDRgkQNwVdCJ+0oD7KX4TbTfndX_5fA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] media: i2c: Add imx283 camera sensor driver
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, willl will <will@willwhang.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, tomi.valkeinen@ideasonboard.com, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Hans de Goede <hdegoede@redhat.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Paul Elder <paul.elder@ideasonboard.com>, Mehdi Djait <mehdi.djait@bootlin.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: dt-bindings: i2c: add GalaxyCore GC05A2 image
+ sensor
+Content-Language: en-US
+To: Zhi Mao <zhi.mao@mediatek.com>, mchehab@kernel.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, sakari.ailus@linux.intel.com
+Cc: laurent.pinchart@ideasonboard.com, shengnan.wang@mediatek.com,
+ yaya.chang@mediatek.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ yunkec@chromium.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, jacopo.mondi@ideasonboard.com,
+ 10572168@qq.com, hverkuil-cisco@xs4all.nl, heiko@sntech.de,
+ jernej.skrabec@gmail.com, macromorgan@hotmail.com, linus.walleij@linaro.org,
+ hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
+ gerald.loacker@wolfvision.net, andy.shevchenko@gmail.com,
+ bingbu.cao@intel.com, dan.scally@ideasonboard.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20240313054409.8073-1-zhi.mao@mediatek.com>
+ <20240313054409.8073-2-zhi.mao@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240313054409.8073-2-zhi.mao@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 13, 2024 at 9:08=E2=80=AFAM Umang Jain <umang.jain@ideasonboard=
-.com> wrote:
->
-> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
->
-> Add a v4l2 subdevice driver for the Sony IMX283 image sensor.
->
-> The IMX283 is a 20MP Diagonal 15.86 mm (Type 1) CMOS Image Sensor with
-> Square Pixel for Color Cameras.
->
-> The following features are supported:
-> - Manual exposure an gain control support
-> - vblank/hblank/link freq control support
-> - Test pattern support control
-> - Arbitrary horizontal and vertical cropping
-> - Supported resolution:
->   - 5472x3648 @ 20fps (SRGGB12)
->   - 5472x3648 @ 25fps (SRGGB10)
->   - 2736x1824 @ 50fps (SRGGB12)
+On 13/03/2024 06:44, Zhi Mao wrote:
+> Add YAML device tree binding for GC05A2 CMOS image sensor,
+> and the relevant MAINTAINERS entries.
+> 
+> Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
 
-I have got only this patch and there is no word about changes. Please,
-either make sure you Cc'ed people in cover letter to all reviewers,
-and/or use a comment area (after '---' line to list the changes
-related to this patch).
 
---=20
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+---
+
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+
+Best regards,
+Krzysztof
+
 
