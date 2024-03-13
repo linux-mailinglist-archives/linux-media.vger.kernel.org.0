@@ -1,108 +1,160 @@
-Return-Path: <linux-media+bounces-6932-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6933-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5FE87A2D2
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 07:01:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B55887A32A
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 08:08:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5621B2837A3
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 06:01:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 283A4282F64
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 07:08:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 998A614005;
-	Wed, 13 Mar 2024 06:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF83516428;
+	Wed, 13 Mar 2024 07:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GSbr7B38"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HvHDG+fR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A535212E4E
-	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 06:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4FB1428A;
+	Wed, 13 Mar 2024 07:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710309693; cv=none; b=DIKFp0MJRfWYRp2mckx718oGjNQdNF4/6YqLJiAf8Dq7SKtU+Kc+/TS55Ph+FTctk+/dpx1EuBp2hMLPTmIkh5zHtGlOr4/QRC4TkIanXNzUMesl3SkGi0X1PUJmo4wd26FLo/Hjx9gVfzpL/9hKnic6XtF8qLiDa5k+PXotjz8=
+	t=1710313684; cv=none; b=VDFA5tQckxD02iSXw14vNtYkLqvw+HH/icYEB7jqH/qRuFbpmB3/xmm22UBY3/H9f1Flgn0tAGh1fHJbA57ff56Sz6NWCyO7bDn7/P1jWpW/nH1f8U7HgwMuN3VKF1iBaQL528eptewjtJMJsy5Q0nPkHs1Cp6nQWb6CYmV1aow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710309693; c=relaxed/simple;
-	bh=O7Ld1LYQuGJ8RYWCmpDuJpHzxK88sA4/+eP0rB/C6NA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lwIAH4DUMmPCJgioHSzw2OVbV2AfWitMHWbJWHQ9Q0UQGlSMpWiEw3bTBpfcq4/HUxA1WMFb38ZY8sE5t0upR1/2Cf6exchxJC6cRv1h30VIm9QSXhk0Yoi93v0sKqJUO43rfcvSowtNb+zOzE/T/2q2uVaeKU/f32q+YIyKpEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GSbr7B38; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d46c99eb07so2157921fa.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Mar 2024 23:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710309689; x=1710914489; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=w4s+BaYXL4bYNZRyKaIQNGvRcYz7+hEua7FGBCwivZE=;
-        b=GSbr7B38OhGX8SrZG6QlaBFwPiJNI6odFmS8Sp4eJIoASdzKn0/a2naxlaNL7EJrEc
-         0PbkGihnghsp5NJpwPu+O+LPGxEWpyZma7lhmJ5zfWZsb6ugQr8vdr6DJrSwBmjNv22O
-         hzMpcpgctLLDkfVIAnRuASN4i6SP5gyEXWoypgluSg1I5b6Es65/SFJnZ13tNXAB1WlR
-         spozP4IoFVbmmhTOeQH8FjCAuz73Wi7OY5p66fCxObCn0FWafXrBHM8+APeLSLrOvouV
-         Y2amBubQYqIlX0DlzphDVCV0a02KNnfpir+lDVaKkvnBihQpcte3iIcL2AGwmkh41+Qd
-         u8Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710309689; x=1710914489;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w4s+BaYXL4bYNZRyKaIQNGvRcYz7+hEua7FGBCwivZE=;
-        b=ZUfOReIIxYTxHJkb6wqMx08/JxQbvBd9x/lpVziSY6CxINRy2kDE5ubqeAcp0CyJbM
-         VZ4D+7E/C8m2n1TmbHNlMSKHURC4e5wSsbjfUFV3soZAel1tdMVWogqrg7aoT7PqXsIa
-         UCSAtsxkjcMjwCh7mDhfksy4rhjtiznz2J/l4GHRZbHWzD1EBLVwSEXNUTzTPy1TmTMf
-         VT9OosD45NG8Lripm9KW1KFSb7ia68CjpquvDjSDWt8z2v4LgLUPyEk50DztCQ36Z+7k
-         goT1fGm0prLe0UkVs5Gx53xAhVXbmWbedjEeU2KVPjdhHUWES82hUc5vdqoLcCo0B+EY
-         REmw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQm2Wc65FEAaoBAJLCJyAyX2hJdbvIQ6wh8/8/UJ2FIqrvZ5e8JS5GbWxPi29NreodBaiQ7Y1NgtAsGwhiyvKeIwc7mNEd5B5v928=
-X-Gm-Message-State: AOJu0Yw+Zs+P2ql49it5nAM0U9P/OwgAxI8eWybxm4CZBE7Kyh8TmP/b
-	tZ1ffqjExSNsAMDk0j1O+l2Nu3r6nCFDA8LBVj2wYeK1NwIunz6wlmHNamcaSgY=
-X-Google-Smtp-Source: AGHT+IEsF2Bab0mR13jcWlh7GpMxPMJz8ZE7X/8KzaIBQoi1e1xTiA0OACTSdu6jXnwx+9HSN3+V4A==
-X-Received: by 2002:a05:651c:1255:b0:2d4:6df2:12c0 with SMTP id h21-20020a05651c125500b002d46df212c0mr138246ljh.34.1710309688367;
-        Tue, 12 Mar 2024 23:01:28 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id dn22-20020a05640222f600b005687e17cfc3sm731893edb.11.2024.03.12.23.01.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 23:01:28 -0700 (PDT)
-Date: Wed, 13 Mar 2024 09:01:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	s=arc-20240116; t=1710313684; c=relaxed/simple;
+	bh=TIvl6Z9GIJHgfjQYrqEBZeeApqofElnPFkOg98fwHbM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b8g3fkA8RKR5SW2XCdn8ygfgiXFZ2DGUhtbY91NU+yeltKk3KVMcCnQF3+hBdKwjsOaej2McaBXIsGgSIn3Xyzb//4bwRTIA2CW+spyW3fngQ2Urks5Umo6kGnHNA6lf5ocVKOYQyX/yIUxzW2wCNy5kQ9M6GIop6noJ3XooXiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HvHDG+fR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from umang.jain (unknown [103.251.226.70])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD797720;
+	Wed, 13 Mar 2024 08:07:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710313656;
+	bh=TIvl6Z9GIJHgfjQYrqEBZeeApqofElnPFkOg98fwHbM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HvHDG+fRlpauy0Zq8sdBtgd2oJXdUC40BfM5LOXfz24pOWzwVNjWhOt7Mob2VndKb
+	 HPuVgin+Dy6Y3clBH2YQQzZCzZ6S5eAjFAx0GIcQHQa45QHsJHwwxhTfzBzeyHXJ5O
+	 au6P1/Fba4PSMjcqQjtV9ztu0keIvuDX2TSiErQA=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [v1] staging: media: starfive: Clean pad selection in
- isp_try_format()
-Message-ID: <2bd3995b-2625-4874-ab53-fa3bcffb5f28@moroto.mountain>
-References: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
+	willl will <will@willwhang.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	tomi.valkeinen@ideasonboard.com,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3 0/2] media: i2c: Add imx283 camera sensor driver
+Date: Wed, 13 Mar 2024 12:36:57 +0530
+Message-ID: <20240313070705.91140-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 11, 2024 at 07:45:20PM -0700, Changhuang Liang wrote:
-> The code to select isp_dev->formats[] is overly complicated.  We can
-> just use the "pad" as the index.  This will making adding new pads
-> easier in future patches.  No functional change.
-> 
-> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> ---
+Add a v4l2 subdevice driver for the Sony IMX283 image sensor.
+  
+The IMX283 is a 20MP Diagonal 15.86 mm (Type 1) CMOS Image Sensor with
+Square Pixel for Color Cameras.
+    
+The following features are supported:
+- Manual exposure an gain control support
+- vblank/hblank/link freq control support
+- Test pattern support control
+- Arbitrary horizontal and vertical cropping
+- Supported resolution:
+   - 5472x3648 @ 20fps (SRGGB12)
+   - 5472x3648 @ 25fps (SRGGB10)
+   - 2736x1824 @ 50fps (SRGGB12)
 
-I'm not sure that patchwork will find this patch if it doesn't have
-[PATCH] in the subject...  But otherwise the patch looks good.  Thanks!
+The driver is tested on mainline branch v6.8-rc2 on IMX8MP Debix-SOM-A.
+Additional testing has been done on RPi5 with the downstream BSP.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Changes in v3:
+- fix headers includes
+- Improve #define(s) readability
+- Drop __func__ from error logs
+- Use HZ_PER_MHZ instead of MEGA
+- mdsel* variables should be u8
+- Use container_of_const() instead of container_of()
+- Use clamp() used of clamp_t variant
+- Use streams API imx283_{enable|disable}_streams (**NOTE**)
+- Properly fix PM runtime handling
+  (pm_ptr(), DEFINE_RUNTIME_DEV_PM_OPS,
+   imx283_runtime_suspend, imx283_runtime_resume)
+- Fix format modifiers, signed-ness at various places
 
-regards,
-dan carpenter
+
+**NOTE**
+There is streams mask issue, as no routes are defined with 1 pad:
+For testing, I have the following applied locally:
+```
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 4c6198c48dd6..38545d779620 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -2115,8 +2115,10 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+        if (pad >= sd->entity.num_pads)
+                return -EINVAL;
+ 
+-       if (!streams_mask)
+-               return 0;
++       if (!streams_mask) {
++               dev_err(sd->dev, "no streams mask, returning ....\n");
++               //return 0;
++       }
+ 
+        /* Fallback on .s_stream() if .enable_streams() isn't available. */
+        if (!sd->ops->pad || !sd->ops->pad->enable_streams)
+```
+
+changes in v2 (summary):
+- Use u32 wherever possible
+- Use MEGA macro instead of self defined MHZ() macro
+- Properly refine regs using CCI
+- Drop tracking of current mode. Shifted to infer from active state directly.
+  (Laurent's review)
+- Cont. from above: Pass the struct imx283_mode to functions whereever required.
+- Remove unused comments
+- Remove custom mutex. Use control handler one instead.
+- Drop imx283_reset_colorspace() and inline
+- Set colorspace field properly (drop _DEFAULTS)
+- Use __maybe_unused for imx283_power_on() and imx283_power_off()
+- Store controls  v4l2_ctrl handles for those required, not all.
+- Drop imx283_free_controls(). Use v4l2_ctrl_handler_free
+- fix reset-gpios handling and add it to DT schema
+- fix data-lanes property in DT schema
+- fix IMX283 Kconfig
+- Remove unused macros
+- Alphabetical case consistency
+
+Kieran Bingham (1):
+  media: i2c: Add imx283 camera sensor driver
+
+Umang Jain (1):
+  media: dt-bindings: media: Add bindings for IMX283
+
+ .../bindings/media/i2c/sony,imx283.yaml       |  107 ++
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/imx283.c                    | 1596 +++++++++++++++++
+ 5 files changed, 1723 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
+ create mode 100644 drivers/media/i2c/imx283.c
+
+-- 
+2.43.0
 
 
