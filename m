@@ -1,231 +1,111 @@
-Return-Path: <linux-media+bounces-7026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7027-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09E487B366
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 22:21:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E0F87B53A
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 00:34:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 40572B203B7
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 21:21:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2AF6284E85
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 23:34:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D2853E11;
-	Wed, 13 Mar 2024 21:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92375D8E4;
+	Wed, 13 Mar 2024 23:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EZaNJU13"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZlnC1hRU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9452D1A38DB;
-	Wed, 13 Mar 2024 21:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F275D725
+	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 23:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710364905; cv=none; b=K5Ivf0Q3JAN3i+obI4HCI2vMmXFg7qBPfn8Cf/uPMujWoT1s1ST7gXYVLfR8J+396o7iEnoHS1tYlDAhEI9NHvZFoG2CDFa23e4B153UNV/NOFsX7qndp8ftgyGn6+0jL66xQEyCL1A33KIEK5F0ZYi4qOYHZLTMlW/T87J2Tak=
+	t=1710372881; cv=none; b=sVbkcM9UpcRo70mmHpXXhJ2Vog+kpV1VT+pY4Akq0kpRiV9EqHYMtAAneJbeAPNYR5AHNHqu9L3fb9sKcBfP7KS7uKcfj86xpvFlG2FgfV7t72yarjA/ht/yP8GFaBNz5+DnU3Hj9jfFoENeFLjBxJHtW2mytWT6cH3N37TT4XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710364905; c=relaxed/simple;
-	bh=SpKyPDhdUaclvqwD0w0SBBHsdGTcEavK9/1NEyIyJ6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nLCLRJQZFbCFR0xSsKFQo5ZpSaRgijsECEo9Uzan8w5YpMrSbjPfWpjFLni5edYyVE2KOI4eQRk8o1BsHzFAc3PlFGSRxRvDhKBFiG91tfqEZeHl4HPFkyh5gTDeFXuPXnTdFYxn9dJbQzfLlW1TRaITdooaS6o6jY5dMs3TgoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EZaNJU13; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [95.214.66.65])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F902899;
-	Wed, 13 Mar 2024 22:21:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710364878;
-	bh=SpKyPDhdUaclvqwD0w0SBBHsdGTcEavK9/1NEyIyJ6Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EZaNJU132v9GHYBCDIhE9Rr8BmzGK9eDNCz6eYfiZssFXR0yiKWnswn95ClwH8KZf
-	 LnwVT/n+H37h5va5YW3vMG1jyUoQAoMUcJgizCpxY/eKkLUHQ2ZnzeTwI4M7pWQn74
-	 dji/Eirs9MST8usKx3oAD2kD6Z/ZtkrkOTZzwuJ8=
-Date: Wed, 13 Mar 2024 23:21:49 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	willl will <will@willwhang.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	tomi.valkeinen@ideasonboard.com, Rob Herring <robh@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/2] media: dt-bindings: media: Add bindings for IMX283
-Message-ID: <20240313212149.GA4372@pendragon.ideasonboard.com>
-References: <20240313070705.91140-1-umang.jain@ideasonboard.com>
- <20240313070705.91140-2-umang.jain@ideasonboard.com>
+	s=arc-20240116; t=1710372881; c=relaxed/simple;
+	bh=mk/0nw43f/X5dq41JsZS2ZjvqVj6m4MuDsowqHXmhBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GFuog9MeoYLuZozlrXc5Yx9hHqOuU5NAgCnhLFaVdR4T7OCscihVwO7s7BH3q1Jxsc1PFNxxLh+VOEAOFONLlfqnRuBOVkRLJNsgrmIRI3nBQXc3FDFkziqrY1Hxk/r+Hiy6y9xUP1rUtNIWFIBo2EHVpjj9BHaOcF5tfck+884=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZlnC1hRU; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <4b1c71bd-10fb-4177-bacf-44ce77ae1c52@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1710372875;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aXQaEFsum6OMqBMgCJr/1CyC37B3P/uDQXWPsVF6tQE=;
+	b=ZlnC1hRUo5KNFY1GdEQxvESkKLLFy9LfseRTKgurcQl5VqEAS6NqtJ23muCOZCtFNcVyx5
+	Hgz0dsyvNEqIn/lPi6JC0iuMzOy4GDuZcbBmtjPssNR0X6rvxpZJS+dxntt0oAuAjRY2GK
+	kVFTgeWNsYzTiABktxLawoErr4pl6mI=
+Date: Thu, 14 Mar 2024 07:34:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240313070705.91140-2-umang.jain@ideasonboard.com>
+Subject: Re: [v9,01/27] drm/connector: Introduce an HDMI connector
+ initialization function
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20240311-kms-hdmi-connector-state-v9-1-d45890323344@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240311-kms-hdmi-connector-state-v9-1-d45890323344@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Mar 13, 2024 at 12:36:58PM +0530, Umang Jain wrote:
-> - Add dt-bindings documentation for Sony IMX283 sensor driver
-> - Add MAINTAINERS entry for Sony IMX283 binding documentation
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/media/i2c/sony,imx283.yaml       | 107 ++++++++++++++++++
->  MAINTAINERS                                   |   8 ++
->  2 files changed, 115 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> new file mode 100644
-> index 000000000000..e4f49f1435a5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> @@ -0,0 +1,107 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2024 Ideas on Board Oy
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/sony,imx283.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony IMX283 Sensor
-> +
-> +maintainers:
-> +  - Kieran Bingham <kieran.bingham@ideasonboard.com>
-> +  - Umang Jain <umang.jain@ideasonboard.com>
-> +
-> +description:
-> +  IMX283 sensor is a Sony CMOS active pixel digital image sensor with an active
-> +  array size of 5472H x 3648V. It is programmable through I2C interface. The
-> +  I2C client address is fixed to 0x1a as per sensor data sheet. Image data is
-> +  sent through MIPI CSI-2.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx283
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: Clock frequency from 6 to 24 MHz.
-> +    maxItems: 1
-> +
-> +  vadd-supply:
-> +    description: Analog power supply (2.9V)
-> +
-> +  vdd1-supply:
-> +    description: Interface power supply (1.8V)
-> +
-> +  vdd2-supply:
-> +    description: Digital power supply (1.2V)
+Hi,
 
-Those two supplies are named vddd1 and vddd2 in the datasheet.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On 2024/3/11 22:49, Maxime Ripard wrote:
+> A lot of the various HDMI drivers duplicate some logic that depends on
+> the HDMI spec itself and not really a particular hardware
+> implementation.
+>
+> Output BPC or format selection, infoframe generation are good examples
+> of such areas.
+>
+> This creates a lot of boilerplate, with a lot of variations, which makes
+> it hard for userspace to rely on, and makes it difficult to get it right
+> for drivers.
+>
+> In the next patches, we'll add a lot of infrastructure around the
+> drm_connector and drm_connector_state structures, which will allow to
+> abstract away the duplicated logic. This infrastructure comes with a few
+> requirements though, and thus we need a new initialization function.
+>
+> Hopefully, this will make drivers simpler to handle, and their behaviour
+> more consistent.
+>
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-> +
-> +  reset-gpios:
-> +    description: Sensor reset (XCLR) GPIO
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            anyOf:
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +
-> +          link-frequencies: true
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera@1a {
-> +            compatible = "sony,imx283";
-> +            reg = <0x1a>;
-> +            clocks = <&imx283_clk>;
-> +
-> +            assigned-clocks = <&imx283_clk>;
-> +            assigned-clock-parents = <&imx283_clk_parent>;
-> +            assigned-clock-rates = <12000000>;
-> +
-> +            vadd-supply = <&camera_vadd_2v9>;
-> +            vdd1-supply = <&camera_vdd1_1v8>;
-> +            vdd2-supply = <&camera_vdd2_1v2>;
-> +
-> +            port {
-> +                imx283: endpoint {
-> +                    remote-endpoint = <&cam>;
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <360000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 73d898383e51..32f790c3a5f9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20368,6 +20368,14 @@ T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
->  F:	drivers/media/i2c/imx274.c
->  
-> +SONY IMX283 SENSOR DRIVER
-> +M:	Kieran Bingham <kieran.bingham@ideasonboard.com>
-> +M:	Umang Jain <umang.jain@ideasonboard.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> +
->  SONY IMX290 SENSOR DRIVER
->  M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->  L:	linux-media@vger.kernel.org
+
+Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
 -- 
-Regards,
+Best regards,
+Sui
 
-Laurent Pinchart
 
