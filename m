@@ -1,248 +1,124 @@
-Return-Path: <linux-media+bounces-6927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6928-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6385887A0DF
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 02:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DAE87A1A2
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 03:30:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E61A61F21AA3
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 01:35:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 885CC1F22894
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 02:30:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D20EB664;
-	Wed, 13 Mar 2024 01:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9F64C14F;
+	Wed, 13 Mar 2024 02:30:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNa7CtdE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bgBJX0cS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EBC9475
-	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 01:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8D638B;
+	Wed, 13 Mar 2024 02:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710293732; cv=none; b=MslwfbMdvRqxmTx5BezSK+MmP5TXYBXu8ISYgeRmqlwZX5vynmSl9KY/TgLbGYeXLEP9G0pizy56POn9JYWlLVaM0PGyGTIaIT3ZNsC8Q/6m96+c951rcLvPCFpdO3E45QjkQeboVg+T2hTkT9Gnbksqq9DyUKGYcvuvJXghDzo=
+	t=1710297045; cv=none; b=hx2ciwWFrKajSTTQusdFObiwfMlp0aTxtmuYBCghFzDFHyejYjYlGdVHyIqOpScTRJ29d0vWgUQXlaKwiMcBs5iVBqZqUx96EdD3yVvJ1SOUAlhJloBwdmEYqjzDo8DEir5v8BSguumyzVzRXvKCy8fSBQgygeqehaP7AfA0Pjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710293732; c=relaxed/simple;
-	bh=1rpxfJNBFxGv625k5rAFShqxEUjLGFaa4ywgFWzPxXA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kdMl1/eXUEqfL0KbK9wCgqKcRM0LeuvF/3wopVf3piVJvoGdRpRZ6xoNPFivi5J1h24sJpcZ6XRb/mZHXgpe+J0qE9Bfvu951fWlUtxOHk7s7SEN0egGlfELqXmOi+HojLdbTuKkrDyKfHfu6uJ5hYdkFYo/CNS3Oz8bxbTfncI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNa7CtdE; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710293730; x=1741829730;
-  h=date:from:to:cc:subject:message-id;
-  bh=1rpxfJNBFxGv625k5rAFShqxEUjLGFaa4ywgFWzPxXA=;
-  b=KNa7CtdEl8Q+rg4Hd66/YYXad/3h+9QeQZnsgTLBJN3JQHvMoOvpLnOB
-   UnJXYxtgcBISP9s+cbnlrtXshq58kZUfnYs2fVNOeEyapQdA8Gnxh8ycn
-   sduGIPhjioHXqFOJ6Ge+jzBV400Ge8dbus6PXlR6x3mmvgzeE7vG9JDeA
-   gi9+zu6cOGUXOIMDw6y5aZeJs68yfMss4xu+DXL8KFdJPNMuulXO3lYPo
-   lr1y4AzLZQK5YivQhQCJdKCg/ZSEx1aRHL4K6hBH5yKpTi8EZcHa5MMbz
-   l/q2ajaQ3H8frAligUnjAQe6r2xs+Z1yvmw1sGzdPl+QYBX+zPxs6WpqX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="27510765"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="27510765"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 18:35:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="11808927"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Mar 2024 18:35:28 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rkDWg-000Bt7-0y;
-	Wed, 13 Mar 2024 01:35:26 +0000
-Date: Wed, 13 Mar 2024 09:34:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:ipu6] BUILD SUCCESS
- 7bed34c0405b11bac9751a8e7d619dcc5d5db2bb
-Message-ID: <202403130950.IT3CgfEr-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1710297045; c=relaxed/simple;
+	bh=6epCFR+TeeVisNrBltVtOxZRUBOkKoRbe0+eZ0ebHGM=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=QlnkRJqVGSU5j/fTxJBjxBdwaG6fuTWSW6zgXxAdmGRFzT8dzIfnI/FDi/DbvBkNhGjCyV5X72GJ1xi57O9C1++vGx8XGZINeZ4NhSlPSY55X4m3mRNAWbndyREQAxu17/qbrdOtN/XYOsEqpmq2k9VcX7nEX2BT1FknC8nzzuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bgBJX0cS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 608ABC433C7;
+	Wed, 13 Mar 2024 02:30:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710297044;
+	bh=6epCFR+TeeVisNrBltVtOxZRUBOkKoRbe0+eZ0ebHGM=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=bgBJX0cS4c75xtuhF2avvRAWfGeIS+DdV9OofdYqXwKLsvGUd5FxhhtQqF0mLN4dN
+	 /0zkpqzGk89wpr1NMFTIK1F09qLuKqVRWGN1AEMMo8y869BZWQpgbq02ZoWvzirGgH
+	 THVKVcTueHcJgN4l7N6LFujds6IA3UTv4MpUn8piGXRjtyy/043Xpku/hccu4QijI3
+	 6XlS/SxMGolxlTZT7Z5sQGHZUGSCI/ZDbMrnfFiY59kOGX3Gy8aMXXZf4F9nAaQGmY
+	 vLPYqL/t1jcl39selk774Xbsnx6JUYWkn2Ok/z3U449vArJT3GIT4RYGhZFpsCNg3F
+	 uaCPkK9BvACLg==
+Date: Tue, 12 Mar 2024 20:30:43 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Michal Simek <michal.simek@amd.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Daniel Vetter <daniel@ffwll.ch>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <20240312-dp-live-fmt-v2-7-a9c35dc5c50d@amd.com>
+References: <20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com>
+ <20240312-dp-live-fmt-v2-7-a9c35dc5c50d@amd.com>
+Message-Id: <171029704194.3354722.2132570272705371334.robh@kernel.org>
+Subject: Re: [PATCH v2 7/8] dt-bindings: xlnx: Add VTC and TPG bindings
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git ipu6
-branch HEAD: 7bed34c0405b11bac9751a8e7d619dcc5d5db2bb  ACPI: property: Polish ignoring bad data nodes
 
-elapsed time: 733m
+On Tue, 12 Mar 2024 17:55:04 -0700, Anatoliy Klymenko wrote:
+> DO NOT MERGE. REFERENCE ONLY.
+> 
+> Add binding for AMD/Xilinx Video Timing Controller and Test Pattern
+> Generator.
+> 
+> Copy media-bus-formats.h into dt-bindings/media to suplement TPG DT node.
+> 
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> ---
+>  .../bindings/display/xlnx/xlnx,v-tpg.yaml          |  87 ++++++++++
+>  .../devicetree/bindings/display/xlnx/xlnx,vtc.yaml |  65 ++++++++
+>  include/dt-bindings/media/media-bus-format.h       | 177 +++++++++++++++++++++
+>  3 files changed, 329 insertions(+)
+> 
 
-configs tested: 159
-configs skipped: 3
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:35:4: [warning] wrong indentation: expected 4 but found 3 (indentation)
+./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:45:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
+./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:49:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                 nsimosci_hs_smp_defconfig   gcc  
-arc                   randconfig-001-20240313   gcc  
-arc                   randconfig-002-20240313   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240313   gcc  
-arm                   randconfig-002-20240313   clang
-arm                   randconfig-003-20240313   gcc  
-arm                   randconfig-004-20240313   clang
-arm                           u8500_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240313   clang
-arm64                 randconfig-002-20240313   clang
-arm64                 randconfig-003-20240313   clang
-arm64                 randconfig-004-20240313   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240313   gcc  
-csky                  randconfig-002-20240313   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240313   clang
-hexagon               randconfig-002-20240313   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240312   gcc  
-i386         buildonly-randconfig-002-20240312   gcc  
-i386         buildonly-randconfig-003-20240312   gcc  
-i386         buildonly-randconfig-004-20240312   gcc  
-i386         buildonly-randconfig-005-20240312   clang
-i386         buildonly-randconfig-006-20240312   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240312   gcc  
-i386                  randconfig-002-20240312   clang
-i386                  randconfig-003-20240312   gcc  
-i386                  randconfig-004-20240312   gcc  
-i386                  randconfig-005-20240312   gcc  
-i386                  randconfig-006-20240312   gcc  
-i386                  randconfig-011-20240312   gcc  
-i386                  randconfig-012-20240312   gcc  
-i386                  randconfig-013-20240312   clang
-i386                  randconfig-014-20240312   clang
-i386                  randconfig-015-20240312   gcc  
-i386                  randconfig-016-20240312   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240313   gcc  
-loongarch             randconfig-002-20240313   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5475evb_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                          ath25_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240313   gcc  
-nios2                 randconfig-002-20240313   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240313   gcc  
-parisc                randconfig-002-20240313   gcc  
-parisc64                            defconfig   gcc  
-powerpc                    adder875_defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     asp8347_defconfig   clang
-powerpc                 canyonlands_defconfig   clang
-powerpc                      cm5200_defconfig   clang
-powerpc                   currituck_defconfig   clang
-powerpc                       eiger_defconfig   clang
-powerpc                    gamecube_defconfig   clang
-powerpc               randconfig-001-20240313   gcc  
-powerpc               randconfig-002-20240313   gcc  
-powerpc               randconfig-003-20240313   clang
-powerpc                     sequoia_defconfig   clang
-powerpc64             randconfig-001-20240313   clang
-powerpc64             randconfig-002-20240313   gcc  
-powerpc64             randconfig-003-20240313   clang
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240313   clang
-riscv                 randconfig-002-20240313   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240313   gcc  
-s390                  randconfig-002-20240313   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                        apsh4ad0a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                    randconfig-001-20240313   gcc  
-sh                    randconfig-002-20240313   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240313   gcc  
-sparc64               randconfig-002-20240313   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240313   gcc  
-um                    randconfig-002-20240313   clang
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240313   clang
-x86_64       buildonly-randconfig-002-20240313   gcc  
-x86_64       buildonly-randconfig-003-20240313   clang
-x86_64       buildonly-randconfig-005-20240313   gcc  
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                           alldefconfig   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-xtensa                randconfig-001-20240313   gcc  
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,vtc.yaml: xlnx,pixels-per-clock: missing type definition
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml: bus-format: missing type definition
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml: xlnx,bridge: missing type definition
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240312-dp-live-fmt-v2-7-a9c35dc5c50d@amd.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
