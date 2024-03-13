@@ -1,192 +1,322 @@
-Return-Path: <linux-media+bounces-7011-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7012-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1583887A97D
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 15:32:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D27887A9CB
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 15:52:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFA40286201
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 14:32:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB1001F22BED
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 14:52:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19C1879DD;
-	Wed, 13 Mar 2024 14:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97D22C139;
+	Wed, 13 Mar 2024 14:52:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b="SHW+ImA9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bVcu0QED"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0659E443D;
-	Wed, 13 Mar 2024 14:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.148.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710340337; cv=fail; b=k1wD3yeRoea55KOPXyIcukk6uH0JaPeUbnGZk1UZRVFdvJSeWZQF87zTTF7XMwVShMBw/ooG0SF3ywX+yeelk/l124i5o9v+SiI8Q9XDKwkoivzxseSgfwLjcuI/WQK/Slg8HdvLc8Fu/bhawCHBKS9wyZ6Hsl+hXsaAfSt6LXY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710340337; c=relaxed/simple;
-	bh=uAizzBOSK/PbJE5Exxlm82MvPCY5wY330AQu+xLS1/8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aWBK0WiFD+sqc3giKz7mktTrz+4uQFtTD5q9/WZh/tsX59rud9MraWGeI2+GOGFSOwTf8g5uwmDmwV+XeOvCQoj6qwcHP9kUSJf8AfsRR6Jufo2xZBHKaWdrcV75OdH1ZaJ2cDILqz9JM9U9HTj+eWzIaEsFeymRIDBd/mH1pjA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b=SHW+ImA9; arc=fail smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42D9Wp12022169;
-	Wed, 13 Mar 2024 07:31:45 -0700
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3wu9kvryrf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 07:31:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SqStDQ2YZsSI/d3yJEViJ2DcmzkNjq8qo94dmnYYgdwRXEgxGYKHE7nj+VeW08LM4T/TdouL6RzkRWqXzxlDKC9cNbt0k2CCAlrGaFWNytOx5lh8/jyMPbjPWVczSvx/9HGUwMmTI8RC7LMgg1YEA5+44I0jaGuwlUX1nj6/qLtSuhFcUpmkIqbB/4TcQqqaIqM7TUdGOMnxMhBG8WEmnOqd4FLcOn/tPcv3Ehv58lQdQCJllmS2uQLav9VwSMEPhMjMZB+CeDvt7c1sNz6Z0AwRaVdp5IOw81TOPSCdrBwvPKEK9aBNQ4Q/c9W2GG544pNm1Pi6wsruxPHO9+HdrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uAizzBOSK/PbJE5Exxlm82MvPCY5wY330AQu+xLS1/8=;
- b=AX128jQWnvN/D94SC0kxm3+nrMVQDxvljEQdzWaB7TdEoefDeVwD0SixlM5ZUlH9NZaQ3OfWh2ONLHEYbD0wZ8y9GgMK4nnyl59+zYyjKUraya/xVJbv7b+iqVONpwgVilKgShY0NM4VqvRzBOck0RjVGU30SucW4o4Uvf0zkjULx+xGm04FRCwq+MCt/JS9ei+upkVSyvLIWrU+83avHuO4agnslCG3495hPe9sqN+T+2/NlTX+S3ndubqneIcYRw5QaAKsYCL8HKCr86OCXBvX9iO407/78BhfOaXX/Qjo47S/56K/4YuJ1LiP/pvpzLMBKufqQTQNSDP6Fg8aLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uAizzBOSK/PbJE5Exxlm82MvPCY5wY330AQu+xLS1/8=;
- b=SHW+ImA9itgXh8ZBevavPfC9rfvEkjmf0DfO+7shzAYp0SzH/HgotOwXVWktoU7qmM9IM7j0WUzLoweuR+hfXCQxhltHM78B83vrUxzEJ6XmTJnzBtkivSNiNcX8JAs//ZK3o7k89xM3rEtl9inBQkq9Z4IbRHsJUKMpLS85NXo=
-Received: from MWHPR1801MB1918.namprd18.prod.outlook.com
- (2603:10b6:301:68::33) by CH0PR18MB5462.namprd18.prod.outlook.com
- (2603:10b6:610:18a::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.27; Wed, 13 Mar
- 2024 14:31:40 +0000
-Received: from MWHPR1801MB1918.namprd18.prod.outlook.com
- ([fe80::89ce:35b4:c4b0:c7ad]) by MWHPR1801MB1918.namprd18.prod.outlook.com
- ([fe80::89ce:35b4:c4b0:c7ad%7]) with mapi id 15.20.7386.017; Wed, 13 Mar 2024
- 14:31:40 +0000
-From: Ratheesh Kannoth <rkannoth@marvell.com>
-To: Julien Panis <jpanis@baylibre.com>
-CC: "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni
-	<pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
-        Alexei Starovoitov
-	<ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard
- Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Sumit
- Semwal <sumit.semwal@linaro.org>,
-        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?=
-	<christian.koenig@amd.com>,
-        Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew@lunn.ch>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>,
-        "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>
-Subject: RE: [EXTERNAL] Re: [PATCH v4 0/3] Add minimal XDP support to TI AM65
- CPSW Ethernet driver
-Thread-Topic: [EXTERNAL] Re: [PATCH v4 0/3] Add minimal XDP support to TI AM65
- CPSW Ethernet driver
-Thread-Index: AQHadU9EQY6GfzAByE+v8oaSrvH1VrE1u2LA
-Date: Wed, 13 Mar 2024 14:31:40 +0000
-Message-ID: 
- <MWHPR1801MB19184E6AFDEAF4062FB1C4B3D32A2@MWHPR1801MB1918.namprd18.prod.outlook.com>
-References: <20240223-am65-cpsw-xdp-basic-v4-0-38361a63a48b@baylibre.com>
- <20240313134441.GA1263398@maili.marvell.com>
- <9016930f-d90b-4a7a-b6fb-80cf56a94bd8@baylibre.com>
-In-Reply-To: <9016930f-d90b-4a7a-b6fb-80cf56a94bd8@baylibre.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR1801MB1918:EE_|CH0PR18MB5462:EE_
-x-ms-office365-filtering-correlation-id: 6c6935c3-dd3c-45cc-300e-08dc436a4c42
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 4OMfMy5GZYdjGzi7q1gkkFxdqwB+WGzMdDeg2am09Aux7RmjNMEFVyQk7p9kxZM/uv9rjnoySPQ4o6jR4CWIlkllQVsJYi1UJll0yUABpsWBrGxNpfDxtYt6I7vVqsvk9IBbFzOSIcZi7MbkqXtZW+oLKWfXSZZKYs+bSP+FEkIzAeBAPDtfzN0JYqNzrWMI7Zd0ngPWTF0Bh1w6u/PoeBvFm3tLb3fiaaUC/BRRa22O+ENa4wdRwxTicaosRhxYamYmKLAQMhF0Qn8lzyFzFjoaiWhHExC3Fl2ioqS+eWA2uA42bHIouicgxBRiKVk2zuT+zAH9w/YXbZ0cN9e6W6y72TcNf1bdGjVZW+piFGwZm3iu4pZ7cVu/kiJQtb/gkH+qfIidpUI59aeNsUTwR+0PR6RjzwO7GtGYt00GRLrx56U5cckVdsPfEc19kk+WapR7s0BlSnTqIBa9xyK+im1sWkdCCle3/4kU+KHhw1r9VZBgTIhGwqQxFcXvH1injeO8xz8xIY29SHlvV9texYY12lgZKos3Nz/++/GgyOC8Iae1hjPLeLc6TO2YMykQ08DRJ+RPgbiYmT3lfWR+/yVRc/5LcMiPUIWnnaVlclyk5y8wiz+o0EDmZahTo+H5n4xbZMO68d6x5HUfJmPFmsdP939q8iGRi4XkGb5pL1s=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1801MB1918.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?eTRobE0rc2lCMU5nK0g1aG1kZ3dMZGdPcDNrYVlMZTNlOGtDQWtjS2VaRDlE?=
- =?utf-8?B?OTBUckt3UzI5WjJ6a2xHTkRxWVYvVkk2bjM2RkNhQ0E2TGJja1V4cnJnREFx?=
- =?utf-8?B?djJxSXpDaVZKVVNsdkJ3MVZjK1VvWXdPQVY1NVpCSkZLM0loOC9uU2c1VW1r?=
- =?utf-8?B?VXZ0REhCaEtaSDBOdlF4MFpSY0hOSTZkRGhBNlh2RGMvVm41dnlDMGZQdFhV?=
- =?utf-8?B?akRFYStlSUFiY2xjOWNpOVdHWmhlZWlubXFNZU0zSWtLWTVvcUpEY3B4WEIw?=
- =?utf-8?B?cHNQNklsc0F0MVB4eVQ1cjNkaFREUlB1cWM0d3I2WDJYSHpDRkx6U25YaXdk?=
- =?utf-8?B?cHQ5ZHpPZXZVNmtKVG9VczBlZ3BxZm9CVzJ4bXQ0QlZmanphdTRtQ1FJVUht?=
- =?utf-8?B?eXB4dnZKWTNTRk5WdVliNEJlYlQrSVRUdVExRXVITWR4NU15emY4VEZuQnVH?=
- =?utf-8?B?YXkvV0l1L2JGejJYViszVmpJM3FnNFJRRlpXNjg4OXlrMDNSUGNMaVc1Qjhv?=
- =?utf-8?B?M1Axb3Z4WVVVOGo2eCtJYXRFNjdrOUFNaEQvRXhFTFJ2QjZpZ2tOTGJFY21l?=
- =?utf-8?B?dmxRY0ZBUUswRm1uMGFaQXcyRVB4Q1pLUWtRODdkNklXWFV3NDdRZWxqUGV1?=
- =?utf-8?B?dHk3OUJzK3dURE5qQmxkeDI0ay8zWi8vdWJzNDRDS04wMVJqMyt5UFVRNkVt?=
- =?utf-8?B?L1pLY1pHM1R6SEJHTTlTb1BIUnR2dmp3WThiMHh3R1J2WTZubXBHL09GQTdy?=
- =?utf-8?B?d1hxSGwyczNHKzBVSWVrMzY1dVozNFQvckdhOU1mVDMycmEwWW84NmtmZEcz?=
- =?utf-8?B?bjRkZ0QzMVBmeHc3OWhyZDRmNVlQampuTnVmcGpPQUQvL0JPbXl3WXRwYVhs?=
- =?utf-8?B?cG13R010RUNwTmdsem5VR0xIdWZUc0lzZUY1b3FEZTZNdmxCTXFoSGtJYUd6?=
- =?utf-8?B?dG9OaytHNUREV29YRjFLQmhZL3RTcXdhTDhNYlAzMlhCenN5eXRXYVJUU3Fu?=
- =?utf-8?B?THpQdjJMa0pqZHg0NkVwRjJObmhJbXQ0cGdoajdnbVg3OS9aVFZFa2U0L214?=
- =?utf-8?B?aCtnTFlmZy9kNytra2NoOHhxa1FwQWFSUU1UZ2VMSGQ1SlV6MEovVXhSanc4?=
- =?utf-8?B?Y21MZTh6RHpYaitDdXZ0QTZJL2NZM2NOZi9mRHRlbDhEdmVzbUk2S1dFbE1m?=
- =?utf-8?B?V0l1UmhhSGI4b1JyQzkxcmlXYzlhdFpGeW5TZVROeE5TS3RIMXNoUFRhbWla?=
- =?utf-8?B?N1lQN2svMnc5N2JlSzBsMjVLY3NkRGYwcmxUeHhTQVhEdWZGS0JzUlQ4RGlF?=
- =?utf-8?B?WUxHZTU5aW9YNTBIWGpjaHNvSm9KZmxjbXlGNEE2MmN4UE5YRXpORXNzWTZG?=
- =?utf-8?B?alB4cFp2Y0ZacmZKOHdEQXNOUzNNRHplb0tJeVBJY3I1UTZ6dmY4REhhTmRo?=
- =?utf-8?B?b2tMRXN6bllQNEZkNzhJZEY4cTU0QVNtZzNqUkRyS2FwTnJKUm9Xd0lhV1Rn?=
- =?utf-8?B?Wjl5R1ZxOE9KT1FvTUp4aE1JRWNoc3dtS2l5dzZhR1hIRzJPVEY3OUFRbm1l?=
- =?utf-8?B?clFpVHphTXRuTkFyaFg5aklqZkM5eFkyR2FpaGNiYTVVVHRLU0VEY0czWU9v?=
- =?utf-8?B?OEJyWHA1c0FyWFduS0ZCZW1sTDMyVGJldXNUMDBodEg3aWxIV2NCamRrL3ky?=
- =?utf-8?B?Z0FBRWY1OGlnSEszZXp6QlVMWkZFcTdBSUQxL0J1b1ZTcG5kc1JEYnRoZmdK?=
- =?utf-8?B?SXNVd3JSckZlck9iNHVoVGhTbEkyQUg2eUgxZENHYXNpKzlleGo1bjdzRzhm?=
- =?utf-8?B?Wm9YRVArZTBwb1M2TE0vZXdLOTRGQ3BUR29oNnlBbUFmQ09QNlpXTy9Ub3lY?=
- =?utf-8?B?c1FsdTc4aUhXNzlobjh6eXczdjFOWG9uNXh5aVRYRFp2RTNuTi9jZi9ZaHRn?=
- =?utf-8?B?UFVWYXVHUnFSQk9OOFVUWEdzSHloRWVTYnV2WTg0LzZSRHFTM29idkMxdjF5?=
- =?utf-8?B?UlBZUzVsQnpjdFllMlJUSXVQVDU4bXVVQ0JQTHhDdExCMzFaRVNqbDNoV0t6?=
- =?utf-8?B?S01iSE9XMDRTT29XdldMbFdxUVd4SmFaSGFCRjRKWVJrdUlXRitwdXZFODhI?=
- =?utf-8?Q?qAY+CVARFZ5pVfAft0hfNcLtr?=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E66446A2;
+	Wed, 13 Mar 2024 14:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710341563; cv=none; b=gU489fOL2gHTYZg3zGSLseZLL/t0SUuhe/7a0vh1VjweDgYlxhYJYg9uVy5AtrB1/NGh1TVj6WQ5pi6wlkdcJLHpMCd6u0XQhDV5W8Fdhj8hes1ImNBT/bXrh8W2S4LEOzJitFZvC2MWerkBsNgduZbXlkRP3nyeicFl76aoI7Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710341563; c=relaxed/simple;
+	bh=wRUrD3Ulnv6bcx0ziZA5RH4Fr2ljhTZG8fdkWrlWbJU=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=oTaCV5fzcHLNsJIzbtoEKKBj7oCOGlfbQnRmyKGTG2q3aSUQDqg5k50xJ+Yw5rLbwFeMv3ju7n343vtSV8RAXY2wweRNVGBqOiTPXxlPORhI+I7E989kPY6yZkEaS5TB1GkLQIXQYHKZOcUyRBK/gHTq69pFySrEiepjUXHYCQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bVcu0QED; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B408899;
+	Wed, 13 Mar 2024 15:52:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710341534;
+	bh=wRUrD3Ulnv6bcx0ziZA5RH4Fr2ljhTZG8fdkWrlWbJU=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=bVcu0QEDufYyMVK7Xo5KAb7UXIYAhd3LtqeDokj1aLif44xic5jTSy4ap9wdwMkPm
+	 xrj/D3gnsIq9oM05vTT1QIVfLqfFPuv0mHo7oRGzg5fEeBHbOetMKVuCZVydEgZRdP
+	 80ev1jzT801ntAPTonmvMFNyqNKnOdeO/XeDIQlA=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1801MB1918.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c6935c3-dd3c-45cc-300e-08dc436a4c42
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2024 14:31:40.4515
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LKFEnSh+D/ZklC0CWrGvKVZ4UlFCPcTk2psIo4viS4gHhnfZm9T7r9IKx5Yp6dXuE4PBxpH415lSMKzFInapDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR18MB5462
-X-Proofpoint-GUID: 7ZxdJsZ2tODeqY2y9X2Iv0lWJIt2JRis
-X-Proofpoint-ORIG-GUID: 7ZxdJsZ2tODeqY2y9X2Iv0lWJIt2JRis
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-13_09,2024-03-12_01,2023-05-22_02
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240313070705.91140-3-umang.jain@ideasonboard.com>
+References: <20240313070705.91140-1-umang.jain@ideasonboard.com> <20240313070705.91140-3-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v3 2/2] media: i2c: Add imx283 camera sensor driver
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, willl will <will@willwhang.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, tomi.valkeinen@ideasonboard.com, Umang Jain <umang.jain@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>, Alain Volmat <alain.volmat@foss.st.com>, Paul Elder <paul.elder@ideasonboard.com>, Mehdi Djait <mehdi.djait@bootlin.com>, Bingbu Cao <bingbu.cao@intel.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, linux-kernel@vger.kernel.org
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
+Date: Wed, 13 Mar 2024 14:52:34 +0000
+Message-ID: <171034155409.1011926.3990407129363039340@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-PiBGcm9tOiBKdWxpZW4gUGFuaXMgPGpwYW5pc0BiYXlsaWJyZS5jb20+DQo+IFNlbnQ6IFdlZG5l
-c2RheSwgTWFyY2ggMTMsIDIwMjQgNzozNCBQTQ0KPiBPbiAzLzEzLzI0IDE0OjQ0LCBSYXRoZWVz
-aCBLYW5ub3RoIHdyb3RlOg0KPiA+IE9uIDIwMjQtMDMtMTIgYXQgMTg6NTI6MzksIEp1bGllbiBQ
-YW5pcyAoanBhbmlzQGJheWxpYnJlLmNvbSkgd3JvdGU6DQo+ID4+IFRoaXMgcGF0Y2ggYWRkcyBY
-RFAgc3VwcG9ydCB0byBUSSBBTTY1IENQU1cgRXRoZXJuZXQgZHJpdmVyLg0KPiA+IGlzIHRoaXMg
-YSBuZXQtbmV4dCBpdGVtID8NCj4gDQo+IEluaXRpYWxseSBJIHdvcmtlZCBvbiB0b3Agb2YgbWFp
-bmxpbmUga2VybmVsIHY2LjgtcmMxLiBUaGVuLCBJIGFsc28gZW5zdXJlZCB0aGF0DQo+IHRoZSBz
-ZXJpZXMgY291bGQgYmUgYXBwbGllZCBvbiB0b3Agb2YgbmV0LW5leHQvbWFpbi4NCj4gDQpQbGVh
-c2UgcG9zdCB0byBuZXQtbmV4dCA7IG9uY2UgaXQgaXMgb3Blbg0KDQpodHRwczovL3BhdGNod29y
-ay5ob3B0by5vcmcvbmV0LW5leHQuaHRtbA0K
+Hi Umang,
+
+Some corrections to make on the frame/mode timings below that we seem to
+have missed before.
+
+Quoting Umang Jain (2024-03-13 07:06:59)
+> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>=20
+> Add a v4l2 subdevice driver for the Sony IMX283 image sensor.
+>=20
+> The IMX283 is a 20MP Diagonal 15.86 mm (Type 1) CMOS Image Sensor with
+> Square Pixel for Color Cameras.
+>=20
+> The following features are supported:
+> - Manual exposure an gain control support
+> - vblank/hblank/link freq control support
+> - Test pattern support control
+> - Arbitrary horizontal and vertical cropping
+> - Supported resolution:
+>   - 5472x3648 @ 20fps (SRGGB12)
+>   - 5472x3648 @ 25fps (SRGGB10)
+>   - 2736x1824 @ 50fps (SRGGB12)
+>=20
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  MAINTAINERS                |    1 +
+>  drivers/media/i2c/Kconfig  |   10 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/imx283.c | 1596 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1608 insertions(+)
+>  create mode 100644 drivers/media/i2c/imx283.c
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 32f790c3a5f9..8169f0e41293 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20375,6 +20375,7 @@ L:      linux-media@vger.kernel.org
+>  S:     Maintained
+>  T:     git git://linuxtv.org/media_tree.git
+>  F:     Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
+> +F:     drivers/media/i2c/imx283.c
+> =20
+>  SONY IMX290 SENSOR DRIVER
+>  M:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 4c3435921f19..2090b06b1827 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -153,6 +153,16 @@ config VIDEO_IMX274
+>           This is a V4L2 sensor driver for the Sony IMX274
+>           CMOS image sensor.
+> =20
+> +config VIDEO_IMX283
+> +       tristate "Sony IMX283 sensor support"
+> +       select V4L2_CCI_I2C
+> +       help
+> +         This is a V4L2 sensor driver for the Sony IMX283
+> +         CMOS image sensor.
+> +
+> +         To compile this driver as a module, choose M here: the
+> +         module will be called imx283.
+> +
+>  config VIDEO_IMX290
+>         tristate "Sony IMX290 sensor support"
+>         select REGMAP_I2C
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index dfbe6448b549..0fbd81f9f420 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -48,6 +48,7 @@ obj-$(CONFIG_VIDEO_IMX214) +=3D imx214.o
+>  obj-$(CONFIG_VIDEO_IMX219) +=3D imx219.o
+>  obj-$(CONFIG_VIDEO_IMX258) +=3D imx258.o
+>  obj-$(CONFIG_VIDEO_IMX274) +=3D imx274.o
+> +obj-$(CONFIG_VIDEO_IMX283) +=3D imx283.o
+>  obj-$(CONFIG_VIDEO_IMX290) +=3D imx290.o
+>  obj-$(CONFIG_VIDEO_IMX296) +=3D imx296.o
+>  obj-$(CONFIG_VIDEO_IMX319) +=3D imx319.o
+> diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
+> new file mode 100644
+> index 000000000000..81fe2d4fd4d3
+> --- /dev/null
+> +++ b/drivers/media/i2c/imx283.c
+> @@ -0,0 +1,1596 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * V4L2 Support for the IMX283
+> + *
+> + * Diagonal 15.86 mm (Type 1) CMOS Image Sensor with Square Pixel for Co=
+lor
+> + * Cameras.
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy.
+> + *
+> + * Based on Sony IMX283 driver prepared by Will Whang
+> + *
+> + * Based on Sony imx477 camera driver
+> + * Copyright (C) 2019-2020 Raspberry Pi (Trading) Ltd
+> + */
+> +
+...
+> +/* Mode : resolution and related config values */
+> +struct imx283_mode {
+> +       unsigned int mode;
+> +
+> +       /* Bits per pixel */
+> +       unsigned int bpp;
+> +
+> +       /* Frame width */
+> +       unsigned int width;
+> +
+> +       /* Frame height */
+> +       unsigned int height;
+> +
+> +       /*
+> +        * Minimum horizontal timing in pixel-units
+> +        *
+> +        * Note that HMAX is written in 72MHz units, and the datasheet as=
+sumes a
+> +        * 720MHz link frequency. Convert datasheet values with the follo=
+wing:
+> +        *
+> +        * For 12 bpp modes (480Mbps) convert with:
+> +        *   hmax =3D [hmax in 72MHz units] * 480 / 72
+> +        *
+> +        * For 10 bpp modes (576Mbps) convert with:
+> +        *   hmax =3D [hmax in 72MHz units] * 576 / 72
+> +        */
+> +       u32 min_hmax;
+> +
+> +       /* minimum V-timing in lines */
+> +       u32 min_vmax;
+> +
+> +       /* default H-timing */
+> +       u32 default_hmax;
+> +
+> +       /* default V-timing */
+> +       u32 default_vmax;
+> +
+> +       /* minimum SHR */
+> +       u32 min_shr;
+> +
+> +       /*
+> +        * Per-mode vertical crop constants used to calculate values
+> +        * of IMX283REG_WIDCUT and IMX283_REG_VWINPOS.
+> +        */
+> +       u32 veff;
+> +       u32 vst;
+> +       u32 vct;
+> +
+> +       /* Horizontal and vertical binning ratio */
+> +       u8 hbin_ratio;
+> +       u8 vbin_ratio;
+> +
+> +       /* Optical Blanking */
+> +       u32 horizontal_ob;
+> +       u32 vertical_ob;
+> +
+> +       /* Analog crop rectangle. */
+> +       struct v4l2_rect crop;
+> +};
+...
+> +/* Mode configs */
+> +static const struct imx283_mode supported_modes_12bit[] =3D {
+> +       {
+> +               /* 20MPix 21.40 fps readout mode 0 */
+> +               .mode =3D IMX283_MODE_0,
+> +               .bpp =3D 12,
+> +               .width =3D 5472,
+> +               .height =3D 3648,
+> +               .min_hmax =3D 5914, /* 887 @ 480MHz/72MHz */
+> +               .min_vmax =3D 3793, /* Lines */
+> +
+> +               .veff =3D 3694,
+> +               .vst =3D 0,
+> +               .vct =3D 0,
+> +
+> +               .hbin_ratio =3D 1,
+> +               .vbin_ratio =3D 1,
+> +
+> +               /* 20.00 FPS */
+> +               .default_hmax =3D 6000, /* 900 @ 480MHz/72MHz */
+> +               .default_vmax =3D 4000,
+> +
+> +               .min_shr =3D 11,
+> +               .horizontal_ob =3D 96,
+> +               .vertical_ob =3D 16,
+> +               .crop =3D CENTERED_RECTANGLE(imx283_active_area, 5472, 36=
+48),
+> +       },
+> +       {
+> +               /*
+> +                * Readout mode 2 : 2/2 binned mode (2736x1824)
+> +                */
+> +               .mode =3D IMX283_MODE_2,
+> +               .bpp =3D 12,
+> +               .width =3D 2736,
+> +               .height =3D 1824,
+> +               .min_hmax =3D 1870, /* Pixels (362 * 360/72 + padding) */
+
+I believe this should be
+		.min_hmax =3D 2414, /* Pixels (362 * 480/72 + padding) */
+
+> +               .min_vmax =3D 3840, /* Lines */
+> +
+> +               /* 50.00 FPS */
+> +               .default_hmax =3D 1870, /* 362 @ 360MHz/72MHz */
+> +               .default_vmax =3D 3960,
+
+And for 50.00 FPS, these should be something like=20
+		.default_hmax =3D 2500, /* 375 @ 480/72 */
+		.default_vmax =3D 3840,
+
+> +
+> +               .veff =3D 1824,
+> +               .vst =3D 0,
+> +               .vct =3D 0,
+> +
+> +               .hbin_ratio =3D 2,
+> +               .vbin_ratio =3D 2,
+> +
+> +               .min_shr =3D 12,
+> +               .horizontal_ob =3D 48,
+> +               .vertical_ob =3D 4,
+> +
+> +               .crop =3D CENTERED_RECTANGLE(imx283_active_area, 5472, 36=
+48),
+> +       },
+> +};
+> +
+> +static const struct imx283_mode supported_modes_10bit[] =3D {
+> +       {
+> +               /* 20MPix 25.48 fps readout mode 1 */
+> +               .mode =3D IMX283_MODE_1,
+> +               .bpp =3D 10,
+> +               .width =3D 5472,
+> +               .height =3D 3648,
+> +               .min_hmax =3D 5960, /* 745 @ 576MHz / 72MHz */
+> +               .min_vmax =3D 3793,
+> +
+> +               /* 25.00 FPS */
+> +               .default_hmax =3D 1500, /* 750 @ 576MHz / 72MHz */
+
+This line has gone wrong somewhere. The default can't be lower than the
+min. I suspect it should be:
+
+			=3D 6000, /* 750 @ 576MHz / 72MHz */
+
+> +               .default_vmax =3D 3840,
+> +
+> +               .min_shr =3D 10,
+> +               .horizontal_ob =3D 96,
+> +               .vertical_ob =3D 16,
+> +               .crop =3D CENTERED_RECTANGLE(imx283_active_area, 5472, 36=
+48),
+> +       },
+> +};
+
+--
+Kieran
 
