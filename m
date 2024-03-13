@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-6971-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6972-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E252F87A38E
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 08:27:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 845DA87A38F
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 08:27:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98534283061
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 07:27:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7E4C1C21291
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 07:27:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB22118EB9;
-	Wed, 13 Mar 2024 07:26:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1022374D;
+	Wed, 13 Mar 2024 07:26:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwn8fpwN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sj3RUh/Z"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9214318629
-	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 07:26:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B91117585
+	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 07:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710314776; cv=none; b=UXViR+9dsNPj3MnxKEjwvpcBO9c/OtH92WbpAGDyd5vHegXQhvkVfpZ9m5LMLV8QC3ll+1ImMBw9uPF0qLSVXbi5kKn3uVZ2pBrjMYwQwNcN9MSBX0f+g4q7ZjZ2F9bxLQb3AO7I1yaq3CDm0iQfX+mgIWbeQE5GXgtD5v4N52U=
+	t=1710314776; cv=none; b=mb866FViklva4TkpcX3qjlQ2unjA0OGeZVxiAXwDVvWwKIu3VK09iaX3fumwX4Rl6pByuf0RrWOQCYFn+nRRrJZ2pQvttbFdq1fyX+uVUuMkUsaZv9qG3wHKgTUQUR7/NTAEhamRHVQvzI9pCbaVaBDQEcpQLGN45SaLzlN6lSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1710314776; c=relaxed/simple;
-	bh=7UqqVD2/3MOqUs8RMmU5XJcN/0Q1aMq2UboKc6CBAAE=;
+	bh=VaZTtx+bEhtq/pAbpdbVLBgvwfP46AHFTGNrZFgdFho=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QF89hKESAC5nX1S0b1osE5x8vIFCTgg4yvl0fQwQttlgsAkrkkmoe3rNK5ik5z1IPkFhIUTqkEZODWRmn2QtO+9t4bE/07ucSeaPSvT2v0MROg8ewwd74eaEAwwdKwr9QfeYDAmaJrEf4AQZyCuqsRoC0bVVaWhraG7IaxEPy5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwn8fpwN; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=PId4VjQZ+tBQtjzKU4Hx9i2TAz6HaO25UsKov/VHD0QFPcdWLhdA0eCvztMQ1wtLuW7o5pZT1cCauqRjPj2weaEL5K4Vo5zo9Z2hepOyfwFTMf1eZNKJ/Wf7vWR3sLOjyq3iiiTfdjsNCnUiN0/0NzdQfwa7hibqqlnCSrVo2nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sj3RUh/Z; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710314774; x=1741850774;
+  t=1710314775; x=1741850775;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=7UqqVD2/3MOqUs8RMmU5XJcN/0Q1aMq2UboKc6CBAAE=;
-  b=nwn8fpwN6aE5kGciikxrHGxN1TJr8IoBsppK6tFhOvru7TAC58z2tjxm
-   4Cop512u8msjwUxNfeLt2y3L9+0uq6KwoKR5if9oc777NiwxhHmnzkvr6
-   qjXrh9FrixsDsuoM9n5o/VnkRJQ9QPvthsbZYwIoJK7fmfrjE08qAiPg8
-   ntcYlZO6CK0noUW8+VSq7IdcSGFrc+vfTA9kYsrqMmSpA6bnFP8Np+9aA
-   380ke4/wV2Vm2RJxabcaRpVHmY3S16trQvCw5xE86HQl3YHl2ZzVY5Keg
-   lnOne62xIm3qJu5cQ2S/YntjnbyhI8r3B6n1Uo/qK7zHCJGiRpIPtHzqd
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4909336"
+  bh=VaZTtx+bEhtq/pAbpdbVLBgvwfP46AHFTGNrZFgdFho=;
+  b=Sj3RUh/Z2v+pmXv7AAOgOdCPgjfQTCfQzxHha+MrR6GnnWn2VIgTiYvd
+   B/Tok13HaScKQLcw+FG2tZyjFUdy0nMS5TXrL8smGAaQBJDv7mgw1U7Bu
+   w9WNobG/GQoJvwy1FFSQerTEuh2qrw+R7xDd1LLLPg3wH1VwOg7vc3S5i
+   Q8SxpfR7wubU26Dp7Vi23vIjZuxN5FElyCWhxshjsxJAcpF7sCVU8+ryX
+   LSR8nekoZeHugCE5+XdubVHeikxIKBrwkqE7l3K3JAonTKmZCZvtUWvql
+   h3zggx09bgjZyeo1/FNtO3j/HQ3FNB+ReKKma2w7A3DVk8SQX/wnugxaj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4909350"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4909336"
+   d="scan'208";a="4909350"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:26:14 -0700
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:26:15 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16542390"
+   d="scan'208";a="16542403"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:26:11 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 00:26:13 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1FD951203B3;
-	Wed, 13 Mar 2024 09:26:08 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 693FF1201C3;
+	Wed, 13 Mar 2024 09:26:09 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -69,9 +69,9 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH v8 35/38] media: ov2740: Add support for embedded data
-Date: Wed, 13 Mar 2024 09:25:13 +0200
-Message-Id: <20240313072516.241106-36-sakari.ailus@linux.intel.com>
+Subject: [PATCH v8 36/38] media: v4l: Add V4L2_SUBDEV_ROUTE_FL_IMMUTABLE sub-device routing flag
+Date: Wed, 13 Mar 2024 09:25:14 +0200
+Message-Id: <20240313072516.241106-37-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
 References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
@@ -83,254 +83,62 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for embedded data. This introduces two internal pads for pixel
-and embedded data streams. As the driver supports a single mode only,
-there's no need for backward compatibility in mode selection.
-
-The embedded data is configured to be placed before the image data whereas
-after the image data is the default.
+Add a flag to denote immutable routes, V4L2_SUBDEV_ROUTE_FL_IMMUTABLE.
+Such routes cannot be changed and they're always active.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ov2740.c | 150 +++++++++++++++++++++++++++++++++----
- 1 file changed, 137 insertions(+), 13 deletions(-)
+ Documentation/userspace-api/media/v4l/dev-subdev.rst         | 3 ++-
+ .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst      | 5 +++++
+ include/uapi/linux/v4l2-subdev.h                             | 5 +++++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index df57f0096e98..7488b2535071 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -11,6 +11,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/nvmem-provider.h>
- #include <linux/regmap.h>
-+#include <media/mipi-csi2.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -71,11 +72,31 @@
- #define OV2740_REG_ISP_CTRL00		0x5000
- /* ISP CTRL01 */
- #define OV2740_REG_ISP_CTRL01		0x5001
-+
-+/* Embedded data line location control */
-+#define OV2740_REG_EMBEDDED_FLAG	0x5a08
-+#define OV2740_EMBEDDED_FLAG_FOOTER	BIT(2) /* otherwise it's in header */
-+#define OV2740_EMBEDDED_FLAG_MYSTERY	BIT(1)
- /* Customer Addresses: 0x7010 - 0x710F */
- #define CUSTOMER_USE_OTP_SIZE		0x100
- /* OTP registers from sensor */
- #define OV2740_REG_OTP_CUSTOMER		0x7010
+diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+index 08495cc6f4a6..2f2423f676cf 100644
+--- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
++++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+@@ -572,7 +572,8 @@ internal pad always has a single stream only (0).
+ Routes from an internal source pad to an external source pad are typically not
+ modifiable but they can be activated and deactivated using the
+ :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+-on driver capabilities.
++on driver capabilities. This capatibility is indicated by the
++:ref:`V4L2_SUBDEV_ROUTE_FL_IMMUTABLE <v4l2-subdev-routing-flags>` flag.
  
-+enum {
-+	OV2740_PAD_SOURCE,
-+	OV2740_PAD_PIXEL,
-+	OV2740_PAD_META,
-+	OV2740_NUM_PADS,
-+};
-+
-+enum {
-+	OV2740_STREAM_PIXEL,
-+	OV2740_STREAM_META,
-+};
-+
-+#define OV2740_META_WIDTH		100U /* 97 bytes of actual data */
-+#define OV2740_META_HEIGHT		1U
-+
- struct nvm_data {
- 	struct nvmem_device *nvmem;
- 	struct regmap *regmap;
-@@ -513,7 +534,7 @@ static const struct ov2740_mode supported_modes_180mhz[] = {
+ Interaction between routes, streams, formats and selections
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+index 08b8d17cef3f..cd7735f9104e 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+@@ -139,6 +139,11 @@ Also ``VIDIOC_SUBDEV_S_ROUTING`` may return more route than the user provided in
+     * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+       - 0x0001
+       - The route is enabled. Set by applications.
++    * - V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
++      - 0x0002
++      - The route is immutable. Set by the driver. The
++	``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag of an immutable route may not be
++	changed.
  
- struct ov2740 {
- 	struct v4l2_subdev sd;
--	struct media_pad pad;
-+	struct media_pad pads[OV2740_NUM_PADS];
- 	struct v4l2_ctrl_handler ctrl_handler;
+ Return Value
+ ============
+diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+index ca543982460c..7e501cb45e4e 100644
+--- a/include/uapi/linux/v4l2-subdev.h
++++ b/include/uapi/linux/v4l2-subdev.h
+@@ -200,6 +200,11 @@ struct v4l2_subdev_capability {
+  * on a video node.
+  */
+ #define V4L2_SUBDEV_ROUTE_FL_ACTIVE		(1U << 0)
++/*
++ * Is the route immutable. The ACTIVE flag of an immutable route may not be
++ * changed.
++ */
++#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1U << 1)
  
- 	/* V4L2 Controls */
-@@ -976,6 +997,11 @@ static int ov2740_enable_streams(struct v4l2_subdev *sd,
- 	if (ret)
- 		goto out_pm_put;
- 
-+	ret = ov2740_write_reg(ov2740, OV2740_REG_EMBEDDED_FLAG, 1,
-+			       OV2740_EMBEDDED_FLAG_MYSTERY);
-+	if (ret)
-+		return ret;
-+
- 	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
- 			       OV2740_MODE_STREAMING);
- 	if (ret) {
-@@ -1013,23 +1039,49 @@ static int ov2740_disable_streams(struct v4l2_subdev *sd,
- 	return ret;
- }
- 
--static int ov2740_set_format(struct v4l2_subdev *sd,
--			     struct v4l2_subdev_state *sd_state,
--			     struct v4l2_subdev_format *fmt)
-+static int __ov2740_set_format(struct v4l2_subdev *sd,
-+			       struct v4l2_subdev_state *sd_state,
-+			       struct v4l2_mbus_framefmt *format,
-+			       enum v4l2_subdev_format_whence which,
-+			       unsigned int pad, unsigned int stream)
- {
-+	struct v4l2_mbus_framefmt *src_pix_fmt, *src_meta_fmt, *pix_fmt,
-+		*meta_fmt;
- 	struct ov2740 *ov2740 = to_ov2740(sd);
- 	const struct ov2740_mode *mode;
- 	s32 vblank_def, h_blank;
- 
-+	/*
-+	 * Allow setting format on internal pixel pad as well as the source
-+	 * pad's pixel stream (for compatibility).
-+	 */
-+	if (pad == OV2740_PAD_SOURCE || pad == OV2740_PAD_META ||
-+	    stream == OV2740_STREAM_META) {
-+		*format = *v4l2_subdev_state_get_format(sd_state, pad, stream);
-+		return 0;
-+	}
-+
-+	pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_PIXEL, 0);
-+	meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_META, 0);
-+	src_pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-+						   OV2740_STREAM_PIXEL);
-+	src_meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-+						    OV2740_STREAM_META);
-+
- 	mode = v4l2_find_nearest_size(ov2740->supported_modes,
- 				      ov2740->supported_modes_count,
- 				      width, height,
--				      fmt->format.width, fmt->format.height);
-+				      format->width, format->height);
-+	ov2740_update_pad_format(mode, pix_fmt);
-+	*format = *src_pix_fmt = *pix_fmt;
- 
--	ov2740_update_pad_format(mode, &fmt->format);
--	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-+	meta_fmt->code = MEDIA_BUS_FMT_OV2740_EMBEDDED;
-+	meta_fmt->width = OV2740_META_WIDTH;
-+	meta_fmt->height = OV2740_META_HEIGHT;
-+	*src_meta_fmt = *meta_fmt;
-+	src_meta_fmt->code = MEDIA_BUS_FMT_META_10;
- 
--	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+	if (which == V4L2_SUBDEV_FORMAT_TRY)
- 		return 0;
- 
- 	ov2740->cur_mode = mode;
-@@ -1049,6 +1101,14 @@ static int ov2740_set_format(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static int ov2740_set_format(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *sd_state,
-+			     struct v4l2_subdev_format *fmt)
-+{
-+	return __ov2740_set_format(sd, sd_state, &fmt->format, fmt->which,
-+				   fmt->pad, fmt->stream);
-+}
-+
- static int ov2740_enum_mbus_code(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_state *sd_state,
- 				 struct v4l2_subdev_mbus_code_enum *code)
-@@ -1085,10 +1145,68 @@ static int ov2740_enum_frame_size(struct v4l2_subdev *sd,
- static int ov2740_init_state(struct v4l2_subdev *sd,
- 			     struct v4l2_subdev_state *sd_state)
- {
-+	struct v4l2_subdev_route routes[] = {
-+		{
-+			.sink_pad = OV2740_PAD_PIXEL,
-+			.source_pad = OV2740_PAD_SOURCE,
-+			.source_stream = OV2740_STREAM_PIXEL,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-+		}, {
-+			.sink_pad = OV2740_PAD_META,
-+			.source_pad = OV2740_PAD_SOURCE,
-+			.source_stream = OV2740_STREAM_META,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-+		},
-+	};
-+	struct v4l2_subdev_krouting routing = {
-+		.routes = routes,
-+		.num_routes = ARRAY_SIZE(routes),
-+	};
-+	struct v4l2_subdev_state *active_state;
-+	struct v4l2_mbus_framefmt format = { 0 };
- 	struct ov2740 *ov2740 = to_ov2740(sd);
-+	int ret;
-+
-+	ret = v4l2_subdev_set_routing(sd, sd_state, &routing);
-+	if (ret)
-+		return ret;
-+
-+	active_state = v4l2_subdev_get_locked_active_state(sd);
-+
-+	ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
-+
-+	return __ov2740_set_format(sd, sd_state, &format,
-+				   active_state == sd_state ?
-+				   V4L2_SUBDEV_FORMAT_ACTIVE :
-+				   V4L2_SUBDEV_FORMAT_TRY, OV2740_PAD_PIXEL, 0);
-+}
-+
-+static int ov2740_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-+				 struct v4l2_mbus_frame_desc *desc)
-+{
-+	struct v4l2_mbus_frame_desc_entry *entry = desc->entry;
-+	struct v4l2_subdev_state *sd_state;
-+	struct v4l2_mbus_framefmt *fmt;
-+
-+	desc->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-+
-+	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
-+	fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-+					   OV2740_STREAM_PIXEL);
-+	entry->pixelcode = fmt->code;
-+	v4l2_subdev_unlock_state(sd_state);
-+
-+	entry->stream = OV2740_STREAM_PIXEL;
-+	entry->bus.csi2.dt = MIPI_CSI2_DT_RAW10;
-+	entry++;
-+	desc->num_entries++;
-+
-+	entry->pixelcode = MEDIA_BUS_FMT_META_8;
-+	entry->stream = OV2740_STREAM_META;
-+	entry->bus.csi2.dt = MIPI_CSI2_DT_GENERIC_LONG(1);
-+	entry++;
-+	desc->num_entries++;
- 
--	ov2740_update_pad_format(&ov2740->supported_modes[0],
--				 v4l2_subdev_state_get_format(sd_state, 0));
- 	return 0;
- }
- 
-@@ -1103,6 +1221,7 @@ static const struct v4l2_subdev_pad_ops ov2740_pad_ops = {
- 	.enum_frame_size = ov2740_enum_frame_size,
- 	.enable_streams = ov2740_enable_streams,
- 	.disable_streams = ov2740_disable_streams,
-+	.get_frame_desc = ov2740_get_frame_desc,
- };
- 
- static const struct v4l2_subdev_ops ov2740_subdev_ops = {
-@@ -1369,11 +1488,16 @@ static int ov2740_probe(struct i2c_client *client)
- 	}
- 
- 	ov2740->sd.state_lock = ov2740->ctrl_handler.lock;
--	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
- 	ov2740->sd.entity.ops = &ov2740_subdev_entity_ops;
- 	ov2740->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
--	ov2740->pad.flags = MEDIA_PAD_FL_SOURCE;
--	ret = media_entity_pads_init(&ov2740->sd.entity, 1, &ov2740->pad);
-+	ov2740->pads[OV2740_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-+	ov2740->pads[OV2740_PAD_PIXEL].flags =
-+		MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-+	ov2740->pads[OV2740_PAD_META].flags =
-+		MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-+	ret = media_entity_pads_init(&ov2740->sd.entity,
-+				     ARRAY_SIZE(ov2740->pads), ov2740->pads);
- 	if (ret) {
- 		dev_err_probe(dev, ret, "failed to init entity pads\n");
- 		goto probe_error_v4l2_ctrl_handler_free;
+ /**
+  * struct v4l2_subdev_route - A route inside a subdev
 -- 
 2.39.2
 
