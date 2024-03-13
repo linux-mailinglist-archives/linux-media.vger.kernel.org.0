@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-7020-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7021-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BEF787AFE0
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 19:37:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A3087AFE5
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 19:38:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D64C1C25EFA
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 18:37:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1F8B289D89
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 18:38:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EF9F626D8;
-	Wed, 13 Mar 2024 17:23:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A7B6629E0;
+	Wed, 13 Mar 2024 17:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ias5kLdF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u4QWTDLS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B341626B4;
-	Wed, 13 Mar 2024 17:23:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4826280B;
+	Wed, 13 Mar 2024 17:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710350607; cv=none; b=Emur821Q1OSO9y69kV0ygMl9O/1WqzQjTv2psVftk1BPeZGRb+JRYAB+/rfNbVt8XL82Xtk+VVnCdPjjCOPS8z2ZcXNU/53aMEIYUv6g1CSVtlOScqMAiWVqyH+caqMsviQ3NY/I1ywXwwHzV4n4BE9PfOJHE4svSYRBSYEVwqw=
+	t=1710350671; cv=none; b=N0DY0lvt8HhNSfI7mfR/yZ/QdjORlacLZ5at2VktSJEo198kxrRiEF7LiBTkk50WEHpGMgdRFYGq6n7kKVKd7KtLsW2VPDDK6L6CLnAlqxxFzp7kDbBC+AkzdGnOJZhcGxQ3MCKM+eOl7+E4+LN626bLfo9ya6pkzUJqsvwvZFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710350607; c=relaxed/simple;
-	bh=PAjE7BPOCrbybCWWbaLc6x+dJTUxbHq0aBWL3JN7HUI=;
+	s=arc-20240116; t=1710350671; c=relaxed/simple;
+	bh=0G6tQ6qb1wy4fRsOONK7qWXg2LzQwXihYTJ0PSj1DRM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BIbGrzUZiwEOBSWgtnTIUZzB+siw3oNIdbKNod5ztHDKRKQ3ZfluDES5YRUxrA4ZkfVMgOraGFVjI2lGCMdv7+TkM3gpZFnJdBoJtuuqTVLfv5huMTfCITF7ealac477dnWHNe6Nr1TcX9wAzK9XeUqlmWW0r8btiKZqW4S3vDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ias5kLdF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F2F2C433C7;
-	Wed, 13 Mar 2024 17:23:22 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ucJr34oyOjpdeygpQKm5Hkpo82yvd8UhIWhhq7BG8cFYF+OYZwdE7guHr25S4RCgmQ5IbbpxTWtNzbij4NhAsQD8FMvzPVUx9aoCYfX2iZusYyMQmlPTX72Pgse1FeXvLmdgMc+jC5J09ohB6DPMGTRwyMxgvY8t7A2ZRQxFIIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u4QWTDLS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D68B9C433C7;
+	Wed, 13 Mar 2024 17:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710350607;
-	bh=PAjE7BPOCrbybCWWbaLc6x+dJTUxbHq0aBWL3JN7HUI=;
+	s=k20201202; t=1710350670;
+	bh=0G6tQ6qb1wy4fRsOONK7qWXg2LzQwXihYTJ0PSj1DRM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ias5kLdFpwbVTOnuFBiHfowtvPUTf/oQeYy8ydLpumuvXSWAV5hvswhDSaUXbFeuz
-	 eUu9fC0u60jN7riKiX4kTa7tqZAA6p+j9W7Rqk7esgtV/DK5AlXr0qshOjm/iTBLG8
-	 lPIlYKHkaCsCCcgVq4tlqGSpiNQy5+KVia6zOs3yfcSyYeUZMALoTqx6z2LOncLoVX
-	 +gH4xSWs4c7ATGhaBWq8OT7aALAKbpIKDRn+jx6UFLNIqTUVO9eweTyL4QbPiApksn
-	 aE8Q8tDD8/9THGnlBzvNB9Cb4UCBR9vyZ4gW8RLpIZ9sguYmL0JT3Uzhf2og6TmLoK
-	 kiO0XuPWMvZbg==
-Date: Wed, 13 Mar 2024 17:23:19 +0000
+	b=u4QWTDLStOQw4Goek0IKIpEdeUGflrD6+Ri9QAQ2sG2QdJWl50JmaF48yg2y4GUU8
+	 a5hlJmNEKLjSQ8eISp9Pt7Qe71uB/WBHh/mz8rlP8NbTdA0BExiLykWkzPriuBuHC5
+	 N6welpQ79LSTFw+yy/99QS8iG2tIfT5FVkkfVEYSaAH9rw16kknZeW3PXfdvMcCXY3
+	 WcLxnJaleA2GDiUycERB+HA/spu9dw3DryEPtizlnV+GqhxGET6yz7r/EFUmTrYRV+
+	 yzfJLVs1jAornCo+Rn9Bf4BfgUuvCtqArlWCgADoAPQCIruW8/8XwuYZUOmKb+nJAH
+	 qW9NuL0kb39eQ==
+Date: Wed, 13 Mar 2024 17:24:22 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Alexandre Mergnat <amergnat@baylibre.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
@@ -61,11 +61,11 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
 	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
 	Nicolas Belin <nbelin@baylibre.com>
 Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
-Message-ID: <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+Message-ID: <594cff80-9cd8-45cc-939b-532f9402940c@sirena.org.uk>
 References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
  <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
  <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
- <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
+ <ef4da1f6-d3c5-4484-8df5-1a04df4453a0@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,94 +73,52 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bu1f4F19CTgWKqA0"
+	protocol="application/pgp-signature"; boundary="n0CJkGczErMrH2GD"
 Content-Disposition: inline
-In-Reply-To: <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
+In-Reply-To: <ef4da1f6-d3c5-4484-8df5-1a04df4453a0@baylibre.com>
 X-Cookie: It's later than you think.
 
 
---bu1f4F19CTgWKqA0
+--n0CJkGczErMrH2GD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
+On Wed, Mar 13, 2024 at 06:11:50PM +0100, Alexandre Mergnat wrote:
 > On 26/02/2024 17:09, Mark Brown wrote:
+> > > index 000000000000..13e95c227114
+> > > --- /dev/null
+> > > +++ b/sound/soc/codecs/mt6357.c
+> > > @@ -0,0 +1,1805 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * MT6357 ALSA SoC audio codec driver
 
-> > > +	case MT6357_ZCD_CON2:
-> > > +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
-> > > +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =3D
-> > > +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
-> > > +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =3D
-> > > +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
-> > > +		break;
+> > Please use a C++ comment for the whole comment to make it clearer that
+> > this is intentional.
 
-> > It would probably be less code and would definitely be clearer and
-> > simpler to just read the values when we need them rather than constatly
-> > keeping a cache separate to the register cache.
+> If I do that, the checkpatch raise a warning:
 
-> Actually you must save the values because the gain selected by the user w=
-ill
-> be override to do a ramp =3D> volume_ramp(.....):
-> - When you switch on the HP, you start from gain=3D-40db to final_gain
-> (selected by user).
-> - When you switch off the HP, you start from final_gain (selected by user)
-> to gain=3D-40db.
+> WARNING: Improper SPDX comment style for
+> 'sound/soc/mediatek/mt8365/mt8365-afe-clk.c', please use '//' instead
+> #22: FILE: sound/soc/mediatek/mt8365/mt8365-afe-clk.c:1:
+> +/* SPDX-License-Identifier: GPL-2.0
 
-You can just read the value back when you need to do a ramp?
+That's not a C++ comment so checkpatch is correctly warning?
 
-> Also, the microphone's gain change when it's enabled/disabled.
-
-I don't understand what this means?
-
-> > > +	/* ul channel swap */
-> > > +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT,=
- 1, 0),
-
-> > On/off controls should end in Switch.
-
-> Sorry, I don't understand your comment. Can you reword it please ?
-
-See control-names.rst.  Run mixer-test on a card with this driver and
-fix all the issues it reports.
-
-> > > +static int hslo_mux_map_value[] =3D {
-> > > +	0x0, 0x1, 0x2, 0x3,
-> > > +};
-
-> > Why not just use a normal mux here, there's no missing values or
-> > reordering?  Similarly for other muxes.
-
-> I've dug into some other codecs and it's done like that, but I've probably
-> misunderstood something.
-
-> The only bad thing I see is enum is missing currently:
->=20
-> enum {
-> 	PGA_MUX_OPEN =3D 0,
-> 	PGA_MUX_DACR,
-> 	PGA_MUX_PB,
-> 	PGA_MUX_TM,
-> 	PGA_MUX_MASK =3D 0x3,
-> };
-
-The whole thing with explicitly specfying the mapping is just completely
-redundant, you may as well remove it.
-
---bu1f4F19CTgWKqA0
+--n0CJkGczErMrH2GD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXx4QYACgkQJNaLcl1U
-h9Cq8gf/c3/T6nZpwn3qjvPt1GYUFUscyy2lTACU0mVHAjCBiaczv/OAoKQGmNpm
-Gg9Lnezruu41314zpVUvu/pl80roWJoCd/b7/VjOp9lawXWnWalXNeqcaTSYne31
-FUzdFe4a+quH9LDo5Nv9AzMnLBokld6ELApXMG/Uxmd5HJn+unU5euMCTH0p4jKs
-H9ptL1meZwotydv6+TTT2jEc8PSdLUr7EdHa6z9/6ih5st+RrHoLI8iCDa3lkOfR
-muwbG4CNh9PqrI00X86GUDvHTv5cZsIPeOoVLgBEA3ouIO5RgX1uWMNW6J779WIa
-3olA/hHBePVDGwV6qVQKVWyLY8klXw==
-=LtHz
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXx4UYACgkQJNaLcl1U
+h9CP8Af+KlLX2plI/F5rZJ9p1uJukH33qkBAEGAHtzF9F3uGHLiua+/rxebEzeC1
+ZzIbUyRn+EDtKLerG/GM9tMrlGZgdnENt4T7jnE3Hw0hU+aQJ0IUtB6WnRpyjsON
+MFroY93dAi8Yyn1mt0uFzgYEIbBje/+TBiUxqyVzrzIWq1OH/OBN4NmNqPVv3H2p
+QttacOYxX77On2LGDbnqRcfv30n8mvJgrYBwy9OsvutAJ8nllaYgzQDrME0N9JpY
+0lWOXhg99Mcmx0/SGmfuaNISBhwlwWvcKQ0Iq20Q+AiguyJmPt+kpNTm4Eh7kh+7
+9KdkRUEMFfJezI6fB13+outzifLipg==
+=yFuP
 -----END PGP SIGNATURE-----
 
---bu1f4F19CTgWKqA0--
+--n0CJkGczErMrH2GD--
 
