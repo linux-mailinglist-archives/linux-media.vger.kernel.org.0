@@ -1,180 +1,138 @@
-Return-Path: <linux-media+bounces-7018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF9387AE69
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 18:57:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4013487AFB5
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 19:32:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F156A1C23565
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 17:57:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9E6E1F2D6B8
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 18:32:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CA624D583;
-	Wed, 13 Mar 2024 16:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6121F7A73A;
+	Wed, 13 Mar 2024 17:11:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LW4Hr5WQ"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gSLH53Zu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19E818F36B;
-	Wed, 13 Mar 2024 16:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A221C446C9
+	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 17:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710348560; cv=none; b=hboicDR0A8CBycdh2kkGeGD39MH7kyPnk4d7tYx7omeUQpX0nKakOtkg1+UsTRBUvk5m1x8mKUg7kc1vSCSsqS05in6l2EMW6aoV4YB3Ukyjx983nk576iYMrsmwxclkNsOC2asDQ82TahViANv1AEG4BjrmvsvQm5NfQOt9lUs=
+	t=1710349918; cv=none; b=DzZaFsf44aviz0ktyDrvdDaKTO9ealwxjE1YxoPhoKvIHWARhAtmT3dRre0la+N6tBir0RMBrtmAI+A8gPkIghO9fOjC+B+eT9I4AuPlvCEXag684kBYZtuWz4WO3C7uQ1wzCR1KPF4gAl06cqHyvtIzRBnoacp101LZf88avJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710348560; c=relaxed/simple;
-	bh=2hQ6pSoQbMrt0XkGRzDOdvfmCtR4p2HXgr8RQCNnWOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pz5HCCkAxhkHd4mMGL3JhWSPYEQ+PC3TI7bHodLfJOKF/eqPGtU9jzU47hlaBQQJ0SnL7It359GP1tp0VxOfwcbf1C0sggx8oG2xYlY0xXbEmK3tdeXOSSmD3jZtLApZ3HOdP7IPnsNWETl5TOx+tDuyjzWetsri057rpGteXLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LW4Hr5WQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C5D10B1;
-	Wed, 13 Mar 2024 17:48:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710348533;
-	bh=2hQ6pSoQbMrt0XkGRzDOdvfmCtR4p2HXgr8RQCNnWOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LW4Hr5WQRELGatP+Rx39XsVdhYqzrluTYRPkZJc07OnmW1sIBdWdkjt8RYM0RfQEc
-	 9VvaLcJpVR9oRFhFrL6chX79fG46ZcWKNoaWgUgpx6LTuGkuSLbjFfqqSI3yHoJYvP
-	 xIG4xlhTnNQHgEYlL2gXycDR6GQT+n6jN9bZMz/M=
-Date: Wed, 13 Mar 2024 17:49:12 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH] mipi-csis: Emit V4L2_EVENT_FRAME_SYNC events
-Message-ID: <axrx5ynlyoyjgkhj3j4r5b6xfaxwetx4c7u5ngq5wunin5ynv6@qmvav4y3xczq>
-References: <20240313153058.189684-1-stefan.klug@ideasonboard.com>
+	s=arc-20240116; t=1710349918; c=relaxed/simple;
+	bh=yxoN1G+uMZp38YC1jCCVFNGNRYjvjcKz2fKoJoCswhk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OwpKrRzG1sNmbuOo3q3aO5CseYzG2WhSd4wOlB3eSZDSusOvvAsLx+4nDedjo17P6QwhDKoesA3kYmf2Kn8C2nFhvEw8U6X0PQk8Vm3tIZZSTHnPFOZ1FBgvGxr/xFjzis+qU0ECLmcAUvHWFQe4DeWhpS9D1rSEBCYluhFpH0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gSLH53Zu; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4132a5b38fbso694575e9.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 10:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710349913; x=1710954713; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DfCyEn4BBkDtIZTeeb4WXSUMa8UuweDcHmhz18/rnUY=;
+        b=gSLH53Zuf44lWqdRb6iA7fAwPJb93ikqPpRNFOPpYfvooXiydYnU+odaOlRyO42z6u
+         VXotUZw8YSGf6fcHH6+NQ7MX58v2AMxhatFk4F/eFXsYlS50Xk5RhDNN2rGQuaCnuMUa
+         7YifQyaqQs6KJfmP8+OKSAHjcHg8uoq0QdKQnfhnIt4goBeNoKKf92fO4n5O7XnzDuSP
+         4DpQisXF63e9RiSfAGbfJG98E2cGKIVJ4Ikw++1/+DL/U5RQ1Ht77cNgLT9OWfHUCxkt
+         yvu7t2IdNmeLpZJVWzthSlAVsSTgSl+zUezXUkoUuX5KJhsGLxUU35m+CRGs1DRoFR2P
+         U9LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710349913; x=1710954713;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DfCyEn4BBkDtIZTeeb4WXSUMa8UuweDcHmhz18/rnUY=;
+        b=NH5kT0MUO5U8DNj2rq50wLMWMSJyeewt1ta9Kj8/5SiKE3lScd/OP6aWpiD0kbDHs7
+         aU7iM6GFw+gQ4zvIdl3XhO/NmQBx0gZnHdnQgDMjPoSy7wOHQ3yLpBZ8Rl/Wcx7GZ5Il
+         xrXgP4lbRoTaA0JuaWFrqHT+oQssXOg8uroPf0BqHGbclyPowVHmokgMAhEPYk/fVaZy
+         v88dRcOH4Gen7az+pxk3CgCw6s2t1BrUVGMbvmxKJYl6v96MqW7elcj0EcIKMvu/qKWY
+         ws+qT/TuAHxr1usDJSqikdZfhHlM4kcGZNTUprEEB5GRuflOdqIPp2DeqdxGvr1wuNBA
+         SSqg==
+X-Forwarded-Encrypted: i=1; AJvYcCWFkWtFFEEdBgu76Kkw4OfsKzdrW6YrcLw4yMyIZq4/HT/iifVXvgncM3YpmyFzg1ycFd9HB1ZoIAt3xH67Yeojt7rDYzt+Y5wxH8E=
+X-Gm-Message-State: AOJu0YyebFgTFO1C6tMbXyYGCJ6nn/Hjnlb612E52J4OW36coKnR+goK
+	VAjdXlNvvfpahYZxdMse+ScSbjNsPdqXfNl4jodxq4jLdhnsUp5GLEWUA+9k8mM=
+X-Google-Smtp-Source: AGHT+IFz1KXw55V676KHOL/rzoBQjJ9Rihc/CWALu4Z7kIN17vZX/My8C/6xcsm62UiChBonG2y1pw==
+X-Received: by 2002:a05:600c:450c:b0:413:1285:6e40 with SMTP id t12-20020a05600c450c00b0041312856e40mr442329wmo.20.1710349912671;
+        Wed, 13 Mar 2024 10:11:52 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id ay23-20020a05600c1e1700b00412ff941abasm2920026wmb.21.2024.03.13.10.11.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Mar 2024 10:11:52 -0700 (PDT)
+Message-ID: <ef4da1f6-d3c5-4484-8df5-1a04df4453a0@baylibre.com>
+Date: Wed, 13 Mar 2024 18:11:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240313153058.189684-1-stefan.klug@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+ <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Stefan
 
-In Subject: missing the 'media:' prefix
 
-On Wed, Mar 13, 2024 at 04:30:58PM +0100, Stefan Klug wrote:
-> The Samsung CSIS Mipi receiver provides a start-of-frame interrupt and
+On 26/02/2024 17:09, Mark Brown wrote:
+>> index 000000000000..13e95c227114
+>> --- /dev/null
+>> +++ b/sound/soc/codecs/mt6357.c
+>> @@ -0,0 +1,1805 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * MT6357 ALSA SoC audio codec driver
+>> + *
+> Please use a C++ comment for the whole comment to make it clearer that
+> this is intentional.
 
-s/Mipi/MIPI/
+If I do that, the checkpatch raise a warning:
 
-> a framecount register. As the CSI receiver is the hardware unit
-> that lies closest to the sensor, the frame counter is the best we can
-> get on these devices.
-> In case of the ISI available on the i.MX8 M Plus it is also the only
-> native start-of-frame signal available.
->
-> This patch exposes the sof interrupt and the framecount as
-> V4L2_EVENT_FRAME_SYNC event on the subdevice.
->
-> It was tested on a Debix-Som-A with a 6.8-rc4 kernel.
->
-> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> ---
->  drivers/media/platform/nxp/imx-mipi-csis.c | 34 +++++++++++++++++++++-
->  1 file changed, 33 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> index db8ff5f5c4d3..caeb1622f741 100644
-> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -30,6 +30,7 @@
->
->  #include <media/v4l2-common.h>
->  #include <media/v4l2-device.h>
-> +#include <media/v4l2-event.h>
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-mc.h>
->  #include <media/v4l2-subdev.h>
-> @@ -742,6 +743,18 @@ static void mipi_csis_stop_stream(struct mipi_csis_device *csis)
->  	mipi_csis_system_enable(csis, false);
->  }
->
-> +static void mipi_csis_queue_event_sof(struct mipi_csis_device *csis)
-> +{
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_FRAME_SYNC,
-> +	};
-> +
-> +	u32 frame = mipi_csis_read(csis, MIPI_CSIS_FRAME_COUNTER_CH(0));
-> +
-> +	event.u.frame_sync.frame_sequence = frame;
-> +	v4l2_event_queue(csis->sd.devnode, &event);
-> +}
-> +
->  static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
->  {
->  	struct mipi_csis_device *csis = dev_id;
-> @@ -765,6 +778,10 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
->  				event->counter++;
->  		}
->  	}
-> +
-> +	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
-> +		mipi_csis_queue_event_sof(csis);
-> +
->  	spin_unlock_irqrestore(&csis->slock, flags);
->
->  	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status);
-> @@ -1154,8 +1171,23 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
->  	return 0;
->  }
->
-> +static int mipi_csis_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
-> +			       struct v4l2_event_subscription *sub)
+WARNING: Improper SPDX comment style for 
+'sound/soc/mediatek/mt8365/mt8365-afe-clk.c', please use '//' instead
+#22: FILE: sound/soc/mediatek/mt8365/mt8365-afe-clk.c:1:
++/* SPDX-License-Identifier: GPL-2.0
 
-Please align to open ( on the previous line
+WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+#22: FILE: sound/soc/mediatek/mt8365/mt8365-afe-clk.c:1:
++/* SPDX-License-Identifier: GPL-2.0
 
-All minors, with the above fixed
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+even if I put:
+/* SPDX-License-Identifier: GPL-2.0 */
 
-Thanks
-  j
+IMO, the checkpatch tool should be fixed/update first.
 
-> +{
-> +	if (sub->type != V4L2_EVENT_FRAME_SYNC)
-> +		return -EINVAL;
-> +
-> +	/* V4L2_EVENT_FRAME_SYNC doesn't require an id, so zero should be set */
-> +	if (sub->id != 0)
-> +		return -EINVAL;
-> +
-> +	return v4l2_event_subscribe(fh, sub, 0, NULL);
-> +}
-> +
->  static const struct v4l2_subdev_core_ops mipi_csis_core_ops = {
->  	.log_status	= mipi_csis_log_status,
-> +	.subscribe_event =  mipi_csis_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
->  };
->
->  static const struct v4l2_subdev_video_ops mipi_csis_video_ops = {
-> @@ -1358,7 +1390,7 @@ static int mipi_csis_subdev_init(struct mipi_csis_device *csis)
->  	snprintf(sd->name, sizeof(sd->name), "csis-%s",
->  		 dev_name(csis->dev));
->
-> -	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
->  	sd->ctrl_handler = NULL;
->
->  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> --
-> 2.40.1
->
->
+-- 
+Regards,
+Alexandre
 
