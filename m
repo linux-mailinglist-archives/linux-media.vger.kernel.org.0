@@ -1,74 +1,48 @@
-Return-Path: <linux-media+bounces-6975-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6976-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1249987A396
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 08:27:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB0387A39E
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 08:34:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 352AB1C21871
-	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 07:27:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C0E41F22160
+	for <lists+linux-media@lfdr.de>; Wed, 13 Mar 2024 07:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45F501798C;
-	Wed, 13 Mar 2024 07:27:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F5B8168CE;
+	Wed, 13 Mar 2024 07:34:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h1NB+p1A"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TSq/NOZz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0611642C
-	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 07:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EE0BE66
+	for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 07:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710314862; cv=none; b=cll8ZWg7et3OE/ZrKYfitZoct4aQ713o27AvCWr3SV2WNvyffP/9DQZPSvWSAviW6zcjD9OgwaoeRugOWRExlKm51ktanSaqj/+wgb55eBuck1J/mf7EjM0CDL9VPB0nYKCp8nUbAZX06M8EkX4zEiLaw8v7XHpNL45IvTXa2RU=
+	t=1710315261; cv=none; b=RdGsb1o6qjEK6bZS9g46DbHvxoUZiO3l0w7bg1aRS0bf16xXfzmB+7ve1qRs8Nl9mlMnc2HhcphotKO7vkhnXsvzUCY8TUNobHJWGC/gvxN/u3RngfOSqfT4j2ou+IDTwzYIhv/ebDsLzh47NPModD+olgVB8J8IIm15LfT2pA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710314862; c=relaxed/simple;
-	bh=UQpeLs6k21fjf3TEwTj3Mi1U5HHcFwjr0a4ST8kAcg8=;
+	s=arc-20240116; t=1710315261; c=relaxed/simple;
+	bh=0RQD8PcHWbXvWiI+jDHxCwCvK4kbMuoFLMyeWbJ07eE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dNAKhuBYkWVIUJFcmpbDUSxmT/v6jf6lFaIK9ETHLcvs+z7SEs2QPYaxybgI8IW0JOKaLkSZWWQVjDEZEodyOg9McwrkLclkHQ1aSiLiaUGO8qgH4IvnG7AzMKW/tZDD0zJu15xp36B3MsuMnYXBTvoQTwzmbWWBo7qPBiIAtVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h1NB+p1A; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33e92b3b5c9so3631013f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 13 Mar 2024 00:27:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710314859; x=1710919659; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UQpeLs6k21fjf3TEwTj3Mi1U5HHcFwjr0a4ST8kAcg8=;
-        b=h1NB+p1AgRPgV2d/3KNDYW2/DHWQmXp4PSjku8cyrFiBrmTV/sD+4cXJJaOcEddVkK
-         Lp/4TW55NYEeH49VlDSCJDsVnqcLUFnRlljoMXXY2bAFi4kAY0BYl63ECzPfKvwJAsRU
-         SLIdHgXHFSe3dDfYm6/3Uq8axoMZ4Y/hme1Tl/pf54wsO9MBH1q5ZsGq6LDEK5u4lIb/
-         bYIVb/nbVqI8EVoBK2ALQ0dbFBd69qGV3ifFwEo4EIH/Tsqu7L+KiXF5qmYu/9HADRaA
-         QdsM+N5lmv0KNJ9N3IJqC0SjxHI9Y3FPLRBDRnD6r/WwtG12+hJ4QkVTyilPQxPue/22
-         +2HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710314859; x=1710919659;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UQpeLs6k21fjf3TEwTj3Mi1U5HHcFwjr0a4ST8kAcg8=;
-        b=qqvidDrnDdMiHt9GLseAjuNxg4fvYTj83KR3hrhOBuDVTIPajnzNFEJYszXr69cZMQ
-         X97SjX1eJrxNxltuKlVGD7oiOZHyC4sRfnWmGGkV6z7s7daeBrDiRUAkFxYVc50XLDcH
-         Xi5cAKLdsSHvtLgigW4vxSKCAsE/7TbrEPUSTBUUIZhE0n9HQDTcL3jGHpGBkLiBLrpJ
-         MdqfNLhUfZ6F/CdeiTrPI8+sN+sitn6QrnsvaVulbu0v5ackD0VOUF+nv2yoDDkXTWE9
-         2Jh9ttEwmX65wtqEmb0tx2pjhdd9WWcLNEdJhI20UWZyTHgsCVXnNs9O6iqLOk/hETom
-         y17g==
-X-Forwarded-Encrypted: i=1; AJvYcCVMv118OZjQKmvpJAnB8pwodsZONQbluJWbwKd+04ie6app+j0dBDPhmXPNERRhL1lc2p1JZ++QFeTEnMx+fFfz6d82LXagt3YV8YU=
-X-Gm-Message-State: AOJu0Yy2u2jFEm+LogVlCTYxGJgLJ+9AUuqKu/D6maLsmf9CbEr19oSD
-	VpcNDzLLTPypRFq0Wzt0iEM3G/bjIYPlTYrDtgT6fPU4Bc8vXaGHY5PYmSkgGLs=
-X-Google-Smtp-Source: AGHT+IGo2tlYONdRZoKa7Jl42qigdC++13KAy9xFJFP4NAawX/lz480DKDC/9fL3i3uXyNI7LPqTpA==
-X-Received: by 2002:adf:fcc7:0:b0:33d:6ede:249a with SMTP id f7-20020adffcc7000000b0033d6ede249amr1041871wrs.69.1710314859561;
-        Wed, 13 Mar 2024 00:27:39 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id h3-20020adf9cc3000000b0033e73c58678sm10953784wre.15.2024.03.13.00.27.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Mar 2024 00:27:38 -0700 (PDT)
-Message-ID: <2121048f-bc56-4920-bcdd-c9cbafecefed@linaro.org>
-Date: Wed, 13 Mar 2024 08:27:36 +0100
+	 In-Reply-To:Content-Type; b=jZtMtwRpwO/OD+JT6wBXKABlOqcGIz8+j0KBiGsWn3HYXm19ivA5QQapEEIVsw5zOsbs2e0BUVyhL9WoxZtrY7lEOptvpKv6PEIRVnnb77oJckMtvKSjCncNrQ+Cph8FhJbthhc3F3Ma4ZwpFWKSNFwGy/LJXyyyR/ZYXJRk9UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TSq/NOZz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B37AA720;
+	Wed, 13 Mar 2024 08:33:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710315235;
+	bh=0RQD8PcHWbXvWiI+jDHxCwCvK4kbMuoFLMyeWbJ07eE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TSq/NOZz8hXodUw5oIKez1mrAcXO1OIAtH8ppBzWN52qLRIz/nz/5DpP5FESya5AG
+	 P7+FdA+R+b/k+Gy5sR00QPt0lIuANseWtgihMB8hhhBLGL+qFlWRCY/zidefFhMCTM
+	 JWh6WrFs6zgvAxBHvc6iq6/IEMuY9om9J6Ua5228=
+Message-ID: <9265171e-b4a7-468e-83b4-51af5e8823dc@ideasonboard.com>
+Date: Wed, 13 Mar 2024 09:34:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,87 +50,135 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] dt-bindings: xlnx: Add VTC and TPG bindings
+Subject: Re: [PATCH v8 36/38] media: v4l: Add V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
+ sub-device routing flag
 Content-Language: en-US
-To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com>
- <20240312-dp-live-fmt-v2-7-a9c35dc5c50d@amd.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240312-dp-live-fmt-v2-7-a9c35dc5c50d@amd.com>
-Content-Type: text/plain; charset=UTF-8
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+ Andrey Konovalov <andrey.konovalov@linaro.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Dmitry Perchanov <dmitry.perchanov@intel.com>,
+ "Ng, Khai Wen" <khai.wen.ng@intel.com>,
+ Alain Volmat <alain.volmat@foss.st.com>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-37-sakari.ailus@linux.intel.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240313072516.241106-37-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 13/03/2024 01:55, Anatoliy Klymenko wrote:
-> DO NOT MERGE. REFERENCE ONLY.
+On 13/03/2024 09:25, Sakari Ailus wrote:
+> Add a flag to denote immutable routes, V4L2_SUBDEV_ROUTE_FL_IMMUTABLE.
+> Such routes cannot be changed and they're always active.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>   Documentation/userspace-api/media/v4l/dev-subdev.rst         | 3 ++-
+>   .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst      | 5 +++++
+>   include/uapi/linux/v4l2-subdev.h                             | 5 +++++
+>   3 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index 08495cc6f4a6..2f2423f676cf 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -572,7 +572,8 @@ internal pad always has a single stream only (0).
+>   Routes from an internal source pad to an external source pad are typically not
+>   modifiable but they can be activated and deactivated using the
+>   :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+> -on driver capabilities.
+> +on driver capabilities. This capatibility is indicated by the
+> +:ref:`V4L2_SUBDEV_ROUTE_FL_IMMUTABLE <v4l2-subdev-routing-flags>` flag.
+>   
+>   Interaction between routes, streams, formats and selections
+>   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> index 08b8d17cef3f..cd7735f9104e 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> @@ -139,6 +139,11 @@ Also ``VIDIOC_SUBDEV_S_ROUTING`` may return more route than the user provided in
+>       * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+>         - 0x0001
+>         - The route is enabled. Set by applications.
+> +    * - V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
+> +      - 0x0002
+> +      - The route is immutable. Set by the driver. The
+> +	``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag of an immutable route may not be
+> +	changed.
+>   
+>   Return Value
+>   ============
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index ca543982460c..7e501cb45e4e 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -200,6 +200,11 @@ struct v4l2_subdev_capability {
+>    * on a video node.
+>    */
+>   #define V4L2_SUBDEV_ROUTE_FL_ACTIVE		(1U << 0)
+> +/*
+> + * Is the route immutable. The ACTIVE flag of an immutable route may not be
+> + * changed.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1U << 1)
+>   
+>   /**
+>    * struct v4l2_subdev_route - A route inside a subdev
 
-Please add it to the PATCH title, so [PATCH DO NOT MERGE]... but better
-just don't send it in one thread. Many maintainers apply entire thread,
-thus whatever you send here, would be applied.
+Is the route fully immutable? The sink/source stream ID cannot be 
+changed (or any new fields we might come up with in the future)?
 
-I am not going to review this patch, because as you said, should not be
-merged, so just for formality:
+Hmm, or would a route with different stream IDs be a, well, different 
+route...
 
-NAK.
+The docs here only talk about the ACTIVE flag. Would 
+V4L2_SUBDEV_ROUTE_FL_ALWAYS_ACTIVE be a better name, to be more explicit 
+on the meaning?
 
-Best regards,
-Krzysztof
+  Tomi
 
 
