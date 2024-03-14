@@ -1,353 +1,261 @@
-Return-Path: <linux-media+bounces-7040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7041-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1449587B82D
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 08:00:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8276B87B83A
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 08:04:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8AC2A1F22DC0
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 07:00:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76C9E1C22001
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 07:04:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 015966119;
-	Thu, 14 Mar 2024 07:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C32D749A;
+	Thu, 14 Mar 2024 07:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJzkhaPT"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="MJQmH3Qv";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="q+J2UfYp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158E013FE0
-	for <linux-media@vger.kernel.org>; Thu, 14 Mar 2024 07:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710399618; cv=none; b=ZVkb+fGxZNF2G3TEzR747novMwgRwG458Kh3Tg5OznB87m8uzQgwja/dsdAh6aCbxuvYfLgrMKHD+SFl4QAQqqJPgyH5i+tsnqRSuGzefBue/aAHSnEHbqNNfSb26jDsrKwepRqxqQI50wpcSWBITQ87ZCx4Yoiaklq/v47drfA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710399618; c=relaxed/simple;
-	bh=RWFfeslIFlCEnqcslhZt5aWd7UNOk+/zR+v8WbfsR5k=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=sgM1ajs4Yv4TpxJEijg7hQnn8rUXTIhDuAieceru3FhjwbCzH46+IPPxpD1IFqPBEhCNKbOMwhZlOWijDw48lGARNP1wU1oy3pAugkwYXKG7V2L+cPE3vJbvQOBZN2njAySniq0ypqBsG2EctcW0ACPUQoJpnFvQqSaTmQbYAJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJzkhaPT; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710399615; x=1741935615;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=RWFfeslIFlCEnqcslhZt5aWd7UNOk+/zR+v8WbfsR5k=;
-  b=PJzkhaPTnxk1xlsOTt+vmNUqedO7tq7b3HgsHBaVOt/H7iYgwid46op2
-   wYLvGYaKxqZOFe5XGh7ZsFyDyLexW6fQeHJn/oHaxlu+80WNIsOzxR9Ks
-   x3iYn3q995/q/SXNG/NWfkCh+IUOwdiJgdKwaUXwO3JWcRbC1R7vGjcRW
-   reUQqktEYsIfyszRYjkpkDDMhFf24egVzZx5f/7V7J7INThOX9cAHWUaD
-   rTojNcQChT6wxB17eTipSmqnAoag8Q79VFr2mCMH7JvqjRsnmSitxsKAq
-   giputUFiNvt7SI/zEdodasoe+ofrGr02YGfgytjtOKVgFEA/zpTUs0CIH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5385791"
-X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="5385791"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 00:00:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="49626119"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by orviesa001.jf.intel.com with ESMTP; 14 Mar 2024 00:00:10 -0700
-Subject: Re: [PATCH v8 35/38] media: ov2740: Add support for embedded data
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
- hongju.wang@intel.com, hverkuil@xs4all.nl,
- Andrey Konovalov <andrey.konovalov@linaro.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Dmitry Perchanov <dmitry.perchanov@intel.com>,
- "Ng, Khai Wen" <khai.wen.ng@intel.com>,
- Alain Volmat <alain.volmat@foss.st.com>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-36-sakari.ailus@linux.intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <01085a01-8cb8-bcde-2f06-e0d636ebbfd8@linux.intel.com>
-Date: Thu, 14 Mar 2024 15:00:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D9310788;
+	Thu, 14 Mar 2024 07:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.61.82.184
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710399836; cv=fail; b=IkZ2OwQNwEcQtYoQHGE464jJolA+48v776YAet+jfowevrggAdj2vpJCa1WLwzxitrKiSu0UvhOrgpefLi8ngAWOS2WSYgr+HFtGUCcsyiOhgcA/NslACaBRCfhdLx2me45CwBLtZJ+ro08lCdNKE9Wa5u/iV/g0YbMJ5olfS50=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710399836; c=relaxed/simple;
+	bh=eIyZQ+RkMkuvUdkzbRP/FxjGjDamiPuTfzKkDjpLSJA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=d4SgFYBelEz1/l/VFnfn0hN9hAEoliNNGHiFIDYLwQ7g6a56S64fSsTSQaiFdTvoTPiBGWXsQZKXKLAS7UAoK1vEM9tDsUuTrq2DA4nL5zkcZAPGHyrbUkFyT2HM/YDlPVZ0n46VHqP4ZY9r2fJPehr6zphWfwE7Vf9UVNYVyPs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=MJQmH3Qv; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=q+J2UfYp; arc=fail smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 0178d40ee1d111ee935d6952f98a51a9-20240314
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=eIyZQ+RkMkuvUdkzbRP/FxjGjDamiPuTfzKkDjpLSJA=;
+	b=MJQmH3QvcK+3Y1VUCoXlOgp8+3xHyIql2lSoSm/BBw3pIASaP2aNniqUpqL2f10NFFy2/JFvqBltgyQyLsVGy+KwYp6AK1kt5em02YK/j/Nvsd3jW2TvsvKPGyYhLt5f70UZrmbkzQsz19ZqRshOQIJ35JGnWrytaVHmcwerFLE=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:fe3303ea-6a6e-4e8c-a2a3-f5282a6811fd,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6f543d0,CLOUDID:c6596490-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 0178d40ee1d111ee935d6952f98a51a9-20240314
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+	(envelope-from <ck.hu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 2136730632; Thu, 14 Mar 2024 15:03:48 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 14 Mar 2024 15:03:46 +0800
+Received: from HK2PR02CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 14 Mar 2024 15:03:46 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BUxBlSUnDrA+t/P2sGfMTazBhebvlixsC4BZTNsghf9j5aIh7BU8Nx3BKmg8RbE4/ZTNkuoJiLnZtAfJ+xwsotaTlcvnxh+yyan7zCkkGAERI8Q7a2d8lyVRsnnJt4Pz8IwYESCvw9TT4vcUYESwl+J3wdenpPSoDNxgr++27n2EaI5td1qLoQRumZreNEXudKVf2xelNQD8jPHSPO/EsPByDRAVeJ3uo53glSEVXb3125dXVyIFiMVVHcNcgbWyT+Kte7GCPEJtZBqXzvabXFrD3JUtt+Fy9xulhaTbWwCQxtE9TaacXMmOiC2vvx71S/Srsc+F8dywa+Q8NeNzRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eIyZQ+RkMkuvUdkzbRP/FxjGjDamiPuTfzKkDjpLSJA=;
+ b=Xx1L56Hev4lv/HKYmi5Hi/H5SRMsAI87G56KkefZEQYzMOxz48vzGT2a+Nrnjyntc34SBY+2Vec+5DYt2YSK+kt9tumhwNm/yf7TR6LQJEl6sB17J8M4V2wyuXR+k+rhA+kjRv5M8F9/e0zl28WukyHDLF3dpFspkI8jVh01swkvOrzny4S5ffFh4s3ppUofhEozMeNssY8NHS7h1KtwlXaoqRszem1Cli7BFKhc4aZfCrdXAb98D+hxOBSznr63SdqikosBfAEl+PkeRbQgv2WzqrnAdYJRxcg2J5d0IIV1ksz25PLaebnsSz4yBZ8ArBteI4gsD/kDeMVuCLtQJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eIyZQ+RkMkuvUdkzbRP/FxjGjDamiPuTfzKkDjpLSJA=;
+ b=q+J2UfYpVUBuzxSnauyDbowH/BCvjIdYDk0i3/H5yLNyxr+gHOfLRdV5C1hvbNWcDtFJXkwOJxVlbdn9bvKHszLZ4PPTW5yUeA1Q7sWf2N8bWtbGH1h2rtd9cE2bqyHJKDaSIMuNFQMybgQwQxKi9jF5S/pIofkoF67alYoQ9nQ=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by KL1PR03MB7489.apcprd03.prod.outlook.com (2603:1096:820:e6::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.21; Thu, 14 Mar
+ 2024 07:03:45 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::f3b6:91a7:e0fb:cb27]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::f3b6:91a7:e0fb:cb27%7]) with mapi id 15.20.7362.031; Thu, 14 Mar 2024
+ 07:03:44 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+	"chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+	"angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"daniel@ffwll.ch" <daniel@ffwll.ch>, "p.zabel@pengutronix.de"
+	<p.zabel@pengutronix.de>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>,
+	"shawn.sung@mediatek.corp-partner.google.com"
+	<shawn.sung@mediatek.corp-partner.google.com>, "airlied@gmail.com"
+	<airlied@gmail.com>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>
+Subject: Re: [PATCH 09/11] drm/mediatek: Rename files "mtk_drm_gem.*" to
+ "mtk_gem.*"
+Thread-Topic: [PATCH 09/11] drm/mediatek: Rename files "mtk_drm_gem.*" to
+ "mtk_gem.*"
+Thread-Index: AQHaaJEEIKbIGjiYyU+fqN9rgTjRKLE26l8A
+Date: Thu, 14 Mar 2024 07:03:44 +0000
+Message-ID: <1cf41780ba18d665576c60659c83880cbd4c93fd.camel@mediatek.com>
+References: <20240226085059.26850-1-shawn.sung@mediatek.com>
+	 <20240226085059.26850-10-shawn.sung@mediatek.com>
+In-Reply-To: <20240226085059.26850-10-shawn.sung@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|KL1PR03MB7489:EE_
+x-ms-office365-filtering-correlation-id: 05e37d5a-4d4f-4123-6b8b-08dc43f4e397
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: xGLT9bQNqGo2VSxq7/26kkhMn8p5WdOILEArbdHycFnHfA6t82YW27larDtCjCekv1CVjVqDOXgY1zqOdAGG8s+ySm4Cwv+bBKAj7EHBlqgGdewwoZhNAMX/y0Y76e1h+yQCA3d4AM7HudS+8HG4hN2OHNnIILS+3ELDTpxhrD2vnnLiuJVUbIekC7/QmM3oMUpfJOWrNM18F0FofoOes5sN4xBcZgzCOowV/geQFVMzqzVqbtTQHaOTb6R+s+kzp9HwvXsWnVE/KMHRPkKZBx9qGnkAj2jqGlady6h08wI2Af+xoO2gt3x+ZaPkGI748N1ZJ/RcJrRKcnwWEJpd5t9iRfX4y6Sq3KaQZYKlWUvjR5YCxx6A3ZrYODu1/JNMBN48IRWaAUzvPKvEY7GxjmdEmb9SAXo+gnO7VI+fHpOptr3aEKO2oR9keYYb1DqIR9LbZVpPZVEutGzK55I+AupQvzVH6jrkRaFY3Rnazu/E+Vsp2q7wU/FMhAtGbA8feLSCdwmzb48xB2b6Mp4cDwD5rdhIC30lQzp/N+N8PhN/QAWebsYl6mz0TYN9xIq44mvuEgyNyEmRYtpdnozqGg69aIgolTHtBHOlmqvKlIPTR1Wb/WA/o29GSTiWIoxJnSDMVdZ01eKP9ECmA28e1+tUDARL54CMSt46oy9fREXfHg3/adPC7Gnd2NKMbToi/AlYeYMLR+X4mWsiElAm1AyLWXIRjhd8gTaP3HGy93E=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB6624.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VEFLbjM1RVhJMUFGMDZwMmY2MXdNT3BENDVUTzY5aGp5SGQrUDBaK0pjbDVj?=
+ =?utf-8?B?SDRVREZONTZ3cFo2cnpjaUZrMkxveXBqUkIzVXhLWVA0Y0VRNERNNDFRR2Fx?=
+ =?utf-8?B?S0FKc0M2V3hqaUZwOTdkUElPQk1NYXkrbmVLSEJqV1hNL2hHV2JQNWxnZEJO?=
+ =?utf-8?B?T2hGN2E2NXUyWitjeVhtVlRIcmE5VjBSTFpsVFAzY05SekVSVElnREFLWEU3?=
+ =?utf-8?B?REVKb0NGOWx6dFhFZndiMUtYL1JFaGZYd3Y2c2dzMHE5QlBZdmlVeXdsMlQ1?=
+ =?utf-8?B?dTNHSDVObEZJbUtML0o1MDNTb1B1OEFnOTYySjh3c1ZVNWFyTGMrUHE2U0Y1?=
+ =?utf-8?B?UE5hZ0IyQ0hwdnFGNVhRWlFzKzM0WDgrNVI0TjM2MnBxRGNDQTBSVUZleW1a?=
+ =?utf-8?B?UmJvNituUitNUG0rWnVIeFhRejk1dm10MjV4Umk4eXZGdUw0QzdHaVVsdVBC?=
+ =?utf-8?B?N3kyTUpScnlzVlZNZE9VYkd3Sk1zekNRYU9zREZnS2VvYmdENjR4MkhTSjc2?=
+ =?utf-8?B?VFNQN2l5Q0VQbWkyem5RVGlua0JjYUw2Z3d5enVSakVWc2hORDV1VUlsWmpS?=
+ =?utf-8?B?c1c2c3ZSUXUyRjU3NmdJbXBla1ZKWERXWUxKU2hFSGhuclJHQmxXU1JrVmo4?=
+ =?utf-8?B?SkJSQjBvdUpONTBORjlBZ0ZIVjZsTDk0N0V4V2MrN0JyS2xuYmdDLzV2R3JF?=
+ =?utf-8?B?Z3pWKy9sY2VENnBEVWtrMmgyVWd6YkhCWktFU1NZN2ZSSlMzTU05anRrOHZW?=
+ =?utf-8?B?VWduVjlDK0YvM3ExWHo1VWViNzg5RmR2ckZ0TGR5WnNJQ0pjbVNqWkxWeFZR?=
+ =?utf-8?B?U0E4RDdlcDZJTVhmd3BBQ25ibGRTVUFUblROYUk0c1gwU25xT3BlRXlGbGRV?=
+ =?utf-8?B?OUtnVFJsWjJJaVlIb2FrWXcvU0IvNmhqajZveW9JaHpJN0I2cmpHQXAvU3Bj?=
+ =?utf-8?B?VUNmaWx1bDc2YVRIdm40MjVnUWN3OVRtK1U3MXNGMnIvd2RaVENpeTIxZkoz?=
+ =?utf-8?B?ZXFUY29RN25KdUlkOFpwbDFFNkhXNmthR1NwWmN0WHFCekNRb1dCc2o2Q1A4?=
+ =?utf-8?B?RWd3ZG04NDJPSE9iSnd4b2U2Q0hzSDNDYUVJd25sTDczQjNMb2daL0pIQllx?=
+ =?utf-8?B?bElUOThhaWtPUHQzVmE1ckY3cEtOMDBOVUk0M2l2SlJvMEsycHVFSWM5MzZS?=
+ =?utf-8?B?cFNPSVU3WjVWeUpNTXpuMGEyVG43MUZKcW1pd3JMMFJ0R2xBcTJkQkZVczBw?=
+ =?utf-8?B?SEljNHI1ZjFGWmpoekJ5WUVMNk9IY0RFdUU5QXUwR0diZkFkNWVPL2ovSVl2?=
+ =?utf-8?B?elQxWmo2RU9tSXE1K013S2ttNEpwRHBXK1pxNjZPcktGSWxxUUZNVVc0YXhm?=
+ =?utf-8?B?TXdtNHZDZEtPbDNncUFxenhoUzlaeWdOOG1MNm1naUJHanE1aUJLcnBnRlN1?=
+ =?utf-8?B?aUtiU29oZGplNmlGdkpSTzd0ZTNHWEljZFowYlZlcmczL005S25ucm9FWEtB?=
+ =?utf-8?B?SmJkalNPbEdDWWxTc0swR2FRNzdVNExBRTVEVkpiSkRzWG9yRmJNMkVRazBr?=
+ =?utf-8?B?ZmVST1hucm9Ld1ZhK04vRlJiYmRzM2xDa0lpRUFmWDNhWE5ZRkdBcm4ydVdG?=
+ =?utf-8?B?b2FYYkFoRkpVME80Uno3bitHczZoWmFMdWxwWEVuNnV1cUtUd050N2pScGZn?=
+ =?utf-8?B?b1ZWbkZJdmUyemN0ZmgvczFxK1NYdTJxdjNaV08zN0ZUcFB6NGgzRURmS2tt?=
+ =?utf-8?B?dWZkWFJEUkxyekwzaFEzZ1FST212eDdqYmVHY2Z2Wi81ZUZlOHJQUC9qZkQ5?=
+ =?utf-8?B?RlFkaHpKbVRpVDA3TFRyVS9RSEdlcVVLOHIrODFtRFpTNk5EWkZGUGU1NGJI?=
+ =?utf-8?B?Mi9MWDQzNFlQZUFQNlFFdGh4UkJrYW94YmhzaklTd3BHakdJZVNSdU91dXVC?=
+ =?utf-8?B?NUZDZmI0VXR1UjRFa1hKejBzUFpKQXJHTVRpSGcwbCs1U2ZFWEtRY2M2U2RI?=
+ =?utf-8?B?QXp1VEFrdkFRS09BeE9pVWFWK0gwOEFqS3p1WDF4YVdabVdjd0NLZU42N3pu?=
+ =?utf-8?B?cC9kVnAxbm1LdU4yWm1OeTQ5a1lYcW9tcmFMakdBY2FaVjRzN2l2WHk5amhL?=
+ =?utf-8?Q?cVtNgwUaqOZgwrSYJkjtBA6H8?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8CBD2F48935A324A9EE17F53A1534FBE@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240313072516.241106-36-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05e37d5a-4d4f-4123-6b8b-08dc43f4e397
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2024 07:03:44.9066
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZZaX/i4ucd51YWGwODmW2RWf24fqwqhjFwj2ddsHxyPAXa84tPLzjIBeSskh1Pns45mh4vXJ1z33YBxkMo/Erg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7489
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--15.565400-8.000000
+X-TMASE-MatchedRID: 7ySqCuYCpfjoSitJVour/d7SWiiWSV/1jLOy13Cgb49qSjxROy+AU3a2
+	v7MgC776yAUgFH8TZu5isDrIDgWLgCkos4L2dgO+Y1bQMCMvmn6eEP0DdJrulr/XDMnRl2Jl2ft
+	v/5jXki+vAA8UiHn3/t2txaDV7L2dkfRhdidsajPSBVVc2BozSlkMvWAuahr8+gD2vYtOFhgqtq
+	5d3cxkNevkniXtUAR8XQ+oNkupkd3wsMvVe+v/aQv2c/+hWAj0XWUTsIj1P40=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--15.565400-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	B930FDED1E8C850FD4AABC71A644ED341C57B32A5AD98B14C3D74B98D58CDB9B2000:8
 
-Sakari,
-
-Thanks for the patch.
-
-On 3/13/24 3:25 PM, Sakari Ailus wrote:
-> Add support for embedded data. This introduces two internal pads for pixel
-> and embedded data streams. As the driver supports a single mode only,
-> there's no need for backward compatibility in mode selection.
-> 
-> The embedded data is configured to be placed before the image data whereas
-> after the image data is the default.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ov2740.c | 150 +++++++++++++++++++++++++++++++++----
->  1 file changed, 137 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index df57f0096e98..7488b2535071 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -11,6 +11,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/nvmem-provider.h>
->  #include <linux/regmap.h>
-> +#include <media/mipi-csi2.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -71,11 +72,31 @@
->  #define OV2740_REG_ISP_CTRL00		0x5000
->  /* ISP CTRL01 */
->  #define OV2740_REG_ISP_CTRL01		0x5001
-> +
-> +/* Embedded data line location control */
-> +#define OV2740_REG_EMBEDDED_FLAG	0x5a08
-> +#define OV2740_EMBEDDED_FLAG_FOOTER	BIT(2) /* otherwise it's in header */
-> +#define OV2740_EMBEDDED_FLAG_MYSTERY	BIT(1)
->  /* Customer Addresses: 0x7010 - 0x710F */
->  #define CUSTOMER_USE_OTP_SIZE		0x100
->  /* OTP registers from sensor */
->  #define OV2740_REG_OTP_CUSTOMER		0x7010
->  
-> +enum {
-> +	OV2740_PAD_SOURCE,
-> +	OV2740_PAD_PIXEL,
-> +	OV2740_PAD_META,
-> +	OV2740_NUM_PADS,
-> +};
-> +
-> +enum {
-> +	OV2740_STREAM_PIXEL,
-> +	OV2740_STREAM_META,
-> +};
-> +
-> +#define OV2740_META_WIDTH		100U /* 97 bytes of actual data */
-> +#define OV2740_META_HEIGHT		1U
-> +
->  struct nvm_data {
->  	struct nvmem_device *nvmem;
->  	struct regmap *regmap;
-> @@ -513,7 +534,7 @@ static const struct ov2740_mode supported_modes_180mhz[] = {
->  
->  struct ov2740 {
->  	struct v4l2_subdev sd;
-> -	struct media_pad pad;
-> +	struct media_pad pads[OV2740_NUM_PADS];
->  	struct v4l2_ctrl_handler ctrl_handler;
->  
->  	/* V4L2 Controls */
-> @@ -976,6 +997,11 @@ static int ov2740_enable_streams(struct v4l2_subdev *sd,
->  	if (ret)
->  		goto out_pm_put;
->  
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_EMBEDDED_FLAG, 1,
-> +			       OV2740_EMBEDDED_FLAG_MYSTERY);
-> +	if (ret)
-> +		return ret;
-> +
->  	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
->  			       OV2740_MODE_STREAMING);
->  	if (ret) {
-> @@ -1013,23 +1039,49 @@ static int ov2740_disable_streams(struct v4l2_subdev *sd,
->  	return ret;
->  }
->  
-> -static int ov2740_set_format(struct v4l2_subdev *sd,
-> -			     struct v4l2_subdev_state *sd_state,
-> -			     struct v4l2_subdev_format *fmt)
-> +static int __ov2740_set_format(struct v4l2_subdev *sd,
-> +			       struct v4l2_subdev_state *sd_state,
-> +			       struct v4l2_mbus_framefmt *format,
-> +			       enum v4l2_subdev_format_whence which,
-> +			       unsigned int pad, unsigned int stream)
->  {
-> +	struct v4l2_mbus_framefmt *src_pix_fmt, *src_meta_fmt, *pix_fmt,
-> +		*meta_fmt;
->  	struct ov2740 *ov2740 = to_ov2740(sd);
->  	const struct ov2740_mode *mode;
->  	s32 vblank_def, h_blank;
->  
-> +	/*
-> +	 * Allow setting format on internal pixel pad as well as the source
-> +	 * pad's pixel stream (for compatibility).
-> +	 */
-> +	if (pad == OV2740_PAD_SOURCE || pad == OV2740_PAD_META ||
-> +	    stream == OV2740_STREAM_META) {
-> +		*format = *v4l2_subdev_state_get_format(sd_state, pad, stream);
-> +		return 0;
-> +	}
-> +
-> +	pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_PIXEL, 0);
-> +	meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_META, 0);
-> +	src_pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-> +						   OV2740_STREAM_PIXEL);
-> +	src_meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-> +						    OV2740_STREAM_META);
-> +
->  	mode = v4l2_find_nearest_size(ov2740->supported_modes,
->  				      ov2740->supported_modes_count,
->  				      width, height,
-> -				      fmt->format.width, fmt->format.height);
-> +				      format->width, format->height);
-> +	ov2740_update_pad_format(mode, pix_fmt);
-> +	*format = *src_pix_fmt = *pix_fmt;
->  
-> -	ov2740_update_pad_format(mode, &fmt->format);
-> -	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-> +	meta_fmt->code = MEDIA_BUS_FMT_OV2740_EMBEDDED;
-> +	meta_fmt->width = OV2740_META_WIDTH;
-> +	meta_fmt->height = OV2740_META_HEIGHT;
-> +	*src_meta_fmt = *meta_fmt;
-> +	src_meta_fmt->code = MEDIA_BUS_FMT_META_10;
->  
-> -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
->  		return 0;
->  
->  	ov2740->cur_mode = mode;
-> @@ -1049,6 +1101,14 @@ static int ov2740_set_format(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static int ov2740_set_format(struct v4l2_subdev *sd,
-> +			     struct v4l2_subdev_state *sd_state,
-> +			     struct v4l2_subdev_format *fmt)
-> +{
-> +	return __ov2740_set_format(sd, sd_state, &fmt->format, fmt->which,
-> +				   fmt->pad, fmt->stream);
-> +}
-> +
->  static int ov2740_enum_mbus_code(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_subdev_mbus_code_enum *code)
-> @@ -1085,10 +1145,68 @@ static int ov2740_enum_frame_size(struct v4l2_subdev *sd,
->  static int ov2740_init_state(struct v4l2_subdev *sd,
->  			     struct v4l2_subdev_state *sd_state)
->  {
-> +	struct v4l2_subdev_route routes[] = {
-> +		{
-> +			.sink_pad = OV2740_PAD_PIXEL,
-> +			.source_pad = OV2740_PAD_SOURCE,
-> +			.source_stream = OV2740_STREAM_PIXEL,
-> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> +		}, {
-> +			.sink_pad = OV2740_PAD_META,
-> +			.source_pad = OV2740_PAD_SOURCE,
-> +			.source_stream = OV2740_STREAM_META,
-> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> +		},
-> +	};
-> +	struct v4l2_subdev_krouting routing = {
-> +		.routes = routes,
-> +		.num_routes = ARRAY_SIZE(routes),
-> +	};
-> +	struct v4l2_subdev_state *active_state;
-> +	struct v4l2_mbus_framefmt format = { 0 };
->  	struct ov2740 *ov2740 = to_ov2740(sd);
-> +	int ret;
-> +
-> +	ret = v4l2_subdev_set_routing(sd, sd_state, &routing);
-> +	if (ret)
-> +		return ret;
-> +
-> +	active_state = v4l2_subdev_get_locked_active_state(sd);
-> +
-> +	ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
-> +
-> +	return __ov2740_set_format(sd, sd_state, &format,
-> +				   active_state == sd_state ?
-> +				   V4L2_SUBDEV_FORMAT_ACTIVE :
-> +				   V4L2_SUBDEV_FORMAT_TRY, OV2740_PAD_PIXEL, 0);
-> +}
-> +
-> +static int ov2740_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> +				 struct v4l2_mbus_frame_desc *desc)
-> +{
-> +	struct v4l2_mbus_frame_desc_entry *entry = desc->entry;
-> +	struct v4l2_subdev_state *sd_state;
-> +	struct v4l2_mbus_framefmt *fmt;
-> +
-> +	desc->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> +
-> +	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-> +					   OV2740_STREAM_PIXEL);
-> +	entry->pixelcode = fmt->code;
-> +	v4l2_subdev_unlock_state(sd_state);
-> +
-> +	entry->stream = OV2740_STREAM_PIXEL;
-> +	entry->bus.csi2.dt = MIPI_CSI2_DT_RAW10;
-> +	entry++;
-> +	desc->num_entries++;
-> +
-> +	entry->pixelcode = MEDIA_BUS_FMT_META_8;
-
-Should we change the pixelcode to META_10 also?
-
-> +	entry->stream = OV2740_STREAM_META;
-> +	entry->bus.csi2.dt = MIPI_CSI2_DT_GENERIC_LONG(1);
-
-In the register setting array, the 0x4816 is set to 0x52 instead of
-its default value 0x53, so the data type should be
-MIPI_CSI2_DT_GENERIC_LONG(0) or MIPI_CSI2_DT_EMBEDDED_8B.
-
-Or you can change back to the default settings. :)
-
-> +	entry++;
-> +	desc->num_entries++;
->  
-> -	ov2740_update_pad_format(&ov2740->supported_modes[0],
-> -				 v4l2_subdev_state_get_format(sd_state, 0));
->  	return 0;
->  }
->  
-> @@ -1103,6 +1221,7 @@ static const struct v4l2_subdev_pad_ops ov2740_pad_ops = {
->  	.enum_frame_size = ov2740_enum_frame_size,
->  	.enable_streams = ov2740_enable_streams,
->  	.disable_streams = ov2740_disable_streams,
-> +	.get_frame_desc = ov2740_get_frame_desc,
->  };
->  
->  static const struct v4l2_subdev_ops ov2740_subdev_ops = {
-> @@ -1369,11 +1488,16 @@ static int ov2740_probe(struct i2c_client *client)
->  	}
->  
->  	ov2740->sd.state_lock = ov2740->ctrl_handler.lock;
-> -	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
->  	ov2740->sd.entity.ops = &ov2740_subdev_entity_ops;
->  	ov2740->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> -	ov2740->pad.flags = MEDIA_PAD_FL_SOURCE;
-> -	ret = media_entity_pads_init(&ov2740->sd.entity, 1, &ov2740->pad);
-> +	ov2740->pads[OV2740_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> +	ov2740->pads[OV2740_PAD_PIXEL].flags =
-> +		MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-> +	ov2740->pads[OV2740_PAD_META].flags =
-> +		MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-> +	ret = media_entity_pads_init(&ov2740->sd.entity,
-> +				     ARRAY_SIZE(ov2740->pads), ov2740->pads);
->  	if (ret) {
->  		dev_err_probe(dev, ret, "failed to init entity pads\n");
->  		goto probe_error_v4l2_ctrl_handler_free;
-> 
-
--- 
-Best regards,
-Bingbu Cao
+SGksIFNoYXduOg0KDQpPbiBNb24sIDIwMjQtMDItMjYgYXQgMTY6NTAgKzA4MDAsIFNoYXduIFN1
+bmcgd3JvdGU6DQo+IEZyb206IEhzaWFvIENoaWVuIFN1bmcgPHNoYXduLnN1bmdAbWVkaWF0ZWsu
+Y29ycC1wYXJ0bmVyLmdvb2dsZS5jb20+DQo+IA0KPiBSZW5hbWUgZmlsZXMgbXRrX2RybV9nZW0u
+KiB0byBtdGtfZ2VtLiouDQoNClJldmlld2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29t
+Pg0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIc2lhbyBDaGllbiBTdW5nIDwNCj4gc2hhd24uc3Vu
+Z0BtZWRpYXRlay5jb3JwLXBhcnRuZXIuZ29vZ2xlLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICB8IDIgKy0NCj4gIGRy
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfY3J0Yy5jICAgICAgICAgICAgICAgICAgIHwgMiAr
+LQ0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMgICAgICAgICAgICAg
+ICAgfCAyICstDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsve210a19kcm1fZ2VtLmMgPT4g
+bXRrX2dlbS5jfSB8IDIgKy0NCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay97bXRrX2RybV9n
+ZW0uaCA9PiBtdGtfZ2VtLmh9IHwgMA0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19w
+bGFuZS5jICAgICAgICAgICAgICAgICAgfCAyICstDQo+ICA2IGZpbGVzIGNoYW5nZWQsIDUgaW5z
+ZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkNCj4gIHJlbmFtZSBkcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsve210a19kcm1fZ2VtLmMgPT4gbXRrX2dlbS5jfSAoOTklKQ0KPiAgcmVuYW1lIGRyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay97bXRrX2RybV9nZW0uaCA9PiBtdGtfZ2VtLmh9ICgxMDAlKQ0K
+PiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9NYWtlZmlsZQ0KPiBi
+L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9NYWtlZmlsZQ0KPiBpbmRleCAwZTE5OGMwMGM2ZjIu
+LjdlNmQ0YjJmYWRiZiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL01h
+a2VmaWxlDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9NYWtlZmlsZQ0KPiBAQCAt
+MTEsNyArMTEsNyBAQCBtZWRpYXRlay1kcm0teSA6PSBtdGtfZGlzcF9hYWwubyBcDQo+ICAJCSAg
+bXRrX2NydGMubyBcDQo+ICAJCSAgbXRrX2RkcF9jb21wLm8gXA0KPiAgCQkgIG10a19kcm1fZHJ2
+Lm8gXA0KPiAtCQkgIG10a19kcm1fZ2VtLm8gXA0KPiArCQkgIG10a19nZW0ubyBcDQo+ICAJCSAg
+bXRrX3BsYW5lLm8gXA0KPiAgCQkgIG10a19kc2kubyBcDQo+ICAJCSAgbXRrX2RwaS5vIFwNCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfY3J0Yy5jDQo+IGIvZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19jcnRjLmMNCj4gaW5kZXggOTZhZjE5NGQwZDQ5Li43
+ZmUyMzRkZTgzYTMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
+Y3J0Yy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfY3J0Yy5jDQo+IEBA
+IC0yMiw3ICsyMiw3IEBADQo+ICAjaW5jbHVkZSAibXRrX2RybV9kcnYuaCINCj4gICNpbmNsdWRl
+ICJtdGtfY3J0Yy5oIg0KPiAgI2luY2x1ZGUgIm10a19kZHBfY29tcC5oIg0KPiAtI2luY2x1ZGUg
+Im10a19kcm1fZ2VtLmgiDQo+ICsjaW5jbHVkZSAibXRrX2dlbS5oIg0KPiAgI2luY2x1ZGUgIm10
+a19wbGFuZS5oIg0KPiAgDQo+ICAvKg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fZHJ2LmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Ry
+bV9kcnYuYw0KPiBpbmRleCAxMTNmZGJhYWM1YTEuLmI2MjMyMGY2NDg4MiAxMDA2NDQNCj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMNCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMNCj4gQEAgLTI3LDcgKzI3LDcgQEANCj4g
+ICNpbmNsdWRlICJtdGtfY3J0Yy5oIg0KPiAgI2luY2x1ZGUgIm10a19kZHBfY29tcC5oIg0KPiAg
+I2luY2x1ZGUgIm10a19kcm1fZHJ2LmgiDQo+IC0jaW5jbHVkZSAibXRrX2RybV9nZW0uaCINCj4g
+KyNpbmNsdWRlICJtdGtfZ2VtLmgiDQo+ICANCj4gICNkZWZpbmUgRFJJVkVSX05BTUUgIm1lZGlh
+dGVrIg0KPiAgI2RlZmluZSBEUklWRVJfREVTQyAiTWVkaWF0ZWsgU29DIERSTSINCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jDQo+IGIvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19nZW0uYw0KPiBzaW1pbGFyaXR5IGluZGV4IDk5JQ0KPiBy
+ZW5hbWUgZnJvbSBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYw0KPiByZW5h
+bWUgdG8gZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19nZW0uYw0KPiBpbmRleCAzYWUxZjEy
+YmZiNDYuLjBmZDU1MTE3ZWJmNyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL210a19kcm1fZ2VtLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19n
+ZW0uYw0KPiBAQCAtMTIsNyArMTIsNyBAQA0KPiAgI2luY2x1ZGUgPGRybS9kcm1fcHJpbWUuaD4N
+Cj4gIA0KPiAgI2luY2x1ZGUgIm10a19kcm1fZHJ2LmgiDQo+IC0jaW5jbHVkZSAibXRrX2RybV9n
+ZW0uaCINCj4gKyNpbmNsdWRlICJtdGtfZ2VtLmgiDQo+ICANCj4gIHN0YXRpYyBpbnQgbXRrX2dl
+bV9vYmplY3RfbW1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0DQo+IHZtX2Fy
+ZWFfc3RydWN0ICp2bWEpOw0KPiAgDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2RybV9nZW0uaA0KPiBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZ2Vt
+LmgNCj4gc2ltaWxhcml0eSBpbmRleCAxMDAlDQo+IHJlbmFtZSBmcm9tIGRyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHJtX2dlbS5oDQo+IHJlbmFtZSB0byBkcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2dlbS5oDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
+bXRrX3BsYW5lLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX3BsYW5lLmMNCj4g
+aW5kZXggOTVhNDMyOGE5YjBiLi40NjI1ZGViMjFkNDAgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfcGxhbmUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX3BsYW5lLmMNCj4gQEAgLTE2LDcgKzE2LDcgQEANCj4gICNpbmNsdWRlICJtdGtf
+Y3J0Yy5oIg0KPiAgI2luY2x1ZGUgIm10a19kZHBfY29tcC5oIg0KPiAgI2luY2x1ZGUgIm10a19k
+cm1fZHJ2LmgiDQo+IC0jaW5jbHVkZSAibXRrX2RybV9nZW0uaCINCj4gKyNpbmNsdWRlICJtdGtf
+Z2VtLmgiDQo+ICAjaW5jbHVkZSAibXRrX3BsYW5lLmgiDQo+ICANCj4gIHN0YXRpYyBjb25zdCB1
+NjQgbW9kaWZpZXJzW10gPSB7DQo=
 
