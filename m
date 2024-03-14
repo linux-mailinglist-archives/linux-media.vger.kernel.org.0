@@ -1,157 +1,145 @@
-Return-Path: <linux-media+bounces-7079-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7080-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE5287BFCE
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 16:23:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B8587C046
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 16:32:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82A96283E37
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 15:23:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 334471F217DD
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 15:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AB2B71B34;
-	Thu, 14 Mar 2024 15:23:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C94C71B54;
+	Thu, 14 Mar 2024 15:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nN9DkTTx"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y7qCtJO9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F407D6FE36
-	for <linux-media@vger.kernel.org>; Thu, 14 Mar 2024 15:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206F671741;
+	Thu, 14 Mar 2024 15:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710429808; cv=none; b=BNno8Q4sylj4TABzx14QWhA67/SE5+eRD+wAt+SJYUzsJJVA7QF/GiqDPaJjVW20fmaHNvHKux290DIUqp7cYQEZcc14tHcYiCae0Ya++fkmbwIHjzrSabtI7tAZH1I6TXDPDMkD7RZGz08gAHwALP0p/YZhhS1On8Sda43Xjjs=
+	t=1710430356; cv=none; b=FZa1WuaYtKqbOTmvf39pr6I32k3wZS+p38FmZgNrOHw7JLzCCytgqhlJ2PKGHFJ7Tyq7hJQfMmFMj6wyGO+CCaVbTthVD8egrNM5J/JCVbyNsHEFIbala+GrVJimm/bJ0fDfUXmnCMVWX/5SoXjFGEVVbvWH9NHxAfLB/sUJG48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710429808; c=relaxed/simple;
-	bh=yZpt8jOFhyUEm+w5ItsIDsIVcILiYoqxfTScE1oWzPk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kfSs3/K4pCqGr4Q7iEoKrTZSj9TdXAkUtBtBwY3w99W5ITLHFOnjXVuBkvhApAvlAAe6E/pyWTJhsf78IJu/vvBiwL2FJnUTdEzifAGCtMIKpMtzqyYOS6kVNJ+9rKGzZ25c+SGVHzgcoCHpxS2RcpXxJbaciBaUTRSwZr4V2f8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nN9DkTTx; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C7F0E4;
-	Thu, 14 Mar 2024 16:23:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710429781;
-	bh=yZpt8jOFhyUEm+w5ItsIDsIVcILiYoqxfTScE1oWzPk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nN9DkTTx8Lg+uEVtY3LyHPq8+sXTFwVF2t1B6Wy/hHU2N2p/jdfqA4kqHUCQT5Pqk
-	 ybfA3FRDqhTJX7NNOxil9Lbus+RfGE/8XZv8U1zstXfjGg8zmgsUyVkLz9XAwWjfsO
-	 D2Wqask51QsP/9wHd8+uU2Kp45HWsGQpdO8f5DSE=
-Message-ID: <7149676b-aec7-4124-b6da-112b169d8db0@ideasonboard.com>
-Date: Thu, 14 Mar 2024 17:23:21 +0200
+	s=arc-20240116; t=1710430356; c=relaxed/simple;
+	bh=3jxN6/gz20RUpRFzNpsbUnuOlYvOsZD7I007u9bVKlc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OYJPhWcEthEEncGq6SVV0m9uk8o1mQ63kvXrsfhmB5jlG6kpWNTgTqyTSTEWTr93t9bNPG8sYp7QUcMxZ0M0t5PhHQFavfhuDY2GXLp97DD35Ejzz3DC2DyIvUJ5voso74lu81JgDAVc71MnKeBszTo9fr6rfMPwnP5GdIhjU/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y7qCtJO9; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1710430353;
+	bh=3jxN6/gz20RUpRFzNpsbUnuOlYvOsZD7I007u9bVKlc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Y7qCtJO9CCkvmdjA4z4qZo2OSAdadgDm3lVFwivYN0wjz+v4a6BrzUzBiHhz+jefZ
+	 MPQonYWfyo9M+fmlCYNhyKAb1oI6mJndJjUnUqbBElmsWvmOiO/HfViItRL+t7BU1v
+	 7/1Gbm86vOUDSeithRgraHRJPvPWQ8bnGP7u9XIDUTh5rSbQk/eV0R9bUU2YcXFRZK
+	 O6LWkluQw+BkfS9EaEZ5nI++ZrnKC5F02JxhRzHW4QyTPhPKZjJAaNJR+ZxqFBS7Nc
+	 /jzSHXgPt+b+LZY+7W36ewqbyc08v3iFHzYrfXuyd/NkvQs+9g/xhJEeQmZ/ZaeHBi
+	 9cOvm7vB7F2/A==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8AADA378209A;
+	Thu, 14 Mar 2024 15:32:32 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	hverkuil-cisco@xs4all.nl,
+	nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v21 0/9] Add REMOVE_BUF ioctl
+Date: Thu, 14 Mar 2024 16:32:17 +0100
+Message-Id: <20240314153226.197445-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 04/38] media: uapi: Document which mbus format fields
- are valid for metadata
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
- Andrey Konovalov <andrey.konovalov@linaro.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Dmitry Perchanov <dmitry.perchanov@intel.com>,
- "Ng, Khai Wen" <khai.wen.ng@intel.com>,
- Alain Volmat <alain.volmat@foss.st.com>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-5-sakari.ailus@linux.intel.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240313072516.241106-5-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 13/03/2024 09:24, Sakari Ailus wrote:
-> Now that metadata mbus formats have been added, it is necessary to define
-> which fields in struct v4l2_mbus_format are applicable to them (not many).
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->   include/uapi/linux/v4l2-mediabus.h | 18 ++++++++++++------
->   1 file changed, 12 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
-> index 6b07b73473b5..de1d6161bf62 100644
-> --- a/include/uapi/linux/v4l2-mediabus.h
-> +++ b/include/uapi/linux/v4l2-mediabus.h
-> @@ -19,12 +19,18 @@
->    * @width:	image width
->    * @height:	image height
->    * @code:	data format code (from enum v4l2_mbus_pixelcode)
-> - * @field:	used interlacing type (from enum v4l2_field)
-> - * @colorspace:	colorspace of the data (from enum v4l2_colorspace)
-> - * @ycbcr_enc:	YCbCr encoding of the data (from enum v4l2_ycbcr_encoding)
-> - * @hsv_enc:	HSV encoding of the data (from enum v4l2_hsv_encoding)
-> - * @quantization: quantization of the data (from enum v4l2_quantization)
-> - * @xfer_func:  transfer function of the data (from enum v4l2_xfer_func)
-> + * @field:	used interlacing type (from enum v4l2_field), zero on metadata
-> + *		mbus codes
-> + * @colorspace:	colorspace of the data (from enum v4l2_colorspace), zero on
-> + *		metadata mbus codes
-> + * @ycbcr_enc:	YCbCr encoding of the data (from enum v4l2_ycbcr_encoding), zero
-> + *		on metadata mbus codes
-> + * @hsv_enc:	HSV encoding of the data (from enum v4l2_hsv_encoding), zero on
-> + *		metadata mbus codes
-> + * @quantization: quantization of the data (from enum v4l2_quantization), zero
-> + *		on metadata mbus codes
-> + * @xfer_func:  transfer function of the data (from enum v4l2_xfer_func), zero
-> + *		on metadata mbus codes
->    * @flags:	flags (V4L2_MBUS_FRAMEFMT_*)
->    * @reserved:  reserved bytes that can be later used
->    */
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce REMOVE_BUFS ioctl.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+VP9 conformance tests using fluster give a score of 210/305.
+The 24 of the 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
 
-  Tomi
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v21
+
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+
+changes in version 21:
+- Be more careful about checking remove_bufs type field vs queue type.
+- Add documentation about type checking error.
+- Always set capabilities flags field.
+- Do not set vidioc_remove_bufs for vim2m driver.
+
+changes in version 20:
+- Rename DELETE_BUFS into REMOVE_BUFS
+- Change documention, structure and variables name to use 'remove'
+
+changes in version 19:
+- Fix typo in commit message.
+- Fix ioctl domentation
+- Rework q->is_busy patch following Hans's comments
+- Change where DELETE_BUFS is enabled
+
+Benjamin Gaignard (9):
+  media: videobuf2: Update vb2_is_busy() logic
+  videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+  media: test-drivers: Set REQBUFS minimum number of buffers
+  media: core: Rework how create_buf index returned value is computed
+  media: core: Add bitmap manage bufs array entries
+  media: core: Free range of buffers
+  media: v4l2: Add REMOVE_BUFS ioctl
+  media: v4l2: Add mem2mem helpers for REMOVE_BUFS ioctl
+  media: verisilicon: Support removing buffers on capture queue
+
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-remove-bufs.rst          |  85 +++++++
+ .../media/v4l/vidioc-reqbufs.rst              |   1 +
+ .../media/common/videobuf2/videobuf2-core.c   | 223 ++++++++++++------
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  34 ++-
+ .../media/platform/verisilicon/hantro_v4l2.c  |   1 +
+ .../media/test-drivers/vicodec/vicodec-core.c |   1 +
+ .../media/test-drivers/vimc/vimc-capture.c    |   3 +-
+ drivers/media/test-drivers/visl/visl-video.c  |   1 +
+ drivers/media/test-drivers/vivid/vivid-core.c |   5 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   3 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  30 +++
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  15 ++
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |   2 +
+ include/media/videobuf2-core.h                |  52 +++-
+ include/media/videobuf2-v4l2.h                |   2 +
+ include/uapi/linux/videodev2.h                |  17 ++
+ 18 files changed, 394 insertions(+), 86 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-remove-bufs.rst
+
+-- 
+2.40.1
 
 
