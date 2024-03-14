@@ -1,189 +1,319 @@
-Return-Path: <linux-media+bounces-7051-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7052-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDDE87BB06
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 11:11:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE5F87BC09
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 12:38:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15645283259
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 10:11:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 523B61F22D82
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 11:38:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F6656E5E5;
-	Thu, 14 Mar 2024 10:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tGbbHdKF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A86D56EB70;
+	Thu, 14 Mar 2024 11:38:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AD36D1C8;
-	Thu, 14 Mar 2024 10:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A166EB68
+	for <linux-media@vger.kernel.org>; Thu, 14 Mar 2024 11:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710411055; cv=none; b=KKswtRRZMqzrW9wIihYZokwcnXZ8yu+wcbuDdn90H1SB/hvHvmPe0CUTXSNWjgve1zu2Yjv/RnQTj/ou5+3oJKrkc0Xr/0iHx+7Vnz+QtyM6nbG3W8koad+zCOULZUNH3YMVxNRiVKWDQpUfS/ji3fo4SYMihiJxzyCPcYaMaIw=
+	t=1710416298; cv=none; b=Ia8xh+/XgFuJ2gonXPksoczeESDdmDJ0gZyWdtMbINc4wB5zDxKEdXzIjbO2o/o+4CNszwfi3rD5MeNHnkOSoCbKyDIrqaUABfAnsrykj45CLcUJpJAXji2jdOSABGucpcXDSpECaS9r9jSrRh5gsIBQzaZtSFP6EdaZIZDU/bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710411055; c=relaxed/simple;
-	bh=NHtfGxhYFnBpkY/V0r9ZDvAGH7uhabLvklqAYXuLw/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sY1lwbgs9fUBdzz4LY0FLqT15Ez8jomgKsqYjVQZHGdq41Ob/ob9e+AIGqf90AenoOc2qeHQZFnaON6Jej82ddftNnm6qsKqnibK2V8dWrRUdx1Odn/EkvMQTpjDWy+mzCzyMNodCPqWEnFPjjuTM01J+XnKp3VADl0IQH9555A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tGbbHdKF; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8F67675;
-	Thu, 14 Mar 2024 11:10:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710411028;
-	bh=NHtfGxhYFnBpkY/V0r9ZDvAGH7uhabLvklqAYXuLw/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tGbbHdKFkvq56hha5BqkMYN0VaMpIa9uUJrn6y6GIsj6aHuxwTjv1HttRVoL5iuMi
-	 IJUGiqMmd+4rbohBKegGxujb8qV9rIPtVdLGQmstIWbd+DaRqUV20mAHdFXg6W1NDd
-	 oRM0iHIfSPA8dUbbYPLJKddPO1nad8ND4ENdMD/I=
-Date: Thu, 14 Mar 2024 12:10:49 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH v2] media: mipi-csis: Emit V4L2_EVENT_FRAME_SYNC events
-Message-ID: <20240314101049.GC4372@pendragon.ideasonboard.com>
-References: <20240314093652.56923-1-stefan.klug@ideasonboard.com>
+	s=arc-20240116; t=1710416298; c=relaxed/simple;
+	bh=Jvq93eiZUpaC2jM/dN+jr5qd2TR5heD8n4sg6Hom32w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u5RXx7lqrRXZPEN2Tu+lvuwt8hXvkf40ddEwH/7tsJI4BIoxoLEMiWX2ATMTcEnOk1Wi9YsLwxPFkLvsJs3Civ6f+UOOgiJN5BXTnCEKjUsuythimvaoViqA8JNVmHADhNFMuEHT2HSlw8myubk6i3lq2eu0o+C2f/RyFMFHmYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BEB8C433C7;
+	Thu, 14 Mar 2024 11:38:17 +0000 (UTC)
+Message-ID: <f326b9f8-a3ff-4dfc-b6b5-2f19ebf47140@xs4all.nl>
+Date: Thu, 14 Mar 2024 12:38:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240314093652.56923-1-stefan.klug@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/2] v4l2-compliance: Add a test for REMOVE_BUFS ioctl
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org
+References: <20240221155551.100156-1-benjamin.gaignard@collabora.com>
+ <20240221155551.100156-3-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240221155551.100156-3-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Stefan,
-
-Thank you for the patch.
-
-On Thu, Mar 14, 2024 at 10:36:50AM +0100, Stefan Klug wrote:
-> The Samsung CSIS MIPI receiver provides a start-of-frame interrupt and
-> a framecount register. As the CSI receiver is the hardware unit that lies
-> closest to the sensor, the frame counter is the best we can get on these
-> devices. In case of the ISI available on the i.MX8 M Plus it is also the
-> only native start-of-frame signal available.
-
-You still have either an extra line break or a missing blank line :-)
-
-> This patch exposes the sof interrupt and the framecount as
-> V4L2_EVENT_FRAME_SYNC event on the subdevice.
+On 21/02/2024 4:55 pm, Benjamin Gaignard wrote:
+> Add new test for REMOVE_BUFS ioctl.
+> It create buffers and check if they could be removed from queue.
+> It also check that removing non existing buffer or a queued
+> buffer failed.
+> Since using REMOVE_BUFS can create "holes" v4l_queue_querybufs()
+> function needs to be modify to do a range check between [from..from+count-1].
 > 
-> It was tested on a Debix-Som-A with a 6.8-rc4 kernel.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
-> Changes v1 -> v2:
->  - fixed formatting issues from review
->  - moved frame variable declaration to top of subscribe_event()
+>  utils/common/cv4l-helpers.h                 |  4 +
+>  utils/common/v4l-helpers.h                  | 27 ++++--
+>  utils/v4l2-compliance/v4l2-compliance.cpp   |  1 +
+>  utils/v4l2-compliance/v4l2-compliance.h     |  1 +
+>  utils/v4l2-compliance/v4l2-test-buffers.cpp | 99 +++++++++++++++++++++
+>  5 files changed, 127 insertions(+), 5 deletions(-)
 > 
-> Thanks all for the review!
-> 
->  drivers/media/platform/nxp/imx-mipi-csis.c | 34 +++++++++++++++++++++-
->  1 file changed, 33 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> index db8ff5f5c4d3..664be27c4224 100644
-> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -30,6 +30,7 @@
->  
->  #include <media/v4l2-common.h>
->  #include <media/v4l2-device.h>
-> +#include <media/v4l2-event.h>
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-mc.h>
->  #include <media/v4l2-subdev.h>
-> @@ -742,6 +743,18 @@ static void mipi_csis_stop_stream(struct mipi_csis_device *csis)
->  	mipi_csis_system_enable(csis, false);
+> diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
+> index 77c6517a..afe8d469 100644
+> --- a/utils/common/cv4l-helpers.h
+> +++ b/utils/common/cv4l-helpers.h
+> @@ -764,6 +764,10 @@ public:
+>  	{
+>  		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count, flags);
+>  	}
+> +	int remove_bufs(cv4l_fd *fd, unsigned index = 0, unsigned count = 0)
+> +	{
+> +		return v4l_queue_remove_bufs(fd->g_v4l_fd(), this, index, count);
+> +	}
+>  	bool has_create_bufs(cv4l_fd *fd) const
+>  	{
+>  		return v4l_queue_has_create_bufs(fd->g_v4l_fd(), this);
+> diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
+> index 7387b621..1240c23f 100644
+> --- a/utils/common/v4l-helpers.h
+> +++ b/utils/common/v4l-helpers.h
+> @@ -1513,12 +1513,29 @@ static inline void *v4l_queue_g_dataptr(const struct v4l_queue *q, unsigned inde
+>  	return v4l_queue_g_mmapping(q, index, plane);
 >  }
 >  
-> +static void mipi_csis_queue_event_sof(struct mipi_csis_device *csis)
-> +{
-> +	u32 frame;
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_FRAME_SYNC,
-> +	};
-
-Nitpicking, we usually sort declarations by decreasing length. No need
-for a v3.
-
+> -static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, unsigned from)
+> +static inline int v4l_queue_remove_bufs(struct v4l_fd *f, struct v4l_queue *q, unsigned index, unsigned count)
+>  {
+> -	unsigned b, p;
+> +	struct v4l2_remove_buffers removebufs;
+>  	int ret;
+>  
+> -	for (b = from; b < v4l_queue_g_buffers(q); b++) {
+> +	memset(&removebufs, 0, sizeof(removebufs));
+> +	removebufs.type = q->type;
+> +	removebufs.index = index;
+> +	removebufs.count = count;
 > +
-> +	frame = mipi_csis_read(csis, MIPI_CSIS_FRAME_COUNTER_CH(0));
-> +	event.u.frame_sync.frame_sequence = frame;
-> +	v4l2_event_queue(csis->sd.devnode, &event);
+> +	ret = v4l_ioctl(f, VIDIOC_REMOVE_BUFS, &removebufs);
+> +	if (!ret)
+> +		q->buffers -= removebufs.count;
+> +
+> +	return ret;
 > +}
 > +
->  static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
->  {
->  	struct mipi_csis_device *csis = dev_id;
-> @@ -765,6 +778,10 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
->  				event->counter++;
->  		}
->  	}
+> +static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, unsigned from, unsigned count)
+> +{
+> +	unsigned b, p, max = from + count;
+> +	int ret;
 > +
-> +	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
-> +		mipi_csis_queue_event_sof(csis);
-> +
->  	spin_unlock_irqrestore(&csis->slock, flags);
+> +	for (b = from; b < max; b++) {
+>  		struct v4l_buffer buf;
 >  
->  	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status);
-> @@ -1154,8 +1171,23 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
+>  		v4l_buffer_init(&buf, v4l_queue_g_type(q), v4l_queue_g_memory(q), b);
+> @@ -1556,7 +1573,7 @@ static inline int v4l_queue_reqbufs(struct v4l_fd *f,
+>  		return ret;
+>  	q->buffers = reqbufs.count;
+>  	q->capabilities = reqbufs.capabilities;
+> -	return v4l_queue_querybufs(f, q, 0);
+> +	return v4l_queue_querybufs(f, q, 0, reqbufs.count);
+>  }
+>  
+>  static inline bool v4l_queue_has_create_bufs(struct v4l_fd *f, const struct v4l_queue *q)
+> @@ -1596,7 +1613,7 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
+>  	if (q->capabilities & V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS)
+>  		q->max_num_buffers = createbufs.max_num_buffers;
+>  	q->buffers += createbufs.count;
+> -	return v4l_queue_querybufs(f, q, q->buffers - createbufs.count);
+> +	return v4l_queue_querybufs(f, q, createbufs.index, createbufs.count);
+>  }
+>  
+>  static inline int v4l_queue_mmap_bufs(struct v4l_fd *f,
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+> index 2f7a5058..c6a685eb 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
+> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+> @@ -1466,6 +1466,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+>  		printf("Buffer ioctls%s:\n", suffix);
+>  		printf("\ttest VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: %s\n", ok(testReqBufs(&node)));
+>  		printf("\ttest CREATE_BUFS maximum buffers: %s\n", ok(testCreateBufsMax(&node)));
+> +		printf("\ttest VIDIOC_REMOVE_BUFS: %s\n", ok(testRemoveBufs(&node)));
+>  		// Reopen after each streaming test to reset the streaming state
+>  		// in case of any errors in the preceeding test.
+>  		node.reopen();
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+> index 0cfc9a37..b6e342f3 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.h
+> +++ b/utils/v4l2-compliance/v4l2-compliance.h
+> @@ -385,6 +385,7 @@ int testReadWrite(struct node *node);
+>  int testExpBuf(struct node *node);
+>  int testBlockingWait(struct node *node);
+>  int testCreateBufsMax(struct node *node);
+> +int testRemoveBufs(struct node *node);
+>  
+>  // 32-bit architecture, 32/64-bit time_t tests
+>  int testTime32_64(struct node *node);
+> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> index 922b99b5..f71a3c0e 100644
+> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> @@ -529,6 +529,105 @@ static int testCanSetSameTimings(struct node *node)
 >  	return 0;
 >  }
 >  
-> +static int mipi_csis_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
-> +				     struct v4l2_event_subscription *sub)
+> +int testRemoveBufs(struct node *node)
 > +{
-> +	if (sub->type != V4L2_EVENT_FRAME_SYNC)
-> +		return -EINVAL;
+> +	int ret;
+> +	unsigned i;
 > +
-> +	/* V4L2_EVENT_FRAME_SYNC doesn't require an id, so zero should be set */
-> +	if (sub->id != 0)
-> +		return -EINVAL;
+> +	node->reopen();
 > +
-> +	return v4l2_event_subscribe(fh, sub, 0, NULL);
+> +	for (i = 1; i <= V4L2_BUF_TYPE_LAST; i++) {
+> +		struct v4l2_remove_buffers removebufs = { };
+> +
+> +		if (!(node->valid_buftypes & (1 << i)))
+> +			continue;
+> +
+> +		cv4l_queue q(i, V4L2_MEMORY_MMAP);
+> +
+> +		if (testSetupVbi(node, i))
+> +			continue;
+> +		ret = q.remove_bufs(node, 0, 0);
+> +		if (ret == ENOTTY) {
+> +			warn("VIDIOC_REMOVE_BUFS not supported\n");
+> +			continue;
+> +		}
+> +
+> +		q.init(i, V4L2_MEMORY_MMAP);
+> +		ret = q.create_bufs(node, 0);
+> +		fail_on_test_val(ret && ret != EINVAL, ret);
+
+Why the EINVAL check? If q.remove_bufs is present, then q.create_bufs must
+also be present. And creating '0' buffers should always work.
+
+> +
+> +		memset(&removebufs, 0xff, sizeof(removebufs));
+> +		removebufs.index = 0;
+> +		removebufs.count = 0;
+> +		removebufs.type = q.g_type();
+> +		fail_on_test(doioctl(node, VIDIOC_REMOVE_BUFS, &removebufs));
+> +		fail_on_test(check_0(removebufs.reserved, sizeof(removebufs.reserved)));
+> +
+> +		if (!ret) {
+
+With the above in mind, this 'if' can just be dropped and everything below
+has one less TAB indentation.
+
+> +			unsigned buffers;
+> +			buffer buf(i);
+> +
+> +			/* Create only 1 buffer */
+> +			fail_on_test(q.create_bufs(node, 1));
+> +			buffers = q.g_buffers();
+> +			fail_on_test(buffers == 0);
+
+Why not 'fail_on_test(buffers != 1);'?
+
+> +			/* Removing buffer index 1 must fail */
+> +			fail_on_test(q.remove_bufs(node, 1, buffers) != EINVAL);
+> +			/* Removing buffer index 0 is valid */
+> +			fail_on_test(q.remove_bufs(node, 0, buffers));
+> +			/* Removing buffer index 0 again must fail */
+> +			fail_on_test(q.remove_bufs(node, 0, 1) != EINVAL);
+> +			/* Create 3 buffers indexes 0 to 2 */
+> +			fail_on_test(q.create_bufs(node, 3));
+> +			/* Remove them one by one */
+> +			fail_on_test(q.remove_bufs(node, 2, 1));
+> +			fail_on_test(q.remove_bufs(node, 0, 1));
+> +			fail_on_test(q.remove_bufs(node, 1, 1));
+> +			/* Removing buffer index 0 again must fail */
+> +			fail_on_test(q.remove_bufs(node, 0, 1) != EINVAL);
+> +
+> +			/* for the next test the queue needs to be able to allocate 7 buffers */
+> +			if (q.g_max_num_buffers() < 7)
+
+Can g_max_num_buffers ever be < 32? Do we allow that? If so, does that work?
+I think we shouldn't allow that as it can potentially cause problems with
+existing applications that expect up to 32 buffers.
+
+Looking at the current vb2 code I think it is allowed, but I think we
+should forbid it, at least for now. So an attempt by a driver to set
+q->max_num_buffers to a non-zero value < 32 should be rejected with
+a WARN_ON().
+
+> +				continue;
+> +
+> +			/* Create 4 buffers indexes 0 to 3 */
+> +			fail_on_test(q.create_bufs(node, 4));
+> +			/* Remove buffers index 1 and 2 */
+> +			fail_on_test(q.remove_bufs(node, 1, 2));
+> +			/* Add 3 more buffers should be indexes 4 to 6 */
+> +			fail_on_test(q.create_bufs(node, 3));
+> +			/* Query buffers:
+> +			 * 1 and 2 have been removed they must fail
+> +			 * 0 and 4 to 6 must exist*/
+
+Shouldn't that be '3 to 6' instead of '4 to 6'?
+
+> +			fail_on_test(buf.querybuf(node, 0));
+> +			fail_on_test(buf.querybuf(node, 1) != EINVAL);
+> +			fail_on_test(buf.querybuf(node, 2) != EINVAL);
+
+Missing test for buffer index 3.
+
+> +			fail_on_test(buf.querybuf(node, 4));
+> +			fail_on_test(buf.querybuf(node, 5));
+> +			fail_on_test(buf.querybuf(node, 6));
+
+Add checks to verify that remove_bufs works if count == 0 and index is
+0, 1, 6, 7 or 0xffffffff. I.e. regardless of the buffer index, if count == 0
+remove_bufs should just return 0.
+
+> +			/* Remove existing buffer index 6 with bad type must fail */
+> +			memset(&removebufs, 0xff, sizeof(removebufs));
+> +			removebufs.index = 6;
+> +			removebufs.count = 1;
+> +			removebufs.type = 0;
+> +			fail_on_test(doioctl(node, VIDIOC_REMOVE_BUFS, &removebufs) != EINVAL);
+
+If count == 0, should this also fail or not? We certainly need a test for that,
+but I'm not sure what it should do.
+
+I'll reply to patch v20 7/9 as well about this.
+
+> +
+> +			/* Remove crossing max allowed buffers boundary must fail */
+> +			fail_on_test(q.remove_bufs(node, q.g_max_num_buffers() - 2, 7) != EINVAL);
+> +
+> +			/* Remove overflow must fail */
+> +			fail_on_test(q.remove_bufs(node, 3, 0xfffffff) != EINVAL);
+
+I'd like to see a test removing 2 buffers from index 2: that should fail.
+Ditto for removing 2 buffers from index 0.
+
+> +
+> +			/* Create 2 buffers, that must fill the hole */
+> +			fail_on_test(q.create_bufs(node, 2));
+> +			/* Remove all buffers */
+> +			fail_on_test(q.remove_bufs(node, 0, 7));
+> +		}
+> +	}
+> +
+> +	return 0;
 > +}
 > +
->  static const struct v4l2_subdev_core_ops mipi_csis_core_ops = {
->  	.log_status	= mipi_csis_log_status,
-> +	.subscribe_event =  mipi_csis_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
->  };
->  
->  static const struct v4l2_subdev_video_ops mipi_csis_video_ops = {
-> @@ -1358,7 +1390,7 @@ static int mipi_csis_subdev_init(struct mipi_csis_device *csis)
->  	snprintf(sd->name, sizeof(sd->name), "csis-%s",
->  		 dev_name(csis->dev));
->  
-> -	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
->  	sd->ctrl_handler = NULL;
->  
->  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+>  int testReqBufs(struct node *node)
+>  {
+>  	struct v4l2_create_buffers crbufs = { };
 
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
 
