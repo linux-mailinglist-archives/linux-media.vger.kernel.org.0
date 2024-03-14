@@ -1,137 +1,189 @@
-Return-Path: <linux-media+bounces-7050-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7051-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C0787BACB
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 10:57:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDDE87BB06
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 11:11:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 171FA283252
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 09:57:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15645283259
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 10:11:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D996D1BC;
-	Thu, 14 Mar 2024 09:57:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F6656E5E5;
+	Thu, 14 Mar 2024 10:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U2l7w9Kw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tGbbHdKF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FBC6CDC1;
-	Thu, 14 Mar 2024 09:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AD36D1C8;
+	Thu, 14 Mar 2024 10:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710410261; cv=none; b=fw206vPPwJxxnWUfiBaPtJtm8REVV6Gj66ZjOoiqOh99OQuUQBez//GC7/enyeVpplZfpF3dx+ux3TvWKQJmW3/68MhygZyp2V4GWL/3cAycZy2ZGUqYFZ2FHOBvSVy/AQZk1nV3p0vwuqnuNQIycZzla48By5PslhY48L9bQac=
+	t=1710411055; cv=none; b=KKswtRRZMqzrW9wIihYZokwcnXZ8yu+wcbuDdn90H1SB/hvHvmPe0CUTXSNWjgve1zu2Yjv/RnQTj/ou5+3oJKrkc0Xr/0iHx+7Vnz+QtyM6nbG3W8koad+zCOULZUNH3YMVxNRiVKWDQpUfS/ji3fo4SYMihiJxzyCPcYaMaIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710410261; c=relaxed/simple;
-	bh=VqCz2igfg2nWsES9iIOGmzpT62E7/xaNIwB8TKcfzcA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iFK/jhOR8540tZd5UPQSyPZYPwCbZ4PYRsgwF/Gem8H/Gc4cGWi0ggIcNZNw5gOOdXpOotoyBMOPVXOMaksmYbJDacBFpXm+Lm0z6L4HOQB4FTlhjWAhQozHa+zvebBZ/PZx/UCYSgPQi/a2ei4g7f04UEZRIl/vMHFH5u72Xlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U2l7w9Kw; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5689b7e8387so890819a12.2;
-        Thu, 14 Mar 2024 02:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710410258; x=1711015058; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9EQJP9snJ+QMn1kOIEI1bHrE4YWtBgcqYZRBKU0i0oU=;
-        b=U2l7w9Kwra7BMqOMQLyLhg88vX+CAXPuNqebUMcb+BjoSC9aeTCb1w7bBtlAIe+9M6
-         UKtEUzpHlMWOdm/35uTglltyMV5lVVztsDbjUIYA8cN5mkTe2RJr99ccibbUHnqEwsum
-         rekdDovVU6KeVD+9HYMaiwDQqrjttmsU9Y/1TInPvlbG0EiLVZ5zNEIVh2RNgnTuzmrM
-         1iILSbbzW9in13GwqDD8H1USpU8NvCC27w+HZlgcAufz7NWe2lysasyhUMTAuHg8Izel
-         /7U2oatGzcZ/4ayHENDj0s4KYlxrF28B285CGVCFviVr5o9cPUuKIu4Mg92TG22j0Vh8
-         URgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710410258; x=1711015058;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9EQJP9snJ+QMn1kOIEI1bHrE4YWtBgcqYZRBKU0i0oU=;
-        b=Ba4c2PTusd+KufUZs6ISx1PeaumfukkoVyMbFOaN4TjcAgRFa7MxYvfJHWngra4KQW
-         B0sTTZXHTPKgR057NzZRlxaA94pdNIS8rbRCYlQZq8z7Cy9dlFttjb2XCUjfvDc6x58W
-         Hxc8FBOmBCF9wEC30onJCF+HR63CzfwHH4NWsPSLCsD3IfqxYI5cjNpViYGp55dq4/Sm
-         XI9tipqBWy3qRG0bX9f64JMMIjc3Vt7iOzDdvoQ/jbvBrUvofla/sGdFJWb1CkOY6yDf
-         2skL40+2L5ghiTp1MXi0G/aLWN+aHgv74jqnIceQ2/EOkZoDCSPtzzckUjfTec4TU3kP
-         bINg==
-X-Forwarded-Encrypted: i=1; AJvYcCWOVNhPO5p9R8+fZ9c7HPrwQv5oLBwN54yRFqkKVckCEViULkNZ4Ct8ALBgwu3W1oOyZln293JGkJu0/Oj6S6A/RWcFa3sKJV2TI2u3njFyp/rGuujqzYRxOxeQdV2ST5pd2lfPqoHxEwU=
-X-Gm-Message-State: AOJu0Yx0DQEhRJDtLiiDFqAT/oRoBUSFkAjAR75lLR/rFEPH7+VeauJI
-	mYvFv6VOu7yVMVVjKaTT6Bcm2aK1yfbngymhDl5flDf9jOXlO/AnENlGbelGH/weWDrNBbpDQA3
-	H2z9oGbanRG+e4osIeiiIIuFK4So=
-X-Google-Smtp-Source: AGHT+IGyab5KBsAesnH1jxLgGY6boYF6TUj24EvyN1esyvAau51ilcVLio7p/CiieVnoKJ3jmExMyWomKfwPWIYn3oI=
-X-Received: by 2002:a17:906:ecfc:b0:a46:6557:716f with SMTP id
- qt28-20020a170906ecfc00b00a466557716fmr143159ejb.20.1710410257421; Thu, 14
- Mar 2024 02:57:37 -0700 (PDT)
+	s=arc-20240116; t=1710411055; c=relaxed/simple;
+	bh=NHtfGxhYFnBpkY/V0r9ZDvAGH7uhabLvklqAYXuLw/E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sY1lwbgs9fUBdzz4LY0FLqT15Ez8jomgKsqYjVQZHGdq41Ob/ob9e+AIGqf90AenoOc2qeHQZFnaON6Jej82ddftNnm6qsKqnibK2V8dWrRUdx1Odn/EkvMQTpjDWy+mzCzyMNodCPqWEnFPjjuTM01J+XnKp3VADl0IQH9555A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tGbbHdKF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8F67675;
+	Thu, 14 Mar 2024 11:10:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710411028;
+	bh=NHtfGxhYFnBpkY/V0r9ZDvAGH7uhabLvklqAYXuLw/E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tGbbHdKFkvq56hha5BqkMYN0VaMpIa9uUJrn6y6GIsj6aHuxwTjv1HttRVoL5iuMi
+	 IJUGiqMmd+4rbohBKegGxujb8qV9rIPtVdLGQmstIWbd+DaRqUV20mAHdFXg6W1NDd
+	 oRM0iHIfSPA8dUbbYPLJKddPO1nad8ND4ENdMD/I=
+Date: Thu, 14 Mar 2024 12:10:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>
+Subject: Re: [PATCH v2] media: mipi-csis: Emit V4L2_EVENT_FRAME_SYNC events
+Message-ID: <20240314101049.GC4372@pendragon.ideasonboard.com>
+References: <20240314093652.56923-1-stefan.klug@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240313070705.91140-3-umang.jain@ideasonboard.com> <202403141436.KEQj1YzE-lkp@intel.com>
-In-Reply-To: <202403141436.KEQj1YzE-lkp@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 14 Mar 2024 11:57:00 +0200
-Message-ID: <CAHp75Vdo4Q-1j7XYB92i5=LNwuB7fpV3jPgE98K1Z_QHP5Zxng@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] media: i2c: Add imx283 camera sensor driver
-To: kernel test robot <lkp@intel.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, willl will <will@willwhang.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, tomi.valkeinen@ideasonboard.com, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Hans de Goede <hdegoede@redhat.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Paul Elder <paul.elder@ideasonboard.com>, Mehdi Djait <mehdi.djait@bootlin.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240314093652.56923-1-stefan.klug@ideasonboard.com>
 
-On Thu, Mar 14, 2024 at 8:57=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Umang,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on media-tree/master]
-> [also build test ERROR on linuxtv-media-stage/master]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-d=
-t-bindings-media-Add-bindings-for-IMX283/20240313-151107
-> base:   git://linuxtv.org/media_tree.git master
-> patch link:    https://lore.kernel.org/r/20240313070705.91140-3-umang.jai=
-n%40ideasonboard.com
-> patch subject: [PATCH v3 2/2] media: i2c: Add imx283 camera sensor driver
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/202403=
-14/202403141436.KEQj1YzE-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240314/202403141436.KEQj1YzE-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403141436.KEQj1YzE-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
+Hi Stefan,
 
-...
+Thank you for the patch.
 
-> >> ERROR: modpost: "__udivdi3" [drivers/media/i2c/imx283.ko] undefined!
+On Thu, Mar 14, 2024 at 10:36:50AM +0100, Stefan Klug wrote:
+> The Samsung CSIS MIPI receiver provides a start-of-frame interrupt and
+> a framecount register. As the CSI receiver is the hardware unit that lies
+> closest to the sensor, the frame counter is the best we can get on these
+> devices. In case of the ISI available on the i.MX8 M Plus it is also the
+> only native start-of-frame signal available.
 
-I believe I have commented on a suspicious line (during v1 or v2
-review round). Seems nobody reacted :-)
+You still have either an extra line break or a missing blank line :-)
 
---=20
-With Best Regards,
-Andy Shevchenko
+> This patch exposes the sof interrupt and the framecount as
+> V4L2_EVENT_FRAME_SYNC event on the subdevice.
+> 
+> It was tested on a Debix-Som-A with a 6.8-rc4 kernel.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
+> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> ---
+> Changes v1 -> v2:
+>  - fixed formatting issues from review
+>  - moved frame variable declaration to top of subscribe_event()
+> 
+> Thanks all for the review!
+> 
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 34 +++++++++++++++++++++-
+>  1 file changed, 33 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> index db8ff5f5c4d3..664be27c4224 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -30,6 +30,7 @@
+>  
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-device.h>
+> +#include <media/v4l2-event.h>
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-mc.h>
+>  #include <media/v4l2-subdev.h>
+> @@ -742,6 +743,18 @@ static void mipi_csis_stop_stream(struct mipi_csis_device *csis)
+>  	mipi_csis_system_enable(csis, false);
+>  }
+>  
+> +static void mipi_csis_queue_event_sof(struct mipi_csis_device *csis)
+> +{
+> +	u32 frame;
+> +	struct v4l2_event event = {
+> +		.type = V4L2_EVENT_FRAME_SYNC,
+> +	};
+
+Nitpicking, we usually sort declarations by decreasing length. No need
+for a v3.
+
+> +
+> +	frame = mipi_csis_read(csis, MIPI_CSIS_FRAME_COUNTER_CH(0));
+> +	event.u.frame_sync.frame_sequence = frame;
+> +	v4l2_event_queue(csis->sd.devnode, &event);
+> +}
+> +
+>  static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+>  {
+>  	struct mipi_csis_device *csis = dev_id;
+> @@ -765,6 +778,10 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+>  				event->counter++;
+>  		}
+>  	}
+> +
+> +	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
+> +		mipi_csis_queue_event_sof(csis);
+> +
+>  	spin_unlock_irqrestore(&csis->slock, flags);
+>  
+>  	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status);
+> @@ -1154,8 +1171,23 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
+>  	return 0;
+>  }
+>  
+> +static int mipi_csis_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
+> +				     struct v4l2_event_subscription *sub)
+> +{
+> +	if (sub->type != V4L2_EVENT_FRAME_SYNC)
+> +		return -EINVAL;
+> +
+> +	/* V4L2_EVENT_FRAME_SYNC doesn't require an id, so zero should be set */
+> +	if (sub->id != 0)
+> +		return -EINVAL;
+> +
+> +	return v4l2_event_subscribe(fh, sub, 0, NULL);
+> +}
+> +
+>  static const struct v4l2_subdev_core_ops mipi_csis_core_ops = {
+>  	.log_status	= mipi_csis_log_status,
+> +	.subscribe_event =  mipi_csis_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+>  };
+>  
+>  static const struct v4l2_subdev_video_ops mipi_csis_video_ops = {
+> @@ -1358,7 +1390,7 @@ static int mipi_csis_subdev_init(struct mipi_csis_device *csis)
+>  	snprintf(sd->name, sizeof(sd->name), "csis-%s",
+>  		 dev_name(csis->dev));
+>  
+> -	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+>  	sd->ctrl_handler = NULL;
+>  
+>  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+
+-- 
+Regards,
+
+Laurent Pinchart
 
