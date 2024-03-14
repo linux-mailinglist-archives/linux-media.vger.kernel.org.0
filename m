@@ -1,75 +1,67 @@
-Return-Path: <linux-media+bounces-7048-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7049-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9012C87BA1D
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 10:14:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A241E87BA93
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 10:38:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 832701C214D8
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 09:14:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 27832B243FC
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 09:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E537C6CDA6;
-	Thu, 14 Mar 2024 09:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C2626CDD5;
+	Thu, 14 Mar 2024 09:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="lWDZU7oM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RurdlDfh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4577383B8;
-	Thu, 14 Mar 2024 09:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78122D629;
+	Thu, 14 Mar 2024 09:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710407649; cv=none; b=cYuiAg+UK7AZ6RQanMfUNK30XUkhYjdEIlDwkD4bZdk201Za523eVooiWHfit6Nrv5zSayCXhNeIC60rER1jpYU74JRrJ8Kfuc6Yo2HJ6ttClx7NrVmgs3zRCxF1RGTa5DsGt5sGM0aNPcBOd6x2tG9kK2C6iQWOHSlsYlp+8pI=
+	t=1710409070; cv=none; b=mPuShEMdQFclEMLrCzD+IMHaRvSdjZUxXKBytkZP22yKDWmCpNnIlrUT+DM7oOXGN9jYwvkfBirG65ywiNX+PFMmzfhdKmR7qUo+KsZ+mi01qOa7tVIjFQ2eJRuP1PKIDyOUf7jV39jib+RQn9RMQ71faIDDsar9CsUMhImOtwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710407649; c=relaxed/simple;
-	bh=MkPxD/mSb3e/nL1gcdizoWHAielr1Hx/WkR9sTx6OOQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FIUzCAi8XlaiC7w+CGnjzTY3YZ9fEEkh02sME9uFnTX+oUk+CKfLsLa1vbp3x5Qye0FSyhz5AIyeVea6qt/7V6ogI66dPSs0SeXbes+awlGsc7HDMluuc1pTFMSwLBVKjU+HSYHYsYW1yKGDpO1QOPWNUK5D2unjKm6qSzli0O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=lWDZU7oM; arc=none smtp.client-ip=207.54.90.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1710407647; x=1741943647;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MkPxD/mSb3e/nL1gcdizoWHAielr1Hx/WkR9sTx6OOQ=;
-  b=lWDZU7oMi99vwuuS6f6jMqw9xcfTz33hNjgD6/fW45caYLrbEk/s/Ft6
-   4Lks+FC5TEGaq17RWCrVpTVn8fmAflCp3MuvyuF0kxE4dmD5ifiAWNBih
-   QldsvLyrClmyRs8xMlc7T2aHyEOEEAwU/Aw+yOH2mWzmiN6ewOV1VDY/6
-   7ejRoAFt0kcuACicLvgy5gJCzdoxhTjQNnOhWkzwdC9SbYyP12D+RH5Z5
-   egzZBgDRPfHB3IabnZ8cKKvLfUG0T43MMugqxhxC+zdU3+CKwc5Iyz5PV
-   8ucfVdj9ueOa3yzbDeaTCnPOMQoFMPDdQ9f5Wjo8g6JHgWn33DzHDC/ue
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="131621572"
-X-IronPort-AV: E=Sophos;i="6.07,124,1708354800"; 
-   d="scan'208";a="131621572"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 18:14:04 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id F00E5D4800;
-	Thu, 14 Mar 2024 18:14:01 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 29753C19D7;
-	Thu, 14 Mar 2024 18:14:01 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id BF6996B4C5;
-	Thu, 14 Mar 2024 18:14:00 +0900 (JST)
-Received: from localhost.localdomain (unknown [10.167.226.45])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 4456D1A006B;
-	Thu, 14 Mar 2024 17:14:00 +0800 (CST)
-From: Li Zhijian <lizhijian@fujitsu.com>
-To: linux-kernel@vger.kernel.org
-Cc: Li Zhijian <lizhijian@fujitsu.com>,
-	Sean Young <sean@mess.org>,
+	s=arc-20240116; t=1710409070; c=relaxed/simple;
+	bh=EwMvKgGe1CCgKNeMgTrUggt9oO1B36dsyMycZ7GH2ww=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GlF+W8l209JMn6tbWB9odudlL2L3q+Vv1JS2XBTP1/1nK8ZHwH7l2J12UDX0azNZ1dqz6hlFrOfbGOvlr4f2egaPzX6QGQX/OQ71+cJv5pxzBKCG6hQdCownhghPUMQtx8If38LPZGi70uwZVgagOlLtCbctO3tAAPyLm4HiNHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RurdlDfh; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from jasper.fritz.box (unknown [IPv6:2a00:6020:448c:6c00:c467:7cd1:67a9:bc4c])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76F4F675;
+	Thu, 14 Mar 2024 10:37:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710409043;
+	bh=EwMvKgGe1CCgKNeMgTrUggt9oO1B36dsyMycZ7GH2ww=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RurdlDfhJHS1P8CFseVq5+ZP+KzX5fJZfDMgeKSOTEdwpLjLLcaic/CZ1gWSx31XM
+	 PCYIjoQw9ijd425qDTYhfXltbaHFV8otQp27Xel1nn/5pY52lMBfOvU2guwfNYLDAf
+	 Mu1QwnQDmTYt+CauGrnvW09bc40LCoAnqkdgjMt0=
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+To: libcamera-devel@lists.libcamera.org,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH] media: imon: Convert sprintf/snprintf to sysfs_emit
-Date: Thu, 14 Mar 2024 17:13:57 +0800
-Message-Id: <20240314091357.1323543-1-lizhijian@fujitsu.com>
-X-Mailer: git-send-email 2.31.1
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>
+Subject: [PATCH v2] media: mipi-csis: Emit V4L2_EVENT_FRAME_SYNC events
+Date: Thu, 14 Mar 2024 10:36:50 +0100
+Message-Id: <20240314093652.56923-1-stefan.klug@ideasonboard.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,69 +69,107 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28250.006
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28250.006
-X-TMASE-Result: 10--8.539700-10.000000
-X-TMASE-MatchedRID: 84oovQVhL8E4ibokZ3+Q0CoiRKlBVkYIBXngI6jFvpfDqO6/8R69QE8U
-	roFNOGp7a6aAZTOwtJmRloiW1Kgftd2ZdKe8BPbSfc0UG4EkZrGIkRP7M27eX2O0yVK/5LmcQiM
-	ingSlKoKMx5HzfQifbPE41045MrHXFDCN/1eC4ASdVNZaI2n6/8E5XPQnBzGXq8KsbROd9VSD3F
-	7iC1Qm2oHA6IBd3vQsXVJYHPH571zy7SCinQLRVHaNJ/iTxXCafS0Ip2eEHnz3IzXlXlpamPoLR
-	4+zsDTtD12T7q2dIUu6sDUxK6Er+o+9qtuJlxp/NljbRoOK+isrHwmcFXVg/g==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 
-Per filesystems/sysfs.rst, show() should only use sysfs_emit()
-or sysfs_emit_at() when formatting the value to be returned to user space.
+The Samsung CSIS MIPI receiver provides a start-of-frame interrupt and
+a framecount register. As the CSI receiver is the hardware unit that lies
+closest to the sensor, the frame counter is the best we can get on these
+devices. In case of the ISI available on the i.MX8 M Plus it is also the
+only native start-of-frame signal available.
+This patch exposes the sof interrupt and the framecount as
+V4L2_EVENT_FRAME_SYNC event on the subdevice.
 
-coccinelle complains that there are still a couple of functions that use
-snprintf(). Convert them to sysfs_emit().
+It was tested on a Debix-Som-A with a 6.8-rc4 kernel.
 
-sprintf() will be converted as weel if they have.
-
-Generally, this patch is generated by
-make coccicheck M=<path/to/file> MODE=patch \
-COCCI=scripts/coccinelle/api/device_attr_show.cocci
-
-No functional change intended
-
-CC: Sean Young <sean@mess.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
+Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
 ---
-This is a part of the work "Fix coccicheck device_attr_show warnings"[1]
-Split them per subsystem so that the maintainer can review it easily
-[1] https://lore.kernel.org/lkml/20240116041129.3937800-1-lizhijian@fujitsu.com/
----
- drivers/media/rc/imon.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Changes v1 -> v2:
+ - fixed formatting issues from review
+ - moved frame variable declaration to top of subscribe_event()
 
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 5719dda6e0f0..0b55314a8082 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -845,13 +845,13 @@ static ssize_t imon_clock_show(struct device *d,
- 	mutex_lock(&ictx->lock);
+Thanks all for the review!
+
+ drivers/media/platform/nxp/imx-mipi-csis.c | 34 +++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+index db8ff5f5c4d3..664be27c4224 100644
+--- a/drivers/media/platform/nxp/imx-mipi-csis.c
++++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+@@ -30,6 +30,7 @@
  
- 	if (!ictx->display_supported) {
--		len = snprintf(buf, PAGE_SIZE, "Not supported.");
-+		len = sysfs_emit(buf, "Not supported.");
- 	} else {
--		len = snprintf(buf, PAGE_SIZE,
--			"To set the clock on your iMON display:\n"
--			"# date \"+%%y %%m %%d %%w %%H %%M %%S\" > imon_clock\n"
--			"%s", ictx->display_isopen ?
--			"\nNOTE: imon device must be closed\n" : "");
-+		len = sysfs_emit(buf,
-+				 "To set the clock on your iMON display:\n"
-+				 "# date \"+%%y %%m %%d %%w %%H %%M %%S\" > imon_clock\n"
-+				 "%s", ictx->display_isopen ?
-+				 "\nNOTE: imon device must be closed\n" : "");
+ #include <media/v4l2-common.h>
+ #include <media/v4l2-device.h>
++#include <media/v4l2-event.h>
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-mc.h>
+ #include <media/v4l2-subdev.h>
+@@ -742,6 +743,18 @@ static void mipi_csis_stop_stream(struct mipi_csis_device *csis)
+ 	mipi_csis_system_enable(csis, false);
+ }
+ 
++static void mipi_csis_queue_event_sof(struct mipi_csis_device *csis)
++{
++	u32 frame;
++	struct v4l2_event event = {
++		.type = V4L2_EVENT_FRAME_SYNC,
++	};
++
++	frame = mipi_csis_read(csis, MIPI_CSIS_FRAME_COUNTER_CH(0));
++	event.u.frame_sync.frame_sequence = frame;
++	v4l2_event_queue(csis->sd.devnode, &event);
++}
++
+ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+ {
+ 	struct mipi_csis_device *csis = dev_id;
+@@ -765,6 +778,10 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+ 				event->counter++;
+ 		}
  	}
++
++	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
++		mipi_csis_queue_event_sof(csis);
++
+ 	spin_unlock_irqrestore(&csis->slock, flags);
  
- 	mutex_unlock(&ictx->lock);
+ 	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status);
+@@ -1154,8 +1171,23 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
+ 	return 0;
+ }
+ 
++static int mipi_csis_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
++				     struct v4l2_event_subscription *sub)
++{
++	if (sub->type != V4L2_EVENT_FRAME_SYNC)
++		return -EINVAL;
++
++	/* V4L2_EVENT_FRAME_SYNC doesn't require an id, so zero should be set */
++	if (sub->id != 0)
++		return -EINVAL;
++
++	return v4l2_event_subscribe(fh, sub, 0, NULL);
++}
++
+ static const struct v4l2_subdev_core_ops mipi_csis_core_ops = {
+ 	.log_status	= mipi_csis_log_status,
++	.subscribe_event =  mipi_csis_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+ };
+ 
+ static const struct v4l2_subdev_video_ops mipi_csis_video_ops = {
+@@ -1358,7 +1390,7 @@ static int mipi_csis_subdev_init(struct mipi_csis_device *csis)
+ 	snprintf(sd->name, sizeof(sd->name), "csis-%s",
+ 		 dev_name(csis->dev));
+ 
+-	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+ 	sd->ctrl_handler = NULL;
+ 
+ 	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
 -- 
-2.29.2
+2.40.1
 
 
