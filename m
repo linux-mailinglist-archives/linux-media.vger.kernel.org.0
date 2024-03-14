@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-7043-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7044-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7D687B860
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 08:17:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9AB387B862
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 08:18:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2D9F284DF4
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 07:17:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88CF5285AA3
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 07:18:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64D985C614;
-	Thu, 14 Mar 2024 07:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 364035C613;
+	Thu, 14 Mar 2024 07:18:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WzBD6dMu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LHeL8jkp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D755A119
-	for <linux-media@vger.kernel.org>; Thu, 14 Mar 2024 07:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FE75C612
+	for <linux-media@vger.kernel.org>; Thu, 14 Mar 2024 07:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710400635; cv=none; b=U5qLC6jQVPi9x6AAh/85rROja2ixt9NpLgkTsXRKxQybPSBDd3a/InRr08w7zZaywrJfSqX5v1mqaUS6E/aWSam39DYgBIc1685B1aW6E7MKSyeGy0Rhzb1ZbDnW5YQfjUUWeTNrhGz6J37UOVUKi0nGysyzvwBtlAzpTWiM+xE=
+	t=1710400693; cv=none; b=iPIVJI6y2G2XPubJTRGO1WQZa3G04dBcjk/r+Es1H4Q/s8hbi7pMYWVRffJdYt5KnCD/G5GD3bHxW0W+6D7rivZ/sbz6owykQQv94h1W6uimsoT036YKjYFAfpFHr21xeN6/jxO7RLjrJTI6grs8YfOgaV9LL8yvefoWCJvElZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710400635; c=relaxed/simple;
-	bh=KQzDmSvTSq6MiftmZcenfdule+Qnrr8oEePRBiiqF3g=;
+	s=arc-20240116; t=1710400693; c=relaxed/simple;
+	bh=YUYZrY9Tg+6Clz4blbg92o29HAdnIQ3GdpP3CZh+/ik=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O047VWfdXqVg6bXOh+vsxKnDqYoGlwUtWsKg2GmfSoeuT9E2eydP3m6PCDD/XRX0Kvn/eHtyUjUBlmk6K26W0jYiIR5H91uvkVKVGSBtqfKsCWV2u8cED0/hWFqMv3YB5wTETj+tchZIe+pXy4izDvF96jj+CyQOwulhmTzQiZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WzBD6dMu; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=qVgtN9R+Rl5PwkZbzcKbejawRuAO7E9F0aCfty3GBxk71PwYzQf0bg+sWS9z8icOGmtUZJ9MTQf6g9tWdBLFQowl2hYAt/MX4mD/9A9XjSjy//Z+IzL13WaGSdtkHUG2ha4s3SIB86+Kg+VwFhdn8shiH1vxL++Ama9xxfxQJUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LHeL8jkp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4677B675;
-	Thu, 14 Mar 2024 08:16:48 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79FED675;
+	Thu, 14 Mar 2024 08:17:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710400608;
-	bh=KQzDmSvTSq6MiftmZcenfdule+Qnrr8oEePRBiiqF3g=;
+	s=mail; t=1710400667;
+	bh=YUYZrY9Tg+6Clz4blbg92o29HAdnIQ3GdpP3CZh+/ik=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WzBD6dMurLTQii6S8kNCxyjlPCQWovejA+C34i62mSYxiPbyUYKcuZVjvYfsL4Ho9
-	 42NzOr9n6EdUteZ6ckrj0fWOSgkQyZBy2NmnzRUBH+0CoQVrdz6+5JEII6/0yLNi2t
-	 0BaZMnd2RDmBZbBtpTcIBbqotHOjzUJNOt8w4Dy0=
-Message-ID: <86a51397-d0a9-4875-a3e8-fb4526b340f4@ideasonboard.com>
-Date: Thu, 14 Mar 2024 09:17:08 +0200
+	b=LHeL8jkp8NYQwFqCburwjp7CYZi9GbnEKEj4QfSd2wfVTcG/S74KnHbgKLtdnFYMd
+	 3DshKF7ISV3iMGohOZTysHXSvUegUAA5l9LQ4dQ9rUHL4TRv5FVfDhrJRYybKYHScE
+	 qDKOiyRTrQly998bo4/DPP/NG5K/w2+1/ad/iMTM=
+Message-ID: <2b34207f-4c72-4c51-84f7-0e5c1d79de0d@ideasonboard.com>
+Date: Thu, 14 Mar 2024 09:18:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/38] media: mc: Add INTERNAL pad flag
+Subject: Re: [PATCH v8 02/38] media: Documentation: Add "stream" into glossary
 Content-Language: en-US
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -61,7 +61,7 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  "Ng, Khai Wen" <khai.wen.ng@intel.com>,
  Alain Volmat <alain.volmat@foss.st.com>
 References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-2-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-3-sakari.ailus@linux.intel.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -106,105 +106,38 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240313072516.241106-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240313072516.241106-3-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 13/03/2024 09:24, Sakari Ailus wrote:
-> Internal source pads will be used as routing endpoints in V4L2
-> [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
-> Internal source pads are pads that have both SINK and INTERNAL flags set.
-> 
-> Also prevent creating links to pads that have been flagged as internal and
-> initialising SOURCE pads with INTERNAL flag set.
+> Add term "stream" to the glossary of the Media subsystem documentation.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->   .../userspace-api/media/mediactl/media-types.rst       |  8 ++++++++
->   drivers/media/mc/mc-entity.c                           | 10 ++++++++--
->   include/uapi/linux/media.h                             |  1 +
->   3 files changed, 17 insertions(+), 2 deletions(-)
+>   Documentation/userspace-api/media/glossary.rst | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-> index 6332e8395263..f55ef055bcf8 100644
-> --- a/Documentation/userspace-api/media/mediactl/media-types.rst
-> +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-> @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
->   .. _MEDIA-PAD-FL-SINK:
->   .. _MEDIA-PAD-FL-SOURCE:
->   .. _MEDIA-PAD-FL-MUST-CONNECT:
-> +.. _MEDIA-PAD-FL-INTERNAL:
+> diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
+> index 96a360edbf3b..ef0ab601b5bf 100644
+> --- a/Documentation/userspace-api/media/glossary.rst
+> +++ b/Documentation/userspace-api/media/glossary.rst
+> @@ -173,6 +173,12 @@ Glossary
+>   	An integrated circuit that integrates all components of a computer
+>   	or other electronic systems.
 >   
->   .. flat-table:: Media pad flags
->       :header-rows:  0
-> @@ -381,6 +382,13 @@ Types and flags used to represent the media graph elements
->   	  enabled links even when this flag isn't set; the absence of the flag
->   	  doesn't imply there is none.
->   
-> +    *  -  ``MEDIA_PAD_FL_INTERNAL``
-> +       -  The internal flag indicates an internal pad that has no external
-> +	  connections. Such a pad shall not be connected with a link.
+> +_media-glossary-stream:
+> +    Stream
+> +	A distinct flow of data (image data or metadata) from an initial source
+> +	to a final sink. The initial source may be e.g. an image sensor and the
+> +	final sink e.g. a memory buffer.
 > +
-> +	  The internal flag may currently be present only in a source pad where
-
-s/source/sink/
+>       V4L2 API
+>   	**V4L2 userspace API**
+>   
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
-
-
-> +	  it indicates that the :ref:``stream <media-glossary-stream>``
-> +	  originates from within the entity.
->   
->   One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
->   must be set for every pad.
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 0e28b9a7936e..1973e9e1013e 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -213,7 +213,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
->   		iter->index = i++;
->   
->   		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
-> -					     MEDIA_PAD_FL_SOURCE)) != 1) {
-> +					     MEDIA_PAD_FL_SOURCE)) != 1 ||
-> +		    (iter->flags & MEDIA_PAD_FL_INTERNAL &&
-> +		     !(iter->flags & MEDIA_PAD_FL_SINK))) {
->   			ret = -EINVAL;
->   			break;
->   		}
-> @@ -1112,7 +1114,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
->   
->   	for (i = 0; i < entity->num_pads; i++) {
->   		if ((entity->pads[i].flags &
-> -		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
-> +		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
-> +		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
->   			continue;
->   
->   		if (entity->pads[i].sig_type == sig_type)
-> @@ -1142,6 +1145,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
->   		return -EINVAL;
->   	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
->   		return -EINVAL;
-> +	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
-> +	    WARN_ON(sink->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
-> +		return -EINVAL;
->   
->   	link = media_add_link(&source->links);
->   	if (link == NULL)
-> diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-> index 1c80b1d6bbaf..80cfd12a43fc 100644
-> --- a/include/uapi/linux/media.h
-> +++ b/include/uapi/linux/media.h
-> @@ -208,6 +208,7 @@ struct media_entity_desc {
->   #define MEDIA_PAD_FL_SINK			(1U << 0)
->   #define MEDIA_PAD_FL_SOURCE			(1U << 1)
->   #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
-> +#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
->   
->   struct media_pad_desc {
->   	__u32 entity;		/* entity ID */
 
 
