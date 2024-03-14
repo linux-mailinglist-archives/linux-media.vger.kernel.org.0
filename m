@@ -1,319 +1,123 @@
-Return-Path: <linux-media+bounces-7052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7053-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE5F87BC09
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 12:38:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B33E87BC20
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 12:45:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 523B61F22D82
-	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 11:38:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7CF1B2172E
+	for <lists+linux-media@lfdr.de>; Thu, 14 Mar 2024 11:45:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A86D56EB70;
-	Thu, 14 Mar 2024 11:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9666EB5A;
+	Thu, 14 Mar 2024 11:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="n+gXxgNB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A166EB68
-	for <linux-media@vger.kernel.org>; Thu, 14 Mar 2024 11:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3E86F066;
+	Thu, 14 Mar 2024 11:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710416298; cv=none; b=Ia8xh+/XgFuJ2gonXPksoczeESDdmDJ0gZyWdtMbINc4wB5zDxKEdXzIjbO2o/o+4CNszwfi3rD5MeNHnkOSoCbKyDIrqaUABfAnsrykj45CLcUJpJAXji2jdOSABGucpcXDSpECaS9r9jSrRh5gsIBQzaZtSFP6EdaZIZDU/bk=
+	t=1710416704; cv=none; b=Sdbb95j27ylunWdmjgJ5GCnVQHDQFQFb5r7uBTYZjv4IpSOx25cNK4TwJ9P0ITpm3QI/FX8L8ba6YS4Iia3VDjctvdzvq0FfDXjgDP+je28dlKS8IDKtOGDPWyBVdLi1LuB2BOluvmGRTIiQ5etUj+mHQKT9fV2l5/1BU3uO2z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710416298; c=relaxed/simple;
-	bh=Jvq93eiZUpaC2jM/dN+jr5qd2TR5heD8n4sg6Hom32w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u5RXx7lqrRXZPEN2Tu+lvuwt8hXvkf40ddEwH/7tsJI4BIoxoLEMiWX2ATMTcEnOk1Wi9YsLwxPFkLvsJs3Civ6f+UOOgiJN5BXTnCEKjUsuythimvaoViqA8JNVmHADhNFMuEHT2HSlw8myubk6i3lq2eu0o+C2f/RyFMFHmYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BEB8C433C7;
-	Thu, 14 Mar 2024 11:38:17 +0000 (UTC)
-Message-ID: <f326b9f8-a3ff-4dfc-b6b5-2f19ebf47140@xs4all.nl>
-Date: Thu, 14 Mar 2024 12:38:15 +0100
+	s=arc-20240116; t=1710416704; c=relaxed/simple;
+	bh=dM7gSMltkO2iXzKg5g67/S6GcDNL6hTuJG/M2KRQRSw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FKowmi+fBELzBR/oxgbeKnTEuK285nkJW0oNct1YtPz5pfdS3QTv6foBZw1bG99OPtTJVW8wsdYIi7/KFTxIzeOE4QDV8Pfo9hV/uNOvpiFfdcF19OO47r+A895DiVtCK3u7Vkk2SBhNOf/O+qB9y8XJxP0ZYPryL1OY7UJNK7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=n+gXxgNB; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 4724f9dee1f811ee935d6952f98a51a9-20240314
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=UxJYj8Ub0WqcViLUsXIUaPYc9DwJ148RUl4hICOZhNU=;
+	b=n+gXxgNB4zKf+GXn/ZIyaQ8x6+cMsF1tKzhiMxRw3LY7QZyOF3/lkllOj0BZXbKmud6FGamawwgpM2Tll5TwDvO8bRUDDJyKcRfITW/zvwCqb9b/vSp2EvEF2KCfjJo7769llbiPjDKv90KoAXtJu4nKvlC70geV859jFVUmncY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:d482f04c-52c7-4e77-ac65-c5511373c2bc,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:6f543d0,CLOUDID:81238081-4f93-4875-95e7-8c66ea833d57,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 4724f9dee1f811ee935d6952f98a51a9-20240314
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+	(envelope-from <yunfei.dong@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1858208254; Thu, 14 Mar 2024 19:44:55 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 14 Mar 2024 19:44:54 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 14 Mar 2024 19:44:53 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+	<nfraprado@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
+ Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v2,0/4] media: mediatek: vcodec: fix ctrl request complete fail
+Date: Thu, 14 Mar 2024 19:44:48 +0800
+Message-ID: <20240314114452.17532-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/2] v4l2-compliance: Add a test for REMOVE_BUFS ioctl
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org
-References: <20240221155551.100156-1-benjamin.gaignard@collabora.com>
- <20240221155551.100156-3-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240221155551.100156-3-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-On 21/02/2024 4:55 pm, Benjamin Gaignard wrote:
-> Add new test for REMOVE_BUFS ioctl.
-> It create buffers and check if they could be removed from queue.
-> It also check that removing non existing buffer or a queued
-> buffer failed.
-> Since using REMOVE_BUFS can create "holes" v4l_queue_querybufs()
-> function needs to be modify to do a range check between [from..from+count-1].
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  utils/common/cv4l-helpers.h                 |  4 +
->  utils/common/v4l-helpers.h                  | 27 ++++--
->  utils/v4l2-compliance/v4l2-compliance.cpp   |  1 +
->  utils/v4l2-compliance/v4l2-compliance.h     |  1 +
->  utils/v4l2-compliance/v4l2-test-buffers.cpp | 99 +++++++++++++++++++++
->  5 files changed, 127 insertions(+), 5 deletions(-)
-> 
-> diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
-> index 77c6517a..afe8d469 100644
-> --- a/utils/common/cv4l-helpers.h
-> +++ b/utils/common/cv4l-helpers.h
-> @@ -764,6 +764,10 @@ public:
->  	{
->  		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count, flags);
->  	}
-> +	int remove_bufs(cv4l_fd *fd, unsigned index = 0, unsigned count = 0)
-> +	{
-> +		return v4l_queue_remove_bufs(fd->g_v4l_fd(), this, index, count);
-> +	}
->  	bool has_create_bufs(cv4l_fd *fd) const
->  	{
->  		return v4l_queue_has_create_bufs(fd->g_v4l_fd(), this);
-> diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-> index 7387b621..1240c23f 100644
-> --- a/utils/common/v4l-helpers.h
-> +++ b/utils/common/v4l-helpers.h
-> @@ -1513,12 +1513,29 @@ static inline void *v4l_queue_g_dataptr(const struct v4l_queue *q, unsigned inde
->  	return v4l_queue_g_mmapping(q, index, plane);
->  }
->  
-> -static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, unsigned from)
-> +static inline int v4l_queue_remove_bufs(struct v4l_fd *f, struct v4l_queue *q, unsigned index, unsigned count)
->  {
-> -	unsigned b, p;
-> +	struct v4l2_remove_buffers removebufs;
->  	int ret;
->  
-> -	for (b = from; b < v4l_queue_g_buffers(q); b++) {
-> +	memset(&removebufs, 0, sizeof(removebufs));
-> +	removebufs.type = q->type;
-> +	removebufs.index = index;
-> +	removebufs.count = count;
-> +
-> +	ret = v4l_ioctl(f, VIDIOC_REMOVE_BUFS, &removebufs);
-> +	if (!ret)
-> +		q->buffers -= removebufs.count;
-> +
-> +	return ret;
-> +}
-> +
-> +static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, unsigned from, unsigned count)
-> +{
-> +	unsigned b, p, max = from + count;
-> +	int ret;
-> +
-> +	for (b = from; b < max; b++) {
->  		struct v4l_buffer buf;
->  
->  		v4l_buffer_init(&buf, v4l_queue_g_type(q), v4l_queue_g_memory(q), b);
-> @@ -1556,7 +1573,7 @@ static inline int v4l_queue_reqbufs(struct v4l_fd *f,
->  		return ret;
->  	q->buffers = reqbufs.count;
->  	q->capabilities = reqbufs.capabilities;
-> -	return v4l_queue_querybufs(f, q, 0);
-> +	return v4l_queue_querybufs(f, q, 0, reqbufs.count);
->  }
->  
->  static inline bool v4l_queue_has_create_bufs(struct v4l_fd *f, const struct v4l_queue *q)
-> @@ -1596,7 +1613,7 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
->  	if (q->capabilities & V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS)
->  		q->max_num_buffers = createbufs.max_num_buffers;
->  	q->buffers += createbufs.count;
-> -	return v4l_queue_querybufs(f, q, q->buffers - createbufs.count);
-> +	return v4l_queue_querybufs(f, q, createbufs.index, createbufs.count);
->  }
->  
->  static inline int v4l_queue_mmap_bufs(struct v4l_fd *f,
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-> index 2f7a5058..c6a685eb 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
-> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-> @@ -1466,6 +1466,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->  		printf("Buffer ioctls%s:\n", suffix);
->  		printf("\ttest VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: %s\n", ok(testReqBufs(&node)));
->  		printf("\ttest CREATE_BUFS maximum buffers: %s\n", ok(testCreateBufsMax(&node)));
-> +		printf("\ttest VIDIOC_REMOVE_BUFS: %s\n", ok(testRemoveBufs(&node)));
->  		// Reopen after each streaming test to reset the streaming state
->  		// in case of any errors in the preceeding test.
->  		node.reopen();
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-> index 0cfc9a37..b6e342f3 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.h
-> +++ b/utils/v4l2-compliance/v4l2-compliance.h
-> @@ -385,6 +385,7 @@ int testReadWrite(struct node *node);
->  int testExpBuf(struct node *node);
->  int testBlockingWait(struct node *node);
->  int testCreateBufsMax(struct node *node);
-> +int testRemoveBufs(struct node *node);
->  
->  // 32-bit architecture, 32/64-bit time_t tests
->  int testTime32_64(struct node *node);
-> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> index 922b99b5..f71a3c0e 100644
-> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> @@ -529,6 +529,105 @@ static int testCanSetSameTimings(struct node *node)
->  	return 0;
->  }
->  
-> +int testRemoveBufs(struct node *node)
-> +{
-> +	int ret;
-> +	unsigned i;
-> +
-> +	node->reopen();
-> +
-> +	for (i = 1; i <= V4L2_BUF_TYPE_LAST; i++) {
-> +		struct v4l2_remove_buffers removebufs = { };
-> +
-> +		if (!(node->valid_buftypes & (1 << i)))
-> +			continue;
-> +
-> +		cv4l_queue q(i, V4L2_MEMORY_MMAP);
-> +
-> +		if (testSetupVbi(node, i))
-> +			continue;
-> +		ret = q.remove_bufs(node, 0, 0);
-> +		if (ret == ENOTTY) {
-> +			warn("VIDIOC_REMOVE_BUFS not supported\n");
-> +			continue;
-> +		}
-> +
-> +		q.init(i, V4L2_MEMORY_MMAP);
-> +		ret = q.create_bufs(node, 0);
-> +		fail_on_test_val(ret && ret != EINVAL, ret);
+Moving v4l2_ctrl_request_complete to before of function
+v4l2_m2m_buf_done to make sure the status of request correctly.
 
-Why the EINVAL check? If q.remove_bufs is present, then q.create_bufs must
-also be present. And creating '0' buffers should always work.
+Replace v4l2_m2m_next_src_buf with v4l2_m2m_src_buf_remove to
+make sure the src buffer won't be removed for some unknown
+reason leading to buffer done error.
 
-> +
-> +		memset(&removebufs, 0xff, sizeof(removebufs));
-> +		removebufs.index = 0;
-> +		removebufs.count = 0;
-> +		removebufs.type = q.g_type();
-> +		fail_on_test(doioctl(node, VIDIOC_REMOVE_BUFS, &removebufs));
-> +		fail_on_test(check_0(removebufs.reserved, sizeof(removebufs.reserved)));
-> +
-> +		if (!ret) {
+Patch 1 setting request complete before buffer done
+Patch 3 flush decoder before remove all source buffer
+Patch 2 change flush decode from capture to output when stream off
+Patch 4 replace v4l2_m2m_next_src_buf with v4l2_m2m_src_buf_remove
+---
+compared with v1:
+- add patch 2/3/4 to fix timing issue.
+---
+Yunfei Dong (4):
+  media: mediatek: vcodec: setting request complete before buffer done
+  media: mediatek: vcodec: change flush decode from capture to output
+    when stream off
+  media: mediatek: vcodec: flush decoder before remove all source buffer
+  media: mediatek: vcodec: replace v4l2_m2m_next_src_buf with
+    v4l2_m2m_src_buf_remove
 
-With the above in mind, this 'if' can just be dropped and everything below
-has one less TAB indentation.
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 52 +++++++++----------
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  3 +-
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 28 +++++++---
+ .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c | 28 +++++-----
+ .../decoder/vdec/vdec_h264_req_multi_if.c     |  3 +-
+ .../decoder/vdec/vdec_hevc_req_multi_if.c     |  3 +-
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 37 ++++++-------
+ .../mediatek/vcodec/decoder/vdec_msg_queue.h  |  2 +
+ 8 files changed, 84 insertions(+), 72 deletions(-)
 
-> +			unsigned buffers;
-> +			buffer buf(i);
-> +
-> +			/* Create only 1 buffer */
-> +			fail_on_test(q.create_bufs(node, 1));
-> +			buffers = q.g_buffers();
-> +			fail_on_test(buffers == 0);
+-- 
+2.18.0
 
-Why not 'fail_on_test(buffers != 1);'?
-
-> +			/* Removing buffer index 1 must fail */
-> +			fail_on_test(q.remove_bufs(node, 1, buffers) != EINVAL);
-> +			/* Removing buffer index 0 is valid */
-> +			fail_on_test(q.remove_bufs(node, 0, buffers));
-> +			/* Removing buffer index 0 again must fail */
-> +			fail_on_test(q.remove_bufs(node, 0, 1) != EINVAL);
-> +			/* Create 3 buffers indexes 0 to 2 */
-> +			fail_on_test(q.create_bufs(node, 3));
-> +			/* Remove them one by one */
-> +			fail_on_test(q.remove_bufs(node, 2, 1));
-> +			fail_on_test(q.remove_bufs(node, 0, 1));
-> +			fail_on_test(q.remove_bufs(node, 1, 1));
-> +			/* Removing buffer index 0 again must fail */
-> +			fail_on_test(q.remove_bufs(node, 0, 1) != EINVAL);
-> +
-> +			/* for the next test the queue needs to be able to allocate 7 buffers */
-> +			if (q.g_max_num_buffers() < 7)
-
-Can g_max_num_buffers ever be < 32? Do we allow that? If so, does that work?
-I think we shouldn't allow that as it can potentially cause problems with
-existing applications that expect up to 32 buffers.
-
-Looking at the current vb2 code I think it is allowed, but I think we
-should forbid it, at least for now. So an attempt by a driver to set
-q->max_num_buffers to a non-zero value < 32 should be rejected with
-a WARN_ON().
-
-> +				continue;
-> +
-> +			/* Create 4 buffers indexes 0 to 3 */
-> +			fail_on_test(q.create_bufs(node, 4));
-> +			/* Remove buffers index 1 and 2 */
-> +			fail_on_test(q.remove_bufs(node, 1, 2));
-> +			/* Add 3 more buffers should be indexes 4 to 6 */
-> +			fail_on_test(q.create_bufs(node, 3));
-> +			/* Query buffers:
-> +			 * 1 and 2 have been removed they must fail
-> +			 * 0 and 4 to 6 must exist*/
-
-Shouldn't that be '3 to 6' instead of '4 to 6'?
-
-> +			fail_on_test(buf.querybuf(node, 0));
-> +			fail_on_test(buf.querybuf(node, 1) != EINVAL);
-> +			fail_on_test(buf.querybuf(node, 2) != EINVAL);
-
-Missing test for buffer index 3.
-
-> +			fail_on_test(buf.querybuf(node, 4));
-> +			fail_on_test(buf.querybuf(node, 5));
-> +			fail_on_test(buf.querybuf(node, 6));
-
-Add checks to verify that remove_bufs works if count == 0 and index is
-0, 1, 6, 7 or 0xffffffff. I.e. regardless of the buffer index, if count == 0
-remove_bufs should just return 0.
-
-> +			/* Remove existing buffer index 6 with bad type must fail */
-> +			memset(&removebufs, 0xff, sizeof(removebufs));
-> +			removebufs.index = 6;
-> +			removebufs.count = 1;
-> +			removebufs.type = 0;
-> +			fail_on_test(doioctl(node, VIDIOC_REMOVE_BUFS, &removebufs) != EINVAL);
-
-If count == 0, should this also fail or not? We certainly need a test for that,
-but I'm not sure what it should do.
-
-I'll reply to patch v20 7/9 as well about this.
-
-> +
-> +			/* Remove crossing max allowed buffers boundary must fail */
-> +			fail_on_test(q.remove_bufs(node, q.g_max_num_buffers() - 2, 7) != EINVAL);
-> +
-> +			/* Remove overflow must fail */
-> +			fail_on_test(q.remove_bufs(node, 3, 0xfffffff) != EINVAL);
-
-I'd like to see a test removing 2 buffers from index 2: that should fail.
-Ditto for removing 2 buffers from index 0.
-
-> +
-> +			/* Create 2 buffers, that must fill the hole */
-> +			fail_on_test(q.create_bufs(node, 2));
-> +			/* Remove all buffers */
-> +			fail_on_test(q.remove_bufs(node, 0, 7));
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int testReqBufs(struct node *node)
->  {
->  	struct v4l2_create_buffers crbufs = { };
-
-Regards,
-
-	Hans
 
