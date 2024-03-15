@@ -1,193 +1,160 @@
-Return-Path: <linux-media+bounces-7118-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7119-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A6787CBCE
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 12:01:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3458A87CBEA
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 12:11:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B79F28389E
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 11:01:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 660A51C2256F
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 11:11:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E86A51A58E;
-	Fri, 15 Mar 2024 11:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CB231B5AD;
+	Fri, 15 Mar 2024 11:11:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0KrHfQjm"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="l6nDnYbQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6638D18035
-	for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 11:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D340B19470;
+	Fri, 15 Mar 2024 11:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710500481; cv=none; b=cnTSZ3LOeeNkoBgp3MNABAZwu2zQWgJ1tgWLLf4YdbtSPEVwiC8Z+9qICJqxATqIZNnVwAtdC4SZTWTGgMXe98YrnchOfAlqY0Du1nsCInKACzF3pDNQm1AjxquX7j1lNvcp5+bOa185kKJ6DF95XqPFPlQGiz2D9fIpmznm9hk=
+	t=1710501091; cv=none; b=CPEJD1T7ePAXL0v46gGWcBdSg9F3O6ItQddXfHnPOKtjXz+xHlMUOYuHgK0ULEpnQrIk/qgFTcCGiJmLoO14fX4P5DBY3QcGqAEY66mhaR263GusOOoIO4MScGjLTMeYGNFU8QiNimGY+HAsBCWbJxoJ0/nawVXQqHaOg8FC0pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710500481; c=relaxed/simple;
-	bh=1bp9ya6mUTdhU/FzzsHERh5njunu+iph5TE1N9ar6zQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MkbapEP2ax+ZfFVrWRMlyq4Nbdu5H1EIguKuWlxLOL23F+05tk0v1fyusmDfU2gOx7HSDgCCuhEHQKcFXI2e+Z/31tSnHC3uqZXPtENd0dL8z4ymAbRM2+J/bT6d6vlrWBpYLP3dLUO5tY/8czUSZyugF48wHP69kZ+a1TzUjI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0KrHfQjm; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-430a65e973bso7787631cf.3
-        for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 04:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710500478; x=1711105278; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5DsyBbYAZw/09Nakq0pDw/8yd9OC3IgRs2xlCXHLsrE=;
-        b=0KrHfQjmpkRwbZCaWB6aajlxkeTQyJaR8SGhkW4gyLoWycW5Qew46jI8Be9qx5IYtK
-         23SNd5WFJKrFAXslqZOFC4QiP1I9S1IaEaJebnLvO2BYpYV4UTKGly2/tbIPdQK1DUq9
-         0JO49ZAaGVTigrafNhSQ1Hj7Los5xAvfpL6Dbxg17oJjGybV30eChz5hbJhfC1ZfllMk
-         CuLEuA/gpmhPK9G9kVbyiGQGuT815tuj8oO6P9tPp0boSOxptEZJipuvOlKlP9ZXSpZC
-         40Z5M9Xui3/tpBwEMpfRG4p3DKmlVtJvsjTpNZgqsaehUv2yaf1sEITHqWV1evE81874
-         shPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710500478; x=1711105278;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5DsyBbYAZw/09Nakq0pDw/8yd9OC3IgRs2xlCXHLsrE=;
-        b=Dta4MfRvqg70vn6eTdu/fHK4oCrsEZ/lijzoT9yY2Rg/VkgrYyGpneOTomHUzhCNsq
-         x44jS7Tkv5q+dwNGRDOY4X+G1sFik0+Zk5HwXWFdtrWJwDu5vrUo7mI531VUxypw26vE
-         I/spUKPrAfZJXqteV2iziW3xdwgG6WBaZgH83OpYJgl/DFDVLVSTcH1Uzi6hNe6dgE4Y
-         a7jKbIu5wrF/0ZqsKwKoJbQpe0+dmb/cf1D2UD2XYv1/MpvBWtJCC5AlWL8waV2U18Wa
-         lGvQqtebi2seALnshRUYIMDgVSyxSzUMmThBu/o3F0BtnjBzlKRyd2m12K6SQPk2rWtb
-         Yxww==
-X-Forwarded-Encrypted: i=1; AJvYcCVdA8Q9ENLEpRjjthQABLkDq63+HUbkqkmEaQwzq0QkyYTZe/Ctsy/JikI3kPbSeZA5wxCdrl9Rwh0MTg0GjNkutYuMxBfZZ4p6aNU=
-X-Gm-Message-State: AOJu0YwBiodqj74Fn59+bOyUskYbmUJK3N3vrkXAUgoVRjJ6EQP6NIqY
-	sIdU0w4Q1PcOKXM8QBRLaZnHaGC0wlAS4bANTjUiN046rPN90dZqorKOpoZHorg=
-X-Google-Smtp-Source: AGHT+IEVOOgZFoxsLMo3B/9DgMlPg+8mCIQzmFSjWr5NC1POGFlHlr6r0UtoZZxyVjffb0W7416VFg==
-X-Received: by 2002:ac8:5783:0:b0:42e:b90c:c5a9 with SMTP id v3-20020ac85783000000b0042eb90cc5a9mr5156478qta.51.1710500478406;
-        Fri, 15 Mar 2024 04:01:18 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id p3-20020a05622a00c300b0042ef88b7daesm1838670qtw.19.2024.03.15.04.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Mar 2024 04:01:17 -0700 (PDT)
-Message-ID: <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
-Date: Fri, 15 Mar 2024 12:01:12 +0100
+	s=arc-20240116; t=1710501091; c=relaxed/simple;
+	bh=Vf+L7jw0hVdyWsY+RKzSYBH+cZo3YYxSFHIk7xqh0xk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QmU+PZWlXUGdCBodN67ay/BiSPHH4bNjyA5MpmgORkVdf2ruMs5AhKJVaBYuu8Pa6WzviXcn43/ErjGy9rP0xnktVm2GJEj3gVjAsDbhD8feemhxyKm8ByYyKVav2rdILkma/XSN/JDQpmriIc0OWVblAGe9MTvs1VrBXBCMfhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=l6nDnYbQ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42FArCZp030651;
+	Fri, 15 Mar 2024 11:11:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=vs5TCj9
+	Ay0TpFIyW+xfHqr89guPUxIhI8SgimdQNQUo=; b=l6nDnYbQN1jcABMM+HJ+fMI
+	FJfhdK7eOA+cXqGP+OQ9gRNjTIshALP1gkE40j7JqN+ilvbVVHKP7VxxWdpOB/ev
+	AnCvi0YAGLhMtv1TcqAsJZ8HUZD+80WLicQNxhdVJVZHBpfAq52Iq6zgcI02G0/U
+	sQ7u+PavAIYjxwsnTMAd/lDlSziF6bC1HhUsDoHuAkztEeeFJiqFIfe57DSGAVuF
+	FDVHaYLmPd5miL2DjdP9Q2UShWncfR7SGWIuRhJBOVmfsWJipGEXwE3VcSdgn3QQ
+	l+YugzHXOcsfpnfBRT92gt4rm+PWqp5expyVsAqZ09YE11b/NzJOXm8Njx0+G6w=
+	=
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wva0912w3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Mar 2024 11:11:11 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42FBBA2t025931
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Mar 2024 11:11:10 GMT
+Received: from hu-jkona-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 15 Mar 2024 04:11:03 -0700
+From: Jagadeesh Kona <quic_jkona@quicinc.com>
+To: "Rafael J . Wysocki" <rafael@kernel.org>,
+        Kevin Hilman
+	<khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>, Pavel Machek
+	<pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad
+ Dybcio" <konrad.dybcio@linaro.org>,
+        Michael Turquette
+	<mturquette@baylibre.com>,
+        Andy Gross <agross@kernel.org>, Stephen Boyd
+	<sboyd@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        "Vikash Garodia" <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Abel Vesa
+	<abel.vesa@linaro.org>, Taniya Das <quic_tdas@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, Jagadeesh Kona <quic_jkona@quicinc.com>,
+        "Imran
+ Shaik" <quic_imrashai@quicinc.com>,
+        Ajit Pandey <quic_ajipan@quicinc.com>
+Subject: [PATCH V5 0/5] PM: domains: Add control for switching back and forth to HW control
+Date: Fri, 15 Mar 2024 16:40:41 +0530
+Message-ID: <20240315111046.22136-1-quic_jkona@quicinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
- <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
- <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
- <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 9zRqU3ZyzwdigTryvmfD36Jwfw1omQAC
+X-Proofpoint-ORIG-GUID: 9zRqU3ZyzwdigTryvmfD36Jwfw1omQAC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-14_13,2024-03-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ adultscore=0 mlxscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 clxscore=1011 suspectscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403140001 definitions=main-2403150091
 
+This series adds support for dev_pm_genpd_set_hwmode() and dev_pm_genpd_get_hwmode() APIs
+and support in gdsc provider drivers to register respective callbacks and venus consumer
+driver example using above API to switch the power domain(GDSC) to HW/SW modes dynamically
+at runtime.
 
+Changes in V5:
+- Updated 1st patch as per V4 review comments to synchronize the initial HW mode state by
+  invoking ->get_hwmode_dev()callback in genpd_add_device()
+- With above change, SW cached hwmode will contain correct value initially, and it will be
+  updated everytime mode is changed in set_hwmode, hence updated dev_pm_genpd_get_hwmode()
+  to just return SW cached hwmode in 1st patch
+- Updated commit text for 1st, 3rd, 4th and 5th patches
+- Updated 3rd and 5th patches as per review comments received on V4 series
+- Added R-By tags received in older series to 1st and 2nd patches
 
-On 13/03/2024 18:23, Mark Brown wrote:
-> On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
->> On 26/02/2024 17:09, Mark Brown wrote:
-> 
->>>> +	case MT6357_ZCD_CON2:
->>>> +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
->>>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =
->>>> +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
->>>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =
->>>> +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
->>>> +		break;
-> 
->>> It would probably be less code and would definitely be clearer and
->>> simpler to just read the values when we need them rather than constatly
->>> keeping a cache separate to the register cache.
-> 
->> Actually you must save the values because the gain selected by the user will
->> be override to do a ramp => volume_ramp(.....):
->> - When you switch on the HP, you start from gain=-40db to final_gain
->> (selected by user).
->> - When you switch off the HP, you start from final_gain (selected by user)
->> to gain=-40db.
-> 
-> You can just read the value back when you need to do a ramp?
+Previous series:
+V4: https://lore.kernel.org/all/20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org/
+V3: https://lore.kernel.org/lkml/20230823114528.3677667-1-abel.vesa@linaro.org/ 
+V2: https://lore.kernel.org/lkml/20230816145741.1472721-1-abel.vesa@linaro.org/
+V1: https://lore.kernel.org/all/20230628105652.1670316-1-abel.vesa@linaro.org/
 
-You can't. Because you will read -40db when HP isn't playing sound. That 
-is why the gain is saved into the struct.
+Abel Vesa (1):
+  PM: domains: Add the domain HW-managed mode to the summary
 
-Let me know, when you change de gain to do a ramp down (start from user 
-gain to gain=-40db), next time for the ramp up, how/where do you find 
-the user gain ?
+Jagadeesh Kona (3):
+  clk: qcom: gdsc: Add set and get hwmode callbacks to switch GDSC mode
+  clk: qcom: Use HW_CTRL_TRIGGER flag to switch video GDSC to HW mode
+  venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on
+    V6
 
+Ulf Hansson (1):
+  PM: domains: Allow devices attached to genpd to be managed by HW
 
-> 
->> Also, the microphone's gain change when it's enabled/disabled.
-> 
-> I don't understand what this means?
-
-When microphone isn't capturing, the gain read back from the register is 
-0dB. I've put some logs in my code and do capture to show how it works:
-
-root@i350-evk:~# arecord -D hw:mt8365evk,2,0 -r 48000 -c2 -f s32_le -d 
-10 recorded_file.wav
-[Mar15 09:31] mt8365-afe-pcm 11220000.audio-controller: 
-mt8365_afe_fe_hw_params AWB period = 6000 rate = 48000 channels = 2
-[  +0.000126] mt8365-afe-pcm 11220000.audio-controller: 
-mt8365_dai_int_adda_prepare 'Capture' rate = 48000
-[  +0.107688] mt6357-sound mt6357-sound: TOTO set mic to stored value
-[ +10.072648] mt6357-sound mt6357-sound: TOTO set mic to 0dB
-
-root@i350-evk:~# arecord -D hw:mt8365evk,2,0 -r 48000 -c2 -f s32_le -d 
-10 recorded_file.wav
-[Mar15 09:32] mt8365-afe-pcm 11220000.audio-controller: 
-mt8365_afe_fe_hw_params AWB period = 6000 rate = 48000 channels = 2
-[  +0.000133] mt8365-afe-pcm 11220000.audio-controller: 
-mt8365_dai_int_adda_prepare 'Capture' rate = 48000
-[  +0.109418] mt6357-sound mt6357-sound: TOTO set mic to stored value
-[ +10.164197] mt6357-sound mt6357-sound: TOTO set mic to 0dB
-
-
-> 
->>>> +	/* ul channel swap */
->>>> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
-> 
->>> On/off controls should end in Switch.
-> 
->> Sorry, I don't understand your comment. Can you reword it please ?
-> 
-> See control-names.rst.  Run mixer-test on a card with this driver and
-> fix all the issues it reports.
-
-Ok the name is the issue for you AFAII.
-This control isn't for on/off but swap Left and Right.
- From the codec documentation:
-"Swaps audio UL L/R channel before UL SRC"
-This control is overkill, I will remove it
-
-I'm stuck to run mixer-test, please check the following message: 
-https://lore.kernel.org/all/7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com/
-
+ drivers/clk/qcom/gdsc.c                       | 37 +++++++++
+ drivers/clk/qcom/gdsc.h                       |  1 +
+ drivers/clk/qcom/videocc-sc7280.c             |  2 +-
+ drivers/clk/qcom/videocc-sm8250.c             |  4 +-
+ .../media/platform/qcom/venus/pm_helpers.c    | 39 ++++++----
+ drivers/pmdomain/core.c                       | 78 ++++++++++++++++++-
+ include/linux/pm_domain.h                     | 17 ++++
+ 7 files changed, 157 insertions(+), 21 deletions(-)
 
 -- 
-Regards,
-Alexandre
+2.43.0
+
 
